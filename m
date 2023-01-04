@@ -2,83 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D2765DAAB
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 17:49:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2174665DABB
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 17:50:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD6wA-0006T0-8w; Wed, 04 Jan 2023 11:48:22 -0500
+	id 1pD6xa-0007K5-I5; Wed, 04 Jan 2023 11:49:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pD6w7-0006PI-OZ
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:48:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pD6w5-0001yV-E5
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:48:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672850895;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v1Fk3+3TCIGEv94YACVWImh/c4q2TJs7f2t1FTOZE8M=;
- b=ZX09YcWDSShl+attPQAGbB7kPzlnD70RM8u/IZ+pYaSDMSI98Kr47Ig/7JkAjw2W0gnm1J
- LmbUmOAVKHrBjYZjOg5NiwTT7jZWY5xt5A3FONvr9/sITEBvY3a11WpbrWFKt/gV65uy3B
- uoeAYT7Y5R7OaMk9DZthO/Tsu5gDVBs=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-441-4Bk-_0G9Pbq8vkedujCwpA-1; Wed, 04 Jan 2023 11:48:14 -0500
-X-MC-Unique: 4Bk-_0G9Pbq8vkedujCwpA-1
-Received: by mail-ot1-f70.google.com with SMTP id
- f39-20020a9d03aa000000b006705c6992daso17872771otf.14
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 08:48:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=v1Fk3+3TCIGEv94YACVWImh/c4q2TJs7f2t1FTOZE8M=;
- b=MDEmfMj5Os7ne0DWo6d2JZEe2sIzOwaNxTKVbw1GPeQw+tI9TRGN4SKfVomWR3+STd
- oW4QUiB2Y0Nhhnr2ccdffl0MDmlDBwijn72SUrC/U0l5JXddITeSEAIY9Lzyc40H/mD8
- 6t5oRIbLhZkXU2ZR6hhe85zc1wX6eWddo45kv4ZeY+vfEetPBPcufWnh2+FHc4iM/DC+
- gDrdM+O3Srsa3Z3O1AuqcNTh1D0AJDKYeCOugN1McAiZoyAYYUzoSDVE97dEW3j3KiNx
- tOScnApWvkKmvuUP7nt1dKJegElF2ezha5EQlPUXa8Kn3NHQ0LlwLFdlmSCpN3Hl1Tsa
- sSXQ==
-X-Gm-Message-State: AFqh2kpxBLSBjd/B6MqumTX7CK8B4PZx5fb/M2j4v8+poClxWzHWk8hl
- HZD7baOKZZwECd3MkJbALl/ndxUDs+5CzLxv6Zhqx6fIbWgfM11UihgnMgvRj4qrJtyCGHwyWmM
- HQuccQQtRlvJrg2lGeDFGVVyX6xIuKHw=
-X-Received: by 2002:a05:6870:468d:b0:144:1ba:d778 with SMTP id
- a13-20020a056870468d00b0014401bad778mr3004281oap.170.1672850893463; 
- Wed, 04 Jan 2023 08:48:13 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt00h9Vw1F7xjxJhrEVOeliX8j4n6mEVBPWCnLaFrbVfGxH6M9Bkw81Sjn7AP5DqVLd/Fnpj9BH5xzPZX2+MZY=
-X-Received: by 2002:a05:6870:468d:b0:144:1ba:d778 with SMTP id
- a13-20020a056870468d00b0014401bad778mr3004279oap.170.1672850893198; Wed, 04
- Jan 2023 08:48:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pD6xX-0007Jl-2A
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:49:47 -0500
+Received: from sonic301-22.consmr.mail.gq1.yahoo.com ([98.137.64.148])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pD6xU-00026Q-GB
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:49:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1672850980; bh=Uv0BocHD5tWIg18/jevfjehh7q0MhSFzY8Dyf/BXAg4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
+ b=JbYYbvz87wXyfJVL0rGXDO37O81ZJSJ75kAmtjzrQ8Ux9WcdgKZsXRjVDE82L/aPd1WGXiR9qkCsQz9ZrvZl2dIBRSW0vkZ7DgrPIf9QKBlVI8syU8XFKJEZZlpxAa5X0bPQggQTuizc2seXsDYMGtOA4BGWvnI26ovQwe1AeIfmaLl0mi6SgPTBxmkuK6g+kE2F9O2OV6ajfslItuTza09LBG7KEgjzwYKrBQjU+I6USPYXWWAYa6DKK0lOgfhRMtlxgllUx4vdRLk4RDzF9/toB46ZKQcob4ejgV5qs9MHu9CGsaIigmrYMonQ/2vDNNxUWwmojvDd0+4bOI94Kg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1672850980; bh=FxzOEnvBptL07rvzdDlcQCWQrhGrukvipEJHtDDzfWh=;
+ h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
+ b=OYvHrPLvawpjH0CokBSNIhIygYnWUO1JQgVPCJuD2o9U5nkXiL2AvCIRQzOqEWEkzheTfey8a0nxHhDTULI0JbX8xhWnEbwkBsjXsFwz0vHT0bADsWynNcbVJyTuEsKWG3up47pilbtGN3mZ4M4I/udFDcmG/lOVQ8gpyLYY1qygxYoBTdcgUgqLtzImaa7FZcTXyNwPOArSqa5fWqqiCkfAi8oaRTNKQacYHG7ZmT88eb0DN4C5NbxiOXDixu1t2whaI8+OttmzhLU/rQNvzSPyV9jyBkyv39Aa/PSnHwFTFHo7CHFV+mCFqR96afdNwGrwIzp63lbhk/WxGGPRtQ==
+X-YMail-OSG: Y.cY9QQVM1n12rN8bHGsI27Q8vksmGZnxhR.qASFPFpFz2aPufAc26szN7uy8RZ
+ RlDLbliSLZ7kWm4a4GWBe.arjJy3fAzPrAp6W4LcLnaEshl3OvFtMBItLq5XfNpgwyV48QJ7F042
+ TztH6BRKJG5RwIRzv0GTaOcB96LaltnABc0xhcY32V5DuOYKbvSGRKnjNkL6MChfOjgmMYyR9GYM
+ aEod0xGcSVcD6P.b_Cq35fmQWjzay2iPdmYNFDjIFzQxpOGgc5peFNt8QeRwZy3AphQ0QXOxCM2.
+ V2M_M1TjOYfavoJeIQoa4VSwg4LbkvaHO7JQRpwplTlapPrTITZuvSlHo__C6T85_np.XiLaKDsL
+ qp5GB2GUYoYvxuyMwwyaGrYmzlHBR.6.m7gf8WWyH9LEF_xhvNn.pMb2dpb7OLN0CacdXsmpnvX3
+ 3uDcCXJHHgPEIU.AKvv5_HtBFPpPVXPajjHYBEWChZv71bAjrFf6aqpsTdVlO8NXI7ncZSnN3.w4
+ TFCksh7.OyDy8crk5oDN89TOTxoP2_xqmWG2U0glQ8wnroq3KdOtL2uj0n5wFPCS74aL6KCbzhLZ
+ AHNovKeCGqqnSRuAVX1tDwzvyYQpO0mSk07Uv.ncGAXZAxCbgpqALa2KCYm6LLR4jdjvRQfZSx68
+ NHOfxrwHW72xRro.H1mskH_5gfRa4k1jF4cNZwP4ZbwBX4khm_s4nwXfnLxwjFGkSR61YVRf2F.N
+ Wo60cRmmCMjI2gdrXxyAxFi5NuLg0EJnILFyaI3.gwE0e6EljA4ldjinI1w_9CJPODaeJm_3rFpD
+ gCBWFpCq.J6X4yvV1wbAoZUBkcWsDbJQ_HPC1skYB2JmNGoi88rqAwFUCKDKCubfrGSAiFfB8xtg
+ kPbPwol7Nc5wF7eLQ1KZ_am1Ne7dbW_61i3hNGV8vXC_iO_Xuo2yBbdwMR_HMbxvF08S6PWXRg7K
+ L.4fPq5N1pD_B9qFkwaPc5jQmg.68_bsdAsvxuxTJDGHp.MfnwSUZiW1MqF.dW6K5yn8FjSpMfAs
+ 2vF3Xx2DCI7MHBP02J4wbZhXmFgnC9yk_gj.kHiLJwK5nKFkn9nnpf02uDpEwYCK5VYhu9gx09fv
+ 6N4Qc5g4OwCZX2W.7eArebedl1d.5SthtaAT3XIs3Q9aWF8hvE.udbekuB2nXSHlacZhuiRcxPCJ
+ 3LQSh0FNb23omeCPlkHfVV2zjBj.4fJ0PXqUYDvgV2nnb2VqLhXOL6b6KugV0abri7na7y5wfKIB
+ ZAa.k5NibC0RGO70bMCIXF2Z8WdcFQ_NKAeTbAO.vBpJH40fVdfhKDfuqZI2BwsE8ppEp3fGzxvw
+ YvZpwZmbIH13FCODp8IyZBMxew9nINe2WIecckS86mKq_U3tYg_TRJ8xO5w4uvWABxYGFHZwplhZ
+ p3zCf49QZifHg8juo_QlZnmM5XDuh.tCKQhxiiOSWJDHgvORE2MXq288bJrvSwofCkmTeaHWU.R9
+ A_0SkxYj1mmEWfdQ2_mGTjmeWo8JWntBJAg28X6PcPRiveOSeqCffG8alu4kQK314kH1vjm2ByJb
+ ZKIqKUBNecy6wPEqAyeFBb.WHGda9RFtBzmiHRQM8nmfNQQL6luszjA7tTOFDlldFugucL.qS0o0
+ mIzz85Mkc2FvdTMBI1EAFHb9T4aOuy22ViEKRQjkoIFparniZB5ooS2Iyhon3FMkLXB8I5F2AB6Z
+ 46KhYPCfz.clEFl3sY0kB8TWRuraitYtXA5aTEYr5oyByVNZG.0XtZi8UP3Qax0uLwUfXOw20d_c
+ gaq3LbSXwtUc.lqyU1hU.j.BtJiER4.mF2WZkEzQQvlExvd935oOg7I1HUnmH01oIhoDvCEPQOb.
+ MlfiPKcuKlqIAydWmacz.2hjxeRc9OUQIb16B2JiaIXbZJkWS1HPgmALR7jbS_AWENbuesxSm7m0
+ cIk4wSgcJJQ6ApgfVa_xq089uNrI4jIb7JAY3vcRMqaQ8V3s3slPU9dBmbhvLAqm8QEkJ9tyanTF
+ RFUGMJNrVvqPp.9Q8phM0bkn8KN9r62uBqWeQUFC7qZ7ARUL4XTUYmm7_bLNQdTKF8QagMqc0jnR
+ kAVtwoWxZuKmRPYqkcYYwljTm_JeKD9Zo9ETYP1IHnHC3tR8eiq9OCEJe.0J.y7ZFO6DKiQGvSox
+ ZO9.h7igNXcBNlBnXxHNiV54wfYs0l1lL0YEklgs6LX263sMaj50wnKLJBeB7cmyalcLzDt3agpV
+ JyG.EzTBq0U6wvqy3gf5josIr
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic301.consmr.mail.gq1.yahoo.com with HTTP; Wed, 4 Jan 2023 16:49:40 +0000
+Received: by hermes--production-ne1-7b69748c4d-9jjs9 (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID f78b14bbe46129161d3132f677ac1e69; 
+ Wed, 04 Jan 2023 16:49:36 +0000 (UTC)
+Message-ID: <da0528c8-7260-a1cb-7e6f-3d93493b060d@aol.com>
+Date: Wed, 4 Jan 2023 11:49:34 -0500
 MIME-Version: 1.0
-References: <20230102161903.3857354-1-casantos@redhat.com>
- <CAC1VKkOzUsh-EZfwSRbGRC13auykBL5jmszpStw=GHcgx9G6Vw@mail.gmail.com>
- <4c891001-4744-c174-7459-d13903037990@linaro.org>
-In-Reply-To: <4c891001-4744-c174-7459-d13903037990@linaro.org>
-From: Carlos Santos <casantos@redhat.com>
-Date: Wed, 4 Jan 2023 13:48:02 -0300
-Message-ID: <CAC1VKkO6XWNOFHPM+tFHu-3caAzjYp2kxhPLNp7q1e43SRXoLQ@mail.gmail.com>
-Subject: Re: [PATCH] meson: allow disablind the installation of keymaps
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=casantos@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 0/6] Resolve TYPE_PIIX3_XEN_DEVICE
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Paul Durrant <paul@xen.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost
+ <eduardo@habkost.net>, xen-devel@lists.xenproject.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230102213504.14646-1-shentey@gmail.com>
+ <bd4daee7-09df-4bfa-3b96-713690be9f4e@aol.com>
+ <0de699a7-98b8-e320-da4d-678d0f594213@linaro.org>
+ <CAG4p6K7hcJ-47GvsEvmuBmdwP2LsEC4WLkw_t6ZfwhqakYUEyQ@mail.gmail.com>
+ <aed4f2c1-83f7-163a-fb44-f284376668dc@aol.com>
+ <AB058B2A-406E-487B-A1BA-74416C310B7A@gmail.com>
+ <00094755-ca61-372d-0bcf-540fe2798f5c@aol.com>
+ <7E657325-705A-47EA-A334-0B59DF0DF772@gmail.com>
+From: Chuck Zmudzinski <brchuckz@aol.com>
+In-Reply-To: <7E657325-705A-47EA-A334-0B59DF0DF772@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.20982
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.64.148; envelope-from=brchuckz@aim.com;
+ helo=sonic301-22.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.708,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,139 +119,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 4, 2023 at 12:15 PM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
->
-> On 4/1/23 15:49, Carlos Santos wrote:
-> > On Mon, Jan 2, 2023 at 1:19 PM <casantos@redhat.com> wrote:
-> >>
-> >> From: Carlos Santos <casantos@redhat.com>
-> >>
-> >> There are situatuions in which the keyboard maps are not necessary (e.=
-g.
-> >> when building only tools or linux-user emulator). Add an option to avo=
-id
-> >> installing them, as already possible to do with firmware blobs.
-> >>
-> >> Signed-off-by: Carlos Santos <casantos@redhat.com>
-> >> ---
-> >>   configure                     | 2 ++
-> >>   meson_options.txt             | 2 ++
-> >>   pc-bios/keymaps/meson.build   | 6 ++++--
-> >>   scripts/meson-buildoptions.sh | 4 ++++
-> >>   4 files changed, 12 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/configure b/configure
-> >> index 789a4f6cc9..c6ed6a23d0 100755
-> >> --- a/configure
-> >> +++ b/configure
-> >> @@ -889,6 +889,8 @@ for opt do
-> >>     ;;
-> >>     --disable-blobs) meson_option_parse --disable-install-blobs ""
-> >>     ;;
-> >> +  --disable-keymaps) meson_option_parse --disable-install-keymaps ""
-> >> +  ;;
-> >>     --enable-vfio-user-server) vfio_user_server=3D"enabled"
-> >>     ;;
-> >>     --disable-vfio-user-server) vfio_user_server=3D"disabled"
-> >> diff --git a/meson_options.txt b/meson_options.txt
-> >> index 559a571b6b..be27137e98 100644
-> >> --- a/meson_options.txt
-> >> +++ b/meson_options.txt
-> >> @@ -48,6 +48,8 @@ option('module_upgrades', type : 'boolean', value : =
-false,
-> >>          description: 'try to load modules from alternate paths for up=
-grades')
-> >>   option('install_blobs', type : 'boolean', value : true,
-> >>          description: 'install provided firmware blobs')
-> >> +option('install_keymaps', type : 'boolean', value : true,
-> >> +       description: 'install provided keyboard maps')
-> >>   option('sparse', type : 'feature', value : 'auto',
-> >>          description: 'sparse checker')
-> >>   option('guest_agent', type : 'feature', value : 'auto',
-> >> diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
-> >> index 06c75e646b..7d80c23005 100644
-> >> --- a/pc-bios/keymaps/meson.build
-> >> +++ b/pc-bios/keymaps/meson.build
-> >> @@ -47,7 +47,7 @@ if native_qemu_keymap.found()
-> >>                          build_by_default: true,
-> >>                          output: km,
-> >>                          command: [native_qemu_keymap, '-f', '@OUTPUT@=
-', args.split()],
-> >> -                       install: true,
-> >> +                       install: get_option('install_keymaps'),
-> >>                          install_dir: qemu_datadir / 'keymaps')
-> >>     endforeach
-> >>
-> >> @@ -56,4 +56,6 @@ else
-> >>     install_data(keymaps.keys(), install_dir: qemu_datadir / 'keymaps'=
-)
-> >>   endif
-> >>
-> >> -install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
-> >> +if get_option('install_keymaps')
-> >> +  install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
-> >> +endif
-> >> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoption=
-s.sh
-> >> index aa6e30ea91..f17d9c196e 100644
-> >> --- a/scripts/meson-buildoptions.sh
-> >> +++ b/scripts/meson-buildoptions.sh
-> >> @@ -11,6 +11,8 @@ meson_options_help() {
-> >>     printf "%s\n" '  --datadir=3DVALUE          Data file directory [s=
-hare]'
-> >>     printf "%s\n" '  --disable-coroutine-pool coroutine freelist (bett=
-er performance)'
-> >>     printf "%s\n" '  --disable-install-blobs  install provided firmwar=
-e blobs'
-> >> +  printf "%s\n" '  --disable-install-keymaps'
-> >> +  printf "%s\n" '                           install provided keyboard=
- maps'
-> >>     printf "%s\n" '  --docdir=3DVALUE           Base directory for doc=
-umentation installation'
-> >>     printf "%s\n" '                           (can be empty) [share/do=
-c]'
-> >>     printf "%s\n" '  --enable-block-drv-whitelist-in-tools'
-> >> @@ -291,6 +293,8 @@ _meson_option_parse() {
-> >>       --includedir=3D*) quote_sh "-Dincludedir=3D$2" ;;
-> >>       --enable-install-blobs) printf "%s" -Dinstall_blobs=3Dtrue ;;
-> >>       --disable-install-blobs) printf "%s" -Dinstall_blobs=3Dfalse ;;
-> >> +    --enable-install-keymaps) printf "%s" -Dinstall_keymaps=3Dtrue ;;
-> >> +    --disable-install-keymaps) printf "%s" -Dinstall_keymaps=3Dfalse =
-;;
-> >>       --interp-prefix=3D*) quote_sh "-Dinterp_prefix=3D$2" ;;
-> >>       --enable-jack) printf "%s" -Djack=3Denabled ;;
-> >>       --disable-jack) printf "%s" -Djack=3Ddisabled ;;
-> >> --
-> >> 2.31.1
-> >>
-> >
-> > Thinking a bit more about this patch, I think the correct approach
-> > would be to install blobs and keymaps depending on have_system:
-> >
-> >      [...]
-> >      install: have_system,
-> >      [...]
-> >
-> > And use the same approach for trace-events-all, in trace/meson.build:
-> >
-> >      [...]
-> >      install: have_linux_user or have_bsd_user or have_system,
-> >      [...]
-> >
-> > This would prevent installing useless data.
->
-> Yes, similar to:
-> https://lore.kernel.org/qemu-devel/20210323155132.238193-1-f4bug@amsat.or=
-g/
->
+On 1/4/23 11:12 AM, Bernhard Beschow wrote:
+> 
+> 
+> Am 4. Januar 2023 13:11:16 UTC schrieb Chuck Zmudzinski <brchuckz@aol.com>:
+>>On 1/4/2023 7:13 AM, Bernhard Beschow wrote:
+>>> Am 4. Januar 2023 08:18:59 UTC schrieb Chuck Zmudzinski <brchuckz@aol.com>:
+>>> >On 1/3/2023 8:38 AM, Bernhard Beschow wrote:
+>>> >>
+>>> >>
+>>> >> On Tue, Jan 3, 2023 at 2:17 PM Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+>>> >>
+>>> >>     Hi Chuck,
+>>> >>
+>>> >>     On 3/1/23 04:15, Chuck Zmudzinski wrote:
+>>> >>     > On 1/2/23 4:34 PM, Bernhard Beschow wrote:
+>>> >>     >> This series first renders TYPE_PIIX3_XEN_DEVICE redundant and finally removes
+>>> >>     >> it. The motivation is to 1/ decouple PIIX from Xen and 2/ to make Xen in the PC
+>>> >>     >> machine agnostic to the precise southbridge being used. 2/ will become
+>>> >>     >> particularily interesting once PIIX4 becomes usable in the PC machine, avoiding
+>>> >>     >> the "Frankenstein" use of PIIX4_ACPI in PIIX3.
+>>> >>     >>
+>>> >>     >> Testing done:
+>>> >>     >> None, because I don't know how to conduct this properly :(
+>>> >>     >>
+>>> >>     >> Based-on: <20221221170003.2929-1-shentey@gmail.com>
+>>> >>     >>            "[PATCH v4 00/30] Consolidate PIIX south bridges"
+>>> >>
+>>> >>     This series is based on a previous series:
+>>> >>     https://lore.kernel.org/qemu-devel/20221221170003.2929-1-shentey@gmail.com/
+>>> >>     (which itself also is).
+>>> >>
+>>> >>     >> Bernhard Beschow (6):
+>>> >>     >>    include/hw/xen/xen: Make xen_piix3_set_irq() generic and rename it
+>>> >>     >>    hw/isa/piix: Reuse piix3_realize() in piix3_xen_realize()
+>>> >>     >>    hw/isa/piix: Wire up Xen PCI IRQ handling outside of PIIX3
+>>> >>     >>    hw/isa/piix: Avoid Xen-specific variant of piix_write_config()
+>>> >>     >>    hw/isa/piix: Resolve redundant k->config_write assignments
+>>> >>     >>    hw/isa/piix: Resolve redundant TYPE_PIIX3_XEN_DEVICE
+>>> >>     >>
+>>> >>     >>   hw/i386/pc_piix.c             | 34 ++++++++++++++++--
+>>> >>     >>   hw/i386/xen/xen-hvm.c         |  9 +++--
+>>> >>     >>   hw/isa/piix.c                 | 66 +----------------------------------
+>>> >>     >
+>>> >>     > This file does not exist on the Qemu master branch.
+>>> >>     > But hw/isa/piix3.c and hw/isa/piix4.c do exist.
+>>> >>     >
+>>> >>     > I tried renaming it from piix.c to piix3.c in the patch, but
+>>> >>     > the patch set still does not apply cleanly on my tree.
+>>> >>     >
+>>> >>     > Is this patch set re-based against something other than
+>>> >>     > the current master Qemu branch?
+>>> >>     >
+>>> >>     > I have a system that is suitable for testing this patch set, but
+>>> >>     > I need guidance on how to apply it to the Qemu source tree.
+>>> >>
+>>> >>     You can ask Bernhard to publish a branch with the full work,
+>>> >>
+>>> >>
+>>> >> Hi Chuck,
+>>> >>
+>>> >> ... or just visit https://patchew.org/QEMU/20230102213504.14646-1-shentey@gmail.com/ . There you'll find a git tag with a complete history and all instructions!
+>>> >>
+>>> >> Thanks for giving my series a test ride!
+>>> >>
+>>> >> Best regards,
+>>> >> Bernhard
+>>> >>
+>>> >>     or apply each series locally. I use the b4 tool for that:
+>>> >>     https://b4.docs.kernel.org/en/latest/installing.html
+>>> >>
+>>> >>     i.e.:
+>>> >>
+>>> >>     $ git checkout -b shentey_work
+>>> >>     $ b4 am 20221120150550.63059-1-shentey@gmail.com
+>>> >>     $ git am
+>>> >>     ./v2_20221120_shentey_decouple_intx_to_lnkx_routing_from_south_bridges.mbx
+>>> >>     $ b4 am 20221221170003.2929-1-shentey@gmail.com
+>>> >>     $ git am
+>>> >>     ./v4_20221221_shentey_this_series_consolidates_the_implementations_of_the_piix3_and_piix4_south.mbx
+>>> >>     $ b4 am 20230102213504.14646-1-shentey@gmail.com
+>>> >>     $ git am ./20230102_shentey_resolve_type_piix3_xen_device.mbx
+>>> >>
+>>> >>     Now the branch 'shentey_work' contains all the patches and you can test.
+>>> >>
+>>> >>     Regards,
+>>> >>
+>>> >>     Phil.
+>>> >>
+>>> >
+>>> >Hi Phil and Bernard,
+>>> >
+>>> >I tried applying these 3 patch series on top of the current qemu
+>>> >master branch.
+>>> >
+>>> >Unfortunately, I saw a regression, so I can't give a tested-by tag yet.
+>>>
+>>> Hi Chuck,
+>>>
+>>> Thanks for your valuable test report! I think the culprit may be commit https://lists.nongnu.org/archive/html/qemu-devel/2023-01/msg00102.html where now 128 PIRQs are considered rather than four. I'll revisit my series and will prepare a v2 in the next days. I think there is no need for further testing v1.
+>>>
+>>> Thanks,
+>>> Bernhard
+>>
+>>Hi Bernhard,
+>>
+>>Thanks for letting me know I do not need to test v1 further. I agree the
+>>symptoms are that it is an IRQ problem - it looks like IRQs associated with
+>>the emulated usb tablet device are not making it to the guest with the
+>>patched v1 piix device on xen.
+> 
+> All PCI IRQs were routed to PCI slot 0. This should be fixed in v2 now.
+> 
+>>I will be looking for your v2 in coming days and try it out also!
+> 
+> Thank you! Here it is: https://patchew.org/QEMU/20230104144437.27479-1-shentey@gmail.com/
 
-Apparently it was reviewed and ack-ed but never applied. :-(
+That fixed it! I added my Tested-by tag to the last patch of v2:
 
---=20
-Carlos Santos
-Senior Software Maintenance Engineer
-Red Hat
-casantos@redhat.com    T: +55-11-3534-6186
+[PATCH v2 6/6] hw/isa/piix: Resolve redundant TYPE_PIIX3_XEN_DEVICE
 
+AFAICT, v2 is is ready to go!
+
+Best regards,
+
+Chuck
 
