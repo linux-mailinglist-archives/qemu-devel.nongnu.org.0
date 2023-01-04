@@ -2,84 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F97565DBD8
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 19:06:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D8365DBE0
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 19:08:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD88O-0005tM-SS; Wed, 04 Jan 2023 13:05:05 -0500
+	id 1pD8B5-0007vV-Pm; Wed, 04 Jan 2023 13:07:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pD88J-0005re-Kw
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 13:04:59 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pD88F-0007lL-Qf
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 13:04:59 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- z9-20020a17090a468900b00226b6e7aeeaso2316159pjf.1
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 10:04:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=AThbpssYHlCmnGTBjDIJImTaIg1A/fqvD3+4hldarYU=;
- b=pSNBmVVf5B/sGMy2Bpu86K6bHzGeQV1UspQd2yhxoUNyZr4HOtsfgVxyoDvMKdY0Ir
- cgK7Q016tivxLD6dKPanXscpCVx+SbnT4DzCu7+F244lO93mUzOF8tOHNprxC+d06+LB
- cO0c//goiu3RenjmJuHOHwl5t3lTTC3jEQ2/dCyrMxGBG/7sdHwX3KR9/0j5614Op917
- tgOtvGWb7OD1Yq3ldnCxjvMVLIAzvMLczIsS+ZVlX9xLvs1iRXhwLIshP5ZrOvQ1n1qV
- +iaCsOxwCJ42m/rVK/91NWctdFyctTTYluRZKoJw75/J3CKWQSSCMYAsfoykPVqCfquW
- iaxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AThbpssYHlCmnGTBjDIJImTaIg1A/fqvD3+4hldarYU=;
- b=LdSTJwyaQRpRs/wSTsui6Xx7rZzhvi6kaMoBOBLLqR4vIO7jSlUbWcqY9z4thwpzl6
- 3z8+Nw6XlY7GB7X6iP1VgFdTFBs5squ+VHci4ykj5sIxjQVC86eeuBiPMp6+r4xw3P+E
- TYRMj2eDLVOzigpNrPFWjN+Nr9fY8rdXAr6XItjEuHfmjEhwvqBF/5+LGwcHTUbxE6Di
- EQJdE3dOGbjE4EHCdTdpwXNxFoap1KzoKJhpTMdTjhowebAcH8cx32ymkNxqKXoY90uW
- kl1hJHuQK+8DOY33RObT6qhU1FRjhV4crdwiy2NQjl5NUmv9NmUnLI54wVLI77AlGr7x
- tH0Q==
-X-Gm-Message-State: AFqh2kpE3oYLz0RqA9aw18QkGfajK6NuSq/AzGkshlWpvgRZF7+4eDPG
- 0CylDJ/pi9jgegg7pfD3bVwJPg==
-X-Google-Smtp-Source: AMrXdXvTQG5WJLGLIh5bvX+OMbK9OG9Ocm7S4Y5FnXgSQPcojfMfZG/Pln6sN1BbUXwgAZzBd1zhWA==
-X-Received: by 2002:a17:902:dad0:b0:189:5f5c:da1e with SMTP id
- q16-20020a170902dad000b001895f5cda1emr77817618plx.27.1672855489572; 
- Wed, 04 Jan 2023 10:04:49 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:92be:ce91:1417:6686?
- ([2602:47:d48c:8101:92be:ce91:1417:6686])
- by smtp.gmail.com with ESMTPSA id
- n16-20020a170902d2d000b00176b84eb29asm24454757plc.301.2023.01.04.10.04.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 10:04:49 -0800 (PST)
-Message-ID: <51da8243-885d-a98e-deb6-746383da1d7d@linaro.org>
-Date: Wed, 4 Jan 2023 10:04:47 -0800
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pD8Az-0007vN-Jw
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 13:07:45 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pD8Ax-00010B-Dv
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 13:07:45 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NnHWW10zlz67M1h;
+ Thu,  5 Jan 2023 02:02:47 +0800 (CST)
+Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 4 Jan
+ 2023 18:07:30 +0000
+Date: Wed, 4 Jan 2023 18:07:29 +0000
+To: Ira Weiny <ira.weiny@intel.com>
+CC: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>, Peter Maydell
+ <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 5/8] hw/cxl/events: Wire up get/clear event mailbox
+ commands
+Message-ID: <20230104180729.00002095@huawei.com>
+In-Reply-To: <20221221-ira-cxl-events-2022-11-17-v2-5-2ce2ecc06219@intel.com>
+References: <20221221-ira-cxl-events-2022-11-17-v2-0-2ce2ecc06219@intel.com>
+ <20221221-ira-cxl-events-2022-11-17-v2-5-2ce2ecc06219@intel.com>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 4/4] target/m68k: fix FPSR quotient byte for frem
- instruction
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, laurent@vivier.eu,
- qemu-devel@nongnu.org
-References: <20230104134554.138012-1-mark.cave-ayland@ilande.co.uk>
- <20230104134554.138012-5-mark.cave-ayland@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230104134554.138012-5-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,51 +65,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/4/23 05:45, Mark Cave-Ayland wrote:
-> The FPSR quotient byte should be set to the value of the quotient and not the
-> result. Manually calculate the quotient in the frem helper in round to nearest
-> even mode (note this is different from the quotient calculated internally for
-> fmod), and use it to set the quotient byte accordingly.
+On Wed, 21 Dec 2022 20:24:35 -0800
+Ira Weiny <ira.weiny@intel.com> wrote:
+
+> CXL testing is benefited from an artificial event log injection
+> mechanism.
 > 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1314
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->   target/m68k/fpu_helper.c | 14 +++++++++++---
->   1 file changed, 11 insertions(+), 3 deletions(-)
+> Add an event log infrastructure to insert, get, and clear events from
+> the various logs available on a device.
 > 
-> diff --git a/target/m68k/fpu_helper.c b/target/m68k/fpu_helper.c
-> index 5fd094a33c..56f7400140 100644
-> --- a/target/m68k/fpu_helper.c
-> +++ b/target/m68k/fpu_helper.c
-> @@ -538,17 +538,25 @@ void HELPER(fmod)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
->   
->   void HELPER(frem)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
->   {
-> +    float_status fp_status;
-> +    FPReg fp_quot;
->       uint32_t quotient;
->       int sign;
->   
-> +    /* Calculate quotient directly using round to nearest mode */
-> +    set_float_rounding_mode(float_round_nearest_even, &fp_status);
-> +    set_floatx80_rounding_precision(
-> +        get_floatx80_rounding_precision(&env->fp_status), &fp_status);
-> +    fp_quot.d = floatx80_div(val1->d, val0->d, &fp_status);
-> +
->       res->d = floatx80_rem(val1->d, val0->d, &env->fp_status);
->   
-> -    if (floatx80_is_any_nan(res->d)) {
-> +    if (floatx80_is_any_nan(fp_quot.d)) {
+> Replace the stubbed out CXL Get/Clear Event mailbox commands with
+> commands that operate on the new infrastructure.
+> 
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 
-I think you should leave this line unchanged, and move the div afterward.
-I also think you should completely initialize the local fp_status = { }.
+Hi Ira,
 
-With that,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The ability to see the ret_code definitions relied on a patch that will
+go upstream long after this one. I've dragged that down before this in
+my tree, but the naming ret_code is neither compliant with QEMU naming
+rules, nor specific enough given that definition is in a header.
+Hence I'll also rename it as CXLRetCode.
 
-r~
+I'll have a new tree up with that in place in a few days.
+I'll carry your patches on that tree, with appropriate changes.
+
+Jonathan
+
 
