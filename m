@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC0765DF95
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:06:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D16665DFAE
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:13:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDBpS-0005wA-LP; Wed, 04 Jan 2023 17:01:46 -0500
+	id 1pDBpU-0005xb-Em; Wed, 04 Jan 2023 17:01:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pDBpM-0005n6-1q; Wed, 04 Jan 2023 17:01:40 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ id 1pDBpP-0005rT-1G; Wed, 04 Jan 2023 17:01:43 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pDBpJ-00036D-H3; Wed, 04 Jan 2023 17:01:39 -0500
+ id 1pDBpM-00036z-Br; Wed, 04 Jan 2023 17:01:42 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AF1E83F16C;
- Wed,  4 Jan 2023 22:01:35 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id CD4392027B;
+ Wed,  4 Jan 2023 22:01:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1672869695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1672869698; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GzK3pGTJKyDEl1gwCMgtKGNz2Apa9joJLmfLERsjCxM=;
- b=u4msEGIENeoOtaP6xy9KunHvDHvdojuIYwnxQK4DmUa0f/e83U5YWViKn21f48RmH4WoGO
- KVqQXDlmzyuC6PCNFLk2pAxsFlTMUWYRmxAW0Ad7kEgD4RDSoEFtt3WKhhG3WyAeZmzkZj
- CuBAHzalInMeOCS/h1QrC8iSSwY9tEU=
+ bh=p5ojC4527eRIiRmqJh5H1iXH5vAsoQ4LQ1DA1TKEVLM=;
+ b=mMnW82wqsPXaKA9pyy+Zv7ASFsQ3eNaLLLkVDhDouzFrQ2tADhnXuW8663y4ckB1L+68m8
+ RIdkai1PRXiq2JqF8SJzFZsnUIdOAJbos8P0u/GpajYW/bEfmR4DWK0iKzOKuWNtQsLHdk
+ giZbsvgNi9COJCcAfdIZHigXh92+7Tc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1672869695;
+ s=susede2_ed25519; t=1672869698;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GzK3pGTJKyDEl1gwCMgtKGNz2Apa9joJLmfLERsjCxM=;
- b=D5noml8cVFzROn6/nAfrTm92t6yaaoYwb5KsuxlZjaZ+Hm7vtq3F+XjJ7bIUVm6liFiXgn
- A3aEkpm4ADW21yBg==
+ bh=p5ojC4527eRIiRmqJh5H1iXH5vAsoQ4LQ1DA1TKEVLM=;
+ b=Z0Lc2b5nGtCtHh/lFRuX50x9FCAYSm7uH2YsVMDrV1UcF5s3geyIi/HLtzhLD36T03vsvF
+ wWqmrH25VkkMcpDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F1E6F1342C;
- Wed,  4 Jan 2023 22:01:32 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2300E1342C;
+ Wed,  4 Jan 2023 22:01:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id oG/WLTz3tWPwJAAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 04 Jan 2023 22:01:32 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id gE3sNj/3tWPwJAAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 04 Jan 2023 22:01:35 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,16 +57,15 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-Subject: [RFC PATCH 17/27] target/arm: Extract cpustate list manipulation to a
- file
-Date: Wed,  4 Jan 2023 18:58:25 -0300
-Message-Id: <20230104215835.24692-18-farosas@suse.de>
+Subject: [RFC PATCH 18/27] target/arm: Move cpregs code out of cpu.h
+Date: Wed,  4 Jan 2023 18:58:26 -0300
+Message-Id: <20230104215835.24692-19-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230104215835.24692-1-farosas@suse.de>
 References: <20230104215835.24692-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
  helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -90,8 +89,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This code doesn't need to be buried in helper.c. Let's move it to its
-own file to keep things cleaner.
+Since commit cf7c6d1004 ("target/arm: Split out cpregs.h") we now have
+a cpregs.h header which is more suitable for this code.
 
 Code moved verbatim.
 
@@ -101,361 +100,221 @@ Extracted from:
 https://lore.kernel.org/r/20210416162824.25131-15-cfontana@suse.de
 [RFC v14 14/80] target/arm: split cpregs from tcg/helper.c
 ---
- target/arm/cpregs.h        |   5 ++
- target/arm/cpustate-list.c | 148 +++++++++++++++++++++++++++++++++++++
- target/arm/helper.c        | 136 ----------------------------------
- target/arm/meson.build     |   1 +
- 4 files changed, 154 insertions(+), 136 deletions(-)
- create mode 100644 target/arm/cpustate-list.c
+ target/arm/cpregs.h | 98 +++++++++++++++++++++++++++++++++++++++++++++
+ target/arm/cpu.h    | 91 -----------------------------------------
+ 2 files changed, 98 insertions(+), 91 deletions(-)
 
 diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
-index 7e78c2c05c..1c35574102 100644
+index 1c35574102..9e43ea6c3c 100644
 --- a/target/arm/cpregs.h
 +++ b/target/arm/cpregs.h
-@@ -442,6 +442,11 @@ void arm_cp_write_ignore(CPUARMState *env, const ARMCPRegInfo *ri,
- /* CPReadFn that can be used for read-as-zero behaviour */
- uint64_t arm_cp_read_zero(CPUARMState *env, const ARMCPRegInfo *ri);
+@@ -120,6 +120,104 @@ enum {
+     ARM_CP_SME                   = 1 << 19,
+ };
  
 +/*
-+ * default raw read/write of coprocessor register field,
-+ * behavior if no other function defined, and not const.
++ * Interface for defining coprocessor registers.
++ * Registers are defined in tables of arm_cp_reginfo structs
++ * which are passed to define_arm_cp_regs().
 + */
-+uint64_t raw_read(CPUARMState *env, const ARMCPRegInfo *ri);
- /* CPWriteFn that just writes the value to ri->fieldoffset */
- void raw_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value);
- 
-diff --git a/target/arm/cpustate-list.c b/target/arm/cpustate-list.c
-new file mode 100644
-index 0000000000..9411b25b6f
---- /dev/null
-+++ b/target/arm/cpustate-list.c
-@@ -0,0 +1,148 @@
++
 +/*
-+ * ARM CPUState list read/write
-+ *
-+ * This code is licensed under the GNU GPL v2 or later.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * When looking up a coprocessor register we look for it
++ * via an integer which encodes all of:
++ *  coprocessor number
++ *  Crn, Crm, opc1, opc2 fields
++ *  32 or 64 bit register (ie is it accessed via MRC/MCR
++ *    or via MRRC/MCRR?)
++ *  non-secure/secure bank (AArch32 only)
++ * We allow 4 bits for opc1 because MRRC/MCRR have a 4 bit field.
++ * (In this case crn and opc2 should be zero.)
++ * For AArch64, there is no 32/64 bit size distinction;
++ * instead all registers have a 2 bit op0, 3 bit op1 and op2,
++ * and 4 bit CRn and CRm. The encoding patterns are chosen
++ * to be easy to convert to and from the KVM encodings, and also
++ * so that the hashtable can contain both AArch32 and AArch64
++ * registers (to allow for interprocessing where we might run
++ * 32 bit code on a 64 bit core).
 + */
++/*
++ * This bit is private to our hashtable cpreg; in KVM register
++ * IDs the AArch64/32 distinction is the KVM_REG_ARM/ARM64
++ * in the upper bits of the 64 bit ID.
++ */
++#define CP_REG_AA64_SHIFT 28
++#define CP_REG_AA64_MASK (1 << CP_REG_AA64_SHIFT)
 +
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "cpregs.h"
++/*
++ * To enable banking of coprocessor registers depending on ns-bit we
++ * add a bit to distinguish between secure and non-secure cpregs in the
++ * hashtable.
++ */
++#define CP_REG_NS_SHIFT 29
++#define CP_REG_NS_MASK (1 << CP_REG_NS_SHIFT)
 +
-+uint64_t raw_read(CPUARMState *env, const ARMCPRegInfo *ri)
++#define ENCODE_CP_REG(cp, is64, ns, crn, crm, opc1, opc2)   \
++    ((ns) << CP_REG_NS_SHIFT | ((cp) << 16) | ((is64) << 15) |   \
++     ((crn) << 11) | ((crm) << 7) | ((opc1) << 3) | (opc2))
++
++#define ENCODE_AA64_CP_REG(cp, crn, crm, op0, op1, op2) \
++    (CP_REG_AA64_MASK |                                 \
++     ((cp) << CP_REG_ARM_COPROC_SHIFT) |                \
++     ((op0) << CP_REG_ARM64_SYSREG_OP0_SHIFT) |         \
++     ((op1) << CP_REG_ARM64_SYSREG_OP1_SHIFT) |         \
++     ((crn) << CP_REG_ARM64_SYSREG_CRN_SHIFT) |         \
++     ((crm) << CP_REG_ARM64_SYSREG_CRM_SHIFT) |         \
++     ((op2) << CP_REG_ARM64_SYSREG_OP2_SHIFT))
++
++/*
++ * Convert a full 64 bit KVM register ID to the truncated 32 bit
++ * version used as a key for the coprocessor register hashtable
++ */
++static inline uint32_t kvm_to_cpreg_id(uint64_t kvmid)
 +{
-+    assert(ri->fieldoffset);
-+    if (cpreg_field_is_64bit(ri)) {
-+        return CPREG_FIELD64(env, ri);
++    uint32_t cpregid = kvmid;
++    if ((kvmid & CP_REG_ARCH_MASK) == CP_REG_ARM64) {
++        cpregid |= CP_REG_AA64_MASK;
 +    } else {
-+        return CPREG_FIELD32(env, ri);
-+    }
-+}
-+
-+void raw_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+               uint64_t value)
-+{
-+    assert(ri->fieldoffset);
-+    if (cpreg_field_is_64bit(ri)) {
-+        CPREG_FIELD64(env, ri) = value;
-+    } else {
-+        CPREG_FIELD32(env, ri) = value;
-+    }
-+}
-+
-+const ARMCPRegInfo *get_arm_cp_reginfo(GHashTable *cpregs, uint32_t encoded_cp)
-+{
-+    return g_hash_table_lookup(cpregs, (gpointer)(uintptr_t)encoded_cp);
-+}
-+
-+uint64_t read_raw_cp_reg(CPUARMState *env, const ARMCPRegInfo *ri)
-+{
-+    /* Raw read of a coprocessor register (as needed for migration, etc). */
-+    if (ri->type & ARM_CP_CONST) {
-+        return ri->resetvalue;
-+    } else if (ri->raw_readfn) {
-+        return ri->raw_readfn(env, ri);
-+    } else if (ri->readfn) {
-+        return ri->readfn(env, ri);
-+    } else {
-+        return raw_read(env, ri);
-+    }
-+}
-+
-+static void write_raw_cp_reg(CPUARMState *env, const ARMCPRegInfo *ri,
-+                             uint64_t v)
-+{
-+    /*
-+     * Raw write of a coprocessor register (as needed for migration, etc).
-+     * Note that constant registers are treated as write-ignored; the
-+     * caller should check for success by whether a readback gives the
-+     * value written.
-+     */
-+    if (ri->type & ARM_CP_CONST) {
-+        return;
-+    } else if (ri->raw_writefn) {
-+        ri->raw_writefn(env, ri, v);
-+    } else if (ri->writefn) {
-+        ri->writefn(env, ri, v);
-+    } else {
-+        raw_write(env, ri, v);
-+    }
-+}
-+
-+bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync)
-+{
-+    /* Write the coprocessor state from cpu->env to the (index,value) list. */
-+    int i;
-+    bool ok = true;
-+
-+    for (i = 0; i < cpu->cpreg_array_len; i++) {
-+        uint32_t regidx = kvm_to_cpreg_id(cpu->cpreg_indexes[i]);
-+        const ARMCPRegInfo *ri;
-+        uint64_t newval;
-+
-+        ri = get_arm_cp_reginfo(cpu->cp_regs, regidx);
-+        if (!ri) {
-+            ok = false;
-+            continue;
-+        }
-+        if (ri->type & ARM_CP_NO_RAW) {
-+            continue;
++        if ((kvmid & CP_REG_SIZE_MASK) == CP_REG_SIZE_U64) {
++            cpregid |= (1 << 15);
 +        }
 +
-+        newval = read_raw_cp_reg(&cpu->env, ri);
-+        if (kvm_sync) {
-+            /*
-+             * Only sync if the previous list->cpustate sync succeeded.
-+             * Rather than tracking the success/failure state for every
-+             * item in the list, we just recheck "does the raw write we must
-+             * have made in write_list_to_cpustate() read back OK" here.
-+             */
-+            uint64_t oldval = cpu->cpreg_values[i];
-+
-+            if (oldval == newval) {
-+                continue;
-+            }
-+
-+            write_raw_cp_reg(&cpu->env, ri, oldval);
-+            if (read_raw_cp_reg(&cpu->env, ri) != oldval) {
-+                continue;
-+            }
-+
-+            write_raw_cp_reg(&cpu->env, ri, newval);
-+        }
-+        cpu->cpreg_values[i] = newval;
-+    }
-+    return ok;
-+}
-+
-+bool write_list_to_cpustate(ARMCPU *cpu)
-+{
-+    int i;
-+    bool ok = true;
-+
-+    for (i = 0; i < cpu->cpreg_array_len; i++) {
-+        uint32_t regidx = kvm_to_cpreg_id(cpu->cpreg_indexes[i]);
-+        uint64_t v = cpu->cpreg_values[i];
-+        const ARMCPRegInfo *ri;
-+
-+        ri = get_arm_cp_reginfo(cpu->cp_regs, regidx);
-+        if (!ri) {
-+            ok = false;
-+            continue;
-+        }
-+        if (ri->type & ARM_CP_NO_RAW) {
-+            continue;
-+        }
 +        /*
-+         * Write value and confirm it reads back as written
-+         * (to catch read-only registers and partially read-only
-+         * registers where the incoming migration value doesn't match)
++         * KVM is always non-secure so add the NS flag on AArch32 register
++         * entries.
 +         */
-+        write_raw_cp_reg(&cpu->env, ri, v);
-+        if (read_raw_cp_reg(&cpu->env, ri) != v) {
-+            ok = false;
++         cpregid |= 1 << CP_REG_NS_SHIFT;
++    }
++    return cpregid;
++}
++
++/*
++ * Convert a truncated 32 bit hashtable key into the full
++ * 64 bit KVM register ID.
++ */
++static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
++{
++    uint64_t kvmid;
++
++    if (cpregid & CP_REG_AA64_MASK) {
++        kvmid = cpregid & ~CP_REG_AA64_MASK;
++        kvmid |= CP_REG_SIZE_U64 | CP_REG_ARM64;
++    } else {
++        kvmid = cpregid & ~(1 << 15);
++        if (cpregid & (1 << 15)) {
++            kvmid |= CP_REG_SIZE_U64 | CP_REG_ARM;
++        } else {
++            kvmid |= CP_REG_SIZE_U32 | CP_REG_ARM;
 +        }
 +    }
-+    return ok;
++    return kvmid;
 +}
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 506c057675..8361c57d4c 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -35,65 +35,11 @@
- 
- static void switch_mode(CPUARMState *env, int mode);
- 
--static uint64_t raw_read(CPUARMState *env, const ARMCPRegInfo *ri)
--{
--    assert(ri->fieldoffset);
--    if (cpreg_field_is_64bit(ri)) {
--        return CPREG_FIELD64(env, ri);
--    } else {
--        return CPREG_FIELD32(env, ri);
--    }
--}
--
--void raw_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
--{
--    assert(ri->fieldoffset);
--    if (cpreg_field_is_64bit(ri)) {
--        CPREG_FIELD64(env, ri) = value;
--    } else {
--        CPREG_FIELD32(env, ri) = value;
--    }
--}
--
- static void *raw_ptr(CPUARMState *env, const ARMCPRegInfo *ri)
- {
-     return (char *)env + ri->fieldoffset;
++
+ /*
+  * Valid values for ARMCPRegInfo state field, indicating which of
+  * the AArch32 and AArch64 execution states this register is visible in.
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 2b4bd20f9d..20fa29d119 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -2663,97 +2663,6 @@ static inline bool armv7m_nvic_neg_prio_requested(void *opaque, bool secure)
  }
+ #endif
  
--uint64_t read_raw_cp_reg(CPUARMState *env, const ARMCPRegInfo *ri)
+-/* Interface for defining coprocessor registers.
+- * Registers are defined in tables of arm_cp_reginfo structs
+- * which are passed to define_arm_cp_regs().
+- */
+-
+-/* When looking up a coprocessor register we look for it
+- * via an integer which encodes all of:
+- *  coprocessor number
+- *  Crn, Crm, opc1, opc2 fields
+- *  32 or 64 bit register (ie is it accessed via MRC/MCR
+- *    or via MRRC/MCRR?)
+- *  non-secure/secure bank (AArch32 only)
+- * We allow 4 bits for opc1 because MRRC/MCRR have a 4 bit field.
+- * (In this case crn and opc2 should be zero.)
+- * For AArch64, there is no 32/64 bit size distinction;
+- * instead all registers have a 2 bit op0, 3 bit op1 and op2,
+- * and 4 bit CRn and CRm. The encoding patterns are chosen
+- * to be easy to convert to and from the KVM encodings, and also
+- * so that the hashtable can contain both AArch32 and AArch64
+- * registers (to allow for interprocessing where we might run
+- * 32 bit code on a 64 bit core).
+- */
+-/* This bit is private to our hashtable cpreg; in KVM register
+- * IDs the AArch64/32 distinction is the KVM_REG_ARM/ARM64
+- * in the upper bits of the 64 bit ID.
+- */
+-#define CP_REG_AA64_SHIFT 28
+-#define CP_REG_AA64_MASK (1 << CP_REG_AA64_SHIFT)
+-
+-/* To enable banking of coprocessor registers depending on ns-bit we
+- * add a bit to distinguish between secure and non-secure cpregs in the
+- * hashtable.
+- */
+-#define CP_REG_NS_SHIFT 29
+-#define CP_REG_NS_MASK (1 << CP_REG_NS_SHIFT)
+-
+-#define ENCODE_CP_REG(cp, is64, ns, crn, crm, opc1, opc2)   \
+-    ((ns) << CP_REG_NS_SHIFT | ((cp) << 16) | ((is64) << 15) |   \
+-     ((crn) << 11) | ((crm) << 7) | ((opc1) << 3) | (opc2))
+-
+-#define ENCODE_AA64_CP_REG(cp, crn, crm, op0, op1, op2) \
+-    (CP_REG_AA64_MASK |                                 \
+-     ((cp) << CP_REG_ARM_COPROC_SHIFT) |                \
+-     ((op0) << CP_REG_ARM64_SYSREG_OP0_SHIFT) |         \
+-     ((op1) << CP_REG_ARM64_SYSREG_OP1_SHIFT) |         \
+-     ((crn) << CP_REG_ARM64_SYSREG_CRN_SHIFT) |         \
+-     ((crm) << CP_REG_ARM64_SYSREG_CRM_SHIFT) |         \
+-     ((op2) << CP_REG_ARM64_SYSREG_OP2_SHIFT))
+-
+-/* Convert a full 64 bit KVM register ID to the truncated 32 bit
+- * version used as a key for the coprocessor register hashtable
+- */
+-static inline uint32_t kvm_to_cpreg_id(uint64_t kvmid)
 -{
--    /* Raw read of a coprocessor register (as needed for migration, etc). */
--    if (ri->type & ARM_CP_CONST) {
--        return ri->resetvalue;
--    } else if (ri->raw_readfn) {
--        return ri->raw_readfn(env, ri);
--    } else if (ri->readfn) {
--        return ri->readfn(env, ri);
+-    uint32_t cpregid = kvmid;
+-    if ((kvmid & CP_REG_ARCH_MASK) == CP_REG_ARM64) {
+-        cpregid |= CP_REG_AA64_MASK;
 -    } else {
--        return raw_read(env, ri);
--    }
--}
--
--static void write_raw_cp_reg(CPUARMState *env, const ARMCPRegInfo *ri,
--                             uint64_t v)
--{
--    /*
--     * Raw write of a coprocessor register (as needed for migration, etc).
--     * Note that constant registers are treated as write-ignored; the
--     * caller should check for success by whether a readback gives the
--     * value written.
--     */
--    if (ri->type & ARM_CP_CONST) {
--        return;
--    } else if (ri->raw_writefn) {
--        ri->raw_writefn(env, ri, v);
--    } else if (ri->writefn) {
--        ri->writefn(env, ri, v);
--    } else {
--        raw_write(env, ri, v);
--    }
--}
--
- static bool raw_accessors_invalid(const ARMCPRegInfo *ri)
- {
-    /*
-@@ -116,83 +62,6 @@ static bool raw_accessors_invalid(const ARMCPRegInfo *ri)
-     return true;
- }
- 
--bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync)
--{
--    /* Write the coprocessor state from cpu->env to the (index,value) list. */
--    int i;
--    bool ok = true;
--
--    for (i = 0; i < cpu->cpreg_array_len; i++) {
--        uint32_t regidx = kvm_to_cpreg_id(cpu->cpreg_indexes[i]);
--        const ARMCPRegInfo *ri;
--        uint64_t newval;
--
--        ri = get_arm_cp_reginfo(cpu->cp_regs, regidx);
--        if (!ri) {
--            ok = false;
--            continue;
--        }
--        if (ri->type & ARM_CP_NO_RAW) {
--            continue;
+-        if ((kvmid & CP_REG_SIZE_MASK) == CP_REG_SIZE_U64) {
+-            cpregid |= (1 << 15);
 -        }
 -
--        newval = read_raw_cp_reg(&cpu->env, ri);
--        if (kvm_sync) {
--            /*
--             * Only sync if the previous list->cpustate sync succeeded.
--             * Rather than tracking the success/failure state for every
--             * item in the list, we just recheck "does the raw write we must
--             * have made in write_list_to_cpustate() read back OK" here.
--             */
--            uint64_t oldval = cpu->cpreg_values[i];
--
--            if (oldval == newval) {
--                continue;
--            }
--
--            write_raw_cp_reg(&cpu->env, ri, oldval);
--            if (read_raw_cp_reg(&cpu->env, ri) != oldval) {
--                continue;
--            }
--
--            write_raw_cp_reg(&cpu->env, ri, newval);
--        }
--        cpu->cpreg_values[i] = newval;
--    }
--    return ok;
--}
--
--bool write_list_to_cpustate(ARMCPU *cpu)
--{
--    int i;
--    bool ok = true;
--
--    for (i = 0; i < cpu->cpreg_array_len; i++) {
--        uint32_t regidx = kvm_to_cpreg_id(cpu->cpreg_indexes[i]);
--        uint64_t v = cpu->cpreg_values[i];
--        const ARMCPRegInfo *ri;
--
--        ri = get_arm_cp_reginfo(cpu->cp_regs, regidx);
--        if (!ri) {
--            ok = false;
--            continue;
--        }
--        if (ri->type & ARM_CP_NO_RAW) {
--            continue;
--        }
--        /*
--         * Write value and confirm it reads back as written
--         * (to catch read-only registers and partially read-only
--         * registers where the incoming migration value doesn't match)
+-        /* KVM is always non-secure so add the NS flag on AArch32 register
+-         * entries.
 -         */
--        write_raw_cp_reg(&cpu->env, ri, v);
--        if (read_raw_cp_reg(&cpu->env, ri) != v) {
--            ok = false;
+-         cpregid |= 1 << CP_REG_NS_SHIFT;
+-    }
+-    return cpregid;
+-}
+-
+-/* Convert a truncated 32 bit hashtable key into the full
+- * 64 bit KVM register ID.
+- */
+-static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
+-{
+-    uint64_t kvmid;
+-
+-    if (cpregid & CP_REG_AA64_MASK) {
+-        kvmid = cpregid & ~CP_REG_AA64_MASK;
+-        kvmid |= CP_REG_SIZE_U64 | CP_REG_ARM64;
+-    } else {
+-        kvmid = cpregid & ~(1 << 15);
+-        if (cpregid & (1 << 15)) {
+-            kvmid |= CP_REG_SIZE_U64 | CP_REG_ARM;
+-        } else {
+-            kvmid |= CP_REG_SIZE_U32 | CP_REG_ARM;
 -        }
 -    }
--    return ok;
+-    return kvmid;
 -}
 -
- static void add_cpreg_to_list(gpointer key, gpointer opaque)
+ /* Return the highest implemented Exception Level */
+ static inline int arm_highest_el(CPUARMState *env)
  {
-     ARMCPU *cpu = opaque;
-@@ -9048,11 +8917,6 @@ void modify_arm_cp_regs_with_len(ARMCPRegInfo *regs, size_t regs_len,
-     }
- }
- 
--const ARMCPRegInfo *get_arm_cp_reginfo(GHashTable *cpregs, uint32_t encoded_cp)
--{
--    return g_hash_table_lookup(cpregs, (gpointer)(uintptr_t)encoded_cp);
--}
--
- void arm_cp_write_ignore(CPUARMState *env, const ARMCPRegInfo *ri,
-                          uint64_t value)
- {
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-index 68a87dff0a..a42970fab8 100644
---- a/target/arm/meson.build
-+++ b/target/arm/meson.build
-@@ -1,6 +1,7 @@
- arm_ss = ss.source_set()
- arm_ss.add(files(
-   'cpu.c',
-+  'cpustate-list.c',
-   'gdbstub.c',
-   'helper.c',
-   'vfp_helper.c',
 -- 
 2.35.3
 
