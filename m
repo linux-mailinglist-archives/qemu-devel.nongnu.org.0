@@ -2,94 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9607565E03F
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:54:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 627CA65E001
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:30:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDC5m-0006Da-QB; Wed, 04 Jan 2023 17:18:38 -0500
+	id 1pDCAG-0000ku-7t; Wed, 04 Jan 2023 17:23:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDC5k-00069U-BX
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:18:36 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDC98-0000Xq-Vo
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:22:14 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDC5f-0004QS-8v
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:18:32 -0500
-Received: by mail-ej1-x629.google.com with SMTP id gh17so86122642ejb.6
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 14:18:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDC97-0005gR-7Z
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:22:06 -0500
+Received: by mail-ej1-x630.google.com with SMTP id qk9so85858378ejc.3
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 14:22:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=4ysHgPmEoM4C0MsKpxmajfVnShhx28Dsr3QVGstLB34=;
- b=VV0KG9555T9PoLAI8dAC21IQsnZ3lSR8DsLsgK/MtaWHYl/VxEiwDbH+RTDfrr5dQW
- WA4utGik6635RTmghS0a7WkHbgjPjuHiE+pO+hgiksDUq+n8V5BNHExlZHlUloYboqY7
- zrU8PN4gZjq2WnCGmIiIMR675pgNyuDdsxOet1Bt9y03U0vOuXBwptSClErZqrI/0bHR
- KFQQFiqETpzUcm2ka7wktHggBLgYZyP7Mvj21q6OfiyMwE7sHyIMp+Dz2BCx02mnBy6N
- 5FNUZefTOV8iHE77uu4IjCU7RVsjQhh39eEJrTwmwNi2v/yN30VM+aOjm2Gsij5+8n96
- tXgQ==
+ bh=AC6dQXzHGoywu9nQ2ZSYn9ZLDwjXw+HWiNLFi59X4w8=;
+ b=m33RbruhtecMiny0G4SbRkQIgPhnv0amT4CMTnbFUn04V//rBGr5LkrAnuJv6OOubS
+ lQc52QLqIhl2eBFRvdg7v+havT8PCuTvGLwQq1Czr88SmuSTs73rMSt5IDkNtzhDplc+
+ PTkJMFXM+ngY343Wcg+JqNO+Whdch5OUp87F1S25G/c5oDPyDbxE2aMDQIKvovSwlcXn
+ konGIuB6WmXLHwtBWSyeUMhjAl2C4mHPzgHg0yuvarpF75DJqaOUn6E15nym671GJOH3
+ lpbpGkdbsQKu7Kj/3qikktsGi6llyEtA/dt5XU6SRr91Gin7NPttizqErnowDVJov2m+
+ 9CNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4ysHgPmEoM4C0MsKpxmajfVnShhx28Dsr3QVGstLB34=;
- b=opRvg6hyFdabuaeV3yAa2ofxg4mUGPmcz/fMjxGWr9h5RT/JZGlS0PUOpKHudb1Z7T
- bDZGqVDyMX99mHbAA5UQiPORxKKqN87iSVZIpKQSpgQINwR1qSwl7kBuNHtYswltO6Pp
- AcRpVJVdPQvjHjg23nxgbZmHJYVKQ3g4vuH5gStzFge4n/4AtQ/0bnPgNS3VWlyXIZm3
- mSL8DnoSjNZCdiiQ1ExK96YBnkJ+8x3F3Eshbpn/8Gd+C0TOF/j2xi47HvaGkL1zEAw8
- t4yUFFgCGOArm8cVkPkmZh0DnLzTfdDeb2HpdHJ3qrAY/eVl9Jd9Ngsnjkozq0yTdn6G
- zQwQ==
-X-Gm-Message-State: AFqh2kpJJZzh2QUSoGOz18WbgTcH1CvGpMS2Ui4rXKCoNUz51TqV3BBC
- IP+3PgxO2K2A4yeOZ7mTbwPrbQ==
-X-Google-Smtp-Source: AMrXdXviPfF39VzEoGdqBpllgHy43HnZ0JUR7GccE1WHtt6JagF8scMFZzI1nxTausiLoRgwOJZm3A==
-X-Received: by 2002:a17:906:94f:b0:7c1:4f7c:947f with SMTP id
- j15-20020a170906094f00b007c14f7c947fmr44428107ejd.72.1672870709605; 
- Wed, 04 Jan 2023 14:18:29 -0800 (PST)
+ bh=AC6dQXzHGoywu9nQ2ZSYn9ZLDwjXw+HWiNLFi59X4w8=;
+ b=oAceuTyBgkxauqIrzlZwQ1OpxRDra6YaTgvUHZKM2u8PUdGXHbZA3pPe6Q5uvUqMbL
+ MT9LRTUiHzLbkfhhqkFhXMfzIkYKrKKgZ3UPiKSJ4CwfOCJPj+qQMn9Wj5uu5DON6Uud
+ uZhAvfcbISa3sGG7KnNMOVrz1uCDSUpsDuzPAMgR3QJfvUNfdLRpCx4bbxNGXb08denb
+ MBVJO1BFeXCHRpTotMBL52nQFpZhYy5tgK5k3+cZZ/2NtYNQgt3sjNo+u2tOlGtzYU8n
+ tw7j6q6ydQDxRNVMepSbqhw8hskp00fGnNMy8wTkz2Nr06+66cPdCJrvavkMbGif9qfh
+ oqcg==
+X-Gm-Message-State: AFqh2kq3Ex82S/b1QVOPQ8ihwXyK4yFM2pMRTD7vrn4SP3JfekcjtWej
+ f9ko7nROyS5Lazc4iBW5Z5w70g==
+X-Google-Smtp-Source: AMrXdXvdqWywV9ns8t66kRya6qZwZ9rxxgacP1bWeb+g7gc2p9iY54QSEAizao1/EDB0eDwP+oWO5Q==
+X-Received: by 2002:a17:907:8d16:b0:7c4:fa17:71fe with SMTP id
+ tc22-20020a1709078d1600b007c4fa1771femr45184955ejc.45.1672870923403; 
+ Wed, 04 Jan 2023 14:22:03 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- o17-20020a1709062e9100b007bd9e683639sm15718720eji.130.2023.01.04.14.18.27
+ lb13-20020a170907784d00b0084b89c66eb5sm14166754ejc.4.2023.01.04.14.22.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 14:18:28 -0800 (PST)
-Message-ID: <877abde0-2e76-7fde-0212-eb7ce1384ea6@linaro.org>
-Date: Wed, 4 Jan 2023 23:18:26 +0100
+ Wed, 04 Jan 2023 14:22:02 -0800 (PST)
+Message-ID: <a159ca9d-0627-11a4-1c99-48a7aca958d8@linaro.org>
+Date: Wed, 4 Jan 2023 23:22:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 6/6] hw/isa/piix: Resolve redundant
- TYPE_PIIX3_XEN_DEVICE
+Subject: Re: [RFC PATCH 07/27] target/arm: rename handle_semihosting to
+ tcg_handle_semihosting
 Content-Language: en-US
-To: Chuck Zmudzinski <brchuckz@aol.com>, Bernhard Beschow
- <shentey@gmail.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>
-References: <20230104144437.27479-1-shentey@gmail.com>
- <20230104144437.27479-7-shentey@gmail.com>
- <1c2e0780-e5fb-1321-0d84-b0591db9fec7@linaro.org>
- <f596a7c1-10d0-3743-fe0b-d42003cf7440@aol.com>
- <be75758a-2547-d1ef-223e-157f3aa28b23@linaro.org>
- <92efe0f1-f22b-47bc-f27d-2f31cb3621ea@aol.com>
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
+References: <20230104215835.24692-1-farosas@suse.de>
+ <20230104215835.24692-8-farosas@suse.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <92efe0f1-f22b-47bc-f27d-2f31cb3621ea@aol.com>
+In-Reply-To: <20230104215835.24692-8-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
 X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,65 +96,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/1/23 20:29, Chuck Zmudzinski wrote:
-> On 1/4/23 1:48 PM, Philippe Mathieu-Daudé wrote:
-
->> Here TYPE_PIIX3_DEVICE means for "PCI function part of the PIIX
->> south bridge chipset, which expose a PCI-to-ISA bridge". A better
->> name could be TYPE_PIIX3_ISA_PCI_DEVICE. Unfortunately this
->> device is named "PIIX3" with no indication of ISA bridge.
+On 4/1/23 22:58, Fabiano Rosas wrote:
+> From: Claudio Fontana <cfontana@suse.de>
 > 
+> make it clearer from the name that this is a tcg-only function.
 > 
-> Thanks, you are right, I see the PIIX3 device still exists after
-> this patch set is applied.
-> 
-> chuckz@debian:~/sources-sid/qemu/qemu-7.50+dfsg/hw/i386$ grep -r PIIX3 *
-> pc_piix.c:        pci_dev = pci_new_multifunction(-1, true, TYPE_PIIX3_DEVICE);
-> 
-> I also understand there is the PCI-to-ISA bridge at 00:01.0 on the PCI bus:
-> 
-> chuckz@debian:~$ lspci
-> 00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev 02)
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> ---
+>   target/arm/helper.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-All these entries ('PCI functions') ...:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> 00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
-> 00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE [Natoma/Triton II]
-> 00:01.2 USB controller: Intel Corporation 82371SB PIIX3 USB [Natoma/Triton II] (rev 01)
-> 00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI (rev 03)
-
-... are part of the same *device*: the PIIX south bridge.
-
-This device is enumerated as #1 on the PCI bus #0.
-It currently exposes 4 functions: ISA/IDE/USB/ACPI.
-
-> 00:02.0 Unassigned class [ff80]: XenSource, Inc. Xen Platform Device (rev 01)
-> 00:03.0 VGA compatible controller: Device 1234:1111 (rev 02)
-> 
-> I also see with this patch, there is a bridge that is a PIIX4 ACPI at 00:01.3.
-> I get the exact same output from lspci without the patch series, so that gives
-> me confidence it is working as designed.
-
-Historically the PIIX3 and PIIX4 QEMU models have been written by
-different people with different goals.
-
-- PIIX3 comes from x86 machines and is important for KVM/Xen
-   accelerators
-- PIIX4 was developed by hobbyist for MIPS machines
-
-PIIX4 added the ACPI function which was proven helpful for x86 machines.
-
-OS such Linux don't consider the PIIX south bridge as a whole chipset,
-and enumerate each PCI function individually. So it was possible to add
-the PIIX4 ACPI function to a PIIX3... A config that doesn't exist with
-real hardware :/
-While QEMU aims at modeling real HW, this config is still very useful
-for KVM/Xen. So this Frankenstein config is accepted / maintained.
-
-Bernhard is doing an incredible work merging the PIIX3/PIIX4 differences
-into a more maintainable model :)
-
-Regards,
-
-Phil.
 
