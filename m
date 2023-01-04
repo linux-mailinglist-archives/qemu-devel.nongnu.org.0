@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7689265DD4E
+	by mail.lfdr.de (Postfix) with ESMTPS id 727F165DD4D
 	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 20:57:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD9sM-0003lj-MV; Wed, 04 Jan 2023 14:56:38 -0500
+	id 1pD9sS-0003qM-K3; Wed, 04 Jan 2023 14:56:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pD9sI-0003lE-QG; Wed, 04 Jan 2023 14:56:35 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pD9sG-0002I3-UQ; Wed, 04 Jan 2023 14:56:34 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id u28so45291172edd.10;
- Wed, 04 Jan 2023 11:56:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=o1cNgh+oEb7j4+VtR9v/7Wy8rtubQctBMEJVkqzQFWs=;
- b=lEF6DV0Xh2gKRvQUk0dFT+fJyZb6JSXNNDmX5FT3I3vqptd/J/YOSSWDrbeKjI4okH
- yF+5lG8tS9GSKL/VPXOB11kMU7oQQoAWIMNg9BFbmtf/xEl5X2Be7AvjRjkg8hr1t76a
- 5q2pIf66txu6Ox6DHag67/8bQ65+sy70KW7hdCbQ+rs5n0/+F2adN7+zR7r0MNQPFQoO
- qRVNUc+5l/A35P3DqpoISLiNlAQTlWcH9eLhex0hSRSXB1xkeFlaPI36UdFoTLqZemBV
- 11Wj9bKg9bngni8LHs53cdGbrdVOPsnoqkL6U+oXwlRZmGZBeKJRSNf8SM5908+L7gpc
- Pl/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=o1cNgh+oEb7j4+VtR9v/7Wy8rtubQctBMEJVkqzQFWs=;
- b=T0//i9+spS4agFJOS0IbHpO5al3NEAIF+UBFue4Ufbn0O1MX0V3wEHhW4XIlQWHxO1
- gn9Towkh2GZ8qLDHKfWw3z8O05Wc2n5KzFyap9BNiZI+Lp6fyWjmF0BbFT5fiqftHMud
- zUf5ktNKXW5GJvRMccnjUa9VdUp9UqzgxY11BTusSQbPpJV01Mhb0DoHsd+Lx150NODL
- dUweiW6snHsnI4FnUkzxjGjlWwk8lzGpE6K6jtQlBrYbh+qFU12T/Y7N3/glChKoI+y+
- rTfGenNBvX8N9nqx4eiHtd7YrPRsLmMaAl4SpZglTmfcJ4pszKvyFwy8/7bK/5CPAKDx
- m1bA==
-X-Gm-Message-State: AFqh2kqGLGFkZf7HqdCIrApJ2ACnU6EA2GhFaaEpxIorWO9rBg55XU18
- yBCmobOvzNPl2LrZbsvRy3U=
-X-Google-Smtp-Source: AMrXdXtLd7joQUx4B7jofmHLazU2cOI7ktRQjHvxG6sHBGcwao88df3E9uVda+YQlfiOG7ugFHvLrQ==
-X-Received: by 2002:a05:6402:12d4:b0:45c:835c:c6d3 with SMTP id
- k20-20020a05640212d400b0045c835cc6d3mr40691369edx.4.1672862191020; 
- Wed, 04 Jan 2023 11:56:31 -0800 (PST)
-Received: from osoxes.fritz.box (pd95ed71f.dip0.t-ipconnect.de.
- [217.94.215.31]) by smtp.gmail.com with ESMTPSA id
- o17-20020aa7dd51000000b00484cd57920asm12000089edw.11.2023.01.04.11.56.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jan 2023 11:56:30 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: shentey@gmail.com
-Cc: ani@anisinha.ca, aurelien@aurel32.net, eduardo@habkost.net,
- f4bug@amsat.org, hpoussin@reactos.org, imammedo@redhat.com,
- jiaxun.yang@flygoat.com, jsnow@redhat.com, kraxel@redhat.com,
- marcel.apfelbaum@gmail.com, mst@redhat.com, pbonzini@redhat.com,
- philmd@linaro.org, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- richard.henderson@linaro.org
-Subject: [PATCH] hw/core: Introduce proxy-pic
-Date: Wed,  4 Jan 2023 20:53:51 +0100
-Message-Id: <20230104195351.3418-1-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221221170003.2929-13-shentey@gmail.com>
-References: <20221221170003.2929-13-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pD9sQ-0003px-CE
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 14:56:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pD9sO-0002If-Nh
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 14:56:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672862199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pQDPRATtfcNafo+n62ehA7nBxE5sPbtRPAVQT6ntAqQ=;
+ b=IG2BlnWg8gO3MaIMPiFdR1lxYHddfmVJ6olSaGXLKYkjqjp3qT8rzIQBZ79QU6py8W3LTy
+ WUcNGaxM3TPHYL4faQ17JqrIVbfTyAl3zgDt/TEISF+keViCemMmTl7V0Eq8rg7Iax8ETD
+ SJsEYd3ynXWj4LA9N+Ktfh2fL1h0oxI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-17-yXA65Gh8OLyGpaGEd6fRSg-1; Wed, 04 Jan 2023 14:56:36 -0500
+X-MC-Unique: yXA65Gh8OLyGpaGEd6fRSg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 05E7E101A521;
+ Wed,  4 Jan 2023 19:56:36 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65E811121314;
+ Wed,  4 Jan 2023 19:56:35 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Qing Wang <qinwang@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH] block-backend: fix virtio-scsi assertion failure with
+ blk_drain_noref()
+Date: Wed,  4 Jan 2023 14:56:33 -0500
+Message-Id: <20230104195633.86143-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,182 +79,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Having a proxy PIC allows for ISA PICs to be created and wired up in
-southbridges. This is especially useful for PIIX3 for two reasons:
-First, the southbridge doesn't need to care about the virtualization
-technology used (KVM, TCG, Xen) due to in-IRQs (where devices get
-attached) and out-IRQs (which will trigger the IRQs of the respective
-virtualization technology) are separated. Second, since the in-IRQs are
-populated with fully initialized qemu_irq's, they can already be wired
-up inside PIIX3.
+scsi_device_purge_requests() is called from I/O code by virtio-scsi TMF
+emulation code. It must not call Global State APIs like blk_drain()
+because that results in an assertion failure.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20221022150508.26830-15-shentey@gmail.com>
----
-Changes since v4:
-* Change license to GPL-2.0-or-later and use SPDX-License-Identifier
-* Fix typo in commit message
----
- include/hw/core/proxy-pic.h | 38 ++++++++++++++++++++++++++
- hw/core/proxy-pic.c         | 54 +++++++++++++++++++++++++++++++++++++
- MAINTAINERS                 |  2 ++
- hw/core/Kconfig             |  3 +++
- hw/core/meson.build         |  1 +
- 5 files changed, 98 insertions(+)
- create mode 100644 include/hw/core/proxy-pic.h
- create mode 100644 hw/core/proxy-pic.c
+blk_drain() is a Global State API because it uses bdrv_unref(). Actually
+ref/unref is unnecessary in device emulation code because the drive=
+qdev property holds the reference.
 
-diff --git a/include/hw/core/proxy-pic.h b/include/hw/core/proxy-pic.h
-new file mode 100644
-index 0000000000..32bc7936bd
---- /dev/null
-+++ b/include/hw/core/proxy-pic.h
-@@ -0,0 +1,38 @@
+Introduce blk_drain_noref(), a variant of blk_drain() that is
+IO_OR_GS_CODE() and doesn't take a reference to the BlockBackend.
+
+This fixes the following virtio-scsi IOThread assertion failure when
+hot-plugging scsi-hd devices:
+
+  qemu-kvm: ../block/block-backend.c:1780: void blk_drain(BlockBackend *): Assertion `qemu_in_main_thread()' failed.
+
+  #0  0x00007f4b6a0a154c __pthread_kill_implementation (libc.so.6>
+  #1  0x00007f4b6a054d46 raise (libc.so.6 + 0x54d46)
+  #2  0x00007f4b6a0287f3 abort (libc.so.6 + 0x287f3)
+  #3  0x00007f4b6a02871b __assert_fail_base.cold (libc.so.6 + 0x2>
+  #4  0x00007f4b6a04dce6 __assert_fail (libc.so.6 + 0x4dce6)
+  #5  0x000055c811253ac0 blk_drain (qemu-kvm + 0x808ac0)
+  #6  0x000055c810ecb951 scsi_device_purge_requests (qemu-kvm + 0>
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  #7  0x000055c810ed6ab8 scsi_disk_reset (qemu-kvm + 0x48bab8)
+  #8  0x000055c8111dc908 resettable_phase_hold (qemu-kvm + 0x7919>
+  #9  0x000055c8111db7f0 device_cold_reset (qemu-kvm + 0x7907f0)
+  #10 0x000055c8110bb1a6 virtio_scsi_handle_ctrl (qemu-kvm + 0x67>
+  #11 0x000055c8110d458f virtio_queue_host_notifier_read (qemu-kv>
+  #12 0x000055c811404a73 aio_dispatch_handler (qemu-kvm + 0x9b9a7>
+  #13 0x000055c811405743 aio_poll (qemu-kvm + 0x9ba743)
+  #14 0x000055c81121d532 iothread_run (qemu-kvm + 0x7d2532)
+  #15 0x000055c81140926a qemu_thread_start (qemu-kvm + 0x9be26a)
+  #16 0x00007f4b6a09f802 start_thread (libc.so.6 + 0x9f802)
+  #17 0x00007f4b6a03f450 __clone3 (libc.so.6 + 0x3f450)
+
+Reported-by: Qing Wang <qinwang@redhat.com>
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2155748
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ include/sysemu/block-backend-io.h |  1 +
+ block/block-backend.c             | 23 +++++++++++++++++++++++
+ hw/scsi/scsi-bus.c                |  2 +-
+ 3 files changed, 25 insertions(+), 1 deletion(-)
+
+diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
+index 7ec6d978d4..f73db1f77c 100644
+--- a/include/sysemu/block-backend-io.h
++++ b/include/sysemu/block-backend-io.h
+@@ -73,6 +73,7 @@ void blk_iostatus_set_err(BlockBackend *blk, int error);
+ int blk_get_max_iov(BlockBackend *blk);
+ int blk_get_max_hw_iov(BlockBackend *blk);
+ 
++void blk_drain_noref(BlockBackend *blk);
+ void blk_io_plug(BlockBackend *blk);
+ void blk_io_unplug(BlockBackend *blk);
+ AioContext *blk_get_aio_context(BlockBackend *blk);
+diff --git a/block/block-backend.c b/block/block-backend.c
+index ba7bf1d6bc..20914bae7b 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1815,6 +1815,29 @@ void blk_drain(BlockBackend *blk)
+     }
+ }
+ 
 +/*
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * Proxy interrupt controller device.
-+ *
-+ * Copyright (c) 2022 Bernhard Beschow <shentey@gmail.com>
++ * Same as blk_drain() but the caller must hold a reference to blk. May be
++ * called from Global State or I/O API code. Device emulation can call this
++ * because the qdev drive= property holds the reference.
 + */
-+
-+#ifndef HW_PROXY_PIC_H
-+#define HW_PROXY_PIC_H
-+
-+#include "hw/qdev-core.h"
-+#include "qom/object.h"
-+#include "hw/irq.h"
-+
-+#define TYPE_PROXY_PIC "proxy-pic"
-+OBJECT_DECLARE_SIMPLE_TYPE(ProxyPICState, PROXY_PIC)
-+
-+#define MAX_PROXY_PIC_LINES 16
-+
-+/**
-+ * This is a simple device which has 16 pairs of GPIO input and output lines.
-+ * Any change on an input line is forwarded to the respective output.
-+ *
-+ * QEMU interface:
-+ *  + 16 unnamed GPIO inputs: the input lines
-+ *  + 16 unnamed GPIO outputs: the output lines
-+ */
-+struct ProxyPICState {
-+    /*< private >*/
-+    struct DeviceState parent_obj;
-+    /*< public >*/
-+
-+    qemu_irq in_irqs[MAX_PROXY_PIC_LINES];
-+    qemu_irq out_irqs[MAX_PROXY_PIC_LINES];
-+};
-+
-+#endif /* HW_PROXY_PIC_H */
-diff --git a/hw/core/proxy-pic.c b/hw/core/proxy-pic.c
-new file mode 100644
-index 0000000000..40fd70b9e2
---- /dev/null
-+++ b/hw/core/proxy-pic.c
-@@ -0,0 +1,54 @@
-+/*
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * Proxy interrupt controller device.
-+ *
-+ * Copyright (c) 2022 Bernhard Beschow <shentey@gmail.com>
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/core/proxy-pic.h"
-+
-+static void proxy_pic_set_irq(void *opaque, int irq, int level)
++void blk_drain_noref(BlockBackend *blk)
 +{
-+    ProxyPICState *s = opaque;
++    BlockDriverState *bs = blk_bs(blk);
++    IO_OR_GS_CODE();
 +
-+    qemu_set_irq(s->out_irqs[irq], level);
-+}
++    if (bs) {
++        bdrv_drained_begin(bs);
++    }
 +
-+static void proxy_pic_realize(DeviceState *dev, Error **errp)
-+{
-+    ProxyPICState *s = PROXY_PIC(dev);
++    /* We may have -ENOMEDIUM completions in flight */
++    AIO_WAIT_WHILE(blk_get_aio_context(blk),
++                   qatomic_mb_read(&blk->in_flight) > 0);
 +
-+    qdev_init_gpio_in(DEVICE(s), proxy_pic_set_irq, MAX_PROXY_PIC_LINES);
-+    qdev_init_gpio_out(DEVICE(s), s->out_irqs, MAX_PROXY_PIC_LINES);
-+
-+    for (int i = 0; i < MAX_PROXY_PIC_LINES; ++i) {
-+        s->in_irqs[i] = qdev_get_gpio_in(DEVICE(s), i);
++    if (bs) {
++        bdrv_drained_end(bs);
 +    }
 +}
 +
-+static void proxy_pic_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    /* No state to reset or migrate */
-+    dc->realize = proxy_pic_realize;
-+
-+    /* Reason: Needs to be wired up to work */
-+    dc->user_creatable = false;
-+}
-+
-+static const TypeInfo proxy_pic_info = {
-+    .name          = TYPE_PROXY_PIC,
-+    .parent        = TYPE_DEVICE,
-+    .instance_size = sizeof(ProxyPICState),
-+    .class_init = proxy_pic_class_init,
-+};
-+
-+static void split_irq_register_types(void)
-+{
-+    type_register_static(&proxy_pic_info);
-+}
-+
-+type_init(split_irq_register_types)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7a40d4d865..295a76bfbd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1674,6 +1674,7 @@ S: Supported
- F: hw/char/debugcon.c
- F: hw/char/parallel*
- F: hw/char/serial*
-+F: hw/core/proxy-pic.c
- F: hw/dma/i8257*
- F: hw/i2c/pm_smbus.c
- F: hw/input/pckbd.c
-@@ -1690,6 +1691,7 @@ F: hw/watchdog/wdt_ib700.c
- F: hw/watchdog/wdt_i6300esb.c
- F: include/hw/display/vga.h
- F: include/hw/char/parallel.h
-+F: include/hw/core/proxy-pic.h
- F: include/hw/dma/i8257.h
- F: include/hw/i2c/pm_smbus.h
- F: include/hw/input/i8042.h
-diff --git a/hw/core/Kconfig b/hw/core/Kconfig
-index 9397503656..a7224f4ca0 100644
---- a/hw/core/Kconfig
-+++ b/hw/core/Kconfig
-@@ -22,6 +22,9 @@ config OR_IRQ
- config PLATFORM_BUS
-     bool
- 
-+config PROXY_PIC
-+    bool
-+
- config REGISTER
-     bool
- 
-diff --git a/hw/core/meson.build b/hw/core/meson.build
-index 7a4d02b6c0..e86aef6ec3 100644
---- a/hw/core/meson.build
-+++ b/hw/core/meson.build
-@@ -30,6 +30,7 @@ softmmu_ss.add(when: ['CONFIG_GUEST_LOADER', fdt], if_true: files('guest-loader.
- softmmu_ss.add(when: 'CONFIG_OR_IRQ', if_true: files('or-irq.c'))
- softmmu_ss.add(when: 'CONFIG_PLATFORM_BUS', if_true: files('platform-bus.c'))
- softmmu_ss.add(when: 'CONFIG_PTIMER', if_true: files('ptimer.c'))
-+softmmu_ss.add(when: 'CONFIG_PROXY_PIC', if_true: files('proxy-pic.c'))
- softmmu_ss.add(when: 'CONFIG_REGISTER', if_true: files('register.c'))
- softmmu_ss.add(when: 'CONFIG_SPLIT_IRQ', if_true: files('split-irq.c'))
- softmmu_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('stream.c'))
+ void blk_drain_all(void)
+ {
+     BlockBackend *blk = NULL;
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index ceceafb2cd..110fd85106 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -1663,7 +1663,7 @@ void scsi_device_purge_requests(SCSIDevice *sdev, SCSISense sense)
+         req = QTAILQ_FIRST(&sdev->requests);
+         scsi_req_cancel_async(req, NULL);
+     }
+-    blk_drain(sdev->conf.blk);
++    blk_drain_noref(sdev->conf.blk);
+     aio_context_release(blk_get_aio_context(sdev->conf.blk));
+     scsi_device_set_ua(sdev, sense);
+ }
 -- 
 2.39.0
 
