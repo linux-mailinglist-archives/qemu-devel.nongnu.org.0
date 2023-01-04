@@ -2,155 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401EB65D0F6
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 11:54:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9EC65D155
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 12:24:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD1Np-00044Q-HF; Wed, 04 Jan 2023 05:52:33 -0500
+	id 1pD1qZ-0001k9-7h; Wed, 04 Jan 2023 06:22:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
- id 1pD1Nn-000444-8A
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 05:52:31 -0500
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pD1qX-0001jt-MF
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 06:22:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
- id 1pD1Nk-0003uv-Io
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 05:52:31 -0500
-Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3044M9O8010633; Wed, 4 Jan 2023 02:52:24 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=content-type :
- message-id : date : subject : to : cc : references : from : in-reply-to :
- mime-version; s=proofpoint20171006;
- bh=Vcq7Poh6CMCoZW6U40T8LokHGMep+He3H9nA0Lrjvmw=;
- b=Du27D8lOhMsaT9AITslJ21Wse/EIeeJAxgdyT2WQ6OHXBfK+mmwh6/+4VHjy8xNrwvUy
- w80tmILiR8BV8tTz8hlKsbzs9dkbVzw99SBI4yHtJs9c0g0KwYTsJgnAuHQ3jzX1yKWx
- bSavAGoq9scuve7CBLVqOaSpygrCQyirinYHNZhe+uEmmPYyth0feytox1vgk6E+UyPp
- 2R/ZxEzlMb8hUsq52tZlTpuFY6WKl6ThyPwR7wIcyeIhqW8Hqj/R/Ye3OXt++Bu+/lgp
- rlTzA6zSnpaIxABS0poTpTlTOl5fdnF1z5qfvYje4TkN3XGqj3kcjSspDpYjS4RTS66j Ww== 
-Received: from nam04-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam04lp2169.outbound.protection.outlook.com [104.47.73.169])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3mtm2pwkav-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 04 Jan 2023 02:52:24 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PpXdK+RiGXVOYUlcE24TE57PdAPP5gGGucK9XNxqU0ULgk54YoZ/HiGBVo4UEVrpLA5DhVKhfkaA150Ygy7kOUnWjOPODKaQw4VyEC6WajMzu9q2hL2qZCExPqDDlh3SCQgVqyFU7y2fkw/YS+tlUV3ggQUbTP/iTxSdV24Zz8etdnUL6Zp0ridq9JJq2jzNTA6ijZBM3RQJ2PHtg+s0+AVE0JEvgFxgBMUSHZgAnmBql/nhKqwJ6pbKnqJuQnRfTmDejPmQu5Hs2ECm7hR9iISeQIyyc0jvDcmEYOM+2Cw5Czzg6oZQG6fdpTlIqW/UKD6GNZyTysFwTYKZFxMyWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vcq7Poh6CMCoZW6U40T8LokHGMep+He3H9nA0Lrjvmw=;
- b=OzmSEtN9ryh/rBkM483q6AAuYFqLmlUGouD2ZtW/fL4umxVzfrNjG4w1VRbManWKtm+uLrhQj9xA2JvKNR8u2qK2+lX9Gahoukb7qZJNesNrzYP3SqHQKCWq4A6B/3BZ3by7GhQBvtUeKUBRBm0K7KjjorHu4ePWHE/Cnw28U+5prBdrjH5CnV1PddxttOaq3yngTgVZVl1DIQIeibqWhQNaxwuxrJlA6TwfzvZEjpdS2ZtEDjuaLQDSsxfJD+/T4/Mij5dGNu6qe0pATigXbxlFLPcAnPB8q3pWRnONBV7Mz8CxQsaH6p/ec2CYmLOI5yS6LuUcfRJuPvDDYhgM9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vcq7Poh6CMCoZW6U40T8LokHGMep+He3H9nA0Lrjvmw=;
- b=iPuHzcYcW8W6kopsSFiFloHGKMH3M/qmxXIu+eBiULlvnrR6DHgrRqr2rSwbZx4z/UZBInQbzlqj9AezmMwdCBcZs52r+EpaFrPcxdVzMtlV83kMKUtMv93mwGNVPzYVr+nU6vPtWFzFcWeOfjZIJ6kEzd10YJJWGD70PNuLs/Um/xshtVeZWg3oZ/0EKoiuTm0vMS6qJEGgutcwXCisr5pa2LDslYeGpFsc2oi5lJn/XyYPDM4n9KIQU9XMP0aSZLwanYi2fa8Taa6ksmfwnelKMkZLytzdE+hgDU7B/3lKpyrzb7oDU6il3zHY4nIEv4ntGzVFPSl2zovR1h7VOg==
-Received: from PH0PR02MB7384.namprd02.prod.outlook.com (2603:10b6:510:12::12)
- by DM8PR02MB7958.namprd02.prod.outlook.com (2603:10b6:8:13::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Wed, 4 Jan
- 2023 10:52:21 +0000
-Received: from PH0PR02MB7384.namprd02.prod.outlook.com
- ([fe80::dff2:2d3c:e182:fb66]) by PH0PR02MB7384.namprd02.prod.outlook.com
- ([fe80::dff2:2d3c:e182:fb66%3]) with mapi id 15.20.5944.019; Wed, 4 Jan 2023
- 10:52:21 +0000
-Content-Type: multipart/alternative;
- boundary="------------W9kY5vjy1hgnqT9kl55QfaMG"
-Message-ID: <f1f1cd0f-a887-57f9-5762-7f7e638941eb@nutanix.com>
-Date: Wed, 4 Jan 2023 16:22:10 +0530
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v6 0/2] check magic value for deciding the mapping of
- channels
-To: qemu-devel@nongnu.org
-Cc: quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
-References: <20221220184418.228834-1-manish.mishra@nutanix.com>
-From: "manish.mishra" <manish.mishra@nutanix.com>
-In-Reply-To: <20221220184418.228834-1-manish.mishra@nutanix.com>
-X-ClientProxiedBy: MA0PR01CA0105.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:af::19) To PH0PR02MB7384.namprd02.prod.outlook.com
- (2603:10b6:510:12::12)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pD1qV-00009U-1T
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 06:22:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672831329;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qo4lDBkop1bRocN3/GHhzKnLA4N3FXba8mO2MJ9+51A=;
+ b=ZGOQVXgD8UB/0PCBzA1CFbs/D+MoOnPKkWqi+6XydTVkhzT7cQQthz6RhIjNc8Jlz5Sadb
+ yhBLJrdH1y+OVMAPkS9kJEdisF2FdD1/N/4cFiJ/c0F6tvvORMpk0Sy4TWOix8nHftkpBW
+ mNGJxRFvkGBqG3f9n7mjNg529CRU+Rc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-96-MMoIvq3UMtemlrm6aQFL1A-1; Wed, 04 Jan 2023 06:22:08 -0500
+X-MC-Unique: MMoIvq3UMtemlrm6aQFL1A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ h24-20020adfaa98000000b0028abfe5b8d9so2005452wrc.2
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 03:22:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qo4lDBkop1bRocN3/GHhzKnLA4N3FXba8mO2MJ9+51A=;
+ b=2RdwmTz9a72elTd0+cFGtbVHSslxbX9/a/FP8RNZmJtUk0CYeB5K+dFbtkHMcS7XG7
+ KG1gC+mBGKjsi3sYEOpue8eMPUmLCD84ZgRJEhtdjDWLUabxdUVmnSdWAcgIOC9ZMBQo
+ iFLdw2TXxfL2wTRRpu0aLg4hwz0e7gzRpZmjw5cRDgrpW12aQbhqrvJO64pVZkjhgqIE
+ +0OCIJ7jR4QjEiUD5ZqSauBXEvSfYq3rIxv7qcoOWZiNI586a9PCADtzCDIfN8469K/3
+ KPwrntaa5O8yt9ySAP6mHDZYqbAZSMFBRCPqNKu7mLux/GR9b+q3zl8LpTUYM4aWexfJ
+ /yMg==
+X-Gm-Message-State: AFqh2krulw1jK+QSndZJW5MW16+dGt1pMfRbU4U/83Ke4AWAyR+tH5Zy
+ dwdQoPOIa9o2GIjv8i3r8+p6XMO+zBG8dnHVk6jvZw7vr5GlKi/rkS4ebxva+XPeq+dCV2sV+/y
+ 5Nh4SXQnSnbEIQb8=
+X-Received: by 2002:a05:600c:34ca:b0:3d6:80b5:f948 with SMTP id
+ d10-20020a05600c34ca00b003d680b5f948mr33785288wmq.39.1672831327103; 
+ Wed, 04 Jan 2023 03:22:07 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuYFfbrj/9dQv5O1BYW+rxhaWgMr/uJNQ221wqEvH1ClgtBBGyRdNvq84aRACshPcymfHeOUQ==
+X-Received: by 2002:a05:600c:34ca:b0:3d6:80b5:f948 with SMTP id
+ d10-20020a05600c34ca00b003d680b5f948mr33785261wmq.39.1672831326783; 
+ Wed, 04 Jan 2023 03:22:06 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ ay39-20020a05600c1e2700b003cfa80443a0sm45286690wmb.35.2023.01.04.03.22.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Jan 2023 03:22:06 -0800 (PST)
+Date: Wed, 4 Jan 2023 11:22:03 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Paul Durrant <paul@xen.org>, Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
+Subject: Re: [RFC PATCH v5 50/52] hw/xen: Add backend implementation of
+ interdomain event channel support
+Message-ID: <Y7VhWyGCCNz0+k+H@work-vm>
+References: <20221230121235.1282915-1-dwmw2@infradead.org>
+ <20221230121235.1282915-51-dwmw2@infradead.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR02MB7384:EE_|DM8PR02MB7958:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f0f4776-249b-40a6-a830-08daee41c172
-x-proofpoint-crosstenant: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CWhl5K2DGgh8AapFcD+xXXlVZaE5iDqDf6duayhoRnyNnGBXLvjGrXXriMdMso8gjz1QVdlCxrjBb8sRHF0m/Dt8KYqdWCsDiiakqJCGhEFviFa0kidfZUjtckCikjKm8vDiZjUvb9GSjz545NcZSah8oQiiwCspV7XSON53nQ4UY+T1BhXjYvIlbV+bNPSHd5oI63eh5srQjzuaa7RH0Ap4YRViFHhjYyTvM+Qqr6yQIWWJ+zKzu6XYOb8nvwOvmcR4epWrIogtTqu4nEgl4GcdpMoYpf3AedKKEmu4qfyIHoSlFZ1WxKvNHFnELS8MkkOEmd+SFSShaOhE0nK1077xgl9Sa8Opeht8DUC+xVHGXYUsZYbTpQAlExAk6oNGO9bJsKHvUKGy4KJQY/MbN9xp7qjTijSfQyFzw8TBhxR7j06XVNAGJQkoSfbV1w/t7X519Mb4jOyH2ASgtnNttXrmyeHle9yd3Ud6wJ6N0vJEkkV0AfPEZKpg+Tp+v2YBzeQzwTw2fb6U3d5XyS61QNXZNG8Qle/G16C6Er30ZvSt8nvipVUZGIyBKfC8zW96QghaG2el5Ynnv+EnLgS7q3cuuracWDov1IWNNswW8ZBZDOcO9YRzkcjLGTw1eHujLT6lSBJZW+L6OT1axMU6NWekr3Rl3hfyWh0r1Z0uJq8v3yT/BPNnwKDSGagODkmL6kEDY/JYG59Nz7amyrk7eI9lmT7CbFO9rupsTKKHkzI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR02MB7384.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(346002)(366004)(396003)(136003)(39860400002)(376002)(451199015)(6512007)(53546011)(26005)(6666004)(186003)(6506007)(2906002)(478600001)(33964004)(6486002)(31686004)(66946007)(66476007)(66556008)(2616005)(4326008)(8676002)(41300700001)(316002)(83380400001)(5660300002)(38100700002)(6916009)(8936002)(36756003)(86362001)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WHpHeXk0ZURFdFUyd3cvbkRXSk1mVEdVdFpvdHdLMTh6MmZEVWR2RHEwRml4?=
- =?utf-8?B?N1dnVThCUWwyK2YxZSs1Zzgxbnd2TDFoc0pzNjJQWEdDRUxnbTJxMmdTQ1NE?=
- =?utf-8?B?cmpxM2FPZmwvYlpwdlFudmQ4cXdINkFXanBvd3ZNS1RmU0FCK1BiMzVhRVpz?=
- =?utf-8?B?VmNONStyVTJJSGJjdThobEdPYkpCa3BSeHZFQ3U1R1hOUmcvK25WeFBZV1lH?=
- =?utf-8?B?RmJoRXVlL1RvdEJQeWFES0lYWWF6d0lUb29lSk1QaGJwdHIrZDBVNWJnMHh4?=
- =?utf-8?B?RU1yTWp6cUFsSzFDTExvejZ6emhaYUlxT0ZidEQzUkxWNEgrbWlZZFJqa25j?=
- =?utf-8?B?RDBxVEVRSVBlODBJTmJCd1Z1ZlVWQlIxeklFL0c2S3ZzdjVST1hHTnUzOWRu?=
- =?utf-8?B?cFo3V1A2VkZwMUZwa20zTGtGckZEM2N5Slc0WVVzZGdNOEJONy9CQ01VZVNV?=
- =?utf-8?B?cllrOWdkWGdQWnJZNnF3TE5yTzhIb01aZ0pyakhXMUNuMDR1ZHBYUUNrcjZu?=
- =?utf-8?B?WWRkaUVZU1c3ajRqVzR2SHJMYldPeW83Q2c5UUIyQVJ4TVM5NVlBU083cGp6?=
- =?utf-8?B?MW1qUjN0c0hyVjBhN3c3VXJ0Rjk4cm1FdWpLVzg1aTZpVFl0L3l6UVRPTjU5?=
- =?utf-8?B?NmszbGUvNXRYWTlwMFJveVhNR0JEb3RpZ0dBTFVLMklRSkZ5Qk94czdQaHNu?=
- =?utf-8?B?MERUY0dpOEhUMXc0b1owYXErZkNLb3FqL3Y3M3lMU3FtNTVCWFQ4UGdXa1Ar?=
- =?utf-8?B?L3Z1QjVlcmtWbWhwMnp5RnE1VkE2UHVXSGp5U01xbkVKU0h2ZFpGbmRvanhi?=
- =?utf-8?B?azVuYm9vTG4yemJNSVRweFp2Vm4vbVgwdm9aemllKzhxcENoRFFWNVNoYlM2?=
- =?utf-8?B?ZlpwQUtFNHUwczlEU3Z3NTM0RnRxSzJGQTF6TnJjQU5tdzdNQVVxU2VZSnlq?=
- =?utf-8?B?YmZYRzVQUGszTnRDWFN1UXJJSllTSTJ4cEJIbVc0N2E1aitCbGpjaU1MRytt?=
- =?utf-8?B?VTY4T3V1WjdJbU9iZUQycVpSTG5Gdzdjc01idG95VU5LUEpNTmFXdW5RVXpY?=
- =?utf-8?B?aUdUUFRGQytQNUtiSnJKK2pydlMxTXFjNkozQUErVytBM0R2Qld3ZlNvcUht?=
- =?utf-8?B?d25STE43dmdha1NrUDVwZ3JGamJWVTFENVcwRGEzMjlLaW9NSllFSHhjemxt?=
- =?utf-8?B?NFZnWG83ZWxsUmxaVTA3QzBYTEtZQzRvUVFTbnkrV0ZrRnpVRThWVlJnOWh5?=
- =?utf-8?B?aisvWkRmbWk0ZS9zTHI2NjFvNDF6THNnQkVTOEpTR3NjUjR1S3RMMnR5TXBw?=
- =?utf-8?B?QzZwMTJWZmtXQ2Q4bk10ajl5THpydnkvT1Z5L3NsQ0xDeWhuRUpRM3UvVXR1?=
- =?utf-8?B?K2hsanRvU0wrQmVZZExOV0FPdXRHMkhCSHhaT2E3NmdxWEhzcDVUWVJOS1pr?=
- =?utf-8?B?ZGFLdUMyYkZjTHk1c0ZtWmdFN01rQ3IvUzREdlZ1RkV1bUZHdWVKYnVmVkpy?=
- =?utf-8?B?NWFHWVRnc003amQvcW1Md2lHRlBYd3g2Z1R2Ujk3WGJyekJxeHkxdDZPTXhC?=
- =?utf-8?B?eC9IbVJYK25kWWpocnYrY3JCaldDdzJNOUorMW5LdVBUbHg3RGtaQkFXK251?=
- =?utf-8?B?cEo3WjVnZVJzTmMwY05qWnhxbUdUK2hSYTNzZVJaQTl5NVBVV1pCZVRSa2Fp?=
- =?utf-8?B?Z1dTQmJFLzdKRnZGb1JQUU9UcWpxcGNxT2NrbExQYVdBNkYvdXdXMUw3TjBu?=
- =?utf-8?B?NlI4MTdIZUR1STJ0dUJvV3dOejJlWjVoYzZGTVMyOHFMQnRPTWVOT256bjhs?=
- =?utf-8?B?eURtV2VXNW9zMUd0RDRIc3Rzb1Z3cGJpcURKWGZCNWFNbThudy9JS0FhV2ZF?=
- =?utf-8?B?Mkd2ZmdJNWJNNm5LQ1g4MmZnSXowMWdBbDM3T1FPekhkSlg3K2lWa294TTZD?=
- =?utf-8?B?TUZPMVVkMUNxWjNCTkplb09YNEVTQ3k2TXJvcDRtZ0YwdGY0UldoeE5ZL3By?=
- =?utf-8?B?cVEwYUUyMGRSYXBMUGZyYXp4dUlmSXoraWozME84Vm5Hb2FjbDN1N2dzUExr?=
- =?utf-8?B?M0lEMEhpN0pxQWRLcDdNdUcxV05PL1lhWEJQN1J5Sk4rbDlOenVwSUp6QWZL?=
- =?utf-8?B?akk3VGY3d1ZpMG16ZmduSWJSclZGbU0xdS9DOGlnUkRJQ3JYSmtWa3FsS0J5?=
- =?utf-8?B?c2c9PQ==?=
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f0f4776-249b-40a6-a830-08daee41c172
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR02MB7384.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2023 10:52:21.5585 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cIk4VQTKZxQcMWvH5iZE+gZ0/Xa9pHz6m7vNl++q7NF2Avb2ja/krIk8ieslg/CbS0H8GPZkV7FXX+aDNbd11JEOdPGRMvh0wXiqvL5Zt/U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR02MB7958
-X-Proofpoint-GUID: gpW1yB1JXHcu0Xq336n2bXBLH2DGbUhr
-X-Proofpoint-ORIG-GUID: gpW1yB1JXHcu0Xq336n2bXBLH2DGbUhr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-04_06,2023-01-04_01,2022-06-22_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=manish.mishra@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221230121235.1282915-51-dwmw2@infradead.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, NICE_REPLY_A=-3.103, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -167,193 +108,511 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---------------W9kY5vjy1hgnqT9kl55QfaMG
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+* David Woodhouse (dwmw2@infradead.org) wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> The provides the QEMU side of interdomain event channels, allowing events
+> to be sent to/from the guest.
+> 
+> The API mirrors libxenevtchn, and in time both this and the real Xen one
+> will be available through ops structures so that the PV backend drivers
+> can use the correct one as appropriate.
+> 
+> For now, this implementation can be used directly by our XenStore which
+> will be for emulated mode only.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>  hw/i386/kvm/xen_evtchn.c | 342 +++++++++++++++++++++++++++++++++++++--
+>  hw/i386/kvm/xen_evtchn.h |  20 +++
+>  2 files changed, 353 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
+> index 34c5199421..c0f6ef9dff 100644
+> --- a/hw/i386/kvm/xen_evtchn.c
+> +++ b/hw/i386/kvm/xen_evtchn.c
+> @@ -35,6 +35,7 @@
+>  #include "sysemu/kvm.h"
+>  #include "sysemu/kvm_xen.h"
+>  #include <linux/kvm.h>
+> +#include <sys/eventfd.h>
+>  
+>  #include "standard-headers/xen/memory.h"
+>  #include "standard-headers/xen/hvm/params.h"
+> @@ -85,6 +86,13 @@ struct compat_shared_info {
+>  
+>  #define COMPAT_EVTCHN_2L_NR_CHANNELS            1024
+>  
+> +/* Local private implementation of struct xenevtchn_handle */
+> +struct xenevtchn_handle {
+> +    evtchn_port_t be_port;
+> +    evtchn_port_t guest_port; /* Or zero for unbound */
+> +    int fd;
+> +};
+> +
+>  /*
+>   * For unbound/interdomain ports there are only two possible remote
+>   * domains; self and QEMU. Use a single high bit in type_val for that,
+> @@ -93,8 +101,6 @@ struct compat_shared_info {
+>  #define PORT_INFO_TYPEVAL_REMOTE_QEMU           0x8000
+>  #define PORT_INFO_TYPEVAL_REMOTE_PORT_MASK      0x7FFF
+>  
+> -#define DOMID_QEMU      0
+> -
+>  struct XenEvtchnState {
+>      /*< private >*/
+>      SysBusDevice busdev;
+> @@ -108,6 +114,8 @@ struct XenEvtchnState {
+>      uint32_t nr_ports;
+>      XenEvtchnPort port_table[EVTCHN_2L_NR_CHANNELS];
+>      qemu_irq gsis[GSI_NUM_PINS];
+> +
+> +    struct xenevtchn_handle *be_handles[EVTCHN_2L_NR_CHANNELS];
+>  };
+>  
+>  struct XenEvtchnState *xen_evtchn_singleton;
+> @@ -115,6 +123,18 @@ struct XenEvtchnState *xen_evtchn_singleton;
+>  /* Top bits of callback_param are the type (HVM_PARAM_CALLBACK_TYPE_xxx) */
+>  #define CALLBACK_VIA_TYPE_SHIFT 56
+>  
+> +static void unbind_backend_ports(XenEvtchnState *s);
+> +
+> +static int xen_evtchn_pre_load(void *opaque)
+> +{
+> +    XenEvtchnState *s = opaque;
+> +
+> +    /* Unbind all the backend-side ports; they need to rebind */
+> +    unbind_backend_ports(s);
+> +
+> +    return 0;
+> +}
+> +
+>  static int xen_evtchn_post_load(void *opaque, int version_id)
+>  {
+>      XenEvtchnState *s = opaque;
+> @@ -148,6 +168,7 @@ static const VMStateDescription xen_evtchn_vmstate = {
+>      .version_id = 1,
+>      .minimum_version_id = 1,
+>      .needed = xen_evtchn_is_needed,
+> +    .pre_load = xen_evtchn_pre_load,
+>      .post_load = xen_evtchn_post_load,
+>      .fields = (VMStateField[]) {
+>          VMSTATE_UINT64(callback_param, XenEvtchnState),
+> @@ -362,6 +383,20 @@ static int assign_kernel_port(uint16_t type, evtchn_port_t port,
+>      return kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &ha);
+>  }
+>  
+> +static int assign_kernel_eventfd(uint16_t type, evtchn_port_t port, int fd)
+> +{
+> +    struct kvm_xen_hvm_attr ha;
+> +
+> +    ha.type = KVM_XEN_ATTR_TYPE_EVTCHN;
+> +    ha.u.evtchn.send_port = port;
+> +    ha.u.evtchn.type = type;
+> +    ha.u.evtchn.flags = 0;
+> +    ha.u.evtchn.deliver.eventfd.port = 0;
+> +    ha.u.evtchn.deliver.eventfd.fd = fd;
+> +
+> +    return kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &ha);
+> +}
+> +
+>  static bool valid_port(evtchn_port_t port)
+>  {
+>      if (!port) {
+> @@ -380,6 +415,32 @@ static bool valid_vcpu(uint32_t vcpu)
+>      return !!qemu_get_cpu(vcpu);
+>  }
+>  
+> +static void unbind_backend_ports(XenEvtchnState *s)
+> +{
+> +    XenEvtchnPort *p;
+> +    int i;
+> +
+> +    for (i = 1; i <= s->nr_ports; i++) {
+> +        p = &s->port_table[i];
+> +        if (p->type == EVTCHNSTAT_interdomain &&
+> +            (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) ) {
+> +            evtchn_port_t be_port = p->type_val & PORT_INFO_TYPEVAL_REMOTE_PORT_MASK;
+> +
+> +            if (s->be_handles[be_port]) {
+> +                /* This part will be overwritten on the load anyway. */
+> +                p->type = EVTCHNSTAT_unbound;
+> +                p->type_val = PORT_INFO_TYPEVAL_REMOTE_QEMU;
+> +
+> +                /* Leave the backend port open and unbound too. */
+> +                if (kvm_xen_has_cap(EVTCHN_SEND)) {
+> +                    deassign_kernel_port(i);
+> +                }
+> +                s->be_handles[be_port]->guest_port = 0;
+> +            }
+> +        }
+> +    }
+> +}
+> +
+>  int xen_evtchn_status_op(struct evtchn_status *status)
+>  {
+>      XenEvtchnState *s = xen_evtchn_singleton;
+> @@ -815,7 +876,14 @@ static int close_port(XenEvtchnState *s, evtchn_port_t port)
+>  
+>      case EVTCHNSTAT_interdomain:
+>          if (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) {
+> -            /* Not yet implemented. This can't happen! */
+> +            uint16_t be_port = p->type_val & ~PORT_INFO_TYPEVAL_REMOTE_QEMU;
+> +            struct xenevtchn_handle *xc = s->be_handles[be_port];
+> +            if (xc) {
+> +                if (kvm_xen_has_cap(EVTCHN_SEND)) {
+> +                    deassign_kernel_port(port);
+> +                }
+> +                xc->guest_port = 0;
+> +            }
+>          } else {
+>              /* Loopback interdomain */
+>              XenEvtchnPort *rp = &s->port_table[p->type_val];
+> @@ -1047,8 +1115,27 @@ int xen_evtchn_bind_interdomain_op(struct evtchn_bind_interdomain *interdomain)
+>      }
+>  
+>      if (interdomain->remote_dom == DOMID_QEMU) {
+> -        /* We haven't hooked up QEMU's PV drivers to this yet */
+> -        ret = -ENOSYS;
+> +        struct xenevtchn_handle *xc = s->be_handles[interdomain->remote_port];
+> +        XenEvtchnPort *lp = &s->port_table[interdomain->local_port];
+> +
+> +        if (!xc) {
+> +            ret = -ENOENT;
+> +            goto out_free_port;
+> +        }
+> +
+> +        if (xc->guest_port) {
+> +            ret = -EBUSY;
+> +            goto out_free_port;
+> +        }
+> +
+> +        assert(xc->be_port == interdomain->remote_port);
+> +        xc->guest_port = interdomain->local_port;
+> +        if (kvm_xen_has_cap(EVTCHN_SEND)) {
+> +            assign_kernel_eventfd(lp->type, xc->guest_port, xc->fd);
+> +        }
+> +        lp->type = EVTCHNSTAT_interdomain;
+> +        lp->type_val = PORT_INFO_TYPEVAL_REMOTE_QEMU | interdomain->remote_port;
+> +        ret = 0;
+>      } else {
+>          /* Loopback */
+>          XenEvtchnPort *rp = &s->port_table[interdomain->remote_port];
+> @@ -1066,6 +1153,7 @@ int xen_evtchn_bind_interdomain_op(struct evtchn_bind_interdomain *interdomain)
+>          }
+>      }
+>  
+> + out_free_port:
+>      if (ret) {
+>          free_port(s, interdomain->local_port);
+>      }
+> @@ -1130,11 +1218,16 @@ int xen_evtchn_send_op(struct evtchn_send *send)
+>          if (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) {
+>              /*
+>               * This is an event from the guest to qemu itself, which is
+> -             * serving as the driver domain. Not yet implemented; it will
+> -             * be hooked up to the qemu implementation of xenstore,
+> -             * console, PV net/block drivers etc.
+> +             * serving as the driver domain.
+>               */
+> -            ret = -ENOSYS;
+> +            uint16_t be_port = p->type_val & ~PORT_INFO_TYPEVAL_REMOTE_QEMU;
+> +            struct xenevtchn_handle *xc = s->be_handles[be_port];
+> +            if (xc) {
+> +                eventfd_write(xc->fd, 1);
+> +                ret = 0;
+> +            } else {
+> +                ret = -ENOENT;
+> +            }
+>          } else {
+>              /* Loopback interdomain ports; just a complex IPI */
+>              set_port_pending(s, p->type_val);
+> @@ -1190,6 +1283,237 @@ int xen_evtchn_set_port(uint16_t port)
+>      return ret;
+>  }
+>  
+> +struct xenevtchn_handle *xen_be_evtchn_open(void *logger, unsigned int flags)
+> +{
+> +    struct xenevtchn_handle *xc = g_new0(struct xenevtchn_handle, 1);
+> +
+> +    xc->fd = eventfd(0, EFD_CLOEXEC);
+> +    if (xc->fd < 0) {
+> +        free(xc);
+> +        return NULL;
+> +    }
+> +
+> +    return xc;
+> +}
+> +
+> +static int find_be_port(XenEvtchnState *s, struct xenevtchn_handle *xc)
+> +{
+> +    int i;
+> +
+> +    for (i = 25; valid_port(i); i++) {
 
-Hi Everyone,
+Magic 25 number ?
 
-I was just checking if it was not missed in holidays and was received. :)
+Dave
 
-Thanks
+> +        if (!s->be_handles[i]) {
+> +            s->be_handles[i] = xc;
+> +            xc->be_port = i;
+> +            return i;
+> +        }
+> +    }
+> +    return 0;
+> +}
+> +
+> +int xen_be_evtchn_bind_interdomain(struct xenevtchn_handle *xc, uint32_t domid,
+> +                                   evtchn_port_t guest_port)
+> +{
+> +    XenEvtchnState *s = xen_evtchn_singleton;
+> +    XenEvtchnPort *gp;
+> +    uint16_t be_port = 0;
+> +    int ret;
+> +
+> +    if (!s) {
+> +        return -ENOTSUP;
+> +    }
+> +
+> +    if (!xc) {
+> +        return -EFAULT;
+> +    }
+> +
+> +    if (domid != xen_domid) {
+> +        return -ESRCH;
+> +    }
+> +
+> +    if (!valid_port(guest_port)) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    qemu_mutex_lock(&s->port_lock);
+> +
+> +    /* The guest has to have an unbound port waiting for us to bind */
+> +    gp = &s->port_table[guest_port];
+> +
+> +    switch (gp->type) {
+> +    case EVTCHNSTAT_interdomain:
+> +        /* Allow rebinding after migration, preserve port # if possible */
+> +        be_port = gp->type_val & ~PORT_INFO_TYPEVAL_REMOTE_QEMU;
+> +        assert(be_port != 0);
+> +        if (!s->be_handles[be_port]) {
+> +            s->be_handles[be_port] = xc;
+> +            xc->guest_port = guest_port;
+> +            ret = xc->be_port = be_port;
+> +            if (kvm_xen_has_cap(EVTCHN_SEND)) {
+> +                assign_kernel_eventfd(gp->type, guest_port, xc->fd);
+> +            }
+> +            break;
+> +        }
+> +        /* fall through */
+> +
+> +    case EVTCHNSTAT_unbound:
+> +        be_port = find_be_port(s, xc);
+> +        if (!be_port) {
+> +            ret = -ENOSPC;
+> +            goto out;
+> +        }
+> +
+> +        gp->type = EVTCHNSTAT_interdomain;
+> +        gp->type_val = be_port | PORT_INFO_TYPEVAL_REMOTE_QEMU;
+> +        xc->guest_port = guest_port;
+> +        if (kvm_xen_has_cap(EVTCHN_SEND)) {
+> +            assign_kernel_eventfd(gp->type, guest_port, xc->fd);
+> +        }
+> +        ret = be_port;
+> +        break;
+> +
+> +    default:
+> +        ret = -EINVAL;
+> +        break;
+> +    }
+> +
+> + out:
+> +    qemu_mutex_unlock(&s->port_lock);
+> +
+> +    return ret;
+> +}
+> +
+> +int xen_be_evtchn_unbind(struct xenevtchn_handle *xc, evtchn_port_t port)
+> +{
+> +    XenEvtchnState *s = xen_evtchn_singleton;
+> +    int ret;
+> +
+> +    if (!s) {
+> +        return -ENOTSUP;
+> +    }
+> +
+> +    if (!xc) {
+> +        return -EFAULT;
+> +    }
+> +
+> +    qemu_mutex_lock(&s->port_lock);
+> +
+> +    if (port && port != xc->be_port) {
+> +        ret = -EINVAL;
+> +        goto out;
+> +    }
+> +
+> +    if (xc->guest_port) {
+> +        XenEvtchnPort *gp = &s->port_table[xc->guest_port];
+> +
+> +        /* This should never *not* be true */
+> +        if (gp->type == EVTCHNSTAT_interdomain) {
+> +            gp->type = EVTCHNSTAT_unbound;
+> +            gp->type_val = PORT_INFO_TYPEVAL_REMOTE_QEMU;
+> +        }
+> +
+> +        if (kvm_xen_has_cap(EVTCHN_SEND)) {
+> +            deassign_kernel_port(xc->guest_port);
+> +        }
+> +        xc->guest_port = 0;
+> +    }
+> +
+> +    s->be_handles[xc->be_port] = NULL;
+> +    xc->be_port = 0;
+> +    ret = 0;
+> + out:
+> +    qemu_mutex_unlock(&s->port_lock);
+> +    return ret;
+> +}
+> +
+> +int xen_be_evtchn_close(struct xenevtchn_handle *xc)
+> +{
+> +    if (!xc) {
+> +        return -EFAULT;
+> +    }
+> +
+> +    xen_be_evtchn_unbind(xc, 0);
+> +
+> +    close(xc->fd);
+> +    free(xc);
+> +    return 0;
+> +}
+> +
+> +int xen_be_evtchn_fd(struct xenevtchn_handle *xc)
+> +{
+> +    if (!xc) {
+> +        return -1;
+> +    }
+> +    return xc->fd;
+> +}
+> +
+> +int xen_be_evtchn_notify(struct xenevtchn_handle *xc, evtchn_port_t port)
+> +{
+> +    XenEvtchnState *s = xen_evtchn_singleton;
+> +    int ret;
+> +
+> +    if (!s) {
+> +        return -ENOTSUP;
+> +    }
+> +
+> +    if (!xc) {
+> +        return -EFAULT;
+> +    }
+> +
+> +    qemu_mutex_lock(&s->port_lock);
+> +
+> +    if (xc->guest_port) {
+> +        set_port_pending(s, xc->guest_port);
+> +        ret = 0;
+> +    } else {
+> +        ret = -ENOTCONN;
+> +    }
+> +
+> +    qemu_mutex_unlock(&s->port_lock);
+> +
+> +    return ret;
+> +}
+> +
+> +int xen_be_evtchn_pending(struct xenevtchn_handle *xc)
+> +{
+> +    uint64_t val;
+> +
+> +    if (!xc) {
+> +        return -EFAULT;
+> +    }
+> +
+> +    if (!xc->be_port) {
+> +        return 0;
+> +    }
+> +
+> +    if (eventfd_read(xc->fd, &val)) {
+> +        return -errno;
+> +    }
+> +
+> +    return val ? xc->be_port : 0;
+> +}
+> +
+> +int xen_be_evtchn_unmask(struct xenevtchn_handle *xc, evtchn_port_t port)
+> +{
+> +    if (!xc) {
+> +        return -EFAULT;
+> +    }
+> +
+> +    if (xc->be_port != port) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    /*
+> +     * We don't actually do anything to unmask it; the event was already
+> +     * consumed in xen_be_evtchn_pending().
+> +     */
+> +    return 0;
+> +}
+> +
+> +int xen_be_evtchn_get_guest_port(struct xenevtchn_handle *xc)
+> +{
+> +    return xc->guest_port;
+> +}
+> +
+>  static const char *type_names[] = {
+>      "closed",
+>      "unbound",
+> diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
+> index eb6ba16f72..029496eaa9 100644
+> --- a/hw/i386/kvm/xen_evtchn.h
+> +++ b/hw/i386/kvm/xen_evtchn.h
+> @@ -14,6 +14,9 @@
+>  
+>  #include "hw/sysbus.h"
+>  
+> +typedef uint32_t evtchn_port_t;
+> +#define DOMID_QEMU      0
+> +
+>  void xen_evtchn_create(void);
+>  int xen_evtchn_soft_reset(void);
+>  int xen_evtchn_set_callback_param(uint64_t param);
+> @@ -22,6 +25,23 @@ void xen_evtchn_set_callback_level(int level);
+>  
+>  int xen_evtchn_set_port(uint16_t port);
+>  
+> +/*
+> + * These functions mirror the libxenevtchn library API, providing the QEMU
+> + * backend side of "interdomain" event channels.
+> + */
+> +struct xenevtchn_handle;
+> +struct xenevtchn_handle *xen_be_evtchn_open(void *logger, unsigned int flags);
+> +int xen_be_evtchn_bind_interdomain(struct xenevtchn_handle *xc, uint32_t domid,
+> +                                   evtchn_port_t guest_port);
+> +int xen_be_evtchn_unbind(struct xenevtchn_handle *xc, evtchn_port_t port);
+> +int xen_be_evtchn_close(struct xenevtchn_handle *xc);
+> +int xen_be_evtchn_fd(struct xenevtchn_handle *xc);
+> +int xen_be_evtchn_notify(struct xenevtchn_handle *xc, evtchn_port_t port);
+> +int xen_be_evtchn_unmask(struct xenevtchn_handle *xc, evtchn_port_t port);
+> +int xen_be_evtchn_pending(struct xenevtchn_handle *xc);
+> +/* Apart from this which is a local addition */
+> +int xen_be_evtchn_get_guest_port(struct xenevtchn_handle *xc);
+> +
+>  void hmp_xen_event_list(Monitor *mon, const QDict *qdict);
+>  void hmp_xen_event_inject(Monitor *mon, const QDict *qdict);
+>  
+> -- 
+> 2.35.3
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Manish Mishra
-
-On 21/12/22 12:14 am, manish.mishra wrote:
-> Current logic assumes that channel connections on the destination side are
-> always established in the same order as the source and the first one will
-> always be the main channel followed by the multifid or post-copy
-> preemption channel. This may not be always true, as even if a channel has a
-> connection established on the source side it can be in the pending state on
-> the destination side and a newer connection can be established first.
-> Basically causing out of order mapping of channels on the destination side.
-> Currently, all channels except post-copy preempt send a magic number, this
-> patch uses that magic number to decide the type of channel. This logic is
-> applicable only for precopy(multifd) live migration, as mentioned, the
-> post-copy preempt channel does not send any magic number. Also, tls live
-> migrations already does tls handshake before creating other channels, so
-> this issue is not possible with tls, hence this logic is avoided for tls
-> live migrations. This patch uses MSG_PEEK to check the magic number of
-> channels so that current data/control stream management remains
-> un-effected.
->
-> v2:
->    TLS does not support MSG_PEEK, so V1 was broken for tls live
->    migrations. For tls live migration, while initializing main channel
->    tls handshake is done before we can create other channels, so this
->    issue is not possible for tls live migrations. In V2 added a check
->    to avoid checking magic number for tls live migration and fallback
->    to older method to decide mapping of channels on destination side.
->
-> v3:
->    1. Split change in two patches, io patch for read_peek routines,
->       migration patch for migration related changes.
->    2. Add flags to io_readv calls to get extra read flags like
->       MSG_PEEK.
->    3. Some other minor fixes.
->
-> v4:
->    1. Removed common *all_eof routines for read peek and added one
->       specific to live migration.
->    2. Updated to use qemu_co_sleep_ns instead of qio_channel_yield.
->    3. Some other minor fixes.
->
-> v5:
->    1. Handle busy-wait in migration_channel_read_peek due partial reads.
->
-> v6:
->    With earlier patch, multifd_load_setup was done only in
->    migration_incoming_setup but if multifd channel is received before
->    default channel, multifd channels will be uninitialized. Moved
->    multifd_load_setup to migration_ioc_process_incoming.
->    
->
-> manish.mishra (2):
->    io: Add support for MSG_PEEK for socket channel
->    migration: check magic value for deciding the mapping of channels
->
->   chardev/char-socket.c               |  4 +--
->   include/io/channel.h                |  6 ++++
->   io/channel-buffer.c                 |  1 +
->   io/channel-command.c                |  1 +
->   io/channel-file.c                   |  1 +
->   io/channel-null.c                   |  1 +
->   io/channel-socket.c                 | 17 ++++++++-
->   io/channel-tls.c                    |  1 +
->   io/channel-websock.c                |  1 +
->   io/channel.c                        | 16 ++++++---
->   migration/channel-block.c           |  1 +
->   migration/channel.c                 | 45 ++++++++++++++++++++++++
->   migration/channel.h                 |  5 +++
->   migration/migration.c               | 54 ++++++++++++++++++++---------
->   migration/multifd.c                 | 19 +++++-----
->   migration/multifd.h                 |  2 +-
->   migration/postcopy-ram.c            |  5 +--
->   migration/postcopy-ram.h            |  2 +-
->   scsi/qemu-pr-helper.c               |  2 +-
->   tests/qtest/tpm-emu.c               |  2 +-
->   tests/unit/test-io-channel-socket.c |  1 +
->   util/vhost-user-server.c            |  2 +-
->   22 files changed, 148 insertions(+), 41 deletions(-)
->
---------------W9kY5vjy1hgnqT9kl55QfaMG
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><font size="2">Hi Everyone,</font></p>
-    <p><font size="2">I was just checking if it was not missed in
-        holidays and was received. :)</font></p>
-    <p><font size="2">Thanks</font></p>
-    <p><font size="2">Manish Mishra</font><br>
-    </p>
-    <div class="moz-cite-prefix">On 21/12/22 12:14 am, manish.mishra
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20221220184418.228834-1-manish.mishra@nutanix.com">
-      <pre class="moz-quote-pre" wrap="">Current logic assumes that channel connections on the destination side are
-always established in the same order as the source and the first one will
-always be the main channel followed by the multifid or post-copy
-preemption channel. This may not be always true, as even if a channel has a
-connection established on the source side it can be in the pending state on
-the destination side and a newer connection can be established first.
-Basically causing out of order mapping of channels on the destination side.
-Currently, all channels except post-copy preempt send a magic number, this
-patch uses that magic number to decide the type of channel. This logic is
-applicable only for precopy(multifd) live migration, as mentioned, the
-post-copy preempt channel does not send any magic number. Also, tls live
-migrations already does tls handshake before creating other channels, so
-this issue is not possible with tls, hence this logic is avoided for tls
-live migrations. This patch uses MSG_PEEK to check the magic number of
-channels so that current data/control stream management remains
-un-effected.
-
-v2:
-  TLS does not support MSG_PEEK, so V1 was broken for tls live
-  migrations. For tls live migration, while initializing main channel
-  tls handshake is done before we can create other channels, so this
-  issue is not possible for tls live migrations. In V2 added a check
-  to avoid checking magic number for tls live migration and fallback
-  to older method to decide mapping of channels on destination side.
-
-v3:
-  1. Split change in two patches, io patch for read_peek routines,
-     migration patch for migration related changes.
-  2. Add flags to io_readv calls to get extra read flags like
-     MSG_PEEK.
-  3. Some other minor fixes.
-
-v4:
-  1. Removed common *all_eof routines for read peek and added one
-     specific to live migration.
-  2. Updated to use qemu_co_sleep_ns instead of qio_channel_yield.
-  3. Some other minor fixes.
-
-v5:
-  1. Handle busy-wait in migration_channel_read_peek due partial reads.
-
-v6:
-  With earlier patch, multifd_load_setup was done only in
-  migration_incoming_setup but if multifd channel is received before
-  default channel, multifd channels will be uninitialized. Moved
-  multifd_load_setup to migration_ioc_process_incoming.
-  
-
-manish.mishra (2):
-  io: Add support for MSG_PEEK for socket channel
-  migration: check magic value for deciding the mapping of channels
-
- chardev/char-socket.c               |  4 +--
- include/io/channel.h                |  6 ++++
- io/channel-buffer.c                 |  1 +
- io/channel-command.c                |  1 +
- io/channel-file.c                   |  1 +
- io/channel-null.c                   |  1 +
- io/channel-socket.c                 | 17 ++++++++-
- io/channel-tls.c                    |  1 +
- io/channel-websock.c                |  1 +
- io/channel.c                        | 16 ++++++---
- migration/channel-block.c           |  1 +
- migration/channel.c                 | 45 ++++++++++++++++++++++++
- migration/channel.h                 |  5 +++
- migration/migration.c               | 54 ++++++++++++++++++++---------
- migration/multifd.c                 | 19 +++++-----
- migration/multifd.h                 |  2 +-
- migration/postcopy-ram.c            |  5 +--
- migration/postcopy-ram.h            |  2 +-
- scsi/qemu-pr-helper.c               |  2 +-
- tests/qtest/tpm-emu.c               |  2 +-
- tests/unit/test-io-channel-socket.c |  1 +
- util/vhost-user-server.c            |  2 +-
- 22 files changed, 148 insertions(+), 41 deletions(-)
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------W9kY5vjy1hgnqT9kl55QfaMG--
 
