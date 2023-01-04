@@ -2,91 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5869965DA00
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 17:37:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E4365DA60
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 17:44:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD6kJ-0002jh-30; Wed, 04 Jan 2023 11:36:07 -0500
+	id 1pD6r3-0004Fu-Hf; Wed, 04 Jan 2023 11:43:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD6kH-0002jZ-4r
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:36:05 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pD6r0-0004Fd-GV
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:43:02 -0500
+Received: from sonic309-21.consmr.mail.gq1.yahoo.com ([98.137.65.147])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD6kD-0005gZ-7P
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:36:04 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id co23so33612100wrb.4
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 08:36:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/Mwf3YVKAgwHjRKpwnn7iEsk1Ot4UqkQGY5SR/zbW/g=;
- b=YGorOoiqlY2AsinGjhgtea6RLigc7AEKOTjfNFsPYad8LVJlkmHrJnt3H/Rk44aInP
- Mnr20YHgFefqzpN0rU5yAyQarWx9ZuyK+xvp2Kd3XdkfaP/Km/TwjLsVmxRR1+vVJ8QF
- luXRQ+fkTX6SVcjrZL+OjDy64sOCthwhOqUTHKTi6apaM3Aai5DxadV1S8kWCOWhSxAM
- F6EAjOyvG+aeK4vRGJBsgpMuYdYZxIiTZ3hqgIcorPP1jasfOZ++zMYgOmL9ghsp3P1H
- odtYoaRBkYU6Ho5f72nGhUWW0Znqm8pE+YfNHS+yBC+JLOAWnBnPA6F4Z2GmPukOKIYA
- dWTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/Mwf3YVKAgwHjRKpwnn7iEsk1Ot4UqkQGY5SR/zbW/g=;
- b=ewC89jmx758woPuG33j+hy0rdPx3R1KcVtx5LyUkG98lJOTBP+D71hgQebsadSGRAb
- 21FKNGNV4CPR/SEfO6msey4qtNIHTiulJkOSDaUDvVnWvLZEHCLxpPEDz+GJC+kgYgGj
- q/Yf/lJLjsxJnoJKiYHS2WeyyVDHTpGvUvQzGP8TmxWl5o+brU6e6brfuBuTLAq6mcSa
- SpA0thuE8d6kYahJAn0xHeY2ieLOUTMJ8xOFP7T59RI5O9y7+K7JPjF6PoXCrj4084F7
- tPlxMhxRgtmMz4Q1cTTWF14TOI/iYFpwFRYwmtlcYPHdwPwEf7PaNkCaL5muT7cuMiS7
- v6ow==
-X-Gm-Message-State: AFqh2kpu55xFadSYWnYUCpd96HZpsNMN/XCJjkskZyHYlGqH5iR/seMz
- L4a6p3yPJC993hI4JvpKOMsCNQ==
-X-Google-Smtp-Source: AMrXdXuinNhYrnkFou3ez0n4HGDEeDSN6mO74ThiyrgpYF6BXhrO91RkIWdyZmJmOz6VIN0PHWfMBw==
-X-Received: by 2002:adf:cc8f:0:b0:242:14bb:439d with SMTP id
- p15-20020adfcc8f000000b0024214bb439dmr31522673wrj.43.1672850159539; 
- Wed, 04 Jan 2023 08:35:59 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h6-20020adffa86000000b0024246991121sm35229419wrr.116.2023.01.04.08.35.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 08:35:59 -0800 (PST)
-Message-ID: <b82d440e-94e2-c01d-a09d-ce097b29f4c4@linaro.org>
-Date: Wed, 4 Jan 2023 17:35:57 +0100
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pD6qy-00011A-Np
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:43:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1672850569; bh=gkECN0M7dTCv9hA50jRyxlhxwaSHqhYobw90TKq7mWM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
+ b=h8oY8n4lLbImB1k6gMs4kYXc4cNXruE9QK7kq7ctrtMOTKcGEyQR3UEhj1g9LiQW8G8HQ215zzdM1N3uYxFtojKOPkWG6aoUCpE+ZdjEGE7kD3LqmIDu0NiG5wSqJryzR1V0IWBtCiAjPvlXh/7KFvC0kLfkLQ4hneRcZsgVZz1TSG2/vbRJxSRxO+JMFySsIDZBFnREiFfwaWs+gLyKVPsTb4IqcJHEANa1a8t2MqaCCJ5N0UOPql3J9Anje6DeTiSnmhZw7IFJqURXiwctYcmAlO7SXYWXDweeOSxrFeF1R68P3uB69xG+zHu6uacNG5wEKOJBQSYcZYsvwmnn4w==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1672850569; bh=02o3orJMLFp/E0j67fA2cazTjOZU8h9oAObFnE24cw2=;
+ h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
+ b=lkkqrk2W9BhxIhO66ofRokPWnaWMyJ3Ygie8qiTAKKM7GtnrbV6JtfdjM0+EH8f5ioGJKOiRFZHQ/3U6Id7sI/N/GI9/GnuU716vvxg/eJBkeGc/jlLnOpqH+rXNWi40e95rbxsJI6KS7EFq+mTs3CERXL2kOOca527EXRWVXpL3bszjreGg0tlrCHYkfXeZb7JDQxnpcSPWxb7PEwAtghnbTZWaNius53k009QGyTLPKvnO/PnBtZaeT24SdUz5YGVhHYE1MyLhaAGnb5b63zE/qPI2zKHigsVI6SHkmK/Ozq78LjIIDfKQV8Km0dvyyRSGn+tmqgBIsxU1sBIraQ==
+X-YMail-OSG: vknwtRAVM1l1uz1Q_nHZbH.B8L8gyl.qQ.KBCiCZrU_RCKZy0AnUDBa42P9Tzru
+ iXAXZJghdT5Gr6nTd95_2CNoTsA.SvwRJjoUWPYxjLAM8zoyq0Sftla.zHqD5U3_jIQxpGgWReks
+ m4iCgagvyS96mwvKkE6OoObuSyqoJ9.cbmHGU.IDplR0uX2upFsq0OxzzGF6m9Vlrta_uzNZ6Y32
+ ZSzit1PdsgbIO4mZyf_d18Vwrjb2oHQ.8terXvT8KACy9Sf5sdSlils4Snk8oQIcH4CMy43hUFpB
+ .Gfi3OtGCB4aiik236yGWOgJVNWUeNLvS3BQCjVIdO7SeE4id3cMAqp3z5R84bjUfktHEFjA5Mtj
+ r2YVQGwdllrd2d9CJ_O_KV_Ipanu5viRC4VUl6.8nW.itbEHQn3.5VQuKscFo52kX3D2WjTAxrrz
+ lNhwT1DBHsqRT3oELI23i_G2d5pl7AoBYssEiYeJWBu1.RJ8.cJ1LQtuDE.gRhu6N_nA19bU38PM
+ 8sX5eo8x7PXyPemEtXz1tfrBe1yJxjZqnuTYslLGWNZT1zs42UsQcthR9ZCI6COOJeUhZJUP5PqJ
+ N5nvfZxg4mO4XRzbMI0IxxWP.SyHTwDD3FjmuPAKI2KfUYF8i8wNT0xpzu52fYOF01N771kaG36M
+ lHgXM8WQrNHocPLW.W2dl78JPjtxgOOLeFMu0Xpl3wZ3OfH.itcTiaskB3z7.iKH2sI.uuCm4oxF
+ LCttbeR92n8eF41rLX3jYVGmpdX9V3aZ2wytMm0J2lxM_Vle4sXouGvuVoe1Zf5hNSCogsegN_vj
+ ljmGMXb0V4HHhqAjdYm9tuM5_8P5jgAm1wFOpOIUgu2wHKkVgxIWpGZDLBvJQm6UDNHYeq.u1QiL
+ cquBrZjXaKtM8ws6DjuvTv3mhguu8qXGRC.k7b4vaV_7XfWdMsjGn3PWFRV68gTGAvYKLygWv3Qv
+ 88_vieb4xNpIjUdGjZNs3fUTWNDs90b8ebVChnkhZlTa3.LbOHYupm3BJrPvNN9cTvzu9F.0gKHl
+ v55ufBNyKa47L9NwwdTzOgQIOzF_bG9TCWmJKYJ2QOt5wiwoEeu8APYbbVY5pliyDGipzXRXgPEZ
+ akot0gTNo58w3LHV2IM0ycODKBXCkRSNv1mMoJd1omQITPAGGm5pwxC3OeLal7jEFZV.KiE.4ncz
+ 7ydc1i4rHU.45Ez0sno7tMlJnmtm23n4yWRobmc57yHrKvi8GQi3r7zVXVJ65lchQhygU83s7f17
+ DafsXn608z0Hk0KOC56QGEcysFYRuDMz3Ly7dw99EiOmpmXSUEM.zwJETceKuz89keWBxJgio_Kk
+ V1S_5OYaHq3ckztTMBe_68OfMBQPoafkosXYdVbiwMvrg3sdtwayGCHWr9ZaAjG2HHccypxywy6b
+ OZ4KMMuFUeMa5NN8LZgDvzTPqOy9hVMJBvDPz_knuf1eWyi0hQTjGvjHA.kllO63kCu6g4BZGjEE
+ 82rGQ0tM2lqSSTznD6tf871ijV2mwNijMI_hpAIpylW2KqxZQfP9SwyxBLR1CFa._bpNDHND5u1k
+ oayEKK0sz8blLKg7SJTrQNNN9xL5WW5BUHuc7AU5JBPBzVm5aICylhfgdByJg0shVSK9l40ID_cL
+ AAkOETf4ddNcfhYA4YlfqiDptlRX52tH6EzOTk.F8f1w3WbCkf1EzP_Bm7QTlLXWqTkLspnyzOze
+ AS_vTi6DYOZ_N1csoX._HWEqQMHoQpJCVJY8G4NMm7PwlATHw7CceuwmBweGeHjCpOhrXPH2NIFG
+ B7im88usBn0wHgjb24nZrbCQ0rwJnQ8KZiJGEw6G.YDNn6.sQqPYV37IqFzmu.KTryK8CEWwbYSr
+ XrYFaF6YmyL7u2tnS33ZvPur3CQpqY5_cIxQDVvMlxWJUzfbPJ5E3Y.j_4_pbjbiXQp.7R8geggv
+ IKu9.wyEvLN8R3nK8Vj_s6TW1oF5ZsvpkMtFGyZbiF.RHm9MoE35LeCg1Ju5pSmqv8NenFrd0axY
+ nlwlPXOMzXo2vqBHhyrWhCgEMfqJuAqaiv2O_yQ3q6ADJ6DidlfuKyj.HD9R8vRNzQFk6y5pKab0
+ tQOArth2F3MVhO4HQA7oEWNBrxk7U9OGJT1MdRmFm84Mupmn7Q.OyFyIaY4u4hKAivSpxkKj30WT
+ irJnBuvWUmIz35PJLqwhK4Z5I.P20Ex3zOiFBa6fVC8wxE0q105DsBQxTTj6BTvVshDNKuFSMKcT
+ J3nr7F4iEZpwQNQUsf5JXjHo-
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic309.consmr.mail.gq1.yahoo.com with HTTP; Wed, 4 Jan 2023 16:42:49 +0000
+Received: by hermes--production-ne1-7b69748c4d-bxfkx (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID b97eb870a99459924a5a879746b40ce5; 
+ Wed, 04 Jan 2023 16:42:46 +0000 (UTC)
+Message-ID: <30ed41ab-f7c9-15fb-8f4b-b2742b1d4188@aol.com>
+Date: Wed, 4 Jan 2023 11:42:43 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v4 12/30] hw/core: Introduce proxy-pic
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 6/6] hw/isa/piix: Resolve redundant
+ TYPE_PIIX3_XEN_DEVICE
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
  =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
- John Snow <jsnow@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Mark Burton <mburton@qti.qualcomm.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <20221221170003.2929-1-shentey@gmail.com>
- <20221221170003.2929-13-shentey@gmail.com>
- <3986f4f2-d6bd-9abe-42ef-18311de53bf6@linaro.org>
- <112DBAA3-978C-42C5-B1A5-F614D7A2141B@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <112DBAA3-978C-42C5-B1A5-F614D7A2141B@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+References: <20230104144437.27479-1-shentey@gmail.com>
+ <20230104144437.27479-7-shentey@gmail.com>
+Content-Language: en-US
+From: Chuck Zmudzinski <brchuckz@aol.com>
+In-Reply-To: <20230104144437.27479-7-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Mailer: WebService/1.1.20982
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.65.147; envelope-from=brchuckz@aim.com;
+ helo=sonic309-21.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.708,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -104,132 +112,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/1/23 17:01, Bernhard Beschow wrote:
-> Am 4. Januar 2023 14:37:29 UTC schrieb "Philippe Mathieu-Daudé" <philmd@linaro.org>:
->> On 21/12/22 17:59, Bernhard Beschow wrote:
->>> Having a proxy PIC allows for ISA PICs to be created and wired up in
->>> southbridges. This is especially useful for PIIX3 for two reasons:
->>> First, the southbridge doesn't need to care about the virtualization
->>> technology used (KVM, TCG, Xen) due to in-IRQs (where devices get
->>> attached) and out-IRQs (which will trigger the IRQs of the respective
->>> virtzalization technology) are separated. Second, since the in-IRQs are
-
-Typo "virtualization".
-
->>> populated with fully initialized qemu_irq's, they can already be wired
->>> up inside PIIX3.
->>>
->>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->>> Message-Id: <20221022150508.26830-15-shentey@gmail.com>
->>> ---
->>>    MAINTAINERS                 |  2 ++
->>>    hw/core/Kconfig             |  3 ++
->>>    hw/core/meson.build         |  1 +
->>>    hw/core/proxy-pic.c         | 70 +++++++++++++++++++++++++++++++++++++
->>>    include/hw/core/proxy-pic.h | 54 ++++++++++++++++++++++++++++
->>>    5 files changed, 130 insertions(+)
->>>    create mode 100644 hw/core/proxy-pic.c
->>>    create mode 100644 include/hw/core/proxy-pic.h
->>
->> Please enable scripts/git.orderfile.
+On 1/4/23 9:44 AM, Bernhard Beschow wrote:
+> During the last patches, TYPE_PIIX3_XEN_DEVICE turned into a clone of
+> TYPE_PIIX3_DEVICE. Remove this redundancy.
 > 
-> Will do.
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>  hw/i386/pc_piix.c             |  4 +---
+>  hw/isa/piix.c                 | 20 --------------------
+>  include/hw/southbridge/piix.h |  1 -
+>  3 files changed, 1 insertion(+), 24 deletions(-)
 > 
->>> diff --git a/include/hw/core/proxy-pic.h b/include/hw/core/proxy-pic.h
->>> new file mode 100644
->>> index 0000000000..0eb40c478a
->>> --- /dev/null
->>> +++ b/include/hw/core/proxy-pic.h
->>> @@ -0,0 +1,54 @@
->>> +/*
->>> + * Proxy interrupt controller device.
->>> + *
->>> + * Copyright (c) 2022 Bernhard Beschow <shentey@gmail.com>
->>> + *
->>> + * Permission is hereby granted, free of charge, to any person obtaining a copy
->>> + * of this software and associated documentation files (the "Software"), to deal
->>> + * in the Software without restriction, including without limitation the rights
->>> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
->>> + * copies of the Software, and to permit persons to whom the Software is
->>> + * furnished to do so, subject to the following conditions:
->>> + *
->>> + * The above copyright notice and this permission notice shall be included in
->>> + * all copies or substantial portions of the Software.
->>> + *
->>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
->>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
->>> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
->>> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
->>> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
->>> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
->>> + * THE SOFTWARE.
->>
->> This is the MIT license right? Do you mind adding a SPDX tag along?
-> 
-> I based my implementation on TYPE_SPLIT_IRQ as you suggested before and thus preserved the license.
-> 
->> * SPDX-License-Identifier: MIT
-> 
-> Or just replace the wall of text with this line? This should suffice, no?
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index 5738d9cdca..6b8de3d59d 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -235,8 +235,6 @@ static void pc_init1(MachineState *machine,
+>      if (pcmc->pci_enabled) {
+>          DeviceState *dev;
+>          PCIDevice *pci_dev;
+> -        const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
+> -                                         : TYPE_PIIX3_DEVICE;
+>          int i;
+>  
+>          pci_bus = i440fx_init(pci_type,
+> @@ -250,7 +248,7 @@ static void pc_init1(MachineState *machine,
+>                                         : pci_slot_get_pirq);
+>          pcms->bus = pci_bus;
+>  
+> -        pci_dev = pci_new_multifunction(-1, true, type);
+> +        pci_dev = pci_new_multifunction(-1, true, TYPE_PIIX3_DEVICE);
+>          object_property_set_bool(OBJECT(pci_dev), "has-usb",
+>                                   machine_usb(machine), &error_abort);
+>          object_property_set_bool(OBJECT(pci_dev), "has-acpi",
+> diff --git a/hw/isa/piix.c b/hw/isa/piix.c
+> index 98e9b12661..e4587352c9 100644
+> --- a/hw/isa/piix.c
+> +++ b/hw/isa/piix.c
+> @@ -33,7 +33,6 @@
+>  #include "hw/qdev-properties.h"
+>  #include "hw/ide/piix.h"
+>  #include "hw/isa/isa.h"
+> -#include "hw/xen/xen.h"
+>  #include "sysemu/runstate.h"
+>  #include "migration/vmstate.h"
+>  #include "hw/acpi/acpi_aml_interface.h"
+> @@ -465,24 +464,6 @@ static const TypeInfo piix3_info = {
+>      .class_init    = piix3_class_init,
+>  };
+>  
+> -static void piix3_xen_class_init(ObjectClass *klass, void *data)
+> -{
+> -    DeviceClass *dc = DEVICE_CLASS(klass);
+> -    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+> -
+> -    k->realize = piix3_realize;
+> -    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
+> -    k->device_id = PCI_DEVICE_ID_INTEL_82371SB_0;
+> -    dc->vmsd = &vmstate_piix3;
+> -}
+> -
+> -static const TypeInfo piix3_xen_info = {
+> -    .name          = TYPE_PIIX3_XEN_DEVICE,
+> -    .parent        = TYPE_PIIX_PCI_DEVICE,
+> -    .instance_init = piix3_init,
+> -    .class_init    = piix3_xen_class_init,
+> -};
+> -
+>  static void piix4_realize(PCIDevice *dev, Error **errp)
+>  {
+>      ERRP_GUARD();
+> @@ -534,7 +515,6 @@ static void piix3_register_types(void)
+>  {
+>      type_register_static(&piix_pci_type_info);
+>      type_register_static(&piix3_info);
+> -    type_register_static(&piix3_xen_info);
+>      type_register_static(&piix4_info);
+>  }
+>  
+> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+> index 65ad8569da..b1fc94a742 100644
+> --- a/include/hw/southbridge/piix.h
+> +++ b/include/hw/southbridge/piix.h
+> @@ -77,7 +77,6 @@ struct PIIXState {
+>  OBJECT_DECLARE_SIMPLE_TYPE(PIIXState, PIIX_PCI_DEVICE)
+>  
+>  #define TYPE_PIIX3_DEVICE "PIIX3"
+> -#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
+>  #define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+>  
+>  #endif
 
-IIUC (IANAL) I can only suggest you to add a SPDX tag to the license you
-chose, not ask you to remove the text; but since you ask/propose, the
-tag suffices indeed. I suggest the tag use because it is clearer than
-trying to match the full (often copy/pasted with typos) license text.
 
->>> + */
->>> +
->>> +#ifndef HW_PROXY_PIC_H
->>> +#define HW_PROXY_PIC_H
->>> +
->>> +#include "hw/qdev-core.h"
->>> +#include "qom/object.h"
->>> +#include "hw/irq.h"
->>> +
->>> +#define TYPE_PROXY_PIC "proxy-pic"
->>> +OBJECT_DECLARE_SIMPLE_TYPE(ProxyPICState, PROXY_PIC)
->>> +
->>> +#define MAX_PROXY_PIC_LINES 16
->>> +
->>> +/**
->>> + * This is a simple device which has 16 pairs of GPIO input and output lines.
->>> + * Any change on an input line is forwarded to the respective output.
->>> + *
->>> + * QEMU interface:
->>> + *  + 16 unnamed GPIO inputs: the input lines
->>> + *  + 16 unnamed GPIO outputs: the output lines
->>> + */
->>
->> Why restrict to 16 and not use a class property and allocate
->> on the heap? See TYPE_SPLIT_IRQ for example.
-> 
-> TYPE_SPLIT_IRQ doesn't allocate on the heap and instead has a hardcoded limit of MAX_SPLIT_LINES which equals 16 ;)
-> 
-> I was unsure on when to free the memory and how to dispose the elements so I went with this solution for simplicity. I'll look for inspitation in other device models and respin.
+This fixes the regression with the emulated usb tablet device that I reported in v1 here:
 
-Oh indeed. Well this model as is is OK, but it could be more useful
-if able to proxy any range of IRQs.
+https://lore.kernel.org/qemu-devel/aed4f2c1-83f7-163a-fb44-f284376668dc@aol.com/
 
-I have the feeling we are cycling around this IRQ proxy:
+I tested this patch again with all the prerequisites and now with v2 there are no regressions.
 
-22ec3283ef ("irq: introduce qemu_irq_proxy()")
-078778c5a5 ("piix4: Add an i8259 Interrupt Controller as specified in 
-datasheet")
-fc531e7cab ("Revert "irq: introduce qemu_irq_proxy()"")
-
-What is our problem? IRQ lines connect 2 devices in a fixed direction.
-Current model expects one edge to be wired to a device before wiring
-the other device, so device composition with IRQs in middle is
-impossible? If so, this doesn't scale with dynamic machine creation.
-
-Maybe the IRQ wiring should be another machine phase, after all
-devices are instantiated?
-
-Your approach is to create the 'IRQ proxy' first, like drawing the
-wires on a board, then plug the devices, like soldering chips on
-the printed board IRQs. So maybe devices shouldn't be the QOM owners
-of IRQs, the board should...
-
-Yeah, just thinking loudly...
+Tested-by: Chuck Zmudzinski <brchuckz@aol.com>
 
