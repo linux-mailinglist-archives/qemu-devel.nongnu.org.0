@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B79565DE08
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 22:06:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B12E65DE07
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 22:06:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDAwl-0006cF-IP; Wed, 04 Jan 2023 16:05:15 -0500
+	id 1pDAwk-0006b3-C3; Wed, 04 Jan 2023 16:05:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDAwj-0006az-NZ
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 16:05:13 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDAwi-0006ZM-AJ
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 16:05:12 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDAwf-0006sn-H1
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 16:05:13 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDAwf-0006rC-G1
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 16:05:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672866301;
+ s=mimecast20190719; t=1672866299;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mTGbStfrdBXQmoQ58BKhfyAQyf1QHa4HSteui2Lm+kY=;
- b=YKOMB+cKacvm8LHNQdA5q6mE5o4FYTJDujqMkWc20sAY0CIuS4n57uzm7JdByQYbdvXKbb
- iNI1A3XmfY4oX0imghjAzHiReAfyaFG99m056S4RSUtqsQX7J5YgmIFb5j6c00dVCw6Ife
- Uqx0CsAkLLE9UEmIl1/VNayEX2D7Apo=
+ bh=wxLFXI3d+CsCjwiMFNSRcCvAznjv574M8FZOwtR4Dhg=;
+ b=QjxwMi+vXSjfrJw35xBLu7SMD6uURKouhHbZonZcoNyeavrW7LlE3MXfzB3ovYorjAuB07
+ 6SmrH4jUAcHqbHizWmHfWJciVv1LozReyFfl0HXLs3WoFZCErkaI+11cSVL73lRQoWoS5b
+ Q8TKFlYKqP7nVrTe/plGIgHApuF03Do=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-58-8LDTRlLsMOq74CLYoOW3ew-1; Wed, 04 Jan 2023 16:04:58 -0500
-X-MC-Unique: 8LDTRlLsMOq74CLYoOW3ew-1
+ us-mta-580-qLHIxjnmPK-MHRcyNQvrRw-1; Wed, 04 Jan 2023 16:04:58 -0500
+X-MC-Unique: qLHIxjnmPK-MHRcyNQvrRw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 92FA2101A5B4;
- Wed,  4 Jan 2023 21:04:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 28D6287B2A1;
+ Wed,  4 Jan 2023 21:04:58 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.34.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27E432026D4B;
- Wed,  4 Jan 2023 21:04:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A0DD02026D4B;
+ Wed,  4 Jan 2023 21:04:57 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Cleber Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>,
@@ -47,10 +47,11 @@ Cc: Cleber Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
  John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Subject: [PULL 2/5] python/machine: Handle termination cases without QMP
-Date: Wed,  4 Jan 2023 16:04:52 -0500
-Message-Id: <20230104210455.571473-3-jsnow@redhat.com>
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [PULL 3/5] Python: fix flake8 config
+Date: Wed,  4 Jan 2023 16:04:53 -0500
+Message-Id: <20230104210455.571473-4-jsnow@redhat.com>
 In-Reply-To: <20230104210455.571473-1-jsnow@redhat.com>
 References: <20230104210455.571473-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -80,36 +81,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If we request a shutdown of a VM without a QMP console, we'll just hang
-waiting. Not ideal.
-
-Add in code that attempts graceful termination in these cases.  Tested
-lightly; it appears to work and I doubt we rely on this case anywhere,
-but it's a corner you're allowed to wedge yourself in, so it should be
-handled.
+Newer flake8 versions are a bit pickier about the config file, and my
+in-line comment confuses the parser. Fix it.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Message-id: 20221203005234.620788-2-jsnow@redhat.com
+Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine/machine.py | 6 ++++++
- 1 file changed, 6 insertions(+)
+ python/setup.cfg | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index 6f1374a7550..748a0d807c9 100644
---- a/python/qemu/machine/machine.py
-+++ b/python/qemu/machine/machine.py
-@@ -547,6 +547,12 @@ def _soft_shutdown(self, timeout: Optional[int]) -> None:
-             finally:
-                 # Regardless, we want to quiesce the connection.
-                 self._close_qmp_connection()
-+        elif not self._quit_issued:
-+            LOG.debug(
-+                "Not anticipating QEMU quit and no QMP connection present, "
-+                "issuing SIGTERM"
-+            )
-+            self._subp.terminate()
+diff --git a/python/setup.cfg b/python/setup.cfg
+index c2c61c75190..c0d7bab168e 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -71,7 +71,8 @@ console_scripts =
+     qmp-tui = qemu.qmp.qmp_tui:main [tui]
  
-         # May raise subprocess.TimeoutExpired
-         LOG.debug(
+ [flake8]
+-extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
++# Prefer pylint's bare-except checks to flake8's
++extend-ignore = E722
+ exclude = __pycache__,
+ 
+ [mypy]
 -- 
 2.39.0
 
