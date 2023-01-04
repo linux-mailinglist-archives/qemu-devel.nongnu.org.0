@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAEA565DFF8
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:28:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F85E65DFF6
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:27:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDBpE-0005eW-Fp; Wed, 04 Jan 2023 17:01:32 -0500
+	id 1pDBpK-0005jm-Hx; Wed, 04 Jan 2023 17:01:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pDBon-0005Rk-G7; Wed, 04 Jan 2023 17:01:07 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ id 1pDBos-0005TX-RB; Wed, 04 Jan 2023 17:01:19 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pDBol-0002pC-0V; Wed, 04 Jan 2023 17:01:04 -0500
+ id 1pDBon-0002r3-Rm; Wed, 04 Jan 2023 17:01:09 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 415954C89;
- Wed,  4 Jan 2023 22:01:01 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 678014D7FC;
+ Wed,  4 Jan 2023 22:01:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1672869661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1672869664; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C1hL4Gw2y899DgYAb8lhVbTfRziHTpBfg0eV1lSRKY4=;
- b=UhAYJFhLvm5H1eCgXFj1a4zp06AcCGM/38wBJyphuJyzFCDQ9ltzjaCJOuydjvb9ZBV8J0
- RawvLKsDa5em720bFcfY74TwrPDqMb+9Md16uaJACl0643NZUOJRax1BLrX0FI8mh5DhWl
- gLu5Q8cpZ7XgsV6zIHZmCFtoVf15clg=
+ bh=Dg5K6X0YNafBcih8BSbYM6qg01UdMgO6xS1j6qqZVRI=;
+ b=v7AEvMMDZ3K3LO9jlhkdDx1d4D4HLuZwCR9fbXqfpn0kqfGcYvs7RdpfgAs9ZNG+ecs+0y
+ y9sxSb19jVJ1CzuEttvK1qJTSmed8jMROn66644wcgEkCHHWUcrhys1CG1vAt21x18j6e0
+ UbJyRjUAcAotnK1eMNeh/v9kqH89yoU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1672869661;
+ s=susede2_ed25519; t=1672869664;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C1hL4Gw2y899DgYAb8lhVbTfRziHTpBfg0eV1lSRKY4=;
- b=BsGy2uVA2YoEpnHnuWfNGPwRuReWC5vGf0Qr4rZOHuoFsSecRzYP80NO7DbWNYozGmsoKX
- EJJKItPcT4mWAqAQ==
+ bh=Dg5K6X0YNafBcih8BSbYM6qg01UdMgO6xS1j6qqZVRI=;
+ b=ufUD/HSY55TSD7hT+CN1SdT8bd+KpKRvJFniz6c8QAsiFVpBrC4QRZzLsqXOkZCJHe8P2p
+ FHCfygnoIuUuibCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 525491342C;
- Wed,  4 Jan 2023 22:00:58 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9B0C1342C;
+ Wed,  4 Jan 2023 22:01:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SDXgBhr3tWPwJAAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 04 Jan 2023 22:00:58 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id uBMnHB33tWPwJAAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 04 Jan 2023 22:01:01 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -56,18 +56,18 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>
-Subject: [RFC PATCH 06/27] target/arm: cleanup cpu includes
-Date: Wed,  4 Jan 2023 18:58:14 -0300
-Message-Id: <20230104215835.24692-7-farosas@suse.de>
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
+Subject: [RFC PATCH 07/27] target/arm: rename handle_semihosting to
+ tcg_handle_semihosting
+Date: Wed,  4 Jan 2023 18:58:15 -0300
+Message-Id: <20230104215835.24692-8-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230104215835.24692-1-farosas@suse.de>
 References: <20230104215835.24692-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -92,48 +92,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Claudio Fontana <cfontana@suse.de>
 
-Remove some unused headers.
+make it clearer from the name that this is a tcg-only function.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- target/arm/cpu.c   | 1 -
- target/arm/cpu64.c | 6 ------
- 2 files changed, 7 deletions(-)
+ target/arm/helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 2fa022f62b..f5381af437 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -26,7 +26,6 @@
- #include "target/arm/idau.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
--#include "qapi/visitor.h"
- #include "cpu.h"
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 6b0840ee31..89c07a88ea 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10389,7 +10389,7 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
+  * trapped to the hypervisor in KVM.
+  */
  #ifdef CONFIG_TCG
- #include "hw/core/tcg-cpu-ops.h"
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 2cf2ca4ce5..0e021960fb 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -21,13 +21,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "cpu.h"
--#ifdef CONFIG_TCG
--#include "hw/core/tcg-cpu-ops.h"
--#endif /* CONFIG_TCG */
- #include "qemu/module.h"
--#if !defined(CONFIG_USER_ONLY)
--#include "hw/loader.h"
--#endif
- #include "sysemu/kvm.h"
- #include "sysemu/hvf.h"
- #include "kvm_arm.h"
+-static void handle_semihosting(CPUState *cs)
++static void tcg_handle_semihosting(CPUState *cs)
+ {
+     ARMCPU *cpu = ARM_CPU(cs);
+     CPUARMState *env = &cpu->env;
+@@ -10451,7 +10451,7 @@ void arm_cpu_do_interrupt(CPUState *cs)
+      */
+ #ifdef CONFIG_TCG
+     if (cs->exception_index == EXCP_SEMIHOST) {
+-        handle_semihosting(cs);
++        tcg_handle_semihosting(cs);
+         return;
+     }
+ #endif
 -- 
 2.35.3
 
