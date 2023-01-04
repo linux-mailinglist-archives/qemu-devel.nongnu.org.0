@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9595E65D496
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 14:42:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C40765D498
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 14:42:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD401-0003is-W3; Wed, 04 Jan 2023 08:40:10 -0500
+	id 1pD40A-0003sa-UB; Wed, 04 Jan 2023 08:40:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD3zy-0003hp-LX
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:40:06 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD404-0003pN-9Q
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:40:12 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD3zw-0001UR-QI
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:40:06 -0500
-Received: by mail-wr1-x434.google.com with SMTP id d9so4407052wrp.10
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 05:40:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD402-00026a-69
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:40:12 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ m8-20020a05600c3b0800b003d96f801c48so24027821wms.0
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 05:40:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qrPSllnx4YupvoZF9hNQoszmPPNXIKLtvTqBpG1DBSg=;
- b=jpnkc7tLFmJCDSQbw/vmg1ftv3xOG4KrrsHaaoEY+wJQwlhee4kGlmQwPewPh1Zk18
- //ZWyKMz+atySBsXTnOK++HDeF0yfDbkqZUAGKtQ03s+ghKx3fMelY8Ob2NQVos9eqsg
- PM3aBrz289AH/x4+LX7bdF4QQGdb+v7L2V2PRuqeV6yI7BavnyDScPQ1meW5OIgr28nJ
- UDop4VONZAGALGrkh77yyCuu9MXXw1VmMg0dVXFS9HwtkOTsGVttICw5GRM1zMSjcM8E
- mDBnovEYkMImskYn9nP/BVdgJmxcOPlgzyRVSoAapcC4FtEaNV9YtMpYYSAeaNogp/hL
- Bs8Q==
+ bh=tZI17cYoR2O/p08Q/wmFBu65ZPE9ZWexei1omODYWfc=;
+ b=X2ZTOzIlUcMi19lIK4WTe9EuppF5iZ/1U3BJD0LXm0e4TW6OuAeVeOfsT/TC6Lg0lS
+ 5HYXa4edPlRTk2/ta8xiWiIvFBd0Oi/yEtn+WqPBAkd4TFeEwTopCPgFlnDk19yyCpW6
+ uQpdGxMxlVPedMVbnRzBftrmDtxq60slrW9W0R/eb7roSKi4/gSKFjje4OogongnvY4Q
+ pL3b+LBhsLjnh0TowYVWM3Kx9vW/iNYALI90jkPQWKRlttMtHkh+xRvcsJ2LeRk5k80t
+ pb4DfxxbIZgznjMyn4OgDiZKnNsGUB3sHCjPtz9u6QLKbL888W8t8rqkFsq+zrB5EjeN
+ XgJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qrPSllnx4YupvoZF9hNQoszmPPNXIKLtvTqBpG1DBSg=;
- b=SpNvuW9EKPlHC1TL3/r7wYhe5L6+1Yt2UNjCXQ9MY1kQ+3bQnik7HvTs37Njr46GYz
- ZAfQCZtZ1X07ijXQkOzwOYv0sOBCzKAbRgoDGiZAoDhW9mpBcipduugumvfVePrdo5NR
- xfGnwPkHbYkIfRoqgN7XJjZf1ad7EQYJKi+spC8gS+1vhjZXUzjqYFgMOT5kApzijDTt
- i6IfLr8G54yNS1eY3m/s6VAHWgA5gPaVRDasOQyHBnlfwuj5kGl+1nQqHLPYU0o6SAqv
- O6jVLxAgYv58MO3yfIDW2NeOLVaKCJsVus43kWvVdek2VpTO3Xsn6VX03vCHMBh71wqf
- ysuw==
-X-Gm-Message-State: AFqh2kpFPkRuitRRLEB7SciRR0ak7OkB1vHz+rzsZ+uv2z3km8Ai2Ewt
- e6IVgkzxPc8JvZ3c+ATVqV3AVYtWsT42AmVJ
-X-Google-Smtp-Source: AMrXdXvJiJqyKhVQ7htRQgyKJNPGBQNXhjdCgk8sF4RDXCGcX9ghRycSdSiDLdle+253GHhAyH7mVA==
-X-Received: by 2002:a05:6000:4:b0:248:443:2d81 with SMTP id
- h4-20020a056000000400b0024804432d81mr30012677wrx.59.1672839603585; 
- Wed, 04 Jan 2023 05:40:03 -0800 (PST)
+ bh=tZI17cYoR2O/p08Q/wmFBu65ZPE9ZWexei1omODYWfc=;
+ b=UNQL1YHwbb8V4E7U9s0SwHNuGdTgTX143yuQWribf9D7X+yT3IuVYcBkoHHpiIwb8o
+ NLs5a6575pl+G9aAwebWq19WcXYDsqSMm8+qdZvjopbmTiW2kwQM1FJrYvLvLQajgJmo
+ r+zuqp+wZqFTyyBSwQWnosrKohhW9u7cubTL/OLiWU3sc01J7qImFFfQDV3Pg9o/YXIo
+ Mm7RmmroRSoFRbZWo2DaSVdI5UTTDyMJDOOOLypQhbwzJXm3X+xlceHZUXwQJYqnbClC
+ 5tEMg88vWyFJhw2YfawL1XUpBDl0Q5mzj13uFIh5U92Tvnl60iD459kL2hjX/G0ru2iG
+ MmPQ==
+X-Gm-Message-State: AFqh2koL34uKlbxjDHIbZch2/NWa8amyUfKIsjl3qMvBAey3Mp+PXytv
+ vOAplm1C5Rf9/rAEASqmbL95XSIG5sJ1egFO
+X-Google-Smtp-Source: AMrXdXvLILaWjgzOG9fyur2ppp1kdRvO9MKuQT76RpBCgBhaOeVqU83PNKc39tTippI+8lmxh3yD0A==
+X-Received: by 2002:a05:600c:34d4:b0:3cf:a39f:eb2a with SMTP id
+ d20-20020a05600c34d400b003cfa39feb2amr33718751wmq.11.1672839608662; 
+ Wed, 04 Jan 2023 05:40:08 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- y2-20020a5d4ac2000000b0027323b19ecesm32356921wrs.16.2023.01.04.05.40.02
+ j20-20020a05600c191400b003b4fe03c881sm57979094wmq.48.2023.01.04.05.40.07
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 04 Jan 2023 05:40:03 -0800 (PST)
+ Wed, 04 Jan 2023 05:40:08 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Bernhard Beschow <shentey@gmail.com>,
  Aurelien Jarno <aurelien@aurel32.net>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 5/6] hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE
- MemoryRegionOps
-Date: Wed,  4 Jan 2023 14:39:34 +0100
-Message-Id: <20230104133935.4639-6-philmd@linaro.org>
+Subject: [PATCH 6/6] tests/avocado: Add tests booting YAMON ROM on MIPS Malta
+ machines
+Date: Wed,  4 Jan 2023 14:39:35 +0100
+Message-Id: <20230104133935.4639-7-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230104133935.4639-1-philmd@linaro.org>
 References: <20230104133935.4639-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,152 +93,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-GT64120's PCI endianness swapping works on little-endian hosts,
-but doesn't on big-endian ones. Instead of complicating how
-CFGADDR/CFGDATA registers deal with endianness, use the existing
-MemoryRegionOps from hw/pci/pci_host.c. Doing so also reduce the
-access to internal PCI_HOST_BRIDGE fields.
+Add quick tests booting YAMON:
 
-Map the PCI_HOST_BRIDGE MemoryRegionOps into the corresponding
-CFGADDR/CFGDATA regions in the ISD MMIO and remove the unused
-code in the current ISD read/write handlers.
+  $ avocado --show=app,console run -t machine:malta tests/avocado/machine_mips_malta.py
+   (1/2) tests/avocado/machine_mips_malta.py:MaltaMachine.test_mipsel_malta_yamon:
+  console: YAMON ROM Monitor, Revision 02.22.
+  console: Copyright (c) 1999-2007 MIPS Technologies, Inc. - All Rights Reserved.
+  console: For a list of available commands, type 'help'.
+  console: Compilation time =              May 24 2013  12:16:34 (pburton)
+  console: Board type/revision =           0x02 (Malta) / 0x00
+  console: Core board type/revision =      0x01 (CoreLV) / 0x00
+  console: System controller/revision =    Galileo / GT_64120A-B-0
+  console: FPGA revision =                 0x0000
+  console: MAC address =                   ff.ff.ff.ff.ff.ff
+  console: Board S/N =                     0123456789
+  console: PCI bus frequency =             33.33 MHz
+  console: Processor Company ID/options =  0x01 (MIPS Technologies, Inc.) / 0x00
+  console: Processor ID/revision =         0x93 (MIPS 24Kf) / 0x00
+  console: Endianness =                    Little
+  console: CPU/Bus frequency =             333 MHz / 419 MHz
+  console: Coherency =                     None
+  console: Flash memory size =             4 MByte
+  console: SDRAM size =                    128 MByte
+  console: First free SDRAM address =      0x800c32f0
+  console: WARNING: Environment variable flash area is invalid!
+  console: HINT   : Perform "erase -e"
+  console: YAMON>
+  PASS (1.88 s)
+   (2/2) tests/avocado/machine_mips_malta.py:MaltaMachine.test_mips64el_malta_yamon:
+  ...
+  console: System controller/revision =    Galileo / GT_64120A-B-0
+  console: Processor Company ID/options =  0x01 (MIPS Technologies, Inc.) / 0x00
+  console: Processor ID/revision =         0x82 (MIPS 20Kc) / 0xa0
+  ...
+  console: YAMON>
+  PASS (1.89 s)
+  RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+  JOB TIME   : 4.57 s
 
-Update the mapping when PCI0_CMD register is accessed (in case
-the endianness is changed).
-
-This allows using the GT64120 on a big-endian host (and boot
-the MIPS Malta machine in little-endian).
+YAMON does some endian-swapped acceses on the ISD<->PCI CFG/DATA
+registers. These tests are useful to debug cross-endianness issues,
+in particular on big-endian host.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/mips/gt64xxx_pci.c | 70 ++++++++++++++++++++++++++++++-------------
- 1 file changed, 50 insertions(+), 20 deletions(-)
+ tests/avocado/machine_mips_malta.py | 52 ++++++++++++++++++++++++++---
+ 1 file changed, 48 insertions(+), 4 deletions(-)
 
-diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index d84c2b7349..b92536d3ab 100644
---- a/hw/mips/gt64xxx_pci.c
-+++ b/hw/mips/gt64xxx_pci.c
-@@ -298,6 +298,50 @@ static void gt64120_isd_mapping(GT64120State *s)
-     memory_region_transaction_commit();
- }
+diff --git a/tests/avocado/machine_mips_malta.py b/tests/avocado/machine_mips_malta.py
+index f1895d59f3..a3b0b55305 100644
+--- a/tests/avocado/machine_mips_malta.py
++++ b/tests/avocado/machine_mips_malta.py
+@@ -11,11 +11,13 @@
+ import gzip
+ import logging
  
-+static void gt64120_update_pci_cfgdata_mapping(GT64120State *s)
-+{
-+    /* Indexed on MByteSwap bit, see Table 158: PCI_0 Command, Offset: 0xc00 */
-+    static const MemoryRegionOps *pci_host_conf_ops[] = {
-+        &pci_host_conf_be_ops, &pci_host_conf_le_ops
-+    };
-+    static const MemoryRegionOps *pci_host_data_ops[] = {
-+        &pci_host_data_be_ops, &pci_host_data_le_ops
-+    };
-+    PCIHostState *phb = PCI_HOST_BRIDGE(s);
+-from avocado import skipUnless
+-from avocado_qemu import QemuSystemTest
+-from avocado_qemu import wait_for_console_pattern
+-from avocado.utils import archive
+ from avocado import skipIf
++from avocado import skipUnless
++from avocado.utils import archive
++from avocado_qemu import QemuSystemTest
++from avocado_qemu import exec_command_and_wait_for_pattern
++from avocado_qemu import interrupt_interactive_console_until_pattern
++from avocado_qemu import wait_for_console_pattern
+ 
+ 
+ NUMPY_AVAILABLE = True
+@@ -118,3 +120,45 @@ def test_mips_malta_i6400_framebuffer_logo_8cores(self):
+         :avocado: tags=mips:smp
+         """
+         self.do_test_i6400_framebuffer_logo(8)
 +
-+    memory_region_transaction_begin();
++class MaltaMachine(QemuSystemTest):
 +
-+    /*
-+     * The setting of the MByteSwap bit and MWordSwap bit in the PCI Internal
-+     * Command Register determines how data transactions from the CPU to/from
-+     * PCI are handled along with the setting of the Endianess bit in the CPU
-+     * Configuration Register. See:
-+     * - Table 16: 32-bit PCI Transaction Endianess
-+     * - Table 158: PCI_0 Command, Offset: 0xc00
-+     */
-+    if (memory_region_is_mapped(&phb->conf_mem)) {
-+        memory_region_del_subregion(&s->ISD_mem, &phb->conf_mem);
-+        object_unparent(OBJECT(&phb->conf_mem));
-+    }
-+    memory_region_init_io(&phb->conf_mem, OBJECT(phb),
-+                          pci_host_conf_ops[s->regs[GT_PCI0_CMD] & 1],
-+                          s, "pci-conf-idx", 4);
-+    memory_region_add_subregion_overlap(&s->ISD_mem, GT_PCI0_CFGADDR << 2,
-+                                        &phb->conf_mem, 1);
++    def do_test_yamon(self):
++        """
++        :avocado: tags=arch:mipsel
++        :avocado: tags=arch:mips64el
++        :avocado: tags=machine:malta
++        """
++        rom_url = ('http://www.imgtec.com/tools/mips-tools/downloads/'
++                   'yamon/yamon-bin-02.22.zip')
++        rom_hash = '8da7ecddbc5312704b8b324341ee238189bde480'
++        zip_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
 +
-+    if (memory_region_is_mapped(&phb->data_mem)) {
-+        memory_region_del_subregion(&s->ISD_mem, &phb->data_mem);
-+        object_unparent(OBJECT(&phb->data_mem));
-+    }
-+    memory_region_init_io(&phb->data_mem, OBJECT(phb),
-+                          pci_host_data_ops[s->regs[GT_PCI0_CMD] & 1],
-+                          s, "pci-conf-data", 4);
-+    memory_region_add_subregion_overlap(&s->ISD_mem, GT_PCI0_CFGDATA << 2,
-+                                        &phb->data_mem, 1);
++        archive.extract(zip_path, self.workdir)
++        yamon_path = os.path.join(self.workdir, 'yamon-02.22.bin')
 +
-+    memory_region_transaction_commit();
-+}
++        self.vm.set_console()
++        self.vm.add_args('-bios', yamon_path)
++        self.vm.launch()
 +
- static void gt64120_pci_mapping(GT64120State *s)
- {
-     memory_region_transaction_begin();
-@@ -389,7 +433,6 @@ static void gt64120_writel(void *opaque, hwaddr addr,
-                            uint64_t val, unsigned size)
- {
-     GT64120State *s = opaque;
--    PCIHostState *phb = PCI_HOST_BRIDGE(s);
-     uint32_t saddr = addr >> 2;
- 
-     trace_gt64120_write(addr, val);
-@@ -592,6 +635,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
-     case GT_PCI0_CMD:
-     case GT_PCI1_CMD:
-         s->regs[saddr] = val & 0x0401fc0f;
-+        gt64120_update_pci_cfgdata_mapping(s);
-         break;
-     case GT_PCI0_TOR:
-     case GT_PCI0_BS_SCS10:
-@@ -632,15 +676,9 @@ static void gt64120_writel(void *opaque, hwaddr addr,
-                       saddr << 2, size, size << 1, val);
-         break;
-     case GT_PCI0_CFGADDR:
--        phb->config_reg = val & 0x80fffffc;
--        break;
-     case GT_PCI0_CFGDATA:
--        if (!(s->regs[GT_PCI0_CMD] & 1) && (phb->config_reg & 0x00fff800)) {
--            val = bswap32(val);
--        }
--        if (phb->config_reg & (1u << 31)) {
--            pci_data_write(phb->bus, phb->config_reg, val, 4);
--        }
-+        /* Mapped via in gt64120_pci_mapping() */
-+        g_assert_not_reached();
-         break;
- 
-     /* Interrupts */
-@@ -698,7 +736,6 @@ static uint64_t gt64120_readl(void *opaque,
-                               hwaddr addr, unsigned size)
- {
-     GT64120State *s = opaque;
--    PCIHostState *phb = PCI_HOST_BRIDGE(s);
-     uint32_t val;
-     uint32_t saddr = addr >> 2;
- 
-@@ -883,17 +920,9 @@ static uint64_t gt64120_readl(void *opaque,
- 
-     /* PCI Internal */
-     case GT_PCI0_CFGADDR:
--        val = phb->config_reg;
--        break;
-     case GT_PCI0_CFGDATA:
--        if (!(phb->config_reg & (1 << 31))) {
--            val = 0xffffffff;
--        } else {
--            val = pci_data_read(phb->bus, phb->config_reg, 4);
--        }
--        if (!(s->regs[GT_PCI0_CMD] & 1) && (phb->config_reg & 0x00fff800)) {
--            val = bswap32(val);
--        }
-+        /* Mapped via in gt64120_pci_mapping() */
-+        g_assert_not_reached();
-         break;
- 
-     case GT_PCI0_CMD:
-@@ -1153,6 +1182,7 @@ static void gt64120_reset(DeviceState *dev)
- 
-     gt64120_isd_mapping(s);
-     gt64120_pci_mapping(s);
-+    gt64120_update_pci_cfgdata_mapping(s);
- }
- 
- static void gt64120_realize(DeviceState *dev, Error **errp)
++        prompt =  'YAMON>'
++        pattern = 'YAMON ROM Monitor'
++        interrupt_interactive_console_until_pattern(self, pattern, prompt)
++        wait_for_console_pattern(self, prompt)
++        self.vm.shutdown()
++
++    def test_mipsel_malta_yamon(self):
++        """
++        :avocado: tags=arch:mipsel
++        :avocado: tags=machine:malta
++        :avocado: tags=endian:little
++        """
++        self.do_test_yamon()
++
++    def test_mips64el_malta_yamon(self):
++        """
++        :avocado: tags=arch:mips64el
++        :avocado: tags=machine:malta
++        :avocado: tags=endian:little
++        """
++        self.do_test_yamon()
 -- 
 2.38.1
 
