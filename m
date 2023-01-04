@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E6E365D698
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 15:54:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C0165D69A
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 15:55:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD59P-000406-2k; Wed, 04 Jan 2023 09:53:55 -0500
+	id 1pD5AC-0004en-HL; Wed, 04 Jan 2023 09:54:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pD59N-0003zx-FJ
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:53:53 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pD5AA-0004eQ-7c
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:54:42 -0500
+Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pD59L-0000WM-Cl
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:53:53 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- o8-20020a17090a9f8800b00223de0364beso39145368pjp.4
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 06:53:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pD5A8-0000b8-EY
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:54:42 -0500
+Received: by mail-lf1-x12c.google.com with SMTP id m6so40364541lfj.11
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 06:54:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4gT0JlQYRiyldUS52PurLIl04P7Is7mrqUVLwprsRzo=;
- b=zd4TTvsLHmj8eslUa9npsNaZKtWGWWe4IzRiWNGtoduKxYk1zeiq+vzzVTr28eq8B2
- 3Ww/h45bkz/kQhM6p1/3Z1M+gemOf+WtnTExCNenFnOijMRzrTpRXGP7zKEFxGbPfCsn
- e20Ys/HDYB7IId6ZkkKSpLS/qY/5dbrEocEX+gTWhx44jR18ITEgh4sdAqQo1O2slp0J
- k7Sk6XMoLDkDok2SSs40Uopigj40SyIMZmb39aKn4riLv0/uaMEq9BjDNQU3tVXDphVC
- 01QlKjwIUmEp1eJ48LJZ9IzK2qjCPHfV4UcshDyWH1TjQcDPwv4XVfptoC31exib4uLY
- 8AGQ==
+ bh=ZtT44MabwEW6rfJh2LKeSkTzQEucDuL6f6VPA+/S558=;
+ b=YsoSpJ6VCMqJwgzwtFB+u2+D5o2DRg0sVWU24HnGg9jpyvT2fIuKyhjqrgyXjLoZEa
+ 7GyE/7ch1NKNH9+xlUdC82TBY6HmbsQn+khyMHxASImdPZ2Uo1pzSwA9Q8Q9UMHR/PUl
+ m/wLAp6xlYaT3helBPIMMGu0T8ox7koZ8yVn9ZAMcTSgpS2frBBGHBwShzNASegdbDN1
+ qr4GCvICg5nDrHwjph9l7wmSBUL0yWo19NtJi7RdlPKmmkDjmb1viARpNzSDE6/U13+0
+ I7GEga5zcQY5LoBkGGnhUe5pEQLw3s8S7pFSnAdxdmFfRL/TGCPO2YY3l/egHGY/+2eI
+ 7M9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4gT0JlQYRiyldUS52PurLIl04P7Is7mrqUVLwprsRzo=;
- b=I+if2NBIHRj42E7O1D7EivNU0iqCWC7KCs1C1X1m6OpeJ2UScmJ0+85Rm/zezGDoPX
- cwSUhD63DTF9HAowk9Q3JWe4m1vt2a1sZ2BaJG/mLUCGw3CbrWBRd3mfBuVXlFX0d2Xu
- z+I5HD9riQJic6fA1fugbi9GJxWPeuhac72hhuV5vvF/yG9EMgm9NuU4hFLoozX2RUDz
- p9110l/yNHa+3X2rsOh+z5ma1Q+7GteO9HhaXLqpt9sMpBjhaV5Z9bF5blg/sTW4cpBR
- vms/bPuJ/mo8isrtmdM0rVhXkiylsz8YsZEjs+ZcLFpOdOFU5c9jcPVYLxOx3zEL+UDh
- BTSQ==
-X-Gm-Message-State: AFqh2kq2Cnqk5k2tSJjGaoURsIMe1264yCezfH4J1nXpokhhw+OtjV5q
- oGPw+M7Bb//U7TtsqHznA17+5R1OJFubzlyjUpbjXA==
-X-Google-Smtp-Source: AMrXdXu88iU7Pzci/1ZctYT55QooB7sP+fybNxEswAOB8FkKab3JBvHfT2OFF/Fy39lTRYFnNOzgVNwF3x+uG29tk68=
-X-Received: by 2002:a17:902:9890:b0:189:b0a3:cf4a with SMTP id
- s16-20020a170902989000b00189b0a3cf4amr2186826plp.60.1672844028441; Wed, 04
- Jan 2023 06:53:48 -0800 (PST)
+ bh=ZtT44MabwEW6rfJh2LKeSkTzQEucDuL6f6VPA+/S558=;
+ b=VnfIWOQz1mTFNQRRANZQBmMqnnqQXWJUlWE51OdOCxROpwSkftqUxJ3vkaSAkGH1ja
+ qfdrxTrPX9mRha2ndqk8nUTaKBdbIDcHdoB4MpB7xyFQQS3dt8j7B3MZiJwLzmullQ7w
+ cDStf9Z3F16L6+pp/b/V3Tgd7RTWG8hWVr4wFD5leJGB14MNMduJnMSX4+6M53HF1RFt
+ pvTrZOU9no+twenwSyIjbv7pEXbvTvJc67z/yyC8NCSUsvGLIvDxr2VIX1GnF9N6T1Xr
+ GVamuWS6nMN5Ahb3BUaNw6v9DQfY6GP5ILNSWukjzS7XjqYDj4e7YFxfcurYzDBgu7dF
+ 1h0g==
+X-Gm-Message-State: AFqh2kowLDBE7448C++xGQRKG7WP2dLD/T4LImDkHNNCqVEIdH8hlsYq
+ xib9FoBTQL8VWFa91/zC9V3OHSkYs5CxfPRu4ls=
+X-Google-Smtp-Source: AMrXdXtGCPpeITd6hKP8noWp3jnh7i5dxjTh8yTUULkGedqdNVcLijxzhawY7i56KKSyatCOWVBHDcVfxxHMCjCucwc=
+X-Received: by 2002:ac2:4141:0:b0:4b5:886b:d4af with SMTP id
+ c1-20020ac24141000000b004b5886bd4afmr4772628lfi.276.1672844078077; Wed, 04
+ Jan 2023 06:54:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
- <5f487941-0a4f-1f99-a281-8cf004c80662@redhat.com>
-In-Reply-To: <5f487941-0a4f-1f99-a281-8cf004c80662@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 4 Jan 2023 14:53:37 +0000
-Message-ID: <CAFEAcA__ReO+Q9y_CNWO5SLdu5wv5Fp7sKNgk9QUwF=YuNmvVw@mail.gmail.com>
-Subject: Re: [PULL v2 00/45] riscv-to-apply queue
+References: <20230104123559.277586-1-thuth@redhat.com>
+In-Reply-To: <20230104123559.277586-1-thuth@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 4 Jan 2023 18:54:26 +0400
+Message-ID: <CAJ+F1C+T2HYmRj2uvjMsmAC11vAA53rwrH7kDh1pFuT8fWj4Ow@mail.gmail.com>
+Subject: Re: [PATCH] .gitlab-ci.d/windows: Work-around timeout and OpenGL
+ problems of the MSYS2 jobs
 To: Thomas Huth <thuth@redhat.com>
-Cc: Alistair Francis <alistair.francis@opensource.wdc.com>,
- qemu-devel@nongnu.org, 
- alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,156 +88,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 4 Jan 2023 at 09:20, Thomas Huth <thuth@redhat.com> wrote:
->
-> On 21/12/2022 23.39, Alistair Francis wrote:
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > The following changes since commit 222059a0fccf4af3be776fe35a5ea2d6a68f=
-9a0b:
-> >
-> >    Merge tag 'pull-ppc-20221221' of https://gitlab.com/danielhb/qemu in=
-to staging (2022-12-21 18:08:09 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >    https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-2022=
-1222-1
-> >
-> > for you to fetch changes up to 71a9bc59728a054036f3db7dd82dab8f8bd2baf9=
-:
-> >
-> >    hw/intc: sifive_plic: Fix the pending register range check (2022-12-=
-22 08:36:30 +1000)
-> >
-> > ----------------------------------------------------------------
-> > First RISC-V PR for QEMU 8.0
-> >
-> > * Fix PMP propagation for tlb
-> > * Collection of bug fixes
-> > * Add the `FIELDx_1CLEAR()` macro
-> > * Bump the OpenTitan supported version
-> > * Add smstateen support
-> > * Support native debug icount trigger
-> > * Remove the redundant ipi-id property in the virt machine
-> > * Support cache-related PMU events in virtual mode
-> > * Add some missing PolarFire SoC io regions
-> > * Fix mret exception cause when no pmp rule is configured
-> > * Fix bug where disabling compressed instructions would crash QEMU
-> > * Add Zawrs ISA extension support
-> > * A range of code refactoring and cleanups
-> >
-> > ----------------------------------------------------------------
-> > Anup Patel (1):
-> >        target/riscv: Typo fix in sstc() predicate
-> >
-> > Atish Patra (1):
-> >        hw/riscv: virt: Remove the redundant ipi-id property
-> >
-> > Bin Meng (20):
-> >        target/riscv: Add some comments for sstatus CSR in riscv_cpu_dum=
-p_state()
-> >        target/riscv: Fix mret exception cause when no pmp rule is confi=
-gured
-> >        target/riscv: Simplify helper_sret() a little bit
-> >        target/riscv: Clear mstatus.MPRV when leaving M-mode for priv sp=
-ec 1.12+
-> >        hw/riscv: Select MSI_NONBROKEN in SIFIVE_PLIC
-> >        hw/intc: Select MSI_NONBROKEN in RISC-V AIA interrupt controller=
-s
-> >        hw/riscv: Fix opentitan dependency to SIFIVE_PLIC
-> >        hw/riscv: Sort machines Kconfig options in alphabetical order
-> >        hw/riscv: spike: Remove misleading comments
-> >        hw/intc: sifive_plic: Drop PLICMode_H
-> >        hw/intc: sifive_plic: Improve robustness of the PLIC config pars=
-er
-> >        hw/intc: sifive_plic: Use error_setg() to propagate the error up=
- via errp in sifive_plic_realize()
-> >        hw/intc: sifive_plic: Update "num-sources" property default valu=
-e
-> >        hw/riscv: microchip_pfsoc: Fix the number of interrupt sources o=
-f PLIC
-> >        hw/riscv: sifive_e: Fix the number of interrupt sources of PLIC
-> >        hw/riscv: sifive_u: Avoid using magic number for "riscv, ndev"
-> >        hw/riscv: virt: Fix the value of "riscv, ndev" in the dtb
-> >        hw/intc: sifive_plic: Change "priority-base" to start from inter=
-rupt source 0
-> >        hw/riscv: opentitan: Drop "hartid-base" and "priority-base" init=
-ialization
-> >        hw/intc: sifive_plic: Fix the pending register range check
-> >
-> > Christoph Muellner (1):
-> >        RISC-V: Add Zawrs ISA extension support
-> >
-> > Conor Dooley (3):
-> >        hw/misc: pfsoc: add fabric clocks to ioscb
-> >        hw/riscv: pfsoc: add missing FICs as unimplemented
-> >        hw/{misc, riscv}: pfsoc: add system controller as unimplemented
-> >
-> > Fr=C3=A9d=C3=A9ric P=C3=A9trot (1):
-> >        hw/intc: sifive_plic: Renumber the S irqs for numa support
-> >
-> > Jim Shu (2):
-> >        target/riscv: support cache-related PMU events in virtual mode
-> >        hw/intc: sifive_plic: fix out-of-bound access of source_priority=
- array
-> >
-> > LIU Zhiwei (5):
-> >        target/riscv: Fix PMP propagation for tlb
-> >        target/riscv: Add itrigger support when icount is not enabled
-> >        target/riscv: Add itrigger support when icount is enabled
-> >        target/riscv: Enable native debug itrigger
-> >        target/riscv: Add itrigger_enabled field to CPURISCVState
-> >
-> > Mayuresh Chitale (3):
-> >        target/riscv: Add smstateen support
-> >        target/riscv: smstateen check for h/s/envcfg
-> >        target/riscv: generate virtual instruction exception
-> >
-> > Richard Henderson (4):
-> >        tcg/riscv: Fix range matched by TCG_CT_CONST_M12
-> >        tcg/riscv: Fix reg overlap case in tcg_out_addsub2
-> >        tcg/riscv: Fix base register for user-only qemu_ld/st
-> >        target/riscv: Set pc_succ_insn for !rvc illegal insn
-> >
-> > Wilfred Mallawa (4):
-> >        hw/registerfields: add `FIELDx_1CLEAR()` macro
-> >        hw/ssi/ibex_spi: implement `FIELD32_1CLEAR` macro
-> >        hw/riscv/opentitan: bump opentitan
-> >        hw/riscv/opentitan: add aon_timer base unimpl
-> >
-> >   include/hw/intc/sifive_plic.h                  |   1 -
-> >   include/hw/misc/mchp_pfsoc_ioscb.h             |   4 +
-> >   include/hw/misc/mchp_pfsoc_sysreg.h            |   1 +
-> >   include/hw/registerfields.h                    |  22 ++
-> >   include/hw/riscv/microchip_pfsoc.h             |   7 +-
-> >   include/hw/riscv/opentitan.h                   |  10 +-
-> >   include/hw/riscv/shakti_c.h                    |   2 +-
-> >   include/hw/riscv/sifive_e.h                    |   9 +-
-> >   include/hw/riscv/sifive_u.h                    |   2 +-
-> >   include/hw/riscv/virt.h                        |   8 +-
-> >   target/riscv/cpu.h                             |  10 +
-> >   target/riscv/cpu_bits.h                        |  37 +++
-> >   target/riscv/debug.h                           |  13 +
-> >   target/riscv/helper.h                          |   2 +
-> >   target/riscv/pmp.h                             |   6 +-
-> >   target/riscv/insn32.decode                     |   4 +
-> >   hw/intc/sifive_plic.c                          |  66 +++--
-> >   hw/misc/mchp_pfsoc_ioscb.c                     |  78 ++++-
-> >   hw/misc/mchp_pfsoc_sysreg.c                    |  18 +-
-> >   hw/riscv/microchip_pfsoc.c                     | 121 ++++----
-> >   hw/riscv/opentitan.c                           |  26 +-
-> >   hw/riscv/sifive_u.c                            |   3 +-
-> >   hw/riscv/spike.c                               |   1 -
-> >   hw/riscv/virt.c                                |   7 +-
-> >   hw/ssi/ibex_spi_host.c                         |  21 +-
->
-> FYI, this seems to cause problems in the MSYS2 Cirrus-CI job:
->
->   https://cirrus-ci.com/task/6444497832247296?logs=3Dmain#L2159
+Hi
 
-OK, I've dropped it from my to-process queue.
+On Wed, Jan 4, 2023 at 4:36 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> The windows jobs (especially the 32-bit job) recently started to
+> hit the timeout limit. Bump it a little bit to ease the situation
+> (80 minutes is quite long already - OTOH, these jobs do not have to
+> wait for a job from the container stage to finish, so this should
+> still be OK).
+>
+> Additionally, some update on the container side recently enabled
+> OpenGL in these jobs - but the corresponding code fails to compile.
+> Thus disable OpenGL here for the time being until someone figured
+> out the proper fix in the shader code for this.
 
-thanks
--- PMM
+It seems msys2 recently enabled egl support, but qemu egl code has not
+been tested on win32 yet.
+
+I'll take a look. I am adding egl support in fedora mingw as well:
+https://src.fedoraproject.org/rpms/mingw-libepoxy/pull-request/3
+
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  Now that the timeout and OpenGL problems are gone, the 64-bit is
+>  working fine for me again. However, I'm still seeing random issues
+>  with the 32-bit job ... not sure whether it's a problem on the
+>  QEMU side or whether the builders are currently instable, since
+>  the issues do not reproduce reliably...
+>
+>  .gitlab-ci.d/windows.yml | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+> index 9b5c4bcd8a..22f794e537 100644
+> --- a/.gitlab-ci.d/windows.yml
+> +++ b/.gitlab-ci.d/windows.yml
+> @@ -10,7 +10,7 @@
+>        - ${CI_PROJECT_DIR}/msys64/var/cache
+>    needs: []
+>    stage: build
+> -  timeout: 70m
+> +  timeout: 80m
+>    before_script:
+>    - If ( !(Test-Path -Path msys64\var\cache ) ) {
+>        mkdir msys64\var\cache
+> @@ -71,7 +71,7 @@ msys2-64bit:
+>    # for the msys2 64-bit job, due to the build could not complete within
+>    # the project timeout.
+>    - ..\msys64\usr\bin\bash -lc '../configure --target-list=3Dx86_64-soft=
+mmu
+> -      --without-default-devices'
+> +      --without-default-devices --disable-opengl'
+>    - ..\msys64\usr\bin\bash -lc 'make'
+>    # qTests don't run successfully with "--without-default-devices",
+>    # so let's exclude the qtests from CI for now.
+> @@ -113,6 +113,7 @@ msys2-32bit:
+>    - $env:MSYS =3D 'winsymlinks:native' # Enable native Windows symlink
+>    - mkdir output
+>    - cd output
+> -  - ..\msys64\usr\bin\bash -lc '../configure --target-list=3Dppc64-softm=
+mu'
+> +  - ..\msys64\usr\bin\bash -lc '../configure --target-list=3Dppc64-softm=
+mu
+> +        --disable-opengl'
+>    - ..\msys64\usr\bin\bash -lc 'make'
+>    - ..\msys64\usr\bin\bash -lc 'make check || { cat meson-logs/testlog.t=
+xt; exit 1; } ;'
+> --
+> 2.31.1
+>
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
