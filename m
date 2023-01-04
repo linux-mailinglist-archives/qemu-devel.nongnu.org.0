@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D968C65E045
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:54:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD5765E039
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:49:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDBro-0007Sk-Q0; Wed, 04 Jan 2023 17:04:12 -0500
+	id 1pDBrp-0007Uq-KR; Wed, 04 Jan 2023 17:04:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pDBpx-0006J7-H2; Wed, 04 Jan 2023 17:02:21 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ id 1pDBpx-0006J3-FS; Wed, 04 Jan 2023 17:02:21 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pDBpp-0003IY-RP; Wed, 04 Jan 2023 17:02:14 -0500
+ id 1pDBpp-0003Js-SU; Wed, 04 Jan 2023 17:02:14 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A97073F17A;
- Wed,  4 Jan 2023 22:02:02 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C8AD24D816;
+ Wed,  4 Jan 2023 22:02:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1672869722; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ t=1672869725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z0zsUVLNnlB8or8gHrZOqCwKbl6RppYxTr0hODbbSNU=;
- b=gCljilCnnj99P4fzrDxwcyX3/qg9PYnLZZy+HirV1Y5DpE7NQesnoW4w6y/V7Y6vonN49y
- iqCKLEvfLkOIemHvwOUVYcvA4Erc9ynIJIdrEnq2S/eMrMiA6iEBcrTpTuoCyfITZkhCm0
- nMiM2ugL+sXXmNbVzueTYjqkxFH5s64=
+ bh=UrxGAv7LZM8RFPQI7euNbmnVH3n1hWGTIXV/qrCcDi8=;
+ b=fwSWKhJrTE5S2cGF0TqwfBEOE0+mWxQ752OAvYhyAyl5MGoVqh9MBc6KDblhT03qn6Dbfo
+ qetSECyO3P3FR70VUHBM9LlgEeDWR5e7IC4DFC+yMli7SOHnlGg4FUQ6kQHP0CbS29b4sB
+ I4Hn+9X1xt8eyMY+B2bkmLDzk3Z59wc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1672869722;
+ s=susede2_ed25519; t=1672869725;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z0zsUVLNnlB8or8gHrZOqCwKbl6RppYxTr0hODbbSNU=;
- b=MB/bTdWNZBQXazEv3/MRrqbX/cYQ6l5E106lg76WqfLT9mWqHN7EaV6p8/xMq2Lr6BURl+
- 7c2H8LYgKOssITCQ==
+ bh=UrxGAv7LZM8RFPQI7euNbmnVH3n1hWGTIXV/qrCcDi8=;
+ b=L+nas0MiB7GcjTPz0iSGey1P8rH8VNetz+jETIxbEWvROobTAYizYZYNOSYgxliMD3xorE
+ A29ptrQ7OB9oi1BQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 889D61342C;
- Wed,  4 Jan 2023 22:01:59 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1EC021342C;
+ Wed,  4 Jan 2023 22:02:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 6KMUFFf3tWPwJAAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 04 Jan 2023 22:01:59 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id ABDdNVr3tWPwJAAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 04 Jan 2023 22:02:02 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -56,20 +56,17 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [RFC PATCH 25/27] tests: device-introspect-test: cope with ARM
- TCG-only devices
-Date: Wed,  4 Jan 2023 18:58:33 -0300
-Message-Id: <20230104215835.24692-26-farosas@suse.de>
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
+Subject: [RFC PATCH 26/27] cpu-defs.h: Expose CPUTLBEntryFull to non-TCG code
+Date: Wed,  4 Jan 2023 18:58:34 -0300
+Message-Id: <20230104215835.24692-27-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230104215835.24692-1-farosas@suse.de>
 References: <20230104215835.24692-1-farosas@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -92,77 +89,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Claudio Fontana <cfontana@suse.de>
+This struct has no dependencies on TCG code and it is being used in
+target/arm/ptw.c to simplify the passing around of page table walk
+results. Those routines can be reached by KVM code via the gdbstub
+breakpoint code, so take the structure out of CONFIG_TCG to make it
+visible when building with --disable-tcg.
 
-Skip the test_device_intro_concrete for now for ARM KVM-only build,
-as on ARM we currently build devices for ARM that are not
-compatible with a KVM-only build.
-
-We can remove this workaround when we fix this in KConfig etc,
-and we only list and build machines that are compatible with KVM
-for KVM-only builds.
-
-Alternative implementation provided by Alex.
-
-Suggested-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>
 ---
- tests/qtest/device-introspect-test.c | 32 +++++++++++++++++++++++-----
- 1 file changed, 27 insertions(+), 5 deletions(-)
+This is the least painful way I could figure out of doing this. Let me
+know if there's a better way.
+---
+ include/exec/cpu-defs.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/tests/qtest/device-introspect-test.c b/tests/qtest/device-introspect-test.c
-index 5b0ffe43f5..f89df87f74 100644
---- a/tests/qtest/device-introspect-test.c
-+++ b/tests/qtest/device-introspect-test.c
-@@ -304,6 +304,24 @@ static void test_abstract_interfaces(void)
-     qtest_quit(qts);
- }
+diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
+index 21309cf567..d5a4f30717 100644
+--- a/include/exec/cpu-defs.h
++++ b/include/exec/cpu-defs.h
+@@ -135,6 +135,10 @@ typedef struct CPUTLBEntry {
  
-+/*
-+ * XXX currently we build also boards for ARM that are incompatible with KVM.
-+ * We therefore need to check this explicitly, and only test virt for kvm-only
-+ * arm builds.
-+ * After we do the work of Kconfig etc to ensure that only KVM-compatible boards
-+ * are built for the kvm-only build, we could remove this.
-+ */
-+static bool skip_machine_tests(void)
-+{
-+#ifndef CONFIG_TCG
-+    const char *arch = qtest_get_arch();
-+    if (strcmp(arch, "arm") == 0 || strcmp(arch, "aarch64") == 0) {
-+        return true;
-+    }
-+#endif /* !CONFIG_TCG */
-+    return false;
-+}
-+
- static void add_machine_test_case(const char *mname)
- {
-     char *path, *args;
-@@ -328,11 +346,15 @@ int main(int argc, char **argv)
-     qtest_add_func("device/introspect/none", test_device_intro_none);
-     qtest_add_func("device/introspect/abstract", test_device_intro_abstract);
-     qtest_add_func("device/introspect/abstract-interfaces", test_abstract_interfaces);
--    if (g_test_quick()) {
--        qtest_add_data_func("device/introspect/concrete/defaults/none",
--                            g_strdup(common_args), test_device_intro_concrete);
--    } else {
--        qtest_cb_for_every_machine(add_machine_test_case, true);
-+
-+    if (!skip_machine_tests()) {
-+        if (g_test_quick()) {
-+            qtest_add_data_func("device/introspect/concrete/defaults/none",
-+                                g_strdup(common_args),
-+                                test_device_intro_concrete);
-+        } else {
-+            qtest_cb_for_every_machine(add_machine_test_case, true);
-+        }
-     }
+ QEMU_BUILD_BUG_ON(sizeof(CPUTLBEntry) != (1 << CPU_TLB_ENTRY_BITS));
  
-     return g_test_run();
++
++#endif  /* !CONFIG_USER_ONLY && CONFIG_TCG */
++
++#if !defined(CONFIG_USER_ONLY)
+ /*
+  * The full TLB entry, which is not accessed by generated TCG code,
+  * so the layout is not as critical as that of CPUTLBEntry. This is
+@@ -176,7 +180,9 @@ typedef struct CPUTLBEntryFull {
+     TARGET_PAGE_ENTRY_EXTRA
+ #endif
+ } CPUTLBEntryFull;
++#endif  /* !CONFIG_USER_ONLY */
+ 
++#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+ /*
+  * Data elements that are per MMU mode, minus the bits accessed by
+  * the TCG fast path.
 -- 
 2.35.3
 
