@@ -2,76 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FD565E03B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:50:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4936765E01F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:39:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDBre-0007GB-SU; Wed, 04 Jan 2023 17:04:02 -0500
+	id 1pDBt5-0008LG-JX; Wed, 04 Jan 2023 17:05:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDBpf-00066T-4E
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:02:09 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDBsZ-0008BQ-MA
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:05:03 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDBpd-0003D4-7w
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:01:58 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id c2so9797797plc.5
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 14:01:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDBsW-0004zc-UY
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:04:59 -0500
+Received: by mail-ej1-x632.google.com with SMTP id qk9so85775164ejc.3
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 14:04:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=gcxpew+8Lsb2EWcuDIKVUI32Y3kSgK3wx/i+IbVIH48=;
- b=yeRoC2wrWyCHxwQXyFNAW7YXlb+6IfDNCMsJ0EqINVxUNi0gzyr9P1E9H+WZ1UO0iR
- dP+/rQSWENaA0U6oPhxaQkKa06fprRr5O/skgxjuEU/sprsy/ws9xxlXa2sqj9ZY+/7W
- 7jrTiGufmXZyd9W+PRJCSpRhQaNWT+uusCICBNJ0GgYk4XhQAnc7bYBpzykndL6HFiep
- ofhd6LtASujOgts3cD3l9Ys2f/DF7dcRINkg5jRGzmQqGWHk0xyfTP1B6ddn/q4hmFW4
- ksDh/MgYs1sjTmuEawrNnK0n3ahpQAD5XzCIPVKU8RmgUGkk9v66Mnz9c+lt3p3Ppxon
- GXxg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=TFfnwjftSBTQtlrSBz3RLCltb8prEkxU+BRsjCrCgtQ=;
+ b=pCKy3Vgcn9frgL1Z6PKfnlIn4yF3aXjidG7SLKuNXzFpa3mU8tY2cNUadw4pji+k0F
+ jvpcI50AwZiG3VGGcq9ma6u2qDa7eHF+2i8kQFHVey8/mdD64bhVe9IxFoIN7pJgyEf9
+ 2c7BWfk0pHq4Ja3VgwFKR6baxop3v5zgBfBmdwkLjZCalagvZxady8XUc2k0Biwihz8s
+ CEJEEa6hlHhcbuSTswJ32VaW4KbPzupRCjO94mOhv0UuY/HIlezodfZJvRsu2ij2a1NM
+ oKjxWkEjZPwRP+CDs82l4DPEDA57dMMt1e/I0mPPx/wMggcz0N8AyNqo2FMG0IOfNmG3
+ hv2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=gcxpew+8Lsb2EWcuDIKVUI32Y3kSgK3wx/i+IbVIH48=;
- b=kMgq2SyimbVrEbi7I3NUT4aGB1KRV0yQ2otfhrMmIZNNRCMDplj5l0NArEi357cHaW
- 6VdvlEhcsJ+4I3fUwAKMchqbEBPeSAfbbPaQtZSUbCSuPI3oh77wCU6xDEM7cr5m2Xv0
- H6ISuuALFYLfW+sgZksH6xBU7NZUsauk1fNkB+BQcf4EdjFraLiXFRaqOaBB8NMvlKcB
- DnaXyw27kzZKJYvKr7JSbXlJ1bFh2wYj/0RBOxCoJyQsTR0eknP44BtM37Hjwd/FZPyw
- /J3tYGx7VXXMDRgiZa8l5yK4jZpsmj5/gnIGnqSKwhLOMWyICUPs9nX8VzDtCBcUyWpH
- gvqw==
-X-Gm-Message-State: AFqh2kpSZoAUcrlt/3WZXyMOTBlbHH/RzO3JasDfAQMCaQO8xNP87fBd
- zSvCnl1S/zoDIkkfoouV7JJb/yZZ0sOC4TJgtlSkUQ==
-X-Google-Smtp-Source: AMrXdXsslyMrJIq2fU73ctDHp6N9xWG7So0TTZVmRdESTKxCq62MDEFYwMbInidZRv426vrTSoCk0T0rWsw7TXxz7pQ=
-X-Received: by 2002:a17:902:efcf:b0:192:ea33:5092 with SMTP id
- ja15-20020a170902efcf00b00192ea335092mr293673plb.19.1672869715558; Wed, 04
- Jan 2023 14:01:55 -0800 (PST)
+ bh=TFfnwjftSBTQtlrSBz3RLCltb8prEkxU+BRsjCrCgtQ=;
+ b=AvS0pEGx6EdsuGPF6knKPMuSwQkN/Ou45vF8UF05GMHYqicUNvljmYMpeAyXiilej1
+ 3dSowrpgfqwl5G6ZcIFWz0XE7mBQ6InfM0zqlzkHFkwdst3maeG2uMimUFA9RMqkPJED
+ 12a07+6uimzAHfK5R9d2QmKvV4qx70jQzLrXjMBkjJzxhn/DVOQHoT46z13SZkcatWEB
+ iAti38cfnwTbPRXzZfsCuvJrPs6ehq4lu+LXRwogBr2QfWy8mH7K9tPL21HsBoIDxbDf
+ l6oQz1EmCiPWS8CzHqBGEQ+098rIy9g7FXSMidyaUmQ9XtlwtwdbKPsv26Qsy9yy6w/K
+ Ln9A==
+X-Gm-Message-State: AFqh2kp//yXrASoDUuzG334StLRB4r/5Aqwf8LBQa8f/A/va35FSdYMO
+ 0jZJ3I5P7PWIIlplwTi347OmPjv7ukX/E92+
+X-Google-Smtp-Source: AMrXdXv8vYeyfvNZ6wMfRLyd7GkFBEmpWbZ4qZ0RgO9hI3ghNmrgaXrH0twPL68Bf7bsOSPFBGU6ow==
+X-Received: by 2002:a17:907:c48d:b0:7c0:fe60:be12 with SMTP id
+ tp13-20020a170907c48d00b007c0fe60be12mr38960273ejc.25.1672869894693; 
+ Wed, 04 Jan 2023 14:04:54 -0800 (PST)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ i16-20020a170906115000b008373f9ea148sm15784340eja.71.2023.01.04.14.04.50
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 04 Jan 2023 14:04:54 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Song Gao <gaosong@loongson.cn>, Antony Pavlov <antonynpavlov@gmail.com>,
+ Jan Kiszka <jan.kiszka@web.de>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Hanna Reitz <hreitz@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
+ Mark Burton <mburton@qti.qualcomm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Eduardo Habkost <eduardo@habkost.net>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Radoslaw Biernacki <rad@semihalf.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ qemu-riscv@nongnu.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
+ Leif Lindholm <quic_llindhol@quicinc.com>, Kevin Wolf <kwolf@redhat.com>
+Subject: [PATCH 00/20] hw: Remove implicit sysbus_mmio_map() from pflash APIs
+Date: Wed,  4 Jan 2023 23:04:29 +0100
+Message-Id: <20230104220449.41337-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20230104123559.277586-1-thuth@redhat.com>
-In-Reply-To: <20230104123559.277586-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 4 Jan 2023 22:01:44 +0000
-Message-ID: <CAFEAcA-1-CBVd9FRYHS5_KTjC9UfTUz6E7qDz0g7xYjsA7PC=w@mail.gmail.com>
-Subject: Re: [PATCH] .gitlab-ci.d/windows: Work-around timeout and OpenGL
- problems of the MSYS2 jobs
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62e.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,35 +106,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 4 Jan 2023 at 12:36, Thomas Huth <thuth@redhat.com> wrote:
->
-> The windows jobs (especially the 32-bit job) recently started to
-> hit the timeout limit. Bump it a little bit to ease the situation
-> (80 minutes is quite long already - OTOH, these jobs do not have to
-> wait for a job from the container stage to finish, so this should
-> still be OK).
->
-> Additionally, some update on the container side recently enabled
-> OpenGL in these jobs - but the corresponding code fails to compile.
-> Thus disable OpenGL here for the time being until someone figured
-> out the proper fix in the shader code for this.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  Now that the timeout and OpenGL problems are gone, the 64-bit is
->  working fine for me again. However, I'm still seeing random issues
->  with the 32-bit job ... not sure whether it's a problem on the
->  QEMU side or whether the builders are currently instable, since
->  the issues do not reproduce reliably...
->
->  .gitlab-ci.d/windows.yml | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+Paving the road toward heterogeneous QEMU, the limitations of
+having a single machine sysbus become more apparent.
 
-Thanks; applied to master on the assumption it will improve the
-CI situation. I found that the msys2-32bit job still timed out
-at 1h20, though:
+The sysbus_mmio_map() API forces the caller to map a sysbus
+device to an address on the system bus (system bus here is
+the root MemoryRegion returned by get_system_memory() ).
 
-https://gitlab.com/qemu-project/qemu/-/jobs/3555245586
+This is not practical when each core has its own address
+space and group of cores have access to a part of the
+peripherals.
 
--- PMM
+Experimenting with the PFLASH devices. Here the fix is
+quite easy, we split the pflash_cfi_register() -- which
+does the implicit sysbus mapping -- into an explicit qdev
+pflash_cfi_create() followed by the sysbus_mmio_map() call.
+
+Since we were touching the PFLASH API, we restricted the
+PFlashCFI0X structures to their models. The API now deals
+with a generic qdev pointer (DeviceState*).
+
+First 15 patches deal with the CFI type 1 model, then the
+last 5 with the type 2.
+
+The patch logic is mostly:
+
+- extract pflash_cfi_create() from pflash_cfi_register()
+- open-code pflash_cfi_register() for each hw/${ARCH}/
+- remove unused pflash_cfi_register()
+- reduce PFlashCFI0x structure scope
+
+Please review,
+
+Phil.
+
+Philippe Mathieu-Daudé (20):
+  hw/block: Pass DeviceState to pflash_cfi01_get_blk()
+  hw/block: Use pflash_cfi01_get_blk() in pflash_cfi01_legacy_drive()
+  hw/block: Pass DeviceState to pflash_cfi01_get_memory()
+  hw/arm: Use generic DeviceState instead of PFlashCFI01
+  hw/loongarch: Use generic DeviceState instead of PFlashCFI01
+  hw/riscv: Use generic DeviceState instead of PFlashCFI01
+  hw/i386: Use generic DeviceState instead of PFlashCFI01
+  hw/xtensa: Use generic DeviceState instead of PFlashCFI01
+  hw/block: Factor pflash_cfi01_create() out of pflash_cfi01_register()
+  hw/arm: Open-code pflash_cfi01_register()
+  hw/microblaze: Open-code pflash_cfi01_register()
+  hw/mips: Open-code pflash_cfi01_register()
+  hw/ppc: Open-code pflash_cfi01_register()
+  hw/block: Remove unused pflash_cfi01_register()
+  hw/block: Make PFlashCFI01 QOM declaration internal
+  hw/block: Factor pflash_cfi02_create() out of pflash_cfi02_register()
+  hw/arm: Open-code pflash_cfi02_register()
+  hw/sh4: Open-code pflash_cfi02_register()
+  hw/block: Remove unused pflash_cfi02_register()
+  hw/block: Make PFlashCFI02 QOM declaration internal
+
+ hw/arm/collie.c                          | 15 ++++---
+ hw/arm/digic_boards.c                    | 14 +++---
+ hw/arm/gumstix.c                         | 19 +++++---
+ hw/arm/mainstone.c                       | 13 +++---
+ hw/arm/musicpal.c                        | 13 +++---
+ hw/arm/omap_sx1.c                        | 22 +++++----
+ hw/arm/sbsa-ref.c                        |  8 ++--
+ hw/arm/versatilepb.c                     | 13 +++---
+ hw/arm/vexpress.c                        | 12 +++--
+ hw/arm/virt.c                            |  6 +--
+ hw/arm/xilinx_zynq.c                     | 10 ++---
+ hw/arm/z2.c                              | 10 +++--
+ hw/block/pflash_cfi01.c                  | 35 ++++++++-------
+ hw/block/pflash_cfi02.c                  | 25 +++++------
+ hw/i386/pc_sysfw.c                       |  6 +--
+ hw/loongarch/virt.c                      |  9 ++--
+ hw/microblaze/petalogix_ml605_mmu.c      |  8 ++--
+ hw/microblaze/petalogix_s3adsp1800_mmu.c |  8 ++--
+ hw/mips/malta.c                          | 13 +++---
+ hw/ppc/e500.c                            |  2 +-
+ hw/ppc/sam460ex.c                        | 12 +++--
+ hw/ppc/virtex_ml507.c                    |  7 +--
+ hw/riscv/virt.c                          |  7 +--
+ hw/sh4/r2d.c                             |  9 ++--
+ hw/xtensa/xtfpga.c                       |  6 +--
+ include/hw/arm/virt.h                    |  3 +-
+ include/hw/block/flash.h                 | 57 ++++++++++++------------
+ include/hw/i386/pc.h                     |  3 +-
+ include/hw/loongarch/virt.h              |  3 +-
+ include/hw/riscv/virt.h                  |  3 +-
+ 30 files changed, 200 insertions(+), 171 deletions(-)
+
+-- 
+2.38.1
+
 
