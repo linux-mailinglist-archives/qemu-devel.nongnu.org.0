@@ -2,63 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98ACA65D1BE
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 12:47:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BCC365D1CE
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 12:52:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD2Dl-00062q-IB; Wed, 04 Jan 2023 06:46:13 -0500
+	id 1pD2Ix-0007So-6l; Wed, 04 Jan 2023 06:51:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pD2Dj-00062E-8W
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 06:46:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <SRS0=6L6x=5B=kaod.org=clg@ozlabs.org>)
+ id 1pD2Iv-0007Rj-KY; Wed, 04 Jan 2023 06:51:33 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pD2Dh-0001eO-9p
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 06:46:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672832768;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=+l5tUXKmzvTbBVmphtKr+qKKmiRdZjFnkwvImz+OtHI=;
- b=LfDb6nMPLx7csmDVVp30co2AKQBAqfTYLZSo1mQe51ZUw6D9WEIH7F4YOEWTKl/j5xmGLa
- pAjgpLZ4UYzP8TE7BdrKtv3Lg9wyl4z0qZqA3UFZYPAYHAFhNKwAqSGNHnwEuURdrMk9Mo
- kkPZ8BSiMGb+Ot8D72QAw9dX47kRdgw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-504-KFnYdLLeMauW4i6SPckfOA-1; Wed, 04 Jan 2023 06:46:05 -0500
-X-MC-Unique: KFnYdLLeMauW4i6SPckfOA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <SRS0=6L6x=5B=kaod.org=clg@ozlabs.org>)
+ id 1pD2It-0002Oz-LZ; Wed, 04 Jan 2023 06:51:33 -0500
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4Nn7Gy30ZQz4xyY;
+ Wed,  4 Jan 2023 22:51:22 +1100 (AEDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED7BC858F09;
- Wed,  4 Jan 2023 11:46:04 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3251492B06;
- Wed,  4 Jan 2023 11:46:03 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-devel@nongnu.org,
-	Alberto Garcia <berto@igalia.com>
-Subject: [PATCH] tests/qemu-iotests/312: Mark "quorum" as required driver
-Date: Wed,  4 Jan 2023 12:46:01 +0100
-Message-Id: <20230104114601.269351-1-thuth@redhat.com>
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Nn7Gt5ttKz4y0B;
+ Wed,  4 Jan 2023 22:51:18 +1100 (AEDT)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH 0/5] s390x/pv: Improve protected VM support
+Date: Wed,  4 Jan 2023 12:51:06 +0100
+Message-Id: <20230104115111.3240594-1-clg@kaod.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=SRS0=6L6x=5B=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,28 +64,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"quorum" is required by iotest 312 - if it is not compiled into the
-QEMU binary, the test fails. Thus list "quorum" as required driver
-so that the test gets skipped in case it is not available.
+Hello,
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/qemu-iotests/312 | 1 +
- 1 file changed, 1 insertion(+)
+Here is a little series improving error reporting of protected VMs.
 
-diff --git a/tests/qemu-iotests/312 b/tests/qemu-iotests/312
-index 4139745f0e..0d9ea09a31 100755
---- a/tests/qemu-iotests/312
-+++ b/tests/qemu-iotests/312
-@@ -52,6 +52,7 @@ _supported_fmt qcow2
- _supported_proto file
- _supported_os Linux
- _unsupported_imgopts cluster_size data_file
-+_require_drivers quorum
- 
- echo
- echo '### Create all images' # three source (quorum), one destination
+Thanks,
+
+C.
+
+Cédric Le Goater (5):
+  confidential guest support: Introduce a 'check' class handler
+  s390x/pv: Implement CGS check handler
+  s390x/pv: Check for support on the host
+  s390x/pv: Introduce a s390_pv_check() helper for runtime
+  s390x/pv: Move check on hugepage under s390_pv_guest_check()
+
+ include/exec/confidential-guest-support.h |  4 +-
+ include/hw/s390x/pv.h                     |  2 +
+ hw/core/machine.c                         | 11 ++--
+ hw/s390x/pv.c                             | 70 +++++++++++++++++++++++
+ target/s390x/diag.c                       |  6 +-
+ 5 files changed, 84 insertions(+), 9 deletions(-)
+
 -- 
-2.31.1
+2.38.1
 
 
