@@ -2,154 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94A565DF55
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 22:52:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C071D65DF8E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:03:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDBf8-0001pU-7S; Wed, 04 Jan 2023 16:51:06 -0500
+	id 1pDBp0-0005P1-RM; Wed, 04 Jan 2023 17:01:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pDBf5-0001pM-0n
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 16:51:03 -0500
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pDBf2-0004l1-U9
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 16:51:02 -0500
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 304Le6Cf001084
- for <qemu-devel@nongnu.org>; Wed, 4 Jan 2023 21:50:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=gopMHKCuEYGWqh5ojcStxLiR9q1+uq22NdFhVLjLXfQ=;
- b=jprQ/uyH3qCWDU9PrC/Kp8RXAIlj/vcngrLNO61453KPzUpXkFLdGqpzjU0X04/OIYoF
- 9hKIRLpslbZgo9ztNbGUpZA9TINYK5S+s0JMEMawnj7kigW102vIOddhmQEkqHqFWGhC
- hA4EVWQHHQosHsXkPNiKKXTEMzjNsa7uTXiGR7YQRp76aFHSaCa6vIVBIYoCVZMmp6bL
- kPKQxXlE7pyeIGjeYUOqG9RLCXxNv+A0j4EN/mRbi9X0GTOQW24tRY0bH+0ArdqiE7yV
- tDeravk565iyEc4dONpB2jtixWXcId2Hm5hTTEE2y42a0UyDJRJPu/dJ3VF/1hXs20Of vQ== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mvsvxtwtt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 21:50:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bZZ0n0kWYnixpGterS5riUBFDkD5R+kT/+g6FaSmALblk7RNVajCZk6NT5Tt3p3P9328AGBGmXrLkpZfZBZ+MJgkCaNC5cTOemVnE+h4L66BWH9905OXRp4raRC6K5eXxbhRAwLksQenxzGne33zvS26QpsiCuDR1LvmczzCnjT5AeMFm/aDw0FFMs/mUvjpQh2RBpi1FqoJF+VTmp4u/6U5ibkwxsbAjdncPW8VhJWaoFyHstxMvs6klK/te+EzEXHFnSNiMh0s4K07XrawoSAKGA3gVq4d5CXx5iqZL+N2bnh7yT+6Bc9TBkXCNIVkcAIBbBJNvfzkenO03yR2OQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gopMHKCuEYGWqh5ojcStxLiR9q1+uq22NdFhVLjLXfQ=;
- b=UhQ7jqUQOQn4E5/nPREtxnMrB6J6oCvgy2hwk8Whu//lturJt816jwvHXhs3c7UKseQ5g3SfURA79EQIswwpcPRLjirygDRb0WxTHmD8TkHMzt29MuFq7d9mhv1CB13GF/f3XGFLmAZJrUwuHJUjnLH1e80kb2KX7AuQPAtSmYWXSANS935iHMAbk0dKsVc1kv5JF5N2cMOreLbvvHlxA07zqRZmL5IuDYx1o4MTWrMrhf3w29bEOIK5IzibzHYecwXYtftqILMDA2mI7Snea2QDoGecpCQ1Ro/vQdOZkVKhjX3zOav5d3e4/r5SOc8a0BvlpoRRyijL0Ambjt0KLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by SA0PR02MB7274.namprd02.prod.outlook.com
- (2603:10b6:806:e8::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Wed, 4 Jan
- 2023 21:50:46 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::8ba2:2429:9eea:75fc]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::8ba2:2429:9eea:75fc%8]) with mapi id 15.20.5944.019; Wed, 4 Jan 2023
- 21:50:45 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Marco Liebel <mliebel@qti.qualcomm.com>, "Marco Liebel (QUIC)"
- <quic_mliebel@quicinc.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-CC: Brian Cain <bcain@quicinc.com>
-Subject: RE: [PATCH v2] Hexagon (target/hexagon) implement mutability mask for
- GPRs
-Thread-Topic: [PATCH v2] Hexagon (target/hexagon) implement mutability mask
- for GPRs
-Thread-Index: AQHZEYmgaETO3gLL/E63G6kWSxoV8K51ZBZggANfLQCAAAYewIAVQI4AgADfw2A=
-Date: Wed, 4 Jan 2023 21:50:45 +0000
-Message-ID: <SN4PR0201MB88084DD73F91AE634E538FF8DEF59@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20221216200345.831816-1-quic_mliebel@quicinc.com>
- <SN4PR0201MB8808811EBCD9471A2D3792FDDEE59@SN4PR0201MB8808.namprd02.prod.outlook.com>
- <SJ0PR02MB764786AE5799B9372393A79594EB9@SJ0PR02MB7647.namprd02.prod.outlook.com>
- <SN4PR0201MB8808170B90DA3A2E3819DADBDEEB9@SN4PR0201MB8808.namprd02.prod.outlook.com>
- <SJ0PR02MB7647024C2D36594D91FFD55194F59@SJ0PR02MB7647.namprd02.prod.outlook.com>
-In-Reply-To: <SJ0PR02MB7647024C2D36594D91FFD55194F59@SJ0PR02MB7647.namprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|SA0PR02MB7274:EE_
-x-ms-office365-filtering-correlation-id: a672db1f-e468-44a1-38af-08daee9dbc17
-x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: uRyjptwhpCYJ7HrXP1/lmCJXRGLjElGU4R7tqpQNQynJX3+t1W4xuzAWtknZkluUKct+M43BTERRDoHL2siF3B57xFpsYV4CDHP2eU5PvGqVJV1m7N1FCENLM9pUuDW+PFxSSDK58D8z9WWbMgYYglxcxlAHYwj1Hw9GNexLkQNhOQIb1BJf3YkIBrGICKq7tLi+YgBmhIsnOXvWAkAZ7Fklv9JWjrNZ1mZ4LzbrQ3s6FLKnEfCGjvnGoPPtziJw5OFGEd8F0yno57tVJJv8OPc/qF3xgacoXkkbFLp/zUsI3cAb+Yj3Ibb8db/EA0VzVuxKdpSlE1cieBKd3MQykNIT0c5GBwCki+pVzsQBqpgbtAEkJV+r9dOfs1NYFn1B0JI3rRHvdroeTm+wLl5RRN4XpdMDaHwdm2ChwyJKZPwtuwzuWLwAR646t53zuwrY687DblR8sUmofLUbBZNvdbTuSXH72gsrWuOKiPn8JTIZeP+jxJy3hM6PJru4UUlB3fiBgeU3o4+hWs7DjCc0aehWkRgFMtMLApzzWO+WVRHQkCb7tc1pJh+0OyQ1zAZ30NTLGap3muIKtFiwy81LonjwaURrVgd+QkI6WJgW77dPWMcJzXzXW/eXufsEX5Tm5X0EwJgpjWCFxBvwtF/V7eNVdEo8DOmAPHk3+5RqthTT6JVncAnTBoS2kIac95y7kfq2hOBFWF9IH8Gf13bxPQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(366004)(39860400002)(346002)(396003)(136003)(451199015)(8676002)(76116006)(66946007)(66556008)(66446008)(4326008)(64756008)(66476007)(41300700001)(38070700005)(316002)(38100700002)(2906002)(110136005)(86362001)(5660300002)(122000001)(71200400001)(33656002)(83380400001)(8936002)(55016003)(52536014)(7696005)(6506007)(53546011)(478600001)(186003)(26005)(9686003)(107886003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?XIbnNM97SGnFvr1JjlGP8mWJeCFe5DY3isHrGYYNlbqG6BbXTkFeiMaStdFW?=
- =?us-ascii?Q?OW0yjAR1WMPdyGO/9f4D+n/G+AoJdwT2Zg8+EvJzi0ldstzzB5DlMfr2eUfn?=
- =?us-ascii?Q?Q8c0vH0sYSieEqa6NjUJI8Jv4C1bWfL7SxxMetwai0MlaezLDANU5L1oHvH0?=
- =?us-ascii?Q?dGFaW5AapUxO93DIciUQYHdBVuNl5ZZh1NLjcqf7k6i9xcwAPOfDcITCbGPY?=
- =?us-ascii?Q?6SeEu1Oc5Q7i0g+9YCY8Ib/OQoQtmhbuc39woko7skiGGC6CsR5Rf6hyPvBC?=
- =?us-ascii?Q?jwl0wfEH/Ys7lz7veiU/W3+hZcq5AUT4G4GzBwOAuO+JIfmTcuLzmwkDtBw2?=
- =?us-ascii?Q?R0jVhSA1PVh2VnI/aCgJ3eGDcDrEStlrHF0zLGigOxtsDzMGUs++bYCOMJah?=
- =?us-ascii?Q?uqZhad++KRthZMV+B6kpT8iJzqghmiQHGbJKm6ltSp37yAJmAJWUxHF/Kuqk?=
- =?us-ascii?Q?9psvhh3mN+j2YcmyXuzBAd2K5vBqBz/gxDgpGlBMNR65EyUjvNMsbZJy4fCx?=
- =?us-ascii?Q?YXp+EiPqs7ZKQ41T7kipe71JYj6gQZ49WcAYBVYPnN0RzG5XgYxqZ4IcxwZf?=
- =?us-ascii?Q?GXHH+5/clJlcvEQ3blLxMCYvmraKDvefNmMUrKVUGwoiOq3K3KgNl36JqOx9?=
- =?us-ascii?Q?tYMu//w85X9gYIVN01NGi3VtUIvVJl4W3qJ30jJbGupHO96cyXoaBcZk5ktX?=
- =?us-ascii?Q?Vk3o1ymHhi07lUFOTw+xkjp/i1TW2F1vwLEesLeQfnk/WtsrqdHt8SSr0VgZ?=
- =?us-ascii?Q?XJhzjN7o9SY+kwY4IC5JabT1B87/dFIZhbG1sgNnURN47vcivHiGUqP2pEFU?=
- =?us-ascii?Q?t07BlmLB407knlxDWG1SSVqBADYWfvRs3h/QOMK3KF93iCUZqiRku0d4mmH3?=
- =?us-ascii?Q?auJGupcX7JQvLxVnMa0N22l8btVvpVU9kZFEsLSDN6iJuL+8lKx9Kon57H7G?=
- =?us-ascii?Q?6HahUoJRFkf4pvkInwyYFrhhdwPFlp4dBrflQosjmkvBAvaJUGDkTwqp5zqT?=
- =?us-ascii?Q?11ljhSZ8NjXgbScSMw+3xVniuu+w3pYiU8+jn/xZCK+Lf+wEyfKcZysCOz4F?=
- =?us-ascii?Q?BJPecpCmXSPijOAsNdEAlbB3JQ/kRxeOcszbG6UY+Hb/yMRAXDDO17YNkFQy?=
- =?us-ascii?Q?yX9TdeF0StEWgcLi8YCE695I8/gRbVRCHqHyD70xSi5Ps1J2W+G3Gefms4gJ?=
- =?us-ascii?Q?LO1thLoa0K98QAbOfOmHqkcUHWXmAmT+xRfGPoPRM59my0yU2etD4McZAAnk?=
- =?us-ascii?Q?qFDK6wndct1fIer7m4uZqRnccTlU5modj4fDj9e7il9xphwjDz9aXymkbC4R?=
- =?us-ascii?Q?1DkK9Vfm264dDLZiWPG2vbDN4bgFg02ZFww7Vj/MV+UuKd3JauTOPw+lCXN2?=
- =?us-ascii?Q?RW+Y4iapWIXJXpCytcSuKN6IEDMAM/ySM2jrBVY1WNI86fOve6AmMyR7v9YO?=
- =?us-ascii?Q?DszZd23cnP67zMC9ScIlIOekzv5HhhaDwGgGmHhumwUIiCBCikwC0Zweydl7?=
- =?us-ascii?Q?ylVk7aY9uTkbDhAQHtIqKaaw0DcuO5j2xxLgDKpq71kWslO5EbMrQ3ZeUxEm?=
- =?us-ascii?Q?lk0ENzj+pxqphZVHTD0lEJXkNcK5z94W/wmhVSK4?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pDBoX-0005NR-J5; Wed, 04 Jan 2023 17:00:50 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pDBoU-0002lQ-EV; Wed, 04 Jan 2023 17:00:49 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 12C5C3EF48;
+ Wed,  4 Jan 2023 22:00:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1672869641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jQyvzVyepOLFufWtChEgKriFOqzyRYhrNUetb0Ptorg=;
+ b=AR7SVmMVanZU0NM3oUll5hLe2y+wWIsSBcYwoXML1IxG16xT9uwuchRYQT+3phA8foFf4Q
+ 4drEs6GLm3wsde0qjRCqpz/23FOEKwSEtgGzF9cpr9dpO15K7dTt9Q/YgFHdZn8XyppZ6U
+ d2uvx5PtKLoT8ovQgdjF3eiANl/7TlU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1672869641;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jQyvzVyepOLFufWtChEgKriFOqzyRYhrNUetb0Ptorg=;
+ b=dzZn7gYuDR28W/0Eabeibbj2tTwlNvsiUn7vxIgLlDBXMWcze+foswKE/E7fL6a3sJ5S2j
+ U/OXFKGUDMP/2TCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 488081342C;
+ Wed,  4 Jan 2023 22:00:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id zKdhBAb3tWPwJAAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 04 Jan 2023 22:00:38 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
+Subject: [RFC PATCH 00/27] target/arm: Allow CONFIG_TCG=n builds
+Date: Wed,  4 Jan 2023 18:58:08 -0300
+Message-Id: <20230104215835.24692-1-farosas@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: j8fY3CnTySgcnjnEFHhDKdC6Yoeopjxg3kLrRuKKsAPqVT7hkWcDdnj1avBNfd+cEtjJryl/ABfJnxORmWNlMbm0TPUuI/SXnRlrnn7Y3DEs0F04DMJv5KzsmHk26InSWWr8ldmKAeSBfa7/KEKEmMheONitdW+LHmvbdp3jafCyoY9cl6O0Ea5csP1IP652BLc23oMs9fJc4yB4Y2ldg8dE8QXTmUMBJMizfp2romuhfoO7D3anz3Yu5KhtA2EmI7A6G/rO1ZORfY9SkKtyB3UWwhARla820Y9AitADsoRbxJIRArYijSGbXN7P1eC1zH2hlBTBFSifH8wP7LqHdhkcKzXS2y/EB0Ni13Gie/rCpzrMDcLbPILXofH6dkUdZAtCpviHycXQsoYruSw+kKN7ZCugG4bOYSPSOxVH+oPDmwIVa4p8mmT/cBj+Ib3Wr0InAMr7V6HBe4wvGGaT1dtUERDFaCHGT8CgiXYwmWa2ssxs8p/PD7GCRLcJVbRDTKB+lb6JELypuSuN7yVUk8+5uakZI8pGby4PKTraoFZ65iqMPNyjEg/waGcIMHoxe+uhML0lbShtzFB1dSQKIIZMGDSU1wVY5Y9mIJUeVu3LPiRiYC7WeOvpunMOiQZh8inDcR1ZPIFMevyjOR8T0ahWUpDWIL+SxDuDMU+6NXZ4hmRy+wPW/VR/mHKeA054PbVLiyjaVzvGDvqQUkQiBJj5M0noPuE+VDf+MUEh5jgTsn4O35tf70qZdCbVZYbCUJejU3YSfSli0AIJm4bdEA==
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a672db1f-e468-44a1-38af-08daee9dbc17
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jan 2023 21:50:45.8948 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: U/udYH25ozDTCGUsUMpKsTEuineDE1JoeV8P9tMvZ9Kx7nO4v7/SMF1ay+k5agsBpXj1Xbd1eijlyfGykdarGw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR02MB7274
-X-Proofpoint-ORIG-GUID: cGzTDuZA-ILMqUD51Ukgk7pRKpuAgDod
-X-Proofpoint-GUID: cGzTDuZA-ILMqUD51Ukgk7pRKpuAgDod
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-04_07,2023-01-04_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 impostorscore=0 lowpriorityscore=0
- clxscore=1015 priorityscore=1501 spamscore=0 mlxlogscore=528 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301040177
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0b-0031df01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -166,62 +86,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This series makes the necessary changes to allow the use of
+--disable-tcg for arm.
 
+I have included the other two already reviewed series to facilitate
+the merge. Patch 12 is the first from this series proper.
 
-> -----Original Message-----
-> From: Marco Liebel <mliebel@qti.qualcomm.com>
-> Sent: Wednesday, January 4, 2023 2:28 AM
-> To: Taylor Simpson <tsimpson@quicinc.com>; Marco Liebel (QUIC)
-> <quic_mliebel@quicinc.com>; qemu-devel@nongnu.org
-> Cc: Brian Cain <bcain@quicinc.com>
-> Subject: RE: [PATCH v2] Hexagon (target/hexagon) implement mutability
-> mask for GPRs
->=20
-> > -----Original Message-----
-> > From: Taylor Simpson <tsimpson@quicinc.com>
-> > Sent: Mittwoch, 21. Dezember 2022 21:06
-> > To: Marco Liebel <mliebel@qti.qualcomm.com>; Marco Liebel (QUIC)
-> > <quic_mliebel@quicinc.com>; qemu-devel@nongnu.org
-> > Cc: Brian Cain <bcain@quicinc.com>
-> > Subject: RE: [PATCH v2] Hexagon (target/hexagon) implement mutability
-> > mask for GPRs
-> >
-> >
-> >
-> > > -----Original Message-----
-> > > From: Marco Liebel <mliebel@qti.qualcomm.com>
-> > > Sent: Wednesday, December 21, 2022 1:34 PM
-> > > To: Taylor Simpson <tsimpson@quicinc.com>; Marco Liebel (QUIC)
-> > > <quic_mliebel@quicinc.com>; qemu-devel@nongnu.org
-> > > Cc: Brian Cain <bcain@quicinc.com>
-> > > Subject: RE: [PATCH v2] Hexagon (target/hexagon) implement
-> > > mutability mask for GPRs
-> > >
-> > > > > +#define WRITE_REG_IN_PACKET(reg_name, output, input) \
-> > > > > +    asm volatile("{ " reg_name " =3D %1 }\n\t" \
-> > > >
-> > > > This is no different from the WRITE_REG above.  Instructions on a
-> > > > line with no curly braces are a single packet.
-> > > >
-> > >
-> > > Understood. The feedback on Brian's patch said to write tests that
-> > > do transfers in a packet. Should I write some? (Just not in the way
-> > > I did it above)
-> >
-> > Put some more instructions in the packet with the assignment.  I
-> > recommend a read from the same register and verify you get the old valu=
-e.
-> >
->=20
-> Reading and writing a control register in a single packet isn't possible,
-> because CR instructions can only be executed in slot 3. I was thinking to=
- put a
-> nop inside the packet, just so the packet gets generated. Or is there
-> something else that's useful, other than reading the previous value?
+I could use some help with the last two patches which deal with the
+fact that ptw.c needs CPUTLBEntryFull and probe_access_full which are
+_currently_ only compiled with CONFIG_TCG=y.
 
-You are right.  Let's move forward without any packet tests.  Sorry for the=
- confusion.
+The 3 cpregs patches were split from the larger commit[1] from the
+original series. We're still left with one huge patch, but it is only
+code movement, it can be checked with:
 
-Taylor
+diff -u <(sed -n 's/^-//p' patch) <(sed -n 's/^\+//p' patch)
+
+1- [RFC v14 14/80] target/arm: split cpregs from tcg/helper.c
+   https://lore.kernel.org/r/20210416162824.25131-15-cfontana@suse.de
+
+Claudio Fontana (12):
+  target/arm: cleanup cpu includes
+  target/arm: rename handle_semihosting to tcg_handle_semihosting
+  target/arm: wrap psci call with tcg_enabled
+  target/arm: wrap call to aarch64_sve_change_el in tcg_enabled()
+  target/arm: only perform TCG cpu and machine inits if TCG enabled
+  target/arm: move translate modules to tcg/
+  target/arm: move helpers to tcg/
+  target/arm: only build psci for TCG
+  target/arm: make further preparation for the exception code to move
+  tests: do not run test-hmp on all machines for ARM KVM-only
+  tests: do not run qom-test on all machines for ARM KVM-only
+  tests: device-introspect-test: cope with ARM TCG-only devices
+
+Fabiano Rosas (15):
+  target/arm: Fix checkpatch comment style warnings in helper.c
+  target/arm: Fix checkpatch space errors in helper.c
+  target/arm: Fix checkpatch brace errors in helper.c
+  target/arm: Remove unused includes from m_helper.c
+  target/arm: Remove unused includes from helper.c
+  target/arm: Move PC alignment check
+  target/arm: Add tcg/meson.build
+  target/arm: Move regime_using_lpae_format into internal.h
+  target/arm: Extract cpustate list manipulation to a file
+  target/arm: Move cpregs code out of cpu.h
+  target/arm: Move common cpregs code into a separate file
+  target/arm: Move cpregs definitions into tcg/cpregs.c
+  target/arm: Move hflags code into the tcg directory
+  cpu-defs.h: Expose CPUTLBEntryFull to non-TCG code
+  target/arm: don't access TCG code when debugging with KVM
+
+ MAINTAINERS                             |    1 +
+ hw/arm/boot.c                           |    5 +-
+ include/exec/cpu-defs.h                 |    6 +
+ target/arm/arm-powerctl.c               |    8 +-
+ target/arm/cpregs.c                     |  482 ++
+ target/arm/cpregs.h                     |  103 +
+ target/arm/cpu.c                        |   33 +-
+ target/arm/cpu.h                        |   91 -
+ target/arm/cpu64.c                      |    6 -
+ target/arm/cpustate-list.c              |  148 +
+ target/arm/helper.c                     | 9132 +----------------------
+ target/arm/internals.h                  |   20 +-
+ target/arm/kvm.c                        |   18 +-
+ target/arm/kvm_arm.h                    |    3 +-
+ target/arm/machine.c                    |   58 +-
+ target/arm/meson.build                  |   49 +-
+ target/arm/ptw.c                        |    4 +
+ target/arm/tcg-stubs.c                  |   37 +
+ target/arm/{ => tcg}/a32-uncond.decode  |    0
+ target/arm/{ => tcg}/a32.decode         |    0
+ target/arm/tcg/cpregs.c                 | 8088 ++++++++++++++++++++
+ target/arm/{ => tcg}/crypto_helper.c    |    0
+ target/arm/{ => tcg}/debug_helper.c     |    0
+ target/arm/{ => tcg}/helper-a64.c       |    0
+ target/arm/tcg/hflags.c                 |  344 +
+ target/arm/{ => tcg}/iwmmxt_helper.c    |    0
+ target/arm/{ => tcg}/m-nocp.decode      |    0
+ target/arm/{ => tcg}/m_helper.c         |   16 -
+ target/arm/tcg/meson.build              |   52 +
+ target/arm/{ => tcg}/mte_helper.c       |    0
+ target/arm/{ => tcg}/mve.decode         |    0
+ target/arm/{ => tcg}/mve_helper.c       |    0
+ target/arm/{ => tcg}/neon-dp.decode     |    0
+ target/arm/{ => tcg}/neon-ls.decode     |    0
+ target/arm/{ => tcg}/neon-shared.decode |    0
+ target/arm/{ => tcg}/neon_helper.c      |    0
+ target/arm/{ => tcg}/op_helper.c        |    1 +
+ target/arm/{ => tcg}/pauth_helper.c     |    0
+ target/arm/{ => tcg}/psci.c             |    0
+ target/arm/{ => tcg}/sme-fa64.decode    |    0
+ target/arm/{ => tcg}/sme.decode         |    0
+ target/arm/{ => tcg}/sme_helper.c       |    0
+ target/arm/{ => tcg}/sve.decode         |    0
+ target/arm/{ => tcg}/sve_helper.c       |    0
+ target/arm/{ => tcg}/t16.decode         |    0
+ target/arm/{ => tcg}/t32.decode         |    0
+ target/arm/{ => tcg}/tlb_helper.c       |   14 -
+ target/arm/{ => tcg}/translate-a64.c    |    1 +
+ target/arm/{ => tcg}/translate-a64.h    |    0
+ target/arm/{ => tcg}/translate-m-nocp.c |    0
+ target/arm/{ => tcg}/translate-mve.c    |    0
+ target/arm/{ => tcg}/translate-neon.c   |    0
+ target/arm/{ => tcg}/translate-sme.c    |    0
+ target/arm/{ => tcg}/translate-sve.c    |    0
+ target/arm/{ => tcg}/translate-vfp.c    |    0
+ target/arm/{ => tcg}/translate.c        |    1 +
+ target/arm/{ => tcg}/translate.h        |    0
+ target/arm/{ => tcg}/vec_helper.c       |    0
+ target/arm/{ => tcg}/vec_internal.h     |    0
+ target/arm/{ => tcg}/vfp-uncond.decode  |    0
+ target/arm/{ => tcg}/vfp.decode         |    0
+ tests/qtest/device-introspect-test.c    |   32 +-
+ tests/qtest/qom-test.c                  |   21 +
+ tests/qtest/test-hmp.c                  |   21 +
+ 64 files changed, 9551 insertions(+), 9244 deletions(-)
+ create mode 100644 target/arm/cpregs.c
+ create mode 100644 target/arm/cpustate-list.c
+ create mode 100644 target/arm/tcg-stubs.c
+ rename target/arm/{ => tcg}/a32-uncond.decode (100%)
+ rename target/arm/{ => tcg}/a32.decode (100%)
+ create mode 100644 target/arm/tcg/cpregs.c
+ rename target/arm/{ => tcg}/crypto_helper.c (100%)
+ rename target/arm/{ => tcg}/debug_helper.c (100%)
+ rename target/arm/{ => tcg}/helper-a64.c (100%)
+ create mode 100644 target/arm/tcg/hflags.c
+ rename target/arm/{ => tcg}/iwmmxt_helper.c (100%)
+ rename target/arm/{ => tcg}/m-nocp.decode (100%)
+ rename target/arm/{ => tcg}/m_helper.c (99%)
+ create mode 100644 target/arm/tcg/meson.build
+ rename target/arm/{ => tcg}/mte_helper.c (100%)
+ rename target/arm/{ => tcg}/mve.decode (100%)
+ rename target/arm/{ => tcg}/mve_helper.c (100%)
+ rename target/arm/{ => tcg}/neon-dp.decode (100%)
+ rename target/arm/{ => tcg}/neon-ls.decode (100%)
+ rename target/arm/{ => tcg}/neon-shared.decode (100%)
+ rename target/arm/{ => tcg}/neon_helper.c (100%)
+ rename target/arm/{ => tcg}/op_helper.c (99%)
+ rename target/arm/{ => tcg}/pauth_helper.c (100%)
+ rename target/arm/{ => tcg}/psci.c (100%)
+ rename target/arm/{ => tcg}/sme-fa64.decode (100%)
+ rename target/arm/{ => tcg}/sme.decode (100%)
+ rename target/arm/{ => tcg}/sme_helper.c (100%)
+ rename target/arm/{ => tcg}/sve.decode (100%)
+ rename target/arm/{ => tcg}/sve_helper.c (100%)
+ rename target/arm/{ => tcg}/t16.decode (100%)
+ rename target/arm/{ => tcg}/t32.decode (100%)
+ rename target/arm/{ => tcg}/tlb_helper.c (95%)
+ rename target/arm/{ => tcg}/translate-a64.c (99%)
+ rename target/arm/{ => tcg}/translate-a64.h (100%)
+ rename target/arm/{ => tcg}/translate-m-nocp.c (100%)
+ rename target/arm/{ => tcg}/translate-mve.c (100%)
+ rename target/arm/{ => tcg}/translate-neon.c (100%)
+ rename target/arm/{ => tcg}/translate-sme.c (100%)
+ rename target/arm/{ => tcg}/translate-sve.c (100%)
+ rename target/arm/{ => tcg}/translate-vfp.c (100%)
+ rename target/arm/{ => tcg}/translate.c (99%)
+ rename target/arm/{ => tcg}/translate.h (100%)
+ rename target/arm/{ => tcg}/vec_helper.c (100%)
+ rename target/arm/{ => tcg}/vec_internal.h (100%)
+ rename target/arm/{ => tcg}/vfp-uncond.decode (100%)
+ rename target/arm/{ => tcg}/vfp.decode (100%)
+
+-- 
+2.35.3
 
 
