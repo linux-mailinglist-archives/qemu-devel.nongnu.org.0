@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5429E65E022
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:40:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CE965E047
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:59:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDCCW-0002qk-Am; Wed, 04 Jan 2023 17:25:36 -0500
+	id 1pDCCy-0003Mw-8Y; Wed, 04 Jan 2023 17:26:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDCBK-0002Q4-E1
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:24:23 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDCBH-0007Dm-UB
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:24:22 -0500
-Received: by mail-ej1-x634.google.com with SMTP id fy8so22046440ejc.13
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 14:24:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kdJK7hKhTxXNAjCVewSU4FCPOPdb8xkIvabuXsiLWtw=;
- b=CkvqpzPQ3FaSqpRI4Tas2VvKPAZtJdwd13Eiy8L2CneL/u5tzug3cMd2bL73FAaoNU
- svfMWQaBW+8C43zuEhJaVYhtpim1/7a9Fragv4jCyg3c8jLKlUYiolauCgFq1hbEa0kk
- q4f0TqxS0wsuXaKrwNz88rZqpkcKpF4sklOA3nQiernVB2z/wxpeuflgj4b5oGbgO0eR
- 51gSQZksnvDaXS2tgFJFuCUk5fwQ2lH2puOt/CRltHixLrIdEtJOHIwdTl61XRmIW/eL
- gYluP+7QudzoN2qTN9OYHbZTbWu4xOhHy8x6wvcSASxifj/+zpeJqrj2m1mCbLsFPTTV
- Inyg==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDCCv-0003Ij-OG
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:26:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDCCu-0007yr-Bx
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:26:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672871159;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ec8hwymR8sCBfHDz8lCN9OyT+4HdTWbJ+yfJgvzvOu8=;
+ b=TfmoKUlW0xWxUcZ34Oelk1fz3Lzy5tcqRYWkksslndktRVgTHJ63X3Bnk+EtjUBSHbswnF
+ ediHLCZD4lxav36lyCaSe0m/Czwk5ap/42XnCnXnPzoffR20SaFwghlO7F7C3emTNh0y4R
+ wsrozUOe5FCIOkDyrGW01/Lo+pDZDIM=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-167-pPWdGDyHOX6HO3wtG4d3Fg-1; Wed, 04 Jan 2023 17:25:58 -0500
+X-MC-Unique: pPWdGDyHOX6HO3wtG4d3Fg-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ q9-20020a19a409000000b004b6ee156e03so12058082lfc.5
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 14:25:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kdJK7hKhTxXNAjCVewSU4FCPOPdb8xkIvabuXsiLWtw=;
- b=KRaF02UymSfW1vMeq8l04jHZNJPn7Vg0ntHc2jNjsVllK0l1nSuvruOldG4IRpDEJL
- 6vl9WNkeu8/9eL062qHUtw4LYoi30VcJfboJ+p/qfgcKr6faTw0RnP+oem+k/G8jIqDr
- DP5S+lxTr7dfjAyT20NbK54+6kzbfYrT15XHnq9DnanIx9r0G/GWwG4YQ08/4WPv/dR0
- cW7XEsmBvnbDXO3SmHPiYsv3GSbjpMwFauiitVWpcfTqOaMLt3fY1gvlgyLBhLQG6gUk
- TD8WtZ3Y5S5f6KEA6u+z3e7di6UWpkt6raBKmoJJFGoo1AyQ/lMBqSgx8z2ExxGv4b2F
- 8eUQ==
-X-Gm-Message-State: AFqh2kph9VWOwzBlcYp2gyzTPDKt6EI4L4umWTjRJXQInN8VemZjk7I6
- j1HHa78aquuOeo0Z/EuRz6XXItgt2ztIqjiy
-X-Google-Smtp-Source: AMrXdXs3CUGU5yg/n77GCtilLwu1wiI8vhqe9Mpp5uILUgm3oKkw+kCF8Xj9E/s+HFldzXBsGDAODQ==
-X-Received: by 2002:a17:906:5786:b0:78d:f455:3105 with SMTP id
- k6-20020a170906578600b0078df4553105mr40686622ejq.45.1672871057841; 
- Wed, 04 Jan 2023 14:24:17 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- ky14-20020a170907778e00b007c4f8bc322asm15658779ejc.196.2023.01.04.14.24.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 14:24:17 -0800 (PST)
-Message-ID: <820138bd-1971-17f3-c5a0-37fc6c4422dc@linaro.org>
-Date: Wed, 4 Jan 2023 23:24:15 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ec8hwymR8sCBfHDz8lCN9OyT+4HdTWbJ+yfJgvzvOu8=;
+ b=fC7n2FZkArom/O5itgzvSMiqk/qwl+25MGOBT3ogYs1XK2QMLQGGIMf6Ir/yStuAlr
+ Eswr81iRUI0L38rLtxIwAp44g+3TExwfg/YEhF/GTPxlYg8RwG0pVxL6uWVoF/aafaK5
+ pddgILRR74qodFFxjHtqEUPfH2mbQxZOEq9hmoTTvQeZ/9UfS2HYAcqyK0Vsx60t0Kmq
+ LfiLLQkLFWEr8LJkTYeeBuZYCEB7r6DEoZpko8tEZ4bARo50juOBvfra/m5iMTMVmVgT
+ CSlfr9AeRcf6Kf9+CkOb30i/ZnJQA6NuV3ZpEFz33qcS4g+1vLHOqugYxWtoOHPFwBVz
+ gxzQ==
+X-Gm-Message-State: AFqh2kpRVSHlETWg1QwhxcAFm6Wptz4w2MotnEaHtP5G+0hkBEw/qbUV
+ D26hox7b7kktX8TWeumdWGigwMCeo8i1G/NAXkNkr+vmLI0XIIA+xVb3SYgQJj8SxGHvNvpOojw
+ 34EMNE7UuTRPhGKtnGn+mlIqYnC7AvxY=
+X-Received: by 2002:a05:6512:2392:b0:4b5:1414:415e with SMTP id
+ c18-20020a056512239200b004b51414415emr2708120lfv.21.1672871156734; 
+ Wed, 04 Jan 2023 14:25:56 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvfj+sjsNAXcyLUJbLYSHL8/v9Sv6Gkf9vts2Vmqrcuq3Yk89s7V6o6Z6we4Anbv13VlzUg76BXN1QtRVKpswo=
+X-Received: by 2002:a05:6512:2392:b0:4b5:1414:415e with SMTP id
+ c18-20020a056512239200b004b51414415emr2708115lfv.21.1672871156559; Wed, 04
+ Jan 2023 14:25:56 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC PATCH 13/27] target/arm: move translate modules to tcg/
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-References: <20230104215835.24692-1-farosas@suse.de>
- <20230104215835.24692-14-farosas@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230104215835.24692-14-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20221203005234.620788-1-jsnow@redhat.com>
+ <42bbc7e8420283f834cff7e3df362ba98c5d7346.camel@wdc.com>
+In-Reply-To: <42bbc7e8420283f834cff7e3df362ba98c5d7346.camel@wdc.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 4 Jan 2023 17:25:45 -0500
+Message-ID: <CAFn=p-bn0Mw1hXNpEX8WVD2841DemS0y9jqUXYKphct5RSkgkA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] python: testing fixes
+To: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "hreitz@redhat.com" <hreitz@redhat.com>, 
+ "kwolf@redhat.com" <kwolf@redhat.com>, "bleal@redhat.com" <bleal@redhat.com>, 
+ "crosa@redhat.com" <crosa@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,72 +94,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/1/23 22:58, Fabiano Rosas wrote:
-> From: Claudio Fontana <cfontana@suse.de>
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
-> I also moved translate-{m-nocp,mve,neon,vfp,sme}.c
-> 
-> Originally from:
-> https://lore.kernel.org/r/20210416162824.25131-2-cfontana@suse.de
-> [RFC v14 01/80] target/arm: move translate modules to tcg/
-> ---
->   target/arm/meson.build                  | 26 --------------------
->   target/arm/{ => tcg}/a32-uncond.decode  |  0
->   target/arm/{ => tcg}/a32.decode         |  0
->   target/arm/{ => tcg}/m-nocp.decode      |  0
->   target/arm/tcg/meson.build              | 32 +++++++++++++++++++++++++
->   target/arm/{ => tcg}/mve.decode         |  0
->   target/arm/{ => tcg}/neon-dp.decode     |  0
->   target/arm/{ => tcg}/neon-ls.decode     |  0
->   target/arm/{ => tcg}/neon-shared.decode |  0
->   target/arm/{ => tcg}/sme-fa64.decode    |  0
->   target/arm/{ => tcg}/sme.decode         |  0
->   target/arm/{ => tcg}/sve.decode         |  0
->   target/arm/{ => tcg}/t16.decode         |  0
->   target/arm/{ => tcg}/t32.decode         |  0
->   target/arm/{ => tcg}/translate-a64.c    |  0
->   target/arm/{ => tcg}/translate-a64.h    |  0
->   target/arm/{ => tcg}/translate-m-nocp.c |  0
->   target/arm/{ => tcg}/translate-mve.c    |  0
->   target/arm/{ => tcg}/translate-neon.c   |  0
->   target/arm/{ => tcg}/translate-sme.c    |  0
->   target/arm/{ => tcg}/translate-sve.c    |  0
->   target/arm/{ => tcg}/translate-vfp.c    |  0
->   target/arm/{ => tcg}/translate.c        |  0
->   target/arm/{ => tcg}/translate.h        |  0
->   target/arm/{ => tcg}/vfp-uncond.decode  |  0
->   target/arm/{ => tcg}/vfp.decode         |  0
->   26 files changed, 32 insertions(+), 26 deletions(-)
->   rename target/arm/{ => tcg}/a32-uncond.decode (100%)
->   rename target/arm/{ => tcg}/a32.decode (100%)
->   rename target/arm/{ => tcg}/m-nocp.decode (100%)
->   rename target/arm/{ => tcg}/mve.decode (100%)
->   rename target/arm/{ => tcg}/neon-dp.decode (100%)
->   rename target/arm/{ => tcg}/neon-ls.decode (100%)
->   rename target/arm/{ => tcg}/neon-shared.decode (100%)
->   rename target/arm/{ => tcg}/sme-fa64.decode (100%)
->   rename target/arm/{ => tcg}/sme.decode (100%)
->   rename target/arm/{ => tcg}/sve.decode (100%)
->   rename target/arm/{ => tcg}/t16.decode (100%)
->   rename target/arm/{ => tcg}/t32.decode (100%)
->   rename target/arm/{ => tcg}/translate-a64.c (100%)
->   rename target/arm/{ => tcg}/translate-a64.h (100%)
->   rename target/arm/{ => tcg}/translate-m-nocp.c (100%)
->   rename target/arm/{ => tcg}/translate-mve.c (100%)
->   rename target/arm/{ => tcg}/translate-neon.c (100%)
->   rename target/arm/{ => tcg}/translate-sme.c (100%)
->   rename target/arm/{ => tcg}/translate-sve.c (100%)
->   rename target/arm/{ => tcg}/translate-vfp.c (100%)
->   rename target/arm/{ => tcg}/translate.c (100%)
->   rename target/arm/{ => tcg}/translate.h (100%)
->   rename target/arm/{ => tcg}/vfp-uncond.decode (100%)
->   rename target/arm/{ => tcg}/vfp.decode (100%)
+On Sun, Dec 4, 2022 at 5:39 PM Wilfred Mallawa <wilfred.mallawa@wdc.com> wrote:
+>
+> On Fri, 2022-12-02 at 19:52 -0500, John Snow wrote:
+> > A few tiny touchups needed for cutting edge 'flake8' tooling, a minor
+> > type touchup in iotests, and extending the python tests to cover the
+> > recently released Python 3.11.
+> >
+> > John Snow (3):
+> >   Python: fix flake8 config
+> >   iotests/check: Fix typing for sys.exit() value
+> >   python: add 3.11 to supported list
+> >
+> >  python/setup.cfg         | 6 ++++--
+> >  tests/qemu-iotests/check | 2 +-
+> >  2 files changed, 5 insertions(+), 3 deletions(-)
+> >
+> > --
+> > 2.38.1
+> >
+> I see you've left Westeros! xD
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+I'm not a huge fan of these ...
+
+>
+> Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+
+... but thank you for the review.
+
+--js
 
 
