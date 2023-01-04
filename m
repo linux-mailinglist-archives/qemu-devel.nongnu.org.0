@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3226D65D5D2
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 15:35:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C506765D5D3
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 15:36:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD4qE-0006OK-Lm; Wed, 04 Jan 2023 09:34:07 -0500
+	id 1pD4rk-0007Wv-7x; Wed, 04 Jan 2023 09:35:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+39aad489ac015f13314d+7073+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pD4pn-0006Ny-Bi
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:33:39 -0500
+ id 1pD4rg-0007WR-1x
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:35:36 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+39aad489ac015f13314d+7073+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pD4pk-0008Mg-QP
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:33:39 -0500
+ id 1pD4re-0000On-1d
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:35:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
  MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:Sender
  :Reply-To:Content-ID:Content-Description;
- bh=vhw7sKluNG6VaQU2QYgrpTBX/iKbDOLt4NVEpz4a3JY=; b=vChivVzzU5we2Scr1rRiPH1JSg
- LLPTk8MXZ16XPmmuh9FiaD/cxAgENLg46EusixFNB+a6wI/pVl4LZ9jk7BRAMWn5eSb9czXDGmGlW
- OjP16JGKXAbqPXs2RLJoRGGbP4iQtEpkt2ubZ+ZyTzNYApQw7R7Et9P0WYDzCUh8+zAC0NqH77djn
- FbyYgdw6ZJ9LB1dTVh1FpPf5PXw7GwB+MAnmy/Rsp0zxoDU3bSGct/VBqNDDQknxjKNhHkYOemQpy
- Hqv8/HFOzmHpTS5W2UUys7EZTlsPVF76cl91OiPt8nK/GxFNDlgmHKLvurDBJWrBto9oLWfaBUvxq
- 6uHDH1mw==;
+ bh=x7OUSUHbsIl2lwpu6+MbtMMSWoZMoZKDzyAFlrHCCsw=; b=t5Wa+ZWrSo4EA0MiK/kHTyXt8m
+ iKX3ZWPVxjhPD031//DP8HJLm/ERDl0rzf/o7o3lFMSitTXApr9yd3ZjvWy8oxwvWeUnjJYyO9gXH
+ o1WQMgmAXXhBgy0o4bHJbjrI7zIe0tDCfgsmoAgDsGaHGgqbZeLwe2GQUtZdsbKbnNc87kkPQZI8j
+ W84jrKdXXttQ4vrujsRujVB4ANnBVSbcn9EcSDDxcGCyliF/ESzUVdRMZ1VPmQPCfxbAhtngbu99Z
+ 0/9byMIfilcfDcQpY9nAGvLwnqeXw6OISVcOPQRDycFGwryywa02SoD+AsPvyI4jc/RhaKx2VR5Cc
+ nRdZlG6g==;
 Received: from [185.81.162.228] (helo=[127.0.0.1])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pD4pj-00F7OO-Sy; Wed, 04 Jan 2023 14:33:36 +0000
-Date: Wed, 04 Jan 2023 14:33:22 +0000
+ id 1pD4rn-00F7VQ-Dc; Wed, 04 Jan 2023 14:35:43 +0000
+Date: Wed, 04 Jan 2023 14:35:30 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 CC: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
@@ -44,13 +44,13 @@ CC: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  =?ISO-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
  Juan Quintela <quintela@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Julien Grall <julien@xen.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BRFC_PATCH_v5_50/52=5D_hw/xen=3A_Add_backend_imp?=
- =?US-ASCII?Q?lementation_of_interdomain_event_channel_support?=
+Subject: =?US-ASCII?Q?Re=3A_=5BRFC_PATCH_v5_51/52=5D_hw/xen=3A_Add_xe?=
+ =?US-ASCII?Q?n=5Fxenstore_device_for_xenstore_emulation?=
 User-Agent: K-9 Mail for Android
-In-Reply-To: <Y7VhWyGCCNz0+k+H@work-vm>
+In-Reply-To: <Y7VqsgBgK5XYkvzE@work-vm>
 References: <20221230121235.1282915-1-dwmw2@infradead.org>
- <20221230121235.1282915-51-dwmw2@infradead.org> <Y7VhWyGCCNz0+k+H@work-vm>
-Message-ID: <03D229F7-12B7-4AFE-9013-8717D039EF12@infradead.org>
+ <20221230121235.1282915-52-dwmw2@infradead.org> <Y7VqsgBgK5XYkvzE@work-vm>
+Message-ID: <775B5623-223F-4CF7-96CB-C1C7AF1082AD@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
@@ -84,278 +84,285 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 4 January 2023 11:22:03 GMT, "Dr=2E David Alan Gilbert" <dgilbert@redha=
+On 4 January 2023 12:01:54 GMT, "Dr=2E David Alan Gilbert" <dgilbert@redha=
 t=2Ecom> wrote:
 >* David Woodhouse (dwmw2@infradead=2Eorg) wrote:
 >> From: David Woodhouse <dwmw@amazon=2Eco=2Euk>
 >>=20
->> The provides the QEMU side of interdomain event channels, allowing even=
-ts
->> to be sent to/from the guest=2E
->>=20
->> The API mirrors libxenevtchn, and in time both this and the real Xen on=
-e
->> will be available through ops structures so that the PV backend drivers
->> can use the correct one as appropriate=2E
->>=20
->> For now, this implementation can be used directly by our XenStore which
->> will be for emulated mode only=2E
+>> The hookup to event channel is a bit of a special case hack right now; =
+as
+>> we make this work for real PV driver back ends, that will be implemente=
+d
+>> for the general case of Dom0 ports binding to DomU=2E
 >>=20
 >> Signed-off-by: David Woodhouse <dwmw@amazon=2Eco=2Euk>
 >> ---
->>  hw/i386/kvm/xen_evtchn=2Ec | 342 +++++++++++++++++++++++++++++++++++++=
---
->>  hw/i386/kvm/xen_evtchn=2Eh |  20 +++
->>  2 files changed, 353 insertions(+), 9 deletions(-)
+>>  hw/i386/kvm/meson=2Ebuild    |   1 +
+>>  hw/i386/kvm/xen_evtchn=2Ec   |   1 +
+>>  hw/i386/kvm/xen_xenstore=2Ec | 248 +++++++++++++++++++++++++++++++++++=
+++
+>>  hw/i386/kvm/xen_xenstore=2Eh |  20 +++
+>>  hw/i386/pc=2Ec               |   2 +
+>>  target/i386/kvm/xen-emu=2Ec  |  12 ++
+>>  6 files changed, 284 insertions(+)
+>>  create mode 100644 hw/i386/kvm/xen_xenstore=2Ec
+>>  create mode 100644 hw/i386/kvm/xen_xenstore=2Eh
 >>=20
+>> diff --git a/hw/i386/kvm/meson=2Ebuild b/hw/i386/kvm/meson=2Ebuild
+>> index e02449e4d4=2E=2E6d6981fced 100644
+>> --- a/hw/i386/kvm/meson=2Ebuild
+>> +++ b/hw/i386/kvm/meson=2Ebuild
+>> @@ -8,6 +8,7 @@ i386_kvm_ss=2Eadd(when: 'CONFIG_XEN_EMU', if_true: file=
+s(
+>>    'xen_overlay=2Ec',
+>>    'xen_evtchn=2Ec',
+>>    'xen_gnttab=2Ec',
+>> +  'xen_xenstore=2Ec',
+>>    ))
+>> =20
+>>  i386_ss=2Eadd_all(when: 'CONFIG_KVM', if_true: i386_kvm_ss)
 >> diff --git a/hw/i386/kvm/xen_evtchn=2Ec b/hw/i386/kvm/xen_evtchn=2Ec
->> index 34c5199421=2E=2Ec0f6ef9dff 100644
+>> index c0f6ef9dff=2E=2E0653cad3bb 100644
 >> --- a/hw/i386/kvm/xen_evtchn=2Ec
 >> +++ b/hw/i386/kvm/xen_evtchn=2Ec
->> @@ -35,6 +35,7 @@
+>> @@ -31,6 +31,7 @@
+>> =20
+>>  #include "xen_evtchn=2Eh"
+>>  #include "xen_overlay=2Eh"
+>> +#include "xen_xenstore=2Eh"
+>> =20
 >>  #include "sysemu/kvm=2Eh"
 >>  #include "sysemu/kvm_xen=2Eh"
->>  #include <linux/kvm=2Eh>
->> +#include <sys/eventfd=2Eh>
->> =20
->>  #include "standard-headers/xen/memory=2Eh"
->>  #include "standard-headers/xen/hvm/params=2Eh"
->> @@ -85,6 +86,13 @@ struct compat_shared_info {
->> =20
->>  #define COMPAT_EVTCHN_2L_NR_CHANNELS            1024
->> =20
->> +/* Local private implementation of struct xenevtchn_handle */
->> +struct xenevtchn_handle {
+>> diff --git a/hw/i386/kvm/xen_xenstore=2Ec b/hw/i386/kvm/xen_xenstore=2E=
+c
+>> new file mode 100644
+>> index 0000000000=2E=2E63530059fa
+>> --- /dev/null
+>> +++ b/hw/i386/kvm/xen_xenstore=2Ec
+>> @@ -0,0 +1,248 @@
+>> +/*
+>> + * QEMU Xen emulation: Shared/overlay pages support
+>> + *
+>> + * Copyright =C2=A9 2022 Amazon=2Ecom, Inc=2E or its affiliates=2E All=
+ Rights Reserved=2E
+>> + *
+>> + * Authors: David Woodhouse <dwmw2@infradead=2Eorg>
+>> + *
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or =
+later=2E
+>> + * See the COPYING file in the top-level directory=2E
+>> + */
+>> +
+>> +#include "qemu/osdep=2Eh"
+>> +
+>> +#include "qemu/host-utils=2Eh"
+>> +#include "qemu/module=2Eh"
+>> +#include "qemu/main-loop=2Eh"
+>> +#include "qemu/cutils=2Eh"
+>> +#include "qapi/error=2Eh"
+>> +#include "qom/object=2Eh"
+>> +#include "migration/vmstate=2Eh"
+>> +
+>> +#include "hw/sysbus=2Eh"
+>> +#include "hw/xen/xen=2Eh"
+>> +#include "xen_overlay=2Eh"
+>> +#include "xen_evtchn=2Eh"
+>> +#include "xen_xenstore=2Eh"
+>> +
+>> +#include "sysemu/kvm=2Eh"
+>> +#include "sysemu/kvm_xen=2Eh"
+>> +
+>> +#include "standard-headers/xen/io/xs_wire=2Eh"
+>> +#include "standard-headers/xen/event_channel=2Eh"
+>> +
+>> +#define TYPE_XEN_XENSTORE "xen-xenstore"
+>> +OBJECT_DECLARE_SIMPLE_TYPE(XenXenstoreState, XEN_XENSTORE)
+>> +
+>> +#define XEN_PAGE_SHIFT 12
+>> +#define XEN_PAGE_SIZE (1ULL << XEN_PAGE_SHIFT)
+>> +
+>> +#define ENTRIES_PER_FRAME_V1 (XEN_PAGE_SIZE / sizeof(grant_entry_v1_t)=
+)
+>> +#define ENTRIES_PER_FRAME_V2 (XEN_PAGE_SIZE / sizeof(grant_entry_v2_t)=
+)
+>> +
+>> +#define XENSTORE_HEADER_SIZE ((unsigned int)sizeof(struct xsd_sockmsg)=
+)
+>> +
+>> +struct XenXenstoreState {
+>> +    /*< private >*/
+>> +    SysBusDevice busdev;
+>> +    /*< public >*/
+>> +
+>> +    MemoryRegion xenstore_page;
+>> +    struct xenstore_domain_interface *xs;
+>> +    uint8_t req_data[XENSTORE_HEADER_SIZE + XENSTORE_PAYLOAD_MAX];
+>> +    uint8_t rsp_data[XENSTORE_HEADER_SIZE + XENSTORE_PAYLOAD_MAX];
+>> +    uint32_t req_offset;
+>> +    uint32_t rsp_offset;
+>> +    bool rsp_pending;
+>> +    bool fatal_error;
+>> +
+>> +    evtchn_port_t guest_port;
 >> +    evtchn_port_t be_port;
->> +    evtchn_port_t guest_port; /* Or zero for unbound */
->> +    int fd;
+>> +    struct xenevtchn_handle *eh;
 >> +};
 >> +
->>  /*
->>   * For unbound/interdomain ports there are only two possible remote
->>   * domains; self and QEMU=2E Use a single high bit in type_val for tha=
-t,
->> @@ -93,8 +101,6 @@ struct compat_shared_info {
->>  #define PORT_INFO_TYPEVAL_REMOTE_QEMU           0x8000
->>  #define PORT_INFO_TYPEVAL_REMOTE_PORT_MASK      0x7FFF
->> =20
->> -#define DOMID_QEMU      0
->> -
->>  struct XenEvtchnState {
->>      /*< private >*/
->>      SysBusDevice busdev;
->> @@ -108,6 +114,8 @@ struct XenEvtchnState {
->>      uint32_t nr_ports;
->>      XenEvtchnPort port_table[EVTCHN_2L_NR_CHANNELS];
->>      qemu_irq gsis[GSI_NUM_PINS];
+>> +struct XenXenstoreState *xen_xenstore_singleton;
 >> +
->> +    struct xenevtchn_handle *be_handles[EVTCHN_2L_NR_CHANNELS];
->>  };
->> =20
->>  struct XenEvtchnState *xen_evtchn_singleton;
->> @@ -115,6 +123,18 @@ struct XenEvtchnState *xen_evtchn_singleton;
->>  /* Top bits of callback_param are the type (HVM_PARAM_CALLBACK_TYPE_xx=
-x) */
->>  #define CALLBACK_VIA_TYPE_SHIFT 56
->> =20
->> +static void unbind_backend_ports(XenEvtchnState *s);
+>> +static void xen_xenstore_event(void *opaque);
 >> +
->> +static int xen_evtchn_pre_load(void *opaque)
+>> +static void xen_xenstore_realize(DeviceState *dev, Error **errp)
 >> +{
->> +    XenEvtchnState *s =3D opaque;
+>> +    XenXenstoreState *s =3D XEN_XENSTORE(dev);
 >> +
->> +    /* Unbind all the backend-side ports; they need to rebind */
->> +    unbind_backend_ports(s);
+>> +    if (xen_mode !=3D XEN_EMULATE) {
+>> +        error_setg(errp, "Xen xenstore support is for Xen emulation");
+>> +        return;
+>> +    }
+>> +    memory_region_init_ram(&s->xenstore_page, OBJECT(dev), "xen:xensto=
+re_page",
+>> +                           XEN_PAGE_SIZE, &error_abort);
+>> +    memory_region_set_enabled(&s->xenstore_page, true);
+>> +    s->xs =3D memory_region_get_ram_ptr(&s->xenstore_page);
+>> +    memset(s->xs, 0, XEN_PAGE_SIZE);
 >> +
+>> +    /* We can't map it this early as KVM isn't ready */
+>> +    xen_xenstore_singleton =3D s;
+>> +
+>> +    s->eh =3D xen_be_evtchn_open(NULL, 0);
+>> +    if (!s->eh) {
+>> +        error_setg(errp, "Xenstore evtchn port init failed");
+>> +        return;
+>> +    }
+>> +    aio_set_fd_handler(qemu_get_aio_context(), xen_be_evtchn_fd(s->eh)=
+, true,
+>> +                       xen_xenstore_event, NULL, NULL, NULL, s);
+>> +}
+>> +
+>> +static bool xen_xenstore_is_needed(void *opaque)
+>> +{
+>> +    return xen_mode =3D=3D XEN_EMULATE;
+>> +}
+>> +
+>> +static int xen_xenstore_pre_save(void *opaque)
+>> +{
+>> +    XenXenstoreState *s =3D opaque;
+>> +
+>> +    if (s->eh) {
+>> +        s->guest_port =3D xen_be_evtchn_get_guest_port(s->eh);
+>> +    }
 >> +    return 0;
 >> +}
 >> +
->>  static int xen_evtchn_post_load(void *opaque, int version_id)
->>  {
->>      XenEvtchnState *s =3D opaque;
->> @@ -148,6 +168,7 @@ static const VMStateDescription xen_evtchn_vmstate =
-=3D {
->>      =2Eversion_id =3D 1,
->>      =2Eminimum_version_id =3D 1,
->>      =2Eneeded =3D xen_evtchn_is_needed,
->> +    =2Epre_load =3D xen_evtchn_pre_load,
->>      =2Epost_load =3D xen_evtchn_post_load,
->>      =2Efields =3D (VMStateField[]) {
->>          VMSTATE_UINT64(callback_param, XenEvtchnState),
->> @@ -362,6 +383,20 @@ static int assign_kernel_port(uint16_t type, evtch=
-n_port_t port,
->>      return kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &ha);
->>  }
->> =20
->> +static int assign_kernel_eventfd(uint16_t type, evtchn_port_t port, in=
-t fd)
+>> +static int xen_xenstore_post_load(void *opaque, int ver)
 >> +{
->> +    struct kvm_xen_hvm_attr ha;
+>> +    XenXenstoreState *s =3D opaque;
 >> +
->> +    ha=2Etype =3D KVM_XEN_ATTR_TYPE_EVTCHN;
->> +    ha=2Eu=2Eevtchn=2Esend_port =3D port;
->> +    ha=2Eu=2Eevtchn=2Etype =3D type;
->> +    ha=2Eu=2Eevtchn=2Eflags =3D 0;
->> +    ha=2Eu=2Eevtchn=2Edeliver=2Eeventfd=2Eport =3D 0;
->> +    ha=2Eu=2Eevtchn=2Edeliver=2Eeventfd=2Efd =3D fd;
->> +
->> +    return kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &ha);
->> +}
->> +
->>  static bool valid_port(evtchn_port_t port)
->>  {
->>      if (!port) {
->> @@ -380,6 +415,32 @@ static bool valid_vcpu(uint32_t vcpu)
->>      return !!qemu_get_cpu(vcpu);
->>  }
->> =20
->> +static void unbind_backend_ports(XenEvtchnState *s)
->> +{
->> +    XenEvtchnPort *p;
->> +    int i;
->> +
->> +    for (i =3D 1; i <=3D s->nr_ports; i++) {
->> +        p =3D &s->port_table[i];
->> +        if (p->type =3D=3D EVTCHNSTAT_interdomain &&
->> +            (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) ) {
->> +            evtchn_port_t be_port =3D p->type_val & PORT_INFO_TYPEVAL_=
-REMOTE_PORT_MASK;
->> +
->> +            if (s->be_handles[be_port]) {
->> +                /* This part will be overwritten on the load anyway=2E=
- */
->> +                p->type =3D EVTCHNSTAT_unbound;
->> +                p->type_val =3D PORT_INFO_TYPEVAL_REMOTE_QEMU;
->> +
->> +                /* Leave the backend port open and unbound too=2E */
->> +                if (kvm_xen_has_cap(EVTCHN_SEND)) {
->> +                    deassign_kernel_port(i);
->> +                }
->> +                s->be_handles[be_port]->guest_port =3D 0;
->> +            }
+>> +    /*
+>> +     * As qemu/dom0, rebind to the guest's port=2E The Windows drivers=
+ may
+>> +     * unbind the XenStore evtchn and rebind to it, having obtained th=
+e
+>> +     * "remote" port through EVTCHNOP_status=2E In the case that migra=
+tion
+>> +     * occurs while it's unbound, the "remote" port needs to be the sa=
+me
+>> +     * as before so that the guest can find it, but should remain unbo=
+und=2E
+>> +     */
+>> +    if (s->guest_port) {
+>> +        int be_port =3D xen_be_evtchn_bind_interdomain(s->eh, xen_domi=
+d, s->guest_port);
+>> +        if (be_port < 0) {
+>> +            return be_port;
 >> +        }
+>> +        s->be_port =3D be_port;
 >> +    }
+>> +    return 0;
 >> +}
 >> +
->>  int xen_evtchn_status_op(struct evtchn_status *status)
->>  {
->>      XenEvtchnState *s =3D xen_evtchn_singleton;
->> @@ -815,7 +876,14 @@ static int close_port(XenEvtchnState *s, evtchn_po=
-rt_t port)
->> =20
->>      case EVTCHNSTAT_interdomain:
->>          if (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) {
->> -            /* Not yet implemented=2E This can't happen! */
->> +            uint16_t be_port =3D p->type_val & ~PORT_INFO_TYPEVAL_REMO=
-TE_QEMU;
->> +            struct xenevtchn_handle *xc =3D s->be_handles[be_port];
->> +            if (xc) {
->> +                if (kvm_xen_has_cap(EVTCHN_SEND)) {
->> +                    deassign_kernel_port(port);
->> +                }
->> +                xc->guest_port =3D 0;
->> +            }
->>          } else {
->>              /* Loopback interdomain */
->>              XenEvtchnPort *rp =3D &s->port_table[p->type_val];
->> @@ -1047,8 +1115,27 @@ int xen_evtchn_bind_interdomain_op(struct evtchn=
-_bind_interdomain *interdomain)
->>      }
->> =20
->>      if (interdomain->remote_dom =3D=3D DOMID_QEMU) {
->> -        /* We haven't hooked up QEMU's PV drivers to this yet */
->> -        ret =3D -ENOSYS;
->> +        struct xenevtchn_handle *xc =3D s->be_handles[interdomain->rem=
-ote_port];
->> +        XenEvtchnPort *lp =3D &s->port_table[interdomain->local_port];
->> +
->> +        if (!xc) {
->> +            ret =3D -ENOENT;
->> +            goto out_free_port;
->> +        }
->> +
->> +        if (xc->guest_port) {
->> +            ret =3D -EBUSY;
->> +            goto out_free_port;
->> +        }
->> +
->> +        assert(xc->be_port =3D=3D interdomain->remote_port);
->> +        xc->guest_port =3D interdomain->local_port;
->> +        if (kvm_xen_has_cap(EVTCHN_SEND)) {
->> +            assign_kernel_eventfd(lp->type, xc->guest_port, xc->fd);
->> +        }
->> +        lp->type =3D EVTCHNSTAT_interdomain;
->> +        lp->type_val =3D PORT_INFO_TYPEVAL_REMOTE_QEMU | interdomain->=
-remote_port;
->> +        ret =3D 0;
->>      } else {
->>          /* Loopback */
->>          XenEvtchnPort *rp =3D &s->port_table[interdomain->remote_port]=
-;
->> @@ -1066,6 +1153,7 @@ int xen_evtchn_bind_interdomain_op(struct evtchn_=
-bind_interdomain *interdomain)
->>          }
->>      }
->> =20
->> + out_free_port:
->>      if (ret) {
->>          free_port(s, interdomain->local_port);
->>      }
->> @@ -1130,11 +1218,16 @@ int xen_evtchn_send_op(struct evtchn_send *send=
-)
->>          if (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) {
->>              /*
->>               * This is an event from the guest to qemu itself, which i=
-s
->> -             * serving as the driver domain=2E Not yet implemented; it=
- will
->> -             * be hooked up to the qemu implementation of xenstore,
->> -             * console, PV net/block drivers etc=2E
->> +             * serving as the driver domain=2E
->>               */
->> -            ret =3D -ENOSYS;
->> +            uint16_t be_port =3D p->type_val & ~PORT_INFO_TYPEVAL_REMO=
-TE_QEMU;
->> +            struct xenevtchn_handle *xc =3D s->be_handles[be_port];
->> +            if (xc) {
->> +                eventfd_write(xc->fd, 1);
->> +                ret =3D 0;
->> +            } else {
->> +                ret =3D -ENOENT;
->> +            }
->>          } else {
->>              /* Loopback interdomain ports; just a complex IPI */
->>              set_port_pending(s, p->type_val);
->> @@ -1190,6 +1283,237 @@ int xen_evtchn_set_port(uint16_t port)
->>      return ret;
->>  }
->> =20
->> +struct xenevtchn_handle *xen_be_evtchn_open(void *logger, unsigned int=
- flags)
->> +{
->> +    struct xenevtchn_handle *xc =3D g_new0(struct xenevtchn_handle, 1)=
-;
->> +
->> +    xc->fd =3D eventfd(0, EFD_CLOEXEC);
->> +    if (xc->fd < 0) {
->> +        free(xc);
->> +        return NULL;
+>> +static const VMStateDescription xen_xenstore_vmstate =3D {
+>> +    =2Ename =3D "xen_xenstore",
+>> +    =2Eversion_id =3D 1,
+>> +    =2Eminimum_version_id =3D 1,
+>> +    =2Eneeded =3D xen_xenstore_is_needed,
+>> +    =2Epre_save =3D xen_xenstore_pre_save,
+>> +    =2Epost_load =3D xen_xenstore_post_load,
+>> +    =2Efields =3D (VMStateField[]) {
+>> +        VMSTATE_UINT8_ARRAY(req_data, XenXenstoreState, sizeof_field(X=
+enXenstoreState, req_data)),
+>> +        VMSTATE_UINT8_ARRAY(rsp_data, XenXenstoreState, sizeof_field(X=
+enXenstoreState, rsp_data)),
+>> +        VMSTATE_UINT32(req_offset, XenXenstoreState),
+>> +        VMSTATE_UINT32(rsp_offset, XenXenstoreState),
+>> +        VMSTATE_BOOL(rsp_pending, XenXenstoreState),
+>> +        VMSTATE_UINT32(guest_port, XenXenstoreState),
+>> +        VMSTATE_BOOL(fatal_error, XenXenstoreState),
+>> +        VMSTATE_END_OF_LIST()
 >> +    }
+>> +};
 >> +
->> +    return xc;
+>> +static void xen_xenstore_class_init(ObjectClass *klass, void *data)
+>> +{
+>> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+>> +
+>> +    dc->realize =3D xen_xenstore_realize;
+>> +    dc->vmsd =3D &xen_xenstore_vmstate;
 >> +}
 >> +
->> +static int find_be_port(XenEvtchnState *s, struct xenevtchn_handle *xc=
-)
->> +{
->> +    int i;
+>> +static const TypeInfo xen_xenstore_info =3D {
+>> +    =2Ename          =3D TYPE_XEN_XENSTORE,
+>> +    =2Eparent        =3D TYPE_SYS_BUS_DEVICE,
+>> +    =2Einstance_size =3D sizeof(XenXenstoreState),
+>> +    =2Eclass_init    =3D xen_xenstore_class_init,
+>> +};
 >> +
->> +    for (i =3D 25; valid_port(i); i++) {
+>> +void xen_xenstore_create(void)
+>> +{
+>> +    xen_xenstore_singleton =3D XEN_XENSTORE(sysbus_create_simple(TYPE_=
+XEN_XENSTORE,
+>> +                                                           -1, NULL));
+>> +
+>> +    /*
+>> +     * Defer the init (xen_xenstore_reset()) until KVM is set up and t=
+he
+>> +     * overlay page can be mapped=2E
+>> +     */
+>> +}
+>> +
+>> +static void xen_xenstore_register_types(void)
+>> +{
+>> +    type_register_static(&xen_xenstore_info);
+>> +}
+>> +
+>> +type_init(xen_xenstore_register_types)
+>> +
+>> +uint16_t xen_xenstore_get_port(void)
+>> +{
+>> +    XenXenstoreState *s =3D xen_xenstore_singleton;
+>> +    if (!s) {
+>> +        return 0;
+>> +    }
+>> +    return s->guest_port;
+>> +}
+>> +
+>> +static void xen_xenstore_event(void *opaque)
+>> +{
+>> +    XenXenstoreState *s =3D opaque;
+>> +    evtchn_port_t port =3D xen_be_evtchn_pending(s->eh);
+>> +    if (port !=3D s->be_port) {
+>> +        return;
+>> +    }
+>> +    printf("xenstore event\n");
+>> +    /* We know this is a no-op=2E */
+>> +    xen_be_evtchn_unmask(s->eh, port);
+>> +    qemu_hexdump(stdout, "", s->xs, sizeof(*s->xs));
 >
->Magic 25 number ?
+>debug ?
 
-Ah, yes, I kept meaning to remove that=2E Was just for testing that I had =
-remote vs=2E local port correct by ensuring the numbers were actually diffe=
-rent=2E Really will remember to kill it and start the qemu-side numbering f=
-rom 1 next time round!
+Perhaps, but it goes away in the next patch anyway, and Paul is working on=
+ something that actually works (instead of just returning ENOSYS to everyth=
+ing)=2E
+
 
