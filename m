@@ -2,79 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8DBD65DCE8
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 20:38:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E46A65DD0A
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 20:44:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD9Z7-0004mm-61; Wed, 04 Jan 2023 14:36:45 -0500
+	id 1pD9fJ-0007xJ-MN; Wed, 04 Jan 2023 14:43:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD9Z5-0004mE-Uz
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 14:36:43 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pD9fG-0007wj-T5; Wed, 04 Jan 2023 14:43:06 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD9Z3-00015J-7O
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 14:36:43 -0500
-Received: by mail-ej1-x631.google.com with SMTP id vm8so78205282ejc.2
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 11:36:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mFR7xn7/gWUDLuQiXkEPkHcmTfSnkrZsVCniVDoY85g=;
- b=oDwmtoUbWtwgB2AYKuNvien+ULSJpeUiTutojW/nJahOSaf/UeP3C8ZXy7sKWDt5VJ
- +E28dywiyC1W7HLC/YV8kN8Ft9/5wFceSN4StGJ1GSyZCFx3ZJw9qHYJkiL7nbHHnQr7
- 9xjijWjbkKmuwW/aToyiTo3L0B4PaG3RN+KIn5ke8rLafjq+tICgduczWDMDu0xgKnGp
- dsMPS/3fFtEK5ftrpBFdq0tF20h8xTy3iYeX+a598iHM9U8+Lu0zQVDmSJQFkOFgzfSd
- N8+uEmeL+NEcJOmQInMzu/YuwwK6lBuwDBZeUGjt3QN4HQxQqM2j7AwIojyKm7qUHBRp
- upVw==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pD9fE-0002Mr-Or; Wed, 04 Jan 2023 14:43:06 -0500
+Received: by mail-ej1-x632.google.com with SMTP id ud5so85254563ejc.4;
+ Wed, 04 Jan 2023 11:43:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fnxXdsP69wb0+o++OCM64Qdw3tyDeO4HaziIHZU2LnU=;
+ b=ppzFbFDFrBIp8bbBIYFImVEx1xDYYVbfD54ssiFQwSsysgmtzsOAh+wL7FuatHvNqg
+ AInKrsSUkMJTYFXRohVM8KoDOFoY/u83Xpe/l6yOSpGNGYm+/HAE7MuVHkQGcQZga0lN
+ HrJ4rUYEUdSiDorndqSpYIZJqdqm+iUK5lWxSuU1epAMrULKVnwuG/1I93pcibF+J7E7
+ qyou1exADZxeGgyvHgn+fRY9JrEdfaqErPDUlkS5kbp0h0CpFCBFMhBAdwhfBN/gIVLa
+ XW4Zcmu4i29T4VYPmSiYcUQdDERcqllnp47ub7OeZ97mYi6bTn/nr0DPOQG54ZDfRoWg
+ ALpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mFR7xn7/gWUDLuQiXkEPkHcmTfSnkrZsVCniVDoY85g=;
- b=1szwBlylhIT38LJ1S/S3hjMYrGkagmueMMayMe0/3vG7euXTNa4zxlOimQCwR0IosP
- QFFYpN26D1KYpOmIZ3Vhob70edSZZdBUvY28eUIBcTUls8bMDrtypI1gYRkjlFYhef0a
- d7msyE135Mvphg59ej49KXyH04UtkAtJUYsxdD7JtyNWQSYceZ77S06JHY/7DZYb/psd
- BXUgBibRxB1UlIOKBBn70c+gADszsgeJ3uoyk3xBJdDrCEpoeq1NGFOrdtBzjR7IYK/r
- Qgbhe6Oi0AWfpksjGxuh0TDlh0kQ/7EJShqsAuLq2PO654GUezSOvENNwn0sZxzjSAvo
- Yg6w==
-X-Gm-Message-State: AFqh2kpy4NinIlF+zBG+5hcteAFjkLw54ceDXMQMBuD80dfIq/Jiyi36
- v5lzo385TOqaTUlK7KzgP0BerA==
-X-Google-Smtp-Source: AMrXdXu5ccocihIWTAJirpuEXx5ithExDbgSGTxCn8ZuY23a/UlnM/57ci7551Q1nixJLfIqidGFCA==
-X-Received: by 2002:a17:906:c2cb:b0:842:32e9:f1e9 with SMTP id
- ch11-20020a170906c2cb00b0084232e9f1e9mr35522322ejb.69.1672860996586; 
- Wed, 04 Jan 2023 11:36:36 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fnxXdsP69wb0+o++OCM64Qdw3tyDeO4HaziIHZU2LnU=;
+ b=TURw8GYmt/ZOU3otb9DpRE6IRjl48mDY8l7IxPYPcCAxbmBuAKQNC7PlMxD6Q0ViAW
+ Qxtsw/z9bAtkl3F2nD+fbSXNQVSFJIFBdI8aREf3L1BJ4UXD5+tBC+NZiBQBbDBD+Awi
+ qLVcbGjXe4SbQoJjU+pQ7eWLjTzRLwCI+TUgmG2UPF/0zxPiRlysO+0CSNpxh8KNWfvh
+ Bc+saI04VeMTTbiibl+Z9GVxR/Cr5XqTuhKZRVsrTvnzHuwxYfiCcZYpUqyqXRyilxAW
+ 2Vga/kK/MyDvjovvq6XGaMnn8Lw66uC9ivuiLHtWZHeiPIZPkgckfEKfCkfxYt8GYKSg
+ Xygw==
+X-Gm-Message-State: AFqh2kp20qj2lzTX36+78h+4wBhd/Z1RUw9D95eHHz/7aHfFnSa4LZPn
+ eMuI8yG6iZ2iPtToWcbIAGKsFHmOHonE9w==
+X-Google-Smtp-Source: AMrXdXufLO4k8zbmYftmTmeR/BqIMxS6/XKiEUCtmpABREhlk8Z8SEGWdQ3K+6eg7zOwd3MEpKZ14g==
+X-Received: by 2002:a17:907:6d98:b0:7c1:12b0:7d5d with SMTP id
+ sb24-20020a1709076d9800b007c112b07d5dmr54968597ejc.4.1672861382413; 
+ Wed, 04 Jan 2023 11:43:02 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb2008108eedf25879029.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:8108:eedf:2587:9029])
  by smtp.gmail.com with ESMTPSA id
- b19-20020a056402139300b004642b35f89esm15212440edv.9.2023.01.04.11.36.35
+ jj20-20020a170907985400b007c0b6e1c7fdsm15625555ejc.104.2023.01.04.11.43.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 11:36:36 -0800 (PST)
-Message-ID: <a3f06abf-641a-10ac-7f93-4e9c2d0b1cd0@linaro.org>
-Date: Wed, 4 Jan 2023 20:36:34 +0100
+ Wed, 04 Jan 2023 11:43:02 -0800 (PST)
+Date: Wed, 04 Jan 2023 19:42:55 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+CC: Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
+ John Snow <jsnow@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, 
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_06/30=5D_hw/i386/pc=5Fpiix=3A_Associat?=
+ =?US-ASCII?Q?e_pci=5Fmap=5Firq=5Ffn_as_soon_as_PCI_bus_is_created?=
+In-Reply-To: <20221221170003.2929-7-shentey@gmail.com>
+References: <20221221170003.2929-1-shentey@gmail.com>
+ <20221221170003.2929-7-shentey@gmail.com>
+Message-ID: <CA2E4713-EAA3-4C72-B575-2BCE73B2A285@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] target/arm: Fix sve_probe_page
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, idan.horowitz@gmail.com, qemu-stable@nongnu.org
-References: <20230104190056.305143-1-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230104190056.305143-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,19 +101,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/1/23 20:00, Richard Henderson wrote:
-> Don't dereference CPUTLBEntryFull until we verify that
-> the page is valid.  Move the other user-only info field
-> updates after the valid check to match.
 
-Easy one :)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Am 21=2E Dezember 2022 16:59:39 UTC schrieb Bernhard Beschow <shentey@gmai=
+l=2Ecom>:
+>Observe that the pci_map_irq_fn's don't depend on the south bridge
+>instance=2E So associate them immediately when the PCI bus is created to
+>keep things logically together=2E
+>
+>Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
 
-> Cc: qemu-stable@nongnu.org
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1412
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/arm/sve_helper.c | 14 +++++++++-----
->   1 file changed, 9 insertions(+), 5 deletions(-)
+This patch was new in v4 and therefore still lacks review=2E It could be s=
+quashed into https://lists=2Enongnu=2Eorg/archive/html/qemu-devel/2022-11/m=
+sg03312=2Ehtml for a cleaner history=2E
+
+Best regards,
+Bernhard
+>---
+> hw/i386/pc_piix=2Ec | 7 +++----
+> 1 file changed, 3 insertions(+), 4 deletions(-)
+>
+>diff --git a/hw/i386/pc_piix=2Ec b/hw/i386/pc_piix=2Ec
+>index e4bb8994da=2E=2Ebfa7cb513b 100644
+>--- a/hw/i386/pc_piix=2Ec
+>+++ b/hw/i386/pc_piix=2Ec
+>@@ -229,6 +229,9 @@ static void pc_init1(MachineState *machine,
+>                               x86ms->below_4g_mem_size,
+>                               x86ms->above_4g_mem_size,
+>                               pci_memory, ram_memory);
+>+        pci_bus_map_irqs(pci_bus,
+>+                         xen_enabled() ? xen_pci_slot_get_pirq
+>+                                       : pci_slot_get_pirq);
+>         pcms->bus =3D pci_bus;
+>=20
+>         pci_dev =3D pci_create_simple_multifunction(pci_bus, -1, true, t=
+ype);
+>@@ -236,10 +239,6 @@ static void pc_init1(MachineState *machine,
+>         piix3->pic =3D x86ms->gsi;
+>         piix3_devfn =3D piix3->dev=2Edevfn;
+>         isa_bus =3D ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa=2E0")=
+);
+>-
+>-        pci_bus_map_irqs(pci_bus,
+>-                         xen_enabled() ? xen_pci_slot_get_pirq
+>-                                       : pci_slot_get_pirq);
+>     } else {
+>         pci_bus =3D NULL;
+>         isa_bus =3D isa_bus_new(NULL, get_system_memory(), system_io,
 
