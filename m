@@ -2,84 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C9C365D455
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 14:33:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6134665D48D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 14:41:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD3sl-0001wK-AG; Wed, 04 Jan 2023 08:32:39 -0500
+	id 1pD3zj-0003e6-IH; Wed, 04 Jan 2023 08:39:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.dooks@sifive.com>)
- id 1pD3sj-0001w9-C6
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:32:37 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD3zh-0003bx-5T
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:39:49 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ben.dooks@sifive.com>)
- id 1pD3sh-0000NK-JG
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:32:37 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- m8-20020a05600c3b0800b003d96f801c48so24008326wms.0
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 05:32:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JHIAqQFjdseuSO5Xj8Va0U4rDU9wVrF3zV4QV5k0OQ0=;
- b=ELXNsnO2tkBiBf00Pt4keaYLPLDTQMKU5tofwfFUx4mIFpWfn3zp3akvoB6gOfUGpw
- tvUhcDMoIONIeOloJDFf26CjBomPtCaXwfIoe5iPwzD7BmmdU+jGBzz0g9Dk5BTfxzLa
- xC7BmTLfcrT5qDdhddKAK1MfuMbsdvgHh9Bpf4syVh5ht3Bm0KpAMHtmSz5rwdR/jyDk
- G4WQrjPqDH53J40Dchhm12eT8J6Q6ixw80yno59w/6/ibyRGK9GlRX2e6NN1SwseG1la
- dCPv6aEU9+pkz9+bfwAOY1S72JJy06JuHl5HqtneJ1Vy6iKf+29B5xQ+8CB83lXOOXUb
- Uh/w==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD3ze-0001Ta-DL
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:39:48 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ ay2-20020a05600c1e0200b003d22e3e796dso26473752wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 05:39:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2gOBY7PKd+CZs4UqengBISqvRx3cfdqmRUdbKw78GGc=;
+ b=oyJZwII4s3z8eLEOLRo4hglu9gUyE03r5nK1MT0lt4pP4jwRc6IAaL1o0g7HtWzP1j
+ XZkwo1oOVguG/QTkDI/ZTrZZHW/Sn4lhOJ41oobgPJOW/Hzh0YMQcjC0myPMhke85QQc
+ YmLzQhD9mTkFVPfIbhV/w2DdD83+URZ6J6yjtI5qdc/f647AEhKKs9OllUaJfT4KbPrw
+ ttcbTZjXa60ixhuZgkOd6uAQl+VUbGEs5Aowkm/8LPMjNNDtlaz5zW+qXvtR+uRRvgxz
+ GITeqHznP3kvZpGvRvlPnNUtaFZAyRL3uRWVfDl6LOmfugEkSXcTP/jxEgYm5CG+ZLgw
+ c7FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JHIAqQFjdseuSO5Xj8Va0U4rDU9wVrF3zV4QV5k0OQ0=;
- b=dHvOl1PMOSkbj1mQbWt4rMTmSlxDyaZdO1ELbOpO5A+s/p3wLPYYF9V0kVcPKA8JMx
- Ew/p7rEN8RPNbBpSFA5x9yXQGsicREhCWvHPPQTaU9oQWNlOtgmZgRP1fwD6/9BVkcay
- UuHRCMrPOREEZYThah3bHvkDpgHhJtuv6uIl8XuqihTiT6+K4RbW/S+HmgNUXemYDchM
- fmYNKwZfx24TS0FLRilAn1+6FQoJLHflcvBbqeJqtpKmBcbhxpRQkMluoW321evwVVT9
- NHTkkhEaiZsIU+jqvD5R+Ibs8LgAXZ7pjLkj30HbhuTzSfUmwxlrZnCu3xA8+SKTd/C4
- qM8Q==
-X-Gm-Message-State: AFqh2krvbjhbgusxoIL3vcACAN6ugCfM+LZvYhhHfyukOtFsoY6heYzK
- TNAsUh47wsqGZ1UJz7xEC8dcyw==
-X-Google-Smtp-Source: AMrXdXsimRVSdZdWKR0rI47B7MlBnHSdOwr4MsiFOBXkdDINDhjuB1yjQErj3jjFvV3a8Pmr0EH3dg==
-X-Received: by 2002:a05:600c:c8a:b0:3d9:7062:e0b7 with SMTP id
- fj10-20020a05600c0c8a00b003d97062e0b7mr27968698wmb.33.1672839153568; 
- Wed, 04 Jan 2023 05:32:33 -0800 (PST)
-Received: from [192.168.0.17]
- (cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net. [86.15.83.122])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2gOBY7PKd+CZs4UqengBISqvRx3cfdqmRUdbKw78GGc=;
+ b=OIXHmU6Z50EgkvB0Nw+AxTqGgcVvYKHCp0JZy2IV4Wt3+DO0IqfFeSCJXQpG6eahm/
+ FCdWykwuPREhpaJjmI3SJxw+IT/h46WlvARqC7JJ8a6AhQQ1jz2Qmtq2Og2DgzpWaaJ/
+ 52K3et038r/oy9NswhePrY4ahiMUXhZW8a4lsYwMI35AqKB4tvAJkKOtlisLzj4nLcn6
+ TQT5K0N/DGG5bDL9NtOkam7DkDOvcW8osuuBrsCAnzn+38qXlFHbBIEMxWmL4HTHiAr3
+ 9HqTJO9QCKl9rMCZKr790wpsc2cwwFamuJ0ghNKIs8uqOhB27r4VjGVfEZI2azguLBo2
+ AJ3g==
+X-Gm-Message-State: AFqh2kqDaBLHpRnUqLBh24GDV8zF0msinQSe/XkrViWMshaPJgmoBLBl
+ 3DeqWso3Psjfkt50vJBMmxFNe7B8LveEU5cC
+X-Google-Smtp-Source: AMrXdXuKBa79KuSeHt5XJH7zcutpZBqlxJ2EWe3GuuRyy0EQd9QDSYKUY1fJHznjOHGpJmqJLjgXEg==
+X-Received: by 2002:a05:600c:a51:b0:3d2:3376:6f38 with SMTP id
+ c17-20020a05600c0a5100b003d233766f38mr32700956wmq.20.1672839577984; 
+ Wed, 04 Jan 2023 05:39:37 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- m22-20020a05600c161600b003cfa622a18asm47748410wmn.3.2023.01.04.05.32.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 05:32:33 -0800 (PST)
-Message-ID: <1cb5fa4b-cca9-db6d-b0aa-f291f24b7026@sifive.com>
-Date: Wed, 4 Jan 2023 13:32:31 +0000
+ n7-20020a1c7207000000b003cf6a55d8e8sm44843769wmc.7.2023.01.04.05.39.36
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 04 Jan 2023 05:39:37 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Bernhard Beschow <shentey@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 0/6] hw/mips/gt64xxx_pci: Fix endianness swap on big-endian
+ hosts
+Date: Wed,  4 Jan 2023 14:39:29 +0100
+Message-Id: <20230104133935.4639-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] hw/net/can: Add mcp25625 model
-Content-Language: en-GB
-To: Ben Dooks <ben.dooks@codethink.co.uk>, jasowang@redhat.com,
- pisa@cmp.felk.cvut.cz, fnu.vikram@xilinx.com, qemu-devel@nongnu.org
-Cc: Nazar Kazakov <nazar.kazakov@codethink.co.uk>,
- Lawrence Hunter <lawrence.hunter@codethink.co.uk>,
- Frank Chang <frank.chang@sifive.com>
-References: <20230104122220.110412-1-ben.dooks@codethink.co.uk>
-From: Ben Dooks <ben.dooks@sifive.com>
-In-Reply-To: <20230104122220.110412-1-ben.dooks@codethink.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=ben.dooks@sifive.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,39 +90,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 04/01/2023 12:22, Ben Dooks wrote:
-> From: Ben Dooks <ben.dooks@sifive.com>
-> 
-> Add support for Microchip MCP25625 SPI based CAN controller which is
-> very similar to the MCP2515 (and covered by the same Linux driver).
-> 
-> This can be added to any machine with SPI support in the machine
-> model file.
-> 
-> Example for using this when configured into a machine:
-> 
-> 	-object can-bus,id=canbus0 \
-> 	-object can-host-socketcan,id=canhost0,if=vcan0,canbus=canbus0 \
-> 	-global driver=mcp25625,property=canbus,value=canbus0
-> 
-> There is tracing support with --trace "*mcp25*"
-> 
-> Signed-off-by: Ben Dooks <ben.dooks@sifive.com>
-> Co-developed-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
-> Signed-off-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
-> Co-developed-by: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
-> Signed-off-by: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+While working on endianness consolidation I figured
+a long-standing bug in the GT64120 while accessing
+PCI config/data registers from the CPU bus (via the
+ISD).
+While the debugging was painful, the fix is quite
+easy: simply use the endianness MemoryRegionOps
+provided by the abstract PCI_HOST_BRIDGE class.
 
-[snip]
+Patches 1-3 were useful while debugging.
+patch 5 is the fix and patch 6 add a test to keep
+testing on BE hosts.
 
-OOPS, just noticed I forgot to send user.name and user.email in this
-copy of the git repo and sent from @codethink instead of @sifive.
+Philippe Mathieu-Daudé (6):
+  hw/pci/pci_host: Trace config accesses on unexisting functions
+  hw/mips/malta: Split FPGA LEDs/ASCII display updates
+  hw/mips/malta: Trace FPGA LEDs/ASCII display updates
+  hw/mips/gt64xxx_pci: Accumulate address space changes
+  hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE MemoryRegionOps
+  tests/avocado: Add tests booting YAMON ROM on MIPS Malta machines
 
-Will fix this if needed.
+ hw/mips/gt64xxx_pci.c               | 78 +++++++++++++++++++++--------
+ hw/mips/malta.c                     | 16 ++++--
+ hw/mips/trace-events                |  4 ++
+ hw/pci/pci_host.c                   |  6 +++
+ tests/avocado/machine_mips_malta.py | 52 +++++++++++++++++--
+ 5 files changed, 127 insertions(+), 29 deletions(-)
 
 -- 
-Ben
-
+2.38.1
 
 
