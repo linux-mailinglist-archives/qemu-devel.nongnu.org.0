@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB38865D485
+	by mail.lfdr.de (Postfix) with ESMTPS id DD52365D484
 	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 14:41:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD3zo-0003eq-P9; Wed, 04 Jan 2023 08:39:56 -0500
+	id 1pD3zz-0003hk-1M; Wed, 04 Jan 2023 08:40:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD3zk-0003eg-2R
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:39:52 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD3zx-0003hZ-10
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:40:05 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD3zi-0001UR-D4
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:39:51 -0500
-Received: by mail-wr1-x434.google.com with SMTP id d9so4406141wrp.10
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 05:39:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD3zo-0001WY-Jo
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:39:58 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id w1so20861447wrt.8
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 05:39:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WTE5lvRuyw95tyd7OeeOqOVNz/VGzsf7WbrAe7T/I2s=;
- b=Cba85PgerYpzdlNd0hifJZDxSmqaCsIPmauZaSLR020pggJ8m+voU/pk/am2Gs7Ded
- hUmM3FDxRhDLjA5WeME3VrPBiPDqT1bJwGjZ039Z9TUFbY8iB7BDbvbE0u6FcbFEJjim
- nwKAPmRMTe+P6zlV/x2ZdLpiS4IrkUuX4Wj8Zu4lH1cwdHDLOL5kGC629imXKF7QXdvM
- S+pSlH8sPpOTnA0BONd+SfToiT6KkhWdGBH6P/vjC5doRLx4nTT/kkCAaFz9Ny0Chzel
- Vy4zU9vcF7siQNOw0t/IjwaPRsvhi9wuUWTTo5HhPRhKcLKUv08W+9MQAkdk9e26o0oz
- x2Uw==
+ bh=ZygYmfrmD7qdRbVxXkYivEOl/lZqKFZseEhzh+vRLa0=;
+ b=mwg1MbN1JHjrQ+XT7jHjgHRqIp4sIK2cx14a/2WpLDJV6IgSym7k3wmoV8GPx/Eq8w
+ AUZztOWb1ylTNmYB8Ci+4ilCExn4PyrUyD4/tvzn+nkDMFgllfvEFXFWyg2NC2RY9fLO
+ 74druzXhOI0Cp0tHoG4SDu5TIixROqFrdJKZFme+VCOhBUy5vijjspeAbqYRvpUfMQPj
+ JWZYqP++pGEZaHG0oRKOTvpprxfow3lpc+KI8OiWFt/wRuOuJpvQV+4I2mB5fKbIz6yX
+ BCi2MxJcm+GNl9Y9FLYQrAI3QetayVoDEIE6nfB0DX+qPNyB1jgltMB2tAFHLysfIEit
+ k/pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WTE5lvRuyw95tyd7OeeOqOVNz/VGzsf7WbrAe7T/I2s=;
- b=gdpdqJun/+G5vsLLoaFVpc/nCnc8aRiRrJFaOR3xI+j+7A8swSe+rxCYiQCjqVW/l6
- WPkcFJL+DaJAzxjQmjMGqXpL51p/+5o/eOIZSgL/osr1/XtrfJ4xWLuG/X0bT6zJU2VU
- AJJrJDOC7O4A3Xo8yhpzAVu8WgZr2KdEkkhYVvWxbzwseE4YmDq2jTBkLeSUOAwDJ86K
- ZcPQ+PGueWbWF9LMEpesHb40iauWoduRg8YZ799t3cm7u+1fbj0kobdmP8/BZ01lfFLf
- hF/xHkWFlhb1fr8pY2xpqaN0ViCwKMv5DHq+Bf/b2zQwsW4/Qmr6oqzDAnMxBE8GxBaA
- tEbQ==
-X-Gm-Message-State: AFqh2kq83tWq70uS9WCW+pi/MfwBX4vBLyCvdkE1ib78PdkPyS/Xnv/z
- /12Qr9F5sQNrUZ/1Hs10s4czIMuTc+IfwNR5
-X-Google-Smtp-Source: AMrXdXuoyWYJj7Azjg6Jf1wBSSyA4RTmoZgsttst8FxoUfja6QAMemkNYvagt05rfd42xbDdxG8ppw==
-X-Received: by 2002:a5d:4e92:0:b0:2a9:5b5d:2156 with SMTP id
- e18-20020a5d4e92000000b002a95b5d2156mr797347wru.23.1672839588406; 
- Wed, 04 Jan 2023 05:39:48 -0800 (PST)
+ bh=ZygYmfrmD7qdRbVxXkYivEOl/lZqKFZseEhzh+vRLa0=;
+ b=51RoDPubyFNW26+N6lZgUVBR6BHLoVyAaa1J8fiPMdeYOYtLDFoAH3HstZgMjrWvuY
+ wS5JwNDDkD3jxe5dB8Cwh418zREHJy2vRWIkWN/U0kwkFeouw626qkSLJvUwQ2KWrGDe
+ sR8Yn8DEOzE8Z1ZT34WveqdMZ3N2udH6gf/izx13Kf/X1hmgjgFKtxoQyuwXQNvhXHQn
+ sxSMWbtvNI9IQLUHocnZahyy9fytlX5Un60Sjsc0xp/51TvGuytoqj/3gQEq4IVO55Pe
+ IJLiqoiJ2HWAX8x8yQ/b3JGfG/1OZNsKvUwzlqQ2mu4rJxVqsXDjeo3a12ipGuIgsKEt
+ ttVg==
+X-Gm-Message-State: AFqh2krylcFzStVt/fV/doMpbpo/MRBnlDjDTUa6qPHnjV0po6GpCj6K
+ eoKGwR8XsYMLRQ9RPAhKO7kJXjR9LTX8YDlG
+X-Google-Smtp-Source: AMrXdXutsNLl7xKeKNAB4V4zeOQf8FV+tmitsA/+O2mFreLptfGhnFxk5CZgfTiytUto9Mt4Ft8LzQ==
+X-Received: by 2002:adf:ce0a:0:b0:242:4dd8:a7ee with SMTP id
+ p10-20020adfce0a000000b002424dd8a7eemr30468889wrn.12.1672839593909; 
+ Wed, 04 Jan 2023 05:39:53 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- x12-20020a5d6b4c000000b00241fea203b6sm33876790wrw.87.2023.01.04.05.39.47
+ l15-20020a5d410f000000b002683695bf97sm34175987wrp.58.2023.01.04.05.39.52
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 04 Jan 2023 05:39:48 -0800 (PST)
+ Wed, 04 Jan 2023 05:39:53 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Bernhard Beschow <shentey@gmail.com>,
  Aurelien Jarno <aurelien@aurel32.net>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 2/6] hw/mips/malta: Split FPGA LEDs/ASCII display updates
-Date: Wed,  4 Jan 2023 14:39:31 +0100
-Message-Id: <20230104133935.4639-3-philmd@linaro.org>
+Subject: [PATCH 3/6] hw/mips/malta: Trace FPGA LEDs/ASCII display updates
+Date: Wed,  4 Jan 2023 14:39:32 +0100
+Message-Id: <20230104133935.4639-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230104133935.4639-1-philmd@linaro.org>
 References: <20230104133935.4639-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,67 +91,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-No need to refresh the ASCII bar when a LED is toggled
-(and vice versa).
+The FPGA LEDs/ASCII display is mostly used by the bootloader
+to show very low-level debug info. QEMU connects its output
+to a character device backend, which is not very practical
+to correlate with ASM instruction executed, interrupts or
+MMIO accesses. Also, the display discard the previous states.
+
+To ease bootloader debugging experience, add a pair of trace
+events. Such events can be analyzed over time or diff-ed
+between different runs.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/mips/malta.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ hw/mips/malta.c      | 3 +++
+ hw/mips/trace-events | 4 ++++
+ 2 files changed, 7 insertions(+)
 
 diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index c0a2e0ab04..e9424150aa 100644
+index e9424150aa..44d88a24a7 100644
 --- a/hw/mips/malta.c
 +++ b/hw/mips/malta.c
-@@ -106,11 +106,10 @@ static struct _loaderparams {
- } loaderparams;
+@@ -58,6 +58,7 @@
+ #include "semihosting/semihost.h"
+ #include "hw/mips/cps.h"
+ #include "hw/qdev-clock.h"
++#include "trace.h"
  
- /* Malta FPGA */
--static void malta_fpga_update_display(void *opaque)
-+static void malta_fpga_update_display_leds(MaltaFPGAState *s)
- {
-     char leds_text[9];
-     int i;
--    MaltaFPGAState *s = opaque;
+ #define ENVP_PADDR          0x2000
+ #define ENVP_VADDR          cpu_mips_phys_to_kseg0(NULL, ENVP_PADDR)
+@@ -120,12 +121,14 @@ static void malta_fpga_update_display_leds(MaltaFPGAState *s)
+     }
+     leds_text[8] = '\0';
  
-     for (i = 7 ; i >= 0 ; i--) {
-         if (s->leds & (1 << i)) {
-@@ -123,6 +122,10 @@ static void malta_fpga_update_display(void *opaque)
- 
++    trace_malta_fpga_leds(leds_text);
      qemu_chr_fe_printf(&s->display, "\e[H\n\n|\e[32m%-8.8s\e[00m|\r\n",
                         leds_text);
-+}
-+
-+static void malta_fpga_update_display_ascii(MaltaFPGAState *s)
-+{
+ }
+ 
+ static void malta_fpga_update_display_ascii(MaltaFPGAState *s)
+ {
++    trace_malta_fpga_display(s->display_text);
      qemu_chr_fe_printf(&s->display, "\n\n\n\n|\e[31m%-8.8s\e[00m|",
                         s->display_text);
  }
-@@ -457,13 +460,13 @@ static void malta_fpga_write(void *opaque, hwaddr addr,
-     /* LEDBAR Register */
-     case 0x00408:
-         s->leds = val & 0xff;
--        malta_fpga_update_display(s);
-+        malta_fpga_update_display_leds(s);
-         break;
- 
-     /* ASCIIWORD Register */
-     case 0x00410:
-         snprintf(s->display_text, 9, "%08X", (uint32_t)val);
--        malta_fpga_update_display(s);
-+        malta_fpga_update_display_ascii(s);
-         break;
- 
-     /* ASCIIPOS0 to ASCIIPOS7 Registers */
-@@ -476,7 +479,7 @@ static void malta_fpga_write(void *opaque, hwaddr addr,
-     case 0x00448:
-     case 0x00450:
-         s->display_text[(saddr - 0x00418) >> 3] = (char) val;
--        malta_fpga_update_display(s);
-+        malta_fpga_update_display_ascii(s);
-         break;
- 
-     /* SOFTRES Register */
+diff --git a/hw/mips/trace-events b/hw/mips/trace-events
+index 13ee731a48..b5b882c6c2 100644
+--- a/hw/mips/trace-events
++++ b/hw/mips/trace-events
+@@ -4,3 +4,7 @@ gt64120_write(uint64_t addr, uint64_t value) "gt64120 write 0x%03"PRIx64" value:
+ gt64120_read_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 read %s size:%u value:0x%08" PRIx64
+ gt64120_write_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 write %s size:%u value:0x%08" PRIx64
+ gt64120_isd_remap(uint64_t from_length, uint64_t from_addr, uint64_t to_length, uint64_t to_addr) "ISD: 0x%08" PRIx64 "@0x%08" PRIx64 " -> 0x%08" PRIx64 "@0x%08" PRIx64
++
++# malta.c
++malta_fpga_leds(const char *text) "LEDs %s"
++malta_fpga_display(const char *text) "ASCII '%s'"
 -- 
 2.38.1
 
