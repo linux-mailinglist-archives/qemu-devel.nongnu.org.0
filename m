@@ -2,88 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D93865DB38
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 18:25:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C9165DB5B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 18:39:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD7Ul-0002hh-Rc; Wed, 04 Jan 2023 12:24:07 -0500
+	id 1pD7hy-00068T-Uc; Wed, 04 Jan 2023 12:37:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pD7Uj-0002hE-Pw
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 12:24:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pD7Uh-0007sv-Jt
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 12:24:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672853041;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+fbscNjl8kB8+/aweqlu8Rh7fmqFtY4TlB1L9/evAVg=;
- b=TApe5lHKBKhaMVosSm7rNmX0XB+ZbTyYY+Mljo5HIjZQ1rpoHGjWl7Pg9EvZPkJp+BZd8i
- zboJ/yYqNJbFzNw3/NzaRCq1oF/62LzSNtXPoAQB9JOobjQU2gpCl5WtWjCbfGTHzUA+YR
- skOdAZCSJZxrF3ZaFNesrvtTyzjUimY=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-591-VhcPSUFeM3u37yeGH_aV9g-1; Wed, 04 Jan 2023 12:24:00 -0500
-X-MC-Unique: VhcPSUFeM3u37yeGH_aV9g-1
-Received: by mail-qk1-f199.google.com with SMTP id
- bm30-20020a05620a199e00b006ff813575b1so23522039qkb.16
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 09:24:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pD7hx-00068H-On
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 12:37:45 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pD7hw-000545-3Q
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 12:37:45 -0500
+Received: by mail-pl1-x635.google.com with SMTP id n4so36588241plp.1
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 09:37:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=oRX3aoxWpIAjStq8N+rCgXZMPSoMWkdKtul/JI8OsFg=;
+ b=ii4dKczoiWgy4orpKuqs3aILNhZ1h8fDMulg41nqJ/EGW94L56H0m9vRouQLR1q2Nx
+ CRsE0QgHRufX6kbPE2efuLHDA+seSBZENh/ha0FfQaIF310ipPi15zVCfUpNfPQnT/Pz
+ PZePiKZvl6w1xhSS28yhk9Kk9cda8meEhd5PL+FKzyC5e5g7zE8cE7OXFOkN9QB1cW0w
+ 5fv4q9rUFyQS07IbPubypUmMTGmW47MTOZo7JuZVVE12nuwRpFkZDau5w9h7LBZieRWY
+ OT38BijMEkB2zqXebe2iiSGx0kp+62ZSivb53Xb4j1T4LaCrDjDoH9hDvVaDd+9mLrCl
+ NNZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+fbscNjl8kB8+/aweqlu8Rh7fmqFtY4TlB1L9/evAVg=;
- b=zkvA3H7NMvYfpWQOTpbxZmzc6037u5pyC2PnqT9L+9FKJuTwpqqlYoF9GNafkJFuqB
- Go15vZV9frOle7yMlA6ujIQ43CXalpF9hnV8mMIRZGCg77MCD/3SB5f6eQbdiLDLhAfv
- AkeXECUolcXQkFwFWySYcNqmUdxt86eX+mkxZ+XnMdWqogu90HN1R2hb50BBtINoRUAT
- 7/UORvU3k0TZxlqUq6gufkOCUSoZjc/z2qN9YoX4gzJABbLPCdnT6NWNLh8/eg6j4t2o
- NzlTHY1z/bI6KBOEcLPtub6baOk6UAXyP1pdfSHIQ9B6zFOjpFueCg7BYz4z1Sn0ttuJ
- 5tXQ==
-X-Gm-Message-State: AFqh2koiGulUpcu6QpEzbgnSONj7SHOh/eI2nRgI99RVWsnQNCzJGwB/
- NsyW4SzsW4IWy5fxbKtmb/PPbwzt6orHSLuAwwiz2RJVeMlHzm7V/1emEGKZMt6FvsGFXclx7QV
- yEDznZecLQlBmvBk=
-X-Received: by 2002:ac8:4519:0:b0:39c:da20:609 with SMTP id
- q25-20020ac84519000000b0039cda200609mr67803972qtn.19.1672853040000; 
- Wed, 04 Jan 2023 09:24:00 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXviDAtad8aZ7oHcrTJUmI7K547Lf65X7f3QHf8O5O22MnDuvGpF2GH+BnfBTAszer/lZO+reQ==
-X-Received: by 2002:ac8:4519:0:b0:39c:da20:609 with SMTP id
- q25-20020ac84519000000b0039cda200609mr67803954qtn.19.1672853039781; 
- Wed, 04 Jan 2023 09:23:59 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-39-70-52-228-144.dsl.bell.ca.
- [70.52.228.144]) by smtp.gmail.com with ESMTPSA id
- gc11-20020a05622a59cb00b003a50d92f9b4sm20637836qtb.1.2023.01.04.09.23.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jan 2023 09:23:59 -0800 (PST)
-Date: Wed, 4 Jan 2023 12:23:58 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-Subject: Re: [PATCH v3 1/6] migration: Allow immutable device state to be
- migrated early (i.e., before RAM)
-Message-ID: <Y7W2LtO5/m1r3VaL@x1n>
-References: <20221222110215.130392-1-david@redhat.com>
- <20221222110215.130392-2-david@redhat.com>
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oRX3aoxWpIAjStq8N+rCgXZMPSoMWkdKtul/JI8OsFg=;
+ b=5KmqVpAHuh/EfJ4/JiMMdRraufj72TiaCIAqJpi4T4UCB1V+aO17vaQ871VFsAdtBg
+ x4Fh0gyKbhibU5j1gjoaDy3buhWCGRWGbMapElrYZ7th16h/PngJIBD4ZODUhvN2n1rS
+ WSEp2N/u8dXkW0/NuerixgDzCDZ0RDF0QD4nma2HShm/xoGvqcqLmsusZsVpse+JpiZy
+ HntVUJWShLgWcTLIWgtxX2DpDJULxgSOjDi2KzPfEGpnToGsrbBPbWYJCMRhQb3NCt1y
+ kdZiyOYOJ6TW7lzzVkI6JfytQXVfQobW0UxAJ4EAhPzfdMsv2EdOMjQqE9Z6U3vMNMkj
+ gwJQ==
+X-Gm-Message-State: AFqh2kqOGbe4i6hqchE2QOIPO2L6chugOmsN9sEzMK20SlLP4BK196ar
+ hzNmskn5OnikerzaDqwb7rmWBw==
+X-Google-Smtp-Source: AMrXdXsBMwayX3xwavzwdZxe0pOJoET51ql2DJb9IbxoxlP3yAiDvgfcpuLLSl+2cdAuu3YaG5BJ2w==
+X-Received: by 2002:a17:90b:1203:b0:219:823e:6726 with SMTP id
+ gl3-20020a17090b120300b00219823e6726mr52069361pjb.19.1672853862352; 
+ Wed, 04 Jan 2023 09:37:42 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:92be:ce91:1417:6686?
+ ([2602:47:d48c:8101:92be:ce91:1417:6686])
+ by smtp.gmail.com with ESMTPSA id
+ ge10-20020a17090b0e0a00b00213202d77d9sm20538252pjb.43.2023.01.04.09.37.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Jan 2023 09:37:41 -0800 (PST)
+Message-ID: <e54984fe-c17a-c39b-80e9-f7d22010106c@linaro.org>
+Date: Wed, 4 Jan 2023 09:37:39 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221222110215.130392-2-david@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 1/4] target/m68k: pass quotient directly into
+ make_quotient()
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, laurent@vivier.eu,
+ qemu-devel@nongnu.org
+References: <20230104134554.138012-1-mark.cave-ayland@ilande.co.uk>
+ <20230104134554.138012-2-mark.cave-ayland@ilande.co.uk>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230104134554.138012-2-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,18 +95,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 22, 2022 at 12:02:10PM +0100, David Hildenbrand wrote:
-> Migrating device state before we start iterating is currently impossible.
-> Introduce and use qemu_savevm_state_start_precopy(), and use
-> a new special migration priority -- MIG_PRI_POST_SETUP -- to decide whether
-> state will be saved in qemu_savevm_state_start_precopy() or in
-> qemu_savevm_state_complete_precopy_*().
+On 1/4/23 05:45, Mark Cave-Ayland wrote:
+> Signed-off-by: Mark Cave-Ayland<mark.cave-ayland@ilande.co.uk>
+> Reviewed-by: Laurent Vivier<laurent@vivier.eu>
+> ---
+>   target/m68k/fpu_helper.c | 20 +++++++++++---------
+>   1 file changed, 11 insertions(+), 9 deletions(-)
 
-Can something like this be done in qemu_savevm_state_setup()?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Thanks,
-
--- 
-Peter Xu
-
+r~
 
