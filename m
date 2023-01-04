@@ -2,88 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D27665D67D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 15:47:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00ECA65D68E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 15:50:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD51a-0005IG-GQ; Wed, 04 Jan 2023 09:45:50 -0500
+	id 1pD560-00026J-2K; Wed, 04 Jan 2023 09:50:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pD51J-0005Fn-9n
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:45:40 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pD51H-0002rl-Jb
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:45:33 -0500
-Received: by mail-wm1-x330.google.com with SMTP id g10so11942566wmo.1
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 06:45:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=E4FebSrd6qw4EtXuaelySJNjsiB1Oj70YbVnrwvN8/I=;
- b=lMKvYCGOWYmnaT84GaMb23/VAi195oDQudE1wLzcerQEkKvvtsHLGjOSg3Wp4GFafE
- XEtBgvv3xHIUWKKXmH1Ae9427VzyfEBA7cUKnYZSZvXPXSBefmryW+xa2Iv6VyKgWZfs
- r85U50UOY19i1THGPSpmLtkLrbogJ7ind85Uxcyqly4kLwW+iIYVU0SFYWcvUyE/B88b
- LnK2tJgHA8CffJ4VpAQZujNkJQGRaVtif+jOh2hKIW0Htmy+z0Ns9XHX5CwsqjO/ECtm
- 2O5VciXS7zNEcI+bZMOyLKHtdkcj+Ej/CLxWUUVLE1r7h5cOkCZL6K1xhBFqGNEijOdc
- pK5Q==
+ (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
+ id 1pD55n-0001yQ-Al
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:50:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
+ id 1pD55l-0005aw-Dt
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:50:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672843808;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wl5J0kvuLH8aBUCriSM5kEzfMBD+WGe38HAuKXgNWGE=;
+ b=XPuB4R471wKdSOxt7cWnZ7uDFhMB58T+x0frwPD0fnVAlf2zS3z5fPflqeOY0T8xipKWXn
+ GqbRxKdwiH7XOpZzG3lpvbF4c0+Jr7zIyXUNNFLXHPRat3m1p9TFKa9QQQMz2OBjmSXr8V
+ spj9uh0Z/mkIX8V7D84uDVkmMJbcCPc=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-122-QnadT-oEO2CxdduHvD9zFw-1; Wed, 04 Jan 2023 09:50:06 -0500
+X-MC-Unique: QnadT-oEO2CxdduHvD9zFw-1
+Received: by mail-oi1-f197.google.com with SMTP id
+ k2-20020a056808068200b00360fc885001so6988002oig.1
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 06:50:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=E4FebSrd6qw4EtXuaelySJNjsiB1Oj70YbVnrwvN8/I=;
- b=fNzF6O9+00nS0Q3RSCpoL8VK5CxQD3+8JtgVjceTU5bCt+CMjnjLvg5PU0FZk2rI+9
- nbsS73xIBn6KjC14yAvQyM4z3cboNE3JeHJwG82bXG14fHbNUQhDrtbrCV1mXDIt40It
- N0NPaw/QfxBcDNqOJlv9fCItiBV7ApH9S/Yy+8rOWeWxLxK0yJxPRukEwUT551dtD94G
- YMOOMdbHVrDCKnq4KbU5bPvRbxILTgBBThhnKkYQKI8OPor5BfJAul5Zkj7Zx4nSdcWR
- FTXxtaCX8u/fPQ7n8/AtKG69H/IFIpk9Kf8SnNExE8tTvbrjkWZyRednKnOG6FPD8XHh
- 41Og==
-X-Gm-Message-State: AFqh2kpMPzfz7eiQqLVfuf4ItaE1CYcMV2mIm6b5Q0QQYrfLqPwX26r7
- NpUtwGkWQvy0r5rT3PUFw/rpewYp/8SrSw==
-X-Google-Smtp-Source: AMrXdXsYGgxoZWnwVZ7yR7arNry46fXICAla5+IdicOq5hbJrnHe2MpsGju5mZBACJ42RwflZH2L8w==
-X-Received: by 2002:a05:600c:54cb:b0:3cf:d0be:1231 with SMTP id
- iw11-20020a05600c54cb00b003cfd0be1231mr41547624wmb.13.1672843529178; 
- Wed, 04 Jan 2023 06:45:29 -0800 (PST)
-Received: from osoxes.fritz.box
- (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
- by smtp.gmail.com with ESMTPSA id
- e10-20020a5d594a000000b0028663fc8f4csm21168241wri.30.2023.01.04.06.45.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jan 2023 06:45:28 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- xen-devel@lists.xenproject.org,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Chuck Zmudzinski <brchuckz@aol.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 6/6] hw/isa/piix: Resolve redundant TYPE_PIIX3_XEN_DEVICE
-Date: Wed,  4 Jan 2023 15:44:37 +0100
-Message-Id: <20230104144437.27479-7-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230104144437.27479-1-shentey@gmail.com>
-References: <20230104144437.27479-1-shentey@gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wl5J0kvuLH8aBUCriSM5kEzfMBD+WGe38HAuKXgNWGE=;
+ b=qLHRv5z4+VvIO2MhNr+0rP9XuQrkqvGfW65M2csDRY8nbsUZes89A0RFfm7Ss7fJlF
+ FCqXaYegRB+yW82gJw3Rn5gANhRZHMJyFX5DgBDYVlva4muKQ/o+hb+pdPr/2tmUuwAe
+ 6WlrXu/jhvHarhn1jv0Y4HG13cejEke6H5Zx2IkAHqTM1PiBka70iulXjMHUf7xnnBPt
+ t1Nz3yVMLHRUS6DrhFF+CvEQauRNfpPvbjpJtfpCf1j38c7fvRkfqTpgC3KxDE/MOQ1K
+ lrPb2UkOkVLJpYup2/2aFaZYgn6QnV387NuyNuFWGVI4VxAFzaM8cH1ZdcHhdI31Ksgo
+ 8c/A==
+X-Gm-Message-State: AFqh2krpUki5dI5mVXW7LJBdxCMbWJPhEWkUkn6zDwFGhFoz4Sai3XNE
+ 5HWc2A+fcppK37OCn1cWlF7lG6ZwKw7jd4w/BuCP7uJFMQRectLxk413LjWWRLU/giIWniu/rWw
+ VFFW5PePDIM3/o2NkZnN5KyuTLO+dhCQ=
+X-Received: by 2002:a05:6830:103:b0:678:2666:2441 with SMTP id
+ i3-20020a056830010300b0067826662441mr3196519otp.94.1672843805427; 
+ Wed, 04 Jan 2023 06:50:05 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvBXze/utDGH3+DaXrDomMHqHl33lF8zql3U9aPxspUKGtZyVgn7Jr7J9B8EfuJ5Vj7d2sjU+mjnjmv5eEx+HY=
+X-Received: by 2002:a05:6830:103:b0:678:2666:2441 with SMTP id
+ i3-20020a056830010300b0067826662441mr3196518otp.94.1672843805147; Wed, 04 Jan
+ 2023 06:50:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=shentey@gmail.com; helo=mail-wm1-x330.google.com
+References: <20230102161903.3857354-1-casantos@redhat.com>
+In-Reply-To: <20230102161903.3857354-1-casantos@redhat.com>
+From: Carlos Santos <casantos@redhat.com>
+Date: Wed, 4 Jan 2023 11:49:50 -0300
+Message-ID: <CAC1VKkOzUsh-EZfwSRbGRC13auykBL5jmszpStw=GHcgx9G6Vw@mail.gmail.com>
+Subject: Re: [PATCH] meson: allow disablind the installation of keymaps
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=casantos@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,96 +91,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-During the last patches, TYPE_PIIX3_XEN_DEVICE turned into a clone of
-TYPE_PIIX3_DEVICE. Remove this redundancy.
+On Mon, Jan 2, 2023 at 1:19 PM <casantos@redhat.com> wrote:
+>
+> From: Carlos Santos <casantos@redhat.com>
+>
+> There are situatuions in which the keyboard maps are not necessary (e.g.
+> when building only tools or linux-user emulator). Add an option to avoid
+> installing them, as already possible to do with firmware blobs.
+>
+> Signed-off-by: Carlos Santos <casantos@redhat.com>
+> ---
+>  configure                     | 2 ++
+>  meson_options.txt             | 2 ++
+>  pc-bios/keymaps/meson.build   | 6 ++++--
+>  scripts/meson-buildoptions.sh | 4 ++++
+>  4 files changed, 12 insertions(+), 2 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 789a4f6cc9..c6ed6a23d0 100755
+> --- a/configure
+> +++ b/configure
+> @@ -889,6 +889,8 @@ for opt do
+>    ;;
+>    --disable-blobs) meson_option_parse --disable-install-blobs ""
+>    ;;
+> +  --disable-keymaps) meson_option_parse --disable-install-keymaps ""
+> +  ;;
+>    --enable-vfio-user-server) vfio_user_server="enabled"
+>    ;;
+>    --disable-vfio-user-server) vfio_user_server="disabled"
+> diff --git a/meson_options.txt b/meson_options.txt
+> index 559a571b6b..be27137e98 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -48,6 +48,8 @@ option('module_upgrades', type : 'boolean', value : false,
+>         description: 'try to load modules from alternate paths for upgrades')
+>  option('install_blobs', type : 'boolean', value : true,
+>         description: 'install provided firmware blobs')
+> +option('install_keymaps', type : 'boolean', value : true,
+> +       description: 'install provided keyboard maps')
+>  option('sparse', type : 'feature', value : 'auto',
+>         description: 'sparse checker')
+>  option('guest_agent', type : 'feature', value : 'auto',
+> diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
+> index 06c75e646b..7d80c23005 100644
+> --- a/pc-bios/keymaps/meson.build
+> +++ b/pc-bios/keymaps/meson.build
+> @@ -47,7 +47,7 @@ if native_qemu_keymap.found()
+>                         build_by_default: true,
+>                         output: km,
+>                         command: [native_qemu_keymap, '-f', '@OUTPUT@', args.split()],
+> -                       install: true,
+> +                       install: get_option('install_keymaps'),
+>                         install_dir: qemu_datadir / 'keymaps')
+>    endforeach
+>
+> @@ -56,4 +56,6 @@ else
+>    install_data(keymaps.keys(), install_dir: qemu_datadir / 'keymaps')
+>  endif
+>
+> -install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
+> +if get_option('install_keymaps')
+> +  install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
+> +endif
+> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+> index aa6e30ea91..f17d9c196e 100644
+> --- a/scripts/meson-buildoptions.sh
+> +++ b/scripts/meson-buildoptions.sh
+> @@ -11,6 +11,8 @@ meson_options_help() {
+>    printf "%s\n" '  --datadir=VALUE          Data file directory [share]'
+>    printf "%s\n" '  --disable-coroutine-pool coroutine freelist (better performance)'
+>    printf "%s\n" '  --disable-install-blobs  install provided firmware blobs'
+> +  printf "%s\n" '  --disable-install-keymaps'
+> +  printf "%s\n" '                           install provided keyboard maps'
+>    printf "%s\n" '  --docdir=VALUE           Base directory for documentation installation'
+>    printf "%s\n" '                           (can be empty) [share/doc]'
+>    printf "%s\n" '  --enable-block-drv-whitelist-in-tools'
+> @@ -291,6 +293,8 @@ _meson_option_parse() {
+>      --includedir=*) quote_sh "-Dincludedir=$2" ;;
+>      --enable-install-blobs) printf "%s" -Dinstall_blobs=true ;;
+>      --disable-install-blobs) printf "%s" -Dinstall_blobs=false ;;
+> +    --enable-install-keymaps) printf "%s" -Dinstall_keymaps=true ;;
+> +    --disable-install-keymaps) printf "%s" -Dinstall_keymaps=false ;;
+>      --interp-prefix=*) quote_sh "-Dinterp_prefix=$2" ;;
+>      --enable-jack) printf "%s" -Djack=enabled ;;
+>      --disable-jack) printf "%s" -Djack=disabled ;;
+> --
+> 2.31.1
+>
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/i386/pc_piix.c             |  4 +---
- hw/isa/piix.c                 | 20 --------------------
- include/hw/southbridge/piix.h |  1 -
- 3 files changed, 1 insertion(+), 24 deletions(-)
+Thinking a bit more about this patch, I think the correct approach
+would be to install blobs and keymaps depending on have_system:
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 5738d9cdca..6b8de3d59d 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -235,8 +235,6 @@ static void pc_init1(MachineState *machine,
-     if (pcmc->pci_enabled) {
-         DeviceState *dev;
-         PCIDevice *pci_dev;
--        const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
--                                         : TYPE_PIIX3_DEVICE;
-         int i;
- 
-         pci_bus = i440fx_init(pci_type,
-@@ -250,7 +248,7 @@ static void pc_init1(MachineState *machine,
-                                        : pci_slot_get_pirq);
-         pcms->bus = pci_bus;
- 
--        pci_dev = pci_new_multifunction(-1, true, type);
-+        pci_dev = pci_new_multifunction(-1, true, TYPE_PIIX3_DEVICE);
-         object_property_set_bool(OBJECT(pci_dev), "has-usb",
-                                  machine_usb(machine), &error_abort);
-         object_property_set_bool(OBJECT(pci_dev), "has-acpi",
-diff --git a/hw/isa/piix.c b/hw/isa/piix.c
-index 98e9b12661..e4587352c9 100644
---- a/hw/isa/piix.c
-+++ b/hw/isa/piix.c
-@@ -33,7 +33,6 @@
- #include "hw/qdev-properties.h"
- #include "hw/ide/piix.h"
- #include "hw/isa/isa.h"
--#include "hw/xen/xen.h"
- #include "sysemu/runstate.h"
- #include "migration/vmstate.h"
- #include "hw/acpi/acpi_aml_interface.h"
-@@ -465,24 +464,6 @@ static const TypeInfo piix3_info = {
-     .class_init    = piix3_class_init,
- };
- 
--static void piix3_xen_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
--
--    k->realize = piix3_realize;
--    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
--    k->device_id = PCI_DEVICE_ID_INTEL_82371SB_0;
--    dc->vmsd = &vmstate_piix3;
--}
--
--static const TypeInfo piix3_xen_info = {
--    .name          = TYPE_PIIX3_XEN_DEVICE,
--    .parent        = TYPE_PIIX_PCI_DEVICE,
--    .instance_init = piix3_init,
--    .class_init    = piix3_xen_class_init,
--};
--
- static void piix4_realize(PCIDevice *dev, Error **errp)
- {
-     ERRP_GUARD();
-@@ -534,7 +515,6 @@ static void piix3_register_types(void)
- {
-     type_register_static(&piix_pci_type_info);
-     type_register_static(&piix3_info);
--    type_register_static(&piix3_xen_info);
-     type_register_static(&piix4_info);
- }
- 
-diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index 65ad8569da..b1fc94a742 100644
---- a/include/hw/southbridge/piix.h
-+++ b/include/hw/southbridge/piix.h
-@@ -77,7 +77,6 @@ struct PIIXState {
- OBJECT_DECLARE_SIMPLE_TYPE(PIIXState, PIIX_PCI_DEVICE)
- 
- #define TYPE_PIIX3_DEVICE "PIIX3"
--#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
- #define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
- 
- #endif
+    [...]
+    install: have_system,
+    [...]
+
+And use the same approach for trace-events-all, in trace/meson.build:
+
+    [...]
+    install: have_linux_user or have_bsd_user or have_system,
+    [...]
+
+This would prevent installing useless data.
+
 -- 
-2.39.0
+Carlos Santos
+Senior Software Maintenance Engineer
+Red Hat
+casantos@redhat.com    T: +55-11-3534-6186
 
 
