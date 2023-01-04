@@ -2,89 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6FCF65CF75
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 10:21:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9309665CF99
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 10:34:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCzwa-0004ih-4T; Wed, 04 Jan 2023 04:20:20 -0500
+	id 1pD09Q-00008F-G7; Wed, 04 Jan 2023 04:33:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCzwY-0004iV-6i
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 04:20:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
+ id 1pD09O-00006m-36; Wed, 04 Jan 2023 04:33:34 -0500
+Received: from ams.source.kernel.org ([145.40.68.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCzwW-0006bI-5u
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 04:20:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672824014;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oVQuKPhYmaaQZTqXDtqQjW51Ra5K/2R5OeGVYC4DU/I=;
- b=B7Kh92LClXDyy1aKUXh+2YclWAqUQPJ9/8vbXTTPgEPL7Cc5tFHxL9V8Neruu4QKnDzCbm
- GG9fqRfCL9SVpHWeDNewd0JD+t0deOPOGy5a9p1FWDNJxmCUEPg+FA4D6qxTJY/y4m1EMb
- j4UZ/43ZrGwM/+NhfwqVsCgaP1IC2C8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-428-Th0JtaIGPeerI1pCwTDhgA-1; Wed, 04 Jan 2023 04:20:13 -0500
-X-MC-Unique: Th0JtaIGPeerI1pCwTDhgA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c66-20020a1c3545000000b003d355c13229so21489123wma.0
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 01:20:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oVQuKPhYmaaQZTqXDtqQjW51Ra5K/2R5OeGVYC4DU/I=;
- b=ilD6K8ffHn1KyD9BL0wBaRS8axlIxGvTmrmFFb7A77kXE1eRNn3irYceAXqRZ1XzuR
- JSG1mobHmO0Akk8SuMV1ntNGAX7g87APRJkSiKW1lWhVrsrxkXJHA+aNtdomDSSHzW76
- TKusd0v838JkFq+iGOEk4pJ5qPPx/WuAkp4BIuqxBJEaxt5Nmk/Kn5Aqw1dw78RAQor+
- +YS7dACkDaMfm3Nf3+VHv0GTN2PZV0dad6hhnjyioWu/Y+D8PFwG+JvSpiLJ0NMezJua
- zx4XQ5ZAh5e/3Sev5oFWXu5/KMng45cjUN7R5elpjpjEk3ir4YyycX7q5j2oXNTMYeZ9
- Ah4Q==
-X-Gm-Message-State: AFqh2kpLcYU8FL4sJhPwBqA77IhJXKrcKqonQfzH6Hpk77kJm3/p89DN
- G+xN0kXGCPLtHBjreB6W3Z/EjQuD31w92nZFDaAh5ztZy6SIxuHS0GgA7fmW1qdAEdE2Bzr74SQ
- 3hsz6LGzFQx7oMGM=
-X-Received: by 2002:a7b:c3d2:0:b0:3c6:e62e:2e72 with SMTP id
- t18-20020a7bc3d2000000b003c6e62e2e72mr33711232wmj.13.1672824012709; 
- Wed, 04 Jan 2023 01:20:12 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsI2CSPwk+bsckVRirTAZaoakv4D9TPtElB++kwHDhMtZS747As3VLpVGwsGNW+gjC+CicnJQ==
-X-Received: by 2002:a7b:c3d2:0:b0:3c6:e62e:2e72 with SMTP id
- t18-20020a7bc3d2000000b003c6e62e2e72mr33711218wmj.13.1672824012488; 
- Wed, 04 Jan 2023 01:20:12 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-176-239.web.vodafone.de.
- [109.43.176.239]) by smtp.gmail.com with ESMTPSA id
- x7-20020a05600c188700b003d9aa76dc6asm17937194wmp.0.2023.01.04.01.20.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 01:20:11 -0800 (PST)
-Message-ID: <5f487941-0a4f-1f99-a281-8cf004c80662@redhat.com>
-Date: Wed, 4 Jan 2023 10:20:09 +0100
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
+ id 1pD09L-0003tf-Bx; Wed, 04 Jan 2023 04:33:33 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 33908B811A2;
+ Wed,  4 Jan 2023 09:33:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1EEFC433D2;
+ Wed,  4 Jan 2023 09:33:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1672824799;
+ bh=nXvXhh/0HYvfuX98mPpRJiJszFOCgo666OqtH8XMha0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=WHAZyHNVNp20YUZI58wxCdehwqEe50FjI+T3wXjMQnLjAEIbp/wyHxm50jMljpE4q
+ N8jGTDztvRuR82R/QH/UQF2EcMosb4/PY9vo2fIaSUib/SsGkWpZd1PUxSumi7ZYnf
+ N74Fu8loRZjwVEGTb7oLkRx93/5Rp3OeZksS5m17zZ3Pg3Gw8NYdCEUscKSjKwB9BA
+ 0F4cRYpEQuMIqQPXT5mpt17amJPg63/C4pDCwcbR/rhXIQZIfTFNWgZ32tJAyiel8t
+ cyV3PBH5bG7GIQayPRt3Pf3e8QzcYBZSW3bMMIraWZNsMZZirx4MKbk1ryBtWbVaiB
+ qgCwkC7gT5q0w==
+Received: by mail-lf1-f52.google.com with SMTP id f34so49532449lfv.10;
+ Wed, 04 Jan 2023 01:33:18 -0800 (PST)
+X-Gm-Message-State: AFqh2kqblZlnDhFFQB2FkrhwKmnXs56P5G8IsDsMewWg9oisxagzIryP
+ /wT5CLqlRRWXgLvYEkWZEFwY5u5Hb4q8F/vCRR8=
+X-Google-Smtp-Source: AMrXdXtNGKUK9MyMdPS5soP05s0spp8IKdmSWvKHcmGl/aRa5aOTaNgCUmBGrSsBlg6Q9iEJoJpm1nJ6GYD40kOe8eo=
+X-Received: by 2002:a05:6512:15a3:b0:4bc:bdf5:f163 with SMTP id
+ bp35-20020a05651215a300b004bcbdf5f163mr2347671lfb.583.1672824796906; Wed, 04
+ Jan 2023 01:33:16 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PULL v2 00/45] riscv-to-apply queue
-Content-Language: en-US
-To: Alistair Francis <alistair.francis@opensource.wdc.com>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <20230104090138.214862-1-lersek@redhat.com>
+In-Reply-To: <20230104090138.214862-1-lersek@redhat.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Wed, 4 Jan 2023 10:33:05 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXEBHez9sENdQ__A7wS-ji-gqbyzE3ehLCrE_Rj3tN4e_A@mail.gmail.com>
+Message-ID: <CAMj1kXEBHez9sENdQ__A7wS-ji-gqbyzE3ehLCrE_Rj3tN4e_A@mail.gmail.com>
+Subject: Re: [PATCH] acpi: cpuhp: fix guest-visible maximum access size to the
+ legacy reg block
+To: Laszlo Ersek <lersek@redhat.com>
+Cc: qemu devel list <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>, 
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=ardb@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.103, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,136 +80,179 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/12/2022 23.39, Alistair Francis wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> The following changes since commit 222059a0fccf4af3be776fe35a5ea2d6a68f9a0b:
-> 
->    Merge tag 'pull-ppc-20221221' of https://gitlab.com/danielhb/qemu into staging (2022-12-21 18:08:09 +0000)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-20221222-1
-> 
-> for you to fetch changes up to 71a9bc59728a054036f3db7dd82dab8f8bd2baf9:
-> 
->    hw/intc: sifive_plic: Fix the pending register range check (2022-12-22 08:36:30 +1000)
-> 
-> ----------------------------------------------------------------
-> First RISC-V PR for QEMU 8.0
-> 
-> * Fix PMP propagation for tlb
-> * Collection of bug fixes
-> * Add the `FIELDx_1CLEAR()` macro
-> * Bump the OpenTitan supported version
-> * Add smstateen support
-> * Support native debug icount trigger
-> * Remove the redundant ipi-id property in the virt machine
-> * Support cache-related PMU events in virtual mode
-> * Add some missing PolarFire SoC io regions
-> * Fix mret exception cause when no pmp rule is configured
-> * Fix bug where disabling compressed instructions would crash QEMU
-> * Add Zawrs ISA extension support
-> * A range of code refactoring and cleanups
-> 
-> ----------------------------------------------------------------
-> Anup Patel (1):
->        target/riscv: Typo fix in sstc() predicate
-> 
-> Atish Patra (1):
->        hw/riscv: virt: Remove the redundant ipi-id property
-> 
-> Bin Meng (20):
->        target/riscv: Add some comments for sstatus CSR in riscv_cpu_dump_state()
->        target/riscv: Fix mret exception cause when no pmp rule is configured
->        target/riscv: Simplify helper_sret() a little bit
->        target/riscv: Clear mstatus.MPRV when leaving M-mode for priv spec 1.12+
->        hw/riscv: Select MSI_NONBROKEN in SIFIVE_PLIC
->        hw/intc: Select MSI_NONBROKEN in RISC-V AIA interrupt controllers
->        hw/riscv: Fix opentitan dependency to SIFIVE_PLIC
->        hw/riscv: Sort machines Kconfig options in alphabetical order
->        hw/riscv: spike: Remove misleading comments
->        hw/intc: sifive_plic: Drop PLICMode_H
->        hw/intc: sifive_plic: Improve robustness of the PLIC config parser
->        hw/intc: sifive_plic: Use error_setg() to propagate the error up via errp in sifive_plic_realize()
->        hw/intc: sifive_plic: Update "num-sources" property default value
->        hw/riscv: microchip_pfsoc: Fix the number of interrupt sources of PLIC
->        hw/riscv: sifive_e: Fix the number of interrupt sources of PLIC
->        hw/riscv: sifive_u: Avoid using magic number for "riscv, ndev"
->        hw/riscv: virt: Fix the value of "riscv, ndev" in the dtb
->        hw/intc: sifive_plic: Change "priority-base" to start from interrupt source 0
->        hw/riscv: opentitan: Drop "hartid-base" and "priority-base" initialization
->        hw/intc: sifive_plic: Fix the pending register range check
-> 
-> Christoph Muellner (1):
->        RISC-V: Add Zawrs ISA extension support
-> 
-> Conor Dooley (3):
->        hw/misc: pfsoc: add fabric clocks to ioscb
->        hw/riscv: pfsoc: add missing FICs as unimplemented
->        hw/{misc, riscv}: pfsoc: add system controller as unimplemented
-> 
-> Frédéric Pétrot (1):
->        hw/intc: sifive_plic: Renumber the S irqs for numa support
-> 
-> Jim Shu (2):
->        target/riscv: support cache-related PMU events in virtual mode
->        hw/intc: sifive_plic: fix out-of-bound access of source_priority array
-> 
-> LIU Zhiwei (5):
->        target/riscv: Fix PMP propagation for tlb
->        target/riscv: Add itrigger support when icount is not enabled
->        target/riscv: Add itrigger support when icount is enabled
->        target/riscv: Enable native debug itrigger
->        target/riscv: Add itrigger_enabled field to CPURISCVState
-> 
-> Mayuresh Chitale (3):
->        target/riscv: Add smstateen support
->        target/riscv: smstateen check for h/s/envcfg
->        target/riscv: generate virtual instruction exception
-> 
-> Richard Henderson (4):
->        tcg/riscv: Fix range matched by TCG_CT_CONST_M12
->        tcg/riscv: Fix reg overlap case in tcg_out_addsub2
->        tcg/riscv: Fix base register for user-only qemu_ld/st
->        target/riscv: Set pc_succ_insn for !rvc illegal insn
-> 
-> Wilfred Mallawa (4):
->        hw/registerfields: add `FIELDx_1CLEAR()` macro
->        hw/ssi/ibex_spi: implement `FIELD32_1CLEAR` macro
->        hw/riscv/opentitan: bump opentitan
->        hw/riscv/opentitan: add aon_timer base unimpl
-> 
->   include/hw/intc/sifive_plic.h                  |   1 -
->   include/hw/misc/mchp_pfsoc_ioscb.h             |   4 +
->   include/hw/misc/mchp_pfsoc_sysreg.h            |   1 +
->   include/hw/registerfields.h                    |  22 ++
->   include/hw/riscv/microchip_pfsoc.h             |   7 +-
->   include/hw/riscv/opentitan.h                   |  10 +-
->   include/hw/riscv/shakti_c.h                    |   2 +-
->   include/hw/riscv/sifive_e.h                    |   9 +-
->   include/hw/riscv/sifive_u.h                    |   2 +-
->   include/hw/riscv/virt.h                        |   8 +-
->   target/riscv/cpu.h                             |  10 +
->   target/riscv/cpu_bits.h                        |  37 +++
->   target/riscv/debug.h                           |  13 +
->   target/riscv/helper.h                          |   2 +
->   target/riscv/pmp.h                             |   6 +-
->   target/riscv/insn32.decode                     |   4 +
->   hw/intc/sifive_plic.c                          |  66 +++--
->   hw/misc/mchp_pfsoc_ioscb.c                     |  78 ++++-
->   hw/misc/mchp_pfsoc_sysreg.c                    |  18 +-
->   hw/riscv/microchip_pfsoc.c                     | 121 ++++----
->   hw/riscv/opentitan.c                           |  26 +-
->   hw/riscv/sifive_u.c                            |   3 +-
->   hw/riscv/spike.c                               |   1 -
->   hw/riscv/virt.c                                |   7 +-
->   hw/ssi/ibex_spi_host.c                         |  21 +-
+On Wed, 4 Jan 2023 at 10:01, Laszlo Ersek <lersek@redhat.com> wrote:
+>
+> The modern ACPI CPU hotplug interface was introduced in the following
+> series (aa1dd39ca307..679dd1a957df), released in v2.7.0:
+>
+>   1  abd49bc2ed2f docs: update ACPI CPU hotplug spec with new protocol
+>   2  16bcab97eb9f pc: piix4/ich9: add 'cpu-hotplug-legacy' property
+>   3  5e1b5d93887b acpi: cpuhp: add CPU devices AML with _STA method
+>   4  ac35f13ba8f8 pc: acpi: introduce AcpiDeviceIfClass.madt_cpu hook
+>   5  d2238cb6781d acpi: cpuhp: implement hot-add parts of CPU hotplug
+>                   interface
+>   6  8872c25a26cc acpi: cpuhp: implement hot-remove parts of CPU hotplug
+>                   interface
+>   7  76623d00ae57 acpi: cpuhp: add cpu._OST handling
+>   8  679dd1a957df pc: use new CPU hotplug interface since 2.7 machine type
+>
+> Before patch#1, "docs/specs/acpi_cpu_hotplug.txt" only specified 1-byte
+> accesses for the hotplug register block.  Patch#1 preserved the same
+> restriction for the legacy register block, but:
+>
+> - it specified DWORD accesses for some of the modern registers,
+>
+> - in particular, the switch from the legacy block to the modern block
+>   would require a DWORD write to the *legacy* block.
+>
+> The latter functionality was then implemented in cpu_status_write()
+> [hw/acpi/cpu_hotplug.c], in patch#8.
+>
+> Unfortunately, all DWORD accesses depended on a dormant bug: the one
+> introced in earlier commit a014ed07bd5a ("memory: accept mismatching sizes
+> in memory_region_access_valid", 2013-05-29); first released in v1.6.0.
+> Due to commit a014ed07bd5a, the DWORD accesses to the *legacy* CPU hotplug
+> register block would work in spite of the above series *not* relaxing
+> "valid.max_access_size = 1" in "hw/acpi/cpu_hotplug.c":
+>
+> > static const MemoryRegionOps AcpiCpuHotplug_ops = {
+> >     .read = cpu_status_read,
+> >     .write = cpu_status_write,
+> >     .endianness = DEVICE_LITTLE_ENDIAN,
+> >     .valid = {
+> >         .min_access_size = 1,
+> >         .max_access_size = 1,
+> >     },
+> > };
+>
+> Later, in commits e6d0c3ce6895 ("acpi: cpuhp: introduce 'Command data 2'
+> field", 2020-01-22) and ae340aa3d256 ("acpi: cpuhp: spec: add typical
+> usecases", 2020-01-22), first released in v5.0.0, the modern CPU hotplug
+> interface (including the documentation) was extended with another DWORD
+> *read* access, namely to the "Command data 2" register, which would be
+> important for the guest to confirm whether it managed to switch the
+> register block from legacy to modern.
+>
+> This functionality too silently depended on the bug from commit
+> a014ed07bd5a.
+>
+> In commit 5d971f9e6725 ('memory: Revert "memory: accept mismatching sizes
+> in memory_region_access_valid"', 2020-06-26), first released in v5.1.0,
+> the bug from commit a014ed07bd5a was fixed (the commit was reverted).
+> That swiftly exposed the bug in "AcpiCpuHotplug_ops", still present from
+> the v2.7.0 series quoted at the top -- namely the fact that
+> "valid.max_access_size = 1" didn't match what the guest was supposed to
+> do, according to the spec ("docs/specs/acpi_cpu_hotplug.txt").
+>
+> The symptom is that the "modern interface negotiation protocol"
+> described in commit ae340aa3d256:
+>
+> > +      Use following steps to detect and enable modern CPU hotplug interface:
+> > +        1. Store 0x0 to the 'CPU selector' register,
+> > +           attempting to switch to modern mode
+> > +        2. Store 0x0 to the 'CPU selector' register,
+> > +           to ensure valid selector value
+> > +        3. Store 0x0 to the 'Command field' register,
+> > +        4. Read the 'Command data 2' register.
+> > +           If read value is 0x0, the modern interface is enabled.
+> > +           Otherwise legacy or no CPU hotplug interface available
+>
+> falls apart for the guest: steps 1 and 2 are lost, because they are DWORD
+> writes; so no switching happens.  Step 3 (a single-byte write) is not
+> lost, but it has no effect; see the condition in cpu_status_write() in
+> patch#8.  And step 4 *misleads* the guest into thinking that the switch
+> worked: the DWORD read is lost again -- it returns zero to the guest
+> without ever reaching the device model, so the guest never learns the
+> switch didn't work.
+>
+> This means that guest behavior centered on the "Command data 2" register
+> worked *only* in the v5.0.0 release; it got effectively regressed in
+> v5.1.0.
+>
+> To make things *even more* complicated, the breakage was (and remains, as
+> of today) visible with TCG acceleration only.  Commit 5d971f9e6725 makes
+> no difference with KVM acceleration -- the DWORD accesses still work,
+> despite "valid.max_access_size = 1".
+>
+> As commit 5d971f9e6725 suggests, fix the problem by raising
+> "valid.max_access_size" to 4 -- the spec now clearly instructs the guest
+> to perform DWORD accesses to the legacy register block too, for enabling
+> (and verifying!) the modern block.  In order to keep compatibility for the
+> device model implementation though, set "impl.max_access_size = 1", so
+> that wide accesses be split before they reach the legacy read/write
+> handlers, like they always have been on KVM, and like they were on TCG
+> before 5d971f9e6725 (v5.1.0).
+>
+> Tested with:
+>
+> - OVMF IA32 + qemu-system-i386, CPU hotplug/hot-unplug with SMM,
+>   intermixed with ACPI S3 suspend/resume, using KVM accel
+>   (regression-test);
+>
+> - OVMF IA32X64 + qemu-system-x86_64, CPU hotplug/hot-unplug with SMM,
+>   intermixed with ACPI S3 suspend/resume, using KVM accel
+>   (regression-test);
+>
+> - OVMF IA32 + qemu-system-i386, SMM enabled, using TCG accel; verified the
+>   register block switch and the present/possible CPU counting through the
+>   modern hotplug interface, during OVMF boot (bugfix test);
+>
+> - I do not have any testcase (guest payload) for regression-testing CPU
+>   hotplug through the *legacy* CPU hotplug register block.
+>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Ani Sinha <ani@anisinha.ca>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: qemu-stable@nongnu.org
+> Ref: "IO port write width clamping differs between TCG and KVM"
+> Link: http://mid.mail-archive.com/aaedee84-d3ed-a4f9-21e7-d221a28d1683@redhat.com
+> Link: https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg00199.html
+> Reported-by: Ard Biesheuvel <ardb@kernel.org>
+> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
 
-FYI, this seems to cause problems in the MSYS2 Cirrus-CI job:
+Thanks for going down this rabbit hole.
 
-  https://cirrus-ci.com/task/6444497832247296?logs=main#L2159
+With this patch applied, the QEMU IA32 regression that would only
+manifest when using KVM now also happens in TCG mode.
 
-  Thomas
+Yay
 
+Tested-by: Ard Biesheuvel <ardb@kernel.org>
+
+> ---
+>
+> Notes:
+>     This should be applied to:
+>
+>     - stable-5.2 (new branch)
+>
+>     - stable-6.2 (new branch)
+>
+>     - stable-7.2 (new branch)
+>
+>     whichever is still considered maintained, as there is currently *no*
+>     public QEMU release in which the modern CPU hotplug register block
+>     works, when using TCG acceleration.  v5.0.0 works, but that minor
+>     release has been obsoleted by v5.2.0, which does not work.
+>
+>  hw/acpi/cpu_hotplug.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/hw/acpi/cpu_hotplug.c b/hw/acpi/cpu_hotplug.c
+> index 53654f863830..ff14c3f4106f 100644
+> --- a/hw/acpi/cpu_hotplug.c
+> +++ b/hw/acpi/cpu_hotplug.c
+> @@ -52,6 +52,9 @@ static const MemoryRegionOps AcpiCpuHotplug_ops = {
+>      .endianness = DEVICE_LITTLE_ENDIAN,
+>      .valid = {
+>          .min_access_size = 1,
+> +        .max_access_size = 4,
+> +    },
+> +    .impl = {
+>          .max_access_size = 1,
+>      },
+>  };
 
