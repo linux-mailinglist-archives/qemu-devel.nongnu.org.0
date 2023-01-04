@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D7D165CEDB
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 09:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7E865CEFA
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 10:03:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCzYX-0008V4-VR; Wed, 04 Jan 2023 03:55:29 -0500
+	id 1pCzfI-0001pt-Ll; Wed, 04 Jan 2023 04:02:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pCzYW-0008Uc-IV
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 03:55:28 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pCzeg-0001fm-OY
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 04:02:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pCzYU-0003F4-LD
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 03:55:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=fsiLtbd9rvYxQGzsFTyaFZu15TNhKoAUdGdaaXNM1eA=; b=yRbD7i4vXPYh1gerJ8YbT3fvqG
- T6OFOXBwHsc/59Quh/ToGuohkM7fCGKMcNkb6y33Orqb52Ia3rjbLg7l7oyukGeooSN6zzAbZGsQ4
- OMyFSWv5lubRAT5EdQNLaRRyTtThB4HtbBdf+BMmyTq1JyxFTrutcDkWM0Q69YOxUwg4yMUrI+/qo
- XbyUE/8RMdHaCZ+w38TW/C23VyACt/vFC1EyGUDK4OBoW9bM8OvRU3C0GcPVoFOfU7WC0+UgQIHl7
- Bb2O8eOT76gwZVqllqLw3/sXcVgeGNFJ7lQGddJjUYQMswoK5M5Sfh+UNCCKx6H85OqviRAfiUoeO
- srfcXY0zEOViIK7hWLVNfFeEF62Dhtxp7AD1XBgGujBz1v+RDIZ4d80LjMayqZXo3u8YqXdx4Rx2V
- zdgJWxFIrUUBEOQMQyu4C7WOyEbBvuyCcWCZ7S7tX9SnNQMjbw6VhoVnE8GqwVDjsQKkJZD9KfK8q
- E2qcVI+S0zpheACrPndJoeS4nycApAtOsAvQKK3l1Iqz7IS8KKdQl45/HjqxpU4YvwxFPyNpXBl9s
- yBFBN3j/uImWDqhWQHCsZl2CtodST5vxxihbKgfLDa6pehkANVJPsdLOytHfdXuOnxPr/vBlJ7+op
- TX885qG9D/ruu/k//vknrRs3/yEMbc9CgCxJLz3Xk=;
-Received: from [2a00:23c4:8baa:1d00:e655:fde:753f:696a]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pCzY2-0007Pv-8R; Wed, 04 Jan 2023 08:55:02 +0000
-Message-ID: <1bd2f34b-2364-1ce7-a3f4-946e76594344@ilande.co.uk>
-Date: Wed, 4 Jan 2023 08:55:12 +0000
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pCzed-0004Tk-CD
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 04:01:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672822906;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PtXQt8fHpP9QIgXI7NhbnMh9O2n6C34iqo1ru8YHwK0=;
+ b=Bp0K/UpTEtGwEN9pMv+9mUOrUCGmdXO4W4K5RQYoxRB7Q6h75+Hp64IB+uTeZJDU23I6Qo
+ dXA8S+4vJBesBX2k1KFr74c2wGhrzrTOtyGGJi/AjVr6cCW68rLLE3eOBfRB82vz/n58ow
+ HhAEbOcuUj8vZH+eM7vZa+eVHTdUjfQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-127--UmjJPDsM6K0Lg0SmU8E_Q-1; Wed, 04 Jan 2023 04:01:43 -0500
+X-MC-Unique: -UmjJPDsM6K0Lg0SmU8E_Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3E401C07582;
+ Wed,  4 Jan 2023 09:01:42 +0000 (UTC)
+Received: from lacos-laptop-9.usersys.redhat.com (unknown [10.39.192.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96ED151E5;
+ Wed,  4 Jan 2023 09:01:40 +0000 (UTC)
+From: Laszlo Ersek <lersek@redhat.com>
+To: qemu devel list <qemu-devel@nongnu.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Ard Biesheuvel <ardb@kernel.org>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org
+Subject: [PATCH] acpi: cpuhp: fix guest-visible maximum access size to the
+ legacy reg block
+Date: Wed,  4 Jan 2023 10:01:38 +0100
+Message-Id: <20230104090138.214862-1-lersek@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Michael S Tsirkin <mst@redhat.com>, qemu-devel@nongnu.org,
- Bernhard Beschow <shentey@gmail.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- BALATON Zoltan <balaton@eik.bme.hu>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>
-References: <20230103084801.20437-1-thuth@redhat.com>
- <20230103084801.20437-5-thuth@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20230103084801.20437-5-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8baa:1d00:e655:fde:753f:696a
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 4/6] hw/rtc/mc146818rtc: Add a property for the
- availability of the slew tick policy
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.103,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: base64
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HEXHASH_WORD=1, MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,134 +77,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 03/01/2023 08:47, Thomas Huth wrote:
+VGhlIG1vZGVybiBBQ1BJIENQVSBob3RwbHVnIGludGVyZmFjZSB3YXMgaW50cm9kdWNlZCBpbiB0
+aGUgZm9sbG93aW5nCnNlcmllcyAoYWExZGQzOWNhMzA3Li42NzlkZDFhOTU3ZGYpLCByZWxlYXNl
+ZCBpbiB2Mi43LjA6CgogIDEgIGFiZDQ5YmMyZWQyZiBkb2NzOiB1cGRhdGUgQUNQSSBDUFUgaG90
+cGx1ZyBzcGVjIHdpdGggbmV3IHByb3RvY29sCiAgMiAgMTZiY2FiOTdlYjlmIHBjOiBwaWl4NC9p
+Y2g5OiBhZGQgJ2NwdS1ob3RwbHVnLWxlZ2FjeScgcHJvcGVydHkKICAzICA1ZTFiNWQ5Mzg4N2Ig
+YWNwaTogY3B1aHA6IGFkZCBDUFUgZGV2aWNlcyBBTUwgd2l0aCBfU1RBIG1ldGhvZAogIDQgIGFj
+MzVmMTNiYThmOCBwYzogYWNwaTogaW50cm9kdWNlIEFjcGlEZXZpY2VJZkNsYXNzLm1hZHRfY3B1
+IGhvb2sKICA1ICBkMjIzOGNiNjc4MWQgYWNwaTogY3B1aHA6IGltcGxlbWVudCBob3QtYWRkIHBh
+cnRzIG9mIENQVSBob3RwbHVnCiAgICAgICAgICAgICAgICAgIGludGVyZmFjZQogIDYgIDg4NzJj
+MjVhMjZjYyBhY3BpOiBjcHVocDogaW1wbGVtZW50IGhvdC1yZW1vdmUgcGFydHMgb2YgQ1BVIGhv
+dHBsdWcKICAgICAgICAgICAgICAgICAgaW50ZXJmYWNlCiAgNyAgNzY2MjNkMDBhZTU3IGFjcGk6
+IGNwdWhwOiBhZGQgY3B1Ll9PU1QgaGFuZGxpbmcKICA4ICA2NzlkZDFhOTU3ZGYgcGM6IHVzZSBu
+ZXcgQ1BVIGhvdHBsdWcgaW50ZXJmYWNlIHNpbmNlIDIuNyBtYWNoaW5lIHR5cGUKCkJlZm9yZSBw
+YXRjaCMxLCAiZG9jcy9zcGVjcy9hY3BpX2NwdV9ob3RwbHVnLnR4dCIgb25seSBzcGVjaWZpZWQg
+MS1ieXRlCmFjY2Vzc2VzIGZvciB0aGUgaG90cGx1ZyByZWdpc3RlciBibG9jay4gIFBhdGNoIzEg
+cHJlc2VydmVkIHRoZSBzYW1lCnJlc3RyaWN0aW9uIGZvciB0aGUgbGVnYWN5IHJlZ2lzdGVyIGJs
+b2NrLCBidXQ6CgotIGl0IHNwZWNpZmllZCBEV09SRCBhY2Nlc3NlcyBmb3Igc29tZSBvZiB0aGUg
+bW9kZXJuIHJlZ2lzdGVycywKCi0gaW4gcGFydGljdWxhciwgdGhlIHN3aXRjaCBmcm9tIHRoZSBs
+ZWdhY3kgYmxvY2sgdG8gdGhlIG1vZGVybiBibG9jawogIHdvdWxkIHJlcXVpcmUgYSBEV09SRCB3
+cml0ZSB0byB0aGUgKmxlZ2FjeSogYmxvY2suCgpUaGUgbGF0dGVyIGZ1bmN0aW9uYWxpdHkgd2Fz
+IHRoZW4gaW1wbGVtZW50ZWQgaW4gY3B1X3N0YXR1c193cml0ZSgpCltody9hY3BpL2NwdV9ob3Rw
+bHVnLmNdLCBpbiBwYXRjaCM4LgoKVW5mb3J0dW5hdGVseSwgYWxsIERXT1JEIGFjY2Vzc2VzIGRl
+cGVuZGVkIG9uIGEgZG9ybWFudCBidWc6IHRoZSBvbmUKaW50cm9jZWQgaW4gZWFybGllciBjb21t
+aXQgYTAxNGVkMDdiZDVhICgibWVtb3J5OiBhY2NlcHQgbWlzbWF0Y2hpbmcgc2l6ZXMKaW4gbWVt
+b3J5X3JlZ2lvbl9hY2Nlc3NfdmFsaWQiLCAyMDEzLTA1LTI5KTsgZmlyc3QgcmVsZWFzZWQgaW4g
+djEuNi4wLgpEdWUgdG8gY29tbWl0IGEwMTRlZDA3YmQ1YSwgdGhlIERXT1JEIGFjY2Vzc2VzIHRv
+IHRoZSAqbGVnYWN5KiBDUFUgaG90cGx1ZwpyZWdpc3RlciBibG9jayB3b3VsZCB3b3JrIGluIHNw
+aXRlIG9mIHRoZSBhYm92ZSBzZXJpZXMgKm5vdCogcmVsYXhpbmcKInZhbGlkLm1heF9hY2Nlc3Nf
+c2l6ZSA9IDEiIGluICJody9hY3BpL2NwdV9ob3RwbHVnLmMiOgoKPiBzdGF0aWMgY29uc3QgTWVt
+b3J5UmVnaW9uT3BzIEFjcGlDcHVIb3RwbHVnX29wcyA9IHsKPiAgICAgLnJlYWQgPSBjcHVfc3Rh
+dHVzX3JlYWQsCj4gICAgIC53cml0ZSA9IGNwdV9zdGF0dXNfd3JpdGUsCj4gICAgIC5lbmRpYW5u
+ZXNzID0gREVWSUNFX0xJVFRMRV9FTkRJQU4sCj4gICAgIC52YWxpZCA9IHsKPiAgICAgICAgIC5t
+aW5fYWNjZXNzX3NpemUgPSAxLAo+ICAgICAgICAgLm1heF9hY2Nlc3Nfc2l6ZSA9IDEsCj4gICAg
+IH0sCj4gfTsKCkxhdGVyLCBpbiBjb21taXRzIGU2ZDBjM2NlNjg5NSAoImFjcGk6IGNwdWhwOiBp
+bnRyb2R1Y2UgJ0NvbW1hbmQgZGF0YSAyJwpmaWVsZCIsIDIwMjAtMDEtMjIpIGFuZCBhZTM0MGFh
+M2QyNTYgKCJhY3BpOiBjcHVocDogc3BlYzogYWRkIHR5cGljYWwKdXNlY2FzZXMiLCAyMDIwLTAx
+LTIyKSwgZmlyc3QgcmVsZWFzZWQgaW4gdjUuMC4wLCB0aGUgbW9kZXJuIENQVSBob3RwbHVnCmlu
+dGVyZmFjZSAoaW5jbHVkaW5nIHRoZSBkb2N1bWVudGF0aW9uKSB3YXMgZXh0ZW5kZWQgd2l0aCBh
+bm90aGVyIERXT1JECipyZWFkKiBhY2Nlc3MsIG5hbWVseSB0byB0aGUgIkNvbW1hbmQgZGF0YSAy
+IiByZWdpc3Rlciwgd2hpY2ggd291bGQgYmUKaW1wb3J0YW50IGZvciB0aGUgZ3Vlc3QgdG8gY29u
+ZmlybSB3aGV0aGVyIGl0IG1hbmFnZWQgdG8gc3dpdGNoIHRoZQpyZWdpc3RlciBibG9jayBmcm9t
+IGxlZ2FjeSB0byBtb2Rlcm4uCgpUaGlzIGZ1bmN0aW9uYWxpdHkgdG9vIHNpbGVudGx5IGRlcGVu
+ZGVkIG9uIHRoZSBidWcgZnJvbSBjb21taXQKYTAxNGVkMDdiZDVhLgoKSW4gY29tbWl0IDVkOTcx
+ZjllNjcyNSAoJ21lbW9yeTogUmV2ZXJ0ICJtZW1vcnk6IGFjY2VwdCBtaXNtYXRjaGluZyBzaXpl
+cwppbiBtZW1vcnlfcmVnaW9uX2FjY2Vzc192YWxpZCInLCAyMDIwLTA2LTI2KSwgZmlyc3QgcmVs
+ZWFzZWQgaW4gdjUuMS4wLAp0aGUgYnVnIGZyb20gY29tbWl0IGEwMTRlZDA3YmQ1YSB3YXMgZml4
+ZWQgKHRoZSBjb21taXQgd2FzIHJldmVydGVkKS4KVGhhdCBzd2lmdGx5IGV4cG9zZWQgdGhlIGJ1
+ZyBpbiAiQWNwaUNwdUhvdHBsdWdfb3BzIiwgc3RpbGwgcHJlc2VudCBmcm9tCnRoZSB2Mi43LjAg
+c2VyaWVzIHF1b3RlZCBhdCB0aGUgdG9wIC0tIG5hbWVseSB0aGUgZmFjdCB0aGF0CiJ2YWxpZC5t
+YXhfYWNjZXNzX3NpemUgPSAxIiBkaWRuJ3QgbWF0Y2ggd2hhdCB0aGUgZ3Vlc3Qgd2FzIHN1cHBv
+c2VkIHRvCmRvLCBhY2NvcmRpbmcgdG8gdGhlIHNwZWMgKCJkb2NzL3NwZWNzL2FjcGlfY3B1X2hv
+dHBsdWcudHh0IikuCgpUaGUgc3ltcHRvbSBpcyB0aGF0IHRoZSAibW9kZXJuIGludGVyZmFjZSBu
+ZWdvdGlhdGlvbiBwcm90b2NvbCIKZGVzY3JpYmVkIGluIGNvbW1pdCBhZTM0MGFhM2QyNTY6Cgo+
+ICsgICAgICBVc2UgZm9sbG93aW5nIHN0ZXBzIHRvIGRldGVjdCBhbmQgZW5hYmxlIG1vZGVybiBD
+UFUgaG90cGx1ZyBpbnRlcmZhY2U6Cj4gKyAgICAgICAgMS4gU3RvcmUgMHgwIHRvIHRoZSAnQ1BV
+IHNlbGVjdG9yJyByZWdpc3RlciwKPiArICAgICAgICAgICBhdHRlbXB0aW5nIHRvIHN3aXRjaCB0
+byBtb2Rlcm4gbW9kZQo+ICsgICAgICAgIDIuIFN0b3JlIDB4MCB0byB0aGUgJ0NQVSBzZWxlY3Rv
+cicgcmVnaXN0ZXIsCj4gKyAgICAgICAgICAgdG8gZW5zdXJlIHZhbGlkIHNlbGVjdG9yIHZhbHVl
+Cj4gKyAgICAgICAgMy4gU3RvcmUgMHgwIHRvIHRoZSAnQ29tbWFuZCBmaWVsZCcgcmVnaXN0ZXIs
+Cj4gKyAgICAgICAgNC4gUmVhZCB0aGUgJ0NvbW1hbmQgZGF0YSAyJyByZWdpc3Rlci4KPiArICAg
+ICAgICAgICBJZiByZWFkIHZhbHVlIGlzIDB4MCwgdGhlIG1vZGVybiBpbnRlcmZhY2UgaXMgZW5h
+YmxlZC4KPiArICAgICAgICAgICBPdGhlcndpc2UgbGVnYWN5IG9yIG5vIENQVSBob3RwbHVnIGlu
+dGVyZmFjZSBhdmFpbGFibGUKCmZhbGxzIGFwYXJ0IGZvciB0aGUgZ3Vlc3Q6IHN0ZXBzIDEgYW5k
+IDIgYXJlIGxvc3QsIGJlY2F1c2UgdGhleSBhcmUgRFdPUkQKd3JpdGVzOyBzbyBubyBzd2l0Y2hp
+bmcgaGFwcGVucy4gIFN0ZXAgMyAoYSBzaW5nbGUtYnl0ZSB3cml0ZSkgaXMgbm90Cmxvc3QsIGJ1
+dCBpdCBoYXMgbm8gZWZmZWN0OyBzZWUgdGhlIGNvbmRpdGlvbiBpbiBjcHVfc3RhdHVzX3dyaXRl
+KCkgaW4KcGF0Y2gjOC4gIEFuZCBzdGVwIDQgKm1pc2xlYWRzKiB0aGUgZ3Vlc3QgaW50byB0aGlu
+a2luZyB0aGF0IHRoZSBzd2l0Y2gKd29ya2VkOiB0aGUgRFdPUkQgcmVhZCBpcyBsb3N0IGFnYWlu
+IC0tIGl0IHJldHVybnMgemVybyB0byB0aGUgZ3Vlc3QKd2l0aG91dCBldmVyIHJlYWNoaW5nIHRo
+ZSBkZXZpY2UgbW9kZWwsIHNvIHRoZSBndWVzdCBuZXZlciBsZWFybnMgdGhlCnN3aXRjaCBkaWRu
+J3Qgd29yay4KClRoaXMgbWVhbnMgdGhhdCBndWVzdCBiZWhhdmlvciBjZW50ZXJlZCBvbiB0aGUg
+IkNvbW1hbmQgZGF0YSAyIiByZWdpc3Rlcgp3b3JrZWQgKm9ubHkqIGluIHRoZSB2NS4wLjAgcmVs
+ZWFzZTsgaXQgZ290IGVmZmVjdGl2ZWx5IHJlZ3Jlc3NlZCBpbgp2NS4xLjAuCgpUbyBtYWtlIHRo
+aW5ncyAqZXZlbiBtb3JlKiBjb21wbGljYXRlZCwgdGhlIGJyZWFrYWdlIHdhcyAoYW5kIHJlbWFp
+bnMsIGFzCm9mIHRvZGF5KSB2aXNpYmxlIHdpdGggVENHIGFjY2VsZXJhdGlvbiBvbmx5LiAgQ29t
+bWl0IDVkOTcxZjllNjcyNSBtYWtlcwpubyBkaWZmZXJlbmNlIHdpdGggS1ZNIGFjY2VsZXJhdGlv
+biAtLSB0aGUgRFdPUkQgYWNjZXNzZXMgc3RpbGwgd29yaywKZGVzcGl0ZSAidmFsaWQubWF4X2Fj
+Y2Vzc19zaXplID0gMSIuCgpBcyBjb21taXQgNWQ5NzFmOWU2NzI1IHN1Z2dlc3RzLCBmaXggdGhl
+IHByb2JsZW0gYnkgcmFpc2luZwoidmFsaWQubWF4X2FjY2Vzc19zaXplIiB0byA0IC0tIHRoZSBz
+cGVjIG5vdyBjbGVhcmx5IGluc3RydWN0cyB0aGUgZ3Vlc3QKdG8gcGVyZm9ybSBEV09SRCBhY2Nl
+c3NlcyB0byB0aGUgbGVnYWN5IHJlZ2lzdGVyIGJsb2NrIHRvbywgZm9yIGVuYWJsaW5nCihhbmQg
+dmVyaWZ5aW5nISkgdGhlIG1vZGVybiBibG9jay4gIEluIG9yZGVyIHRvIGtlZXAgY29tcGF0aWJp
+bGl0eSBmb3IgdGhlCmRldmljZSBtb2RlbCBpbXBsZW1lbnRhdGlvbiB0aG91Z2gsIHNldCAiaW1w
+bC5tYXhfYWNjZXNzX3NpemUgPSAxIiwgc28KdGhhdCB3aWRlIGFjY2Vzc2VzIGJlIHNwbGl0IGJl
+Zm9yZSB0aGV5IHJlYWNoIHRoZSBsZWdhY3kgcmVhZC93cml0ZQpoYW5kbGVycywgbGlrZSB0aGV5
+IGFsd2F5cyBoYXZlIGJlZW4gb24gS1ZNLCBhbmQgbGlrZSB0aGV5IHdlcmUgb24gVENHCmJlZm9y
+ZSA1ZDk3MWY5ZTY3MjUgKHY1LjEuMCkuCgpUZXN0ZWQgd2l0aDoKCi0gT1ZNRiBJQTMyICsgcWVt
+dS1zeXN0ZW0taTM4NiwgQ1BVIGhvdHBsdWcvaG90LXVucGx1ZyB3aXRoIFNNTSwKICBpbnRlcm1p
+eGVkIHdpdGggQUNQSSBTMyBzdXNwZW5kL3Jlc3VtZSwgdXNpbmcgS1ZNIGFjY2VsCiAgKHJlZ3Jl
+c3Npb24tdGVzdCk7CgotIE9WTUYgSUEzMlg2NCArIHFlbXUtc3lzdGVtLXg4Nl82NCwgQ1BVIGhv
+dHBsdWcvaG90LXVucGx1ZyB3aXRoIFNNTSwKICBpbnRlcm1peGVkIHdpdGggQUNQSSBTMyBzdXNw
+ZW5kL3Jlc3VtZSwgdXNpbmcgS1ZNIGFjY2VsCiAgKHJlZ3Jlc3Npb24tdGVzdCk7CgotIE9WTUYg
+SUEzMiArIHFlbXUtc3lzdGVtLWkzODYsIFNNTSBlbmFibGVkLCB1c2luZyBUQ0cgYWNjZWw7IHZl
+cmlmaWVkIHRoZQogIHJlZ2lzdGVyIGJsb2NrIHN3aXRjaCBhbmQgdGhlIHByZXNlbnQvcG9zc2li
+bGUgQ1BVIGNvdW50aW5nIHRocm91Z2ggdGhlCiAgbW9kZXJuIGhvdHBsdWcgaW50ZXJmYWNlLCBk
+dXJpbmcgT1ZNRiBib290IChidWdmaXggdGVzdCk7CgotIEkgZG8gbm90IGhhdmUgYW55IHRlc3Rj
+YXNlIChndWVzdCBwYXlsb2FkKSBmb3IgcmVncmVzc2lvbi10ZXN0aW5nIENQVQogIGhvdHBsdWcg
+dGhyb3VnaCB0aGUgKmxlZ2FjeSogQ1BVIGhvdHBsdWcgcmVnaXN0ZXIgYmxvY2suCgpDYzogIk1p
+Y2hhZWwgUy4gVHNpcmtpbiIgPG1zdEByZWRoYXQuY29tPgpDYzogQW5pIFNpbmhhIDxhbmlAYW5p
+c2luaGEuY2E+CkNjOiBBcmQgQmllc2hldXZlbCA8YXJkYkBrZXJuZWwub3JnPgpDYzogSWdvciBN
+YW1tZWRvdiA8aW1hbW1lZG9AcmVkaGF0LmNvbT4KQ2M6IFBhb2xvIEJvbnppbmkgPHBib256aW5p
+QHJlZGhhdC5jb20+CkNjOiBQZXRlciBNYXlkZWxsIDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+
+CkNjOiBxZW11LXN0YWJsZUBub25nbnUub3JnClJlZjogIklPIHBvcnQgd3JpdGUgd2lkdGggY2xh
+bXBpbmcgZGlmZmVycyBiZXR3ZWVuIFRDRyBhbmQgS1ZNIgpMaW5rOiBodHRwOi8vbWlkLm1haWwt
+YXJjaGl2ZS5jb20vYWFlZGVlODQtZDNlZC1hNGY5LTIxZTctZDIyMWEyOGQxNjgzQHJlZGhhdC5j
+b20KTGluazogaHR0cHM6Ly9saXN0cy5nbnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVsLzIw
+MjMtMDEvbXNnMDAxOTkuaHRtbApSZXBvcnRlZC1ieTogQXJkIEJpZXNoZXV2ZWwgPGFyZGJAa2Vy
+bmVsLm9yZz4KU2lnbmVkLW9mZi1ieTogTGFzemxvIEVyc2VrIDxsZXJzZWtAcmVkaGF0LmNvbT4K
+LS0tCgpOb3RlczoKICAgIFRoaXMgc2hvdWxkIGJlIGFwcGxpZWQgdG86CiAgICAKICAgIC0gc3Rh
+YmxlLTUuMiAobmV3IGJyYW5jaCkKICAgIAogICAgLSBzdGFibGUtNi4yIChuZXcgYnJhbmNoKQog
+ICAgCiAgICAtIHN0YWJsZS03LjIgKG5ldyBicmFuY2gpCiAgICAKICAgIHdoaWNoZXZlciBpcyBz
+dGlsbCBjb25zaWRlcmVkIG1haW50YWluZWQsIGFzIHRoZXJlIGlzIGN1cnJlbnRseSAqbm8qCiAg
+ICBwdWJsaWMgUUVNVSByZWxlYXNlIGluIHdoaWNoIHRoZSBtb2Rlcm4gQ1BVIGhvdHBsdWcgcmVn
+aXN0ZXIgYmxvY2sKICAgIHdvcmtzLCB3aGVuIHVzaW5nIFRDRyBhY2NlbGVyYXRpb24uICB2NS4w
+LjAgd29ya3MsIGJ1dCB0aGF0IG1pbm9yCiAgICByZWxlYXNlIGhhcyBiZWVuIG9ic29sZXRlZCBi
+eSB2NS4yLjAsIHdoaWNoIGRvZXMgbm90IHdvcmsuCgogaHcvYWNwaS9jcHVfaG90cGx1Zy5jIHwg
+MyArKysKIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9ody9h
+Y3BpL2NwdV9ob3RwbHVnLmMgYi9ody9hY3BpL2NwdV9ob3RwbHVnLmMKaW5kZXggNTM2NTRmODYz
+ODMwLi5mZjE0YzNmNDEwNmYgMTAwNjQ0Ci0tLSBhL2h3L2FjcGkvY3B1X2hvdHBsdWcuYworKysg
+Yi9ody9hY3BpL2NwdV9ob3RwbHVnLmMKQEAgLTUyLDYgKzUyLDkgQEAgc3RhdGljIGNvbnN0IE1l
+bW9yeVJlZ2lvbk9wcyBBY3BpQ3B1SG90cGx1Z19vcHMgPSB7CiAgICAgLmVuZGlhbm5lc3MgPSBE
+RVZJQ0VfTElUVExFX0VORElBTiwKICAgICAudmFsaWQgPSB7CiAgICAgICAgIC5taW5fYWNjZXNz
+X3NpemUgPSAxLAorICAgICAgICAubWF4X2FjY2Vzc19zaXplID0gNCwKKyAgICB9LAorICAgIC5p
+bXBsID0gewogICAgICAgICAubWF4X2FjY2Vzc19zaXplID0gMSwKICAgICB9LAogfTsK
 
-> We want to get rid of the "#ifdef TARGET_I386" statements in the mc146818
-> code, so we need a different way to decide whether the slew tick policy
-> is available or not. Introduce a new property "slew-tick-policy-available"
-> which can be set by the machines that support this tick policy.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   include/hw/rtc/mc146818rtc.h |  1 +
->   hw/i386/pc_piix.c            |  1 +
->   hw/isa/lpc_ich9.c            |  1 +
->   hw/isa/piix3.c               |  1 +
->   hw/rtc/mc146818rtc.c         | 16 ++++++++++------
->   5 files changed, 14 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-> index 1db0fcee92..54af63d091 100644
-> --- a/include/hw/rtc/mc146818rtc.h
-> +++ b/include/hw/rtc/mc146818rtc.h
-> @@ -45,6 +45,7 @@ struct RTCState {
->       QEMUTimer *coalesced_timer;
->       Notifier clock_reset_notifier;
->       LostTickPolicy lost_tick_policy;
-> +    bool slew_tick_policy_available;
->       Notifier suspend_notifier;
->       QLIST_ENTRY(RTCState) link;
->   };
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index bc9ea8cdae..382c6add3b 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -233,6 +233,7 @@ static void pc_init1(MachineState *machine,
->   
->           rtc_state = isa_new(TYPE_MC146818_RTC);
->           qdev_prop_set_int32(DEVICE(rtc_state), "base_year", 2000);
-> +        qdev_prop_set_bit(DEVICE(rtc_state), "slew-tick-policy-available", true);
->           isa_realize_and_unref(rtc_state, isa_bus, &error_fatal);
->   
->           i8257_dma_init(isa_bus, 0);
-> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-> index 498175c1cc..aeab4d8549 100644
-> --- a/hw/isa/lpc_ich9.c
-> +++ b/hw/isa/lpc_ich9.c
-> @@ -733,6 +733,7 @@ static void ich9_lpc_realize(PCIDevice *d, Error **errp)
->   
->       /* RTC */
->       qdev_prop_set_int32(DEVICE(&lpc->rtc), "base_year", 2000);
-> +    qdev_prop_set_bit(DEVICE(&lpc->rtc), "slew-tick-policy-available", true);
->       if (!qdev_realize(DEVICE(&lpc->rtc), BUS(isa_bus), errp)) {
->           return;
->       }
-> diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-> index c68e51ddad..825b1cbee2 100644
-> --- a/hw/isa/piix3.c
-> +++ b/hw/isa/piix3.c
-> @@ -316,6 +316,7 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
->   
->       /* RTC */
->       qdev_prop_set_int32(DEVICE(&d->rtc), "base_year", 2000);
-> +    qdev_prop_set_bit(DEVICE(&d->rtc), "slew-tick-policy-available", true);
->       if (!qdev_realize(DEVICE(&d->rtc), BUS(isa_bus), errp)) {
->           return;
->       }
-> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-> index 947d68c257..86381a74c3 100644
-> --- a/hw/rtc/mc146818rtc.c
-> +++ b/hw/rtc/mc146818rtc.c
-> @@ -922,14 +922,16 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
->       rtc_set_date_from_host(isadev);
->   
->       switch (s->lost_tick_policy) {
-> -#ifdef TARGET_I386
-> -    case LOST_TICK_POLICY_SLEW:
-> -        s->coalesced_timer =
-> -            timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
-> -        break;
-> -#endif
->       case LOST_TICK_POLICY_DISCARD:
->           break;
-> +    case LOST_TICK_POLICY_SLEW:
-> +#ifdef TARGET_I386
-> +        if (s->slew_tick_policy_available) {
-> +            s->coalesced_timer = timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
-> +            break;
-> +        }
-> +#endif
-> +        /* fallthrough */
->       default:
->           error_setg(errp, "Invalid lost tick policy.");
->           return;
-> @@ -989,6 +991,8 @@ static Property mc146818rtc_properties[] = {
->       DEFINE_PROP_UINT8("irq", RTCState, isairq, RTC_ISA_IRQ),
->       DEFINE_PROP_LOSTTICKPOLICY("lost_tick_policy", RTCState,
->                                  lost_tick_policy, LOST_TICK_POLICY_DISCARD),
-> +    DEFINE_PROP_BOOL("slew-tick-policy-available", RTCState,
-> +                     slew_tick_policy_available, false),
->       DEFINE_PROP_END_OF_LIST(),
->   };
-
-My first thought when looking at the new "slew-tick-policy-available" property 
-introduced above was that it seems to overlap with the "lost_tick_policy" property 
-defined just above it using DEFINE_PROP_LOSTTICKPOLICY().
-
-This made me wonder if a better approach here would be to move the logic that 
-determines if LOST_TICK_POLICY_SLEW is available into the "lost_tick_policy" property 
-setter defined at 
-https://gitlab.com/qemu-project/qemu/-/blob/master/hw/core/qdev-properties-system.c#L558.
-
-If you look at the code directly below the link above you can see how set_blocksize() 
-overrides the .set function for qdev_prop_blocksize to provide additional validation, 
-which is similar to what we are trying to do here.
-
-I think it may be possible to come up with a similar solution for 
-qdev_prop_losttickpolicy which makes use of the logic you suggested before i.e.
-
-     MachineState *ms = MACHINE(qdev_get_machine());
-
-     if (!object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
-         ....
-     }
-
-which can then emit a suitable warning or return an error accordingly. A quick glance 
-at hw/core/qdev-properties-system.c suggests there are a number of similar examples 
-showing how this could be done.
-
-
-ATB,
-
-Mark.
 
