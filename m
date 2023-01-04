@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F5965CA9A
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 01:03:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CFB165CBC0
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 03:07:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCrDq-0001DM-1h; Tue, 03 Jan 2023 19:01:34 -0500
+	id 1pCt9y-0003AH-6T; Tue, 03 Jan 2023 21:05:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pCrDm-0001D3-JF
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 19:01:30 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pCrDk-0007uU-Sz
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 19:01:30 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id v3so21186907pgh.4
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 16:01:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=joMbw4jQreiAs3mPNm3iK3glnalUuAUZH2fv17y3QT0=;
- b=zYc7S1jsa08J2sV2JOe/MpjCE5hx/mMB+hrsUKvlBWv4PB8EkuMD8dlSjC9IRtnQm9
- y+dIwVZNWn8m27pUf3zYwYFJK+/1Q/fKZOoOUk/CVQXgUyCp6virAgsDQTiMGW4DA6/Z
- jUfziwlD6MB9xMLje07E0R1EhQis0hD+0Gmrsdt2TLE7sxN4rYM0u6YpHdnh4K/o2Uw8
- 2A2EteGwBuBcQn9DKSvBWjjR3vvd+n5BeN5vGNLIOYcsuoru7pyOmExvt39hEHNwhSff
- uA6RxHSNCgMoXHcSCIKIwhnnJ8Jz4MPrxiK/Tdd75aY85StGKZHbaqwdoCLrMg1C9MYt
- yxBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=joMbw4jQreiAs3mPNm3iK3glnalUuAUZH2fv17y3QT0=;
- b=WJgD4l2ObW2td1ouXjjQErHHab+TnplIzcuR11EM0cIjIt4TeIeJU6ki/O1a6B6+1r
- IYSs97mb/EeblXFrrcq4/4XTSapBuwH8m+heXDjEZrGx+zhj6j6JLalnSPQRTVCiKJqS
- OMIC3e+lk2+LlbWqu6guyDymlO6O6t2fkdrXVP1imyjb/IKWY3WLVSSDdbHf0To5lL/+
- PN3TS4TTITvawbrDjfY7W5TNsCMzpkFEQSYo/fuVsFkroQwWCqXHYqnZA2r7u99Tv1dh
- /w4CZDh6Gwc/mpRgaMqrXWPMDE4rEQcTkLzy1tV5ojTm34tJ9ogU5PDTOGcyGWjt6sKi
- B1/A==
-X-Gm-Message-State: AFqh2kpL5exwwodPcW9K880g1Zb5KcaFPd63ysjkQi1bZ4kUpeofQYwJ
- krtNuaCztGZyadLuLQPaTht4UnTXW9DCp56O
-X-Google-Smtp-Source: AMrXdXvkr6mHBxEWLR/PPhytwpbAj65Yhfa0U4FxFyM9dwbMFbHdrQ1L8oBCxY737PrngQQACmzhcQ==
-X-Received: by 2002:aa7:97a1:0:b0:582:a686:34f with SMTP id
- d1-20020aa797a1000000b00582a686034fmr6084069pfq.30.1672790484996; 
- Tue, 03 Jan 2023 16:01:24 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:461b:36aa:aec9:d28a?
- ([2602:47:d48c:8101:461b:36aa:aec9:d28a])
- by smtp.gmail.com with ESMTPSA id
- p187-20020a6229c4000000b005764a143be3sm5293924pfp.103.2023.01.03.16.01.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Jan 2023 16:01:24 -0800 (PST)
-Message-ID: <fdfcc4b7-1dcb-2344-7afe-f59d33e89690@linaro.org>
-Date: Tue, 3 Jan 2023 16:01:21 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 00/40] Toward class init of cpu features
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
+ id 1pCt9r-00039g-SN
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 21:05:35 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <zhaotianrui@loongson.cn>) id 1pCt9k-0005zH-IK
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 21:05:32 -0500
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8Bxnuvf3rRjA0kKAA--.22836S3;
+ Wed, 04 Jan 2023 10:05:19 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxTuTf3rRj+20TAA--.61228S2; 
+ Wed, 04 Jan 2023 10:05:19 +0800 (CST)
+From: Tianrui Zhao <zhaotianrui@loongson.cn>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-References: <20230103181646.55711-1-richard.henderson@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20230103181646.55711-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.103,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
+ philmd@linaro.org
+Subject: [PATCH v5 0/3] Add irq number property for loongarch pch interrupt
+ controller
+Date: Wed,  4 Jan 2023 10:05:15 +0800
+Message-Id: <20230104020518.2564263-1-zhaotianrui@loongson.cn>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxTuTf3rRj+20TAA--.61228S2
+X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7uFW7ArWxAF1UuFyrCFWDtwb_yoW8XrWrpr
+ W3Zrn8tr4vyry3Xa93Jw17uFn3JFn7Ww42vasIy347Zr4UAr1UXw1ktrW5WFyUKw4rJr95
+ Wa1rKw4UW3WUAaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ b0xFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I
+ 0E14v26r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCF
+ FI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x0Yz7
+ v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv
+ 8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+ xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xII
+ jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
+ 0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
+ 67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,24 +74,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/3/23 10:16, Richard Henderson wrote:
-> Richard Henderson (40):
->    target/arm: Remove aarch64_cpu_finalizefn
->    target/arm: Create arm_cpu_register_parent
->    target/arm: Remove AArch64CPUClass
->    target/arm: Create TYPE_ARM_V7M_CPU
-...
->    target/arm: Utilize arm-cpu instance_post_init hook
-...
->    hw/arm/bcm2836: Set mp-affinity property in realize
->    target/arm: Rename arm_cpu_mp_affinity
->    target/arm: Create arm_cpu_mp_affinity
->    target/arm: Represent the entire MPIDR_EL1
+This series add irq number property for loongarch pch_msi
+and pch_pic interrupt controller.
 
-I meant to say: Peter, at least this handfull of patches ought to be useful cleanup 
-regardless of the rest of the series.
+Changes for v5:
+(1) Remove unreachable check after using g_new() to alloc msi irq.
+(2) Use deposit32() to generate the value of pch pic irq info.
 
+Changes for v4:
+(1) Change the default irq number of pch pic to 32.
+(2) Change the default irq number of pch msi to 224(256 - 32).
+(3) Move the 'PCH_PIC_IRQ_NUM' macro to pci-host/ls7a.h
+    and add prefix 'VIRT' on it to keep standard format.
 
-r~
+Changes for v3:
+(1) Fix the valid range of msi_irq_num, it will trigger error_setg() when
+irq_num is invalid.
+(2) Using g_new() to alloc msi_irqs when pch_msi realize.
+(3) Using EXTIOI_IRQS macro to replace the 256 irq number.
+
+Changes for v2:
+(1) Free pch_msi_irq array in pch_msi_unrealize().
+
+Changes for v1:
+(1) Add irq number property for loongarch_pch_msi.
+(2) Add irq number property for loongarch_pch_pic.
+
+Tianrui Zhao (3):
+  hw/intc/loongarch_pch_msi: add irq number property
+  hw/intc/loongarch_pch_pic: add irq number property
+  hw/intc/loongarch_pch: Change default irq number of pch irq controller
+
+ hw/intc/loongarch_pch_msi.c         | 29 +++++++++++++++++++++---
+ hw/intc/loongarch_pch_pic.c         | 35 +++++++++++++++++++++++++----
+ hw/loongarch/virt.c                 | 19 ++++++++++------
+ include/hw/intc/loongarch_pch_msi.h |  9 ++++----
+ include/hw/intc/loongarch_pch_pic.h |  6 ++---
+ include/hw/pci-host/ls7a.h          |  2 +-
+ 6 files changed, 77 insertions(+), 23 deletions(-)
+
+-- 
+2.31.1
 
 
