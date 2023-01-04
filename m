@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78BD65D2A6
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 13:29:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A29A65D2B4
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 13:31:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD2tR-00088u-BP; Wed, 04 Jan 2023 07:29:17 -0500
+	id 1pD2ve-0000cQ-2M; Wed, 04 Jan 2023 07:31:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pD2tP-00088X-LL
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:29:15 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pD2vU-0000bp-Gm
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:31:26 -0500
+Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pD2tN-00048S-Qs
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:29:15 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id z16so16292026wrw.1
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 04:29:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=oz4Z0GianJo8e5hN+RgPZ5WTzImFj0aP/gupTzPHLpY=;
- b=jsIx9UWqWfi2+JJ42KOb7TtjNQSLFhCgJ2GjJHJZ2b35Lfj1/EouUJL3PshSmrUlpU
- /hXZ14OVNaCjjRThlh6MTXzyL3gTLR7SlyRVrVOCrGiDcSr5GuKi7DhePL8ii2mhFZCu
- rReFMM5rj1BSSvvJp+QFbIC3OCC/0u1gblSc5lCrF9J5Xfwg0MVRFedHvmSol06C8qNq
- YoNXqup6HNnUGKVcvZa3GJr21Fz/ToFtHIqVYeh2kOTSKNdtSlv/aEiDsh2/zx6K1Rzt
- OdrF/PRX8Zp2LR6aJZEm1j9bjLeEfwEjNDJHjkqUnxWRsTPLzB8Lb8nNIqN7SqCzgfrI
- VnGw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pD2vR-00065P-CO
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:31:24 -0500
+Received: by mail-vs1-xe32.google.com with SMTP id x65so21145878vsb.13
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 04:31:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=RLrIQtukzPxI2MwEV0yhZMlN2shNTdSkGFBxrGKBgTo=;
+ b=UmQaV8cciGo053MROZ2IMu5255BDP2z1ozk9gqk48kxTwDWnsbGT2deudhoxM/0jDi
+ OYyJmd/EjB/hpYCx70SzOh5zkkAKDFFix9V7MMkaIuVmbhA+NQ3q4A2wHl0F+WpSwppR
+ CbcCWadrTL8KMloMgUBGqb2F8OkUerPDpe5k+/ujGJFmRDpgbPo9BUG1tRMamGl/AVbk
+ BlFhrlHa6OJVLF37XcEuNyfV5abmAHanDMf0my2F3qg1XCYE8NHil8cn+nibtAOzbjpB
+ T4vvpM7kVkKk6v1vWjcDFwBqMtZDsqX1CfoaV1dWvZVcNTDdLb/iGSgrsYHMDqBizOJt
+ 21fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oz4Z0GianJo8e5hN+RgPZ5WTzImFj0aP/gupTzPHLpY=;
- b=jaQwf4/SFpqvLsD9GalmvR+3JwNm6IQtAQ1hfigkcwQUaL2j4DacTz6YPv549IdPKH
- ggRCpY4M2WJYKAxxrUUnWj6QBJKPJOg7OT0HDHggTemQz0e/8Q0KMnkPAPOOXWy0wcuw
- Or+ulj8ez/6q0TnnztF8B2kqrujrkjEOimf7vRC6RYHNpRKxJA24KyM1l04saMIPf22j
- ZLaZeYjUtaZDay3TX+OOFv3kLMSqB+b0OqhBun7RIg91T4AWA9jIcx/vhS02QlUqAV3n
- +CaKD5YtzG93POWReqwvrxib9N3Vd9hxr3GfiNMeCz/xy5jT53wDgYCiheVWPc/yzzEe
- rhtg==
-X-Gm-Message-State: AFqh2kqLzZY9Oti7EU4uDSAwQqzQDuSkkmO4QAN68LpIS1vHG2qoMu+U
- +ZZMuKQ+k1Yn0z+P5cQDLmhSzg==
-X-Google-Smtp-Source: AMrXdXuRJ2I7m0cXeiwrgVgxlrxcUeqj5bUVBLkw/wsEh7BFz4UFuRp/bg0Qs+1+bfoaZZVAWKFIQQ==
-X-Received: by 2002:a5d:4e83:0:b0:29f:b589:157c with SMTP id
- e3-20020a5d4e83000000b0029fb589157cmr3347883wru.5.1672835351865; 
- Wed, 04 Jan 2023 04:29:11 -0800 (PST)
-Received: from myrica (054592b0.skybroadband.com. [5.69.146.176])
- by smtp.gmail.com with ESMTPSA id
- d17-20020adffd91000000b002882600e8a0sm19431617wrr.12.2023.01.04.04.29.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jan 2023 04:29:11 -0800 (PST)
-Date: Wed, 4 Jan 2023 12:29:10 +0000
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Mostafa Saleh <smostafa@google.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org
-Subject: Re: [PATCH] hw/arm/smmuv3: Add GBPA register
-Message-ID: <Y7VxFpoTjwNaolTG@myrica>
-References: <20221219125720.1369027-1-smostafa@google.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RLrIQtukzPxI2MwEV0yhZMlN2shNTdSkGFBxrGKBgTo=;
+ b=BDlMZO0qBiW9Q4DXQW/oIHytJZ7j+VIe0Xy/+TI3/NFjchkitChNmMwNKYJACOG6al
+ /BsPzgeR6cci2vUFzuoA2tvEyo/SqW/SEL21BwYwPzrLS19P5zdrss6XXdOrVceEpgTT
+ D6FDV9DlpM91Zjw3JjesEQVGT6UN+SpHW9QbjCJ7cVGxBnmZJhoO559wZwoMjQry7abO
+ a46XdbjqTPG/HWqJrweri/lnSitBrCd8WtUna8RkjkRyvmiNr+G2GS2fapkFlo2OsE32
+ 7QmsEU4wdwdSN9j4yH5UPlI4TSayCPTuQA7xX8CsPzepN+o6/B520nnHwhp0UzMLxz8P
+ n4uQ==
+X-Gm-Message-State: AFqh2ko07qadGRbG2QeUrouEipYCGq2+weMhTrOBBcgJkVJh3FfGXqrT
+ npVfQupYMW0ggBesTufR/fwyrXH9qXqtKLpq4nfwgKgOyc+fZg==
+X-Google-Smtp-Source: AMrXdXv76femOoULSriQFuJWZ6lCW4kKNKGrffAJcqlgJI/N773qR1e6j6ac+mXzbTkWaZTiwdDHKtkbv1y2Q/e/E0U=
+X-Received: by 2002:a05:6102:f8c:b0:3c9:8cc2:dd04 with SMTP id
+ e12-20020a0561020f8c00b003c98cc2dd04mr3709032vsv.73.1672835479281; Wed, 04
+ Jan 2023 04:31:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221219125720.1369027-1-smostafa@google.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
+ <20221221224022.425831-4-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20221221224022.425831-4-alistair.francis@opensource.wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 4 Jan 2023 22:30:52 +1000
+Message-ID: <CAKmqyKM-TArauueK=o7kLu9mM75RndarvK8e3nMLeRHidKLyBg@mail.gmail.com>
+Subject: Re: [PULL v2 03/45] hw/ssi/ibex_spi: implement `FIELD32_1CLEAR` macro
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Cc: qemu-devel@nongnu.org, Wilfred Mallawa <wilfred.mallawa@wdc.com>, 
+ Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe32.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,142 +85,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Mostafa,
-
-On Mon, Dec 19, 2022 at 12:57:20PM +0000, Mostafa Saleh wrote:
-> GBPA register can be used to globally abort all
-> transactions.
-> 
-> Only UPDATE and ABORT bits are considered in this patch.
-
-That's fair, although it effectively implements all bits since
-smmuv3_translate() ignores memory attributes anyway
-
-> 
-> It is described in the SMMU manual in "6.3.14 SMMU_GBPA".
-> ABORT reset value is IMPLEMENTATION DEFINED, it is chosen to
-> be zero(Do not abort incoming transactions).
-> 
-> Signed-off-by: Mostafa Saleh <smostafa@google.com>
+On Thu, Dec 22, 2022 at 8:40 AM Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+>
+> use the `FIELD32_1CLEAR` macro to implement register
+> `rw1c` functionality to `ibex_spi`.
+>
+> This change was tested by running the `SPI_HOST` from TockOS.
+>
+> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Message-Id: <20221017054950.317584-3-wilfred.mallawa@opensource.wdc.com>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  hw/arm/smmuv3-internal.h |  4 ++++
->  hw/arm/smmuv3.c          | 14 ++++++++++++++
->  include/hw/arm/smmuv3.h  |  1 +
->  3 files changed, 19 insertions(+)
-> 
-> diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-> index bce161870f..71f70141e8 100644
-> --- a/hw/arm/smmuv3-internal.h
-> +++ b/hw/arm/smmuv3-internal.h
-> @@ -79,6 +79,10 @@ REG32(CR0ACK,              0x24)
->  REG32(CR1,                 0x28)
->  REG32(CR2,                 0x2c)
->  REG32(STATUSR,             0x40)
-> +REG32(GBPA,                0x44)
-> +    FIELD(GBPA, ABORT,        20, 1)
-> +    FIELD(GBPA, UPDATE,       31, 1)
-> +
->  REG32(IRQ_CTRL,            0x50)
->      FIELD(IRQ_CTRL, GERROR_IRQEN,        0, 1)
->      FIELD(IRQ_CTRL, PRI_IRQEN,           1, 1)
-> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-> index 955b89c8d5..2843bc3da9 100644
-> --- a/hw/arm/smmuv3.c
-> +++ b/hw/arm/smmuv3.c
-> @@ -285,6 +285,7 @@ static void smmuv3_init_regs(SMMUv3State *s)
->      s->gerror = 0;
->      s->gerrorn = 0;
->      s->statusr = 0;
-> +    s->gbpa = 0;
->  }
->  
->  static int smmu_get_ste(SMMUv3State *s, dma_addr_t addr, STE *buf,
-> @@ -663,6 +664,11 @@ static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->          goto epilogue;
->      }
->  
-> +    if (FIELD_EX32(s->gbpa, GBPA, ABORT)) {
-> +        status = SMMU_TRANS_ABORT;
-> +        goto epilogue;
-> +    }
-> +
+>  hw/ssi/ibex_spi_host.c | 21 +++++++++------------
+>  1 file changed, 9 insertions(+), 12 deletions(-)
+>
+> diff --git a/hw/ssi/ibex_spi_host.c b/hw/ssi/ibex_spi_host.c
+> index 57df462e3c..0a456cd1ed 100644
+> --- a/hw/ssi/ibex_spi_host.c
+> +++ b/hw/ssi/ibex_spi_host.c
+> @@ -342,7 +342,7 @@ static void ibex_spi_host_write(void *opaque, hwaddr addr,
+>  {
+>      IbexSPIHostState *s = opaque;
+>      uint32_t val32 = val64;
+> -    uint32_t shift_mask = 0xff, status = 0, data = 0;
+> +    uint32_t shift_mask = 0xff, status = 0;
+>      uint8_t txqd_len;
+>
+>      trace_ibex_spi_host_write(addr, size, val64);
+> @@ -355,12 +355,11 @@ static void ibex_spi_host_write(void *opaque, hwaddr addr,
+>      case IBEX_SPI_HOST_INTR_STATE:
+>          /* rw1c status register */
+>          if (FIELD_EX32(val32, INTR_STATE, ERROR)) {
+> -            data = FIELD_DP32(data, INTR_STATE, ERROR, 0);
+> +            s->regs[addr] = FIELD32_1CLEAR(s->regs[addr], INTR_STATE, ERROR);
 
-GBPA is only taken into account when SMMU_CR0.SMMUEN is 0 (6.3.9.6 SMMUEN)
+It seems that this change doesn't build on Windows
+(https://cirrus-ci.com/task/6444497832247296?logs=main#L2163)
 
->      cfg = smmuv3_get_config(sdev, &event);
->      if (!cfg) {
->          status = SMMU_TRANS_ERROR;
-> @@ -1170,6 +1176,10 @@ static MemTxResult smmu_writel(SMMUv3State *s, hwaddr offset,
->      case A_GERROR_IRQ_CFG2:
->          s->gerror_irq_cfg2 = data;
->          return MEMTX_OK;
-> +    case A_GBPA:
-> +        /* Ignore update bit as write is synchronous. */
+Maybe ERROR is reserved? Either way I'll have to drop this commit.
+Maybe just drop this change and keep the rest?
 
-We could also ignore a write that has Update=0, since that's required for
-SMMUv3.2+ implementations (6.3.14.1 Update procedure)
+Alistair
 
-> +        s->gbpa = data & ~R_GBPA_UPDATE_MASK;
-
-Do we need to synchronize with concurrent transactions here?
-I couldn't find if QEMU already serializes MMIO writes and IOMMU
-translation.
-
-"Transactions arriving at the SMMU after completion of a GPBA update are
-guaranteed to take the new attributes written." The guest tests completion
-by reading the Update bit:
-
-	vCPU (host CPU 0)		Device thread (host CPU 1)
-
-	(a) read GBPA.abort = 1
-	(b) write GBPA.{update,abort} = {1,0}
-	(c) read GBPA.update = 0
-	(d) launch DMA			(e) execute DMA
-					(f) translation must read GBPA.abort = 0
-
-I guess memory barriers after (b) and before (f) would ensure that. But I
-wonder if SMMUEN also needs additional synchronization, and in that case a
-rwlock would probably be simpler.
-
-Thanks,
-Jean
-
-> +        return MEMTX_OK;
->      case A_STRTAB_BASE: /* 64b */
->          s->strtab_base = deposit64(s->strtab_base, 0, 32, data);
->          return MEMTX_OK;
-> @@ -1318,6 +1328,9 @@ static MemTxResult smmu_readl(SMMUv3State *s, hwaddr offset,
->      case A_STATUSR:
->          *data = s->statusr;
->          return MEMTX_OK;
-> +    case A_GBPA:
-> +        *data = s->gbpa;
-> +        return MEMTX_OK;
->      case A_IRQ_CTRL:
->      case A_IRQ_CTRL_ACK:
->          *data = s->irq_ctrl;
-> @@ -1495,6 +1508,7 @@ static const VMStateDescription vmstate_smmuv3 = {
->          VMSTATE_UINT32_ARRAY(cr, SMMUv3State, 3),
->          VMSTATE_UINT32(cr0ack, SMMUv3State),
->          VMSTATE_UINT32(statusr, SMMUv3State),
-> +        VMSTATE_UINT32(gbpa, SMMUv3State),
->          VMSTATE_UINT32(irq_ctrl, SMMUv3State),
->          VMSTATE_UINT32(gerror, SMMUv3State),
->          VMSTATE_UINT32(gerrorn, SMMUv3State),
-> diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
-> index f1921fdf9e..9899fa1860 100644
-> --- a/include/hw/arm/smmuv3.h
-> +++ b/include/hw/arm/smmuv3.h
-> @@ -46,6 +46,7 @@ struct SMMUv3State {
->      uint32_t cr[3];
->      uint32_t cr0ack;
->      uint32_t statusr;
-> +    uint32_t gbpa;
->      uint32_t irq_ctrl;
->      uint32_t gerror;
->      uint32_t gerrorn;
-> -- 
-> 2.39.0.314.g84b9a713c41-goog
-> 
-> 
+>          }
+>          if (FIELD_EX32(val32, INTR_STATE, SPI_EVENT)) {
+> -            data = FIELD_DP32(data, INTR_STATE, SPI_EVENT, 0);
+> +            s->regs[addr] = FIELD32_1CLEAR(s->regs[addr], INTR_STATE, SPI_EVENT);
+>          }
+> -        s->regs[addr] = data;
+>          break;
+>      case IBEX_SPI_HOST_INTR_ENABLE:
+>          s->regs[addr] = val32;
+> @@ -505,27 +504,25 @@ static void ibex_spi_host_write(void *opaque, hwaddr addr,
+>       *  When an error occurs, the corresponding bit must be cleared
+>       *  here before issuing any further commands
+>       */
+> -        status = s->regs[addr];
+>          /* rw1c status register */
+>          if (FIELD_EX32(val32, ERROR_STATUS, CMDBUSY)) {
+> -            status = FIELD_DP32(status, ERROR_STATUS, CMDBUSY, 0);
+> +            s->regs[addr] = FIELD32_1CLEAR(s->regs[addr], ERROR_STATUS, CMDBUSY);
+>          }
+>          if (FIELD_EX32(val32, ERROR_STATUS, OVERFLOW)) {
+> -            status = FIELD_DP32(status, ERROR_STATUS, OVERFLOW, 0);
+> +            s->regs[addr] = FIELD32_1CLEAR(s->regs[addr], ERROR_STATUS, OVERFLOW);
+>          }
+>          if (FIELD_EX32(val32, ERROR_STATUS, UNDERFLOW)) {
+> -            status = FIELD_DP32(status, ERROR_STATUS, UNDERFLOW, 0);
+> +            s->regs[addr] = FIELD32_1CLEAR(s->regs[addr], ERROR_STATUS, UNDERFLOW);
+>          }
+>          if (FIELD_EX32(val32, ERROR_STATUS, CMDINVAL)) {
+> -            status = FIELD_DP32(status, ERROR_STATUS, CMDINVAL, 0);
+> +            s->regs[addr] = FIELD32_1CLEAR(s->regs[addr], ERROR_STATUS, CMDINVAL);
+>          }
+>          if (FIELD_EX32(val32, ERROR_STATUS, CSIDINVAL)) {
+> -            status = FIELD_DP32(status, ERROR_STATUS, CSIDINVAL, 0);
+> +            s->regs[addr] = FIELD32_1CLEAR(s->regs[addr], ERROR_STATUS, CSIDINVAL);
+>          }
+>          if (FIELD_EX32(val32, ERROR_STATUS, ACCESSINVAL)) {
+> -            status = FIELD_DP32(status, ERROR_STATUS, ACCESSINVAL, 0);
+> +            s->regs[addr] = FIELD32_1CLEAR(s->regs[addr], ERROR_STATUS, ACCESSINVAL);
+>          }
+> -        s->regs[addr] = status;
+>          break;
+>      case IBEX_SPI_HOST_EVENT_ENABLE:
+>      /* Controls which classes of SPI events raise an interrupt. */
+> --
+> 2.38.1
+>
 
