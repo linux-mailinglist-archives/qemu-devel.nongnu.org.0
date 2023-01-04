@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4E665D528
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 15:10:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B16D665D534
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 15:12:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD4SL-0008FT-1j; Wed, 04 Jan 2023 09:09:25 -0500
+	id 1pD4VB-000122-8Q; Wed, 04 Jan 2023 09:12:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD4SH-0008FE-3K
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:09:21 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD4V9-00011a-B3
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:12:19 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD4SF-0006mh-7q
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:09:20 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- fm16-20020a05600c0c1000b003d96fb976efso24295649wmb.3
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 06:09:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD4V7-0007Qo-FO
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:12:19 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ g25-20020a7bc4d9000000b003d97c8d4941so20894404wmk.4
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 06:12:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=QUDYvu+UeOmYS7hcNXaw4Itb+xdKMb2QoHJQSVSnp9s=;
- b=mN4YnWSahdApRASGW18+8dP0g7kbhse5yvAJfEE9F+LeWUtP0mNPPnb28+HzCBbTFJ
- I9uiIHysFyfK7gh0xETb4ipiyqfEDO4tIo6XaRIkyoHfgbIQscoezcFSVAMxA6ZHsTRX
- fVR7GVyOVA4K1UgYUpQ9hyLt+NjwYPGPLRk1y6mirSSeP1PBhkzOh7P54XmtcwIsXzgS
- 5mt2M45GlCAgOIq4XupwA/1ZGgem7Bnuf7AMFIii+cgCp52fRnDbeds8vj3QJxQdK4sA
- Aud8DgVbUc2M60iRYlhZQ5D+NpO6c8pdc0cHLtWcEKqmQh/y8aOEZ35PSrQT3/R3ojY/
- vyzg==
+ bh=BHO+TJudTQx0DGyd0MkrYRDCV4fbM9uEtnvgOWa7x28=;
+ b=c3NpQW+qzmfdu95DbG0+X1CU4UoMYqiJYln97zIoD1iq7VFJHGA26W6RICB6Apz7mK
+ hTqUm3Jm3H2Wy/GZvUx2IJVSq7w1hiLY7as0/PELb5Z6Kzmsb/ENqF/eLw5HsWnC53L5
+ vF2fA7FhxtmR5jblVZtF4xW6rJr1rL0i1T2OElSWRVzV0SBZdyiJFJxTS44jJgNv0Dry
+ qBnR5/23874106MSy4BiOnO/JTgD9uA4V4eT6m56ylduXYA7uHs99BfGOduGWNfrS+jo
+ sIFdi7kqqwWqnm1cVgF0mZFS6AuKh2KBNH86vznilXqcJxvuaTq4EiIeZQXOvV0RLQj6
+ y/1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QUDYvu+UeOmYS7hcNXaw4Itb+xdKMb2QoHJQSVSnp9s=;
- b=Dl6kcPcv20w7rsSvRXEKXXbirahLrJKj/WP9aaPdBuvegWlzeXIaogWdifGqvekB/V
- S6muMDvJFCIspTWz+EiTTm2Cdg22mKLw+K//F14IfW3auTdlUuN8O8chtmSfRgLftH3j
- yB8+iHEDIrY0Z4jDEiPB7vPgNqLWGbAplb6Z6JPudk5FhDTL3bZmqxTDg90efqtl8iKI
- w0ESFg/emdpjz5TlWF2uCvtzGmTpTD6VZy0O85dvEnc6otF3RCIfij9VaPPxlKOoqeSe
- IapkOgEIW3Gd2eNDBTuviRfM/gf7vlwTYo1YGOzEyr0izW5l9QFl6FYwtFFvDpHMcs2H
- /Izw==
-X-Gm-Message-State: AFqh2kquhj5xKwk7j9HQ0dRrZ9wWOb3eRbcveHufQbWCEoBLLMzGRU1L
- HRbywDYgZyBmAmDbsA203KU3yQ==
-X-Google-Smtp-Source: AMrXdXtDiQlEWAOpCqBJ2sTxRs/9v7HVwvfMn5CmEmTajMxsI46xt2usD4KMnb/fR0m58mz1I7SpPA==
-X-Received: by 2002:a7b:c4c8:0:b0:3d3:5a4a:9101 with SMTP id
- g8-20020a7bc4c8000000b003d35a4a9101mr37366351wmk.23.1672841357746; 
- Wed, 04 Jan 2023 06:09:17 -0800 (PST)
+ bh=BHO+TJudTQx0DGyd0MkrYRDCV4fbM9uEtnvgOWa7x28=;
+ b=oWODjumR4wttzjtIvHy70YRI4kWIw6OeBBx+D91K2BsF/dbmi9d9EvNka4NXBfd7uF
+ t5JnECswSn/W6nUm4mKrO3RuiTeJgrqAdu2sMSwAA5iwNMwbMXHybeg8O/+VqNHnpIxp
+ tkcsVWlQqz/+7kb/2AE7esNxeybDxA2TYrYTpUZ2cv/ZU9tAifJL1xWpfJWoH8XyL8st
+ APTaBHexaLBtfdIjtCEdTmYedgb6qbWm3CbRj3WD6iUeHAh0ZKms2x1xo8hJ2E4gTTrY
+ fB/6IjxzBqC/0NXIRQFk+AdG3+HPrt3gypafoKnEKA0k8etnbirY4jnfkkNiv56mphqP
+ +IpA==
+X-Gm-Message-State: AFqh2krJRHMirfjZ20+aacXbU0whuiVKsW8F/Mu50Jh4LpFySyMHUVpD
+ Y4iIAQoX6i5FCHKs4rRu0VjRMWvv8VZudmxd
+X-Google-Smtp-Source: AMrXdXtF7+Zmc9Ng65LmBQXPrTVxiJ9WeunzHnYpYS8nOIm65ocPDAzaE03Z5Xq7BxKYu+L4STLjNw==
+X-Received: by 2002:a05:600c:4e14:b0:3c6:c6c9:d75e with SMTP id
+ b20-20020a05600c4e1400b003c6c6c9d75emr41808101wmq.0.1672841535812; 
+ Wed, 04 Jan 2023 06:12:15 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h2-20020a05600c350200b003d9a3a0d461sm21830783wmq.4.2023.01.04.06.09.16
+ u9-20020a05600c19c900b003d9876aa04asm42357412wmq.41.2023.01.04.06.12.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 06:09:17 -0800 (PST)
-Message-ID: <d88a78db-2d5d-819e-d842-142827c88fb5@linaro.org>
-Date: Wed, 4 Jan 2023 15:09:16 +0100
+ Wed, 04 Jan 2023 06:12:15 -0800 (PST)
+Message-ID: <8a310e79-c456-546a-2160-e6adfa851dad@linaro.org>
+Date: Wed, 4 Jan 2023 15:12:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 2/3] hw/mips/malta: Set PIIX4 IRQ routes in embedded
- bootloader
+Subject: Re: [PATCH 6/6] tests/avocado: Add tests booting YAMON ROM on MIPS
+ Malta machines
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
-References: <20221027204720.33611-1-philmd@linaro.org>
- <20221027204720.33611-3-philmd@linaro.org>
- <9F566248-59DA-46E2-BD56-5DB98E9DB446@gmail.com>
- <2E4C442C-9057-4006-AE8D-123B513ED894@gmail.com>
- <65f602e2-9067-f1e7-0c94-430e2b75e182@linaro.org>
- <ECE6DE21-1499-4BDF-A886-3FF4F36AF33F@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Bernhard Beschow <shentey@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20230104133935.4639-1-philmd@linaro.org>
+ <20230104133935.4639-7-philmd@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <ECE6DE21-1499-4BDF-A886-3FF4F36AF33F@gmail.com>
+In-Reply-To: <20230104133935.4639-7-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -98,64 +93,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/1/23 01:03, Bernhard Beschow wrote:
+On 4/1/23 14:39, Philippe Mathieu-Daudé wrote:
+> Add quick tests booting YAMON:
 > 
+>    $ avocado --show=app,console run -t machine:malta tests/avocado/machine_mips_malta.py
+>     (1/2) tests/avocado/machine_mips_malta.py:MaltaMachine.test_mipsel_malta_yamon:
+>    console: YAMON ROM Monitor, Revision 02.22.
+>    console: Copyright (c) 1999-2007 MIPS Technologies, Inc. - All Rights Reserved.
+>    console: For a list of available commands, type 'help'.
+>    console: Compilation time =              May 24 2013  12:16:34 (pburton)
+>    console: Board type/revision =           0x02 (Malta) / 0x00
+>    console: Core board type/revision =      0x01 (CoreLV) / 0x00
+>    console: System controller/revision =    Galileo / GT_64120A-B-0
+>    console: FPGA revision =                 0x0000
+>    console: MAC address =                   ff.ff.ff.ff.ff.ff
+>    console: Board S/N =                     0123456789
+>    console: PCI bus frequency =             33.33 MHz
+>    console: Processor Company ID/options =  0x01 (MIPS Technologies, Inc.) / 0x00
+>    console: Processor ID/revision =         0x93 (MIPS 24Kf) / 0x00
+>    console: Endianness =                    Little
+>    console: CPU/Bus frequency =             333 MHz / 419 MHz
+>    console: Coherency =                     None
+>    console: Flash memory size =             4 MByte
+>    console: SDRAM size =                    128 MByte
+>    console: First free SDRAM address =      0x800c32f0
+>    console: WARNING: Environment variable flash area is invalid!
+>    console: HINT   : Perform "erase -e"
+>    console: YAMON>
+>    PASS (1.88 s)
+>     (2/2) tests/avocado/machine_mips_malta.py:MaltaMachine.test_mips64el_malta_yamon:
+>    ...
+>    console: System controller/revision =    Galileo / GT_64120A-B-0
+>    console: Processor Company ID/options =  0x01 (MIPS Technologies, Inc.) / 0x00
+>    console: Processor ID/revision =         0x82 (MIPS 20Kc) / 0xa0
+>    ...
+>    console: YAMON>
+>    PASS (1.89 s)
+>    RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+>    JOB TIME   : 4.57 s
 > 
-> Am 31. Dezember 2022 13:44:00 UTC schrieb "Philippe Mathieu-Daudé" <philmd@linaro.org>:
->> On 31/12/22 10:53, Bernhard Beschow wrote:
->>>
->>>
->>> Am 21. November 2022 15:34:05 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
->>>>
->>>>
->>>> Am 27. Oktober 2022 20:47:19 UTC schrieb "Philippe Mathieu-Daudé" <philmd@linaro.org>:
->>>>> Linux kernel expects the northbridge & southbridge chipsets
->>>>> configured by the BIOS firmware. We emulate that by writing
->>>>> a tiny bootloader code in write_bootloader().
->>>>>
->>>>> Upon introduction in commit 5c2b87e34d ("PIIX4 support"),
->>>>> the PIIX4 configuration space included values specific to
->>>>> the Malta board.
->>>>>
->>>>> Set the Malta-specific IRQ routing values in the embedded
->>>>> bootloader, so the next commit can remove the Malta specific
->>>>> bits from the PIIX4 PCI-ISA bridge and make it generic
->>>>> (matching the real hardware).
->>>>>
->>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>>>> ---
->>>>> FIXME: Missing the nanoMIPS counter-part!
->>>>
->>>> Who will be taking care of this? I have absolutely no clue how the write_bootloader functions work, so I don't see how to fix it.
->>>
->>> Ping
->>
->> This comment has been taken care of:
->> https://lore.kernel.org/qemu-devel/a3c3f639-dbb1-88a7-43fe-547a234c5890@linaro.org/
+> YAMON does some endian-swapped acceses on the ISD<->PCI CFG/DATA
+> registers. These tests are useful to debug cross-endianness issues,
+> in particular on big-endian host.
 > 
-> Ah, now I see where this is going.
-> 
->> However while testing the MIPS pull request I prepared I
->> found a bug in the GT64120 which I'm trying to fix since
->> various days... Unfortunately your series depends on it,
->> so this is a blocking issue. Sorry for this long delay...
-> 
-> Don't worry.
-> 
-> How can the bug be reproduced? Is there a test run in the CI?
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   tests/avocado/machine_mips_malta.py | 52 ++++++++++++++++++++++++++---
+>   1 file changed, 48 insertions(+), 4 deletions(-)
 
-My problem was on big-endian hosts, now fixed by:
-https://lore.kernel.org/qemu-devel/20230104133935.4639-1-philmd@linaro.org/
+> +class MaltaMachine(QemuSystemTest):
+> +
+> +    def do_test_yamon(self):
 
-> Note that I get a 404 when trying to access https://gitlab.com/philmd/qemu/-/commits/mips-testing/ .
+Not important but this block ... -->
 
-Oh for some reason my repository was set for 'project members', I now 
-changed that to 'everyone'.
+> +        """
+> +        :avocado: tags=arch:mipsel
+> +        :avocado: tags=arch:mips64el
+> +        :avocado: tags=machine:malta
+> +        """
 
-I'll rebuild the mips-testing queue later today or tomorrow and restart 
-my testing.
+  <-- ... shouldn't be here.
 
-Regards,
+> +        rom_url = ('http://www.imgtec.com/tools/mips-tools/downloads/'
+> +                   'yamon/yamon-bin-02.22.zip')
+> +        rom_hash = '8da7ecddbc5312704b8b324341ee238189bde480'
+> +        zip_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
+> +
+> +        archive.extract(zip_path, self.workdir)
+> +        yamon_path = os.path.join(self.workdir, 'yamon-02.22.bin')
+> +
+> +        self.vm.set_console()
+> +        self.vm.add_args('-bios', yamon_path)
+> +        self.vm.launch()
+> +
+> +        prompt =  'YAMON>'
+> +        pattern = 'YAMON ROM Monitor'
+> +        interrupt_interactive_console_until_pattern(self, pattern, prompt)
+> +        wait_for_console_pattern(self, prompt)
+> +        self.vm.shutdown()
+> +
+> +    def test_mipsel_malta_yamon(self):
+> +        """
+> +        :avocado: tags=arch:mipsel
+> +        :avocado: tags=machine:malta
+> +        :avocado: tags=endian:little
+> +        """
+> +        self.do_test_yamon()
+> +
+> +    def test_mips64el_malta_yamon(self):
+> +        """
+> +        :avocado: tags=arch:mips64el
+> +        :avocado: tags=machine:malta
+> +        :avocado: tags=endian:little
+> +        """
+> +        self.do_test_yamon()
 
-Phil.
 
