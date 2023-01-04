@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE14265DFF1
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:23:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40F165E03E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:52:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDBvc-0002N0-VH; Wed, 04 Jan 2023 17:08:09 -0500
+	id 1pDBve-0002Pg-Hy; Wed, 04 Jan 2023 17:08:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDBut-00023q-D7
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:07:31 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDBv1-00025L-UB
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:07:33 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDBuq-0000Gs-V8
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:07:23 -0500
-Received: by mail-ed1-x536.google.com with SMTP id c17so50463935edj.13
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 14:07:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDBuz-000629-8T
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:07:31 -0500
+Received: by mail-ej1-x631.google.com with SMTP id vm8so79065096ejc.2
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 14:07:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HGtrWT3unMzGntIEiVbM1rKZ5m/rzhrczSjLQVOtSwU=;
- b=L8VYetCIidIpU/fp3MEWcHl7I1novORjIpl4CrXZ6tYviaBK4F95OwPJUnovX7s/cQ
- PM4jjnE9ZgBPJX0E0Hjhaunoldy74xxEVGsqlinc210RI/Q/TRS3rl43oe/c1L7b4uAF
- CNUpji0DFrN9eZewo1tHOzGlPfeDGnjjFQBo63HRb/9LZlcaSBQ/+6mjAEaW7LQDKhKO
- lmFDFvmb6sSYfed4mPCgvue5s0dcbDShs1RUbw7W1qxMWXvHIDqW6sY8h3pGdGe9ISGq
- 2ll1WEDup5OxmQgbwOmDyY6Fab00CS1tgtosPIkNsTuotUv22SQJDKxsUG6A3zzqcMT5
- m0yA==
+ bh=wmavs6sB32iuk0P3966mjPd+ATivEhkJqHU5LgWaQJM=;
+ b=ZTzMbgFdAqNU+m8VRz2s+o2Vz5VeZXQ51dVr6ermRNbcO2+233UkuOZmWsdCFLihOs
+ v0NXw4mi10RJSrjJCmmKxb8/gYg3P0mXfq+NxcpORte0pdXovaS3JVTJ25t2rLUFUfk+
+ mZX0m/TGcZbfZPvUip8vtzJqd8G7akAuh02cbjT1OvyfQHZHZIWsR6PbB1EW0xr+rkx+
+ h5m7sRBLJwiWrXIUApTFMu5D6mBbZLvYsgc22QA34RcoAddm/pQRR7S83oTSA+ZQ4osy
+ l5slett8vvp+vKJfZK2xGrBj7EpdFGvAzv/RxR0lhebPGF/AaOHVI4mj0xNqryqEHtjI
+ RLUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HGtrWT3unMzGntIEiVbM1rKZ5m/rzhrczSjLQVOtSwU=;
- b=VTP4SeadqGXKpX/YXgKuQOtYajyPpX1KH4xRxVpae18d0quOsH2PvRmbXoguCWvGih
- CFBsqpbOUO/uCMo2Xv/TFQfKYdSuxpn5Ymj39vWQ9yQZhgLrSQhbCwW1m+wKAHMwsRPy
- t76v4x2Zy2W/rWkXCW5mTyBNT71x2gjCFgVtQEUgu1PkWF5AzuK2ldWnFxfkoZ3hMNnC
- CV9NJAQuuvNuxsXKRO1An61hpvQBcy/DYBsZgmIhilZtuNIXbvK6qjjkxqVTPlltDTBK
- MgeSR9vdRcIVKog00QzYjDHwofJeZ6cCaZP7qtWq4D2hYojPi86Esu8sMZmZ9TLXs49M
- UCyg==
-X-Gm-Message-State: AFqh2krm2+NgfqMMXiZ0qQxf06hK7G5RncQqCcWLatuApLs/pSr4AFZk
- Dw5hu1x7/SFZI86vz3paDrlcf4HkY9umyaGQ
-X-Google-Smtp-Source: AMrXdXvFa31/5RG9b1OrjE3ODUivWLjwdIoMhA4EZhRaFx35WdWBe2cxRCU0pDK1KTxcxs3aWcIxPQ==
-X-Received: by 2002:a05:6402:2488:b0:46b:34a:3945 with SMTP id
- q8-20020a056402248800b0046b034a3945mr50941348eda.31.1672870039232; 
- Wed, 04 Jan 2023 14:07:19 -0800 (PST)
+ bh=wmavs6sB32iuk0P3966mjPd+ATivEhkJqHU5LgWaQJM=;
+ b=cTmFYl8KvWgHYBP9RSbbDaxLQhytYl3Gq/Bc3RhYDr1swcZ+m7+2BiFQoW8W21yDe7
+ jWrRUsCnq5YxkQboOLRPkIQfWNX+qzffTUQPYGFvOGJVgvXW6sfp5bI/kBdrG+aswlfl
+ nGY1ENUGBmaPj3KSsIFF3A+gnKlgQft2QV6vvn8zHgnnDEFZOx9c3UpmI7JP2MisevrB
+ rGVBg2VztB3ecUgfEY5CTW0tan5IN+jn0Jgx0FKxMdQq7RNkZqRXZsafeh3mpGzkMdMK
+ vzvmEbX+3b9rDWSkBZkhAdntKaiR1nKjDeRauK9LQvSvNkVvT7vOiXcKDhORv4r86sxQ
+ 1DyQ==
+X-Gm-Message-State: AFqh2kqp47cGASIsDfsW2tE/WXAvJDZYTy3BuFib0IsDRAex8nhN4izs
+ Zaw1ZRe24D2gskOwS7ghrZReDJeC7g/aUJf7
+X-Google-Smtp-Source: AMrXdXukaIMGAoPUZxP9E447Jv73dbe7wRKGQx28j0E/6RmcT20yWBP4LJqjos7iiL226lhZ/tjlPA==
+X-Received: by 2002:a17:907:1385:b0:7c1:6167:7816 with SMTP id
+ vs5-20020a170907138500b007c161677816mr35390562ejb.28.1672870047775; 
+ Wed, 04 Jan 2023 14:07:27 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- fj12-20020a0564022b8c00b004722d7e8c7csm15042914edb.14.2023.01.04.14.07.14
+ gs2-20020a170906f18200b007c491f53497sm16084240ejb.170.2023.01.04.14.07.24
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 04 Jan 2023 14:07:18 -0800 (PST)
+ Wed, 04 Jan 2023 14:07:27 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Song Gao <gaosong@loongson.cn>, Antony Pavlov <antonynpavlov@gmail.com>,
@@ -76,17 +76,17 @@ Cc: Song Gao <gaosong@loongson.cn>, Antony Pavlov <antonynpavlov@gmail.com>,
  qemu-riscv@nongnu.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
  Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
  Leif Lindholm <quic_llindhol@quicinc.com>, Kevin Wolf <kwolf@redhat.com>
-Subject: [PATCH 17/20] hw/arm: Open-code pflash_cfi02_register()
-Date: Wed,  4 Jan 2023 23:04:46 +0100
-Message-Id: <20230104220449.41337-18-philmd@linaro.org>
+Subject: [PATCH 18/20] hw/sh4: Open-code pflash_cfi02_register()
+Date: Wed,  4 Jan 2023 23:04:47 +0100
+Message-Id: <20230104220449.41337-19-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230104220449.41337-1-philmd@linaro.org>
 References: <20230104220449.41337-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -118,82 +118,29 @@ sysbus mapping.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/arm/digic_boards.c | 14 ++++++++------
- hw/arm/musicpal.c     | 13 +++++++------
- hw/arm/xilinx_zynq.c  | 10 +++++-----
- 3 files changed, 20 insertions(+), 17 deletions(-)
+ hw/sh4/r2d.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
-index 4093af09cb..98b0002d16 100644
---- a/hw/arm/digic_boards.c
-+++ b/hw/arm/digic_boards.c
-@@ -115,13 +115,15 @@ static void digic4_add_k8p3215uqb_rom(DigicState *s, hwaddr addr,
- {
- #define FLASH_K8P3215UQB_SIZE (4 * 1024 * 1024)
- #define FLASH_K8P3215UQB_SECTOR_SIZE (64 * 1024)
-+    DeviceState *dev;
- 
--    pflash_cfi02_register(addr, "pflash", FLASH_K8P3215UQB_SIZE,
--                          NULL, FLASH_K8P3215UQB_SECTOR_SIZE,
--                          DIGIC4_ROM_MAX_SIZE / FLASH_K8P3215UQB_SIZE,
--                          4,
--                          0x00EC, 0x007E, 0x0003, 0x0001,
--                          0x0555, 0x2aa, 0);
-+    dev = pflash_cfi02_create("pflash", FLASH_K8P3215UQB_SIZE,
-+                              NULL, FLASH_K8P3215UQB_SECTOR_SIZE,
-+                              DIGIC4_ROM_MAX_SIZE / FLASH_K8P3215UQB_SIZE,
-+                              4,
-+                              0x00EC, 0x007E, 0x0003, 0x0001,
-+                              0x0555, 0x2aa, 0);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
- 
-     digic_load_rom(s, addr, FLASH_K8P3215UQB_SIZE, filename);
- }
-diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
-index b65c020115..9f75d69b7f 100644
---- a/hw/arm/musicpal.c
-+++ b/hw/arm/musicpal.c
-@@ -1275,12 +1275,13 @@ static void musicpal_init(MachineState *machine)
-          * 0xFF800000 (if there is 8 MB flash). So remap flash access if the
-          * image is smaller than 32 MB.
-          */
--        pflash_cfi02_register(0x100000000ULL - MP_FLASH_SIZE_MAX,
--                              "musicpal.flash", flash_size,
--                              blk, 0x10000,
--                              MP_FLASH_SIZE_MAX / flash_size,
--                              2, 0x00BF, 0x236D, 0x0000, 0x0000,
--                              0x5555, 0x2AAA, 0);
-+        dev = pflash_cfi02_create("musicpal.flash", flash_size,
-+                                  blk, 0x10000,
-+                                  MP_FLASH_SIZE_MAX / flash_size,
-+                                  2, 0x00BF, 0x236D, 0x0000, 0x0000,
-+                                  0x5555, 0x2AAA, 0);
-+        sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0,
-+                        0x100000000ULL - MP_FLASH_SIZE_MAX);
-     }
-     sysbus_create_simple(TYPE_MV88W8618_FLASHCFG, MP_FLASHCFG_BASE, NULL);
- 
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index 3190cc0b8d..e55aff5532 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -218,11 +218,11 @@ static void zynq_init(MachineState *machine)
-     DriveInfo *dinfo = drive_get(IF_PFLASH, 0, 0);
- 
-     /* AMD */
--    pflash_cfi02_register(0xe2000000, "zynq.pflash", FLASH_SIZE,
+diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
+index 39fc4f19d9..43a8c56d14 100644
+--- a/hw/sh4/r2d.c
++++ b/hw/sh4/r2d.c
+@@ -302,10 +302,11 @@ static void r2d_init(MachineState *machine)
+      * addressable in words of 16bit.
+      */
+     dinfo = drive_get(IF_PFLASH, 0, 0);
+-    pflash_cfi02_register(0x0, "r2d.flash", FLASH_SIZE,
 -                          dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
--                          FLASH_SECTOR_SIZE, 1,
--                          1, 0x0066, 0x0022, 0x0000, 0x0000, 0x0555, 0x2aa,
--                          0);
-+    dev = pflash_cfi02_create("zynq.pflash", FLASH_SIZE,
+-                          64 * KiB, 1, 2, 0x0001, 0x227e, 0x2220, 0x2200,
+-                          0x555, 0x2aa, 0);
++    dev = pflash_cfi02_create("r2d.flash", FLASH_SIZE,
 +                              dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
-+                              FLASH_SECTOR_SIZE, 1, 1,
-+                              0x0066, 0x0022, 0x0000, 0x0000, 0x0555, 0x2aa, 0);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0xe2000000);
++                              64 * KiB, 1, 2, 0x0001, 0x227e, 0x2220, 0x2200,
++                              0x555, 0x2aa, 0);
++    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0x00000000);
  
-     /* Create the main clock source, and feed slcr with it */
-     zynq_machine->ps_clk = CLOCK(object_new(TYPE_CLOCK));
+     /* NIC: rtl8139 on-board, and 2 slots. */
+     for (i = 0; i < nb_nics; i++)
 -- 
 2.38.1
 
