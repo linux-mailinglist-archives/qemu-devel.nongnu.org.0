@@ -2,29 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 881AD65D1D0
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 12:52:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 791E065D1D3
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 12:53:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD2Iy-0007UF-3z; Wed, 04 Jan 2023 06:51:36 -0500
+	id 1pD2Iy-0007VD-JO; Wed, 04 Jan 2023 06:51:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=6L6x=5B=kaod.org=clg@ozlabs.org>)
- id 1pD2Iw-0007S8-4X; Wed, 04 Jan 2023 06:51:34 -0500
+ id 1pD2Ix-0007Tj-4b; Wed, 04 Jan 2023 06:51:35 -0500
 Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=6L6x=5B=kaod.org=clg@ozlabs.org>)
- id 1pD2Iu-0002PF-DV; Wed, 04 Jan 2023 06:51:33 -0500
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4Nn7H32JpWz4y0Q;
- Wed,  4 Jan 2023 22:51:27 +1100 (AEDT)
+ id 1pD2Iv-0002Pm-Fl; Wed, 04 Jan 2023 06:51:34 -0500
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4Nn7H66HDyz4y0f;
+ Wed,  4 Jan 2023 22:51:30 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Nn7Gy6Zy1z4y0B;
- Wed,  4 Jan 2023 22:51:22 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Nn7H35vnfz4y0B;
+ Wed,  4 Jan 2023 22:51:27 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-s390x@nongnu.org
 Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
@@ -33,15 +34,10 @@ Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
  Eric Farman <farman@linux.ibm.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>
-Subject: [PATCH 1/5] confidential guest support: Introduce a 'check' class
- handler
-Date: Wed,  4 Jan 2023 12:51:07 +0100
-Message-Id: <20230104115111.3240594-2-clg@kaod.org>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
+Subject: [PATCH 2/5] s390x/pv: Implement CGS check handler
+Date: Wed,  4 Jan 2023 12:51:08 +0100
+Message-Id: <20230104115111.3240594-3-clg@kaod.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230104115111.3240594-1-clg@kaod.org>
 References: <20230104115111.3240594-1-clg@kaod.org>
@@ -73,64 +69,66 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Cédric Le Goater <clg@redhat.com>
 
-Some machines have specific requirements to activate confidential
-guest support. Add a class handler to the confidential guest support
-interface to let the arch implementation perform extra checks.
+When a protected VM is started with the maximum number of CPUs (248),
+the service call providing information on the CPUs requires more
+buffer space than allocated and QEMU disgracefully aborts :
 
-Cc: Eduardo Habkost <eduardo@habkost.net>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: "Philippe Mathieu-Daudé" <philmd@linaro.org>
-Cc: Yanan Wang <wangyanan55@huawei.com>
+    LOADPARM=[........]
+    Using virtio-blk.
+    Using SCSI scheme.
+    ...................................................................................
+    qemu-system-s390x: KVM_S390_MEM_OP failed: Argument list too long
+
+Implement a test for this limitation in the ConfidentialGuestSupportClass
+check handler and provide some valid information to the user before the
+machine starts.
+
 Signed-off-by: Cédric Le Goater <clg@redhat.com>
 ---
- include/exec/confidential-guest-support.h |  4 +++-
- hw/core/machine.c                         | 11 ++++++-----
- 2 files changed, 9 insertions(+), 6 deletions(-)
+ hw/s390x/pv.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
-index ba2dd4b5df..9e6d362b26 100644
---- a/include/exec/confidential-guest-support.h
-+++ b/include/exec/confidential-guest-support.h
-@@ -23,7 +23,8 @@
- #include "qom/object.h"
- 
- #define TYPE_CONFIDENTIAL_GUEST_SUPPORT "confidential-guest-support"
--OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, CONFIDENTIAL_GUEST_SUPPORT)
-+OBJECT_DECLARE_TYPE(ConfidentialGuestSupport, ConfidentialGuestSupportClass,
-+                    CONFIDENTIAL_GUEST_SUPPORT)
- 
- struct ConfidentialGuestSupport {
-     Object parent;
-@@ -55,6 +56,7 @@ struct ConfidentialGuestSupport {
- 
- typedef struct ConfidentialGuestSupportClass {
-     ObjectClass parent;
-+    bool (*check)(const Object *obj, Error **errp);
- } ConfidentialGuestSupportClass;
- 
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index f589b92909..bab43cd675 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -502,11 +502,12 @@ static void machine_check_confidential_guest_support(const Object *obj,
-                                                      Object *new_target,
-                                                      Error **errp)
- {
--    /*
--     * So far the only constraint is that the target has the
--     * TYPE_CONFIDENTIAL_GUEST_SUPPORT interface, and that's checked
--     * by the QOM core
--     */
-+    ConfidentialGuestSupportClass *cgsc =
-+        CONFIDENTIAL_GUEST_SUPPORT_GET_CLASS(new_target);
-+
-+    if (cgsc->check) {
-+        cgsc->check(obj, errp);
-+    }
+diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+index 8dfe92d8df..3a7ec70634 100644
+--- a/hw/s390x/pv.c
++++ b/hw/s390x/pv.c
+@@ -266,6 +266,26 @@ int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+     return 0;
  }
  
- static bool machine_get_nvdimm(Object *obj, Error **errp)
++static bool s390_pv_check_cpus(Error **errp)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++    MachineClass *mc = MACHINE_GET_CLASS(ms);
++    uint32_t pv_max_cpus = mc->max_cpus - 1;
++
++    if (ms->smp.max_cpus > pv_max_cpus) {
++        error_setg(errp, "Protected VMs support a maximum of %d CPUs",
++                   pv_max_cpus);
++        return false;
++    }
++
++    return true;
++}
++
++static bool s390_pv_guest_check(const Object *obj, Error **errp)
++{
++    return s390_pv_check_cpus(errp);
++}
++
+ OBJECT_DEFINE_TYPE_WITH_INTERFACES(S390PVGuest,
+                                    s390_pv_guest,
+                                    S390_PV_GUEST,
+@@ -275,6 +295,9 @@ OBJECT_DEFINE_TYPE_WITH_INTERFACES(S390PVGuest,
+ 
+ static void s390_pv_guest_class_init(ObjectClass *oc, void *data)
+ {
++    ConfidentialGuestSupportClass *cgsc = CONFIDENTIAL_GUEST_SUPPORT_CLASS(oc);
++
++    cgsc->check = s390_pv_guest_check;
+ }
+ 
+ static void s390_pv_guest_init(Object *obj)
 -- 
 2.38.1
 
