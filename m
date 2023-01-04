@@ -2,94 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C30565D864
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 17:14:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3D565D8F4
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 17:20:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD6Na-00047l-G8; Wed, 04 Jan 2023 11:12:38 -0500
+	id 1pD6U6-0006Y5-G5; Wed, 04 Jan 2023 11:19:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pD6NY-00047C-MD
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:12:36 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pD6NW-0004yT-DZ
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:12:36 -0500
-Received: by mail-ej1-x633.google.com with SMTP id jo4so83809112ejb.7
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 08:12:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=govlnVA/VYqvVYKVSZE+CubqtU9g2EyfrdDcVjmMz6Y=;
- b=hk0Ny9eqmlchaMtYq7vYJnD2Xmrs4Tdbt0M/fiPj9+Csj1z3CNL44oGwDKK7yRjdRv
- 1GdpucAx2w2stB9XA7MInVGx4tWEX53dQDzTKfVvI8RD94sYVc9V3XySjo5UpSkEklwC
- +CHaz0G97T/v2UggrwM4/Q/JJ/92B3hhQmSQNduXZ0astWp1XVfTMeWdTeDmV1hPxwf4
- NqCdGLvOcxw5C16GR0why6KidTYpZEWceNhodGD75yk/jbINnVgg4DFew3nfk410nY0X
- 0exWpyG1wsR6uA9qu1lmrXlrntfKKHI87YrgZmVEyzgYnUF0kOEAWU0acaw4J/zZaj+n
- RyTQ==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pD6Tv-0006XK-3l
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:19:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pD6Tt-0000Ak-E9
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:19:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672849148;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+HSNzI+YOPFQkjmSGm9B1tfL6z3HIVtzrg97plOMMJg=;
+ b=HGq6ZD+MSI5wzwzaVPtq78PmKVGYoGHEx/5c24QkUMPKdSOWKyxfV1yfHOeM5WuZoLGwpo
+ RP6g2SpJP0wBjjjSYraZnyh2XiTPPTmgLiYoovBIuhssZ2GVvD5qVDLRBzVPBrdvDDXmtY
+ vKR/VSKUuonrrZ0smBrivZlW2e/+73w=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-53-CkCCEHpNMn-MMdvF1hWu2g-1; Wed, 04 Jan 2023 11:19:06 -0500
+X-MC-Unique: CkCCEHpNMn-MMdvF1hWu2g-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n18-20020a05600c4f9200b003d993e08485so11000500wmq.2
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 08:19:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=govlnVA/VYqvVYKVSZE+CubqtU9g2EyfrdDcVjmMz6Y=;
- b=JAN/+vVmnYzzYnooeLbgYhU6I6NvvMDyPB1uH3pu7rYjUmWR0Bkx2dIrtUQ1BLMfin
- kMIfOrzJpvZTNQq6/b0N1lv565Jn4h/BEddvyaCOc2DD64FNea8HFM2ikbTpynN9zG2Q
- aCFOxztkCMKuXJzaCY7fB7YF0wSxX2EBwPqSHIA/fAE2dBSBcCpmYn9eDYyW5EpfQqqv
- qVNI5S140yPK/Kwao4J5QO8+P765YMv8MjIbGAaPnjayaL74elx17s3rj07h6HLInADW
- nyMyPfmaClSgWa/AMES38JVQzwBu/pU5dkCgh1+X41iFyxMvHhlaNvY7SB9L9bk9W7JJ
- 1i8w==
-X-Gm-Message-State: AFqh2kqKehc1V7MmCDajYA29dBRejSbDU/mOMVxFosa5B6OMVz7hbI8x
- TkO5AGUcrY7/nn3djjLNoWI=
-X-Google-Smtp-Source: AMrXdXtr3CdYAVbyb1GO2YeoRc3JJBajOiJ++PsT7D527I82IhxNk6hCymLzpQxg4HAA+IfNwMnr1Q==
-X-Received: by 2002:a17:907:b684:b0:7c0:a99c:485c with SMTP id
- vm4-20020a170907b68400b007c0a99c485cmr45324433ejc.68.1672848752666; 
- Wed, 04 Jan 2023 08:12:32 -0800 (PST)
-Received: from ?IPv6:::1?
- (p200300faaf0bb2008108eedf25879029.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:8108:eedf:2587:9029])
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+HSNzI+YOPFQkjmSGm9B1tfL6z3HIVtzrg97plOMMJg=;
+ b=vErQZooMXrpa5JFkAjIeBtJoNGYI8HwviGFJtKh6UmJNtu/0+/zp6xfIXyhjGFUHmK
+ 2xPgOvOR7cvGWuNTxBS5J1wc/rFD+J7yK/+CmPJr8ZA0njbbh0ENotAnETJLcdQd/egP
+ ptTpdEHiWenPD30inG6eyRFFX3CfZ4hzhV1i9KyRv8Z1cHgUoSrjjQlwVipnfrJATyHv
+ mwvcEQLt4RsXLQ1Q7ukRd4Mim+SoH1V3j9f6N5PVSLyqR2pxQySD3beHj+UQcrwLkOhF
+ A/IpjwlFIQ7ImjAQKIXlm65LeDb72BgXoPR1fKNmN6TFQzAqUo3/hv8u5W44tlund/ki
+ iQYQ==
+X-Gm-Message-State: AFqh2kp8wk8JFoy6fJKIXdD+49Zu/lmL0DsxxMW8JF2B+4+Tn/U0CrFH
+ qsQrh+Wu0SK4dySaaSsBSFMGBrwxOxJiPiN7PGGSH6zNU5QVj0quoRISaJDLXhAKonxZGaL0R9b
+ yeoGgJOhSKbFjPH8=
+X-Received: by 2002:a05:6000:1b88:b0:242:5dd7:8115 with SMTP id
+ r8-20020a0560001b8800b002425dd78115mr28744776wru.64.1672849145953; 
+ Wed, 04 Jan 2023 08:19:05 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvA5qa1cLdO5pUrucKBoKnZSM5+f2+RV47nAPV4BDN/yyUPI1u+RZ0knEWVB0cMkaey3vGFrQ==
+X-Received: by 2002:a05:6000:1b88:b0:242:5dd7:8115 with SMTP id
+ r8-20020a0560001b8800b002425dd78115mr28744763wru.64.1672849145759; 
+ Wed, 04 Jan 2023 08:19:05 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
  by smtp.gmail.com with ESMTPSA id
- lj2-20020a170906f9c200b007a4e02e32ffsm15454154ejb.60.2023.01.04.08.12.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 08:12:32 -0800 (PST)
-Date: Wed, 04 Jan 2023 16:12:27 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Chuck Zmudzinski <brchuckz@aol.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-CC: qemu-devel@nongnu.org, Paul Durrant <paul@xen.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <eduardo@habkost.net>, 
- xen-devel@lists.xenproject.org,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 0/6] Resolve TYPE_PIIX3_XEN_DEVICE
-In-Reply-To: <00094755-ca61-372d-0bcf-540fe2798f5c@aol.com>
-References: <20230102213504.14646-1-shentey@gmail.com>
- <bd4daee7-09df-4bfa-3b96-713690be9f4e@aol.com>
- <0de699a7-98b8-e320-da4d-678d0f594213@linaro.org>
- <CAG4p6K7hcJ-47GvsEvmuBmdwP2LsEC4WLkw_t6ZfwhqakYUEyQ@mail.gmail.com>
- <aed4f2c1-83f7-163a-fb44-f284376668dc@aol.com>
- <AB058B2A-406E-487B-A1BA-74416C310B7A@gmail.com>
- <00094755-ca61-372d-0bcf-540fe2798f5c@aol.com>
-Message-ID: <7E657325-705A-47EA-A334-0B59DF0DF772@gmail.com>
+ r17-20020adfdc91000000b0027973315213sm29575787wrj.89.2023.01.04.08.19.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Jan 2023 08:19:05 -0800 (PST)
+Date: Wed, 4 Jan 2023 16:19:03 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com, berrange@redhat.com,
+ philmd@linaro.org
+Subject: Re: [PATCH v3 02/18] ui: Fix silent truncation of numeric keys in
+ HMP sendkey
+Message-ID: <Y7Wm94X4gxl738Fd@work-vm>
+References: <20221220090645.2844881-1-armbru@redhat.com>
+ <20221220090645.2844881-3-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221220090645.2844881-3-armbru@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,223 +105,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+* Markus Armbruster (armbru@redhat.com) wrote:
+> Keys are int.  HMP sendkey assigns them from the value strtoul(),
+> silently truncating values greater than INT_MAX.  Fix to reject them.
+> 
+> While there, use qemu_strtoul() instead of strtoul() so checkpatch.pl
+> won't complain.
 
+Last time through you said you could switch to qemu_strtoui, but
+I just noticed we've actually got a qemu_strto*i* - that
+would remove the value comparison
 
-Am 4=2E Januar 2023 13:11:16 UTC schrieb Chuck Zmudzinski <brchuckz@aol=2E=
-com>:
->On 1/4/2023 7:13 AM, Bernhard Beschow wrote:
->> Am 4=2E Januar 2023 08:18:59 UTC schrieb Chuck Zmudzinski <brchuckz@aol=
-=2Ecom>:
->> >On 1/3/2023 8:38 AM, Bernhard Beschow wrote:
->> >>
->> >>
->> >> On Tue, Jan 3, 2023 at 2:17 PM Philippe Mathieu-Daud=C3=A9 <philmd@l=
-inaro=2Eorg> wrote:
->> >>
->> >>     Hi Chuck,
->> >>
->> >>     On 3/1/23 04:15, Chuck Zmudzinski wrote:
->> >>     > On 1/2/23 4:34=E2=80=AFPM, Bernhard Beschow wrote:
->> >>     >> This series first renders TYPE_PIIX3_XEN_DEVICE redundant and=
- finally removes
->> >>     >> it=2E The motivation is to 1/ decouple PIIX from Xen and 2/ t=
-o make Xen in the PC
->> >>     >> machine agnostic to the precise southbridge being used=2E 2/ =
-will become
->> >>     >> particularily interesting once PIIX4 becomes usable in the PC=
- machine, avoiding
->> >>     >> the "Frankenstein" use of PIIX4_ACPI in PIIX3=2E
->> >>     >>
->> >>     >> Testing done:
->> >>     >> None, because I don't know how to conduct this properly :(
->> >>     >>
->> >>     >> Based-on: <20221221170003=2E2929-1-shentey@gmail=2Ecom>
->> >>     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "[PATCH v4 00/30] Co=
-nsolidate PIIX south bridges"
->> >>
->> >>     This series is based on a previous series:
->> >>     https://lore=2Ekernel=2Eorg/qemu-devel/20221221170003=2E2929-1-s=
-hentey@gmail=2Ecom/
->> >>     (which itself also is)=2E
->> >>
->> >>     >> Bernhard Beschow (6):
->> >>     >>=C2=A0 =C2=A0 include/hw/xen/xen: Make xen_piix3_set_irq() gen=
-eric and rename it
->> >>     >>=C2=A0 =C2=A0 hw/isa/piix: Reuse piix3_realize() in piix3_xen_=
-realize()
->> >>     >>=C2=A0 =C2=A0 hw/isa/piix: Wire up Xen PCI IRQ handling outsid=
-e of PIIX3
->> >>     >>=C2=A0 =C2=A0 hw/isa/piix: Avoid Xen-specific variant of piix_=
-write_config()
->> >>     >>=C2=A0 =C2=A0 hw/isa/piix: Resolve redundant k->config_write a=
-ssignments
->> >>     >>=C2=A0 =C2=A0 hw/isa/piix: Resolve redundant TYPE_PIIX3_XEN_DE=
-VICE
->> >>     >>
->> >>     >>=C2=A0 =C2=A0hw/i386/pc_piix=2Ec=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| 34 ++++++++++++++++--
->> >>     >>=C2=A0 =C2=A0hw/i386/xen/xen-hvm=2Ec=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 9 +++--
->> >>     >>=C2=A0 =C2=A0hw/isa/piix=2Ec=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0| 66 +----------------------------------
->> >>     >
->> >>     > This file does not exist on the Qemu master branch=2E
->> >>     > But hw/isa/piix3=2Ec and hw/isa/piix4=2Ec do exist=2E
->> >>     >
->> >>     > I tried renaming it from piix=2Ec to piix3=2Ec in the patch, b=
-ut
->> >>     > the patch set still does not apply cleanly on my tree=2E
->> >>     >
->> >>     > Is this patch set re-based against something other than
->> >>     > the current master Qemu branch?
->> >>     >
->> >>     > I have a system that is suitable for testing this patch set, b=
-ut
->> >>     > I need guidance on how to apply it to the Qemu source tree=2E
->> >>
->> >>     You can ask Bernhard to publish a branch with the full work,
->> >>
->> >>
->> >> Hi Chuck,
->> >>
->> >> =2E=2E=2E or just visit https://patchew=2Eorg/QEMU/20230102213504=2E=
-14646-1-shentey@gmail=2Ecom/ =2E There you'll find a git tag with a complet=
-e history and all instructions!
->> >>
->> >> Thanks for giving my series a test ride!
->> >>
->> >> Best regards,
->> >> Bernhard
->> >>
->> >>     or apply each series locally=2E I use the b4 tool for that:
->> >>     https://b4=2Edocs=2Ekernel=2Eorg/en/latest/installing=2Ehtml
->> >>
->> >>     i=2Ee=2E:
->> >>
->> >>     $ git checkout -b shentey_work
->> >>     $ b4 am 20221120150550=2E63059-1-shentey@gmail=2Ecom
->> >>     $ git am
->> >>     =2E/v2_20221120_shentey_decouple_intx_to_lnkx_routing_from_south=
-_bridges=2Embx
->> >>     $ b4 am 20221221170003=2E2929-1-shentey@gmail=2Ecom
->> >>     $ git am
->> >>     =2E/v4_20221221_shentey_this_series_consolidates_the_implementat=
-ions_of_the_piix3_and_piix4_south=2Embx
->> >>     $ b4 am 20230102213504=2E14646-1-shentey@gmail=2Ecom
->> >>     $ git am =2E/20230102_shentey_resolve_type_piix3_xen_device=2Emb=
-x
->> >>
->> >>     Now the branch 'shentey_work' contains all the patches and you c=
-an test=2E
->> >>
->> >>     Regards,
->> >>
->> >>     Phil=2E
->> >>
->> >
->> >Hi Phil and Bernard,
->> >
->> >I tried applying these 3 patch series on top of the current qemu
->> >master branch=2E
->> >
->> >Unfortunately, I saw a regression, so I can't give a tested-by tag yet=
-=2E
->>
->> Hi Chuck,
->>
->> Thanks for your valuable test report! I think the culprit may be commit=
- https://lists=2Enongnu=2Eorg/archive/html/qemu-devel/2023-01/msg00102=2Eht=
-ml where now 128 PIRQs are considered rather than four=2E I'll revisit my s=
-eries and will prepare a v2 in the next days=2E I think there is no need fo=
-r further testing v1=2E
->>
->> Thanks,
->> Bernhard
->
->Hi Bernhard,
->
->Thanks for letting me know I do not need to test v1 further=2E I agree th=
-e
->symptoms are that it is an IRQ problem - it looks like IRQs associated wi=
-th
->the emulated usb tablet device are not making it to the guest with the
->patched v1 piix device on xen=2E
+Dave
 
-All PCI IRQs were routed to PCI slot 0=2E This should be fixed in v2 now=
-=2E
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  monitor/hmp-cmds.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index ed78a87ddd..b8e294e6fa 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -1549,8 +1549,13 @@ void hmp_sendkey(Monitor *mon, const QDict *qdict)
+>          v = g_malloc0(sizeof(*v));
+>  
+>          if (strstart(keys, "0x", NULL)) {
+> -            char *endp;
+> -            int value = strtoul(keys, &endp, 0);
+> +            const char *endp;
+> +            unsigned long value;
+> +
+> +            if (qemu_strtoul(keys, &endp, 0, &value) < 0
+> +                || value >= INT_MAX) {
+> +                goto err_out;
+> +            }
+>              assert(endp <= keys + keyname_len);
+>              if (endp != keys + keyname_len) {
+>                  goto err_out;
+> -- 
+> 2.38.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
->I will be looking for your v2 in coming days and try it out also!
-
-Thank you! Here it is: https://patchew=2Eorg/QEMU/20230104144437=2E27479-1=
--shentey@gmail=2Ecom/
-
-Best regards,
-Bernhard
-
->
->Best regards,
->
->Chuck
->
->>
->> >
->> >Here are the details of the testing I did so far:
->> >
->> >Xen only needs one target, the i386-softmmu target which creates
->> >the qemu-system-i386 binary that Xen uses for its device model=2E
->> >That target compiled and linked with no problems with these 3
->> >patch series applied on top of qemu master=2E I didn't try building
->> >any other targets=2E
->> >
->> >My tests used the xenfv machine type with the xen platform
->> >pci device, which is ordinarily called a xen hvm guest with xen
->> >paravirtualized network and block device drivers=2E It is based on the
->> >i440fx machine type and so emulates piix3=2E I tested the xen
->> >hvm guests with two different configurations as described below=2E
->> >
->> >I tested both Linux and Windows guests, with mixed results=2E With the
->> >current Qemu master (commit 222059a0fccf4 without the 3 patch
->> >series applied), all tested guest configurations work normally for bot=
-h
->> >Linux and Windows guests=2E
->> >
->> >With these 3 patch series applied on top of the qemu master branch,
->> >which tries to consolidate piix3 and piix4 and resolve the xen piix3
->> >device that my guests use, I unfortunately got a regression=2E
->> >
->> >The regression occurred with a configuration that uses the qemu
->> >bochs stdvga graphics device with a vnc display, and the qemu
->> >usb-tablet device to emulate the mouse and keyboard=2E After applying
->> >the 3 patch series, the emulated mouse is not working at all for Linux
->> >guests=2E It works for Windows guests, but the mouse pointer in the
->> >guest does not follow the mouse pointer in the vnc window as closely
->> >as it does without the 3 patch series=2E So this is the bad news of a
->> >regression introduced somewhere in these 3 patch series=2E
->> >
->> >The good news is that by using guests in a configuration that does
->> >not use the qemu usb-tablet device or the bochs stdvga device but
->> >instead uses a real passed through usb3 controller with a real usb
->> >mouse and a real usb keyboard connected, and also the real sound
->> >card and vga device passed through and a 1920x1080 HDMI monitor,
->> >there is no regression introduced by the 3 patch series and both Linux
->> >and Windows guests in that configuration work perfectly=2E
->> >
->> >My next test will be to test Bernhard's published git tag without
->> >trying to merge the 3 patch series into master and see if that also
->> >has the regression=2E I also will double check that I didn't make
->> >any mistakes in merging the 3 patch series by creating the shentey_wor=
-k
->> >branch with b4 and git as Phil described and compare that to my
->> >working tree=2E
->> >
->> >I also will try testing only the first series, then the first series a=
-nd the
->> >second series, to try to determine in which of the 3 series the regres=
-sion
->> >is introduced=2E
->> >
->> >Best regards,
->> >
->> >Chuck
->
 
