@@ -2,99 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E4365DA60
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 17:44:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB0665DAA6
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 17:48:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD6r3-0004Fu-Hf; Wed, 04 Jan 2023 11:43:05 -0500
+	id 1pD6vI-0005lo-7R; Wed, 04 Jan 2023 11:47:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pD6r0-0004Fd-GV
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:43:02 -0500
-Received: from sonic309-21.consmr.mail.gq1.yahoo.com ([98.137.65.147])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pD6vE-0005l3-I5
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:47:24 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pD6qy-00011A-Np
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:43:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1672850569; bh=gkECN0M7dTCv9hA50jRyxlhxwaSHqhYobw90TKq7mWM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
- b=h8oY8n4lLbImB1k6gMs4kYXc4cNXruE9QK7kq7ctrtMOTKcGEyQR3UEhj1g9LiQW8G8HQ215zzdM1N3uYxFtojKOPkWG6aoUCpE+ZdjEGE7kD3LqmIDu0NiG5wSqJryzR1V0IWBtCiAjPvlXh/7KFvC0kLfkLQ4hneRcZsgVZz1TSG2/vbRJxSRxO+JMFySsIDZBFnREiFfwaWs+gLyKVPsTb4IqcJHEANa1a8t2MqaCCJ5N0UOPql3J9Anje6DeTiSnmhZw7IFJqURXiwctYcmAlO7SXYWXDweeOSxrFeF1R68P3uB69xG+zHu6uacNG5wEKOJBQSYcZYsvwmnn4w==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1672850569; bh=02o3orJMLFp/E0j67fA2cazTjOZU8h9oAObFnE24cw2=;
- h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
- b=lkkqrk2W9BhxIhO66ofRokPWnaWMyJ3Ygie8qiTAKKM7GtnrbV6JtfdjM0+EH8f5ioGJKOiRFZHQ/3U6Id7sI/N/GI9/GnuU716vvxg/eJBkeGc/jlLnOpqH+rXNWi40e95rbxsJI6KS7EFq+mTs3CERXL2kOOca527EXRWVXpL3bszjreGg0tlrCHYkfXeZb7JDQxnpcSPWxb7PEwAtghnbTZWaNius53k009QGyTLPKvnO/PnBtZaeT24SdUz5YGVhHYE1MyLhaAGnb5b63zE/qPI2zKHigsVI6SHkmK/Ozq78LjIIDfKQV8Km0dvyyRSGn+tmqgBIsxU1sBIraQ==
-X-YMail-OSG: vknwtRAVM1l1uz1Q_nHZbH.B8L8gyl.qQ.KBCiCZrU_RCKZy0AnUDBa42P9Tzru
- iXAXZJghdT5Gr6nTd95_2CNoTsA.SvwRJjoUWPYxjLAM8zoyq0Sftla.zHqD5U3_jIQxpGgWReks
- m4iCgagvyS96mwvKkE6OoObuSyqoJ9.cbmHGU.IDplR0uX2upFsq0OxzzGF6m9Vlrta_uzNZ6Y32
- ZSzit1PdsgbIO4mZyf_d18Vwrjb2oHQ.8terXvT8KACy9Sf5sdSlils4Snk8oQIcH4CMy43hUFpB
- .Gfi3OtGCB4aiik236yGWOgJVNWUeNLvS3BQCjVIdO7SeE4id3cMAqp3z5R84bjUfktHEFjA5Mtj
- r2YVQGwdllrd2d9CJ_O_KV_Ipanu5viRC4VUl6.8nW.itbEHQn3.5VQuKscFo52kX3D2WjTAxrrz
- lNhwT1DBHsqRT3oELI23i_G2d5pl7AoBYssEiYeJWBu1.RJ8.cJ1LQtuDE.gRhu6N_nA19bU38PM
- 8sX5eo8x7PXyPemEtXz1tfrBe1yJxjZqnuTYslLGWNZT1zs42UsQcthR9ZCI6COOJeUhZJUP5PqJ
- N5nvfZxg4mO4XRzbMI0IxxWP.SyHTwDD3FjmuPAKI2KfUYF8i8wNT0xpzu52fYOF01N771kaG36M
- lHgXM8WQrNHocPLW.W2dl78JPjtxgOOLeFMu0Xpl3wZ3OfH.itcTiaskB3z7.iKH2sI.uuCm4oxF
- LCttbeR92n8eF41rLX3jYVGmpdX9V3aZ2wytMm0J2lxM_Vle4sXouGvuVoe1Zf5hNSCogsegN_vj
- ljmGMXb0V4HHhqAjdYm9tuM5_8P5jgAm1wFOpOIUgu2wHKkVgxIWpGZDLBvJQm6UDNHYeq.u1QiL
- cquBrZjXaKtM8ws6DjuvTv3mhguu8qXGRC.k7b4vaV_7XfWdMsjGn3PWFRV68gTGAvYKLygWv3Qv
- 88_vieb4xNpIjUdGjZNs3fUTWNDs90b8ebVChnkhZlTa3.LbOHYupm3BJrPvNN9cTvzu9F.0gKHl
- v55ufBNyKa47L9NwwdTzOgQIOzF_bG9TCWmJKYJ2QOt5wiwoEeu8APYbbVY5pliyDGipzXRXgPEZ
- akot0gTNo58w3LHV2IM0ycODKBXCkRSNv1mMoJd1omQITPAGGm5pwxC3OeLal7jEFZV.KiE.4ncz
- 7ydc1i4rHU.45Ez0sno7tMlJnmtm23n4yWRobmc57yHrKvi8GQi3r7zVXVJ65lchQhygU83s7f17
- DafsXn608z0Hk0KOC56QGEcysFYRuDMz3Ly7dw99EiOmpmXSUEM.zwJETceKuz89keWBxJgio_Kk
- V1S_5OYaHq3ckztTMBe_68OfMBQPoafkosXYdVbiwMvrg3sdtwayGCHWr9ZaAjG2HHccypxywy6b
- OZ4KMMuFUeMa5NN8LZgDvzTPqOy9hVMJBvDPz_knuf1eWyi0hQTjGvjHA.kllO63kCu6g4BZGjEE
- 82rGQ0tM2lqSSTznD6tf871ijV2mwNijMI_hpAIpylW2KqxZQfP9SwyxBLR1CFa._bpNDHND5u1k
- oayEKK0sz8blLKg7SJTrQNNN9xL5WW5BUHuc7AU5JBPBzVm5aICylhfgdByJg0shVSK9l40ID_cL
- AAkOETf4ddNcfhYA4YlfqiDptlRX52tH6EzOTk.F8f1w3WbCkf1EzP_Bm7QTlLXWqTkLspnyzOze
- AS_vTi6DYOZ_N1csoX._HWEqQMHoQpJCVJY8G4NMm7PwlATHw7CceuwmBweGeHjCpOhrXPH2NIFG
- B7im88usBn0wHgjb24nZrbCQ0rwJnQ8KZiJGEw6G.YDNn6.sQqPYV37IqFzmu.KTryK8CEWwbYSr
- XrYFaF6YmyL7u2tnS33ZvPur3CQpqY5_cIxQDVvMlxWJUzfbPJ5E3Y.j_4_pbjbiXQp.7R8geggv
- IKu9.wyEvLN8R3nK8Vj_s6TW1oF5ZsvpkMtFGyZbiF.RHm9MoE35LeCg1Ju5pSmqv8NenFrd0axY
- nlwlPXOMzXo2vqBHhyrWhCgEMfqJuAqaiv2O_yQ3q6ADJ6DidlfuKyj.HD9R8vRNzQFk6y5pKab0
- tQOArth2F3MVhO4HQA7oEWNBrxk7U9OGJT1MdRmFm84Mupmn7Q.OyFyIaY4u4hKAivSpxkKj30WT
- irJnBuvWUmIz35PJLqwhK4Z5I.P20Ex3zOiFBa6fVC8wxE0q105DsBQxTTj6BTvVshDNKuFSMKcT
- J3nr7F4iEZpwQNQUsf5JXjHo-
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic309.consmr.mail.gq1.yahoo.com with HTTP; Wed, 4 Jan 2023 16:42:49 +0000
-Received: by hermes--production-ne1-7b69748c4d-bxfkx (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID b97eb870a99459924a5a879746b40ce5; 
- Wed, 04 Jan 2023 16:42:46 +0000 (UTC)
-Message-ID: <30ed41ab-f7c9-15fb-8f4b-b2742b1d4188@aol.com>
-Date: Wed, 4 Jan 2023 11:42:43 -0500
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pD6vC-0001s5-Kx
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 11:47:24 -0500
+Received: by mail-pg1-x536.google.com with SMTP id q9so5649012pgq.5
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 08:47:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vS1WkGSN6euddb1YuoT/joE7wrkmHxgeqr9YUHsFlM8=;
+ b=PmMbKaoASrDYAOPfRy8030/HZrShXm6x+mhJasM9vleKP2cgUuo9do9j+QdlBaC2gd
+ aqsq5VYoY5FcPAV7O0QmzCXH4VGMfUJyYCBfdfpZNsr0jcW/JsoJnN3nwmCsa+LkkRRk
+ 8Hq72JqXmNyRBAoDcYlH5JoA6zjhxQKfkTz1aGvziDf9Fa2EsDqVf90PPHxvTeSE1spo
+ i2mwDWuq8h2RmDrgcnSuSTKfW0v7Q4MHEV1bmrEsJXXCeEa3+buH/AuzHoXnPXr01USk
+ hIPyzPKAvVnqFyQ8aL1aATyHO9XOT/mjaPeVWNHrYbKBwH60k4IicQuYg6oP6fnrBe+2
+ GqaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vS1WkGSN6euddb1YuoT/joE7wrkmHxgeqr9YUHsFlM8=;
+ b=F8ZEOpsxTVyk2ZB8M1pdNig1/1DDTNOgnGCMLBFhcCyfxVFRbVqU5nPaVbzVaHFzgs
+ 5h2J1L8CDiaU1gEd4hqbxs79TV35wy08UJkzfR5p0Xo5UTFJDPXyM+mJgEzgIwNHDWFF
+ Iwx5J8fwst9q57ZQ9ovQ7Y0ciQbllNDM+u3kOzAFXy5szAGLuuxFLH55hkTQw9SeWy2O
+ gclApJKOgGn/HE8dwvJXL1eoN1wkNZyLpfmf1nVjn84aXoGacDHluCTH+9r6U80mSl7u
+ /EiLdFkppjh5d2ilftp//zbh8VHrH50rTvYZnnALk+cGWI4Kw30xUJdwSGwGIKllbRtN
+ mXag==
+X-Gm-Message-State: AFqh2kpo+Lpe6YHxAfC6/s2PE9sV1dgN6wy3o3eEYVMF62gTUHfH5yND
+ M4ARkhkkxLGG6fc26zhIkSyNqNuRso9tCpqhZY0CPQ==
+X-Google-Smtp-Source: AMrXdXtE54mNZubMUSxGgdU5hDGV3n9lQeWlKLutpdAwxSOmcCSNja35EQsGFJwBDAYxfMfsOXu2pWz2GYAavk+X/bA=
+X-Received: by 2002:a63:3d4:0:b0:492:50dc:da4d with SMTP id
+ 203-20020a6303d4000000b0049250dcda4dmr2158475pgd.192.1672850841039; Wed, 04
+ Jan 2023 08:47:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 6/6] hw/isa/piix: Resolve redundant
- TYPE_PIIX3_XEN_DEVICE
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-References: <20230104144437.27479-1-shentey@gmail.com>
- <20230104144437.27479-7-shentey@gmail.com>
-Content-Language: en-US
-From: Chuck Zmudzinski <brchuckz@aol.com>
-In-Reply-To: <20230104144437.27479-7-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.20982
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.65.147; envelope-from=brchuckz@aim.com;
- helo=sonic309-21.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.708,
+References: <cover.1671793476.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1671793476.git.qemu_oss@crudebyte.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 4 Jan 2023 16:47:09 +0000
+Message-ID: <CAFEAcA8VmM_smB_Tgv3GSYYdBKEYxHBvLDfVcrnboxfU-Nc=_g@mail.gmail.com>
+Subject: Re: [PULL 0/5] 9p queue 2022-12-23
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, 
+ Bin Meng <bin.meng@windriver.com>, Markus Armbruster <armbru@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -112,103 +85,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/4/23 9:44 AM, Bernhard Beschow wrote:
-> During the last patches, TYPE_PIIX3_XEN_DEVICE turned into a clone of
-> TYPE_PIIX3_DEVICE. Remove this redundancy.
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->  hw/i386/pc_piix.c             |  4 +---
->  hw/isa/piix.c                 | 20 --------------------
->  include/hw/southbridge/piix.h |  1 -
->  3 files changed, 1 insertion(+), 24 deletions(-)
-> 
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 5738d9cdca..6b8de3d59d 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -235,8 +235,6 @@ static void pc_init1(MachineState *machine,
->      if (pcmc->pci_enabled) {
->          DeviceState *dev;
->          PCIDevice *pci_dev;
-> -        const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
-> -                                         : TYPE_PIIX3_DEVICE;
->          int i;
->  
->          pci_bus = i440fx_init(pci_type,
-> @@ -250,7 +248,7 @@ static void pc_init1(MachineState *machine,
->                                         : pci_slot_get_pirq);
->          pcms->bus = pci_bus;
->  
-> -        pci_dev = pci_new_multifunction(-1, true, type);
-> +        pci_dev = pci_new_multifunction(-1, true, TYPE_PIIX3_DEVICE);
->          object_property_set_bool(OBJECT(pci_dev), "has-usb",
->                                   machine_usb(machine), &error_abort);
->          object_property_set_bool(OBJECT(pci_dev), "has-acpi",
-> diff --git a/hw/isa/piix.c b/hw/isa/piix.c
-> index 98e9b12661..e4587352c9 100644
-> --- a/hw/isa/piix.c
-> +++ b/hw/isa/piix.c
-> @@ -33,7 +33,6 @@
->  #include "hw/qdev-properties.h"
->  #include "hw/ide/piix.h"
->  #include "hw/isa/isa.h"
-> -#include "hw/xen/xen.h"
->  #include "sysemu/runstate.h"
->  #include "migration/vmstate.h"
->  #include "hw/acpi/acpi_aml_interface.h"
-> @@ -465,24 +464,6 @@ static const TypeInfo piix3_info = {
->      .class_init    = piix3_class_init,
->  };
->  
-> -static void piix3_xen_class_init(ObjectClass *klass, void *data)
-> -{
-> -    DeviceClass *dc = DEVICE_CLASS(klass);
-> -    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-> -
-> -    k->realize = piix3_realize;
-> -    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
-> -    k->device_id = PCI_DEVICE_ID_INTEL_82371SB_0;
-> -    dc->vmsd = &vmstate_piix3;
-> -}
-> -
-> -static const TypeInfo piix3_xen_info = {
-> -    .name          = TYPE_PIIX3_XEN_DEVICE,
-> -    .parent        = TYPE_PIIX_PCI_DEVICE,
-> -    .instance_init = piix3_init,
-> -    .class_init    = piix3_xen_class_init,
-> -};
-> -
->  static void piix4_realize(PCIDevice *dev, Error **errp)
->  {
->      ERRP_GUARD();
-> @@ -534,7 +515,6 @@ static void piix3_register_types(void)
->  {
->      type_register_static(&piix_pci_type_info);
->      type_register_static(&piix3_info);
-> -    type_register_static(&piix3_xen_info);
->      type_register_static(&piix4_info);
->  }
->  
-> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-> index 65ad8569da..b1fc94a742 100644
-> --- a/include/hw/southbridge/piix.h
-> +++ b/include/hw/southbridge/piix.h
-> @@ -77,7 +77,6 @@ struct PIIXState {
->  OBJECT_DECLARE_SIMPLE_TYPE(PIIXState, PIIX_PCI_DEVICE)
->  
->  #define TYPE_PIIX3_DEVICE "PIIX3"
-> -#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
->  #define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
->  
->  #endif
+On Fri, 23 Dec 2022 at 11:12, Christian Schoenebeck
+<qemu_oss@crudebyte.com> wrote:
+>
+> The following changes since commit 222059a0fccf4af3be776fe35a5ea2d6a68f9a0b:
+>
+>   Merge tag 'pull-ppc-20221221' of https://gitlab.com/danielhb/qemu into staging (2022-12-21 18:08:09 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20221223
+>
+> for you to fetch changes up to 6ca60cd7a388a776d72739e5a404e65c19460511:
+>
+>   hw/9pfs: Replace the direct call to xxxat() APIs with a wrapper (2022-12-23 11:48:13 +0100)
+>
+> ----------------------------------------------------------------
+> 9pfs: Windows host prep, cleanup
+>
+> * Next preparatory patches for upcoming Windows host support.
+>
+> * Cleanup patches.
+>
 
 
-This fixes the regression with the emulated usb tablet device that I reported in v1 here:
+Applied, thanks.
 
-https://lore.kernel.org/qemu-devel/aed4f2c1-83f7-163a-fb44-f284376668dc@aol.com/
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
-I tested this patch again with all the prerequisites and now with v2 there are no regressions.
-
-Tested-by: Chuck Zmudzinski <brchuckz@aol.com>
+-- PMM
 
