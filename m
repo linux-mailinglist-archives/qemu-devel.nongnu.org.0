@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7349365D67B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 15:47:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4CF65D676
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 15:46:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD51V-0005Gx-8w; Wed, 04 Jan 2023 09:45:45 -0500
+	id 1pD51c-0005Ie-5n; Wed, 04 Jan 2023 09:45:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pD51F-0005F8-0r
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:45:30 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pD51H-0005Fh-Ql
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:45:40 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pD51D-0002po-Aa
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:45:28 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id bn26so13737728wrb.0
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 06:45:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pD51E-0002qq-8E
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:45:30 -0500
+Received: by mail-wr1-x435.google.com with SMTP id d9so4627680wrp.10
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 06:45:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jWsSUpGWnwKoxzlBa2RTErBbFhPwkbaywyVJwsOJ9Nk=;
- b=YlPrLritShhHTaeSGbLlb++n9XqS9VBhEgsy2PwwgydtFFm8UrBGDJ7iUMy8EaMHeH
- 9SBO1n2DyEa7U5jCTGTOQDdlOVkvnVOt1hp8JY3uNc4BSSwglDnmGx2Ero35GpcLb5UZ
- lxDNlGzSW/OY/+wh4qjm3mF5gciV5251nu62u5qkggcU3PaBu3OtH7lvV3LzAIHUHPpY
- i/fR6+7MuwJBxH89wLn/4BkSrlZxnPIIZCNrMfecj4xhrjBhXyY2bE6HPVdgtcf6jPaJ
- iN/TGG+HuHA766ERLaC5giouVQ+KfyHIHRbdPCXS9JqqjfVfCA6wQA2G70I6E8iUvn/6
- 2/8A==
+ bh=9kGVFT98W8E67AgEjIgODwyRdBIrAWSrE8+3kXPv+J8=;
+ b=ZOgIvlh/yVYKniIe+nDfDmWng8AeG9tivYZ8qAp1ejGNIiF0OlcQxQQawaNqvp5kyI
+ db6PpoClsgtQ24vN7b43iAIA4RkZZU2IuOOdMiKpghvD5UHV30I+MHCh5SnMLIlEqhWk
+ mR+3nciHSn7my9PZJ/fxT/DQUm5quEOmOzKRJxhQXvCi1Tlkjaffx44yMQmtlg7jafz9
+ wOcea1XtCncOTtqIdlZLJeZYVgaPkId9KcpEWYWGMpMofvDc7L/iDozqI0Ael/BQ+wHL
+ j+1XDUGTqoI9HCUs5EMZBaZj8RISPwyWc1chvQYyjR/soqxI4/ZON7/PcZZGAwU+arqe
+ ymhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jWsSUpGWnwKoxzlBa2RTErBbFhPwkbaywyVJwsOJ9Nk=;
- b=RKaQBbXyspreX0bdd+pzGLJ55dXm37MYcZOw1p5f1AxGUrguvMI5/v4ZXECeu+6vCQ
- SyU+5I511F9GR53VPkt0PwUKD96kg4t5GgMHy8CHYzc/QRXXs/mSmaU+Mf6Tw20b75Ga
- 2PQvSrj6qJyKFaB/s0Wq9WsyJbGWM6Z/I7p+rNP267QGvpzVAfJLcG/vNqq5yrGx+ElS
- 9C0IVeYxA+BLG8B+hdY6lUWS/w1fscht2Hkbc/M/T8XsYpSj5py4yfNm9B1i+7XDP5qd
- TXnvcM8gNRYqnJ+2D46UglA0ZVbhyaGDRV65Rem6+vx+VloQBTfwhLO+WNE+ACXBiDrQ
- K6ww==
-X-Gm-Message-State: AFqh2kqfiNmfARaGNBDpZprJnlxYlo26/145buUEe/uWd3to7b5zJ9+4
- ErZBh7UGDgnCoI6dnmvRLGdL1G2kVgQ2RA==
-X-Google-Smtp-Source: AMrXdXtdVz6/t/nUcG3XroMW/zOMXTIelUM5J1RHwOTKB+xhi7kJEMzBdrFkmDsmcHHUWZlTsIodDw==
-X-Received: by 2002:adf:f4c5:0:b0:291:3f93:b7d1 with SMTP id
- h5-20020adff4c5000000b002913f93b7d1mr11327512wrp.64.1672843525599; 
- Wed, 04 Jan 2023 06:45:25 -0800 (PST)
+ bh=9kGVFT98W8E67AgEjIgODwyRdBIrAWSrE8+3kXPv+J8=;
+ b=CMzJMxJM2w8dASd+6aCBnQlC8oPnfBSrD34LXC2j2nx8JIGpCB+DlcfAS6aI+tC1Vd
+ tEg2dqS6VLT7Qk6Jwhac+AjYVmDNryCxLR3it1EXVmRh+3WAG7cQR2BNciVscPK8jDyX
+ PQxeFYCJSDsRhay8L/eFYLjeLxfEEMlVf//ijqT19x3Lburg5ow2HJJ+/gPC+xk/+Uu2
+ bC/mr9oeFGq/qZEr+Gr8z5Qv5lP4/6qQG2LRNgs1j6LCu0EFUT8r92w2ZHAXdkW4UiM/
+ LEnrAx4RgV5gQ/EDiCNCQew0d8DOs/cWUP0dyOZHul6vnaOy3HyrMbqrRUS3kyJFoJEv
+ b7Xg==
+X-Gm-Message-State: AFqh2kraOGPXLsD7vMO3XoaFqi46bpDRx+pMZnmOzCT1I50tPpHcvgD6
+ uYbXL0bGSMP08PkBo3eG72dtTGbUaOro/A==
+X-Google-Smtp-Source: AMrXdXu/V1VAakoVNA901K1DaXhCb0Z6edEmYwIKwkLsKHezEymfRbemWS6Mw7ngG0Tn4FnagiDi+A==
+X-Received: by 2002:a5d:5485:0:b0:294:50d6:86ad with SMTP id
+ h5-20020a5d5485000000b0029450d686admr8741280wrv.2.1672843526555; 
+ Wed, 04 Jan 2023 06:45:26 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- e10-20020a5d594a000000b0028663fc8f4csm21168241wri.30.2023.01.04.06.45.24
+ e10-20020a5d594a000000b0028663fc8f4csm21168241wri.30.2023.01.04.06.45.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jan 2023 06:45:25 -0800 (PST)
+ Wed, 04 Jan 2023 06:45:26 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -67,17 +67,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Chuck Zmudzinski <brchuckz@aol.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 3/6] hw/isa/piix: Wire up Xen PCI IRQ handling outside of
- PIIX3
-Date: Wed,  4 Jan 2023 15:44:34 +0100
-Message-Id: <20230104144437.27479-4-shentey@gmail.com>
+Subject: [PATCH v2 4/6] hw/isa/piix: Avoid Xen-specific variant of
+ piix_write_config()
+Date: Wed,  4 Jan 2023 15:44:35 +0100
+Message-Id: <20230104144437.27479-5-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230104144437.27479-1-shentey@gmail.com>
 References: <20230104144437.27479-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=shentey@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=shentey@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,95 +100,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-xen_intx_set_irq() doesn't depend on PIIX state. In order to resolve
-TYPE_PIIX3_XEN_DEVICE and in order to make Xen agnostic about the
-precise south bridge being used, set up Xen's PCI IRQ handling of PIIX3
-in the board.
+Subscribe to pci_bus_fire_intx_routing_notifier() instead which allows for
+having a common piix_write_config() for all PIIX device models.
+
+While at it, move the subscription into machine code in order to resolve
+TYPE_PIIX3_XEN_DEVICE.
+
+In a possible future followup, pci_bus_fire_intx_routing_notifier() could
+be adjusted in such a way that subscribing to it doesn't require
+knowledge of the device firing it.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/i386/pc_piix.c | 12 ++++++++++++
- hw/isa/piix.c     | 24 +-----------------------
- 2 files changed, 13 insertions(+), 23 deletions(-)
+ hw/i386/pc_piix.c | 18 ++++++++++++++++++
+ hw/isa/piix.c     | 22 +---------------------
+ 2 files changed, 19 insertions(+), 21 deletions(-)
 
 diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index aacdb72b7c..792dcd3ce8 100644
+index 792dcd3ce8..5738d9cdca 100644
 --- a/hw/i386/pc_piix.c
 +++ b/hw/i386/pc_piix.c
-@@ -67,6 +67,7 @@
- #include "kvm/kvm-cpu.h"
+@@ -86,6 +86,21 @@ static int pci_slot_get_pirq(PCIDevice *pci_dev, int pci_intx)
+     return (pci_intx + slot_addend) & 3;
+ }
  
- #define MAX_IDE_BUS 2
-+#define XEN_IOAPIC_NUM_PIRQS 128ULL
- 
- #ifdef CONFIG_IDE_ISA
- static const int ide_iobase[MAX_IDE_BUS] = { 0x1f0, 0x170 };
-@@ -246,6 +247,17 @@ static void pc_init1(MachineState *machine,
-                                  &error_abort);
++static void piix_intx_routing_notifier_xen(PCIDevice *dev)
++{
++    int i;
++
++    /* Scan for updates to PCI link routes (0x60-0x63). */
++    for (i = 0; i < PIIX_NUM_PIRQS; i++) {
++        uint8_t v = dev->config_read(dev, PIIX_PIRQCA + i, 1);
++        if (v & 0x80) {
++            v = 0;
++        }
++        v &= 0xf;
++        xen_set_pci_link_route(i, v);
++    }
++}
++
+ /* PC hardware initialisation */
+ static void pc_init1(MachineState *machine,
+                      const char *host_type, const char *pci_type)
+@@ -248,6 +263,9 @@ static void pc_init1(MachineState *machine,
          pci_realize_and_unref(pci_dev, pci_bus, &error_fatal);
  
-+        if (xen_enabled()) {
-+            /*
-+             * Xen supports additional interrupt routes from the PCI devices to
-+             * the IOAPIC: the four pins of each PCI device on the bus are also
-+             * connected to the IOAPIC directly.
-+             * These additional routes can be discovered through ACPI.
-+             */
-+            pci_bus_irqs(pci_bus, xen_intx_set_irq, pci_dev,
-+                         XEN_IOAPIC_NUM_PIRQS);
-+        }
+         if (xen_enabled()) {
++            pci_device_set_intx_routing_notifier(
++                        pci_dev, piix_intx_routing_notifier_xen);
 +
-         dev = DEVICE(object_resolve_path_component(OBJECT(pci_dev), "pic"));
-         for (i = 0; i < ISA_NUM_IRQS; i++) {
-             qdev_connect_gpio_out(dev, i, x86ms->gsi[i]);
+             /*
+              * Xen supports additional interrupt routes from the PCI devices to
+              * the IOAPIC: the four pins of each PCI device on the bus are also
 diff --git a/hw/isa/piix.c b/hw/isa/piix.c
-index 25707479eb..ac04781f46 100644
+index ac04781f46..d4cdb3dadb 100644
 --- a/hw/isa/piix.c
 +++ b/hw/isa/piix.c
-@@ -38,8 +38,6 @@
- #include "migration/vmstate.h"
- #include "hw/acpi/acpi_aml_interface.h"
+@@ -125,26 +125,6 @@ static void piix_write_config(PCIDevice *dev, uint32_t address, uint32_t val,
+     }
+ }
  
--#define XEN_IOAPIC_NUM_PIRQS    128ULL
--
- static void piix_set_irq_pic(PIIXState *piix, int pic_irq)
- {
-     qemu_set_irq(piix->pic.in_irqs[pic_irq],
-@@ -487,33 +485,13 @@ static const TypeInfo piix3_info = {
-     .class_init    = piix3_class_init,
- };
- 
--static void piix3_xen_realize(PCIDevice *dev, Error **errp)
+-static void piix3_write_config_xen(PCIDevice *dev,
+-                                   uint32_t address, uint32_t val, int len)
 -{
--    ERRP_GUARD();
--    PIIXState *piix3 = PIIX_PCI_DEVICE(dev);
--    PCIBus *pci_bus = pci_get_bus(dev);
+-    int i;
 -
--    piix3_realize(dev, errp);
--    if (*errp) {
--        return;
+-    /* Scan for updates to PCI link routes (0x60-0x63). */
+-    for (i = 0; i < len; i++) {
+-        uint8_t v = (val >> (8 * i)) & 0xff;
+-        if (v & 0x80) {
+-            v = 0;
+-        }
+-        v &= 0xf;
+-        if (((address + i) >= PIIX_PIRQCA) && ((address + i) <= PIIX_PIRQCD)) {
+-            xen_set_pci_link_route(address + i - PIIX_PIRQCA, v);
+-        }
 -    }
 -
--    /*
--     * Xen supports additional interrupt routes from the PCI devices to
--     * the IOAPIC: the four pins of each PCI device on the bus are also
--     * connected to the IOAPIC directly.
--     * These additional routes can be discovered through ACPI.
--     */
--    pci_bus_irqs(pci_bus, xen_intx_set_irq, piix3, XEN_IOAPIC_NUM_PIRQS);
+-    piix_write_config(dev, address, val, len);
 -}
 -
- static void piix3_xen_class_init(ObjectClass *klass, void *data)
+ static void piix_reset(DeviceState *dev)
  {
+     PIIXState *d = PIIX_PCI_DEVICE(dev);
+@@ -490,7 +470,7 @@ static void piix3_xen_class_init(ObjectClass *klass, void *data)
      DeviceClass *dc = DEVICE_CLASS(klass);
      PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
  
-     k->config_write = piix3_write_config_xen;
--    k->realize = piix3_xen_realize;
-+    k->realize = piix3_realize;
+-    k->config_write = piix3_write_config_xen;
++    k->config_write = piix_write_config;
+     k->realize = piix3_realize;
      /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
      k->device_id = PCI_DEVICE_ID_INTEL_82371SB_0;
-     dc->vmsd = &vmstate_piix3;
 -- 
 2.39.0
 
