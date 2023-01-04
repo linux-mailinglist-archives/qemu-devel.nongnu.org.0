@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370EE65CDA5
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 08:33:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47DE465CDBA
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 08:40:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCyGJ-0006P0-RR; Wed, 04 Jan 2023 02:32:35 -0500
+	id 1pCyMw-0008Ki-GG; Wed, 04 Jan 2023 02:39:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pCyFb-0006Hu-G1
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 02:31:57 -0500
-Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d])
+ id 1pCyMt-0008KL-V0
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 02:39:23 -0500
+Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pCyFX-00009N-NZ
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 02:31:51 -0500
-Received: by mail-qt1-x82d.google.com with SMTP id h21so26591652qta.12
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 23:31:41 -0800 (PST)
+ id 1pCyMr-0001Qr-Nm
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 02:39:23 -0500
+Received: by mail-qv1-xf2f.google.com with SMTP id t13so17172844qvp.9
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 23:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:references:user-agent
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=993gR90X3N8MSr/3WxHFe2/xx+HwzNvAmmRWn9i2gwo=;
- b=g/K2A9aoKm4l9sZOn/PmlgWL6131vN9DC0XMk1ciHW6xiRh4Sggh19cgcTmU3+PoLf
- D9ueYuJ2rSqKfRPUPfblsAsuJjreJohy9WpLvvmqeBN96V1ZBzdiRJRxjj6m5NfaSPZZ
- hZ2s4mGuEAPEQRBpBjdtDvOMzrdLreFIjaIiSXyyFmRTmSS255stLszYbjaRxKGcUg1c
- Z6Dyt+siuGh6Ys51qBjLbO4pdgKsU97AHgzhy73wKHmuzZPM/eEZmhFZQEAJZHgtDwnS
- ZYgqLPtw7NGo8VLWCOBRMERtzjcjiTVoujl36mlPoXWk166bwYlsU3S+CwQyvavZee42
- z6zg==
+ h=cc:to:subject:message-id:date:user-agent:from:in-reply-to
+ :mime-version:references:from:to:cc:subject:date:message-id:reply-to;
+ bh=AGG2LTkcxh8t9gKxWSL7rhrLQ/kC7j/kutwI0rdhpFo=;
+ b=500z4wsLZP/PpQZbjZvWQWhVkKg3JdmYUWbWqNuy8KQHBfKRsmFNN7u044VPvwgZex
+ K4Ova92djTE32c+tQcdFp/g2cxwNaDIL2dHlufJJFWvzrp0R7nYR4NvTdByj8sveXBMj
+ KN1AbCe7bNu+YYi6XlWUegrgL+nuw2QNx/ec4yDlec9Nvzm0Gt0LuFmXwD86vhw6uI/f
+ uHiu0bzQrpD78Gd6N6v1itYheNoJjITQwSCSWB8izJ38gSqgfPT6ER5fepLV9Dcfk5q7
+ RC+2TUjtaxRwka6y099diJwr50JGmOUhCaBBe2rSh79vgkx66NDTQiiKs/FLkaoF8PMD
+ TMMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:references:user-agent
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ h=cc:to:subject:message-id:date:user-agent:from:in-reply-to
+ :mime-version:references:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=993gR90X3N8MSr/3WxHFe2/xx+HwzNvAmmRWn9i2gwo=;
- b=Z22Cd6ga1xetn+hj8UBDOu7Ui0oXwnNVZfMJB3ehagICNcXr2vuVzBX6WzEBvZkMPr
- 1jkrgIk6hB6Ek9slNtLfXBKM0tXvsYIz8K6a7k7Fp0mOj3GtrcAeXSW6+TE4rO1OhgJG
- 5m6ASB368vZB2UllBfmHALWCo886dsOGl5mCIui34pTXTGJvxxQXR2vmxj4Ts0uVgUJZ
- S+1TUIzzNFMQsEOw1A8pTmAJo0pBycDYXd7//mFagsem1XA6eKiVt7tbTcdhMf0tH82g
- B7Q42FxCzj+ANXyS2uA49yn1aisM/1fpCqpcXxpQpVnMNsvygTZX+v0AnYifGY4dDYNR
- 1+8g==
-X-Gm-Message-State: AFqh2kqj9SeUNeIS8rKvv8s5/gp7jtjoSKv1oa59LO19XL+JjOre8TaW
- eYzCGWcaniUJfS/+dgM8Hsd1x2toS809wvvYy+cbyQ==
-X-Google-Smtp-Source: AMrXdXsdQ5oxK10IJwLawh6B4bohZexDv4zAhKByJiR10WewH/lObJDyRY2/3p33UNlCE5tvamRFKpG7B5yrTGpYbQY=
-X-Received: by 2002:ac8:4646:0:b0:3a8:1081:9ae1 with SMTP id
- f6-20020ac84646000000b003a810819ae1mr2197083qto.641.1672817500565; Tue, 03
- Jan 2023 23:31:40 -0800 (PST)
+ bh=AGG2LTkcxh8t9gKxWSL7rhrLQ/kC7j/kutwI0rdhpFo=;
+ b=OtUtJo7ybUYRgiRvF01dfT+cVNvyHsgOvMI0NgcjKnXpXE2HvI25oDsKuJ1nfxhJuD
+ TAD8FJBNG+uPH34iDce0szbdsheFTG66wB5qmQmdwR0rrQaTABkBL2irSvmsJR9q3Q+M
+ P4cpPdLOBW3a21yCXNhuuuT/O0OLtMdtGbIJPeHztRDNVPWgSbqCU8uh7xAJ+xLL+9ey
+ 6B22x1aJf5LNYxj3vX8ZXfsYoAcijGD7HOwkf/DKAeE4BJzjkGQIJf2utqYMv2uRAU70
+ TMEm2OH5WY/r4Os0oxmH8uT3vxfVEBeaOUjstKIkxceV1fXGHqXpR9Sy0nnJFClWsNO5
+ ZUnA==
+X-Gm-Message-State: AFqh2krBL2TYVcWchguOR3Hatho5ncdCMcoc8xfVbj7TXk3MKZS0I3hP
+ W4B3LdvaR4MTe9IjF3i+Ij3/AwY/YfKRMREuv18mhA==
+X-Google-Smtp-Source: AMrXdXv/dj25nMv6MehiXNj+dkyFwhZ+xBPArlo9ukXWfDq8aQ3Or9/BXXLBZI8jWQa8h5rScncGWe/PjHZgJZTI650=
+X-Received: by 2002:a0c:ec44:0:b0:531:d9b0:c8ab with SMTP id
+ n4-20020a0cec44000000b00531d9b0c8abmr253977qvq.124.1672817958042; Tue, 03 Jan
+ 2023 23:39:18 -0800 (PST)
 Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
- Wed, 4 Jan 2023 01:31:39 -0600
+ Wed, 4 Jan 2023 01:39:17 -0600
+References: <20221223142307.1614945-1-xuchuangxclwt@bytedance.com>
+ <20221223142307.1614945-3-xuchuangxclwt@bytedance.com>
+ <4db15db9-2f00-c71e-c5e1-e41c81090ee2@linaro.org>
 Mime-Version: 1.0
-In-Reply-To: <8d7fe410-4b44-040e-5e6b-b123207913bd@redhat.com>
+In-Reply-To: <4db15db9-2f00-c71e-c5e1-e41c81090ee2@linaro.org>
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.0
-References: <20221223142307.1614945-1-xuchuangxclwt@bytedance.com>
- <20221223142307.1614945-4-xuchuangxclwt@bytedance.com>
- <8d7fe410-4b44-040e-5e6b-b123207913bd@redhat.com>
-From: Chuang Xu <xuchuangxclwt@bytedance.com>
-Date: Wed, 4 Jan 2023 01:31:39 -0600
-Message-ID: <CALophusobmSY+nVdteJfkDvUN-nGF24cUBhB6Y24ginY5KLBgA@mail.gmail.com>
-Subject: Re: [RFC v4 3/3] migration: reduce time of loading non-iterable
- vmstate
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com, 
- pbonzini@redhat.com, peterx@redhat.com, philmd@linaro.org, 
- zhouyibo@bytedance.com
-Content-Type: multipart/alternative; boundary="000000000000e556ca05f16b2cf8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qt1-x82d.google.com
+Date: Wed, 4 Jan 2023 01:39:17 -0600
+Message-ID: <CALophuvab5qa-7nNhz449rowBufsfrAVXqjnRGCn7AZsDAEsrg@mail.gmail.com>
+Subject: Re: [External] Re: [RFC v4 2/3] memory: add depth assert in
+ address_space_to_flatview
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org
+Cc: dgilbert@redhat.com, quintela@redhat.com, pbonzini@redhat.com, 
+ peterx@redhat.com, david@redhat.com, zhouyibo@bytedance.com
+Content-Type: multipart/alternative; boundary="00000000000029de9005f16b4895"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qv1-xf2f.google.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
@@ -93,103 +93,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000e556ca05f16b2cf8
+--00000000000029de9005f16b4895
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 2022/12/24 =E4=B8=8A=E5=8D=8812:06, David Hildenbrand wrote:
+On 2022/12/28 =E4=B8=8B=E5=8D=886:50, Philippe Mathieu-Daud=C3=A9 wrote:
 
-On 23.12.22 15:23, Chuang Xu wrote:
+On 23/12/22 15:23, Chuang Xu wrote:
 
-The duration of loading non-iterable vmstate accounts for a significant
-portion of downtime (starting with the timestamp of source qemu stop and
-ending with the timestamp of target qemu start). Most of the time is spent
-committing memory region changes repeatedly.
-
-This patch packs all the changes to memory region during the period of
-loading non-iterable vmstate in a single memory transaction. With the
-increase of devices, this patch will greatly improve the performance.
-
-Here are the test1 results:
-test info:
-- Host
-   - Intel(R) Xeon(R) Platinum 8260 CPU
-   - NVIDIA Mellanox ConnectX-5
-- VM
-   - 32 CPUs 128GB RAM VM
-   - 8 16-queue vhost-net device
-   - 16 4-queue vhost-user-blk device.
-
-    time of loading non-iterable vmstate     downtime
-before        about 150 ms              740+ ms
-after        about 30 ms              630+ ms
-
-In test2, we keep the number of the device the same as test1, reduce the
-number of queues per device:
-
-Here are the test2 results:
-test info:
-- Host
-   - Intel(R) Xeon(R) Platinum 8260 CPU
-   - NVIDIA Mellanox ConnectX-5
-- VM
-   - 32 CPUs 128GB RAM VM
-   - 8 1-queue vhost-net device
-   - 16 1-queue vhost-user-blk device.
-
-    time of loading non-iterable vmstate     downtime
-before        about 90 ms             about 250 ms
-
-after        about 25 ms             about 160 ms
-
-In test3, we keep the number of queues per device the same as test1, reduce
-the number of devices:
-
-Here are the test3 results:
-test info:
-- Host
-   - Intel(R) Xeon(R) Platinum 8260 CPU
-   - NVIDIA Mellanox ConnectX-5
-- VM
-   - 32 CPUs 128GB RAM VM
-   - 1 16-queue vhost-net device
-   - 1 4-queue vhost-user-blk device.
-
-    time of loading non-iterable vmstate     downtime
-before        about 20 ms             about 70 ms
-after        about 11 ms             about 60 ms
-
-As we can see from the test results above, both the number of queues and
-the number of devices have a great impact on the time of loading
-non-iterable
-vmstate. The growth of the number of devices and queues will lead to more
-mr commits, and the time consumption caused by the flatview reconstruction
-will also increase.
+Before using any flatview, sanity check we're not during a memory
+region transaction or the map can be invalid.
 
 Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
 <xuchuangxclwt@bytedance.com>
 ---
-  migration/savevm.c | 7 +++++++
-  1 file changed, 7 insertions(+)
+  include/exec/memory.h | 9 +++++++++
+  softmmu/memory.c      | 5 +++++
+  2 files changed, 14 insertions(+)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index a0cdb714f7..19785e5a54 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2617,6 +2617,9 @@ int qemu_loadvm_state_main(QEMUFile *f,
-MigrationIncomingState *mis)
-      uint8_t section_type;
-      int ret =3D 0;
-  +    /* call memory_region_transaction_begin() before loading vmstate */
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 91f8a2395a..66c43b4862 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1069,8 +1069,17 @@ struct FlatView {
+      MemoryRegion *root;
+  };
+  +int memory_region_transaction_get_depth(void);
 
 
+Do we want to expose this; isn't the depth internal?
 
-I'd suggest extending the comment *why* you are doing that, that it's a
-pure performance optimization, and how it achieves that.
+If we need to expose something, can we restrict it to
 
-Thanks! I'll extend the comment in v5.
+  bool memory_region_in_transaction(void) or
+  bool memory_region_transaction_in_progress(void)?
 
---000000000000e556ca05f16b2cf8
+Yes, we'd better not expose the value of an internal
+variable. I'll make changes in v5.
+
+Thanks!
+
+--00000000000029de9005f16b4895
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -200,155 +144,18 @@ Content-Transfer-Encoding: quoted-printable
   <body>
     <p><br>
     </p>
-    <div class=3D"moz-cite-prefix"><div id=3D"lark-mail-quote-c06f296f8a0e9=
-55ae5e1731cacc9647b">On 2022/12/24 =E4=B8=8A=E5=8D=8812:06, David
-      Hildenbrand wrote:<br>
+    <div class=3D"moz-cite-prefix"><div id=3D"lark-mail-quote-5d83dae8f6706=
+0203c539762d53a392d">On 2022/12/28 =E4=B8=8B=E5=8D=886:50, Philippe
+      Mathieu-Daud=C3=A9 wrote:<br>
     </div></div>
-    <blockquote type=3D"cite" cite=3D"mid:8d7fe410-4b44-040e-5e6b-b12320791=
-3bd@redhat.com">On
-      23.12.22 15:23, Chuang Xu wrote:
+    <blockquote type=3D"cite" cite=3D"mid:4db15db9-2f00-c71e-c5e1-e41c81090=
+ee2@linaro.org">On
+      23/12/22 15:23, Chuang Xu wrote:
       <br>
-      <blockquote type=3D"cite">The duration of loading non-iterable
-        vmstate accounts for a significant
+      <blockquote type=3D"cite" style=3D"color:#007cff">Before using any
+        flatview, sanity check we&#39;re not during a memory
         <br>
-        portion of downtime (starting with the timestamp of source qemu
-        stop and
-        <br>
-        ending with the timestamp of target qemu start). Most of the
-        time is spent
-        <br>
-        committing memory region changes repeatedly.
-        <br>
-        <br>
-        This patch packs all the changes to memory region during the
-        period of
-        <br>
-        loading non-iterable vmstate in a single memory transaction.
-        With the
-        <br>
-        increase of devices, this patch will greatly improve the
-        performance.
-        <br>
-        <br>
-        Here are the test1 results:
-        <br>
-        test info:
-        <br>
-        - Host
-        <br>
-        =C2=A0=C2=A0 - Intel(R) Xeon(R) Platinum 8260 CPU
-        <br>
-        =C2=A0=C2=A0 - NVIDIA Mellanox ConnectX-5
-        <br>
-        - VM
-        <br>
-        =C2=A0=C2=A0 - 32 CPUs 128GB RAM VM
-        <br>
-        =C2=A0=C2=A0 - 8 16-queue vhost-net device
-        <br>
-        =C2=A0=C2=A0 - 16 4-queue vhost-user-blk device.
-        <br>
-        <br>
-        =C2=A0=C2=A0=C2=A0=C2=A0time of loading non-iterable vmstate=C2=A0=
-=C2=A0=C2=A0=C2=A0 downtime
-        <br>
-        before=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 about 150 ms=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 74=
-0+ ms
-        <br>
-        after=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 about 30 ms=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 63=
-0+ ms
-        <br>
-        <br>
-        In test2, we keep the number of the device the same as test1,
-        reduce the
-        <br>
-        number of queues per device:
-        <br>
-        <br>
-        Here are the test2 results:
-        <br>
-        test info:
-        <br>
-        - Host
-        <br>
-        =C2=A0=C2=A0 - Intel(R) Xeon(R) Platinum 8260 CPU
-        <br>
-        =C2=A0=C2=A0 - NVIDIA Mellanox ConnectX-5
-        <br>
-        - VM
-        <br>
-        =C2=A0=C2=A0 - 32 CPUs 128GB RAM VM
-        <br>
-        =C2=A0=C2=A0 - 8 1-queue vhost-net device
-        <br>
-        =C2=A0=C2=A0 - 16 1-queue vhost-user-blk device.
-        <br>
-        <br>
-        =C2=A0=C2=A0=C2=A0=C2=A0time of loading non-iterable vmstate=C2=A0=
-=C2=A0=C2=A0=C2=A0 downtime
-        <br>
-        before=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 about 90 ms=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 about 25=
-0 ms
-        <br>
-        <br>
-        after=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 about 25 ms=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 about 16=
-0 ms
-        <br>
-        <br>
-        In test3, we keep the number of queues per device the same as
-        test1, reduce
-        <br>
-        the number of devices:
-        <br>
-        <br>
-        Here are the test3 results:
-        <br>
-        test info:
-        <br>
-        - Host
-        <br>
-        =C2=A0=C2=A0 - Intel(R) Xeon(R) Platinum 8260 CPU
-        <br>
-        =C2=A0=C2=A0 - NVIDIA Mellanox ConnectX-5
-        <br>
-        - VM
-        <br>
-        =C2=A0=C2=A0 - 32 CPUs 128GB RAM VM
-        <br>
-        =C2=A0=C2=A0 - 1 16-queue vhost-net device
-        <br>
-        =C2=A0=C2=A0 - 1 4-queue vhost-user-blk device.
-        <br>
-        <br>
-        =C2=A0=C2=A0=C2=A0=C2=A0time of loading non-iterable vmstate=C2=A0=
-=C2=A0=C2=A0=C2=A0 downtime
-        <br>
-        before=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 about 20 ms=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 about 70=
- ms
-        <br>
-        after=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 about 11 ms=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 about 60=
- ms
-        <br>
-        <br>
-        As we can see from the test results above, both the number of
-        queues and
-        <br>
-        the number of devices have a great impact on the time of loading
-        non-iterable
-        <br>
-        vmstate. The growth of the number of devices and queues will
-        lead to more
-        <br>
-        mr commits, and the time consumption caused by the flatview
-        reconstruction
-        <br>
-        will also increase.
+        region transaction or the map can be invalid.
         <br>
         <br>
         Signed-off-by: Chuang Xu <a class=3D"moz-txt-link-rfc2396E" href=3D=
@@ -357,42 +164,48 @@ Content-Transfer-Encoding: quoted-printable
         <br>
         ---
         <br>
-        =C2=A0 migration/savevm.c | 7 +++++++
+        =C2=A0 include/exec/memory.h | 9 +++++++++
         <br>
-        =C2=A0 1 file changed, 7 insertions(+)
+        =C2=A0 softmmu/memory.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 5 +++++
+        <br>
+        =C2=A0 2 files changed, 14 insertions(+)
         <br>
         <br>
-        diff --git a/migration/savevm.c b/migration/savevm.c
+        diff --git a/include/exec/memory.h b/include/exec/memory.h
         <br>
-        index a0cdb714f7..19785e5a54 100644
+        index 91f8a2395a..66c43b4862 100644
         <br>
-        --- a/migration/savevm.c
+        --- a/include/exec/memory.h
         <br>
-        +++ b/migration/savevm.c
+        +++ b/include/exec/memory.h
         <br>
-        @@ -2617,6 +2617,9 @@ int qemu_loadvm_state_main(QEMUFile *f,
-        MigrationIncomingState *mis)
+        @@ -1069,8 +1069,17 @@ struct FlatView {
         <br>
-        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t section_type;
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MemoryRegion *root;
         <br>
-        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret =3D 0;
+        =C2=A0 };
         <br>
-        =C2=A0 +=C2=A0=C2=A0=C2=A0 /* call memory_region_transaction_begin(=
-) before loading
-        vmstate */
+        =C2=A0 +int memory_region_transaction_get_depth(void);
         <br>
       </blockquote>
       <br>
-      <br>
-      I&#39;d suggest extending the comment *why* you are doing that, that
-      it&#39;s a pure performance optimization, and how it achieves that.
+      Do we want to expose this; isn&#39;t the depth internal?
       <br>
       <br>
+      If we need to expose something, can we restrict it to
+      <br>
+      <br>
+      =C2=A0 bool memory_region_in_transaction(void) or
+      <br>
+      =C2=A0 bool memory_region_transaction_in_progress(void)?
     </blockquote>
-    <pre>Thanks! I&#39;ll extend the comment in v5.
+    <pre>Yes, we&#39;d better not expose the value of an internal=20
+variable. I&#39;ll make changes in v5.
+
+Thanks!
 </pre>
  =20
 </body></html>
 
---000000000000e556ca05f16b2cf8--
+--00000000000029de9005f16b4895--
 
