@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00ECA65D68E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 15:50:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E6E365D698
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 15:54:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD560-00026J-2K; Wed, 04 Jan 2023 09:50:24 -0500
+	id 1pD59P-000406-2k; Wed, 04 Jan 2023 09:53:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pD55n-0001yQ-Al
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:50:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pD55l-0005aw-Dt
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:50:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672843808;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wl5J0kvuLH8aBUCriSM5kEzfMBD+WGe38HAuKXgNWGE=;
- b=XPuB4R471wKdSOxt7cWnZ7uDFhMB58T+x0frwPD0fnVAlf2zS3z5fPflqeOY0T8xipKWXn
- GqbRxKdwiH7XOpZzG3lpvbF4c0+Jr7zIyXUNNFLXHPRat3m1p9TFKa9QQQMz2OBjmSXr8V
- spj9uh0Z/mkIX8V7D84uDVkmMJbcCPc=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-122-QnadT-oEO2CxdduHvD9zFw-1; Wed, 04 Jan 2023 09:50:06 -0500
-X-MC-Unique: QnadT-oEO2CxdduHvD9zFw-1
-Received: by mail-oi1-f197.google.com with SMTP id
- k2-20020a056808068200b00360fc885001so6988002oig.1
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 06:50:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pD59N-0003zx-FJ
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:53:53 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pD59L-0000WM-Cl
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 09:53:53 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ o8-20020a17090a9f8800b00223de0364beso39145368pjp.4
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 06:53:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4gT0JlQYRiyldUS52PurLIl04P7Is7mrqUVLwprsRzo=;
+ b=zd4TTvsLHmj8eslUa9npsNaZKtWGWWe4IzRiWNGtoduKxYk1zeiq+vzzVTr28eq8B2
+ 3Ww/h45bkz/kQhM6p1/3Z1M+gemOf+WtnTExCNenFnOijMRzrTpRXGP7zKEFxGbPfCsn
+ e20Ys/HDYB7IId6ZkkKSpLS/qY/5dbrEocEX+gTWhx44jR18ITEgh4sdAqQo1O2slp0J
+ k7Sk6XMoLDkDok2SSs40Uopigj40SyIMZmb39aKn4riLv0/uaMEq9BjDNQU3tVXDphVC
+ 01QlKjwIUmEp1eJ48LJZ9IzK2qjCPHfV4UcshDyWH1TjQcDPwv4XVfptoC31exib4uLY
+ 8AGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wl5J0kvuLH8aBUCriSM5kEzfMBD+WGe38HAuKXgNWGE=;
- b=qLHRv5z4+VvIO2MhNr+0rP9XuQrkqvGfW65M2csDRY8nbsUZes89A0RFfm7Ss7fJlF
- FCqXaYegRB+yW82gJw3Rn5gANhRZHMJyFX5DgBDYVlva4muKQ/o+hb+pdPr/2tmUuwAe
- 6WlrXu/jhvHarhn1jv0Y4HG13cejEke6H5Zx2IkAHqTM1PiBka70iulXjMHUf7xnnBPt
- t1Nz3yVMLHRUS6DrhFF+CvEQauRNfpPvbjpJtfpCf1j38c7fvRkfqTpgC3KxDE/MOQ1K
- lrPb2UkOkVLJpYup2/2aFaZYgn6QnV387NuyNuFWGVI4VxAFzaM8cH1ZdcHhdI31Ksgo
- 8c/A==
-X-Gm-Message-State: AFqh2krpUki5dI5mVXW7LJBdxCMbWJPhEWkUkn6zDwFGhFoz4Sai3XNE
- 5HWc2A+fcppK37OCn1cWlF7lG6ZwKw7jd4w/BuCP7uJFMQRectLxk413LjWWRLU/giIWniu/rWw
- VFFW5PePDIM3/o2NkZnN5KyuTLO+dhCQ=
-X-Received: by 2002:a05:6830:103:b0:678:2666:2441 with SMTP id
- i3-20020a056830010300b0067826662441mr3196519otp.94.1672843805427; 
- Wed, 04 Jan 2023 06:50:05 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvBXze/utDGH3+DaXrDomMHqHl33lF8zql3U9aPxspUKGtZyVgn7Jr7J9B8EfuJ5Vj7d2sjU+mjnjmv5eEx+HY=
-X-Received: by 2002:a05:6830:103:b0:678:2666:2441 with SMTP id
- i3-20020a056830010300b0067826662441mr3196518otp.94.1672843805147; Wed, 04 Jan
- 2023 06:50:05 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4gT0JlQYRiyldUS52PurLIl04P7Is7mrqUVLwprsRzo=;
+ b=I+if2NBIHRj42E7O1D7EivNU0iqCWC7KCs1C1X1m6OpeJ2UScmJ0+85Rm/zezGDoPX
+ cwSUhD63DTF9HAowk9Q3JWe4m1vt2a1sZ2BaJG/mLUCGw3CbrWBRd3mfBuVXlFX0d2Xu
+ z+I5HD9riQJic6fA1fugbi9GJxWPeuhac72hhuV5vvF/yG9EMgm9NuU4hFLoozX2RUDz
+ p9110l/yNHa+3X2rsOh+z5ma1Q+7GteO9HhaXLqpt9sMpBjhaV5Z9bF5blg/sTW4cpBR
+ vms/bPuJ/mo8isrtmdM0rVhXkiylsz8YsZEjs+ZcLFpOdOFU5c9jcPVYLxOx3zEL+UDh
+ BTSQ==
+X-Gm-Message-State: AFqh2kq2Cnqk5k2tSJjGaoURsIMe1264yCezfH4J1nXpokhhw+OtjV5q
+ oGPw+M7Bb//U7TtsqHznA17+5R1OJFubzlyjUpbjXA==
+X-Google-Smtp-Source: AMrXdXu88iU7Pzci/1ZctYT55QooB7sP+fybNxEswAOB8FkKab3JBvHfT2OFF/Fy39lTRYFnNOzgVNwF3x+uG29tk68=
+X-Received: by 2002:a17:902:9890:b0:189:b0a3:cf4a with SMTP id
+ s16-20020a170902989000b00189b0a3cf4amr2186826plp.60.1672844028441; Wed, 04
+ Jan 2023 06:53:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20230102161903.3857354-1-casantos@redhat.com>
-In-Reply-To: <20230102161903.3857354-1-casantos@redhat.com>
-From: Carlos Santos <casantos@redhat.com>
-Date: Wed, 4 Jan 2023 11:49:50 -0300
-Message-ID: <CAC1VKkOzUsh-EZfwSRbGRC13auykBL5jmszpStw=GHcgx9G6Vw@mail.gmail.com>
-Subject: Re: [PATCH] meson: allow disablind the installation of keymaps
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
+References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
+ <5f487941-0a4f-1f99-a281-8cf004c80662@redhat.com>
+In-Reply-To: <5f487941-0a4f-1f99-a281-8cf004c80662@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 4 Jan 2023 14:53:37 +0000
+Message-ID: <CAFEAcA__ReO+Q9y_CNWO5SLdu5wv5Fp7sKNgk9QUwF=YuNmvVw@mail.gmail.com>
+Subject: Re: [PULL v2 00/45] riscv-to-apply queue
+To: Thomas Huth <thuth@redhat.com>
+Cc: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, 
+ alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=casantos@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,114 +88,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 2, 2023 at 1:19 PM <casantos@redhat.com> wrote:
+On Wed, 4 Jan 2023 at 09:20, Thomas Huth <thuth@redhat.com> wrote:
 >
-> From: Carlos Santos <casantos@redhat.com>
+> On 21/12/2022 23.39, Alistair Francis wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > The following changes since commit 222059a0fccf4af3be776fe35a5ea2d6a68f=
+9a0b:
+> >
+> >    Merge tag 'pull-ppc-20221221' of https://gitlab.com/danielhb/qemu in=
+to staging (2022-12-21 18:08:09 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >    https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-2022=
+1222-1
+> >
+> > for you to fetch changes up to 71a9bc59728a054036f3db7dd82dab8f8bd2baf9=
+:
+> >
+> >    hw/intc: sifive_plic: Fix the pending register range check (2022-12-=
+22 08:36:30 +1000)
+> >
+> > ----------------------------------------------------------------
+> > First RISC-V PR for QEMU 8.0
+> >
+> > * Fix PMP propagation for tlb
+> > * Collection of bug fixes
+> > * Add the `FIELDx_1CLEAR()` macro
+> > * Bump the OpenTitan supported version
+> > * Add smstateen support
+> > * Support native debug icount trigger
+> > * Remove the redundant ipi-id property in the virt machine
+> > * Support cache-related PMU events in virtual mode
+> > * Add some missing PolarFire SoC io regions
+> > * Fix mret exception cause when no pmp rule is configured
+> > * Fix bug where disabling compressed instructions would crash QEMU
+> > * Add Zawrs ISA extension support
+> > * A range of code refactoring and cleanups
+> >
+> > ----------------------------------------------------------------
+> > Anup Patel (1):
+> >        target/riscv: Typo fix in sstc() predicate
+> >
+> > Atish Patra (1):
+> >        hw/riscv: virt: Remove the redundant ipi-id property
+> >
+> > Bin Meng (20):
+> >        target/riscv: Add some comments for sstatus CSR in riscv_cpu_dum=
+p_state()
+> >        target/riscv: Fix mret exception cause when no pmp rule is confi=
+gured
+> >        target/riscv: Simplify helper_sret() a little bit
+> >        target/riscv: Clear mstatus.MPRV when leaving M-mode for priv sp=
+ec 1.12+
+> >        hw/riscv: Select MSI_NONBROKEN in SIFIVE_PLIC
+> >        hw/intc: Select MSI_NONBROKEN in RISC-V AIA interrupt controller=
+s
+> >        hw/riscv: Fix opentitan dependency to SIFIVE_PLIC
+> >        hw/riscv: Sort machines Kconfig options in alphabetical order
+> >        hw/riscv: spike: Remove misleading comments
+> >        hw/intc: sifive_plic: Drop PLICMode_H
+> >        hw/intc: sifive_plic: Improve robustness of the PLIC config pars=
+er
+> >        hw/intc: sifive_plic: Use error_setg() to propagate the error up=
+ via errp in sifive_plic_realize()
+> >        hw/intc: sifive_plic: Update "num-sources" property default valu=
+e
+> >        hw/riscv: microchip_pfsoc: Fix the number of interrupt sources o=
+f PLIC
+> >        hw/riscv: sifive_e: Fix the number of interrupt sources of PLIC
+> >        hw/riscv: sifive_u: Avoid using magic number for "riscv, ndev"
+> >        hw/riscv: virt: Fix the value of "riscv, ndev" in the dtb
+> >        hw/intc: sifive_plic: Change "priority-base" to start from inter=
+rupt source 0
+> >        hw/riscv: opentitan: Drop "hartid-base" and "priority-base" init=
+ialization
+> >        hw/intc: sifive_plic: Fix the pending register range check
+> >
+> > Christoph Muellner (1):
+> >        RISC-V: Add Zawrs ISA extension support
+> >
+> > Conor Dooley (3):
+> >        hw/misc: pfsoc: add fabric clocks to ioscb
+> >        hw/riscv: pfsoc: add missing FICs as unimplemented
+> >        hw/{misc, riscv}: pfsoc: add system controller as unimplemented
+> >
+> > Fr=C3=A9d=C3=A9ric P=C3=A9trot (1):
+> >        hw/intc: sifive_plic: Renumber the S irqs for numa support
+> >
+> > Jim Shu (2):
+> >        target/riscv: support cache-related PMU events in virtual mode
+> >        hw/intc: sifive_plic: fix out-of-bound access of source_priority=
+ array
+> >
+> > LIU Zhiwei (5):
+> >        target/riscv: Fix PMP propagation for tlb
+> >        target/riscv: Add itrigger support when icount is not enabled
+> >        target/riscv: Add itrigger support when icount is enabled
+> >        target/riscv: Enable native debug itrigger
+> >        target/riscv: Add itrigger_enabled field to CPURISCVState
+> >
+> > Mayuresh Chitale (3):
+> >        target/riscv: Add smstateen support
+> >        target/riscv: smstateen check for h/s/envcfg
+> >        target/riscv: generate virtual instruction exception
+> >
+> > Richard Henderson (4):
+> >        tcg/riscv: Fix range matched by TCG_CT_CONST_M12
+> >        tcg/riscv: Fix reg overlap case in tcg_out_addsub2
+> >        tcg/riscv: Fix base register for user-only qemu_ld/st
+> >        target/riscv: Set pc_succ_insn for !rvc illegal insn
+> >
+> > Wilfred Mallawa (4):
+> >        hw/registerfields: add `FIELDx_1CLEAR()` macro
+> >        hw/ssi/ibex_spi: implement `FIELD32_1CLEAR` macro
+> >        hw/riscv/opentitan: bump opentitan
+> >        hw/riscv/opentitan: add aon_timer base unimpl
+> >
+> >   include/hw/intc/sifive_plic.h                  |   1 -
+> >   include/hw/misc/mchp_pfsoc_ioscb.h             |   4 +
+> >   include/hw/misc/mchp_pfsoc_sysreg.h            |   1 +
+> >   include/hw/registerfields.h                    |  22 ++
+> >   include/hw/riscv/microchip_pfsoc.h             |   7 +-
+> >   include/hw/riscv/opentitan.h                   |  10 +-
+> >   include/hw/riscv/shakti_c.h                    |   2 +-
+> >   include/hw/riscv/sifive_e.h                    |   9 +-
+> >   include/hw/riscv/sifive_u.h                    |   2 +-
+> >   include/hw/riscv/virt.h                        |   8 +-
+> >   target/riscv/cpu.h                             |  10 +
+> >   target/riscv/cpu_bits.h                        |  37 +++
+> >   target/riscv/debug.h                           |  13 +
+> >   target/riscv/helper.h                          |   2 +
+> >   target/riscv/pmp.h                             |   6 +-
+> >   target/riscv/insn32.decode                     |   4 +
+> >   hw/intc/sifive_plic.c                          |  66 +++--
+> >   hw/misc/mchp_pfsoc_ioscb.c                     |  78 ++++-
+> >   hw/misc/mchp_pfsoc_sysreg.c                    |  18 +-
+> >   hw/riscv/microchip_pfsoc.c                     | 121 ++++----
+> >   hw/riscv/opentitan.c                           |  26 +-
+> >   hw/riscv/sifive_u.c                            |   3 +-
+> >   hw/riscv/spike.c                               |   1 -
+> >   hw/riscv/virt.c                                |   7 +-
+> >   hw/ssi/ibex_spi_host.c                         |  21 +-
 >
-> There are situatuions in which the keyboard maps are not necessary (e.g.
-> when building only tools or linux-user emulator). Add an option to avoid
-> installing them, as already possible to do with firmware blobs.
+> FYI, this seems to cause problems in the MSYS2 Cirrus-CI job:
 >
-> Signed-off-by: Carlos Santos <casantos@redhat.com>
-> ---
->  configure                     | 2 ++
->  meson_options.txt             | 2 ++
->  pc-bios/keymaps/meson.build   | 6 ++++--
->  scripts/meson-buildoptions.sh | 4 ++++
->  4 files changed, 12 insertions(+), 2 deletions(-)
->
-> diff --git a/configure b/configure
-> index 789a4f6cc9..c6ed6a23d0 100755
-> --- a/configure
-> +++ b/configure
-> @@ -889,6 +889,8 @@ for opt do
->    ;;
->    --disable-blobs) meson_option_parse --disable-install-blobs ""
->    ;;
-> +  --disable-keymaps) meson_option_parse --disable-install-keymaps ""
-> +  ;;
->    --enable-vfio-user-server) vfio_user_server="enabled"
->    ;;
->    --disable-vfio-user-server) vfio_user_server="disabled"
-> diff --git a/meson_options.txt b/meson_options.txt
-> index 559a571b6b..be27137e98 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -48,6 +48,8 @@ option('module_upgrades', type : 'boolean', value : false,
->         description: 'try to load modules from alternate paths for upgrades')
->  option('install_blobs', type : 'boolean', value : true,
->         description: 'install provided firmware blobs')
-> +option('install_keymaps', type : 'boolean', value : true,
-> +       description: 'install provided keyboard maps')
->  option('sparse', type : 'feature', value : 'auto',
->         description: 'sparse checker')
->  option('guest_agent', type : 'feature', value : 'auto',
-> diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
-> index 06c75e646b..7d80c23005 100644
-> --- a/pc-bios/keymaps/meson.build
-> +++ b/pc-bios/keymaps/meson.build
-> @@ -47,7 +47,7 @@ if native_qemu_keymap.found()
->                         build_by_default: true,
->                         output: km,
->                         command: [native_qemu_keymap, '-f', '@OUTPUT@', args.split()],
-> -                       install: true,
-> +                       install: get_option('install_keymaps'),
->                         install_dir: qemu_datadir / 'keymaps')
->    endforeach
->
-> @@ -56,4 +56,6 @@ else
->    install_data(keymaps.keys(), install_dir: qemu_datadir / 'keymaps')
->  endif
->
-> -install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
-> +if get_option('install_keymaps')
-> +  install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
-> +endif
-> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-> index aa6e30ea91..f17d9c196e 100644
-> --- a/scripts/meson-buildoptions.sh
-> +++ b/scripts/meson-buildoptions.sh
-> @@ -11,6 +11,8 @@ meson_options_help() {
->    printf "%s\n" '  --datadir=VALUE          Data file directory [share]'
->    printf "%s\n" '  --disable-coroutine-pool coroutine freelist (better performance)'
->    printf "%s\n" '  --disable-install-blobs  install provided firmware blobs'
-> +  printf "%s\n" '  --disable-install-keymaps'
-> +  printf "%s\n" '                           install provided keyboard maps'
->    printf "%s\n" '  --docdir=VALUE           Base directory for documentation installation'
->    printf "%s\n" '                           (can be empty) [share/doc]'
->    printf "%s\n" '  --enable-block-drv-whitelist-in-tools'
-> @@ -291,6 +293,8 @@ _meson_option_parse() {
->      --includedir=*) quote_sh "-Dincludedir=$2" ;;
->      --enable-install-blobs) printf "%s" -Dinstall_blobs=true ;;
->      --disable-install-blobs) printf "%s" -Dinstall_blobs=false ;;
-> +    --enable-install-keymaps) printf "%s" -Dinstall_keymaps=true ;;
-> +    --disable-install-keymaps) printf "%s" -Dinstall_keymaps=false ;;
->      --interp-prefix=*) quote_sh "-Dinterp_prefix=$2" ;;
->      --enable-jack) printf "%s" -Djack=enabled ;;
->      --disable-jack) printf "%s" -Djack=disabled ;;
-> --
-> 2.31.1
->
+>   https://cirrus-ci.com/task/6444497832247296?logs=3Dmain#L2159
 
-Thinking a bit more about this patch, I think the correct approach
-would be to install blobs and keymaps depending on have_system:
+OK, I've dropped it from my to-process queue.
 
-    [...]
-    install: have_system,
-    [...]
-
-And use the same approach for trace-events-all, in trace/meson.build:
-
-    [...]
-    install: have_linux_user or have_bsd_user or have_system,
-    [...]
-
-This would prevent installing useless data.
-
--- 
-Carlos Santos
-Senior Software Maintenance Engineer
-Red Hat
-casantos@redhat.com    T: +55-11-3534-6186
-
+thanks
+-- PMM
 
