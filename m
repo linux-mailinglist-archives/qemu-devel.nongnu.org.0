@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1FF065E03A
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:49:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9284665E020
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:40:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDBrh-0007Gz-OB; Wed, 04 Jan 2023 17:04:06 -0500
+	id 1pDBqz-0006mj-2D; Wed, 04 Jan 2023 17:03:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pDBpi-00069g-Bm; Wed, 04 Jan 2023 17:02:14 -0500
+ id 1pDBpi-00069d-7z; Wed, 04 Jan 2023 17:02:14 -0500
 Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pDBpd-0003C4-P8; Wed, 04 Jan 2023 17:02:00 -0500
+ id 1pDBpe-0003Cs-3r; Wed, 04 Jan 2023 17:02:00 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BE84C7496AE;
- Wed,  4 Jan 2023 22:59:38 +0100 (CET)
+ by localhost (Postfix) with SMTP id C95207496B0;
+ Wed,  4 Jan 2023 22:59:39 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 98A8F7496AB; Wed,  4 Jan 2023 22:59:38 +0100 (CET)
-Message-Id: <e8d6aa41eeb0461d285fa4c12e0fff05d366e8fa.1672868854.git.balaton@eik.bme.hu>
+ id A1E907496AB; Wed,  4 Jan 2023 22:59:39 +0100 (CET)
+Message-Id: <b8aa89c354027fc71cdb93b697b139e93ac05e25.1672868854.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1672868854.git.balaton@eik.bme.hu>
 References: <cover.1672868854.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v7 3/7] mac_{old,new}world: Pass MacOS VGA NDRV in card ROM
- instead of fw_cfg
+Subject: [PATCH v7 4/7] mac_newworld: Add machine types for different mac99
+ configs
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Wed,  4 Jan 2023 22:59:38 +0100 (CET)
+Date: Wed,  4 Jan 2023 22:59:39 +0100 (CET)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -54,111 +54,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-OpenBIOS cannot run FCode ROMs yet but it can detect NDRV in VGA card
-ROM and add it to the device tree for MacOS. Pass the NDRV this way
-instead of via fw_cfg. This solves the problem with OpenBIOS also
-adding the NDRV to ati-vga which it does not work with. This does not
-need any changes to OpenBIOS as this NDRV ROM handling is already
-there but this patch also allows simplifying OpenBIOS later to remove
-the fw_cfg ndrv handling from the vga FCode and also drop the
-vga-ndrv? option which is not needed any more as users can disable the
-ndrv with -device VGA,romfile="" (or override it with their own NDRV
-or ROM). Once FCode support is implemented in OpenBIOS, the proper
-FCode ROM can be set the same way so this paves the way to remove some
-hacks.
+The mac99 machine emulates different machines depending on machine
+properties or even if it is run as qemu-system-ppc64 or
+qemu-system-ppc. This is very confusing for users and many hours were
+lost trying to explain it or finding out why commands users came up
+with are not working as expected. (E.g. Windows users might think
+qemu-system-ppc64 is just the 64 bit version of qemu-system-ppc and
+then fail to boot a 32 bit OS with -M mac99 trying to follow an
+example that had qemu-system-ppc.) To avoid such confusion, add
+explicit machine types for the different configs which will work the
+same with both qemu-system-ppc and qemu-system-ppc64 and also make the
+command line clearer for new users.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/mac_newworld.c | 18 ++++++------------
- hw/ppc/mac_oldworld.c | 18 ++++++------------
- 2 files changed, 12 insertions(+), 24 deletions(-)
+ hw/ppc/mac_newworld.c | 94 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 94 insertions(+)
 
 diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 460c14b5e3..60c9c27986 100644
+index 60c9c27986..3f5d1ec097 100644
 --- a/hw/ppc/mac_newworld.c
 +++ b/hw/ppc/mac_newworld.c
-@@ -510,18 +510,6 @@ static void ppc_core99_init(MachineState *machine)
-     fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
-     fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_NVRAM_ADDR, nvram_addr);
+@@ -642,9 +642,103 @@ static const TypeInfo core99_machine_info = {
+     },
+ };
  
--    /* MacOS NDRV VGA driver */
--    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
--    if (filename) {
--        gchar *ndrv_file;
--        gsize ndrv_size;
--
--        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
--            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, ndrv_size);
--        }
--        g_free(filename);
--    }
--
-     qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
- }
- 
-@@ -565,6 +553,11 @@ static int core99_kvm_type(MachineState *machine, const char *arg)
-     return 2;
- }
- 
-+static GlobalProperty props[] = {
-+    /* MacOS NDRV VGA driver */
-+    { "VGA", "romfile", NDRV_VGA_FILENAME },
++static void powermac3_1_machine_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    core99_machine_class_init(oc, data);
++    mc->desc = "Apple Power Mac G4 AGP (Sawtooth)";
++    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("7400_v2.9");
++}
++
++static void powermac3_1_instance_init(Object *obj)
++{
++    Core99MachineState *cms = CORE99_MACHINE(obj);
++
++    cms->via_config = CORE99_VIA_CONFIG_PMU;
++    return;
++}
++
++static const TypeInfo powermac3_1_machine_info = {
++    .name          = MACHINE_TYPE_NAME("powermac3_1"),
++    .parent        = TYPE_MACHINE,
++    .class_init    = powermac3_1_machine_class_init,
++    .instance_init = powermac3_1_instance_init,
++    .instance_size = sizeof(Core99MachineState),
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_FW_PATH_PROVIDER },
++        { }
++    },
 +};
 +
- static void core99_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -585,6 +578,7 @@ static void core99_machine_class_init(ObjectClass *oc, void *data)
- #endif
-     mc->default_ram_id = "ppc_core99.ram";
-     mc->ignore_boot_device_suffixes = true;
-+    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
-     fwc->get_dev_path = core99_fw_dev_path;
- }
- 
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 5a7b25a4a8..6a1b1ad47a 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -344,18 +344,6 @@ static void ppc_heathrow_init(MachineState *machine)
-     fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_CLOCKFREQ, CLOCKFREQ);
-     fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
- 
--    /* MacOS NDRV VGA driver */
--    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
--    if (filename) {
--        gchar *ndrv_file;
--        gsize ndrv_size;
--
--        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
--            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, ndrv_size);
--        }
--        g_free(filename);
--    }
--
-     qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
- }
- 
-@@ -400,6 +388,11 @@ static int heathrow_kvm_type(MachineState *machine, const char *arg)
-     return 2;
- }
- 
-+static GlobalProperty props[] = {
-+    /* MacOS NDRV VGA driver */
-+    { "VGA", "romfile", NDRV_VGA_FILENAME },
++static void powerbook3_2_machine_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    core99_machine_class_init(oc, data);
++    mc->desc = "Apple PowerBook G4 Titanium (Mercury)";
++    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("7400_v2.9");
++}
++
++static void powerbook3_2_instance_init(Object *obj)
++{
++    Core99MachineState *cms = CORE99_MACHINE(obj);
++
++    cms->via_config = CORE99_VIA_CONFIG_PMU_ADB;
++    return;
++}
++
++static const TypeInfo powerbook3_2_machine_info = {
++    .name          = MACHINE_TYPE_NAME("powerbook3_2"),
++    .parent        = TYPE_MACHINE,
++    .class_init    = powerbook3_2_machine_class_init,
++    .instance_init = powerbook3_2_instance_init,
++    .instance_size = sizeof(Core99MachineState),
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_FW_PATH_PROVIDER },
++        { }
++    },
 +};
 +
- static void heathrow_class_init(ObjectClass *oc, void *data)
++#ifdef TARGET_PPC64
++static void powermac7_3_machine_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    core99_machine_class_init(oc, data);
++    mc->desc = "Apple Power Mac G5 (Niagara)";
++    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("970fx_v3.1");
++}
++
++static void powermac7_3_instance_init(Object *obj)
++{
++    Core99MachineState *cms = CORE99_MACHINE(obj);
++
++    cms->via_config = CORE99_VIA_CONFIG_PMU;
++    return;
++}
++
++static const TypeInfo powermac7_3_machine_info = {
++    .name          = MACHINE_TYPE_NAME("powermac7_3"),
++    .parent        = TYPE_MACHINE,
++    .class_init    = powermac7_3_machine_class_init,
++    .instance_init = powermac7_3_instance_init,
++    .instance_size = sizeof(Core99MachineState),
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_FW_PATH_PROVIDER },
++        { }
++    },
++};
++#endif
++
+ static void mac_machine_register_types(void)
  {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -420,6 +413,7 @@ static void heathrow_class_init(ObjectClass *oc, void *data)
-     mc->default_display = "std";
-     mc->ignore_boot_device_suffixes = true;
-     mc->default_ram_id = "ppc_heathrow.ram";
-+    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
-     fwc->get_dev_path = heathrow_fw_dev_path;
+     type_register_static(&core99_machine_info);
++    type_register_static(&powermac3_1_machine_info);
++    type_register_static(&powerbook3_2_machine_info);
++#ifdef TARGET_PPC64
++    type_register_static(&powermac7_3_machine_info);
++#endif
  }
  
+ type_init(mac_machine_register_types)
 -- 
 2.30.6
 
