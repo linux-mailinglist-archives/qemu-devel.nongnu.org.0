@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A62765CE89
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 09:45:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7D165CEDB
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 09:56:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCzMo-0005h8-4g; Wed, 04 Jan 2023 03:43:22 -0500
+	id 1pCzYX-0008V4-VR; Wed, 04 Jan 2023 03:55:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pCzMh-0005gW-DI
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 03:43:15 -0500
-Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233])
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pCzYW-0008Uc-IV
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 03:55:28 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pCzMd-00070g-ME
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 03:43:15 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.114])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 3F74F2C571;
- Wed,  4 Jan 2023 08:43:05 +0000 (UTC)
-Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Wed, 4 Jan
- 2023 09:43:04 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004fa5bfd41-2a41-48e3-a63a-2f8c20832989,
- D3BA3AA4B26B30A68CB1784D167544CB159DE1DE) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <8fa1d7b7-babc-eca8-bbd9-4707ada2f49f@kaod.org>
-Date: Wed, 4 Jan 2023 09:43:03 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pCzYU-0003F4-LD
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 03:55:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=fsiLtbd9rvYxQGzsFTyaFZu15TNhKoAUdGdaaXNM1eA=; b=yRbD7i4vXPYh1gerJ8YbT3fvqG
+ T6OFOXBwHsc/59Quh/ToGuohkM7fCGKMcNkb6y33Orqb52Ia3rjbLg7l7oyukGeooSN6zzAbZGsQ4
+ OMyFSWv5lubRAT5EdQNLaRRyTtThB4HtbBdf+BMmyTq1JyxFTrutcDkWM0Q69YOxUwg4yMUrI+/qo
+ XbyUE/8RMdHaCZ+w38TW/C23VyACt/vFC1EyGUDK4OBoW9bM8OvRU3C0GcPVoFOfU7WC0+UgQIHl7
+ Bb2O8eOT76gwZVqllqLw3/sXcVgeGNFJ7lQGddJjUYQMswoK5M5Sfh+UNCCKx6H85OqviRAfiUoeO
+ srfcXY0zEOViIK7hWLVNfFeEF62Dhtxp7AD1XBgGujBz1v+RDIZ4d80LjMayqZXo3u8YqXdx4Rx2V
+ zdgJWxFIrUUBEOQMQyu4C7WOyEbBvuyCcWCZ7S7tX9SnNQMjbw6VhoVnE8GqwVDjsQKkJZD9KfK8q
+ E2qcVI+S0zpheACrPndJoeS4nycApAtOsAvQKK3l1Iqz7IS8KKdQl45/HjqxpU4YvwxFPyNpXBl9s
+ yBFBN3j/uImWDqhWQHCsZl2CtodST5vxxihbKgfLDa6pehkANVJPsdLOytHfdXuOnxPr/vBlJ7+op
+ TX885qG9D/ruu/k//vknrRs3/yEMbc9CgCxJLz3Xk=;
+Received: from [2a00:23c4:8baa:1d00:e655:fde:753f:696a]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pCzY2-0007Pv-8R; Wed, 04 Jan 2023 08:55:02 +0000
+Message-ID: <1bd2f34b-2364-1ce7-a3f4-946e76594344@ilande.co.uk>
+Date: Wed, 4 Jan 2023 08:55:12 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 1/6] hw/arm/aspeed: Fix smpboot[] on big-endian hosts
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-CC: <qemu-devel@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>, Igor Mitsyanko
- <i.mitsyanko@gmail.com>, Joel Stanley <joel@jms.id.au>, Havard Skinnemoen
- <hskinnemoen@google.com>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
- Alistair Francis <alistair@alistair23.me>, <qemu-arm@nongnu.org>,
- Tyrone Ting <kfting@nuvoton.com>
-References: <20221222215549.86872-1-philmd@linaro.org>
- <20221222215549.86872-2-philmd@linaro.org>
- <CAFEAcA9KD8WwPTKVQQUfAZxaqA=ASweZtJ=sAV0Vd8TkpqDBOw@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CAFEAcA9KD8WwPTKVQQUfAZxaqA=ASweZtJ=sAV0Vd8TkpqDBOw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 882cf067-d16a-45a0-b033-600a4e247b0b
-X-Ovh-Tracer-Id: 4330211044971744245
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrjeehgdduvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgrnhgurhgvfiesrghjrdhiugdrrghupdhirdhmihhtshihrghnkhhosehgmhgrihhlrdgtohhmpdhjohgvlhesjhhmshdrihgurdgruhdphhhskhhinhhnvghmohgvnhesghhoohhglhgvrdgtohhmpdgvughgrghrrdhighhlvghsihgrshesghhmrghilhdrtghomhdprghlihhsthgrihhrsegrlhhishhtrg
- hirhdvfedrmhgvpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhkfhhtihhnghesnhhuvhhothhonhdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo552.mail-out.ovh.net
-X-Spam_score_int: -49
-X-Spam_score: -5.0
+To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Michael S Tsirkin <mst@redhat.com>, qemu-devel@nongnu.org,
+ Bernhard Beschow <shentey@gmail.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
+References: <20230103084801.20437-1-thuth@redhat.com>
+ <20230103084801.20437-5-thuth@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20230103084801.20437-5-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8baa:1d00:e655:fde:753f:696a
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 4/6] hw/rtc/mc146818rtc: Add a property for the
+ availability of the slew tick policy
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -51
+X-Spam_score: -5.2
 X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.103,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.103,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,257 +89,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/3/23 18:33, Peter Maydell wrote:
-> On Thu, 22 Dec 2022 at 21:56, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
->>
->> ARM CPUs fetch instructions in little-endian.
->>
->> smpboot[] encoded instructions are written in little-endian.
->> This is fine on little-endian host, but on big-endian ones
->> the smpboot[] array ends swapped. Use the const_le32()
->> macro so the instructions are always in little-endian in the
->> smpboot[] array.
->>
->> Fixes: 9bb6d14081 ("aspeed: Add boot stub for smp booting")
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> ---
->>   hw/arm/aspeed.c | 28 ++++++++++++++--------------
->>   1 file changed, 14 insertions(+), 14 deletions(-)
->>
->> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
->> index 55f114ef72..adff9a0d73 100644
->> --- a/hw/arm/aspeed.c
->> +++ b/hw/arm/aspeed.c
->> @@ -194,22 +194,22 @@ static void aspeed_write_smpboot(ARMCPU *cpu,
->>            * r1 = AST_SMP_MBOX_FIELD_ENTRY
->>            * r0 = AST_SMP_MBOX_FIELD_GOSIGN
->>            */
->> -        0xee100fb0,  /* mrc     p15, 0, r0, c0, c0, 5 */
->> -        0xe21000ff,  /* ands    r0, r0, #255          */
->> -        0xe59f201c,  /* ldr     r2, [pc, #28]         */
->> -        0xe1822000,  /* orr     r2, r2, r0            */
->> +        const_le32(0xee100fb0),     /* mrc     p15, 0, r0, c0, c0, 5 */
->> +        const_le32(0xe21000ff),     /* ands    r0, r0, #255          */
->> +        const_le32(0xe59f201c),     /* ldr     r2, [pc, #28]         */
->> +        const_le32(0xe1822000),     /* orr     r2, r2, r0            */
->>
->> -        0xe59f1018,  /* ldr     r1, [pc, #24]         */
->> -        0xe59f0018,  /* ldr     r0, [pc, #24]         */
->> +        const_le32(0xe59f1018),     /* ldr     r1, [pc, #24]         */
->> +        const_le32(0xe59f0018),     /* ldr     r0, [pc, #24]         */
->>
->> -        0xe320f002,  /* wfe                           */
->> -        0xe5904000,  /* ldr     r4, [r0]              */
->> -        0xe1520004,  /* cmp     r2, r4                */
->> -        0x1afffffb,  /* bne     <wfe>                 */
->> -        0xe591f000,  /* ldr     pc, [r1]              */
->> -        AST_SMP_MBOX_GOSIGN,
->> -        AST_SMP_MBOX_FIELD_ENTRY,
->> -        AST_SMP_MBOX_FIELD_GOSIGN,
->> +        const_le32(0xe320f002),     /* wfe                           */
->> +        const_le32(0xe5904000),     /* ldr     r4, [r0]              */
->> +        const_le32(0xe1520004),     /* cmp     r2, r4                */
->> +        const_le32(0x1afffffb),     /* bne     <wfe>                 */
->> +        const_le32(0xe591f000),     /* ldr     pc, [r1]              */
->> +        const_le32(AST_SMP_MBOX_GOSIGN),
->> +        const_le32(AST_SMP_MBOX_FIELD_ENTRY),
->> +        const_le32(AST_SMP_MBOX_FIELD_GOSIGN)
->>       };
->>
->>       rom_add_blob_fixed("aspeed.smpboot", poll_mailbox_ready,
+On 03/01/2023 08:47, Thomas Huth wrote:
+
+> We want to get rid of the "#ifdef TARGET_I386" statements in the mc146818
+> code, so we need a different way to decide whether the slew tick policy
+> is available or not. Introduce a new property "slew-tick-policy-available"
+> which can be set by the machines that support this tick policy.
 > 
-> Can we use the write_bootloader() function, which handles the
-> endianness question correctly and is how other boards do the
-> "put a little lump of code into the guest" job ?
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   include/hw/rtc/mc146818rtc.h |  1 +
+>   hw/i386/pc_piix.c            |  1 +
+>   hw/isa/lpc_ich9.c            |  1 +
+>   hw/isa/piix3.c               |  1 +
+>   hw/rtc/mc146818rtc.c         | 16 ++++++++++------
+>   5 files changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+> index 1db0fcee92..54af63d091 100644
+> --- a/include/hw/rtc/mc146818rtc.h
+> +++ b/include/hw/rtc/mc146818rtc.h
+> @@ -45,6 +45,7 @@ struct RTCState {
+>       QEMUTimer *coalesced_timer;
+>       Notifier clock_reset_notifier;
+>       LostTickPolicy lost_tick_policy;
+> +    bool slew_tick_policy_available;
+>       Notifier suspend_notifier;
+>       QLIST_ENTRY(RTCState) link;
+>   };
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index bc9ea8cdae..382c6add3b 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -233,6 +233,7 @@ static void pc_init1(MachineState *machine,
+>   
+>           rtc_state = isa_new(TYPE_MC146818_RTC);
+>           qdev_prop_set_int32(DEVICE(rtc_state), "base_year", 2000);
+> +        qdev_prop_set_bit(DEVICE(rtc_state), "slew-tick-policy-available", true);
+>           isa_realize_and_unref(rtc_state, isa_bus, &error_fatal);
+>   
+>           i8257_dma_init(isa_bus, 0);
+> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+> index 498175c1cc..aeab4d8549 100644
+> --- a/hw/isa/lpc_ich9.c
+> +++ b/hw/isa/lpc_ich9.c
+> @@ -733,6 +733,7 @@ static void ich9_lpc_realize(PCIDevice *d, Error **errp)
+>   
+>       /* RTC */
+>       qdev_prop_set_int32(DEVICE(&lpc->rtc), "base_year", 2000);
+> +    qdev_prop_set_bit(DEVICE(&lpc->rtc), "slew-tick-policy-available", true);
+>       if (!qdev_realize(DEVICE(&lpc->rtc), BUS(isa_bus), errp)) {
+>           return;
+>       }
+> diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+> index c68e51ddad..825b1cbee2 100644
+> --- a/hw/isa/piix3.c
+> +++ b/hw/isa/piix3.c
+> @@ -316,6 +316,7 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+>   
+>       /* RTC */
+>       qdev_prop_set_int32(DEVICE(&d->rtc), "base_year", 2000);
+> +    qdev_prop_set_bit(DEVICE(&d->rtc), "slew-tick-policy-available", true);
+>       if (!qdev_realize(DEVICE(&d->rtc), BUS(isa_bus), errp)) {
+>           return;
+>       }
+> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+> index 947d68c257..86381a74c3 100644
+> --- a/hw/rtc/mc146818rtc.c
+> +++ b/hw/rtc/mc146818rtc.c
+> @@ -922,14 +922,16 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
+>       rtc_set_date_from_host(isadev);
+>   
+>       switch (s->lost_tick_policy) {
+> -#ifdef TARGET_I386
+> -    case LOST_TICK_POLICY_SLEW:
+> -        s->coalesced_timer =
+> -            timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
+> -        break;
+> -#endif
+>       case LOST_TICK_POLICY_DISCARD:
+>           break;
+> +    case LOST_TICK_POLICY_SLEW:
+> +#ifdef TARGET_I386
+> +        if (s->slew_tick_policy_available) {
+> +            s->coalesced_timer = timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
+> +            break;
+> +        }
+> +#endif
+> +        /* fallthrough */
+>       default:
+>           error_setg(errp, "Invalid lost tick policy.");
+>           return;
+> @@ -989,6 +991,8 @@ static Property mc146818rtc_properties[] = {
+>       DEFINE_PROP_UINT8("irq", RTCState, isairq, RTC_ISA_IRQ),
+>       DEFINE_PROP_LOSTTICKPOLICY("lost_tick_policy", RTCState,
+>                                  lost_tick_policy, LOST_TICK_POLICY_DISCARD),
+> +    DEFINE_PROP_BOOL("slew-tick-policy-available", RTCState,
+> +                     slew_tick_policy_available, false),
+>       DEFINE_PROP_END_OF_LIST(),
+>   };
 
-Yes. See below.
+My first thought when looking at the new "slew-tick-policy-available" property 
+introduced above was that it seems to overlap with the "lost_tick_policy" property 
+defined just above it using DEFINE_PROP_LOSTTICKPOLICY().
 
-May be we could change write_bootloader a little to handle an empty
-fixupcontext.
+This made me wonder if a better approach here would be to move the logic that 
+determines if LOST_TICK_POLICY_SLEW is available into the "lost_tick_policy" property 
+setter defined at 
+https://gitlab.com/qemu-project/qemu/-/blob/master/hw/core/qdev-properties-system.c#L558.
 
-Thanks,
+If you look at the code directly below the link above you can see how set_blocksize() 
+overrides the .set function for qdev_prop_blocksize to provide additional validation, 
+which is similar to what we are trying to do here.
 
-C.
+I think it may be possible to come up with a similar solution for 
+qdev_prop_losttickpolicy which makes use of the logic you suggested before i.e.
 
- From 671d43faa7e14b896855403feb0afd777350cb0a Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Date: Wed, 4 Jan 2023 09:30:28 +0100
-Subject: [PATCH] hw/arm/boot: Export write_bootloader for Aspeed machines
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+     MachineState *ms = MACHINE(qdev_get_machine());
 
-AST2600 Aspeed machines have an home made boot loader for secondaries.
-Instead, use the internal ARM boot loader.
+     if (!object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
+         ....
+     }
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
-  include/hw/arm/boot.h | 24 ++++++++++++++++++++++++
-  hw/arm/aspeed.c       | 42 ++++++++++++++++++++++--------------------
-  hw/arm/boot.c         | 34 +++++++---------------------------
-  3 files changed, 53 insertions(+), 47 deletions(-)
-
-diff --git a/include/hw/arm/boot.h b/include/hw/arm/boot.h
-index f18cc3064f..23edd0d31b 100644
---- a/include/hw/arm/boot.h
-+++ b/include/hw/arm/boot.h
-@@ -183,4 +183,28 @@ void arm_write_secure_board_setup_dummy_smc(ARMCPU *cpu,
-                                              const struct arm_boot_info *info,
-                                              hwaddr mvbar_addr);
-  
-+typedef enum {
-+    FIXUP_NONE = 0,     /* do nothing */
-+    FIXUP_TERMINATOR,   /* end of insns */
-+    FIXUP_BOARDID,      /* overwrite with board ID number */
-+    FIXUP_BOARD_SETUP,  /* overwrite with board specific setup code address */
-+    FIXUP_ARGPTR_LO,    /* overwrite with pointer to kernel args */
-+    FIXUP_ARGPTR_HI,    /* overwrite with pointer to kernel args (high half) */
-+    FIXUP_ENTRYPOINT_LO, /* overwrite with kernel entry point */
-+    FIXUP_ENTRYPOINT_HI, /* overwrite with kernel entry point (high half) */
-+    FIXUP_GIC_CPU_IF,   /* overwrite with GIC CPU interface address */
-+    FIXUP_BOOTREG,      /* overwrite with boot register address */
-+    FIXUP_DSB,          /* overwrite with correct DSB insn for cpu */
-+    FIXUP_MAX,
-+} FixupType;
-+
-+typedef struct ARMInsnFixup {
-+    uint32_t insn;
-+    FixupType fixup;
-+} ARMInsnFixup;
-+
-+void arm_write_bootloader(const char *name, hwaddr addr,
-+                          const ARMInsnFixup *insns, uint32_t *fixupcontext,
-+                          AddressSpace *as);
-+
-  #endif /* HW_ARM_BOOT_H */
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 9c60575cb8..311c0091ca 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -201,33 +201,35 @@ struct AspeedMachineState {
-  static void aspeed_write_smpboot(ARMCPU *cpu,
-                                   const struct arm_boot_info *info)
-  {
--    static const uint32_t poll_mailbox_ready[] = {
-+    AddressSpace *as = arm_boot_address_space(cpu, info);
-+    static const ARMInsnFixup poll_mailbox_ready[] = {
-          /*
-           * r2 = per-cpu go sign value
-           * r1 = AST_SMP_MBOX_FIELD_ENTRY
-           * r0 = AST_SMP_MBOX_FIELD_GOSIGN
-           */
--        0xee100fb0,  /* mrc     p15, 0, r0, c0, c0, 5 */
--        0xe21000ff,  /* ands    r0, r0, #255          */
--        0xe59f201c,  /* ldr     r2, [pc, #28]         */
--        0xe1822000,  /* orr     r2, r2, r0            */
--
--        0xe59f1018,  /* ldr     r1, [pc, #24]         */
--        0xe59f0018,  /* ldr     r0, [pc, #24]         */
--
--        0xe320f002,  /* wfe                           */
--        0xe5904000,  /* ldr     r4, [r0]              */
--        0xe1520004,  /* cmp     r2, r4                */
--        0x1afffffb,  /* bne     <wfe>                 */
--        0xe591f000,  /* ldr     pc, [r1]              */
--        AST_SMP_MBOX_GOSIGN,
--        AST_SMP_MBOX_FIELD_ENTRY,
--        AST_SMP_MBOX_FIELD_GOSIGN,
-+        { 0xee100fb0 },  /* mrc     p15, 0, r0, c0, c0, 5 */
-+        { 0xe21000ff },  /* ands    r0, r0, #255          */
-+        { 0xe59f201c },  /* ldr     r2, [pc, #28]         */
-+        { 0xe1822000 },  /* orr     r2, r2, r0            */
-+
-+        { 0xe59f1018 },  /* ldr     r1, [pc, #24]         */
-+        { 0xe59f0018 },  /* ldr     r0, [pc, #24]         */
-+
-+        { 0xe320f002 },  /* wfe                           */
-+        { 0xe5904000 },  /* ldr     r4, [r0]              */
-+        { 0xe1520004 },  /* cmp     r2, r4                */
-+        { 0x1afffffb },  /* bne     <wfe>                 */
-+        { 0xe591f000 },  /* ldr     pc, [r1]              */
-+        { AST_SMP_MBOX_GOSIGN },
-+        { AST_SMP_MBOX_FIELD_ENTRY },
-+        { AST_SMP_MBOX_FIELD_GOSIGN },
-+        { 0, FIXUP_TERMINATOR }
-      };
-+    uint32_t fixupcontext[FIXUP_MAX] = { 0 };
-  
--    rom_add_blob_fixed("aspeed.smpboot", poll_mailbox_ready,
--                       sizeof(poll_mailbox_ready),
--                       info->smp_loader_start);
-+    arm_write_bootloader("aspeed.smpboot", info->smp_loader_start,
-+                         poll_mailbox_ready, fixupcontext, as);
-  }
-  
-  static void aspeed_reset_secondary(ARMCPU *cpu,
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 3d7d11f782..ed6fd7c77f 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -59,26 +59,6 @@ AddressSpace *arm_boot_address_space(ARMCPU *cpu,
-      return cpu_get_address_space(cs, asidx);
-  }
-  
--typedef enum {
--    FIXUP_NONE = 0,     /* do nothing */
--    FIXUP_TERMINATOR,   /* end of insns */
--    FIXUP_BOARDID,      /* overwrite with board ID number */
--    FIXUP_BOARD_SETUP,  /* overwrite with board specific setup code address */
--    FIXUP_ARGPTR_LO,    /* overwrite with pointer to kernel args */
--    FIXUP_ARGPTR_HI,    /* overwrite with pointer to kernel args (high half) */
--    FIXUP_ENTRYPOINT_LO, /* overwrite with kernel entry point */
--    FIXUP_ENTRYPOINT_HI, /* overwrite with kernel entry point (high half) */
--    FIXUP_GIC_CPU_IF,   /* overwrite with GIC CPU interface address */
--    FIXUP_BOOTREG,      /* overwrite with boot register address */
--    FIXUP_DSB,          /* overwrite with correct DSB insn for cpu */
--    FIXUP_MAX,
--} FixupType;
--
--typedef struct ARMInsnFixup {
--    uint32_t insn;
--    FixupType fixup;
--} ARMInsnFixup;
--
-  static const ARMInsnFixup bootloader_aarch64[] = {
-      { 0x580000c0 }, /* ldr x0, arg ; Load the lower 32-bits of DTB */
-      { 0xaa1f03e1 }, /* mov x1, xzr */
-@@ -149,9 +129,9 @@ static const ARMInsnFixup smpboot[] = {
-      { 0, FIXUP_TERMINATOR }
-  };
-  
--static void write_bootloader(const char *name, hwaddr addr,
--                             const ARMInsnFixup *insns, uint32_t *fixupcontext,
--                             AddressSpace *as)
-+void arm_write_bootloader(const char *name, hwaddr addr,
-+                          const ARMInsnFixup *insns, uint32_t *fixupcontext,
-+                          AddressSpace *as)
-  {
-      /* Fix up the specified bootloader fragment and write it into
-       * guest memory using rom_add_blob_fixed(). fixupcontext is
-@@ -213,8 +193,8 @@ static void default_write_secondary(ARMCPU *cpu,
-          fixupcontext[FIXUP_DSB] = CP15_DSB_INSN;
-      }
-  
--    write_bootloader("smpboot", info->smp_loader_start,
--                     smpboot, fixupcontext, as);
-+    arm_write_bootloader("smpboot", info->smp_loader_start,
-+                         smpboot, fixupcontext, as);
-  }
-  
-  void arm_write_secure_board_setup_dummy_smc(ARMCPU *cpu,
-@@ -1173,8 +1153,8 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
-          fixupcontext[FIXUP_ENTRYPOINT_LO] = entry;
-          fixupcontext[FIXUP_ENTRYPOINT_HI] = entry >> 32;
-  
--        write_bootloader("bootloader", info->loader_start,
--                         primary_loader, fixupcontext, as);
-+        arm_write_bootloader("bootloader", info->loader_start,
-+                             primary_loader, fixupcontext, as);
-  
-          if (info->write_board_setup) {
-              info->write_board_setup(cpu, info);
--- 
-2.38.1
+which can then emit a suitable warning or return an error accordingly. A quick glance 
+at hw/core/qdev-properties-system.c suggests there are a number of similar examples 
+showing how this could be done.
 
 
+ATB,
+
+Mark.
 
