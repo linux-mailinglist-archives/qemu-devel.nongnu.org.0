@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C9165DB5B
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D0765DB5A
 	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 18:39:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD7hy-00068T-Uc; Wed, 04 Jan 2023 12:37:46 -0500
+	id 1pD7iU-0006CF-Fd; Wed, 04 Jan 2023 12:38:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pD7hx-00068H-On
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 12:37:45 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ id 1pD7iP-0006Bk-6C
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 12:38:13 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pD7hw-000545-3Q
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 12:37:45 -0500
-Received: by mail-pl1-x635.google.com with SMTP id n4so36588241plp.1
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 09:37:43 -0800 (PST)
+ id 1pD7iN-00056v-IQ
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 12:38:12 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ c2-20020a17090a020200b00226c762ed23so583119pjc.5
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 09:38:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=oRX3aoxWpIAjStq8N+rCgXZMPSoMWkdKtul/JI8OsFg=;
- b=ii4dKczoiWgy4orpKuqs3aILNhZ1h8fDMulg41nqJ/EGW94L56H0m9vRouQLR1q2Nx
- CRsE0QgHRufX6kbPE2efuLHDA+seSBZENh/ha0FfQaIF310ipPi15zVCfUpNfPQnT/Pz
- PZePiKZvl6w1xhSS28yhk9Kk9cda8meEhd5PL+FKzyC5e5g7zE8cE7OXFOkN9QB1cW0w
- 5fv4q9rUFyQS07IbPubypUmMTGmW47MTOZo7JuZVVE12nuwRpFkZDau5w9h7LBZieRWY
- OT38BijMEkB2zqXebe2iiSGx0kp+62ZSivb53Xb4j1T4LaCrDjDoH9hDvVaDd+9mLrCl
- NNZA==
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=EH5cNEJOarFKRe1pymIcyUBeOODo7k0erZOhVXkJN/Q=;
+ b=AAaJehJ/BQZ6jtk1St4PSBrMqmQnjZk/U0qtVqxj64Jw7q17Ec3bhk44oN5ylbP8iI
+ YmqHx26r26hIQj3sVG9w8dJDV/1jJwXou9xx26AQ2DZuP47oI+1ElEFC9eyDacGYXdA/
+ L000nLxmxBA8GjRwrilKVU+CFv6KwOuzh7MAEtmle5qaW18hMJe31SRRvXtgx7Pl3rBL
+ MFZgME8Wu4CU8OgHtKMBILsIx1BcUEUJ47UZbjnXbnUXbmWYuUG7dqROrV7FBm/7jNAk
+ MpwrSwwUscGlb7pgJ6RlsTMVHgIU2Pvjz5ofpthbZrf8nF6TyyfWvs/FkjwvZY0xJstl
+ U7Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oRX3aoxWpIAjStq8N+rCgXZMPSoMWkdKtul/JI8OsFg=;
- b=5KmqVpAHuh/EfJ4/JiMMdRraufj72TiaCIAqJpi4T4UCB1V+aO17vaQ871VFsAdtBg
- x4Fh0gyKbhibU5j1gjoaDy3buhWCGRWGbMapElrYZ7th16h/PngJIBD4ZODUhvN2n1rS
- WSEp2N/u8dXkW0/NuerixgDzCDZ0RDF0QD4nma2HShm/xoGvqcqLmsusZsVpse+JpiZy
- HntVUJWShLgWcTLIWgtxX2DpDJULxgSOjDi2KzPfEGpnToGsrbBPbWYJCMRhQb3NCt1y
- kdZiyOYOJ6TW7lzzVkI6JfytQXVfQobW0UxAJ4EAhPzfdMsv2EdOMjQqE9Z6U3vMNMkj
- gwJQ==
-X-Gm-Message-State: AFqh2kqOGbe4i6hqchE2QOIPO2L6chugOmsN9sEzMK20SlLP4BK196ar
- hzNmskn5OnikerzaDqwb7rmWBw==
-X-Google-Smtp-Source: AMrXdXsBMwayX3xwavzwdZxe0pOJoET51ql2DJb9IbxoxlP3yAiDvgfcpuLLSl+2cdAuu3YaG5BJ2w==
-X-Received: by 2002:a17:90b:1203:b0:219:823e:6726 with SMTP id
- gl3-20020a17090b120300b00219823e6726mr52069361pjb.19.1672853862352; 
- Wed, 04 Jan 2023 09:37:42 -0800 (PST)
+ bh=EH5cNEJOarFKRe1pymIcyUBeOODo7k0erZOhVXkJN/Q=;
+ b=QtiqxrrdqXSoBc+rLv4UkiZcKmlP9aRBjT4LcLao/zpn284zU5VN427FrkWBjStEmv
+ nzDvevqrIepLv3EbG3VNsQcJvnrficYIvA9e/0tcqWyyBxVELxit6MdQDKeXcWIbkS2p
+ cYhGegImOoRGZrjGFaukkpLpWNqr0vTndqXKyX3+2PNJPj7wWzYDkm4gsFETqhqPsBdr
+ fLhk7oytsrhfonMEq8hTotqIv3/Laa8VaPEAcVNyE1Wo/hlTImlR03HOO1DSHusHzBJg
+ X5GXnrZhYffYxwZveoleSo5kRLexgqUmURFKuuul+M8Z7pBeLT4I65AvKryWYYZUVERY
+ fj6w==
+X-Gm-Message-State: AFqh2koMw97eTEXtsgYwE2JOZr3HmlUA+DO1uNIyf6zau8mUYdA3l3uJ
+ bB+UlvNmxpdi1c4tuyEyPwV/cQ==
+X-Google-Smtp-Source: AMrXdXvk0wZvLV3R94X2D10HxMYZSZoZk6J72lWUI73OkSH3re/DDNMAnXZqSXnSOtStfDOooJhR3A==
+X-Received: by 2002:a17:902:8bc1:b0:191:2720:2ef6 with SMTP id
+ r1-20020a1709028bc100b0019127202ef6mr52642720plo.21.1672853889771; 
+ Wed, 04 Jan 2023 09:38:09 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:92be:ce91:1417:6686?
  ([2602:47:d48c:8101:92be:ce91:1417:6686])
  by smtp.gmail.com with ESMTPSA id
- ge10-20020a17090b0e0a00b00213202d77d9sm20538252pjb.43.2023.01.04.09.37.41
+ n15-20020a170902d2cf00b00192902287d1sm16443193plc.288.2023.01.04.09.38.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 09:37:41 -0800 (PST)
-Message-ID: <e54984fe-c17a-c39b-80e9-f7d22010106c@linaro.org>
-Date: Wed, 4 Jan 2023 09:37:39 -0800
+ Wed, 04 Jan 2023 09:38:09 -0800 (PST)
+Message-ID: <904819ea-3094-f4e7-bbc4-2dc91484f41c@linaro.org>
+Date: Wed, 4 Jan 2023 09:38:07 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 1/4] target/m68k: pass quotient directly into
+Subject: Re: [PATCH v2 2/4] target/m68k: pass sign directly into
  make_quotient()
+Content-Language: en-US
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, laurent@vivier.eu,
  qemu-devel@nongnu.org
 References: <20230104134554.138012-1-mark.cave-ayland@ilande.co.uk>
- <20230104134554.138012-2-mark.cave-ayland@ilande.co.uk>
-Content-Language: en-US
+ <20230104134554.138012-3-mark.cave-ayland@ilande.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230104134554.138012-2-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20230104134554.138012-3-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -96,11 +97,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/4/23 05:45, Mark Cave-Ayland wrote:
+> This enables the quotient parameter to be changed from int32_t to uint32_t and
+> also allows the extra sign logic in make_quotient() to be removed.
+> 
 > Signed-off-by: Mark Cave-Ayland<mark.cave-ayland@ilande.co.uk>
-> Reviewed-by: Laurent Vivier<laurent@vivier.eu>
 > ---
->   target/m68k/fpu_helper.c | 20 +++++++++++---------
->   1 file changed, 11 insertions(+), 9 deletions(-)
+>   target/m68k/fpu_helper.c | 23 +++++++++++++----------
+>   1 file changed, 13 insertions(+), 10 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
