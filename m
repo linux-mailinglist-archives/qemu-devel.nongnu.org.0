@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95AA765EFBB
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 16:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CECE265F02C
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 16:35:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDRvM-0002D3-0t; Thu, 05 Jan 2023 10:12:56 -0500
+	id 1pDSFx-0007j0-Kb; Thu, 05 Jan 2023 10:34:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDRvE-0002B5-L8
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:12:49 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1pDSFw-0007ij-22
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:34:12 -0500
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDRvB-0004UO-Nl
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:12:47 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- z4-20020a17090a170400b00226d331390cso1206311pjd.5
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 07:12:45 -0800 (PST)
+ id 1pDSFu-0004qo-HJ
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:34:11 -0500
+Received: by mail-pg1-x534.google.com with SMTP id 36so24721186pgp.10
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 07:34:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=kA2IQbg7QjNFO5SX4+mDwkeVBtI/d3z9EsVDhVYfgIE=;
- b=RN+6aCKxljBaeJ0JfY9XC8DQvXlJIrcF+35R3LGG3VZtszabksuNo9FwwoZJQEot60
- XigkELh1wkhnsRw7CuFbcrn1PjoJ1yjY6jMZjx/SzV0HXg6Er2C5w7pURIDA8QBrJxOZ
- 0kVcs4PYWtnpV+UcFz/xJ3MH3pZgheQiuTx1VYlM0eQr8nRLwVuQAy/BhcScvUJ6n7Sp
- Vpys1zm5P+J4a4O3oXGdqLj8mxCSxaOkwjnfHBffdzQL1abaMZoyy4ebMuYiIxCiatFQ
- J0O7LaO4lYVb1mqRTuwaYlrZwDcHoWeWH1Gb24OIOe0xrVtPilCLxIxIuZD4RAiWfySk
- YDkg==
+ bh=vOfm6dIMpXZoHwwmPSX8+AwHDYvmaG+W3cMGo0+TrYw=;
+ b=fA8e04dL73uduTe1MMKOxUZpiBWxfR/K8Z/QDYeXlROz69C9mO52mCjHYHqNRpWKuY
+ 1NND10wwe28r62wqCuyrZPjWMOweISlwYTuoqGYuFRwU7fHCY6TjMd7Uuqi041g36SEv
+ /NNi4jcg7gCUv4bFs7BJNtDIXl73Ux1GMcOccUnF6iqQq7y+fFVsvKHI1/D3aCNa3Ch4
+ YDW29VSIpxklh+xEz/Pb5tnG32CLhclfSYmEUx4c5+UkHOVFsKJRO9JETkf6zRXvPAz4
+ IUbL/lbEpQKebRN3mRB0SRUALi8CnROTAUTpf9xMaA+t49Nv5lVfb6ks/L3C0cRRH8oW
+ 6/0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=kA2IQbg7QjNFO5SX4+mDwkeVBtI/d3z9EsVDhVYfgIE=;
- b=TQQdkKgjcpzD/WqRplQi/aWNIeYOaYoGx6gizbTPgk4SDGpUfezv9RkGR0C3nrG2xu
- QoRTKxv4Ypnog6o/GT4S1wckRXq4OK7JpO8tFzNQI8Yxq8vFAxO6/nY+IKOIr19Fl1dU
- eLCtshjQgP7EPT0hTHjaa67afGHNwtXPnX8CeSUqGCFPFiO7qo6ofbhsdNtr3YhFj7YS
- Kx8rXdMMqmyrVXyUxJVfaz8RPEF561r1AOiUU8R9+f7DL35eq6F0ynrmcmuFZoRCN+Eq
- 69ucI8b4S+7nVShNag6nGU06Pi9l8TDZbygUA+FOlYIFGTNWao+/0OSs33ikGRwwr4bS
- m2/g==
-X-Gm-Message-State: AFqh2krbzWyrHM8S4tksW2ZNZM3/lMKPR2QevPTdV6kMZe5l4DnBIaNA
- ip7jpoaH7cTg/mHn3y7XkVhMOcNWMqY+OqZRWG7ofg==
-X-Google-Smtp-Source: AMrXdXt/kkUe2k2rZIH2zWPBqKVQkt7r7OYq4EVui/oKXyZWl5+0Rs21jIw6yXK80vEdSACp+F5cFqU/TqS60bkDAdU=
-X-Received: by 2002:a17:902:efcf:b0:192:ea33:5092 with SMTP id
- ja15-20020a170902efcf00b00192ea335092mr489064plb.19.1672931564005; Thu, 05
- Jan 2023 07:12:44 -0800 (PST)
+ bh=vOfm6dIMpXZoHwwmPSX8+AwHDYvmaG+W3cMGo0+TrYw=;
+ b=PefVxbyEg7RPplMJzh4xixSWeGgogM0jf+6N3weiKZu/cEN5EqriqoONBlhVW4ENZR
+ kSR6Cy6tbWVh3u3yF3RdIrSr9xmvHi0zII7vaBnhE3uz+1gLJU80fcg+NclWq2+cWEmV
+ 6gNQa29B3yycTZfVqzZkKbkN+3a2na8UBASDDdOOwihvvCJ8g4iiF1mAYBLaKXp+HofZ
+ RC+kdJuoimEEPNP9FuUFvMn1u9vA7jkQVnN8YmRkGMpWY/Ooza2c/N2H3vqXgER0hI+v
+ 7bNlNCOJ2+OJ9mto6IublDkKHlbD4xpAD2+JG3VJmDqvw7MLlBLaWfledfzyj4b/saZ8
+ BeQw==
+X-Gm-Message-State: AFqh2krVBE4W7WDRPzeg60wBp/Z+4xgHMDlHH8mT/czRd9GMAVRn95Ov
+ jxq9PD0K17nXDVlwRCYYOfVOa8Pqy9vbOysjVFjDPQ==
+X-Google-Smtp-Source: AMrXdXuf0RvyitFTKEms+L5IYTNms7dQ1O7cPFT644pZ2Uku9h6aw3keeIFQp4/bX008XH7z9vpShhNuX1RMyEyzT8I=
+X-Received: by 2002:a63:e20b:0:b0:479:18a:8359 with SMTP id
+ q11-20020a63e20b000000b00479018a8359mr3277920pgh.105.1672932848586; Thu, 05
+ Jan 2023 07:34:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20221226101418.415170-1-jcd@tribudubois.net>
-In-Reply-To: <20221226101418.415170-1-jcd@tribudubois.net>
+References: <20221221183202.3788132-1-slongfield@google.com>
+In-Reply-To: <20221221183202.3788132-1-slongfield@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Jan 2023 15:12:32 +0000
-Message-ID: <CAFEAcA_HfPLHtm55Q_Q1X5-SWFwwEbT-=97RJ4u-FdMCROQL3A@mail.gmail.com>
-Subject: Re: [PATCH] i.MX7D: Connect IRQs to GPIO devices.
-To: Jean-Christophe Dubois <jcd@tribudubois.net>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Date: Thu, 5 Jan 2023 15:33:57 +0000
+Message-ID: <CAFEAcA-zv_ny28MJGf4s9T1+3PwK8WRurVgiQnA+8UWbkRawkQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/net: Fix read of uninitialized memory in imx_fec.
+To: Stephen Longfield <slongfield@google.com>
+Cc: clg@kaod.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ venture@google.com, wuhaotsh@google.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,20 +83,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 26 Dec 2022 at 10:15, Jean-Christophe Dubois
-<jcd@tribudubois.net> wrote:
+On Wed, 21 Dec 2022 at 18:32, Stephen Longfield <slongfield@google.com> wrote:
 >
-> IRQs were not associated to the various GPIO devices inside i.MX7D.
-> This patch brings the i.MX7D on par with i.MX6.
+> Size is used at lines 1088/1188 for the loop, which reads the last 4
+> bytes from the crc_ptr so it does need to get increased, however it
+> shouldn't be increased before the buffer is passed to CRC computation,
+> or the crc32 function will access uninitialized memory.
 >
-> Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
-> ---
->  hw/arm/fsl-imx7.c         | 31 ++++++++++++++++++++++++++++++-
->  include/hw/arm/fsl-imx7.h | 15 +++++++++++++++
->  2 files changed, 45 insertions(+), 1 deletion(-)
+> This was pointed out to me by clg@kaod.org during the code review of
+> a similar patch to hw/net/ftgmac100.c
+>
+> Change-Id: Ib0464303b191af1e28abeb2f5105eb25aadb5e9b
+> Signed-off-by: Stephen Longfield <slongfield@google.com>
+> Reviewed-by: Patrick Venture <venture@google.com>
 
-Thanks, applied to target-arm.next (fixing up the trivial
-conflict with your other patchset).
+Applied to target-arm.next, thanks.
+
+(Looking at other ethernet device models we do indeed want to crc
+just the packet, not "packet plus 4 0 bytes" or something.)
 
 -- PMM
 
