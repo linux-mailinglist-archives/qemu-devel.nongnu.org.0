@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC51C65F2B6
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:31:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE9D65F2A9
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:29:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTNl-0001wf-Kg; Thu, 05 Jan 2023 11:46:23 -0500
+	id 1pDTMf-0001M0-Ua; Thu, 05 Jan 2023 11:45:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTMI-0000m9-0B
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:50 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ id 1pDTMJ-0000oG-Dg
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:51 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTMD-0007T2-Tq
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:49 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- i17-20020a05600c355100b003d99434b1cfso1787162wmq.1
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:44 -0800 (PST)
+ id 1pDTMF-0007Pb-1r
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:51 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id m3so19556073wmq.0
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=WdsQkzgPH1wTahyKLQ7ZmQKEPjf3NSnJoH3HoNNy3yI=;
- b=X6wgz+5PwOZZOdDqD0dokqIsnOAe+JlN75+szGkbO2yzXSBlMujbXS/reBh6/Kt3Hb
- DyeclxgD3oxKcPcU71NtsBiQQPBdjYLUvyaY9gsZm97OAj1vNVIeUEjV/lXTA5ngxvQ1
- umtwlrGDvOo9QxbCJqujTOIEvhBydGooiu6tGFop9qeP5dcDVRdbEVaRBY2mzFkF688P
- osFjG+SXUqLFd6nX7eKdI+j7+/7FEXnWrTXVLArVXhO9+3nwZ+L+PruAf+ubLdlgXXsq
- hmssuBDrhYqEAB+US33/FwC3sP0x5T0dBzBKMFFiIGqnz9/7MI17CCE0T8pZjKREpiiN
- TcBQ==
+ :reply-to; bh=0uX5qcSlWxkIv6XFcZG4vEVBT2aV30N7UKGbpRe6IA0=;
+ b=o+90ALjoozOnofJKn5PdDOdOKiJRyPHwHIvFdCUomRnMG8Jg/3KyxxBOqWdooRQiwp
+ 3+0fjKYSNcVJdw4dvJnmGuHatud6KE0nlqAZb18wyvKyx7uHG504M4qjmiVIAeqWnWnH
+ YPZlhF+RYsNHSOQi9/dcTOnhW77uzWWi7TtjdmUBSwIniCvt+8kAvpiPX40p5hmzU5e5
+ 9Q+VLKwNM4RdyTFDxzz4k2mapbCZw93n2dA89MqRxo8gxQMlo1wNjwA69bhhmPaX/+l0
+ aEcEJw8b1RLcu8elRX+rXwlwBcZJ4gb4I4VmOrFtdbZFjMC4JigFn+BnMTd16VBqXtEE
+ YvNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WdsQkzgPH1wTahyKLQ7ZmQKEPjf3NSnJoH3HoNNy3yI=;
- b=vjn+INA6TLNc1hYZstwhCCbvwc9dzBl19sG8BwQXRBGm4pHEPCmrmcgKdIrNPyEQT3
- yydWP6glLqM3c3NFI1ALPHskxDTO9C5SHBcVhQV0ftm8ZhjwbYafQ5o3roLfUAS5kt4e
- UOE+BUepF8sKe68ejzeWOMk2ZxiTSQRTUuZojtiaH/geyVgE8cqSm/VT5jhJ7DX5kkOM
- qCDBkavi+ceqPjcqWvG2oORvwk/ygWXxcDlZyiFffJ/TC05JkqP4RCV9OmVWEM8iNKfF
- VR06RWbM8QAKA3+RajBou+v+GC4E5OHWyhE9VTrbpBtaQN7M1cGTVLuNEPJpDIiycxzJ
- Fa8Q==
-X-Gm-Message-State: AFqh2kotW0gqm3q7aCKzoiHCnJ6iFu75mXbkZt/EUhrNEgnZguRb4EzM
- 45q3l7BHjI3thFQ4kz4P5BF+0TYHR6XfsuKN
-X-Google-Smtp-Source: AMrXdXtw8k6gZ7VUmVZhTVbj6zIPdax9X74G4hI67xuETI+uYmHc097rFtb0jlaIeJrwgV6On0r8OQ==
-X-Received: by 2002:a7b:cd0d:0:b0:3d3:5c7d:a5f5 with SMTP id
- f13-20020a7bcd0d000000b003d35c7da5f5mr36658213wmj.16.1672937084211; 
+ bh=0uX5qcSlWxkIv6XFcZG4vEVBT2aV30N7UKGbpRe6IA0=;
+ b=FD2A6Sfm5mIqJ43iAIzhTKEzr0r9hv32GL3nTPfhoOQO/jopjoDQ3wvK2JC7XFUgdt
+ NsZE+GefTHxCcHu78hZA5NrguWYl7Te4cJiJcs9XWXoj3E/P9yjfSMtV8iZTA+g+SCYb
+ wSZepFPY2fhemVkiACPqbLMcuw1q61x6OS6Ad3EaxBYg2pYbdYltx+Bk9NzZmo1XHRG5
+ S47B+RP686txZvTz1D/H9Z3aZ/7ikDIFn4CJhNzNq9Q5NaNmZKO0bcqxOOKe1k54g0qc
+ rkmYz/7EgG10cvbKNW9bzCbAzNdD8DG3bwh9McMIwc/K71PdB3s5W3hNvslbk29CgIrr
+ Am/Q==
+X-Gm-Message-State: AFqh2krb8FXt1CxO65SG1TqVlzYCSFjd96XJZz5nCX+2VsGMCQs+Z824
+ mUW/sxxLHBbdCPVYhDawuwnTDe1VQR6JdGis
+X-Google-Smtp-Source: AMrXdXteTzm5D3Cr9rSEGmEjVilx7vzd/oaGJfDqxIz7aI2MpHrNrsxZKqTHEGFAsT+ZUFrXuPoMyw==
+X-Received: by 2002:a05:600c:1f11:b0:3d0:57ea:319c with SMTP id
+ bd17-20020a05600c1f1100b003d057ea319cmr36874405wmb.13.1672937084993; 
  Thu, 05 Jan 2023 08:44:44 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.43
+ hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:44:43 -0800 (PST)
+ Thu, 05 Jan 2023 08:44:44 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/34] i.MX7D: Connect GPT timers to IRQ
-Date: Thu,  5 Jan 2023 16:44:13 +0000
-Message-Id: <20230105164417.3994639-31-peter.maydell@linaro.org>
+Subject: [PULL 31/34] i.MX7D: Compute clock frequency for the fixed frequency
+ clocks.
+Date: Thu,  5 Jan 2023 16:44:14 +0000
+Message-Id: <20230105164417.3994639-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230105164417.3994639-1-peter.maydell@linaro.org>
 References: <20230105164417.3994639-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,56 +91,83 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Jean-Christophe Dubois <jcd@tribudubois.net>
 
-So far the GPT timers were unable to raise IRQs to the processor.
+CCM derived clocks will have to be added later.
 
 Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/fsl-imx7.h |  5 +++++
- hw/arm/fsl-imx7.c         | 10 ++++++++++
- 2 files changed, 15 insertions(+)
+ hw/misc/imx7_ccm.c | 49 +++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 40 insertions(+), 9 deletions(-)
 
-diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
-index 1c5fa6fd676..50f19d8db04 100644
---- a/include/hw/arm/fsl-imx7.h
-+++ b/include/hw/arm/fsl-imx7.h
-@@ -235,6 +235,11 @@ enum FslIMX7IRQs {
-     FSL_IMX7_USB2_IRQ     = 42,
-     FSL_IMX7_USB3_IRQ     = 40,
+diff --git a/hw/misc/imx7_ccm.c b/hw/misc/imx7_ccm.c
+index 075159e497b..f135ec7b7e4 100644
+--- a/hw/misc/imx7_ccm.c
++++ b/hw/misc/imx7_ccm.c
+@@ -16,6 +16,10 @@
+ #include "hw/misc/imx7_ccm.h"
+ #include "migration/vmstate.h"
  
-+    FSL_IMX7_GPT1_IRQ     = 55,
-+    FSL_IMX7_GPT2_IRQ     = 54,
-+    FSL_IMX7_GPT3_IRQ     = 53,
-+    FSL_IMX7_GPT4_IRQ     = 52,
++#include "trace.h"
 +
-     FSL_IMX7_WDOG1_IRQ    = 78,
-     FSL_IMX7_WDOG2_IRQ    = 79,
-     FSL_IMX7_WDOG3_IRQ    = 10,
-diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
-index cc6fdb9373f..146bb559bbc 100644
---- a/hw/arm/fsl-imx7.c
-+++ b/hw/arm/fsl-imx7.c
-@@ -219,9 +219,19 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
-             FSL_IMX7_GPT4_ADDR,
-         };
- 
-+        static const int FSL_IMX7_GPTn_IRQ[FSL_IMX7_NUM_GPTS] = {
-+            FSL_IMX7_GPT1_IRQ,
-+            FSL_IMX7_GPT2_IRQ,
-+            FSL_IMX7_GPT3_IRQ,
-+            FSL_IMX7_GPT4_IRQ,
-+        };
++#define CKIH_FREQ 24000000 /* 24MHz crystal input */
 +
-         s->gpt[i].ccm = IMX_CCM(&s->ccm);
-         sysbus_realize(SYS_BUS_DEVICE(&s->gpt[i]), &error_abort);
-         sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpt[i]), 0, FSL_IMX7_GPTn_ADDR[i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpt[i]), 0,
-+                           qdev_get_gpio_in(DEVICE(&s->a7mpcore),
-+                                            FSL_IMX7_GPTn_IRQ[i]));
-     }
+ static void imx7_analog_reset(DeviceState *dev)
+ {
+     IMX7AnalogState *s = IMX7_ANALOG(dev);
+@@ -219,16 +223,43 @@ static const VMStateDescription vmstate_imx7_ccm = {
+ static uint32_t imx7_ccm_get_clock_frequency(IMXCCMState *dev, IMXClk clock)
+ {
+     /*
+-     * This function is "consumed" by GPT emulation code, however on
+-     * i.MX7 each GPT block can have their own clock root. This means
+-     * that this functions needs somehow to know requester's identity
+-     * and the way to pass it: be it via additional IMXClk constants
+-     * or by adding another argument to this method needs to be
+-     * figured out
++     * This function is "consumed" by GPT emulation code. Some clocks
++     * have fixed frequencies and we can provide requested frequency
++     * easily. However for CCM provided clocks (like IPG) each GPT
++     * timer can have its own clock root.
++     * This means we need additionnal information when calling this
++     * function to know the requester's identity.
+      */
+-    qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Not implemented\n",
+-                  TYPE_IMX7_CCM, __func__);
+-    return 0;
++    uint32_t freq = 0;
++
++    switch (clock) {
++    case CLK_NONE:
++        break;
++    case CLK_32k:
++        freq = CKIL_FREQ;
++        break;
++    case CLK_HIGH:
++        freq = CKIH_FREQ;
++        break;
++    case CLK_IPG:
++    case CLK_IPG_HIGH:
++        /*
++         * For now we don't have a way to figure out the device this
++         * function is called for. Until then the IPG derived clocks
++         * are left unimplemented.
++         */
++        qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Clock %d Not implemented\n",
++                      TYPE_IMX7_CCM, __func__, clock);
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: unsupported clock %d\n",
++                      TYPE_IMX7_CCM, __func__, clock);
++        break;
++    }
++
++    trace_ccm_clock_freq(clock, freq);
++
++    return freq;
+ }
  
-     for (i = 0; i < FSL_IMX7_NUM_GPIOS; i++) {
+ static void imx7_ccm_class_init(ObjectClass *klass, void *data)
 -- 
 2.25.1
 
