@@ -2,103 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB5B65EF5F
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:54:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C7C65EF7B
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:56:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDRdF-0005vp-Qs; Thu, 05 Jan 2023 09:54:13 -0500
+	id 1pDRdI-00066t-Nt; Thu, 05 Jan 2023 09:54:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pDRch-0005no-0m; Thu, 05 Jan 2023 09:53:39 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDRd5-0005wA-OO
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:54:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pDRce-0004vX-QP; Thu, 05 Jan 2023 09:53:38 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 305Eknkl030038; Thu, 5 Jan 2023 14:53:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=3JHlvSVoOoD113y+YLcDLmKD3ivZV4W6BebEz367UL8=;
- b=kJm9KeV5pFVVDkJzurUFw7awn3zbtqOOx9fwMeq6CYtWwcZzlriTWXofxOqDx0oX4aYe
- s2qfldJhRaicLhQ77Dab6XnVlry4lbINbcfchH2FVpVIcAZ8rmuITPvLl3RKwclb8bR4
- UWZijM8GJNdc4wrB+8exEZhCkL6i1wOHyrodlXS/zXlx/gP39pds+yoPTbd9O95K7aku
- jEV0NqYvBuRsPVULN9g9Kj9nYnmXWXXhgamUquRhig49eUnbdjWKQcZvuAQJ5cqVLDpf
- nX1iWkUKq/DI3C2K091WC5iqonxqBl5xvHlCPB44+2ezHQJCrdAKvcvNon2pm+2Y3qK/ kA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx0m203n4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 14:53:33 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 305EougW015329;
- Thu, 5 Jan 2023 14:53:32 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx0m203mn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 14:53:32 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3054fPjU001024;
- Thu, 5 Jan 2023 14:53:30 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3mtcbfewh7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 14:53:30 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
- [10.20.54.100])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 305ErRsU42664314
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 5 Jan 2023 14:53:27 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2CDC320040;
- Thu,  5 Jan 2023 14:53:27 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 39A9420043;
- Thu,  5 Jan 2023 14:53:26 +0000 (GMT)
-Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com.com (unknown
- [9.171.26.113]) by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  5 Jan 2023 14:53:26 +0000 (GMT)
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, scgl@linux.ibm.com, frankja@linux.ibm.com,
- berrange@redhat.com, clg@kaod.org
-Subject: [PATCH v14 11/11] docs/s390x/cpu topology: document s390x cpu topology
-Date: Thu,  5 Jan 2023 15:53:13 +0100
-Message-Id: <20230105145313.168489-12-pmorel@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230105145313.168489-1-pmorel@linux.ibm.com>
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDRd3-0004yH-Q4
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:54:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672930430;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pIZSUUWiQHDfjtz4MM/GXpwuVCSuhhAsex2TLPrGvX8=;
+ b=EnzetbBXDaJvpWsDJY6wH7nVQmMhtYAIsMQUWJh/d4Q2meeMJ1Svf2Fln/CO2bPNAziHE2
+ Vtcfbo7cf/4cnnukmLpZiBkR5oUFQLSFNxR8im8uJlVDJDXvZrHOXJaVjn65xgLVTp8IBJ
+ UaGJjZlX5nIh15TOyb3tjAeEXxjfsWg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-665-i6V4__ezO9eCn8ThsRMXQg-1; Thu, 05 Jan 2023 09:53:48 -0500
+X-MC-Unique: i6V4__ezO9eCn8ThsRMXQg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ ay32-20020a05600c1e2000b003d9730391b5so17245931wmb.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 06:53:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pIZSUUWiQHDfjtz4MM/GXpwuVCSuhhAsex2TLPrGvX8=;
+ b=05JvQ09uJ8hmr///yq1bDFJA/fpPkyrOlkpcyUT5aahXZ6UMUFD/UUsBwjAR1/HW79
+ aQGpRbXIzZtX/ZolIWX0ygdmncee9oB1FnHVA13uaFSci98kLLKXgI6zT8gBJMvGvhed
+ hyUQ8yI55sbtecBtkUQOVXyJPq6q64Mc86LLIejzYl64EB2s+r8mLuZNuLq7hl7GyLuv
+ CiMk9xn/bQKSVYwrWuZowYUCNyBL9+7c8vjNKQVQpv7UV1egLCnmDgCljDpN98nByRTb
+ ls09JDudZsN4mQqLYUE3HDiTXnQ1ESylEbwJ7wTqixbQfJC5sZUoSCAL3B+y44JrhAMi
+ 0a4w==
+X-Gm-Message-State: AFqh2kqCoutGVNNMxnuLZd/CqKka9Hjh4d/zo3WVU+438tzPEzWmhxRS
+ DIsymyncCaSvnLya0pIAcxcrdPyG5ooq7ZQ7j4BIduGMFyG0b3DU4phAr8NgwsKAIEQ29IMAlFq
+ poNGujCeKP6uOK7I=
+X-Received: by 2002:adf:e445:0:b0:2a8:65c4:4ad9 with SMTP id
+ t5-20020adfe445000000b002a865c44ad9mr3328825wrm.11.1672930427234; 
+ Thu, 05 Jan 2023 06:53:47 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXscx8ekUhUxfFp8D1qsc0YH5l6m1u8kV+WjCdAYLznCv5GYEtSQROXWdh/6Uf4ft7ymN9f8iw==
+X-Received: by 2002:adf:e445:0:b0:2a8:65c4:4ad9 with SMTP id
+ t5-20020adfe445000000b002a865c44ad9mr3328806wrm.11.1672930426935; 
+ Thu, 05 Jan 2023 06:53:46 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-176-239.web.vodafone.de.
+ [109.43.176.239]) by smtp.gmail.com with ESMTPSA id
+ i13-20020a5d438d000000b0029e1aa67fd2sm8182612wrq.115.2023.01.05.06.53.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Jan 2023 06:53:46 -0800 (PST)
+Message-ID: <0ec1a61f-4ae9-e867-11ea-4f29944d31f8@redhat.com>
+Date: Thu, 5 Jan 2023 15:53:43 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 2/5] s390x/pv: Implement CGS check handler
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@redhat.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>
+References: <20230104115111.3240594-1-clg@kaod.org>
+ <20230104115111.3240594-3-clg@kaod.org>
+ <61d70e15-770b-7f62-54aa-3cc0ac3b3a35@redhat.com>
+ <20230105145823.6a7345e6@p-imbrenda>
+ <41e8c81a-ac90-3b57-c34b-c4e461323391@kaod.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <41e8c81a-ac90-3b57-c34b-c4e461323391@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 19vAfV-2JQ_c3lBA8hN6fOba60K3eEm9
-X-Proofpoint-ORIG-GUID: tdgqR736KXCs19IBdNBvXKmEd1uZnnTP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-05_05,2023-01-05_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- adultscore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=999
- priorityscore=1501 phishscore=0 impostorscore=0 clxscore=1015 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301050114
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.939, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,324 +111,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add some basic examples for the definition of cpu topology
-in s390x.
+On 05/01/2023 15.47, Cédric Le Goater wrote:
+> On 1/5/23 14:58, Claudio Imbrenda wrote:
+>> On Thu, 5 Jan 2023 12:42:54 +0100
+>> Thomas Huth <thuth@redhat.com> wrote:
+>>
+>>> On 04/01/2023 12.51, Cédric Le Goater wrote:
+>>>> From: Cédric Le Goater <clg@redhat.com>
+>>>>
+>>>> When a protected VM is started with the maximum number of CPUs (248),
+>>>> the service call providing information on the CPUs requires more
+>>>> buffer space than allocated and QEMU disgracefully aborts :
+>>>>
+>>>>       LOADPARM=[........]
+>>>>       Using virtio-blk.
+>>>>       Using SCSI scheme.
+>>>>       
+>>>> ................................................................................... 
+>>>>
+>>>>       qemu-system-s390x: KVM_S390_MEM_OP failed: Argument list too long
+>>>>
+>>>> Implement a test for this limitation in the ConfidentialGuestSupportClass
+>>>> check handler and provide some valid information to the user before the
+>>>> machine starts.
+>>>>
+>>>> Signed-off-by: Cédric Le Goater <clg@redhat.com>
+>>>> ---
+>>>>    hw/s390x/pv.c | 23 +++++++++++++++++++++++
+>>>>    1 file changed, 23 insertions(+)
+>>>>
+>>>> diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+>>>> index 8dfe92d8df..3a7ec70634 100644
+>>>> --- a/hw/s390x/pv.c
+>>>> +++ b/hw/s390x/pv.c
+>>>> @@ -266,6 +266,26 @@ int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, 
+>>>> Error **errp)
+>>>>        return 0;
+>>>>    }
+>>>> +static bool s390_pv_check_cpus(Error **errp)
+>>>> +{
+>>>> +    MachineState *ms = MACHINE(qdev_get_machine());
+>>>> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
+>>>> +    uint32_t pv_max_cpus = mc->max_cpus - 1;
+>>>
+>>> Not sure whether "mc->max_cpus - 1" is the right approach here. I think it
+>>> would be better to calculate the amount of CPUs that we can support.
+>>>
+>>> So AFAIK the problem is that SCLP information that is gathered during
+>>> read_SCP_info() in hw/s390x/sclp.c. If protected virtualization is enabled,
+>>> everything has to fit in one page (i.e. 4096 bytes) there.
+>>>
+>>> So we have space for
+>>>
+>>>    (TARGET_PAGE_SIZE - offset_cpu) / sizeof(CPUEntry)
+>>>
+>>> CPUs.
+>>>
+>>> With S390_FEAT_EXTENDED_LENGTH_SCCB enabled, offset_cpu is 144 (see struct
+>>> ReadInfo in sclp.h), otherwise it is 128.
+>>>
+>>> That means, with S390_FEAT_EXTENDED_LENGTH_SCCB we can have a maximum of:
+>>>
+>>>    (4096 - 144) / 16 = 247 CPUs
+>>>
+>>> which is what you were trying to check with the mc->max_cpus - 1 here.
+> 
+> yes. That's much better.
+> 
+>>> But with "-cpu els=off", it sounds like we could fit all 248 also with
+>>> protected VMs? Could you please give it a try?
+> 
+> It runs. Unfortunately, QEMU also complains with :
+> 
+>    qemu-system-s390x: warning: 'diag318' requires 'els'.
+>    qemu-system-s390x: warning: 'diag318' requires 'els'.
+>    qemu-system-s390x: warning: 'diag318' requires 'els'.
+> 
+> when els is off.
 
-Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
----
- docs/system/s390x/cpu-topology.rst | 292 +++++++++++++++++++++++++++++
- docs/system/target-s390x.rst       |   1 +
- 2 files changed, 293 insertions(+)
- create mode 100644 docs/system/s390x/cpu-topology.rst
+There is also a switch for that: -cpu els=off,diag318=off
 
-diff --git a/docs/system/s390x/cpu-topology.rst b/docs/system/s390x/cpu-topology.rst
-new file mode 100644
-index 0000000000..0020b70b50
---- /dev/null
-+++ b/docs/system/s390x/cpu-topology.rst
-@@ -0,0 +1,292 @@
-+CPU Topology on s390x
-+=====================
-+
-+CPU Topology on S390x provides up to 5 levels of topology containers:
-+nodes, drawers, books, sockets and CPUs.
-+While the higher level containers, Containers Topology List Entries,
-+(Containers TLE) define a tree hierarchy, the lowest level of topology
-+definition, the CPU Topology List Entry (CPU TLE), provides the placement
-+of the CPUs inside the parent container.
-+
-+Currently QEMU CPU topology uses a single level of container: the sockets.
-+
-+For backward compatibility, threads can be declared on the ``-smp`` command
-+line. They will be seen as CPUs by the guest as long as multithreading
-+is not really supported by QEMU for S390.
-+
-+Beside the topological tree, S390x provides 3 CPU attributes:
-+- CPU type
-+- polarity entitlement
-+- dedication
-+
-+Prerequisites
-+-------------
-+
-+To use CPU Topology a Linux QEMU/KVM machine providing the CPU Topology facility
-+(STFLE bit 11) is required.
-+
-+However, since this facility has been enabled by default in an early version
-+of QEMU, we use a capability, ``KVM_CAP_S390_CPU_TOPOLOGY``, to notify KVM
-+QEMU use of the CPU Topology.
-+
-+Enabling CPU topology
-+---------------------
-+
-+Currently, CPU topology is only enabled in the host model.
-+
-+Enabling CPU topology in a CPU model is done by setting the CPU flag
-+``ctop`` to ``on`` like in:
-+
-+.. code-block:: bash
-+
-+   -cpu gen16b,ctop=on
-+
-+Having the topology disabled by default allows migration between
-+old and new QEMU without adding new flags.
-+
-+Default topology usage
-+----------------------
-+
-+The CPU Topology, can be specified on the QEMU command line
-+with the ``-smp`` or the ``-device`` QEMU command arguments
-+without using any new attributes.
-+In this case, the topology will be calculated by simply adding
-+to the topology the cores based on the core-id starting with
-+core-0 at position 0 of socket-0, book-0, drawer-0 with default
-+modifier attributes: horizontal polarity and no dedication.
-+
-+In the following machine we define 8 sockets with 4 cores each.
-+Note that S390 QEMU machines do not implement multithreading.
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-s390x -m 2G \
-+    -cpu gen16b,ctop=on \
-+    -smp cpus=5,sockets=8,cores=4,maxcpus=32 \
-+    -device host-s390x-cpu,core-id=14 \
-+
-+New CPUs can be plugged using the device_add hmp command like in:
-+
-+.. code-block:: bash
-+
-+  (qemu) device_add gen16b-s390x-cpu,core-id=9
-+
-+The core-id defines the placement of the core in the topology by
-+starting with core 0 in socket 0 up to maxcpus.
-+
-+In the example above:
-+
-+* There are 5 CPUs provided to the guest with the ``-smp`` command line
-+  They will take the core-ids 0,1,2,3,4
-+  As we have 4 cores in a socket, we have 4 CPUs provided
-+  to the guest in socket 0, with core-ids 0,1,2,3.
-+  The last cpu, with core-id 4, will be on socket 1.
-+
-+* the core with ID 14 provided by the ``-device`` command line will
-+  be placed in socket 3, with core-id 14
-+
-+* the core with ID 9 provided by the ``device_add`` qmp command will
-+  be placed in socket 2, with core-id 9
-+
-+Note that the core ID is machine wide and the CPU TLE masks provided
-+by the STSI instruction will be written in a big endian mask:
-+
-+* in socket 0: 0xf000000000000000 (core id 0,1,2,3)
-+* in socket 1: 0x0800000000000000 (core id 4)
-+* in socket 2: 0x0040000000000000 (core id 9)
-+* in socket 3: 0x0002000000000000 (core id 14)
-+
-+Defining the topology on command line
-+-------------------------------------
-+
-+The topology can be defined entirely during the CPU definition,
-+with the exception of CPU 0 which must be defined with the -smp
-+argument.
-+
-+For example, here we set the position of the cores 1,2,3 on
-+drawer 1, book 1, socket 2 and cores 0,9 and 14 on drawer 0,
-+book 0, socket 0 with all horizontal polarity and not dedicated.
-+The core 4, will be set on its default position on socket 1
-+(since we have 4 core per socket) and we define it with dedication and
-+vertical high entitlement.
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-s390x -m 2G \
-+    -cpu gen16b,ctop=on \
-+    -smp cpus=1,sockets=8,cores=4,maxcpus=32 \
-+    \
-+    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=1 \
-+    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=2 \
-+    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=3 \
-+    \
-+    -device gen16b-s390x-cpu,drawer-id=0,book-id=0,socket-id=0,core-id=9 \
-+    -device gen16b-s390x-cpu,drawer-id=0,book-id=0,socket-id=0,core-id=14 \
-+    \
-+    -device gen16b-s390x-cpu,core-id=4,dedicated=on,polarity=3 \
-+
-+Polarity and dedication
-+-----------------------
-+
-+Polarity can be of two types: horizontal or vertical.
-+
-+The horizontal polarization specifies that all guest's vCPUs get
-+almost the same amount of provisioning of real CPU by the host.
-+
-+The vertical polarization specifies that guest's vCPU can get
-+different  real CPU provisions:
-+
-+- a vCPU with Vertical high entitlement specifies that this
-+  vCPU gets 100% of the real CPU provisioning.
-+
-+- a vCPU with Vertical medium entitlement specifies that this
-+  vCPU shares the real CPU with other vCPU.
-+
-+- a vCPU with Vertical low entitlement specifies that this
-+  vCPU only get real CPU provisioning when no other vCPU need it.
-+
-+In the case a vCPU with vertical high entitlement does not use
-+the real CPU, the unused "slack" can be dispatched to other vCPU
-+with medium or low entitlement.
-+
-+The host indicates to the guest how the real CPU resources are
-+provided to the vCPUs through the SYSIB with two polarity bits
-+inside the CPU TLE.
-+
-+Bits d - Polarization
-+0 0      Horizontal
-+0 1      Vertical low entitlement
-+1 0      Vertical medium entitlement
-+1 1      Vertical high entitlement
-+
-+A subsystem reset puts all vCPU of the configuration into the
-+horizontal polarization.
-+
-+The admin specifies the dedicated bit when the vCPU is dedicated
-+to a single real CPU.
-+
-+As for the Linux admin, the dedicated bit is an indication on the
-+affinity of a vCPU for a real CPU while the entitlement indicates the
-+sharing or exclusivity of use.
-+
-+QAPI interface for topology
-+---------------------------
-+
-+Let's start QEMU with the following command:
-+
-+.. code-block:: bash
-+
-+ sudo /usr/local/bin/qemu-system-s390x \
-+    -enable-kvm \
-+    -cpu z14,ctop=on \
-+    -smp 1,drawers=3,books=3,sockets=2,cores=2,maxcpus=36 \
-+    \
-+    -device z14-s390x-cpu,core-id=19,polarity=3 \
-+    -device z14-s390x-cpu,core-id=11,polarity=1 \
-+    -device z14-s390x-cpu,core-id=12,polarity=3 \
-+   ...
-+
-+and see the result when using of the QAPI interface.
-+
-+query-topology
-++++++++++++++++
-+
-+The command cpu-topology allows the admin to query the topology
-+tree and modifier for all configured vCPU.
-+
-+.. code-block:: QMP
-+
-+ -> { "execute": "query-topology" }
-+    {"return":
-+        [
-+            {
-+            "origin": 0,
-+            "dedicated": false,
-+            "book": 0,
-+            "socket": 0,
-+            "drawer": 0,
-+            "polarity": 0,
-+            "mask": "0x8000000000000000"
-+            },
-+            {
-+                "origin": 0,
-+                "dedicated": false,
-+                "book": 2,
-+                "socket": 1,
-+                "drawer": 0,
-+                "polarity": 1,
-+                "mask": "0x0010000000000000"
-+            },
-+            {
-+                "origin": 0,
-+                "dedicated": false,
-+                "book": 0,
-+                "socket": 0,
-+                "drawer": 1,
-+                "polarity": 3,
-+                "mask": "0x0008000000000000"
-+            },
-+            {
-+                "origin": 0,
-+                "dedicated": false,
-+                "book": 1,
-+                "socket": 1,
-+                "drawer": 1,
-+                "polarity": 3,
-+                "mask": "0x0000100000000000"
-+            }
-+        ]
-+    }
-+
-+change-topology
-++++++++++++++++
-+
-+The command change-topology allows the admin to modify the topology
-+tree or the topology modifiers of a vCPU in the configuration.
-+
-+.. code-block:: QMP
-+
-+ -> { "execute": "change-topology",
-+      "arguments": {
-+         "core": 11,
-+         "socket": 0,
-+         "book": 0,
-+         "drawer": 0,
-+         "polarity": 0,
-+         "dedicated": false
-+      }
-+    }
-+ <- {"return": {}}
-+
-+
-+event POLARITY_CHANGE
-++++++++++++++++++++++
-+
-+When a guest is requesting a modification of the polarity,
-+QEMU sends a POLARITY_CHANGE event.
-+
-+When requesting the change, the guest only specifies horizontal or
-+vertical polarity.
-+The dedication and fine grain vertical entitlement depends on admin
-+to set according to its response to this event.
-+
-+Note that a vertical polarized dedicated vCPU can only have a high
-+entitlement, this gives 6 possibilities for a vCPU polarity:
-+
-+- Horizontal
-+- Horizontal dedicated
-+- Vertical low
-+- Vertical medium
-+- Vertical high
-+- Vertical high dedicated
-+
-+Example of the event received when the guest issues PTF(0) to request
-+an horizontal polarity:
-+
-+.. code-block:: QMP
-+
-+ <- { "event": "POLARITY_CHANGE",
-+      "data": { "polarity": 0 },
-+      "timestamp": { "seconds": 1401385907, "microseconds": 422329 } }
-+
-+
-diff --git a/docs/system/target-s390x.rst b/docs/system/target-s390x.rst
-index c636f64113..ff0ffe04f3 100644
---- a/docs/system/target-s390x.rst
-+++ b/docs/system/target-s390x.rst
-@@ -33,3 +33,4 @@ Architectural features
- .. toctree::
-    s390x/bootdevices
-    s390x/protvirt
-+   s390x/cpu-topology
--- 
-2.31.1
+>>> Anyway, instead of using "pv_max_cpus = mc->max_cpus - 1" I'd suggest to use
+>>> something like this instead:
+>>>
+>>>    int offset_cpu = s390_has_feat(S390_FEAT_EXTENDED_LENGTH_SCCB) ?
+>>>                        offsetof(ReadInfo, entries) :
+>>>                        SCLP_READ_SCP_INFO_FIXED_CPU_OFFSET;
+>>>    pv_max_cpus = (TARGET_PAGE_SIZE - offset_cpu) /sizeof(CPUEntry);
+>>
+>> I agree with Thomas here
+> 
+> 
+> The problem is that QEMU doesn't know about the S390_FEAT_EXTENDED_LENGTH_SCCB
+> feature when the PV object link is first checked. So #248 CPUs is considered
+> valid, but when DIAG308_PV_START is called, it fails.
+
+Drat. Is there any chance that the check could be done somewhere later?
+
+> Let's simplify and use :
+> 
+>      int offset_cpu = offsetof(ReadInfo, entries);
+>      pv_max_cpus = (TARGET_PAGE_SIZE - offset_cpu) /sizeof(CPUEntry);
+> 
+> ?
+
+Depends ... if it is possible to use 248 CPUs with -cpu els=off,diag318=off 
+then it would be nicer to allow that, too?
+
+  Thomas
 
 
