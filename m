@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2128965F15D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:45:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A6065F1AE
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:02:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTMh-0001Nu-8R; Thu, 05 Jan 2023 11:45:15 -0500
+	id 1pDTSH-0006TI-AT; Thu, 05 Jan 2023 11:51:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTMJ-0000oH-Hm
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:51 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ id 1pDTS6-0006QX-R8
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:50:51 -0500
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTMF-0007Tj-4g
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:51 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- k26-20020a05600c1c9a00b003d972646a7dso1727997wms.5
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:46 -0800 (PST)
+ id 1pDTS5-0000iy-A5
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:50:50 -0500
+Received: by mail-pg1-x531.google.com with SMTP id 79so24864187pgf.11
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:50:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=HjXI1ybyBjJZ/wjqPnfmihak0F0npX5WBOx0bgmkSU8=;
- b=leXeI1/9WEM1c5T5kiTNJp/db6voMAceui3q7C2GThMl7Cg/v2h+PKzRs2tYBKouGD
- Q7pHDFOw2ioI4+1xwdbAKiQMZPWZ/0C8jkkVMmoMZKlnBfX5sD5cHlcQ0qJGpTtsefKu
- C1Rwdh92sJBmmF08xc2YBnxclzSZVsoYMngMO7uxiTPmyNmF0LUWj4/AMivKNsfFZqFe
- VrQxWY9cBFeDmeqn5aewwyP5xCJ2GAOKEN/X3iaZNMy+6MeUQ/WfnD9oF9/Z/l7XLjG7
- 9apo8bYgfSmY00WmvEnpfbpHnX8FQxMIVu2XzmErgnCkpQOtmbVITse6vexl8Ssqyzl4
- 79+Q==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rGtRxuXL9poxRWlNrH5xQKN+RfdxdevozKxSbPlo2EI=;
+ b=s105/w9C5UPSfNSZIYZWJLYonE6u1QM1UlIjrKHNgjlRcKRooyoF6PWClkDIto8MM2
+ /faO2vWCZv1LYjcWjVBNrum7iY77GbHXKCJLwuFCru9IUs263A8IBGHfKwN7bL72ChQG
+ yxQRJ3Vfs/oSbAQe0ufSRO7uDkONy6JbMVITfK6kfSQZ1QN7OvB/nYx8LJTBjRlWdOgL
+ xY+w0Rha1EAtYeotkJF+Q5WJyFHJ7wc8CsVnVOjDfU6CJMjQQEPos1c4VJWIeo/v6TFm
+ cy6H+A+oH6WnFEZczUEyUovJfDmPBDw5V8D+tXLeFm4YvUTESmltb1f790GJNteiKojw
+ j+gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HjXI1ybyBjJZ/wjqPnfmihak0F0npX5WBOx0bgmkSU8=;
- b=u/PV7hnx2sOn6mS85SB4jaRS0T5BMPT8ankg+5GZV6biQK49uLZffEWBzooR/lZJLT
- /Coqa4Q2LOI4xcFKp7qVRF1vIDPtGDrKVvJ9NXAuPSOIVtI5j0GXt2ze5lMxhmsIUrCI
- 8e+0vubM87Jkn0rkyDaJ1xZ7rK7k6Kk64hliQ5WbyCIf6XSDRrIauLtRimlN6oblpyPD
- azqC4Yei7JPCeRLLQM+HaiiDrFVle9lhomCZTG6q6Kxz/M3BLt/Ljg3vu7J2B4iol1VQ
- fpVUipjDICatXz9eO/Q8EffBhk/QUs6ndFZqlH3/U5u49dSs103r/jL4FOe/cIDpODgB
- oSBA==
-X-Gm-Message-State: AFqh2kotapWTNa+xx8U/12iV5qzj6QXs0Bxi6Vn/ViMhv+F6m66LN2bQ
- T+BswKS+2k7HgiFgs6gcdzZd8fxG4Ta8WeVz
-X-Google-Smtp-Source: AMrXdXtTyE3s9BXNdZWAFXmddvWdnHIuYwNQQNvZQAZ0GERdjfbGFshfrq9pacUNKxCMSItdGz+4Sg==
-X-Received: by 2002:a05:600c:3482:b0:3d3:4f56:62e1 with SMTP id
- a2-20020a05600c348200b003d34f5662e1mr35638336wmq.27.1672937085846; 
- Thu, 05 Jan 2023 08:44:45 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.45
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:44:45 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 32/34] i.MX6UL: Add a specific GPT timer instance for the
- i.MX6UL
-Date: Thu,  5 Jan 2023 16:44:15 +0000
-Message-Id: <20230105164417.3994639-33-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230105164417.3994639-1-peter.maydell@linaro.org>
-References: <20230105164417.3994639-1-peter.maydell@linaro.org>
+ bh=rGtRxuXL9poxRWlNrH5xQKN+RfdxdevozKxSbPlo2EI=;
+ b=00r6BhNPRukgXUSlVTMqaTws4mViy4TCIDeiYYZd3mchJL7wXFCBuJPFcT1Lrx7Dzr
+ VPHzEuuw/whkp2Wl/aG2ag24FYKz1rgll7A1jgpvpLk3TOXKzPtrEHmA/87Tftnpb2Vq
+ WHZj3PyU8wANbzGlqkhfw8rOEet36rYcyAgb4eU/md5KNFTIMUpGXuZXKYP5E7w7BGgy
+ lJVZALl8GqjgX4szf3UmqYTrS4vsAOQW/Z5a0aJUCB5kVAKdCRPwyTOh0CHOWXrdo2JN
+ 9q8O4aGlyiFZEM3KfyOrpK2/iq8x4x3FGofxrUcZ6Rtlw+JMR130OZ4LxOVXMEjGS6UC
+ bZIg==
+X-Gm-Message-State: AFqh2kopi9qu6VkovvBQJlB/UUam+6woBIUQj2semQ3laVTRwcmjxzY8
+ pYK8fHvbGj5UsTjdlTBnKBnJKXT4oQPYM9AAsB4w/A==
+X-Google-Smtp-Source: AMrXdXs4O+iOYvGHoKfO015AeyZp5XEKS/8AqbXLT0xIDufd9RhduiKIjXgejnBamcwAl1C3lMxm2eOfXLTzDLjaek8=
+X-Received: by 2002:aa7:999c:0:b0:582:74a2:1e4e with SMTP id
+ k28-20020aa7999c000000b0058274a21e4emr1125257pfh.26.1672937446491; Thu, 05
+ Jan 2023 08:50:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+References: <20221221183202.3788132-1-slongfield@google.com>
+ <CAFEAcA-zv_ny28MJGf4s9T1+3PwK8WRurVgiQnA+8UWbkRawkQ@mail.gmail.com>
+ <88f5cc21-69bb-18a3-718d-90d2c43e787f@kaod.org>
+In-Reply-To: <88f5cc21-69bb-18a3-718d-90d2c43e787f@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 5 Jan 2023 16:50:35 +0000
+Message-ID: <CAFEAcA_ez-_WHW25HCW36Vewa0rKDvUjvGCHCkX_Z0M2igW9tw@mail.gmail.com>
+Subject: Re: [PATCH] hw/net: Fix read of uninitialized memory in imx_fec.
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: Stephen Longfield <slongfield@google.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, venture@google.com, wuhaotsh@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,120 +87,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Jean-Christophe Dubois <jcd@tribudubois.net>
+On Thu, 5 Jan 2023 at 16:46, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> On 1/5/23 16:33, Peter Maydell wrote:
+> > On Wed, 21 Dec 2022 at 18:32, Stephen Longfield <slongfield@google.com>=
+ wrote:
+> >>
+> >> Size is used at lines 1088/1188 for the loop, which reads the last 4
+> >> bytes from the crc_ptr so it does need to get increased, however it
+> >> shouldn't be increased before the buffer is passed to CRC computation,
+> >> or the crc32 function will access uninitialized memory.
+> >>
+> >> This was pointed out to me by clg@kaod.org during the code review of
+> >> a similar patch to hw/net/ftgmac100.c
+> >>
+> >> Change-Id: Ib0464303b191af1e28abeb2f5105eb25aadb5e9b
+> >> Signed-off-by: Stephen Longfield <slongfield@google.com>
+> >> Reviewed-by: Patrick Venture <venture@google.com>
+> >
+> > Applied to target-arm.next, thanks.
+>
+> Did you take the ftgmac100 also ?
 
-The i.MX6UL doesn't support CLK_HIGH ou CLK_HIGH_DIV clock source.
+No, I missed that one (patches arriving over a holiday
+period are more likely to get lost). ftgmac100 is aspeed,
+can you remind me, are you handling those patches at the moment
+or would you rather I took it through target-arm.next ?
 
-Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/timer/imx_gpt.h |  1 +
- hw/arm/fsl-imx6ul.c        |  2 +-
- hw/misc/imx6ul_ccm.c       |  6 ------
- hw/timer/imx_gpt.c         | 25 +++++++++++++++++++++++++
- 4 files changed, 27 insertions(+), 7 deletions(-)
-
-diff --git a/include/hw/timer/imx_gpt.h b/include/hw/timer/imx_gpt.h
-index ff5c8a351a0..5a1230da35e 100644
---- a/include/hw/timer/imx_gpt.h
-+++ b/include/hw/timer/imx_gpt.h
-@@ -78,6 +78,7 @@
- #define TYPE_IMX25_GPT "imx25.gpt"
- #define TYPE_IMX31_GPT "imx31.gpt"
- #define TYPE_IMX6_GPT "imx6.gpt"
-+#define TYPE_IMX6UL_GPT "imx6ul.gpt"
- #define TYPE_IMX7_GPT "imx7.gpt"
- 
- #define TYPE_IMX_GPT TYPE_IMX25_GPT
-diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-index f1897123294..d88d6cc1c5f 100644
---- a/hw/arm/fsl-imx6ul.c
-+++ b/hw/arm/fsl-imx6ul.c
-@@ -81,7 +81,7 @@ static void fsl_imx6ul_init(Object *obj)
-      */
-     for (i = 0; i < FSL_IMX6UL_NUM_GPTS; i++) {
-         snprintf(name, NAME_SIZE, "gpt%d", i);
--        object_initialize_child(obj, name, &s->gpt[i], TYPE_IMX7_GPT);
-+        object_initialize_child(obj, name, &s->gpt[i], TYPE_IMX6UL_GPT);
-     }
- 
-     /*
-diff --git a/hw/misc/imx6ul_ccm.c b/hw/misc/imx6ul_ccm.c
-index a65d0314556..e01bb68ac72 100644
---- a/hw/misc/imx6ul_ccm.c
-+++ b/hw/misc/imx6ul_ccm.c
-@@ -522,12 +522,6 @@ static uint32_t imx6ul_ccm_get_clock_frequency(IMXCCMState *dev, IMXClk clock)
-     case CLK_32k:
-         freq = CKIL_FREQ;
-         break;
--    case CLK_HIGH:
--        freq = CKIH_FREQ;
--        break;
--    case CLK_HIGH_DIV:
--        freq = CKIH_FREQ / 8;
--        break;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: unsupported clock %d\n",
-                       TYPE_IMX6UL_CCM, __func__, clock);
-diff --git a/hw/timer/imx_gpt.c b/hw/timer/imx_gpt.c
-index 80b83026399..7222b1b3874 100644
---- a/hw/timer/imx_gpt.c
-+++ b/hw/timer/imx_gpt.c
-@@ -115,6 +115,17 @@ static const IMXClk imx6_gpt_clocks[] = {
-     CLK_HIGH,      /* 111 reference clock */
- };
- 
-+static const IMXClk imx6ul_gpt_clocks[] = {
-+    CLK_NONE,      /* 000 No clock source */
-+    CLK_IPG,       /* 001 ipg_clk, 532MHz*/
-+    CLK_IPG_HIGH,  /* 010 ipg_clk_highfreq */
-+    CLK_EXT,       /* 011 External clock */
-+    CLK_32k,       /* 100 ipg_clk_32k */
-+    CLK_NONE,      /* 101 not defined */
-+    CLK_NONE,      /* 110 not defined */
-+    CLK_NONE,      /* 111 not defined */
-+};
-+
- static const IMXClk imx7_gpt_clocks[] = {
-     CLK_NONE,      /* 000 No clock source */
-     CLK_IPG,       /* 001 ipg_clk, 532MHz*/
-@@ -539,6 +550,13 @@ static void imx6_gpt_init(Object *obj)
-     s->clocks = imx6_gpt_clocks;
- }
- 
-+static void imx6ul_gpt_init(Object *obj)
-+{
-+    IMXGPTState *s = IMX_GPT(obj);
-+
-+    s->clocks = imx6ul_gpt_clocks;
-+}
-+
- static void imx7_gpt_init(Object *obj)
- {
-     IMXGPTState *s = IMX_GPT(obj);
-@@ -566,6 +584,12 @@ static const TypeInfo imx6_gpt_info = {
-     .instance_init = imx6_gpt_init,
- };
- 
-+static const TypeInfo imx6ul_gpt_info = {
-+    .name = TYPE_IMX6UL_GPT,
-+    .parent = TYPE_IMX25_GPT,
-+    .instance_init = imx6ul_gpt_init,
-+};
-+
- static const TypeInfo imx7_gpt_info = {
-     .name = TYPE_IMX7_GPT,
-     .parent = TYPE_IMX25_GPT,
-@@ -577,6 +601,7 @@ static void imx_gpt_register_types(void)
-     type_register_static(&imx25_gpt_info);
-     type_register_static(&imx31_gpt_info);
-     type_register_static(&imx6_gpt_info);
-+    type_register_static(&imx6ul_gpt_info);
-     type_register_static(&imx7_gpt_info);
- }
- 
--- 
-2.25.1
-
+thanks
+-- PMM
 
