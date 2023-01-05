@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B786C65E4E8
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 05:56:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17F765E4E9
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 05:56:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDIHp-0001Tk-Fv; Wed, 04 Jan 2023 23:55:29 -0500
+	id 1pDIIM-0001gz-Ra; Wed, 04 Jan 2023 23:56:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDIHl-0001Sx-IO
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 23:55:25 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ id 1pDIIL-0001gQ-07
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 23:56:01 -0500
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDIHj-0002Wl-Pj
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 23:55:25 -0500
-Received: by mail-pl1-x631.google.com with SMTP id p24so15761939plw.11
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 20:55:22 -0800 (PST)
+ id 1pDIIJ-0002e2-EZ
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 23:56:00 -0500
+Received: by mail-pf1-x429.google.com with SMTP id 124so24542807pfy.0
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 20:55:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=/ftMB/pycQaFCJV3z/lh6F09+awhuDC0s1ox9c3g804=;
- b=wqurgHx2tyNFh5ggBS9kC6/9lBJ+fOaHbc+ZEXeIWqFI4U+M0dfxbbQG5CX9j+Nexr
- aa9pGzTARatZXyt3Ep8h+OUqhr3/lD5xa4BqjGjqOwh6nHew8FFVda6afRwQQw+xW0/g
- noznQhflyEy5DwC9iYPksc8COK+wOAiMZt041aUQjhPgJnRTgZ1/caAe9F0HSFebBldW
- HHpDD7an7Ir6AkS5VF8hVl+huBfxt1mqswmAFt9RE4Ud53KgMd3eY/dEiRq0+VKhn5P8
- 6gLLOu3S10p0ll4r8KZAmdY7hRQmegjtZkYIf9Mhl8UkdYmClPZ8zP6Nb1GKNXQfKk6R
- T5QA==
+ bh=ikcn1eL9lUlqNzBJJya+olf4qITBLo3o8+simmK6nDE=;
+ b=OZqvC5+3jWf2iDgi/bSy8tpVZxtNuricQNuhpeyplQtj+/OeoA7Zei1c508cYYNAg4
+ nb8lgagweiO6AmrpNImVp3VIgMWPp1opRk6bkH3gTzWoynFOa+MxfveA2IwaXX5VxaZl
+ uT3jQKtXaZJcMmbCEISSnARyqUi+SkGljB5/fhAulXZnNLVrdDSf3iRqmroakN7lYyDl
+ t4pkvMvSQlkw9SeWvtry3UlZnV/z+Kwc5deYFC5zAIRvaDrKNBwcIYwb6Erov2hofgyB
+ imjh63qr7HbRwVapJQmC3dhzqQehAVtLDFylQyyPibE8znOS2Dbej1OsqbPJNHTPbJ3W
+ 0H4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/ftMB/pycQaFCJV3z/lh6F09+awhuDC0s1ox9c3g804=;
- b=FxDfU2XQnyKbvn4d/7ONlKUYN6kb5F21hMoj/vpCQromPsv7R5FFFOlsSs9z8sP5is
- MtjdhmU7eFzXYWKSVVkjz/spDFM0n1e/EbAYB9/J6bQGLHGXxHpFbmEWoW1MTvIv/h/9
- rO+2bcaYXVAD4cgFjz8xUk5bCHj9Z+GCCC4GWlCLSxYRYq0qeiQbR/8m71NqywlyfpEs
- qAtV+o0aXZGjdxZ86omCL1AjDAqNLTKApvw7wMMNSJFkUayGidU3ifw7TKWgMY/+GWds
- 6t5lfGjC9+NOairdjzWXdFxNj6xFpeMLTagCekLLiqkm9Y+FW5EzZEhO4xkkmx/k4+q1
- KTrg==
-X-Gm-Message-State: AFqh2koyPXEyn5IH9p8jRGY4j5y1fJVd9a8i3IWjunNONtLRfaPtLadn
- 5WIJ9ZJASDvfQP5FAhCEKpFofg==
-X-Google-Smtp-Source: AMrXdXt7Ask2WhIN3wcMdtBaJmzw/cF7MnvwAMZIfjgVlN/OExp7xLFC92UebpwRtxgXhBQOVO3Yig==
-X-Received: by 2002:a17:903:230e:b0:192:8212:af39 with SMTP id
- d14-20020a170903230e00b001928212af39mr46793424plh.5.1672894521830; 
- Wed, 04 Jan 2023 20:55:21 -0800 (PST)
+ bh=ikcn1eL9lUlqNzBJJya+olf4qITBLo3o8+simmK6nDE=;
+ b=pvFrl0XfIG6pdgvvuTuyP3HE4e/giPY56SjKV2lk3a6A/OKo3RkNp+LHjsOBq3Ic3B
+ zsBHLjRcCrVxT0A9rHABf59U+GCYdPJMhk6f50S1lVk0OF8Cg2hsOeMniZycYelE86B2
+ HlEUwjC2pkjkZ6RpIo8JQ8G1Hx8OyOTdQAO/AsPIpqDRoGSkKcZoKM8GAMR2jJmDcG43
+ wvRMOIab2t9q66rrytlkzXVpbx7QCCaWoGRUOHlOBmkGH5J6toVIRgHEnd+yysPqKV0V
+ tUJCEX4+VwmUQWxygzomxN6bulAopadhzbzNlzoJeHXazvk89e1gCJAwB4CYytTwPO0I
+ RoTQ==
+X-Gm-Message-State: AFqh2kq9iqkevktW06NwEA6Pw0hrSPrUyNy9FwPSUxC1D8qMwxwhVjrf
+ iYX4ne1u22ZQ3hTSmgzULv8v3w==
+X-Google-Smtp-Source: AMrXdXtDUtmcrgprinje/GJw+w1UdC01gIrYF8Wa0zVd+ju83aezUNPZDWyGJHawSIZ8lJWz8zXsbw==
+X-Received: by 2002:a62:b617:0:b0:577:b52:4ec2 with SMTP id
+ j23-20020a62b617000000b005770b524ec2mr46784564pff.29.1672894558046; 
+ Wed, 04 Jan 2023 20:55:58 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:5a62:efe5:94a2:1dee?
  ([2602:47:d48c:8101:5a62:efe5:94a2:1dee])
  by smtp.gmail.com with ESMTPSA id
- l6-20020a170903244600b001869f2120absm24903744pls.294.2023.01.04.20.55.20
+ h9-20020a056a00000900b00581fb8e665csm10886271pfk.67.2023.01.04.20.55.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 20:55:21 -0800 (PST)
-Message-ID: <908792d3-47b2-afb3-8b81-aa74950f7164@linaro.org>
-Date: Wed, 4 Jan 2023 20:55:19 -0800
+ Wed, 04 Jan 2023 20:55:57 -0800 (PST)
+Message-ID: <bfa16e80-799e-a6b8-a469-4665c43f8c93@linaro.org>
+Date: Wed, 4 Jan 2023 20:55:55 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 17/27] target/arm: Extract cpustate list manipulation
- to a file
+Subject: Re: [RFC PATCH 18/27] target/arm: Move cpregs code out of cpu.h
 Content-Language: en-US
 To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -70,13 +69,13 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
 References: <20230104215835.24692-1-farosas@suse.de>
- <20230104215835.24692-18-farosas@suse.de>
+ <20230104215835.24692-19-farosas@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230104215835.24692-18-farosas@suse.de>
+In-Reply-To: <20230104215835.24692-19-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -100,8 +99,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/4/23 13:58, Fabiano Rosas wrote:
-> This code doesn't need to be buried in helper.c. Let's move it to its
-> own file to keep things cleaner.
+> Since commit cf7c6d1004 ("target/arm: Split out cpregs.h") we now have
+> a cpregs.h header which is more suitable for this code.
 > 
 > Code moved verbatim.
 > 
@@ -111,19 +110,11 @@ On 1/4/23 13:58, Fabiano Rosas wrote:
 > https://lore.kernel.org/r/20210416162824.25131-15-cfontana@suse.de
 > [RFC v14 14/80] target/arm: split cpregs from tcg/helper.c
 > ---
->   target/arm/cpregs.h        |   5 ++
->   target/arm/cpustate-list.c | 148 +++++++++++++++++++++++++++++++++++++
->   target/arm/helper.c        | 136 ----------------------------------
->   target/arm/meson.build     |   1 +
->   4 files changed, 154 insertions(+), 136 deletions(-)
->   create mode 100644 target/arm/cpustate-list.c
+>   target/arm/cpregs.h | 98 +++++++++++++++++++++++++++++++++++++++++++++
+>   target/arm/cpu.h    | 91 -----------------------------------------
+>   2 files changed, 98 insertions(+), 91 deletions(-)
 
-I'd rather the new file be called cpregs.c, to match the header.
-I've been thinking about moving all of that code out of helper.c...
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
