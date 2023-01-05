@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA71C65F2B5
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E8765F2D5
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:36:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDU10-0002Q2-3N; Thu, 05 Jan 2023 12:26:54 -0500
+	id 1pDU2s-0005et-1p; Thu, 05 Jan 2023 12:28:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDU0r-0002Mu-3i
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:26:46 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDU2k-0005TU-Uc
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:28:42 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDU0p-00006R-5i
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:26:44 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id m3so19642916wmq.0
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 09:26:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDU2i-00017q-KA
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:28:42 -0500
+Received: by mail-wm1-x329.google.com with SMTP id ay40so28577104wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 09:28:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YJ9R9RXtjscsZqJEnjO20+62buuIfhCqeryuH+omc1U=;
- b=x2O4i4Yvt+VOEEhJTeqBAX2ZZH9HOGHi9BCYO2B50iDwu9plmEH/dXFX7RX+6DkTQZ
- LG/Rc2Zh7NiQ67BpEaQLXVD/0HqDo0LN/+1tuXesvbunNeSDxpZgWqziHbRUpAYw1Zbp
- 7BxZYB2X1PrHDUnPCTvLWG4B+R/AcJDXcectJ4H7LlEqKsn8SScgsjr11E8F/dGwtA1y
- YfwiKIVHokOgU2rIdBnkExAT7D9hLv0+73nBMzwJItqTHF6qHApQgIqxszEBFWL8tYZ/
- YPWxlQNSmnmgUMtu9hcJm80mt/FbwQYL0hT0cPRf4nhnPJiPw1fHxud3TLtCz3S84qYQ
- 6Y8w==
+ bh=xLc3h8yqPnvvcE3JzSjb8mPuQCKVOGDC88RCNMEdEBI=;
+ b=KwSIzupnOaRjU7pDIFTrJ/Gs8FzxZk9o6Ayv+7BqF+1P7MKPtPAaTjFNO+O7KncIRt
+ wpSiNyWy5ibCAdKlsoxsvUsuocAhA1Ilz4m+xGOpeMNNw08vhqNjj5CN7GdyEb03PE5F
+ tfZHnRGb/F6JGUuO1yo45zPTrcR2vRsa/T7+h7O+aWvqgCsTjPR/BP/T+mHO+mbIyJeG
+ I5nxi4zOEeYJZz47k1CHN998L56TY0Ajc1dM68Dg8B9KFF3dh0RY3KaTQEdWKyX0P8IF
+ FnAbNVkJxYC65weSWL9xpVKqBxRTg2eM7nkjv/T9WFuQ5eUNrk6xhY+bmQ88SKqjwRPo
+ njsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YJ9R9RXtjscsZqJEnjO20+62buuIfhCqeryuH+omc1U=;
- b=yTcPmtOTJLgVs+W4Ebdps/W29sKjbK8KT/BlN3bfRcCnKjo9EtFcRXvi4U+2GhruKt
- jxR7sW9KZ8BFj/A+US8CC1qveSEQoft5KxpFAJx3q/QtRFpvh8IC2kfKiXz6goDaJcUt
- xdBAQL8wg4q81MboMKSOzkIxa12VWX+clriEtMmO5o0QxtfT4CLOn9jAjxNdVjP8lChQ
- SYDvnE8YQDhTCtStGf29gxqw8mDSRiJyD7PyEdeKp02hAXFlt94zA2rlZb01gMWUFwGh
- P19Af2XmRhYPXfV1ldAYcrHT7JCSWW1xf34zPCg1N2R4KymdGsGv91bjdhKeXWRkGEWx
- HBmw==
-X-Gm-Message-State: AFqh2kqprxUO90/lzHgc//kKZm8NaZMzLhSJ/cDDM0DzcZmWr0nChpmy
- TqUW2c78mj4JwmfYJd448JvbiQ==
-X-Google-Smtp-Source: AMrXdXt4tXUQ+WgtBP8T0TQkuq3QEoOCebVqsYx3qjzPi4ZeiOLcHp/FfaFFQkJQIJhddq/US5ii7g==
-X-Received: by 2002:a05:600c:d1:b0:3d3:4d21:704d with SMTP id
- u17-20020a05600c00d100b003d34d21704dmr37046020wmm.14.1672939601883; 
- Thu, 05 Jan 2023 09:26:41 -0800 (PST)
+ bh=xLc3h8yqPnvvcE3JzSjb8mPuQCKVOGDC88RCNMEdEBI=;
+ b=TOrIeofhpONP8QMvEyKdru7HGc7ZgCVa1fff/Mk3Ndh8tU02Y+avp5nCp31KoadUWq
+ D9PsfL9F1jKdGd1MrD3bOp1XvMMaThBIWO7ggKUdRJOMthv4JWmd3VPPZYwsgR3Izkrz
+ lQ/NdgzGEVCgqaqRXmheWjZA4ZDQ+U26P7HEL68dskXsi3dBp0lDOGxxuNmAAKhuj683
+ U1qWRml/WCRcoByuR7sU7NHgm7kpCWihYU+yJ3HJqEo2EW44VdOiGS5OCAZo5dFvlYQi
+ O/v8ZZNSQKlpGsBfgbQF0qNEU/5YCJA7XSvGN+EllSVOJDQ7rf/F5PYYs+R+wSXHPT9P
+ WD5g==
+X-Gm-Message-State: AFqh2kqe5ogYgXrrw/1vEATZUwTdiXpyGTbT2cep2KxiUANh6AWymUzo
+ jfieRH6mVsC0+HQLnqBS6UCPkQ==
+X-Google-Smtp-Source: AMrXdXsF0Bc9tPrumh0aEI/VQiagz31RjL4K54DzQvbwkaUt8OmYanPtii91U7p06dGyCd8PCxDItg==
+X-Received: by 2002:a05:600c:3b93:b0:3d3:43ae:4d10 with SMTP id
+ n19-20020a05600c3b9300b003d343ae4d10mr39659064wms.11.1672939719323; 
+ Thu, 05 Jan 2023 09:28:39 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h10-20020a05600c2caa00b003cfd58409desm3158151wmc.13.2023.01.05.09.26.38
+ h15-20020a05600c314f00b003d99469ece1sm3410678wmo.24.2023.01.05.09.28.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 09:26:41 -0800 (PST)
-Message-ID: <bdb3339f-e753-7911-6767-98b1279d311a@linaro.org>
-Date: Thu, 5 Jan 2023 18:26:38 +0100
+ Thu, 05 Jan 2023 09:28:38 -0800 (PST)
+Message-ID: <7d8fc0af-93ba-c79f-4c53-0cb52db40fa5@linaro.org>
+Date: Thu, 5 Jan 2023 18:28:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 17/21] gdbstub: fix address type of gdb_set_cpu_pc
+Subject: Re: [PATCH v2 18/21] gdbstub: don't use target_ulong while handling
+ registers
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org, alex.bennee@gmail.com
@@ -88,20 +89,20 @@ Cc: David Hildenbrand <david@redhat.com>,
  Yoshinori Sato <ysato@users.sourceforge.jp>,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-arm@nongnu.org
 References: <20230105164320.2164095-1-alex.bennee@linaro.org>
- <20230105164320.2164095-18-alex.bennee@linaro.org>
+ <20230105164320.2164095-19-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230105164320.2164095-18-alex.bennee@linaro.org>
+In-Reply-To: <20230105164320.2164095-19-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
 X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,18 +119,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 5/1/23 17:43, Alex Bennée wrote:
-> The underlying call uses vaddr and the comms API uses unsigned long
-> long which will always fit. We don't need to deal in target_ulong
-> here.
+> This is a hangover from the original code. addr is misleading as it is
+> only a really a register id. While len will never exceed
+
+"a really"?
+
+> MAX_PACKET_LENGTH I've used size_t as that is what strlen returns.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   gdbstub/gdbstub.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   gdbstub/gdbstub.c | 17 ++++++++++-------
+>   1 file changed, 10 insertions(+), 7 deletions(-)
+> 
+> diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
+> index 4547ca3367..c50c2f8e0f 100644
+> --- a/gdbstub/gdbstub.c
+> +++ b/gdbstub/gdbstub.c
+> @@ -1192,7 +1192,8 @@ static void handle_read_mem(GArray *params, void *user_ctx)
+>   
+>   static void handle_write_all_regs(GArray *params, void *user_ctx)
+>   {
+> -    target_ulong addr, len;
+> +    int reg_id;
 
-Yay \o/
+'unsigned'?
 
+> +    size_t len;
+>       uint8_t *registers;
+>       int reg_size;
+>   
+> @@ -1204,9 +1205,10 @@ static void handle_write_all_regs(GArray *params, void *user_ctx)
+>       len = strlen(get_param(params, 0)->data) / 2;
+>       gdb_hextomem(gdbserver_state.mem_buf, get_param(params, 0)->data, len);
+>       registers = gdbserver_state.mem_buf->data;
+> -    for (addr = 0; addr < gdbserver_state.g_cpu->gdb_num_g_regs && len > 0;
+> -         addr++) {
+> -        reg_size = gdb_write_register(gdbserver_state.g_cpu, registers, addr);
+> +    for (reg_id = 0;
+> +         reg_id < gdbserver_state.g_cpu->gdb_num_g_regs && len > 0;
+> +         reg_id++) {
+Regardless:
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
 
 
