@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0611D65F22F
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:06:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3059B65F262
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:17:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTLU-0007be-Kc; Thu, 05 Jan 2023 11:44:00 -0500
+	id 1pDTTN-00074x-2G; Thu, 05 Jan 2023 11:52:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pDTLO-0007Kd-0H
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:43:55 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ id 1pDTTK-00073Q-BF
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:52:06 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pDTKz-00072F-JZ
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:43:53 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id m3so19553479wmq.0
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:43:29 -0800 (PST)
+ id 1pDTTC-00017m-MR
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:52:06 -0500
+Received: by mail-wm1-x336.google.com with SMTP id ay40so28501386wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:51:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dq+rRQ8VRcqDw3VK+XUoNAUY4lPdXx+D6O3N7YMZLHQ=;
- b=iy30XnDGoFXdLHjGUr4l17D1YAkJ/mqJOBAgy9h+gIvBibMgnhJphZYcm9botUhcPp
- bl384/qXwT/4Hu0RvaTaLK5L7F7ztdLWyOsObt39ojHyoiAtkAz4HJfrzNEnkNSI5VFz
- agcgDWSapfc8SmGNm11RWZE9HpE/rUNWao0A2c+Z9HmwL6oc3fwuxAO5VlrpVQDWT6/x
- mdz9gtKA3ib8NwQ6YzK3778kUNpUTMSVKAJr8ekT/2R6B23TygoZzGSmDugk/HtgH2Mw
- 7I7qglsCXErU67FHgehYuR8eKPAukA0FCBcRHIpborcSDpeLwcqQnj7IzIAp5swtSU8L
- dczA==
+ bh=rDTkiKmoQLKA9IWPo0pLPcRDn/gAcEbKfmWU7ZB7o7I=;
+ b=LIoXxM7QfOYnOY+36n5nOwPLYvC5tmhe0FsUYx6817ZznEy8IL1LiVdNzvhDBGb1TC
+ EwH7al1R4nlRBabST76Mf5IQuwPwcdJR6Jks4/B1V7/TvVPqWxi5hZXRqXtbo2D4ZBn/
+ aJrdvLfYtMWJFRVu3atzyKM3myITPw2IljJWZHxcBLx/FttmZ5+1Oz7omU0eKC1WaaKS
+ QPQKUlLPEz3vEkbaIaDvX6nzqmiun/FHQBt41qZGilA2YMoM/SHBnTXcUk0CxqeNzSy+
+ XXh9BarpMteuyUUO9DEv382DF67XBjUm0TuiPRwhSGhpVZR9hBXSkFjH/LLT4w9I1QEQ
+ FmvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dq+rRQ8VRcqDw3VK+XUoNAUY4lPdXx+D6O3N7YMZLHQ=;
- b=dfeJAXtPZ/5s13CtLsUrJJUoM5Z/R7L5NFaPMcKcI5j6ooZQ0C7WKW+aMypri3p80j
- Vk0EUzzUFkhxj7pgXwuAuxVzlHV8uZQmQS9FP5BBUhlnK85vv84JC5t44UAoBf7ZDbhn
- CFWAaBGnf71vQzee3F61aKifiRfNK6nA2iimMqXaR2wzXvxrFIDPxQzEci6RbVtCPJpL
- DlDc911oliKeo90NfgEeCE8yoJll8qyp/wSA+IaC1N9ZXxNvNDbcVTwKWILon+MMgMb/
- 9mqNWMY+3bi6gDp8W/O5jThDQMyp6bHl+mgTBeSeX+68xc8VLJsVkEFGKhQINNRc+mdA
- U9AQ==
-X-Gm-Message-State: AFqh2krmZBkZRUX0AFTIXhDZnH0sa4nMzDU2QCGeu1VFDesS/fuft/S8
- D/sM8aVaxePp107JYHCS+ZYJeg==
-X-Google-Smtp-Source: AMrXdXsXJjabvwmZq8q8PChpT3zzoa7wAb/4Xws+VZxixPv18Zo8aAvtlZ69AjAmliJkUDJ7i5QRZg==
-X-Received: by 2002:a05:600c:4307:b0:3d3:494f:6a39 with SMTP id
- p7-20020a05600c430700b003d3494f6a39mr37100454wme.16.1672937008193; 
- Thu, 05 Jan 2023 08:43:28 -0800 (PST)
+ bh=rDTkiKmoQLKA9IWPo0pLPcRDn/gAcEbKfmWU7ZB7o7I=;
+ b=L0RH0la0WckE998agvdPxo1wqRs/k6Vol4xQ7sK1N/31Zkgf1a7VX8+BREc98R20oe
+ qJjEEmvaA7Dwxd9lBnEBE+6sryOoWl0H/q4XEbE4mPTm6F3F3D80IWhv7gMzkztgjBQ6
+ YiemLU9rmQMh3tN7YDnAe9ZJEQFTIFZqooz7El7Ua+eEB6xHmJMlpHSid0ffOIwJGJuy
+ IqxmSUFfON4u8tm27nsUiZTtrTdCS9pGkUw4lYGZ4hR2Rmrtjzr8v5wTu61pexT20+ID
+ IB40JOX9zPGmXViiBTUn+WSED3iKF1hT5fM9KblDgzzLJcW9dWGmPhBjNZ7TUc9snH9O
+ COUw==
+X-Gm-Message-State: AFqh2kouj9Zgs66FztJ933dgfIHxnSq0LI5fitocljIoY/Bg4yXBRPS3
+ iE1YUqhrXUoDvTmURVi5uZTccg==
+X-Google-Smtp-Source: AMrXdXttGxlEWyPeGU0JgrWwl117u4q6VejZIXq6yW/1rOtN+nv7k1KTJ5Mry0hk6wap69BvIQ2dkg==
+X-Received: by 2002:a05:600c:1819:b0:3cf:8d51:fae1 with SMTP id
+ n25-20020a05600c181900b003cf8d51fae1mr37263445wmp.0.1672937517048; 
+ Thu, 05 Jan 2023 08:51:57 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- ay19-20020a5d6f13000000b0022cdeba3f83sm18000710wrb.84.2023.01.05.08.43.23
+ t64-20020a1c4643000000b003cf75213bb9sm2902696wma.8.2023.01.05.08.51.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:43:25 -0800 (PST)
+ Thu, 05 Jan 2023 08:51:55 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4EEC31FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id 9A3CC1FFCA;
  Thu,  5 Jan 2023 16:43:21 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org,
@@ -91,17 +91,18 @@ Cc: David Hildenbrand <david@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>,
  Yoshinori Sato <ysato@users.sourceforge.jp>,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-arm@nongnu.org
-Subject: [PATCH v2 14/21] gdbstub: specialise target_memory_rw_debug
-Date: Thu,  5 Jan 2023 16:43:13 +0000
-Message-Id: <20230105164320.2164095-15-alex.bennee@linaro.org>
+Subject: [PATCH v2 19/21] gdbstub: move register helpers into standalone
+ include
+Date: Thu,  5 Jan 2023 16:43:18 +0000
+Message-Id: <20230105164320.2164095-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230105164320.2164095-1-alex.bennee@linaro.org>
 References: <20230105164320.2164095-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -124,263 +125,846 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The two implementations are different enough to encourage having a
-specialisation and we can move some of the softmmu only stuff out of
-gdbstub.
+These inline helpers are all used by target specific code so move them
+out of the general header so we don't needlessly pollute the rest of
+the API with target specific stuff.
+
+Note we have to include cpu.h in semihosting as it was relying on a
+side effect before.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- gdbstub/internals.h | 19 ++++++++++++
- gdbstub/gdbstub.c   | 73 +++++++--------------------------------------
- gdbstub/softmmu.c   | 51 +++++++++++++++++++++++++++++++
- gdbstub/user.c      | 15 ++++++++++
- 4 files changed, 96 insertions(+), 62 deletions(-)
+ include/exec/gdbstub.h                 |  86 ---------------------
+ include/gdbstub/helpers.h              | 103 +++++++++++++++++++++++++
+ semihosting/syscalls.c                 |   1 +
+ target/alpha/gdbstub.c                 |   2 +-
+ target/arm/gdbstub.c                   |   1 +
+ target/arm/gdbstub64.c                 |   2 +-
+ target/arm/helper-a64.c                |   2 +-
+ target/arm/m_helper.c                  |   2 +-
+ target/avr/gdbstub.c                   |   2 +-
+ target/cris/gdbstub.c                  |   2 +-
+ target/hexagon/gdbstub.c               |   2 +-
+ target/hppa/gdbstub.c                  |   2 +-
+ target/i386/gdbstub.c                  |   2 +-
+ target/i386/whpx/whpx-all.c            |   2 +-
+ target/loongarch/gdbstub.c             |   1 +
+ target/m68k/gdbstub.c                  |   2 +-
+ target/m68k/helper.c                   |   1 +
+ target/m68k/m68k-semi.c                |   1 +
+ target/microblaze/gdbstub.c            |   2 +-
+ target/mips/gdbstub.c                  |   2 +-
+ target/mips/tcg/sysemu/mips-semi.c     |   1 +
+ target/nios2/cpu.c                     |   2 +-
+ target/nios2/nios2-semi.c              |   1 +
+ target/openrisc/gdbstub.c              |   2 +-
+ target/openrisc/interrupt.c            |   2 +-
+ target/openrisc/mmu.c                  |   2 +-
+ target/ppc/cpu_init.c                  |   2 +-
+ target/ppc/gdbstub.c                   |   1 +
+ target/riscv/gdbstub.c                 |   1 +
+ target/rx/gdbstub.c                    |   2 +-
+ target/s390x/gdbstub.c                 |   1 +
+ target/s390x/helper.c                  |   2 +-
+ target/sh4/gdbstub.c                   |   2 +-
+ target/sparc/gdbstub.c                 |   2 +-
+ target/tricore/gdbstub.c               |   2 +-
+ target/xtensa/core-dc232b.c            |   2 +-
+ target/xtensa/core-dc233c.c            |   2 +-
+ target/xtensa/core-de212.c             |   2 +-
+ target/xtensa/core-de233_fpu.c         |   2 +-
+ target/xtensa/core-dsp3400.c           |   2 +-
+ target/xtensa/core-fsf.c               |   2 +-
+ target/xtensa/core-lx106.c             |   2 +-
+ target/xtensa/core-sample_controller.c |   2 +-
+ target/xtensa/core-test_kc705_be.c     |   2 +-
+ target/xtensa/core-test_mmuhifi_c3.c   |   2 +-
+ target/xtensa/gdbstub.c                |   2 +-
+ target/xtensa/helper.c                 |   2 +-
+ 47 files changed, 148 insertions(+), 121 deletions(-)
+ create mode 100644 include/gdbstub/helpers.h
 
-diff --git a/gdbstub/internals.h b/gdbstub/internals.h
-index 646d2c4e82..55f3d820aa 100644
---- a/gdbstub/internals.h
-+++ b/gdbstub/internals.h
-@@ -181,6 +181,10 @@ void gdb_handle_query_xfer_auxv(GArray *params, void *user_ctx); /*user */
+diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+index 8fff5450ed..bb8a3928dd 100644
+--- a/include/exec/gdbstub.h
++++ b/include/exec/gdbstub.h
+@@ -110,92 +110,6 @@ void gdb_register_coprocessor(CPUState *cpu,
+                               gdb_get_reg_cb get_reg, gdb_set_reg_cb set_reg,
+                               int num_regs, const char *xml, int g_pos);
  
- void gdb_handle_query_attached(GArray *params, void *user_ctx); /* both */
- 
-+/* softmmu only */
-+void gdb_handle_query_qemu_phy_mem_mode(GArray *params, void *user_ctx);
-+void gdb_handle_set_qemu_phy_mem_mode(GArray *params, void *user_ctx);
-+
- /*
-  * Break/Watch point support - there is an implementation for softmmu
-  * and user mode.
-@@ -190,4 +194,19 @@ int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr len);
- int gdb_breakpoint_remove(CPUState *cs, int type, hwaddr addr, hwaddr len);
- void gdb_breakpoint_remove_all(CPUState *cs);
- 
-+/**
-+ * gdb_target_memory_rw_debug() - handle debug access to memory
-+ * @cs: CPUState
-+ * @addr: nominal address, could be an entire physical address
-+ * @buf: data
-+ * @len: length of access
-+ * @is_write: is it a write operation
+-#ifdef NEED_CPU_H
+-#include "cpu.h"
+-
+-/*
+- * The GDB remote protocol transfers values in target byte order. As
+- * the gdbstub may be batching up several register values we always
+- * append to the array.
+- */
+-
+-static inline int gdb_get_reg8(GByteArray *buf, uint8_t val)
+-{
+-    g_byte_array_append(buf, &val, 1);
+-    return 1;
+-}
+-
+-static inline int gdb_get_reg16(GByteArray *buf, uint16_t val)
+-{
+-    uint16_t to_word = tswap16(val);
+-    g_byte_array_append(buf, (uint8_t *) &to_word, 2);
+-    return 2;
+-}
+-
+-static inline int gdb_get_reg32(GByteArray *buf, uint32_t val)
+-{
+-    uint32_t to_long = tswap32(val);
+-    g_byte_array_append(buf, (uint8_t *) &to_long, 4);
+-    return 4;
+-}
+-
+-static inline int gdb_get_reg64(GByteArray *buf, uint64_t val)
+-{
+-    uint64_t to_quad = tswap64(val);
+-    g_byte_array_append(buf, (uint8_t *) &to_quad, 8);
+-    return 8;
+-}
+-
+-static inline int gdb_get_reg128(GByteArray *buf, uint64_t val_hi,
+-                                 uint64_t val_lo)
+-{
+-    uint64_t to_quad;
+-#if TARGET_BIG_ENDIAN
+-    to_quad = tswap64(val_hi);
+-    g_byte_array_append(buf, (uint8_t *) &to_quad, 8);
+-    to_quad = tswap64(val_lo);
+-    g_byte_array_append(buf, (uint8_t *) &to_quad, 8);
+-#else
+-    to_quad = tswap64(val_lo);
+-    g_byte_array_append(buf, (uint8_t *) &to_quad, 8);
+-    to_quad = tswap64(val_hi);
+-    g_byte_array_append(buf, (uint8_t *) &to_quad, 8);
+-#endif
+-    return 16;
+-}
+-
+-static inline int gdb_get_zeroes(GByteArray *array, size_t len)
+-{
+-    guint oldlen = array->len;
+-    g_byte_array_set_size(array, oldlen + len);
+-    memset(array->data + oldlen, 0, len);
+-
+-    return len;
+-}
+-
+-/**
+- * gdb_get_reg_ptr: get pointer to start of last element
+- * @len: length of element
+- *
+- * This is a helper function to extract the pointer to the last
+- * element for additional processing. Some front-ends do additional
+- * dynamic swapping of the elements based on CPU state.
+- */
+-static inline uint8_t * gdb_get_reg_ptr(GByteArray *buf, int len)
+-{
+-    return buf->data + buf->len - len;
+-}
+-
+-#if TARGET_LONG_BITS == 64
+-#define gdb_get_regl(buf, val) gdb_get_reg64(buf, val)
+-#define ldtul_p(addr) ldq_p(addr)
+-#else
+-#define gdb_get_regl(buf, val) gdb_get_reg32(buf, val)
+-#define ldtul_p(addr) ldl_p(addr)
+-#endif
+-
+-#endif /* NEED_CPU_H */
+-
+ /**
+  * gdbserver_start: start the gdb server
+  * @port_or_device: connection spec for gdb
+diff --git a/include/gdbstub/helpers.h b/include/gdbstub/helpers.h
+new file mode 100644
+index 0000000000..dfaef2b9dd
+--- /dev/null
++++ b/include/gdbstub/helpers.h
+@@ -0,0 +1,103 @@
++/*
++ * gdbstub helpers
 + *
-+ * This function is specialised depending on the mode we are running
-+ * in. For softmmu guests we can switch the interpretation of the
-+ * address to a physical address.
++ * These are all used by the various frontends and have to be host
++ * aware to ensure things are store in target order.
++ *
++ * Copyright (c) 2022 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
 + */
-+int gdb_target_memory_rw_debug(CPUState *cs, hwaddr addr,
-+                               uint8_t *buf, int len, bool is_write);
 +
- #endif /* GDBSTUB_INTERNALS_H */
-diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-index 0d90685c72..91021859a1 100644
---- a/gdbstub/gdbstub.c
-+++ b/gdbstub/gdbstub.c
-@@ -46,33 +46,6 @@
- 
- #include "internals.h"
- 
--#ifndef CONFIG_USER_ONLY
--static int phy_memory_mode;
--#endif
--
--static inline int target_memory_rw_debug(CPUState *cpu, target_ulong addr,
--                                         uint8_t *buf, int len, bool is_write)
--{
--    CPUClass *cc;
--
--#ifndef CONFIG_USER_ONLY
--    if (phy_memory_mode) {
--        if (is_write) {
--            cpu_physical_memory_write(addr, buf, len);
--        } else {
--            cpu_physical_memory_read(addr, buf, len);
--        }
--        return 0;
--    }
--#endif
--
--    cc = CPU_GET_CLASS(cpu);
--    if (cc->memory_rw_debug) {
--        return cc->memory_rw_debug(cpu, addr, buf, len, is_write);
--    }
--    return cpu_memory_rw_debug(cpu, addr, buf, len, is_write);
--}
--
- typedef struct GDBRegisterState {
-     int base_reg;
-     int num_regs;
-@@ -1194,11 +1167,11 @@ static void handle_write_mem(GArray *params, void *user_ctx)
-     }
- 
-     gdb_hextomem(gdbserver_state.mem_buf, get_param(params, 2)->data,
--             get_param(params, 1)->val_ull);
--    if (target_memory_rw_debug(gdbserver_state.g_cpu,
--                               get_param(params, 0)->val_ull,
--                               gdbserver_state.mem_buf->data,
--                               gdbserver_state.mem_buf->len, true)) {
-+                 get_param(params, 1)->val_ull);
-+    if (gdb_target_memory_rw_debug(gdbserver_state.g_cpu,
-+                                   get_param(params, 0)->val_ull,
-+                                   gdbserver_state.mem_buf->data,
-+                                   gdbserver_state.mem_buf->len, true)) {
-         gdb_put_packet("E14");
-         return;
-     }
-@@ -1222,10 +1195,10 @@ static void handle_read_mem(GArray *params, void *user_ctx)
-     g_byte_array_set_size(gdbserver_state.mem_buf,
-                           get_param(params, 1)->val_ull);
- 
--    if (target_memory_rw_debug(gdbserver_state.g_cpu,
--                               get_param(params, 0)->val_ull,
--                               gdbserver_state.mem_buf->data,
--                               gdbserver_state.mem_buf->len, false)) {
-+    if (gdb_target_memory_rw_debug(gdbserver_state.g_cpu,
-+                                   get_param(params, 0)->val_ull,
-+                                   gdbserver_state.mem_buf->data,
-+                                   gdbserver_state.mem_buf->len, false)) {
-         gdb_put_packet("E14");
-         return;
-     }
-@@ -1675,30 +1648,6 @@ static void handle_query_qemu_supported(GArray *params, void *user_ctx)
-     gdb_put_strbuf();
- }
- 
--#ifndef CONFIG_USER_ONLY
--static void handle_query_qemu_phy_mem_mode(GArray *params,
--                                           void *user_ctx)
--{
--    g_string_printf(gdbserver_state.str_buf, "%d", phy_memory_mode);
--    gdb_put_strbuf();
--}
--
--static void handle_set_qemu_phy_mem_mode(GArray *params, void *user_ctx)
--{
--    if (!params->len) {
--        gdb_put_packet("E22");
--        return;
--    }
--
--    if (!get_param(params, 0)->val_ul) {
--        phy_memory_mode = 0;
--    } else {
--        phy_memory_mode = 1;
--    }
--    gdb_put_packet("OK");
--}
--#endif
--
- static const GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
-     /* Order is important if has same prefix */
-     {
-@@ -1789,7 +1738,7 @@ static const GdbCmdParseEntry gdb_gen_query_table[] = {
-     },
- #ifndef CONFIG_USER_ONLY
-     {
--        .handler = handle_query_qemu_phy_mem_mode,
-+        .handler = gdb_handle_query_qemu_phy_mem_mode,
-         .cmd = "qemu.PhyMemMode",
-     },
- #endif
-@@ -1805,7 +1754,7 @@ static const GdbCmdParseEntry gdb_gen_set_table[] = {
-     },
- #ifndef CONFIG_USER_ONLY
-     {
--        .handler = handle_set_qemu_phy_mem_mode,
-+        .handler = gdb_handle_set_qemu_phy_mem_mode,
-         .cmd = "qemu.PhyMemMode:",
-         .cmd_startswith = 1,
-         .schema = "l0"
-diff --git a/gdbstub/softmmu.c b/gdbstub/softmmu.c
-index 19fcb3be7d..c42230acca 100644
---- a/gdbstub/softmmu.c
-+++ b/gdbstub/softmmu.c
-@@ -409,9 +409,60 @@ void gdb_exit(int code)
-   qemu_chr_fe_deinit(&gdbserver_system_state.chr, true);
- }
- 
++#ifndef _GDBSTUB_HELPERS_H_
++#define _GDBSTUB_HELPERS_H_
++
++#ifdef NEED_CPU_H
++#include "cpu.h"
++
 +/*
-+ * Memory access
++ * The GDB remote protocol transfers values in target byte order. As
++ * the gdbstub may be batching up several register values we always
++ * append to the array.
 + */
-+static int phy_memory_mode;
 +
-+int gdb_target_memory_rw_debug(CPUState *cpu, hwaddr addr,
-+                               uint8_t *buf, int len, bool is_write)
++static inline int gdb_get_reg8(GByteArray *buf, uint8_t val)
 +{
-+    CPUClass *cc;
-+
-+    if (phy_memory_mode) {
-+        if (is_write) {
-+            cpu_physical_memory_write(addr, buf, len);
-+        } else {
-+            cpu_physical_memory_read(addr, buf, len);
-+        }
-+        return 0;
-+    }
-+
-+    cc = CPU_GET_CLASS(cpu);
-+    if (cc->memory_rw_debug) {
-+        return cc->memory_rw_debug(cpu, addr, buf, len, is_write);
-+    }
-+
-+    return cpu_memory_rw_debug(cpu, addr, buf, len, is_write);
++    g_byte_array_append(buf, &val, 1);
++    return 1;
 +}
 +
++static inline int gdb_get_reg16(GByteArray *buf, uint16_t val)
++{
++    uint16_t to_word = tswap16(val);
++    g_byte_array_append(buf, (uint8_t *) &to_word, 2);
++    return 2;
++}
 +
- /*
-  * Softmmu specific command helpers
++static inline int gdb_get_reg32(GByteArray *buf, uint32_t val)
++{
++    uint32_t to_long = tswap32(val);
++    g_byte_array_append(buf, (uint8_t *) &to_long, 4);
++    return 4;
++}
++
++static inline int gdb_get_reg64(GByteArray *buf, uint64_t val)
++{
++    uint64_t to_quad = tswap64(val);
++    g_byte_array_append(buf, (uint8_t *) &to_quad, 8);
++    return 8;
++}
++
++static inline int gdb_get_reg128(GByteArray *buf, uint64_t val_hi,
++                                 uint64_t val_lo)
++{
++    uint64_t to_quad;
++#if TARGET_BIG_ENDIAN
++    to_quad = tswap64(val_hi);
++    g_byte_array_append(buf, (uint8_t *) &to_quad, 8);
++    to_quad = tswap64(val_lo);
++    g_byte_array_append(buf, (uint8_t *) &to_quad, 8);
++#else
++    to_quad = tswap64(val_lo);
++    g_byte_array_append(buf, (uint8_t *) &to_quad, 8);
++    to_quad = tswap64(val_hi);
++    g_byte_array_append(buf, (uint8_t *) &to_quad, 8);
++#endif
++    return 16;
++}
++
++static inline int gdb_get_zeroes(GByteArray *array, size_t len)
++{
++    guint oldlen = array->len;
++    g_byte_array_set_size(array, oldlen + len);
++    memset(array->data + oldlen, 0, len);
++
++    return len;
++}
++
++/**
++ * gdb_get_reg_ptr: get pointer to start of last element
++ * @len: length of element
++ *
++ * This is a helper function to extract the pointer to the last
++ * element for additional processing. Some front-ends do additional
++ * dynamic swapping of the elements based on CPU state.
++ */
++static inline uint8_t * gdb_get_reg_ptr(GByteArray *buf, int len)
++{
++    return buf->data + buf->len - len;
++}
++
++#if TARGET_LONG_BITS == 64
++#define gdb_get_regl(buf, val) gdb_get_reg64(buf, val)
++#define ldtul_p(addr) ldq_p(addr)
++#else
++#define gdb_get_regl(buf, val) gdb_get_reg32(buf, val)
++#define ldtul_p(addr) ldl_p(addr)
++#endif
++
++#else
++#error "gdbstub helpers should only be included by target specific code"
++#endif
++
++#endif /* _GDBSTUB_HELPERS_H_ */
+diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
+index 508a0ad88c..e20241b6b4 100644
+--- a/semihosting/syscalls.c
++++ b/semihosting/syscalls.c
+@@ -8,6 +8,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "exec/gdbstub.h"
++#include "cpu.h"
+ #include "semihosting/guestfd.h"
+ #include "semihosting/syscalls.h"
+ #include "semihosting/console.h"
+diff --git a/target/alpha/gdbstub.c b/target/alpha/gdbstub.c
+index 7db14f4431..0f8fa150f8 100644
+--- a/target/alpha/gdbstub.c
++++ b/target/alpha/gdbstub.c
+@@ -19,7 +19,7 @@
   */
-+
-+void gdb_handle_query_qemu_phy_mem_mode(GArray *params,
-+                                        void *user_ctx)
-+{
-+    g_string_printf(gdbserver_state.str_buf, "%d", phy_memory_mode);
-+    gdb_put_strbuf();
-+}
-+
-+void gdb_handle_set_qemu_phy_mem_mode(GArray *params, void *user_ctx)
-+{
-+    if (!params->len) {
-+        gdb_put_packet("E22");
-+        return;
-+    }
-+
-+    if (!get_param(params, 0)->val_ul) {
-+        phy_memory_mode = 0;
-+    } else {
-+        phy_memory_mode = 1;
-+    }
-+    gdb_put_packet("OK");
-+}
-+
- void gdb_handle_query_rcmd(GArray *params, void *user_ctx)
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ 
+ int alpha_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
  {
-     const guint8 zero = 0;
-diff --git a/gdbstub/user.c b/gdbstub/user.c
-index a668b16952..74f541223c 100644
---- a/gdbstub/user.c
-+++ b/gdbstub/user.c
-@@ -376,6 +376,21 @@ int gdb_continue_partial(char *newstates)
-     return res;
- }
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+index 2f806512d0..05d6eb802a 100644
+--- a/target/arm/gdbstub.c
++++ b/target/arm/gdbstub.c
+@@ -20,6 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "internals.h"
+ #include "cpregs.h"
  
-+/*
-+ * Memory access helpers
-+ */
-+int gdb_target_memory_rw_debug(CPUState *cpu, hwaddr addr,
-+                               uint8_t *buf, int len, bool is_write)
-+{
-+    CPUClass *cc;
-+
-+    cc = CPU_GET_CLASS(cpu);
-+    if (cc->memory_rw_debug) {
-+        return cc->memory_rw_debug(cpu, addr, buf, len, is_write);
-+    }
-+    return cpu_memory_rw_debug(cpu, addr, buf, len, is_write);
-+}
-+
- /*
-  * Break/Watch point helpers
+diff --git a/target/arm/gdbstub64.c b/target/arm/gdbstub64.c
+index 07a6746944..48d2888b6f 100644
+--- a/target/arm/gdbstub64.c
++++ b/target/arm/gdbstub64.c
+@@ -20,7 +20,7 @@
+ #include "qemu/log.h"
+ #include "cpu.h"
+ #include "internals.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ 
+ int aarch64_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
+diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
+index 77a8502b6b..b52d381043 100644
+--- a/target/arm/helper-a64.c
++++ b/target/arm/helper-a64.c
+@@ -20,7 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "exec/helper-proto.h"
+ #include "qemu/host-utils.h"
+ #include "qemu/log.h"
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index 355cd4d60a..53f1b38ec4 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -12,7 +12,7 @@
+ #include "trace.h"
+ #include "cpu.h"
+ #include "internals.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "exec/helper-proto.h"
+ #include "qemu/host-utils.h"
+ #include "qemu/main-loop.h"
+diff --git a/target/avr/gdbstub.c b/target/avr/gdbstub.c
+index 1c1b908c92..150344d8b9 100644
+--- a/target/avr/gdbstub.c
++++ b/target/avr/gdbstub.c
+@@ -19,7 +19,7 @@
   */
+ 
+ #include "qemu/osdep.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ 
+ int avr_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
+diff --git a/target/cris/gdbstub.c b/target/cris/gdbstub.c
+index 2418d575b1..25c0ca33a5 100644
+--- a/target/cris/gdbstub.c
++++ b/target/cris/gdbstub.c
+@@ -19,7 +19,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ 
+ int crisv10_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
+diff --git a/target/hexagon/gdbstub.c b/target/hexagon/gdbstub.c
+index d152d01bfe..46083da620 100644
+--- a/target/hexagon/gdbstub.c
++++ b/target/hexagon/gdbstub.c
+@@ -16,7 +16,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "cpu.h"
+ #include "internal.h"
+ 
+diff --git a/target/hppa/gdbstub.c b/target/hppa/gdbstub.c
+index 729c37b2ca..48a514384f 100644
+--- a/target/hppa/gdbstub.c
++++ b/target/hppa/gdbstub.c
+@@ -19,7 +19,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ 
+ int hppa_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
+diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+index c3a2cf6f28..255faa70f6 100644
+--- a/target/i386/gdbstub.c
++++ b/target/i386/gdbstub.c
+@@ -19,7 +19,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "include/gdbstub/helpers.h"
+ 
+ #ifdef TARGET_X86_64
+ static const int gpr_map[16] = {
+diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
+index e738d83e81..430da38778 100644
+--- a/target/i386/whpx/whpx-all.c
++++ b/target/i386/whpx/whpx-all.c
+@@ -12,7 +12,7 @@
+ #include "cpu.h"
+ #include "exec/address-spaces.h"
+ #include "exec/ioport.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/accel.h"
+ #include "sysemu/whpx.h"
+ #include "sysemu/cpus.h"
+diff --git a/target/loongarch/gdbstub.c b/target/loongarch/gdbstub.c
+index a4d1e28e36..fa3e034d15 100644
+--- a/target/loongarch/gdbstub.c
++++ b/target/loongarch/gdbstub.c
+@@ -10,6 +10,7 @@
+ #include "cpu.h"
+ #include "internals.h"
+ #include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ 
+ uint64_t read_fcc(CPULoongArchState *env)
+ {
+diff --git a/target/m68k/gdbstub.c b/target/m68k/gdbstub.c
+index eb2d030e14..1e5f033a12 100644
+--- a/target/m68k/gdbstub.c
++++ b/target/m68k/gdbstub.c
+@@ -19,7 +19,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ 
+ int m68k_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
+diff --git a/target/m68k/helper.c b/target/m68k/helper.c
+index 4621cf2402..3b3a6ea8bd 100644
+--- a/target/m68k/helper.c
++++ b/target/m68k/helper.c
+@@ -23,6 +23,7 @@
+ #include "exec/exec-all.h"
+ #include "exec/gdbstub.h"
+ #include "exec/helper-proto.h"
++#include "gdbstub/helpers.h"
+ #include "fpu/softfloat.h"
+ #include "qemu/qemu-print.h"
+ 
+diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+index 87b1314925..f753710d7d 100644
+--- a/target/m68k/m68k-semi.c
++++ b/target/m68k/m68k-semi.c
+@@ -21,6 +21,7 @@
+ 
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "semihosting/syscalls.h"
+ #include "semihosting/softmmu-uaccess.h"
+ #include "hw/boards.h"
+diff --git a/target/microblaze/gdbstub.c b/target/microblaze/gdbstub.c
+index 2e6e070051..ad2e0b27cb 100644
+--- a/target/microblaze/gdbstub.c
++++ b/target/microblaze/gdbstub.c
+@@ -19,7 +19,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ 
+ /*
+  * GDB expects SREGs in the following order:
+diff --git a/target/mips/gdbstub.c b/target/mips/gdbstub.c
+index f1c2a2cf6d..62d7b72407 100644
+--- a/target/mips/gdbstub.c
++++ b/target/mips/gdbstub.c
+@@ -20,7 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "internal.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "fpu_helper.h"
+ 
+ int mips_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+diff --git a/target/mips/tcg/sysemu/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
+index 85f0567a7f..4e6e759057 100644
+--- a/target/mips/tcg/sysemu/mips-semi.c
++++ b/target/mips/tcg/sysemu/mips-semi.c
+@@ -21,6 +21,7 @@
+ #include "cpu.h"
+ #include "qemu/log.h"
+ #include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "semihosting/softmmu-uaccess.h"
+ #include "semihosting/semihost.h"
+ #include "semihosting/console.h"
+diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
+index cff30823da..bc5cbf81c2 100644
+--- a/target/nios2/cpu.c
++++ b/target/nios2/cpu.c
+@@ -23,7 +23,7 @@
+ #include "qapi/error.h"
+ #include "cpu.h"
+ #include "exec/log.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "hw/qdev-properties.h"
+ 
+ static void nios2_cpu_set_pc(CPUState *cs, vaddr value)
+diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
+index f76e8588c5..113b3f22aa 100644
+--- a/target/nios2/nios2-semi.c
++++ b/target/nios2/nios2-semi.c
+@@ -24,6 +24,7 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "semihosting/syscalls.h"
+ #include "semihosting/softmmu-uaccess.h"
+ #include "qemu/log.h"
+diff --git a/target/openrisc/gdbstub.c b/target/openrisc/gdbstub.c
+index 095bf76c12..d1074a0581 100644
+--- a/target/openrisc/gdbstub.c
++++ b/target/openrisc/gdbstub.c
+@@ -19,7 +19,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ 
+ int openrisc_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
+diff --git a/target/openrisc/interrupt.c b/target/openrisc/interrupt.c
+index c31c6f12c4..3887812810 100644
+--- a/target/openrisc/interrupt.c
++++ b/target/openrisc/interrupt.c
+@@ -21,7 +21,7 @@
+ #include "qemu/log.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/host-utils.h"
+ #ifndef CONFIG_USER_ONLY
+ #include "hw/loader.h"
+diff --git a/target/openrisc/mmu.c b/target/openrisc/mmu.c
+index 0b8afdbacf..603c26715e 100644
+--- a/target/openrisc/mmu.c
++++ b/target/openrisc/mmu.c
+@@ -22,7 +22,7 @@
+ #include "qemu/log.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/host-utils.h"
+ #include "hw/loader.h"
+ 
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index abee71d407..78c5c48b04 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -20,7 +20,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "disas/dis-asm.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "kvm_ppc.h"
+ #include "sysemu/cpus.h"
+ #include "sysemu/hw_accel.h"
+diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
+index 1a0b9ca82c..d2bc1d7c53 100644
+--- a/target/ppc/gdbstub.c
++++ b/target/ppc/gdbstub.c
+@@ -20,6 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "internal.h"
+ 
+ static int ppc_gdb_register_len_apple(int n)
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index 6e7bbdbd5e..a542683901 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -18,6 +18,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "cpu.h"
+ 
+ struct TypeSize {
+diff --git a/target/rx/gdbstub.c b/target/rx/gdbstub.c
+index 7eb2059a84..d7e0e6689b 100644
+--- a/target/rx/gdbstub.c
++++ b/target/rx/gdbstub.c
+@@ -17,7 +17,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ 
+ int rx_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
+diff --git a/target/s390x/gdbstub.c b/target/s390x/gdbstub.c
+index a5d69d0e0b..0cb69395b4 100644
+--- a/target/s390x/gdbstub.c
++++ b/target/s390x/gdbstub.c
+@@ -23,6 +23,7 @@
+ #include "s390x-internal.h"
+ #include "exec/exec-all.h"
+ #include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/bitops.h"
+ #include "sysemu/hw_accel.h"
+ #include "sysemu/tcg.h"
+diff --git a/target/s390x/helper.c b/target/s390x/helper.c
+index 473c8e51b0..2b363aa959 100644
+--- a/target/s390x/helper.c
++++ b/target/s390x/helper.c
+@@ -21,7 +21,7 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "s390x-internal.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/timer.h"
+ #include "hw/s390x/ioinst.h"
+ #include "hw/s390x/pv.h"
+diff --git a/target/sh4/gdbstub.c b/target/sh4/gdbstub.c
+index 3488f68e32..d8e199fc06 100644
+--- a/target/sh4/gdbstub.c
++++ b/target/sh4/gdbstub.c
+@@ -19,7 +19,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ 
+ /* Hint: Use "set architecture sh4" in GDB to see fpu registers */
+ /* FIXME: We should use XML for this.  */
+diff --git a/target/sparc/gdbstub.c b/target/sparc/gdbstub.c
+index 5d1e808e8c..a1c8fdc4d5 100644
+--- a/target/sparc/gdbstub.c
++++ b/target/sparc/gdbstub.c
+@@ -19,7 +19,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ 
+ #ifdef TARGET_ABI32
+ #define gdb_get_rega(buf, val) gdb_get_reg32(buf, val)
+diff --git a/target/tricore/gdbstub.c b/target/tricore/gdbstub.c
+index 3a27a7e65d..e8f8e5e6ea 100644
+--- a/target/tricore/gdbstub.c
++++ b/target/tricore/gdbstub.c
+@@ -18,7 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ 
+ 
+ #define LCX_REGNUM         32
+diff --git a/target/xtensa/core-dc232b.c b/target/xtensa/core-dc232b.c
+index c982d09c24..9aba2667e3 100644
+--- a/target/xtensa/core-dc232b.c
++++ b/target/xtensa/core-dc232b.c
+@@ -27,7 +27,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/host-utils.h"
+ #include "qemu/timer.h"
+ 
+diff --git a/target/xtensa/core-dc233c.c b/target/xtensa/core-dc233c.c
+index 595ab9a90f..9b0a625063 100644
+--- a/target/xtensa/core-dc233c.c
++++ b/target/xtensa/core-dc233c.c
+@@ -27,7 +27,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-dc233c/core-isa.h"
+diff --git a/target/xtensa/core-de212.c b/target/xtensa/core-de212.c
+index 50c995ba79..b08fe22e65 100644
+--- a/target/xtensa/core-de212.c
++++ b/target/xtensa/core-de212.c
+@@ -27,7 +27,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-de212/core-isa.h"
+diff --git a/target/xtensa/core-de233_fpu.c b/target/xtensa/core-de233_fpu.c
+index 41af8057fb..8845cdb592 100644
+--- a/target/xtensa/core-de233_fpu.c
++++ b/target/xtensa/core-de233_fpu.c
+@@ -27,7 +27,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-de233_fpu/core-isa.h"
+diff --git a/target/xtensa/core-dsp3400.c b/target/xtensa/core-dsp3400.c
+index 81e425c568..c0f94b9e27 100644
+--- a/target/xtensa/core-dsp3400.c
++++ b/target/xtensa/core-dsp3400.c
+@@ -27,7 +27,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-dsp3400/core-isa.h"
+diff --git a/target/xtensa/core-fsf.c b/target/xtensa/core-fsf.c
+index 3327c50b4f..310be8d61f 100644
+--- a/target/xtensa/core-fsf.c
++++ b/target/xtensa/core-fsf.c
+@@ -27,7 +27,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-fsf/core-isa.h"
+diff --git a/target/xtensa/core-lx106.c b/target/xtensa/core-lx106.c
+index 7a771d09a6..7f71d088f3 100644
+--- a/target/xtensa/core-lx106.c
++++ b/target/xtensa/core-lx106.c
+@@ -27,7 +27,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-lx106/core-isa.h"
+diff --git a/target/xtensa/core-sample_controller.c b/target/xtensa/core-sample_controller.c
+index fd5de5576b..8867001aac 100644
+--- a/target/xtensa/core-sample_controller.c
++++ b/target/xtensa/core-sample_controller.c
+@@ -27,7 +27,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-sample_controller/core-isa.h"
+diff --git a/target/xtensa/core-test_kc705_be.c b/target/xtensa/core-test_kc705_be.c
+index 294c16f2f4..bd082f49aa 100644
+--- a/target/xtensa/core-test_kc705_be.c
++++ b/target/xtensa/core-test_kc705_be.c
+@@ -27,7 +27,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-test_kc705_be/core-isa.h"
+diff --git a/target/xtensa/core-test_mmuhifi_c3.c b/target/xtensa/core-test_mmuhifi_c3.c
+index c0e5d32d1e..3090dd01ed 100644
+--- a/target/xtensa/core-test_mmuhifi_c3.c
++++ b/target/xtensa/core-test_mmuhifi_c3.c
+@@ -27,7 +27,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/host-utils.h"
+ 
+ #include "core-test_mmuhifi_c3/core-isa.h"
+diff --git a/target/xtensa/gdbstub.c b/target/xtensa/gdbstub.c
+index b6696063e5..4b3bfb7e59 100644
+--- a/target/xtensa/gdbstub.c
++++ b/target/xtensa/gdbstub.c
+@@ -19,7 +19,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "qemu/log.h"
+ 
+ enum {
+diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
+index 2aa9777a8e..dbeb97a953 100644
+--- a/target/xtensa/helper.c
++++ b/target/xtensa/helper.c
+@@ -29,7 +29,7 @@
+ #include "qemu/log.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+-#include "exec/gdbstub.h"
++#include "gdbstub/helpers.h"
+ #include "exec/helper-proto.h"
+ #include "qemu/error-report.h"
+ #include "qemu/qemu-print.h"
 -- 
 2.34.1
 
