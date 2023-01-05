@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04D365F64C
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 22:57:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5138665F654
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 22:59:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDYF3-00008B-7P; Thu, 05 Jan 2023 16:57:41 -0500
+	id 1pDYGI-000111-IS; Thu, 05 Jan 2023 16:58:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYF0-0008Vl-Iu
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 16:57:38 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYGG-00010a-Dy
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 16:58:56 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYEy-0002xh-Tt
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 16:57:38 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id h16so37403867wrz.12
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 13:57:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYGE-00037k-QM
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 16:58:56 -0500
+Received: by mail-wm1-x334.google.com with SMTP id g10so15230282wmo.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 13:58:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=yZq2xpnoFTyg9uw9OKVeH6rkGaj9fq2SmimorBQqC4E=;
- b=VKwUZCPtPvEHGsJIVinh30T+KLYsmyU3rS/ahwmTDzlnu80BpvPyqh/wqNnqoHr/jN
- z8iv3YKW4Y5mmWDluWBZ7njYePE9l/8iAsPvZ7P5/c0YdE3AdYcVkKrx44wiOBNNoy+f
- /JHs5469VnA4kXpXxYG3g7oXOXWKiPXy1KgYPA11tbo9Z77wxE3NqcKWZ7mLpWDoLDdB
- PK7cpgkLA3BBIRx/81kpFnQY/ekNAPm0OC+G2ELj34nmjkVIJisRxMnhEeqyJ6THPkZF
- BTw1M+PA+/a4Ig9jqcurK+TmGlPbnQnULLzUD7gEY94nOOaWOtSyRyl3H15WHGOq9sRd
- FE9g==
+ bh=419+ibOkyY2isjwTDRB6f2lFKoms2erYnrvhlOjCY0w=;
+ b=ZB7SX14qUL6MOzWV2whkLMFVmRoq889bwvCUuJvy5ZnjZg6LAye+uaPRGG9NF/OIoO
+ PEQJJ6qcrlWtSzAFJ9gZfXRRExZDZHRtlOJCdyQ5jK2UL2ciRAFHqcSi7+G6lKASAbbJ
+ jSvFvjK5LJ07ac4gBf6ihvau6k8C8O6iMsjnZutEbmLwZAbtx0lto30cB/03SixhArkZ
+ /pPzuLVYd5Yxj/NBl/07rBdlDYheSwyYCsjK3TYFs8PX1JKJ+M5V2ZfnPhtwR+PlgGD/
+ 0Sb2Q5dzkGtRkAmrxvP5PTvPmaiZOyjiN5E5ZugfrESMQP8h/qBPGnlstOWs91v5TA24
+ rjhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yZq2xpnoFTyg9uw9OKVeH6rkGaj9fq2SmimorBQqC4E=;
- b=Gaf44sN8C63ZBFtT/9yvw5X4YVHB+mVG/8PnMt8b6wnWgGUkGDHpBL5ryFxt+tYdsH
- xSgbprkhMtMrNOZpEEOAB+sClja7cLpe0W/dXUIiwVCsX6kcNvdeC6VFi/esyXbtJtI0
- 1qwvE7Sxdyow+meqMmCT0MFwzQkxh/0bC/zRu/Xsqog3dJ3d0lPmSlbuwqzKfsE/y6hy
- TMOepvkjmfSCsJ1Pgjsk8BDqph74fA64NS20tNDaophs0nEbsENXiw6SotwsUwW5hcDD
- VFBz/H1LgjNy4j9Kdr8QVHtiAHxZjayWxHqF/W22Tq38ZpD+l5U6pIA4gxNpsa2skKe2
- 9Bzg==
-X-Gm-Message-State: AFqh2kqH7eWfgpgkBjy0BJBGhalH2TrIxOK/IA2CKK9ivWPvIahCmRoO
- ghg9DxrHXEeUa9Zsu8tKHMN9nw==
-X-Google-Smtp-Source: AMrXdXs/7ekgwT9ltjrixWZxlLwUi8e+lFKWGMpBQY97PAQkW9QcsIDv0ssg35FIKQB1jhR6OFstww==
-X-Received: by 2002:adf:e19d:0:b0:28f:29b3:1a7f with SMTP id
- az29-20020adfe19d000000b0028f29b31a7fmr17037012wrb.36.1672955850827; 
- Thu, 05 Jan 2023 13:57:30 -0800 (PST)
+ bh=419+ibOkyY2isjwTDRB6f2lFKoms2erYnrvhlOjCY0w=;
+ b=OdDo92nNI7X5BuehLSzE25lEqMSitJSnnGsKsFbb9wFdqwIJ6vREk2bluhtsryhOLU
+ 17ACgQJUfh4Fq2VOEG+uP2rbGVVRkiJdvgaX+8yCDqWRxh6zoI1DcBFcxLpF0IvQBgyg
+ Djq3E5hEIRvJ++mDf9vJovxp2MOVr4/xBLulOjE17fcVR8hhvCVKq7gxvWK0557zSoOG
+ VS6vdAb6bZm6TqH7Lxi3EX3mwpGzMmQK5joQ+PQ8K2gPuy7hDLHBWK9wkAo3va+Clb1n
+ 4Udrndmxdi+NkVSEXHapRiCCdQnRzaK98yRtt3oj2h5Pqn3cYjFpfWZ7jD9NFFAw1pF+
+ 0ATw==
+X-Gm-Message-State: AFqh2kp9ZKSAE7lUX0FRpMATsrBHqbvfU1ai4NG/Itl9G64rIGWRKUTK
+ UJPDzK2ZnRe6We2nfLk2BCpowQ==
+X-Google-Smtp-Source: AMrXdXvzvLsq/tD+cocnlaI2f6wwrGg9dojdTzoZiXFRle60psKq+/o2UjsiHVM93ihsLk5XMQCxNA==
+X-Received: by 2002:a05:600c:4e04:b0:3d2:381f:2db5 with SMTP id
+ b4-20020a05600c4e0400b003d2381f2db5mr36673060wmq.22.1672955933079; 
+ Thu, 05 Jan 2023 13:58:53 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- e11-20020adf9bcb000000b00242442c8ebdsm38291019wrc.111.2023.01.05.13.57.29
+ l16-20020a05600c1d1000b003d23928b654sm4262242wms.11.2023.01.05.13.58.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 13:57:30 -0800 (PST)
-Message-ID: <7e74c8aa-8220-1c22-63a9-e577f8dfa974@linaro.org>
-Date: Thu, 5 Jan 2023 22:57:28 +0100
+ Thu, 05 Jan 2023 13:58:52 -0800 (PST)
+Message-ID: <9a989779-025a-6f06-5c47-e12a2f56510c@linaro.org>
+Date: Thu, 5 Jan 2023 22:58:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC PATCH 05/40] target/arm: Create arm_cpu_register_parent
+Subject: Re: [RFC PATCH 07/40] target/arm: Create TYPE_ARM_V7M_CPU
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
  armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
 References: <20230103181646.55711-1-richard.henderson@linaro.org>
- <20230103181646.55711-6-richard.henderson@linaro.org>
+ <20230103181646.55711-8-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230103181646.55711-6-richard.henderson@linaro.org>
+In-Reply-To: <20230103181646.55711-8-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -93,13 +93,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/1/23 19:16, Richard Henderson wrote:
-> Create an arm cpu class with a specific abstract parent class.
+> Create a new intermediate abstract class for v7m, like we do for
+> aarch64. The initialization of ARMCPUClass.info follows the
+> concrete class, so remove that init from arm_v7m_class_init.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/arm/cpu-qom.h | 7 ++++++-
->   target/arm/cpu.c     | 4 ++--
->   2 files changed, 8 insertions(+), 3 deletions(-)
+>   target/arm/cpu-qom.h |  6 ++++++
+>   target/arm/cpu_tcg.c | 36 ++++++++++++++++++++++--------------
+>   2 files changed, 28 insertions(+), 14 deletions(-)
+
+Nice again.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
