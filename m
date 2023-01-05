@@ -2,66 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02FD965F567
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 21:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C5165F56D
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 21:52:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDXA9-0001ax-83; Thu, 05 Jan 2023 15:48:33 -0500
+	id 1pDXDm-0003EF-Ha; Thu, 05 Jan 2023 15:52:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDXA6-0001aQ-DJ
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:48:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDXA4-0003en-Nq
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:48:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672951707;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=T14UBH2EmZcXaf0T4isMfirCvC9cULImbUu9Cun7oto=;
- b=eCGkYUBE+3CS/yEVetHDSkhn27Z2IjXteWg8s6J8FYMKhxK/xrlbt7PkVMSatcMbWm1YGg
- jdN48thfrMS+RbVG9lC2d+AvklVHwPeaNwMP1CNYgkDoJ4JPmni4v2FKhFWSRK9tXfOJ3r
- h+P5K71S+qXg80XIIg4CSAzy4pE4FLY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-xYd8txfpPGaVyYWX94v5EA-1; Thu, 05 Jan 2023 15:48:24 -0500
-X-MC-Unique: xYd8txfpPGaVyYWX94v5EA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 89307101A52E;
- Thu,  5 Jan 2023 20:48:23 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B5B4D492D8B;
- Thu,  5 Jan 2023 20:48:21 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
- Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH] .gitlab-ci.d/windows: Do not run the qtests in the
- msys2-32bit job
-Date: Thu,  5 Jan 2023 21:48:19 +0100
-Message-Id: <20230105204819.26992-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDXDk-0003BY-4P
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:52:16 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDXDi-0005Ba-I4
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:52:15 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id n12so28228668pjp.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 12:52:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=uEof5lE4CQK97kgn9W9WMszYBRtu0o0m3zGchs+Qres=;
+ b=KdZ/tdahJbU/mKbuU8hAN1cGK6yg5CczWie0f5oREN5tp30M7N6IUfZTRygi2/qgQr
+ TV4YujlQlY2Q4Gr/iHVnVFtyrobOzhegTUTpXwxPdM5+KCkWKQW5SuzXk8giaJUwojcC
+ 1GD8UVQ8iY857M4lLeaLSiNucWScoDTeq2MRt2xtAJ+c5omnwTm8UIuOUFJtCpGN2EkA
+ 6QHnKhkwI1hr1MQBYom24DhPWF6xxcBc1XIEukyOxlRDcHGvUNIB6XQc5ezVCkJBJzVH
+ bp8AUSk2AvJ2W5YUSa+wIF9cpQnHmzmS/01RSnsPhEBHLm89I9C5twylgB8RLz7aR4QE
+ NaCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uEof5lE4CQK97kgn9W9WMszYBRtu0o0m3zGchs+Qres=;
+ b=hjzC1oOhvNJQ7opL5A8c8QmQ3xkXB77+bFbWE21tF5Dy+7NNqqABiLA74HP9BqaIwc
+ +JLfYbLAH2B6Xvhar84ikyPwj7Bkg8RdsN6OumYvzcncsa5ZsXqH/E1aLx9yvWEAZGIw
+ pDQb+H3YP/KDZnlz4tE19UhZiRZslMowPIpZPdSJrLtfnC2u5zeIE8fUTzOJ7cuRJRva
+ GOCSegVLp1dMczGYdmpPEObKY2dUdlAxHQxSNXYbbvzgO7E3LWviDQ4zde6CMU4o3SSs
+ mcEhL+37JwdM+bk9lr+ai8cj6du6GWFwQyA0RJLSSt8Bl+kO/CDBkfKbuoDUh/pddm7l
+ uI8A==
+X-Gm-Message-State: AFqh2krbg/Kg8Ewe2WyPj8KQNGSt5cTDF8CNBtN5aunCokYnWw+ZkxeV
+ cacQHRrMfVGvDJ8n5hZsx7vCFA==
+X-Google-Smtp-Source: AMrXdXtOqr56w46zdETC5StpQkeTJCiJPMGuGltEcySLQW2opYNaB9qpWYSFYBT8UUvIyLfZRi/pwQ==
+X-Received: by 2002:a17:902:a984:b0:192:9a7d:c38a with SMTP id
+ bh4-20020a170902a98400b001929a7dc38amr28288398plb.9.1672951932544; 
+ Thu, 05 Jan 2023 12:52:12 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:2cfd:802:a4a0:c8da?
+ ([2602:47:d48c:8101:2cfd:802:a4a0:c8da])
+ by smtp.gmail.com with ESMTPSA id
+ u2-20020a1709026e0200b001708c4ebbaesm22867245plk.309.2023.01.05.12.52.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Jan 2023 12:52:12 -0800 (PST)
+Message-ID: <48cc494b-81d5-f18f-dbe6-29bfd8a0e89a@linaro.org>
+Date: Thu, 5 Jan 2023 12:52:09 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2] hw/pci-host: Use register definitions from PCI standard
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Bernhard Beschow <shentey@gmail.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20230105173702.56610-1-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230105173702.56610-1-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,28 +99,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The qtests are not stable in the msys2-32bit job yet - especially
-the test-hmp and the qom-test are failing randomly. Until this is
-fixed, let's better disable the qtests here again to avoid failing
-CI tests.
+On 1/5/23 09:37, Philippe Mathieu-Daudé wrote:
+> No need to document magic values when the definition names
+> from "standard-headers/linux/pci_regs.h" are self-explicit.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> ---
+>   hw/pci-host/grackle.c  |  2 +-
+>   hw/pci-host/raven.c    |  6 +++---
+>   hw/pci-host/uninorth.c | 33 +++++++++++----------------------
+>   3 files changed, 15 insertions(+), 26 deletions(-)
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .gitlab-ci.d/windows.yml | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index 22f794e537..a1d5790580 100644
---- a/.gitlab-ci.d/windows.yml
-+++ b/.gitlab-ci.d/windows.yml
-@@ -116,4 +116,5 @@ msys2-32bit:
-   - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu
-         --disable-opengl'
-   - ..\msys64\usr\bin\bash -lc 'make'
--  - ..\msys64\usr\bin\bash -lc 'make check || { cat meson-logs/testlog.txt; exit 1; } ;'
-+  - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS=\"--no-suite qtest\" ||
-+                                { cat meson-logs/testlog.txt; exit 1; }'
--- 
-2.31.1
-
+r~
 
