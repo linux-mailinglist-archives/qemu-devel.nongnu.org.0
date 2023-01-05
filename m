@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED37665EA5D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 13:05:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044D465EA60
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 13:05:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDOyn-0002FF-0Q; Thu, 05 Jan 2023 07:04:17 -0500
+	id 1pDOys-0002PN-MN; Thu, 05 Jan 2023 07:04:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDOyJ-00025o-I0
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 07:03:48 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ id 1pDOyp-0002LL-TS
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 07:04:19 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDOyH-0000mo-N3
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 07:03:47 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- fz16-20020a17090b025000b002269d6c2d83so3477601pjb.0
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 04:03:45 -0800 (PST)
+ id 1pDOyo-0001ib-Cx
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 07:04:19 -0500
+Received: by mail-pl1-x635.google.com with SMTP id d9so22378567pll.9
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 04:04:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=T3hM20P+TGbaxG1KgvwEB+gTq2CyOhmMSVQK6ueAj+A=;
- b=MuPjNZr+JGgzgajYWR8KZxcnWDJDw1ygzKPjUk9ynMseIavFj6atZb+u5BFvnxslX7
- U/OKLj408AEvXgb7skHQl4TOTu8E6vDvtypRIyH7owiJOZT3ZE7o1CIGq4i2S7RR6wbP
- J1ztWYKk7RQU8uxyifTBqlFgm4bl0nGtYMdMyjcjrKKQNG1cMzf63vrijL6KqYL+z1Vf
- mKrgDu1J7F0tOL2kTr2trJ9yf79MbOMf1MI0wi4S7Yh6r814rM2yRPbwylMny4BlV31q
- v0FnYqwERjk+A4JeZ3qDDmkzKq2mGOs7duiAUgiwzPu8vbGrRJOOBPRv0hETuE5pyyRe
- AcwQ==
+ bh=8HaL0nOf7xsQRBvzxe685FoKKacHw+aq6HvggY0WJ8A=;
+ b=SjiWGaFG2Urm+Cfb/BVW35quRkC8ZEIUDeZ5m9KmlrzIds3Kf4hCrqTkpif3Gw4ySF
+ lVnkB9XN77D/RBSeTZdg7nJysQObtEGbWI9KS4D1zd0WXQtcz3NX/zQ288coSjowwimF
+ QtV8/Qp3dMSWazy01i7JKe9b5PqvcFFiBNGsX9ns3DNCascv+IfYlEUNkZawct9ry+NZ
+ RKDVkiy7N3dY4jkhUgGhu9KPSQxNvqom7mJ3AKRbXrm9+KkuP4wvTZ1hAQjV1psVfjNu
+ Y+WE1zAwFAjzLWtUDACjqIrEuijEMpz0uV1QRimKE/D92B8FKq6whBeMQu4dPpubuIyX
+ 7cAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=T3hM20P+TGbaxG1KgvwEB+gTq2CyOhmMSVQK6ueAj+A=;
- b=oLqG3jEVJ3weN7SC78TPGFXbxryLJnKbV5ZTPrr8P3j4/pkgWjQO+mXQgcBTl88dw4
- XiHK5wTEiP6JBiRNTqspRoGG7xox7IqkeMqDZNcKlzViLu9AnI1GnE8nDFxD++YN+8Ip
- 1UWmAGEhmvazA3THEWy+OMxXGXXXClrE1H5Nq+CQdzLl1N+KmAf43R2N8sz/67sH//kR
- BKaex5EyV2lMqHNBOjsctk+ayliQi+QpbzlNwAr1924kLA5ZkxCiAoYbmH5C06Utowu2
- lft3YM8GNh2UwRqA0VH9ulFIWXHSt5Y9GSsDEvG++v82+vM6I80UQlYh0Nxk3ccxaLYV
- cUVg==
-X-Gm-Message-State: AFqh2krRXTSjXI/mdneE1nw7cRff60eGiy+SZHC32pQrSdLg320HG0sC
- aXaC9Zscx1HlvwBVWG3Srd96qIzOpu6ZjVMhS2ZO0A==
-X-Google-Smtp-Source: AMrXdXszJVJFDtswCGUL4XXLy8UeAYEdM0aVj4iutQf971gtkCQj1IGpBThS7+kk0tMOG1P9Wr8M0XoS/t+8oVq2ZN4=
-X-Received: by 2002:a17:902:efcf:b0:192:ea33:5092 with SMTP id
- ja15-20020a170902efcf00b00192ea335092mr441064plb.19.1672920224149; Thu, 05
- Jan 2023 04:03:44 -0800 (PST)
+ bh=8HaL0nOf7xsQRBvzxe685FoKKacHw+aq6HvggY0WJ8A=;
+ b=SEPHR9wd+g86w3sa8B6islECUodbHqwogpL4SYJzWhy7ZyYvUdGgTRnmWwr7/wsAOS
+ qjRGGRsbzfM9QmN9Ll73jYaJcuobort+ZFBY5G3gdlQhntE0tntiWoFCGNjdIice78H6
+ Lywujip0710nVK2Y8g0c/Zl5apufV1GFMn7CkU0agETuzkzW9JatnOrELPtLQKtmx743
+ TfQYjOpWpMy05N43MEFQODs7xzNBVzYw2Fcb72CoUSGSjxdLl5Pak7EYCCwBF7bEJnnz
+ 5PloIb1zi6WfDWHIyLqtYNcKJtwDOXUoFtfRGa77/rsfO21Ar5FX9SPWXgI5BSNukT6h
+ AeHg==
+X-Gm-Message-State: AFqh2krK1NSUmvOfaUwbMqWDJZVRh0FZ/yuZpmkOsocMDAAWb712YLIU
+ CN7gwNBwdEb44gPmLQoA6gBhhxz2dSAhOZseIaBP5Q==
+X-Google-Smtp-Source: AMrXdXvrs3ypQeK4uUYMojBw9kNIIzwm5XekIS5rXaz2TsjHOUwkr4cyC5M6+McX2UQVwh9KNYG4VAs8p1mZVTMJVdg=
+X-Received: by 2002:a17:902:9890:b0:189:b0a3:cf4a with SMTP id
+ s16-20020a170902989000b00189b0a3cf4amr2339100plp.60.1672920256922; Thu, 05
+ Jan 2023 04:04:16 -0800 (PST)
 MIME-Version: 1.0
 References: <166990932074.29941.8709118178538288040-0@git.sr.ht>
- <166990932074.29941.8709118178538288040-4@git.sr.ht>
-In-Reply-To: <166990932074.29941.8709118178538288040-4@git.sr.ht>
+ <166990932074.29941.8709118178538288040-5@git.sr.ht>
+In-Reply-To: <166990932074.29941.8709118178538288040-5@git.sr.ht>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Jan 2023 12:03:33 +0000
-Message-ID: <CAFEAcA9w-q7JWObNCkkw_asm5-iU1-5JAqDCmw=CkENv4Us1mQ@mail.gmail.com>
-Subject: Re: [PATCH qemu.git v3 4/8] hw/timer/imx_epit: update interrupt state
- on CR write access
+Date: Thu, 5 Jan 2023 12:04:05 +0000
+Message-ID: <CAFEAcA-CamVauNm0g1tx134k-_m5yxaTm4a91xL8_bt8Pe_2wg@mail.gmail.com>
+Subject: Re: [PATCH qemu.git v3 5/8] hw/timer/imx_epit: hard reset initializes
+ CR with 0
 To: "~axelheider" <axelheider@gmx.de>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,11 +88,10 @@ On Thu, 1 Dec 2022 at 15:42, ~axelheider <axelheider@git.sr.ht> wrote:
 >
 > From: Axel Heider <axel.heider@hensoldt.net>
 >
-> The interrupt state can change due to:
-> - reset clears both SR.OCIF and CR.OCIE
-> - write to CR.EN or CR.OCIE
->
 > Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
+> ---
+>  hw/timer/imx_epit.c | 20 ++++++++++++++------
+>  1 file changed, 14 insertions(+), 6 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
