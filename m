@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B457A65E185
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 01:28:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C831065E1B3
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 01:39:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDE60-0001OS-9r; Wed, 04 Jan 2023 19:27:00 -0500
+	id 1pDEGK-0003LJ-Hi; Wed, 04 Jan 2023 19:37:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDE5x-0001O5-U7
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 19:26:57 -0500
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+ id 1pDEGJ-0003LB-1O
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 19:37:39 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDE5w-0002iz-4Q
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 19:26:57 -0500
-Received: by mail-pf1-x432.google.com with SMTP id z7so18495885pfq.13
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 16:26:55 -0800 (PST)
+ id 1pDEGH-0005Ux-Gz
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 19:37:38 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ c2-20020a17090a020200b00226c762ed23so431806pjc.5
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 16:37:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=pF/m30tAitVZyDPKO65mkYL1HYp15aPSoS1hvUnFSjs=;
- b=U5tztxSogNFMAoU/TxkaN+vC+iMr9B4lPnUsFXjx5FsSXY21xPtAna5rC8OZ7KMXo+
- i1hUjGBIjN9Kt6FsmaxE3zrblLrguFf4CS4lwoTJ/MP7kZttXriWXxECaYdTnOqbOtiQ
- lCePylETags37tP3QDKsS+rL6iFIEZyRY9oT4E9/9RLr9hr0W8GrMoH54HHld4k011IW
- bJdW6rNqHU4vm6Dn3f5C7WiENV3SZSvKkjUDe0l11zFYXrYbId1h3G4EP0+/FlFaLYIG
- gFfJBPd3mtxXNFFw2OY+IVSNJOsLxBUTwkkqmOg0fhu8Z4JM4mpFEjU/zRo5YyYB01Jr
- Go6w==
+ bh=EDPPEJXxpOtTWdtmtpIMrWQXrIlH03hAJWp/W8lv3nY=;
+ b=ZorqMxaOuZr/LSJSu5CmwKUSwSjLDubHbH6eiNx/utWIWYmzvkIz1wPAm6u3d8Hqrs
+ 1Suqtx6KtfwJkMYwx+UdfTjWjbaLpgJFHdXSqB/yd7X8JyjusJjlpXWzONiCVF3u4NNI
+ JcUVW11/t7lYDBe9wmaeVd3+2efRYy2PXsGsPoZikXxHUSzkOPDfm1ZATwTXXJOHAO1v
+ thFhJ5oKZm1FFNhfSt1gOPkr7sdqwgrJ0IMUmIrGJupdNp4+qv2gzC6hrGNMfxMuiInu
+ s7BUm57gY81a1GhYr9iPol5en9ROXOhquPexdkYjFRPJNqhyUhOmTmOGoD3WEtl7Z6Bb
+ Qsaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pF/m30tAitVZyDPKO65mkYL1HYp15aPSoS1hvUnFSjs=;
- b=xcXCkfk5znaxF42wElRZQ0Y2k05te93XDkg18lNmGMfOEcGO80H/Rrt2YJFLKWDERU
- YkHZ3ghUDNhCDa+fPXEUzw4Nc8tnp+d2wXCAq08IrnsH+M7Yt6mOazdB0MaRzgCpBkdH
- 2ZXAqxAz8r5rZGeJsd0wxQTZ8jkVnUpW7MlCuXz1lALsqAOszERrSmLAbgk2yWgScVmQ
- 1Jdso8ifGNl0vBMzPJt0m+lKbltbMX2JbaolLtVbcrPCObBkC6XfYkTVI3N0AqzgNmcq
- fhImGwkzkk8RNJ8ErxM5tHIJVq39lhUoyYewXeBsu6nuLuSQLOWGCWyZqUG/Y0eC4CSa
- DQlw==
-X-Gm-Message-State: AFqh2krDZTi0USDWDLTMuCC6eysflNesNHbXO+Uv4XvUxXZCw5jzuGb+
- 7ATsnw8LNsL90AgHU643kOcCTF1tRvtjjKVK
-X-Google-Smtp-Source: AMrXdXv5O5QtmYXTlgD0s97hDJp8fXbwBD3NlM15OCb7dFUaphr6ZDn2pN/j2/sokJIvhF+s2FanVA==
-X-Received: by 2002:aa7:90d1:0:b0:572:6d6b:2297 with SMTP id
- k17-20020aa790d1000000b005726d6b2297mr44044233pfk.21.1672878414341; 
- Wed, 04 Jan 2023 16:26:54 -0800 (PST)
+ bh=EDPPEJXxpOtTWdtmtpIMrWQXrIlH03hAJWp/W8lv3nY=;
+ b=BAEK6vGirk7yPVlHwjfrJBpYOmwqZY7aYXHqGXPAyhSon1vvaFGKaK1p3w7YqGq0Ja
+ lcwpw0Pey9NIHfjHFKt3r0LYBa8FjlMa3v1GmsERRR/iBIu7bbBqMBmzNbX5/1xtGZC6
+ r16u9zz6r3NMjpg4stp0zJd1RnSp+UJF6LdRo4YCurDFi7K9MdNlGsFu3dTcwrLOPT3D
+ M34Xv/cUjwJ881VzdSgz/+X+t/Bu6WTlodkaT5i2bWlvXIZ38zCJUGqQZdz31RSkPjqa
+ xRA7lIQT8ZaOA1gHEvte7c/7xyAVF34tCREjgpsysOuOCV6ccwzCXeqNtGIzNf48zXtj
+ rGKA==
+X-Gm-Message-State: AFqh2kqOUkNFpdzEXWtCWJEVoZajO3XlOPCowDlQpSxesGXjRkYRY9yk
+ yIkhB+mf5KEE2zTRywB+phy+R8dkG18TDsKx
+X-Google-Smtp-Source: AMrXdXs88sg2TMaMsyJprIdVozyhk5O/u+iZrNjQfWwzIYJkFv0D4MZhLIUvRuyYBvlkXMJR9WnK4g==
+X-Received: by 2002:a17:902:c193:b0:190:cd21:1ebe with SMTP id
+ d19-20020a170902c19300b00190cd211ebemr53659695pld.1.1672879054988; 
+ Wed, 04 Jan 2023 16:37:34 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:92be:ce91:1417:6686?
  ([2602:47:d48c:8101:92be:ce91:1417:6686])
  by smtp.gmail.com with ESMTPSA id
- w207-20020a627bd8000000b005809d382016sm18771213pfc.74.2023.01.04.16.26.53
+ t14-20020a1709027fce00b0019141c79b1dsm24724110plb.254.2023.01.04.16.37.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 16:26:53 -0800 (PST)
-Message-ID: <3a43a0d5-acc3-cdec-4328-57fde042cfb0@linaro.org>
-Date: Wed, 4 Jan 2023 16:26:51 -0800
+ Wed, 04 Jan 2023 16:37:34 -0800 (PST)
+Message-ID: <9376b5cb-10e5-30b7-ad6f-9ff1aae9685e@linaro.org>
+Date: Wed, 4 Jan 2023 16:37:32 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
@@ -68,11 +69,12 @@ Cc: Ilya Leoshkevich <iii@linux.ibm.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
  <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>
 References: <20221230000221.2764875-1-richard.henderson@linaro.org>
  <20221230000221.2764875-48-richard.henderson@linaro.org>
-In-Reply-To: <20221230000221.2764875-48-richard.henderson@linaro.org>
+ <3a43a0d5-acc3-cdec-4328-57fde042cfb0@linaro.org>
+In-Reply-To: <3a43a0d5-acc3-cdec-4328-57fde042cfb0@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -95,39 +97,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/29/22 16:02, Richard Henderson wrote:
-> From: Ilya Leoshkevich <iii@linux.ibm.com>
+On 1/4/23 16:26, Richard Henderson wrote:
+>  From the failures I see on the gitlab merge job, I think I need to resubmit with this new 
+> test adjusted to loop less,
 > 
-> Add a test that locklessly changes and exercises page protection bits
-> from various threads. This helps catch race conditions in the VMA
-> handling.
+>> +    for (i = 0; i < 50000; i++) {
 > 
-> Acked-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> Message-Id: <20221223120252.513319-1-iii@linux.ibm.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tests/tcg/multiarch/nop_func.h       |  25 ++++
->   tests/tcg/multiarch/munmap-pthread.c |  16 +--
->   tests/tcg/multiarch/vma-pthread.c    | 207 +++++++++++++++++++++++++++
->   tests/tcg/multiarch/Makefile.target  |   3 +
->   4 files changed, 236 insertions(+), 15 deletions(-)
->   create mode 100644 tests/tcg/multiarch/nop_func.h
->   create mode 100644 tests/tcg/multiarch/vma-pthread.c
+> here.
+> 
+> The failing jobs are --enable-debug, and take about 115 seconds to run manually on our 
+> aarch64 test host, exceeding the 90 second timeout.
+> 
+> I'll cut this down to 10000 loops and double-check times before resubmitting.
 
-Hi Peter,
-
- From the failures I see on the gitlab merge job, I think I need to resubmit with this new 
-test adjusted to loop less,
-
-> +    for (i = 0; i < 50000; i++) {
-
-here.
-
-The failing jobs are --enable-debug, and take about 115 seconds to run manually on our 
-aarch64 test host, exceeding the 90 second timeout.
-
-I'll cut this down to 10000 loops and double-check times before resubmitting.
+Hmm.  Even this only reduced the runtime to 98 seconds. Curiously, the test runs in 1.8 
+seconds with optimization enabled (--enable-debug-tcg). I'm not sure where all that extra 
+time is going...
 
 
 r~
