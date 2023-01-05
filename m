@@ -2,70 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8824665E7B0
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 10:24:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F5E65E7DC
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 10:32:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDMRJ-00087p-KF; Thu, 05 Jan 2023 04:21:33 -0500
+	id 1pDMRd-0000CU-FN; Thu, 05 Jan 2023 04:21:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMQw-00083A-8c
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:21:10 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMRU-0000Ak-5B
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:21:44 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMQu-0002ja-7a
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:21:09 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMRS-0002nL-2X
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:21:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672910467;
+ s=mimecast20190719; t=1672910501;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+xcXVTlPeptVuSlj1Zo7g+4j3dPj3ynx76m4Fa2ITrk=;
- b=QrMdWmCv6ipEwaHU0YT56LjOGgsWA0GxhsW0BlDkfe+cORzQrRVz72tkCr+VpRuov1aDxA
- XMlz1jWmwo1NuXN00eBA2s8La30SWS/lDNVsR6OqiYH9WABfhAWoW/Zt9QbLkweGKPQm99
- /1/OYIDSpzE/KI3aplJo9h33sxhQuzs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WvJnFbsqNB85Ex5Jy9JWOBFwO+5P6BtsVC31mbY8Jko=;
+ b=Zrpwp2Y5TxcNZH9t5EcLhod/9z7N1rLcX9z+fMZ85mFE2pbO2qud5cXkqOu5n7oAfTCTsy
+ JI4pj6wLulXbPxshVkutxKLR93VDI1t3uQU/f7yOoc0WskOPo4YZRoX7xIBYM7c7mn0YE5
+ NjZkSBMBJ9SpVKShKksnyzR5tU+bBs0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-92-vUR0We8rMamxAaZ8bZX6BQ-1; Thu, 05 Jan 2023 04:21:05 -0500
-X-MC-Unique: vUR0We8rMamxAaZ8bZX6BQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- q3-20020adfab03000000b002b32e25058dso140320wrc.5
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 01:21:05 -0800 (PST)
+ us-mta-578-E5fUGPM9MUWX17cKfbu5kQ-1; Thu, 05 Jan 2023 04:21:32 -0500
+X-MC-Unique: E5fUGPM9MUWX17cKfbu5kQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n18-20020a05600c4f9200b003d993e08485so12124162wmq.2
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 01:21:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+xcXVTlPeptVuSlj1Zo7g+4j3dPj3ynx76m4Fa2ITrk=;
- b=ZjZ1ic7u61qM3kb6MYTN+61VgPvl0poND2s6adDHpl+Y1eVNWB6GaWQg68wWKvtVnG
- R5RpwNPxDdPxTtI0boucduOittKdiVpB3rsly3Y2UOYtIEuCNGT4Z4cu/cs6YjcD8kYO
- E9ROOm1Jbbj9H8x0BKuSojmMr5Du9y7dxgb+SKCC5Apw3HDb2/UDXU/FgxuALQbAw0Rz
- DWLG3CoCZIZUuPxKSUoNzBDYF2E4TsKcrxPlh80gabApr+yhGp+gL9GjFWBg0hzmDPzn
- xr7ozcG2QZi3f07e0YQL2Pk+9QAZo7vNGKnFcU0P9bfzrD/vkXq9l9TKTt0YVx4gjnCU
- nFoA==
-X-Gm-Message-State: AFqh2kpgB48kRKt/l29qclJZPfY+gyKB0Vvr86d617VNT+6wuulVBnPa
- CCAcTQyNGb1ZCuA7GueP7PykWGkexk8EaDfCuI5bgwNzvijgSkTcibqIjmzw9SHrfkF9uF6lUDi
- 1mN405r1Xv9av9b6pzWQSSTV0TMd7v0Oqdd2QQmjPRE45kLUJLH6wtW8ERRCQ
-X-Received: by 2002:a05:600c:1d98:b0:3d3:48f4:7a69 with SMTP id
- p24-20020a05600c1d9800b003d348f47a69mr43834177wms.17.1672910464129; 
- Thu, 05 Jan 2023 01:21:04 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvlD+szgx0SBGvmrw46VRu6vIZmzItW7qgKS2xsFzNhHKYBm3n/8EvY+XCoKM9dezNEeXRnYg==
-X-Received: by 2002:a05:600c:1d98:b0:3d3:48f4:7a69 with SMTP id
- p24-20020a05600c1d9800b003d348f47a69mr43834153wms.17.1672910463761; 
- Thu, 05 Jan 2023 01:21:03 -0800 (PST)
+ bh=WvJnFbsqNB85Ex5Jy9JWOBFwO+5P6BtsVC31mbY8Jko=;
+ b=jN60uiyvYvIPboI/EZ4hnEWBax7V05QJazmUJ21HJ0jXjTBMW9lDIyxHQxg8TI1cq8
+ h+MMHObTgXxYUa2mxpgI+nc0zvN4ricj6lsWDI8oewzTedNoBzl9onYzdMAoyd/pD0xU
+ asN9nWBioFN3UlVyYtM0o4/j6TarNZWCGAfxjjJb028DRYwPaIU3Jl5+QpVR8sqtiTSg
+ 01f0MBIGpQh0o+TQLUDIqNLVzHSu7RmbmL+ap/eGlz5dDqeH7Kn9iv/NTeXl/BhJVXsq
+ qc4o9/AE//64QbIgZbv9oh4uwr4tRcWlxvIqVTPFILPJqofiL/vWhEK9XIbE3RxCAA1R
+ HmtA==
+X-Gm-Message-State: AFqh2kocWU9tmddzWcHsAGWss7V/FTFwb5CvqKOFfxMDzS99+cpslTmk
+ CKvk5CHoovIqvMNvll1/6nWQACphswbvwQ5vWPBDlooFiKHuNnlCciDgMasESbZQZu/WwQw0q+f
+ 9S+WdrwKzBOUKCHx38eLBN/1eVE9T3MN/dxNTGD86k7TjUf+BcUP8YkqvIXZ2
+X-Received: by 2002:a05:600c:1c21:b0:3d2:2043:9cb7 with SMTP id
+ j33-20020a05600c1c2100b003d220439cb7mr34919004wms.5.1672910491522; 
+ Thu, 05 Jan 2023 01:21:31 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtLDlc36VB/aXU7Q2yc/oSic44vXngqutQ8bJreyz+6azTWmcavTASW5ywJO485dZiUmBNxkw==
+X-Received: by 2002:a05:600c:1c21:b0:3d2:2043:9cb7 with SMTP id
+ j33-20020a05600c1c2100b003d220439cb7mr34918960wms.5.1672910491141; 
+ Thu, 05 Jan 2023 01:21:31 -0800 (PST)
 Received: from redhat.com ([2.52.151.85]) by smtp.gmail.com with ESMTPSA id
- c7-20020a05600c0a4700b003c6bbe910fdsm2059950wmq.9.2023.01.05.01.21.01
+ p7-20020a05600c1d8700b003cf4eac8e80sm2044043wms.23.2023.01.05.01.21.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 01:21:02 -0800 (PST)
-Date: Thu, 5 Jan 2023 04:21:00 -0500
+ Thu, 05 Jan 2023 01:21:30 -0800 (PST)
+Date: Thu, 5 Jan 2023 04:21:26 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cindy Lu <lulu@redhat.com>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PULL 21/51] vhost: add support for configure interrupt
-Message-ID: <20230105091310.263867-22-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Fam Zheng <fam@euphon.net>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paul Durrant <paul@xen.org>, Ben Widawsky <ben.widawsky@intel.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, Song Gao <gaosong@loongson.cn>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Paul Burton <paulburton@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ xen-devel@lists.xenproject.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org
+Subject: [PULL 27/51] include/hw/pci: Break inclusion loop pci_bridge.h and
+ cxl.h
+Message-ID: <20230105091310.263867-28-mst@redhat.com>
 References: <20230105091310.263867-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -81,7 +101,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,171 +117,378 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Cindy Lu <lulu@redhat.com>
+From: Markus Armbruster <armbru@redhat.com>
 
-Add functions to support configure interrupt.
-The configure interrupt process will start in vhost_dev_start
-and stop in vhost_dev_stop.
+hw/pci/pci_bridge.h and hw/cxl/cxl.h include each other.
 
-Also add the functions to support vhost_config_pending and
-vhost_config_mask.
+Fortunately, breaking the loop is merely a matter of deleting
+unnecessary includes from headers, and adding them back in places
+where they are now missing.
 
-Signed-off-by: Cindy Lu <lulu@redhat.com>
-Message-Id: <20221222070451.936503-8-lulu@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20221222100330.380143-2-armbru@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost.h |  4 ++
- hw/virtio/vhost.c         | 78 ++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 81 insertions(+), 1 deletion(-)
+ hw/alpha/alpha_sys.h              | 1 -
+ hw/rdma/rdma_utils.h              | 1 -
+ hw/rdma/vmw/pvrdma.h              | 1 -
+ hw/usb/hcd-ehci.h                 | 1 -
+ hw/xen/xen_pt.h                   | 1 -
+ include/hw/cxl/cxl.h              | 1 -
+ include/hw/cxl/cxl_cdat.h         | 1 +
+ include/hw/cxl/cxl_device.h       | 1 +
+ include/hw/cxl/cxl_pci.h          | 2 --
+ include/hw/i386/ich9.h            | 4 ----
+ include/hw/i386/x86-iommu.h       | 1 -
+ include/hw/isa/vt82c686.h         | 1 -
+ include/hw/pci-host/designware.h  | 3 ---
+ include/hw/pci-host/i440fx.h      | 2 +-
+ include/hw/pci-host/ls7a.h        | 2 --
+ include/hw/pci-host/pnv_phb3.h    | 2 --
+ include/hw/pci-host/pnv_phb4.h    | 3 +--
+ include/hw/pci-host/xilinx-pcie.h | 1 -
+ include/hw/pci/pcie.h             | 1 -
+ include/hw/virtio/virtio-scsi.h   | 1 -
+ hw/alpha/pci.c                    | 1 +
+ hw/alpha/typhoon.c                | 2 +-
+ hw/i386/acpi-build.c              | 2 +-
+ hw/pci-bridge/i82801b11.c         | 2 +-
+ hw/rdma/rdma_utils.c              | 1 +
+ hw/scsi/virtio-scsi.c             | 1 +
+ 26 files changed, 10 insertions(+), 30 deletions(-)
 
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 1cafa0d776..a52f273347 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -33,6 +33,7 @@ struct vhost_virtqueue {
-     unsigned used_size;
-     EventNotifier masked_notifier;
-     EventNotifier error_notifier;
-+    EventNotifier masked_config_notifier;
-     struct vhost_dev *dev;
- };
+diff --git a/hw/alpha/alpha_sys.h b/hw/alpha/alpha_sys.h
+index 2263e821da..a303c58438 100644
+--- a/hw/alpha/alpha_sys.h
++++ b/hw/alpha/alpha_sys.h
+@@ -5,7 +5,6 @@
  
-@@ -41,6 +42,7 @@ typedef unsigned long vhost_log_chunk_t;
- #define VHOST_LOG_BITS (8 * sizeof(vhost_log_chunk_t))
- #define VHOST_LOG_CHUNK (VHOST_LOG_PAGE * VHOST_LOG_BITS)
- #define VHOST_INVALID_FEATURE_BIT   (0xff)
-+#define VHOST_QUEUE_NUM_CONFIG_INR 0
+ #include "target/alpha/cpu-qom.h"
+ #include "hw/pci/pci.h"
+-#include "hw/pci/pci_host.h"
+ #include "hw/boards.h"
+ #include "hw/intc/i8259.h"
  
- struct vhost_log {
-     unsigned long long size;
-@@ -187,6 +189,8 @@ int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
-  * Disable direct notifications to vhost device.
+diff --git a/hw/rdma/rdma_utils.h b/hw/rdma/rdma_utils.h
+index 0c6414e7e0..54e4f56edd 100644
+--- a/hw/rdma/rdma_utils.h
++++ b/hw/rdma/rdma_utils.h
+@@ -18,7 +18,6 @@
+ #define RDMA_UTILS_H
+ 
+ #include "qemu/error-report.h"
+-#include "hw/pci/pci.h"
+ #include "sysemu/dma.h"
+ 
+ #define rdma_error_report(fmt, ...) \
+diff --git a/hw/rdma/vmw/pvrdma.h b/hw/rdma/vmw/pvrdma.h
+index d08965d3e2..0caf95ede8 100644
+--- a/hw/rdma/vmw/pvrdma.h
++++ b/hw/rdma/vmw/pvrdma.h
+@@ -18,7 +18,6 @@
+ 
+ #include "qemu/units.h"
+ #include "qemu/notify.h"
+-#include "hw/pci/pci.h"
+ #include "hw/pci/msix.h"
+ #include "chardev/char-fe.h"
+ #include "hw/net/vmxnet3_defs.h"
+diff --git a/hw/usb/hcd-ehci.h b/hw/usb/hcd-ehci.h
+index a173707d9b..4d4b2830b7 100644
+--- a/hw/usb/hcd-ehci.h
++++ b/hw/usb/hcd-ehci.h
+@@ -23,7 +23,6 @@
+ #include "sysemu/dma.h"
+ #include "hw/pci/pci.h"
+ #include "hw/sysbus.h"
+-#include "qom/object.h"
+ 
+ #ifndef EHCI_DEBUG
+ #define EHCI_DEBUG   0
+diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
+index e7c4316a7d..cf10fc7bbf 100644
+--- a/hw/xen/xen_pt.h
++++ b/hw/xen/xen_pt.h
+@@ -2,7 +2,6 @@
+ #define XEN_PT_H
+ 
+ #include "hw/xen/xen_common.h"
+-#include "hw/pci/pci.h"
+ #include "xen-host-pci-device.h"
+ #include "qom/object.h"
+ 
+diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+index 38e0e271d5..5129557bee 100644
+--- a/include/hw/cxl/cxl.h
++++ b/include/hw/cxl/cxl.h
+@@ -13,7 +13,6 @@
+ 
+ #include "qapi/qapi-types-machine.h"
+ #include "qapi/qapi-visit-machine.h"
+-#include "hw/pci/pci_bridge.h"
+ #include "hw/pci/pci_host.h"
+ #include "cxl_pci.h"
+ #include "cxl_component.h"
+diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
+index e9eda00142..7f67638685 100644
+--- a/include/hw/cxl/cxl_cdat.h
++++ b/include/hw/cxl/cxl_cdat.h
+@@ -11,6 +11,7 @@
+ #define CXL_CDAT_H
+ 
+ #include "hw/cxl/cxl_pci.h"
++#include "hw/pci/pcie_doe.h"
+ 
+ /*
+  * Reference:
+diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+index 449b0edfe9..fd475b947b 100644
+--- a/include/hw/cxl/cxl_device.h
++++ b/include/hw/cxl/cxl_device.h
+@@ -10,6 +10,7 @@
+ #ifndef CXL_DEVICE_H
+ #define CXL_DEVICE_H
+ 
++#include "hw/pci/pci.h"
+ #include "hw/register.h"
+ 
+ /*
+diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
+index 3cb79eca1e..aca14845ab 100644
+--- a/include/hw/cxl/cxl_pci.h
++++ b/include/hw/cxl/cxl_pci.h
+@@ -11,8 +11,6 @@
+ #define CXL_PCI_H
+ 
+ #include "qemu/compiler.h"
+-#include "hw/pci/pci.h"
+-#include "hw/pci/pcie.h"
+ #include "hw/cxl/cxl_cdat.h"
+ 
+ #define CXL_VENDOR_ID 0x1e98
+diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+index 23ee8e371b..222781e8b9 100644
+--- a/include/hw/i386/ich9.h
++++ b/include/hw/i386/ich9.h
+@@ -5,12 +5,8 @@
+ #include "hw/sysbus.h"
+ #include "hw/i386/pc.h"
+ #include "hw/isa/apm.h"
+-#include "hw/pci/pci.h"
+-#include "hw/pci/pcie_host.h"
+-#include "hw/pci/pci_bridge.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/ich9.h"
+-#include "hw/pci/pci_bus.h"
+ #include "qom/object.h"
+ 
+ void ich9_lpc_set_irq(void *opaque, int irq_num, int level);
+diff --git a/include/hw/i386/x86-iommu.h b/include/hw/i386/x86-iommu.h
+index 7637edb430..8d8d53b18b 100644
+--- a/include/hw/i386/x86-iommu.h
++++ b/include/hw/i386/x86-iommu.h
+@@ -21,7 +21,6 @@
+ #define HW_I386_X86_IOMMU_H
+ 
+ #include "hw/sysbus.h"
+-#include "hw/pci/pci.h"
+ #include "hw/pci/msi.h"
+ #include "qom/object.h"
+ 
+diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+index eaa07881c5..e273cd38dc 100644
+--- a/include/hw/isa/vt82c686.h
++++ b/include/hw/isa/vt82c686.h
+@@ -1,7 +1,6 @@
+ #ifndef HW_VT82C686_H
+ #define HW_VT82C686_H
+ 
+-#include "hw/pci/pci.h"
+ 
+ #define TYPE_VT82C686B_ISA "vt82c686b-isa"
+ #define TYPE_VT82C686B_USB_UHCI "vt82c686b-usb-uhci"
+diff --git a/include/hw/pci-host/designware.h b/include/hw/pci-host/designware.h
+index 6d9b51ae67..908f3d946b 100644
+--- a/include/hw/pci-host/designware.h
++++ b/include/hw/pci-host/designware.h
+@@ -22,9 +22,6 @@
+ #define DESIGNWARE_H
+ 
+ #include "hw/sysbus.h"
+-#include "hw/pci/pci.h"
+-#include "hw/pci/pci_bus.h"
+-#include "hw/pci/pcie_host.h"
+ #include "hw/pci/pci_bridge.h"
+ #include "qom/object.h"
+ 
+diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
+index d02bf1ed6b..fc93e22732 100644
+--- a/include/hw/pci-host/i440fx.h
++++ b/include/hw/pci-host/i440fx.h
+@@ -11,7 +11,7 @@
+ #ifndef HW_PCI_I440FX_H
+ #define HW_PCI_I440FX_H
+ 
+-#include "hw/pci/pci_bus.h"
++#include "hw/pci/pci.h"
+ #include "hw/pci-host/pam.h"
+ #include "qom/object.h"
+ 
+diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
+index df7fa55a30..b27db8e2ca 100644
+--- a/include/hw/pci-host/ls7a.h
++++ b/include/hw/pci-host/ls7a.h
+@@ -8,8 +8,6 @@
+ #ifndef HW_LS7A_H
+ #define HW_LS7A_H
+ 
+-#include "hw/pci/pci.h"
+-#include "hw/pci/pcie_host.h"
+ #include "hw/pci-host/pam.h"
+ #include "qemu/units.h"
+ #include "qemu/range.h"
+diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
+index 4854f6d2f6..f791ebda9b 100644
+--- a/include/hw/pci-host/pnv_phb3.h
++++ b/include/hw/pci-host/pnv_phb3.h
+@@ -10,8 +10,6 @@
+ #ifndef PCI_HOST_PNV_PHB3_H
+ #define PCI_HOST_PNV_PHB3_H
+ 
+-#include "hw/pci/pcie_host.h"
+-#include "hw/pci/pcie_port.h"
+ #include "hw/ppc/xics.h"
+ #include "qom/object.h"
+ #include "hw/pci-host/pnv_phb.h"
+diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+index 50d4faa001..d9cea3f952 100644
+--- a/include/hw/pci-host/pnv_phb4.h
++++ b/include/hw/pci-host/pnv_phb4.h
+@@ -10,8 +10,7 @@
+ #ifndef PCI_HOST_PNV_PHB4_H
+ #define PCI_HOST_PNV_PHB4_H
+ 
+-#include "hw/pci/pcie_host.h"
+-#include "hw/pci/pcie_port.h"
++#include "hw/pci/pci_bus.h"
+ #include "hw/ppc/xive.h"
+ #include "qom/object.h"
+ 
+diff --git a/include/hw/pci-host/xilinx-pcie.h b/include/hw/pci-host/xilinx-pcie.h
+index 89be88d87f..e1b3c1c280 100644
+--- a/include/hw/pci-host/xilinx-pcie.h
++++ b/include/hw/pci-host/xilinx-pcie.h
+@@ -21,7 +21,6 @@
+ #define HW_XILINX_PCIE_H
+ 
+ #include "hw/sysbus.h"
+-#include "hw/pci/pci.h"
+ #include "hw/pci/pci_bridge.h"
+ #include "hw/pci/pcie_host.h"
+ #include "qom/object.h"
+diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
+index 698d3de851..798a262a0a 100644
+--- a/include/hw/pci/pcie.h
++++ b/include/hw/pci/pcie.h
+@@ -26,7 +26,6 @@
+ #include "hw/pci/pcie_aer.h"
+ #include "hw/pci/pcie_sriov.h"
+ #include "hw/hotplug.h"
+-#include "hw/pci/pcie_doe.h"
+ 
+ typedef enum {
+     /* for attention and power indicator */
+diff --git a/include/hw/virtio/virtio-scsi.h b/include/hw/virtio/virtio-scsi.h
+index a36aad9c86..37b75e15e3 100644
+--- a/include/hw/virtio/virtio-scsi.h
++++ b/include/hw/virtio/virtio-scsi.h
+@@ -20,7 +20,6 @@
+ #define VIRTIO_SCSI_SENSE_SIZE 0
+ #include "standard-headers/linux/virtio_scsi.h"
+ #include "hw/virtio/virtio.h"
+-#include "hw/pci/pci.h"
+ #include "hw/scsi/scsi.h"
+ #include "chardev/char-fe.h"
+ #include "sysemu/iothread.h"
+diff --git a/hw/alpha/pci.c b/hw/alpha/pci.c
+index 72251fcdf0..7c18297177 100644
+--- a/hw/alpha/pci.c
++++ b/hw/alpha/pci.c
+@@ -7,6 +7,7 @@
   */
- void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
-+bool vhost_config_pending(struct vhost_dev *hdev);
-+void vhost_config_mask(struct vhost_dev *hdev, VirtIODevice *vdev, bool mask);
  
- /**
-  * vhost_dev_is_started() - report status of vhost device
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index fdcd1a8fdf..2c566dc539 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1640,7 +1640,68 @@ void vhost_virtqueue_mask(struct vhost_dev *hdev, VirtIODevice *vdev, int n,
-     file.index = hdev->vhost_ops->vhost_get_vq_index(hdev, n);
-     r = hdev->vhost_ops->vhost_set_vring_call(hdev, &file);
-     if (r < 0) {
--        VHOST_OPS_DEBUG(r, "vhost_set_vring_call failed");
-+        error_report("vhost_set_vring_call failed %d", -r);
-+    }
-+}
-+
-+bool vhost_config_pending(struct vhost_dev *hdev)
-+{
-+    assert(hdev->vhost_ops);
-+    if ((hdev->started == false) ||
-+        (hdev->vhost_ops->vhost_set_config_call == NULL)) {
-+        return false;
-+    }
-+
-+    EventNotifier *notifier =
-+        &hdev->vqs[VHOST_QUEUE_NUM_CONFIG_INR].masked_config_notifier;
-+    return event_notifier_test_and_clear(notifier);
-+}
-+
-+void vhost_config_mask(struct vhost_dev *hdev, VirtIODevice *vdev, bool mask)
-+{
-+    int fd;
-+    int r;
-+    EventNotifier *notifier =
-+        &hdev->vqs[VHOST_QUEUE_NUM_CONFIG_INR].masked_config_notifier;
-+    EventNotifier *config_notifier = &vdev->config_notifier;
-+    assert(hdev->vhost_ops);
-+
-+    if ((hdev->started == false) ||
-+        (hdev->vhost_ops->vhost_set_config_call == NULL)) {
-+        return;
-+    }
-+    if (mask) {
-+        assert(vdev->use_guest_notifier_mask);
-+        fd = event_notifier_get_fd(notifier);
-+    } else {
-+        fd = event_notifier_get_fd(config_notifier);
-+    }
-+    r = hdev->vhost_ops->vhost_set_config_call(hdev, fd);
-+    if (r < 0) {
-+        error_report("vhost_set_config_call failed %d", -r);
-+    }
-+}
-+
-+static void vhost_stop_config_intr(struct vhost_dev *dev)
-+{
-+    int fd = -1;
-+    assert(dev->vhost_ops);
-+    if (dev->vhost_ops->vhost_set_config_call) {
-+        dev->vhost_ops->vhost_set_config_call(dev, fd);
-+    }
-+}
-+
-+static void vhost_start_config_intr(struct vhost_dev *dev)
-+{
-+    int r;
-+
-+    assert(dev->vhost_ops);
-+    int fd = event_notifier_get_fd(&dev->vdev->config_notifier);
-+    if (dev->vhost_ops->vhost_set_config_call) {
-+        r = dev->vhost_ops->vhost_set_config_call(dev, fd);
-+        if (!r) {
-+            event_notifier_set(&dev->vdev->config_notifier);
-+        }
-     }
- }
+ #include "qemu/osdep.h"
++#include "hw/pci/pci_host.h"
+ #include "alpha_sys.h"
+ #include "qemu/log.h"
+ #include "trace.h"
+diff --git a/hw/alpha/typhoon.c b/hw/alpha/typhoon.c
+index bd39c8ca86..49a80550c5 100644
+--- a/hw/alpha/typhoon.c
++++ b/hw/alpha/typhoon.c
+@@ -10,10 +10,10 @@
+ #include "qemu/module.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
++#include "hw/pci/pci_host.h"
+ #include "cpu.h"
+ #include "hw/irq.h"
+ #include "alpha_sys.h"
+-#include "qom/object.h"
  
-@@ -1880,6 +1941,16 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
-         }
-     }
  
-+    r = event_notifier_init(
-+        &hdev->vqs[VHOST_QUEUE_NUM_CONFIG_INR].masked_config_notifier, 0);
-+    if (r < 0) {
-+        return r;
-+    }
-+    event_notifier_test_and_clear(
-+        &hdev->vqs[VHOST_QUEUE_NUM_CONFIG_INR].masked_config_notifier);
-+    if (!vdev->use_guest_notifier_mask) {
-+        vhost_config_mask(hdev, vdev, true);
-+    }
-     if (hdev->log_enabled) {
-         uint64_t log_base;
+ #define TYPE_TYPHOON_PCI_HOST_BRIDGE "typhoon-pcihost"
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index aa15b11cde..127c4e2d50 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -27,7 +27,7 @@
+ #include "acpi-common.h"
+ #include "qemu/bitmap.h"
+ #include "qemu/error-report.h"
+-#include "hw/pci/pci.h"
++#include "hw/pci/pci_bridge.h"
+ #include "hw/cxl/cxl.h"
+ #include "hw/core/cpu.h"
+ #include "target/i386/cpu.h"
+diff --git a/hw/pci-bridge/i82801b11.c b/hw/pci-bridge/i82801b11.c
+index d9f224818b..f3b4a14611 100644
+--- a/hw/pci-bridge/i82801b11.c
++++ b/hw/pci-bridge/i82801b11.c
+@@ -42,7 +42,7 @@
+  */
  
-@@ -1918,6 +1989,7 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
-             vhost_device_iotlb_miss(hdev, vq->used_phys, true);
-         }
-     }
-+    vhost_start_config_intr(hdev);
-     return 0;
- fail_start:
-     if (vrings) {
-@@ -1947,6 +2019,9 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
+ #include "qemu/osdep.h"
+-#include "hw/pci/pci.h"
++#include "hw/pci/pci_bridge.h"
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
+ #include "hw/i386/ich9.h"
+diff --git a/hw/rdma/rdma_utils.c b/hw/rdma/rdma_utils.c
+index 5a7ef63ad2..77008552f4 100644
+--- a/hw/rdma/rdma_utils.c
++++ b/hw/rdma/rdma_utils.c
+@@ -14,6 +14,7 @@
+  */
  
-     /* should only be called after backend is connected */
-     assert(hdev->vhost_ops);
-+    event_notifier_test_and_clear(
-+        &hdev->vqs[VHOST_QUEUE_NUM_CONFIG_INR].masked_config_notifier);
-+    event_notifier_test_and_clear(&vdev->config_notifier);
+ #include "qemu/osdep.h"
++#include "hw/pci/pci.h"
+ #include "trace.h"
+ #include "rdma_utils.h"
  
-     trace_vhost_dev_stop(hdev, vdev->name, vrings);
- 
-@@ -1969,6 +2044,7 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
-         }
-         memory_listener_unregister(&hdev->iommu_listener);
-     }
-+    vhost_stop_config_intr(hdev);
-     vhost_log_put(hdev, true);
-     hdev->started = false;
-     vdev->vhost_started = false;
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 6f6e2e32ba..2b649ca976 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -22,6 +22,7 @@
+ #include "qemu/iov.h"
+ #include "qemu/module.h"
+ #include "sysemu/block-backend.h"
++#include "sysemu/dma.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/scsi/scsi.h"
+ #include "scsi/constants.h"
 -- 
 MST
 
