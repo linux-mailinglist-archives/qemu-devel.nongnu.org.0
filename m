@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 372BA65F6E2
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 23:34:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804D365F6E3
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 23:34:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDYcJ-0000tV-FA; Thu, 05 Jan 2023 17:21:43 -0500
+	id 1pDYeA-0001nK-E7; Thu, 05 Jan 2023 17:23:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYcE-0000sC-Cx
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:21:38 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYe6-0001mp-JR
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:23:35 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYcC-00086g-Ie
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:21:38 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- k22-20020a05600c1c9600b003d1ee3a6289so2424333wms.2
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 14:21:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYe4-0008Iv-Vt
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:23:34 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ m8-20020a05600c3b0800b003d96f801c48so2422212wms.0
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 14:23:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=mic0+BXRVfs/ZmEr3GX2+ibmm4HSM+41CoqO2kVroes=;
- b=X4YDm7yp9Siy9ipFQH3vOFD1Xu0NlZ7xJ5f8ToHKHQzOobUUpLnQ8jLG56SMkzZPNV
- s5sil1qr1HfQulCAj1MH2aqCtxGi5BQhavoVoiwpFugW0F7kFus1ADlqcnRYQ+rQKBmg
- RPdDbt6jLk7gtdchPIIO0HCZ4O40DxIWo3Cqo8sLLyms2iZB99Dlt7/ml7MZmFApjZ72
- 9aPgUYHEIiTboIjtu6O5ZjSxjhbTnl/sfRAycBBHI21kXdXN2GV7kMG12em7KePQOBdi
- UaZShczZa5nEZZObn1Em7sbvEmCOSboODIqXHq77s79ddqdjbJDOp/fn/jHizBS8xka+
- i9GA==
+ bh=h8XX4vF7Q05JzhE04Rw7ItYz4ggwprpdKEvnzcnB0fY=;
+ b=BtondXSjwltRzeyO9eZ42DtUDu759VT5pouVnp62BGv/f+F/bjnMkwteoN5x/jYBLO
+ cZgDKSO2Dq1A7uVsfsJaf4vpt0xDiVnZE95e1D06ppTm+YmLrokz9k9+IUEOhaUIf4g4
+ O2Ntrcd8zudXeyw4VVtPuvjDgZPyZmBspBucGZI0hXwINLwBk8dvZp0O2Hny8ttogsgw
+ FR37Tkr+ceFvOgAodTwqrxEulOOjSjw2tZif1dxLoD7F6afI7eptaqt223qZ1DsAEobu
+ J4nv42SDLlDX5CDtMNTwJLTNP6p8sZFqN8XD7AjlHnKtGlCRcJMyRa5759lT/ARZeYk9
+ 1ItQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mic0+BXRVfs/ZmEr3GX2+ibmm4HSM+41CoqO2kVroes=;
- b=jb4eQL8gSHW89ebmZHLGWpwyTSjZLHTzrw0iHLYjhx/jlpH/xrSbilducK32L3rMSW
- v4wcecVkw0nzHtpWp7m2nLnTBFRcAnnAfTF09YrpCNe8YGLKx09LnxV5LoUuhclqZwRp
- 4Y2ptwzsgalAgq3qBg1YYPu7YS5/5DykvUNl2hD/g/SOXftZ/iqE7/meRthvXlRZrJqP
- UyZzF4TjuZ5Ys/Zejy58dnYyT+mOJBl+sR+GZTXW0JR4kDTZ4y8Wfe8UT0/FIK487+Tc
- Dw7cRrTjqaFRnu11PT4DeKyWiiwErB/1DbgpwGAMwSjr+r4tb43IdFVxycvtFbcRPd+2
- iWLA==
-X-Gm-Message-State: AFqh2kpKp5nsEbepiHm/Dmnt5JzPipiOB29I4aUeKpbCDfLFI3ttuyCh
- bX6/BvHtBAEvTjeafhqYCVwGMw==
-X-Google-Smtp-Source: AMrXdXsnW+lQtRkiggNhDCqNfRNznMtfTGAGmyJrtyuW1oYeup2VIAxOvsFGxim3EU7YySQvXMAeLw==
-X-Received: by 2002:a1c:7216:0:b0:3d3:49db:9b25 with SMTP id
- n22-20020a1c7216000000b003d349db9b25mr39311370wmc.26.1672957295309; 
- Thu, 05 Jan 2023 14:21:35 -0800 (PST)
+ bh=h8XX4vF7Q05JzhE04Rw7ItYz4ggwprpdKEvnzcnB0fY=;
+ b=PnzGTf1LUHAT6r8dX/j5p3uBx9oEDChpbRv7WHdqVOvygIz3YjWigW5kiaotiATeaX
+ PpvEXvJL9/npGyx/D5b2Ku7PpY0KHqJI1UFyVSfxkeg29EotdspOos9RpXNr424NlTiO
+ oyIgxkBjPpwbnYTBq9VWHd2SBSEbCqPOaezRBmy1NhuKKTxNGwTiaCTt92sRC3Z6AZNn
+ csQ1lR10KvHTB6PTxOKHBHCqKKN2Sn7HDNhVlOrqco6JX4gw6ryou7C0CuNrfnnWagM4
+ prqxLUmDFo6+3DGcEIt2Zr+OG96gN5TP6sANWwhzweY6WCPrc52RD5EqjAIpn/GoXYhp
+ NVGA==
+X-Gm-Message-State: AFqh2krkdC9eIYvCpuoarqbdPsVI1GCXKOTu7skYgRId4a7SquHhqQ+B
+ KgYRm0f9zZ1LmtdwbkBWZpTTxA==
+X-Google-Smtp-Source: AMrXdXtoKanYmhgsuZj7qDodIjj0sgWGpQUaFhfCyGL5ZiVV+752636nmiIlUJyQjkUxkQ5zROqV8g==
+X-Received: by 2002:a05:600c:2318:b0:3c6:e63e:23e9 with SMTP id
+ 24-20020a05600c231800b003c6e63e23e9mr40750702wmo.24.1672957411113; 
+ Thu, 05 Jan 2023 14:23:31 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- o9-20020a05600c510900b003c6f8d30e40sm4513825wms.31.2023.01.05.14.21.34
+ r15-20020a0560001b8f00b002709e616fa2sm37544091wru.64.2023.01.05.14.23.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 14:21:34 -0800 (PST)
-Message-ID: <7975336c-c80c-04ff-24e3-a5a339ba0305@linaro.org>
-Date: Thu, 5 Jan 2023 23:21:33 +0100
+ Thu, 05 Jan 2023 14:23:30 -0800 (PST)
+Message-ID: <a5de8c74-60da-fb88-69eb-cd05ae5efe83@linaro.org>
+Date: Thu, 5 Jan 2023 23:23:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC PATCH 33/40] target/arm: Move "cntfrq" to class property
+Subject: Re: [RFC PATCH 37/40] target/arm: Move "cfgend" to class property
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
  armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
 References: <20230103181646.55711-1-richard.henderson@linaro.org>
- <20230103181646.55711-34-richard.henderson@linaro.org>
+ <20230103181646.55711-38-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230103181646.55711-34-richard.henderson@linaro.org>
+In-Reply-To: <20230103181646.55711-38-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -94,31 +94,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/1/23 19:16, Richard Henderson wrote:
-> With the movement of the property, we can remove the field
-> from the cpu entirely, using only the class.
+> Remove the cfgend variable entirely and reuse the property
+> accessor functions created for reset-hivecs.  This removes
+> the last setting of cpu->reset_sctlr, to we can remove that
+
+s/to/so/?
+
+> as well, using only the class value.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/arm/cpu-qom.h    |  3 +++
->   target/arm/cpu.h        |  3 ---
->   hw/arm/aspeed_ast2600.c |  6 +++--
->   target/arm/cpu.c        | 50 +++++++++++++++++++++++------------------
->   target/arm/helper.c     |  3 ++-
->   5 files changed, 37 insertions(+), 28 deletions(-)
-
-
-> @@ -2320,6 +2318,14 @@ static bool arm_cpu_class_late_init(ObjectClass *oc, Error **errp)
->           }
->       }
->   
-> +#ifndef CONFIG_USER_ONLY
-> +    /* TODO: Perhaps better to put this check in a property set hook. */
+>   target/arm/cpu.h    |  8 --------
+>   target/arm/cpu.c    | 26 ++++++++++++--------------
+>   target/arm/helper.c |  4 ++--
+>   3 files changed, 14 insertions(+), 24 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-> +    if (!acc->gt_cntfrq_hz) {
-> +        error_setg(errp, "Invalid CNTFRQ: %"PRId64"Hz", acc->gt_cntfrq_hz);
-> +        return false;
-> +    }
-> +#endif /* CONFIG_USER_ONLY */
 
