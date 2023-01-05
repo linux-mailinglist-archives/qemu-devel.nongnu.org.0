@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9710A65EF68
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:54:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F238E65EF70
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:55:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDRdJ-00068H-A0; Thu, 05 Jan 2023 09:54:17 -0500
+	id 1pDRdI-00066j-IN; Thu, 05 Jan 2023 09:54:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pDRd6-0005wF-K5; Thu, 05 Jan 2023 09:54:07 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ id 1pDRd7-0005wG-1E; Thu, 05 Jan 2023 09:54:07 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pDRd3-0004xC-Ph; Thu, 05 Jan 2023 09:54:04 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ id 1pDRd3-0004xi-Pl; Thu, 05 Jan 2023 09:54:04 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 305Eko0G030317; Thu, 5 Jan 2023 14:53:31 GMT
+ 305EokUr021279; Thu, 5 Jan 2023 14:53:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=1jMdpFXY9jo4vujFoe8Cvpy+OvJwfSPVhM2ZXZ/Mww4=;
- b=kKkDxzRoKSOOTCg/BNHkwoOYztDIgtAnOHLV+jhIkNvm3cPUeRK5kNRRqL6gjTjG3pcR
- h3crQu06/iakratBB8ktMWWiBagamqgIr9syNJ9Y09eiqRH/+F/NlOL6phcL0wEdY1KM
- OfD834zW3QFZny57cFqXNzl4ePVkmrSLBUy/sFDc1jCt3Z4qot7gcP97ggl4lE40Wwz/
- 7c498tg7LHanpC2SfWNKi/c7UJxsdqxcKpId229DKopuHHFRcA2TNP2QcLn4jQZbdBHm
- P+8PAgdfh0H47ELhdCz06Z4tEWr/CTLWYkffhXElR2nj46bKbi9G59CgDlGGwKFM9HiS 8Q== 
+ bh=tJNKQ6XLjc0XBA0Vpw8/hB1o+7HqorlTgkt4Qg6FCGk=;
+ b=UkixJwpxsLWgXQXiBSFp9O1F4BU6W6QUP4bMBh1QsE444Pjl2BY7M31SBTiO466VyW0N
+ EBNT7dFMz0hqiLHgwECykcbav6w6id9Ln4Z+Cv5OgX7exY8QTGZzIBDMExhh3qnuboqX
+ V9jUkxrIEI0/ppGtQasb99+cX4vstl73yOnZ1e4SJRlizhKMjoYRplJ8bwtSnGOLWqbs
+ q2ICFhYm+RfCVwWiZJzdhP+0dlWkh9u02vQw7pk+OqDlrH/TYtUTJnAodycgtOQfKc+z
+ GcqT77hqFbCZFERFrSnpMnFDm0ExNziXFfMPnhAo1CDdkaibxbqcDqI6/E+LRWrrCDUA /Q== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx0m203mk-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx0p101v4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 14:53:31 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 305EmPvt005343;
- Thu, 5 Jan 2023 14:53:31 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx0m203m6-1
+ Thu, 05 Jan 2023 14:53:33 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 305ErW25032765;
+ Thu, 5 Jan 2023 14:53:32 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx0p101uh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 14:53:30 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30510Go0031909;
- Thu, 5 Jan 2023 14:53:28 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3mtcq6n2yp-1
+ Thu, 05 Jan 2023 14:53:32 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3050abd3018137;
+ Thu, 5 Jan 2023 14:53:29 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3mtcq6w1xb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 14:53:28 +0000
+ Thu, 05 Jan 2023 14:53:29 +0000
 Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
  [10.20.54.100])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 305ErPVB45875532
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 305ErQD942992086
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 5 Jan 2023 14:53:25 GMT
+ Thu, 5 Jan 2023 14:53:26 GMT
 Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2AAD220040;
+ by IMSVA (Postfix) with ESMTP id 26C9A20040;
+ Thu,  5 Jan 2023 14:53:26 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3C91720049;
  Thu,  5 Jan 2023 14:53:25 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 38B5420043;
- Thu,  5 Jan 2023 14:53:24 +0000 (GMT)
 Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com.com (unknown
  [9.171.26.113]) by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  5 Jan 2023 14:53:24 +0000 (GMT)
+ Thu,  5 Jan 2023 14:53:25 +0000 (GMT)
 From: Pierre Morel <pmorel@linux.ibm.com>
 To: qemu-s390x@nongnu.org
 Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
@@ -72,35 +72,34 @@ Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
  eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
  nrb@linux.ibm.com, scgl@linux.ibm.com, frankja@linux.ibm.com,
  berrange@redhat.com, clg@kaod.org
-Subject: [PATCH v14 09/11] qapi/s390/cpu topology: monitor query topology
- information
-Date: Thu,  5 Jan 2023 15:53:11 +0100
-Message-Id: <20230105145313.168489-10-pmorel@linux.ibm.com>
+Subject: [PATCH v14 10/11] qapi/s390/cpu topology: POLARITY_CHANGE qapi event
+Date: Thu,  5 Jan 2023 15:53:12 +0100
+Message-Id: <20230105145313.168489-11-pmorel@linux.ibm.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230105145313.168489-1-pmorel@linux.ibm.com>
 References: <20230105145313.168489-1-pmorel@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 6IHhwYZB6svt4j4rL7yFUwggOX7Xy38p
-X-Proofpoint-ORIG-GUID: pePEw0VYIkb8a7FFdQ556fsPjFoVO0ZS
+X-Proofpoint-GUID: bvS4Hef6DIb0ypJN4eff5Kb9XX84u_5M
+X-Proofpoint-ORIG-GUID: YSD0-adTzK4EwNlM93Xbdko_jbUkEv84
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2023-01-05_05,2023-01-05_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- adultscore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=999
- priorityscore=1501 phishscore=0 impostorscore=0 clxscore=1015 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301050114
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+ impostorscore=0 mlxscore=0
+ clxscore=1015 phishscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301050114
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,210 +115,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Reporting the current topology informations to the admin through
-the QEMU monitor.
+When the guest asks to change the polarity this change
+is forwarded to the admin using QAPI.
+The admin is supposed to take according decisions concerning
+CPU provisioning.
 
 Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 ---
- qapi/machine-target.json | 66 ++++++++++++++++++++++++++++++++++
- include/monitor/hmp.h    |  1 +
- hw/s390x/cpu-topology.c  | 76 ++++++++++++++++++++++++++++++++++++++++
- hmp-commands-info.hx     | 16 +++++++++
- 4 files changed, 159 insertions(+)
+ qapi/machine-target.json | 21 +++++++++++++++++++++
+ hw/s390x/cpu-topology.c  |  2 ++
+ 2 files changed, 23 insertions(+)
 
 diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-index 75b0aa254d..927618a78f 100644
+index 927618a78f..10235cfb45 100644
 --- a/qapi/machine-target.json
 +++ b/qapi/machine-target.json
-@@ -371,3 +371,69 @@
-   },
+@@ -437,3 +437,24 @@
+   'returns': ['S390CpuTopology'],
    'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
  }
 +
 +##
-+# @S390CpuTopology:
++# @POLARITY_CHANGE:
 +#
-+# CPU Topology information
++# Emitted when the guest asks to change the polarity.
 +#
-+# @drawer: the destination drawer where to move the vCPU
-+#
-+# @book: the destination book where to move the vCPU
-+#
-+# @socket: the destination socket where to move the vCPU
-+#
-+# @polarity: optional polarity, default is last polarity set by the guest
-+#
-+# @dedicated: optional, if the vCPU is dedicated to a real CPU
-+#
-+# @origin: offset of the first bit of the core mask
-+#
-+# @mask: mask of the cores sharing the same topology
-+#
-+# Since: 8.0
-+##
-+{ 'struct': 'S390CpuTopology',
-+  'data': {
-+      'drawer': 'int',
-+      'book': 'int',
-+      'socket': 'int',
-+      'polarity': 'int',
-+      'dedicated': 'bool',
-+      'origin': 'int',
-+      'mask': 'str'
-+  },
-+  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
-+}
-+
-+##
-+# @query-topology:
-+#
-+# Return information about CPU Topology
-+#
-+# Returns a @CpuTopology instance describing the CPU Toplogy
-+# being currently used by QEMU.
++# @polarity: polarity specified by the guest
 +#
 +# Since: 8.0
 +#
 +# Example:
 +#
-+# -> { "execute": "cpu-topology" }
-+# <- {"return": [
-+#     {
-+#         "drawer": 0,
-+#         "book": 0,
-+#         "socket": 0,
-+#         "polarity": 0,
-+#         "dedicated": true,
-+#         "origin": 0,
-+#         "mask": 0xc000000000000000,
-+#     },
-+#    ]
-+#   }
++# <- { "event": "POLARITY_CHANGE",
++#      "data": { "polarity": 0 },
++#      "timestamp": { "seconds": 1401385907, "microseconds": 422329 } }
 +#
 +##
-+{ 'command': 'query-topology',
-+  'returns': ['S390CpuTopology'],
-+  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
++{ 'event': 'POLARITY_CHANGE',
++  'data': { 'polarity': 'int' },
++   'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM'] }
 +}
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 15c36bf549..0b3c758231 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -145,5 +145,6 @@ void hmp_human_readable_text_helper(Monitor *mon,
- void hmp_info_stats(Monitor *mon, const QDict *qdict);
- void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
- void hmp_change_topology(Monitor *mon, const QDict *qdict);
-+void hmp_query_topology(Monitor *mon, const QDict *qdict);
- 
- #endif
 diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-index 0faffe657e..c3748654ff 100644
+index c3748654ff..45621387d5 100644
 --- a/hw/s390x/cpu-topology.c
 +++ b/hw/s390x/cpu-topology.c
-@@ -524,3 +524,79 @@ void hmp_change_topology(Monitor *mon, const QDict *qdict)
-         return;
+@@ -19,6 +19,7 @@
+ #include "hw/s390x/s390-virtio-ccw.h"
+ #include "hw/s390x/cpu-topology.h"
+ #include "qapi/qapi-commands-machine-target.h"
++#include "qapi/qapi-events-machine-target.h"
+ #include "qapi/qmp/qdict.h"
+ #include "monitor/hmp.h"
+ #include "monitor/monitor.h"
+@@ -128,6 +129,7 @@ void s390_topology_set_polarity(int polarity)
+         }
      }
+     s390_cpu_topology_set();
++    qapi_event_send_polarity_change(polarity);
  }
-+
-+static S390CpuTopologyList *s390_cpu_topology_list(void)
-+{
-+    S390CpuTopologyList *head = NULL;
-+    S390TopologyEntry *entry;
-+
-+    QTAILQ_FOREACH_REVERSE(entry, &s390_topology.list, next) {
-+        S390CpuTopology *item = g_new0(typeof(*item), 1);
-+
-+        item->drawer = entry->id.drawer;
-+        item->book = entry->id.book;
-+        item->socket = entry->id.socket;
-+        item->polarity = entry->id.p;
-+        if (entry->id.d) {
-+            item->dedicated = true;
-+        }
-+        item->origin = entry->id.origin;
-+        item->mask = g_strdup_printf("0x%016lx", entry->mask);
-+
-+        QAPI_LIST_PREPEND(head, item);
-+    }
-+    return head;
-+}
-+
-+S390CpuTopologyList *qmp_query_topology(Error **errp)
-+{
-+    if (!s390_has_topology()) {
-+        error_setg(errp, "This machine doesn't support topology");
-+        return NULL;
-+    }
-+
-+    return s390_cpu_topology_list();
-+}
-+
-+void hmp_query_topology(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err = NULL;
-+    S390CpuTopologyList *l = qmp_query_topology(&err);
-+
-+    if (hmp_handle_error(mon, err)) {
-+        return;
-+    }
-+
-+    monitor_printf(mon, "CPU Topology:\n");
-+    while (l) {
-+        uint64_t d = -1UL;
-+        uint64_t b = -1UL;
-+        uint64_t s = -1UL;
-+        uint64_t p = -1UL;
-+        uint64_t dd = -1UL;
-+
-+        if (d != l->value->drawer) {
-+            monitor_printf(mon, "  drawer   : \"%" PRIu64 "\"\n",
-+                           l->value->drawer);
-+        }
-+        if (b != l->value->book) {
-+            monitor_printf(mon, "  book     : \"%" PRIu64 "\"\n",
-+                           l->value->book);
-+        }
-+        if (s != l->value->socket) {
-+            monitor_printf(mon, "  socket   : \"%" PRIu64 "\"\n",
-+                           l->value->socket);
-+        }
-+        if (p != l->value->polarity) {
-+            monitor_printf(mon, "  polarity : \"%" PRIu64 "\"\n",
-+                           l->value->polarity);
-+        }
-+        if (dd != l->value->dedicated) {
-+            monitor_printf(mon, "  dedicated: \"%d\"\n", l->value->dedicated);
-+        }
-+        monitor_printf(mon, "  mask  : \"%s\"\n", l->value->mask);
-+
-+
-+        l = l->next;
-+    }
-+}
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 754b1e8408..5730a47f71 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -993,3 +993,19 @@ SRST
-   ``info virtio-queue-element`` *path* *queue* [*index*]
-     Display element of a given virtio queue
- ERST
-+
-+#if defined(TARGET_S390X) && defined(CONFIG_KVM)
-+    {
-+        .name       = "query-topology",
-+        .args_type  = "",
-+        .params     = "",
-+        .help       = "Show information about CPU topology",
-+        .cmd        = hmp_query_topology,
-+        .flags      = "p",
-+    },
-+
-+SRST
-+  ``info query-topology``
-+    Show information about CPU topology
-+ERST
-+#endif
+ 
+ /*
 -- 
 2.31.1
 
