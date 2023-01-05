@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE7B65EC73
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 14:09:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2B265EC8B
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 14:11:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDPyO-0004g5-VD; Thu, 05 Jan 2023 08:07:56 -0500
+	id 1pDPyN-0004al-5X; Thu, 05 Jan 2023 08:07:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDPyD-0004UY-F9
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDPyH-0004W6-9g
  for qemu-devel@nongnu.org; Thu, 05 Jan 2023 08:07:52 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDPyA-0004FG-O8
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 08:07:44 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- p1-20020a05600c1d8100b003d8c9b191e0so1245233wms.4
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 05:07:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDPyF-0004Iz-Kz
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 08:07:48 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ k26-20020a05600c1c9a00b003d972646a7dso1247761wms.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 05:07:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YGzLuFXxs66myFiViWu8pKjRIb3GrnDWVImC+7rq5TU=;
- b=wEnakYLUZ0LfXT6ixrHVyg3p1hiUtefBqTcnU+Z3uTcaGU8ab/crLYlEvUg3x8oacx
- CIDJmzJOU5mCsDsXTGcsmHaE8Cp6t9K9m8HoxDJiX71ROXTJQC9havAWHZsppQbWZ6pS
- g4565JYhImT2KqmVPMTHVPhQxLF+e1Q/wmEvWXi5mW3Vaf0nTrlVoDyBi7QCqvsVTXlr
- y77ZaKYAdKFQ7l7F3+ClA9qj25A27bhLNGN5yqqfoLW5//usTKYKKSmIWqEBkNgJ7mCn
- n1jcbGV1spR0bRBYz+Y5iXQQzLO1m9UT3yOuJLNvAdqyo4GZR0m5g3aJv5tpdflLrcSM
- HliA==
+ bh=y0ga69QuYArs9KgZhS/Kjl26kT//Gcu0nAdvUqhVhmk=;
+ b=pWUB9w4TEh75/5lUOi1oX2RKZjwQytJ9dWVGmPkWQkZBC186jVuY0mwAF2AHJIyNZ6
+ bbXZj04rdj7ImuRt0eZPDjF4WVtySz+SCkN7Ht9uK+IF075cWnZ6+aflQv9gSYnRqJ+z
+ UIAw6TeQWTtwjQO8Z3mWqU6t8Cbryg3Dg94TU7XFoch0JN66nrTFV841iEnckmv6W5kT
+ TwXgHEt/0YYoH1zldj/cW8Wd33BYDxt8Au76kmO3b2ypoS9eVBUTbo23SQH8eq/zFqp2
+ BwImrl8GN1obETsZhSCDyawtu1oE+VIKST8hxUY7iUzT9a9xa5NrE7KRyzyuPAFYjY2q
+ jsNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YGzLuFXxs66myFiViWu8pKjRIb3GrnDWVImC+7rq5TU=;
- b=zJtK4tVFRWcPRbmdANxWxHvGpxXOVYSJ3Ps4EfnzsDJtCG8MBARVp1nKIXytRBN3Rk
- p7dXKWS/Is1VgVr8aGcHhgrVQuuqt9+7vAq78nFPV6AekgoXxr4fY/Eyh8tRRZLNOw3K
- WtAKoYsKDTvM6as0/8Gxn/sp++FwS9G7yRdJR7WHdIiBMpIOlXSsZcVqp/WiuVJ9i0Bi
- HaP0noyQe1looM9IOmM+OZh73iYtYxu0CNv/AJWu8FQK6PQu3L8W1Wc0JZ+3/+1doOor
- BUBhxI5V4d4cW3sj56kYuYWgoetS8OzcVHc8f2+wyyQHCHBjMLyUK9x4cZHUVBM1b69S
- x/Mw==
-X-Gm-Message-State: AFqh2kqprk2asgpNUjNXELqRmwqLJKIV3SWxKkvfoU6gj0ojdt147D5w
- 2lnb9HCYUBwoG5VMhcSsyB3nQBALzcGHgO3f
-X-Google-Smtp-Source: AMrXdXsrA3Iy/FTkJpdRkTCdza9l0ipJZBqGpvPB14l/lJWMPQBzEFGLrUYAnY4P84ipWlUkHZdK+g==
-X-Received: by 2002:a05:600c:4d94:b0:3d5:3ab1:d630 with SMTP id
- v20-20020a05600c4d9400b003d53ab1d630mr36021102wmp.8.1672924061291; 
- Thu, 05 Jan 2023 05:07:41 -0800 (PST)
+ bh=y0ga69QuYArs9KgZhS/Kjl26kT//Gcu0nAdvUqhVhmk=;
+ b=hRFtXzfQv3fWFqfW6Gbc+B/zQL/DhnLZ25++HgIx6YWcN6yWmibpB00eeAjdBTNp3T
+ B8yULC+8SE28UW/RYh8CBsVUaVmPGyHDpyxfzczfBa5WuwGaTbBO/6/jFTtjABvuSddr
+ oqGLrIayGGJgnvPZ/KHQKxphBOyqaM+DpRt+aT0d0hDgWsqD9rSfDiIdsVMhSPDVRCCS
+ EzkpPPdPGKcT+HS8PRZ757CySqRAu99bdrsSETjnn3VV3l/uzKfMh31YM2ICjAAHIG6Z
+ hZ5V4FCVDAqJ1dApUeemL6yC8aP1g4AoYyyKkwCuseNYGC7RMedG0kNXmS5sg3QtkEgy
+ CjyQ==
+X-Gm-Message-State: AFqh2kp2eITtMc9nh2goFsII2JMY005wb8iSlpm89ppUpeNL6HmokEHt
+ RBcXQAluqKQUxEVZZVOGJy53387BRURz24A0
+X-Google-Smtp-Source: AMrXdXu0kPO8AkVnCy5HxCaLcxBgkO9we8KgXjAS+wUvmBG7SX1JPwRVWRVhiq1lX7RdyDtMgsDlUg==
+X-Received: by 2002:a7b:cb50:0:b0:3d1:f882:43eb with SMTP id
+ v16-20020a7bcb50000000b003d1f88243ebmr35889014wmj.10.1672924065942; 
+ Thu, 05 Jan 2023 05:07:45 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- l24-20020a1ced18000000b003d99da8d30asm2228622wmh.46.2023.01.05.05.07.40
+ p3-20020a05600c358300b003d1f2c3e571sm2622654wmq.33.2023.01.05.05.07.45
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 05 Jan 2023 05:07:40 -0800 (PST)
+ Thu, 05 Jan 2023 05:07:45 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Huacai Chen <chenhuacai@kernel.org>, Bernhard Beschow <shentey@gmail.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH 6/8] hw/pci-host/bonito: Sysbus'ify outgoing IRQ
-Date: Thu,  5 Jan 2023 14:07:08 +0100
-Message-Id: <20230105130710.49264-7-philmd@linaro.org>
+Subject: [PATCH 7/8] hw/pci-host/bonito: Declare TYPE_BONITO_PCI_HOST_BRIDGE
+ in header
+Date: Thu,  5 Jan 2023 14:07:09 +0100
+Message-Id: <20230105130710.49264-8-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230105130710.49264-1-philmd@linaro.org>
 References: <20230105130710.49264-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,74 +92,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since TYPE_BONITO_PCI_HOST_BRIDGE inherits the TYPE_SYSBUS
-interface, use its API the manage the outgoing IRQ.
+Declare the TYPE_BONITO_PCI_HOST_BRIDGE QOM type in a
+header to be able to access it from board code.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/pci-host/bonito.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ MAINTAINERS                  |  1 +
+ hw/pci-host/bonito.c         |  4 +---
+ include/hw/pci-host/bonito.h | 18 ++++++++++++++++++
+ 3 files changed, 20 insertions(+), 3 deletions(-)
+ create mode 100644 include/hw/pci-host/bonito.h
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7a40d4d865..8274c45f43 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1260,6 +1260,7 @@ F: hw/isa/vt82c686.c
+ F: hw/pci-host/bonito.c
+ F: hw/usb/vt82c686-uhci-pci.c
+ F: include/hw/isa/vt82c686.h
++F: include/hw/pci-host/bonito.h
+ F: tests/avocado/machine_mips_fuloong2e.py
+ 
+ Loongson-3 virtual platforms
 diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index 7722636e9e..5f777f95bd 100644
+index 5f777f95bd..df61b051b0 100644
 --- a/hw/pci-host/bonito.c
 +++ b/hw/pci-host/bonito.c
-@@ -233,7 +233,7 @@ typedef struct PCIBonitoState PCIBonitoState;
- 
- struct BonitoState {
-     PCIHostState parent_obj;
--    qemu_irq *pic;
-+    qemu_irq irq;
-     PCIBonitoState *pci_dev;
+@@ -45,6 +45,7 @@
+ #include "hw/pci/pci.h"
+ #include "hw/irq.h"
+ #include "hw/mips/mips.h"
++#include "hw/pci-host/bonito.h"
+ #include "hw/pci/pci_host.h"
+ #include "migration/vmstate.h"
+ #include "sysemu/runstate.h"
+@@ -238,9 +239,6 @@ struct BonitoState {
      MemoryRegion pci_mem;
  };
-@@ -556,17 +556,16 @@ static const MemoryRegionOps bonito_spciconf_ops = {
- static void pci_bonito_set_irq(void *opaque, int irq_num, int level)
- {
-     BonitoState *s = opaque;
--    qemu_irq *pic = s->pic;
-     PCIBonitoState *bonito_state = s->pci_dev;
-     int internal_irq = irq_num - BONITO_IRQ_BASE;
  
-     if (bonito_state->regs[BONITO_INTEDGE] & (1 << internal_irq)) {
--        qemu_irq_pulse(*pic);
-+        qemu_irq_pulse(s->irq);
-     } else {   /* level triggered */
-         if (bonito_state->regs[BONITO_INTPOL] & (1 << internal_irq)) {
--            qemu_irq_raise(*pic);
-+            qemu_irq_raise(s->irq);
-         } else {
--            qemu_irq_lower(*pic);
-+            qemu_irq_lower(s->irq);
-         }
-     }
- }
-@@ -633,6 +632,7 @@ static void bonito_host_realize(DeviceState *dev, Error **errp)
-     BonitoState *bs = BONITO_PCI_HOST_BRIDGE(dev);
-     MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 3);
+-#define TYPE_BONITO_PCI_HOST_BRIDGE "Bonito-pcihost"
+-OBJECT_DECLARE_SIMPLE_TYPE(BonitoState, BONITO_PCI_HOST_BRIDGE)
+-
+ #define TYPE_PCI_BONITO "Bonito"
+ OBJECT_DECLARE_SIMPLE_TYPE(PCIBonitoState, PCI_BONITO)
  
-+    sysbus_init_irq(SYS_BUS_DEVICE(dev), &bs->irq);
-     memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCIHI_SIZE);
-     phb->bus = pci_register_root_bus(dev, "pci",
-                                      pci_bonito_set_irq, pci_bonito_map_irq,
-@@ -755,15 +755,14 @@ static void bonito_pci_realize(PCIDevice *dev, Error **errp)
- PCIBus *bonito_init(qemu_irq *pic)
- {
-     DeviceState *dev;
--    BonitoState *pcihost;
-     PCIHostState *phb;
- 
-     dev = qdev_new(TYPE_BONITO_PCI_HOST_BRIDGE);
-     phb = PCI_HOST_BRIDGE(dev);
--    pcihost = BONITO_PCI_HOST_BRIDGE(dev);
--    pcihost->pic = pic;
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
- 
-+    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, *pic);
+diff --git a/include/hw/pci-host/bonito.h b/include/hw/pci-host/bonito.h
+new file mode 100644
+index 0000000000..b8ecf7870a
+--- /dev/null
++++ b/include/hw/pci-host/bonito.h
+@@ -0,0 +1,18 @@
++/*
++ * QEMU Bonito64 north bridge support
++ *
++ * Copyright (c) 2008 yajin (yajin@vm-kernel.org)
++ * Copyright (c) 2010 Huacai Chen (zltjiangshi@gmail.com)
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
 +
-     return phb->bus;
- }
- 
++#ifndef HW_PCI_HOST_BONITO_H
++#define HW_PCI_HOST_BONITO_H
++
++#include "qom/object.h"
++
++#define TYPE_BONITO_PCI_HOST_BRIDGE "Bonito-pcihost"
++OBJECT_DECLARE_SIMPLE_TYPE(BonitoState, BONITO_PCI_HOST_BRIDGE)
++
++#endif
 -- 
 2.38.1
 
