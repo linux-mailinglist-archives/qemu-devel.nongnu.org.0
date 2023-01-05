@@ -2,83 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A154A65F143
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:35:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1956B65F145
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:35:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTC9-0002qC-SA; Thu, 05 Jan 2023 11:34:21 -0500
+	id 1pDTD8-0003Cl-Fc; Thu, 05 Jan 2023 11:35:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDTC8-0002ph-0L
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:34:20 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDTC5-0008KZ-Gg
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:34:19 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id ay40so28466008wmb.2
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:34:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+Ff/yrvx/MYEzojsSUOOSS4B62Zsgu3gBqlzUfbFepg=;
- b=fbtHcLAgfCcm0kzVmEP2+9e1gGqqTdcxdUmZ79uvPXHUaJshsmvIuitBrtc7rVgVbx
- a02gOmU+hoj3c9krVACCQmge+22nXaIZ1gbnB+M/+XHiZMAqS6MXt9NoDWcgfxOxSKQS
- IGekCmiYSdKw/+kuAs3Sj0FOHsO9TUdwP72wLb/HGMWo8qkNp/iP7QeFMcsAvSOnwRlU
- QDzuiJCjJKNaY/W0stNj2xgcE+uFhsMFO+CsZh5b5cBGipiUMCT7JxBRwGZ2w6ShB+Av
- 6I92LQFhrMlqVpcihvz6mo7jVWk9cZ5LKqY1LQEaCuZgPkRqoALWkDcGu6EOHC94Lrnd
- 3HTQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDTD2-0003BW-6h
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:35:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDTD0-0000Ji-IA
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:35:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672936514;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=18PgMYQZVf042bPruXc5HQh1pJc8rYWfGzzYFgEZ1zA=;
+ b=FcKeDqmeonrQk5PxgK6YB+D9qW4c+dkgcDvCQQHkyfcpI/CutsfxmC1IIJcMVhHQO4GKS0
+ 6JLHKpthD2HDkRJ36axRqJ9TYXm0ZlaNuQ54LeGniyuiDm38G0hu/1lDYamXGEC/obCB3f
+ L6amUNWlQ2UNDvstbPVv0K+WBChDWt8=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-593-JbbVKZyFMCiA-RWNQZZj_Q-1; Thu, 05 Jan 2023 11:35:12 -0500
+X-MC-Unique: JbbVKZyFMCiA-RWNQZZj_Q-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ dr5-20020a170907720500b00808d17c4f27so23266045ejc.6
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:35:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+Ff/yrvx/MYEzojsSUOOSS4B62Zsgu3gBqlzUfbFepg=;
- b=5xavi6hvJj/MzunjRc4DEsE6wgi55Y9WFdtc+/fXJP0Tm8O+25oKAbox5Hsy8+x7+D
- obPk3R37x81PO6wBfiDlDx7PrxQmUVpbgHboDEAnw3WvarOmghMF5im57ijkXPSspZ9T
- 9zjavOqd+u+OjGUV3AVRlZwQfA3zPKWdFtCo72ajrtnprMECbLYzs2rUJSRUKErFJNAW
- DcspMiYU0PkUZHtkxQ9caQ5Vl4X2cytye3+M6LoQZUbzDVTs8qvKUvI2zKDjCdnn6FyY
- mI9XLlUjqGSyID/xLJbj4xU9CvObiWv/n2STfa+x9wHsiXHmlIPEM4QNef/X5vC9qH3X
- 3/Ow==
-X-Gm-Message-State: AFqh2krgseI/UI4O/W3uJBPE/Lgt/Cg+DTX0ULavy40AgncBv5Szoin2
- KaU94J4NsZt8yRI8+THJTYws9Svy7Yggt9DC
-X-Google-Smtp-Source: AMrXdXtIt0QEhow8U3uDZBxE1CaSjjW0qy9qB2/0OVMOoNDPB9B+kY/opIL5INCNdUALJRg6+2LE8g==
-X-Received: by 2002:a05:600c:2142:b0:3d5:365b:773e with SMTP id
- v2-20020a05600c214200b003d5365b773emr44918879wml.39.1672936455784; 
- Thu, 05 Jan 2023 08:34:15 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- fc14-20020a05600c524e00b003a3442f1229sm3461502wmb.29.2023.01.05.08.34.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 08:34:15 -0800 (PST)
-Message-ID: <741765df-a46a-6020-35b7-239117534e69@linaro.org>
-Date: Thu, 5 Jan 2023 17:34:14 +0100
+ bh=18PgMYQZVf042bPruXc5HQh1pJc8rYWfGzzYFgEZ1zA=;
+ b=PRag3y3zaRKdHGHKZYX3/Izzj+yp+04Vj0twDtHnJ9rpF/FXk7H52aRiUY4YSUKPdl
+ nVL4rtgMPFp3ahhtoyCdqWjeptBAx4BrQ8JcQNeKnojQ/cZJoe21EBmoCk5aAK1bmIG8
+ Vzb7sW0kLXV5YkpC/ZR4WtDFC4YSKDRErwsLKyLnS4SmZw0skzfGvs4T/DsexSZHYfD1
+ ZQ48YPylbXZP6Mawv3drPIpYnRMPikMadImGKrjy3ZAdEIjEby6YxHKk8c1bUmroHJlS
+ uUvxvqPTrwyF4C1AsH3gKKJKbVdSHBVbDRTEFRU/acMBvW8LOXGa1fSv6ThpGdGcwnQi
+ B2+A==
+X-Gm-Message-State: AFqh2koVh4Q7p6jVspm7IURK+E7NonqQw8emQh7tPc8B8E35CWsPI3GT
+ tYpUe1YJS3mSITEz02zr/n06qOfTQLi32XsHchNHNAK5AQqUhGExW7uzxoPhWaOgRU89VYZN6jE
+ dNgHrm/s9Y9c8dgA=
+X-Received: by 2002:a05:6402:2b8e:b0:461:22bb:1ae4 with SMTP id
+ fj14-20020a0564022b8e00b0046122bb1ae4mr50112702edb.17.1672936511551; 
+ Thu, 05 Jan 2023 08:35:11 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXt7lwx6VmZYG7NzGSSHHa/p0lYM0e3GYRKjimZleEMqkH8S/VgYqe6M77XlR4mfQ7rU4KXS9w==
+X-Received: by 2002:a05:6402:2b8e:b0:461:22bb:1ae4 with SMTP id
+ fj14-20020a0564022b8e00b0046122bb1ae4mr50112683edb.17.1672936511351; 
+ Thu, 05 Jan 2023 08:35:11 -0800 (PST)
+Received: from redhat.com ([2.52.151.85]) by smtp.gmail.com with ESMTPSA id
+ b19-20020a056402139300b004642b35f89esm16200107edv.9.2023.01.05.08.35.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Jan 2023 08:35:10 -0800 (PST)
+Date: Thu, 5 Jan 2023 11:35:06 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Ani Sinha <ani@anisinha.ca>, Ard Biesheuvel <ardb@kernel.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org
+Subject: Re: [PULL 50/51] acpi: cpuhp: fix guest-visible maximum access size
+ to the legacy reg block
+Message-ID: <20230105113422-mutt-send-email-mst@kernel.org>
+References: <20230105091310.263867-1-mst@redhat.com>
+ <20230105091310.263867-51-mst@redhat.com>
+ <20230105045544-mutt-send-email-mst@kernel.org>
+ <c773af84-a36f-181c-6e0e-50124230289e@redhat.com>
+ <f731609e-b04d-bb29-d37a-21f1dd0b1551@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] hw/pci-host: Use register definitions from PCI standard
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20230105144142.51990-1-philmd@linaro.org>
- <2489f6ef-997a-0cf5-fbdc-c05e4fb7c7fd@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <2489f6ef-997a-0cf5-fbdc-c05e4fb7c7fd@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <f731609e-b04d-bb29-d37a-21f1dd0b1551@linaro.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,37 +105,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/1/23 17:02, BALATON Zoltan wrote:
-> On Thu, 5 Jan 2023, Philippe Mathieu-Daudé wrote:
->> No need to document magic values when the definition names
->> from "standard-headers/linux/pci_regs.h" are self-explicit.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> ---
->> hw/pci-host/grackle.c  |  2 +-
->> hw/pci-host/raven.c    |  6 +++---
->> hw/pci-host/uninorth.c | 30 +++++++++++-------------------
->> 3 files changed, 15 insertions(+), 23 deletions(-)
-
-
->> diff --git a/hw/pci-host/uninorth.c b/hw/pci-host/uninorth.c
->> index 8396c91d59..342baff12a 100644
->> --- a/hw/pci-host/uninorth.c
->> +++ b/hw/pci-host/uninorth.c
->> @@ -277,11 +277,11 @@ static void pci_unin_internal_init(Object *obj)
->> static void unin_main_pci_host_realize(PCIDevice *d, Error **errp)
->> {
->>     /* cache_line_size */
->> -    d->config[0x0C] = 0x08;
->> +    d->config[PCI_CACHE_LINE_SIZE] = 0x08;
->>     /* latency_timer */
->> -    d->config[0x0D] = 0x10;
->> +    d->config[PCI_LATENCY_TIMER] = 0x10;
->>     /* capabilities_pointer */
->> -    d->config[0x34] = 0x00;
->> +    d->config[PCI_CAPABILITY_LIST] = 0x00;
+On Thu, Jan 05, 2023 at 05:29:54PM +0100, Philippe Mathieu-Daud� wrote:
+> On 5/1/23 17:01, Laszlo Ersek wrote:
+> > On 1/5/23 10:56, Michael S. Tsirkin wrote:
+> > > On Thu, Jan 05, 2023 at 04:17:06AM -0500, Michael S. Tsirkin wrote:
+> > > > From: Laszlo Ersek <lersek@redhat.com>
+> > > 
+> > > I noticed v2 is forthcoming. dropped now.
+> > > 
+> > 
+> > Yes, thanks.
+> > 
+> > I'm picking up the "Reviewed-by: Michael S. Tsirkin <mst@redhat.com>"
+> > tag from your commit message. I'm not taking the "Fixes:" tag,
+> > originally suggested by Phil, because we've agreed that that was not
+> > correct.
 > 
-> Did you mean to remove the comments here as well?
+> I suppose the tool MST is using automatically included the Fixes: tag.
 
-Good point, thanks!
+Yes it tends to pick all tags. Anyway, it's replaced by v2 now.
+
+> > The other tags (from Igor, Phil and Ard) I've picked up
+> > already, and I've updated the commit message too. I'll post v2 soon.
+> > 
+> > Thanks!
+> > Laszlo
+> > 
+
 
