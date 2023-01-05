@@ -2,80 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B5C65F2E2
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:37:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA71C65F2B5
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:31:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDU0j-00021m-ER; Thu, 05 Jan 2023 12:26:37 -0500
+	id 1pDU10-0002Q2-3N; Thu, 05 Jan 2023 12:26:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <smostafa@google.com>)
- id 1pDU0g-0001wC-Ge
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:26:34 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDU0r-0002Mu-3i
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:26:46 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <smostafa@google.com>)
- id 1pDU0e-0008Sx-Kq
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:26:34 -0500
-Received: by mail-wr1-x431.google.com with SMTP id d17so17077392wrs.2
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 09:26:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=AdHSPQSczbUuoRKgIlFqzxucRe1TAenhs+NxOxWGVPk=;
- b=tlAgcucWFYGlkghijEm/ErsWSomRiZeK7SxWcc2r/2AQaOJvHYra3so3jdbvw9T8P/
- FcP3BzPmcs52it2LuXW0eUPxwg5vNzrY2Z4aKzmY7wGGdqwFw/G8CNdxl0s/Rlwr7GcW
- qUR+mBAcdyM7X55lEQSLjlTp6xcDHG1nHDMPFYPEF7ycWFaFCyEtQMO/KUIX+pg8soOU
- TxFw1eM3mD5Pbuey8hs6iGxd0sXBrPJ5AfitVVL6dSPtBSSEEbt5uEUXiEHeGr17CPcp
- 7YjS9fGvA1j+jn9IC7sHGs7AZJxhPmSSPTTODgB0pqfmgwp1rFibHg8kA/Fq1gHehp+j
- VNqg==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDU0p-00006R-5i
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:26:44 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id m3so19642916wmq.0
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 09:26:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YJ9R9RXtjscsZqJEnjO20+62buuIfhCqeryuH+omc1U=;
+ b=x2O4i4Yvt+VOEEhJTeqBAX2ZZH9HOGHi9BCYO2B50iDwu9plmEH/dXFX7RX+6DkTQZ
+ LG/Rc2Zh7NiQ67BpEaQLXVD/0HqDo0LN/+1tuXesvbunNeSDxpZgWqziHbRUpAYw1Zbp
+ 7BxZYB2X1PrHDUnPCTvLWG4B+R/AcJDXcectJ4H7LlEqKsn8SScgsjr11E8F/dGwtA1y
+ YfwiKIVHokOgU2rIdBnkExAT7D9hLv0+73nBMzwJItqTHF6qHApQgIqxszEBFWL8tYZ/
+ YPWxlQNSmnmgUMtu9hcJm80mt/FbwQYL0hT0cPRf4nhnPJiPw1fHxud3TLtCz3S84qYQ
+ 6Y8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AdHSPQSczbUuoRKgIlFqzxucRe1TAenhs+NxOxWGVPk=;
- b=jsomOC6jWDxZLwxAIUqX5WTIrXXREGxCKC0CTszBZK8BPRCM6/GN0T4yagto7ct1Z2
- aH5mzd9FlOUBoH2brkK/Tl4jP0ziGsM7azeB4eorYBnufzlZS88P60MTehptNE/TPjNg
- H+DQHLd/nKr+QOG62A5bda4jqgBOVZuLr8/M/aCTWjhs2RjiuGZNReehxM8ylSipRO0K
- htXnCVnCAXwUoRML/f3ycrZy5dP1S4rzBjimyo9WM2bEwrEnJPcCb+fJfLzTdsbhAkI5
- nuhAZY/mtDed8jdHQ7QLHppJWNQLmbVvBEpXfjXFdHwZx0P46SjxNYxq4LWfeDMCD7aQ
- w5Nw==
-X-Gm-Message-State: AFqh2kqcJ9LUVpRiLr8OUGJ62IyvxpD8gGpVgynrbBnvprRhv+ZyDBfG
- HQ1ShS2Yrm3BkY9poSzKZm50pw==
-X-Google-Smtp-Source: AMrXdXv6TBoATzMtN3NGTyH3CYpFjg6yWJEW/8z3Cje4GoKJDyfscTuDt1VLJyATRkfL03BnYVqEAg==
-X-Received: by 2002:a5d:4a52:0:b0:292:8bae:586c with SMTP id
- v18-20020a5d4a52000000b002928bae586cmr147444wrs.0.1672939590756; 
- Thu, 05 Jan 2023 09:26:30 -0800 (PST)
-Received: from google.com (44.232.78.34.bc.googleusercontent.com.
- [34.78.232.44]) by smtp.gmail.com with ESMTPSA id
- v3-20020a5d4a43000000b0026fc5694a60sm36531073wrs.26.2023.01.05.09.26.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 09:26:30 -0800 (PST)
-Date: Thu, 5 Jan 2023 17:26:26 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org
-Subject: Re: [PATCH] hw/arm/smmuv3: Add GBPA register
-Message-ID: <Y7cIQqc19+Phb/CV@google.com>
-References: <20221219125720.1369027-1-smostafa@google.com>
- <Y7VxFpoTjwNaolTG@myrica>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YJ9R9RXtjscsZqJEnjO20+62buuIfhCqeryuH+omc1U=;
+ b=yTcPmtOTJLgVs+W4Ebdps/W29sKjbK8KT/BlN3bfRcCnKjo9EtFcRXvi4U+2GhruKt
+ jxR7sW9KZ8BFj/A+US8CC1qveSEQoft5KxpFAJx3q/QtRFpvh8IC2kfKiXz6goDaJcUt
+ xdBAQL8wg4q81MboMKSOzkIxa12VWX+clriEtMmO5o0QxtfT4CLOn9jAjxNdVjP8lChQ
+ SYDvnE8YQDhTCtStGf29gxqw8mDSRiJyD7PyEdeKp02hAXFlt94zA2rlZb01gMWUFwGh
+ P19Af2XmRhYPXfV1ldAYcrHT7JCSWW1xf34zPCg1N2R4KymdGsGv91bjdhKeXWRkGEWx
+ HBmw==
+X-Gm-Message-State: AFqh2kqprxUO90/lzHgc//kKZm8NaZMzLhSJ/cDDM0DzcZmWr0nChpmy
+ TqUW2c78mj4JwmfYJd448JvbiQ==
+X-Google-Smtp-Source: AMrXdXt4tXUQ+WgtBP8T0TQkuq3QEoOCebVqsYx3qjzPi4ZeiOLcHp/FfaFFQkJQIJhddq/US5ii7g==
+X-Received: by 2002:a05:600c:d1:b0:3d3:4d21:704d with SMTP id
+ u17-20020a05600c00d100b003d34d21704dmr37046020wmm.14.1672939601883; 
+ Thu, 05 Jan 2023 09:26:41 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ h10-20020a05600c2caa00b003cfd58409desm3158151wmc.13.2023.01.05.09.26.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Jan 2023 09:26:41 -0800 (PST)
+Message-ID: <bdb3339f-e753-7911-6767-98b1279d311a@linaro.org>
+Date: Thu, 5 Jan 2023 18:26:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7VxFpoTjwNaolTG@myrica>
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=smostafa@google.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 17/21] gdbstub: fix address type of gdb_set_cpu_pc
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, alex.bennee@gmail.com
+Cc: David Hildenbrand <david@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Michael Rolnik <mrolnik@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Greg Kurz
+ <groug@kaod.org>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-ppc@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Marek Vasut <marex@denx.de>,
+ Stafford Horne <shorne@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Alexandre Iooss <erdnaxe@crans.org>, Chris Wulff <crwulff@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Song Gao <gaosong@loongson.cn>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-riscv@nongnu.org, qemu-s390x@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Bin Meng <bin.meng@windriver.com>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-arm@nongnu.org
+References: <20230105164320.2164095-1-alex.bennee@linaro.org>
+ <20230105164320.2164095-18-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230105164320.2164095-18-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,173 +117,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Jean,
+On 5/1/23 17:43, Alex Bennée wrote:
+> The underlying call uses vaddr and the comms API uses unsigned long
+> long which will always fit. We don't need to deal in target_ulong
+> here.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   gdbstub/gdbstub.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks for taking the time to look into this.
+Yay \o/
 
-On Wed, Jan 04, 2023 at 12:29:10PM +0000, Jean-Philippe Brucker wrote:
-> Hi Mostafa,
-> 
-> On Mon, Dec 19, 2022 at 12:57:20PM +0000, Mostafa Saleh wrote:
-> > GBPA register can be used to globally abort all
-> > transactions.
-> > 
-> > Only UPDATE and ABORT bits are considered in this patch.
-> 
-> That's fair, although it effectively implements all bits since
-> smmuv3_translate() ignores memory attributes anyway
-> 
-> > 
-> > It is described in the SMMU manual in "6.3.14 SMMU_GBPA".
-> > ABORT reset value is IMPLEMENTATION DEFINED, it is chosen to
-> > be zero(Do not abort incoming transactions).
-> > 
-> > Signed-off-by: Mostafa Saleh <smostafa@google.com>
-> > ---
-> >  hw/arm/smmuv3-internal.h |  4 ++++
-> >  hw/arm/smmuv3.c          | 14 ++++++++++++++
-> >  include/hw/arm/smmuv3.h  |  1 +
-> >  3 files changed, 19 insertions(+)
-> > 
-> > diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-> > index bce161870f..71f70141e8 100644
-> > --- a/hw/arm/smmuv3-internal.h
-> > +++ b/hw/arm/smmuv3-internal.h
-> > @@ -79,6 +79,10 @@ REG32(CR0ACK,              0x24)
-> >  REG32(CR1,                 0x28)
-> >  REG32(CR2,                 0x2c)
-> >  REG32(STATUSR,             0x40)
-> > +REG32(GBPA,                0x44)
-> > +    FIELD(GBPA, ABORT,        20, 1)
-> > +    FIELD(GBPA, UPDATE,       31, 1)
-> > +
-> >  REG32(IRQ_CTRL,            0x50)
-> >      FIELD(IRQ_CTRL, GERROR_IRQEN,        0, 1)
-> >      FIELD(IRQ_CTRL, PRI_IRQEN,           1, 1)
-> > diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-> > index 955b89c8d5..2843bc3da9 100644
-> > --- a/hw/arm/smmuv3.c
-> > +++ b/hw/arm/smmuv3.c
-> > @@ -285,6 +285,7 @@ static void smmuv3_init_regs(SMMUv3State *s)
-> >      s->gerror = 0;
-> >      s->gerrorn = 0;
-> >      s->statusr = 0;
-> > +    s->gbpa = 0;
-> >  }
-> >  
-> >  static int smmu_get_ste(SMMUv3State *s, dma_addr_t addr, STE *buf,
-> > @@ -663,6 +664,11 @@ static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
-> >          goto epilogue;
-> >      }
-> >  
-> > +    if (FIELD_EX32(s->gbpa, GBPA, ABORT)) {
-> > +        status = SMMU_TRANS_ABORT;
-> > +        goto epilogue;
-> > +    }
-> > +
-> 
-> GBPA is only taken into account when SMMU_CR0.SMMUEN is 0 (6.3.9.6 SMMUEN)
-> 
-I missed that, will update it in V2.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> >      cfg = smmuv3_get_config(sdev, &event);
-> >      if (!cfg) {
-> >          status = SMMU_TRANS_ERROR;
-> > @@ -1170,6 +1176,10 @@ static MemTxResult smmu_writel(SMMUv3State *s, hwaddr offset,
-> >      case A_GERROR_IRQ_CFG2:
-> >          s->gerror_irq_cfg2 = data;
-> >          return MEMTX_OK;
-> > +    case A_GBPA:
-> > +        /* Ignore update bit as write is synchronous. */
-> 
-> We could also ignore a write that has Update=0, since that's required for
-> SMMUv3.2+ implementations (6.3.14.1 Update procedure)
 
-I will add it in V2.
-
-> > +        s->gbpa = data & ~R_GBPA_UPDATE_MASK;
-> 
-> Do we need to synchronize with concurrent transactions here?
-> I couldn't find if QEMU already serializes MMIO writes and IOMMU
-> translation.
-> 
-> "Transactions arriving at the SMMU after completion of a GPBA update are
-> guaranteed to take the new attributes written." The guest tests completion
-> by reading the Update bit:
-> 
-> 	vCPU (host CPU 0)		Device thread (host CPU 1)
-> 
-> 	(a) read GBPA.abort = 1
-> 	(b) write GBPA.{update,abort} = {1,0}
-> 	(c) read GBPA.update = 0
-> 	(d) launch DMA			(e) execute DMA
-> 					(f) translation must read GBPA.abort = 0
-> 
-> I guess memory barriers after (b) and before (f) would ensure that. But I
-> wonder if SMMUEN also needs additional synchronization, and in that case a
-> rwlock would probably be simpler.
-> 
-
-From what I see, it does with qemu_global_mutex.
-smmu_write_mmio: acquired from context of io_writex
-smmuv3_translate: acquired from context of os_host_main_loop_wait
-So I'd assume this should be fine. (I also checked with GDB)
-
-However, if I missed something, and we need to synchronize, I think this
-would also be a bug in SMMUEN.
-As it is written from smmu_write_mmio and read at smmuv3_translate the
-same way as GBPA.
-
-And as described here (6.3.9.6 SMMUEN)
-Completion of an Update of SMMUEN from 0 to 1 ensures that:
--Configuration written to SMMU_(S_)CR2 has taken effect.
--All new transactions will be treated with STE configuration relevant to
-their stream, and will not undergo SMMU bypass.
-
-So it will suffer from the same problem.
-
-Thanks,
-Mostafa
-
-> Thanks,
-> Jean
-> 
-> > +        return MEMTX_OK;
-> >      case A_STRTAB_BASE: /* 64b */
-> >          s->strtab_base = deposit64(s->strtab_base, 0, 32, data);
-> >          return MEMTX_OK;
-> > @@ -1318,6 +1328,9 @@ static MemTxResult smmu_readl(SMMUv3State *s, hwaddr offset,
-> >      case A_STATUSR:
-> >          *data = s->statusr;
-> >          return MEMTX_OK;
-> > +    case A_GBPA:
-> > +        *data = s->gbpa;
-> > +        return MEMTX_OK;
-> >      case A_IRQ_CTRL:
-> >      case A_IRQ_CTRL_ACK:
-> >          *data = s->irq_ctrl;
-> > @@ -1495,6 +1508,7 @@ static const VMStateDescription vmstate_smmuv3 = {
-> >          VMSTATE_UINT32_ARRAY(cr, SMMUv3State, 3),
-> >          VMSTATE_UINT32(cr0ack, SMMUv3State),
-> >          VMSTATE_UINT32(statusr, SMMUv3State),
-> > +        VMSTATE_UINT32(gbpa, SMMUv3State),
-> >          VMSTATE_UINT32(irq_ctrl, SMMUv3State),
-> >          VMSTATE_UINT32(gerror, SMMUv3State),
-> >          VMSTATE_UINT32(gerrorn, SMMUv3State),
-> > diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
-> > index f1921fdf9e..9899fa1860 100644
-> > --- a/include/hw/arm/smmuv3.h
-> > +++ b/include/hw/arm/smmuv3.h
-> > @@ -46,6 +46,7 @@ struct SMMUv3State {
-> >      uint32_t cr[3];
-> >      uint32_t cr0ack;
-> >      uint32_t statusr;
-> > +    uint32_t gbpa;
-> >      uint32_t irq_ctrl;
-> >      uint32_t gerror;
-> >      uint32_t gerrorn;
-> > -- 
-> > 2.39.0.314.g84b9a713c41-goog
-> > 
-> > 
 
