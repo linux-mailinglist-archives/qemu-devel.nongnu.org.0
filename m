@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F1265F21D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:04:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3AE65F2E7
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:38:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTL2-0006vc-5L; Thu, 05 Jan 2023 11:43:32 -0500
+	id 1pDTL6-00071q-DH; Thu, 05 Jan 2023 11:43:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pDTL0-0006t9-2J
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:43:30 -0500
+ id 1pDTL4-0006zv-89
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:43:34 -0500
 Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pDTKt-0006wP-I7
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:43:29 -0500
+ id 1pDTKv-0006yF-Pk
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:43:33 -0500
 Received: by mail-wm1-x32f.google.com with SMTP id
- bi26-20020a05600c3d9a00b003d3404a89faso2533789wmb.1
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:43:23 -0800 (PST)
+ g25-20020a7bc4d9000000b003d97c8d4941so1728691wmk.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:43:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cVDgWVfU9UuFFIzuYyi6pmmim2xRdLyJJ3WToGnxjwc=;
- b=uthMc/2Q1iZ3HRZvJA8mMWbATqkfzlwfMLQQfthPEdUE45PO5xBYMSwducWMJ2TOvM
- 5Koq+ATLBkOtcS1nCATIC38iFhnt0/JYtwHig2x2UAF8yufpbWFq/wogmfdrwR5/rIga
- Snt6An5Bj7KGDb7fP2LVZpJzMp7Utzc4MOYpmSJqbQRG44aDJDHTHAB0y/eOdenTsOpO
- 29naaPUgVvXyCwexDN53LXCN5+ySljNqNidu3G0FZ7SfaaqMbtUwSeOJgTdxJb3f8cAL
- eCkgMQ3qLZ09wsemVk6LhFBAKaOJtLz3AJ8RvsUPlkfBI0QvtRcFgZzLI6A0LjC4B5ZV
- 48JA==
+ bh=TLd5g4iuKDGI8GqVRVcMJw8OLSB9d+X+S79K8IqAr5U=;
+ b=JZlF4xVL0DZbE6YHARHBXTfNzEGQ9egipQL7UtCEXYMOJy3s3cypJ4/+X1vQF6VFsf
+ uvSGF/knRwbiqqrONbLExgxItcYrF5J9exNorp2I+zPJVKqPGVPnW5YaStlaSkYTH0qZ
+ tqpRmZClp1dFVgzaxyZoAsLJC+hI4O92GEkH/LLpIDpvj1k95lRltJlCkDS+3akluKXA
+ Ln6Tae1r49pgl5pNYADVbdkPBqBfpREogEKiiLew7AOOVGGHB/f/M5vltJiIPZYN+O5n
+ aWVX7bdc0VrQ0O5lcRec/6aCwalY7bPF9NKMm1AcEcuPgRxYaxNCCRnr3AUPc/uZiv6+
+ roBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cVDgWVfU9UuFFIzuYyi6pmmim2xRdLyJJ3WToGnxjwc=;
- b=oJfpxG/nPLZIzLr6GPZQnfya/a3xwkh6nx98gdHPBje6V1sY9Vs0PmUOVeruS7zJSq
- 9l/U1u9RvdP0MzbDtv/DRumnZo5zA3RgtiQB+Ox4WZBsrGB9K635h0QnzQrf+nMnQkuG
- 2VGQrCHWwFQlyBF5bqpvEBLeZf6yabHUpSTBnrn0gHvWmFKjYYYO36nXiEE9bE3v1Ra6
- vVXFf/BcT+3odcK0jxtMBXmepaKe+xArICJAz+gMIDDkh04JIIjNv1cXY8ltBlKAmQJE
- FqRhYlDh5dZ6zmM27sJUsyUiTsgfl52UMDlYVnFAgiMTS76mz2FRyfwRUmWZ/LXlmKWI
- wgnA==
-X-Gm-Message-State: AFqh2kodHTLt9VzB0XoKkuRIUQJIXBzpa1XOZqo28psbSwkJz7RAfUTM
- GJp+jQUg454stRvuaZio8DCQlw==
-X-Google-Smtp-Source: AMrXdXsvLQatva7Ex5ZRDF8FTPU2gDkvGfc0OZUrNay7bV0Yd4XvFgjgnX+VPZ/7uwnEf6BCSyrsRA==
-X-Received: by 2002:a7b:ca4f:0:b0:3d3:56ce:5673 with SMTP id
- m15-20020a7bca4f000000b003d356ce5673mr39139973wml.6.1672937001907; 
- Thu, 05 Jan 2023 08:43:21 -0800 (PST)
+ bh=TLd5g4iuKDGI8GqVRVcMJw8OLSB9d+X+S79K8IqAr5U=;
+ b=sTMouvOcZovMY3Pb5L/rFT1DPLtryZj1j/2R2nEHl3p9+r31AgCS0HLb9li2kDI2k3
+ 3LYLKOiHHGAOZt/RS7E7OV4hpWKojUYIcRXSXpmkNG8CRhBFChC4jDwraJDG0bjREu3Q
+ cKfJnCYx2piIzDwkI5lFyJDWOpKFbXlHNK8/QWSEE3p8MWOGpOW/TuHdHPoxDOSy4orl
+ i7JeXUWvjZjPtknd54VBR/OEpn3GIQnWK5YVcBPgM9WIQS9uQDqbjloo+7YHyyHOBL2n
+ y/EbQaJGiGxKkhFKWCvEKRQnAlBcldgnaguTrFUhYwjJJX7gnv9oBI4w3L/FtmBcnyrC
+ O9qg==
+X-Gm-Message-State: AFqh2koajHJGwFP5uOtUI8+PD/5hyS76XHUOLDH8wdH+XvaBpH5cgd6a
+ i9x3eJg9AqUZSWiQjIXLtTmCjw==
+X-Google-Smtp-Source: AMrXdXsTlU/bRGIynypzbXG7MH8Y1EOYPrWGduxJOPuPlM3Ms+abtx+J2VQ8kmewlIbIu21/QV70Rg==
+X-Received: by 2002:a05:600c:3b87:b0:3d2:813:138a with SMTP id
+ n7-20020a05600c3b8700b003d20813138amr40251224wms.35.1672937004490; 
+ Thu, 05 Jan 2023 08:43:24 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- g41-20020a05600c4ca900b003cfd0bd8c0asm2675127wmp.30.2023.01.05.08.43.20
+ p12-20020a05600c358c00b003d237d60318sm3423082wmq.2.2023.01.05.08.43.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:43:20 -0800 (PST)
+ Thu, 05 Jan 2023 08:43:22 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7C1F31FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id B93A31FFBE;
  Thu,  5 Jan 2023 16:43:20 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org,
@@ -92,10 +92,9 @@ Cc: David Hildenbrand <david@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>,
  Yoshinori Sato <ysato@users.sourceforge.jp>,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-arm@nongnu.org
-Subject: [PATCH v2 02/21] target/arm: fix handling of HLT semihosting in
- system mode
-Date: Thu,  5 Jan 2023 16:43:01 +0000
-Message-Id: <20230105164320.2164095-3-alex.bennee@linaro.org>
+Subject: [PATCH v2 06/21] gdbstub: move GDBState to shared internals header
+Date: Thu,  5 Jan 2023 16:43:05 +0000
+Message-Id: <20230105164320.2164095-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230105164320.2164095-1-alex.bennee@linaro.org>
 References: <20230105164320.2164095-1-alex.bennee@linaro.org>
@@ -110,7 +109,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -126,29 +125,207 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The check semihosting_enabled() wants to know if the guest is
-currently in user mode. Unlike the other cases the test was inverted
-causing us to block semihosting calls in non-EL0 modes.
+We are about to split softmmu and user mode helpers into different
+files. To facilitate this we will need to share access to the GDBState
+between those files.
 
-Fixes: 19b26317e9 (target/arm: Honour -semihosting-config userspace=on)
+To keep building we have to temporarily define CONFIG_USER_ONLY just
+before we include internals.h for the user-mode side of things. This
+will get removed once the state is fully moved.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/arm/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ gdbstub/internals.h | 69 +++++++++++++++++++++++++++++++++++++++++++++
+ gdbstub/gdbstub.c   | 60 ---------------------------------------
+ gdbstub/softmmu.c   |  2 ++
+ gdbstub/user.c      |  2 ++
+ 4 files changed, 73 insertions(+), 60 deletions(-)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 74a903072f..1dcaefb8e7 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -1184,7 +1184,7 @@ static inline void gen_hlt(DisasContext *s, int imm)
-      * semihosting, to provide some semblance of security
-      * (and for consistency with our 32-bit semihosting).
-      */
--    if (semihosting_enabled(s->current_el != 0) &&
-+    if (semihosting_enabled(s->current_el == 0) &&
-         (imm == (s->thumb ? 0x3c : 0xf000))) {
-         gen_exception_internal_insn(s, EXCP_SEMIHOST);
-         return;
+diff --git a/gdbstub/internals.h b/gdbstub/internals.h
+index b444f24ef5..9784db2dc5 100644
+--- a/gdbstub/internals.h
++++ b/gdbstub/internals.h
+@@ -9,6 +9,75 @@
+ #ifndef GDBSTUB_INTERNALS_H
+ #define GDBSTUB_INTERNALS_H
+ 
++#define MAX_PACKET_LENGTH 4096
++
++/*
++ * Shared structures and definitions
++ */
++
++typedef struct GDBProcess {
++    uint32_t pid;
++    bool attached;
++
++    char target_xml[1024];
++} GDBProcess;
++
++enum RSState {
++    RS_INACTIVE,
++    RS_IDLE,
++    RS_GETLINE,
++    RS_GETLINE_ESC,
++    RS_GETLINE_RLE,
++    RS_CHKSUM1,
++    RS_CHKSUM2,
++};
++
++/* Temporary home */
++#ifdef CONFIG_USER_ONLY
++typedef struct {
++    int fd;
++    char *socket_path;
++    int running_state;
++} GDBUserState;
++#else
++typedef struct {
++    CharBackend chr;
++    Chardev *mon_chr;
++} GDBSystemState;
++#endif
++
++typedef struct GDBState {
++    bool init;       /* have we been initialised? */
++    CPUState *c_cpu; /* current CPU for step/continue ops */
++    CPUState *g_cpu; /* current CPU for other ops */
++    CPUState *query_cpu; /* for q{f|s}ThreadInfo */
++    enum RSState state; /* parsing state */
++    char line_buf[MAX_PACKET_LENGTH];
++    int line_buf_index;
++    int line_sum; /* running checksum */
++    int line_csum; /* checksum at the end of the packet */
++    GByteArray *last_packet;
++    int signal;
++#ifdef CONFIG_USER_ONLY
++    GDBUserState user;
++#else
++    GDBSystemState system;
++#endif
++    bool multiprocess;
++    GDBProcess *processes;
++    int process_num;
++    char syscall_buf[256];
++    gdb_syscall_complete_cb current_syscall_cb;
++    GString *str_buf;
++    GByteArray *mem_buf;
++    int sstep_flags;
++    int supported_sstep_flags;
++} GDBState;
++
++/*
++ * Break/Watch point support - there is an implementation for softmmu
++ * and user mode.
++ */
+ bool gdb_supports_guest_debug(void);
+ int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr len);
+ int gdb_breakpoint_remove(CPUState *cs, int type, hwaddr addr, hwaddr len);
+diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
+index 42ae13b344..505beafad7 100644
+--- a/gdbstub/gdbstub.c
++++ b/gdbstub/gdbstub.c
+@@ -41,8 +41,6 @@
+ #include "hw/boards.h"
+ #endif
+ 
+-#define MAX_PACKET_LENGTH 4096
+-
+ #include "qemu/sockets.h"
+ #include "sysemu/hw_accel.h"
+ #include "sysemu/runstate.h"
+@@ -326,64 +324,6 @@ typedef struct GDBRegisterState {
+     struct GDBRegisterState *next;
+ } GDBRegisterState;
+ 
+-typedef struct GDBProcess {
+-    uint32_t pid;
+-    bool attached;
+-
+-    char target_xml[1024];
+-} GDBProcess;
+-
+-enum RSState {
+-    RS_INACTIVE,
+-    RS_IDLE,
+-    RS_GETLINE,
+-    RS_GETLINE_ESC,
+-    RS_GETLINE_RLE,
+-    RS_CHKSUM1,
+-    RS_CHKSUM2,
+-};
+-
+-#ifdef CONFIG_USER_ONLY
+-typedef struct {
+-    int fd;
+-    char *socket_path;
+-    int running_state;
+-} GDBUserState;
+-#else
+-typedef struct {
+-    CharBackend chr;
+-    Chardev *mon_chr;
+-} GDBSystemState;
+-#endif
+-
+-typedef struct GDBState {
+-    bool init;       /* have we been initialised? */
+-    CPUState *c_cpu; /* current CPU for step/continue ops */
+-    CPUState *g_cpu; /* current CPU for other ops */
+-    CPUState *query_cpu; /* for q{f|s}ThreadInfo */
+-    enum RSState state; /* parsing state */
+-    char line_buf[MAX_PACKET_LENGTH];
+-    int line_buf_index;
+-    int line_sum; /* running checksum */
+-    int line_csum; /* checksum at the end of the packet */
+-    GByteArray *last_packet;
+-    int signal;
+-#ifdef CONFIG_USER_ONLY
+-    GDBUserState user;
+-#else
+-    GDBSystemState system;
+-#endif
+-    bool multiprocess;
+-    GDBProcess *processes;
+-    int process_num;
+-    char syscall_buf[256];
+-    gdb_syscall_complete_cb current_syscall_cb;
+-    GString *str_buf;
+-    GByteArray *mem_buf;
+-    int sstep_flags;
+-    int supported_sstep_flags;
+-} GDBState;
+-
+ static GDBState gdbserver_state;
+ 
+ static void init_gdbserver_state(void)
+diff --git a/gdbstub/softmmu.c b/gdbstub/softmmu.c
+index 183dfb40e4..696894243b 100644
+--- a/gdbstub/softmmu.c
++++ b/gdbstub/softmmu.c
+@@ -14,6 +14,8 @@
+ #include "exec/gdbstub.h"
+ #include "exec/hwaddr.h"
+ #include "sysemu/cpus.h"
++#include "chardev/char.h"
++#include "chardev/char-fe.h"
+ #include "internals.h"
+ 
+ bool gdb_supports_guest_debug(void)
+diff --git a/gdbstub/user.c b/gdbstub/user.c
+index a5f370bcf9..4c2b41eefa 100644
+--- a/gdbstub/user.c
++++ b/gdbstub/user.c
+@@ -13,6 +13,8 @@
+ #include "exec/hwaddr.h"
+ #include "exec/gdbstub.h"
+ #include "hw/core/cpu.h"
++/* temp hack */
++#define CONFIG_USER_ONLY 1
+ #include "internals.h"
+ 
+ bool gdb_supports_guest_debug(void)
 -- 
 2.34.1
 
