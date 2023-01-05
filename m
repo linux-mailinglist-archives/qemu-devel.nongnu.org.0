@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0679B65F230
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:06:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9C565F265
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:17:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTLu-0000KD-7q; Thu, 05 Jan 2023 11:44:26 -0500
+	id 1pDTLy-0000S5-Hl; Thu, 05 Jan 2023 11:44:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTLr-0000Bh-Md
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:23 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ id 1pDTLt-0000Ke-QB
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:25 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTLp-0007Lb-Jk
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:23 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- fm16-20020a05600c0c1000b003d96fb976efso1734007wmb.3
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:21 -0800 (PST)
+ id 1pDTLr-0007M4-VT
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:25 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ p1-20020a05600c1d8100b003d8c9b191e0so1773915wms.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=F/5EJBYFSRrAmo1vD4tU1WXQrdeBd0ZRx/qGyNKF6P8=;
- b=qDZMeaYiYNDzYr3EONnabtzevfAdpv6S+k4rBuXC41YwVlTnkJTANjXikb3M3L+wOI
- WFaUyZ6hxX06bnzEYmld2oRyAmOOx53bqoKg9WL1GVAELNACUr4AGcp0Qau8ox6Z6o4A
- Cn/xSZ0l8PxgSoFuWXufjW+p24VoJ0rQNsd4X4dknoou8vBSck7l8sDpcjpC08G2ojpR
- MW7z+TmSK6sqP3e3/aCyuc188Y73X1Wd/MqcOxy0nlLJQC717QVTlrvUi+2pnE96FGhS
- pLAokyY+lgWjEUyPcn4VcGsJhx15pY97JmTSN3amPEbGRh1BEaMXRFRdZBY/iJ8KeHSK
- oocw==
+ :reply-to; bh=SBtE1WaPGjXlOvM4v7lfDebcyZ7mACd7pg2snYYPi6M=;
+ b=ihjQueGM9bP+CPvnaesnHe1pT6sp2QspjYleUq+tvbjnNECfiS4cGKTObPe6p9YVhU
+ c0SuWf9NpD157Dj0PVrutwqFK8ZZuEmb6Hc9uEctTLWMUmgUtmwnagPtP/KIZin66GHO
+ IzsKgDLCUQv2SSX26vulTvteNiEocTq4HHrlacpRL9o1tM6Zrf8cSD6uQuDzBP0oFDZq
+ qook4FiSSzMMpfQboEOEcmXv30sQQCup0A92xTaxMGttAngfmxvkva6Q1bwM3eqh4aIN
+ B85gr5j4sXMEx36P4/TEF+J+hPyu9pbH8jKCKWQoXH2vvuXru9O2yYB/Z7ViSaaU7Ums
+ M3cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=F/5EJBYFSRrAmo1vD4tU1WXQrdeBd0ZRx/qGyNKF6P8=;
- b=2CQxQ7keji9jyV1PTFHy5oCUEptIlwQqRgZaooE+FjOj2BFMMGt70aiLxp71F+/5Rb
- EERV1XA/IJDIPFYPQM2i1x8nJ9JnvIC78cJXlFsf9xLD0j7vw7dyyPPQyJ2lq1prek+f
- syWtRE64ZH1hbJGtSGh/ULKlCedqlXXDZDvjloeie3NCrUGfTTVJtyKtlDwBOEwz3X8T
- lg4U2asn6jFaCuZzeuiLytST04oa/mlym37ibUnHh+rG9ZUGN77XeXCyhgYA1UZdw3rr
- 4YzC4X55o0xDWD90Rsa+YSGu2UOmJq/tmwrQHYwdK5jwc92XXXYo4tKGR+0UcBbPS1SU
- iR5Q==
-X-Gm-Message-State: AFqh2krvTAG+z4Jk+eI9P/LkD5YtUic8bUVxScpJH9TEzs+SPviTlJ+f
- 4buPQM3XqUHD+CyQ9/OJVoRNBUmFwDviWipp
-X-Google-Smtp-Source: AMrXdXtWYdCSZp6LalDGiA0vcIb0PFFxNm9Tw6spVikQJKUCn+cXOpfs2RLilYdDk1X+UgkQZzeLZg==
-X-Received: by 2002:a05:600c:1e24:b0:3d3:5075:7526 with SMTP id
- ay36-20020a05600c1e2400b003d350757526mr38135203wmb.31.1672937060194; 
- Thu, 05 Jan 2023 08:44:20 -0800 (PST)
+ bh=SBtE1WaPGjXlOvM4v7lfDebcyZ7mACd7pg2snYYPi6M=;
+ b=ck6G1aPM92hLM2gbc4hVrnglQxc59WS7GLdhQKN2aVWMmInPoI+miWYfK0ZY2rVqZK
+ 2hLzA9AU4jfBS7+OlBNd6qmIMTUO53JPFgVbF72ClHdVM1/2nGZpKEtiXffulRe+3Wk6
+ +9wE5V846zNQGzM4rQ9q3snDF4kTReVemBefIt8CKZcDuSuCN3JkBewubYxVqZ3Pzj4N
+ d0/k5KraVc0sa4Uu43zcTWccb4StKUzOyCE/5p19gTADtopwlyrcs6IOHdRUYJ2df0DL
+ etD5c9K6KgyVKCguEhUFuG5aGMJT8igGE48t23SGpxzbUOCiQWWMe+7THWzGefqdl5EF
+ OGAQ==
+X-Gm-Message-State: AFqh2krdayY5EO0yQLsqukGBY/cf5RBL3v8tBtCG05Njk9p7y4kODlzd
+ LT6sT2IESgRBteaQW+Y94Q++OzHRqSvByi3w
+X-Google-Smtp-Source: AMrXdXuSg2soUoTlQ2qC9iZEWEphZlLGy3Qpj1isxmJzV03VfWSQHDimU/uDwvDOXO2AEYuz6C71jA==
+X-Received: by 2002:a05:600c:43ca:b0:3d0:73f5:b2c0 with SMTP id
+ f10-20020a05600c43ca00b003d073f5b2c0mr38841841wmn.20.1672937062671; 
+ Thu, 05 Jan 2023 08:44:22 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.19
+ hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:44:19 -0800 (PST)
+ Thu, 05 Jan 2023 08:44:22 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/34] target/arm:Set lg_page_size to 0 if either S1 or S2 asks
- for it
-Date: Thu,  5 Jan 2023 16:43:44 +0000
-Message-Id: <20230105164417.3994639-2-peter.maydell@linaro.org>
+Subject: [PULL 04/34] target/arm: Make stage_2_format for cache attributes
+ optional
+Date: Thu,  5 Jan 2023 16:43:47 +0000
+Message-Id: <20230105164417.3994639-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230105164417.3994639-1-peter.maydell@linaro.org>
 References: <20230105164417.3994639-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,59 +91,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In get_phys_addr_twostage() we set the lg_page_size of the result to
-the maximum of the stage 1 and stage 2 page sizes.  This works for
-the case where we do want to create a TLB entry, because we know the
-common TLB code only creates entries of the TARGET_PAGE_SIZE and
-asking for a size larger than that only means that invalidations
-invalidate the whole larger area.  However, if lg_page_size is
-smaller than TARGET_PAGE_SIZE this effectively means "don't create a
-TLB entry"; in this case if either S1 or S2 said "this covers less
-than a page and can't go in a TLB" then the final result also should
-be marked that way.  Set the resulting page size to 0 if either
-stage asked for a less-than-a-page entry, and expand the comment
-to explain what's going on.
+From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 
-This has no effect for VMSA because currently the VMSA lookup always
-returns results that cover at least TARGET_PAGE_SIZE; however when we
-add v8R support it will reuse this code path, and for v8R the S1 and
-S2 results can be smaller than TARGET_PAGE_SIZE.
+The v8R PMSAv8 has a two-stage MPU translation process, but, unlike
+VMSAv8, the stage 2 attributes are in the same format as the stage 1
+attributes (8-bit MAIR format). Rather than converting the MAIR
+format to the format used for VMSA stage 2 (bits [5:2] of a VMSA
+stage 2 descriptor) and then converting back to do the attribute
+combination, allow combined_attrs_nofwb() to accept s2 attributes
+that are already in the MAIR format.
 
+We move the assert() to combined_attrs_fwb(), because that function
+really does require a VMSA stage 2 attribute format. (We will never
+get there for v8R, because PMSAv8 does not implement FEAT_S2FWB.)
+
+Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20221206102504.165775-4-tobias.roehmel@rwth-aachen.de
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20221212142708.610090-1-peter.maydell@linaro.org
 ---
- target/arm/ptw.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ target/arm/ptw.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index f812734bfb2..2e7826dc29b 100644
+index 2e7826dc29b..1c7c9cb5e37 100644
 --- a/target/arm/ptw.c
 +++ b/target/arm/ptw.c
-@@ -2655,10 +2655,20 @@ static bool get_phys_addr_twostage(CPUARMState *env, S1Translate *ptw,
-     }
+@@ -2361,7 +2361,11 @@ static uint8_t combined_attrs_nofwb(uint64_t hcr,
+ {
+     uint8_t s1lo, s2lo, s1hi, s2hi, s2_mair_attrs, ret_attrs;
  
-     /*
--     * Use the maximum of the S1 & S2 page size, so that invalidation
--     * of pages > TARGET_PAGE_SIZE works correctly.
-+     * If either S1 or S2 returned a result smaller than TARGET_PAGE_SIZE,
-+     * this means "don't put this in the TLB"; in this case, return a
-+     * result with lg_page_size == 0 to achieve that. Otherwise,
-+     * use the maximum of the S1 & S2 page size, so that invalidation
-+     * of pages > TARGET_PAGE_SIZE works correctly. (This works even though
-+     * we know the combined result permissions etc only cover the minimum
-+     * of the S1 and S2 page size, because we know that the common TLB code
-+     * never actually creates TLB entries bigger than TARGET_PAGE_SIZE,
-+     * and passing a larger page size value only affects invalidations.)
-      */
--    if (result->f.lg_page_size < s1_lgpgsz) {
-+    if (result->f.lg_page_size < TARGET_PAGE_BITS ||
-+        s1_lgpgsz < TARGET_PAGE_BITS) {
-+        result->f.lg_page_size = 0;
-+    } else if (result->f.lg_page_size < s1_lgpgsz) {
-         result->f.lg_page_size = s1_lgpgsz;
-     }
+-    s2_mair_attrs = convert_stage2_attrs(hcr, s2.attrs);
++    if (s2.is_s2_format) {
++        s2_mair_attrs = convert_stage2_attrs(hcr, s2.attrs);
++    } else {
++        s2_mair_attrs = s2.attrs;
++    }
  
+     s1lo = extract32(s1.attrs, 0, 4);
+     s2lo = extract32(s2_mair_attrs, 0, 4);
+@@ -2418,6 +2422,8 @@ static uint8_t force_cacheattr_nibble_wb(uint8_t attr)
+  */
+ static uint8_t combined_attrs_fwb(ARMCacheAttrs s1, ARMCacheAttrs s2)
+ {
++    assert(s2.is_s2_format && !s1.is_s2_format);
++
+     switch (s2.attrs) {
+     case 7:
+         /* Use stage 1 attributes */
+@@ -2467,7 +2473,7 @@ static ARMCacheAttrs combine_cacheattrs(uint64_t hcr,
+     ARMCacheAttrs ret;
+     bool tagged = false;
+ 
+-    assert(s2.is_s2_format && !s1.is_s2_format);
++    assert(!s1.is_s2_format);
+     ret.is_s2_format = false;
+ 
+     if (s1.attrs == 0xf0) {
 -- 
 2.25.1
 
