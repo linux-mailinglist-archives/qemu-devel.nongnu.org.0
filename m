@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97BA65EF11
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:45:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D95A365EF09
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:43:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDRQQ-0006Ys-3f; Thu, 05 Jan 2023 09:40:58 -0500
+	id 1pDRRd-0000B7-Ma; Thu, 05 Jan 2023 09:42:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDRQJ-0006PP-QF
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:40:53 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDRRE-00006X-JE
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:41:49 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDRQH-0003F0-Mr
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:40:51 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- m26-20020a05600c3b1a00b003d9811fcaafso1466751wms.5
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 06:40:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDRRC-0003gf-4I
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:41:48 -0500
+Received: by mail-wm1-x335.google.com with SMTP id ja17so28172022wmb.3
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 06:41:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=oNDOqnsLbyhoDi5uMGk8/4UUP00n8RzWnJNlr2mmXCw=;
- b=u+oblYgDY7fD5KbasUEDoj5ricSGpo9z6Te0DEHS/SThi1t0rp/Fv8scGCdmt2GIlP
- pmEYoaESJHTQuCXvJJtnzTVnh3o1fFNZDG2hqM3P57ynBy/iCXkKPjOpYe/IsLcDBDVs
- YZg+LabRFF4d5wpM4fJRxknQE8NjxVGDVbnjfadaSXx92E2N6TSo8ZUIYRnWasGhoepP
- vJ04VRV9EO1n3/LbREv8uBGkuGjrpF3EBybBAcZ9tonptuJYB4chEPts6IW9UZJb6mpy
- 7q8VcLuABMf5Pj5kmf60/EO8BqcCyBigeAk94CHtEUB0dPlH2fMDC1Y+MTea1ntE5OLv
- a5qA==
+ bh=p1bd5FHNKdTesBkkzYYqtQBUW8rR1SSO2CgSCTIRLow=;
+ b=G51wMLeozsTBY5T49HrFnHhkiYQ6fDCOtpu9YLTmfOCyMtUTtadDDf21bNZsPiGWOj
+ mddN3q/WVNatBeblU5muvOM+BmoaCwto9lsyJgyObga0n3yzu1MnLjBQrl47qhaOFug7
+ /UPRh0QGnJEkgtTr3jA2UZe+KEDLGryJfaK+wwBU1KUa0AXDe1DTptyF8y8QpTvnr+Rj
+ bXJE4aks0Yb0C1Vn8mGNISazc6UOukpMjwxW0dWHB6LnNC/ocwS2RKRLyiBNTgiph+Go
+ 4es78WWDU0BExhHga8XQIS4VklLn2v2KbsROEmyLip3t0FgY+RWI8J9T4zyHEOtqbra+
+ 3N3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=oNDOqnsLbyhoDi5uMGk8/4UUP00n8RzWnJNlr2mmXCw=;
- b=t5QbagcNK9D6XoyZaAYe8PZtsi7R4dMoxiDUDc2PMbKSIcBixwhx6i1DmWvXFphysA
- x5TlqoEPBIycwnMcEiCBuB4rXCvWrj/Pz4W2qKdGuB7YfMiiFYEOrQckrFIfHDMO6VxV
- xWIG6/OsBQi9OiDIoeBY3UUKTgR/zsg/tI0VLgEiqf5agUe+kmKfY2iVqXrWnLc6/JU/
- czSjreoAwvBgnne/2eDIr0SnZAnCr1xj4b+nsag4qClk8QEKki0QvoNMlYmnk+aOO9Wh
- 5q3HKFeyy1pusnfEG33xmWYPOun+HO8JWUVh2PVSok45m3k1qOyfC51tKyp4vZ7yZ6Vq
- WD7A==
-X-Gm-Message-State: AFqh2krsFkh/wk+5xm4Zr7vjoXhSEL9QxPfVrnjHDyVhPDRCOOfAXg/l
- zu3uhizwFnlZjkzIrrULSXx5XubiHWJrP7Hi
-X-Google-Smtp-Source: AMrXdXtUdzQfZCdaIthHpZ1bmoKgUfFFqEdVMcyrdI0LWmObweZ2PwXERpr2EM259hg0RYgppYWG3g==
-X-Received: by 2002:a05:600c:2217:b0:3d2:267d:64da with SMTP id
- z23-20020a05600c221700b003d2267d64damr35326920wml.10.1672929646406; 
- Thu, 05 Jan 2023 06:40:46 -0800 (PST)
+ bh=p1bd5FHNKdTesBkkzYYqtQBUW8rR1SSO2CgSCTIRLow=;
+ b=EA8GuSMC4MvF7BujRFab4tvC/HL3kvfB0tSC6V4boLv7mEQAGkr4w/Em77z1ZuFdX7
+ MPp2EPRMVMZ1vYXBUIdM402u1fjIjblA0puq5Gf6rcbd3KeKrMHGswDeF6t3DgQVDo7s
+ VzEQxIKEiPtrYzI57Z5+WX7Wx+fpOgkemcNh/tw7X7cvBphtAOY2PdH5FrQIRAawydzS
+ i+C8G1PMcq4BP1pxA9N2x6ssREGq6BwOasXL2amo61wrnGunP7gwuPsdHJqAgVupaXQO
+ WUd0juXlcYJicck3KUkCVIFs/YFc+qoUtUVIxLVaeBs34R8Va54WXUV1qdGcAeLasKoz
+ Me6g==
+X-Gm-Message-State: AFqh2kr1P9GtDIkCFLCvo1ABTmueFVlrwdTQBOgcaY5yNHIcs/me/whQ
+ TIaenzMJpknKKCQaDKDw9uBetoHcJU9DJxQP
+X-Google-Smtp-Source: AMrXdXtZx0gwJKhqFcgw4PhV1d9kW14Lgcfr7DkOXP9qehmm7Moi74E0OA6yiFoUNTJGvn8CsD2aLw==
+X-Received: by 2002:a05:600c:354b:b0:3d0:4993:d45b with SMTP id
+ i11-20020a05600c354b00b003d04993d45bmr38012861wmq.4.1672929704051; 
+ Thu, 05 Jan 2023 06:41:44 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- z25-20020a1c4c19000000b003d1e1f421bfsm2622176wmf.10.2023.01.05.06.40.45
+ j25-20020a05600c1c1900b003cfa80443a0sm2984884wms.35.2023.01.05.06.41.42
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 05 Jan 2023 06:40:45 -0800 (PST)
+ Thu, 05 Jan 2023 06:41:43 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>,
+Cc: qemu-ppc@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-trivial@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH] hw/i386/pc: Remove unused 'owner' argument from
- pc_pci_as_mapping_init
-Date: Thu,  5 Jan 2023 15:40:44 +0100
-Message-Id: <20230105144044.51822-1-philmd@linaro.org>
+Subject: [PATCH] hw/pci-host: Use register definitions from PCI standard
+Date: Thu,  5 Jan 2023 15:41:42 +0100
+Message-Id: <20230105144142.51990-1-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,71 +89,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This argument was added 9 years ago in commit 83d08f2673
-and has never been used since, so remote it.
+No need to document magic values when the definition names
+from "standard-headers/linux/pci_regs.h" are self-explicit.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/i386/pc.c         | 2 +-
- hw/pci-host/i440fx.c | 3 +--
- hw/pci-host/q35.c    | 3 +--
- include/hw/i386/pc.h | 2 +-
- 4 files changed, 4 insertions(+), 6 deletions(-)
+ hw/pci-host/grackle.c  |  2 +-
+ hw/pci-host/raven.c    |  6 +++---
+ hw/pci-host/uninorth.c | 30 +++++++++++-------------------
+ 3 files changed, 15 insertions(+), 23 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index d489ecc0d1..6e592bd969 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -782,7 +782,7 @@ void pc_guest_info_init(PCMachineState *pcms)
+diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
+index 95945ac0f4..2a45cc13c3 100644
+--- a/hw/pci-host/grackle.c
++++ b/hw/pci-host/grackle.c
+@@ -91,7 +91,7 @@ static void grackle_init(Object *obj)
+ 
+ static void grackle_pci_realize(PCIDevice *d, Error **errp)
+ {
+-    d->config[0x09] = 0x01;
++    d->config[PCI_CLASS_PROG] = 0x01;
  }
  
- /* setup pci memory address space mapping into system address space */
--void pc_pci_as_mapping_init(Object *owner, MemoryRegion *system_memory,
-+void pc_pci_as_mapping_init(MemoryRegion *system_memory,
-                             MemoryRegion *pci_address_space)
+ static void grackle_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/pci-host/raven.c b/hw/pci-host/raven.c
+index 7a105e4a63..c47259a851 100644
+--- a/hw/pci-host/raven.c
++++ b/hw/pci-host/raven.c
+@@ -329,9 +329,9 @@ static void raven_realize(PCIDevice *d, Error **errp)
+     char *filename;
+     int bios_size = -1;
+ 
+-    d->config[0x0C] = 0x08; // cache_line_size
+-    d->config[0x0D] = 0x10; // latency_timer
+-    d->config[0x34] = 0x00; // capabilities_pointer
++    d->config[PCI_CACHE_LINE_SIZE] = 0x08;
++    d->config[PCI_LATENCY_TIMER] = 0x10;
++    d->config[PCI_CAPABILITY_LIST] = 0x00;
+ 
+     memory_region_init_rom_nomigrate(&s->bios, OBJECT(s), "bios", BIOS_SIZE,
+                                      &error_fatal);
+diff --git a/hw/pci-host/uninorth.c b/hw/pci-host/uninorth.c
+index 8396c91d59..342baff12a 100644
+--- a/hw/pci-host/uninorth.c
++++ b/hw/pci-host/uninorth.c
+@@ -277,11 +277,11 @@ static void pci_unin_internal_init(Object *obj)
+ static void unin_main_pci_host_realize(PCIDevice *d, Error **errp)
  {
-     /* Set to lower priority than RAM */
-diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-index d5426ef4a5..262f82c303 100644
---- a/hw/pci-host/i440fx.c
-+++ b/hw/pci-host/i440fx.c
-@@ -272,8 +272,7 @@ PCIBus *i440fx_init(const char *pci_type,
-                      IO_APIC_DEFAULT_ADDRESS - 1);
+     /* cache_line_size */
+-    d->config[0x0C] = 0x08;
++    d->config[PCI_CACHE_LINE_SIZE] = 0x08;
+     /* latency_timer */
+-    d->config[0x0D] = 0x10;
++    d->config[PCI_LATENCY_TIMER] = 0x10;
+     /* capabilities_pointer */
+-    d->config[0x34] = 0x00;
++    d->config[PCI_CAPABILITY_LIST] = 0x00;
  
-     /* setup pci memory mapping */
--    pc_pci_as_mapping_init(OBJECT(f), f->system_memory,
--                           f->pci_address_space);
-+    pc_pci_as_mapping_init(f->system_memory, f->pci_address_space);
+     /*
+      * Set kMacRISCPCIAddressSelect (0x48) register to indicate PCI
+@@ -296,30 +296,22 @@ static void unin_main_pci_host_realize(PCIDevice *d, Error **errp)
  
-     /* if *disabled* show SMRAM to all CPUs */
-     memory_region_init_alias(&f->smram_region, OBJECT(d), "smram-region",
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index 20da121374..26390863d6 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -574,8 +574,7 @@ static void mch_realize(PCIDevice *d, Error **errp)
-     }
+ static void unin_agp_pci_host_realize(PCIDevice *d, Error **errp)
+ {
+-    /* cache_line_size */
+-    d->config[0x0C] = 0x08;
+-    /* latency_timer */
+-    d->config[0x0D] = 0x10;
+-    /* capabilities_pointer
+-    d->config[0x34] = 0x80; */
++    d->config[PCI_CACHE_LINE_SIZE] = 0x08;
++    d->config[PCI_LATENCY_TIMER] = 0x10;
++    /* d->config[PCI_CAPABILITY_LIST] = 0x80; */
+ }
  
-     /* setup pci memory mapping */
--    pc_pci_as_mapping_init(OBJECT(mch), mch->system_memory,
--                           mch->pci_address_space);
-+    pc_pci_as_mapping_init(mch->system_memory, mch->pci_address_space);
+ static void u3_agp_pci_host_realize(PCIDevice *d, Error **errp)
+ {
+-    /* cache line size */
+-    d->config[0x0C] = 0x08;
+-    /* latency timer */
+-    d->config[0x0D] = 0x10;
++    d->config[PCI_CACHE_LINE_SIZE] = 0x08;
++    d->config[PCI_LATENCY_TIMER] = 0x10;
+ }
  
-     /* if *disabled* show SMRAM to all CPUs */
-     memory_region_init_alias(&mch->smram_region, OBJECT(mch), "smram-region",
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 991f905f5d..88a120bc23 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -156,7 +156,7 @@ void pc_guest_info_init(PCMachineState *pcms);
- #define PCI_HOST_ABOVE_4G_MEM_SIZE     "above-4g-mem-size"
+ static void unin_internal_pci_host_realize(PCIDevice *d, Error **errp)
+ {
+-    /* cache_line_size */
+-    d->config[0x0C] = 0x08;
+-    /* latency_timer */
+-    d->config[0x0D] = 0x10;
+-    /* capabilities_pointer */
+-    d->config[0x34] = 0x00;
++    d->config[PCI_CACHE_LINE_SIZE] = 0x08;
++    d->config[PCI_LATENCY_TIMER] = 0x10;
++    d->config[PCI_CAPABILITY_LIST] = 0x00;
+ }
  
- 
--void pc_pci_as_mapping_init(Object *owner, MemoryRegion *system_memory,
-+void pc_pci_as_mapping_init(MemoryRegion *system_memory,
-                             MemoryRegion *pci_address_space);
- 
- void xen_load_linux(PCMachineState *pcms);
+ static void unin_main_pci_host_class_init(ObjectClass *klass, void *data)
 -- 
 2.38.1
 
