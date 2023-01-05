@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44E265ED98
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 14:47:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDA065EE0C
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 14:58:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDQZF-00048K-90; Thu, 05 Jan 2023 08:46:01 -0500
+	id 1pDQjl-0007Jk-UV; Thu, 05 Jan 2023 08:56:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDQZD-00047e-7v
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 08:45:59 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDQZB-0002fw-Nq
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 08:45:58 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id h16so36127692wrz.12
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 05:45:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XsGlZaKkPX4ROS4QH5s803iAer2NzQBJ208hJe36hDA=;
- b=GLrJgbQeR627q+uCt4h3YKEhcmRxpaoi/nGKmVm1549fGP7hHTlc7MDTyjbZ4loO18
- /zXJnsfCgsEuI7zJELGfS0gZZIifB87ipNizU82MMIRbgFqqcUWuP/42EQsB5FKgpFIq
- GUiaC5qivqYYGWDo2TFEe7kFv3aaZ5UTbX/HsKGkcZXl2kl4ukyrsveCex5nJn/2YH3T
- EWitCOmYy4SfiL0/tpbL2A5J7uEQGqRczl0Pgr/QDvJZXSnnBASCswma2x91hPP9BKCN
- DaIBdipXu7EMuo231UqhcfMgiZNQE7vzIOnNcq8CiwiN4SmPelNMZaSCoHyHFXvjs2Jp
- noyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XsGlZaKkPX4ROS4QH5s803iAer2NzQBJ208hJe36hDA=;
- b=d204EGGdMEFZGzIZW8QgBZVDpRQdeNV8qqK3NdgbIQ+E+CqE/uwlVA6LnvYQ+YmKh4
- OdU78hlM3gSfao2i9/RTs/Z1VFPF1v11coQ9SgaZmUj5OER1BnNPAdJk6WlEs2e3uSqh
- 1abhmgs45+tYitCdaw6ixvBMwZ99YXF7DgyIzp95G2KuSjbHWE6IjocXdAf2hqLTpDUt
- pmscRFqpk1YST+CL6INebtDFjib6Ok0X+1hVv3aSZrxfpio2gDsGXI2dyVTVJ3+Rpeqs
- 4/IYz4gLtCWUCzlCtD5RGBntkHntOX7jKqQpRwsuhSjncjTQCx45hA4EjSRCrl9CQzFq
- oUOQ==
-X-Gm-Message-State: AFqh2koMntszluHj1rRasKmQa55RAYA/FLKWLK7vZPSwZlfv5aQNEizJ
- qh3XZY4N3CznAzmw28UloM9VSA==
-X-Google-Smtp-Source: AMrXdXv6bXJWoMVMken2sHYwY0l3yFal3MwANLXgJFy4jta47pfFbiLkSXaQXaF0fdd3bo/uHFKkqQ==
-X-Received: by 2002:a5d:5259:0:b0:2ae:a029:ddba with SMTP id
- k25-20020a5d5259000000b002aea029ddbamr2451126wrc.2.1672926355981; 
- Thu, 05 Jan 2023 05:45:55 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- w17-20020a5d5451000000b0023662d97130sm36931751wrv.20.2023.01.05.05.45.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 05:45:55 -0800 (PST)
-Message-ID: <e82561d4-f934-c966-2a41-ff319e754031@linaro.org>
-Date: Thu, 5 Jan 2023 14:45:54 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pDQjk-0007Hj-5m; Thu, 05 Jan 2023 08:56:52 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pDQji-0001Sz-GL; Thu, 05 Jan 2023 08:56:51 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.111])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 337E015120467;
+ Thu,  5 Jan 2023 14:56:45 +0100 (CET)
+Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 5 Jan
+ 2023 14:56:44 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003bfccef8e-a3a7-47f9-9dfc-989897af528b,
+ 38A898BAFC987BCB81F2B5AC485E5C68320ADD45) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <fb2813a1-db81-a695-5cc2-3c48e4f3c8de@kaod.org>
+Date: Thu, 5 Jan 2023 14:56:43 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v7 1/7] input/adb: Only include header where needed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 1/5] confidential guest support: Introduce a 'check' class
+ handler
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <f46bc751e8426f9d937c9540f2e67d2f0b2cc582.1672868854.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <f46bc751e8426f9d937c9540f2e67d2f0b2cc582.1672868854.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Thomas Huth <thuth@redhat.com>, <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Richard Henderson
+ <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>, Ilya
+ Leoshkevich <iii@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>, Eduardo Habkost
+ <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, Yanan Wang
+ <wangyanan55@huawei.com>
+References: <20230104115111.3240594-1-clg@kaod.org>
+ <20230104115111.3240594-2-clg@kaod.org>
+ <fa7b4a10-0fd5-7435-53e0-89779f0f526f@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <fa7b4a10-0fd5-7435-53e0-89779f0f526f@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: e0e50634-ffb6-4b3e-9a34-8d3d1f8ac773
+X-Ovh-Tracer-Id: 15500545494037269310
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrjeekgdehlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepthhhuhhthhesrhgvughhrghtrdgtohhmpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrsehlihhnuhigrdhisghmrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhiihhisehlihhnuhigrdhisghmrdgtohhmpdhfrghrmhgrnheslhhinhhugi
+ drihgsmhdrtghomhdptghlghesrhgvughhrghtrdgtohhmpdgvughurghrughosehhrggskhhoshhtrdhnvghtpdhmrghrtggvlhdrrghpfhgvlhgsrghumhesghhmrghilhdrtghomhdpphhhihhlmhgusehlihhnrghrohdrohhrghdpfigrnhhghigrnhgrnhehheeshhhurgifvghirdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.939,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,21 +83,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/1/23 22:59, BALATON Zoltan wrote:
-> The header hw/input/adb.h is included by some files that don't need
-> it. Clean it up and include only where necessary.
+On 1/5/23 09:46, Thomas Huth wrote:
+> On 04/01/2023 12.51, Cédric Le Goater wrote:
+>> From: Cédric Le Goater <clg@redhat.com>
+>>
+>> Some machines have specific requirements to activate confidential
+>> guest support. Add a class handler to the confidential guest support
+>> interface to let the arch implementation perform extra checks.
+>>
+>> Cc: Eduardo Habkost <eduardo@habkost.net>
+>> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+>> Cc: "Philippe Mathieu-Daudé" <philmd@linaro.org>
+>> Cc: Yanan Wang <wangyanan55@huawei.com>
+>> Signed-off-by: Cédric Le Goater <clg@redhat.com>
+>> ---
+>>   include/exec/confidential-guest-support.h |  4 +++-
+>>   hw/core/machine.c                         | 11 ++++++-----
+>>   2 files changed, 9 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
+>> index ba2dd4b5df..9e6d362b26 100644
+>> --- a/include/exec/confidential-guest-support.h
+>> +++ b/include/exec/confidential-guest-support.h
+>> @@ -23,7 +23,8 @@
+>>   #include "qom/object.h"
+>>   #define TYPE_CONFIDENTIAL_GUEST_SUPPORT "confidential-guest-support"
+>> -OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, CONFIDENTIAL_GUEST_SUPPORT)
+>> +OBJECT_DECLARE_TYPE(ConfidentialGuestSupport, ConfidentialGuestSupportClass,
+>> +                    CONFIDENTIAL_GUEST_SUPPORT)
+>>   struct ConfidentialGuestSupport {
+>>       Object parent;
+>> @@ -55,6 +56,7 @@ struct ConfidentialGuestSupport {
+>>   typedef struct ConfidentialGuestSupportClass {
+>>       ObjectClass parent;
+>> +    bool (*check)(const Object *obj, Error **errp);
+>>   } ConfidentialGuestSupportClass;
+>>   #endif /* !CONFIG_USER_ONLY */
+>> diff --git a/hw/core/machine.c b/hw/core/machine.c
+>> index f589b92909..bab43cd675 100644
+>> --- a/hw/core/machine.c
+>> +++ b/hw/core/machine.c
+>> @@ -502,11 +502,12 @@ static void machine_check_confidential_guest_support(const Object *obj,
+>>                                                        Object *new_target,
+>>                                                        Error **errp)
+>>   {
+>> -    /*
+>> -     * So far the only constraint is that the target has the
+>> -     * TYPE_CONFIDENTIAL_GUEST_SUPPORT interface, and that's checked
+>> -     * by the QOM core
+>> -     */
+>> +    ConfidentialGuestSupportClass *cgsc =
+>> +        CONFIDENTIAL_GUEST_SUPPORT_GET_CLASS(new_target);
+>> +
+>> +    if (cgsc->check) {
+>> +        cgsc->check(obj, errp);
 > 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/misc/macio/cuda.c         | 2 --
->   hw/misc/macio/pmu.c          | 3 ---
->   hw/misc/mos6522.c            | 1 -
->   include/hw/misc/mac_via.h    | 1 +
->   include/hw/misc/macio/cuda.h | 1 +
->   include/hw/misc/macio/pmu.h  | 1 +
->   include/hw/misc/mos6522.h    | 3 +--
->   7 files changed, 4 insertions(+), 8 deletions(-)
+> I assume the caller is checking *errp, so it's ok to ignore the return value of the check function here?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+yes. routine machine_check_confidential_guest_support() is a direct parameter
+of object_class_property_add_link() call, which checks *errp. See routine
+object_set_link_property().
+
+Thanks,
+
+C.
+
+> 
+>> +    }
+>>   }
+>>   static bool machine_get_nvdimm(Object *obj, Error **errp)
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
 
 
