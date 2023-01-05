@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF7765F2B4
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:31:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3C065F23C
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:08:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTNt-00027f-2d; Thu, 05 Jan 2023 11:46:29 -0500
+	id 1pDTMf-0001Lj-UM; Thu, 05 Jan 2023 11:45:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTMI-0000m8-01
+ id 1pDTMI-0000m7-0B
  for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:50 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTMC-00071v-Lu
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:47 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- i17-20020a05600c355100b003d99434b1cfso1787108wmq.1
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:42 -0800 (PST)
+ id 1pDTMC-0007Ss-Lq
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:48 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ i17-20020a05600c355100b003d99434b1cfso1787135wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=3npsTUveFtQ4HNUpCii6m95dErHPlNzn4rRyXMWJ2LY=;
- b=FtUPtj6STbtw9GjlSpF61MkZUBHAuggA25z6TacVSdPaz12QqRGvzMjGbgFCuFpBBL
- L2Wdt4EyO9Wu9Im/dRDLRiByXSvEF3rFNPv3gPfORsAuWYbCUQEznC/ub7vNlIhavaxW
- KsAc3W7+7oC03UsUWVa7hRzUn6EYzCD4nDY0WaZlDnmLETvmnbj46JI1x8QJT2hvBRAu
- 5v2LD86fpCRdaCLgIuJWwXKDxjirFAGMM3o07GbqlqBAtojzxMn8Idx/lke5jhVnbaf8
- /YeNTNO3FtumTM+b3W5pkQv/i386zaWV6G0qV1JF3C1HfgOqVUfutJJMD6N0fGYJWTDk
- 86Og==
+ :reply-to; bh=NIfbKJ/3ZkCvJIhNz8wE2t2u1al6fnbpkmOv2zew4vY=;
+ b=MAzC5WOQTyz31T9GyWYxgHhDqod4dRuoANpsKo05PnaKOpRtBQ0OynQFAD2vgFRvAv
+ ewi2SLseQKhc4xziNLaWTPNfw08VOLf5wBUJwxbm2EKYtBESIznPeqE7YuLdCEA4fARs
+ JylCfUxGodTkbJvxjdT4KykXfdEHfmr1TIVFix/V0IN6AiO6+lFSIDBnddwCehX/lFvw
+ 0xAGOIFkYKW5SxL7JRzfNzUQDXGK7cW7d8cknK9cPkFZYrjV6ev8H+hTCqZ7sfwU5OAm
+ T0J3YPpkG1WFGcUhMQDEoEjGZMO6faPUw43rUd/dNmDGpQD0o4igDn+VOsTqM/4DZrK0
+ yxyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3npsTUveFtQ4HNUpCii6m95dErHPlNzn4rRyXMWJ2LY=;
- b=8C6YdvUzpvzL28gKEWCa2viCHbkO6TFtGsFMPiujBnHcBnwX7LnooNg7jN9RiZolEy
- B7a9UII7S6jtFeXyrC2JKSWUguj+fWsXZys7zY5bRuBrzZ78qzJ/AYTL9qBgjXDsPOUv
- uFvmml4TEXFYgUtoFemkE9yF9cGeWjgP2HI2ml6RN6GuzPzk2Y24VysHbru0Z2dXpqLv
- LW5uu8K153bIps60d3fvVHet2nyysMBsOWwwqwZw+J2PmgBw+8IwQzCxfhRVCuTj6mwV
- gJMhKe85aiKucXDPvu3fgUfvz+9tLS5TLqyVsOELy562Phmd9q3xavmlIiIXS3yPEaG6
- J7kQ==
-X-Gm-Message-State: AFqh2kq17xXZMLn4QyLl5H/9AZ2bbo4em1DCumQZ87HSJMURFwqq4dOX
- aVVfcb1ug732nJWRZo3l7tIvEOE6eHeCjQff
-X-Google-Smtp-Source: AMrXdXtxs0f3WcBZwO4QXP0GRz6hH9BUooflS5IYtENsq+JBPCnV13mNiE+uP7BPFGj108c+mpWiqA==
-X-Received: by 2002:a05:600c:3d1b:b0:3d0:6a57:66a5 with SMTP id
- bh27-20020a05600c3d1b00b003d06a5766a5mr36114367wmb.0.1672937082502; 
- Thu, 05 Jan 2023 08:44:42 -0800 (PST)
+ bh=NIfbKJ/3ZkCvJIhNz8wE2t2u1al6fnbpkmOv2zew4vY=;
+ b=rANS9RJwe0Nhz1XVgQ+ENZ0ItIWtYPhaoCJp9ZOxdwrB8dol9Qn2pwj+Z/lNefi7zj
+ S9x4OVsa2MoAcwlw8IaVbykAOTU7Lp7dzsVaI8+ZfDDZVs5daPLCfYHUIAKrOIy6v/Gd
+ +qknPmBh2etd6aJ9gFRthR0pAQnDfflt3RUdrQ2VUHw8m4Be86c6BV/XyNk8ohsvnKiQ
+ V60Uj6qe3/YaiTbyrK6JHEOhmA8Iky2ozNVHtKHsdfpbtJUNTZ7+5DfAn1PmZselQybe
+ Qq+drBDLDfeykpIUWBfKEE34Lwo4HtZUJBQHwfU0w3UOQowpaCu0bNXZIzsOICUcXub4
+ CRhQ==
+X-Gm-Message-State: AFqh2kpjSyKxa3oaFZwrtKa5w0CMFfIBwa8D6uvba0dD3EezrowOB2ka
+ 4anqamWA5iT7rrfXJABqoULSuzCeDmBd599c
+X-Google-Smtp-Source: AMrXdXtyW3a/FpULxdv7zIcYfL5a0b80t5oeoPd4c2LCTTMj2hLx+Dc1XllXtm/Df3AQ/WGLT4OQPw==
+X-Received: by 2002:a05:600c:1f18:b0:3cf:5583:8b3f with SMTP id
+ bd24-20020a05600c1f1800b003cf55838b3fmr35524312wmb.20.1672937083374; 
+ Thu, 05 Jan 2023 08:44:43 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.41
+ hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 05 Jan 2023 08:44:42 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/34] hw/arm/smmu-common: Reduce smmu_inv_notifiers_mr() scope
-Date: Thu,  5 Jan 2023 16:44:11 +0000
-Message-Id: <20230105164417.3994639-29-peter.maydell@linaro.org>
+Subject: [PULL 29/34] hw/arm/smmu-common: Avoid using inlined functions with
+ external linkage
+Date: Thu,  5 Jan 2023 16:44:12 +0000
+Message-Id: <20230105164417.3994639-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230105164417.3994639-1-peter.maydell@linaro.org>
 References: <20230105164417.3994639-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,44 +93,76 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-This function is not used anywhere outside this file,
-so we can make the function "static void".
+When using Clang ("Apple clang version 14.0.0 (clang-1400.0.29.202)")
+and building with -Wall we get:
 
+  hw/arm/smmu-common.c:173:33: warning: static function 'smmu_hash_remove_by_asid_iova' is used in an inline function with external linkage [-Wstatic-in-inline]
+  hw/arm/smmu-common.h:170:1: note: use 'static' to give inline function 'smmu_iotlb_inv_iova' internal linkage
+    void smmu_iotlb_inv_iova(SMMUState *s, int asid, dma_addr_t iova,
+    ^
+    static
+
+None of our code base require / use inlined functions with external
+linkage. Some places use internal inlining in the hot path. These
+two functions are certainly not in any hot path and don't justify
+any inlining, so these are likely oversights rather than intentional.
+
+Reported-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-id: 20221216214924.4711-2-philmd@linaro.org
+Message-id: 20221216214924.4711-3-philmd@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/smmu-common.h | 3 ---
- hw/arm/smmu-common.c         | 2 +-
- 2 files changed, 1 insertion(+), 4 deletions(-)
+ hw/arm/smmu-common.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
-index 21e62342e92..c5683af07d6 100644
---- a/include/hw/arm/smmu-common.h
-+++ b/include/hw/arm/smmu-common.h
-@@ -173,7 +173,4 @@ void smmu_iotlb_inv_iova(SMMUState *s, int asid, dma_addr_t iova,
- /* Unmap the range of all the notifiers registered to any IOMMU mr */
- void smmu_inv_notifiers_all(SMMUState *s);
- 
--/* Unmap the range of all the notifiers registered to @mr */
--void smmu_inv_notifiers_mr(IOMMUMemoryRegion *mr);
--
- #endif /* HW_ARM_SMMU_COMMON_H */
 diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
-index 220838525d4..9f196625a2b 100644
+index 9f196625a2b..54186f31cb5 100644
 --- a/hw/arm/smmu-common.c
 +++ b/hw/arm/smmu-common.c
-@@ -483,7 +483,7 @@ static void smmu_unmap_notifier_range(IOMMUNotifier *n)
+@@ -116,7 +116,7 @@ void smmu_iotlb_insert(SMMUState *bs, SMMUTransCfg *cfg, SMMUTLBEntry *new)
+     g_hash_table_insert(bs->iotlb, key, new);
  }
  
- /* Unmap all notifiers attached to @mr */
--inline void smmu_inv_notifiers_mr(IOMMUMemoryRegion *mr)
-+static void smmu_inv_notifiers_mr(IOMMUMemoryRegion *mr)
+-inline void smmu_iotlb_inv_all(SMMUState *s)
++void smmu_iotlb_inv_all(SMMUState *s)
  {
-     IOMMUNotifier *n;
+     trace_smmu_iotlb_inv_all();
+     g_hash_table_remove_all(s->iotlb);
+@@ -146,9 +146,8 @@ static gboolean smmu_hash_remove_by_asid_iova(gpointer key, gpointer value,
+            ((entry->iova & ~info->mask) == info->iova);
+ }
  
+-inline void
+-smmu_iotlb_inv_iova(SMMUState *s, int asid, dma_addr_t iova,
+-                    uint8_t tg, uint64_t num_pages, uint8_t ttl)
++void smmu_iotlb_inv_iova(SMMUState *s, int asid, dma_addr_t iova,
++                         uint8_t tg, uint64_t num_pages, uint8_t ttl)
+ {
+     /* if tg is not set we use 4KB range invalidation */
+     uint8_t granule = tg ? tg * 2 + 10 : 12;
+@@ -174,7 +173,7 @@ smmu_iotlb_inv_iova(SMMUState *s, int asid, dma_addr_t iova,
+                                 &info);
+ }
+ 
+-inline void smmu_iotlb_inv_asid(SMMUState *s, uint16_t asid)
++void smmu_iotlb_inv_asid(SMMUState *s, uint16_t asid)
+ {
+     trace_smmu_iotlb_inv_asid(asid);
+     g_hash_table_foreach_remove(s->iotlb, smmu_hash_remove_by_asid, &asid);
+@@ -374,8 +373,8 @@ error:
+  *
+  * return 0 on success
+  */
+-inline int smmu_ptw(SMMUTransCfg *cfg, dma_addr_t iova, IOMMUAccessFlags perm,
+-                    SMMUTLBEntry *tlbe, SMMUPTWEventInfo *info)
++int smmu_ptw(SMMUTransCfg *cfg, dma_addr_t iova, IOMMUAccessFlags perm,
++             SMMUTLBEntry *tlbe, SMMUPTWEventInfo *info)
+ {
+     if (!cfg->aa64) {
+         /*
 -- 
 2.25.1
 
