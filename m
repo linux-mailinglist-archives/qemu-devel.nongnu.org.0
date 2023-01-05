@@ -2,114 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FECF65F17B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:54:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754CB65F187
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:56:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTTJ-0006yx-Cw; Thu, 05 Jan 2023 11:52:05 -0500
+	id 1pDTLs-0000Fv-Qo; Thu, 05 Jan 2023 11:44:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pDTTH-0006wW-CY
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:52:03 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDTLq-00008y-5L
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:22 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pDTTC-00017B-9l
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:52:03 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id co23so36753118wrb.4
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:51:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDTLo-00071v-6O
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:21 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ i17-20020a05600c355100b003d99434b1cfso1786344wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eledW64ITyXCJRysHgCO0tP2RH9YIIThzccmYjDKTt8=;
- b=Ky/q1lnuWeRl0J7fyVbf/oPZRUuAPii0RjSWgKvcMe8anv2MCeTbcQoZy/9Bk+HSny
- m0yVpEqDM3Djjqb4+MSu/RGkbRJ6YdgzZl2JnEtbeK+aamaZDFSFG048F/5McbqcPh0H
- QxSkb0plvFDawJ+OF7v1pwg5NBueO0WZM3vF4gB/PLd6HslkmlO6isIV21fdJxcoPvyn
- 6JRx2ZX5+NIg8qM3/RBf+J6RVQ/8lb5NSZWNK5ZsuMEWeeuc4fcIINkG8drBcTs62Fhe
- iKY86pZlOemqR/o52/mAkBfZFi4aAZtTIIUKaGSPVo1CXiwPM9xWvBU/JMIohnRytMPK
- /+tg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=J9OEuFJOVqWuaP0H8jMiOVTRp+PE+YBAf0aUcwI1+Yw=;
+ b=zP75stJSKryHQI5Wk3dNEaubM36ZjU62yL+s/zRVErICcGL1EMhLzG1x7GjhSFrQ8f
+ v5Wzc/XUvIK10/2WZJiSaibHXVibUvReBqA1KTm1zzMIRXQNtiBFAcNvlrMq2vM4idII
+ XwUj5hD+ktR4gJFyFIVfbxCXfsh/635VSff7K+xq+JOx2cdy0gH26HSB3OcElvOcXsaE
+ PMFa9OGN6lSdAXdGOWP/uCVqHMv9flCBoslYS/xGe5kdDw4pqUdxzM6B0KT/pOHYH7JI
+ YJvLd+ASlS6rQ0SeRESUGVtolmv1Kh+a4eG6GFKDQvXtmVnhgsEfhpdKhQTPi5zSInl/
+ oGpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eledW64ITyXCJRysHgCO0tP2RH9YIIThzccmYjDKTt8=;
- b=VODIfwBJbJ0IIaEm0srUZY9B3ARDM0nQ4wAip7tytqVqMfSOrFftiHGFCsDAzF+6Q3
- pcyEtx+Vrl1kJiP1kstP92IxlqObD64trEEXpC47qEBjsWItm1TdpFFLzfyhXAp0toob
- IvAZ19pibg9JF+jiAVtMVHOAEjO28VG2DlT/KiLnxijZkwoMMUmXGLAc7U4m3mgCmzve
- T7DG7j1gHMybPbvuy3H19imj+GaSw976gQ9uWZRvrIQG26EWbcqWc9nhM1akbQiiZK6u
- iqzj6pUz1HH2xeeWF1etBsqMCHZ8Igp1BZ8dfEv3M50EWXK5OihRPjRVw39K5jhiYrR+
- 9hLg==
-X-Gm-Message-State: AFqh2kqVkoLBCM/hZVphMMsGi+8tjCHGW7qn1wCEETNC3vh/7FYHNpGC
- aUZJ4REYblIROguHkAQMZtHayw==
-X-Google-Smtp-Source: AMrXdXumbuujYM05FNfUlsAdyZ31Qd+bF8kQa4bed7Pg8d0RHk1u8CyuHIEefJF+SRYl5PABX6W+zQ==
-X-Received: by 2002:a5d:430e:0:b0:279:53e1:5178 with SMTP id
- h14-20020a5d430e000000b0027953e15178mr24462986wrq.45.1672937516748; 
- Thu, 05 Jan 2023 08:51:56 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=J9OEuFJOVqWuaP0H8jMiOVTRp+PE+YBAf0aUcwI1+Yw=;
+ b=CD4Y90bkManso4qJlspFfhxeJ862r6VcTPzjxwHFpAN8FkJlR21T3R/pEDanfM1sbX
+ iS+Y2Oqm68ILazcuYTgUmFcPtvjUfw7JG/XGBvQIVcuiYGTsicqVtClMkyCnSTD9rBa+
+ uj0bB6m6sYDeagrmd3XzXsUJDSNLzJZwxUrhyudtzDmnaN3umXGGBPlrYf7A+YzluCG0
+ yCw7Z+NjUYXQtTvssJHqPAfaoOWCDce1boP2yH758hh4IwkjNsZhDE16sXp1x25b5X53
+ TvZbBaFfERswM8/8kmrq7850ZCdgw2ABdjcPBm7Y31yDrFBWnpZf9ZLU9uQVPObxXFiB
+ yRXg==
+X-Gm-Message-State: AFqh2koKpqF+TfnqGuIqu0dU6CidySoGvxI1DAprY0Ujx+NC+sGWWwza
+ /APITiXK5RUDF34FaVsn0va49yYsNDNoMxjD
+X-Google-Smtp-Source: AMrXdXtW7XNiDc9qc5a/rSY0V4wbDhlzpc63ABexKNG67HkxdD2FLBXq9JqaThQo7KVL0SLeOeVfZw==
+X-Received: by 2002:a1c:ed19:0:b0:3d3:52bb:3984 with SMTP id
+ l25-20020a1ced19000000b003d352bb3984mr37879747wmh.17.1672937059368; 
+ Thu, 05 Jan 2023 08:44:19 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f1-20020a5d5681000000b002714b3d2348sm37438617wrv.25.2023.01.05.08.51.55
+ hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.18
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:51:55 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8B51E1FFC9;
- Thu,  5 Jan 2023 16:43:21 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org,
-	alex.bennee@gmail.com
-Cc: David Hildenbrand <david@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Michael Rolnik <mrolnik@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Greg Kurz <groug@kaod.org>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, qemu-ppc@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>, Marek Vasut <marex@denx.de>,
- Stafford Horne <shorne@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Taylor Simpson <tsimpson@quicinc.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Chris Wulff <crwulff@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Song Gao <gaosong@loongson.cn>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bin Meng <bin.meng@windriver.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-arm@nongnu.org
-Subject: [PATCH v2 18/21] gdbstub: don't use target_ulong while handling
- registers
-Date: Thu,  5 Jan 2023 16:43:17 +0000
-Message-Id: <20230105164320.2164095-19-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230105164320.2164095-1-alex.bennee@linaro.org>
-References: <20230105164320.2164095-1-alex.bennee@linaro.org>
+ Thu, 05 Jan 2023 08:44:18 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/34] target-arm queue
+Date: Thu,  5 Jan 2023 16:43:43 +0000
+Message-Id: <20230105164417.3994639-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -125,64 +87,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a hangover from the original code. addr is misleading as it is
-only a really a register id. While len will never exceed
-MAX_PACKET_LENGTH I've used size_t as that is what strlen returns.
+Some arm patches; my to-review queue is by no means empty, but
+this is a big enough set of patches to be getting on with...
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- gdbstub/gdbstub.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+-- PMM
 
-diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-index 4547ca3367..c50c2f8e0f 100644
---- a/gdbstub/gdbstub.c
-+++ b/gdbstub/gdbstub.c
-@@ -1192,7 +1192,8 @@ static void handle_read_mem(GArray *params, void *user_ctx)
- 
- static void handle_write_all_regs(GArray *params, void *user_ctx)
- {
--    target_ulong addr, len;
-+    int reg_id;
-+    size_t len;
-     uint8_t *registers;
-     int reg_size;
- 
-@@ -1204,9 +1205,10 @@ static void handle_write_all_regs(GArray *params, void *user_ctx)
-     len = strlen(get_param(params, 0)->data) / 2;
-     gdb_hextomem(gdbserver_state.mem_buf, get_param(params, 0)->data, len);
-     registers = gdbserver_state.mem_buf->data;
--    for (addr = 0; addr < gdbserver_state.g_cpu->gdb_num_g_regs && len > 0;
--         addr++) {
--        reg_size = gdb_write_register(gdbserver_state.g_cpu, registers, addr);
-+    for (reg_id = 0;
-+         reg_id < gdbserver_state.g_cpu->gdb_num_g_regs && len > 0;
-+         reg_id++) {
-+        reg_size = gdb_write_register(gdbserver_state.g_cpu, registers, reg_id);
-         len -= reg_size;
-         registers += reg_size;
-     }
-@@ -1215,15 +1217,16 @@ static void handle_write_all_regs(GArray *params, void *user_ctx)
- 
- static void handle_read_all_regs(GArray *params, void *user_ctx)
- {
--    target_ulong addr, len;
-+    int reg_id;
-+    size_t len;
- 
-     cpu_synchronize_state(gdbserver_state.g_cpu);
-     g_byte_array_set_size(gdbserver_state.mem_buf, 0);
-     len = 0;
--    for (addr = 0; addr < gdbserver_state.g_cpu->gdb_num_g_regs; addr++) {
-+    for (reg_id = 0; reg_id < gdbserver_state.g_cpu->gdb_num_g_regs; reg_id++) {
-         len += gdb_read_register(gdbserver_state.g_cpu,
-                                  gdbserver_state.mem_buf,
--                                 addr);
-+                                 reg_id);
-     }
-     g_assert(len == gdbserver_state.mem_buf->len);
- 
--- 
-2.34.1
+The following changes since commit cb9c6a8e5ad6a1f0ce164d352e3102df46986e22:
 
+  .gitlab-ci.d/windows: Work-around timeout and OpenGL problems of the MSYS2 jobs (2023-01-04 18:58:33 +0000)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230105
+
+for you to fetch changes up to 93c9678de9dc7d2e68f9e8477da072bac30ef132:
+
+  hw/net: Fix read of uninitialized memory in imx_fec. (2023-01-05 15:33:00 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Implement AArch32 ARMv8-R support
+ * Add Cortex-R52 CPU
+ * fix handling of HLT semihosting in system mode
+ * hw/timer/ixm_epit: cleanup and fix bug in compare handling
+ * target/arm: Coding style fixes
+ * target/arm: Clean up includes
+ * nseries: minor code cleanups
+ * target/arm: align exposed ID registers with Linux
+ * hw/arm/smmu-common: remove unnecessary inlines
+ * i.MX7D: Handle GPT timers
+ * i.MX7D: Connect IRQs to GPIO devices
+ * i.MX6UL: Add a specific GPT timer instance
+ * hw/net: Fix read of uninitialized memory in imx_fec
+
+----------------------------------------------------------------
+Alex Bennée (1):
+      target/arm: fix handling of HLT semihosting in system mode
+
+Axel Heider (8):
+      hw/timer/imx_epit: improve comments
+      hw/timer/imx_epit: cleanup CR defines
+      hw/timer/imx_epit: define SR_OCIF
+      hw/timer/imx_epit: update interrupt state on CR write access
+      hw/timer/imx_epit: hard reset initializes CR with 0
+      hw/timer/imx_epit: factor out register write handlers
+      hw/timer/imx_epit: remove explicit fields cnt and freq
+      hw/timer/imx_epit: fix compare timer handling
+
+Claudio Fontana (1):
+      target/arm: cleanup cpu includes
+
+Fabiano Rosas (5):
+      target/arm: Fix checkpatch comment style warnings in helper.c
+      target/arm: Fix checkpatch space errors in helper.c
+      target/arm: Fix checkpatch brace errors in helper.c
+      target/arm: Remove unused includes from m_helper.c
+      target/arm: Remove unused includes from helper.c
+
+Jean-Christophe Dubois (4):
+      i.MX7D: Connect GPT timers to IRQ
+      i.MX7D: Compute clock frequency for the fixed frequency clocks.
+      i.MX6UL: Add a specific GPT timer instance for the i.MX6UL
+      i.MX7D: Connect IRQs to GPIO devices.
+
+Peter Maydell (1):
+      target/arm:Set lg_page_size to 0 if either S1 or S2 asks for it
+
+Philippe Mathieu-Daudé (5):
+      hw/input/tsc2xxx: Constify set_transform()'s MouseTransformInfo arg
+      hw/arm/nseries: Constify various read-only arrays
+      hw/arm/nseries: Silent -Wmissing-field-initializers warning
+      hw/arm/smmu-common: Reduce smmu_inv_notifiers_mr() scope
+      hw/arm/smmu-common: Avoid using inlined functions with external linkage
+
+Stephen Longfield (1):
+      hw/net: Fix read of uninitialized memory in imx_fec.
+
+Tobias Röhmel (7):
+      target/arm: Don't add all MIDR aliases for cores that implement PMSA
+      target/arm: Make RVBAR available for all ARMv8 CPUs
+      target/arm: Make stage_2_format for cache attributes optional
+      target/arm: Enable TTBCR_EAE for ARMv8-R AArch32
+      target/arm: Add PMSAv8r registers
+      target/arm: Add PMSAv8r functionality
+      target/arm: Add ARM Cortex-R52 CPU
+
+Zhuojia Shen (1):
+      target/arm: align exposed ID registers with Linux
+
+ include/hw/arm/fsl-imx7.h         |  20 +
+ include/hw/arm/smmu-common.h      |   3 -
+ include/hw/input/tsc2xxx.h        |   4 +-
+ include/hw/timer/imx_epit.h       |   8 +-
+ include/hw/timer/imx_gpt.h        |   1 +
+ target/arm/cpu.h                  |   6 +
+ target/arm/internals.h            |   4 +
+ hw/arm/fsl-imx6ul.c               |   2 +-
+ hw/arm/fsl-imx7.c                 |  41 +-
+ hw/arm/nseries.c                  |  28 +-
+ hw/arm/smmu-common.c              |  15 +-
+ hw/input/tsc2005.c                |   2 +-
+ hw/input/tsc210x.c                |   3 +-
+ hw/misc/imx6ul_ccm.c              |   6 -
+ hw/misc/imx7_ccm.c                |  49 ++-
+ hw/net/imx_fec.c                  |   8 +-
+ hw/timer/imx_epit.c               | 376 +++++++++-------
+ hw/timer/imx_gpt.c                |  25 ++
+ target/arm/cpu.c                  |  35 +-
+ target/arm/cpu64.c                |   6 -
+ target/arm/cpu_tcg.c              |  42 ++
+ target/arm/debug_helper.c         |   3 +
+ target/arm/helper.c               | 871 +++++++++++++++++++++++++++++---------
+ target/arm/m_helper.c             |  16 -
+ target/arm/machine.c              |  28 ++
+ target/arm/ptw.c                  | 152 +++++--
+ target/arm/tlb_helper.c           |   4 +
+ target/arm/translate.c            |   2 +-
+ tests/tcg/aarch64/sysregs.c       |  24 +-
+ tests/tcg/aarch64/Makefile.target |   7 +-
+ 30 files changed, 1330 insertions(+), 461 deletions(-)
 
