@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A1A65F239
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:08:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5546065F248
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:09:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTMc-0001C9-NS; Thu, 05 Jan 2023 11:45:10 -0500
+	id 1pDTMf-0001LU-KM; Thu, 05 Jan 2023 11:45:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTM6-0000do-0I
+ id 1pDTM7-0000dt-6R
  for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:41 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTM4-0007Qa-7C
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:37 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- bg13-20020a05600c3c8d00b003d9712b29d2so1747897wmb.2
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:35 -0800 (PST)
+ id 1pDTM5-0007Q6-LZ
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:38 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id o15so28449113wmr.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=byMM6iVgc74/+OKbtKS09cRKP886+lRaecSbts9EjCY=;
- b=hTaih6okMw0Bki+BQB5k5bxdR6I7tyyUju5LVmrht0TSeRqslP9FadCv8hbh+3GO0u
- 2JFDCwH7G1Z5Odi+CRVhrjeemYqFODm2Bi4HGW/9P7TnUGdv1hC6mPmJQAfpEAP+tjZW
- OVIgBk0MbxrJD48IjFYJyQaak4o5eaNfQXenjqci8Sws3GL67NUzW4t8BrMLFRDSj0tR
- 0JqQc81+e0QNckRUBAYa6xd+kycuj5v1gjlMH4sBcTsZkhJ4PTkNjZlZZeKGXSJ3e/Z2
- 6NbaVuB7yummZ4WQ72yuKOFOSJBxdYTnKHtVbFSKjePCybzsbCHWFsOEgnCk2Z08Wqxw
- ob3A==
+ :reply-to; bh=sztR4J95IadKOvZP/cP3UWW/HHhoPYqwE6deb2jD44g=;
+ b=V89avodALBG+HAp3Jpemx9sCEevME0VO5vRDIdF5wpl3NCPuqkcn+SvkJbWQZaeG9H
+ /4w0zEhING3rfOpSUXyDf+HHLuQ4YSnikoVuH0aLdho3jOunObcdQtxBuv2W0PxkdkaO
+ m5zONhos8GLcEoDoCpM7M0NPK9kWI7aIyFPMgdCfU39rnw5HxCrYyxRWaMOcZNVXzaib
+ fdc3K0rp55sV/nE+kLtWVpF3yV/aJCfwHMLeuVjidGA3GnPvBUc7WKrHJg7mSArXOs6+
+ cth5SBqVPF3qtigChUholTcSmzmR/7aKN2FCqwKuEv34uTIl+ovzpO1kL9KEnR9jCJ/X
+ GuMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=byMM6iVgc74/+OKbtKS09cRKP886+lRaecSbts9EjCY=;
- b=GNRyn/Cq8oKhMK69Hgi8uAJGJQeM6bUIkiRKWBkofdXT32x7nPu/DbzSnfibnv5VU9
- DOM2VAfrPhgEvbb9XebTjXZvMP77164h8snBI9ZbQM1A+OrA5HRZk/BSWrMeN2UKXJue
- XTVy1VJLOvmaNGk9pmp9iCQQ4Nm3EDrsQiUmXBoUqnyrlnf8UiLwPtP+Y9Oo8oGxHYJ+
- i7d8diVW+nc8YTUMANJguTEaT3Ps6KzLHLMPFudYEErLRKRLA5OBAQ6Cl3BfysFblQQo
- c45TC45mkGlukqXuRe9+0+eBuQnrZScUKvqQJsNU/dfZdvF8B5pdzRuAW+H7tkLsU9D2
- kcQA==
-X-Gm-Message-State: AFqh2kpFArZzVr1oEY00QqMfJBVx1pQ++j3PPDjuHE1rG04XsXh5KMZn
- +sxaeQ+ITtUR2VEcx0cYylc7AJhJ33EPQkKW
-X-Google-Smtp-Source: AMrXdXvmmVRrsr+s1++UGup0FYFjwIv79Hb1fQQnYhOBr5zL0owwxMH3CiDugRde2tDw+++y+dZzQQ==
-X-Received: by 2002:a7b:c7c8:0:b0:3d7:889:7496 with SMTP id
- z8-20020a7bc7c8000000b003d708897496mr36660973wmk.17.1672937075028; 
- Thu, 05 Jan 2023 08:44:35 -0800 (PST)
+ bh=sztR4J95IadKOvZP/cP3UWW/HHhoPYqwE6deb2jD44g=;
+ b=diz1UatoCE5Ci8YZldSmninqL+bgvqdmOmHsqBbmjUo1IK/ljhJHixx1jm+6x0zuRP
+ phbAaiXGa2EvEv8wOFovFWYAEx7NhRJ89hFli1gRLPlflnEjZ5Xg9Ck2US/kveUO7uEM
+ I7xOTMirsUuy/5NPNZiEqX81gfmVf4YjwOHz+sSdRdM+07TwLR8S0hmIPayQrI3SDSVT
+ knUPV7uu+gQDkOMdNM/xGadjbelGprfqTopAFQdh5N1F4A6hyFaKdW8qfb9/XjAkxvXQ
+ 0YbTB/Vg4G7dVwf+3ne1d7ZqHUqSLIiuGihtQDUICDLgX9/LCdxOID1P22SXq4xsOUxp
+ K3Vg==
+X-Gm-Message-State: AFqh2kreq7Nl7z0WBsaJ6ItJZHjyuUEMCk4KuWMwrO5FcNqlx05q5ymu
+ ndNDji07+Xu9mvxbZe70HFx9l9QVPA3YkdzJ
+X-Google-Smtp-Source: AMrXdXsQlRc7TWvkuPkzzpka+k+J7ZNP80j2wPyIVm1wfq8EuAMbYFXuZTHAQoTIg+CzHB+f3x8UyA==
+X-Received: by 2002:a05:600c:1914:b0:3d2:2fa9:cffa with SMTP id
+ j20-20020a05600c191400b003d22fa9cffamr36549096wmq.25.1672937076839; 
+ Thu, 05 Jan 2023 08:44:36 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.34
+ hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:44:34 -0800 (PST)
+ Thu, 05 Jan 2023 08:44:36 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/34] target/arm: Fix checkpatch space errors in helper.c
-Date: Thu,  5 Jan 2023 16:44:02 +0000
-Message-Id: <20230105164417.3994639-20-peter.maydell@linaro.org>
+Subject: [PULL 21/34] target/arm: Remove unused includes from m_helper.c
+Date: Thu,  5 Jan 2023 16:44:04 +0000
+Message-Id: <20230105164417.3994639-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230105164417.3994639-1-peter.maydell@linaro.org>
 References: <20230105164417.3994639-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,164 +90,50 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fabiano Rosas <farosas@suse.de>
 
-Fix the following:
-
-ERROR: spaces required around that '|' (ctx:VxV)
-ERROR: space required before the open parenthesis '('
-ERROR: spaces required around that '+' (ctx:VxB)
-ERROR: space prohibited between function name and open parenthesis '('
-
-(the last two still have some occurrences in macros which I left
-behind because it might impact readability)
-
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-id: 20221213190537.511-3-farosas@suse.de
+Message-id: 20221213190537.511-5-farosas@suse.de
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 42 +++++++++++++++++++++---------------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+ target/arm/m_helper.c | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index a5f96ab77dd..8f1cc2d7cfb 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -205,7 +205,7 @@ static void add_cpreg_to_list(gpointer key, gpointer opaque)
-     uint32_t regidx = (uintptr_t)key;
-     const ARMCPRegInfo *ri = get_arm_cp_reginfo(cpu->cp_regs, regidx);
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index 355cd4d60a7..033a4d92614 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -7,30 +7,14 @@
+  */
  
--    if (!(ri->type & (ARM_CP_NO_RAW|ARM_CP_ALIAS))) {
-+    if (!(ri->type & (ARM_CP_NO_RAW | ARM_CP_ALIAS))) {
-         cpu->cpreg_indexes[cpu->cpreg_array_len] = cpreg_to_kvm_id(regidx);
-         /* The value array need not be initialized at this point */
-         cpu->cpreg_array_len++;
-@@ -219,7 +219,7 @@ static void count_cpreg(gpointer key, gpointer opaque)
- 
-     ri = g_hash_table_lookup(cpu->cp_regs, key);
- 
--    if (!(ri->type & (ARM_CP_NO_RAW|ARM_CP_ALIAS))) {
-+    if (!(ri->type & (ARM_CP_NO_RAW | ARM_CP_ALIAS))) {
-         cpu->cpreg_array_len++;
-     }
- }
-@@ -2350,11 +2350,11 @@ static const ARMCPRegInfo v6k_cp_reginfo[] = {
-       .resetfn = arm_cp_reset_ignore },
-     { .name = "TPIDRRO_EL0", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 3, .opc2 = 3, .crn = 13, .crm = 0,
--      .access = PL0_R|PL1_W,
-+      .access = PL0_R | PL1_W,
-       .fieldoffset = offsetof(CPUARMState, cp15.tpidrro_el[0]),
-       .resetvalue = 0},
-     { .name = "TPIDRURO", .cp = 15, .crn = 13, .crm = 0, .opc1 = 0, .opc2 = 3,
--      .access = PL0_R|PL1_W,
-+      .access = PL0_R | PL1_W,
-       .bank_fieldoffsets = { offsetoflow32(CPUARMState, cp15.tpidruro_s),
-                              offsetoflow32(CPUARMState, cp15.tpidruro_ns) },
-       .resetfn = arm_cp_reset_ignore },
-@@ -4315,17 +4315,17 @@ static const ARMCPRegInfo cache_block_ops_cp_reginfo[] = {
-       .resetvalue = 0 },
-     /* The cache ops themselves: these all NOP for QEMU */
-     { .name = "IICR", .cp = 15, .crm = 5, .opc1 = 0,
--      .access = PL1_W, .type = ARM_CP_NOP|ARM_CP_64BIT },
-+      .access = PL1_W, .type = ARM_CP_NOP | ARM_CP_64BIT },
-     { .name = "IDCR", .cp = 15, .crm = 6, .opc1 = 0,
--      .access = PL1_W, .type = ARM_CP_NOP|ARM_CP_64BIT },
-+      .access = PL1_W, .type = ARM_CP_NOP | ARM_CP_64BIT },
-     { .name = "CDCR", .cp = 15, .crm = 12, .opc1 = 0,
--      .access = PL0_W, .type = ARM_CP_NOP|ARM_CP_64BIT },
-+      .access = PL0_W, .type = ARM_CP_NOP | ARM_CP_64BIT },
-     { .name = "PIR", .cp = 15, .crm = 12, .opc1 = 1,
--      .access = PL0_W, .type = ARM_CP_NOP|ARM_CP_64BIT },
-+      .access = PL0_W, .type = ARM_CP_NOP | ARM_CP_64BIT },
-     { .name = "PDR", .cp = 15, .crm = 12, .opc1 = 2,
--      .access = PL0_W, .type = ARM_CP_NOP|ARM_CP_64BIT },
-+      .access = PL0_W, .type = ARM_CP_NOP | ARM_CP_64BIT },
-     { .name = "CIDCR", .cp = 15, .crm = 14, .opc1 = 0,
--      .access = PL1_W, .type = ARM_CP_NOP|ARM_CP_64BIT },
-+      .access = PL1_W, .type = ARM_CP_NOP | ARM_CP_64BIT },
- };
- 
- static const ARMCPRegInfo cache_test_clean_cp_reginfo[] = {
-@@ -8695,7 +8695,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-             ARMCPRegInfo cbar = {
-                 .name = "CBAR",
-                 .cp = 15, .crn = 15, .crm = 0, .opc1 = 4, .opc2 = 0,
--                .access = PL1_R|PL3_W, .resetvalue = cpu->reset_cbar,
-+                .access = PL1_R | PL3_W, .resetvalue = cpu->reset_cbar,
-                 .fieldoffset = offsetof(CPUARMState,
-                                         cp15.c15_config_base_address)
-             };
-@@ -9673,11 +9673,11 @@ static void switch_mode(CPUARMState *env, int mode)
-         return;
- 
-     if (old_mode == ARM_CPU_MODE_FIQ) {
--        memcpy (env->fiq_regs, env->regs + 8, 5 * sizeof(uint32_t));
--        memcpy (env->regs + 8, env->usr_regs, 5 * sizeof(uint32_t));
-+        memcpy(env->fiq_regs, env->regs + 8, 5 * sizeof(uint32_t));
-+        memcpy(env->regs + 8, env->usr_regs, 5 * sizeof(uint32_t));
-     } else if (mode == ARM_CPU_MODE_FIQ) {
--        memcpy (env->usr_regs, env->regs + 8, 5 * sizeof(uint32_t));
--        memcpy (env->regs + 8, env->fiq_regs, 5 * sizeof(uint32_t));
-+        memcpy(env->usr_regs, env->regs + 8, 5 * sizeof(uint32_t));
-+        memcpy(env->regs + 8, env->fiq_regs, 5 * sizeof(uint32_t));
-     }
- 
-     i = bank_number(old_mode);
-@@ -11181,7 +11181,7 @@ static inline uint8_t sub8_usat(uint8_t a, uint8_t b)
-     RESULT(sum, n, 16); \
-     if (sum >= 0) \
-         ge |= 3 << (n * 2); \
--    } while(0)
-+    } while (0)
- 
- #define SARITH8(a, b, n, op) do { \
-     int32_t sum; \
-@@ -11189,7 +11189,7 @@ static inline uint8_t sub8_usat(uint8_t a, uint8_t b)
-     RESULT(sum, n, 8); \
-     if (sum >= 0) \
-         ge |= 1 << n; \
--    } while(0)
-+    } while (0)
- 
- 
- #define ADD16(a, b, n) SARITH16(a, b, n, +)
-@@ -11208,7 +11208,7 @@ static inline uint8_t sub8_usat(uint8_t a, uint8_t b)
-     RESULT(sum, n, 16); \
-     if ((sum >> 16) == 1) \
-         ge |= 3 << (n * 2); \
--    } while(0)
-+    } while (0)
- 
- #define ADD8(a, b, n) do { \
-     uint32_t sum; \
-@@ -11216,7 +11216,7 @@ static inline uint8_t sub8_usat(uint8_t a, uint8_t b)
-     RESULT(sum, n, 8); \
-     if ((sum >> 8) == 1) \
-         ge |= 1 << n; \
--    } while(0)
-+    } while (0)
- 
- #define SUB16(a, b, n) do { \
-     uint32_t sum; \
-@@ -11224,7 +11224,7 @@ static inline uint8_t sub8_usat(uint8_t a, uint8_t b)
-     RESULT(sum, n, 16); \
-     if ((sum >> 16) == 0) \
-         ge |= 3 << (n * 2); \
--    } while(0)
-+    } while (0)
- 
- #define SUB8(a, b, n) do { \
-     uint32_t sum; \
-@@ -11232,7 +11232,7 @@ static inline uint8_t sub8_usat(uint8_t a, uint8_t b)
-     RESULT(sum, n, 8); \
-     if ((sum >> 8) == 0) \
-         ge |= 1 << n; \
--    } while(0)
-+    } while (0)
- 
- #define PFX u
- #define ARITH_GE
+ #include "qemu/osdep.h"
+-#include "qemu/units.h"
+-#include "target/arm/idau.h"
+-#include "trace.h"
+ #include "cpu.h"
+ #include "internals.h"
+-#include "exec/gdbstub.h"
+ #include "exec/helper-proto.h"
+-#include "qemu/host-utils.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/bitops.h"
+-#include "qemu/crc32c.h"
+-#include "qemu/qemu-print.h"
+ #include "qemu/log.h"
+ #include "exec/exec-all.h"
+-#include <zlib.h> /* For crc32 */
+-#include "semihosting/semihost.h"
+-#include "sysemu/cpus.h"
+-#include "sysemu/kvm.h"
+-#include "qemu/range.h"
+-#include "qapi/qapi-commands-machine-target.h"
+-#include "qapi/error.h"
+-#include "qemu/guest-random.h"
+ #ifdef CONFIG_TCG
+-#include "arm_ldst.h"
+ #include "exec/cpu_ldst.h"
+ #include "semihosting/common-semi.h"
+ #endif
 -- 
 2.25.1
 
