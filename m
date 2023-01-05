@@ -2,103 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9FEB65F65B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 23:02:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C6565F65E
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 23:05:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDYJq-0002N6-T7; Thu, 05 Jan 2023 17:02:38 -0500
+	id 1pDYLx-00036n-P2; Thu, 05 Jan 2023 17:04:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1pDYJo-0002Mr-9Z
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:02:36 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1pDYJl-0003tD-Qb
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:02:35 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 305Lw3pB018811
- for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 22:02:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=0qDSRofno+6AbcOmLl+ARnibhYPpzQ2nOviKbaXJrOw=;
- b=Y28qwr84bJBFyW0NdaLwfkYHbi4uxlxmMB4MOk0n0wbDSTRfWnqntoi09f5eVlnZtw9X
- 6j5aDd2n+LoBCBFJnjBJ9oSxlV6zq3zcizKdaiPVwWSAdu0qbPbD9ts2yybAP/6SbL1D
- J52onuuhPrAZlacz2+naqoaZQZMf43kymSXxe0IX3IgjO0LpyVnn0Fk2ygEAUwqSYsgK
- GYOhqDplIYPutOK5lURoiSIQ5pvxU02iZVrF/8vib1avwFt9aghF7o1NpAs6bbk3Csti
- CcRmryYmdh4R0L6pXMX9rFX2dgwuAoYALyO2Qccp/fx6uZVMo/DvW3benzmjoziX9Fwe MA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx4aukx7a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 22:02:31 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 305Lv2tx008420
- for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 22:02:31 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx4aukx6s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 22:02:31 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 305KKm4E006610;
- Thu, 5 Jan 2023 22:02:30 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([9.208.130.102])
- by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3mtcq8r3tg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 22:02:30 +0000
-Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
- by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 305M2SAS5898872
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 5 Jan 2023 22:02:29 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A932E7805E;
- Thu,  5 Jan 2023 23:36:20 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E27517805C;
- Thu,  5 Jan 2023 23:36:19 +0000 (GMT)
-Received: from [IPv6:2601:5c4:4302:c21::a774] (unknown [9.211.64.53])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu,  5 Jan 2023 23:36:19 +0000 (GMT)
-Message-ID: <387334f6a4d2cf54f2fbfbebe7a06b931adf797a.camel@linux.ibm.com>
-Subject: Re: [PATCH v5 2/2] tpm: add backend for mssim
-From: James Bottomley <jejb@linux.ibm.com>
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: "Daniel P ." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-Date: Thu, 05 Jan 2023 17:02:26 -0500
-In-Reply-To: <789bd0bd-05ed-c413-272e-0204472f3e3b@linux.ibm.com>
-References: <20230105130020.17755-1-jejb@linux.ibm.com>
- <20230105130020.17755-3-jejb@linux.ibm.com>
- <789bd0bd-05ed-c413-272e-0204472f3e3b@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYLp-00035m-FP
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:04:41 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYLn-0004nI-JE
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:04:41 -0500
+Received: by mail-wm1-x334.google.com with SMTP id g10so15239697wmo.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 14:04:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fjgVVYudIJ550ZRM5Cqm+vmq3JL93yoAWQUyMy4dGuQ=;
+ b=ekD5XS9/dCumrZVfoJMuxC9j/Wzb4iW5GVovZJs5+z6dN5ZfJnSwoipqRgabFjFqow
+ PcF+8eAXN0GiWAtm0kw5WXIVg1FC456Vyn5AaRSUuowo9fdP2NAFnFZxYgwVGTGoiEIu
+ QcWldE4R3GumTCxD7uhvcHDcvxYq0NLSCcvjZniKpQ6T3EX9q/R9LcauWRqGTE8HH5ne
+ fbqiY90djhFa5cdwoyAqRBLG6gKKgger2bSDDdiUvdsjOXHmTi3mhVjkFmcYjoR/hxEv
+ lAljtdvSKpyNGnchhpAHJYg80hotiDaYsBJafk/A7TG3hO+KhVIdyarD/q8fLqgOL0jv
+ tuHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fjgVVYudIJ550ZRM5Cqm+vmq3JL93yoAWQUyMy4dGuQ=;
+ b=cUxGSctzqOadKA08Q99JAlVdLLq9F9TZk4l3SssQzWrQuZx5uOliKEded0sZKR9Luc
+ TTv5kwf/XaaWwk+9qQCi3zZ+LEOFs3jCcxYHdC9GE18plLuTBb5Na8pDGZu7t82ZME8I
+ 7X/+uR174asJtKrlOeqhB3aYpbrhM1mC8ySfh8Dj+HQ9EI9B+67584k215SjqTHaIi/I
+ aEX+jzs0cT8w6STP0V+20T96U8F00TQLP14AO3OkVgigujY5yOjf43gAvgaOREyuIJR4
+ E6idZncS4IPsw0K2KHil+O0BvuXe7vhcSmkAy4b/BEMaPOAEAUAxasjkHnJLnSfa3y9R
+ CNkg==
+X-Gm-Message-State: AFqh2krm382su6lY7S0s0I9HdumhaKuz5jQLT9hwsSOdlPsEpq7gnt2M
+ gy0g9G1hUuz6ItHRqro4O0ihqg==
+X-Google-Smtp-Source: AMrXdXsXBJj1TvlSUjbzqLtgAO7dMoTPuiZGn4hRmnJPfbOnEgAzxCOzNugvFn5QB8K3Pbovk2TfOA==
+X-Received: by 2002:a05:600c:4fcf:b0:3cf:68f8:790b with SMTP id
+ o15-20020a05600c4fcf00b003cf68f8790bmr38611038wmq.11.1672956277435; 
+ Thu, 05 Jan 2023 14:04:37 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ fm14-20020a05600c0c0e00b003d208eb17ecsm3846033wmb.26.2023.01.05.14.04.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Jan 2023 14:04:36 -0800 (PST)
+Message-ID: <c154778b-ed95-5d73-4533-2301820b05a1@linaro.org>
+Date: Thu, 5 Jan 2023 23:04:34 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [RFC PATCH 11/40] target/arm: Copy features from ARMCPUClass
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
+ armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
+References: <20230103181646.55711-1-richard.henderson@linaro.org>
+ <20230103181646.55711-12-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230103181646.55711-12-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: UFMR_C3uB_0PCSer2VVa-sHXokUwV84K
-X-Proofpoint-GUID: qNYOsiTZJfxQLe3RXrXrH36AiTl0mgqN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-05_12,2023-01-05_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 mlxscore=0 phishscore=0 mlxlogscore=894 suspectscore=0
- bulkscore=0 clxscore=1015 impostorscore=0 adultscore=0 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301050173
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,44 +89,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2023-01-05 at 11:20 -0500, Stefan Berger wrote:
+On 3/1/23 19:16, Richard Henderson wrote:
+> Create a features member in ARMCPUClass and copy to the instance in
+> arm_cpu_init.  Settings of this value will come in a future patch.
 > 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/arm/cpu-qom.h | 18 ++++++++++++++++++
+>   target/arm/cpu.c     |  1 +
+>   2 files changed, 19 insertions(+)
 > 
-> On 1/5/23 08:00, James Bottomley wrote:
-[...]
-> > +The mssim backend supports snapshotting and migration, but the
-> > state
-> > +of the Microsoft Simulator server must be preserved (or the server
-> > +kept running) outside of QEMU for restore to be successful.
-> 
-> My comments to v3 still apply here.
+> diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
+> index 5509ef9d85..ac58cc3a87 100644
+> --- a/target/arm/cpu-qom.h
+> +++ b/target/arm/cpu-qom.h
+> @@ -74,8 +74,26 @@ struct ARMCPUClass {
+>   
+>       /* 'compatible' string for this CPU for Linux device trees */
+>       const char *dtb_compatible;
+> +
+> +    /* Internal CPU feature flags.  */
+> +    uint64_t features;
+>   };
+>   
+> +static inline int arm_class_feature(ARMCPUClass *acc, int feature)
+> +{
+> +    return (acc->features & (1ULL << feature)) != 0;
+> +}
+> +
+> +static inline void set_class_feature(ARMCPUClass *acc, int feature)
+> +{
+> +    acc->features |= 1ULL << feature;
+> +}
+> +
+> +static inline void unset_class_feature(ARMCPUClass *acc, int feature)
+> +{
+> +    acc->features &= ~(1ULL << feature);
+> +}
 
-You didn't make any v3 comments on migration.
+These helpers are not used until patch #19 "target/arm: Move most cpu
+initialization to the class".
 
-> I also just tried migration and on the -incoming side it did not work
-> anymore. Did you test this?
-
-Well, yes, as I said.  However, I seem to have left one change in my
-local tree which I forgot to sync to the patch:
-
-diff --git a/backends/tpm/tpm_mssim.c b/backends/tpm/tpm_mssim.c
-index 75dce165b8..125c8d0b15 100644
---- a/backends/tpm/tpm_mssim.c
-+++ b/backends/tpm/tpm_mssim.c
-@@ -66,7 +66,7 @@ static void tpm_mssim_instance_finalize(Object *obj)
- {
-     TPMmssim *t = TPM_MSSIM(obj);
- 
--    if (t->ctrl_qc && !runstate_check(RUN_STATE_INMIGRATE))
-+    if (t->cmd_qc && !runstate_check(RUN_STATE_POSTMIGRATE))
-         tpm_send_ctrl(t, TPM_SIGNAL_POWER_OFF, NULL);
- 
-     object_unref(OBJECT(t->ctrl_qc));
-
-James
+>   void register_cp_regs_for_features(ARMCPU *cpu);
+>   void init_cpreg_list(ARMCPU *cpu);
+>   
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 1bc45b2b25..d64b86b6a5 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -1191,6 +1191,7 @@ static void arm_cpu_initfn(Object *obj)
+>       QLIST_INIT(&cpu->el_change_hooks);
+>   
+>       cpu->dtb_compatible = acc->dtb_compatible;
+> +    cpu->env.features = acc->features;
+>   
+>   #ifdef CONFIG_USER_ONLY
+>   # ifdef TARGET_AARCH64
 
 
