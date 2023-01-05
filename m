@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C8BB65EF14
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:45:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D91C65EEE5
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:38:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDRJG-0002pl-DZ; Thu, 05 Jan 2023 09:33:34 -0500
+	id 1pDRJF-0002pA-Mr; Thu, 05 Jan 2023 09:33:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pDRJ8-0002kt-Hl; Thu, 05 Jan 2023 09:33:26 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ id 1pDRJ8-0002kw-Hs; Thu, 05 Jan 2023 09:33:26 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pDRJ1-0006wG-Bd; Thu, 05 Jan 2023 09:33:21 -0500
-Received: by mail-wr1-x429.google.com with SMTP id bs20so34208946wrb.3;
+ id 1pDRJ1-0006uP-NO; Thu, 05 Jan 2023 09:33:22 -0500
+Received: by mail-wr1-x430.google.com with SMTP id s9so4301729wru.13;
  Thu, 05 Jan 2023 06:33:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4qvNwqj9F69SDLesm7NdhFKbhPEAJii6DuEumqaVs6w=;
- b=O2wLuSG148ckzp279s1BUHOiVB5Qt64pAf5vYeKGM/N5woxwHbo3iZ/HkRHfij5fuy
- 7LntYfEzYDUk82IsBUJszgo2SAuwk1r599Cc7OdJElQpG36r7psu3lWMyxQiBuGZLnbh
- peq5gmgzNfA4vP8N7tYBtJODsbGvDBkKAmcvgg34efuBCm/4Kc57/WZFo45Cn3y+glvI
- UPtU/0vCeIIAZzZhPZMa331OsjpBULVgGRqp3BwLtoPkGQKuR+93Pf8Ir79ONiHYobgr
- 7OdvBpVfBj50gb8sDNTE3K4nHqZNtyWYi8nJ4iIrzRJgPXK2yp+xz+GaOdBwBlsS50Wk
- vGJA==
+ bh=UtDKJjOdDUHQw7yADYmwFlcBLtnn+75ysT02XrGuN5o=;
+ b=o7TAqV1RtcavjAYiAI7oM+HI3DG8/SaKXzNmU5od5jdta8X/Sp6xRQJjYfMAwRI1Uy
+ n7CZbtQsqRlmxoZqSrVWeO82aZOKc7DoklnadWM3bwfTGv1kMh3m57DzMziDDgwgteYH
+ UB6phBmagVQ934VJhsgcfG/gpK86/gLMIjH6oXmYPdldNfbTjKCr3Rr52L84y8hBK1iv
+ cOBierXpJzYAhoeb8fheoTmH6vZl6tWvDMsWS7MT1FO2/nhKgsoX5lw4PfC7KMOI1Rn4
+ bA1U7M+Y8PSiTQnzz2SANNdRnDhIclGzC7IcMrxZbCVoosRmo/SvtCOPP5+W6tapTj/l
+ B7NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4qvNwqj9F69SDLesm7NdhFKbhPEAJii6DuEumqaVs6w=;
- b=Hwf+/CBT8sOGzcLvvbcDTkgiMOq0TaaoLvI+TGqoCBOhOAhzBsQiWxoAv7vYj3On8a
- fbBLPxOXglDVvdfCKoQwKLlwZ0jOgdXS6PKYfM4sKtulaKjuvy78qceaLUSpaH8IOy9m
- Y8zuz8SGRQDKlTzb6r9pMggTJSAzhTHig1ZIsqZsP+Kw1612XNx1SyIkZsyCI78VSKz6
- lG0Ukj+pUSafCBowSVUKweenbYcfOYxZ6FiFpBMFD3R1vqx0GXdP62YsGQJE5oN5oPu7
- RpbR+AFPuai+GBTpsNyexnZMm7ni2AXs5TmWGvp4E6Kfd+278qNjM72PnL2CzPBik+M6
- nsfA==
-X-Gm-Message-State: AFqh2kqqMlWTiPBb6DURNP0Qb2Ra8WCRnsf1876arKCB2G15Ebrjmcn9
- mRLqNWSE1quv/uhxgkg5wSh7o+4TITMHtg==
-X-Google-Smtp-Source: AMrXdXtfM9aOOl0+GulsHD//u0/7cl3256ycdn0PJp+U4o9ge0PJZFKGq9IViXdHohD3pd/pN5jrzQ==
-X-Received: by 2002:adf:cd8c:0:b0:271:c064:3096 with SMTP id
- q12-20020adfcd8c000000b00271c0643096mr28639532wrj.21.1672929197088; 
- Thu, 05 Jan 2023 06:33:17 -0800 (PST)
+ bh=UtDKJjOdDUHQw7yADYmwFlcBLtnn+75ysT02XrGuN5o=;
+ b=FV89L4I//0kOFj1NaTbirG89mviOhYm/ld4UL1bk6F1m+P/wwreHMvtFshpfx2MUMR
+ mtFew/CBLQpkHzei51XYJk/MgsdWyV9xyIUzzrxo1jA4mbCHnE5/V6buKtzLkQ3M4GAQ
+ tdxWZtcRXoCsB9YH0KezycolAndtKf5FJhiyVGRz/VJXOtqMfyG7kfBioFhx+DMFCO55
+ 1No1gXlLHAatp4TTTOyAZbLH77CMZz1yVxYJgM3kkXmqtJkkjiwtXwBtfFfrjw3NjgBQ
+ JfVrh3KJIHwPWFx8WjOmzjQ5G40LUBLxJuFrYik38dWfgBms6WGYC/aRnZe/fZqADOZd
+ nx6Q==
+X-Gm-Message-State: AFqh2kqcY2FODllGhf1nt+GPZJIbe/rQg4c+QKu4EbkinM19ytJraL4Q
+ yiXUUZ3xH/L6wOBCvd6jZ+P61aibFx1kyw==
+X-Google-Smtp-Source: AMrXdXttLGrpSs+RoAgElCOO3j/28YArnBbwym6TuAaYyRYWEpEettzKYu4beQmP8m0nxB41gnRhEQ==
+X-Received: by 2002:a05:6000:4002:b0:298:4baf:ac8a with SMTP id
+ cy2-20020a056000400200b002984bafac8amr9310942wrb.44.1672929198401; 
+ Thu, 05 Jan 2023 06:33:18 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- bt15-20020a056000080f00b00297dcfdc90fsm12260447wrb.24.2023.01.05.06.33.16
+ bt15-20020a056000080f00b00297dcfdc90fsm12260447wrb.24.2023.01.05.06.33.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 06:33:16 -0800 (PST)
+ Thu, 05 Jan 2023 06:33:17 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org,
@@ -69,16 +69,17 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org,
  John Snow <jsnow@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v5 10/31] hw/isa/piix3: Create USB controller in host device
-Date: Thu,  5 Jan 2023 15:32:07 +0100
-Message-Id: <20230105143228.244965-11-shentey@gmail.com>
+Subject: [PATCH v5 11/31] hw/isa/piix3: Create power management controller in
+ host device
+Date: Thu,  5 Jan 2023 15:32:08 +0100
+Message-Id: <20230105143228.244965-12-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230105143228.244965-1-shentey@gmail.com>
 References: <20230105143228.244965-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=shentey@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=shentey@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,143 +102,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The USB controller is an integral part of PIIX3 (function 2). So create
-it as part of the south bridge.
+The power management controller is an integral part of PIIX3 (function
+3). So create it as part of the south bridge.
 
-Note that the USB function is optional in QEMU. This is why it gets
+Note that the ACPI function is optional in QEMU. This is why it gets
 object_initialize_child()'ed in realize rather than in instance_init.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20221022150508.26830-13-shentey@gmail.com>
+Message-Id: <20221022150508.26830-14-shentey@gmail.com>
 ---
- include/hw/southbridge/piix.h |  4 ++++
- hw/i386/pc_piix.c             |  7 ++-----
- hw/isa/piix3.c                | 17 +++++++++++++++++
+ include/hw/southbridge/piix.h |  6 ++++++
+ hw/i386/pc_piix.c             | 24 ++++++++++++++----------
+ hw/isa/piix3.c                | 14 ++++++++++++++
  hw/isa/Kconfig                |  1 +
- 4 files changed, 24 insertions(+), 5 deletions(-)
+ 4 files changed, 35 insertions(+), 10 deletions(-)
 
 diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index b1fa08dd2b..5367917182 100644
+index 5367917182..1c291cc954 100644
 --- a/include/hw/southbridge/piix.h
 +++ b/include/hw/southbridge/piix.h
-@@ -15,6 +15,7 @@
+@@ -14,6 +14,7 @@
+ 
  #include "hw/pci/pci.h"
  #include "qom/object.h"
++#include "hw/acpi/piix4.h"
  #include "hw/rtc/mc146818rtc.h"
-+#include "hw/usb/hcd-uhci.h"
+ #include "hw/usb/hcd-uhci.h"
  
- /* PIRQRC[A:D]: PIRQx Route Control Registers */
- #define PIIX_PIRQCA 0x60
-@@ -54,12 +55,15 @@ struct PIIXState {
-     int32_t pci_irq_levels_vmstate[PIIX_NUM_PIRQS];
+@@ -56,6 +57,9 @@ struct PIIXState {
  
      RTCState rtc;
-+    UHCIState uhci;
+     UHCIState uhci;
++    PIIX4PMState pm;
++
++    uint32_t smb_io_base;
  
      /* Reset Control Register contents */
      uint8_t rcr;
- 
+@@ -63,7 +67,9 @@ struct PIIXState {
      /* IO memory region for Reset Control Register (PIIX_RCR_IOPORT) */
      MemoryRegion rcr_mem;
-+
-+    bool has_usb;
+ 
++    bool has_acpi;
+     bool has_usb;
++    bool smm_enabled;
  };
  typedef struct PIIXState PIIX3State;
  
 diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index c9d6c3dac3..bd21aa7f9d 100644
+index bd21aa7f9d..eaf252187e 100644
 --- a/hw/i386/pc_piix.c
 +++ b/hw/i386/pc_piix.c
-@@ -52,7 +52,6 @@
+@@ -46,12 +46,12 @@
+ #include "sysemu/kvm.h"
+ #include "hw/kvm/clock.h"
+ #include "hw/sysbus.h"
++#include "hw/i2c/i2c.h"
+ #include "hw/i2c/smbus_eeprom.h"
+ #include "hw/xen/xen-x86.h"
+ #include "hw/xen/xen.h"
  #include "exec/memory.h"
  #include "hw/acpi/acpi.h"
- #include "hw/acpi/piix4.h"
--#include "hw/usb/hcd-uhci.h"
+-#include "hw/acpi/piix4.h"
  #include "qapi/error.h"
  #include "qemu/error-report.h"
  #include "sysemu/xen.h"
-@@ -236,6 +235,8 @@ static void pc_init1(MachineState *machine,
-         pcms->bus = pci_bus;
- 
+@@ -97,6 +97,7 @@ static void pc_init1(MachineState *machine,
+     MemoryRegion *system_io = get_system_io();
+     PCIBus *pci_bus;
+     ISABus *isa_bus;
++    Object *piix4_pm;
+     int piix3_devfn = -1;
+     qemu_irq smi_irq;
+     GSIState *gsi_state;
+@@ -237,15 +238,25 @@ static void pc_init1(MachineState *machine,
          pci_dev = pci_new_multifunction(-1, true, type);
-+        object_property_set_bool(OBJECT(pci_dev), "has-usb",
-+                                 machine_usb(machine), &error_abort);
+         object_property_set_bool(OBJECT(pci_dev), "has-usb",
+                                  machine_usb(machine), &error_abort);
++        object_property_set_bool(OBJECT(pci_dev), "has-acpi",
++                                 x86_machine_is_acpi_enabled(x86ms),
++                                 &error_abort);
++        qdev_prop_set_uint32(DEVICE(pci_dev), "smb_io_base", 0xb100);
++        object_property_set_bool(OBJECT(pci_dev), "smm-enabled",
++                                 x86_machine_is_smm_enabled(x86ms),
++                                 &error_abort);
          pci_realize_and_unref(pci_dev, pci_bus, &error_fatal);
++
          piix3 = PIIX3_PCI_DEVICE(pci_dev);
          piix3->pic = x86ms->gsi;
-@@ -314,10 +315,6 @@ static void pc_init1(MachineState *machine,
+         piix3_devfn = piix3->dev.devfn;
+         isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
+         rtc_state = ISA_DEVICE(object_resolve_path_component(OBJECT(pci_dev),
+                                                              "rtc"));
++        piix4_pm = object_resolve_path_component(OBJECT(pci_dev), "pm");
+     } else {
+         pci_bus = NULL;
++        piix4_pm = NULL;
+         isa_bus = isa_bus_new(NULL, get_system_memory(), system_io,
+                               &error_abort);
+ 
+@@ -315,15 +326,8 @@ static void pc_init1(MachineState *machine,
      }
  #endif
  
--    if (pcmc->pci_enabled && machine_usb(machine)) {
--        pci_create_simple(pci_bus, piix3_devfn + 2, TYPE_PIIX3_USB_UHCI);
--    }
+-    if (pcmc->pci_enabled && x86_machine_is_acpi_enabled(X86_MACHINE(pcms))) {
+-        PCIDevice *piix4_pm;
 -
-     if (pcmc->pci_enabled && x86_machine_is_acpi_enabled(X86_MACHINE(pcms))) {
-         PCIDevice *piix4_pm;
++    if (piix4_pm) {
+         smi_irq = qemu_allocate_irq(pc_acpi_smi_interrupt, first_cpu, 0);
+-        piix4_pm = pci_new(piix3_devfn + 3, TYPE_PIIX4_PM);
+-        qdev_prop_set_uint32(DEVICE(piix4_pm), "smb_io_base", 0xb100);
+-        qdev_prop_set_bit(DEVICE(piix4_pm), "smm-enabled",
+-                          x86_machine_is_smm_enabled(x86ms));
+-        pci_realize_and_unref(piix4_pm, pci_bus, &error_fatal);
  
+         qdev_connect_gpio_out(DEVICE(piix4_pm), 0, x86ms->gsi[9]);
+         qdev_connect_gpio_out_named(DEVICE(piix4_pm), "smi-irq", 0, smi_irq);
+@@ -337,7 +341,7 @@ static void pc_init1(MachineState *machine,
+                                  object_property_allow_set_link,
+                                  OBJ_PROP_LINK_STRONG);
+         object_property_set_link(OBJECT(machine), PC_MACHINE_ACPI_DEVICE_PROP,
+-                                 OBJECT(piix4_pm), &error_abort);
++                                 piix4_pm, &error_abort);
+     }
+ 
+     if (machine->nvdimms_state->is_enabled) {
 diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index e8ddb6a602..45c20dea17 100644
+index 45c20dea17..ed7d58bc98 100644
 --- a/hw/isa/piix3.c
 +++ b/hw/isa/piix3.c
-@@ -288,6 +288,7 @@ static const MemoryRegionOps rcr_ops = {
- static void pci_piix3_realize(PCIDevice *dev, Error **errp)
- {
-     PIIX3State *d = PIIX3_PCI_DEVICE(dev);
-+    PCIBus *pci_bus = pci_get_bus(dev);
-     ISABus *isa_bus;
- 
-     isa_bus = isa_bus_new(DEVICE(d), pci_address_space(dev),
-@@ -308,6 +309,16 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
-     if (!qdev_realize(DEVICE(&d->rtc), BUS(isa_bus), errp)) {
-         return;
+@@ -319,6 +319,17 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+             return;
+         }
      }
 +
-+    /* USB */
-+    if (d->has_usb) {
-+        object_initialize_child(OBJECT(dev), "uhci", &d->uhci,
-+                                TYPE_PIIX3_USB_UHCI);
-+        qdev_prop_set_int32(DEVICE(&d->uhci), "addr", dev->devfn + 2);
-+        if (!qdev_realize(DEVICE(&d->uhci), BUS(pci_bus), errp)) {
++    /* Power Management */
++    if (d->has_acpi) {
++        object_initialize_child(OBJECT(d), "pm", &d->pm, TYPE_PIIX4_PM);
++        qdev_prop_set_int32(DEVICE(&d->pm), "addr", dev->devfn + 3);
++        qdev_prop_set_uint32(DEVICE(&d->pm), "smb_io_base", d->smb_io_base);
++        qdev_prop_set_bit(DEVICE(&d->pm), "smm-enabled", d->smm_enabled);
++        if (!qdev_realize(DEVICE(&d->pm), BUS(pci_bus), errp)) {
 +            return;
 +        }
 +    }
  }
  
  static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
-@@ -341,6 +352,11 @@ static void pci_piix3_init(Object *obj)
-     object_initialize_child(obj, "rtc", &d->rtc, TYPE_MC146818_RTC);
+@@ -353,7 +364,10 @@ static void pci_piix3_init(Object *obj)
  }
  
-+static Property pci_piix3_props[] = {
-+    DEFINE_PROP_BOOL("has-usb", PIIX3State, has_usb, true),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void pci_piix3_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -360,6 +376,7 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
-      * pc_piix.c's pc_init1()
-      */
-     dc->user_creatable = false;
-+    device_class_set_props(dc, pci_piix3_props);
-     adevc->build_dev_aml = build_pci_isa_aml;
- }
+ static Property pci_piix3_props[] = {
++    DEFINE_PROP_UINT32("smb_io_base", PIIX3State, smb_io_base, 0),
++    DEFINE_PROP_BOOL("has-acpi", PIIX3State, has_acpi, true),
+     DEFINE_PROP_BOOL("has-usb", PIIX3State, has_usb, true),
++    DEFINE_PROP_BOOL("smm-enabled", PIIX3State, smm_enabled, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
 diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
-index af5ec9cd61..97b8ea7c06 100644
+index 97b8ea7c06..6c154d88c7 100644
 --- a/hw/isa/Kconfig
 +++ b/hw/isa/Kconfig
-@@ -36,6 +36,7 @@ config PIIX3
+@@ -33,6 +33,7 @@ config PC87312
+ 
+ config PIIX3
+     bool
++    select ACPI_PIIX4
      select I8257
      select ISA_BUS
      select MC146818RTC
-+    select USB_UHCI
- 
- config PIIX4
-     bool
 -- 
 2.39.0
 
