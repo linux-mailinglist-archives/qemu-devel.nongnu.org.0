@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BA765EC74
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 14:09:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F0065EC94
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 14:12:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDPyO-0004dI-8h; Thu, 05 Jan 2023 08:07:56 -0500
+	id 1pDQ18-0000Qq-Ms; Thu, 05 Jan 2023 08:10:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDPyL-0004Xm-QD
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 08:07:53 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDQ15-0000OU-LR
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 08:10:43 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDPyK-0004Jy-5u
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 08:07:53 -0500
-Received: by mail-wr1-x432.google.com with SMTP id co23so36091927wrb.4
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 05:07:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDQ13-00051F-Tl
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 08:10:43 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ b24-20020a05600c4a9800b003d21efdd61dso1257974wmp.3
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 05:10:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gd+xC3PY2bHAZfis1Su9RMK8WeD5UdldXtzUnYRkru0=;
- b=Z0y3qfBIHv0QH2AAvqYrPyqd7y6iB9W7meqDbFjfCE5yrcaezfcOqf05l4CSN56gt9
- pSSgglQ2qfrFPi6qt6cQDWy+GcTIcJpVQ92WoVwgXvVWEUL2s12CIK80GZyBNs4yh9iO
- f6xap5T3aOxkDBGmvfiWot9A9tcpa2D7YGxGgnClrl5GdJdvQLuEL2ENhVjXGFJqPBpo
- SkhM+x3GqQoqBHmP4Cdqzkv7+zN9VW4dhpsEnPnwygNGFBv/obDzEzblIUL6y3lFTeep
- Dxlu6BDviG3x5x8Fboly05Q+Sk/AWw5jc4El+Gv9k/WEzGQ2a9pyUQR6WKfqS73QUCQn
- Cmqw==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FPAjA+sUAGrsEnD5AJZFTwSrlVK1lp78YuCScYsY65A=;
+ b=o5OjJKL6a0TuY0aOK67KC4p914vLCH+HwJc+JcHn5hhV6L0RY3IT9TJBdyYnu0/GFE
+ pXwLpbtKutVwdNrnxIJRkEYq5zorADx/Fw8U8rooeumKmGjku/pyoNNGMox/TOfB7Bc9
+ v6oTU8QgCv7lVaXLjNAwbKTzhM1hdRfRk8y8Zx8ESx8RzrpKf/TBDImPEtfhbHQRzWCF
+ DpuWEywFP3IK0IYgzFN0/kFU/EcEPQ6fJsIVEKgHVEA+fGhYm87LU1APm1C+Crnpgm8G
+ cO/gnnkhPY32Aal2MQp8kCr9N+KAEQcZCyWn3Wa6e1JB3QFEZw/EMcDhii1l5HJbQL7Q
+ UeLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gd+xC3PY2bHAZfis1Su9RMK8WeD5UdldXtzUnYRkru0=;
- b=4b+vFkUZYjzpOMnegThZ5/ERrYfHfXqApjRejseqG8mI6bO1VHHtBivhASMCBPL5X4
- KiGsssLi/w5q95fgYBbrDU7fCIwCtob3P/8xMJp/CaTZQ9N96oJBhITncVyImREitiKz
- MZWf87VMDZBr1RywjpUfj3WM2tTzUJhMs+EJ9INiVl+INyxp6HbA2T2nuq6HzE/hXpnG
- 3HKTqoqZLz7oUKsm1TJmz7BUIKJRjQaRQ6O1ouQEzNOB3y35j7ecbbGbmJ7syNk3sakP
- MJIeYZ4cHZz48alDkgiq1svoErJIpV1GZxk1ffZTGFX7aWnXCN34oRQ5eWOtI9vf0OE+
- RcYg==
-X-Gm-Message-State: AFqh2konxs/3H8Ft6zUZkEIKITo5My/IbHHb816WOwkYp0Rr2dr+3rN6
- pZakQit6k9K+u3TpG25kywuDJEHmGR5biNcl
-X-Google-Smtp-Source: AMrXdXuyuk9wcUm7yY1b9cHUUbbPVaMge3sev4KRmv88uOWeMUtMrqTW8QgW5zQ5zUTgvlLmLMmSBg==
-X-Received: by 2002:adf:df86:0:b0:242:67f6:89c5 with SMTP id
- z6-20020adfdf86000000b0024267f689c5mr33055438wrl.12.1672924070619; 
- Thu, 05 Jan 2023 05:07:50 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FPAjA+sUAGrsEnD5AJZFTwSrlVK1lp78YuCScYsY65A=;
+ b=4YW2xZmKU6F4bqyXEJOmfzPHUf/ucRdsy1C1fmOrfa5yKxQtEFf7RLpAPk4EcUVWvf
+ 9EJH8R+2S5Vno4NmEv6wfKHh9SxXyXckvdVQFuh29JUhxJ6TWBfhP7K3Nt8cfjqipBP4
+ D4ORargFXS/GR93tBtMpmzcKXk1CHi84j26yGrII7Ea8IEtFcLn/R6UqMOJ32XlNSUfP
+ wfgV31N3EcI2rjyn4g9ZWj4gVh3Li+9UOKZwDkN2lAWVz55X2VJvKFsrmM0x6MZ55H05
+ K7KhQE6RG3h13PqhmlX567oP0Gc6NltOW6iCH+QnVvH44TC93EDa/pWelKwO109uWCc+
+ ln9A==
+X-Gm-Message-State: AFqh2koo0BVbNbf/WRfCgUqoKNMMGwN+/80yYsK+PRqDzG0+zYiSS/Kn
+ eK/B4Xjh0hE8ZNU+VAL06hq68lrf4q91fw+V
+X-Google-Smtp-Source: AMrXdXttdobBCIsMExrcM34NJBlPZqOpEbWiAL6PAZGGC1gDpAPgRNZMzesTfrszvLn4fHyOQ9+AFQ==
+X-Received: by 2002:a05:600c:1d98:b0:3d3:48f4:7a69 with SMTP id
+ p24-20020a05600c1d9800b003d348f47a69mr44451374wms.17.1672924240161; 
+ Thu, 05 Jan 2023 05:10:40 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- z13-20020adff74d000000b002366f9bd717sm42614326wrp.45.2023.01.05.05.07.49
+ g19-20020a05600c4ed300b003d978f8f255sm3558855wmq.27.2023.01.05.05.10.39
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 05 Jan 2023 05:07:50 -0800 (PST)
+ Thu, 05 Jan 2023 05:10:39 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Huacai Chen <chenhuacai@kernel.org>, Bernhard Beschow <shentey@gmail.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH 8/8] hw/mips/fuloong2e: Open code bonito_init()
-Date: Thu,  5 Jan 2023 14:07:10 +0100
-Message-Id: <20230105130710.49264-9-philmd@linaro.org>
+Cc: Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Subject: [PATCH] hw/dma/rc4030: Move RC4030 declarations to its own 'rc4030.h'
+ header
+Date: Thu,  5 Jan 2023 14:10:38 +0100
+Message-Id: <20230105131038.49549-1-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230105130710.49264-1-philmd@linaro.org>
-References: <20230105130710.49264-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,86 +90,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This helper is trivial and is called once, directly open-code it.
+RC4030 declarations are not MIPS specific, no need to
+have them in all MIPS boards.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/mips/fuloong2e.c    |  6 +++++-
- hw/pci-host/bonito.c   | 15 ---------------
- include/hw/mips/mips.h |  3 ---
- 3 files changed, 5 insertions(+), 19 deletions(-)
+Based-on: <20230105130710.49264-1-philmd@linaro.org>
+          "hw/pci-host/bonito: Housekeeping"
+---
+ hw/dma/rc4030.c         |  2 +-
+ hw/mips/jazz.c          |  1 +
+ include/hw/dma/rc4030.h | 21 +++++++++++++++++++++
+ include/hw/mips/mips.h  |  9 ---------
+ 4 files changed, 23 insertions(+), 10 deletions(-)
+ create mode 100644 include/hw/dma/rc4030.h
 
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 34befa5dd5..f41e19dc3f 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -32,6 +32,7 @@
- #include "hw/mips/bootloader.h"
- #include "hw/mips/cpudevs.h"
- #include "hw/pci/pci.h"
-+#include "hw/pci-host/bonito.h"
- #include "hw/loader.h"
- #include "hw/ide/pci.h"
- #include "hw/qdev-properties.h"
-@@ -292,7 +293,10 @@ static void mips_fuloong2e_init(MachineState *machine)
-     cpu_mips_clock_init(cpu);
- 
-     /* North bridge, Bonito --> IP2 */
--    pci_bus = bonito_init((qemu_irq *)&(env->irq[2]));
-+    dev = qdev_new(TYPE_BONITO_PCI_HOST_BRIDGE);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, env->irq[2]);
-+    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
- 
-     /* South bridge -> IP5 */
-     pci_dev = pci_create_simple_multifunction(pci_bus,
-diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index df61b051b0..ca5fa2a155 100644
---- a/hw/pci-host/bonito.c
-+++ b/hw/pci-host/bonito.c
-@@ -44,7 +44,6 @@
- #include "qemu/error-report.h"
- #include "hw/pci/pci.h"
+diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
+index aa1d323a36..6dbf6652ab 100644
+--- a/hw/dma/rc4030.c
++++ b/hw/dma/rc4030.c
+@@ -25,7 +25,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
  #include "hw/irq.h"
 -#include "hw/mips/mips.h"
- #include "hw/pci-host/bonito.h"
- #include "hw/pci/pci_host.h"
++#include "hw/dma/rc4030.h"
+ #include "hw/sysbus.h"
  #include "migration/vmstate.h"
-@@ -750,20 +749,6 @@ static void bonito_pci_realize(PCIDevice *dev, Error **errp)
-     pci_set_byte(dev->config + PCI_MAX_LAT, 0x00);
- }
- 
--PCIBus *bonito_init(qemu_irq *pic)
--{
--    DeviceState *dev;
--    PCIHostState *phb;
--
--    dev = qdev_new(TYPE_BONITO_PCI_HOST_BRIDGE);
--    phb = PCI_HOST_BRIDGE(dev);
--    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
--
--    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, *pic);
--
--    return phb->bus;
--}
--
- static void bonito_pci_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
+ #include "qapi/error.h"
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index 6aefe9a61b..03882b5275 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -29,6 +29,7 @@
+ #include "hw/mips/cpudevs.h"
+ #include "hw/intc/i8259.h"
+ #include "hw/dma/i8257.h"
++#include "hw/dma/rc4030.h"
+ #include "hw/char/serial.h"
+ #include "hw/char/parallel.h"
+ #include "hw/isa/isa.h"
+diff --git a/include/hw/dma/rc4030.h b/include/hw/dma/rc4030.h
+new file mode 100644
+index 0000000000..e58f94576e
+--- /dev/null
++++ b/include/hw/dma/rc4030.h
+@@ -0,0 +1,21 @@
++/*
++ * QEMU JAZZ RC4030 chipset
++ *
++ * Copyright (c) 2007-2013 Hervé Poussineau
++ *
++ * SPDX-License-Identifier: MIT
++ */
++
++#ifndef HW_DMA_RC4030_H
++#define HW_DMA_RC4030_H
++
++#include "exec/memory.h"
++
++/* rc4030.c */
++typedef struct rc4030DMAState *rc4030_dma;
++void rc4030_dma_read(void *dma, uint8_t *buf, int len);
++void rc4030_dma_write(void *dma, uint8_t *buf, int len);
++
++DeviceState *rc4030_init(rc4030_dma **dmas, IOMMUMemoryRegion **dma_mr);
++
++#endif
 diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h
-index 101799f7d3..4d2db99952 100644
+index 4d2db99952..34dd583500 100644
 --- a/include/hw/mips/mips.h
 +++ b/include/hw/mips/mips.h
-@@ -9,9 +9,6 @@
+@@ -7,13 +7,4 @@
+ /* Kernels can be configured with 64KB pages */
+ #define INITRD_PAGE_SIZE (64 * KiB)
  
- #include "exec/memory.h"
- 
--/* bonito.c */
--PCIBus *bonito_init(qemu_irq *pic);
+-#include "exec/memory.h"
 -
- /* rc4030.c */
- typedef struct rc4030DMAState *rc4030_dma;
- void rc4030_dma_read(void *dma, uint8_t *buf, int len);
+-/* rc4030.c */
+-typedef struct rc4030DMAState *rc4030_dma;
+-void rc4030_dma_read(void *dma, uint8_t *buf, int len);
+-void rc4030_dma_write(void *dma, uint8_t *buf, int len);
+-
+-DeviceState *rc4030_init(rc4030_dma **dmas, IOMMUMemoryRegion **dma_mr);
+-
+ #endif
 -- 
 2.38.1
 
