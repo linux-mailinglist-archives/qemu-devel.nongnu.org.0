@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED2465F246
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:09:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4239265F27B
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:21:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTMc-0001Cs-UD; Thu, 05 Jan 2023 11:45:10 -0500
+	id 1pDTN1-0001Rs-W3; Thu, 05 Jan 2023 11:45:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTMJ-0000ql-Us
+ id 1pDTMJ-0000pA-Ol
  for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:52 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTMH-0007Tr-O4
+ id 1pDTMH-0007Mj-OG
  for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:51 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- b24-20020a05600c4a9800b003d21efdd61dso1781172wmp.3
+Received: by mail-wm1-x335.google.com with SMTP id g10so14661594wmo.1
  for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=U/noDqf89C9CE4dX2bLJg9toJeQoQFfDbIKZFjOUmRk=;
- b=cQspyqTg9+5Gy5xoOBRy4F4PPYqREgACYNyCW6DV8vDkYc8y9m6FiAFqaVN4JdMZs4
- TE9SybAWg3T5x/i8/8p78YY1zZoEVeqsmfYLL7WqDhxR+23hUfPQQ4Bc2bFTcITOWpx9
- pBBkELAx2Je9LxAcmuXej86BaTXY/gHY6EA0DjoPDCxLg3hbDmLuLwX4uMsgTNuvN4oO
- ZDYHedyvC4FCSGHKJfEOg759qQ7umAvITCwtyriq5/TqRhGFN5XRlfYJxFpDp/BncLUo
- 7hMgDqAB9e91QcKPFgKWRbwgY3gmuvWLg/xrUdQONTP2TmqKY83oJ7qjfx9xu04MHMpG
- ucFQ==
+ :reply-to; bh=33dG/KwajZrq9i+KPj0Q5eXpSM4wjc/WwsMuu9dKq4E=;
+ b=VKNL61CwUWs3h9VqU/Dbd+x5sXmEWRnn7PJwWPHV4Z+Osgkau1oJBvTE5g7g0ZHIuO
+ oXMCrmRImNZfmBh4Z5+ESDUKldnMmRg7MRgzUavAYoGovksBQlnuhE0jcBcmtO/kDrzP
+ xdGw2+Jyd/xrt9yW3noSI4j+yvIJVL3Co4DvaoKVOxcgvVvXHT7togHQymyYVZE3LyPC
+ 5crSx+1Vj7xvZLHH92Mrycg6liUPRS7BcEK9Q7Ezow0BsXSxi0/OPK0jX/QQEDhmzZcf
+ 6QCtAQmAA8qbC74O6mXWn/2P9OsFSh6XuBZZL8Kc2/Po+wwvgHZTk7P/v2iRns5THcaY
+ NSWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U/noDqf89C9CE4dX2bLJg9toJeQoQFfDbIKZFjOUmRk=;
- b=bWinC4S03egB7dvSL5J65pzDdcRuRdLjvXdFLesTDSeBDrw2DGoAkWnpaQgBd1da09
- 5Bbfz3zV5vvE0clhtoem6Dxx3bYA3O7g+nx/id/IK8n4FttFdREWG1t3l/G6JusDiDJB
- gAlXAYpkEUX2XPfrQRkbHrOgKYeLK2OHOIM+woncMiM7OV20VS4Cup35SIBCPGfWHIfU
- HukR4mg+byH1SqZvg6hV6SHZA7c1yWADhL1Qx9Heyc82GTd+C+e2K/Yuj/2uflthPCWe
- 4LwRO2wlhdYd9R7pfB5ivenXWtS6J/vJFI2ualt/fGIRXTadEFVbIWg4v2dF/1U6viM2
- wZxA==
-X-Gm-Message-State: AFqh2kqKse+XCMvtol0IPsIfmfdD9PhzMOAL6p94mI7nP0g3gSX6lBDL
- xYA1Wi9TwXgGO6TZWi67wWylM8x9p5wG+zLk
-X-Google-Smtp-Source: AMrXdXscVtjk4hAw35RjcwhzD08a1osP2J51OqSn88BxzjK3XPi60TfzxRypAeaxjctKrqcICThvjA==
-X-Received: by 2002:a05:600c:2247:b0:3d3:4b1a:6ff9 with SMTP id
- a7-20020a05600c224700b003d34b1a6ff9mr37348699wmm.26.1672937086730; 
- Thu, 05 Jan 2023 08:44:46 -0800 (PST)
+ bh=33dG/KwajZrq9i+KPj0Q5eXpSM4wjc/WwsMuu9dKq4E=;
+ b=f0JWadfNPN+1rET+9HXMOxV60ZGFFDzF7oRzfyKghNfPFUrOplLf0D0+T1h2uT4EEF
+ mrpWe+6pzZRjrn5MCV/jLdd3DWAbsm4nWDR/xtoQvkZWzUpU/Ih1BidXm31quZTMhMqP
+ OuWrFO0obJ0B9/YDegyC479xBO8EgBx/vi2uynaLNg5Q21uOXPeBUuuxH2P8Pt5DpYOx
+ lWf/+5NFfsgugrZ1tK9V1KdSn53wfsuJ0y27DLBwroFIQPkOgWNXDVXCtECBHJ9dVumq
+ yCs/neqWkwcWx+HvKjqMRAiq89DN+0oPf29NHJb6bFXTlAHptJRTpXxw+wOrUaR74dUy
+ YztA==
+X-Gm-Message-State: AFqh2kqxz2zqIMtJRzcCkCpAd7jenQ+TKMS1w11flve0B4hjLE/9AU2H
+ C3gRO5EWtOr52eATnofeWxgRDFnbO9P4M01T
+X-Google-Smtp-Source: AMrXdXuajnAFRWrCO3D7xXJ7q/yI1vKXZtSmsHmkruTdOq1niiD3diSaMZbQhsuLJBTv04ASwy0sxQ==
+X-Received: by 2002:a05:600c:3d0e:b0:3d3:4aa6:4fd0 with SMTP id
+ bh14-20020a05600c3d0e00b003d34aa64fd0mr36932398wmb.6.1672937087484; 
+ Thu, 05 Jan 2023 08:44:47 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.45
+ hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:44:46 -0800 (PST)
+ Thu, 05 Jan 2023 08:44:47 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/34] i.MX7D: Connect IRQs to GPIO devices.
-Date: Thu,  5 Jan 2023 16:44:16 +0000
-Message-Id: <20230105164417.3994639-34-peter.maydell@linaro.org>
+Subject: [PULL 34/34] hw/net: Fix read of uninitialized memory in imx_fec.
+Date: Thu,  5 Jan 2023 16:44:17 +0000
+Message-Id: <20230105164417.3994639-35-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230105164417.3994639-1-peter.maydell@linaro.org>
 References: <20230105164417.3994639-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,89 +88,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Jean-Christophe Dubois <jcd@tribudubois.net>
+From: Stephen Longfield <slongfield@google.com>
 
-IRQs were not associated to the various GPIO devices inside i.MX7D.
-This patch brings the i.MX7D on par with i.MX6.
+Size is used at lines 1088/1188 for the loop, which reads the last 4
+bytes from the crc_ptr so it does need to get increased, however it
+shouldn't be increased before the buffer is passed to CRC computation,
+or the crc32 function will access uninitialized memory.
 
-Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
-Message-id: 20221226101418.415170-1-jcd@tribudubois.net
+This was pointed out to me by clg@kaod.org during the code review of
+a similar patch to hw/net/ftgmac100.c
+
+Change-Id: Ib0464303b191af1e28abeb2f5105eb25aadb5e9b
+Signed-off-by: Stephen Longfield <slongfield@google.com>
+Reviewed-by: Patrick Venture <venture@google.com>
+Message-id: 20221221183202.3788132-1-slongfield@google.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/fsl-imx7.h | 15 +++++++++++++++
- hw/arm/fsl-imx7.c         | 31 ++++++++++++++++++++++++++++++-
- 2 files changed, 45 insertions(+), 1 deletion(-)
+ hw/net/imx_fec.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
-index 50f19d8db04..4e5e0718648 100644
---- a/include/hw/arm/fsl-imx7.h
-+++ b/include/hw/arm/fsl-imx7.h
-@@ -240,6 +240,21 @@ enum FslIMX7IRQs {
-     FSL_IMX7_GPT3_IRQ     = 53,
-     FSL_IMX7_GPT4_IRQ     = 52,
- 
-+    FSL_IMX7_GPIO1_LOW_IRQ  = 64,
-+    FSL_IMX7_GPIO1_HIGH_IRQ = 65,
-+    FSL_IMX7_GPIO2_LOW_IRQ  = 66,
-+    FSL_IMX7_GPIO2_HIGH_IRQ = 67,
-+    FSL_IMX7_GPIO3_LOW_IRQ  = 68,
-+    FSL_IMX7_GPIO3_HIGH_IRQ = 69,
-+    FSL_IMX7_GPIO4_LOW_IRQ  = 70,
-+    FSL_IMX7_GPIO4_HIGH_IRQ = 71,
-+    FSL_IMX7_GPIO5_LOW_IRQ  = 72,
-+    FSL_IMX7_GPIO5_HIGH_IRQ = 73,
-+    FSL_IMX7_GPIO6_LOW_IRQ  = 74,
-+    FSL_IMX7_GPIO6_HIGH_IRQ = 75,
-+    FSL_IMX7_GPIO7_LOW_IRQ  = 76,
-+    FSL_IMX7_GPIO7_HIGH_IRQ = 77,
-+
-     FSL_IMX7_WDOG1_IRQ    = 78,
-     FSL_IMX7_WDOG2_IRQ    = 79,
-     FSL_IMX7_WDOG3_IRQ    = 10,
-diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
-index 146bb559bbc..afc74807990 100644
---- a/hw/arm/fsl-imx7.c
-+++ b/hw/arm/fsl-imx7.c
-@@ -245,8 +245,37 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
-             FSL_IMX7_GPIO7_ADDR,
-         };
- 
-+        static const int FSL_IMX7_GPIOn_LOW_IRQ[FSL_IMX7_NUM_GPIOS] = {
-+            FSL_IMX7_GPIO1_LOW_IRQ,
-+            FSL_IMX7_GPIO2_LOW_IRQ,
-+            FSL_IMX7_GPIO3_LOW_IRQ,
-+            FSL_IMX7_GPIO4_LOW_IRQ,
-+            FSL_IMX7_GPIO5_LOW_IRQ,
-+            FSL_IMX7_GPIO6_LOW_IRQ,
-+            FSL_IMX7_GPIO7_LOW_IRQ,
-+        };
-+
-+        static const int FSL_IMX7_GPIOn_HIGH_IRQ[FSL_IMX7_NUM_GPIOS] = {
-+            FSL_IMX7_GPIO1_HIGH_IRQ,
-+            FSL_IMX7_GPIO2_HIGH_IRQ,
-+            FSL_IMX7_GPIO3_HIGH_IRQ,
-+            FSL_IMX7_GPIO4_HIGH_IRQ,
-+            FSL_IMX7_GPIO5_HIGH_IRQ,
-+            FSL_IMX7_GPIO6_HIGH_IRQ,
-+            FSL_IMX7_GPIO7_HIGH_IRQ,
-+        };
-+
-         sysbus_realize(SYS_BUS_DEVICE(&s->gpio[i]), &error_abort);
--        sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio[i]), 0, FSL_IMX7_GPIOn_ADDR[i]);
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio[i]), 0,
-+                        FSL_IMX7_GPIOn_ADDR[i]);
-+
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpio[i]), 0,
-+                           qdev_get_gpio_in(DEVICE(&s->a7mpcore),
-+                                            FSL_IMX7_GPIOn_LOW_IRQ[i]));
-+
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpio[i]), 1,
-+                           qdev_get_gpio_in(DEVICE(&s->a7mpcore),
-+                                            FSL_IMX7_GPIOn_HIGH_IRQ[i]));
+diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
+index 8c11b237de7..c862d965930 100644
+--- a/hw/net/imx_fec.c
++++ b/hw/net/imx_fec.c
+@@ -1068,9 +1068,9 @@ static ssize_t imx_fec_receive(NetClientState *nc, const uint8_t *buf,
+         return 0;
      }
  
-     /*
+-    /* 4 bytes for the CRC.  */
+-    size += 4;
+     crc = cpu_to_be32(crc32(~0, buf, size));
++    /* Increase size by 4, loop below reads the last 4 bytes from crc_ptr. */
++    size += 4;
+     crc_ptr = (uint8_t *) &crc;
+ 
+     /* Huge frames are truncated.  */
+@@ -1164,9 +1164,9 @@ static ssize_t imx_enet_receive(NetClientState *nc, const uint8_t *buf,
+         return 0;
+     }
+ 
+-    /* 4 bytes for the CRC.  */
+-    size += 4;
+     crc = cpu_to_be32(crc32(~0, buf, size));
++    /* Increase size by 4, loop below reads the last 4 bytes from crc_ptr. */
++    size += 4;
+     crc_ptr = (uint8_t *) &crc;
+ 
+     if (shift16) {
 -- 
 2.25.1
 
