@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8BB65E7B7
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 10:25:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D587F65E80B
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 10:40:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDMMp-0003rV-5S; Thu, 05 Jan 2023 04:16:55 -0500
+	id 1pDMMr-0003wV-4E; Thu, 05 Jan 2023 04:16:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMMl-0003la-Bs
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:16:51 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMMp-0003vM-BW
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:16:55 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMMj-0007eT-VF
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:16:51 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMMn-0007gH-OH
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:16:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672910209;
+ s=mimecast20190719; t=1672910213;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=V+M/t3F4PL2PXLYQa8aSHPchO06DtfXoQlvlpKy7gEc=;
- b=FnxymxmI7fHGdU/XOFnmjGb1LH1RhcpnbHcVOo1OX9BzxC++qJ2lEwLh9+1DjjLBEs3w/D
- EVCcPTCDWRHv1A/HYQPyH4yv/u8aawEDCWOnUkC59kK7JQmH3U7lwpBuAuu0gxoWYzkrKt
- YUSGDa8KzVom4st1oVoT+rQi0QvtzZg=
+ bh=X5TtsCljZSNcnA12xQ7QTfbnHFhdOa8MT79on78YvQ0=;
+ b=DEjErJ1YfodIIbDJLHVEfjPrCWFsar+JN686bKjX2u2ot8Fbn+IICKQc3oRjZuMDz51CYZ
+ Ygluchgt4q8pEqRvJ8MC7TpEiv2J96e45A/2lgltg7UqT+/Z8ZleipLz/L/FM7ogfCiNm1
+ KaY9isMTadkZNEuqMwa+6N7iy8PuMMU=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-269-3IxwFvLhPzubjWXuhqK3NQ-1; Thu, 05 Jan 2023 04:16:48 -0500
-X-MC-Unique: 3IxwFvLhPzubjWXuhqK3NQ-1
+ us-mta-447-qa97RqT2PWOqlQOgibW6sw-1; Thu, 05 Jan 2023 04:16:51 -0500
+X-MC-Unique: qa97RqT2PWOqlQOgibW6sw-1
 Received: by mail-wm1-f72.google.com with SMTP id
- i7-20020a05600c354700b003d62131fe46so728382wmq.5
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 01:16:48 -0800 (PST)
+ q21-20020a7bce95000000b003d236c91639so261686wmj.8
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 01:16:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=V+M/t3F4PL2PXLYQa8aSHPchO06DtfXoQlvlpKy7gEc=;
- b=0kpNMK/zAyYlQhwSwDFqDPXB/6DTtbhn7zboyFm0pGyLHTH7MAZS6XGHl5GMu6nLqf
- dypAuD5pJAETMzB5uVFJwTaPjvsMw72Q2eD5YXZUElnD3b1k59OEOCz4b8LxPs6aZn+0
- LdFdjGah5tAWC8vO68+YAwWQ1Y4YVSfkLDvGKSs9YBgPjtyw1P5Qt225Venh1IxjMCdo
- A6ZvIcsSLN2kv8I+9nL9D25dUEtwedtZzY2+tBMSsi/3Sk5UAyJOXFt32MMksuyaILkQ
- IFZiyITraF0QgyL8rVAHz8Keu6bCkObZoJ9ceopubzhmDOx5Iwvm2Huv+GdxCBJEMebO
- QLUg==
-X-Gm-Message-State: AFqh2kozFHOcIctyi6qCQEQiEXliwJ/B6jieLhAA8Mh59HRRKXe7gyiv
- /+Q8Xl37/uA1l82x1ibMaCwSIbB5eygWX+odFLp20Ts230BvFZVMXUZqpgCohwCLNV2t7naQVO5
- jJqkVejEovH0jQ6cszIrpfTTfLJIkR0Amdvgx73UoRacSWOtNsL9h47JYOFft
-X-Received: by 2002:a05:600c:4e11:b0:3d3:4012:8da8 with SMTP id
- b17-20020a05600c4e1100b003d340128da8mr36434979wmq.40.1672910206682; 
- Thu, 05 Jan 2023 01:16:46 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuUbUnpKtCrSS3r3zkwd9UgbUQobPkLMH7AJk7kPMdKeXW9DEWVI7pwYKoCw3lpIaRpl3dIeA==
-X-Received: by 2002:a05:600c:4e11:b0:3d3:4012:8da8 with SMTP id
- b17-20020a05600c4e1100b003d340128da8mr36434958wmq.40.1672910206401; 
- Thu, 05 Jan 2023 01:16:46 -0800 (PST)
+ bh=X5TtsCljZSNcnA12xQ7QTfbnHFhdOa8MT79on78YvQ0=;
+ b=1pYJyaNQ/F9AMjpKrtjSdf/r1HXtFYJBGw7f4CiRxlv7+kx4iQ8tso7vsUUGXncDU3
+ r+Mqb86B+Zl2Z4PgaJbdRedbBSJmtXi9E0BHO4mePtT107+b8oxELoONEBd/11uey5in
+ KVUezGcebF/6a/HQr0pwYwKfNTyJ8y9f6q8u6ZqdTLQ1FYH9AejF65TRwpv4FBzj90M6
+ 278kc464QuPFqNCtdmebKleKxgo1mPY5+DNmsbNEQB+rCt7b5N/bq0AITr9TiA9wzhGL
+ UetGZ/c0j7sp6svZVZH7DnRHmcVqjeE1IodMI4rFS0ZWnCpT88o57Maejgmm81W+Ol8R
+ V84g==
+X-Gm-Message-State: AFqh2kry7UBYIeg/Js1WBPzMrhy0IjNZl5FfY0yv8mCt1M2dvXa5mkYi
+ jRaMW4LIwTHyYEz3HYX7DSLi2bTXPuH22E8q46EDmNbRBwZAWFQFF1ol9vA2npX+9CDarWhCAG9
+ BOCHccZeklb3QmUKiDX6pPITJ7AG1n+9DDgYxzLEmnFv/pUuFLwDaCDFIvihP
+X-Received: by 2002:a05:600c:5012:b0:3d3:5a4a:9103 with SMTP id
+ n18-20020a05600c501200b003d35a4a9103mr35187949wmr.31.1672910209773; 
+ Thu, 05 Jan 2023 01:16:49 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXu8Dzj2JOKykrTmmwFP86w1yN+ha/YMnXLxK9I4+1l7tw/lrmXaLZoV7UeA3Y/fSivxl8NIxA==
+X-Received: by 2002:a05:600c:5012:b0:3d3:5a4a:9103 with SMTP id
+ n18-20020a05600c501200b003d35a4a9103mr35187931wmr.31.1672910209553; 
+ Thu, 05 Jan 2023 01:16:49 -0800 (PST)
 Received: from redhat.com ([2.52.151.85]) by smtp.gmail.com with ESMTPSA id
- p7-20020a05600c1d8700b003d973d4fb28sm1775065wms.4.2023.01.05.01.16.44
+ m42-20020a05600c092a00b003d9a3a0d461sm1620836wmp.4.2023.01.05.01.16.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 01:16:45 -0800 (PST)
-Date: Thu, 5 Jan 2023 04:16:43 -0500
+ Thu, 05 Jan 2023 01:16:49 -0800 (PST)
+Date: Thu, 5 Jan 2023 04:16:46 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Yicong Yang <yangyicong@hisilicon.com>,
  Yanan Wang <wangyanan55@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 44/51] tests: virt: Allow changes to PPTT test table
-Message-ID: <20230105091310.263867-45-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 45/51] hw/acpi/aml-build: Only generate cluster node in PPTT
+ when specified
+Message-ID: <20230105091310.263867-46-mst@redhat.com>
 References: <20230105091310.263867-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -101,26 +105,102 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Yicong Yang <yangyicong@hisilicon.com>
 
-Allow changes to test/data/acpi/virt/PPTT*, prepare to change the
-building policy of the cluster topology.
+Currently we'll always generate a cluster node no matter user has
+specified '-smp clusters=X' or not. Cluster is an optional level
+and will participant the building of Linux scheduling domains and
+only appears on a few platforms. It's unncessary to always build
+it when it cannot reflect the real topology on platforms having no
+cluster implementation and to avoid affecting the linux scheduling
+domains in the VM. So only generate the cluster topology in ACPI
+PPTT when the user has specified it explicitly in -smp.
 
+Tested qemu-system-aarch64 with `-smp 8` and linux 6.1-rc1, without
+this patch:
+estuary:/sys/devices/system/cpu/cpu0/topology$ cat cluster_*
+ff	# cluster_cpus
+0-7	# cluster_cpus_list
+56	# cluster_id
+
+with this patch:
+estuary:/sys/devices/system/cpu/cpu0/topology$ cat cluster_*
+ff	# cluster_cpus
+0-7	# cluster_cpus_list
+36	# cluster_id, with no cluster node kernel will make it to
+	  physical package id
+
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+Tested-by: Yanan Wang <wangyanan55@huawei.com>
 Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-Message-Id: <20221229065513.55652-2-yangyicong@huawei.com>
+Message-Id: <20221229065513.55652-3-yangyicong@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
- 1 file changed, 2 insertions(+)
+ include/hw/boards.h   | 3 +++
+ hw/acpi/aml-build.c   | 2 +-
+ hw/core/machine-smp.c | 2 ++
+ qemu-options.hx       | 3 +++
+ 4 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..fc12cd8c5c 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,3 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/PPTT",
-+"tests/data/acpi/virt/PPTT.acpihmatvirt",
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index d18d6d0073..b0abbdd5dc 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -130,11 +130,14 @@ typedef struct {
+  * @prefer_sockets - whether sockets are preferred over cores in smp parsing
+  * @dies_supported - whether dies are supported by the machine
+  * @clusters_supported - whether clusters are supported by the machine
++ * @has_clusters - whether clusters are explicitly specified in the user
++ *                 provided SMP configuration
+  */
+ typedef struct {
+     bool prefer_sockets;
+     bool dies_supported;
+     bool clusters_supported;
++    bool has_clusters;
+ } SMPCompatProps;
+ 
+ /**
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index 42feb4d4d7..ea331a20d1 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -2030,7 +2030,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+                 0, socket_id, NULL, 0);
+         }
+ 
+-        if (mc->smp_props.clusters_supported) {
++        if (mc->smp_props.clusters_supported && mc->smp_props.has_clusters) {
+             if (cpus->cpus[n].props.cluster_id != cluster_id) {
+                 assert(cpus->cpus[n].props.cluster_id > cluster_id);
+                 cluster_id = cpus->cpus[n].props.cluster_id;
+diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
+index b39ed21e65..c3dab007da 100644
+--- a/hw/core/machine-smp.c
++++ b/hw/core/machine-smp.c
+@@ -158,6 +158,8 @@ void machine_parse_smp_config(MachineState *ms,
+     ms->smp.threads = threads;
+     ms->smp.max_cpus = maxcpus;
+ 
++    mc->smp_props.has_clusters = config->has_clusters;
++
+     /* sanity-check of the computed topology */
+     if (sockets * dies * clusters * cores * threads != maxcpus) {
+         g_autofree char *topo_msg = cpu_hierarchy_to_string(ms);
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 7f99d15b23..8662568324 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -343,6 +343,9 @@ SRST
+     ::
+ 
+         -smp 2
++
++    Note: The cluster topology will only be generated in ACPI and exposed
++    to guest if it's explicitly specified in -smp.
+ ERST
+ 
+ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
 -- 
 MST
 
