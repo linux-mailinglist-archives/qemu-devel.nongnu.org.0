@@ -2,69 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE4E65F0F9
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:19:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC0C65F101
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:21:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDSwZ-0000dg-St; Thu, 05 Jan 2023 11:18:15 -0500
+	id 1pDSzB-0001dw-Mj; Thu, 05 Jan 2023 11:20:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pDSwY-0000dX-JH
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:18:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pDSz1-0001dd-N5
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:20:49 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pDSwV-0003kU-QH
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:18:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672935490;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=fbNhVKKLu8w6BmgGiUXKpsNwtSr//22EkXNN1oTNO9g=;
- b=QJrU5qToCsvVH1+e/fQSkWt6n9dDxJi3GX921tVTGDmBdsTp5Qry+Ezluyf6tHOGONwb+r
- JjtrPNu0h4ueCXl9jv68ZBeHWMroJ42oCMXvPoWczssYDHBEZLfHuFAdUS6w3eIt7dTHIg
- YFDJ5mcef8rTM/yqxg+c3eS+HSwUlLU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-quqL14TkM8Oihj2QlYmQMw-1; Thu, 05 Jan 2023 11:18:09 -0500
-X-MC-Unique: quqL14TkM8Oihj2QlYmQMw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B77E18E5382;
- Thu,  5 Jan 2023 16:18:08 +0000 (UTC)
-Received: from lacos-laptop-9.usersys.redhat.com (unknown [10.39.192.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F9F339D6D;
- Thu,  5 Jan 2023 16:18:06 +0000 (UTC)
-From: Laszlo Ersek <lersek@redhat.com>
-To: lersek@redhat.com,
-	qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Ard Biesheuvel <ardb@kernel.org>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-stable@nongnu.org
-Subject: [PATCH] acpi: cpuhp: fix guest-visible maximum access size to the
- legacy reg block
-Date: Thu,  5 Jan 2023 17:18:04 +0100
-Message-Id: <20230105161804.82486-1-lersek@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pDSyz-0004OK-6p
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:20:47 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 305EojVT021257
+ for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 16:20:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=KHpq+wQW7Hvod/2jLoMD5ezKmm/7u34msjeeHJnajRA=;
+ b=TSIARdWqlxl/RNq3oHLauconspUlfbSqhaCOFBnpURqiMJQfTmSZtph+sFFQyt62Ht2u
+ Bg8YeDTb5Ln9nsYVI/pz5oPIIBpH7FCTkHKCMVGB8cddWiQ/hNdQv4jPepHan/VkvARq
+ 7YfoYEW9eM51DD2DAlVA7bxNoW1yV95dRLdocawee1xDyp5wARQkM02LXLnnYfLJpwms
+ 2Vp1aj2oqHUbpCKr4etSZpaSTGTBiUgiPqZZOc1xJlf749Hi3Bjmu9of7wvJb+W63qas
+ 7I//cHPRyJWaOQnnnqdVvcQBph+OJU6L0QWhpBAfo1X7i+1O3wuFcm2el251dSLToMIl pg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx0p12d6p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 16:20:43 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 305Eom9h021433
+ for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 16:20:43 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx0p12d6b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Jan 2023 16:20:43 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 305Ev1fJ025847;
+ Thu, 5 Jan 2023 16:20:42 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
+ by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3mtcq7xaee-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Jan 2023 16:20:42 +0000
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com
+ [10.241.53.102])
+ by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 305GKfLW27394318
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 5 Jan 2023 16:20:41 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F118858061;
+ Thu,  5 Jan 2023 16:20:40 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A917358060;
+ Thu,  5 Jan 2023 16:20:40 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Thu,  5 Jan 2023 16:20:40 +0000 (GMT)
+Message-ID: <789bd0bd-05ed-c413-272e-0204472f3e3b@linux.ibm.com>
+Date: Thu, 5 Jan 2023 11:20:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 2/2] tpm: add backend for mssim
+Content-Language: en-US
+To: James Bottomley <jejb@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20230105130020.17755-1-jejb@linux.ibm.com>
+ <20230105130020.17755-3-jejb@linux.ibm.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20230105130020.17755-3-jejb@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: bbqrmMs_opYg63lE7YUiB79Nzo463_xJ
+X-Proofpoint-ORIG-GUID: P-XPGUjgeV2z3o6QmsJrvKQfyqSOFeGp
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HEXHASH_WORD=1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-05_06,2023-01-05_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxscore=0
+ clxscore=1015 phishscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=955 spamscore=0 priorityscore=1501 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301050126
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,137 +118,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-VGhlIG1vZGVybiBBQ1BJIENQVSBob3RwbHVnIGludGVyZmFjZSB3YXMgaW50cm9kdWNlZCBpbiB0
-aGUgZm9sbG93aW5nCnNlcmllcyAoYWExZGQzOWNhMzA3Li42NzlkZDFhOTU3ZGYpLCByZWxlYXNl
-ZCBpbiB2Mi43LjA6CgogIDEgIGFiZDQ5YmMyZWQyZiBkb2NzOiB1cGRhdGUgQUNQSSBDUFUgaG90
-cGx1ZyBzcGVjIHdpdGggbmV3IHByb3RvY29sCiAgMiAgMTZiY2FiOTdlYjlmIHBjOiBwaWl4NC9p
-Y2g5OiBhZGQgJ2NwdS1ob3RwbHVnLWxlZ2FjeScgcHJvcGVydHkKICAzICA1ZTFiNWQ5Mzg4N2Ig
-YWNwaTogY3B1aHA6IGFkZCBDUFUgZGV2aWNlcyBBTUwgd2l0aCBfU1RBIG1ldGhvZAogIDQgIGFj
-MzVmMTNiYThmOCBwYzogYWNwaTogaW50cm9kdWNlIEFjcGlEZXZpY2VJZkNsYXNzLm1hZHRfY3B1
-IGhvb2sKICA1ICBkMjIzOGNiNjc4MWQgYWNwaTogY3B1aHA6IGltcGxlbWVudCBob3QtYWRkIHBh
-cnRzIG9mIENQVSBob3RwbHVnCiAgICAgICAgICAgICAgICAgIGludGVyZmFjZQogIDYgIDg4NzJj
-MjVhMjZjYyBhY3BpOiBjcHVocDogaW1wbGVtZW50IGhvdC1yZW1vdmUgcGFydHMgb2YgQ1BVIGhv
-dHBsdWcKICAgICAgICAgICAgICAgICAgaW50ZXJmYWNlCiAgNyAgNzY2MjNkMDBhZTU3IGFjcGk6
-IGNwdWhwOiBhZGQgY3B1Ll9PU1QgaGFuZGxpbmcKICA4ICA2NzlkZDFhOTU3ZGYgcGM6IHVzZSBu
-ZXcgQ1BVIGhvdHBsdWcgaW50ZXJmYWNlIHNpbmNlIDIuNyBtYWNoaW5lIHR5cGUKCkJlZm9yZSBw
-YXRjaCMxLCAiZG9jcy9zcGVjcy9hY3BpX2NwdV9ob3RwbHVnLnR4dCIgb25seSBzcGVjaWZpZWQg
-MS1ieXRlCmFjY2Vzc2VzIGZvciB0aGUgaG90cGx1ZyByZWdpc3RlciBibG9jay4gIFBhdGNoIzEg
-cHJlc2VydmVkIHRoZSBzYW1lCnJlc3RyaWN0aW9uIGZvciB0aGUgbGVnYWN5IHJlZ2lzdGVyIGJs
-b2NrLCBidXQ6CgotIGl0IHNwZWNpZmllZCBEV09SRCBhY2Nlc3NlcyBmb3Igc29tZSBvZiB0aGUg
-bW9kZXJuIHJlZ2lzdGVycywKCi0gaW4gcGFydGljdWxhciwgdGhlIHN3aXRjaCBmcm9tIHRoZSBs
-ZWdhY3kgYmxvY2sgdG8gdGhlIG1vZGVybiBibG9jawogIHdvdWxkIHJlcXVpcmUgYSBEV09SRCB3
-cml0ZSB0byB0aGUgKmxlZ2FjeSogYmxvY2suCgpUaGUgbGF0dGVyIGZ1bmN0aW9uYWxpdHkgd2Fz
-IHRoZW4gaW1wbGVtZW50ZWQgaW4gY3B1X3N0YXR1c193cml0ZSgpCltody9hY3BpL2NwdV9ob3Rw
-bHVnLmNdLCBpbiBwYXRjaCM4LgoKVW5mb3J0dW5hdGVseSwgYWxsIERXT1JEIGFjY2Vzc2VzIGRl
-cGVuZGVkIG9uIGEgZG9ybWFudCBidWc6IHRoZSBvbmUKaW50cm9kdWNlZCBpbiBlYXJsaWVyIGNv
-bW1pdCBhMDE0ZWQwN2JkNWEgKCJtZW1vcnk6IGFjY2VwdCBtaXNtYXRjaGluZwpzaXplcyBpbiBt
-ZW1vcnlfcmVnaW9uX2FjY2Vzc192YWxpZCIsIDIwMTMtMDUtMjkpOyBmaXJzdCByZWxlYXNlZCBp
-bgp2MS42LjAuICBEdWUgdG8gY29tbWl0IGEwMTRlZDA3YmQ1YSwgdGhlIERXT1JEIGFjY2Vzc2Vz
-IHRvIHRoZSAqbGVnYWN5KgpDUFUgaG90cGx1ZyByZWdpc3RlciBibG9jayB3b3VsZCB3b3JrIGlu
-IHNwaXRlIG9mIHRoZSBhYm92ZSBzZXJpZXMgKm5vdCoKcmVsYXhpbmcgInZhbGlkLm1heF9hY2Nl
-c3Nfc2l6ZSA9IDEiIGluICJody9hY3BpL2NwdV9ob3RwbHVnLmMiOgoKPiBzdGF0aWMgY29uc3Qg
-TWVtb3J5UmVnaW9uT3BzIEFjcGlDcHVIb3RwbHVnX29wcyA9IHsKPiAgICAgLnJlYWQgPSBjcHVf
-c3RhdHVzX3JlYWQsCj4gICAgIC53cml0ZSA9IGNwdV9zdGF0dXNfd3JpdGUsCj4gICAgIC5lbmRp
-YW5uZXNzID0gREVWSUNFX0xJVFRMRV9FTkRJQU4sCj4gICAgIC52YWxpZCA9IHsKPiAgICAgICAg
-IC5taW5fYWNjZXNzX3NpemUgPSAxLAo+ICAgICAgICAgLm1heF9hY2Nlc3Nfc2l6ZSA9IDEsCj4g
-ICAgIH0sCj4gfTsKCkxhdGVyLCBpbiBjb21taXRzIGU2ZDBjM2NlNjg5NSAoImFjcGk6IGNwdWhw
-OiBpbnRyb2R1Y2UgJ0NvbW1hbmQgZGF0YSAyJwpmaWVsZCIsIDIwMjAtMDEtMjIpIGFuZCBhZTM0
-MGFhM2QyNTYgKCJhY3BpOiBjcHVocDogc3BlYzogYWRkIHR5cGljYWwKdXNlY2FzZXMiLCAyMDIw
-LTAxLTIyKSwgZmlyc3QgcmVsZWFzZWQgaW4gdjUuMC4wLCB0aGUgbW9kZXJuIENQVSBob3RwbHVn
-CmludGVyZmFjZSAoaW5jbHVkaW5nIHRoZSBkb2N1bWVudGF0aW9uKSB3YXMgZXh0ZW5kZWQgd2l0
-aCBhbm90aGVyIERXT1JECipyZWFkKiBhY2Nlc3MsIG5hbWVseSB0byB0aGUgIkNvbW1hbmQgZGF0
-YSAyIiByZWdpc3Rlciwgd2hpY2ggd291bGQgYmUKaW1wb3J0YW50IGZvciB0aGUgZ3Vlc3QgdG8g
-Y29uZmlybSB3aGV0aGVyIGl0IG1hbmFnZWQgdG8gc3dpdGNoIHRoZQpyZWdpc3RlciBibG9jayBm
-cm9tIGxlZ2FjeSB0byBtb2Rlcm4uCgpUaGlzIGZ1bmN0aW9uYWxpdHkgdG9vIHNpbGVudGx5IGRl
-cGVuZGVkIG9uIHRoZSBidWcgZnJvbSBjb21taXQKYTAxNGVkMDdiZDVhLgoKSW4gY29tbWl0IDVk
-OTcxZjllNjcyNSAoJ21lbW9yeTogUmV2ZXJ0ICJtZW1vcnk6IGFjY2VwdCBtaXNtYXRjaGluZyBz
-aXplcwppbiBtZW1vcnlfcmVnaW9uX2FjY2Vzc192YWxpZCInLCAyMDIwLTA2LTI2KSwgZmlyc3Qg
-cmVsZWFzZWQgaW4gdjUuMS4wLAp0aGUgYnVnIGZyb20gY29tbWl0IGEwMTRlZDA3YmQ1YSB3YXMg
-Zml4ZWQgKHRoZSBjb21taXQgd2FzIHJldmVydGVkKS4KVGhhdCBzd2lmdGx5IGV4cG9zZWQgdGhl
-IGJ1ZyBpbiAiQWNwaUNwdUhvdHBsdWdfb3BzIiwgc3RpbGwgcHJlc2VudCBmcm9tCnRoZSB2Mi43
-LjAgc2VyaWVzIHF1b3RlZCBhdCB0aGUgdG9wIC0tIG5hbWVseSB0aGUgZmFjdCB0aGF0CiJ2YWxp
-ZC5tYXhfYWNjZXNzX3NpemUgPSAxIiBkaWRuJ3QgbWF0Y2ggd2hhdCB0aGUgZ3Vlc3Qgd2FzIHN1
-cHBvc2VkIHRvCmRvLCBhY2NvcmRpbmcgdG8gdGhlIHNwZWMgKCJkb2NzL3NwZWNzL2FjcGlfY3B1
-X2hvdHBsdWcudHh0IikuCgpUaGUgc3ltcHRvbSBpcyB0aGF0IHRoZSAibW9kZXJuIGludGVyZmFj
-ZSBuZWdvdGlhdGlvbiBwcm90b2NvbCIKZGVzY3JpYmVkIGluIGNvbW1pdCBhZTM0MGFhM2QyNTY6
-Cgo+ICsgICAgICBVc2UgZm9sbG93aW5nIHN0ZXBzIHRvIGRldGVjdCBhbmQgZW5hYmxlIG1vZGVy
-biBDUFUgaG90cGx1ZyBpbnRlcmZhY2U6Cj4gKyAgICAgICAgMS4gU3RvcmUgMHgwIHRvIHRoZSAn
-Q1BVIHNlbGVjdG9yJyByZWdpc3RlciwKPiArICAgICAgICAgICBhdHRlbXB0aW5nIHRvIHN3aXRj
-aCB0byBtb2Rlcm4gbW9kZQo+ICsgICAgICAgIDIuIFN0b3JlIDB4MCB0byB0aGUgJ0NQVSBzZWxl
-Y3RvcicgcmVnaXN0ZXIsCj4gKyAgICAgICAgICAgdG8gZW5zdXJlIHZhbGlkIHNlbGVjdG9yIHZh
-bHVlCj4gKyAgICAgICAgMy4gU3RvcmUgMHgwIHRvIHRoZSAnQ29tbWFuZCBmaWVsZCcgcmVnaXN0
-ZXIsCj4gKyAgICAgICAgNC4gUmVhZCB0aGUgJ0NvbW1hbmQgZGF0YSAyJyByZWdpc3Rlci4KPiAr
-ICAgICAgICAgICBJZiByZWFkIHZhbHVlIGlzIDB4MCwgdGhlIG1vZGVybiBpbnRlcmZhY2UgaXMg
-ZW5hYmxlZC4KPiArICAgICAgICAgICBPdGhlcndpc2UgbGVnYWN5IG9yIG5vIENQVSBob3RwbHVn
-IGludGVyZmFjZSBhdmFpbGFibGUKCmZhbGxzIGFwYXJ0IGZvciB0aGUgZ3Vlc3Q6IHN0ZXBzIDEg
-YW5kIDIgYXJlIGxvc3QsIGJlY2F1c2UgdGhleSBhcmUgRFdPUkQKd3JpdGVzOyBzbyBubyBzd2l0
-Y2hpbmcgaGFwcGVucy4gIFN0ZXAgMyAoYSBzaW5nbGUtYnl0ZSB3cml0ZSkgaXMgbm90Cmxvc3Qs
-IGJ1dCBpdCBoYXMgbm8gZWZmZWN0OyBzZWUgdGhlIGNvbmRpdGlvbiBpbiBjcHVfc3RhdHVzX3dy
-aXRlKCkgaW4KcGF0Y2gjOC4gIEFuZCBzdGVwIDQgKm1pc2xlYWRzKiB0aGUgZ3Vlc3QgaW50byB0
-aGlua2luZyB0aGF0IHRoZSBzd2l0Y2gKd29ya2VkOiB0aGUgRFdPUkQgcmVhZCBpcyBsb3N0IGFn
-YWluIC0tIGl0IHJldHVybnMgemVybyB0byB0aGUgZ3Vlc3QKd2l0aG91dCBldmVyIHJlYWNoaW5n
-IHRoZSBkZXZpY2UgbW9kZWwsIHNvIHRoZSBndWVzdCBuZXZlciBsZWFybnMgdGhlCnN3aXRjaCBk
-aWRuJ3Qgd29yay4KClRoaXMgbWVhbnMgdGhhdCBndWVzdCBiZWhhdmlvciBjZW50ZXJlZCBvbiB0
-aGUgIkNvbW1hbmQgZGF0YSAyIiByZWdpc3Rlcgp3b3JrZWQgKm9ubHkqIGluIHRoZSB2NS4wLjAg
-cmVsZWFzZTsgaXQgZ290IGVmZmVjdGl2ZWx5IHJlZ3Jlc3NlZCBpbgp2NS4xLjAuCgpUbyBtYWtl
-IHRoaW5ncyAqZXZlbiBtb3JlKiBjb21wbGljYXRlZCwgdGhlIGJyZWFrYWdlIHdhcyAoYW5kIHJl
-bWFpbnMsIGFzCm9mIHRvZGF5KSB2aXNpYmxlIHdpdGggVENHIGFjY2VsZXJhdGlvbiBvbmx5LiAg
-Q29tbWl0IDVkOTcxZjllNjcyNSBtYWtlcwpubyBkaWZmZXJlbmNlIHdpdGggS1ZNIGFjY2VsZXJh
-dGlvbiAtLSB0aGUgRFdPUkQgYWNjZXNzZXMgc3RpbGwgd29yaywKZGVzcGl0ZSAidmFsaWQubWF4
-X2FjY2Vzc19zaXplID0gMSIuCgpBcyBjb21taXQgNWQ5NzFmOWU2NzI1IHN1Z2dlc3RzLCBmaXgg
-dGhlIHByb2JsZW0gYnkgcmFpc2luZwoidmFsaWQubWF4X2FjY2Vzc19zaXplIiB0byA0IC0tIHRo
-ZSBzcGVjIG5vdyBjbGVhcmx5IGluc3RydWN0cyB0aGUgZ3Vlc3QKdG8gcGVyZm9ybSBEV09SRCBh
-Y2Nlc3NlcyB0byB0aGUgbGVnYWN5IHJlZ2lzdGVyIGJsb2NrIHRvbywgZm9yIGVuYWJsaW5nCihh
-bmQgdmVyaWZ5aW5nISkgdGhlIG1vZGVybiBibG9jay4gIEluIG9yZGVyIHRvIGtlZXAgY29tcGF0
-aWJpbGl0eSBmb3IgdGhlCmRldmljZSBtb2RlbCBpbXBsZW1lbnRhdGlvbiB0aG91Z2gsIHNldCAi
-aW1wbC5tYXhfYWNjZXNzX3NpemUgPSAxIiwgc28KdGhhdCB3aWRlIGFjY2Vzc2VzIGJlIHNwbGl0
-IGJlZm9yZSB0aGV5IHJlYWNoIHRoZSBsZWdhY3kgcmVhZC93cml0ZQpoYW5kbGVycywgbGlrZSB0
-aGV5IGFsd2F5cyBoYXZlIGJlZW4gb24gS1ZNLCBhbmQgbGlrZSB0aGV5IHdlcmUgb24gVENHCmJl
-Zm9yZSA1ZDk3MWY5ZTY3MjUgKHY1LjEuMCkuCgpUZXN0ZWQgd2l0aDoKCi0gT1ZNRiBJQTMyICsg
-cWVtdS1zeXN0ZW0taTM4NiwgQ1BVIGhvdHBsdWcvaG90LXVucGx1ZyB3aXRoIFNNTSwKICBpbnRl
-cm1peGVkIHdpdGggQUNQSSBTMyBzdXNwZW5kL3Jlc3VtZSwgdXNpbmcgS1ZNIGFjY2VsCiAgKHJl
-Z3Jlc3Npb24tdGVzdCk7CgotIE9WTUYgSUEzMlg2NCArIHFlbXUtc3lzdGVtLXg4Nl82NCwgQ1BV
-IGhvdHBsdWcvaG90LXVucGx1ZyB3aXRoIFNNTSwKICBpbnRlcm1peGVkIHdpdGggQUNQSSBTMyBz
-dXNwZW5kL3Jlc3VtZSwgdXNpbmcgS1ZNIGFjY2VsCiAgKHJlZ3Jlc3Npb24tdGVzdCk7CgotIE9W
-TUYgSUEzMiArIHFlbXUtc3lzdGVtLWkzODYsIFNNTSBlbmFibGVkLCB1c2luZyBUQ0cgYWNjZWw7
-IHZlcmlmaWVkIHRoZQogIHJlZ2lzdGVyIGJsb2NrIHN3aXRjaCBhbmQgdGhlIHByZXNlbnQvcG9z
-c2libGUgQ1BVIGNvdW50aW5nIHRocm91Z2ggdGhlCiAgbW9kZXJuIGhvdHBsdWcgaW50ZXJmYWNl
-LCBkdXJpbmcgT1ZNRiBib290IChidWdmaXggdGVzdCk7CgotIEkgZG8gbm90IGhhdmUgYW55IHRl
-c3RjYXNlIChndWVzdCBwYXlsb2FkKSBmb3IgcmVncmVzc2lvbi10ZXN0aW5nIENQVQogIGhvdHBs
-dWcgdGhyb3VnaCB0aGUgKmxlZ2FjeSogQ1BVIGhvdHBsdWcgcmVnaXN0ZXIgYmxvY2suCgpDYzog
-Ik1pY2hhZWwgUy4gVHNpcmtpbiIgPG1zdEByZWRoYXQuY29tPgpDYzogQW5pIFNpbmhhIDxhbmlA
-YW5pc2luaGEuY2E+CkNjOiBBcmQgQmllc2hldXZlbCA8YXJkYkBrZXJuZWwub3JnPgpDYzogSWdv
-ciBNYW1tZWRvdiA8aW1hbW1lZG9AcmVkaGF0LmNvbT4KQ2M6IFBhb2xvIEJvbnppbmkgPHBib256
-aW5pQHJlZGhhdC5jb20+CkNjOiBQZXRlciBNYXlkZWxsIDxwZXRlci5tYXlkZWxsQGxpbmFyby5v
-cmc+CkNjOiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8cGhpbG1kQGxpbmFyby5vcmc+CkNjOiBx
-ZW11LXN0YWJsZUBub25nbnUub3JnClJlZjogIklPIHBvcnQgd3JpdGUgd2lkdGggY2xhbXBpbmcg
-ZGlmZmVycyBiZXR3ZWVuIFRDRyBhbmQgS1ZNIgpMaW5rOiBodHRwOi8vbWlkLm1haWwtYXJjaGl2
-ZS5jb20vYWFlZGVlODQtZDNlZC1hNGY5LTIxZTctZDIyMWEyOGQxNjgzQHJlZGhhdC5jb20KTGlu
-azogaHR0cHM6Ly9saXN0cy5nbnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVsLzIwMjMtMDEv
-bXNnMDAxOTkuaHRtbApSZXBvcnRlZC1ieTogQXJkIEJpZXNoZXV2ZWwgPGFyZGJAa2VybmVsLm9y
-Zz4KU2lnbmVkLW9mZi1ieTogTGFzemxvIEVyc2VrIDxsZXJzZWtAcmVkaGF0LmNvbT4KVGVzdGVk
-LWJ5OiBBcmQgQmllc2hldXZlbCA8YXJkYkBrZXJuZWwub3JnPgpSZXZpZXdlZC1ieTogUGhpbGlw
-cGUgTWF0aGlldS1EYXVkw6kgPHBoaWxtZEBsaW5hcm8ub3JnPgpUZXN0ZWQtYnk6IElnb3IgTWFt
-bWVkb3YgPGltYW1tZWRvQHJlZGhhdC5jb20+ClJldmlld2VkLWJ5OiBNaWNoYWVsIFMuIFRzaXJr
-aW4gPG1zdEByZWRoYXQuY29tPgotLS0KCk5vdGVzOgogICAgdjIgbm90ZXM6CiAgICAKICAgIC0g
-dHlwbyBmaXggaW4gY29tbWl0IG1lc3NhZ2UgW1BoaWwsIE1pY2hhZWxdCiAgICAKICAgIC0gcGlj
-ayB1cCBULWIgZnJvbSBBcmQgYW5kIElnb3IsIFItYiBmcm9tIFBoaWwgYW5kIE1pY2hhZWwKICAg
-IAogICAgdjEgbm90ZXM6CiAgICAKICAgIFRoaXMgc2hvdWxkIGJlIGFwcGxpZWQgdG86CiAgICAK
-ICAgIC0gc3RhYmxlLTUuMiAobmV3IGJyYW5jaCkKICAgIAogICAgLSBzdGFibGUtNi4yIChuZXcg
-YnJhbmNoKQogICAgCiAgICAtIHN0YWJsZS03LjIgKG5ldyBicmFuY2gpCiAgICAKICAgIHdoaWNo
-ZXZlciBpcyBzdGlsbCBjb25zaWRlcmVkIG1haW50YWluZWQsIGFzIHRoZXJlIGlzIGN1cnJlbnRs
-eSAqbm8qCiAgICBwdWJsaWMgUUVNVSByZWxlYXNlIGluIHdoaWNoIHRoZSBtb2Rlcm4gQ1BVIGhv
-dHBsdWcgcmVnaXN0ZXIgYmxvY2sKICAgIHdvcmtzLCB3aGVuIHVzaW5nIFRDRyBhY2NlbGVyYXRp
-b24uICB2NS4wLjAgd29ya3MsIGJ1dCB0aGF0IG1pbm9yCiAgICByZWxlYXNlIGhhcyBiZWVuIG9i
-c29sZXRlZCBieSB2NS4yLjAsIHdoaWNoIGRvZXMgbm90IHdvcmsuCgogaHcvYWNwaS9jcHVfaG90
-cGx1Zy5jIHwgMyArKysKIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKCmRpZmYgLS1n
-aXQgYS9ody9hY3BpL2NwdV9ob3RwbHVnLmMgYi9ody9hY3BpL2NwdV9ob3RwbHVnLmMKaW5kZXgg
-NTM2NTRmODYzODMwLi5mZjE0YzNmNDEwNmYgMTAwNjQ0Ci0tLSBhL2h3L2FjcGkvY3B1X2hvdHBs
-dWcuYworKysgYi9ody9hY3BpL2NwdV9ob3RwbHVnLmMKQEAgLTUyLDYgKzUyLDkgQEAgc3RhdGlj
-IGNvbnN0IE1lbW9yeVJlZ2lvbk9wcyBBY3BpQ3B1SG90cGx1Z19vcHMgPSB7CiAgICAgLmVuZGlh
-bm5lc3MgPSBERVZJQ0VfTElUVExFX0VORElBTiwKICAgICAudmFsaWQgPSB7CiAgICAgICAgIC5t
-aW5fYWNjZXNzX3NpemUgPSAxLAorICAgICAgICAubWF4X2FjY2Vzc19zaXplID0gNCwKKyAgICB9
-LAorICAgIC5pbXBsID0gewogICAgICAgICAubWF4X2FjY2Vzc19zaXplID0gMSwKICAgICB9LAog
-fTsK
 
+
+On 1/5/23 08:00, James Bottomley wrote:
+> From: James Bottomley <James.Bottomley@HansenPartnership.com>
+> 
+> The Microsoft Simulator (mssim) is the reference emulation platform
+> for the TCG TPM 2.0 specification.
+> 
+> https://github.com/Microsoft/ms-tpm-20-ref.git
+> 
+>
+> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
+> index 535912a92b..1398735956 100644
+> --- a/docs/specs/tpm.rst
+> +++ b/docs/specs/tpm.rst
+> @@ -270,6 +270,38 @@ available as a module (assuming a TPM 2 is passed through):
+>     /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/9
+>     ...
+>   
+> +The QEMU TPM Microsoft Simulator Device
+> +---------------------------------------
+> +
+> +The TCG provides a reference implementation for TPM 2.0 written by
+> +Microsoft (See `ms-tpm-20-ref`_ on github).  The reference implementation
+> +starts a network server and listens for TPM commands on port 2321 and
+> +TPM Platform control commands on port 2322, although these can be
+> +altered.  The QEMU mssim TPM backend talks to this implementation.  By
+> +default it connects to the default ports on localhost:
+> +
+> +.. code-block:: console
+> +
+> +  qemu-system-x86_64 <qemu-options> \
+> +    -tpmdev mssim,id=tpm0 \
+> +    -device tpm-crb,tpmdev=tpm0
+> +
+> +
+> +Although it can also communicate with a remote host, which must be
+> +specified as a SocketAddress via json on the command line for each of
+> +the command and control ports:
+> +
+> +.. code-block:: console
+> +
+> +  qemu-system-x86_64 <qemu-options> \
+> +    -tpmdev "{'type':'mssim','id':'tpm0','command':{'type':'inet','host':'remote','port':'2321'},'control':{'type':'inet','host':'remote','port':'2322'}}" \
+> +    -device tpm-crb,tpmdev=tpm0
+> +
+> +
+> +The mssim backend supports snapshotting and migration, but the state
+> +of the Microsoft Simulator server must be preserved (or the server
+> +kept running) outside of QEMU for restore to be successful.
+
+My comments to v3 still apply here.
+
+I also just tried migration and on the -incoming side it did not work anymore. Did you test this?
+
+    Stefan
 
