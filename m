@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A6065F1AE
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B231F65F19E
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:00:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTSH-0006TI-AT; Thu, 05 Jan 2023 11:51:01 -0500
+	id 1pDTaF-0008Pw-Es; Thu, 05 Jan 2023 11:59:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTS6-0006QX-R8
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:50:51 -0500
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+ id 1pDTa6-0008OI-TE
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:59:07 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTS5-0000iy-A5
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:50:50 -0500
-Received: by mail-pg1-x531.google.com with SMTP id 79so24864187pgf.11
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:50:47 -0800 (PST)
+ id 1pDTa5-00065M-57
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:59:06 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ o8-20020a17090a9f8800b00223de0364beso2566854pjp.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:59:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rGtRxuXL9poxRWlNrH5xQKN+RfdxdevozKxSbPlo2EI=;
- b=s105/w9C5UPSfNSZIYZWJLYonE6u1QM1UlIjrKHNgjlRcKRooyoF6PWClkDIto8MM2
- /faO2vWCZv1LYjcWjVBNrum7iY77GbHXKCJLwuFCru9IUs263A8IBGHfKwN7bL72ChQG
- yxQRJ3Vfs/oSbAQe0ufSRO7uDkONy6JbMVITfK6kfSQZ1QN7OvB/nYx8LJTBjRlWdOgL
- xY+w0Rha1EAtYeotkJF+Q5WJyFHJ7wc8CsVnVOjDfU6CJMjQQEPos1c4VJWIeo/v6TFm
- cy6H+A+oH6WnFEZczUEyUovJfDmPBDw5V8D+tXLeFm4YvUTESmltb1f790GJNteiKojw
- j+gw==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kxF5oMuNsZgYKQYpL7WB9UVdCx4v0MGii0zKTUWWehU=;
+ b=NDYxpJ9WROc+MBtLlTSm4MBpcS4hSzjW522g6P0k33cy0SXU7QFfCJjZixVf8Garly
+ CIb4omWALgAQLhZk1ryPYTAewft6IvHCThEMrIe1QSLjQhlPZgbgoWb5Lvh+xvXQ+DvN
+ cbOWshr2MYzUz/H2DgaKJRqBg/aIznxg4fAOVSUGdYag+t8cAwBRJyilCVd6zj4zqfhK
+ BG1S0GHNAqfCr38GvzEbzSgNT3XuZGVm0AByz38483VFpW3Ujcf62xL7+2mDvLI+aZCI
+ Y5g0Gw+wIeIiKAwm/kCVDFMZkgM6K5lm9ooJsvlA7/b7g5kyVSkzas4e5AR5M2+F0ZZR
+ XSfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rGtRxuXL9poxRWlNrH5xQKN+RfdxdevozKxSbPlo2EI=;
- b=00r6BhNPRukgXUSlVTMqaTws4mViy4TCIDeiYYZd3mchJL7wXFCBuJPFcT1Lrx7Dzr
- VPHzEuuw/whkp2Wl/aG2ag24FYKz1rgll7A1jgpvpLk3TOXKzPtrEHmA/87Tftnpb2Vq
- WHZj3PyU8wANbzGlqkhfw8rOEet36rYcyAgb4eU/md5KNFTIMUpGXuZXKYP5E7w7BGgy
- lJVZALl8GqjgX4szf3UmqYTrS4vsAOQW/Z5a0aJUCB5kVAKdCRPwyTOh0CHOWXrdo2JN
- 9q8O4aGlyiFZEM3KfyOrpK2/iq8x4x3FGofxrUcZ6Rtlw+JMR130OZ4LxOVXMEjGS6UC
- bZIg==
-X-Gm-Message-State: AFqh2kopi9qu6VkovvBQJlB/UUam+6woBIUQj2semQ3laVTRwcmjxzY8
- pYK8fHvbGj5UsTjdlTBnKBnJKXT4oQPYM9AAsB4w/A==
-X-Google-Smtp-Source: AMrXdXs4O+iOYvGHoKfO015AeyZp5XEKS/8AqbXLT0xIDufd9RhduiKIjXgejnBamcwAl1C3lMxm2eOfXLTzDLjaek8=
-X-Received: by 2002:aa7:999c:0:b0:582:74a2:1e4e with SMTP id
- k28-20020aa7999c000000b0058274a21e4emr1125257pfh.26.1672937446491; Thu, 05
- Jan 2023 08:50:46 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kxF5oMuNsZgYKQYpL7WB9UVdCx4v0MGii0zKTUWWehU=;
+ b=66eWojPXKe4lsgq7r6/i11tyizQFbJYD6YXyVtag0Ykfljoa/iYkkmmnV+Jq//qtfk
+ Wbzya+mJzIUK6NcLQlj/VFBl78/RuXsf4A11UXGadOCpC7egcue+041OOrXJbt78xMzM
+ yh1vKxOoK1iJeXQL+AhbtEOWKQd4vtZHH6oj3DT18hnnW27f4EdtdUgpQdetnRY9c2fz
+ Uuiuzw6AiZAmUmWR2IWjY4nLCVefbG8IHDgQghSCFJCo+6A2OJNEdbrXvfG7YW4/idYS
+ vnVKvI9COz8MmeEC+gu6Z43sCgF31kRbT0EYPI9kdpGPKF2AB9Q+X+q9QcgKZICf7BDc
+ oxxw==
+X-Gm-Message-State: AFqh2kosPJjjFpc5DZl4XoZG3ByssyV/Rz/ktPJgrvYhYT2uFC0TXrek
+ GQaFFco/Nx3Z1u4QljajPnRbwc4JKuaZx3Y+7zWNkA==
+X-Google-Smtp-Source: AMrXdXtriF3ziPfygWEnsLuFYjtysJAwfbaK7WNiMFzdJbbYfcsXZZKP1R4ttj5KkgyLMrD6Ps2Kv1wOcIgIGNm0Pkk=
+X-Received: by 2002:a17:90a:b010:b0:226:b783:67f with SMTP id
+ x16-20020a17090ab01000b00226b783067fmr454913pjq.215.1672937943563; Thu, 05
+ Jan 2023 08:59:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20221221183202.3788132-1-slongfield@google.com>
- <CAFEAcA-zv_ny28MJGf4s9T1+3PwK8WRurVgiQnA+8UWbkRawkQ@mail.gmail.com>
- <88f5cc21-69bb-18a3-718d-90d2c43e787f@kaod.org>
-In-Reply-To: <88f5cc21-69bb-18a3-718d-90d2c43e787f@kaod.org>
+References: <20230102112921.68077-1-david@redhat.com>
+In-Reply-To: <20230102112921.68077-1-david@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Jan 2023 16:50:35 +0000
-Message-ID: <CAFEAcA_ez-_WHW25HCW36Vewa0rKDvUjvGCHCkX_Z0M2igW9tw@mail.gmail.com>
-Subject: Re: [PATCH] hw/net: Fix read of uninitialized memory in imx_fec.
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: Stephen Longfield <slongfield@google.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, venture@google.com, wuhaotsh@google.com
+Date: Thu, 5 Jan 2023 16:58:52 +0000
+Message-ID: <CAFEAcA8zzvK5dJbhF5eRh91uRv4MfROEt4NEMvs2tRF=MTUVYQ@mail.gmail.com>
+Subject: Re: [GIT PULL 0/4] Host Memory Backends and Memory devices queue
+ 2023-01-02
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>, 
+ "Michael S . Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Chenyi Qiang <chenyi.qiang@intel.com>, Michal Privoznik <mprivozn@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,33 +87,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 5 Jan 2023 at 16:46, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Mon, 2 Jan 2023 at 11:31, David Hildenbrand <david@redhat.com> wrote:
 >
-> On 1/5/23 16:33, Peter Maydell wrote:
-> > On Wed, 21 Dec 2022 at 18:32, Stephen Longfield <slongfield@google.com>=
- wrote:
-> >>
-> >> Size is used at lines 1088/1188 for the loop, which reads the last 4
-> >> bytes from the crc_ptr so it does need to get increased, however it
-> >> shouldn't be increased before the buffer is passed to CRC computation,
-> >> or the crc32 function will access uninitialized memory.
-> >>
-> >> This was pointed out to me by clg@kaod.org during the code review of
-> >> a similar patch to hw/net/ftgmac100.c
-> >>
-> >> Change-Id: Ib0464303b191af1e28abeb2f5105eb25aadb5e9b
-> >> Signed-off-by: Stephen Longfield <slongfield@google.com>
-> >> Reviewed-by: Patrick Venture <venture@google.com>
-> >
-> > Applied to target-arm.next, thanks.
+> The following changes since commit 222059a0fccf4af3be776fe35a5ea2d6a68f9a0b:
 >
-> Did you take the ftgmac100 also ?
+>   Merge tag 'pull-ppc-20221221' of https://gitlab.com/danielhb/qemu into staging (2022-12-21 18:08:09 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/davidhildenbrand/qemu.git tags/mem-2023-01-02
+>
+> for you to fetch changes up to 6bb613f0812d1364fc8fcf0846647446884d5148:
+>
+>   hostmem: Honor multiple preferred nodes if possible (2022-12-28 14:59:55 +0100)
+>
+> ----------------------------------------------------------------
+> Hi,
+>
+> "Host Memory Backends" and "Memory devices" queue ("mem"):
+> - virtio-mem fixes
+> - Use new MPOL_PREFERRED_MANY mbind() policy for memory backends if
+>   possible
+>
 
-No, I missed that one (patches arriving over a holiday
-period are more likely to get lost). ftgmac100 is aspeed,
-can you remind me, are you handling those patches at the moment
-or would you rather I took it through target-arm.next ?
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
 -- PMM
 
