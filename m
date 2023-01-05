@@ -2,81 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804B865F689
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 23:13:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F82865F6D8
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 23:33:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDYUK-0006oe-1V; Thu, 05 Jan 2023 17:13:28 -0500
+	id 1pDYUa-0006yc-Fu; Thu, 05 Jan 2023 17:13:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYUE-0006oG-MJ
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:13:22 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYUD-00026s-7C
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:13:22 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- g25-20020a7bc4d9000000b003d97c8d4941so2377904wmk.4
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 14:13:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ZSoxsNdyjXhIvzf7CA4f11duf3jYGK550rY9iSqRboE=;
- b=lCG7HKsoo5HZFA2pXcScdo9JbCiJofthXmOz0xDUxBb47B/u23/op9IloQg+oZFZS8
- Wzir+XB2/MGpSpAePnKgIM4WPOv5/3MAf7U5nthAZu+Ce6vidFOMr/q2igEVvfm1wOcI
- zsC/8zeTWVylRYzynth/B1h62xhXLJlGEzILlN1vDHegvW4aB0X4XkRw1NgQO9JQEYsZ
- zBQgKFHLTPhyo3XalBCASdJkF002+gzJH/BAVP+a4UcqUHu11kJS1vT1QB56ot7H8QF0
- Q/3/hboe+uARg/sYaQQ33cDhfnXQs7e1Ai2Z/tsiIvyJt8fSwXsvCOPghq89QeHDBfoi
- prEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZSoxsNdyjXhIvzf7CA4f11duf3jYGK550rY9iSqRboE=;
- b=z2/jq9rvaRe/x3EtZBbzv0v9gqwSwuMVH6bieVHZVDkuEFe57MlEcNgettc8qEm6Fg
- CfQM9u8dh2xpRzyhPOOHi2wZHTyj7AmpHh3j+1HhQDivyYhyy3yQt7EGdeF8pR2EoazB
- kV70qDHEfiyVgilv3i4KVjzttqBSiSgh1AVYj61Pu19rO19PXK30yDLXKwewRzgvbmWu
- Cy52fhq8p3SPHIzsfnofInVgJ4sNWnyMY8Tu8MqvLbYQ3OaC7fmFSzCToIBsjOZnQnm9
- N73VDIliYjk6MEUMagZlya4dQIAxgFZ3JahVtrTJwWqlJjrgxITX5JZ4FvUIZGS7fDzj
- rVQQ==
-X-Gm-Message-State: AFqh2koyPTqar58YanWmqvA5IDQ6NwKbMT+GSUXILgaSSY86saZqMYPn
- lMMSfLDYKzODGBHepZp2+m66lw==
-X-Google-Smtp-Source: AMrXdXt1IhGNH6CBDhMDTto2ctGZl2dAtDJP3FgoIkJ2xIRJUgXYNVDZW72VX8jhPhtMgM53R34cVg==
-X-Received: by 2002:a05:600c:4e44:b0:3d3:3c60:b2bb with SMTP id
- e4-20020a05600c4e4400b003d33c60b2bbmr3580321wmq.23.1672956799329; 
- Thu, 05 Jan 2023 14:13:19 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- g9-20020a05600c310900b003c5571c27a1sm5185201wmo.32.2023.01.05.14.13.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 14:13:18 -0800 (PST)
-Message-ID: <f41e34b4-bbd8-806b-4609-6a2bc1d67c61@linaro.org>
-Date: Thu, 5 Jan 2023 23:13:15 +0100
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1pDYUX-0006wk-Hx
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:13:41 -0500
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1pDYUU-000285-Jl
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:13:41 -0500
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 305LoJPr026836; Thu, 5 Jan 2023 22:13:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=24p7fEvzC8gBs5uLFfyFgabASx86hUFmIM9N27e2Pqs=;
+ b=dTVE/tW9TBtAv00PTzpq9YAK0BsWIWtW4NPqCiij+Vvryqf4H94oJdZgGBx2A88ogfbQ
+ yf17o3h40Ppg7cNE2izDQVZnXKDJVbOicZR4zKmjro8NxBG70Z9ck9yzNUxqz/6HTCO/
+ fVQdyzTZpkn3DOXUZHOJoVS8oLx2T6Ghp/DnTpQo887YjMi4XTWdiCTaSwgXmgcR6w3P
+ ImwW48x6hgJXX36Rp08NAqQgWZ1eY7VrW1WBukjaWehLIiJ2SWOm5kw8FcxkacF0VaEK
+ /IO+fhPdQ0Z7gRoVsxInLto6bfn9WsHXlvEydewRkTMwaDzwPsdLo/7cPNXTYNPJOsi+ +g== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mx5b0g6fw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Jan 2023 22:13:35 +0000
+Received: from pps.filterd (NALASPPMTA01.qualcomm.com [127.0.0.1])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 305MDZ3a003960; 
+ Thu, 5 Jan 2023 22:13:35 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA01.qualcomm.com (PPS) with ESMTP id 3mte5kxjvv-1;
+ Thu, 05 Jan 2023 22:13:35 +0000
+Received: from NALASPPMTA01.qualcomm.com (NALASPPMTA01.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 305MDYcn003954;
+ Thu, 5 Jan 2023 22:13:34 GMT
+Received: from hu-devc-lv-u18-c.qualcomm.com (hu-tsimpson-lv.qualcomm.com
+ [10.47.235.220])
+ by NALASPPMTA01.qualcomm.com (PPS) with ESMTP id 305MDY60003951;
+ Thu, 05 Jan 2023 22:13:34 +0000
+Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
+ id 331E65000A7; Thu,  5 Jan 2023 14:13:34 -0800 (PST)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, philmd@linaro.org,
+ ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
+Subject: [PATCH v3 0/9] Hexagon: COF overrides, new generator, test update
+Date: Thu,  5 Jan 2023 14:13:22 -0800
+Message-Id: <20230105221331.12069-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC PATCH 28/40] target/arm: Split out xscale*_class_init
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
- armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
-References: <20230103181646.55711-1-richard.henderson@linaro.org>
- <20230103181646.55711-29-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230103181646.55711-29-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 3ar86KcgubXT_Sbkn6HrkXDkDViQvhhc
+X-Proofpoint-GUID: 3ar86KcgubXT_Sbkn6HrkXDkDViQvhhc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-05_12,2023-01-05_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015
+ mlxlogscore=481 impostorscore=0 suspectscore=0 mlxscore=0 malwarescore=0
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 phishscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301050174
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=tsimpson@qualcomm.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,17 +104,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/1/23 19:16, Richard Henderson wrote:
-> Use two intermediate functions to share code between
-> the 13 variants of pxa*_class_init.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/arm/cpu_tcg.c | 81 +++++++++++++-------------------------------
->   1 file changed, 23 insertions(+), 58 deletions(-)
-
-Yay :)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+VGhlIGlkZWYtcGFyc2VyIHNraXBzIHRoZSBjaGFuZ2Utb2YtZmxvdyAoQ09GKSBpbnN0cnVjdGlv
+bnMsIHNvIGFkZApvdmVycmlkZXMKCioqKiogQ2hhbmdlcyBpbiB2MiAqKioqCkFkZCBhIG5ldyBn
+ZW5lcmF0b3IgZm9yIGFuYWx5emVfPHRhZz4gaW5zdHJ1Y3Rpb25zLiAgUG91cGxhdGUgdGhlCkRp
+c2FzQ29udGV4dCBhaGVhZCBvZiBnZW5lcmF0aW5nIGNvZGUuCgoqKioqIENoYW5nZXMgaW4gdjMg
+KioqKgpDbGVhbnVwIG9mIGFuYWx5c2lzIGNvZGUKQWRkZWQgdGVzdCB1cGRhdGVzIGVuYWJsZWQg
+YnkgbmV3IHRvb2xjaGFpbiBjb250YWluZXIKClRheWxvciBTaW1wc29uICg5KToKICBIZXhhZ29u
+ICh0YXJnZXQvaGV4YWdvbikgQWRkIG92ZXJyaWRlcyBmb3IganVtcHIzMSBpbnN0cnVjdGlvbnMK
+ICBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbikgQWRkIG92ZXJyaWRlcyBmb3IgY2FsbHIKICBIZXhh
+Z29uICh0YXJnZXQvaGV4YWdvbikgQWRkIG92ZXJyaWRlcyBmb3IgZW5kbG9vcDEvZW5kbG9vcDAx
+CiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIEFkZCBvdmVycmlkZXMgZm9yIGRlYWxsb2MtcmV0
+dXJuIGluc3RydWN0aW9ucwogIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBBbmFseXplIHBhY2tl
+dCBiZWZvcmUgZ2VuZXJhdGluZyBUQ0cKICBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbikgQW5hbHl6
+ZSBwYWNrZXQgZm9yIEhWWAogIEhleGFnb24gKHRlc3RzL3RjZy9oZXhhZ29uKSBVcGRhdGUgcHJl
+Z19hbGlhcy5jCiAgSGV4YWdvbiAodGVzdHMvdGNnL2hleGFnb24pIFJlbW92ZSBfX2J1aWx0aW4g
+ZnJvbSBzY2F0dGVyX2dhdGhlcgogIEhleGFnb24gKHRlc3RzL3RjZy9oZXhhZ29uKSBFbmFibGUg
+SFZYIHRlc3RzCgogdGFyZ2V0L2hleGFnb24vZ2VuX3RjZy5oICAgICAgICAgICAgICAgICAgICB8
+ICA3OSArKy0KIHRhcmdldC9oZXhhZ29uL21hY3Jvcy5oICAgICAgICAgICAgICAgICAgICAgfCAg
+MTIgKy0KIHRhcmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5oICAgICAgICAgICAgICAgICAgfCAgNjAg
+KystCiB0YXJnZXQvaGV4YWdvbi9nZW5wdHIuYyAgICAgICAgICAgICAgICAgICAgIHwgMjAwICsr
+KysrKystCiB0YXJnZXQvaGV4YWdvbi9pZGVmLXBhcnNlci9wYXJzZXItaGVscGVycy5jIHwgICA3
+ICstCiB0YXJnZXQvaGV4YWdvbi9vcF9oZWxwZXIuYyAgICAgICAgICAgICAgICAgIHwgIDI2ICst
+CiB0YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuYyAgICAgICAgICAgICAgICAgIHwgMTg3ICsrKyst
+LS0KIHRlc3RzL3RjZy9oZXhhZ29uL3ByZWdfYWxpYXMuYyAgICAgICAgICAgICAgfCAgMTAgKy0K
+IHRlc3RzL3RjZy9oZXhhZ29uL3NjYXR0ZXJfZ2F0aGVyLmMgICAgICAgICAgfCA1MTMgKysrKysr
+KysrKystLS0tLS0tLS0KIHRhcmdldC9oZXhhZ29uL1JFQURNRSAgICAgICAgICAgICAgICAgICAg
+ICAgfCAgMTEgKy0KIHRhcmdldC9oZXhhZ29uL2dlbl9hbmFseXplX2Z1bmNfdGFibGUucHkgICAg
+fCAgNTIgKysKIHRhcmdldC9oZXhhZ29uL2dlbl9hbmFseXplX2Z1bmNzLnB5ICAgICAgICAgfCAy
+NTAgKysrKysrKysrKwogdGFyZ2V0L2hleGFnb24vZ2VuX3RjZ19mdW5jcy5weSAgICAgICAgICAg
+ICB8ICA0MSArLQogdGFyZ2V0L2hleGFnb24vbWVzb24uYnVpbGQgICAgICAgICAgICAgICAgICB8
+ICAyMCArLQogdGVzdHMvdGNnL2hleGFnb24vTWFrZWZpbGUudGFyZ2V0ICAgICAgICAgICB8ICAx
+MyArLQogMTUgZmlsZXMgY2hhbmdlZCwgMTA1MyBpbnNlcnRpb25zKCspLCA0MjggZGVsZXRpb25z
+KC0pCiBjcmVhdGUgbW9kZSAxMDA3NTUgdGFyZ2V0L2hleGFnb24vZ2VuX2FuYWx5emVfZnVuY190
+YWJsZS5weQogY3JlYXRlIG1vZGUgMTAwNzU1IHRhcmdldC9oZXhhZ29uL2dlbl9hbmFseXplX2Z1
+bmNzLnB5CgotLSAKMi4xNy4xCgo=
 
