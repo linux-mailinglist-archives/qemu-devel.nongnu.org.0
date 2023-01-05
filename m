@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F1DA65F701
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 23:47:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D79865F702
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 23:47:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDYzy-0001PL-31; Thu, 05 Jan 2023 17:46:10 -0500
+	id 1pDYzv-0001NK-UQ; Thu, 05 Jan 2023 17:46:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pDYTv-0006hb-8E; Thu, 05 Jan 2023 17:13:03 -0500
+ id 1pDYTv-0006i4-VM; Thu, 05 Jan 2023 17:13:03 -0500
 Received: from linux.microsoft.com ([13.77.154.182])
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pDYTt-00023F-Me; Thu, 05 Jan 2023 17:13:03 -0500
+ id 1pDYTu-00023S-Eu; Thu, 05 Jan 2023 17:13:03 -0500
 Received: from localhost.localdomain (unknown [77.64.253.186])
- by linux.microsoft.com (Postfix) with ESMTPSA id 3DA1120B92AC;
- Thu,  5 Jan 2023 14:12:59 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3DA1120B92AC
+ by linux.microsoft.com (Postfix) with ESMTPSA id 807E320B92AE;
+ Thu,  5 Jan 2023 14:13:00 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 807E320B92AE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1672956780;
- bh=QoqemqlNpSGkv32PNTdWXHZygAH80j0ySECS7DqLe2c=;
+ s=default; t=1672956781;
+ bh=0vqipwJO687PYjgTT1xXJiaZkuc8ITjjIBNOXxLxqcY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dm0XrfA7sEJ7mgxambZnxzQ2PxLlHm0Cwt2kLQSN4k0EuvG7Hxod37UGMuDwHpMrk
- N9DzDLF/LcIv/xuSMDLGI6x0kDYM/P+ZHTJH04yxu5EQRL3x/w1jxhnjX+V3/45VTx
- +dpoaLfrefwYa38v+P7knXqvxF2Vy6Sq6Y+sAdEE=
+ b=UCqlOsYAK5YdJHFhB95Nzae/kf/JV37Rwq4gOH+A6n/D35ucLqVL3OmKDcLarRuaY
+ vW5HTKkZX0utZKdk79zXLeM71vLQwOqVx5U7En8xPrxze1KP/IlvIlBgsdurd8AAXq
+ Xtt7YerXGs6Qwt+FSIZVHQBta222vNxpwcrzv86Q=
 From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PATCH 2/3] target/arm: provide RAZ/WI stubs for more DCC registers
-Date: Thu,  5 Jan 2023 23:12:50 +0100
-Message-Id: <20230105221251.17896-3-eiakovlev@linux.microsoft.com>
+Subject: [PATCH 3/3] target/arm: allow writes to SCR_EL3.HXEn bit when
+ FEAT_HCX is enabled
+Date: Thu,  5 Jan 2023 23:12:51 +0100
+Message-Id: <20230105221251.17896-4-eiakovlev@linux.microsoft.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230105221251.17896-1-eiakovlev@linux.microsoft.com>
 References: <20230105221251.17896-1-eiakovlev@linux.microsoft.com>
@@ -65,42 +66,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Qemu doesn't implement Debug Communication Channel, however when running
-Microsoft Hyper-V in software-emulated ARM64 as a guest, it tries to
-access some of the DCM registers during an EL2 context switch.
-
-Provide RAZ/WI stubs for OSDTRRX_EL1, OSDTRTX_EL1 and OSECCR_EL1
-registers in the same way the rest of DCM is currently done. Do
-account for access traps though with access_tda.
+ARM trusted firmware, when built with FEAT_HCX support, sets SCR_EL3.HXEn bit
+to allow EL2 to modify HCRX_EL2 register without trapping it in EL3. Qemu
+uses a valid mask to clear unsupported SCR_EL3 bits when emulating SCR_EL3
+write, and that mask doesn't include SCR_EL3.HXEn bit even if FEAT_HCX is
+enabled and exposed to the guest. As a result EL3 writes of that bit are
+ignored.
 
 Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
 ---
- target/arm/debug_helper.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ target/arm/helper.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-index b244e146e2..2a7c3d7e38 100644
---- a/target/arm/debug_helper.c
-+++ b/target/arm/debug_helper.c
-@@ -673,6 +673,18 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
-       .opc0 = 2, .opc1 = 3, .crn = 0, .crm = 1, .opc2 = 0,
-       .access = PL0_R, .accessfn = access_tda,
-       .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "OSDTRRX_EL1", .state = ARM_CP_STATE_BOTH, .cp = 14,
-+      .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 0, .opc2 = 2,
-+      .access = PL1_RW, .accessfn = access_tda,
-+      .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "OSDTRTX_EL1", .state = ARM_CP_STATE_BOTH, .cp = 14,
-+      .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 2,
-+      .access = PL1_RW, .accessfn = access_tda,
-+      .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "OSECCR_EL1", .state = ARM_CP_STATE_BOTH, .cp = 14,
-+      .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 6, .opc2 = 2,
-+      .access = PL1_RW, .accessfn = access_tda,
-+      .type = ARM_CP_CONST, .resetvalue = 0 },
-     /*
-      * DBGDSCRint[15,12,5:2] map to MDSCR_EL1[15,12,5:2].  Map all bits as
-      * it is unlikely a guest will care.
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index bac2ea62c4..962affdd52 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1844,6 +1844,9 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+         if (cpu_isar_feature(aa64_sme, cpu)) {
+             valid_mask |= SCR_ENTP2;
+         }
++        if (cpu_isar_feature(aa64_hcx, cpu)) {
++            valid_mask |= SCR_HXEN;
++        }
+     } else {
+         valid_mask &= ~(SCR_RW | SCR_ST);
+         if (cpu_isar_feature(aa32_ras, cpu)) {
 -- 
 2.34.1
 
