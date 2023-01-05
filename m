@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E15965E85E
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 10:56:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95AAE65E8FF
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 11:26:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDMzP-0000g7-2Y; Thu, 05 Jan 2023 04:56:47 -0500
+	id 1pDNR3-00007E-H7; Thu, 05 Jan 2023 05:25:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMzM-0000fj-SO
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:56:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <quic_mliebel@quicinc.com>)
+ id 1pDNR1-00006X-N2
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 05:25:19 -0500
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMzK-0006jz-JF
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:56:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672912601;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NrON/QDfYhYMJ+fM7OjZSPywWPcz/tPDTAOJR2IR+Q8=;
- b=I/+EVLgAoCEEjiNKgCCLZoUonanmbmDUh5JWcBxCvDkxauvIy7Pywcu+feycdwzDBG51SW
- QC8ysVmSGNoRwxKu4xs/MGg3O2sYp2r/b+8eqyEQTXOfZdOr6ua9tFU4dfHa34MiS4QlyP
- LdEBD95tFHafZWnzas+eF6QSD5F3rz0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-6-PvdgblV0OUuFoE22jUzxHA-1; Thu, 05 Jan 2023 04:56:41 -0500
-X-MC-Unique: PvdgblV0OUuFoE22jUzxHA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- l17-20020a056402255100b00472d2ff0e59so23285933edb.19
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 01:56:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NrON/QDfYhYMJ+fM7OjZSPywWPcz/tPDTAOJR2IR+Q8=;
- b=QMWs+Hswrzf1jC2G8mKtykH+ZSa/tVmj57o05E9yoej1CsomFTFGBP6o9M0vtkcUvU
- qKoC13b9/qoUo0kBhHRMBEWWOrS+/pbhDt1bhCdwxA0uXCv9PAWKiHBtrUEdgh8u+jPb
- NdcwEADjpVBVqGuENuFegxYoBg3kw5Vl3ez+79trvL/OT6OAzhuWe2y/OwsCqnOtmTv2
- UEzJiTwTYVOuwKWxTqeDF8H+2vw6U4kMClqBCoOWZMW1ktyukYlM0fWASQ2Eo4g4Z8GB
- Qxhfe4hub6LGOIVhqo2V+p1kN8an7ODBOAm74WX8i9b8oSFakGXWEtcDtiTEm5jzDvoN
- LNqQ==
-X-Gm-Message-State: AFqh2kr5eTSNaYcJ46xzahEKnCthcu5vTqwsjMsuFvr5VOJcIDx9zhOl
- 38M98EbtK8MzZXL06lpdDYzodQQLi1yJxrARusKSQIM4e243tFqGhBTwVKR6Fh8FSt8I4Qr+cw9
- bOAEzfparc8OUl3dXbSJ37vmUDnoubRCsl1P2ixr13brx7ttGOfK9QRb/2Ur0
-X-Received: by 2002:a17:906:4894:b0:7c0:beee:2f06 with SMTP id
- v20-20020a170906489400b007c0beee2f06mr45801245ejq.52.1672912599535; 
- Thu, 05 Jan 2023 01:56:39 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsRZT8uLVn/5bVI8uIME6zYO0ESQ6Qfk1aQuC40mXpUz+jBkCJMBGaEZVRUG5fvy3u3wyUsGQ==
-X-Received: by 2002:a17:906:4894:b0:7c0:beee:2f06 with SMTP id
- v20-20020a170906489400b007c0beee2f06mr45801228ejq.52.1672912599082; 
- Thu, 05 Jan 2023 01:56:39 -0800 (PST)
-Received: from redhat.com ([2.52.151.85]) by smtp.gmail.com with ESMTPSA id
- ky17-20020a170907779100b00849c1e5c00esm15382117ejc.72.2023.01.05.01.56.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 01:56:38 -0800 (PST)
-Date: Thu, 5 Jan 2023 04:56:35 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/51] virtio,pc,pci: features, cleanups, fixes
-Message-ID: <20230105045619-mutt-send-email-mst@kernel.org>
-References: <20230105091310.263867-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <quic_mliebel@quicinc.com>)
+ id 1pDNQz-0001I7-Ip
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 05:25:19 -0500
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3059FxlN032355
+ for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 10:25:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=AcDOdl/cJ1tVc7v8muoGt2ROSbI20XN9k004dqW2UeQ=;
+ b=ZpFbRGyHVUY/536fazmo4uittw4UkOkotsFBmc1qNxCpMkt3wDh4NJn6T4oiyEMHwbRQ
+ 6Vp+hhqgLTHd4jCHevzuh6bZP+zj0YfCLz9PRZvCaupwXI2barLKWwhi3+fMiPvtPnus
+ PCVqZmcJCIx2Wsx4F4Vh/DrH12G8yA64KQuxsc3YQKMmTvMEqO0EO82iCjceAsef35ep
+ J3gCFATn7bsBn71TxHQWJBi65/tEqXQQNalHM9XmEZAdlZdY6U3J3+6EH3xHk+jDGCuF
+ CQQKjZK+lL70WdWhiKOvVh8xKj+VuMzXKqBjJC9ZMWI6K1vuFF5VcCtWASIlR6IXB4zU 1A== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mvsvf40rd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 10:25:13 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 305APCSN002842
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 10:25:12 GMT
+Received: from hu-mliebel-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Thu, 5 Jan 2023 02:25:12 -0800
+From: Marco Liebel <quic_mliebel@quicinc.com>
+To: <qemu-devel@nongnu.org>
+CC: <tsimpson@quicinc.com>, <bcain@quicinc.com>, Marco Liebel
+ <quic_mliebel@quicinc.com>
+Subject: [PATCH v3] Hexagon (target/hexagon) implement mutability mask for GPRs
+Date: Thu, 5 Jan 2023 02:23:49 -0800
+Message-ID: <20230105102349.2181856-1-quic_mliebel@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230105091310.263867-1-mst@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: nyToXUhHJkSBfo3fvVkFuMIzZgb9PYfY
+X-Proofpoint-GUID: nyToXUhHJkSBfo3fvVkFuMIzZgb9PYfY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-05_04,2023-01-04_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 spamscore=0 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301050085
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=quic_mliebel@quicinc.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,339 +98,268 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 05, 2023 at 04:14:20AM -0500, Michael S. Tsirkin wrote:
-> The following changes since commit cb9c6a8e5ad6a1f0ce164d352e3102df46986e22:
-> 
->   .gitlab-ci.d/windows: Work-around timeout and OpenGL problems of the MSYS2 jobs (2023-01-04 18:58:33 +0000)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> 
-> for you to fetch changes up to 6529cb46fa76bb4b4f217d6fcc68b61b543062c4:
+Some registers are defined to have immutable bits, this commit
+will implement that behavior.
 
-7c77271205339d3b161bdf925f5ead799b582e47 now - I dropped one patch
-as v2 is forthcoming.
+Signed-off-by: Marco Liebel <quic_mliebel@quicinc.com>
+---
+ target/hexagon/genptr.c           |  44 ++++++++-
+ tests/tcg/hexagon/Makefile.target |   1 +
+ tests/tcg/hexagon/reg_mut.c       | 152 ++++++++++++++++++++++++++++++
+ 3 files changed, 195 insertions(+), 2 deletions(-)
+ create mode 100644 tests/tcg/hexagon/reg_mut.c
 
-
->   vhost-scsi: fix memleak of vsc->inflight (2023-01-05 04:07:39 -0500)
-> 
-> ----------------------------------------------------------------
-> virtio,pc,pci: features, cleanups, fixes
-> 
-> mostly vhost-vdpa:
->     guest announce feature emulation when using shadow virtqueue
->     support for configure interrupt
->     startup speed ups
-> 
-> an acpi change to only generate cluster node in PPTT when specified for arm
-> 
-> misc fixes, cleanups
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> ----------------------------------------------------------------
-> 
-> Note: linux-user build is failing for me on master, I just
-> disabled it for now as nothing I'm doing should affect linux-user.
-> Didn't debug yet.
-> 
-> 
-> Bernhard Beschow (7):
->       hw/acpi/Kconfig: Rename ACPI_X86_ICH to ACPI_ICH9
->       hw/acpi/Kconfig: Add missing dependencies to ACPI_ICH9
->       hw/acpi/Kconfig: Do not needlessly build TYPE_PIIX4_PM in non-PC/Malta machines
->       hw/acpi/Kconfig: Add missing dependencies to ACPI_PIIX4
->       hw/isa/Kconfig: Add missing dependency to VT82C686
->       i386, mips: Resolve redundant ACPI and APM dependencies
->       hw/ppc/Kconfig: Remove unused dependencies from PEGASOS2
-> 
-> Cindy Lu (10):
->       virtio: introduce macro VIRTIO_CONFIG_IRQ_IDX
->       virtio-pci: decouple notifier from interrupt process
->       virtio-pci: decouple the single vector from the interrupt process
->       vhost: introduce new VhostOps vhost_set_config_call
->       vhost-vdpa: add support for config interrupt
->       virtio: add support for configure interrupt
->       vhost: add support for configure interrupt
->       virtio-net: add support for configure interrupt
->       virtio-mmio: add support for configure interrupt
->       virtio-pci: add support for configure interrupt
-> 
-> Dongli Zhang (1):
->       vhost-scsi: fix memleak of vsc->inflight
-> 
-> Eugenio Pérez (4):
->       virtio_net: Modify virtio_net_get_config to early return
->       virtio_net: copy VIRTIO_NET_S_ANNOUNCE if device model has it
->       vdpa: handle VIRTIO_NET_CTRL_ANNOUNCE in vhost_vdpa_net_handle_ctrl_avail
->       vdpa: do not handle VIRTIO_NET_F_GUEST_ANNOUNCE in vhost-vdpa
-> 
-> Hyman Huang (3):
->       vhost-user: Refactor vhost acked features saving
->       vhost-user: Refactor the chr_closed_bh
->       vhost-user: Fix the virtio features negotiation flaw
-> 
-> Laszlo Ersek (1):
->       acpi: cpuhp: fix guest-visible maximum access size to the legacy reg block
-> 
-> Longpeng (Mike) (5):
->       vdpa-dev: get iova range explicitly
->       vdpa: harden the error path if get_iova_range failed
->       vhost: simplify vhost_dev_enable_notifiers
->       vhost: configure all host notifiers in a single MR transaction
->       vdpa: commit all host notifier MRs in a single MR transaction
-> 
-> Markus Armbruster (11):
->       include/hw/pci: Break inclusion loop pci_bridge.h and cxl.h
->       include/hw/cxl: Move typedef PXBDev to cxl.h, and put it to use
->       include/hw/cxl: Include hw/cxl/*.h where needed
->       include/hw/pci: Clean up a few things checkpatch.pl would flag
->       include/hw/pci: Split pci_device.h off pci.h
->       include/hw/pci: Include hw/pci/pci.h where needed
->       include/hw/cxl: Break inclusion loop cxl_pci.h and cxl_cdat_h
->       include/hw/virtio: Break inclusion loop
->       include: Include headers where needed
->       include: Don't include qemu/osdep.h
->       docs/devel: Rules on #include in headers
-> 
-> Philippe Mathieu-Daudé (2):
->       hw/virtio: Rename virtio_device_find() -> qmp_find_virtio_device()
->       hw/virtio: Extract QMP QOM-specific functions to virtio-qmp.c
-> 
-> Yicong Yang (6):
->       tests: virt: Allow changes to PPTT test table
->       hw/acpi/aml-build: Only generate cluster node in PPTT when specified
->       tests: virt: Update expected ACPI tables for virt test
->       tests: acpi: Add and whitelist *.topology blobs
->       tests: acpi: aarch64: Add topology test for aarch64
->       tests: acpi: aarch64: Add *.topology tables
-> 
-> leixiang (1):
->       virtio-pci: fix proxy->vector_irqfd leak in virtio_pci_set_guest_notifiers
-> 
->  configs/devices/mips-softmmu/common.mak     |   3 -
->  bsd-user/qemu.h                             |   1 -
->  crypto/block-luks-priv.h                    |   1 -
->  hw/alpha/alpha_sys.h                        |   1 -
->  hw/display/ati_int.h                        |   2 +-
->  hw/display/qxl.h                            |   3 +-
->  hw/ide/ahci_internal.h                      |   2 +-
->  hw/net/vmxnet3_defs.h                       |   2 +-
->  hw/nvme/nvme.h                              |   2 +-
->  hw/rdma/rdma_utils.h                        |   1 -
->  hw/rdma/vmw/pvrdma.h                        |   2 +-
->  hw/scsi/mptsas.h                            |   2 +-
->  hw/usb/hcd-ehci.h                           |   3 +-
->  hw/usb/hcd-uhci.h                           |   2 +-
->  hw/usb/hcd-xhci-pci.h                       |   1 +
->  hw/vfio/pci.h                               |   2 +-
->  hw/virtio/virtio-qmp.h                      |  10 +
->  hw/xen/xen_pt.h                             |   1 -
->  include/exec/plugin-gen.h                   |   1 +
->  include/hw/acpi/erst.h                      |   3 +
->  include/hw/acpi/piix4.h                     |   2 +-
->  include/hw/arm/allwinner-a10.h              |   1 +
->  include/hw/boards.h                         |   3 +
->  include/hw/char/cmsdk-apb-uart.h            |   1 +
->  include/hw/char/goldfish_tty.h              |   1 +
->  include/hw/char/xilinx_uartlite.h           |   1 +
->  include/hw/cris/etraxfs.h                   |   1 +
->  include/hw/cxl/cxl.h                        |   5 +-
->  include/hw/cxl/cxl_cdat.h                   |   1 +
->  include/hw/cxl/cxl_component.h              |   1 +
->  include/hw/cxl/cxl_device.h                 |   2 +
->  include/hw/cxl/cxl_host.h                   |   1 -
->  include/hw/cxl/cxl_pci.h                    |   3 -
->  include/hw/display/macfb.h                  |   3 +-
->  include/hw/dma/sifive_pdma.h                |   2 +
->  include/hw/i386/ich9.h                      |   4 -
->  include/hw/i386/ioapic_internal.h           |   1 +
->  include/hw/i386/sgx-epc.h                   |   1 +
->  include/hw/i386/x86-iommu.h                 |   1 -
->  include/hw/ide/pci.h                        |   2 +-
->  include/hw/input/pl050.h                    |   1 -
->  include/hw/intc/goldfish_pic.h              |   2 +
->  include/hw/intc/loongarch_pch_msi.h         |   2 +
->  include/hw/intc/loongarch_pch_pic.h         |   2 +
->  include/hw/intc/nios2_vic.h                 |   2 +
->  include/hw/isa/vt82c686.h                   |   1 -
->  include/hw/misc/macio/macio.h               |   2 +-
->  include/hw/misc/mchp_pfsoc_dmc.h            |   2 +
->  include/hw/misc/mchp_pfsoc_ioscb.h          |   2 +
->  include/hw/misc/mchp_pfsoc_sysreg.h         |   2 +
->  include/hw/misc/pvpanic.h                   |   1 +
->  include/hw/misc/sifive_e_prci.h             |   3 +-
->  include/hw/misc/sifive_u_otp.h              |   3 +-
->  include/hw/misc/sifive_u_prci.h             |   3 +-
->  include/hw/misc/virt_ctrl.h                 |   2 +
->  include/hw/misc/xlnx-versal-pmc-iou-slcr.h  |   1 +
->  include/hw/net/lasi_82596.h                 |   2 +-
->  include/hw/net/xlnx-zynqmp-can.h            |   1 +
->  include/hw/pci-host/designware.h            |   3 -
->  include/hw/pci-host/gpex.h                  |   2 +-
->  include/hw/pci-host/i440fx.h                |   2 +-
->  include/hw/pci-host/ls7a.h                  |   2 -
->  include/hw/pci-host/pnv_phb3.h              |   2 -
->  include/hw/pci-host/pnv_phb4.h              |   3 +-
->  include/hw/pci-host/q35.h                   |   2 +-
->  include/hw/pci-host/sabre.h                 |   2 +-
->  include/hw/pci-host/xilinx-pcie.h           |   1 -
->  include/hw/pci/msi.h                        |   2 +-
->  include/hw/pci/pci.h                        | 341 ---------------------------
->  include/hw/pci/pci_bridge.h                 |   3 +-
->  include/hw/pci/pci_device.h                 | 350 ++++++++++++++++++++++++++++
->  include/hw/pci/pcie.h                       |   1 -
->  include/hw/pci/pcie_port.h                  |   1 +
->  include/hw/pci/pcie_sriov.h                 |   2 +
->  include/hw/pci/shpc.h                       |   2 +-
->  include/hw/ppc/pnv_psi.h                    |   2 +-
->  include/hw/remote/iohub.h                   |   2 +-
->  include/hw/remote/proxy.h                   |   2 +-
->  include/hw/riscv/boot_opensbi.h             |   2 +
->  include/hw/riscv/microchip_pfsoc.h          |   3 +
->  include/hw/riscv/numa.h                     |   1 +
->  include/hw/riscv/sifive_u.h                 |   2 +
->  include/hw/riscv/spike.h                    |   2 +-
->  include/hw/riscv/virt.h                     |   2 +-
->  include/hw/sd/sdhci.h                       |   2 +-
->  include/hw/southbridge/piix.h               |   3 +-
->  include/hw/ssi/sifive_spi.h                 |   3 +
->  include/hw/timer/sse-timer.h                |   1 +
->  include/hw/tricore/triboard.h               |   1 -
->  include/hw/usb/hcd-dwc3.h                   |   1 +
->  include/hw/usb/hcd-musb.h                   |   2 +
->  include/hw/usb/xlnx-usb-subsystem.h         |   2 +
->  include/hw/usb/xlnx-versal-usb2-ctrl-regs.h |   3 +
->  include/hw/virtio/vhost-backend.h           |   3 +
->  include/hw/virtio/vhost-vdpa.h              |   2 +
->  include/hw/virtio/vhost.h                   |   4 +
->  include/hw/virtio/virtio-mmio.h             |   2 +-
->  include/hw/virtio/virtio-pci.h              |   4 +-
->  include/hw/virtio/virtio-scsi.h             |   1 -
->  include/hw/virtio/virtio.h                  |   8 +-
->  include/hw/xen/xen_common.h                 |   2 +-
->  include/net/vhost-user.h                    |   1 +
->  include/net/vhost_net.h                     |   4 +
->  include/qemu/plugin-memory.h                |   3 +
->  include/qemu/userfaultfd.h                  |   1 -
->  include/sysemu/dirtyrate.h                  |   2 +
->  include/sysemu/dump.h                       |   1 +
->  include/user/syscall-trace.h                |   1 +
->  net/vmnet_int.h                             |   1 -
->  qga/cutils.h                                |   1 -
->  target/hexagon/hex_arch_types.h             |   1 -
->  target/hexagon/mmvec/macros.h               |   1 -
->  target/riscv/pmu.h                          |   1 -
->  hw/acpi/aml-build.c                         |   2 +-
->  hw/acpi/cpu_hotplug.c                       |   3 +
->  hw/acpi/erst.c                              |   2 +-
->  hw/alpha/pci.c                              |   1 +
->  hw/alpha/typhoon.c                          |   2 +-
->  hw/audio/ac97.c                             |   2 +-
->  hw/audio/es1370.c                           |   2 +-
->  hw/audio/via-ac97.c                         |   2 +-
->  hw/char/serial-pci-multi.c                  |   2 +-
->  hw/char/serial-pci.c                        |   2 +-
->  hw/core/machine-smp.c                       |   2 +
->  hw/core/qdev-properties-system.c            |   1 +
->  hw/display/bochs-display.c                  |   2 +-
->  hw/display/cirrus_vga.c                     |   2 +-
->  hw/display/sm501.c                          |   2 +-
->  hw/display/vga-pci.c                        |   2 +-
->  hw/display/vhost-user-gpu.c                 |  18 ++
->  hw/display/vmware_vga.c                     |   2 +-
->  hw/i386/acpi-build.c                        |   2 +-
->  hw/i386/xen/xen_pvdevice.c                  |   2 +-
->  hw/ipack/tpci200.c                          |   2 +-
->  hw/ipmi/pci_ipmi_bt.c                       |   2 +-
->  hw/ipmi/pci_ipmi_kcs.c                      |   2 +-
->  hw/isa/i82378.c                             |   2 +-
->  hw/mips/gt64xxx_pci.c                       |   2 +-
->  hw/misc/pci-testdev.c                       |   2 +-
->  hw/misc/pvpanic-pci.c                       |   2 +-
->  hw/net/can/can_kvaser_pci.c                 |   2 +-
->  hw/net/can/can_mioe3680_pci.c               |   2 +-
->  hw/net/can/can_pcm3680_pci.c                |   2 +-
->  hw/net/can/ctucan_pci.c                     |   2 +-
->  hw/net/e1000.c                              |   2 +-
->  hw/net/e1000x_common.c                      |   2 +-
->  hw/net/eepro100.c                           |   2 +-
->  hw/net/ne2000-pci.c                         |   2 +-
->  hw/net/net_tx_pkt.c                         |   2 +-
->  hw/net/pcnet-pci.c                          |   2 +-
->  hw/net/rocker/rocker.c                      |   2 +-
->  hw/net/rocker/rocker_desc.c                 |   2 +-
->  hw/net/rtl8139.c                            |   2 +-
->  hw/net/sungem.c                             |   2 +-
->  hw/net/sunhme.c                             |   2 +-
->  hw/net/tulip.c                              |   2 +-
->  hw/net/vhost_net-stub.c                     |  14 ++
->  hw/net/vhost_net.c                          |  18 ++
->  hw/net/virtio-net.c                         |  60 +++--
->  hw/pci-bridge/i82801b11.c                   |   2 +-
->  hw/pci-bridge/pci_expander_bridge.c         |   1 -
->  hw/pci-host/bonito.c                        |   2 +-
->  hw/pci-host/dino.c                          |   2 +-
->  hw/pci-host/grackle.c                       |   2 +-
->  hw/pci-host/mv64361.c                       |   2 +-
->  hw/pci-host/ppce500.c                       |   2 +-
->  hw/pci-host/raven.c                         |   2 +-
->  hw/pci-host/sh_pci.c                        |   2 +-
->  hw/pci-host/uninorth.c                      |   2 +-
->  hw/pci-host/versatile.c                     |   2 +-
->  hw/pci/pci-hmp-cmds.c                       |   1 +
->  hw/pci/pcie_host.c                          |   2 +-
->  hw/pci/pcie_sriov.c                         |   2 +-
->  hw/pci/slotid_cap.c                         |   2 +-
->  hw/ppc/ppc440_pcix.c                        |   2 +-
->  hw/ppc/ppc4xx_pci.c                         |   2 +-
->  hw/ppc/spapr_pci_vfio.c                     |   1 +
->  hw/rdma/rdma_utils.c                        |   1 +
->  hw/s390x/s390-pci-inst.c                    |   1 +
->  hw/scsi/esp-pci.c                           |   2 +-
->  hw/scsi/lsi53c895a.c                        |   2 +-
->  hw/scsi/vhost-scsi-common.c                 |   1 +
->  hw/scsi/virtio-scsi.c                       |   1 +
->  hw/smbios/smbios.c                          |   1 +
->  hw/usb/hcd-ohci-pci.c                       |   2 +-
->  hw/virtio/vdpa-dev.c                        |   9 +
->  hw/virtio/vhost-user-fs.c                   |  18 ++
->  hw/virtio/vhost-user-gpio.c                 |  10 +
->  hw/virtio/vhost-vdpa.c                      |  40 +++-
->  hw/virtio/vhost-vsock-common.c              |  18 ++
->  hw/virtio/vhost.c                           | 122 ++++++++--
->  hw/virtio/virtio-crypto.c                   |  18 ++
->  hw/virtio/virtio-mmio.c                     |  27 +++
->  hw/virtio/virtio-pci.c                      | 305 ++++++++++++++++--------
->  hw/virtio/virtio-qmp.c                      | 192 ++++++++++++++-
->  hw/virtio/virtio.c                          | 225 +++---------------
->  hw/watchdog/wdt_i6300esb.c                  |   2 +-
->  net/vhost-user.c                            |  27 ++-
->  net/vhost-vdpa.c                            |  32 +--
->  qga/cutils.c                                |   3 +-
->  tests/qtest/bios-tables-test.c              |  19 ++
->  tests/qtest/fuzz/generic_fuzz.c             |   1 +
->  ui/util.c                                   |   2 +-
->  docs/devel/style.rst                        |   7 +
->  hw/acpi/Kconfig                             |   9 +-
->  hw/acpi/meson.build                         |   2 +-
->  hw/i2c/meson.build                          |   2 +-
->  hw/i386/Kconfig                             |   3 +-
->  hw/isa/Kconfig                              |   4 +-
->  hw/ppc/Kconfig                              |   2 -
->  hw/virtio/trace-events                      |   1 +
->  qemu-options.hx                             |   3 +
->  tests/data/acpi/virt/APIC.topology          | Bin 0 -> 732 bytes
->  tests/data/acpi/virt/DSDT.topology          | Bin 0 -> 5398 bytes
->  tests/data/acpi/virt/PPTT                   | Bin 96 -> 76 bytes
->  tests/data/acpi/virt/PPTT.acpihmatvirt      | Bin 196 -> 156 bytes
->  tests/data/acpi/virt/PPTT.topology          | Bin 0 -> 336 bytes
->  217 files changed, 1418 insertions(+), 839 deletions(-)
->  create mode 100644 include/hw/pci/pci_device.h
->  create mode 100644 tests/data/acpi/virt/APIC.topology
->  create mode 100644 tests/data/acpi/virt/DSDT.topology
->  create mode 100644 tests/data/acpi/virt/PPTT.topology
-> 
+diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
+index 6cf2e0ed43..94420d9e5a 100644
+--- a/target/hexagon/genptr.c
++++ b/target/hexagon/genptr.c
+@@ -43,6 +43,33 @@ TCGv gen_read_preg(TCGv pred, uint8_t num)
+     return pred;
+ }
+ 
++#define IMMUTABLE (~0)
++
++static const target_ulong reg_immut_masks[TOTAL_PER_THREAD_REGS] = {
++    [HEX_REG_USR] = 0xc13000c0,
++    [HEX_REG_PC] = IMMUTABLE,
++    [HEX_REG_GP] = 0x3f,
++    [HEX_REG_UPCYCLELO] = IMMUTABLE,
++    [HEX_REG_UPCYCLEHI] = IMMUTABLE,
++    [HEX_REG_UTIMERLO] = IMMUTABLE,
++    [HEX_REG_UTIMERHI] = IMMUTABLE,
++};
++
++static inline void gen_masked_reg_write(TCGv new_val, TCGv cur_val,
++                                        target_ulong reg_mask)
++{
++    if (reg_mask) {
++        TCGv tmp = tcg_temp_new();
++
++        /* new_val = (new_val & ~reg_mask) | (cur_val & reg_mask) */
++        tcg_gen_andi_tl(new_val, new_val, ~reg_mask);
++        tcg_gen_andi_tl(tmp, cur_val, reg_mask);
++        tcg_gen_or_tl(new_val, new_val, tmp);
++
++        tcg_temp_free(tmp);
++    }
++}
++
+ static inline void gen_log_predicated_reg_write(int rnum, TCGv val,
+                                                 uint32_t slot)
+ {
+@@ -69,6 +96,9 @@ static inline void gen_log_predicated_reg_write(int rnum, TCGv val,
+ 
+ void gen_log_reg_write(int rnum, TCGv val)
+ {
++    const target_ulong reg_mask = reg_immut_masks[rnum];
++
++    gen_masked_reg_write(val, hex_gpr[rnum], reg_mask);
+     tcg_gen_mov_tl(hex_new_value[rnum], val);
+     if (HEX_DEBUG) {
+         /* Do this so HELPER(debug_commit_end) will know */
+@@ -114,19 +144,29 @@ static void gen_log_predicated_reg_write_pair(int rnum, TCGv_i64 val,
+ 
+ static void gen_log_reg_write_pair(int rnum, TCGv_i64 val)
+ {
++    const target_ulong reg_mask_low = reg_immut_masks[rnum];
++    const target_ulong reg_mask_high = reg_immut_masks[rnum + 1];
++    TCGv val32 = tcg_temp_new();
++
+     /* Low word */
+-    tcg_gen_extrl_i64_i32(hex_new_value[rnum], val);
++    tcg_gen_extrl_i64_i32(val32, val);
++    gen_masked_reg_write(val32, hex_gpr[rnum], reg_mask_low);
++    tcg_gen_mov_tl(hex_new_value[rnum], val32);
+     if (HEX_DEBUG) {
+         /* Do this so HELPER(debug_commit_end) will know */
+         tcg_gen_movi_tl(hex_reg_written[rnum], 1);
+     }
+ 
+     /* High word */
+-    tcg_gen_extrh_i64_i32(hex_new_value[rnum + 1], val);
++    tcg_gen_extrh_i64_i32(val32, val);
++    gen_masked_reg_write(val32, hex_gpr[rnum + 1], reg_mask_high);
++    tcg_gen_mov_tl(hex_new_value[rnum + 1], val32);
+     if (HEX_DEBUG) {
+         /* Do this so HELPER(debug_commit_end) will know */
+         tcg_gen_movi_tl(hex_reg_written[rnum + 1], 1);
+     }
++
++    tcg_temp_free(val32);
+ }
+ 
+ void gen_log_pred_write(DisasContext *ctx, int pnum, TCGv val)
+diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
+index 9ee1faa1e1..e8a647d94e 100644
+--- a/tests/tcg/hexagon/Makefile.target
++++ b/tests/tcg/hexagon/Makefile.target
+@@ -43,6 +43,7 @@ HEX_TESTS += load_align
+ HEX_TESTS += atomics
+ HEX_TESTS += fpstuff
+ HEX_TESTS += overflow
++HEX_TESTS += reg_mut
+ 
+ HEX_TESTS += test_abs
+ HEX_TESTS += test_bitcnt
+diff --git a/tests/tcg/hexagon/reg_mut.c b/tests/tcg/hexagon/reg_mut.c
+new file mode 100644
+index 0000000000..910e663ace
+--- /dev/null
++++ b/tests/tcg/hexagon/reg_mut.c
+@@ -0,0 +1,152 @@
++
++/*
++ *  Copyright(c) 2022 Qualcomm Innovation Center, Inc. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <stdio.h>
++#include <stdint.h>
++
++static int err;
++
++#define check(N, EXPECT) \
++    do { \
++        uint64_t value = N; \
++        uint64_t expect = EXPECT; \
++        if (value != EXPECT) { \
++            printf("ERROR: \"%s\" 0x%04llx != 0x%04llx at %s:%d\n", #N, value, \
++                   expect, __FILE__, __LINE__); \
++            err++; \
++        } \
++    } while (0)
++
++#define check_ne(N, EXPECT) \
++    do { \
++        uint64_t value = N; \
++        uint64_t expect = EXPECT; \
++        if (value == EXPECT) { \
++            printf("ERROR: \"%s\" 0x%04llx == 0x%04llx at %s:%d\n", #N, value, \
++                   expect, __FILE__, __LINE__); \
++            err++; \
++        } \
++    } while (0)
++
++#define WRITE_REG_NOCLOBBER(output, reg_name, input) \
++    asm volatile(reg_name " = %1\n\t" \
++                 "%0 = " reg_name "\n\t" \
++                 : "=r"(output) \
++                 : "r"(input) \
++                 : );
++
++#define WRITE_REG_ENCODED(output, reg_name, input, encoding) \
++    asm volatile("r0 = %1\n\t" \
++                 encoding "\n\t" \
++                 "%0 = " reg_name "\n\t" \
++                 : "=r"(output) \
++                 : "r"(input) \
++                 : "r0");
++
++#define WRITE_REG_PAIR_ENCODED(output, reg_name, input, encoding) \
++    asm volatile("r1:0 = %1\n\t" \
++                 encoding "\n\t" \
++                 "%0 = " reg_name "\n\t" \
++                 : "=r"(output) \
++                 : "r"(input) \
++                 : "r1:0");
++
++/*
++ * Instruction word: { pc = r0 }
++ *
++ * This instruction is barred by the assembler.
++ *
++ *    3                   2                   1
++ *  1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
++ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
++ * |    Opc[A2_tfrrcr]   | Src[R0] |P P|                 |  C9/PC  |
++ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
++ */
++#define PC_EQ_R0        ".word 0x6220c009"
++#define C9_8_EQ_R1_0    ".word 0x6320c008"
++
++static inline void write_control_registers(void)
++{
++    uint32_t result = 0;
++
++    WRITE_REG_NOCLOBBER(result, "usr", 0xffffffff);
++    check(result, 0x3ecfff3f);
++
++    WRITE_REG_NOCLOBBER(result, "gp", 0xffffffff);
++    check(result, 0xffffffc0);
++
++    WRITE_REG_NOCLOBBER(result, "upcyclelo", 0xffffffff);
++    check(result, 0x00000000);
++
++    WRITE_REG_NOCLOBBER(result, "upcyclehi", 0xffffffff);
++    check(result, 0x00000000);
++
++    WRITE_REG_NOCLOBBER(result, "utimerlo", 0xffffffff);
++    check(result, 0x00000000);
++
++    WRITE_REG_NOCLOBBER(result, "utimerhi", 0xffffffff);
++    check(result, 0x00000000);
++
++    /*
++     * PC is special.  Setting it to these values
++     * should cause a catastrophic failure.
++     */
++    WRITE_REG_ENCODED(result, "pc", 0x00000000, PC_EQ_R0);
++    check_ne(result, 0x00000000);
++
++    WRITE_REG_ENCODED(result, "pc", 0x00000001, PC_EQ_R0);
++    check_ne(result, 0x00000001);
++
++    WRITE_REG_ENCODED(result, "pc", 0xffffffff, PC_EQ_R0);
++    check_ne(result, 0xffffffff);
++}
++
++static inline void write_control_register_pairs(void)
++{
++    uint64_t result = 0;
++
++    WRITE_REG_NOCLOBBER(result, "c11:10", 0xffffffffffffffff);
++    check(result, 0xffffffc0ffffffff);
++
++    WRITE_REG_NOCLOBBER(result, "c15:14", 0xffffffffffffffff);
++    check(result, 0x0000000000000000);
++
++    WRITE_REG_NOCLOBBER(result, "c31:30", 0xffffffffffffffff);
++    check(result, 0x0000000000000000);
++
++    WRITE_REG_PAIR_ENCODED(result, "c9:8", (uint64_t) 0x0000000000000000,
++                           C9_8_EQ_R1_0);
++    check_ne(result, 0x000000000000000);
++
++    WRITE_REG_PAIR_ENCODED(result, "c9:8", 0x0000000100000000, C9_8_EQ_R1_0);
++    check_ne(result, 0x0000000100000000);
++
++    WRITE_REG_PAIR_ENCODED(result, "c9:8", 0xffffffffffffffff, C9_8_EQ_R1_0);
++    check_ne(result, 0xffffffffffffffff);
++}
++
++int main()
++{
++    err = 0;
++
++    write_control_registers();
++    write_control_register_pairs();
++
++    puts(err ? "FAIL" : "PASS");
++    return err;
++}
+-- 
+2.25.1
 
 
