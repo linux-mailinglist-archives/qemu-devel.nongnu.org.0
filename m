@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FD765E61F
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 08:31:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDBD65E6AA
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 09:19:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDKiR-0000RR-N7; Thu, 05 Jan 2023 02:31:07 -0500
+	id 1pDLRQ-0000od-SS; Thu, 05 Jan 2023 03:17:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDKiO-0000R7-Mk
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 02:31:04 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1pDLRO-0000oJ-Et
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 03:17:34 -0500
+Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDKiM-0003tH-Ti
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 02:31:04 -0500
-Received: by mail-wr1-x430.google.com with SMTP id d4so27280105wrw.6
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 23:31:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=beqdtDmznkoL4lMqeArfgw0rDP6n2wrcj81zQ+yAqWM=;
- b=P+WCQuMuuM7pQ3uod+3pzyzJFPTzjTPPigNR/xEYDV/OmmmijOM0DRxbbfMhpIXisc
- EVTdnU+hFDpEppWYo9/vNOe5ueSUvD2RPAIy2UZz2Y9le/qHCjx918GRh0MW0SEbK6/s
- KS4lULJJH5HcDe4QAfGo4zFD/1rwdu0Etaqr4+xgXx1ri1Phhds8wl2h7hl7EtfMo74B
- eoOsz0VWNHZRNWNwmhIpC6JcgpboTI5OtGzTbZM8Kr91tNHAe3SEvTIKGnbK9Kaebk8F
- 2r1IK75QtzaSNSvAMV2ihQeOHQ8Mg7IVq0WbXv4mYm+xMqoRv+0viarNzFC3QxsuaCqV
- YTEA==
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1pDLRM-00083H-Ej
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 03:17:34 -0500
+Received: by mail-qv1-xf2a.google.com with SMTP id t17so15049275qvw.6
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 00:17:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:user-agent:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=ZAxx1lRHqKF6eo5b06SH2RM/rKcZq7sz+7C/uDEloGE=;
+ b=0dvKg3W9AAN19JIX8kEJ1olUqIAv81dx4cjyy2rOggBbP2TecxGIrQqTrU9OeFHMGr
+ 82uwsLIJrhIIT4YJ1vPxh91yfzy+xqWGjpmHibmqIywkVpwys3l5TV1DcF7bF66xoTWA
+ u90tQvT12tNuQqsu2jKtAAj+kBeKFqHg1rJzZ8qSdrHRX1JPwgbBXsQSf/vewnUyDYSV
+ Cj8xsfSuOAf1eaqHK2mkyRbECQhYB0aF4iVxPXSiiynugGGfvEKtLdrL4IT5PrUqlazh
+ JXmdsM36rRv3FilBFmmX09yLu7PjNgQs01Zfj8UwAFoGW22ZgWD/o+gfL2rRXbWs754i
+ xzzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=beqdtDmznkoL4lMqeArfgw0rDP6n2wrcj81zQ+yAqWM=;
- b=e5tml1SMehOOX62/uFGys+otrp35vieyTsnntMnRzuS2RiKLMAwU8Sb9y/uZXKp8Ti
- KSYGkRB/1t5rRzbrBdEBIh8EjLtvGUG8EcFPE/fkFqAwp7ubJWg92HntYZKR28Lm99+W
- 3RVnXFvcQ4b45Hlj+PdSP0oCYfMWFJwjM4nSifDdPCs17oZhRW2DxMCFpGr41T6gQTMd
- nrop8+rRsh3cnZfwLAAUUXi3U1/JBacmgFTPNTFSnrHazfJW4abClDKDBORe7S7tFl2h
- NlN2MY2Ql4IuvpmD3OuFrPozCXnI3Bg8atoOnKZdrL44hw6ImQffc+cVDtCGjUhuWYw6
- P5rQ==
-X-Gm-Message-State: AFqh2kobrRGKCDF0FCltj2+Ubz/b4YwziQmoqTClbRhGQh75V+hjpLTj
- cvmyHB3LU90Lc8H4WvQ1MLygSA==
-X-Google-Smtp-Source: AMrXdXtz2LpCfaxo1JkbQDNqp+qVOiJnoqEG79bB3FSXJ6hj/oxAW9Qiyr2dea8nHcg9VhaiLULYxg==
-X-Received: by 2002:a5d:4e0a:0:b0:27b:d6c0:78a6 with SMTP id
- p10-20020a5d4e0a000000b0027bd6c078a6mr21819564wrt.7.1672903861497; 
- Wed, 04 Jan 2023 23:31:01 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n14-20020a5d484e000000b00242814c2cf0sm35936984wrs.4.2023.01.04.23.31.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 23:31:01 -0800 (PST)
-Message-ID: <0b8d056d-710b-fe80-6421-96753a4b963c@linaro.org>
-Date: Thu, 5 Jan 2023 08:31:00 +0100
-MIME-Version: 1.0
+ h=cc:to:subject:message-id:date:from:user-agent:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZAxx1lRHqKF6eo5b06SH2RM/rKcZq7sz+7C/uDEloGE=;
+ b=GtjAVznST1FTCo92s2RIaTl5w73ZA7FW7wimvFRvTqZKM7BiggMdIH4Hd5YKilR4nj
+ /gIUzVdCQyTnjOL1w+v5T+c3HUH6OWR+8I0Nhmvi7cHOz7RnKbzilOQkBXTv7rNYaT6v
+ h8Abis/RC54X2rlBMRQI50L4IgbAkyNrNMB659U9zJyk4aiBs6hHg+2Em65JqpJNUkCK
+ yhJws/JZnA5N2S/Mc4Oqrj7w+0lc1JATwcDscRSafalQgaZF3K4Bd9CfLrjoa9fkRKp6
+ 7C731J02QtHbe+/klkTdk+9cKmloFyAkHv3CvZVxQuBtUr60QD00w/LALdCVInl0Z4s2
+ Q8iA==
+X-Gm-Message-State: AFqh2kqn59Kqc0e3N7VWnqe6xng4iPOvMa2FsVp99urrkvBcBGbOaWB8
+ msRvZ/iIPQmWVei9QTEgbXNSznaG/sxrxCeZpFf7/w==
+X-Google-Smtp-Source: AMrXdXsjRvqWSHDsR8l3QBwYXpO+UNXelcWZlaxXtRmib2eQK9iTBW6uJMU5CQ9hcKJkW6z+vKgVKgUANEwLyLNlfV8=
+X-Received: by 2002:a0c:fac8:0:b0:532:f58:9fa6 with SMTP id
+ p8-20020a0cfac8000000b005320f589fa6mr116610qvo.124.1672906643423; Thu, 05 Jan
+ 2023 00:17:23 -0800 (PST)
+Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
+ Thu, 5 Jan 2023 00:17:22 -0800
+Mime-Version: 1.0
+In-Reply-To: <87zgaypeih.fsf@linaro.org>
+References: <20221223142307.1614945-1-xuchuangxclwt@bytedance.com>
+ <20221223142307.1614945-2-xuchuangxclwt@bytedance.com>
+ <87zgaypeih.fsf@linaro.org>
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v7 7/7] mac_newworld: Document deprecation
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <baf0bed71eec81fac16b6495e781cc6b42cdd155.1672868854.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <baf0bed71eec81fac16b6495e781cc6b42cdd155.1672868854.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
+ Gecko/20100101 Thunderbird/102.6.0
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
+Date: Thu, 5 Jan 2023 00:17:22 -0800
+Message-ID: <CALophusTwwKS7EEcN5KxdaDjWAkcGncqMkczjL08V7pq2Opkbw@mail.gmail.com>
+Subject: Re: [RFC v4 1/3] rcu: introduce rcu_read_locked()
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: dgilbert@redhat.com, quintela@redhat.com, pbonzini@redhat.com, 
+ peterx@redhat.com, david@redhat.com, philmd@linaro.org, 
+ zhouyibo@bytedance.com, qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000039644b05f17fee29"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qv1-xf2a.google.com
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ FORGED_MUA_MOZILLA=2.309, FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, HTML_MESSAGE=0.001, NICE_REPLY_A=-1.708,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,65 +92,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/1/23 22:59, BALATON Zoltan wrote:
-> Also update PowerMac family docs with some more recent info.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   docs/about/deprecated.rst    |  7 +++++++
->   docs/system/ppc/powermac.rst | 12 ++++++++----
->   2 files changed, 15 insertions(+), 4 deletions(-)
-> 
-> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> index 93affe3669..07661af7fe 100644
-> --- a/docs/about/deprecated.rst
-> +++ b/docs/about/deprecated.rst
-> @@ -248,6 +248,13 @@ These old machine types are quite neglected nowadays and thus might have
->   various pitfalls with regards to live migration. Use a newer machine type
->   instead.
->   
-> +``mac99`` variants other than the default qemu-system-ppc version (since 7.2)
-> +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +
-> +The ``mac99`` machine emulates different hardware depending on using
-> +qemu-system-ppc64 or ``via`` property. To avoid confusion new machine
-> +types has been added for these variants which are now preferred over
-> +``mac99``.
+--00000000000039644b05f17fee29
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-^ this part is OK,
+On 2023/1/4 =E4=B8=8B=E5=8D=8810:20, Alex Benn=C3=A9e wrote:
+> Chuang Xu writes:
+>
+>> add rcu_read_locked() to detect holding of rcu lock.
+>>
+>> Signed-off-by: Chuang Xu
+>> ---
+>> include/qemu/rcu.h | 7 +++++++
+>> 1 file changed, 7 insertions(+)
+>>
+>> diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+>> index b063c6fde8..42cbd0080f 100644
+>> --- a/include/qemu/rcu.h
+>> +++ b/include/qemu/rcu.h
+>> @@ -119,6 +119,13 @@ static inline void rcu_read_unlock(void)
+>> }
+>> }
+>>
+>> +static inline bool rcu_read_locked(void)
+> We use the locked suffix to indicate functions that should be called
+> with a lock held. Perhaps renaming this to rcu_read_is_locked() would
+> make the intent of the function clearer?
 
-but below is part of patch 4/7 "Add different mac99 machine types".
+Yes, rcu_read_is_locked() do make the intent of the function clearer.
+I'll rename the function in v5.
 
-> diff --git a/docs/system/ppc/powermac.rst b/docs/system/ppc/powermac.rst
-> index 04334ba210..d4a47a6881 100644
-> --- a/docs/system/ppc/powermac.rst
-> +++ b/docs/system/ppc/powermac.rst
-> @@ -4,8 +4,12 @@ PowerMac family boards (``g3beige``, ``mac99``)
->   Use the executable ``qemu-system-ppc`` to simulate a complete PowerMac
->   PowerPC system.
->   
-> -- ``g3beige``              Heathrow based PowerMAC
-> -- ``mac99``                Mac99 based PowerMAC
-> +- ``g3beige``           Heathrow based old world Power Macintosh G3
-> +- ``mac99``             Core99 based generic PowerMac
-> +- ``powermac3_1``       Power Mac G4 AGP (Sawtooth)
-> +- ``powerbook3_2``      PowerBook G4 Titanium (Mercury)
-> +- ``powermac7_3``       Power Mac G5 (Niagara) (only in ``qemu-system-ppc64``)
-> +
->   
->   Supported devices
->   -----------------
-> @@ -15,9 +19,9 @@ QEMU emulates the following PowerMac peripherals:
->    *  UniNorth or Grackle PCI Bridge
->    *  PCI VGA compatible card with VESA Bochs Extensions
->    *  2 PMAC IDE interfaces with hard disk and CD-ROM support
-> - *  NE2000 PCI adapters
-> + *  Sungem PCI network adapter
->    *  Non Volatile RAM
-> - *  VIA-CUDA with ADB keyboard and mouse.
-> + *  VIA-CUDA or VIA-PMU99 with or without ADB or USB keyboard and mouse.
->   
->   
->   Missing devices
+Thanks!
 
+>> +{
+>> + struct rcu_reader_data *p_rcu_reader =3D get_ptr_rcu_reader();
+>> +
+>> + return p_rcu_reader->depth > 0;
+>> +}
+>> +
+>> extern void synchronize_rcu(void);
+>>
+>> /*
+>
+
+--00000000000039644b05f17fee29
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<p>On 2023/1/4 =E4=B8=8B=E5=8D=8810:20, Alex Benn=C3=A9e wrote:
+<br>&gt; Chuang Xu  writes:
+<br>&gt;
+<br>&gt;&gt; add rcu_read_locked() to detect holding of rcu lock.
+<br>&gt;&gt;
+<br>&gt;&gt; Signed-off-by: Chuang Xu=20
+<br>&gt;&gt; ---
+<br>&gt;&gt;   include/qemu/rcu.h | 7 +++++++
+<br>&gt;&gt;   1 file changed, 7 insertions(+)
+<br>&gt;&gt;
+<br>&gt;&gt; diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+<br>&gt;&gt; index b063c6fde8..42cbd0080f 100644
+<br>&gt;&gt; --- a/include/qemu/rcu.h
+<br>&gt;&gt; +++ b/include/qemu/rcu.h
+<br>&gt;&gt; @@ -119,6 +119,13 @@ static inline void rcu_read_unlock(void)
+<br>&gt;&gt;       }
+<br>&gt;&gt;   }
+<br>&gt;&gt;  =20
+<br>&gt;&gt; +static inline bool rcu_read_locked(void)
+<br>&gt; We use the locked suffix to indicate functions that should be call=
+ed
+<br>&gt; with a lock held. Perhaps renaming this to rcu_read_is_locked() wo=
+uld
+<br>&gt; make the intent of the function clearer?
+<br>
+<br>Yes, rcu_read_is_locked() do make the intent of the function clearer.
+<br>I&#39;ll rename the function in v5.
+<br>
+<br>Thanks!
+<br>
+<br>&gt;&gt; +{
+<br>&gt;&gt; +    struct rcu_reader_data *p_rcu_reader =3D get_ptr_rcu_read=
+er();
+<br>&gt;&gt; +
+<br>&gt;&gt; +    return p_rcu_reader-&gt;depth &gt; 0;
+<br>&gt;&gt; +}
+<br>&gt;&gt; +
+<br>&gt;&gt;   extern void synchronize_rcu(void);
+<br>&gt;&gt;  =20
+<br>&gt;&gt;   /*
+<br>&gt;</p>
+
+--00000000000039644b05f17fee29--
 
