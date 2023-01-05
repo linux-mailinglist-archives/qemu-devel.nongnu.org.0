@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754CB65F187
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:56:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2257B65F19F
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:01:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTLs-0000Fv-Qo; Thu, 05 Jan 2023 11:44:24 -0500
+	id 1pDTLu-0000LZ-Lh; Thu, 05 Jan 2023 11:44:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTLq-00008y-5L
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:22 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ id 1pDTLr-0000Bj-NU
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:23 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTLo-00071v-6O
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:21 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- i17-20020a05600c355100b003d99434b1cfso1786344wmq.1
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:19 -0800 (PST)
+ id 1pDTLp-00072G-Kc
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:23 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id ja17so28449479wmb.3
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=J9OEuFJOVqWuaP0H8jMiOVTRp+PE+YBAf0aUcwI1+Yw=;
- b=zP75stJSKryHQI5Wk3dNEaubM36ZjU62yL+s/zRVErICcGL1EMhLzG1x7GjhSFrQ8f
- v5Wzc/XUvIK10/2WZJiSaibHXVibUvReBqA1KTm1zzMIRXQNtiBFAcNvlrMq2vM4idII
- XwUj5hD+ktR4gJFyFIVfbxCXfsh/635VSff7K+xq+JOx2cdy0gH26HSB3OcElvOcXsaE
- PMFa9OGN6lSdAXdGOWP/uCVqHMv9flCBoslYS/xGe5kdDw4pqUdxzM6B0KT/pOHYH7JI
- YJvLd+ASlS6rQ0SeRESUGVtolmv1Kh+a4eG6GFKDQvXtmVnhgsEfhpdKhQTPi5zSInl/
- oGpw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=Yuo7qK1mL55V9kttGcjYaiTtFdumRPFENl39UXW9mMo=;
+ b=CURm2aHYSLjNVaFu4jFPVh5GEmDEb99ahposk6Q2BYXcJ4uhzq4km8rjdJ2UWhqZde
+ PvoqVRWcYp2vC+xfjc7PCqxlBCop6jA4GXII9UuneMGi6+Nvhj1aMCobAbDZu8vJPoR4
+ a9PTjEs1Zj8Bny5b8KQjo9QLd1g6y6JvV455u5XBIRThhWK/B+xYu1SrkSBmOtc708za
+ F77v01D3DYvQyCq+ZJ8NNqgoYFMMf/cFqbkSe25E7KshFVCCQA+tKXS7bZZ/Z7mWc1S3
+ DTdiQ0DzQJun/T8QD3xfi7copPVSYe4jWFnl4BuGPsTKcFfV6FnzamLBFR3haP3gxPDj
+ mP0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=J9OEuFJOVqWuaP0H8jMiOVTRp+PE+YBAf0aUcwI1+Yw=;
- b=CD4Y90bkManso4qJlspFfhxeJ862r6VcTPzjxwHFpAN8FkJlR21T3R/pEDanfM1sbX
- iS+Y2Oqm68ILazcuYTgUmFcPtvjUfw7JG/XGBvQIVcuiYGTsicqVtClMkyCnSTD9rBa+
- uj0bB6m6sYDeagrmd3XzXsUJDSNLzJZwxUrhyudtzDmnaN3umXGGBPlrYf7A+YzluCG0
- yCw7Z+NjUYXQtTvssJHqPAfaoOWCDce1boP2yH758hh4IwkjNsZhDE16sXp1x25b5X53
- TvZbBaFfERswM8/8kmrq7850ZCdgw2ABdjcPBm7Y31yDrFBWnpZf9ZLU9uQVPObxXFiB
- yRXg==
-X-Gm-Message-State: AFqh2koKpqF+TfnqGuIqu0dU6CidySoGvxI1DAprY0Ujx+NC+sGWWwza
- /APITiXK5RUDF34FaVsn0va49yYsNDNoMxjD
-X-Google-Smtp-Source: AMrXdXtW7XNiDc9qc5a/rSY0V4wbDhlzpc63ABexKNG67HkxdD2FLBXq9JqaThQo7KVL0SLeOeVfZw==
-X-Received: by 2002:a1c:ed19:0:b0:3d3:52bb:3984 with SMTP id
- l25-20020a1ced19000000b003d352bb3984mr37879747wmh.17.1672937059368; 
- Thu, 05 Jan 2023 08:44:19 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Yuo7qK1mL55V9kttGcjYaiTtFdumRPFENl39UXW9mMo=;
+ b=ixXsX24aGZ6EEAvpjnjzIQk31tCzNI0EKNxNZGNmzpvNCmG9n0yfq/QwQCMP2XNcp1
+ CZE03nPKDpuMJ3dU26Qm6PcB1YM2ooiHGA69BAn2m8Zsy6Fu7MyZbaN9s90AyuyLrAhL
+ i+tYGyIFuBtsADuIkROE40BL9PMGNaW8QJwU6NsarslorZXD3szNz1bKk9O+PnRNATTp
+ tQc2pByQB4/Bq/cEazLQn3K4eK+1wixLOcWWPY02bxlgvaz6nOVQNARx2bukODXqhWjO
+ rcTeGmAuK2U4uTboYqBRltPSXrYhJ5Kw7iCSyVHkR9DGCF+N4RmSNNPjAe11Y3p31bN3
+ +DBA==
+X-Gm-Message-State: AFqh2kpO1SIFaF+KKEq2maZzL6qbVdiHPdosYChdyQHqa1SA+Pc9wNrx
+ bFisS2x1O9T46UdJyWvpY3trHx/1jXj4q+GS
+X-Google-Smtp-Source: AMrXdXuX5D/gT7xQWofRKF/KgzyTd3w99Z9jZTGasX8Tsg94+tBIrEfE9D9V21MPubryb08IV/ijYw==
+X-Received: by 2002:a05:600c:4854:b0:3d3:5a4a:90ff with SMTP id
+ j20-20020a05600c485400b003d35a4a90ffmr39115253wmo.23.1672937060960; 
+ Thu, 05 Jan 2023 08:44:20 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.18
+ hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:44:18 -0800 (PST)
+ Thu, 05 Jan 2023 08:44:20 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/34] target-arm queue
-Date: Thu,  5 Jan 2023 16:43:43 +0000
-Message-Id: <20230105164417.3994639-1-peter.maydell@linaro.org>
+Subject: [PULL 02/34] target/arm: Don't add all MIDR aliases for cores that
+ implement PMSA
+Date: Thu,  5 Jan 2023 16:43:45 +0000
+Message-Id: <20230105164417.3994639-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230105164417.3994639-1-peter.maydell@linaro.org>
+References: <20230105164417.3994639-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,123 +90,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Some arm patches; my to-review queue is by no means empty, but
-this is a big enough set of patches to be getting on with...
+From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 
--- PMM
+Cores with PMSA have the MPUIR register which has the
+same encoding as the MIDR alias with opc2=4. So we only
+add that alias if we are not realizing a core that
+implements PMSA.
 
-The following changes since commit cb9c6a8e5ad6a1f0ce164d352e3102df46986e22:
+Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20221206102504.165775-2-tobias.roehmel@rwth-aachen.de
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/helper.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-  .gitlab-ci.d/windows: Work-around timeout and OpenGL problems of the MSYS2 jobs (2023-01-04 18:58:33 +0000)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index bac2ea62c44..090daf93c71 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -8153,10 +8153,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .access = PL1_R, .type = ARM_CP_NO_RAW, .resetvalue = cpu->midr,
+               .fieldoffset = offsetof(CPUARMState, cp15.c0_cpuid),
+               .readfn = midr_read },
+-            /* crn = 0 op1 = 0 crm = 0 op2 = 4,7 : AArch32 aliases of MIDR */
+-            { .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
+-              .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 4,
+-              .access = PL1_R, .resetvalue = cpu->midr },
++            /* crn = 0 op1 = 0 crm = 0 op2 = 7 : AArch32 aliases of MIDR */
+             { .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
+               .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 7,
+               .access = PL1_R, .resetvalue = cpu->midr },
+@@ -8166,6 +8163,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .accessfn = access_aa64_tid1,
+               .type = ARM_CP_CONST, .resetvalue = cpu->revidr },
+         };
++        ARMCPRegInfo id_v8_midr_alias_cp_reginfo = {
++            .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
++            .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 4,
++            .access = PL1_R, .resetvalue = cpu->midr
++        };
+         ARMCPRegInfo id_cp_reginfo[] = {
+             /* These are common to v8 and pre-v8 */
+             { .name = "CTR",
+@@ -8231,6 +8233,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+         }
+         if (arm_feature(env, ARM_FEATURE_V8)) {
+             define_arm_cp_regs(cpu, id_v8_midr_cp_reginfo);
++            if (!arm_feature(env, ARM_FEATURE_PMSA)) {
++                define_one_arm_cp_reg(cpu, &id_v8_midr_alias_cp_reginfo);
++            }
+         } else {
+             define_arm_cp_regs(cpu, id_pre_v8_midr_cp_reginfo);
+         }
+-- 
+2.25.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230105
-
-for you to fetch changes up to 93c9678de9dc7d2e68f9e8477da072bac30ef132:
-
-  hw/net: Fix read of uninitialized memory in imx_fec. (2023-01-05 15:33:00 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * Implement AArch32 ARMv8-R support
- * Add Cortex-R52 CPU
- * fix handling of HLT semihosting in system mode
- * hw/timer/ixm_epit: cleanup and fix bug in compare handling
- * target/arm: Coding style fixes
- * target/arm: Clean up includes
- * nseries: minor code cleanups
- * target/arm: align exposed ID registers with Linux
- * hw/arm/smmu-common: remove unnecessary inlines
- * i.MX7D: Handle GPT timers
- * i.MX7D: Connect IRQs to GPIO devices
- * i.MX6UL: Add a specific GPT timer instance
- * hw/net: Fix read of uninitialized memory in imx_fec
-
-----------------------------------------------------------------
-Alex Bennée (1):
-      target/arm: fix handling of HLT semihosting in system mode
-
-Axel Heider (8):
-      hw/timer/imx_epit: improve comments
-      hw/timer/imx_epit: cleanup CR defines
-      hw/timer/imx_epit: define SR_OCIF
-      hw/timer/imx_epit: update interrupt state on CR write access
-      hw/timer/imx_epit: hard reset initializes CR with 0
-      hw/timer/imx_epit: factor out register write handlers
-      hw/timer/imx_epit: remove explicit fields cnt and freq
-      hw/timer/imx_epit: fix compare timer handling
-
-Claudio Fontana (1):
-      target/arm: cleanup cpu includes
-
-Fabiano Rosas (5):
-      target/arm: Fix checkpatch comment style warnings in helper.c
-      target/arm: Fix checkpatch space errors in helper.c
-      target/arm: Fix checkpatch brace errors in helper.c
-      target/arm: Remove unused includes from m_helper.c
-      target/arm: Remove unused includes from helper.c
-
-Jean-Christophe Dubois (4):
-      i.MX7D: Connect GPT timers to IRQ
-      i.MX7D: Compute clock frequency for the fixed frequency clocks.
-      i.MX6UL: Add a specific GPT timer instance for the i.MX6UL
-      i.MX7D: Connect IRQs to GPIO devices.
-
-Peter Maydell (1):
-      target/arm:Set lg_page_size to 0 if either S1 or S2 asks for it
-
-Philippe Mathieu-Daudé (5):
-      hw/input/tsc2xxx: Constify set_transform()'s MouseTransformInfo arg
-      hw/arm/nseries: Constify various read-only arrays
-      hw/arm/nseries: Silent -Wmissing-field-initializers warning
-      hw/arm/smmu-common: Reduce smmu_inv_notifiers_mr() scope
-      hw/arm/smmu-common: Avoid using inlined functions with external linkage
-
-Stephen Longfield (1):
-      hw/net: Fix read of uninitialized memory in imx_fec.
-
-Tobias Röhmel (7):
-      target/arm: Don't add all MIDR aliases for cores that implement PMSA
-      target/arm: Make RVBAR available for all ARMv8 CPUs
-      target/arm: Make stage_2_format for cache attributes optional
-      target/arm: Enable TTBCR_EAE for ARMv8-R AArch32
-      target/arm: Add PMSAv8r registers
-      target/arm: Add PMSAv8r functionality
-      target/arm: Add ARM Cortex-R52 CPU
-
-Zhuojia Shen (1):
-      target/arm: align exposed ID registers with Linux
-
- include/hw/arm/fsl-imx7.h         |  20 +
- include/hw/arm/smmu-common.h      |   3 -
- include/hw/input/tsc2xxx.h        |   4 +-
- include/hw/timer/imx_epit.h       |   8 +-
- include/hw/timer/imx_gpt.h        |   1 +
- target/arm/cpu.h                  |   6 +
- target/arm/internals.h            |   4 +
- hw/arm/fsl-imx6ul.c               |   2 +-
- hw/arm/fsl-imx7.c                 |  41 +-
- hw/arm/nseries.c                  |  28 +-
- hw/arm/smmu-common.c              |  15 +-
- hw/input/tsc2005.c                |   2 +-
- hw/input/tsc210x.c                |   3 +-
- hw/misc/imx6ul_ccm.c              |   6 -
- hw/misc/imx7_ccm.c                |  49 ++-
- hw/net/imx_fec.c                  |   8 +-
- hw/timer/imx_epit.c               | 376 +++++++++-------
- hw/timer/imx_gpt.c                |  25 ++
- target/arm/cpu.c                  |  35 +-
- target/arm/cpu64.c                |   6 -
- target/arm/cpu_tcg.c              |  42 ++
- target/arm/debug_helper.c         |   3 +
- target/arm/helper.c               | 871 +++++++++++++++++++++++++++++---------
- target/arm/m_helper.c             |  16 -
- target/arm/machine.c              |  28 ++
- target/arm/ptw.c                  | 152 +++++--
- target/arm/tlb_helper.c           |   4 +
- target/arm/translate.c            |   2 +-
- tests/tcg/aarch64/sysregs.c       |  24 +-
- tests/tcg/aarch64/Makefile.target |   7 +-
- 30 files changed, 1330 insertions(+), 461 deletions(-)
 
