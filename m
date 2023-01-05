@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95A365EF09
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDFC65EF0F
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:44:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDRRd-0000B7-Ma; Thu, 05 Jan 2023 09:42:14 -0500
+	id 1pDRTG-0003qr-AE; Thu, 05 Jan 2023 09:43:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDRRE-00006X-JE
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:41:49 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDRTE-0003m5-LY
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:43:52 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDRRC-0003gf-4I
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:41:48 -0500
-Received: by mail-wm1-x335.google.com with SMTP id ja17so28172022wmb.3
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 06:41:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDRTC-0004NW-Gw
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:43:52 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id c6so6322945pls.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 06:43:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=p1bd5FHNKdTesBkkzYYqtQBUW8rR1SSO2CgSCTIRLow=;
- b=G51wMLeozsTBY5T49HrFnHhkiYQ6fDCOtpu9YLTmfOCyMtUTtadDDf21bNZsPiGWOj
- mddN3q/WVNatBeblU5muvOM+BmoaCwto9lsyJgyObga0n3yzu1MnLjBQrl47qhaOFug7
- /UPRh0QGnJEkgtTr3jA2UZe+KEDLGryJfaK+wwBU1KUa0AXDe1DTptyF8y8QpTvnr+Rj
- bXJE4aks0Yb0C1Vn8mGNISazc6UOukpMjwxW0dWHB6LnNC/ocwS2RKRLyiBNTgiph+Go
- 4es78WWDU0BExhHga8XQIS4VklLn2v2KbsROEmyLip3t0FgY+RWI8J9T4zyHEOtqbra+
- 3N3A==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3QZrlP459/zsHdl3hgb/XluW5OwPo5HLqJ99CBkBggQ=;
+ b=p8SmlzKAkEtZVNJH9yGD828p8+EUSYEhXkSqRhrrl6SmyDDuenovucI6wliMIBj1Yt
+ srUuuUKgIhObweFQdjMogEsPR0qYYG9yUd8QeuGIBT3ISGw6/hKs2wzRVwmAm1JeF2jt
+ fOt56pXLYKAqK2kG/F/H8Jv4MUL7JHgdxHLfW2s7K2m54WD/RhV0M0/eaWjAbxS/r4nX
+ KvxsYhxnnb1tVdohqis4NkaEvevs38+obHNUANahDSYdOi2K5i7gWJW74iBf2yLyW7/D
+ xyYkTzkfqNZ9TA0IGw8kMJQdrGOU4T3b186usEDvl8zebQwLR5mlgBzKCIsfdLxCySGu
+ iwcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=p1bd5FHNKdTesBkkzYYqtQBUW8rR1SSO2CgSCTIRLow=;
- b=EA8GuSMC4MvF7BujRFab4tvC/HL3kvfB0tSC6V4boLv7mEQAGkr4w/Em77z1ZuFdX7
- MPp2EPRMVMZ1vYXBUIdM402u1fjIjblA0puq5Gf6rcbd3KeKrMHGswDeF6t3DgQVDo7s
- VzEQxIKEiPtrYzI57Z5+WX7Wx+fpOgkemcNh/tw7X7cvBphtAOY2PdH5FrQIRAawydzS
- i+C8G1PMcq4BP1pxA9N2x6ssREGq6BwOasXL2amo61wrnGunP7gwuPsdHJqAgVupaXQO
- WUd0juXlcYJicck3KUkCVIFs/YFc+qoUtUVIxLVaeBs34R8Va54WXUV1qdGcAeLasKoz
- Me6g==
-X-Gm-Message-State: AFqh2kr1P9GtDIkCFLCvo1ABTmueFVlrwdTQBOgcaY5yNHIcs/me/whQ
- TIaenzMJpknKKCQaDKDw9uBetoHcJU9DJxQP
-X-Google-Smtp-Source: AMrXdXtZx0gwJKhqFcgw4PhV1d9kW14Lgcfr7DkOXP9qehmm7Moi74E0OA6yiFoUNTJGvn8CsD2aLw==
-X-Received: by 2002:a05:600c:354b:b0:3d0:4993:d45b with SMTP id
- i11-20020a05600c354b00b003d04993d45bmr38012861wmq.4.1672929704051; 
- Thu, 05 Jan 2023 06:41:44 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- j25-20020a05600c1c1900b003cfa80443a0sm2984884wms.35.2023.01.05.06.41.42
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 05 Jan 2023 06:41:43 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH] hw/pci-host: Use register definitions from PCI standard
-Date: Thu,  5 Jan 2023 15:41:42 +0100
-Message-Id: <20230105144142.51990-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ bh=3QZrlP459/zsHdl3hgb/XluW5OwPo5HLqJ99CBkBggQ=;
+ b=TvxkdsjvoSwd8LBcBORkbtQ2kCCNe9dIvgoIYYX2qkkpevq8oGH+3JGxpsUxR4pbwU
+ QEWDNN5GIaRQepsZDfcWlQKMSbhciQLn2EGSQ4mQsqo8DgG8vvp7Z3KFuQhmm9aGhqML
+ bdv4MOaho/wrjHyur8YPPSw5mCV9l5c9iJicx9MCOgWcwWkO73avQBBRuu4cF/TH41Ts
+ 5IkJ66163BCedLTcf9N6cLQO9xS4eP6K8YYrwc2O/T0mxSdWnQvHNg9yvpMOHIMmus1c
+ SACxcBqs47Ibdp/S0pcoQCJyXthyUV62lrdZ97KZqYXs7Sjv/s0mEWI/XaRC4K5RqlIn
+ ppoA==
+X-Gm-Message-State: AFqh2krpadOjb2gRkqLpyOdKU2UJ3UogHEPdrhuHnXH5hxikHcRp2nVl
+ 4C4jlNYXa+pvOmVnFHMpLzuWB2LAPt11UvvK/wU/cg==
+X-Google-Smtp-Source: AMrXdXsImZI/9CdBMvqzv9OKn1QLNgQxIXOADIIfKlh3nfDpgGeM8qvQFv2Wg3ht9++S3wv6fh0bMjDNj+ACdfH2Erk=
+X-Received: by 2002:a17:90b:3d0e:b0:226:9f33:76bf with SMTP id
+ pt14-20020a17090b3d0e00b002269f3376bfmr721979pjb.221.1672929828963; Thu, 05
+ Jan 2023 06:43:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+References: <DS7PR12MB6309FB585E10772928F14271ACE79@DS7PR12MB6309.namprd12.prod.outlook.com>
+In-Reply-To: <DS7PR12MB6309FB585E10772928F14271ACE79@DS7PR12MB6309.namprd12.prod.outlook.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 5 Jan 2023 14:43:37 +0000
+Message-ID: <CAFEAcA_Dwxqe_XAR_u9wOaAA-6tk3xQf1Az7SLcRKgbm6EWTrQ@mail.gmail.com>
+Subject: Re: [PATCH v3] target/arm: align exposed ID registers with Linux
+To: Zhuojia Shen <chaosdefinition@hotmail.com>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
+ qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,105 +83,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-No need to document magic values when the definition names
-from "standard-headers/linux/pci_regs.h" are self-explicit.
+On Sat, 17 Dec 2022 at 01:49, Zhuojia Shen <chaosdefinition@hotmail.com> wrote:
+>
+> In CPUID registers exposed to userspace, some registers were missing
+> and some fields were not exposed.  This patch aligns exposed ID
+> registers and their fields with what the upstream kernel currently
+> exposes.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- hw/pci-host/grackle.c  |  2 +-
- hw/pci-host/raven.c    |  6 +++---
- hw/pci-host/uninorth.c | 30 +++++++++++-------------------
- 3 files changed, 15 insertions(+), 23 deletions(-)
+This fails to compile the test program on my system:
 
-diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
-index 95945ac0f4..2a45cc13c3 100644
---- a/hw/pci-host/grackle.c
-+++ b/hw/pci-host/grackle.c
-@@ -91,7 +91,7 @@ static void grackle_init(Object *obj)
- 
- static void grackle_pci_realize(PCIDevice *d, Error **errp)
- {
--    d->config[0x09] = 0x01;
-+    d->config[PCI_CLASS_PROG] = 0x01;
- }
- 
- static void grackle_pci_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/pci-host/raven.c b/hw/pci-host/raven.c
-index 7a105e4a63..c47259a851 100644
---- a/hw/pci-host/raven.c
-+++ b/hw/pci-host/raven.c
-@@ -329,9 +329,9 @@ static void raven_realize(PCIDevice *d, Error **errp)
-     char *filename;
-     int bios_size = -1;
- 
--    d->config[0x0C] = 0x08; // cache_line_size
--    d->config[0x0D] = 0x10; // latency_timer
--    d->config[0x34] = 0x00; // capabilities_pointer
-+    d->config[PCI_CACHE_LINE_SIZE] = 0x08;
-+    d->config[PCI_LATENCY_TIMER] = 0x10;
-+    d->config[PCI_CAPABILITY_LIST] = 0x00;
- 
-     memory_region_init_rom_nomigrate(&s->bios, OBJECT(s), "bios", BIOS_SIZE,
-                                      &error_fatal);
-diff --git a/hw/pci-host/uninorth.c b/hw/pci-host/uninorth.c
-index 8396c91d59..342baff12a 100644
---- a/hw/pci-host/uninorth.c
-+++ b/hw/pci-host/uninorth.c
-@@ -277,11 +277,11 @@ static void pci_unin_internal_init(Object *obj)
- static void unin_main_pci_host_realize(PCIDevice *d, Error **errp)
- {
-     /* cache_line_size */
--    d->config[0x0C] = 0x08;
-+    d->config[PCI_CACHE_LINE_SIZE] = 0x08;
-     /* latency_timer */
--    d->config[0x0D] = 0x10;
-+    d->config[PCI_LATENCY_TIMER] = 0x10;
-     /* capabilities_pointer */
--    d->config[0x34] = 0x00;
-+    d->config[PCI_CAPABILITY_LIST] = 0x00;
- 
-     /*
-      * Set kMacRISCPCIAddressSelect (0x48) register to indicate PCI
-@@ -296,30 +296,22 @@ static void unin_main_pci_host_realize(PCIDevice *d, Error **errp)
- 
- static void unin_agp_pci_host_realize(PCIDevice *d, Error **errp)
- {
--    /* cache_line_size */
--    d->config[0x0C] = 0x08;
--    /* latency_timer */
--    d->config[0x0D] = 0x10;
--    /* capabilities_pointer
--    d->config[0x34] = 0x80; */
-+    d->config[PCI_CACHE_LINE_SIZE] = 0x08;
-+    d->config[PCI_LATENCY_TIMER] = 0x10;
-+    /* d->config[PCI_CAPABILITY_LIST] = 0x80; */
- }
- 
- static void u3_agp_pci_host_realize(PCIDevice *d, Error **errp)
- {
--    /* cache line size */
--    d->config[0x0C] = 0x08;
--    /* latency timer */
--    d->config[0x0D] = 0x10;
-+    d->config[PCI_CACHE_LINE_SIZE] = 0x08;
-+    d->config[PCI_LATENCY_TIMER] = 0x10;
- }
- 
- static void unin_internal_pci_host_realize(PCIDevice *d, Error **errp)
- {
--    /* cache_line_size */
--    d->config[0x0C] = 0x08;
--    /* latency_timer */
--    d->config[0x0D] = 0x10;
--    /* capabilities_pointer */
--    d->config[0x34] = 0x00;
-+    d->config[PCI_CACHE_LINE_SIZE] = 0x08;
-+    d->config[PCI_LATENCY_TIMER] = 0x10;
-+    d->config[PCI_CAPABILITY_LIST] = 0x00;
- }
- 
- static void unin_main_pci_host_class_init(ObjectClass *klass, void *data)
--- 
-2.38.1
+/tmp/ccWsT6Ea.s: Assembler messages:
+/tmp/ccWsT6Ea.s:413: Error: unknown or missing system register name at
+operand 2 -- `mrs x0,id_aa64isar2_el1'
+/tmp/ccWsT6Ea.s:544: Error: selected processor does not support system
+register name 'id_aa64mmfr2_el1'
 
+because the assembler is too old to recognize these newer ID register
+names. I'm going to fix this by squashing in this change, which
+uses the fallback Sn_n_Cn_Cn_n syntax instead:
+
+diff --git a/tests/tcg/aarch64/sysregs.c b/tests/tcg/aarch64/sysregs.c
+index 7d9b0168da2..46b931f781d 100644
+--- a/tests/tcg/aarch64/sysregs.c
++++ b/tests/tcg/aarch64/sysregs.c
+@@ -22,6 +22,13 @@
+ #define HWCAP_CPUID (1 << 11)
+ #endif
+
++/*
++ * Older assemblers don't recognize newer system register names,
++ * but we can still access them by the Sn_n_Cn_Cn_n syntax.
++ */
++#define SYS_ID_AA64ISAR2_EL1 S3_0_C0_C6_2
++#define SYS_ID_AA64MMFR2_EL1 S3_0_C0_C7_2
++
+ int failed_bit_count;
+
+ /* Read and print system register `id' value */
+@@ -114,11 +121,11 @@ int main(void)
+      */
+     get_cpu_reg_check_mask(id_aa64isar0_el1, _m(f0ff,ffff,f0ff,fff0));
+     get_cpu_reg_check_mask(id_aa64isar1_el1, _m(00ff,f0ff,ffff,ffff));
+-    get_cpu_reg_check_mask(id_aa64isar2_el1, _m(0000,0000,0000,ffff));
++    get_cpu_reg_check_mask(SYS_ID_AA64ISAR2_EL1, _m(0000,0000,0000,ffff));
+     /* TGran4 & TGran64 as pegged to -1 */
+     get_cpu_reg_check_mask(id_aa64mmfr0_el1, _m(f000,0000,ff00,0000));
+     get_cpu_reg_check_mask(id_aa64mmfr1_el1, _m(0000,f000,0000,0000));
+-    get_cpu_reg_check_mask(id_aa64mmfr2_el1, _m(0000,000f,0000,0000));
++    get_cpu_reg_check_mask(SYS_ID_AA64MMFR2_EL1, _m(0000,000f,0000,0000));
+     /* EL1/EL0 reported as AA64 only */
+     get_cpu_reg_check_mask(id_aa64pfr0_el1,  _m(000f,000f,00ff,0011));
+     get_cpu_reg_check_mask(id_aa64pfr1_el1,  _m(0000,0000,0f00,0fff));
+
+
+Applied to target-arm.next, thanks.
+
+-- PMM
 
