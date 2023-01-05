@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A2A65F51A
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 21:19:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 440C465F51D
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 21:21:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDWgr-0006gD-Oe; Thu, 05 Jan 2023 15:18:17 -0500
+	id 1pDWhE-0006jl-Ez; Thu, 05 Jan 2023 15:18:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1pDWgK-0006aA-1Q
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:17:46 -0500
+ id 1pDWgN-0006aV-7E
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:17:58 -0500
 Received: from vps-vb.mhejs.net ([37.28.154.113])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1pDWgH-0002bY-6E
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:17:43 -0500
+ id 1pDWgI-0002oE-S0
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:17:45 -0500
 Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <mail@maciej.szmigiero.name>)
- id 1pDWfp-0001O7-Tj; Thu, 05 Jan 2023 21:17:13 +0100
+ id 1pDWfv-0001O9-AM; Thu, 05 Jan 2023 21:17:19 +0100
 From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -35,10 +35,13 @@ Cc: "Michael S . Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] Hyper-V Dynamic Memory Protocol driver (hv-balloon)
-Date: Thu,  5 Jan 2023 21:17:05 +0100
-Message-Id: <cover.1672878904.git.maciej.szmigiero@oracle.com>
+Subject: [PATCH v2 1/3] hapvdimm: add a virtual DIMM device for memory hot-add
+ protocols
+Date: Thu,  5 Jan 2023 21:17:06 +0100
+Message-Id: <7f01485e4e20e7d3d30b8b5c687cb087002133bb.1672878904.git.maciej.szmigiero@oracle.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <cover.1672878904.git.maciej.szmigiero@oracle.com>
+References: <cover.1672878904.git.maciej.szmigiero@oracle.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=37.28.154.113;
@@ -65,188 +68,360 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
 
-This is a continuation of v1 patch series located here:
-https://lore.kernel.org/qemu-devel/cover.1600556526.git.maciej.szmigiero@oracle.com/
+This device works like a virtual DIMM stick: it allows inserting extra RAM
+into the guest at run time and later removing it without having to
+duplicate all of the address space management logic of TYPE_MEMORY_DEVICE
+in each memory hot-add protocol driver.
 
-Since some time has passed since v1 was posted below there's a reminder
-what this series is about:
-This series adds a Hyper-V Dynamic Memory Protocol driver (hv-balloon)
-and its protocol definitions.
-Also included is a driver providing backing devices for memory hot-add
-protocols ("virtual DIMM sticks"), which allow inserting extra RAM into
-the guest at run time without having to duplicate all of the address space
-management logic of TYPE_MEMORY_DEVICE in each memory hot-add protocol
-driver.
+This device is not meant to be instantiated or removed by the QEMU user
+directly: rather, the protocol driver is supposed to add and remove it as
+required.
 
-One of advantages of these over ACPI-based PC DIMM hotplug is that such
-memory can be hotplugged in much smaller granularity because the ACPI DIMM
-slot limit does not apply.
-
-The hv-balloon driver is like virtio-balloon on steroids: it allows both
-changing the guest memory allocation via ballooning and inserting extra RAM
-into it by adding required memory backends and providing them to the driver.
-
-In contrast with ACPI DIMM hotplug where one can only request to unplug a
-whole DIMM stick this driver allows removing memory from guest in single
-page (4k) units via ballooning.
-
-After a VM reboot each previously hot-added memory backend gets released.
-A "HV_BALLOON_MEMORY_BACKEND_UNUSED" QMP event is emitted in this case so
-the software controlling QEMU knows that it either needs to delete that
-memory backend (if no longer needed) or re-insert it.
-    
-In the future, the guest boot memory size might be changed on reboot
-instead, taking into account the effective size that VM had before that
-reboot (much like Hyper-V does).
-
-For performance reasons, the guest-released memory is tracked in few range
-trees, as a series of (start, count) ranges.
-Each time a new page range is inserted into such tree its neighbors are
-checked as candidates for possible merging with it.
-
-Besides performance reasons, the Dynamic Memory protocol itself uses page
-ranges as the data structure in its messages, so relevant pages need to be
-merged into such ranges anyway.
-
-One has to be careful when tracking the guest-released pages, since the
-guest can maliciously report returning pages outside its current address
-space, which later clash with the address range of newly added memory.
-Similarly, the guest can report freeing the same page twice.
-
-The above design results in much better ballooning performance than when
-using virtio-balloon with the same guest: 230 GB / minute with this driver
-versus 70 GB / minute with virtio-balloon.
-
-During a ballooning operation most of time is spent waiting for the guest
-to come up with newly freed page ranges, processing the received ranges on
-the host side (in QEMU / KVM) is nearly instantaneous.
-
-The unballoon operation is also pretty much instantaneous:
-thanks to the merging of the ballooned out page ranges 200 GB of memory can
-be returned to the guest in about 1 second.
-With virtio-balloon this operation takes about 2.5 minutes.
-
-These tests were done against a Windows Server 2019 guest running on a
-Xeon E5-2699, after dirtying the whole memory inside guest before each
-balloon operation.
-
-Using a range tree instead of a bitmap to track the removed memory also
-means that the solution scales well with the guest size: even a 1 TB range
-takes just few bytes of memory.
-
-An optional "status-report=on" device parameter requests memory status
-events from the guest (typically sent every second), which allow the host
-to learn both the guest memory available and the guest memory in use
-counts.
-They are emitted externally as "HV_BALLOON_STATUS_REPORT" QMP events.
-
-The driver is named hv-balloon since the Linux kernel client driver for
-the Dynamic Memory Protocol is named as such and to follow the naming
-pattern established by the virtio-balloon driver.
-The whole protocol runs over Hyper-V VMBus that has its implementation
-recently merged in.
-
-The driver was tested against Windows Server 2012 R2, Windows Server 2016
-and Windows Server 2016 guests and obeys the guest alignment requirements
-reported to the host via DM_CAPABILITIES_REPORT message.
-Extensive event tracing is available under 'hv_balloon_*' prefix.
-
-Example usage:
-* Add "-device vmbus-bridge,id=vmbus-bridge -device hv-balloon,id=hvb"
-  to the QEMU command line and set "maxmem" value to something large,
-  like 1T.
-
-* Use QEMU HMP commands to add a new memory backend:
-  object_add memory-backend-ram,id=mem1,size=200G
-  This command is actually the same as for ACPI-based DIMM hotplug.
-
-* Execute QMP "hv-balloon-add-memory" command, providing the id of
-  that memory backend as the "id" parameter to hot-add that memory:
-  hv-balloon-add-memory id=mem1
-
-* Use the ballooning interface HMP commands to force the guest to give
-  out as much memory as possible:
-  balloon 1
-  The ballooning interface monitor commands can also be used to resize
-  the guest up and down appropriately.
-
-* One can check the current guest size by issuing a "info balloon" command.
-  This is useful to know what is happening, since large ballooning or
-  unballooning operations take some time to complete.
-
-* Once the guest is restarted a "HV_BALLOON_MEMORY_BACKEND_UNUSED" QMP
-  event will be generated.
-  The backing memory device then can be removed:
-  object_del mem1
-  Or, alternatively, it can be re-added:
-  hv-balloon-add-memory id=mem1
-
-Future directions:
-* Allow sharing the ballooning QEMU interface between hv-balloon and
-  virtio-balloon drivers.
-  Currently, only one of them can be added to the VM at the same time.
-
-* Add vmstate / live migration support to the hv-balloon driver.
-
-* Change the guest boot memory size on reboot, taking into account the
-  effective size that VM had before that reboot (much like Hyper-V does).
-
-
-
-Changes from v1:
-Conversion of the driver to transparently managing hot-added memory as
-virtual DIMMs.
-
-Specifically, these virtual DIMMs are now automatically being created and
-deleted by the driver.
-This way the QEMU controller does not have to do vDIMM management manually,
-as suggested during the review of v1.
-
-Thanks to that these virtual DIMMs are now an implementation detail,
+In fact, its very existence is supposed to be an implementation detail,
 transparent to the QEMU user.
 
-Separation of ballooning function from memory hot-add function - ballooning
-interfaces are no longer used to allow hot-removal of hot-added memory.
+To prevent the user from accidentally manually creating an instance of this
+device the protocol driver is supposed to place the qdev_device_add*() call
+(that is uses to add this device) between hapvdimm_allow_adding() and
+hapvdimm_disallow_adding() calls in order to temporary authorize the
+operation.
 
-Removal of automatic re-add of hot-added memory after a guest reboot.
-This makes it easier to introduce automatic resizing of boot memory
-on reboot at some point in the future.
-
-Other minor improvements of these drivers:
-* Centralized state machine transitions to enforce single transition
-  per iteration rule,
-
-* Increased use of Glib's automatic memory management where possible,
-  (g_autoptr() and g_autofree()),
-
-* Move hapvdimm class and instance structs from the header file to
-  implementation (.c) file, use OBJECT_DECLARE_SIMPLE_TYPE to declare it,
-
-* Minor cleanups.
-
-It's also worth noting that since the v1 was posted the KVM memory slot
-count limit was also increased to 32k (together with switching to a more
-scalable memslots implementation).
-
- Kconfig.host                     |    3 +
- configure                        |   36 +
- hw/hyperv/Kconfig                |    5 +
- hw/hyperv/hv-balloon.c           | 2185 ++++++++++++++++++++++++++++++
- hw/hyperv/meson.build            |    1 +
- hw/hyperv/trace-events           |   16 +
- hw/i386/Kconfig                  |    2 +
- hw/i386/pc.c                     |    4 +-
- hw/mem/Kconfig                   |    4 +
- hw/mem/hapvdimm.c                |  221 +++
- hw/mem/meson.build               |    1 +
- include/hw/hyperv/dynmem-proto.h |  423 ++++++
- include/hw/mem/hapvdimm.h        |   27 +
- meson.build                      |    4 +-
- qapi/machine.json                |   68 +
- 15 files changed, 2998 insertions(+), 2 deletions(-)
- create mode 100644 hw/hyperv/hv-balloon.c
+Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
+---
+ hw/i386/Kconfig           |   2 +
+ hw/i386/pc.c              |   4 +-
+ hw/mem/Kconfig            |   4 +
+ hw/mem/hapvdimm.c         | 221 ++++++++++++++++++++++++++++++++++++++
+ hw/mem/meson.build        |   1 +
+ include/hw/mem/hapvdimm.h |  27 +++++
+ 6 files changed, 258 insertions(+), 1 deletion(-)
  create mode 100644 hw/mem/hapvdimm.c
- create mode 100644 include/hw/hyperv/dynmem-proto.h
  create mode 100644 include/hw/mem/hapvdimm.h
 
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index d22ac4a4b9..c248cd3734 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -69,6 +69,7 @@ config I440FX
+     imply E1000_PCI
+     imply VMPORT
+     imply VMMOUSE
++    imply HAPVDIMM
+     select PC_PCI
+     select PC_ACPI
+     select ACPI_SMBUS
+@@ -96,6 +97,7 @@ config Q35
+     imply E1000E_PCI_EXPRESS
+     imply VMPORT
+     imply VMMOUSE
++    imply HAPVDIMM
+     select PC_PCI
+     select PC_ACPI
+     select PCI_EXPRESS_Q35
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index d489ecc0d1..62b532f9e9 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -73,6 +73,7 @@
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/cpu_hotplug.h"
+ #include "acpi-build.h"
++#include "hw/mem/hapvdimm.h"
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/mem/nvdimm.h"
+ #include "hw/cxl/cxl.h"
+@@ -1610,7 +1611,8 @@ static HotplugHandler *pc_get_hotplug_handler(MachineState *machine,
+         object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
+         object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI) ||
+         object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI) ||
+-        object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE)) {
++        object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE) ||
++        object_dynamic_cast(OBJECT(dev), TYPE_HAPVDIMM)) {
+         return HOTPLUG_HANDLER(machine);
+     }
+ 
+diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
+index 73c5ae8ad9..d8c1feafed 100644
+--- a/hw/mem/Kconfig
++++ b/hw/mem/Kconfig
+@@ -16,3 +16,7 @@ config CXL_MEM_DEVICE
+     bool
+     default y if CXL
+     select MEM_DEVICE
++
++config HAPVDIMM
++    bool
++    select MEM_DEVICE
+diff --git a/hw/mem/hapvdimm.c b/hw/mem/hapvdimm.c
+new file mode 100644
+index 0000000000..9ae82edb2c
+--- /dev/null
++++ b/hw/mem/hapvdimm.c
+@@ -0,0 +1,221 @@
++/*
++ * A memory hot-add protocol vDIMM device
++ *
++ * Copyright (C) 2020-2023 Oracle and/or its affiliates.
++ *
++ * Heavily based on pc-dimm.c:
++ * Copyright ProfitBricks GmbH 2012
++ * Copyright (C) 2014 Red Hat Inc
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++
++#include "exec/memory.h"
++#include "hw/boards.h"
++#include "hw/mem/hapvdimm.h"
++#include "hw/mem/memory-device.h"
++#include "hw/qdev-core.h"
++#include "hw/qdev-properties.h"
++#include "migration/vmstate.h"
++#include "qapi/error.h"
++#include "qapi/visitor.h"
++#include "qemu/module.h"
++#include "sysemu/hostmem.h"
++#include "trace.h"
++
++typedef struct HAPVDIMMDevice {
++    /* private */
++    DeviceState parent_obj;
++
++    /* public */
++    bool ever_realized;
++    uint64_t addr;
++    uint64_t align;
++    uint32_t node;
++    HostMemoryBackend *hostmem;
++} HAPVDIMMDevice;
++
++typedef struct HAPVDIMMDeviceClass {
++    /* private */
++    DeviceClass parent_class;
++} HAPVDIMMDeviceClass;
++
++static bool hapvdimm_adding_allowed;
++static Property hapvdimm_properties[] = {
++    DEFINE_PROP_UINT64(HAPVDIMM_ADDR_PROP, HAPVDIMMDevice, addr, 0),
++    DEFINE_PROP_UINT64(HAPVDIMM_ALIGN_PROP, HAPVDIMMDevice, align, 0),
++    DEFINE_PROP_LINK(HAPVDIMM_MEMDEV_PROP, HAPVDIMMDevice, hostmem,
++                     TYPE_MEMORY_BACKEND, HostMemoryBackend *),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++void hapvdimm_allow_adding(void)
++{
++    hapvdimm_adding_allowed = true;
++}
++
++void hapvdimm_disallow_adding(void)
++{
++    hapvdimm_adding_allowed = false;
++}
++
++static void hapvdimm_get_size(Object *obj, Visitor *v, const char *name,
++                            void *opaque, Error **errp)
++{
++    ERRP_GUARD();
++    uint64_t value;
++
++    value = memory_device_get_region_size(MEMORY_DEVICE(obj), errp);
++    if (*errp) {
++        return;
++    }
++
++    visit_type_uint64(v, name, &value, errp);
++}
++
++static void hapvdimm_init(Object *obj)
++{
++    object_property_add(obj, HAPVDIMM_SIZE_PROP, "uint64", hapvdimm_get_size,
++                        NULL, NULL, NULL);
++}
++
++static void hapvdimm_realize(DeviceState *dev, Error **errp)
++{
++    ERRP_GUARD();
++    HAPVDIMMDevice *hapvdimm = HAPVDIMM(dev);
++    MachineState *ms = MACHINE(qdev_get_machine());
++
++    if (!hapvdimm->ever_realized) {
++        if (!hapvdimm_adding_allowed) {
++            error_setg(errp, "direct adding not allowed");
++            return;
++        }
++
++        hapvdimm->ever_realized = true;
++    }
++
++    memory_device_pre_plug(MEMORY_DEVICE(hapvdimm), ms,
++                           hapvdimm->align ? &hapvdimm->align : NULL,
++                           errp);
++    if (*errp) {
++        return;
++    }
++
++    if (!hapvdimm->hostmem) {
++        error_setg(errp, "'" HAPVDIMM_MEMDEV_PROP "' property is not set");
++        return;
++    } else if (host_memory_backend_is_mapped(hapvdimm->hostmem)) {
++        const char *path;
++
++        path = object_get_canonical_path_component(OBJECT(hapvdimm->hostmem));
++        error_setg(errp, "can't use already busy memdev: %s", path);
++        return;
++    }
++
++    host_memory_backend_set_mapped(hapvdimm->hostmem, true);
++
++    memory_device_plug(MEMORY_DEVICE(hapvdimm), ms);
++    vmstate_register_ram(host_memory_backend_get_memory(hapvdimm->hostmem),
++                         dev);
++}
++
++static void hapvdimm_unrealize(DeviceState *dev)
++{
++    HAPVDIMMDevice *hapvdimm = HAPVDIMM(dev);
++    MachineState *ms = MACHINE(qdev_get_machine());
++
++    memory_device_unplug(MEMORY_DEVICE(hapvdimm), ms);
++    vmstate_unregister_ram(host_memory_backend_get_memory(hapvdimm->hostmem),
++                           dev);
++
++    host_memory_backend_set_mapped(hapvdimm->hostmem, false);
++}
++
++static uint64_t hapvdimm_md_get_addr(const MemoryDeviceState *md)
++{
++    return object_property_get_uint(OBJECT(md), HAPVDIMM_ADDR_PROP,
++                                    &error_abort);
++}
++
++static void hapvdimm_md_set_addr(MemoryDeviceState *md, uint64_t addr,
++                               Error **errp)
++{
++    object_property_set_uint(OBJECT(md), HAPVDIMM_ADDR_PROP, addr, errp);
++}
++
++static MemoryRegion *hapvdimm_md_get_memory_region(MemoryDeviceState *md,
++                                                 Error **errp)
++{
++    HAPVDIMMDevice *hapvdimm = HAPVDIMM(md);
++
++    if (!hapvdimm->hostmem) {
++        error_setg(errp, "'" HAPVDIMM_MEMDEV_PROP "' property must be set");
++        return NULL;
++    }
++
++    return host_memory_backend_get_memory(hapvdimm->hostmem);
++}
++
++static void hapvdimm_md_fill_device_info(const MemoryDeviceState *md,
++                                       MemoryDeviceInfo *info)
++{
++    PCDIMMDeviceInfo *di = g_new0(PCDIMMDeviceInfo, 1);
++    const DeviceClass *dc = DEVICE_GET_CLASS(md);
++    const HAPVDIMMDevice *hapvdimm = HAPVDIMM(md);
++    const DeviceState *dev = DEVICE(md);
++
++    if (dev->id) {
++        di->id = g_strdup(dev->id);
++    }
++    di->hotplugged = dev->hotplugged;
++    di->hotpluggable = dc->hotpluggable;
++    di->addr = hapvdimm->addr;
++    di->slot = -1;
++    di->node = 0; /* FIXME: report proper node */
++    di->size = object_property_get_uint(OBJECT(hapvdimm), HAPVDIMM_SIZE_PROP,
++                                        NULL);
++    di->memdev = object_get_canonical_path(OBJECT(hapvdimm->hostmem));
++
++    info->u.dimm.data = di;
++    info->type = MEMORY_DEVICE_INFO_KIND_DIMM;
++}
++
++static void hapvdimm_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++    MemoryDeviceClass *mdc = MEMORY_DEVICE_CLASS(oc);
++
++    dc->realize = hapvdimm_realize;
++    dc->unrealize = hapvdimm_unrealize;
++    device_class_set_props(dc, hapvdimm_properties);
++    dc->desc = "vDIMM for a hot add protocol";
++
++    mdc->get_addr = hapvdimm_md_get_addr;
++    mdc->set_addr = hapvdimm_md_set_addr;
++    mdc->get_plugged_size = memory_device_get_region_size;
++    mdc->get_memory_region = hapvdimm_md_get_memory_region;
++    mdc->fill_device_info = hapvdimm_md_fill_device_info;
++}
++
++static const TypeInfo hapvdimm_info = {
++    .name          = TYPE_HAPVDIMM,
++    .parent        = TYPE_DEVICE,
++    .instance_size = sizeof(HAPVDIMMDevice),
++    .instance_init = hapvdimm_init,
++    .class_init    = hapvdimm_class_init,
++    .class_size    = sizeof(HAPVDIMMDeviceClass),
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_MEMORY_DEVICE },
++        { }
++    },
++};
++
++static void hapvdimm_register_types(void)
++{
++    type_register_static(&hapvdimm_info);
++}
++
++type_init(hapvdimm_register_types)
+diff --git a/hw/mem/meson.build b/hw/mem/meson.build
+index 609b2b36fc..5f7a0181d3 100644
+--- a/hw/mem/meson.build
++++ b/hw/mem/meson.build
+@@ -4,6 +4,7 @@ mem_ss.add(when: 'CONFIG_DIMM', if_true: files('pc-dimm.c'))
+ mem_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_mc.c'))
+ mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
+ mem_ss.add(when: 'CONFIG_CXL_MEM_DEVICE', if_true: files('cxl_type3.c'))
++mem_ss.add(when: 'CONFIG_HAPVDIMM', if_true: files('hapvdimm.c'))
+ 
+ softmmu_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
+ 
+diff --git a/include/hw/mem/hapvdimm.h b/include/hw/mem/hapvdimm.h
+new file mode 100644
+index 0000000000..bb9a135a52
+--- /dev/null
++++ b/include/hw/mem/hapvdimm.h
+@@ -0,0 +1,27 @@
++/*
++ * A memory hot-add protocol vDIMM device
++ *
++ * Copyright (C) 2020-2023 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#ifndef QEMU_HAPVDIMM_H
++#define QEMU_HAPVDIMM_H
++
++#include "qom/object.h"
++
++#define TYPE_HAPVDIMM "mem-hapvdimm"
++OBJECT_DECLARE_SIMPLE_TYPE(HAPVDIMMDevice, HAPVDIMM)
++
++#define HAPVDIMM_ADDR_PROP "addr"
++#define HAPVDIMM_ALIGN_PROP "align"
++#define HAPVDIMM_SIZE_PROP "size"
++#define HAPVDIMM_MEMDEV_PROP "memdev"
++
++void hapvdimm_allow_adding(void);
++void hapvdimm_disallow_adding(void);
++
++#endif
 
