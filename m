@@ -2,96 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4280665F151
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:40:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5981965F199
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:59:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTGw-0005pO-Qp; Thu, 05 Jan 2023 11:39:18 -0500
+	id 1pDTKz-0006rx-2o; Thu, 05 Jan 2023 11:43:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDTGu-0005om-R4
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:39:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDTGp-00019p-Oe
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:39:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672936749;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lOgK2afHTeSSoWopgUoIWYG9EWbekdWgjgsMxxZ7ToM=;
- b=D7wBAWpXBBCwDe5qWuDsBZe2JdGVcFsgYhCDtLtcO+B3gSv1ldRUq//EpH/oUmLbCMVzDh
- ez+SqY8MCO1sRETRxcGfjxrFxmNKeXP3611maMX9TA1Ksq+CTVTi325tQfL4j6y+K8kDJN
- i6IdQvtKhGEgVRj9pcRlkDE0J7CZIhk=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-647-4rW2_-L3NL-4eNp8sa4u4A-1; Thu, 05 Jan 2023 11:39:08 -0500
-X-MC-Unique: 4rW2_-L3NL-4eNp8sa4u4A-1
-Received: by mail-ed1-f70.google.com with SMTP id
- e6-20020a056402190600b0048ee2e45daaso4594433edz.4
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:39:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pDTKw-0006qr-Sm
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:43:26 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pDTKt-0006wA-8e
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:43:26 -0500
+Received: by mail-wm1-x336.google.com with SMTP id ay40so28484730wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:43:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=andOexte/qTAbZAFNvqdK8ze6FjZMbbXg1AFTficNCU=;
+ b=nAnw6qgJhq8wku70jVM9IaApWWFFDlQZYqXxbY7RN7xpas6S/MGksQWeGOqXcuXej6
+ dXrNL0zkyQwiSGVv8cXH6ctjB0NteeVMf0OCa2sqmaO54YSe9OFn3j9/uN/SlaugzI3L
+ lvN8y+53zz2Dg6+Ve00TWR2Cgl9judNjlSxjMiuLnim/8wD3ONyxGprrGKBYXYq71JHD
+ /YZZBWVd8xMToRgwt968Sa497PzIfN9rdZuFVu8ZeIj9VgdxK17ne8BcPuGLn0lHMb6E
+ vDfhwXQKMkbXP9gtQ+m/GXXFbI8IaCuwpQVNw5v72tAH4jo3j3nOkfrWX/2QEj/auBcV
+ J6yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lOgK2afHTeSSoWopgUoIWYG9EWbekdWgjgsMxxZ7ToM=;
- b=DZ0bJgPd3Tuc2oqQJVx6hGKlHbktHd4fTrTnxtyehaRRyqfTMEzTUOQ/7eVB6R5eH2
- hgIT3+nz3bmM+2LPv8cvJ31CufDjrgzev62sQ2j1JEzTi+pxF9N0+mcm9aHQxMKnIVyA
- 2/NHpfgXLrASbfXpV4xoYWom39KgJwXivUCRmMqj9+Sp0ua7AKg+ZHSV4C9uyCuTdGS4
- Z37uqFxe8jMrxJc8vH0JIyyf5logIDyG1XOx7ZJcvtjzLvFr5fZtWBPc8Vui9i3x7wTy
- CFeo1e0Fnruew2iiuiw55dXCl0nP5o6NoCInDK+vz0dk8Y+nWTEy00MWO719H3z5Y2G8
- 8j+A==
-X-Gm-Message-State: AFqh2kqrdOwL0k7MxDXuOzjwl33ICe0ntS6ZpRusa3PkQsYtR6vfMMis
- rlIvvj6rgcyi9ceijScNo04dsz6GqxGiFFs7lkzNe1YK9fyobnYaD19g8mtZpVheYpHL4cZKCyz
- qlHBKjsc+1e+OR+M=
-X-Received: by 2002:a17:906:79d2:b0:7ae:987d:d7f9 with SMTP id
- m18-20020a17090679d200b007ae987dd7f9mr40523050ejo.17.1672936747396; 
- Thu, 05 Jan 2023 08:39:07 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXs5yA8Lamk/cPLRK1Wfnv4GsrDXgQZvKZC5E9to+BZznz/KkbDcI0isf2Ehzb1OuGH1+tyiCA==
-X-Received: by 2002:a17:906:79d2:b0:7ae:987d:d7f9 with SMTP id
- m18-20020a17090679d200b007ae987dd7f9mr40523032ejo.17.1672936747152; 
- Thu, 05 Jan 2023 08:39:07 -0800 (PST)
-Received: from redhat.com ([2.52.151.85]) by smtp.gmail.com with ESMTPSA id
- s2-20020a170906168200b00808c5e283e8sm17007955ejd.178.2023.01.05.08.39.03
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=andOexte/qTAbZAFNvqdK8ze6FjZMbbXg1AFTficNCU=;
+ b=5/b/hxV3xNRo0BsMYkJJEVQ0L7IJwC/LmKzRrF4vt81N3KgGCF9yeCZyKO603+h+MR
+ ziggBuAcovGBXjKpb72jcFk7bhO6OTLej13yKPaBWNv7l3INd3Cktlyt4dTblah043s1
+ hPYZGRrgaNumMVBqgrQz/RW5Emfozs4vyDubpYM6L73dvTv9GMdj3i8DTCY2RJY5nIf8
+ 1emFbyI90kCOHXEPobajLUCWR0Cs0N6/1/5mPPQscl+mVfuGJomLuGXB5jVULBS/il50
+ TZYatbNb0BgAuhjyr6caWWPNd5ZtJhhlrSbM8qKm03V8nmBUGIHKKZWUKQlWYThtY1ka
+ 4HmA==
+X-Gm-Message-State: AFqh2kpOJpdoLuMGyK/hNyv7dLFLDE9EONZUZZNytg7Wz671m4rV8AVm
+ W+iDx7P/n7IJWj1JEWotJDdxuQ==
+X-Google-Smtp-Source: AMrXdXtnZ7VEIdFtdZt9Qp+5OjHDbkCcJOTLQpDWiJeO2j1kj6RkG6jkL0YD9EZF1j2xUgFML26PPQ==
+X-Received: by 2002:a05:600c:1c85:b0:3d3:4b18:27c6 with SMTP id
+ k5-20020a05600c1c8500b003d34b1827c6mr36137319wms.11.1672937001511; 
+ Thu, 05 Jan 2023 08:43:21 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ he11-20020a05600c540b00b003d359aa353csm2851006wmb.45.2023.01.05.08.43.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:39:06 -0800 (PST)
-Date: Thu, 5 Jan 2023 11:39:01 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- qemu-block@nongnu.org,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Ani Sinha <ani@anisinha.ca>,
- Richard Henderson <richard.henderson@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Thu, 05 Jan 2023 08:43:20 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5D4E91FFB7;
+ Thu,  5 Jan 2023 16:43:20 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org,
+	alex.bennee@gmail.com
+Cc: David Hildenbrand <david@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Michael Rolnik <mrolnik@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Greg Kurz <groug@kaod.org>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-ppc@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Marek Vasut <marex@denx.de>,
+ Stafford Horne <shorne@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Taylor Simpson <tsimpson@quicinc.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- John Snow <jsnow@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v5 00/31] Consolidate PIIX south bridges
-Message-ID: <20230105113831-mutt-send-email-mst@kernel.org>
-References: <20230105143228.244965-1-shentey@gmail.com>
+ Alexandre Iooss <erdnaxe@crans.org>, Chris Wulff <crwulff@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Song Gao <gaosong@loongson.cn>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-riscv@nongnu.org,
+ qemu-s390x@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Bin Meng <bin.meng@windriver.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-arm@nongnu.org
+Subject: [PATCH v2 00/21] gdbstub: re-organise to for better compilation
+ behaviour
+Date: Thu,  5 Jan 2023 16:42:59 +0000
+Message-Id: <20230105164320.2164095-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230105143228.244965-1-shentey@gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,159 +122,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 05, 2023 at 03:31:57PM +0100, Bernhard Beschow wrote:
-> This series consolidates the implementations of the PIIX3 and PIIX4 south
-> bridges and is an extended version of [1]. The motivation is to share as much
-> code as possible and to bring both device models to feature parity such that
-> perhaps PIIX4 can become a drop-in-replacement for PIIX3 in the pc machine. This
-> could resolve the "Frankenstein" PIIX4-PM problem in PIIX3 discussed on this
-> list before.
-> 
-> The series is structured as follows: First, PIIX3 is changed to instantiate
-> internal devices itself, like PIIX4 does already. Second, PIIX3 gets prepared
-> for the merge with PIIX4 which includes some fixes, cleanups, and renamings.
-> Third, the same is done for PIIX4. In step four the implementations are merged.
-> Since some consolidations could be done easier with merged implementations, the
-> consolidation continues in step five which concludes the series. Note that the
-> first three patches are only included to avoid merge conflicts with mips-next
-> -- please ignore.
-> 
-> One particular challenge in this series was that the PIC of PIIX3 used to be
-> instantiated outside of the south bridge while some sub functions require a PIC
-> with populated qemu_irqs. This has been solved by introducing a proxy PIC which
-> furthermore allows PIIX3 to be agnostic towards the virtualization technology
-> used (KVM, TCG, Xen). Due to consolidation PIIX4 gained the proxy PIC as well.
-> 
-> Another challenge was dealing with optional devices where Peter already gave
-> advice in [1] which this series implements.
-> 
-> Last but not least there might be some opportunity to consolidate VM state
-> handling, probably by reusing the one from PIIX3. Since I'm not very familiar
-> with the requirements I didn't touch it so far.
+I was motivated to sort this out while working on my register API
+which is target agnostic but ran into the weeds when trying to link up
+with the gdbstub. This was due to us building gdbstub for every single
+target we support due to a few ABI sensitive bits that require CPU
+specific information. This series does a bunch of surgery to break the
+monolithic file apart into its constituent parts as well as simplify
+the headers to users can avoid bringing in more dependencies than they
+need.
 
-This is going to be merged through mips tree yes?
+While the final result does increase the number of object files we
+reduce the total size of them all. We could go even further if we
+manage to build just 2 ABI binaries and sort out the magic to link
+them in meson. I think this requires us to removing TARGET_LONG_BITS
+from cpu-defs.h and exposing it to the build machinery.
 
-series:
+Before:
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+  🕙16:36:31 alex.bennee@hackbox2:qemu.git/builds/reference  on  gdbstub/next [$?⇕] took 2s
+  ➜  find . -iname "gdbstub*.o" -exec echo -n -e {}"\0" \; | du -hc --files0-from=- | tail -n 1
+  12M     total
+  🕙16:36:42 alex.bennee@hackbox2:qemu.git/builds/reference  on  gdbstub/next  [$?⇕]
+  ➜  find . -iname "gdbstub*.o" | wc -l
+  68
 
+After:
 
-> v5:
-> - Pick up Reviewed-by tags from https://lists.nongnu.org/archive/html/qemu-devel/2023-01/msg00116.html
-> - Add patch to make usage of the isa_pic global more type-safe
-> - Re-introduce isa-pic as PIC specific proxy (Mark)
-> Note that both patches are unreviewed -> Mark?
-> 
-> Furthermore, patch 'hw/i386/pc_piix: Associate pci_map_irq_fn as soon as PCI bus
-> is created' needs review and could be merged into
-> https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg03312.html .
-> 
-> Testing done:
-> * make check
-> * Boot live CD:
->   * `qemu-system-x86_64 -M pc -m 2G -accel kvm -cpu host -cdrom manjaro-kde-21.3.2-220704-linux515.iso`
->   * `qemu-system-x86_64 -M q35 -m 2G -accel kvm -cpu host -cdrom manjaro-kde-21.3.2-220704-linux515.iso`
-> * 'qemu-system-mips64el -M malta -kernel vmlinux-3.2.0-4-5kc-malta -hda debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=ttyS0"`
-> 
-> Based-on: <20221120150550.63059-1-shentey@gmail.com>
->           "[PATCH v2 0/3] Decouple INTx-to-LNKx routing from south bridges"
-> 
-> v4:
-> - Rebase onto "[PATCH v2 0/3] Decouple INTx-to-LNKx routing from south bridges"
->   since it is already queued via mips-next. This eliminates patches
->   'hw/isa/piix3: Prefix pci_slot_get_pirq() with "piix3_"' and 'hw/isa/piix4:
->   Prefix pci_slot_get_pirq() with "piix4_"'.
-> - Squash 'hw/isa/piix: Drop the "3" from the PIIX base class' into
->   'hw/isa/piix3: Rename typedef PIIX3State to PIIXState'. I originally only
->   split these patches since I wasn't sure whether renaming a type was allowed.
-> - Add new patch 'hw/i386/pc_piix: Associate pci_map_irq_fn as soon as PCI bus is
->   created' for forther cleanup of INTx-to-LNKx route decoupling.
-> 
-> v3:
-> - Introduce one TYPE_ICH9_USB_UHCI(fn) rather than several TYPE_ICH9_USB_UHCIx
->   (Philippe)
-> - Make proxy PIC generic (Philippe)
-> - Track Malta's PIIX dependencies through KConfig
-> - Rebase onto Philippe's 'hw/isa/piix4: Remove MIPS Malta specific bits' series [3]
-> - Also rebase onto latest master to resolve merge conflicts. This required
->   copying Philippe's series as first three patches - please ignore.
-> 
-> v2:
-> - Introduce TYPE_ defines for IDE and USB device models (Mark)
-> - Omit unexporting of PIIXState (Mark)
-> - Improve commit message of patch 5 to mention reset triggering through PCI
->   configuration space (Mark)
-> - Move reviewed patches w/o dependencies to the bottom of the series for early
->   upstreaming
-> 
-> [1] https://lists.nongnu.org/archive/html/qemu-devel/2022-07/msg02348.html
-> [2] https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg03310.html
-> [3] https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg05367.html
-> 
-> Bernhard Beschow (28):
->   hw/mips/Kconfig: Track Malta's PIIX dependencies via Kconfig
->   hw/usb/hcd-uhci: Introduce TYPE_ defines for device models
->   hw/i386/pc_piix: Associate pci_map_irq_fn as soon as PCI bus is
->     created
->   hw/i386/pc_piix: Allow for setting properties before realizing PIIX3
->     south bridge
->   hw/i386/pc: Create RTC controllers in south bridges
->   hw/i386/pc: No need for rtc_state to be an out-parameter
->   hw/isa/piix3: Create USB controller in host device
->   hw/isa/piix3: Create power management controller in host device
->   hw/intc/i8259: Make using the isa_pic singleton more type-safe
->   hw/intc/i8259: Introduce i8259 proxy "isa-pic"
->   hw/isa/piix3: Create ISA PIC in host device
->   hw/isa/piix3: Create IDE controller in host device
->   hw/isa/piix3: Wire up ACPI interrupt internally
->   hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS
->   hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4
->   hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4
->   hw/isa/piix3: Drop the "3" from PIIX base class
->   hw/isa/piix4: Make PIIX4's ACPI and USB functions optional
->   hw/isa/piix4: Remove unused inbound ISA interrupt lines
->   hw/isa/piix4: Use ISA PIC device
->   hw/isa/piix4: Reuse struct PIIXState from PIIX3
->   hw/isa/piix4: Rename reset control operations to match PIIX3
->   hw/isa/piix3: Merge hw/isa/piix4.c
->   hw/isa/piix: Harmonize names of reset control memory regions
->   hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4
->   hw/isa/piix: Rename functions to be shared for interrupt triggering
->   hw/isa/piix: Consolidate IRQ triggering
->   hw/isa/piix: Share PIIX3's base class with PIIX4
-> 
-> Philippe Mathieu-Daud� (3):
->   hw/mips/malta: Introduce PIIX4_PCI_DEVFN definition
->   hw/mips/malta: Set PIIX4 IRQ routes in embedded bootloader
->   hw/isa/piix4: Correct IRQRC[A:D] reset values
-> 
->  configs/devices/mips-softmmu/common.mak |   2 -
->  hw/usb/hcd-uhci.h                       |   4 +
->  include/hw/i386/ich9.h                  |   2 +
->  include/hw/i386/pc.h                    |   2 +-
->  include/hw/intc/i8259.h                 |  25 +-
->  include/hw/southbridge/piix.h           |  30 ++-
->  include/qemu/typedefs.h                 |   1 +
->  hw/i386/pc.c                            |  16 +-
->  hw/i386/pc_piix.c                       |  77 +++---
->  hw/i386/pc_q35.c                        |  16 +-
->  hw/intc/i8259.c                         |  38 ++-
->  hw/isa/lpc_ich9.c                       |   8 +
->  hw/isa/{piix3.c => piix.c}              | 274 ++++++++++++++++-----
->  hw/isa/piix4.c                          | 302 ------------------------
->  hw/mips/malta.c                         |  38 ++-
->  hw/usb/hcd-uhci.c                       |  16 +-
->  MAINTAINERS                             |   6 +-
->  hw/i386/Kconfig                         |   4 +-
->  hw/isa/Kconfig                          |   8 +-
->  hw/isa/meson.build                      |   3 +-
->  hw/mips/Kconfig                         |   2 +
->  21 files changed, 419 insertions(+), 455 deletions(-)
->  rename hw/isa/{piix3.c => piix.c} (57%)
->  delete mode 100644 hw/isa/piix4.c
-> 
-> -- 
-> 2.39.0
-> 
+  ➜  find . -iname "gdbstub*.o" -exec echo -n -e {}"\0" \; | du -hc --files0-from=- | tail -n 1
+  4.0M    total
+  🕙16:41:42 alex.bennee@hackbox2:qemu.git/builds/all  on  gdbstub/next [$?⇕] took 2s
+  ➜  find . -iname "gdbstub*.o" | wc -l
+  105
+
+The following patches need review:
+
+gdbstub: only compile gdbstub twice for whole build
+gdbstub: move syscall handling to new file
+gdbstub: move register helpers into standalone include
+gdbstub: don't use target_ulong while handling registers
+gdbstub: fix address type of gdb_set_cpu_pc
+gdbstub: specialise stub_can_reverse
+gdbstub: introduce gdb_get_max_cpus
+gdbstub: specialise target_memory_rw_debug
+gdbstub: specialise handle_query_attached
+gdbstub: abstract target specific details from gdb_put_packet_binary
+gdbstub: make various helpers visible to the rest of the module
+gdbstub: move fromhex/tohex routines to internals
+gdbstub: define separate user/system structures
+target/arm: fix handling of HLT semihosting in system mode
+
+Alex Bennée (20):
+  gdbstub/internals.h: clean up include guard
+  target/arm: fix handling of HLT semihosting in system mode
+  gdbstub: fix-up copyright and license files
+  gdbstub: define separate user/system structures
+  gdbstub: move GDBState to shared internals header
+  includes: move tb_flush into its own header
+  gdbstub: move fromhex/tohex routines to internals
+  gdbstub: make various helpers visible to the rest of the module
+  gdbstub: move chunk of softmmu functionality to own file
+  gdbstub: move chunks of user code into own files
+  gdbstub: abstract target specific details from gdb_put_packet_binary
+  gdbstub: specialise handle_query_attached
+  gdbstub: specialise target_memory_rw_debug
+  gdbstub: introduce gdb_get_max_cpus
+  gdbstub: specialise stub_can_reverse
+  gdbstub: fix address type of gdb_set_cpu_pc
+  gdbstub: don't use target_ulong while handling registers
+  gdbstub: move register helpers into standalone include
+  gdbstub: move syscall handling to new file
+  gdbstub: only compile gdbstub twice for whole build
+
+Philippe Mathieu-Daudé (1):
+  gdbstub: Make syscall_complete/[gs]et_reg target-agnostic typedefs
+
+ gdbstub/internals.h                    |  207 ++-
+ include/exec/exec-all.h                |    1 -
+ include/exec/gdbstub.h                 |  208 ---
+ include/exec/tb-flush.h                |   26 +
+ include/gdbstub/helpers.h              |  103 ++
+ include/gdbstub/syscalls.h             |  124 ++
+ include/gdbstub/user.h                 |   43 +
+ linux-user/user-internals.h            |    1 +
+ accel/stubs/tcg-stub.c                 |    1 +
+ accel/tcg/tb-maint.c                   |    1 +
+ accel/tcg/translate-all.c              |    1 +
+ cpu.c                                  |    1 +
+ gdbstub/gdbstub.c                      | 1654 ++----------------------
+ gdbstub/softmmu.c                      |  589 ++++++++-
+ gdbstub/syscalls.c                     |  230 ++++
+ gdbstub/user-target.c                  |  283 ++++
+ gdbstub/user.c                         |  406 +++++-
+ hw/ppc/spapr_hcall.c                   |    1 +
+ linux-user/exit.c                      |    2 +-
+ linux-user/main.c                      |    1 +
+ linux-user/signal.c                    |    2 +-
+ plugins/core.c                         |    1 +
+ plugins/loader.c                       |    2 +-
+ semihosting/arm-compat-semi.c          |    1 +
+ semihosting/guestfd.c                  |    2 +-
+ semihosting/syscalls.c                 |    3 +-
+ softmmu/runstate.c                     |    2 +-
+ target/alpha/gdbstub.c                 |    2 +-
+ target/alpha/sys_helper.c              |    1 +
+ target/arm/gdbstub.c                   |    1 +
+ target/arm/gdbstub64.c                 |    2 +-
+ target/arm/helper-a64.c                |    2 +-
+ target/arm/m_helper.c                  |    2 +-
+ target/arm/translate.c                 |    2 +-
+ target/avr/gdbstub.c                   |    2 +-
+ target/cris/gdbstub.c                  |    2 +-
+ target/hexagon/gdbstub.c               |    2 +-
+ target/hppa/gdbstub.c                  |    2 +-
+ target/i386/gdbstub.c                  |    2 +-
+ target/i386/whpx/whpx-all.c            |    2 +-
+ target/loongarch/gdbstub.c             |    1 +
+ target/m68k/gdbstub.c                  |    2 +-
+ target/m68k/helper.c                   |    1 +
+ target/m68k/m68k-semi.c                |    3 +-
+ target/microblaze/gdbstub.c            |    2 +-
+ target/mips/gdbstub.c                  |    2 +-
+ target/mips/tcg/sysemu/mips-semi.c     |    3 +-
+ target/nios2/cpu.c                     |    2 +-
+ target/nios2/nios2-semi.c              |    3 +-
+ target/openrisc/gdbstub.c              |    2 +-
+ target/openrisc/interrupt.c            |    2 +-
+ target/openrisc/mmu.c                  |    2 +-
+ target/ppc/cpu_init.c                  |    2 +-
+ target/ppc/gdbstub.c                   |    1 +
+ target/riscv/csr.c                     |    1 +
+ target/riscv/gdbstub.c                 |    1 +
+ target/rx/gdbstub.c                    |    2 +-
+ target/s390x/gdbstub.c                 |    1 +
+ target/s390x/helper.c                  |    2 +-
+ target/sh4/gdbstub.c                   |    2 +-
+ target/sparc/gdbstub.c                 |    2 +-
+ target/tricore/gdbstub.c               |    2 +-
+ target/xtensa/core-dc232b.c            |    2 +-
+ target/xtensa/core-dc233c.c            |    2 +-
+ target/xtensa/core-de212.c             |    2 +-
+ target/xtensa/core-de233_fpu.c         |    2 +-
+ target/xtensa/core-dsp3400.c           |    2 +-
+ target/xtensa/core-fsf.c               |    2 +-
+ target/xtensa/core-lx106.c             |    2 +-
+ target/xtensa/core-sample_controller.c |    2 +-
+ target/xtensa/core-test_kc705_be.c     |    2 +-
+ target/xtensa/core-test_mmuhifi_c3.c   |    2 +-
+ target/xtensa/gdbstub.c                |    2 +-
+ target/xtensa/helper.c                 |    2 +-
+ MAINTAINERS                            |    1 +
+ gdbstub/meson.build                    |   35 +-
+ gdbstub/trace-events                   |    4 +-
+ 77 files changed, 2250 insertions(+), 1775 deletions(-)
+ create mode 100644 include/exec/tb-flush.h
+ create mode 100644 include/gdbstub/helpers.h
+ create mode 100644 include/gdbstub/syscalls.h
+ create mode 100644 include/gdbstub/user.h
+ create mode 100644 gdbstub/syscalls.c
+ create mode 100644 gdbstub/user-target.c
+
+-- 
+2.34.1
 
 
