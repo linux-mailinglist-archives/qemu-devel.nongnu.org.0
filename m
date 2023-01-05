@@ -2,44 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76AF65F109
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:22:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99DBC65EFBC
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 16:13:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDT0N-00039F-13; Thu, 05 Jan 2023 11:22:11 -0500
+	id 1pDRuf-0001tr-4S; Thu, 05 Jan 2023 10:12:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pdel@pdel-mbp.localdomain>)
- id 1pDT0G-00034i-3c
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:22:04 -0500
-Received: from [163.114.132.7] (helo=pdel-mbp.localdomain)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pdel@pdel-mbp.localdomain>) id 1pDT0E-0004hC-I7
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:22:03 -0500
-Received: by pdel-mbp.localdomain (Postfix, from userid 501)
- id 2639AC3BBC1; Thu,  5 Jan 2023 01:13:49 -0800 (PST)
-From: Peter Delevoryas <peter@pjd.dev>
-To: 
-Cc: samuel.thibault@ens-lyon.org, jasowang@redhat.com, eblake@redhat.com,
- armbru@redhat.com, qemu-devel@nongnu.org, Peter Delevoryas <peter@pjd.dev>
-Subject: [PATCH 1/1] net/slirp: Add mfr-id and oob-eth-addr parameters
-Date: Thu,  5 Jan 2023 01:13:45 -0800
-Message-Id: <20230105091345.49757-2-peter@pjd.dev>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230105091345.49757-1-peter@pjd.dev>
-References: <20230105091345.49757-1-peter@pjd.dev>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDRua-0001tN-Ff
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:12:08 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDRuY-0004CW-My
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:12:08 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id f3so24705701pgc.2
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 07:12:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bkaE0LEBcl2+UKhpdPTxir9P+Zq8HpLovlsuyNwQyCg=;
+ b=fn+yVd3RMDMt/itv1sjgrRAoc+om7ou6AiMSZRD4AsgcJMJd3PwcV0ggqEdeW69OKG
+ +tUS71fznpWnsv1pcGDMx0PChP4himp3j27YIQSoiYRCdE/DDfcHOaMl6f2M6F/SuP2F
+ wcPTWugB68FuLL29TQoXP4PAInqg74svGoIVpKWLvevdv61nrGZv+h4wztFlKvtFnU5I
+ 8Fbl4NG1N7937FaSmebImpp/hbAuTjUFTyx/y4VQ1oMiQQZFsMX3sSQd5SWciocJMOna
+ hI1e0XfaDPzD1/d13taZIoobmgigfZpzSLg7qai8XMhazz2o+25ird7hUYEfMrIBG7Hd
+ JY8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bkaE0LEBcl2+UKhpdPTxir9P+Zq8HpLovlsuyNwQyCg=;
+ b=RU4j8OfnEkKaB2b3RktnBFt6Timuz2PA49ihQgE/coHq+Igvat7+s1hQaTcl6pvLHm
+ 0grO8NCa7Eu3V/DhCib09d4r9dypwb11/uRbLxfphlv4kaENVMtjvDS6PgE+6pfS9Tfb
+ VZq8hrEn8+4RVmnXVosFYUUhcnJwym6RRPtDT5uatNlCvtCYrp1Kw+OxuSeU6to6lT6g
+ n1A3OT524gU+YaorKMA79QSSKXlG4mBufdCY2hsLbr3sAI5mMBctICdk5OAy++lRd1sO
+ 8znYURX2OHSMhyZJ8a6crhY5ap+gZXUiOHQrjlvBaLPWvr58nsUC+Q1pnqcMH65zALOs
+ jOIQ==
+X-Gm-Message-State: AFqh2koBNb1qAS/z5ojUArCY0hCQ9kd/Qs6uRxAZC0tCQJx66rbhFTLb
+ V4YBrJPcGu/MvrA/2/iP8pnsC+yf8LkUn4sfZHty1rBElMT0h91a
+X-Google-Smtp-Source: AMrXdXsG8qW67V7CJm5P+ErA01VvI1T3rug9uRl/jL3DLEbWmPan+JGEYkp4QPMltQndfV2MrM2Yjt6hx8ueSrZ0Kdc=
+X-Received: by 2002:a63:3d4:0:b0:492:50dc:da4d with SMTP id
+ 203-20020a6303d4000000b0049250dcda4dmr2345250pgd.192.1672931524559; Thu, 05
+ Jan 2023 07:12:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 163.114.132.7 (failed)
-Received-SPF: none client-ip=163.114.132.7;
- envelope-from=pdel@pdel-mbp.localdomain; helo=pdel-mbp.localdomain
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NO_DNS_FOR_FROM=0.001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+References: <cover.1671548388.git.jcd@tribudubois.net>
+In-Reply-To: <cover.1671548388.git.jcd@tribudubois.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 5 Jan 2023 15:11:53 +0000
+Message-ID: <CAFEAcA-ogofwCvR1fAJ5+PiGv4Z2+FGqxhcw54AH19CaBdv-dA@mail.gmail.com>
+Subject: Re: [PATCH] Fix i.MX GPT timers for i.MX6UL and i.MX7 processors
+To: Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,109 +84,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This adds mfr-id and oob-eth-addr parameters to the userspace netdev backend.
+On Tue, 20 Dec 2022 at 18:18, Jean-Christophe Dubois
+<jcd@tribudubois.net> wrote:
+>
+> This patch series allow GPT timers to be used on Qemu emulated i.MX7.
+>
+> In particular it allows GPT timer to raise interrupts in i.MX7 processor
+> and supports some of the fixed frequency clocks.
+>
+> Note: CCM generated clock sources will be added with a later patch.
+>
+> This also brings some fixes to the i.MX6UL GPT timer as its clock sources
+> differ slightly from the i.MX7 version.
+>
+> Tested by running =C2=B5COS application on i.MX7D emulated processor. =C2=
+=B5COS
+> is using the GPT timer as its tick source.
+>
+> Jean-Christophe Dubois (3):
+>   i.MX7D: Connect GPT timers to IRQ
+>   i.MX7D: Compute clock frequency for the fixed frequency clocks.
+>   i.MX6UL: Add a specific GPT timer instance for the i.MX6UL
+>
+>  hw/arm/fsl-imx6ul.c        |  2 +-
+>  hw/arm/fsl-imx7.c          | 10 ++++++++
+>  hw/misc/imx6ul_ccm.c       |  6 -----
+>  hw/misc/imx7_ccm.c         | 49 +++++++++++++++++++++++++++++++-------
+>  hw/timer/imx_gpt.c         | 25 +++++++++++++++++++
+>  include/hw/arm/fsl-imx7.h  |  5 ++++
+>  include/hw/timer/imx_gpt.h |  1 +
+>  7 files changed, 82 insertions(+), 16 deletions(-)
 
-    -netdev user,id=[str],mfr-id=[uint32],oob-eth-addr=[MAC address]
+Thanks, I've applied this series to target-arm.next.
 
-Signed-off-by: Peter Delevoryas <peter@pjd.dev>
----
- net/slirp.c   | 19 ++++++++++++++++---
- qapi/net.json |  9 ++++++++-
- 2 files changed, 24 insertions(+), 4 deletions(-)
+Something slightly odd seems to have happened to the threading
+of this series -- on the archive you can see that the patchmails
+are correctly followups to the cover letter:
+https://lore.kernel.org/qemu-devel/cover.1671548388.git.jcd@tribudubois.net=
+/
+but patchew and patches don't identify the whole thing as a single
+series and they show up as separate patches:
+https://patchew.org/search?q=3Dproject%3AQEMU+from%3Ajean-christophe
 
-diff --git a/net/slirp.c b/net/slirp.c
-index 2ee3f1a0d7..97c83d99f7 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -413,7 +413,8 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-                           const char *vnameserver, const char *vnameserver6,
-                           const char *smb_export, const char *vsmbserver,
-                           const char **dnssearch, const char *vdomainname,
--                          const char *tftp_server_name,
-+                          const char *tftp_server_name, uint32_t mfr_id,
-+                          const char *oob_eth_addr_str,
-                           Error **errp)
- {
-     /* default settings according to historic slirp */
-@@ -436,6 +437,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-     int shift;
-     char *end;
-     struct slirp_config_str *config;
-+    MACAddr oob_eth_addr = {};
- 
-     if (!ipv4 && (vnetwork || vhost || vnameserver)) {
-         error_setg(errp, "IPv4 disabled but netmask/host/dns provided");
-@@ -609,6 +611,12 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-         return -1;
-     }
- 
-+    if (oob_eth_addr_str &&
-+        net_parse_macaddr(oob_eth_addr.a, oob_eth_addr_str) < 0) {
-+        error_setg(errp, "'oob-eth-addr' invalid syntax for MAC address");
-+        return -1;
-+    }
-+
-     nc = qemu_new_net_client(&net_slirp_info, peer, model, name);
- 
-     qemu_set_info_str(nc, "net=%s,restrict=%s", inet_ntoa(net),
-@@ -616,7 +624,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
- 
-     s = DO_UPCAST(SlirpState, nc, nc);
- 
--    cfg.version = SLIRP_CHECK_VERSION(4,7,0) ? 4 : 1;
-+    cfg.version = SLIRP_CONFIG_VERSION_MAX;
-     cfg.restricted = restricted;
-     cfg.in_enabled = ipv4;
-     cfg.vnetwork = net;
-@@ -635,6 +643,10 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-     cfg.vnameserver6 = ip6_dns;
-     cfg.vdnssearch = dnssearch;
-     cfg.vdomainname = vdomainname;
-+#if SLIRP_CONFIG_VERSION_MAX >= 5
-+    cfg.mfr_id = mfr_id;
-+    memcpy(cfg.oob_eth_addr, oob_eth_addr.a, sizeof(cfg.oob_eth_addr));
-+#endif
-     s->slirp = slirp_new(&cfg, &slirp_cb, s);
-     QTAILQ_INSERT_TAIL(&slirp_stacks, s, entry);
- 
-@@ -1171,7 +1183,8 @@ int net_init_slirp(const Netdev *netdev, const char *name,
-                          user->bootfile, user->dhcpstart,
-                          user->dns, user->ipv6_dns, user->smb,
-                          user->smbserver, dnssearch, user->domainname,
--                         user->tftp_server_name, errp);
-+                         user->tftp_server_name, user->mfr_id,
-+                         user->oob_eth_addr, errp);
- 
-     while (slirp_configs) {
-         config = slirp_configs;
-diff --git a/qapi/net.json b/qapi/net.json
-index 522ac582ed..7aa1ea0496 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -168,6 +168,11 @@
- #
- # @tftp-server-name: RFC2132 "TFTP server name" string (Since 3.1)
- #
-+# @mfr-id: Manufacturer ID (IANA Private Enterprise Number)
-+#
-+# @oob-eth-addr: MAC Address allocated for an out-of-band management
-+#                controller, to be retrieved through NC-SI.
-+#
- # Since: 1.2
- ##
- { 'struct': 'NetdevUserOptions',
-@@ -193,7 +198,9 @@
-     '*smbserver': 'str',
-     '*hostfwd':   ['String'],
-     '*guestfwd':  ['String'],
--    '*tftp-server-name': 'str' } }
-+    '*tftp-server-name': 'str',
-+    '*mfr-id':    'uint32',
-+    '*oob-eth-addr': 'str' } }
- 
- ##
- # @NetdevTapOptions:
--- 
-2.31.1
+This might be because the subject [PATCH] tags don't have the usual
+"0/3" for the cover letter and "1/3" "2/3" "3/3" for each patch.
+git format-patch ought to be able to do this automatically.
 
+thanks
+-- PMM
 
