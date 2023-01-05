@@ -2,107 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E704D65F2BE
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:32:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1FD965F264
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:17:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDToi-0000Xe-S9; Thu, 05 Jan 2023 12:14:12 -0500
+	id 1pDTos-0000t6-HW; Thu, 05 Jan 2023 12:14:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDToc-0000TB-JE
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:14:06 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDTop-0000oy-By
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:14:19 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDToZ-0000Fa-PA
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:14:06 -0500
-Received: by mail-wr1-x436.google.com with SMTP id t15so27916308wro.9
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 09:14:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDTon-0000Kt-SR
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:14:19 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id v23so40525481pju.3
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 09:14:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Vf8r8dUCl69AOMhjLwN+zUZ5SufaucXG+NCekgjiuMw=;
- b=k+BySVUDQFoHBSl+qLgzP5BSNP39RyLjQBeBZdR5cL8TbzSgEVykYQkDupsunTKIw0
- +bYT9R/ep2jNDfxFFL7zZvYewa6VH58UBQCDRb19/JkhOekRR4jD+wavihhtry1zDdaW
- Abwy3BZ+TE8Dqn1qPzvC8hYCx6NXV73JT33kf9IbP2CASWt5qAJ5NuAVsJTEc8+M6Ssx
- Y4ygmEAK+xpktJdvYuJxzR3H5APCQabXsAkljKZpJ2IQujGWe/32jZW+fETQtV4qfDgh
- eJG0Lmo+Am05BR+VTQabeKASFuh2/wveXFcni+G6d9M1bBBNrlHjw1p3Fru6bldWLSF0
- k/yw==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GdilCHwS46w19fmxCIAcVhRc5zHuDqK7E2UCzfqV8Hg=;
+ b=irX8N6MdqXzRl4MD3LFHdybZlXIkSZEJykupSXOHY+MfVOaz61tAgGnEISd+9Xhr7j
+ o7Yn35nn2gevRxYK9X1RnCW21PG2JIgP7GQ3DIIK8sv5FzF9H6zE2WQEUldc3kbRBc3Y
+ IP5lqjLzr2fI4FO6uY80lokIjaN0My9Xjn9x/WlBv65QnKTFMnLlWSwv1hKBZxYaryFJ
+ 6rTx0WeFDsApY+RuKECt7RSsdabN2HkDWQxNiruazbZRNZNwJae9nzyFtX+iYq72gr64
+ 4b/iVQycVT5Uj7Z7yYVFVVRFmove+4DXKrQ89g3URSZGlBVu0Lj576AgqhOvRW+ovZ9j
+ oyAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Vf8r8dUCl69AOMhjLwN+zUZ5SufaucXG+NCekgjiuMw=;
- b=tMMEbPCuvxOFsS4llwq4DRfngBU5+AtzRVwIQDj3hQkOXfQlIdmXFZZL2EYDbmNsqS
- nnzRZLgYsuLEe0rS9Mi446TlGXAU+BfV6hkh2cFdmMwd1q/I1NmVpH9Ta8e+RVB+H8fF
- eyOpB4cqdUauN2AEQ1zaBYf2L2mzySPsV5670PlOFCr2QNjHTsg/KWkNZ0BkzD5DKQo3
- V6C13dSpyXZ+BhyxbOQwYstFzHtpyMO1AplRJGCVosGmeIEbfG9DN6d25/wCInCQWhw7
- jMwE0up5Uc89IDOiuPxpInMR4lqNcOb2z/xvpmgl8KVI8Ew78XnVKIZLBSpDA9pQe97M
- /yEw==
-X-Gm-Message-State: AFqh2kqlFtdXPueEPIa69rm9VjeefXqYSYxC9/Bfm9a0XWhOEIsKiT82
- JKpU5+6NhAtzYo1DyBSXZhSszg==
-X-Google-Smtp-Source: AMrXdXtblv5x/dcf+pWl6BYX+YPaXXjG7qp/ZPdTsXGXiMVFgjbb5iIBoGu+RgFdu2iYZsDi6wLzGA==
-X-Received: by 2002:adf:f143:0:b0:2ae:b451:a0f7 with SMTP id
- y3-20020adff143000000b002aeb451a0f7mr2479033wro.5.1672938841012; 
- Thu, 05 Jan 2023 09:14:01 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- b14-20020a05600010ce00b0023c8026841csm36822861wrx.23.2023.01.05.09.13.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 09:14:00 -0800 (PST)
-Message-ID: <27a8f6ef-b78e-31ae-6bba-eb3f106de9f7@linaro.org>
-Date: Thu, 5 Jan 2023 18:13:57 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GdilCHwS46w19fmxCIAcVhRc5zHuDqK7E2UCzfqV8Hg=;
+ b=14CAf89+0LrrI8CYo2W7bR/i1GAYCSPaZZleItJU6mN6lUrkDlpdZmuZaDzVH8K0WC
+ Ub9YQ54ciWZFuXDb5hNbERPKdNJO3Z8e2o5za7jXVueeDwMXyux/BN8hHD1DaukdI071
+ ku0Dur/DSqGm224FJ5d9SoxttuCJIIrmbyiLCT4eyES2wHxHpUDIfh9VObV9G2wBOv/7
+ ZLPo2DbcK4NsZjhTfQxqVnnQ84DxSq4zIx1JTcbrx9QuCFSd3c22qeFkB0W55m9GBDyS
+ qjZUkvsvllu4Gq6O/t8UQQNM3uh/NhXUW/iIsJLCQ9J4VpzxtphA7gO4KR9ZlsJfvp5P
+ 2Zjg==
+X-Gm-Message-State: AFqh2kq5kWzGwZ1ttr9VApgJz1D7I4Es7f3KHOUZtXg6tyNky2/uDkE0
+ OUgb+c53KsL4vuJ8ZzsnTkHe9rtDMKc2xqLtP2OKWQ==
+X-Google-Smtp-Source: AMrXdXv/plYW/uw+qszi23rLe/AERu55xAzij42c96ZnLPMPXqNqzfL4j8l6j/aVuyzAQGjOunxNSAVoshypP5o3L4o=
+X-Received: by 2002:a17:903:2653:b0:189:cdc8:7261 with SMTP id
+ je19-20020a170903265300b00189cdc87261mr3505456plb.168.1672938855962; Thu, 05
+ Jan 2023 09:14:15 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 12/21] gdbstub: abstract target specific details from
- gdb_put_packet_binary
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, alex.bennee@gmail.com
-Cc: David Hildenbrand <david@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Michael Rolnik <mrolnik@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Greg Kurz
- <groug@kaod.org>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, qemu-ppc@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>, Marek Vasut <marex@denx.de>,
- Stafford Horne <shorne@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Chris Wulff <crwulff@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Song Gao <gaosong@loongson.cn>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-riscv@nongnu.org, qemu-s390x@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Bin Meng <bin.meng@windriver.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-arm@nongnu.org
-References: <20230105164320.2164095-1-alex.bennee@linaro.org>
- <20230105164320.2164095-13-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230105164320.2164095-13-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
+References: <20230105110007.1977399-1-alex.bennee@linaro.org>
+In-Reply-To: <20230105110007.1977399-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 5 Jan 2023 17:14:04 +0000
+Message-ID: <CAFEAcA987Q7LQZkxB67XyayE2cwfyv5ZproLrNEa0xyOLsopUQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Some tweaks for semihosting-tests
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,19 +84,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/1/23 17:43, Alex Bennée wrote:
-> We unfortunately handle the checking of packet acknowledgement
-> differently for user and softmmu modes. Abstract the user mode stuff
-> behind gdb_got_immediate_ack with a stub for softmmu.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   gdbstub/internals.h | 15 +++++++++++++++
->   gdbstub/gdbstub.c   | 10 ++--------
->   gdbstub/softmmu.c   |  8 ++++++++
->   gdbstub/user.c      | 19 +++++++++++++++++++
->   4 files changed, 44 insertions(+), 8 deletions(-)
+On Thu, 5 Jan 2023 at 11:00, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> Hi Peter,
+>
+> I discovered that semihosting syscall support got broken and while
+> preparing to bisect I ran into a few warts.
+>
+>  Alex Benn=C3=A9e (4):
+>        semihosting-tests: add timeout support
+>        Makefile: drop microbit.lds from the sources
+>        Makefile: simplify path to QEMU binaries
+>        Makefile: explicitly disable -net for our -M virt runs
+>
+> Alex Benn=C3=A9e (4):
+>   semihosting-tests: add timeout support
+>   Makefile: drop microbit.lds from the sources
+>   Makefile: simplify path to QEMU binaries
+>   Makefile: explicitly disable -net for our -M virt runs
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Thanks, applied to the semihosting-tests repo. I also threw in
+a patch adding a "make clean" target, since we turned out to be
+missing one.
 
+-- PMM
 
