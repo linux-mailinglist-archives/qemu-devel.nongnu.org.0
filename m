@@ -2,94 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE7565EA17
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 12:43:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E25965EA1A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 12:44:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDOeG-0008Rm-0w; Thu, 05 Jan 2023 06:43:04 -0500
+	id 1pDOeR-0008ST-MK; Thu, 05 Jan 2023 06:43:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDOeD-0008R4-L5
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:43:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDOeC-0007hG-5a
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:43:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672918979;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=adAFVZhOL+kAFw4tCbf891nCMgFf+yR2OTW9p3yXWLY=;
- b=KwewBiv/xpeJ8jfgoC3WiD4EQ8w2RdYn1HIK67BRyG1Z4tbXajqJnVakOeBl34yCZCvR0W
- xrotljTL/0zfaLinFLrmySf+SRXmEADRJimxyHTuWi6ECHJwmzTWymruOFpNTHa77SD9Iu
- 9krwE+eovZ/nGL3Hnh7XdIFJMe8/m5M=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-94--8V15Q67PzqKFAYqK7ChHQ-1; Thu, 05 Jan 2023 06:42:58 -0500
-X-MC-Unique: -8V15Q67PzqKFAYqK7ChHQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- j18-20020adfb312000000b00293def622d1so2175895wrd.17
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 03:42:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pDOeQ-0008S8-H0
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:43:14 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pDOeP-0008Rb-2E
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:43:14 -0500
+Received: by mail-wm1-x335.google.com with SMTP id ay40so27841450wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 03:43:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=cVDgWVfU9UuFFIzuYyi6pmmim2xRdLyJJ3WToGnxjwc=;
+ b=ZP2Q/f4BxHCtpwliiESAYJ8/lHM6repaDWLlPGqP5t7c6/GxZHpzN8yGQd/F97wfRr
+ 1sdZI3T+KOmSHtmubVYM/Vmpkzc75hykZWeO6p4k3PS5UBJr7t6Pp/op3i2fw6Tc13E7
+ wIe1GUrMcNrbTqnyGjfGSC4yp8a7qenbQQumRLNWYq+44TmaB1pipnTcXHNuQNE5whu7
+ V0y0XIcAkJm4b68aqG8jkhCnzbgA4KajqkDVt1BTbTqIAuhgc2xTfSyOIlAejUQjaZ7v
+ ojZxo0aHgjLqHOCajofm3AY2w4THJQw8Tze/MktHUgaKtSiIZfxppt3WCMgWdFM8QG1x
+ un6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=adAFVZhOL+kAFw4tCbf891nCMgFf+yR2OTW9p3yXWLY=;
- b=f9pl6WT/c+UNznKmrylNUNxHvQiSbiITh3p5bSK1uBXcGdxDppDmoHwMNnSTfvImYl
- UAdhNhY273zckt0Ek5MpVToDUHDnr3D2yC7GZTwJWbWV6mM1z3uQJJgzmUWKfJGUArnu
- yMNgZNF0a8GMn6b12KiAgr1wuXpnn1+/RyGJpFM7VAPBIuu9xLeqvbEZU8oQCmuRNaoX
- kOFUwqIlI1ZWB/A5RDIM0F+gcQ31og/asYZ0gUYnD4sz1X/rN8Ma0yuJmNlGxx7fEmrJ
- 8O+yKpIoCChRfsGfuShJePgB8xVYAbZFEZ5GrpqPbUgFjVX2RHLYibfqnvy5UAxH+501
- PrHQ==
-X-Gm-Message-State: AFqh2kr26KI+FmVjG5yjaeXfziSDaeO+ixlWnlJejTdCPn/vuxjRzG4s
- dHOW2ItAR0fvik8L81VGIXO3tBoNLJK9efdH1KBJlkBOP8EyIRsQo3rLbmmakWZrNFK3a9C2CvH
- v2c1K48Ubd0aO7Is=
-X-Received: by 2002:a5d:4601:0:b0:242:63a3:2f20 with SMTP id
- t1-20020a5d4601000000b0024263a32f20mr39946111wrq.11.1672918977088; 
- Thu, 05 Jan 2023 03:42:57 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXs3yYdRS/mEu2Fe4m5sJ8M+s+/XNS/VZHcp3CtwQbX/Aad284NKBOS4SilU97nU17ObJMxfSg==
-X-Received: by 2002:a5d:4601:0:b0:242:63a3:2f20 with SMTP id
- t1-20020a5d4601000000b0024263a32f20mr39946095wrq.11.1672918976839; 
- Thu, 05 Jan 2023 03:42:56 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-176-239.web.vodafone.de.
- [109.43.176.239]) by smtp.gmail.com with ESMTPSA id
- e16-20020adfdbd0000000b002362f6fcaf5sm36267352wrj.48.2023.01.05.03.42.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 03:42:56 -0800 (PST)
-Message-ID: <61d70e15-770b-7f62-54aa-3cc0ac3b3a35@redhat.com>
-Date: Thu, 5 Jan 2023 12:42:54 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cVDgWVfU9UuFFIzuYyi6pmmim2xRdLyJJ3WToGnxjwc=;
+ b=O/4vjUjPnny1AkETcQwbyCl4DuhHIfUMSI0j/PG8Qc1E/VDoxx9ovXKPEfdlVczvLz
+ OsGnK2GSoPfQPBhACZKcbP/vwn52RIDmDoCZ5JXuEUxgFfyFPdjAka3c+f7KTom0h+ki
+ qTJGgOhlPcC/eJRpHpDsMGOpn8wtpch9eKzAjhjEYJkHhVIa4SOK1ksamyx1JfCHznDa
+ UO+hylklprnr4D8vhgGQg63G70ML9juPhJQnxitOAKk5EV7Ko+ex2qUUQnUc8OEzn1r4
+ heWJPb9L0nCiYUaGY7s2pfASaMtfyJWqKRI9/UralmwVrvRFDZ9tbiieyy2/ViAx5KZG
+ CXoQ==
+X-Gm-Message-State: AFqh2krSuKv2+YBmWH2fGZ3yO7UmWJxMz7gDZOY0ffyrTckR0T1jMvNF
+ 6qq6FDJHEIGfZehWlwPqDMsWxw==
+X-Google-Smtp-Source: AMrXdXsWV3NHiSbq6amQyRdOICciOMezktgnNzHeiIARrfR7l1yKQ4Nb9Q4RXnhzSpDsKyABXP15uA==
+X-Received: by 2002:a05:600c:4e48:b0:3cf:5d41:b748 with SMTP id
+ e8-20020a05600c4e4800b003cf5d41b748mr40139035wmq.36.1672918991481; 
+ Thu, 05 Jan 2023 03:43:11 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ m18-20020a05600c4f5200b003c71358a42dsm2796181wmq.18.2023.01.05.03.43.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Jan 2023 03:43:11 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 758C51FFB7;
+ Thu,  5 Jan 2023 11:43:10 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [RFC PATCH] target/arm: fix handling of HLT semihosting in system mode
+Date: Thu,  5 Jan 2023 11:43:04 +0000
+Message-Id: <20230105114304.2017493-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@redhat.com>
-References: <20230104115111.3240594-1-clg@kaod.org>
- <20230104115111.3240594-3-clg@kaod.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 2/5] s390x/pv: Implement CGS check handler
-In-Reply-To: <20230104115111.3240594-3-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.708, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,75 +91,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 04/01/2023 12.51, Cédric Le Goater wrote:
-> From: Cédric Le Goater <clg@redhat.com>
-> 
-> When a protected VM is started with the maximum number of CPUs (248),
-> the service call providing information on the CPUs requires more
-> buffer space than allocated and QEMU disgracefully aborts :
-> 
->      LOADPARM=[........]
->      Using virtio-blk.
->      Using SCSI scheme.
->      ...................................................................................
->      qemu-system-s390x: KVM_S390_MEM_OP failed: Argument list too long
-> 
-> Implement a test for this limitation in the ConfidentialGuestSupportClass
-> check handler and provide some valid information to the user before the
-> machine starts.
-> 
-> Signed-off-by: Cédric Le Goater <clg@redhat.com>
-> ---
->   hw/s390x/pv.c | 23 +++++++++++++++++++++++
->   1 file changed, 23 insertions(+)
-> 
-> diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-> index 8dfe92d8df..3a7ec70634 100644
-> --- a/hw/s390x/pv.c
-> +++ b/hw/s390x/pv.c
-> @@ -266,6 +266,26 @@ int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->       return 0;
->   }
->   
-> +static bool s390_pv_check_cpus(Error **errp)
-> +{
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
-> +    uint32_t pv_max_cpus = mc->max_cpus - 1;
+The check semihosting_enabled() wants to know if the guest is
+currently in user mode. Unlike the other cases the test was inverted
+causing us to block semihosting calls in non-EL0 modes.
 
-Not sure whether "mc->max_cpus - 1" is the right approach here. I think it 
-would be better to calculate the amount of CPUs that we can support.
+Fixes: 19b26317e9 (target/arm: Honour -semihosting-config userspace=on)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ target/arm/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-So AFAIK the problem is that SCLP information that is gathered during 
-read_SCP_info() in hw/s390x/sclp.c. If protected virtualization is enabled, 
-everything has to fit in one page (i.e. 4096 bytes) there.
-
-So we have space for
-
-  (TARGET_PAGE_SIZE - offset_cpu) / sizeof(CPUEntry)
-
-CPUs.
-
-With S390_FEAT_EXTENDED_LENGTH_SCCB enabled, offset_cpu is 144 (see struct 
-ReadInfo in sclp.h), otherwise it is 128.
-
-That means, with S390_FEAT_EXTENDED_LENGTH_SCCB we can have a maximum of:
-
-  (4096 - 144) / 16 = 247 CPUs
-
-which is what you were trying to check with the mc->max_cpus - 1 here.
-
-But with "-cpu els=off", it sounds like we could fit all 248 also with 
-protected VMs? Could you please give it a try?
-
-Anyway, instead of using "pv_max_cpus = mc->max_cpus - 1" I'd suggest to use 
-something like this instead:
-
-  int offset_cpu = s390_has_feat(S390_FEAT_EXTENDED_LENGTH_SCCB) ?
-                      offsetof(ReadInfo, entries) :
-                      SCLP_READ_SCP_INFO_FIXED_CPU_OFFSET;
-  pv_max_cpus = (TARGET_PAGE_SIZE - offset_cpu) /sizeof(CPUEntry);
-
-   Thomas
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 74a903072f..1dcaefb8e7 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -1184,7 +1184,7 @@ static inline void gen_hlt(DisasContext *s, int imm)
+      * semihosting, to provide some semblance of security
+      * (and for consistency with our 32-bit semihosting).
+      */
+-    if (semihosting_enabled(s->current_el != 0) &&
++    if (semihosting_enabled(s->current_el == 0) &&
+         (imm == (s->thumb ? 0x3c : 0xf000))) {
+         gen_exception_internal_insn(s, EXCP_SEMIHOST);
+         return;
+-- 
+2.34.1
 
 
