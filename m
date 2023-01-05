@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0721F65F2FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:41:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A9265F397
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 19:17:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDUCN-0002UK-3a; Thu, 05 Jan 2023 12:38:39 -0500
+	id 1pDUmS-0002Nh-GS; Thu, 05 Jan 2023 13:15:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDUCG-0002SE-RV
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:38:33 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pDUmO-0002MA-MO
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 13:15:54 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDUCF-0006VQ-5W
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:38:32 -0500
-Received: by mail-wr1-x435.google.com with SMTP id bk16so23639438wrb.11
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 09:38:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pDUmM-0005JU-Qq
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 13:15:52 -0500
+Received: by mail-wr1-x431.google.com with SMTP id w1so24834925wrt.8
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 10:15:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KQ17OhOko7hPWDzJpQWUm7VE4a4l3d5cAGIgcTVHWzk=;
- b=m0bvoVe4Pg6NoduZWJ9YylESH0gk8GNUOOhTm2Y4anYIxOU/2BbYgKwXyELz13zcJw
- uYEsZ/BFPSVE4NU5kbXpVGyPnBUF+gUAlwi5sxMr+LFjll1scAerM+B2uiC7eIAaX0j/
- CRIXr9nGqAKDd96U7WEz9fovTksCH96ZNbAEIUhbX1pgo0Prg7vpFAcLaJDga+k3Qqvu
- QCWmMevCz3POXqeyAaNy3cVgan5QPty2Mkj0goD17IYDR6+zOxoHqf3pQtMjhX50drL/
- T+n5+CV5EFdjRW5xQd/oadLqYnPl6Gb4RPKForWsF+16Z3tj/5NCUVx26SJ5KthwnvRu
- IJVA==
+ bh=wcrqyrQ3/20U99j8RiijWfBKgmENpjf5207jzj/VFJQ=;
+ b=AF2gQy7Kwl3PdNynaCHMuNWN8FtEare1SkA/tw8KDPSCYrY0W1TkkETn18wJ9UkMw9
+ sdv1rKQGqWwZYCjNV8o3h92aWE7ioCqjfIEFDUMjhX4fkqAb1GYzdMye5eUiEV6ejaON
+ 3O2BReK+TnHozMwzFY1rm0Y6mQqyTcM+MLHxx/hCj4QwVLUNnPnKLH42ecFtF7AJtaoS
+ prQje83GqH3NOwe0NyVH+gE9KCj+0rLwLXWYQYDF2LYXwdnWB4IUm4iEDCvWQe/8rcrk
+ QLUEujBgcRgRllRL8fSG2wRbji+mCDXV6XLJCeewP23CJfR7n4RsLbL1ZGQTMndIfLqz
+ +o4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=KQ17OhOko7hPWDzJpQWUm7VE4a4l3d5cAGIgcTVHWzk=;
- b=s97aBxErxBsHUcscRTLyZX33WQ9ZTBTWAO15iV5PzDIC6Op5lMFmaML1/6I1RRQ7gO
- ww1NtTxI8PnC9zaZgkwpnRQzQLd6lrSZlg8VJ5MJHWXpU2BzyvJXy29wJ6ONToARp8ZL
- FzrIaGq9aNJY6tkDxHLa2Ld/Y5KOISaEguelg7qIU+z1dfwGfogmOZ2L1eHat5HQd1uV
- OfVTzListFdAD6/Y2nP1ebH5XVuzJK3cOe67Dc8CHBrIIQmAPuJ0pok8JfBNVsQJRpaM
- Z+mNOvFEoqAKe1RumtnUQAajbvEyXMrbVrw2OSRU/lJz2las0cppJl2Pk+whBUSHQhSr
- GqjA==
-X-Gm-Message-State: AFqh2kr8F6M7IYZMZtM2FEtu3S2Y6w5ObxdUbIq4MXzkcrz4MKfbzsC7
- MvaBb3DzwYLJW4POYDV5mfPDTvBD9y91d12w
-X-Google-Smtp-Source: AMrXdXvOmya1AJpjusvjIwUkfKBlKSrNImPZHP1IStJ8gN38NWDyynpruU0/V8eo3SjhzITEGMnTPQ==
-X-Received: by 2002:a5d:6a43:0:b0:242:13bf:29de with SMTP id
- t3-20020a5d6a43000000b0024213bf29demr31715230wrw.52.1672940309206; 
- Thu, 05 Jan 2023 09:38:29 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ bh=wcrqyrQ3/20U99j8RiijWfBKgmENpjf5207jzj/VFJQ=;
+ b=ZwDIxTs20rZvaFQ2ff/zgpfYxoTIdhSbaav1o2SASpbydy/g2n5VLVnRj29urajJWp
+ 3EF8SpZWR1EggaRngzJ/SqR8X6lBlRSaNmYos+A0eZbDPa4VSFmz0cGoX0EJeKXDrIvE
+ JUOrqSOgh49ffXxh+TLfXnQ3q6grmyYSDKtPvjVW/LUNWPKDR39PMlBsyQ4bbV4/3/AN
+ sLSsKMO5lD7CEyHBxv5y61zIG7zrtwGkxbxduhbAxC/sJeT34kre2Y/6TbD7wImVr7b1
+ i2nkzX3CEJKuv1cz9WDOGaBgP1qLtIEkQo6WnP3k1yyvxP38/ZaqlhMy4wkQlT0gL6u+
+ aIJA==
+X-Gm-Message-State: AFqh2kqqTmdN6IhawHp4M4Lhd+kAKUp/3lTMZarFX8PhLGk1bXKOko9t
+ xiSYMAW6lNwOlvhuFVrLtCOVKA==
+X-Google-Smtp-Source: AMrXdXtuw50PR+J7OeGdMYUEhgxxu07GkQQzZaB9AAranlKHpV0pWRYKTrzKFwE7mtrsDhDJY+tilQ==
+X-Received: by 2002:adf:dfc3:0:b0:294:c208:c921 with SMTP id
+ q3-20020adfdfc3000000b00294c208c921mr10371492wrn.42.1672942549288; 
+ Thu, 05 Jan 2023 10:15:49 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- q7-20020adff947000000b002426d0a4048sm36453472wrr.49.2023.01.05.09.38.28
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 05 Jan 2023 09:38:28 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+ t5-20020a5d49c5000000b0028cf987d944sm20215380wrs.33.2023.01.05.10.15.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Jan 2023 10:15:48 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8B4CA1FFB7;
+ Thu,  5 Jan 2023 18:15:48 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>, qemu-trivial@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
+Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2] hw/i386/pc: Remove unused 'owner' argument from
- pc_pci_as_mapping_init
-Date: Thu,  5 Jan 2023 18:38:26 +0100
-Message-Id: <20230105173826.56748-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [RFC PATCH] testing: probe gdb for supported architectures ahead of
+ time
+Date: Thu,  5 Jan 2023 18:15:33 +0000
+Message-Id: <20230105181533.2235792-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,73 +94,178 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This argument was added 9 years ago in commit 83d08f2673
-("pc: map PCI address space as catchall region for not mapped
-addresses") and has never been used since, so remove it.
+Currently when we encounter a gdb that is old or not built with
+multiarch in mind we fail rather messily. Try and improve the
+situation by probing ahead of time and setting
+HOST_GDB_SUPPORTS_ARCH=y in the relevant tcg configs. We can then skip
+and give a more meaningful message if we don't run the test.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+[AJB: we still miss some arches, for example gdb uses s390 which fails
+when we look for s390x. Not sure what the best way to deal with that
+is? Maybe define a gdb_arch as we probe each target?]
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/pc.c         | 2 +-
- hw/pci-host/i440fx.c | 3 +--
- hw/pci-host/q35.c    | 3 +--
- include/hw/i386/pc.h | 2 +-
- 4 files changed, 4 insertions(+), 6 deletions(-)
+ configure                                     |  8 +++++
+ scripts/probe-gdb-support.sh                  | 36 +++++++++++++++++++
+ tests/tcg/aarch64/Makefile.target             |  2 +-
+ tests/tcg/multiarch/Makefile.target           |  5 +++
+ .../multiarch/system/Makefile.softmmu-target  |  6 +++-
+ tests/tcg/s390x/Makefile.target               |  2 +-
+ 6 files changed, 56 insertions(+), 3 deletions(-)
+ create mode 100755 scripts/probe-gdb-support.sh
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index d489ecc0d1..6e592bd969 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -782,7 +782,7 @@ void pc_guest_info_init(PCMachineState *pcms)
- }
+diff --git a/configure b/configure
+index 9f0bc57546..ed3ace4bc7 100755
+--- a/configure
++++ b/configure
+@@ -230,6 +230,7 @@ stack_protector=""
+ safe_stack=""
+ use_containers="yes"
+ gdb_bin=$(command -v "gdb-multiarch" || command -v "gdb")
++gdb_arches=""
  
- /* setup pci memory address space mapping into system address space */
--void pc_pci_as_mapping_init(Object *owner, MemoryRegion *system_memory,
-+void pc_pci_as_mapping_init(MemoryRegion *system_memory,
-                             MemoryRegion *pci_address_space)
- {
-     /* Set to lower priority than RAM */
-diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-index d5426ef4a5..262f82c303 100644
---- a/hw/pci-host/i440fx.c
-+++ b/hw/pci-host/i440fx.c
-@@ -272,8 +272,7 @@ PCIBus *i440fx_init(const char *pci_type,
-                      IO_APIC_DEFAULT_ADDRESS - 1);
+ if test -e "$source_path/.git"
+ then
+@@ -2396,6 +2397,7 @@ if test -n "$gdb_bin"; then
+     gdb_version=$($gdb_bin --version | head -n 1)
+     if version_ge ${gdb_version##* } 9.1; then
+         echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
++        gdb_arches=$("$source_path/scripts/probe-gdb-support.sh" $gdb_bin)
+     else
+         gdb_bin=""
+     fi
+@@ -2519,6 +2521,12 @@ for target in $target_list; do
+       write_target_makefile "build-tcg-tests-$target" >> "$config_target_mak"
+       echo "BUILD_STATIC=$build_static" >> "$config_target_mak"
+       echo "QEMU=$PWD/$qemu" >> "$config_target_mak"
++
++      # will GDB work with these binaries?
++      if test "${gdb_arches#*$arch}" != "$gdb_arches"; then
++          echo "HOST_GDB_SUPPORTS_ARCH=y" >> "$config_target_mak"
++      fi
++
+       echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> Makefile.prereqs
+       tcg_tests_targets="$tcg_tests_targets $target"
+   fi
+diff --git a/scripts/probe-gdb-support.sh b/scripts/probe-gdb-support.sh
+new file mode 100755
+index 0000000000..2b09a00a5b
+--- /dev/null
++++ b/scripts/probe-gdb-support.sh
+@@ -0,0 +1,36 @@
++#!/bin/sh
++
++# Probe gdb for supported architectures.
++#
++# This is required to support testing of the gdbstub as its hard to
++# handle errors gracefully during the test. Instead this script when
++# passed a GDB binary will probe its architecture support and return a
++# string of supported arches, stripped of guff.
++#
++# Copyright 2023 Linaro Ltd
++#
++# Author: Alex Bennée <alex.bennee@linaro.org>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or later.
++# See the COPYING file in the top-level directory.
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++if test -z "$1"; then
++  echo "Usage: $0 /path/to/gdb"
++  exit 1
++fi
++
++# Start gdb with a set-architecture and capture the set of valid
++# options.
++
++valid_args=$($1 -ex "set architecture" -ex "quit" 2>&1 >/dev/null)
++
++# Strip off the preamble
++raw_arches=$(echo "${valid_args}" | sed "s/.*Valid arguments are \(.*\)/\1/")
++
++# Split into lines, strip everything after :foo and return final
++# "clean" list of supported arches.
++final_arches=$(echo "${raw_arches}" | tr ', ' '\n' | sed "s/:.*//" | sort | uniq)
++
++echo "$final_arches"
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index fc8d90ed69..bb8d4f71b2 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -76,7 +76,7 @@ sha512-vector: sha512.c
  
-     /* setup pci memory mapping */
--    pc_pci_as_mapping_init(OBJECT(f), f->system_memory,
--                           f->pci_address_space);
-+    pc_pci_as_mapping_init(f->system_memory, f->pci_address_space);
+ TESTS += sha512-vector
  
-     /* if *disabled* show SMRAM to all CPUs */
-     memory_region_init_alias(&f->smram_region, OBJECT(d), "smram-region",
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index 20da121374..26390863d6 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -574,8 +574,7 @@ static void mch_realize(PCIDevice *d, Error **errp)
-     }
+-ifneq ($(HAVE_GDB_BIN),)
++ifeq ($(HOST_GDB_SUPPORTS_ARCH),y)
+ GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
  
-     /* setup pci memory mapping */
--    pc_pci_as_mapping_init(OBJECT(mch), mch->system_memory,
--                           mch->pci_address_space);
-+    pc_pci_as_mapping_init(mch->system_memory, mch->pci_address_space);
+ run-gdbstub-sysregs: sysregs
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index 5f0fee1aad..25b15409be 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -52,6 +52,7 @@ run-test-mmap-%: test-mmap
+ 	$(call run-test, test-mmap-$*, $(QEMU) -p $* $<, $< ($* byte pages))
  
-     /* if *disabled* show SMRAM to all CPUs */
-     memory_region_init_alias(&mch->smram_region, OBJECT(mch), "smram-region",
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 991f905f5d..88a120bc23 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -156,7 +156,7 @@ void pc_guest_info_init(PCMachineState *pcms);
- #define PCI_HOST_ABOVE_4G_MEM_SIZE     "above-4g-mem-size"
+ ifneq ($(HAVE_GDB_BIN),)
++ifeq ($(HOST_GDB_SUPPORTS_ARCH),y)
+ GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
  
+ run-gdbstub-sha1: sha1
+@@ -75,6 +76,10 @@ run-gdbstub-thread-breakpoint: testthread
+ 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-thread-breakpoint.py, \
+ 	hitting a breakpoint on non-main thread)
  
--void pc_pci_as_mapping_init(Object *owner, MemoryRegion *system_memory,
-+void pc_pci_as_mapping_init(MemoryRegion *system_memory,
-                             MemoryRegion *pci_address_space);
++else
++run-gdbstub-%:
++	$(call skip-test, "gdbstub test $*", "no guest arch support")
++endif
+ else
+ run-gdbstub-%:
+ 	$(call skip-test, "gdbstub test $*", "need working gdb")
+diff --git a/tests/tcg/multiarch/system/Makefile.softmmu-target b/tests/tcg/multiarch/system/Makefile.softmmu-target
+index 368b64d531..5f432c95f3 100644
+--- a/tests/tcg/multiarch/system/Makefile.softmmu-target
++++ b/tests/tcg/multiarch/system/Makefile.softmmu-target
+@@ -15,6 +15,7 @@ MULTIARCH_TEST_SRCS=$(wildcard $(MULTIARCH_SYSTEM_SRC)/*.c)
+ MULTIARCH_TESTS = $(patsubst $(MULTIARCH_SYSTEM_SRC)/%.c, %, $(MULTIARCH_TEST_SRCS))
  
- void xen_load_linux(PCMachineState *pcms);
+ ifneq ($(HAVE_GDB_BIN),)
++ifeq ($(HOST_GDB_SUPPORTS_ARCH),y)
+ GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
+ 
+ run-gdbstub-memory: memory
+@@ -26,7 +27,10 @@ run-gdbstub-memory: memory
+ 		"-monitor none -display none -chardev file$(COMMA)path=$<.out$(COMMA)id=output $(QEMU_OPTS)" \
+ 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/memory.py, \
+ 	softmmu gdbstub support)
+-
++else
++run-gdbstub-%:
++	$(call skip-test, "gdbstub test $*", "no guest arch support")
++endif
+ else
+ run-gdbstub-%:
+ 	$(call skip-test, "gdbstub test $*", "need working gdb")
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index 07fcc6d0ce..8759314d81 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -44,7 +44,7 @@ $(Z15_TESTS): CFLAGS+=-march=z15 -O2
+ TESTS+=$(Z15_TESTS)
+ endif
+ 
+-ifneq ($(HAVE_GDB_BIN),)
++ifeq ($(HOST_GDB_SUPPORTS_ARCH),y)
+ GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
+ 
+ run-gdbstub-signals-s390x: signals-s390x
 -- 
-2.38.1
+2.34.1
 
 
