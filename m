@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF0D65EC57
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 14:08:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F9D65EC48
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 14:08:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDPxm-0004AW-MV; Thu, 05 Jan 2023 08:07:18 -0500
+	id 1pDPxr-0004B5-0n; Thu, 05 Jan 2023 08:07:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDPxk-0004A8-Fu
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 08:07:16 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDPxo-0004Ax-LH
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 08:07:20 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDPxi-0004Eh-Pi
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 08:07:16 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id o15so27956371wmr.4
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 05:07:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDPxn-0004FG-3X
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 08:07:20 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ p1-20020a05600c1d8100b003d8c9b191e0so1244453wms.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 05:07:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=egTSnIY7yNl3vp4BayJoB6mxFUUqmm6/NOKnAYXJzPQ=;
- b=KwUSJBAs9HXOgZ/ZkizyUgYPbwVLzwp+oFnQvJmHiPZcckmUnxd3SIfwgJ/X14jn4K
- 4hx14c1qrK3pC7/btcJ3OJdm2SHh34CjAQkxIe/JpWXGQsIAJ77qYCClagEdBnlsLDAb
- 3lvUEv0zmngtqfaO5W/X4VOokkpLdzf+rm2XjbXaCAWrrrVUpVlLKx1j5jVlHRMVLDJb
- vyPB3ksWsyqrDbYyoxkRsqke5kZzkbURszuJvf9fHdPsYWpgdWSXP/L991sEVRubIbPe
- XNymodA0RU78baOziNMVphGaZ7YPK2ogMxnglJBcQx1HBFvT/1m2AtKV2gyL5ftvX4Gm
- +x4w==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9bzKDU+QhZIYaALyoUGzm3s2plmjJ1qhwx3qEViOyr0=;
+ b=vPm5fUvXOnr8MOtRKHhoPAjhAAPxDrW0+y/SzrOad2NcDMSpG7YTh2Me4LVIkc6YMZ
+ V8wx9VM2h0KM1eOp9QPC0k5jSQ5TkGJjgaf1s1tbEi4SWGYm8iOyQ8IUt3qksAAxe9qw
+ Eox3jNTyFfP0FD60prTbeAfUIk8B1a/6vV+pz4fVEMfUxeiFmZNuOBI9lNQjq4VuCDRT
+ WsdKvQuSy8gB/3tYiEJJUneivXZ9zD5Q9xMjHPld/+RPrdyEJayAt3ZLELewevAyjCr1
+ AGUvQ/GbRO8lE2jcbYx1zmbnLZVgPqRfOw8hJC2Ka30qqQDPLFDy6Kdxauy6NdZuK365
+ Segw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=egTSnIY7yNl3vp4BayJoB6mxFUUqmm6/NOKnAYXJzPQ=;
- b=jI2JNtttfrBgpEQrp9BmYI6l/ONs7DrzrgPDhd8faupI8lHMPv7sU2RbZPlFJTzBfJ
- KfHQvmFy03uBGt8BLH9FQOunrTC5KknzRndc7XhceE0J+8c4KpqjLQI4AcuSXj/NUkh6
- ZGpd0oUzibyT2Bd2NhzF5ifq/UKOTwN8qnpOrptbmVFtbZKLNRpNid9HAmKwwhRb7Hu/
- LtOl4KuM1WENkfobbl14pIskzpQD39hSb4/JctOjZ5i0s3RalCR63oZ5+NVyYRsZl7BD
- 9o8f+Fm3/etPUT6STW7O4yc3hL2F6Pfcuq7scWHDV1eA0JIWDGzo+Hw2SciVE4SlByX3
- E2cA==
-X-Gm-Message-State: AFqh2kofWa8hko8BcONMmetEWufjw3CLKL1Hu5or62iP2Id9CpLFXlDy
- h14Gj4XEqfsDl+fkrmQHNG/6WQAKuhhVgNzk
-X-Google-Smtp-Source: AMrXdXuLAyBiTSufjKjoIp+X+AdwtE3fKpmIxRkT2Zm/ynxX65/hxQsHxbRc3U8L60QugxRsoqbwaQ==
-X-Received: by 2002:a05:600c:4d21:b0:3d2:2a72:2573 with SMTP id
- u33-20020a05600c4d2100b003d22a722573mr36375972wmp.11.1672924032469; 
- Thu, 05 Jan 2023 05:07:12 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9bzKDU+QhZIYaALyoUGzm3s2plmjJ1qhwx3qEViOyr0=;
+ b=kOClj+dhxUQoHPek0hb6/gruk7HaX7SH++4l4F9h2oz3+FFuAvWJQazCyyo0Y6gIVi
+ 7Mu5Kc+3d5/NjENjeIcIecwip2D7UB52vfXLzAl4pJIAybaILk9kWv/nRgk1vflEIqzd
+ GVc9K/ETCiupJFlBn2hBslUf7lMXUpsedo5uHEdqyHkKzJBYbdeZ/roUXTkJev//u0lZ
+ ZhjeyjQcsB3DePjqqQn7lQNrI8C0BrXkbnBU7Tp5d9xBMlerBsxyTG237GECjN9UsFj1
+ ExnmELCXQXveo+UaKVZP4bbtu4yxAQETWvWXrsbTicvs0r/XswVgpSTHUioaUiJZfEt7
+ Z8Lg==
+X-Gm-Message-State: AFqh2kqkmSq3ysRpwPaWmnY/a53WVkha9KF6iKINeLv7BhLdZDW356Xy
+ vbfoYuj41pQ1PGb4ofVwOoL+LRKHPBtEIdEN
+X-Google-Smtp-Source: AMrXdXunnNE+7HFY6+UufQovmenRYdzFpeg39ejVgFq/zCf5qH5BAYJQRAirCstIiZUw6KDvsQVJTA==
+X-Received: by 2002:a05:600c:4e07:b0:3d3:5319:b6d3 with SMTP id
+ b7-20020a05600c4e0700b003d35319b6d3mr36697329wmq.38.1672924037429; 
+ Thu, 05 Jan 2023 05:07:17 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- h7-20020a05600c314700b003d973e939d3sm2643810wmo.1.2023.01.05.05.07.11
+ bj11-20020a0560001e0b00b002a6f329203esm3845012wrb.61.2023.01.05.05.07.16
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 05 Jan 2023 05:07:12 -0800 (PST)
+ Thu, 05 Jan 2023 05:07:17 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Huacai Chen <chenhuacai@kernel.org>, Bernhard Beschow <shentey@gmail.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH 0/8] hw/pci-host/bonito: Housekeeping
-Date: Thu,  5 Jan 2023 14:07:02 +0100
-Message-Id: <20230105130710.49264-1-philmd@linaro.org>
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: [PATCH 1/8] hw/pci-host/bonito: Convert to 3-phase reset
+Date: Thu,  5 Jan 2023 14:07:03 +0100
+Message-Id: <20230105130710.49264-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230105130710.49264-1-philmd@linaro.org>
+References: <20230105130710.49264-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,32 +92,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Minor housekeeping while reviewing PCI host bridge models.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-- Convert to 3-phase reset
-- Set reference using object_property_add_const_link
-- Sysbus'ify IRQ
-- Open code bonito_init()
+Convert the TYPE_PCI_BONITO class to use 3-phase reset.
 
-Philippe Mathieu-Daudé (8):
-  hw/pci-host/bonito: Convert to 3-phase reset
-  hw/pci-host/bonito: Use 'bonito_host' for PCI host bridge code
-  hw/pci-host/bonito: Use 'bonito_pci' for PCI function #0 code
-  hw/pci-host/bonito: Set reference using
-    object_property_add_const_link()
-  hw/pci-host/bonito: Create PCI function #0 in bridge realize() handler
-  hw/pci-host/bonito: Sysbus'ify outgoing IRQ
-  hw/pci-host/bonito: Declare TYPE_BONITO_PCI_HOST_BRIDGE in header
-  hw/mips/fuloong2e: Open code bonito_init()
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ hw/pci-host/bonito.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
- MAINTAINERS                  |  1 +
- hw/mips/fuloong2e.c          |  6 ++-
- hw/pci-host/bonito.c         | 93 +++++++++++++++---------------------
- include/hw/mips/mips.h       |  3 --
- include/hw/pci-host/bonito.h | 18 +++++++
- 5 files changed, 63 insertions(+), 58 deletions(-)
- create mode 100644 include/hw/pci-host/bonito.h
-
+diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
+index a57e81e3a9..b0d09c85d0 100644
+--- a/hw/pci-host/bonito.c
++++ b/hw/pci-host/bonito.c
+@@ -47,7 +47,6 @@
+ #include "hw/mips/mips.h"
+ #include "hw/pci/pci_host.h"
+ #include "migration/vmstate.h"
+-#include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "hw/misc/unimp.h"
+ #include "hw/registerfields.h"
+@@ -593,9 +592,9 @@ static int pci_bonito_map_irq(PCIDevice *pci_dev, int irq_num)
+     }
+ }
+ 
+-static void bonito_reset(void *opaque)
++static void bonito_reset_hold(Object *obj)
+ {
+-    PCIBonitoState *s = opaque;
++    PCIBonitoState *s = PCI_BONITO(obj);
+     uint32_t val = 0;
+ 
+     /* set the default value of north bridge registers */
+@@ -739,8 +738,6 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
+ 
+     pci_set_byte(dev->config + PCI_MIN_GNT, 0x3c);
+     pci_set_byte(dev->config + PCI_MAX_LAT, 0x00);
+-
+-    qemu_register_reset(bonito_reset, s);
+ }
+ 
+ PCIBus *bonito_init(qemu_irq *pic)
+@@ -770,7 +767,9 @@ static void bonito_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
+ 
++    rc->phases.hold = bonito_reset_hold;
+     k->realize = bonito_realize;
+     k->vendor_id = 0xdf53;
+     k->device_id = 0x00d5;
 -- 
 2.38.1
 
