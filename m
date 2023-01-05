@@ -2,75 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7DE65F3EA
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 19:44:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7979665F41C
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 20:07:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDVCh-00047O-80; Thu, 05 Jan 2023 13:43:03 -0500
+	id 1pDVYn-0001G5-DN; Thu, 05 Jan 2023 14:05:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDVCE-000463-0N
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 13:42:34 -0500
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1pDVYk-0001FV-QL; Thu, 05 Jan 2023 14:05:50 -0500
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDVCB-0006gY-Mj
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 13:42:33 -0500
-Received: by mail-pg1-x536.google.com with SMTP id h192so20262188pgc.7
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 10:42:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=jb/SkZk2d1bZWkigbOmYebgIpk+cWsy9HBl6BoJykO8=;
- b=wRZ78fKq8SH/ZtSbNhb39vWL/mB1LL7IrbMo63trHmvYuX5vEBrnUKV1Ry774cLjfk
- BoHnpACcV6xGGiO9oVd+ydYWkgWK1aw5IGeUml+kDIDogJ8i9VHhrmpRLcGLchWqr/uI
- otovkrFDLjNPRblf5yB2iYKeCTKxmFsSXHyRukOIif0VKN7h0Hs+Ed5oQ9dMD5yA5V7j
- XClNZLgEuXW9/FA9WVY030XBo8k/ib0XbjqJxu7fH8ifCqQ49MDclQqfqlQ2CSv/Ofk6
- MIKz4Kn76w8PhiKMAtmUfkfW6onZBugrWA376G/RuUCQBmpULk3AEH2cV0eaDRRRk47x
- T15Q==
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1pDVYj-0002u2-8e; Thu, 05 Jan 2023 14:05:50 -0500
+Received: by mail-yb1-xb32.google.com with SMTP id e76so4714930ybh.11;
+ Thu, 05 Jan 2023 11:05:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=babYxNQH6OOhcedUNBfZWrCjRdVEeEd/QGpJxPR56jU=;
+ b=cIoJqfQ6u59hc7RLZbxtk17QR2k65oAlKcrA/9uA3mcBpkKVDg6CyUMyVPZQdFmmSB
+ UxdKYmDdvKDeedBkUKK+X8qkxCB9uZCb24ISou6SNAtFTwiLxx5k058UMlqD49WFfYo/
+ dbEllhcyw8SaFESz+26pQsePusfnwrcJylVZtIasB2QnPuJ1ZbOOXwV3zCHu88kz9p0G
+ GUurIfNrvQ4iGi9wP/pjvkr+l/HOcSKkMivNQjSIDy5rguJ03vJ/ehxOYVVO/lL0pJyR
+ ingiBcxALpxU9qHog0audMD34CE/V2C8BRBo19pcpkhhUShsO1Szd/dSb/TAdERdT+AE
+ Rt3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jb/SkZk2d1bZWkigbOmYebgIpk+cWsy9HBl6BoJykO8=;
- b=iDZ9sfJxO3m3vUAacTLopHBbAXp0nJdFlhB7TiyGeGHAfjFp8YKjis8o0BPz8G74QR
- VAth3CR4B6YvpNF7yFPz09xHQXclZUlYrVbzv6PtKYg0+PF7WgEtPQU+bF+7H5ZfqSwv
- aRxmTeRt6Oc/LvfC6KukV8K730GyPl1JGXWO2ZljCyJIFbLv3DS5S/5qckRT2+CMsRd0
- dXSdl859cz5TOWsrN/kbCWaphH6PGT0D4H6OFf6L/TbfxuQQKMzl1oj9KO0TYCQIZxoF
- ezmefBC7gw7fNrZmS9WbQRRrPd8E3EHE8Utb3kJwL6BFX0cZhJDJZGKYsfSWKIe5EftL
- 0gzA==
-X-Gm-Message-State: AFqh2kozew5Vkl4knBsw/u9eCcjP8xzUv3+m7tQQ9q6BI6E0gagliBZE
- I3AW60le0Ypydi+hzSA+HQ3+9rHaKPD6xkNZVtFRPA==
-X-Google-Smtp-Source: AMrXdXta/JhhbP3IozP/LaxRBGWk46AyxZb74m/mCCUVUq5ypsqVk1NhtTQIzabAg2UCW5GYDpKXvqXfc3wwpCCMNaI=
-X-Received: by 2002:a63:e20b:0:b0:479:18a:8359 with SMTP id
- q11-20020a63e20b000000b00479018a8359mr3318764pgh.105.1672944149938; Thu, 05
- Jan 2023 10:42:29 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=babYxNQH6OOhcedUNBfZWrCjRdVEeEd/QGpJxPR56jU=;
+ b=23qDRi4cUewFLHWLEtetQ0f44Kcl+jz2JYEnCEALAaG+x2+opS8fLIa6Gdi1X3qFiT
+ 1sEwE3J4RMDU0BjwU4kGrFhxY5vXgnfDIvi5WNpi/JWYm/u/BCaGad+5s6XhhJwiH6qG
+ ZiQeWudeUPmsAckum0ZR/IdN9RCGjRrUD/QwbSsesfj42Bflivuacqt1hzu1NFji3ba5
+ tvBlmT3YSvaq7Rawo5ud00FOgSAGWyiolAZn943WVEuvQtoiOhZ0T9IL7bPSSIMK2Cia
+ HDe0osLxMZCZtF/P7eIruVO9QcQXxVQirPCYE4g9rZh1fRC1mkcyrGh4bTziLAJzUNyQ
+ a8kg==
+X-Gm-Message-State: AFqh2koAK9nq1YP+ZBAOHDH245YsKSMcZGsE0DY7nBYG98C1o76uXgAG
+ LakvoDCYYzWL17ACRmGaAp1nKuwnrjlepY9hZNY=
+X-Google-Smtp-Source: AMrXdXtplYb0O7zDcrFOI1CE85l/ZRHfYN2a9K+44A1jrmWH7fv68M45G/DjDF1QV9chfGQjr9xfdMCOhqeRC8Eu2FA=
+X-Received: by 2002:a25:fc6:0:b0:6d5:a304:b9cf with SMTP id
+ 189-20020a250fc6000000b006d5a304b9cfmr6607154ybp.293.1672945546515; Thu, 05
+ Jan 2023 11:05:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20230104210455.571473-1-jsnow@redhat.com>
-In-Reply-To: <20230104210455.571473-1-jsnow@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Jan 2023 18:42:18 +0000
-Message-ID: <CAFEAcA8iwXWjhtKsT-0LgwNp74eQok9E8=WBE6J4Pb=uc+s4ZA@mail.gmail.com>
-Subject: Re: [PULL 0/5] Python patches
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>, 
- Beraldo Leal <bleal@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>, Markus Armbruster <armbru@redhat.com>, 
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20230105164320.2164095-1-alex.bennee@linaro.org>
+ <20230105164320.2164095-20-alex.bennee@linaro.org>
+In-Reply-To: <20230105164320.2164095-20-alex.bennee@linaro.org>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Thu, 5 Jan 2023 11:05:35 -0800
+Message-ID: <CAMo8BfJHddmWmj6H9PHBQXALG=mcCZzQDCdkL6rD0k9hMBsZzA@mail.gmail.com>
+Subject: Re: [PATCH v2 19/21] gdbstub: move register helpers into standalone
+ include
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, alex.bennee@gmail.com, 
+ David Hildenbrand <david@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Michael Rolnik <mrolnik@gmail.com>, 
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Greg Kurz <groug@kaod.org>, 
+ Ilya Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-ppc@nongnu.org, 
+ Laurent Vivier <laurent@vivier.eu>, Yanan Wang <wangyanan55@huawei.com>,
+ Marek Vasut <marex@denx.de>, 
+ Stafford Horne <shorne@gmail.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Taylor Simpson <tsimpson@quicinc.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Alexandre Iooss <erdnaxe@crans.org>, Chris Wulff <crwulff@gmail.com>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Song Gao <gaosong@loongson.cn>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Artyom Tarasenko <atar4qemu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-riscv@nongnu.org, 
+ qemu-s390x@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Bin Meng <bin.meng@windriver.com>, Mahmoud Mandour <ma.mandourr@gmail.com>, 
+ David Gibson <david@gibson.dropbear.id.au>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, 
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,31 +113,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 4 Jan 2023 at 21:05, John Snow <jsnow@redhat.com> wrote:
+On Thu, Jan 5, 2023 at 8:51 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
 >
-> The following changes since commit ecc9a58835f8d4ea4e3ed36832032a71ee08fbb2:
+> These inline helpers are all used by target specific code so move them
+> out of the general header so we don't needlessly pollute the rest of
+> the API with target specific stuff.
 >
->   Merge tag 'pull-9p-20221223' of https://github.com/cschoenebeck/qemu into staging (2023-01-04 14:53:59 +0000)
+> Note we have to include cpu.h in semihosting as it was relying on a
+> side effect before.
 >
-> are available in the Git repository at:
->
->   https://gitlab.com/jsnow/qemu.git tags/python-pull-request
->
-> for you to fetch changes up to 519f3cfce07a067971ff39d4a989b77e7100a947:
->
->   python: add 3.11 to supported list (2023-01-04 13:46:05 -0500)
->
-> ----------------------------------------------------------------
-> Python patch roundup
->
-> Mostly CI fixes and some small debugging improvements.
->
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  target/xtensa/core-dc232b.c            |   2 +-
+>  target/xtensa/core-dc233c.c            |   2 +-
+>  target/xtensa/core-de212.c             |   2 +-
+>  target/xtensa/core-de233_fpu.c         |   2 +-
+>  target/xtensa/core-dsp3400.c           |   2 +-
+>  target/xtensa/core-fsf.c               |   2 +-
+>  target/xtensa/core-lx106.c             |   2 +-
+>  target/xtensa/core-sample_controller.c |   2 +-
+>  target/xtensa/core-test_kc705_be.c     |   2 +-
+>  target/xtensa/core-test_mmuhifi_c3.c   |   2 +-
+>  target/xtensa/gdbstub.c                |   2 +-
+>  target/xtensa/helper.c                 |   2 +-
 
+Please update the target/xtensa/import_core.sh as well.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
--- PMM
+--=20
+Thanks.
+-- Max
 
