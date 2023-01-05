@@ -2,91 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA1765F2F6
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:40:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C671A65F2E9
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:38:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDU87-0003yx-BE; Thu, 05 Jan 2023 12:34:15 -0500
+	id 1pDU8b-00059Z-5f; Thu, 05 Jan 2023 12:34:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pDU7s-0003tj-LU
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:34:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pDU7q-000409-Lh
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:34:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672940037;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KpoZFtNZIeQ02bOl8UIUsezj+gn1qmfeHQ9WsplstyA=;
- b=N4cg8/1Oqh2TkV47O8EfuW4mEoZRQfH97abuvqgb/d0FxEIL4iFAlFbOD37p97crM5tOpW
- +51PKt6wnlKeoK9JUbbM/vKH5aHhWucM8xdjHvgyuEsnRnXRFs3vPE/D4sNyghJhgTlGtr
- Zi3tmgYOGPXrxVoO2wCDlzYs0OsnhDI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-617-yRrA451NOiuOykSgTQbkTw-1; Thu, 05 Jan 2023 12:33:56 -0500
-X-MC-Unique: yRrA451NOiuOykSgTQbkTw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r15-20020a05600c35cf00b003d9a14517b2so1300498wmq.2
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 09:33:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDU8V-00056N-Rz
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:34:40 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDU8U-00048f-7F
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:34:39 -0500
+Received: by mail-pf1-x430.google.com with SMTP id c9so20959499pfj.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 09:34:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=9SaT61HOYH75jZrr8MRMbszQ+Ws1fT9/d8v9TB2X+PQ=;
+ b=S1YjxtOU0+s3X/L8mNUlCvctsZri0tY/ISxcacYDXcvHtIvdY9Uqc6Rk5RLwxOelBv
+ xA6ExmPdLGF4aHH5I0UXIkYLjvLTYGgggzNq4Xpj8sSSdZwV2XGr10gmERHNwQrSSRvB
+ pMBMquIDpIWJyqEnjq+8T+638UDs/Ud4o4kXTl6KrqpXsvwyfZp+SBhKSjWTHhdh/ZdH
+ 9mlFBd/MZGZjrC0peTYny+4NAGWjlZUN9hUL9nDrVCKa9lVjfF4z0rySzV5Q/6r0ttGK
+ 3/qS30eOOwKRd3qFZ4vA0OuYrUdk7k9gv1mv0AiDAkv6EZm0a3+NpFZbvg0SS99JCRdO
+ s8ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KpoZFtNZIeQ02bOl8UIUsezj+gn1qmfeHQ9WsplstyA=;
- b=izCFqiJtsQlRG63sCGRYE94MO/01Bea44oljgUAGoTGPRvtHoYVw6OsCZ5b2e3o8YP
- e0R12aGh2RTl2X1ODj1pUKM6AB0QgpdYt4DaHyiI1eZ74t3uTQDwPvzufdoNWRTS1Qxc
- q9dNn0TmHEYAv3jrNu0ch5f5ECHb1q3Y6avvGn0PyRQXjjrAL0nVkDA4qqZ2URGqYlOt
- reT+qeLYKAJoPPjHpC2WL2sU1T0WstyO2gytBHl0aSbBq1up/5rWL2un0fcoEXXp3ZbK
- kXtyG9NrbdHnfW5VizwyzWd2jwe+pOr1h1YzALkvstvua09nZ0xQZSipLqg+ymqdDMo8
- qDCg==
-X-Gm-Message-State: AFqh2krEDSQYaMpNmRMDc4jHWvip5PxQhVfGX1mS7IOei8zutZ+FVYoB
- QY6xzL4LP8I0f8IqDxgMor95X8rGJoL41zBZ1EOWdd9z5vJf/HrwzwBOgj3zBzgZsnEYUEHxXXm
- YdyUcakUjevv6F3o=
-X-Received: by 2002:adf:eecf:0:b0:242:14f5:7a96 with SMTP id
- a15-20020adfeecf000000b0024214f57a96mr33777463wrp.47.1672940034860; 
- Thu, 05 Jan 2023 09:33:54 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXs6qh7+dPxvCn02EgckFw8Oq8duYBgdyusQiyLtPoxndaNDHfJm59CDVKg8O5BQlpTRwikmfg==
-X-Received: by 2002:adf:eecf:0:b0:242:14f5:7a96 with SMTP id
- a15-20020adfeecf000000b0024214f57a96mr33777449wrp.47.1672940034671; 
- Thu, 05 Jan 2023 09:33:54 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- h9-20020adffd49000000b00242209dd1ffsm37060154wrs.41.2023.01.05.09.33.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 09:33:54 -0800 (PST)
-Date: Thu, 5 Jan 2023 17:33:52 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Peter Xu <peterx@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-Subject: Re: [PATCH v3 2/6] migration/vmstate: Introduce
- VMSTATE_WITH_TMP_TEST() and VMSTATE_BITMAP_TEST()
-Message-ID: <Y7cKAEw+5kvSoE60@work-vm>
-References: <20221222110215.130392-1-david@redhat.com>
- <20221222110215.130392-3-david@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9SaT61HOYH75jZrr8MRMbszQ+Ws1fT9/d8v9TB2X+PQ=;
+ b=UUUl3pNakOFsJtWT9yRgg4cDfeCY+4gZRKVg/sf37speiuM2UBzNcYpLzD3Yj5u7ij
+ 5RpjYcDKA89mOjKuaupqxKNVvJL3EvyhTw9e12nWLhlOTe8xE6jyCOaRyuvIM6KRWOuL
+ JJl8hr/5kY+ZKwXrHlMlhaj5OAnPRbxlJql6TeENrEdN392M5h6WJXlj7355qybd9DbR
+ ebhS7glLD+IOrUeLEiBSfdYknTbOge7gZi9TWahNKulGmNQ9OtRFxnFCymy7LDLa2/2S
+ vzFQlKZh9H7dhcrmGOR8g3eBJYMBkyGYRqYaaITTNB7z4Sq/205pa/n9zVY7OtR583rX
+ 91dw==
+X-Gm-Message-State: AFqh2kpI+FWYwgiOXarde/fzNAUQG3KfNah/+zuH85Q6EviM8F0U5x3O
+ u+YQ6B8GnQHEk1wN6/rmiS8AapRhtnCXb0TLoGIlDA==
+X-Google-Smtp-Source: AMrXdXsw4aT4/br/rWhqnDKzlTDM67z70qm5vBM3QarEV6QYEPySgKCfDlvA8DO3Z5Ea613+rec6CFPrcWOGyiruq/s=
+X-Received: by 2002:a63:e20b:0:b0:479:18a:8359 with SMTP id
+ q11-20020a63e20b000000b00479018a8359mr3304534pgh.105.1672940076725; Thu, 05
+ Jan 2023 09:34:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221222110215.130392-3-david@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230102154630.211785-1-rebecca@quicinc.com>
+In-Reply-To: <20230102154630.211785-1-rebecca@quicinc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 5 Jan 2023 17:34:25 +0000
+Message-ID: <CAFEAcA8b8PCp_JVcrSFNYsOYTNWaAedkELENVNcVH9_mc-Go8A@mail.gmail.com>
+Subject: Re: [PATCH 1/1] hw/arm/sbsa-ref.c: Start APs powered off
+To: Rebecca Cran <rebecca@quicinc.com>
+Cc: Radoslaw Biernacki <rad@semihalf.com>,
+ Leif Lindholm <quic_llindhol@quicinc.com>, qemu-arm@nongnu.org, 
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,67 +84,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* David Hildenbrand (david@redhat.com) wrote:
-> We'll make use of both next in the context of virtio-mem.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+On Mon, 2 Jan 2023 at 15:46, Rebecca Cran <rebecca@quicinc.com> wrote:
+>
+> For the SBSA-REF machine start all APs in the powered-off state.
+> This reduces host CPU usage until PSCI_CPU_ON is called when the APs
+> are needed.
+>
+> Signed-off-by: Rebecca Cran <rebecca@quicinc.com>
 > ---
->  include/migration/vmstate.h | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-> index 79eb2409a2..73ad1ae0eb 100644
-> --- a/include/migration/vmstate.h
-> +++ b/include/migration/vmstate.h
-> @@ -712,8 +712,9 @@ extern const VMStateInfo vmstate_info_qlist;
->   *        '_state' type
->   *    That the pointer is right at the start of _tmp_type.
->   */
-> -#define VMSTATE_WITH_TMP(_state, _tmp_type, _vmsd) {                 \
-> +#define VMSTATE_WITH_TMP_TEST(_state, _test, _tmp_type, _vmsd) {     \
->      .name         = "tmp",                                           \
-> +    .field_exists = (_test),                                         \
->      .size         = sizeof(_tmp_type) +                              \
->                      QEMU_BUILD_BUG_ON_ZERO(offsetof(_tmp_type, parent) != 0) + \
->                      type_check_pointer(_state,                       \
-> @@ -722,6 +723,9 @@ extern const VMStateInfo vmstate_info_qlist;
->      .info         = &vmstate_info_tmp,                               \
->  }
->  
-> +#define VMSTATE_WITH_TMP(_state, _tmp_type, _vmsd) \
-> +    VMSTATE_WITH_TMP_TEST(_state, NULL, _tmp_type, _vmsd)
+>  hw/arm/sbsa-ref.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> index 4bb444684f40..cf0af35c7807 100644
+> --- a/hw/arm/sbsa-ref.c
+> +++ b/hw/arm/sbsa-ref.c
+> @@ -753,6 +753,12 @@ static void sbsa_ref_init(MachineState *machine)
+>                                      &error_abort);
+>          }
+>
+> +        /* Configure all APs to be powered off at start */
+> +        if (n != 0 && object_property_find(cpuobj, "start-powered-off")) {
+> +            object_property_set_bool(cpuobj, "start-powered-off",
+> +                                     true, &error_abort);
+> +        }
 > +
->  #define VMSTATE_UNUSED_BUFFER(_test, _version, _size) {              \
->      .name         = "unused",                                        \
->      .field_exists = (_test),                                         \
-> @@ -745,8 +749,9 @@ extern const VMStateInfo vmstate_info_qlist;
->  /* _field_size should be a int32_t field in the _state struct giving the
->   * size of the bitmap _field in bits.
->   */
-> -#define VMSTATE_BITMAP(_field, _state, _version, _field_size) {      \
-> +#define VMSTATE_BITMAP_TEST(_field, _state, _test, _version, _field_size) { \
->      .name         = (stringify(_field)),                             \
-> +    .field_exists = (_test),                                         \
->      .version_id   = (_version),                                      \
->      .size_offset  = vmstate_offset_value(_state, _field_size, int32_t),\
->      .info         = &vmstate_info_bitmap,                            \
-> @@ -754,6 +759,9 @@ extern const VMStateInfo vmstate_info_qlist;
->      .offset       = offsetof(_state, _field),                        \
->  }
->  
-> +#define VMSTATE_BITMAP(_field, _state, _version, _field_size) \
-> +    VMSTATE_BITMAP_TEST(_field, _state, NULL, _version, _field_size)
-> +
->  /* For migrating a QTAILQ.
->   * Target QTAILQ needs be properly initialized.
->   * _type: type of QTAILQ element
-> -- 
-> 2.38.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>          object_property_set_link(cpuobj, "memory", OBJECT(sysmem),
+>                                   &error_abort);
 
+This board disables QEMU's own PSCI implementation and relies on
+a guest EL3 firmware to provide PSCI. So how will that EL3
+firmware implement the "power on" to bring up the secondaries?
+QEMU has the APIs to allow implementation of a model of a
+hardware power controller (target/arm/arm-powerctl.h) but
+as far as I can see the sbsa-ref board doesn't yet implement
+one, so if you start the CPUs in the powered-off state there's
+no way for them ever to be powered on.
+
+thanks
+-- PMM
 
