@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99DBC65EFBC
+	by mail.lfdr.de (Postfix) with ESMTPS id 95AA765EFBB
 	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 16:13:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDRuf-0001tr-4S; Thu, 05 Jan 2023 10:12:13 -0500
+	id 1pDRvM-0002D3-0t; Thu, 05 Jan 2023 10:12:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDRua-0001tN-Ff
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:12:08 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ id 1pDRvE-0002B5-L8
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:12:49 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDRuY-0004CW-My
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:12:08 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id f3so24705701pgc.2
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 07:12:05 -0800 (PST)
+ id 1pDRvB-0004UO-Nl
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:12:47 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ z4-20020a17090a170400b00226d331390cso1206311pjd.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 07:12:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bkaE0LEBcl2+UKhpdPTxir9P+Zq8HpLovlsuyNwQyCg=;
- b=fn+yVd3RMDMt/itv1sjgrRAoc+om7ou6AiMSZRD4AsgcJMJd3PwcV0ggqEdeW69OKG
- +tUS71fznpWnsv1pcGDMx0PChP4himp3j27YIQSoiYRCdE/DDfcHOaMl6f2M6F/SuP2F
- wcPTWugB68FuLL29TQoXP4PAInqg74svGoIVpKWLvevdv61nrGZv+h4wztFlKvtFnU5I
- 8Fbl4NG1N7937FaSmebImpp/hbAuTjUFTyx/y4VQ1oMiQQZFsMX3sSQd5SWciocJMOna
- hI1e0XfaDPzD1/d13taZIoobmgigfZpzSLg7qai8XMhazz2o+25ird7hUYEfMrIBG7Hd
- JY8A==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kA2IQbg7QjNFO5SX4+mDwkeVBtI/d3z9EsVDhVYfgIE=;
+ b=RN+6aCKxljBaeJ0JfY9XC8DQvXlJIrcF+35R3LGG3VZtszabksuNo9FwwoZJQEot60
+ XigkELh1wkhnsRw7CuFbcrn1PjoJ1yjY6jMZjx/SzV0HXg6Er2C5w7pURIDA8QBrJxOZ
+ 0kVcs4PYWtnpV+UcFz/xJ3MH3pZgheQiuTx1VYlM0eQr8nRLwVuQAy/BhcScvUJ6n7Sp
+ Vpys1zm5P+J4a4O3oXGdqLj8mxCSxaOkwjnfHBffdzQL1abaMZoyy4ebMuYiIxCiatFQ
+ J0O7LaO4lYVb1mqRTuwaYlrZwDcHoWeWH1Gb24OIOe0xrVtPilCLxIxIuZD4RAiWfySk
+ YDkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bkaE0LEBcl2+UKhpdPTxir9P+Zq8HpLovlsuyNwQyCg=;
- b=RU4j8OfnEkKaB2b3RktnBFt6Timuz2PA49ihQgE/coHq+Igvat7+s1hQaTcl6pvLHm
- 0grO8NCa7Eu3V/DhCib09d4r9dypwb11/uRbLxfphlv4kaENVMtjvDS6PgE+6pfS9Tfb
- VZq8hrEn8+4RVmnXVosFYUUhcnJwym6RRPtDT5uatNlCvtCYrp1Kw+OxuSeU6to6lT6g
- n1A3OT524gU+YaorKMA79QSSKXlG4mBufdCY2hsLbr3sAI5mMBctICdk5OAy++lRd1sO
- 8znYURX2OHSMhyZJ8a6crhY5ap+gZXUiOHQrjlvBaLPWvr58nsUC+Q1pnqcMH65zALOs
- jOIQ==
-X-Gm-Message-State: AFqh2koBNb1qAS/z5ojUArCY0hCQ9kd/Qs6uRxAZC0tCQJx66rbhFTLb
- V4YBrJPcGu/MvrA/2/iP8pnsC+yf8LkUn4sfZHty1rBElMT0h91a
-X-Google-Smtp-Source: AMrXdXsG8qW67V7CJm5P+ErA01VvI1T3rug9uRl/jL3DLEbWmPan+JGEYkp4QPMltQndfV2MrM2Yjt6hx8ueSrZ0Kdc=
-X-Received: by 2002:a63:3d4:0:b0:492:50dc:da4d with SMTP id
- 203-20020a6303d4000000b0049250dcda4dmr2345250pgd.192.1672931524559; Thu, 05
- Jan 2023 07:12:04 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kA2IQbg7QjNFO5SX4+mDwkeVBtI/d3z9EsVDhVYfgIE=;
+ b=TQQdkKgjcpzD/WqRplQi/aWNIeYOaYoGx6gizbTPgk4SDGpUfezv9RkGR0C3nrG2xu
+ QoRTKxv4Ypnog6o/GT4S1wckRXq4OK7JpO8tFzNQI8Yxq8vFAxO6/nY+IKOIr19Fl1dU
+ eLCtshjQgP7EPT0hTHjaa67afGHNwtXPnX8CeSUqGCFPFiO7qo6ofbhsdNtr3YhFj7YS
+ Kx8rXdMMqmyrVXyUxJVfaz8RPEF561r1AOiUU8R9+f7DL35eq6F0ynrmcmuFZoRCN+Eq
+ 69ucI8b4S+7nVShNag6nGU06Pi9l8TDZbygUA+FOlYIFGTNWao+/0OSs33ikGRwwr4bS
+ m2/g==
+X-Gm-Message-State: AFqh2krbzWyrHM8S4tksW2ZNZM3/lMKPR2QevPTdV6kMZe5l4DnBIaNA
+ ip7jpoaH7cTg/mHn3y7XkVhMOcNWMqY+OqZRWG7ofg==
+X-Google-Smtp-Source: AMrXdXt/kkUe2k2rZIH2zWPBqKVQkt7r7OYq4EVui/oKXyZWl5+0Rs21jIw6yXK80vEdSACp+F5cFqU/TqS60bkDAdU=
+X-Received: by 2002:a17:902:efcf:b0:192:ea33:5092 with SMTP id
+ ja15-20020a170902efcf00b00192ea335092mr489064plb.19.1672931564005; Thu, 05
+ Jan 2023 07:12:44 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1671548388.git.jcd@tribudubois.net>
-In-Reply-To: <cover.1671548388.git.jcd@tribudubois.net>
+References: <20221226101418.415170-1-jcd@tribudubois.net>
+In-Reply-To: <20221226101418.415170-1-jcd@tribudubois.net>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Jan 2023 15:11:53 +0000
-Message-ID: <CAFEAcA-ogofwCvR1fAJ5+PiGv4Z2+FGqxhcw54AH19CaBdv-dA@mail.gmail.com>
-Subject: Re: [PATCH] Fix i.MX GPT timers for i.MX6UL and i.MX7 processors
+Date: Thu, 5 Jan 2023 15:12:32 +0000
+Message-ID: <CAFEAcA_HfPLHtm55Q_Q1X5-SWFwwEbT-=97RJ4u-FdMCROQL3A@mail.gmail.com>
+Subject: Re: [PATCH] i.MX7D: Connect IRQs to GPIO devices.
 To: Jean-Christophe Dubois <jcd@tribudubois.net>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,52 +83,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 20 Dec 2022 at 18:18, Jean-Christophe Dubois
+On Mon, 26 Dec 2022 at 10:15, Jean-Christophe Dubois
 <jcd@tribudubois.net> wrote:
 >
-> This patch series allow GPT timers to be used on Qemu emulated i.MX7.
+> IRQs were not associated to the various GPIO devices inside i.MX7D.
+> This patch brings the i.MX7D on par with i.MX6.
 >
-> In particular it allows GPT timer to raise interrupts in i.MX7 processor
-> and supports some of the fixed frequency clocks.
->
-> Note: CCM generated clock sources will be added with a later patch.
->
-> This also brings some fixes to the i.MX6UL GPT timer as its clock sources
-> differ slightly from the i.MX7 version.
->
-> Tested by running =C2=B5COS application on i.MX7D emulated processor. =C2=
-=B5COS
-> is using the GPT timer as its tick source.
->
-> Jean-Christophe Dubois (3):
->   i.MX7D: Connect GPT timers to IRQ
->   i.MX7D: Compute clock frequency for the fixed frequency clocks.
->   i.MX6UL: Add a specific GPT timer instance for the i.MX6UL
->
->  hw/arm/fsl-imx6ul.c        |  2 +-
->  hw/arm/fsl-imx7.c          | 10 ++++++++
->  hw/misc/imx6ul_ccm.c       |  6 -----
->  hw/misc/imx7_ccm.c         | 49 +++++++++++++++++++++++++++++++-------
->  hw/timer/imx_gpt.c         | 25 +++++++++++++++++++
->  include/hw/arm/fsl-imx7.h  |  5 ++++
->  include/hw/timer/imx_gpt.h |  1 +
->  7 files changed, 82 insertions(+), 16 deletions(-)
+> Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
+> ---
+>  hw/arm/fsl-imx7.c         | 31 ++++++++++++++++++++++++++++++-
+>  include/hw/arm/fsl-imx7.h | 15 +++++++++++++++
+>  2 files changed, 45 insertions(+), 1 deletion(-)
 
-Thanks, I've applied this series to target-arm.next.
+Thanks, applied to target-arm.next (fixing up the trivial
+conflict with your other patchset).
 
-Something slightly odd seems to have happened to the threading
-of this series -- on the archive you can see that the patchmails
-are correctly followups to the cover letter:
-https://lore.kernel.org/qemu-devel/cover.1671548388.git.jcd@tribudubois.net=
-/
-but patchew and patches don't identify the whole thing as a single
-series and they show up as separate patches:
-https://patchew.org/search?q=3Dproject%3AQEMU+from%3Ajean-christophe
-
-This might be because the subject [PATCH] tags don't have the usual
-"0/3" for the cover letter and "1/3" "2/3" "3/3" for each patch.
-git format-patch ought to be able to do this automatically.
-
-thanks
 -- PMM
 
