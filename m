@@ -2,89 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D0A65EED3
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:35:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310DD65EEF0
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:39:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDRJU-00038U-VU; Thu, 05 Jan 2023 09:33:48 -0500
+	id 1pDRNs-00019T-Im; Thu, 05 Jan 2023 09:38:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pDRJR-00033i-UZ; Thu, 05 Jan 2023 09:33:45 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pDRJQ-000765-5d; Thu, 05 Jan 2023 09:33:45 -0500
-Received: by mail-wr1-x435.google.com with SMTP id bk16so23104222wrb.11;
- Thu, 05 Jan 2023 06:33:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dn+yeGFQIMdJW7Gi0bvDMswZATWnQh3mXrYoXnwfAnI=;
- b=UMhxxgs0gFPOwgYC7PELHwAV7mrn5OyKlTiYKBrsDMtCnIgG/Wg/uGq/NPUC5fJz71
- +c+VoH5EszqDGyn2BpVOdTZKKAN6kOgutSRmUSWFlEXxj22ev8+8+ongvsSQSnO++ztg
- LoBdL0Lobq6ZyC8xzMFbyIG/qxHFIp9xJnTzZEfRho9FyP6cJZ/jVxQN9Bwb6FwBrFg1
- rl0wynJxWPpuuZCHeyDXcIHMUiy2KmicX8junZ/o+83pa0WY9zGw9TkRdyPFtOpmRNUR
- 3LoniIV0+v6ARq0q+KlQA6baRm/9q0e9Be6DXwVgQuM/tzRYO4lD0GI9asUKQOUdP75J
- iptg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dn+yeGFQIMdJW7Gi0bvDMswZATWnQh3mXrYoXnwfAnI=;
- b=HQKdFTWkO5gyvdrs02tzDXMyRIMYMD+y9vAGS5SmGrAE5nXFdDh2K9LeJkXYveX43b
- 9i+rnzKESLnyFw5nYF41XrxJW7lJOHJUi4a7TtxFr7lv1WX7/1n5wgy7j3dlhD2duvWh
- 72JiUPc24ghtyJAu+2alz6v4WG7UokdYoKwWt09RVIBRND1N63F1oQqx4cIN4vIkcSVD
- PhOdbrIWZ6ghHk6VIyyq801NhQOFhbQD0rUONV4kpiYEvzEaJqKDtmw7hoEdUSCpSvto
- Mwsy9IDINButFHApN9Cr1Ehe4e4mj1+CN6TJaN3ytL/42teQ9A3rcLF+ldOlABc7162z
- 7Ceg==
-X-Gm-Message-State: AFqh2kpmVsrEYyUxq136Qs9716YXq+9mFLHPtGxvQ0pq4xL5swkBRitl
- ggk5E0llW53xqAQSwEojDrRYDnoC8RMetg==
-X-Google-Smtp-Source: AMrXdXvACijv0+rR06rvHCNEJQEMQCKmbFfBaxa0DFEPk1yg7yWxIT5ZQQND2wKrq6Onbu+Tzbi/lw==
-X-Received: by 2002:adf:f74e:0:b0:22e:6227:34e4 with SMTP id
- z14-20020adff74e000000b0022e622734e4mr30685185wrp.0.1672929221965; 
- Thu, 05 Jan 2023 06:33:41 -0800 (PST)
-Received: from osoxes.fritz.box
- (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
- by smtp.gmail.com with ESMTPSA id
- bt15-20020a056000080f00b00297dcfdc90fsm12260447wrb.24.2023.01.05.06.33.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 06:33:41 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Ani Sinha <ani@anisinha.ca>,
- Richard Henderson <richard.henderson@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- John Snow <jsnow@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Bernhard Beschow <shentey@gmail.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v5 31/31] hw/isa/piix: Share PIIX3's base class with PIIX4
-Date: Thu,  5 Jan 2023 15:32:28 +0100
-Message-Id: <20230105143228.244965-32-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230105143228.244965-1-shentey@gmail.com>
-References: <20230105143228.244965-1-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pDRNn-00018I-H1
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:38:15 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pDRNk-0007z0-Tz
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:38:15 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NnptJ48YXz6J6Hs;
+ Thu,  5 Jan 2023 22:35:52 +0800 (CST)
+Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 5 Jan
+ 2023 14:38:08 +0000
+Date: Thu, 5 Jan 2023 14:38:07 +0000
+To: Gregory Price <gourry.memverge@gmail.com>
+CC: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>,
+ <alison.schofield@intel.com>, <dave@stgolabs.net>,
+ <a.manzanares@samsung.com>, <bwidawsk@kernel.org>,
+ <gregory.price@memverge.com>, <hchkuo@avery-design.com.tw>,
+ <cbrowy@avery-design.com>, <ira.weiny@intel.com>
+Subject: Re: [RFC v4 2/3] tests/qtest/cxl-test: whitespace, line ending cleanup
+Message-ID: <20230105143807.0000315a@huawei.com>
+In-Reply-To: <20221128150157.97724-3-gregory.price@memverge.com>
+References: <20221128150157.97724-1-gregory.price@memverge.com>
+ <20221128150157.97724-3-gregory.price@memverge.com>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=shentey@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,167 +66,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Having a common base class will allow for substituting PIIX3 with PIIX4
-and vice versa. Moreover, it makes PIIX4 implement the
-acpi-dev-aml-interface.
+On Mon, 28 Nov 2022 10:01:56 -0500
+Gregory Price <gourry.memverge@gmail.com> wrote:
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20221022150508.26830-42-shentey@gmail.com>
----
- hw/isa/piix.c | 49 ++++++++++++++++++++++---------------------------
- 1 file changed, 22 insertions(+), 27 deletions(-)
+> Defines are starting to exceed line length limits, align them for
+> cleanliness before making modifications.
+> 
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
 
-diff --git a/hw/isa/piix.c b/hw/isa/piix.c
-index f125a6175f..54a1246a9d 100644
---- a/hw/isa/piix.c
-+++ b/hw/isa/piix.c
-@@ -396,13 +396,12 @@ static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
-     }
- }
- 
--static void pci_piix3_init(Object *obj)
-+static void pci_piix_init(Object *obj)
- {
-     PIIXState *d = PIIX_PCI_DEVICE(obj);
- 
-     object_initialize_child(obj, "pic", &d->pic, TYPE_ISA_PIC);
-     object_initialize_child(obj, "rtc", &d->rtc, TYPE_MC146818_RTC);
--    object_initialize_child(obj, "ide", &d->ide, TYPE_PIIX3_IDE);
- }
- 
- static Property pci_piix_props[] = {
-@@ -413,7 +412,7 @@ static Property pci_piix_props[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--static void pci_piix3_class_init(ObjectClass *klass, void *data)
-+static void pci_piix_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-@@ -421,11 +420,8 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
- 
-     dc->reset       = piix_reset;
-     dc->desc        = "ISA bridge";
--    dc->vmsd        = &vmstate_piix3;
-     dc->hotpluggable   = false;
-     k->vendor_id    = PCI_VENDOR_ID_INTEL;
--    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
--    k->device_id    = PCI_DEVICE_ID_INTEL_82371SB_0;
-     k->class_id     = PCI_CLASS_BRIDGE_ISA;
-     /*
-      * Reason: part of PIIX3 southbridge, needs to be wired up by
-@@ -440,9 +436,9 @@ static const TypeInfo piix_pci_type_info = {
-     .name = TYPE_PIIX_PCI_DEVICE,
-     .parent = TYPE_PCI_DEVICE,
-     .instance_size = sizeof(PIIXState),
--    .instance_init = pci_piix3_init,
-+    .instance_init = pci_piix_init,
-     .abstract = true,
--    .class_init = pci_piix3_class_init,
-+    .class_init = pci_piix_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-         { TYPE_ACPI_DEV_AML_IF },
-@@ -465,17 +461,29 @@ static void piix3_realize(PCIDevice *dev, Error **errp)
-     pci_bus_set_route_irq_fn(pci_bus, piix3_route_intx_pin_to_irq);
- }
- 
-+static void piix3_init(Object *obj)
-+{
-+    PIIXState *d = PIIX_PCI_DEVICE(obj);
-+
-+    object_initialize_child(obj, "ide", &d->ide, TYPE_PIIX3_IDE);
-+}
-+
- static void piix3_class_init(ObjectClass *klass, void *data)
- {
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
- 
-     k->config_write = piix_write_config;
-     k->realize = piix3_realize;
-+    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
-+    k->device_id = PCI_DEVICE_ID_INTEL_82371SB_0;
-+    dc->vmsd = &vmstate_piix3;
- }
- 
- static const TypeInfo piix3_info = {
-     .name          = TYPE_PIIX3_DEVICE,
-     .parent        = TYPE_PIIX_PCI_DEVICE,
-+    .instance_init = piix3_init,
-     .class_init    = piix3_class_init,
- };
- 
-@@ -501,15 +509,20 @@ static void piix3_xen_realize(PCIDevice *dev, Error **errp)
- 
- static void piix3_xen_class_init(ObjectClass *klass, void *data)
- {
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
- 
-     k->config_write = piix3_write_config_xen;
-     k->realize = piix3_xen_realize;
-+    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
-+    k->device_id = PCI_DEVICE_ID_INTEL_82371SB_0;
-+    dc->vmsd = &vmstate_piix3;
- }
- 
- static const TypeInfo piix3_xen_info = {
-     .name          = TYPE_PIIX3_XEN_DEVICE,
-     .parent        = TYPE_PIIX_PCI_DEVICE,
-+    .instance_init = piix3_init,
-     .class_init    = piix3_xen_class_init,
- };
- 
-@@ -540,8 +553,6 @@ static void piix4_init(Object *obj)
- {
-     PIIXState *s = PIIX_PCI_DEVICE(obj);
- 
--    object_initialize_child(obj, "pic", &s->pic, TYPE_ISA_PIC);
--    object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
-     object_initialize_child(obj, "ide", &s->ide, TYPE_PIIX4_IDE);
- }
- 
-@@ -552,31 +563,15 @@ static void piix4_class_init(ObjectClass *klass, void *data)
- 
-     k->config_write = piix_write_config;
-     k->realize = piix4_realize;
--    k->vendor_id = PCI_VENDOR_ID_INTEL;
-     k->device_id = PCI_DEVICE_ID_INTEL_82371AB_0;
--    k->class_id = PCI_CLASS_BRIDGE_ISA;
--    dc->reset = piix_reset;
--    dc->desc = "ISA bridge";
-     dc->vmsd = &vmstate_piix4;
--    /*
--     * Reason: part of PIIX4 southbridge, needs to be wired up,
--     * e.g. by mips_malta_init()
--     */
--    dc->user_creatable = false;
--    dc->hotpluggable = false;
--    device_class_set_props(dc, pci_piix_props);
- }
- 
- static const TypeInfo piix4_info = {
-     .name          = TYPE_PIIX4_PCI_DEVICE,
--    .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(PIIXState),
-+    .parent        = TYPE_PIIX_PCI_DEVICE,
-     .instance_init = piix4_init,
-     .class_init    = piix4_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
--        { },
--    },
- };
- 
- static void piix3_register_types(void)
--- 
-2.39.0
+Hi Gregory,
+
+I was just reordering my tree and noticed that you've only
+gone with 2 space indent.  Given 4 spaces is the convention in QEMU
+for other uses, I've switched my local copy of this over to 4 spaces.
+
+Note there was also a single inconsistent 1 space indent - see below.
+
+Jonathan
+
+> 
+> ---
+>  tests/qtest/cxl-test.c | 99 +++++++++++++++++++++++-------------------
+>  1 file changed, 54 insertions(+), 45 deletions(-)
+> 
+> diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
+> index c54f18e76b..e59ba22387 100644
+> --- a/tests/qtest/cxl-test.c
+> +++ b/tests/qtest/cxl-test.c
+> @@ -8,55 +8,64 @@
+>  #include "qemu/osdep.h"
+>  #include "libqtest-single.h"
+>  
+> -#define QEMU_PXB_CMD "-machine q35,cxl=on " \
+> -                     "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
+> -                     "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=4G "
+> -
+> -#define QEMU_2PXB_CMD "-machine q35,cxl=on "                            \
+> -                      "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
+> -                      "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 " \
+> -                      "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "
+> -
+> -#define QEMU_VIRT_2PXB_CMD "-machine virt,cxl=on "                      \
+> -                      "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
+> -                      "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 "  \
+> -                      "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "
+> -
+> -#define QEMU_RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 "
+> +#define QEMU_PXB_CMD \
+> +  "-machine q35,cxl=on " \
+> +  "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 " \
+> +  "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=4G "
+> +
+> +#define QEMU_2PXB_CMD \
+> +  "-machine q35,cxl=on " \
+> +  "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 " \
+> +  "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 " \
+> + "- M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "
+This one only has one space.
+
+> +
+> +#define QEMU_VIRT_2PXB_CMD \
+> +  "-machine virt,cxl=on " \
+> +  "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 " \
+> +  "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 " \
+> +  "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "
+> +
+> +#define QEMU_RP \
+> +  "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 "
+>  
+>  /* Dual ports on first pxb */
+> -#define QEMU_2RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 " \
+> -                 "-device cxl-rp,id=rp1,bus=cxl.0,chassis=0,slot=1 "
+> +#define QEMU_2RP \
+> +  "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 " \
+> +  "-device cxl-rp,id=rp1,bus=cxl.0,chassis=0,slot=1 "
+>  
+>  /* Dual ports on each of the pxb instances */
+> -#define QEMU_4RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 " \
+> -                 "-device cxl-rp,id=rp1,bus=cxl.0,chassis=0,slot=1 " \
+> -                 "-device cxl-rp,id=rp2,bus=cxl.1,chassis=0,slot=2 " \
+> -                 "-device cxl-rp,id=rp3,bus=cxl.1,chassis=0,slot=3 "
+> -
+> -#define QEMU_T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
+> -                 "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
+> -                 "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 "
+> -
+> -#define QEMU_2T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M "    \
+> -                  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
+> -                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
+> -                  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
+> -                  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
+> -                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 "
+> -
+> -#define QEMU_4T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
+> -                  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
+> -                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
+> -                  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
+> -                  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
+> -                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 " \
+> -                  "-object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M "    \
+> -                  "-object memory-backend-file,id=lsa2,mem-path=%s,size=256M "    \
+> -                  "-device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2,id=cxl-pmem2 " \
+> -                  "-object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M "    \
+> -                  "-object memory-backend-file,id=lsa3,mem-path=%s,size=256M "    \
+> -                  "-device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3,id=cxl-pmem3 "
+> +#define QEMU_4RP \
+> +  "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 " \
+> +  "-device cxl-rp,id=rp1,bus=cxl.0,chassis=0,slot=1 " \
+> +  "-device cxl-rp,id=rp2,bus=cxl.1,chassis=0,slot=2 " \
+> +  "-device cxl-rp,id=rp3,bus=cxl.1,chassis=0,slot=3 "
+> +
+> +#define QEMU_T3D \
+> +  "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
+> +  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
+> +  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 "
+> +
+> +#define QEMU_2T3D \
+> +  "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
+> +  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M " \
+> +  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
+> +  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M " \
+> +  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M " \
+> +  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 "
+> +
+> +#define QEMU_4T3D \
+> +  "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
+> +  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M " \
+> +  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
+> +  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M " \
+> +  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M " \
+> +  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 " \
+> +  "-object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M " \
+> +  "-object memory-backend-file,id=lsa2,mem-path=%s,size=256M " \
+> +  "-device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2,id=cxl-pmem2 " \
+> +  "-object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M " \
+> +  "-object memory-backend-file,id=lsa3,mem-path=%s,size=256M " \
+> +  "-device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3,id=cxl-pmem3 "
+>  
+>  static void cxl_basic_hb(void)
+>  {
 
 
