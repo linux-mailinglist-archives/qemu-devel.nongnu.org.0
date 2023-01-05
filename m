@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEDAA65E4D5
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 05:49:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B786C65E4E8
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 05:56:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDIC0-0007w8-0N; Wed, 04 Jan 2023 23:49:28 -0500
+	id 1pDIHp-0001Tk-Fv; Wed, 04 Jan 2023 23:55:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDIBx-0007rj-HO
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 23:49:25 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+ id 1pDIHl-0001Sx-IO
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 23:55:25 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDIBu-0004PN-QJ
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 23:49:25 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id e21so14939768pfl.1
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 20:49:22 -0800 (PST)
+ id 1pDIHj-0002Wl-Pj
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 23:55:25 -0500
+Received: by mail-pl1-x631.google.com with SMTP id p24so15761939plw.11
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 20:55:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=276j1AFIC9ANWMWvtJ8vawwrLxA7CpYnWoPkO5FDqYo=;
- b=jukOdnorvN4D6BHRWtW09jhZhifUwTp0saRdOUw02NwhgvcCNwCurSiGVJszen5RJ4
- SR+Y2U4wRagyB8V1AChoFrtTWed2uiRuyYOCBLChMtVDt3iJCu+5wmnw7ChLGpEK8ue6
- JU9+Eh/5YeqSCxr5FJL2KhT3R+yvf+qagLaNk17btdoSFEajBmh78qdESOYJOQOb4PX0
- QK2QHOhtTOmUPylcfUAu1iAO92VZOhnXQMY7U6ZCr7h5vckcGZhhRqLKlen7PjwCa8x0
- vp8yJJZWBINvgEdH+P2220LpAkueMwWNN09SomLPoshliBCQtKSzsYbJ3l85+w5TxJzV
- FqNg==
+ bh=/ftMB/pycQaFCJV3z/lh6F09+awhuDC0s1ox9c3g804=;
+ b=wqurgHx2tyNFh5ggBS9kC6/9lBJ+fOaHbc+ZEXeIWqFI4U+M0dfxbbQG5CX9j+Nexr
+ aa9pGzTARatZXyt3Ep8h+OUqhr3/lD5xa4BqjGjqOwh6nHew8FFVda6afRwQQw+xW0/g
+ noznQhflyEy5DwC9iYPksc8COK+wOAiMZt041aUQjhPgJnRTgZ1/caAe9F0HSFebBldW
+ HHpDD7an7Ir6AkS5VF8hVl+huBfxt1mqswmAFt9RE4Ud53KgMd3eY/dEiRq0+VKhn5P8
+ 6gLLOu3S10p0ll4r8KZAmdY7hRQmegjtZkYIf9Mhl8UkdYmClPZ8zP6Nb1GKNXQfKk6R
+ T5QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=276j1AFIC9ANWMWvtJ8vawwrLxA7CpYnWoPkO5FDqYo=;
- b=1QFT/fK7KIW7wypWOcD7cPebGfiRGObfzcTns/u4MYiv4kSZPax4YieHo4TmpiSqY0
- 1C/dFx91zOugV39HMcFV/c+KYm0QAb0p7uqITqBW1sE1sZ0QJgdRl0dnJUJn52mXXlwP
- qa6p04SsIHPB9soBfSKgGC1G6W0piKgtWD8GkGeTm1ycFhTjODKT8YnP2aXei4Rf5I0o
- etJcO/lw+oBxgeh+netKbxRomxXsMO9E5Qb7cHp2JZuUUXy+oIKGlVMtgySY/DDVZ2F4
- awsgAlQyqMCZkpGqvHgT0xbxzUd5yWE1ho7LMNYxYq8R+jHjijHFI1e6Ws52pvDee/vj
- Go6Q==
-X-Gm-Message-State: AFqh2kpRPJaKYFYA56bo+gljeJyHlZo1xcHgF7eLifoxe1An69DcPpOx
- SymHq/VWV++84vOABv6kg2BgyA==
-X-Google-Smtp-Source: AMrXdXvIqfJQEC0YVY/Tl+oOFFs2RyWWYEpp7GFZv3jy3pZQmCrv3x9plnACkC0HgcdA3dwpzFSBXw==
-X-Received: by 2002:a05:6a00:1ca1:b0:57f:7d69:8d95 with SMTP id
- y33-20020a056a001ca100b0057f7d698d95mr51829287pfw.21.1672894161221; 
- Wed, 04 Jan 2023 20:49:21 -0800 (PST)
+ bh=/ftMB/pycQaFCJV3z/lh6F09+awhuDC0s1ox9c3g804=;
+ b=FxDfU2XQnyKbvn4d/7ONlKUYN6kb5F21hMoj/vpCQromPsv7R5FFFOlsSs9z8sP5is
+ MtjdhmU7eFzXYWKSVVkjz/spDFM0n1e/EbAYB9/J6bQGLHGXxHpFbmEWoW1MTvIv/h/9
+ rO+2bcaYXVAD4cgFjz8xUk5bCHj9Z+GCCC4GWlCLSxYRYq0qeiQbR/8m71NqywlyfpEs
+ qAtV+o0aXZGjdxZ86omCL1AjDAqNLTKApvw7wMMNSJFkUayGidU3ifw7TKWgMY/+GWds
+ 6t5lfGjC9+NOairdjzWXdFxNj6xFpeMLTagCekLLiqkm9Y+FW5EzZEhO4xkkmx/k4+q1
+ KTrg==
+X-Gm-Message-State: AFqh2koyPXEyn5IH9p8jRGY4j5y1fJVd9a8i3IWjunNONtLRfaPtLadn
+ 5WIJ9ZJASDvfQP5FAhCEKpFofg==
+X-Google-Smtp-Source: AMrXdXt7Ask2WhIN3wcMdtBaJmzw/cF7MnvwAMZIfjgVlN/OExp7xLFC92UebpwRtxgXhBQOVO3Yig==
+X-Received: by 2002:a17:903:230e:b0:192:8212:af39 with SMTP id
+ d14-20020a170903230e00b001928212af39mr46793424plh.5.1672894521830; 
+ Wed, 04 Jan 2023 20:55:21 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:5a62:efe5:94a2:1dee?
  ([2602:47:d48c:8101:5a62:efe5:94a2:1dee])
  by smtp.gmail.com with ESMTPSA id
- h4-20020aa79f44000000b00572c12a1e91sm2051964pfr.48.2023.01.04.20.49.20
+ l6-20020a170903244600b001869f2120absm24903744pls.294.2023.01.04.20.55.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 20:49:20 -0800 (PST)
-Message-ID: <cd763ea1-36a8-c399-c3ec-ea887637206d@linaro.org>
-Date: Wed, 4 Jan 2023 20:49:18 -0800
+ Wed, 04 Jan 2023 20:55:21 -0800 (PST)
+Message-ID: <908792d3-47b2-afb3-8b81-aa74950f7164@linaro.org>
+Date: Wed, 4 Jan 2023 20:55:19 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 15/27] target/arm: move helpers to tcg/
+Subject: Re: [RFC PATCH 17/27] target/arm: Extract cpustate list manipulation
+ to a file
 Content-Language: en-US
 To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -69,13 +70,13 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
 References: <20230104215835.24692-1-farosas@suse.de>
- <20230104215835.24692-16-farosas@suse.de>
+ <20230104215835.24692-18-farosas@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230104215835.24692-16-farosas@suse.de>
+In-Reply-To: <20230104215835.24692-18-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -99,23 +100,30 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/4/23 13:58, Fabiano Rosas wrote:
-> From: Claudio Fontana<cfontana@suse.de>
+> This code doesn't need to be buried in helper.c. Let's move it to its
+> own file to keep things cleaner.
 > 
-> Signed-off-by: Claudio Fontana<cfontana@suse.de>
+> Code moved verbatim.
+> 
 > Signed-off-by: Fabiano Rosas<farosas@suse.de>
 > ---
-> Included {sme,mve}_helper.c and left a couple of files behind that
-> still have non-tcg code to be removed from them:
-> 
-> helper.c (and op_helper.h as a dep)
-> vfp_helper.c
-> 
-> Originally from:
-> https://lore.kernel.org/r/20210416162824.25131-3-cfontana@suse.de
-> [RFC v14 02/80] target/arm: move helpers to tcg/
+> Extracted from:
+> https://lore.kernel.org/r/20210416162824.25131-15-cfontana@suse.de
+> [RFC v14 14/80] target/arm: split cpregs from tcg/helper.c
 > ---
+>   target/arm/cpregs.h        |   5 ++
+>   target/arm/cpustate-list.c | 148 +++++++++++++++++++++++++++++++++++++
+>   target/arm/helper.c        | 136 ----------------------------------
+>   target/arm/meson.build     |   1 +
+>   4 files changed, 154 insertions(+), 136 deletions(-)
+>   create mode 100644 target/arm/cpustate-list.c
 
+I'd rather the new file be called cpregs.c, to match the header.
+I've been thinking about moving all of that code out of helper.c...
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
