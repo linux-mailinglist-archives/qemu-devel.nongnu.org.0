@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B66E665EEF8
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:41:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 308BB65EEE6
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:38:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDRJK-0002t9-T4; Thu, 05 Jan 2023 09:33:38 -0500
+	id 1pDRJP-000300-92; Thu, 05 Jan 2023 09:33:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pDRJ8-0002kp-Hw; Thu, 05 Jan 2023 09:33:26 -0500
+ id 1pDRJ8-0002ko-HK; Thu, 05 Jan 2023 09:33:26 -0500
 Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pDRIw-0006uP-Uz; Thu, 05 Jan 2023 09:33:17 -0500
-Received: by mail-wr1-x430.google.com with SMTP id s9so4301436wru.13;
- Thu, 05 Jan 2023 06:33:13 -0800 (PST)
+ id 1pDRIy-0006um-9H; Thu, 05 Jan 2023 09:33:17 -0500
+Received: by mail-wr1-x430.google.com with SMTP id h16so36265542wrz.12;
+ Thu, 05 Jan 2023 06:33:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=iS/t0s+kO/h2RwOcxnCdWLmYPedCBBrg6QHdOEUU0w4=;
- b=JT2+b+HNCME0IKpNEKGz1IlJYecfWVYHUcStDRyBa9Sur7UwKzyVJAjjrn6xiezqXV
- TIxy8J8V/QmQYcubgTrjEL12r/qpgj8ffozdzCsrSCGVEU2XaNGjdEtkkipJ6/RLxJpP
- WHKKjru0aUppYIBeVkU0hRUH77yVBI/hK8axjrd+gJud9GW0z6LBarI6FdA/edlFb7Co
- o/nX5wmFLpgaXLZlqmbaE0ZdbXk50KYGpjU4MljuAjwSLuFt5mo5ctTbWu2ntv/iOUQf
- vqZSkKInKKEIhFB57MGcivOw1KA9DPlDso3TNjiHbWMFH3PFt7LWSvWm7RZGhNnydeGp
- 5cEA==
+ bh=YpTLCQQN9sJV5BZKqwLD7eLW09/Kk5l3kKtc6B53Yig=;
+ b=EzF7fF3aNLveV8O9Pm4eA13kcNQK+5rCbxp/z7qIVNBov130rDL3IB56Sr6H8w8tQd
+ K8LnISLAf0ZrlOLGL3nf8JVBGT2TYHSY2g2qeoEqK5/CApXRYAFdjbua/ztJFqoC/H20
+ F/1PrgQWvgzfK4wPH2KYg0OVgKQ7VQyDOCNpAyuIborJ7HLuBR/M/tZGVDPLH+xAKYZX
+ obMsCJcVVZSN6q1+UXdpu4tjIbHaecqtD3/nCs58wsnWCnYVzAwGsEc34FO5DTWip2QH
+ +MIh4JFEm9T3sNGFZyiOnzBMJmjWJPI67C98STyOK1c4/TkGhoyQEt7nYgGalgsYpCVQ
+ XnDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iS/t0s+kO/h2RwOcxnCdWLmYPedCBBrg6QHdOEUU0w4=;
- b=fg8vSJEq1qOQv8AFMy3s3JinfTFlr+2ZYUnlkMOZEYbcfkliCVd/PM91NX0dZlN50T
- LTiDxL93PuD2OhcGp3iAUNtF1wzZRzQnnOgX9TX6ZTyAtECtrqkGfmLrOWUvLbHygNKz
- pSpf8mXZiKkirsbcPwDBz8jAvELVKQz3BzFktEgty1EqgyXZeNZwBCUyzpEPiWQi8KdP
- LKefuyyAiGBWtDdd501z5yiMaSJ7PrItXJd4JYTOYkF2JAomQjoXnwDV7BuVi+Q5hXLS
- rCUI3nt1HjhxB54K168G5B3vY6K06oq/N9r0Et8BzmKyc/Vewg7KyEUw472MPCk70sU6
- zYKg==
-X-Gm-Message-State: AFqh2kqXxRjNbKRnQ/zHxLErN0iY4lfcF2BVs7b2ZvkDw89owXLzLM0t
- e4CGI2TuG0A8GicOMqoisAWpbAv2Dol7Ag==
-X-Google-Smtp-Source: AMrXdXtKMmM0Gy5jTeGZez/wGnQP2ygwLacOSYu6D7StTPhi2p+X77lrSUcn2ImeGCCr2ktHT4E13g==
-X-Received: by 2002:a5d:6f03:0:b0:28f:31d2:be38 with SMTP id
- ay3-20020a5d6f03000000b0028f31d2be38mr16337609wrb.43.1672929192550; 
- Thu, 05 Jan 2023 06:33:12 -0800 (PST)
+ bh=YpTLCQQN9sJV5BZKqwLD7eLW09/Kk5l3kKtc6B53Yig=;
+ b=OHHHjaFKZH5T9FDDvZBnx7iJEilkDhDY+PyobDY4a72+bFfpIGtk3gop+NgKFWvuaz
+ G3Th51XaFS5m+f3OSeDxY2d8Okc+E/1ZGdqjTxTdeXJ6FiBe0KApgS0/4Q/1uNw5Vg9q
+ okXpqsvi9zYKadQ0l0nieNfCnAcHlwmI8hw+h1y9krgQTtX1bPiHVmL6JkQ/ByL3Qyn9
+ e0pDPSv+Zp9gpk2g9Rew7DtpKAFiuHnGnUlEVMX9Vu/ktON2GupOd9xL/Vas/KjQ6g7p
+ EhgGNC6OZvmb0APzMwjMh5ir9MBa0cIVeGStarRRSjKv2sfa4KDoQCMu4SjxsP137rKA
+ Xk9g==
+X-Gm-Message-State: AFqh2koBzIEUn3Poahq/45UACpYA+htBMViRINlPF8i9A713flgiuBm1
+ sjvNd2vOL1lGF1RXMsI4O4XvPhjwGKQRTQ==
+X-Google-Smtp-Source: AMrXdXvCFjW4Kk9R9ho1I4zkCm/wsquEGbIGOF7gwhUDKiz7yEU6TsxmhzyUsuCKHgkNxCNXcQGWSg==
+X-Received: by 2002:adf:e383:0:b0:242:69f4:cb6f with SMTP id
+ e3-20020adfe383000000b0024269f4cb6fmr32240445wrm.32.1672929193975; 
+ Thu, 05 Jan 2023 06:33:13 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- bt15-20020a056000080f00b00297dcfdc90fsm12260447wrb.24.2023.01.05.06.33.11
+ bt15-20020a056000080f00b00297dcfdc90fsm12260447wrb.24.2023.01.05.06.33.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 06:33:12 -0800 (PST)
+ Thu, 05 Jan 2023 06:33:13 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org,
@@ -68,11 +68,12 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  John Snow <jsnow@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v5 06/31] hw/i386/pc_piix: Associate pci_map_irq_fn as soon as
- PCI bus is created
-Date: Thu,  5 Jan 2023 15:32:03 +0100
-Message-Id: <20230105143228.244965-7-shentey@gmail.com>
+ Bernhard Beschow <shentey@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v5 07/31] hw/i386/pc_piix: Allow for setting properties before
+ realizing PIIX3 south bridge
+Date: Thu,  5 Jan 2023 15:32:04 +0100
+Message-Id: <20230105143228.244965-8-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230105143228.244965-1-shentey@gmail.com>
 References: <20230105143228.244965-1-shentey@gmail.com>
@@ -102,40 +103,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Observe that the pci_map_irq_fn's don't depend on the south bridge
-instance. So associate them immediately when the PCI bus is created to
-keep things logically together.
+The next patches will need to take advantage of it.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20221022150508.26830-3-shentey@gmail.com>
 ---
- hw/i386/pc_piix.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/i386/pc_piix.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index edc0ac8cf1..d1f7d95936 100644
+index d1f7d95936..f67893cd7c 100644
 --- a/hw/i386/pc_piix.c
 +++ b/hw/i386/pc_piix.c
-@@ -229,6 +229,9 @@ static void pc_init1(MachineState *machine,
-                               x86ms->below_4g_mem_size,
-                               x86ms->above_4g_mem_size,
-                               pci_memory, ram_memory);
-+        pci_bus_map_irqs(pci_bus,
-+                         xen_enabled() ? xen_pci_slot_get_pirq
-+                                       : pci_slot_get_pirq);
+@@ -234,7 +234,8 @@ static void pc_init1(MachineState *machine,
+                                        : pci_slot_get_pirq);
          pcms->bus = pci_bus;
  
-         pci_dev = pci_create_simple_multifunction(pci_bus, -1, true, type);
-@@ -236,10 +239,6 @@ static void pc_init1(MachineState *machine,
+-        pci_dev = pci_create_simple_multifunction(pci_bus, -1, true, type);
++        pci_dev = pci_new_multifunction(-1, true, type);
++        pci_realize_and_unref(pci_dev, pci_bus, &error_fatal);
+         piix3 = PIIX3_PCI_DEVICE(pci_dev);
          piix3->pic = x86ms->gsi;
          piix3_devfn = piix3->dev.devfn;
-         isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
--
--        pci_bus_map_irqs(pci_bus,
--                         xen_enabled() ? xen_pci_slot_get_pirq
--                                       : pci_slot_get_pirq);
-     } else {
-         pci_bus = NULL;
-         isa_bus = isa_bus_new(NULL, get_system_memory(), system_io,
 -- 
 2.39.0
 
