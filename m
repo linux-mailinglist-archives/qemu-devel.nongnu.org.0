@@ -2,107 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC0C65F101
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:21:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9EC65F103
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:22:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDSzB-0001dw-Mj; Thu, 05 Jan 2023 11:20:57 -0500
+	id 1pDSzz-0002oX-C3; Thu, 05 Jan 2023 11:21:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pDSz1-0001dd-N5
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:20:49 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pDSzx-0002o0-Uq
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:21:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pDSyz-0004OK-6p
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:20:47 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 305EojVT021257
- for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 16:20:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=KHpq+wQW7Hvod/2jLoMD5ezKmm/7u34msjeeHJnajRA=;
- b=TSIARdWqlxl/RNq3oHLauconspUlfbSqhaCOFBnpURqiMJQfTmSZtph+sFFQyt62Ht2u
- Bg8YeDTb5Ln9nsYVI/pz5oPIIBpH7FCTkHKCMVGB8cddWiQ/hNdQv4jPepHan/VkvARq
- 7YfoYEW9eM51DD2DAlVA7bxNoW1yV95dRLdocawee1xDyp5wARQkM02LXLnnYfLJpwms
- 2Vp1aj2oqHUbpCKr4etSZpaSTGTBiUgiPqZZOc1xJlf749Hi3Bjmu9of7wvJb+W63qas
- 7I//cHPRyJWaOQnnnqdVvcQBph+OJU6L0QWhpBAfo1X7i+1O3wuFcm2el251dSLToMIl pg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx0p12d6p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 16:20:43 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 305Eom9h021433
- for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 16:20:43 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx0p12d6b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 16:20:43 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 305Ev1fJ025847;
- Thu, 5 Jan 2023 16:20:42 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
- by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3mtcq7xaee-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Jan 2023 16:20:42 +0000
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com
- [10.241.53.102])
- by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 305GKfLW27394318
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 5 Jan 2023 16:20:41 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F118858061;
- Thu,  5 Jan 2023 16:20:40 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A917358060;
- Thu,  5 Jan 2023 16:20:40 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  5 Jan 2023 16:20:40 +0000 (GMT)
-Message-ID: <789bd0bd-05ed-c413-272e-0204472f3e3b@linux.ibm.com>
-Date: Thu, 5 Jan 2023 11:20:40 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v5 2/2] tpm: add backend for mssim
-Content-Language: en-US
-To: James Bottomley <jejb@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20230105130020.17755-1-jejb@linux.ibm.com>
- <20230105130020.17755-3-jejb@linux.ibm.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20230105130020.17755-3-jejb@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: bbqrmMs_opYg63lE7YUiB79Nzo463_xJ
-X-Proofpoint-ORIG-GUID: P-XPGUjgeV2z3o6QmsJrvKQfyqSOFeGp
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pDSzu-0004af-Mm
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:21:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672935701;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BqowtNlIzfSXaS4l19CAW+qC8JQJU3r52RufcHSOMdc=;
+ b=h57omJVbiYZ0DdZSam0B0SNbobLpMZKdHyWiNuzDGPytA/4UcWpKY/D+Al9agpViD/h/Fd
+ IK1xTh94BO2pfXtxln8CdXnsfrPL4/SRKd38Ub6XKvWYPosio8aCRgiCPIh1oGjYLEC2cq
+ 22bbcnxb49VMPj4r7rb3dkgV3t/4U/0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-481-2YEK5yNoOZK1nQojLOib6A-1; Thu, 05 Jan 2023 11:21:38 -0500
+X-MC-Unique: 2YEK5yNoOZK1nQojLOib6A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 244E8282381C;
+ Thu,  5 Jan 2023 16:21:38 +0000 (UTC)
+Received: from [10.39.192.44] (unknown [10.39.192.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 01DBE40C1141;
+ Thu,  5 Jan 2023 16:21:31 +0000 (UTC)
+Message-ID: <469a008a-e81a-ae8f-446a-56fbecce4f60@redhat.com>
+Date: Thu, 5 Jan 2023 17:21:30 +0100
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-05_06,2023-01-05_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- clxscore=1015 phishscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
- suspectscore=0 mlxlogscore=955 spamscore=0 priorityscore=1501 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301050126
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Subject: Re: [PATCH] acpi: cpuhp: fix guest-visible maximum access size to the
+ legacy reg block
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Ard Biesheuvel <ardb@kernel.org>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, qemu-stable@nongnu.org
+References: <20230105161804.82486-1-lersek@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+In-Reply-To: <20230105161804.82486-1-lersek@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,60 +82,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+sigh, I've been at it for almost 12 hours today, and am in a rush to
+finish up -- so I forgot to pass "-v2" to git-format patch.
 
+So this is actually "v2" (as the Notes section shows); I'm sorry about
+the mistake in the subject-line versioning.
 
-On 1/5/23 08:00, James Bottomley wrote:
-> From: James Bottomley <James.Bottomley@HansenPartnership.com>
+Michael, please *do* queue this patch.
+
+Thanks
+Laszlo
+
+On 1/5/23 17:18, Laszlo Ersek wrote:
+> The modern ACPI CPU hotplug interface was introduced in the following
+> series (aa1dd39ca307..679dd1a957df), released in v2.7.0:
 > 
-> The Microsoft Simulator (mssim) is the reference emulation platform
-> for the TCG TPM 2.0 specification.
+>   1  abd49bc2ed2f docs: update ACPI CPU hotplug spec with new protocol
+>   2  16bcab97eb9f pc: piix4/ich9: add 'cpu-hotplug-legacy' property
+>   3  5e1b5d93887b acpi: cpuhp: add CPU devices AML with _STA method
+>   4  ac35f13ba8f8 pc: acpi: introduce AcpiDeviceIfClass.madt_cpu hook
+>   5  d2238cb6781d acpi: cpuhp: implement hot-add parts of CPU hotplug
+>                   interface
+>   6  8872c25a26cc acpi: cpuhp: implement hot-remove parts of CPU hotplug
+>                   interface
+>   7  76623d00ae57 acpi: cpuhp: add cpu._OST handling
+>   8  679dd1a957df pc: use new CPU hotplug interface since 2.7 machine type
 > 
-> https://github.com/Microsoft/ms-tpm-20-ref.git
+> Before patch#1, "docs/specs/acpi_cpu_hotplug.txt" only specified 1-byte
+> accesses for the hotplug register block.  Patch#1 preserved the same
+> restriction for the legacy register block, but:
 > 
->
-> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-> index 535912a92b..1398735956 100644
-> --- a/docs/specs/tpm.rst
-> +++ b/docs/specs/tpm.rst
-> @@ -270,6 +270,38 @@ available as a module (assuming a TPM 2 is passed through):
->     /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/9
->     ...
->   
-> +The QEMU TPM Microsoft Simulator Device
-> +---------------------------------------
-> +
-> +The TCG provides a reference implementation for TPM 2.0 written by
-> +Microsoft (See `ms-tpm-20-ref`_ on github).  The reference implementation
-> +starts a network server and listens for TPM commands on port 2321 and
-> +TPM Platform control commands on port 2322, although these can be
-> +altered.  The QEMU mssim TPM backend talks to this implementation.  By
-> +default it connects to the default ports on localhost:
-> +
-> +.. code-block:: console
-> +
-> +  qemu-system-x86_64 <qemu-options> \
-> +    -tpmdev mssim,id=tpm0 \
-> +    -device tpm-crb,tpmdev=tpm0
-> +
-> +
-> +Although it can also communicate with a remote host, which must be
-> +specified as a SocketAddress via json on the command line for each of
-> +the command and control ports:
-> +
-> +.. code-block:: console
-> +
-> +  qemu-system-x86_64 <qemu-options> \
-> +    -tpmdev "{'type':'mssim','id':'tpm0','command':{'type':'inet','host':'remote','port':'2321'},'control':{'type':'inet','host':'remote','port':'2322'}}" \
-> +    -device tpm-crb,tpmdev=tpm0
-> +
-> +
-> +The mssim backend supports snapshotting and migration, but the state
-> +of the Microsoft Simulator server must be preserved (or the server
-> +kept running) outside of QEMU for restore to be successful.
+> - it specified DWORD accesses for some of the modern registers,
+> 
+> - in particular, the switch from the legacy block to the modern block
+>   would require a DWORD write to the *legacy* block.
+> 
+> The latter functionality was then implemented in cpu_status_write()
+> [hw/acpi/cpu_hotplug.c], in patch#8.
+> 
+> Unfortunately, all DWORD accesses depended on a dormant bug: the one
+> introduced in earlier commit a014ed07bd5a ("memory: accept mismatching
+> sizes in memory_region_access_valid", 2013-05-29); first released in
+> v1.6.0.  Due to commit a014ed07bd5a, the DWORD accesses to the *legacy*
+> CPU hotplug register block would work in spite of the above series *not*
+> relaxing "valid.max_access_size = 1" in "hw/acpi/cpu_hotplug.c":
+> 
+>> static const MemoryRegionOps AcpiCpuHotplug_ops = {
+>>     .read = cpu_status_read,
+>>     .write = cpu_status_write,
+>>     .endianness = DEVICE_LITTLE_ENDIAN,
+>>     .valid = {
+>>         .min_access_size = 1,
+>>         .max_access_size = 1,
+>>     },
+>> };
+> 
+> Later, in commits e6d0c3ce6895 ("acpi: cpuhp: introduce 'Command data 2'
+> field", 2020-01-22) and ae340aa3d256 ("acpi: cpuhp: spec: add typical
+> usecases", 2020-01-22), first released in v5.0.0, the modern CPU hotplug
+> interface (including the documentation) was extended with another DWORD
+> *read* access, namely to the "Command data 2" register, which would be
+> important for the guest to confirm whether it managed to switch the
+> register block from legacy to modern.
+> 
+> This functionality too silently depended on the bug from commit
+> a014ed07bd5a.
+> 
+> In commit 5d971f9e6725 ('memory: Revert "memory: accept mismatching sizes
+> in memory_region_access_valid"', 2020-06-26), first released in v5.1.0,
+> the bug from commit a014ed07bd5a was fixed (the commit was reverted).
+> That swiftly exposed the bug in "AcpiCpuHotplug_ops", still present from
+> the v2.7.0 series quoted at the top -- namely the fact that
+> "valid.max_access_size = 1" didn't match what the guest was supposed to
+> do, according to the spec ("docs/specs/acpi_cpu_hotplug.txt").
+> 
+> The symptom is that the "modern interface negotiation protocol"
+> described in commit ae340aa3d256:
+> 
+>> +      Use following steps to detect and enable modern CPU hotplug interface:
+>> +        1. Store 0x0 to the 'CPU selector' register,
+>> +           attempting to switch to modern mode
+>> +        2. Store 0x0 to the 'CPU selector' register,
+>> +           to ensure valid selector value
+>> +        3. Store 0x0 to the 'Command field' register,
+>> +        4. Read the 'Command data 2' register.
+>> +           If read value is 0x0, the modern interface is enabled.
+>> +           Otherwise legacy or no CPU hotplug interface available
+> 
+> falls apart for the guest: steps 1 and 2 are lost, because they are DWORD
+> writes; so no switching happens.  Step 3 (a single-byte write) is not
+> lost, but it has no effect; see the condition in cpu_status_write() in
+> patch#8.  And step 4 *misleads* the guest into thinking that the switch
+> worked: the DWORD read is lost again -- it returns zero to the guest
+> without ever reaching the device model, so the guest never learns the
+> switch didn't work.
+> 
+> This means that guest behavior centered on the "Command data 2" register
+> worked *only* in the v5.0.0 release; it got effectively regressed in
+> v5.1.0.
+> 
+> To make things *even more* complicated, the breakage was (and remains, as
+> of today) visible with TCG acceleration only.  Commit 5d971f9e6725 makes
+> no difference with KVM acceleration -- the DWORD accesses still work,
+> despite "valid.max_access_size = 1".
+> 
+> As commit 5d971f9e6725 suggests, fix the problem by raising
+> "valid.max_access_size" to 4 -- the spec now clearly instructs the guest
+> to perform DWORD accesses to the legacy register block too, for enabling
+> (and verifying!) the modern block.  In order to keep compatibility for the
+> device model implementation though, set "impl.max_access_size = 1", so
+> that wide accesses be split before they reach the legacy read/write
+> handlers, like they always have been on KVM, and like they were on TCG
+> before 5d971f9e6725 (v5.1.0).
+> 
+> Tested with:
+> 
+> - OVMF IA32 + qemu-system-i386, CPU hotplug/hot-unplug with SMM,
+>   intermixed with ACPI S3 suspend/resume, using KVM accel
+>   (regression-test);
+> 
+> - OVMF IA32X64 + qemu-system-x86_64, CPU hotplug/hot-unplug with SMM,
+>   intermixed with ACPI S3 suspend/resume, using KVM accel
+>   (regression-test);
+> 
+> - OVMF IA32 + qemu-system-i386, SMM enabled, using TCG accel; verified the
+>   register block switch and the present/possible CPU counting through the
+>   modern hotplug interface, during OVMF boot (bugfix test);
+> 
+> - I do not have any testcase (guest payload) for regression-testing CPU
+>   hotplug through the *legacy* CPU hotplug register block.
+> 
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Ani Sinha <ani@anisinha.ca>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Cc: qemu-stable@nongnu.org
+> Ref: "IO port write width clamping differs between TCG and KVM"
+> Link: http://mid.mail-archive.com/aaedee84-d3ed-a4f9-21e7-d221a28d1683@redhat.com
+> Link: https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg00199.html
+> Reported-by: Ard Biesheuvel <ardb@kernel.org>
+> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+> Tested-by: Ard Biesheuvel <ardb@kernel.org>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Tested-by: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+> 
+> Notes:
+>     v2 notes:
+>     
+>     - typo fix in commit message [Phil, Michael]
+>     
+>     - pick up T-b from Ard and Igor, R-b from Phil and Michael
+>     
+>     v1 notes:
+>     
+>     This should be applied to:
+>     
+>     - stable-5.2 (new branch)
+>     
+>     - stable-6.2 (new branch)
+>     
+>     - stable-7.2 (new branch)
+>     
+>     whichever is still considered maintained, as there is currently *no*
+>     public QEMU release in which the modern CPU hotplug register block
+>     works, when using TCG acceleration.  v5.0.0 works, but that minor
+>     release has been obsoleted by v5.2.0, which does not work.
+> 
+>  hw/acpi/cpu_hotplug.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/hw/acpi/cpu_hotplug.c b/hw/acpi/cpu_hotplug.c
+> index 53654f863830..ff14c3f4106f 100644
+> --- a/hw/acpi/cpu_hotplug.c
+> +++ b/hw/acpi/cpu_hotplug.c
+> @@ -52,6 +52,9 @@ static const MemoryRegionOps AcpiCpuHotplug_ops = {
+>      .endianness = DEVICE_LITTLE_ENDIAN,
+>      .valid = {
+>          .min_access_size = 1,
+> +        .max_access_size = 4,
+> +    },
+> +    .impl = {
+>          .max_access_size = 1,
+>      },
+>  };
 
-My comments to v3 still apply here.
-
-I also just tried migration and on the -incoming side it did not work anymore. Did you test this?
-
-    Stefan
 
