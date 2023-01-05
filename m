@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D3B65E9CE
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 12:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09FFA65EA0C
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 12:36:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDOLC-0003qR-DJ; Thu, 05 Jan 2023 06:23:22 -0500
+	id 1pDOWb-0007Az-6V; Thu, 05 Jan 2023 06:35:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1pDOLA-0003pK-0u
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:23:20 -0500
-Received: from ams.source.kernel.org ([145.40.68.75])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pDOWZ-0007AC-8A
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:35:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1pDOL6-0003te-QW
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:23:19 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pDOWX-0002tn-3U
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:35:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672918503;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FPNWfiU1xvJWVnYaYEo5UIIlNs9tmNHXrtkYv7FH3zs=;
+ b=atIMTCurca/LstDMspztRivCyHuQfZBRwmTfi+CqR/AiwQDY3GJZKQAPgF6XX15DD+dKKl
+ PYHbY5LOsDFeN8E/EVc41G7f28IhDHha2NqMfP4HyActfTZoOskv9nrLCdgvBdR6R+WZpz
+ Wq/fsxWIqrbZr3IxIrl0RQLV7J7kFXM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-217-Rt3so9tuOFCoueBPGYlSIw-1; Thu, 05 Jan 2023 06:35:00 -0500
+X-MC-Unique: Rt3so9tuOFCoueBPGYlSIw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id AC69BB81A99;
- Thu,  5 Jan 2023 11:23:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCFDCC433F0;
- Thu,  5 Jan 2023 11:23:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1672917785;
- bh=MBba54j0/BydJyfXJmD3sqygtai2bpp7J4HBZnAheDI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=f/NyAx/uidnIXzxaIjlXTomDF3irlmzZ+PCY7P4/TbnJUSJRD8UQ7c36MWpV71/Tn
- SYhuTjsjWfdmPqSLK8QE0FamFzSLRaWdbDObhW80t4Yhafl1J5jJ3bezM77sFrqnWb
- 7d/hzJOkyMc1nznD1fbjGD1fMn5JHCEwQ/N74LIUmis17aSfr3aoYAViHr5UwZIwBZ
- vMhpJpECkrYJfV357eN/7+fWF/0BXMk6663rsy2BQ1Hqv+wpHrlCHOkVeWNUyq7jDe
- MlCQt3z62ym96XHYhLSz9H4UynTy+xVr4M24uMVE/AY6qAUqNbC4TlEczADxwM5pwj
- vjHmuNVYuOTeg==
-Date: Thu, 5 Jan 2023 11:23:01 +0000
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <Y7azFdnnGAdGPqmv@kernel.org>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02039101A55E;
+ Thu,  5 Jan 2023 11:35:00 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E32553A0;
+ Thu,  5 Jan 2023 11:34:58 +0000 (UTC)
+Date: Thu, 5 Jan 2023 06:34:57 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Qing Wang <qinwang@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH] block-backend: fix virtio-scsi assertion failure with
+ blk_drain_noref()
+Message-ID: <Y7a14QNkit3keLm1@fedora>
+References: <20230104195633.86143-1-stefanha@redhat.com>
+ <CABgObfZmc7YNCRQWqhuJSDxi-Pz7B1HJCEDmLZDaj_MPPm+83A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="2ucAKDHUdIsjgMDD"
 Content-Disposition: inline
-In-Reply-To: <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=jarkko@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <CABgObfZmc7YNCRQWqhuJSDxi-Pz7B1HJCEDmLZDaj_MPPm+83A@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,42 +84,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
-> In memory encryption usage, guest memory may be encrypted with special
-> key and can be accessed only by the guest itself. We call such memory
-> private memory. It's valueless and sometimes can cause problem to allow
-> userspace to access guest private memory. This new KVM memslot extension
-> allows guest private memory being provided through a restrictedmem
-> backed file descriptor(fd) and userspace is restricted to access the
-> bookmarked memory in the fd.
-> 
-> This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
-> additional KVM memslot fields restricted_fd/restricted_offset to allow
-> userspace to instruct KVM to provide guest memory through restricted_fd.
-> 'guest_phys_addr' is mapped at the restricted_offset of restricted_fd
-> and the size is 'memory_size'.
-> 
-> The extended memslot can still have the userspace_addr(hva). When use, a
-> single memslot can maintain both private memory through restricted_fd
-> and shared memory through userspace_addr. Whether the private or shared
-> part is visible to guest is maintained by other KVM code.
-> 
-> A restrictedmem_notifier field is also added to the memslot structure to
-> allow the restricted_fd's backing store to notify KVM the memory change,
-> KVM then can invalidate its page table entries or handle memory errors.
-> 
-> Together with the change, a new config HAVE_KVM_RESTRICTED_MEM is added
-> and right now it is selected on X86_64 only.
-> 
-> To make future maintenance easy, internally use a binary compatible
-> alias struct kvm_user_mem_region to handle both the normal and the
-> '_ext' variants.
 
-Feels bit hacky IMHO, and more like a completely new feature than
-an extension.
+--2ucAKDHUdIsjgMDD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Why not just add a new ioctl? The commit message does not address
-the most essential design here.
+On Wed, Jan 04, 2023 at 10:37:34PM +0100, Paolo Bonzini wrote:
+> blk_root_drained_end is not thread-safe too. I started looking at that with
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg925670.html; that's
+> certainly a prerequisite for this patch to be a full fix, but I have not
+> checked if it's enough because I don't have the QEMU sources at hand right
+> now.
 
-BR, Jarkko
+Thanks for letting me know.
+
+Do you think blk_drain_noref() makes sense at all, or should
+scsi_purge_requests() avoid calling blk_drain() somehow?
+
+Stefan
+
+--2ucAKDHUdIsjgMDD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmO2teEACgkQnKSrs4Gr
+c8ipdAf8DPfmDQ1Tkn8vvcFLqK84PNH6adwnWsjZUlUEqvUOD0rBkPSHCTsJOpQO
+T2bWnZasQdDkUC5RmHozmGy4fSL2Wx9WVZTks4/8G0NMjmLArTAH9gmYZqG6kegR
+LknQkuY04O6TpvqXXWaW5m1JtUBP9q2oJl7b6ceqU69+JoHvubtA7x8wPR4vaNxw
+iHu4Dztpb4gyG1DUShWPEMWYR0TMxtJGrcXz/0FRh0OtyfwbGrveFy80wHPpsWyC
+vn0eMTdWUSu85ZLv7dym8PsJSSnXf+Z5/15Tctlu80EZL4WYq5+ddAWU4RYyF0Qr
+FaaoLgi+2m3CSfLqD0nFjOLEsgSLIg==
+=MB1C
+-----END PGP SIGNATURE-----
+
+--2ucAKDHUdIsjgMDD--
+
 
