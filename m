@@ -2,84 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C673665E535
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 06:43:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0639365E59A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 07:26:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDJ0q-0005UG-3o; Thu, 05 Jan 2023 00:42:00 -0500
+	id 1pDJgH-00034U-GL; Thu, 05 Jan 2023 01:24:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDJ0o-0005U3-HA
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:41:58 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDJ0m-00022p-Tx
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:41:58 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id v23so38774348pju.3
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 21:41:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1yhk/T4NYW5fKyx7h9IiuJtkLssmwFIfM2Q7iJp/f+0=;
- b=FeLARY2Gs72NfSSZWM2o2Mgn1I+oeDZu1pNcsP5blfZcrk8+FYRuvd7v9yixNc5bxD
- zIYNgS8UIB83qTzkAR9Xwk98QCS7qXbSN8FcCfx0AsbP+IZH95hWJhqcaNXR7+jLCaEQ
- 2OumcCyzo35eEGeX862SNj1BuOX0DbkZivBQ4iq8XXd8A2BRtkGjeLpfkeZ8pYoODVmD
- EySgiLffmOQEoskpq37v+q2z7DibqIPKXArsvK2f8SSlaG+n81K4o8n9e8YtJL9JpI0n
- FvLTMU5ELHDK2XOWlBHe4QIQNcHaU3SnF7BRsesIGce8N0V32L/8NIwpqGa9pgKT1z/f
- xr1Q==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDJgF-00033x-KQ
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 01:24:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDJgD-0003R9-MX
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 01:24:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672899884;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=K8jQ+i5bvVJtErnFHO9UyMTDzuaN/g5ovkJILbezz4c=;
+ b=ArCi73lTI+TvQ9YuOGNolFy7a6EXCaYKt6GHg9PGjfIF0+Mp+TqAuqRxccEl49KzmG3muQ
+ NV04F7q/9s3AAX888YLbC/5nkrJ1rDQ+S/bRBCK9trXNIWVN8khtWh+kr8rXxhU8rC0WO8
+ l0pvYnRNyFfebGm5eAOhU+mJ7/pTzls=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-532-r4EbScNYMkm2QjRKdr2roA-1; Thu, 05 Jan 2023 01:24:42 -0500
+X-MC-Unique: r4EbScNYMkm2QjRKdr2roA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l31-20020a05600c1d1f00b003d9720d2a0eso531894wms.7
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 22:24:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1yhk/T4NYW5fKyx7h9IiuJtkLssmwFIfM2Q7iJp/f+0=;
- b=nvoVSOhrKiEKRis1Jo8LvccAq8P2lKipn+/+wyLUotEi0cgBQtn4u2WfG4mzHz5cRl
- zYqBigYt4n8hvYHpJQpQC86yS2IZCrwRI6ZRh73jNX05nmQXoHJ+YFBUU6qxcHvXLaln
- xXIUkTVvdfCIo/asvYAoL3Hc2UZK2M2+Dqt6y6JHdmdqH4l8XMSWbnCv6TDcEiHAGUfO
- y5LgwQXTsnuyXcWGCF3UuTIG7TH7xsSH+ruMcQKpdCfGqyJZxjHqxJSVmrK6VhV0iWlG
- NNAsrjdLATR35769BJv1VmqyLzQNqyHZNh2gFBZUtxvRVDB90rxcVFLQoGpc9dqyxYyA
- Lkbw==
-X-Gm-Message-State: AFqh2krZ1H0Yny6EtsGDx8nOOZR0YYJ9bkjzc/wLUxd4G1HeCXW15LhW
- 8AlHELqN9NM7qB7thPED1lfezA==
-X-Google-Smtp-Source: AMrXdXt95q1obFLYIKvPsTF9oyYC0aj53fVZWSxd5iK3aZ2LLAXllmWo9LBn5TsLNyesy0XlVx68aA==
-X-Received: by 2002:a17:902:b116:b0:191:1131:da2 with SMTP id
- q22-20020a170902b11600b0019111310da2mr50485979plr.27.1672897311629; 
- Wed, 04 Jan 2023 21:41:51 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:5a62:efe5:94a2:1dee?
- ([2602:47:d48c:8101:5a62:efe5:94a2:1dee])
- by smtp.gmail.com with ESMTPSA id
- d19-20020a170902f15300b00189fdadef9csm25217490plb.107.2023.01.04.21.41.50
+ bh=K8jQ+i5bvVJtErnFHO9UyMTDzuaN/g5ovkJILbezz4c=;
+ b=OsHEtGcOwvwswzaTEoUY3RhTaccBw8pMKY/s80bC8cFcEtcdlXgSzUomDO5uBrqAmg
+ sZSx4YkinMZgiTaz+3MJq9xHZ9BPJzyP50bdodV+PgE88F7+ndChN4W4qED000aeg+kb
+ /SaUEtkW1z3yR6mAvubDazmr3EC+gu9oh6DefiZCusiHBlekafoxcdEYxRJbJsqwQp3B
+ ygTO2AxjwHt5mnavRwigQuSyxP+w4P/Y53D9l8VlmK13PqQ0/IgV6jQVKK+oMxjPMf49
+ AHD92Z0+Y+BgAQhpF7+k2M6oPN5HJbQtf2YIdyfdhy5C1Sda10Nb4zxaxYCYQ5fCatn7
+ RDsQ==
+X-Gm-Message-State: AFqh2kqqqpQLuELSz14yEBOvimkZyhs9A9zgFydnMdIn2DPwhbUjGFIX
+ UE5JwRNIX8WZsL46+ItyVuPtvkjhFp5IaOuIl9pFC6GZFa1aB/PxilF1Oxk6E/pGO92u5lOnq02
+ /IWc30li+RP5ZjjU=
+X-Received: by 2002:adf:ec04:0:b0:28b:3e32:8293 with SMTP id
+ x4-20020adfec04000000b0028b3e328293mr15790361wrn.12.1672899881381; 
+ Wed, 04 Jan 2023 22:24:41 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsHKXQ9dpW7P1m3HhIPRahii/9cf+Rgdce7Wg5HKSG3fm3SXXXLvdiG3qLK4sls/3hOAmNMxA==
+X-Received: by 2002:adf:ec04:0:b0:28b:3e32:8293 with SMTP id
+ x4-20020adfec04000000b0028b3e328293mr15790349wrn.12.1672899881124; 
+ Wed, 04 Jan 2023 22:24:41 -0800 (PST)
+Received: from [192.168.8.105] (tmo-097-240.customers.d1-online.com.
+ [80.187.97.240]) by smtp.gmail.com with ESMTPSA id
+ v3-20020a5d4a43000000b0026fc5694a60sm35132395wrs.26.2023.01.04.22.24.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 21:41:51 -0800 (PST)
-Message-ID: <a07b1be0-7ee2-9b7b-a2d7-7d2435f25007@linaro.org>
-Date: Wed, 4 Jan 2023 21:41:49 -0800
+ Wed, 04 Jan 2023 22:24:39 -0800 (PST)
+Message-ID: <1a92d1b1-3ab1-eace-794a-51e9c87d4d7a@redhat.com>
+Date: Thu, 5 Jan 2023 07:24:37 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: ARM: ptw.c:S1_ptw_translate
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: Sid Manning <sidneym@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "philmd@linaro.org" <philmd@linaro.org>,
- Mark Burton <mburton@qti.qualcomm.com>
-References: <BYAPR02MB550905E891B95879D05846B9BEF59@BYAPR02MB5509.namprd02.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <BYAPR02MB550905E891B95879D05846B9BEF59@BYAPR02MB5509.namprd02.prod.outlook.com>
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
+References: <20230103110049.120340-1-lvivier@redhat.com>
+ <ebe2ba95-ef47-0506-d264-303b5a75f58b@redhat.com>
+ <7d93db4d-5273-e015-7321-821730ef5232@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v4] tests/qtest: netdev: test stream and dgram backends
+In-Reply-To: <7d93db4d-5273-e015-7321-821730ef5232@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.708, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,68 +104,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/4/23 08:55, Sid Manning wrote:
-> ptw.c:S1_ptw_translate
+On 04/01/2023 21.10, Laurent Vivier wrote:
+> On 1/4/23 19:37, Thomas Huth wrote:
+>> On 03/01/2023 12.00, Laurent Vivier wrote:
+>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>>> ---
+>>>
+>>> Notes:
+>>>      v4:
+>>>        - rework EXPECT_STATE()
+>>>        - use g_dir_make_tmp()
+>>>      v3:
+>>>      - Add "-M none" to avoid error:
+>>>        "No machine specified, and there is no default"
+>>>      v2:
+>>>      - Fix ipv6 free port allocation
+>>>      - Check for IPv4, IPv6, AF_UNIX
+>>>      - Use g_mkdtemp() rather than g_file_open_tmp()
+>>>      - Use socketpair() in test_stream_fd()
+>>>      v1: compared to v14 of "qapi: net: add unix socket type support to 
+>>> netdev backend":
+>>>      - use IP addresses 127.0.0.1 and ::1 rather than localhost
+>>>
+>>>   tests/qtest/meson.build     |   2 +
+>>>   tests/qtest/netdev-socket.c | 434 ++++++++++++++++++++++++++++++++++++
+>>>   2 files changed, 436 insertions(+)
+>>>   create mode 100644 tests/qtest/netdev-socket.c
+>>
+>> FYI, the test also does not work on FreeBSD. It hangs on both, FreeBSD 12 
+>> and 13:
+>>
+>>   https://cirrus-ci.com/task/5024964768694272?logs=build#L6937
+>>
+>>   https://cirrus-ci.com/task/5379344567107584?logs=build#L6938
 > 
-> After migrating to v7.2.0, an issue was found where we were not getting the correct 
-> virtual address from a load insn.  Reading the address used in the load insn from the 
-> debugger resulted in the execution of the insn getting the correct value but simply 
-> stepping over the insn did not.
+> Thanks.
 > 
-> This is the instruction:
-> 
-> ldr           x0, [x1, #24]
-> 
-> The debug path varies based on the regime and if regime is NOT stage two out_phys is set 
-> to addr if the regime is stage 2 then out_phys is set to s2.f.phys_addr.  In the non-debug 
-> path out_phys is always set to full->phys_addr.
-> 
-> I got around this by only using full->phys_addr if regime_is_stage2 was true:
-> 
-> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> 
-> index 3745ac9723..87bc6754a6 100644
-> 
-> --- a/target/arm/ptw.c
-> 
-> +++ b/target/arm/ptw.c
-> 
-> @@ -266,7 +266,12 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
-> 
->           if (unlikely(flags & TLB_INVALID_MASK)) {
-> 
->               goto fail;
-> 
->           }
-> 
-> -        ptw->out_phys = full->phys_addr;
-> 
-> +
-> 
-> +        if (regime_is_stage2(s2_mmu_idx)) {
-> 
-> +            ptw->out_phys = full->phys_addr;
-> 
-> +        } else {
-> 
-> +            ptw->out_phys = addr;
-> 
-> +        }
-> 
->           ptw->out_rw = full->prot & PAGE_WRITE;
-> 
->           pte_attrs = full->pte_attrs;
-> 
->           pte_secure = full->attrs.secure;
-> 
-> This change got me the answer I wanted but I’m not familiar enough with the code to know 
-> if this is correct or not.
+> Are you sure it's this test?
 
-This is incorrect.  If you are getting the wrong value here, then something has gone wrong 
-elsewhere, as the s2_mmu_idx result was logged.
+Since it's hanging at the same spot in both jobs, I'm pretty sure, yes.
 
-Do you have a test case you can share?
+> The "/netdev/stream/inet/ipv6" seems to be the last one of the series (if I 
+> compare with previous machines) and it is OK in the logs.
+> 
+> I don't understand where it can hang as we have an internal 5 seconds 
+> timeout (in EXPECT_STATE()).
+> 
+> And I don't understand why we have only /netdev/stream tests and no 
+> /netdev/dgram tests.
+> 
+> Is it possible to have more details?
 
+You can reproduce the issue locally on a KVM-enabled Linux box by running:
 
-r~
+  make vm-build-freebsd J=4 TARGET_LIST=loongarch64-softmmu \
+   BUILD_TARGET=check-qtest EXTRA_CONFIGURE_OPTS=--enable-werror \
+   DEBUG=1
+
+And if I'm running the test manually there, I get this error message:
+
+qemu-system-loongarch64: -netdev 
+stream,id=st0,server=true,addr.type=unix,addr.path=/tmp/netdev-socket.8JXDY1/stream_unix_abstract,addr.abstract=on: 
+Parameter 'addr.abstract' is unexpected
+
+Looking at qapi/sockets.json, the "abstract" parameter is only available 
+with CONFIG_LINUX, so this cannot work on FreeBSD, indeed. Maybe it should 
+be switched to CONFIG_POSIX? Otherwise you need to check for Linux in your 
+qtest, I think.
+
+  HTH,
+   Thomas
+
 
