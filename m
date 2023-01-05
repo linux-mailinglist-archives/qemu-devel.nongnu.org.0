@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7E965EA45
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 13:01:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF5065EA46
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 13:01:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDOuJ-0007Tg-7R; Thu, 05 Jan 2023 06:59:39 -0500
+	id 1pDOv8-0007uv-1L; Thu, 05 Jan 2023 07:00:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pDOuH-0007TJ-Os
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:59:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pDOuG-0008Is-2Z
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:59:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672919975;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2GNzp9hM4Sq63ERk9M+QvcrhVPVNNG9w+hGF3Y205V8=;
- b=ZYm2Z+GLBpmxHZLe42z4YauvSL4kud3Nzbf154Xd07XlMi1zsaHxoN6AkrtxHVPUArm976
- IB16x5e2oaE/lEujYmJR8sZnUDnInCJqIrkF9lOsxLfMjnzxHiCZiJTojTfDXhZd+EemI/
- e+/KDvj6syG4HGO5mogPLEPy4f45M3g=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-408-NbE7y26wNI6LOPgNd7X8uQ-1; Thu, 05 Jan 2023 06:59:33 -0500
-X-MC-Unique: NbE7y26wNI6LOPgNd7X8uQ-1
-Received: by mail-ua1-f70.google.com with SMTP id
- o43-20020ab0596e000000b0038421e4c7deso12153320uad.19
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 03:59:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDOv3-0007qU-Sc
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 07:00:25 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDOv2-00009v-Br
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 07:00:25 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ o7-20020a17090a0a0700b00226c9b82c3aso1801949pjo.3
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 04:00:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ORbf2A5Lj8jTXQAHE9kwkO8J1Lc6ISermkRtv19XiXw=;
+ b=k33J116rOillFONm/UJWXAMZs+JDXMN67o46WekgBkmAq7w3a00CAtVRehwkA5PO4f
+ 3T3RxmzqesXdHJ78CaYYCSCmpTuScQrqvqoxd6tLN+dgbKEC56IwEWeqSqnGQ5FhoHTm
+ a8pUlJjLHZhHRQpTzBl8zN5Lf77jXhs1x6HKLKasZ8OF6APFiKUWuRMoXqJQ34neDGNE
+ 4Bb059sQmR3PuPdNYURkPKoHTUaS1gbREGJKWq7siGKYcCmKZ9U1ciy7ux45hVOxnjAy
+ dT+rofM2yXaMmeCSHUQlymOEesbctcYc9llbFoKtvTtnycdv51lPN4ulgBkb7upk39/x
+ oK8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=2GNzp9hM4Sq63ERk9M+QvcrhVPVNNG9w+hGF3Y205V8=;
- b=Za5OSFhsTbliDOffbpnPQ62wnbUJkZaH/qc/rT3KZifIO0STyRfGErMKQdn/YzxBoU
- YrCZnAk7oOseWSYgOyFjJi8JdWzOpjcbIr0U4J0Qhm7TgxyIr8h54PvwLxVEwsofVs8V
- a7Fm+oxx7jEzV/pVzoAwGZAcGY59XOYW4fLx7JlMiuU5MJcFb1nmWMRZJ656xwxPEOYy
- nPlYxXiUwq2ffE8eRTQqtUuQEncWDdJzFf2S7JxN/VYpFPio3MzK3kmQxewTfeO21iLj
- WTf/nIqMIO9Si0c+rdGr+BI3s3EtO7fTAWyWHkAKeE9Ug/xEGWIjw/85wmdN+Hv+x5/G
- JAhA==
-X-Gm-Message-State: AFqh2krxPUiXAYJcgV2dKyD39iUcEkMtKh1kDrgKisoI1jkZcSyGxHlG
- gKB+lgBLj2o13EIqMa+7ubpV5nGkrQc5RJYWGWllP59eGZ2vzql1vfj5YE3VJ4FcoyvmF6RNBaL
- NvOydVc0L5Fpwy34ZDAazwfoXrRzFfUQ=
-X-Received: by 2002:ab0:48ce:0:b0:418:455f:2e94 with SMTP id
- y14-20020ab048ce000000b00418455f2e94mr4748692uac.75.1672919973029; 
- Thu, 05 Jan 2023 03:59:33 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvPZisvjhVeJ1VNnR7w0pAUAOhqpmIZO3arAfi7eJvoMCDczJ8Inp/BT6ynhtCxK6kAqVBbIgoccV37quDBR54=
-X-Received: by 2002:ab0:48ce:0:b0:418:455f:2e94 with SMTP id
- y14-20020ab048ce000000b00418455f2e94mr4748690uac.75.1672919972719; Thu, 05
- Jan 2023 03:59:32 -0800 (PST)
+ bh=ORbf2A5Lj8jTXQAHE9kwkO8J1Lc6ISermkRtv19XiXw=;
+ b=5+bCBYCYG9Y3UGKLg8YUpmH4/JGZy2NQOv/Kmzg6t/CGt2+wnDr6w85dDxfYpxY93S
+ BBWIqLnp7lNaL6MQTEG/vw8+FgZVfxnuWrCmCyQ4KBBnDt0ButOqqcpHi8w1vx2uqtFy
+ 2PqABiuO2142ASYHm/0a/c2BdXYnTr27ym0/FL6+HNrezmgR8PY8ISja/Kl+RMV/zbP9
+ o+UbVF2zTfh1SoqRDqw2k9ST+3VzkNZJU5FF3t5LUTNtLtOopwNuQZBcW7Xz6XCCZ9tB
+ 64idtJZ/m5OWb+f8SlvZhlCCNz99iIz9t5qdgttwWlBFsHNOKIqLWIYgJrqeQ0UXTppN
+ b6ww==
+X-Gm-Message-State: AFqh2kqoo6rU4uQipGg98xR4hb1Qgu+dDZIKqkStbAeg0i3Quyjl1Jum
+ 97RQblwg7PWQ6/mkd2IUzYxVqxuxtyraY4NNQkaMAw==
+X-Google-Smtp-Source: AMrXdXuwv3+SZuJm3XxIeB1kSnmr9+og8Di0sBlrXKSWojS+mTK3FJpHJSt/NqpEYTRyQgB+osI2ARiYMAhNKOrBs7o=
+X-Received: by 2002:a17:902:efcf:b0:192:ea33:5092 with SMTP id
+ ja15-20020a170902efcf00b00192ea335092mr440185plb.19.1672920022646; Thu, 05
+ Jan 2023 04:00:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20230104195633.86143-1-stefanha@redhat.com>
- <CABgObfZmc7YNCRQWqhuJSDxi-Pz7B1HJCEDmLZDaj_MPPm+83A@mail.gmail.com>
- <Y7a14QNkit3keLm1@fedora>
-In-Reply-To: <Y7a14QNkit3keLm1@fedora>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 5 Jan 2023 12:59:21 +0100
-Message-ID: <CABgObfZ4-89bwi-LLddbw3Of-pYNHfjSo01G7Ej0J7__Yth0vg@mail.gmail.com>
-Subject: Re: [PATCH] block-backend: fix virtio-scsi assertion failure with
- blk_drain_noref()
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, 
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
- Fam Zheng <fam@euphon.net>, Qing Wang <qinwang@redhat.com>, 
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000b64ae905f18308b6"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <166990932074.29941.8709118178538288040-0@git.sr.ht>
+ <166990932074.29941.8709118178538288040-1@git.sr.ht>
+In-Reply-To: <166990932074.29941.8709118178538288040-1@git.sr.ht>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 5 Jan 2023 12:00:11 +0000
+Message-ID: <CAFEAcA-4GJPHbcsWnY3Apqx8-Jix2yO=cY0DPQHduhpgqsO2ZA@mail.gmail.com>
+Subject: Re: [PATCH qemu.git v3 1/8] hw/timer/imx_epit: improve comments
+To: "~axelheider" <axelheider@gmx.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,78 +84,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000b64ae905f18308b6
-Content-Type: text/plain; charset="UTF-8"
-
-Il gio 5 gen 2023, 12:35 Stefan Hajnoczi <stefanha@redhat.com> ha scritto:
-
-> On Wed, Jan 04, 2023 at 10:37:34PM +0100, Paolo Bonzini wrote:
-> > blk_root_drained_end is not thread-safe too. I started looking at that
-> with
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg925670.html;
-> that's
-> > certainly a prerequisite for this patch to be a full fix, but I have not
-> > checked if it's enough because I don't have the QEMU sources at hand
-> right
-> > now.
+On Thu, 1 Dec 2022 at 15:42, ~axelheider <axelheider@git.sr.ht> wrote:
 >
-> Thanks for letting me know.
+> From: Axel Heider <axel.heider@hensoldt.net>
 >
-> Do you think blk_drain_noref() makes sense at all, or should
-> scsi_purge_requests() avoid calling blk_drain() somehow?
+> Fix typos, add background information
 >
+> Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
 
-I think it makes sense as a stop gap measure.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Perhaps these iothread unrefs could also be changed to happen in a
-main-loop BH, but I wouldn't rush that. Unref is also the main culprit for
-functions that end up calling aio_poll from coroutine context (which should
-be prohibited!) and Kevin was looking at that.
-
-Paolo
-
-
-> Stefan
->
-
---000000000000b64ae905f18308b6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il gio 5 gen 2023, 12:35 Stefan Hajnoczi &lt;<a href=
-=3D"mailto:stefanha@redhat.com">stefanha@redhat.com</a>&gt; ha scritto:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex">On Wed, Jan 04, 2023 at 10:37:34PM +01=
-00, Paolo Bonzini wrote:<br>
-&gt; blk_root_drained_end is not thread-safe too. I started looking at that=
- with<br>
-&gt; <a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg92567=
-0.html" rel=3D"noreferrer noreferrer" target=3D"_blank">https://www.mail-ar=
-chive.com/qemu-devel@nongnu.org/msg925670.html</a>; that&#39;s<br>
-&gt; certainly a prerequisite for this patch to be a full fix, but I have n=
-ot<br>
-&gt; checked if it&#39;s enough because I don&#39;t have the QEMU sources a=
-t hand right<br>
-&gt; now.<br>
-<br>
-Thanks for letting me know.<br>
-<br>
-Do you think blk_drain_noref() makes sense at all, or should<br>
-scsi_purge_requests() avoid calling blk_drain() somehow?<br></blockquote></=
-div></div><div dir=3D"auto"><br></div><div dir=3D"auto">I think it makes se=
-nse as a stop gap measure.</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">Perhaps these iothread unrefs could also be changed to happen in a main-=
-loop BH, but I wouldn&#39;t rush that. Unref is also the main culprit for f=
-unctions that end up calling aio_poll from coroutine context (which should =
-be prohibited!) and Kevin was looking at that.</div><div dir=3D"auto"><br><=
-/div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></div><div dir=3D"a=
-uto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Stefan<br>
-</blockquote></div></div></div>
-
---000000000000b64ae905f18308b6--
-
+thanks
+-- PMM
 
