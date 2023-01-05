@@ -2,81 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559A665F6D9
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 23:33:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2561665F6E1
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 23:34:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDYg2-0002J3-7n; Thu, 05 Jan 2023 17:25:34 -0500
+	id 1pDYgU-0002Ol-1N; Thu, 05 Jan 2023 17:26:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pDYfz-0002IS-OK
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:25:31 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pDYfx-0000G4-U1
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:25:31 -0500
-Received: by mail-ej1-x632.google.com with SMTP id kw15so93136522ejc.10
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 14:25:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hLigSBACaacPTvABu+4eu6F4UKBZHjFI/Ykf6ZXYGe4=;
- b=lfFq+0Dc/aBwVThiUtcIu/XleJ8C9AeYbj9aEKZsc+pX3Wj4exoXOWvIGP7cQOqIdl
- FBrJraBBoD8akzlNBIu2yuzOIDsgDJu6J9isjiLhS7vDfKteKvk39MV5aHFi/iJAvFw8
- BW3hRwF2wgdvPbDQxqxHOtqm3cb91+bf3utVtiIFtN0aguf8wNwVjYfhfoY14HzibD5N
- uGVbJZTvn6ATAN9vDczI9uIT7JsfSQsVjNZoVKaUhFwA7harcStp/iUAF5M27li4yeu8
- aOL8nxdUExhohGG+woTxiJ48u2hbDkojI3ECra9kA1KnXmuKeIxZdeVXGdOm9kjHIwJt
- D+Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hLigSBACaacPTvABu+4eu6F4UKBZHjFI/Ykf6ZXYGe4=;
- b=UF02IJW5GJ2AucqW64EWREhDwTgfT6pfEMxANuXXftLu9ZBbeIHRObsvpGQmTL0yBH
- Z47f57n9yzFvndxdPNBAJLH3O17oG/bJZv30ls9XjUWf0nChBEhA59AzdJ9xIwjKmzzG
- CG4v3TcqbnsG9Ny6HLNw9qNAezDbKkaj835zYw10c9Di6BWYJ9UsPMTJd1ItCqtkqzxV
- 5X7tE0WbO1XdRU6rjfzTuFB8oYCrCGOPtBzXHjWjQ7IWgsc/LW6F24x3fJmgPYPkDilN
- 4aa3paNAl2a2vwDYJmQ39j75Qoin3NnOvjclOeTqovr/Dzu7h0qpR9ez3US5xcarWZTa
- xDLQ==
-X-Gm-Message-State: AFqh2koMctpe2/sSY9JkA+TULWs+HRbj3dLz7/PUjlRx78Hv06Rn4gRg
- Oivb+5UCW2lkBHDleuWOQPw=
-X-Google-Smtp-Source: AMrXdXv/VmyzauGbJ3xfOfEDOrBBhH+QxskXrhv6qwhkoF515wLdJZzteu7kuudZlkWTdSZmz7GVGA==
-X-Received: by 2002:a17:907:b026:b0:7c0:e7a8:bc41 with SMTP id
- fu38-20020a170907b02600b007c0e7a8bc41mr41132683ejc.74.1672957528334; 
- Thu, 05 Jan 2023 14:25:28 -0800 (PST)
-Received: from ?IPv6:::1?
- (p200300faaf0bb20075742c50f98f829f.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:7574:2c50:f98f:829f])
- by smtp.gmail.com with ESMTPSA id
- c19-20020a170906341300b007a8de84ce36sm16825285ejb.206.2023.01.05.14.25.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 14:25:27 -0800 (PST)
-Date: Thu, 05 Jan 2023 22:25:22 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-CC: =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_hw/dma/rc4030=3A_Move_RC4030_d?=
- =?US-ASCII?Q?eclarations_to_its_own_=27rc4030=2Eh=27_header?=
-In-Reply-To: <20230105131038.49549-1-philmd@linaro.org>
-References: <20230105131038.49549-1-philmd@linaro.org>
-Message-ID: <44D48137-128F-45C5-85F2-DFBE6CF65A1B@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pDYgR-0002OA-MP
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:25:59 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pDYgP-0000LI-Gc
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:25:59 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 305LZeZj018871
+ for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 22:25:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=G7wqCMLl0+9M1zjDbYXz5e6wfn2mGS28yOcjeQ6K1Og=;
+ b=YvC/OzpIPNEe50SbsMHR0YvJJ7vA6nvzr6hTRKTnygOq6fLbw3HILkKc2qcpk1Z3G5On
+ 2m+uafQSBkUnQPbNeg54XwwCsL0BXbcqD85ywQRkayCoX4TLLjgmABZ15hj6KhBIyBOW
+ Th89LbU0iNQI3V3GLFnlYaQBgEVV8W4O7xCQe9gY/OE7EkrtkbSMTHbXHb/+qzzw9x9p
+ qvMPWVAJ8tILVqTUEttEZYVBnkWugDiQviGhRCR0cYU5HqbALh/IgRQKxqPGWW0M7Rzx
+ 2fn90CWjRE+CV5nmyeULUu9S1Lk+vY1+Pm2VqZWBgst5TdZEcRzHmreCDxStH7TF72nj vg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx4aumfer-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 22:25:54 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 305LsXvX001219
+ for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 22:25:54 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx4aumfef-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Jan 2023 22:25:54 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 305KJVmw025847;
+ Thu, 5 Jan 2023 22:25:53 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([9.208.129.116])
+ by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3mtcq806gh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Jan 2023 22:25:53 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com
+ [10.241.53.103])
+ by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 305MPpPn65732894
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 5 Jan 2023 22:25:51 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 84F3E58052;
+ Thu,  5 Jan 2023 22:25:51 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3CC075804E;
+ Thu,  5 Jan 2023 22:25:51 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Thu,  5 Jan 2023 22:25:51 +0000 (GMT)
+Message-ID: <a52287af-3489-a310-b9cd-08f73dc7f340@linux.ibm.com>
+Date: Thu, 5 Jan 2023 17:25:50 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 2/2] tpm: add backend for mssim
+Content-Language: en-US
+To: jejb@linux.ibm.com, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20230105130020.17755-1-jejb@linux.ibm.com>
+ <20230105130020.17755-3-jejb@linux.ibm.com>
+ <789bd0bd-05ed-c413-272e-0204472f3e3b@linux.ibm.com>
+ <387334f6a4d2cf54f2fbfbebe7a06b931adf797a.camel@linux.ibm.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <387334f6a4d2cf54f2fbfbebe7a06b931adf797a.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 6sd9u5tY9A9tfebGfFLSiJGicqltWYaw
+X-Proofpoint-GUID: NmTatxZ6CdQqeA3Kus2MCK8LEYr83NuH
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-05_12,2023-01-05_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ priorityscore=1501 mlxscore=0 phishscore=0 mlxlogscore=837 suspectscore=0
+ bulkscore=0 clxscore=1015 impostorscore=0 adultscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301050173
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,93 +122,49 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 5=2E Januar 2023 13:10:38 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <ph=
-ilmd@linaro=2Eorg>:
->RC4030 declarations are not MIPS specific, no need to
->have them in all MIPS boards=2E
->
->Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
->---
->Based-on: <20230105130710=2E49264-1-philmd@linaro=2Eorg>
->          "hw/pci-host/bonito: Housekeeping"
->---
-> hw/dma/rc4030=2Ec         |  2 +-
-> hw/mips/jazz=2Ec          |  1 +
-> include/hw/dma/rc4030=2Eh | 21 +++++++++++++++++++++
-> include/hw/mips/mips=2Eh  |  9 ---------
-> 4 files changed, 23 insertions(+), 10 deletions(-)
-> create mode 100644 include/hw/dma/rc4030=2Eh
->
->diff --git a/hw/dma/rc4030=2Ec b/hw/dma/rc4030=2Ec
->index aa1d323a36=2E=2E6dbf6652ab 100644
->--- a/hw/dma/rc4030=2Ec
->+++ b/hw/dma/rc4030=2Ec
->@@ -25,7 +25,7 @@
-> #include "qemu/osdep=2Eh"
-> #include "qemu/units=2Eh"
-> #include "hw/irq=2Eh"
->-#include "hw/mips/mips=2Eh"
->+#include "hw/dma/rc4030=2Eh"
-> #include "hw/sysbus=2Eh"
-> #include "migration/vmstate=2Eh"
-> #include "qapi/error=2Eh"
->diff --git a/hw/mips/jazz=2Ec b/hw/mips/jazz=2Ec
->index 6aefe9a61b=2E=2E03882b5275 100644
->--- a/hw/mips/jazz=2Ec
->+++ b/hw/mips/jazz=2Ec
->@@ -29,6 +29,7 @@
-> #include "hw/mips/cpudevs=2Eh"
-> #include "hw/intc/i8259=2Eh"
-> #include "hw/dma/i8257=2Eh"
->+#include "hw/dma/rc4030=2Eh"
-> #include "hw/char/serial=2Eh"
-> #include "hw/char/parallel=2Eh"
-> #include "hw/isa/isa=2Eh"
->diff --git a/include/hw/dma/rc4030=2Eh b/include/hw/dma/rc4030=2Eh
->new file mode 100644
->index 0000000000=2E=2Ee58f94576e
->--- /dev/null
->+++ b/include/hw/dma/rc4030=2Eh
->@@ -0,0 +1,21 @@
->+/*
->+ * QEMU JAZZ RC4030 chipset
->+ *
->+ * Copyright (c) 2007-2013 Herv=C3=A9 Poussineau
->+ *
->+ * SPDX-License-Identifier: MIT
->+ */
->+
->+#ifndef HW_DMA_RC4030_H
->+#define HW_DMA_RC4030_H
->+
->+#include "exec/memory=2Eh"
->+
->+/* rc4030=2Ec */
->+typedef struct rc4030DMAState *rc4030_dma;
->+void rc4030_dma_read(void *dma, uint8_t *buf, int len);
->+void rc4030_dma_write(void *dma, uint8_t *buf, int len);
->+
->+DeviceState *rc4030_init(rc4030_dma **dmas, IOMMUMemoryRegion **dma_mr);
->+
->+#endif
->diff --git a/include/hw/mips/mips=2Eh b/include/hw/mips/mips=2Eh
->index 4d2db99952=2E=2E34dd583500 100644
->--- a/include/hw/mips/mips=2Eh
->+++ b/include/hw/mips/mips=2Eh
->@@ -7,13 +7,4 @@
-> /* Kernels can be configured with 64KB pages */
-> #define INITRD_PAGE_SIZE (64 * KiB)
->=20
->-#include "exec/memory=2Eh"
->-
->-/* rc4030=2Ec */
->-typedef struct rc4030DMAState *rc4030_dma;
->-void rc4030_dma_read(void *dma, uint8_t *buf, int len);
->-void rc4030_dma_write(void *dma, uint8_t *buf, int len);
->-
->-DeviceState *rc4030_init(rc4030_dma **dmas, IOMMUMemoryRegion **dma_mr);
->-
-> #endif
+On 1/5/23 17:02, James Bottomley wrote:
+> On Thu, 2023-01-05 at 11:20 -0500, Stefan Berger wrote:
+>>
+>>
+>> On 1/5/23 08:00, James Bottomley wrote:
+> [...]
+>>> +The mssim backend supports snapshotting and migration, but the
+>>> state
+>>> +of the Microsoft Simulator server must be preserved (or the server
+>>> +kept running) outside of QEMU for restore to be successful.
+>>
+>> My comments to v3 still apply here.
+> 
+> You didn't make any v3 comments on migration.
 
-Reviewed-by: Bernhard Beschow <shentey@gmail=2Ecom>
+https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg03146.html
+
+A user should be able to recreate, with today's code, what is claimed in the documentation regarding snapshotting for example.
+
+
+   Stefan
+
+> 
+>> I also just tried migration and on the -incoming side it did not work
+>> anymore. Did you test this?
+> 
+> Well, yes, as I said.  However, I seem to have left one change in my
+> local tree which I forgot to sync to the patch:
+> 
+> diff --git a/backends/tpm/tpm_mssim.c b/backends/tpm/tpm_mssim.c
+> index 75dce165b8..125c8d0b15 100644
+> --- a/backends/tpm/tpm_mssim.c
+> +++ b/backends/tpm/tpm_mssim.c
+> @@ -66,7 +66,7 @@ static void tpm_mssim_instance_finalize(Object *obj)
+>   {
+>       TPMmssim *t = TPM_MSSIM(obj);
+>   
+> -    if (t->ctrl_qc && !runstate_check(RUN_STATE_INMIGRATE))
+> +    if (t->cmd_qc && !runstate_check(RUN_STATE_POSTMIGRATE))
+>           tpm_send_ctrl(t, TPM_SIGNAL_POWER_OFF, NULL);
+>   
+>       object_unref(OBJECT(t->ctrl_qc));
+> 
+> James
+> 
 
