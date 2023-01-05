@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0410A65E0EE
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 00:27:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B457A65E185
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 01:28:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDD8x-0006L5-Tk; Wed, 04 Jan 2023 18:25:59 -0500
+	id 1pDE60-0001OS-9r; Wed, 04 Jan 2023 19:27:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pDD8j-0006KU-2S
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 18:25:45 -0500
-Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pDD8h-0004xe-7i
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 18:25:44 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.194])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 0C0D22160E;
- Wed,  4 Jan 2023 23:25:29 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 5 Jan
- 2023 00:25:28 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G0056090f206-c6bd-4e5a-bf84-ca6c62c26e5e,
- 38A898BAFC987BCB81F2B5AC485E5C68320ADD45) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <256731e8-1432-b8b5-2597-40e65e9b03f7@kaod.org>
-Date: Thu, 5 Jan 2023 00:25:22 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDE5x-0001O5-U7
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 19:26:57 -0500
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDE5w-0002iz-4Q
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 19:26:57 -0500
+Received: by mail-pf1-x432.google.com with SMTP id z7so18495885pfq.13
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 16:26:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pF/m30tAitVZyDPKO65mkYL1HYp15aPSoS1hvUnFSjs=;
+ b=U5tztxSogNFMAoU/TxkaN+vC+iMr9B4lPnUsFXjx5FsSXY21xPtAna5rC8OZ7KMXo+
+ i1hUjGBIjN9Kt6FsmaxE3zrblLrguFf4CS4lwoTJ/MP7kZttXriWXxECaYdTnOqbOtiQ
+ lCePylETags37tP3QDKsS+rL6iFIEZyRY9oT4E9/9RLr9hr0W8GrMoH54HHld4k011IW
+ bJdW6rNqHU4vm6Dn3f5C7WiENV3SZSvKkjUDe0l11zFYXrYbId1h3G4EP0+/FlFaLYIG
+ gFfJBPd3mtxXNFFw2OY+IVSNJOsLxBUTwkkqmOg0fhu8Z4JM4mpFEjU/zRo5YyYB01Jr
+ Go6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pF/m30tAitVZyDPKO65mkYL1HYp15aPSoS1hvUnFSjs=;
+ b=xcXCkfk5znaxF42wElRZQ0Y2k05te93XDkg18lNmGMfOEcGO80H/Rrt2YJFLKWDERU
+ YkHZ3ghUDNhCDa+fPXEUzw4Nc8tnp+d2wXCAq08IrnsH+M7Yt6mOazdB0MaRzgCpBkdH
+ 2ZXAqxAz8r5rZGeJsd0wxQTZ8jkVnUpW7MlCuXz1lALsqAOszERrSmLAbgk2yWgScVmQ
+ 1Jdso8ifGNl0vBMzPJt0m+lKbltbMX2JbaolLtVbcrPCObBkC6XfYkTVI3N0AqzgNmcq
+ fhImGwkzkk8RNJ8ErxM5tHIJVq39lhUoyYewXeBsu6nuLuSQLOWGCWyZqUG/Y0eC4CSa
+ DQlw==
+X-Gm-Message-State: AFqh2krDZTi0USDWDLTMuCC6eysflNesNHbXO+Uv4XvUxXZCw5jzuGb+
+ 7ATsnw8LNsL90AgHU643kOcCTF1tRvtjjKVK
+X-Google-Smtp-Source: AMrXdXv5O5QtmYXTlgD0s97hDJp8fXbwBD3NlM15OCb7dFUaphr6ZDn2pN/j2/sokJIvhF+s2FanVA==
+X-Received: by 2002:aa7:90d1:0:b0:572:6d6b:2297 with SMTP id
+ k17-20020aa790d1000000b005726d6b2297mr44044233pfk.21.1672878414341; 
+ Wed, 04 Jan 2023 16:26:54 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:92be:ce91:1417:6686?
+ ([2602:47:d48c:8101:92be:ce91:1417:6686])
+ by smtp.gmail.com with ESMTPSA id
+ w207-20020a627bd8000000b005809d382016sm18771213pfc.74.2023.01.04.16.26.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Jan 2023 16:26:53 -0800 (PST)
+Message-ID: <3a43a0d5-acc3-cdec-4328-57fde042cfb0@linaro.org>
+Date: Wed, 4 Jan 2023 16:26:51 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 1/6] hw/arm/aspeed: Fix smpboot[] on big-endian hosts
+ Thunderbird/102.4.2
+Subject: Re: [PULL 47/47] tests/tcg/multiarch: add vma-pthread.c
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, Peter Maydell
- <peter.maydell@linaro.org>
-CC: <qemu-devel@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>, Igor Mitsyanko
- <i.mitsyanko@gmail.com>, Joel Stanley <joel@jms.id.au>, Havard Skinnemoen
- <hskinnemoen@google.com>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
- Alistair Francis <alistair@alistair23.me>, <qemu-arm@nongnu.org>,
- Tyrone Ting <kfting@nuvoton.com>
-References: <20221222215549.86872-1-philmd@linaro.org>
- <20221222215549.86872-2-philmd@linaro.org>
- <CAFEAcA9KD8WwPTKVQQUfAZxaqA=ASweZtJ=sAV0Vd8TkpqDBOw@mail.gmail.com>
- <8fa1d7b7-babc-eca8-bbd9-4707ada2f49f@kaod.org>
- <081e95c1-d601-4ed5-678a-e6a828d6ea46@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <081e95c1-d601-4ed5-678a-e6a828d6ea46@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>
+References: <20221230000221.2764875-1-richard.henderson@linaro.org>
+ <20221230000221.2764875-48-richard.henderson@linaro.org>
+In-Reply-To: <20221230000221.2764875-48-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 03b56a48-16fc-4109-bf7d-323d05f09e24
-X-Ovh-Tracer-Id: 785878136346086389
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrjeejgddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheeugfdtteetfefgiefhfefgueduveefieehgfevvdetiedugeeghfehtdehvdffnecuffhomhgrihhnpehgihhtlhgrsgdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhhihhlmhgusehlihhnrghrohdrohhrghdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgrnhgurhgvfiesrghjrdhiugdrrghupdhirdhmihhtshihrghnkhhosehgmhgrihhlrdgtohhmpdhjohgvlhesjhhmshdrihgurdgruhdphhhskhhinhhnvghmohgvnhesghhoohhglhgvrdgtohhmpdgvughgrghrrdhighhlvghsihgrshesghhmrghilhdrtg
- homhdprghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgvpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhkfhhtihhnghesnhhuvhhothhonhdrtghomhdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
- helo=4.mo548.mail-out.ovh.net
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.708,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,67 +95,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/4/23 23:35, Philippe Mathieu-Daudé wrote:
-> Hi Cédric,
+On 12/29/22 16:02, Richard Henderson wrote:
+> From: Ilya Leoshkevich <iii@linux.ibm.com>
 > 
-> On 4/1/23 09:43, Cédric Le Goater wrote:
->> On 1/3/23 18:33, Peter Maydell wrote:
+> Add a test that locklessly changes and exercises page protection bits
+> from various threads. This helps catch race conditions in the VMA
+> handling.
 > 
->>> Can we use the write_bootloader() function, which handles the
->>> endianness question correctly and is how other boards do the
->>> "put a little lump of code into the guest" job ?
->>
->> Yes. See below.
->>
->> May be we could change write_bootloader a little to handle an empty
->> fixupcontext.
->>
->> Thanks,
->>
->> C.
->>
->>  From 671d43faa7e14b896855403feb0afd777350cb0a Mon Sep 17 00:00:00 2001
->> From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
->> Date: Wed, 4 Jan 2023 09:30:28 +0100
->> Subject: [PATCH] hw/arm/boot: Export write_bootloader for Aspeed machines
->> MIME-Version: 1.0
->> Content-Type: text/plain; charset=UTF-8
->> Content-Transfer-Encoding: 8bit
->>
->> AST2600 Aspeed machines have an home made boot loader for secondaries.
->> Instead, use the internal ARM boot loader.
->>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>   include/hw/arm/boot.h | 24 ++++++++++++++++++++++++
->>   hw/arm/aspeed.c       | 42 ++++++++++++++++++++++--------------------
->>   hw/arm/boot.c         | 34 +++++++---------------------------
->>   3 files changed, 53 insertions(+), 47 deletions(-)
-> [...]
-> 
-> I'm getting:
-> 
-> Applying: hw/arm/boot: Export write_bootloader for Aspeed machines
-> error: patch failed: include/hw/arm/boot.h:183
-> error: include/hw/arm/boot.h: patch does not apply
-> error: patch failed: hw/arm/aspeed.c:201
-> error: hw/arm/aspeed.c: patch does not apply
-> error: patch failed: hw/arm/boot.c:59
-> error: hw/arm/boot.c: patch does not apply
-> Patch failed at 0001 hw/arm/boot: Export write_bootloader for Aspeed machines
-> hint: Use 'git am --show-current-patch=diff' to see the failed patch
-> When you have resolved this problem, run "git am --continue".
-> If you prefer to skip this patch, run "git am --skip" instead.
-> To restore the original branch and stop patching, run "git am --abort".
-> 
-> What is your base commit? 
+> Acked-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> Message-Id: <20221223120252.513319-1-iii@linux.ibm.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   tests/tcg/multiarch/nop_func.h       |  25 ++++
+>   tests/tcg/multiarch/munmap-pthread.c |  16 +--
+>   tests/tcg/multiarch/vma-pthread.c    | 207 +++++++++++++++++++++++++++
+>   tests/tcg/multiarch/Makefile.target  |   3 +
+>   4 files changed, 236 insertions(+), 15 deletions(-)
+>   create mode 100644 tests/tcg/multiarch/nop_func.h
+>   create mode 100644 tests/tcg/multiarch/vma-pthread.c
 
-It applies on 222059a0fc ("Merge tag 'pull-ppc-20221221' of
-https://gitlab.com/danielhb/qemu into staging")
+Hi Peter,
 
-> Can you post a normal patch?
+ From the failures I see on the gitlab merge job, I think I need to resubmit with this new 
+test adjusted to loop less,
 
-Sure.
+> +    for (i = 0; i < 50000; i++) {
 
-C.
+here.
+
+The failing jobs are --enable-debug, and take about 115 seconds to run manually on our 
+aarch64 test host, exceeding the 90 second timeout.
+
+I'll cut this down to 10000 loops and double-check times before resubmitting.
+
+
+r~
 
