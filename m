@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272DD65EF1D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:46:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF92165EEDC
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:37:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDRJT-00035H-7r; Thu, 05 Jan 2023 09:33:47 -0500
+	id 1pDRJN-0002xF-Ke; Thu, 05 Jan 2023 09:33:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pDRJG-0002q4-GR; Thu, 05 Jan 2023 09:33:34 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ id 1pDRJH-0002rP-EP; Thu, 05 Jan 2023 09:33:35 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pDRJE-00072E-TG; Thu, 05 Jan 2023 09:33:34 -0500
-Received: by mail-wr1-x436.google.com with SMTP id w1so24198613wrt.8;
+ id 1pDRJF-0006wx-KE; Thu, 05 Jan 2023 09:33:35 -0500
+Received: by mail-wr1-x433.google.com with SMTP id t15so27446654wro.9;
  Thu, 05 Jan 2023 06:33:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cyIaDXUUe1E2lKeSs+MY3/RWeIYYGkm/0q2/wOL9FL0=;
- b=l/p9xp2BXiqo7l0rW7wMRwbrFFtiGX6hJorvNnPn7KqasSnxNrALe1Qb4TjRYQgdh/
- kOBAcaacAzU0yoG6iE4wupGIZacuZEf46ST7vwWYKYSmMLMcX5f9AgmDwl2uwg+4vghH
- Bh+BvxYqrVjNp2RNki84KYsC6BiSPrT6t5uHdTT0Dznwl53RyXRMFWkMhLe93T7/zU1M
- XjUz/y2h147paTnQKJkI9RHt5Xq6uJjhcBnZV+0xtSLIv2ql1o1hVbndBUib09CK/XZS
- 5yFIlS8hczfryRTLKRTaxar75YhiIBg2PSe0sr4xS/Y4JwMBEUUbSIO1mgx4+cJfkqS8
- r+ag==
+ bh=yuUPAL39BWQGniG6VAc4FaCcHuPduEkKF2hR1Xdinn4=;
+ b=X5ZrIhOF9LXM6nJQasmeXduF35wv9NS/jw6uLanOfTOIFutsLOa2AMTsz3QyWSeZ7H
+ PtKs+CmoHL+Wc9qa5c2kCoY/zZVmgk9zpY6XAn2za+26N/oasSSEK7BSVUXDc9A7FL4G
+ sNMmfxcqbs/ZoffhqbDvyYfhsPqzsTJAY4ZuMNPdkL7daEh2nBB4ouzLviCdfhICVQC+
+ nXEkOEjX6MdDlrYXiueGTeZJaQWA9L+C7ufjwtxG53qA1wb3AywlwwoSrQoGbx5Fb/gX
+ RT/b6Sgv+wQylFVTs40Wrz/HPMYDIjJTpkWxpf9y8N5sQX1kUKQJJiExs2TobfSKPKxB
+ ZRCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cyIaDXUUe1E2lKeSs+MY3/RWeIYYGkm/0q2/wOL9FL0=;
- b=fm40XxkIvF/gEH7kIMtR4VN/KxxbNvIgkxyBwSuAu/06wW0jPQNCcpjWviuhXCZ17v
- pGSn53iBKGW39zLUIvKUnzIgRU4JblNUbDXvp9FAwr49VHoWmFIYcCY5c+ZrHk5MUCOC
- bTrUqdDXKfw8QXNpiwwECDhRapwaKzHm9zF/BRXJei+ITFZCYWhk1AuVzfj5JzoAeiZL
- zwTG2qkEdlp2oQW2xb3nU5eJPS3+z4+7gb2dj6bvLsJtXAmZnKpQvyjmJGQaxiRjYwnW
- 5YQf40fjAREBBWWLOTGxB7aQOfh+UWpBz6HqxI/nrVLonJIoAAeVoyA+e5F+D+PRsllU
- UHDQ==
-X-Gm-Message-State: AFqh2kq/LqGo+Gwm4ZROxSMJIKHKOW6jG3foiddw/ZYBQwS9O0wBUxW6
- zvTnvcZ7nukippWCnXVaEj1/kAUTFDLPDg==
-X-Google-Smtp-Source: AMrXdXtFCOm57qUdsz444K5XSp61OrjQpFebDFlNgMRNLHASqOmLAh8IsjchUBAOvpgxPxFxUM53yg==
-X-Received: by 2002:a5d:4f8f:0:b0:279:f285:15f9 with SMTP id
- d15-20020a5d4f8f000000b00279f28515f9mr23185736wru.58.1672929210915; 
- Thu, 05 Jan 2023 06:33:30 -0800 (PST)
+ bh=yuUPAL39BWQGniG6VAc4FaCcHuPduEkKF2hR1Xdinn4=;
+ b=vczqWPDtTeY2Nuvgz2KRh+9tYGyVgs1NmH6x3nhooETxepFBQGCtaT5x0yJVWueqfE
+ GVBupVSbTmAagEvCXhBlH4pARwDTPJ61Vy4Y3qFGbdeuNhfa4DM2CDZ4oo9yARJX0XrB
+ i0SlthynLnLP+Zie9ALM5hl98BIoJ9L+n9zoouo/2JT3adbwBlUZ8J3Jb4EhvAid705k
+ LPfq9KaDrmZnVr04XaWumfuDlQHhR/UwmZ99Wcws+TMkUpZpPzfOHiZ+B+8Xd7G+h8Do
+ Y4lu6RIkVmP72YzwDxta8ysZXRfR7fJe/CuN9i4Nrrg++V3kKVXwrUpYn14sNpYhEFmA
+ kykw==
+X-Gm-Message-State: AFqh2koY1HnGDbrRV4JRs5vraxGfOXrgGuspYfohee5DluNjhrZZBZ+d
+ qHZOA+whe/HyJEAVjwxqWDAzTc/no+dHLQ==
+X-Google-Smtp-Source: AMrXdXuWSAIkzl32hgjoItI1U9dyc1NTvrr8xbglThVKFtGFuV3gM9FqY1itZ0oMMatd1SgKdezIMw==
+X-Received: by 2002:a5d:6049:0:b0:2a6:4dfb:80c8 with SMTP id
+ j9-20020a5d6049000000b002a64dfb80c8mr3532841wrt.19.1672929212216; 
+ Thu, 05 Jan 2023 06:33:32 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- bt15-20020a056000080f00b00297dcfdc90fsm12260447wrb.24.2023.01.05.06.33.29
+ bt15-20020a056000080f00b00297dcfdc90fsm12260447wrb.24.2023.01.05.06.33.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 06:33:30 -0800 (PST)
+ Thu, 05 Jan 2023 06:33:31 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org,
@@ -69,17 +69,16 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org,
  John Snow <jsnow@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v5 22/31] hw/isa/piix4: Remove unused inbound ISA interrupt
- lines
-Date: Thu,  5 Jan 2023 15:32:19 +0100
-Message-Id: <20230105143228.244965-23-shentey@gmail.com>
+Subject: [PATCH v5 23/31] hw/isa/piix4: Use ISA PIC device
+Date: Thu,  5 Jan 2023 15:32:20 +0100
+Message-Id: <20230105143228.244965-24-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230105143228.244965-1-shentey@gmail.com>
 References: <20230105143228.244965-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=shentey@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=shentey@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,42 +101,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The Malta board, which is the only user of PIIX4, doesn't connect to the
-exported interrupt lines. PIIX3 doesn't expose such intterupt lines
-either, so remove them for PIIX4 for simplicity and consistency.
+Aligns the code with PIIX3 such that PIIXState can be used in PIIX4,
+too.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20221022150508.26830-32-shentey@gmail.com>
+Message-Id: <20221022150508.26830-33-shentey@gmail.com>
 ---
- hw/isa/piix4.c | 8 --------
- 1 file changed, 8 deletions(-)
+ hw/isa/piix4.c  | 28 ++++++++++------------------
+ hw/mips/malta.c | 11 +++++++++--
+ hw/mips/Kconfig |  1 +
+ 3 files changed, 20 insertions(+), 20 deletions(-)
 
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index de4133f573..9edaa5de3e 100644
+index 9edaa5de3e..eae4db0182 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -155,12 +155,6 @@ static void piix4_request_i8259_irq(void *opaque, int irq, int level)
-     qemu_set_irq(s->cpu_intr, level);
+@@ -44,9 +44,8 @@
+ 
+ struct PIIX4State {
+     PCIDevice dev;
+-    qemu_irq cpu_intr;
+-    qemu_irq *isa;
+ 
++    ISAPICState pic;
+     RTCState rtc;
+     PCIIDEState ide;
+     UHCIState uhci;
+@@ -82,7 +81,7 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
+                 pic_level |= pci_bus_get_irq_level(bus, i);
+             }
+         }
+-        qemu_set_irq(s->isa[pic_irq], pic_level);
++        qemu_set_irq(s->pic.in_irqs[pic_irq], pic_level);
+     }
  }
  
--static void piix4_set_i8259_irq(void *opaque, int irq, int level)
+@@ -149,12 +148,6 @@ static const VMStateDescription vmstate_piix4 = {
+     }
+ };
+ 
+-static void piix4_request_i8259_irq(void *opaque, int irq, int level)
 -{
 -    PIIX4State *s = opaque;
--    qemu_set_irq(s->isa[irq], level);
+-    qemu_set_irq(s->cpu_intr, level);
 -}
 -
  static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
                              unsigned int len)
  {
-@@ -204,8 +198,6 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+@@ -190,7 +183,6 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+     PIIX4State *s = PIIX4_PCI_DEVICE(dev);
+     PCIBus *pci_bus = pci_get_bus(dev);
+     ISABus *isa_bus;
+-    qemu_irq *i8259_out_irq;
+ 
+     isa_bus = isa_bus_new(DEVICE(dev), pci_address_space(dev),
+                           pci_address_space_io(dev), errp);
+@@ -198,20 +190,18 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
          return;
      }
  
--    qdev_init_gpio_in_named(DEVICE(dev), piix4_set_i8259_irq,
--                            "isa", ISA_NUM_IRQS);
-     qdev_init_gpio_out_named(DEVICE(dev), &s->cpu_intr,
-                              "intr", 1);
+-    qdev_init_gpio_out_named(DEVICE(dev), &s->cpu_intr,
+-                             "intr", 1);
+-
+     memory_region_init_io(&s->rcr_mem, OBJECT(dev), &piix4_rcr_ops, s,
+                           "reset-control", 1);
+     memory_region_add_subregion_overlap(pci_address_space_io(dev),
+                                         PIIX_RCR_IOPORT, &s->rcr_mem, 1);
+ 
+     /* initialize i8259 pic */
+-    i8259_out_irq = qemu_allocate_irqs(piix4_request_i8259_irq, s, 1);
+-    s->isa = i8259_init(isa_bus, *i8259_out_irq);
++    if (!qdev_realize(DEVICE(&s->pic), NULL, errp)) {
++        return;
++    }
+ 
+     /* initialize ISA irqs */
+-    isa_bus_irqs(isa_bus, s->isa);
++    isa_bus_irqs(isa_bus, s->pic.in_irqs);
+ 
+     /* initialize pit */
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+@@ -224,7 +214,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+     if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
+         return;
+     }
+-    s->rtc.irq = isa_get_irq(ISA_DEVICE(&s->rtc), s->rtc.isairq);
++    s->rtc.irq = qdev_get_gpio_in(DEVICE(&s->pic), s->rtc.isairq);
+ 
+     /* IDE */
+     qdev_prop_set_int32(DEVICE(&s->ide), "addr", dev->devfn + 1);
+@@ -251,7 +241,8 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+         if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
+             return;
+         }
+-        qdev_connect_gpio_out(DEVICE(&s->pm), 0, s->isa[9]);
++        qdev_connect_gpio_out(DEVICE(&s->pm), 0,
++                              qdev_get_gpio_in(DEVICE(&s->pic), 9));
+     }
+ 
+     pci_bus_irqs(pci_bus, piix4_set_irq, s, PIIX_NUM_PIRQS);
+@@ -261,6 +252,7 @@ static void piix4_init(Object *obj)
+ {
+     PIIX4State *s = PIIX4_PCI_DEVICE(obj);
+ 
++    object_initialize_child(obj, "pic", &s->pic, TYPE_ISA_PIC);
+     object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
+     object_initialize_child(obj, "ide", &s->ide, TYPE_PIIX4_IDE);
+ }
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index a930a91f00..1bb493353b 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -29,6 +29,7 @@
+ #include "qemu/guest-random.h"
+ #include "hw/clock.h"
+ #include "hw/southbridge/piix.h"
++#include "hw/intc/i8259.h"
+ #include "hw/isa/superio.h"
+ #include "hw/char/serial.h"
+ #include "net/net.h"
+@@ -1280,10 +1281,11 @@ void mips_malta_init(MachineState *machine)
+     PCIBus *pci_bus;
+     ISABus *isa_bus;
+     qemu_irq cbus_irq, i8259_irq;
++    qemu_irq *i8259;
+     I2CBus *smbus;
+     DriveInfo *dinfo;
+     int fl_idx = 0;
+-    int be;
++    int be, i;
+     MaltaState *s;
+     PCIDevice *piix4;
+     DeviceState *dev;
+@@ -1458,7 +1460,12 @@ void mips_malta_init(MachineState *machine)
+     pci_ide_create_devs(PCI_DEVICE(dev));
+ 
+     /* Interrupt controller */
+-    qdev_connect_gpio_out_named(DEVICE(piix4), "intr", 0, i8259_irq);
++    dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "pic"));
++    i8259 = i8259_init(isa_bus, i8259_irq);
++    for (i = 0; i < ISA_NUM_IRQS; i++) {
++        qdev_connect_gpio_out(dev, i, i8259[i]);
++    }
++    g_free(i8259);
+ 
+     pci_bus_map_irqs(pci_bus, pci_slot_get_pirq);
+ 
+diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
+index 4e7042f03d..d156de812c 100644
+--- a/hw/mips/Kconfig
++++ b/hw/mips/Kconfig
+@@ -1,5 +1,6 @@
+ config MALTA
+     bool
++    select I8259
+     select ISA_SUPERIO
+     select PIIX4
  
 -- 
 2.39.0
