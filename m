@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A9165E6E0
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 09:36:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0626965E6E2
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 09:36:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDLhu-0005Je-9D; Thu, 05 Jan 2023 03:34:38 -0500
+	id 1pDLjR-0006BT-TN; Thu, 05 Jan 2023 03:36:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDLhY-0005JE-TB
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 03:34:17 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pDLjG-00063f-N4
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 03:36:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDLhV-000116-MP
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 03:34:15 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pDLjC-0001Qo-Pr
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 03:36:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672907652;
+ s=mimecast20190719; t=1672907758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ntDj2El8prdHVWl7liKzHJ1AXdwQnlRApPGQtMgaK40=;
- b=VAGCKCBD7AsU/TPhu0XLcAlp0rFJ95OTH+ke0S/Ae8wXiSPyTiSL3yFjQUQohqxatAaw24
- PaWH69octf/b56liTecmukXPYbhlotOypIP3uVWiLYUXKxWuZiZvGFb/YIoWXQqUi+js0x
- q3AIK48/8TRRzYLwegGQcqqkQ11QVFE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DL8JxS41rK+TolCZ4YaJBW7Vh4CRGUBaBiINxkMyXaw=;
+ b=Gqxgc/1tnyJO67ocMgAI01kRz3U1u2+Rpx8J6irkD/VxMyOHkj2Eie+H5f5Lgxp8IjekyI
+ JNxoanPVZ8iQouZToz7ecfzkld3tp1EVzYfqIgM+8gZ3cdlUTJPGZD7ktSkTIWWU1g/JFk
+ 0rT1KR0fkpdbJ2CIKeWr1J0TEsFB29s=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-541-43cdlNYLNeq2L66EnsYnhg-1; Thu, 05 Jan 2023 03:34:11 -0500
-X-MC-Unique: 43cdlNYLNeq2L66EnsYnhg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m7-20020a05600c4f4700b003d971a5e770so17347122wmq.3
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 00:34:10 -0800 (PST)
+ us-mta-591-dc0-U5HSMdS6cWQMbJGKXQ-1; Thu, 05 Jan 2023 03:35:57 -0500
+X-MC-Unique: dc0-U5HSMdS6cWQMbJGKXQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ e3-20020adfa443000000b00296b280432dso1912191wra.19
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 00:35:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ntDj2El8prdHVWl7liKzHJ1AXdwQnlRApPGQtMgaK40=;
- b=h7B+pQR+OkRa39MlJ+vmr+eUvMTFvEyQngg+d17UeQ2mUsOoklDuC/vW9T2oyASr8t
- +4E00jhMDaI4z63JNs3kZjEpu3saYhwrQSTa6A28c6tegDuKOf60BNdaG4zXZYvlH9Sz
- q6+qrbwbDLssr6iA6THhiFvTqpoQYizlrfo6XP8p38xsHpOpZscg/xSpZ9wGwAN9chlg
- nDBmYvSwmCfxayvgjGQENN75zslWudtS1fY55BSjf4SeMDZIFCXo5SC3aWqNWybjHgpY
- ASsAs8sJBjwb1eD1AquuAanTkTa+MKaevZg4ys0n9zWjRlU9Rjqfw8Asrj4FUq1ukAbC
- xHTA==
-X-Gm-Message-State: AFqh2krFoFUtSGXm/H+d71+YIACW8QUDl+Dp41xFkJMAEANg4k74ehMu
- 8xVHHvYe3t9Jc+wvl6qNrR2LDgKJMAxwh9Y/xRV7FRqnwb7+lu1AfIYHkcxjUlHnAggIGFbTled
- 4agr0QbeCkgDP2mI=
-X-Received: by 2002:a05:600c:3589:b0:3d0:6c60:b4d1 with SMTP id
- p9-20020a05600c358900b003d06c60b4d1mr43388301wmq.6.1672907650109; 
- Thu, 05 Jan 2023 00:34:10 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt3i+HHVonuL9CUlFGOrMG+G5Un5Fgx7M9lJ369IkGE/2HoX3DSJtfTNu+JU7/5qMOo8i1JTw==
-X-Received: by 2002:a05:600c:3589:b0:3d0:6c60:b4d1 with SMTP id
- p9-20020a05600c358900b003d06c60b4d1mr43388285wmq.6.1672907649857; 
- Thu, 05 Jan 2023 00:34:09 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-176-239.web.vodafone.de.
- [109.43.176.239]) by smtp.gmail.com with ESMTPSA id
- t64-20020a1c4643000000b003cf75213bb9sm1556182wma.8.2023.01.05.00.34.08
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :references:cc:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DL8JxS41rK+TolCZ4YaJBW7Vh4CRGUBaBiINxkMyXaw=;
+ b=dqnlnVJO1hnB4hvGL2Hi60W/oBYNDzexSqAidpHE9CoSnigqhuD9mqcSLMuWyfWtBR
+ qHSSPtnwwtgxAqzomo8vysQU893Wzb3z8wLhd9uozb38iZOfuVNU11FeaIzngpvfejc9
+ dbzDZb0kC20ppcbQv/AhWX/repKLjxEj7UAQkMxAMO/D2tsk+YwNen5EzDltYXDthWJs
+ +FR7iP7JSlv/aCPL6g9thk9GlQSvpRLmGXkKpDUeWv/v1U76RgCWAkVqgqta/AHiPOZ5
+ dpRmZEwBCK2JcCUGhVnCMqD94RLZ+fApL19lj14ECIf7ZtNR/ymSLkaYR3eM9NV7PwBp
+ 8tWw==
+X-Gm-Message-State: AFqh2krfZkhHuNJu/FnzcC1pVJ3RUZ4CEWsDy32pz4ANwx6YhX4XHlFy
+ yWH+/sqiyL0QtYdvaMFBcDS7wwUo8CKg7T8p6DSx4+fgMdtZGbaLH70zpigBttbzCasxbiUoGDo
+ CVOybonYlBx/1QgI=
+X-Received: by 2002:a05:600c:4920:b0:3d3:39a9:e659 with SMTP id
+ f32-20020a05600c492000b003d339a9e659mr38707715wmp.21.1672907755929; 
+ Thu, 05 Jan 2023 00:35:55 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsLdSelX2kEMDtIJzb7P/mLr8oQcjYbltVjXRQf5wNc5RVxwUQEcDtq7aVeC/h/LfPIExPmTQ==
+X-Received: by 2002:a05:600c:4920:b0:3d3:39a9:e659 with SMTP id
+ f32-20020a05600c492000b003d339a9e659mr38707701wmp.21.1672907755665; 
+ Thu, 05 Jan 2023 00:35:55 -0800 (PST)
+Received: from ?IPV6:2003:cb:c707:6e00:ff02:ec7a:ded5:ec1e?
+ (p200300cbc7076e00ff02ec7aded5ec1e.dip0.t-ipconnect.de.
+ [2003:cb:c707:6e00:ff02:ec7a:ded5:ec1e])
+ by smtp.gmail.com with ESMTPSA id
+ fc14-20020a05600c524e00b003a3442f1229sm1745488wmb.29.2023.01.05.00.35.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 00:34:09 -0800 (PST)
-Message-ID: <46726378-d075-e77a-5439-bbfa822f70fd@redhat.com>
-Date: Thu, 5 Jan 2023 09:34:07 +0100
+ Thu, 05 Jan 2023 00:35:55 -0800 (PST)
+Message-ID: <d60f9272-1e81-00da-8046-2264a9b97e58@redhat.com>
+Date: Thu, 5 Jan 2023 09:35:54 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] .gitlab-ci.d/windows: Work-around timeout and OpenGL
- problems of the MSYS2 jobs
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>
-References: <20230104123559.277586-1-thuth@redhat.com>
- <CAFEAcA-1-CBVd9FRYHS5_KTjC9UfTUz6E7qDz0g7xYjsA7PC=w@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAFEAcA-1-CBVd9FRYHS5_KTjC9UfTUz6E7qDz0g7xYjsA7PC=w@mail.gmail.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>
+References: <20221222110215.130392-1-david@redhat.com>
+ <20221222110215.130392-2-david@redhat.com> <Y7W2LtO5/m1r3VaL@x1n>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v3 1/6] migration: Allow immutable device state to be
+ migrated early (i.e., before RAM)
+In-Reply-To: <Y7W2LtO5/m1r3VaL@x1n>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -105,44 +107,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 04/01/2023 23.01, Peter Maydell wrote:
-> On Wed, 4 Jan 2023 at 12:36, Thomas Huth <thuth@redhat.com> wrote:
->>
->> The windows jobs (especially the 32-bit job) recently started to
->> hit the timeout limit. Bump it a little bit to ease the situation
->> (80 minutes is quite long already - OTOH, these jobs do not have to
->> wait for a job from the container stage to finish, so this should
->> still be OK).
->>
->> Additionally, some update on the container side recently enabled
->> OpenGL in these jobs - but the corresponding code fails to compile.
->> Thus disable OpenGL here for the time being until someone figured
->> out the proper fix in the shader code for this.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   Now that the timeout and OpenGL problems are gone, the 64-bit is
->>   working fine for me again. However, I'm still seeing random issues
->>   with the 32-bit job ... not sure whether it's a problem on the
->>   QEMU side or whether the builders are currently instable, since
->>   the issues do not reproduce reliably...
->>
->>   .gitlab-ci.d/windows.yml | 7 ++++---
->>   1 file changed, 4 insertions(+), 3 deletions(-)
+On 04.01.23 18:23, Peter Xu wrote:
+> On Thu, Dec 22, 2022 at 12:02:10PM +0100, David Hildenbrand wrote:
+>> Migrating device state before we start iterating is currently impossible.
+>> Introduce and use qemu_savevm_state_start_precopy(), and use
+>> a new special migration priority -- MIG_PRI_POST_SETUP -- to decide whether
+>> state will be saved in qemu_savevm_state_start_precopy() or in
+>> qemu_savevm_state_complete_precopy_*().
 > 
-> Thanks; applied to master on the assumption it will improve the
-> CI situation. I found that the msys2-32bit job still timed out
-> at 1h20, though:
-> 
-> https://gitlab.com/qemu-project/qemu/-/jobs/3555245586
+> Can something like this be done in qemu_savevm_state_setup()?
 
-I just gave it a try again, too, and for me, it finished within 65 minutes:
+Hi Peter,
 
-  https://gitlab.com/thuth/qemu/-/jobs/3557600268
+Do you mean
 
-... let's keep looking for a while, maybe it's ok in most cases now, but if 
-not, we have to consider something else.
+(a) Moving qemu_savevm_state_start_precopy() effectively into
+     qemu_savevm_state_setup()
 
-  Thomas
+(b) Using se->ops->save_setup()
+
+I first tried going via (b), but decided to go the current way of using 
+a proper vmstate with properties (instead of e.g., filling the stream 
+manually), which also made vmdesc handling possible (and significantly 
+cleaner).
+
+Regarding (a), I decided to not move logic of 
+qemu_savevm_state_start_precopy() into qemu_savevm_state_setup(), 
+because it looked cleaner to save device state with the BQL held and for 
+background snapshots, the VM has been stopped. To decouple device state 
+saving from the setup path, just like we do it right now for all vmstates.
+
+Having that said, for virtio-mem, it would still work because that state 
+is immutable once migration starts, but it felt cleaner to separate the 
+setup() phase from actual device state saving.
+
+Thanks!
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
