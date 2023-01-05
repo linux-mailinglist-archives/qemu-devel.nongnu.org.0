@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47EE065E4F8
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 06:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D85065E4FC
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 06:10:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDIPD-0004DK-JE; Thu, 05 Jan 2023 00:03:07 -0500
+	id 1pDIVG-00065s-GC; Thu, 05 Jan 2023 00:09:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDIOy-0004C6-4h
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:02:54 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ id 1pDIVD-00065X-Sj
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:09:20 -0500
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDIOv-0003ct-DB
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:02:51 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- o1-20020a17090a678100b00219cf69e5f0so924750pjj.2
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 21:02:48 -0800 (PST)
+ id 1pDIV8-0001em-H3
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:09:19 -0500
+Received: by mail-pf1-x433.google.com with SMTP id a30so8916960pfr.6
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 21:09:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=IsMrjT5bgFE+wb1Flp77K91WZQSGvYHNLILbRrYHTZI=;
- b=wL5t9ImT4MQyqTflldZoCPNZfe0ZIxWK8bUoNH9a2FAXGLjXFs4Lts68dha7ooxwaX
- sTdjRQY+9F9m6ZvWMxIDe6OiM3U7OXXAlLSq2B/e/n2vo6b65EOZFqUNnqUU6Dr3OG6H
- +9isx/XTSd2aANPpEHIoMP2kiLAe97POEioQKTeeA60Dil20jBNSLvRduNvS3W5lvIH0
- MH/vNDX5WSeG313hvk0FOWQ1xwhKNerHi0xv9rO5yY94OyeiWzuQWr0Qp/mZgM6HrzrD
- 62SP9+MVJxbVV8Mch3ajkS1lyTydpYCF0eEgXZi8CQ9yenDp78A2ynPKxPGoH7qeWFOr
- SeWA==
+ bh=wKGKXRXdbc3YxjI2XIEaKQmnwEMkgFcfN0dTPlBj504=;
+ b=Ng42fTsDW33H6jB5vbGoprjG4FJji8a0E3/ep9I33hqNIpz79gh8Tnm4o7Nww7lCWA
+ wUs2Ly2XIrQbiA3yt6NO1tRYl8h5D/L9GWgg31vZ1ugvAlzSZA1TpCqhl6Hi4k0mltXR
+ EuVcPOlZ0shkjOFAcHkWy0+y9fywfXgpcjRRAnRqI0ZagOcEtmPDNtV/MlMUwWKK013x
+ qDxb1/08mEQAmb58V47wP0rGIlEw25G4d2/MsYqcoJluvAj+mUC9FQkHisNawiaFdIcK
+ C+BwOeQRAjd0PP12QQhzT5WLbB8GGwEyjZVqfGEKqf+b5wO3j0xgnTAFyCZlYKLC6+sd
+ Tp0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IsMrjT5bgFE+wb1Flp77K91WZQSGvYHNLILbRrYHTZI=;
- b=x0LTSKeDZqTWswlQASCDOppgXQ4s9vuMROdT373jSMnw9qNJ484PGfHkXwaS+H49eK
- /w3Z1IOixDZPY8esBV0zsxAfNop6jiWIay8IOCqfLFyanuCESZfa7+2jtIbfOMhc/X7A
- NCfQ8LKBsG6QpsuIjex7/M5cerkE0bLMrJJVLT9nOIgwZ46gf8iGBP3+iMIMmAPG1a87
- O0HCd2nqrbFH1zRzADrRw9asYOKEx0xI/jX0/fZfUO05UQEtRHCuo3S3ekXOpfPCritR
- WfuA+sonsMLq/59C1x/4bpwVmXTy+xZhWRfO4dMTYQ5VL+yVfhJdQE0QVEosbUTgPKHh
- 8MMw==
-X-Gm-Message-State: AFqh2kqR4JuFUix79f+DpJt8ny3vQeRp/HGczYdMW8HljY9hD8vezSHh
- gaJ/msfMva+s4QLAKbnVNaJ4DQ==
-X-Google-Smtp-Source: AMrXdXumhqdaEvpew9UiRTMGbUFwHKkJX2QBRAlbEeguQL2M3VMwc2V5Jpp4E7p0VT3cn6x5Jj4rkw==
-X-Received: by 2002:a05:6a20:c991:b0:b4:6f9:ef7d with SMTP id
- gy17-20020a056a20c99100b000b406f9ef7dmr26968566pzb.35.1672894966779; 
- Wed, 04 Jan 2023 21:02:46 -0800 (PST)
+ bh=wKGKXRXdbc3YxjI2XIEaKQmnwEMkgFcfN0dTPlBj504=;
+ b=vnpH498YJPS4aFfrt4a8TiA7hECmgvSJCDB+RG8KAvMGE6Xm3TOhCYN7YBV/ozO8Pe
+ OM3DkUCjV20EzgEDKP+3LEgmKQL3ci2cCyT/F/e4Mp8ndTgIGfnVGWikvuQyLqQK4PLa
+ 16DuYxEdaPz3O8xAm3g4jvtzqzFCuF35z3MmaR8HiCnirwpdMOOHbnXD8BIet/x6oTso
+ Z8dm+wS2yXSaqcWKzkArmMWkV7eS/rzEmWZTIGf9tAJ3jAhVZVdaxkAJken7eBebw4t7
+ TK7ADkFdpZNNCXym2Dq5a8U68MSocNsrRDotOFgVHrEFjEaCtj9YkAycUA9e8sNH1V6u
+ O3Dw==
+X-Gm-Message-State: AFqh2kpjbbLE/dbKvjHHL7eWC5HCeWF/WmZejzPAsfD7vsjbaaiMa5Y/
+ 6YyaCLBoR8KnRZTIzE5BrhhgcQ==
+X-Google-Smtp-Source: AMrXdXuKfmVU/X200UICsEvwaj+nvARsnp25KvAHL/FFwR5PB7tHn8AY7CRU5+2gzb5XKRcKZXTiDQ==
+X-Received: by 2002:aa7:9683:0:b0:581:a8dc:8f94 with SMTP id
+ f3-20020aa79683000000b00581a8dc8f94mr26007941pfk.27.1672895352840; 
+ Wed, 04 Jan 2023 21:09:12 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:5a62:efe5:94a2:1dee?
  ([2602:47:d48c:8101:5a62:efe5:94a2:1dee])
  by smtp.gmail.com with ESMTPSA id
- w1-20020a1709029a8100b001925c3ec34esm24280697plp.196.2023.01.04.21.02.45
+ a6-20020aa795a6000000b005819313269csm14567279pfk.124.2023.01.04.21.09.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 21:02:45 -0800 (PST)
-Message-ID: <079601b5-1c91-9b85-ff75-91d0abb93ef8@linaro.org>
-Date: Wed, 4 Jan 2023 21:02:43 -0800
+ Wed, 04 Jan 2023 21:09:12 -0800 (PST)
+Message-ID: <8db4f96d-810f-bde5-d33b-12019434db47@linaro.org>
+Date: Wed, 4 Jan 2023 21:09:10 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 21/27] target/arm: make further preparation for the
- exception code to move
+Subject: Re: [RFC PATCH 22/27] target/arm: Move hflags code into the tcg
+ directory
 Content-Language: en-US
 To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -71,20 +70,20 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
 References: <20230104215835.24692-1-farosas@suse.de>
- <20230104215835.24692-22-farosas@suse.de>
+ <20230104215835.24692-23-farosas@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230104215835.24692-22-farosas@suse.de>
+In-Reply-To: <20230104215835.24692-23-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
 X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,24 +100,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/4/23 13:58, Fabiano Rosas wrote:
-> From: Claudio Fontana<cfontana@suse.de>
-> 
-> the exception code needs some adjustment before being exposed to
-> KVM-only builds. We need to call arm_rebuild_hflags only when TCG is
-> enabled, or we will error out.
-> 
-> The direct call to helper_rebuild_hflags_a64(env, new_el) will not
-> be possible when extracting out to common code,
-> it seems safe to replace it with a call to arm_rebuild_hflags, since
-> the write to pstate is already done.
-> 
-> Signed-off-by: Claudio Fontana<cfontana@suse.de>
-> Signed-off-by: Fabiano Rosas<farosas@suse.de>
-> ---
->   target/arm/helper.c | 10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
+> @@ -25,6 +25,7 @@
+>   #include "qemu/config-file.h"
+>   #include "qemu/option.h"
+>   #include "qemu/units.h"
+> +#include "sysemu/tcg.h"
+>   
+>   /* Kernel boot protocol is specified in the kernel docs
+>    * Documentation/arm/Booting and Documentation/arm64/booting.txt
+> @@ -827,7 +828,9 @@ static void do_cpu_reset(void *opaque)
+>                   info->secondary_cpu_reset_hook(cpu, info);
+>               }
+>           }
+> -        arm_rebuild_hflags(env);
+> +        if (tcg_enabled()) {
+> +            arm_rebuild_hflags(env);
+> +        }
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+We certainly are adding lots of wrapping for this function.
+Should we handle it just once in a header instead?
+
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -241,7 +241,7 @@ int sme_exception_el(CPUARMState *env, int el)
+>   }
+>   
+>   /* This corresponds to the ARM pseudocode function IsFullA64Enabled(). */
+> -static bool sme_fa64(CPUARMState *env, int el)
+> +bool sme_fa64(CPUARMState *env, int el)
+
+This function should be moved as well, as it's only used by hflags.
+
+> @@ -25,3 +26,12 @@ void arm_reset_sve_state(CPUARMState *env)
+>   {
+>       g_assert_not_reached();
+>   }
+> +
+> +void arm_rebuild_hflags(CPUARMState *env)
+> +{
+> +    g_assert_not_reached();
+> +}
+> +
+> +void assert_hflags_rebuild_correctly(CPUARMState *env)
+> +{
+> +}
+
+Do we really need these?  I would expect the tcg_enabled() test to dead-code-eliminate the 
+calls...
+
+
 
 r~
 
