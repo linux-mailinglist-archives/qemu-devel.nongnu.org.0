@@ -2,75 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6929865EA38
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 12:52:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD65265EA4C
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 13:02:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDOmt-0003kC-64; Thu, 05 Jan 2023 06:51:59 -0500
+	id 1pDOvG-00080o-OU; Thu, 05 Jan 2023 07:00:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDOmr-0003jX-OJ
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:51:57 -0500
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDOmp-0001dk-28
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:51:57 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id a30so9515658pfr.6
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 03:51:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kENL7zooPtJIi9NIEvIqTLkqmG0cHOnsRINd6CTofig=;
- b=RkHXpkT6M1X8ZY9qVZ4JVhOms43+E/7dypmYxBJS0t6QHfWazeN26s/Tvt3kUjpGiH
- sQcTo33DvK93dSZZEiQZzax7qKdx1vLzS0eGuAxHHhK0hoiROasdjQ7o69W+A5f7jI6O
- TWZoVLn4hI87hyJzCyUOjagNha7ZFfuLke7zMl7JMuz65HHlNxAmiYw+JdgltBdIxzid
- A2JLcksMfRXcouZAjg0cImovl2dFGL/Q9yN89N5AlxfnEXmzSi9am/b0yEiGxKb6gEnJ
- 6jmYvsDOlW57+9Iqs906TEXEekOM6dN5+aEVFQ//jCO8uF+dpTsP5WC/00DGtqTEByE3
- 4oPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kENL7zooPtJIi9NIEvIqTLkqmG0cHOnsRINd6CTofig=;
- b=vrrPxTVPYjY5fJD8TxwEcumB31VeCry47/JoxyFiN7HbrtIn9mfsCQAMmIVJWSvEPt
- u3E5hxOteTLlSJ1x346V4YpUdTuu7qrQg+IOxhOWnOeFRtxt9V9kAVI6DqdL/0EINipL
- nAaD7mZ0zZQMufe+Bfo8lhzEcdtpoZUUwB+UIepX25LI670Kc8TDrYT5/P+x/faSWnQz
- u3bKyyf7fQv7WeZYc7IHCfggTDnUPe5rbqX516RABGgKZgzuOsytJOjzPY+tZa3AZGE8
- ubDFep7Q77en+Vonk9umUhtKQCUMd/7DqoOH4/O4DyWUqaUgqWcb3ojkrbrTnXDbC6ME
- KqtA==
-X-Gm-Message-State: AFqh2kq9/A+4m5EM3lASJ841lzhYAmBJe/pyyg8u9kZpKKx4pj9BRi3m
- 4H8kXL0VSHz0K7X1mjIWF7Yz6wcpBWx/9FJAwaKD2w==
-X-Google-Smtp-Source: AMrXdXsbw16T7OID38zisWL29wwgq0gX7Z7LBa+Y4mGOna3DVTDUdetGwhZAGVA9iUdx8GkNI85kxJ745MOS6pBq7SM=
-X-Received: by 2002:a63:3d4:0:b0:492:50dc:da4d with SMTP id
- 203-20020a6303d4000000b0049250dcda4dmr2310726pgd.192.1672919513208; Thu, 05
- Jan 2023 03:51:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1pDOvB-0007yO-U9; Thu, 05 Jan 2023 07:00:33 -0500
+Received: from [125.120.151.138] (helo=liuqiang-OptiPlex-7060)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1pDOvA-0000CE-2C; Thu, 05 Jan 2023 07:00:33 -0500
+Received: from localhost (liuqiang-OptiPlex-7060 [local])
+ by liuqiang-OptiPlex-7060 (OpenSMTPD) with ESMTPA id 0a22dadd;
+ Thu, 5 Jan 2023 11:53:46 +0000 (UTC)
+From: Qiang Liu <cyruscyliu@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Qiang Liu <cyruscyliu@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org (open list:Xilinx ZynqMP and...)
+Subject: [PATCH] hw/display/xlnx_dp: fix underflow in xlnx_dp_aux_pop_tx_fifo()
+Date: Thu,  5 Jan 2023 19:53:38 +0800
+Message-Id: <20230105115338.442479-1-cyruscyliu@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230105114304.2017493-1-alex.bennee@linaro.org>
-In-Reply-To: <20230105114304.2017493-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Jan 2023 11:51:41 +0000
-Message-ID: <CAFEAcA-iBM9qnkJ4hm3vmboyZY=+9ErWENwbi=zHZ1YJ9DNDFw@mail.gmail.com>
-Subject: Re: [RFC PATCH] target/arm: fix handling of HLT semihosting in system
- mode
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- qemu-stable <qemu-stable@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 125.120.151.138 (failed)
+Received-SPF: softfail client-ip=125.120.151.138;
+ envelope-from=cyruscyliu@gmail.com; helo=liuqiang-OptiPlex-7060
+X-Spam_score_int: 48
+X-Spam_score: 4.8
+X-Spam_bar: ++++
+X-Spam_report: (4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
+ FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, FSL_HELO_NON_FQDN_1=0.001,
+ HELO_NO_DOMAIN=0.001, NML_ADSP_CUSTOM_MED=0.9, RCVD_IN_PBL=3.335,
+ RDNS_NONE=0.793, SPF_SOFTFAIL=0.665, SPOOFED_FREEMAIL=0.001,
+ SPOOFED_FREEMAIL_NO_RDNS=0.001, SPOOF_GMAIL_MID=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,24 +59,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 5 Jan 2023 at 11:43, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
-> The check semihosting_enabled() wants to know if the guest is
-> currently in user mode. Unlike the other cases the test was inverted
-> causing us to block semihosting calls in non-EL0 modes.
->
-> Fixes: 19b26317e9 (target/arm: Honour -semihosting-config userspace=3Don)
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Fixes: 58ac482a66de ("introduce xlnx-dp")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1418
+Reported-by: Qiang Liu <cyruscyliu@gmail.com>
+Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
+---
+ hw/display/xlnx_dp.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Whoops. I guess I must have only tested SVC AA32 semihosting
-or something. We should
+diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
+index 407518c870..322e2faadd 100644
+--- a/hw/display/xlnx_dp.c
++++ b/hw/display/xlnx_dp.c
+@@ -520,6 +520,10 @@ static void xlnx_dp_aux_set_command(XlnxDPState *s, uint32_t value)
+     case WRITE_AUX:
+     case WRITE_I2C:
+     case WRITE_I2C_MOT:
++        if (nbytes > fifo8_num_used(&s->tx_fifo)) {
++            qemu_log_mask(LOG_GUEST_ERROR, "xlnx_dp: TX length > fifo data length");
++            nbytes = fifo8_num_used(&s->tx_fifo);
++        }
+         for (i = 0; i < nbytes; i++) {
+             buf[i] = xlnx_dp_aux_pop_tx_fifo(s);
+         }
+-- 
+2.25.1
 
-Cc: qemu-stable@nongnu.org
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-and applied to target-arm.next.
-
--- PMM
 
