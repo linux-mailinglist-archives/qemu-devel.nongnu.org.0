@@ -2,79 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D23165F064
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 16:47:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD6B65F08A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 16:51:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDSQc-0002r7-MC; Thu, 05 Jan 2023 10:45:14 -0500
+	id 1pDSWm-0007jQ-9t; Thu, 05 Jan 2023 10:51:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pDSQb-0002qM-8u
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:45:13 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pDSQZ-0003eQ-3o
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:45:13 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id i15so53404706edf.2
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 07:45:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9at6yMfSF3yhy1XwRFnCUsppDrrfcpjNVZibx0hMuR0=;
- b=mhej6bA1Tv3dBLbT3/MotdmkoanPGI9G2E7aJUnE13a3wYG9gHMZBJ31p5Lf8sEa9q
- A6l2nJ/LwCxaXEpsABFkpWUaxu7LCy9xrrX+r0qOiZbXS7BRU/OxMnNr6M/FKIEHEfmG
- qV++oRXKFwt8Vnq6D7Ns8JkBhNLYKqLHfdBMPQD1cp9Ud8Q8nj+cV/WcCnxmIM4ZkYX9
- J6bFmdOTOKzD/qYO06t0lWVZnUH6qapkOz8AQ1zKCQMg+ux4EyeJITz0mJnrDJP6emkH
- 6K/url7d9+1hka4SFmxrxTQiBQVWbbfsasyVqreu22976hI+XJ3VTQeersPJnP35qfZg
- J4MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9at6yMfSF3yhy1XwRFnCUsppDrrfcpjNVZibx0hMuR0=;
- b=V9D84C42/qr0LesFX1BAjMf0uU6vsibEUTk6GHL/iex3EiCD3GX/R+vO+s27vh9m3M
- hUzgp6j5dMXHUJYdI0d5itGlzIq2Zbr+rR2AKeAhcd2eUMTI402JBxaNovIK/69AFqiZ
- EKjlRpxXMNJlK6XUuiZ3WDF/5+IFkTHBrAxE/AoodTNloQpkrmWdvJC+RvuyDN7HmHJS
- MuTpwbz6cs66zFoKZPrmOmpHfeU2KJAX7CAogbriMJA8KfmZBDU116BUhpfxLd8h0BRt
- Rx7RB5WsqqDjgsFZC+GD76RS0l3BahFN78ZQSuc9+2aU7QiBfJJvW2JJWqZupT8Cn+PM
- QMzA==
-X-Gm-Message-State: AFqh2krGqO9RSmuGxacGmHIhULx/5ddYgWVGdSClMxk9MolWULxMxk5u
- DX4Ap9qwypfoGVxT9OvhzOTFn3lH1B7odg==
-X-Google-Smtp-Source: AMrXdXuov+hcmVdMCuKQEmKd7CpU+cbKm0i1MEUcG6fUt5qCRPbUcSHI/BLAhc9nB5H708JwGqDJxg==
-X-Received: by 2002:aa7:d1d8:0:b0:467:692e:8148 with SMTP id
- g24-20020aa7d1d8000000b00467692e8148mr43633427edp.41.1672933509628; 
- Thu, 05 Jan 2023 07:45:09 -0800 (PST)
-Received: from osoxes.fritz.box
- (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
- by smtp.gmail.com with ESMTPSA id
- dk28-20020a0564021d9c00b004856bba2c8bsm12371004edb.47.2023.01.05.07.45.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 07:45:09 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1pDSWf-0007dU-Vq
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:51:29 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1pDSWe-0004ts-D9
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 10:51:29 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 305F75xn017379
+ for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 15:51:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=rT9v1HQX5pZKaMAHn1MYyE8vxs/fCzMt25QK4T7l/h4=;
+ b=oL9S6xRRkpWUaMg71Xl3XaajDEJ/goFzA+UtuLw5+rktq1yJEE9Z+Q9VQrbn2N1UvOUi
+ n5K4hxuQJPL7CUFE7Ojc97FRCWUoTRopfELo2gvSL0mfd8FK5ShjHtEt1yrK5r0yWhSE
+ 1tvn+P8RGyaWmt89Vp2ne82X04XgSYTWjW3DkO9yG9HuWOYja4bTDMgaVXbHgJXax9aZ
+ gjmW/sE7VDMzeVgeFxcrcqEaNhr7PvuT27yQFB/VwDvPYQ7f9o/IKr08iahUqEJmTi1h
+ 2QdufrG1Uff4Lp+JyNsFjLA/FlC3SLVU2/7G7F0B7LL5PjlPMeNtfxQ2RRg46WKECrsJ cg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mwye83k6h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 15:51:26 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 305FlJmg028253
+ for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 15:51:26 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mwye83k5f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Jan 2023 15:51:26 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3054nt1r020244;
+ Thu, 5 Jan 2023 15:50:26 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3mtcq6eyhj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Jan 2023 15:50:25 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 305FoLkV42402254
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 5 Jan 2023 15:50:21 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2743B20043;
+ Thu,  5 Jan 2023 15:50:21 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9A30F2004D;
+ Thu,  5 Jan 2023 15:50:20 +0000 (GMT)
+Received: from p-imbrenda.ibmuc.com (unknown [9.171.26.82])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu,  5 Jan 2023 15:50:20 +0000 (GMT)
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 2/2] hw/pci-host/bonito: Map PCI IRQs in board code
-Date: Thu,  5 Jan 2023 16:44:40 +0100
-Message-Id: <20230105154440.259361-3-shentey@gmail.com>
+Cc: david@redhat.com, thuth@redhat.com, borntraeger@de.ibm.com,
+ frankja@linux.ibm.com, pasic@linux.ibm.com, nrb@linux.ibm.com,
+ nsg@linux.ibm.com, seiden@linux.ibm.com
+Subject: [PATCH v2 0/2] s390x/pv: Add support for asynchronous teardown for
+ reboot
+Date: Thu,  5 Jan 2023 16:50:17 +0100
+Message-Id: <20230105155019.72200-1-imbrenda@linux.ibm.com>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230105154440.259361-1-shentey@gmail.com>
-References: <20230105154440.259361-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: UhGmSfS2H38_M4a5p5exfsITnGwQweLy
+X-Proofpoint-GUID: 7ies0IOb_8ZX3EBrmh8BStGYIktDofJU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-05_06,2023-01-05_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxscore=0
+ malwarescore=0 adultscore=0 clxscore=1015 suspectscore=0 mlxlogscore=536
+ phishscore=0 bulkscore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301050122
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,118 +112,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PCI IRQ mapping is board specific, as could be seen by
-pci_bonito_map_irq(). So move it to board code and rename it.
+The first patch is just a minimal header update to compile the second
+patch; it can be safely discarded once the Linux headers are updated to
+6.2.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- include/hw/pci-host/bonito.h |  2 ++
- hw/mips/fuloong2e.c          | 22 ++++++++++++++++++++++
- hw/pci-host/bonito.c         | 24 ------------------------
- 3 files changed, 24 insertions(+), 24 deletions(-)
+The second patch adds support for asynchronous teardown of protected
+guests when rebooting. First the existing guest is prepared for
+asynchronous teardown, the rebooted guest will be able to continue
+immediately, while a background thread actually performs the necessary
+cleanup.
 
-diff --git a/include/hw/pci-host/bonito.h b/include/hw/pci-host/bonito.h
-index b8ecf7870a..5ed0b48d51 100644
---- a/include/hw/pci-host/bonito.h
-+++ b/include/hw/pci-host/bonito.h
-@@ -12,6 +12,8 @@
- 
- #include "qom/object.h"
- 
-+#define BONITO_IRQ_BASE 32
-+
- #define TYPE_BONITO_PCI_HOST_BRIDGE "Bonito-pcihost"
- OBJECT_DECLARE_SIMPLE_TYPE(BonitoState, BONITO_PCI_HOST_BRIDGE)
- 
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index f41e19dc3f..7ac5940741 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -200,6 +200,27 @@ static void main_cpu_reset(void *opaque)
-     }
- }
- 
-+/* Map the original irq (0~3) to bonito irq (16~47, but 16~31 are unused) */
-+static int pci_fuloong2e_map_irq(PCIDevice *pci_dev, int irq_num)
-+{
-+    int slot;
-+
-+    slot = PCI_SLOT(pci_dev->devfn);
-+
-+    switch (slot) {
-+    case 5:   /* FULOONG2E_VIA_SLOT, SouthBridge, IDE, USB, ACPI, AC97, MC97 */
-+        return irq_num % 4 + BONITO_IRQ_BASE;
-+    case 6:   /* FULOONG2E_ATI_SLOT, VGA */
-+        return 4 + BONITO_IRQ_BASE;
-+    case 7:   /* FULOONG2E_RTL_SLOT, RTL8139 */
-+        return 5 + BONITO_IRQ_BASE;
-+    case 8 ... 12: /* PCI slot 1 to 4 */
-+        return (slot - 8 + irq_num) + 6 + BONITO_IRQ_BASE;
-+    default:  /* Unknown device, don't do any translation */
-+        return irq_num;
-+    }
-+}
-+
- /* Network support */
- static void network_init(PCIBus *pci_bus)
- {
-@@ -297,6 +318,7 @@ static void mips_fuloong2e_init(MachineState *machine)
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-     sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, env->irq[2]);
-     pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
-+    pci_bus_map_irqs(pci_bus, pci_fuloong2e_map_irq);
- 
-     /* South bridge -> IP5 */
-     pci_dev = pci_create_simple_multifunction(pci_bus,
-diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index 0ec437a623..ad1ca7e454 100644
---- a/hw/pci-host/bonito.c
-+++ b/hw/pci-host/bonito.c
-@@ -548,8 +548,6 @@ static const MemoryRegionOps bonito_spciconf_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
--#define BONITO_IRQ_BASE 32
--
- static void pci_bonito_set_irq(void *opaque, int irq_num, int level)
- {
-     BonitoState *s = opaque;
-@@ -567,27 +565,6 @@ static void pci_bonito_set_irq(void *opaque, int irq_num, int level)
-     }
- }
- 
--/* map the original irq (0~3) to bonito irq (16~47, but 16~31 are unused) */
--static int pci_bonito_map_irq(PCIDevice *pci_dev, int irq_num)
--{
--    int slot;
--
--    slot = PCI_SLOT(pci_dev->devfn);
--
--    switch (slot) {
--    case 5:   /* FULOONG2E_VIA_SLOT, SouthBridge, IDE, USB, ACPI, AC97, MC97 */
--        return irq_num % 4 + BONITO_IRQ_BASE;
--    case 6:   /* FULOONG2E_ATI_SLOT, VGA */
--        return 4 + BONITO_IRQ_BASE;
--    case 7:   /* FULOONG2E_RTL_SLOT, RTL8139 */
--        return 5 + BONITO_IRQ_BASE;
--    case 8 ... 12: /* PCI slot 1 to 4 */
--        return (slot - 8 + irq_num) + 6 + BONITO_IRQ_BASE;
--    default:  /* Unknown device, don't do any translation */
--        return irq_num;
--    }
--}
--
- static void bonito_reset_hold(Object *obj)
- {
-     PCIBonitoState *s = PCI_BONITO(obj);
-@@ -635,7 +612,6 @@ static void bonito_host_realize(DeviceState *dev, Error **errp)
-     phb->bus = pci_root_bus_new(dev, "pci", &bs->pci_mem, get_system_io(),
-                                 PCI_DEVFN(5, 0), TYPE_PCI_BUS);
-     pci_bus_irqs(phb->bus, pci_bonito_set_irq, dev, 32);
--    pci_bus_map_irqs(phb->bus, pci_bonito_map_irq);
- 
-     for (size_t i = 0; i < 3; i++) {
-         char *name = g_strdup_printf("pci.lomem%zu", i);
+v1->v2:
+* remove useless snprintf and pass the name of the thread directly
+* make the name of the thread more understandable
+
+Claudio Imbrenda (2):
+  Linux header update
+  s390x/pv: Add support for asynchronous teardown for reboot
+
+ hw/s390x/pv.c              | 25 +++++++++++++++++++++++++
+ hw/s390x/s390-virtio-ccw.c |  5 ++++-
+ include/hw/s390x/pv.h      |  2 ++
+ linux-headers/linux/kvm.h  |  3 +++
+ 4 files changed, 34 insertions(+), 1 deletion(-)
+
 -- 
 2.39.0
 
