@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0AA165F165
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:47:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48ED65F16F
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:49:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTL0-0006su-5G; Thu, 05 Jan 2023 11:43:30 -0500
+	id 1pDTL3-0006yJ-5w; Thu, 05 Jan 2023 11:43:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pDTKy-0006rs-FX
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:43:28 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ id 1pDTL1-0006vY-95
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:43:31 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pDTKt-0006vk-GA
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:43:28 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- g25-20020a7bc4d9000000b003d97c8d4941so1728533wmk.4
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:43:22 -0800 (PST)
+ id 1pDTKu-0006xB-EV
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:43:31 -0500
+Received: by mail-wr1-x435.google.com with SMTP id r2so1883190wrv.7
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:43:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JPkl1ua/jXIj//qrN71d3DFOxM8PoMBDQnDzXwdNRYQ=;
- b=EIE/DgcCLUkfzhMtyivozCdgrPG/pDKtQ+peiYZgWjE+DQqx9+bXf06ohG8KvhQp/T
- /JJm82kOcW0Suj8d1CwAFM3mX6oLBHEc7fXVXZvi2ks5dh5V6JUetaBKWFNQT1Xp14DA
- z84saW4tJTKyGNSfG8gvw6vznrjgi8KRizrjw0fuVcQlnIpT5hczwQvro19wN3AYcJzr
- gmenat8rlvcEHEEKwG++ETz/Va4awjHkhPojqmLIgAuZzzO6ymLmkTrx5zq0eeN/vmP8
- LPk+70K4UNtyuGTa7lO5W6SGnf2K8oER8ogfYGZkGunRfABcsfE6hGDHnW4F9zx3XuA9
- gSDQ==
+ bh=GhrjSnT/Glu7TWodfXcdSK1T68Co48MWYkYtDcwjWjE=;
+ b=tw/tzPRytrFd9P9aNQxxANnY2ZUNQpS57qd2q7FfDVS68TbvgFOB7RCKnDBGud06+V
+ Twb4E+hbMFK/gAIZGp1FxwFpAfT34yy4Q95dD4ai8ClBfOJPLxiM5ug0X2AUhY8HvPZt
+ 1OSLMM3sSq9dvHthIY6c3+mw+3CaduCqOhy7DUtB083+BaRpsRhHZXlo5ju+8ngX2Yrq
+ /swPVQoux0/UTi8RiJctIrhHXAOEdVNSTN/bw6Re2VH9gbeicjL+6bH0W9ZeC7Oi3I+0
+ RElcCtiS0ASiJBKROUmBMFCm5oFsotMb920dHflbr//Og7/iYTM1JQHzNbGQtnrzt9l5
+ sZ+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JPkl1ua/jXIj//qrN71d3DFOxM8PoMBDQnDzXwdNRYQ=;
- b=u/Fom+xVId9/8S32Te9Uf0TSkiMiAAur/g0JkJh8Ycgu+t+NnP1DRTqJgfFY9vlQ6z
- j2r0MuYq3vXyyRcl1+zKAuKtBYk41jMUf90SGL2BO3fHZZIlNW63GtG4lcng7UPPu3Kn
- 5sPcEBRWLe9EB6qxcJAcwC4psbViuiBgWdsX5K9JCuNagHRygDmNWBQW2Yrw/fcprE9q
- FDVHqSd19iQhK6SrnFL8rKX3Yk2i1e2OqwVJQev9mF++UwZYyL7HjxZSFeYjZyhv8Jsu
- 0/jLfpdWnp/D9NT0s/fJ4wcVMfqBy/tcLHEuxfcZPVvGuVwJRqcNN5ZxUcItX6mUfQyw
- Ft4A==
-X-Gm-Message-State: AFqh2kozQT14pw6JcgOxdzi/gcPdBqT0CKCN3q0NydDIR57M7C5YwYal
- sgC9oUuiKzRjwPCguvDM9dtrWA==
-X-Google-Smtp-Source: AMrXdXsgJgdyAayDcGuvCHfEMZCmIa9JozZ1tiQzcgqolYH3JUV2+BpcTL3c89a/vQxklPJXrJjk5Q==
-X-Received: by 2002:a05:600c:34ce:b0:3cf:614e:b587 with SMTP id
- d14-20020a05600c34ce00b003cf614eb587mr40207474wmq.26.1672937001167; 
- Thu, 05 Jan 2023 08:43:21 -0800 (PST)
+ bh=GhrjSnT/Glu7TWodfXcdSK1T68Co48MWYkYtDcwjWjE=;
+ b=vgCQb0PYb1/LMN1Bi8WPNz2Wo7Eq61epS98+g/Vfk/3N0dGsSy1Ck5wAxPeTx2EvO4
+ zg+KEq7SbzFEKtBsgoUH35XpyyoB8RxWODfvKRKrWXxYAOuM9+cyKQhEz5e+coYBxh0e
+ SzvqGB5A2/yQe75oRs7HSC0KetDACuXsq4O88jBbcyAWahzI5diw3NP749shPy06TGd2
+ y2ozcGyTxFelBJfSC/0yEzffBxo/Po1/HnpCkZ7fV28tRFCvpLadQ+3JJ0MO2nPUvr4U
+ 3ZHqMDpkP1zHLcow5WvW9ITdKUqX1FqBOct7K5qvaHYidl5oU/CMPplo9pOVLSrsGOts
+ pJVA==
+X-Gm-Message-State: AFqh2kpuiFDJAHQTeKsCdipVYQBILTDq5kONI6Mw6GhzEsV+aybsaqk3
+ Gul8I8m6y9hb+RSsTE3rkYk65g==
+X-Google-Smtp-Source: AMrXdXtitbB7iGD0ocqh7YTWzYcAQjem3wgDmBT0gZDTD4uCosEEUXNOHl/iSd/SEKVsAlJWhyi/Ng==
+X-Received: by 2002:a5d:6b4f:0:b0:242:1ad2:15e1 with SMTP id
+ x15-20020a5d6b4f000000b002421ad215e1mr31778863wrw.2.1672937003085; 
+ Thu, 05 Jan 2023 08:43:23 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- j1-20020a05600c1c0100b003cfaae07f68sm3417832wms.17.2023.01.05.08.43.20
+ o15-20020a5d684f000000b00286ad197346sm23886826wrw.70.2023.01.05.08.43.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:43:20 -0800 (PST)
+ Thu, 05 Jan 2023 08:43:22 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6C4301FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id 8B29A1FFBB;
  Thu,  5 Jan 2023 16:43:20 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org,
@@ -92,17 +91,17 @@ Cc: David Hildenbrand <david@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>,
  Yoshinori Sato <ysato@users.sourceforge.jp>,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-arm@nongnu.org
-Subject: [PATCH v2 01/21] gdbstub/internals.h: clean up include guard
-Date: Thu,  5 Jan 2023 16:43:00 +0000
-Message-Id: <20230105164320.2164095-2-alex.bennee@linaro.org>
+Subject: [PATCH v2 03/21] gdbstub: fix-up copyright and license files
+Date: Thu,  5 Jan 2023 16:43:02 +0000
+Message-Id: <20230105164320.2164095-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230105164320.2164095-1-alex.bennee@linaro.org>
 References: <20230105164320.2164095-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -125,34 +124,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use something more specific to avoid name clashes.
+When I started splitting gdbstub apart I was a little too boilerplate
+with my file headers. Fix up to carry over Fabrice's copyright and the
+LGPL license header.
 
+Fixes: ae7467b1ac (gdbstub: move breakpoint logic to accel ops)
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- gdbstub/internals.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ gdbstub/softmmu.c | 3 ++-
+ gdbstub/user.c    | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/gdbstub/internals.h b/gdbstub/internals.h
-index eabb0341d1..b444f24ef5 100644
---- a/gdbstub/internals.h
-+++ b/gdbstub/internals.h
-@@ -6,12 +6,12 @@
-  * SPDX-License-Identifier: GPL-2.0-or-later
+diff --git a/gdbstub/softmmu.c b/gdbstub/softmmu.c
+index f208c6cf15..183dfb40e4 100644
+--- a/gdbstub/softmmu.c
++++ b/gdbstub/softmmu.c
+@@ -4,9 +4,10 @@
+  * Debug integration depends on support from the individual
+  * accelerators so most of this involves calling the ops helpers.
+  *
++ * Copyright (c) 2003-2005 Fabrice Bellard
+  * Copyright (c) 2022 Linaro Ltd
+  *
+- * SPDX-License-Identifier: GPL-2.0-or-later
++ * SPDX-License-Identifier: LGPL-2.0+
   */
  
--#ifndef _INTERNALS_H_
--#define _INTERNALS_H_
-+#ifndef GDBSTUB_INTERNALS_H
-+#define GDBSTUB_INTERNALS_H
+ #include "qemu/osdep.h"
+diff --git a/gdbstub/user.c b/gdbstub/user.c
+index 033e5fdd71..a5f370bcf9 100644
+--- a/gdbstub/user.c
++++ b/gdbstub/user.c
+@@ -3,9 +3,10 @@
+  *
+  * We know for user-mode we are using TCG so we can call stuff directly.
+  *
++ * Copyright (c) 2003-2005 Fabrice Bellard
+  * Copyright (c) 2022 Linaro Ltd
+  *
+- * SPDX-License-Identifier: GPL-2.0-or-later
++ * SPDX-License-Identifier: LGPL-2.0+
+  */
  
- bool gdb_supports_guest_debug(void);
- int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr len);
- int gdb_breakpoint_remove(CPUState *cs, int type, hwaddr addr, hwaddr len);
- void gdb_breakpoint_remove_all(CPUState *cs);
- 
--#endif /* _INTERNALS_H_ */
-+#endif /* GDBSTUB_INTERNALS_H */
+ #include "qemu/osdep.h"
 -- 
 2.34.1
 
