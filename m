@@ -2,64 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A65765E502
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 06:17:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F8165E505
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 06:20:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDIcm-0008Ai-71; Thu, 05 Jan 2023 00:17:08 -0500
+	id 1pDIfO-00015U-QK; Thu, 05 Jan 2023 00:19:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ebiggers@kernel.org>)
- id 1pDIck-00088h-Nj
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:17:06 -0500
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ebiggers@kernel.org>)
- id 1pDIci-0006UF-Ud
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:17:06 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 22F5D60B99;
- Thu,  5 Jan 2023 05:17:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38D78C433EF;
- Thu,  5 Jan 2023 05:17:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1672895821;
- bh=hCwvN8JyCMfjFhATTmVrCdPtmoy8Mrwboqm/M2hXlvI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Qi/B9yr0ZwZHgT2Kc8fQATgqOUMWnYlcinidThuWKcdTsp0ydU8qkFQTXV/q4C5HU
- eo74Bl1GdUO0TPRmxJTWWJKBU3MdiHpb2VSaNHVgsp7rMeyveij5OgpJV++JqfYgz3
- qYsu3Z+GyuZdGwv6V6SRTuVShRMOEZIDbWz7V/oDgVV1v3A6ymiMr7NcP8YZut0e2B
- xTvf5pMYG48dfV1y3R7E1bWIetYHYSpx5q/vdp34v1cefVlBpLB4w20mOMK2WjP4Mf
- rA+GAFo8SlWPeFdZOjv7hhneF64XxZVjrBcVVlqKO2Wqt/fZ6S/bzMvD2MmVlytW+v
- S+vxL1Eb6mjRQ==
-Date: Wed, 4 Jan 2023 21:16:59 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: pbonzini@redhat.com, x86@kernel.org, linux-kernel@vger.kernel.org,
- qemu-devel@nongnu.org, ardb@kernel.org, kraxel@redhat.com,
- hpa@zytor.com, bp@alien8.de, philmd@linaro.org
-Subject: Re: [PATCH qemu v3] x86: don't let decompressed kernel image clobber
- setup_data
-Message-ID: <Y7ZdS/IHDpGkvI9Y@sol.localdomain>
-References: <Y69fUstLKNv/RLd7@zx2c4.com>
- <20221230220725.618763-1-Jason@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDIfK-00014h-Eu
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:19:46 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDIfJ-0000Gu-2D
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:19:46 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ n65-20020a17090a2cc700b0021bc5ef7a14so984061pjd.0
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 21:19:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=zlWWI91i6rQkNBj1sgrfBtYBFXYAAqNcoNe266kSgvA=;
+ b=fekFMaffFrmRP5RDYTpjBME0o465xwT5qO3ifL4oV0l65nHgCmPF6S0g3VgM9QMUXp
+ 8/zZqSP9zjwqcJkcE36XVEGTkcLHEkSuCYzJfb75J/SO9IRITmGBZ3ewExLmxDHK4cvD
+ O2k3SjnarnAkmXmsf0AlSTuUu4WaS42RKT3KTsfPglk0RymlxpNNHkBO2o3KTRFVLeJC
+ 746OIxTjxXIsAPvkzDMKgbDxVznX3kAjCOnRo/LqfXF9SPI3YNj7IT4YD3hwaLeAPnZd
+ Qpn7baDguQ0Gm85NZsQ9v6gPXArGRdjNgl7BIvR1TG4hqkktCNnz7Eqha+l297G8jAn/
+ gpSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zlWWI91i6rQkNBj1sgrfBtYBFXYAAqNcoNe266kSgvA=;
+ b=vcJlf24V54F5+8ztQUbMA2QZVbcRZbDzzx70nuIVwqHTII745jIEv7Nj7NnByZrgfb
+ YOD7DFl71+BdzuHShqzz6Yi7GiTOmfXSLrY7fgSxzA9Z72B+8kRwbKfKmcz/TyUrKUw/
+ 1ZQJ/PraWNOFPEHjQynJbpHt3OCYLNpAuSYzpVgxrqutaH2Xe+iHNF7k7u+wCPHTCPWp
+ exic77KH+sGzIBdXW+Ijr0gYhGxGZUs7/q1ob2yj6bweXDOloF+m+D/j+Bm5br2uoicj
+ NPkzQO/4SfF47eKt9JQg/I1QN94JDwozZX24xX2yv+62dLrKbEmmaLNEjweQazwRJsuC
+ VDAA==
+X-Gm-Message-State: AFqh2kqCe4Uj6e6voIwW/J3DWQQHKmyXpXqPgBzM0Rd/gXiA8sAZQ6zW
+ ro8Rq6PfuifpZuvM75ELsavTKQ==
+X-Google-Smtp-Source: AMrXdXsj/Im8lHWYaOWRYHormgRNXgzPoBUb2t9f2A36eS2rejbVPOLf326tex69LvlRQYxVd72cVA==
+X-Received: by 2002:a17:90a:a4b:b0:225:d285:acd4 with SMTP id
+ o69-20020a17090a0a4b00b00225d285acd4mr42635636pjo.32.1672895983209; 
+ Wed, 04 Jan 2023 21:19:43 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:5a62:efe5:94a2:1dee?
+ ([2602:47:d48c:8101:5a62:efe5:94a2:1dee])
+ by smtp.gmail.com with ESMTPSA id
+ ha24-20020a17090af3d800b00225d92d69b6sm441580pjb.29.2023.01.04.21.19.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Jan 2023 21:19:42 -0800 (PST)
+Message-ID: <6cf2f6fc-fdc6-6903-4594-3f9b7be3befa@linaro.org>
+Date: Wed, 4 Jan 2023 21:19:40 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221230220725.618763-1-Jason@zx2c4.com>
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=ebiggers@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH 27/27] target/arm: don't access TCG code when
+ debugging with KVM
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
+References: <20230104215835.24692-1-farosas@suse.de>
+ <20230104215835.24692-28-farosas@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230104215835.24692-28-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,72 +100,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 30, 2022 at 11:07:25PM +0100, Jason A. Donenfeld wrote:
-> The setup_data links are appended to the compressed kernel image. Since
-> the kernel image is typically loaded at 0x100000, setup_data lives at
-> `0x100000 + compressed_size`, which does not get relocated during the
-> kernel's boot process.
+On 1/4/23 13:58, Fabiano Rosas wrote:
+> When TCG is disabled this part of the code should not be reachable, so
+> wrap it with an ifdef for now.
 > 
-> The kernel typically decompresses the image starting at address
-> 0x1000000 (note: there's one more zero there than the compressed image
-> above). This usually is fine for most kernels.
+> This allows us to start using CONFIG_TCG=n (--disable-tcg in the
+> configure line).
 > 
-> However, if the compressed image is actually quite large, then
-> setup_data will live at a `0x100000 + compressed_size` that extends into
-> the decompressed zone at 0x1000000. In other words, if compressed_size
-> is larger than `0x1000000 - 0x100000`, then the decompression step will
-> clobber setup_data, resulting in crashes.
-> 
-> Visually, what happens now is that QEMU appends setup_data to the kernel
-> image:
-> 
->           kernel image            setup_data
->    |--------------------------||----------------|
-> 0x100000                  0x100000+l1     0x100000+l1+l2
-> 
-> The problem is that this decompresses to 0x1000000 (one more zero). So
-> if l1 is > (0x1000000-0x100000), then this winds up looking like:
-> 
->           kernel image            setup_data
->    |--------------------------||----------------|
-> 0x100000                  0x100000+l1     0x100000+l1+l2
-> 
->                                  d e c o m p r e s s e d   k e r n e l
->                      |-------------------------------------------------------------|
->                 0x1000000                                                     0x1000000+l3
-> 
-> The decompressed kernel seemingly overwriting the compressed kernel
-> image isn't a problem, because that gets relocated to a higher address
-> early on in the boot process, at the end of startup_64. setup_data,
-> however, stays in the same place, since those links are self referential
-> and nothing fixes them up.  So the decompressed kernel clobbers it.
-> 
-> Fix this by appending setup_data to the cmdline blob rather than the
-> kernel image blob, which remains at a lower address that won't get
-> clobbered.
-> 
-> This could have been done by overwriting the initrd blob instead, but
-> that poses big difficulties, such as no longer being able to use memory
-> mapped files for initrd, hurting performance, and, more importantly, the
-> initrd address calculation is hard coded in qboot, and it always grows
-> down rather than up, which means lots of brittle semantics would have to
-> be changed around, incurring more complexity. In contrast, using cmdline
-> is simple and doesn't interfere with anything.
-> 
-> The microvm machine has a gross hack where it fiddles with fw_cfg data
-> after the fact. So this hack is updated to account for this appending,
-> by reserving some bytes.
-> 
-> Cc: x86@kernel.org
-> Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
-> Cc: H. Peter Anvin <hpa@zytor.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Eric Biggers <ebiggers@kernel.org>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> Signed-off-by: Fabiano Rosas<farosas@suse.de>
+> ---
+> As I understand it, only a small part of the ptw routines should be
+> necessary for use with KVM+gdbstub. But I don't know enough about arm
+> MMU yet to make that distinction.
+> ---
+>   target/arm/ptw.c | 4 ++++
+>   1 file changed, 4 insertions(+)
 
-For what it's worth:
+If we ever hit the assert (and I can't imagine why we would from kvm), we could adjust the 
+preceding test vs in_debug, which would take kvm back to the setup we had prior to the 
+rewrite.
 
-Tested-by: Eric Biggers <ebiggers@google.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-- Eric
+
+r~
 
