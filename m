@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B1765F5FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 22:44:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C17F65F62D
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 22:49:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDY0Y-0001QG-DI; Thu, 05 Jan 2023 16:42:42 -0500
+	id 1pDY6a-0002jb-AL; Thu, 05 Jan 2023 16:48:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDY0U-0001Q0-Tv
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 16:42:39 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDY6S-0002j1-Ey
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 16:48:48 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDY0T-0001P1-9z
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 16:42:38 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- k26-20020a05600c1c9a00b003d972646a7dso2323670wms.5
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 13:42:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDY6Q-0004aL-II
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 16:48:47 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id m7so2990094wrn.10
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 13:48:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YrHE8zqcZye9tUIoOoe8sOeR31VRwGN+ZvcZgxMmVsY=;
- b=iFibkqxrIyKCZ4z0q0/aMZxzahEKjMiLmca8voFMAHJcRyocwoNfXmJ1lXHSaDTIgC
- 73OYhtCTmhYlmgPhx7wZiC11QP/ASjXiuP2evS5KLZLKIkB7X0AgFE93qZralFqYo3my
- 4iU+mDiBgiTmP33gb1A+K4RYREXgm9qqdA5lmQe+d6s3Or4Uf2IiszbZBB51CKIcnM9u
- lKpSV6F6gh1BXCDj+kQvSRHveQxeJp/hl4nzlMG+3xRLN0tpBGVjtin87Og7HGt+wnT1
- CjRbxfpAIUMUREBOdSj2ogQPv+s5e+cFzpSH2TBAXTh1zWAHuqTahOdYq1Tgpfg4F792
- B9cw==
+ bh=yqdC+oc99KuiOltyxQMY22Jo2Lp2DJsDJqSD7vgv+9g=;
+ b=CTQsT9Liucj5YTWeubRmS9PnRuhBHySJqqCFJrcy0yxh7Ql1tW8FL7nX2L0I68vdrb
+ P/xnQCjhYbuuQAS/kuQjo1yQ8Z5IEWGE9TIrGOGjNe3viVmGEY46KngOGxq3y/BZ357p
+ GwqlN5VbFAUahL7wtWD1l0dVWN6XFqp8qjo0jQP+XKeED5bIo6Ibgvci8T9ZzAxx76H+
+ +pTzP4LAPUYKVDGfcMOrX+cLP6KrPYtk13KRHQ0R09IhkfOzBa0bhEdxIqwlaTzCe3K4
+ 4KepN99Q8BrklcI3sOJVNNC3gCoJ4Iw7Z13vRxWiomiw7AQvL7gbYCAmZofoUJnuSyU+
+ lg4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YrHE8zqcZye9tUIoOoe8sOeR31VRwGN+ZvcZgxMmVsY=;
- b=v8OrIX8PmQvp+/pTGru73t5WQgiTffVR+TKx/YViPnEvs1Wgw2VPFKBUVOPLmN0z7i
- fuQo/RZDnSgolWE00O2EFRISLaGWSxjSGd3L4iEK2aUDXVB6SKjw59dN8H1tUKfRo7Ry
- l82fktCgn3WaSQRwoo5Wzi+tGR2fILrSuESwZnH+dmz/1e3hHEayTANRJKjYcAu/WF9g
- tsInuds39Hd83NJa7EoGuagNbdi08lIsqMkPX21Fjw3pC5DX+C9mL+QEM9Tx1WVmRVpt
- Kv7YOZgi6dGTUGEs0v/LVH5kJmBUeoFjjnS6NrnQuUc+TDILa87WV0IqYbdzuUbgW/zL
- B8hA==
-X-Gm-Message-State: AFqh2kp1uPe4ogAZof8zTYBvyGIdeKihq1TS3YIBcllViPs9vVUGUrTj
- 3sTTClHs7bHRF2W1RgOsnxNnNg==
-X-Google-Smtp-Source: AMrXdXuNZoOMgoniuaMzBOrfk8qLZZVL+YItJ43SdYhDOF4kBWKKBBRNQz6NqPxXiNhhDUGJkSJaoA==
-X-Received: by 2002:a05:600c:4da0:b0:3d3:5027:4cce with SMTP id
- v32-20020a05600c4da000b003d350274ccemr39667961wmp.10.1672954953599; 
- Thu, 05 Jan 2023 13:42:33 -0800 (PST)
+ bh=yqdC+oc99KuiOltyxQMY22Jo2Lp2DJsDJqSD7vgv+9g=;
+ b=KMFiYwMs1ow2ZAUMWX/D2OzCBE52tKq77ODvwXAS4uJsGdzcpFwD/xjC4NahY22xtY
+ lPGtC2ZP+NeN3YYYPzYTFlH4i3bPNeqZnNLu/Vvv024+GK6hJ47WM+YlqLzSv6e5aYn1
+ 7vSGG8H9aoF5Nn3IuVg55YDPwOUMoYNsTlmDK6ftq/B9uIX6v6HqGeeRsuL+8la+fHLk
+ 387MshpbXXkKz3fkM6awCj/xK5QB3i4xr2B6UQAhG9oTVR8/Nl6/8+lO23JJcmWiZOND
+ J62x9fYOcFSWq6xHeyxSVjMeO1qHdC0KaM57ufr9mSBobx0eTxgJtOfRE7svY9nmdpFW
+ +JzA==
+X-Gm-Message-State: AFqh2kqW/TwmNBQ+Gi2eeaHYseaoiBFeu+BA+Bt1WVFRhKVchzG6KTiX
+ a11KQ01wGpxqLEaMdn+Z7KrOXA==
+X-Google-Smtp-Source: AMrXdXsV5Vp+w3ajdXlP2TYoFTXxHsfniq/NlnE2HazBf5228HiRhAWrxhhMu9fFZAy7C+rJ01SHow==
+X-Received: by 2002:adf:f983:0:b0:2b9:28ef:24d8 with SMTP id
+ f3-20020adff983000000b002b928ef24d8mr631644wrr.51.1672955324556; 
+ Thu, 05 Jan 2023 13:48:44 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- o5-20020a05600c510500b003b4ff30e566sm8802361wms.3.2023.01.05.13.42.31
+ j6-20020a056000124600b0029100e8dedasm17726221wrx.28.2023.01.05.13.48.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 13:42:33 -0800 (PST)
-Message-ID: <4ff2d01a-e6bb-5a99-356b-6b2ade61b667@linaro.org>
-Date: Thu, 5 Jan 2023 22:42:29 +0100
+ Thu, 05 Jan 2023 13:48:44 -0800 (PST)
+Message-ID: <611df9d8-b3d6-9879-5d51-cc63aff1c807@linaro.org>
+Date: Thu, 5 Jan 2023 22:48:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] .gitlab-ci.d/windows: Do not run the qtests in the
- msys2-32bit job
+Subject: Re: [RFC PATCH 13/40] hw/arm/bcm2836: Set mp-affinity property in
+ realize
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>
-References: <20230105204819.26992-1-thuth@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
+ armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
+References: <20230103181646.55711-1-richard.henderson@linaro.org>
+ <20230103181646.55711-14-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230105204819.26992-1-thuth@redhat.com>
+In-Reply-To: <20230103181646.55711-14-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -95,35 +93,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/1/23 21:48, Thomas Huth wrote:
-> The qtests are not stable in the msys2-32bit job yet - especially
-> the test-hmp and the qom-test are failing randomly. Until this is
-> fixed,
-
-Who is gonna look after this?
-
-I'm not against this patch, but I'm afraid this config starts to
-bitrot more. That said, maybe it is time to deprecate the 32-bit
-hosts?
-
-> let's better disable the qtests here again to avoid failing
-> CI tests.
+On 3/1/23 19:16, Richard Henderson wrote:
+> There was even a TODO comment that we ought to be using a cpu
+> property, but we failed to update when the property was added.
+> Use ARM_AFF1_SHIFT instead of the bare constant 8.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   .gitlab-ci.d/windows.yml | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   hw/arm/bcm2836.c | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-> index 22f794e537..a1d5790580 100644
-> --- a/.gitlab-ci.d/windows.yml
-> +++ b/.gitlab-ci.d/windows.yml
-> @@ -116,4 +116,5 @@ msys2-32bit:
->     - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu
->           --disable-opengl'
->     - ..\msys64\usr\bin\bash -lc 'make'
-> -  - ..\msys64\usr\bin\bash -lc 'make check || { cat meson-logs/testlog.txt; exit 1; } ;'
-> +  - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS=\"--no-suite qtest\" ||
-> +                                { cat meson-logs/testlog.txt; exit 1; }'
+> diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
+> index 24354338ca..abbb3689d0 100644
+> --- a/hw/arm/bcm2836.c
+> +++ b/hw/arm/bcm2836.c
+> @@ -130,8 +130,11 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
+>           qdev_get_gpio_in_named(DEVICE(&s->control), "gpu-fiq", 0));
+>   
+>       for (n = 0; n < BCM283X_NCPUS; n++) {
+> -        /* TODO: this should be converted to a property of ARM_CPU */
+> -        s->cpu[n].core.mp_affinity = (bc->clusterid << 8) | n;
+> +        if (!object_property_set_int(OBJECT(&s->cpu[n].core), "mp-affinity",
+> +                                     (bc->clusterid << ARM_AFF1_SHIFT) | n,
+> +                                     errp)) {
+> +            return;
+> +        }
+>   
+>           /* set periphbase/CBAR value for CPU-local registers */
+>           if (!object_property_set_int(OBJECT(&s->cpu[n].core), "reset-cbar",
+
+Eh I have almost the same patch locally:
+
+-- >8 --
+$ git show 5f675655c844154f3760967296e82adf5d8d7c24
+diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
+index 24354338ca..6f964a3b31 100644
+--- a/hw/arm/bcm2836.c
++++ b/hw/arm/bcm2836.c
+@@ -130,8 +130,8 @@ static void bcm2836_realize(DeviceState *dev, Error 
+**errp)
+          qdev_get_gpio_in_named(DEVICE(&s->control), "gpu-fiq", 0));
+
+      for (n = 0; n < BCM283X_NCPUS; n++) {
+-        /* TODO: this should be converted to a property of ARM_CPU */
+-        s->cpu[n].core.mp_affinity = (bc->clusterid << 8) | n;
++        object_property_set_int(OBJECT(&s->cpu[n].core), "mp-affinity",
++                                (bc->clusterid << 8) | n, &error_abort);
+
+          /* set periphbase/CBAR value for CPU-local registers */
+          if (!object_property_set_int(OBJECT(&s->cpu[n].core), 
+"reset-cbar",
+---
+
+Yours is better (ARM_AFF1_SHIFT & checks return value).
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
