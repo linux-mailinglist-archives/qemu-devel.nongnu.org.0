@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044D465EA60
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 13:05:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B846C65EA5F
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 13:05:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDOys-0002PN-MN; Thu, 05 Jan 2023 07:04:22 -0500
+	id 1pDOzi-0003Fe-Pq; Thu, 05 Jan 2023 07:05:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDOyp-0002LL-TS
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 07:04:19 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ id 1pDOzf-0003D8-Ma
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 07:05:11 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDOyo-0001ib-Cx
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 07:04:19 -0500
-Received: by mail-pl1-x635.google.com with SMTP id d9so22378567pll.9
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 04:04:17 -0800 (PST)
+ id 1pDOzd-00031J-TK
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 07:05:11 -0500
+Received: by mail-pf1-x431.google.com with SMTP id a184so14375871pfa.9
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 04:05:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8HaL0nOf7xsQRBvzxe685FoKKacHw+aq6HvggY0WJ8A=;
- b=SjiWGaFG2Urm+Cfb/BVW35quRkC8ZEIUDeZ5m9KmlrzIds3Kf4hCrqTkpif3Gw4ySF
- lVnkB9XN77D/RBSeTZdg7nJysQObtEGbWI9KS4D1zd0WXQtcz3NX/zQ288coSjowwimF
- QtV8/Qp3dMSWazy01i7JKe9b5PqvcFFiBNGsX9ns3DNCascv+IfYlEUNkZawct9ry+NZ
- RKDVkiy7N3dY4jkhUgGhu9KPSQxNvqom7mJ3AKRbXrm9+KkuP4wvTZ1hAQjV1psVfjNu
- Y+WE1zAwFAjzLWtUDACjqIrEuijEMpz0uV1QRimKE/D92B8FKq6whBeMQu4dPpubuIyX
- 7cAw==
+ bh=oFYvXyd2SWmjUBDOxsVyjRGoQwPiLrpWkNxKegS2YAA=;
+ b=L/6pXTRKX0408/qwuMTJxivI2W74CQVIjcZP0o5wxedCMDFYt3xj6/aWNE4UDoksRD
+ AiCydc+9LGI6L2oT4mPmlwLucynn8tAeAKnjJq+Ih6bFC1KUNhg2A3mRdiA6Lpgwx0Mc
+ kF5kJBfgdNWm4cv8/TOdGHySKFtja5s6ljk4Fk179Ib4inSk2bzMaBOWwnrcMjlAJ9Fm
+ UHT9Gtl/44sDzkYuppLVDp5ItOdAGuZ0SG7UJBobII3uJlqi0vSQY6QbIrUI8Xs14aH6
+ lIYLxdWBv072gDXa44sg7xEhhY0/4+p9GrV8xBlPKXYjBBIz2hknhIwSEOGgU7TxIpW2
+ JMZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=8HaL0nOf7xsQRBvzxe685FoKKacHw+aq6HvggY0WJ8A=;
- b=SEPHR9wd+g86w3sa8B6islECUodbHqwogpL4SYJzWhy7ZyYvUdGgTRnmWwr7/wsAOS
- qjRGGRsbzfM9QmN9Ll73jYaJcuobort+ZFBY5G3gdlQhntE0tntiWoFCGNjdIice78H6
- Lywujip0710nVK2Y8g0c/Zl5apufV1GFMn7CkU0agETuzkzW9JatnOrELPtLQKtmx743
- TfQYjOpWpMy05N43MEFQODs7xzNBVzYw2Fcb72CoUSGSjxdLl5Pak7EYCCwBF7bEJnnz
- 5PloIb1zi6WfDWHIyLqtYNcKJtwDOXUoFtfRGa77/rsfO21Ar5FX9SPWXgI5BSNukT6h
- AeHg==
-X-Gm-Message-State: AFqh2krK1NSUmvOfaUwbMqWDJZVRh0FZ/yuZpmkOsocMDAAWb712YLIU
- CN7gwNBwdEb44gPmLQoA6gBhhxz2dSAhOZseIaBP5Q==
-X-Google-Smtp-Source: AMrXdXvrs3ypQeK4uUYMojBw9kNIIzwm5XekIS5rXaz2TsjHOUwkr4cyC5M6+McX2UQVwh9KNYG4VAs8p1mZVTMJVdg=
-X-Received: by 2002:a17:902:9890:b0:189:b0a3:cf4a with SMTP id
- s16-20020a170902989000b00189b0a3cf4amr2339100plp.60.1672920256922; Thu, 05
- Jan 2023 04:04:16 -0800 (PST)
+ bh=oFYvXyd2SWmjUBDOxsVyjRGoQwPiLrpWkNxKegS2YAA=;
+ b=x2B3Sda/PFnR9OtoVRXzXy+ObyzJVw2oGuwge1M4G637jMheTDIy84G8UC6vx7ncK8
+ ANqeB+EtgKddG84rfDWymZWeggP9Mp9a6FTqkYHBJ3V2kgDWs0bYhxFm6tuQlbssFnUz
+ P7LNyG34dyFO4dKe0iWLaHU0vVhfWIYWUvkr1sb70wTHbSo0Vb3gowxnkZRc0bSOSld2
+ bYPc3XuQm64+gfEC6IH6NS6mmZXKtZsku8hg+9s8p8pnd9eeI3rND6sCdCpC709MIobm
+ a5GbBf3Rgwy/sR+8U4MEhZ0/H/ENTn6pSBXXtZn3AzIQ13/JWNVD5gyvOoENk/Yo5i5A
+ Hf8A==
+X-Gm-Message-State: AFqh2kpXqK/VEfv0l3P1CktzkRndBc+q/JDMSBi4eFHo3AM4GGvaCFLZ
+ 7Z8IeHkSxFXlGxyrBQUqPzSDQRw2XF79KlgjGTohwt4DVWo7Ww==
+X-Google-Smtp-Source: AMrXdXussnqR1BiCS2WE9WEgJ8RSIcpswZruwP6BDfOLLwTS3dF8S4tE++v1OlhnsiO4FU93YenkYV/i8KjnFT0UzIU=
+X-Received: by 2002:a63:3d4:0:b0:492:50dc:da4d with SMTP id
+ 203-20020a6303d4000000b0049250dcda4dmr2312564pgd.192.1672920308185; Thu, 05
+ Jan 2023 04:05:08 -0800 (PST)
 MIME-Version: 1.0
 References: <166990932074.29941.8709118178538288040-0@git.sr.ht>
- <166990932074.29941.8709118178538288040-5@git.sr.ht>
-In-Reply-To: <166990932074.29941.8709118178538288040-5@git.sr.ht>
+ <166990932074.29941.8709118178538288040-6@git.sr.ht>
+In-Reply-To: <166990932074.29941.8709118178538288040-6@git.sr.ht>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Jan 2023 12:04:05 +0000
-Message-ID: <CAFEAcA-CamVauNm0g1tx134k-_m5yxaTm4a91xL8_bt8Pe_2wg@mail.gmail.com>
-Subject: Re: [PATCH qemu.git v3 5/8] hw/timer/imx_epit: hard reset initializes
- CR with 0
+Date: Thu, 5 Jan 2023 12:04:57 +0000
+Message-ID: <CAFEAcA96141q+bPn879FxWPbPe6XZWWhtuHhHfXGCCi0ALpWgg@mail.gmail.com>
+Subject: Re: [PATCH qemu.git v3 6/8] hw/timer/imx_epit: factor out register
+ write handlers
 To: "~axelheider" <axelheider@gmx.de>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,9 +89,6 @@ On Thu, 1 Dec 2022 at 15:42, ~axelheider <axelheider@git.sr.ht> wrote:
 > From: Axel Heider <axel.heider@hensoldt.net>
 >
 > Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
-> ---
->  hw/timer/imx_epit.c | 20 ++++++++++++++------
->  1 file changed, 14 insertions(+), 6 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
