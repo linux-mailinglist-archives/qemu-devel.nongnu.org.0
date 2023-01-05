@@ -2,98 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F286665F4FA
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 21:11:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A2A65F51A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 21:19:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDWYe-0004oR-Gi; Thu, 05 Jan 2023 15:09:48 -0500
+	id 1pDWgr-0006gD-Oe; Thu, 05 Jan 2023 15:18:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pDWYd-0004oH-00
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:09:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pDWgK-0006aA-1Q
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:17:46 -0500
+Received: from vps-vb.mhejs.net ([37.28.154.113])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pDWYa-00051R-E7
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:09:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672949383;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YM8ncv6XZh9vHVKI+kUZsS0Nm/DebyyPwjZqUEc1c+A=;
- b=DgBHlf3MQD1x0A8PxuPmChRt63ttDu/BywWjEJt4/ToNDsYYpRxywo+03rdV/YTC2ux+uj
- Nb5g9plBeNReo+mD6pp/jP50xm1nPE4S9Uh1IiuUVtwdW02Cuaxm+blpsZv3kPnkNLhiSZ
- UNB7QWn9XLRvq9WbzxZu2vZX7NkX8vs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-159-mDmR3wh4Pmq_puJ9DgqwHA-1; Thu, 05 Jan 2023 15:09:39 -0500
-X-MC-Unique: mDmR3wh4Pmq_puJ9DgqwHA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m8-20020a05600c3b0800b003d96bdce12fso18401379wms.9
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 12:09:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YM8ncv6XZh9vHVKI+kUZsS0Nm/DebyyPwjZqUEc1c+A=;
- b=Qu32VJflsSz45s3V76qmS1iaUuQG37Q99X1FCkPypUHhgHutvEqF0YctTb64HrsxgA
- /FsSAbwvISqEY9LYP22tL05bhq2KltKpzrSWuHGmMvLWpQiSCeq+ok7c/ykhdhnY5KAr
- J8iS00Pyzd/q2bieqIycgpk+dQ0vjQNGhKLMXmcKhkLXkj+OIkPQuw1jH9LGBCsg38gp
- iT/gyOShrZih4zWeYZHoYmXQtveQ64qq0qn8mh9wSnZBBNvCjFjkBe0C34eTArmdtc+k
- SkOYg3dNhQuJdkp08j3lQwVmwWVjCBpD0JURFMYeQcnPujzzVn2Ox2A+GZc4FlLd/hYj
- SnMQ==
-X-Gm-Message-State: AFqh2ko2cdGOe6KrxtUSvjouwjQ6QjfwZTMe9nK6xLTvFwGAdMYwGKXz
- R6iKdh0m6bhYgjXiEHQ6sEf06VED3e9yV9sSobem1+kbVuqQ/pfh+MMTjXwJEZpxfwQ5kuHudrV
- Dy7y7ODgu3w0PChM=
-X-Received: by 2002:a05:600c:246:b0:3d3:3deb:d91f with SMTP id
- 6-20020a05600c024600b003d33debd91fmr39914160wmj.5.1672949378245; 
- Thu, 05 Jan 2023 12:09:38 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuvEMZZ20Rur0XqLxCE7rkZB7VFbsWBndMnyvQrWUEfsEW4ZaYiM5+c9ZbBx8AOj/IjZ5b0xw==
-X-Received: by 2002:a05:600c:246:b0:3d3:3deb:d91f with SMTP id
- 6-20020a05600c024600b003d33debd91fmr39914137wmj.5.1672949377979; 
- Thu, 05 Jan 2023 12:09:37 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- n126-20020a1ca484000000b003d21759db42sm3599207wme.5.2023.01.05.12.09.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 12:09:37 -0800 (PST)
-Date: Thu, 5 Jan 2023 20:09:34 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Paul Durrant <paul@xen.org>, Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pDWgH-0002bY-6E
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:17:43 -0500
+Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pDWfp-0001O7-Tj; Thu, 05 Jan 2023 21:17:13 +0100
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: Re: [RFC PATCH v5 39/52] i386/xen: add monitor commands to test
- event injection
-Message-ID: <Y7cufupAAeGnaIDg@work-vm>
-References: <20221230121235.1282915-1-dwmw2@infradead.org>
- <20221230121235.1282915-40-dwmw2@infradead.org>
- <Y7V1sdhAlhhSKp2F@work-vm>
- <10d798e3959dbeaacd67cc9cefa78b16ee524462.camel@infradead.org>
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] Hyper-V Dynamic Memory Protocol driver (hv-balloon)
+Date: Thu,  5 Jan 2023 21:17:05 +0100
+Message-Id: <cover.1672878904.git.maciej.szmigiero@oracle.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <10d798e3959dbeaacd67cc9cefa78b16ee524462.camel@infradead.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.28.154.113;
+ envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,292 +63,190 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* David Woodhouse (dwmw2@infradead.org) wrote:
-> On Wed, 2023-01-04 at 12:48 +0000, Dr. David Alan Gilbert wrote:
-> > * David Woodhouse (dwmw2@infradead.org) wrote:
-> > > From: Joao Martins <joao.m.martins@oracle.com>
-> > > 
-> > > Specifically add listing, injection of event channels.
-> > 
-> > These are all for debug only aren't they?
-> 
-> Mostly. Injecting VIRQ_DEBUG into a guest is useful for debugging the
-> guest too. Slightly inclined just to drop it as there's plenty of more
-> useful things to implement, but let's have a go...
+From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
 
-Note also, please put an x_ in the name (like qmp_x_query_ramblock)
-to indicate that it's debug and you want the freedom to change the
-structure/behaviour rather than carving the API in stone.
+This is a continuation of v1 patch series located here:
+https://lore.kernel.org/qemu-devel/cover.1600556526.git.maciej.szmigiero@oracle.com/
 
-> > Even so, see docs/devel/writing-monitor-commands.rst, people like
-> > commands to be built around qmp if possible now; there's a thing for
-> > dumping text through it anyway for debug.
-> 
-> OK... something like this?
+Since some time has passed since v1 was posted below there's a reminder
+what this series is about:
+This series adds a Hyper-V Dynamic Memory Protocol driver (hv-balloon)
+and its protocol definitions.
+Also included is a driver providing backing devices for memory hot-add
+protocols ("virtual DIMM sticks"), which allow inserting extra RAM into
+the guest at run time without having to duplicate all of the address space
+management logic of TYPE_MEMORY_DEVICE in each memory hot-add protocol
+driver.
 
-No; that's a bit of a mix:
-The idea is that you either:
-  a) Build the QMP with the data structure well defined like you've done
-     and then make the HMP code monitor_printf that.
+One of advantages of these over ACPI-based PC DIMM hotplug is that such
+memory can be hotplugged in much smaller granularity because the ACPI DIMM
+slot limit does not apply.
 
-  b) Or you decide the data is mostly for debug and you can change it
-when you like, and so the structure is unimportant; then you make the
-  QMP side generate the HumanReadableText and just get the HMP side
-  to print it.
+The hv-balloon driver is like virtio-balloon on steroids: it allows both
+changing the guest memory allocation via ballooning and inserting extra RAM
+into it by adding required memory backends and providing them to the driver.
 
-An example of 'b' is qmp_x_query_ramblock' - note there's no actual HMP
-code there and the qmp_x_query_ramblock is doing the HRT creation.
+In contrast with ACPI DIMM hotplug where one can only request to unplug a
+whole DIMM stick this driver allows removing memory from guest in single
+page (4k) units via ballooning.
 
-An example of 'a' is 'hmp_info_mice' which calls qmp_query_mice
-and then prints it out.
+After a VM reboot each previously hot-added memory backend gets released.
+A "HV_BALLOON_MEMORY_BACKEND_UNUSED" QMP event is emitted in this case so
+the software controlling QEMU knows that it either needs to delete that
+memory backend (if no longer needed) or re-insert it.
+    
+In the future, the guest boot memory size might be changed on reboot
+instead, taking into account the effective size that VM had before that
+reboot (much like Hyper-V does).
 
-Dave
+For performance reasons, the guest-released memory is tracked in few range
+trees, as a series of (start, count) ranges.
+Each time a new page range is inserted into such tree its neighbors are
+checked as candidates for possible merging with it.
 
+Besides performance reasons, the Dynamic Memory protocol itself uses page
+ranges as the data structure in its messages, so relevant pages need to be
+merged into such ranges anyway.
 
-> From ef1d7d08ee544921c056cc8f8c38bdd691cf71b4 Mon Sep 17 00:00:00 2001
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> Date: Thu, 5 Jan 2023 19:34:15 +0000
-> Subject: [PATCH] Convert xen-event-list to qmp
-> 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->  hmp-commands.hx          |  2 +-
->  hw/i386/kvm/xen_evtchn.c | 70 +++++++++++++++++++++++++++++++++++-----
->  hw/i386/kvm/xen_evtchn.h |  4 ++-
->  qapi/misc.json           | 68 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 134 insertions(+), 10 deletions(-)
-> 
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index fd77c432c0..eac182307c 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1836,7 +1836,7 @@ ERST
->          .args_type  = "",
->          .params     = "",
->          .help       = "list event channel state",
-> -        .cmd        = hmp_xen_event_list,
-> +        .cmd_info_hrt = hmp_xen_event_list,
->      },
->  
->  SRST
-> diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-> index c58237cdd2..ee50839804 100644
-> --- a/hw/i386/kvm/xen_evtchn.c
-> +++ b/hw/i386/kvm/xen_evtchn.c
-> @@ -15,6 +15,7 @@
->  #include "qemu/main-loop.h"
->  #include "qemu/log.h"
->  #include "qapi/error.h"
-> +#include "qapi/qapi-commands-misc.h"
->  #include "qom/object.h"
->  #include "exec/target_page.h"
->  #include "exec/address-spaces.h"
-> @@ -1539,21 +1540,22 @@ static const char *type_names[] = {
->      "ipi"
->  };
->  
-> -void hmp_xen_event_list(Monitor *mon, const QDict *qdict)
-> +EvtchnInfoList *qmp_xen_event_list(Error **errp)
->  {
->      XenEvtchnState *s = xen_evtchn_singleton;
-> +    EvtchnInfoList *head = NULL, **tail = &head;
->      void *shinfo, *pending, *mask;
->      int i;
->  
->      if (!s) {
-> -        monitor_printf(mon, "Xen event channel emulation not enabled\n");
-> -        return;
-> +        error_setg(errp, "Xen event channel emulation not enabled\n");
-> +        return NULL;
->      }
->  
->      shinfo = xen_overlay_get_shinfo_ptr();
->      if (!shinfo) {
-> -        monitor_printf(mon, "Xen shared info page not allocated\n");
-> -        return;
-> +        error_setg(errp, "Xen shared info page not allocated\n");
-> +        return NULL;
->      }
->      if (xen_is_long_mode()) {
->          pending = shinfo + offsetof(struct shared_info, evtchn_pending);
-> @@ -1567,17 +1569,69 @@ void hmp_xen_event_list(Monitor *mon, const QDict *qdict)
->  
->      for (i = 0; i < s->nr_ports; i++) {
->          XenEvtchnPort *p = &s->port_table[i];
-> +        EvtchnInfo *info;
->  
->          if (p->type == EVTCHNSTAT_closed) {
->              continue;
->          }
->  
-> -        monitor_printf(mon, "port %4u %s/%d vcpu:%d pending:%d mask:%d\n", i,
-> -                       type_names[p->type], p->type_val, p->vcpu,
-> -                       test_bit(i, pending), test_bit(i, mask));
-> +        info = g_new0(EvtchnInfo, 1);
-> +
-> +        info->port = i;
-> +        info->type = g_strdup(type_names[p->type]);
-> +        if (p->type == EVTCHNSTAT_interdomain) {
-> +            info->remote_domain = g_strdup((p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) ?
-> +                                           "qemu" : "loopback");
-> +            info->target = p->type_val & PORT_INFO_TYPEVAL_REMOTE_PORT_MASK;
-> +        } else {
-> +            info->target = p->type_val;
-> +        }
-> +        info->vcpu = p->vcpu;
-> +        info->pending = test_bit(i, pending);
-> +        info->masked = test_bit(i, mask);
-> +
-> +        QAPI_LIST_APPEND(tail, info);
->      }
->  
->      qemu_mutex_unlock(&s->port_lock);
-> +
-> +    return head;
-> +}
-> +
-> +HumanReadableText *hmp_xen_event_list(Error **errp)
-> +{
-> +    EvtchnInfoList *iter, *info_list;
-> +    g_autoptr(GString) buf = g_string_new("");
-> +
-> +
-> +    info_list = qmp_xen_event_list(errp);
-> +    if (*errp) {
-> +        return NULL;
-> +    }
-> +
-> +    for (iter = info_list; iter; iter = iter->next) {
-> +        EvtchnInfo *info = iter->value;
-> +
-> +        g_string_append_printf(buf, "port %4lu: %s", info->port, info->type);
-> +        if (strcmp(info->type, "ipi")) {
-> +            g_string_append_printf(buf,  "(");
-> +            if (info->remote_domain) {
-> +                g_string_append_printf(buf, "%s:", info->remote_domain);
-> +            }
-> +            g_string_append_printf(buf, "%ld)", info->target);
-> +        }
-> +        g_string_append_printf(buf, " vcpu:%ld", info->vcpu);
-> +        if (info->pending) {
-> +            g_string_append_printf(buf, " PENDING");
-> +        }
-> +        if (info->masked) {
-> +            g_string_append_printf(buf, " MASKED");
-> +        }
-> +        g_string_append_printf(buf, "\n");
-> +    }
-> +
-> +    qapi_free_EvtchnInfoList(info_list);
-> +    return human_readable_text_from_str(buf);
->  }
->  
->  void hmp_xen_event_inject(Monitor *mon, const QDict *qdict)
-> diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-> index 146c504773..1d1ca64e6f 100644
-> --- a/hw/i386/kvm/xen_evtchn.h
-> +++ b/hw/i386/kvm/xen_evtchn.h
-> @@ -12,6 +12,8 @@
->  #ifndef QEMU_XEN_EVTCHN_H
->  #define QEMU_XEN_EVTCHN_H
->  
-> +#include "qapi/type-helpers.h"
-> +
->  #include "hw/sysbus.h"
->  
->  typedef uint32_t evtchn_port_t;
-> @@ -42,8 +44,8 @@ int xen_be_evtchn_pending(struct xenevtchn_handle *xc);
->  /* Apart from this which is a local addition */
->  int xen_be_evtchn_get_guest_port(struct xenevtchn_handle *xc);
->  
-> -void hmp_xen_event_list(Monitor *mon, const QDict *qdict);
->  void hmp_xen_event_inject(Monitor *mon, const QDict *qdict);
-> +HumanReadableText *hmp_xen_event_list(Error **errp);
->  
->  struct evtchn_status;
->  struct evtchn_close;
-> diff --git a/qapi/misc.json b/qapi/misc.json
-> index 27ef5a2b20..5c0f53cbc7 100644
-> --- a/qapi/misc.json
-> +++ b/qapi/misc.json
-> @@ -584,3 +584,70 @@
->  { 'event': 'VFU_CLIENT_HANGUP',
->    'data': { 'vfu-id': 'str', 'vfu-qom-path': 'str',
->              'dev-id': 'str', 'dev-qom-path': 'str' } }
-> +
-> +##
-> +# @EvtchnInfo:
-> +#
-> +# Information about a Xen event channel port
-> +#
-> +# @port: the port number
-> +#
-> +# @type: the port type
-> +#
-> +# @remote-domain: remote domain for interdomain ports
-> +#
-> +# @target: remote port ID, or virq/pirq number
-> +#
-> +# @pending: port is currently active pending delivery
-> +#
-> +# @masked: port is masked
-> +#
-> +# Since: x.xx
-> +##
-> +{ 'struct': 'EvtchnInfo',
-> +  'data': {'port': 'int',
-> +	   'type': 'str',
-> +	   'remote-domain': 'str',
-> +	   'vcpu': 'int',
-> +	   'target': 'int',
-> +	   'pending': 'bool',
-> +	   'masked': 'bool'}}
-> +
-> +
-> +##
-> +# @xen-event-list:
-> +#
-> +# Query the Xen event channels opened by the guest.
-> +#
-> +# Returns: list of open event channel ports
-> +#
-> +# Since: x.xx
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "xen-event-list" }
-> +# <- { "return": [
-> +#         {
-> +#             "pending": false,
-> +#             "port": 1,
-> +#             "vcpu": 1,
-> +#             "remote-domain": "qemu",
-> +#             "masked": false,
-> +#             "type": "interdomain",
-> +#             "target": 1
-> +#         },
-> +#         {
-> +#             "pending": false,
-> +#             "port": 2,
-> +#             "vcpu": 0,
-> +#             "remote-domain": "",
-> +#             "masked": false,
-> +#             "type": "virq",
-> +#             "target": 0
-> +#         }
-> +#      ]
-> +#    }
-> +#
-> +##
-> +{ 'command': 'xen-event-list',
-> +  'returns': ['EvtchnInfo'] }
-> -- 
-> 2.34.1
-> 
-> 
+One has to be careful when tracking the guest-released pages, since the
+guest can maliciously report returning pages outside its current address
+space, which later clash with the address range of newly added memory.
+Similarly, the guest can report freeing the same page twice.
+
+The above design results in much better ballooning performance than when
+using virtio-balloon with the same guest: 230 GB / minute with this driver
+versus 70 GB / minute with virtio-balloon.
+
+During a ballooning operation most of time is spent waiting for the guest
+to come up with newly freed page ranges, processing the received ranges on
+the host side (in QEMU / KVM) is nearly instantaneous.
+
+The unballoon operation is also pretty much instantaneous:
+thanks to the merging of the ballooned out page ranges 200 GB of memory can
+be returned to the guest in about 1 second.
+With virtio-balloon this operation takes about 2.5 minutes.
+
+These tests were done against a Windows Server 2019 guest running on a
+Xeon E5-2699, after dirtying the whole memory inside guest before each
+balloon operation.
+
+Using a range tree instead of a bitmap to track the removed memory also
+means that the solution scales well with the guest size: even a 1 TB range
+takes just few bytes of memory.
+
+An optional "status-report=on" device parameter requests memory status
+events from the guest (typically sent every second), which allow the host
+to learn both the guest memory available and the guest memory in use
+counts.
+They are emitted externally as "HV_BALLOON_STATUS_REPORT" QMP events.
+
+The driver is named hv-balloon since the Linux kernel client driver for
+the Dynamic Memory Protocol is named as such and to follow the naming
+pattern established by the virtio-balloon driver.
+The whole protocol runs over Hyper-V VMBus that has its implementation
+recently merged in.
+
+The driver was tested against Windows Server 2012 R2, Windows Server 2016
+and Windows Server 2016 guests and obeys the guest alignment requirements
+reported to the host via DM_CAPABILITIES_REPORT message.
+Extensive event tracing is available under 'hv_balloon_*' prefix.
+
+Example usage:
+* Add "-device vmbus-bridge,id=vmbus-bridge -device hv-balloon,id=hvb"
+  to the QEMU command line and set "maxmem" value to something large,
+  like 1T.
+
+* Use QEMU HMP commands to add a new memory backend:
+  object_add memory-backend-ram,id=mem1,size=200G
+  This command is actually the same as for ACPI-based DIMM hotplug.
+
+* Execute QMP "hv-balloon-add-memory" command, providing the id of
+  that memory backend as the "id" parameter to hot-add that memory:
+  hv-balloon-add-memory id=mem1
+
+* Use the ballooning interface HMP commands to force the guest to give
+  out as much memory as possible:
+  balloon 1
+  The ballooning interface monitor commands can also be used to resize
+  the guest up and down appropriately.
+
+* One can check the current guest size by issuing a "info balloon" command.
+  This is useful to know what is happening, since large ballooning or
+  unballooning operations take some time to complete.
+
+* Once the guest is restarted a "HV_BALLOON_MEMORY_BACKEND_UNUSED" QMP
+  event will be generated.
+  The backing memory device then can be removed:
+  object_del mem1
+  Or, alternatively, it can be re-added:
+  hv-balloon-add-memory id=mem1
+
+Future directions:
+* Allow sharing the ballooning QEMU interface between hv-balloon and
+  virtio-balloon drivers.
+  Currently, only one of them can be added to the VM at the same time.
+
+* Add vmstate / live migration support to the hv-balloon driver.
+
+* Change the guest boot memory size on reboot, taking into account the
+  effective size that VM had before that reboot (much like Hyper-V does).
 
 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
+Changes from v1:
+Conversion of the driver to transparently managing hot-added memory as
+virtual DIMMs.
+
+Specifically, these virtual DIMMs are now automatically being created and
+deleted by the driver.
+This way the QEMU controller does not have to do vDIMM management manually,
+as suggested during the review of v1.
+
+Thanks to that these virtual DIMMs are now an implementation detail,
+transparent to the QEMU user.
+
+Separation of ballooning function from memory hot-add function - ballooning
+interfaces are no longer used to allow hot-removal of hot-added memory.
+
+Removal of automatic re-add of hot-added memory after a guest reboot.
+This makes it easier to introduce automatic resizing of boot memory
+on reboot at some point in the future.
+
+Other minor improvements of these drivers:
+* Centralized state machine transitions to enforce single transition
+  per iteration rule,
+
+* Increased use of Glib's automatic memory management where possible,
+  (g_autoptr() and g_autofree()),
+
+* Move hapvdimm class and instance structs from the header file to
+  implementation (.c) file, use OBJECT_DECLARE_SIMPLE_TYPE to declare it,
+
+* Minor cleanups.
+
+It's also worth noting that since the v1 was posted the KVM memory slot
+count limit was also increased to 32k (together with switching to a more
+scalable memslots implementation).
+
+ Kconfig.host                     |    3 +
+ configure                        |   36 +
+ hw/hyperv/Kconfig                |    5 +
+ hw/hyperv/hv-balloon.c           | 2185 ++++++++++++++++++++++++++++++
+ hw/hyperv/meson.build            |    1 +
+ hw/hyperv/trace-events           |   16 +
+ hw/i386/Kconfig                  |    2 +
+ hw/i386/pc.c                     |    4 +-
+ hw/mem/Kconfig                   |    4 +
+ hw/mem/hapvdimm.c                |  221 +++
+ hw/mem/meson.build               |    1 +
+ include/hw/hyperv/dynmem-proto.h |  423 ++++++
+ include/hw/mem/hapvdimm.h        |   27 +
+ meson.build                      |    4 +-
+ qapi/machine.json                |   68 +
+ 15 files changed, 2998 insertions(+), 2 deletions(-)
+ create mode 100644 hw/hyperv/hv-balloon.c
+ create mode 100644 hw/mem/hapvdimm.c
+ create mode 100644 include/hw/hyperv/dynmem-proto.h
+ create mode 100644 include/hw/mem/hapvdimm.h
 
 
