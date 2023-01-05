@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE2C65E816
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 10:44:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E74AB65E7DD
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 10:32:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDMRf-0000J5-QM; Thu, 05 Jan 2023 04:21:55 -0500
+	id 1pDMS2-00012F-Lb; Thu, 05 Jan 2023 04:22:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMRc-0000FO-R7
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:21:53 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMS0-0000xm-Dj
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:22:16 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMRb-0002qG-3m
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:21:52 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMRy-0002wL-U4
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:22:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672910510;
+ s=mimecast20190719; t=1672910534;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nxGdrdwQae8hDG8cOVhv322TfPtg6lEqDQKrYnjbzdQ=;
- b=TywzSDEVM+ppgDm4gCa5L9gaGbklZ1vD33/qTpHWPr1WieZTbeA2hi+crfz50Zvi4hxUUk
- 1XFdATICh8psk0692W6D08tDnQJghvM5CskuI+XoqAXAayMW4XXatnHWx2M4B9I56NnPFP
- okNL9zcJJ7m076sl88+Q11lhhsTxO+8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gf6urgZ0331uiPj/HrTkbtrhp5tMVYmuc/Q/Xm+wfIY=;
+ b=Aoix99SHyM+GvWGKZgCjlDwD4ZoKbpPRffXNCzqXmyNg6MZmQJKQEUIVTtPsbd27mwq/H1
+ kuKKTVdzC29IZWvQZS34/PRpoXJ3iLkzVBSn9XCNvtsihf1+knsB+iPVsCCl2AlVG/7emm
+ q1bcChvSIwSbJnzIBiPy/9QecA8pbIM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-187-xUmXMWrMOe2gXlYkZtmNeA-1; Thu, 05 Jan 2023 04:21:46 -0500
-X-MC-Unique: xUmXMWrMOe2gXlYkZtmNeA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k20-20020a05600c1c9400b003d9717c8b11so17476327wms.7
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 01:21:46 -0800 (PST)
+ us-mta-613-QsNLc7LmNIKMLnlyop_xyw-1; Thu, 05 Jan 2023 04:22:13 -0500
+X-MC-Unique: QsNLc7LmNIKMLnlyop_xyw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ v4-20020adfa1c4000000b002753317406aso3920706wrv.21
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 01:22:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nxGdrdwQae8hDG8cOVhv322TfPtg6lEqDQKrYnjbzdQ=;
- b=ODue2Qk5y4j1B3MUKIY/4ETbJAZjTiwj+riJ7KwlX3t0jd4U/ZCSIPj5IqBrqNsVLw
- uBZZtOwWJAk1/rmWJyeNpM7hsgCIfQJuVo/u1WOuXzGKN0xei2iOg21FvcjNsgpiINtW
- +iMKX66MF6VtjXVJra2VJPcS/KXht9pzrZSTal7cej8tul1Auzvlgc/BoWSNPnWTKlnd
- xETIaymIZC+73YobWf9+O8wZyb0u+ke+R1l5MhD24XuvUd0LiNj42OY1xt9hmD7Q+1F/
- kG1Fvrq2uu92ZTP4+yDP/8vNAAJdSoQv92OGK8KVy2a7WngtBMrKbg5GMYdrcelK6oDJ
- cCKQ==
-X-Gm-Message-State: AFqh2kqtvCHutvvLtwa7Z2PCaB2EMSOPrQxg/9TiWjypQKMTSjTenHZN
- ENfeF6VoF2iK9XblrbzGj0AJKrY4m92BNJuMSzdjA6NyAdQ3OxWU7RKxfVe6EZKtCT0nfBovHVv
- nIr/Rg0IosphuYjwQQn9/iPneM2e5YF31/rHir17L3LnqbEyWdKxawptS+YF0
-X-Received: by 2002:a05:600c:1e1e:b0:3d2:3b4d:d619 with SMTP id
- ay30-20020a05600c1e1e00b003d23b4dd619mr35660963wmb.15.1672910505119; 
- Thu, 05 Jan 2023 01:21:45 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXub5bYaExI715GwwLCTLhWLETan/SMh2z3TIXT2WQ5hJdKmdDtIwd/tXxl91MQ7y2hjtBEphA==
-X-Received: by 2002:a05:600c:1e1e:b0:3d2:3b4d:d619 with SMTP id
- ay30-20020a05600c1e1e00b003d23b4dd619mr35660949wmb.15.1672910504863; 
- Thu, 05 Jan 2023 01:21:44 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gf6urgZ0331uiPj/HrTkbtrhp5tMVYmuc/Q/Xm+wfIY=;
+ b=IUDGtQNOjY5CSBegPiiyDAPEP02t3g07XdSUFQaGD0VUskn+LOaIefL1IZSagSz58o
+ MH0YEdbe85MffOR3B/hlmSLe2TEA4os0FZ+jJ2kmnmt8y5usl07PlXrW+olQgVhJVzuI
+ FMrgvr0BoO+quoeNN74x/+3o7mWqH+6Ap06PxcuSoWoecKa4+7ii18L9qzcWyi53bfeK
+ LKFCj1920CBMCQjfYfGNYbu7FJWcyaaZKiUP7yZgTGWbUxk5nByBB8upcIrGRwBiutst
+ 7FqJTzKaxw+Q408YT3e/YqDL6QBtLz/tbBQqhPxDVUdbzEM8FGhNqxyAKpgLlzHuahT1
+ 5ssA==
+X-Gm-Message-State: AFqh2kq05OAcaHyBcGoZKcjGdRG3FHjnuYl9r941lXvLcbsBaktHCk49
+ nnZmrDZ+B5Dt1cRL4C2bD/QYlKlhWdKN2E+EXk9NzufLX+mGmXobdgSKwNgvSDV0sh1fS2o7GWo
+ oOiyZOH7qdIcdLCZyBcyIxADTCgg16qm9PormE8XjfER4fI6+gFe1sM9bfPWN
+X-Received: by 2002:adf:a51a:0:b0:272:dcae:259b with SMTP id
+ i26-20020adfa51a000000b00272dcae259bmr29201312wrb.43.1672910531747; 
+ Thu, 05 Jan 2023 01:22:11 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXt84CbN9J1lPo0Fsll+Bo9ZTHwCmmlrNWODF6RASsrkljwCT3lhE2YIbaPmIaFdpFlpfdJ1Kg==
+X-Received: by 2002:adf:a51a:0:b0:272:dcae:259b with SMTP id
+ i26-20020adfa51a000000b00272dcae259bmr29201294wrb.43.1672910531430; 
+ Thu, 05 Jan 2023 01:22:11 -0800 (PST)
 Received: from redhat.com ([2.52.151.85]) by smtp.gmail.com with ESMTPSA id
- r7-20020a05600c458700b003c6b7f5567csm6716579wmo.0.2023.01.05.01.21.43
+ i10-20020adfdeca000000b002b6667d3adfsm43202wrn.80.2023.01.05.01.22.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 01:21:44 -0800 (PST)
-Date: Thu, 5 Jan 2023 04:21:42 -0500
+ Thu, 05 Jan 2023 01:22:10 -0800 (PST)
+Date: Thu, 5 Jan 2023 04:22:08 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Markus Armbruster <armbru@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Ben Widawsky <ben.widawsky@intel.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>
-Subject: [PULL 28/51] include/hw/cxl: Move typedef PXBDev to cxl.h, and put
- it to use
-Message-ID: <20230105091310.263867-29-mst@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 32/51] include/hw/pci: Include hw/pci/pci.h where needed
+Message-ID: <20230105091310.263867-33-mst@redhat.com>
 References: <20230105091310.263867-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230105091310.263867-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -103,66 +103,34 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Markus Armbruster <armbru@redhat.com>
 
-hw/cxl/cxl.h uses the PXBDev structure tag instead of the typedef
-name.  The typedef name is defined in hw/pci/pci_bridge.h.  Its
-inclusion was dropped in the previous commit to break an inclusion
-loop.
-
-Move the typedef to hw/cxl/cxl.h, and use it there.  Delete an extra
-typedef in hw/pci-bridge/pci_expander_bridge.c.
+hw/pci/pcie_sriov.h needs PCI_NUM_REGIONS.  Without the previous
+commit, this would close an inclusion loop: hw/pci/pci.h used to
+include hw/pci/pcie.h for PCIExpressDevice, which includes
+pcie_sriov.h for PCIESriovPF, which now includes hw/pci/pci.h for
+PCI_NUM_REGIONS.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20221222100330.380143-3-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221222100330.380143-7-armbru@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/cxl/cxl.h                | 4 +++-
- include/hw/pci/pci_bridge.h         | 1 -
- hw/pci-bridge/pci_expander_bridge.c | 1 -
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ include/hw/pci/pcie_sriov.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-index 5129557bee..b161be59b7 100644
---- a/include/hw/cxl/cxl.h
-+++ b/include/hw/cxl/cxl.h
-@@ -23,10 +23,12 @@
+diff --git a/include/hw/pci/pcie_sriov.h b/include/hw/pci/pcie_sriov.h
+index 80f5c84e75..96cc743309 100644
+--- a/include/hw/pci/pcie_sriov.h
++++ b/include/hw/pci/pcie_sriov.h
+@@ -13,6 +13,8 @@
+ #ifndef QEMU_PCIE_SRIOV_H
+ #define QEMU_PCIE_SRIOV_H
  
- #define CXL_WINDOW_MAX 10
- 
-+typedef struct PXBDev PXBDev;
++#include "hw/pci/pci.h"
 +
- typedef struct CXLFixedWindow {
-     uint64_t size;
-     char **targets;
--    struct PXBDev *target_hbs[8];
-+    PXBDev *target_hbs[8];
-     uint8_t num_targets;
-     uint8_t enc_int_ways;
-     uint8_t enc_int_gran;
-diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
-index ca6caf487e..58a3fb0c2c 100644
---- a/include/hw/pci/pci_bridge.h
-+++ b/include/hw/pci/pci_bridge.h
-@@ -97,7 +97,6 @@ struct PXBDev {
-     } cxl;
- };
- 
--typedef struct PXBDev PXBDev;
- #define TYPE_PXB_CXL_DEVICE "pxb-cxl"
- DECLARE_INSTANCE_CHECKER(PXBDev, PXB_CXL_DEV,
-                          TYPE_PXB_CXL_DEVICE)
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index c9e817aa58..870d9bab11 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -50,7 +50,6 @@ struct PXBBus {
- };
- 
- #define TYPE_PXB_DEVICE "pxb"
--typedef struct PXBDev PXBDev;
- DECLARE_INSTANCE_CHECKER(PXBDev, PXB_DEV,
-                          TYPE_PXB_DEVICE)
- 
+ struct PCIESriovPF {
+     uint16_t num_vfs;   /* Number of virtual functions created */
+     uint8_t vf_bar_type[PCI_NUM_REGIONS];   /* Store type for each VF bar */
 -- 
 MST
 
