@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5546065F248
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:09:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C18165F2BF
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:32:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTMf-0001LU-KM; Thu, 05 Jan 2023 11:45:13 -0500
+	id 1pDTN1-0001Re-Cz; Thu, 05 Jan 2023 11:45:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTM7-0000dt-6R
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:41 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ id 1pDTMC-0000kl-TS
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:47 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTM5-0007Q6-LZ
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:38 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id o15so28449113wmr.4
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:37 -0800 (PST)
+ id 1pDTM8-0007Nx-By
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:42 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ m26-20020a05600c3b1a00b003d9811fcaafso1776908wms.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=sztR4J95IadKOvZP/cP3UWW/HHhoPYqwE6deb2jD44g=;
- b=V89avodALBG+HAp3Jpemx9sCEevME0VO5vRDIdF5wpl3NCPuqkcn+SvkJbWQZaeG9H
- /4w0zEhING3rfOpSUXyDf+HHLuQ4YSnikoVuH0aLdho3jOunObcdQtxBuv2W0PxkdkaO
- m5zONhos8GLcEoDoCpM7M0NPK9kWI7aIyFPMgdCfU39rnw5HxCrYyxRWaMOcZNVXzaib
- fdc3K0rp55sV/nE+kLtWVpF3yV/aJCfwHMLeuVjidGA3GnPvBUc7WKrHJg7mSArXOs6+
- cth5SBqVPF3qtigChUholTcSmzmR/7aKN2FCqwKuEv34uTIl+ovzpO1kL9KEnR9jCJ/X
- GuMQ==
+ :reply-to; bh=wEthfbGdCK5i2mFV7wWA7GB9Fv4cHI0iBUrT8VSFqks=;
+ b=P5SxrGVPYakve0Z64GTVRAvRKHsNZntW+zp326XIOsACeeyVYhifz8loRDHRJ3psog
+ BxN1vUoDDqoRI0AsejtpGIwn/hVXYXJfvfqSXLGf1ExXeozCc2bWvdIfGZz00kLnOF0i
+ /O3KStwRb8nslegMDUZ7YorFUNkwxJr4omJVSquTYzGOo3qLYIrrDZcIfmDAmq5xXNXm
+ GKcFJ96MxhMT6r2382al4cBxo3U6txwXzbuolxdC4KQZh1UjAQt4DT+5EhWZBjKfCYAF
+ LlJdsrSIjcLQczHfxjnWzwM6SlkOEiScJ5QRWWv3bTReSEhfIw4y0+lpHRRNCnK3tfyY
+ yaWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sztR4J95IadKOvZP/cP3UWW/HHhoPYqwE6deb2jD44g=;
- b=diz1UatoCE5Ci8YZldSmninqL+bgvqdmOmHsqBbmjUo1IK/ljhJHixx1jm+6x0zuRP
- phbAaiXGa2EvEv8wOFovFWYAEx7NhRJ89hFli1gRLPlflnEjZ5Xg9Ck2US/kveUO7uEM
- I7xOTMirsUuy/5NPNZiEqX81gfmVf4YjwOHz+sSdRdM+07TwLR8S0hmIPayQrI3SDSVT
- knUPV7uu+gQDkOMdNM/xGadjbelGprfqTopAFQdh5N1F4A6hyFaKdW8qfb9/XjAkxvXQ
- 0YbTB/Vg4G7dVwf+3ne1d7ZqHUqSLIiuGihtQDUICDLgX9/LCdxOID1P22SXq4xsOUxp
- K3Vg==
-X-Gm-Message-State: AFqh2kreq7Nl7z0WBsaJ6ItJZHjyuUEMCk4KuWMwrO5FcNqlx05q5ymu
- ndNDji07+Xu9mvxbZe70HFx9l9QVPA3YkdzJ
-X-Google-Smtp-Source: AMrXdXsQlRc7TWvkuPkzzpka+k+J7ZNP80j2wPyIVm1wfq8EuAMbYFXuZTHAQoTIg+CzHB+f3x8UyA==
-X-Received: by 2002:a05:600c:1914:b0:3d2:2fa9:cffa with SMTP id
- j20-20020a05600c191400b003d22fa9cffamr36549096wmq.25.1672937076839; 
- Thu, 05 Jan 2023 08:44:36 -0800 (PST)
+ bh=wEthfbGdCK5i2mFV7wWA7GB9Fv4cHI0iBUrT8VSFqks=;
+ b=GKpLHy0zq1sdsJ1DjsKJrTc82OqAWpoIpFVOaEpvjxC7NwlKvK+nYZ/lNWVHRxPj/6
+ EWHidG0Cp2a2ocgGPRaziLOvhYmMzvfZ9cSOQ7e4N675QM3BOcAKgviIN/ZtTzJya5zC
+ Q0URrp158JrrWWBdaoBEUeHlRT1oZXV6uXaoVo49b7BIDU+7kgWncrngQsw/KhkKFLw3
+ JcU+bSaMEc96ICH5IUcn48TqfWifYJ2zMacxXRlTbgaQO2KtcfvJiY2Q2EE3c2IiPuNN
+ MenIBaPUA2kqcKNxHWsPP2qJlwATo4kz3B06mTdhLU7kA9eZ8QRRmwmtgpX3H8yq5hQm
+ ukdQ==
+X-Gm-Message-State: AFqh2kp6MG08KCwu3rdYcXq+qU5m4AuEZ1+i35d+7bgNQ+4nfF4ZLC8D
+ A7oUL85NxJksl20+QKHRNktkq1SxWLagVN0v
+X-Google-Smtp-Source: AMrXdXuKUeOmYMW3EV1ZXth0DBYtOikmE9SXOy4pVerOwLyw3GXjbnx/AobzO0HOtfe2pt/6X1JHlA==
+X-Received: by 2002:a05:600c:1d89:b0:3d3:58cb:f6a6 with SMTP id
+ p9-20020a05600c1d8900b003d358cbf6a6mr36664684wms.41.1672937079413; 
+ Thu, 05 Jan 2023 08:44:39 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.36
+ hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:44:36 -0800 (PST)
+ Thu, 05 Jan 2023 08:44:38 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/34] target/arm: Remove unused includes from m_helper.c
-Date: Thu,  5 Jan 2023 16:44:04 +0000
-Message-Id: <20230105164417.3994639-22-peter.maydell@linaro.org>
+Subject: [PULL 24/34] hw/input/tsc2xxx: Constify set_transform()'s
+ MouseTransformInfo arg
+Date: Thu,  5 Jan 2023 16:44:07 +0000
+Message-Id: <20230105164417.3994639-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230105164417.3994639-1-peter.maydell@linaro.org>
 References: <20230105164417.3994639-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,52 +91,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Fabiano Rosas <farosas@suse.de>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-id: 20221213190537.511-5-farosas@suse.de
+The pointed MouseTransformInfo structure is accessed read-only.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20221220142520.24094-2-philmd@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/m_helper.c | 16 ----------------
- 1 file changed, 16 deletions(-)
+ include/hw/input/tsc2xxx.h | 4 ++--
+ hw/input/tsc2005.c         | 2 +-
+ hw/input/tsc210x.c         | 3 +--
+ 3 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 355cd4d60a7..033a4d92614 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -7,30 +7,14 @@
-  */
+diff --git a/include/hw/input/tsc2xxx.h b/include/hw/input/tsc2xxx.h
+index 5b76ebc1776..00eca17674e 100644
+--- a/include/hw/input/tsc2xxx.h
++++ b/include/hw/input/tsc2xxx.h
+@@ -30,12 +30,12 @@ uWireSlave *tsc2102_init(qemu_irq pint);
+ uWireSlave *tsc2301_init(qemu_irq penirq, qemu_irq kbirq, qemu_irq dav);
+ I2SCodec *tsc210x_codec(uWireSlave *chip);
+ uint32_t tsc210x_txrx(void *opaque, uint32_t value, int len);
+-void tsc210x_set_transform(uWireSlave *chip, MouseTransformInfo *info);
++void tsc210x_set_transform(uWireSlave *chip, const MouseTransformInfo *info);
+ void tsc210x_key_event(uWireSlave *chip, int key, int down);
  
- #include "qemu/osdep.h"
--#include "qemu/units.h"
--#include "target/arm/idau.h"
--#include "trace.h"
- #include "cpu.h"
- #include "internals.h"
--#include "exec/gdbstub.h"
- #include "exec/helper-proto.h"
--#include "qemu/host-utils.h"
- #include "qemu/main-loop.h"
- #include "qemu/bitops.h"
--#include "qemu/crc32c.h"
--#include "qemu/qemu-print.h"
- #include "qemu/log.h"
- #include "exec/exec-all.h"
--#include <zlib.h> /* For crc32 */
--#include "semihosting/semihost.h"
--#include "sysemu/cpus.h"
--#include "sysemu/kvm.h"
--#include "qemu/range.h"
--#include "qapi/qapi-commands-machine-target.h"
--#include "qapi/error.h"
--#include "qemu/guest-random.h"
- #ifdef CONFIG_TCG
--#include "arm_ldst.h"
- #include "exec/cpu_ldst.h"
- #include "semihosting/common-semi.h"
+ /* tsc2005.c */
+ void *tsc2005_init(qemu_irq pintdav);
+ uint32_t tsc2005_txrx(void *opaque, uint32_t value, int len);
+-void tsc2005_set_transform(void *opaque, MouseTransformInfo *info);
++void tsc2005_set_transform(void *opaque, const MouseTransformInfo *info);
+ 
  #endif
+diff --git a/hw/input/tsc2005.c b/hw/input/tsc2005.c
+index 14698ce1097..555b6771738 100644
+--- a/hw/input/tsc2005.c
++++ b/hw/input/tsc2005.c
+@@ -523,7 +523,7 @@ void *tsc2005_init(qemu_irq pintdav)
+  * from the touchscreen.  Assuming 12-bit precision was used during
+  * tslib calibration.
+  */
+-void tsc2005_set_transform(void *opaque, MouseTransformInfo *info)
++void tsc2005_set_transform(void *opaque, const MouseTransformInfo *info)
+ {
+     TSC2005State *s = (TSC2005State *) opaque;
+ 
+diff --git a/hw/input/tsc210x.c b/hw/input/tsc210x.c
+index df7313db5d7..fdd5ff87d94 100644
+--- a/hw/input/tsc210x.c
++++ b/hw/input/tsc210x.c
+@@ -1176,8 +1176,7 @@ I2SCodec *tsc210x_codec(uWireSlave *chip)
+  * from the touchscreen.  Assuming 12-bit precision was used during
+  * tslib calibration.
+  */
+-void tsc210x_set_transform(uWireSlave *chip,
+-                MouseTransformInfo *info)
++void tsc210x_set_transform(uWireSlave *chip, const MouseTransformInfo *info)
+ {
+     TSC210xState *s = (TSC210xState *) chip->opaque;
+ #if 0
 -- 
 2.25.1
 
