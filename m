@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF5865E787
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 10:18:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3589F65E771
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 10:15:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDMKu-0001Tb-Ni; Thu, 05 Jan 2023 04:14:56 -0500
+	id 1pDMKv-0001V3-PT; Thu, 05 Jan 2023 04:14:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMKo-0001TL-Nf
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:14:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMKr-0001Tx-7R
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:14:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMKn-0006nN-1K
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:14:50 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMKp-0006ox-S2
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:14:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672910088;
+ s=mimecast20190719; t=1672910091;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pur9/YaviOiAK2NOYFsJiuuRu4TcG+CvN2Bn3YgLiWc=;
- b=NZx3NmetbsbEWfbmlqXuOW6jEzxj7PXqnHPTPW3RIKHTDivowXXAnnQ43E2cQU2GosIRXq
- 5Mq1bj5dm1JZjviOrmOMbp/1sAqxUUv9aiDLi3vqP3+echSOVL4SwLNk60Gu9fhsyFvKMG
- BhUQZA96Wk7VdaHsab/tn8gD7y0GNnw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=m3TFYG5jtPJxj2AAF57n0Xvz2wJnns/YSUt6EOuT54c=;
+ b=ImUCspHhOGfbO6FnQYGRqil2wEgccLNamZ170tZsgfxegLXHCUAs08bylSGdtwEy06wFUu
+ 12hdtGJ2suYFoqbpWWGLXQEatHOu+jbPfIwgfG+9X4l5OwEFlEpiE2kR1Q2i3RnFnLWOaQ
+ Uuxwed97K5YVApEfUYcq8C9kExb4N60=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-131-aSm_b1dsPvazAGnVbFg6zg-1; Thu, 05 Jan 2023 04:14:47 -0500
-X-MC-Unique: aSm_b1dsPvazAGnVbFg6zg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- o14-20020adfa10e000000b002631c56fe26so4629847wro.1
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 01:14:47 -0800 (PST)
+ us-mta-70-bEYMC0wMP1qdfPs_hFgqmQ-1; Thu, 05 Jan 2023 04:14:50 -0500
+X-MC-Unique: bEYMC0wMP1qdfPs_hFgqmQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ d28-20020adfa35c000000b00293b14c3868so2067766wrb.10
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 01:14:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Pur9/YaviOiAK2NOYFsJiuuRu4TcG+CvN2Bn3YgLiWc=;
- b=nNd7MgGINHUKNA0Ithl3hOMDM6rjTMMY23lttcsareEi3Qw4jHRVJYrajd3uHtqAgj
- ThCpcs4AUhXg70BZf8TSU9J3xzB4X4SN9rPArIPSGWkIaR4QhGhedbAG8QXMWPNgenh5
- LSWiQC20Uy3IC70vX7HRXHsfgcPVVp8+g+NEsuudc3hjB8tCaSkjHhnXxBmJkrdUSQwp
- Uv9yslv+iKaohgNCTNdhCD/260ISfRvTgfrL6d4h/EJ2MSUAqiKtgWe5BzEMdOtW7T4y
- Y1oAHjawaevsFBmYHRgPyHgl/yVryd4bvkbn7KhStxcErv7hXpgSOA8VCIvOqbEiwXKg
- Z34g==
-X-Gm-Message-State: AFqh2kqL+5CUunNpziWDs5FqdK9d3ZhyGA5zqr4I8oKbE5PvZ9Gc1euy
- OKKnL+akCGpBHejYu8udvjvgxIRLHEwJJpe34FOlPCdbXTiAf1SXVFDCM8TzZ2roLHWAzbFXqFC
- RYHw2jq97q1mnabp8kXH1bhX7jZz0h1fSC940J8IPDOH9JMFWLuisM3wmCQ64
-X-Received: by 2002:a05:6000:181:b0:276:c52a:e3a0 with SMTP id
- p1-20020a056000018100b00276c52ae3a0mr23292804wrx.65.1672910085673; 
- Thu, 05 Jan 2023 01:14:45 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXshoCntFj9TOQTrofKRal0Juq7qj3a7R1f9inNj8SguvXMGOJPSNDzIN9NGqbBIPgBFSOa61w==
-X-Received: by 2002:a05:6000:181:b0:276:c52a:e3a0 with SMTP id
- p1-20020a056000018100b00276c52ae3a0mr23292788wrx.65.1672910085438; 
- Thu, 05 Jan 2023 01:14:45 -0800 (PST)
+ bh=m3TFYG5jtPJxj2AAF57n0Xvz2wJnns/YSUt6EOuT54c=;
+ b=tfxU5eB2berrWNhGoi7YmwCF1CBPyJLeeFWL2QDs+mz5MwflsC2dSgEIL0fmW/8tQg
+ 9sBTF8075zlPPGMabxv1pviWvsyn8ww8e85Q379hkYogYKYPv9WrktgyaxWbr72LoovH
+ jrwRR+HLYFLApEBGbwSLIqJieKQp9KikZjk+YQ6G/74YWJJqczlNluqHN2r/8nQaszlW
+ YMljhTCH+M+JNkvnFyRqA6jmy31Rsd1ne8xysLPLt0RMmhe7tiuA6gpTwtj0seie7Khj
+ N/fUa/ZKm6+m2jt3LLm1c+wxZnUAIGtmnRbMlzv567AlrdnldQ0m5o6jIwCdR+1PJeUk
+ CWaQ==
+X-Gm-Message-State: AFqh2kp+L4iHI14A1BHv9/bzGTEqpFrjvNnjqo/AGbBu0bLy3xAk8MZi
+ 9tgtTQxsRKSR2u3l7XTRNK0Vnx2PiJLpRR4EcNEsjnp73REbBiSzUkZYk15h+suyKt/wuP6fY64
+ sMQ7etApPdsRd1ExJtmad3AWHg8u3QXyw/K1osxcvpWPeci8qcQftnL+MxgKq
+X-Received: by 2002:adf:eecf:0:b0:242:14f5:7a96 with SMTP id
+ a15-20020adfeecf000000b0024214f57a96mr32587140wrp.47.1672910088832; 
+ Thu, 05 Jan 2023 01:14:48 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvefxch3bc5FFDMITaRo4gIulnMM58JUW2SKduJhvmVgHTt8yIxsU30cCTs5NCIXJgA6lGBRQ==
+X-Received: by 2002:adf:eecf:0:b0:242:14f5:7a96 with SMTP id
+ a15-20020adfeecf000000b0024214f57a96mr32587126wrp.47.1672910088573; 
+ Thu, 05 Jan 2023 01:14:48 -0800 (PST)
 Received: from redhat.com ([2.52.151.85]) by smtp.gmail.com with ESMTPSA id
- i18-20020a5d5232000000b0028e55b44a99sm17914364wra.17.2023.01.05.01.14.43
+ l15-20020a5d410f000000b002683695bf97sm36186611wrp.58.2023.01.05.01.14.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 01:14:44 -0800 (PST)
-Date: Thu, 5 Jan 2023 04:14:41 -0500
+ Thu, 05 Jan 2023 01:14:48 -0800 (PST)
+Date: Thu, 5 Jan 2023 04:14:45 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>,
+ Bernhard Beschow <shentey@gmail.com>, BALATON Zoltan <balaton@eik.bme.hu>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 08/51] hw/acpi/Kconfig: Add missing dependencies to ACPI_PIIX4
-Message-ID: <20230105091310.263867-9-mst@redhat.com>
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PULL 09/51] hw/isa/Kconfig: Add missing dependency to VT82C686
+Message-ID: <20230105091310.263867-10-mst@redhat.com>
 References: <20230105091310.263867-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -77,7 +77,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230105091310.263867-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,35 +103,30 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-piix4_pm_realize() uses apm_init() and pm_smbus_init(), so both APM and
-ACPI_SMBUS are provided by the device model managed by ACPI_PIIX4.
-
-The ACPIREGS are also provided by ACPI_PIIX4, so needs to select ACPI.
+The ACPIREGS are provided by TYPE_VIA_PM, so needs to select ACPI.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Message-Id: <20221216130355.41667-5-shentey@gmail.com>
+Message-Id: <20221216130355.41667-6-shentey@gmail.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/acpi/Kconfig | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/isa/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
-index b7006e18c8..1f7803fdab 100644
---- a/hw/acpi/Kconfig
-+++ b/hw/acpi/Kconfig
-@@ -31,7 +31,9 @@ config ACPI_NVDIMM
- 
- config ACPI_PIIX4
+diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
+index 0a6a04947c..0156a66889 100644
+--- a/hw/isa/Kconfig
++++ b/hw/isa/Kconfig
+@@ -52,6 +52,7 @@ config PIIX4
+ config VT82C686
      bool
--    depends on ACPI
+     select ISA_SUPERIO
 +    select ACPI
-+    select ACPI_SMBUS
-+    select APM
- 
- config ACPI_PCIHP
-     bool
+     select ACPI_SMBUS
+     select SERIAL_ISA
+     select FDC_ISA
 -- 
 MST
 
