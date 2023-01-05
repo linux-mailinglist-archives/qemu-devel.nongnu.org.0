@@ -2,58 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310DD65EEF0
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:39:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E97BA65EF11
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:45:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDRNs-00019T-Im; Thu, 05 Jan 2023 09:38:20 -0500
+	id 1pDRQQ-0006Ys-3f; Thu, 05 Jan 2023 09:40:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pDRNn-00018I-H1
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:38:15 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pDRNk-0007z0-Tz
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:38:15 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NnptJ48YXz6J6Hs;
- Thu,  5 Jan 2023 22:35:52 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 5 Jan
- 2023 14:38:08 +0000
-Date: Thu, 5 Jan 2023 14:38:07 +0000
-To: Gregory Price <gourry.memverge@gmail.com>
-CC: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>,
- <alison.schofield@intel.com>, <dave@stgolabs.net>,
- <a.manzanares@samsung.com>, <bwidawsk@kernel.org>,
- <gregory.price@memverge.com>, <hchkuo@avery-design.com.tw>,
- <cbrowy@avery-design.com>, <ira.weiny@intel.com>
-Subject: Re: [RFC v4 2/3] tests/qtest/cxl-test: whitespace, line ending cleanup
-Message-ID: <20230105143807.0000315a@huawei.com>
-In-Reply-To: <20221128150157.97724-3-gregory.price@memverge.com>
-References: <20221128150157.97724-1-gregory.price@memverge.com>
- <20221128150157.97724-3-gregory.price@memverge.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDRQJ-0006PP-QF
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:40:53 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDRQH-0003F0-Mr
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:40:51 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ m26-20020a05600c3b1a00b003d9811fcaafso1466751wms.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 06:40:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=oNDOqnsLbyhoDi5uMGk8/4UUP00n8RzWnJNlr2mmXCw=;
+ b=u+oblYgDY7fD5KbasUEDoj5ricSGpo9z6Te0DEHS/SThi1t0rp/Fv8scGCdmt2GIlP
+ pmEYoaESJHTQuCXvJJtnzTVnh3o1fFNZDG2hqM3P57ynBy/iCXkKPjOpYe/IsLcDBDVs
+ YZg+LabRFF4d5wpM4fJRxknQE8NjxVGDVbnjfadaSXx92E2N6TSo8ZUIYRnWasGhoepP
+ vJ04VRV9EO1n3/LbREv8uBGkuGjrpF3EBybBAcZ9tonptuJYB4chEPts6IW9UZJb6mpy
+ 7q8VcLuABMf5Pj5kmf60/EO8BqcCyBigeAk94CHtEUB0dPlH2fMDC1Y+MTea1ntE5OLv
+ a5qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oNDOqnsLbyhoDi5uMGk8/4UUP00n8RzWnJNlr2mmXCw=;
+ b=t5QbagcNK9D6XoyZaAYe8PZtsi7R4dMoxiDUDc2PMbKSIcBixwhx6i1DmWvXFphysA
+ x5TlqoEPBIycwnMcEiCBuB4rXCvWrj/Pz4W2qKdGuB7YfMiiFYEOrQckrFIfHDMO6VxV
+ xWIG6/OsBQi9OiDIoeBY3UUKTgR/zsg/tI0VLgEiqf5agUe+kmKfY2iVqXrWnLc6/JU/
+ czSjreoAwvBgnne/2eDIr0SnZAnCr1xj4b+nsag4qClk8QEKki0QvoNMlYmnk+aOO9Wh
+ 5q3HKFeyy1pusnfEG33xmWYPOun+HO8JWUVh2PVSok45m3k1qOyfC51tKyp4vZ7yZ6Vq
+ WD7A==
+X-Gm-Message-State: AFqh2krsFkh/wk+5xm4Zr7vjoXhSEL9QxPfVrnjHDyVhPDRCOOfAXg/l
+ zu3uhizwFnlZjkzIrrULSXx5XubiHWJrP7Hi
+X-Google-Smtp-Source: AMrXdXtUdzQfZCdaIthHpZ1bmoKgUfFFqEdVMcyrdI0LWmObweZ2PwXERpr2EM259hg0RYgppYWG3g==
+X-Received: by 2002:a05:600c:2217:b0:3d2:267d:64da with SMTP id
+ z23-20020a05600c221700b003d2267d64damr35326920wml.10.1672929646406; 
+ Thu, 05 Jan 2023 06:40:46 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ z25-20020a1c4c19000000b003d1e1f421bfsm2622176wmf.10.2023.01.05.06.40.45
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Thu, 05 Jan 2023 06:40:45 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-trivial@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH] hw/i386/pc: Remove unused 'owner' argument from
+ pc_pci_as_mapping_init
+Date: Thu,  5 Jan 2023 15:40:44 +0100
+Message-Id: <20230105144044.51822-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,149 +89,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 28 Nov 2022 10:01:56 -0500
-Gregory Price <gourry.memverge@gmail.com> wrote:
+This argument was added 9 years ago in commit 83d08f2673
+and has never been used since, so remote it.
 
-> Defines are starting to exceed line length limits, align them for
-> cleanliness before making modifications.
-> 
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ hw/i386/pc.c         | 2 +-
+ hw/pci-host/i440fx.c | 3 +--
+ hw/pci-host/q35.c    | 3 +--
+ include/hw/i386/pc.h | 2 +-
+ 4 files changed, 4 insertions(+), 6 deletions(-)
 
-Hi Gregory,
-
-I was just reordering my tree and noticed that you've only
-gone with 2 space indent.  Given 4 spaces is the convention in QEMU
-for other uses, I've switched my local copy of this over to 4 spaces.
-
-Note there was also a single inconsistent 1 space indent - see below.
-
-Jonathan
-
-> 
-> ---
->  tests/qtest/cxl-test.c | 99 +++++++++++++++++++++++-------------------
->  1 file changed, 54 insertions(+), 45 deletions(-)
-> 
-> diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
-> index c54f18e76b..e59ba22387 100644
-> --- a/tests/qtest/cxl-test.c
-> +++ b/tests/qtest/cxl-test.c
-> @@ -8,55 +8,64 @@
->  #include "qemu/osdep.h"
->  #include "libqtest-single.h"
->  
-> -#define QEMU_PXB_CMD "-machine q35,cxl=on " \
-> -                     "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
-> -                     "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=4G "
-> -
-> -#define QEMU_2PXB_CMD "-machine q35,cxl=on "                            \
-> -                      "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
-> -                      "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 " \
-> -                      "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "
-> -
-> -#define QEMU_VIRT_2PXB_CMD "-machine virt,cxl=on "                      \
-> -                      "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
-> -                      "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 "  \
-> -                      "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "
-> -
-> -#define QEMU_RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 "
-> +#define QEMU_PXB_CMD \
-> +  "-machine q35,cxl=on " \
-> +  "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 " \
-> +  "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=4G "
-> +
-> +#define QEMU_2PXB_CMD \
-> +  "-machine q35,cxl=on " \
-> +  "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 " \
-> +  "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 " \
-> + "- M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "
-This one only has one space.
-
-> +
-> +#define QEMU_VIRT_2PXB_CMD \
-> +  "-machine virt,cxl=on " \
-> +  "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 " \
-> +  "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 " \
-> +  "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "
-> +
-> +#define QEMU_RP \
-> +  "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 "
->  
->  /* Dual ports on first pxb */
-> -#define QEMU_2RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 " \
-> -                 "-device cxl-rp,id=rp1,bus=cxl.0,chassis=0,slot=1 "
-> +#define QEMU_2RP \
-> +  "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 " \
-> +  "-device cxl-rp,id=rp1,bus=cxl.0,chassis=0,slot=1 "
->  
->  /* Dual ports on each of the pxb instances */
-> -#define QEMU_4RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 " \
-> -                 "-device cxl-rp,id=rp1,bus=cxl.0,chassis=0,slot=1 " \
-> -                 "-device cxl-rp,id=rp2,bus=cxl.1,chassis=0,slot=2 " \
-> -                 "-device cxl-rp,id=rp3,bus=cxl.1,chassis=0,slot=3 "
-> -
-> -#define QEMU_T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
-> -                 "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
-> -                 "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 "
-> -
-> -#define QEMU_2T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M "    \
-> -                  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
-> -                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
-> -                  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
-> -                  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
-> -                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 "
-> -
-> -#define QEMU_4T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
-> -                  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
-> -                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
-> -                  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
-> -                  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
-> -                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 " \
-> -                  "-object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M "    \
-> -                  "-object memory-backend-file,id=lsa2,mem-path=%s,size=256M "    \
-> -                  "-device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2,id=cxl-pmem2 " \
-> -                  "-object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M "    \
-> -                  "-object memory-backend-file,id=lsa3,mem-path=%s,size=256M "    \
-> -                  "-device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3,id=cxl-pmem3 "
-> +#define QEMU_4RP \
-> +  "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 " \
-> +  "-device cxl-rp,id=rp1,bus=cxl.0,chassis=0,slot=1 " \
-> +  "-device cxl-rp,id=rp2,bus=cxl.1,chassis=0,slot=2 " \
-> +  "-device cxl-rp,id=rp3,bus=cxl.1,chassis=0,slot=3 "
-> +
-> +#define QEMU_T3D \
-> +  "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
-> +  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
-> +  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 "
-> +
-> +#define QEMU_2T3D \
-> +  "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
-> +  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M " \
-> +  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
-> +  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M " \
-> +  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M " \
-> +  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 "
-> +
-> +#define QEMU_4T3D \
-> +  "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
-> +  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M " \
-> +  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
-> +  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M " \
-> +  "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M " \
-> +  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 " \
-> +  "-object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M " \
-> +  "-object memory-backend-file,id=lsa2,mem-path=%s,size=256M " \
-> +  "-device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2,id=cxl-pmem2 " \
-> +  "-object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M " \
-> +  "-object memory-backend-file,id=lsa3,mem-path=%s,size=256M " \
-> +  "-device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3,id=cxl-pmem3 "
->  
->  static void cxl_basic_hb(void)
->  {
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index d489ecc0d1..6e592bd969 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -782,7 +782,7 @@ void pc_guest_info_init(PCMachineState *pcms)
+ }
+ 
+ /* setup pci memory address space mapping into system address space */
+-void pc_pci_as_mapping_init(Object *owner, MemoryRegion *system_memory,
++void pc_pci_as_mapping_init(MemoryRegion *system_memory,
+                             MemoryRegion *pci_address_space)
+ {
+     /* Set to lower priority than RAM */
+diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+index d5426ef4a5..262f82c303 100644
+--- a/hw/pci-host/i440fx.c
++++ b/hw/pci-host/i440fx.c
+@@ -272,8 +272,7 @@ PCIBus *i440fx_init(const char *pci_type,
+                      IO_APIC_DEFAULT_ADDRESS - 1);
+ 
+     /* setup pci memory mapping */
+-    pc_pci_as_mapping_init(OBJECT(f), f->system_memory,
+-                           f->pci_address_space);
++    pc_pci_as_mapping_init(f->system_memory, f->pci_address_space);
+ 
+     /* if *disabled* show SMRAM to all CPUs */
+     memory_region_init_alias(&f->smram_region, OBJECT(d), "smram-region",
+diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+index 20da121374..26390863d6 100644
+--- a/hw/pci-host/q35.c
++++ b/hw/pci-host/q35.c
+@@ -574,8 +574,7 @@ static void mch_realize(PCIDevice *d, Error **errp)
+     }
+ 
+     /* setup pci memory mapping */
+-    pc_pci_as_mapping_init(OBJECT(mch), mch->system_memory,
+-                           mch->pci_address_space);
++    pc_pci_as_mapping_init(mch->system_memory, mch->pci_address_space);
+ 
+     /* if *disabled* show SMRAM to all CPUs */
+     memory_region_init_alias(&mch->smram_region, OBJECT(mch), "smram-region",
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 991f905f5d..88a120bc23 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -156,7 +156,7 @@ void pc_guest_info_init(PCMachineState *pcms);
+ #define PCI_HOST_ABOVE_4G_MEM_SIZE     "above-4g-mem-size"
+ 
+ 
+-void pc_pci_as_mapping_init(Object *owner, MemoryRegion *system_memory,
++void pc_pci_as_mapping_init(MemoryRegion *system_memory,
+                             MemoryRegion *pci_address_space);
+ 
+ void xen_load_linux(PCMachineState *pcms);
+-- 
+2.38.1
 
 
