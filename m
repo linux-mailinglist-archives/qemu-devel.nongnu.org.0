@@ -2,97 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0922465F551
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 21:39:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FD965F567
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 21:50:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDX0t-0005zN-2a; Thu, 05 Jan 2023 15:39:00 -0500
+	id 1pDXA9-0001ax-83; Thu, 05 Jan 2023 15:48:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1pDX0m-0005y2-Lw
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:38:53 -0500
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1pDX0k-0004YU-1B
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:38:51 -0500
-Received: by mail-qt1-x829.google.com with SMTP id h21so30935130qta.12
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 12:38:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5R84gnDXIcZCl3q1uuKNVrzE7JF/GewA0GD7Joj4Tac=;
- b=JTqD02qzpNL7au3Z3GUF4Xu2ARxubYVglZyPFMGjd5IBB76X21fyAUfGvELrmmzFik
- QzBJjZBaZ6aZe7oTAlxNCti0+kLpAukE+qZM7LrpHVjgAMiyLgJZ2+98YW1K5vKsRoVw
- 2umAOw9diVB8LQA7BnZCONR8pssadQA3XE8f0al71RlaiMm7wUNlcWpSs5hmEzVyjqeM
- eYv5U34leRc2bqLAihlC18sqPCveW9G6816ZQccg0Z2ovOthL6yQhQkI0guVnNH8iTu7
- dG6eqdfXW1bD1DNzwo+oob/r+0lWSVvlcjXTltffxVApLthVRgT5BHTNgmHgdLEzU0KX
- YdYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5R84gnDXIcZCl3q1uuKNVrzE7JF/GewA0GD7Joj4Tac=;
- b=OyogqMYqHKizoi8H6Wuou/Y+07IARETqGRzf+lVzxUPqCFz1kmSVLRCLN29abdtSkM
- uOqg+oUk5bN5J5ZIgyaBEeAPqFawwIoChjqcBxMQuiQ3mU67gMlmM6WpE41hRFkqgMi1
- QLOt11N3CyRKDrn0uvzVlX2v9NHK141mWSPGD8iAIxsl0Hh9HwIS480rR1Qb5cMcKh7H
- HE/9Y7ibmbTV+kQc3I3fuhmw3XmDGsxcdl6lpemtEeMc7xejwQ8JuXCatfC8dp7wZumw
- 3pxr0suPpWkVQ4oEKfAZikZ333KRtKw46NrWXFJAkVfrncTvksAOkS9wxaRCIFbEB8kN
- sfpg==
-X-Gm-Message-State: AFqh2krhU1HtzSKtWgZLIRplA0DH2umTON9aMDUqYRy/CsRtdsxgtSon
- Ox92n2Q7TtkAXwDuf8Rfl6k9rslq9e0FOiGmBYm48Q==
-X-Google-Smtp-Source: AMrXdXsO9CWfLwOzPVqYnAJucA/qVRf1ChKGrluQUWC1ROk0zrv6560/2Dre8nwP8Lxgkk7sOMhP2BMCSX8GFdVvZpI=
-X-Received: by 2002:ac8:5e0c:0:b0:3ab:754e:f0b3 with SMTP id
- h12-20020ac85e0c000000b003ab754ef0b3mr2062105qtx.583.1672951121587; Thu, 05
- Jan 2023 12:38:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDXA6-0001aQ-DJ
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:48:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDXA4-0003en-Nq
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 15:48:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672951707;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=T14UBH2EmZcXaf0T4isMfirCvC9cULImbUu9Cun7oto=;
+ b=eCGkYUBE+3CS/yEVetHDSkhn27Z2IjXteWg8s6J8FYMKhxK/xrlbt7PkVMSatcMbWm1YGg
+ jdN48thfrMS+RbVG9lC2d+AvklVHwPeaNwMP1CNYgkDoJ4JPmni4v2FKhFWSRK9tXfOJ3r
+ h+P5K71S+qXg80XIIg4CSAzy4pE4FLY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-632-xYd8txfpPGaVyYWX94v5EA-1; Thu, 05 Jan 2023 15:48:24 -0500
+X-MC-Unique: xYd8txfpPGaVyYWX94v5EA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 89307101A52E;
+ Thu,  5 Jan 2023 20:48:23 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B5B4D492D8B;
+ Thu,  5 Jan 2023 20:48:21 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
+ Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>
+Subject: [PATCH] .gitlab-ci.d/windows: Do not run the qtests in the
+ msys2-32bit job
+Date: Thu,  5 Jan 2023 21:48:19 +0100
+Message-Id: <20230105204819.26992-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
-In-Reply-To: <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
-From: Vishal Annapurve <vannapurve@google.com>
-Date: Thu, 5 Jan 2023 12:38:30 -0800
-Message-ID: <CAGtprH_pbSo1HeEFUEB6ZZxm-=NEw+nLZ6ZVvr76=9BeX=AHPA@mail.gmail.com>
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
- Naoya Horiguchi <naoya.horiguchi@nec.com>, 
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, 
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>, 
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, 
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=vannapurve@google.com; helo=mail-qt1-x829.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,42 +77,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 1, 2022 at 10:20 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> +static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
-> +                                        pgoff_t start, pgoff_t end,
-> +                                        gfn_t *gfn_start, gfn_t *gfn_end)
-> +{
-> +       unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
-> +
-> +       if (start > base_pgoff)
-> +               *gfn_start = slot->base_gfn + start - base_pgoff;
+The qtests are not stable in the msys2-32bit job yet - especially
+the test-hmp and the qom-test are failing randomly. Until this is
+fixed, let's better disable the qtests here again to avoid failing
+CI tests.
 
-There should be a check for overflow here in case start is a very big
-value. Additional check can look like:
-if (start >= base_pgoff + slot->npages)
-       return false;
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitlab-ci.d/windows.yml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> +       else
-> +               *gfn_start = slot->base_gfn;
-> +
-> +       if (end < base_pgoff + slot->npages)
-> +               *gfn_end = slot->base_gfn + end - base_pgoff;
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index 22f794e537..a1d5790580 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -116,4 +116,5 @@ msys2-32bit:
+   - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu
+         --disable-opengl'
+   - ..\msys64\usr\bin\bash -lc 'make'
+-  - ..\msys64\usr\bin\bash -lc 'make check || { cat meson-logs/testlog.txt; exit 1; } ;'
++  - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS=\"--no-suite qtest\" ||
++                                { cat meson-logs/testlog.txt; exit 1; }'
+-- 
+2.31.1
 
-If "end" is smaller than base_pgoff, this can cause overflow and
-return the range as valid. There should be additional check:
-if (end < base_pgoff)
-         return false;
-
-
-> +       else
-> +               *gfn_end = slot->base_gfn + slot->npages;
-> +
-> +       if (*gfn_start >= *gfn_end)
-> +               return false;
-> +
-> +       return true;
-> +}
-> +
 
