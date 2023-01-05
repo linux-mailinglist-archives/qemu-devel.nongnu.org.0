@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019AC65F18D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:57:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2128965F15D
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:45:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTMR-0000wV-Cm; Thu, 05 Jan 2023 11:44:59 -0500
+	id 1pDTMh-0001Nu-8R; Thu, 05 Jan 2023 11:45:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTMC-0000kk-S1
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:47 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ id 1pDTMJ-0000oH-Hm
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:51 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTM7-00072G-Bx
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:40 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id ja17so28450082wmb.3
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:38 -0800 (PST)
+ id 1pDTMF-0007Tj-4g
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:51 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ k26-20020a05600c1c9a00b003d972646a7dso1727997wms.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=5phcJn3+aOzp5t3SfXhX01zMS188rkd4iS8jVPL2LkE=;
- b=cme+eRrfbRSg4csUk3Lp05wb4dzOo1sKBE0qYX+J4WSopS3IXVUP7+pvOnBAq7hJQC
- h1rx/wZMoO9xdCsAuRujK5T9sGvpcGPRPfe1P1ImLpeXxN2mtUO8hFJL+if7HXGBgtfj
- 1VrqzYrB5Lga9Pz2YJu5fEUoc1Cv9/jXeL5XaZVFf+ufPBe8uoilk6feZmPQ24xEcWMt
- 2/D7QdfiAbqA9JFJy/OpjBCvTzc7xF9XbaYsptU1wUDyqKxQ+s/3r4bpajIc7jg/8CaI
- uG+cWPW6iOsLiP+HOLEOty6f8EWp1IpP7nBt84vdpf/5hmw3Z42RJFuOXy0Tev3nO8Lz
- pF9Q==
+ :reply-to; bh=HjXI1ybyBjJZ/wjqPnfmihak0F0npX5WBOx0bgmkSU8=;
+ b=leXeI1/9WEM1c5T5kiTNJp/db6voMAceui3q7C2GThMl7Cg/v2h+PKzRs2tYBKouGD
+ Q7pHDFOw2ioI4+1xwdbAKiQMZPWZ/0C8jkkVMmoMZKlnBfX5sD5cHlcQ0qJGpTtsefKu
+ C1Rwdh92sJBmmF08xc2YBnxclzSZVsoYMngMO7uxiTPmyNmF0LUWj4/AMivKNsfFZqFe
+ VrQxWY9cBFeDmeqn5aewwyP5xCJ2GAOKEN/X3iaZNMy+6MeUQ/WfnD9oF9/Z/l7XLjG7
+ 9apo8bYgfSmY00WmvEnpfbpHnX8FQxMIVu2XzmErgnCkpQOtmbVITse6vexl8Ssqyzl4
+ 79+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5phcJn3+aOzp5t3SfXhX01zMS188rkd4iS8jVPL2LkE=;
- b=UsfsSKYsx/ZD/YQXtVGhvabYBoFmidNdGTdbKhSuKym/IraqOZg8bQHc3ED8S+IpFo
- OY/Kt3nh48ixlFXN7GCWfQwjyCHE//0KpKs+Ec+KTohuRQPRm7lRJE6aEnYUDZ8xRnk0
- CRzOl752o314yPvrd35XffYFW6td+tpW7F8RltzxLA8kO1liPF1ITSja4qM8/84QWyA8
- tKO8qsOTrKO0qByBVuIx+adGyxmzWzCxBAj1bJWsRb8TkPpsTgNg0Hv2QGV+fTMkr9s7
- dq2T+bPBbw4gS5ja7XtGbTySh1ZgiR2/UgqzF1gzelicmn09fB1TqPu+AzSR6Td1LgMU
- vG9A==
-X-Gm-Message-State: AFqh2kr2m70jq5F0Lfi7cicdFxGb+Zd25hH/30KRqpZLcPdlwGbAEPOR
- eCEfBRXONNERP9PgH/u3kHu4uQtulAt/0yRf
-X-Google-Smtp-Source: AMrXdXvEO/DW+Brz6skmMD1v0ol5DK45vEhqw7BvAmb28JltJE0HUifENmP5V2nsfTVlLgQxMXMNdg==
-X-Received: by 2002:a05:600c:18a1:b0:3d2:3ec4:7eed with SMTP id
- x33-20020a05600c18a100b003d23ec47eedmr40233937wmp.10.1672937078665; 
- Thu, 05 Jan 2023 08:44:38 -0800 (PST)
+ bh=HjXI1ybyBjJZ/wjqPnfmihak0F0npX5WBOx0bgmkSU8=;
+ b=u/PV7hnx2sOn6mS85SB4jaRS0T5BMPT8ankg+5GZV6biQK49uLZffEWBzooR/lZJLT
+ /Coqa4Q2LOI4xcFKp7qVRF1vIDPtGDrKVvJ9NXAuPSOIVtI5j0GXt2ze5lMxhmsIUrCI
+ 8e+0vubM87Jkn0rkyDaJ1xZ7rK7k6Kk64hliQ5WbyCIf6XSDRrIauLtRimlN6oblpyPD
+ azqC4Yei7JPCeRLLQM+HaiiDrFVle9lhomCZTG6q6Kxz/M3BLt/Ljg3vu7J2B4iol1VQ
+ fpVUipjDICatXz9eO/Q8EffBhk/QUs6ndFZqlH3/U5u49dSs103r/jL4FOe/cIDpODgB
+ oSBA==
+X-Gm-Message-State: AFqh2kotapWTNa+xx8U/12iV5qzj6QXs0Bxi6Vn/ViMhv+F6m66LN2bQ
+ T+BswKS+2k7HgiFgs6gcdzZd8fxG4Ta8WeVz
+X-Google-Smtp-Source: AMrXdXtTyE3s9BXNdZWAFXmddvWdnHIuYwNQQNvZQAZ0GERdjfbGFshfrq9pacUNKxCMSItdGz+4Sg==
+X-Received: by 2002:a05:600c:3482:b0:3d3:4f56:62e1 with SMTP id
+ a2-20020a05600c348200b003d34f5662e1mr35638336wmq.27.1672937085846; 
+ Thu, 05 Jan 2023 08:44:45 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.37
+ hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:44:38 -0800 (PST)
+ Thu, 05 Jan 2023 08:44:45 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/34] target/arm: cleanup cpu includes
-Date: Thu,  5 Jan 2023 16:44:06 +0000
-Message-Id: <20230105164417.3994639-24-peter.maydell@linaro.org>
+Subject: [PULL 32/34] i.MX6UL: Add a specific GPT timer instance for the
+ i.MX6UL
+Date: Thu,  5 Jan 2023 16:44:15 +0000
+Message-Id: <20230105164417.3994639-33-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230105164417.3994639-1-peter.maydell@linaro.org>
 References: <20230105164417.3994639-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,54 +90,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Claudio Fontana <cfontana@suse.de>
+From: Jean-Christophe Dubois <jcd@tribudubois.net>
 
-Remove some unused headers.
+The i.MX6UL doesn't support CLK_HIGH ou CLK_HIGH_DIV clock source.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Message-id: 20221213190537.511-7-farosas@suse.de
-[added back some includes that are still needed at this point]
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c   | 1 -
- target/arm/cpu64.c | 6 ------
- 2 files changed, 7 deletions(-)
+ include/hw/timer/imx_gpt.h |  1 +
+ hw/arm/fsl-imx6ul.c        |  2 +-
+ hw/misc/imx6ul_ccm.c       |  6 ------
+ hw/timer/imx_gpt.c         | 25 +++++++++++++++++++++++++
+ 4 files changed, 27 insertions(+), 7 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index f99f749b295..5f63316dbf2 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -26,7 +26,6 @@
- #include "target/arm/idau.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
--#include "qapi/visitor.h"
- #include "cpu.h"
- #ifdef CONFIG_TCG
- #include "hw/core/tcg-cpu-ops.h"
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 2cf2ca4ce5a..0e021960fb5 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -21,13 +21,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "cpu.h"
--#ifdef CONFIG_TCG
--#include "hw/core/tcg-cpu-ops.h"
--#endif /* CONFIG_TCG */
- #include "qemu/module.h"
--#if !defined(CONFIG_USER_ONLY)
--#include "hw/loader.h"
--#endif
- #include "sysemu/kvm.h"
- #include "sysemu/hvf.h"
- #include "kvm_arm.h"
+diff --git a/include/hw/timer/imx_gpt.h b/include/hw/timer/imx_gpt.h
+index ff5c8a351a0..5a1230da35e 100644
+--- a/include/hw/timer/imx_gpt.h
++++ b/include/hw/timer/imx_gpt.h
+@@ -78,6 +78,7 @@
+ #define TYPE_IMX25_GPT "imx25.gpt"
+ #define TYPE_IMX31_GPT "imx31.gpt"
+ #define TYPE_IMX6_GPT "imx6.gpt"
++#define TYPE_IMX6UL_GPT "imx6ul.gpt"
+ #define TYPE_IMX7_GPT "imx7.gpt"
+ 
+ #define TYPE_IMX_GPT TYPE_IMX25_GPT
+diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
+index f1897123294..d88d6cc1c5f 100644
+--- a/hw/arm/fsl-imx6ul.c
++++ b/hw/arm/fsl-imx6ul.c
+@@ -81,7 +81,7 @@ static void fsl_imx6ul_init(Object *obj)
+      */
+     for (i = 0; i < FSL_IMX6UL_NUM_GPTS; i++) {
+         snprintf(name, NAME_SIZE, "gpt%d", i);
+-        object_initialize_child(obj, name, &s->gpt[i], TYPE_IMX7_GPT);
++        object_initialize_child(obj, name, &s->gpt[i], TYPE_IMX6UL_GPT);
+     }
+ 
+     /*
+diff --git a/hw/misc/imx6ul_ccm.c b/hw/misc/imx6ul_ccm.c
+index a65d0314556..e01bb68ac72 100644
+--- a/hw/misc/imx6ul_ccm.c
++++ b/hw/misc/imx6ul_ccm.c
+@@ -522,12 +522,6 @@ static uint32_t imx6ul_ccm_get_clock_frequency(IMXCCMState *dev, IMXClk clock)
+     case CLK_32k:
+         freq = CKIL_FREQ;
+         break;
+-    case CLK_HIGH:
+-        freq = CKIH_FREQ;
+-        break;
+-    case CLK_HIGH_DIV:
+-        freq = CKIH_FREQ / 8;
+-        break;
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: unsupported clock %d\n",
+                       TYPE_IMX6UL_CCM, __func__, clock);
+diff --git a/hw/timer/imx_gpt.c b/hw/timer/imx_gpt.c
+index 80b83026399..7222b1b3874 100644
+--- a/hw/timer/imx_gpt.c
++++ b/hw/timer/imx_gpt.c
+@@ -115,6 +115,17 @@ static const IMXClk imx6_gpt_clocks[] = {
+     CLK_HIGH,      /* 111 reference clock */
+ };
+ 
++static const IMXClk imx6ul_gpt_clocks[] = {
++    CLK_NONE,      /* 000 No clock source */
++    CLK_IPG,       /* 001 ipg_clk, 532MHz*/
++    CLK_IPG_HIGH,  /* 010 ipg_clk_highfreq */
++    CLK_EXT,       /* 011 External clock */
++    CLK_32k,       /* 100 ipg_clk_32k */
++    CLK_NONE,      /* 101 not defined */
++    CLK_NONE,      /* 110 not defined */
++    CLK_NONE,      /* 111 not defined */
++};
++
+ static const IMXClk imx7_gpt_clocks[] = {
+     CLK_NONE,      /* 000 No clock source */
+     CLK_IPG,       /* 001 ipg_clk, 532MHz*/
+@@ -539,6 +550,13 @@ static void imx6_gpt_init(Object *obj)
+     s->clocks = imx6_gpt_clocks;
+ }
+ 
++static void imx6ul_gpt_init(Object *obj)
++{
++    IMXGPTState *s = IMX_GPT(obj);
++
++    s->clocks = imx6ul_gpt_clocks;
++}
++
+ static void imx7_gpt_init(Object *obj)
+ {
+     IMXGPTState *s = IMX_GPT(obj);
+@@ -566,6 +584,12 @@ static const TypeInfo imx6_gpt_info = {
+     .instance_init = imx6_gpt_init,
+ };
+ 
++static const TypeInfo imx6ul_gpt_info = {
++    .name = TYPE_IMX6UL_GPT,
++    .parent = TYPE_IMX25_GPT,
++    .instance_init = imx6ul_gpt_init,
++};
++
+ static const TypeInfo imx7_gpt_info = {
+     .name = TYPE_IMX7_GPT,
+     .parent = TYPE_IMX25_GPT,
+@@ -577,6 +601,7 @@ static void imx_gpt_register_types(void)
+     type_register_static(&imx25_gpt_info);
+     type_register_static(&imx31_gpt_info);
+     type_register_static(&imx6_gpt_info);
++    type_register_static(&imx6ul_gpt_info);
+     type_register_static(&imx7_gpt_info);
+ }
+ 
 -- 
 2.25.1
 
