@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD65265EA4C
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 13:02:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 746BF65EA47
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 13:01:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDOvG-00080o-OU; Thu, 05 Jan 2023 07:00:38 -0500
+	id 1pDOvF-0007yM-TN; Thu, 05 Jan 2023 07:00:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1pDOvB-0007yO-U9; Thu, 05 Jan 2023 07:00:33 -0500
-Received: from [125.120.151.138] (helo=liuqiang-OptiPlex-7060)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pDOv8-0007wV-Qw; Thu, 05 Jan 2023 07:00:30 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1pDOvA-0000CE-2C; Thu, 05 Jan 2023 07:00:33 -0500
-Received: from localhost (liuqiang-OptiPlex-7060 [local])
- by liuqiang-OptiPlex-7060 (OpenSMTPD) with ESMTPA id 0a22dadd;
- Thu, 5 Jan 2023 11:53:46 +0000 (UTC)
-From: Qiang Liu <cyruscyliu@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Qiang Liu <cyruscyliu@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org (open list:Xilinx ZynqMP and...)
-Subject: [PATCH] hw/display/xlnx_dp: fix underflow in xlnx_dp_aux_pop_tx_fifo()
-Date: Thu,  5 Jan 2023 19:53:38 +0800
-Message-Id: <20230105115338.442479-1-cyruscyliu@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pDOv6-0000AA-GM; Thu, 05 Jan 2023 07:00:30 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 91A6C74900C;
+ Thu,  5 Jan 2023 12:58:08 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 57ED9748131; Thu,  5 Jan 2023 12:58:08 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 56A8D746307;
+ Thu,  5 Jan 2023 12:58:08 +0100 (CET)
+Date: Thu, 5 Jan 2023 12:58:08 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v7 5/7] mac_newworld: Deprecate mac99 with G5 CPU
+In-Reply-To: <521f5a40-1268-7286-8597-dca3869a2055@linaro.org>
+Message-ID: <534e4b68-50d6-6673-83b2-b3948cd9f5df@eik.bme.hu>
+References: <cover.1672868854.git.balaton@eik.bme.hu>
+ <a5147317122bb760b1184cf73829fc6fce61e611.1672868854.git.balaton@eik.bme.hu>
+ <521f5a40-1268-7286-8597-dca3869a2055@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 125.120.151.138 (failed)
-Received-SPF: softfail client-ip=125.120.151.138;
- envelope-from=cyruscyliu@gmail.com; helo=liuqiang-OptiPlex-7060
-X-Spam_score_int: 48
-X-Spam_score: 4.8
-X-Spam_bar: ++++
-X-Spam_report: (4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
- FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, FSL_HELO_NON_FQDN_1=0.001,
- HELO_NO_DOMAIN=0.001, NML_ADSP_CUSTOM_MED=0.9, RCVD_IN_PBL=3.335,
- RDNS_NONE=0.793, SPF_SOFTFAIL=0.665, SPOOFED_FREEMAIL=0.001,
- SPOOFED_FREEMAIL_NO_RDNS=0.001, SPOOF_GMAIL_MID=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-722283210-1672919888=:63209"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,30 +61,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fixes: 58ac482a66de ("introduce xlnx-dp")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1418
-Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
----
- hw/display/xlnx_dp.c | 4 ++++
- 1 file changed, 4 insertions(+)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index 407518c870..322e2faadd 100644
---- a/hw/display/xlnx_dp.c
-+++ b/hw/display/xlnx_dp.c
-@@ -520,6 +520,10 @@ static void xlnx_dp_aux_set_command(XlnxDPState *s, uint32_t value)
-     case WRITE_AUX:
-     case WRITE_I2C:
-     case WRITE_I2C_MOT:
-+        if (nbytes > fifo8_num_used(&s->tx_fifo)) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "xlnx_dp: TX length > fifo data length");
-+            nbytes = fifo8_num_used(&s->tx_fifo);
-+        }
-         for (i = 0; i < nbytes; i++) {
-             buf[i] = xlnx_dp_aux_pop_tx_fifo(s);
-         }
--- 
-2.25.1
+--3866299591-722283210-1672919888=:63209
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
+On Thu, 5 Jan 2023, Philippe Mathieu-Daudé wrote:
+> On 4/1/23 22:59, BALATON Zoltan wrote:
+>> Besides resolving the confusing behaviour mentioned in previous commit
+>> this might also allow unifying qemu-system-ppc and qemu-system-ppc64
+>> in the future.
+>> 
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>   hw/ppc/mac_newworld.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>> 
+>> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+>> index 3f5d1ec097..f07c37328b 100644
+>> --- a/hw/ppc/mac_newworld.c
+>> +++ b/hw/ppc/mac_newworld.c
+>> @@ -165,6 +165,12 @@ static void ppc_core99_init(MachineState *machine)
+>>           qemu_register_reset(ppc_core99_reset, cpu);
+>>       }
+>>   +    if (object_property_find(OBJECT(machine), "via")) {
+>> +        if (PPC_INPUT(env) == PPC_FLAGS_INPUT_970) {
+>> +            warn_report("mac99 with G5 CPU is deprecated, "
+>> +                        "use powermac7_3 instead");
+>
+> "mac99 machine with G5 CPU is deprecated, prefer the powermac7_3 machine 
+> instead"?
+
+I don't mind what the text is but this seems unnecessarily long where my 
+version conveys the message in a more concise way. But if others prefer 
+something else I'm OK to change it as you like. I expect these last 
+patches may need to be repartitioned so I'm waiting for review to see 
+what's preferred.
+
+Regards,
+BALATON Zoltan
+
+>> +        }
+>> +    }
+>>       /* allocate RAM */
+>>       if (machine->ram_size > 2 * GiB) {
+>>           error_report("RAM size more than 2 GiB is not supported");
+>
+>
+>
+--3866299591-722283210-1672919888=:63209--
 
