@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9719665F6A3
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 23:22:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD4E65F6F4
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 23:40:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDYWS-0007Ta-45; Thu, 05 Jan 2023 17:15:40 -0500
+	id 1pDYZd-0008Vj-SW; Thu, 05 Jan 2023 17:18:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pDYW2-0007T8-HP; Thu, 05 Jan 2023 17:15:14 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYZb-0008V0-I3
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:18:55 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pDYW0-0002UM-NZ; Thu, 05 Jan 2023 17:15:14 -0500
-Received: by mail-ed1-x535.google.com with SMTP id s5so54701093edc.12;
- Thu, 05 Jan 2023 14:15:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=a6dpbcNHyQ6HrazDj8r0JuCScCuDNWD9QAETZkINxTk=;
- b=Fsiw89Mfvj4DFC/Qf1uEkC7xAb3t8d/FFZaDptuCsOw9spWJqZ9QGEYp06W2oWBjTq
- goIjlXLzZ2oE9XPFzmdo2Emr+nWda7f68HNCUdU5R6gLVOigL35/xENW8i3Nl8bwWT4k
- WFBfUxuyCr8HztStO8gN2iYpgOfZvagW1Xt7aSUtavoYrSPk8fDj9EpuXf9zXIwcFIX/
- 3nyBLGsnYHKbsuTiKGOK6BH0AvgS6xG9hsQ5XMH4GpXX/kGWM3hf/mdTMzn4yKUdT0Uq
- PUEoP7KqACz+94c/Nw+WohtRo2EHgPFCobCQgIyXXmKJfliTVNiwtISk3WyFCYMksJA0
- nzEw==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDYZZ-0003i8-Nr
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 17:18:55 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id d4so29512481wrw.6
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 14:18:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=84171z9O0Y8+A01wJGmWuBdBlu/6eWqKuFC6e1F5aNg=;
+ b=wBfoeQlTLUcKHmX/kmluVtCCBKvBF+byqC+7YSU8/XC4D0mMU9M6WjIdaUN3aNE9BE
+ SLFPVb+HT9QiWCNQgZyfnclZpEWkBcosNPseFbPtLYTSw6qXU21lExBVfS53U1xu/xqd
+ uULEWFdO0tOJ/PNvpAznG5zbJBaWKrWYyXsbvOBvPhBTnJ4Wk7dLE4HkFhjBQZuT9GVb
+ mwDSKtEYEY57fNr4j8cyOPoFRb6t3kUlWQbe8Iu8QRLPvXlzN1uNGebXuwgC4QSciI6B
+ yR8Qls0QCDnKawHJ+nxDnR2XCGYd9O/yjCXWya0Wb6sRZLCmlKuUQih0bm9W42uCq4LH
+ 188Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=a6dpbcNHyQ6HrazDj8r0JuCScCuDNWD9QAETZkINxTk=;
- b=mpk2a6VRPOWoJTN74+kMsnKhSxx2RLiM452y82lyzjEyXbToFYY+JhlPv+8A9FtXBV
- VOYv8lRhdbiiYu0hKgISiOPfwiwUptMfWB40kqHnStoOzI/fwD1/o56SSHDRvoLON2X4
- jaZMaBxt0zlAyrISLl7xKd59FK2MakFphyfIdJbGPEpv4ZBuRcOgvZ8S285PEg+NrdAy
- zX1AoX2AmwF3mgVHmN64+v3+yOXe19j00xPDc5kPKmd8etSMzm+7yBBM3YQ7fSgeV3NK
- VMdXcbA8pFDTnDdL0bQgaU/tMAg17h9WmnjdbAkPDvYRhma6xeA8tCRYM73qZrvEAoiO
- 316w==
-X-Gm-Message-State: AFqh2koDBNlEp67r/Y32pUb5l0z2FCIvYUCCWsu+LzO0dgN4cqoXXnXP
- sIXD/zDVrSsWRUxJdxSMEAE=
-X-Google-Smtp-Source: AMrXdXtSjqwwk/Ln1NUhmTCek8A/3wIPQzgTqx2CwijM2dWr17gZxOnlU/sqzfhpTN1v1ndmRFSYeA==
-X-Received: by 2002:a05:6402:371b:b0:48e:c0c3:796f with SMTP id
- ek27-20020a056402371b00b0048ec0c3796fmr9761398edb.28.1672956910683; 
- Thu, 05 Jan 2023 14:15:10 -0800 (PST)
-Received: from ?IPv6:::1?
- (p200300faaf0bb20075742c50f98f829f.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:7574:2c50:f98f:829f])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=84171z9O0Y8+A01wJGmWuBdBlu/6eWqKuFC6e1F5aNg=;
+ b=njgdl1Nl2FZOjiKu9ODXzKyPqtwY1MSOKyoRCDYiUUwqLFXt7wyXVElO0uhgFlH+9O
+ DS/YwILZBSleY4/JA04jS1sLWvZos2bzXl4+5yxls2eW8mQ9+QpEi4CzQkPtBvS/tth3
+ N6z/F9YUzNZ0HJZnZ3YwQBvLW1jazm42Giq9ZFswR18tfBIbFmYdlaVRp1XNGWvcbrPt
+ Oi149BIQhjhd2EE3pfGUyUmi3BSkPhGepQlEYMnA1nAI6/RAUjxdxd9ksZr0wVbBxQlj
+ hClx7R3x1PWktNW82FhJsE9eZGjtR83/nPefJ4fzxV1gqTeDgX9JGK2Z5JgyRljMM/tB
+ 4zwg==
+X-Gm-Message-State: AFqh2kpMvN6Rvoz5EArxp9rzLOpMw0nDBBSe2CYWVW1b7145zpK22/FY
+ S4rLXIgBepdulUK1OamhxXhw4w==
+X-Google-Smtp-Source: AMrXdXsItgcnP9+9bRoKrgJI41ssX77/4f/ZuRFuDklDuuXZW6/IfBB4z/LglX5cZh1cHAx2zsK1wA==
+X-Received: by 2002:adf:eb08:0:b0:242:e73:f636 with SMTP id
+ s8-20020adfeb08000000b002420e73f636mr43147442wrn.4.1672957131801; 
+ Thu, 05 Jan 2023 14:18:51 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- bo6-20020a0564020b2600b0048ca2b6c370sm6344586edb.29.2023.01.05.14.15.09
+ b14-20020a05600010ce00b0023c8026841csm37369637wrx.23.2023.01.05.14.18.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 14:15:10 -0800 (PST)
-Date: Thu, 05 Jan 2023 22:15:06 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-CC: qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2=5D_hw/pci-host=3A_Use_reg?=
- =?US-ASCII?Q?ister_definitions_from_PCI_standard?=
-In-Reply-To: <20230105173702.56610-1-philmd@linaro.org>
-References: <20230105173702.56610-1-philmd@linaro.org>
-Message-ID: <8D8FFBAE-6097-408A-9597-52B145A00057@gmail.com>
+ Thu, 05 Jan 2023 14:18:51 -0800 (PST)
+Message-ID: <8e0c3bb3-2312-7abd-1962-58b7783e5ee8@linaro.org>
+Date: Thu, 5 Jan 2023 23:18:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [RFC PATCH 32/40] target/arm: Move "midr" to class property
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
+ armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
+References: <20230103181646.55711-1-richard.henderson@linaro.org>
+ <20230103181646.55711-33-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230103181646.55711-33-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,112 +92,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 3/1/23 19:16, Richard Henderson wrote:
+> With the movement of the property, we can remove the field
+> from the cpu entirely, using only the class.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/arm/cpu.h      |  1 -
+>   hw/arm/xilinx_zynq.c  |  9 ++++++---
+>   hw/intc/armv7m_nvic.c |  2 +-
+>   target/arm/cpu.c      | 18 ++++++++++++++++--
+>   target/arm/helper.c   | 14 ++++++++------
+>   5 files changed, 31 insertions(+), 13 deletions(-)
 
+Lovely.
 
-Am 5=2E Januar 2023 17:37:02 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <ph=
-ilmd@linaro=2Eorg>:
->No need to document magic values when the definition names
->from "standard-headers/linux/pci_regs=2Eh" are self-explicit=2E
->
->Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
->---
-> hw/pci-host/grackle=2Ec  |  2 +-
-> hw/pci-host/raven=2Ec    |  6 +++---
-> hw/pci-host/uninorth=2Ec | 33 +++++++++++----------------------
-> 3 files changed, 15 insertions(+), 26 deletions(-)
->
->diff --git a/hw/pci-host/grackle=2Ec b/hw/pci-host/grackle=2Ec
->index 95945ac0f4=2E=2E2a45cc13c3 100644
->--- a/hw/pci-host/grackle=2Ec
->+++ b/hw/pci-host/grackle=2Ec
->@@ -91,7 +91,7 @@ static void grackle_init(Object *obj)
->=20
-> static void grackle_pci_realize(PCIDevice *d, Error **errp)
-> {
->-    d->config[0x09] =3D 0x01;
->+    d->config[PCI_CLASS_PROG] =3D 0x01;
-> }
->=20
-> static void grackle_pci_class_init(ObjectClass *klass, void *data)
->diff --git a/hw/pci-host/raven=2Ec b/hw/pci-host/raven=2Ec
->index 7a105e4a63=2E=2Ec47259a851 100644
->--- a/hw/pci-host/raven=2Ec
->+++ b/hw/pci-host/raven=2Ec
->@@ -329,9 +329,9 @@ static void raven_realize(PCIDevice *d, Error **errp)
->     char *filename;
->     int bios_size =3D -1;
->=20
->-    d->config[0x0C] =3D 0x08; // cache_line_size
->-    d->config[0x0D] =3D 0x10; // latency_timer
->-    d->config[0x34] =3D 0x00; // capabilities_pointer
->+    d->config[PCI_CACHE_LINE_SIZE] =3D 0x08;
->+    d->config[PCI_LATENCY_TIMER] =3D 0x10;
->+    d->config[PCI_CAPABILITY_LIST] =3D 0x00;
->=20
->     memory_region_init_rom_nomigrate(&s->bios, OBJECT(s), "bios", BIOS_S=
-IZE,
->                                      &error_fatal);
->diff --git a/hw/pci-host/uninorth=2Ec b/hw/pci-host/uninorth=2Ec
->index 8396c91d59=2E=2E38b38c8a00 100644
->--- a/hw/pci-host/uninorth=2Ec
->+++ b/hw/pci-host/uninorth=2Ec
->@@ -276,12 +276,9 @@ static void pci_unin_internal_init(Object *obj)
->=20
-> static void unin_main_pci_host_realize(PCIDevice *d, Error **errp)
-> {
->-    /* cache_line_size */
->-    d->config[0x0C] =3D 0x08;
->-    /* latency_timer */
->-    d->config[0x0D] =3D 0x10;
->-    /* capabilities_pointer */
->-    d->config[0x34] =3D 0x00;
->+    d->config[PCI_CACHE_LINE_SIZE] =3D 0x08;
->+    d->config[PCI_LATENCY_TIMER] =3D 0x10;
->+    d->config[PCI_CAPABILITY_LIST] =3D 0x00;
->=20
->     /*
->      * Set kMacRISCPCIAddressSelect (0x48) register to indicate PCI
->@@ -296,30 +293,22 @@ static void unin_main_pci_host_realize(PCIDevice *d=
-, Error **errp)
->=20
-> static void unin_agp_pci_host_realize(PCIDevice *d, Error **errp)
-> {
->-    /* cache_line_size */
->-    d->config[0x0C] =3D 0x08;
->-    /* latency_timer */
->-    d->config[0x0D] =3D 0x10;
->-    /* capabilities_pointer
->-    d->config[0x34] =3D 0x80; */
->+    d->config[PCI_CACHE_LINE_SIZE] =3D 0x08;
->+    d->config[PCI_LATENCY_TIMER] =3D 0x10;
->+    /* d->config[PCI_CAPABILITY_LIST] =3D 0x80; */
-> }
->=20
-> static void u3_agp_pci_host_realize(PCIDevice *d, Error **errp)
-> {
->-    /* cache line size */
->-    d->config[0x0C] =3D 0x08;
->-    /* latency timer */
->-    d->config[0x0D] =3D 0x10;
->+    d->config[PCI_CACHE_LINE_SIZE] =3D 0x08;
->+    d->config[PCI_LATENCY_TIMER] =3D 0x10;
-> }
->=20
-> static void unin_internal_pci_host_realize(PCIDevice *d, Error **errp)
-> {
->-    /* cache_line_size */
->-    d->config[0x0C] =3D 0x08;
->-    /* latency_timer */
->-    d->config[0x0D] =3D 0x10;
->-    /* capabilities_pointer */
->-    d->config[0x34] =3D 0x00;
->+    d->config[PCI_CACHE_LINE_SIZE] =3D 0x08;
->+    d->config[PCI_LATENCY_TIMER] =3D 0x10;
->+    d->config[PCI_CAPABILITY_LIST] =3D 0x00;
-> }
->=20
-> static void unin_main_pci_host_class_init(ObjectClass *klass, void *data=
-)
+Perhaps later arm_class_prop_uint64_ofs() can grow into a generic
+QOM TYPE macro.
 
-Reviewed-by: Bernhard Beschow <shentey@gmail=2Ecom>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
