@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB06265E7C6
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 10:27:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8BB65E7B7
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 10:25:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDMMj-0003hc-Lh; Thu, 05 Jan 2023 04:16:49 -0500
+	id 1pDMMp-0003rV-5S; Thu, 05 Jan 2023 04:16:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMMi-0003gW-5c
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:16:48 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMMl-0003la-Bs
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:16:51 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMMg-0007eF-PV
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:16:47 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMMj-0007eT-VF
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:16:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672910206;
+ s=mimecast20190719; t=1672910209;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4lntb2rpWAHBlL8xXgDvi/s6siK86I3wdWk8O24n8Mw=;
- b=Vp1CMkicz3KIjAOMrKgudhR87k/J4wGZzI55ArNeaCTdSyYB+sSDQ8lbMHx8utAiKwuo11
- 5H3ZxyZHnqDCtlQUwShpKiB6bX2WP+xQ5g6I1ko+PKJBaUOT11auQVGPe9NRLyJtteQHJx
- ZRQCbq9629jZ79Ryh3tR5s+zFcJ0WZI=
+ bh=V+M/t3F4PL2PXLYQa8aSHPchO06DtfXoQlvlpKy7gEc=;
+ b=FnxymxmI7fHGdU/XOFnmjGb1LH1RhcpnbHcVOo1OX9BzxC++qJ2lEwLh9+1DjjLBEs3w/D
+ EVCcPTCDWRHv1A/HYQPyH4yv/u8aawEDCWOnUkC59kK7JQmH3U7lwpBuAuu0gxoWYzkrKt
+ YUSGDa8KzVom4st1oVoT+rQi0QvtzZg=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-617-nbg9Ao5JOumLXGZ0HJelFA-1; Thu, 05 Jan 2023 04:16:44 -0500
-X-MC-Unique: nbg9Ao5JOumLXGZ0HJelFA-1
+ us-mta-269-3IxwFvLhPzubjWXuhqK3NQ-1; Thu, 05 Jan 2023 04:16:48 -0500
+X-MC-Unique: 3IxwFvLhPzubjWXuhqK3NQ-1
 Received: by mail-wm1-f72.google.com with SMTP id
- fm25-20020a05600c0c1900b003d9702a11e5so17813900wmb.0
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 01:16:44 -0800 (PST)
+ i7-20020a05600c354700b003d62131fe46so728382wmq.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 01:16:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4lntb2rpWAHBlL8xXgDvi/s6siK86I3wdWk8O24n8Mw=;
- b=LcQCgJl+qxwqQpp1GVAA9fnthgucjCBmPvz4tQmUg6MVP9GwkmUGpXhdTyF/R8rFa4
- pD7q0hVLspSk9XYoYjKdQFfbixO55/dGZvZlH3GRE6g8ZWsmHj3fbPFYLISOOEVwsVxr
- jr01VW9ZSWGwpboqc8hs7/g25dHEEU9KErR4A8HPa6s4+94JmcUP2+/ZqKUwbSVos/Zp
- oZJu1HZHoYGdl1fgQx6s3OfOlo4bkzaQxKd3/YVWU3vAAM22wroshXw1FfmbMbJrDBYm
- EjgAleJAMsAPNCoS8HU4KHZE0anfiqv5KdW6HGblGFvWXQX82Zu/XWNnwtAi14Nszp1f
- w3+Q==
-X-Gm-Message-State: AFqh2koA+5FLU8TdPXi61V3kFZRKGx16RounRags891U8TYMReD5WkWz
- Gpme0rZQDRJQOb7BezDT+VB0+BgVjaQHo+RAZ5B6/XTqUI+H5U5DOLvJhp4P3cM69jII0VaBnAl
- pFLQTu1ELCrxx597KOpen+21TFDMEOZ3DTqOsBhI6f7xzUmfDK9njqqST26AF
-X-Received: by 2002:a05:600c:b92:b0:3d9:779e:9788 with SMTP id
- fl18-20020a05600c0b9200b003d9779e9788mr26759559wmb.37.1672910203290; 
- Thu, 05 Jan 2023 01:16:43 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXusrzLXpmdAreX46nS3rUB4p2GVtSvZOL19Vjd7CuliYw+/Vu69F/eJCpdVoDPF5Iyq1SkhaA==
-X-Received: by 2002:a05:600c:b92:b0:3d9:779e:9788 with SMTP id
- fl18-20020a05600c0b9200b003d9779e9788mr26759544wmb.37.1672910203025; 
- Thu, 05 Jan 2023 01:16:43 -0800 (PST)
+ bh=V+M/t3F4PL2PXLYQa8aSHPchO06DtfXoQlvlpKy7gEc=;
+ b=0kpNMK/zAyYlQhwSwDFqDPXB/6DTtbhn7zboyFm0pGyLHTH7MAZS6XGHl5GMu6nLqf
+ dypAuD5pJAETMzB5uVFJwTaPjvsMw72Q2eD5YXZUElnD3b1k59OEOCz4b8LxPs6aZn+0
+ LdFdjGah5tAWC8vO68+YAwWQ1Y4YVSfkLDvGKSs9YBgPjtyw1P5Qt225Venh1IxjMCdo
+ A6ZvIcsSLN2kv8I+9nL9D25dUEtwedtZzY2+tBMSsi/3Sk5UAyJOXFt32MMksuyaILkQ
+ IFZiyITraF0QgyL8rVAHz8Keu6bCkObZoJ9ceopubzhmDOx5Iwvm2Huv+GdxCBJEMebO
+ QLUg==
+X-Gm-Message-State: AFqh2kozFHOcIctyi6qCQEQiEXliwJ/B6jieLhAA8Mh59HRRKXe7gyiv
+ /+Q8Xl37/uA1l82x1ibMaCwSIbB5eygWX+odFLp20Ts230BvFZVMXUZqpgCohwCLNV2t7naQVO5
+ jJqkVejEovH0jQ6cszIrpfTTfLJIkR0Amdvgx73UoRacSWOtNsL9h47JYOFft
+X-Received: by 2002:a05:600c:4e11:b0:3d3:4012:8da8 with SMTP id
+ b17-20020a05600c4e1100b003d340128da8mr36434979wmq.40.1672910206682; 
+ Thu, 05 Jan 2023 01:16:46 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuUbUnpKtCrSS3r3zkwd9UgbUQobPkLMH7AJk7kPMdKeXW9DEWVI7pwYKoCw3lpIaRpl3dIeA==
+X-Received: by 2002:a05:600c:4e11:b0:3d3:4012:8da8 with SMTP id
+ b17-20020a05600c4e1100b003d340128da8mr36434958wmq.40.1672910206401; 
+ Thu, 05 Jan 2023 01:16:46 -0800 (PST)
 Received: from redhat.com ([2.52.151.85]) by smtp.gmail.com with ESMTPSA id
- q6-20020a05600c46c600b003d1f3e9df3csm1843956wmo.7.2023.01.05.01.16.41
+ p7-20020a05600c1d8700b003d973d4fb28sm1775065wms.4.2023.01.05.01.16.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 01:16:42 -0800 (PST)
-Date: Thu, 5 Jan 2023 04:16:40 -0500
+ Thu, 05 Jan 2023 01:16:45 -0800 (PST)
+Date: Thu, 5 Jan 2023 04:16:43 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- leixiang <leixiang@kylinos.cn>, Zeng Chi <zengchi@kylinos.cn>,
- Xie Ming <xieming@kylinos.cn>
-Subject: [PULL 43/51] virtio-pci: fix proxy->vector_irqfd leak in
- virtio_pci_set_guest_notifiers
-Message-ID: <20230105091310.263867-44-mst@redhat.com>
+ Yicong Yang <yangyicong@hisilicon.com>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL 44/51] tests: virt: Allow changes to PPTT test table
+Message-ID: <20230105091310.263867-45-mst@redhat.com>
 References: <20230105091310.263867-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -99,36 +99,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: leixiang <leixiang@kylinos.cn>
+From: Yicong Yang <yangyicong@hisilicon.com>
 
-proxy->vector_irqfd did not free when kvm_virtio_pci_vector_use or
-msix_set_vector_notifiers failed in virtio_pci_set_guest_notifiers.
+Allow changes to test/data/acpi/virt/PPTT*, prepare to change the
+building policy of the cluster topology.
 
-Fixes: 7d37d351
-
-Signed-off-by: Lei Xiang <leixiang@kylinos.cn>
-Tested-by: Zeng Chi <zengchi@kylinos.cn>
-Suggested-by: Xie Ming <xieming@kylinos.cn>
-Message-Id: <20221227081604.806415-1-leixiang@kylinos.cn>
+Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+Message-Id: <20221229065513.55652-2-yangyicong@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-pci.c | 2 ++
+ tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 7bc60fcf94..247325c193 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1291,6 +1291,8 @@ assign_error:
-     while (--n >= 0) {
-         virtio_pci_set_guest_notifier(d, n, !assign, with_irqfd);
-     }
-+    g_free(proxy->vector_irqfd);
-+    proxy->vector_irqfd = NULL;
-     return r;
- }
- 
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..fc12cd8c5c 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,3 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/virt/PPTT",
++"tests/data/acpi/virt/PPTT.acpihmatvirt",
 -- 
 MST
 
