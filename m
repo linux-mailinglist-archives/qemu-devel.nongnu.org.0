@@ -2,101 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9DF65F5A4
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 22:21:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B1765F5FE
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 22:44:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDXfA-000407-KZ; Thu, 05 Jan 2023 16:20:37 -0500
+	id 1pDY0Y-0001QG-DI; Thu, 05 Jan 2023 16:42:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDXf5-0003wu-7X
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 16:20:31 -0500
-Received: from sonic314-20.consmr.mail.gq1.yahoo.com ([98.137.69.83])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDY0U-0001Q0-Tv
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 16:42:39 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDXf2-000594-IN
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 16:20:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1672953623; bh=NA4PsefjDtPgPqtlyXz47iDncBWU1Smv50WH37X63KI=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
- b=FuoCFGtdpukvOkCciwKmcGKLHqacIweVRaRLWLwU/ULIdq6Pu+0E756V/cQbyzXvDRrdGIuyODdILXwdzsCiEj7i/mkKI74ewXvfN+xB88ZmcVAQHB/ZergsVg/MKma2vQyJCqI2/nNXF+dgLvnI88NNSEAGo4qpMryfwQCscbo/gXBgqwH3UiodD/6mVgWf0OdGvlwgF+1YIABOI2BF/cdzW2u27O6DQCN/ymMmYWlE3fSk+Aqfs0adwbQXgS4NzhmmUwBqm09rkytMwxVfhKXS0oexRIWqtdK+qdTXqRJggPetYKSkeHXzQXlWYunZ9I7LjA53inTRpKcODhtSGQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1672953623; bh=hof15gZ0OQwZiOINK1+nvXS3/ZOloYg/esR0maWeSKU=;
- h=X-Sonic-MF:Date:Subject:From:To:From:Subject;
- b=NstvfaDt1BeTqp4xp7OWIGZd03giDoK6wtR8WP1ENFFZGBuFOR+/C7nsC2IOXj5yH5HDwsRUcuNKQx/OsBW3uD45p9sIkzaSe23Dw5Cv1QZoc841snF82OlWkYWYAda8dROYKizVIAEgG0zprVAUWV9n78WUMkEQDP3PEDF7n740rtGmSIT20KGLUnWdUZ/3gjFnyay2bXu4tBD5Lp++dDFkjIeC8FLFpXcBSeRxThGj9/cEAnC8PSMqcPB60QQbj2oq6JF9fiTkF++FZ/9hLa/pX1Q5rUMhBW7clZD4W6/C4vy51Fc7qqcGGAxqdc5LqnGBVx3qlpiinB86Fa2bzA==
-X-YMail-OSG: FEjuAi8VM1kbyC.qcEennX6bxIhKcpE1uGVa7upuD2iMQq.681tscMkpRL0LDLI
- gX4vGip4JEhHlBSmKio3sJbpVzFjaexMKTV8rGBLcIurOYUDz_tOtLJDGtNiPX9zOKxVK7RZI6pZ
- 0NOgdIwDy08e63NMuekOGtUnPNLKk3EhD47wr8a86utP351NDAJRzbMJaJfSFPiGNbHFplBvUUIi
- kXUXqHmolCPDdZJRfZHkoCUduPb1J6pfK5J1.vpj8rUq7d_gKB5nOOCNAeuQPBAJpdHh1gaL5664
- drpIYh4aHYU67Uf_gHbludebiZh8y7RTQ.fBlyC4O9Hzw1xY9T6eEJXUhDyxsZRdifUZ8pILdDQN
- ozFDELeC2.Fa_8DBrnaPIsLSosfIQtBkR8hwW7nncEO78MBV0Gma_nB.gkuUnkCcAjty8.W20ECV
- weTThqRdjxwTL.IJraHgeTOJPhBYayJr8rwnEk7PyihGSXZV8Ebi6dq1_NoOTkSNLZSt7up6eJlH
- N4JHCt7mwyG6y.L265B6oP5rCFsXtgyM4cAd5slq0MRehUCMrvhGTBoY9GPMKhnIU7t7FxdZtfPD
- vR18H12P5g9mviyL00rB80NJKNJTKzehp57PONLks44qNHGWGvhm6RzlGqtlej5tsDbYume9McrT
- mEQ51kWFzgUiJDtoJQsXkkP2..pxLBSiSYeTy4XPH51u7EY1eWGV9v8YAPWUj.3eAOH1PenCplbb
- vbnN6mTleiIh6z864mZvuBL5Wy8kFlVoGKI_.N04veAk00hb.OmXkxD2OVPMOjUof4eRFWqdhpjO
- CD3KcYkT91qQuyyNTLh1xb9DKioYXT11aGblNt0iC0ou2Y8YEfn_LB9jO.6HZx05Pqmd86gK0LPv
- wvqQIierPXIrLJL3HkvWOkMDsyOXMzJfy9GRT0vNtMt76pbiH5Z8pewhHHe51_RRqPQzabvWtlwE
- o_gtuISXU84iTlPe5TetE2LBSkIFXF5GwLwgS1CiPwCC.tPwyGtscoXx.uhJryI7TV3t3uHRUdP8
- IloBRlB2BJMB8q51vwguAatevaYVkv0.kV7WWMmYkBX0SP.haCnpTDRdmatwKNPXAcgkJHOyB3YY
- ksLszkQZUdNRBMGXZnBfTzRpc4UBRF9gwUgSOOMnaH12mejf3OMihcRXnqppp_mN2fmdCNnglwBX
- 8H9bcc3zNuf8Xs3a_Eqn_LNx16cOAHpAVe58xHDApAXJQ8L5jXbVetTz0QL.UW59rucFuDoU3bTU
- 6v2x_g2sMlpKVICoG7ryGc5IWIK4eto2G1fOfOQtSYAzs_sfd_0TkjsxDj2F3t8Lt.rlGD08fpzH
- Rm7Ffb5lIigpYE.kvUqiz_yxw0k2Lue7kHwtS27ErbB37SEikCXPVXGTTG_jUUBnhj_eb8ctntSK
- tRPLMwj6h_lIGqkhFOaufyDyrOyfAnxF9Wp8REcM0mQblLQP6cJ3b6_DM07M8av86soDDFRUEVIR
- dWfuXrOG4rshUhy4yvqA3PxG4H.q7PCfiBzHaTw_Log_xHIQkXLItF8obbP06riHC1J0jOE9CFfP
- AOdyHUwGhD2Tyn8jb4PGqW91B79_TmDmYY7PwvSk9dvDgstk59t.LLO1e2f3h4KDKaAPgwCs4vQm
- ZtlJ40Lg.l_f3zqSSk1TZ4nYxdYDKZFW3uUc4zGGuFY.uWVHVCBd_i5RyiCnVmP0l6F_13oY6wrZ
- j2I7RpukTZnGjAAGKFuxxwxki6kcMBELMHH8SRcLT58frDV3h_mmYI70n0m8aoN9UKhM0hg1ViFJ
- FYqGMyqNlAw_RGyTZ_107qvnEI3H7CG6ODHIFB6.qipYHnfzfQ1igMTMXCtOIftAwbviB3129s2c
- DyegtBOvyKX.MCtNY6q1DJufDK2V3jht3rxpSM8Iw_mGSJ8qR.dJkij7hVZoJgnln3gBAXl8IjIk
- pcHNk.wFn756fVNv0wgt.okLD_kKtMhZgaN1jS9b35IL.zgcfuJHKLMADYpllmpypKmTyGbIOTzp
- NAqg.iJv4XCFFpJFhVYyLYXUuSM6EGRhrsx2Yzov89.Y29Bhiy4m3f6QH7suQJhA2cvsPNF4XkL.
- o4yTt92SaWWh9LWovuTP4yjiYqUpkoab46lvyfQhPJEYf1Qm1R_LJaGJuBw9.pvdchb89CKiHuSp
- 62RgzEXWCA219_yLIBPkHGiZ8X87WNcfYFhJcdnuEjbYCWJPZvn9tRYlv_EyrUhLMUOhtJUZPUVo
- 6aUT0yYjOnvQWhKnM
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic314.consmr.mail.gq1.yahoo.com with HTTP; Thu, 5 Jan 2023 21:20:23 +0000
-Received: by hermes--production-bf1-5458f64d4-qthpt (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 3ae8c14202cbd65911d34094373944e4; 
- Thu, 05 Jan 2023 21:20:18 +0000 (UTC)
-Message-ID: <32193041-ff39-fdc5-01b5-b6e390ed997e@aol.com>
-Date: Thu, 5 Jan 2023 16:20:15 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDY0T-0001P1-9z
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 16:42:38 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ k26-20020a05600c1c9a00b003d972646a7dso2323670wms.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 13:42:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YrHE8zqcZye9tUIoOoe8sOeR31VRwGN+ZvcZgxMmVsY=;
+ b=iFibkqxrIyKCZ4z0q0/aMZxzahEKjMiLmca8voFMAHJcRyocwoNfXmJ1lXHSaDTIgC
+ 73OYhtCTmhYlmgPhx7wZiC11QP/ASjXiuP2evS5KLZLKIkB7X0AgFE93qZralFqYo3my
+ 4iU+mDiBgiTmP33gb1A+K4RYREXgm9qqdA5lmQe+d6s3Or4Uf2IiszbZBB51CKIcnM9u
+ lKpSV6F6gh1BXCDj+kQvSRHveQxeJp/hl4nzlMG+3xRLN0tpBGVjtin87Og7HGt+wnT1
+ CjRbxfpAIUMUREBOdSj2ogQPv+s5e+cFzpSH2TBAXTh1zWAHuqTahOdYq1Tgpfg4F792
+ B9cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YrHE8zqcZye9tUIoOoe8sOeR31VRwGN+ZvcZgxMmVsY=;
+ b=v8OrIX8PmQvp+/pTGru73t5WQgiTffVR+TKx/YViPnEvs1Wgw2VPFKBUVOPLmN0z7i
+ fuQo/RZDnSgolWE00O2EFRISLaGWSxjSGd3L4iEK2aUDXVB6SKjw59dN8H1tUKfRo7Ry
+ l82fktCgn3WaSQRwoo5Wzi+tGR2fILrSuESwZnH+dmz/1e3hHEayTANRJKjYcAu/WF9g
+ tsInuds39Hd83NJa7EoGuagNbdi08lIsqMkPX21Fjw3pC5DX+C9mL+QEM9Tx1WVmRVpt
+ Kv7YOZgi6dGTUGEs0v/LVH5kJmBUeoFjjnS6NrnQuUc+TDILa87WV0IqYbdzuUbgW/zL
+ B8hA==
+X-Gm-Message-State: AFqh2kp1uPe4ogAZof8zTYBvyGIdeKihq1TS3YIBcllViPs9vVUGUrTj
+ 3sTTClHs7bHRF2W1RgOsnxNnNg==
+X-Google-Smtp-Source: AMrXdXuNZoOMgoniuaMzBOrfk8qLZZVL+YItJ43SdYhDOF4kBWKKBBRNQz6NqPxXiNhhDUGJkSJaoA==
+X-Received: by 2002:a05:600c:4da0:b0:3d3:5027:4cce with SMTP id
+ v32-20020a05600c4da000b003d350274ccemr39667961wmp.10.1672954953599; 
+ Thu, 05 Jan 2023 13:42:33 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ o5-20020a05600c510500b003b4ff30e566sm8802361wms.3.2023.01.05.13.42.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Jan 2023 13:42:33 -0800 (PST)
+Message-ID: <4ff2d01a-e6bb-5a99-356b-6b2ade61b667@linaro.org>
+Date: Thu, 5 Jan 2023 22:42:29 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
-From: Chuck Zmudzinski <brchuckz@aol.com>
-To: Alex Williamson <alex.williamson@redhat.com>, Paul Durrant
- <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>
-Cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, xen-devel@lists.xenproject.org
-References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
- <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
- <20230102124605-mutt-send-email-mst@kernel.org>
- <c21e933f-0539-9ffb-b2f8-f8e1a279b16f@netscape.net>
- <20230103081456.1d676b8e.alex.williamson@redhat.com>
- <b2ce641b-73ad-f3a2-dc9d-1ccfdd1ee8d8@aol.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] .gitlab-ci.d/windows: Do not run the qtests in the
+ msys2-32bit job
 Content-Language: en-US
-In-Reply-To: <b2ce641b-73ad-f3a2-dc9d-1ccfdd1ee8d8@aol.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.20982
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.69.83; envelope-from=brchuckz@aim.com;
- helo=sonic314-20.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.939,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>
+References: <20230105204819.26992-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230105204819.26992-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,111 +95,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/4/23 3:47 PM, Chuck Zmudzinski wrote:
-> On 1/3/23 10:14 AM, Alex Williamson wrote:
-> 
->> 
->> It's necessary to configure the assigned IGD at slot 2 to make it
->> functional, yes, but I don't really understand this notion of
->> "reserving" slot 2.  If something occupies address 00:02.0 in the
->> config, it's the user's or management tool's responsibility to move it
->> to make this configuration functional.  Why does QEMU need to play a
->> part in reserving this bus address.  IGD devices are not generally
->> hot-pluggable either, so it doesn't seem we need to reserve an address
->> in case an IGD device is added dynamically later.
-> 
-> The capability to reserve a bus address for a quirky device need not
-> be limited to the case of hotplugged or dynamically added devices. The
-> igd is a quirky device, and its presence in an emulated system like
-> qemu requires special handling. The slot_reserved_mask member of PCIBus
-> is also well-suited to the case of quirky device like Intel the igd that
-> needs to be at slot 2. Just because it is not dynamically added later
-> does not change the fact that it needs special handling at its initial
-> configuration when the guest is being created.
-> 
->>  
-> 
-> Here's the problem that answers Michael's question why this patch is
-> specific to xen:
-> 
-> ---snip---
-> #ifdef CONFIG_XEN
-> 
-> ...
-> 
-> static void pc_xen_hvm_init(MachineState *machine)
-> {
->     PCMachineState *pcms = PC_MACHINE(machine);
-> 
->     if (!xen_enabled()) {
->         error_report("xenfv machine requires the xen accelerator");
->         exit(1);
->     }
-> 
->     pc_xen_hvm_init_pci(machine);
->     pci_create_simple(pcms->bus, -1, "xen-platform");
-> }
-> #endif
-> ---snip---
-> 
-> This code is from hw/i386/pc_piix.c. Note the call to
-> pci_create_simple to create the xen platform pci device,
-> which has -1 as the second argument. That -1 tells
-> pci_create_simple to autoconfigure the pci bdf address.
-> 
-> It is *hard-coded* that way. That means no toolstack or
-> management tool can change it. And what is hard-coded here
-> is that the xen platform device will occupy slot 2, preventing
-> the Intel igd or any other device from occupying slot 2.
-> 
+On 5/1/23 21:48, Thomas Huth wrote:
+> The qtests are not stable in the msys2-32bit job yet - especially
+> the test-hmp and the qom-test are failing randomly. Until this is
+> fixed,
 
-Actually, today I discovered it is possible to workaround
-this issue with libxl that appears to hard-code the xen
-platform device to slot 2.
+Who is gonna look after this?
 
-The code referenced here that effectively hard codes the xen
-platform device to slot 2 is only executed with the
-'-machine xenfv' qemu option, which is the default that
-libxl uses for hvm guests, but this behavior can be changed
-by setting xen_platform_pci = '0' in the xl guest configuration
-file, in which case libxl configures qemu with the
-'-machine pc,accel=xen' option instead, and then one can add
-the xen platform device at a different slot by adding, for
-example,
+I'm not against this patch, but I'm afraid this config starts to
+bitrot more. That said, maybe it is time to deprecate the 32-bit
+hosts?
 
-device_model_args = ['-device','xen-platform,addr=03']
+> let's better disable the qtests here again to avoid failing
+> CI tests.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   .gitlab-ci.d/windows.yml | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+> index 22f794e537..a1d5790580 100644
+> --- a/.gitlab-ci.d/windows.yml
+> +++ b/.gitlab-ci.d/windows.yml
+> @@ -116,4 +116,5 @@ msys2-32bit:
+>     - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu
+>           --disable-opengl'
+>     - ..\msys64\usr\bin\bash -lc 'make'
+> -  - ..\msys64\usr\bin\bash -lc 'make check || { cat meson-logs/testlog.txt; exit 1; } ;'
+> +  - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS=\"--no-suite qtest\" ||
+> +                                { cat meson-logs/testlog.txt; exit 1; }'
 
-to the xl guest configuration file which adds the device at
-slot 3 instead of slot 2.
-
-This approach is an ugly workaround which has other side effects,
-such as by having -machine as pc,accel=xen instead of xenfv, the
-machine type is not exactly the same because the xenfv machine
-type is based on a much older version of qemu's i440fx emulation
-(qemu version 3.1 IIRC), so with this workaround there could be
-some unintended side effects, although I just tested this
-workaround and it does seem to work, but I have not been using
-this approach to the problem for very long.
-
-Also, this approach requires setting type=vif in the vif network
-setting of the xl guest configuration to suppress the creation of
-the qemu emulated network device that would grab slot 2 if it is
-created by the ordinary libxl network configuration settings and,
-for guests that do not have the xen pv network drivers installed,
-this also would require manually building the qemu command line
-using device_model_args to allow adding an emulated qemu network
-device at a different slot and probably also manually configuring
-the correct networking scripts outside of the normal xen networking
-scripts, because the ordinary xl guest configuration options do not
-have a setting for assigning an emulated qemu network device to a
-specific slot, and the device would otherwise grab slot 2.
-
-So,it is possible to configure the guest to have the Intel igd at slot
-2 without patching either libxl or qemu, but it is a real PITA with
-some possible unintended side effects, and that is why I think patching
-qemu to reserve slot 2 is a much better solution to the problem.
-
-Kind regards,
-
-Chuck
 
