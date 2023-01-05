@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58CC365E4FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 06:13:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE6565E503
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 06:17:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDIYd-00073g-LB; Thu, 05 Jan 2023 00:12:51 -0500
+	id 1pDIca-00087n-Rs; Thu, 05 Jan 2023 00:16:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDIYb-00073M-Ge
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:12:49 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ id 1pDIcY-000879-PZ
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:16:54 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDIYZ-0002Hr-VB
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:12:49 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id c2so10745433plc.5
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 21:12:47 -0800 (PST)
+ id 1pDIcW-0006T4-Sz
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 00:16:54 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ o8-20020a17090a9f8800b00223de0364beso910699pjp.4
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 21:16:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=WyIGvcwADA/FqyWombW+s1KNMFJ+ilMNg7bcoMpcjtw=;
- b=ahbEU2NoIPfQMx6if7IpeB2siLtjOd6ej5df1sqO+C/FvoQVlWZteyr9bJlap2cqCi
- KSpJEQP7qqwqwEeLFOWHbWDj/FeSMCECLWaAe1zDfWmPH/YT9+7Bxaij8ESs4ChMFiyW
- 9xfZO2Ocwaoau6RkzJIkkuivaiJ3p4Dp4Sl/Rl3ZK+V+yAqiaCjLx4ReXT+QXpsQh60e
- XgnT1h6SBEnNLLVgf3RZOSI1OkB4Vh2vCuN1xGxbjeXA3UHjbEK6bc5BE9cIhh139smT
- 3KNjS9SgvX5nfpTZGC7pDY0m3+vtTsYgCmKpFvQM69N56fhGTiwCzXKiV306Y0vd0Iyf
- Vz7A==
+ bh=AvDCK3v/YAIQ5dVj+jc/0Dp9A6RoPuFTEl+MPJ7HJ/k=;
+ b=K5gn7/CwdLJqQX88CfJILSfT5Ma1Yo+/4YZMZDf0huATPeTn3eFjmimiKTQGkkCn2Z
+ PgCBpxRuOJ2I3mNN9u95pp8xgSAKTcLAF2WeCTwvDQ3PTdgIUkYfrVW1kg/PNp4o+WJ+
+ 0Hy/0ZQLWrIkIxDGkVqa1NzaY1uPxgczCejNj1klaVt/Bnrm/R/HSCw54EZmuRa5zEUX
+ ogZmTgln7p0fijmFtZxDCp3Dqd3mp5Kl/XcsZzHLqwpE0QqXYYN9VFBYXdiIxyDIxzNH
+ FjL6d5hkmTa1XP9D6XRAOuw6uiXJVsW5pBm/MKXkq4cj4J7U6wy6uJzt+1cf1bmEF9Jb
+ hjgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WyIGvcwADA/FqyWombW+s1KNMFJ+ilMNg7bcoMpcjtw=;
- b=3NhJQ8pV7qdkunMyqfZxay5c9okLAtiesx/DYj48HOIOnEvsrkfmUPr6oBU0Qr65nh
- mQrQPSM/TP4SHcJvEALeW1Q/RPJxF9IOZLJtcbgW4SoY9uem+oX4XrU5CZihnHxyFhxf
- GzgLXAxElaR/tadOs9eku5zdlWQK4iv0dTAZ1mHnlZqftZXQS3x73IO+YmUDglW3XY8P
- 6FRtQfSminPLAkhNiQuJqCx5NLveNdJ03AI4IQGLFq03wBVRYCFbaJFBDe9mk19JC8/M
- +C8C2KsWN02qf4B5hhRCnMUd7FGwWateYnDlUKyjBNpa5zAunKA3WDv+q/PCcdV4lg/n
- LPUQ==
-X-Gm-Message-State: AFqh2kqGAX58yIo+h6qj2udCt2HvK4NpxXmzWvdfiRJD2fFupQKsty+X
- bHg3uGGX4Pl+vPvNVC8fL9CjBA==
-X-Google-Smtp-Source: AMrXdXuajSgUQ3j3n1L4ajCWjSUX3KHq/m9TYvd5qrs7tlXIhjwS23UjjMJUmUe2CJjbYHNCL96F0w==
-X-Received: by 2002:a17:903:32c6:b0:189:df3c:1ba1 with SMTP id
- i6-20020a17090332c600b00189df3c1ba1mr70485336plr.38.1672895566507; 
- Wed, 04 Jan 2023 21:12:46 -0800 (PST)
+ bh=AvDCK3v/YAIQ5dVj+jc/0Dp9A6RoPuFTEl+MPJ7HJ/k=;
+ b=lutV9zjhdheyz9yuP2McNbpmiUwUjLQ2QtIUlfY2taoqoxdro4NK/W1GCl1QRlCEnM
+ mtPcv0yQcvMXMj71z5DVr75jTrF2PBg/e6UijTC/5ITYMcCPhGC3UM9GBGJvlUYleM1c
+ MV2xr6Xl070PbrkOIZHwUstuYAGHs2mLsrazwf7REcWVM8+ZG1KUAwieOw+sG3pVmyyf
+ 1yIoR/41hI715RzBDts6P/JjO/nohCv40q30GZ8YBQxuROUqdtE7v3z7wvd/NAFpv7/G
+ Eb631rzg4b0vs6fRJuG9SZwkQbQN3yn9lF+7l2fYRa1SnsguZeBpbYBSs6QpLiOE0DI3
+ qF4Q==
+X-Gm-Message-State: AFqh2koZfZjWAoXLgRk+lZwkki8UY9c82J2BkfvSalfdwSnrSRxV6Wsa
+ ZN5fKaRd6yWPsTyoYsIHhCbw2g==
+X-Google-Smtp-Source: AMrXdXsIaDindmYGJoPfWIlPHwi2GjsFHyOMyg3padDUXISJkn9JxYUwNWV7lzZ+Fk6B2nLfe65t1A==
+X-Received: by 2002:a17:90b:2688:b0:225:f8ce:5cd8 with SMTP id
+ pl8-20020a17090b268800b00225f8ce5cd8mr35826463pjb.4.1672895811201; 
+ Wed, 04 Jan 2023 21:16:51 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:5a62:efe5:94a2:1dee?
  ([2602:47:d48c:8101:5a62:efe5:94a2:1dee])
  by smtp.gmail.com with ESMTPSA id
- n20-20020a170902d0d400b00192fc9e8552sm481990pln.0.2023.01.04.21.12.45
+ on16-20020a17090b1d1000b0020b21019086sm2660465pjb.3.2023.01.04.21.16.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 21:12:45 -0800 (PST)
-Message-ID: <326b71c7-dfa5-25d3-89e0-b3fbf50c1e26@linaro.org>
-Date: Wed, 4 Jan 2023 21:12:44 -0800
+ Wed, 04 Jan 2023 21:16:50 -0800 (PST)
+Message-ID: <3a3842e0-9d1b-08c2-6a25-ceff8d80a640@linaro.org>
+Date: Wed, 4 Jan 2023 21:16:48 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
@@ -75,8 +76,8 @@ From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <20230104215835.24692-27-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -114,7 +115,9 @@ On 1/4/23 13:58, Fabiano Rosas wrote:
 >   include/exec/cpu-defs.h | 6 ++++++
 >   1 file changed, 6 insertions(+)
 
-Nack, I think we can do better than this...
+I take it back.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
