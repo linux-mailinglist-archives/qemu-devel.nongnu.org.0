@@ -2,100 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C7C65EF7B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 15:56:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F9C65EF8B
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 16:00:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDRdI-00066t-Nt; Thu, 05 Jan 2023 09:54:16 -0500
+	id 1pDRiS-0006nU-Mi; Thu, 05 Jan 2023 09:59:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDRd5-0005wA-OO
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:54:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pDRiQ-0006mw-2L
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:59:34 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDRd3-0004yH-Q4
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:54:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672930430;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pIZSUUWiQHDfjtz4MM/GXpwuVCSuhhAsex2TLPrGvX8=;
- b=EnzetbBXDaJvpWsDJY6wH7nVQmMhtYAIsMQUWJh/d4Q2meeMJ1Svf2Fln/CO2bPNAziHE2
- Vtcfbo7cf/4cnnukmLpZiBkR5oUFQLSFNxR8im8uJlVDJDXvZrHOXJaVjn65xgLVTp8IBJ
- UaGJjZlX5nIh15TOyb3tjAeEXxjfsWg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-665-i6V4__ezO9eCn8ThsRMXQg-1; Thu, 05 Jan 2023 09:53:48 -0500
-X-MC-Unique: i6V4__ezO9eCn8ThsRMXQg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- ay32-20020a05600c1e2000b003d9730391b5so17245931wmb.5
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 06:53:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pIZSUUWiQHDfjtz4MM/GXpwuVCSuhhAsex2TLPrGvX8=;
- b=05JvQ09uJ8hmr///yq1bDFJA/fpPkyrOlkpcyUT5aahXZ6UMUFD/UUsBwjAR1/HW79
- aQGpRbXIzZtX/ZolIWX0ygdmncee9oB1FnHVA13uaFSci98kLLKXgI6zT8gBJMvGvhed
- hyUQ8yI55sbtecBtkUQOVXyJPq6q64Mc86LLIejzYl64EB2s+r8mLuZNuLq7hl7GyLuv
- CiMk9xn/bQKSVYwrWuZowYUCNyBL9+7c8vjNKQVQpv7UV1egLCnmDgCljDpN98nByRTb
- ls09JDudZsN4mQqLYUE3HDiTXnQ1ESylEbwJ7wTqixbQfJC5sZUoSCAL3B+y44JrhAMi
- 0a4w==
-X-Gm-Message-State: AFqh2kqCoutGVNNMxnuLZd/CqKka9Hjh4d/zo3WVU+438tzPEzWmhxRS
- DIsymyncCaSvnLya0pIAcxcrdPyG5ooq7ZQ7j4BIduGMFyG0b3DU4phAr8NgwsKAIEQ29IMAlFq
- poNGujCeKP6uOK7I=
-X-Received: by 2002:adf:e445:0:b0:2a8:65c4:4ad9 with SMTP id
- t5-20020adfe445000000b002a865c44ad9mr3328825wrm.11.1672930427234; 
- Thu, 05 Jan 2023 06:53:47 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXscx8ekUhUxfFp8D1qsc0YH5l6m1u8kV+WjCdAYLznCv5GYEtSQROXWdh/6Uf4ft7ymN9f8iw==
-X-Received: by 2002:adf:e445:0:b0:2a8:65c4:4ad9 with SMTP id
- t5-20020adfe445000000b002a865c44ad9mr3328806wrm.11.1672930426935; 
- Thu, 05 Jan 2023 06:53:46 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-176-239.web.vodafone.de.
- [109.43.176.239]) by smtp.gmail.com with ESMTPSA id
- i13-20020a5d438d000000b0029e1aa67fd2sm8182612wrq.115.2023.01.05.06.53.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 06:53:46 -0800 (PST)
-Message-ID: <0ec1a61f-4ae9-e867-11ea-4f29944d31f8@redhat.com>
-Date: Thu, 5 Jan 2023 15:53:43 +0100
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pDRiO-0006eb-22
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 09:59:33 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 305EKiuA009832
+ for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 14:59:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=4H0T+ZYW69abhbOU6YdBjaUSa30g8J5O9pRsNb9ekes=;
+ b=lp42xHublSn9Eq4McyWN84nXnA7a7OsrYwTPU/I/W/6JUSN6Au39GO2HAFai+IBeXBJ0
+ vJt49FycByEratQfNrSjY3AQzi2EN8EvXiDJPcbzxP3btJmGp87w3CmETW9XeYui/DXY
+ c/0vp7mmpYZDfcurvjr0LegyaV+Ws9UrNsYz9PD3cUY5QRuPKTXsuU+6KmimNatUZHyE
+ 0pGrUJXnWUhf/3VJBgUK0R8K77106lH6xxCe6w7SQqhQI1oVhRivD1+ZUgl1mO9CzwH9
+ YoNR3rEOGVphCgEe7oqfyszHKB+OxweHk+0zOFhHop/r/lO6hw/d8NOHHviyHDkq2pmU IQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx07wrw6u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 14:59:28 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 305EKt8g010882
+ for <qemu-devel@nongnu.org>; Thu, 5 Jan 2023 14:59:28 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mx07wrw6e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Jan 2023 14:59:28 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 305EjbQB026064;
+ Thu, 5 Jan 2023 14:59:27 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([9.208.129.116])
+ by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3mtcq7wtqv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Jan 2023 14:59:27 +0000
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com
+ [10.39.53.231])
+ by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 305ExPMr7078476
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 5 Jan 2023 14:59:26 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DA76D58045;
+ Thu,  5 Jan 2023 14:59:25 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6A75F58054;
+ Thu,  5 Jan 2023 14:59:25 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Thu,  5 Jan 2023 14:59:25 +0000 (GMT)
+Message-ID: <92288ac5-c850-3d06-d047-0bb5ca1e3397@linux.ibm.com>
+Date: Thu, 5 Jan 2023 09:59:24 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 2/5] s390x/pv: Implement CGS check handler
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 1/2] tpm: convert tpmdev options processing to new
+ visitor format
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@redhat.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>
-References: <20230104115111.3240594-1-clg@kaod.org>
- <20230104115111.3240594-3-clg@kaod.org>
- <61d70e15-770b-7f62-54aa-3cc0ac3b3a35@redhat.com>
- <20230105145823.6a7345e6@p-imbrenda>
- <41e8c81a-ac90-3b57-c34b-c4e461323391@kaod.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <41e8c81a-ac90-3b57-c34b-c4e461323391@kaod.org>
+To: James Bottomley <jejb@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20230105130020.17755-1-jejb@linux.ibm.com>
+ <20230105130020.17755-2-jejb@linux.ibm.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20230105130020.17755-2-jejb@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.939, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ijvcgm9-WfBEFhTLvLOhondJx35T-uhF
+X-Proofpoint-ORIG-GUID: 3ky1KD0TMx3MvJnHKOxfvKBcID1_pB_o
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-05_04,2023-01-05_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ malwarescore=0 priorityscore=1501 bulkscore=0 adultscore=0 spamscore=0
+ impostorscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301050114
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,113 +118,211 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05/01/2023 15.47, Cédric Le Goater wrote:
-> On 1/5/23 14:58, Claudio Imbrenda wrote:
->> On Thu, 5 Jan 2023 12:42:54 +0100
->> Thomas Huth <thuth@redhat.com> wrote:
->>
->>> On 04/01/2023 12.51, Cédric Le Goater wrote:
->>>> From: Cédric Le Goater <clg@redhat.com>
->>>>
->>>> When a protected VM is started with the maximum number of CPUs (248),
->>>> the service call providing information on the CPUs requires more
->>>> buffer space than allocated and QEMU disgracefully aborts :
->>>>
->>>>       LOADPARM=[........]
->>>>       Using virtio-blk.
->>>>       Using SCSI scheme.
->>>>       
->>>> ................................................................................... 
->>>>
->>>>       qemu-system-s390x: KVM_S390_MEM_OP failed: Argument list too long
->>>>
->>>> Implement a test for this limitation in the ConfidentialGuestSupportClass
->>>> check handler and provide some valid information to the user before the
->>>> machine starts.
->>>>
->>>> Signed-off-by: Cédric Le Goater <clg@redhat.com>
->>>> ---
->>>>    hw/s390x/pv.c | 23 +++++++++++++++++++++++
->>>>    1 file changed, 23 insertions(+)
->>>>
->>>> diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
->>>> index 8dfe92d8df..3a7ec70634 100644
->>>> --- a/hw/s390x/pv.c
->>>> +++ b/hw/s390x/pv.c
->>>> @@ -266,6 +266,26 @@ int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, 
->>>> Error **errp)
->>>>        return 0;
->>>>    }
->>>> +static bool s390_pv_check_cpus(Error **errp)
->>>> +{
->>>> +    MachineState *ms = MACHINE(qdev_get_machine());
->>>> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
->>>> +    uint32_t pv_max_cpus = mc->max_cpus - 1;
->>>
->>> Not sure whether "mc->max_cpus - 1" is the right approach here. I think it
->>> would be better to calculate the amount of CPUs that we can support.
->>>
->>> So AFAIK the problem is that SCLP information that is gathered during
->>> read_SCP_info() in hw/s390x/sclp.c. If protected virtualization is enabled,
->>> everything has to fit in one page (i.e. 4096 bytes) there.
->>>
->>> So we have space for
->>>
->>>    (TARGET_PAGE_SIZE - offset_cpu) / sizeof(CPUEntry)
->>>
->>> CPUs.
->>>
->>> With S390_FEAT_EXTENDED_LENGTH_SCCB enabled, offset_cpu is 144 (see struct
->>> ReadInfo in sclp.h), otherwise it is 128.
->>>
->>> That means, with S390_FEAT_EXTENDED_LENGTH_SCCB we can have a maximum of:
->>>
->>>    (4096 - 144) / 16 = 247 CPUs
->>>
->>> which is what you were trying to check with the mc->max_cpus - 1 here.
-> 
-> yes. That's much better.
-> 
->>> But with "-cpu els=off", it sounds like we could fit all 248 also with
->>> protected VMs? Could you please give it a try?
-> 
-> It runs. Unfortunately, QEMU also complains with :
-> 
->    qemu-system-s390x: warning: 'diag318' requires 'els'.
->    qemu-system-s390x: warning: 'diag318' requires 'els'.
->    qemu-system-s390x: warning: 'diag318' requires 'els'.
-> 
-> when els is off.
 
-There is also a switch for that: -cpu els=off,diag318=off
 
->>> Anyway, instead of using "pv_max_cpus = mc->max_cpus - 1" I'd suggest to use
->>> something like this instead:
->>>
->>>    int offset_cpu = s390_has_feat(S390_FEAT_EXTENDED_LENGTH_SCCB) ?
->>>                        offsetof(ReadInfo, entries) :
->>>                        SCLP_READ_SCP_INFO_FIXED_CPU_OFFSET;
->>>    pv_max_cpus = (TARGET_PAGE_SIZE - offset_cpu) /sizeof(CPUEntry);
->>
->> I agree with Thomas here
+On 1/5/23 08:00, James Bottomley wrote:
+> From: James Bottomley <James.Bottomley@HansenPartnership.com>
 > 
+> Instead of processing the tpmdev options using the old qemu options,
+> convert to the new visitor format which also allows the passing of
+> json on the command line.
 > 
-> The problem is that QEMU doesn't know about the S390_FEAT_EXTENDED_LENGTH_SCCB
-> feature when the PV object link is first checked. So #248 CPUs is considered
-> valid, but when DIAG308_PV_START is called, it fails.
-
-Drat. Is there any chance that the check could be done somewhere later?
-
-> Let's simplify and use :
+> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
 > 
->      int offset_cpu = offsetof(ReadInfo, entries);
->      pv_max_cpus = (TARGET_PAGE_SIZE - offset_cpu) /sizeof(CPUEntry);
+> ---
+> v4: add TpmConfiOptions
+> ---
+>   backends/tpm/tpm_emulator.c    | 24 ++++-----
+>   backends/tpm/tpm_passthrough.c | 25 +++-------
+>   include/sysemu/tpm.h           |  4 +-
+>   include/sysemu/tpm_backend.h   |  2 +-
+>   qapi/tpm.json                  | 19 +++++++
+>   softmmu/tpm.c                  | 90 ++++++++++++++--------------------
+>   softmmu/vl.c                   | 19 +------
+>   7 files changed, 76 insertions(+), 107 deletions(-)
 > 
-> ?
+> diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
+> index 49cc3d749d..cb6bf9d7c2 100644
+> --- a/backends/tpm/tpm_emulator.c
+> +++ b/backends/tpm/tpm_emulator.c
+> @@ -584,33 +584,28 @@ err_exit:
+>       return -1;
+>   }
+>   
+> -static int tpm_emulator_handle_device_opts(TPMEmulator *tpm_emu, QemuOpts *opts)
+> +static int tpm_emulator_handle_device_opts(TPMEmulator *tpm_emu, TpmCreateOptions *opts)
+>   {
+> -    const char *value;
+>       Error *err = NULL;
+>       Chardev *dev;
+>   
+> -    value = qemu_opt_get(opts, "chardev");
+> -    if (!value) {
+> -        error_report("tpm-emulator: parameter 'chardev' is missing");
+> -        goto err;
+> -    }
+> +    tpm_emu->options = QAPI_CLONE(TPMEmulatorOptions, &opts->u.emulator);
+> +    tpm_emu->data_ioc = NULL;
+>   
+> -    dev = qemu_chr_find(value);
+> +    dev = qemu_chr_find(opts->u.emulator.chardev);
+>       if (!dev) {
+> -        error_report("tpm-emulator: tpm chardev '%s' not found", value);
+> +        error_report("tpm-emulator: tpm chardev '%s' not found",
+> +                opts->u.emulator.chardev);
+>           goto err;
+>       }
+>   
+>       if (!qemu_chr_fe_init(&tpm_emu->ctrl_chr, dev, &err)) {
+>           error_prepend(&err, "tpm-emulator: No valid chardev found at '%s':",
+> -                      value);
+> +                      opts->u.emulator.chardev);
+>           error_report_err(err);
+>           goto err;
+>       }
+>   
+> -    tpm_emu->options->chardev = g_strdup(value);
+> -
+>       if (tpm_emulator_prepare_data_fd(tpm_emu) < 0) {
+>           goto err;
+>       }
+> @@ -649,7 +644,7 @@ err:
+>       return -1;
+>   }
+>   
+> -static TPMBackend *tpm_emulator_create(QemuOpts *opts)
+> +static TPMBackend *tpm_emulator_create(TpmCreateOptions *opts)
+>   {
+>       TPMBackend *tb = TPM_BACKEND(object_new(TYPE_TPM_EMULATOR));
+>   
+> @@ -972,7 +967,6 @@ static void tpm_emulator_inst_init(Object *obj)
+>   
+>       trace_tpm_emulator_inst_init();
+>   
+> -    tpm_emu->options = g_new0(TPMEmulatorOptions, 1);
+>       tpm_emu->cur_locty_number = ~0;
+>       qemu_mutex_init(&tpm_emu->mutex);
+>       tpm_emu->vmstate =
+> @@ -990,7 +984,7 @@ static void tpm_emulator_shutdown(TPMEmulator *tpm_emu)
+>   {
+>       ptm_res res;
+>   
+> -    if (!tpm_emu->options->chardev) {
+> +    if (!tpm_emu->data_ioc) {
+>           /* was never properly initialized */
+>           return;
+>       }
+> diff --git a/backends/tpm/tpm_passthrough.c b/backends/tpm/tpm_passthrough.c
+> index 179697a3a9..4a30143257 100644
+> --- a/backends/tpm/tpm_passthrough.c
+> +++ b/backends/tpm/tpm_passthrough.c
+> @@ -252,21 +252,11 @@ static int tpm_passthrough_open_sysfs_cancel(TPMPassthruState *tpm_pt)
+>   }
+>   
+>   static int
+> -tpm_passthrough_handle_device_opts(TPMPassthruState *tpm_pt, QemuOpts *opts)
+> +tpm_passthrough_handle_device_opts(TPMPassthruState *tpm_pt, TpmCreateOptions *opts)
+>   {
+> -    const char *value;
+> +    tpm_pt->options = QAPI_CLONE(TPMPassthroughOptions, &opts->u.passthrough);
+>   
+> -    value = qemu_opt_get(opts, "cancel-path");
+> -    if (value) {
+> -        tpm_pt->options->cancel_path = g_strdup(value);
+> -    }
+> -
+> -    value = qemu_opt_get(opts, "path");
+> -    if (value) {
+> -        tpm_pt->options->path = g_strdup(value);
+> -    }
+> -
+> -    tpm_pt->tpm_dev = value ? value : TPM_PASSTHROUGH_DEFAULT_DEVICE;
+> +    tpm_pt->tpm_dev = opts->u.passthrough.path ? opts->u.passthrough.path : TPM_PASSTHROUGH_DEFAULT_DEVICE;
 
-Depends ... if it is possible to use 248 CPUs with -cpu els=off,diag318=off 
-then it would be nicer to allow that, too?
+WARNING: line over 80 characters
+#31: FILE: backends/tpm/tpm_emulator.c:587:
++static int tpm_emulator_handle_device_opts(TPMEmulator *tpm_emu, TpmCreateOptions *opts)
 
-  Thomas
+WARNING: line over 80 characters
+#102: FILE: backends/tpm/tpm_passthrough.c:255:
++tpm_passthrough_handle_device_opts(TPMPassthruState *tpm_pt, TpmCreateOptions *opts)
 
+ERROR: line over 90 characters
+#118: FILE: backends/tpm/tpm_passthrough.c:259:
++    tpm_pt->tpm_dev = opts->u.passthrough.path ? opts->u.passthrough.path : TPM_PASSTHROUGH_DEFAULT_DEVICE;
+
+ERROR: line over 90 characters
+#143: FILE: backends/tpm/tpm_passthrough.c:313:
++    options->u.passthrough.data = QAPI_CLONE(TPMPassthroughOptions, TPM_PASSTHROUGH(tb)->options);
+
+total: 2 errors, 2 warnings, 349 lines checked
+
+mssim.v5/0001-tpm-convert-tpmdev-options-processing-to-new-visitor.patch has style problems, please review.  If any of these errors
+are false positives report them to the maintainer, see
+CHECKPATCH in MAINTAINERS.
+
+
+
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 798e1dc933..8c2655dbc2 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -328,16 +328,6 @@ static QemuOptsList qemu_object_opts = {
+>       },
+>   };
+>   
+> -static QemuOptsList qemu_tpmdev_opts = {
+> -    .name = "tpmdev",
+> -    .implied_opt_name = "type",
+> -    .head = QTAILQ_HEAD_INITIALIZER(qemu_tpmdev_opts.head),
+> -    .desc = {
+> -        /* options are defined in the TPM backends */
+> -        { /* end of list */ }
+> -    },
+> -};
+> -
+>   static QemuOptsList qemu_overcommit_opts = {
+>       .name = "overcommit",
+>       .head = QTAILQ_HEAD_INITIALIZER(qemu_overcommit_opts.head),
+> @@ -1934,9 +1924,7 @@ static void qemu_create_late_backends(void)
+>   
+>       object_option_foreach_add(object_create_late);
+>   
+> -    if (tpm_init() < 0) {
+> -        exit(1);
+> -    }
+> +    tpm_init();
+>   
+>       qemu_opts_foreach(qemu_find_opts("mon"),
+>                         mon_init_func, NULL, &error_fatal);
+> @@ -2658,7 +2646,6 @@ void qemu_init(int argc, char **argv)
+>       qemu_add_opts(&qemu_boot_opts);
+>       qemu_add_opts(&qemu_add_fd_opts);
+>       qemu_add_opts(&qemu_object_opts);
+> -    qemu_add_opts(&qemu_tpmdev_opts);
+>       qemu_add_opts(&qemu_overcommit_opts);
+>       qemu_add_opts(&qemu_msg_opts);
+>       qemu_add_opts(&qemu_name_opts);
+> @@ -2906,9 +2893,7 @@ void qemu_init(int argc, char **argv)
+>                   break;
+>   #ifdef CONFIG_TPM
+>               case QEMU_OPTION_tpmdev:
+> -                if (tpm_config_parse(qemu_find_opts("tpmdev"), optarg) < 0) {
+> -                    exit(1);
+> -                }
+> +                tpm_config_parse(optarg);
+
+The comment to v4 still applies:
+
+$ qemu-system-x86_64 --tpmdev help
+Supported TPM types (choose only one):
+  passthrough   Passthrough TPM backend driver
+     emulator   TPM emulator backend driver
+        mssim   TPM mssim emulator backend driver
+VNC server running on ::1:5900
+
+
+>                   break;
+>   #endif
+>               case QEMU_OPTION_mempath:
 
