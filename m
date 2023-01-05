@@ -2,81 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BDBD65E6AA
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 09:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16DC165E6C2
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 09:20:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDLRQ-0000od-SS; Thu, 05 Jan 2023 03:17:36 -0500
+	id 1pDLU6-0001iE-0u; Thu, 05 Jan 2023 03:20:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pDLRO-0000oJ-Et
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 03:17:34 -0500
-Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pDLRM-00083H-Ej
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 03:17:34 -0500
-Received: by mail-qv1-xf2a.google.com with SMTP id t17so15049275qvw.6
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 00:17:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:user-agent:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=ZAxx1lRHqKF6eo5b06SH2RM/rKcZq7sz+7C/uDEloGE=;
- b=0dvKg3W9AAN19JIX8kEJ1olUqIAv81dx4cjyy2rOggBbP2TecxGIrQqTrU9OeFHMGr
- 82uwsLIJrhIIT4YJ1vPxh91yfzy+xqWGjpmHibmqIywkVpwys3l5TV1DcF7bF66xoTWA
- u90tQvT12tNuQqsu2jKtAAj+kBeKFqHg1rJzZ8qSdrHRX1JPwgbBXsQSf/vewnUyDYSV
- Cj8xsfSuOAf1eaqHK2mkyRbECQhYB0aF4iVxPXSiiynugGGfvEKtLdrL4IT5PrUqlazh
- JXmdsM36rRv3FilBFmmX09yLu7PjNgQs01Zfj8UwAFoGW22ZgWD/o+gfL2rRXbWs754i
- xzzA==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pDLU4-0001hW-73
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 03:20:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pDLU2-00006L-Jc
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 03:20:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672906817;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/A9KVpDAsC4eoCXMuNcNHsDF5erWeDrNFZhvUAPaL2U=;
+ b=BQBvUMVIi6DK8BYdauLzznco0igddv43erW7f1t628vcuv/W0mxUInUcWOwmr5g2q4v3oz
+ oKE/Nv/vMsMKdB4AYDeu01msl0X0KHuPmfMrpASx32l4I9sXUGLMqr49aLlPM9GNliz/cN
+ U2QDRs73bbPFzym/aL4ESm1bpepzk+g=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-80-51-L43nGMre4g3BuER9mjg-1; Thu, 05 Jan 2023 03:20:15 -0500
+X-MC-Unique: 51-L43nGMre4g3BuER9mjg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ r21-20020adfb1d5000000b0026e4c198a43so4702589wra.20
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 00:20:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:user-agent:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZAxx1lRHqKF6eo5b06SH2RM/rKcZq7sz+7C/uDEloGE=;
- b=GtjAVznST1FTCo92s2RIaTl5w73ZA7FW7wimvFRvTqZKM7BiggMdIH4Hd5YKilR4nj
- /gIUzVdCQyTnjOL1w+v5T+c3HUH6OWR+8I0Nhmvi7cHOz7RnKbzilOQkBXTv7rNYaT6v
- h8Abis/RC54X2rlBMRQI50L4IgbAkyNrNMB659U9zJyk4aiBs6hHg+2Em65JqpJNUkCK
- yhJws/JZnA5N2S/Mc4Oqrj7w+0lc1JATwcDscRSafalQgaZF3K4Bd9CfLrjoa9fkRKp6
- 7C731J02QtHbe+/klkTdk+9cKmloFyAkHv3CvZVxQuBtUr60QD00w/LALdCVInl0Z4s2
- Q8iA==
-X-Gm-Message-State: AFqh2kqn59Kqc0e3N7VWnqe6xng4iPOvMa2FsVp99urrkvBcBGbOaWB8
- msRvZ/iIPQmWVei9QTEgbXNSznaG/sxrxCeZpFf7/w==
-X-Google-Smtp-Source: AMrXdXsjRvqWSHDsR8l3QBwYXpO+UNXelcWZlaxXtRmib2eQK9iTBW6uJMU5CQ9hcKJkW6z+vKgVKgUANEwLyLNlfV8=
-X-Received: by 2002:a0c:fac8:0:b0:532:f58:9fa6 with SMTP id
- p8-20020a0cfac8000000b005320f589fa6mr116610qvo.124.1672906643423; Thu, 05 Jan
- 2023 00:17:23 -0800 (PST)
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
- Thu, 5 Jan 2023 00:17:22 -0800
-Mime-Version: 1.0
-In-Reply-To: <87zgaypeih.fsf@linaro.org>
-References: <20221223142307.1614945-1-xuchuangxclwt@bytedance.com>
- <20221223142307.1614945-2-xuchuangxclwt@bytedance.com>
- <87zgaypeih.fsf@linaro.org>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.0
-From: Chuang Xu <xuchuangxclwt@bytedance.com>
-Date: Thu, 5 Jan 2023 00:17:22 -0800
-Message-ID: <CALophusTwwKS7EEcN5KxdaDjWAkcGncqMkczjL08V7pq2Opkbw@mail.gmail.com>
-Subject: Re: [RFC v4 1/3] rcu: introduce rcu_read_locked()
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: dgilbert@redhat.com, quintela@redhat.com, pbonzini@redhat.com, 
- peterx@redhat.com, david@redhat.com, philmd@linaro.org, 
- zhouyibo@bytedance.com, qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000039644b05f17fee29"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qv1-xf2a.google.com
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FORGED_MUA_MOZILLA=2.309, FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, HTML_MESSAGE=0.001, NICE_REPLY_A=-1.708,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/A9KVpDAsC4eoCXMuNcNHsDF5erWeDrNFZhvUAPaL2U=;
+ b=Kr9RXPiBoQFHPBJZgujz1m5Zc6z2LOLfXjngp4LRin/Z1P39TUTyPR+XHS8pZIoOae
+ HN+1ow6ctx77sJYfs1Kd3XsbKX8/iORK9S7+T6QyYlj/7b8llsgBAfir2T2Zh5tZIa3P
+ J4yxRxuiAC8w+SeetF5YH18dWlIfwmyxgI9FC7LnFRuC5R/ufGmKPte+MIogTqGeQyeD
+ i6XI06uUnFLqEqSKC77f58h1fhnuGjsRt0OaP7YoqtaA2r71itzqDwdZZdDRLCkuiCrS
+ KXqIXUfx7XPC4pJBqzpZ6adB1EiFY8lAKOFV/3ZiykAFocTPz674DdGkFtw84SnqDMLh
+ deaw==
+X-Gm-Message-State: AFqh2krAgbdwWZZKnSVC2Ya91iW5PVRUmjTfOHAvkDxNMiZSOu3gcVYK
+ h+pC2VC4hSvljMRHBiS/zRLjuMJ9NmGWF0K8VgIIPeYHSxgoS8XPMfqZYVKfeSWUqgq76+sll8b
+ 1O7HlqAs+GUw32ho=
+X-Received: by 2002:a05:600c:1c21:b0:3d2:2faf:e54b with SMTP id
+ j33-20020a05600c1c2100b003d22fafe54bmr35367578wms.6.1672906814392; 
+ Thu, 05 Jan 2023 00:20:14 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtZErm4mrE5FeEjo4T4JZ1AJXbdTKxTIb0NNlPKWHx654swjoR1Y2V8wSSdZhfIpXa3yYMj3Q==
+X-Received: by 2002:a05:600c:1c21:b0:3d2:2faf:e54b with SMTP id
+ j33-20020a05600c1c2100b003d22fafe54bmr35367562wms.6.1672906814080; 
+ Thu, 05 Jan 2023 00:20:14 -0800 (PST)
+Received: from ?IPV6:2003:cb:c707:6e00:ff02:ec7a:ded5:ec1e?
+ (p200300cbc7076e00ff02ec7aded5ec1e.dip0.t-ipconnect.de.
+ [2003:cb:c707:6e00:ff02:ec7a:ded5:ec1e])
+ by smtp.gmail.com with ESMTPSA id
+ t14-20020a05600c198e00b003d1de805de5sm1619932wmq.16.2023.01.05.00.20.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Jan 2023 00:20:13 -0800 (PST)
+Message-ID: <d01f16ff-9aa5-dbcf-7fe6-4d9ede4f9ed9@redhat.com>
+Date: Thu, 5 Jan 2023 09:20:12 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3 1/6] migration: Allow immutable device state to be
+ migrated early (i.e., before RAM)
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>
+References: <20221222110215.130392-1-david@redhat.com>
+ <20221222110215.130392-2-david@redhat.com>
+ <950cb6c6-6271-8126-9c75-533a6b6edaae@redhat.com>
+ <20230104202707-mutt-send-email-mst@kernel.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20230104202707-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.708, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,94 +109,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000039644b05f17fee29
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On 2023/1/4 =E4=B8=8B=E5=8D=8810:20, Alex Benn=C3=A9e wrote:
-> Chuang Xu writes:
->
->> add rcu_read_locked() to detect holding of rcu lock.
+On 05.01.23 02:27, Michael S. Tsirkin wrote:
+> On Fri, Dec 23, 2022 at 10:34:36AM +0100, David Hildenbrand wrote:
+>> On 22.12.22 12:02, David Hildenbrand wrote:
+>>> For virtio-mem, we want to have the plugged/unplugged state of memory
+>>> blocks available before migrating any actual RAM content. This
+>>> information is immutable on the migration source while migration is active,
+>>>
+>>> For example, we want to use this information for proper preallocation
+>>> support with migration: currently, we don't preallocate memory on the
+>>> migration target, and especially with hugetlb, we can easily run out of
+>>> hugetlb pages during RAM migration and will crash (SIGBUS) instead of
+>>> catching this gracefully via preallocation.
+>>>
+>>> Migrating device state before we start iterating is currently impossible.
+>>> Introduce and use qemu_savevm_state_start_precopy(), and use
+>>> a new special migration priority -- MIG_PRI_POST_SETUP -- to decide whether
+>>> state will be saved in qemu_savevm_state_start_precopy() or in
+>>> qemu_savevm_state_complete_precopy_*().
+>>>
+>>> We have to take care of properly including the early device state in the
+>>> vmdesc. Relying on migrate_get_current() to temporarily store the vmdesc is
+>>> a bit sub-optimal, but we use that explicitly or implicitly all over the
+>>> place already, so this barely matters in practice.
+>>>
+>>> Note that only very selected devices (i.e., ones seriously messing with
+>>> RAM setup) are supposed to make use of that.
+>>>
+>>> Signed-off-by: David Hildenbrand <david@redhat.com>
 >>
->> Signed-off-by: Chuang Xu
->> ---
->> include/qemu/rcu.h | 7 +++++++
->> 1 file changed, 7 insertions(+)
+>> [...]
 >>
->> diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
->> index b063c6fde8..42cbd0080f 100644
->> --- a/include/qemu/rcu.h
->> +++ b/include/qemu/rcu.h
->> @@ -119,6 +119,13 @@ static inline void rcu_read_unlock(void)
->> }
->> }
+>>>        if (inactivate_disks) {
+>>> @@ -1427,6 +1474,10 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+>>>            qemu_put_buffer(f, (uint8_t *)json_writer_get(vmdesc), vmdesc_len);
+>>>        }
+>>> +    /* Free it now to detect any inconsistencies. */
+>>> +    g_free(vmdesc);
 >>
->> +static inline bool rcu_read_locked(void)
-> We use the locked suffix to indicate functions that should be called
-> with a lock held. Perhaps renaming this to rcu_read_is_locked() would
-> make the intent of the function clearer?
+>> Missed to convert that to a json_writer_free().
+> 
+> 
+> I get it you will post v4?
 
-Yes, rcu_read_is_locked() do make the intent of the function clearer.
-I'll rename the function in v5.
+Yes, once the discussions on this version are done.
 
-Thanks!
+-- 
+Thanks,
 
->> +{
->> + struct rcu_reader_data *p_rcu_reader =3D get_ptr_rcu_reader();
->> +
->> + return p_rcu_reader->depth > 0;
->> +}
->> +
->> extern void synchronize_rcu(void);
->>
->> /*
->
+David / dhildenb
 
---00000000000039644b05f17fee29
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<p>On 2023/1/4 =E4=B8=8B=E5=8D=8810:20, Alex Benn=C3=A9e wrote:
-<br>&gt; Chuang Xu  writes:
-<br>&gt;
-<br>&gt;&gt; add rcu_read_locked() to detect holding of rcu lock.
-<br>&gt;&gt;
-<br>&gt;&gt; Signed-off-by: Chuang Xu=20
-<br>&gt;&gt; ---
-<br>&gt;&gt;   include/qemu/rcu.h | 7 +++++++
-<br>&gt;&gt;   1 file changed, 7 insertions(+)
-<br>&gt;&gt;
-<br>&gt;&gt; diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-<br>&gt;&gt; index b063c6fde8..42cbd0080f 100644
-<br>&gt;&gt; --- a/include/qemu/rcu.h
-<br>&gt;&gt; +++ b/include/qemu/rcu.h
-<br>&gt;&gt; @@ -119,6 +119,13 @@ static inline void rcu_read_unlock(void)
-<br>&gt;&gt;       }
-<br>&gt;&gt;   }
-<br>&gt;&gt;  =20
-<br>&gt;&gt; +static inline bool rcu_read_locked(void)
-<br>&gt; We use the locked suffix to indicate functions that should be call=
-ed
-<br>&gt; with a lock held. Perhaps renaming this to rcu_read_is_locked() wo=
-uld
-<br>&gt; make the intent of the function clearer?
-<br>
-<br>Yes, rcu_read_is_locked() do make the intent of the function clearer.
-<br>I&#39;ll rename the function in v5.
-<br>
-<br>Thanks!
-<br>
-<br>&gt;&gt; +{
-<br>&gt;&gt; +    struct rcu_reader_data *p_rcu_reader =3D get_ptr_rcu_read=
-er();
-<br>&gt;&gt; +
-<br>&gt;&gt; +    return p_rcu_reader-&gt;depth &gt; 0;
-<br>&gt;&gt; +}
-<br>&gt;&gt; +
-<br>&gt;&gt;   extern void synchronize_rcu(void);
-<br>&gt;&gt;  =20
-<br>&gt;&gt;   /*
-<br>&gt;</p>
-
---00000000000039644b05f17fee29--
 
