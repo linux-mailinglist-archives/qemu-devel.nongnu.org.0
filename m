@@ -2,106 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4439265F29A
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:27:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB7C165F2E0
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 18:37:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTdp-0003Yr-Gp; Thu, 05 Jan 2023 12:02:57 -0500
+	id 1pDTjo-0001gC-G6; Thu, 05 Jan 2023 12:09:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDTdk-0003SP-CI
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:02:52 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDTdh-0000Dj-Sk
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:02:52 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id r2so1934921wrv.7
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 09:02:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CcnP7aWAb4dGVBRr3hshFgzv0C2uofau7hSDirUapjg=;
- b=lBK001LK+TB3QKxC789UxkS6/4HDozC0X2AhfpnwbaZEXshUT1C0PtryZ/xLCWMx1+
- 9E3bEAIdjGIaPEsSjR6rRbofvUK6pRQJEa7j6fdyghLAtREAsZByDkG6xjFA3k0uvnO7
- 4WFaFMyyfZu8fGfY1910r0jlkyUPYFDiRrkWeUkrYmaNwWExXN26uPmRV1eWvLPlV+fa
- 2cGLpxHe1b4qQxbwyTSVBvmr/AEx9/45IoJUWbmtVX/nu9bWcsSVW/oLoPVXb0vbVoXN
- amboexTvz6ZKwHgjzORXcXOK14INnbj07MoxqLPov+w1zA/VApWwsWRTbd7cq4xDfUpE
- WrjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CcnP7aWAb4dGVBRr3hshFgzv0C2uofau7hSDirUapjg=;
- b=U8yzjHLR89HEz3w6fnVagIlBlpu4XZ8E0UsXgFLIOxF4IT+jfQigkUTeHO8D4flA+Q
- 8gvLVmdQZM923A9nrcfeZu3cODc+MsSUiProht62ASHevxavlIug17ZUOi+oQblmKyzM
- D0s7XtvBU+JXkEklN6hL0F6vqv+wgMG71/3rBxIrK4lDzTrCEjNUycoVGcxPIuYDMZ2J
- cPVXKE90B/VjiyUn8pifb7MtSQlcFhSNeRrBwYMJKQu6wFvPqsr5HIPBF220FBzrjl8N
- jHa9Ijy19BXd8qc2+hD+RRZLZ0lAeo+CTERcn3ncr2nU13i5CnaFBgqfGvOh16p+6ch+
- rhaw==
-X-Gm-Message-State: AFqh2kqPfao2mnUSQ3bVEp/KvFudCZWMJDITwZK+BndDInhWmXBnP0T9
- PYhzLF7S4jGXo+K0Qjc2D6EzWA==
-X-Google-Smtp-Source: AMrXdXuAEUHl/LgDd+1VidXYOm2Iq9N6Bi6jGDBjuqtVLdihba82r0wdEHnfaUaM12OL2tc1JHxy8g==
-X-Received: by 2002:a5d:640c:0:b0:2a3:1c13:2888 with SMTP id
- z12-20020a5d640c000000b002a31c132888mr5691577wru.60.1672938167717; 
- Thu, 05 Jan 2023 09:02:47 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- bt18-20020a056000081200b002368f6b56desm5593135wrb.18.2023.01.05.09.02.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 09:02:47 -0800 (PST)
-Message-ID: <e37489ac-78c2-4930-9cff-9a172a5925c4@linaro.org>
-Date: Thu, 5 Jan 2023 18:02:43 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pDTjf-0001co-90
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:09:01 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pDTjc-00072v-Gh
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 12:08:58 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.236])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0148B1512E47E;
+ Thu,  5 Jan 2023 18:08:52 +0100 (CET)
+Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 5 Jan
+ 2023 18:08:52 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005d6536e9f-f428-473d-be39-9d4df627c58b,
+ 38A898BAFC987BCB81F2B5AC485E5C68320ADD45) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <0ad1b1d3-d67e-416c-bfc7-65909eb9a559@kaod.org>
+Date: Thu, 5 Jan 2023 18:08:51 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 03/21] gdbstub: fix-up copyright and license files
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] hw/net: Fix read of uninitialized memory in imx_fec.
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, alex.bennee@gmail.com
-Cc: David Hildenbrand <david@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Michael Rolnik <mrolnik@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Greg Kurz
- <groug@kaod.org>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, qemu-ppc@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>, Marek Vasut <marex@denx.de>,
- Stafford Horne <shorne@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Chris Wulff <crwulff@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Song Gao <gaosong@loongson.cn>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-riscv@nongnu.org, qemu-s390x@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Bin Meng <bin.meng@windriver.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-arm@nongnu.org
-References: <20230105164320.2164095-1-alex.bennee@linaro.org>
- <20230105164320.2164095-4-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230105164320.2164095-4-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Peter Maydell <peter.maydell@linaro.org>
+CC: Stephen Longfield <slongfield@google.com>, <qemu-arm@nongnu.org>,
+ <qemu-devel@nongnu.org>, <venture@google.com>, <wuhaotsh@google.com>
+References: <20221221183202.3788132-1-slongfield@google.com>
+ <CAFEAcA-zv_ny28MJGf4s9T1+3PwK8WRurVgiQnA+8UWbkRawkQ@mail.gmail.com>
+ <88f5cc21-69bb-18a3-718d-90d2c43e787f@kaod.org>
+ <CAFEAcA_ez-_WHW25HCW36Vewa0rKDvUjvGCHCkX_Z0M2igW9tw@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CAFEAcA_ez-_WHW25HCW36Vewa0rKDvUjvGCHCkX_Z0M2igW9tw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: aaaa4fab-650e-415b-8232-23aebdbd41e9
+X-Ovh-Tracer-Id: 298363477798062886
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrjeekgdellecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvdfffeevuddthfdthfelvefhgfevffefuddvvdetteekgeffjedtjeevffffvddunecuffhomhgrihhnpehtrghrghgvthdqrghrmhdrnhgvgihtpdhgihhthhhusgdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhslhhonhhgfhhivghlugesghhoohhglhgvrdgtohhmpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhvvghnthhurhgvsehgohhoghhlvgdrtghomhdpfihuhhgrohhtshhhsehgohhoghhlvgdrtghomhdpoffvtefjohhsthepmhhohedvledpmhhouggvpe
+ hsmhhtphhouhht
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.939,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,19 +76,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/1/23 17:43, Alex Bennée wrote:
-> When I started splitting gdbstub apart I was a little too boilerplate
-> with my file headers. Fix up to carry over Fabrice's copyright and the
-> LGPL license header.
+On 1/5/23 17:50, Peter Maydell wrote:
+> On Thu, 5 Jan 2023 at 16:46, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> On 1/5/23 16:33, Peter Maydell wrote:
+>>> On Wed, 21 Dec 2022 at 18:32, Stephen Longfield <slongfield@google.com> wrote:
+>>>>
+>>>> Size is used at lines 1088/1188 for the loop, which reads the last 4
+>>>> bytes from the crc_ptr so it does need to get increased, however it
+>>>> shouldn't be increased before the buffer is passed to CRC computation,
+>>>> or the crc32 function will access uninitialized memory.
+>>>>
+>>>> This was pointed out to me by clg@kaod.org during the code review of
+>>>> a similar patch to hw/net/ftgmac100.c
+>>>>
+>>>> Change-Id: Ib0464303b191af1e28abeb2f5105eb25aadb5e9b
+>>>> Signed-off-by: Stephen Longfield <slongfield@google.com>
+>>>> Reviewed-by: Patrick Venture <venture@google.com>
+>>>
+>>> Applied to target-arm.next, thanks.
+>>
+>> Did you take the ftgmac100 also ?
 > 
-> Fixes: ae7467b1ac (gdbstub: move breakpoint logic to accel ops)
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   gdbstub/softmmu.c | 3 ++-
->   gdbstub/user.c    | 3 ++-
->   2 files changed, 4 insertions(+), 2 deletions(-)
+> No, I missed that one (patches arriving over a holiday
+> period are more likely to get lost). ftgmac100 is aspeed,
+> can you remind me, are you handling those patches at the moment
+> or would you rather I took it through target-arm.next ?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+The flow is low. I can handle them.
+
+
+Here is what I have gathered of interest for the 8.0 cycle [*] :
+
+ba1f0f30e6 tests/avocado/machine_aspeed.py: Update SDK images
+394467a569 tests/avocado/machine_aspeed.py: Add shutdown to the SDK tests
+f2941822a5 tests/avocado: Test Aspeed Zephyr SDK v00.01.08 on AST1030 board
+beb01f33da hw/arm/aspeed_ast10x0: Add TODO comment to use Cortex-M4F
+126f0870ff hw/arm/aspeed_ast10x0: Map HACE peripheral
+4251463a5d hw/arm/aspeed_ast10x0: Map the secure SRAM
+d8ab4e2235 hw/arm/aspeed_ast10x0: Map I3C peripheral
+47ae570bcc hw/arm/aspeed_ast10x0: Add various unimplemented peripherals
+b361c08ed3 hw/misc/aspeed_hace: Do not crash if address_space_map() failed
+68e35c6359 hw/arm/aspeed: Use the IEC binary prefix definitions
+83008870c8 hw/watchdog/wdt_aspeed: Log unimplemented registers as UNIMP level
+7bc127b231 hw/watchdog/wdt_aspeed: Extend MMIO range to cover more registers
+6b2a6a8b67 hw/watchdog/wdt_aspeed: Rename MMIO region size as 'iosize'
+186cd4db58 tests/avocado/machine_aspeed.py: Mask systemd services to speed up SDK boot
+7e37fc7efa tests/avocado/machine_aspeed.py: update buildroot tests
+0411291f96 m25p80: Add the is25wp256 SFPD table
+5c6cd67647 avocado/boot_linux_console.py: Update ast2600 test
+8d965c9276 hw/net: Fix read of uninitialized memory in imx_fec.
+e4e4a89ea3 hw/net: Fix read of uninitialized memory in ftgmac100
+6b0eef46c7 aspeed: Add Supermicro X11 SPI machine type
+5386d8eec8 target/arm: Allow users to set the number of VFP registers
+c83bd61b34 m25p80: Improve error when the backend file size does not match the device
+
+Not all are ready or reviewed yet.
+
+I also hope to get some cycles of Philippe to merge eMMC support in 8.0.
+
+C.
+
+[*] https://github.com/legoater/qemu/commits/aspeed-8.0
+
 
 
