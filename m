@@ -2,83 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660BA65E979
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 12:02:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B068B65EB3D
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 13:57:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDNzS-0007zy-Hj; Thu, 05 Jan 2023 06:00:54 -0500
+	id 1pDPnM-00072w-8G; Thu, 05 Jan 2023 07:56:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pDNyx-0007q9-PC
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:00:39 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pDNyu-0006IG-NO
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:00:23 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id az7so11327396wrb.5
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 03:00:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jotmgFSSkAQdKEvxUU2nbxy7Dj2hKPDzRWMaloLL1Vk=;
- b=QA4doyzt2HJSoZHJD3UIjXR4E/iB8DUePnfXhpeyZ4+5rImHjomlBfhhWSH56nO9ZT
- YLDW0s66XRwBuGNfuT5Wtpt15+Q0n9icWoKUWIXHgg22wWU+hMvYawpQ3bX6v6UV2PC8
- Alf2d8zNeG9ZyI2ni07QMeanhBbZXHc6CXBIEnAuumKKtarjtXe2jc4eLNJMkpoeH7Tg
- 0pufMjv52Z9ZtofJg1h8yBioAL/zJt/5gYrIp+EcL/AwGwTvyyiX7Z2KKVQx2bMvgqxw
- luRDoCrX8aw8uYf3MrePp45+IbYgxTwgEhd96TaosW8uBG1kBrdstdtihvYV8X7fn0+k
- EFPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jotmgFSSkAQdKEvxUU2nbxy7Dj2hKPDzRWMaloLL1Vk=;
- b=Qsdx5T+RjmrUcSQIsUXMkmJ9zO+Z+CtfdOgj1sWwVriEUsYsG+JqjgTBvC8Ic5HWzY
- 73NTAfhD/Fv/fs7sQ5H/BmdbjpibxbWK8OsvVXF7tJ58dQfLuUuY6evtBGjIs+ghVE8j
- KHn4n+ofWRnRDNmtagNE4RwnhrqUHSvEFZ0qVPgN2cXy8js38n1ssamfg4tvJMgqESlr
- kDlA515xqh6Vey66dEvdMKfArxXjv2eQRz65UhJQmIMNEF6lguJ3ArWLcmrP9t5dOW1K
- 2WPlyzzJzjT1BbMvo7wMsFMjpzofJMch4B8JI3XgLa5SRcgrLV+KrZorkXEj6EnjlMSR
- IO8w==
-X-Gm-Message-State: AFqh2krct3ld7jR2RlAcB18A4Mx4OyVbYKVV3IFIkYFo63oMEcReQHmn
- 3xRlQE+a/ZbBmcvPBKVmF7pNbx90t1D7oL5P
-X-Google-Smtp-Source: AMrXdXsBL/CzkUrc1H06qgUOvBCRklcFwLJu+YgRosgigdLUeHuXpCD3Jf4hl8RUlrqu32FML4+RRA==
-X-Received: by 2002:a05:6000:18c3:b0:288:ca2e:7d74 with SMTP id
- w3-20020a05600018c300b00288ca2e7d74mr16146339wrq.14.1672916409972; 
- Thu, 05 Jan 2023 03:00:09 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- k6-20020adff5c6000000b002a01e64f7a1sm6392861wrp.88.2023.01.05.03.00.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 03:00:09 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B317E1FFBC;
- Thu,  5 Jan 2023 11:00:07 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 4/4] Makefile: explicitly disable -net for our -M virt runs
-Date: Thu,  5 Jan 2023 11:00:07 +0000
-Message-Id: <20230105110007.1977399-5-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230105110007.1977399-1-alex.bennee@linaro.org>
-References: <20230105110007.1977399-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1pDPnK-00072i-Jb; Thu, 05 Jan 2023 07:56:30 -0500
+Received: from [125.120.148.222] (helo=liuqiang-OptiPlex-7060)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1pDPnI-0004la-Iv; Thu, 05 Jan 2023 07:56:30 -0500
+Received: from localhost (liuqiang-OptiPlex-7060 [local])
+ by liuqiang-OptiPlex-7060 (OpenSMTPD) with ESMTPA id 4bfde3b5;
+ Thu, 5 Jan 2023 11:09:41 +0000 (UTC)
+From: Qiang Liu <cyruscyliu@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Qiang Liu <cyruscyliu@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org (open list:Xilinx ZynqMP and...)
+Subject: [PATCH] hw/display/xlnx_dp: fix abort in xlnx_dp_change_graphic_fmt()
+Date: Thu,  5 Jan 2023 19:09:37 +0800
+Message-Id: <20230105110937.436585-1-cyruscyliu@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 125.120.148.222 (failed)
+Received-SPF: softfail client-ip=125.120.148.222;
+ envelope-from=cyruscyliu@gmail.com; helo=liuqiang-OptiPlex-7060
+X-Spam_score_int: 48
+X-Spam_score: 4.8
+X-Spam_bar: ++++
+X-Spam_report: (4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
+ FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, FSL_HELO_NON_FQDN_1=0.001,
+ HELO_NO_DOMAIN=0.001, NML_ADSP_CUSTOM_MED=0.9, RCVD_IN_PBL=3.335,
+ RDNS_NONE=0.793, SPF_SOFTFAIL=0.665, SPOOFED_FREEMAIL=0.001,
+ SPOOFED_FREEMAIL_NO_RDNS=0.001, SPOOF_GMAIL_MID=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,47 +59,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At some points in the bisect history this stops the default virtio-net
-complaining when it can't find "efi-virtio.rom".
+xlnx_dp_change_graphic_fmt() will directly abort if either graphic
+format or the video format is not supported.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+This patch directly let xlnx_dp_change_graphic_fmt() return if the
+formats are not supported.
+
+xlnx_dp_change_graphic_fmt() has two callsites in xlnx_dp_avbufm_write()
+and xlnx_dp_reset(). I think it may be OK to drop the abort in
+xlnx_dp_change_graphic_fmt() because the error information will be
+printed.
+
+Fixes: 58ac482a66de ("introduce xlnx-dp")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1415
+Reported-by: Qiang Liu <cyruscyliu@gmail.com>
+Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
 ---
- Makefile | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ hw/display/xlnx_dp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 6905b8d..a8cae07 100644
---- a/Makefile
-+++ b/Makefile
-@@ -126,22 +126,22 @@ run-usertest-a64: usertest-a64
- 	$(QEMU_AARCH64) usertest-a64
+diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
+index b0828d65aa..407518c870 100644
+--- a/hw/display/xlnx_dp.c
++++ b/hw/display/xlnx_dp.c
+@@ -641,7 +641,7 @@ static void xlnx_dp_change_graphic_fmt(XlnxDPState *s)
+     default:
+         error_report("%s: unsupported graphic format %u", __func__,
+                      s->avbufm_registers[AV_BUF_FORMAT] & DP_GRAPHIC_MASK);
+-        abort();
++        return;
+     }
  
- run-systest-a32: systest-a32.axf
--	$(QEMU_SYSTEM_ARM) -M virt --display none --semihosting -kernel $^
-+	$(QEMU_SYSTEM_ARM) -M virt -net none --display none --semihosting -kernel $^
+     switch (s->avbufm_registers[AV_BUF_FORMAT] & DP_NL_VID_FMT_MASK) {
+@@ -657,7 +657,7 @@ static void xlnx_dp_change_graphic_fmt(XlnxDPState *s)
+     default:
+         error_report("%s: unsupported video format %u", __func__,
+                      s->avbufm_registers[AV_BUF_FORMAT] & DP_NL_VID_FMT_MASK);
+-        abort();
++        return;
+     }
  
- run-systest-t32: systest-t32.axf
--	$(QEMU_SYSTEM_ARM) -M virt --display none --semihosting -kernel $^
-+	$(QEMU_SYSTEM_ARM) -M virt -net none --display none --semihosting -kernel $^
- 
- run-systest-a32-hlt: systest-a32-hlt.axf
--	$(QEMU_SYSTEM_ARM) -M virt --display none --semihosting -kernel $^
-+	$(QEMU_SYSTEM_ARM) -M virt -net none --display none --semihosting -kernel $^
- 
- run-systest-t32-hlt: systest-t32-hlt.axf
--	$(QEMU_SYSTEM_ARM) -M virt --display none --semihosting -kernel $^
-+	$(QEMU_SYSTEM_ARM) -M virt -net none --display none --semihosting -kernel $^
- 
- run-systest-t32-bkpt: systest-t32-bkpt.axf
- 	$(QEMU_SYSTEM_ARM) -M microbit --display none --semihosting -kernel $^
- 
- run-systest-a64: systest-a64.axf
--	$(QEMU_SYSTEM_AARCH64) -M virt --display none --semihosting \
-+	$(QEMU_SYSTEM_AARCH64) -M virt -net none --display none --semihosting \
- 		-cpu cortex-a57 -kernel $^
- 
- run: run-usertest-a32 run-usertest-t32 run-usertest-a64 \
+     xlnx_dp_recreate_surface(s);
 -- 
-2.34.1
+2.25.1
 
 
