@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6983A65F18C
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:57:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019AC65F18D
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 17:57:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDTMh-0001N8-0C; Thu, 05 Jan 2023 11:45:15 -0500
+	id 1pDTMR-0000wV-Cm; Thu, 05 Jan 2023 11:44:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTM8-0000gy-60
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:41 -0500
+ id 1pDTMC-0000kk-S1
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:47 -0500
 Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDTM6-0007Nm-Dx
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:39 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- m26-20020a05600c3b1a00b003d9811fcaafso1776850wms.5
+ id 1pDTM7-00072G-Bx
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 11:44:40 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id ja17so28450082wmb.3
  for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 08:44:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=XPcxKKzTJ6CHZqkcMut7l6klmMKuAhMpUuRA99yE0PE=;
- b=QsVOLQ3jAvt9Pl3+gohNKc7T/bgDaJ5gOreLDIqwXsCiI7k2OSoBmmS3Q4SVr8ECvr
- 1inzxLdmFaAIghzio3ebO1TbFa9T1ORtksTQyXj4ru6D9dCNAgUZyd1xCyLnN5eQP6zJ
- TjFFfi78jkYguTRn+CQ/i0VQBN0k3KyKilNW3tabqrH/mtjZcUQgcYJbebBz9gKieG+6
- beIg6P7Fp3OyBLP8ImsayGr+v7AEXvnJEhHe6p5Acd0DnhlZ2aX9sUJFWe26z149ov2M
- B2VEXuZ2I6iPrBlD05re99FvX6iyjzRH4RQM+QOjZ55NcGZfEUt1YkD7EBW5XvNcrgou
- II5A==
+ :reply-to; bh=5phcJn3+aOzp5t3SfXhX01zMS188rkd4iS8jVPL2LkE=;
+ b=cme+eRrfbRSg4csUk3Lp05wb4dzOo1sKBE0qYX+J4WSopS3IXVUP7+pvOnBAq7hJQC
+ h1rx/wZMoO9xdCsAuRujK5T9sGvpcGPRPfe1P1ImLpeXxN2mtUO8hFJL+if7HXGBgtfj
+ 1VrqzYrB5Lga9Pz2YJu5fEUoc1Cv9/jXeL5XaZVFf+ufPBe8uoilk6feZmPQ24xEcWMt
+ 2/D7QdfiAbqA9JFJy/OpjBCvTzc7xF9XbaYsptU1wUDyqKxQ+s/3r4bpajIc7jg/8CaI
+ uG+cWPW6iOsLiP+HOLEOty6f8EWp1IpP7nBt84vdpf/5hmw3Z42RJFuOXy0Tev3nO8Lz
+ pF9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XPcxKKzTJ6CHZqkcMut7l6klmMKuAhMpUuRA99yE0PE=;
- b=H95xgUFVEgoiIHioVmyhUTZXSEPc9Tz3bQoa2Qf2eHgdP7XZY8CHgipbISUJaCwBHI
- SKvSNjloYzaplJkp7XHFlkeCIfsFxOg/SJFHyey+ysv8z4MB7xfffr8heuLr9PG3iJ0K
- ea9oDOgxEdsVY/WxQMDhZ/kJkEKtPCcE9dArWQHEjCs0oOp+tv5FPfeWUsuQx+NLxC1f
- 3bdgcXh5NWr2udEcfIYAvCg5oWi5ZhiWk4Fr3eqlbaPCk2WT+G1tbIca5q9czwVIUtdI
- RY0VWiRGK/T6FUhaVIYtHx7c9OzM2BQPcMDzq4a6d051G6unzZqKsCkKnIXlpvVM0KCa
- jdEA==
-X-Gm-Message-State: AFqh2ko3BpfWtlfqTB4j7G/wq84L+w0FwQEFWpgrUXMi5ukX3SZraqoV
- J5goAjg+iGdGVTNqz/NRTOv9mPHwEjYan2DC
-X-Google-Smtp-Source: AMrXdXt5S412HOxr7cLj4OuEuXr8fPHt8bDKI2NOTAOwn6kJVgG7sQpaDyog+dYGG8/St076oIrBDA==
-X-Received: by 2002:a05:600c:4e08:b0:3d2:139e:f64f with SMTP id
- b8-20020a05600c4e0800b003d2139ef64fmr39089601wmq.40.1672937077838; 
- Thu, 05 Jan 2023 08:44:37 -0800 (PST)
+ bh=5phcJn3+aOzp5t3SfXhX01zMS188rkd4iS8jVPL2LkE=;
+ b=UsfsSKYsx/ZD/YQXtVGhvabYBoFmidNdGTdbKhSuKym/IraqOZg8bQHc3ED8S+IpFo
+ OY/Kt3nh48ixlFXN7GCWfQwjyCHE//0KpKs+Ec+KTohuRQPRm7lRJE6aEnYUDZ8xRnk0
+ CRzOl752o314yPvrd35XffYFW6td+tpW7F8RltzxLA8kO1liPF1ITSja4qM8/84QWyA8
+ tKO8qsOTrKO0qByBVuIx+adGyxmzWzCxBAj1bJWsRb8TkPpsTgNg0Hv2QGV+fTMkr9s7
+ dq2T+bPBbw4gS5ja7XtGbTySh1ZgiR2/UgqzF1gzelicmn09fB1TqPu+AzSR6Td1LgMU
+ vG9A==
+X-Gm-Message-State: AFqh2kr2m70jq5F0Lfi7cicdFxGb+Zd25hH/30KRqpZLcPdlwGbAEPOR
+ eCEfBRXONNERP9PgH/u3kHu4uQtulAt/0yRf
+X-Google-Smtp-Source: AMrXdXvEO/DW+Brz6skmMD1v0ol5DK45vEhqw7BvAmb28JltJE0HUifENmP5V2nsfTVlLgQxMXMNdg==
+X-Received: by 2002:a05:600c:18a1:b0:3d2:3ec4:7eed with SMTP id
+ x33-20020a05600c18a100b003d23ec47eedmr40233937wmp.10.1672937078665; 
+ Thu, 05 Jan 2023 08:44:38 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.36
+ hg9-20020a05600c538900b003cf71b1f66csm3055547wmb.0.2023.01.05.08.44.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Jan 2023 08:44:37 -0800 (PST)
+ Thu, 05 Jan 2023 08:44:38 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/34] target/arm: Remove unused includes from helper.c
-Date: Thu,  5 Jan 2023 16:44:05 +0000
-Message-Id: <20230105164417.3994639-23-peter.maydell@linaro.org>
+Subject: [PULL 23/34] target/arm: cleanup cpu includes
+Date: Thu,  5 Jan 2023 16:44:06 +0000
+Message-Id: <20230105164417.3994639-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230105164417.3994639-1-peter.maydell@linaro.org>
 References: <20230105164417.3994639-1-peter.maydell@linaro.org>
@@ -89,53 +88,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Fabiano Rosas <farosas@suse.de>
+From: Claudio Fontana <cfontana@suse.de>
 
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Remove some unused headers.
+
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-id: 20221213190537.511-6-farosas@suse.de
+Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Message-id: 20221213190537.511-7-farosas@suse.de
+[added back some includes that are still needed at this point]
+Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 7 -------
- 1 file changed, 7 deletions(-)
+ target/arm/cpu.c   | 1 -
+ target/arm/cpu64.c | 6 ------
+ 2 files changed, 7 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 5d8971aa51e..d3e8e606475 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -7,13 +7,11 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/units.h"
- #include "qemu/log.h"
- #include "trace.h"
- #include "cpu.h"
- #include "internals.h"
- #include "exec/helper-proto.h"
--#include "qemu/host-utils.h"
- #include "qemu/main-loop.h"
- #include "qemu/timer.h"
- #include "qemu/bitops.h"
-@@ -22,17 +20,12 @@
- #include "exec/exec-all.h"
- #include <zlib.h> /* For crc32 */
- #include "hw/irq.h"
--#include "semihosting/semihost.h"
--#include "sysemu/cpus.h"
- #include "sysemu/cpu-timers.h"
- #include "sysemu/kvm.h"
--#include "qemu/range.h"
- #include "qapi/qapi-commands-machine-target.h"
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index f99f749b295..5f63316dbf2 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -26,7 +26,6 @@
+ #include "target/arm/idau.h"
+ #include "qemu/module.h"
  #include "qapi/error.h"
- #include "qemu/guest-random.h"
+-#include "qapi/visitor.h"
+ #include "cpu.h"
  #ifdef CONFIG_TCG
--#include "arm_ldst.h"
--#include "exec/cpu_ldst.h"
- #include "semihosting/common-semi.h"
- #endif
- #include "cpregs.h"
+ #include "hw/core/tcg-cpu-ops.h"
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 2cf2ca4ce5a..0e021960fb5 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -21,13 +21,7 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+-#ifdef CONFIG_TCG
+-#include "hw/core/tcg-cpu-ops.h"
+-#endif /* CONFIG_TCG */
+ #include "qemu/module.h"
+-#if !defined(CONFIG_USER_ONLY)
+-#include "hw/loader.h"
+-#endif
+ #include "sysemu/kvm.h"
+ #include "sysemu/hvf.h"
+ #include "kvm_arm.h"
 -- 
 2.25.1
 
