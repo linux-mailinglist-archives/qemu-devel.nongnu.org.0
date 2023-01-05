@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169C065EA53
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 13:03:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EDBF65EACE
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 13:38:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDOxP-0001K8-Jv; Thu, 05 Jan 2023 07:02:51 -0500
+	id 1pDOzI-0002qh-OM; Thu, 05 Jan 2023 07:04:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDOww-0001C5-Rz
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 07:02:29 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDOwj-0000Zt-U5
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 07:02:16 -0500
-Received: by mail-pg1-x532.google.com with SMTP id r18so24351220pgr.12
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 04:02:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=LHvmOn8wyCNEuBNpRFuAPJKZnG1VWFc8K4QEkp1Ac30=;
- b=S9QzF6lM8vYdq9oetEOaQDYEEJGPBQmc/LtoTWABcDhuFqVstr1K9G6ZghJoCMlYM4
- 95K3z6YRxX684Yk8hkEZfnLwbRrnLrWl+CpMUe9aK5i3UJdAHCbYyZhJCAWu0kNkPxOx
- ujY3Jms5Y3n10eZSLjZOb+Byj0nis0wxfsYxw89urenizd0xipREjjIP8ZF6CMJ8xizq
- GxZ0ukZEdXSlRfbFsv+RLBGfGgNQ8c94T0aTEVrDCj0wzIsYGu1t+DUJA6/wqQP5vnxC
- cGVQzs/jgzmoSU4xnr52V9IJHpkZzcgO8WFqKVxhXBnl2VChP9/JJmTFQ8/gIDpx9bN8
- S+2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LHvmOn8wyCNEuBNpRFuAPJKZnG1VWFc8K4QEkp1Ac30=;
- b=ap76439vV7UPKLg4vIY7b84YvFd9i2zvcoCgnOJYY0kFszfOjKM9SWoIkSGUfjKx+Q
- 5FOyVKaY/1zN+RLsxHVIgznbTRoCv6oZms+j6MfK4tj/aS81vANpjpM9/LAZj6eTOEh+
- n980MX/fciIm51ix0E59sVS7G8W1ypbB2bXBJPGz2TxpjbIhBwVuZJ2gO98SBt9dDKVm
- CA8e2Nd9//LxfiS9M7CQU71HkrFHdq10F8oFrV3GPrfdoDK1zo3SSKQxPm8NJ5eD2Tmf
- fUf5rqi3U+w2KZAcpKDLAsq2qivBq05dak3WGlyXkyzkeaQKlt8l9BNQIgdgJ8TpWN5l
- 0pXA==
-X-Gm-Message-State: AFqh2kpwE1Mx2jLG4AOTdkUeIsNvtF31cMI0aimaLypBJCxcd1g44Bae
- vNjK3ej7CFlR6B8B9bWtVWoPKzJHGj3SvLdvlIhasN1tobGzPw==
-X-Google-Smtp-Source: AMrXdXvYLdw2H9nr5sun+Ql2t7IBfg4YERs0nA0pMqva6OtTT/0c9dW2IFIUJsR2BSx9I4p6WUMVqeDm1RxiI5MZpck=
-X-Received: by 2002:a65:694b:0:b0:477:86c1:640f with SMTP id
- w11-20020a65694b000000b0047786c1640fmr3346380pgq.231.1672920125596; Thu, 05
- Jan 2023 04:02:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pDOz9-0002nB-Gy; Thu, 05 Jan 2023 07:04:42 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pDOz7-0002iV-IC; Thu, 05 Jan 2023 07:04:39 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 4040E749022;
+ Thu,  5 Jan 2023 13:02:19 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 04A2074900C; Thu,  5 Jan 2023 13:02:19 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 02B11748131;
+ Thu,  5 Jan 2023 13:02:19 +0100 (CET)
+Date: Thu, 5 Jan 2023 13:02:18 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v7 7/7] mac_newworld: Document deprecation
+In-Reply-To: <0b8d056d-710b-fe80-6421-96753a4b963c@linaro.org>
+Message-ID: <af8f2562-23b1-3b18-90ae-c85a19911e56@eik.bme.hu>
+References: <cover.1672868854.git.balaton@eik.bme.hu>
+ <baf0bed71eec81fac16b6495e781cc6b42cdd155.1672868854.git.balaton@eik.bme.hu>
+ <0b8d056d-710b-fe80-6421-96753a4b963c@linaro.org>
 MIME-Version: 1.0
-References: <166990932074.29941.8709118178538288040-0@git.sr.ht>
- <166990932074.29941.8709118178538288040-3@git.sr.ht>
-In-Reply-To: <166990932074.29941.8709118178538288040-3@git.sr.ht>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Jan 2023 12:01:54 +0000
-Message-ID: <CAFEAcA_C+-JGJfuu1pea_w09-a1LFBOF2M24cOdVm-wVgT2DiA@mail.gmail.com>
-Subject: Re: [PATCH qemu.git v3 3/8] hw/timer/imx_epit: define SR_OCIF
-To: "~axelheider" <axelheider@gmx.de>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1664424771-1672920139=:63209"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,14 +61,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 1 Dec 2022 at 15:42, ~axelheider <axelheider@git.sr.ht> wrote:
->
-> From: Axel Heider <axel.heider@hensoldt.net>
->
-> ---
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+--3866299591-1664424771-1672920139=:63209
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-thanks
--- PMM
+On Thu, 5 Jan 2023, Philippe Mathieu-Daudé wrote:
+> On 4/1/23 22:59, BALATON Zoltan wrote:
+>> Also update PowerMac family docs with some more recent info.
+>> 
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>   docs/about/deprecated.rst    |  7 +++++++
+>>   docs/system/ppc/powermac.rst | 12 ++++++++----
+>>   2 files changed, 15 insertions(+), 4 deletions(-)
+>> 
+>> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+>> index 93affe3669..07661af7fe 100644
+>> --- a/docs/about/deprecated.rst
+>> +++ b/docs/about/deprecated.rst
+>> @@ -248,6 +248,13 @@ These old machine types are quite neglected nowadays 
+>> and thus might have
+>>   various pitfalls with regards to live migration. Use a newer machine type
+>>   instead.
+>>   +``mac99`` variants other than the default qemu-system-ppc version (since 
+>> 7.2)
+>> +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+>> +
+>> +The ``mac99`` machine emulates different hardware depending on using
+>> +qemu-system-ppc64 or ``via`` property. To avoid confusion new machine
+>> +types has been added for these variants which are now preferred over
+>> +``mac99``.
+>
+> ^ this part is OK,
+>
+> but below is part of patch 4/7 "Add different mac99 machine types".
+
+Not really, as that patch does not add these. It's already the current 
+state which this patch just documents so this is just updating docs. If 
+anything then the above part about deprecating mac99 may be squashed with 
+patch 5 and 6 to make a single deprecation patch but I'll see what the 
+maintainer prefers because whatever I come up with is usually not what he 
+likes so to avoid wasted effort I'd rather wait for clear instructions 
+before making more changes.
+
+Regards,
+BALATON Zoltan
+
+>> diff --git a/docs/system/ppc/powermac.rst b/docs/system/ppc/powermac.rst
+>> index 04334ba210..d4a47a6881 100644
+>> --- a/docs/system/ppc/powermac.rst
+>> +++ b/docs/system/ppc/powermac.rst
+>> @@ -4,8 +4,12 @@ PowerMac family boards (``g3beige``, ``mac99``)
+>>   Use the executable ``qemu-system-ppc`` to simulate a complete PowerMac
+>>   PowerPC system.
+>>   -- ``g3beige``              Heathrow based PowerMAC
+>> -- ``mac99``                Mac99 based PowerMAC
+>> +- ``g3beige``           Heathrow based old world Power Macintosh G3
+>> +- ``mac99``             Core99 based generic PowerMac
+>> +- ``powermac3_1``       Power Mac G4 AGP (Sawtooth)
+>> +- ``powerbook3_2``      PowerBook G4 Titanium (Mercury)
+>> +- ``powermac7_3``       Power Mac G5 (Niagara) (only in 
+>> ``qemu-system-ppc64``)
+>> +
+>>     Supported devices
+>>   -----------------
+>> @@ -15,9 +19,9 @@ QEMU emulates the following PowerMac peripherals:
+>>    *  UniNorth or Grackle PCI Bridge
+>>    *  PCI VGA compatible card with VESA Bochs Extensions
+>>    *  2 PMAC IDE interfaces with hard disk and CD-ROM support
+>> - *  NE2000 PCI adapters
+>> + *  Sungem PCI network adapter
+>>    *  Non Volatile RAM
+>> - *  VIA-CUDA with ADB keyboard and mouse.
+>> + *  VIA-CUDA or VIA-PMU99 with or without ADB or USB keyboard and mouse.
+>>       Missing devices
+>
+>
+>
+--3866299591-1664424771-1672920139=:63209--
 
