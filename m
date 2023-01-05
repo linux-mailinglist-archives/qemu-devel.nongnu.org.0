@@ -2,48 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B068B65EB3D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 13:57:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D3B65E9CE
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 12:24:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDPnM-00072w-8G; Thu, 05 Jan 2023 07:56:32 -0500
+	id 1pDOLC-0003qR-DJ; Thu, 05 Jan 2023 06:23:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1pDPnK-00072i-Jb; Thu, 05 Jan 2023 07:56:30 -0500
-Received: from [125.120.148.222] (helo=liuqiang-OptiPlex-7060)
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1pDOLA-0003pK-0u
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:23:20 -0500
+Received: from ams.source.kernel.org ([145.40.68.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1pDPnI-0004la-Iv; Thu, 05 Jan 2023 07:56:30 -0500
-Received: from localhost (liuqiang-OptiPlex-7060 [local])
- by liuqiang-OptiPlex-7060 (OpenSMTPD) with ESMTPA id 4bfde3b5;
- Thu, 5 Jan 2023 11:09:41 +0000 (UTC)
-From: Qiang Liu <cyruscyliu@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Qiang Liu <cyruscyliu@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org (open list:Xilinx ZynqMP and...)
-Subject: [PATCH] hw/display/xlnx_dp: fix abort in xlnx_dp_change_graphic_fmt()
-Date: Thu,  5 Jan 2023 19:09:37 +0800
-Message-Id: <20230105110937.436585-1-cyruscyliu@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1pDOL6-0003te-QW
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 06:23:19 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id AC69BB81A99;
+ Thu,  5 Jan 2023 11:23:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCFDCC433F0;
+ Thu,  5 Jan 2023 11:23:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1672917785;
+ bh=MBba54j0/BydJyfXJmD3sqygtai2bpp7J4HBZnAheDI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=f/NyAx/uidnIXzxaIjlXTomDF3irlmzZ+PCY7P4/TbnJUSJRD8UQ7c36MWpV71/Tn
+ SYhuTjsjWfdmPqSLK8QE0FamFzSLRaWdbDObhW80t4Yhafl1J5jJ3bezM77sFrqnWb
+ 7d/hzJOkyMc1nznD1fbjGD1fMn5JHCEwQ/N74LIUmis17aSfr3aoYAViHr5UwZIwBZ
+ vMhpJpECkrYJfV357eN/7+fWF/0BXMk6663rsy2BQ1Hqv+wpHrlCHOkVeWNUyq7jDe
+ MlCQt3z62ym96XHYhLSz9H4UynTy+xVr4M24uMVE/AY6qAUqNbC4TlEczADxwM5pwj
+ vjHmuNVYuOTeg==
+Date: Thu, 5 Jan 2023 11:23:01 +0000
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y7azFdnnGAdGPqmv@kernel.org>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 125.120.148.222 (failed)
-Received-SPF: softfail client-ip=125.120.148.222;
- envelope-from=cyruscyliu@gmail.com; helo=liuqiang-OptiPlex-7060
-X-Spam_score_int: 48
-X-Spam_score: 4.8
-X-Spam_bar: ++++
-X-Spam_report: (4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
- FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, FSL_HELO_NON_FQDN_1=0.001,
- HELO_NO_DOMAIN=0.001, NML_ADSP_CUSTOM_MED=0.9, RCVD_IN_PBL=3.335,
- RDNS_NONE=0.793, SPF_SOFTFAIL=0.665, SPOOFED_FREEMAIL=0.001,
- SPOOFED_FREEMAIL_NO_RDNS=0.001, SPOOF_GMAIL_MID=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=jarkko@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,48 +95,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-xlnx_dp_change_graphic_fmt() will directly abort if either graphic
-format or the video format is not supported.
+On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
+> In memory encryption usage, guest memory may be encrypted with special
+> key and can be accessed only by the guest itself. We call such memory
+> private memory. It's valueless and sometimes can cause problem to allow
+> userspace to access guest private memory. This new KVM memslot extension
+> allows guest private memory being provided through a restrictedmem
+> backed file descriptor(fd) and userspace is restricted to access the
+> bookmarked memory in the fd.
+> 
+> This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> additional KVM memslot fields restricted_fd/restricted_offset to allow
+> userspace to instruct KVM to provide guest memory through restricted_fd.
+> 'guest_phys_addr' is mapped at the restricted_offset of restricted_fd
+> and the size is 'memory_size'.
+> 
+> The extended memslot can still have the userspace_addr(hva). When use, a
+> single memslot can maintain both private memory through restricted_fd
+> and shared memory through userspace_addr. Whether the private or shared
+> part is visible to guest is maintained by other KVM code.
+> 
+> A restrictedmem_notifier field is also added to the memslot structure to
+> allow the restricted_fd's backing store to notify KVM the memory change,
+> KVM then can invalidate its page table entries or handle memory errors.
+> 
+> Together with the change, a new config HAVE_KVM_RESTRICTED_MEM is added
+> and right now it is selected on X86_64 only.
+> 
+> To make future maintenance easy, internally use a binary compatible
+> alias struct kvm_user_mem_region to handle both the normal and the
+> '_ext' variants.
 
-This patch directly let xlnx_dp_change_graphic_fmt() return if the
-formats are not supported.
+Feels bit hacky IMHO, and more like a completely new feature than
+an extension.
 
-xlnx_dp_change_graphic_fmt() has two callsites in xlnx_dp_avbufm_write()
-and xlnx_dp_reset(). I think it may be OK to drop the abort in
-xlnx_dp_change_graphic_fmt() because the error information will be
-printed.
+Why not just add a new ioctl? The commit message does not address
+the most essential design here.
 
-Fixes: 58ac482a66de ("introduce xlnx-dp")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1415
-Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
----
- hw/display/xlnx_dp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index b0828d65aa..407518c870 100644
---- a/hw/display/xlnx_dp.c
-+++ b/hw/display/xlnx_dp.c
-@@ -641,7 +641,7 @@ static void xlnx_dp_change_graphic_fmt(XlnxDPState *s)
-     default:
-         error_report("%s: unsupported graphic format %u", __func__,
-                      s->avbufm_registers[AV_BUF_FORMAT] & DP_GRAPHIC_MASK);
--        abort();
-+        return;
-     }
- 
-     switch (s->avbufm_registers[AV_BUF_FORMAT] & DP_NL_VID_FMT_MASK) {
-@@ -657,7 +657,7 @@ static void xlnx_dp_change_graphic_fmt(XlnxDPState *s)
-     default:
-         error_report("%s: unsupported video format %u", __func__,
-                      s->avbufm_registers[AV_BUF_FORMAT] & DP_NL_VID_FMT_MASK);
--        abort();
-+        return;
-     }
- 
-     xlnx_dp_recreate_surface(s);
--- 
-2.25.1
-
+BR, Jarkko
 
