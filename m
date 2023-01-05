@@ -2,105 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F96B65E89F
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 11:07:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B90265E83C
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Jan 2023 10:53:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDN86-000497-JU; Thu, 05 Jan 2023 05:05:46 -0500
+	id 1pDMu8-0005UH-OO; Thu, 05 Jan 2023 04:51:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1pDN83-00048x-KW
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 05:05:43 -0500
-Received: from mail-be0deu01on2062d.outbound.protection.outlook.com
- ([2a01:111:f400:7e23::62d]
- helo=DEU01-BE0-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMu5-0005TN-T6
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:51:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1pDN81-0004Jd-Fq
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 05:05:43 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ja8w+RV3SuxGW8ePh8in64dnSybkO852nuZqn9T55xYngnEWZ2TeSuB8ONMNZ9dY1gzQwYP0C5Zk06t9dt8TulXRx+mf8PXY1gYeSJnHk2JHzZdvYq5iiFnHLPJTUn6JLngDCH7nrwSs02GuoJEikBfWfImgygRkOujKRGaKK7BXhjpXMAuHDhwKnbSubytbz2PMArMvKPJLLSkjC2bt/Jz9vvpBwC8abMc2KFk9FyOoIWhA8nrcdKhosUWQB+3mYLTgxxpvwOMz9MFFI99Kz5D1KMv6fg6jUW8WnASUnIWXH8pc6vh3o2yyZ53mGN7SlC3s7FOsI5YY+N1uyRcOMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jswzNhQ+BR0/j8b+7pvGA/Hc04QW9H+hz2cUPQpnirg=;
- b=ViMAnH/MplBkW4sR63DQx5/njs42jpjWgUKm3ZziUZA/Q0HCXeGDqM+ApCs6OwoIsHnWNUvdIIG3qdaYDC0v3D3+k4yhD3EY1yiILv2x4m60ldB6mzZ+igvbDFERH5YZLKxkz3GRLq948YVVvTWLVj5OSmV4gEJxdHahAYj+lCL2igrgg+lNRLXHIKk6sQ2+uc9iWPa/0EKm+JD9as9N7H6v37olmmjNTGYKmFTXJbZ1e4hrljBVGsYM0a5GAlTJD+yi/DaUMQit9xK1zeQnf3/Wxy0Vt3A34TxpKjsDR1BflLztKlNv4EIuxL6U4Ag1ul8E0S5XaV1+9tEwz695JQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.62.97.192) smtp.rcpttodomain=nongnu.org smtp.mailfrom=kamp.de;
- dmarc=bestguesspass action=none header.from=kamp.de; dkim=none (message not
- signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmdo.onmicrosoft.com; 
- s=selector2-bmdo-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jswzNhQ+BR0/j8b+7pvGA/Hc04QW9H+hz2cUPQpnirg=;
- b=o5XoRrhKTvHzxZ/PXV/dyuNlQIay0SlSagzOk8zC16GVWfcGe05fiLn3V+UMUC+MJycuOpGNb9WVdqgoeMAarZ+aB46QeRza+BUbUKlhLVa1p5b+lt/TB6kA8R5dCb3vJKUnmsfEAcnTNEFUd5LpLy67X1B0Ha5ON4ueY+An4/s=
-Received: from DBBPR09CA0031.eurprd09.prod.outlook.com (2603:10a6:10:d4::19)
- by FR2P281MB2638.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:61::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Thu, 5 Jan
- 2023 10:00:34 +0000
-Received: from DBAEUR03FT005.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:d4:cafe::ce) by DBBPR09CA0031.outlook.office365.com
- (2603:10a6:10:d4::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.14 via Frontend
- Transport; Thu, 5 Jan 2023 10:00:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.62.97.192)
- smtp.mailfrom=kamp.de; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none header.from=kamp.de;
-Received-SPF: Pass (protection.outlook.com: domain of kamp.de designates
- 195.62.97.192 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.62.97.192; helo=kerio.kamp.de; pr=C
-Received: from kerio.kamp.de (195.62.97.192) by
- DBAEUR03FT005.mail.protection.outlook.com (100.127.142.81) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5966.17 via Frontend Transport; Thu, 5 Jan 2023 10:00:34 +0000
-X-Footer: a2FtcC5kZQ==
-Received: from lieven-pc ([172.21.12.60]) (authenticated user relay@kamp.de)
- by kerio.kamp.de with ESMTPSA
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
- Thu, 5 Jan 2023 11:00:33 +0100
-Received: by lieven-pc (Postfix, from userid 1060)
- id 7F9C513DB37; Thu,  5 Jan 2023 10:50:40 +0100 (CET)
-From: Peter Lieven <pl@kamp.de>
-To: qemu-devel@nongnu.org
-Cc: Peter Lieven <pl@kamp.de>
-Subject: [PATCH] MAINTAINERS: update email of Peter Lieven
-Date: Thu,  5 Jan 2023 10:50:39 +0100
-Message-Id: <20230105095039.182718-1-pl@kamp.de>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pDMu4-0004Gt-3n
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 04:51:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672912274;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VraYDWQrxOluMgs2e/mUwLw8Zu3kKh+q/NFtPWHrNI8=;
+ b=F+Ma8rngrT1vyZXQd3vvGmhkdBioAeLLlU6PphlSVdPWA171mdoYZJcdqPj0uRz65J60PS
+ 8MWUkQ3rW6Y12VlgfcwIWUUzTjyi/B1uI2rGDUHIm5vVwfnC6AfYSApYySYUNKHGiai23O
+ +ZPmyd40sAoSlKqyvoj4AksFy8vgXnM=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-351-CVjPBieyN2uGBEzuQGy0Hg-1; Thu, 05 Jan 2023 04:51:13 -0500
+X-MC-Unique: CVjPBieyN2uGBEzuQGy0Hg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ hr34-20020a1709073fa200b0083a60c1d7abso23041566ejc.13
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 01:51:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VraYDWQrxOluMgs2e/mUwLw8Zu3kKh+q/NFtPWHrNI8=;
+ b=gFleDuy3Yk1Zc/0mS93OwNRcOgLvnib/K1dPKiQxQpdc6+GvYCTSW529DCq0UhWn/X
+ QXOplaraZmaKeBvdlGt2i9LLBZev3XcYQQvQCn456B7TiQ315vU4CAcTzvWdWlpC4xVt
+ remhhlDQEOu9e8qln4GzqvRtX9Dx9WwM/euxa129YgKHCYZpqzMTcN1UdGxNfRqyKh+3
+ x9jnnlyQMPSofPEPnl8+IKBr98a0RhhbHqFGjok3Zw2DaOmfLs9ojmq83Ge8LI4Vo3HY
+ 4VUus4VfcRkuldOlJWAZWCMGkCSNVv88JXzfT4gVlvuDJ7uhtnfN7Tiai7xIUQ83n/mR
+ thQg==
+X-Gm-Message-State: AFqh2koZhfmNOKKoEwi2qiynxKfCOe+UH9/BM5SanlUn81D2Ps2JSOyY
+ xyyyp5EIFvjXjYvaopEyICZ26KCbnzsOMrMRGVAdx9cdxAYFnwvdY5xFfON80DXK9yustW7B3SE
+ FRerL1HeCvNFE4rg=
+X-Received: by 2002:a05:6402:c91:b0:463:398a:9fe7 with SMTP id
+ cm17-20020a0564020c9100b00463398a9fe7mr40504959edb.34.1672912272091; 
+ Thu, 05 Jan 2023 01:51:12 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuhZ8lB61IeslzUuHG4vHlNtEGrj1sj7kJ0uAdY0vrh7td9ym4XN9ue6CXZBvmZabHGj8oMug==
+X-Received: by 2002:a05:6402:c91:b0:463:398a:9fe7 with SMTP id
+ cm17-20020a0564020c9100b00463398a9fe7mr40504945edb.34.1672912271879; 
+ Thu, 05 Jan 2023 01:51:11 -0800 (PST)
+Received: from redhat.com ([2.52.151.85]) by smtp.gmail.com with ESMTPSA id
+ gf3-20020a170906e20300b007bff9fb211fsm16300813ejb.57.2023.01.05.01.51.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Jan 2023 01:51:11 -0800 (PST)
+Date: Thu, 5 Jan 2023 04:51:07 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: Laszlo Ersek <lersek@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
+ Ani Sinha <ani@anisinha.ca>, Ard Biesheuvel <ardb@kernel.org>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org
+Subject: Re: [PATCH] acpi: cpuhp: fix guest-visible maximum access size to
+ the legacy reg block
+Message-ID: <20230105045025-mutt-send-email-mst@kernel.org>
+References: <20230104090138.214862-1-lersek@redhat.com>
+ <20230104072457-mutt-send-email-mst@kernel.org>
+ <7122894b-ccbf-9d30-ee54-c23c25c0f82b@redhat.com>
+ <2f32e669-2263-01c5-28d4-5721b3144b32@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DBAEUR03FT005:EE_|FR2P281MB2638:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 6cd2e3f1-6819-4193-5e0a-08daef03affb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jsNXEQ9Yra2z/mvAzOo2hNu2FC7yokd516/Wjfh1wmkb+/PrVwYToKxwtK5DXpFNC7Zz5eCk9zind3DvarL785jEbEKtaK9gZisG88BK/kKrvRVdDsMb945TwmRBfzepA+YNAK/CHgdwlKJSJmWTKHQCHpViHNucZ/3hr2vZylmnDCcK169PmV1Fy/f7nPo7XQLZhtjil0RyEINtmYVPwUgUaZ6Jf6CJaUt9gf5PNbNKLewb0d+1rjbjxRiTtUvo85jBUwjizbbJJcTNYC7xHT6M95ucvE/kDwkyYoVRDJ57jVHXldL91lsyhvvLMINCJKNHnwlLeZMhWF1Qy+O7qOLz9ptyoCzlXP7r1FqyGsPv4Uc8zj8Nd6c77wxIJP3Lpjeu6exMMUYlCXFTxZ490P0jPY4jtQLDg25ZkMHjK6LBWfiM5fMFhA6OCbIaVBZSE/gV6bBh+1VlAEAYe5AI4GMSCMQpsdK8c7PFWtBwbT5YFKNHpYMfIiRcMhb43wnViFez6R2qpV5LMVlmB7796IbcbdlI/aqfUycw+NCuRNkQovAzRHu5czvE6Lv1JKaO+Jzzf+9T0P+wPi6gaptsJ4ShZADg5OmFu9AXc+zsGGhe2BO5C4dUWQjnq7MQm3KoSMUC+EKboUW3LdNBWsSFqK8/Jfuw2gmwBVeYZAZCJtwttWhSgTy40kt/0oDdSieqxKcaX2ofguYH34oaYvqV+hU2Gx8v7drS1+cQcwmve1PJNI/1A0gma3yiC1RIom8FX3B1y23DM6fJO8tvGXnUzg==
-X-Forefront-Antispam-Report: CIP:195.62.97.192; CTRY:DE; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:kerio.kamp.de; PTR:kerio.kamp.de; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(396003)(346002)(136003)(39850400004)(451199015)(36840700001)(46966006)(186003)(6266002)(26005)(7636003)(7596003)(478600001)(316002)(6916009)(42186006)(966005)(107886003)(4326008)(8676002)(1076003)(70206006)(336012)(2616005)(82740400003)(47076005)(8936002)(15650500001)(5660300002)(83380400001)(2906002)(426003)(41300700001)(36860700001)(36756003)(356005)(82310400005)(40480700001)(86362001)(2620500001)(16060500005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: kamp.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2023 10:00:34.1367 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6cd2e3f1-6819-4193-5e0a-08daef03affb
-X-MS-Exchange-CrossTenant-Id: b3201e87-5c43-439a-8fa3-eab13a770d4a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=b3201e87-5c43-439a-8fa3-eab13a770d4a; Ip=[195.62.97.192];
- Helo=[kerio.kamp.de]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DBAEUR03FT005.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR2P281MB2638
-Received-SPF: permerror client-ip=2a01:111:f400:7e23::62d;
- envelope-from=pl@kamp.de; helo=DEU01-BE0-obe.outbound.protection.outlook.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FORGED_SPF_HELO=1, SPF_HELO_PASS=-0.001,
- T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2f32e669-2263-01c5-28d4-5721b3144b32@linaro.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,70 +103,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I will leave KAMP in the next days. Update email to stay reachable.
+On Thu, Jan 05, 2023 at 10:00:00AM +0100, Philippe Mathieu-Daudé wrote:
+> On 5/1/23 08:13, Laszlo Ersek wrote:
+> > On 1/4/23 13:35, Michael S. Tsirkin wrote:
+> > > On Wed, Jan 04, 2023 at 10:01:38AM +0100, Laszlo Ersek wrote:
+> [...]
+> 
+> > > > To make things *even more* complicated, the breakage was (and remains, as
+> > > > of today) visible with TCG acceleration only.  Commit 5d971f9e6725 makes
+> > > > no difference with KVM acceleration -- the DWORD accesses still work,
+> > > > despite "valid.max_access_size = 1".
+> > > 
+> > > BTW do you happen to know why that's the case for KVM? Because if kvm
+> > > ignores valid.max_access_size generally then commit 5d971f9e6725 is
+> > > incomplete, and we probably have some related kvm-only bugs.
+> > 
+> > It remains a mystery for me why KVM accel does not enforce
+> > "valid.max_access_size".
+> > 
+> > In the thread I started earlier (which led to this patch), at
+> > 
+> >    "IO port write width clamping differs between TCG and KVM"
+> >    https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg00199.html
+> 
+> [...]
+> 
+> > So, I think the bug is somehow "distributed" between
+> > flatview_write_continue(), flatview_access_allowed(), and
+> > memory_access_size(). flatview_access_allowed() does not care about "l"
+> > at all, when it should (maybe?) compare it against
+> > "mr->ops->valid.max_access_size". In turn, memory_access_size()
+> > *silently* reduces the access width, based on
+> > "->ops->valid.max_access_size".
+> > 
+> > And all this this *precedes* the call to memory_region_access_valid(),
+> > which is only called from within memory_region_dispatch_write(), which
+> > already gets the reduced width only.
+> > 
+> > Now, flatview_access_allowed() is from commit 3ab6fdc91b72
+> > ("softmmu/physmem: Introduce MemTxAttrs::memory field and
+> > MEMTX_ACCESS_ERROR", 2022-03-21), and the fact it does not check "len"
+> > seems intentional -- it only takes "len" for logging.
+> > 
+> > Hmm. After digging a lot more, I find the issue may have been introduced
+> > over three commits:
+> > 
+> > - 82f2563fc815 ("exec: introduce memory_access_size", 2013-05-29), which
+> >    (IIUC) was the first step towards automatically reducing the address
+> >    width, but at first only based on alignment,
+> > 
+> > - 23326164ae6f ("exec: Support 64-bit operations in address_space_rw",
+> >    2013-07-14), which extended the splitting based on
+> >    "MemoryRegionOps.impl",
+> > 
+> > - e1622f4b1539 ("exec: fix incorrect assumptions in memory_access_size",
+> >    2013-07-18), which flipped the splitting basis to
+> >    "MemoryRegionOps.valid".
+> > 
+> > To me, 23326164ae6f seems *vaguely* correct ("vague" is not criticism
+> > for the commit, it's criticism for my understanding :)); after all we're
+> > on our way towards the device model, and the device model exposes via
+> > "MemoryRegionOps.impl" what it can handle. Plus, commit 5d971f9e6725
+> > does direct us towards "MemoryRegionOps.impl"!
+> > 
+> > But clearly there must have been something wrong with 23326164ae6f,
+> > according to e1622f4b1539...
+> 
+> Maybe the long-standing unaligned access problem? Could be fixed by:
+> https://lore.kernel.org/qemu-devel/20210619172626.875885-15-richard.henderson@linaro.org/
 
-Signed-off-by: Peter Lieven <pl@kamp.de>
----
- MAINTAINERS | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+indeed. want to dust it up and post?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b270eb8e5b..995f1156f9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3428,7 +3428,7 @@ F: block/vmdk.c
+> > The latter is what introduced the current "silent splitting of access
+> > based on 'valid'". The message of commit e1622f4b1539 says, almost like
+> > an afterthought:
+> > 
+> > >      access_size_max can be mr->ops->valid.max_access_size because memory.c
+> > >      can and will still break accesses bigger than
+> > >      mr->ops->impl.max_access_size.
+> > 
+> > I think this argument may have been wrong: if "impl.max_access_size" is
+> > large (such as: unset), but "valid.max_access_size" is small, that just
+> > means:
+> > 
+> >    the implementation is flexible and can deal with any access widths (so
+> >    "memory.c" *need not* break up accesses for the device model's sake),
+> >    but the device should restrict the *guest* to small accesses. So if
+> >    the guest tries something larger, we shouldn't silently accommodate
+> >    that.
+> 
+> Indeed. '.impl' is a software thing for the device modeller, ideally one
+> will chose a value that allows the simplest implementation. I.e. if a
+> device only allows 8-bit access, use 8-bit registers aligned on a 64-bit
+> boundary, the model might use:
+> 
+>   .impl.min_access_size = 8,
+>   .impl.max_access_size = 1,
+> 
+> Also we need to keep in mind that even if most MemoryRegionOps structs
+> are 'static const', such structure can be dynamically created. I.e.:
+> https://lore.kernel.org/qemu-devel/20200817161853.593247-5-f4bug@amsat.org/
+> 
+> > I have zero idea how to fix this, but I feel that the quoted argument
+> > from commit e1622f4b1539 is the reason why KVM accel is so lenient that
+> > it sort of "de-fangs" commit 5d971f9e6725.
+> > 
+> > Laszlo
+> > 
 
- RBD
- M: Ilya Dryomov <idryomov@gmail.com>
--R: Peter Lieven <pl@kamp.de>
-+R: Peter Lieven <pl@dlhnet.de>
- L: qemu-block@nongnu.org
- S: Supported
- F: block/rbd.c
-@@ -3454,7 +3454,7 @@ F: block/blkio.c
- iSCSI
- M: Ronnie Sahlberg <ronniesahlberg@gmail.com>
- M: Paolo Bonzini <pbonzini@redhat.com>
--M: Peter Lieven <pl@kamp.de>
-+M: Peter Lieven <pl@dlhnet.de>
- L: qemu-block@nongnu.org
- S: Odd Fixes
- F: block/iscsi.c
-@@ -3477,7 +3477,7 @@ T: git https://repo.or.cz/qemu/ericb.git nbd
- T: git https://gitlab.com/vsementsov/qemu.git block
-
- NFS
--M: Peter Lieven <pl@kamp.de>
-+M: Peter Lieven <pl@dlhnet.de>
- L: qemu-block@nongnu.org
- S: Maintained
- F: block/nfs.c
---
-2.34.1
-
-
-
-
-________________________________
-KAMP Netzwerkdienste GmbH
-Vestische Stra=DFe 89-91 | 46117 Oberhausen
-
-Fon:    +49 (0) 208 89 402-0<tel:+49208894020>
-Fax:    +49 (0) 208 89 402-40<tel:+492088940240>
-WWW:    http://www.kamp.de<https://www.kamp.de/>
-
-Gesch=E4ftsf=FChrer: Michael Lante | Falk Brockerhoff | Daniel Hagemeier | =
-Marcel Chorengel | Dr. Claus Boyens
-Amtsgericht Duisburg | HRB Nr. 12154 | USt-IdNr.: DE120607556
-
-HINWEIS: UNSERE HINWEISE ZUM UMGANG MIT PERSONENBEZOGENEN DATEN FINDEN SIE =
-IN UNSERER DATENSCHUTZERKL=C4RUNG UNTER HTTPS://WWW.KAMP.DE/DATENSCHUTZ.HTM=
-L<https://www.kamp.de/DATENSCHUTZ.HTML>
-
-DIESE NACHRICHT IST NUR F=DCR DEN ADRESSATEN BESTIMMT. ES IST NICHT ERLAUBT=
-, DIESE NACHRICHT ZU KOPIEREN ODER DRITTEN ZUG=C4NGLICH ZU MACHEN. SOLLTEN =
-SIE IRRT=DCMLICH DIESE NACHRICHT ERHALTEN HABEN, BITTE ICH UM IHRE MITTEILU=
-NG PER E-MAIL ODER UNTER DER OBEN ANGEGEBENEN TELEFONNUMMER.
-
-________________________________
 
