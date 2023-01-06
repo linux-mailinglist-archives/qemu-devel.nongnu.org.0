@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9BF660A2A
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 00:17:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73FE4660A2F
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 00:18:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDvxU-0000JD-Ih; Fri, 06 Jan 2023 18:17:09 -0500
+	id 1pDvyV-0000qD-6Y; Fri, 06 Jan 2023 18:18:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDvxF-0000G7-Gr
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:17:03 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ id 1pDvy6-0000l0-RI
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:17:46 -0500
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDvxD-0003GX-5f
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:16:52 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- fz16-20020a17090b025000b002269d6c2d83so6812871pjb.0
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 15:16:50 -0800 (PST)
+ id 1pDvy3-0003MR-8t
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:17:45 -0500
+Received: by mail-pg1-x534.google.com with SMTP id g68so1067047pgc.11
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 15:17:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ao03ELuqPG9lcbC0iBSqGZY9Z9dLEgECT1d+sKYn89E=;
- b=ONKK9uOqj4bF7IoGyU7JxqkkhLfdU3TCv1UEQVHdNfPPHnLiKm34fEKwXI+5cYnbwO
- TTfkHiDfDf9k5R3WAZWplfzYgmLvos2L/k9LOz2u1/hR9nx7sga0VVr1ITB/QUWbN3Q+
- 9P9pBuB4K9R3B+k2jyJpeGYijAfke/EkQ8wj/mLQfeQyloD3s025Rpi5mO/RIObcT3Rs
- Cnx90YrkYo/AtNXI9SFKnBe9FM3WUrNRfhJ8WQO2DYx+H8RIRT3gpn+aq6OOdK2164Z/
- AHalsB5vWSEO7gTfCsMC1hJQlZX/IobtQaGei5ttlESTEtHd97y8Q8bTojnh+S8MGfva
- 2jRw==
+ bh=vNQa36Qj97i4mtA4/uju5ksQcR33y80Cj407Vcoccs0=;
+ b=vKCPhQynl0EbI9jU7WMV0jSmNMrnLZVwYmHvDGRDb0ZZ9aiS0OpC7wvQWYoGlFWYhQ
+ znpGiHeoz5VMO5/fbcWZz8HZ5T0E4k+/9LoJZeYmY8sRLtusdOd52MTYF4e9RQL3ingM
+ 5BG7H/PbyExqV01yC6YrmZJ/coq042eTz/dHVnsU8KThgwS8y3y0GlawAtXzhVoAn6GG
+ WPt1aMlklq3xXNk5fAWDPkdBg4ZZeKqcmjdkMsIfZQSnkDwLI6y26Ihy2XoZ1ah7HrhE
+ C2IrQdKDXy5VE4xu8KPa0kgkzyPH7/veyktV6PjpuiQDQp8aet3Y3j3JQk8TQWBd5C82
+ tEsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ao03ELuqPG9lcbC0iBSqGZY9Z9dLEgECT1d+sKYn89E=;
- b=Ij3bOMXDDVfJ9BgWsgTXpZePmUxBGlTcV8rLDy0O7VdLPH4btMEKGNTSfIpNx++TcP
- DOGJnklxt0RmNg/blbNGYoZ+Zs8+iMHBMc6lFjFbTfRjb8UXX/s7r0gWzllHiAXOYNJ5
- g6KkVtelEK2EQ8jefhCPhASGpiq96w8m0XVDGzfRK8yF4D4ZgsHmJjF7Tcek+nOLl6en
- Ja/NsWy2EPmT4sWgf8SrcRKorNaHUIyRXvANRsh4oy6yXc5cCsvkQ39QDx31iBKPpGUc
- KgANrVJS0mFEH4MXzycaSbNEb9aPYI94F9O2Zp9M/15gFTjz6B04UEDXIb0XNTEJJF61
- EUtg==
-X-Gm-Message-State: AFqh2kok4oSk2wuiq8zc0v+4NnCaCW/DKYig7BWKhBcc5KUU2H75mzu6
- /94XhKeCy/pQIbPeF96Ou842zQ==
-X-Google-Smtp-Source: AMrXdXvcUhxuGZOpOcNkIF8URGZToGS1tJciM9jvulpOLwZ8Fh2d1msUsT8q2YlNQUmQ7Ygo+DjVBA==
-X-Received: by 2002:a17:902:d48f:b0:192:a664:1b2d with SMTP id
- c15-20020a170902d48f00b00192a6641b2dmr37333604plg.30.1673047009120; 
- Fri, 06 Jan 2023 15:16:49 -0800 (PST)
+ bh=vNQa36Qj97i4mtA4/uju5ksQcR33y80Cj407Vcoccs0=;
+ b=nAUuCihfWYjiBj4r+n9/hzgfZ9aThoeOsDLRlZUBMR5a2n+nAvn2OqTTYeju0+VUNT
+ l3HmrFcsac2Yuou+wjSmcz/YXv4QQKKt4ma230OnBDyqtd+9bledZ16g0E9g53ZphMQf
+ RKc0H6BdPJOv+K7aCo1nRnzM6iWy8tHE8ZzZh63wBhWPlnVsHnqs9A61ufxau+qIPVC2
+ JLE3o27pzQX/IYNLfOHh/cP2dbPb4gYgjwJ918TxqRmb1xLRlDxNxcO7qnHio+WOSsaK
+ 1JDov2xN1gOe1PnKGrha1X7TW3gGF2tDsLFiE0HjEdRSzcQ8NqNq9UyUkfahZNYZ5pXb
+ qQMg==
+X-Gm-Message-State: AFqh2kr21zkcbvAlvHBxSMl6H90W62RO1UbH4pBbEmQxN/k2qREPfCih
+ /RzjfCc8z7RhH9YcJc1FBU5sUw==
+X-Google-Smtp-Source: AMrXdXueSR5nzJhsUuMK4PdXKIeTq+JvEkBAqcmeIPYixz4Klx3uuAK/6fJaxaD8a4nF85ttpIz7+w==
+X-Received: by 2002:a62:1d96:0:b0:575:e8c5:eb14 with SMTP id
+ d144-20020a621d96000000b00575e8c5eb14mr55743796pfd.18.1673047061609; 
+ Fri, 06 Jan 2023 15:17:41 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:9d81:5b04:51d7:acae?
  ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
  by smtp.gmail.com with ESMTPSA id
- d13-20020a170902f14d00b001873aa85e1fsm1352898plb.305.2023.01.06.15.16.48
+ b193-20020a621bca000000b005810c4286d6sm1649993pfb.0.2023.01.06.15.17.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Jan 2023 15:16:48 -0800 (PST)
-Message-ID: <71790c62-a52e-bac9-71c9-ec893f06b906@linaro.org>
-Date: Fri, 6 Jan 2023 15:16:46 -0800
+ Fri, 06 Jan 2023 15:17:41 -0800 (PST)
+Message-ID: <9e1ba204-0872-02fd-c4c4-6786800c54a0@linaro.org>
+Date: Fri, 6 Jan 2023 15:17:39 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 15/21] gdbstub: introduce gdb_get_max_cpus
+Subject: Re: [PATCH v2 16/21] gdbstub: specialise stub_can_reverse
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20230105164320.2164095-1-alex.bennee@linaro.org>
- <20230105164320.2164095-16-alex.bennee@linaro.org>
+ <20230105164320.2164095-17-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230105164320.2164095-16-alex.bennee@linaro.org>
+In-Reply-To: <20230105164320.2164095-17-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -96,16 +95,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/5/23 08:43, Alex Bennée wrote:
-> +unsigned int gdb_get_max_cpus(void)
-> +{
-> +    CPUState *cpu;
-> +    unsigned int max_cpus = 1; /* global variable max_cpus exists only in system mode */
+> Currently we only support replay for softmmu mode so it is a constant
+> false for user-mode.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   gdbstub/internals.h |  1 +
+>   gdbstub/gdbstub.c   | 13 ++-----------
+>   gdbstub/softmmu.c   |  5 +++++
+>   gdbstub/user.c      |  5 +++++
+>   4 files changed, 13 insertions(+), 11 deletions(-)
 
-You can delete the out-of-date comment, since there's no global variable anywhere.
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
