@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE9F65FA03
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 04:16:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C29C65FA2D
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 04:28:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDdBo-0001Cq-2P; Thu, 05 Jan 2023 22:14:40 -0500
+	id 1pDdBs-0001D0-Tx; Thu, 05 Jan 2023 22:14:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=363443eaf=alistair.francis@opensource.wdc.com>)
- id 1pDdBm-0001CB-1X
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:14:38 -0500
+ id 1pDdBn-0001CR-3w
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:14:39 -0500
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=363443eaf=alistair.francis@opensource.wdc.com>)
- id 1pDdBk-00088M-4S
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:14:37 -0500
+ id 1pDdBl-000892-BW
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:14:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1672974875; x=1704510875;
+ t=1672974877; x=1704510877;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=5AXe3twnY8qRsIVhaK0DDoq+iL4EKufgELR3QT3Xi2Q=;
- b=CH83WPRzXjDWiNwBCh2xcqkqcgvmcz+veOZ0uX4vCl9pgBmo4idDy2fa
- 8hv0fmfMvsWhMh4lnZasTM8u32+brvwSOCUIJyXu/YYIBsm/Va+O4G+w4
- 92dW5s7P/twWVEmkVc0GrChlS4VjOn5W/ef1tW/Plqj62R2Zz1MEhcBMY
- pwgpu4rVqtxJM5ZfxYfLi90lgIG64EGcgxLLTAuWqq9SrWUwORQOpue0R
- n38BsHFydFtRTmhyuxLy8ZwmM/3W315kUK3eT2fUg/xp6UlJN9WYY7eAn
- x0NQ4gIC1dtHpWffP7vvyTZ4xA/aKRSPZSDL8kPF54N4jftdAY2HX1Nfd g==;
-X-IronPort-AV: E=Sophos;i="5.96,304,1665417600"; d="scan'208";a="220254762"
+ bh=yTwu9/tZ7a+03Ros3BXQg71H300VT0ZyIvOay3XEQg4=;
+ b=YnX4ri4C+tDn7lTCNJd/nynEjxOZadJaIPHHPAoXuamjZr7z3rA+ywsX
+ l/+xgKchDHu5LxfdmoizG/27422gTz7FpbiCYCLnAcWhIZis/UsSlV3HU
+ MepuFdAfWvon493acTI/hjKfH9ff+X6TjJBtQxRHVSPULWndGO3C//VYB
+ SjB7Ie83pD2zkQReuhrjRdv58quOGc3FQ+gYvCChXkTHYEG5ZjPfyd3Kn
+ hqB1/LtbtJORaQfiQJEyjwvz7qEEtkmt2AD9qFk+RvdizH0c4CGEXo23F
+ Rxo/44rOyWJrMlGvDLzOrhwhyicYp/F1PU6MQbisLMb1mswPax4aAO+cb Q==;
+X-IronPort-AV: E=Sophos;i="5.96,304,1665417600"; d="scan'208";a="220254766"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 06 Jan 2023 11:14:24 +0800
-IronPort-SDR: IhEhL2lOe3yFqdJtpnWC+X0gdNOR58/+nbf/yvauWMz5Fp5G5Yfqu/Y8SuXgba/DbPV0C5ju5/
- I65X2PyiVR04nPUXobHJYIDf0CYPbO/V1IKkfNb2TcmKo708sS3asferf+Uo9Kq3iWVJedBDoO
- mKFWmmjPlJKinKFXIxfb70rc1HA3Q6l+imAK/oFakiv/yD4ToYRR2MX9nr7U819Crvs0JPX9Y8
- TOW1qD0DsCk0K83/HmOZFodOBwwhlfWxZkCSI8g6YVZxSAGa9QhOwJGS926xkVri6NmtROf5P5
- ln4=
+ by ob1.hgst.iphmx.com with ESMTP; 06 Jan 2023 11:14:26 +0800
+IronPort-SDR: gPfdq6inm0Wz3rx5ADm+ZDfQ0Et5IO3MX16pWUc8N+voWrlxgBreljEnOzf53JAZip441BQcAn
+ +QiVSJIEb6P4xEH4GJ9JE9VL7t8mf3XQhMHvgOQH3pUOxIKcIs+diyKWn+ml2P/qBg+ViTqmzX
+ GohvCo4bdkbY5PSQgVTCY+qbVNWJkMVdEbjesjahEnggyk1UIdfH979Ovszu8To/fVr1vUWf3b
+ 1dADIKNGzXCi7bFnZd78heZmWh4C5woln9qtsalssLdf0Nsy72JpP3+lB+wYfuTeY6J4b29XNs
+ KSI=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 05 Jan 2023 18:26:36 -0800
-IronPort-SDR: yetRGAmJSUSuPq2JI3KlKI0A5G0Avk8AcMOTDIXlqhPWXxPDPYUSKEBCVNZh1mvBpe9BiM2Bz7
- ve/XAGktTSIAXCj9esEvxIidSwh1IAC65SdCznbCpAnRKtotzfSRKxtz10fq/qtqClbjEabvrz
- nXIrd2HIvOvTSgxez6ZkL24otVGyPy8vrQqEVeEZV2d/VE9odZMmYDmJbZ3Rig93STtmxqa8Ce
- WP4lGhQc7XUqfUejihPPeX8UAWBCgH68WiuUKTt1PeKFubSRy6EP22IR/4mGKU5wi9TGMZ81Fl
- A1s=
+ 05 Jan 2023 18:26:37 -0800
+IronPort-SDR: D861HjZgF2MCwUcwXAdGE/NR3MKryBAoiK/f9SMQPYZiB1wkBP5NPzMoxmPnJBgbrucws28YbW
+ o4QxWywowocW6SnKfvbzr7I+PoqQP2o1cveqUxJY9WYux04qeuP+/7eCyISxcCFOJg9koHe4kU
+ pnHcy8zbcIjtTcEsutLTnT3zD74c2/0lPmAeqiR8cEUGlUl2AY3J/Y2of6p9moIP+2F0P0uj3M
+ J+ILy99m8FyHSR8rdsImfnWoxXmHtJdhxb3yY4IVApLSOm8PRC3hF2wJHRxTWRmgEntCr3yfi+
+ VqQ=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 05 Jan 2023 19:14:26 -0800
+ 05 Jan 2023 19:14:28 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Np7jX71mLz1Rwt8
- for <qemu-devel@nongnu.org>; Thu,  5 Jan 2023 19:14:24 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Np7jZ3LwBz1Rwrq
+ for <qemu-devel@nongnu.org>; Thu,  5 Jan 2023 19:14:26 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1672974864; x=1675566865; bh=5AXe3twnY8qRsIVhaK
- 0DDoq+iL4EKufgELR3QT3Xi2Q=; b=MNQGawpu+qWKkevZI9eXfdKHL2HktHQh6E
- /3wa7j/FnGLoy1rEvqVOfNrphrZ35INBOwW2kbhTP81uhJ+EiVyx/isPzQlSxaRf
- iJeG2x06FbSmMPJ9DGTromMaDi3i9zBR1IAqpqLkiO6EkSI7oU0U8Djmbxb8tmh6
- 96NUpGDfLZkesTWYpfWwegcqXzqImrvVCHBBsAOJU17+LXDSNBAvP6slhyjaFGOV
- ZsuBIOinvm9TsfSAivKA2g1sZMW7H5R6tM3lRk0I6ezMz5G0LJe8j/VXqv+YOpg6
- E9wa+pSMEoAVmWTMocY6qlG4PFU+oUlWNK3xmIbMgoCKq1H89Kig==
+ :from; s=dkim; t=1672974865; x=1675566866; bh=yTwu9/tZ7a+03Ros3B
+ XQg71H300VT0ZyIvOay3XEQg4=; b=j0nKg4lLYLUw2bwo/Bq1+2cM7GA6lTUDu8
+ qipQr/wM8BakYpno0qdN5qGH1InAFKwCZ2H5VPPpp6mGH5pqiWHz9XQPZgAcFpZL
+ 5e0tCChWh/bLytZwn2cDTqtpFWUIkBHCcx47bpFVt+kd/ioZjQI3rrfImbn5rGC1
+ Ovd38Cx3PurIGPq5eyfmCijC4nGRdSWiD3HY13ivkFI5xtdGmy6oA79EOCpE/iZi
+ 4YKIvZCBVOslH8wfqkhU7rKCbAgy3bwOw2nloILvbsNVoDLrKsIhMzt+EG3DiPdk
+ 1vFUHJyIdZ7laIj9HXti5n9MF5IPv4PfLdHV4d3tvpVwJpxNBdUg==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id mFxBxK-UXY5b for <qemu-devel@nongnu.org>;
- Thu,  5 Jan 2023 19:14:24 -0800 (PST)
+ port 10026) with ESMTP id ns0fKIcx9tYv for <qemu-devel@nongnu.org>;
+ Thu,  5 Jan 2023 19:14:25 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.167.28])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Np7jW0yLyz1RvTp;
- Thu,  5 Jan 2023 19:14:22 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Np7jX5S3kz1RvLy;
+ Thu,  5 Jan 2023 19:14:24 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v3 11/43] target/riscv: Add itrigger support when icount is
- enabled
-Date: Fri,  6 Jan 2023 13:13:25 +1000
-Message-Id: <20230106031357.777790-12-alistair.francis@opensource.wdc.com>
+Subject: [PULL v3 12/43] target/riscv: Enable native debug itrigger
+Date: Fri,  6 Jan 2023 13:13:26 +1000
+Message-Id: <20230106031357.777790-13-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
 References: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
@@ -117,153 +116,120 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
-The max count in itrigger can be 0x3FFF, which will cause a no trivial
-translation and execution overload.
+When QEMU is not in icount mode, execute instruction one by one. The
+tdata1 can be read directly.
 
-When icount is enabled, QEMU provides API that can fetch guest
-instruction number. Thus, we can set an timer for itrigger with
-the count as deadline.
-
-Only when timer expires or priviledge mode changes, do lazy update
-to count.
+When QEMU is in icount mode, use a timer to simulate the itrigger. The
+tdata1 may be not right because of lazy update of count in tdata1. Thus,
+We should pack the adjusted count into tdata1 before read it back.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221013062946.7530-3-zhiwei_liu@linux.alibaba.com>
+Message-Id: <20221013062946.7530-4-zhiwei_liu@linux.alibaba.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h        |  2 ++
- target/riscv/debug.h      |  1 +
- target/riscv/cpu_helper.c |  3 ++
- target/riscv/debug.c      | 59 +++++++++++++++++++++++++++++++++++++++
- 4 files changed, 65 insertions(+)
+ target/riscv/debug.c | 72 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 72 insertions(+)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index c32e484c0b..b0b4048de9 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -329,6 +329,8 @@ struct CPUArchState {
-     target_ulong tdata3[RV_MAX_TRIGGERS];
-     struct CPUBreakpoint *cpu_breakpoint[RV_MAX_TRIGGERS];
-     struct CPUWatchpoint *cpu_watchpoint[RV_MAX_TRIGGERS];
-+    QEMUTimer *itrigger_timer[RV_MAX_TRIGGERS];
-+    int64_t last_icount;
-=20
-     /* machine specific rdtime callback */
-     uint64_t (*rdtime_fn)(void *);
-diff --git a/target/riscv/debug.h b/target/riscv/debug.h
-index cc3358e69b..c471748d5a 100644
---- a/target/riscv/debug.h
-+++ b/target/riscv/debug.h
-@@ -146,4 +146,5 @@ bool riscv_cpu_debug_check_watchpoint(CPUState *cs, C=
-PUWatchpoint *wp);
- void riscv_trigger_init(CPURISCVState *env);
-=20
- bool riscv_itrigger_enabled(CPURISCVState *env);
-+void riscv_itrigger_update_priv(CPURISCVState *env);
- #endif /* RISCV_DEBUG_H */
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 9d1d1bf9f1..6230f65f70 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -676,6 +676,9 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ul=
-ong newpriv)
-     if (newpriv =3D=3D PRV_H) {
-         newpriv =3D PRV_U;
-     }
-+    if (icount_enabled() && newpriv !=3D env->priv) {
-+        riscv_itrigger_update_priv(env);
-+    }
-     /* tlb_flush is unnecessary as mode is contained in mmu_idx */
-     env->priv =3D newpriv;
-     env->xl =3D cpu_recompute_xl(env);
 diff --git a/target/riscv/debug.c b/target/riscv/debug.c
-index 036161649f..371862cf38 100644
+index 371862cf38..b3574b250f 100644
 --- a/target/riscv/debug.c
 +++ b/target/riscv/debug.c
-@@ -30,6 +30,7 @@
- #include "trace.h"
- #include "exec/exec-all.h"
- #include "exec/helper-proto.h"
-+#include "sysemu/cpu-timers.h"
-=20
- /*
-  * The following M-mode trigger CSRs are implemented:
-@@ -567,6 +568,62 @@ void helper_itrigger_match(CPURISCVState *env)
-     }
+@@ -624,10 +624,80 @@ void riscv_itrigger_update_priv(CPURISCVState *env)
+     riscv_itrigger_update_count(env);
  }
 =20
-+static void riscv_itrigger_update_count(CPURISCVState *env)
++static target_ulong itrigger_validate(CPURISCVState *env,
++                                      target_ulong ctrl)
 +{
-+    int count, executed;
-+    /*
-+     * Record last icount, so that we can evaluate the executed instruct=
-ions
-+     * since last priviledge mode change or timer expire.
-+     */
-+    int64_t last_icount =3D env->last_icount, current_icount;
-+    current_icount =3D env->last_icount =3D icount_get_raw();
++    target_ulong val;
 +
-+    for (int i =3D 0; i < RV_MAX_TRIGGERS; i++) {
-+        if (get_trigger_type(env, i) !=3D TRIGGER_TYPE_INST_CNT) {
-+            continue;
-+        }
-+        count =3D itrigger_get_count(env, i);
-+        if (!count) {
-+            continue;
-+        }
-+        /*
-+         * Only when priviledge is changed or itrigger timer expires,
-+         * the count field in itrigger tdata1 register is updated.
-+         * And the count field in itrigger only contains remaining value=
-.
-+         */
-+        if (check_itrigger_priv(env, i)) {
-+            /*
-+             * If itrigger enabled in this priviledge mode, the number o=
-f
-+             * executed instructions since last priviledge change
-+             * should be reduced from current itrigger count.
-+             */
-+            executed =3D current_icount - last_icount;
-+            itrigger_set_count(env, i, count - executed);
-+            if (count =3D=3D executed) {
-+                do_trigger_action(env, i);
++    /* validate the generic part first */
++    val =3D tdata1_validate(env, ctrl, TRIGGER_TYPE_INST_CNT);
++
++    /* validate unimplemented (always zero) bits */
++    warn_always_zero_bit(ctrl, ITRIGGER_ACTION, "action");
++    warn_always_zero_bit(ctrl, ITRIGGER_HIT, "hit");
++    warn_always_zero_bit(ctrl, ITRIGGER_PENDING, "pending");
++
++    /* keep the mode and attribute bits */
++    val |=3D ctrl & (ITRIGGER_VU | ITRIGGER_VS | ITRIGGER_U | ITRIGGER_S=
+ |
++                   ITRIGGER_M | ITRIGGER_COUNT);
++
++    return val;
++}
++
++static void itrigger_reg_write(CPURISCVState *env, target_ulong index,
++                               int tdata_index, target_ulong val)
++{
++    target_ulong new_val;
++
++    switch (tdata_index) {
++    case TDATA1:
++        /* set timer for icount */
++        new_val =3D itrigger_validate(env, val);
++        if (new_val !=3D env->tdata1[index]) {
++            env->tdata1[index] =3D new_val;
++            if (icount_enabled()) {
++                env->last_icount =3D icount_get_raw();
++                /* set the count to timer */
++                timer_mod(env->itrigger_timer[index],
++                          env->last_icount + itrigger_get_count(env, ind=
+ex));
 +            }
-+        } else {
-+            /*
-+             * If itrigger is not enabled in this priviledge mode,
-+             * the number of executed instructions will be discard and
-+             * the count field in itrigger will not change.
-+             */
-+            timer_mod(env->itrigger_timer[i],
-+                      current_icount + count);
 +        }
++        break;
++    case TDATA2:
++        qemu_log_mask(LOG_UNIMP,
++                      "tdata2 is not supported for icount trigger\n");
++        break;
++    case TDATA3:
++        qemu_log_mask(LOG_UNIMP,
++                      "tdata3 is not supported for icount trigger\n");
++        break;
++    default:
++        g_assert_not_reached();
 +    }
++
++    return;
 +}
 +
-+static void riscv_itrigger_timer_cb(void *opaque)
++static int itrigger_get_adjust_count(CPURISCVState *env)
 +{
-+    riscv_itrigger_update_count((CPURISCVState *)opaque);
-+}
-+
-+void riscv_itrigger_update_priv(CPURISCVState *env)
-+{
-+    riscv_itrigger_update_count(env);
++    int count =3D itrigger_get_count(env, env->trigger_cur), executed;
++    if ((count !=3D 0) && check_itrigger_priv(env, env->trigger_cur)) {
++        executed =3D icount_get_raw() - env->last_icount;
++        count +=3D executed;
++    }
++    return count;
 +}
 +
  target_ulong tdata_csr_read(CPURISCVState *env, int tdata_index)
  {
++    int trigger_type;
      switch (tdata_index) {
-@@ -796,5 +853,7 @@ void riscv_trigger_init(CPURISCVState *env)
-         env->tdata3[i] =3D 0;
-         env->cpu_breakpoint[i] =3D NULL;
-         env->cpu_watchpoint[i] =3D NULL;
-+        env->itrigger_timer[i] =3D timer_new_ns(QEMU_CLOCK_VIRTUAL,
-+                                              riscv_itrigger_timer_cb, e=
-nv);
-     }
- }
+     case TDATA1:
++        trigger_type =3D extract_trigger_type(env, env->tdata1[env->trig=
+ger_cur]);
++        if ((trigger_type =3D=3D TRIGGER_TYPE_INST_CNT) && icount_enable=
+d()) {
++            return deposit64(env->tdata1[env->trigger_cur], 10, 14,
++                             itrigger_get_adjust_count(env));
++        }
+         return env->tdata1[env->trigger_cur];
+     case TDATA2:
+         return env->tdata2[env->trigger_cur];
+@@ -656,6 +726,8 @@ void tdata_csr_write(CPURISCVState *env, int tdata_in=
+dex, target_ulong val)
+         type6_reg_write(env, env->trigger_cur, tdata_index, val);
+         break;
+     case TRIGGER_TYPE_INST_CNT:
++        itrigger_reg_write(env, env->trigger_cur, tdata_index, val);
++        break;
+     case TRIGGER_TYPE_INT:
+     case TRIGGER_TYPE_EXCP:
+     case TRIGGER_TYPE_EXT_SRC:
 --=20
 2.39.0
 
