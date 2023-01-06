@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22CC86608F1
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 22:52:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168876608F7
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 22:54:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDucM-0008Rr-TV; Fri, 06 Jan 2023 16:51:14 -0500
+	id 1pDuei-00010D-3w; Fri, 06 Jan 2023 16:53:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDucK-0008Rh-PX
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 16:51:12 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDucJ-0001DG-9e
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 16:51:12 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- c8-20020a17090a4d0800b00225c3614161so6560157pjg.5
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 13:51:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VGHn6S6/6DF3plONs2iI0PIDu9iYaIke/scDDsekcvU=;
- b=iirQBcf4NENqUubqgK49zKEs5uNE58Ns7hM3XukdXNOIJwDoApe4faStIDpT2CeS+R
- aNJSDmOlFdin5z7phZsYOXpZOoymKhnJ7ABaQelNBhjp2P6LL2T53VMo3FZLvzlsb5mu
- E95Wd+1l07L6aSkvCTNY/OSeqCAPro3nakz6RwelXNZK7j+sHS2lQdKbeyK2X+CuBDXu
- 1EXS0cG19CycWabQJji0jJRnF1+JJUBYGMWWUh8D0tYjpQh+Rc9p/VJeXyYU3fEsXxrw
- e+wWUexOkul/L+NppXUCrKuQGWVRtYEtOGP68kH7GeUXl7niPFilpX/D6MbgJIWM8ETL
- tESQ==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDueg-0000zs-3t
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 16:53:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDuee-0005Of-K0
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 16:53:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673042015;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WSZ1vKIzqHWk12uOpvcGAlHxJQrcJ0JSD/fWdpVNtdU=;
+ b=ChxrU2dHqLC8fbRHyxVwfPtNdkGx0GMGJgZFBska3M4NY2W1QU2wsk27Of30YF7AbSgYIT
+ e4YkiEAIyxW0es0vj9zJb2snvSsf/nkiZj6K2Rr5H/554Y8KhVe0s3j3Wxe1ZpBVdhATXR
+ PQ4Rxj8fBYfre/RbztsxkRLHv84Mpaw=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-556-avEg6bRUM9O_jQeDC_ZvlA-1; Fri, 06 Jan 2023 16:53:34 -0500
+X-MC-Unique: avEg6bRUM9O_jQeDC_ZvlA-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ bq3-20020a056512150300b004b9c5dff97bso990265lfb.17
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 13:53:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VGHn6S6/6DF3plONs2iI0PIDu9iYaIke/scDDsekcvU=;
- b=d0MYXQQn1PzN6pN+PXpT4y+gyz/4juftIAQ+rSPrVdO/yMmRLFFL9HUh+K+s9g4W7O
- zalMYGBo4F1x5rLwvcr1ah3YDkvoSHAwqVPbsjCc2ZD3qNI2VxEnwQbeilPajplDWwK+
- NMo0LYf7IZprweoPfmKD5N0/t1VTS6AiWJwUA43swjbererfWstY1YwO2W8oL87FZTGE
- hREj885Majil3M/EQNwP1QxdhExxhOfwWkbxGwAmWAe0LKdaUhOUw+LE6tNhhoyMbmET
- sRtYSi7mDVefawhS2hlkokigrvyDkG5wooaAftTIIjFPAKO0oVPFhVtpwVYn9lmnwRAP
- Pvaw==
-X-Gm-Message-State: AFqh2kreGdNPJPcAxASbq2HluTvDMTZcaSEF2kmtEe4kwI0PfVwEqKjD
- KeMGuWclf++KnVMddX7OMdAq8A==
-X-Google-Smtp-Source: AMrXdXvLaEVxzs9Uf/jG41/fhk838WegtMVLYszIyODaZnus8nK71cvB+PVKilYQwQz2fuLqVOOwcQ==
-X-Received: by 2002:a05:6a20:4995:b0:aa:7eab:25a5 with SMTP id
- fs21-20020a056a20499500b000aa7eab25a5mr63546239pzb.34.1673041869643; 
- Fri, 06 Jan 2023 13:51:09 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:9d81:5b04:51d7:acae?
- ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
- by smtp.gmail.com with ESMTPSA id
- qe12-20020a17090b4f8c00b00218fba260e2sm3166649pjb.43.2023.01.06.13.51.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Jan 2023 13:51:09 -0800 (PST)
-Message-ID: <30d07d27-4e33-b892-6da7-fd955a012055@linaro.org>
-Date: Fri, 6 Jan 2023 13:51:07 -0800
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WSZ1vKIzqHWk12uOpvcGAlHxJQrcJ0JSD/fWdpVNtdU=;
+ b=im4uK/3ZaoJfohB1kr4rzG/DmrId3W6ySyXcNmifOQZL5hAfoHJ/Gn4wImzA7LUa+A
+ l6AGlURv5BIUdmtd/Ae8Qar/rVQBLqZlfSwIXlYVGoO64HyLHV5FGVfU6AeoSl2s5bN1
+ RTRev/411LSyNOPx2fKiNMINOhrj6A0qB3r/94B8ahUMx30qa92YLOHm8GhPGz4RWD3G
+ NyVwl6aoEVL/Hs87xZqTL5sXgWh4zd/BkQSk7HJrume5dobH8s7LsOwz30HOB7P9AS+6
+ FvvduBHcPv4g8fplE802FbmbVYznaaNkBD53ubYsMfRhhCIkzsDzFLUtfuci6Qyf8M4W
+ ZK0g==
+X-Gm-Message-State: AFqh2kp7P30BdxLh7LkZzbOlZ3KEB/IxgYI60LrCMKhL4L09X0bo631N
+ qD+sP42J1pdTDe1M0ry+9h2wJvIQyPM3oMmqDGKXm6HJeXQCFjpu7EUt7dM3SQUkjepHXoXyT4+
+ JzOWE4RCW1rC2wc8dDaaha8T8tdi014c=
+X-Received: by 2002:a2e:a58a:0:b0:27f:d4ca:d927 with SMTP id
+ m10-20020a2ea58a000000b0027fd4cad927mr1658967ljp.184.1673042012608; 
+ Fri, 06 Jan 2023 13:53:32 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuo6kU2kefNw7018JBlFbc0adqkuQt3Pk/bXeVbDdSuafZzdzqK5FbVi+RdaSS2Tiovd/x2Ypub1pgc9XAClo0=
+X-Received: by 2002:a2e:a58a:0:b0:27f:d4ca:d927 with SMTP id
+ m10-20020a2ea58a000000b0027fd4cad927mr1658963ljp.184.1673042012334; Fri, 06
+ Jan 2023 13:53:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 10/21] gdbstub: move chunk of softmmu functionality to
- own file
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20230105164320.2164095-1-alex.bennee@linaro.org>
- <20230105164320.2164095-11-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230105164320.2164095-11-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20230103221349.74160-1-arthur.sengileyev@gmail.com>
+In-Reply-To: <20230103221349.74160-1-arthur.sengileyev@gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 6 Jan 2023 16:53:20 -0500
+Message-ID: <CAFn=p-bBtypjDK75sGDyji45rsykvFXbwsQAg1_CWGi9XrGzuQ@mail.gmail.com>
+Subject: Re: [PATCH] Windows installer: keep dependency cache
+To: Arthur Sengileyev <arthur.sengileyev@gmail.com>
+Cc: sw@weilnetz.de, crosa@redhat.com, qemu-devel@nongnu.org, 
+ qemu-trivial@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,17 +90,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/5/23 08:43, Alex Bennée wrote:
-> @@ -60,8 +67,6 @@ typedef struct GDBState {
->       int signal;
->   #ifdef CONFIG_USER_ONLY
->       GDBUserState user;
-> -#else
-> -    GDBSystemState system;
+On Tue, Jan 3, 2023 at 5:13 PM Arthur Sengileyev
+<arthur.sengileyev@gmail.com> wrote:
+>
+> It should be possible to reuse cache built by previous iteration
+> processing next executables. Already processed dependencies are
+> already skipped later based on dll name.
+>
+> Signed-off-by: Arthur Sengileyev <arthur.sengileyev@gmail.com>
+> ---
+>  scripts/nsis.py | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/nsis.py b/scripts/nsis.py
+> index 03ed7608a2..a2e52df556 100644
+> --- a/scripts/nsis.py
+> +++ b/scripts/nsis.py
+> @@ -91,12 +91,13 @@ def main():
+>          print("Searching '%s' for the dependent dlls ..." % search_path)
+>          dlldir = os.path.join(destdir + prefix, "dll")
+>          os.mkdir(dlldir)
+> +        depscache = set()
+>
+>          for exe in glob.glob(os.path.join(destdir + prefix, "*.exe")):
+>              signcode(exe)
+>
+>              # find all dll dependencies
+> -            deps = set(find_deps(exe, search_path, set()))
+> +            deps = set(find_deps(exe, search_path, depscache))
+>              deps.remove(exe)
+>
+>              # copy all dlls to the DLLDIR
+> --
+> 2.39.0
+>
 
-In patch 6 you nested this variable, and now you're undoing that.
-Get this placed properly to start, as I suggested, to reduce churn.
+ACK for python changes, which seem sane. I've not used the NSIS script
+before, though, so I won't grant RB/TB here.
 
+--js
 
-r~
 
