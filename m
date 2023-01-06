@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B015660864
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 21:40:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E640660867
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 21:43:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDtV3-0002D6-JG; Fri, 06 Jan 2023 15:39:37 -0500
+	id 1pDtYG-0003Ed-00; Fri, 06 Jan 2023 15:42:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDtV1-0002CK-GM
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 15:39:35 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+ id 1pDtYC-0003E2-Rr
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 15:42:52 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDtUz-000093-VM
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 15:39:35 -0500
-Received: by mail-pl1-x630.google.com with SMTP id d9so2854161pll.9
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 12:39:33 -0800 (PST)
+ id 1pDtY9-0003CD-Hp
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 15:42:50 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id r18so1917291pgr.12
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 12:42:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6+voQvns6oeouTZyhNJXTaf1ms9oOZAS7BFJe7KDG+0=;
- b=EJCh+On0HMHCSilu6O0zQfvVXlCijIQaYI5PqhlDHbPnUqWn9fdQ8BdoavHM4oOoc4
- rOdP7JvBzjQDko9BcOWlLX8lGCJz7LfKSvurbO58DM585c5CuYyj6PoZHLpCD67rIoDS
- yTaRAhOHomkxG2Voe6MGTVHbgiPf9iiM4eLKA7iUBr6ldmAWHGou5vXCKTD1inz5XcaW
- 2B4Ov6YapZYFFS0HBRyhRU3HN1GMaG+/vSIH40RWnVZ7Bb9kV07rCNXpZCMdb0wogLKh
- bddtXNCXtMvSUz318cLlPo5S1V2XWWmpUNXac2lO4b6ANSAYFP9GfyS+muYmvM7DS9BS
- iWVg==
+ bh=BTCWY0WKEFMX3SLzeCpnw17eGaWDIwaCrEjVUjBh9GU=;
+ b=aevSl8TQyoWbI34Nvi4/ME5Tvwd22nASXj6YN2H3A0StUbxd4xBZhslSxZWB5nDk+l
+ BlSyax90Nysyv0r1fZaymIXAeDAIkn3nsPTV64es+zvZFBTZ7QGrEuW57VAQwebQfL+d
+ KVqEuLbrW2AYKAO6eyDePYJ9C0H3cHNhbSIKFKhC1cBwlK9kNwERuEX3KYp7cfTUYMu3
+ llKoCo2IccXGFKHcmskc+BklNID6kRooTgAHq48RvP3eyDRH9mEY7BWCPgvlH9zDKZE3
+ JIOObYfJtdpNw7wlom1EC8HiWtUSA46CNSW5gpnKc5kaLTTjuMTJ6DOYrHwepOLQk5xI
+ 4RbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6+voQvns6oeouTZyhNJXTaf1ms9oOZAS7BFJe7KDG+0=;
- b=ihijTE/XAh5QX7ZOka1iTWr2jmD/DA5VlsKabV4scX1fDizhcRek1/NBpHfNPvQ7vF
- L2OOwbbLXFipeO/KovUGucmDOyvpKiGbkc2Dy3OjcgN0kG6yk14hW9hV24AuAdvP1eig
- oyybr1gG68WrbjoabX2iZMU6ffiUSt+R+wcnDGPrErHVVLRUufX7UJNy2DCGvhsMrmql
- K/NlfmUw5l+6F3pf/otfxbZ5fV25RWcW14fa5ZoKuqS+LdZQ2qw0B86pjNua/tAsRwFE
- aYrFMJxk7BSXUC/zVKUSwBlhdbU8LNqJX30iB7LQZBolLTXusW7SUMW53DN9wXCq5n8b
- qG/Q==
-X-Gm-Message-State: AFqh2ko33oF1MBODOmQQ+Z/fKje8xOljCClFcY0j9epYsJbr4Z6VKQwT
- eFOE76/UrI2wnUo6Iray0M815w==
-X-Google-Smtp-Source: AMrXdXvonP2GKbd2280IKM3iIRmBZzfypH3CAK2UyKx4Q/mlPVmpr5vcgzlTDyUkNCX3LF8Eyr5O6A==
-X-Received: by 2002:a05:6a20:4995:b0:ad:9646:b9b with SMTP id
- fs21-20020a056a20499500b000ad96460b9bmr63894081pzb.49.1673037572469; 
- Fri, 06 Jan 2023 12:39:32 -0800 (PST)
+ bh=BTCWY0WKEFMX3SLzeCpnw17eGaWDIwaCrEjVUjBh9GU=;
+ b=4GdR9vnm3Pl55McFjmSQ7VxZ8GY8AckbxEybYYL9XJZyCkt2Y462oyhHWIm0eynhKN
+ oS/V9RJithdGcU7T3PDXV50uM50FmOZBgescwtzlSfgW3m01Q5vU4FDPcD6TEEiwwkxD
+ P4aZT/bjNqna5YP4uRmEvO354XawuGTrlIFlbJpjbx4LoSHWx/WZpUVIowstb4SgCJVk
+ yUGbW59yzKyamStU078bSiQ85i4fjqguxo1vr72nrCiQ408SO8zH+oGsGsgoVO/AZKYX
+ h3uBcotWGSy3bHVko2m7cixSfLLBVTdqv9xo9Ip+GZNGr7gg+wGJrleUcuybGrCkjej4
+ TMjQ==
+X-Gm-Message-State: AFqh2ko2ksy0ke73R3s7WWMDepbZiPQpCZOk+BIW0z+UPmkpvVhieH78
+ h7U542hZ+qQH8wshq39W11zCCNqI0gFCLwzv
+X-Google-Smtp-Source: AMrXdXvMQ2J5L+WWMEDYM7XnfqTjCTGdYU1pQ8pTnPrVd0nS+rc22dFqH4YIHyABwTlcoAFJGxIfmg==
+X-Received: by 2002:a62:1614:0:b0:580:dd4d:43bc with SMTP id
+ 20-20020a621614000000b00580dd4d43bcmr47351172pfw.26.1673037767946; 
+ Fri, 06 Jan 2023 12:42:47 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:9d81:5b04:51d7:acae?
  ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
  by smtp.gmail.com with ESMTPSA id
- d16-20020a63ed10000000b00476799699e4sm1283554pgi.30.2023.01.06.12.39.31
+ h185-20020a62dec2000000b00580ea7211c2sm1471276pfg.208.2023.01.06.12.42.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Jan 2023 12:39:31 -0800 (PST)
-Message-ID: <fd27912b-53ac-e22e-3d0f-d6dbd12e1c48@linaro.org>
-Date: Fri, 6 Jan 2023 12:39:30 -0800
+ Fri, 06 Jan 2023 12:42:47 -0800 (PST)
+Message-ID: <0daeb57d-28ec-4595-8b2e-32e4e01348d8@linaro.org>
+Date: Fri, 6 Jan 2023 12:42:45 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 05/21] gdbstub: define separate user/system structures
+Subject: Re: [PATCH v2 06/21] gdbstub: move GDBState to shared internals header
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
 References: <20230105164320.2164095-1-alex.bennee@linaro.org>
- <20230105164320.2164095-6-alex.bennee@linaro.org>
+ <20230105164320.2164095-7-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230105164320.2164095-6-alex.bennee@linaro.org>
+In-Reply-To: <20230105164320.2164095-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -96,17 +95,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/5/23 08:43, Alex Bennée wrote:
-> In preparation for moving user/softmmu specific bits from the main
-> gdbstub file we need to separate the connection details into a
-> user/softmmu state. These will eventually be defined in their own
-> files.
+> We are about to split softmmu and user mode helpers into different
+> files. To facilitate this we will need to share access to the GDBState
+> between those files.
 > 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> ---
->   gdbstub/gdbstub.c | 91 +++++++++++++++++++++++++++--------------------
->   1 file changed, 53 insertions(+), 38 deletions(-)
+> To keep building we have to temporarily define CONFIG_USER_ONLY just
+> before we include internals.h for the user-mode side of things. This
+> will get removed once the state is fully moved.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+You don't have to have this hack if you don't ...
+
+> +typedef struct GDBState {
+> +    bool init;       /* have we been initialised? */
+> +    CPUState *c_cpu; /* current CPU for step/continue ops */
+> +    CPUState *g_cpu; /* current CPU for other ops */
+> +    CPUState *query_cpu; /* for q{f|s}ThreadInfo */
+> +    enum RSState state; /* parsing state */
+> +    char line_buf[MAX_PACKET_LENGTH];
+> +    int line_buf_index;
+> +    int line_sum; /* running checksum */
+> +    int line_csum; /* checksum at the end of the packet */
+> +    GByteArray *last_packet;
+> +    int signal;
+> +#ifdef CONFIG_USER_ONLY
+> +    GDBUserState user;
+> +#else
+> +    GDBSystemState system;
+> +#endif
+
+... nest these.  What's the point?
+
 
 r~
 
