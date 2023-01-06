@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D834660968
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 23:17:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B92AE660981
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 23:30:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDv0i-0000e3-HZ; Fri, 06 Jan 2023 17:16:24 -0500
+	id 1pDvCl-0004LP-Na; Fri, 06 Jan 2023 17:28:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDv0E-0000U1-QL
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 17:16:06 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDvCd-0004L8-M2
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 17:28:43 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDv0C-0004RW-OX
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 17:15:54 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id a184so2082092pfa.9
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 14:15:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDvCc-00054f-1e
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 17:28:43 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ o1-20020a17090a678100b00219cf69e5f0so6692680pjj.2
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 14:28:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RNjkgH3xLkJ/hNfBZJevVGu89FI9di/j48psFLbQ5yw=;
- b=WW8WcNYjfe1I4qqeylLj32+AAH48z342Mx84eohjYy9pVBsO8DMiep50UaVl6UOl2U
- dkR/yRpimGvooNPoRwsr0u8bI8DkRe3vAL4lx7lvpua6yp6m0oX+s4rVflaWEhnS6tqF
- IycuxNcM5GDTyQ5OsVq7Wrw8X2aBESesPqJhhMdT6l/0QT2UZbrOwODruCWb5NLVqcTD
- AStIcTevqGsugY0Ek6UzUqAe8Yx1jRIYNkRzKf0TmfMCr8g6j7aIUVbAXbDZviNLFDmy
- eonUK62FW4lyAiflqqUikDXah571DR4Phv1v9dJQLLaYnRUeZ+J6Z3lLRhutIUkRBITQ
- vA2A==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Lf+kgIU/jt0UtT9Vx7FpwiYB+K4LKLKS3ZuPu9aEqYE=;
+ b=r1WcJnBYQN3FFr+Deda0yuAoiBMzhAqQkNBEFC/HIuqqk1KCcKS8guHQC9gW/okuAC
+ uTSuQxgRqQISj1acdKyv/GpvR9rt5LvBl02ng3D4TnRlBzC3HRGHKInpgcFw4YxF8NZw
+ CBJEwkXALxcAqWLhMj+AxX8l029JibYKierhGPL6Psj23zFN9RlSRavb5JNTNKaFFHxw
+ Rpry0GhXv3XDEDNQZDFy5avKIbcWDXOKcisG9cYEJtRz/Cu9a7dHllMad/CTYDuF7PTU
+ GWPj3E2b4cXFDpJpMoAiWXB8iqlZp9o6C74uNygshJZg45mi9mrHoCMHQzfpKoiIoIvF
+ 0vQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RNjkgH3xLkJ/hNfBZJevVGu89FI9di/j48psFLbQ5yw=;
- b=kn1/YqQs6+1bMvbuA77LYO9IIJiPkt3RJw9+F8Ywlwk1hf05fQGXvDsGZLRy5iTI7Q
- vAnpMw5pSAW8PF+GyN9m8IxO9IFl0VKqAOHU9SLk1GXSIWnBxv5gQ8nAOGKiBTUANun/
- CYKHJ0gDFVv5VxgWjIVrOtQjIe9qeIVgycxagIBLgP6wYCuBJR1BwDOThX0FSTig3693
- Zyox8mfw1aUn5W+Lwd9MldeJjZHjP/4Opu/G4i79bKrtTaNehSox5v9yYS+HYHBxtHMa
- ZMKgaVDJwo9spNnvv6shBRtubaTBpzBZNEL8PWOSwebTz/YP/tTkdWrRjnyhyPiy2Ch2
- 2oBQ==
-X-Gm-Message-State: AFqh2kqsc1cR+MRHGC50ba1WJJZxW8n73+vmJmsNYZyi2B2hBej+nZSe
- Z7MuDBjmpfGv3edFQFfU7sO3UUpd3y19H7dqKzyvYg==
-X-Google-Smtp-Source: AMrXdXsiUWwBnX830ce8x4uYmA/0tAEtsfmmaK+e0Etf7jbwd7o/JIR5t/wc3s865wzBQ3H5qp/axXD8d8+DTYodbDM=
-X-Received: by 2002:aa7:999c:0:b0:582:74a2:1e4e with SMTP id
- k28-20020aa7999c000000b0058274a21e4emr1508937pfh.26.1673043346315; Fri, 06
- Jan 2023 14:15:46 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Lf+kgIU/jt0UtT9Vx7FpwiYB+K4LKLKS3ZuPu9aEqYE=;
+ b=zDGQ4x0cxwxd5KlzxyNnrzVCGceKcIgux57WjXKkfotd4tE9gAay0gjKbtNylgjoN5
+ YL9Pw4gS6vPXfikM6uuQMJS3OlUiIwEzk9KMVenl0C7ZULVBl+pomDZF7UC0nIxLyNYL
+ OKjJ4mDkuFy/LAi4A9jTwV6M63rEnINrFiqAp7igZDYTUkgwwR7kl5ZTMcEuZlkfLP3o
+ K5kwA/0+x+N5MSkgtZ64bzR7b2POjFueBYsLcZbdJrRgZZRqgbLvb+1YhS/8XA/8Z6V7
+ yWfTGOWmN/m3X7OFX+TR08iDivnDLwI40Y9aR6FQm1VoqFZB4IAEvTGxs2ETfF8751GO
+ n8ug==
+X-Gm-Message-State: AFqh2krCZzcIlpGe0Jz7EyIj/Jrvph9SafJGCOFazQsNPE24AkDELWQ/
+ 3oincx1biHS0JoBhzMbg5jeaIA==
+X-Google-Smtp-Source: AMrXdXtTre4W3nF3E8C/43zmaRgAOja6Tlk2rbzzppYY6A/TGvI+dJabzzH4tWui+7Dsh2mNCSHNlw==
+X-Received: by 2002:a17:902:aa85:b0:189:894c:6b48 with SMTP id
+ d5-20020a170902aa8500b00189894c6b48mr61161671plr.59.1673044120426; 
+ Fri, 06 Jan 2023 14:28:40 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:9d81:5b04:51d7:acae?
+ ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
+ by smtp.gmail.com with ESMTPSA id
+ l9-20020a170903120900b00188a908cbddsm1331289plh.302.2023.01.06.14.28.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Jan 2023 14:28:39 -0800 (PST)
+Message-ID: <b3dd666e-582b-e9d4-6dee-364b9dd6d00c@linaro.org>
+Date: Fri, 6 Jan 2023 14:28:37 -0800
 MIME-Version: 1.0
-References: <20230106031720.1204672-1-richard.henderson@linaro.org>
-In-Reply-To: <20230106031720.1204672-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Jan 2023 22:15:35 +0000
-Message-ID: <CAFEAcA8K4WaWETd4F0K9tk77BDAVVhfFSSGHRiT79xvHQ+8q_Q@mail.gmail.com>
-Subject: Re: [PULL v2 00/47] tcg misc queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH 00/40] Toward class init of cpu features
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, berrange@redhat.com,
+ eduardo@habkost.net, armbru@redhat.com, ajones@ventanamicro.com,
+ alex.bennee@linaro.org
+References: <20230103181646.55711-1-richard.henderson@linaro.org>
+ <CAFEAcA8K=1CNZfDG8i3bSXXSWT7D2oWg4jyupwYmw8oR7MJVsQ@mail.gmail.com>
+ <9f9a6c22-315b-de1e-958e-89963c5e7e90@linaro.org>
+ <CAFEAcA8cxJFpB9V826DjSsFOy7VYh5TWXb4vRYDUeOMjQgk-eQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA8cxJFpB9V826DjSsFOy7VYh5TWXb4vRYDUeOMjQgk-eQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,38 +99,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 6 Jan 2023 at 03:17, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Changes in patch 47, to reduce execution time with --enable-debug.
-> Changes in patch 19, to fix an i386 specific register allocation failure.
->
->
-> r~
->
->
-> The following changes since commit cb9c6a8e5ad6a1f0ce164d352e3102df46986e22:
->
->   .gitlab-ci.d/windows: Work-around timeout and OpenGL problems of the MSYS2 jobs (2023-01-04 18:58:33 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230105
->
-> for you to fetch changes up to d4846c33ebe04d2141dcc613b5558d2f1d8077af:
->
->   tests/tcg/multiarch: add vma-pthread.c (2023-01-05 11:41:29 -0800)
->
-> ----------------------------------------------------------------
-> Fix race conditions in new user-only vma tracking.
-> Add tcg backend paired register allocation.
-> Cleanup tcg backend function call abi.
->
+On 1/6/23 13:59, Peter Maydell wrote:
+> We also set some properties in code -- eg aspeed_ast2600.c clears
+> the 'neon' property on its CPUs, lots of the boards clear
+> has_el3 and has_el2, etc.
 
-Applied, thanks.
+Yes indeed, but in all of those cases we want all of the cpus to act identically.  Those 
+are all easily handled (patches 35, 36, 38).
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+> I hadn't got as far as patch 29, but
+> looking at it now that looks like a pretty strong indication
+> that this is the wrong way to go. It creates 3 extra
+> cortex-m33 CPU classes, and if we find another thing that
+> ought to be a CPU property then we'll be up to 8;
 
--- PMM
+If we find another thing that needs to be different between cpus, you mean?
+
+> and it becomes visible in user-facing command line stuff.
+
+No it doesn't -- command line is *not* affected, because both before and after, all 
+properties are applied identically to all objects.
+
+QMP is affected, which is where I stopped and started asking questions about what QMP is 
+actually trying to do.
+
+
+> I think our object model pretty strongly wants "create object;
+> set properties on it that only affect this object you created;
+> realize it", and having one particular subset of objects that
+> doesn't work the same way is going to be very confusing.
+
+Eh, I didn't think it's particularly confusing as a concept.
+The code is rough, buy what one might expect from an RFC.
+
+We really ought to have *some* solution to not repeating property + feature + isar 
+interpretation on a per-cpu basis.  I'd be delighted to hear alternatives.
+
+
+r~
 
