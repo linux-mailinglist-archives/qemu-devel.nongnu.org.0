@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11B665F982
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 03:21:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF73D65F984
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 03:22:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDcKT-0008Hh-4E; Thu, 05 Jan 2023 21:19:33 -0500
+	id 1pDcMJ-0001JA-Un; Thu, 05 Jan 2023 21:21:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDcKQ-0008HW-NB
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 21:19:30 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ id 1pDcMH-0001J0-Rk
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 21:21:25 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDcKO-0007VB-Gc
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 21:19:29 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- o1-20020a17090a678100b00219cf69e5f0so3880495pjj.2
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 18:19:27 -0800 (PST)
+ id 1pDcMF-0007x8-6f
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 21:21:25 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ cp9-20020a17090afb8900b00226a934e0e5so4626957pjb.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 18:21:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=iUzCHXRHZPY/rBk/z9q0F4N49WIjl2W+N4OeTU54W7E=;
- b=uF7xZNz67o4itWTVxzakIWCsUSPMeYqsW/YA8XRECmQX/Jl/JpIOfQ1vrnf9zXOPz4
- UIwaIR35jA5JDJEpLzF32ruUTZjAZRZQkZPtPmTI6XjrifJ56uJHKVNS9y4iWZwEoMD8
- Jxf9fY29mwdnaFCBoWLMPUkLvgsx/ey+Mik4V/cGzIKuzZJnEzRqnsPPYXPFrJXA4Nhf
- oMG7wPDgaEsokOZBWKjgaaVNewzItgLkGaGmLTGkEWuAqEyfCMzGRKmNpwCtNYHGH05q
- LXmjaFzKvMnSGoSDnT5CljIirIJjJjJx6aFuDZjwQz+EfHcAmFB5YeVcKiYIO12nmkqN
- 33rQ==
+ bh=gofjWJLApaQnCmYFuNgmswggD+y9kna5LjAowyH9Jvo=;
+ b=uZV3f40UGOP+q8Q/WflsALL9PF/Oub4bIxF693CoghydtTN6CMqqJe5TXllzhnU54J
+ tQPY88pVGFJcsSZ3FxbfWLV1GNN85aR9fmcct9SSplZUiAwUL/jJsKPnX/01REdk7fI5
+ wWrC7qOyy1IMvSBbK6TcbvFh/4pw+JP46NAI8KzxYC7E9y12r01Iw2fBtfhoVpPEprF5
+ VIC83enC6SrPNkvcFQuz51t59ggrLpUWTXmsCKw3f7u1nzS/5RJsZxnmwN8tq1Rp/tHQ
+ g+j9xdr8MhEjvvaklvzOue/X1Sf3U9CKGTKzOvlvLlsFV49Ilh/Jwr/Bq1hoZ0LxJPgF
+ 1g2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iUzCHXRHZPY/rBk/z9q0F4N49WIjl2W+N4OeTU54W7E=;
- b=LHDwMQ2eIldUVdg+6jKC0Ou5Y7jqVOCZsqyiTnDl+D+VctDqTZevuyZnz0LHFEdnNn
- drvT6GjG4/EAaGAWpXP6GLfteE8mJpbXNaiaQ104F0t+x9oezqjZ6e3k828ga/XNdCGV
- Ptlwv0D/l8nyHpGEUks2Zfu+mX2klpMWrTJUJNiqFnsqquOgIIchJDBkwRWrcJOLL/77
- axkNog6yjXM6Q0tsoLwwcqQYMuAp6d0cq2hsi9fNKAz7oVGEVFY+5HlYxUbolt3+Ca86
- ZkLDysuX52fe+slYXELS/MPlcJHz17Na8xS307phjlVN1Pm1jZDVq/J85EbR+Q0GJHSp
- Be6g==
-X-Gm-Message-State: AFqh2kq3ziyfNTBkvellgMscJvyRsmVrJ0wFGwt4LV6u5E0P47ejd8+q
- bVc1TsmHWV9huR9cN2BzJr1Xmw==
-X-Google-Smtp-Source: AMrXdXtvejQYcChl0bnnRwWSl05JtyjQqUW0v1bwNTZOQLk+kNyTtNAa45Q+GSTKx/UDb3N2S+sn5w==
-X-Received: by 2002:a17:90a:bc8a:b0:225:f216:b421 with SMTP id
- x10-20020a17090abc8a00b00225f216b421mr38083283pjr.6.1672971566395; 
- Thu, 05 Jan 2023 18:19:26 -0800 (PST)
+ bh=gofjWJLApaQnCmYFuNgmswggD+y9kna5LjAowyH9Jvo=;
+ b=sElQSGXsyZ/H3KnacrF2dN4Rba6AZRJEwwM/TlpGTJ/GqcivQiDVkCV75cv7gKxK/C
+ U5hGsD2RjgIT3EIDmFfZ2wSE4zWUZoI3m7cDvxFEi6dDfQRfnx/8+o0hACsT+0xvEL6B
+ 5Y2PsuojY2V9fr3OheEAc6l7yj4W97i0L8KwuGsyKIy2c6/w/Me8PfBGJCGY7ACGhnlC
+ 9tHAjPLhxNRdDXS/TvBZ0cINX5nS2bwjBx+oZflreRm7yhoXuBQfodwhAeZu7q1NqnKh
+ 5x06e77ANo2fl6be/8upLCSd9OHRI7YvkJqISNZL6d+FyGOInRsybBzAeSamuh7DoOtY
+ Nt0Q==
+X-Gm-Message-State: AFqh2kqMj0yN+ksdnk/rmEq55OOXa5gPDcAAplJnE5wPxlXXsPwOER+M
+ vxiBfCaP6eF8gROl5L8RCUp78Q==
+X-Google-Smtp-Source: AMrXdXtN+5NZ+rGIuERYOLz+hhrfdGB/jMJlmNT5RZf6ZohxsFTwUwgAVuoZp0VKSxllz592ZfJwkg==
+X-Received: by 2002:a05:6a20:3b01:b0:a4:150f:8ddc with SMTP id
+ c1-20020a056a203b0100b000a4150f8ddcmr77882003pzh.52.1672971681408; 
+ Thu, 05 Jan 2023 18:21:21 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:2cfd:802:a4a0:c8da?
  ([2602:47:d48c:8101:2cfd:802:a4a0:c8da])
  by smtp.gmail.com with ESMTPSA id
- gc5-20020a17090b310500b00218e8143380sm1952521pjb.28.2023.01.05.18.19.25
+ c2-20020a170902d48200b001928d49bf84sm6200252plg.191.2023.01.05.18.21.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 18:19:25 -0800 (PST)
-Message-ID: <d588a819-b4ed-0fc2-480d-6e9b3b064564@linaro.org>
-Date: Thu, 5 Jan 2023 18:19:23 -0800
+ Thu, 05 Jan 2023 18:21:20 -0800 (PST)
+Message-ID: <4532fba5-d15f-7e59-d7a5-243a047f0bde@linaro.org>
+Date: Thu, 5 Jan 2023 18:21:19 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 11/40] target/arm: Copy features from ARMCPUClass
+Subject: Re: [RFC PATCH 21/40] target/arm: Remove aarch64 check from
+ aarch64_host_object_init
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
  armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
 References: <20230103181646.55711-1-richard.henderson@linaro.org>
- <20230103181646.55711-12-richard.henderson@linaro.org>
- <c154778b-ed95-5d73-4533-2301820b05a1@linaro.org>
+ <20230103181646.55711-22-richard.henderson@linaro.org>
+ <81600a17-d082-d6da-5fac-04dd41824755@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <c154778b-ed95-5d73-4533-2301820b05a1@linaro.org>
+In-Reply-To: <81600a17-d082-d6da-5fac-04dd41824755@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -98,64 +99,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/5/23 14:04, Philippe Mathieu-Daudé wrote:
+On 1/5/23 14:08, Philippe Mathieu-Daudé wrote:
 > On 3/1/23 19:16, Richard Henderson wrote:
->> Create a features member in ARMCPUClass and copy to the instance in
->> arm_cpu_init.  Settings of this value will come in a future patch.
+>> Since kvm32 was removed
+> 
+> Maybe add here:
+> 
+>    (see commit 82bf7ae84c: "target/arm: Remove KVM support for 32-bit
+>    Arm hosts")
+> 
+>> , all kvm hosts support aarch64.
 >>
 >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 >> ---
->>   target/arm/cpu-qom.h | 18 ++++++++++++++++++
->>   target/arm/cpu.c     |  1 +
->>   2 files changed, 19 insertions(+)
+>>   target/arm/cpu64.c | 6 ++----
+>>   1 file changed, 2 insertions(+), 4 deletions(-)
 >>
->> diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
->> index 5509ef9d85..ac58cc3a87 100644
->> --- a/target/arm/cpu-qom.h
->> +++ b/target/arm/cpu-qom.h
->> @@ -74,8 +74,26 @@ struct ARMCPUClass {
->>       /* 'compatible' string for this CPU for Linux device trees */
->>       const char *dtb_compatible;
->> +
->> +    /* Internal CPU feature flags.  */
->> +    uint64_t features;
->>   };
->> +static inline int arm_class_feature(ARMCPUClass *acc, int feature)
->> +{
->> +    return (acc->features & (1ULL << feature)) != 0;
->> +}
->> +
->> +static inline void set_class_feature(ARMCPUClass *acc, int feature)
->> +{
->> +    acc->features |= 1ULL << feature;
->> +}
->> +
->> +static inline void unset_class_feature(ARMCPUClass *acc, int feature)
->> +{
->> +    acc->features &= ~(1ULL << feature);
->> +}
+>> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+>> index 28b5a07244..668e979a24 100644
+>> --- a/target/arm/cpu64.c
+>> +++ b/target/arm/cpu64.c
+>> @@ -1095,10 +1095,8 @@ static void aarch64_host_object_init(Object *obj)
+>>   #if defined(CONFIG_KVM)
+>>       ARMCPU *cpu = ARM_CPU(obj);
+>>       kvm_arm_set_cpu_features_from_host(cpu);
+>> -    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
 > 
-> These helpers are not used until patch #19 "target/arm: Move most cpu
-> initialization to the class".
+> Worth asserting this feature is enabled? I don't think so, so:
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-I know, but I thought it clearer to introduce them with the field.
+Indeed not.  In the next patch we hoist this feature setting out of kvm+hvf to common code 
+just above here.
 
 
 r~
 
 > 
->>   void register_cp_regs_for_features(ARMCPU *cpu);
->>   void init_cpreg_list(ARMCPU *cpu);
->> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
->> index 1bc45b2b25..d64b86b6a5 100644
->> --- a/target/arm/cpu.c
->> +++ b/target/arm/cpu.c
->> @@ -1191,6 +1191,7 @@ static void arm_cpu_initfn(Object *obj)
->>       QLIST_INIT(&cpu->el_change_hooks);
->>       cpu->dtb_compatible = acc->dtb_compatible;
->> +    cpu->env.features = acc->features;
->>   #ifdef CONFIG_USER_ONLY
->>   # ifdef TARGET_AARCH64
+>> -        aarch64_add_sve_properties(obj);
+>> -        aarch64_add_pauth_properties(obj);
+>> -    }
+>> +    aarch64_add_sve_properties(obj);
+>> +    aarch64_add_pauth_properties(obj);
+>>   #elif defined(CONFIG_HVF)
+>>       ARMCPU *cpu = ARM_CPU(obj);
+>>       hvf_arm_set_cpu_features_from_host(cpu);
 > 
 
 
