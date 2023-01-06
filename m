@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01CE665FBC3
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 08:16:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5751665FBF5
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 08:31:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDgw6-00036S-7N; Fri, 06 Jan 2023 02:14:42 -0500
+	id 1pDhAm-0008GT-6d; Fri, 06 Jan 2023 02:29:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDgw2-00034v-Ov
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 02:14:39 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDhAg-0008GE-9p
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 02:29:46 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDgw0-0000nr-Qz
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 02:14:38 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- k26-20020a05600c1c9a00b003d972646a7dso2931132wms.5
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 23:14:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDhAd-0001NC-Ft
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 02:29:45 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ z8-20020a05600c220800b003d33b0bda11so3456445wml.0
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 23:29:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Zh5WUpz8Sm37IxHRVDgR9r2mO8lPhQDWik06D9cTtE0=;
- b=am7vnZQnkqOo7hjfeZ6oiOvqo88p4ECOBD3GDPRZVs3SOBcWQYuImMZiffiK25KQLO
- 2uMeR8jcb2TTIHDUEsw+T1QREsRtVni9NKJHonabEiT/JxEBwo+SBoZ4H9en6iMrDaYC
- 0Pm9QKBPqTTGCxW+cY1yz5VAhVr6UInLp2xhjV/uO28WhceW4pku721hpJMaiEkyYmMX
- Rx5xSsxxEWP/mSWHDS0SwWUKpnP8S9Jnsjn6a4NBA6HiZZRfL7qd1RjOCXtV36jpDeO/
- pUsGlehKuTgGFUZmpzrppd/xNq08OAUmOoJHzmvNHl+wX2jai5Y9EFN57LbWUquobPcT
- T31A==
+ bh=a8h5sTvpg2TYYOwCbG+VhZl+p1rj+hPO8s66Vk6T5lM=;
+ b=thv/GTd+4MrGRi6mW+jhUvnaa6gNK3vzrT8SVvGHbAQthNUwY+Hj2fqQVrBMLhKRij
+ 5lW+maPbvXL2RZprDSG5PPPebCm3RbZzB4hZk7Yre4VmDvzqpe8sKLAI8bw1NAzqePim
+ cpSiZvuiwCsQHDKts2e7TNqcOg+HdTZWUx66XHrfrS85xKDPEXXeCQDqacLgErMBRR0s
+ SJbsuo/EINbs0SvtZnsbfHB+eN6FXFEpKZ4Wn2HYAPCzvX5QeN/Sxj0j2ZImk1IVLBP9
+ pZ7kwgLeI3p8RJoRrD2Ixc1z19OMdsnVqVxnp7vo4TWwiMfgW+/V0IHQaOmg/kMD2AME
+ iE6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Zh5WUpz8Sm37IxHRVDgR9r2mO8lPhQDWik06D9cTtE0=;
- b=OLDJWe7/N5Nhh/OeljoDt74LNQhMyhGvpC5iPUZzLINQNP6u2VS6fD7GXv7lhQFlxk
- 3WyAqC2HRThxQcatdj4pOxeubu212Wog+S/W342lXG2LCI+GP6aT/7S2MFd0YCcdu40B
- 6t5YqBgHiQxJllwlpfaMMdpY7u9bwcn66g//DU1mW/v9TxnfGm2QwiJ9xcL7t3RTq3E4
- 6zNvlGMuGM5ktvKlVM5cIXbne3CILfJbRwvwc+PLCAlzWkszyPNHmyJ43dlWXx5TWcSx
- Ex4VHZnNBNw7XZpwiw68cckr3wvSOupXNEGfZvyn1iuWCzyF0PSjsOMhN9VPCLf8t9RG
- 0x9A==
-X-Gm-Message-State: AFqh2koJ2QPQA4EPe1zc2OfMh5CCsvHwQ+m4NHF6/q4wg2oy/7Muhdke
- JjaVppmflq+DVSdQ4bqcpRN18A==
-X-Google-Smtp-Source: AMrXdXsJKlDEMyb8FgAY+81IpLuNVbS4VT8XaSg3Vtv3tGpaTPxcQOTeLBvm6ko2y2uZTDAonhQs7w==
-X-Received: by 2002:a05:600c:35cc:b0:3d3:3c93:af34 with SMTP id
- r12-20020a05600c35cc00b003d33c93af34mr47357724wmq.2.1672989274450; 
- Thu, 05 Jan 2023 23:14:34 -0800 (PST)
+ bh=a8h5sTvpg2TYYOwCbG+VhZl+p1rj+hPO8s66Vk6T5lM=;
+ b=JlSw2pdpqpQpb7pucPb9kBeK7EP1RC1Sk+anfHgOXcoU/oObPS2/QeBGAilXahC7bk
+ M3VOxFzh4aEmglfoqFwzdjHRzzERKLsPGEEiJNtHDJiyoDWl3oe+qFEtte3iMzGvvniW
+ Z8xAO8NavHeflejZVn/iERAb53w41q1ZdfVyjqK8WCIqjK4BOWa8Z0ri+FQqysijcq0L
+ l2yRlu9nvk7ri8BitMfORAbjSUtb2Y5iwgEUwsmUFXRxo6Bfy4VQ2OSiPUEpPuNmUmCQ
+ 1KHt+gTUnUiikPe2zV7i1opX5Jra4GIgnHHJ4McL3oXQPGTn7T1MEFIF8QD0HOGWZSR4
+ ZayQ==
+X-Gm-Message-State: AFqh2krAQcwZyJx9X57+9swfyleoHWqPXGBWCqnRTdSy1T5+wVkleHbm
+ ew55rh0kDS1dNtkN6FB2ZCkPnQ==
+X-Google-Smtp-Source: AMrXdXuvYf8A2M/2FLqi1lht71nUPfky8B8Ga3fkN+kfUeuT/Q7KYH1WG5SqHGpzfsPsDDS8ZqVvvg==
+X-Received: by 2002:a05:600c:358a:b0:3cf:8d51:1622 with SMTP id
+ p10-20020a05600c358a00b003cf8d511622mr38927044wmq.1.1672990180415; 
+ Thu, 05 Jan 2023 23:29:40 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- g14-20020a05600c310e00b003cf5ec79bf9sm639892wmo.40.2023.01.05.23.14.33
+ t18-20020a5d6a52000000b0029c5e06516bsm388397wrw.14.2023.01.05.23.29.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 23:14:33 -0800 (PST)
-Message-ID: <174b23f7-9a01-8937-6d1c-bf61846c3ca2@linaro.org>
-Date: Fri, 6 Jan 2023 08:14:32 +0100
+ Thu, 05 Jan 2023 23:29:40 -0800 (PST)
+Message-ID: <408a6546-025b-1a94-ee98-a577b8460e13@linaro.org>
+Date: Fri, 6 Jan 2023 08:29:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC PATCH 11/40] target/arm: Copy features from ARMCPUClass
+Subject: Re: [PATCH] semihosting: add O_BINARY flag in host_open for NT
+ compatibility
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
- armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
-References: <20230103181646.55711-1-richard.henderson@linaro.org>
- <20230103181646.55711-12-richard.henderson@linaro.org>
- <c154778b-ed95-5d73-4533-2301820b05a1@linaro.org>
- <d588a819-b4ed-0fc2-480d-6e9b3b064564@linaro.org>
+To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org
+References: <20230105211940.14988-1-eiakovlev@linux.microsoft.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <d588a819-b4ed-0fc2-480d-6e9b3b064564@linaro.org>
+In-Reply-To: <20230105211940.14988-1-eiakovlev@linux.microsoft.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -94,30 +91,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/1/23 03:19, Richard Henderson wrote:
-> On 1/5/23 14:04, Philippe Mathieu-Daudé wrote:
->> On 3/1/23 19:16, Richard Henderson wrote:
->>> Create a features member in ARMCPUClass and copy to the instance in
->>> arm_cpu_init.  Settings of this value will come in a future patch.
->>>
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>>   target/arm/cpu-qom.h | 18 ++++++++++++++++++
->>>   target/arm/cpu.c     |  1 +
->>>   2 files changed, 19 insertions(+)
+On 5/1/23 22:19, Evgeny Iakovlev wrote:
+> Windows open(2) implementations opens files in text mode by default and
+> needs a Windows-only O_BINARY flag to open files as binary. Qemu already
 
+s/Qemu/QEMU/
 
->>> +static inline void unset_class_feature(ARMCPUClass *acc, int feature)
->>> +{
->>> +    acc->features &= ~(1ULL << feature);
->>> +}
->>
->> These helpers are not used until patch #19 "target/arm: Move most cpu
->> initialization to the class".
+> knows about that flag in osdep.h, so we can just add it to the
+> host_flags for better compatibility when running qemu on Windows.
+
+s/qemu/QEMU/
+
+> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+> ---
+>   semihosting/syscalls.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> I know, but I thought it clearer to introduce them with the field.
+> diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
+> index 508a0ad88c..00f77507e5 100644
+> --- a/semihosting/syscalls.c
+> +++ b/semihosting/syscalls.c
+> @@ -278,6 +278,8 @@ static void host_open(CPUState *cs, gdb_syscall_complete_cb complete,
+>           host_flags |= O_EXCL;
+>       }
+>   
+> +    host_flags |= O_BINARY;
+> +
+>       ret = open(p, host_flags, mode);
+>       if (ret < 0) {
+>           complete(cs, -1, errno);
 
-Fine.
+Alternatively with more churn:
+
+-- >8 --
+diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
+index 508a0ad88c..b621d78c2d 100644
+--- a/semihosting/syscalls.c
++++ b/semihosting/syscalls.c
+@@ -253,7 +253,7 @@ static void host_open(CPUState *cs, 
+gdb_syscall_complete_cb complete,
+  {
+      CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
+      char *p;
+-    int ret, host_flags;
++    int ret, host_flags = O_BINARY;
+
+      ret = validate_lock_user_string(&p, cs, fname, fname_len);
+      if (ret < 0) {
+@@ -262,11 +262,11 @@ static void host_open(CPUState *cs, 
+gdb_syscall_complete_cb complete,
+      }
+
+      if (gdb_flags & GDB_O_WRONLY) {
+-        host_flags = O_WRONLY;
++        host_flags |= O_WRONLY;
+      } else if (gdb_flags & GDB_O_RDWR) {
+-        host_flags = O_RDWR;
++        host_flags |= O_RDWR;
+      } else {
+-        host_flags = O_RDONLY;
++        host_flags |= O_RDONLY;
+      }
+      if (gdb_flags & GDB_O_CREAT) {
+          host_flags |= O_CREAT;
+---
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
