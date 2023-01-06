@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3871265FCBD
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:31:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F73065FCC9
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:32:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDi6F-0002aQ-5v; Fri, 06 Jan 2023 03:29:15 -0500
+	id 1pDi6F-0002ae-VX; Fri, 06 Jan 2023 03:29:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi6C-0002ZA-Bp
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:12 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi6D-0002Zu-Hp
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:13 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi6A-0005Vw-RE
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:12 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi6C-0005WC-6H
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672993750;
+ s=mimecast20190719; t=1672993751;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5rN5prbiwNVkagky0f0m4bmXXLWIfA30meh3PusUxRo=;
- b=Ubaoqm6133cPrk2ENGln906dChB4NY8E9ZGgjd+L+DTls8KVFFS49OgoLsQLP223soHeVy
- ar3oqwxqpb7TUfQj6SWPWe/d8M8JUTXPB/91krDOdt4NyMPDiO6FB1SHyigun7gsb0sEWj
- 2wlsSbhovGjVdaRR6BWx3mdhcWJbbcg=
+ bh=3QeCZ3ENrtQYVvtDC7lxgJ9ejVp1dAjaS4G+x5M2b2U=;
+ b=B6F+pmbJGD7mk8hm27V6Tnp7j1IdGrbPcGzeQu5lSoUi35PJHeHHcQSxrIZu8tslonME20
+ EcqDAtlP+eAm7F+4TTa4nhK2LTo5JLVG6k8yA7/nTK3r4ac6qzW1j6mDDdbOfor/Jd/Cp/
+ H8bgd16M9RG8aEP+Qv3M6q2Wr8AGKRw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-xOi0dPlUNeiwaX3S54cT1w-1; Fri, 06 Jan 2023 03:29:08 -0500
-X-MC-Unique: xOi0dPlUNeiwaX3S54cT1w-1
+ us-mta-156-xIvcY-GpMeKYkz50iwJQJw-1; Fri, 06 Jan 2023 03:29:09 -0500
+X-MC-Unique: xIvcY-GpMeKYkz50iwJQJw-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22263101A521;
- Fri,  6 Jan 2023 08:29:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8AFCB183B3C0;
+ Fri,  6 Jan 2023 08:29:09 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F9D9492B06;
- Fri,  6 Jan 2023 08:29:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82357492B06;
+ Fri,  6 Jan 2023 08:29:08 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Nikita Ivanov <nivanov@cloudlinux.com>
-Subject: [PULL 08/15] target/s390x: Restrict sysemu/reset.h to system emulation
-Date: Fri,  6 Jan 2023 09:28:46 +0100
-Message-Id: <20230106082853.31787-9-thuth@redhat.com>
+Subject: [PULL 09/15] tests/readconfig: spice doesn't support unix socket on
+ windows yet
+Date: Fri,  6 Jan 2023 09:28:47 +0100
+Message-Id: <20230106082853.31787-10-thuth@redhat.com>
 In-Reply-To: <20230106082853.31787-1-thuth@redhat.com>
 References: <20230106082853.31787-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -77,42 +78,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-In user emulation, threads -- implemented as CPU -- are
-created/destroyed, but never reset. There is no point in
-allowing the user emulation access the sysemu/reset API.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221220145625.26392-5-philmd@linaro.org>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20230103110814.3726795-6-marcandre.lureau@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/cpu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/qtest/readconfig-test.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 96562c516d..b10a8541ff 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -26,7 +26,6 @@
- #include "s390x-internal.h"
- #include "kvm/kvm_s390x.h"
- #include "sysemu/kvm.h"
--#include "sysemu/reset.h"
- #include "qemu/module.h"
- #include "trace.h"
- #include "qapi/qapi-types-machine.h"
-@@ -35,6 +34,9 @@
- #include "fpu/softfloat-helpers.h"
- #include "disas/capstone.h"
- #include "sysemu/tcg.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "sysemu/reset.h"
+diff --git a/tests/qtest/readconfig-test.c b/tests/qtest/readconfig-test.c
+index c7a9b0c7dd..9ef870643d 100644
+--- a/tests/qtest/readconfig-test.c
++++ b/tests/qtest/readconfig-test.c
+@@ -109,8 +109,10 @@ static void test_spice(void)
+     QTestState *qts;
+     const char *cfgdata =
+         "[spice]\n"
+-        "disable-ticketing = \"on\"\n"
+-        "unix = \"on\"\n";
++#ifndef WIN32
++        "unix = \"on\"\n"
 +#endif
++        "disable-ticketing = \"on\"\n";
  
- #define CR0_RESET       0xE0UL
- #define CR14_RESET      0xC2000000UL;
+     qts = qtest_init_with_config(cfgdata);
+     /* Test valid command */
 -- 
 2.31.1
 
