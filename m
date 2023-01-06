@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0712A65FD34
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:57:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D88A65FD33
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:57:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDiFd-0006Ao-CM; Fri, 06 Jan 2023 03:38:57 -0500
+	id 1pDiFd-0006Aw-F4; Fri, 06 Jan 2023 03:38:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1pDiFB-00062U-03
+ id 1pDiFB-00062t-Bs
  for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:38:29 -0500
 Received: from mga05.intel.com ([192.55.52.43])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1pDiF5-0008NH-4e
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:38:28 -0500
+ id 1pDiF9-0008Or-Gi
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:38:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672994303; x=1704530303;
+ t=1672994307; x=1704530307;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=eAvYLVdEKrFxalMvrF8o2wWH73OzMPZijyJklABEl/U=;
- b=Gwpk0SeoxAaL7UUayLaPoaLNlFwlrOeU7tckCPFfmWy+Mak765uX2+xD
- s8fQx7LCqhULZ/op/JheggBDbwf9pXEyFNnY+I9rowzvk5ctxH11O+T8O
- y56asSs9qYPyKhtn2vwas5zcpgwvZk1jVu+Gi6Zy9l/s/1EPJ7wG8qCKf
- aaNE70aB9oKY/6qBe5P47yDb8B9YeZQUQ/etrZiys2sJjmFfczCCWU7bj
- sLsVkrnJ2HvHv3wBgsiWw85BtmII3VVwGENznGcbuP1Otb5Hh/qSmwtEg
- 0gS0BoXqs8Dwa7L1Jxv//KJx9Q+YaHkAQ0s16/ozjcwF9BE1Amg7PYNOU Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="408688499"
-X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="408688499"
+ bh=UHSkrlwfU0nvpItnnVZebZwFf4NOBgA9LfrSFPvlqhE=;
+ b=cH5/8WGnMOnaRZFWP+6kBkJz/KoLyU+t6+kDpiCpY9elp+PlNV/SUnYQ
+ Ek3klpZ6eEKGapOcyZmwlhbFuJ7r5GDkhiH/v0yk8O9e1K9flZDdYhSpS
+ pon7nT+xiK+fZJG8LGUxcmLaNmNPgHTpTUJVXecQ8J+WlalnwIp+hxIRZ
+ e36MizqViCq3t1omp8zAeT7bzMiXOMzZf/sYbs30YkDT+GqUkGPTxrgZy
+ i4LpJiVtF6fVEZroK/zRvafUOYNw1OMf65+inhHhvl0LASy1hMT7gLKFs
+ tN25HidhJyD8dPpZTlgezPyrxZl26DXgc4k3BFtCKBV0J/HyXOltjG933 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="408688503"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="408688503"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2023 00:38:19 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="724378847"
-X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="724378847"
+ 06 Jan 2023 00:38:21 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="724378865"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="724378865"
 Received: from sdp.sh.intel.com ([10.112.228.155])
  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2023 00:38:16 -0800
+ 06 Jan 2023 00:38:19 -0800
 From: Lei Wang <lei4.wang@intel.com>
 To: pbonzini@redhat.com
 Cc: qemu-devel@nongnu.org, imammedo@redhat.com, dgilbert@redhat.com,
  berrange@redhat.com, xiaoyao.li@intel.com, yang.zhong@linux.intel.com,
  lei4.wang@intel.com
-Subject: [PATCH v3 4/6] i386: Mask and report unavailable multi-bit feature
- values
-Date: Fri,  6 Jan 2023 00:38:24 -0800
-Message-Id: <20230106083826.5384-5-lei4.wang@intel.com>
+Subject: [PATCH v3 5/6] i386: Initialize AMX CPUID leaves with corresponding
+ env->features[] leaves
+Date: Fri,  6 Jan 2023 00:38:25 -0800
+Message-Id: <20230106083826.5384-6-lei4.wang@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230106083826.5384-1-lei4.wang@intel.com>
 References: <20230106083826.5384-1-lei4.wang@intel.com>
@@ -78,110 +78,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Some feature words, e.g., feature words in AMX-related CPUID leaf 0x1D and
-0x1E are not bit-wise but multiple bits represents one value. Handle this
-situation when the values specified are not the same as which are reported
-by KVM. The handling includes:
+The AMX-related CPUID value, i.e., CPUID(0x1D,1):EAX, CPUID(0x1D,1):EBX,
+CPUID(0x1D,1):ECX and CPUID(0x1E,0):EBX are hard-coded to Sapphire Rapids
+without considering future platforms.
 
- - The responsibility of masking bits and giving warnings are delegated to
-   the feature enabler. A framework is also provided to enable this.
- - To simplify the initialization, a default function is provided if the
-   the function is not specified.
-
-The reason why delegating this responsibility rather than just marking
-them as zeros when they are not same is because different multi-bit
-features may have different logic, which is case by case, for example:
-
- 1. CPUID.0x14_0x1:EBX[15:0]. Even though it's multi-bits field, it's a
-    bitmap and each bit represents a separate capability.
-
- 2. CPUID.0x14_0x1:EAX[2:0] represents the number of configurable Address
-    Ranges. 3 bits as a whole to represent a integer value. It means the
-    maximum capability of HW. If KVM reports M, then M to 0 is legal
-    value to configure (because KVM can emulate each value correctly).
-
- 3. CPUID.0x1D_0x1:EAX[31:16] represents palette 1 bytes_per_tile. 16 bits
-    as a whole represent an integer value. It's not like case 2 and SW
-    needs to configure the same value as reported. Because it's not
-    possible for SW to configure to a different value and KVM cannot
-    emulate it.
-
-So marking them blindly as zeros is incorrect, and delegating this
-responsibility can let each multi-bit feature have its own way to mask bits.
+Replace these hard-coded values with env->features[], so QEMU can pass the
+right value to KVM.
 
 Signed-off-by: Lei Wang <lei4.wang@intel.com>
 ---
- target/i386/cpu-internal.h |  2 ++
- target/i386/cpu.c          | 36 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 38 insertions(+)
+ target/i386/cpu.c | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/target/i386/cpu-internal.h b/target/i386/cpu-internal.h
-index 66b3d66cb4..83c7b53926 100644
---- a/target/i386/cpu-internal.h
-+++ b/target/i386/cpu-internal.h
-@@ -30,6 +30,8 @@ typedef struct MultiBitFeatureInfo {
-     uint64_t mask;
-     unsigned high_bit_position;
-     unsigned low_bit_position;
-+    void (*mark_unavailable_multi_bit)(X86CPU *cpu, FeatureWord w, int index,
-+                                       const char *verbose_prefix);
- } MultiBitFeatureInfo;
- 
- typedef struct FeatureWordInfo {
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 88aa780566..e638a31d34 100644
+index e638a31d34..946df29a3d 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -4377,6 +4377,28 @@ static bool x86_cpu_have_filtered_features(X86CPU *cpu)
-     return false;
- }
+@@ -576,16 +576,16 @@ static CPUCacheInfo legacy_l3_cache = {
+ #define INTEL_PT_PSB_BITMAP      (0x003f << 16) /* Support 2K,4K,8K,16K,32K,64K */
  
-+static void mark_unavailable_multi_bit_default(X86CPU *cpu, FeatureWord w,
-+                                               int index,
-+                                               const char *verbose_prefix)
-+{
-+    FeatureWordInfo *f = &feature_word_info[w];
-+    g_autofree char *feat_word_str = feature_word_description(f);
-+    uint64_t host_feat = x86_cpu_get_supported_feature_word(w, false);
-+    MultiBitFeatureInfo mf = f->multi_bit_features[index];
-+
-+    if ((cpu->env.features[w] & mf.mask) &&
-+        ((cpu->env.features[w] ^ host_feat) & mf.mask)) {
-+        if (!cpu->force_features) {
-+            cpu->env.features[w] &= ~mf.mask;
-+        }
-+        cpu->filtered_features[w] |= mf.mask;
-+        if (verbose_prefix)
-+            warn_report("%s: %s.%s [%u:%u]", verbose_prefix, feat_word_str,
-+                        mf.feat_name, mf.high_bit_position,
-+                        mf.low_bit_position);
-+    }
-+}
-+
- static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint64_t mask,
-                                       const char *verbose_prefix)
- {
-@@ -6442,6 +6464,20 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
-             x86_cpu_get_supported_feature_word(w, false);
-         uint64_t requested_features = env->features[w];
-         uint64_t unavailable_features = requested_features & ~host_feat;
-+        FeatureWordInfo f = feature_word_info[w];
-+        int i;
-+
-+        for (i = 0; i < f.num_multi_bit_features; i++) {
-+            MultiBitFeatureInfo mf = f.multi_bit_features[i];
-+            if (mf.mark_unavailable_multi_bit) {
-+                mf.mark_unavailable_multi_bit(cpu, w, i, prefix);
-+            } else {
-+                mark_unavailable_multi_bit_default(cpu, w, i, prefix);
-+            }
-+
-+            unavailable_features &= ~mf.mask;
-+        }
-+
-         mark_unavailable_features(cpu, w, unavailable_features, prefix);
+ /* CPUID Leaf 0x1D constants: */
+-#define INTEL_AMX_TILE_MAX_SUBLEAF     0x1
+-#define INTEL_AMX_TOTAL_TILE_BYTES     0x2000
+-#define INTEL_AMX_BYTES_PER_TILE       0x400
+-#define INTEL_AMX_BYTES_PER_ROW        0x40
+-#define INTEL_AMX_TILE_MAX_NAMES       0x8
+-#define INTEL_AMX_TILE_MAX_ROWS        0x10
++#define INTEL_SPR_AMX_TILE_MAX_SUBLEAF     0x1
++#define INTEL_SPR_AMX_TOTAL_TILE_BYTES     0x2000
++#define INTEL_SPR_AMX_BYTES_PER_TILE       0x400
++#define INTEL_SPR_AMX_BYTES_PER_ROW        0x40
++#define INTEL_SPR_AMX_TILE_MAX_NAMES       0x8
++#define INTEL_SPR_AMX_TILE_MAX_ROWS        0x10
+ 
+ /* CPUID Leaf 0x1E constants: */
+-#define INTEL_AMX_TMUL_MAX_K           0x10
+-#define INTEL_AMX_TMUL_MAX_N           0x40
++#define INTEL_SPR_AMX_TMUL_MAX_K           0x10
++#define INTEL_SPR_AMX_TMUL_MAX_N           0x40
+ 
+ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+                               uint32_t vendor2, uint32_t vendor3)
+@@ -5764,12 +5764,11 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+ 
+         if (count == 0) {
+             /* Highest numbered palette subleaf */
+-            *eax = INTEL_AMX_TILE_MAX_SUBLEAF;
++            *eax = INTEL_SPR_AMX_TILE_MAX_SUBLEAF;
+         } else if (count == 1) {
+-            *eax = INTEL_AMX_TOTAL_TILE_BYTES |
+-                   (INTEL_AMX_BYTES_PER_TILE << 16);
+-            *ebx = INTEL_AMX_BYTES_PER_ROW | (INTEL_AMX_TILE_MAX_NAMES << 16);
+-            *ecx = INTEL_AMX_TILE_MAX_ROWS;
++            *eax = env->features[FEAT_1D_1_EAX];
++            *ebx = env->features[FEAT_1D_1_EBX];
++            *ecx = env->features[FEAT_1D_1_ECX];
+         }
+         break;
      }
+@@ -5785,7 +5784,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
  
+         if (count == 0) {
+             /* Highest numbered palette subleaf */
+-            *ebx = INTEL_AMX_TMUL_MAX_K | (INTEL_AMX_TMUL_MAX_N << 8);
++            *ebx = env->features[FEAT_1E_0_EBX];
+         }
+         break;
+     }
 -- 
 2.34.1
 
