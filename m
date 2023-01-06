@@ -2,107 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EED66019A
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 14:54:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D58EF6601BF
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 15:03:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDnAK-0003vB-Ey; Fri, 06 Jan 2023 08:53:48 -0500
+	id 1pDnIk-0006GG-6E; Fri, 06 Jan 2023 09:02:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pDnAH-0003up-WD
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 08:53:46 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pDnAG-0007QT-40
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 08:53:45 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 306CcllE001379; Fri, 6 Jan 2023 13:53:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=eZp959YNBDmPxxifyYUl5QORYhZrJbizvcxSeBs3ZEY=;
- b=sEqFtkGfww6jdN/RcQg8ZNQ4cZ0qTIm5XHdWys3TlMpxBz8ZyrdNBfYly0GgRouWsjBN
- UWUTW53HOOWoTrGUR3+ALisPM0z9SCEfoMF64iAV8Ia9tqj0q0HgqQ/rzzOqBWdcAhoY
- K1Qs5xNwKECPdXjVx6SaW1L+Z0hBYAJkS70tHo2BIS7ot2fyb2ergwT2TxwlUz/Q9Axy
- O/iQZzUOC0ycme3fsIpxCOu6tMnmdGijEWM+6Z9vukUf968sqtOrqTsLV++ldFGEHUgL
- 7bXUxSJdTDaORjTmHYr5Lohpp8JVOG+N81JkJvRYVXe+FTRXAg1TGjptRMu5AcYo0pa2 rw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mxh40vdqe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 Jan 2023 13:53:42 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 306Dl8Wu040506;
- Fri, 6 Jan 2023 13:53:41 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mxh40vdpy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 Jan 2023 13:53:41 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 306C0WCs024978;
- Fri, 6 Jan 2023 13:53:40 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([9.208.130.101])
- by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3mtcq84kqh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 Jan 2023 13:53:40 +0000
-Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com
- [10.39.53.232])
- by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 306Drcw62818598
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 6 Jan 2023 13:53:39 GMT
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A856658059;
- Fri,  6 Jan 2023 13:53:38 +0000 (GMT)
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B1AF758061;
- Fri,  6 Jan 2023 13:53:37 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Fri,  6 Jan 2023 13:53:37 +0000 (GMT)
-Message-ID: <96cc9cde-ad7c-2704-187f-25e9751c894a@linux.ibm.com>
-Date: Fri, 6 Jan 2023 08:53:36 -0500
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDnIU-0006Bm-2w
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:02:21 -0500
+Received: from sonic316-54.consmr.mail.gq1.yahoo.com ([98.137.69.30])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDnIR-0003VR-Jd
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:02:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1673013727; bh=QMiqbDC+61V0Rk1soqHizYsaVxM0KkrnEK/KqG2Ugb8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
+ b=dLAt+wG+AyS1eswmXsp5/JpM8WzoW7JftDUt75LKqmPdXJMNjrJ+X8tamc0AMvXCAJzg44JNG2wjaoiHH5WBuTlmtpmcGaUFUwCgafgcI/eTaEOJqPvX4pceIDcHuDujxnqQ6nsAb+YPjblGec1CU8A2mfeuFeKAPX33Hh7jtAsdnSK+d0QfIWLK1R/1I8nRNzh8Eo7smxOsBZdpfgwlH5GaEiJ+hkQQceNJ0RIY7mI/DkEF1kAUMI9jmm+Ra92xeiLNDuRdoNM4RQcdJOzw7Nrg2CJkr9nyaQEVDM4U0RcBfrRBiinyfO8po7oZ2/bBdFZSiJAOwdX+Ve7aVc2jFw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1673013727; bh=fjn70Kv45ZJMgPFlTmq03reHzYK2FHDh7LA5QD2tKRq=;
+ h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
+ b=eBbavZuE/LSY3h0hfEpwWkd5JzmX1KdIFJhJypq+p6NWXEyP8/40yIV3C8H6hbh0QMg2FT5qRZi7ChdpfUYnOBiCVzR4knG9SYG/52GPiUV4nyRDmPcdW5B8SOzdeXlhOnUEfBiYE6IFLXueWU2k571HSgx3Xqvpty//uPjS/0dqJLrlDGQpOcUJt+9lZ+vhYSSfZ8YUlwb0WtpptzvYlpjut9oXk+MQs34Yqeyg88oGISdfQ3hEYrlJADIR7w/zBIsGLM93g51fqVu+ImoSikfuYDrLfpiBAQ8j02ZSQmnaS2EBk4AslLPGj6AZ5bGwvrlO5TrDABOeZJqukpphHQ==
+X-YMail-OSG: kL_u7lEVM1mSuxyTPDJDIPhacyL5.wwB7HAKS.TTZJ3MJ8qexUFUuMzLjITEqnB
+ LGYRdsSwR.icbCUrgwz6Zfag0x0viZLWqCbigG9KM3v29JJKNn8lpXW7zwatfpotniG2rmNapqNF
+ aA25xqC1BeJi6nsAAYfLviHaRhuNn.Mmj8CmyO_.CKHw709Eu0h1kHueCoWrdYwy_hg7Tcj_R_U4
+ j.xPKFgsvyql7xBvGc5HQCgaHoDpIh5.6p1CPVOypryqGJLe.ax9wLTGECxXomkquXZ9hcjDspw8
+ q7UTTJMqxQUxnEXyPlol9wdSEXUrAaU2GIx7ARbBsMnzuII8YTKq95D7Lqo_3mmjmwy1n701FEtM
+ T56TOJbFgLDtTf0pPHzdSP93KZ_GuzUhI3bweWKIWSeA3vVGEH5NItGWlCrGRSnQvyOGyHne5jsv
+ TcNIsxdYplNMzQTRiqa.0zCwF3oyvpOVC2T864OptM5Hf9hps_K9rWX5HHgpos1xQtFts7RHph4.
+ ZpIS8WH1Wwi49sbChVivclNu9UNiuRuMrxEV8KpRbUoNUEg_9iTjjzh5hC_NlyyiB5N6_qaiL1tm
+ zvKUQCkEQC1jfs9.L1Gom71krC6.N1L0ypU.52biP.ICCN021Fj5NAFwbBxE_yd9IAtPTCBzflFj
+ I4RCvqIZiag1lTbup66UJ5H_A6300xI4WI1O3lzNvLQK_2hmWEWxzjC2CfUMQXzZ.CqJOCuaXxIu
+ qLlewqRMM2JAZj_7tiucsyJKWZadcG1lYqb3maloSG1jGzVGg_l7KEBPsenqh57SmSSuM6bdT0gt
+ DQ35edZCwbV9e26IcMaKamWn4QHBXbgDZnF8CahIHbfcPdnPHkDPjhwPVyjaQppMggZfuIehXHDH
+ qbzQsRj9vGYhvTUUmhONIHamvZMLYOZ7doo.DbjVJNlMqVaKuJFtkB6PxZm5cWuowJsqvEYw7LPB
+ c3IexELiJ.OhtIho7J8Ppqthsog4ou5TpcmRBRMqGu0UgyQ6O3vMuDu_dbUSR2nILA3tzXjAPeG_
+ udUyIaboyu3JKEMxtzRh6dK_asTLRMZG6RWNHByp4t8og_JIc8oG37Tm54zQ87exEyenS7EmUNDV
+ Z2SyUPBkH9EYVHkCSQTA7_RuHYhz6wgNHwo2Iq.qaWX4WZe4guuiJXMZKqQ405xUzlV0AebbCOQw
+ gijuKRQy.ifIIlr0GHF8Gp9_VCXhFQqqNoiSyjPgPAD.hUD8dUc8h.IaYCUKhQidUV9RzUeCX258
+ rbvKHSERMyIl7pUdlAe25EQAt9pY.TYGCTBNjiVaAibZh61QJqHt43KnntB6fp5x2psHy9LKZ5vt
+ Eh5hZBOI3O6ZKTFedrgAU_1zoS1WOuCK0DCLPiwWqEwZ.8KDxvASj9lc2uuIrfpZXAvqEGVKkmTE
+ UguYnHhRglmLjuZKzmgkA6kr36odmO6.5YXtVgvPs9DPlwFaxC.EM51yEint_zQlwuXjchDdNfcL
+ 0OREZXjCo.1L3RdlB1DDK2UJdt2k92DXkxM8r17o2XG_mGrxQz265t1t708lT5HT1FEc_XPuumTs
+ L5Jtn8y_oWe.dwy_eCMCiRNkhCcNeU6r2QXkp5zhsFqG6X0Z0qL_LPYj3cGzLTTPkLanvZ8km7_H
+ aEP9bDwhuusHtcDRSxeFOvE_N5oj3X8.FYIglmOYOVbgHJpOtBaw0x9gW9eJARMmIO850_hBanFx
+ tto.6eCvifmjdq9el8r_Ni2_.0gYdJUzf.pzJlF_Ix8NW9DWGaEKtH.e8WkiedDU3.nUIDdr2kgu
+ 2UdELYF8wzVpEVgLkJxVYws4x3dJ4U0pMqwv.JTkaq0dOmjfFIOfwqDFwvepjN2NKJdXXgIepCdG
+ iip1d09s6DBlani6fCrBEQM1yiVWnJju3joYXsCTiBCa9_fok4A31nMPLJB48y_s3jn9iZQC2kZb
+ O32YH0KYXccuKQp8ft2_2TrVELhtde9jRVeVDl4a3DWjlDdodsM6UxPxqXJt.VM5jWyS_zHKbkJi
+ uIXPZZcQWp9QVudpBursAaizFm4Sa2nWOrUbzhYckQKgHpduVVAvwedRZu.fDBpshQfd7ks7eT07
+ sAw_BBN2CeG7C7Vc4_yOXj6NgVtmgdnVjsSGb89Oa92JrngjFaoakBYryALp7rULImuEwgCL6DA6
+ lzL3h5jN99AQqPyP8EUuHRmu0MBpQ11M4kopPv2h_5PYiEJeY5DMLst6Qzm8oOlKEZ0EuKmtLnCo
+ Pr91k.igyTehyYw--
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic316.consmr.mail.gq1.yahoo.com with HTTP; Fri, 6 Jan 2023 14:02:07 +0000
+Received: by hermes--production-ne1-7b69748c4d-drrwg (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 9c3339e25d8418037deac281a90e36bb; 
+ Fri, 06 Jan 2023 14:02:03 +0000 (UTC)
+Message-ID: <b07581b1-3f36-bb3e-ab2b-7400bdffe0ef@aol.com>
+Date: Fri, 6 Jan 2023 09:02:01 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: intermittent hang, s390x host, bios-tables-test test, TPM
+Subject: Re: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Cc: Eric Auger <eric.auger@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <CAFEAcA-f39VfWEwb-zRabjVoO-XQ-0V=iCFu1PVjg7eYChszbA@mail.gmail.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <CAFEAcA-f39VfWEwb-zRabjVoO-XQ-0V=iCFu1PVjg7eYChszbA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: jBogDQ7vx-HqiQz2oLncIDaYHg-lVog3
-X-Proofpoint-ORIG-GUID: PiHVRAJXX-mZNjRbHvhdwg2UzGzMWFKc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-06_08,2023-01-06_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- lowpriorityscore=0 malwarescore=0 mlxscore=0 adultscore=0 mlxlogscore=999
- clxscore=1011 spamscore=0 suspectscore=0 impostorscore=0 bulkscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301060103
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
+To: Anthony PERARD <anthony.perard@citrix.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>, Paul Durrant
+ <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ xen-devel@lists.xenproject.org, qemu-devel@nongnu.org
+References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
+ <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
+ <20230102124605-mutt-send-email-mst@kernel.org>
+ <c21e933f-0539-9ffb-b2f8-f8e1a279b16f@netscape.net>
+ <20230103081456.1d676b8e.alex.williamson@redhat.com>
+ <cbfdcafc-383e-aea3-d04d-38388fab202f@aol.com>
+ <ba4f8fd6-ae10-da60-7ef5-66782f29fdb9@aol.com>
+ <Y7f9hi0SqYk6KQzW@perard.uk.xensource.com>
+From: Chuck Zmudzinski <brchuckz@aol.com>
+In-Reply-To: <Y7f9hi0SqYk6KQzW@perard.uk.xensource.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.20982
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.69.30; envelope-from=brchuckz@aim.com;
+ helo=sonic316-54.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.939,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,11 +116,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 1/6/23 5:52 AM, Anthony PERARD wrote:
+> On Tue, Jan 03, 2023 at 05:58:01PM -0500, Chuck Zmudzinski wrote:
+>> Hello Anthony and Paul,
+> 
+> Hi Chuck,
+> 
+>> I am requesting your feedback to Alex Williamson's suggestion that this
+>> problem with assigning the correct slot address to the igd on xen should
+>> be fixed in libxl instead of in qemu.
+>> 
+>> It seems to me that the xen folks and the kvm folks have two different
+>> philosophies regarding how a tool stack should be designed. kvm/libvirt
+>> provides much greater flexibility in configuring the guest which puts
+>> the burden on the administrator to set all the options correctly for
+>> a given feature set, while xen/xenlight does not provide so much
+>> flexibility and tries to automatically configure the guest based on
+>> a high-level feature option such as the igd-passthrough=on option that
+>> is available for xen guests using qemu but not for kvm guests using
+>> qemu.
+>> 
+>> What do you think? Should libxl be patched instead of fixing the problem
+>> with this patch to qemu, which is contrary to Alex's suggestion?
+> 
+> I do think that libxl should be able to deal with having to put a
+> graphic card on slot 2. QEMU already provides every API necessary for a
+> toolstack to be able to start a Xen guest with all the PCI card in the
+> right slot. But it would just be a bit more complicated to implement in
+> libxl.
+> 
+> At the moment, libxl makes use of the QEMU machine 'xenfv', libxl should
+> instead start to use the 'pc' machine and add the "xen-platform" pci
+> device. (libxl already uses 'pc' when the "xen-platform" pci card isn't
+> needed.) Also probably add the other pci devices to specific slot to be
+> able to add the passthrough graphic card at the right slot.
+> 
+> Next is to deal with migration when using the 'pc' machine, as it's just
+> an alias to a specific version of the machine. We need to use the same
+> machine on the receiving end, that is start with e.g. "pc-i440fx-7.1" if
+> 'pc' was an alias for it at guest creation.
+> 
+> 
+> I wonder if we can already avoid to patch the 'xenfv' machine with some
+> xl config:
+>     # avoid 'xenfv' machine and use 'pc' instead
+>     xen_platform_pci=0
+>     # add xen-platform pci device back
+>     device_model_args_hvm = [
+>         "-device", "xen-platform,addr=3",
+>     ]
+> But there's probably another device which is going to be auto-assigned
+> to slot 2.
+> 
+> 
+> If you feel like dealing with the technical dept in libxl, that is to
+> stop using 'xenfv' and use 'pc' instead, then go for it, I can help with
+> that. Otherwise, if the patch to QEMU only changes the behavior of the
+> 'xenfv' machine then I think I would be ok with it.
+> 
+> I'll do a review of that QEMU patch in another email.
+> 
+> Cheers,
+> 
 
+Hello Anthony,
 
-On 1/6/23 07:10, Peter Maydell wrote:
-> I'm seeing an intermittent hang on the s390 CI runner in the
-Is this a new hang or has this been occurring for a while? I am asking because the test case is not new.
+Thanks for responding!
 
-    Stefan
+The first part of my v6 of the patch only affects the xenfv
+machine. Guests created with the pc machine type will not call
+the new function that reserves slot 2 for the igd because that
+function is only called when the machine type is xenfv (or xenfv-4.2).
+But the new functions I added to configure the TYPE_XEN_PT_DEVICE
+when igd-passthru=on will be called to check if the device is an
+Intel igd and clear the slot if it is, but this will not have any
+effect on the behavior in this case because the slot was never
+reserved. Still, this would add some unnecessary processing in the
+case of machines other than xenfv, which is undesirable.
+
+So I can add a check for the machine type to a v7 of the patch
+that will skip the new functions that clear the reserved slot if
+slot 2 is not reserved and therefore does not need to be cleared.
+
+Would that be OK?
+
+Kind regards,
+
+Chuck
 
