@@ -2,88 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B9065FA39
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 04:29:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB3265FA4A
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 04:30:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDdCZ-0001Zs-8K; Thu, 05 Jan 2023 22:15:27 -0500
+	id 1pDdCa-0001kc-8U; Thu, 05 Jan 2023 22:15:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=363443eaf=alistair.francis@opensource.wdc.com>)
- id 1pDdC6-0001P3-O6
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:15:03 -0500
+ id 1pDdCD-0001Q0-3U
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:15:06 -0500
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=363443eaf=alistair.francis@opensource.wdc.com>)
- id 1pDdC4-00088g-Co
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:14:57 -0500
+ id 1pDdC8-00088M-9R
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:15:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1672974896; x=1704510896;
+ t=1672974900; x=1704510900;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=UcOlSMEVvhtHfKKjQDCrCJH12+yFVKia9CUL5SqGh5o=;
- b=IYOlnYQJfjOnW79sdr/VViVY75L4p72tpPQW1stFd+xyy4U4YBrph0sZ
- SgDWcWZHP6DowYseD9JiXynp1VqORGVhSKTCWvaNOVk+jTZAyb7klknCt
- jl81Iy2voOMp4/LGX5JtXxwGU9Pc55e1zRwcP7ShhYwUZEH3OFKTIM6Ua
- zLC5w7Nd7RewOAWFWu04Mwo7YejGcHlUtzzOBJtbA0Qv4Hc0uw1VjLgs+
- Yi2Vh9B5VtQOvehGJpzVNCfAkB8fx8/HEQ5LLb1cm9dG1pkPPeAh2l+Ri
- cNJtp5dt1qNxJM6FfgFYo17IHuxjVA9Wh57SzreG9IrKWk3V53EYiyxzq A==;
-X-IronPort-AV: E=Sophos;i="5.96,304,1665417600"; d="scan'208";a="220254784"
+ bh=0y06Eloy4qYCTZrO2klxBInbenlq8L6lxdT3Guv1tac=;
+ b=g962ORAY1CmebJBIzIchoSPf/VrRrM1mRAX0QI1gu57RuFc43hxEWD+s
+ leFcjFCP6gDjrg240Z6T0jemc3A4JftuuEgpxsH00khkznsixTtCj90wQ
+ 6cjitdQRVRMtHVOMO5UG4w+wGK0VkY/sPpRB9yiFaIYQkhsQZgaNU42L6
+ 0Omj58XF/ofn4gmmo2ycUnHGCTYY3N5GFDDZczMHXrqbQ/vgUPmRo0R6S
+ Xdv50wsDqUC1uZa5KtZrpJxypcJJAkO4OXCCaCwNpgo2Oe7M/0DwENXpH
+ diVfcPmbRe9eEmB6dMyS9DWfRYbEUs3Yu3f91gvs8b/0JUT9o4HhFfnih g==;
+X-IronPort-AV: E=Sophos;i="5.96,304,1665417600"; d="scan'208";a="220254788"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 06 Jan 2023 11:14:32 +0800
-IronPort-SDR: IvO6aTVo/aPsfwcDyXjM/Qz3JBe2vQh3WZYr0K5gDBbJ2laXhqyHzkuJ+S2MV8AoTr3Y/KpCoT
- IKij6zWRpcOomhWK01HhYwkALZN+E0he3qqdvHhMckMHAGkocPDHSka79XXQY0Y6amUQDXhvO3
- Gp8P4gV72TBxTnpDjGgmo3Z/5kvZBRnX7tJNqQyTG9RzsjlfxhudvNsMB14ZJbw6VfAWHv4Tjp
- +FqY8TYq5qrnPSPDxjMwJaL7sczEBO+cxC8ZPX7e1UHtUA/nD6oBa1awrlJwfVQrVdsIR5L3MM
- D3M=
+ by ob1.hgst.iphmx.com with ESMTP; 06 Jan 2023 11:14:34 +0800
+IronPort-SDR: aT+y7vZ3Xq9nwL3b0iy1VqrzYoz+9bYyKRCth6DuuuXJorrh9m+lgccQBmXPBEwaEme7bfV54I
+ P5kpd2riM7Uj31A9rBzFkEuQOTUFXDGaulGn0LW80ElH/KzfQ8XW+5jzgIVRzq94xxDrzf7ClD
+ 6XMHrIyJNxxGCH4mGpoeM3ZciLyCb15M6wfCiIkHldgM3oYfJhuFrnwMrPo/N3bzh87IKi5lVc
+ 9Y2Og3zSMmYsrMhPTdJkGv+c3oXdcrPtVRjh9WSu2wSxazMim6Ox61JyBYiOQE5r9kMI9FZige
+ /Bc=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 05 Jan 2023 18:26:44 -0800
-IronPort-SDR: eHLeYLGz/SnCrgHP9EKRwi3hg08mduAzUa31RdDCRD+0ZUGKDSCZ/YyF9IYjuMGm5aQId2G45C
- 7woZc7fRw+am088X7rhYSVuY+HFtnxKT9j3WKAZ/L3fW63ruHC1Aa/xicijJLQvoGqkKRlfi8C
- t8axqyg5qRQRVY+7plhqDut5hdX5jalwg1uBbuwCdJDauPuDMcFfegIE54jyDKr6u1jZbPBsUR
- jN6Htnh74AS5cg9XjdL1k8etlwQoKyS0SnJ60DGtfxL46ySN93TfFhxfgjWj2ibGc7XDAHQlhZ
- 628=
+ 05 Jan 2023 18:26:45 -0800
+IronPort-SDR: +XMUlIEUpBgFaw5rHhZpTPv75DxcYctGdZbI8GNkW8dDGFiLgkK6ogI59aVMRg5CAWN/5AEEP+
+ 56NUcet7bKnyC+1FZ9NyHM6yXJKhBtpOL4UXwjUDV7sV/BQ20fnIInM8M/CQs1ewpHrKYIw7mY
+ NXChRaGMeK4DmrMapytAXBUg12Er+zKvg2FW+06OxEtNPpscRRv9z/V3z/zY3m79Or3Ae3cl4x
+ HRo5dbICRygj6Ly3/8HiA+kdk1tsJ/lBSmXELpnyx6GNa+nWeJYJ7TKt6eg3DX8xWM5CUmTjJ/
+ rKI=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 05 Jan 2023 19:14:34 -0800
+ 05 Jan 2023 19:14:36 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Np7jh70JGz1Rwrq
- for <qemu-devel@nongnu.org>; Thu,  5 Jan 2023 19:14:32 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Np7jk24Nyz1RvTp
+ for <qemu-devel@nongnu.org>; Thu,  5 Jan 2023 19:14:34 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1672974872; x=1675566873; bh=UcOlSMEVvhtHfKKjQD
- CrCJH12+yFVKia9CUL5SqGh5o=; b=ZLEja0v0J8HoalGsJwyjT92qKtuDfPgviQ
- v3SlcUOE3EgfoX9ArI9rewPb484w3acJizVH5C8PTwsByzLIntQljAyHV+hWmN4d
- rh5O4+65NiKfG/4qk+9DBpfnu5SJvAG+4oheHJkX6a6UYb6CDamYz0sHByXUW/Km
- HL59TeMHGsXtleHQqGozcJM8MdetMhxd3Z82NfwbOjr/wGTdG11APi8sAvFkhMD8
- bVq94WCNJcrKnYwiNN0vmzpjfuDBAXEkBLXBXbZ/1NB6meJ5Ui1rzyORGu7Ktsm9
- OOJft0XFqdYEABjUWEBN9pLwza5ZHR3gcYzE3BuyOClEIs9Ojlag==
+ :from; s=dkim; t=1672974873; x=1675566874; bh=0y06Eloy4qYCTZrO2k
+ lxBInbenlq8L6lxdT3Guv1tac=; b=ctgKui3hfmF+6RE7L2R+pUcUjtwtItH5PR
+ S+tInav90jEf5Rea8IY8zHWdCp94rP2++dsPSuzRhuA9BQ6SY5WVmIxWkew74dzB
+ xKU7wGwhalgss3PVRIMPP5Xe0U17y3nE9ot4vGXy695jTAvrnuSC3eBiEylF+NRN
+ 4rVRsdiU/mMKaVeg/EnwyZQg5DGMaumSeTctchS0uCgyYiFTgn+1uEIXeJCp4Wu4
+ tBk4dPKWMyAlWV+9GV7wGs1QrKb7/Zy0ZjW1FBwwbXOt2ar3SLe9cpzN6KZm6L2e
+ 0KJ70ZX/QEEkrmB8XJFuGOCSGhLicxWqxRtV5hhkpgswvAjQiAZA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id ydSNFbStNpyJ for <qemu-devel@nongnu.org>;
- Thu,  5 Jan 2023 19:14:32 -0800 (PST)
+ port 10026) with ESMTP id k5FO-j2RYBdB for <qemu-devel@nongnu.org>;
+ Thu,  5 Jan 2023 19:14:33 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.167.28])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Np7jg1YNhz1RvTp;
- Thu,  5 Jan 2023 19:14:30 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Np7jh58Gwz1RvLy;
+ Thu,  5 Jan 2023 19:14:32 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Atish Patra <atishp@rivosinc.com>,
+Cc: alistair23@gmail.com, Jim Shu <jim.shu@sifive.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v3 16/43] hw/riscv: virt: Remove the redundant ipi-id property
-Date: Fri,  6 Jan 2023 13:13:30 +1000
-Message-Id: <20230106031357.777790-17-alistair.francis@opensource.wdc.com>
+Subject: [PULL v3 17/43] target/riscv: support cache-related PMU events in
+ virtual mode
+Date: Fri,  6 Jan 2023 13:13:31 +1000
+Message-Id: <20230106031357.777790-18-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
 References: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
@@ -114,64 +115,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Atish Patra <atishp@rivosinc.com>
+From: Jim Shu <jim.shu@sifive.com>
 
-The imsic DT binding[1] has changed and no longer require an ipi-id.
-The latest IMSIC driver dynamically allocates ipi id if slow-ipi
-is not defined.
+let tlb_fill() function also increments PMU counter when it is from
+two-stage translation, so QEMU could also monitor these PMU events when
+CPU runs in VS/VU mode (like running guest OS).
 
-Get rid of the unused dt property which may lead to confusion.
-
-[1] https://lore.kernel.org/lkml/20221111044207.1478350-5-apatel@ventanam=
-icro.com/
-
-Signed-off-by: Atish Patra <atishp@rivosinc.com>
+Signed-off-by: Jim Shu <jim.shu@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221122080529.1692533-1-atishp@rivosinc.com>
+Message-Id: <20221123090635.6574-1-jim.shu@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/virt.h | 1 -
- hw/riscv/virt.c         | 4 ----
- 2 files changed, 5 deletions(-)
+ target/riscv/cpu_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index be4ab8fe7f..62513e075c 100644
---- a/include/hw/riscv/virt.h
-+++ b/include/hw/riscv/virt.h
-@@ -93,7 +93,6 @@ enum {
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 427d4d4386..1ff6ab5746 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -1258,6 +1258,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address=
+, int size,
+         }
+     }
 =20
- #define VIRT_PLATFORM_BUS_NUM_IRQS 32
-=20
--#define VIRT_IRQCHIP_IPI_MSI 1
- #define VIRT_IRQCHIP_NUM_MSIS 255
- #define VIRT_IRQCHIP_NUM_SOURCES VIRTIO_NDEV
- #define VIRT_IRQCHIP_NUM_PRIO_BITS 3
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index a5bc7353b4..6cf9355b99 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -546,8 +546,6 @@ static void create_fdt_imsic(RISCVVirtState *s, const=
- MemMapEntry *memmap,
-         riscv_socket_count(mc) * sizeof(uint32_t) * 4);
-     qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,num-ids",
-         VIRT_IRQCHIP_NUM_MSIS);
--    qemu_fdt_setprop_cells(mc->fdt, imsic_name, "riscv,ipi-id",
--        VIRT_IRQCHIP_IPI_MSI);
-     if (riscv_socket_count(mc) > 1) {
-         qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,hart-index-bit=
-s",
-             imsic_num_bits(imsic_max_hart_per_socket));
-@@ -597,8 +595,6 @@ static void create_fdt_imsic(RISCVVirtState *s, const=
- MemMapEntry *memmap,
-         riscv_socket_count(mc) * sizeof(uint32_t) * 4);
-     qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,num-ids",
-         VIRT_IRQCHIP_NUM_MSIS);
--    qemu_fdt_setprop_cells(mc->fdt, imsic_name, "riscv,ipi-id",
--        VIRT_IRQCHIP_IPI_MSI);
-     if (imsic_guest_bits) {
-         qemu_fdt_setprop_cell(mc->fdt, imsic_name, "riscv,guest-index-bi=
-ts",
-             imsic_guest_bits);
++    pmu_tlb_fill_incr_ctr(cpu, access_type);
+     if (riscv_cpu_virt_enabled(env) ||
+         ((riscv_cpu_two_stage_lookup(mmu_idx) || two_stage_lookup) &&
+          access_type !=3D MMU_INST_FETCH)) {
+@@ -1321,7 +1322,6 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address=
+, int size,
+             }
+         }
+     } else {
+-        pmu_tlb_fill_incr_ctr(cpu, access_type);
+         /* Single stage lookup */
+         ret =3D get_physical_address(env, &pa, &prot, address, NULL,
+                                    access_type, mmu_idx, true, false, fa=
+lse);
 --=20
 2.39.0
 
