@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92AE660981
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 23:30:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E2D660997
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 23:37:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDvCl-0004LP-Na; Fri, 06 Jan 2023 17:28:51 -0500
+	id 1pDvJp-0005iL-GM; Fri, 06 Jan 2023 17:36:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDvCd-0004L8-M2
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 17:28:43 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ id 1pDvJm-0005hz-VO
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 17:36:07 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDvCc-00054f-1e
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 17:28:43 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- o1-20020a17090a678100b00219cf69e5f0so6692680pjj.2
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 14:28:41 -0800 (PST)
+ id 1pDvJk-0007U4-Jf
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 17:36:05 -0500
+Received: by mail-pl1-x630.google.com with SMTP id 17so3238392pll.0
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 14:36:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Lf+kgIU/jt0UtT9Vx7FpwiYB+K4LKLKS3ZuPu9aEqYE=;
- b=r1WcJnBYQN3FFr+Deda0yuAoiBMzhAqQkNBEFC/HIuqqk1KCcKS8guHQC9gW/okuAC
- uTSuQxgRqQISj1acdKyv/GpvR9rt5LvBl02ng3D4TnRlBzC3HRGHKInpgcFw4YxF8NZw
- CBJEwkXALxcAqWLhMj+AxX8l029JibYKierhGPL6Psj23zFN9RlSRavb5JNTNKaFFHxw
- Rpry0GhXv3XDEDNQZDFy5avKIbcWDXOKcisG9cYEJtRz/Cu9a7dHllMad/CTYDuF7PTU
- GWPj3E2b4cXFDpJpMoAiWXB8iqlZp9o6C74uNygshJZg45mi9mrHoCMHQzfpKoiIoIvF
- 0vQw==
+ bh=thzXRMKujGuTwxUfFSvr7vSXfUROk2P609oRj//x9PI=;
+ b=Fs0TEBxFyiEhiBx0CaqZT9m4nhJph7rHKGfZxfm8c9dRyV24ef13OfxXFPsqfn0znN
+ hyHjA/h44R6vOwkjzQhzDfltDqhfoXLAgYRKu61XhXUJWhAeD2qKKQTN5kpQziLPyaAb
+ oRHKJVka4p/fdc6XyHEHgbXKSyNc0mlum56Jk96qM+IR58amw5PglMNgTv2Os6q+R1Zf
+ m/mYSFVoJksDrW2jOT9cxbpHtNJxjECGb1zgB6hwuPYx90wnvJt2Dd4gQlucAcnFPsDx
+ LU5JEhBA21+h8beIi/YHEhq14qGqj4ljtJCsSGj2+Xp4npt49XK4me8f6JAmq+K/9sbn
+ MwxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Lf+kgIU/jt0UtT9Vx7FpwiYB+K4LKLKS3ZuPu9aEqYE=;
- b=zDGQ4x0cxwxd5KlzxyNnrzVCGceKcIgux57WjXKkfotd4tE9gAay0gjKbtNylgjoN5
- YL9Pw4gS6vPXfikM6uuQMJS3OlUiIwEzk9KMVenl0C7ZULVBl+pomDZF7UC0nIxLyNYL
- OKjJ4mDkuFy/LAi4A9jTwV6M63rEnINrFiqAp7igZDYTUkgwwR7kl5ZTMcEuZlkfLP3o
- K5kwA/0+x+N5MSkgtZ64bzR7b2POjFueBYsLcZbdJrRgZZRqgbLvb+1YhS/8XA/8Z6V7
- yWfTGOWmN/m3X7OFX+TR08iDivnDLwI40Y9aR6FQm1VoqFZB4IAEvTGxs2ETfF8751GO
- n8ug==
-X-Gm-Message-State: AFqh2krCZzcIlpGe0Jz7EyIj/Jrvph9SafJGCOFazQsNPE24AkDELWQ/
- 3oincx1biHS0JoBhzMbg5jeaIA==
-X-Google-Smtp-Source: AMrXdXtTre4W3nF3E8C/43zmaRgAOja6Tlk2rbzzppYY6A/TGvI+dJabzzH4tWui+7Dsh2mNCSHNlw==
-X-Received: by 2002:a17:902:aa85:b0:189:894c:6b48 with SMTP id
- d5-20020a170902aa8500b00189894c6b48mr61161671plr.59.1673044120426; 
- Fri, 06 Jan 2023 14:28:40 -0800 (PST)
+ bh=thzXRMKujGuTwxUfFSvr7vSXfUROk2P609oRj//x9PI=;
+ b=iXrA8GEl5i4CUmOTmtKzhMub2OGwoSMaviHmNOrXHbz5QY3KuDSG2QUm3ltmZ4PiFX
+ O2bUkpqG25+DeimjW0jtEQPS/tDh896Wx2UE/2Z4EOtzMzR3Xa78kBEFs2hPlyLeRScM
+ c6s7EMs63qYXDf6FG+J+GDKrLHEAz5Up7L40wcP0FQrhl5SVP9yF2YXUWdliPKrx/kPG
+ ggquaJ3M6tjRGnjg0SUOAboBbCQyA+ASvgHt9brLtO1j/SWEq7hE2cD8h86BRa6ykudM
+ veKtD2lysusCTAQ7Tvlr9eil2xL92z2cO3jP1/lJZFxrLxgI0CqjFOGrlBaR0+dQe/Pb
+ yySA==
+X-Gm-Message-State: AFqh2kquwlag7fb0Orc8zThkpJGNTU4M4/N1MuLV+KFHap/9W6YZWIjS
+ PkTu7gi5m+D1WnOFRlUCDJmioQ==
+X-Google-Smtp-Source: AMrXdXset1mhmEfjW0OkZZZkeJfpdaJsOZyW6HjozK5EWoMIOyEvacAunKd3nLg8gopicb1tqNsxdw==
+X-Received: by 2002:a17:902:bf01:b0:189:c47b:af27 with SMTP id
+ bi1-20020a170902bf0100b00189c47baf27mr56002854plb.10.1673044562950; 
+ Fri, 06 Jan 2023 14:36:02 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:9d81:5b04:51d7:acae?
  ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
  by smtp.gmail.com with ESMTPSA id
- l9-20020a170903120900b00188a908cbddsm1331289plh.302.2023.01.06.14.28.39
+ o17-20020a170902d4d100b00189d4c666c8sm1408495plg.153.2023.01.06.14.36.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Jan 2023 14:28:39 -0800 (PST)
-Message-ID: <b3dd666e-582b-e9d4-6dee-364b9dd6d00c@linaro.org>
-Date: Fri, 6 Jan 2023 14:28:37 -0800
+ Fri, 06 Jan 2023 14:36:02 -0800 (PST)
+Message-ID: <f010b794-3616-5970-6a5d-13f6f650737f@linaro.org>
+Date: Fri, 6 Jan 2023 14:36:00 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 00/40] Toward class init of cpu features
+Subject: Re: [RFC PATCH 16/40] target/arm: Represent the entire MPIDR_EL1
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, berrange@redhat.com,
  eduardo@habkost.net, armbru@redhat.com, ajones@ventanamicro.com,
  alex.bennee@linaro.org
 References: <20230103181646.55711-1-richard.henderson@linaro.org>
- <CAFEAcA8K=1CNZfDG8i3bSXXSWT7D2oWg4jyupwYmw8oR7MJVsQ@mail.gmail.com>
- <9f9a6c22-315b-de1e-958e-89963c5e7e90@linaro.org>
- <CAFEAcA8cxJFpB9V826DjSsFOy7VYh5TWXb4vRYDUeOMjQgk-eQ@mail.gmail.com>
+ <20230103181646.55711-17-richard.henderson@linaro.org>
+ <CAFEAcA-m32sjkQSSkM1QopiqKgn+4OLTxs+c3w-+zck8Ns86yg@mail.gmail.com>
+ <b52d4a65-3aa7-d9f1-a589-a0db64ee5e78@linaro.org>
+ <CAFEAcA8SrKxe9XZCuuPCneFtTgAbe8Hs1neZmjenNXd04dWu_w@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA8cxJFpB9V826DjSsFOy7VYh5TWXb4vRYDUeOMjQgk-eQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA8SrKxe9XZCuuPCneFtTgAbe8Hs1neZmjenNXd04dWu_w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -99,41 +99,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/6/23 13:59, Peter Maydell wrote:
-> We also set some properties in code -- eg aspeed_ast2600.c clears
-> the 'neon' property on its CPUs, lots of the boards clear
-> has_el3 and has_el2, etc.
+On 1/6/23 14:14, Peter Maydell wrote:
+> +    if (arm_feature(env, ARM_FEATURE_V7MP)) {
+> +        cpu->mpidr_el1 |= (1u << 31);   /* M */
+> +        if (cpu->core_count == 1) {
+> +            cpu->mpidr_el1 |= 1 << 30;  /* U */
+> +        }
+> +    }
+> 
+> This is wrong, incidentally -- a single Cortex A9, A53, etc does
+> not set the U bit. (It's "a cluster with 1 core in it", not
+> "a uniprocessor system".)
 
-Yes indeed, but in all of those cases we want all of the cpus to act identically.  Those 
-are all easily handled (patches 35, 36, 38).
-
-> I hadn't got as far as patch 29, but
-> looking at it now that looks like a pretty strong indication
-> that this is the wrong way to go. It creates 3 extra
-> cortex-m33 CPU classes, and if we find another thing that
-> ought to be a CPU property then we'll be up to 8;
-
-If we find another thing that needs to be different between cpus, you mean?
-
-> and it becomes visible in user-facing command line stuff.
-
-No it doesn't -- command line is *not* affected, because both before and after, all 
-properties are applied identically to all objects.
-
-QMP is affected, which is where I stopped and started asking questions about what QMP is 
-actually trying to do.
-
-
-> I think our object model pretty strongly wants "create object;
-> set properties on it that only affect this object you created;
-> realize it", and having one particular subset of objects that
-> doesn't work the same way is going to be very confusing.
-
-Eh, I didn't think it's particularly confusing as a concept.
-The code is rough, buy what one might expect from an RFC.
-
-We really ought to have *some* solution to not repeating property + feature + isar 
-interpretation on a per-cpu basis.  I'd be delighted to hear alternatives.
+Hmph.  It would have been handy to have the "uniprocessor" term defined somewhere in the 
+architecture manual, since they appear to be using it in a specialized way.
 
 
 r~
