@@ -2,96 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F5C265FC9B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:20:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEFF365FD0D
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:48:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDhxU-0007wk-6p; Fri, 06 Jan 2023 03:20:12 -0500
+	id 1pDi68-0002XB-TK; Fri, 06 Jan 2023 03:29:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDhxI-0007vt-Fh
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:20:05 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi62-0002W8-2S
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDhxG-0001Ym-4I
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:19:59 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi5z-0005UJ-Ji
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672993196;
+ s=mimecast20190719; t=1672993738;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IWzUDHH8bSrtQRK3auwHby1VJyp+qKxzwRpImywmsbo=;
- b=VhJU5yoTzOCiOUvwz9KhjksUywi+/4g2RIo3ymC0qIdAJOKYHvfUL7Hqfqn0Aj5VI1vn8Y
- 4puOvnQq2g+oB2Y7TVNVvEaUsKG6MhMESiXbOLqSVy4esYGAgCLTMfI7l4xAjNtkPzClQX
- +FJwwbNtzNNgoOmKpRfUjIQtgE9Xhd0=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-373-waAlsfEANHaYNITpOXpq2Q-1; Fri, 06 Jan 2023 03:19:55 -0500
-X-MC-Unique: waAlsfEANHaYNITpOXpq2Q-1
-Received: by mail-qv1-f70.google.com with SMTP id
- ng1-20020a0562143bc100b004bb706b3a27so443315qvb.20
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 00:19:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IWzUDHH8bSrtQRK3auwHby1VJyp+qKxzwRpImywmsbo=;
- b=Cbs25tyZ1ZOeQA+r/prAprSyGvRj2HCUrSddu7bMsM31AYGjjqtkFWI3pIvO/kF1l3
- VKtAokaE28+4FvhjTfmSqo+IcjsynPDp3EUiMzbx20qM/X3D/1KQZ9/EEMYxn6WNY+ST
- /O08eAcBW3DKC3gKifPh7crRrghuBlB0HNJP82x8rhSYJY7mBK3NeWrANuawZQrrdMt5
- z3UBeFtw00caFz99hZbF0UuVWNOSDnLStlQVITwLrWJPXgtpbdLtKj0hRWSNOMZbUrrk
- FcCCGp4DgOvRuvoAIHIXIhclLjWA5z//qRZG5p+zb5e/gaZuTPzLhoXzsdR6hKKCioG9
- 1E/g==
-X-Gm-Message-State: AFqh2kqsGlyE0sIFP/gTC7/7mlP/sqWZCSsTikI12PELr0383CnMWzog
- jxaFkIVSacdFsXafvv5bd5FiA/7UeD08yoBd89nvg+e+QBE5qsoYZk9SSylF8gYqtSg1CEcxhG9
- mOSby1gP12NmMnWo=
-X-Received: by 2002:a05:6214:398f:b0:531:dea1:acd4 with SMTP id
- ny15-20020a056214398f00b00531dea1acd4mr16607647qvb.3.1672993194933; 
- Fri, 06 Jan 2023 00:19:54 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsLk/2fqSMPfi97BAnXvE19Q3VxpLEw3GfeSVjspS+kzvcCAV2IGi2p3O5k+5DU7un4ywZVDQ==
-X-Received: by 2002:a05:6214:398f:b0:531:dea1:acd4 with SMTP id
- ny15-20020a056214398f00b00531dea1acd4mr16607631qvb.3.1672993194657; 
- Fri, 06 Jan 2023 00:19:54 -0800 (PST)
-Received: from [192.168.8.100] (tmo-098-170.customers.d1-online.com.
- [80.187.98.170]) by smtp.gmail.com with ESMTPSA id
- dm30-20020a05620a1d5e00b006bbc3724affsm185927qkb.45.2023.01.06.00.19.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Jan 2023 00:19:54 -0800 (PST)
-Message-ID: <95c8fd9a-9dd8-249a-1509-084910fbb7de@redhat.com>
-Date: Fri, 6 Jan 2023 09:19:51 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] .gitlab-ci.d/windows: Do not run the qtests in the
- msys2-32bit job
-Content-Language: en-US
-To: Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Bin Meng <bin.meng@windriver.com>
-References: <20230105204819.26992-1-thuth@redhat.com>
- <4ff2d01a-e6bb-5a99-356b-6b2ade61b667@linaro.org>
- <5a2d8ef1-a478-0b6d-3c65-d792f162feaf@redhat.com>
- <373666f9-7999-9628-b3ae-a749fcc2e1c3@weilnetz.de>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1n3SHT+BVGFhbnK2fJk4GXPdr9qwh559lFRerfERA3c=;
+ b=QURrVDItYsPYp1RvH91WwLFM9dVSC3j4D1GXMuY2wYY+JatcDWuY7oGwR7d50uWXZZ2uhi
+ 4sXUv/Zkw0f8wz+OjnxU+0/xMBMKp2mkHF5kMivLMLqsBkVVrpur2oYmA36NF0o5g6uaqD
+ FgPA0Cw+UeM52tSkkBsCze0Mvya0Zjk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-613-4jEKfqyZPuKSi6C2-vmnBg-1; Fri, 06 Jan 2023 03:28:57 -0500
+X-MC-Unique: 4jEKfqyZPuKSi6C2-vmnBg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5B273815F62;
+ Fri,  6 Jan 2023 08:28:56 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA090492B06;
+ Fri,  6 Jan 2023 08:28:55 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <373666f9-7999-9628-b3ae-a749fcc2e1c3@weilnetz.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Cc: Nikita Ivanov <nivanov@cloudlinux.com>
+Subject: [PULL 00/15] First batch of s390x, qtests and misc fixes in 2023
+Date: Fri,  6 Jan 2023 09:28:38 +0100
+Message-Id: <20230106082853.31787-1-thuth@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.939, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,35 +74,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 06/01/2023 09.15, Stefan Weil wrote:
-> Am 06.01.23 um 08:49 schrieb Thomas Huth:
-> 
->> On 05/01/2023 22.42, Philippe Mathieu-Daudé wrote:
->>
->> > That said, maybe it is time to deprecate the 32-bit
->> > hosts?
->>
->> Certainly fine for me, but that's up to the Windows folks to decide. Maybe 
->> you could just suggest a patch to start the discussion?
->>
->>  Thomas
-> 
-> 
-> Download numbers from yesterday for my latest Windows installers:
-> 
-> qemu-w32-setup-20221230.exe - 243
-> 
-> qemu-w64-setup-20221230.exe - 6540
-> 
-> On Wednesday the ratio was 288 : 3516.
-> 
-> As expected the 64-bit variant is used much more often, but it looks like 
-> there is still a certain desire for the 32-bit variant.
+ Hi Peter!
 
-OK, thanks. Could you maybe also check the browser types in the logs? ... 
-I'm wondering whether a big part of those w32 downloads were just automatic 
-web crawlers?
+The following changes since commit cb9c6a8e5ad6a1f0ce164d352e3102df46986e22:
 
-  Thomas
+  .gitlab-ci.d/windows: Work-around timeout and OpenGL problems of the MSYS2 jobs (2023-01-04 18:58:33 +0000)
+
+are available in the Git repository at:
+
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2023-01-06
+
+for you to fetch changes up to 975f619662a46cb5dc7a3b17b84a1b540fb7df5c:
+
+  .gitlab-ci.d/windows: Do not run the qtests in the msys2-32bit job (2023-01-05 21:50:21 +0100)
+
+----------------------------------------------------------------
+* s390x header clean-ups from Philippe
+* Rework and improvements of the EINTR handling by Nikita
+* Deprecate the -no-hpet command line option
+* Disable the qtests in the 32-bit Windows CI job again
+* Some other misc fixes here and there
+
+----------------------------------------------------------------
+Alessandro Di Federico (1):
+      Update scripts/meson-buildoptions.sh
+
+Christian Borntraeger (1):
+      qemu-iotests/stream-under-throttle: do not shutdown QEMU
+
+Marc-André Lureau (1):
+      tests/readconfig: spice doesn't support unix socket on windows yet
+
+Nikita Ivanov (2):
+      Refactoring: refactor TFR() macro to RETRY_ON_EINTR()
+      error handling: Use RETRY_ON_EINTR() macro where applicable
+
+Philippe Mathieu-Daudé (6):
+      tests/vm: Update get_default_jobs() to work on non-x86_64 non-KVM hosts
+      exec/memory: Expose memory_region_access_valid()
+      hw/s390x/pv: Restrict Protected Virtualization to sysemu
+      target/s390x/tcg/misc_helper: Remove unused "memory.h" include
+      target/s390x/tcg/excp_helper: Restrict system headers to sysemu
+      target/s390x: Restrict sysemu/reset.h to system emulation
+
+Thomas Huth (4):
+      MAINTAINERS: Add MIPS-related docs and configs to the MIPS architecture section
+      i386: Deprecate the -no-hpet QEMU command line option
+      docs/interop: Change the vnc-ledstate-Pseudo-encoding doc into .rst
+      .gitlab-ci.d/windows: Do not run the qtests in the msys2-32bit job
+
+ docs/about/deprecated.rst                          |  6 ++++
+ docs/interop/index.rst                             |  1 +
+ ...coding.txt => vnc-ledstate-pseudo-encoding.rst} |  0
+ include/exec/memory-internal.h                     |  4 ---
+ include/exec/memory.h                              |  4 +++
+ include/qemu/osdep.h                               |  8 ++++-
+ block/file-posix.c                                 | 37 ++++++++++------------
+ chardev/char-fd.c                                  |  2 +-
+ chardev/char-pipe.c                                |  8 +++--
+ chardev/char-pty.c                                 |  4 +--
+ hw/9pfs/9p-local.c                                 |  8 ++---
+ hw/s390x/s390-pci-inst.c                           |  2 +-
+ net/l2tpv3.c                                       | 17 +++-------
+ net/socket.c                                       | 16 ++++------
+ net/tap-bsd.c                                      |  6 ++--
+ net/tap-linux.c                                    |  2 +-
+ net/tap-solaris.c                                  |  8 ++---
+ net/tap.c                                          | 10 ++----
+ os-posix.c                                         |  2 +-
+ qga/commands-posix.c                               |  4 +--
+ semihosting/syscalls.c                             |  4 +--
+ softmmu/vl.c                                       |  1 +
+ target/s390x/cpu.c                                 |  4 ++-
+ target/s390x/cpu_features.c                        |  4 +++
+ target/s390x/cpu_models.c                          |  4 ++-
+ target/s390x/tcg/excp_helper.c                     |  8 ++---
+ target/s390x/tcg/misc_helper.c                     |  1 -
+ tests/qtest/libqtest.c                             |  6 ++--
+ tests/qtest/readconfig-test.c                      |  6 ++--
+ tests/vhost-user-bridge.c                          |  4 +--
+ util/main-loop.c                                   |  4 +--
+ util/osdep.c                                       |  4 +--
+ util/vfio-helpers.c                                | 12 +++----
+ .gitlab-ci.d/windows.yml                           |  3 +-
+ MAINTAINERS                                        |  2 ++
+ qemu-options.hx                                    |  2 +-
+ scripts/meson-buildoptions.sh                      | 18 +++++++----
+ tests/qemu-iotests/tests/stream-under-throttle     |  2 ++
+ tests/vm/basevm.py                                 |  3 +-
+ 39 files changed, 120 insertions(+), 121 deletions(-)
+ rename docs/interop/{vnc-ledstate-Pseudo-encoding.txt => vnc-ledstate-pseudo-encoding.rst} (100%)
 
 
