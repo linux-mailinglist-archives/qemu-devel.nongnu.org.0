@@ -2,58 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA8665F94E
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 02:51:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A11B665F982
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 03:21:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDbsu-0002X4-OA; Thu, 05 Jan 2023 20:51:04 -0500
+	id 1pDcKT-0008Hh-4E; Thu, 05 Jan 2023 21:19:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangdongdong@eswincomputing.com>)
- id 1pDbsp-0002Wq-7T
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 20:51:00 -0500
-Received: from azure-sdnproxy.icoremail.net ([20.232.28.96])
- by eggs.gnu.org with smtp (Exim 4.90_1)
- (envelope-from <zhangdongdong@eswincomputing.com>)
- id 1pDbsm-0006D3-Sr
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 20:50:58 -0500
-Received: from zhangdongdong$eswincomputing.com ( [10.12.96.123] ) by
- ajax-webmail-app2 (Coremail) ; Fri, 6 Jan 2023 09:50:44 +0800 (GMT+08:00)
-X-Originating-IP: [10.12.96.123]
-Date: Fri, 6 Jan 2023 09:50:44 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: "Dongdong Zhang" <zhangdongdong@eswincomputing.com>
-To: "John Snow" <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, crosa@redhat.com, bleal@redhat.com
-Subject: Re: Re: [PING PATCH 0/1] Fix some typos
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT6.0.3 build 20220420(169d3f8c)
- Copyright (c) 2002-2023 www.mailtech.cn
- mispb-72143050-eaf5-4703-89e0-86624513b4ce-eswincomputing.com
-In-Reply-To: <CAFn=p-bnm5WgBO-eXTyuV+mPiCYaLM-rFaUVXY+kmU39GvwpZw@mail.gmail.com>
-References: <20221130015358.6998-1-zhangdongdong@eswincomputing.com>
- <1ceb5a68.dd0e.18518f40d8f.Coremail.zhangdongdong@eswincomputing.com>
- <CAFn=p-bnm5WgBO-eXTyuV+mPiCYaLM-rFaUVXY+kmU39GvwpZw@mail.gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDcKQ-0008HW-NB
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 21:19:30 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDcKO-0007VB-Gc
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 21:19:29 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ o1-20020a17090a678100b00219cf69e5f0so3880495pjj.2
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 18:19:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=iUzCHXRHZPY/rBk/z9q0F4N49WIjl2W+N4OeTU54W7E=;
+ b=uF7xZNz67o4itWTVxzakIWCsUSPMeYqsW/YA8XRECmQX/Jl/JpIOfQ1vrnf9zXOPz4
+ UIwaIR35jA5JDJEpLzF32ruUTZjAZRZQkZPtPmTI6XjrifJ56uJHKVNS9y4iWZwEoMD8
+ Jxf9fY29mwdnaFCBoWLMPUkLvgsx/ey+Mik4V/cGzIKuzZJnEzRqnsPPYXPFrJXA4Nhf
+ oMG7wPDgaEsokOZBWKjgaaVNewzItgLkGaGmLTGkEWuAqEyfCMzGRKmNpwCtNYHGH05q
+ LXmjaFzKvMnSGoSDnT5CljIirIJjJjJx6aFuDZjwQz+EfHcAmFB5YeVcKiYIO12nmkqN
+ 33rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=iUzCHXRHZPY/rBk/z9q0F4N49WIjl2W+N4OeTU54W7E=;
+ b=LHDwMQ2eIldUVdg+6jKC0Ou5Y7jqVOCZsqyiTnDl+D+VctDqTZevuyZnz0LHFEdnNn
+ drvT6GjG4/EAaGAWpXP6GLfteE8mJpbXNaiaQ104F0t+x9oezqjZ6e3k828ga/XNdCGV
+ Ptlwv0D/l8nyHpGEUks2Zfu+mX2klpMWrTJUJNiqFnsqquOgIIchJDBkwRWrcJOLL/77
+ axkNog6yjXM6Q0tsoLwwcqQYMuAp6d0cq2hsi9fNKAz7oVGEVFY+5HlYxUbolt3+Ca86
+ ZkLDysuX52fe+slYXELS/MPlcJHz17Na8xS307phjlVN1Pm1jZDVq/J85EbR+Q0GJHSp
+ Be6g==
+X-Gm-Message-State: AFqh2kq3ziyfNTBkvellgMscJvyRsmVrJ0wFGwt4LV6u5E0P47ejd8+q
+ bVc1TsmHWV9huR9cN2BzJr1Xmw==
+X-Google-Smtp-Source: AMrXdXtvejQYcChl0bnnRwWSl05JtyjQqUW0v1bwNTZOQLk+kNyTtNAa45Q+GSTKx/UDb3N2S+sn5w==
+X-Received: by 2002:a17:90a:bc8a:b0:225:f216:b421 with SMTP id
+ x10-20020a17090abc8a00b00225f216b421mr38083283pjr.6.1672971566395; 
+ Thu, 05 Jan 2023 18:19:26 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:2cfd:802:a4a0:c8da?
+ ([2602:47:d48c:8101:2cfd:802:a4a0:c8da])
+ by smtp.gmail.com with ESMTPSA id
+ gc5-20020a17090b310500b00218e8143380sm1952521pjb.28.2023.01.05.18.19.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Jan 2023 18:19:25 -0800 (PST)
+Message-ID: <d588a819-b4ed-0fc2-480d-6e9b3b064564@linaro.org>
+Date: Thu, 5 Jan 2023 18:19:23 -0800
 MIME-Version: 1.0
-Message-ID: <2a334c7d.1060e.18584c5f906.Coremail.zhangdongdong@eswincomputing.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: EggMCgBX5i91frdjrwchAA--.22753W
-X-CM-SenderInfo: x2kd0wpgrqwvxrqjqvxvzl0uprps33xlqjhudrp/1tbiAQEDCmO3F
- gEJOwABs5
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-Received-SPF: pass client-ip=20.232.28.96;
- envelope-from=zhangdongdong@eswincomputing.com;
- helo=azure-sdnproxy.icoremail.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH 11/40] target/arm: Copy features from ARMCPUClass
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
+ armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
+References: <20230103181646.55711-1-richard.henderson@linaro.org>
+ <20230103181646.55711-12-richard.henderson@linaro.org>
+ <c154778b-ed95-5d73-4533-2301820b05a1@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <c154778b-ed95-5d73-4533-2301820b05a1@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,38 +98,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-SGkgSm9obiwKCkNvdWxkIHlvdSBoZWxwIG1lIHJlbGF5IHRoZXNlIGZpeGVzPyAKSWYgSSBzdWJt
-aXQgYSBwdWxsIHJlcXVlc3QsIEkgd2lsbCBnbyB0aHJvdWdoIGNvbXBhbnkncyBpbnRlcm5hbCBy
-ZXZpZXcgcHJvY2VzcyBhZ2Fpbi4gCgpUaGFua3MgYSBsb3QhCgpEb25nZG9uZwoKCj4gLS0tLS3l
-jp/lp4vpgq7ku7YtLS0tLeWPkeS7tuS6ujoiSm9obiBTbm93IiA8anNub3dAcmVkaGF0LmNvbT7l
-j5HpgIHml7bpl7Q6MjAyMy0wMS0wNiAwNzoyNTo0MyAo5pif5pyf5LqUKeaUtuS7tuS6ujoiRG9u
-Z2RvbmcgWmhhbmciIDx6aGFuZ2Rvbmdkb25nQGVzd2luY29tcHV0aW5nLmNvbT7mioTpgIE6cWVt
-dS1kZXZlbEBub25nbnUub3JnLCBjcm9zYUByZWRoYXQuY29tLCBibGVhbEByZWRoYXQuY29t5Li7
-6aKYOlJlOiBbUElORyBQQVRDSCAwLzFdIEZpeCBzb21lIHR5cG9zCj4gCj4gT24gVGh1LCBEZWMg
-MTUsIDIwMjIgYXQgMTA6MjIgUE0gRG9uZ2RvbmcgWmhhbmcKPiA8emhhbmdkb25nZG9uZ0Blc3dp
-bmNvbXB1dGluZy5jb20+IHdyb3RlOgo+ID4KPiA+IEhpIGFsbCwKPiA+Cj4gPiBJIHdvdWxkIGxp
-a2UgdG8gcGluZyBhIHBhdGNoCj4gPgo+ID4gaHR0cHM6Ly9saXN0cy5ub25nbnUub3JnL2FyY2hp
-dmUvaHRtbC9xZW11LWRldmVsLzIwMjItMTEvbXNnMDQ1NjguaHRtbAo+ID4gaHR0cHM6Ly9saXN0
-cy5ub25nbnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVsLzIwMjItMTEvbXNnMDQ1NzAuaHRt
-bAo+ID4KPiA+Cj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZXMtLS0tLUZyb206IkRvbmdkb25n
-IFpoYW5nIiA8emhhbmdkb25nZG9uZ0Blc3dpbmNvbXB1dGluZy5jb20+U2VudCBUaW1lOjIwMjIt
-MTEtMzAgMDk6NTM6NTcgKFdlZG5lc2RheSlUbzpxZW11LWRldmVsQG5vbmdudS5vcmdDYzpqc25v
-d0ByZWRoYXQuY29tLCBjcm9zYUByZWRoYXQuY29tLCBibGVhbEByZWRoYXQuY29tLCAiRG9uZ2Rv
-bmcgWmhhbmciIDx6aGFuZ2Rvbmdkb25nQGVzd2luY29tcHV0aW5nLmNvbT5TdWJqZWN0OltQQVRD
-SCAwLzFdICBGaXggc29tZSB0eXBvcwo+ID4gPgo+ID4gPiBUaGlzIHBhdGNoIG1haW5seSBmaXhl
-cyBzb21lIHR5cG9zIGluIHRoZSAncHl0aG9uJyBkaXJlY3RvcnkuCj4gPiA+Cj4gPiA+IERvbmdk
-b25nIFpoYW5nICgxKToKPiA+ID4gICBGaXggc29tZSB0eXBvcwo+ID4gPgo+ID4gPiAgcHl0aG9u
-L3FlbXUvbWFjaGluZS9jb25zb2xlX3NvY2tldC5weSB8IDIgKy0KPiA+ID4gIHB5dGhvbi9xZW11
-L21hY2hpbmUvcXRlc3QucHkgICAgICAgICAgfCAyICstCj4gPiA+ICBweXRob24vcWVtdS9xbXAv
-cHJvdG9jb2wucHkgICAgICAgICAgIHwgMiArLQo+ID4gPiAgcHl0aG9uL3FlbXUvcW1wL3FtcF90
-dWkucHkgICAgICAgICAgICB8IDYgKysrLS0tCj4gPiA+ICA0IGZpbGVzIGNoYW5nZWQsIDYgaW5z
-ZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKPiA+ID4KPiA+ID4gLS0KPiA+ID4gMi4xNy4xCj4g
-Cj4gQUNLIHRvIHRoaXMgcGF0Y2guCj4gCj4gRm9yIGZpeGVzIHVuZGVyIHB5dGhvbi9xZW11L3Ft
-cC8sIEkgbmVlZCB0byByZWxheSB0aGVzZSBmaXhlcyBvdmVyIHRvCj4gaHR0cHM6Ly9naXRsYWIu
-Y29tL3FlbXUtcHJvamVjdC9weXRob24tcWVtdS1xbXAgLS0geW91IGNhbiBkbyBpdAo+IHlvdXJz
-ZWxmIGFuZCBzZW5kIGEgc21hbGwgbWVyZ2UgcmVxdWVzdCwgb3IgSSBjYW4gZG8gaXQgZm9yIHlv
-dSwgaWYKPiB5b3UnZCBsaWtlLiBQbGVhc2UgbGV0IG1lIGtub3cgd2hhdCB5b3UnZCBwcmVmZXIs
-IGFuZCB0aGVuIEkgd2lsbAo+IHN0YWdlIHRoaXMgcGF0Y2guCj4gCj4gKEFwb2xvZ2llcyB0aGF0
-IHRoZSBjb2RlIGlzIGR1cGxpY2F0ZWQgaW4gdHdvIHJlcG9zaXRvcmllcyByaWdodAo+IG5vdy4u
-Li4gSSdtIHdvcmtpbmcgb24gZml4aW5nIHRoYXQuKQo+IAo+IC0tanMK
+On 1/5/23 14:04, Philippe Mathieu-Daudé wrote:
+> On 3/1/23 19:16, Richard Henderson wrote:
+>> Create a features member in ARMCPUClass and copy to the instance in
+>> arm_cpu_init.  Settings of this value will come in a future patch.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   target/arm/cpu-qom.h | 18 ++++++++++++++++++
+>>   target/arm/cpu.c     |  1 +
+>>   2 files changed, 19 insertions(+)
+>>
+>> diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
+>> index 5509ef9d85..ac58cc3a87 100644
+>> --- a/target/arm/cpu-qom.h
+>> +++ b/target/arm/cpu-qom.h
+>> @@ -74,8 +74,26 @@ struct ARMCPUClass {
+>>       /* 'compatible' string for this CPU for Linux device trees */
+>>       const char *dtb_compatible;
+>> +
+>> +    /* Internal CPU feature flags.  */
+>> +    uint64_t features;
+>>   };
+>> +static inline int arm_class_feature(ARMCPUClass *acc, int feature)
+>> +{
+>> +    return (acc->features & (1ULL << feature)) != 0;
+>> +}
+>> +
+>> +static inline void set_class_feature(ARMCPUClass *acc, int feature)
+>> +{
+>> +    acc->features |= 1ULL << feature;
+>> +}
+>> +
+>> +static inline void unset_class_feature(ARMCPUClass *acc, int feature)
+>> +{
+>> +    acc->features &= ~(1ULL << feature);
+>> +}
+> 
+> These helpers are not used until patch #19 "target/arm: Move most cpu
+> initialization to the class".
+
+I know, but I thought it clearer to introduce them with the field.
+
+
+r~
+
+> 
+>>   void register_cp_regs_for_features(ARMCPU *cpu);
+>>   void init_cpreg_list(ARMCPU *cpu);
+>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>> index 1bc45b2b25..d64b86b6a5 100644
+>> --- a/target/arm/cpu.c
+>> +++ b/target/arm/cpu.c
+>> @@ -1191,6 +1191,7 @@ static void arm_cpu_initfn(Object *obj)
+>>       QLIST_INIT(&cpu->el_change_hooks);
+>>       cpu->dtb_compatible = acc->dtb_compatible;
+>> +    cpu->env.features = acc->features;
+>>   #ifdef CONFIG_USER_ONLY
+>>   # ifdef TARGET_AARCH64
+> 
+
 
