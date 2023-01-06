@@ -2,92 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 540E06605FA
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 18:52:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94D966060B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 18:56:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDqsr-0003nR-JT; Fri, 06 Jan 2023 12:52:01 -0500
+	id 1pDqx1-0005fP-Cg; Fri, 06 Jan 2023 12:56:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDqsh-0003mp-S9
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 12:51:51 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDqsf-0002IB-2H
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 12:51:51 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- c8-20020a17090a4d0800b00225c3614161so5855425pjg.5
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 09:51:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SJ8hPDGrCEyZK9KawWvPVf6wiiy7sBG99LcNDYd+zDg=;
- b=VUML8qZch/Jv8BSAcHxHGeAHsOC4WJoLkwSCgMP5w1z7u2UpzTX/NOHwU9W7svHPYy
- rKyB12UGWO41JrYyoDB3U4ZzvtLTngAWia03WY1o2/+mH0soLQdJdLrb8xyereyG3iCe
- IUZNT/yUdKh6m0XMvaicXmZX98HDmb4a9L6IU+joNqezKNq7uoc1iPZOwfCRMDsSMI73
- OzKSjEQ+OBxhCCRHzqmS8NNLQHS+nk3k5rr/n5VC+SuECn7Aa08wJKcxkdonB816P/6O
- Zh8DXLJbMHTLrp5RSJJXpu67t1SwGny+FQJIkBeF3qMxmZ2x51rK3uu56EhHp3Gb/0yD
- gyYA==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pDqwy-0005eR-C8
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 12:56:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pDqww-0006cl-Lt
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 12:56:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673027773;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G/hN04lvv5yUrqMdVOFFmVvTdoXiSdEZHWcaRUQ93/g=;
+ b=H54angDVi9is8SvLwuGdN0if/sdDLMRVbfjszsq73/q0wd75zs26BVOPUYwQ4IDYXgJWfr
+ vCOej+STCbgFMO5V+raF8w8l1R7dM8Db2Ez+kMdKE82koYFYnQ1i2A47g3axH69t1r57Rf
+ +qohpvjpP3QCJIcd9V9JT8PkY54LKjw=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-241-BNa2XixQO_2HGaUJVmFeXw-1; Fri, 06 Jan 2023 12:56:11 -0500
+X-MC-Unique: BNa2XixQO_2HGaUJVmFeXw-1
+Received: by mail-io1-f71.google.com with SMTP id
+ t3-20020a6bc303000000b006f7844c6298so1144970iof.23
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 09:56:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SJ8hPDGrCEyZK9KawWvPVf6wiiy7sBG99LcNDYd+zDg=;
- b=5JhPBJseVH07Sgro6/7Gc4FQYVpQbRIB6u55moXQtJUTRs9aCjUEBRBW3INJyoumML
- tW5Tcfb7dz6tB60oCwpfigQ9LPk4SsepldyBg3m9bFpqmfxXrP9fCxKbLzNorZFyLr4X
- N3oxHs24+lpsLZ/Ie7KwbjCSRnDyRE1H7eFWHYxH/AHDBoYT2Ud3UtxaNfl5WZCCGHlL
- S0zwqacXzUAvRjuo2XlJsW9bCwkK+yhKtnKt/ENUtaB0GGmRkZ0JX0D/ymPUtplja3ze
- 6TaJroDL3Q8wDnFrowD8M9Heb3MFHkt3IpXC7oSfH8HWhFciU2GUtdfkhYfVsCQjwC4m
- OIRw==
-X-Gm-Message-State: AFqh2kq/TPn0tVuVVr4Z/4Cun4WqYWxF/PgprWshTP6X11ANpCwSYpkc
- O8sRpF4NYYbU1RTcZwBYK1cBzOmPLWaYzNL6qlnTsw==
-X-Google-Smtp-Source: AMrXdXtmiHGmSX2a/fN8FssMJBNbtinCjcEcmhLW9KK1jcpyOhTRxd0IYT+m8Qm64yjg1oAga9ctUZnhRw7ud0XCNdc=
-X-Received: by 2002:a17:903:2653:b0:189:cdc8:7261 with SMTP id
- je19-20020a170903265300b00189cdc87261mr3776628plb.168.1673027507504; Fri, 06
- Jan 2023 09:51:47 -0800 (PST)
+ h=content-transfer-encoding:mime-version:organization:references
+ :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=G/hN04lvv5yUrqMdVOFFmVvTdoXiSdEZHWcaRUQ93/g=;
+ b=6HhIs12rvLM/ffr/oKmF2x0RJYi0EKewBfQ6si2pFuGLBoIp4BEDlxQsSEQWgDUQTu
+ ckNPATpdZ4+8KP6iEa54GFjAuAlG00eFyWWFRlMcPeXHBmlFXE9fDrNan1aLOFfIqssp
+ rrI+0QAjXs0J3O0DKxOnAAnVYGPUXhKlU6CoY2qkAr1hiFQ6s4zxNQNgHFc7YUGmA0ya
+ yjREBGdn30iuc+gY0EdL4zPO5/CCYgUQcnG4G7hjPzw3bPmjYgeOF98NWR7/fhKlsjhD
+ S6LbD8urj9wnSEfjg9uql7zl01YN7ugDFLOo2tXf9KdJr0kZ/efQlHJ4HJsz0hN86Jcr
+ ABUQ==
+X-Gm-Message-State: AFqh2kovHQjXphYef38kDS5WWIodzNJk3TsYU33fPeQ6/9WExTuqWy+A
+ agyzAXvS8fhVAm153sMd9RvrvJxUOpXDN5Fo1gZEeiOuGupR+ylicDNizJlyv2OrCmFxW7UO1gX
+ FKUkwJ5FojrC8I7Q=
+X-Received: by 2002:a05:6e02:1bed:b0:30d:8a39:a85e with SMTP id
+ y13-20020a056e021bed00b0030d8a39a85emr3008257ilv.18.1673027771014; 
+ Fri, 06 Jan 2023 09:56:11 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXumhzn0E6WK91AjKRoZxTC/3XJ2H8jw1xYmAReo3cqcq/jBplBXhbcQUKSpP1h3ArsLjkhPiQ==
+X-Received: by 2002:a05:6e02:1bed:b0:30d:8a39:a85e with SMTP id
+ y13-20020a056e021bed00b0030d8a39a85emr3008233ilv.18.1673027770711; 
+ Fri, 06 Jan 2023 09:56:10 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ r9-20020a02aa09000000b0039e5418fb01sm484668jam.73.2023.01.06.09.56.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Jan 2023 09:56:10 -0800 (PST)
+Date: Fri, 6 Jan 2023 10:56:08 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Eric Farman
+ <farman@linux.ibm.com>, Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, "Ilya Leoshkevich"
+ <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, "Juan Quintela"
+ <quintela@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>, Vladimir
+ Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, John Snow
+ <jsnow@redhat.com>, <qemu-s390x@nongnu.org>, <qemu-block@nongnu.org>,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor
+ Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun
+ Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v5 03/14] migration: Simplify migration_iteration_run()
+Message-ID: <20230106105608.0d74a96c.alex.williamson@redhat.com>
+In-Reply-To: <20221229110345.12480-4-avihaih@nvidia.com>
+References: <20221229110345.12480-1-avihaih@nvidia.com>
+ <20221229110345.12480-4-avihaih@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-References: <20230104220449.41337-1-philmd@linaro.org>
-In-Reply-To: <20230104220449.41337-1-philmd@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Jan 2023 17:51:35 +0000
-Message-ID: <CAFEAcA_sw=SdiKD4X3E1=AURS40NTv7zeLNfRTTP6zdLnr93rg@mail.gmail.com>
-Subject: Re: [PATCH 00/20] hw: Remove implicit sysbus_mmio_map() from pflash
- APIs
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Song Gao <gaosong@loongson.cn>, 
- Antony Pavlov <antonynpavlov@gmail.com>, Jan Kiszka <jan.kiszka@web.de>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Hanna Reitz <hreitz@redhat.com>,
- Bernhard Beschow <shentey@gmail.com>, BALATON Zoltan <balaton@eik.bme.hu>, 
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org, 
- Mark Burton <mburton@qti.qualcomm.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Magnus Damm <magnus.damm@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Bin Meng <bin.meng@windriver.com>, Max Filippov <jcmvbkbc@gmail.com>, 
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <eduardo@habkost.net>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Radoslaw Biernacki <rad@semihalf.com>, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-block@nongnu.org,
- qemu-riscv@nongnu.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org, 
- Leif Lindholm <quic_llindhol@quicinc.com>, Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102f.google.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,34 +113,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 4 Jan 2023 at 22:04, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
-> wrote:
->
-> Paving the road toward heterogeneous QEMU, the limitations of
-> having a single machine sysbus become more apparent.
->
-> The sysbus_mmio_map() API forces the caller to map a sysbus
-> device to an address on the system bus (system bus here is
-> the root MemoryRegion returned by get_system_memory() ).
->
-> This is not practical when each core has its own address
-> space and group of cores have access to a part of the
-> peripherals.
->
-> Experimenting with the PFLASH devices. Here the fix is
-> quite easy, we split the pflash_cfi_register() -- which
-> does the implicit sysbus mapping -- into an explicit qdev
-> pflash_cfi_create() followed by the sysbus_mmio_map() call.
+On Thu, 29 Dec 2022 13:03:34 +0200
+Avihai Horon <avihaih@nvidia.com> wrote:
 
-pflash_cfi_register() is a legacy convenience function. If
-you don't like the sysbus_mmio_map() it does then you can
-create, configure, realize and map the device directly.
-This is what hw/arm/virt.c does, for instance (it wants to
-map the flash devices into either secure or non secure RAM).
-(This also lets you embed the device struct into some other
-struct if you want rather than using qdev_new(), though
-we don't have any code that does that currently.)
+> From: Juan Quintela <quintela@redhat.com>
 
-thanks
--- PMM
+IMHO, there should always be a commit log description.  Why is this a
+simplification?  What does it allow us to do?  Nothing later obviously
+depends on this, why is it part of this series?  Thanks,
+
+Alex
+
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+> ---
+>  migration/migration.c | 25 +++++++++++++------------
+>  1 file changed, 13 insertions(+), 12 deletions(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 9795d0ec5c..61b9ce0fe8 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -3758,23 +3758,24 @@ static MigIterateState migration_iteration_run(MigrationState *s)
+>      trace_migrate_pending(pending_size, s->threshold_size,
+>                            pend_pre, pend_compat, pend_post);
+>  
+> -    if (pending_size && pending_size >= s->threshold_size) {
+> -        /* Still a significant amount to transfer */
+> -        if (!in_postcopy && pend_pre <= s->threshold_size &&
+> -            qatomic_read(&s->start_postcopy)) {
+> -            if (postcopy_start(s)) {
+> -                error_report("%s: postcopy failed to start", __func__);
+> -            }
+> -            return MIG_ITERATE_SKIP;
+> -        }
+> -        /* Just another iteration step */
+> -        qemu_savevm_state_iterate(s->to_dst_file, in_postcopy);
+> -    } else {
+> +
+> +    if (!pending_size || pending_size < s->threshold_size) {
+>          trace_migration_thread_low_pending(pending_size);
+>          migration_completion(s);
+>          return MIG_ITERATE_BREAK;
+>      }
+>  
+> +    /* Still a significant amount to transfer */
+> +    if (!in_postcopy && pend_pre <= s->threshold_size &&
+> +        qatomic_read(&s->start_postcopy)) {
+> +        if (postcopy_start(s)) {
+> +            error_report("%s: postcopy failed to start", __func__);
+> +        }
+> +        return MIG_ITERATE_SKIP;
+> +    }
+> +
+> +    /* Just another iteration step */
+> +    qemu_savevm_state_iterate(s->to_dst_file, in_postcopy);
+>      return MIG_ITERATE_RESUME;
+>  }
+>  
+
 
