@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9162F65FD23
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:54:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385C065FCC3
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:31:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDi6X-0002cP-32; Fri, 06 Jan 2023 03:29:33 -0500
+	id 1pDi6a-0002gr-0N; Fri, 06 Jan 2023 03:29:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi6N-0002cA-4j
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi6S-0002cq-Hr
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi6K-0005XH-Fr
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:22 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi6Q-0005YF-Hx
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672993759;
+ s=mimecast20190719; t=1672993764;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eVfM6pN5RnryTGdHDwH3xBTMR37/OEIok5xWb1/x5wc=;
- b=UJvncc/+8XKRf4uNIPaWDac9xkyqw8ey6VsPRtXyeCXsErYZazoQaAu/GUUnQVftQ782X2
- JFJVMsshweYlYhOWPNxWWgu7DF9UObcWlq0XOcY14x4nRqhsMFSNm51AxOhhkUy0+WMTDQ
- RvqIN92DVdA0pHzpPeJGE1ZxcMrkpGM=
+ bh=9kQROEhuIdmJZiycXI3l+ANPcUqnSTTz1zv8E2eQDYU=;
+ b=ON57qwg7YslaUtx8PQR71US+ZZStqt6/w2075kRVcsz2OZ9/YYrYszzOrGLlSpdcoleh51
+ F72MjmkXVXSTk6fx87KcdjdBCY+vJFRfPzINhlLORwn7esgz8ttvxqlOHADNHjV8185Ait
+ xCkTeRvuw0rU0w2n/SUsjNvyz44nxRA=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-440-anAaOVvKPQuR7mcyEP_cdQ-1; Fri, 06 Jan 2023 03:29:16 -0500
-X-MC-Unique: anAaOVvKPQuR7mcyEP_cdQ-1
+ us-mta-659-gMyMZjEANNKd73ykwGJgeA-1; Fri, 06 Jan 2023 03:29:18 -0500
+X-MC-Unique: gMyMZjEANNKd73ykwGJgeA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5107E2999B2E;
- Fri,  6 Jan 2023 08:29:16 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A11E73815F62;
+ Fri,  6 Jan 2023 08:29:17 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E2C7492B06;
- Fri,  6 Jan 2023 08:29:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A0026492B06;
+ Fri,  6 Jan 2023 08:29:16 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Nikita Ivanov <nivanov@cloudlinux.com>
-Subject: [PULL 14/15] error handling: Use RETRY_ON_EINTR() macro where
- applicable
-Date: Fri,  6 Jan 2023 09:28:52 +0100
-Message-Id: <20230106082853.31787-15-thuth@redhat.com>
+Subject: [PULL 15/15] .gitlab-ci.d/windows: Do not run the qtests in the
+ msys2-32bit job
+Date: Fri,  6 Jan 2023 09:28:53 +0100
+Message-Id: <20230106082853.31787-16-thuth@redhat.com>
 In-Reply-To: <20230106082853.31787-1-thuth@redhat.com>
 References: <20230106082853.31787-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,358 +77,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Nikita Ivanov <nivanov@cloudlinux.com>
+The qtests are not stable in the msys2-32bit job yet - especially
+the test-hmp and the qom-test are failing randomly. Until this is
+fixed, let's better disable the qtests here again to avoid failing
+CI tests.
 
-There is a defined RETRY_ON_EINTR() macro in qemu/osdep.h
-which handles the same while loop.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/415
-Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
-Message-Id: <20221023090422.242617-3-nivanov@cloudlinux.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-[thuth: Dropped the hunk that changed socket_accept() in libqtest.c]
+Message-Id: <20230105204819.26992-1-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- block/file-posix.c        | 37 ++++++++++++++++---------------------
- chardev/char-pty.c        |  4 +---
- hw/9pfs/9p-local.c        |  8 ++------
- net/l2tpv3.c              | 17 +++++------------
- net/socket.c              | 16 +++++++---------
- net/tap.c                 |  8 ++------
- qga/commands-posix.c      |  4 +---
- semihosting/syscalls.c    |  4 +---
- tests/qtest/libqtest.c    |  4 +---
- tests/vhost-user-bridge.c |  4 +---
- util/main-loop.c          |  4 +---
- util/osdep.c              |  4 +---
- util/vfio-helpers.c       | 12 ++++++------
- 13 files changed, 45 insertions(+), 81 deletions(-)
+ .gitlab-ci.d/windows.yml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index b9647c5ffc..b9955db205 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1229,9 +1229,7 @@ static int hdev_get_max_segments(int fd, struct stat *st)
-         ret = -errno;
-         goto out;
-     }
--    do {
--        ret = read(sysfd, buf, sizeof(buf) - 1);
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(read(sysfd, buf, sizeof(buf) - 1));
-     if (ret < 0) {
-         ret = -errno;
-         goto out;
-@@ -1379,9 +1377,9 @@ static int handle_aiocb_ioctl(void *opaque)
-     RawPosixAIOData *aiocb = opaque;
-     int ret;
- 
--    do {
--        ret = ioctl(aiocb->aio_fildes, aiocb->ioctl.cmd, aiocb->ioctl.buf);
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(
-+        ioctl(aiocb->aio_fildes, aiocb->ioctl.cmd, aiocb->ioctl.buf)
-+    );
-     if (ret == -1) {
-         return -errno;
-     }
-@@ -1463,18 +1461,17 @@ static ssize_t handle_aiocb_rw_vector(RawPosixAIOData *aiocb)
- {
-     ssize_t len;
- 
--    do {
--        if (aiocb->aio_type & QEMU_AIO_WRITE)
--            len = qemu_pwritev(aiocb->aio_fildes,
--                               aiocb->io.iov,
--                               aiocb->io.niov,
--                               aiocb->aio_offset);
--         else
--            len = qemu_preadv(aiocb->aio_fildes,
--                              aiocb->io.iov,
--                              aiocb->io.niov,
--                              aiocb->aio_offset);
--    } while (len == -1 && errno == EINTR);
-+    len = RETRY_ON_EINTR(
-+        (aiocb->aio_type & QEMU_AIO_WRITE) ?
-+            qemu_pwritev(aiocb->aio_fildes,
-+                           aiocb->io.iov,
-+                           aiocb->io.niov,
-+                           aiocb->aio_offset) :
-+            qemu_preadv(aiocb->aio_fildes,
-+                          aiocb->io.iov,
-+                          aiocb->io.niov,
-+                          aiocb->aio_offset)
-+    );
- 
-     if (len == -1) {
-         return -errno;
-@@ -1899,9 +1896,7 @@ static int allocate_first_block(int fd, size_t max_size)
-     buf = qemu_memalign(max_align, write_size);
-     memset(buf, 0, write_size);
- 
--    do {
--        n = pwrite(fd, buf, write_size, 0);
--    } while (n == -1 && errno == EINTR);
-+    n = RETRY_ON_EINTR(pwrite(fd, buf, write_size, 0));
- 
-     ret = (n == -1) ? -errno : 0;
- 
-diff --git a/chardev/char-pty.c b/chardev/char-pty.c
-index 53f25c6bbd..92fd33c854 100644
---- a/chardev/char-pty.c
-+++ b/chardev/char-pty.c
-@@ -93,9 +93,7 @@ static void pty_chr_update_read_handler(Chardev *chr)
-     pfd.fd = fioc->fd;
-     pfd.events = G_IO_OUT;
-     pfd.revents = 0;
--    do {
--        rc = g_poll(&pfd, 1, 0);
--    } while (rc == -1 && errno == EINTR);
-+    rc = RETRY_ON_EINTR(g_poll(&pfd, 1, 0));
-     assert(rc >= 0);
- 
-     if (pfd.revents & G_IO_HUP) {
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index d2246a3d7e..9d07620235 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -470,9 +470,7 @@ static ssize_t local_readlink(FsContext *fs_ctx, V9fsPath *fs_path,
-         if (fd == -1) {
-             return -1;
-         }
--        do {
--            tsize = read(fd, (void *)buf, bufsz);
--        } while (tsize == -1 && errno == EINTR);
-+        tsize = RETRY_ON_EINTR(read(fd, (void *)buf, bufsz));
-         close_preserve_errno(fd);
-     } else if ((fs_ctx->export_flags & V9FS_SM_PASSTHROUGH) ||
-                (fs_ctx->export_flags & V9FS_SM_NONE)) {
-@@ -908,9 +906,7 @@ static int local_symlink(FsContext *fs_ctx, const char *oldpath,
-         }
-         /* Write the oldpath (target) to the file. */
-         oldpath_size = strlen(oldpath);
--        do {
--            write_size = write(fd, (void *)oldpath, oldpath_size);
--        } while (write_size == -1 && errno == EINTR);
-+        write_size = RETRY_ON_EINTR(write(fd, (void *)oldpath, oldpath_size));
-         close_preserve_errno(fd);
- 
-         if (write_size != oldpath_size) {
-diff --git a/net/l2tpv3.c b/net/l2tpv3.c
-index 5852e42738..53b2d32573 100644
---- a/net/l2tpv3.c
-+++ b/net/l2tpv3.c
-@@ -240,9 +240,7 @@ static ssize_t net_l2tpv3_receive_dgram_iov(NetClientState *nc,
-     message.msg_control = NULL;
-     message.msg_controllen = 0;
-     message.msg_flags = 0;
--    do {
--        ret = sendmsg(s->fd, &message, 0);
--    } while ((ret == -1) && (errno == EINTR));
-+    ret = RETRY_ON_EINTR(sendmsg(s->fd, &message, 0));
-     if (ret > 0) {
-         ret -= s->offset;
-     } else if (ret == 0) {
-@@ -285,9 +283,7 @@ static ssize_t net_l2tpv3_receive_dgram(NetClientState *nc,
-     message.msg_control = NULL;
-     message.msg_controllen = 0;
-     message.msg_flags = 0;
--    do {
--        ret = sendmsg(s->fd, &message, 0);
--    } while ((ret == -1) && (errno == EINTR));
-+    ret = RETRY_ON_EINTR(sendmsg(s->fd, &message, 0));
-     if (ret > 0) {
-         ret -= s->offset;
-     } else if (ret == 0) {
-@@ -434,12 +430,9 @@ static void net_l2tpv3_send(void *opaque)
- 
-     msgvec = s->msgvec + s->queue_head;
-     if (target_count > 0) {
--        do {
--            count = recvmmsg(
--                s->fd,
--                msgvec,
--                target_count, MSG_DONTWAIT, NULL);
--        } while ((count == -1) && (errno == EINTR));
-+        count = RETRY_ON_EINTR(
-+                recvmmsg(s->fd, msgvec, target_count, MSG_DONTWAIT, NULL)
-+        );
-         if (count < 0) {
-             /* Recv error - we still need to flush packets here,
-              * (re)set queue head to current position
-diff --git a/net/socket.c b/net/socket.c
-index b67437a1f0..2fc5696755 100644
---- a/net/socket.c
-+++ b/net/socket.c
-@@ -117,15 +117,13 @@ static ssize_t net_socket_receive_dgram(NetClientState *nc, const uint8_t *buf,
-     NetSocketState *s = DO_UPCAST(NetSocketState, nc, nc);
-     ssize_t ret;
- 
--    do {
--        if (s->dgram_dst.sin_family != AF_UNIX) {
--            ret = sendto(s->fd, buf, size, 0,
--                         (struct sockaddr *)&s->dgram_dst,
--                         sizeof(s->dgram_dst));
--        } else {
--            ret = send(s->fd, buf, size, 0);
--        }
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(
-+        s->dgram_dst.sin_family != AF_UNIX ?
-+            sendto(s->fd, buf, size, 0,
-+                     (struct sockaddr *)&s->dgram_dst,
-+                     sizeof(s->dgram_dst)) :
-+            send(s->fd, buf, size, 0)
-+    );
- 
-     if (ret == -1 && errno == EAGAIN) {
-         net_socket_write_poll(s, true);
-diff --git a/net/tap.c b/net/tap.c
-index bd85c56a04..7d7bc1dc5f 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -102,9 +102,7 @@ static ssize_t tap_write_packet(TAPState *s, const struct iovec *iov, int iovcnt
- {
-     ssize_t len;
- 
--    do {
--        len = writev(s->fd, iov, iovcnt);
--    } while (len == -1 && errno == EINTR);
-+    len = RETRY_ON_EINTR(writev(s->fd, iov, iovcnt));
- 
-     if (len == -1 && errno == EAGAIN) {
-         tap_write_poll(s, true);
-@@ -577,9 +575,7 @@ static int net_bridge_run_helper(const char *helper, const char *bridge,
- 
-         close(sv[1]);
- 
--        do {
--            fd = recv_fd(sv[0]);
--        } while (fd == -1 && errno == EINTR);
-+        fd = RETRY_ON_EINTR(recv_fd(sv[0]));
-         saved_errno = errno;
- 
-         close(sv[0]);
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index b19b9c5d18..ebd33a643c 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -63,9 +63,7 @@ static void ga_wait_child(pid_t pid, int *status, Error **errp)
- 
-     *status = 0;
- 
--    do {
--        rpid = waitpid(pid, status, 0);
--    } while (rpid == -1 && errno == EINTR);
-+    rpid = RETRY_ON_EINTR(waitpid(pid, status, 0));
- 
-     if (rpid == -1) {
-         error_setg_errno(errp, errno, "failed to wait for child (pid: %d)",
-diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-index 508a0ad88c..5893c760c5 100644
---- a/semihosting/syscalls.c
-+++ b/semihosting/syscalls.c
-@@ -317,9 +317,7 @@ static void host_read(CPUState *cs, gdb_syscall_complete_cb complete,
-         complete(cs, -1, EFAULT);
-         return;
-     }
--    do {
--        ret = read(gf->hostfd, ptr, len);
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(read(gf->hostfd, ptr, len));
-     if (ret == -1) {
-         complete(cs, -1, errno);
-         unlock_user(ptr, buf, 0);
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index f9c8987678..5cb38f90da 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -689,9 +689,7 @@ int qtest_socket_server(const char *socket_path)
-     addr.sun_family = AF_UNIX;
-     snprintf(addr.sun_path, sizeof(addr.sun_path), "%s", socket_path);
- 
--    do {
--        ret = bind(sock, (struct sockaddr *)&addr, sizeof(addr));
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(bind(sock, (struct sockaddr *)&addr, sizeof(addr)));
-     g_assert_cmpint(ret, !=, -1);
-     ret = listen(sock, 1);
-     g_assert_cmpint(ret, !=, -1);
-diff --git a/tests/vhost-user-bridge.c b/tests/vhost-user-bridge.c
-index fecdf915e7..a5c711b1de 100644
---- a/tests/vhost-user-bridge.c
-+++ b/tests/vhost-user-bridge.c
-@@ -331,9 +331,7 @@ vubr_backend_recv_cb(int sock, void *ctx)
-             .msg_iovlen = num,
-             .msg_flags = MSG_DONTWAIT,
-         };
--        do {
--            ret = recvmsg(vubr->backend_udp_sock, &msg, 0);
--        } while (ret == -1 && (errno == EINTR));
-+        ret = RETRY_ON_EINTR(recvmsg(vubr->backend_udp_sock, &msg, 0));
- 
-         if (i == 0) {
-             iov_restore_front(elem->in_sg, sg, hdrlen);
-diff --git a/util/main-loop.c b/util/main-loop.c
-index 10fa74c6e3..58f776a8c9 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -64,9 +64,7 @@ static void sigfd_handler(void *opaque)
-     ssize_t len;
- 
-     while (1) {
--        do {
--            len = read(fd, &info, sizeof(info));
--        } while (len == -1 && errno == EINTR);
-+        len = RETRY_ON_EINTR(read(fd, &info, sizeof(info)));
- 
-         if (len == -1 && errno == EAGAIN) {
-             break;
-diff --git a/util/osdep.c b/util/osdep.c
-index 77c1a6c562..e996c4744a 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -244,9 +244,7 @@ static int qemu_lock_fcntl(int fd, int64_t start, int64_t len, int fl_type)
-         .l_type   = fl_type,
-     };
-     qemu_probe_lock_ops();
--    do {
--        ret = fcntl(fd, fcntl_op_setlk, &fl);
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(fcntl(fd, fcntl_op_setlk, &fl));
-     return ret == -1 ? -errno : 0;
- }
- 
-diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 7a84b1d806..2d8af38f88 100644
---- a/util/vfio-helpers.c
-+++ b/util/vfio-helpers.c
-@@ -240,9 +240,9 @@ static int qemu_vfio_pci_read_config(QEMUVFIOState *s, void *buf,
-                                     s->config_region_info.offset,
-                                     s->config_region_info.size);
-     assert(QEMU_IS_ALIGNED(s->config_region_info.offset + ofs, size));
--    do {
--        ret = pread(s->device, buf, size, s->config_region_info.offset + ofs);
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(
-+        pread(s->device, buf, size, s->config_region_info.offset + ofs)
-+    );
-     return ret == size ? 0 : -errno;
- }
- 
-@@ -254,9 +254,9 @@ static int qemu_vfio_pci_write_config(QEMUVFIOState *s, void *buf, int size, int
-                                      s->config_region_info.offset,
-                                      s->config_region_info.size);
-     assert(QEMU_IS_ALIGNED(s->config_region_info.offset + ofs, size));
--    do {
--        ret = pwrite(s->device, buf, size, s->config_region_info.offset + ofs);
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(
-+        pwrite(s->device, buf, size, s->config_region_info.offset + ofs)
-+    );
-     return ret == size ? 0 : -errno;
- }
- 
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index 22f794e537..a1d5790580 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -116,4 +116,5 @@ msys2-32bit:
+   - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu
+         --disable-opengl'
+   - ..\msys64\usr\bin\bash -lc 'make'
+-  - ..\msys64\usr\bin\bash -lc 'make check || { cat meson-logs/testlog.txt; exit 1; } ;'
++  - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS=\"--no-suite qtest\" ||
++                                { cat meson-logs/testlog.txt; exit 1; }'
 -- 
 2.31.1
 
