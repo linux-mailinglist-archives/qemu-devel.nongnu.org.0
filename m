@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4672465FCFA
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0712A65FD34
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:57:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDiFV-00062h-Tw; Fri, 06 Jan 2023 03:38:50 -0500
+	id 1pDiFd-0006Ao-CM; Fri, 06 Jan 2023 03:38:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1pDiF4-000615-Nt
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:38:23 -0500
+ id 1pDiFB-00062U-03
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:38:29 -0500
 Received: from mga05.intel.com ([192.55.52.43])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1pDiF2-0008O2-E4
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:38:22 -0500
+ id 1pDiF5-0008NH-4e
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:38:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1672994300; x=1704530300;
+ t=1672994303; x=1704530303;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=nTQbHwHD43b6Zxb8S7hsRTxhiqxVn1jXUmTxJUitKv4=;
- b=djYIbJXRv5rhYbBP/FTWZxS1aTrx4H7v1ZLM14hQBx9w7HPnANjiZ01u
- LPsY5VgcdAhunOIiTZtv1SaRkxy/aoXpQ2DTKAnTQPkDcvecM2cGLNMrA
- tpgHnox1Oi09OE9etxxEgfVnn8Ffmdk9DUfEN2aaksOBpr8UGMGUkcWI7
- wOk5/AMF1Jgi4AYVFSrbqtQ7KcL59PPhz71FbFdJla0kSZbQzQuhqVF/r
- c0KIRBj/8r6IBAUyUVsGKhsIF+Pg2c+bnlPSWaJX+I2NiqHHLQyk7gatm
- 08jPfag0aqQs527QFTbrH6qWxRzsCb+ewLiQC7bbhSK8qOA9PEJ+PWPYO g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="408688494"
-X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="408688494"
+ bh=eAvYLVdEKrFxalMvrF8o2wWH73OzMPZijyJklABEl/U=;
+ b=Gwpk0SeoxAaL7UUayLaPoaLNlFwlrOeU7tckCPFfmWy+Mak765uX2+xD
+ s8fQx7LCqhULZ/op/JheggBDbwf9pXEyFNnY+I9rowzvk5ctxH11O+T8O
+ y56asSs9qYPyKhtn2vwas5zcpgwvZk1jVu+Gi6Zy9l/s/1EPJ7wG8qCKf
+ aaNE70aB9oKY/6qBe5P47yDb8B9YeZQUQ/etrZiys2sJjmFfczCCWU7bj
+ sLsVkrnJ2HvHv3wBgsiWw85BtmII3VVwGENznGcbuP1Otb5Hh/qSmwtEg
+ 0gS0BoXqs8Dwa7L1Jxv//KJx9Q+YaHkAQ0s16/ozjcwF9BE1Amg7PYNOU Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="408688499"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="408688499"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2023 00:38:17 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="724378834"
-X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="724378834"
+ 06 Jan 2023 00:38:19 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="724378847"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="724378847"
 Received: from sdp.sh.intel.com ([10.112.228.155])
  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2023 00:38:13 -0800
+ 06 Jan 2023 00:38:16 -0800
 From: Lei Wang <lei4.wang@intel.com>
 To: pbonzini@redhat.com
 Cc: qemu-devel@nongnu.org, imammedo@redhat.com, dgilbert@redhat.com,
  berrange@redhat.com, xiaoyao.li@intel.com, yang.zhong@linux.intel.com,
  lei4.wang@intel.com
-Subject: [PATCH v3 3/6] i386: Introduce new struct "MultiBitFeatureInfo" for
- multi-bit features
-Date: Fri,  6 Jan 2023 00:38:23 -0800
-Message-Id: <20230106083826.5384-4-lei4.wang@intel.com>
+Subject: [PATCH v3 4/6] i386: Mask and report unavailable multi-bit feature
+ values
+Date: Fri,  6 Jan 2023 00:38:24 -0800
+Message-Id: <20230106083826.5384-5-lei4.wang@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230106083826.5384-1-lei4.wang@intel.com>
 References: <20230106083826.5384-1-lei4.wang@intel.com>
@@ -78,132 +78,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Some features use multiple CPUID bits to form a value to be used, e.g.,
-CPUID(0x1E,0):EBX[23:08] is regarded as the tmul_maxn value for AMX.
-Introduce a new struct "MultiBitFeatureInfo" to hold the information for
-those features and create a corresponding member in struct FeatureWordInfo,
-so that the infomation can be assigned for each item in feature_word_info
-array and used in the future.
+Some feature words, e.g., feature words in AMX-related CPUID leaf 0x1D and
+0x1E are not bit-wise but multiple bits represents one value. Handle this
+situation when the values specified are not the same as which are reported
+by KVM. The handling includes:
+
+ - The responsibility of masking bits and giving warnings are delegated to
+   the feature enabler. A framework is also provided to enable this.
+ - To simplify the initialization, a default function is provided if the
+   the function is not specified.
+
+The reason why delegating this responsibility rather than just marking
+them as zeros when they are not same is because different multi-bit
+features may have different logic, which is case by case, for example:
+
+ 1. CPUID.0x14_0x1:EBX[15:0]. Even though it's multi-bits field, it's a
+    bitmap and each bit represents a separate capability.
+
+ 2. CPUID.0x14_0x1:EAX[2:0] represents the number of configurable Address
+    Ranges. 3 bits as a whole to represent a integer value. It means the
+    maximum capability of HW. If KVM reports M, then M to 0 is legal
+    value to configure (because KVM can emulate each value correctly).
+
+ 3. CPUID.0x1D_0x1:EAX[31:16] represents palette 1 bytes_per_tile. 16 bits
+    as a whole represent an integer value. It's not like case 2 and SW
+    needs to configure the same value as reported. Because it's not
+    possible for SW to configure to a different value and KVM cannot
+    emulate it.
+
+So marking them blindly as zeros is incorrect, and delegating this
+responsibility can let each multi-bit feature have its own way to mask bits.
 
 Signed-off-by: Lei Wang <lei4.wang@intel.com>
 ---
- target/i386/cpu-internal.h |  9 +++++++
- target/i386/cpu.c          | 54 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 63 insertions(+)
+ target/i386/cpu-internal.h |  2 ++
+ target/i386/cpu.c          | 36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
 
 diff --git a/target/i386/cpu-internal.h b/target/i386/cpu-internal.h
-index 9baac5c0b4..66b3d66cb4 100644
+index 66b3d66cb4..83c7b53926 100644
 --- a/target/i386/cpu-internal.h
 +++ b/target/i386/cpu-internal.h
-@@ -25,6 +25,13 @@ typedef enum FeatureWordType {
-    MSR_FEATURE_WORD,
- } FeatureWordType;
+@@ -30,6 +30,8 @@ typedef struct MultiBitFeatureInfo {
+     uint64_t mask;
+     unsigned high_bit_position;
+     unsigned low_bit_position;
++    void (*mark_unavailable_multi_bit)(X86CPU *cpu, FeatureWord w, int index,
++                                       const char *verbose_prefix);
+ } MultiBitFeatureInfo;
  
-+typedef struct MultiBitFeatureInfo {
-+    const char *feat_name;
-+    uint64_t mask;
-+    unsigned high_bit_position;
-+    unsigned low_bit_position;
-+} MultiBitFeatureInfo;
-+
  typedef struct FeatureWordInfo {
-     FeatureWordType type;
-     /* feature flags names are taken from "Intel Processor Identification and
-@@ -51,6 +58,8 @@ typedef struct FeatureWordInfo {
-     uint64_t migratable_flags; /* Feature flags known to be migratable */
-     /* Features that shouldn't be auto-enabled by "-cpu host" */
-     uint64_t no_autoenable_flags;
-+    unsigned num_multi_bit_features;
-+    MultiBitFeatureInfo *multi_bit_features;
- } FeatureWordInfo;
- 
- extern FeatureWordInfo feature_word_info[];
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 883098bc5a..88aa780566 100644
+index 88aa780566..e638a31d34 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -1011,6 +1011,21 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         },
-         .migratable_flags = CPUID_AMX_PALETTE_1_TOTAL_TILE_BYTES_MASK |
-             CPUID_AMX_PALETTE_1_BYTES_PER_TILE_MASK,
-+        .num_multi_bit_features = 2,
-+        .multi_bit_features = (MultiBitFeatureInfo[]){
-+            {
-+                .feat_name = "total_tile_bytes",
-+                .mask = CPUID_AMX_PALETTE_1_TOTAL_TILE_BYTES_MASK,
-+                .high_bit_position = 15,
-+                .low_bit_position = 0,
-+            },
-+            {
-+                .feat_name = "bytes_per_tile",
-+                .mask = CPUID_AMX_PALETTE_1_BYTES_PER_TILE_MASK,
-+                .high_bit_position = 31,
-+                .low_bit_position = 16,
-+            },
-+        },
-     },
-     [FEAT_1D_1_EBX] = {
-         .type = CPUID_FEATURE_WORD,
-@@ -1021,6 +1036,21 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         },
-         .migratable_flags = CPUID_AMX_PALETTE_1_BYTES_PER_ROW_MASK |
-             CPUID_AMX_PALETTE_1_MAX_NAMES_MASK,
-+        .num_multi_bit_features = 2,
-+        .multi_bit_features = (MultiBitFeatureInfo[]){
-+            {
-+                .feat_name = "bytes_per_row",
-+                .mask = CPUID_AMX_PALETTE_1_BYTES_PER_ROW_MASK,
-+                .high_bit_position = 15,
-+                .low_bit_position = 0,
-+            },
-+            {
-+                .feat_name = "max_names",
-+                .mask = CPUID_AMX_PALETTE_1_MAX_NAMES_MASK,
-+                .high_bit_position = 31,
-+                .low_bit_position = 16,
-+            },
-+        },
-     },
-     [FEAT_1D_1_ECX] = {
-         .type = CPUID_FEATURE_WORD,
-@@ -1030,6 +1060,15 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             .reg = R_ECX,
-         },
-         .migratable_flags = CPUID_AMX_PALETTE_1_MAX_ROWS_MASK,
-+        .num_multi_bit_features = 1,
-+        .multi_bit_features = (MultiBitFeatureInfo[]){
-+            {
-+                .feat_name = "max_rows",
-+                .mask = CPUID_AMX_PALETTE_1_MAX_ROWS_MASK,
-+                .high_bit_position = 15,
-+                .low_bit_position = 0,
-+            },
-+        },
-     },
-     [FEAT_1E_0_EBX] = {
-         .type = CPUID_FEATURE_WORD,
-@@ -1040,6 +1079,21 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         },
-         .migratable_flags = CPUID_AMX_TMUL_MAX_K_MASK |
-             CPUID_AMX_TMUL_MAX_N_MASK,
-+        .num_multi_bit_features = 2,
-+        .multi_bit_features = (MultiBitFeatureInfo[]){
-+            {
-+                .feat_name = "tmul_maxk",
-+                .mask = CPUID_AMX_TMUL_MAX_K_MASK,
-+                .high_bit_position = 7,
-+                .low_bit_position = 0,
-+            },
-+            {
-+                .feat_name = "tmul_maxn",
-+                .mask = CPUID_AMX_TMUL_MAX_N_MASK,
-+                .high_bit_position = 23,
-+                .low_bit_position = 8,
-+            },
-+        },
-     },
-     /*Below are MSR exposed features*/
-     [FEAT_ARCH_CAPABILITIES] = {
+@@ -4377,6 +4377,28 @@ static bool x86_cpu_have_filtered_features(X86CPU *cpu)
+     return false;
+ }
+ 
++static void mark_unavailable_multi_bit_default(X86CPU *cpu, FeatureWord w,
++                                               int index,
++                                               const char *verbose_prefix)
++{
++    FeatureWordInfo *f = &feature_word_info[w];
++    g_autofree char *feat_word_str = feature_word_description(f);
++    uint64_t host_feat = x86_cpu_get_supported_feature_word(w, false);
++    MultiBitFeatureInfo mf = f->multi_bit_features[index];
++
++    if ((cpu->env.features[w] & mf.mask) &&
++        ((cpu->env.features[w] ^ host_feat) & mf.mask)) {
++        if (!cpu->force_features) {
++            cpu->env.features[w] &= ~mf.mask;
++        }
++        cpu->filtered_features[w] |= mf.mask;
++        if (verbose_prefix)
++            warn_report("%s: %s.%s [%u:%u]", verbose_prefix, feat_word_str,
++                        mf.feat_name, mf.high_bit_position,
++                        mf.low_bit_position);
++    }
++}
++
+ static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint64_t mask,
+                                       const char *verbose_prefix)
+ {
+@@ -6442,6 +6464,20 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
+             x86_cpu_get_supported_feature_word(w, false);
+         uint64_t requested_features = env->features[w];
+         uint64_t unavailable_features = requested_features & ~host_feat;
++        FeatureWordInfo f = feature_word_info[w];
++        int i;
++
++        for (i = 0; i < f.num_multi_bit_features; i++) {
++            MultiBitFeatureInfo mf = f.multi_bit_features[i];
++            if (mf.mark_unavailable_multi_bit) {
++                mf.mark_unavailable_multi_bit(cpu, w, i, prefix);
++            } else {
++                mark_unavailable_multi_bit_default(cpu, w, i, prefix);
++            }
++
++            unavailable_features &= ~mf.mask;
++        }
++
+         mark_unavailable_features(cpu, w, unavailable_features, prefix);
+     }
+ 
 -- 
 2.34.1
 
