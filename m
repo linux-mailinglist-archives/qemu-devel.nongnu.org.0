@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D4A660A72
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 00:57:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7C0660A82
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 00:58:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDwYu-0006LQ-58; Fri, 06 Jan 2023 18:55:49 -0500
+	id 1pDwbC-0007sZ-RK; Fri, 06 Jan 2023 18:58:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDwYp-0006LF-7O
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:55:43 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ id 1pDwb0-0007rp-S9
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:58:00 -0500
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDwYm-0001Tn-SP
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:55:42 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id y1so3374736plb.2
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 15:55:40 -0800 (PST)
+ id 1pDwaz-0001tr-6p
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:57:58 -0500
+Received: by mail-pl1-x636.google.com with SMTP id c4so3371393plc.5
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 15:57:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=vQntkw4D7KQIAA/jl5SWgtaTmLy9BYpdzAP9zpGYxlc=;
- b=yqeRg40bktrLIyYTSUyfbJb3ryXqpYZmkvPYnXWMR0qqRQ0rTiU8O3ujk5MUqVI5sc
- T3t9j104nBYlWOtOZ3XsFA57SIVr2jN8REztJsi6MKJVfP9Os7wTCl9wKckncXXfErdq
- TgqE79RKInOU3LJFnG5EjguEbgrNt9CjuQ3AhtNX+YoYhvbhgvHkrMdsa4NOe777syw3
- uQuDQw3tF/4uZBU4EUkDk+mKuhlADBJ323vc1oKW+i/B4UjAeYHVkhMSBovMXKRiuniI
- HPmc4fOd8ssRa1rbFqnuiMdSuFqzN/W8yhCBeaowiAwB2SnFEzAfS3KL8v5schdnVgkW
- jG0A==
+ bh=WJ+ogkemoFE64HRnUFwoSu60J3wH71jlQBxKcEmwQ+M=;
+ b=S/ASl0yuS5v/N3LrBCMKVZecXFMzpDvCivA5jKbntl65pEeq8fLS8FDOpkK5vyo3At
+ lBrAQXy6QRE7J2mQcqgRKIMRKrBQ02XyuRmTwcMmiioUHYZIbyOWddfwh1fYKc/FsiQ3
+ FXM7OzO3iasKjzVr7aMMWmt+5+UB6PfDzk2Pbd5PeIwJ03BaY4lSfB/Atc2rSb0FhBdW
+ NWYOVpr+mX/dXFqOyjgZAgP04OnEamNBWGig7bDhiVQZJWfVn16VT4yctozhb6M4zkDF
+ B4Al7+xWSoioOC9o3dZqqTgk3yKPBXV9E41tMOykEvHSoSXxfvYo4YNVJsXhVvqXaBn3
+ xE8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vQntkw4D7KQIAA/jl5SWgtaTmLy9BYpdzAP9zpGYxlc=;
- b=iB2iuBpA8gRAG4z0/p4wvFd6sesedkHEDNvGS70pvoIicraO2FjAlRqrZf2Woz/5tD
- ycdDv4oVOj4OCqtSgH2AD7a1puKI79p6K6keLG1WKaQi90yd7rbm5tNY+sLGf8UAxpm/
- lGm0RAGIC9T4DM4mRVofV+AmO7DXCzigqHtQY1N7pqozeIUKsUDNzZhkj6+Ie7l0Er2X
- iF666g8jIrQsUwZUZJCXkambegHq6RU1JCXbJk0pJKoIAep+W3m9NBMnaFHqZWcO2Xq5
- O6x0H4G4OqbZQBzoUwzTatUevmFIK87/ggTaERNqAOnRW5FDC/qD7HtLjQSJ9ra6PRqk
- lZTg==
-X-Gm-Message-State: AFqh2krSOtOGO3gqLDH7jEpgX5JRGoTBNmHUFy8tNHekv3B2AsG131Gu
- QzPaF75egu5ZvCjm+emVSBM8Kg==
-X-Google-Smtp-Source: AMrXdXsYP/qHEO4ncFmLRjgx3gzZkCMRQwRCPnEZO9AbJZGGO9EZiyRalo+aF5R9GJIQZPmlBI0rfQ==
-X-Received: by 2002:a17:902:8f92:b0:18f:a27c:fe with SMTP id
- z18-20020a1709028f9200b0018fa27c00femr61085953plo.55.1673049339428; 
- Fri, 06 Jan 2023 15:55:39 -0800 (PST)
+ bh=WJ+ogkemoFE64HRnUFwoSu60J3wH71jlQBxKcEmwQ+M=;
+ b=66qDhYycDL4Ol2IpqGtvtSvEOeCaMmOk5LhGJyJxub3qhgMZ34Udywm55V/ba9L/B8
+ YNNtjD6UcrBmzXXZZ1xDqXbzrjKpa+gIE17HbbDjSfstssZ8J4GqWh/WWsdI4YMM+Cm3
+ 8U76bzHN9q8nk7iQ+zt5QGhYEvTFD7psp3+SNUu/Mb3Wp4mNEYVpdXIDGYz3c5MlTF/z
+ EfQ0KJVjpI1ePzQg2sKKz4y4lSiQlXrkUsxEiopwrkABQOFUhWaKiljw73NcsgasmrL1
+ dRzN3RCyp15NILeEbH9sS/8lkzXyeyYOFYexIT8s/qs9fsid+itv8/Fa29LBv3INmOo5
+ H7nQ==
+X-Gm-Message-State: AFqh2koF0qTOfoY5MmZk26jLXL6dN5mgdaQisv3ZXI2cF4+DimB9+yb2
+ hm+zr6qudorHgHq0kO6TUBbvCg==
+X-Google-Smtp-Source: AMrXdXvTLrBFr3/cl5ZDYCpcD6aC09zHYJQOFuZCCiTaRA4FhVAIiT2veW60jTUp3t3JO9p54p60cw==
+X-Received: by 2002:a05:6a20:b047:b0:b2:6105:e960 with SMTP id
+ dx7-20020a056a20b04700b000b26105e960mr53949459pzb.32.1673049475793; 
+ Fri, 06 Jan 2023 15:57:55 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:9d81:5b04:51d7:acae?
  ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
  by smtp.gmail.com with ESMTPSA id
- h2-20020a170902f7c200b0019262dfa3ecsm1488018plw.112.2023.01.06.15.55.38
+ q11-20020a65494b000000b0047850cecbdesm1366978pgs.69.2023.01.06.15.57.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Jan 2023 15:55:38 -0800 (PST)
-Message-ID: <8a2f66c4-72d9-42cc-af65-0272c8829835@linaro.org>
-Date: Fri, 6 Jan 2023 15:55:36 -0800
+ Fri, 06 Jan 2023 15:57:55 -0800 (PST)
+Message-ID: <7e695013-7261-50b5-a779-34640701eb6c@linaro.org>
+Date: Fri, 6 Jan 2023 15:57:53 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 21/21] gdbstub: only compile gdbstub twice for whole
- build
+Subject: Re: [RFC PATCH 00/40] Toward class init of cpu features
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20230105164320.2164095-1-alex.bennee@linaro.org>
- <20230105164320.2164095-22-alex.bennee@linaro.org>
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, berrange@redhat.com,
+ eduardo@habkost.net, armbru@redhat.com, ajones@ventanamicro.com
+References: <20230103181646.55711-1-richard.henderson@linaro.org>
+ <CAFEAcA8K=1CNZfDG8i3bSXXSWT7D2oWg4jyupwYmw8oR7MJVsQ@mail.gmail.com>
+ <9f9a6c22-315b-de1e-958e-89963c5e7e90@linaro.org>
+ <CAFEAcA8cxJFpB9V826DjSsFOy7VYh5TWXb4vRYDUeOMjQgk-eQ@mail.gmail.com>
+ <874jt32ppl.fsf@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230105164320.2164095-22-alex.bennee@linaro.org>
+In-Reply-To: <874jt32ppl.fsf@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -95,105 +99,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/5/23 08:43, Alex Bennée wrote:
-> Now we have removed any target specific bits from the core gdbstub
-> code we only need to build it twice. We have to jump a few meson hoops
-> to manually define the CONFIG_USER_ONLY symbol but it seems to work.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   gdbstub/gdbstub.c     |  3 +--
->   gdbstub/user-target.c |  2 +-
->   gdbstub/meson.build   | 32 ++++++++++++++++++++++++++++----
->   3 files changed, 30 insertions(+), 7 deletions(-)
-> 
-> diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-> index 57bbda3505..0dbb9f5338 100644
-> --- a/gdbstub/gdbstub.c
-> +++ b/gdbstub/gdbstub.c
-> @@ -39,7 +39,6 @@
->   
->   #include "sysemu/hw_accel.h"
->   #include "sysemu/runstate.h"
-> -#include "exec/exec-all.h"
->   #include "exec/tb-flush.h"
->   #include "exec/hwaddr.h"
->   #include "sysemu/replay.h"
-> @@ -1611,7 +1610,7 @@ static const GdbCmdParseEntry gdb_gen_query_table[] = {
->           .cmd_startswith = 1,
->           .schema = "s:l,l0"
->       },
-> -#if defined(CONFIG_USER_ONLY) && defined(CONFIG_LINUX_USER)
-> +#if defined(CONFIG_USER_ONLY) && defined(CONFIG_LINUX)
->       {
->           .handler = gdb_handle_query_xfer_auxv,
->           .cmd = "Xfer:auxv:read::",
-> diff --git a/gdbstub/user-target.c b/gdbstub/user-target.c
-> index 83e04e1c23..46f5729999 100644
-> --- a/gdbstub/user-target.c
-> +++ b/gdbstub/user-target.c
-> @@ -235,7 +235,7 @@ static inline int target_memory_rw_debug(CPUState *cpu, target_ulong addr,
->   }
->   
->   
-> -#if defined(CONFIG_LINUX_USER)
-> +#if defined(CONFIG_LINUX)
->   void gdb_handle_query_xfer_auxv(GArray *params, void *user_ctx)
->   {
->       TaskState *ts;
-> diff --git a/gdbstub/meson.build b/gdbstub/meson.build
-> index 56c40c25ef..193c20203d 100644
-> --- a/gdbstub/meson.build
-> +++ b/gdbstub/meson.build
-> @@ -4,13 +4,37 @@
->   # types such as hwaddr.
->   #
->   
-> -specific_ss.add(files('gdbstub.c'))
-> +# We need to build the core gdb code via a library to be able to tweak
-> +# cflags so:
->   
-> -# These have to built to the target ABI
-> -specific_ss.add(files('syscalls.c'))
-> +gdb_user_ss = ss.source_set()
-> +gdb_softmmu_ss = ss.source_set()
->   
-> -softmmu_ss.add(files('softmmu.c'))
-> +# We build two versions of gdbstub, one for each mode
-> +gdb_user_ss.add(files('gdbstub.c'))
-> +gdb_softmmu_ss.add(files('gdbstub.c'))
-> +
-> +gdb_user_ss = gdb_user_ss.apply(config_host, strict: false)
-> +gdb_softmmu_ss = gdb_softmmu_ss.apply(config_host, strict: false)
-> +
-> +libgdb_user = static_library('gdb_user', gdb_user_ss.sources(),
-> +                             name_suffix: 'fa',
-> +                             c_args: '-DCONFIG_USER_ONLY')
-> +
-> +libgdb_softmmu = static_library('gdb_softmmu', gdb_softmmu_ss.sources(),
-> +                                name_suffix: 'fa')
-> +
-> +gdb_user = declare_dependency(link_whole: libgdb_user)
-> +user_ss.add(gdb_user)
-> +gdb_softmmu = declare_dependency(link_whole: libgdb_softmmu)
-> +softmmu_ss.add(gdb_softmmu)
-> +
-> +# The rest of the mode specific code can be added directly
->   user_ss.add(files('user.c'))
-> +softmmu_ss.add(files('softmmu.c'))
-> +
-> +# These have to built to the target ABI
-> +specific_ss.add(files('syscalls.c'))
+On 1/6/23 15:43, Alex Bennée wrote:
+> What about cloning objects after they are realised? After all that is
+> what we do for the core CPUClass in user-mode.
 
-It seems weird to put one file into a library and other files directly into the 
-user/softmmu source sets.  Why not just put everything except user-target.c into the 
-corresponding libraries?
-
->  # and BSD?
->  specific_ss.add(when: 'CONFIG_LINUX_USER', if_true: files('user-target.c'))
-
-Definitely "and BSD".  I can't see how this will link at all, missing e.g. 
-gdb_handle_query_offsets.
+No we don't.  Where do you get that idea?
 
 
 r~
