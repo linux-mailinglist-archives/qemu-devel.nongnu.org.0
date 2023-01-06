@@ -2,99 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36BD16602B1
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 16:04:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 090606602E4
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 16:18:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDoF5-0000bX-90; Fri, 06 Jan 2023 10:02:47 -0500
+	id 1pDoSg-00047x-CL; Fri, 06 Jan 2023 10:16:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDoF1-0000al-4B
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 10:02:43 -0500
-Received: from sonic317-20.consmr.mail.gq1.yahoo.com ([98.137.66.146])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDoEy-00059O-Hk
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 10:02:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1673017356; bh=0VDm502ucQEkSIIWDIcrXnsroFh40vokq/Ikx7Y6nk8=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
- b=iyzlupQ0NS73Y5VIXErGypapDPeMcOXKm4mG8BWrz6ebrPUZEc4f2DkAaBV1KGmg2mV+XPANhp24iEXb9SGt/YErUOOqPznQTmQka4Xp+NeTELGnd5KhJhlaI4reTdrQvPuBd0FEEGjUPcTcFvUOVGp4hBjJ8F8pSt+hP59N1L7mTsybJjFkOWz2fFFTXoUwFjo3A3eWPoDJR7AfaMtO2HEgpg6MQjlP/kt1uS51zF3B3veq8uBVtsDWzeDb9nVuPfK8y3b3hcpqKfAgtAOvteeNOYbiNo7MJlvdRWUIR4YybjJll8FHXNBSececiHcSX972vBBuRwZoho4VN6dMlg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1673017356; bh=oRw9T96FHEYw+EaVMMY57P6PCdN82bq0am7S/TzbQFq=;
- h=X-Sonic-MF:Date:Subject:From:To:From:Subject;
- b=UNjgox1dsuEuzIPLPIC4sZDgSpPa5Etnwq8tiv2rYdQRDgYDfJ7cOPA6AUCF45LcALh1KyTNXv8HOogzllAMSPb6smJAnfO0enrZ5Gfq3haiqAyzO44zc9KMJ+/0qTxrhsVGwwSuWveaaCcaCEtqEvOAiacQ5r3Xi3pJKA8bBmwY+rz2N9g+0vOibsuY2iu9nfEnrtNudlG4XrHmz8K1ur3rGtm8tfR1NKmu0hH28aTXEY9h7s+PflNAO/iWUJB0TiWBRdqfxH9B5yqAFjLQppKJqsUsoQ8jSitgcPycHaTJjTrriBA4ziSmDdasi10pQxzZaKPufiwBPMYUnpteVg==
-X-YMail-OSG: .Uqmgf4VM1msNoeUWzjybWiLGsnPNeWKLnowVtNS9ZX9bjNd9b78LRkGTjcqfVB
- 575A2Xmw7k5SQwscjnM_GjoW.JV.XkZvtH2.A0Y.iuQkSD1NGfPBJ9.8847ZcKwZbQwh6lSE4iYd
- PMb1ITHJ21KKDdHU6eg2TPKMIiPbvMNMyeQN35NOI5.l2BxfOzCBeHot4j6Xpyeopdc3ci.jTcb3
- 7LrAZc13o_AEwnpmumOydFn4VpuFa7H4IqDn0AeL1QnbL7feWGmjfjFWJdT7dl1T_Ryo2fTTj7Lz
- EXbXjzZ0DJ.2JOIb2MBn50UWpQAKDcfhmTi_TR5MveD9cRqjc7kptVtys_t..D4z6JKOpYHKl_MY
- yPg7BSFf2KsVzinONTsKfBLxMV2dqj8rzuuKXr15oczoyk_rq6H1k5peuF.H0D9Q5MxCx0hIEKVh
- fW4j2ZSd_jd_Ft605Gv6qap5IOrxPbO1fl0le_ADwXqbBROycLMdYvImy.OA_KSuhdLBgTdmlDaR
- EkCJkaRBxU4nN9tjYp5EIBKel.rSCheKPV3mdFPYrngGzgZ9KTS3u9xD3SeA9yaEoloG0QKIE5xj
- qCAlXWIdK593knMKdwg8kNJeXVlBNZ9kte5PH7CPIZ5dCGgl.Teq8tzzPI7ShZpbCkk1JAMbqIj9
- ZUGUGJ_T1Bxg3e3NNkkyZZxgD14XdaaeF1Dw7yny6PgOHRMRed6hJW1wFLvFrdqnzSUOCSe8LnD8
- 0wdHdzEHUxvCt25FNHHVYPtcs5VsSMBT7o_b2oAw8ZBNIytEB2vKIl4QmAUf9zvl.zMI1O2b8imH
- 7Hw7as44Vt5rFbP4BPfOEbc9ys5ojwn_nStmfxMrtXlGWVTMXfJcYdQEXqPMmENf4NSdj2J3zlSG
- K92lo.ZqMDvWlgHGtDdZMbmmODvRpSpt5RQgRORVysAH_El98myuugLUO7SlkbU_f4SQDZ8FKR2b
- 5N6ohPKLpV41FXb5U1CuFcdrjQ7Kj4sH07dA_bYPrkkkMYWZhNH28am_ZuOBc_fHhXqH0uPrWaCp
- sMjuHroFNVO0IeV.ZQGroX8dtBAtFKhW988yHl_umYCW50_Qyb6t5jMFRR2kWXtAQc2QBK7GUlXx
- kZchz_tUETzoJnfgu2bMtCtDhRUn4EYuEN1ixTSPjlLi_QBofr5ve.M7rQ1GYIeDG.OefAbmcrR5
- 4MXmTSu7RcvJVuhns11yuu_3DcSK8dOxVzPsCBRbAjKpSyQa9u3jbJ8Ifw5GQrbQtyMQetVev731
- lJ4mtSYdF5a0.jbJT9lZFrumznU8eZwtLeKLQWDTuF4rUBfcDgfXQN19Tg49G2nHnIV3SiEb0FeD
- sZbYld168j8m4ELRCH4ddFO_ilHKcWMSSOHnsJ0AjbN.tNuFH3gwtMrGlMqnSHOVyU15NGnEqgPS
- ZM3iheGPNaDpBs9DOD5IjKUvlqoopHmiOFTcu9QKPluUQWXLeljZj7xRlGFLD2PsmVsAj3KCS6JM
- 1TBsQuH9TaEYg1QMKvud4JWn6VuUsCPikOhxoXDtwHEC5L9H6kXAmTb_SXNBQF3.EuxxaOgWXG40
- WCCJce.Dy2Cqxd8Dasz8h6_asl5xRLlitnvXw2dD6x7uYGBjZeg_dn3BGLZ1OcntGEBco.oKhry.
- pV1pwXrUDve777MNN4c0FJm2IIsJcuQ6JonANYfaVVqDzwIm9wQVhBr.loGRt.aF8MgNuuqtmuyX
- 7_0KqPvZZ_AiYo7KNN9zUrMHZvwtan.3NXbGSj09fDzP0V3OIvC9zQWKy4bnECXkrCrzuZRPbVRJ
- 5QD77RLb1U4xrtIEn9fIgUdHNf_ewu1c1xrxJKt1.RwrxXrDPALtVwioVvDQZlvN38La_XV6UIOF
- iwYgb0SWMO2Zo_Yxxe7.oFW.6XFEOH2mKnC_HBvDayQG8Eu7Mgw.Nrf0O0stg8zSD11UrCsDx2Kb
- Kd_qH6fD.WcLZnytzwruDWxiQ1cwO77BBBKFrxrqTTGg.GVgFjHHLDslsvocY2iHo9AGmTZpGKf8
- eP8eVPkfK.7vp8xVMl7bW9wdg3Hs2EZRDUtauj_zvAJQqio3bzl9W91PQ5EhPcjiy2oAWUet9pgy
- uFBH8RxrUeIC.G4au93m6Htz38yxd5He8vwMSJ8XXiPyNq3ymoNPGvVH5xzqvSkbJ0fqwtmOxKdL
- 18257Wda6bmLyIwr2h_vKHc91dLtUbclWkO767zayiCyn8N5p._Jd93s8HcmnMW2M7.xZ2i.Spjy
- wSjxa2W7nyg--
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic317.consmr.mail.gq1.yahoo.com with HTTP; Fri, 6 Jan 2023 15:02:36 +0000
-Received: by hermes--production-ne1-7b69748c4d-g8q5j (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID e73641d6e4425e24aadb96822c955bf6; 
- Fri, 06 Jan 2023 15:02:31 +0000 (UTC)
-Message-ID: <6931ef9f-1978-97f5-2d32-003a9e64833c@aol.com>
-Date: Fri, 6 Jan 2023 10:02:29 -0500
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pDoSb-00045m-Nl
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 10:16:45 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pDoSZ-0003Oq-D7
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 10:16:45 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 306Cx2mv029069; Fri, 6 Jan 2023 15:16:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=8bqrkuISwtfp7mW+ZHKAgMmzPIa3CegW4Xcy7s4u9Fw=;
+ b=e9DWR6gNdzEqXnt6hfLd/osHNCMgW+ogjOFFS68rRRkahkxMDma6UhP4M4tIkm6sdVQC
+ EV6fTNwaMAUFBWrP7/jYT1c87kYVGsdXSEolE/uXn8s8Ylb/WIc/x5CGSoGBjHjKsz8M
+ A/ihwj9JdyHxpBSTOPjyiH2XYojTkMkpqWNjogQZvVMdbSAgmMJJ9dCNeL0OuFFNeJpJ
+ 4wpQLmTjnONoIRVdwFt371/KsnHb4cpKHOB3PGaUICO80EzkewpjjcgHHNfTdw/T0eL4
+ T/TumdbwU5dAOs5EjXUkKJKRMLDidO1mp31f72v/VcKVB+EJM8r4Q2Flph20JhZMsZuf 0w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mxdee2je5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 Jan 2023 15:16:39 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 306DQTo2024775;
+ Fri, 6 Jan 2023 15:16:39 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mxdee2jdx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 Jan 2023 15:16:39 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 306FGLsJ026337;
+ Fri, 6 Jan 2023 15:16:38 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
+ by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3mtcq7m555-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 Jan 2023 15:16:38 +0000
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com
+ [10.39.53.231])
+ by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 306FGbHX28312104
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 6 Jan 2023 15:16:37 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A7A8758045;
+ Fri,  6 Jan 2023 15:16:37 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 07EF558050;
+ Fri,  6 Jan 2023 15:16:37 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Fri,  6 Jan 2023 15:16:36 +0000 (GMT)
+Message-ID: <32c53c77-5827-7839-94a1-73003bc3f8af@linux.ibm.com>
+Date: Fri, 6 Jan 2023 10:16:36 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
+Subject: Re: intermittent hang, s390x host, bios-tables-test test, TPM
 Content-Language: en-US
-From: Chuck Zmudzinski <brchuckz@aol.com>
-To: Anthony PERARD <anthony.perard@citrix.com>
-Cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
- Paul Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- xen-devel@lists.xenproject.org
-References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
- <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
- <Y7gqSLo8pMm4gfV+@perard.uk.xensource.com>
- <c39b9502-0020-ce54-abd8-b362430ba086@aol.com>
- <882652f8-ddda-a7d8-85b9-da46568036d3@aol.com>
-In-Reply-To: <882652f8-ddda-a7d8-85b9-da46568036d3@aol.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.20982
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.66.146; envelope-from=brchuckz@aim.com;
- helo=sonic317-20.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eric Auger <eric.auger@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <CAFEAcA-f39VfWEwb-zRabjVoO-XQ-0V=iCFu1PVjg7eYChszbA@mail.gmail.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <CAFEAcA-f39VfWEwb-zRabjVoO-XQ-0V=iCFu1PVjg7eYChszbA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 00XQ-37VbeRVwup_gqEpvLdAWWahcBn2
+X-Proofpoint-ORIG-GUID: stdMNN-irSIcF9lKHX36dVt0KM_qg4Yw
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-06_08,2023-01-06_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxscore=0
+ mlxlogscore=999 spamscore=0 suspectscore=0 malwarescore=0 adultscore=0
+ phishscore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301060113
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.939,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,88 +120,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/6/23 9:31 AM, Chuck Zmudzinski wrote:
-> On 1/6/23 9:10 AM, Chuck Zmudzinski wrote:
->> On 1/6/23 9:03 AM, Anthony PERARD wrote:
->>> On Sun, Jan 01, 2023 at 06:52:03PM -0500, Chuck Zmudzinski wrote:
->>>> Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
->>>> as noted in docs/igd-assign.txt in the Qemu source code.
->>>> 
->>>> Currently, when the xl toolstack is used to configure a Xen HVM guest with
->>>> Intel IGD passthrough to the guest with the Qemu upstream device model,
->>>> a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
->>>> a different slot. This problem often prevents the guest from booting.
->>>> 
->>>> The only available workaround is not good: Configure Xen HVM guests to use
->>>> the old and no longer maintained Qemu traditional device model available
->>>> from xenbits.xen.org which does reserve slot 2 for the Intel IGD.
->>>> 
->>>> To implement this feature in the Qemu upstream device model for Xen HVM
->>>> guests, introduce the following new functions, types, and macros:
->>>> 
->>>> * XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
->>>> * XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
->>>> * typedef XenPTQdevRealize function pointer
->>>> * XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
->>>> * xen_igd_reserve_slot and xen_igd_clear_slot functions
->>>> 
->>>> The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
->>>> member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
->>>> the xl toolstack with the gfx_passthru option enabled, which sets the
->>>> igd-passthru=on option to Qemu for the Xen HVM machine type.
->>>> 
->>>> The new xen_igd_reserve_slot function also needs to be implemented in
->>>> hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
->>>> when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
->>>> in which case it does nothing.
->>>> 
->>>> The new xen_igd_clear_slot function overrides qdev->realize of the parent
->>>> PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
->>>> since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
->>>> created in hw/i386/pc_piix.c for the case when igd-passthru=on.
->>>> 
->>>> Move the call to xen_host_pci_device_get, and the associated error
->>>> handling, from xen_pt_realize to the new xen_igd_clear_slot function to
->>>> initialize the device class and vendor values which enables the checks for
->>>> the Intel IGD to succeed. The verification that the host device is an
->>>> Intel IGD to be passed through is done by checking the domain, bus, slot,
->>>> and function values as well as by checking that gfx_passthru is enabled,
->>>> the device class is VGA, and the device vendor in Intel.
->>>> 
->>>> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
->>> 
->>> 
->>> This patch looks good enough. It only changes the "xenfv" machine so it
->>> doesn't prevent a proper fix to be done in the toolstack libxl.
->>> 
->>> The change in xen_pci_passthrough_class_init() to try to run some code
->>> before pci_qdev_realize() could potentially break in the future due to
->>> been uncommon but hopefully that will be ok.
->>> 
->>> So if no work to fix libxl appear soon, I'm ok with this patch:
+
+
+On 1/6/23 07:10, Peter Maydell wrote:
+> I'm seeing an intermittent hang on the s390 CI runner in the
+> bios-tables-test test. It looks like we've deadlocked because:
 > 
-> Well, I can tell you and others who use qemu are more comfortable
-> fixing this in libxl, so hold off for a week or so. I should have
-> a patch to fix this in libxl written and tested by then. If for
-> some reason that does not work out, then we can fix it in qemu.
+>   * the TPM device is waiting for data on its socket that never arrives,
+>     and it's holding the iothread lock
+>   * QEMU is therefore not making forward progress;
+>     in particular it is unable to handle qtest queries/responses
+>   * the test binary thread 1 is waiting to get a response to its
+>     qtest command, which is not going to arrive
+>   * test binary thread 3 (tpm_emu_ctrl_thread) is has hit an
+>     assertion and is trying to kill QEMU via qtest_kill_qemu()
+>   * qtest_kill_qemu() is only a "SIGTERM and wait", so will wait
+>     forever, because QEMU won't respond to the SIGTERM while it's
+>     blocked waiting for the TPM device to release the iothread lock
+>   * because the ctrl-thread is waiting for QEMU to exit, it's never
+>     going to send the data that would unblock the TPM device emulation
+> 
+[...]
 
-One last thought: the only donwnside to fixing this in libxl is that
-other toolstacks that configure qemu to use the xenfv machine will not
-benefit from the fix in qemu that would simplify configuring the
-guest correctly for the igd. Other toolstacks would still need to
-override the default behavior of adding the xen platform device at
-slot 2. I think no matter what, we should at least patch qemu to have
-the xen-platform device use slot 3 instead of being automatically assigned
-to slot 2 when igd-passthru=on. The rest of the fix could then be
-implemented in libxl so that other pci devices such as emulated network
-devices, other passed through pci devices, etc., do not take slot 2 when
-gfx_passthru in xl.cfg is set.
+> 
+> Thread 3 (Thread 0x3ff8dafe900 (LWP 2661316)):
+> #0  0x000003ff8e9c6002 in __GI___wait4 (pid=<optimized out>,
+> stat_loc=stat_loc@entry=0x2aa0b42c9bc, options=<optimized out>,
+> usage=usage@entry=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+> #1  0x000003ff8e9c5f72 in __GI___waitpid (pid=<optimized out>,
+> stat_loc=stat_loc@entry=0x2aa0b42c9bc, options=options@entry=0) at
+> waitpid.c:38
+> #2  0x000002aa0952a516 in qtest_wait_qemu (s=0x2aa0b42c9b0) at
+> ../tests/qtest/libqtest.c:206
+> #3  0x000002aa0952a58a in qtest_kill_qemu (s=0x2aa0b42c9b0) at
+> ../tests/qtest/libqtest.c:229
+> #4  0x000003ff8f0c288e in g_hook_list_invoke () from
+> /lib/s390x-linux-gnu/libglib-2.0.so.0
+> #5  <signal handler called>
+> #6  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
+> #7  0x000003ff8e9240a2 in __GI_abort () at abort.c:79
+> #8  0x000003ff8f0feda8 in g_assertion_message () from
+> /lib/s390x-linux-gnu/libglib-2.0.so.0
+> #9  0x000003ff8f0fedfe in g_assertion_message_expr () from
+> /lib/s390x-linux-gnu/libglib-2.0.so.0
+> #10 0x000002aa09522904 in tpm_emu_ctrl_thread (data=0x3fff5ffa160) at
+> ../tests/qtest/tpm-emu.c:189
 
-So, unless I hear any objection, my plan is to patch qemu to use slot
-3 for the xen platform device when igd-passthru is on, and implement the
-rest of the fix in libxl. I should have it ready within a week.
+This here seems to be the root cause. An unknown control channel command was received from the TPM emulator backend by the control channel thread and we end up in g_assert_not_reached().
 
-Thanks for your help,
+https://github.com/qemu/qemu/blob/master/tests/qtest/tpm-emu.c#L189
 
-Chuck
+
+
+         ret = qio_channel_read(ioc, (char *)&cmd, sizeof(cmd), NULL);
+         if (ret <= 0) {
+             break;
+         }
+
+         cmd = be32_to_cpu(cmd);
+         switch (cmd) {
+  [...]
+         default:
+             g_debug("unimplemented %u", cmd);
+             g_assert_not_reached();                <------------------
+         }
+
+I will run this test case in an endless loop on an x86_64 host and see what we get there ...
+
+   Stefan
+
+
+> #11 0x000003ff8f0ffb7c in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+> #12 0x000003ff8eb07e66 in start_thread (arg=0x3ff8dafe900) at
+> pthread_create.c:477
+> #13 0x000003ff8e9fcbe6 in thread_start () at
+> ../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
 
