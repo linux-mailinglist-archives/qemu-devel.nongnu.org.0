@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9099866090D
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 22:59:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD04566092E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 22:59:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDujm-0003m6-Lj; Fri, 06 Jan 2023 16:58:54 -0500
+	id 1pDukL-0004ds-Iy; Fri, 06 Jan 2023 16:59:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDujj-0003kB-KE
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 16:58:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDuji-0006DY-5o
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 16:58:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673042329;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ogyxi5XLn7tptWomuniGsEvSBymeOCuHJfCTTUsHNKc=;
- b=KEFIKU262RPGY7ZSnVGfb9IiYxoPv7kdM/A+kuJvrYfLOQsiRNVKvorOLGfdCxTcBJlJLe
- ShB6U8xFSmx3eRDCoInGRS+jyNLZd1V0BEDHPpEuXtBBiN2Yt9ke4Gmq24cQtgApZxuMd2
- pMhmgjWerRvSfyv5Ab3aDi+1BP3dIx4=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-257-eAryXZ23O6yrVFsZcDZ0UQ-1; Fri, 06 Jan 2023 16:58:48 -0500
-X-MC-Unique: eAryXZ23O6yrVFsZcDZ0UQ-1
-Received: by mail-lf1-f70.google.com with SMTP id
- i13-20020ac2522d000000b004cb23bf5c6cso1004984lfl.20
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 13:58:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDukJ-0004YI-DC
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 16:59:27 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDukH-0006G6-Nj
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 16:59:26 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id 141so2085221pgc.0
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 13:59:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ZYLGuAFeG3+MXal8PXVV9y3N4GAF57B300dnEpQQjLg=;
+ b=YcF6bT85skeVwsG1OCQspGHfCVj0V9XXPe3pmN1TDpPK1W47xwmcXo3ZrXbLMM4qz6
+ DKrcqB7CrpA7G8Mffa6KRXlpsx7UlY2qFze1QSMurzBM6JOGGkgeYUhH7yfCj/BHnFj3
+ eOylddDGuwMNv/hAlS3h0Q26TN/Qbwih5rJ62Ei/CrAr/TDm5o2w/a+VBmNt0Ys7+eJ3
+ TYWlQNZE9lF8aK2vKeLN3tB7wwlyhgR/j7lyfxE1bh1a8CsqflNcjV9cli2SnVHmxpM6
+ SSPMl3FMEheGL/GOUSak/n1d5kNzTDMB7f17FKyUQ/l/hg7hJu0bXTt77hVFPNRxipJ7
+ gzjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ogyxi5XLn7tptWomuniGsEvSBymeOCuHJfCTTUsHNKc=;
- b=Snn4QAsag5ghYy15FG53T2tlSK2fIxNVpT4HGUDAWuumrBF3wikESxeKMQbOuwskqn
- te+5kngSwogfSoSk+u+pBON2kTIq+GlvY4nwnCeBTOgiJgq/VYE482ELlKFYZbf1uWnG
- 2dmJri6oVTlqWfsQ/DpuSLgx6u/td3SId41/bQAhnerNgPa3/ePn6jAf2FmO+3iS73cH
- jDTJw6Mfp8suPN9wkm4ygMMCGPFwcR8eROuozbfQe6DzSUE3zYkCO7flZqh1C/Q/4uCe
- GS8PKwwwLx/FHy464U2y09wEr6t8nZRJwM3NAXza4LCFAcGEHhDDmWKrWTL0yCe2/Gsl
- rsBw==
-X-Gm-Message-State: AFqh2krHDzK8C/5m/Si3Vi7ELoOqkH221cvoX1OegniYW/l5YRNY6a4l
- amgMasWlDqkaYbE6AdgCFzRK/Ld7TkmVJNwSb0PSsbrQ/ygUwPY7+4SrvHXGDyrtLtlxBY91JS5
- vrF8VwOjYfCYXGZXiLcniea0ycu6mgAA=
-X-Received: by 2002:a2e:b8cc:0:b0:279:c7b0:e05a with SMTP id
- s12-20020a2eb8cc000000b00279c7b0e05amr2455450ljp.148.1673042324089; 
- Fri, 06 Jan 2023 13:58:44 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvT4ikis5A3kJhllWOQYOsE7zSlHy2YtQhug7ptLDNia01fzorwI3RfvyMUrkZ3z5TxHa3GmeEWb6AOgEJ2+hI=
-X-Received: by 2002:a2e:b8cc:0:b0:279:c7b0:e05a with SMTP id
- s12-20020a2eb8cc000000b00279c7b0e05amr2455443ljp.148.1673042323872; Fri, 06
- Jan 2023 13:58:43 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZYLGuAFeG3+MXal8PXVV9y3N4GAF57B300dnEpQQjLg=;
+ b=IX0qk3/ayLOWCegh3rdI4Uq1eif6OtFqzVtBH04VsipUGVPebXk7bbIgsr7CPdv9AA
+ hOc93W9BW/dFUbgGKVV/wAt1tN3F/XIS8qLTn/JAcU13Oye2z2vEju9oLm1oLSP/6cAP
+ vEwKK11GKl4FkgZyju6zdBPkbuS/966ebkdyyP34OjEfKpgG8RI5qpUYnpcqen2puWAW
+ 8Vn5nQ4gWHiR2OQpmAUOeOs1fZ3wzCJoQ3GnG2rfuirzmdRh9VDnD5OtrGxl7D5Af4gt
+ 4Cn1Qp3cKTWjDPdN0jJLTcb3HVGA8PU7k4RI9McpHeruAA4tQIF/lIoaS77Xm4alwRrH
+ DPVA==
+X-Gm-Message-State: AFqh2kqd9Gp1InA4bGztHiVRwnYoSNwX5l3nva+689FcZFVXSzpilkvu
+ tXWY1DzWRk/jZUO5x5Yis7g59A==
+X-Google-Smtp-Source: AMrXdXsc+Jwh/8OfVf4PWw/95lzoDJmY3hlVCp/L0uqSmLWIfxFP1J3HKIjfFq0WCm2BxlXz3gr/8w==
+X-Received: by 2002:a05:6a00:4c15:b0:581:9313:26a1 with SMTP id
+ ea21-20020a056a004c1500b00581931326a1mr35753508pfb.23.1673042364282; 
+ Fri, 06 Jan 2023 13:59:24 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:9d81:5b04:51d7:acae?
+ ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
+ by smtp.gmail.com with ESMTPSA id
+ t23-20020aa79477000000b00574e84ed847sm1571750pfq.24.2023.01.06.13.59.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Jan 2023 13:59:23 -0800 (PST)
+Message-ID: <2ce60de3-54f3-3e9d-bf8c-fbffd3e2db5c@linaro.org>
+Date: Fri, 6 Jan 2023 13:59:22 -0800
 MIME-Version: 1.0
-References: <20221209164743.70836-1-philmd@linaro.org>
-In-Reply-To: <20221209164743.70836-1-philmd@linaro.org>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 6 Jan 2023 16:58:31 -0500
-Message-ID: <CAFn=p-bhUTnD=FenS4Ldei-khGKmuTMfV+MeEjjUGq7UYEZDhQ@mail.gmail.com>
-Subject: Re: [PATCH-for-8.0] tests/vm: Update get_default_jobs() to work on
- non-x86_64 non-KVM hosts
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 13/21] gdbstub: specialise handle_query_attached
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20230105164320.2164095-1-alex.bennee@linaro.org>
+ <20230105164320.2164095-14-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230105164320.2164095-14-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,46 +94,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 9, 2022 at 11:47 AM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
->
-> On non-x86_64 host, if KVM is not available we get:
->
->   Traceback (most recent call last):
->     File "tests/vm/basevm.py", line 634, in main
->       vm =3D vmcls(args, config=3Dconfig)
->     File "tests/vm/basevm.py", line 104, in __init__
->       mem =3D max(4, args.jobs)
->   TypeError: '>' not supported between instances of 'NoneType' and 'int'
->
-> Fix by always returning a -- not ideal but safe -- '1' value.
->
-> Fixes: b09539444a ("tests/vm: allow us to take advantage of MTTCG")
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-
-Reviewed-by: John Snow <jsnow@redhat.com>
-
-
+On 1/5/23 08:43, Alex Bennée wrote:
+> In both user and softmmu cases we are just replying with a constant.
+> If the linker is paying attention it may even be able to sort optimise
+> the call.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->  tests/vm/basevm.py | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-> index 2276364c42..23229e23d1 100644
-> --- a/tests/vm/basevm.py
-> +++ b/tests/vm/basevm.py
-> @@ -569,8 +569,7 @@ def get_default_jobs():
->                  # more cores. but only up to a reasonable limit. User
->                  # can always override these limits with --jobs.
->                  return min(multiprocessing.cpu_count() // 2, 8)
-> -        else:
-> -            return 1
-> +        return 1
->
->      parser =3D argparse.ArgumentParser(
->          formatter_class=3Dargparse.ArgumentDefaultsHelpFormatter,
-> --
-> 2.38.1
->
+>   gdbstub/internals.h |  4 +++-
+>   gdbstub/gdbstub.c   | 15 ++-------------
+>   gdbstub/softmmu.c   |  5 +++++
+>   gdbstub/user.c      |  5 +++++
+>   4 files changed, 15 insertions(+), 14 deletions(-)
 
+I'd drop the comment about the linker.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
