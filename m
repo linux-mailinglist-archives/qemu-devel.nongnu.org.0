@@ -2,69 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CFA465F94D
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 02:49:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA8665F94E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 02:51:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDbq8-0000Xp-NC; Thu, 05 Jan 2023 20:48:12 -0500
+	id 1pDbsu-0002X4-OA; Thu, 05 Jan 2023 20:51:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pDbq6-0000Xg-JZ
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 20:48:10 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pDbq0-0005ja-My
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 20:48:10 -0500
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8DxcvDIfbdjMgAAAA--.14S3;
- Fri, 06 Jan 2023 09:47:52 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxY+XGfbdjKvAUAA--.195S3; 
- Fri, 06 Jan 2023 09:47:50 +0800 (CST)
-Subject: Re: [PATCH v5 2/3] hw/intc/loongarch_pch_pic: add irq number property
-To: Tianrui Zhao <zhaotianrui@loongson.cn>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, maobibo@loongson.cn, philmd@linaro.org
-References: <20230104020518.2564263-1-zhaotianrui@loongson.cn>
- <20230104020518.2564263-3-zhaotianrui@loongson.cn>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <9cdf1b83-15df-1b61-2a02-72ffae583af8@loongson.cn>
-Date: Fri, 6 Jan 2023 09:47:50 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <zhangdongdong@eswincomputing.com>)
+ id 1pDbsp-0002Wq-7T
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 20:51:00 -0500
+Received: from azure-sdnproxy.icoremail.net ([20.232.28.96])
+ by eggs.gnu.org with smtp (Exim 4.90_1)
+ (envelope-from <zhangdongdong@eswincomputing.com>)
+ id 1pDbsm-0006D3-Sr
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 20:50:58 -0500
+Received: from zhangdongdong$eswincomputing.com ( [10.12.96.123] ) by
+ ajax-webmail-app2 (Coremail) ; Fri, 6 Jan 2023 09:50:44 +0800 (GMT+08:00)
+X-Originating-IP: [10.12.96.123]
+Date: Fri, 6 Jan 2023 09:50:44 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: "Dongdong Zhang" <zhangdongdong@eswincomputing.com>
+To: "John Snow" <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, crosa@redhat.com, bleal@redhat.com
+Subject: Re: Re: [PING PATCH 0/1] Fix some typos
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT6.0.3 build 20220420(169d3f8c)
+ Copyright (c) 2002-2023 www.mailtech.cn
+ mispb-72143050-eaf5-4703-89e0-86624513b4ce-eswincomputing.com
+In-Reply-To: <CAFn=p-bnm5WgBO-eXTyuV+mPiCYaLM-rFaUVXY+kmU39GvwpZw@mail.gmail.com>
+References: <20221130015358.6998-1-zhangdongdong@eswincomputing.com>
+ <1ceb5a68.dd0e.18518f40d8f.Coremail.zhangdongdong@eswincomputing.com>
+ <CAFn=p-bnm5WgBO-eXTyuV+mPiCYaLM-rFaUVXY+kmU39GvwpZw@mail.gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-In-Reply-To: <20230104020518.2564263-3-zhaotianrui@loongson.cn>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8AxY+XGfbdjKvAUAA--.195S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxKF4fCryxAFyxWr13ArWkZwb_yoW7uFWfpF
- ZrZFy3tF4kJr47Xrn2v343u3Z7JFs29ry29anI9ryxCr4DJr95X3WkJwsrWF1UK3ykJryj
- vrZ5Ca9093WUJaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bx8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E
- 0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzV
- Aqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S
- 6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82
- IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
- 0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMI
- IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF
- 0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
- Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j8yCJUUUUU=
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Message-ID: <2a334c7d.1060e.18584c5f906.Coremail.zhangdongdong@eswincomputing.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: EggMCgBX5i91frdjrwchAA--.22753W
+X-CM-SenderInfo: x2kd0wpgrqwvxrqjqvxvzl0uprps33xlqjhudrp/1tbiAQEDCmO3F
+ gEJOwABs5
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+Received-SPF: pass client-ip=20.232.28.96;
+ envelope-from=zhangdongdong@eswincomputing.com;
+ helo=azure-sdnproxy.icoremail.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
- NICE_REPLY_A=-2.939, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,166 +69,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-ÔÚ 2023/1/4 ÉÏÎç10:05, Tianrui Zhao Ð´µÀ:
-> With loongarch 7A1000 manual, irq number supported can be set
-> in PCH_PIC_INT_ID_HI register. This patch adds irq number property
-> for loongarch_pch_pic, so that virt machine can set different
-> irq number when pch_pic intc is added.
->
-> Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
-> ---
->   hw/intc/loongarch_pch_pic.c         | 34 +++++++++++++++++++++++++----
->   hw/loongarch/virt.c                 |  8 ++++---
->   include/hw/intc/loongarch_pch_pic.h |  5 ++---
->   3 files changed, 37 insertions(+), 10 deletions(-)
-
-Reviewed-by: Song Gao <gaosong@loongson.cn>
-
-Thanks.
-Song Gao
-> diff --git a/hw/intc/loongarch_pch_pic.c b/hw/intc/loongarch_pch_pic.c
-> index 3380b09807..33966e7bac 100644
-> --- a/hw/intc/loongarch_pch_pic.c
-> +++ b/hw/intc/loongarch_pch_pic.c
-> @@ -6,12 +6,15 @@
->    */
->   
->   #include "qemu/osdep.h"
-> +#include "qemu/bitops.h"
->   #include "hw/sysbus.h"
->   #include "hw/loongarch/virt.h"
->   #include "hw/irq.h"
->   #include "hw/intc/loongarch_pch_pic.h"
-> +#include "hw/qdev-properties.h"
->   #include "migration/vmstate.h"
->   #include "trace.h"
-> +#include "qapi/error.h"
->   
->   static void pch_pic_update_irq(LoongArchPCHPIC *s, uint64_t mask, int level)
->   {
-> @@ -40,7 +43,7 @@ static void pch_pic_irq_handler(void *opaque, int irq, int level)
->       LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
->       uint64_t mask = 1ULL << irq;
->   
-> -    assert(irq < PCH_PIC_IRQ_NUM);
-> +    assert(irq < s->irq_num);
->       trace_loongarch_pch_pic_irq_handler(irq, level);
->   
->       if (s->intedge & mask) {
-> @@ -78,7 +81,12 @@ static uint64_t loongarch_pch_pic_low_readw(void *opaque, hwaddr addr,
->           val = PCH_PIC_INT_ID_VAL;
->           break;
->       case PCH_PIC_INT_ID_HI:
-> -        val = PCH_PIC_INT_ID_NUM;
-> +        /*
-> +         * With 7A1000 manual
-> +         *   bit  0-15 pch irqchip version
-> +         *   bit 16-31 irq number supported with pch irqchip
-> +         */
-> +        val = deposit32(PCH_PIC_INT_ID_VER, 16, 16, s->irq_num - 1);
->           break;
->       case PCH_PIC_INT_MASK_LO:
->           val = (uint32_t)s->int_mask;
-> @@ -365,6 +373,19 @@ static void loongarch_pch_pic_reset(DeviceState *d)
->       s->int_polarity = 0x0;
->   }
->   
-> +static void loongarch_pch_pic_realize(DeviceState *dev, Error **errp)
-> +{
-> +    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(dev);
-> +
-> +    if (!s->irq_num || s->irq_num  > PCH_PIC_IRQ_NUM) {
-> +        error_setg(errp, "Invalid 'pic_irq_num'");
-> +        return;
-> +    }
-> +
-> +    qdev_init_gpio_out(dev, s->parent_irq, s->irq_num);
-> +    qdev_init_gpio_in(dev, pch_pic_irq_handler, s->irq_num);
-> +}
-> +
->   static void loongarch_pch_pic_init(Object *obj)
->   {
->       LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(obj);
-> @@ -382,10 +403,13 @@ static void loongarch_pch_pic_init(Object *obj)
->       sysbus_init_mmio(sbd, &s->iomem8);
->       sysbus_init_mmio(sbd, &s->iomem32_high);
->   
-> -    qdev_init_gpio_out(DEVICE(obj), s->parent_irq, PCH_PIC_IRQ_NUM);
-> -    qdev_init_gpio_in(DEVICE(obj), pch_pic_irq_handler, PCH_PIC_IRQ_NUM);
->   }
->   
-> +static Property loongarch_pch_pic_properties[] = {
-> +    DEFINE_PROP_UINT32("pch_pic_irq_num",  LoongArchPCHPIC, irq_num, 0),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
->   static const VMStateDescription vmstate_loongarch_pch_pic = {
->       .name = TYPE_LOONGARCH_PCH_PIC,
->       .version_id = 1,
-> @@ -411,8 +435,10 @@ static void loongarch_pch_pic_class_init(ObjectClass *klass, void *data)
->   {
->       DeviceClass *dc = DEVICE_CLASS(klass);
->   
-> +    dc->realize = loongarch_pch_pic_realize;
->       dc->reset = loongarch_pch_pic_reset;
->       dc->vmsd = &vmstate_loongarch_pch_pic;
-> +    device_class_set_props(dc, loongarch_pch_pic_properties);
->   }
->   
->   static const TypeInfo loongarch_pch_pic_info = {
-> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-> index 1e58346aeb..a39704e1e7 100644
-> --- a/hw/loongarch/virt.c
-> +++ b/hw/loongarch/virt.c
-> @@ -559,6 +559,8 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
->       }
->   
->       pch_pic = qdev_new(TYPE_LOONGARCH_PCH_PIC);
-> +    num = PCH_PIC_IRQ_NUM;
-> +    qdev_prop_set_uint32(pch_pic, "pch_pic_irq_num", num);
->       d = SYS_BUS_DEVICE(pch_pic);
->       sysbus_realize_and_unref(d, &error_fatal);
->       memory_region_add_subregion(get_system_memory(), VIRT_IOAPIC_REG_BASE,
-> @@ -570,13 +572,13 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
->                               VIRT_IOAPIC_REG_BASE + PCH_PIC_INT_STATUS_LO,
->                               sysbus_mmio_get_region(d, 2));
->   
-> -    /* Connect 64 pch_pic irqs to extioi */
-> -    for (int i = 0; i < PCH_PIC_IRQ_NUM; i++) {
-> +    /* Connect pch_pic irqs to extioi */
-> +    for (int i = 0; i < num; i++) {
->           qdev_connect_gpio_out(DEVICE(d), i, qdev_get_gpio_in(extioi, i));
->       }
->   
->       pch_msi = qdev_new(TYPE_LOONGARCH_PCH_MSI);
-> -    start   =  PCH_PIC_IRQ_NUM;
-> +    start   =  num;
->       num = EXTIOI_IRQS - start;
->       qdev_prop_set_uint32(pch_msi, "msi_irq_base", start);
->       qdev_prop_set_uint32(pch_msi, "msi_irq_num", num);
-> diff --git a/include/hw/intc/loongarch_pch_pic.h b/include/hw/intc/loongarch_pch_pic.h
-> index 2d4aa9ed6f..efae5fa8e9 100644
-> --- a/include/hw/intc/loongarch_pch_pic.h
-> +++ b/include/hw/intc/loongarch_pch_pic.h
-> @@ -9,11 +9,9 @@
->   #define PCH_PIC_NAME(name) TYPE_LOONGARCH_PCH_PIC#name
->   OBJECT_DECLARE_SIMPLE_TYPE(LoongArchPCHPIC, LOONGARCH_PCH_PIC)
->   
-> -#define PCH_PIC_IRQ_START               0
-> -#define PCH_PIC_IRQ_END                 63
->   #define PCH_PIC_IRQ_NUM                 64
->   #define PCH_PIC_INT_ID_VAL              0x7000000UL
-> -#define PCH_PIC_INT_ID_NUM              0x3f0001UL
-> +#define PCH_PIC_INT_ID_VER              0x1UL
->   
->   #define PCH_PIC_INT_ID_LO               0x00
->   #define PCH_PIC_INT_ID_HI               0x04
-> @@ -66,4 +64,5 @@ struct LoongArchPCHPIC {
->       MemoryRegion iomem32_low;
->       MemoryRegion iomem32_high;
->       MemoryRegion iomem8;
-> +    unsigned int irq_num;
->   };
-
+SGkgSm9obiwKCkNvdWxkIHlvdSBoZWxwIG1lIHJlbGF5IHRoZXNlIGZpeGVzPyAKSWYgSSBzdWJt
+aXQgYSBwdWxsIHJlcXVlc3QsIEkgd2lsbCBnbyB0aHJvdWdoIGNvbXBhbnkncyBpbnRlcm5hbCBy
+ZXZpZXcgcHJvY2VzcyBhZ2Fpbi4gCgpUaGFua3MgYSBsb3QhCgpEb25nZG9uZwoKCj4gLS0tLS3l
+jp/lp4vpgq7ku7YtLS0tLeWPkeS7tuS6ujoiSm9obiBTbm93IiA8anNub3dAcmVkaGF0LmNvbT7l
+j5HpgIHml7bpl7Q6MjAyMy0wMS0wNiAwNzoyNTo0MyAo5pif5pyf5LqUKeaUtuS7tuS6ujoiRG9u
+Z2RvbmcgWmhhbmciIDx6aGFuZ2Rvbmdkb25nQGVzd2luY29tcHV0aW5nLmNvbT7mioTpgIE6cWVt
+dS1kZXZlbEBub25nbnUub3JnLCBjcm9zYUByZWRoYXQuY29tLCBibGVhbEByZWRoYXQuY29t5Li7
+6aKYOlJlOiBbUElORyBQQVRDSCAwLzFdIEZpeCBzb21lIHR5cG9zCj4gCj4gT24gVGh1LCBEZWMg
+MTUsIDIwMjIgYXQgMTA6MjIgUE0gRG9uZ2RvbmcgWmhhbmcKPiA8emhhbmdkb25nZG9uZ0Blc3dp
+bmNvbXB1dGluZy5jb20+IHdyb3RlOgo+ID4KPiA+IEhpIGFsbCwKPiA+Cj4gPiBJIHdvdWxkIGxp
+a2UgdG8gcGluZyBhIHBhdGNoCj4gPgo+ID4gaHR0cHM6Ly9saXN0cy5ub25nbnUub3JnL2FyY2hp
+dmUvaHRtbC9xZW11LWRldmVsLzIwMjItMTEvbXNnMDQ1NjguaHRtbAo+ID4gaHR0cHM6Ly9saXN0
+cy5ub25nbnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVsLzIwMjItMTEvbXNnMDQ1NzAuaHRt
+bAo+ID4KPiA+Cj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZXMtLS0tLUZyb206IkRvbmdkb25n
+IFpoYW5nIiA8emhhbmdkb25nZG9uZ0Blc3dpbmNvbXB1dGluZy5jb20+U2VudCBUaW1lOjIwMjIt
+MTEtMzAgMDk6NTM6NTcgKFdlZG5lc2RheSlUbzpxZW11LWRldmVsQG5vbmdudS5vcmdDYzpqc25v
+d0ByZWRoYXQuY29tLCBjcm9zYUByZWRoYXQuY29tLCBibGVhbEByZWRoYXQuY29tLCAiRG9uZ2Rv
+bmcgWmhhbmciIDx6aGFuZ2Rvbmdkb25nQGVzd2luY29tcHV0aW5nLmNvbT5TdWJqZWN0OltQQVRD
+SCAwLzFdICBGaXggc29tZSB0eXBvcwo+ID4gPgo+ID4gPiBUaGlzIHBhdGNoIG1haW5seSBmaXhl
+cyBzb21lIHR5cG9zIGluIHRoZSAncHl0aG9uJyBkaXJlY3RvcnkuCj4gPiA+Cj4gPiA+IERvbmdk
+b25nIFpoYW5nICgxKToKPiA+ID4gICBGaXggc29tZSB0eXBvcwo+ID4gPgo+ID4gPiAgcHl0aG9u
+L3FlbXUvbWFjaGluZS9jb25zb2xlX3NvY2tldC5weSB8IDIgKy0KPiA+ID4gIHB5dGhvbi9xZW11
+L21hY2hpbmUvcXRlc3QucHkgICAgICAgICAgfCAyICstCj4gPiA+ICBweXRob24vcWVtdS9xbXAv
+cHJvdG9jb2wucHkgICAgICAgICAgIHwgMiArLQo+ID4gPiAgcHl0aG9uL3FlbXUvcW1wL3FtcF90
+dWkucHkgICAgICAgICAgICB8IDYgKysrLS0tCj4gPiA+ICA0IGZpbGVzIGNoYW5nZWQsIDYgaW5z
+ZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKPiA+ID4KPiA+ID4gLS0KPiA+ID4gMi4xNy4xCj4g
+Cj4gQUNLIHRvIHRoaXMgcGF0Y2guCj4gCj4gRm9yIGZpeGVzIHVuZGVyIHB5dGhvbi9xZW11L3Ft
+cC8sIEkgbmVlZCB0byByZWxheSB0aGVzZSBmaXhlcyBvdmVyIHRvCj4gaHR0cHM6Ly9naXRsYWIu
+Y29tL3FlbXUtcHJvamVjdC9weXRob24tcWVtdS1xbXAgLS0geW91IGNhbiBkbyBpdAo+IHlvdXJz
+ZWxmIGFuZCBzZW5kIGEgc21hbGwgbWVyZ2UgcmVxdWVzdCwgb3IgSSBjYW4gZG8gaXQgZm9yIHlv
+dSwgaWYKPiB5b3UnZCBsaWtlLiBQbGVhc2UgbGV0IG1lIGtub3cgd2hhdCB5b3UnZCBwcmVmZXIs
+IGFuZCB0aGVuIEkgd2lsbAo+IHN0YWdlIHRoaXMgcGF0Y2guCj4gCj4gKEFwb2xvZ2llcyB0aGF0
+IHRoZSBjb2RlIGlzIGR1cGxpY2F0ZWQgaW4gdHdvIHJlcG9zaXRvcmllcyByaWdodAo+IG5vdy4u
+Li4gSSdtIHdvcmtpbmcgb24gZml4aW5nIHRoYXQuKQo+IAo+IC0tanMK
 
