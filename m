@@ -2,103 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6DB65FA3B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 04:29:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E71F565FA1E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 04:24:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDdF4-0003YI-BK; Thu, 05 Jan 2023 22:18:06 -0500
+	id 1pDdEq-0003YA-Pl; Thu, 05 Jan 2023 22:18:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=363443eaf=alistair.francis@opensource.wdc.com>)
- id 1pDdDg-0002xy-0x
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:16:36 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=363443eaf=alistair.francis@opensource.wdc.com>)
- id 1pDdDe-0008VI-FN
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:16:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1672974994; x=1704510994;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=0rrAKh1mFiMSsrpJ48/O7XxeyrgKnPOug7wW4yEMM1I=;
- b=CPvKNaEyPB7wTdjJDgJJiMeLI1GPet8OE40lNuvcO0epypGrzF8eGdGt
- Jp1bNaVUlKeTc5Fqxjc5zgcJzJ5HF11vJn86fgb+lPIIx7qw2k7WaCuEI
- K0CTSeLmtKhqvl6zwgqCp68RPgz491fklS0GhkE0EsAD64hccwsp74ue0
- /Yq2UrKau46KJHCGj8z0/8RMxaHQAiupLMjYVoeJBgw4Qhg4ZK8FJwBYY
- 9LegGsP1ePDhVkW40+ngORL0QiUB/MXjQGLNsgqXRoh7hG8Vdgv+5Lg4/
- cNaYBrZ64IaGop+HRW9Z5Fb2rsird4XEYWxLsj9GzJ5fv1MbTM/+RD1Pu Q==;
-X-IronPort-AV: E=Sophos;i="5.96,304,1665417600"; d="scan'208";a="220254851"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 06 Jan 2023 11:15:20 +0800
-IronPort-SDR: tMT4EW28M9e7q2tHNiUu1V608my52HA9TfoUrm7jpdWo9IH6O3mX7HGH88NojO5CZaa63rcaFW
- veeAASlO2leAqtRD9kFVpR8Wuxd01ryBSj7f6Q+GHP7WbUs+tAImQAGi9PZoxmcyopTbE+y0Sf
- 3Qw8AHaqCwrxyhYWdsrusmt2Mkxov7dguL4iPxDslGU1swzagbBge4QLrTC87ESPp9DLaM2bux
- h14TD8kzkLCreOFCuhjGCg48CmP/fJlCdxYuRrhgd0iIU+Z3xHeqBWo6eRSXwcLhLX3nZ/PsOW
- wRw=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 05 Jan 2023 18:27:31 -0800
-IronPort-SDR: 1Z0dZCJoD4TIXOySWDUC8QeQlRQitar4TvIurtOJqoOwoxWbeAdjgnU7PbR4OYw9w/gKjE8YQj
- c/PQ5dDnWIOP8KJoRDiJsBJ9gCEUewKtkF75O+mj6NwgA1PrLAYY4OtPaIzUfrQy5OUCVxXo5m
- /tlyv47f270hcE+jZ3wBO8OmObS0MUjf/TFUiDwvJv4CYjU3vP5BJudYxCDeeQQxLoHH259vJS
- 4zuOYdUj34Fk0fF0QQXKlw7uy56UEDATzfQ2Gm72Erasa7tlmXH6uLC7LVUCVRzs6xJPjn0RH5
- oHg=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 05 Jan 2023 19:15:22 -0800
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Np7kc311pz1RvTr
- for <qemu-devel@nongnu.org>; Thu,  5 Jan 2023 19:15:20 -0800 (PST)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1672974920; x=1675566921; bh=0rrAKh1mFiMSsrpJ48
- /O7XxeyrgKnPOug7wW4yEMM1I=; b=rpyDtZSQUhCVKw6qonMnNTJHuBpJY0KTRk
- VKQsmVt9xoFNno9dxwn+VEE49KIzFxQ37z9rbabuMjwjuCHWMWzLmpJsWb8YFyh8
- qinG0DzH0PB6E8260s+eSRsDK6zFDu7c2OY3CqWsvpgsXnJjV2tJzwRaC5pC/qKZ
- RCoTfI+JcW3e4Ee3suFb1f5qaJ/3qG12SE5fnHoXa60W9a3vS6Fj6MY1DxjUwnxs
- DPp/XL9Eoy52puh0uzoIEpGRwf+UmOsbaIk6kUg9iW75JBCJMv7ow78Ac3+EDLRz
- 5BVEK824SKZbK6xwKKaExUG6A6O8jqHPqsBAldeMHhkyTFlqq4RA==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id gPnrrhCSpBmB for <qemu-devel@nongnu.org>;
- Thu,  5 Jan 2023 19:15:20 -0800 (PST)
-Received: from toolbox.wdc.com (unknown [10.225.167.28])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Np7kZ6mmBz1Rwrq;
- Thu,  5 Jan 2023 19:15:18 -0800 (PST)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDdET-0003R1-SF
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:17:26 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDdER-00015K-L0
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:17:25 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id d9so387935pll.9
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 19:17:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=10Bj6xu1zSZwE8wJJf84HieJP9AoVAZ80AY7fpAAbP8=;
+ b=s13LjAxXNOdr+4P016nneG7afMBvAafISDLcjy5VkO7OOQgK+ALGxH/DRYQE2XSIcc
+ r/LNSc/rrJPpVF46P21dEchigFeQoe3EUTp4nntkvGStzKBGTEFXwpSW8H02AczeN9VQ
+ Js500q6JPHqFhdRQACIZdBiF7j5bgdy8eG0QY1/p8/UnXsvVza6EFl1UVPFAtFY80/Fm
+ 21ukXaiGwiWCou2rCS73zIK5TBQtunfnU5OgOqDMpLjw2Cs4wiQy4Wyc9bdZ+9VbEZL+
+ 5laPqOKtlrA0+cVgI4MtCSy+SXbOGO5aErMCKFckAAh8Kr9TuBjIxsqg91CADz/u/9vg
+ e8kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=10Bj6xu1zSZwE8wJJf84HieJP9AoVAZ80AY7fpAAbP8=;
+ b=dEJdxTVEwjSjimEN3/0ur/tjraUCURbiSuGjn9Ay1nlhA04EKvfZ4xQNwUpEwtoHkL
+ v4uCU3Afu1DSYof52NvxnuLjwexBbH9eUVwV2OU7b+6i9Zxx2U5ptCTqaEgHUEeVBg7l
+ H7tXqECmVlAt1NjBJxYqNmXrb8TTRiAin6T9YHV+0HgI5tDzF5skzC6tT/368dAmZPux
+ cevjYisCwXc7pNMB0gW0hgzBwES1Z+y3IZEgO0VXL1JK2sL9MYnl0o3mDt4x7YbTwzLO
+ NOZonYr0zLPflN/ETbGL/tOWq4WqkT+vAf5/tF2nrrLcw5c06HQurfh/xWH2XmcmgF08
+ 8D6Q==
+X-Gm-Message-State: AFqh2koYe92RscQr/QYk5kmUmJptEVqWIQGiXevFmqJ+ciyLCs9AWiLs
+ luGlBFHoAMkQ5wDU1+lKcie275GJLCVlEEwj
+X-Google-Smtp-Source: AMrXdXumoQOS5K4m13/pyNrte82a+CC/lFJkr3Ztg8EhcB2sHNxHcXOIUiI283gbqfeXOvERiRhY5w==
+X-Received: by 2002:a17:902:e846:b0:189:f990:24af with SMTP id
+ t6-20020a170902e84600b00189f99024afmr79116417plg.20.1672975042048; 
+ Thu, 05 Jan 2023 19:17:22 -0800 (PST)
+Received: from stoup.. ([2602:47:d48c:8101:2cfd:802:a4a0:c8da])
+ by smtp.gmail.com with ESMTPSA id
+ s5-20020a170902b18500b00193020e8a90sm1653508plr.294.2023.01.05.19.17.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Jan 2023 19:17:21 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v3 43/43] hw/intc: sifive_plic: Fix the pending register range
- check
-Date: Fri,  6 Jan 2023 13:13:57 +1000
-Message-Id: <20230106031357.777790-44-alistair.francis@opensource.wdc.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
-References: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
+Cc: peter.maydell@linaro.org
+Subject: [PULL v2 00/47] tcg misc queue
+Date: Thu,  5 Jan 2023 19:17:18 -0800
+Message-Id: <20230106031720.1204672-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=363443eaf=alistair.francis@opensource.wdc.com;
- helo=esa6.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,49 +87,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bin Meng <bmeng@tinylab.org>
+Changes in patch 47, to reduce execution time with --enable-debug.
+Changes in patch 19, to fix an i386 specific register allocation failure.
 
-The pending register upper limit is currently set to
-plic->num_sources >> 3, which is wrong, e.g.: considering
-plic->num_sources is 7, the upper limit becomes 0 which fails
-the range check if reading the pending register at pending_base.
 
-Fixes: 1e24429e40df ("SiFive RISC-V PLIC Block")
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221211030829.802437-16-bmeng@tinylab.org>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/intc/sifive_plic.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+r~
 
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index 1a792cc3f5..5522ede2cf 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -143,7 +143,8 @@ static uint64_t sifive_plic_read(void *opaque, hwaddr=
- addr, unsigned size)
-         uint32_t irq =3D (addr - plic->priority_base) >> 2;
-=20
-         return plic->source_priority[irq];
--    } else if (addr_between(addr, plic->pending_base, plic->num_sources =
->> 3)) {
-+    } else if (addr_between(addr, plic->pending_base,
-+                            (plic->num_sources + 31) >> 3)) {
-         uint32_t word =3D (addr - plic->pending_base) >> 2;
-=20
-         return plic->pending[word];
-@@ -202,7 +203,7 @@ static void sifive_plic_write(void *opaque, hwaddr ad=
-dr, uint64_t value,
-             sifive_plic_update(plic);
-         }
-     } else if (addr_between(addr, plic->pending_base,
--                            plic->num_sources >> 3)) {
-+                            (plic->num_sources + 31) >> 3)) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid pending write: 0x%" HWADDR_PRIx "",
-                       __func__, addr);
---=20
-2.39.0
 
+The following changes since commit cb9c6a8e5ad6a1f0ce164d352e3102df46986e22:
+
+  .gitlab-ci.d/windows: Work-around timeout and OpenGL problems of the MSYS2 jobs (2023-01-04 18:58:33 +0000)
+
+are available in the Git repository at:
+
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230105
+
+for you to fetch changes up to d4846c33ebe04d2141dcc613b5558d2f1d8077af:
+
+  tests/tcg/multiarch: add vma-pthread.c (2023-01-05 11:41:29 -0800)
+
+----------------------------------------------------------------
+Fix race conditions in new user-only vma tracking.
+Add tcg backend paired register allocation.
+Cleanup tcg backend function call abi.
+
+----------------------------------------------------------------
+Ilya Leoshkevich (1):
+      tests/tcg/multiarch: add vma-pthread.c
+
+Mark Cave-Ayland (1):
+      tcg: convert tcg/README to rst
+
+Philippe Mathieu-Daudé (5):
+      tcg/s390x: Fix coding style
+      tcg: Massage process_op_defs()
+      tcg: Pass number of arguments to tcg_emit_op() / tcg_op_insert_*()
+      tcg: Convert typecode_to_ffi from array to function
+      tcg: Factor init_ffi_layouts() out of tcg_context_init()
+
+Richard Henderson (40):
+      meson: Move CONFIG_TCG_INTERPRETER to config_host
+      tcg: Cleanup trailing whitespace
+      qemu/main-loop: Introduce QEMU_IOTHREAD_LOCK_GUARD
+      hw/mips: Use QEMU_IOTHREAD_LOCK_GUARD in cpu_mips_irq_request
+      target/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in ppc_maybe_interrupt
+      target/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in cpu_interrupt_exittb
+      target/riscv: Use QEMU_IOTHREAD_LOCK_GUARD in riscv_cpu_update_mip
+      hw/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in ppc_set_irq
+      accel/tcg: Use QEMU_IOTHREAD_LOCK_GUARD in io_readx/io_writex
+      tcg: Tidy tcg_reg_alloc_op
+      tcg: Remove TCG_TARGET_STACK_GROWSUP
+      tci: MAX_OPC_PARAM_IARGS is no longer used
+      tcg: Fix tcg_reg_alloc_dup*
+      tcg: Centralize updates to reg_to_temp
+      tcg: Remove check_regs
+      tcg: Introduce paired register allocation
+      accel/tcg: Set cflags_next_tb in cpu_common_initfn
+      target/sparc: Avoid TCGV_{LOW,HIGH}
+      tcg: Move TCG_{LOW,HIGH} to tcg-internal.h
+      tcg: Add temp_subindex to TCGTemp
+      tcg: Simplify calls to temp_sync vs mem_coherent
+      tcg: Allocate TCGTemp pairs in host memory order
+      tcg: Move TCG_TYPE_COUNT outside enum
+      tcg: Introduce tcg_type_size
+      tcg: Introduce TCGCallReturnKind and TCGCallArgumentKind
+      tcg: Replace TCG_TARGET_CALL_ALIGN_ARGS with TCG_TARGET_CALL_ARG_I64
+      tcg: Replace TCG_TARGET_EXTEND_ARGS with TCG_TARGET_CALL_ARG_I32
+      tcg: Use TCG_CALL_ARG_EVEN for TCI special case
+      accel/tcg/plugin: Don't search for the function pointer index
+      accel/tcg/plugin: Avoid duplicate copy in copy_call
+      accel/tcg/plugin: Use copy_op in append_{udata,mem}_cb
+      tcg: Vary the allocation size for TCGOp
+      tcg: Use output_pref wrapper function
+      tcg: Reorg function calls
+      tcg: Move ffi_cif pointer into TCGHelperInfo
+      tcg/aarch64: Merge tcg_out_callr into tcg_out_call
+      tcg: Add TCGHelperInfo argument to tcg_out_call
+      accel/tcg: Fix tb_invalidate_phys_page_unwind
+      accel/tcg: Use g_free_rcu for user-exec interval trees
+      accel/tcg: Handle false negative lookup in page_check_range
+
+ include/exec/helper-head.h           |    2 +-
+ include/qemu/main-loop.h             |   29 +
+ include/tcg/tcg-op.h                 |   35 +-
+ include/tcg/tcg.h                    |   96 +-
+ tcg/aarch64/tcg-target.h             |    4 +-
+ tcg/arm/tcg-target.h                 |    4 +-
+ tcg/i386/tcg-target.h                |    2 +
+ tcg/loongarch64/tcg-target.h         |    3 +-
+ tcg/mips/tcg-target.h                |    4 +-
+ tcg/riscv/tcg-target.h               |    7 +-
+ tcg/s390x/tcg-target.h               |    3 +-
+ tcg/sparc64/tcg-target.h             |    3 +-
+ tcg/tcg-internal.h                   |   58 +-
+ tcg/tci/tcg-target.h                 |    7 +
+ tests/tcg/multiarch/nop_func.h       |   25 +
+ accel/tcg/cputlb.c                   |   25 +-
+ accel/tcg/plugin-gen.c               |   54 +-
+ accel/tcg/tb-maint.c                 |   78 +-
+ accel/tcg/user-exec.c                |   59 +-
+ hw/core/cpu-common.c                 |    1 +
+ hw/mips/mips_int.c                   |   11 +-
+ hw/ppc/ppc.c                         |   10 +-
+ target/ppc/excp_helper.c             |   11 +-
+ target/ppc/helper_regs.c             |   14 +-
+ target/riscv/cpu_helper.c            |   10 +-
+ target/sparc/translate.c             |   21 +-
+ tcg/optimize.c                       |   10 +-
+ tcg/tcg-op-vec.c                     |   10 +-
+ tcg/tcg-op.c                         |   49 +-
+ tcg/tcg.c                            | 1663 +++++++++++++++++++++-------------
+ tcg/tci.c                            |    1 -
+ tests/tcg/multiarch/munmap-pthread.c |   16 +-
+ tests/tcg/multiarch/vma-pthread.c    |  207 +++++
+ docs/devel/atomics.rst               |    2 +
+ docs/devel/index-tcg.rst             |    1 +
+ docs/devel/tcg-ops.rst               |  941 +++++++++++++++++++
+ docs/devel/tcg.rst                   |    2 +-
+ meson.build                          |    4 +-
+ tcg/README                           |  784 ----------------
+ tcg/aarch64/tcg-target.c.inc         |   19 +-
+ tcg/arm/tcg-target.c.inc             |   10 +-
+ tcg/i386/tcg-target.c.inc            |    5 +-
+ tcg/loongarch64/tcg-target.c.inc     |    7 +-
+ tcg/mips/tcg-target.c.inc            |    3 +-
+ tcg/ppc/tcg-target.c.inc             |   36 +-
+ tcg/riscv/tcg-target.c.inc           |    7 +-
+ tcg/s390x/tcg-target.c.inc           |   32 +-
+ tcg/sparc64/tcg-target.c.inc         |    3 +-
+ tcg/tci/tcg-target.c.inc             |    7 +-
+ tests/tcg/multiarch/Makefile.target  |    3 +
+ 50 files changed, 2635 insertions(+), 1763 deletions(-)
+ create mode 100644 tests/tcg/multiarch/nop_func.h
+ create mode 100644 tests/tcg/multiarch/vma-pthread.c
+ create mode 100644 docs/devel/tcg-ops.rst
+ delete mode 100644 tcg/README
 
