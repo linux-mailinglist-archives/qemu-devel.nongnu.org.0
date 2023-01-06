@@ -2,87 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7BC6601C4
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 15:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB936601C5
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 15:05:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDnKT-0006uN-9I; Fri, 06 Jan 2023 09:04:17 -0500
+	id 1pDnKv-0007JY-6c; Fri, 06 Jan 2023 09:04:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=36316be06=anthony.perard@citrix.com>)
- id 1pDnKI-0006sA-Gl
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:04:07 -0500
-Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=36316be06=anthony.perard@citrix.com>)
- id 1pDnKC-0003qE-Up
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:04:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1673013840;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=DJMl9lyCpvXVrpBfjxQaBv2r/oW5Se5HYnobbelCQy4=;
- b=cKjCh5l9betNJM93KLzZEkRWUKtvy8bOC9N1mI+At/RgfmH2u7nVTDt+
- KeYgtXN+G/yGFRfcdaK26rHD8S7AjfMR8x/2UhldPEXyAgDJj35Rzc5fP
- XlNXoJLL3AVMtYMQ9V84sWTIlDaQbH6JvPQwE4/wI43QTaxRtTUXbRU/7 Q=;
-Authentication-Results: esa1.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-X-SBRS: 4.0
-X-MesageID: 91894645
-X-Ironport-Server: esa1.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.83
-X-Policy: $RELAYED
-IronPort-Data: A9a23:qjrk46/Sj8krt9LOfMKhDrUDMH6TJUtcMsCJ2f8bNWPcYEJGY0x3m
- mIeXGvTOPnbN2qned4iOonjoR4A7cTWxtYxSQM6riE8E34SpcT7XtnIdU2Y0wF+jCHgZBk+s
- 5hBMImowOQcFCK0SsKFa+C5xZVE/fjUAOG6UKucYHsZqTZMEE8JkQhkl/MynrlmiN24BxLlk
- d7pqojUNUTNNwRcawr40Ire7kIx1BjOkGlA5AdmPKgV5AW2e0Q9V/rzG4ngdxMUfaEMdgKKb
- 76r5K20+Grf4yAsBruN+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+v9T2M4nQVVWk120c+VZk
- 72hg3ASpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn9IBDJyCAWlvVbD09NqbDklM3
- NNDFBMwXCq+lv+N/+KkZ/JKv5gaeZyD0IM34hmMzBncBPciB5vCX7/L9ZlT2zJYasJmRKiEI
- ZBDMHw2MUqGM0Yn1lQ/UfrSmM+hgGX/dDtJ7kqYv6Mt70DYzRBr0airO93QEjCPbZQMzhfE+
- D6bl4j/Khwlb4av1hikyGyxi8HOmA7BBplVSKLto5aGh3XMnzdOWXX6T2CTrPWkg1SyXPpfI
- kYX/TEy664/6CSDVNj2XxSirDiEsxgQVsBLFOsS7ACLw7DTpQGDCQAsSyVdQMYruM8/WXoh0
- Vrht8PkA3ljvaOYTVqZ96yItnWiNC4NN2gAaCQYCwwf7LHLpYgphR/LCN97HqOxhNToHBn/x
- jmLqG41gLB7pdcG0rj+8V3ZjjaEoJ/PQQgooALNUQqN5BlyZJOuZJ6A4F/fq/1HKe6xVUKdt
- XIJn8yf6uEmDpyXkiGJBuIXE9mB//yCNi/dh19HBZQt9z2xvXWkeOh4+DhjIG95P8BCfiXmC
- HI/oisIusUVZiHzK/YqPcThUKzG0JQMC/znf9+PUvlzUKJMZRK8w3FxSFW25jzUxR1Efb4EB
- b+XdsOlDHA/AKthzSarS+p17YLH1hzS1kuIG8mlkk3PPa62ISfMFOxbaAfmgvURtvvsnenDz
- zpI2yJmIT17Wfa2XCTY+JV7wbsifSliXsCeRyC6m4e+zuta9IMJUaS5LVAJIdYNc0FpegDgo
- BmAtrdwkgaXuJE+AVzihopfQL3uR41jinkwIDYhO12ls1B6P9n1vftEKstmIeh2nACG8RKSZ
- 6NVEylnKq0WIgkrBhxHNcWtxGCcXE7Daf2y09qNP2FkIs8Iq/3h8d74ZAr/nBQz4t6MnZJm+
- dWIj1qLKafvsiw+VK46ntrzlQLu1ZXc8couN3b1zi57Ih20qtYyc3ah0pfa4agkcH3++9dT7
- C7OaT9wmAUHi9NdHAXh7Uxck7qULg==
-IronPort-HdrOrdr: A9a23:l907BKm4XICYeUhJ1BKpyShd6wnpDfIT3DAbv31ZSRFFG/Fw9v
- rAoB1/73TJYVkqKRcdcK+7UpVoLUmskKKdgrN9AV7BZmXbUQKTRelfBO3Zslnd8kbFh4xgPM
- lbAs9DIey1Ll5wjcuS2njaLz9a+re6GVeT5ds3oh1WLD1XVw==
-X-IronPort-AV: E=Sophos;i="5.96,305,1665460800"; d="scan'208";a="91894645"
-Date: Fri, 6 Jan 2023 14:03:52 +0000
-To: Chuck Zmudzinski <brchuckz@aol.com>
-CC: <qemu-devel@nongnu.org>, Stefano Stabellini <sstabellini@kernel.org>, Paul
- Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, <xen-devel@lists.xenproject.org>
-Subject: Re: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
-Message-ID: <Y7gqSLo8pMm4gfV+@perard.uk.xensource.com>
-References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
- <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDnKs-0007Ca-C8
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:04:42 -0500
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pDnKp-0005aC-Fo
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:04:40 -0500
+Received: by mail-pg1-x530.google.com with SMTP id g68so123951pgc.11
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 06:04:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kixNz6BI8kGXwDi1e3Vfl8TLJ62BrZr4/yK2z8yezrk=;
+ b=LheryMe3Iuj98QUqzh1EI3FRhaqaLoUwzof3Wh4CgcMHZGqw/r1PqqzEfVwVcrbiKR
+ cR8N2ecrpL5mshiLecwoMkqlDRJIaaTVOCiACMA6zyjXyuev31j+KCKqpHU0CryBrrqS
+ nS8RqPCLT5kBehDxQmnGba7GlLmjM1rS3AEinTB/TWIJpz4j0bcy3jY9vjojBug4eoza
+ Fqo3ktMMMJgGirCeTQIQpqnhIYJAii5LW6bZMbAC2H4gaqBncfXZo2a9d0+GCBO1/j9J
+ mesMsbw0DTAt7HStrHivtm3n9XU9G0Q6nR9eVbo77VnnbfKH1WeLzBNCvMMBD9xpuBkM
+ UGag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kixNz6BI8kGXwDi1e3Vfl8TLJ62BrZr4/yK2z8yezrk=;
+ b=ZoXMZX9Bqo96KXVWN28GdV0mBHxRNNGObS/qilbOdAzh3H1oGW7zzpG9rEXwyhihiR
+ skYr/1qEscGb4501EowO0Dj5N++v8RVguk49BAxENE0uQcYrKGcUp3oK5d7fv72NLTY3
+ Z3bgXJO3HQjd5PCtwMrWDqsR2yVX+C9JcmuV69cEDumk7y19KvY/G1t+7Oceb8DWwHtH
+ 8oRDH19ZOjoNh4k9xLsffsIqfoRxx0RKYOU0SiWmu/Hea4/WgZOx+2pG//YvY4wjO63C
+ ejbrcyQLOMHDNMwk5EWwno5k+LcGw6+rH9wFEKb1Bv2P5ywwYcV/L1OHBhXEoQhUl9M+
+ qDDw==
+X-Gm-Message-State: AFqh2koCpydy6veTEBWvhJaqEBBKOrcJGTuiDuyhkjA5MzgIyhVDVTz3
+ ZVzZzCT8cgIaVa4YBuGoxsYLDKK1U06x+MbBxK+7ZQ==
+X-Google-Smtp-Source: AMrXdXs6aXO7GkSa2jknZR9HHIsssrplRPCOG+mu1VCU9o20GObemYBYLKVIJ1ki2BvMguvIqX9eudroDef+83BAMvU=
+X-Received: by 2002:aa7:999c:0:b0:582:74a2:1e4e with SMTP id
+ k28-20020aa7999c000000b0058274a21e4emr1391716pfh.26.1673013877749; Fri, 06
+ Jan 2023 06:04:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
-Received-SPF: pass client-ip=216.71.145.142;
- envelope-from=prvs=36316be06=anthony.perard@citrix.com;
- helo=esa1.hc3370-68.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+References: <CAFEAcA-f39VfWEwb-zRabjVoO-XQ-0V=iCFu1PVjg7eYChszbA@mail.gmail.com>
+ <96cc9cde-ad7c-2704-187f-25e9751c894a@linux.ibm.com>
+In-Reply-To: <96cc9cde-ad7c-2704-187f-25e9751c894a@linux.ibm.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Jan 2023 14:04:26 +0000
+Message-ID: <CAFEAcA-dpip8soXFAyu1fxg9H+FkNRzXDpb_FP-OVFQ+LG==cA@mail.gmail.com>
+Subject: Re: intermittent hang, s390x host, bios-tables-test test, TPM
+To: Stefan Berger <stefanb@linux.ibm.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,72 +83,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Jan 01, 2023 at 06:52:03PM -0500, Chuck Zmudzinski wrote:
-> Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
-> as noted in docs/igd-assign.txt in the Qemu source code.
-> 
-> Currently, when the xl toolstack is used to configure a Xen HVM guest with
-> Intel IGD passthrough to the guest with the Qemu upstream device model,
-> a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
-> a different slot. This problem often prevents the guest from booting.
-> 
-> The only available workaround is not good: Configure Xen HVM guests to use
-> the old and no longer maintained Qemu traditional device model available
-> from xenbits.xen.org which does reserve slot 2 for the Intel IGD.
-> 
-> To implement this feature in the Qemu upstream device model for Xen HVM
-> guests, introduce the following new functions, types, and macros:
-> 
-> * XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
-> * XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
-> * typedef XenPTQdevRealize function pointer
-> * XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
-> * xen_igd_reserve_slot and xen_igd_clear_slot functions
-> 
-> The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
-> member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
-> the xl toolstack with the gfx_passthru option enabled, which sets the
-> igd-passthru=on option to Qemu for the Xen HVM machine type.
-> 
-> The new xen_igd_reserve_slot function also needs to be implemented in
-> hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
-> when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
-> in which case it does nothing.
-> 
-> The new xen_igd_clear_slot function overrides qdev->realize of the parent
-> PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
-> since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
-> created in hw/i386/pc_piix.c for the case when igd-passthru=on.
-> 
-> Move the call to xen_host_pci_device_get, and the associated error
-> handling, from xen_pt_realize to the new xen_igd_clear_slot function to
-> initialize the device class and vendor values which enables the checks for
-> the Intel IGD to succeed. The verification that the host device is an
-> Intel IGD to be passed through is done by checking the domain, bus, slot,
-> and function values as well as by checking that gfx_passthru is enabled,
-> the device class is VGA, and the device vendor in Intel.
-> 
-> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+On Fri, 6 Jan 2023 at 13:53, Stefan Berger <stefanb@linux.ibm.com> wrote:
+>
+>
+>
+> On 1/6/23 07:10, Peter Maydell wrote:
+> > I'm seeing an intermittent hang on the s390 CI runner in the
+> Is this a new hang or has this been occurring for a while? I am asking because the test case is not new.
 
+It's intermittent, so no idea.
 
-This patch looks good enough. It only changes the "xenfv" machine so it
-doesn't prevent a proper fix to be done in the toolstack libxl.
-
-The change in xen_pci_passthrough_class_init() to try to run some code
-before pci_qdev_realize() could potentially break in the future due to
-been uncommon but hopefully that will be ok.
-
-So if no work to fix libxl appear soon, I'm ok with this patch:
-
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
-
-Thanks,
-
--- 
-Anthony PERARD
+-- PMM
 
