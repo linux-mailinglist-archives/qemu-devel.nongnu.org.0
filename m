@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C206606F5
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 20:15:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526866606FE
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 20:18:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDsBa-0007ij-Bm; Fri, 06 Jan 2023 14:15:26 -0500
+	id 1pDsDY-0008W4-9x; Fri, 06 Jan 2023 14:17:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDsBY-0007h0-IB
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 14:15:24 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ id 1pDsD0-0008UL-Kt
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 14:17:18 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDsBX-0005oE-27
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 14:15:24 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id c4so2631245plc.5
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 11:15:22 -0800 (PST)
+ id 1pDsCz-0000Ba-5q
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 14:16:54 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ l1-20020a17090a384100b00226f05b9595so681415pjf.0
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 11:16:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=zq/ZGgSJL0PTn+1FaF9EmY9bJxwvJoZfGN5UUM4LQfY=;
- b=gyCIeUsu/jCPARU9Peas5z/5bMmIQp48m5lzni/IcCrXdL42Om59oab1xInIldHWzx
- 2aujLaVc25iN3Ys/fLZvsBDQhOQGVOflBFOkdL+kBVcqyU3PnI/bvg2P7te/CQ2Us3Ub
- N6pEX7rgLoyyLQAf0GoDtpjTUNLTmC9dcCb/lje7405UPKAPecEhdiYXQ0xsFP+Bo9m6
- 4WrJUay5ySsL02in1PdtqDrtAXbK5TVEklvmkBZuF1GU0YvqC5jCqAomY5/ZeUlHpQ8S
- t/qYJ4pI3fEYSx/02lb8gyHLY2qmNCclDHn+9h1fDTdJ1GjbGmCL0nU6u2lzxjGiT3dj
- Jf4w==
+ bh=bHNlsgXUM2l8uGHKj5hP48j1VPU70mblGDAgat/O9JQ=;
+ b=rIAVg0ngjXsEqiM4odVL0+/OIa/LmNps88Rj679SkW2xKeXsV4pMdqLL3CknFxAaFZ
+ 8zKQYBhV3oL09vCLdaUOWZOAE9h6o1KYn+tPv9qcZa+Ao8u1rrRJmRjOgn1y+5I5XoD5
+ vWmospq4LLClnTT3iB9iC7CaM4O87pWYePFQb4j86Q0aJdC9hF2uMBHaI2zRtO3vrpSn
+ hafN5OYSV08xixLH5mqIKqk2f40+0x9/3eCnaDNYzVN6gfWJuOWTxDq7wprmPXIQFSfM
+ HZ32FHqC1Gm2njkAhevfmtSezOjgGrhpmH0E+09jIEmrRX+w4Fkcv2/M7+5mlswzqIOi
+ 9dpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zq/ZGgSJL0PTn+1FaF9EmY9bJxwvJoZfGN5UUM4LQfY=;
- b=KMacgZctfDJShimKc9ILQ1w6d/+d8DGjGuEAWaqfSoPxmttWEgSwRh+ciWMtuDAZob
- qsEuVS8S3PY69gK1dtfJoVfIdmzLH76wFh/vTSUDPpTwN7Z8/S4ROG6L1Ha02zZtoFTU
- GHp05iYDYDdc1BHlHibQijsm6inft916MOBK6p6R26Q2mJLrxFMbqn72ApksUR7KwTOr
- FwVf38Jr6zIJx1M/atT5kIoSqIfc8B5kAz1YLmGqvddZY4ar6DTEUuU9sSv7mKiePfrc
- hZomTez07c9ePowALhCC8MU3P811xpZVaKHrkWr4jKldF+uDx8+haV7AJJcnuV1Nd6cd
- 792Q==
-X-Gm-Message-State: AFqh2kqn6uFz7H1pVAxqTegQeKxffYVe3Qxz0cnm8MphDHSTEgwIW1Ys
- 90+ShCVy3iWRxeDXjiK/ILIDt7Pbt+/zCj3X
-X-Google-Smtp-Source: AMrXdXtJcZhwf5LOh5egl3uKE3uE2BxDQGi6bx9Jf2xg1l3R/f2NiAy5PutUHxFR8vN4f25QnQUWvw==
-X-Received: by 2002:a05:6a20:a027:b0:b4:9a94:af57 with SMTP id
- p39-20020a056a20a02700b000b49a94af57mr27814720pzj.0.1673032521594; 
- Fri, 06 Jan 2023 11:15:21 -0800 (PST)
+ bh=bHNlsgXUM2l8uGHKj5hP48j1VPU70mblGDAgat/O9JQ=;
+ b=KffVmT2xBwH4PSwPXSyc6xeNI7TGdVb3qgQc06M1BcyLNXQMo9F8KytLKzXps2S9hF
+ xteOr10irha+/2ZV/oIf5NvsYj/UlMMhxu4Yd+GOXVGo/4naIWeVIzrJ2zwZlE3r+D+K
+ K/j955HKtfBfwuWHOWbbFQWOtA02Lqpapl6P98QraLiJRny8ImceMvvKHuLQNsuA76bV
+ caPIkJg+v5gxJH/w8esSNIfN3xJRu8Ln++5sgbfyMNwIQdLR+pUvWwCprtYFEba5TkTL
+ APJrbrpNqDYamdAmgCRT87wfbb9Ht16M+lt5qMP8boIzDKG41W38W0VGtwNTTel2ES07
+ aT1Q==
+X-Gm-Message-State: AFqh2kojTiNJdkluZeqMboZQNFk1yOjwGvDtIOr5A6cEkagAbIszw0c2
+ 6Ga6hhLt77LlwpEQqhrYORfPYjsmNfPa7xEf
+X-Google-Smtp-Source: AMrXdXt+ouk/xz3SCMzgV3yjbatu6MSknvjdqNW2CK51RQRNJHt409BV9sRFzCnTv9214ZUyMn9zwg==
+X-Received: by 2002:a17:90a:7142:b0:226:19ea:5c2a with SMTP id
+ g2-20020a17090a714200b0022619ea5c2amr34338075pjs.43.1673032611749; 
+ Fri, 06 Jan 2023 11:16:51 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:9d81:5b04:51d7:acae?
  ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
  by smtp.gmail.com with ESMTPSA id
- k9-20020a6555c9000000b004a052e93b77sm1243726pgs.7.2023.01.06.11.15.20
+ e13-20020a63e00d000000b00485cbedd34bsm1219400pgh.89.2023.01.06.11.16.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Jan 2023 11:15:21 -0800 (PST)
-Message-ID: <88419b67-24ee-224f-4315-36732b91ee61@linaro.org>
-Date: Fri, 6 Jan 2023 11:15:19 -0800
+ Fri, 06 Jan 2023 11:16:51 -0800 (PST)
+Message-ID: <8446ae9b-edda-8e09-6e02-aa4a14c16eb8@linaro.org>
+Date: Fri, 6 Jan 2023 11:16:49 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 7/8] hw/pci-host/bonito: Declare
- TYPE_BONITO_PCI_HOST_BRIDGE in header
+Subject: Re: [PATCH 8/8] hw/mips/fuloong2e: Open code bonito_init()
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: Huacai Chen <chenhuacai@kernel.org>, Bernhard Beschow
  <shentey@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>
 References: <20230105130710.49264-1-philmd@linaro.org>
- <20230105130710.49264-8-philmd@linaro.org>
+ <20230105130710.49264-9-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230105130710.49264-8-philmd@linaro.org>
+In-Reply-To: <20230105130710.49264-9-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -98,16 +98,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/5/23 05:07, Philippe Mathieu-Daudé wrote:
-> Declare the TYPE_BONITO_PCI_HOST_BRIDGE QOM type in a
-> header to be able to access it from board code.
+> This helper is trivial and is called once, directly open-code it.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   MAINTAINERS                  |  1 +
->   hw/pci-host/bonito.c         |  4 +---
->   include/hw/pci-host/bonito.h | 18 ++++++++++++++++++
->   3 files changed, 20 insertions(+), 3 deletions(-)
->   create mode 100644 include/hw/pci-host/bonito.h
+>   hw/mips/fuloong2e.c    |  6 +++++-
+>   hw/pci-host/bonito.c   | 15 ---------------
+>   include/hw/mips/mips.h |  3 ---
+>   3 files changed, 5 insertions(+), 19 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
