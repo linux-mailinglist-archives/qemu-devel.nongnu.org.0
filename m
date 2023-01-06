@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDA366015B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 14:36:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3593666017F
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 14:45:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDms8-00049x-SR; Fri, 06 Jan 2023 08:35:01 -0500
+	id 1pDn12-00074b-Hd; Fri, 06 Jan 2023 08:44:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDms6-00049T-33
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 08:34:58 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ id 1pDn10-00073m-3N
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 08:44:10 -0500
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDms4-0007m4-FW
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 08:34:57 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- m7-20020a17090a730700b00225ebb9cd01so5188082pjk.3
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 05:34:56 -0800 (PST)
+ id 1pDn0y-0003tY-7Y
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 08:44:09 -0500
+Received: by mail-pf1-x435.google.com with SMTP id k19so1065351pfg.11
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 05:44:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ZAEZToV6dQN1Wfd7eigi/dQDdk2f8TwKYEhlS0tTawM=;
- b=m4hVCDmcqywUfquL6jor823g7hJTl6GFLOkpSQ/JX9NLgRaoYwzLr43JFWQmhChAIi
- gWu3SCcXmBcg42LYu3sV3HbSPY/Zo4Zq1WLxml3NLwrMjhvbnscBxqLyDCD9cz4gJlFf
- xhKCigk70x6/iDb/gIpn24SyvyG9o/CISkHNu3WJqnczDxcMgxVNEN5bJDFHCMDmUVo5
- EISkZfkl45Gk3nHxeSc7FmJ6WmTz7Eu9NYyuYqlYF+ZCKX9NxDgQsXbhxORq6Ku1IrTv
- GHaDxFjptUp1owHywQovsdoWSH/vluqFvkEA+9DLc+T1bk7LZ2EkFLiiROPoWhIaPfZN
- x2AQ==
+ bh=0UT6Em5fIIUlSzreBzAUOT3iBrfxYY0u0Cme1kfkGas=;
+ b=i5BFK8dMUP3hEQ+yajoAvidjWadyX9oaIalJroLIScLPJUGWX6fWRejapNoY5KxYea
+ srTGWx+M1qfhtIv0UWZ+TQfone7C+v+YY5P0IFOyVc8/V18vkHETAyEOK7jbqCWHWmtr
+ u8GazogZehlGVUnAXSqoKBwHJ/ULzK3tg5nHLdMc6Zi/eD0gzAdOAyrw6V1XKKuQIYx7
+ cP+scTycYY72j0haPcoKI74nnKEKPwvuL2UemxUIIq9NgzWSAPhGfmfa9ylqWiUySrjS
+ HujuuDUeqxgq5JihcEzhMdtif/wjlwGnzL5V2dbaFY/yh9YbzQ6BEJjcIjS8CjXkm6du
+ X09Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ZAEZToV6dQN1Wfd7eigi/dQDdk2f8TwKYEhlS0tTawM=;
- b=vqTfaW6tNdO4FHzFnVMj3WTBmo+fni8YLWDeTSNSp4hxopiH7Fod+pzcAw5LMMRhuX
- AwNacvXxN9OSFrh+7W33226zpHNqVCvESGQQWZ5OfTxm1PdQ+vqwNOL/SAvqdOyrjQsf
- eiJES08vZ9zhsnWjpeu/0Y9AlzXHJf0Jx5X41zUTC2HTgw+JxmXLfgjxyBFxMt2FSmLm
- ioKd+duZ17EsYhY34bB8Wyrf5TwphJzjYNPOBOfcSXJoPmRA7HjZMYJuxqgHOPWeTJ8v
- Qur5xROUGrqN8bKuPgaq4B6VC5AXKoVfzIQZvqykR//yiGtQ2v6vb0KJbXPncsU4Got6
- 15Aw==
-X-Gm-Message-State: AFqh2krdyqavDfKrFGcb+M+VAXc0YHOHzC1bXgeZ8uMu5xjMDADYezQr
- d3F28aZD4+hhr4XMGCRIECOJZ4d4tbhF3CwfoDuzjA==
-X-Google-Smtp-Source: AMrXdXv2bs/jxMxWjfLJuCMMUQvfOTs6x0vBbyC3dFb17SGDNLLEtWBlp21GbPYkJTXpmGEOjUEUKwyzHeVbpSx3EN4=
-X-Received: by 2002:a17:902:efcf:b0:192:ea33:5092 with SMTP id
- ja15-20020a170902efcf00b00192ea335092mr772692plb.19.1673012094863; Fri, 06
- Jan 2023 05:34:54 -0800 (PST)
+ bh=0UT6Em5fIIUlSzreBzAUOT3iBrfxYY0u0Cme1kfkGas=;
+ b=S5Yhex/PZVLALCkCXTl24MTBeLbHh9XUskt/upUX1CpUGKHe2kqkIfcXici84PBcmg
+ NGMI25IiTHfd99f29JpcOJPC+hsArTzB0HBpD5UBb3Iq73tewLxfCDkkPxX2cpmhIjey
+ yLeva5FH351zTYG1TYigpgE9AwQsjfzbhehre6PRzlYr/onQP6Q8KNNiRiWsV/Ev7BY6
+ emT072I2b2AzIL8VL9iAt8K/lDnT8suhIB5x4M3g9sLDKNVH6ywyeSrzuC4cPu2zHNNU
+ SHTP9hjcpkWRzcoY4Z6rKeC2Hw6FqUDhzPNk3nSTjyxzr2eGUCJtZAZEvrjqoLthJfhp
+ VHKQ==
+X-Gm-Message-State: AFqh2kpn+R6uYWKyYO1T5dK3+d6mCSav5Qc64W5oqi7Mn6LA5DTKnc3V
+ QBP6lHBZnIi+Q7XR3pkOifYzTA559D/udQGdjMEB1A==
+X-Google-Smtp-Source: AMrXdXvOjwEpU4jw45DqM+7U9sbZY0Hrf9V6cIsaM0uW1JLlBEQlRRwHmEVEGrHrlLJPHq8ETR0O9YSos5wFZWbzi/Q=
+X-Received: by 2002:a65:694b:0:b0:477:86c1:640f with SMTP id
+ w11-20020a65694b000000b0047786c1640fmr3641613pgq.231.1673012646591; Fri, 06
+ Jan 2023 05:44:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20230105173826.21444-1-tsimpson@quicinc.com>
-In-Reply-To: <20230105173826.21444-1-tsimpson@quicinc.com>
+References: <20221230145733.200496-1-balbi@kernel.org>
+In-Reply-To: <20221230145733.200496-1-balbi@kernel.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Jan 2023 13:34:43 +0000
-Message-ID: <CAFEAcA8R7TMJ48Zj_qqG_RrYsMLvy1JcziaPSQscpv-b0Aiezg@mail.gmail.com>
-Subject: Re: [PULL 0/7] Hexagon update
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, philmd@linaro.org, 
- bcain@quicinc.com, quic_mathbern@quicinc.com, stefanha@redhat.com
+Date: Fri, 6 Jan 2023 13:43:55 +0000
+Message-ID: <CAFEAcA_WSrJqObGYkUcBfhSYYo92_i-gpF=CbYFbWqEgp3Z5LA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] hw/arm: Add support for STM32 H405 and fix
+ STM32F405 memory layout
+To: Felipe Balbi <balbi@kernel.org>
+Cc: Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,29 +84,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 5 Jan 2023 at 17:38, Taylor Simpson <tsimpson@quicinc.com> wrote:
+On Fri, 30 Dec 2022 at 14:57, Felipe Balbi <balbi@kernel.org> wrote:
 >
-> The following changes since commit cb9c6a8e5ad6a1f0ce164d352e3102df46986e22:
+> Hi,
 >
->   .gitlab-ci.d/windows: Work-around timeout and OpenGL problems of the MSYS2 jobs (2023-01-04 18:58:33 +0000)
+> The following patches pass checkpatch.pl and have been tested against
+> 55745005e90a.
 >
-> are available in the Git repository at:
->
->   https://github.com/quic/qemu tags/pull-hex-20230105
->
-> for you to fetch changes up to dc63b1492c2d8140d3b47093700bb9bb52c0d97b:
->
->   Update scripts/meson-buildoptions.sh (2023-01-05 09:19:02 -0800)
->
-> ----------------------------------------------------------------
-> Hexagon update: patches from several folks
->
+> Felipe Balbi (2):
+>   hw/arm/stm32f405: correctly describe the memory layout
+>   hw/arm: Add Olimex H405
 
 
-Applied, thanks.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+Applied to target-arm.next, thanks.
 
 -- PMM
 
