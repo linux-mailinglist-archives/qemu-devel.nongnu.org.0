@@ -2,108 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090606602E4
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 16:18:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B15F7660310
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 16:25:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDoSg-00047x-CL; Fri, 06 Jan 2023 10:16:50 -0500
+	id 1pDoZV-0005v9-SX; Fri, 06 Jan 2023 10:23:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pDoSb-00045m-Nl
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 10:16:45 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pDoSZ-0003Oq-D7
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 10:16:45 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 306Cx2mv029069; Fri, 6 Jan 2023 15:16:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=8bqrkuISwtfp7mW+ZHKAgMmzPIa3CegW4Xcy7s4u9Fw=;
- b=e9DWR6gNdzEqXnt6hfLd/osHNCMgW+ogjOFFS68rRRkahkxMDma6UhP4M4tIkm6sdVQC
- EV6fTNwaMAUFBWrP7/jYT1c87kYVGsdXSEolE/uXn8s8Ylb/WIc/x5CGSoGBjHjKsz8M
- A/ihwj9JdyHxpBSTOPjyiH2XYojTkMkpqWNjogQZvVMdbSAgmMJJ9dCNeL0OuFFNeJpJ
- 4wpQLmTjnONoIRVdwFt371/KsnHb4cpKHOB3PGaUICO80EzkewpjjcgHHNfTdw/T0eL4
- T/TumdbwU5dAOs5EjXUkKJKRMLDidO1mp31f72v/VcKVB+EJM8r4Q2Flph20JhZMsZuf 0w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mxdee2je5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 Jan 2023 15:16:39 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 306DQTo2024775;
- Fri, 6 Jan 2023 15:16:39 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mxdee2jdx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 Jan 2023 15:16:39 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 306FGLsJ026337;
- Fri, 6 Jan 2023 15:16:38 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
- by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3mtcq7m555-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 Jan 2023 15:16:38 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com
- [10.39.53.231])
- by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 306FGbHX28312104
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 6 Jan 2023 15:16:37 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A7A8758045;
- Fri,  6 Jan 2023 15:16:37 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 07EF558050;
- Fri,  6 Jan 2023 15:16:37 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Fri,  6 Jan 2023 15:16:36 +0000 (GMT)
-Message-ID: <32c53c77-5827-7839-94a1-73003bc3f8af@linux.ibm.com>
-Date: Fri, 6 Jan 2023 10:16:36 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: intermittent hang, s390x host, bios-tables-test test, TPM
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Cc: Eric Auger <eric.auger@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <CAFEAcA-f39VfWEwb-zRabjVoO-XQ-0V=iCFu1PVjg7eYChszbA@mail.gmail.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <CAFEAcA-f39VfWEwb-zRabjVoO-XQ-0V=iCFu1PVjg7eYChszbA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 00XQ-37VbeRVwup_gqEpvLdAWWahcBn2
-X-Proofpoint-ORIG-GUID: stdMNN-irSIcF9lKHX36dVt0KM_qg4Yw
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pDoZT-0005ua-U6
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 10:23:51 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pDoZR-0004ca-RK
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 10:23:51 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ p1-20020a05600c1d8100b003d8c9b191e0so1287635wms.4
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 07:23:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=bkRhIgXl5AItP6ba03zv87lTI4x9mQkrreMEEEjOaX8=;
+ b=pcGDOejcgaV77GTz0fD9Ru34t8Gr4g34p5GXGJH+SMxRySbLJm2YkLwKm7zSNHwHHu
+ gNCqeB4dWhOGJN9rI83YYczLFXDxyjUuvoymKfovL3MtsgK8iBOamx4IjhbWCbkxCB7T
+ XYaRJeBz6vvgfEEJcOr2flka/l8zIfgCWf6jIApbloBlj9i/asMkyVavoGLclcsX7YEy
+ L21FTlnedD2J9q0KsTCT9AtoPc2w3FrmlE3oOnjmOb27sz7ILEPL6cxs1hVR72FM8XbW
+ z5iClgAgaBNQXAA72lGZANW1kmcFYvYBl7WZXktnaIqKNJ2+T4zOJMAByqDN9BsaKTPu
+ L5Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bkRhIgXl5AItP6ba03zv87lTI4x9mQkrreMEEEjOaX8=;
+ b=lcFrd98LAaEWPn6HfuSPhafq5wMQslTqRutDkUmWBr2TmWn8KDpx8uPaq37a7PIsBA
+ 0UzekmkDH0MVoUgPefqYb2sE64cWHxihta2cVc3CQTmQ2zpWw6Diias8Iy7yT/7WK+KQ
+ 7sROQo17k8cTD/RIDdtP+QtqvuM4MuY/8QG+HGQ1p87uR2DaWY6FLoVqGUCtBC4KEDY0
+ mnGnbEPQ2FMJgn2xOW4sAX2GC1arC391ywqZtJsBKaLfJH0bUR5vyXmMwevsxv6FzkMv
+ 9/CEbauOpgj4Qn/DUfrUCL/R8reQw5blmAerRgcvtE6XmM3stpzqDecD2mbgUJrbalWL
+ GHnQ==
+X-Gm-Message-State: AFqh2kpuBlwo6njMmPoKy9FufAAaFxI+Fa8SqlhTEoNp7t4RHJgWCtYs
+ 3NzsJ3sGn6rO9AX+OL8yEuIswA==
+X-Google-Smtp-Source: AMrXdXt889ZWRtKajSG1VSW/eWERj0KAUL17/at2pOFyojqcprVUY7c5IB+18FsmENgix53MNH1+hQ==
+X-Received: by 2002:a05:600c:3b29:b0:3cf:d18e:528b with SMTP id
+ m41-20020a05600c3b2900b003cfd18e528bmr40557031wms.39.1673018628054; 
+ Fri, 06 Jan 2023 07:23:48 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ m35-20020a05600c3b2300b003d973e939d3sm2378141wms.1.2023.01.06.07.23.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Jan 2023 07:23:47 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 20EC31FFB7;
+ Fri,  6 Jan 2023 15:23:47 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-s390x@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH v2] scripts/ci: update gitlab-runner playbook to use latest
+ runner
+Date: Fri,  6 Jan 2023 15:23:38 +0000
+Message-Id: <20230106152338.2599827-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-06_08,2023-01-06_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- mlxlogscore=999 spamscore=0 suspectscore=0 malwarescore=0 adultscore=0
- phishscore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301060113
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,79 +97,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+We were using quite and old runner on our machines and running into
+issues with stalling jobs. Gitlab in the meantime now reliably provide
+the latest packaged versions of the runner under a stable URL. This
+update:
 
+  - creates a per-arch subdir for builds
+  - switches from binary tarballs to deb packages
+  - re-uses the same binary for the secondary runner
+  - updates distro check for second to 22.04
 
-On 1/6/23 07:10, Peter Maydell wrote:
-> I'm seeing an intermittent hang on the s390 CI runner in the
-> bios-tables-test test. It looks like we've deadlocked because:
-> 
->   * the TPM device is waiting for data on its socket that never arrives,
->     and it's holding the iothread lock
->   * QEMU is therefore not making forward progress;
->     in particular it is unable to handle qtest queries/responses
->   * the test binary thread 1 is waiting to get a response to its
->     qtest command, which is not going to arrive
->   * test binary thread 3 (tpm_emu_ctrl_thread) is has hit an
->     assertion and is trying to kill QEMU via qtest_kill_qemu()
->   * qtest_kill_qemu() is only a "SIGTERM and wait", so will wait
->     forever, because QEMU won't respond to the SIGTERM while it's
->     blocked waiting for the TPM device to release the iothread lock
->   * because the ctrl-thread is waiting for QEMU to exit, it's never
->     going to send the data that would unblock the TPM device emulation
-> 
-[...]
+Note this script isn't fully idempotent as we end up accumulating
+runners especially during testing. However we also want to be able to
+run twice with different GitLab keys (e.g. project and personal) so I
+think we just have to be mindful of that during testing.
 
-> 
-> Thread 3 (Thread 0x3ff8dafe900 (LWP 2661316)):
-> #0  0x000003ff8e9c6002 in __GI___wait4 (pid=<optimized out>,
-> stat_loc=stat_loc@entry=0x2aa0b42c9bc, options=<optimized out>,
-> usage=usage@entry=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
-> #1  0x000003ff8e9c5f72 in __GI___waitpid (pid=<optimized out>,
-> stat_loc=stat_loc@entry=0x2aa0b42c9bc, options=options@entry=0) at
-> waitpid.c:38
-> #2  0x000002aa0952a516 in qtest_wait_qemu (s=0x2aa0b42c9b0) at
-> ../tests/qtest/libqtest.c:206
-> #3  0x000002aa0952a58a in qtest_kill_qemu (s=0x2aa0b42c9b0) at
-> ../tests/qtest/libqtest.c:229
-> #4  0x000003ff8f0c288e in g_hook_list_invoke () from
-> /lib/s390x-linux-gnu/libglib-2.0.so.0
-> #5  <signal handler called>
-> #6  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
-> #7  0x000003ff8e9240a2 in __GI_abort () at abort.c:79
-> #8  0x000003ff8f0feda8 in g_assertion_message () from
-> /lib/s390x-linux-gnu/libglib-2.0.so.0
-> #9  0x000003ff8f0fedfe in g_assertion_message_expr () from
-> /lib/s390x-linux-gnu/libglib-2.0.so.0
-> #10 0x000002aa09522904 in tpm_emu_ctrl_thread (data=0x3fff5ffa160) at
-> ../tests/qtest/tpm-emu.c:189
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-This here seems to be the root cause. An unknown control channel command was received from the TPM emulator backend by the control channel thread and we end up in g_assert_not_reached().
+---
+v2
+  - only register aarch32 runner, move service start post both registers
+  - tested on s390x
+---
+ scripts/ci/setup/gitlab-runner.yml | 56 +++++++-----------------------
+ scripts/ci/setup/vars.yml.template |  2 --
+ 2 files changed, 13 insertions(+), 45 deletions(-)
 
-https://github.com/qemu/qemu/blob/master/tests/qtest/tpm-emu.c#L189
+diff --git a/scripts/ci/setup/gitlab-runner.yml b/scripts/ci/setup/gitlab-runner.yml
+index 33128be85d..95d4199c03 100644
+--- a/scripts/ci/setup/gitlab-runner.yml
++++ b/scripts/ci/setup/gitlab-runner.yml
+@@ -50,60 +50,30 @@
+ 
+     - name: Download the matching gitlab-runner
+       get_url:
+-        dest: /usr/local/bin/gitlab-runner
+-        url: "https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-{{ gitlab_runner_os }}-{{ gitlab_runner_arch }}"
+-        owner: gitlab-runner
+-        group: gitlab-runner
+-        mode: u=rwx,g=rwx,o=rx
+-
+-    - name: Register the gitlab-runner
+-      command: "/usr/local/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list {{ ansible_facts[\"architecture\"] }},{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
+-
+-    - name: Install the gitlab-runner service using its own functionality
+-      command: /usr/local/bin/gitlab-runner install --user gitlab-runner --working-directory /home/gitlab-runner
+-      register: gitlab_runner_install_service_result
+-      failed_when: "gitlab_runner_install_service_result.rc != 0 and \"already exists\" not in gitlab_runner_install_service_result.stderr"
++        dest: "/root/"
++        url: "https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_{{ gitlab_runner_arch }}.deb"
+ 
+-    - name: Enable the gitlab-runner service
+-      service:
+-        name: gitlab-runner
+-        state: started
+-        enabled: yes
++    - name: Install gitlab-runner via package manager
++      apt: deb="/root/gitlab-runner_{{ gitlab_runner_arch }}.deb"
+ 
+-    - name: Download secondary gitlab-runner
+-      get_url:
+-        dest: /usr/local/bin/gitlab-runner-arm
+-        url: "https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-{{ gitlab_runner_os }}-arm"
+-        owner: gitlab-runner
+-        group: gitlab-runner
+-        mode: u=rwx,g=rwx,o=rx
+-      when:
+-        - ansible_facts['distribution'] == 'Ubuntu'
+-        - ansible_facts['architecture'] == 'aarch64'
+-        - ansible_facts['distribution_version'] == '20.04'
++    - name: Register the gitlab-runner
++      command: "/usr/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list {{ ansible_facts[\"architecture\"] }},{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
+ 
++    # The secondary runner will still run under the single gitlab-runner service
+     - name: Register secondary gitlab-runner
+-      command: "/usr/local/bin/gitlab-runner-arm register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list aarch32,{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
++      command: "/usr/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list aarch32,{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
+       when:
+         - ansible_facts['distribution'] == 'Ubuntu'
+         - ansible_facts['architecture'] == 'aarch64'
+-        - ansible_facts['distribution_version'] == '20.04'
++        - ansible_facts['distribution_version'] == '22.04'
+ 
+-    - name: Install the secondary gitlab-runner service using its own functionality
+-      command: /usr/local/bin/gitlab-runner-arm install --user gitlab-runner --working-directory /home/gitlab-runner/arm -n gitlab-runner-arm
++    - name: Install the gitlab-runner service using its own functionality
++      command: "/usr/bin/gitlab-runner install --user gitlab-runner --working-directory /home/gitlab-runner"
+       register: gitlab_runner_install_service_result
+       failed_when: "gitlab_runner_install_service_result.rc != 0 and \"already exists\" not in gitlab_runner_install_service_result.stderr"
+-      when:
+-        - ansible_facts['distribution'] == 'Ubuntu'
+-        - ansible_facts['architecture'] == 'aarch64'
+-        - ansible_facts['distribution_version'] == '20.04'
+ 
+-    - name: Enable the secondary gitlab-runner service
++    - name: Enable the gitlab-runner service
+       service:
+-        name: gitlab-runner-arm
++        name: gitlab-runner
+         state: started
+         enabled: yes
+-      when:
+-        - ansible_facts['distribution'] == 'Ubuntu'
+-        - ansible_facts['architecture'] == 'aarch64'
+-        - ansible_facts['distribution_version'] == '20.04'
+diff --git a/scripts/ci/setup/vars.yml.template b/scripts/ci/setup/vars.yml.template
+index e48089761f..4b355fb80f 100644
+--- a/scripts/ci/setup/vars.yml.template
++++ b/scripts/ci/setup/vars.yml.template
+@@ -1,5 +1,3 @@
+-# The version of the gitlab-runner to use
+-gitlab_runner_version: 13.12.0
+ # The URL of the gitlab server to use, usually https://gitlab.com unless you're
+ # using a private GitLab instance
+ gitlab_runner_server_url: https://gitlab.com
+-- 
+2.34.1
 
-
-
-         ret = qio_channel_read(ioc, (char *)&cmd, sizeof(cmd), NULL);
-         if (ret <= 0) {
-             break;
-         }
-
-         cmd = be32_to_cpu(cmd);
-         switch (cmd) {
-  [...]
-         default:
-             g_debug("unimplemented %u", cmd);
-             g_assert_not_reached();                <------------------
-         }
-
-I will run this test case in an endless loop on an x86_64 host and see what we get there ...
-
-   Stefan
-
-
-> #11 0x000003ff8f0ffb7c in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
-> #12 0x000003ff8eb07e66 in start_thread (arg=0x3ff8dafe900) at
-> pthread_create.c:477
-> #13 0x000003ff8e9fcbe6 in thread_start () at
-> ../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
 
