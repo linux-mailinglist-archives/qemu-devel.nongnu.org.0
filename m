@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33C065FA47
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 04:30:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D655765FA15
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 04:22:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDdCZ-0001g4-PE; Thu, 05 Jan 2023 22:15:27 -0500
+	id 1pDdCb-0001lI-PK; Thu, 05 Jan 2023 22:15:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=363443eaf=alistair.francis@opensource.wdc.com>)
- id 1pDdCD-0001Pz-2c
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:15:06 -0500
+ id 1pDdCK-0001Zq-9Y
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:15:14 -0500
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=363443eaf=alistair.francis@opensource.wdc.com>)
- id 1pDdC9-000892-Bm
- for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:15:03 -0500
+ id 1pDdCH-00088g-38
+ for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:15:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1672974901; x=1704510901;
+ t=1672974908; x=1704510908;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=kG/494UAf9U/JhUmvvXPX22ajvB/WW5xUuegTO+amys=;
- b=PpMCnCVWeI7R7qBQRMSp4DiTEp9qaMjtJwaGY5xx1tudpZ/1IGiAi686
- 1fweDbCk8ylpbEVR8L9Q2BNOj5UDysYeg/eFCTVU4k3VLBSB18Gf8tahv
- fHMDpi5c9KcWMGyXFbbaRO6y6Y5/bJ1GLY1XlGdKrP/V/prwosGEfqakH
- 9CVT63k0GgJ2goUlAzx2SIK3Oue9szP3Y/LYvHAafqg+48wEk9HjhV017
- OiyezZ6PO+1c95WGehIc7LsaX2ExWK13Ba5qf5bbfGdvyUJP2wjk5o1nl
- zOGUOs34YkWN3ti7DO9MD9I+AaH+tTOm78+mdNS8Vhg42dcGVF4s4g20k w==;
-X-IronPort-AV: E=Sophos;i="5.96,304,1665417600"; d="scan'208";a="220254789"
+ bh=rnzCsfvf1xA25fYkQwc6MngbPhPAukF/7JijHpQBRIc=;
+ b=epIk7cexWaGRD0sP6ssjtZzr3HS1pPIKlVTzfyqmNPFeivWs3X6lTjNt
+ yywodjk2CGH24igEbefywt8lsoT7JcGlwljfYSQ3ADRY9V/OrLRFlqQi5
+ 3hizB5lc2+Wx4k7cUKNYzkhoNgDrsGdGfrJaoJwQTj+vckNreq0baFNvV
+ ucrs6wukbQMlGeaWMkzVys2ZdoLLPyWvFMcsZjpJpJQg0ctYaPPVGaAA5
+ 0iVYJHGXoxz1baIxTH8NFzwVjRV9DGUDPdzMUCYtUVHI8ofDUXgeYxD5a
+ 0JNk6M9ad5ftNMolgUueF1CdRh40ngYP3cDu/tsLCgxD0Jtl14DhXmj1i w==;
+X-IronPort-AV: E=Sophos;i="5.96,304,1665417600"; d="scan'208";a="220254792"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 06 Jan 2023 11:14:35 +0800
-IronPort-SDR: i7uarOIjLVsmLJsASrlSctOSEX1npsx3AvUOdNwZRXyVJ0OU/IYbGPuVsOPD08djTsX6yQwjDB
- MdBu2eDdnTgmXp3Ym3UVLRV25dM91dEIztcGBEHtrnXkWQaaMmK52fPf/EUYoLEmJ66Izc4azv
- RpdTm3TuafrShodXJFUweiS9rtRRaV/LGfAvNYQzfaqSN2yvfjW0pKPTiFGbRgyG7Pbx5pOLaq
- Dp+ihxzngmGhSs7qjXRNnauAkIic79hXCUFKFzl82r3pqP7uBeBFASdk0P0NZlTXwi3BdqI8dH
- 5po=
+ by ob1.hgst.iphmx.com with ESMTP; 06 Jan 2023 11:14:37 +0800
+IronPort-SDR: xps0w1rrTDYtRcFcghFLPC0OfK1IzU73ZWxcIHCO+Ln0HWYi4iAnbBCL9/qYu8dDG+vtdOXXNh
+ hUorA5pD9vQMWaycDU7ZSoHma3ApW/SYXy3cr8s8QPxDdRJ+XnksHoHXkr/ykO0LSXqxU1RQNp
+ C2FJXU0O4CjW466yKLfJdCWwtABWPB/56knK7I2v00zs70HAu9FA77tsort1F4bjrtk5DpmVUh
+ H4dWUFBfOrXvsPYIksUCCctGuaxkXiJPWcSTRxvdAfJ1zMjs+FngSkMMcgGLvElxxnHgJiQ8nx
+ LDs=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 05 Jan 2023 18:26:47 -0800
-IronPort-SDR: cWCDobXzjwx/MYyMzEUx52Br7vUzwiC4ZrcXHstgT01smgF5Mmdgp5cFmBaxIGJipK9ilxRyv2
- U//kpu8Yj6co37ZNUlP2O4BQ36Qt6ychILKc5v370hTrDISIdT6FznV3eIudjOFwJPgPf9WT+U
- S71g5AT9IMyPsRc2pgdKQJCyEpVX+TFgoQoN9cvsDSsUlcpBrdIspT5/Uu78G2kyXEBs8V6mOP
- EirmSqZbm8rtpYlm+0tO05/p7cHtdfsqywHgge3I4w36G5yFbIBvesyw2kA+bLes1PgFjO+Xet
- ya0=
+ 05 Jan 2023 18:26:49 -0800
+IronPort-SDR: rDBRHE0iibLey7s36ytvO1kkHxSxUN5aTCtEav1hARYYRtC6Yn6nlGFnBbw7of2Fu5wLKAvBrA
+ Jt384oK2tQWnl+6V/zw2BTkQtR/lmYCD70XfNj86HdxGLM2+jmpIrbJpmU2Mbxmaot/ybvADNQ
+ dvVKRJWCi4aqU2uYKtOfdsnBUFIUPDM9FkLlKJZb1BhfooTiIJ05zTtn+KlkX5lcM6n5nwHKPn
+ VDoLabqlIsSqk8v3B8lyBkBVxYNVG2qjfwAzsuXffeJaAqD2ciOUMnt5mpT8KHG+gZEPlgCXo0
+ GB4=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 05 Jan 2023 19:14:37 -0800
+ 05 Jan 2023 19:14:39 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Np7jl6Ydhz1RvTp
- for <qemu-devel@nongnu.org>; Thu,  5 Jan 2023 19:14:35 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Np7jn6hnyz1RvLy
+ for <qemu-devel@nongnu.org>; Thu,  5 Jan 2023 19:14:37 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1672974875; x=1675566876; bh=kG/494UAf9U/JhUmvv
- XPX22ajvB/WW5xUuegTO+amys=; b=ZgGLXBCt578k95qpus6FgALH6WmgRbbdNr
- 9Ub7ZoP+chR/8sEOmK7IWer7tn06X0k+6F1bDq9g1h4b5fikgTNdgSBV92a5TT1E
- Jy1SHxk7yu9fYZhc576t6Zg/cAoaa5CM31hrQezpnsyZ+aFWXTksdYx1tlEu3cb1
- 4zLaSGPiEfRky/v/KRmrTBBgxA0843GpES29prSWWt5rTE2OGtymvCtCDz/2/wCj
- l86h6xBzRS7cCUG/41SR4owTsR1e9Y4aMKLBKxPDG/u+ih5UXKmAqdWiO2d7Nfrm
- OfGIeIsNhxvy8iAhWOMO9BYHtmuZ/AeCnilofUnOdERbtYN1v3/A==
+ :from; s=dkim; t=1672974877; x=1675566878; bh=rnzCsfvf1xA25fYkQw
+ c6MngbPhPAukF/7JijHpQBRIc=; b=Yy4OGJCyNVAivLkvwsE13+s+Ymj4PxbtZD
+ tialdY2flItW4O2h7cn8RoUxwU7V/EYwjmrA5rH2Wj0cgOzl/d0NLLTdJZU4U5X5
+ NgZQH/IXOcJ0wKqMyeBT05OQMoK81qub7KRFB3P9UZTCEDRUnsppQFGyPeCbXXxO
+ 0p0gPTe68jDcW1U/D1VnS+sOIvxBZU+vyGr9ba7QowFl3uc8tDGLkIhxNR4IQ03C
+ 3Q9Eq7h82K22MLsqLSgs3u+oOPqyab7VfBqwmSp6b4XREMVG8+7y/IekTzeYGZZj
+ AfmSwj2Z/G7iu9bmGBdHGAVYBIn/kajNwD5tI160LSaSVotfqsAQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id AQ5U_inyib7B for <qemu-devel@nongnu.org>;
- Thu,  5 Jan 2023 19:14:35 -0800 (PST)
+ port 10026) with ESMTP id O5JZ77ZfRAS0 for <qemu-devel@nongnu.org>;
+ Thu,  5 Jan 2023 19:14:37 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.167.28])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Np7jk2dwkz1Rwrq;
- Thu,  5 Jan 2023 19:14:34 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Np7jl6tJYz1Rwrq;
+ Thu,  5 Jan 2023 19:14:35 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
+Cc: alistair23@gmail.com, Conor Dooley <conor.dooley@microchip.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v3 18/43] target/riscv: Add some comments for sstatus CSR in
- riscv_cpu_dump_state()
-Date: Fri,  6 Jan 2023 13:13:32 +1000
-Message-Id: <20230106031357.777790-19-alistair.francis@opensource.wdc.com>
+Subject: [PULL v3 19/43] hw/misc: pfsoc: add fabric clocks to ioscb
+Date: Fri,  6 Jan 2023 13:13:33 +1000
+Message-Id: <20230106031357.777790-20-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
 References: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
@@ -115,38 +114,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bin Meng <bmeng@tinylab.org>
+From: Conor Dooley <conor.dooley@microchip.com>
 
-sstatus register dump is currently missing in riscv_cpu_dump_state().
-As sstatus is a copy of mstatus, which is described in the priv spec,
-it seems redundant to print the same information twice.
+On PolarFire SoC, some peripherals (eg the PCI root port) are clocked by
+"Clock Conditioning Circuitry" in the FPGA. The specific clock depends
+on the FPGA bitstream & can be locked to one particular {D,P}LL - in the
+Icicle Kit Reference Design v2022.09 or later this is/will be the case.
 
-Add some comments for this to let people know this is intentional.
+Linux v6.1+ will have a driver for this peripheral and devicetrees that
+previously relied on "fixed-frequency" clock nodes have been switched
+over to clock-controller nodes. The IOSCB region is represented in QEMU,
+but the specific region of it that the CCCs occupy has not so v6.1-rcN
+kernels fail to boot in QEMU.
 
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221125050354.3166023-1-bmeng@tinylab.org>
+Add the regions as unimplemented so that the status-quo in terms of boot
+is maintained.
+
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+Message-Id: <20221117225518.4102575-2-conor@kernel.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/hw/misc/mchp_pfsoc_ioscb.h | 1 +
+ hw/misc/mchp_pfsoc_ioscb.c         | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 6fe176e483..b2c132e269 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -382,6 +382,10 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE =
-*f, int flags)
-             CSR_MHARTID,
-             CSR_MSTATUS,
-             CSR_MSTATUSH,
-+            /*
-+             * CSR_SSTATUS is intentionally omitted here as its value
-+             * can be figured out by looking at CSR_MSTATUS
-+             */
-             CSR_HSTATUS,
-             CSR_VSSTATUS,
-             CSR_MIP,
+diff --git a/include/hw/misc/mchp_pfsoc_ioscb.h b/include/hw/misc/mchp_pf=
+soc_ioscb.h
+index 9235523e33..687b213742 100644
+--- a/include/hw/misc/mchp_pfsoc_ioscb.h
++++ b/include/hw/misc/mchp_pfsoc_ioscb.h
+@@ -30,6 +30,7 @@ typedef struct MchpPfSoCIoscbState {
+     MemoryRegion lane23;
+     MemoryRegion ctrl;
+     MemoryRegion cfg;
++    MemoryRegion ccc;
+     MemoryRegion pll_mss;
+     MemoryRegion cfm_mss;
+     MemoryRegion pll_ddr;
+diff --git a/hw/misc/mchp_pfsoc_ioscb.c b/hw/misc/mchp_pfsoc_ioscb.c
+index f4fd55a0e5..f976e42f72 100644
+--- a/hw/misc/mchp_pfsoc_ioscb.c
++++ b/hw/misc/mchp_pfsoc_ioscb.c
+@@ -33,6 +33,7 @@
+  */
+ #define IOSCB_WHOLE_REG_SIZE        0x10000000
+ #define IOSCB_SUBMOD_REG_SIZE       0x1000
++#define IOSCB_CCC_REG_SIZE          0x2000000
+=20
+ /*
+  * There are many sub-modules in the IOSCB module.
+@@ -45,6 +46,7 @@
+ #define IOSCB_LANE23_BASE           0x06510000
+ #define IOSCB_CTRL_BASE             0x07020000
+ #define IOSCB_CFG_BASE              0x07080000
++#define IOSCB_CCC_BASE              0x08000000
+ #define IOSCB_PLL_MSS_BASE          0x0E001000
+ #define IOSCB_CFM_MSS_BASE          0x0E002000
+ #define IOSCB_PLL_DDR_BASE          0x0E010000
+@@ -168,6 +170,10 @@ static void mchp_pfsoc_ioscb_realize(DeviceState *de=
+v, Error **errp)
+                           "mchp.pfsoc.ioscb.cfg", IOSCB_SUBMOD_REG_SIZE)=
+;
+     memory_region_add_subregion(&s->container, IOSCB_CFG_BASE, &s->cfg);
+=20
++    memory_region_init_io(&s->ccc, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
++                          "mchp.pfsoc.ioscb.ccc", IOSCB_CCC_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_CCC_BASE, &s->ccc);
++
+     memory_region_init_io(&s->pll_mss, OBJECT(s), &mchp_pfsoc_pll_ops, s=
+,
+                           "mchp.pfsoc.ioscb.pll_mss", IOSCB_SUBMOD_REG_S=
+IZE);
+     memory_region_add_subregion(&s->container, IOSCB_PLL_MSS_BASE, &s->p=
+ll_mss);
 --=20
 2.39.0
 
