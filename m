@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508C5660A25
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 00:16:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9BF660A2A
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 00:17:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDvvO-0007nB-8u; Fri, 06 Jan 2023 18:14:58 -0500
+	id 1pDvxU-0000JD-Ih; Fri, 06 Jan 2023 18:17:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDvvE-0007mk-Sp
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:14:48 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ id 1pDvxF-0000G7-Gr
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:17:03 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDvvD-0001P9-9f
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:14:48 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id b2so3278854pld.7
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 15:14:40 -0800 (PST)
+ id 1pDvxD-0003GX-5f
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:16:52 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ fz16-20020a17090b025000b002269d6c2d83so6812871pjb.0
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 15:16:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=UnFWVo0TmZmIBS3ZwUuWBQENi/M1Uhego9XCXoNlXxU=;
- b=SW0xzLM+fwHluKZNGVOYswv5ejC0DHeGb2xHbX/5j7+GIZF0XhPLVMnlCBrSGzp5sD
- haBW2o1ae+gqXmdJciC2SiSCDRTUIWeAxkT8Izs/Gj4uvl1kUjpNrZee34hWZ2W+V+i5
- fThXNgh1K4FO58XdTZfByjce8eRTc39CWuOfraeX/TE6/ltAy+Fqd15KqZSXmvaGa0Ch
- K3zxcSLS3aX5QjgKe+4aAdMmXpSyMAoUkRJ5h6lu371S+XClNWhIEXHPo2SAt22Pb2be
- 9k0R4vUz9C7hfFXXsRJE55rtZk8SpGUb4FNvPCN4Jk5hnZUCs2WsDWlBI0jEG8VZSKDX
- 4oJQ==
+ bh=ao03ELuqPG9lcbC0iBSqGZY9Z9dLEgECT1d+sKYn89E=;
+ b=ONKK9uOqj4bF7IoGyU7JxqkkhLfdU3TCv1UEQVHdNfPPHnLiKm34fEKwXI+5cYnbwO
+ TTfkHiDfDf9k5R3WAZWplfzYgmLvos2L/k9LOz2u1/hR9nx7sga0VVr1ITB/QUWbN3Q+
+ 9P9pBuB4K9R3B+k2jyJpeGYijAfke/EkQ8wj/mLQfeQyloD3s025Rpi5mO/RIObcT3Rs
+ Cnx90YrkYo/AtNXI9SFKnBe9FM3WUrNRfhJ8WQO2DYx+H8RIRT3gpn+aq6OOdK2164Z/
+ AHalsB5vWSEO7gTfCsMC1hJQlZX/IobtQaGei5ttlESTEtHd97y8Q8bTojnh+S8MGfva
+ 2jRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UnFWVo0TmZmIBS3ZwUuWBQENi/M1Uhego9XCXoNlXxU=;
- b=XTgUW7cgNcyKn+LznOdloS3OM/mv6FTDy/d+BanIigoCZcG3378pmH92mmXsvai8WU
- hn1O6usfwsN2YtxxCLShkb72X9NC8dmv0Qzeh6dBLuQ4PwGZVg0tqnhlmlPyTOvLP3n1
- cMclHNsrrouI9OTe31YMa0yD0c7cidz7anDDDqi9Dfl1ielSpOquxaCHdXQBrQ0RDIfv
- umVVjx9km8eQLcJFvj8Lsm/AehzKr3JzcB+9CBS6NEGGJRnrsKnDDmh/OXqlabOb+O/V
- DVTq6AA/YuX+91mf/4wgNslOEck0MXhdb3dZiQtOCt9LVxSkQR3qYcQ8XqlRZCHLo5NL
- pzOA==
-X-Gm-Message-State: AFqh2krswCGN2FLauR3yBRfMlfObJCknn2cW4w/1994gCSBMYxBftG3U
- nT8vcZ/PDzFKqNmtN9KABi+bVw==
-X-Google-Smtp-Source: AMrXdXsBdkRAvvLBIldl7gT+nQizncRkcIUkejxym/itO3Cv6PXlf3ktDu3Vv8CNDUx/LNF4/MFT5w==
-X-Received: by 2002:a17:902:efcb:b0:192:72f3:1d18 with SMTP id
- ja11-20020a170902efcb00b0019272f31d18mr43800769plb.47.1673046879456; 
- Fri, 06 Jan 2023 15:14:39 -0800 (PST)
+ bh=ao03ELuqPG9lcbC0iBSqGZY9Z9dLEgECT1d+sKYn89E=;
+ b=Ij3bOMXDDVfJ9BgWsgTXpZePmUxBGlTcV8rLDy0O7VdLPH4btMEKGNTSfIpNx++TcP
+ DOGJnklxt0RmNg/blbNGYoZ+Zs8+iMHBMc6lFjFbTfRjb8UXX/s7r0gWzllHiAXOYNJ5
+ g6KkVtelEK2EQ8jefhCPhASGpiq96w8m0XVDGzfRK8yF4D4ZgsHmJjF7Tcek+nOLl6en
+ Ja/NsWy2EPmT4sWgf8SrcRKorNaHUIyRXvANRsh4oy6yXc5cCsvkQ39QDx31iBKPpGUc
+ KgANrVJS0mFEH4MXzycaSbNEb9aPYI94F9O2Zp9M/15gFTjz6B04UEDXIb0XNTEJJF61
+ EUtg==
+X-Gm-Message-State: AFqh2kok4oSk2wuiq8zc0v+4NnCaCW/DKYig7BWKhBcc5KUU2H75mzu6
+ /94XhKeCy/pQIbPeF96Ou842zQ==
+X-Google-Smtp-Source: AMrXdXvcUhxuGZOpOcNkIF8URGZToGS1tJciM9jvulpOLwZ8Fh2d1msUsT8q2YlNQUmQ7Ygo+DjVBA==
+X-Received: by 2002:a17:902:d48f:b0:192:a664:1b2d with SMTP id
+ c15-20020a170902d48f00b00192a6641b2dmr37333604plg.30.1673047009120; 
+ Fri, 06 Jan 2023 15:16:49 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:9d81:5b04:51d7:acae?
  ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
  by smtp.gmail.com with ESMTPSA id
- y3-20020a17090322c300b0017f8094a52asm1491450plg.29.2023.01.06.15.14.38
+ d13-20020a170902f14d00b001873aa85e1fsm1352898plb.305.2023.01.06.15.16.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Jan 2023 15:14:38 -0800 (PST)
-Message-ID: <94159795-925e-2e89-3cb6-b6fec198eca1@linaro.org>
-Date: Fri, 6 Jan 2023 15:14:37 -0800
+ Fri, 06 Jan 2023 15:16:48 -0800 (PST)
+Message-ID: <71790c62-a52e-bac9-71c9-ec893f06b906@linaro.org>
+Date: Fri, 6 Jan 2023 15:16:46 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 14/21] gdbstub: specialise target_memory_rw_debug
+Subject: Re: [PATCH v2 15/21] gdbstub: introduce gdb_get_max_cpus
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20230105164320.2164095-1-alex.bennee@linaro.org>
- <20230105164320.2164095-15-alex.bennee@linaro.org>
+ <20230105164320.2164095-16-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230105164320.2164095-15-alex.bennee@linaro.org>
+In-Reply-To: <20230105164320.2164095-16-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -95,19 +96,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/5/23 08:43, Alex Bennée wrote:
-> The two implementations are different enough to encourage having a
-> specialisation and we can move some of the softmmu only stuff out of
-> gdbstub.
-> 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> ---
->   gdbstub/internals.h | 19 ++++++++++++
->   gdbstub/gdbstub.c   | 73 +++++++--------------------------------------
->   gdbstub/softmmu.c   | 51 +++++++++++++++++++++++++++++++
->   gdbstub/user.c      | 15 ++++++++++
->   4 files changed, 96 insertions(+), 62 deletions(-)
+> +unsigned int gdb_get_max_cpus(void)
+> +{
+> +    CPUState *cpu;
+> +    unsigned int max_cpus = 1; /* global variable max_cpus exists only in system mode */
 
+You can delete the out-of-date comment, since there's no global variable anywhere.
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
