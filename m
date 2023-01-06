@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5849965FD24
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:54:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4672465FCFA
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:43:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDiFc-00067x-DJ; Fri, 06 Jan 2023 03:38:56 -0500
+	id 1pDiFV-00062h-Tw; Fri, 06 Jan 2023 03:38:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1pDiF3-00060w-Va
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:38:22 -0500
+ id 1pDiF4-000615-Nt
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:38:23 -0500
 Received: from mga05.intel.com ([192.55.52.43])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1pDiF2-0008Nh-7m
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:38:21 -0500
+ id 1pDiF2-0008O2-E4
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:38:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1672994300; x=1704530300;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xDBR1AIofbX/BZeIfhHGjpPVbPt6SRoBtioaVSfH/7A=;
- b=Z/Re5OVTq3DbhYW6U8Dp016pyEHMJsbC4VO6nUmv1f1Y6xCGXoHr+L1N
- RChm6M/Nz26iR05fKXkqGFcFAr/F51a2l4Z2oTCf0Clfyfo4ut0lIlo7U
- Zl5KfenT9P0FG6kl1DKht/dMJVEv+t7Kgf/yGKaC/Mng/AV8pqUT2aL/i
- FuZVUgOeY7SySchNkeckegv6ja3lyypbtSd8T8Ai+WYibOFpI4UpY3AW4
- x13VPYJPOk0yIjaGwsmPbKY8JyFBfXzCN4ipMK2AVWq+sqFyxhoVttgdS
- LBbO2adQZiPXWPegvWdUH9wulPsC7jWenxfsIfZqPuXLvKoZD20pusOOW A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="408688485"
-X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="408688485"
+ bh=nTQbHwHD43b6Zxb8S7hsRTxhiqxVn1jXUmTxJUitKv4=;
+ b=djYIbJXRv5rhYbBP/FTWZxS1aTrx4H7v1ZLM14hQBx9w7HPnANjiZ01u
+ LPsY5VgcdAhunOIiTZtv1SaRkxy/aoXpQ2DTKAnTQPkDcvecM2cGLNMrA
+ tpgHnox1Oi09OE9etxxEgfVnn8Ffmdk9DUfEN2aaksOBpr8UGMGUkcWI7
+ wOk5/AMF1Jgi4AYVFSrbqtQ7KcL59PPhz71FbFdJla0kSZbQzQuhqVF/r
+ c0KIRBj/8r6IBAUyUVsGKhsIF+Pg2c+bnlPSWaJX+I2NiqHHLQyk7gatm
+ 08jPfag0aqQs527QFTbrH6qWxRzsCb+ewLiQC7bbhSK8qOA9PEJ+PWPYO g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="408688494"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="408688494"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2023 00:38:13 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="724378827"
-X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="724378827"
+ 06 Jan 2023 00:38:17 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="724378834"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; d="scan'208";a="724378834"
 Received: from sdp.sh.intel.com ([10.112.228.155])
  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2023 00:38:11 -0800
+ 06 Jan 2023 00:38:13 -0800
 From: Lei Wang <lei4.wang@intel.com>
 To: pbonzini@redhat.com
 Cc: qemu-devel@nongnu.org, imammedo@redhat.com, dgilbert@redhat.com,
  berrange@redhat.com, xiaoyao.li@intel.com, yang.zhong@linux.intel.com,
  lei4.wang@intel.com
-Subject: [PATCH v3 2/6] i386: Remove unused parameter "uint32_t bit" in
- feature_word_description()
-Date: Fri,  6 Jan 2023 00:38:22 -0800
-Message-Id: <20230106083826.5384-3-lei4.wang@intel.com>
+Subject: [PATCH v3 3/6] i386: Introduce new struct "MultiBitFeatureInfo" for
+ multi-bit features
+Date: Fri,  6 Jan 2023 00:38:23 -0800
+Message-Id: <20230106083826.5384-4-lei4.wang@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230106083826.5384-1-lei4.wang@intel.com>
 References: <20230106083826.5384-1-lei4.wang@intel.com>
@@ -78,43 +78,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Parameter "uint32_t bit" is not used in function feature_word_description(),
-so remove it.
+Some features use multiple CPUID bits to form a value to be used, e.g.,
+CPUID(0x1E,0):EBX[23:08] is regarded as the tmul_maxn value for AMX.
+Introduce a new struct "MultiBitFeatureInfo" to hold the information for
+those features and create a corresponding member in struct FeatureWordInfo,
+so that the infomation can be assigned for each item in feature_word_info
+array and used in the future.
 
 Signed-off-by: Lei Wang <lei4.wang@intel.com>
 ---
- target/i386/cpu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/i386/cpu-internal.h |  9 +++++++
+ target/i386/cpu.c          | 54 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 63 insertions(+)
 
+diff --git a/target/i386/cpu-internal.h b/target/i386/cpu-internal.h
+index 9baac5c0b4..66b3d66cb4 100644
+--- a/target/i386/cpu-internal.h
++++ b/target/i386/cpu-internal.h
+@@ -25,6 +25,13 @@ typedef enum FeatureWordType {
+    MSR_FEATURE_WORD,
+ } FeatureWordType;
+ 
++typedef struct MultiBitFeatureInfo {
++    const char *feat_name;
++    uint64_t mask;
++    unsigned high_bit_position;
++    unsigned low_bit_position;
++} MultiBitFeatureInfo;
++
+ typedef struct FeatureWordInfo {
+     FeatureWordType type;
+     /* feature flags names are taken from "Intel Processor Identification and
+@@ -51,6 +58,8 @@ typedef struct FeatureWordInfo {
+     uint64_t migratable_flags; /* Feature flags known to be migratable */
+     /* Features that shouldn't be auto-enabled by "-cpu host" */
+     uint64_t no_autoenable_flags;
++    unsigned num_multi_bit_features;
++    MultiBitFeatureInfo *multi_bit_features;
+ } FeatureWordInfo;
+ 
+ extern FeatureWordInfo feature_word_info[];
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index b6d1247e5e..883098bc5a 100644
+index 883098bc5a..88aa780566 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -4290,7 +4290,7 @@ static const TypeInfo max_x86_cpu_type_info = {
-     .class_init = max_x86_cpu_class_init,
- };
- 
--static char *feature_word_description(FeatureWordInfo *f, uint32_t bit)
-+static char *feature_word_description(FeatureWordInfo *f)
- {
-     assert(f->type == CPUID_FEATURE_WORD || f->type == MSR_FEATURE_WORD);
- 
-@@ -4329,6 +4329,7 @@ static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint64_t mask,
-     CPUX86State *env = &cpu->env;
-     FeatureWordInfo *f = &feature_word_info[w];
-     int i;
-+    g_autofree char *feat_word_str = feature_word_description(f);
- 
-     if (!cpu->force_features) {
-         env->features[w] &= ~mask;
-@@ -4341,7 +4342,6 @@ static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint64_t mask,
- 
-     for (i = 0; i < 64; ++i) {
-         if ((1ULL << i) & mask) {
--            g_autofree char *feat_word_str = feature_word_description(f, i);
-             warn_report("%s: %s%s%s [bit %d]",
-                         verbose_prefix,
-                         feat_word_str,
+@@ -1011,6 +1011,21 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         },
+         .migratable_flags = CPUID_AMX_PALETTE_1_TOTAL_TILE_BYTES_MASK |
+             CPUID_AMX_PALETTE_1_BYTES_PER_TILE_MASK,
++        .num_multi_bit_features = 2,
++        .multi_bit_features = (MultiBitFeatureInfo[]){
++            {
++                .feat_name = "total_tile_bytes",
++                .mask = CPUID_AMX_PALETTE_1_TOTAL_TILE_BYTES_MASK,
++                .high_bit_position = 15,
++                .low_bit_position = 0,
++            },
++            {
++                .feat_name = "bytes_per_tile",
++                .mask = CPUID_AMX_PALETTE_1_BYTES_PER_TILE_MASK,
++                .high_bit_position = 31,
++                .low_bit_position = 16,
++            },
++        },
+     },
+     [FEAT_1D_1_EBX] = {
+         .type = CPUID_FEATURE_WORD,
+@@ -1021,6 +1036,21 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         },
+         .migratable_flags = CPUID_AMX_PALETTE_1_BYTES_PER_ROW_MASK |
+             CPUID_AMX_PALETTE_1_MAX_NAMES_MASK,
++        .num_multi_bit_features = 2,
++        .multi_bit_features = (MultiBitFeatureInfo[]){
++            {
++                .feat_name = "bytes_per_row",
++                .mask = CPUID_AMX_PALETTE_1_BYTES_PER_ROW_MASK,
++                .high_bit_position = 15,
++                .low_bit_position = 0,
++            },
++            {
++                .feat_name = "max_names",
++                .mask = CPUID_AMX_PALETTE_1_MAX_NAMES_MASK,
++                .high_bit_position = 31,
++                .low_bit_position = 16,
++            },
++        },
+     },
+     [FEAT_1D_1_ECX] = {
+         .type = CPUID_FEATURE_WORD,
+@@ -1030,6 +1060,15 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             .reg = R_ECX,
+         },
+         .migratable_flags = CPUID_AMX_PALETTE_1_MAX_ROWS_MASK,
++        .num_multi_bit_features = 1,
++        .multi_bit_features = (MultiBitFeatureInfo[]){
++            {
++                .feat_name = "max_rows",
++                .mask = CPUID_AMX_PALETTE_1_MAX_ROWS_MASK,
++                .high_bit_position = 15,
++                .low_bit_position = 0,
++            },
++        },
+     },
+     [FEAT_1E_0_EBX] = {
+         .type = CPUID_FEATURE_WORD,
+@@ -1040,6 +1079,21 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         },
+         .migratable_flags = CPUID_AMX_TMUL_MAX_K_MASK |
+             CPUID_AMX_TMUL_MAX_N_MASK,
++        .num_multi_bit_features = 2,
++        .multi_bit_features = (MultiBitFeatureInfo[]){
++            {
++                .feat_name = "tmul_maxk",
++                .mask = CPUID_AMX_TMUL_MAX_K_MASK,
++                .high_bit_position = 7,
++                .low_bit_position = 0,
++            },
++            {
++                .feat_name = "tmul_maxn",
++                .mask = CPUID_AMX_TMUL_MAX_N_MASK,
++                .high_bit_position = 23,
++                .low_bit_position = 8,
++            },
++        },
+     },
+     /*Below are MSR exposed features*/
+     [FEAT_ARCH_CAPABILITIES] = {
 -- 
 2.34.1
 
