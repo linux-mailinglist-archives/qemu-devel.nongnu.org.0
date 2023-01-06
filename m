@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A427365FD2D
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:55:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3871265FCBD
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:31:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDi6E-0002aJ-GB; Fri, 06 Jan 2023 03:29:14 -0500
+	id 1pDi6F-0002aQ-5v; Fri, 06 Jan 2023 03:29:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi6A-0002YW-RT
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:10 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi6C-0002ZA-Bp
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:12 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi69-0005Vb-EP
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:10 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi6A-0005Vw-RE
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672993748;
+ s=mimecast20190719; t=1672993750;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AwB4aiB09gx95VbzFzeO2ug7F4610xROqTdQI7f4w6U=;
- b=hq6pc1iBb2iNWyOdm05/Xo7xBu+lof2rJPnghktV5n/j+ZlhkTS9Wp3XCB1ys0J9DQ3ERe
- Cx5o+jhcx/6SJw3p4Cu1vliTo2pFmRqYaRRYIuw0EJihKpyuukoopyzXsxYEdWQtqcuRNw
- MkUH61lTKCfyq78r6/foE40IsckLEvE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5rN5prbiwNVkagky0f0m4bmXXLWIfA30meh3PusUxRo=;
+ b=Ubaoqm6133cPrk2ENGln906dChB4NY8E9ZGgjd+L+DTls8KVFFS49OgoLsQLP223soHeVy
+ ar3oqwxqpb7TUfQj6SWPWe/d8M8JUTXPB/91krDOdt4NyMPDiO6FB1SHyigun7gsb0sEWj
+ 2wlsSbhovGjVdaRR6BWx3mdhcWJbbcg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-90-gWVs1xClOvG2LEUxTL4dFw-1; Fri, 06 Jan 2023 03:29:07 -0500
-X-MC-Unique: gWVs1xClOvG2LEUxTL4dFw-1
+ us-mta-636-xOi0dPlUNeiwaX3S54cT1w-1; Fri, 06 Jan 2023 03:29:08 -0500
+X-MC-Unique: xOi0dPlUNeiwaX3S54cT1w-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C53951C05141;
- Fri,  6 Jan 2023 08:29:06 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22263101A521;
+ Fri,  6 Jan 2023 08:29:08 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A75E7492B06;
- Fri,  6 Jan 2023 08:29:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F9D9492B06;
+ Fri,  6 Jan 2023 08:29:06 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Nikita Ivanov <nivanov@cloudlinux.com>
-Subject: [PULL 07/15] target/s390x/tcg/excp_helper: Restrict system headers to
- sysemu
-Date: Fri,  6 Jan 2023 09:28:45 +0100
-Message-Id: <20230106082853.31787-8-thuth@redhat.com>
+Subject: [PULL 08/15] target/s390x: Restrict sysemu/reset.h to system emulation
+Date: Fri,  6 Jan 2023 09:28:46 +0100
+Message-Id: <20230106082853.31787-9-thuth@redhat.com>
 In-Reply-To: <20230106082853.31787-1-thuth@redhat.com>
 References: <20230106082853.31787-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -80,39 +79,40 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
+In user emulation, threads -- implemented as CPU -- are
+created/destroyed, but never reset. There is no point in
+allowing the user emulation access the sysemu/reset API.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221217152454.96388-6-philmd@linaro.org>
+Message-Id: <20221220145625.26392-5-philmd@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/tcg/excp_helper.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/s390x/cpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/s390x/tcg/excp_helper.c b/target/s390x/tcg/excp_helper.c
-index fe02d82201..bc767f0443 100644
---- a/target/s390x/tcg/excp_helper.c
-+++ b/target/s390x/tcg/excp_helper.c
-@@ -21,15 +21,15 @@
- #include "qemu/osdep.h"
- #include "qemu/log.h"
- #include "cpu.h"
--#include "s390x-internal.h"
- #include "exec/helper-proto.h"
--#include "qemu/timer.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
--#include "hw/s390x/ioinst.h"
--#include "exec/address-spaces.h"
-+#include "s390x-internal.h"
- #include "tcg_s390x.h"
- #ifndef CONFIG_USER_ONLY
-+#include "qemu/timer.h"
-+#include "exec/address-spaces.h"
-+#include "hw/s390x/ioinst.h"
- #include "hw/s390x/s390_flic.h"
- #include "hw/boards.h"
- #endif
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 96562c516d..b10a8541ff 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -26,7 +26,6 @@
+ #include "s390x-internal.h"
+ #include "kvm/kvm_s390x.h"
+ #include "sysemu/kvm.h"
+-#include "sysemu/reset.h"
+ #include "qemu/module.h"
+ #include "trace.h"
+ #include "qapi/qapi-types-machine.h"
+@@ -35,6 +34,9 @@
+ #include "fpu/softfloat-helpers.h"
+ #include "disas/capstone.h"
+ #include "sysemu/tcg.h"
++#ifndef CONFIG_USER_ONLY
++#include "sysemu/reset.h"
++#endif
+ 
+ #define CR0_RESET       0xE0UL
+ #define CR14_RESET      0xC2000000UL;
 -- 
 2.31.1
 
