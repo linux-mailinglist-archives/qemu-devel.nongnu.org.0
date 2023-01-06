@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5D165FCF9
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:42:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA3C65FCBF
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 09:31:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDi6H-0002b8-LE; Fri, 06 Jan 2023 03:29:18 -0500
+	id 1pDi69-0002XC-9O; Fri, 06 Jan 2023 03:29:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi6D-0002Zc-BP
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:13 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi67-0002X0-60
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:07 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi6B-0005WA-S7
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:13 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDi65-0005VB-Fl
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 03:29:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672993751;
+ s=mimecast20190719; t=1672993744;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SPBEgQmIar9accHOpRQgY7Fs36jr7yUGc9yh00l1nbs=;
- b=dRLWlmEBw95+yRdMMPj2cxS3rdvRlqEVnQLuK4hKW8VlQ4MdOJfvJ5hs5dnzt4C9Hb2tck
- JwSxWJ8yPh621Bpn7qxHxQ/GWv2E+kx+7WkQBn+b/x0/v3FDmZ/1oHuqUTWgoC8FIU/FSk
- oe+MqAUWVvpuMcL6vWCsv/IXXCTGO5E=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Xl/kPsma4+CokXD027GgAKWxG1Cp4Q3btDYha9T9ayI=;
+ b=YdjABc7uQ8x9lJR7aShyNC6mLBp4dGds9YoC/AYI9Hdh5406l5MHOeLo68YKkOUaghnGnS
+ V3p3FkPyspyWHA3/O4ILdedUM0MDfdZAdFGXdgoDwtoqhP5ODxouAdmYZqHyk+zXmkNwfn
+ HqzLikdx40yB87E/mwazaaRXDXsriJk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-397-CcLUDTLdM42wdPkmRQCcsA-1; Fri, 06 Jan 2023 03:29:01 -0500
-X-MC-Unique: CcLUDTLdM42wdPkmRQCcsA-1
+ us-mta-475-abkVrsUKMc-LIQeczTJrTQ-1; Fri, 06 Jan 2023 03:29:02 -0500
+X-MC-Unique: abkVrsUKMc-LIQeczTJrTQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10D1F3C0219D;
- Fri,  6 Jan 2023 08:29:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B0C9183B3C8;
+ Fri,  6 Jan 2023 08:29:02 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 06B9A492B06;
- Fri,  6 Jan 2023 08:28:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71357492B06;
+ Fri,  6 Jan 2023 08:29:01 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Nikita Ivanov <nivanov@cloudlinux.com>
-Subject: [PULL 03/15] MAINTAINERS: Add MIPS-related docs and configs to the
- MIPS architecture section
-Date: Fri,  6 Jan 2023 09:28:41 +0100
-Message-Id: <20230106082853.31787-4-thuth@redhat.com>
+Subject: [PULL 04/15] exec/memory: Expose memory_region_access_valid()
+Date: Fri,  6 Jan 2023 09:28:42 +0100
+Message-Id: <20230106082853.31787-5-thuth@redhat.com>
 In-Reply-To: <20230106082853.31787-1-thuth@redhat.com>
 References: <20230106082853.31787-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,29 +77,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-docs/system/target-mips.rst and configs/targets/mips* are not covered
-in our MAINTAINERS file yet, so let's add them now.
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Message-Id: <20221212171252.194864-1-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Instead of having hardware device poking into memory
+internal API, expose memory_region_access_valid().
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221217152454.96388-2-philmd@linaro.org>
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+ include/exec/memory-internal.h | 4 ----
+ include/exec/memory.h          | 4 ++++
+ hw/s390x/s390-pci-inst.c       | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7a40d4d865..5606e5dbd2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -113,6 +113,8 @@ M: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- S: Odd Fixes
- K: ^Subject:.*(?i)mips
-+F: docs/system/target-mips.rst
-+F: configs/targets/mips*
+diff --git a/include/exec/memory-internal.h b/include/exec/memory-internal.h
+index 9fcc2af25c..100c1237ac 100644
+--- a/include/exec/memory-internal.h
++++ b/include/exec/memory-internal.h
+@@ -38,10 +38,6 @@ void flatview_unref(FlatView *view);
  
- Guest CPU cores (TCG)
- ---------------------
+ extern const MemoryRegionOps unassigned_mem_ops;
+ 
+-bool memory_region_access_valid(MemoryRegion *mr, hwaddr addr,
+-                                unsigned size, bool is_write,
+-                                MemTxAttrs attrs);
+-
+ void flatview_add_to_dispatch(FlatView *fv, MemoryRegionSection *section);
+ AddressSpaceDispatch *address_space_dispatch_new(FlatView *fv);
+ void address_space_dispatch_compact(AddressSpaceDispatch *d);
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 91f8a2395a..c37ffdbcd1 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2442,6 +2442,10 @@ void memory_global_dirty_log_stop(unsigned int flags);
+ 
+ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled);
+ 
++bool memory_region_access_valid(MemoryRegion *mr, hwaddr addr,
++                                unsigned size, bool is_write,
++                                MemTxAttrs attrs);
++
+ /**
+  * memory_region_dispatch_read: perform a read directly to the specified
+  * MemoryRegion.
+diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+index 9abe95130c..2eee5db7e1 100644
+--- a/hw/s390x/s390-pci-inst.c
++++ b/hw/s390x/s390-pci-inst.c
+@@ -13,7 +13,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "exec/memop.h"
+-#include "exec/memory-internal.h"
++#include "exec/memory.h"
+ #include "qemu/error-report.h"
+ #include "sysemu/hw_accel.h"
+ #include "hw/s390x/s390-pci-inst.h"
 -- 
 2.31.1
 
