@@ -2,101 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF5C660A52
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 00:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D80660A5B
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 00:45:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDwG4-0007xb-4j; Fri, 06 Jan 2023 18:36:20 -0500
+	id 1pDwNy-0000rn-9z; Fri, 06 Jan 2023 18:44:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pDwG1-0007wi-ED
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:36:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pDwFz-00062l-MT
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:36:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673048174;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J3Xb2Ke+Kp2uHOSLqQTMlgym1anyMQw7OAu2efaTu+U=;
- b=JsmiUSBGqv9yNweH/QMEUqev7Ga5oW1u618/jxXxkXk8vNAXUfIdDzavc/ex28jlR+WIs8
- Ni5wHg4OMygz0eLTlfkoPH/nSRL8M4dBWJ/s19TiX6WP1tvg16jwcXg1T24MWMKmSxY1tS
- Dr7V2hOse29Vqo1eWjCnyCeLccZo4fs=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-225-4JsJkoRPMvyCbmkbb8sXeg-1; Fri, 06 Jan 2023 18:36:13 -0500
-X-MC-Unique: 4JsJkoRPMvyCbmkbb8sXeg-1
-Received: by mail-il1-f199.google.com with SMTP id
- y5-20020a056e021be500b0030bc4f23f0aso1977843ilv.3
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 15:36:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pDwNv-0000rd-6g
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:44:27 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pDwNt-0000oU-Bd
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 18:44:26 -0500
+Received: by mail-wr1-x433.google.com with SMTP id r2so2676817wrv.7
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 15:44:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BN7zCfqNSq9ZkgFf+xyaT1ek7hHzkPtmXT85t4UQZ78=;
+ b=YPOkkI0o1/BerStUT2f+3Fk7h2WCAia1C2zJlTjF4i/BWP0PbVx8MMyJIZjVz+oVi+
+ Pvmb5jiJu9eXr5vlvezorRTZCHaIdOiitLAou+P+GXygI6QPn3/lPdmloJiW3ZKFkzHe
+ qXMdabiEJJQ3H5We+FTyIKQL8sQnbHBY+x9T9kBaKtSm/j+OoLzD3K5PNAYbkR0FFuep
+ 4KJZRsx9vDlXnjO2rJSGTxO/IG8mIlDRuI2gIzsqCeReqbJWoaAtzGzqBQmx/RGk5yFP
+ pRiIbTk3S8Ii9PXLsOpGNKRCqFCrDDybF5Kh/SQfWdjZwEkuD+JgCoX2swYBA7iLtxZm
+ CZdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=J3Xb2Ke+Kp2uHOSLqQTMlgym1anyMQw7OAu2efaTu+U=;
- b=Ui41gopa5O+cozxhJ1AfxDqvNMT88WwSGo9+y4l4CX5mcsv6kub3p/09tCR9NTbF7m
- QDlOzePKB3NLNBfR3SrjmkwVjRW1efRMhhZQ70dXy4RfAJlC2/W82lFDGv2jFOYE0AgJ
- GTWf0e06T/YwbaJy+Yu+c7IjN5GCYsvQLaFEXlciN9tqKhFm0vb2fY4JlGx84DqX0+2z
- TvQldWzPTdrlS+8pDPqiqjgzLXPbO521I9vRglJAKkeHvLhU6oDKpTfsDzmFYrovbO4m
- lLikTIl9QrU0+ayL/vgE2KKV8qacRm0+qbXydw8swsvhExb3TeU2rf7bW1e8jhkUt5k/
- Rq9g==
-X-Gm-Message-State: AFqh2koPcdJAAGxSIXFi9cPrz6mxAytuREqZ+Gieh/P+90M2geL9DwbV
- 9q9OO5+1SkLJdka6iJ2oWE7j+4JLgDx+LZaQxupunbCr4rSLKN7zRdv+J2k4LVxtJnPwHQIycVK
- ptkZZN2jGQP5J8UY=
-X-Received: by 2002:a92:cc92:0:b0:2ff:f702:e446 with SMTP id
- x18-20020a92cc92000000b002fff702e446mr34392103ilo.13.1673048172361; 
- Fri, 06 Jan 2023 15:36:12 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuMvwwr6ZuWPmwfpNoxb4pEkf70/pFzQXBvDA6T07DBzTnje2kBRi0xxEgo7FNQXFIKMoOodA==
-X-Received: by 2002:a92:cc92:0:b0:2ff:f702:e446 with SMTP id
- x18-20020a92cc92000000b002fff702e446mr34392081ilo.13.1673048172074; 
- Fri, 06 Jan 2023 15:36:12 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- n14-20020a92d9ce000000b0030c5346962esm57181ilq.65.2023.01.06.15.36.10
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=BN7zCfqNSq9ZkgFf+xyaT1ek7hHzkPtmXT85t4UQZ78=;
+ b=Wih9zSi3HUfie8bPti4kGgUeq5si/EIy1JtrEXpGb5QEGXi6FOfP7OvHjfgFwZ0GRk
+ Bh1G3k06PgjTP/zkvm+JehETrsqR93eDzOr7BpReuy+1FakjkX0+w3o9iz5q4ohq3xVl
+ 0056VsNJGi/03H97ttaC/Jyj0ddsqY+7jI2LD/7zw5MP0uz0rYtFetU5sNMPdlfQ/lhF
+ xo70DOPqSoIt5GDmLpZVNqTEEUw2LY2WUDRH/toKuS7uaFNn/BbXxiCQwRBox1SXnHQq
+ WbbOYOXH8oDp9klqNv+P+VkBk068ivi+cBYmH3ndvUHcWWWY6MFiExSdokbZu7AYyiPl
+ h9/A==
+X-Gm-Message-State: AFqh2kr0lhoyJVnOMFIxYwhsasJz0pOEQFupNziLI0SIGz1Eem1zvkfc
+ HnO3G2z6mdAwhG5sDD9/5iqTnQ==
+X-Google-Smtp-Source: AMrXdXu2viJt18lhcVf2ZK94HuToYOE+Iiqm97OnUMJ+u7fguELLYlgjgdXfsQwmWe9TVVaTT/Zqgg==
+X-Received: by 2002:adf:fd11:0:b0:28a:8b5d:6f47 with SMTP id
+ e17-20020adffd11000000b0028a8b5d6f47mr20018057wrr.1.1673048663695; 
+ Fri, 06 Jan 2023 15:44:23 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ t19-20020a0560001a5300b002362f6fcaf5sm2336371wry.48.2023.01.06.15.44.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 15:36:11 -0800 (PST)
-Date: Fri, 6 Jan 2023 16:36:09 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Eric Farman
- <farman@linux.ibm.com>, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, "Ilya Leoshkevich"
- <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, "Juan Quintela"
- <quintela@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>, Vladimir
- Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, John Snow
- <jsnow@redhat.com>, <qemu-s390x@nongnu.org>, <qemu-block@nongnu.org>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor
- Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun
- Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v5 00/14] vfio/migration: Implement VFIO migration
- protocol v2
-Message-ID: <20230106163609.430628cd.alex.williamson@redhat.com>
-In-Reply-To: <20221229110345.12480-1-avihaih@nvidia.com>
-References: <20221229110345.12480-1-avihaih@nvidia.com>
-Organization: Red Hat
+ Fri, 06 Jan 2023 15:44:23 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8FFC51FFB7;
+ Fri,  6 Jan 2023 23:44:22 +0000 (GMT)
+References: <20230103181646.55711-1-richard.henderson@linaro.org>
+ <CAFEAcA8K=1CNZfDG8i3bSXXSWT7D2oWg4jyupwYmw8oR7MJVsQ@mail.gmail.com>
+ <9f9a6c22-315b-de1e-958e-89963c5e7e90@linaro.org>
+ <CAFEAcA8cxJFpB9V826DjSsFOy7VYh5TWXb4vRYDUeOMjQgk-eQ@mail.gmail.com>
+User-agent: mu4e 1.9.11; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
+ armbru@redhat.com, ajones@ventanamicro.com
+Subject: Re: [RFC PATCH 00/40] Toward class init of cpu features
+Date: Fri, 06 Jan 2023 23:43:24 +0000
+In-reply-to: <CAFEAcA8cxJFpB9V826DjSsFOy7VYh5TWXb4vRYDUeOMjQgk-eQ@mail.gmail.com>
+Message-ID: <874jt32ppl.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,69 +98,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 29 Dec 2022 13:03:31 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
 
-> Hello,
-> 
-> Now that QEMU 8.0 development cycle has started and MIG_DATA_SIZE ioctl
-> is in kernel v6.2-rc1, I am sending v5 of this series with linux headers
-> update and with the preview patches in v4 merged into this series.
-> 
-> 
-> 
-> Following VFIO migration protocol v2 acceptance in kernel, this series
-> implements VFIO migration according to the new v2 protocol and replaces
-> the now deprecated v1 implementation.
-> 
-> The main differences between v1 and v2 migration protocols are:
-> 1. VFIO device state is represented as a finite state machine instead of
->    a bitmap.
-> 
-> 2. The migration interface with kernel is done using VFIO_DEVICE_FEATURE
->    ioctl and normal read() and write() instead of the migration region
->    used in v1.
-> 
-> 3. Pre-copy is made optional in v2 protocol. Support for pre-copy will
->    be added later on.
-> 
-> Full description of the v2 protocol and the differences from v1 can be
-> found here [1].
-> 
-> 
-> 
-> Patch list:
-> 
-> Patch 1 updates linux headers so we will have the MIG_DATA_SIZE ioctl.
-> 
-> Patches 2-3 are patches taken from Juan's RFC [2].
-> As discussed in the KVM call, since we have a new ioctl to get device
-> data size while it's RUNNING, we don't need the stop and resume VM
-> functionality from the RFC.
-> 
-> Patches 4-9 are prep patches fixing bugs, adding QEMUFile function
-> that will be used later and refactoring v1 protocol code to make it
-> easier to add v2 protocol.
-> 
-> Patches 10-14 implement v2 protocol and remove v1 protocol.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Missing from the series is the all important question of what happens
-to "x-enable-migration" now.  We have two in-kernel drivers supporting
-v2 migration, so while hardware and firmware may still be difficult to
-bring together, it does seem possible for the upstream community to
-test and maintain this.
+> On Fri, 6 Jan 2023 at 19:29, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 1/6/23 11:12, Peter Maydell wrote:
+>> > The trouble with this idea is that not all instances of the same
+>> > class are actually necessarily the same. For instance, if you
+>> > have a system with both (a) a Cortex-A53 with a PMU, and
+>> > (b) a Cortex-A53 without a PMU, then they're both instances of
+>> > the same class, but they shouldn't be sharing the coprocessor
+>> > register hashtable because they don't have an identical set of
+>> > system registers.
+>> >
+>> > This kind of same-CPU-type-heterogenous-configuration system is
+>> > not something we're currently using on A-profile, but we do have
+>> > it for M-profile (the sse200 has a dual-core setup where only one
+>> > of the CPUs has an FPU), so it's not totally outlandish.
+>>
+>> Yes, I know.  See patch 29 where I moved the vfp and dsp properties off =
+of the m-profile
+>> cpus and created new cpu classes instead, specifically for the sse220.
+>>
+>> It's not scalable, I'll grant you, but it's hard to design for something=
+ we're not using.
+>> What we use now, apart from the sse200, are common properties set on the=
+ command-line.
+>
+> We also set some properties in code -- eg aspeed_ast2600.c clears
+> the 'neon' property on its CPUs, lots of the boards clear
+> has_el3 and has_el2, etc. I hadn't got as far as patch 29, but
+> looking at it now that looks like a pretty strong indication
+> that this is the wrong way to go. It creates 3 extra
+> cortex-m33 CPU classes, and if we find another thing that
+> ought to be a CPU property then we'll be up to 8; and the
+> mess propagates up into the SSE-200 class, which is also
+> no longer able to be configured in the normal way by setting
+> properties on it, and it becomes visible in user-facing
+> command line stuff.
+>
+> I think our object model pretty strongly wants "create object;
+> set properties on it that only affect this object you created;
+> realize it", and having one particular subset of objects that
+> doesn't work the same way is going to be very confusing.
 
-To declare this supported and not to impose any additional requirements
-on management tools, I think migration needs to be enabled by default
-for devices that support it.  Is there any utility to keeping around
-some sort of device option to force it ON/OFF?  My interpretation of ON
-seems rather redundant to the -only-migratable option, ie. fail the
-device if migration is not supported, and I can't think of any
-production use cases for OFF.  So maybe we simply drop the option as an
-implicit AUTO feature and we can consider an experimental or supported
-explicit feature later for the more esoteric use cases as they develop?
-Thanks,
+What about cloning objects after they are realised? After all that is
+what we do for the core CPUClass in user-mode.
 
-Alex
+>
+> thanks
+> -- PMM
 
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
