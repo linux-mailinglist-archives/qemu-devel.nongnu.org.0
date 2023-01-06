@@ -2,102 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F7966067C
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 19:40:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49927660689
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 19:44:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDrca-0001wh-Uv; Fri, 06 Jan 2023 13:39:16 -0500
+	id 1pDrga-00039A-0j; Fri, 06 Jan 2023 13:43:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDrcZ-0001wZ-8z
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 13:39:15 -0500
-Received: from sonic304-24.consmr.mail.gq1.yahoo.com ([98.137.68.205])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDrgX-00038n-EP
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 13:43:21 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDrcX-0006de-Bh
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 13:39:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1673030350; bh=ByxGwuLu/B4A3w3BivVK9fvPYeRgohNkEitT7jEThBM=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
- b=Q7bZzcO898sepwxtrzaC9YEj5BLAJ5g/LqzXEmKpvGwPAa1PdF6vTrUETxd89y2+BSwyEt7NS/OqgfrBrw+r576vtPuI4luvbtLVwglwso/dcdEpLw5v1nqw0vkL6U5Uugpl41ADIw7jBYiACxggu6WCJaLjToeTGpxQaY5AZs05O1ofiOY+ydtDYtkw0AoVEKG0H1cDZuPoDaJodjYiYcPsBWqLpRV/M2Rls3uaIxTv0xiun4AYqbajGhBo5Ct3Zh291k9GdcFXvolDjG9TS2TdRLFEL3e278PEt+uppBV4IQAiHtFa1nloDISBQ+we/RjWPe3QCO3KIIfLyfLkqg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1673030350; bh=jdDpriTmaKK322OkMVuZTh256ShgFjR0VXVJysXGec/=;
- h=X-Sonic-MF:Date:Subject:From:To:From:Subject;
- b=PHOt+GCwsQFKPbdXf7Ap0bW28SQ1JcAg14Jx2/23A1RcGGynxXzL42v/KJ63A3YDN4R2RAVjsjpArIzDkU5/C81yOQZgX0rWFc83AVJ6mqiIO0564z0vq45eF1pVQknJbHi7ZW0vgjpRrEGckRwMlXa4jTphOsFxDBhLx4pAAMpLtUB/2/tVYkFkhVjGllxohxy9Dx4TnuNEZR+9XoxVf2OUMrhPvIhhlI6XUrs//qX9OyJ4kY46/1rWZtxfU8o7KT8Ly8iO9KcoAj2MTFNG8X0hXMBTGAI9sUTpiT+x1K/WEVAhzTkr4G9TrpHWJIsXG1xgdGj39DzEGaPrXdwiVg==
-X-YMail-OSG: xytN2Q8VM1mZBpk1MsZy3FNWjf3FsAF8Ppe6zrirAut4WLJjyyEBBSUn8m.wtF8
- 9GG5GUBThPXGMjPVnLQt5ezUGjjcV_UjrQ7gsKJiuXuoxYF_h8qU9_UACINf7aSCqKmHEwsivGkF
- UIxtKQ5mp5kVCcgXq3nrKZa74S.vV_HWOTXH47qoKeccoOhIar4dQIY1jzZKQT_s5FSitFPEcBjP
- 6JYmjFeSMerF_1QRJ0HHdseT38eQ8HyhiK4GHCtnhr0jSkfU8twtOiFNiKnRXhmJ_Y1pnrQkTLD0
- ZFDYQjubpbJxPTHy.ks95G3vBZBRYca7MciirZZo3sW390akVSlrZCkR5nYFrmI0vY_XVJs_CoDe
- PYBQCsGLOn1L1hN8pLFOVQn1uwvIjsEjy5.v3NncQ1ujB3RPCKAF.80FJoT0X.vEz2X1mSRq9qjs
- .01OncTLbiFnzOJzsLWaoWzwdGu2wuggoZJk3Polunqpk.NdksO4l9jU1SlxO8TuTPhSxat4Q6L.
- CA6alouZ6wDfUrtSf11EJrqx.O.8XFFCx15bx2isYbW7jYPdYDQVaK9r0zdrvnhdsAlqam18Z6gc
- oPxva6SReuQlsU13wZBsGwWQ6L5VtusOcElaF4lDg5SP5HgxsA_EjiUiiLCiaytuk0EL9oMna4xL
- RR4oUESW_UH.JI.dBswqCc0Acj.HKx4B.WK.pt1UWb4v318hA4vGtrvoeDZ1mif_5ozkMsaBrjwR
- IGfJmMyR8XJIGdtGqtAmK9eD1fys_d3wHLp0P7r7Q8f.DFUCUJF10YWSA8YeACgx6z_Cu8fbHTzd
- V7HLUTNzxbCCFYkqpivOyMpG6ZnBu9Rx0HhK4QPyQIhfDxnsdunt4WZ5miSCEHd8yITql6NgDeaG
- ZhXJKgxY2BzXCpFDFCgtpX627krdRq7yCzadlMabIryRMPVk7uh.4HwapC933iQAvHPlm22VSiRe
- TOCBbSbQ9Y7iwXBGIHvaM0uJItA5V1kSI02YLpZJxo2DdAhBP3F2Am0mtZG5ND9ZC7U7zToXf95Y
- O_xiZIgB0nJ4kXRwgrLUq_LAyL5Sdcz8BxakB.sL_uF.EG4hkGUnMXa1MT494TBsE.tj_cq7sIkF
- 8avx_r6_fNRh_wVvziEk_VZQYvWpOQCq5j1nX8Rc_ezgQtdS8M.5PUSfFwj6CaRDpLrvbdra3bA3
- Lbkqgph9eZpqamha5w4yNTEZvotmxjY_5KTqLZDIuf0bjQA1ZOLaHkaW8wSpLtCcMJx8VZLTsC_v
- 8tru_Z.TT7FXh9R6NX9LIzW6CzkJlZtk8AwVa7qYKOyBqwgZcRlAHxpdFBXRa7n9XyXS2GPHKNuW
- PLFBwuBgtu9PwTc2AhEL2DHDziRRoTAf2HTSPuxTpc9LoSBeMji72VGsnDZAHWvRwkflHnZXVf1w
- 3omiMWoPu4QYbOPN0q.1jXLlojmVkfHesUH1YymYT1UECK9xsdcrlkEt_4dCaqKM_rKgpGUa.XeO
- 6y3L1N8L34UsSLr6kDefrGAa_UhhagN7hYDztgBKskeC1Up7PW_A00rx.EO7plMA6tKv7deUqbAF
- uapikbTWHqhzjnK_oGXSgYRr4m2EZUfQJSQOKYFZ_tyb5KgmGZgPdzvlb3yOBeeZbxpvqmlsiFzU
- aET757Svb1gkbpsFgbLdiJdfFeh2JmFntMX7L6Xj81BRNV2NEBl_UKQBHOINZq7DwSJQP9q9oIaz
- ZL0uKDpaad0tTzseZQ2fpF1Z_tToF16FcZ85ss3Em6tffvzyISID87gjbze.Bhu6WKJ5V_cCwHjz
- nfiENnHf1uXhhTATVQQsmCB9B_S3uoz637.Z0KBYC5j_MrJ5qzjVR74NUTiqppLWYxjbeQx1Ho8s
- QYz_gE1o58zfBCfXeiO1u07xuZauxIMgEmsM5_FKaOutv8iLoiDIAjGkA.ITgWk8dgnKFltyDf8_
- vHRa_x08UxLf9mZLejf3mo6XBYVkglwAhXI..uBQT7udtiqaoKw1ubbH9g5mMjo05QwilOTQERT3
- rhytkKQK8gOmh7n00HN.OyQ59vgyXRze3ZEParQQd9bl3ewzJ6elrToo.FiJPVftGfs8r_k8kZ06
- YkF6bF7jnm1A7XtoCgjWVmgT_11UoWEAWxfUcNcIMFLYTUAkpW7ErAycbObYkaU3_V8BEh8xu129
- vvsXlW8yrMD3GvUiFyb1THvlUBLb76SU15sUzSmV_QT.RXVGa9oUbCW8Nw4ntooNpfoWTk_RBm8n
- DQ9k8N3mg4L8eh0Uly08a
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic304.consmr.mail.gq1.yahoo.com with HTTP; Fri, 6 Jan 2023 18:39:10 +0000
-Received: by hermes--production-bf1-5458f64d4-bl5tb (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 90dc30dca055f6fc7430c5ec161196a7; 
- Fri, 06 Jan 2023 18:39:07 +0000 (UTC)
-Message-ID: <3f7527da-2f0a-2d26-95f2-23776d0ab141@aol.com>
-Date: Fri, 6 Jan 2023 13:39:05 -0500
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDrgV-0002Dx-MV
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 13:43:21 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ o8-20020a17090a9f8800b00223de0364beso6000790pjp.4
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 10:43:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=q69JNUO2Umxk4Wznuro4ovWAeGmdTY+3/L+4ZaI0oFY=;
+ b=AMey/jQgSPJorbqzG9slgCsWkaZUc5SJJiJoCCRKUCBwkFiCLTOEsFtglC7sslmxJh
+ xg5WoYr2LU7/bZ+uW/rZKcnFzcjUHAeOYG2R2luUlWpeLLA3Jbh3uFyBoDnJaSSgCPKZ
+ Fgzz6VnmqLcyDpFz3axr0np4IAjwwrDjF819ZUYo76TCwka1L0aKvSLjymNLDVolzIlC
+ F1b131FPhb1ywCB8InddhPn6fh7BnT8NycK+1Mslvb95qrG+uRUJUG7cRauE26hk5Cfr
+ v6T2OIyU8P1IWpc/7Rqka6S89avLb6KFTnregvImEDeUQ+Ts/KwWc41r+I8nqVCU8Szu
+ hqHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=q69JNUO2Umxk4Wznuro4ovWAeGmdTY+3/L+4ZaI0oFY=;
+ b=3s5frdinAJLwQQeMYY01s3SrhwE0ed4njA3kjqSPLiFCTjS448EMi0vJenneN7Xwf8
+ vDyWkgY221yuqNkzFkMmTwVIQqtAcjBPV0pWm0N/WNGR7/FafoxoR9La0J8TRMC+WxMK
+ hxwMS683Bc9iQFv+MZs+eVdKA9jNtnWj3U4iZiMeRIRMtL9e3JnYXQZDhXyLc0lBy0k8
+ 2gQRGrwl5Rumdm3v7vLw+Br5euUmLdM+Viw7NjUxqLQzbwSrrFtuSZfnpYEf9uFQRI2c
+ BlD26/r1dSBQHY3EtFL5YOVm73t54bhVYuQrSCFFVJlKmngst9S4B2pnmxGC8Nmip32i
+ 0ybw==
+X-Gm-Message-State: AFqh2krtMUkFzqEqKuLLbXAmJ3f5s8fdGUuaDLNfZ/6nsCFvWv5rBTp5
+ iRTPI3oi0UPKOu4xiu4UtX3ddg==
+X-Google-Smtp-Source: AMrXdXtWUebS2Rfv6lw95cmAyyzsiE5BBHmYP3iN50uqHrqoGgU+5FdEcbCmKZ51xXrlETyAS6k4uw==
+X-Received: by 2002:a05:6a20:4d94:b0:af:ac38:911a with SMTP id
+ gj20-20020a056a204d9400b000afac38911amr61842306pzb.59.1673030597965; 
+ Fri, 06 Jan 2023 10:43:17 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:9d81:5b04:51d7:acae?
+ ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
+ by smtp.gmail.com with ESMTPSA id
+ b3-20020a63d803000000b00477bfac06b7sm1216935pgh.34.2023.01.06.10.43.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Jan 2023 10:43:17 -0800 (PST)
+Message-ID: <97efbf2c-c6a0-f556-807f-8a683d09fc9d@linaro.org>
+Date: Fri, 6 Jan 2023 10:43:15 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 3/6] hw/isa/piix: Wire up Xen PCI IRQ handling outside
- of PIIX3
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 1/8] hw/pci-host/bonito: Convert to 3-phase reset
 Content-Language: en-US
-From: Chuck Zmudzinski <brchuckz@aol.com>
-To: David Woodhouse <dwmw2@infradead.org>,
- Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20230104144437.27479-1-shentey@gmail.com>
- <20230104144437.27479-4-shentey@gmail.com>
- <b80c0bb26d8539899f53b91deb48f748e2495d23.camel@infradead.org>
- <c328e499-0a52-e46d-f080-dbaa6b98cac0@aol.com>
-In-Reply-To: <c328e499-0a52-e46d-f080-dbaa6b98cac0@aol.com>
-Content-Type: text/plain; charset=UTF-8
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Huacai Chen <chenhuacai@kernel.org>, Bernhard Beschow
+ <shentey@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20230105130710.49264-1-philmd@linaro.org>
+ <20230105130710.49264-2-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230105130710.49264-2-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.20982
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.68.205; envelope-from=brchuckz@aim.com;
- helo=sonic304-24.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.939,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -115,35 +98,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/6/23 12:46 PM, Chuck Zmudzinski wrote:
-> On 1/6/23 12:35 PM, David Woodhouse wrote:
->> On Wed, 2023-01-04 at 15:44 +0100, Bernhard Beschow wrote:
->>> +        if (xen_enabled()) {
->> 
->> Could this perhaps be if (xen_mode != XEN_DISABLED) once we merge the
->> Xen-on-KVM series?
+On 1/5/23 05:07, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé<philmd@redhat.com>
 > 
-> I am not an expert and just on here as a user/tester, but I think it
-> would depend on whether or not the Xen-on-KVM mode uses Xen PCI IRQ
-> handling or Linux/KVM PCI IRQ handling.
+> Convert the TYPE_PCI_BONITO class to use 3-phase reset.
 > 
-> Chuck
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> ---
+>   hw/pci-host/bonito.c | 9 ++++-----
+>   1 file changed, 4 insertions(+), 5 deletions(-)
 
-I could try Bernhard's patches in a Xen-on-KVM configuration if that might help.
-I would need help configuring the Xen-on-KVM mode to do it, though, because
-I have never tried Xen-on-KVM before.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-The test I could do would be to:
-
-1) Test my Xen guest that uses the current PIIX3-xen device in the
-Xen-on-KVM environment and get that working.
-
-2) Apply Bernhard's patch series and see what, if anything, needs to
-be done to make Bernhard's patch work in Xen-on-KVM. I have already
-verified that Bernhard's patches work well with Xen on bare metal, so I
-don't think we need to answer this question before going forward with
-Bernhard's patches. This can be patched later to support Xen-on-KVM if
-necessary as part of or in addition to the Xen-on-KVM series.
-
-Chuck
+r~
 
