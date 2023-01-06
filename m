@@ -2,103 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF55666062F
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 19:08:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C875660651
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 19:24:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDr7q-0003PN-GX; Fri, 06 Jan 2023 13:07:30 -0500
+	id 1pDrMh-0007a6-Tl; Fri, 06 Jan 2023 13:22:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pDr7o-0003Og-38
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 13:07:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pDr7m-0002E0-EK
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 13:07:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673028445;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E12LphicTTd00G4LpzgjCC/W4/c1gai30w95igN2jD8=;
- b=MfRrnI+JaJu2vijH28nFMDeyZYwQvaFIDt0pjel7vYwp2uzaGJ+Q7petCDDqNkpaBtQXc5
- MI4oHDG9eSyg3+JRJsbHOvX9ZpaLTYymatutLMgFYMwXmn/yDVYkxba9CqyxDxe/grhekK
- 1TVMpT1baEVYd565tfBzZiuHQqHAOqA=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-498-fhrJmdLyMTeUfAyrjKj7oQ-1; Fri, 06 Jan 2023 13:07:24 -0500
-X-MC-Unique: fhrJmdLyMTeUfAyrjKj7oQ-1
-Received: by mail-il1-f199.google.com with SMTP id
- y5-20020a056e021be500b0030bc4f23f0aso1520499ilv.3
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 10:07:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=E12LphicTTd00G4LpzgjCC/W4/c1gai30w95igN2jD8=;
- b=MTY8oFCnAi+mWizXYrEP3oGZKbrxfLa+S9OoTHY733PxKSSWzDXJwUFFXYIorrgRBY
- 10seAeYeK1ASsa2awoNkd6/l0mZWcYOfj7Jk40/5ZjxrQz+2OU7tl49CJHNrs2M4UGGn
- LpxO8Cl9mJxXbTzmIVrN9QIWWqyBmOryFsIxgkuMjp9Ao0+9PeFbiUePg+k7ZFoa2/hB
- GWBIVNGKw6Jc/tExVV286MD8w9sBy0k7kD/I38gtgjRCRNWFYierHuOY5DcAS+cYBE7h
- s2CBQVq1zJ7a2JOHIx6c9Xy5woDBE9OU/WCj2RfabKNil6A6Fl9ZfDm1FvGGvRQviBIC
- Bk6Q==
-X-Gm-Message-State: AFqh2koX/h/SRPZL2t/k7md9Ha6T3Hi3L0mAMNT059aWXdbbrlzSfUWb
- Ff1mtKR2/yaNsNw0myvyyTyPgGW6/SyyRhezZWPFozBCcv9Y/+xbIvM+6GVdMzFPpGaWYQbatV/
- ncuuyykMhBPxX57U=
-X-Received: by 2002:a92:c68f:0:b0:30d:8a51:ef2c with SMTP id
- o15-20020a92c68f000000b0030d8a51ef2cmr2420567ilg.0.1673028443187; 
- Fri, 06 Jan 2023 10:07:23 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsQ0flAADvWWNSH6ohinq1zVBK8DdwKqboADGduKvCpNgTgqVr3yxeYihibKS43fZSE4maeFg==
-X-Received: by 2002:a92:c68f:0:b0:30d:8a51:ef2c with SMTP id
- o15-20020a92c68f000000b0030d8a51ef2cmr2420536ilg.0.1673028442957; 
- Fri, 06 Jan 2023 10:07:22 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- f11-20020a92cb4b000000b0030c2ae99cf9sm569160ilq.12.2023.01.06.10.07.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 10:07:22 -0800 (PST)
-Date: Fri, 6 Jan 2023 11:07:20 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org, Halil Pasic
- <pasic@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, Richard Henderson
- <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>, Ilya
- Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, Juan
- Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, Eric
- Blake <eblake@redhat.com>, Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>, John Snow <jsnow@redhat.com>,
- qemu-s390x@nongnu.org, qemu-block@nongnu.org, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
- <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v5 04/14] vfio/migration: Fix NULL pointer dereference bug
-Message-ID: <20230106110720.17178a0f.alex.williamson@redhat.com>
-In-Reply-To: <Y7QN0fT6vI9AMU+3@work-vm>
-References: <20221229110345.12480-1-avihaih@nvidia.com>
- <20221229110345.12480-5-avihaih@nvidia.com>
- <Y7QN0fT6vI9AMU+3@work-vm>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
+ id 1pDrMf-0007Zy-KS
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 13:22:49 -0500
+Received: from linux.microsoft.com ([13.77.154.182])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <eiakovlev@linux.microsoft.com>) id 1pDrMd-0000RO-MJ
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 13:22:49 -0500
+Received: from [192.168.0.20] (unknown [77.64.253.186])
+ by linux.microsoft.com (Postfix) with ESMTPSA id D874820B8762;
+ Fri,  6 Jan 2023 10:22:44 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D874820B8762
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1673029365;
+ bh=ITFBFfu6kj7QyHwhmRwLd/DgIo0Daw5HtDjOgY1ivBk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=QcvOXb17Q0CE5ITUUPakFzB0KIoiUw8tVGuir44O+T1bs0mJOPk9wrLjzI+MmhA1R
+ hcuFBO9f68UC2Vs4nzyywACaTywQy/RGfSzUyOgQMjT4QMQf60XNeAbG1a3dDaQkAD
+ PSBNDXX5NfvnQm+xHHNsK7Z8UlrrBtPNYM1HvXOU=
+Message-ID: <f2182772-661a-c021-061e-642ef3aea942@linux.microsoft.com>
+Date: Fri, 6 Jan 2023 19:22:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v2] semihosting: add O_BINARY flag in host_open for NT
+ compatibility
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, bmeng.cn@gmail.com, philmd@linaro.org
+References: <20230106102018.20520-1-eiakovlev@linux.microsoft.com>
+ <CAFEAcA-z7+X9-c43EmhoRBTrOYC9RtyHc5sgPamGRd_o+-tT_Q@mail.gmail.com>
+ <871qo7pszr.fsf@linaro.org>
+ <CAFEAcA_9db5ijSTW1JBiC7kLUe+E=+OCAHg0xaoa-0p09Wbt3g@mail.gmail.com>
+From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+In-Reply-To: <CAFEAcA_9db5ijSTW1JBiC7kLUe+E=+OCAHg0xaoa-0p09Wbt3g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=13.77.154.182;
+ envelope-from=eiakovlev@linux.microsoft.com; helo=linux.microsoft.com
+X-Spam_score_int: -226
+X-Spam_score: -22.7
+X-Spam_bar: ----------------------
+X-Spam_report: (-22.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-2.939, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,60 +72,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 3 Jan 2023 11:13:21 +0000
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-> * Avihai Horon (avihaih@nvidia.com) wrote:
-> > As part of its error flow, vfio_vmstate_change() accesses
-> > MigrationState->to_dst_file without any checks. This can cause a NULL
-> > pointer dereference if the error flow is taken and
-> > MigrationState->to_dst_file is not set.
-> > 
-> > For example, this can happen if VM is started or stopped not during
-> > migration and vfio_vmstate_change() error flow is taken, as
-> > MigrationState->to_dst_file is not set at that time.
-> > 
-> > Fix it by checking that MigrationState->to_dst_file is set before using
-> > it.
-> > 
-> > Fixes: 02a7e71b1e5b ("vfio: Add VM state change handler to know state of VM")
-> > Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> > Reviewed-by: Juan Quintela <quintela@redhat.com>
-> > Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>  
-> 
-> It might be worth posting this patch separately since it's a simple fix
-> and should go in sooner.
+On 1/6/2023 17:28, Peter Maydell wrote:
+> On Fri, 6 Jan 2023 at 15:44, Alex Bennée <alex.bennee@linaro.org> wrote:
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>> The semihosting API, at least for Arm, has a modeflags string so the
+>>> guest can say whether it wants to open O_BINARY or not:
+>>> https://github.com/ARM-software/abi-aa/blob/main/semihosting/semihosting.rst#sys-open-0x01
+>>>
+>>> So we need to plumb that down through the common semihosting code
+>>> into this function and set O_BINARY accordingly. Otherwise guest
+>>> code that asks for a text-mode file won't get one.
+>> We used to, in fact we still have a remnant of the code where we do:
+>>
+>>    #ifndef O_BINARY
+>>    #define O_BINARY 0
+>>    #endif
+>>
+>> I presume because the only places it exists in libc is wrapped in stuff
+>> like:
+>>
+>>    #if defined (__CYGWIN__)
+>>    #define O_BINARY      _FBINARY
+>>
+>> So the mapping got removed in a1a2a3e609 (semihosting: Remove
+>> GDB_O_BINARY) because GDB knows nothing of this and as far as I can tell
+>> neither does Linux whatever ISO C might say about it.
+>>
+>> Is this a host detail leakage to the guest? Should a semihosting app be
+>> caring about what fopen() modes the underlying host supports? At least a
+>> default O_BINARY for windows is most likely to DTRT.
+> I think the theory when the semihosting API was originally designed
+> decades ago was basically "when the guest does fopen(...) this
+> should act like it does on the host". So as a bit of portable
+> guest code you would say whether you wanted a binary or a text
+> file, and the effect would be that if you were running on Windows
+> and you output a text file then you'd get \r\n like the user
+> probably expected, and if on Linux you get \n.
+>
+> The gdb remote protocol, on the other hand, assumes "all files
+> are binary", and the gdb source that implements the gdb remote
+> file I/O operations does "always set O_BINARY if it's defined":
+> https://sourceware.org/git/?p=binutils-gdb.git;a=blob;f=gdb/remote-fileio.c;h=3ff2a65b0ec6c7695f8659690a8f1dce9b5cdf5f;hb=HEAD#l141
+>
+> So this is kind of an impedance mismatch problem -- the semihosting
+> API wants functionality that the gdb protocol can't give us.
+> But we don't have that mismatch issue if we're directly making
+> host filesystem calls, because there we can set O_BINARY or
+> not as we choose.
+>
+> Alternatively, we could decide that our implementation of
+> semihosting consistently uses \n for the newline character
+> on all hosts, such that guests which try to write text files
+> on Windows hosts get the "wrong" newline type, but OTOH
+> get consistently the same file regardless of host and regardless
+> of whether semihosting is going via gdb or not. But if
+> we want to do that we should at least note in a comment
+> somewhere that that's a behaviour we've chosen, not something
+> that's happened by accident. Given Windows is less unfriendly
+> about dealing with \n-terminated files these days that might
+> not be an unreasonable choice.
+>
+> -- PMM
 
-There's no upstream implementation of a v1 migration driver, it's
-deprecated in the kernel, and only enabled in QEMU via an experimental
-option.  It seems sufficient as done here to make it a separate fix for
-downstreams that may want to backport separately, but given the
-remaining v1 status, I don't think I'd bother hurrying it otherwise.
-Thanks,
 
-Alex
+If SYS_OPEN is supposed to call fopen (i didn't actually know that..) 
+then it does make more sense for binary/text mode to be propagated from 
+guest. Qemu's implementation calls open(2) though, which is not correct 
+at all then. Well, as long as qemu does that, there is no 
+posix-compliant way to tell open(2) if it should use binary or text 
+mode, there is no notion of that as far as posix (and most 
+implementations) is concerned. My change then acts as a way to at least 
+have predictable behavior across platforms, but i guess a more correct 
+approach would be to follow actual semi-hosting spec and switch to fopen.
 
-> > ---
-> >  hw/vfio/migration.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> > index e1413ac90c..09fe7c1de2 100644
-> > --- a/hw/vfio/migration.c
-> > +++ b/hw/vfio/migration.c
-> > @@ -743,7 +743,9 @@ static void vfio_vmstate_change(void *opaque, bool running, RunState state)
-> >           */
-> >          error_report("%s: Failed to set device state 0x%x", vbasedev->name,
-> >                       (migration->device_state & mask) | value);
-> > -        qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
-> > +        if (migrate_get_current()->to_dst_file) {
-> > +            qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
-> > +        }
-> >      }
-> >      vbasedev->migration->vm_running = running;
-> >      trace_vfio_vmstate_change(vbasedev->name, running, RunState_str(state),
-> > -- 
-> > 2.26.3
-> >   
 
 
