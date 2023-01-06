@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168876608F7
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 22:54:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F634660906
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 22:57:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDuei-00010D-3w; Fri, 06 Jan 2023 16:53:40 -0500
+	id 1pDuhr-0002Ad-5Z; Fri, 06 Jan 2023 16:56:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDueg-0000zs-3t
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 16:53:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDuee-0005Of-K0
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 16:53:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673042015;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WSZ1vKIzqHWk12uOpvcGAlHxJQrcJ0JSD/fWdpVNtdU=;
- b=ChxrU2dHqLC8fbRHyxVwfPtNdkGx0GMGJgZFBska3M4NY2W1QU2wsk27Of30YF7AbSgYIT
- e4YkiEAIyxW0es0vj9zJb2snvSsf/nkiZj6K2Rr5H/554Y8KhVe0s3j3Wxe1ZpBVdhATXR
- PQ4Rxj8fBYfre/RbztsxkRLHv84Mpaw=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-556-avEg6bRUM9O_jQeDC_ZvlA-1; Fri, 06 Jan 2023 16:53:34 -0500
-X-MC-Unique: avEg6bRUM9O_jQeDC_ZvlA-1
-Received: by mail-lf1-f72.google.com with SMTP id
- bq3-20020a056512150300b004b9c5dff97bso990265lfb.17
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 13:53:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDuhp-0002AQ-4R
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 16:56:53 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pDuhc-00062K-51
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 16:56:41 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id n12so2824574pjp.1
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 13:56:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1BkNa6Pc7lGRopSOm8XIBiM/1lYTF0tzIjP0Ul1SmCw=;
+ b=N6jP7O6Sgs1TvGg10XMc+n3qv3MtbVmb3WDZ0aKNSND07FwRXZP7WNHieifNH4UFET
+ qYA2Ijv2Jatc5x9ocKFaHSsFfgaA2sc62HSKiuBWwNLyst8yv0VuARJGgaKO0zqpb1xm
+ oRr9QFbo/BJr8/DrqCRrNUcxsrXccpQwxV9JVMVE6nt7q5gvcJCAeuif2f7qbsXTVH62
+ z/X1/BW9IvF7ccU06PmE6EE3NGy1oManf8r1TtMPY7/US2pbgL9JsukeGccikegVMYT4
+ OnqI7RI1Md2J37wi16D2Nng3fNeixYro2RGAP5bycQZFO5nxqcrZvzRhIBOg2CW3oi58
+ yUCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WSZ1vKIzqHWk12uOpvcGAlHxJQrcJ0JSD/fWdpVNtdU=;
- b=im4uK/3ZaoJfohB1kr4rzG/DmrId3W6ySyXcNmifOQZL5hAfoHJ/Gn4wImzA7LUa+A
- l6AGlURv5BIUdmtd/Ae8Qar/rVQBLqZlfSwIXlYVGoO64HyLHV5FGVfU6AeoSl2s5bN1
- RTRev/411LSyNOPx2fKiNMINOhrj6A0qB3r/94B8ahUMx30qa92YLOHm8GhPGz4RWD3G
- NyVwl6aoEVL/Hs87xZqTL5sXgWh4zd/BkQSk7HJrume5dobH8s7LsOwz30HOB7P9AS+6
- FvvduBHcPv4g8fplE802FbmbVYznaaNkBD53ubYsMfRhhCIkzsDzFLUtfuci6Qyf8M4W
- ZK0g==
-X-Gm-Message-State: AFqh2kp7P30BdxLh7LkZzbOlZ3KEB/IxgYI60LrCMKhL4L09X0bo631N
- qD+sP42J1pdTDe1M0ry+9h2wJvIQyPM3oMmqDGKXm6HJeXQCFjpu7EUt7dM3SQUkjepHXoXyT4+
- JzOWE4RCW1rC2wc8dDaaha8T8tdi014c=
-X-Received: by 2002:a2e:a58a:0:b0:27f:d4ca:d927 with SMTP id
- m10-20020a2ea58a000000b0027fd4cad927mr1658967ljp.184.1673042012608; 
- Fri, 06 Jan 2023 13:53:32 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuo6kU2kefNw7018JBlFbc0adqkuQt3Pk/bXeVbDdSuafZzdzqK5FbVi+RdaSS2Tiovd/x2Ypub1pgc9XAClo0=
-X-Received: by 2002:a2e:a58a:0:b0:27f:d4ca:d927 with SMTP id
- m10-20020a2ea58a000000b0027fd4cad927mr1658963ljp.184.1673042012334; Fri, 06
- Jan 2023 13:53:32 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1BkNa6Pc7lGRopSOm8XIBiM/1lYTF0tzIjP0Ul1SmCw=;
+ b=fsfAMCRuRq9TjsuJLqe4Dj35mwoAmKl8JJCzm7STDz1HorM+O0xVaGtGHOn0ywoyZI
+ R4/mnxnkclRmDlXjVbuwHD5AXGLqq1aMb2GblHV4sgQZbuGh5EQdnxcSLvY/BtI7RlJJ
+ hUCfRsmB9+cc5/SyOAdjMxadIcIgI/m3Casvw7uT4gKnyNNasrIwvC1CX+U6qISFznMQ
+ gNWDdONm5eF1zzZs+BrZWifg6vo98asBZd/eSuzWcifUI7yDbCbuh0O+/Lx02dOULeCd
+ 5dEuUCcalCZlrgJAI4eCKJhZ2kjF/8HQjaBiIrfiLIJufcC/Waj/mpuY5UJX9D3iU9Fb
+ 73Yw==
+X-Gm-Message-State: AFqh2kr3lLb/YmB92L1gvoqIpyYz3tybNVpvcIEN5ckRIN9BW/t+cEFa
+ InqO2mPj/2nhLkvNphEugIw3Eg==
+X-Google-Smtp-Source: AMrXdXsSj2usEA2Y1+WkCdv5jRirPJE4wTezwwjuvM2X+4PitKJZZj6wd7/510cMjhjb0XZTKGny8Q==
+X-Received: by 2002:a05:6a21:3d0d:b0:a3:8d47:6aa9 with SMTP id
+ bi13-20020a056a213d0d00b000a38d476aa9mr77329376pzc.34.1673042198285; 
+ Fri, 06 Jan 2023 13:56:38 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:9d81:5b04:51d7:acae?
+ ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
+ by smtp.gmail.com with ESMTPSA id
+ 7-20020a17090a034700b00212e5fe09d7sm1337446pjf.10.2023.01.06.13.56.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Jan 2023 13:56:37 -0800 (PST)
+Message-ID: <47e84908-9102-9c73-6366-022e2a04d5fd@linaro.org>
+Date: Fri, 6 Jan 2023 13:56:35 -0800
 MIME-Version: 1.0
-References: <20230103221349.74160-1-arthur.sengileyev@gmail.com>
-In-Reply-To: <20230103221349.74160-1-arthur.sengileyev@gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 6 Jan 2023 16:53:20 -0500
-Message-ID: <CAFn=p-bBtypjDK75sGDyji45rsykvFXbwsQAg1_CWGi9XrGzuQ@mail.gmail.com>
-Subject: Re: [PATCH] Windows installer: keep dependency cache
-To: Arthur Sengileyev <arthur.sengileyev@gmail.com>
-Cc: sw@weilnetz.de, crosa@redhat.com, qemu-devel@nongnu.org, 
- qemu-trivial@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 11/21] gdbstub: move chunks of user code into own files
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20230105164320.2164095-1-alex.bennee@linaro.org>
+ <20230105164320.2164095-12-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230105164320.2164095-12-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,44 +94,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 3, 2023 at 5:13 PM Arthur Sengileyev
-<arthur.sengileyev@gmail.com> wrote:
->
-> It should be possible to reuse cache built by previous iteration
-> processing next executables. Already processed dependencies are
-> already skipped later based on dll name.
->
-> Signed-off-by: Arthur Sengileyev <arthur.sengileyev@gmail.com>
-> ---
->  scripts/nsis.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/nsis.py b/scripts/nsis.py
-> index 03ed7608a2..a2e52df556 100644
-> --- a/scripts/nsis.py
-> +++ b/scripts/nsis.py
-> @@ -91,12 +91,13 @@ def main():
->          print("Searching '%s' for the dependent dlls ..." % search_path)
->          dlldir = os.path.join(destdir + prefix, "dll")
->          os.mkdir(dlldir)
-> +        depscache = set()
->
->          for exe in glob.glob(os.path.join(destdir + prefix, "*.exe")):
->              signcode(exe)
->
->              # find all dll dependencies
-> -            deps = set(find_deps(exe, search_path, set()))
-> +            deps = set(find_deps(exe, search_path, depscache))
->              deps.remove(exe)
->
->              # copy all dlls to the DLLDIR
-> --
-> 2.39.0
->
+On 1/5/23 08:43, Alex Bennée wrote:
+> +static int gdb_signal_table[] = {
+> +    -1,
+> +    -1,
+> +    TARGET_SIGINT,
+> +    -1,
+> +    -1,
+> +    TARGET_SIGTRAP
+> +};
+> +
+> +int gdb_signal_to_target (int sig)
+> +{
+> +    if (sig < ARRAY_SIZE (gdb_signal_table))
+> +        return gdb_signal_table[sig];
+> +    else
+> +        return -1;
+> +}
 
-ACK for python changes, which seem sane. I've not used the NSIS script
-before, though, so I won't grant RB/TB here.
+Code movement, but usually we fix the style issues first.
+Also, considering the number of array entries, I'd suggest
 
---js
+     switch (sig) {
+     case 2:
+         return TARGET_SIGINT;
+     case 5:
+         return TARGET_SIGTRAP;
+     default:
+         return -1;
+     }
 
+
+r~
 
