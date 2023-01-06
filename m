@@ -2,61 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C875660651
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 19:24:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F7966067C
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 19:40:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDrMh-0007a6-Tl; Fri, 06 Jan 2023 13:22:51 -0500
+	id 1pDrca-0001wh-Uv; Fri, 06 Jan 2023 13:39:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pDrMf-0007Zy-KS
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 13:22:49 -0500
-Received: from linux.microsoft.com ([13.77.154.182])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eiakovlev@linux.microsoft.com>) id 1pDrMd-0000RO-MJ
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 13:22:49 -0500
-Received: from [192.168.0.20] (unknown [77.64.253.186])
- by linux.microsoft.com (Postfix) with ESMTPSA id D874820B8762;
- Fri,  6 Jan 2023 10:22:44 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D874820B8762
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1673029365;
- bh=ITFBFfu6kj7QyHwhmRwLd/DgIo0Daw5HtDjOgY1ivBk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=QcvOXb17Q0CE5ITUUPakFzB0KIoiUw8tVGuir44O+T1bs0mJOPk9wrLjzI+MmhA1R
- hcuFBO9f68UC2Vs4nzyywACaTywQy/RGfSzUyOgQMjT4QMQf60XNeAbG1a3dDaQkAD
- PSBNDXX5NfvnQm+xHHNsK7Z8UlrrBtPNYM1HvXOU=
-Message-ID: <f2182772-661a-c021-061e-642ef3aea942@linux.microsoft.com>
-Date: Fri, 6 Jan 2023 19:22:45 +0100
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDrcZ-0001wZ-8z
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 13:39:15 -0500
+Received: from sonic304-24.consmr.mail.gq1.yahoo.com ([98.137.68.205])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDrcX-0006de-Bh
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 13:39:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1673030350; bh=ByxGwuLu/B4A3w3BivVK9fvPYeRgohNkEitT7jEThBM=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
+ b=Q7bZzcO898sepwxtrzaC9YEj5BLAJ5g/LqzXEmKpvGwPAa1PdF6vTrUETxd89y2+BSwyEt7NS/OqgfrBrw+r576vtPuI4luvbtLVwglwso/dcdEpLw5v1nqw0vkL6U5Uugpl41ADIw7jBYiACxggu6WCJaLjToeTGpxQaY5AZs05O1ofiOY+ydtDYtkw0AoVEKG0H1cDZuPoDaJodjYiYcPsBWqLpRV/M2Rls3uaIxTv0xiun4AYqbajGhBo5Ct3Zh291k9GdcFXvolDjG9TS2TdRLFEL3e278PEt+uppBV4IQAiHtFa1nloDISBQ+we/RjWPe3QCO3KIIfLyfLkqg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1673030350; bh=jdDpriTmaKK322OkMVuZTh256ShgFjR0VXVJysXGec/=;
+ h=X-Sonic-MF:Date:Subject:From:To:From:Subject;
+ b=PHOt+GCwsQFKPbdXf7Ap0bW28SQ1JcAg14Jx2/23A1RcGGynxXzL42v/KJ63A3YDN4R2RAVjsjpArIzDkU5/C81yOQZgX0rWFc83AVJ6mqiIO0564z0vq45eF1pVQknJbHi7ZW0vgjpRrEGckRwMlXa4jTphOsFxDBhLx4pAAMpLtUB/2/tVYkFkhVjGllxohxy9Dx4TnuNEZR+9XoxVf2OUMrhPvIhhlI6XUrs//qX9OyJ4kY46/1rWZtxfU8o7KT8Ly8iO9KcoAj2MTFNG8X0hXMBTGAI9sUTpiT+x1K/WEVAhzTkr4G9TrpHWJIsXG1xgdGj39DzEGaPrXdwiVg==
+X-YMail-OSG: xytN2Q8VM1mZBpk1MsZy3FNWjf3FsAF8Ppe6zrirAut4WLJjyyEBBSUn8m.wtF8
+ 9GG5GUBThPXGMjPVnLQt5ezUGjjcV_UjrQ7gsKJiuXuoxYF_h8qU9_UACINf7aSCqKmHEwsivGkF
+ UIxtKQ5mp5kVCcgXq3nrKZa74S.vV_HWOTXH47qoKeccoOhIar4dQIY1jzZKQT_s5FSitFPEcBjP
+ 6JYmjFeSMerF_1QRJ0HHdseT38eQ8HyhiK4GHCtnhr0jSkfU8twtOiFNiKnRXhmJ_Y1pnrQkTLD0
+ ZFDYQjubpbJxPTHy.ks95G3vBZBRYca7MciirZZo3sW390akVSlrZCkR5nYFrmI0vY_XVJs_CoDe
+ PYBQCsGLOn1L1hN8pLFOVQn1uwvIjsEjy5.v3NncQ1ujB3RPCKAF.80FJoT0X.vEz2X1mSRq9qjs
+ .01OncTLbiFnzOJzsLWaoWzwdGu2wuggoZJk3Polunqpk.NdksO4l9jU1SlxO8TuTPhSxat4Q6L.
+ CA6alouZ6wDfUrtSf11EJrqx.O.8XFFCx15bx2isYbW7jYPdYDQVaK9r0zdrvnhdsAlqam18Z6gc
+ oPxva6SReuQlsU13wZBsGwWQ6L5VtusOcElaF4lDg5SP5HgxsA_EjiUiiLCiaytuk0EL9oMna4xL
+ RR4oUESW_UH.JI.dBswqCc0Acj.HKx4B.WK.pt1UWb4v318hA4vGtrvoeDZ1mif_5ozkMsaBrjwR
+ IGfJmMyR8XJIGdtGqtAmK9eD1fys_d3wHLp0P7r7Q8f.DFUCUJF10YWSA8YeACgx6z_Cu8fbHTzd
+ V7HLUTNzxbCCFYkqpivOyMpG6ZnBu9Rx0HhK4QPyQIhfDxnsdunt4WZ5miSCEHd8yITql6NgDeaG
+ ZhXJKgxY2BzXCpFDFCgtpX627krdRq7yCzadlMabIryRMPVk7uh.4HwapC933iQAvHPlm22VSiRe
+ TOCBbSbQ9Y7iwXBGIHvaM0uJItA5V1kSI02YLpZJxo2DdAhBP3F2Am0mtZG5ND9ZC7U7zToXf95Y
+ O_xiZIgB0nJ4kXRwgrLUq_LAyL5Sdcz8BxakB.sL_uF.EG4hkGUnMXa1MT494TBsE.tj_cq7sIkF
+ 8avx_r6_fNRh_wVvziEk_VZQYvWpOQCq5j1nX8Rc_ezgQtdS8M.5PUSfFwj6CaRDpLrvbdra3bA3
+ Lbkqgph9eZpqamha5w4yNTEZvotmxjY_5KTqLZDIuf0bjQA1ZOLaHkaW8wSpLtCcMJx8VZLTsC_v
+ 8tru_Z.TT7FXh9R6NX9LIzW6CzkJlZtk8AwVa7qYKOyBqwgZcRlAHxpdFBXRa7n9XyXS2GPHKNuW
+ PLFBwuBgtu9PwTc2AhEL2DHDziRRoTAf2HTSPuxTpc9LoSBeMji72VGsnDZAHWvRwkflHnZXVf1w
+ 3omiMWoPu4QYbOPN0q.1jXLlojmVkfHesUH1YymYT1UECK9xsdcrlkEt_4dCaqKM_rKgpGUa.XeO
+ 6y3L1N8L34UsSLr6kDefrGAa_UhhagN7hYDztgBKskeC1Up7PW_A00rx.EO7plMA6tKv7deUqbAF
+ uapikbTWHqhzjnK_oGXSgYRr4m2EZUfQJSQOKYFZ_tyb5KgmGZgPdzvlb3yOBeeZbxpvqmlsiFzU
+ aET757Svb1gkbpsFgbLdiJdfFeh2JmFntMX7L6Xj81BRNV2NEBl_UKQBHOINZq7DwSJQP9q9oIaz
+ ZL0uKDpaad0tTzseZQ2fpF1Z_tToF16FcZ85ss3Em6tffvzyISID87gjbze.Bhu6WKJ5V_cCwHjz
+ nfiENnHf1uXhhTATVQQsmCB9B_S3uoz637.Z0KBYC5j_MrJ5qzjVR74NUTiqppLWYxjbeQx1Ho8s
+ QYz_gE1o58zfBCfXeiO1u07xuZauxIMgEmsM5_FKaOutv8iLoiDIAjGkA.ITgWk8dgnKFltyDf8_
+ vHRa_x08UxLf9mZLejf3mo6XBYVkglwAhXI..uBQT7udtiqaoKw1ubbH9g5mMjo05QwilOTQERT3
+ rhytkKQK8gOmh7n00HN.OyQ59vgyXRze3ZEParQQd9bl3ewzJ6elrToo.FiJPVftGfs8r_k8kZ06
+ YkF6bF7jnm1A7XtoCgjWVmgT_11UoWEAWxfUcNcIMFLYTUAkpW7ErAycbObYkaU3_V8BEh8xu129
+ vvsXlW8yrMD3GvUiFyb1THvlUBLb76SU15sUzSmV_QT.RXVGa9oUbCW8Nw4ntooNpfoWTk_RBm8n
+ DQ9k8N3mg4L8eh0Uly08a
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic304.consmr.mail.gq1.yahoo.com with HTTP; Fri, 6 Jan 2023 18:39:10 +0000
+Received: by hermes--production-bf1-5458f64d4-bl5tb (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 90dc30dca055f6fc7430c5ec161196a7; 
+ Fri, 06 Jan 2023 18:39:07 +0000 (UTC)
+Message-ID: <3f7527da-2f0a-2d26-95f2-23776d0ab141@aol.com>
+Date: Fri, 6 Jan 2023 13:39:05 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v2] semihosting: add O_BINARY flag in host_open for NT
- compatibility
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 3/6] hw/isa/piix: Wire up Xen PCI IRQ handling outside
+ of PIIX3
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, bmeng.cn@gmail.com, philmd@linaro.org
-References: <20230106102018.20520-1-eiakovlev@linux.microsoft.com>
- <CAFEAcA-z7+X9-c43EmhoRBTrOYC9RtyHc5sgPamGRd_o+-tT_Q@mail.gmail.com>
- <871qo7pszr.fsf@linaro.org>
- <CAFEAcA_9db5ijSTW1JBiC7kLUe+E=+OCAHg0xaoa-0p09Wbt3g@mail.gmail.com>
-From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-In-Reply-To: <CAFEAcA_9db5ijSTW1JBiC7kLUe+E=+OCAHg0xaoa-0p09Wbt3g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Chuck Zmudzinski <brchuckz@aol.com>
+To: David Woodhouse <dwmw2@infradead.org>,
+ Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20230104144437.27479-1-shentey@gmail.com>
+ <20230104144437.27479-4-shentey@gmail.com>
+ <b80c0bb26d8539899f53b91deb48f748e2495d23.camel@infradead.org>
+ <c328e499-0a52-e46d-f080-dbaa6b98cac0@aol.com>
+In-Reply-To: <c328e499-0a52-e46d-f080-dbaa6b98cac0@aol.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=13.77.154.182;
- envelope-from=eiakovlev@linux.microsoft.com; helo=linux.microsoft.com
-X-Spam_score_int: -226
-X-Spam_score: -22.7
-X-Spam_bar: ----------------------
-X-Spam_report: (-22.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-2.939, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+X-Mailer: WebService/1.1.20982
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.68.205; envelope-from=brchuckz@aim.com;
+ helo=sonic304-24.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.939,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,79 +115,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 1/6/23 12:46 PM, Chuck Zmudzinski wrote:
+> On 1/6/23 12:35 PM, David Woodhouse wrote:
+>> On Wed, 2023-01-04 at 15:44 +0100, Bernhard Beschow wrote:
+>>> +        if (xen_enabled()) {
+>> 
+>> Could this perhaps be if (xen_mode != XEN_DISABLED) once we merge the
+>> Xen-on-KVM series?
+> 
+> I am not an expert and just on here as a user/tester, but I think it
+> would depend on whether or not the Xen-on-KVM mode uses Xen PCI IRQ
+> handling or Linux/KVM PCI IRQ handling.
+> 
+> Chuck
 
-On 1/6/2023 17:28, Peter Maydell wrote:
-> On Fri, 6 Jan 2023 at 15:44, Alex Bennée <alex.bennee@linaro.org> wrote:
->> Peter Maydell <peter.maydell@linaro.org> writes:
->>> The semihosting API, at least for Arm, has a modeflags string so the
->>> guest can say whether it wants to open O_BINARY or not:
->>> https://github.com/ARM-software/abi-aa/blob/main/semihosting/semihosting.rst#sys-open-0x01
->>>
->>> So we need to plumb that down through the common semihosting code
->>> into this function and set O_BINARY accordingly. Otherwise guest
->>> code that asks for a text-mode file won't get one.
->> We used to, in fact we still have a remnant of the code where we do:
->>
->>    #ifndef O_BINARY
->>    #define O_BINARY 0
->>    #endif
->>
->> I presume because the only places it exists in libc is wrapped in stuff
->> like:
->>
->>    #if defined (__CYGWIN__)
->>    #define O_BINARY      _FBINARY
->>
->> So the mapping got removed in a1a2a3e609 (semihosting: Remove
->> GDB_O_BINARY) because GDB knows nothing of this and as far as I can tell
->> neither does Linux whatever ISO C might say about it.
->>
->> Is this a host detail leakage to the guest? Should a semihosting app be
->> caring about what fopen() modes the underlying host supports? At least a
->> default O_BINARY for windows is most likely to DTRT.
-> I think the theory when the semihosting API was originally designed
-> decades ago was basically "when the guest does fopen(...) this
-> should act like it does on the host". So as a bit of portable
-> guest code you would say whether you wanted a binary or a text
-> file, and the effect would be that if you were running on Windows
-> and you output a text file then you'd get \r\n like the user
-> probably expected, and if on Linux you get \n.
->
-> The gdb remote protocol, on the other hand, assumes "all files
-> are binary", and the gdb source that implements the gdb remote
-> file I/O operations does "always set O_BINARY if it's defined":
-> https://sourceware.org/git/?p=binutils-gdb.git;a=blob;f=gdb/remote-fileio.c;h=3ff2a65b0ec6c7695f8659690a8f1dce9b5cdf5f;hb=HEAD#l141
->
-> So this is kind of an impedance mismatch problem -- the semihosting
-> API wants functionality that the gdb protocol can't give us.
-> But we don't have that mismatch issue if we're directly making
-> host filesystem calls, because there we can set O_BINARY or
-> not as we choose.
->
-> Alternatively, we could decide that our implementation of
-> semihosting consistently uses \n for the newline character
-> on all hosts, such that guests which try to write text files
-> on Windows hosts get the "wrong" newline type, but OTOH
-> get consistently the same file regardless of host and regardless
-> of whether semihosting is going via gdb or not. But if
-> we want to do that we should at least note in a comment
-> somewhere that that's a behaviour we've chosen, not something
-> that's happened by accident. Given Windows is less unfriendly
-> about dealing with \n-terminated files these days that might
-> not be an unreasonable choice.
->
-> -- PMM
+I could try Bernhard's patches in a Xen-on-KVM configuration if that might help.
+I would need help configuring the Xen-on-KVM mode to do it, though, because
+I have never tried Xen-on-KVM before.
 
+The test I could do would be to:
 
-If SYS_OPEN is supposed to call fopen (i didn't actually know that..) 
-then it does make more sense for binary/text mode to be propagated from 
-guest. Qemu's implementation calls open(2) though, which is not correct 
-at all then. Well, as long as qemu does that, there is no 
-posix-compliant way to tell open(2) if it should use binary or text 
-mode, there is no notion of that as far as posix (and most 
-implementations) is concerned. My change then acts as a way to at least 
-have predictable behavior across platforms, but i guess a more correct 
-approach would be to follow actual semi-hosting spec and switch to fopen.
+1) Test my Xen guest that uses the current PIIX3-xen device in the
+Xen-on-KVM environment and get that working.
 
+2) Apply Bernhard's patch series and see what, if anything, needs to
+be done to make Bernhard's patch work in Xen-on-KVM. I have already
+verified that Bernhard's patches work well with Xen on bare metal, so I
+don't think we need to answer this question before going forward with
+Bernhard's patches. This can be patched later to support Xen-on-KVM if
+necessary as part of or in addition to the Xen-on-KVM series.
 
+Chuck
 
