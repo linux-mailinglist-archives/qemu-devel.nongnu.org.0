@@ -2,89 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3E6660268
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 15:43:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36BD16602B1
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 16:04:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDnvn-00035S-63; Fri, 06 Jan 2023 09:42:51 -0500
+	id 1pDoF5-0000bX-90; Fri, 06 Jan 2023 10:02:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=36316be06=anthony.perard@citrix.com>)
- id 1pDnvi-000358-PJ
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:42:47 -0500
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=36316be06=anthony.perard@citrix.com>)
- id 1pDnvg-0006zC-4v
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:42:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1673016164;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=dIxp4kB3Fq0R4kfKEpGGR4PCvfMFoXf/LwvzR19LURA=;
- b=Bnc02z7uBlkd/ZgIKm5lvKl7ku1gMmkVaQrYFz77vxgd+U4AIl/kmY3b
- a1UN5TVBId0MnnInsqAdPghVEp/hx0l7V5sv2Sk8HU+u1R+r31XvFy0qe
- 6ulDOP2rUSxDB75vriTzp9lwLIgpkCJU1iniUfJQU6PqyPRaJQwqT7nhh E=;
-Authentication-Results: esa6.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-X-SBRS: 4.0
-X-MesageID: 90966612
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.83
-X-Policy: $RELAYED
-IronPort-Data: A9a23:VJswE6jTu9xi3QxlCHxLmkylX1610BAKZh0ujC45NGQN5FlHY01je
- htvXmCAb66KNmChf41/aYzk8E0G7Zbcn9VqHApvrX89Fykb9cadCdqndUqhZCn6wu8v7q5Ex
- 55HNoSfdpBcolv0/ErF3m3J9CEkvU2wbuOgTrWCYmUpH1QMpB4J0XpLg/Q+jpNjne+3CgaMv
- cKai8DEMRqu1iUc3lg8sspvkzsy+qWs0N8klgZmP6sT5QeAzyN94K83fsldEVOpGuG4IcbiL
- wrz5OnR1n/U+R4rFuSknt7TGqHdauePVeQmoiM+t5mK2nCulARrukoIHKN0hXNsoyeIh7hMJ
- OBl7vRcf+uL0prkw4zxWzEAe8130DYvFLXveRBTuuTLp6HKnueFL1yDwyjaMKVBktubD12i+
- tQaOmsffgiMo9uo44K3dMN8t58/KvPCadZ3VnFIlVk1DN4jSJHHBa7L+cVZzHE7gcUm8fT2P
- pRDL2A1NVKZPkMJagx/5JEWxY9EglH2dSFYr1SE47I6+WHJwCR60aT3McqTcduPLSlQthfA9
- zyYoT2jav0cHMSSxAHfq3utv8beu3nnVdMLF5yz+OE/1TV/wURMUUZLBDNXu8KRh0KjUshTL
- GQU8yAtqrMuskqmUrHVRRyzoHeeslgcVtxcHvch7welzqvS6hyeQG8eQVZpbcc6nNU7STwjy
- hmCmNaBLSxitviZRGyQ8p+QrCiuIm4FIGkafygGQAAZpd75r+kbixvVRdtnVqetgNDxEzjtx
- hiFqSE/g/MYistj/7y2+E2Cjz+yq5zhSAkz6QPKGGW/4WtRbpSuZ5Gj6krz5PFEao2eSzGpp
- 2MYksKT6OQPC5CllyGXRugJWraz6J6tKDfbh0xuGZgJ7Tmh+3e/O4tX5VlWPE50Nu4UdDmvZ
- 1Xc0T69/7cKYiHsN/UuJdvsVYJ6lsAMCOgJSNjWfIFccoB+UDaZ3xFiW2SA7jvxlnIFxPRX1
- YigTe6gCnMTCKJCxTWwRvsA3bJD+h3S1V8/VrigkU35jOP2iGq9DO5cbQDQNrxRALas+l29z
- jpJCyedJ/yzusXaazKfz4McJEtiwZMTVcGv8Jw/mgJuz2Nb9IAd5x35m+hJl29Nxf49egL0E
- paVBCdlJKLX3yGvFOlzQikLhEnTdZh+t2knGicnIEyl3XMuCa72svhFJsdsIOl2qL0ypRKRc
- xXjU5/QahioYm2ekwnxkLGn9NAyHPhVrVjm09WZjMgXIMc7Gl2hFi7MdQrz7igeZheKWT8Fi
- +T4jGvzGMNTLzmO+e6KMJpDOXvt5ylC8A+zNmOUSuRulLLEqtAycXKp1qVnf6nh63zrn1On6
- upfOj9AzcGlnmP/2IChaXysx2txL9ZDIw==
-IronPort-HdrOrdr: A9a23:/alh+6ClgOS3hhjlHemd55DYdb4zR+YMi2TDgXoBLCC9E/bo7P
- xG+c5wuCMc5wxhP03I9erwQZVoIkm8yXcW2/h0AV7KZmCP01dASrsSjrcK7AeQeREWndQts5
- uIHZIOcOEYzmIUsS852mWF+hobruVvOZrJudvj
-X-IronPort-AV: E=Sophos;i="5.96,305,1665460800"; d="scan'208";a="90966612"
-Date: Fri, 6 Jan 2023 14:42:35 +0000
-To: Chuck Zmudzinski <brchuckz@aol.com>
-CC: <qemu-devel@nongnu.org>, Stefano Stabellini <sstabellini@kernel.org>, Paul
- Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, <xen-devel@lists.xenproject.org>
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDoF1-0000al-4B
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 10:02:43 -0500
+Received: from sonic317-20.consmr.mail.gq1.yahoo.com ([98.137.66.146])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDoEy-00059O-Hk
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 10:02:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1673017356; bh=0VDm502ucQEkSIIWDIcrXnsroFh40vokq/Ikx7Y6nk8=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
+ b=iyzlupQ0NS73Y5VIXErGypapDPeMcOXKm4mG8BWrz6ebrPUZEc4f2DkAaBV1KGmg2mV+XPANhp24iEXb9SGt/YErUOOqPznQTmQka4Xp+NeTELGnd5KhJhlaI4reTdrQvPuBd0FEEGjUPcTcFvUOVGp4hBjJ8F8pSt+hP59N1L7mTsybJjFkOWz2fFFTXoUwFjo3A3eWPoDJR7AfaMtO2HEgpg6MQjlP/kt1uS51zF3B3veq8uBVtsDWzeDb9nVuPfK8y3b3hcpqKfAgtAOvteeNOYbiNo7MJlvdRWUIR4YybjJll8FHXNBSececiHcSX972vBBuRwZoho4VN6dMlg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1673017356; bh=oRw9T96FHEYw+EaVMMY57P6PCdN82bq0am7S/TzbQFq=;
+ h=X-Sonic-MF:Date:Subject:From:To:From:Subject;
+ b=UNjgox1dsuEuzIPLPIC4sZDgSpPa5Etnwq8tiv2rYdQRDgYDfJ7cOPA6AUCF45LcALh1KyTNXv8HOogzllAMSPb6smJAnfO0enrZ5Gfq3haiqAyzO44zc9KMJ+/0qTxrhsVGwwSuWveaaCcaCEtqEvOAiacQ5r3Xi3pJKA8bBmwY+rz2N9g+0vOibsuY2iu9nfEnrtNudlG4XrHmz8K1ur3rGtm8tfR1NKmu0hH28aTXEY9h7s+PflNAO/iWUJB0TiWBRdqfxH9B5yqAFjLQppKJqsUsoQ8jSitgcPycHaTJjTrriBA4ziSmDdasi10pQxzZaKPufiwBPMYUnpteVg==
+X-YMail-OSG: .Uqmgf4VM1msNoeUWzjybWiLGsnPNeWKLnowVtNS9ZX9bjNd9b78LRkGTjcqfVB
+ 575A2Xmw7k5SQwscjnM_GjoW.JV.XkZvtH2.A0Y.iuQkSD1NGfPBJ9.8847ZcKwZbQwh6lSE4iYd
+ PMb1ITHJ21KKDdHU6eg2TPKMIiPbvMNMyeQN35NOI5.l2BxfOzCBeHot4j6Xpyeopdc3ci.jTcb3
+ 7LrAZc13o_AEwnpmumOydFn4VpuFa7H4IqDn0AeL1QnbL7feWGmjfjFWJdT7dl1T_Ryo2fTTj7Lz
+ EXbXjzZ0DJ.2JOIb2MBn50UWpQAKDcfhmTi_TR5MveD9cRqjc7kptVtys_t..D4z6JKOpYHKl_MY
+ yPg7BSFf2KsVzinONTsKfBLxMV2dqj8rzuuKXr15oczoyk_rq6H1k5peuF.H0D9Q5MxCx0hIEKVh
+ fW4j2ZSd_jd_Ft605Gv6qap5IOrxPbO1fl0le_ADwXqbBROycLMdYvImy.OA_KSuhdLBgTdmlDaR
+ EkCJkaRBxU4nN9tjYp5EIBKel.rSCheKPV3mdFPYrngGzgZ9KTS3u9xD3SeA9yaEoloG0QKIE5xj
+ qCAlXWIdK593knMKdwg8kNJeXVlBNZ9kte5PH7CPIZ5dCGgl.Teq8tzzPI7ShZpbCkk1JAMbqIj9
+ ZUGUGJ_T1Bxg3e3NNkkyZZxgD14XdaaeF1Dw7yny6PgOHRMRed6hJW1wFLvFrdqnzSUOCSe8LnD8
+ 0wdHdzEHUxvCt25FNHHVYPtcs5VsSMBT7o_b2oAw8ZBNIytEB2vKIl4QmAUf9zvl.zMI1O2b8imH
+ 7Hw7as44Vt5rFbP4BPfOEbc9ys5ojwn_nStmfxMrtXlGWVTMXfJcYdQEXqPMmENf4NSdj2J3zlSG
+ K92lo.ZqMDvWlgHGtDdZMbmmODvRpSpt5RQgRORVysAH_El98myuugLUO7SlkbU_f4SQDZ8FKR2b
+ 5N6ohPKLpV41FXb5U1CuFcdrjQ7Kj4sH07dA_bYPrkkkMYWZhNH28am_ZuOBc_fHhXqH0uPrWaCp
+ sMjuHroFNVO0IeV.ZQGroX8dtBAtFKhW988yHl_umYCW50_Qyb6t5jMFRR2kWXtAQc2QBK7GUlXx
+ kZchz_tUETzoJnfgu2bMtCtDhRUn4EYuEN1ixTSPjlLi_QBofr5ve.M7rQ1GYIeDG.OefAbmcrR5
+ 4MXmTSu7RcvJVuhns11yuu_3DcSK8dOxVzPsCBRbAjKpSyQa9u3jbJ8Ifw5GQrbQtyMQetVev731
+ lJ4mtSYdF5a0.jbJT9lZFrumznU8eZwtLeKLQWDTuF4rUBfcDgfXQN19Tg49G2nHnIV3SiEb0FeD
+ sZbYld168j8m4ELRCH4ddFO_ilHKcWMSSOHnsJ0AjbN.tNuFH3gwtMrGlMqnSHOVyU15NGnEqgPS
+ ZM3iheGPNaDpBs9DOD5IjKUvlqoopHmiOFTcu9QKPluUQWXLeljZj7xRlGFLD2PsmVsAj3KCS6JM
+ 1TBsQuH9TaEYg1QMKvud4JWn6VuUsCPikOhxoXDtwHEC5L9H6kXAmTb_SXNBQF3.EuxxaOgWXG40
+ WCCJce.Dy2Cqxd8Dasz8h6_asl5xRLlitnvXw2dD6x7uYGBjZeg_dn3BGLZ1OcntGEBco.oKhry.
+ pV1pwXrUDve777MNN4c0FJm2IIsJcuQ6JonANYfaVVqDzwIm9wQVhBr.loGRt.aF8MgNuuqtmuyX
+ 7_0KqPvZZ_AiYo7KNN9zUrMHZvwtan.3NXbGSj09fDzP0V3OIvC9zQWKy4bnECXkrCrzuZRPbVRJ
+ 5QD77RLb1U4xrtIEn9fIgUdHNf_ewu1c1xrxJKt1.RwrxXrDPALtVwioVvDQZlvN38La_XV6UIOF
+ iwYgb0SWMO2Zo_Yxxe7.oFW.6XFEOH2mKnC_HBvDayQG8Eu7Mgw.Nrf0O0stg8zSD11UrCsDx2Kb
+ Kd_qH6fD.WcLZnytzwruDWxiQ1cwO77BBBKFrxrqTTGg.GVgFjHHLDslsvocY2iHo9AGmTZpGKf8
+ eP8eVPkfK.7vp8xVMl7bW9wdg3Hs2EZRDUtauj_zvAJQqio3bzl9W91PQ5EhPcjiy2oAWUet9pgy
+ uFBH8RxrUeIC.G4au93m6Htz38yxd5He8vwMSJ8XXiPyNq3ymoNPGvVH5xzqvSkbJ0fqwtmOxKdL
+ 18257Wda6bmLyIwr2h_vKHc91dLtUbclWkO767zayiCyn8N5p._Jd93s8HcmnMW2M7.xZ2i.Spjy
+ wSjxa2W7nyg--
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic317.consmr.mail.gq1.yahoo.com with HTTP; Fri, 6 Jan 2023 15:02:36 +0000
+Received: by hermes--production-ne1-7b69748c4d-g8q5j (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID e73641d6e4425e24aadb96822c955bf6; 
+ Fri, 06 Jan 2023 15:02:31 +0000 (UTC)
+Message-ID: <6931ef9f-1978-97f5-2d32-003a9e64833c@aol.com>
+Date: Fri, 6 Jan 2023 10:02:29 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
 Subject: Re: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
-Message-ID: <Y7gzW/hkYc6xPqEC@perard.uk.xensource.com>
+Content-Language: en-US
+From: Chuck Zmudzinski <brchuckz@aol.com>
+To: Anthony PERARD <anthony.perard@citrix.com>
+Cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Paul Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ xen-devel@lists.xenproject.org
 References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
  <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
  <Y7gqSLo8pMm4gfV+@perard.uk.xensource.com>
  <c39b9502-0020-ce54-abd8-b362430ba086@aol.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <c39b9502-0020-ce54-abd8-b362430ba086@aol.com>
-Received-SPF: pass client-ip=216.71.155.175;
- envelope-from=prvs=36316be06=anthony.perard@citrix.com;
- helo=esa6.hc3370-68.iphmx.com
+ <882652f8-ddda-a7d8-85b9-da46568036d3@aol.com>
+In-Reply-To: <882652f8-ddda-a7d8-85b9-da46568036d3@aol.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.20982
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.66.146; envelope-from=brchuckz@aim.com;
+ helo=sonic317-20.consmr.mail.gq1.yahoo.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.939,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,29 +108,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 06, 2023 at 09:10:55AM -0500, Chuck Zmudzinski wrote:
-> Well, our messages almost collided! I just proposed a v7 that adds
-> a check to prevent the extra processing for cases when machine is
-> not xenfv and the slot does not need to be cleared because it was
-> never reserved. The proposed v7 would not change the behavior of the
-> patch at all but it would avoid some unnecessary processing. Do you
-> want me to submit that v7?
+On 1/6/23 9:31 AM, Chuck Zmudzinski wrote:
+> On 1/6/23 9:10 AM, Chuck Zmudzinski wrote:
+>> On 1/6/23 9:03 AM, Anthony PERARD wrote:
+>>> On Sun, Jan 01, 2023 at 06:52:03PM -0500, Chuck Zmudzinski wrote:
+>>>> Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
+>>>> as noted in docs/igd-assign.txt in the Qemu source code.
+>>>> 
+>>>> Currently, when the xl toolstack is used to configure a Xen HVM guest with
+>>>> Intel IGD passthrough to the guest with the Qemu upstream device model,
+>>>> a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
+>>>> a different slot. This problem often prevents the guest from booting.
+>>>> 
+>>>> The only available workaround is not good: Configure Xen HVM guests to use
+>>>> the old and no longer maintained Qemu traditional device model available
+>>>> from xenbits.xen.org which does reserve slot 2 for the Intel IGD.
+>>>> 
+>>>> To implement this feature in the Qemu upstream device model for Xen HVM
+>>>> guests, introduce the following new functions, types, and macros:
+>>>> 
+>>>> * XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
+>>>> * XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
+>>>> * typedef XenPTQdevRealize function pointer
+>>>> * XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
+>>>> * xen_igd_reserve_slot and xen_igd_clear_slot functions
+>>>> 
+>>>> The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
+>>>> member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
+>>>> the xl toolstack with the gfx_passthru option enabled, which sets the
+>>>> igd-passthru=on option to Qemu for the Xen HVM machine type.
+>>>> 
+>>>> The new xen_igd_reserve_slot function also needs to be implemented in
+>>>> hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
+>>>> when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
+>>>> in which case it does nothing.
+>>>> 
+>>>> The new xen_igd_clear_slot function overrides qdev->realize of the parent
+>>>> PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
+>>>> since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
+>>>> created in hw/i386/pc_piix.c for the case when igd-passthru=on.
+>>>> 
+>>>> Move the call to xen_host_pci_device_get, and the associated error
+>>>> handling, from xen_pt_realize to the new xen_igd_clear_slot function to
+>>>> initialize the device class and vendor values which enables the checks for
+>>>> the Intel IGD to succeed. The verification that the host device is an
+>>>> Intel IGD to be passed through is done by checking the domain, bus, slot,
+>>>> and function values as well as by checking that gfx_passthru is enabled,
+>>>> the device class is VGA, and the device vendor in Intel.
+>>>> 
+>>>> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+>>> 
+>>> 
+>>> This patch looks good enough. It only changes the "xenfv" machine so it
+>>> doesn't prevent a proper fix to be done in the toolstack libxl.
+>>> 
+>>> The change in xen_pci_passthrough_class_init() to try to run some code
+>>> before pci_qdev_realize() could potentially break in the future due to
+>>> been uncommon but hopefully that will be ok.
+>>> 
+>>> So if no work to fix libxl appear soon, I'm ok with this patch:
+> 
+> Well, I can tell you and others who use qemu are more comfortable
+> fixing this in libxl, so hold off for a week or so. I should have
+> a patch to fix this in libxl written and tested by then. If for
+> some reason that does not work out, then we can fix it in qemu.
 
-Well, preventing an simple assignment and a message from getting logged
-isn't going to get us far. On the other end, the message "using slot 2"
-when we don't even if slot 2 is actually going to be used could be
-confusing, so I guess preventing that message from been logged could be
-useful indeed.
+One last thought: the only donwnside to fixing this in libxl is that
+other toolstacks that configure qemu to use the xenfv machine will not
+benefit from the fix in qemu that would simplify configuring the
+guest correctly for the igd. Other toolstacks would still need to
+override the default behavior of adding the xen platform device at
+slot 2. I think no matter what, we should at least patch qemu to have
+the xen-platform device use slot 3 instead of being automatically assigned
+to slot 2 when igd-passthru=on. The rest of the fix could then be
+implemented in libxl so that other pci devices such as emulated network
+devices, other passed through pci devices, etc., do not take slot 2 when
+gfx_passthru in xl.cfg is set.
 
-So your proposed v7 would be fine.
+So, unless I hear any objection, my plan is to patch qemu to use slot
+3 for the xen platform device when igd-passthru is on, and implement the
+rest of the fix in libxl. I should have it ready within a week.
 
-Cheers,
+Thanks for your help,
 
--- 
-Anthony PERARD
+Chuck
 
