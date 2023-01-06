@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 552A166092F
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 23:00:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD863660939
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 23:05:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDul7-0005J2-Pr; Fri, 06 Jan 2023 17:00:17 -0500
+	id 1pDupE-0006dQ-TR; Fri, 06 Jan 2023 17:04:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDukw-0005Hg-G1
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 17:00:06 -0500
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDuku-0006Mi-L9
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 17:00:06 -0500
-Received: by mail-pg1-x529.google.com with SMTP id h192so2049829pgc.7
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 14:00:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=v9uX2PcWkk4NdyFbpIyLTSi83EWwIxEbSr864u8yuB4=;
- b=J3JhRlFrLm+JzsKHDTJ0Z2rUDXoFjW5I1kgGcNicJDzD/2sMPnznNf+JLEFGpImSoL
- 7WWOuiusW+TDl7KEqVtXTuGNQlPjKpBS+9gWKBjH+QL1JdSkXBe8rhwGpu/TGgO0nuwv
- Jma4qSPIJCEf5UFb5/KQxwAxqGTSC5+aAV8YA+iwoIwGx4J2H1vcGgEII6MW2uJRPDQv
- BpmY8wpqjl5PL2KkRjZeLMcNpTQz1k09oRyTQZN6+o2VRHQSyR7y7JRcRSekhbKJJBBk
- keGnDZ7wD1+2s0C1WF9p1iyGHUDoqt1UbHF/uaq+8Uf/x4RsjJecBfnWGV3fUSHt9HVW
- ZgHg==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDupB-0006ct-T9
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 17:04:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pDup9-0000JZ-NT
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 17:04:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673042666;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2jgsJfG9tWVJckR+RqRd7iwaFLf29MkgtBmxM1MTe5w=;
+ b=NmbhEp+Zq3i40ClEQAlGDuZNHQV7FAIISeaMw4ua1Wtpoeh/XcmZtwzcOmxJybKiG4+ZXN
+ vdANrVZ0rC5W4lJXwvrrpCLDm7qcpRAE7x1eLuxyOxy/fA6557oRCpDF1kJF3ozoOryBoe
+ h/pR9gAibAy9r8V0/ekeskaG1yQ/9Zs=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-47-5CveSRD6Poaab4Ldai-LkA-1; Fri, 06 Jan 2023 17:04:25 -0500
+X-MC-Unique: 5CveSRD6Poaab4Ldai-LkA-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ y19-20020a05651c221300b00279958f353fso818017ljq.1
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 14:04:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=v9uX2PcWkk4NdyFbpIyLTSi83EWwIxEbSr864u8yuB4=;
- b=xFMokt1muHKEQaZhghbfksilY4cIYG8rYEwDiR4fMBxDGJ++5SsgZ7FqGKGWYzvHWH
- 6Ku2jdyMgmOdTI0Hprp6fC4ZzfGhjh7WkRiW38XqNpQf8mxz8ZPFJVe4Kq7mtV9uYP1c
- NHVHLX2EmINB6uZix0wtlFyyZuOYC4nMz355++v9WJR9xUl8oQszbJPs9Q0fkV+CVSAa
- t1UFwqJFf2ZInPjILJqsONKOdLcwiey+G88D0yVunU6wZqNOqU0RuJusEBNBDvn9eETn
- vUraDDADZnU80C1B4eWy14bNayouAUU3WTuMhRa/eebojs+yf+hl/ki6Q9nhrTYmlTrK
- Hq9Q==
-X-Gm-Message-State: AFqh2koo00jxfZvMUFJ4psniCRxI3M8OyJlN5d7bTH1WGJVtEkaQPXOl
- i1M30plXeHvMqpXB4o8B2tY6lIMsx3UXtRaPxo9Obg==
-X-Google-Smtp-Source: AMrXdXsfmvAxeE3xgLsGIRyImRAlQK2v3CHULtzWflBmqOb6HLTmihctdakx6Bw5icOPlW8XMj4w06IV5wApi1xOpzs=
-X-Received: by 2002:a63:e20b:0:b0:479:18a:8359 with SMTP id
- q11-20020a63e20b000000b00479018a8359mr3625097pgh.105.1673042403206; Fri, 06
- Jan 2023 14:00:03 -0800 (PST)
+ bh=2jgsJfG9tWVJckR+RqRd7iwaFLf29MkgtBmxM1MTe5w=;
+ b=VkrqUWlJiIldREv3uIVqTPXyVZRhFYxDYw0nBWIOVYv8CupCLYrbMB1aZ+8GHmBtSq
+ iCL/nMPz7dhTwm4+BFlB+Jd4o7WPdlW4ufpDkXid9Hw4Caj/hkefTXLQhUyMwQxCw5ST
+ MrivCV4PnhMipn6WwVJZIIn5ESkTOEz+e5QTtFdmN8tW1TLXydkeG5mULPFDjcsfJgz1
+ Id9PjqXs3njM6eDPJRzrYIr73wKjYdndMfvoJw4azldrnyYfH75AioJ5LYpLdlnpCJ8k
+ eV4NSwJIX1afVh1zh++yZnM5agV9LCdO2uT0HaGzCYckt8UBXsy5/wLpVIk5hcx0sW67
+ M+Aw==
+X-Gm-Message-State: AFqh2kqTXVV9z4u3MxPB86jPd3DfKwvCTTBimH7FKj+WYFjFI9oLMqGF
+ NiNguJx8FA84wYsYc5NXGEI3oTtCQZRfmoeqvcRiVl+CgCpW2LPavjJ48nBczd2kX18iw12cgi0
+ XSTLvOdDQ7L1Q1GmG0RudGCDxkZti37I=
+X-Received: by 2002:ac2:5e78:0:b0:4b4:c06b:243b with SMTP id
+ a24-20020ac25e78000000b004b4c06b243bmr2764063lfr.280.1673042664080; 
+ Fri, 06 Jan 2023 14:04:24 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtGYWZIda1cGxx2JG7JYc04xkLgs8yaS1Wz3O827ceVPcmM/XY0TAzqSyskMVR0EvNKo2lPrNQEu+uLCUa5oXU=
+X-Received: by 2002:ac2:5e78:0:b0:4b4:c06b:243b with SMTP id
+ a24-20020ac25e78000000b004b4c06b243bmr2764041lfr.280.1673042663813; Fri, 06
+ Jan 2023 14:04:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20230103181646.55711-1-richard.henderson@linaro.org>
- <CAFEAcA8K=1CNZfDG8i3bSXXSWT7D2oWg4jyupwYmw8oR7MJVsQ@mail.gmail.com>
- <9f9a6c22-315b-de1e-958e-89963c5e7e90@linaro.org>
-In-Reply-To: <9f9a6c22-315b-de1e-958e-89963c5e7e90@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Jan 2023 21:59:51 +0000
-Message-ID: <CAFEAcA8cxJFpB9V826DjSsFOy7VYh5TWXb4vRYDUeOMjQgk-eQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/40] Toward class init of cpu features
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, berrange@redhat.com, 
- eduardo@habkost.net, armbru@redhat.com, ajones@ventanamicro.com, 
- alex.bennee@linaro.org
+References: <20221207182825.84380-1-davydov-max@yandex-team.ru>
+ <20221207182825.84380-3-davydov-max@yandex-team.ru>
+In-Reply-To: <20221207182825.84380-3-davydov-max@yandex-team.ru>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 6 Jan 2023 17:04:12 -0500
+Message-ID: <CAFn=p-aGch6W_uCv78jg2jOD85-6eDS9SaFfnA4oGqMz2deKRw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] python/qmp: increase read buffer size
+To: Maksim Davydov <davydov-max@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru, vsementsov@yandex-team.ru, 
+ eduardo@habkost.net, marcel.apfelbaum@gmail.com, philmd@linaro.org, 
+ wangyanan55@huawei.com, crosa@redhat.com, bleal@redhat.com, eblake@redhat.com, 
+ armbru@redhat.com, pbonzini@redhat.com, berrange@redhat.com, alxndr@bu.edu, 
+ bsd@redhat.com, stefanha@redhat.com, thuth@redhat.com, 
+ darren.kenny@oracle.com, Qiuhao.Li@outlook.com, lvivier@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,46 +95,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 6 Jan 2023 at 19:29, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Wed, Dec 7, 2022 at 1:29 PM Maksim Davydov
+<davydov-max@yandex-team.ru> wrote:
 >
-> On 1/6/23 11:12, Peter Maydell wrote:
-> > The trouble with this idea is that not all instances of the same
-> > class are actually necessarily the same. For instance, if you
-> > have a system with both (a) a Cortex-A53 with a PMU, and
-> > (b) a Cortex-A53 without a PMU, then they're both instances of
-> > the same class, but they shouldn't be sharing the coprocessor
-> > register hashtable because they don't have an identical set of
-> > system registers.
-> >
-> > This kind of same-CPU-type-heterogenous-configuration system is
-> > not something we're currently using on A-profile, but we do have
-> > it for M-profile (the sse200 has a dual-core setup where only one
-> > of the CPUs has an FPU), so it's not totally outlandish.
+> Current 256KB is not enough for some real cases. As a possible solution
+> limit can be chosen to be the same as libvirt (10MB)
 >
-> Yes, I know.  See patch 29 where I moved the vfp and dsp properties off of the m-profile
-> cpus and created new cpu classes instead, specifically for the sse220.
+> Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
+
+This matches the patch accepted here:
+https://gitlab.com/qemu-project/python-qemu-qmp/-/commit/37803de5dcf8569e6b3d6702e74f1663c7dd1281
+
+so:
+
+Reviewed-by: John Snow <jsnow@redhat.com>
+
+> ---
+>  python/qemu/qmp/qmp_client.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> It's not scalable, I'll grant you, but it's hard to design for something we're not using.
-> What we use now, apart from the sse200, are common properties set on the command-line.
+> diff --git a/python/qemu/qmp/qmp_client.py b/python/qemu/qmp/qmp_client.py
+> index 5dcda04a75..b5772e7f32 100644
+> --- a/python/qemu/qmp/qmp_client.py
+> +++ b/python/qemu/qmp/qmp_client.py
+> @@ -197,8 +197,8 @@ async def run(self, address='/tmp/qemu.socket'):
+>      #: Logger object used for debugging messages.
+>      logger = logging.getLogger(__name__)
+>
+> -    # Read buffer limit; large enough to accept query-qmp-schema
+> -    _limit = (256 * 1024)
+> +    # Read buffer limit; 10MB like libvirt default
+> +    _limit = (10 * 1024 * 1024)
+>
+>      # Type alias for pending execute() result items
+>      _PendingT = Union[Message, ExecInterruptedError]
+> --
+> 2.25.1
+>
 
-We also set some properties in code -- eg aspeed_ast2600.c clears
-the 'neon' property on its CPUs, lots of the boards clear
-has_el3 and has_el2, etc. I hadn't got as far as patch 29, but
-looking at it now that looks like a pretty strong indication
-that this is the wrong way to go. It creates 3 extra
-cortex-m33 CPU classes, and if we find another thing that
-ought to be a CPU property then we'll be up to 8; and the
-mess propagates up into the SSE-200 class, which is also
-no longer able to be configured in the normal way by setting
-properties on it, and it becomes visible in user-facing
-command line stuff.
-
-I think our object model pretty strongly wants "create object;
-set properties on it that only affect this object you created;
-realize it", and having one particular subset of objects that
-doesn't work the same way is going to be very confusing.
-
-thanks
--- PMM
 
