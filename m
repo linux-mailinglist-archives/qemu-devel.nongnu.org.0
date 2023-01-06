@@ -2,96 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F4AA65FA41
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 04:30:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B48B65FA2C
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 04:27:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDdET-0003Mx-L9; Thu, 05 Jan 2023 22:17:26 -0500
+	id 1pDdE1-0002vE-3x; Thu, 05 Jan 2023 22:16:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=363443eaf=alistair.francis@opensource.wdc.com>)
- id 1pDdDG-0002dR-AX
+ id 1pDdDG-0002dS-EK
  for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:16:17 -0500
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=363443eaf=alistair.francis@opensource.wdc.com>)
- id 1pDdDD-00088M-W0
+ id 1pDdDE-000892-2j
  for qemu-devel@nongnu.org; Thu, 05 Jan 2023 22:16:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1672974967; x=1704510967;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=5GCD721cWnvqU7EJYbteJdF7sl+lFrKMS/AYDxW8vbc=;
- b=Z82yaSDs3LajjK92VUCq3iCQDpB6BYraGz6Wu70RLTOodUFLxS153+mR
- rGAlC23j4nXaIZ8Ez1Bm3ZDBX8Unk0J0cHz7Yvh6Et1gfvfUf/uR0l/MH
- O1TYToikEZDbI1ktxSPjQfBZaoJcQK0iA5CnAtHC/j+nO2EouaHB9mb84
- wF0yJkjl9cs2/ZaZ5a/JQj7ZUy1KYE9QUPpwxm/tajGaTrFcJdynE1IDJ
- QehZlXvk57hQojgnKPBf55jZFVcunX6OOi2/mkGERd7cfY02E7HE9JSfB
- YZ+JaWx9puH2TvwW0BPyH0uq9cPEbFN2y+xysdUTi6FqwP+5eHsPQSJlQ w==;
-X-IronPort-AV: E=Sophos;i="5.96,304,1665417600"; d="scan'208";a="220254833"
+ bh=oiuF/EywIGESOtww/S78MpW/jgEiP1aljsNVW6OHFUM=;
+ b=L2p+pmTydZotyt5k8o2nHRgw/DY7MoHHukKv6QTUiy7z/v4pBZQwTtCh
+ VK8Sv9/iO7wbruLgoP4SxW0wPe4+st6bdhawZcUdlgouv+N3VVfzfOhsH
+ ccOk+e2nKLM3JKFSmOQv+oJe5dETlw4pk89knTo06HYbXrDnQaBegLym+
+ a+RSqWpse4Mxh2vywPJarxyzWkybBIY7GvMeq8o4VhyifnDGmiOpfN0vD
+ ZDmcWKayIs0XcYPU6grvrAaU/2AN6tNIXiowdr386nL5HNhrFKmsmiky6
+ StDRKjT9GIjcOl/kx74ErNZBb+3BUiMvIJju1aJ8Jf4hfozBvA1U24zxB A==;
+X-IronPort-AV: E=Sophos;i="5.96,304,1665417600"; d="scan'208";a="220254835"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 06 Jan 2023 11:15:06 +0800
-IronPort-SDR: po3vxTLMXRYeB4C4Agl9HjfaffYVzPy1hsWDpLkqkvCoZL3Zq9HRp1DaNB1I2huRMhL7HQXHBK
- Nu7XWZAl2ARLCtdFePpHOil2eLcbQq8MooH+h54oiE7l0m/Z/3Q7QqwC7Pq1Yj6YMBLiarc1h6
- 8Bdy1M6QOKXpdEYtdaHTs6ad6mt9KvYVHJdzm1bhDwaMcGhx7UYp9uGObb0gv/7KNUb5c0wRGG
- TvQHttO4KDrr1hgEDMzp2Z4QyNI3ECzcqk+WyJmmCDOP280/QlUweX6x7oygpVxIk0RIP2lvlE
- 2MI=
+ by ob1.hgst.iphmx.com with ESMTP; 06 Jan 2023 11:15:08 +0800
+IronPort-SDR: NlVpMPXFFYkcf2IRd1x3Fmj/8+ee+tT4h/8CDvviEgigLKxR+3m4u6hM7YVkePOAT3skY6xy3L
+ 3O0qX21zRBKo/DCcgmUxcgdKVyvksCyQD5SKHWd76mJVYLIMwzTiUlp87i1/YaOhAh1+baLM1m
+ X2f6V99JYqVKv6tZg0Qlu4Da2dD9sBVWlhMLHtkFL24hsicH/YNc23i/DsJpa4Z8nwQp1hq/kK
+ gkfSgbn9X9drwsVFWffuzJhOFVw/tBBpKTzjFH38t0OHRPzZFh9W6yl9SJCcni5b64L8Z3esXy
+ FoQ=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 05 Jan 2023 18:27:17 -0800
-IronPort-SDR: XLzyvlGaMECAfpyF1ucl0cuQUSO91cqfchqqhYRRrKgu2o7sVybYom5ZbyyfeeaTJbarZaYdYu
- CsI6d8dCiO+otCccprloSP/Y8qnhMlo1FQrW0tjVsDV+wiXCYwYEnlEF3iarvMycdv49flULLs
- Q/ZW38tWzFwwIE1Q6IDtmg688TpmyTAyCazZYaqcWD0q1o2W539pTdjQW0fDPDc3dr/Y/sOq7l
- uAdtw5xF2aN+rtzARs9tu3WH4aGxq7k+KgWTgXhu2kRCqLZdJbjtTpi1jHe1MJpNi63jAPNQLJ
- DtU=
+ 05 Jan 2023 18:27:19 -0800
+IronPort-SDR: BxqYA6uhwrguoIBEJbGg9lG8CPy+Yq3iGUkDw34CR7noHbLmOOYoAap9I4xPSmlVHP0hXqhzqJ
+ tV4vqxQGzOij2vinlXH2dVDB+XS6rlAjHpha0sBrn45aMTBbLIkulV7lQT7WF4WUShEwTrakqC
+ R/XJbAZih2LcTXiMHclE/Lf6JHZxpEf12IEcsfn0nVByLbbdlkrLGDf0N5k5QFgrW0jo+AQopv
+ OgNxs6GpumrTpLcFfQOnji5dcTXEIpMc45kh345y3k1nbGndPw1RepSA2mUjchqKBSkw+ouhV2
+ vI4=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 05 Jan 2023 19:15:08 -0800
+ 05 Jan 2023 19:15:10 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Np7kL5DG4z1Rwrq
- for <qemu-devel@nongnu.org>; Thu,  5 Jan 2023 19:15:06 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Np7kN2DwRz1RvTp
+ for <qemu-devel@nongnu.org>; Thu,  5 Jan 2023 19:15:08 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1672974906; x=1675566907; bh=5GCD721
- cWnvqU7EJYbteJdF7sl+lFrKMS/AYDxW8vbc=; b=r1CqF/Ed3hrD7izB29yvXH1
- carMMS0gL0IwDwRXB7qPBp8447sbUxayL9A+BRvJb8SFPw2ruzT9JB/GwovhIQQ7
- 6nBVeuCkQexAgMKQi/2f8pANtT1E1xj6SJlxfSNtT8nbqYeZK/kdSxoJlBCIaRio
- DWM5QAQezErUGeWzP4Ia6/iLxivlcW1OwUjHqcMgzX1H0iwMvtU7jFV6pEEudpXm
- sV/pzp+Ouxc83z6qHkOzqxlBKqgdQqgHhQmIyxBQ87bAThfl19ZwqdiALF+svqKD
- V0Ru9wOvM87p4aCcaY1zd3aqsLtr1873M0lWc+pcPcSclF8WvnVo9GEE+OseRug=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1672974907; x=1675566908; bh=oiuF/EywIGESOtww/S
+ 78MpW/jgEiP1aljsNVW6OHFUM=; b=ZkV+o9gT+UnI8K0V4ZQE1iHQNEAMhuaCIa
+ tPxpeMpOzBy7/PbfdGJJKNOsjBhU+Uyzm98ROsWw/Z8Z8RZFnDVsmy2IIh+eYzq7
+ TS+APVE9lRD1nCZQfnpacOuA9mEIoqjf2yBv/bjyLYZ4KmSW9tnqbfGZLsWt73tl
+ 2IEIX3/ea1uxvwgP+6wi32fKcZrUhjTaSa6m+qO1fwDmivHlDfcyk+14UPnFAYp9
+ aNFDR+hdvESswFf0bde9eW6AWfD1GLe0qeoHsoicxiUSol6mMBD0M35xsfyovJkI
+ RlPeYyKnO/afhWEsqAgjhF7CrJaULQs2+QFZfsPxKuUygSM1v/cQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id PwVoqyG-HyzU for <qemu-devel@nongnu.org>;
- Thu,  5 Jan 2023 19:15:06 -0800 (PST)
+ port 10026) with ESMTP id 9H2gb_jfpcS1 for <qemu-devel@nongnu.org>;
+ Thu,  5 Jan 2023 19:15:07 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.167.28])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Np7kJ6xMgz1RvTp;
- Thu,  5 Jan 2023 19:15:04 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Np7kL4yT5z1RvTr;
+ Thu,  5 Jan 2023 19:15:06 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL v3 35/43] hw/intc: sifive_plic: Use error_setg() to propagate
- the error up via errp in sifive_plic_realize()
-Date: Fri,  6 Jan 2023 13:13:49 +1000
-Message-Id: <20230106031357.777790-36-alistair.francis@opensource.wdc.com>
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL v3 36/43] hw/intc: sifive_plic: Update "num-sources" property
+ default value
+Date: Fri,  6 Jan 2023 13:13:50 +1000
+Message-Id: <20230106031357.777790-37-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
 References: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.154.45;
  envelope-from=prvs=363443eaf=alistair.francis@opensource.wdc.com;
@@ -120,49 +117,61 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bmeng@tinylab.org>
 
-The realize() callback has an errp for us to propagate the error up.
-While we are here, correct the wrong multi-line comment format.
+At present the default value of "num-sources" property is zero,
+which does not make a lot of sense, as in sifive_plic_realize()
+we see s->bitfield_words is calculated by:
+
+  s->bitfield_words =3D (s->num_sources + 31) >> 5;
+
+if the we don't configure "num-sources" property its default value
+zero makes s->bitfield_words zero too, which isn't true because
+interrupt source 0 still occupies one word.
+
+Let's change the default value to 1 meaning that only interrupt
+source 0 is supported by default and a sanity check in realize().
+
+While we are here, add a comment to describe the exact meaning of
+this property that the number should include interrupt source 0.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-Message-Id: <20221211030829.802437-8-bmeng@tinylab.org>
+Message-Id: <20221211030829.802437-9-bmeng@tinylab.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/intc/sifive_plic.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ hw/intc/sifive_plic.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index c9af94a888..9cb4c6d6d4 100644
+index 9cb4c6d6d4..1edeb1e1ed 100644
 --- a/hw/intc/sifive_plic.c
 +++ b/hw/intc/sifive_plic.c
-@@ -379,7 +379,8 @@ static void sifive_plic_realize(DeviceState *dev, Err=
-or **errp)
-     s->m_external_irqs =3D g_malloc(sizeof(qemu_irq) * s->num_harts);
-     qdev_init_gpio_out(dev, s->m_external_irqs, s->num_harts);
+@@ -363,6 +363,11 @@ static void sifive_plic_realize(DeviceState *dev, Er=
+ror **errp)
 =20
--    /* We can't allow the supervisor to control SEIP as this would allow=
- the
-+    /*
-+     * We can't allow the supervisor to control SEIP as this would allow=
- the
-      * supervisor to clear a pending external interrupt which will resul=
-t in
-      * lost a interrupt in the case a PLIC is attached. The SEIP bit mus=
-t be
-      * hardware controlled when a PLIC is attached.
-@@ -387,8 +388,8 @@ static void sifive_plic_realize(DeviceState *dev, Err=
-or **errp)
-     for (i =3D 0; i < s->num_harts; i++) {
-         RISCVCPU *cpu =3D RISCV_CPU(qemu_get_cpu(s->hartid_base + i));
-         if (riscv_cpu_claim_interrupts(cpu, MIP_SEIP) < 0) {
--            error_report("SEIP already claimed");
--            exit(1);
-+            error_setg(errp, "SEIP already claimed");
-+            return;
-         }
-     }
+     parse_hart_config(s);
 =20
++    if (!s->num_sources) {
++        error_setg(errp, "plic: invalid number of interrupt sources");
++        return;
++    }
++
+     s->bitfield_words =3D (s->num_sources + 31) >> 5;
+     s->num_enables =3D s->bitfield_words * s->num_addrs;
+     s->source_priority =3D g_new0(uint32_t, s->num_sources);
+@@ -420,7 +425,8 @@ static const VMStateDescription vmstate_sifive_plic =3D=
+ {
+ static Property sifive_plic_properties[] =3D {
+     DEFINE_PROP_STRING("hart-config", SiFivePLICState, hart_config),
+     DEFINE_PROP_UINT32("hartid-base", SiFivePLICState, hartid_base, 0),
+-    DEFINE_PROP_UINT32("num-sources", SiFivePLICState, num_sources, 0),
++    /* number of interrupt sources including interrupt source 0 */
++    DEFINE_PROP_UINT32("num-sources", SiFivePLICState, num_sources, 1),
+     DEFINE_PROP_UINT32("num-priorities", SiFivePLICState, num_priorities=
+, 0),
+     DEFINE_PROP_UINT32("priority-base", SiFivePLICState, priority_base, =
+0),
+     DEFINE_PROP_UINT32("pending-base", SiFivePLICState, pending_base, 0)=
+,
 --=20
 2.39.0
 
