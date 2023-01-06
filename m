@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E536603FA
+	by mail.lfdr.de (Postfix) with ESMTPS id 184236603F9
 	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 17:09:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDpFe-0002e3-T5; Fri, 06 Jan 2023 11:07:26 -0500
+	id 1pDpG6-0002gy-DQ; Fri, 06 Jan 2023 11:07:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDpFd-0002dg-Kt
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 11:07:25 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1pDpG4-0002gU-IT
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 11:07:52 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDpFa-0002sp-2h
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 11:07:25 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id o21so1927663pjw.0
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 08:07:21 -0800 (PST)
+ id 1pDpG2-0002uf-QN
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 11:07:52 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id e10so1425345pgc.9
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 08:07:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RgmtWPPr1d7crRdwnC6Mc08eBHGHpiQuFlj7p4O4+0E=;
- b=X1LNwI/6MuSYf6wnbBZFx9LFJ0vm1J+7WR9MvpPRzW1P3ttayhnhkp4QkTMX8Vjdpe
- lUOP6gq7L6atlNdeBr158qk3EVvXTX1INH+dpVFhZFljazZ+71Wb+Fs5+aZ1hFlSc9SH
- sDUvj7Qefcp/S+6IS6pm2rXjwc70MAzYC6lUuoRwCmuUKTxx3qwZERXqSCpyFySSTLOl
- n+BF+Huc1iZ0mklWlTiiwZWYwrp2pupAMvGqRU+7taYlerrdvKCd41OoiyYSN4pek8Kp
- OiN/y0ynMoRo5ooV9CQ+2GNkwUwFtAqFAgxqUYyuFJHjNPRy+Ow2gRfh2AhsDh2echgE
- Pb7Q==
+ bh=4dlax77H4uvXVWqLO9PEEXMPFfDkYTs2ZfQKRtkiG7w=;
+ b=BQplH//ZFRL5mE/x1XPDjWOYk+WhSGI9YbzXa18/ASGw6T6zXlDyO/TdJJ63wdDwWL
+ 7Ubqj/KhKxdBrrZJWpm6lrMP+whypHb4puPuvKW5zia0m23yQUD8BEtC6TdD+lu2y+P2
+ +QOCteUKAqgePk983oakwmeqyUJXM7LiupEpoHJaPquG11Q3vCg23vvoiIawcsYHPDe1
+ NmhAUSB8EzGkP7ZI6XgJZ0pG6tTv7YbceqKIqOrYWq5QcA+niIdPo+XutxFgLtH9RDI1
+ rBTmdydV+bcysR2ogV/5tQnqxR9F4cE7WiF3V4V4aP/0m8HhDMJoXZmrEZBNf1tXfkzT
+ kd0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=RgmtWPPr1d7crRdwnC6Mc08eBHGHpiQuFlj7p4O4+0E=;
- b=ck2SJ8ta4BjBno12CZQcCYWST5ePZ8GGKmlyYrKvVCUcpn9fAJvGyEK4POOfBSfU7C
- iyuCP9M4mVj35mhtNYcLgP/TK0vmvarWfyPaS8xNytOgye9xFPKDjRh/NxwL6mBgm4NE
- Op6QRsHrIs9dfdW/B0aKYIng1UDbxlKgYeqphgTUeXrDpmtkunmJJ7DIqGXpjZIRQk6Y
- p5YzGA8OVMS4KcZfqd9CJKMpkYKXmAndtAs2sVT1nhFHB45CX1jydDzKStO9Hdwn7rOq
- Q0wzQfJ5jxbWXBNUr+kClLzHPGQ/gP1Sx0Nz6U+2FsZZ5VMkO8jijPpm/b62b5mNdI7g
- D+yQ==
-X-Gm-Message-State: AFqh2krVKz7uVIzVt7smUFXE2KK8Ur0G5/OAlT4urxjlivgdTQ6OaOVF
- 2EqRFU7OUMIsMYyPOj12gFHS4yHNLkSWgVWRYSoelA==
-X-Google-Smtp-Source: AMrXdXtGyK/G86kOBsRz+gsitV2loP0UlcSZcJRVh6bKyOd+as9eJ4MmgXF/i0WCJ3dp/ONFdMAL/hVGWAOOrPZ6K+I=
-X-Received: by 2002:a17:90a:b010:b0:226:b783:67f with SMTP id
- x16-20020a17090ab01000b00226b783067fmr712951pjq.215.1673021240416; Fri, 06
- Jan 2023 08:07:20 -0800 (PST)
+ bh=4dlax77H4uvXVWqLO9PEEXMPFfDkYTs2ZfQKRtkiG7w=;
+ b=Q0v2PfQjJi+1tao0pHdFKAtVJmuH+Mdp0ltR87Dq3u3OytegCI6XefH6x/E8QqShqx
+ 3c0fRqvRFcHLGkwI6EloN/C1LavYZEn5hjJnROq6wcone/0LHZt55kdLYR6g8aPgtu1r
+ o4NoXTEX4mfEzStwpmoqsA34kHZUZaU1agph/Q5RzsyL61gKX0jx40RJsL2OoOt/bmb5
+ qkgmJqNqI4ml9yk9d5h8/UBA0oKX01B6mZTwmhcZgb4ICqna5d1jwYfnYbnmDXWZR2/f
+ jTxfBTeIVaXXxC2af1IcrCd2udjxCD6ftJryDIarkgYHoEbIfjSEwMOro3/4e4Jgkj4a
+ i+0g==
+X-Gm-Message-State: AFqh2kpzNctJ0yAoAy9Ib6for5aEbUovaisWViGBOMWsnl3Y5dAKQ9kw
+ RaKX48zGAHJu0FhFNlCaUZ9nde4v4cIavh40MnlIRA==
+X-Google-Smtp-Source: AMrXdXs7CYxV9upsmxO1DUZA4WAulsZo5Sx7vKzGzp7tYu3jkE4khCPGfJjFlkuW3cwh6RHYE9zSR+KLjsXt0dtEgzg=
+X-Received: by 2002:a63:e20b:0:b0:479:18a:8359 with SMTP id
+ q11-20020a63e20b000000b00479018a8359mr3553633pgh.105.1673021269424; Fri, 06
+ Jan 2023 08:07:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20221226220303.14420-1-strahinja.p.jankovic@gmail.com>
-In-Reply-To: <20221226220303.14420-1-strahinja.p.jankovic@gmail.com>
+References: <20230104190056.305143-1-richard.henderson@linaro.org>
+In-Reply-To: <20230104190056.305143-1-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Jan 2023 16:07:09 +0000
-Message-ID: <CAFEAcA_a=B=BGdCgJL-owidGT1m8fpLJ1aw5wK1aBiXK4ZV4-A@mail.gmail.com>
-Subject: Re: [PATCH v3 0/7] Enable Cubieboard A10 boot SPL from SD card
-To: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-Cc: Beniamino Galvani <b.galvani@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, philmd@linaro.org, 
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+Date: Fri, 6 Jan 2023 16:07:38 +0000
+Message-ID: <CAFEAcA8xvToadDqUd6hLJNF8QdCyXBN5dj4hoRaBCyUN3SsEWQ@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Fix sve_probe_page
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, idan.horowitz@gmail.com, 
+ qemu-stable@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,24 +83,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 26 Dec 2022 at 22:03, Strahinja Jankovic
-<strahinjapjankovic@gmail.com> wrote:
+On Wed, 4 Jan 2023 at 19:01, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> This patch series adds missing Allwinner A10 modules needed for
-> successful SPL boot:
-> - Clock controller module
-> - DRAM controller
-> - I2C0 controller (added also for Allwinner H3 since it is the same)
-> - AXP-209 connected to I2C0 bus
+> Don't dereference CPUTLBEntryFull until we verify that
+> the page is valid.  Move the other user-only info field
+> updates after the valid check to match.
 >
-> It also updates Allwinner A10 emulation so SPL is copied from attached
-> SD card if `-kernel` parameter is not passed when starting QEMU
-> (approach adapted from Allwinner H3 implementation).
->
-> Boot from SD card has been tested with Cubieboard Armbian SD card image and custom
-> Yocto image built for Cubieboard.
-> Example usage for Armbian image:
-> qemu-system-arm -M cubieboard -nographic -sd ~/Armbian_22.11.0-trunk_Cubieboard_kinetic_edge_6.0.7.img
+> Cc: qemu-stable@nongnu.org
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1412
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/sve_helper.c | 14 +++++++++-----
 
 
 
