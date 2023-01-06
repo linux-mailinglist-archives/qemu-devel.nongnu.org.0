@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 822906601D9
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 15:14:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E45D660203
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 15:22:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDnTv-0003SG-4t; Fri, 06 Jan 2023 09:14:03 -0500
+	id 1pDnbQ-0006ES-Ag; Fri, 06 Jan 2023 09:21:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDnTu-0003S7-18
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:14:02 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pDnTr-0000TJ-Q3
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:14:01 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id n4so1798882plp.1
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 06:13:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8x/yXZmJysiSDpKjBMGOXmn6WU3Au/jvSMYI1FBT+ME=;
- b=LAIrgB3KlknVjWBk6eCBcQxTy4XPvIhnKSChHogtJOM0sUn1hgycVw3u1WEOYgoW1z
- eHXTkbIlHDbI9RoD8tcDhGmP2vtjpnBYwgbkonhAARZtXjMrZcYie4KrT7KAzeBS5Mle
- 3Aotzxe7s/6vYJ/4yVpQDkUJB1DC1+22bjU0CCD23MmRd3sYWzRECPyThCeuHYlMv5zl
- 0c6nAQe8hEH+UFVJT7JzCrWSe+qyH1ho4/Akh+mO1VR4AT59xaz6ZfiMdAcJKqKkLg/Y
- P42OahefjpT/JbqCKKA/it1ctDtNTW1NH4aQO0BwnvTqU+ZLXuxQkCAWIEVhWBOqPEVa
- ogeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8x/yXZmJysiSDpKjBMGOXmn6WU3Au/jvSMYI1FBT+ME=;
- b=l2Ec61ZVPWnAbwzsAfCABWzuFXgto+u6sLY6r2fhAy8qT25T/9CvV5opdzTGWoW4VW
- IUBGnzJSh8PmJV4kzUzNMV97kf9xy1a9+dKgHrrE7MCRBejrxzr+rBdYpXN0xsQL5FKf
- 1K1y7qaMXr8gf1mSgfTuftPVYfFD7FZY5Us1Fubm0xy83fEhHpw7A6me39dbcaxLUjQ7
- W0w0ftfBjZrqtcVtVd+bIzQP+al5VPqVP9tMvFFavvgfaKNdCRUMh6fbwI8k/0UgRdj8
- MRJWqwmnLMSpXll7CtrGA1kcyi9KfqJ5b3SIglI/jY/EG06kQH5sTyd4GjgKku1TJGXW
- ipRQ==
-X-Gm-Message-State: AFqh2kpn1obuUI8MvupJxhgNkljAp/c3Iol3LTQ/zVw4JFFt59yp6CZh
- 6k3CtlbKRB3U0rGG75uKmnDofx+yPTv2y/fjxHhC8w==
-X-Google-Smtp-Source: AMrXdXuLSOs738mxWbIz+5qJzjUSZIgNSaCnyE+N3+z9ciN/ufY6Ct/wyOA9NeW9qYDPMNAjrYJVLsQcN8FMu+3Qjdo=
-X-Received: by 2002:a17:902:9890:b0:189:b0a3:cf4a with SMTP id
- s16-20020a170902989000b00189b0a3cf4amr2540695plp.60.1673014438031; Fri, 06
- Jan 2023 06:13:58 -0800 (PST)
+ (Exim 4.90_1)
+ (envelope-from <prvs=36316be06=anthony.perard@citrix.com>)
+ id 1pDnbJ-0006Du-Ty
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:21:45 -0500
+Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=36316be06=anthony.perard@citrix.com>)
+ id 1pDnbH-0005Ay-Ir
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:21:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1673014899;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=km7sV/ybAsL1Rzjn+8UjJCjAMHBXVH0YtdAgJK4muvQ=;
+ b=UxaQQ0kOTlOPxHgYp/vG4tQEcsFzfgVSNKehhXtx1DSQKSSUXzr40AK9
+ T4q3qIqfUYawBhPTR63DBKX5mVduAnFTIPzPF/OFVlz6oXQG1eQlZzKBs
+ OvtFaG9FevxF+pYlk105CUZwoUrhR9zvuTmTkizIS/vTLMbHdqwNPFlWX U=;
+Authentication-Results: esa6.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+X-SBRS: 4.0
+X-MesageID: 90963865
+X-Ironport-Server: esa6.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.83
+X-Policy: $RELAYED
+IronPort-Data: A9a23:lbqh26wpAmVWSAaIskx6t+caxirEfRIJ4+MujC+fZmUNrF6WrkUPm
+ jYcDGqFb/jcajOmfdh1PNy18kgPupLVndNgTVForSAxQypGp/SeCIXCJC8cHc8wwu7rFxs7s
+ ppEOrEsCOhuExcwcz/0auCJQUFUjP3OHfykTbaeYUidfCc8IA85kxVvhuUltYBhhNm9Emult
+ Mj75sbSIzdJ4RYtWo4vw//F+U0HUMja4mtC5QRnPa4T5jcyqlFOZH4hDfDpR5fHatE88t6SH
+ 47r0Ly/92XFyBYhYvvNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ai87XAME0e0ZP4whlqvgqo
+ Dl7WT5cfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQq2pYjqhljJBheAGEWxgp4KX1B/
+ MYoAx5cVCqKuvib/bvmY8A9qP12eaEHPKtH0p1h5TTQDPJgSpHfWaTao9Rf2V/chOgXQ6yYP
+ ZBAL2MyMlKQOHWjOX9OYH46tO6umnn4dSwesF+PrLA7y2PS0BZwwP7mN9+9ltmiFJ0EwB3I+
+ D+uE2LRBhhFMfmk7mO80iyG28mRxwD0SYguC+jtnhJtqALKnTFCYPEMbnOjq/6/mE+4WvpFJ
+ kAU8zZopq83nGSiStTtGRe1pniJszYYWtxZCep87xuCooLI4xuFBkAeQzJBYcBgv8gzLRQz2
+ 1qU2t/kGzFrmLuST32b6/GTtzzaBMQOBTZcP2leF1JDuoS95tFo5v7Scjp9OLK6h+fFMh+h+
+ QqDkTITurxOpOda+ZzuqDgrnAmQjpTOSwc04CDeUWSk8h51aeaZWmC41bTIxa0eddjEFzFtq
+ FBBwpHDt75WUflhgQTXGI0w8KeVC+Fp2dE2qXpmBNEf+juk4BZPlqgAsWgldC+F3ivpEAIFg
+ XM/WysLv/e/31PwN8ebhr5d7Ox0pZUM7fy/CpjpgiNmO/CdjjOv8iB0flK31GvwikUqmqxXE
+ c7FLpz9US1HWfU7nWveqwIhPVkDnHBWKYT7HMmT8vha+eDGOC79pUktajNikdzVHIvb+V6Io
+ r6zxuOByglFUf2WXxQ7BbU7dAhQRVBiXMCeliCiXrLbSuaQMD17WqC5LHJIU9ANopm5Yc+Sp
+ innBBcAkgqj7ZAFQC3TAk1ehHrUdc4XhRoG0eYEZz5EB1BLjV6T0Zoi
+IronPort-HdrOrdr: A9a23:v3fj6apnuo6P5hVNuxYrT/YaV5tuL9V00zEX/kB9WHVpm62j5r
+ WTdZEgvnHJYVkqOE3I5urwRJVoLUm8yXcX2/hjAV7dZniFhILAFugLh7cKqAeQeBEWmNQtsJ
+ uJeMBFeaLN5TARt6rHCGLTKbkdKBbsys2VrNab9lMoaTxDL5hn6QIRMHfoLqW1LjM2e6bQ0P
+ Cnl7p6T//LQwVnUi3BPAhgY8Hz4+fTkY7gY1ovHgdP0nj2sRqYrITiFgSe3FM0TzNLzN4ZgB
+ X4uj283Lynr/a4jjjV02O71eUwpPLRjuFbAdCKiIwyNDLhkW+TFeJccozHhikxvOasrGwLvb
+ D30m8dFvU20WrVYma25SHgwBbtyxEn73OK8y7ivVLT5fbhQS48CY5/iZlCch3fgnBQxu1B7A
+ ==
+X-IronPort-AV: E=Sophos;i="5.96,305,1665460800"; d="scan'208";a="90963865"
+To: <qemu-devel@nongnu.org>
+CC: Anthony PERARD <anthony.perard@citrix.com>, Andrew Cooper
+ <Andrew.Cooper3@citrix.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, Thomas Huth
+ <thuth@redhat.com>
+Subject: [PATCH] configure: Expand test which disable -Wmissing-braces
+Date: Fri, 6 Jan 2023 15:21:10 +0100
+Message-ID: <20230106142110.672-1-anthony.perard@citrix.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20230106102018.20520-1-eiakovlev@linux.microsoft.com>
-In-Reply-To: <20230106102018.20520-1-eiakovlev@linux.microsoft.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Jan 2023 14:13:46 +0000
-Message-ID: <CAFEAcA-z7+X9-c43EmhoRBTrOYC9RtyHc5sgPamGRd_o+-tT_Q@mail.gmail.com>
-Subject: Re: [PATCH v2] semihosting: add O_BINARY flag in host_open for NT
- compatibility
-To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-Cc: qemu-devel@nongnu.org, bmeng.cn@gmail.com, philmd@linaro.org, 
- alex.bennee@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.71.155.175;
+ envelope-from=prvs=36316be06=anthony.perard@citrix.com;
+ helo=esa6.hc3370-68.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,48 +94,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 6 Jan 2023 at 10:21, Evgeny Iakovlev
-<eiakovlev@linux.microsoft.com> wrote:
->
-> Windows open(2) implementation opens files in text mode by default and
-> needs a Windows-only O_BINARY flag to open files as binary. QEMU already
-> knows about that flag in osdep and it is defined to 0 on non-Windows,
-> so we can just add it to the host_flags for better compatibility.
->
-> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> ---
->  semihosting/syscalls.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-> index 508a0ad88c..b621d78c2d 100644
-> --- a/semihosting/syscalls.c
-> +++ b/semihosting/syscalls.c
-> @@ -253,7 +253,7 @@ static void host_open(CPUState *cs, gdb_syscall_compl=
-ete_cb complete,
->  {
->      CPUArchState *env G_GNUC_UNUSED =3D cs->env_ptr;
->      char *p;
-> -    int ret, host_flags;
-> +    int ret, host_flags =3D O_BINARY;
+From: Anthony PERARD <anthony.perard@citrix.com>
 
-The semihosting API, at least for Arm, has a modeflags string so the
-guest can say whether it wants to open O_BINARY or not:
-https://github.com/ARM-software/abi-aa/blob/main/semihosting/semihosting.rs=
-t#sys-open-0x01
+With "clang 6.0.0-1ubuntu2" on Ubuntu Bionic, the test with build
+fine, but clang still suggest braces around the zero initializer in a
+few places, where there is a subobject. Expand test to include a sub
+struct which doesn't build on clang 6.0.0-1ubuntu2, and give:
+    config-temp/qemu-conf.c:7:8: error: suggest braces around initialization of subobject [-Werror,-Wmissing-braces]
+    } x = {0};
+           ^
+           {}
 
-So we need to plumb that down through the common semihosting code
-into this function and set O_BINARY accordingly. Otherwise guest
-code that asks for a text-mode file won't get one.
+These are the error reported by clang on QEMU's code (v7.2.0):
+hw/pci-bridge/cxl_downstream.c:101:51: error: suggest braces around initialization of subobject [-Werror,-Wmissing-braces]
+    dvsec = (uint8_t *)&(CXLDVSECPortExtensions){ 0 };
 
-I don't know about other semihosting APIs, so those would need
-to be checked to see what they should do.
+hw/pci-bridge/cxl_root_port.c:62:51: error: suggest braces around initialization of subobject [-Werror,-Wmissing-braces]
+    dvsec = (uint8_t *)&(CXLDVSECPortExtensions){ 0 };
 
-thanks
--- PMM
+tests/qtest/virtio-net-test.c:322:34: error: suggest braces around initialization of subobject [-Werror,-Wmissing-braces]
+    QOSGraphTestOptions opts = { 0 };
+
+Reported-by: Andrew Cooper <Andrew.Cooper3@citrix.com>
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+---
+
+While Ubuntu Bionic isn't supposed to be supported anymore, clang v6
+is still the minimum required as tested by ./configure.
+---
+ configure | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/configure b/configure
+index 9f0bc57546..3cd9b8bad4 100755
+--- a/configure
++++ b/configure
+@@ -1290,7 +1290,11 @@ fi
+ # Disable -Wmissing-braces on older compilers that warn even for
+ # the "universal" C zero initializer {0}.
+ cat > $TMPC << EOF
++struct s {
++  void *a;
++};
+ struct {
++  struct s s;
+   int a[2];
+ } x = {0};
+ EOF
+-- 
+Anthony PERARD
+
 
