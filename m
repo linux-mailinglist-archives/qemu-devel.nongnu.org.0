@@ -2,92 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0B45660204
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 15:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD90B660241
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 15:33:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDnbe-0006Fd-Rd; Fri, 06 Jan 2023 09:22:02 -0500
+	id 1pDnlB-0000M4-Pc; Fri, 06 Jan 2023 09:31:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pDnbU-0006El-1z
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:21:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pDnbR-0005Bo-R2
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:21:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673014908;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xWUBp99FVbFciIf9IIr6S7OrxoamguFqqbjAWMBjeAI=;
- b=aNG2SV7LRODpAN7HLOJ5epRZ8vxKzn3zkfEij92Ky/P5G/2ewkf7YxR4+40cIfnibP8AXG
- /gf4AJk51AAkZrk5m+cbmT6IYRzSwcNwZgqaRzt4dCzM3OCciQV+kokj4s7BMSCN0ujyG9
- hWne/HyZKjxF4y4D/s3kgoXNPJKmFVQ=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-223-MZn0vwNzNHujmPxj03KXiA-1; Fri, 06 Jan 2023 09:21:47 -0500
-X-MC-Unique: MZn0vwNzNHujmPxj03KXiA-1
-Received: by mail-yb1-f198.google.com with SMTP id
- e12-20020a25500c000000b007b48c520262so1978013ybb.14
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 06:21:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xWUBp99FVbFciIf9IIr6S7OrxoamguFqqbjAWMBjeAI=;
- b=WB+29AzhOkexu+lWdjWfcc0c6s1JDLO1z8yvwJaL0Evqi38XzO83WjrFxJcHPNHAZc
- my7QXtPf3erVJVmQi6eEvvs3/9qg3ryETrW1Ho5Z4aAiuEFMcc4WIrtFRqtjb25a9Dxv
- EUgMRj/e6ytu1Fw7WdG2qlhiAFmO57XbD3uMTlN+zmhl7PzeZI0mtjWw5g4bOIvD1QoE
- G3aP6SASXxWJ8dn1JUoVZqpSuUwUUqkd5MVnD3N/1uZMZuAmKZecBDUlAllqIomEnzt1
- zZu2emIkne8jo25Gj1hN6Rz8T3pClhkQMtnSE84Vk3jYbg/Ea2tMjlGpgoJ8ZTXo3lW9
- n3HQ==
-X-Gm-Message-State: AFqh2koUpqC3WUQlxQmGqaGDzDZ0rOpNkEu14VLvyp3KbkU0745gCWCw
- CNlRegOskEZxRuhPXqJoBiU6X44d4NHalR3Ter587krtlFHdZ6YgLnzoUHoK0qvF2/n6+MBUqwD
- 5Ju3ZguhaFR2esik=
-X-Received: by 2002:a81:6f07:0:b0:48d:82cf:2f46 with SMTP id
- k7-20020a816f07000000b0048d82cf2f46mr27146716ywc.0.1673014906496; 
- Fri, 06 Jan 2023 06:21:46 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsj55D4gCS5ZgZuNSEhEcZRy7lZy+/gae+gh4+IDb/rNkg40ZP4UetWZHypvBTy0S11GtZgUw==
-X-Received: by 2002:a81:6f07:0:b0:48d:82cf:2f46 with SMTP id
- k7-20020a816f07000000b0048d82cf2f46mr27146691ywc.0.1673014906233; 
- Fri, 06 Jan 2023 06:21:46 -0800 (PST)
-Received: from [192.168.100.30] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- d15-20020a05620a140f00b006fc92cf4703sm551628qkj.132.2023.01.06.06.21.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Jan 2023 06:21:45 -0800 (PST)
-Message-ID: <43145ede-89dc-280e-b953-6a2b436de395@redhat.com>
-Date: Fri, 6 Jan 2023 15:21:43 +0100
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDnky-0000He-6p
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:31:41 -0500
+Received: from sonic306-20.consmr.mail.gq1.yahoo.com ([98.137.68.83])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDnku-0001rL-Cj
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 09:31:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1673015491; bh=y6zkYfIxxD5S/JDQeE4SivkZD5jJU4lvdvq0QEx85Mw=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
+ b=gMJWL0CifJBv4PIXb85oKrIf4K47Qac2HcIlDOncDX8HEZIWNdy9TIQRqiIA3b5XATpkMM1hJFLWZpqB4uqaEauoXAlyrpzDfMQCkrCet7AfV9T8iGauEUSqsA5Y/wVbYQh3ZH3Gn8bJDa6DzwsTP/gM0CpHouMKL/lzHff06fdHPvR9l7an1tC0Y1o3Mh8pAbNCM9kKPZcHNLNsHpEdNLgOYuXGft14bJtr1etvZuOgdyhQfjxZ1HuPfacxPdpUoKKcT68seumGyFufEpJq2nXUBU4jPupyARgBJ/jOs9o+yquV6F6jPmlZmEIVHnhgEeJEtk627NFbF2w0Bv6oGQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1673015491; bh=ARB2ekFXVfL0AnjnYt/lBtyXroynDuu7XYPBY3z8lhu=;
+ h=X-Sonic-MF:Date:Subject:From:To:From:Subject;
+ b=nh3kvsIQY5F6Di+rurJIEsQyEaONX+TWAgLdWkJ9aiHCUmGmEgHhPbiHV97/JP0yB/MEma9xQl/lcj7EL+tdNwutgOrlS/EiLbgAT1Oz1opwHx+MFWagI8uEiaEYk61OSwAUdszBo9hjYLCHQArn9JzsGwaLqzpWEYFFsVEpf2eW3fg+AEKOLc5LYVkBolgrlI3kpJLEE/GNzKPn4SZ2Km4E42w01JknPXE5HuaMqqwFFApwupZ4nh4+d3sqHy/gcWsy0bKZtAE9vKMVdf5nmFqF7OAjRvYsrIOCNwzqQ0y8jZgW8LcW4yGHgViORnmi0Kzn5rtPB3v0l0PnkfwnHg==
+X-YMail-OSG: JX18UQcVM1l7cWKjfZWdrumO8AgdUDt2Esk5Ipbgv8k4TYiXRbvlKzHJO.VrKu3
+ pr1CX43aD0bmKvPtGTeWKwYF.ml1B.XHdkDWqcSI2GsfZbuIb8Gw9Oi1trCtdDkJJekqM7VLrl89
+ _wUesm_hKMO7FdJxMrmZqExO6CWfmE7mmy38NNt77FSQbZ1X2WbcN5xzqGtYItnXIdXZskAEDpxb
+ U5ahzAAJ52c.0aOLX8ROf8hbvCMOJFulQbW.yTfvfu3ldOAi3wPpVqm_OjCCuN4wDUf9sFjKXUuW
+ c1F0BpLcwGZWjjbuKMMd4MBLDvp221CAgkKzYvL4rjZ0W0UBH2CRRX.zcMyXtaoCoVukDJiwkg7C
+ 7TANBIVg.qPmyc1uxUnp517HRq.0Hgd9fv45L8dmOedJ6yXtG6TMu16w1yMsEga3dx2NQzzZJQws
+ mCWcF_29NfkgbBkUkLb2GAEzaVoaugW13pxytYicJRsjCajzes_.3TNr0Iv0JnvwG9elgj5iyuBY
+ G_MSkGgkQtORlow2rLGkATJ4qx4C5p93ctcYP8G5jbyiU13BoGxRebuKJMOdJT9wylyAlX1r6M1.
+ 7WKcVz5FPdKC_tc1PSWJGuK04MutTBRP5OadYFYbYU77nP_3Ur4hKrC9Sc.ZhWKyJHLRpBFgegqy
+ 6.9Lq0cxvrRHYvpttLd5lPLqKPjd2wLsr_OE9a6sBuS0YsY2JeIsO9Bty2hO2razoA57xxUKw.EG
+ j6D9dnrWjb_v47U0dPClyaieYtef6E8eoreZ10szXskmYoZQXj1M93cS7KGgLjv4r2FR.1TYta.K
+ .xq3D0OhHK6xWEFN3YS11vt0KPHSiUtuG4437kkuDOXS_UC92r1LIdvL7b46KUqvhLrkx369OuRP
+ Ap65gOCh21Zj_as27WAsR47qc0txlmPBrFPGsWXgvAvtWQNCKK_j9Ibc2YVnKvwkGgF__bvpA4my
+ voquMG2xxFPF7W8A1YH9ViPP.HmaeggD1z7BRKGSbAWKP66AQX21JRUCOD0dxW8mL.miSJ5YibHg
+ 8iTINMCXOO1zRn_ggdg6YsGllXcavf2N42If_DPdjB3k6kVliqmqMd.J6K91M5rnxpZLeVgEWp0j
+ juzKfgKgOsiIWVWFZZolaGaYGrD3mpT836.eZJEXtspHeh9pgqew9TC__sbQz65ityswhmm5XHOa
+ sqLLFu2KYiW2323ZuFza18M1nWAPLRm9IEVAyRHTXqXg.zWUQtw6nJNswPW1rMoS3lFyXUJyqP5w
+ 8QA31EId4H3IPUCLQOnIX_eeerjOnnNxHw59PN2tAsg7MVg9CpoyaVIABqj0VaesaAhWbs9j4MnO
+ 9ri30WMYiTMyIR1gOdaDbLgI_f1LfRQj4bZqctOy2OiLXMQ2OtxgLjU5j_ImU8LmKll9CgU_NA9B
+ ZRWCyInmZOopens1mAT6b5jjH8GK11HNxNELkLDbmOtsrFBGWvq1OjC4YriFy._uL7UD4KC2e_0n
+ LkXAVaLG4mPi_nTgCmcoeV6RSmYbgK1XSjuQzCKptThDWUlckyhkG0PKkQHT3.7SLhBQBte7KGQK
+ ux6pXK98w4U8frPPby1EqoR.Vg6QSZJ84e0pKYeynMPlOvoNEgsw0I0x6oR52P5klQQwW6OyfGpM
+ j1HefmkNGNmqPP_M7WiRDv5Ft9aY.elN6jmpGkfpREB3EhstVkDXhuVBz0zYJrGh0kzmSisXA0Ec
+ Q2s7adhJieyZ1R30ZmBjP0q7SStBXqcHYUxl4tocWZRqMcWrKhhJ0eXxappDJqySE3HjTWfrFOah
+ WeaQO0f2.ikNMWUgPjNVoCl3RXxKVaL9JQldMsd0QuS2RxuzmJv1Lk.ULEGauJ9Ae.hov9UR_zBf
+ 5WRXyWv4aU3a1DbIvoYyqWrsE.U1TxLGGFg9lyo82tcDwm85D63snpc21U6z5ktEoxtMhcOpimK9
+ awAFVRvj8S_alux4..DwyrD8SXfaVKiu3.DbCEzcg_X9rj_dpSQgAFSCDFmreTaBIS4VZ8uRhq03
+ dYD9ZYWCr1WSGTFHjO8eTToxq5ezYJgpN16mVJSHfJp4XZauCzkXv6qc.AWeYVSiXzyXf8mJ.Ytk
+ ESEhJgampBejPnxAbRiUqF6y2GYEZZ5voU3DzCTejkTwgaUfHENvpkL51RxxTbbiVYoOL70EE57u
+ Qy2c20k6eumDqNoTJKX.gQ4Bee_j7p5MoWu1cfIdNBtcNyDxDonzDX2t6IwzbgncOadIKHx3ncwc
+ 9KkhzjcjXWA--
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic306.consmr.mail.gq1.yahoo.com with HTTP; Fri, 6 Jan 2023 14:31:31 +0000
+Received: by hermes--production-ne1-7b69748c4d-pm9xv (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 99343fc4f63f4df1a7ca33195a3121cf; 
+ Fri, 06 Jan 2023 14:31:27 +0000 (UTC)
+Message-ID: <882652f8-ddda-a7d8-85b9-da46568036d3@aol.com>
+Date: Fri, 6 Jan 2023 09:31:24 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PULL v4 76/83] vhost-user: Support vhost_dev_start
+Subject: Re: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
 Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Yajun Wu <yajunw@nvidia.com>,
- Parav Pandit <parav@nvidia.com>
-References: <20221107224600.934080-1-mst@redhat.com>
- <20221107224600.934080-77-mst@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <20221107224600.934080-77-mst@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.939, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Chuck Zmudzinski <brchuckz@aol.com>
+To: Anthony PERARD <anthony.perard@citrix.com>
+Cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Paul Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ xen-devel@lists.xenproject.org
+References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
+ <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
+ <Y7gqSLo8pMm4gfV+@perard.uk.xensource.com>
+ <c39b9502-0020-ce54-abd8-b362430ba086@aol.com>
+In-Reply-To: <c39b9502-0020-ce54-abd8-b362430ba086@aol.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.20982
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.68.83; envelope-from=brchuckz@aim.com;
+ helo=sonic306-20.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.939,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,202 +110,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+On 1/6/23 9:10 AM, Chuck Zmudzinski wrote:
+> On 1/6/23 9:03 AM, Anthony PERARD wrote:
+>> On Sun, Jan 01, 2023 at 06:52:03PM -0500, Chuck Zmudzinski wrote:
+>>> Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
+>>> as noted in docs/igd-assign.txt in the Qemu source code.
+>>> 
+>>> Currently, when the xl toolstack is used to configure a Xen HVM guest with
+>>> Intel IGD passthrough to the guest with the Qemu upstream device model,
+>>> a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
+>>> a different slot. This problem often prevents the guest from booting.
+>>> 
+>>> The only available workaround is not good: Configure Xen HVM guests to use
+>>> the old and no longer maintained Qemu traditional device model available
+>>> from xenbits.xen.org which does reserve slot 2 for the Intel IGD.
+>>> 
+>>> To implement this feature in the Qemu upstream device model for Xen HVM
+>>> guests, introduce the following new functions, types, and macros:
+>>> 
+>>> * XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
+>>> * XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
+>>> * typedef XenPTQdevRealize function pointer
+>>> * XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
+>>> * xen_igd_reserve_slot and xen_igd_clear_slot functions
+>>> 
+>>> The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
+>>> member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
+>>> the xl toolstack with the gfx_passthru option enabled, which sets the
+>>> igd-passthru=on option to Qemu for the Xen HVM machine type.
+>>> 
+>>> The new xen_igd_reserve_slot function also needs to be implemented in
+>>> hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
+>>> when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
+>>> in which case it does nothing.
+>>> 
+>>> The new xen_igd_clear_slot function overrides qdev->realize of the parent
+>>> PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
+>>> since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
+>>> created in hw/i386/pc_piix.c for the case when igd-passthru=on.
+>>> 
+>>> Move the call to xen_host_pci_device_get, and the associated error
+>>> handling, from xen_pt_realize to the new xen_igd_clear_slot function to
+>>> initialize the device class and vendor values which enables the checks for
+>>> the Intel IGD to succeed. The verification that the host device is an
+>>> Intel IGD to be passed through is done by checking the domain, bus, slot,
+>>> and function values as well as by checking that gfx_passthru is enabled,
+>>> the device class is VGA, and the device vendor in Intel.
+>>> 
+>>> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+>> 
+>> 
+>> This patch looks good enough. It only changes the "xenfv" machine so it
+>> doesn't prevent a proper fix to be done in the toolstack libxl.
+>> 
+>> The change in xen_pci_passthrough_class_init() to try to run some code
+>> before pci_qdev_realize() could potentially break in the future due to
+>> been uncommon but hopefully that will be ok.
+>> 
+>> So if no work to fix libxl appear soon, I'm ok with this patch:
 
-it seems this patch breaks vhost-user with DPDK.
+Well, I can tell you and others who use qemu are more comfortable
+fixing this in libxl, so hold off for a week or so. I should have
+a patch to fix this in libxl written and tested by then. If for
+some reason that does not work out, then we can fix it in qemu.
 
-See https://bugzilla.redhat.com/show_bug.cgi?id=2155173
+Cheers,
 
-it seems QEMU doesn't receive the expected commands sequence:
+Chuck
 
-Received unexpected msg type. Expected 22 received 40
-Fail to update device iotlb
-Received unexpected msg type. Expected 40 received 22
-Received unexpected msg type. Expected 22 received 11
-Fail to update device iotlb
-Received unexpected msg type. Expected 11 received 22
-vhost VQ 1 ring restore failed: -71: Protocol error (71)
-Received unexpected msg type. Expected 22 received 11
-Fail to update device iotlb
-Received unexpected msg type. Expected 11 received 22
-vhost VQ 0 ring restore failed: -71: Protocol error (71)
-unable to start vhost net: 71: falling back on userspace virtio
-
-It receives VHOST_USER_GET_STATUS (40) when it expects VHOST_USER_IOTLB_MSG (22)
-and VHOST_USER_IOTLB_MSG when it expects VHOST_USER_GET_STATUS.
-and VHOST_USER_GET_VRING_BASE (11) when it expect VHOST_USER_GET_STATUS and so on.
-
-Any idea?
-
-Thanks,
-Laurent
-
-On 11/7/22 23:53, Michael S. Tsirkin wrote:
-> From: Yajun Wu <yajunw@nvidia.com>
-> 
-> The motivation of adding vhost-user vhost_dev_start support is to
-> improve backend configuration speed and reduce live migration VM
-> downtime.
-> 
-> Today VQ configuration is issued one by one. For virtio net with
-> multi-queue support, backend needs to update RSS (Receive side
-> scaling) on every rx queue enable. Updating RSS is time-consuming
-> (typical time like 7ms).
-> 
-> Implement already defined vhost status and message in the vhost
-> specification [1].
-> (a) VHOST_USER_PROTOCOL_F_STATUS
-> (b) VHOST_USER_SET_STATUS
-> (c) VHOST_USER_GET_STATUS
-> 
-> Send message VHOST_USER_SET_STATUS with VIRTIO_CONFIG_S_DRIVER_OK for
-> device start and reset(0) for device stop.
-> 
-> On reception of the DRIVER_OK message, backend can apply the needed setting
-> only once (instead of incremental) and also utilize parallelism on enabling
-> queues.
-> 
-> This improves QEMU's live migration downtime with vhost user backend
-> implementation by great margin, specially for the large number of VQs of 64
-> from 800 msec to 250 msec.
-> 
-> [1] https://qemu-project.gitlab.io/qemu/interop/vhost-user.html
-> 
-> Signed-off-by: Yajun Wu <yajunw@nvidia.com>
-> Acked-by: Parav Pandit <parav@nvidia.com>
-> Message-Id: <20221017064452.1226514-3-yajunw@nvidia.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->   hw/virtio/vhost-user.c | 74 +++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 73 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index d256ce589b..abe23d4ebe 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -81,6 +81,7 @@ enum VhostUserProtocolFeature {
->       VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
->       /* Feature 14 reserved for VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS. */
->       VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
-> +    VHOST_USER_PROTOCOL_F_STATUS = 16,
->       VHOST_USER_PROTOCOL_F_MAX
->   };
->   
-> @@ -126,6 +127,8 @@ typedef enum VhostUserRequest {
->       VHOST_USER_GET_MAX_MEM_SLOTS = 36,
->       VHOST_USER_ADD_MEM_REG = 37,
->       VHOST_USER_REM_MEM_REG = 38,
-> +    VHOST_USER_SET_STATUS = 39,
-> +    VHOST_USER_GET_STATUS = 40,
->       VHOST_USER_MAX
->   } VhostUserRequest;
->   
-> @@ -1452,6 +1455,43 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64,
->       return 0;
->   }
->   
-> +static int vhost_user_set_status(struct vhost_dev *dev, uint8_t status)
-> +{
-> +    return vhost_user_set_u64(dev, VHOST_USER_SET_STATUS, status, false);
-> +}
-> +
-> +static int vhost_user_get_status(struct vhost_dev *dev, uint8_t *status)
-> +{
-> +    uint64_t value;
-> +    int ret;
-> +
-> +    ret = vhost_user_get_u64(dev, VHOST_USER_GET_STATUS, &value);
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +    *status = value;
-> +
-> +    return 0;
-> +}
-> +
-> +static int vhost_user_add_status(struct vhost_dev *dev, uint8_t status)
-> +{
-> +    uint8_t s;
-> +    int ret;
-> +
-> +    ret = vhost_user_get_status(dev, &s);
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +
-> +    if ((s & status) == status) {
-> +        return 0;
-> +    }
-> +    s |= status;
-> +
-> +    return vhost_user_set_status(dev, s);
-> +}
-> +
->   static int vhost_user_set_features(struct vhost_dev *dev,
->                                      uint64_t features)
->   {
-> @@ -1460,6 +1500,7 @@ static int vhost_user_set_features(struct vhost_dev *dev,
->        * backend is actually logging changes
->        */
->       bool log_enabled = features & (0x1ULL << VHOST_F_LOG_ALL);
-> +    int ret;
->   
->       /*
->        * We need to include any extra backend only feature bits that
-> @@ -1467,9 +1508,18 @@ static int vhost_user_set_features(struct vhost_dev *dev,
->        * VHOST_USER_F_PROTOCOL_FEATURES bit for enabling protocol
->        * features.
->        */
-> -    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES,
-> +    ret = vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES,
->                                 features | dev->backend_features,
->                                 log_enabled);
-> +
-> +    if (virtio_has_feature(dev->protocol_features,
-> +                           VHOST_USER_PROTOCOL_F_STATUS)) {
-> +        if (!ret) {
-> +            return vhost_user_add_status(dev, VIRTIO_CONFIG_S_FEATURES_OK);
-> +        }
-> +    }
-> +
-> +    return ret;
->   }
->   
->   static int vhost_user_set_protocol_features(struct vhost_dev *dev,
-> @@ -2620,6 +2670,27 @@ void vhost_user_cleanup(VhostUserState *user)
->       user->chr = NULL;
->   }
->   
-> +static int vhost_user_dev_start(struct vhost_dev *dev, bool started)
-> +{
-> +    if (!virtio_has_feature(dev->protocol_features,
-> +                            VHOST_USER_PROTOCOL_F_STATUS)) {
-> +        return 0;
-> +    }
-> +
-> +    /* Set device status only for last queue pair */
-> +    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
-> +        return 0;
-> +    }
-> +
-> +    if (started) {
-> +        return vhost_user_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-> +                                          VIRTIO_CONFIG_S_DRIVER |
-> +                                          VIRTIO_CONFIG_S_DRIVER_OK);
-> +    } else {
-> +        return vhost_user_set_status(dev, 0);
-> +    }
-> +}
-> +
->   const VhostOps user_ops = {
->           .backend_type = VHOST_BACKEND_TYPE_USER,
->           .vhost_backend_init = vhost_user_backend_init,
-> @@ -2654,4 +2725,5 @@ const VhostOps user_ops = {
->           .vhost_backend_mem_section_filter = vhost_user_mem_section_filter,
->           .vhost_get_inflight_fd = vhost_user_get_inflight_fd,
->           .vhost_set_inflight_fd = vhost_user_set_inflight_fd,
-> +        .vhost_dev_start = vhost_user_dev_start,
->   };
+>> 
+>> Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
+>> 
+>> Thanks,
+>> 
 
 
