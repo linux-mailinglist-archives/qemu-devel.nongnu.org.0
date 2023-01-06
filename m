@@ -2,80 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5751665FBF5
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 08:31:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE6665FC43
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Jan 2023 08:51:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDhAm-0008GT-6d; Fri, 06 Jan 2023 02:29:52 -0500
+	id 1pDhUN-0005Ja-FZ; Fri, 06 Jan 2023 02:50:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDhAg-0008GE-9p
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 02:29:46 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDhAd-0001NC-Ft
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 02:29:45 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- z8-20020a05600c220800b003d33b0bda11so3456445wml.0
- for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 23:29:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=a8h5sTvpg2TYYOwCbG+VhZl+p1rj+hPO8s66Vk6T5lM=;
- b=thv/GTd+4MrGRi6mW+jhUvnaa6gNK3vzrT8SVvGHbAQthNUwY+Hj2fqQVrBMLhKRij
- 5lW+maPbvXL2RZprDSG5PPPebCm3RbZzB4hZk7Yre4VmDvzqpe8sKLAI8bw1NAzqePim
- cpSiZvuiwCsQHDKts2e7TNqcOg+HdTZWUx66XHrfrS85xKDPEXXeCQDqacLgErMBRR0s
- SJbsuo/EINbs0SvtZnsbfHB+eN6FXFEpKZ4Wn2HYAPCzvX5QeN/Sxj0j2ZImk1IVLBP9
- pZ7kwgLeI3p8RJoRrD2Ixc1z19OMdsnVqVxnp7vo4TWwiMfgW+/V0IHQaOmg/kMD2AME
- iE6A==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDhUE-0005J3-FF
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 02:49:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pDhUC-0002BV-RI
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 02:49:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672991395;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9yk6rq+Bffnar8B5+he/EztX3DZbWU8aTLvNsgH6PpI=;
+ b=gE07GVz2PJ0flpQWL1++eFa596awOfoi46bZ9F9rN1nhJilnk1GXGhoH3TaZYszfbwq7Ya
+ 9y9Wbj2YQBVlp15hBfvMbksdL+uuyKqiKwSzI/ZPwyqAaeZv5t0CVN1tUk4g3uEHlWRTpJ
+ 7qbTtJN0mx8jsF/9jt2iADNeImeMaOc=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-249-FOccANF3NVq3x0YiBD_aFQ-1; Fri, 06 Jan 2023 02:49:51 -0500
+X-MC-Unique: FOccANF3NVq3x0YiBD_aFQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ ob12-20020a0562142f8c00b004c6c72bf1d0so420501qvb.9
+ for <qemu-devel@nongnu.org>; Thu, 05 Jan 2023 23:49:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a8h5sTvpg2TYYOwCbG+VhZl+p1rj+hPO8s66Vk6T5lM=;
- b=JlSw2pdpqpQpb7pucPb9kBeK7EP1RC1Sk+anfHgOXcoU/oObPS2/QeBGAilXahC7bk
- M3VOxFzh4aEmglfoqFwzdjHRzzERKLsPGEEiJNtHDJiyoDWl3oe+qFEtte3iMzGvvniW
- Z8xAO8NavHeflejZVn/iERAb53w41q1ZdfVyjqK8WCIqjK4BOWa8Z0ri+FQqysijcq0L
- l2yRlu9nvk7ri8BitMfORAbjSUtb2Y5iwgEUwsmUFXRxo6Bfy4VQ2OSiPUEpPuNmUmCQ
- 1KHt+gTUnUiikPe2zV7i1opX5Jra4GIgnHHJ4McL3oXQPGTn7T1MEFIF8QD0HOGWZSR4
- ZayQ==
-X-Gm-Message-State: AFqh2krAQcwZyJx9X57+9swfyleoHWqPXGBWCqnRTdSy1T5+wVkleHbm
- ew55rh0kDS1dNtkN6FB2ZCkPnQ==
-X-Google-Smtp-Source: AMrXdXuvYf8A2M/2FLqi1lht71nUPfky8B8Ga3fkN+kfUeuT/Q7KYH1WG5SqHGpzfsPsDDS8ZqVvvg==
-X-Received: by 2002:a05:600c:358a:b0:3cf:8d51:1622 with SMTP id
- p10-20020a05600c358a00b003cf8d511622mr38927044wmq.1.1672990180415; 
- Thu, 05 Jan 2023 23:29:40 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- t18-20020a5d6a52000000b0029c5e06516bsm388397wrw.14.2023.01.05.23.29.39
+ bh=9yk6rq+Bffnar8B5+he/EztX3DZbWU8aTLvNsgH6PpI=;
+ b=pHgBkTb3ABeuo9LhqpO+fmuupvEbOb7k5iesG3SaRtQPzjAFyr0++kGCs9XqMCJClR
+ BjlEFKoBjJup5THVoLFRhNBCYl3RS9Jy9CSmgh2FhLXPyUIdf7HXmwsn6PHvs+gR+ZYa
+ eWDwpwyPA5eu34W7WWSfW3De9wCjcBb7S/zi6C96L8YBxnARlQJ6YKpuGAL+w1bf3KQE
+ TBlsNI+Ll34lwovJZsa+YF3py8w6BV5F5R8oKSQO+Gt37LPiDMGvyDT+kTAYMFDQHXov
+ M1ni+jHy1/XvlbDgWIB7m6+MiMe8iQgxrgUYlVoU+tVppgjLuXjVdZm6TTAQQ738+O8g
+ egHw==
+X-Gm-Message-State: AFqh2kqwagcam9u2i7MWHrQijgzrMb+9gZG2hxEPmlVwu8YkVanCDMQp
+ O7x6qDlaqiutI9hBIn500fFTLW4CmJdpzZsFk8QRWlBpwiHU6eMxXBRAvh3KWouI8Atq6XeeUMb
+ ZK435O8dNC1cbU+Y=
+X-Received: by 2002:a05:6214:2ccf:b0:532:bd9:f596 with SMTP id
+ lf15-20020a0562142ccf00b005320bd9f596mr11915364qvb.50.1672991391101; 
+ Thu, 05 Jan 2023 23:49:51 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvwMoTdUZCc4j+/9FuWneY5RuTYrYaYqU8deeCBpzM4e8WHgsOrKD8DR0dqHoKkuZHaaqScKw==
+X-Received: by 2002:a05:6214:2ccf:b0:532:bd9:f596 with SMTP id
+ lf15-20020a0562142ccf00b005320bd9f596mr11915353qvb.50.1672991390860; 
+ Thu, 05 Jan 2023 23:49:50 -0800 (PST)
+Received: from [192.168.8.100] (tmo-098-170.customers.d1-online.com.
+ [80.187.98.170]) by smtp.gmail.com with ESMTPSA id
+ do14-20020a05620a2b0e00b006f8665f483fsm145524qkb.85.2023.01.05.23.49.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Jan 2023 23:29:40 -0800 (PST)
-Message-ID: <408a6546-025b-1a94-ee98-a577b8460e13@linaro.org>
-Date: Fri, 6 Jan 2023 08:29:38 +0100
+ Thu, 05 Jan 2023 23:49:50 -0800 (PST)
+Message-ID: <5a2d8ef1-a478-0b6d-3c65-d792f162feaf@redhat.com>
+Date: Fri, 6 Jan 2023 08:49:46 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] semihosting: add O_BINARY flag in host_open for NT
- compatibility
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>, qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org
-References: <20230105211940.14988-1-eiakovlev@linux.microsoft.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230105211940.14988-1-eiakovlev@linux.microsoft.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>
+References: <20230105204819.26992-1-thuth@redhat.com>
+ <4ff2d01a-e6bb-5a99-356b-6b2ade61b667@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] .gitlab-ci.d/windows: Do not run the qtests in the
+ msys2-32bit job
+In-Reply-To: <4ff2d01a-e6bb-5a99-356b-6b2ade61b667@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.939,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.939, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,71 +104,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/1/23 22:19, Evgeny Iakovlev wrote:
-> Windows open(2) implementations opens files in text mode by default and
-> needs a Windows-only O_BINARY flag to open files as binary. Qemu already
-
-s/Qemu/QEMU/
-
-> knows about that flag in osdep.h, so we can just add it to the
-> host_flags for better compatibility when running qemu on Windows.
-
-s/qemu/QEMU/
-
-> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-> ---
->   semihosting/syscalls.c | 2 ++
->   1 file changed, 2 insertions(+)
+On 05/01/2023 22.42, Philippe Mathieu-Daudé wrote:
+> On 5/1/23 21:48, Thomas Huth wrote:
+>> The qtests are not stable in the msys2-32bit job yet - especially
+>> the test-hmp and the qom-test are failing randomly. Until this is
+>> fixed,
 > 
-> diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-> index 508a0ad88c..00f77507e5 100644
-> --- a/semihosting/syscalls.c
-> +++ b/semihosting/syscalls.c
-> @@ -278,6 +278,8 @@ static void host_open(CPUState *cs, gdb_syscall_complete_cb complete,
->           host_flags |= O_EXCL;
->       }
->   
-> +    host_flags |= O_BINARY;
-> +
->       ret = open(p, host_flags, mode);
->       if (ret < 0) {
->           complete(cs, -1, errno);
+> Who is gonna look after this?
 
-Alternatively with more churn:
+It certainly has to be someone who's got a proper Windows installation. I've 
+now tried to debug the failures for two days via the gitlab-CI jobs, and 
+that just does not work. The turnaround times are way to long, and I really 
+cannot waste all my limited CI minutes for such problems.
 
--- >8 --
-diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-index 508a0ad88c..b621d78c2d 100644
---- a/semihosting/syscalls.c
-+++ b/semihosting/syscalls.c
-@@ -253,7 +253,7 @@ static void host_open(CPUState *cs, 
-gdb_syscall_complete_cb complete,
-  {
-      CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-      char *p;
--    int ret, host_flags;
-+    int ret, host_flags = O_BINARY;
+> I'm not against this patch, but I'm afraid this config starts to
+> bitrot more.
 
-      ret = validate_lock_user_string(&p, cs, fname, fname_len);
-      if (ret < 0) {
-@@ -262,11 +262,11 @@ static void host_open(CPUState *cs, 
-gdb_syscall_complete_cb complete,
-      }
+It's not really a big step backward - the qtests have just been enabled 
+there 3 weeks ago (see commit a35e2ee929741fd), so this is just restoring 
+the state from the time before the qtests have been enabled for Windows.
 
-      if (gdb_flags & GDB_O_WRONLY) {
--        host_flags = O_WRONLY;
-+        host_flags |= O_WRONLY;
-      } else if (gdb_flags & GDB_O_RDWR) {
--        host_flags = O_RDWR;
-+        host_flags |= O_RDWR;
-      } else {
--        host_flags = O_RDONLY;
-+        host_flags |= O_RDONLY;
-      }
-      if (gdb_flags & GDB_O_CREAT) {
-          host_flags |= O_CREAT;
----
+ > That said, maybe it is time to deprecate the 32-bit
+ > hosts?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Certainly fine for me, but that's up to the Windows folks to decide. Maybe 
+you could just suggest a patch to start the discussion?
+
+  Thomas
 
 
