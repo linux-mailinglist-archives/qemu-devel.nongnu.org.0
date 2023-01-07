@@ -2,73 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2953660B40
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 02:08:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A9E660B41
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 02:09:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDxfY-0003qo-6v; Fri, 06 Jan 2023 20:06:44 -0500
+	id 1pDxhq-0004X5-39; Fri, 06 Jan 2023 20:09:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDxfW-0003qR-Gz
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 20:06:42 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDxhh-0004Wb-Iq
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 20:08:57 -0500
+Received: from sonic314-20.consmr.mail.gq1.yahoo.com ([98.137.69.83])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pDxfU-0002wP-H4
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 20:06:42 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id jn22so3455662plb.13
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 17:06:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=suHoxdhRQBaNRGQnMNu6zOYCu10KNe3AY1Hr24Mk9vY=;
- b=OQbduGNOYI0Q39yVeO0fx3uDvKTU1DTQSGVG8EyFYnMIUKlqAELk7yRmrIFxi+TqWh
- WcGXiJhJP7Wy9NJIh9XbjALjVYVoxFQcQjjZKYzY0fbNxjCx+CIOn3b5WHO770z79xbd
- jY5NRI2BiwVWK3zgiLUZCz8IxAMmOVMvLpz+I8s976gMBnZO1OXYOrwit4oq2LiwTcO9
- cCM74dBkNEIwEH/GN2TNqKT7x708d/cWTEymnd9AjTUE2Hkb57yhjYxxPBhV0J+lPKMn
- HFZ82ZNdAUOXv5RojeGrVvYrFTVtTeE2ZCMecvZDTV+Fc6DYXHWbzBrZAyZWeDu/HEPy
- aRgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=suHoxdhRQBaNRGQnMNu6zOYCu10KNe3AY1Hr24Mk9vY=;
- b=Tj3MkxcLcOOLdLtbkGyAhqHCA8sB0TjkGnIh6KOpChMQS0r6u4sGQUaSFhDAPZ9FVO
- 02YHvvb2zjz7/00uDVWtZeo7cZyopL99j39tIDEyb9zKnr9Z58dg24exafEXnQA+hwMd
- 1PQ0oRQFMqefm++WyeJvBNTAPYk9eghYniTu3JkUHHNBhatu475WVf2xcVGUjXpvnpi4
- hcvnQPMjJN70xHojNGn7SMbPhc6B+qr8YVFBTgBbL0WTvk9oWqKqY8fj/al+ZdetnXEN
- 3GOa1QONtqM5ECiXWmwBEaGupm7il78rqm9ug4PTGyx64pEp48yaRn71xHbsCSp4KdJH
- hMMg==
-X-Gm-Message-State: AFqh2koZ25humvJwHu5zLo1lzQ4lKcDORLHOkfb+NJCNIIA4XmWV9Gui
- Kc+zwmzAGix/34s4H6LAyfl0wzvBLaaroLXa
-X-Google-Smtp-Source: AMrXdXt21Rv053p6PHsN+J999omIjpJdnAw6bS3i9bOvwLgei4AUtLOSvkcUPupelJT/ktmY8+sH/w==
-X-Received: by 2002:a05:6a20:47c6:b0:b0:1e9b:e930 with SMTP id
- ey6-20020a056a2047c600b000b01e9be930mr61635770pzb.57.1673053598663; 
- Fri, 06 Jan 2023 17:06:38 -0800 (PST)
-Received: from stoup.. ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
- by smtp.gmail.com with ESMTPSA id
- m9-20020a654c89000000b004a281fb63c3sm1404360pgt.87.2023.01.06.17.06.37
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 17:06:38 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4] tcg/arm: Use register pair allocation for qemu_{ld, st}_i64
-Date: Fri,  6 Jan 2023 17:06:37 -0800
-Message-Id: <20230107010637.1285036-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDxhf-0003DS-6j
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 20:08:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1673053731; bh=RM3OQ5SqcJacBinVYA5gdpDbq4pClsj3VLZOZHffPJQ=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
+ b=dq2vESZ00s4dsw8quVaRQcy0BZg2MMAe1up1U3Xu4SS+hChXr+soZoOJHNf72JNnUmRqIjZt7CPd2Wj4o16s1l3suRFko0+555Qm/GJQUZh2HjjSazpYQJ1/LAUbMkGqx/X3S0Vyo76UZOVcJAThz9ZyUTQGW1cI3dr9adL6PpCIvQC4ggbq00a0lnAVdZKtotM38ldmUgdci/qQaNVTEtphM6mYYxBNpEQu2sg4TsDl7SV6bqpWlskF008qPLCTG639brYeH26TDogN/Em/C+B1hg8vg7mu9Nxi7FakyqhUVtyHuVLLMEmF8PRhctor2tNjooWG5+wGk8BYxg9dyA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1673053731; bh=4KfaWLub71iH+DxRqHsT1oed9V4ykxAI+tvjzwupahF=;
+ h=X-Sonic-MF:Date:Subject:From:To:From:Subject;
+ b=dIzK4EfUtagvwewOlyDYJzaHBeOE1dd6FxKhqKRJHVS1XT7ETQpsMvLowXWgauUyCvsxFlGI6+6e8MFwk/TI50wNq1ZXzeXmDSV/iCDRkf3wY9R3KKl6vHknczVpZ0s4J74pn+B4GpUDjRbb/pQPBuYODrX4Gtq5FGvTUCaRcHaVL/T0BFDK4uTWqCteGzMw3NVAyCMYvuK4EkIMlCfg42OU0hB8vIClBrgKzep1tnt1/wpkZXo5zWhj2invPMg/vpZkWiLuudUfdQrRyCGTCvxybLAI5mkDjaDwBr5OoGLZgIAYWtBgUlRLVi3XqnuWQWdT2HWXS9uSzMvKnTIY9g==
+X-YMail-OSG: gR.45zEVM1llY6rhNVg5om7pz3Lkij.kCFZX_Kf25.wujBsPXCa1drYl9VuuuST
+ YImZ77FlHMRfjIC1BGeqBxNRH7W2cztj2fMryxh1TrjLPKpqzStbkiTq.hAWlA60D_OK2aaB2H3K
+ GQpHFXEbv_ZycZ4fsAl_bs6hf2RMs7uMzOnIwKScFbuh8uPFHt6Q8Q9TeP6ZiXV3TEDcES0CeW4S
+ fKbH27Wltwp5WU3JxJ38ID_VEk4N9JCos4IpLgX4tMRhi7VAu4gnujuSOTdpE0wbSHjrMDpp02ng
+ .CBmPYzGveJWvlhmuTyo12Bb0urBmQTv9ri0hiQBW7RMYkGiyJFWic7jjALj0obWu4jBVV5x_tmu
+ lXIK6AvTTwSL1K4HwFUw5G3Qt9pvUYIT7D4scKSqI8Bp5BXSaC3Bg63AjTqkRKiH1Auoe7Tmafmt
+ rPma.QIljJk2Xifb4BCnXGXIQE2TfH2jyZs6JYnIC2omcMLTFuzhdLIwg6iVyzyD0GMv2HpABup9
+ hhls2QFdnGr4w5SvNKcUR1fKdYwb9x.cGFVjGPrHOJbwlJnEjqJ.3vjXJRhfJRN9EyP9oUsCHj4Y
+ 5e6eWr7KZdShlzd3M44mBNe_WKhNC36jzzaEwOWEXdoedNWAcE_4GSPbHFj0vQHYXINASFj2P2Bf
+ 89w3EZvwOLctiVKy0DlINKGn5Phb391wMG7OGYrTBulQzHjZlFaoGvbK6b5Kxsp0Anv3Y2hpyOtq
+ otM_OqibOXCPToBMd4gw2ZdfX3N_CsSUI9fx1emlXlr9bXDOnAet7Fgf2m0m4B14ZpFBFHNIC1NG
+ 9p5Kra2XccUh6EaSc_UYsGRQZH1T.bdO_zFJdRlOF1RE2o6GaSuKYDuNUYRlRn_WSZWf5QbQDCK1
+ nzUuCJXeVkNfLQ_Klg5x_Hbs65CPm93SxWJh7_7tESbDRtAQk78slvLnIjA780llDOYgQ2AYMCox
+ a90nymUlZw35b2LJItaQ7GczJMGKffoZJTrYrmTfIyCDdK0FpWQigQ3zcTi7XJVRLBSggobCiLMa
+ U_G._NxtXd1N96SLaRrVw4kC7Gx67e9.Ft8uuwNKP2R5tzHceuO799VezVkW1KO2VydGrIalChkd
+ u23.VU1wj2v_1B6edEJesBz_geqdMmsj5mhBRWoR21uYIMcn7YEyzSNA7TSZNVNTXqFeFPP_nedR
+ 1KGzYcLklAbq0r7rb6MEvj64NaZXJK1NWaPg20O9sDLhkE9Q0UiyGfFmDN29jfIzA.WDcRRbnfxX
+ oCnR8gpRN5BaOigpo823oPwNolA1hbQINhvseJYJNEt.zaBcRPA4mY1etTDo4CBRem.ebisB38CG
+ UJpAZ.T2Eer6GG1T6O3vJ06TwxDDy1s_OQaDSknq8krl1ny1njz8L3wLlCaJU8L5uCc.b20SXTCu
+ QErbEW0hCmlo5zZsOfisDKfc8qat0ifJda6jrddbx7u75idAVMrN.vvf_0Ve8D2PG5advZg1wr4.
+ lOWkqxV9IBWo3uO2nWq3webNXgS7K3Uq61Xy4yOhWgtVvR.FmB66JFz9ppo6WeZaaw6IHU7C1cm8
+ zRGTErBUkx.Y24QPJWA7x8eI5JB4xr9tf9jPf7U52P1PcHab5_XrmjpNwZxKTmDhXpGgTstEvIoy
+ E8oXy_NEBSLLWK5EPdBluUMiRVGDi61rUdnP7LFarcokxhBa0kAjdEtLOFXFqHQ0zA6oeKaEyYXX
+ vHTOyE_6y_q3bYQzPL7p2ZfelWIVyqglLXgj25iK4N3ULo6tuowMO4YrJOs3DAir0XtgpfjasbCo
+ NLCDLeY6.mWLYdSDitC_3jYBUYxkB5Gb6vl8gZ2Dq1V1eciYauuLzHVU7mZABDJStVjnSkZ2FUO0
+ ZaN.UZZDfEN_a.neb34EGqqOX_pb6j6EhLe7bny3xvMiRGmt7jWbdRedQPqMZ65LoErRHSLoqvaa
+ hyIqXMnIUsJZFEF1Qbwmf57ZbINnAIB4rgiN0Gm7l04pzGNaGy1I1Wn5E5fUlI5ahJjhBmWjhQ_p
+ GHq22mn6lmS6MAgwfiJIgEklqCtf7y44im619ABPT8PHX0LzFJ327Zl2E2FudwOrV_FzqOk17y8w
+ BZXqo.YCW1jF50HKpvBIFepTKvzDe2hgn4IrnNoeDMy3kjDhCm3K80ab87O2e1HrnDjxoCerLOe3
+ E7_FDFwJAh16fA6KrQSKTbSM3sb4rcflYoDfrZa_VyVoRpIg8.ZGdQl.FCRg9Tf7CpzhMGLAEARJ
+ zmXpMh4QfV3SA.BWDwKOCeQ--
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic314.consmr.mail.gq1.yahoo.com with HTTP; Sat, 7 Jan 2023 01:08:51 +0000
+Received: by hermes--production-ne1-7b69748c4d-g8q5j (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 34031321042cfd49358cba9e2ea3354a; 
+ Sat, 07 Jan 2023 01:08:48 +0000 (UTC)
+Message-ID: <00ff4875-62e0-05c8-a13e-5a52d4195cc2@aol.com>
+Date: Fri, 6 Jan 2023 20:08:46 -0500
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 6/6] hw/isa/piix: Resolve redundant
+ TYPE_PIIX3_XEN_DEVICE
+From: Chuck Zmudzinski <brchuckz@aol.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>
+References: <20230104144437.27479-1-shentey@gmail.com>
+ <20230104144437.27479-7-shentey@gmail.com>
+ <1c2e0780-e5fb-1321-0d84-b0591db9fec7@linaro.org>
+ <B207F213-3B7B-4E0A-A87E-DE53CD351647@gmail.com>
+ <6a1a6ed8-568d-c08b-91a7-1093a2b25929@linaro.org>
+ <d9e2f616-d3bf-fc6c-2dc5-a0bf53148632@aol.com>
+ <30337c62-a938-61c8-3ae5-092dbccf6302@aol.com>
+Content-Language: en-US
+In-Reply-To: <30337c62-a938-61c8-3ae5-092dbccf6302@aol.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Mailer: WebService/1.1.20982
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.69.83; envelope-from=brchuckz@aim.com;
+ helo=sonic314-20.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.939,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,143 +118,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Although we still can't use ldrd and strd for all operations,
-increase the chances by getting the register allocation correct.
+On 1/6/23 6:04 PM, Chuck Zmudzinski wrote:
+> On 1/6/23 2:08 PM, Chuck Zmudzinski wrote:
+>> On 1/6/23 7:25 AM, Philippe Mathieu-Daudé wrote:
+>>> On 6/1/23 12:57, Bernhard Beschow wrote:
+>>>> 
+>>>> 
+>>>> Am 4. Januar 2023 15:35:33 UTC schrieb "Philippe Mathieu-Daudé" <philmd@linaro.org>:
+>>>>> +Markus/Thomas
+>>>>>
+>>>>> On 4/1/23 15:44, Bernhard Beschow wrote:
+>>>>>> During the last patches, TYPE_PIIX3_XEN_DEVICE turned into a clone of
+>>>>>> TYPE_PIIX3_DEVICE. Remove this redundancy.
+>>>>>>
+>>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>>>>>> ---
+>>>>>>    hw/i386/pc_piix.c             |  4 +---
+>>>>>>    hw/isa/piix.c                 | 20 --------------------
+>>>>>>    include/hw/southbridge/piix.h |  1 -
+>>>>>>    3 files changed, 1 insertion(+), 24 deletions(-)
+>>> 
+>>> 
+>>>>>>    -static void piix3_xen_class_init(ObjectClass *klass, void *data)
+>>>>>> -{
+>>>>>> -    DeviceClass *dc = DEVICE_CLASS(klass);
+>>>>>> -    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+>>>>>> -
+>>>>>> -    k->realize = piix3_realize;
+>>>>>> -    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
+>>>>>> -    k->device_id = PCI_DEVICE_ID_INTEL_82371SB_0;
+>>>>>> -    dc->vmsd = &vmstate_piix3;
+>>>>>
+>>>>> IIUC, since this device is user-creatable, we can't simply remove it
+>>>>> without going thru the deprecation process.
+>>>> 
+>>>> AFAICS this device is actually not user-creatable since dc->user_creatable is set to false once in the base class. I think it is safe to remove the Xen class unless there are ABI issues.
+>>> Great news!
+>> 
+>> I don't know if this means the device is user-creatable:
+>> 
+>> chuckz@bullseye:~$ qemu-system-i386 -device piix3-ide-xen,help
+>> piix3-ide-xen options:
+>>   addr=<int32>           - Slot and optional function number, example: 06.0 or 06 (default: -1)
+>>   failover_pair_id=<str>
+>>   multifunction=<bool>   - on/off (default: false)
+>>   rombar=<uint32>        -  (default: 1)
+>>   romfile=<str>
+>>   x-pcie-extcap-init=<bool> - on/off (default: true)
+>>   x-pcie-lnksta-dllla=<bool> - on/off (default: true)
+>> 
+>> Today I am running qemu-5.2 on Debian 11, so this output is for
+>> qemu 5.2, and that version of qemu has a piix3-ide-xen device.
+>> Is that this same device that is being removed? If so, it seems to
+>> me that at least as of qemu 5.2, the device was user-creatable.
+>> 
+>> Chuck
+> 
+> Good news! It looks the device was removed as user-creatable since version 5.2:
+> 
+> chuckz@debian:~$ qemu-system-i386-7.50 -device help | grep piix
+> name "piix3-usb-uhci", bus PCI
+> name "piix4-usb-uhci", bus PCI
+> name "piix3-ide", bus PCI
+> name "piix4-ide", bus PCI
+> chuckz@debian:~$ qemu-system-i386-7.50-bernhard-v2 -device help | grep piix
+> name "piix3-usb-uhci", bus PCI
+> name "piix4-usb-uhci", bus PCI
+> name "piix3-ide", bus PCI
+> name "piix4-ide", bus PCI
+> chuckz@debian:~$
+> 
+> The piix3-ide-xen device is not present either with or without Bernhard's patches
+> for current qemu 7.50, the development version for qemu 8.0
+> 
+> Cheers,
+> 
+> Chuck
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
 
-v3 was patch 5 in a larger patch set:
+I traced where the pciix3-ide-xen device was removed:
 
-  https://lore.kernel.org/qemu-devel/20221111074101.2069454-6-richard.henderson@linaro.org/
+It was 7851b21a81 (hw/ide/piix: Remove redundant "piix3-ide-xen" device class)
 
-most of which has been merged.
+https://gitlab.com/qemu-project/qemu/-/commit/7851b21a8192750adecbcf6e8780a20de5891ad6
 
-r~
+about six months ago. That was between 7.0 and 7.1. So the device being removed
+here is definitely not user-creatable, but it appears that this piix3-ide-xen
+device that was removed between 7.0 and 7.1 was user-creatable. Does that one
+need to go through the deprecation process? Or, since no one has complained
+it is gone, maybe we don't need to worry about it?
 
----
- tcg/arm/tcg-target-con-set.h |  7 ++++---
- tcg/arm/tcg-target-con-str.h |  2 ++
- tcg/arm/tcg-target.c.inc     | 28 ++++++++++++++++++----------
- 3 files changed, 24 insertions(+), 13 deletions(-)
+Cheers,
 
-diff --git a/tcg/arm/tcg-target-con-set.h b/tcg/arm/tcg-target-con-set.h
-index 3685e1786a..b8849b2478 100644
---- a/tcg/arm/tcg-target-con-set.h
-+++ b/tcg/arm/tcg-target-con-set.h
-@@ -15,8 +15,9 @@ C_O0_I2(r, rIN)
- C_O0_I2(s, s)
- C_O0_I2(w, r)
- C_O0_I3(s, s, s)
-+C_O0_I3(S, p, s)
- C_O0_I4(r, r, rI, rI)
--C_O0_I4(s, s, s, s)
-+C_O0_I4(S, p, s, s)
- C_O1_I1(r, l)
- C_O1_I1(r, r)
- C_O1_I1(w, r)
-@@ -38,8 +39,8 @@ C_O1_I2(w, w, wZ)
- C_O1_I3(w, w, w, w)
- C_O1_I4(r, r, r, rI, rI)
- C_O1_I4(r, r, rIN, rIK, 0)
--C_O2_I1(r, r, l)
--C_O2_I2(r, r, l, l)
-+C_O2_I1(e, p, l)
-+C_O2_I2(e, p, l, l)
- C_O2_I2(r, r, r, r)
- C_O2_I4(r, r, r, r, rIN, rIK)
- C_O2_I4(r, r, rI, rI, rIN, rIK)
-diff --git a/tcg/arm/tcg-target-con-str.h b/tcg/arm/tcg-target-con-str.h
-index 8f501149e1..24b4b59feb 100644
---- a/tcg/arm/tcg-target-con-str.h
-+++ b/tcg/arm/tcg-target-con-str.h
-@@ -8,9 +8,11 @@
-  * Define constraint letters for register sets:
-  * REGS(letter, register_mask)
-  */
-+REGS('e', ALL_GENERAL_REGS & 0x5555) /* even regs */
- REGS('r', ALL_GENERAL_REGS)
- REGS('l', ALL_QLOAD_REGS)
- REGS('s', ALL_QSTORE_REGS)
-+REGS('S', ALL_QSTORE_REGS & 0x5555)  /* even qstore */
- REGS('w', ALL_VECTOR_REGS)
- 
- /*
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index 9245ea86d0..e82749a602 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -1692,9 +1692,11 @@ static void tcg_out_qemu_ld_index(TCGContext *s, MemOp opc,
-         tcg_out_ld32_r(s, COND_AL, datalo, addrlo, addend);
-         break;
-     case MO_UQ:
-+        /* We used pair allocation for datalo, so already should be aligned. */
-+        tcg_debug_assert((datalo & 1) == 0);
-+        tcg_debug_assert(datahi == datalo + 1);
-         /* LDRD requires alignment; double-check that. */
--        if (get_alignment_bits(opc) >= MO_64
--            && (datalo & 1) == 0 && datahi == datalo + 1) {
-+        if (get_alignment_bits(opc) >= MO_64) {
-             /*
-              * Rm (the second address op) must not overlap Rt or Rt + 1.
-              * Since datalo is aligned, we can simplify the test via alignment.
-@@ -1748,9 +1750,11 @@ static void tcg_out_qemu_ld_direct(TCGContext *s, MemOp opc, TCGReg datalo,
-         tcg_out_ld32_12(s, COND_AL, datalo, addrlo, 0);
-         break;
-     case MO_UQ:
-+        /* We used pair allocation for datalo, so already should be aligned. */
-+        tcg_debug_assert((datalo & 1) == 0);
-+        tcg_debug_assert(datahi == datalo + 1);
-         /* LDRD requires alignment; double-check that. */
--        if (get_alignment_bits(opc) >= MO_64
--            && (datalo & 1) == 0 && datahi == datalo + 1) {
-+        if (get_alignment_bits(opc) >= MO_64) {
-             tcg_out_ldrd_8(s, COND_AL, datalo, addrlo, 0);
-         } else if (datalo == addrlo) {
-             tcg_out_ld32_12(s, COND_AL, datahi, addrlo, 4);
-@@ -1832,9 +1836,11 @@ static void tcg_out_qemu_st_index(TCGContext *s, ARMCond cond, MemOp opc,
-         tcg_out_st32_r(s, cond, datalo, addrlo, addend);
-         break;
-     case MO_64:
-+        /* We used pair allocation for datalo, so already should be aligned. */
-+        tcg_debug_assert((datalo & 1) == 0);
-+        tcg_debug_assert(datahi == datalo + 1);
-         /* STRD requires alignment; double-check that. */
--        if (get_alignment_bits(opc) >= MO_64
--            && (datalo & 1) == 0 && datahi == datalo + 1) {
-+        if (get_alignment_bits(opc) >= MO_64) {
-             tcg_out_strd_r(s, cond, datalo, addrlo, addend);
-         } else if (scratch_addend) {
-             tcg_out_st32_rwb(s, cond, datalo, addend, addrlo);
-@@ -1869,9 +1875,11 @@ static void tcg_out_qemu_st_direct(TCGContext *s, MemOp opc, TCGReg datalo,
-         tcg_out_st32_12(s, COND_AL, datalo, addrlo, 0);
-         break;
-     case MO_64:
-+        /* We used pair allocation for datalo, so already should be aligned. */
-+        tcg_debug_assert((datalo & 1) == 0);
-+        tcg_debug_assert(datahi == datalo + 1);
-         /* STRD requires alignment; double-check that. */
--        if (get_alignment_bits(opc) >= MO_64
--            && (datalo & 1) == 0 && datahi == datalo + 1) {
-+        if (get_alignment_bits(opc) >= MO_64) {
-             tcg_out_strd_8(s, COND_AL, datalo, addrlo, 0);
-         } else {
-             tcg_out_st32_12(s, COND_AL, datalo, addrlo, 0);
-@@ -2339,11 +2347,11 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_qemu_ld_i32:
-         return TARGET_LONG_BITS == 32 ? C_O1_I1(r, l) : C_O1_I2(r, l, l);
-     case INDEX_op_qemu_ld_i64:
--        return TARGET_LONG_BITS == 32 ? C_O2_I1(r, r, l) : C_O2_I2(r, r, l, l);
-+        return TARGET_LONG_BITS == 32 ? C_O2_I1(e, p, l) : C_O2_I2(e, p, l, l);
-     case INDEX_op_qemu_st_i32:
-         return TARGET_LONG_BITS == 32 ? C_O0_I2(s, s) : C_O0_I3(s, s, s);
-     case INDEX_op_qemu_st_i64:
--        return TARGET_LONG_BITS == 32 ? C_O0_I3(s, s, s) : C_O0_I4(s, s, s, s);
-+        return TARGET_LONG_BITS == 32 ? C_O0_I3(S, p, s) : C_O0_I4(S, p, s, s);
- 
-     case INDEX_op_st_vec:
-         return C_O0_I2(w, r);
--- 
-2.34.1
-
+Chuck
 
