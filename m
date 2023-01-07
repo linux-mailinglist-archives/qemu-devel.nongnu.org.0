@@ -2,107 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7276610B7
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 19:09:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE9C6610C1
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 19:20:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEDcD-0004Ud-6H; Sat, 07 Jan 2023 13:08:21 -0500
+	id 1pEDmv-0007Ux-7Z; Sat, 07 Jan 2023 13:19:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pEDcB-0004UB-LB
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 13:08:19 -0500
-Received: from sonic308-55.consmr.mail.gq1.yahoo.com ([98.137.68.31])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pEDms-0007UO-3E
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 13:19:22 -0500
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pEDc8-0000ey-GK
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 13:08:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1673114891; bh=Q18RRjMQ2O5Mt1JGmUYM8swg2EPTEvKitcNzVDG+mic=;
- h=Date:From:Subject:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
- b=fjZLMu/4N+qQkDDgJB0TSZO7e8Pry9AarIVXvSBjVwLKd/CCMn0NwNsZPq8giBgrhn+T72ilBMcxxutstnAM7877zlpi1VVbJdM2G8/bGXaskLoEqb/Mbuy+geuW2zuGJQ49fzWMOrUZS+kDWsptUmiRuusENddhbM46UtEn2rn7fg+i5VyqF+NoLQ2TGZ8tLEiR+NioEXGtLh7mlG6fhj8a2RNMHG5ulyLGnwdz6wSm45u8dHm+dDFj2YGTBp1glgl3dzftnRbzNagMhbKEjPn5RvxMqmubwq5Uzyo8RC8dX3haU6NCldk5CMN8S3VV7zO7BFvEt1PVTBFNVByzPg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1673114891; bh=EkH3Ky6RbP270JuPU3dSVegfYzgL45PaYO8+avJ1Ebs=;
- h=X-Sonic-MF:Date:From:Subject:To:From:Subject;
- b=RDudI94oDRtNQBMm0MK3ljhj0zRNvrRI5RAxiIrBJh+d1o2YG+hPjCSWs6oou/r+LptAIWF7OLkrOXwwvJBAhlgpkzOBRjYPVgcwDBME0yumrrhPpOj+wy2aLfldcO0GFTFE5m+2GAhS1EqQ3zFsPiqbfubao4+3hhLwxnegkN5+qgwv++GI3l7BC4THGIUIFTCD7DY6MYoAe8L0QuOGg77x3dNGAvqr3dGpUnplFq5i4+oYZ+Y0MRJgW4L00DGV2CokBjKafv4Tq/hmRB8cs1AVqXWtnBxV20Bqxa+WdWCRz5fqL6rjO88k324PX4apJfmBHD/vZjR3NyGnSCoi8Q==
-X-YMail-OSG: CxxQpWUVM1ldtrqoR4yjKv3_XMyGb7dsJmacpJpL6CPoJfYMMk4DXun3TyLUOWs
- hz25SdmCghqgAgdhqyles8WsOK_mSTWrD_rQaleE857SNz1CYXNHOePBj_6lzCy9b8pCLYGA3DFF
- pQrPZEXPG9lxylgxVIxi.3XdmSmclk3gxU6qnS0EJe9at4hkko6TtkgBzxSgn5CS7DsgUMK7mVr.
- Hlyk1Intzs2J.AGWuCJL2H4lGohdh0M3XhxXXUQGaauFO.fluYbrs61ef50jWjzZBtvCV1IMparr
- vEokkMk4M6Yw1q6gOF13pL9OD2P9fd40uuPagovNeGSopcly3uSXQFj8PgpCD_ss2L7m2udpxlr6
- y1ZfYepDGv393B3m..oIrOGB8x7M6.MK45MIAn_yq2LTvS0XZZd6Wf56CY7s37pARk5QtakB1USm
- qdNPWW1VrEHYEBdXS64xkk.QZMXD56r9sh7m5Y769baT04XnxU9vbhm3odBZVXVF4jcwWXaJQihT
- dAWv7mdkVwD1Joc4FVoOPAGHBwPo3EGWga5JlvAI7_yOUWMBCz7lGvTvmH071ojJFso9Gl9F3dE8
- VsJxGNtptu50epj8zwnlApvTeow5nRGbaNNtDLAp09TLekdnZWF02OxEehzZdoPNIlhts6sqQqSo
- iSqoHnRSAoYAWyfpwsp_nDe0TZauzRDE8_TyHsL0A.R9A9L2uIweYBNlteFgvNbjAGwp_QozyuZL
- wONCgNDOvEZa5QQDhH_kW3QChgKOb0firteEPIVNGorR5C6y0vGN65TxkA1XfwzORY7R9vZynidR
- lhJtZEb718z8aMBElt1nlFspfMLFxzBNWVWe6uV8h8olY9MUjsYtb5IwaiNc_i8TBU0_xpMUgd9p
- lNUS2kyGJaBX.I696yLnsg2AkMt4D0nr3ByyyA9TCTWK4ZA2r_oXZI6az48vjEvTVq1e0U7LIBND
- TzmdCd0GszoYMXK7ngPH8eajgJIgov1ues_5dA9M.MuE5h49_qntBmuUF_i1aKeyJfPsqebmT77b
- 2jc8sB6Dk_WRJsc_qsSktNjp._UN_V0bV71IB3E_Vscs84WM56psutehLVV24TVkDQhR4ZJgDh4b
- 7hZ2Gh2wI6oeTt2yC4Ydmx3_O1HfW4ygYf_lbtWxwW3HfwNl.C0sQAmj3dt6nJXayItAYDKlEYVi
- NsGwhW9QAoBncHs_7VJPs2XGfxp78ixi8D5Yb8dCWDGIpX4HohAecZ5p3XHIyvJy5kOO.kgsn1cj
- qomvFvfooFWuztIoVrNTO7zc8lOWbz7_gt85j7mN.8xaLloxyU.9PeSWn1zd6GghONrSNn2FYNfA
- VDB3iPQMw1HAJw94uiBPRtQM3u6bqoqJAsLhFw_rj69FPr1t7BR7pm.CZoEmbkZEw.ajpWTLVK58
- bq4wZAjJ0ufXUS8YPg.bPie93xR4v5kE5_3lRB8HBtRMtjCGxC_iULoOzbdrVCje5F2HHYXI.33U
- Pb9bWu313vbonT3Kc8QyKMRqsJEq8fNhT_zpBTaj96.iRNqI7pn_29pIDAw6UIcCbdlcAVqJC10H
- 8O7jstgU9L2Yw4CkniHiTCCmmfcuyWHr.EhTygIEF4Idrq7ZLNBCkiqz.e9rMgEwEXYezKXuA3rG
- a0q48Hn5ogrNg.xHZAAVj46NbezGeJVLWagutBlaa2nO1Sc3ytgOgeCe74eaTEOEMQQ63YRcW9LW
- l1q9xxrFF4i_.1MtGxtgNC6Db3wZGD7b8Oi8LmFgXKMp3fMWhOOiwZduHzz7mgh3PrL8vuUnoZxF
- .Q0bL6UC_BfxRJCoqdpYGZYdql2T.ox8jbKCBhignqkGLo2LdoRx.BEGQgIzsNbOdDl8O7OU0qsT
- 9iQ_F_pyOsaNNUPg2k85zIHWuxXR_043uHSwrkQGiA6JedbJRJuAIo8qCtdvltr_GAg4OmtGogJK
- EuY1pmRdCwCu7yhDnU9crRbBYy3rbjUseaMERD_dR_CUGXsI2dPDkbcdWrlaZ9gzMuRIZH.WamKc
- 1SlKsuxAApUflAl2aQS4fvvgTFdObwFFEKVbVxvH9Nh.GreI3x65LASYKGHJoC3ITbYQTVZNppuE
- byx4ERQu9pd1nU8S74.rHGOHJIRHh7ZnD5iN4XEGnNEVtcO.VL74pjl6s2b.Pa.jISVcD31DGVYg
- 41p0V__VzbDJ5j59h1TTOJy1qKxPKcYhneSo4aeLsY1CDNrOR2bA0RdPbs0hU6RkZdXT4B_1cFP8
- OVqLzLzdgmo_68fm.QgHrEg--
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic308.consmr.mail.gq1.yahoo.com with HTTP; Sat, 7 Jan 2023 18:08:11 +0000
-Received: by hermes--production-ne1-7b69748c4d-pm9xv (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 14ccf2a9c0a9dae2713d4c3fcc9e4744; 
- Sat, 07 Jan 2023 18:08:06 +0000 (UTC)
-Message-ID: <d8bf3a56-6dae-8679-424f-920e792627d5@aol.com>
-Date: Sat, 7 Jan 2023 13:08:03 -0500
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pEDmq-0006YO-4B
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 13:19:21 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id k19so3335759pfg.11
+ for <qemu-devel@nongnu.org>; Sat, 07 Jan 2023 10:19:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=IQeAyI5zLOFgWdoNZIf4Q4x6IS4guci1fUh3rKFs3d0=;
+ b=n6Hm4U2DKV/Stsneef0+bTl1Vd+RqBoGJp4QjZHq/2Tc6jjy6/xMHbteIwEIFMIgCG
+ AJL0pyKsGTUd1dIwJdS7K+9VL8hXswoPRh5HYpTNcTEY1gA26SSP5qCCYC9lAYdPCpTw
+ LFCTI+eveJMkJ1LNUi+rdmzgdZWUnoWg/0Q4Mjscple4XVvkRDZwlBMyX03yg1YkRgYI
+ wjEfZ3/SvkuGYX5DCpvcToNcuXAeyvKJm6yBf35Qe2sYGu9S8I7Pq5ukC5SFMAjzp24q
+ o/5ABDIrakY40SyQGEkfVh8uNB2xqNLAUvlfE+04f8RVJtVdiGJ/yNHHtl9m8Za2qlBF
+ jFeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IQeAyI5zLOFgWdoNZIf4Q4x6IS4guci1fUh3rKFs3d0=;
+ b=usHdp7JWfZ8iIQdp09FaEPmBJahRWbJzPZu5Qd9NN2gUWvmSBIPrY8x20+ql/dKaiI
+ AHVdWSWxtpmIRiwPemaUUboXOhyGwPCX3TjBZlld09ZyLMTsD6/v5mDVIddqGS12yAwJ
+ CwX+X4iMJMIa843TH+T04RkNMjgh3Dr8sjQKZzU1qSmTZoxbKVepQcx4/N73uZvdT1TC
+ urPKZs8AqVLf1vHMBguKCfEBvDqpaJacNILe2FlddKv0uBcRCjLfncgU4raN4x7miwcm
+ VrEEiJWX9dgV2V2qHO/2YYPTwAiuv/NXCZZ7hExCdY51fMfmwVu+6AArEZ+0GTN6GgT4
+ PUBQ==
+X-Gm-Message-State: AFqh2ko1l0kInsJYL1DeNImjIek6lIgXjQ2WG7aAEFPdcz9MjhIuQ5tV
+ boqo96XYkmkCgvEmXzHNIX6HU9zt9qI2OIQ5
+X-Google-Smtp-Source: AMrXdXtSsMxAOO3MxeZE0aU8HpXMjSdPXfp9oMx/WmqnEuoFBUIXI+gRqYVxdWJ6lkCsy/o6LNvP3g==
+X-Received: by 2002:a62:1c42:0:b0:582:7d77:7fa2 with SMTP id
+ c63-20020a621c42000000b005827d777fa2mr22437556pfc.11.1673115558228; 
+ Sat, 07 Jan 2023 10:19:18 -0800 (PST)
+Received: from stoup.. ([2602:47:d48c:8101:8a2d:2011:f402:6f82])
+ by smtp.gmail.com with ESMTPSA id
+ l123-20020a622581000000b005818d429d98sm3094133pfl.136.2023.01.07.10.19.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 07 Jan 2023 10:19:17 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: berrange@redhat.com,
+	pbonzini@redhat.com
+Subject: [PATCH v2] util/bufferiszero: Use __attribute__((target)) for
+ avx2/avx512
+Date: Sat,  7 Jan 2023 10:19:16 -0800
+Message-Id: <20230107181916.1983949-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-From: Chuck Zmudzinski <brchuckz@aol.com>
-Subject: Re: [PATCH v2 6/6] hw/isa/piix: Resolve redundant
- TYPE_PIIX3_XEN_DEVICE
-To: Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>
-References: <20230104144437.27479-1-shentey@gmail.com>
- <20230104144437.27479-7-shentey@gmail.com>
- <1c2e0780-e5fb-1321-0d84-b0591db9fec7@linaro.org>
- <B207F213-3B7B-4E0A-A87E-DE53CD351647@gmail.com>
- <6a1a6ed8-568d-c08b-91a7-1093a2b25929@linaro.org>
- <d9e2f616-d3bf-fc6c-2dc5-a0bf53148632@aol.com>
- <30337c62-a938-61c8-3ae5-092dbccf6302@aol.com>
- <00ff4875-62e0-05c8-a13e-5a52d4195cc2@aol.com>
- <01A7F932-0DF1-4977-A111-0907A7FC6FF9@gmail.com>
-Content-Language: en-US
-In-Reply-To: <01A7F932-0DF1-4977-A111-0907A7FC6FF9@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.20982
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.68.31; envelope-from=brchuckz@aim.com;
- helo=sonic308-55.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.114,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -120,109 +88,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/7/23 6:05 AM, Bernhard Beschow wrote:
-> Am 7. Januar 2023 01:08:46 UTC schrieb Chuck Zmudzinski <brchuckz@aol.com>:
-> >On 1/6/23 6:04 PM, Chuck Zmudzinski wrote:
-> >> On 1/6/23 2:08 PM, Chuck Zmudzinski wrote:
-> >>> On 1/6/23 7:25 AM, Philippe Mathieu-Daudé wrote:
-> >>>> On 6/1/23 12:57, Bernhard Beschow wrote:
-> >>>>> 
-> >>>>> 
-> >>>>> Am 4. Januar 2023 15:35:33 UTC schrieb "Philippe Mathieu-Daudé" <philmd@linaro.org>:
-> >>>>>> +Markus/Thomas
-> >>>>>>
-> >>>>>> On 4/1/23 15:44, Bernhard Beschow wrote:
-> >>>>>>> During the last patches, TYPE_PIIX3_XEN_DEVICE turned into a clone of
-> >>>>>>> TYPE_PIIX3_DEVICE. Remove this redundancy.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> >>>>>>> ---
-> >>>>>>>    hw/i386/pc_piix.c             |  4 +---
-> >>>>>>>    hw/isa/piix.c                 | 20 --------------------
-> >>>>>>>    include/hw/southbridge/piix.h |  1 -
-> >>>>>>>    3 files changed, 1 insertion(+), 24 deletions(-)
-> >>>> 
-> >>>> 
-> >>>>>>>    -static void piix3_xen_class_init(ObjectClass *klass, void *data)
-> >>>>>>> -{
-> >>>>>>> -    DeviceClass *dc = DEVICE_CLASS(klass);
-> >>>>>>> -    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-> >>>>>>> -
-> >>>>>>> -    k->realize = piix3_realize;
-> >>>>>>> -    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
-> >>>>>>> -    k->device_id = PCI_DEVICE_ID_INTEL_82371SB_0;
-> >>>>>>> -    dc->vmsd = &vmstate_piix3;
-> >>>>>>
-> >>>>>> IIUC, since this device is user-creatable, we can't simply remove it
-> >>>>>> without going thru the deprecation process.
-> >>>>> 
-> >>>>> AFAICS this device is actually not user-creatable since dc->user_creatable is set to false once in the base class. I think it is safe to remove the Xen class unless there are ABI issues.
-> >>>> Great news!
-> >>> 
-> >>> I don't know if this means the device is user-creatable:
-> >>> 
-> >>> chuckz@bullseye:~$ qemu-system-i386 -device piix3-ide-xen,help
-> >>> piix3-ide-xen options:
-> >>>   addr=<int32>           - Slot and optional function number, example: 06.0 or 06 (default: -1)
-> >>>   failover_pair_id=<str>
-> >>>   multifunction=<bool>   - on/off (default: false)
-> >>>   rombar=<uint32>        -  (default: 1)
-> >>>   romfile=<str>
-> >>>   x-pcie-extcap-init=<bool> - on/off (default: true)
-> >>>   x-pcie-lnksta-dllla=<bool> - on/off (default: true)
-> >>> 
-> >>> Today I am running qemu-5.2 on Debian 11, so this output is for
-> >>> qemu 5.2, and that version of qemu has a piix3-ide-xen device.
-> >>> Is that this same device that is being removed? If so, it seems to
-> >>> me that at least as of qemu 5.2, the device was user-creatable.
-> >>> 
-> >>> Chuck
-> >> 
-> >> Good news! It looks the device was removed as user-creatable since version 5.2:
-> >> 
-> >> chuckz@debian:~$ qemu-system-i386-7.50 -device help | grep piix
-> >> name "piix3-usb-uhci", bus PCI
-> >> name "piix4-usb-uhci", bus PCI
-> >> name "piix3-ide", bus PCI
-> >> name "piix4-ide", bus PCI
-> >> chuckz@debian:~$ qemu-system-i386-7.50-bernhard-v2 -device help | grep piix
-> >> name "piix3-usb-uhci", bus PCI
-> >> name "piix4-usb-uhci", bus PCI
-> >> name "piix3-ide", bus PCI
-> >> name "piix4-ide", bus PCI
-> >> chuckz@debian:~$
-> >> 
-> >> The piix3-ide-xen device is not present either with or without Bernhard's patches
-> >> for current qemu 7.50, the development version for qemu 8.0
-> >> 
-> >> Cheers,
-> >> 
-> >> Chuck
-> >
-> >
-> >I traced where the pciix3-ide-xen device was removed:
-> >
-> >It was 7851b21a81 (hw/ide/piix: Remove redundant "piix3-ide-xen" device class)
-> >
-> >https://gitlab.com/qemu-project/qemu/-/commit/7851b21a8192750adecbcf6e8780a20de5891ad6
-> >
-> >about six months ago. That was between 7.0 and 7.1. So the device being removed
-> >here is definitely not user-creatable, but it appears that this piix3-ide-xen
-> >device that was removed between 7.0 and 7.1 was user-creatable. Does that one
-> >need to go through the deprecation process? Or, since no one has complained
-> >it is gone, maybe we don't need to worry about it?
->
-> Good point! Looks like it fell through the cracks...
->
-> There are voices who claim that this device and its non-Xen counterpart should have never been user-creatable in the firtst place:
-> https://patchwork.kernel.org/project/qemu-devel/patch/20190718091740.6834-1-philmd@redhat.com/
+Use the attribute, which is supported by clang, instead of
+the #pragma, which is not supported and, for some reason,
+also not detected by the meson probe, so we fail by -Werror.
 
-Of course, only the xen variant was removed, so only users of the
-xen variant were affected by the removal of the device. Any affected
-users probably just substituted the non-xen variant for the xen variant
-in their machines and didn't experience any problems.
+Include only <immintrin.h> as that is the outermost "official"
+header for these intrinsics -- emmintrin.h and smmintrin.> are
+older SSE2 and SSE4 specific headers, while the immintrin.h
+includes all of the Intel intrinsics.
 
-Kind regards,
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
 
-Chuck
+Changes for v2:
+  - Drop changing --enable-avx512 to auto.
+  - Add patch commentary for <immintrin.h>
+
+r~
+
+---
+ meson.build         |  8 ++------
+ util/bufferiszero.c | 41 ++++++-----------------------------------
+ 2 files changed, 8 insertions(+), 41 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index 827e72609d..0e306cf4e4 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2330,11 +2330,9 @@ config_host_data.set('CONFIG_CPUID_H', have_cpuid_h)
+ config_host_data.set('CONFIG_AVX2_OPT', get_option('avx2') \
+   .require(have_cpuid_h, error_message: 'cpuid.h not available, cannot enable AVX2') \
+   .require(cc.links('''
+-    #pragma GCC push_options
+-    #pragma GCC target("avx2")
+     #include <cpuid.h>
+     #include <immintrin.h>
+-    static int bar(void *a) {
++    static int __attribute__((target("avx2"))) bar(void *a) {
+       __m256i x = *(__m256i *)a;
+       return _mm256_testz_si256(x, x);
+     }
+@@ -2344,11 +2342,9 @@ config_host_data.set('CONFIG_AVX2_OPT', get_option('avx2') \
+ config_host_data.set('CONFIG_AVX512F_OPT', get_option('avx512f') \
+   .require(have_cpuid_h, error_message: 'cpuid.h not available, cannot enable AVX512F') \
+   .require(cc.links('''
+-    #pragma GCC push_options
+-    #pragma GCC target("avx512f")
+     #include <cpuid.h>
+     #include <immintrin.h>
+-    static int bar(void *a) {
++    static int __attribute__((target("avx512f"))) bar(void *a) {
+       __m512i x = *(__m512i *)a;
+       return _mm512_test_epi64_mask(x, x);
+     }
+diff --git a/util/bufferiszero.c b/util/bufferiszero.c
+index ec3cd4ca15..1790ded7d4 100644
+--- a/util/bufferiszero.c
++++ b/util/bufferiszero.c
+@@ -64,18 +64,11 @@ buffer_zero_int(const void *buf, size_t len)
+ }
+ 
+ #if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT) || defined(__SSE2__)
+-/* Do not use push_options pragmas unnecessarily, because clang
+- * does not support them.
+- */
+-#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
+-#pragma GCC push_options
+-#pragma GCC target("sse2")
+-#endif
+-#include <emmintrin.h>
++#include <immintrin.h>
+ 
+ /* Note that each of these vectorized functions require len >= 64.  */
+ 
+-static bool
++static bool __attribute__((target("sse2")))
+ buffer_zero_sse2(const void *buf, size_t len)
+ {
+     __m128i t = _mm_loadu_si128(buf);
+@@ -104,20 +97,9 @@ buffer_zero_sse2(const void *buf, size_t len)
+ 
+     return _mm_movemask_epi8(_mm_cmpeq_epi8(t, zero)) == 0xFFFF;
+ }
+-#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
+-#pragma GCC pop_options
+-#endif
+ 
+ #ifdef CONFIG_AVX2_OPT
+-/* Note that due to restrictions/bugs wrt __builtin functions in gcc <= 4.8,
+- * the includes have to be within the corresponding push_options region, and
+- * therefore the regions themselves have to be ordered with increasing ISA.
+- */
+-#pragma GCC push_options
+-#pragma GCC target("sse4")
+-#include <smmintrin.h>
+-
+-static bool
++static bool __attribute__((target("sse4")))
+ buffer_zero_sse4(const void *buf, size_t len)
+ {
+     __m128i t = _mm_loadu_si128(buf);
+@@ -145,12 +127,7 @@ buffer_zero_sse4(const void *buf, size_t len)
+     return _mm_testz_si128(t, t);
+ }
+ 
+-#pragma GCC pop_options
+-#pragma GCC push_options
+-#pragma GCC target("avx2")
+-#include <immintrin.h>
+-
+-static bool
++static bool __attribute__((target("avx2")))
+ buffer_zero_avx2(const void *buf, size_t len)
+ {
+     /* Begin with an unaligned head of 32 bytes.  */
+@@ -176,15 +153,10 @@ buffer_zero_avx2(const void *buf, size_t len)
+ 
+     return _mm256_testz_si256(t, t);
+ }
+-#pragma GCC pop_options
+ #endif /* CONFIG_AVX2_OPT */
+ 
+ #ifdef CONFIG_AVX512F_OPT
+-#pragma GCC push_options
+-#pragma GCC target("avx512f")
+-#include <immintrin.h>
+-
+-static bool
++static bool __attribute__((target("avx512f")))
+ buffer_zero_avx512(const void *buf, size_t len)
+ {
+     /* Begin with an unaligned head of 64 bytes.  */
+@@ -210,8 +182,7 @@ buffer_zero_avx512(const void *buf, size_t len)
+     return !_mm512_test_epi64_mask(t, t);
+ 
+ }
+-#pragma GCC pop_options
+-#endif
++#endif /* CONFIG_AVX512F_OPT */
+ 
+ 
+ /* Note that for test_buffer_is_zero_next_accel, the most preferred
+-- 
+2.34.1
+
 
