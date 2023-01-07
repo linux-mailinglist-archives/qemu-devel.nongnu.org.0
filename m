@@ -2,89 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5222A6610A7
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 18:55:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2744E6610AF
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 19:03:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEDNY-0000oE-GH; Sat, 07 Jan 2023 12:53:12 -0500
+	id 1pEDWr-0002ly-E3; Sat, 07 Jan 2023 13:02:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEDNW-0000nz-Bb
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 12:53:10 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEDNU-0004hD-TX
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 12:53:10 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id d3so5039255plr.10
- for <qemu-devel@nongnu.org>; Sat, 07 Jan 2023 09:53:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=oHrPmumkI2PTGdh4ZkVi7/9RgKP51jEy87tMgeP6DXU=;
- b=k3Uk0I9W76gOITB/QZdjIK4IZDSTIjdbLU60dqimoq+2Ut2pjNPqfJZrEKr94iFXiw
- Y1QS5t4e640UdND+iTHDRyCLb9Ke38rswDNnnKD6931QiBKMkaM4f9TZnOOvDr24NjbG
- y1ODVbG4snrbUgM9LNQENuRrj77qfgtUSsxNKZnmsJbRjEO+3VoN3/7kKlOJUnrKhVLK
- mCR7xUlXjSg0+HjyHqj+jnORo+Nk3tNKDzEBhuzkbMzDO/ZXeqxfznGLWYYIYyKLq5kz
- OvdtrnyzWM6JPWMfhoAY2epoSCYewsFQdDPKusZwODJPE4UOj2o+THgFFcyYpoiF/oIq
- fu6Q==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pEDWo-0002lH-Ri
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 13:02:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pEDWl-0002w1-Or
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 13:02:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673114562;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NpiU32yy2XtXklGJ0Cvp/b0lrKijQHOfyEzjaIwmx/M=;
+ b=QLKiz6GhpFuJkfDbmWn/PDmk7wiNX6HAq3kXrPJE/ny1rNcgfEdcvm/PTeymi59s6ecTB+
+ 3Au89I/0mjlntN+ZbAOS6CZHpJzKZIXxnhdTIx1awyIzMNWyVedFRnQ3Nb0xf4yNjEv30g
+ n4JMMayMNSF5ZVqybBqWaE1O8sJQ7Fw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-34-XnlPF-MPPbif4XJq_44wAg-1; Sat, 07 Jan 2023 13:02:40 -0500
+X-MC-Unique: XnlPF-MPPbif4XJq_44wAg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m8-20020a05600c3b0800b003d96bdce12fso2631355wms.9
+ for <qemu-devel@nongnu.org>; Sat, 07 Jan 2023 10:02:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oHrPmumkI2PTGdh4ZkVi7/9RgKP51jEy87tMgeP6DXU=;
- b=vRtC2kTszWqCQR2Tc8M62sNfYWO3sj4GF+yye+1xy00UNOHxn1YFX0EFnU6ic90DM7
- c9FHgJ7wHYdrfypR2GlbuHCnp+3Ej7ihUUu4olt1TjSTBfSnEnsI9Pl8/6AUA7nYt0zz
- W+a2VnguX8/mRvoFZM7msmrZVz7mjbxa+wZtNjGDwSX2ppMNs3jAuUxIPYjTARBZhdn+
- 1hVCacYyuU5mo9vwPCQPXqwXqSNeKu6eb9OcZcbOATngEDysTpGtzeTEvHJMkz3N1Q8Q
- cbS9O5C/0EkUoRSIw0b7dvF06a0/RbmCEJVDArbb40ddrMYxyBkTeMrTuqP4zhGqOCR7
- 7yKQ==
-X-Gm-Message-State: AFqh2kpjF3/CwY7LiKT1Y2X+8/DLFe9sBd/XMfQe6CdhpUug2umxEMWo
- O6r8rswCAOyQ04wHviCAuTaPgg==
-X-Google-Smtp-Source: AMrXdXtyM3iV76fxfXT/PXQutE8tWenzSDqaR5OXg5+L+SgMRv1OyLOoQqT/c2kvzy/lNo8+GDuDdw==
-X-Received: by 2002:a17:903:41cf:b0:192:a69d:11f7 with SMTP id
- u15-20020a17090341cf00b00192a69d11f7mr43032813ple.27.1673113987220; 
- Sat, 07 Jan 2023 09:53:07 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:8a2d:2011:f402:6f82?
- ([2602:47:d48c:8101:8a2d:2011:f402:6f82])
- by smtp.gmail.com with ESMTPSA id
- i7-20020a170902c94700b00192dcd1b0e5sm2979986pla.265.2023.01.07.09.53.06
+ bh=NpiU32yy2XtXklGJ0Cvp/b0lrKijQHOfyEzjaIwmx/M=;
+ b=HkK/egrerKKSL8aDt7kUPEeFcF2iJJjsAjVW31YP1ni9jUdMHjMVm/87K6IYB9Xl9Y
+ vHhppHIEffv1PB66PY7mFdlP+sakeY3vPj+0pPr1GTApTQ2hAEVz0ST6jasK6vdrKQ3T
+ 04u1VbhwK9cz77dQ9n2GqMfEGhil0wzrIkjL6Bq8F1HXK/Gf4IBVL6DdvaRvOgQv2f5P
+ Ym/CDWcD/9QQ4dmxK3XMempX8v8iXbl325pT84WDCDWtcb9oXNVng6y36qpq5iAeiA+8
+ IRzDcTZYwMH6AHB3ugInMRKOS2sPwNjSGmPCDjWOwdU5fmr4g30UCbCP8GWfYbhyoKi/
+ TQgQ==
+X-Gm-Message-State: AFqh2krtqdZTXF9dlHrni4ZADHSk3B2AeZDn0YmC1HVFRZ0DioA/ZYfy
+ DIQKbJ9xKGHHxgtyAXFTFno7+scNtV7+5JnCj7DbLdnM1I1h5+0NmPluRkeBQJUsxaiBIPK4wlR
+ iqPLnHpt6Ub8IoQA=
+X-Received: by 2002:a05:600c:1d2a:b0:3d3:50b9:b1a1 with SMTP id
+ l42-20020a05600c1d2a00b003d350b9b1a1mr45897916wms.1.1673114559846; 
+ Sat, 07 Jan 2023 10:02:39 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsYAZCj4jMyN5MbnnnXUpONRRmZOznep10W0JjSpzKX0RZ7Im6eRJqxp8FDj3CYU+9KFaBSQg==
+X-Received: by 2002:a05:600c:1d2a:b0:3d3:50b9:b1a1 with SMTP id
+ l42-20020a05600c1d2a00b003d350b9b1a1mr45897909wms.1.1673114559603; 
+ Sat, 07 Jan 2023 10:02:39 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ m17-20020a05600c3b1100b003cfbbd54178sm18851678wms.2.2023.01.07.10.02.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Jan 2023 09:53:06 -0800 (PST)
-Message-ID: <2c840f1b-35ca-3bdf-c412-430daaea601c@linaro.org>
-Date: Sat, 7 Jan 2023 09:53:04 -0800
+ Sat, 07 Jan 2023 10:02:39 -0800 (PST)
+Message-ID: <8cf1e1ee-1e2a-d53f-3f8c-e870fe51f75d@redhat.com>
+Date: Sat, 7 Jan 2023 19:02:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 00/40] Toward class init of cpu features
+ Thunderbird/102.5.1
+Subject: Re: [PATCH] Update scripts/meson-buildoptions.sh
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
- armbru@redhat.com, ajones@ventanamicro.com
-References: <20230103181646.55711-1-richard.henderson@linaro.org>
- <CAFEAcA8K=1CNZfDG8i3bSXXSWT7D2oWg4jyupwYmw8oR7MJVsQ@mail.gmail.com>
- <9f9a6c22-315b-de1e-958e-89963c5e7e90@linaro.org>
- <CAFEAcA8cxJFpB9V826DjSsFOy7VYh5TWXb4vRYDUeOMjQgk-eQ@mail.gmail.com>
- <874jt32ppl.fsf@linaro.org> <7e695013-7261-50b5-a779-34640701eb6c@linaro.org>
- <87v8li1w67.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87v8li1w67.fsf@linaro.org>
+To: Stefan Hajnoczi <stefanha@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: Alessandro Di Federico <ale@rev.ng>, qemu-devel@nongnu.org,
+ Thomas Huth <thuth@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Anton Johansson <anjo@rev.ng>, philmd@linaro.org, bcain@quicinc.com,
+ quic_mathbern@quicinc.com, stefanha@redhat.com
+References: <20230102104113.3438895-1-ale@rev.ng>
+ <CAJSP0QVbvgr6wHY9e6f7UgZ-vum5vGUNH+h0Lf93BpdEcFJf0A@mail.gmail.com>
+ <20230103162603.74f631aa@orange>
+ <CAJSP0QUd9Q25pT3OXst4V-1FKLo65jJnn-6-7d_O5hkPeJfPyw@mail.gmail.com>
+ <20230103171149.3bcf0526@orange>
+ <CAFEAcA8XY0Ks1mxMasZ9U4m-CNPsuLFU+9ercmb10kscP3iYSw@mail.gmail.com>
+ <CAJSP0QUWxTbpyfuQhKQ33BKHKOWTTMrCo5QASSqjag9wz9a=gA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAJSP0QUWxTbpyfuQhKQ33BKHKOWTTMrCo5QASSqjag9wz9a=gA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.114,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.114, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,27 +112,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/7/23 02:19, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> On 1/6/23 15:43, Alex Bennée wrote:
->>> What about cloning objects after they are realised? After all that is
->>> what we do for the core CPUClass in user-mode.
->>
->> No we don't.  Where do you get that idea?
-> 
-> Well linux-user does cpu_copy which involves a create step followed by a
-> reset and then a bunch of copying state across. Can we assume all CPUs
-> get reset before they are actively used?
+On 1/3/23 20:31, Stefan Hajnoczi wrote:
+>> The other problem with this file is that it appears to
+>> be generated differently depending on the host distro
+>> (specifically the default value for the --libdir option).
+>> That also would seem to nudge towards "don't commit a
+>> generated file".
 
-The hash table creation happens during qdev_realize, there in cpu_create.
+I wasn't aware of the libdir default that Peter mentioned, but the same 
+issue would happen for release tarballs so "do not commit it" would have 
+to be extended to "do not ship it", that is do everything in Python.
 
-> Would it be too hacky to defer the creation of those hash tables to the
-> reset phase and skip it if already defined?
+This in turn goes back to the reason for the buildoptions.sh approach: 
+the path to the Python binary is not known when "configure --help" 
+prints the help message.  If the user does not have a python3 or meson 
+binary in the path, requiring "configure --meson=... --help" or 
+"configure --python=... --help" is not hideous I guess, but not pretty 
+either.
 
-Even then you have the copy after the reset, so no, that won't work.
+> Paolo: Is the meson-buildoptions.sh approach a temporary solution or
+> something long-term? Maybe everything can be migrated to meson
+> eventually so that ./configure and meson-buildoptions.sh are no longer
+> necessary?
 
+It is long-term.  Meson is only used to build the emulators and that 
+part will move entirely out of configure soon, but other parts of the 
+build (especially tests/tcg and firmware, which need to build docker 
+containers for cross-compilation) are separate and there's no plan to 
+use anything but configure/Makefile for the overall orchestration.
 
-r~
+While I have noticed stale meson-buildoptions.sh it's never happened to 
+me.  I ascribed it to someone not noticing the dirty file rather than a 
+bug; it should be possible to add a test to CI that catches it.
+
+Paolo
+
 
