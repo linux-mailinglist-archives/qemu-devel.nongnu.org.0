@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97255660E36
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 12:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C221F660EFC
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 14:09:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pE71h-0005pc-4b; Sat, 07 Jan 2023 06:06:13 -0500
+	id 1pE8vi-0001ob-I3; Sat, 07 Jan 2023 08:08:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pE71I-0005g6-VJ
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 06:06:06 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pE8vc-0001oN-SJ
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 08:08:04 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pE71F-0005mT-SP
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 06:05:47 -0500
-Received: by mail-ej1-x631.google.com with SMTP id tz12so8853749ejc.9
- for <qemu-devel@nongnu.org>; Sat, 07 Jan 2023 03:05:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=p8znfIc5uTd1Ou5iVaebPJV/Az3nHisy/UQuipCCwyg=;
- b=pqpQ25EjgFzgKfoRnFjp4IMjSfLb5H/CQhHcoDR5YRXx0SOr1BzR8t8EpmRE81BL+y
- 0fiilZA4Bk9IEa39roFI0tL6WUtpsoPVtYCWDLw8uJeHLCd6s6UJjmcBXZdkkHISzxap
- wEyq9X0AuXWbDNZ2hti48n52SfyGxB00FYO+iOM62mykAeC/pMmJHfLhEcdihyxpPYeA
- jLuSjCv0+dzzl0tBD/9xKOCdERm1P10utZIxHMAU2EbzzTeICPQSfJWPrBjt8RjsuVRu
- xRfWnTSjBzUPeFB0HyrfDh9bESZN0jwLXfIiZ9p9Qr/eoO0qypGzTEAaOqbPevWY5MrS
- UWOA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pE8vb-00061R-2y
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 08:08:04 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id 36so2926549pgp.10
+ for <qemu-devel@nongnu.org>; Sat, 07 Jan 2023 05:08:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=nF8wwmf7oqfqYWZHI5d0uUgU0DuJeqhX3PDL7io8sJk=;
+ b=h2zjoG8uMTQ3qfDK7h4Up58voH218uk0lhpfqdKAaghmZjHmHMXfO139QUjLrDe9fh
+ zSG2eEU71sE2PYyBh/NSsjaAvzdfTZlB+/b7c3NI0WbpV/7oHLhq94tEQCnK6Pd7bktO
+ 4UxoT+cAsIgLAuxNjXucC5N/4EyAF3ELEQiD4QKnUUWaPGXtNiXAzpQyodMafZP0GbbI
+ 1I4yEhdTKSta4Jtgsr4Na5+C0DWa8DSZVT1uIu+zU0hwxzxJpQLd6fw8AiJG6yhKmZOp
+ uAu2j//SzXqbQRDH35hpeh2Rr8UeHZDrhmz/AfpLcwe0grQgGFxNaCV1CFOr3OMLJdcJ
+ P3NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=p8znfIc5uTd1Ou5iVaebPJV/Az3nHisy/UQuipCCwyg=;
- b=mU0cVqVx4NxDW5wDucwFSJ4dZ8lvbIetpPE+RhnVIXHIDR3ao1IQbBgXRujchUPii6
- 5epzDD+nwLvYxLj2VuLXaDyQf6BXatfvUXzYbnB+YQIWuO1qJYHdTpkYiPiUAv4luxXu
- /es0ewIiKx+gQ9yF2+Yo/evlQS12bj9J2Q/fshEU1+/45qGpkoF7JhGtih1GRONxgICw
- teS/OFddC36aL4w6yq0Q2BPl7TuxHlAQblOzb+EGmua35k/7qee8oXfnGdcXJQf7uCGa
- 64Cr37nR4c9lRkafVuYiCI+/BqtTC/OghDM18sGgGOVuUcWt+wcsbrVMDg9MInn8ipWt
- Pu0A==
-X-Gm-Message-State: AFqh2koujGQAkAX4osnkWuK2HQ+RCicdKmwq2j2VQKiGXdM+OcUVTxJe
- Q3incEuoY4taoTcVH0RHerM=
-X-Google-Smtp-Source: AMrXdXu3EvFsoaT/hHNtPJ6LgsuygrkUQxHjYjz32DZvgWWafo+QGIRF9hiULkUfK0ut69Re1Wwjvw==
-X-Received: by 2002:a17:906:883:b0:84d:134a:2076 with SMTP id
- n3-20020a170906088300b0084d134a2076mr7280855eje.44.1673089528882; 
- Sat, 07 Jan 2023 03:05:28 -0800 (PST)
-Received: from ?IPv6:::1?
- (p200300faaf0bb200f901f42a62c21174.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:f901:f42a:62c2:1174])
- by smtp.gmail.com with ESMTPSA id
- kw16-20020a170907771000b007adf2e4c6f7sm1310121ejc.195.2023.01.07.03.05.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Jan 2023 03:05:28 -0800 (PST)
-Date: Sat, 07 Jan 2023 11:05:20 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Chuck Zmudzinski <brchuckz@aol.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-CC: Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_6/6=5D_hw/isa/piix=3A_Res?=
- =?US-ASCII?Q?olve_redundant_TYPE=5FPIIX3=5FXEN=5FDEVICE?=
-In-Reply-To: <00ff4875-62e0-05c8-a13e-5a52d4195cc2@aol.com>
-References: <20230104144437.27479-1-shentey@gmail.com>
- <20230104144437.27479-7-shentey@gmail.com>
- <1c2e0780-e5fb-1321-0d84-b0591db9fec7@linaro.org>
- <B207F213-3B7B-4E0A-A87E-DE53CD351647@gmail.com>
- <6a1a6ed8-568d-c08b-91a7-1093a2b25929@linaro.org>
- <d9e2f616-d3bf-fc6c-2dc5-a0bf53148632@aol.com>
- <30337c62-a938-61c8-3ae5-092dbccf6302@aol.com>
- <00ff4875-62e0-05c8-a13e-5a52d4195cc2@aol.com>
-Message-ID: <01A7F932-0DF1-4977-A111-0907A7FC6FF9@gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nF8wwmf7oqfqYWZHI5d0uUgU0DuJeqhX3PDL7io8sJk=;
+ b=3IY4m2jeSbxPZsp3P/FmikvALtD15vjmLlfuZ2Qgka80P9spe3bcaZy8dWKepafP2D
+ qYyZEv8XzvZIDeTkPe/OvWJ+gNf6msr/hZ98kiVaPuZasAIurvrvdHdzeLgRcZHKjfhV
+ RBjbS2JH//IXVSA/YxQqHRx0O2TpUPOChb05/fhfFCJw1wLxPMnvGxzzx2aG204x4WT1
+ CoejWtT2kuzA9+sE1Zt02oXDmVRUTGnpco7EHFzmuEhWxm4Eg9XTgzTE0pci8pciODu/
+ +fqbE1sMNs74eWsDCkQtM1QkyzwA6ZV6YLAUDNxnzt0gcBc0OTFIVtbUgW5NBym2MOlW
+ nTkw==
+X-Gm-Message-State: AFqh2kqpcLuANYhaMskTMYZPpgFbvXrTapSpFLAz4OFFU+7L5Wm7LTAK
+ UsyzSxdHwuHMpM7SUapn40jYb3XZQyK7Lg/hE126iQ==
+X-Google-Smtp-Source: AMrXdXtOpj7H51EDWS2bEGL6Ej4lgpaD3jFE7Hq6X43SwoiqOiy30h17Rn3cQWc0/dZhgx750lEMbkgnIKMLEK/81Lc=
+X-Received: by 2002:a63:9d47:0:b0:4af:9f91:54d1 with SMTP id
+ i68-20020a639d47000000b004af9f9154d1mr65582pgd.192.1673096881051; Sat, 07 Jan
+ 2023 05:08:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
+References: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 7 Jan 2023 13:07:49 +0000
+Message-ID: <CAFEAcA92dk6NkKBkGWKnZeReF=X4JN5f0CJ3ZrrYF9cc3Vqp6A@mail.gmail.com>
+Subject: Re: [PULL v3 00/43] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Cc: qemu-devel@nongnu.org, alistair23@gmail.com, 
+ Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -107,128 +83,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, 6 Jan 2023 at 03:19, Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Alistair Francis <alistair.francis@wdc.com>
+>
+> The following changes since commit d1852caab131ea898134fdcea8c14bc2ee75fbe9:
+>
+>   Merge tag 'python-pull-request' of https://gitlab.com/jsnow/qemu into staging (2023-01-05 16:59:22 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-20230106
+>
+> for you to fetch changes up to bc92f261519d5c77c70cf2ebcf0a3b9a414d82d0:
+>
+>   hw/intc: sifive_plic: Fix the pending register range check (2023-01-06 10:42:55 +1000)
+>
+> ----------------------------------------------------------------
+> First RISC-V PR for QEMU 8.0
+>
+> * Fix PMP propagation for tlb
+> * Collection of bug fixes
+> * Bump the OpenTitan supported version
+> * Add smstateen support
+> * Support native debug icount trigger
+> * Remove the redundant ipi-id property in the virt machine
+> * Support cache-related PMU events in virtual mode
+> * Add some missing PolarFire SoC io regions
+> * Fix mret exception cause when no pmp rule is configured
+> * Fix bug where disabling compressed instructions would crash QEMU
+> * Add Zawrs ISA extension support
+> * A range of code refactoring and cleanups
 
 
-Am 7=2E Januar 2023 01:08:46 UTC schrieb Chuck Zmudzinski <brchuckz@aol=2E=
-com>:
->On 1/6/23 6:04=E2=80=AFPM, Chuck Zmudzinski wrote:
->> On 1/6/23 2:08=E2=80=AFPM, Chuck Zmudzinski wrote:
->>> On 1/6/23 7:25=E2=80=AFAM, Philippe Mathieu-Daud=C3=A9 wrote:
->>>> On 6/1/23 12:57, Bernhard Beschow wrote:
->>>>>=20
->>>>>=20
->>>>> Am 4=2E Januar 2023 15:35:33 UTC schrieb "Philippe Mathieu-Daud=C3=
-=A9" <philmd@linaro=2Eorg>:
->>>>>> +Markus/Thomas
->>>>>>
->>>>>> On 4/1/23 15:44, Bernhard Beschow wrote:
->>>>>>> During the last patches, TYPE_PIIX3_XEN_DEVICE turned into a clone=
- of
->>>>>>> TYPE_PIIX3_DEVICE=2E Remove this redundancy=2E
->>>>>>>
->>>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->>>>>>> ---
->>>>>>>    hw/i386/pc_piix=2Ec             |  4 +---
->>>>>>>    hw/isa/piix=2Ec                 | 20 --------------------
->>>>>>>    include/hw/southbridge/piix=2Eh |  1 -
->>>>>>>    3 files changed, 1 insertion(+), 24 deletions(-)
->>>>=20
->>>>=20
->>>>>>>    -static void piix3_xen_class_init(ObjectClass *klass, void *dat=
-a)
->>>>>>> -{
->>>>>>> -    DeviceClass *dc =3D DEVICE_CLASS(klass);
->>>>>>> -    PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
->>>>>>> -
->>>>>>> -    k->realize =3D piix3_realize;
->>>>>>> -    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
->>>>>>> -    k->device_id =3D PCI_DEVICE_ID_INTEL_82371SB_0;
->>>>>>> -    dc->vmsd =3D &vmstate_piix3;
->>>>>>
->>>>>> IIUC, since this device is user-creatable, we can't simply remove i=
-t
->>>>>> without going thru the deprecation process=2E
->>>>>=20
->>>>> AFAICS this device is actually not user-creatable since dc->user_cre=
-atable is set to false once in the base class=2E I think it is safe to remo=
-ve the Xen class unless there are ABI issues=2E
->>>> Great news!
->>>=20
->>> I don't know if this means the device is user-creatable:
->>>=20
->>> chuckz@bullseye:~$ qemu-system-i386 -device piix3-ide-xen,help
->>> piix3-ide-xen options:
->>>   addr=3D<int32>           - Slot and optional function number, exampl=
-e: 06=2E0 or 06 (default: -1)
->>>   failover_pair_id=3D<str>
->>>   multifunction=3D<bool>   - on/off (default: false)
->>>   rombar=3D<uint32>        -  (default: 1)
->>>   romfile=3D<str>
->>>   x-pcie-extcap-init=3D<bool> - on/off (default: true)
->>>   x-pcie-lnksta-dllla=3D<bool> - on/off (default: true)
->>>=20
->>> Today I am running qemu-5=2E2 on Debian 11, so this output is for
->>> qemu 5=2E2, and that version of qemu has a piix3-ide-xen device=2E
->>> Is that this same device that is being removed? If so, it seems to
->>> me that at least as of qemu 5=2E2, the device was user-creatable=2E
->>>=20
->>> Chuck
->>=20
->> Good news! It looks the device was removed as user-creatable since vers=
-ion 5=2E2:
->>=20
->> chuckz@debian:~$ qemu-system-i386-7=2E50 -device help | grep piix
->> name "piix3-usb-uhci", bus PCI
->> name "piix4-usb-uhci", bus PCI
->> name "piix3-ide", bus PCI
->> name "piix4-ide", bus PCI
->> chuckz@debian:~$ qemu-system-i386-7=2E50-bernhard-v2 -device help | gre=
-p piix
->> name "piix3-usb-uhci", bus PCI
->> name "piix4-usb-uhci", bus PCI
->> name "piix3-ide", bus PCI
->> name "piix4-ide", bus PCI
->> chuckz@debian:~$
->>=20
->> The piix3-ide-xen device is not present either with or without Bernhard=
-'s patches
->> for current qemu 7=2E50, the development version for qemu 8=2E0
->>=20
->> Cheers,
->>=20
->> Chuck
->
->
->I traced where the pciix3-ide-xen device was removed:
->
->It was 7851b21a81 (hw/ide/piix: Remove redundant "piix3-ide-xen" device c=
-lass)
->
->https://gitlab=2Ecom/qemu-project/qemu/-/commit/7851b21a8192750adecbcf6e8=
-780a20de5891ad6
->
->about six months ago=2E That was between 7=2E0 and 7=2E1=2E So the device=
- being removed
->here is definitely not user-creatable, but it appears that this piix3-ide=
--xen
->device that was removed between 7=2E0 and 7=2E1 was user-creatable=2E Doe=
-s that one
->need to go through the deprecation process? Or, since no one has complain=
-ed
->it is gone, maybe we don't need to worry about it?
 
-Good point! Looks like it fell through the cracks=2E=2E=2E
+Applied, thanks.
 
-There are voices who claim that this device and its non-Xen counterpart sh=
-ould have never been user-creatable in the firtst place:
-https://patchwork=2Ekernel=2Eorg/project/qemu-devel/patch/20190718091740=
-=2E6834-1-philmd@redhat=2Ecom/
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
-Best regards,
-Bernhard
-
->
->Cheers,
->
->Chuck
+-- PMM
 
