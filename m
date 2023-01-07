@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C221F660EFC
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 14:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A77660F05
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 14:17:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pE8vi-0001ob-I3; Sat, 07 Jan 2023 08:08:10 -0500
+	id 1pE92X-0003Qy-0Y; Sat, 07 Jan 2023 08:15:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pE8vc-0001oN-SJ
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 08:08:04 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
+ id 1pE92J-0003Qj-1T
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 08:14:59 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pE8vb-00061R-2y
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 08:08:04 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id 36so2926549pgp.10
- for <qemu-devel@nongnu.org>; Sat, 07 Jan 2023 05:08:02 -0800 (PST)
+ id 1pE92D-00025r-Cn
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 08:14:57 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id bj3so986097pjb.0
+ for <qemu-devel@nongnu.org>; Sat, 07 Jan 2023 05:14:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=nF8wwmf7oqfqYWZHI5d0uUgU0DuJeqhX3PDL7io8sJk=;
- b=h2zjoG8uMTQ3qfDK7h4Up58voH218uk0lhpfqdKAaghmZjHmHMXfO139QUjLrDe9fh
- zSG2eEU71sE2PYyBh/NSsjaAvzdfTZlB+/b7c3NI0WbpV/7oHLhq94tEQCnK6Pd7bktO
- 4UxoT+cAsIgLAuxNjXucC5N/4EyAF3ELEQiD4QKnUUWaPGXtNiXAzpQyodMafZP0GbbI
- 1I4yEhdTKSta4Jtgsr4Na5+C0DWa8DSZVT1uIu+zU0hwxzxJpQLd6fw8AiJG6yhKmZOp
- uAu2j//SzXqbQRDH35hpeh2Rr8UeHZDrhmz/AfpLcwe0grQgGFxNaCV1CFOr3OMLJdcJ
- P3NQ==
+ bh=U1X8bKwTkS3a+k7kQCEoqx8ZZ+aLcJU48EU0FOjlcrg=;
+ b=D8MZsnZaoLh6SZZXQsvvW8XqApMKALnp5tMT9Ee5oxUwrqix6xLLcxhi1z2rFVnTH2
+ uEC8IKcMTXbOlqplKytn9g60Ax2pESf1ET41XUFy+tZCahACwGNjgxWNgiNIXAJIbvYm
+ b+JVV+4hSighUWS+aT8fjgfvtdbkqlllYJuHullbZ34dG7QeOOa7qp242iyPxrG9orHW
+ 0CmnTlY5aTErIbcqqNCC2F34o5dQmh/1TcmiLYjI2c+KuVce21vNQ7RNjSRzIBNFXZq6
+ R9SIB85AEeOzInm8zdg/UKoWLLMC4FoKFevW5w1q/8jV54sKpd0KQAbfkKqJXyiQTpSl
+ EWuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=nF8wwmf7oqfqYWZHI5d0uUgU0DuJeqhX3PDL7io8sJk=;
- b=3IY4m2jeSbxPZsp3P/FmikvALtD15vjmLlfuZ2Qgka80P9spe3bcaZy8dWKepafP2D
- qYyZEv8XzvZIDeTkPe/OvWJ+gNf6msr/hZ98kiVaPuZasAIurvrvdHdzeLgRcZHKjfhV
- RBjbS2JH//IXVSA/YxQqHRx0O2TpUPOChb05/fhfFCJw1wLxPMnvGxzzx2aG204x4WT1
- CoejWtT2kuzA9+sE1Zt02oXDmVRUTGnpco7EHFzmuEhWxm4Eg9XTgzTE0pci8pciODu/
- +fqbE1sMNs74eWsDCkQtM1QkyzwA6ZV6YLAUDNxnzt0gcBc0OTFIVtbUgW5NBym2MOlW
- nTkw==
-X-Gm-Message-State: AFqh2kqpcLuANYhaMskTMYZPpgFbvXrTapSpFLAz4OFFU+7L5Wm7LTAK
- UsyzSxdHwuHMpM7SUapn40jYb3XZQyK7Lg/hE126iQ==
-X-Google-Smtp-Source: AMrXdXtOpj7H51EDWS2bEGL6Ej4lgpaD3jFE7Hq6X43SwoiqOiy30h17Rn3cQWc0/dZhgx750lEMbkgnIKMLEK/81Lc=
-X-Received: by 2002:a63:9d47:0:b0:4af:9f91:54d1 with SMTP id
- i68-20020a639d47000000b004af9f9154d1mr65582pgd.192.1673096881051; Sat, 07 Jan
- 2023 05:08:01 -0800 (PST)
+ bh=U1X8bKwTkS3a+k7kQCEoqx8ZZ+aLcJU48EU0FOjlcrg=;
+ b=V1b+yEIQrGrDuJWHv9OdwLxvDY3gv1nHM8S8Loe8/K2rHE2kAVXHrzWnqI04NXMjxP
+ Xt3xak0RXrV+kv8qzdUSwFJrAqZaEDkhSAa9pvu4emIMNBKdTDqDmvLKr5GtYKCEOg/p
+ h/bqXaxUcsFyUL+FcHWlcjrH0ZMKTOUnQQtnXE9H4mzazvgydptcOdtsMe4mMVPUaRMv
+ rfEOS9mCKox7ws8TiRQpxEB22WrJK0u4BuvprFC7O0RPI8E35CjYoGgUQUVzj/Z5QSOJ
+ tIAF+p7+ah3ACs8Z2zokexp4OQuX7kN/4CbnBZyjhXdMlJyDfAHL/ufqUy+tfDGdZWq9
+ lfYg==
+X-Gm-Message-State: AFqh2krIS2Ct2icL3MOSUBBHs51CtSJDy+duFtvdwzFqP0wk7T1tsdJz
+ rjUkzji9TykLov2eU0CG0U24DXI0iS+CrtZHJoR3mw==
+X-Google-Smtp-Source: AMrXdXupL4Z7zjXWTmxAYcdNHGJCgD6K/RfBz2OhOlc2hen2RAiREY7ovhI4ZrQJWykgmrKC+0Fp8xhVu28Jj6jqTAA=
+X-Received: by 2002:a17:902:efcf:b0:192:ea33:5092 with SMTP id
+ ja15-20020a170902efcf00b00192ea335092mr1059178plb.19.1673097291030; Sat, 07
+ Jan 2023 05:14:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20230106031357.777790-1-alistair.francis@opensource.wdc.com>
+References: <20230103181646.55711-1-richard.henderson@linaro.org>
+ <CAFEAcA8K=1CNZfDG8i3bSXXSWT7D2oWg4jyupwYmw8oR7MJVsQ@mail.gmail.com>
+ <9f9a6c22-315b-de1e-958e-89963c5e7e90@linaro.org>
+ <CAFEAcA8cxJFpB9V826DjSsFOy7VYh5TWXb4vRYDUeOMjQgk-eQ@mail.gmail.com>
+ <b3dd666e-582b-e9d4-6dee-364b9dd6d00c@linaro.org>
+In-Reply-To: <b3dd666e-582b-e9d4-6dee-364b9dd6d00c@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 7 Jan 2023 13:07:49 +0000
-Message-ID: <CAFEAcA92dk6NkKBkGWKnZeReF=X4JN5f0CJ3ZrrYF9cc3Vqp6A@mail.gmail.com>
-Subject: Re: [PULL v3 00/43] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Cc: qemu-devel@nongnu.org, alistair23@gmail.com, 
- Alistair Francis <alistair.francis@wdc.com>
+Date: Sat, 7 Jan 2023 13:14:39 +0000
+Message-ID: <CAFEAcA-WChgHcT==Nt+CkKb-Y45QFmPFiBT2MKkdBFr8Rkwv3w@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/40] Toward class init of cpu features
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, berrange@redhat.com, 
+ eduardo@habkost.net, armbru@redhat.com, ajones@ventanamicro.com, 
+ alex.bennee@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,45 +88,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 6 Jan 2023 at 03:19, Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
+On Fri, 6 Jan 2023 at 22:28, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> From: Alistair Francis <alistair.francis@wdc.com>
+> On 1/6/23 13:59, Peter Maydell wrote:
+> > We also set some properties in code -- eg aspeed_ast2600.c clears
+> > the 'neon' property on its CPUs, lots of the boards clear
+> > has_el3 and has_el2, etc.
 >
-> The following changes since commit d1852caab131ea898134fdcea8c14bc2ee75fbe9:
->
->   Merge tag 'python-pull-request' of https://gitlab.com/jsnow/qemu into staging (2023-01-05 16:59:22 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-20230106
->
-> for you to fetch changes up to bc92f261519d5c77c70cf2ebcf0a3b9a414d82d0:
->
->   hw/intc: sifive_plic: Fix the pending register range check (2023-01-06 10:42:55 +1000)
->
-> ----------------------------------------------------------------
-> First RISC-V PR for QEMU 8.0
->
-> * Fix PMP propagation for tlb
-> * Collection of bug fixes
-> * Bump the OpenTitan supported version
-> * Add smstateen support
-> * Support native debug icount trigger
-> * Remove the redundant ipi-id property in the virt machine
-> * Support cache-related PMU events in virtual mode
-> * Add some missing PolarFire SoC io regions
-> * Fix mret exception cause when no pmp rule is configured
-> * Fix bug where disabling compressed instructions would crash QEMU
-> * Add Zawrs ISA extension support
-> * A range of code refactoring and cleanups
+> Yes indeed, but in all of those cases we want all of the cpus to act identically.  Those
+> are all easily handled (patches 35, 36, 38).
 
+That's just a happenstance of how the boards create them.
+There's no inherent reason that every CPU of a particular
+type in the system has to have identical properties.
 
+> > I hadn't got as far as patch 29, but
+> > looking at it now that looks like a pretty strong indication
+> > that this is the wrong way to go. It creates 3 extra
+> > cortex-m33 CPU classes, and if we find another thing that
+> > ought to be a CPU property then we'll be up to 8;
+>
+> If we find another thing that needs to be different between cpus, you mean?
 
-Applied, thanks.
+Yes. But conceptually we already have lots of those, we just
+happen not to be using them right this instant.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+> > I think our object model pretty strongly wants "create object;
+> > set properties on it that only affect this object you created;
+> > realize it", and having one particular subset of objects that
+> > doesn't work the same way is going to be very confusing.
+>
+> Eh, I didn't think it's particularly confusing as a concept.
+> The code is rough, buy what one might expect from an RFC.
+>
+> We really ought to have *some* solution to not repeating property + feature + isar
+> interpretation on a per-cpu basis.  I'd be delighted to hear alternatives.
+
+Hash "cpu type plus property settings plus ID registers",
+and look them up to see if we've already created the
+cpregs hashtable for an existing CPU?
 
 -- PMM
 
