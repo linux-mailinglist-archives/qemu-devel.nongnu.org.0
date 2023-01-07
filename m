@@ -2,107 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A9E660B41
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 02:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 694FA660B81
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 02:35:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDxhq-0004X5-39; Fri, 06 Jan 2023 20:09:06 -0500
+	id 1pDy6O-0008GL-F3; Fri, 06 Jan 2023 20:34:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDxhh-0004Wb-Iq
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 20:08:57 -0500
-Received: from sonic314-20.consmr.mail.gq1.yahoo.com ([98.137.69.83])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pDxhf-0003DS-6j
- for qemu-devel@nongnu.org; Fri, 06 Jan 2023 20:08:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1673053731; bh=RM3OQ5SqcJacBinVYA5gdpDbq4pClsj3VLZOZHffPJQ=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
- b=dq2vESZ00s4dsw8quVaRQcy0BZg2MMAe1up1U3Xu4SS+hChXr+soZoOJHNf72JNnUmRqIjZt7CPd2Wj4o16s1l3suRFko0+555Qm/GJQUZh2HjjSazpYQJ1/LAUbMkGqx/X3S0Vyo76UZOVcJAThz9ZyUTQGW1cI3dr9adL6PpCIvQC4ggbq00a0lnAVdZKtotM38ldmUgdci/qQaNVTEtphM6mYYxBNpEQu2sg4TsDl7SV6bqpWlskF008qPLCTG639brYeH26TDogN/Em/C+B1hg8vg7mu9Nxi7FakyqhUVtyHuVLLMEmF8PRhctor2tNjooWG5+wGk8BYxg9dyA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1673053731; bh=4KfaWLub71iH+DxRqHsT1oed9V4ykxAI+tvjzwupahF=;
- h=X-Sonic-MF:Date:Subject:From:To:From:Subject;
- b=dIzK4EfUtagvwewOlyDYJzaHBeOE1dd6FxKhqKRJHVS1XT7ETQpsMvLowXWgauUyCvsxFlGI6+6e8MFwk/TI50wNq1ZXzeXmDSV/iCDRkf3wY9R3KKl6vHknczVpZ0s4J74pn+B4GpUDjRbb/pQPBuYODrX4Gtq5FGvTUCaRcHaVL/T0BFDK4uTWqCteGzMw3NVAyCMYvuK4EkIMlCfg42OU0hB8vIClBrgKzep1tnt1/wpkZXo5zWhj2invPMg/vpZkWiLuudUfdQrRyCGTCvxybLAI5mkDjaDwBr5OoGLZgIAYWtBgUlRLVi3XqnuWQWdT2HWXS9uSzMvKnTIY9g==
-X-YMail-OSG: gR.45zEVM1llY6rhNVg5om7pz3Lkij.kCFZX_Kf25.wujBsPXCa1drYl9VuuuST
- YImZ77FlHMRfjIC1BGeqBxNRH7W2cztj2fMryxh1TrjLPKpqzStbkiTq.hAWlA60D_OK2aaB2H3K
- GQpHFXEbv_ZycZ4fsAl_bs6hf2RMs7uMzOnIwKScFbuh8uPFHt6Q8Q9TeP6ZiXV3TEDcES0CeW4S
- fKbH27Wltwp5WU3JxJ38ID_VEk4N9JCos4IpLgX4tMRhi7VAu4gnujuSOTdpE0wbSHjrMDpp02ng
- .CBmPYzGveJWvlhmuTyo12Bb0urBmQTv9ri0hiQBW7RMYkGiyJFWic7jjALj0obWu4jBVV5x_tmu
- lXIK6AvTTwSL1K4HwFUw5G3Qt9pvUYIT7D4scKSqI8Bp5BXSaC3Bg63AjTqkRKiH1Auoe7Tmafmt
- rPma.QIljJk2Xifb4BCnXGXIQE2TfH2jyZs6JYnIC2omcMLTFuzhdLIwg6iVyzyD0GMv2HpABup9
- hhls2QFdnGr4w5SvNKcUR1fKdYwb9x.cGFVjGPrHOJbwlJnEjqJ.3vjXJRhfJRN9EyP9oUsCHj4Y
- 5e6eWr7KZdShlzd3M44mBNe_WKhNC36jzzaEwOWEXdoedNWAcE_4GSPbHFj0vQHYXINASFj2P2Bf
- 89w3EZvwOLctiVKy0DlINKGn5Phb391wMG7OGYrTBulQzHjZlFaoGvbK6b5Kxsp0Anv3Y2hpyOtq
- otM_OqibOXCPToBMd4gw2ZdfX3N_CsSUI9fx1emlXlr9bXDOnAet7Fgf2m0m4B14ZpFBFHNIC1NG
- 9p5Kra2XccUh6EaSc_UYsGRQZH1T.bdO_zFJdRlOF1RE2o6GaSuKYDuNUYRlRn_WSZWf5QbQDCK1
- nzUuCJXeVkNfLQ_Klg5x_Hbs65CPm93SxWJh7_7tESbDRtAQk78slvLnIjA780llDOYgQ2AYMCox
- a90nymUlZw35b2LJItaQ7GczJMGKffoZJTrYrmTfIyCDdK0FpWQigQ3zcTi7XJVRLBSggobCiLMa
- U_G._NxtXd1N96SLaRrVw4kC7Gx67e9.Ft8uuwNKP2R5tzHceuO799VezVkW1KO2VydGrIalChkd
- u23.VU1wj2v_1B6edEJesBz_geqdMmsj5mhBRWoR21uYIMcn7YEyzSNA7TSZNVNTXqFeFPP_nedR
- 1KGzYcLklAbq0r7rb6MEvj64NaZXJK1NWaPg20O9sDLhkE9Q0UiyGfFmDN29jfIzA.WDcRRbnfxX
- oCnR8gpRN5BaOigpo823oPwNolA1hbQINhvseJYJNEt.zaBcRPA4mY1etTDo4CBRem.ebisB38CG
- UJpAZ.T2Eer6GG1T6O3vJ06TwxDDy1s_OQaDSknq8krl1ny1njz8L3wLlCaJU8L5uCc.b20SXTCu
- QErbEW0hCmlo5zZsOfisDKfc8qat0ifJda6jrddbx7u75idAVMrN.vvf_0Ve8D2PG5advZg1wr4.
- lOWkqxV9IBWo3uO2nWq3webNXgS7K3Uq61Xy4yOhWgtVvR.FmB66JFz9ppo6WeZaaw6IHU7C1cm8
- zRGTErBUkx.Y24QPJWA7x8eI5JB4xr9tf9jPf7U52P1PcHab5_XrmjpNwZxKTmDhXpGgTstEvIoy
- E8oXy_NEBSLLWK5EPdBluUMiRVGDi61rUdnP7LFarcokxhBa0kAjdEtLOFXFqHQ0zA6oeKaEyYXX
- vHTOyE_6y_q3bYQzPL7p2ZfelWIVyqglLXgj25iK4N3ULo6tuowMO4YrJOs3DAir0XtgpfjasbCo
- NLCDLeY6.mWLYdSDitC_3jYBUYxkB5Gb6vl8gZ2Dq1V1eciYauuLzHVU7mZABDJStVjnSkZ2FUO0
- ZaN.UZZDfEN_a.neb34EGqqOX_pb6j6EhLe7bny3xvMiRGmt7jWbdRedQPqMZ65LoErRHSLoqvaa
- hyIqXMnIUsJZFEF1Qbwmf57ZbINnAIB4rgiN0Gm7l04pzGNaGy1I1Wn5E5fUlI5ahJjhBmWjhQ_p
- GHq22mn6lmS6MAgwfiJIgEklqCtf7y44im619ABPT8PHX0LzFJ327Zl2E2FudwOrV_FzqOk17y8w
- BZXqo.YCW1jF50HKpvBIFepTKvzDe2hgn4IrnNoeDMy3kjDhCm3K80ab87O2e1HrnDjxoCerLOe3
- E7_FDFwJAh16fA6KrQSKTbSM3sb4rcflYoDfrZa_VyVoRpIg8.ZGdQl.FCRg9Tf7CpzhMGLAEARJ
- zmXpMh4QfV3SA.BWDwKOCeQ--
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic314.consmr.mail.gq1.yahoo.com with HTTP; Sat, 7 Jan 2023 01:08:51 +0000
-Received: by hermes--production-ne1-7b69748c4d-g8q5j (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 34031321042cfd49358cba9e2ea3354a; 
- Sat, 07 Jan 2023 01:08:48 +0000 (UTC)
-Message-ID: <00ff4875-62e0-05c8-a13e-5a52d4195cc2@aol.com>
-Date: Fri, 6 Jan 2023 20:08:46 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 6/6] hw/isa/piix: Resolve redundant
- TYPE_PIIX3_XEN_DEVICE
-From: Chuck Zmudzinski <brchuckz@aol.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>
-References: <20230104144437.27479-1-shentey@gmail.com>
- <20230104144437.27479-7-shentey@gmail.com>
- <1c2e0780-e5fb-1321-0d84-b0591db9fec7@linaro.org>
- <B207F213-3B7B-4E0A-A87E-DE53CD351647@gmail.com>
- <6a1a6ed8-568d-c08b-91a7-1093a2b25929@linaro.org>
- <d9e2f616-d3bf-fc6c-2dc5-a0bf53148632@aol.com>
- <30337c62-a938-61c8-3ae5-092dbccf6302@aol.com>
-Content-Language: en-US
-In-Reply-To: <30337c62-a938-61c8-3ae5-092dbccf6302@aol.com>
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <taisei1212@outlook.jp>)
+ id 1pDy6M-0008G8-A7
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 20:34:26 -0500
+Received: from mail-tyzapc01olkn2082c.outbound.protection.outlook.com
+ ([2a01:111:f403:704b::82c]
+ helo=APC01-TYZ-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <taisei1212@outlook.jp>)
+ id 1pDy6K-00008n-AJ
+ for qemu-devel@nongnu.org; Fri, 06 Jan 2023 20:34:25 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bAjVphpH/iYzB00/Jzf4pcXYrjKMbdN71V6q5JTOQbekmN/nD+mxIIWE86Te7LLP24QD7td1gaI8GtFqwMe6tnZ1pMhRcJcmc0mNketN8103RgxGabKm+1G6lqSOLzYT8+0+fhwcf6/yi9F7dEaArPr6SAdMlYM/6M4hlEkTap2XWMn6wlNO7gQQTT/fJXCpESi4ao6PPzMoie39+AyPrsRC9qGomCg3ZWyOa/9Z76F0n6UP02Zq1SJH6rgRPH99PRW5vmsVrAhKRrPmd2SmzOHsMPfdpddrXAv+1HQrV6IdvGHaqH6bqiq7JYoaQqBW9RInWlELHr485qoDWHJ+tQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Os2U5XnRCVIhbuQ+D23ClLqQ9yHaAltnUbxlwLW6KUU=;
+ b=Wvm48kxWjXvp8I8Qg0ZUxBqveBpfLBqYPrMeVbLkl9gPkjNpyimZXMNc5qznKCHQZEX1rV+ZtellYR8GMzRVOewaxbleex5P1WDA2p+SfcqoxhckNaiV4EJIys2tM5WEVSv2Uw4P3/d6rch4bi/o/JkF2Meka1N+CQqhbnbPQXDRVZXzjjWfi84KS0CaRhvrfWxp/UFbIu/wyorWu8V4jZVHHCcDQQRwG74+Mt5GEHxaf1vsDyxhwBHTWAUxCSPyIjlQ3viR+bNYiqF/YV3pYkyox4wA/8ma2f9LNLkkQMYm8khjqjxPbnMlA0TLlTx/+gHoflA8EShVRwcd/tPOfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:1b0::11) by TY0PR0101MB4336.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:1b4::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Sat, 7 Jan
+ 2023 01:29:15 +0000
+Received: from TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+ ([fe80::56db:1c2:8886:e624]) by
+ TY0PR0101MB4285.apcprd01.prod.exchangelabs.com ([fe80::56db:1c2:8886:e624%4])
+ with mapi id 15.20.5944.019; Sat, 7 Jan 2023 01:29:15 +0000
+From: TaiseiIto <taisei1212@outlook.jp>
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, richard.henderson@linaro.org,
+ TaiseiIto <taisei1212@outlook.jp>
+Subject: [PATCH v2] [PING] target/i386/gdbstub: Fix a bug about order of FPU
+ stack in 'g' packets.
+Date: Sat,  7 Jan 2023 10:28:51 +0900
+Message-ID: <TY0PR0101MB4285AD60FE3976F1AD5C6D02A4F89@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <TY0PR0101MB4285923FBE9AD97CE832D95BA4E59@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
+References: <TY0PR0101MB4285923FBE9AD97CE832D95BA4E59@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
 Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.20982
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.69.83; envelope-from=brchuckz@aim.com;
- helo=sonic314-20.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.939,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-TMN: [x9K900KLPBb3hW9EPZCTEhTTKlrA9FjN]
+X-ClientProxiedBy: TYAPR01CA0216.jpnprd01.prod.outlook.com
+ (2603:1096:404:29::36) To TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:1b0::11)
+X-Microsoft-Original-Message-ID: <20230107012851.21561-1-taisei1212@outlook.jp>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY0PR0101MB4285:EE_|TY0PR0101MB4336:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3103e067-b049-4817-0449-08daf04e96b6
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qELo3S/8F7Q5IUth/hR/ikgJs2pH2T7fvE14wviIzi0aiSuz0anwDnScDBaL21MTz04gXxXFktQEhQyG0k/g2W7zKyVLMDiPUGEyVe3he2ysDUM56SWfwKyo7wCyjnsm4Pw/6Eweghmd6ODG8kh9d5g5zavijEtbFS4SXuKNk+EhKIVPir4nkuV8h0sW6VkzxETop50diewLbflTu2B1E6JBdHVoPuAoSz87pR31Pp3tDykpZXhm+xknJOw5fZmuaB0c201HIg4IwCMZUHtCaIa0z/HKeTcrst8W58orYQXBvf4g3Z4HdhfYmBbEDj9d/MEtTbY2VUw/J3tqKfHZeAnL6GOdK7K66A9EqghakQNqQJDPZlK7wNLKZdYUCoFKQB0r7S/MecrbtTSHD+BxI3GCmpCxZRZyNuOvb+f5ex3yy2idvGTNNV9amiX6R5Ml3rH4LC1MoMRhXHqAJ0sFfwND/nz6WawQjcz9NYoS20QbGZKuQ/1Qd4XZ4Y5GqylR7ry3iEpWo2RhoYG65QUi94FTfGMDSqoEmIw5/Iajs0Wi6tQl+kQ9ZBjNxOIo1ayeyBAE+rIRBZ0hUDek2MF8VLa6DWfJWAFMrJ5asPMXIOuA0TBvxig4VzhORrkFZKbLhfCZQBBXjWn3KPGjT4cFPg==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dGDpRnniGlqvNwm61Zu787H1Sz4OS6gMo4FzaP+KLn6m+YNH+j1n9HV7qSTy?=
+ =?us-ascii?Q?AhRxzxBTLX/7u0mXUf4N7y3Ap9us7q8zmY9grlqqs6F9nXJwpBydIz3d9R4O?=
+ =?us-ascii?Q?ou1b/JqHmj+cwkbYWElvXyChPJAntj5023queZJ0ZwADKuIs5ORYs9hvSMo1?=
+ =?us-ascii?Q?7aAOVP3XIb/J0U1prLkoNIrc8N5IneVvurdUrUzXhU8XcOflgl5NBoAHgn6v?=
+ =?us-ascii?Q?m56Ku9/bx30ta0D9k120oBAN09erMuihZsGEukTOwycSE5oVRw0+8a8mewTm?=
+ =?us-ascii?Q?whbr9mcCSf8jrkVXdLkMDOWUebcHLbBWbjgoh7bHUBaWii8JQCsdTCN+3yX/?=
+ =?us-ascii?Q?w1EHTR28iIKOhYDi/uTADhixgaEYteWX68n9tqZEAqXEdCR/wvpr76FUjWtR?=
+ =?us-ascii?Q?zoOIHLWJq6fmSi8x44k2TJtTJ12f2PEY8/jNGluywRxAe+8sN/we9i2cWzn8?=
+ =?us-ascii?Q?Q+sKWJIxQlEn8dqqNFEpg42l1SC4ogr1x9DFfl3OHqAZDiuIlE2twO94/Ui9?=
+ =?us-ascii?Q?Gccp7IIF5yNVNR+p17JHX35UDwGLeuFao0ctkqbo3GfT5lXFe1v0kRz8AVfW?=
+ =?us-ascii?Q?CLoegZi2DaTfRJYnWFd8ueFysrlkxG7OORiUgP+8OsX3RnyPjsQA88eJfOJc?=
+ =?us-ascii?Q?z7Rbw0LtuW5VOHA4MWvpFiWJP4vev+EijNcgheKTL3cpYvMykVaf6HnBjGcZ?=
+ =?us-ascii?Q?XYkeXttnhv2uSrZf9S4sX+IyobPiczb5zo3oqPMdGkKpBF+lsTv7J0z8tdvI?=
+ =?us-ascii?Q?vbvUJ4XdGVyDD6qGf2Ad2+dWElthhxdl5hdo5im6KC1jwz8uxxnW/z3uIK0a?=
+ =?us-ascii?Q?nxQXecvHgaw1Kd9jc//EgpdQIHh0cqOZmoL+iAyOH4Fhz6fYZauSP+frFZxo?=
+ =?us-ascii?Q?JF91oIZLwI04PycbwxAtk//urNMTCplv72XxUKAdQJnDlW013/Iyg9zHy/sN?=
+ =?us-ascii?Q?oAUCNI6FqRWpXhbsT5dy3FKvUs8r490UER47aNZdJpcCAGxEcjYfZg8yAHXJ?=
+ =?us-ascii?Q?J1wMal7DqdE8Z1nz3savIDMdQVXgVTfDwQNC7T+6NH1dC5gHYkWJJO7UjpWN?=
+ =?us-ascii?Q?Siz5z1ho5YtUY5fZfgOOkOCIX4ppldTqP60qiIdXKVgUkQW2r2/Q4RVwvOVl?=
+ =?us-ascii?Q?jlh75xm8PmifcbTJ448Mrb4CdObk5zvd4hxTIWmjfNs+wv7yBmZI/wWqH9SM?=
+ =?us-ascii?Q?Id/oGlm9aMPtf9WHhmysnn6aTCBLWxaigjmkSkdZTpu0er23bTcToble0TlG?=
+ =?us-ascii?Q?1YCYpTDlhCkzXYNQgHfbVvZq/aehmWJXvo4R8LxsxA=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-d8e84.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3103e067-b049-4817-0449-08daf04e96b6
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2023 01:29:15.5765 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR0101MB4336
+Received-SPF: pass client-ip=2a01:111:f403:704b::82c;
+ envelope-from=taisei1212@outlook.jp;
+ helo=APC01-TYZ-obe.outbound.protection.outlook.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,97 +119,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/6/23 6:04 PM, Chuck Zmudzinski wrote:
-> On 1/6/23 2:08 PM, Chuck Zmudzinski wrote:
->> On 1/6/23 7:25 AM, Philippe Mathieu-Daudé wrote:
->>> On 6/1/23 12:57, Bernhard Beschow wrote:
->>>> 
->>>> 
->>>> Am 4. Januar 2023 15:35:33 UTC schrieb "Philippe Mathieu-Daudé" <philmd@linaro.org>:
->>>>> +Markus/Thomas
->>>>>
->>>>> On 4/1/23 15:44, Bernhard Beschow wrote:
->>>>>> During the last patches, TYPE_PIIX3_XEN_DEVICE turned into a clone of
->>>>>> TYPE_PIIX3_DEVICE. Remove this redundancy.
->>>>>>
->>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>>>>> ---
->>>>>>    hw/i386/pc_piix.c             |  4 +---
->>>>>>    hw/isa/piix.c                 | 20 --------------------
->>>>>>    include/hw/southbridge/piix.h |  1 -
->>>>>>    3 files changed, 1 insertion(+), 24 deletions(-)
->>> 
->>> 
->>>>>>    -static void piix3_xen_class_init(ObjectClass *klass, void *data)
->>>>>> -{
->>>>>> -    DeviceClass *dc = DEVICE_CLASS(klass);
->>>>>> -    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
->>>>>> -
->>>>>> -    k->realize = piix3_realize;
->>>>>> -    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
->>>>>> -    k->device_id = PCI_DEVICE_ID_INTEL_82371SB_0;
->>>>>> -    dc->vmsd = &vmstate_piix3;
->>>>>
->>>>> IIUC, since this device is user-creatable, we can't simply remove it
->>>>> without going thru the deprecation process.
->>>> 
->>>> AFAICS this device is actually not user-creatable since dc->user_creatable is set to false once in the base class. I think it is safe to remove the Xen class unless there are ABI issues.
->>> Great news!
->> 
->> I don't know if this means the device is user-creatable:
->> 
->> chuckz@bullseye:~$ qemu-system-i386 -device piix3-ide-xen,help
->> piix3-ide-xen options:
->>   addr=<int32>           - Slot and optional function number, example: 06.0 or 06 (default: -1)
->>   failover_pair_id=<str>
->>   multifunction=<bool>   - on/off (default: false)
->>   rombar=<uint32>        -  (default: 1)
->>   romfile=<str>
->>   x-pcie-extcap-init=<bool> - on/off (default: true)
->>   x-pcie-lnksta-dllla=<bool> - on/off (default: true)
->> 
->> Today I am running qemu-5.2 on Debian 11, so this output is for
->> qemu 5.2, and that version of qemu has a piix3-ide-xen device.
->> Is that this same device that is being removed? If so, it seems to
->> me that at least as of qemu 5.2, the device was user-creatable.
->> 
->> Chuck
-> 
-> Good news! It looks the device was removed as user-creatable since version 5.2:
-> 
-> chuckz@debian:~$ qemu-system-i386-7.50 -device help | grep piix
-> name "piix3-usb-uhci", bus PCI
-> name "piix4-usb-uhci", bus PCI
-> name "piix3-ide", bus PCI
-> name "piix4-ide", bus PCI
-> chuckz@debian:~$ qemu-system-i386-7.50-bernhard-v2 -device help | grep piix
-> name "piix3-usb-uhci", bus PCI
-> name "piix4-usb-uhci", bus PCI
-> name "piix3-ide", bus PCI
-> name "piix4-ide", bus PCI
-> chuckz@debian:~$
-> 
-> The piix3-ide-xen device is not present either with or without Bernhard's patches
-> for current qemu 7.50, the development version for qemu 8.0
-> 
-> Cheers,
-> 
-> Chuck
+This is a ping to the patch below.
 
+https://patchew.org/QEMU/TY0PR0101MB42855925D8414E4773D6FA36A41D9@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com/
 
-I traced where the pciix3-ide-xen device was removed:
+Before this commit, when GDB attached an OS working on QEMU, order of FPU
+stack registers printed by GDB command 'info float' was wrong. There was a
+bug causing the problem in 'g' packets sent by QEMU to GDB. The packets have
+values of registers of machine emulated by QEMU containing FPU stack
+registers. There are 2 ways to specify a x87 FPU stack register. The first
+is specifying by absolute indexed register names (R0, ..., R7). The second
+is specifying by stack top relative indexed register names (ST0, ..., ST7).
+Values of the FPU stack registers should be located in 'g' packet and be
+ordered by the relative index. But QEMU had located these registers ordered
+by the absolute index. After this commit, when QEMU reads registers to make
+a 'g' packet, QEMU specifies FPU stack registers by the relative index.
+Then, the registers are ordered correctly in the packet. As a result, GDB,
+the packet receiver, can print FPU stack registers in the correct order.
 
-It was 7851b21a81 (hw/ide/piix: Remove redundant "piix3-ide-xen" device class)
+Signed-off-by: TaiseiIto <taisei1212@outlook.jp>
+---
+ target/i386/gdbstub.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-https://gitlab.com/qemu-project/qemu/-/commit/7851b21a8192750adecbcf6e8780a20de5891ad6
+diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+index c3a2cf6f28..786971284a 100644
+--- a/target/i386/gdbstub.c
++++ b/target/i386/gdbstub.c
+@@ -121,7 +121,9 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+             return gdb_get_reg32(mem_buf, env->regs[gpr_map32[n]]);
+         }
+     } else if (n >= IDX_FP_REGS && n < IDX_FP_REGS + 8) {
+-        floatx80 *fp = (floatx80 *) &env->fpregs[n - IDX_FP_REGS];
++        int st_index = n - IDX_FP_REGS;
++        int r_index = (st_index + env->fpstt) % 8;
++        floatx80 *fp = &env->fpregs[r_index].d;
+         int len = gdb_get_reg64(mem_buf, cpu_to_le64(fp->low));
+         len += gdb_get_reg16(mem_buf, cpu_to_le16(fp->high));
+         return len;
+-- 
+2.34.1
 
-about six months ago. That was between 7.0 and 7.1. So the device being removed
-here is definitely not user-creatable, but it appears that this piix3-ide-xen
-device that was removed between 7.0 and 7.1 was user-creatable. Does that one
-need to go through the deprecation process? Or, since no one has complained
-it is gone, maybe we don't need to worry about it?
-
-Cheers,
-
-Chuck
 
