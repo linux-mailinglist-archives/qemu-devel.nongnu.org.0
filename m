@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA9C660CEE
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 09:12:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42C8660CDD
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 08:56:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pE3zU-0003jt-7X; Sat, 07 Jan 2023 02:51:44 -0500
+	id 1pE3zU-0003kO-Lh; Sat, 07 Jan 2023 02:51:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pE3zJ-0003g2-Gi
+ id 1pE3zJ-0003g3-HS
  for qemu-devel@nongnu.org; Sat, 07 Jan 2023 02:51:34 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pE3zH-0004D3-P7
+ id 1pE3zH-0004DR-QL
  for qemu-devel@nongnu.org; Sat, 07 Jan 2023 02:51:33 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id d15so4073367pls.6
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 23:51:30 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ o8-20020a17090a9f8800b00223de0364beso7526700pjp.4
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 23:51:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YF0GWpx0dC/UYYXWm5/mP8VhAPYVOiMc6soYwoN6xvw=;
- b=khihS/Ec2+jMHENhQtbrwwbPGUN71VJKVKGs1FFTzvBDE83e4jNUA7AOQdw3ZsMOFh
- VWp/LjFBU5381AYqiyfp2jNOb6w06nBogTIsy2a8gUhjuYvlY2iAzr2bzD2nRJXwZidn
- Xy2ceUmB3EovNSnZU3VYgnXQt9btZdRuROBh2VlarBDE7xJ0LsK+RDRCHG5DeGTIg2HW
- tIVREYfmB+akO6t7UnIeTCXM6cey6LJj1sa3DUBhFZYcPKbtU1ydeNCqzcuC4d/NX1yj
- jarrdSuEuhcei+Qg7x0vBJ1ycS3UmXlZnqAawxC4p5dtQ2qNmx3R0Bd074HTK8/OXvDj
- xWKw==
+ bh=81bUyJ3q1hrBplCCzLWitqxn9dUaRZZOJiTy7eZWBno=;
+ b=KLKPpoa8iMkycV2JQumPTOO+PNOp2uzGDYEFtybPm7OZCRsBndIv9C9Tuaqht/8jRh
+ IZB3wR4TOI7JVllAjWYZrEl0XCTPYOWaLEsMqTUde5sODK1tsHbygmGJCfygo+pLbCDa
+ 8ooJzE1CdiL2YpNz03GnTArrfrQ+AaCjdvOsxk7NBt5FQfrPNE0eLe70rGr143qSxjtJ
+ 2WT6MNsL6ZFYq3R2G4bL+yukNnFORfuuU90hDZrRjPBNqBdJz4xAImsHFHszVNfY7S2q
+ sXRZ8qOppzmHR1ORAigib2B/aaKHq/HrnrPKwNPYvbIOvjOyPyZ2m/tJEnuZkJqHzK+a
+ cAUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YF0GWpx0dC/UYYXWm5/mP8VhAPYVOiMc6soYwoN6xvw=;
- b=sYoy2NMa4YHJE1X4t5K186PHor0ntIdZ/CbRMIjal7DuDlCrk64zYzZqieG/8xE4uP
- 12nQfpwGBWAZfOBcKlk2yETAtyCIsVle3/QcbxNKg4JKGpk3HMjRU0uz91Gy5e7UN0Dl
- 8frA9fduG4SByhOgQ30JAcouv3A54r/clma5NNmxJxhCDAvdHTxHw+KIOmx0pLKh56n+
- 5EWyijiewjuYVrQrsghFHEL1EoxfTpfkiWb0k8tryMP6y98M7ts+FnCyIVna6Do8aQAO
- oY5r7UlGnCeYQ8QdRPw68D8AT7yzm8l/9tZl0TuJ+L21ydiTH0PpFk978HDJeTJxXQb5
- /d4A==
-X-Gm-Message-State: AFqh2koqQ8Acylh6qfpMOEcLux4OVaqz/z4bJjIxvFdNSDso4sNfpZsV
- 6UYRGpcoUdYJvi4E5ivEX6euEV/mqR2alX0z
-X-Google-Smtp-Source: AMrXdXsbbnRsfVKEYr7AaFloQTC2Cvo01M8xePMdBsXoYyEi7uHgC2wr1Ee38lXqOYzwt0H/4Eo0Yg==
-X-Received: by 2002:a17:90b:4f4e:b0:219:89c3:2847 with SMTP id
- pj14-20020a17090b4f4e00b0021989c32847mr61252173pjb.44.1673077889509; 
- Fri, 06 Jan 2023 23:51:29 -0800 (PST)
+ bh=81bUyJ3q1hrBplCCzLWitqxn9dUaRZZOJiTy7eZWBno=;
+ b=ez2QW0xSFGcoW361trcuASyBIYISt6KQw7AbDObSJmepmckPmB/Anq54zT/KkOe3DC
+ MoEWIVzGhQWNKiH0ZgFBvPYFOb96qvo/8DemW3ykjyuR34nv0ldjcZkWjhmUVOJb8SKX
+ f7C+bwr5ToPoJOFO++nrlk4MU/zBxz28/b8yWRNMPZIHVExjKRuLprpxdLVFsCM2i++U
+ NdaOxDZir16y16v7ILoxLBND/uudDXuV/t3ZEvZnTeyf3SSJxiIKWlS+Gg6k2XNppYd9
+ IhunZBl/793yLwz3sWvrhTN0OwaSv6V1zMnz/T0M+LSELpprUNPxYpG/ogJlbM/JCCp5
+ F36w==
+X-Gm-Message-State: AFqh2krbLjTXtbquV4bNoqk5cLKTdogmI7IOQKfpkEJLuDY4chDLTlQK
+ nTEWjusRExHIyy/71hQuWtY6BqEsN+p/Yr4X
+X-Google-Smtp-Source: AMrXdXuDrgkqNAn3Y0LehVNqEd1KOag54kLMjCzeIDhXQoP/iiMxE9C4caI50QRrspfj8ZJWGRxjMQ==
+X-Received: by 2002:a17:90a:bd11:b0:225:b29f:42 with SMTP id
+ y17-20020a17090abd1100b00225b29f0042mr63888922pjr.14.1673077890408; 
+ Fri, 06 Jan 2023 23:51:30 -0800 (PST)
 Received: from stoup.. ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
  by smtp.gmail.com with ESMTPSA id
- bj5-20020a17090b088500b00212e5068e17sm1945119pjb.40.2023.01.06.23.51.28
+ bj5-20020a17090b088500b00212e5068e17sm1945119pjb.40.2023.01.06.23.51.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 06 Jan 2023 23:51:29 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PULL 10/27] tcg/s390x: Remove DISTINCT_OPERANDS facility check
-Date: Fri,  6 Jan 2023 23:51:01 -0800
-Message-Id: <20230107075118.1814503-11-richard.henderson@linaro.org>
+Subject: [PULL 11/27] tcg/s390x: Use LARL+AGHI for odd addresses
+Date: Fri,  6 Jan 2023 23:51:02 -0800
+Message-Id: <20230107075118.1814503-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230107075118.1814503-1-richard.henderson@linaro.org>
 References: <20230107075118.1814503-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,92 +90,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The distinct-operands facility is bundled into facility 45,
-along with load-on-condition.  We are checking this at startup.
-Remove the a0 == a1 checks for 64-bit sub, and, or, xor, as there
-is no space savings for avoiding the distinct-operands insn.
+Add one instead of dropping odd addresses to the constant pool.
 
 Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target.h     |  1 -
- tcg/s390x/tcg-target.c.inc | 16 ++--------------
- 2 files changed, 2 insertions(+), 15 deletions(-)
+ tcg/s390x/tcg-target.c.inc | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-index fc9ae82700..db10a39381 100644
---- a/tcg/s390x/tcg-target.h
-+++ b/tcg/s390x/tcg-target.h
-@@ -62,7 +62,6 @@ typedef enum TCGReg {
- 
- /* Facilities that are checked at runtime. */
- 
--#define FACILITY_DISTINCT_OPS         45
- #define FACILITY_LOAD_ON_COND2        53
- #define FACILITY_VECTOR               129
- #define FACILITY_VECTOR_ENH1          135
 diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index dd58f0cdb5..e4403ffabf 100644
+index e4403ffabf..6cf07152a5 100644
 --- a/tcg/s390x/tcg-target.c.inc
 +++ b/tcg/s390x/tcg-target.c.inc
-@@ -2218,8 +2218,6 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         if (const_args[2]) {
-             a2 = -a2;
-             goto do_addi_64;
--        } else if (a0 == a1) {
--            tcg_out_insn(s, RRE, SGR, a0, a2);
-         } else {
-             tcg_out_insn(s, RRF, SGRK, a0, a1, a2);
-         }
-@@ -2230,8 +2228,6 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         if (const_args[2]) {
-             tcg_out_mov(s, TCG_TYPE_I64, a0, a1);
-             tgen_andi(s, TCG_TYPE_I64, args[0], args[2]);
--        } else if (a0 == a1) {
--            tcg_out_insn(s, RRE, NGR, args[0], args[2]);
-         } else {
-             tcg_out_insn(s, RRF, NGRK, a0, a1, a2);
-         }
-@@ -2241,8 +2237,6 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         if (const_args[2]) {
-             tcg_out_mov(s, TCG_TYPE_I64, a0, a1);
-             tgen_ori(s, TCG_TYPE_I64, a0, a2);
--        } else if (a0 == a1) {
--            tcg_out_insn(s, RRE, OGR, a0, a2);
-         } else {
-             tcg_out_insn(s, RRF, OGRK, a0, a1, a2);
-         }
-@@ -2252,8 +2246,6 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         if (const_args[2]) {
-             tcg_out_mov(s, TCG_TYPE_I64, a0, a1);
-             tgen_xori(s, TCG_TYPE_I64, a0, a2);
--        } else if (a0 == a1) {
--            tcg_out_insn(s, RRE, XGR, a0, a2);
-         } else {
-             tcg_out_insn(s, RRF, XGRK, a0, a1, a2);
-         }
-@@ -2926,9 +2918,7 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_or_i64:
-     case INDEX_op_xor_i32:
-     case INDEX_op_xor_i64:
--        return (HAVE_FACILITY(DISTINCT_OPS)
--                ? C_O1_I2(r, r, ri)
--                : C_O1_I2(r, 0, ri));
-+        return C_O1_I2(r, r, ri);
+@@ -806,6 +806,7 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
+                          TCGReg ret, tcg_target_long sval)
+ {
+     tcg_target_ulong uval;
++    ptrdiff_t pc_off;
  
-     case INDEX_op_mul_i32:
-         return C_O1_I2(r, 0, ri);
-@@ -2938,9 +2928,7 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_shl_i32:
-     case INDEX_op_shr_i32:
-     case INDEX_op_sar_i32:
--        return (HAVE_FACILITY(DISTINCT_OPS)
--                ? C_O1_I2(r, r, ri)
--                : C_O1_I2(r, 0, ri));
-+        return C_O1_I2(r, r, ri);
+     /* Try all 32-bit insns that can load it in one go.  */
+     if (maybe_out_small_movi(s, type, ret, sval)) {
+@@ -832,14 +833,14 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
+         return;
+     }
  
-     case INDEX_op_brcond_i32:
-     case INDEX_op_brcond_i64:
+-    /* Try for PC-relative address load.  For odd addresses,
+-       attempt to use an offset from the start of the TB.  */
+-    if ((sval & 1) == 0) {
+-        ptrdiff_t off = tcg_pcrel_diff(s, (void *)sval) >> 1;
+-        if (off == (int32_t)off) {
+-            tcg_out_insn(s, RIL, LARL, ret, off);
+-            return;
++    /* Try for PC-relative address load.  For odd addresses, add one. */
++    pc_off = tcg_pcrel_diff(s, (void *)sval) >> 1;
++    if (pc_off == (int32_t)pc_off) {
++        tcg_out_insn(s, RIL, LARL, ret, pc_off);
++        if (sval & 1) {
++            tcg_out_insn(s, RI, AGHI, ret, 1);
+         }
++        return;
+     }
+ 
+     /* Otherwise, stuff it in the constant pool.  */
 -- 
 2.34.1
 
