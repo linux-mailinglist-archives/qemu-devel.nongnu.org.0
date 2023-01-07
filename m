@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D410B660CEC
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 09:08:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B17660CDB
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 08:55:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pE3zb-0003ps-5N; Sat, 07 Jan 2023 02:51:51 -0500
+	id 1pE3zW-0003lZ-Js; Sat, 07 Jan 2023 02:51:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pE3zS-0003jD-La
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 02:51:42 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ id 1pE3zU-0003ke-7E
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 02:51:44 -0500
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pE3zR-0004AT-3E
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 02:51:42 -0500
-Received: by mail-pl1-x635.google.com with SMTP id n4so4095072plp.1
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 23:51:40 -0800 (PST)
+ id 1pE3zS-0004GI-Jx
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 02:51:43 -0500
+Received: by mail-pl1-x632.google.com with SMTP id jl4so4063042plb.8
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 23:51:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/xRarcor/wbrlmQ6/1SUQDwNV/2PA1HoUGLA4N0wOFk=;
- b=lDn6VQoCg6J25d9jXlkhizJMcvf6DlzSzxtkz12uuDc3qGZSMYMJiYeK5znFUSd1yY
- qkq0V3bFQZfYanWH4lekM3GLKbQyfus1Zz4T5UVW/6WLgag6acuSnMzQtm9dNMhietmz
- 3qD5Sd98S6faEiiwCCohynqPlFsDNinRz6Qg9M8P2Azw/ArpNIbiuhGdU+9xdyeu6CJ2
- 4L/nHZZ6sNm/ZKUWFwpD91k5XHYb3QHdQOjXH3lz2GY8CyKgiapXQklAMpxY6LjfQUOG
- wY3AL/tROwMuv7aA8ehWLoPMKjoAxPX32sW1XQvTJ1nOjXtmrQBevGuNjRYMtOfM4Kc/
- QMSw==
+ bh=r0wyYihsWPXw8Yqko2NtqMR1/ytj9ZC8grnAJG95FjU=;
+ b=EnxeAfDwKPYZYM9PxTjlO4WL/9IMiofhbvkIvSqds0qpzwm8FfT5I5EovuhyB7hHN4
+ gbliX4/ZyNtS5yBuEIfVguFSuXJJERnRsvQuqEupFF64WmtiX8AvT9/9TBGAnW/x2jjq
+ /iEkMGY8w5VyYSJogocYUgCPVgMlLMOXlPUgQnQgGkNkRXqbDoaYHJaGv0F8Cdkoavi+
+ YeO0RgB7Ts9wNkKfC1B+4NnX+BMiGy1Ir3PtXfjKNYhOTfrCK0LTyNwGBfzOcJOOpEZD
+ KlNNda3IFO7E8DHb/sikgACX9WUXPfntDk6R2sZcSd+5FwTf+ISNfmaIAm46YkY6yJ3p
+ ZzgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/xRarcor/wbrlmQ6/1SUQDwNV/2PA1HoUGLA4N0wOFk=;
- b=IqRL+Iia3xbkRDR9UqNpwY8EP92VxT6jWN6O8+IclXIvBbelW+g637GQG5GKaKBP1a
- FuQOhf/iLVZnNZJo1u1lOQdw2kWRGliAsqD/a6oYsnsY9pJlEb6VzFRldrhLqJHIe+DO
- QxfrIkrYXbgrQuNXK9+jwsqMALtvRILLZc08YTCQ4PkIXSYRdyeFhACZyiJyZlIkLMBE
- YF+3mrPBDftARcrkTP3Mi/IOsEt1UB8rciA3Aip427+lAtaMIGVT77IGq2wRCWOOyL1u
- OiSB+fk8wkWkS+/exp5Kk7ZsAUaruTHP0+BsnsxGFhyLeWLJREb2Oz7oyz5Ra4OJu4wu
- nUJA==
-X-Gm-Message-State: AFqh2krwdi5IMPnkL91IhmtT4sGjXyF5dBkqAhq1NKeyderTuSXSFCQI
- rglHVi7Zh9xJCTYxm8fjIRBex0YvqUtOpZsy
-X-Google-Smtp-Source: AMrXdXsO9Qm9XVlmooaRoDE5J0L6F4lHxOPKu1yWlAg2VV74VNxKHBU2mTCCDMeqKlPXchyuBtlzKQ==
-X-Received: by 2002:a17:90a:294f:b0:226:f7f6:ad2f with SMTP id
- x15-20020a17090a294f00b00226f7f6ad2fmr676637pjf.38.1673077900366; 
- Fri, 06 Jan 2023 23:51:40 -0800 (PST)
+ bh=r0wyYihsWPXw8Yqko2NtqMR1/ytj9ZC8grnAJG95FjU=;
+ b=RWjUKypAZdn6aoRVh0glCDXLP5ybEcBB4EmmwzIXHHrDmnrqNMPxve+oQXw9xYKFHa
+ 11djcCVKYDpaouEfoja/FEvA4iUwf9e6v4ZfSzkPEe3/gOpV2I3jCKugZKNuQSVQR6BF
+ Byqez8XH5czNu/CcbkHrbLzAm+B71GvoQ+sRBG0DSWy7HVwTeGdNIojaZP4Lq8ddkZXd
+ dclq0zmRcuFMgOq2hNqvGN45PX+i9apUqS2pM0J8cjPBFQklPhFhlKUxo9KWp9vhpDw9
+ E2QN0MX7csRNfe8LLPWdDIG2mkHaj627k3UODaRdBklQIwK5RZcOuJ78TtP/IKXmxYam
+ q7Zg==
+X-Gm-Message-State: AFqh2kpq1DT8WtHpho1vK9FiD6AQ27Rwbsoq4nW72WPRfOT0ziEGIq/W
+ 71hukgkWGdJWFgpHd+wzFMzAu+Kl7ZiYbZ/i
+X-Google-Smtp-Source: AMrXdXtD+XfA6xPL3ETbDtTMNev656oCEx9M6DuSUI7dl7TNans/Lbch2NpKBtCRl3vl1lBvvVvDeA==
+X-Received: by 2002:a17:90a:3985:b0:226:df9e:9147 with SMTP id
+ z5-20020a17090a398500b00226df9e9147mr5422045pjb.38.1673077901373; 
+ Fri, 06 Jan 2023 23:51:41 -0800 (PST)
 Received: from stoup.. ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
  by smtp.gmail.com with ESMTPSA id
- bj5-20020a17090b088500b00212e5068e17sm1945119pjb.40.2023.01.06.23.51.39
+ bj5-20020a17090b088500b00212e5068e17sm1945119pjb.40.2023.01.06.23.51.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 23:51:39 -0800 (PST)
+ Fri, 06 Jan 2023 23:51:40 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PULL 22/27] tcg/s390x: Support SELGR instruction in movcond
-Date: Fri,  6 Jan 2023 23:51:13 -0800
-Message-Id: <20230107075118.1814503-23-richard.henderson@linaro.org>
+Subject: [PULL 23/27] tcg/s390x: Use tgen_movcond_int in tgen_clz
+Date: Fri,  6 Jan 2023 23:51:14 -0800
+Message-Id: <20230107075118.1814503-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230107075118.1814503-1-richard.henderson@linaro.org>
 References: <20230107075118.1814503-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,62 +89,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The new select instruction provides two separate register inputs,
-whereas the old load-on-condition instruction overlaps one of the
-register inputs with the destination.
+Reuse code from movcond to conditionally copy a2 to dest,
+based on the condition codes produced by FLOGR.
 
 Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target.c.inc | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ tcg/s390x/tcg-target-con-set.h |  1 +
+ tcg/s390x/tcg-target.c.inc     | 20 +++++++++++---------
+ 2 files changed, 12 insertions(+), 9 deletions(-)
 
+diff --git a/tcg/s390x/tcg-target-con-set.h b/tcg/s390x/tcg-target-con-set.h
+index 8cf8ed4dff..baf3bc9037 100644
+--- a/tcg/s390x/tcg-target-con-set.h
++++ b/tcg/s390x/tcg-target-con-set.h
+@@ -24,6 +24,7 @@ C_O1_I2(r, 0, rI)
+ C_O1_I2(r, 0, rJ)
+ C_O1_I2(r, r, r)
+ C_O1_I2(r, r, ri)
++C_O1_I2(r, r, rI)
+ C_O1_I2(r, r, rJ)
+ C_O1_I2(r, r, rK)
+ C_O1_I2(r, r, rKR)
 diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index 30c12052f0..ab1fb45cc2 100644
+index ab1fb45cc2..8254f9f650 100644
 --- a/tcg/s390x/tcg-target.c.inc
 +++ b/tcg/s390x/tcg-target.c.inc
-@@ -202,6 +202,8 @@ typedef enum S390Opcode {
-     RRFa_XRK    = 0xb9f7,
-     RRFa_XGRK   = 0xb9e7,
+@@ -1424,15 +1424,15 @@ static void tgen_clz(TCGContext *s, TCGReg dest, TCGReg a1,
  
-+    RRFam_SELGR = 0xb9e3,
+     if (a2const && a2 == 64) {
+         tcg_out_mov(s, TCG_TYPE_I64, dest, TCG_REG_R0);
+-    } else {
+-        if (a2const) {
+-            tcg_out_movi(s, TCG_TYPE_I64, dest, a2);
+-        } else {
+-            tcg_out_mov(s, TCG_TYPE_I64, dest, a2);
+-        }
+-        /* Emit: if (one bit found) dest = r0.  */
+-        tcg_out_insn(s, RRFc, LOCGR, dest, TCG_REG_R0, 2);
++        return;
+     }
 +
-     RRFc_LOCR   = 0xb9f2,
-     RRFc_LOCGR  = 0xb9e2,
- 
-@@ -626,12 +628,20 @@ static void tcg_out_insn_RRE(TCGContext *s, S390Opcode op,
-     tcg_out32(s, (op << 16) | (r1 << 4) | r2);
++    /*
++     * Conditions from FLOGR are:
++     *   2 -> one bit found
++     *   8 -> no one bit found
++     */
++    tgen_movcond_int(s, TCG_TYPE_I64, dest, a2, a2const, TCG_REG_R0, 8, 2);
  }
  
-+/* RRF-a without the m4 field */
- static void tcg_out_insn_RRFa(TCGContext *s, S390Opcode op,
-                               TCGReg r1, TCGReg r2, TCGReg r3)
- {
-     tcg_out32(s, (op << 16) | (r3 << 12) | (r1 << 4) | r2);
- }
+ static void tgen_deposit(TCGContext *s, TCGReg dest, TCGReg src,
+@@ -3070,11 +3070,13 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_rotl_i64:
+     case INDEX_op_rotr_i32:
+     case INDEX_op_rotr_i64:
+-    case INDEX_op_clz_i64:
+     case INDEX_op_setcond_i32:
+     case INDEX_op_setcond_i64:
+         return C_O1_I2(r, r, ri);
  
-+/* RRF-a with the m4 field */
-+static void tcg_out_insn_RRFam(TCGContext *s, S390Opcode op,
-+                               TCGReg r1, TCGReg r2, TCGReg r3, int m4)
-+{
-+    tcg_out32(s, (op << 16) | (r3 << 12) | (m4 << 8) | (r1 << 4) | r2);
-+}
++    case INDEX_op_clz_i64:
++        return C_O1_I2(r, r, rI);
 +
- static void tcg_out_insn_RRFc(TCGContext *s, S390Opcode op,
-                               TCGReg r1, TCGReg r2, int m3)
- {
-@@ -1376,6 +1386,11 @@ static void tgen_movcond_int(TCGContext *s, TCGType type, TCGReg dest,
-             src = v4;
-         }
-     } else {
-+        if (HAVE_FACILITY(MISC_INSN_EXT3)) {
-+            /* Emit: dest = cc ? v3 : v4. */
-+            tcg_out_insn(s, RRFam, SELGR, dest, v3, v4, cc);
-+            return;
-+        }
-         if (dest == v4) {
-             src = v3;
-         } else {
+     case INDEX_op_sub_i32:
+     case INDEX_op_sub_i64:
+     case INDEX_op_and_i32:
 -- 
 2.34.1
 
