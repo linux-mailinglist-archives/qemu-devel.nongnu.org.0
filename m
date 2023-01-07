@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE34660CD4
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 08:52:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B053660CDF
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 08:58:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pE3zR-0003iZ-Nj; Sat, 07 Jan 2023 02:51:41 -0500
+	id 1pE3zS-0003iy-RL; Sat, 07 Jan 2023 02:51:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pE3zE-0003dC-PH
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 02:51:29 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ id 1pE3zG-0003eN-46
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 02:51:30 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pE3zD-0004Aa-08
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 02:51:28 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- fz16-20020a17090b025000b002269d6c2d83so7421837pjb.0
- for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 23:51:23 -0800 (PST)
+ id 1pE3zD-0004Ak-0q
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 02:51:29 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id o13so210655pjg.2
+ for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 23:51:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Fzk4NrLtAJi/a77CIcZx5K/WdDcUEvtouOhrn05Qgew=;
- b=qHHQ+piSmWZvePSqf1kTrw7uBO/A8pksd5k1hqqnPIyO9lHk8g2JlM25KdfzLp+UA5
- TRVDJWdIRnP026VA1nQ31dQLhJde9/+/KeCgXLvr+CdhgKGOvMx3KFp8CPQ1rL7xv0zm
- ghpHQ7YOFjB3RkNhDCSNHKROt4gtifuoJRxxUBujzBcJAOfASTFo42TC3Elt3CBVSVEw
- MqXxoiLPnxvsDtSrEfst2pyptKPY9fS4sZbdgXxQHT+QoTWMFm0SXBXl3Oa197lSeC1j
- vuiwE6CBcclfuk7dgCH8uHnI1ZRzw5U6gb4ch3m55tLVXiM9gcSAIZG1/oEF7/3PTcy4
- SSsg==
+ bh=HBOgYpv333T0kvWfOzK8OyO5m5CWQXdmtNLgnaS07y4=;
+ b=ClToO4F7ifW59piIAoqyJyYoRLZtofH4nn2HzVniL54+8UBDHv4CKzXiDNTF/NOyb4
+ PWGPqNPFyT0gFwmdlZJD7KdKRSJZzABhHFVP5z8tP3SrJ8xJp9gVPdEVIBXzjOdqbG3O
+ grh6wbnv9MFfsxY8Vv5GHHdlV9E9L3LPCya9cDZUC9IVeq7hagBCwTaWDqIsrBKyLXKV
+ 7rhFsmOYiMIO6/jNtNnRJVclLSIPaXCMpsdBQDfIi/MWJwiH+qsm9r/uhdi6mkHgGFBw
+ ghQO59C6knVlf4pJva+bOX+2sSL3O9f8MFNdtIjhEs9nOrJnQWHQJIpRcJsDQzHmLgRJ
+ oQsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Fzk4NrLtAJi/a77CIcZx5K/WdDcUEvtouOhrn05Qgew=;
- b=SIAaARvBqDs6SOw7EH+rOPjCAY97nhUIfsuWm0sQlD/gfnJ2Jn8FjwZItGix+bykEu
- hfHbnJDHQkIt7w681tTioDdwvrZ5/gO198sQt/k88rVdgzVnPOHmE5fJ/khDkq35FxW6
- pUgH1QbCmhlVERzTw4l3CnB3LDTmK3g4WbtseSDa2ijN2XoF0rXbredM62uYgmTQUyr4
- B2w9yOufYQAe+1KwMtKK842QBeCGXHP/ZJ7wnNq7uExYgnVFuxQ2R+XmQIqxVudebbVt
- vdzjmMlfhQH792ANPk6cbO6rKgrt+yvnZKNcNKw2miOMIkO9k/4LUS3IEv2NlNEBZNN1
- EwjQ==
-X-Gm-Message-State: AFqh2krYKhdYryTEjI+4av2yBORwkFO9FQmhOiCim3UIgigU2yfoYIaQ
- nPvXfWlxkDAVpCi2f2A6WZL0JDmpTGpI9chr
-X-Google-Smtp-Source: AMrXdXvPnUm+BAvoCTZRRkpPdO2hhvVNRAjXus6/HQJzhobQTun+PUzAw+Qs7vTYfPIi1WEfr2kd3g==
-X-Received: by 2002:a17:90a:a594:b0:225:fa96:c744 with SMTP id
- b20-20020a17090aa59400b00225fa96c744mr46274795pjq.37.1673077882644; 
- Fri, 06 Jan 2023 23:51:22 -0800 (PST)
+ bh=HBOgYpv333T0kvWfOzK8OyO5m5CWQXdmtNLgnaS07y4=;
+ b=iI+VdpouoOvRwZBVqxiF2ZemcV2Lh0OdrPWw05EZ/xdXkylR7Duf2zCW23uzWT0efi
+ iAynSg2+d4ZUClatEjPqqaZiutv0RA7jiZx/ha5+77zq1vusi07LTkuaotfBGLLBt+V3
+ rdMGCQgdux0aySKTNF/xMapg7G3dNCgv1zkRyvJK37JuY1EndMbpj0WNcu5U5pB1y5G8
+ 5b8D6s344J7RCIIwbe+KCWoFQud/5WT2612HykqlBZ6Tr3oY8egNg3/j3M9i1Iz3O5UZ
+ 1wT/4JxpXW5ZBwHLrfIa8O7XC3ZU6ZXvp1SS9gjAw2WT8hnkg0sHuPeF2goVh8VcmyoL
+ OQGg==
+X-Gm-Message-State: AFqh2koLFeTf3syCRzYlCcnIken3BELshth5Jl1f7c416SqAKTZf3Uga
+ lgCJP+YVm/iSCd7nhhGmg2NFX2OmLGEiD/v1
+X-Google-Smtp-Source: AMrXdXvUaIkaHxyg+2oBjgQ51wEEYys4VL7MA73UShe7g70nBndIw866mq+Ll8t4wapqu7CIVgERqg==
+X-Received: by 2002:a17:90b:2485:b0:226:b9ed:178c with SMTP id
+ nt5-20020a17090b248500b00226b9ed178cmr11283046pjb.40.1673077883674; 
+ Fri, 06 Jan 2023 23:51:23 -0800 (PST)
 Received: from stoup.. ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
  by smtp.gmail.com with ESMTPSA id
- bj5-20020a17090b088500b00212e5068e17sm1945119pjb.40.2023.01.06.23.51.21
+ bj5-20020a17090b088500b00212e5068e17sm1945119pjb.40.2023.01.06.23.51.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 23:51:22 -0800 (PST)
+ Fri, 06 Jan 2023 23:51:23 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PULL 03/27] tcg/s390x: Always set TCG_TARGET_HAS_direct_jump
-Date: Fri,  6 Jan 2023 23:50:54 -0800
-Message-Id: <20230107075118.1814503-4-richard.henderson@linaro.org>
+Subject: [PULL 04/27] tcg/s390x: Remove USE_LONG_BRANCHES
+Date: Fri,  6 Jan 2023 23:50:55 -0800
+Message-Id: <20230107075118.1814503-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230107075118.1814503-1-richard.henderson@linaro.org>
 References: <20230107075118.1814503-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,96 +89,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since USE_REG_TB is removed, there is no need to load the
-target TB address into a register.
+The size of a compiled TB is limited by the uint16_t used by
+gen_insn_end_off[] -- there is no need for a 32-bit branch.
 
 Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target.h     |  2 +-
- tcg/s390x/tcg-target.c.inc | 48 +++++++-------------------------------
- 2 files changed, 10 insertions(+), 40 deletions(-)
+ tcg/s390x/tcg-target.c.inc | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-index 22d70d431b..645f522058 100644
---- a/tcg/s390x/tcg-target.h
-+++ b/tcg/s390x/tcg-target.h
-@@ -103,7 +103,7 @@ extern uint64_t s390_facilities[3];
- #define TCG_TARGET_HAS_mulsh_i32      0
- #define TCG_TARGET_HAS_extrl_i64_i32  0
- #define TCG_TARGET_HAS_extrh_i64_i32  0
--#define TCG_TARGET_HAS_direct_jump    HAVE_FACILITY(GEN_INST_EXT)
-+#define TCG_TARGET_HAS_direct_jump    1
- #define TCG_TARGET_HAS_qemu_st8_i32   0
- 
- #define TCG_TARGET_HAS_div2_i64       1
 diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index ba4bb6a629..2cdd0d7a92 100644
+index 2cdd0d7a92..dea889ffa1 100644
 --- a/tcg/s390x/tcg-target.c.inc
 +++ b/tcg/s390x/tcg-target.c.inc
-@@ -996,28 +996,6 @@ static inline bool tcg_out_sti(TCGContext *s, TCGType type, TCGArg val,
-     return false;
- }
+@@ -33,11 +33,6 @@
+ #include "../tcg-pool.c.inc"
+ #include "elf.h"
  
--/* load data from an absolute host address */
--static void tcg_out_ld_abs(TCGContext *s, TCGType type,
--                           TCGReg dest, const void *abs)
--{
--    intptr_t addr = (intptr_t)abs;
+-/* ??? The translation blocks produced by TCG are generally small enough to
+-   be entirely reachable with a 16-bit displacement.  Leaving the option for
+-   a 32-bit displacement here Just In Case.  */
+-#define USE_LONG_BRANCHES 0
 -
--    if (HAVE_FACILITY(GEN_INST_EXT) && !(addr & 1)) {
--        ptrdiff_t disp = tcg_pcrel_diff(s, abs) >> 1;
--        if (disp == (int32_t)disp) {
--            if (type == TCG_TYPE_I32) {
--                tcg_out_insn(s, RIL, LRL, dest, disp);
--            } else {
--                tcg_out_insn(s, RIL, LGRL, dest, disp);
--            }
--            return;
--        }
--    }
--
--    tcg_out_movi(s, TCG_TYPE_PTR, dest, addr & ~0xffff);
--    tcg_out_ld(s, type, dest, dest, addr & 0xffff);
--}
--
- static inline void tcg_out_risbg(TCGContext *s, TCGReg dest, TCGReg src,
-                                  int msb, int lsb, int ofs, int z)
+ #define TCG_CT_CONST_S16   0x100
+ #define TCG_CT_CONST_S32   0x200
+ #define TCG_CT_CONST_S33   0x400
+@@ -1525,10 +1520,6 @@ static void tgen_branch(TCGContext *s, int cc, TCGLabel *l)
  {
-@@ -2037,24 +2015,16 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
- 
-     case INDEX_op_goto_tb:
-         a0 = args[0];
--        if (s->tb_jmp_insn_offset) {
--            /*
--             * branch displacement must be aligned for atomic patching;
--             * see if we need to add extra nop before branch
--             */
--            if (!QEMU_PTR_IS_ALIGNED(s->code_ptr + 1, 4)) {
--                tcg_out16(s, NOP);
--            }
--            tcg_out16(s, RIL_BRCL | (S390_CC_ALWAYS << 4));
--            s->tb_jmp_insn_offset[a0] = tcg_current_code_size(s);
--            s->code_ptr += 2;
--        } else {
--            /* load address stored at s->tb_jmp_target_addr + a0 */
--            tcg_out_ld_abs(s, TCG_TYPE_PTR, TCG_TMP0,
--                           tcg_splitwx_to_rx(s->tb_jmp_target_addr + a0));
--            /* and go there */
--            tcg_out_insn(s, RR, BCR, S390_CC_ALWAYS, TCG_TMP0);
-+        /*
-+         * branch displacement must be aligned for atomic patching;
-+         * see if we need to add extra nop before branch
-+         */
-+        if (!QEMU_PTR_IS_ALIGNED(s->code_ptr + 1, 4)) {
-+            tcg_out16(s, NOP);
-         }
-+        tcg_out16(s, RIL_BRCL | (S390_CC_ALWAYS << 4));
-+        s->tb_jmp_insn_offset[a0] = tcg_current_code_size(s);
-+        s->code_ptr += 2;
-         set_jmp_reset_offset(s, a0);
-         break;
- 
+     if (l->has_value) {
+         tgen_gotoi(s, cc, l->u.value_ptr);
+-    } else if (USE_LONG_BRANCHES) {
+-        tcg_out16(s, RIL_BRCL | (cc << 4));
+-        tcg_out_reloc(s, s->code_ptr, R_390_PC32DBL, l, 2);
+-        s->code_ptr += 2;
+     } else {
+         tcg_out16(s, RI_BRC | (cc << 4));
+         tcg_out_reloc(s, s->code_ptr, R_390_PC16DBL, l, 2);
 -- 
 2.34.1
 
