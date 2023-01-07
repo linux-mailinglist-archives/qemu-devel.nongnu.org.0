@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D63E660CDA
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 08:55:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A077660CEA
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 09:08:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pE3zK-0003eK-4K; Sat, 07 Jan 2023 02:51:34 -0500
+	id 1pE3zO-0003g1-9f; Sat, 07 Jan 2023 02:51:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pE3zD-0003cl-B4
+ id 1pE3zD-0003cm-AB
  for qemu-devel@nongnu.org; Sat, 07 Jan 2023 02:51:27 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pE3z7-0004A6-Th
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 02:51:23 -0500
-Received: by mail-pl1-x632.google.com with SMTP id c4so4080480plc.5
+ id 1pE3z8-0004A8-JE
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 02:51:24 -0500
+Received: by mail-pl1-x634.google.com with SMTP id d3so4053497plr.10
  for <qemu-devel@nongnu.org>; Fri, 06 Jan 2023 23:51:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=C7/GqCKIjHQX3gUSGau+tujtwt1S0/xoLIWF0wzscAU=;
- b=zBj4CbabUPBmsXF5XAfgg3ghZmXfmDcs3EnHJjQsVVoPrgrtHow83dE5RY3mbHuf6k
- W3dZuAkA4m65Pq9K3xVfiK3z9vOJOtvia+QJ4mrLLKoNKoPgJGKIqfMiABcZzcI+ifZy
- P44Z1fqITiscLyWpm1RUJPdAdCV0Qo/gTvL9GySkpSNHZAgihZ5hDKaRuWVWY60b10yO
- jZwq9rJaB3r4/nEhUeQZ3/ySBHRs197RQh65VxxQnZrwqPdF8S6mFnWJLC+Xf4xGmVFp
- FnpP+kFSfm7L4p9Xj6W5iS3XpSae/9TWF1BSSRcz+Dkbti2MBKb1eOpncKkzfmPMgP3T
- vMQA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tLBGpsh6MTEMtw6+WKTyIS5KlZ4TUnE33H/La06GVTk=;
+ b=GstfbavKbR/hKrq+5/03asADMkr1j2VpBWMLFBExsPS/gBkNNwqyEKAnHnmiHSB+31
+ NqiD9DbEruQ2WklNKnXoKw1oK3uccsunsY+r07MVNVf0iO/XxJWT6wSO6nTiQP9USsRl
+ 9CaJW8gvuir6rD3VqMBteAyxgKLHQY6qWT4VqkNEdIcHEvzSDYXSJnziMqFBP2352iDn
+ u9SiOErubKac4ybOSScZEbjgKz4QeW9V8YImk2hQz8tDzihLuneWNf17WrsvGqLC4HBT
+ LBaHYm/COKGza5UmVX0hcONHXdf4zVs97djgw21NmNgdBIg7Vp64ylL59c7dyn5JUHs7
+ F53Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=C7/GqCKIjHQX3gUSGau+tujtwt1S0/xoLIWF0wzscAU=;
- b=uVfwMFv/Hw3JTNg0U8jb6nCqa2FcoiR0puMqRb2S9p6o7QRZW2rWMbSPmF0ER6DvxA
- 2H/pkvOHqVdOlPZy8cj+DB4HmK6Uc4aOdYr/Rnp5g061yWjeBe4G0TJ5UdheLqIiPRBm
- X4j2c0/WX5EkxNAB+QaI8guqzRAGT6Ii16vQ5FkkRpQtplSkDraCaXRKw8wJyOtUbRna
- PHd+ln2ZfT+Okp2p8LFEPlSsClrftUhz6u22OQx1gzsaii7nKpEJWTUU7/Ej04/RxxT2
- Ki1vs6020WFYTg4nO271pi9DIe3KodY40oLimxcsonSuceZDOXP/Wh+eZn5/KZi5y23b
- 6x+Q==
-X-Gm-Message-State: AFqh2koTDpxuT5Cl1dGLFomd4hMxJZKCBDwN4iqCgtVaQkY7Ule6HcYz
- cJFZo+OE2lPu/3z61Spec5lemkRJeP8GdG9P
-X-Google-Smtp-Source: AMrXdXuNgK56PeJzyhcI5TsVuczqlzRcHfC9ZEBekO7DBJO0QpVkCQvvxcN0g7fAIVbH23TFXRahPA==
-X-Received: by 2002:a17:90b:35c8:b0:226:b78b:a9c2 with SMTP id
- nb8-20020a17090b35c800b00226b78ba9c2mr11258171pjb.35.1673077879568; 
- Fri, 06 Jan 2023 23:51:19 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tLBGpsh6MTEMtw6+WKTyIS5KlZ4TUnE33H/La06GVTk=;
+ b=TWAqXhxoELGwaQKzv+BV4CgkDPdE611ZW8yS/1ZLFQU9HKAWXmfFBWi/8mmYvy9RsC
+ MV8WZK25M79HLAwO6zm3HQin/8QUfRKj+qH7BhcZ5CnUDouxc8uhtlxb1qE09eHvmHK/
+ d+1XyYg7FCLdtu2+0G/Qs5iazRXlQKWa73ySGQREgAgo6vEtww4wBrku5RBEHDoQkRn0
+ CS191Y/HN3TD++7J5iiDvIcAcysMBXk1NABwDkN3hr1mL6+t7aI2o/DPMfxqIrc18XWM
+ O5+/Qmtr2Ew4XCx/QMNKwgpMx7nEQrzgGjbv2/jKbgUg7AZpJPKEYChZvUXPIinm6SMR
+ Z1/w==
+X-Gm-Message-State: AFqh2kp79bi/l1tSbDe9+cw63JTaj5L7yNDBN8DkjfBn0gSnSt1US0SV
+ 5JEdEOjFkup8xJG/hPp26/ofdE/WgJofduST
+X-Google-Smtp-Source: AMrXdXvFPfvtPLO4OPBS3tJSFHE/WW7Tb0eZgyEJY0h1CumkIeqYVXsZ25iGgXJcd3wzLKv7cdhYJQ==
+X-Received: by 2002:a17:90b:4391:b0:226:412e:20a7 with SMTP id
+ in17-20020a17090b439100b00226412e20a7mr27617932pjb.26.1673077880665; 
+ Fri, 06 Jan 2023 23:51:20 -0800 (PST)
 Received: from stoup.. ([2602:47:d48c:8101:9d81:5b04:51d7:acae])
  by smtp.gmail.com with ESMTPSA id
- bj5-20020a17090b088500b00212e5068e17sm1945119pjb.40.2023.01.06.23.51.18
- for <qemu-devel@nongnu.org>
+ bj5-20020a17090b088500b00212e5068e17sm1945119pjb.40.2023.01.06.23.51.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Jan 2023 23:51:19 -0800 (PST)
+ Fri, 06 Jan 2023 23:51:20 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/27] tcg/s390x patch queue
-Date: Fri,  6 Jan 2023 23:50:51 -0800
-Message-Id: <20230107075118.1814503-1-richard.henderson@linaro.org>
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PULL 01/27] tcg/s390x: Use register pair allocation for div and mulu2
+Date: Fri,  6 Jan 2023 23:50:52 -0800
+Message-Id: <20230107075118.1814503-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230107075118.1814503-1-richard.henderson@linaro.org>
+References: <20230107075118.1814503-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,57 +89,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit aaa90fede5d10e2a3c3fc7f2df608128d2cba761:
+Previously we hard-coded R2 and R3.
 
-  Merge tag 'pull-tcg-20230105' of https://gitlab.com/rth7680/qemu into staging (2023-01-06 15:40:37 +0000)
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/s390x/tcg-target-con-set.h |  4 ++--
+ tcg/s390x/tcg-target-con-str.h |  8 +------
+ tcg/s390x/tcg-target.c.inc     | 43 +++++++++++++++++++++++++---------
+ 3 files changed, 35 insertions(+), 20 deletions(-)
 
-are available in the Git repository at:
+diff --git a/tcg/s390x/tcg-target-con-set.h b/tcg/s390x/tcg-target-con-set.h
+index 426dd92e51..00ba727b70 100644
+--- a/tcg/s390x/tcg-target-con-set.h
++++ b/tcg/s390x/tcg-target-con-set.h
+@@ -29,8 +29,8 @@ C_O1_I2(v, v, v)
+ C_O1_I3(v, v, v, v)
+ C_O1_I4(r, r, ri, r, 0)
+ C_O1_I4(r, r, ri, rI, 0)
+-C_O2_I2(b, a, 0, r)
+-C_O2_I3(b, a, 0, 1, r)
++C_O2_I2(o, m, 0, r)
++C_O2_I3(o, m, 0, 1, r)
+ C_O2_I4(r, r, 0, 1, rA, r)
+ C_O2_I4(r, r, 0, 1, ri, r)
+ C_O2_I4(r, r, 0, 1, r, r)
+diff --git a/tcg/s390x/tcg-target-con-str.h b/tcg/s390x/tcg-target-con-str.h
+index 8bb0358ae5..76446aecae 100644
+--- a/tcg/s390x/tcg-target-con-str.h
++++ b/tcg/s390x/tcg-target-con-str.h
+@@ -11,13 +11,7 @@
+ REGS('r', ALL_GENERAL_REGS)
+ REGS('L', ALL_GENERAL_REGS & ~SOFTMMU_RESERVE_REGS)
+ REGS('v', ALL_VECTOR_REGS)
+-/*
+- * A (single) even/odd pair for division.
+- * TODO: Add something to the register allocator to allow
+- * this kind of regno+1 pairing to be done more generally.
+- */
+-REGS('a', 1u << TCG_REG_R2)
+-REGS('b', 1u << TCG_REG_R3)
++REGS('o', 0xaaaa) /* odd numbered general regs */
+ 
+ /*
+  * Define constraint letters for constants:
+diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
+index b9ba7b605e..cb00bb6999 100644
+--- a/tcg/s390x/tcg-target.c.inc
++++ b/tcg/s390x/tcg-target.c.inc
+@@ -2264,10 +2264,18 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         break;
+ 
+     case INDEX_op_div2_i32:
+-        tcg_out_insn(s, RR, DR, TCG_REG_R2, args[4]);
++        tcg_debug_assert(args[0] == args[2]);
++        tcg_debug_assert(args[1] == args[3]);
++        tcg_debug_assert((args[1] & 1) == 0);
++        tcg_debug_assert(args[0] == args[1] + 1);
++        tcg_out_insn(s, RR, DR, args[1], args[4]);
+         break;
+     case INDEX_op_divu2_i32:
+-        tcg_out_insn(s, RRE, DLR, TCG_REG_R2, args[4]);
++        tcg_debug_assert(args[0] == args[2]);
++        tcg_debug_assert(args[1] == args[3]);
++        tcg_debug_assert((args[1] & 1) == 0);
++        tcg_debug_assert(args[0] == args[1] + 1);
++        tcg_out_insn(s, RRE, DLR, args[1], args[4]);
+         break;
+ 
+     case INDEX_op_shl_i32:
+@@ -2521,17 +2529,30 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         break;
+ 
+     case INDEX_op_div2_i64:
+-        /* ??? We get an unnecessary sign-extension of the dividend
+-           into R3 with this definition, but as we do in fact always
+-           produce both quotient and remainder using INDEX_op_div_i64
+-           instead requires jumping through even more hoops.  */
+-        tcg_out_insn(s, RRE, DSGR, TCG_REG_R2, args[4]);
++        /*
++         * ??? We get an unnecessary sign-extension of the dividend
++         * into op0 with this definition, but as we do in fact always
++         * produce both quotient and remainder using INDEX_op_div_i64
++         * instead requires jumping through even more hoops.
++         */
++        tcg_debug_assert(args[0] == args[2]);
++        tcg_debug_assert(args[1] == args[3]);
++        tcg_debug_assert((args[1] & 1) == 0);
++        tcg_debug_assert(args[0] == args[1] + 1);
++        tcg_out_insn(s, RRE, DSGR, args[1], args[4]);
+         break;
+     case INDEX_op_divu2_i64:
+-        tcg_out_insn(s, RRE, DLGR, TCG_REG_R2, args[4]);
++        tcg_debug_assert(args[0] == args[2]);
++        tcg_debug_assert(args[1] == args[3]);
++        tcg_debug_assert((args[1] & 1) == 0);
++        tcg_debug_assert(args[0] == args[1] + 1);
++        tcg_out_insn(s, RRE, DLGR, args[1], args[4]);
+         break;
+     case INDEX_op_mulu2_i64:
+-        tcg_out_insn(s, RRE, MLGR, TCG_REG_R2, args[3]);
++        tcg_debug_assert(args[0] == args[2]);
++        tcg_debug_assert((args[1] & 1) == 0);
++        tcg_debug_assert(args[0] == args[1] + 1);
++        tcg_out_insn(s, RRE, MLGR, args[1], args[3]);
+         break;
+ 
+     case INDEX_op_shl_i64:
+@@ -3226,10 +3247,10 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_div2_i64:
+     case INDEX_op_divu2_i32:
+     case INDEX_op_divu2_i64:
+-        return C_O2_I3(b, a, 0, 1, r);
++        return C_O2_I3(o, m, 0, 1, r);
+ 
+     case INDEX_op_mulu2_i64:
+-        return C_O2_I2(b, a, 0, r);
++        return C_O2_I2(o, m, 0, r);
+ 
+     case INDEX_op_add2_i32:
+     case INDEX_op_sub2_i32:
+-- 
+2.34.1
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230106
-
-for you to fetch changes up to 90497e03ca7432153c5db4a06019265486541d44:
-
-  tcg/s390x: Avoid the constant pool in tcg_out_movi (2023-01-06 23:07:10 +0000)
-
-----------------------------------------------------------------
-tcg/s390x improvements:
- - drop support for pre-z196 cpus (eol before 2019)
- - add support for misc-instruction-extensions-3
- - misc cleanups
-
-----------------------------------------------------------------
-Richard Henderson (27):
-      tcg/s390x: Use register pair allocation for div and mulu2
-      tcg/s390x: Remove TCG_REG_TB
-      tcg/s390x: Always set TCG_TARGET_HAS_direct_jump
-      tcg/s390x: Remove USE_LONG_BRANCHES
-      tcg/s390x: Check for long-displacement facility at startup
-      tcg/s390x: Check for extended-immediate facility at startup
-      tcg/s390x: Check for general-instruction-extension facility at startup
-      tcg/s390x: Check for load-on-condition facility at startup
-      tcg/s390x: Remove FAST_BCR_SER facility check
-      tcg/s390x: Remove DISTINCT_OPERANDS facility check
-      tcg/s390x: Use LARL+AGHI for odd addresses
-      tcg/s390x: Distinguish RRF-a and RRF-c formats
-      tcg/s390x: Distinguish RIE formats
-      tcg/s390x: Support MIE2 multiply single instructions
-      tcg/s390x: Support MIE2 MGRK instruction
-      tcg/s390x: Issue XILF directly for xor_i32
-      tcg/s390x: Tighten constraints for or_i64 and xor_i64
-      tcg/s390x: Tighten constraints for and_i64
-      tcg/s390x: Support MIE3 logical operations
-      tcg/s390x: Create tgen_cmp2 to simplify movcond
-      tcg/s390x: Generalize movcond implementation
-      tcg/s390x: Support SELGR instruction in movcond
-      tcg/s390x: Use tgen_movcond_int in tgen_clz
-      tcg/s390x: Implement ctpop operation
-      tcg/s390x: Tighten constraints for 64-bit compare
-      tcg/s390x: Cleanup tcg_out_movi
-      tcg/s390x: Avoid the constant pool in tcg_out_movi
-
- tcg/s390x/tcg-target-con-set.h |   18 +-
- tcg/s390x/tcg-target-con-str.h |   11 +-
- tcg/s390x/tcg-target.h         |   54 +-
- tcg/s390x/tcg-target.c.inc     | 1251 ++++++++++++++++++++--------------------
- 4 files changed, 668 insertions(+), 666 deletions(-)
 
