@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4B2660FDD
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 16:14:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 738C1660FFE
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Jan 2023 16:36:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEAsx-0006EX-47; Sat, 07 Jan 2023 10:13:27 -0500
+	id 1pEBCD-0004E9-I8; Sat, 07 Jan 2023 10:33:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pEAsp-0006DE-Fa
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 10:13:21 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEBC7-0004DC-JK
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 10:33:15 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pEAsn-0002Si-WB
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 10:13:19 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id bk16so3802668wrb.11
- for <qemu-devel@nongnu.org>; Sat, 07 Jan 2023 07:13:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEBC4-00009G-JS
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 10:33:15 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ k26-20020a05600c1c9a00b003d972646a7dso5564680wms.5
+ for <qemu-devel@nongnu.org>; Sat, 07 Jan 2023 07:33:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bfFkfqLvXTvnq+GtmA4RQa6+HVqVB1ronPRYX6xVvpU=;
- b=lxlRRWYgOO3fknaGVVWnRUfMO6DVLTkHgbrncR7jKXv6Rjw1zNFCkddDG3Usxfugba
- zLX/6xG2Ub8ortxwThlkSvYVlkTlIFmc0BYcUvuq53vV/WpH+AxH3ifwWGydfjKGCo8/
- EcX8xsCRQ3eIKWjDNRQvVCP1IKoVcdCzJqgQ/8qTrYpT4mfLzn3lZyzyvsi3bglz99kv
- aiXPieNuBx9kIXdg+OluS4ZXWZwLZfLeOdTEMnYweibxgM2XFXrNq2BKwUkhOnecE2xo
- zuSO/jn07xGn3dwANQBL88t5izSc5L81C5uqMjkkCgoS0LtQRe4KL7IVOZ27RgrhFyST
- Rcqw==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=rhCgwoyqfa1pvTgbhUwrbvg2wRCwwT77J7RpV3zS96c=;
+ b=BTNgD0S0l6WCQ6AF2mDzUdFpeeXONIVUNpurwRa/AI6mSMWA6Jw1zCECr6qQIKgCr5
+ kZ7vUostmx+eklBJhf0ighaPKQU30EZWswphKCYo7hITwlwlB3cB+2yIajcZY3lRXs8D
+ njg/1SWSzVcRXfPgBn5iTIMzlvw6aMmgB4QaElW/766xtJM8STbPi9FGZzZoeNVr/jio
+ l8hPSvYXbcbDYhl34VsygO5zTAFL15fnllqzOPLyVoxFm5xsoigDV8MYn61JxnGy+46Z
+ 7ZRLArdWo702zJlt4tWPaO8Cp/DBLsvnePcEu1eoJrW0Hh7n2ffcCxHp+/aNEi4OOL6P
+ dFsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=bfFkfqLvXTvnq+GtmA4RQa6+HVqVB1ronPRYX6xVvpU=;
- b=xygJZwr7RclwmwQ54Bq7CN3ZGINbAayPYDxVJZ+Lh3whuCwIlibcufYqqo5w7JFLM6
- Cd9pjXZZy0QC5x1CNu0tn5d0/s6Zqm7SlPK0KBFB/7Li4DQ6QmdyoLaApa3Y4yS4HoBe
- BxSKZl9zRDvkBPrflshhnhpvom6k4Nf79fN67L4Psl95jge+30jBY9pgDBXaxI1Z24vV
- PaNCpjEwT4t6G422HXlBO8GGZJ7TCYeSK0reGs3gUQ6SZ6WKDENNJHTbcb/TFbX2Tunf
- z/Vct3mjMbHGn09dnZ4ZY0gvVl2iHX1/CsJFxqXtQxx9Z2nsnR55jW28wWVV9GTURlF2
- 02Ag==
-X-Gm-Message-State: AFqh2kqONsuK/8y/1+pfuf/1ab2VHoRfZmVdEuMggFhtTCIjGJNQKSoa
- cZ9sZtuznlcxCl8w2XASV1vL0Q==
-X-Google-Smtp-Source: AMrXdXutb3xTcMtRF35+xvgvQKa1S57FDpAp6UGjZjiwZId0UUykF5Bb/bOuOJMdk9L6Du4WUGLVQA==
-X-Received: by 2002:adf:dfc3:0:b0:294:c208:c921 with SMTP id
- q3-20020adfdfc3000000b00294c208c921mr13829144wrn.42.1673104395410; 
- Sat, 07 Jan 2023 07:13:15 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rhCgwoyqfa1pvTgbhUwrbvg2wRCwwT77J7RpV3zS96c=;
+ b=nn2bPlYMV3ZU/ROCzRBubCDaktwYfs7wZ7fh2MOj7dVohInk9d999q7VTVqY10vlgg
+ z0tew64tLHybuLJrUC6V9gcoMf7/1wwINLXfjZtRWXZmvk++4y+1MRJ8tksCR5XSTuOQ
+ FBvQNiiLevsePzm+BR4MfLzANG85tYXJ0B5xnc5OnK3po3sX44OqBV6DkZbU9HwIhPiF
+ sZqqPlcoMBYlMMykHlZgBiO1BcMHVZ0L8eHM6URFg84ly9qDsOmIXMUXdqCCtHv0VSEX
+ yvqThWyW1GVsweCIfi+6Hvp7UdP5IEPLHyKQpoSE5qLgdhew9BhbvU3Pl90xRSB3kPkD
+ 8flg==
+X-Gm-Message-State: AFqh2koOFZcXA75b1Lbp9v3Gxrdw2GMUkgUWs12kFtoC992VxUkKSUA8
+ wvP2ph3ei1Whod3f1zNT/7vptQ==
+X-Google-Smtp-Source: AMrXdXv8NnBXV7gUbRHWl4P6mq9aRXYyic98PWNVVJFK1EmACDqxOu8yB0gGodYy8X/g1tkeMOaJgw==
+X-Received: by 2002:a05:600c:16c5:b0:3d1:f687:1fd0 with SMTP id
+ l5-20020a05600c16c500b003d1f6871fd0mr42296361wmn.12.1673105590699; 
+ Sat, 07 Jan 2023 07:33:10 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- g1-20020a5d46c1000000b00241cfe6e286sm3988919wrs.98.2023.01.07.07.13.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Jan 2023 07:13:14 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 74F7E1FFB7;
- Sat,  7 Jan 2023 15:13:14 +0000 (GMT)
-References: <20221209164743.70836-1-philmd@linaro.org>
-User-agent: mu4e 1.9.11; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, Beraldo Leal
- <bleal@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH-for-8.0] tests/vm: Update get_default_jobs() to work on
- non-x86_64 non-KVM hosts
-Date: Sat, 07 Jan 2023 15:13:08 +0000
-In-reply-to: <20221209164743.70836-1-philmd@linaro.org>
-Message-ID: <87r0w61iph.fsf@linaro.org>
+ k30-20020a05600c1c9e00b003d9b89a39b2sm6182512wms.10.2023.01.07.07.33.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 07 Jan 2023 07:33:10 -0800 (PST)
+Message-ID: <23d47b64-879f-2dfa-cf25-5fb698bfc5fd@linaro.org>
+Date: Sat, 7 Jan 2023 16:33:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] configure: fix GLIB_VERSION for cross-compilation
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?B?0JLQsNC70LXQvdGC0LjQvQ==?= <val15032008@mail.ru>,
+ qemu-stable@nongnu.org
+References: <20230107133258.110125-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230107133258.110125-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.114,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,26 +92,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 7/1/23 14:32, Paolo Bonzini wrote:
+> configure uses "pkg-config" directly so that GLIB_VERSION is always based
+> on host glib version.   To correctly handle cross-compilation it should use
+> "$pkg_config" and take GLIB_VERSION from the cross-compiled glib.
+> 
+> Reported-by: Валентин <val15032008@mail.ru>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1414
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   configure | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> On non-x86_64 host, if KVM is not available we get:
->
->   Traceback (most recent call last):
->     File "tests/vm/basevm.py", line 634, in main
->       vm =3D vmcls(args, config=3Dconfig)
->     File "tests/vm/basevm.py", line 104, in __init__
->       mem =3D max(4, args.jobs)
->   TypeError: '>' not supported between instances of 'NoneType' and 'int'
->
-> Fix by always returning a -- not ideal but safe -- '1' value.
->
-> Fixes: b09539444a ("tests/vm: allow us to take advantage of MTTCG")
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-
-Queued to testing/next, thanks.
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
