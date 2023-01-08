@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C807266187D
+	by mail.lfdr.de (Postfix) with ESMTPS id CBBEC66187E
 	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 20:21:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEbD9-0001zg-Tq; Sun, 08 Jan 2023 14:20:03 -0500
+	id 1pEbDh-00023r-2B; Sun, 08 Jan 2023 14:20:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEbD5-0001yt-Ns
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 14:19:59 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ id 1pEbDe-00023B-N7
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 14:20:34 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEbD3-0002Vy-RQ
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 14:19:59 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id v23so6616233pju.3
- for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 11:19:57 -0800 (PST)
+ id 1pEbDd-0002tF-8j
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 14:20:34 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ l1-20020a17090a384100b00226f05b9595so5088035pjf.0
+ for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 11:20:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Q0pNpl9+F7PJ3+AeyARJ2epfawFccenDDZZiv9avbmk=;
- b=yn0TI9TilbL/XkTPdhM5hr4W5ONkuTUSVfFP3JjwdOw3a9QWSjVagaP8WeqDTdOeCz
- zieA4H1F9cmrseQwsBiGnJ6Y6nCB4AZpQfneRlu5VMfe9nxeIH4mNxopeIhdUp4EvofB
- AWd9WAa/+miv0pN0EB/9CjjxKjbsNGfoq3av97Lp3gqr3fVr2KYE8dBx9CYB7X0EIxEg
- jxrjHKt4tYqWkEAnnALF7hlDP/H3yXe9mnrg8IRBSguf1mRBduxQ7SAxqRgviJKwaY52
- PgxpViINETSeBESHdUITcsnbG7uslQKNzpxP7SVBfTLELvmzwRgj++FZucFwhbTJ5mXb
- sMlg==
+ bh=BExgMlzMiU4l6v6pVYPmbo2SsoD7y++9M6TnJhtehko=;
+ b=G1YQR0GRy4uenJBCNW5Gk/OxHmRanVgMGMCqx4RsOub1GkY7Gj5oZ30QwtGwJfSiIO
+ WZ0lfWoP59Q02KpN6hUWUDoSDst/tBfLfxMlPM6uVM8R2WMWFBbr7oRCrXGkeeqRUUlO
+ PG+5PWHPb0Fnodm3Lm81IaTui7M4w/JcTUZKqC5352TKCxoDXLxUU++o52+GL23LlSyw
+ I/RyYBXpS5DfDrDcrVRGf4hqqoyjh1POiorWsTXEH3PNkM+zUvkhABlykRkY1IeKfOGb
+ 1O+4nQKfwO8T/XrtHcM0a78mNT6bmukZAAZ93VZSHv1Fy1UL1xBkbgpJJIBiL+rdNaAl
+ t9Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Q0pNpl9+F7PJ3+AeyARJ2epfawFccenDDZZiv9avbmk=;
- b=S6s5FNd7V6FaVyZJ4wiko8GS6VvG+4nLNVUgRT/rMqwo1xpE+T3sd1DpQ+28Om3YQi
- O+eyEp7WuNoA9DaIu8v04DtQ39XIqci6dbGR+PiLw9Xbw8pCLbedAN6Yh4bpkeZMReNt
- Bq4gSbEht8YY7pLKIAsEG4xtM4uNRWmouwqPZ7eGoXLEWvDddzi+C8K9s1DYZMWc9u1d
- d7q0a8F6sADIvJFDiMNR7g0vrRin9G3HB0z+J5fk8gpl6gcYZLshPp6oRFBVEXZubsim
- EZpQ12ONQavPK0RH425M6mm8zTZkpm5lpsBVPreKWddUdNm0Vc7q1hl7/+jJ7qY3p/tw
- Gdxg==
-X-Gm-Message-State: AFqh2kqQem6Bg+Tab0wFgyrpQKmkNJQ+rOKA2GIJdE3yPbi/xM3+bF5R
- WEsPkFtiPCeWUxyfeUKfX0pikQ==
-X-Google-Smtp-Source: AMrXdXueaUdcqT6TkoDzad54REmpRnPJFSPfpwa7p/fjnQz3EizTUkzyJAe+UALv2dTfvmxbButT+Q==
-X-Received: by 2002:a17:90b:1bc7:b0:226:f951:1068 with SMTP id
- oa7-20020a17090b1bc700b00226f9511068mr4496988pjb.44.1673205596051; 
- Sun, 08 Jan 2023 11:19:56 -0800 (PST)
+ bh=BExgMlzMiU4l6v6pVYPmbo2SsoD7y++9M6TnJhtehko=;
+ b=AyCBdL6C/ensAY4Q1pRCfNZjrcjGan0JzMyTbLc0XHmurdwTtrpi9y/0D0z5kPTxIg
+ vwoP06UHmFLAzyREAkhDkJsJJmNFvPrFajFF8SodPP/RRn+imjA8nujdgS5qVehNYqBt
+ n/Suz6Jqnv+JCDfP6FBIFOlHTsSv5iStImD923s5dq9DPe/mPw9LYwYNQwu/SK7cTaEc
+ DN7PkcoNbpOKxWZ7tn1j738UE6zBZlabMymZSUqdzlDvrEL9UScoU5ZRHsM6Wju5FvOI
+ 0ddJ8Q81swjUyojfzh0MbvwUoVE3jNvHjItB9k+RM9vGB0KDUCXUk5VO7vCFPG56BR8C
+ SjtA==
+X-Gm-Message-State: AFqh2kqqrxiw5s4WRNkEiTeRj//gM15HSDMCn/WLAJIXfRGNrY/ZqSdL
+ Cnu6Kidt5mUrp0fZwSqcJx2Ypg==
+X-Google-Smtp-Source: AMrXdXu/dqtx0BGseEzVEkjd45JvShIfxOcyfo46ejGInTrcDBixXIdrQkcNqBnScLO+7gxLqur/vA==
+X-Received: by 2002:a17:903:2783:b0:193:2b86:bdc6 with SMTP id
+ jw3-20020a170903278300b001932b86bdc6mr2484609plb.48.1673205632042; 
+ Sun, 08 Jan 2023 11:20:32 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:a909:891c:953d:a6b0?
  ([2602:47:d48c:8101:a909:891c:953d:a6b0])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a17090a318e00b00226d0165d97sm5582224pjb.22.2023.01.08.11.19.55
+ m11-20020a170902f20b00b00189fdadef9csm4531477plc.107.2023.01.08.11.20.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Jan 2023 11:19:55 -0800 (PST)
-Message-ID: <676d74ed-cce8-8b0e-69c7-44ec25a68a4b@linaro.org>
-Date: Sun, 8 Jan 2023 11:19:53 -0800
+ Sun, 08 Jan 2023 11:20:31 -0800 (PST)
+Message-ID: <f6b7a7f9-ed48-fae1-2329-30f06c42c9c1@linaro.org>
+Date: Sun, 8 Jan 2023 11:20:29 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 1/4] cpu: free cpu->tb_jmp_cache with RCU
+Subject: Re: [PATCH 2/4] util/qht: add missing atomic_set(hashes[i])
+Content-Language: en-US
 To: Emilio Cota <cota@braap.org>, qemu-devel@nongnu.org
 Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>
 References: <20230108163905.59601-1-cota@braap.org>
- <20230108163905.59601-2-cota@braap.org>
-Content-Language: en-US
+ <20230108163905.59601-3-cota@braap.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230108163905.59601-2-cota@braap.org>
+In-Reply-To: <20230108163905.59601-3-cota@braap.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,81 +97,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/8/23 08:39, Emilio Cota wrote:
-> Fixes the appended use-after-free. The root cause is that
-> during tb invalidation we use CPU_FOREACH, and therefore
-> to safely free a vCPU we must wait for an RCU grace period
-> to elapse.
+> We forgot to add this one in "a890643958 util/qht: atomically set b->hashes".
 > 
-> $ x86_64-linux-user/qemu-x86_64 tests/tcg/x86_64-linux-user/munmap-pthread
-> =================================================================
-> ==1800604==ERROR: AddressSanitizer: heap-use-after-free on address 0x62d0005f7418 at pc 0x5593da6704eb bp 0x7f4961a7ac70 sp 0x7f4961a7ac60
-> READ of size 8 at 0x62d0005f7418 thread T2
->      #0 0x5593da6704ea in tb_jmp_cache_inval_tb ../accel/tcg/tb-maint.c:244
->      #1 0x5593da6704ea in do_tb_phys_invalidate ../accel/tcg/tb-maint.c:290
->      #2 0x5593da670631 in tb_phys_invalidate__locked ../accel/tcg/tb-maint.c:306
->      #3 0x5593da670631 in tb_invalidate_phys_page_range__locked ../accel/tcg/tb-maint.c:542
->      #4 0x5593da67106d in tb_invalidate_phys_range ../accel/tcg/tb-maint.c:614
->      #5 0x5593da6a64d4 in target_munmap ../linux-user/mmap.c:766
->      #6 0x5593da6dba05 in do_syscall1 ../linux-user/syscall.c:10105
->      #7 0x5593da6f564c in do_syscall ../linux-user/syscall.c:13329
->      #8 0x5593da49e80c in cpu_loop ../linux-user/x86_64/../i386/cpu_loop.c:233
->      #9 0x5593da6be28c in clone_func ../linux-user/syscall.c:6633
->      #10 0x7f496231cb42 in start_thread nptl/pthread_create.c:442
->      #11 0x7f49623ae9ff  (/lib/x86_64-linux-gnu/libc.so.6+0x1269ff)
+> Detected with tsan.
 > 
-> 0x62d0005f7418 is located 28696 bytes inside of 32768-byte region [0x62d0005f0400,0x62d0005f8400)
-> freed by thread T148 here:
->      #0 0x7f49627b6460 in __interceptor_free ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:52
->      #1 0x5593da5ac057 in cpu_exec_unrealizefn ../cpu.c:180
->      #2 0x5593da81f851  (/home/cota/src/qemu/build/qemu-x86_64+0x484851)
-> 
-> Signed-off-by: Emilio Cota <cota@braap.org>
+> Signed-off-by: Emilio Cota<cota@braap.org>
 > ---
->   accel/tcg/cpu-exec.c  | 1 -
->   cpu.c                 | 7 +++++++
->   include/hw/core/cpu.h | 3 +++
->   3 files changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index 356fe348de..ca95d21528 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -1070,7 +1070,6 @@ void tcg_exec_unrealizefn(CPUState *cpu)
->   #endif /* !CONFIG_USER_ONLY */
->   
->       tlb_destroy(cpu);
-> -    g_free(cpu->tb_jmp_cache);
+>   util/qht.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Can you simply use g_free_rcu here?
-
->   }
->   
->   #ifndef CONFIG_USER_ONLY
-> diff --git a/cpu.c b/cpu.c
-> index 4a7d865427..564200559f 100644
-> --- a/cpu.c
-> +++ b/cpu.c
-> @@ -164,6 +164,12 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
->   #endif /* CONFIG_USER_ONLY */
->   }
->   
-> +static void cpu_free_rcu(CPUState *cpu)
-> +{
-> +    /* .tb_jmp_cache is NULL except under TCG */
-> +    g_free(cpu->tb_jmp_cache);
-> +}
-> +
->   void cpu_exec_unrealizefn(CPUState *cpu)
->   {
->   #ifndef CONFIG_USER_ONLY
-> @@ -181,6 +187,7 @@ void cpu_exec_unrealizefn(CPUState *cpu)
->       }
->   
->       cpu_list_remove(cpu);
-> +    call_rcu(cpu, cpu_free_rcu, rcu);
-
-Certainly this seems wrong, exposing tb_jmp_cache beyond tcg.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
