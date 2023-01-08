@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB7966151D
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 13:36:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5743966153F
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 13:53:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEUtN-0002pY-C6; Sun, 08 Jan 2023 07:35:13 -0500
+	id 1pEV9l-0000xd-VQ; Sun, 08 Jan 2023 07:52:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pEUtI-0002nd-8J
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 07:35:09 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ id 1pEV9b-0000vy-Qr
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 07:52:02 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pEUtE-0006ti-2M
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 07:35:07 -0500
-Received: by mail-ed1-x529.google.com with SMTP id s5so8630976edc.12
- for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 04:35:03 -0800 (PST)
+ id 1pEV9Z-0002AR-R3
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 07:51:59 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id cf18so7471477ejb.5
+ for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 04:51:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4v/U1h0VZIursZ1OauazikRIMeBnoSSuEQtNrScYJjE=;
- b=b1rrjCZYmgXg9xJDaS/i7hbExTgfsK4EoyCb1Yk72pSjws75mFx6uWMw9IGwoi4twQ
- TkmfVUzAJzqgdawg1qHUeF0yAFe8PEc6EWdnvXDG+S1E2snsZ6cN3qQC/Pkf+HPpe9fb
- xaFmEDSi/hewR2IsBrhP51V9/ItWsJuoG2CmS2ZJJs84sak4n2KStqeXvfWY9dTt1RrV
- sqJcj/TnaYDSMg3aGBJRyJ+PsPPGKGJSDeYg7jjSJ62hQZpfv2ivGRNyJ2kZcWjgSuQw
- 7uVMdWdg1AkCf/rE2wmy1zl4jMAwP0KHAlzWydv48HuIKRYwcLhzDGWQHDXHAuTo2Bqd
- UueA==
+ bh=cP1oqofE9LxtlTu8B9ilX856Gi6q3i6WYCOJ/BufXHM=;
+ b=hKmq4dMJ8vAhn5CcG7tnPh+8NoSkis60nffe2TDPTeVZ9Dw9jMWlwE7Jd0visTjsvo
+ AgTQczwt4+3aKOv9hIQaD3IIv4EODxYcn4Y343L3g6KC8ziQY/SzIOlYxYNjVDEsmldr
+ a1VuKVGplWOWUy9qHIP7zag2UiDnmcDop9qFZB0DtsZs/yTRZA18V0D+gOHXH1WVrgeC
+ 2jHfDPEpxoiDzLgup07lRNAB1zOySqMf/ggMDgzhVOv3atQnoPtdrhfZdcq0z3FBIwV5
+ mOKVR9DhLvo01LgOECor1vEtWbmPFoJe27EMT5GJ9oCoOsqSi/epHeyIORYDVDjkN9Jw
+ Y09g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4v/U1h0VZIursZ1OauazikRIMeBnoSSuEQtNrScYJjE=;
- b=xhgkRehrs4g+0W2Ez2Et/Fes9QWcDkeM3dkk9zoFwp9wXbgDWIxpFLp3MWn6shjozh
- OPMGKOXdF08/g9/qF8T+Zd8rjl6EY98zupyOfiOQabpdelwdkg0Sq509BNV8parqMEzb
- cET85708J42jUpyNW9B+1Q/TmKLeDAGgZTAyVeZxYOowzJ5dEKhaInHzquh3T839aPHB
- 21nHZpr3ZnTCIY5/yh4jt+BqcUR4n29xYpGdiC5psy0Jrfbr23ivuZRH1/06JeNaMqAG
- Ak8SVL/E26RMp26a5G9qbdtSOO21mhl5Px+Uy/1OSqkYRHxO6VClr7MZo2F/4xmS6fBR
- pgmA==
-X-Gm-Message-State: AFqh2kryryNzk+tjcCAQEFQzcsf1f/ahJzifOlF/kVCU6HTtpB88wFEx
- uCo45iK/hEIi9Bz8lqkfDzoXQYZ1NWlOjW3oQ2M4bGqo
-X-Google-Smtp-Source: AMrXdXsoNUYSDOUcNEo3rsrggq9tzOLpBG9RTourvCkJWMmEqu13hMjQhC3fZDkHWV91QHg+eiXtujAd2IdaC13/03w=
-X-Received: by 2002:a05:6402:1843:b0:46b:1d60:f60a with SMTP id
- v3-20020a056402184300b0046b1d60f60amr6925173edy.193.1673181302155; Sun, 08
- Jan 2023 04:35:02 -0800 (PST)
+ bh=cP1oqofE9LxtlTu8B9ilX856Gi6q3i6WYCOJ/BufXHM=;
+ b=DkMLpj037we5l8U4xTroHgU8J7TfraeTgbz/L6qTyB3HyAKoZSVNemUAUVTekwG9qH
+ wRoR9Km5YxPwXeU8QDxLdfmFfJL3LP82W3y99pBb1TFFuYhkdZT2e9Ny8RqvR4qPspzn
+ 9GG+JXGWBgxVIP5ELkkCSzUTQBppCBp7mg9N1fXnBI7llmsD07nwKmej0gXDFsdh44Lp
+ DD2puhUkv0sI/UxHgsnFH71ddxdYzm2IjeGvEWbAku8WGT/yrUtFJNeb6FCWhurq4o48
+ cMIZqFnzWgNRrFnouZUSZU/T417lV5tGvfrpl4jfsjVZwAawKdRpCbhPZnQG7XefWVCE
+ zFLw==
+X-Gm-Message-State: AFqh2krSNDzaTvZu+/hGfwHsHks2V2tQBVxUXVSegj1UN4MVn64fIMFv
+ NWxo9yachVH+IaSUQ3gyQME+xfsZhe53CsbSJZc=
+X-Google-Smtp-Source: AMrXdXs0aNUcV05n14LApa/mxVVOhLc3bBuc9WZJqxtSPVAOKonuVwwdCu7+c9IKz5egkcHzRbFNE+dcfAtLRLRnygw=
+X-Received: by 2002:a17:906:5798:b0:7c0:dcb3:718b with SMTP id
+ k24-20020a170906579800b007c0dcb3718bmr3651951ejq.711.1673182316131; Sun, 08
+ Jan 2023 04:51:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20230104220449.41337-1-philmd@linaro.org>
- <20230104220449.41337-21-philmd@linaro.org>
-In-Reply-To: <20230104220449.41337-21-philmd@linaro.org>
+References: <20230105164320.2164095-1-alex.bennee@linaro.org>
+ <20230105164320.2164095-2-alex.bennee@linaro.org>
+In-Reply-To: <20230105164320.2164095-2-alex.bennee@linaro.org>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 8 Jan 2023 20:34:49 +0800
-Message-ID: <CAEUhbmVW3e9C4eMjsV3tST3kzHrkBcowZr+PzXg1Qfgg7goUng@mail.gmail.com>
-Subject: Re: [PATCH 20/20] hw/block: Make PFlashCFI02 QOM declaration internal
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Date: Sun, 8 Jan 2023 20:51:44 +0800
+Message-ID: <CAEUhbmUkkoPCL4tEFSmK_EevCKDZ2vRWpzdB7t3vPO8cRXqPaQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/21] gdbstub/internals.h: clean up include guard
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,17 +85,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 5, 2023 at 6:50 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
-rg> wrote:
+On Fri, Jan 6, 2023 at 12:55 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 >
-> Convert the QOM PFlashCFI02 to a forward/opaque pointer declaration.
-> Only pflash_cfi02.c is able to poke at the internal fields.
+> Use something more specific to avoid name clashes.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > ---
->  hw/block/pflash_cfi02.c  | 2 ++
->  include/hw/block/flash.h | 1 -
->  2 files changed, 2 insertions(+), 1 deletion(-)
+>  gdbstub/internals.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
