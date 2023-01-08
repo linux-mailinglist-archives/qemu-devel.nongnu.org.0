@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2264C66133A
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 03:52:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E35C166132E
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 03:49:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pELYz-0004bg-3y; Sat, 07 Jan 2023 21:37:33 -0500
+	id 1pELZ1-0004e7-Je; Sat, 07 Jan 2023 21:37:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pELYw-0004ab-RL
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 21:37:30 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ id 1pELYz-0004cu-Pq
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 21:37:33 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pELYq-0004Ur-VE
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 21:37:30 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- z9-20020a17090a468900b00226b6e7aeeaso5836961pjf.1
+ id 1pELYr-0004VI-5g
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 21:37:33 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ z9-20020a17090a468900b00226b6e7aeeaso5836979pjf.1
  for <qemu-devel@nongnu.org>; Sat, 07 Jan 2023 18:37:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AYWDMTmY+SCzbBTfhDbUxfPgw9Xf88DejLV4GZrSQBc=;
- b=pLPuT5WYnfYC0HZG4mjD8WIko7UQ+srtvnZ/EiccQdvk17ChX1JQy1w72AdEHmv5QX
- gV1V3W7e4CV/xqypyVex8Faxl64GJNgPwdA5Ac3fpFDz/MN6434G5HmD+GVmNsikKyln
- r+5NZgYD7Nr90c8vN24QisRcP3Ky+7M2XR3e3mv50xX6VvivWiXauoVAPssseDpbXmuD
- /ktI4UsIWqvz2uErK1oOczcMImYGMOkKkGZe7yUJJgBupI6s/jstMRklaRLW1kwxQKMT
- 9rTdTHHwZ5qiPFHMH+FT3W8/2DiL6OZiIfMNWFOIV6BLawi7NzbN7S3fCZVmSqZWUHx2
- 0aNA==
+ bh=uy+1LYtKetQWFHYH8PaN7/XbqnFh4isIp+PwWLyalNo=;
+ b=gTpYFrptaAB6DVGm8liAVvYlvcGaeThZF2mSsuwEqS4MEeWIVtzmrjxAPkfyqo81wt
+ Wf/8VzoDmI7kIwUgNmIojeIsEiDh0lPa9YTDX4ihp52j2MYtu8zzNnn/+ypAM4+6pCuP
+ s1KGmVCKigKUA7/mWjpExzTJvNbyFQZ7yjF+kd/xYJtvOjZyvG8e0RxwLSKuGd40GEzm
+ wOF6s3JhjJt0rkH3ZTkzyvvrZ/tUWmpfOK+Hxm4CAEyEH3lV6A+jD3hZyJARCsxC1owi
+ eq8kyYx4F6v2rnsMHgRxqROpU85Tx+xa9ES1PhMKKRdhGHJyxaXqMAVMI1ImrlanDKrp
+ xOew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AYWDMTmY+SCzbBTfhDbUxfPgw9Xf88DejLV4GZrSQBc=;
- b=m5whsSmcnvmFmfSMgaOIMNypaXQahNehWIO+1XVsiH2yBleJIbIxFfhWlFNhz9sE8I
- cYI3TNJZqXG+b5/3PjlEn3Em8ZMA8lBuCf9MkRqRwxMqCIWCZi3xwgmTlK/JRjEFbl44
- kXHgtOqmHRvZAptEqtUIivaPzJTTRdudv+3nO2YVhyTV1Y87CudrCBeepz8sMTolwBBe
- bu67J8uTp8yev3vmqAs4kgQrVVJ378RmLUbkoF88b/vzR+K1JuzUF1X7sEsmGC3ziN6i
- bTk/sRAOJXyNLhDqIaIS0tlrdm33JRnJMydoGjZZEcMfp9vfEj6dy4g/lmLb9tAaTds5
- Wv+Q==
-X-Gm-Message-State: AFqh2kosC9flmRzms8LPFHfPvPpWAnYoPR8lBIVaP5NtA+bqD4DaFZRa
- y8rj+61+xBBTaA0N8t+yiPyV+EGJgQrS0t/X
-X-Google-Smtp-Source: AMrXdXtcU2/5ET2pswa2iwJIb30/Jp+plIb9YuhEGBEJELjmTS74pvcgI+fKIRE1vAIrvjmPUpUhig==
-X-Received: by 2002:a17:903:186:b0:188:d2b3:26c1 with SMTP id
- z6-20020a170903018600b00188d2b326c1mr81236833plg.10.1673145442678; 
- Sat, 07 Jan 2023 18:37:22 -0800 (PST)
+ bh=uy+1LYtKetQWFHYH8PaN7/XbqnFh4isIp+PwWLyalNo=;
+ b=QhhK3j2ACNGTHo8h9k2F5jvpikDuLkdQxcdcYtcnqFa2XZsOp1zT0aUnbxVlxuzZVM
+ /3JrThrwhr1KFv47dd1dUEl5b8PRr9murHxEDquXT1gvDfL4pFwouk6arCWEETYQ7eoQ
+ YusxT7/E2j7iHFv+Wae3Td5q01t0XNAXW0cKqN3Jd4DK65jJjTJB37tDnpXJBO2FDr4W
+ 5CttpQPqQ1BTMu20iwJLBV2s6easQgAHujIG0BKCE/ZrK6Rnzzm/fj9zLszg4u4D1boo
+ DujeNoBZcyMUb15P/FynMv9hv9TZ1ooFAs8QXOhsk8OaPFrAeokrS5XFs0d3X+o3IAt9
+ ABSg==
+X-Gm-Message-State: AFqh2koTBBEsIjna6I6MVzICnQShKQSN2j9pDzGVcvGNQJuCd/RwsN8E
+ A5FnkjnGhs+gzHbn71MO8iHtgVcgRo8Tk7mQ
+X-Google-Smtp-Source: AMrXdXuXQ9EW1XNokSvls9hPBC8/jQRcqSDMFCWua55675KWLzN/6yZkEbH8hlUYpYsRQ9NSl90IfQ==
+X-Received: by 2002:a17:902:aa8e:b0:189:abdd:400a with SMTP id
+ d14-20020a170902aa8e00b00189abdd400amr62371783plr.15.1673145443887; 
+ Sat, 07 Jan 2023 18:37:23 -0800 (PST)
 Received: from stoup.. ([2602:47:d48c:8101:8a2d:2011:f402:6f82])
  by smtp.gmail.com with ESMTPSA id
- o17-20020a170902d4d100b00189d4c666c8sm3394775plg.153.2023.01.07.18.37.21
+ o17-20020a170902d4d100b00189d4c666c8sm3394775plg.153.2023.01.07.18.37.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Jan 2023 18:37:22 -0800 (PST)
+ Sat, 07 Jan 2023 18:37:23 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org,
  qemu-riscv@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net
-Subject: [PATCH v4 01/36] tcg: Define TCG_TYPE_I128 and related helper macros
-Date: Sat,  7 Jan 2023 18:36:44 -0800
-Message-Id: <20230108023719.2466341-2-richard.henderson@linaro.org>
+Subject: [PATCH v4 02/36] tcg: Handle dh_typecode_i128 with TCG_CALL_{RET,
+ ARG}_NORMAL
+Date: Sat,  7 Jan 2023 18:36:45 -0800
+Message-Id: <20230108023719.2466341-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230108023719.2466341-1-richard.henderson@linaro.org>
 References: <20230108023719.2466341-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,121 +92,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Begin staging in support for TCGv_i128 with Int128.
-Define the type enumerator, the typedef, and the
-helper-head.h macros.
-
-This cannot yet be used, because you can't allocate
-temporaries of this new type.
+Many hosts pass and return 128-bit quantities like sequential
+64-bit quantities.  Treat this just like we currently break
+down 64-bit quantities for a 32-bit host.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/helper-head.h |  7 +++++++
- include/tcg/tcg.h          | 17 ++++++++++-------
- 2 files changed, 17 insertions(+), 7 deletions(-)
+ tcg/tcg.c | 37 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 33 insertions(+), 4 deletions(-)
 
-diff --git a/include/exec/helper-head.h b/include/exec/helper-head.h
-index bc6698b19f..b8d1140dc7 100644
---- a/include/exec/helper-head.h
-+++ b/include/exec/helper-head.h
-@@ -26,6 +26,7 @@
- #define dh_alias_int i32
- #define dh_alias_i64 i64
- #define dh_alias_s64 i64
-+#define dh_alias_i128 i128
- #define dh_alias_f16 i32
- #define dh_alias_f32 i32
- #define dh_alias_f64 i64
-@@ -40,6 +41,7 @@
- #define dh_ctype_int int
- #define dh_ctype_i64 uint64_t
- #define dh_ctype_s64 int64_t
-+#define dh_ctype_i128 Int128
- #define dh_ctype_f16 uint32_t
- #define dh_ctype_f32 float32
- #define dh_ctype_f64 float64
-@@ -71,6 +73,7 @@
- #define dh_retvar_decl0_noreturn void
- #define dh_retvar_decl0_i32 TCGv_i32 retval
- #define dh_retvar_decl0_i64 TCGv_i64 retval
-+#define dh_retval_decl0_i128 TCGv_i128 retval
- #define dh_retvar_decl0_ptr TCGv_ptr retval
- #define dh_retvar_decl0(t) glue(dh_retvar_decl0_, dh_alias(t))
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index da91779890..99e6e4e1a8 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -686,11 +686,22 @@ static void init_call_layout(TCGHelperInfo *info)
+     case dh_typecode_s64:
+         info->nr_out = 64 / TCG_TARGET_REG_BITS;
+         info->out_kind = TCG_CALL_RET_NORMAL;
++        assert(info->nr_out <= ARRAY_SIZE(tcg_target_call_oarg_regs));
++        break;
++    case dh_typecode_i128:
++        info->nr_out = 128 / TCG_TARGET_REG_BITS;
++        info->out_kind = TCG_CALL_RET_NORMAL; /* TODO */
++        switch (/* TODO */ TCG_CALL_RET_NORMAL) {
++        case TCG_CALL_RET_NORMAL:
++            assert(info->nr_out <= ARRAY_SIZE(tcg_target_call_oarg_regs));
++            break;
++        default:
++            qemu_build_not_reached();
++        }
+         break;
+     default:
+         g_assert_not_reached();
+     }
+-    assert(info->nr_out <= ARRAY_SIZE(tcg_target_call_oarg_regs));
  
-@@ -78,6 +81,7 @@
- #define dh_retvar_decl_noreturn
- #define dh_retvar_decl_i32 TCGv_i32 retval,
- #define dh_retvar_decl_i64 TCGv_i64 retval,
-+#define dh_retvar_decl_i128 TCGv_i128 retval,
- #define dh_retvar_decl_ptr TCGv_ptr retval,
- #define dh_retvar_decl(t) glue(dh_retvar_decl_, dh_alias(t))
+     /*
+      * Parse and place function arguments.
+@@ -712,6 +723,9 @@ static void init_call_layout(TCGHelperInfo *info)
+         case dh_typecode_ptr:
+             type = TCG_TYPE_PTR;
+             break;
++        case dh_typecode_i128:
++            type = TCG_TYPE_I128;
++            break;
+         default:
+             g_assert_not_reached();
+         }
+@@ -751,6 +765,19 @@ static void init_call_layout(TCGHelperInfo *info)
+             }
+             break;
  
-@@ -85,6 +89,7 @@
- #define dh_retvar_noreturn NULL
- #define dh_retvar_i32 tcgv_i32_temp(retval)
- #define dh_retvar_i64 tcgv_i64_temp(retval)
-+#define dh_retvar_i128 tcgv_i128_temp(retval)
- #define dh_retvar_ptr tcgv_ptr_temp(retval)
- #define dh_retvar(t) glue(dh_retvar_, dh_alias(t))
- 
-@@ -95,6 +100,7 @@
- #define dh_typecode_i64 4
- #define dh_typecode_s64 5
- #define dh_typecode_ptr 6
-+#define dh_typecode_i128 7
- #define dh_typecode_int dh_typecode_s32
- #define dh_typecode_f16 dh_typecode_i32
- #define dh_typecode_f32 dh_typecode_i32
-@@ -104,6 +110,7 @@
- 
- #define dh_callflag_i32  0
- #define dh_callflag_i64  0
-+#define dh_callflag_i128 0
- #define dh_callflag_ptr  0
- #define dh_callflag_void 0
- #define dh_callflag_noreturn TCG_CALL_NO_RETURN
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index b949d75fdd..7d346192ca 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -277,6 +277,7 @@ typedef struct TCGPool {
- typedef enum TCGType {
-     TCG_TYPE_I32,
-     TCG_TYPE_I64,
-+    TCG_TYPE_I128,
- 
-     TCG_TYPE_V64,
-     TCG_TYPE_V128,
-@@ -358,13 +359,14 @@ typedef tcg_target_ulong TCGArg;
-    in tcg/README. Target CPU front-end code uses these types to deal
-    with TCG variables as it emits TCG code via the tcg_gen_* functions.
-    They come in several flavours:
--    * TCGv_i32 : 32 bit integer type
--    * TCGv_i64 : 64 bit integer type
--    * TCGv_ptr : a host pointer type
--    * TCGv_vec : a host vector type; the exact size is not exposed
--                 to the CPU front-end code.
--    * TCGv : an integer type the same size as target_ulong
--             (an alias for either TCGv_i32 or TCGv_i64)
-+    * TCGv_i32  : 32 bit integer type
-+    * TCGv_i64  : 64 bit integer type
-+    * TCGv_i128 : 128 bit integer type
-+    * TCGv_ptr  : a host pointer type
-+    * TCGv_vec  : a host vector type; the exact size is not exposed
-+                  to the CPU front-end code.
-+    * TCGv      : an integer type the same size as target_ulong
-+                  (an alias for either TCGv_i32 or TCGv_i64)
-    The compiler's type checking will complain if you mix them
-    up and pass the wrong sized TCGv to a function.
- 
-@@ -384,6 +386,7 @@ typedef tcg_target_ulong TCGArg;
- 
- typedef struct TCGv_i32_d *TCGv_i32;
- typedef struct TCGv_i64_d *TCGv_i64;
-+typedef struct TCGv_i128_d *TCGv_i128;
- typedef struct TCGv_ptr_d *TCGv_ptr;
- typedef struct TCGv_vec_d *TCGv_vec;
- typedef TCGv_ptr TCGv_env;
++        case TCG_TYPE_I128:
++            switch (/* TODO */ TCG_CALL_ARG_NORMAL) {
++            case TCG_CALL_ARG_EVEN:
++                layout_arg_even(&cum);
++                /* fall through */
++            case TCG_CALL_ARG_NORMAL:
++                layout_arg_normal_n(&cum, info, 128 / TCG_TARGET_REG_BITS);
++                break;
++            default:
++                qemu_build_not_reached();
++            }
++            break;
++
+         default:
+             g_assert_not_reached();
+         }
+@@ -1668,11 +1695,13 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
+         op->args[pi++] = temp_arg(ret);
+         break;
+     case 2:
++    case 4:
+         tcg_debug_assert(ret != NULL);
+-        tcg_debug_assert(ret->base_type == ret->type + 1);
++        tcg_debug_assert(ret->base_type == ret->type + ctz32(n));
+         tcg_debug_assert(ret->temp_subindex == 0);
+-        op->args[pi++] = temp_arg(ret);
+-        op->args[pi++] = temp_arg(ret + 1);
++        for (i = 0; i < n; ++i) {
++            op->args[pi++] = temp_arg(ret + i);
++        }
+         break;
+     default:
+         g_assert_not_reached();
 -- 
 2.34.1
 
