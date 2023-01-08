@@ -2,91 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3F2661635
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 16:36:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF7EF661667
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 17:03:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEXgM-0000lI-Ug; Sun, 08 Jan 2023 10:33:58 -0500
+	id 1pEY7a-0007cg-Cw; Sun, 08 Jan 2023 11:02:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pEXgK-0000jz-Sw; Sun, 08 Jan 2023 10:33:56 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pEY7W-0007bq-P1
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 11:02:03 -0500
+Received: from sonic307-55.consmr.mail.gq1.yahoo.com ([98.137.64.31])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pEXe3-0007q3-Bj; Sun, 08 Jan 2023 10:31:37 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id c34so9153465edf.0;
- Sun, 08 Jan 2023 07:31:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=40jtERxKtD4zGQ1BZOKhKNqMQ079LGO76GMwuXDjlHo=;
- b=mt3HiBv5c7n32oIGH/CSQAhpf5Sbw0CkzyBqtWUE++SwTbSl9BhZxd2FjKohGd4mBw
- gezeM4HM7LEzZLfpLkb4l92QFJ4TdpxoR0SpkzkNvMB7SfjgV7Z+UX6vJF3dhbaJfuI3
- KGTYTPcQkl4UxYfXwuytUu3ZcKFSjTw5hz0LiOorfgZ597tib3W39B2L31VK61PIJ3ht
- TKu3HuY2crB0budsAQk5x4bHgj/Ijh4D5cnEBsn+ppWTtmSDratpdWFk0g3XV7bI1qo/
- h8Amo1uYUMND0ftdzOO1UJcY8TczwF/Rj2Nm/3RHvu/thYSnms3BLuQGE1Kb0gB5Dkr7
- k7IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=40jtERxKtD4zGQ1BZOKhKNqMQ079LGO76GMwuXDjlHo=;
- b=1Ao01gQYxYhXOcepkcEdwUN6BA79hv43ApZppyU2PYxuSNWnl85KPG00g8h3HVWN7d
- HCpA3zQO/yEqFVJFjUy9juti+PwCrxhuXsQABMqtFle0Lpj4WQPnGuyqL8CesZ/DNYzX
- WWZ8KXzl7QMIkhW97TBC141ypEx8C/19ScrcHpO98io3OMNz3DbVcYzIYSMsP3nH6pc1
- Xnp5KFJdyW+bWCLMIUXduuyXzWuG2tjln8awHMxzo9ZcT9Jumh6GWMs7SWc4WDuIPNRo
- DG9TK8wvqAlTiNsgQchjyYX8zug3IeL/TRZ+OaX2fkpGfBQ4BTEK91MP0yOqo5Ab6zw7
- xo8g==
-X-Gm-Message-State: AFqh2kp/ec2LyK8OtFmNsQWAaY4stkhrhsK0eBDV7SidbVOLJ7d4XgSv
- 7sS2Ix/N32GqPAPM23x6NBg=
-X-Google-Smtp-Source: AMrXdXtWDXv9IfQUXos+u1CffmOC5jzfUReb13A1vPE4wzLsbYhBGtzJNdRUUswCXrc/6UISsdIaQA==
-X-Received: by 2002:a50:fa85:0:b0:496:d2f7:77a2 with SMTP id
- w5-20020a50fa85000000b00496d2f777a2mr7859560edr.18.1673191887355; 
- Sun, 08 Jan 2023 07:31:27 -0800 (PST)
-Received: from ?IPv6:::1?
- (p200300faaf0bb200b8984a967c4b65c7.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:b898:4a96:7c4b:65c7])
- by smtp.gmail.com with ESMTPSA id
- i23-20020a50fc17000000b0047c6f3eccb2sm2641353edr.50.2023.01.08.07.31.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Jan 2023 07:31:26 -0800 (PST)
-Date: Sun, 08 Jan 2023 15:31:16 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-CC: Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Ani Sinha <ani@anisinha.ca>,
- Richard Henderson <richard.henderson@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Aurelien Jarno <aurelien@aurel32.net>, 
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, John Snow <jsnow@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v5 24/31] hw/isa/piix4: Reuse struct PIIXState from PIIX3
-In-Reply-To: <29745460-a3c2-b895-80ac-26fded5f7819@ilande.co.uk>
-References: <20230105143228.244965-1-shentey@gmail.com>
- <20230105143228.244965-25-shentey@gmail.com>
- <29745460-a3c2-b895-80ac-26fded5f7819@ilande.co.uk>
-Message-ID: <4D010ECA-B2B3-43C2-B0CA-1D9DC19FCAB3@gmail.com>
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pEY7T-0007KG-6G
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 11:02:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1673193711; bh=j/7REqUdpZNLaRsnWjMV+rHTABevisAIlRn8Ne5heHo=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
+ b=CK566PHrpi57mTF6dEykqonSl4NCcWgRHD0SxIjg8azrvsHyAGsLgNL48tylANTWNMqT27z/qefWR5yk5FlwV7a12VP5J3ohequZNOgRv3GZxF2TUuwpGHapyfzTaj9mbxvKu11l2VLv4IsgW/88Zb6S/SvSjRnrAsD0dr1SJJ81EAOg/FjYjfpI+4CCJLLcH+NjUGQEuWxCaGK5i+HzsYG0KX2feA8ZaC8dlovA1hvNqcbrhjaU2CbpWoLZdA+l91auWfKxKeTf+8n2hfYuP+dN2PRF+vDoqCdOxwIZJg+DyZGPNysZ7j5NftIoQPaksWtWclrHCMwIi9ueUqi21w==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1673193711; bh=mwmcsLfD1qcJX5LwxSSnbsMwmw6uNLxC/Ndv5pDi2iH=;
+ h=X-Sonic-MF:Date:Subject:From:To:From:Subject;
+ b=t9cdDfsqNdFXrSZuy4KeRJ7oMspGv1IMnpARwxS3tmjcjbc7NCPPckPpZxq//d6mGQ+yaN8Jvsli1TnQm4IffSnbbhwAO/lbQrO5lveAwl1m9ol1kZGPXXgVeUX5ERxI5JKxgNCzYTvAQvH1QAlveyMsngmpm9yVjC3NU//PusBPS5yGtQvbbEb5rvgDbxYKPn05jHhfw9dmQHqR1pazcXmn6y30AhOYHRiIEXLjcFyfW2VBH9QIxJJn/8OCYXp6VQHA8MmJ9PHqaixbFIjUoKY7PnyQgR65hpuaKw/5ioKspNDkZk1qiSNgEv7un6zLBOVzQTt4Q9zXafAqQK5YEg==
+X-YMail-OSG: x9Gz0rUVM1lNIL_HEu9RrHIUXk4jsl6PSPnwtx.kmzvYoHOXSAjNMmto23elA2w
+ TDtb22kmikRqJIJFY6hH96vw_AuwGnYbzsNjQI_3h6lJ.5GDFKIMIUNKCh2mdLTkvHd8tMLMnXMV
+ SJYtETssrKviv8OJSAWOVd4MCmLEICYJ4VdIOXhBzChJwxjVKbljv6ggXsTJ.SXaqQQo85_FUBrO
+ gZULtiCI7ULTNvh_NiRDUnubpwCIw2.isLQ8sFSH9NYd0OfiSjm_4pmcW9SCcEJVLzLst89A_dok
+ R25xGJNiLMaKRGydtKFmjRbsBCgq2GE9y50hOUnNnZr2.TVBrdBI5y3HSfg2zwwoTwn4GPA4ynGP
+ EKGk_n5Ep6BdUedGYgz4fwgYGbr59Szi7I1GKToR2fA2OKFYC39rCCp5mzk2HV8ZsNeeC36z6OCA
+ SnD0Zz12__r9btmgO0L4hze5MFYG6BfN0x8eqbD_5HchMqSR8wE_UPGo9Pws_4CcpAslVzRlvpIK
+ 5HYtUfd.g5yJmf7iWQKu.cKimrM5nR34nAlE38DgR1zyQkTC9lGzcTCd_KdGQhdWQq.lmfyDc3s7
+ l63F7FJdqukv5gn9zuzdtHCcRDJMOuujHEuZdirsyY1toZSiwDsHfbF0xPBK28ElafpTzDy7ojX8
+ gZQ8MFrbZUxcS02ycp48T6.9bJNv9tR6Q4H8By5kGi3ldmQm5IcAww374SSduBlfl47HZgMnInyP
+ R9fzkaYbR34KCjK5sSQLjIhFoWVkW9cZe_rc9Ipq532Bi5nk2E59vmP0HQLbX9y.KamIEOt1sD_d
+ BK5zefbGvYPEriM65sbWJ0Ab8vKayzS2tiSbN2r_hLJXXyMN0G05GQWnzoTez.irKAz5Bn45dAY8
+ QCCkHqCrvfxwm0WQRxJnhLX9ON2qARSkYuKf.ZMr0ClrioPTh_Aea6eZQD6VTMZALvPK3x8ZtYRL
+ oJnwTWm5Mwz.PsLsedCZZM7L5DRq_U2FvrqBLRG.RmDMrNi2KsXLaTWZR4f.E_BbL2gCerX6nKgX
+ SlA55qwFW0SQ4SsIbihXUOxn4XqvKTeUgI5wjMil_yKTcQiv0CmhZ2x1zF1Jwb3QQd7blPicH9oh
+ iergd.UgHRIwHj0kvRxLl3Qzr6RkArcHKKkY2KapLHyIBsriGRzQrYkjAc91whiVZJHVs1mXaHul
+ YwY1xxNm9Ro1mZt7fAMOCJ2Djkz7bkI.6S8GTmC_zb3Kygq3ikuJnvbnOUaoqWjXtp66a2P4piIG
+ HPhQHCLhNM44RUNJoCWrIJfnMxqsFE1PLESV8OUjEdjgoy8EqMeETv6ER5hu4onIuQRIBiPtZf4P
+ S0Np7j1GwGKXJH7B05UPqc4n1lH6cZ8mEQ7uFGvCXjgp48YmqTzC_7XJVFuHdPmngk9Xu4UlAOU9
+ BNNg7K.FEd2r.8gPxiRYxRwPRQV.PYRYsUKOnY.c6elbAnWfRUlXAOGJIns3isuOYcEt5QhOqpf0
+ uMYWyZy_o1jnTrIE8PEJmthNjxnxZ_qhacyo1j9isZQ3wCdOgxuVyIsniWulr3btMXXE0pOxenVu
+ ir3d7ftco5Ho_FpRdnvEG4CVeXLS81DbCSYYbGJKAvJmSGLWbZ4Ba09EGUXSPqeekUi2C67XCBOs
+ osZue6sQTE4aYYb5sV30i6XPveB_xXAXUWT9TEG6qpT8YCDFkNEDS_yP8R06KVb0N1GNv5TCozwW
+ PZQUOeG3MzObYrKODEwBimRiUF._pkaJB84tlBlDsCj3t1.skRswlBiqO.YDWHmLCE7P1tRbAr2b
+ .YibCfY0tq9j5HF2jQawxzo53M4Gy1OgifIH3RzP4asmqpkFTzOsVqv5VB5g2PSG0QwErlKy0Jyg
+ f0QnIeSM1pRoZOSmJONNYrmQIhQa8.ep8BX.gwJJDSqOuvhq4cJiUTXkWmP1Mt3g36QmkS5NtQBg
+ k2uvw7ED8aevoYi0vMR08mZOP4WERjem02oy0Vh4UnL4E6vJEndUqOoE67EFQhHgNzGthr1Su1tO
+ q8kKYq4E1jzdPibGfattBdFBh.SQnUQZtwtsJwBfbgqtOXyzUHkuwS4M8Qk806sJyjcriefoBxrG
+ 9Do6xMAfMEPDHcZXHRdYP3lAEQCg_W2Dq0MD9n8S6PrKOhVGWDcIXNOXQ8Sx3IeH6EUod8xXjDsv
+ ZhFyhsbg7Szkh2BgXB4cSX6DuMywv9g.h6F9Z0daqM9o5hx2oAc9RRSCdq_aviX.GuOeL9kbcNU4
+ 2rvCLBBA6cD8-
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic307.consmr.mail.gq1.yahoo.com with HTTP; Sun, 8 Jan 2023 16:01:51 +0000
+Received: by hermes--production-ne1-7b69748c4d-dzr9v (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 472b6276cf2cc0deb61dd8cd01ce9286; 
+ Sun, 08 Jan 2023 16:01:45 +0000 (UTC)
+Message-ID: <2772822b-cbd3-ea25-2742-a4de195e8dbd@aol.com>
+Date: Sun, 8 Jan 2023 11:01:44 -0500
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
+From: Chuck Zmudzinski <brchuckz@aol.com>
+To: Anthony PERARD <anthony.perard@citrix.com>
+Cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Paul Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ xen-devel@lists.xenproject.org
+References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
+ <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
+ <Y7gqSLo8pMm4gfV+@perard.uk.xensource.com>
+ <c39b9502-0020-ce54-abd8-b362430ba086@aol.com>
+ <882652f8-ddda-a7d8-85b9-da46568036d3@aol.com>
+ <6931ef9f-1978-97f5-2d32-003a9e64833c@aol.com>
+Content-Language: en-US
+In-Reply-To: <6931ef9f-1978-97f5-2d32-003a9e64833c@aol.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.20982
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.64.31; envelope-from=brchuckz@aim.com;
+ helo=sonic307-55.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.107,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,158 +112,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 1/6/2023 10:02 AM, Chuck Zmudzinski wrote:
+> On 1/6/23 9:31 AM, Chuck Zmudzinski wrote:
+> > On 1/6/23 9:10 AM, Chuck Zmudzinski wrote:
+> >> On 1/6/23 9:03 AM, Anthony PERARD wrote:
+> >>> On Sun, Jan 01, 2023 at 06:52:03PM -0500, Chuck Zmudzinski wrote:
+> >>>> ...
+> >>>> 
+> >>>> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+> >>> 
+> >>> 
+> >>> This patch looks good enough. It only changes the "xenfv" machine so it
+> >>> doesn't prevent a proper fix to be done in the toolstack libxl.
+> >>> 
+> >>> The change in xen_pci_passthrough_class_init() to try to run some code
+> >>> before pci_qdev_realize() could potentially break in the future due to
+> >>> been uncommon but hopefully that will be ok.
+> >>> 
+> >>> So if no work to fix libxl appear soon, I'm ok with this patch:
 
+I have a patch that fixes it in libxl. It still needs a few tweaks before it is
+ready for submission, but I plan to do that soon, perhaps later today or
+tomorrow at the latest.
 
-Am 7=2E Januar 2023 23:48:52 UTC schrieb Mark Cave-Ayland <mark=2Ecave-ayl=
-and@ilande=2Eco=2Euk>:
->On 05/01/2023 14:32, Bernhard Beschow wrote:
+> > 
+> > Well, I can tell you and others who use qemu are more comfortable
+> > fixing this in libxl, so hold off for a week or so. I should have
+> > a patch to fix this in libxl written and tested by then. If for
+> > some reason that does not work out, then we can fix it in qemu.
 >
->> Now that PIIX4 also uses the "proxy-pic", both implementations
->
->Should "proxy-pic" be replaced with "isa-pic" (or even TYPE_ISA_PIC) here=
-?
+> One last thought: the only donwnside to fixing this in libxl is that
+> other toolstacks that configure qemu to use the xenfv machine will not
+> benefit from the fix in qemu that would simplify configuring the
+> guest correctly for the igd. Other toolstacks would still need to
+> override the default behavior of adding the xen platform device at
+> slot 2. I think no matter what, we should at least patch qemu to have
+> the xen-platform device use slot 3 instead of being automatically assigned
+> to slot 2 when igd-passthru=on. The rest of the fix could then be
+> implemented in libxl so that other pci devices such as emulated network
+> devices, other passed through pci devices, etc., do not take slot 2 when
+> gfx_passthru in xl.cfg is set.
 
-Yes, indeed=2E
+I decided to write the patch to libxl to fix this presuming no
+changes to qemu. I think dealing with the "qemu behaves
+differently starting from version 8 problem" is more trouble
+that it's worth, so I am OK with implementing the fix completely
+in libxl, which means libxl will now use the "pc" machine type
+when igd-passthru=on and xen_platform_pci is true, but my patch
+to libxl will still use the "xenfv" machine when xen_platform_pci
+is true and igd-passthru is disabled.
 
-Best regards,
-Bernhard
+Cheers,
 
->> can share the same struct=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->> Reviewed-by: Michael S=2E Tsirkin <mst@redhat=2Ecom>
->> Message-Id: <20221022150508=2E26830-34-shentey@gmail=2Ecom>
->> ---
->>   hw/isa/piix4=2Ec | 51 +++++++++++++++--------------------------------=
----
->>   1 file changed, 15 insertions(+), 36 deletions(-)
->>=20
->> diff --git a/hw/isa/piix4=2Ec b/hw/isa/piix4=2Ec
->> index eae4db0182=2E=2Ece88377630 100644
->> --- a/hw/isa/piix4=2Ec
->> +++ b/hw/isa/piix4=2Ec
->> @@ -42,32 +42,10 @@
->>   #include "sysemu/runstate=2Eh"
->>   #include "qom/object=2Eh"
->>   -struct PIIX4State {
->> -    PCIDevice dev;
->> -
->> -    ISAPICState pic;
->> -    RTCState rtc;
->> -    PCIIDEState ide;
->> -    UHCIState uhci;
->> -    PIIX4PMState pm;
->> -
->> -    uint32_t smb_io_base;
->> -
->> -    /* Reset Control Register */
->> -    MemoryRegion rcr_mem;
->> -    uint8_t rcr;
->> -
->> -    bool has_acpi;
->> -    bool has_usb;
->> -    bool smm_enabled;
->> -};
->> -
->> -OBJECT_DECLARE_SIMPLE_TYPE(PIIX4State, PIIX4_PCI_DEVICE)
->> -
->>   static void piix4_set_irq(void *opaque, int irq_num, int level)
->>   {
->>       int i, pic_irq, pic_level;
->> -    PIIX4State *s =3D opaque;
->> +    PIIXState *s =3D opaque;
->>       PCIBus *bus =3D pci_get_bus(&s->dev);
->>         /* now we change the pic irq level according to the piix irq ma=
-ppings */
->> @@ -87,7 +65,7 @@ static void piix4_set_irq(void *opaque, int irq_num, =
-int level)
->>     static void piix4_isa_reset(DeviceState *dev)
->>   {
->> -    PIIX4State *d =3D PIIX4_PCI_DEVICE(dev);
->> +    PIIXState *d =3D PIIX_PCI_DEVICE(dev);
->>       uint8_t *pci_conf =3D d->dev=2Econfig;
->>         pci_conf[0x04] =3D 0x07; // master, memory and I/O
->> @@ -122,12 +100,13 @@ static void piix4_isa_reset(DeviceState *dev)
->>       pci_conf[0xac] =3D 0x00;
->>       pci_conf[0xae] =3D 0x00;
->>   +    d->pic_levels =3D 0; /* not used in PIIX4 */
->>       d->rcr =3D 0;
->>   }
->>     static int piix4_post_load(void *opaque, int version_id)
->>   {
->> -    PIIX4State *s =3D opaque;
->> +    PIIXState *s =3D opaque;
->>         if (version_id =3D=3D 2) {
->>           s->rcr =3D 0;
->> @@ -142,8 +121,8 @@ static const VMStateDescription vmstate_piix4 =3D {
->>       =2Eminimum_version_id =3D 2,
->>       =2Epost_load =3D piix4_post_load,
->>       =2Efields =3D (VMStateField[]) {
->> -        VMSTATE_PCI_DEVICE(dev, PIIX4State),
->> -        VMSTATE_UINT8_V(rcr, PIIX4State, 3),
->> +        VMSTATE_PCI_DEVICE(dev, PIIXState),
->> +        VMSTATE_UINT8_V(rcr, PIIXState, 3),
->>           VMSTATE_END_OF_LIST()
->>       }
->>   };
->> @@ -151,7 +130,7 @@ static const VMStateDescription vmstate_piix4 =3D {
->>   static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
->>                               unsigned int len)
->>   {
->> -    PIIX4State *s =3D opaque;
->> +    PIIXState *s =3D opaque;
->>         if (val & 4) {
->>           qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
->> @@ -163,7 +142,7 @@ static void piix4_rcr_write(void *opaque, hwaddr ad=
-dr, uint64_t val,
->>     static uint64_t piix4_rcr_read(void *opaque, hwaddr addr, unsigned =
-int len)
->>   {
->> -    PIIX4State *s =3D opaque;
->> +    PIIXState *s =3D opaque;
->>         return s->rcr;
->>   }
->> @@ -180,7 +159,7 @@ static const MemoryRegionOps piix4_rcr_ops =3D {
->>     static void piix4_realize(PCIDevice *dev, Error **errp)
->>   {
->> -    PIIX4State *s =3D PIIX4_PCI_DEVICE(dev);
->> +    PIIXState *s =3D PIIX_PCI_DEVICE(dev);
->>       PCIBus *pci_bus =3D pci_get_bus(dev);
->>       ISABus *isa_bus;
->>   @@ -250,7 +229,7 @@ static void piix4_realize(PCIDevice *dev, Error *=
-*errp)
->>     static void piix4_init(Object *obj)
->>   {
->> -    PIIX4State *s =3D PIIX4_PCI_DEVICE(obj);
->> +    PIIXState *s =3D PIIX_PCI_DEVICE(obj);
->>         object_initialize_child(obj, "pic", &s->pic, TYPE_ISA_PIC);
->>       object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
->> @@ -258,10 +237,10 @@ static void piix4_init(Object *obj)
->>   }
->>     static Property piix4_props[] =3D {
->> -    DEFINE_PROP_UINT32("smb_io_base", PIIX4State, smb_io_base, 0),
->> -    DEFINE_PROP_BOOL("has-acpi", PIIX4State, has_acpi, true),
->> -    DEFINE_PROP_BOOL("has-usb", PIIX4State, has_usb, true),
->> -    DEFINE_PROP_BOOL("smm-enabled", PIIX4State, smm_enabled, false),
->> +    DEFINE_PROP_UINT32("smb_io_base", PIIXState, smb_io_base, 0),
->> +    DEFINE_PROP_BOOL("has-acpi", PIIXState, has_acpi, true),
->> +    DEFINE_PROP_BOOL("has-usb", PIIXState, has_usb, true),
->> +    DEFINE_PROP_BOOL("smm-enabled", PIIXState, smm_enabled, false),
->>       DEFINE_PROP_END_OF_LIST(),
->>   };
->>   @@ -289,7 +268,7 @@ static void piix4_class_init(ObjectClass *klass, =
-void *data)
->>   static const TypeInfo piix4_info =3D {
->>       =2Ename          =3D TYPE_PIIX4_PCI_DEVICE,
->>       =2Eparent        =3D TYPE_PCI_DEVICE,
->> -    =2Einstance_size =3D sizeof(PIIX4State),
->> +    =2Einstance_size =3D sizeof(PIIXState),
->>       =2Einstance_init =3D piix4_init,
->>       =2Eclass_init    =3D piix4_class_init,
->>       =2Einterfaces =3D (InterfaceInfo[]) {
->
->
->ATB,
->
->Mark=2E
+Chuck
 
