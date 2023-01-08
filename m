@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC03661390
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A91C66138F
 	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 05:29:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pENIM-0000b2-PF; Sat, 07 Jan 2023 23:28:30 -0500
+	id 1pENJA-0000sI-V9; Sat, 07 Jan 2023 23:29:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pENIK-0000ac-DP
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 23:28:28 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+ id 1pENJ9-0000rs-MV
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 23:29:19 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pENII-0006iB-Gx
- for qemu-devel@nongnu.org; Sat, 07 Jan 2023 23:28:28 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id u9so12429144ejo.0
- for <qemu-devel@nongnu.org>; Sat, 07 Jan 2023 20:28:26 -0800 (PST)
+ id 1pENJ7-0000mx-Im
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 23:29:19 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id ss4so5079099ejb.11
+ for <qemu-devel@nongnu.org>; Sat, 07 Jan 2023 20:29:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vtv1ZKjpv/f/DBQNgNP1S3d8B7GnT+qaQoJDLF+RyW0=;
- b=McHvCnf7B6cd3MCvNe3IRfNJVgmiGXj7+ZQw+SKJcic5+3yb0b6hpzQ+ymcmWgU+Dv
- SE1iAoeYBx1QU9TueB2hxNU5jeJLZ1S+ZuCOdi6+YAtVQH6BLs1dTUdLzFNA6jKcTvur
- NoYVZWCOcM/2mD/H2/XXgYTfIuqT9+qRUjJNFMyb6Mgrg+V249leaTFQjIE/wRuzZxHf
- RhvzAaDa8GwN2Ev5ACQW66MsX1JU5C/hJkUkvdDQMox8Fj26Upgtp1dXLCIcEQspou0G
- /HKnAVrFAGxXYFtAaJ9S1Lt1TGB2m35+ryrw9rl04MJMKryYpEutSZTc83Ih/EtSi1va
- ZbVQ==
+ bh=jZqq2Rmqg0hhJFWCGJY00F+pIuxTdvMCF3EfLQtKJsg=;
+ b=ffGky7Z1XDzJL0gZK5HT/6z8R+JkNeyPoFd/vWBhI4q/VC3o/GkH9w5qsiQody3LQi
+ gmyHlhh8s3WE44j1GhQ2wHAR5Do5NI0Wv29D5QPL+k6RwPI8JUWsgaI3ZT08OjFoAH73
+ ZQlPbgy29AXSCoDHrdJkUiLtiJqPyB9v++TACiTBsJvSV6zB6IuohUB0IMq1DltyxZ4t
+ S33RaDM+WFjV4lQ/sSu8G+Nm9hYGJXQSkJin4J/6dL5jSml3f4nnG/qdDypHUxtt14E+
+ JwD6vc/OzRLumDx20gQvCK5h1xZotW43jVIjBYvHli6iE7+1zRZbyOehxBTmeh+B24Yd
+ //6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vtv1ZKjpv/f/DBQNgNP1S3d8B7GnT+qaQoJDLF+RyW0=;
- b=pdLDsMN9+z+p8eZtjzX3TFnNjBYRGcIAXDNKe0kiE/TecGP8TkGCpA82WnltNQOBiT
- NaiUJYkswKZUP8M0lCh1YQB9IHQBHHs0XoPEqgRJcQf7waH4l1FCWVLpbGMdrPrZVYdM
- 2wJVbNR6AvE+u7LiPKewEQjiLCNPp95n4U5pyb843uNAo7BeNuK8VqSk90GtgyOgsr2I
- 5aJdUSGu7Alp9hWqe4O7Km5vlEQryRyHm5zlcJg5z8nWbUTw1CFX4Pa4PJE0nrXzAXuX
- dEMjXLcpq3HSXkdZ58msfyc4Ry1yfsbR0Gk3KvBvTu3Dvc9bJchKxrjpZw6Lu6JSxTYv
- WPyQ==
-X-Gm-Message-State: AFqh2kqJesF7RoTdFJzCixm0KB0Pyd0Ij0CN65Z3KGGZXIT9yEKP8xF0
- Up8jMKBSh35Gygs/d1jUJcZdNH1n8KHsaFsxBJY=
-X-Google-Smtp-Source: AMrXdXvg6DErEqg8WMX2KGHoDSHTo6MjiuI5kZ93P1/FMkNj9/jEF0Ox07KWPeEmTo3OVbutRL50OgBFZIuEkSpDMec=
-X-Received: by 2002:a17:906:824a:b0:7c1:6f0a:a2d6 with SMTP id
- f10-20020a170906824a00b007c16f0aa2d6mr6893632ejx.337.1673152104279; Sat, 07
- Jan 2023 20:28:24 -0800 (PST)
+ bh=jZqq2Rmqg0hhJFWCGJY00F+pIuxTdvMCF3EfLQtKJsg=;
+ b=r67VtOgdy/kXaqAmL1yjQbJShrAsw0YnesFtUK6H2F1Gkcy72iDOuI3NsRKfHW8t5k
+ w+smI0BpQs4ZtsHxj1Nn0GcCqCB9KFT/rR29I7TJaDkZhLkLlc2jPSzAisoh5ppbo5FI
+ LbkR/lMfnwz7hhU9J8fopIjQkzwjEwRoFjxRsDYHELy1y9dkAr75hM+UK/6+n0L6NtpM
+ IG9dPK8NdMFrVX/oHe1OjYjCewGjal83QFeEmCaZHCX3DvSW2EYvm0c8/Yyy96+GdLoJ
+ STfVVeIBs3tBeFLebGRUad1eBnA1RvfI9oT2ASUBRq+5eumHz5EK0xW/q3KJJIcXJSrH
+ WkRA==
+X-Gm-Message-State: AFqh2kp9fYWPvrCZwH5Jsq5j/OajFEVsdkE3kTCoSZyU5UGSFv1S7DGJ
+ JcgeqGA6tkrzuAudL6V5FwFE0ppPXWXoJlG0gyrFdYbWzH8=
+X-Google-Smtp-Source: AMrXdXsmaYhgr3+Q7a4SbNSGhjaHf09HeErt4gOEhPCQ6ANDrxv8v26o6SCe5KO+lAQ20b1LCdcdkvURrvB/VSlSdkk=
+X-Received: by 2002:a17:906:1945:b0:7c0:bb4c:e792 with SMTP id
+ b5-20020a170906194500b007c0bb4ce792mr4710885eje.618.1673152155096; Sat, 07
+ Jan 2023 20:29:15 -0800 (PST)
 MIME-Version: 1.0
 References: <20230104220449.41337-1-philmd@linaro.org>
- <20230104220449.41337-2-philmd@linaro.org>
-In-Reply-To: <20230104220449.41337-2-philmd@linaro.org>
+ <20230104220449.41337-3-philmd@linaro.org>
+In-Reply-To: <20230104220449.41337-3-philmd@linaro.org>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 8 Jan 2023 12:28:14 +0800
-Message-ID: <CAEUhbmVf+V46b9fM7DuztDsUpcfujQE0PDW=he2SAMZbnst58A@mail.gmail.com>
-Subject: Re: [PATCH 01/20] hw/block: Pass DeviceState to pflash_cfi01_get_blk()
+Date: Sun, 8 Jan 2023 12:29:04 +0800
+Message-ID: <CAEUhbmVoOvm7Yoh9EBa4EnR2Dkkpsst+bgXFKkO0Vs9hUp6cJg@mail.gmail.com>
+Subject: Re: [PATCH 02/20] hw/block: Use pflash_cfi01_get_blk() in
+ pflash_cfi01_legacy_drive()
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,24 +86,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 5, 2023 at 6:40 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
+On Thu, Jan 5, 2023 at 6:10 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
 rg> wrote:
 >
-> The point of a getter() function is to not expose the structure
-> internal fields. Otherwise callers could simply access the
-> PFlashCFI01::blk field.
->
-> Have the callers pass a DeviceState* argument. The QOM
-> type check is done in the callee.
+> By using pflash_cfi01_get_blk(), pflash_cfi01_legacy_drive()
+> doesn't require any knowledge of the PFlashCFI01 structure.
+> Thus we can pass a generic DeviceState pointer.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > ---
 >  hw/arm/sbsa-ref.c        | 2 +-
 >  hw/arm/virt.c            | 2 +-
->  hw/block/pflash_cfi01.c  | 4 +++-
->  hw/i386/pc_sysfw.c       | 4 ++--
+>  hw/block/pflash_cfi01.c  | 6 +++---
+>  hw/i386/pc_sysfw.c       | 2 +-
+>  hw/riscv/virt.c          | 2 +-
 >  include/hw/block/flash.h | 2 +-
->  5 files changed, 8 insertions(+), 6 deletions(-)
+>  6 files changed, 8 insertions(+), 8 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
