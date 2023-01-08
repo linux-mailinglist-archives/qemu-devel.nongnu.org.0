@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07CB9661519
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 13:36:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F8666151E
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 13:36:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEUt0-0002gl-Ev; Sun, 08 Jan 2023 07:34:50 -0500
+	id 1pEUt2-0002h4-QY; Sun, 08 Jan 2023 07:34:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pEUsv-0002gA-S3
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 07:34:45 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ id 1pEUsy-0002gQ-6s
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 07:34:48 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pEUsu-0006pW-Ca
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 07:34:45 -0500
-Received: by mail-ed1-x534.google.com with SMTP id m21so8683025edc.3
- for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 04:34:44 -0800 (PST)
+ id 1pEUsw-0006pv-IR
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 07:34:47 -0500
+Received: by mail-ed1-x532.google.com with SMTP id j16so8641010edw.11
+ for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 04:34:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZgTqj700srJKwmbQ0yqgMwKG1s9RKKOWl454LlkNWUk=;
- b=foa1M4ssZhS5nt9h7oQwzDSeKzb7AtvwS9uXgLaxH91aQo1EEARlQ/q1QQ788nETGA
- 4qsLht1niyyospx2gutbf+0Idxtry99Lihj6Y9n5kWbSHEIbLM87REMoYnsyjnKoZTmz
- dbXnbWuUZdFEkoB6x65pUv4p7kxsk/bMvNcsFKnBC/KHBbNMgGJScRTXcpL1xDSQMYQS
- +rmgOEN3Ymc9D6ThLNidTEVoQvCv7bkcBAMq9w05lTaw2o8OzJLVH30Yu82T+TjvxRe2
- T51E/NgrzBo1WgoouEawCtBsDSusagrGU5IYjBmYfncNP9Lz6oczqFehOyxCeoKjYZ61
- q/xA==
+ bh=R5F2cXC1XzINmlP8gSq2GzxCC6dn0W6pyd7g4k9yGMI=;
+ b=WMH/Y1B089OkdRcUI9BJUvCpKl0sCNg7d7ZfVcXqMYR/riIVFZPHABbMt8Gr20RnPR
+ RQ2ufhwWFMbyo8LAB2HsWRaYu9oD22kkWm8Z/INI63mP30gNHcyE+oV7HDZmZbp1HO/l
+ XPoU8xgbRvhx1TbbKx9cXN2E/jKQ5n9m1dWxjWnA1fxwuHel8olKs3hodW/gdTRUD3ME
+ Ww4CU/xCJrUlboxpYBrl9H76udX14T19gfzTKJH85OmlVZMqM1XVP54u5ZrLVhfvDTcb
+ WqlTUlhTcEQtn0IPHQVgC3feg7suNWhzbcGAEQ2aTpBSTNS1afB0jNRKK1JANwllbv61
+ YcZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZgTqj700srJKwmbQ0yqgMwKG1s9RKKOWl454LlkNWUk=;
- b=IDp+6Irt8hddQTz7jAlzVUpqOqe3PcBxqOBZAiwUCIWczX/TZcV51u0Se004uscAFh
- 6JJPM/Rz4C7CevsS9HwwOlGzxIQpdCTLl7nhuFt/kmG2RlbYSVvlYhl9TNjKamX7CQQ0
- k3XeBsvVoLjItOqLGEX1B53XmcFKfFrgPjzCuGzu2iwWEjupCCuF1FVht9KGnoiROMD8
- UadhK1W+Jv2wID0VhdUC60T0+1ehsHHSl/6ksfB/6t2V/wKG4qVhhqht/lEa35EVEO6c
- MEMVeerFHyMnGJGlpaDlOX5tjEyXDiO1xPgYZvaV4MBXE6DqIA8+LmPH9fN07xDQQXcz
- //Gg==
-X-Gm-Message-State: AFqh2kpWW+xoLrrwfnIYOJRAvLR7GfkM4Fexb0crKVMkHqtT2dXip1nr
- ChsCwZD2ezm3tzZ1qEIGJCcr94yfJCd+mxYkTbQ=
-X-Google-Smtp-Source: AMrXdXtfOqLH/Ia+sERBMyfNhHf5qMb1Aw6i8b9eXa6gPEOsh3qupTYuC+x5jX2kymeRHrA/HBcuIrL+gQhvApv9Nks=
-X-Received: by 2002:aa7:d80f:0:b0:499:dfa:1c6b with SMTP id
- v15-20020aa7d80f000000b004990dfa1c6bmr381591edq.202.1673181282876; Sun, 08
- Jan 2023 04:34:42 -0800 (PST)
+ bh=R5F2cXC1XzINmlP8gSq2GzxCC6dn0W6pyd7g4k9yGMI=;
+ b=uIZuEPjpO4iFmBgK0gzDPoBd59q9NFG2a6rTQDN91dVqXQ6QyqT3EMruFUXUTDDF+8
+ r5vkW31dN8QkfSzsZGMWObLy496SFGFOveqgTLjpJuLytc0RGdk5uSV4Yf5qy2SSAHjV
+ bSLg1ek0CxcsRKrTKBc6qZmK+2vQRUs6ShUvmPeQL7UeyohkN1T3vBuUmZIZGO/9R0e0
+ F0Wv9mMwCRRGgB62V7JT5A7TWuSA62RucqVpSt+V5ms6g3pzAqawAw6kKUoJtD4anWCp
+ YdVGUqhVNEFHDvtanyWs9qarbdLwoTOJdbYsSmFr5JquQy4u0V7ajELqL2BGbg0QSEXN
+ huew==
+X-Gm-Message-State: AFqh2kqAcxb19qvZ4T/PZlRwFkVNep6r9X0hywsmmvKQdD8oMoDkhE69
+ sih8+wUtSrs9LF0FxoZVZaGBkbnS1vwfir8+LtCqOK/H
+X-Google-Smtp-Source: AMrXdXs1zjADhya3tL5miM6VRyRhLl6KgDjzYG53k/NEWHom8zHZ8kUgQHPcCFuL351GAIvauFvEMJMf28XeF4vWp7g=
+X-Received: by 2002:a05:6402:2a06:b0:496:a74d:b752 with SMTP id
+ ey6-20020a0564022a0600b00496a74db752mr651642edb.318.1673181285227; Sun, 08
+ Jan 2023 04:34:45 -0800 (PST)
 MIME-Version: 1.0
 References: <20230104220449.41337-1-philmd@linaro.org>
- <20230104220449.41337-17-philmd@linaro.org>
-In-Reply-To: <20230104220449.41337-17-philmd@linaro.org>
+ <20230104220449.41337-18-philmd@linaro.org>
+In-Reply-To: <20230104220449.41337-18-philmd@linaro.org>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 8 Jan 2023 20:34:30 +0800
-Message-ID: <CAEUhbmWjTOimgy3E76J5+B3Cx=WmS_K-dXikOxdrizXdA=pGpg@mail.gmail.com>
-Subject: Re: [PATCH 16/20] hw/block: Factor pflash_cfi02_create() out of
- pflash_cfi02_register()
+Date: Sun, 8 Jan 2023 20:34:33 +0800
+Message-ID: <CAEUhbmUFzTCj1b3VzZECZL58x17ZHDS4miozA=JnEjO4pZ_xOQ@mail.gmail.com>
+Subject: Re: [PATCH 17/20] hw/arm: Open-code pflash_cfi02_register()
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,37 +85,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 5, 2023 at 6:51 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
+On Thu, Jan 5, 2023 at 6:48 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
 rg> wrote:
 >
-> Currently pflash_cfi02_register():
->
->  1/ creates a TYPE_PFLASH_CFI02 qdev instance
->  2/ maps the first MMIO region to the system bus
->
-> The first minor issue is the implicit sysbus mapping is not
-> obvious (the function name could mention it), and the function
-> is not documented.
->
-> Another issue is we are forced to map on sysbus, thus code
-> wanting to simply instantiate this device are forced to open
-> code the qdev creation.
->
-> This is a problem in a heterogeneous system where not all cores
-> has access to the sysbus, or if we want to map the pflash on
-> different address spaces.
->
-> To clarify this API, extract the qdev creation in a new helper
-> named pflash_cfi02_create().
->
-> We don't document pflash_cfi02_register() because we are going
-> to remove it in a pair of commits.
+> pflash_cfi02_register() hides an implicit sysbus mapping of
+> MMIO region #0. This is not practical in a heterogeneous world
+> where multiple cores use different address spaces. In order to
+> remove to remove pflash_cfi02_register() from the pflash API,
+
+same issue as the cfi 01 commits
+
+> open-code it as a qdev creation call followed by an explicit
+> sysbus mapping.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > ---
->  hw/block/pflash_cfi02.c  | 55 ++++++++++++++++++++++++++--------------
->  include/hw/block/flash.h | 14 +++++++++-
->  2 files changed, 49 insertions(+), 20 deletions(-)
+>  hw/arm/digic_boards.c | 14 ++++++++------
+>  hw/arm/musicpal.c     | 13 +++++++------
+>  hw/arm/xilinx_zynq.c  | 10 +++++-----
+>  3 files changed, 20 insertions(+), 17 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
