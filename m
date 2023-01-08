@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1641E661383
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 04:53:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC03661390
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 05:29:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEMjS-0004LU-04; Sat, 07 Jan 2023 22:52:26 -0500
+	id 1pENIM-0000b2-PF; Sat, 07 Jan 2023 23:28:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pEMjQ-0004LH-1z; Sat, 07 Jan 2023 22:52:24 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
+ id 1pENIK-0000ac-DP
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 23:28:28 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pEMjN-0008Lc-Kn; Sat, 07 Jan 2023 22:52:23 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id hw16so370330ejc.10;
- Sat, 07 Jan 2023 19:52:20 -0800 (PST)
+ id 1pENII-0006iB-Gx
+ for qemu-devel@nongnu.org; Sat, 07 Jan 2023 23:28:28 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id u9so12429144ejo.0
+ for <qemu-devel@nongnu.org>; Sat, 07 Jan 2023 20:28:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=I5sNx7TX9ACxlUPDc7jdGO70mReEt4uLX6fgAA91hvo=;
- b=WAjYiIAgEsaR6ngiji5aTm2R+ImB6tOiclrRhCx2ZaKZutkfgDqPFgY5s/iM8+3RYs
- sJweG9FK5dx9J55rmGGIKIJyFC7KnKqw04INnq77oUkYpZwwy8YKtWb8ODaq9DygNsdB
- T1QZcm4zdE/NKJDZjcXAcQrMW6qdC1KLKVa1uke/1Sl2p+YgaLNl/azp0/A1w/fouF0n
- gcDIwidAUTheyfEtv79GbVdBe8zYXYvBTYZC5KtmFLsIYab8wxCoAKsJQn5S8RJli+U3
- jlwu+Y0KGVz90cYOhGOtn4GPTpgw9w1xAnBbqcYidzeiEGB9bGL6hYLcrKFD0RffrBc0
- /UtQ==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vtv1ZKjpv/f/DBQNgNP1S3d8B7GnT+qaQoJDLF+RyW0=;
+ b=McHvCnf7B6cd3MCvNe3IRfNJVgmiGXj7+ZQw+SKJcic5+3yb0b6hpzQ+ymcmWgU+Dv
+ SE1iAoeYBx1QU9TueB2hxNU5jeJLZ1S+ZuCOdi6+YAtVQH6BLs1dTUdLzFNA6jKcTvur
+ NoYVZWCOcM/2mD/H2/XXgYTfIuqT9+qRUjJNFMyb6Mgrg+V249leaTFQjIE/wRuzZxHf
+ RhvzAaDa8GwN2Ev5ACQW66MsX1JU5C/hJkUkvdDQMox8Fj26Upgtp1dXLCIcEQspou0G
+ /HKnAVrFAGxXYFtAaJ9S1Lt1TGB2m35+ryrw9rl04MJMKryYpEutSZTc83Ih/EtSi1va
+ ZbVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=I5sNx7TX9ACxlUPDc7jdGO70mReEt4uLX6fgAA91hvo=;
- b=JkYncS+bnfZf+wD1+ohHDgQSPgDCl/HT+boBLZzvINbWGzHL55fWYiLSLPxwT/2KtT
- FjQQqTSSjfNAUZHYQdvrJ8en2PXBcemGQK4X4O/U6N9D8il3Amts7FswaIhesFLC9U9L
- aNjEfldvG8F7ewDj5ezLLRWXAR9rkxMOmcNYdVbJQFVpH1hmGFlxoZW6CQ+3CBNBKDfB
- oi/LzXnADtKRn3JzUZSTx1u5g+gW5+HJ6haax1oWeIVFm2PYKIDWYl5VrZ/4Zfvis+xM
- qsitCRKpx4rFiZjdfSjZWRyvZ9GGJN+p7zNLHmldShKpmCgZWEAwUI6y2LPjJ1eOijUr
- tgKA==
-X-Gm-Message-State: AFqh2koMumB/NxTODtoqG0cDhz1tTlun24IfluhyQkwDT+CwUlt+rV0b
- f2EMemUdmtVegJ2dLKyN9K12f1qhbTuN6sfoSq0=
-X-Google-Smtp-Source: AMrXdXtJbMJ1ZvY6xP5s+/qq59gTpJD7SW3yOPrRjOmb41XDe+EkwYXtj6Mm7PMOY9PCw1v5OtBD/qNQfKxsBtXVlDw=
-X-Received: by 2002:a17:907:7782:b0:7c0:e380:3d44 with SMTP id
- ky2-20020a170907778200b007c0e3803d44mr5195971ejc.498.1673149939578; Sat, 07
- Jan 2023 19:52:19 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vtv1ZKjpv/f/DBQNgNP1S3d8B7GnT+qaQoJDLF+RyW0=;
+ b=pdLDsMN9+z+p8eZtjzX3TFnNjBYRGcIAXDNKe0kiE/TecGP8TkGCpA82WnltNQOBiT
+ NaiUJYkswKZUP8M0lCh1YQB9IHQBHHs0XoPEqgRJcQf7waH4l1FCWVLpbGMdrPrZVYdM
+ 2wJVbNR6AvE+u7LiPKewEQjiLCNPp95n4U5pyb843uNAo7BeNuK8VqSk90GtgyOgsr2I
+ 5aJdUSGu7Alp9hWqe4O7Km5vlEQryRyHm5zlcJg5z8nWbUTw1CFX4Pa4PJE0nrXzAXuX
+ dEMjXLcpq3HSXkdZ58msfyc4Ry1yfsbR0Gk3KvBvTu3Dvc9bJchKxrjpZw6Lu6JSxTYv
+ WPyQ==
+X-Gm-Message-State: AFqh2kqJesF7RoTdFJzCixm0KB0Pyd0Ij0CN65Z3KGGZXIT9yEKP8xF0
+ Up8jMKBSh35Gygs/d1jUJcZdNH1n8KHsaFsxBJY=
+X-Google-Smtp-Source: AMrXdXvg6DErEqg8WMX2KGHoDSHTo6MjiuI5kZ93P1/FMkNj9/jEF0Ox07KWPeEmTo3OVbutRL50OgBFZIuEkSpDMec=
+X-Received: by 2002:a17:906:824a:b0:7c1:6f0a:a2d6 with SMTP id
+ f10-20020a170906824a00b007c16f0aa2d6mr6893632ejx.337.1673152104279; Sat, 07
+ Jan 2023 20:28:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20221229172734.119600-1-abdulras@google.com>
-In-Reply-To: <20221229172734.119600-1-abdulras@google.com>
+References: <20230104220449.41337-1-philmd@linaro.org>
+ <20230104220449.41337-2-philmd@linaro.org>
+In-Reply-To: <20230104220449.41337-2-philmd@linaro.org>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 8 Jan 2023 11:52:08 +0800
-Message-ID: <CAEUhbmW5_5htR53nXHJEv+FShz2-+94CROV8JpGRBMhLqTRUWQ@mail.gmail.com>
-Subject: Re: [PATCH] riscv: do not set the rounding mode via `gen_set_rm`
-To: Saleem Abdulrasool <abdulras@google.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, palmer@dabbelt.com, 
- alistair.francis@wdc.com, bin.meng@windriver.com, frank.chang@sifive.com, 
- Saleem Abdulrasool <compnerd@compnerd.org>
+Date: Sun, 8 Jan 2023 12:28:14 +0800
+Message-ID: <CAEUhbmVf+V46b9fM7DuztDsUpcfujQE0PDW=he2SAMZbnst58A@mail.gmail.com>
+Subject: Re: [PATCH 01/20] hw/block: Pass DeviceState to pflash_cfi01_get_blk()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,118 +85,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 30, 2022 at 2:20 AM Saleem Abdulrasool <abdulras@google.com> wrote:
+On Thu, Jan 5, 2023 at 6:40 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
+rg> wrote:
 >
-> From: Saleem Abdulrasool <compnerd@compnerd.org>
+> The point of a getter() function is to not expose the structure
+> internal fields. Otherwise callers could simply access the
+> PFlashCFI01::blk field.
 >
-> Setting the rounding mode via the `gen_set_rm` call would alter the
-> state of the disassembler, resetting the `TransOp` in the assembler
-> context.  When we subsequently set the rounding mode to the desired
-> value, we would trigger an assertion in `decode_save_opc`.  Instead
-> we can set the rounding mode via the `gen_helper_set_rounding_mode`
-> which will still trigger the exception in the case of an invalid RM
-> without altering the CPU disassembler state.
+> Have the callers pass a DeviceState* argument. The QOM
+> type check is done in the callee.
 >
-> Signed-off-by: Saleem Abdulrasool <compnerd@compnerd.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > ---
->  target/riscv/insn_trans/trans_rvv.c.inc | 69 +++++++++++++------------
->  1 file changed, 36 insertions(+), 33 deletions(-)
+>  hw/arm/sbsa-ref.c        | 2 +-
+>  hw/arm/virt.c            | 2 +-
+>  hw/block/pflash_cfi01.c  | 4 +++-
+>  hw/i386/pc_sysfw.c       | 4 ++--
+>  include/hw/block/flash.h | 2 +-
+>  5 files changed, 8 insertions(+), 6 deletions(-)
 >
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 4dea4413ae..73f6fab1c5 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -2679,8 +2679,10 @@ static bool do_opfv(DisasContext *s, arg_rmr *a,
->                      int rm)
->  {
->      if (checkfn(s, a)) {
-> +        // the helper will raise an exception if the rounding mode is invalid
 
-nits: use /* */
-
->          if (rm != RISCV_FRM_DYN) {
-> -            gen_set_rm(s, RISCV_FRM_DYN);
-> +            gen_helper_set_rounding_mode(cpu_env,
-> +                                         tcg_constant_i32(RISCV_FRM_DYN));
->          }
->
->          uint32_t data = 0;
-> @@ -3001,38 +3003,39 @@ static bool opffv_narrow_check(DisasContext *s, arg_rmr *a)
->             require_scale_zve64f(s);
->  }
->
-> -#define GEN_OPFV_NARROW_TRANS(NAME, CHECK, HELPER, FRM)            \
-> -static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-> -{                                                                  \
-> -    if (CHECK(s, a)) {                                             \
-> -        if (FRM != RISCV_FRM_DYN) {                                \
-> -            gen_set_rm(s, RISCV_FRM_DYN);                          \
-> -        }                                                          \
-> -                                                                   \
-> -        uint32_t data = 0;                                         \
-> -        static gen_helper_gvec_3_ptr * const fns[2] = {            \
-> -            gen_helper_##HELPER##_h,                               \
-> -            gen_helper_##HELPER##_w,                               \
-> -        };                                                         \
-> -        TCGLabel *over = gen_new_label();                          \
-> -        gen_set_rm(s, FRM);                                        \
-> -        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> -        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
-> -                                                                   \
-> -        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-> -        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> -        data = FIELD_DP32(data, VDATA, VTA, s->vta);               \
-> -        data = FIELD_DP32(data, VDATA, VMA, s->vma);               \
-> -        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-> -                           vreg_ofs(s, a->rs2), cpu_env,           \
-> -                           s->cfg_ptr->vlen / 8,                   \
-> -                           s->cfg_ptr->vlen / 8, data,             \
-> -                           fns[s->sew - 1]);                       \
-> -        mark_vs_dirty(s);                                          \
-> -        gen_set_label(over);                                       \
-> -        return true;                                               \
-> -    }                                                              \
-> -    return false;                                                  \
-> +#define GEN_OPFV_NARROW_TRANS(NAME, CHECK, HELPER, FRM)                     \
-> +static bool trans_##NAME(DisasContext *s, arg_rmr *a)                       \
-> +{                                                                           \
-> +    if (CHECK(s, a)) {                                                      \
-> +        if (FRM != RISCV_FRM_DYN) {                                         \
-> +            gen_helper_set_rounding_mode(cpu_env,                           \
-> +                                         tcg_constant_i32(RISCV_FRM_DYN));  \
-> +        }                                                                   \
-> +                                                                            \
-> +        uint32_t data = 0;                                                  \
-> +        static gen_helper_gvec_3_ptr * const fns[2] = {                     \
-> +            gen_helper_##HELPER##_h,                                        \
-> +            gen_helper_##HELPER##_w,                                        \
-> +        };                                                                  \
-> +        TCGLabel *over = gen_new_label();                                   \
-> +        gen_set_rm(s, FRM);                                                 \
-> +        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);                   \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);          \
-> +                                                                            \
-> +        data = FIELD_DP32(data, VDATA, VM, a->vm);                          \
-> +        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);                      \
-> +        data = FIELD_DP32(data, VDATA, VTA, s->vta);                        \
-> +        data = FIELD_DP32(data, VDATA, VMA, s->vma);                        \
-> +        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),              \
-> +                           vreg_ofs(s, a->rs2), cpu_env,                    \
-> +                           s->cfg_ptr->vlen / 8,                            \
-> +                           s->cfg_ptr->vlen / 8, data,                      \
-> +                           fns[s->sew - 1]);                                \
-> +        mark_vs_dirty(s);                                                   \
-> +        gen_set_label(over);                                                \
-> +        return true;                                                        \
-> +    }                                                                       \
-> +    return false;                                                           \
->  }
->
->  GEN_OPFV_NARROW_TRANS(vfncvt_f_xu_w, opfxv_narrow_check, vfncvt_f_xu_w,
-> --
-
-Is it possible to create a test case (tests/tcg/riscv64) for this?
-
-Regards,
-Bin
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
