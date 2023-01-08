@@ -2,78 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31626616DE
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 17:51:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA8E661823
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 19:30:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEYtM-0001rf-8l; Sun, 08 Jan 2023 11:51:28 -0500
+	id 1pEaPO-0002aA-9Y; Sun, 08 Jan 2023 13:28:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pEYtI-0001rU-6t
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 11:51:24 -0500
-Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEaPL-0002Zj-91
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 13:28:36 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pEYtE-0001NE-VR
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 11:51:23 -0500
-Received: by mail-qv1-xf35.google.com with SMTP id t17so4641964qvw.6
- for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 08:51:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=braap-org.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qdYBozkTmEnnxMe67YTmLz59tHO5RbfllBVv5dQ0Y3U=;
- b=4rt7y2byDKry2+p586uomYyFNjwAmFzcVrDWHeC4DA+tjQBH0bfYY/GNy5R/4LXWO0
- vUPbaVLARibxnHjFaBFykHYash4kiN8cJWqnauAhivVj2IY2jVcj+BZ6dOV+MSuAXpRS
- oBsdpKDyWnOiFd2+bCaiOGae7gBm0Jukh8YgsYu0/O+Pw6Tf2KUMC38vf4Go0BI6fskJ
- MK0euWrsNM1xV395CYwehCYWgFEvQldJl/1ikPVdAzYdZg3FqxR01l4TDqy/fHpjGJo9
- iy/VsNGWt66+7bCoUXSkKTZDRzxriggkjdzo0A/hsy+OD55zkLPiEWvByG00yp3mLGSO
- V5HA==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEaPJ-00037A-OD
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 13:28:35 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ k26-20020a05600c1c9a00b003d972646a7dso7424092wms.5
+ for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 10:28:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JSf56kuZbXFuU0TDUuaby7DeG6DcdwVQyAWljuI7f1E=;
+ b=WvNRLQ0paetMs5iOKngIQ7P8LXGJ60vjWVLd1jjAWio70U3NT/Wp3sow7ZNBNg/hid
+ BASMF5BAM6SvPMIVYoTwiG1YWAZX8LleQRRN9UtlI56T2qbC4fATlHBml8GSomir10Sb
+ oAlKWmUbOuagP0jAxivmEkf0MLUApYawAxXysXhQlWLzm7KRQWyI98reigxwJCOldSOq
+ Cy8CNyXAp/UfQ8A9aK9cAjnqqdZOGYrr2EqmPd2ATveDK36fOxyB5P3T6K4YxDZB7bBF
+ vBrhDzgkem+oZsFQVq1rxancqX+jnWNfMASgDNfGSOEh/VQj6JSkpiCnmXq77tyNLwHg
+ mx9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qdYBozkTmEnnxMe67YTmLz59tHO5RbfllBVv5dQ0Y3U=;
- b=W5xu6xANTj5LvFr8dd57L0EfxOsdUQAePDc/iJeV6wD5EeiOP6AjrQ1Mr1dNVco7Qh
- BDEfGbQgoJ/SBsEWeU9EmDKZVODXEg2fMCXH/SQUN2keZdV28o3nWK8X5RluixQA4nBQ
- 2/zjhFUhjPurTl2XhfpZXV8WDWMhYylaFjF9SPU2KNVbO94q40thnxih0YvpGKJyhoNe
- aVpze1dBwwEItrIyVKblYMrS1ekDyZ+wcuHbYq0Fhph2GVcC2DCWjPftBdS0ixMCg4CH
- QHCgXaKgPNv2YHEcFhMQLi67S0VWD7mZIaBflAnWy+UwIkeKLCFV2Kh0hU4aZj3OZsIH
- X0Vg==
-X-Gm-Message-State: AFqh2krEuKO0dU734MZe7ZrjAE1lCMfSWbMOhRQHGvtdUtodxmVfo1Wk
- eCQTYaNOpRFJth0Bp3edHc8tYYgAlIEO/cRpGjv8JQ==
-X-Google-Smtp-Source: AMrXdXvDW0olP9LtmWJ8A315j3/Q/IzEUFGybO59puD5PzbAn5d9EepFa2dFtgVk0BkW8ian7AfRhA==
-X-Received: by 2002:a05:6214:1383:b0:531:a8f3:e8db with SMTP id
- pp3-20020a056214138300b00531a8f3e8dbmr45231241qvb.47.1673196678952; 
- Sun, 08 Jan 2023 08:51:18 -0800 (PST)
-Received: from localhost ([185.156.46.146]) by smtp.gmail.com with ESMTPSA id
- u12-20020a05620a430c00b006ee949b8051sm3912447qko.51.2023.01.08.08.51.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Jan 2023 08:51:18 -0800 (PST)
-From: Emilio Cota <cota@braap.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aaron Lindsay <aaron@os.amperecomputing.com>, Emilio Cota <cota@braap.org>
-Subject: [PATCH 4/4] cpu-exec: assert that plugin_mem_cbs is NULL after
- execution
-Date: Sun,  8 Jan 2023 11:51:07 -0500
-Message-Id: <20230108165107.62488-1-cota@braap.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230108164731.61469-1-cota@braap.org>
-References: <20230108164731.61469-1-cota@braap.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JSf56kuZbXFuU0TDUuaby7DeG6DcdwVQyAWljuI7f1E=;
+ b=7YQTFY6yZ2E/xvEUlsy5ehuoH2msz1fL/pOyL4GWfpVH4Xmx9NgYhlAB6QWq5ByKzn
+ V5wKg2wx4gHrFOoMuDEkIsv5x3th29Mg2eKIkOSN2Aqcmimncg5KeGQuxjaYm0Qd7cMh
+ 9TRR4rfosRRRGSzgSvXhrdAybDPF40viW4PqsBenkb4mEBs0FCIbrwIw0OjAoATY/rsS
+ fY7egfuG2r/4hZSkfdqljtbyxSBmrmuoq5k9y+WjTq4zfMVBukC+j97N7K5eaC7U7Ekk
+ jtnZIcQb7fJWoqKhc6dpP8Z/MD3gSEFhJzjp5m9Ce3ex8XPqfRvKLozRakvV83Kurvcb
+ 6tyg==
+X-Gm-Message-State: AFqh2kq+MX2w0a5tgy5X5Yun/zV7wRHhGS8PqT+wE376kMrwwCK3Beb0
+ JJRd7Gn9NeXgclYOlm6EwUceXA==
+X-Google-Smtp-Source: AMrXdXtTFvVPweb7ETUBfgQOCMc0C0sQElAZC2fSAq2AfRM48Uf/NHudd8P+GAJGALxVY+/By97mHA==
+X-Received: by 2002:a05:600c:250:b0:3d2:2043:9cbf with SMTP id
+ 16-20020a05600c025000b003d220439cbfmr43567119wmj.10.1673202510686; 
+ Sun, 08 Jan 2023 10:28:30 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ k30-20020a05600c1c9e00b003d9b89a39b2sm9650222wms.10.2023.01.08.10.28.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 08 Jan 2023 10:28:30 -0800 (PST)
+Message-ID: <7f47fd16-8e87-32d0-9ae5-4b288930c24f@linaro.org>
+Date: Sun, 8 Jan 2023 19:28:28 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=2607:f8b0:4864:20::f35;
- envelope-from=cota@braap.org; helo=mail-qv1-xf35.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v5 00/31] Consolidate PIIX south bridges
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Ani Sinha <ani@anisinha.ca>, Richard Henderson
+ <richard.henderson@linaro.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, John Snow <jsnow@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <20230105143228.244965-1-shentey@gmail.com>
+ <dcbda1fc-3380-a96b-78c7-b3b35dee5ac4@ilande.co.uk>
+ <50FFD7E4-A40C-4428-ACD2-F7C93C687572@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <50FFD7E4-A40C-4428-ACD2-F7C93C687572@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,34 +103,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fixes: #1381
+On 8/1/23 16:12, Bernhard Beschow wrote:
+> Am 7. Januar 2023 23:57:32 UTC schrieb Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>:
+>> On 05/01/2023 14:31, Bernhard Beschow wrote:
 
-Signed-off-by: Emilio Cota <cota@braap.org>
----
- accel/tcg/cpu-exec.c | 2 ++
- 1 file changed, 2 insertions(+)
+>>> Bernhard Beschow (28):
+>>>     hw/mips/Kconfig: Track Malta's PIIX dependencies via Kconfig
+>>>     hw/usb/hcd-uhci: Introduce TYPE_ defines for device models
+>>>     hw/i386/pc_piix: Associate pci_map_irq_fn as soon as PCI bus is
+>>>       created
+>>>     hw/i386/pc_piix: Allow for setting properties before realizing PIIX3
+>>>       south bridge
+>>>     hw/i386/pc: Create RTC controllers in south bridges
+>>>     hw/i386/pc: No need for rtc_state to be an out-parameter
+>>>     hw/isa/piix3: Create USB controller in host device
+>>>     hw/isa/piix3: Create power management controller in host device
+>>>     hw/intc/i8259: Make using the isa_pic singleton more type-safe
+>>>     hw/intc/i8259: Introduce i8259 proxy "isa-pic"
+>>>     hw/isa/piix3: Create ISA PIC in host device
+>>>     hw/isa/piix3: Create IDE controller in host device
+>>>     hw/isa/piix3: Wire up ACPI interrupt internally
+>>>     hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS
+>>>     hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4
+>>>     hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4
+>>>     hw/isa/piix3: Drop the "3" from PIIX base class
+>>>     hw/isa/piix4: Make PIIX4's ACPI and USB functions optional
+>>>     hw/isa/piix4: Remove unused inbound ISA interrupt lines
+>>>     hw/isa/piix4: Use ISA PIC device
+>>>     hw/isa/piix4: Reuse struct PIIXState from PIIX3
+>>>     hw/isa/piix4: Rename reset control operations to match PIIX3
+>>>     hw/isa/piix3: Merge hw/isa/piix4.c
+>>>     hw/isa/piix: Harmonize names of reset control memory regions
+>>>     hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4
+>>>     hw/isa/piix: Rename functions to be shared for interrupt triggering
+>>>     hw/isa/piix: Consolidate IRQ triggering
+>>>     hw/isa/piix: Share PIIX3's base class with PIIX4
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 356fe348de..de4ba6e23c 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -504,6 +504,7 @@ static void cpu_exec_exit(CPUState *cpu)
-     if (cc->tcg_ops->cpu_exec_exit) {
-         cc->tcg_ops->cpu_exec_exit(cpu);
-     }
-+    g_assert(cpu->plugin_mem_cbs == NULL);
- }
- 
- void cpu_exec_step_atomic(CPUState *cpu)
-@@ -1031,6 +1032,7 @@ int cpu_exec(CPUState *cpu)
- 
-             cpu_loop_exec_tb(cpu, tb, pc, &last_tb, &tb_exit);
- 
-+            g_assert(cpu->plugin_mem_cbs == NULL);
-             /* Try to align the host and virtual clocks
-                if the guest is in advance */
-             align_clocks(&sc, cpu);
--- 
-2.34.1
+>> Phil - over to you!
+
+Thanks for the review Mark!
+
+> Shall I respin? I could integrate my PCI series into this one in order to avoid the outdated MIPS patches while still delivering a working series. Yes/No?
+
+If you don't mind, that is certainly easier for me :)
 
 
