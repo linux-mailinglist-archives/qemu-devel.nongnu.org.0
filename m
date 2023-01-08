@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9086616B7
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 17:32:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3DA6616C0
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Jan 2023 17:39:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEYZg-0006TC-HZ; Sun, 08 Jan 2023 11:31:08 -0500
+	id 1pEYgy-0008WS-6v; Sun, 08 Jan 2023 11:38:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pEYZd-0006Sr-S9; Sun, 08 Jan 2023 11:31:05 -0500
-Received: from mail-dm6nam11on2060.outbound.protection.outlook.com
- ([40.107.223.60] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ id 1pEYgv-0008Uv-Rn; Sun, 08 Jan 2023 11:38:37 -0500
+Received: from mail-co1nam11on2064.outbound.protection.outlook.com
+ ([40.107.220.64] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pEYZa-0000Xi-F5; Sun, 08 Jan 2023 11:31:05 -0500
+ id 1pEYgt-0002RX-5A; Sun, 08 Jan 2023 11:38:37 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HxkOOg/WJ2eEKk9OhZXhh30G95sg5p7rRdz21CxYmOENykH47PxW9u0h7S1IHaIEYQ3/TdCVsjRbUyk9W0VhQqZXky1L3rWpr4e9va7Nxbuqehc6UqdL9PXyos4ZHKy0jmZCbLhpBZtO4V5FQkOgzG4HQq2udFWa1SyLphRZppbar+aob9VStIN9vPHAbkul2r7FJ+PhaRcbjgFtapvuLBE8Qx8K7/NWGsv0R4OOWaRJCWGyd4jiVmAJYMVZvvsT2eO0VfqZ7vkKQ57l1yE4ihGXd8L/gAH6D8UyAT7MRofQjNUyDIjj9bx8e7VV1/GJBu1NVj6ZIj+aLPckp/T90A==
+ b=VZqM5VSuh0mclQV6miefdlyycYVehwL/PeE8PNhiTbG3rDeIBLu7Ej2QCvXEsFpOfzXVab/27sC/CzrprwhticisEJvieRWJ4Waic11/b75jV6MaYLOkWrRP61aTTzOOek8MGif1SzmGsVv5XLtYgeWMrRSC3MjbKteKyPNI6rLl04pY10XhKP8H5vTtm6NgWOJrI6lcDaD3MvYYQUvbHKdQ8a1jVdKhN/1M/GUumkqgv737gjEFQyfCADAvhDGgRdHpX+6aj1kds6+Zhnap67CUI+5GBm8TgfcjDg/4q1OdSMj8N9pgSTRzd9TdE+56tCvtQIIccqI89fLxyqY12Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C8i25/r1A3CJUP+RYHwUzAtruOHIbOUXvtcgMc07oMs=;
- b=EYiF5kRNRWuCbMbWID9WNP1+d+NmsTxyHm18vSxef/SUR94aIwi7jTo7NjRl0NzjD6z11d+RJN1AyKAlyq5KwZBMnMDuuDlQShbtiG8zv96I9ciQVXEBRLj5B941CLXxZq9wklut6TsSodZ6u6xj56fifUino5ZGGxieEnMeizJb16WAdiH2ewwuyII5SVwaLMxM69jBtqWRyQpy9pw6l4n0f7S/C+j8w6xuYr8C9FWQz2uIP4/lhigUt703eijST9Fq2uE8KPw64DA5GAQYPIfLc34KwUCS480IUcMsynwxdKzLl+cUpG9G8uG4j3xIcsEBFyC0xUwa/5uG9aVFtQ==
+ bh=EPYu+d0hS2dWk1uyC1s65OisnMfrj2++dwtJVa+aCE8=;
+ b=T0OU/lWwhDCp0Px9HTHGKA62kU6C9QoRsaHJJW6wQJoYFqqHE3g0ZTIrDcr5SRAhzCyO1bjGvY3GdUb+b6O639Ls9EjQWt5LES1wEAcT+3NnMMlNGnFnh9jzoQpW/pk44h6h4i2Y288UzfDrOBx1Y4Rgz2DOIYUYMlOFY66/aoTHgYmtyYou/DMovlHLOvJjhj1WVC93Sbk4ZAeCwVp5T98c9dHIPc6coYcyDVWCZNhXVh8Yz99ImerRZdjQhmknEgdpJoOcbNfJTSefBGTEoGznF9aenFTD/cTcSsijO3yYVjfPZbAgO/hMlIhxL6BaTaE1AC/9Ms1AYQbf5nUDQA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C8i25/r1A3CJUP+RYHwUzAtruOHIbOUXvtcgMc07oMs=;
- b=Kt5ZkBj1HG5/9LtvWit41778+AZ/ekUgoZSVrIcOD9gAz/BetO0BbJ5/VPnF5g8ClQbwoNQz+6etik2HFn9tWw/eLO50zvgCl//UIMwdH9PYDvbQgWM8WobGCjQkwjUf2eqMvPeuYAUY2Jmqc3oatHyb3okVhyb7wrQIjex6cSSbEgmkQ/B5AaYJbxnQeICwJOqlXHc7qC5d9ePQIDR/QRXZWOEWSvLdDTDEHl9anEyslWE6hx8HaXwp8woIPcQwh5ezz1+l2ZmZSjExVu+rNtYZEXSVt3NINqb7VBr/Kgy1kiDf7NZ/9oTkkysqt2Wk7XzLSRCUR/nCzuw0Yp2C8g==
+ bh=EPYu+d0hS2dWk1uyC1s65OisnMfrj2++dwtJVa+aCE8=;
+ b=cVLonwur65GENK3uX1pXuKu1ellRhZ6e7boPZ6YLltjaAIPRErpr4/dJcpQu9tiOH7314uJyLH3RFV16y8FMb5fC5ISUU0tgN0By9/kqqmYaSndTHBoJRW+RQfyx4KC8qIPE9PRfw9WInDi++i5cXDVIjEeVtAcqGT1+rNSzMB2jZrjcZtIHAvQhZ+JG5CtDoHg00cNS7LSjOmRq06DSFT9vyCNFVWwkidOGyGiHzs3GmfWuohKmku2IvLQhLTA3U0gh009NyfUoKCU4bXGUWdDsBKDjkDIzI0NEv9sHNvtYRsDNvG/rzCjiBHSRxDG+oa9iviszwOKHDQgVBUwCMQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
- by DS7PR12MB5816.namprd12.prod.outlook.com (2603:10b6:8:78::20) with
+ by SN7PR12MB6863.namprd12.prod.outlook.com (2603:10b6:806:264::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Sun, 8 Jan
- 2023 16:30:55 +0000
+ 2023 16:38:28 +0000
 Received: from DM6PR12MB5549.namprd12.prod.outlook.com
  ([fe80::451d:1f37:aa83:f425]) by DM6PR12MB5549.namprd12.prod.outlook.com
  ([fe80::451d:1f37:aa83:f425%6]) with mapi id 15.20.5986.018; Sun, 8 Jan 2023
- 16:30:55 +0000
-Message-ID: <506fe99b-d0c8-ba53-004b-b80ed1a118b1@nvidia.com>
-Date: Sun, 8 Jan 2023 18:30:44 +0200
+ 16:38:28 +0000
+Message-ID: <167fafe4-42d2-0990-94ce-c114f51307d8@nvidia.com>
+Date: Sun, 8 Jan 2023 18:38:16 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v5 03/14] migration: Simplify migration_iteration_run()
+Subject: Re: [PATCH v5 05/14] vfio/migration: Allow migration without VFIO
+ IOMMU dirty tracking support
 Content-Language: en-US
 To: Alex Williamson <alex.williamson@redhat.com>
 Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
@@ -66,77 +67,77 @@ Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
  Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
  Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
 References: <20221229110345.12480-1-avihaih@nvidia.com>
- <20221229110345.12480-4-avihaih@nvidia.com>
- <20230106105608.0d74a96c.alex.williamson@redhat.com>
+ <20221229110345.12480-6-avihaih@nvidia.com>
+ <20230106145658.51c8f071.alex.williamson@redhat.com>
 From: Avihai Horon <avihaih@nvidia.com>
-In-Reply-To: <20230106105608.0d74a96c.alex.williamson@redhat.com>
+In-Reply-To: <20230106145658.51c8f071.alex.williamson@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0628.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:294::6) To DM6PR12MB5549.namprd12.prod.outlook.com
+X-ClientProxiedBy: LO4P123CA0090.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:190::23) To DM6PR12MB5549.namprd12.prod.outlook.com
  (2603:10b6:5:209::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB5549:EE_|DS7PR12MB5816:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92ae1b1a-0e34-4e31-4acd-08daf195b703
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5549:EE_|SN7PR12MB6863:EE_
+X-MS-Office365-Filtering-Correlation-Id: eff9d67e-23de-406f-f31e-08daf196c4da
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: da/8kX0O8oQrRW7T8kSAMRYK6+3bmwjE1TBEYpDWz0qg5RgI/MaHz0BaaVIK7bHt0bogHURYfLZ8+VceeqY7c8oGDrwAzGGwrQ0K+xkgKkpZUMcXQjU/L9460hRFYTaY1vvqDCpNtZUXMgsRgffoD7YSMfeShfXvrQ3Ul/4qH3p6BfwC78p7KNFw3hP9EtNjMojkzYdDOdTLVUDiffzkbbF44lJDnBoNJ70cVGZ9jsIfoDuF4roTP2kH9I2e/htQL+JmLTYgfO0cgWWCvCmYUPpakBsY8/9HawxVe6av8/2R162nNeO/E+99hVHtLaoVPl9WjLHvGWZ8Rbz1tP93msKS/pT0cej3KhDDerrcYKf/0EcOOoCAILfDfW7jxmsfrw9xDEYI9+9er9wV22h1YivkfKGGkht6CUMCI+SAHtN1IFdwnAe9kV5t6RYeO2Crzn7+vOxG3yFeRS/ZRhLra2+XdqqAgTDshgth77321iUVvvd28uz4qbv6Xxh/c46F8rWWhGufKcWsoeudb0CuQ5pRwJcMz+7nGeVCexA4EM48Ux4T3VPvpgABMRXOA5yfElQwrx8Yb/x30BM1e5c0iSn11x8URrSpq2bAF2Z6PdXBELqtT6AQTOngjMqvUNz6ZVdIDl344DXvQB27I9S1fT+VnfPkUDdo60J/WYovAhLV6C19nQPEPkDMWafPOI2+46HERjbSfbUoLoPPX/qzkq5nNh90jn22dZNtqJwXy5F/h1JgOljvlnMZ/uJVABMz
+X-Microsoft-Antispam-Message-Info: 7aju8rseUJXuKkupSqqqsxLQYpeuec8yNVo9mfNwjxdQNujN5icqsiyz8A0BmqDL8NXgmZPZBqtooHOC8D2MRuY/bM5Te3qpHlbH/YAEWbknR9VPFf1jAMAwHUmnv9ZlhS8Zu8eNMNOZl9QImmu1jV0CV/VuxHZyQju+KhAIhoPZZguE5ESxP0WYEZv83iBM2C1qtbGsAj6jIYPtsm/DeG7QGMm3G7KZqflXCu1DHCD6PfKqn9DnqmUTfmDfylcqKn5v6f8MYSF83nlmxsR66FwGZA4YMF2smZk2gQvv81TqSoQ/HcoLeo27ip99ZfGnqj/CFVvnMyyMDTphZi8rQMLMDf/yrj7cBkVhH8zG+WHS+YSI0caEqFFMpLxlXTDfeJ8J1yNhdrf5UOCgRufEiEMN+djSYwe72MrVPMYC5HaQ9gCv8gSkRD2wol+PobaBPZXUJW3aX8n7mlySBHX6EeGk/ZIdpmwX6qmHvakzwXNft1snX8pGC6HL0X8anHooCDrj0P8EF7R6tjjXGtCitwzsHbSGs1aYYHMie8PzUJGo8Uf+QuDWStdEWcsxI/IfwYJ2biRBkhoAChoFGwH8tcxJWlfXq4KiSOO/+smUPDU2dspYvn8wVtx6gL0hC435PI+1ZjXDhRVb1z4q5T5WKn6tj4ewqktiNYcadPDsa0+zK5nVlfos4uZ5cyaNE2/VJsioesip3LH68WKZUlVn7IWy2k5dg1p+58sJmtCswxBOLAWFQjbIjXdc2OBmWUzB4UlFu4msArpq3f5nWKNxRSDJRY4mMPraU3oLNYyfsgo=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(366004)(136003)(396003)(376002)(346002)(451199015)(316002)(5660300002)(7416002)(6512007)(26005)(186003)(6486002)(966005)(478600001)(2616005)(31696002)(41300700001)(66476007)(54906003)(4326008)(66946007)(66556008)(6916009)(8676002)(83380400001)(8936002)(86362001)(36756003)(6666004)(53546011)(31686004)(6506007)(38100700002)(2906002)(43740500002)(45980500001);
+ SFS:(13230022)(4636009)(39860400002)(366004)(136003)(396003)(376002)(346002)(451199015)(316002)(5660300002)(7416002)(6512007)(26005)(186003)(6486002)(966005)(478600001)(2616005)(31696002)(41300700001)(66476007)(54906003)(4326008)(66946007)(66556008)(6916009)(8676002)(83380400001)(8936002)(86362001)(36756003)(6666004)(53546011)(31686004)(6506007)(38100700002)(2906002)(14143004)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDFPeEV6Nng1OTI2M0pYeCtZVVBDMkFyN1ZKbmlOZ2VacmdqK2ZGTGJTb2xW?=
- =?utf-8?B?UUt0bkttcy9haXVBUmFVSzkva1grL1c1M3QyekZZc042UWljeVBOMDFlRUlL?=
- =?utf-8?B?RisyS3RkTlV2aStFaHBZOXg5Q0hwUUlPWTNwdTlUNm9ONUc4UXBtZ0lNbUFJ?=
- =?utf-8?B?QXlHdkJKVXp3clRkcWtiV01ZMk5oM3BaYjY2cGNnem9kTWl3dXlUMmZSRHFU?=
- =?utf-8?B?TFJYQ3BiSmhrNS9zTTVvM2lCN0xnckd1T0h2YTRJUllPZFBidnVLeUgzbitJ?=
- =?utf-8?B?UThDbFhuWk1TRTdiRUY3eXd0eXZDbTFrRElQcndpcWNZZ1QrU2k1SkZBS3d2?=
- =?utf-8?B?WXZIN25lU1cwblpvcmRKdWJUMGRMdGxNeVRzM2VZcGpsalZ4S0k4UlZHY3Ew?=
- =?utf-8?B?T25sdHZVZFp6blhYSnVKU281blcyTks4TmhjbHNaTHl4WGFnOVZ4RHZndlNJ?=
- =?utf-8?B?SkxXWjMvdlZNd2NVSnhHdjh2VmNvY29jVWQ4RXdSczVrWmZXd05Fd0VSbDBH?=
- =?utf-8?B?bG5mK3h0aU5IcE83M1NKZ0p2a2FPempyeUNvSjY4V0o2Q05QemN4VUk4eHgw?=
- =?utf-8?B?TDlKNUFIV2tpRmhLcFJ4VWh0MHFTTG9ITFcxbFR4WGNuaytBS1Z1aktKYi9S?=
- =?utf-8?B?eGhHMXB1WlpsZ2FLeHYzRjEyUXhua2tCSjRPajdKMFY1L0t1OWtMWDVhT2VQ?=
- =?utf-8?B?V3BEcGRnNVhmUnhDdVFMTWh3LzlmcWZjTWtCSkV6bmtER1dMclRKUmxhaGNV?=
- =?utf-8?B?QjFDNDFScDFZbUlweTFrVHNZNUVwL0dsdHBIc1lOMGFENThEajBOeGx0YS9R?=
- =?utf-8?B?ZmtNcForYmpWLy92aE1JK0hncmRXOXhXU3F5WlBMSDBDNUxwS3JIdWxNeVh3?=
- =?utf-8?B?T2hKQjZNNEFJUkxqRzVVTnFCTk5uS3l0QTlUME4yV0FiQ0RuQnRqWlFxYm1B?=
- =?utf-8?B?cDNZL2g0MWJHRmVIVHNzSDNqYTR1YTFXZjhadFcxQ3NLMk1HYVVqMVhJUW5h?=
- =?utf-8?B?UHlGUE5aekJCZnpxa1liUFVHeE8wTWU5WFdzdVRVSUhsUVAzSmRoYVRFYlg4?=
- =?utf-8?B?VFdTMzNjMTN3MTFuU2dXSW0xbmQ1K3pYaWF6aEdGbm9VaFV6MUdXM1gxYmw2?=
- =?utf-8?B?YmNrS1RBSHg1am9LdFQ4bm9tdXRXd2NRUTVXbjkySmZOV2NGb3h1eGg3VGhr?=
- =?utf-8?B?VXBEZnJxN096YTBtcWs3N3o3QUdPY0xyVXlFNXUwUkZ1bVlYK1o0N0NqeVkz?=
- =?utf-8?B?bGVHclpNZGZZUS9yZWtDamVPNHo3YmZnWEN3SG5FM3YzUXQ0ZFppWXp4dHEr?=
- =?utf-8?B?VjZ2V1dIMmJ6YkFhWFVXZ0xYY285VU02SDJkRlVwa0ZsZklibkoyMjdmNUdL?=
- =?utf-8?B?TTJadzM3SWlyUUM3S2RsRUhNWm13eWd6bk1Xc3A3VnAwREJrRU1SSDh3bFJT?=
- =?utf-8?B?bEk5ckFyNm1iVmlGM1hmVVIwK1FhUGRGNFptaUZuSEtNclhMTHp5anBCN0ty?=
- =?utf-8?B?cWFMSmNzejRxNEJ4OGJ2NXJNSTljSVlFQkFXUHExMWY2TlJ3QW55c0JGNGNU?=
- =?utf-8?B?K0FQNERMTWIrMk56RFZmbFloM3g1Z2ExekxmTlIra0xIZnNObmhFekE3NFg1?=
- =?utf-8?B?SnIvalNzL1VLM1dlVHIzdkxIbWZ6V2xJNmZnaXRib2JCa3hxUE5tUVJGbUpu?=
- =?utf-8?B?MnFIT1FoOCtQOTRHYi85RlpJeGxYQm5kbjhRUk5WS1d1cThKaDh6QkVkY3dP?=
- =?utf-8?B?TU5uZ2YrM3lkOUtHZEJRQnR6N0xycDRBZm4vYkZybG9lYmtvenMyYVZUS2xp?=
- =?utf-8?B?WTFhVDhEUmMyUGJkNHVMcy9FKytjL1FtZkdqYk0wb1hBZ0ZOZmFRcmd6TDJQ?=
- =?utf-8?B?ZUZxakk5OVBvd01yS1BobGFFSVROWHpraE9uNXh1TndsOHZjaGhtWFIwMmFn?=
- =?utf-8?B?RXBLWmFkZ1FRSjZlZlZqVnF1UGxrK1RvYzFLS0ovdTdvRTNzQzI0KzREUHF2?=
- =?utf-8?B?bE1iZXZ4YS9qSXhMNUpBaC9CSGlEYjFhVDhhbmhWTU05a013RnFHV0pPdHR3?=
- =?utf-8?B?dWk3cG5HMnZ4eDdxQ2lwTTNUM0RBaThWOEh3T0tRV0dHTW5janZndHV0WTNs?=
- =?utf-8?Q?OSkGKgxCcdxBlFetDoKrhdA4l?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bzJkalhwNWdKcXRVVEtHSWFrd1NRTWgrTHNmbUJNWXAyc0JhK1BJZmFqWnJh?=
+ =?utf-8?B?Z1VBR2pwVzFVMWEzK3lJMXY1ZGZTaGNzSlFNc0hjekxnL1lkTk5sR2hLbzVs?=
+ =?utf-8?B?SWt0cDlHZlRUQzF6K1hkcmE0TEZEc3ZBUE5jeTRrUmJUYmpaV3ZOVGNDbjJl?=
+ =?utf-8?B?Y3pBQ2J0cU1xTXNkeHh1cEU1ck1ZcElPb1ZrSDJzdFlDeW1WY2E1eGppQXpm?=
+ =?utf-8?B?bVYrY3ZLN1NBWURtZ3MrRWJ5YzlQSmxWYWt1VkhvTUM3cUlZYUJWR2Q3dkJj?=
+ =?utf-8?B?akUzVWJVSTF4eS9DN25lMk9MS2xOUEEwNGVUeUtvODE3L3lWNWtZa0NMS1dy?=
+ =?utf-8?B?eXdxbW5QV0lKLzl3U0RKN1hHeTljdHRrOXlzdE9vMThLZldMMlRRZnRYWEo1?=
+ =?utf-8?B?cy96YnZyazVQY0pxVmE5TmVuR2kyTDg5WWU1Z3doT3k4RUUvdXNiWWJlVFZi?=
+ =?utf-8?B?QmkzS3NqZTllekJCQjFXNjlqbWFxN3ZzYnFsOThIbzl5RFl6NjAzVC9PQkhL?=
+ =?utf-8?B?R0NzZW1nRk5QTS81Q1ZTTUZhYU1UWC96MS9TWkxDc3VNdC9sR3pJUVZmNUJM?=
+ =?utf-8?B?MHNoSytXaVY0cUlrNGVjSFRad2N0MUQ2S2ZFenB1WnFTWEdXQ21oNHJvcG1W?=
+ =?utf-8?B?UmhaUnVtRTA0bUFnOUhxNzdZTXI1NDljYmh6aW14YlpSaUo0dVpMeGhrdTM5?=
+ =?utf-8?B?bU8xalRaTFU0MVV4MDF3emdqR0V5UVRsNXQrdzZvUFB0Tmo5aUFWZ0NFdThT?=
+ =?utf-8?B?MzkrQ2tPY1hmaytCRDhhNzk3em45T1R6aVNwOFB6aWsxVFgyeHRtVzVGL2tw?=
+ =?utf-8?B?b3N2cHVjZnQrWmEycW8rU0JSbUdTM1I0RHhzTTJvdFFDcVY1aGV3UTFQRlNW?=
+ =?utf-8?B?UGF6ZVllQ1FwMXQ2MjhCbVRXSng4cG1qa1JSc3Nmc3EzT3pXdWsvVE14Qm92?=
+ =?utf-8?B?NDlLZWJFeXJXZEY1R3RCcmFRNTlCWnovWWpERTZySkRZRTA3LzhOZXNXTkpp?=
+ =?utf-8?B?Y0pkT1oxYW1yY1hqd0JCZTFPM2gwMWtXRVFONW9FZUV4SEF0b3lyUG55R2ZV?=
+ =?utf-8?B?NDZtTzZjQkp0ckpKRjhMWkxmUkZYbllxZS9Xck1kQTV3Qk8ycGlFTTNhNm9a?=
+ =?utf-8?B?SDFNVUFCYW9BNEQxeFFXTlc2ZWFXM1hUNGhxZnN6Y0RtcGdTYTQ1cWcvNUU3?=
+ =?utf-8?B?ZHFwOGRsVElTTFdyOFM1ak9zWnViQVdQbW9IcXJMMk1JdGgwdm1kMndhem5Y?=
+ =?utf-8?B?V0pjOElkL0FKaVhrTTJyaEJ0NWExczZSM0MyZGh2cElqbTI2R05YUWxlSjhu?=
+ =?utf-8?B?eFJHY1JUQjFlbklQdjVrR1NDVmowbFRCbDlueXJJUUNpR1JBYVdubHl3ZG4x?=
+ =?utf-8?B?VVhidFR0ZG5MNVZhRGV1eVJZcGRvMDl0dXFBMGFDTHl0WlRWOGdKd1ZrRUpw?=
+ =?utf-8?B?YnVEcUZQMGdYbHV1NGpBaTg2ZXU5V2lHVjU5MFhCR2pyVkRIQlY4dWtKVks1?=
+ =?utf-8?B?dUdNeUxVUCs0bGh1MXZpcVZmSG5lOWFoNVJ3ZWVzZ2FNdHFyOGU4U0hFR1Vy?=
+ =?utf-8?B?Z0F4V0xLVlllQnVwampEUlpGK211V2IybjR5ZkVCdURjZ2RueGhocXM5U3lN?=
+ =?utf-8?B?S2R5VWNhWll0bmN0QmFwbk0vem1KTGFCN296RTUwM1BHTVpHenIyN0Ryc05X?=
+ =?utf-8?B?R2xWZjB3WkNvWG1wQUVQNzBHbUM0MC8yWjVUbWgrRkFnQ3ZITTgyUzNzbXd2?=
+ =?utf-8?B?Z2h5Q2g1cmc3Nm93dGg4ZngxR1RBdEE4UVI0TnNMNjhCUkY4YkYraTdudUtm?=
+ =?utf-8?B?Y0lqbitsMnpDRGs2Z1lQQWFVdW41WWlnVXNCMmF3U0Y4Y3dKd1I1YmN3cXp3?=
+ =?utf-8?B?NnZZMkV0OFlmMTd1RkNoSmdTS09abXEya2xhemVxTGdxTnphRHRJWThXaHU4?=
+ =?utf-8?B?MXB1M3RtZU9tWXJ5akhSMnVFQTRpUUNJYmRObGVPMDFTUVFSVzNvQTY0Rmgv?=
+ =?utf-8?B?UHhrdXpCbFdZcit1VjAzemp4MFdVSDVjUyt5dlplSHM2ZE8wT1BhRlJLQUQv?=
+ =?utf-8?B?cFFHcGRLdTlXR1ljeGlHNEJEcmFBWmdxNlBaYUNZSFJONXRuRG9EM2xqLzBr?=
+ =?utf-8?Q?UTnjbYqBBXDWPMcZiM5uydP6U?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92ae1b1a-0e34-4e31-4acd-08daf195b703
+X-MS-Exchange-CrossTenant-Network-Message-Id: eff9d67e-23de-406f-f31e-08daf196c4da
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2023 16:30:55.3119 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2023 16:38:27.9074 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JmIZyKQCSlTV3Vmp4l3u2zKuMAKEf3zTMMaf6isqhorBcEDBzT5EC0lr6vgBFbkWkRK9gR4XICM9/+nroqmY9A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5816
-Received-SPF: permerror client-ip=40.107.223.60;
+X-MS-Exchange-CrossTenant-UserPrincipalName: i5sXPIabx4Pq4vU8Oj4g0dt9Cy3vv3bcNNjF0agAaS/Ze12NDSYrGAWd3TX8j+NmYJ32fYRIVcuATKaYcUhiyA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6863
+Received-SPF: permerror client-ip=40.107.220.64;
  envelope-from=avihaih@nvidia.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -160,86 +161,265 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On 06/01/2023 19:56, Alex Williamson wrote:
+On 06/01/2023 23:56, Alex Williamson wrote:
 > External email: Use caution opening links or attachments
 >
 >
-> On Thu, 29 Dec 2022 13:03:34 +0200
+> On Thu, 29 Dec 2022 13:03:36 +0200
 > Avihai Horon <avihaih@nvidia.com> wrote:
 >
->> From: Juan Quintela <quintela@redhat.com>
-> IMHO, there should always be a commit log description.  Why is this a
-> simplification?
-
-Yes. It just rephrases the condition so we can drop the else {}.
-
->    What does it allow us to do?  Nothing later obviously
-> depends on this, why is it part of this series?
-
-Right.
-This is part of Juan's RFC [1].
-Eventually we didn't need the RFC because of the new MIG_DATA_SIZE ioctl.
-Since Juan already did this work, I thought I might as well take some of 
-these patches.
-
-I will simply drop it in next version.
-If a real need to simplify this if else condition arises in the future, 
-it can be done then.
-
-Thanks.
-
-[1] 
-https://lore.kernel.org/qemu-devel/20221003031600.20084-1-quintela@redhat.com/
-
->    Thanks,
->
-> Alex
->
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> Currently, if IOMMU of a VFIO container doesn't support dirty page
+>> tracking, migration is blocked. This is because a DMA-able VFIO device
+>> can dirty RAM pages without updating QEMU about it, thus breaking the
+>> migration.
+>>
+>> However, this doesn't mean that migration can't be done at all.
+>> In such case, allow migration and let QEMU VFIO code mark the entire
+>> bitmap dirty.
+>>
+>> This guarantees that all pages that might have gotten dirty are reported
+>> back, and thus guarantees a valid migration even without VFIO IOMMU
+>> dirty tracking support.
+>>
+>> The motivation for this patch is the introduction of iommufd [1].
+>> iommufd can directly implement the /dev/vfio/vfio container IOCTLs by
+>> mapping them into its internal ops, allowing the usage of these IOCTLs
+>> over iommufd. However, VFIO IOMMU dirty tracking is not supported by
+>> this VFIO compatibility API.
+>>
+>> This patch will allow migration by hosts that use the VFIO compatibility
+>> API and prevent migration regressions caused by the lack of VFIO IOMMU
+>> dirty tracking support.
+>>
+>> [1]
+>> https://lore.kernel.org/kvm/0-v6-a196d26f289e+11787-iommufd_jgg@nvidia.com/
+>>
 >> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 >> ---
->>   migration/migration.c | 25 +++++++++++++------------
->>   1 file changed, 13 insertions(+), 12 deletions(-)
+>>   hw/vfio/common.c    | 100 ++++++++++++++++++++++++++------------------
+>>   hw/vfio/migration.c |   3 +-
+>>   2 files changed, 61 insertions(+), 42 deletions(-)
 >>
->> diff --git a/migration/migration.c b/migration/migration.c
->> index 9795d0ec5c..61b9ce0fe8 100644
->> --- a/migration/migration.c
->> +++ b/migration/migration.c
->> @@ -3758,23 +3758,24 @@ static MigIterateState migration_iteration_run(MigrationState *s)
->>       trace_migrate_pending(pending_size, s->threshold_size,
->>                             pend_pre, pend_compat, pend_post);
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index 130e5d1dc7..67104e2fc2 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -397,51 +397,61 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+>>                                    IOMMUTLBEntry *iotlb)
+>>   {
+>>       struct vfio_iommu_type1_dma_unmap *unmap;
+>> -    struct vfio_bitmap *bitmap;
+>> +    struct vfio_bitmap *vbitmap;
+>> +    unsigned long *bitmap;
+>> +    uint64_t bitmap_size;
+>>       uint64_t pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
+>>       int ret;
 >>
->> -    if (pending_size && pending_size >= s->threshold_size) {
->> -        /* Still a significant amount to transfer */
->> -        if (!in_postcopy && pend_pre <= s->threshold_size &&
->> -            qatomic_read(&s->start_postcopy)) {
->> -            if (postcopy_start(s)) {
->> -                error_report("%s: postcopy failed to start", __func__);
->> -            }
->> -            return MIG_ITERATE_SKIP;
->> -        }
->> -        /* Just another iteration step */
->> -        qemu_savevm_state_iterate(s->to_dst_file, in_postcopy);
->> -    } else {
->> +
->> +    if (!pending_size || pending_size < s->threshold_size) {
->>           trace_migration_thread_low_pending(pending_size);
->>           migration_completion(s);
->>           return MIG_ITERATE_BREAK;
->>       }
+>> -    unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
+>> +    unmap = g_malloc0(sizeof(*unmap) + sizeof(*vbitmap));
 >>
->> +    /* Still a significant amount to transfer */
->> +    if (!in_postcopy && pend_pre <= s->threshold_size &&
->> +        qatomic_read(&s->start_postcopy)) {
->> +        if (postcopy_start(s)) {
->> +            error_report("%s: postcopy failed to start", __func__);
->> +        }
->> +        return MIG_ITERATE_SKIP;
+>> -    unmap->argsz = sizeof(*unmap) + sizeof(*bitmap);
+>> +    unmap->argsz = sizeof(*unmap);
+>>       unmap->iova = iova;
+>>       unmap->size = size;
+>> -    unmap->flags |= VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP;
+>> -    bitmap = (struct vfio_bitmap *)&unmap->data;
+>>
+>> +    bitmap_size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+>> +                  BITS_PER_BYTE;
+>> +    bitmap = g_try_malloc0(bitmap_size);
+>> +    if (!bitmap) {
+>> +        ret = -ENOMEM;
+>> +        goto unmap_exit;
 >> +    }
 >> +
->> +    /* Just another iteration step */
->> +    qemu_savevm_state_iterate(s->to_dst_file, in_postcopy);
->>       return MIG_ITERATE_RESUME;
+>> +    if (!container->dirty_pages_supported) {
+>> +        bitmap_set(bitmap, 0, pages);
+>> +        goto do_unmap;
+>> +    }
+>> +
+>> +    unmap->argsz += sizeof(*vbitmap);
+>> +    unmap->flags = VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP;
+>> +
+>> +    vbitmap = (struct vfio_bitmap *)&unmap->data;
+>> +    vbitmap->data = (__u64 *)bitmap;
+>>       /*
+>>        * cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
+>>        * qemu_real_host_page_size to mark those dirty. Hence set bitmap_pgsize
+>>        * to qemu_real_host_page_size.
+>>        */
+>> +    vbitmap->pgsize = qemu_real_host_page_size();
+>> +    vbitmap->size = bitmap_size;
+>>
+>> -    bitmap->pgsize = qemu_real_host_page_size();
+>> -    bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+>> -                   BITS_PER_BYTE;
+>> -
+>> -    if (bitmap->size > container->max_dirty_bitmap_size) {
+>> -        error_report("UNMAP: Size of bitmap too big 0x%"PRIx64,
+>> -                     (uint64_t)bitmap->size);
+>> +    if (bitmap_size > container->max_dirty_bitmap_size) {
+>> +        error_report("UNMAP: Size of bitmap too big 0x%"PRIx64, bitmap_size);
+>>           ret = -E2BIG;
+>>           goto unmap_exit;
+>>       }
+>>
+>> -    bitmap->data = g_try_malloc0(bitmap->size);
+>> -    if (!bitmap->data) {
+>> -        ret = -ENOMEM;
+>> -        goto unmap_exit;
+>> -    }
+>> -
+>> +do_unmap:
+>>       ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap);
+>>       if (!ret) {
+>> -        cpu_physical_memory_set_dirty_lebitmap((unsigned long *)bitmap->data,
+>> -                iotlb->translated_addr, pages);
+>> +        cpu_physical_memory_set_dirty_lebitmap(bitmap, iotlb->translated_addr,
+>> +                                               pages);
+>>       } else {
+>>           error_report("VFIO_UNMAP_DMA with DIRTY_BITMAP : %m");
+>>       }
+>>
+>> -    g_free(bitmap->data);
+>>   unmap_exit:
+>> +    g_free(bitmap);
+>>       g_free(unmap);
+>>       return ret;
 >>   }
+>> @@ -460,8 +470,7 @@ static int vfio_dma_unmap(VFIOContainer *container,
+>>           .size = size,
+>>       };
+>>
+>> -    if (iotlb && container->dirty_pages_supported &&
+>> -        vfio_devices_all_running_and_saving(container)) {
+>> +    if (iotlb && vfio_devices_all_running_and_saving(container)) {
+>>           return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
+>>       }
+> Seems like it would be simpler to follow the non-dirty_pages_supported
+> path here and follow-up with a condition to call
+> cpu_physical_memory_set_dirty_range() rather than try to make the
+> bitmap path serve double-duty.
+
+Nice, I wasn't aware of cpu_physical_memory_set_dirty_range().
+It really simplifies things. I will change it.
+
+>> @@ -1201,6 +1210,10 @@ static void vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
+>>           .argsz = sizeof(dirty),
+>>       };
+>>
+>> +    if (!container->dirty_pages_supported) {
+>> +        return;
+>> +    }
+>> +
+>>       if (start) {
+>>           dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
+>>       } else {
+>> @@ -1231,11 +1244,26 @@ static void vfio_listener_log_global_stop(MemoryListener *listener)
+>>   static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+>>                                    uint64_t size, ram_addr_t ram_addr)
+>>   {
+>> -    struct vfio_iommu_type1_dirty_bitmap *dbitmap;
+>> +    struct vfio_iommu_type1_dirty_bitmap *dbitmap = NULL;
+>>       struct vfio_iommu_type1_dirty_bitmap_get *range;
+>> +    unsigned long *bitmap;
+>> +    uint64_t bitmap_size;
+>>       uint64_t pages;
+>>       int ret;
+>>
+>> +    pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
+>> +    bitmap_size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+>> +                                  BITS_PER_BYTE;
+>> +    bitmap = g_try_malloc0(bitmap_size);
+>> +    if (!bitmap) {
+>> +        return -ENOMEM;
+>> +    }
+>> +
+>> +    if (!container->dirty_pages_supported) {
+>> +        bitmap_set(bitmap, 0, pages);
+>> +        goto set_dirty;
+>> +    }
+> Same here, why are we bothering to allocate and mark a bitmap dirty
+> just to appease code we don't need instead of:
+>
+>          if (!container->dirty_pages_supported) {
+>                  cpu_physical_memory_set_dirty_range(...)
+>                  return 0;
+>          }
+
+I will change here as well.
+
+Thanks!
+
+> Thanks,
+> Alex
+>
+>> +
+>>       dbitmap = g_malloc0(sizeof(*dbitmap) + sizeof(*range));
+>>
+>>       dbitmap->argsz = sizeof(*dbitmap) + sizeof(*range);
+>> @@ -1250,15 +1278,8 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+>>        * to qemu_real_host_page_size.
+>>        */
+>>       range->bitmap.pgsize = qemu_real_host_page_size();
+>> -
+>> -    pages = REAL_HOST_PAGE_ALIGN(range->size) / qemu_real_host_page_size();
+>> -    range->bitmap.size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+>> -                                         BITS_PER_BYTE;
+>> -    range->bitmap.data = g_try_malloc0(range->bitmap.size);
+>> -    if (!range->bitmap.data) {
+>> -        ret = -ENOMEM;
+>> -        goto err_out;
+>> -    }
+>> +    range->bitmap.size = bitmap_size;
+>> +    range->bitmap.data = (__u64 *)bitmap;
+>>
+>>       ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
+>>       if (ret) {
+>> @@ -1268,13 +1289,13 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+>>           goto err_out;
+>>       }
+>>
+>> -    cpu_physical_memory_set_dirty_lebitmap((unsigned long *)range->bitmap.data,
+>> -                                            ram_addr, pages);
+>> +set_dirty:
+>> +    cpu_physical_memory_set_dirty_lebitmap(bitmap, ram_addr, pages);
+>>
+>> -    trace_vfio_get_dirty_bitmap(container->fd, range->iova, range->size,
+>> -                                range->bitmap.size, ram_addr);
+>> +    trace_vfio_get_dirty_bitmap(container->fd, iova, size, bitmap_size,
+>> +                                ram_addr);
+>>   err_out:
+>> -    g_free(range->bitmap.data);
+>> +    g_free(bitmap);
+>>       g_free(dbitmap);
+>>
+>>       return ret;
+>> @@ -1409,8 +1430,7 @@ static void vfio_listener_log_sync(MemoryListener *listener,
+>>   {
+>>       VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+>>
+>> -    if (vfio_listener_skipped_section(section) ||
+>> -        !container->dirty_pages_supported) {
+>> +    if (vfio_listener_skipped_section(section)) {
+>>           return;
+>>       }
+>>
+>> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+>> index 09fe7c1de2..552c2313b2 100644
+>> --- a/hw/vfio/migration.c
+>> +++ b/hw/vfio/migration.c
+>> @@ -860,11 +860,10 @@ int64_t vfio_mig_bytes_transferred(void)
+>>
+>>   int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
+>>   {
+>> -    VFIOContainer *container = vbasedev->group->container;
+>>       struct vfio_region_info *info = NULL;
+>>       int ret = -ENOTSUP;
+>>
+>> -    if (!vbasedev->enable_migration || !container->dirty_pages_supported) {
+>> +    if (!vbasedev->enable_migration) {
+>>           goto add_blocker;
+>>       }
 >>
 
