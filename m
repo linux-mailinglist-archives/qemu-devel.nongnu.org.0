@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142346631B4
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 21:43:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7836F6631E7
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 21:54:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEyyo-0006po-01; Mon, 09 Jan 2023 15:42:50 -0500
+	id 1pEz9A-0003VL-IN; Mon, 09 Jan 2023 15:53:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pEyyb-0006ln-M8
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:42:37 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pEz97-0003V9-QB
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:53:29 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pEyya-0002ug-5v
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:42:37 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id i9so14441604edj.4
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 12:42:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pEz95-0003aH-Rc
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:53:29 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id hw16so11456118ejc.10
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 12:53:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+vQGjzzE/CoQGB/cMKXGEyC0JB45XYFEg3Frz9/9KeA=;
- b=LxeU3+VlURFV7LhvgwXwPleDT7kC1hnyGde0ho2Z+FISDz1m2eqBSx4LUlorGhjd4e
- 6QUDY3J+h8GX/k2V7oX0XJlUHXNSceTZqF4fi801tsjA7LO/Bme05XgiO/gtXK91/DPp
- d3GNcSYbYGPBx05zKUpnDWLkTmooMO0VrMiC9Lk0kh8EWOWROkbXfsUjCIfSuPq0idx5
- L2RYZp5XD3neb4oG3AUBkG7z1H9Qu/sNmtBO5WwUwIGb0yQDR0Pmn1rqDF5LcJN3VVnr
- VRTgDi1ymeE4A62gCtFAud0uXoeFKuSZKEV4pYUw6qC0xbN+UG1vV4EBIiYtCtSFVC85
- XATw==
+ bh=u6CN5d6InxkbtHD4ozSf7YOwTNRGsYLNUWZ1vrPHjTo=;
+ b=AT1UFHclJkJNzGXPCyVoyl4cwgnxCUSk55Jcp0BnOyViTtb2Q8SILQKm3xMpUzZK0O
+ l4Tz7JgdTvLixoskFAFTCaRzKgyw3vhSyb8sbzX/TU3l80Q/E83jRtqVbBNUCf7QSDC0
+ F/YzdP8zMMulWqpWBBdurDki6rNhAQTVBoN2LQ/j2RapnJxEDQ+rEcGB51CMO3h2b8sF
+ uurRKTVKtB+hTcaxLLIO6FSRt+y3dSFOfc8jW3y3LEGlsH9JCSDBHnCkjCgF2qlwd3KB
+ 1euCSjKO3564k8vW5EU/H77gaZmxVL8zHaqtGXqXgBXmz5kN/xahvJt1IHCppHUmt29x
+ B+vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+vQGjzzE/CoQGB/cMKXGEyC0JB45XYFEg3Frz9/9KeA=;
- b=tSIZffPapEv33EpTOfY1ToWu+p9EbNXuXkEZUIKgX1tO5rc2e+vCeN3xa8VDVdcMwJ
- agWjyhvhkOd/kb0P24XMCAWWAkYAjsM8SU2ORiLXpWYL+/yGbklRYnzx5vvmxnFy5JJG
- b3S+PhufF6KcfkYnHOlSKVyjfwvGInSnS9vUYa7a3IClWPxd7e9KEJMDF+kwa3ww7XVk
- DfbXP7sJ7TOp71AbT5PA6CF54uZe5v7lXaS1p1R91vCnbhxLhUKa6LTB15EyqSiVi70U
- 6xFECQGwRfAYIp+AlNVl8MttIhlgmjKKrw9SgfCgwYyBhkjMIMgGbmqkXmHjJ6P3lldA
- tdDQ==
-X-Gm-Message-State: AFqh2kr98I25Xuu8jvsPK0nREULbgFF8iIa9fQOaUDRfm10SPqHWgJp6
- YRjoMZdMec9QpP+ymntZF5dDKXgwiJQ=
-X-Google-Smtp-Source: AMrXdXtk7os9d0BXMP0hedZaugN96cSMRUXw3tiT3jDANDi+cVoen78ZsEEEiK7EKSp/O0kqaTKHJw==
-X-Received: by 2002:aa7:d61a:0:b0:499:376e:6b2d with SMTP id
- c26-20020aa7d61a000000b00499376e6b2dmr7889372edr.0.1673296954653; 
- Mon, 09 Jan 2023 12:42:34 -0800 (PST)
-Received: from localhost.localdomain (ip-185-104-138-30.ptr.icomera.net.
+ bh=u6CN5d6InxkbtHD4ozSf7YOwTNRGsYLNUWZ1vrPHjTo=;
+ b=E2vkmK/hvJRU2gg3lBE82qFB2yPrZTO8poL9NSxlJ/5DGz4dG+jddJ0PlAVR/fiMde
+ qryPypfzj0aewvzhhtAt5ix316BFezQOMgMSbX7CTd1uZJckovDWIUNbKlEVzh+mwh6n
+ rJFEBvt0XWMroFiXtWuWbmop34Vyulb72tAJ5uhdIukr87t8BDzjNCJ69hdF2Aw4hvdL
+ xSwy9ZhyoE0+2PG2eItaKPqY3v+hPpGkMCGXso4gE/bNte/J/sB5YyYCT5/DxfxxNypZ
+ uLaIlt+jv76DvsYuUaoXeT6yQQsvmUWKEuwPx3j5nUTcouak0m45XnWupHFfLedXiHfX
+ wIXg==
+X-Gm-Message-State: AFqh2kpj+/bdeFWJkDAOvJGcHjgEH4EeL7JjjZx+afBsFvtzrOiY909a
+ 6XSTw4XB+W02g1hH+g9v2Ng=
+X-Google-Smtp-Source: AMrXdXv4+oaUn8qO1zqjPFnXyc0q4UNamKRp2FjDWzpf0T2/1P/HFkv8NGUZzbcjZKB1Ers3zu+Ung==
+X-Received: by 2002:a17:906:3f86:b0:7c1:765:9cfc with SMTP id
+ b6-20020a1709063f8600b007c107659cfcmr59051967ejj.34.1673297606070; 
+ Mon, 09 Jan 2023 12:53:26 -0800 (PST)
+Received: from [127.0.0.1] (ip-185-104-138-30.ptr.icomera.net.
  [185.104.138.30]) by smtp.gmail.com with ESMTPSA id
- ca20-20020aa7cd74000000b0046267f8150csm4078018edb.19.2023.01.09.12.42.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 12:42:34 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 4/4] hw/mips/Kconfig: Move device selections to respective
- boards
-Date: Mon,  9 Jan 2023 21:41:24 +0100
-Message-Id: <20230109204124.102592-5-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230109204124.102592-1-shentey@gmail.com>
-References: <20230109204124.102592-1-shentey@gmail.com>
+ ti11-20020a170907c20b00b007c10bb5b4b8sm4099302ejc.224.2023.01.09.12.53.25
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 09 Jan 2023 12:53:25 -0800 (PST)
+Date: Mon, 09 Jan 2023 20:53:23 +0000
+From: B <shentey@gmail.com>
+To: Thomas Huth <thuth@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Paolo Bonzini <pbonzini@redhat.com>, Michael S Tsirkin <mst@redhat.com>,
+ qemu-devel@nongnu.org
+CC: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_4/6=5D_hw/rtc/mc146818rtc=3A_Add_a_prope?=
+ =?US-ASCII?Q?rty_for_the_availability_of_the_slew_tick_policy?=
+In-Reply-To: <045df8de-c9c4-b68c-29f6-1893724574e4@redhat.com>
+References: <20230103084801.20437-1-thuth@redhat.com>
+ <20230103084801.20437-5-thuth@redhat.com>
+ <1bd2f34b-2364-1ce7-a3f4-946e76594344@ilande.co.uk>
+ <045df8de-c9c4-b68c-29f6-1893724574e4@redhat.com>
+Message-ID: <2B09B877-6814-467D-8102-CF10A3CB9466@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52c.google.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,94 +101,180 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Allows to see more easily which board has which devices.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- configs/devices/mips-softmmu/common.mak      |  7 -------
- configs/devices/mips64el-softmmu/default.mak |  3 ---
- hw/mips/Kconfig                              | 12 ++++++++++++
- 3 files changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
-index d1cfe16b81..4e535e2246 100644
---- a/configs/devices/mips-softmmu/common.mak
-+++ b/configs/devices/mips-softmmu/common.mak
-@@ -7,17 +7,10 @@ CONFIG_ISA_BUS=y
- CONFIG_PCI=y
- CONFIG_PCI_DEVICES=y
- CONFIG_VGA_ISA=y
--CONFIG_VGA_MMIO=y
- CONFIG_VGA_CIRRUS=y
- CONFIG_VMWARE_VGA=y
--CONFIG_SERIAL=y
--CONFIG_PFLASH_CFI01=y
--CONFIG_I8259=y
--CONFIG_EMPTY_SLOT=y
- CONFIG_MIPS_CPS=y
- CONFIG_MIPS_ITU=y
- CONFIG_MALTA=y
--CONFIG_PCNET_PCI=y
- CONFIG_MIPSSIM=y
--CONFIG_SMBUS_EEPROM=y
- CONFIG_TEST_DEVICES=y
-diff --git a/configs/devices/mips64el-softmmu/default.mak b/configs/devices/mips64el-softmmu/default.mak
-index d5188f7ea5..88a37cf27f 100644
---- a/configs/devices/mips64el-softmmu/default.mak
-+++ b/configs/devices/mips64el-softmmu/default.mak
-@@ -3,8 +3,5 @@
- include ../mips-softmmu/common.mak
- CONFIG_FULOONG=y
- CONFIG_LOONGSON3V=y
--CONFIG_ATI_VGA=y
--CONFIG_RTL8139_PCI=y
- CONFIG_JAZZ=y
--CONFIG_VT82C686=y
- CONFIG_MIPS_BOSTON=y
-diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-index 78400f8c23..67d2859be4 100644
---- a/hw/mips/Kconfig
-+++ b/hw/mips/Kconfig
-@@ -1,8 +1,14 @@
- config MALTA
-     bool
-+    select EMPTY_SLOT
-     select I8259
-     select ISA_SUPERIO
-+    select MIPS_CPS
-+    select PCNET_PCI
-+    select PFLASH_CFI01
-     select PIIX
-+    select SERIAL
-+    select SMBUS_EEPROM
- 
- config MIPSSIM
-     bool
-@@ -28,10 +34,15 @@ config JAZZ
-     select PARALLEL
-     select DS1225Y
-     select JAZZ_LED
-+    select VGA_MMIO
- 
- config FULOONG
-     bool
-+    select ATI_VGA
-     select PCI_BONITO
-+    select RTL8139_PCI
-+    select SMBUS_EEPROM
-+    select VT82C686
- 
- config LOONGSON3V
-     bool
-@@ -39,6 +50,7 @@ config LOONGSON3V
-     imply QXL if SPICE
-     select SERIAL
-     select GOLDFISH_RTC
-+    select I8259
-     select LOONGSON_LIOINTC
-     select PCI_DEVICES
-     select PCI_EXPRESS_GENERIC_BRIDGE
--- 
-2.39.0
+Am 9=2E Januar 2023 20:12:29 UTC schrieb Thomas Huth <thuth@redhat=2Ecom>:
+>On 04/01/2023 09=2E55, Mark Cave-Ayland wrote:
+>> On 03/01/2023 08:47, Thomas Huth wrote:
+>>=20
+>>> We want to get rid of the "#ifdef TARGET_I386" statements in the mc146=
+818
+>>> code, so we need a different way to decide whether the slew tick polic=
+y
+>>> is available or not=2E Introduce a new property "slew-tick-policy-avai=
+lable"
+>>> which can be set by the machines that support this tick policy=2E
+>>>=20
+>>> Signed-off-by: Thomas Huth <thuth@redhat=2Ecom>
+>>> ---
+>>> =C2=A0 include/hw/rtc/mc146818rtc=2Eh |=C2=A0 1 +
+>>> =C2=A0 hw/i386/pc_piix=2Ec=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
+>>> =C2=A0 hw/isa/lpc_ich9=2Ec=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
+>>> =C2=A0 hw/isa/piix3=2Ec=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
+>>> =C2=A0 hw/rtc/mc146818rtc=2Ec=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 16 ++++++++++------
+>>> =C2=A0 5 files changed, 14 insertions(+), 6 deletions(-)
+>>>=20
+>>> diff --git a/include/hw/rtc/mc146818rtc=2Eh b/include/hw/rtc/mc146818r=
+tc=2Eh
+>>> index 1db0fcee92=2E=2E54af63d091 100644
+>>> --- a/include/hw/rtc/mc146818rtc=2Eh
+>>> +++ b/include/hw/rtc/mc146818rtc=2Eh
+>>> @@ -45,6 +45,7 @@ struct RTCState {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 QEMUTimer *coalesced_timer;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Notifier clock_reset_notifier;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 LostTickPolicy lost_tick_policy;
+>>> +=C2=A0=C2=A0=C2=A0 bool slew_tick_policy_available;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Notifier suspend_notifier;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 QLIST_ENTRY(RTCState) link;
+>>> =C2=A0 };
+>>> diff --git a/hw/i386/pc_piix=2Ec b/hw/i386/pc_piix=2Ec
+>>> index bc9ea8cdae=2E=2E382c6add3b 100644
+>>> --- a/hw/i386/pc_piix=2Ec
+>>> +++ b/hw/i386/pc_piix=2Ec
+>>> @@ -233,6 +233,7 @@ static void pc_init1(MachineState *machine,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rtc_state =3D i=
+sa_new(TYPE_MC146818_RTC);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_prop_set_i=
+nt32(DEVICE(rtc_state), "base_year", 2000);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_prop_set_bit(DEVICE(r=
+tc_state), "slew-tick-policy-available", true);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 isa_realize_and=
+_unref(rtc_state, isa_bus, &error_fatal);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i8257_dma_init(=
+isa_bus, 0);
+>>> diff --git a/hw/isa/lpc_ich9=2Ec b/hw/isa/lpc_ich9=2Ec
+>>> index 498175c1cc=2E=2Eaeab4d8549 100644
+>>> --- a/hw/isa/lpc_ich9=2Ec
+>>> +++ b/hw/isa/lpc_ich9=2Ec
+>>> @@ -733,6 +733,7 @@ static void ich9_lpc_realize(PCIDevice *d, Error *=
+*errp)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* RTC */
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_prop_set_int32(DEVICE(&lpc->rtc), =
+"base_year", 2000);
+>>> +=C2=A0=C2=A0=C2=A0 qdev_prop_set_bit(DEVICE(&lpc->rtc), "slew-tick-po=
+licy-available", true);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!qdev_realize(DEVICE(&lpc->rtc), BU=
+S(isa_bus), errp)) {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> diff --git a/hw/isa/piix3=2Ec b/hw/isa/piix3=2Ec
+>>> index c68e51ddad=2E=2E825b1cbee2 100644
+>>> --- a/hw/isa/piix3=2Ec
+>>> +++ b/hw/isa/piix3=2Ec
+>>> @@ -316,6 +316,7 @@ static void pci_piix3_realize(PCIDevice *dev, Erro=
+r **errp)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* RTC */
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_prop_set_int32(DEVICE(&d->rtc), "b=
+ase_year", 2000);
+>>> +=C2=A0=C2=A0=C2=A0 qdev_prop_set_bit(DEVICE(&d->rtc), "slew-tick-poli=
+cy-available", true);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!qdev_realize(DEVICE(&d->rtc), BUS(=
+isa_bus), errp)) {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> diff --git a/hw/rtc/mc146818rtc=2Ec b/hw/rtc/mc146818rtc=2Ec
+>>> index 947d68c257=2E=2E86381a74c3 100644
+>>> --- a/hw/rtc/mc146818rtc=2Ec
+>>> +++ b/hw/rtc/mc146818rtc=2Ec
+>>> @@ -922,14 +922,16 @@ static void rtc_realizefn(DeviceState *dev, Erro=
+r **errp)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rtc_set_date_from_host(isadev);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (s->lost_tick_policy) {
+>>> -#ifdef TARGET_I386
+>>> -=C2=A0=C2=A0=C2=A0 case LOST_TICK_POLICY_SLEW:
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->coalesced_timer =3D
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ti=
+mer_new_ns(rtc_clock, rtc_coalesced_timer, s);
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>> -#endif
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case LOST_TICK_POLICY_DISCARD:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>> +=C2=A0=C2=A0=C2=A0 case LOST_TICK_POLICY_SLEW:
+>>> +#ifdef TARGET_I386
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (s->slew_tick_policy_av=
+ailable) {
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s-=
+>coalesced_timer =3D timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 br=
+eak;
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> +#endif
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* fallthrough */
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp=
+, "Invalid lost tick policy=2E");
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>> @@ -989,6 +991,8 @@ static Property mc146818rtc_properties[] =3D {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DEFINE_PROP_UINT8("irq", RTCState, isai=
+rq, RTC_ISA_IRQ),
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DEFINE_PROP_LOSTTICKPOLICY("lost_tick_p=
+olicy", RTCState,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lost_tick_policy, LOST_TIC=
+K_POLICY_DISCARD),
+>>> +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_BOOL("slew-tick-policy-available", RTC=
+State,
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slew_tick_policy_availa=
+ble, false),
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DEFINE_PROP_END_OF_LIST(),
+>>> =C2=A0 };
+>>=20
+>> My first thought when looking at the new "slew-tick-policy-available" p=
+roperty introduced above was that it seems to overlap with the "lost_tick_p=
+olicy" property defined just above it using DEFINE_PROP_LOSTTICKPOLICY()=2E
+>
+>You've got a point here =2E=2E=2E it's a little bit ugly that we have two=
+ user-visible properties for the lost tick policy now=2E=2E=2E
 
+Indeed!
+
+>> This made me wonder if a better approach here would be to move the logi=
+c that determines if LOST_TICK_POLICY_SLEW is available into the "lost_tick=
+_policy" property setter defined at https://gitlab=2Ecom/qemu-project/qemu/=
+-/blob/master/hw/core/qdev-properties-system=2Ec#L558=2E=20
+>> If you look at the code directly below the link above you can see how s=
+et_blocksize() overrides the =2Eset function for qdev_prop_blocksize to pro=
+vide additional validation, which is similar to what we are trying to do he=
+re=2E
+>>=20
+>> I think it may be possible to come up with a similar solution for qdev_=
+prop_losttickpolicy which makes use of the logic you suggested before i=2Ee=
+=2E
+>>=20
+>>  =C2=A0=C2=A0=C2=A0 MachineState *ms =3D MACHINE(qdev_get_machine());
+>>=20
+>>  =C2=A0=C2=A0=C2=A0 if (!object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHI=
+NE)) {
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =2E=2E=2E=2E
+>>  =C2=A0=C2=A0=C2=A0 }
+>>=20
+>> which can then emit a suitable warning or return an error accordingly=
+=2E A quick glance at hw/core/qdev-properties-system=2Ec suggests there are=
+ a number of similar examples showing how this could be done=2E
+>
+>Thanks, I like that idea! I'll give it a try!
+
+Does the microvm need consideration as well?
+
+Best regards,
+Bernhard
+>
+> Thomas
+>
 
