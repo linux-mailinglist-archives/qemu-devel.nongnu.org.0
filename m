@@ -2,64 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7AF6627DB
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:58:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B810C662862
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:24:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEsem-0007xj-56; Mon, 09 Jan 2023 08:57:44 -0500
+	id 1pEslr-00027I-Pn; Mon, 09 Jan 2023 09:05:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pEsek-0007xE-8u
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:57:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pEslm-00026W-DD; Mon, 09 Jan 2023 09:04:59 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pEsei-00056N-Sq
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:57:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673272660;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8mCBkNMVJxWjJXDqaPcCixpTvoo/4R5FdNHi5FXGONo=;
- b=JkzNK8/qOtbWEqNJouLFlU2W2ryuWbFDPMWwsVceVlIvIX7sesNfGvtBR1o+RA2BZQ9Djx
- M6pMHuP6Suthcucai5KrMQlYvmOZPilBLZCv/dDV0WTe7hbBpV8rh9Hl3+jFSAwHKvSmKC
- W2Wt8rqbY3z53dDG3Vk+DSIfQbeSRGU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612-TLSF3E54MBms7TaXGF8Glw-1; Mon, 09 Jan 2023 08:57:37 -0500
-X-MC-Unique: TLSF3E54MBms7TaXGF8Glw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A87193811F28;
- Mon,  9 Jan 2023 13:57:36 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BF4BFC16026;
- Mon,  9 Jan 2023 13:57:35 +0000 (UTC)
-Date: Mon, 9 Jan 2023 14:57:34 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Zhiyong Ye <yezhiyong@bytedance.com>
-Cc: mreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: Questions about how block devices use snapshots
-Message-ID: <Y7wdTurqBjWXIGmo@redhat.com>
-References: <90855f8f-76ce-0a5f-3156-e69b157342c9@bytedance.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pEslk-0007RP-Cr; Mon, 09 Jan 2023 09:04:58 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 0974374634B;
+ Mon,  9 Jan 2023 15:02:34 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id C1A3774632B; Mon,  9 Jan 2023 15:02:33 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id C02EE746324;
+ Mon,  9 Jan 2023 15:02:33 +0100 (CET)
+Date: Mon, 9 Jan 2023 15:02:33 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, 
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
+ Yoshinori Sato <ysato@users.sourceforge.jp>, 
+ Aurelien Jarno <aurelien@aurel32.net>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Magnus Damm <magnus.damm@gmail.com>, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH 4/5] hw/sh4/r2d: Use the IEC binary prefix definitions
+In-Reply-To: <0bd1f61c-757c-1468-e8ff-7730c94d3beb@linaro.org>
+Message-ID: <32db9497-3747-0742-f46a-c3e4a6a3ae2a@eik.bme.hu>
+References: <20230109120154.2868-1-philmd@linaro.org>
+ <20230109120154.2868-5-philmd@linaro.org>
+ <31e6a45c-3fec-f6ae-875f-b1a8ac8749e0@eik.bme.hu>
+ <0bd1f61c-757c-1468-e8ff-7730c94d3beb@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <90855f8f-76ce-0a5f-3156-e69b157342c9@bytedance.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed; boundary="3866299591-294515355-1673272953=:7264"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,46 +65,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 09.01.2023 um 13:45 hat Zhiyong Ye geschrieben:
-> Qemu provides powerful snapshot capabilities for different file
-> formats. But this is limited to the block backend being a file, and
-> support is not good enough when it is a block device. When creating
-> snapshots based on files, there is no need to specify the size of the
-> snapshot image, which can grow dynamically as the virtual machine is
-> used. But block devices are fixed in size at creation and cannot be
-> dynamically grown at a later time.
-> 
-> So is there any way to support snapshots when the block backend is a
-> block device?
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-In order to have snapshots, you need to have an image format like qcow2.
+--3866299591-294515355-1673272953=:7264
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-A qcow2 file can have a raw block device as its backing file, so even if
-you store the overlay image on a filesystem, you have technically
-snapshotted a block device. This may or may not be enough for your use
-case.
+On Mon, 9 Jan 2023, Philippe Mathieu-Daudé wrote:
+> On 9/1/23 13:46, BALATON Zoltan wrote:
+>> On Mon, 9 Jan 2023, Philippe Mathieu-Daudé wrote:
+>>> IEC binary prefixes ease code review: the unit is explicit.
+>>> 
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>> ---
+>>> hw/sh4/r2d.c | 6 +++---
+>>> 1 file changed, 3 insertions(+), 3 deletions(-)
+>>> 
+>>> diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
+>>> index 39fc4f19d9..b3667e9b12 100644
+>>> --- a/hw/sh4/r2d.c
+>>> +++ b/hw/sh4/r2d.c
+>>> @@ -47,10 +47,10 @@
+>>> #define FLASH_BASE 0x00000000
+>>> #define FLASH_SIZE (16 * MiB)
+>>> 
+>>> -#define SDRAM_BASE 0x0c000000 /* Physical location of SDRAM: Area 3 */
+>>> -#define SDRAM_SIZE 0x04000000
+>>> +#define SDRAM_BASE          (192 * MiB) /* Physical location of SDRAM: 
+>>> Area 3 */
+>>> +#define SDRAM_SIZE          (64 * MiB)
+>> 
+>> I don't think changing these help as the docs probably have memory map with 
+>> the hex numbers rather than sizes so it's easier to match as it is now.
+>> 
+>>> -#define SM501_VRAM_SIZE 0x800000
+>>> +#define SM501_VRAM_SIZE     (8 * MiB)
+>> 
+>> This one is OK but since it's only used once in
+>> 
+>> qdev_prop_set_uint32(dev, "vram-size", SM501_VRAM_SIZE);
+>> 
+>> you might as well just inline it there and remove the define which is then 
+>> pretty clear and easier to see without needing to look up the define far 
+>> away from its usage.
+>
+> I did this change after Peter's feedbacks on:
+> https://lore.kernel.org/qemu-devel/CAFEAcA8MSO4YMEq2FqvpJKUVYE_1CqaB2KLD1YN-YebOhJVgEg@mail.gmail.com/
+>
+> But maybe I misunderstood him. Peter, looking at it again, maybe you
+> asked for a definition because when using pflash_cfi01_register() it
+> isn't explicit what means each argument? So in this case, since the
+> properties gives a hint on what is the value ("vram-size") it would
+> be OK to inline?
 
-It is also possible to store qcow2 files on block devices, though
-depending on your requirements, it can get very tricky because then
-you're responsible for making sure that there is always enough free
-space on the block device.
+I think since you'll change it later to set properties then it will be 
+clear again without defines so I don't think single use defines are needed 
+in this case. It's just the many arguments of pflash_cfi01_register() 
+function that made it unclear but that will be gone by the end of the 
+series.
 
-So a second, still very simple, approach could be taking a second block
-device that is a little bit larger than the virtual disk (for the qcow2
-metadata) and use that as the external snapshot. Obviously, you require
-a lot of disk space this way, because each snapshots needs to be able to
-store the full image.
-
-You could also use internal snapshots. In this case, you just need to
-make sure that the block device is a lot larger than the virtual disk,
-so that there is enough space left for storing the snapshots. At some
-point it will be full.
-
-And finally, for example if your block devices are actually LVs, you
-could start resizing the block device dynmically as needed. This becomes
-very complex quickly and you're on your own, but it is possible and has
-been done by oVirt.
-
-Kevin
-
+Regards,
+BALATON Zoltan
+--3866299591-294515355-1673272953=:7264--
 
