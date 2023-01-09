@@ -2,81 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681D86623D2
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 12:07:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD00662433
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 12:28:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEpz5-0002UK-Rc; Mon, 09 Jan 2023 06:06:31 -0500
+	id 1pEqFG-0007ro-HW; Mon, 09 Jan 2023 06:23:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pEpz0-0002Tu-RX
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:06:27 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pEpyy-0001CW-6v
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:06:26 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- o1-20020a17090a678100b00219cf69e5f0so12405452pjj.2
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 03:06:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=k5s4idfe83F5vogJLuR3WncBIoZZmGepM5no3pwxFcI=;
- b=UZ65M9RtnJoPiNi8VJ5/Ir1X/57+eDVXJculIGBJvEHQ4p71vefS4RnfurLfRTNcOY
- 2cMuCshJJ57hhsu9Op/t7kXH4TcwlbhvuN4mP1Ys0+3RZs5N2aBRFRlTD34utyN7ibXp
- RwWUdBnGKK8kfaUFuEC/VlLKGCeGNhxJNPf/QEkJZ8T8vaHY1kiDaJaRIJou+pIZZGBB
- CItiPh9gsSKQ5SHu12Z1t0uh34ewFdEWy+hK2GcKvh1DR9sKgCNtRTAUgYB+JfhfuZD5
- gxwot7CVa+JsCZ1L/De0tyRvKhiO2Zjen+LY8tBrTelS/O1keFBrV94zkpja7Ok3QvWr
- 7lvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=k5s4idfe83F5vogJLuR3WncBIoZZmGepM5no3pwxFcI=;
- b=pAfHooHfeSdKtRJE3aUocQ2vNVdUxiq6qXsN1EK7KjevRZmXtXGJLJm5EiQXOLAa88
- puojGRc3ZgohHk6E90ScCaXuh6J6Vmodl+EMY0xmZELvR/whYM6BIrFuV676k9rqveOG
- hCP36InejHKB3N/9gMEONJ/dbB6kUu43SCQas5HywRJlI9OXdbRxLR022e/WJZmplGdV
- DzlPWXj9VFLnDcsJWM53VxFai1sMdjehVCU6xOoxPK/bxpVLMBc4/qDe/jj4BLnM/r31
- 0Jtxtn7/mCR/RFFvLH6xqrupnO8Jc4hxZyRnvsqfyzVumD/yVmn20/yhzstgc93nU1IR
- SMAg==
-X-Gm-Message-State: AFqh2kqGkCr7fkIqOTcwTeYUPcz9BCOuE8sLCjXKRpuN0GwINEHI+vlJ
- ZgXwsccPhf8u/cXmqiMB45AaoDvgVnIqZBQ9RAlVLg==
-X-Google-Smtp-Source: AMrXdXtCKFM+g2LhjG7EfjC4efaNrIz47gMBL9VmlS0XmoyGN2yeN9kloiu6Gdo1Dskog1UuWmIEqmPE4KdguGw8aEo=
-X-Received: by 2002:a17:902:efcf:b0:192:ea33:5092 with SMTP id
- ja15-20020a170902efcf00b00192ea335092mr1562678plb.19.1673262382510; Mon, 09
- Jan 2023 03:06:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
+ id 1pEqFE-0007pS-8f
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:23:12 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
+ id 1pEqFC-0001eB-N9
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:23:11 -0500
+Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.53])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NrBN550w8z16Mbv
+ for <qemu-devel@nongnu.org>; Mon,  9 Jan 2023 19:21:25 +0800 (CST)
+Received: from localhost.localdomain (10.175.124.27) by
+ dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Mon, 9 Jan 2023 19:22:57 +0800
+To: <qemu-devel@nongnu.org>
+CC: <yubihong@huawei.com>, <xiexiangyou@huawei.com>, <zhengchuan@huawei.com>, 
+ <linyilu@huawei.com>, <jiangjiacheng@huawei.com>
+Subject: [PATCH 0/2] migration: Report migration related thread pid to libvirt
+ to
+Date: Mon, 9 Jan 2023 19:16:29 +0800
+Message-ID: <20230109111631.2386894-1-jiangjiacheng@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20230109092617.80224-1-philmd@linaro.org>
-In-Reply-To: <20230109092617.80224-1-philmd@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 Jan 2023 11:06:11 +0000
-Message-ID: <CAFEAcA-OZ6E5GdibDH=Fzb6dDBG4bSRU6Cx92HJKiXAcTxcqZA@mail.gmail.com>
-Subject: Re: [PATCH 0/9] hw: Convert simple devices from SysBus to QDev
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Jan Kiszka <jan.kiszka@web.de>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-arm@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>, 
- Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Thomas Huth <thuth@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.124.27]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500022.china.huawei.com (7.185.36.66)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=jiangjiacheng@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,22 +59,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jiang Jiacheng <jiangjiacheng@huawei.com>
+From:  Jiang Jiacheng via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 9 Jan 2023 at 09:26, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
-> wrote:
->
-> Various simple devices (usually GPIO related) don't access
-> the 'system bus': no IRQ lines / memory regions exposed via
-> the SysBus API, no memory region mapped.
->
-> To reduce complexity, remove the sysbus onion layer from
-> these devices.
+By default, the migration thread shares CPU resources with the VM process. 
+With migration pin, support pin migration thread to expected CPU list 
+to avoid preempting CPU resources of VM process.
+To support migration pin, we need report migration related thread pid 
+to libvirt.
 
-This will break reset for all these devices. We can't
-do this until we've sorted out reset first, I'm afraid.
+libvirt patches:
+https://listman.redhat.com/archives/libvir-list/2023-January/236561.html
 
-thanks
--- PMM
+Zheng Chuan (2):
+  migration: report migration related thread pid to libvirt
+  migration: report multiFd related thread pid to libvirt
+
+ migration/migration.c |  3 +++
+ migration/multifd.c   |  4 ++++
+ qapi/migration.json   | 24 ++++++++++++++++++++++++
+ 3 files changed, 31 insertions(+)
+
+-- 
+2.33.0
+
 
