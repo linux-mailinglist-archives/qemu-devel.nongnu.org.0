@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA787663481
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB126634CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 00:06:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF16e-0003Q1-KD; Mon, 09 Jan 2023 17:59:04 -0500
+	id 1pF1CV-0005tG-I8; Mon, 09 Jan 2023 18:05:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pF16c-0003Pp-1x; Mon, 09 Jan 2023 17:59:02 -0500
-Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e])
+ id 1pF1CH-0005pV-SW; Mon, 09 Jan 2023 18:04:54 -0500
+Received: from mail-vk1-xa30.google.com ([2607:f8b0:4864:20::a30])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pF16a-0000Ub-Bp; Mon, 09 Jan 2023 17:59:01 -0500
-Received: by mail-vs1-xe2e.google.com with SMTP id i185so10455909vsc.6;
- Mon, 09 Jan 2023 14:58:59 -0800 (PST)
+ id 1pF1CG-0002py-5G; Mon, 09 Jan 2023 18:04:53 -0500
+Received: by mail-vk1-xa30.google.com with SMTP id l3so1675440vkk.11;
+ Mon, 09 Jan 2023 15:04:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=gPm+WM4ZBeQ371G8E1ItvrCVyCyvKwKJFgS/JWOihm0=;
- b=JAMTOPX1ysEsDezC+bv9HY4QqxXHQJBc72chyZQzDa6UvVgpInYYFZPJM/c6QgKYp4
- PBS9/ysApEgp01uwN6eVQdtXwBLQwQlR4a3P/r5LzE46BPFvhTAMeGV4HPbsWJbt/8Os
- Yil2iNa7afpz11nV2s5UTNKvhdZi2r9FuxgII+K01ITdiu+aHO5DHT3Nhabf+dlygdoq
- 8ngcBNEqOMkWz7Kuu+V1Y6VVRenDHdJSu4Hismsvk0vf61BmIdivVQ5ee7BN74Qxt2Hx
- keHGWn6FYQplWRvXMvJBRr4IHeuETDQAKpQNpiOjJ2E8q+V+pJcN8b4VmwgK6PpZLnJ6
- gy0g==
+ bh=+g3bu0AyXYGFdZfnwd/uiFeLwF7AJudu1avLJa6+/9Q=;
+ b=MNlyLDXCUVs1s+9HSpAOeUrgSdUoH+iWD05nPYiX/XOWOuq/ERIX8KN0dFkX5rt2O7
+ MKSHjxl1oiFAFnA5uKEJW7RlVbcom1xpz9ZvFYBAnud5lgyF9v2Vv4s2uR3qanI+J2NK
+ W5OAZvWnljDE8BWUX1YpOqeJ4xeYxwdLMnfThI1Lv/R5Nk+HQz2+VRI4gXqWKA2nB2mR
+ gjq9+R3FDWibsmW4/0OaCeWpSws4L+mPIOHTMSjiuNCTnimMPzAUDzzIXeuW/JbjVr1O
+ 8odjoXmLtP7KMFW6B9qrJEgY6+Ir2opmXKyZ/zH/o2R56Mo9Rciri18/WWbJxRX4tcF4
+ hMYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=gPm+WM4ZBeQ371G8E1ItvrCVyCyvKwKJFgS/JWOihm0=;
- b=jD5hwUruG15yHHaEreP1qcLoH2DV5C/qdQJev1mSeZzBfXt+t07R3qckUoQzSDXPef
- aTbJPNqkoDsad7VFrdLSRCtWtKeVYXbonOweuyYWOsSBwEe79Jj6EK5l3LpvFCkMb9/c
- yMx3Yz8We2WEcVSQQXrCJtwEeT1U+TMONAY9Fpweo1i6bJnwMZl9207WCQKHnXTdlQl4
- aaLczFnzsA9tEGErTfSMafhj7pfCH/8Cjln725sKl/VNaL6cjL73fLY8b+ERHQ10b38g
- c7fo5vXghEui6tOISno0eDq86g2YpmvYlFZ9ytnntvZo4hbSq7WqzO2jonTMxOsT6svN
- /XMw==
-X-Gm-Message-State: AFqh2kp1A5c2LNLKA61Rx8xFDQJQSPNP3+lWuTvBm4icc4gOMn/UAnGD
- 9yY4fOSfrKNoXNgf+mkWlozJ4pM0LvwPyqXouXQ=
-X-Google-Smtp-Source: AMrXdXtrMXauP7JHIctC95vhpS2jAye5ghJnVwAw53oEw1WpcsoXqOsyHemCK60ICo4h0EaQJ93UpS6YT3iZQqTQcyc=
-X-Received: by 2002:a05:6102:510e:b0:3b1:2b83:1861 with SMTP id
- bm14-20020a056102510e00b003b12b831861mr8658055vsb.10.1673305139027; Mon, 09
- Jan 2023 14:58:59 -0800 (PST)
+ bh=+g3bu0AyXYGFdZfnwd/uiFeLwF7AJudu1avLJa6+/9Q=;
+ b=Q2Hs5WOby7T8WR/Q10HDWcSdTEftbsS9e4AGvTN/NlE8qoF4da/OUQ3eCMmYOUJxW9
+ 1uDHGsAecy0j62vYFeu7HUAyjpRFVtTf13lyH89lUkE5m4Vkl9rkD+1IfDRyffJIbUxX
+ t/akqU4bhAIY2o4E+tRCHgMjkeDiGfZm8/HFTtn9f30eB+KRJyDz5abbHqSGcm5di5b+
+ bSggnt2/pfC0ZMJDfLNoR4egRJpS+k1nSy2osY1RCG3qN13RHb3B7Bg+s57jeKorCAnv
+ zwu2nF6pUuhSozYLD4oV6vZuI+J+hA90bz0tieVtWg5CM8TwJ8TiXUbl23Bjw/FsFUVr
+ Prag==
+X-Gm-Message-State: AFqh2kq6BXi5FmSJkNGVV+z2P0omplKC0ZLYN+85FirCB36avpCUuKBT
+ g1BSEsrtUDxTsgcDvG12QPFVKdvx2Utzfo8/0/I=
+X-Google-Smtp-Source: AMrXdXspl9qn20ncZyBj2YMupkfO7gMdfDLdZ1tw0e2jcOodnmHJXZ8OdlV9jiWBtloCH8GBJlXc0iWFvY7wuQ1n97E=
+X-Received: by 2002:ac5:ccdb:0:b0:3b7:cbb8:bbf1 with SMTP id
+ j27-20020ac5ccdb000000b003b7cbb8bbf1mr8432342vkn.25.1673305485759; Mon, 09
+ Jan 2023 15:04:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20230109055933.749233-1-cyruscyliu@gmail.com>
-In-Reply-To: <20230109055933.749233-1-cyruscyliu@gmail.com>
+References: <167236721596.15277.2653405273227256289-0@git.sr.ht>
+In-Reply-To: <167236721596.15277.2653405273227256289-0@git.sr.ht>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 10 Jan 2023 08:58:32 +1000
-Message-ID: <CAKmqyKPo7B=-QTvHVAd7WsTAJKh5V-WKTNaBvVMeSHeqFj_qwQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/display/xlnx_dp: fix overflow in
- xlnx_dp_aux_push_tx_fifo()
-To: Qiang Liu <cyruscyliu@gmail.com>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair@alistair23.me>, 
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, 
- "open list:Xilinx ZynqMP and..." <qemu-arm@nongnu.org>
+Date: Tue, 10 Jan 2023 09:04:19 +1000
+Message-ID: <CAKmqyKPoPnVaY4qZwxyc6dPRuYmWYj7wxX+ubiEF4uewiztACw@mail.gmail.com>
+Subject: Re: [PATCH qemu] target/riscv/cpu.c: Fix elen check
+To: "~elta" <503386372@qq.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org, 
+ Dongxue Zhang <elta.era@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2e;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a30;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa30.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -85,42 +84,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 9, 2023 at 4:01 PM Qiang Liu <cyruscyliu@gmail.com> wrote:
+On Fri, Dec 30, 2022 at 12:26 PM ~elta <elta@git.sr.ht> wrote:
 >
-> This patch checks if the s->tx_fifo is full.
+> From: Dongxue Zhang <elta.era@gmail.com>
 >
-> Fixes: 58ac482a66de ("introduce xlnx-dp")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1424
-> Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-> Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
+> Should be cpu->cfg.elen in range [8, 64].
+>
+> Signed-off-by: Dongxue Zhang <elta.era@gmail.com>
+> Reviewed-by: LIU Zhiwei <zhiwe_liu@linux.alibaba.com>
+> Message-ID: <bcdd7992-e3ff-de17-22c4-1319e3816e8b@linux.alibaba.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> Message-ID: <CANzO1D0du4TSza=-bnqZ+N9cGVfZ6P4xwYaiJg6doTzo7_MdYg@mail.gmail.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Thanks!
+
+Applied to riscv-to-apply.next
 
 Alistair
 
 > ---
->  hw/display/xlnx_dp.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  target/riscv/cpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-> index 972473d94f..617b394af2 100644
-> --- a/hw/display/xlnx_dp.c
-> +++ b/hw/display/xlnx_dp.c
-> @@ -854,7 +854,11 @@ static void xlnx_dp_write(void *opaque, hwaddr offset, uint64_t value,
->          break;
->      case DP_AUX_WRITE_FIFO: {
->          uint8_t c = value;
-> -        xlnx_dp_aux_push_tx_fifo(s, &c, 1);
-> +        if (fifo8_is_full(&s->tx_fifo)) {
-> +            qemu_log_mask(LOG_GUEST_ERROR, "xlnx_dp: TX fifo is full");
-> +        } else {
-> +            xlnx_dp_aux_push_tx_fifo(s, &c, 1);
-> +        }
->          break;
->      }
->      case DP_AUX_CLOCK_DIVIDER:
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 6fe176e483..5dc51f7912 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -872,7 +872,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>                          "Vector extension ELEN must be power of 2");
+>                  return;
+>              }
+> -            if (cpu->cfg.elen > 64 || cpu->cfg.vlen < 8) {
+> +            if (cpu->cfg.elen > 64 || cpu->cfg.elen < 8) {
+>                  error_setg(errp,
+>                          "Vector extension implementation only supports ELEN "
+>                          "in the range [8, 64]");
 > --
-> 2.25.1
->
->
+> 2.34.5
 
