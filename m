@@ -2,80 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1745662CEA
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:36:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFB9662D85
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:49:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEvvz-0006cA-19; Mon, 09 Jan 2023 12:27:43 -0500
+	id 1pEw27-0005RZ-ES; Mon, 09 Jan 2023 12:34:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pEvvw-0006ak-Fo
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:27:40 -0500
-Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pEvvk-00020u-CI
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:27:31 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.208])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id DE10C2CCC3;
- Mon,  9 Jan 2023 17:27:22 +0000 (UTC)
-Received: from kaod.org (37.59.142.106) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 9 Jan
- 2023 18:27:21 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R00644023e95-b31a-46be-a87e-60f24c52b747,
- 1F76CF3ACB56F17C32A409AA235EFAF7B7A61927) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <0bb116fa-3609-8b01-0a16-10436ba6cc56@kaod.org>
-Date: Mon, 9 Jan 2023 18:27:21 +0100
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pEw23-0005QD-JX; Mon, 09 Jan 2023 12:34:00 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pEw21-0003oW-2m; Mon, 09 Jan 2023 12:33:58 -0500
+Received: by mail-ed1-x529.google.com with SMTP id s5so13595841edc.12;
+ Mon, 09 Jan 2023 09:33:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8BrD3dAuDlRJQEgOIeTTcHkbf46/a3HVv2V/5SNLI3k=;
+ b=pRMMqjcQQQQG2YM1IhFN/sErVdBg9AdlNJf9Nu7wwqCftcGKP3MhKxuYBI+0Ddzfez
+ 292pogKTyYNl/7FSKDSzbdp1ubnwCFtlbD+aJNetOdvy/lMb3eo8n38l4EQmYIpfi8gL
+ xm/wSliaBOTqquirutWorLDU201qG0MKtC7FrAvLL1Xp6nPHqC1sKQr2jN8WvQ8bdSRd
+ 8EyCdsUkYqYWNUzfrFpG2zk9FIPj/p0kSjmNvauCNnJ527soTYyICbjhHX0f24r/Y99c
+ RGJwClRY2gF0Wz33xTYlamASv0HIrqhicU9+gQkWa3SYDRvachply9bKN/oR4EfSjgA1
+ U8Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8BrD3dAuDlRJQEgOIeTTcHkbf46/a3HVv2V/5SNLI3k=;
+ b=NzEnJLlWduBPDyU9aeEXVYytiVM3A1+c6if/lA5fjpWPLpOMxQrKEMAVTzQgHSGchr
+ MMbfFSRdDgdZZ6ZaoDC0xzRDKU8mbTPJEEKrBNx8e1jPasXYcmqPi9uSXovuoTVH55V8
+ 4LZdAxWao8w2CLwmOfAaeIc2huDSuavUIirxAPlGbhBwG+MtOsoGh+f62MUK9vEMcnQG
+ 8mw11ZjpNzznNy4Pq/uG/ueTC9C7OYqSm6JtQvBj+CiYz4OnpmrL6SmXLAc+dqFu1mvx
+ SCFDYOsBxM7EvrAOZMY+g7EuoHgOCBekHiQ9+QaqGuN8mgKaAbCBve05uA027NH+Kffu
+ DrCQ==
+X-Gm-Message-State: AFqh2krJE6tst9ZOX4VFzuNavo4Z73RRf/53YUpSo+wy+RDRfqBHcmR6
+ RLHfJB8rj9AUpPDpAYFvX50=
+X-Google-Smtp-Source: AMrXdXuTyuzIjBp6npnJQlxIp4aPX9j90feaM9k/kmCSdnwPIl737MYWa3OEMUl+AtCgVLLBGu7Flw==
+X-Received: by 2002:a05:6402:34f:b0:475:b13b:7d78 with SMTP id
+ r15-20020a056402034f00b00475b13b7d78mr57212582edw.39.1673285634932; 
+ Mon, 09 Jan 2023 09:33:54 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb20074734860dc6c494f.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:7473:4860:dc6c:494f])
+ by smtp.gmail.com with ESMTPSA id
+ a3-20020aa7cf03000000b0049019b48373sm3963266edy.85.2023.01.09.09.33.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 09:33:54 -0800 (PST)
+Date: Mon, 09 Jan 2023 17:33:49 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+CC: Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Ani Sinha <ani@anisinha.ca>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Aurelien Jarno <aurelien@aurel32.net>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, John Snow <jsnow@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v5 00/31] Consolidate PIIX south bridges
+In-Reply-To: <7f47fd16-8e87-32d0-9ae5-4b288930c24f@linaro.org>
+References: <20230105143228.244965-1-shentey@gmail.com>
+ <dcbda1fc-3380-a96b-78c7-b3b35dee5ac4@ilande.co.uk>
+ <50FFD7E4-A40C-4428-ACD2-F7C93C687572@gmail.com>
+ <7f47fd16-8e87-32d0-9ae5-4b288930c24f@linaro.org>
+Message-ID: <82E6442C-A4A7-4287-98FF-DBCF99E68BEE@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v5 10/14] vfio/migration: Implement VFIO migration
- protocol v2
-Content-Language: en-US
-To: Avihai Horon <avihaih@nvidia.com>, <qemu-devel@nongnu.org>
-CC: Alex Williamson <alex.williamson@redhat.com>, Halil Pasic
- <pasic@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, Richard Henderson
- <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>, Ilya
- Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, Juan
- Quintela <quintela@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck
- <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, Eric Blake
- <eblake@redhat.com>, Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>, John Snow <jsnow@redhat.com>,
- <qemu-s390x@nongnu.org>, <qemu-block@nongnu.org>, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
- <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-References: <20221229110345.12480-1-avihaih@nvidia.com>
- <20221229110345.12480-11-avihaih@nvidia.com>
- <27a868cc-d816-76f1-1ce1-60b6552d791f@kaod.org>
- <5ccd6f67-3ad3-c9dd-634e-d2d0900c429e@nvidia.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <5ccd6f67-3ad3-c9dd-634e-d2d0900c429e@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: b10ceda0-0d8a-49fe-bf9c-287d5a00ba07
-X-Ovh-Tracer-Id: 5654832285915974440
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeigdeliecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegrvhhihhgrihhhsehnvhhiughirgdrtghomhdpkhifrghnkhhhvgguvgesnhhvihguihgrrdgtohhmpdhmrghorhhgsehnvhhiughirgdrtghomhdpjhhgghesnhhvihguihgrrdgtohhmpdihihhshhgrihhhsehnvhhiughirgdrtghomhdpqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpjhhsnhhofiesrhgvughhrghtrdgtohhmpdhvshgvmhgvnhhtshhovheshigrnhguvgigqdhtvggrmhdrrhhupdgvsghlrg
- hkvgesrhgvughhrghtrdgtohhmpdhfrghmsegvuhhphhhonhdrnhgvthdpshhtvghfrghnhhgrsehrvgguhhgrthdrtghomhdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpmhhsthesrhgvughhrghtrdgtohhmpdgughhilhgsvghrthesrhgvughhrghtrdgtohhmpdhquhhinhhtvghlrgesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpihhiiheslhhinhhugidrihgsmhdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpfhgrrhhmrghnsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrsehlihhnuhigrdhisghmrdgtohhmpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgrlhgvgidrfihilhhlihgrmhhsohhnsehrvgguhhgrthdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpthgrrhhguhhpthgrsehnvhhiughirgdrtghomhdpjhhorghordhmrdhmrghrthhinhhssehorhgrtghlvgdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=188.165.45.220; envelope-from=clg@kaod.org;
- helo=5.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,121 +103,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/9/23 16:12, Avihai Horon wrote:
-> 
-> On 09/01/2023 12:20, Cédric Le Goater wrote:
->> External email: Use caution opening links or attachments
->>
->>
->> Hello Avihai,
->>
->>
->> On 12/29/22 12:03, Avihai Horon wrote:
->>>
->>> +static int vfio_save_setup(QEMUFile *f, void *opaque)
->>> +{
->>> +    VFIODevice *vbasedev = opaque;
->>> +    VFIOMigration *migration = vbasedev->migration;
->>> +    uint64_t stop_copy_size;
->>> +
->>> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
->>> +
->>> +    if (vfio_query_stop_copy_size(vbasedev, &stop_copy_size)) {
->>> +        stop_copy_size = VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE;
->>> +    }
->>> +    migration->data_buffer_size = MIN(VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE,
->>> +                                      stop_copy_size);
->>> +    migration->data_buffer = g_try_malloc0(migration->data_buffer_size);
->>> +    if (!migration->data_buffer) {
->>> +        error_report("%s: Failed to allocate migration data buffer",
->>> +                     vbasedev->name);
->>> +        return -ENOMEM;
->>> +    }
->>> +
->>> +    trace_vfio_save_setup(vbasedev->name, migration->data_buffer_size);
->>> +
->>> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
->>> +
->>> +    return qemu_file_get_error(f);
->>> +}
->>> +
->>
->> This fails to compile with :
->>
->>   gcc version 12.2.1 20221121 (Red Hat 12.2.1-4) (GCC) complains with :
->>
->>
->>   ../include/qemu/osdep.h:315:22: error: ‘stop_copy_size’ may be used uninitialized [-Werror=maybe-uninitialized]
->>     315 |         _a < _b ? _a : _b;                              \
->>         |                      ^
->>   ../hw/vfio/migration.c:262:14: note: ‘stop_copy_size’ was declared here
->>     262 |     uint64_t stop_copy_size;
->>         |              ^~~~~~~~~~~~~~
->>   cc1: all warnings being treated as errors
->>
->> May be rework the code slightly to avoid the breakage :
->>
->> +++ qemu.git/hw/vfio/migration.c
->> @@ -259,13 +259,11 @@ static int vfio_save_setup(QEMUFile *f,
->>  {
->>      VFIODevice *vbasedev = opaque;
->>      VFIOMigration *migration = vbasedev->migration;
->> -    uint64_t stop_copy_size;
->> +    uint64_t stop_copy_size = VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE;
->>
->>      qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
->>
->> -    if (vfio_query_stop_copy_size(vbasedev, &stop_copy_size)) {
->> -        stop_copy_size = VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE;
->> -    }
->> +    vfio_query_stop_copy_size(vbasedev, &stop_copy_size);
->>      migration->data_buffer_size = MIN(VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE,
->>                                        stop_copy_size);
->>      migration->data_buffer = g_try_malloc0(migration->data_buffer_size);
->>
->>
->> and report the error in vfio_query_stop_copy_size()
->>
-> Thanks, Cedric.
-> 
-> There is another similar case in vfio_save_pending().
-> I will fix both of them.
 
 
-also, in vfio_migration_query_flags() :
+Am 8=2E Januar 2023 18:28:28 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <ph=
+ilmd@linaro=2Eorg>:
+>On 8/1/23 16:12, Bernhard Beschow wrote:
+>> Am 7=2E Januar 2023 23:57:32 UTC schrieb Mark Cave-Ayland <mark=2Ecave-=
+ayland@ilande=2Eco=2Euk>:
+>>> On 05/01/2023 14:31, Bernhard Beschow wrote:
+>
+>>>> Bernhard Beschow (28):
+>>>>     hw/mips/Kconfig: Track Malta's PIIX dependencies via Kconfig
+>>>>     hw/usb/hcd-uhci: Introduce TYPE_ defines for device models
+>>>>     hw/i386/pc_piix: Associate pci_map_irq_fn as soon as PCI bus is
+>>>>       created
+>>>>     hw/i386/pc_piix: Allow for setting properties before realizing PI=
+IX3
+>>>>       south bridge
+>>>>     hw/i386/pc: Create RTC controllers in south bridges
+>>>>     hw/i386/pc: No need for rtc_state to be an out-parameter
+>>>>     hw/isa/piix3: Create USB controller in host device
+>>>>     hw/isa/piix3: Create power management controller in host device
+>>>>     hw/intc/i8259: Make using the isa_pic singleton more type-safe
+>>>>     hw/intc/i8259: Introduce i8259 proxy "isa-pic"
+>>>>     hw/isa/piix3: Create ISA PIC in host device
+>>>>     hw/isa/piix3: Create IDE controller in host device
+>>>>     hw/isa/piix3: Wire up ACPI interrupt internally
+>>>>     hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS
+>>>>     hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4
+>>>>     hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4
+>>>>     hw/isa/piix3: Drop the "3" from PIIX base class
+>>>>     hw/isa/piix4: Make PIIX4's ACPI and USB functions optional
+>>>>     hw/isa/piix4: Remove unused inbound ISA interrupt lines
+>>>>     hw/isa/piix4: Use ISA PIC device
+>>>>     hw/isa/piix4: Reuse struct PIIXState from PIIX3
+>>>>     hw/isa/piix4: Rename reset control operations to match PIIX3
+>>>>     hw/isa/piix3: Merge hw/isa/piix4=2Ec
+>>>>     hw/isa/piix: Harmonize names of reset control memory regions
+>>>>     hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4
+>>>>     hw/isa/piix: Rename functions to be shared for interrupt triggeri=
+ng
+>>>>     hw/isa/piix: Consolidate IRQ triggering
+>>>>     hw/isa/piix: Share PIIX3's base class with PIIX4
+>
+>>> Phil - over to you!
+>
+>Thanks for the review Mark!
+>
+>> Shall I respin? I could integrate my PCI series into this one in order =
+to avoid the outdated MIPS patches while still delivering a working series=
+=2E Yes/No?
+>
+>If you don't mind, that is certainly easier for me :)
 
-   +static int vfio_migration_query_flags(VFIODevice *vbasedev, uint64_t *mig_flags)
-   +{
-   +    uint64_t buf[DIV_ROUND_UP(sizeof(struct vfio_device_feature) +
-   +                                  sizeof(struct vfio_device_feature_migration),
-   +                              sizeof(uint64_t))] = {};
-   +    struct vfio_device_feature *feature = (struct vfio_device_feature *)buf;
-   +    struct vfio_device_feature_migration *mig =
-   +        (struct vfio_device_feature_migration *)feature->data;
-   +
-   +    feature->argsz = sizeof(buf);
-   +    feature->flags = VFIO_DEVICE_FEATURE_GET | VFIO_DEVICE_FEATURE_MIGRATION;
-   +    if (ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature)) {
-   +        return -EOPNOTSUPP;
-   +    }
-   +
-   +    *mig_flags = mig->flags;
-   +
-   +    return 0;
-   +}
+v6 is out! I've also rebased onto latest master which resolves some merge =
+conflicts (PCI, building) for you=2E I hope you don't mind some minor clean=
+ups that I've made to the PCI INTx series which aligns board code with my l=
+atest fuloong2e cleanup series=2E
 
-
-The code is using any possible error returned by the VFIO_DEVICE_FEATURE
-ioctl to distinguish protocol v1 from v2.
-
-Couldn't we use ENOTTY  ? I think a pre-v6.0 kernel would return this errno.
-Some error report would be good to have.
-
-Thanks,
-
-C.
-
-
-
-
+Best regards,
+Bernhard
+>
 
