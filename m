@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E4166251B
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:10:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA29C66256A
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:22:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEqyJ-0000Hp-Bt; Mon, 09 Jan 2023 07:09:47 -0500
+	id 1pEqyQ-0000JC-Sd; Mon, 09 Jan 2023 07:09:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqyG-0000Gv-Pj
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:09:44 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqyL-0000IG-Ne
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:09:49 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqyF-0006FV-4t
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:09:44 -0500
-Received: by mail-wr1-x431.google.com with SMTP id m7so7920743wrn.10
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 04:09:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqyJ-0006Gz-O7
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:09:48 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id g10so6105814wmo.1
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 04:09:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6AR2ZUwcAh0vmjYEOu0eNTVNMoV0yrhbxAqfFJUy1vo=;
- b=px3MEXgValMVaRZ/dR0QBv3hiWqXhFErKyPpV+/Y62pefAwG02tZfLyC41YNykXSKI
- P9YHUxjE6iBqlVNHN3zrK69l34MDwxHsv5vSjiWq+K/VrxlxOVzzeEBrq/wYWEEMbiNT
- oyLfM2wbn9KPzaK5Eb0Eag4qhSR7c6PhtWh41iWjb+avIXNGezde+zgSsFyn4aJ1O/si
- olCzVHYaocX06vgwvYd9xbCv0Z+/LjTPIte6xhLWnZYIM5JISZuOVwQ4fImoxuHIRXxX
- 7gFZi0HKS5VtN/GNysN/qXyaIFtSeRCbIQMUxiX60LCf0JSwOIAEb3besMJwBeJX1DGW
- qLAA==
+ bh=ZIp3JsnCZxhXt6GT6aUhF32nL0uOIOLvhkTscuIIgmA=;
+ b=O2CJAPUOscrVtvbWCVYbN/6KrlrQXvAJmRdO16IY93pr6Pax3O33dgeTmtrnlEFQ4v
+ PGzNsA7RG2f4m9LKZVgHMK/nbRpGVy97J94FaXbKkT0PeVj4R2Hg1vCd0PsNz1NsCFl1
+ 3HQX3VsjNlbrOuozmkY9ces+WVJyV8dbT6tcLkKUWUxRMyadaI+cRDUTbytJ97R1ogo4
+ eUrCHuzhfClvJnwsey09Fdu9S0U6zxaNhsYVlpw6H8/ZPhS1Gg+83tV5nMh0HtCKaBF5
+ tBf/UuiwCsteXg41tSyM9p0sCecTfcHJ6cvLHIcVaAe94pyBePJHwNibUq3XFnc5YWbT
+ WQaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6AR2ZUwcAh0vmjYEOu0eNTVNMoV0yrhbxAqfFJUy1vo=;
- b=ulILAjXGpMLmn2vGAFf6CuwpFhR5mA1ZnUQMcMa+ABJPo64OEBpv8soUJW6qUyFRdJ
- J4tT9Wb2zyUkn1eeQrwT0JFrmSezj1EKrzTXpHq/ptp3rDgTd30LwqyffPQ0CcnSALAj
- oZX3ZfK15wx//K3cs2MsnbXdtE8k3j0ZhaN4SUQbt0tSVgyCri9D9FxLHG6nwOPZmVKd
- QrE3GAZotGnYivDqpQG7SCHJRTfaKtuRtAPA1/JH/Ad+pCouqS8P9UkVmo3eOXnsElop
- 1tnzjsNiW5waiFwWpXr91fxXWFHxwNTI8jEHle/jLgXOuU2ihk5+eBsWuXw5Ks0VlVhs
- FMxA==
-X-Gm-Message-State: AFqh2koHgC7ePcMv0YoxqmAlJ6ZMsivIXDholSVsAifhI/K0pivJB8Kt
- f0GVSVzF2jVqox5H4uVDQeN8ce8NpqWcQq1j
-X-Google-Smtp-Source: AMrXdXsK7ha3I0ZyZG8LorSCL4xtaPfab0aV72jGoA4wIxfya4TpwolmWihdxmpT9Ca55+ABUNVzCA==
-X-Received: by 2002:adf:f107:0:b0:284:5050:5e59 with SMTP id
- r7-20020adff107000000b0028450505e59mr29079963wro.29.1673266181579; 
- Mon, 09 Jan 2023 04:09:41 -0800 (PST)
+ bh=ZIp3JsnCZxhXt6GT6aUhF32nL0uOIOLvhkTscuIIgmA=;
+ b=r5TWNvzAGHisulV+CbaZktUMsojQvfeWDH1yyvrU5sIqZ8O58Bbr4DJNvx6Z0ZwIlJ
+ a4C25QK3G55gIGwGT2793IxVmcGHieSDT7ygyoXd3yVpFi7AVVuwtovdD6Z9eePdeitK
+ TfdJ6LqtyNyeO4Jh77bpWRo5+qoYwoyDXpGGh+uuSoZ4oouQ0HrF8BAHpb66uD8inezT
+ TipbJGQy2c0Jxoi0ht+BHCv8JbJDHR6uSxFV+DI0MWzcQbFPeEkYugecCQ8zuJr0zkJu
+ C52Pc+bi2x7XLkgxMg8KKdFm/dlblJ5Ku75UaT2iJ7b6iF+HuGtB3M4dKcpV6RsxGJrT
+ 34Uw==
+X-Gm-Message-State: AFqh2koXsNuqkZQ+GIroyydYftLBlFwxNn2n47XNx0yMPkg2WTS6sa+o
+ McvrTT9d7oGU1tvLHJ5oa4QbbhGTJURgvrDs
+X-Google-Smtp-Source: AMrXdXskIbv2Jx39BMtMFOoCtvTaneRDmX6uo8Sh1Bkir2mTK0N4kYceqYRnf4XwWJkhW7RGte7eSg==
+X-Received: by 2002:a05:600c:5116:b0:3d9:f296:1adc with SMTP id
+ o22-20020a05600c511600b003d9f2961adcmr1341676wms.33.1673266186309; 
+ Mon, 09 Jan 2023 04:09:46 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- bj7-20020a0560001e0700b002b6667d3adfsm8426733wrb.80.2023.01.09.04.09.40
+ u8-20020a05600c19c800b003d9780466b0sm12398079wmq.31.2023.01.09.04.09.45
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 09 Jan 2023 04:09:41 -0800 (PST)
+ Mon, 09 Jan 2023 04:09:45 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Bin Meng <bmeng.cn@gmail.com>
-Subject: [PATCH v2 14/21] hw/block: Remove unused pflash_cfi02_register()
-Date: Mon,  9 Jan 2023 13:08:26 +0100
-Message-Id: <20230109120833.3330-15-philmd@linaro.org>
+Subject: [PATCH v2 15/21] hw/block: Make PFlashCFI02 QOM declaration internal
+Date: Mon,  9 Jan 2023 13:08:27 +0100
+Message-Id: <20230109120833.3330-16-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230109120833.3330-1-philmd@linaro.org>
 References: <20230109120833.3330-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,85 +89,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We converted all caller of pflash_cfi02_register() by open
-coding a call to pflash_cfi02_create() followed by an explicit
-call to sysbus_mmio_map(); we can now remove it.
+Convert the QOM PFlashCFI02 to a forward/opaque pointer declaration.
+Only pflash_cfi02.c is able to poke at the internal fields.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/block/pflash_cfi02.c  | 36 ------------------------------------
- include/hw/block/flash.h | 13 -------------
- 2 files changed, 49 deletions(-)
+ hw/block/pflash_cfi02.c  | 2 ++
+ include/hw/block/flash.h | 8 +-------
+ 2 files changed, 3 insertions(+), 7 deletions(-)
 
 diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 55ddd0916c..6168e66d7e 100644
+index 6168e66d7e..ba035d8d42 100644
 --- a/hw/block/pflash_cfi02.c
 +++ b/hw/block/pflash_cfi02.c
-@@ -993,39 +993,3 @@ static void pflash_cfi02_register_types(void)
- }
+@@ -63,6 +63,8 @@ enum {
+     WCYCLE_AUTOSELECT_CFI   = 8,
+ };
  
- type_init(pflash_cfi02_register_types)
--
--PFlashCFI02 *pflash_cfi02_register(hwaddr base,
--                                   const char *name,
--                                   hwaddr size,
--                                   BlockBackend *blk,
--                                   uint32_t sector_len,
--                                   int nb_mappings, int width,
--                                   uint16_t id0, uint16_t id1,
--                                   uint16_t id2, uint16_t id3,
--                                   uint16_t unlock_addr0,
--                                   uint16_t unlock_addr1,
--                                   int be)
--{
--    DeviceState *dev = qdev_new(TYPE_PFLASH_CFI02);
--
--    if (blk) {
--        qdev_prop_set_drive(dev, "drive", blk);
--    }
--    assert(QEMU_IS_ALIGNED(size, sector_len));
--    qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
--    qdev_prop_set_uint32(dev, "sector-length", sector_len);
--    qdev_prop_set_uint8(dev, "device-width", width);
--    qdev_prop_set_uint8(dev, "mappings", nb_mappings);
--    qdev_prop_set_uint8(dev, "big-endian", !!be);
--    qdev_prop_set_uint16(dev, "id0", id0);
--    qdev_prop_set_uint16(dev, "id1", id1);
--    qdev_prop_set_uint16(dev, "id2", id2);
--    qdev_prop_set_uint16(dev, "id3", id3);
--    qdev_prop_set_uint16(dev, "unlock-addr0", unlock_addr0);
--    qdev_prop_set_uint16(dev, "unlock-addr1", unlock_addr1);
--    qdev_prop_set_string(dev, "name", name);
--    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
--
--    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
--    return PFLASH_CFI02(dev);
--}
++OBJECT_DECLARE_SIMPLE_TYPE(PFlashCFI02, PFLASH_CFI02)
++
+ struct PFlashCFI02 {
+     /*< private >*/
+     SysBusDevice parent_obj;
 diff --git a/include/hw/block/flash.h b/include/hw/block/flash.h
-index 25affdf7a5..d615bf6a53 100644
+index d615bf6a53..aeec4a369b 100644
 --- a/include/hw/block/flash.h
 +++ b/include/hw/block/flash.h
-@@ -31,19 +31,6 @@ void pflash_cfi01_legacy_drive(DeviceState *dev, DriveInfo *dinfo);
- OBJECT_DECLARE_SIMPLE_TYPE(PFlashCFI02, PFLASH_CFI02)
+@@ -6,9 +6,8 @@
+ #include "exec/hwaddr.h"
+ #include "qom/object.h"
  
- 
--PFlashCFI02 *pflash_cfi02_register(hwaddr base,
--                                   const char *name,
--                                   hwaddr size,
--                                   BlockBackend *blk,
--                                   uint32_t sector_len,
--                                   int nb_mappings,
--                                   int width,
--                                   uint16_t id0, uint16_t id1,
--                                   uint16_t id2, uint16_t id3,
--                                   uint16_t unlock_addr0,
--                                   uint16_t unlock_addr1,
--                                   int be);
+-/* pflash_cfi01.c */
 -
+ #define TYPE_PFLASH_CFI01 "cfi.pflash01"
++#define TYPE_PFLASH_CFI02 "cfi.pflash02"
+ OBJECT_DECLARE_SIMPLE_TYPE(PFlashCFI01, PFLASH_CFI01)
+ 
+ 
+@@ -25,11 +24,6 @@ BlockBackend *pflash_cfi01_get_blk(DeviceState *dev);
+ MemoryRegion *pflash_cfi01_get_memory(DeviceState *dev);
+ void pflash_cfi01_legacy_drive(DeviceState *dev, DriveInfo *dinfo);
+ 
+-/* pflash_cfi02.c */
+-
+-#define TYPE_PFLASH_CFI02 "cfi.pflash02"
+-OBJECT_DECLARE_SIMPLE_TYPE(PFlashCFI02, PFLASH_CFI02)
+-
+ 
  /* nand.c */
  DeviceState *nand_init(BlockBackend *blk, int manf_id, int chip_id);
- void nand_setpins(DeviceState *dev, uint8_t cle, uint8_t ale,
 -- 
 2.38.1
 
