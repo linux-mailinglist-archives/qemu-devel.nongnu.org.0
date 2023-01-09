@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8340661C24
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 02:53:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF09B661C1A
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 02:50:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEhBh-0000kK-F1; Sun, 08 Jan 2023 20:42:57 -0500
+	id 1pEhBi-0000kW-1O; Sun, 08 Jan 2023 20:42:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEhBf-0000jQ-It
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:42:55 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ id 1pEhBg-0000ju-4m
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:42:56 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEhBd-0001Vi-Nt
+ id 1pEhBe-0001Vs-Ew
  for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:42:55 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- v13-20020a17090a6b0d00b00219c3be9830so7808579pjj.4
- for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 17:42:53 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id c4so7967163plc.5
+ for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 17:42:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=8+Kh3rqXdCacs3XVxM/U6nRtJh0Sr0T/rkkzzgRcDAI=;
- b=NlZFaD5lxjLMYTfBRIg+oEIAQQbbss6I7/NBJuEPaKm1q15m0PNcI8Yvu2eIn4sRuV
- 4qtsydtVU10W8uIPV9Oc06n1FJsmOz2I460avyVEUemfY6hG6+PVx80L3YvMBlY8Vy3n
- fg9mLY6gNlzG4OetDP3654jJbrabssUwt5tk9ZrLF88SnTMsEwumFv7x77ugqA0rjJcs
- s1/4nrT/YjftXMcwrTN9m9Ih+5/N56FnVNmVIhDfEk5JUHzo8x6tNh7oFNqVXKkGbY/N
- HaaJHjObKpDStHSlJUB1oe51sWxDP2ffJuWDoD42o0PRjiyUNs87Ql4uHTdK5ZdO6gki
- AYBg==
+ :reply-to; bh=XzwUZnyRNwzrgTXbl3ZOKS8AhOqGhEQmhJu+6+SsqQQ=;
+ b=jeYoNc5jBiI8f7dIkdMlZJdP6bT8b+41TmKQ6r0iIIPR8g+9yZt7rOoYxPShyMP1Hy
+ 7xnYwACXffbsMk+zwZOr4qHG9WFBHTBNUCqpoIaLz4fo6Nqr3Aw4hSHYCZuPei4+b5Yg
+ BLyzikHztYIQxbaDgKuYEbm+PghGlBAgVRjXh6xYli+tGQIov9BG8By6ik6IeAsVgq69
+ AdE0knaxFYNMhGOahbAYZlewHI5eUxinS0iOqof1xyGtjRIfIMaB8ZpsiJIgr71X2vwy
+ Bq+oldyfx2VzEB9ZUOSLyAvDS4t8+Pu8RUGnWBqjhMN/ROdkScit+lLqlTpcdIdRp+v+
+ IaCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8+Kh3rqXdCacs3XVxM/U6nRtJh0Sr0T/rkkzzgRcDAI=;
- b=yK1oFaVcNVwXxbwG61MhpYOjV/rjxzL9ld2uOlZRMBYKC8uMLqO0lJM8ZBdiajVYfN
- H0V/k65thSOqk48yDtWn6UPnG5rgK0qkcl5eStWvdPZsQ04zw2HQC0SppbXElO9RfjVj
- 8ti5QwQnNjtaE9ZjEtiVQsaAKUumHKGUjOZqlh4wquWwTRTHv4iGOLwwYvkUf83NFZjm
- CNofd/JC7cCpD5rDv6pg+wcxdi2jBOFH8YZMUR5yihKkaFhTg0XSJ8ZaHgjS/359SZU+
- 3QwfPSTbfdc2KoJDiRCeLZ3KWJ1TA0GZYOiAcCIe74k2ih34mH6df53mNcW1vN14blN4
- eBrg==
-X-Gm-Message-State: AFqh2kqtLEnIQIaRBpWAJXRIuy6xMcmqlkOA/1AEYodY+JVlnTYaiFmQ
- TTbNDkegEh+D7R6nf1Q6UHqiANxu/L7aBezX
-X-Google-Smtp-Source: AMrXdXuMIJJmSoCT5NIF+5X+23907Tyy6uYWkC8xXbUAUoUIXLCwt3fVlOspJDWcvpBkPjBQoPcJMg==
-X-Received: by 2002:a17:902:ead4:b0:189:c429:f615 with SMTP id
- p20-20020a170902ead400b00189c429f615mr62582833pld.1.1673228572337; 
- Sun, 08 Jan 2023 17:42:52 -0800 (PST)
+ bh=XzwUZnyRNwzrgTXbl3ZOKS8AhOqGhEQmhJu+6+SsqQQ=;
+ b=FajnX2lGITo6+2f1ZLX7t0meDkHIK1uF+zfPDzGJHeqpDB9WMHWhcdqNYPw5glkIWH
+ uZjyPJcB02QLjNptqMiKuPcd0p0XpaBU2fLMz5mMHlI4+V6IiZA6rr2FbrGGKCsy6lPF
+ pURJHo0wQJUsQQ1TnFhKkoxqK5q0OjeoVTPTkcwpVCLBuzJuxbVBpwRUbp2VX0o8XtzW
+ qH8p8OrDzrC4HJ7KI8E04ISDL9WFx3t+72ytEgGy+hDVEfKyQ+uSJVMU3KvD0bQUxtJ5
+ SFxTc6cfyReso+6gvi6jzJ4pbv/I19KoHTJcUbty0RsmZ0LSB6lb4Jrpsh/eXQXDV65z
+ 84IA==
+X-Gm-Message-State: AFqh2koavfGEv50vofwR3aDz2v7BKXc2RWY33LQANBPylCz1CuEmReU6
+ WumAf266/RF3cD+jlirudVur1vfhT9D74jrR
+X-Google-Smtp-Source: AMrXdXuA6QJUkp4yPTXXP65otWr/XGJ0ElzGzP6X3VBWehFjXqoHlbKm+iGsPXz8RMT5v8rGpTsj/Q==
+X-Received: by 2002:a17:902:d4ca:b0:191:1f16:efa3 with SMTP id
+ o10-20020a170902d4ca00b001911f16efa3mr69451943plg.65.1673228573150; 
+ Sun, 08 Jan 2023 17:42:53 -0800 (PST)
 Received: from stoup.. ([2602:47:d48c:8101:a909:891c:953d:a6b0])
  by smtp.gmail.com with ESMTPSA id
- w13-20020a170902ca0d00b00178b77b7e71sm4743617pld.188.2023.01.08.17.42.51
+ w13-20020a170902ca0d00b00178b77b7e71sm4743617pld.188.2023.01.08.17.42.52
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Jan 2023 17:42:51 -0800 (PST)
+ Sun, 08 Jan 2023 17:42:52 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/22] tcg/i386: Remove unused goto_tb code for indirect
- jump
-Date: Sun,  8 Jan 2023 17:42:28 -0800
-Message-Id: <20230109014248.2894281-3-richard.henderson@linaro.org>
+Subject: [PATCH v2 03/22] tcg/ppc: Remove unused goto_tb code for indirect jump
+Date: Sun,  8 Jan 2023 17:42:29 -0800
+Message-Id: <20230109014248.2894281-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230109014248.2894281-1-richard.henderson@linaro.org>
 References: <20230109014248.2894281-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,42 +90,54 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/i386/tcg-target.c.inc | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ tcg/ppc/tcg-target.c.inc | 32 +++++++++++++-------------------
+ 1 file changed, 13 insertions(+), 19 deletions(-)
 
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index feb257db01..c4ff59e9ee 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -2383,23 +2383,19 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index a95e4001d3..b72e266990 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -2630,27 +2630,21 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
  
      switch (opc) {
      case INDEX_op_goto_tb:
 -        if (s->tb_jmp_insn_offset) {
--            /* direct jump method */
--            int gap;
--            /* jump displacement must be aligned for atomic patching;
+-            /* Direct jump. */
+-            if (TCG_TARGET_REG_BITS == 64) {
+-                /* Ensure the next insns are 8 or 16-byte aligned. */
+-                while ((uintptr_t)s->code_ptr & (have_isa_2_07 ? 15 : 7)) {
+-                    tcg_out32(s, NOP);
+-                }
+-                s->tb_jmp_insn_offset[args[0]] = tcg_current_code_size(s);
+-                tcg_out32(s, ADDIS | TAI(TCG_REG_TB, TCG_REG_TB, 0));
+-                tcg_out32(s, ADDI | TAI(TCG_REG_TB, TCG_REG_TB, 0));
+-            } else {
+-                s->tb_jmp_insn_offset[args[0]] = tcg_current_code_size(s);
+-                tcg_out32(s, B);
+-                s->tb_jmp_reset_offset[args[0]] = tcg_current_code_size(s);
+-                break;
 +        qemu_build_assert(TCG_TARGET_HAS_direct_jump);
-+        {
-+            /*
-+             * Jump displacement must be aligned for atomic patching;
-              * see if we need to add extra nops before jump
-              */
--            gap = QEMU_ALIGN_PTR_UP(s->code_ptr + 1, 4) - s->code_ptr;
-+            int gap = QEMU_ALIGN_PTR_UP(s->code_ptr + 1, 4) - s->code_ptr;
-             if (gap != 1) {
-                 tcg_out_nopn(s, gap - 1);
++        /* Direct jump. */
++        if (TCG_TARGET_REG_BITS == 64) {
++            /* Ensure the next insns are 8 or 16-byte aligned. */
++            while ((uintptr_t)s->code_ptr & (have_isa_2_07 ? 15 : 7)) {
++                tcg_out32(s, NOP);
              }
-             tcg_out8(s, OPC_JMP_long); /* jmp im */
-             s->tb_jmp_insn_offset[a0] = tcg_current_code_size(s);
-             tcg_out32(s, 0);
--        } else {
--            /* indirect jump method */
--            tcg_out_modrm_offset(s, OPC_GRP5, EXT5_JMPN_Ev, -1,
--                                 (intptr_t)(s->tb_jmp_target_addr + a0));
++            s->tb_jmp_insn_offset[args[0]] = tcg_current_code_size(s);
++            tcg_out32(s, ADDIS | TAI(TCG_REG_TB, TCG_REG_TB, 0));
++            tcg_out32(s, ADDI | TAI(TCG_REG_TB, TCG_REG_TB, 0));
+         } else {
+-            /* Indirect jump. */
+-            tcg_debug_assert(s->tb_jmp_insn_offset == NULL);
+-            tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TB, 0,
+-                       (intptr_t)(s->tb_jmp_insn_offset + args[0]));
++            s->tb_jmp_insn_offset[args[0]] = tcg_current_code_size(s);
++            tcg_out32(s, B);
++            s->tb_jmp_reset_offset[args[0]] = tcg_current_code_size(s);
++            break;
          }
-         set_jmp_reset_offset(s, a0);
-         break;
+         tcg_out32(s, MTSPR | RS(TCG_REG_TB) | CTR);
+         tcg_out32(s, BCCTR | BO_ALWAYS);
 -- 
 2.34.1
 
