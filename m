@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B55E662DD6
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 19:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC25662E84
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 19:16:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEwQr-0000R4-Pf; Mon, 09 Jan 2023 12:59:37 -0500
+	id 1pEwfk-0006Z2-BH; Mon, 09 Jan 2023 13:15:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEwQp-0000Qi-Pu
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:59:35 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEwQo-0008LN-89
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:59:35 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id q64so9571274pjq.4
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 09:59:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tmI+4WR/xzy3+CxB+qI0dx25hS44O6VG+ewPfYR1kqo=;
- b=G18at7xAXlQQ9iiPO+yn9jBXvXlEgzT+VmcakBeEQCifbGFsh4ii6M8/jT55QDrQzU
- 4APvuC/N7O/Ii2YsJBoroTofdrhkYJTPHlENhA+B2LpuY+FmDGY1YtAT0TfAthpk88DK
- sii9JWX8LPm2MGaC2rUTsewEFHVMkqHyephDr6Q8vk7GSkNQ/3qxww3QwV2QzhhmTLyp
- UO1tyCc09Al5xqrqvVCTYs2+CT6+VjJAa+g1Bi2fjRDoKqylTumFcfu+rJ0DKhypDhMU
- hZ4eNVsgWNTBojifRoOgpRwftgnpPoYdrpnkXzyxhc3XXEVppFztRzNpfRDQUMEnY4Z6
- vYFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tmI+4WR/xzy3+CxB+qI0dx25hS44O6VG+ewPfYR1kqo=;
- b=dS31S6DaGy8VZvCrbSi8GUn9sJ9J0U2gYewV0NyWIUKas/1H1R6G0UoNFEQZWJP/xH
- VecmqjL90rZyN+D19O9UyHF3BqCXnCsiKB3/KgC3yhx7y4/k31OqNJAo8aalrgmGlVAi
- RxXsWDNRfSeKDsC/8RnFR/mwilQ9imTYFelZ2JqGWwbUIntRm+5LbJJK30Dh2kys7eY4
- lbDKRagcVU8MG3bdkPg/jr/lN4Q3PN0vNB4rlxLcTZ2NGzP0MUKJY9eQI+FnVF9l8+A6
- TAsm49czVieZZlP+R5z7UjRi/RTLqc/VwzUrmF1x6ksVyGHHg7vtv4P0yiu4El2NLYA4
- Ruqg==
-X-Gm-Message-State: AFqh2kpHyC8Q9CMQuit5eIU0wdEK5KgNQN4s4dpEP41Kw9fQ26/eBj+M
- 7zLMjYL13prbkVrAr9uIWCILaw==
-X-Google-Smtp-Source: AMrXdXvql1eU2uZ61JAjs2nErQU8zPoCrsPOhnBmXQjbZ8+uoRjVjO23O20YF6ciIygzCVkwSiO2kw==
-X-Received: by 2002:a05:6a20:4a23:b0:b5:fc85:d864 with SMTP id
- fr35-20020a056a204a2300b000b5fc85d864mr1326387pzb.32.1673287172695; 
- Mon, 09 Jan 2023 09:59:32 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:a909:891c:953d:a6b0?
- ([2602:47:d48c:8101:a909:891c:953d:a6b0])
- by smtp.gmail.com with ESMTPSA id
- l33-20020a635721000000b0047702d44861sm5328061pgb.18.2023.01.09.09.59.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 09:59:32 -0800 (PST)
-Message-ID: <099810fb-6b1f-3913-1a35-4adb30c5ca07@linaro.org>
-Date: Mon, 9 Jan 2023 09:59:30 -0800
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1pEwfi-0006Ym-LL
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 13:14:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1pEwfg-0005tB-AC
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 13:14:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673288095;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2vnh2UtCuB8CgFfPVhIDlvTz0oe1SrzLoqBCROMVjJ0=;
+ b=TLLDZ3rzyDoWQxA7Se1QgyeRcfgdc7CmQtS9NLCnqMc7PqTrwZ7rOW8J/cz804Exc6P+gV
+ q4DNwkk4wtn3Xl+7SapF39AeHNxDGtVe5eXpV9mnMXp52MZ3QrFzyTbrYXzdi3cvE4SgSf
+ PpYrpt3yYJOCgvV0jBHrgC6UM9o89oE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-636-cYOwRLb0N6q2CHkHJNcIJg-1; Mon, 09 Jan 2023 13:14:52 -0500
+X-MC-Unique: cYOwRLb0N6q2CHkHJNcIJg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 487AA857F40;
+ Mon,  9 Jan 2023 18:14:51 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D72F4078903;
+ Mon,  9 Jan 2023 18:14:49 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Eric Farman <farman@linux.ibm.com>, John Snow <jsnow@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ David Hildenbrand <david@redhat.com>, kraxel@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Michael Roth <michael.roth@amd.com>
+Subject: [PATCH v2 0/5] Fix win32/msys2 shader compilation & drop perl
+Date: Mon,  9 Jan 2023 22:14:42 +0400
+Message-Id: <20230109181447.235989-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 00/14] hw/arm: QOM OBJECT_DECLARE_SIMPLE_TYPE cleanups
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Havard Skinnemoen <hskinnemoen@google.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Tyrone Ting <kfting@nuvoton.com>
-References: <20230109140306.23161-1-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230109140306.23161-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,25 +90,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/9/23 06:02, Philippe Mathieu-Daudé wrote:
-> Philippe Mathieu-Daudé (14):
->    hw/arm/pxa: Avoid forward-declaring PXA2xxI2CState
->    hw/gpio/omap_gpio: Add local variable to avoid embedded cast
->    hw/arm/omap: Drop useless casts from void * to pointer
->    hw/gpio/omap_gpio: Use CamelCase for TYPE_OMAP1_GPIO type name
->    hw/gpio/omap_gpio: Use CamelCase for TYPE_OMAP2_GPIO type name
->    hw/intc/omap_intc: Use CamelCase for TYPE_OMAP_INTC type name
->    hw/arm/stellaris: Drop useless casts from void * to pointer
->    hw/arm/stellaris: Use CamelCase for STELLARIS_ADC type name
->    hw/arm/bcm2836: Remove definitions generated by OBJECT_DECLARE_TYPE()
->    hw/arm/npcm7xx: Declare QOM macros using OBJECT_DECLARE_SIMPLE_TYPE()
->    hw/misc/sbsa_ec: Rename TYPE_SBSA_EC -> TYPE_SBSA_SECURE_EC
->    hw/misc/sbsa_ec: Declare QOM macros using OBJECT_DECLARE_SIMPLE_TYPE()
->    hw/intc/xilinx_intc: Use 'XpsIntc' typedef instead of 'struct xlx_pic'
->    hw/timer/xilinx_timer: Use XpsTimerState instead of 'struct
->      timerblock'
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hi,
 
-r~
+Fix the shader compilation error on win32/msys2 and convert the related script
+from perl to python.
+
+v2:
+- add a few patches to drop perl from the build dependencies
+- add some tags for v1 patches
+- add copyright header to the python script
+
+Marc-André Lureau (5):
+  build-sys: fix crlf-ending C code
+  .gitlab-ci.d/windows: do not disable opengl
+  configure: replace Perl usage with sed
+  meson: replace Perl usage with Python
+  Draft: Update lcitool
+
+ configure                                     |  8 +++---
+ meson.build                                   |  2 +-
+ .gitlab-ci.d/cirrus/freebsd-12.vars           |  2 +-
+ .gitlab-ci.d/cirrus/freebsd-13.vars           |  2 +-
+ .gitlab-ci.d/cirrus/macos-12.vars             |  2 +-
+ .gitlab-ci.d/windows.yml                      |  5 ++--
+ scripts/ci/setup/build-environment.yml        |  1 -
+ scripts/shaderinclude.pl                      | 16 ------------
+ scripts/shaderinclude.py                      | 26 +++++++++++++++++++
+ tests/docker/dockerfiles/alpine.docker        |  1 -
+ tests/docker/dockerfiles/centos8.docker       |  1 -
+ .../dockerfiles/debian-amd64-cross.docker     |  1 -
+ tests/docker/dockerfiles/debian-amd64.docker  |  1 -
+ .../dockerfiles/debian-arm64-cross.docker     |  1 -
+ .../dockerfiles/debian-armel-cross.docker     |  1 -
+ .../dockerfiles/debian-armhf-cross.docker     |  1 -
+ .../dockerfiles/debian-mips64el-cross.docker  |  1 -
+ .../dockerfiles/debian-mipsel-cross.docker    |  1 -
+ .../dockerfiles/debian-ppc64el-cross.docker   |  1 -
+ .../dockerfiles/debian-s390x-cross.docker     |  1 -
+ .../dockerfiles/debian-tricore-cross.docker   |  1 -
+ .../dockerfiles/fedora-win32-cross.docker     |  5 ++--
+ .../dockerfiles/fedora-win64-cross.docker     |  5 ++--
+ tests/docker/dockerfiles/fedora.docker        |  5 ++--
+ tests/docker/dockerfiles/opensuse-leap.docker |  1 -
+ tests/docker/dockerfiles/ubuntu2004.docker    |  1 -
+ tests/lcitool/libvirt-ci                      |  2 +-
+ tests/lcitool/projects/qemu.yml               |  1 -
+ tests/lcitool/refresh                         |  6 ++---
+ tests/qapi-schema/meson.build                 |  7 ++---
+ tests/vm/centos.aarch64                       |  2 +-
+ 31 files changed, 50 insertions(+), 61 deletions(-)
+ delete mode 100644 scripts/shaderinclude.pl
+ create mode 100755 scripts/shaderinclude.py
+
+-- 
+2.39.0
+
 
