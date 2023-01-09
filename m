@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9BD662328
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 11:24:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A802662343
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 11:37:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEpKN-00040o-AL; Mon, 09 Jan 2023 05:24:27 -0500
+	id 1pEpVQ-0007Ld-Tr; Mon, 09 Jan 2023 05:35:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pEpKL-00040J-Nf
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:24:25 -0500
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pEpKJ-0008Ub-Sf
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:24:25 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 8A8CA21825;
- Mon,  9 Jan 2023 10:24:19 +0000 (UTC)
-Received: from kaod.org (37.59.142.110) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 9 Jan
- 2023 11:24:17 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-110S00495871de7-8296-4f6d-adb0-f044e4d99143,
- 1F76CF3ACB56F17C32A409AA235EFAF7B7A61927) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <b32e9bfb-44fb-fc62-44cb-a6e4d6b7e4cc@kaod.org>
-Date: Mon, 9 Jan 2023 11:24:11 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEpV9-0007JH-R1
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:35:40 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEpV8-0005Z9-87
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:35:35 -0500
+Received: by mail-wr1-x430.google.com with SMTP id j7so2664112wrn.9
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 02:35:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nfFZK8xouw4KxaG/WOrStGecxIWo+M3T8lLkmuXhPAI=;
+ b=EA1zzMo06P6Pzpujwe1F72f+wwn+vRLVh/ixjtP6Tgf/JgKDsiYwf5ABpFrZW8/28V
+ 167Ht/GDZ6xtS+2hOmLVYezX0bD+0JFL95y6X7F647JSdNrPnud+kxHqAcYQtWOQl///
+ 9fUmmIccUBHoC+81apCiEBS8/IsCF0ofFtjMxTfx338FsbxZWySkOJLphmKNEHIlN6Sh
+ LyvwkhX0j1oi+OTpRS3YFefg/G+11SRE8jg90POg3h2ubD39dLQ/6Vz432MjSg9zrEdP
+ U+bl6J2Bp1ENTqWrT9IbwCqrSno3lauOFjIPJ118DGuE+uyogZcRbT1dQ/wJBe/qNALl
+ MfQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nfFZK8xouw4KxaG/WOrStGecxIWo+M3T8lLkmuXhPAI=;
+ b=QaUA1SP9CYpgxPZKeZIBnGoK/DURYZO/bCwELpmZKbUvXGidUh0b4wqZU4+zcjZYfw
+ UmNuju+HKREmJwsqiZBGOzgINKz5054fsz1QxHbGrvl9MAyJiYeDBtVVKxzbAq8Ty8el
+ 4Avkwv4aB8seQ5b2hzZIW9dNearv9+P4BstNLS1R66PXF8GHnnO5BuudDABBEsHtrq8P
+ 1fbMiqIDruvRMrUmzyTzCToq1z95UzUnxsYJ7RwaoueoFu3tp04ZIH0AZyKlU4XePSo8
+ k8gIn5tMTjXSDKLkA4cZg5Tm+hDdcNn6/TlJZMjNczWXeQvqDLCMT9cvauhkAQ5PEIez
+ 4FbQ==
+X-Gm-Message-State: AFqh2kotfE/FITHmsspXtRTgXMk19TxNzxyvKdwLgiOpylxuzhDcH6nW
+ WsAy1FLTXTyzFzUKUMnHzb0/TQ==
+X-Google-Smtp-Source: AMrXdXtihm4gI4UxgWxqyzP0yEC4FSaL35pT/N/MB3qvmDQ43ttInXdByUuunHD7yixBH4RxhzJn/Q==
+X-Received: by 2002:a5d:5a19:0:b0:24e:fdee:3eb6 with SMTP id
+ bq25-20020a5d5a19000000b0024efdee3eb6mr47834930wrb.69.1673260532701; 
+ Mon, 09 Jan 2023 02:35:32 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ n16-20020a5d4010000000b002bbed1388a5sm2835743wrp.15.2023.01.09.02.35.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 02:35:32 -0800 (PST)
+Message-ID: <ac950dbe-9ede-19eb-06d7-aa4a730ff9a3@linaro.org>
+Date: Mon, 9 Jan 2023 11:35:31 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v5 03/14] migration: Simplify migration_iteration_run()
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] tests/qtest/test-hmp: Improve the check for verbose mode
 Content-Language: en-US
-To: Avihai Horon <avihaih@nvidia.com>, <qemu-devel@nongnu.org>
-CC: Alex Williamson <alex.williamson@redhat.com>, Halil Pasic
- <pasic@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, Richard Henderson
- <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>, Ilya
- Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, Juan
- Quintela <quintela@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck
- <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, Eric Blake
- <eblake@redhat.com>, Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>, John Snow <jsnow@redhat.com>,
- <qemu-s390x@nongnu.org>, <qemu-block@nongnu.org>, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
- <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-References: <20221229110345.12480-1-avihaih@nvidia.com>
- <20221229110345.12480-4-avihaih@nvidia.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221229110345.12480-4-avihaih@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20230109101306.271444-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230109101306.271444-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.110]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: f474033f-da09-47b1-a49e-63e8ca161a38
-X-Ovh-Tracer-Id: 16956897026189200168
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeigddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdduuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegrvhhihhgrihhhsehnvhhiughirgdrtghomhdpkhifrghnkhhhvgguvgesnhhvihguihgrrdgtohhmpdhmrghorhhgsehnvhhiughirgdrtghomhdpjhhgghesnhhvihguihgrrdgtohhmpdihihhshhgrihhhsehnvhhiughirgdrtghomhdpqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpjhhsnhhofiesrhgvughhrghtrdgtohhmpdhvshgvmhgvnhhtshhovheshigrnhguvgigqdhtvggrmhdrrhhupdgvsghlrg
- hkvgesrhgvughhrghtrdgtohhmpdhfrghmsegvuhhphhhonhdrnhgvthdpshhtvghfrghnhhgrsehrvgguhhgrthdrtghomhdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpmhhsthesrhgvughhrghtrdgtohhmpdgughhilhgsvghrthesrhgvughhrghtrdgtohhmpdhquhhinhhtvghlrgesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpihhiiheslhhinhhugidrihgsmhdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpfhgrrhhmrghnsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrsehlihhnuhigrdhisghmrdgtohhmpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgrlhgvgidrfihilhhlihgrmhhsohhnsehrvgguhhgrthdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpthgrrhhguhhpthgrsehnvhhiughirgdrtghomhdpjhhorghordhmrdhmrghrthhinhhssehorhgrtghlvgdrtghomhdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,66 +91,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/29/22 12:03, Avihai Horon wrote:
-> From: Juan Quintela <quintela@redhat.com>
+On 9/1/23 11:13, Thomas Huth wrote:
+> Running the test-hmp with V=2 up to V=9 runs the test in verbose mode,
+> but running for example with V=10 falls back to non-verbose mode ...
+> Improve this oddity by properly treating the argument as a number.
 > 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-
-
-
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
-
-Thanks,
-
-C.
-
-
-
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   migration/migration.c | 25 +++++++++++++------------
->   1 file changed, 13 insertions(+), 12 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 9795d0ec5c..61b9ce0fe8 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -3758,23 +3758,24 @@ static MigIterateState migration_iteration_run(MigrationState *s)
->       trace_migrate_pending(pending_size, s->threshold_size,
->                             pend_pre, pend_compat, pend_post);
->   
-> -    if (pending_size && pending_size >= s->threshold_size) {
-> -        /* Still a significant amount to transfer */
-> -        if (!in_postcopy && pend_pre <= s->threshold_size &&
-> -            qatomic_read(&s->start_postcopy)) {
-> -            if (postcopy_start(s)) {
-> -                error_report("%s: postcopy failed to start", __func__);
-> -            }
-> -            return MIG_ITERATE_SKIP;
-> -        }
-> -        /* Just another iteration step */
-> -        qemu_savevm_state_iterate(s->to_dst_file, in_postcopy);
-> -    } else {
-> +
-> +    if (!pending_size || pending_size < s->threshold_size) {
->           trace_migration_thread_low_pending(pending_size);
->           migration_completion(s);
->           return MIG_ITERATE_BREAK;
->       }
->   
-> +    /* Still a significant amount to transfer */
-> +    if (!in_postcopy && pend_pre <= s->threshold_size &&
-> +        qatomic_read(&s->start_postcopy)) {
-> +        if (postcopy_start(s)) {
-> +            error_report("%s: postcopy failed to start", __func__);
-> +        }
-> +        return MIG_ITERATE_SKIP;
-> +    }
-> +
-> +    /* Just another iteration step */
-> +    qemu_savevm_state_iterate(s->to_dst_file, in_postcopy);
->       return MIG_ITERATE_RESUME;
->   }
->   
+>   tests/qtest/test-hmp.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
