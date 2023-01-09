@@ -2,63 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C9B661FBA
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 09:13:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 911C9661FD0
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 09:19:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEnGS-0000Si-9U; Mon, 09 Jan 2023 03:12:16 -0500
+	id 1pEnM6-0001VA-BA; Mon, 09 Jan 2023 03:18:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pEnGR-0000SX-1W
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 03:12:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pEnGO-000568-JQ
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 03:12:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673251931;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=Ya+cMYVzdJ59Dwqkd3nDTVFIZ6v+KDYo7sCX8w9FUdY=;
- b=L4W2y74k1LpFab8WRdZTIRVdo7HTwoxoFlX6UbXre7JHFNvekmAu2z1+712BZ2gcroYsrg
- tECvxLXzeOcesLHnTKJ5nB8h5ANBqL/pkbCWqOFCTTQ/aRMDBkbrTLBmeaIp9bfHc4mQnh
- BtnzaMA6G0vSXoLIzXyh80DZR54wAHU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-nTmrwFE6MFyvd4sJxjmCsw-1; Mon, 09 Jan 2023 03:12:09 -0500
-X-MC-Unique: nTmrwFE6MFyvd4sJxjmCsw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AE60B1C0898D;
- Mon,  9 Jan 2023 08:12:08 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 691BF53AA;
- Mon,  9 Jan 2023 08:12:07 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	"Michael S. Tsirkin" <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH] tests/qtest/bios-tables-test: Replace -no-hpet with hpet=off
- machine parameter
-Date: Mon,  9 Jan 2023 09:12:05 +0100
-Message-Id: <20230109081205.116369-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pEnM0-0001Ug-SL
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 03:18:00 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pEnLz-0007ct-6r
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 03:18:00 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ k26-20020a05600c1c9a00b003d972646a7dso8364286wms.5
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 00:17:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zixhl4RSE0u3gVtaKDIIz2mnQga8K7TFeW5ZZdrtuc4=;
+ b=xXm7ay235hX4IGDy8JAt5uIa+cBDEi2Wxb46d7iu1GWA+K3wgd5d0PVjs238KRM8kL
+ N+kra9ILfsGesY6BlAjNuo+8jp7Tcl2fhIj1t5uDvLi6UiH0ZQGnFtWLxYTKjhzl1Ple
+ D6YgHYFFpg+c3/pQGviuXYvbEJzwn4l7UrhblDlfO/IXjv+vr3dIdviP7L2vib+IUEcZ
+ UrUcOfImdoD9QRcCAMZoE4rRvJurEMSChRSdWdpM7tBYNJjxoY1PxPYtVh+7tDc9i52a
+ mOqzKBywJ1m+s7+DJduFYyfi20YKLi4JgZM/f9TBaLmT+27HzsbFRzi6YnxutQ4npCzk
+ S5Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=zixhl4RSE0u3gVtaKDIIz2mnQga8K7TFeW5ZZdrtuc4=;
+ b=kXizauj90r7Tdatkmye8Q9/VoYJ6OPnO+OW8phMdHJ/xpIxYft3Iyie130ofVJACPi
+ XIMprPNKmhihbh7AKXv0jKLtDRUCmOI+bMRaDwDu8LI70jQ2/ojniDmUkuhyEI35nOO0
+ PPVbPL7F28PCzqzO8nci1wSSPenIafXYIPNrA7350Jt/cnfckrPHV934ElVK/OeRYfxh
+ dUSoHVhcz9Pm43zxCY4xlsX8euJYzBKyfv/9Hv+c/TA+59B6nzCRRDlk1GsB16N2/taC
+ x/6rmvY4z8a8Wv50egU7pDi9Hm/4vemL0FkLrN9vHrBiA7dEsrrULFx3+Oi0pjF7vAJ3
+ /c2A==
+X-Gm-Message-State: AFqh2ko19Jm2ED+S8KsBtjQ2P/nhWBD949GsYO2RKNReA6jma1qar2AW
+ 79pSpmI3a5omonyvzOwUOqKh0g==
+X-Google-Smtp-Source: AMrXdXu/GleAeAqAXx96HRT6Ga1nuw4M673xREzeVVzw2p5UFEmNxvK+NdjxfeFMsG5Ruom+sgTVeQ==
+X-Received: by 2002:a05:600c:218f:b0:3d1:fbf9:3bd4 with SMTP id
+ e15-20020a05600c218f00b003d1fbf93bd4mr46143507wme.10.1673252276992; 
+ Mon, 09 Jan 2023 00:17:56 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ he12-20020a05600c540c00b003d9ddc82450sm10240745wmb.45.2023.01.09.00.17.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Jan 2023 00:17:56 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E05A61FFB7;
+ Mon,  9 Jan 2023 08:17:55 +0000 (GMT)
+References: <20230109063130.81296-1-akihiko.odaki@daynix.com>
+User-agent: mu4e 1.9.12; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] vhost-user: Correct a reference of TARGET_AARCH64
+Date: Mon, 09 Jan 2023 08:17:51 +0000
+In-reply-to: <20230109063130.81296-1-akihiko.odaki@daynix.com>
+Message-ID: <87wn5wnmto.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,86 +94,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are going to deprecate (and finally remove later) the -no-hpet command
-line option. Prepare the bios-tables-test by using the replacement hpet=off
-machine parameter instead.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/bios-tables-test.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+Akihiko Odaki <akihiko.odaki@daynix.com> writes:
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 395d441212..19b5b5a38b 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -78,6 +78,7 @@
- typedef struct {
-     bool tcg_only;
-     const char *machine;
-+    const char *machine_param;
-     const char *variant;
-     const char *uefi_fl1;
-     const char *uefi_fl2;
-@@ -776,26 +777,29 @@ static char *test_acpi_create_args(test_data *data, const char *params,
-          * when arm/virt boad starts to support it.
-          */
-         if (data->cd) {
--            args = g_strdup_printf("-machine %s %s -accel tcg "
-+            args = g_strdup_printf("-machine %s%s %s -accel tcg "
-                 "-nodefaults -nographic "
-                 "-drive if=pflash,format=raw,file=%s,readonly=on "
-                 "-drive if=pflash,format=raw,file=%s,snapshot=on -cdrom %s %s",
--                data->machine, data->tcg_only ? "" : "-accel kvm",
-+                data->machine, data->machine_param ?: "",
-+                data->tcg_only ? "" : "-accel kvm",
-                 data->uefi_fl1, data->uefi_fl2, data->cd, params ? params : "");
-         } else {
--            args = g_strdup_printf("-machine %s %s -accel tcg "
-+            args = g_strdup_printf("-machine %s%s %s -accel tcg "
-                 "-nodefaults -nographic "
-                 "-drive if=pflash,format=raw,file=%s,readonly=on "
-                 "-drive if=pflash,format=raw,file=%s,snapshot=on %s",
--                data->machine, data->tcg_only ? "" : "-accel kvm",
-+                data->machine, data->machine_param ?: "",
-+                data->tcg_only ? "" : "-accel kvm",
-                 data->uefi_fl1, data->uefi_fl2, params ? params : "");
-         }
-     } else {
--        args = g_strdup_printf("-machine %s %s -accel tcg "
-+        args = g_strdup_printf("-machine %s%s %s -accel tcg "
-             "-net none %s "
-             "-drive id=hd0,if=none,file=%s,format=raw "
-             "-device %s,drive=hd0 ",
--             data->machine, data->tcg_only ? "" : "-accel kvm",
-+             data->machine, data->machine_param ?: "",
-+             data->tcg_only ? "" : "-accel kvm",
-              params ? params : "", disk,
-              data->blkdev ?: "ide-hd");
-     }
-@@ -1141,8 +1145,9 @@ static void test_acpi_piix4_tcg_nohpet(void)
- 
-     memset(&data, 0, sizeof(data));
-     data.machine = MACHINE_PC;
-+    data.machine_param = ",hpet=off";
-     data.variant = ".nohpet";
--    test_acpi_one("-no-hpet", &data);
-+    test_acpi_one(NULL, &data);
-     free_test_data(&data);
- }
- 
-@@ -1210,8 +1215,9 @@ static void test_acpi_q35_tcg_nohpet(void)
- 
-     memset(&data, 0, sizeof(data));
-     data.machine = MACHINE_Q35;
-+    data.machine_param = ",hpet=off";
-     data.variant = ".nohpet";
--    test_acpi_one("-no-hpet", &data);
-+    test_acpi_one(NULL, &data);
-     free_test_data(&data);
- }
- 
--- 
-2.31.1
+> Presumably TARGET_ARM_64 should be a mistake of TARGET_AARCH64.
+>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
