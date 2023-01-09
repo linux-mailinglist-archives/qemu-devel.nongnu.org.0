@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E27663480
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:58:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA787663481
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:59:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF15t-0002i2-Nt; Mon, 09 Jan 2023 17:58:17 -0500
+	id 1pF16e-0003Q1-KD; Mon, 09 Jan 2023 17:59:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pF15m-0002hX-26
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:58:10 -0500
-Received: from mail-vk1-xa2e.google.com ([2607:f8b0:4864:20::a2e])
+ id 1pF16c-0003Pp-1x; Mon, 09 Jan 2023 17:59:02 -0500
+Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pF15k-0000OQ-GI
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:58:09 -0500
-Received: by mail-vk1-xa2e.google.com with SMTP id j18so3017663vkn.10
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 14:58:08 -0800 (PST)
+ id 1pF16a-0000Ub-Bp; Mon, 09 Jan 2023 17:59:01 -0500
+Received: by mail-vs1-xe2e.google.com with SMTP id i185so10455909vsc.6;
+ Mon, 09 Jan 2023 14:58:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HuApRwskrnjZ7JZSpyf9nPpTzFOL0VRkoumRzw4Sbls=;
- b=eNDYg2rqMK6cazurEMBLf2+qDI+QVYGYLd/gBS8lGtCMpZcKUoy0FyBXoS/JzgS4v8
- zxgDQNpTid3XLB3B7H0pGUiQbGDgl4on6cfuojapa0yg+VTDvMV+6+rPJMLk2YFkaIHx
- egIX9ADxkfhS4Hk4o5pF5/vZpCJPE13+eC+KpHQzSJSLNt3UYyWSMwDG4oQk66Uo7dX1
- HD9yAX2Z8yx8Y8jXtD+pkptwnRCE58kxXC4nGhtC44tDRbNztJ3cisf7w4fNH6lHSiNr
- XD4n/wXyJ+ielpEO8aRbxar8i1lbYm1TxwNHW+nQ6SqW6RFMX29w87FTm7ekbS1/RsUw
- L/5w==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=gPm+WM4ZBeQ371G8E1ItvrCVyCyvKwKJFgS/JWOihm0=;
+ b=JAMTOPX1ysEsDezC+bv9HY4QqxXHQJBc72chyZQzDa6UvVgpInYYFZPJM/c6QgKYp4
+ PBS9/ysApEgp01uwN6eVQdtXwBLQwQlR4a3P/r5LzE46BPFvhTAMeGV4HPbsWJbt/8Os
+ Yil2iNa7afpz11nV2s5UTNKvhdZi2r9FuxgII+K01ITdiu+aHO5DHT3Nhabf+dlygdoq
+ 8ngcBNEqOMkWz7Kuu+V1Y6VVRenDHdJSu4Hismsvk0vf61BmIdivVQ5ee7BN74Qxt2Hx
+ keHGWn6FYQplWRvXMvJBRr4IHeuETDQAKpQNpiOjJ2E8q+V+pJcN8b4VmwgK6PpZLnJ6
+ gy0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HuApRwskrnjZ7JZSpyf9nPpTzFOL0VRkoumRzw4Sbls=;
- b=d21IiCJaC9VRsOmF8oGd9c5SGM+efE9XmiDokOtaK13LY+NVQO7g5RZCItANi05uCW
- sfe1dOZvlj3ox+02JKJLZ9tKnC9TF7jLSno30QleZaZnsumSZ3x4edlWdIcmaivr89tq
- /MRedJQ2Wd4Zuj52ld8lTnWF1DrSnEAko8fNXcm3PV3fRfuNSkjmITDpo+zb0H0ohKM4
- 5fld07+7R14xuvfvQ68cdgKVN7JT2/RWG+a550Djm6ywFU5FjLHdRIymhCeRvIlq7Xts
- 7e4TF8X/dN14ZG7Wj01mlU8G8/8SoS60OEeJztvx0kP2hDLbVmWvLabAQsr402cSCArV
- A7lg==
-X-Gm-Message-State: AFqh2koQCsxh3iEEYzneqMt8L30Qr0whS+uyjrN0V6Lxjd4bT+MDahU9
- ownmeg++7t/Va9codeqXN+x5eR/D9flQyvUH/sE=
-X-Google-Smtp-Source: AMrXdXtST8zpBk5HeTRi9B4X/+MkuvUr+xl0uiiey1JHpKOPD8XY5h9IhacxDKe5h0rd+QsdRJ+JOMeXy90z6qxqkFY=
-X-Received: by 2002:a1f:3215:0:b0:3d5:86ff:6638 with SMTP id
- y21-20020a1f3215000000b003d586ff6638mr6101462vky.30.1673305087472; Mon, 09
- Jan 2023 14:58:07 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gPm+WM4ZBeQ371G8E1ItvrCVyCyvKwKJFgS/JWOihm0=;
+ b=jD5hwUruG15yHHaEreP1qcLoH2DV5C/qdQJev1mSeZzBfXt+t07R3qckUoQzSDXPef
+ aTbJPNqkoDsad7VFrdLSRCtWtKeVYXbonOweuyYWOsSBwEe79Jj6EK5l3LpvFCkMb9/c
+ yMx3Yz8We2WEcVSQQXrCJtwEeT1U+TMONAY9Fpweo1i6bJnwMZl9207WCQKHnXTdlQl4
+ aaLczFnzsA9tEGErTfSMafhj7pfCH/8Cjln725sKl/VNaL6cjL73fLY8b+ERHQ10b38g
+ c7fo5vXghEui6tOISno0eDq86g2YpmvYlFZ9ytnntvZo4hbSq7WqzO2jonTMxOsT6svN
+ /XMw==
+X-Gm-Message-State: AFqh2kp1A5c2LNLKA61Rx8xFDQJQSPNP3+lWuTvBm4icc4gOMn/UAnGD
+ 9yY4fOSfrKNoXNgf+mkWlozJ4pM0LvwPyqXouXQ=
+X-Google-Smtp-Source: AMrXdXtrMXauP7JHIctC95vhpS2jAye5ghJnVwAw53oEw1WpcsoXqOsyHemCK60ICo4h0EaQJ93UpS6YT3iZQqTQcyc=
+X-Received: by 2002:a05:6102:510e:b0:3b1:2b83:1861 with SMTP id
+ bm14-20020a056102510e00b003b12b831861mr8658055vsb.10.1673305139027; Mon, 09
+ Jan 2023 14:58:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20230109120833.3330-1-philmd@linaro.org>
- <20230109120833.3330-8-philmd@linaro.org>
-In-Reply-To: <20230109120833.3330-8-philmd@linaro.org>
+References: <20230109055933.749233-1-cyruscyliu@gmail.com>
+In-Reply-To: <20230109055933.749233-1-cyruscyliu@gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 10 Jan 2023 08:57:41 +1000
-Message-ID: <CAKmqyKNQN08VjouZuGJ8U1+T5djCrM53mYm4gHLRCqCCE5yzXg@mail.gmail.com>
-Subject: Re: [PATCH v2 07/21] hw/riscv: Use generic DeviceState instead of
- PFlashCFI01
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 10 Jan 2023 08:58:32 +1000
+Message-ID: <CAKmqyKPo7B=-QTvHVAd7WsTAJKh5V-WKTNaBvVMeSHeqFj_qwQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/display/xlnx_dp: fix overflow in
+ xlnx_dp_aux_push_tx_fifo()
+To: Qiang Liu <cyruscyliu@gmail.com>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair@alistair23.me>, 
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ "open list:Xilinx ZynqMP and..." <qemu-arm@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2e;
- envelope-from=alistair23@gmail.com; helo=mail-vk1-xa2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2e;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2e.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -88,98 +85,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 9, 2023 at 10:24 PM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
+On Mon, Jan 9, 2023 at 4:01 PM Qiang Liu <cyruscyliu@gmail.com> wrote:
 >
-> Nothing here requires access to PFlashCFI01 internal fields:
-> use the inherited generic DeviceState.
+> This patch checks if the s->tx_fifo is full.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Fixes: 58ac482a66de ("introduce xlnx-dp")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1424
+> Reported-by: Qiang Liu <cyruscyliu@gmail.com>
+> Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  hw/riscv/virt.c         | 9 +++++----
->  include/hw/riscv/virt.h | 3 +--
->  2 files changed, 6 insertions(+), 6 deletions(-)
+>  hw/display/xlnx_dp.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index aa8db65685..a2cd174599 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -46,6 +46,7 @@
->  #include "sysemu/sysemu.h"
->  #include "sysemu/kvm.h"
->  #include "sysemu/tpm.h"
-> +#include "hw/block/flash.h"
->  #include "hw/pci/pci.h"
->  #include "hw/pci-host/gpex.h"
->  #include "hw/display/ramfb.h"
-> @@ -106,7 +107,7 @@ static MemMapEntry virt_high_pcie_memmap;
->
->  #define VIRT_FLASH_SECTOR_SIZE (256 * KiB)
->
-> -static PFlashCFI01 *virt_flash_create1(RISCVVirtState *s,
-> +static DeviceState *virt_flash_create1(RISCVVirtState *s,
->                                         const char *name,
->                                         const char *alias_prop_name)
->  {
-> @@ -130,7 +131,7 @@ static PFlashCFI01 *virt_flash_create1(RISCVVirtState=
- *s,
->      object_property_add_alias(OBJECT(s), alias_prop_name,
->                                OBJECT(dev), "drive");
->
-> -    return PFLASH_CFI01(dev);
-> +    return dev;
->  }
->
->  static void virt_flash_create(RISCVVirtState *s)
-> @@ -139,7 +140,7 @@ static void virt_flash_create(RISCVVirtState *s)
->      s->flash[1] =3D virt_flash_create1(s, "virt.flash1", "pflash1");
->  }
->
-> -static void virt_flash_map1(PFlashCFI01 *flash,
-> +static void virt_flash_map1(DeviceState *flash,
->                              hwaddr base, hwaddr size,
->                              MemoryRegion *sysmem)
->  {
-> @@ -1514,7 +1515,7 @@ static void virt_machine_init(MachineState *machine=
-)
->
->      for (i =3D 0; i < ARRAY_SIZE(s->flash); i++) {
->          /* Map legacy -drive if=3Dpflash to machine properties */
-> -        pflash_cfi01_legacy_drive(DEVICE(s->flash[i]),
-> +        pflash_cfi01_legacy_drive(s->flash[i],
->                                    drive_get(IF_PFLASH, 0, i));
+> diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
+> index 972473d94f..617b394af2 100644
+> --- a/hw/display/xlnx_dp.c
+> +++ b/hw/display/xlnx_dp.c
+> @@ -854,7 +854,11 @@ static void xlnx_dp_write(void *opaque, hwaddr offset, uint64_t value,
+>          break;
+>      case DP_AUX_WRITE_FIFO: {
+>          uint8_t c = value;
+> -        xlnx_dp_aux_push_tx_fifo(s, &c, 1);
+> +        if (fifo8_is_full(&s->tx_fifo)) {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "xlnx_dp: TX fifo is full");
+> +        } else {
+> +            xlnx_dp_aux_push_tx_fifo(s, &c, 1);
+> +        }
+>          break;
 >      }
->      virt_flash_map(s, system_memory);
-> diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-> index 3407c9e8dd..2be47547ac 100644
-> --- a/include/hw/riscv/virt.h
-> +++ b/include/hw/riscv/virt.h
-> @@ -21,7 +21,6 @@
->
->  #include "hw/riscv/riscv_hart.h"
->  #include "hw/sysbus.h"
-> -#include "hw/block/flash.h"
->  #include "qom/object.h"
->
->  #define VIRT_CPUS_MAX_BITS             9
-> @@ -49,7 +48,7 @@ struct RISCVVirtState {
->      DeviceState *platform_bus_dev;
->      RISCVHartArrayState soc[VIRT_SOCKETS_MAX];
->      DeviceState *irqchip[VIRT_SOCKETS_MAX];
-> -    PFlashCFI01 *flash[2];
-> +    DeviceState *flash[2];
->      FWCfgState *fw_cfg;
->
->      int fdt_size;
+>      case DP_AUX_CLOCK_DIVIDER:
 > --
-> 2.38.1
+> 2.25.1
 >
 >
 
