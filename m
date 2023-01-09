@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AEF6627DC
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:58:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3083E662842
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:19:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEsb0-0006g5-5n; Mon, 09 Jan 2023 08:53:50 -0500
+	id 1pEsdT-0007YM-JK; Mon, 09 Jan 2023 08:56:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <smostafa@google.com>)
- id 1pEsax-0006eq-Jv
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:53:47 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEsdO-0007Wn-IM
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:56:19 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <smostafa@google.com>)
- id 1pEsav-0001YL-KL
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:53:47 -0500
-Received: by mail-wm1-x333.google.com with SMTP id m3so6333010wmq.0
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 05:53:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=uWJn9RxU/WTZbLXQjqUv3AZziSO2pnkdlBe0XgBMp4Y=;
- b=eb863Ew2K8uw2otDlx4bmO+wGWqF7VVIxBEbqXD+cCrX6L8+pPK3+i5YzmyaL96dwi
- QjEqQFdxx1aMmNl/9kStrCXsCWtSUQiJSCupfBDc5yojegPXP4sk/GebDCfOa0p8dIc1
- kwRnv5wvKcgfCpj5zH6uD5A5kfEFDStxerC+MJDTOon/HLRwpQTfSsR8JrLQx2sBAu44
- f/4woAPCwhhfVZAlKhKCDn1n/09vZUBGCUom2iaQbIhRWkhtqaWH69IsobtIktgHhWS1
- NJM55hLHzlEKJuo9G+/f9kGk5DGRWcAErItgAoZGoD5PPql/KZmgGZhvKegiVhJeo8sH
- DOZA==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEsdM-00037N-US
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:56:18 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id ja17so6318559wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 05:56:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SCtPYwgwiiyjtwZF7LBR8T8Fc06Vvs8KjBVF52HTabg=;
+ b=HNMRvbERVsqrIzaigKut7mt4CalAUQ9AEoI84qD9T6251n26Vmv75vlW8W3BwvQVtI
+ KrkKA2Mz0+MP4l7fLzKNvMbu+K0Bo439Xl2rwMpZst+kyTo3d+kLbEYdlhQ7HWzAX4Ll
+ noc2b6DmXA+oNlYYgGu5k+buLHdIeCXDwEe7tt3VDqQTekQCP6c5fCtoLJ/lTs4CoVg4
+ wP3K9ai1YsggpE+8FiD0EsrDbTNSEAlsASt8z+gSRzIJ9O97K/T2rr10NyKMfVLpW3R0
+ 7OcZ+8kkGPfBcmdP46aAtyK/Cf++lSemEOaiZrIHmTtZD483TWwhYJYwC6KaFg2asb8U
+ GXZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uWJn9RxU/WTZbLXQjqUv3AZziSO2pnkdlBe0XgBMp4Y=;
- b=mhxYRHa47awRlp92g1YAsSk/ua1U7cOQCDWpZsN9w3D1N9R6s4zNdAneXSJ/rJXABZ
- hxnRrEz/XcwvqnCvIwSYT9EwqZItDP0FOmACSnjibWUZpbQOvoJSQYEsS8kDXmt5+601
- BnzrD/EYEAM5AfFKr83xI5S5B31SBSGAvRiBn0217QwHfRrmZHYrHF4lUGK2W7+ynnXS
- TxPM+0vNe/ES0sQjIaeUiNrzbQPU7rrpfGVSinSx/O5bB315tyvytolQelbyTjwWmHqg
- 963mQifS6MCMoolwWekobB47IhNw/YRdh80JvMXX8/5u7zJIpwUZ9tQCIQieHaoYxWtv
- rX9A==
-X-Gm-Message-State: AFqh2kqpU9cy/23QbCnOgY80c82E8hllHAuaLvnYVxLsQngYI3Hlum6U
- NoiI/6N9ns9GsIJgVSpgRELeEg==
-X-Google-Smtp-Source: AMrXdXuzxITAvCQKUePu9aTZP7fj+//iJmClMaSBZS0Mtlu5lewmorUfEHo0icun08z9wLAG2VInsw==
-X-Received: by 2002:a05:600c:3b98:b0:3d1:bad1:9b0c with SMTP id
- n24-20020a05600c3b9800b003d1bad19b0cmr706834wms.1.1673272423548; 
- Mon, 09 Jan 2023 05:53:43 -0800 (PST)
-Received: from google.com (44.232.78.34.bc.googleusercontent.com.
- [34.78.232.44]) by smtp.gmail.com with ESMTPSA id
- p21-20020a7bcc95000000b003c65c9a36dfsm11216447wma.48.2023.01.09.05.53.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 05:53:43 -0800 (PST)
-Date: Mon, 9 Jan 2023 13:53:39 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Eric Auger <eric.auger@redhat.com>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
-Subject: Re: [PATCH] hw/arm/smmuv3: Add GBPA register
-Message-ID: <Y7wcY3R5MHj/1yd4@google.com>
-References: <20221219125720.1369027-1-smostafa@google.com>
- <Y7VxFpoTjwNaolTG@myrica>
- <e00838c0-8cd6-8fa0-8c88-d81c58ded8ab@redhat.com>
+ bh=SCtPYwgwiiyjtwZF7LBR8T8Fc06Vvs8KjBVF52HTabg=;
+ b=bTSmhcyTs2q22nB3SssZM1lEJToWpyIJRx/KMBfTxxkhaRkl/NYYfYYIEtLViMPR1I
+ smqkzcpbq5QZ1JWwIQ4EvQngsndsE0IHSKMLIdE+LfBhyteQF95h6d0T1nItTpHM9TKf
+ g8JoCDIZ1BOkesqDIKk2Jy+FakKSHXMVXjEUlIHV9qiYFAASO2IZd2SZZXE9JW5yMMzo
+ 82VsLRbDhmvvUttcW+Buq2qfiioyi1jxrJ/b5dJ7uKd0jtiASPTx/kC/ZLijT0iSccdR
+ hd/rYJoGn72Cq8sG1dOpcEKHp7oSnU5DLgsGOoHDjr+A1idPfwKBhflWMDy+1ic7PmWU
+ RdxQ==
+X-Gm-Message-State: AFqh2krGS42rz97sRlmEdIpQOml782BEzifgx0WxYFJQWJV/vIMvqAxw
+ ayb76trKuWDL9253l436ui/LIg==
+X-Google-Smtp-Source: AMrXdXs0s3OMmZmJfk+qIQ3vTy/NzvLfx+hZTVWYmmOLpHXwPgBKjcJj7JFbVxqhxMP8ou//1wtufQ==
+X-Received: by 2002:a1c:7c14:0:b0:3d1:f74d:4f60 with SMTP id
+ x20-20020a1c7c14000000b003d1f74d4f60mr50093951wmc.22.1673272575411; 
+ Mon, 09 Jan 2023 05:56:15 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ g2-20020a5d4882000000b00286ad197346sm8702331wrq.70.2023.01.09.05.56.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 05:56:14 -0800 (PST)
+Message-ID: <8507ed0d-fc90-8ce3-2d7d-82c106b20231@linaro.org>
+Date: Mon, 9 Jan 2023 14:56:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 01/21] hw/block: Rename TYPE_PFLASH_CFI02 'width'
+ property as 'device-width'
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, Markus Armbruster
+ <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <20230109120833.3330-1-philmd@linaro.org>
+ <20230109120833.3330-2-philmd@linaro.org>
+ <791cd783-4f27-dd18-c6bd-b9a316bb42cd@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <791cd783-4f27-dd18-c6bd-b9a316bb42cd@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e00838c0-8cd6-8fa0-8c88-d81c58ded8ab@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=smostafa@google.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,193 +94,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Eric,
-
-On Fri, Jan 06, 2023 at 02:07:37PM +0100, Eric Auger wrote:
-> Hi Mostafan jean,
+On 9/1/23 14:33, BALATON Zoltan wrote:
+> On Mon, 9 Jan 2023, Philippe Mathieu-Daudé wrote:
+>> Use the same property name than the TYPE_PFLASH_CFI01 model.
 > 
-> On 1/4/23 13:29, Jean-Philippe Brucker wrote:
-> > Hi Mostafa,
-> >
-> > On Mon, Dec 19, 2022 at 12:57:20PM +0000, Mostafa Saleh wrote:
-> >> GBPA register can be used to globally abort all
-> >> transactions.
-> >>
-> >> Only UPDATE and ABORT bits are considered in this patch.
-> > That's fair, although it effectively implements all bits since
-> > smmuv3_translate() ignores memory attributes anyway
-> 
-> I see SHCFG 0b00 value means non shareable whereas other reset values
-> correspond to "Use Incoming". Isn't it a bit weird? Is it better to have
-> "non shareable" or "Use Incoming" as de fault value (which is
-> IMPLEMENTATION DEFINED)
+> Nothing uses it? Can this break command lines and if so do we need 
+> deprecation or some compatibility function until everybody changed their 
+> usage?
 
-I agree, "Use Incoming" would be more consistent with the others, I will
-change that in V2.
+Good point... I missed that :/
 
+How deprecation works in that case, can I simply add an extra
+property with DEFINE_PROP_UINT8()? I'm worried about an user
+doing:
 
-> >
-> >> It is described in the SMMU manual in "6.3.14 SMMU_GBPA".
-> >> ABORT reset value is IMPLEMENTATION DEFINED, it is chosen to
-> >> be zero(Do not abort incoming transactions).
-> >>
-> >> Signed-off-by: Mostafa Saleh <smostafa@google.com>
-> >> ---
-> >>  hw/arm/smmuv3-internal.h |  4 ++++
-> >>  hw/arm/smmuv3.c          | 14 ++++++++++++++
-> >>  include/hw/arm/smmuv3.h  |  1 +
-> >>  3 files changed, 19 insertions(+)
-> >>
-> >> diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-> >> index bce161870f..71f70141e8 100644
-> >> --- a/hw/arm/smmuv3-internal.h
-> >> +++ b/hw/arm/smmuv3-internal.h
-> >> @@ -79,6 +79,10 @@ REG32(CR0ACK,              0x24)
-> >>  REG32(CR1,                 0x28)
-> >>  REG32(CR2,                 0x2c)
-> >>  REG32(STATUSR,             0x40)
-> >> +REG32(GBPA,                0x44)
-> >> +    FIELD(GBPA, ABORT,        20, 1)
-> >> +    FIELD(GBPA, UPDATE,       31, 1)
-> >> +
-> >>  REG32(IRQ_CTRL,            0x50)
-> >>      FIELD(IRQ_CTRL, GERROR_IRQEN,        0, 1)
-> >>      FIELD(IRQ_CTRL, PRI_IRQEN,           1, 1)
-> >> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-> >> index 955b89c8d5..2843bc3da9 100644
-> >> --- a/hw/arm/smmuv3.c
-> >> +++ b/hw/arm/smmuv3.c
-> >> @@ -285,6 +285,7 @@ static void smmuv3_init_regs(SMMUv3State *s)
-> >>      s->gerror = 0;
-> >>      s->gerrorn = 0;
-> >>      s->statusr = 0;
-> >> +    s->gbpa = 0;
-> >>  }
-> >>  
-> >>  static int smmu_get_ste(SMMUv3State *s, dma_addr_t addr, STE *buf,
-> >> @@ -663,6 +664,11 @@ static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
-> >>          goto epilogue;
-> >>      }
-> >>  
-> >> +    if (FIELD_EX32(s->gbpa, GBPA, ABORT)) {
-> >> +        status = SMMU_TRANS_ABORT;
-> >> +        goto epilogue;
-> >> +    }
-> >> +
-> > GBPA is only taken into account when SMMU_CR0.SMMUEN is 0 (6.3.9.6 SMMUEN)
-> indeed "This register controls the global bypass attributes used for
-> transactions from Non-secure StreamIDs (as determined
-> by SSD, if supported) when SMMU_CR0.SMMUEN == 0"
+  -device cfi.pflash02,device-width=4,width=2,...
 
-Will fix it in V2.
+and the processing order of the properties, besides property
+overwritten isn't warned to the user.
 
-> >
-> >>      cfg = smmuv3_get_config(sdev, &event);
-> >>      if (!cfg) {
-> >>          status = SMMU_TRANS_ERROR;
-> >> @@ -1170,6 +1176,10 @@ static MemTxResult smmu_writel(SMMUv3State *s, hwaddr offset,
-> >>      case A_GERROR_IRQ_CFG2:
-> >>          s->gerror_irq_cfg2 = data;
-> >>          return MEMTX_OK;
-> >> +    case A_GBPA:
-> >> +        /* Ignore update bit as write is synchronous. */
-> actually you immediataly reset the update bit and not really "ignore" it.
-> > We could also ignore a write that has Update=0, since that's required for
-> > SMMUv3.2+ implementations (6.3.14.1 Update procedure)
-> agreed:
-> "If this register is written without simultaneously setting Update to 1,
-> the effect is CONSTRAINED UNPREDICTABLE
-> and has one of the following behaviors:
-> • The write is IGNORED. This is the only permitted behavior in SMMUv3.2
-> and later."
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>> hw/block/pflash_cfi02.c | 4 ++--
+>> 1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+>> index 2a99b286b0..55ddd0916c 100644
+>> --- a/hw/block/pflash_cfi02.c
+>> +++ b/hw/block/pflash_cfi02.c
+>> @@ -949,7 +949,7 @@ static Property pflash_cfi02_properties[] = {
+>>     DEFINE_PROP_UINT32("sector-length2", PFlashCFI02, sector_len[2], 0),
+>>     DEFINE_PROP_UINT32("num-blocks3", PFlashCFI02, nb_blocs[3], 0),
+>>     DEFINE_PROP_UINT32("sector-length3", PFlashCFI02, sector_len[3], 0),
+>> -    DEFINE_PROP_UINT8("width", PFlashCFI02, width, 0),
+>> +    DEFINE_PROP_UINT8("device-width", PFlashCFI02, width, 0),
+>>     DEFINE_PROP_UINT8("mappings", PFlashCFI02, mappings, 0),
+>>     DEFINE_PROP_UINT8("big-endian", PFlashCFI02, be, 0),
+>>     DEFINE_PROP_UINT16("id0", PFlashCFI02, ident0, 0),
+>> @@ -1014,7 +1014,7 @@ PFlashCFI02 *pflash_cfi02_register(hwaddr base,
+>>     assert(QEMU_IS_ALIGNED(size, sector_len));
+>>     qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
+>>     qdev_prop_set_uint32(dev, "sector-length", sector_len);
+>> -    qdev_prop_set_uint8(dev, "width", width);
+>> +    qdev_prop_set_uint8(dev, "device-width", width);
+>>     qdev_prop_set_uint8(dev, "mappings", nb_mappings);
+>>     qdev_prop_set_uint8(dev, "big-endian", !!be);
+>>     qdev_prop_set_uint16(dev, "id0", id0);
+>>
 
-I will update it to have v3.2 behaviour (Ignore if UPDATE not set).
-
-> >
-> >> +        s->gbpa = data & ~R_GBPA_UPDATE_MASK;
-> > Do we need to synchronize with concurrent transactions here?
-> > I couldn't find if QEMU already serializes MMIO writes and IOMMU
-> > translation.
-> 
-> my understanding is qemu_global_mutex also is enough. BQL usage was
-> discussed in
-> https://lists.gnu.org/archive/html/qemu-devel/2018-04/msg02403.html
-> >
-> > "Transactions arriving at the SMMU after completion of a GPBA update are
-> > guaranteed to take the new attributes written." The guest tests completion
-> > by reading the Update bit:
-> >
-> > 	vCPU (host CPU 0)		Device thread (host CPU 1)
-> >
-> > 	(a) read GBPA.abort = 1
-> > 	(b) write GBPA.{update,abort} = {1,0}
-> > 	(c) read GBPA.update = 0
-> > 	(d) launch DMA			(e) execute DMA
-> > 					(f) translation must read GBPA.abort = 0
-> >
-> > I guess memory barriers after (b) and before (f) would ensure that. But I
-> > wonder if SMMUEN also needs additional synchronization, and in that case a
-> > rwlock would probably be simpler.
-> >
-> > Thanks,
-> > Jean
-> >
-> >> +        return MEMTX_OK;
-> >>      case A_STRTAB_BASE: /* 64b */
-> >>          s->strtab_base = deposit64(s->strtab_base, 0, 32, data);
-> >>          return MEMTX_OK;
-> >> @@ -1318,6 +1328,9 @@ static MemTxResult smmu_readl(SMMUv3State *s, hwaddr offset,
-> >>      case A_STATUSR:
-> >>          *data = s->statusr;
-> >>          return MEMTX_OK;
-> >> +    case A_GBPA:
-> >> +        *data = s->gbpa;
-> >> +        return MEMTX_OK;
-> >>      case A_IRQ_CTRL:
-> >>      case A_IRQ_CTRL_ACK:
-> >>          *data = s->irq_ctrl;
-> >> @@ -1495,6 +1508,7 @@ static const VMStateDescription vmstate_smmuv3 = {
-> >>          VMSTATE_UINT32_ARRAY(cr, SMMUv3State, 3),
-> >>          VMSTATE_UINT32(cr0ack, SMMUv3State),
-> >>          VMSTATE_UINT32(statusr, SMMUv3State),
-> >> +        VMSTATE_UINT32(gbpa, SMMUv3State),
-> This will break migration (see
-> https://www.qemu.org/docs/master/devel/migration.html)
-
-Thanks for pointing this out, I was not familiar with migration.
-
-I will add a subsection for GBPA, so we can have forward compatibility.
-
-But do we need to have backward compatibility also?
-As(following the paradigm) if we added a property "migrate_gbpa", it can
-lead to behaviors where transactions are aborted(with a new qemu version) and
-then migrated to bypass(for an old qemu without gbpa).
-Is this acceptable?
-Maybe we can use this property, and unconditionally send GBPA if it was
-set to 1(so migration fails if GBPA is set and the old machine doesn't
-have it), otherwise we maintain backward compatibility.
-
-> >>          VMSTATE_UINT32(irq_ctrl, SMMUv3State),
-> >>          VMSTATE_UINT32(gerror, SMMUv3State),
-> >>          VMSTATE_UINT32(gerrorn, SMMUv3State),
-> >> diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
-> >> index f1921fdf9e..9899fa1860 100644
-> >> --- a/include/hw/arm/smmuv3.h
-> >> +++ b/include/hw/arm/smmuv3.h
-> >> @@ -46,6 +46,7 @@ struct SMMUv3State {
-> >>      uint32_t cr[3];
-> >>      uint32_t cr0ack;
-> >>      uint32_t statusr;
-> >> +    uint32_t gbpa;
-> >>      uint32_t irq_ctrl;
-> >>      uint32_t gerror;
-> >>      uint32_t gerrorn;
-> >> -- 
-> >> 2.39.0.314.g84b9a713c41-goog
-> >>
-> >>
-> Thanks
-> 
-> Eric
-> 
 
