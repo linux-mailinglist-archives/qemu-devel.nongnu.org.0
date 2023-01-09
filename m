@@ -2,72 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FFCF66279B
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:47:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B17BD66278A
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:45:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEsQs-0000zs-MD; Mon, 09 Jan 2023 08:43:22 -0500
+	id 1pEsTC-0003Zd-2g; Mon, 09 Jan 2023 08:45:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pEsQh-0000x5-JT
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:43:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1pEsT9-0003X6-2f; Mon, 09 Jan 2023 08:45:43 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pEsQf-00062P-9p
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:43:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673271787;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OZRrV0mmGcVOBrqMkCaVL8Dfyo9tZQU5l4w8T9deUAc=;
- b=N3uPl1zm66DrA0fLHs4Lsf8/LnHRpoekyUzLqmLr/ppnW/GEsEVuFUnlFyQuulFjE4QU7c
- MDvkln8PPbYAEQ41WDO5EEYqxBjBpfeYIOFdMQ73RCj+WMqHfTzctAbCkXN49udWD4r4xS
- 4khvjQMWWiGzTffFHJproPR94bc4mRY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-Bnw7SEMfPy-_smiGjT0N-Q-1; Mon, 09 Jan 2023 08:43:06 -0500
-X-MC-Unique: Bnw7SEMfPy-_smiGjT0N-Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CAEDF3C38FEB;
- Mon,  9 Jan 2023 13:43:05 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A1C024078903;
- Mon,  9 Jan 2023 13:43:05 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 81C4521E5DCF; Mon,  9 Jan 2023 14:43:04 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,  qemu-devel@nongnu.org
-Subject: Re: [PULL 00/51] virtio,pc,pci: features, cleanups, fixes
-References: <20230105091310.263867-1-mst@redhat.com>
- <20230105045619-mutt-send-email-mst@kernel.org>
- <20230105113111-mutt-send-email-mst@kernel.org>
- <CAFEAcA8Dr_vT2YrrrapL5vAtL5baGxPpk0busNPU-vutJcA10A@mail.gmail.com>
- <20230105165242-mutt-send-email-mst@kernel.org>
- <CAFEAcA8C5cfBc6qU1bZ_U0PusAAemOD6TYGhgxtQbwP-YA3yVQ@mail.gmail.com>
- <20230108015336-mutt-send-email-mst@kernel.org>
-Date: Mon, 09 Jan 2023 14:43:04 +0100
-In-Reply-To: <20230108015336-mutt-send-email-mst@kernel.org> (Michael
- S. Tsirkin's message of "Sun, 8 Jan 2023 08:57:59 -0500")
-Message-ID: <87cz7nsu1j.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1pEsT6-0006pb-Te; Mon, 09 Jan 2023 08:45:42 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 309DLP7U032493; Mon, 9 Jan 2023 13:45:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=OJFyFRygFSpsiHCnsemP+C2ts/KN9MjWl6mxONqLDBQ=;
+ b=pekle8hX6hN8uYBqxBBFWvmXx3TSZsmCXaqUaCOPvi3jhYq+SU5zlpr9/HxhooQTE1a/
+ A5/uGrceTSLwsU5lGAloHgSCUm9iJ27Tq2F5EkYKtsAQdL1Mb0uU+sQBNmCj8PmAs/ur
+ SDrnT9NnWzcnqAo/+CRdvCfMJ3ycbV3ey/FEOvBNxKPv/RZfSiN0/jBgDGndKAXjjf+A
+ kmFdE412FQxbUq2wrYp17jPYyK+WDdHpH3PzlJjkUoh7klk3vk8ppgUreODYu5nAJq4J
+ EebHWUzb1A8AQ05/IJ1k9JMn6lXSUV8HvWeDar8aXOcRKNPPd967DN6yCKw620yj4xQ6 kQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3myjdmefa8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Jan 2023 13:45:32 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 309DiaGZ005220;
+ Mon, 9 Jan 2023 13:45:31 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3myjdmef9h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Jan 2023 13:45:31 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30970v4E029813;
+ Mon, 9 Jan 2023 13:45:29 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3my00fj5th-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Jan 2023 13:45:29 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 309DjPtC23396992
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 9 Jan 2023 13:45:26 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 975782004D;
+ Mon,  9 Jan 2023 13:45:25 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 29BE020049;
+ Mon,  9 Jan 2023 13:45:25 +0000 (GMT)
+Received: from [9.171.16.4] (unknown [9.171.16.4])
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon,  9 Jan 2023 13:45:25 +0000 (GMT)
+Message-ID: <6d121914-9add-88ab-1650-9735e1fada73@linux.ibm.com>
+Date: Mon, 9 Jan 2023 14:45:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v2 3/4] s390x/pv: Introduce a s390_pv_check() helper for
+ runtime
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@redhat.com>
+References: <20230106075330.3662549-1-clg@kaod.org>
+ <20230106075330.3662549-4-clg@kaod.org>
+ <49bf32c7-4a44-a3c9-29b5-b6580113700c@linux.ibm.com>
+ <bc3ec4b4-1c7a-a4a9-01ea-78fca7ad10c6@kaod.org>
+ <8e04a10e-8978-494c-5d0f-2507e78134aa@linux.ibm.com>
+ <d9194b49-9841-87b5-6355-b7d5f82da6b6@kaod.org>
+From: Janosch Frank <frankja@linux.ibm.com>
+In-Reply-To: <d9194b49-9841-87b5-6355-b7d5f82da6b6@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: NwAAKMzLTWuyUct3daxtEryhDeQn8-Xr
+X-Proofpoint-ORIG-GUID: gxFwhEsPnCBqs44Y39ubYQYW_9KIP5V4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-09_07,2023-01-09_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0
+ lowpriorityscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
+ adultscore=0 mlxscore=0 impostorscore=0 malwarescore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301090097
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,39 +125,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
-
-> On Fri, Jan 06, 2023 at 03:29:01PM +0000, Peter Maydell wrote:
->> On Thu, 5 Jan 2023 at 21:53, Michael S. Tsirkin <mst@redhat.com> wrote:
->> >
->> > On Thu, Jan 05, 2023 at 09:04:37PM +0000, Peter Maydell wrote:
-
-[...]
-
->> > > Compile failures on freebsd in the bsd-user build:
->> > >
->> > > https://gitlab.com/qemu-project/qemu/-/jobs/3561556072
->> > > https://gitlab.com/qemu-project/qemu/-/jobs/3561556071
->> > >
->> > > Probably something in Markus' include-file cleanup, I suspect
->> > > some file is missing its osdep.h include.
->> > >
->> > > thanks
->> > > -- PMM
->> >
->> >
->> > Pushed a fixup, commit 1df76fab679e9a673b71531925fe12ceb89eaecb now.
->> > Pls let me know, thanks!
->> 
->> Still failing on FreeBSD, for a different reason:
->> https://gitlab.com/qemu-project/qemu/-/jobs/3565200188
->> 
->> thanks
->> -- PMM
->
-> Dropped the offending patch, commit aba0d042b1c1be38818cec16af3f34e9e9e2aed2 
-> now.  Pls let me know, thanks!
-
-Appreciate the CI links.  I'll respin.
-
+T24gMS85LzIzIDE0OjMwLCBDw6lkcmljIExlIEdvYXRlciB3cm90ZToNCj4gT24gMS85LzIz
+IDEwOjQ5LCBKYW5vc2NoIEZyYW5rIHdyb3RlOg0KPj4gT24gMS85LzIzIDEwOjI3LCBDw6lk
+cmljIExlIEdvYXRlciB3cm90ZToNCj4+PiBPbiAxLzkvMjMgMTA6MDQsIEphbm9zY2ggRnJh
+bmsgd3JvdGU6DQo+Pj4+IE9uIDEvNi8yMyAwODo1MywgQ8OpZHJpYyBMZSBHb2F0ZXIgd3Jv
+dGU6DQo+Pj4+PiBGcm9tOiBDw6lkcmljIExlIEdvYXRlciA8Y2xnQHJlZGhhdC5jb20+DQo+
+Pj4+Pg0KPj4+Pj4gSWYgYSBzZWN1cmUga2VybmVsIGlzIHN0YXJ0ZWQgaW4gYSBub24tcHJv
+dGVjdGVkIFZNLCB0aGUgT1Mgd2lsbCBoYW5nDQo+Pj4+PiBkdXJpbmcgYm9vdCB3aXRob3V0
+IGdpdmluZyBhIHByb3BlciBlcnJvciBtZXNzYWdlIHRvIHRoZSB1c2VyLg0KPj4+Pg0KPj4+
+PiBNb3N0IG9mIHRoZSB0aW1lIHlvdSBzZWUgbm90aGluZyBpbiB0aGUgY29uc29sZSBiZWNh
+dXNlIGxpYnZpcnQgaXMgdG9vIHNsb3cuIElmIHlvdSBzdGFydCB0aGUgVk0gaW4gcGF1c2Vk
+IG1vZGUsIGF0dGFjaCBhIGNvbnNvbGUgYW5kIHRoZW4gcmVzdW1lIGl0LCB0aGVuIHlvdSds
+bCBzZWUgYSBuaWNlIGVycm9yIG1lc3NhZ2UuDQo+Pj4NCj4+PiBJZiB5b3Ugd2FpdCBsb25n
+IGVub3VnaCwgdGhlIFZNIGZhaWxzIHRvIG1vdW50IC8gYW5kIGZhbGxzIGludG8gdGhlIGRy
+YWN1dA0KPj4+IGluaXRyYW1zLg0KPj4NCj4+IEkgaGF2ZSB0aGUgZmVlbGluZyB0aGF0IHdl
+J3JlIG5vdCB0YWxraW5nIGFib3V0IHRoZSBzYW1lIHRoaW5nIGhlcmUuPg0KPiAgICA+IEEg
+UFYgVk0gYWx3YXlzIHN0YXJ0cyBvdXQgYXMgYSBub24tUFYgVk0gYW5kIGlzIHB1dCBpbnRv
+IFBWIG1vZGUgdmlhIHR3byBkaWFnMzA4IHN1YmNvZGVzICg4ICYgMTApLiBBTEwgUFYgc3Vi
+Y29kZXMgKDggLSAxMCkgYXJlIHNwZWMgZXhjZXB0aW9ucyBpZiB0aGUgaG9zdCBpc24ndCBl
+bmFibGVkIGZvciBQVi4NCj4gDQo+IFRoZSBjb3JuZXIgY2FzZSB0aGlzIHBhdGNoIGlzIHRy
+eWluZyB0byBhZGRyZXNzIGlzIGZvciBhIFBWLWVuYWJsZWQgaG9zdCwNCj4gYSBzZWN1cmUg
+ZW5hYmxlZCBPUyBhbmQgIVBWLWVuYWJsZWQgUUVNVS4NCj4gDQo+IFBsZWFzZSBydW4gdGhp
+cyBjb21tYW5kIG9uIGEgc2VjdXJlIGRpc2sgaW1hZ2UgOg0KPiANCj4gICAgIHFlbXUtc3lz
+dGVtLXMzOTB4IC1NIHMzOTAtY2N3LXZpcnRpbyAtYWNjZWwga3ZtIC1kcml2ZSBmaWxlPTxm
+aWxlPixpZj12aXJ0aW8sZm9ybWF0PXFjb3cyIC1ub2dyYXBoaWMgLW5vZGVmYXVsdHMgLXNl
+cmlhbCBtb246c3RkaW8NCj4gDQo+IGFuZCB0ZWxsIG1lIHdoYXQgeW91IGdldC4NCj4gDQoN
+CnFlbXUtc3lzdGVtLXMzOTB4IC1NIHMzOTAtY2N3LXZpcnRpbyAtYWNjZWwga3ZtIC1kcml2
+ZSANCmZpbGU9dTIyMDQucWNvdzIsaWY9dmlydGlvLGZvcm1hdD1xY293MiAtbm9ncmFwaGlj
+IC1ub2RlZmF1bHRzIC1zZXJpYWwgDQptb246c3RkaW8NCkxPQURQQVJNPVsgICAgICAgIF0N
+ClVzaW5nIHZpcnRpby1ibGsuDQpVc2luZyBTQ1NJIHNjaGVtZS4NCi4uLi4uLi4uLi4uLi4u
+Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
+Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
+Li4uDQpTZWN1cmUgdW5wYWNrIGZhY2lsaXR5IGlzIG5vdCBhdmFpbGFibGUNCg0KDQo+IFRo
+YW5rcywNCj4gDQo+IEMuDQoNCg==
 
