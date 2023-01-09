@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA01663478
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:56:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E27663480
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:58:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF13j-0007Ju-SG; Mon, 09 Jan 2023 17:56:03 -0500
+	id 1pF15t-0002i2-Nt; Mon, 09 Jan 2023 17:58:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pF13S-0007GP-67; Mon, 09 Jan 2023 17:55:48 -0500
-Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29])
+ id 1pF15m-0002hX-26
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:58:10 -0500
+Received: from mail-vk1-xa2e.google.com ([2607:f8b0:4864:20::a2e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pF13Q-0008AA-C3; Mon, 09 Jan 2023 17:55:45 -0500
-Received: by mail-vs1-xe29.google.com with SMTP id a64so10449529vsc.2;
- Mon, 09 Jan 2023 14:55:38 -0800 (PST)
+ id 1pF15k-0000OQ-GI
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:58:09 -0500
+Received: by mail-vk1-xa2e.google.com with SMTP id j18so3017663vkn.10
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 14:58:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=uSd4nickcnF2PN5PBY4LlFHIMczV9y5pOQwPfKCt6bw=;
- b=R1FPlbuRYJCfqxuiWVakIP9SSLpA/THTOdIZQM6Qit+Kf+OovMleNk5llHZAvpAnEa
- hRtzZ60bbw3DQ+PhQ14WSUhAv/Zou6wb0d+m8iU5YWzM+YJAXc+2993Kf6ip92OfG0Ni
- UxFWA7qWBxJaPGWJIhEYsYu3YOZ21mjqIKjkX4GYb91IWd4XO9cBDciPCMnuuSLjfC24
- ekgoap+PYkcN0CDlhCG5PFVSIKo3L9eGajoK8BgVeOG7uh2ovnXeKkTLKqQm8M23OYVM
- wXZD0tyPE08JVtv4UYT0JjIrVqPGOJjqWTGk5YfdZ9iyvpmQKjMjjDQekBJV78caNVLS
- hKtA==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HuApRwskrnjZ7JZSpyf9nPpTzFOL0VRkoumRzw4Sbls=;
+ b=eNDYg2rqMK6cazurEMBLf2+qDI+QVYGYLd/gBS8lGtCMpZcKUoy0FyBXoS/JzgS4v8
+ zxgDQNpTid3XLB3B7H0pGUiQbGDgl4on6cfuojapa0yg+VTDvMV+6+rPJMLk2YFkaIHx
+ egIX9ADxkfhS4Hk4o5pF5/vZpCJPE13+eC+KpHQzSJSLNt3UYyWSMwDG4oQk66Uo7dX1
+ HD9yAX2Z8yx8Y8jXtD+pkptwnRCE58kxXC4nGhtC44tDRbNztJ3cisf7w4fNH6lHSiNr
+ XD4n/wXyJ+ielpEO8aRbxar8i1lbYm1TxwNHW+nQ6SqW6RFMX29w87FTm7ekbS1/RsUw
+ L/5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uSd4nickcnF2PN5PBY4LlFHIMczV9y5pOQwPfKCt6bw=;
- b=nVT0j6otVid495ExuUkwqxJfG8g6ycqcWjy6opMlxh9vvSbtgzDJhUklF3mnoIaCjO
- GUKy5lgMYa96tisX6g+IcsyJdbwFd6Em0TCgtbVZHme0js/f1k8oqbdQk5MiV0P/xkJu
- xccTEOJ4rJezzzBF9UlfQ+kfvWJ4w69iwSRiBCL442sJMy8Df7wjyMMhXmD7VW9iqRe7
- XxjIIXZLlPYIk3n8X8rnulDf5bXH1rallFVDkclySmGBpEdFC6sJ6nYlalzqWlPFB2JN
- 8mHW5lL6fJFABWEXrEFzHxnHcj0pmooD/KpgXUVGoxx+8EYhhRiGhniJ+yYsaOxKsfC3
- bUvA==
-X-Gm-Message-State: AFqh2koCFhSbBSXLqizwS3NFs8dzajpXu16Yn4tTATmQ7Plgx+8/aHcy
- UvUyxNphDyTzZQ6AMIlT7UeRns+s6KmlxpbyEx8=
-X-Google-Smtp-Source: AMrXdXvhNocXySNj0fy9H8TsyCr0WI+Phrbpwwg2h3qsQ8gdIzfoKPFNjOpDrwJmVX/b4Jk4752XZCKCBRBAnIq3WpY=
-X-Received: by 2002:a05:6102:f8c:b0:3c9:8cc2:dd04 with SMTP id
- e12-20020a0561020f8c00b003c98cc2dd04mr7211260vsv.73.1673304938058; Mon, 09
- Jan 2023 14:55:38 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HuApRwskrnjZ7JZSpyf9nPpTzFOL0VRkoumRzw4Sbls=;
+ b=d21IiCJaC9VRsOmF8oGd9c5SGM+efE9XmiDokOtaK13LY+NVQO7g5RZCItANi05uCW
+ sfe1dOZvlj3ox+02JKJLZ9tKnC9TF7jLSno30QleZaZnsumSZ3x4edlWdIcmaivr89tq
+ /MRedJQ2Wd4Zuj52ld8lTnWF1DrSnEAko8fNXcm3PV3fRfuNSkjmITDpo+zb0H0ohKM4
+ 5fld07+7R14xuvfvQ68cdgKVN7JT2/RWG+a550Djm6ywFU5FjLHdRIymhCeRvIlq7Xts
+ 7e4TF8X/dN14ZG7Wj01mlU8G8/8SoS60OEeJztvx0kP2hDLbVmWvLabAQsr402cSCArV
+ A7lg==
+X-Gm-Message-State: AFqh2koQCsxh3iEEYzneqMt8L30Qr0whS+uyjrN0V6Lxjd4bT+MDahU9
+ ownmeg++7t/Va9codeqXN+x5eR/D9flQyvUH/sE=
+X-Google-Smtp-Source: AMrXdXtST8zpBk5HeTRi9B4X/+MkuvUr+xl0uiiey1JHpKOPD8XY5h9IhacxDKe5h0rd+QsdRJ+JOMeXy90z6qxqkFY=
+X-Received: by 2002:a1f:3215:0:b0:3d5:86ff:6638 with SMTP id
+ y21-20020a1f3215000000b003d586ff6638mr6101462vky.30.1673305087472; Mon, 09
+ Jan 2023 14:58:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20221229091828.1945072-1-bmeng@tinylab.org>
- <20221229091828.1945072-13-bmeng@tinylab.org>
-In-Reply-To: <20221229091828.1945072-13-bmeng@tinylab.org>
+References: <20230109120833.3330-1-philmd@linaro.org>
+ <20230109120833.3330-8-philmd@linaro.org>
+In-Reply-To: <20230109120833.3330-8-philmd@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 10 Jan 2023 08:55:11 +1000
-Message-ID: <CAKmqyKMpNKdgc2GsFqK+gh3U1-8H7nXB91Z1uXWhuTKpUXpOwQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/12] hw/riscv: spike: Decouple create_fdt()
- dependency to ELF loading
-To: Bin Meng <bmeng@tinylab.org>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org, 
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Bin Meng <bin.meng@windriver.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-riscv@nongnu.org
+Date: Tue, 10 Jan 2023 08:57:41 +1000
+Message-ID: <CAKmqyKNQN08VjouZuGJ8U1+T5djCrM53mYm4gHLRCqCCE5yzXg@mail.gmail.com>
+Subject: Re: [PATCH v2 07/21] hw/riscv: Use generic DeviceState instead of
+ PFlashCFI01
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e29;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe29.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2e;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa2e.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -88,226 +88,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 29, 2022 at 8:33 PM Bin Meng <bmeng@tinylab.org> wrote:
+On Mon, Jan 9, 2023 at 10:24 PM Philippe Mathieu-Daud=C3=A9
+<philmd@linaro.org> wrote:
 >
-> At present create_fdt() calls htif_uses_elf_symbols() to determine
-> whether to insert a <reg> property for the HTIF. This unfortunately
-> creates a hidden dependency to riscv_load_{firmware,kernel} that
-> create_fdt() must be called after the ELF {firmware,kernel} image
-> has been loaded.
+> Nothing here requires access to PFlashCFI01 internal fields:
+> use the inherited generic DeviceState.
 >
-> Decouple such dependency be adding a new parameter to create_fdt(),
-> whether custom HTIF base address is used. The flag will be set if
-> non ELF {firmware,kernel} image is given by user.
->
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
-Thanks!
-
-Applied to riscv-to-apply.next
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
->
 > ---
+>  hw/riscv/virt.c         | 9 +++++----
+>  include/hw/riscv/virt.h | 3 +--
+>  2 files changed, 6 insertions(+), 6 deletions(-)
 >
-> Changes in v2:
-> - initialize firmware_end_addr to memmap[SPIKE_DRAM].base
-> - rework the htif_custom_base detection logic
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index aa8db65685..a2cd174599 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -46,6 +46,7 @@
+>  #include "sysemu/sysemu.h"
+>  #include "sysemu/kvm.h"
+>  #include "sysemu/tpm.h"
+> +#include "hw/block/flash.h"
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci-host/gpex.h"
+>  #include "hw/display/ramfb.h"
+> @@ -106,7 +107,7 @@ static MemMapEntry virt_high_pcie_memmap;
 >
->  include/hw/char/riscv_htif.h |  5 +--
->  hw/char/riscv_htif.c         | 17 +++++-----
->  hw/riscv/spike.c             | 61 ++++++++++++++++++++++++++++++------
->  3 files changed, 59 insertions(+), 24 deletions(-)
+>  #define VIRT_FLASH_SECTOR_SIZE (256 * KiB)
 >
-> diff --git a/include/hw/char/riscv_htif.h b/include/hw/char/riscv_htif.h
-> index 9e8ebbe017..5958c5b986 100644
-> --- a/include/hw/char/riscv_htif.h
-> +++ b/include/hw/char/riscv_htif.h
-> @@ -44,11 +44,8 @@ typedef struct HTIFState {
->  void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
->      uint64_t st_size);
->
-> -/* Check if HTIF uses ELF symbols */
-> -bool htif_uses_elf_symbols(void);
-> -
->  /* legacy pre qom */
->  HTIFState *htif_mm_init(MemoryRegion *address_space, Chardev *chr,
-> -                        uint64_t nonelf_base);
-> +                        uint64_t nonelf_base, bool custom_base);
->
->  #endif
-> diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
-> index 1477fc0090..098de50e35 100644
-> --- a/hw/char/riscv_htif.c
-> +++ b/hw/char/riscv_htif.c
-> @@ -52,20 +52,17 @@
->  #define PK_SYS_WRITE            64
->
->  static uint64_t fromhost_addr, tohost_addr;
-> -static int address_symbol_set;
->
->  void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
->                            uint64_t st_size)
+> -static PFlashCFI01 *virt_flash_create1(RISCVVirtState *s,
+> +static DeviceState *virt_flash_create1(RISCVVirtState *s,
+>                                         const char *name,
+>                                         const char *alias_prop_name)
 >  {
->      if (strcmp("fromhost", st_name) == 0) {
-> -        address_symbol_set |= 1;
->          fromhost_addr = st_value;
->          if (st_size != 8) {
->              error_report("HTIF fromhost must be 8 bytes");
->              exit(1);
->          }
->      } else if (strcmp("tohost", st_name) == 0) {
-> -        address_symbol_set |= 2;
->          tohost_addr = st_value;
->          if (st_size != 8) {
->              error_report("HTIF tohost must be 8 bytes");
-> @@ -275,19 +272,19 @@ static const MemoryRegionOps htif_mm_ops = {
->      .write = htif_mm_write,
->  };
+> @@ -130,7 +131,7 @@ static PFlashCFI01 *virt_flash_create1(RISCVVirtState=
+ *s,
+>      object_property_add_alias(OBJECT(s), alias_prop_name,
+>                                OBJECT(dev), "drive");
 >
-> -bool htif_uses_elf_symbols(void)
-> -{
-> -    return (address_symbol_set == 3) ? true : false;
-> -}
-> -
->  HTIFState *htif_mm_init(MemoryRegion *address_space, Chardev *chr,
-> -                        uint64_t nonelf_base)
-> +                        uint64_t nonelf_base, bool custom_base)
->  {
->      uint64_t base, size, tohost_offset, fromhost_offset;
->
-> -    if (!htif_uses_elf_symbols()) {
-> +    if (custom_base) {
->          fromhost_addr = nonelf_base;
->          tohost_addr = nonelf_base + 8;
-> +    } else {
-> +        if (!fromhost_addr || !tohost_addr) {
-> +            error_report("Invalid HTIF fromhost or tohost address");
-> +            exit(1);
-> +        }
->      }
->
->      base = MIN(tohost_addr, fromhost_addr);
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index 810a18f283..dd5f912e3d 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -50,7 +50,8 @@ static const MemMapEntry spike_memmap[] = {
->  };
->
->  static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
-> -                       uint64_t mem_size, const char *cmdline, bool is_32_bit)
-> +                       uint64_t mem_size, const char *cmdline,
-> +                       bool is_32_bit, bool htif_custom_base)
->  {
->      void *fdt;
->      uint64_t addr, size;
-> @@ -78,7 +79,7 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
->
->      qemu_fdt_add_subnode(fdt, "/htif");
->      qemu_fdt_setprop_string(fdt, "/htif", "compatible", "ucb,htif0");
-> -    if (!htif_uses_elf_symbols()) {
-> +    if (htif_custom_base) {
->          qemu_fdt_setprop_cells(fdt, "/htif", "reg",
->              0x0, memmap[SPIKE_HTIF].base, 0x0, memmap[SPIKE_HTIF].size);
->      }
-> @@ -184,18 +185,33 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
->      }
+> -    return PFLASH_CFI01(dev);
+> +    return dev;
 >  }
 >
-> +static bool spike_test_elf_image(char *filename)
-> +{
-> +    Error *err = NULL;
-> +
-> +    load_elf_hdr(filename, NULL, NULL, &err);
-> +    if (err) {
-> +        error_free(err);
-> +        return false;
-> +    } else {
-> +        return true;
-> +    }
-> +}
-> +
->  static void spike_board_init(MachineState *machine)
->  {
->      const MemMapEntry *memmap = spike_memmap;
->      SpikeState *s = SPIKE_MACHINE(machine);
->      MemoryRegion *system_memory = get_system_memory();
->      MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-> -    target_ulong firmware_end_addr, kernel_start_addr;
-> -    const char *firmware_name;
-> +    target_ulong firmware_end_addr = memmap[SPIKE_DRAM].base;
-> +    target_ulong kernel_start_addr;
-> +    char *firmware_name;
->      uint32_t fdt_load_addr;
->      uint64_t kernel_entry;
->      char *soc_name;
->      int i, base_hartid, hart_count;
-> +    bool htif_custom_base = false;
->
->      /* Check socket count limit */
->      if (SPIKE_SOCKETS_MAX < riscv_socket_count(machine)) {
-> @@ -257,10 +273,34 @@ static void spike_board_init(MachineState *machine)
->      memory_region_add_subregion(system_memory, memmap[SPIKE_MROM].base,
->                                  mask_rom);
->
-> -    firmware_name = riscv_default_firmware_name(&s->soc[0]);
-> -    firmware_end_addr = riscv_find_and_load_firmware(machine, firmware_name,
-> -                                                     memmap[SPIKE_DRAM].base,
-> -                                                     htif_symbol_callback);
-> +    /* Find firmware */
-> +    firmware_name = riscv_find_firmware(machine->firmware,
-> +                        riscv_default_firmware_name(&s->soc[0]));
-> +
-> +    /*
-> +     * Test the given firmware or kernel file to see if it is an ELF image.
-> +     * If it is an ELF, we assume it contains the symbols required for
-> +     * the HTIF console, otherwise we fall back to use the custom base
-> +     * passed from device tree for the HTIF console.
-> +     */
-> +    if (!firmware_name && !machine->kernel_filename) {
-> +        htif_custom_base = true;
-> +    } else {
-> +        if (firmware_name) {
-> +            htif_custom_base = !spike_test_elf_image(firmware_name);
-> +        }
-> +        if (!htif_custom_base && machine->kernel_filename) {
-> +            htif_custom_base = !spike_test_elf_image(machine->kernel_filename);
-> +        }
-> +    }
-> +
-> +    /* Load firmware */
-> +    if (firmware_name) {
-> +        firmware_end_addr = riscv_load_firmware(firmware_name,
-> +                                                memmap[SPIKE_DRAM].base,
-> +                                                htif_symbol_callback);
-> +        g_free(firmware_name);
-> +    }
->
->      /* Load kernel */
->      if (machine->kernel_filename) {
-> @@ -280,7 +320,7 @@ static void spike_board_init(MachineState *machine)
->
->      /* Create device tree */
->      create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
-> -               riscv_is_32bit(&s->soc[0]));
-> +               riscv_is_32bit(&s->soc[0]), htif_custom_base);
->
->      /* Load initrd */
->      if (machine->kernel_filename && machine->initrd_filename) {
-> @@ -308,7 +348,8 @@ static void spike_board_init(MachineState *machine)
->                                fdt_load_addr);
->
->      /* initialize HTIF using symbols found in load_kernel */
-> -    htif_mm_init(system_memory, serial_hd(0), memmap[SPIKE_HTIF].base);
-> +    htif_mm_init(system_memory, serial_hd(0), memmap[SPIKE_HTIF].base,
-> +                 htif_custom_base);
+>  static void virt_flash_create(RISCVVirtState *s)
+> @@ -139,7 +140,7 @@ static void virt_flash_create(RISCVVirtState *s)
+>      s->flash[1] =3D virt_flash_create1(s, "virt.flash1", "pflash1");
 >  }
 >
->  static void spike_machine_instance_init(Object *obj)
+> -static void virt_flash_map1(PFlashCFI01 *flash,
+> +static void virt_flash_map1(DeviceState *flash,
+>                              hwaddr base, hwaddr size,
+>                              MemoryRegion *sysmem)
+>  {
+> @@ -1514,7 +1515,7 @@ static void virt_machine_init(MachineState *machine=
+)
+>
+>      for (i =3D 0; i < ARRAY_SIZE(s->flash); i++) {
+>          /* Map legacy -drive if=3Dpflash to machine properties */
+> -        pflash_cfi01_legacy_drive(DEVICE(s->flash[i]),
+> +        pflash_cfi01_legacy_drive(s->flash[i],
+>                                    drive_get(IF_PFLASH, 0, i));
+>      }
+>      virt_flash_map(s, system_memory);
+> diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+> index 3407c9e8dd..2be47547ac 100644
+> --- a/include/hw/riscv/virt.h
+> +++ b/include/hw/riscv/virt.h
+> @@ -21,7 +21,6 @@
+>
+>  #include "hw/riscv/riscv_hart.h"
+>  #include "hw/sysbus.h"
+> -#include "hw/block/flash.h"
+>  #include "qom/object.h"
+>
+>  #define VIRT_CPUS_MAX_BITS             9
+> @@ -49,7 +48,7 @@ struct RISCVVirtState {
+>      DeviceState *platform_bus_dev;
+>      RISCVHartArrayState soc[VIRT_SOCKETS_MAX];
+>      DeviceState *irqchip[VIRT_SOCKETS_MAX];
+> -    PFlashCFI01 *flash[2];
+> +    DeviceState *flash[2];
+>      FWCfgState *fw_cfg;
+>
+>      int fdt_size;
 > --
-> 2.34.1
+> 2.38.1
 >
 >
 
