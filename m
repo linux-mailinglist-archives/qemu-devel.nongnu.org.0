@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141CA66345E
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:52:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB18663453
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:51:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF0yk-0005jc-CW; Mon, 09 Jan 2023 17:50:54 -0500
+	id 1pF0yY-0005jG-P4; Mon, 09 Jan 2023 17:50:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pF0yE-0005fM-1S
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:50:22 -0500
-Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c])
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pF0yF-0005gJ-PS
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:50:24 -0500
+Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pF0yB-00076p-SJ
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:50:21 -0500
-Received: by mail-qt1-x82c.google.com with SMTP id x11so9320421qtv.13
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 14:50:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pF0yE-00077a-DI
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:50:23 -0500
+Received: by mail-qt1-x835.google.com with SMTP id c7so9396339qtw.8
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 14:50:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=braap-org.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QwzyW7oZ6debHOnGp+1MstVKgcAlJPD9/UuYM93GsSg=;
- b=hUOjKj8KWtBgSmqnMdYC0Uaxlakn+oVk73gNrdCvnXrv0ADUHzA8PryHjam9OHdWMP
- yiZ7BC63UFotEBJQMOpWkix6ZxW7wfMiPd70lS7xOAdn+Lwt9j6r3ueJ+BHB23wMovMY
- y+qTIq5+mX49CgXOQc7vaWS2v/OHSgg+ZpgWMwY/uDXXBe2xyRHq2qWklvukbvCmHgX4
- CbphtHHfamWX/wslOlH7s2ys44Ifpd9RljBX4L3AsFIFCyj3y3ex1KbZapTrImlsM7iT
- cTQZgJOqgAU0tOQTB06YrDo5sBIPWQ0unE0p12bAHuHwaEKezlJ2JyrGvKAycWND3xIB
- MPEQ==
+ bh=3a1hVR1tfeFDYLy7M6VisZhyTtrl3sivRfIGgYuupak=;
+ b=M9GYJKWmf6W7sVLpYK4fc1KlCvVgw+xaFzt8J059ylUcS5P1hqyf0qes1StNU8RYEs
+ dB/UJxkFw0mCl6hZDudgUKryz4jki7vjTjX3d7yhwsI16tIrHar75F3MO4ZgY7TEInGC
+ LpLyYGgizMLfi6cw4o8sGY49+4RRjFaGhLK0oHedyEd6JyHMfRx4CsgtkASq7kgNQnxm
+ Wb+4zafexMxJql/qhapNP2Lc+zqi9hP/Ga1wj8DZvvKqf+ZsGDcR9sfDxgn2VlUNATb1
+ e3TspFKw2zDi7a4sFaFT6b4cCU40LZ/gicQwc6UQIptGoLJru/F8+ctih3ET/rL3fd7U
+ sXTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QwzyW7oZ6debHOnGp+1MstVKgcAlJPD9/UuYM93GsSg=;
- b=5rE5IC8ZYMb20arwGJydMn2ID5RJ4MExq7BDoEIw2334OZSklChCLWOo7+qxQq86Et
- INPVywjOa8bZvxwsCO9E+hPLyR+qFJtj+f12U3M4Pw25FNC+fle8weL1jHnzvdLT8WfK
- KeHqc9INnEgsvg/I+qNtcWaK5WKYIb/YglyWeu7xSHkquY4GGlwgQ6Ev/HtcX24OF/J8
- fkP4B9ST+Zqcy+nuPcv9WDGgGEN4CKeU0HhCe0bOsgpRZaTbdgyoeFWE6OHID529l8RY
- 2SZxQ8rKVdkD4/jDA4fGXpPuPQ41Gx70tihtZXCmP+rgkYLgtwd973F7VJT2Fj5ElgCb
- 7tXw==
-X-Gm-Message-State: AFqh2kp/nrYttGgGO311SjR3Y7bAY+ee9xYiadPXPoQ4WUlafW7Ge2cb
- VRSzpxaKocwHbGwC+wGw1lBLntbvGTc8u0tARxs=
-X-Google-Smtp-Source: AMrXdXtjaW/J6hCYkAV3luj54yWu+MKRGqSo1vdV8NUH7fn99Mlbj3hO8mHMVQTe1/R+Cdc4LJwUkQ==
-X-Received: by 2002:a05:622a:124e:b0:3ae:3f56:6d26 with SMTP id
- z14-20020a05622a124e00b003ae3f566d26mr3916166qtx.14.1673304618318; 
- Mon, 09 Jan 2023 14:50:18 -0800 (PST)
+ bh=3a1hVR1tfeFDYLy7M6VisZhyTtrl3sivRfIGgYuupak=;
+ b=Rpu8OjcM4GvNb8doXNLMlzhodlh9EN6c5RkoZmN/lX7/X7+rjo27R+OXm0nMHaNQ5X
+ EJv1DnP7sVcai1Ew1Q3aqoBBL6ztM0GCcqjTh8YwPOTVgFt0r+WoUlKtUvi+SbVYUgo8
+ 4vQoRI3CKdFSwpPdVb9Gbze+KdlUbS2RqzLn4HWND945mGO1r/0v3NT9hcmUbDcLQZt3
+ 1OXFu5u3kQZelAArwuxKC1kiSFsdZsD5JkojNMGmVmjvuiGydXIV0Z91ZrL1TpeNNZ4w
+ qTXsURAPuQKrtuRnUv923hBGHglA8ADvVGXPK4d1zjiI5n1kZZ/K3yBjz80bvKVRhfu2
+ jPBA==
+X-Gm-Message-State: AFqh2kqMQDJ8zIh/Wc/34XEF586saLyyrNAN6JakcXJZIn8tCHwwoaqH
+ NcCLIhwfRXO5EWLkBuP1VRBNcvFVmBd9X4Rhiuw=
+X-Google-Smtp-Source: AMrXdXuWFa+BukYL+cmPTSJwYwNfKi94Nz0UQToi/pguMiFgroeQGvJNAvAssZ4Bsuc+oSfQd0Jbfg==
+X-Received: by 2002:ac8:58cc:0:b0:3ab:85d2:5c61 with SMTP id
+ u12-20020ac858cc000000b003ab85d25c61mr79973192qta.61.1673304621246; 
+ Mon, 09 Jan 2023 14:50:21 -0800 (PST)
 Received: from localhost (pool-100-2-99-22.nycmny.fios.verizon.net.
  [100.2.99.22]) by smtp.gmail.com with ESMTPSA id
- l13-20020ac84a8d000000b003a6947863e1sm5167413qtq.11.2023.01.09.14.50.17
+ bs25-20020ac86f19000000b0039cb59f00fcsm5237182qtb.30.2023.01.09.14.50.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 14:50:17 -0800 (PST)
+ Mon, 09 Jan 2023 14:50:20 -0800 (PST)
 From: Emilio Cota <cota@braap.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -60,16 +60,17 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Emilio Cota <cota@braap.org>
-Subject: [PATCH v2 1/5] cpu: free cpu->tb_jmp_cache with RCU
-Date: Mon,  9 Jan 2023 17:49:50 -0500
-Message-Id: <20230109224954.161672-2-cota@braap.org>
+Subject: [PATCH v2 2/5] util/qht: add missing atomic_set(hashes[i])
+Date: Mon,  9 Jan 2023 17:49:51 -0500
+Message-Id: <20230109224954.161672-3-cota@braap.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230109224954.161672-1-cota@braap.org>
 References: <20230109224954.161672-1-cota@braap.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=2607:f8b0:4864:20::82c;
- envelope-from=cota@braap.org; helo=mail-qt1-x82c.google.com
+Received-SPF: softfail client-ip=2607:f8b0:4864:20::835;
+ envelope-from=cota@braap.org; helo=mail-qt1-x835.google.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
@@ -91,98 +92,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fixes the appended use-after-free. The root cause is that
-during tb invalidation we use CPU_FOREACH, and therefore
-to safely free a vCPU we must wait for an RCU grace period
-to elapse.
+We forgot to add this one in "a890643958 util/qht: atomically set b->hashes".
 
-$ x86_64-linux-user/qemu-x86_64 tests/tcg/x86_64-linux-user/munmap-pthread
-=================================================================
-==1800604==ERROR: AddressSanitizer: heap-use-after-free on address 0x62d0005f7418 at pc 0x5593da6704eb bp 0x7f4961a7ac70 sp 0x7f4961a7ac60
-READ of size 8 at 0x62d0005f7418 thread T2
-    #0 0x5593da6704ea in tb_jmp_cache_inval_tb ../accel/tcg/tb-maint.c:244
-    #1 0x5593da6704ea in do_tb_phys_invalidate ../accel/tcg/tb-maint.c:290
-    #2 0x5593da670631 in tb_phys_invalidate__locked ../accel/tcg/tb-maint.c:306
-    #3 0x5593da670631 in tb_invalidate_phys_page_range__locked ../accel/tcg/tb-maint.c:542
-    #4 0x5593da67106d in tb_invalidate_phys_range ../accel/tcg/tb-maint.c:614
-    #5 0x5593da6a64d4 in target_munmap ../linux-user/mmap.c:766
-    #6 0x5593da6dba05 in do_syscall1 ../linux-user/syscall.c:10105
-    #7 0x5593da6f564c in do_syscall ../linux-user/syscall.c:13329
-    #8 0x5593da49e80c in cpu_loop ../linux-user/x86_64/../i386/cpu_loop.c:233
-    #9 0x5593da6be28c in clone_func ../linux-user/syscall.c:6633
-    #10 0x7f496231cb42 in start_thread nptl/pthread_create.c:442
-    #11 0x7f49623ae9ff  (/lib/x86_64-linux-gnu/libc.so.6+0x1269ff)
+Detected with tsan.
 
-0x62d0005f7418 is located 28696 bytes inside of 32768-byte region [0x62d0005f0400,0x62d0005f8400)
-freed by thread T148 here:
-    #0 0x7f49627b6460 in __interceptor_free ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:52
-    #1 0x5593da5ac057 in cpu_exec_unrealizefn ../cpu.c:180
-    #2 0x5593da81f851  (/home/cota/src/qemu/build/qemu-x86_64+0x484851)
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Emilio Cota <cota@braap.org>
 ---
- accel/tcg/cpu-exec.c     |  3 +--
- accel/tcg/tb-jmp-cache.h |  1 +
- cpu.c                    | 11 ++++++++++-
- 3 files changed, 12 insertions(+), 3 deletions(-)
+ util/qht.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 356fe348de..6bd29227f3 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -1064,13 +1064,12 @@ void tcg_exec_realizefn(CPUState *cpu, Error **errp)
- /* undo the initializations in reverse order */
- void tcg_exec_unrealizefn(CPUState *cpu)
- {
--    qemu_plugin_vcpu_exit_hook(cpu);
- #ifndef CONFIG_USER_ONLY
-     tcg_iommu_free_notifier_list(cpu);
- #endif /* !CONFIG_USER_ONLY */
+diff --git a/util/qht.c b/util/qht.c
+index 065fc501f4..15866299e6 100644
+--- a/util/qht.c
++++ b/util/qht.c
+@@ -688,7 +688,7 @@ static inline void qht_bucket_remove_entry(struct qht_bucket *orig, int pos)
+     int i;
  
-     tlb_destroy(cpu);
--    g_free(cpu->tb_jmp_cache);
-+    g_free_rcu(cpu->tb_jmp_cache, rcu);
- }
- 
- #ifndef CONFIG_USER_ONLY
-diff --git a/accel/tcg/tb-jmp-cache.h b/accel/tcg/tb-jmp-cache.h
-index ff5ffc8fc2..b3f6e78835 100644
---- a/accel/tcg/tb-jmp-cache.h
-+++ b/accel/tcg/tb-jmp-cache.h
-@@ -18,6 +18,7 @@
-  * a load_acquire/store_release to 'tb'.
-  */
- struct CPUJumpCache {
-+    struct rcu_head rcu;
-     struct {
-         TranslationBlock *tb;
- #if TARGET_TB_PCREL
-diff --git a/cpu.c b/cpu.c
-index 4a7d865427..21cf809614 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -176,11 +176,20 @@ void cpu_exec_unrealizefn(CPUState *cpu)
-         vmstate_unregister(NULL, &vmstate_cpu_common, cpu);
+     if (qht_entry_is_last(orig, pos)) {
+-        orig->hashes[pos] = 0;
++        qatomic_set(&orig->hashes[pos], 0);
+         qatomic_set(&orig->pointers[pos], NULL);
+         return;
      }
- #endif
-+
-+    /* Call the plugin hook before clearing cpu->cpu_index in cpu_list_remove */
-     if (tcg_enabled()) {
--        tcg_exec_unrealizefn(cpu);
-+        qemu_plugin_vcpu_exit_hook(cpu);
-     }
- 
-     cpu_list_remove(cpu);
-+    /*
-+     * Now that the vCPU has been removed from the RCU list, we can call
-+     * tcg_exec_unrealizefn, which may free fields using call_rcu.
-+     */
-+    if (tcg_enabled()) {
-+        tcg_exec_unrealizefn(cpu);
-+    }
- }
- 
- /*
 -- 
 2.34.1
 
