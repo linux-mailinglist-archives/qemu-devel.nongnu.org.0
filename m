@@ -2,77 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6272B662DA8
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:51:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE0D662DB1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:53:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEwIi-0003O4-RO; Mon, 09 Jan 2023 12:51:12 -0500
+	id 1pEwK1-0004KC-Hh; Mon, 09 Jan 2023 12:52:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slongfield@google.com>)
- id 1pEwIf-0003Lh-MF
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:51:10 -0500
-Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <slongfield@google.com>)
- id 1pEwIZ-0004DZ-BR
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:51:09 -0500
-Received: by mail-vs1-xe35.google.com with SMTP id k6so573020vsk.1
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 09:51:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RCQ+8sasHoTSrDqcnIZeWK5ekBDCwtf3ebUZLQD9pSc=;
- b=qvgfjPlBzuPBOiAn5tUW7+vhs2CNSbMkm5FIq3TJF6/UPzbijub8SLyOAFsdeIcsNQ
- lQTHGUP2BR/CUC+5/prKpqZ8MZumrCWD7Evo+9cjK3jc6R6fKnS2UYnWbqMcKAt/vWVM
- V2Ax/KuFlZnR9e3i1Ik9158ieRWTLh9/c+/WwLeeG0vD1osD5jhqcS/75EBQd6PhhJxZ
- mlqvCNnuRA/yIIR3VvlTCd3yzA2TpHQf+fqJWsSMBJnRPYMbf6Xxiwt7XotFKzZmydo6
- Ddpra5dX0GX2jgP8VsQB2CkIgTZqiS1xo4VXmWukYDtCcDdRDdDt8DAKjd26494PEvdG
- iVbA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pEwJy-0004Js-N4
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:52:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pEwJw-0006ED-Kb
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:52:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673286747;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g8uh4vwCxejcf4GREMTlcyPCtsMdW+TjlJfk4d8hAtI=;
+ b=RdlOjZnWU+OyDyVgPh9ogr7Qm+GrQiusFtFck7NgRiT8jUO5sCT7GKne46W6xWK6SjW2E/
+ wpiqN6zT6YCvhiLFlY/tiL9xg2PUa1nOtZH1s69fOX7yVtly56trHPSbS4kWsrJsx6TO6K
+ PyxGjyu8Fy/o3cpkXGlAGQEoxXr4Xz0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-256-hKCZ5s1IPnebUTZ_MzYV3A-1; Mon, 09 Jan 2023 12:52:26 -0500
+X-MC-Unique: hKCZ5s1IPnebUTZ_MzYV3A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ l18-20020adfa392000000b002bbd5c680a3so1002570wrb.14
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 09:52:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RCQ+8sasHoTSrDqcnIZeWK5ekBDCwtf3ebUZLQD9pSc=;
- b=IZN4bjU8XPb1KwQUxvtMSdHa7bwNQ893UwS/wcLeZouMRu94YM50YgI6ElgRn5tCCw
- itl0ocDN9jACP1E3scJDaITwiiIiKkqckrEGzDyK6duqOXPGKRoexZRU0l/qRZOy6tim
- 2C4LzZguQS2BTO9XlZbxos3roQtMFsWEsz7zLY+NllWw1yQT0AvJOMmm/Dj6+afaAVcf
- HNoqVKWI6KP1EhYc7IIpKeEVeYHjmhw7rknzHqWXtstRsoZ+4fb+Ka/Li4jzsw/J8fvw
- cQODq5EBTfyB99ss/qgBuWWokFBJrOGMn44OQRilRLwNWnXMOJxoEMywBTCFS+JUw+dL
- cqzw==
-X-Gm-Message-State: AFqh2koJrPVDHj0tXKHGV6TOFLh3Rej9He56vjDh3C2AIuoL6gsYHWVv
- G/GbTa2vCZATTdEMYahO24mbWsNePjTjS8cxOfxZ3A==
-X-Google-Smtp-Source: AMrXdXtvWHTWpuFVMHC0g4ZwlcVLd6SrlZqRqVKim87nFU72IymttUFAlFOxN6zkonGZClOmjAdzml9ukwsVuhUhlvU=
-X-Received: by 2002:a05:6102:5616:b0:3d0:a51c:58cc with SMTP id
- de22-20020a056102561600b003d0a51c58ccmr548211vsb.51.1673286661675; Mon, 09
- Jan 2023 09:51:01 -0800 (PST)
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=g8uh4vwCxejcf4GREMTlcyPCtsMdW+TjlJfk4d8hAtI=;
+ b=WFzIxcV+a3rsYhXzVFGCWYcoE/nvi5WFeMXoGraghUo5Bgo1h4EithZ3hAWRUbBdBk
+ NMybBPWNh0ta9cslql5+a4a/Fkn1z09C54deKfshrsSTtAySBx8HyM51aDPcu8i3plSz
+ bo41WH6ZeeYNfw+0TyBcg+ZX16h/HC3V+uq6iFtxd/C3eJ1wQpOO2gQwcvVUM6mG6tsb
+ 38rWk8tqkjvQVuVYXXkIPl4BKGFMEmEjHDnJHB6+lFMMi67q8+7jxFFbBsq7pYfakz4N
+ hsw0avE082doI4Yu7mQxB8xLc7OOoAjbZDmFpTKaRxId7xH1GUDCanjnDclsfdyGvaFm
+ NtkA==
+X-Gm-Message-State: AFqh2krTRXNmwaaehIexPQEzQYGM2rgK+fjTRzCv43VHK4WijaxBflGl
+ qlC+tXWHllhQTmlvEpFGNaN3l0OeIhNA1N6WFSEaU3XGkmOM9aqPK5AiWnvbQgt5McVgHlY5dE1
+ hIFNxmdL1j9Elwcs=
+X-Received: by 2002:adf:e9d1:0:b0:2bb:6d44:5bc with SMTP id
+ l17-20020adfe9d1000000b002bb6d4405bcmr5206741wrn.17.1673286745124; 
+ Mon, 09 Jan 2023 09:52:25 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvfBWPNx2PNVlEFFKgucBrwdVWtm3lDHET4ZZTCVlwndbpd1fkBPjLHqCLBb0IJfVmRZroZQw==
+X-Received: by 2002:adf:e9d1:0:b0:2bb:6d44:5bc with SMTP id
+ l17-20020adfe9d1000000b002bb6d4405bcmr5206734wrn.17.1673286744941; 
+ Mon, 09 Jan 2023 09:52:24 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ y7-20020a5d4707000000b00291f1a5ced6sm8980045wrq.53.2023.01.09.09.52.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Jan 2023 09:52:24 -0800 (PST)
+Date: Mon, 9 Jan 2023 17:52:22 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: James Bottomley <jejb@linux.ibm.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 2/2] tpm: add backend for mssim
+Message-ID: <Y7xUVq9PT9ohGfCj@work-vm>
+References: <9fac7d95-d891-413f-93f1-18324c7943ea@linux.ibm.com>
+ <a8863d1905aa427543facb68d8892af369262f19.camel@linux.ibm.com>
+ <29e99f54-d5e8-b18d-08a6-d24435032272@linux.ibm.com>
+ <Y5xH/0bbgFzi+G//@redhat.com>
+ <a990f3c8-cca9-86ff-6995-6e49ba90f839@linux.ibm.com>
+ <Y5xqgK8UXe28VZQ2@redhat.com>
+ <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
+ <Y5yAz0qzaIW4HwFi@redhat.com> <Y7xH1i0Uvbo0FUwG@work-vm>
+ <5c07f6ab6adfe53f7e7fbeeda67f2eb62afccdfa.camel@linux.ibm.com>
 MIME-Version: 1.0
-References: <20221220221437.3303721-1-slongfield@google.com>
- <587d650e-fba3-ba44-793e-919dd6f75a90@kaod.org>
- <CAK_0=FLEiWQMWqzkM_EZ4VCzwRYeTbN9djuFgDR1EwVAZ1oALA@mail.gmail.com>
-In-Reply-To: <CAK_0=FLEiWQMWqzkM_EZ4VCzwRYeTbN9djuFgDR1EwVAZ1oALA@mail.gmail.com>
-From: Stephen Longfield <slongfield@google.com>
-Date: Mon, 9 Jan 2023 09:50:50 -0800
-Message-ID: <CAK_0=FKBx8DxTCJ1QzW7SC8QenNmvm13aJyO9P882V3gKhWxLg@mail.gmail.com>
-Subject: Re: [PATCH] hw/net: Fix read of uninitialized memory in ftgmac100
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- andrew@aj.id.au, joel@jms.id.au, venture@google.com, wuhaotsh@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e35;
- envelope-from=slongfield@google.com; helo=mail-vs1-xe35.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5c07f6ab6adfe53f7e7fbeeda67f2eb62afccdfa.camel@linux.ibm.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,78 +112,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Does anything more need to happen with this patch before it can be
-applied? Not sure if it had gotten lost over the holidays.
+* James Bottomley (jejb@linux.ibm.com) wrote:
+> On Mon, 2023-01-09 at 16:59 +0000, Dr. David Alan Gilbert wrote:
+> > * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > > On Fri, Dec 16, 2022 at 08:32:44AM -0500, Stefan Berger wrote:
+> [...]
+> > > > I do see it because the *volatile state* cannot be extracted from
+> > > > this device. The state of the PCRs is going to be lost.
+> > > 
+> > > All the objections you're raising are related to the current
+> > > specifics of the implementation of the mssim remote server.
+> > > While valid, this is of no concern to QEMU when deciding whether
+> > > to require a migration blocker on the client side. This is 3rd
+> > > party remote service that should be considered a black box from
+> > > QEMU's POV. It is possible to write a remote server that supports
+> > > the mssim network protocol, and has the ability to serialize
+> > > its state. Whether such an impl exists today or not is separate.
+> > 
+> > We would normally want an example of a working implementation though
+> > wouldn't we?
+> > 
+> > So I think it's fair to at least want some documentation; if it can
+> > be documented and works, fine; if it doesn't work, then it needs a
+> > blocker.
+> 
+> It works under limited circumstances ... in fact similar circumstances
+> passthrough migration works under,
 
-Best,
+Well, not that similar - people expect passthrough migration to fail
+because, being nailed to a physical servers hardware it's not likely to
+migrate; where as you're creating a new virtual thing which people might
+imagine is similar to the existing swtpm.  Their imagination might be
+wrong and thus you need to say why.
 
---Stephen
+> which is also not documented.  The
 
+Inductive proof that we should have no good documentation doesn't get us
+anywhere.
 
-On Wed, Dec 21, 2022 at 9:58 AM Stephen Longfield <slongfield@google.com> w=
-rote:
->
-> On Tue, Dec 20, 2022 at 11:30 PM C=C3=A9dric Le Goater <clg@kaod.org> wro=
-te:
-> >
-> > On 12/20/22 23:14, Stephen Longfield wrote:
-> > > With the `size +=3D 4` before the call to `crc32`, the CRC calculatio=
-n
-> > > would overrun the buffer. Size is used in the while loop starting on
-> > > line 1009 to determine how much data to write back, with the last
-> > > four bytes coming from `crc_ptr`, so do need to increase it, but shou=
-ld
-> > > do this after the computation.
-> > >
-> > > I'm unsure why this use of uninitialized memory in the CRC doesn't
-> > > result in CRC errors, but it seems clear to me that it should not be
-> > > included in the calculation.
-> > >
-> > > Signed-off-by: Stephen Longfield <slongfield@google.com>
-> > > Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> >
-> >
-> > Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> >
-> > I think imx_fec.c is impacted also.
-> >
-> > Thanks,
-> >
-> > C.
-> >
->
-> Thanks for pointing that out, looks to be exactly the same. I'll send
-> out a separate patch that fixes the issue in that file.
->
-> Best,
->
-> --Stephen
->
-> >
-> > > ---
-> > >   hw/net/ftgmac100.c | 4 ++--
-> > >   1 file changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-> > > index 83ef0a783e..d3bf14be53 100644
-> > > --- a/hw/net/ftgmac100.c
-> > > +++ b/hw/net/ftgmac100.c
-> > > @@ -980,9 +980,9 @@ static ssize_t ftgmac100_receive(NetClientState *=
-nc, const uint8_t *buf,
-> > >           return size;
-> > >       }
-> > >
-> > > -    /* 4 bytes for the CRC.  */
-> > > -    size +=3D 4;
-> > >       crc =3D cpu_to_be32(crc32(~0, buf, size));
-> > > +    /* Increase size by 4, loop below reads the last 4 bytes from cr=
-c_ptr. */
-> > > +    size +=3D 4;
-> > >       crc_ptr =3D (uint8_t *) &crc;
-> > >
-> > >       /* Huge frames are truncated.  */
-> > > --
-> > > 2.39.0.314.g84b9a713c41-goog
-> > >
-> >
+> external MSSIM TPM emulator has to be kept running to preserve the
+> state.  If you restart it, the migration will fail.
+
+Document that and we're getting there.
+
+Dave
+
+> James
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
