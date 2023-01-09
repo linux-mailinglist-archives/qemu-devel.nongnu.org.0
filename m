@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9996663005
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 20:12:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03EFE663006
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 20:12:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pExYS-0005kY-7x; Mon, 09 Jan 2023 14:11:32 -0500
+	id 1pExZ0-0007MQ-JZ; Mon, 09 Jan 2023 14:12:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pExYA-0005fB-G0
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:11:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pExYx-0007Dr-MX
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:12:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pExY8-0004yq-Rd
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:11:14 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pExYw-0005JR-0k
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:12:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673291471;
+ s=mimecast20190719; t=1673291521;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cWDs15ipPvaB2cpG3+j+iKQSLbI3/K1GKs9AP/gQGIE=;
- b=Yn00Gdd3ud9NtJRk2e2O8YZTtJsq1vt+m1SSkHXeg40XQfM9/mwndtupMrKjuSW07CtLVu
- bpTr8sErgpbPQGFcGnLaQEogu2qR0+2bo/ewSgGNy4We5wToKsreIQHXk/yhV1+9iHRCTV
- B0+2pr2j+TiGLspJ4k8rga7RFntGMRo=
+ bh=EE1tb7ciLqruLsIGRurZitFhYxoY31qScnu4lB90hes=;
+ b=UDZPtlFvS+Wq43yQNmYMRmiGkvz4adukCQUyZXS8aTpiDqvHKmTltz21MngqutbPSwotix
+ Zek0boq6C84AXQZLFD/+q2J6EQgsogMlhXLfmpSM2aESHQxcRRP2w0inVN7dzBiScniw9u
+ C2y1ibzeBkQ55BFSJrBTEVncbMMJGDs=
 Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
  [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-163-P6y_CZd1OBilx9JPCYHY-g-1; Mon, 09 Jan 2023 14:11:10 -0500
-X-MC-Unique: P6y_CZd1OBilx9JPCYHY-g-1
+ us-mta-556-TzWk5d62MyyJfjzAioZhfw-1; Mon, 09 Jan 2023 14:12:00 -0500
+X-MC-Unique: TzWk5d62MyyJfjzAioZhfw-1
 Received: by mail-lf1-f71.google.com with SMTP id
- i13-20020a056512340d00b004b8825890a1so3419729lfr.1
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 11:11:10 -0800 (PST)
+ l15-20020a056512110f00b004b6fe4513b7so3481305lfg.23
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 11:12:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=cWDs15ipPvaB2cpG3+j+iKQSLbI3/K1GKs9AP/gQGIE=;
- b=noheoNcFlgrcf+DKLlcQkGCxoZD5ySFTL1nAGglYMIEXAhjkdwvHTT4jotmEmWDnpw
- hFff65NQXm8YQ0w4adISX2qCwH3siVaS8z/LCpJb/OXwyXVrKafcatfPe3YIFgCN13mS
- 1kj7KQBYPgMI+Jzu7D1/R7W6KIqGYFN0jG6fLUqfiDiI4UnaFC4kZMQBHeLYul5RqS5G
- MdJ/GpQSPEiUujhLxLD4u91+oOAVxSmnRb0z7zxMUthrdvY1EVWmryEXJiIlDdHaUy3P
- Hm/lRG+lOk95VCmcPIkj4IqtUBmNdr1Ynv0D17hwdoEhccrgyqpGlQHY255+2lLgBIrA
- ez+g==
-X-Gm-Message-State: AFqh2koQ8u4uKXLGf/Oo8bTTHqLKlIX2RYdYCsD9hyqjhRDklNj7SPEM
- CY+MiL2sTluPdROXfmDkGlVN4phNW2osX6+sRKzHfBXyuAPdatgDJ43lU/x/Ikga0nvixL5O/VT
- Yo1hxa8npjmZJBOuN4UocY0Zh3gtpTxE=
-X-Received: by 2002:a05:651c:1028:b0:282:9ddb:546e with SMTP id
- w8-20020a05651c102800b002829ddb546emr611865ljm.6.1673291469170; 
- Mon, 09 Jan 2023 11:11:09 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvk8OqM9gIIJ+ulFVzfRdaGezCnvtU1+DvHP9td+Fz4wVeW2yfFALStWfdqCWAG7WCkhEwjAr3GLdYKHxJ/Snw=
-X-Received: by 2002:a05:651c:1028:b0:282:9ddb:546e with SMTP id
- w8-20020a05651c102800b002829ddb546emr611857ljm.6.1673291468942; Mon, 09 Jan
- 2023 11:11:08 -0800 (PST)
+ bh=EE1tb7ciLqruLsIGRurZitFhYxoY31qScnu4lB90hes=;
+ b=cpiFz8arCIOU5sOvGQAUwfjN06qlkvijxXkhYloF8dzGZK6oEVFH+dYM+epOAgKjWE
+ 6aqrc7+DAVmgOUhLfLGXSF7JOSdDSpngXAAeNAIsTis9py1X6BofPPP1o6WZTs7rUmOY
+ BldMbRAZpOGj4LkWoLoMhT5E5bjD+2O5DDjaTa6o3basap47y/ON09pwpTU2ydL0xZAf
+ 4Z2qfXTXiI3a1+m7riWD7/AOt/dHmcPWbnlc2oZAs6+Y7K8FfahYj939E5DaxeA3lGnA
+ RwKNs07h/lfyxCYHvmGoq8KhS0rXwnjCYgzXA3aJFcg34nEoIjIgv5QOseXQYwCayTOp
+ JBkA==
+X-Gm-Message-State: AFqh2kr2ZMX+zOOn6GwAxjE1ocNlhyjuI25J7im8cEOS2QuPa4Nb2QOi
+ SH5SBcxGG6XZbc3dO171hWfreQhPJ9YvDXled/U285o6duWPJYm313wIr+7K+2RdwD2gCsuZfqb
+ 0K+iCc2CcTQDD+5nTs5JPTHN4hhfw9Aw=
+X-Received: by 2002:a05:6512:280e:b0:4cb:3b24:8395 with SMTP id
+ cf14-20020a056512280e00b004cb3b248395mr2092230lfb.399.1673291518879; 
+ Mon, 09 Jan 2023 11:11:58 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs6xjAZ2lW8kdfNDRND9u4uVut2OyKIfAhHDHb3EVNj3OF0yYtPwVt5ixNvm6R3Rb9sZyLnl6Fvj5Aq2pbMl9o=
+X-Received: by 2002:a05:6512:280e:b0:4cb:3b24:8395 with SMTP id
+ cf14-20020a056512280e00b004cb3b248395mr2092229lfb.399.1673291518724; Mon, 09
+ Jan 2023 11:11:58 -0800 (PST)
 MIME-Version: 1.0
 References: <20221010085229.2431276-1-lkujaw@mailbox.org>
- <20221010085229.2431276-2-lkujaw@mailbox.org>
-In-Reply-To: <20221010085229.2431276-2-lkujaw@mailbox.org>
+In-Reply-To: <20221010085229.2431276-1-lkujaw@mailbox.org>
 From: John Snow <jsnow@redhat.com>
-Date: Mon, 9 Jan 2023 14:10:57 -0500
-Message-ID: <CAFn=p-bYDhBLZ8WjTEY-aVv8LLk6D+BH4PygYJrYrfUq-38BKA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] tests/qtest/ide-test: Verify READ NATIVE MAX ADDRESS
- is not limited
+Date: Mon, 9 Jan 2023 14:11:46 -0500
+Message-ID: <CAFn=p-aHLW0kmOLUw6OJFYwY8a24bmb4grFYL3XE_ircmcTbJQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/ide/core.c (cmd_read_native_max): Avoid limited
+ device parameters
 To: Lev Kujawski <lkujaw@mailbox.org>
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
  Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,104 +94,65 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On Mon, Oct 10, 2022 at 4:52 AM Lev Kujawski <lkujaw@mailbox.org> wrote:
 >
-> Verify that the ATA command READ NATIVE MAX ADDRESS returns the last
-> valid CHS tuple for the native device rather than any limit
-> established by INITIALIZE DEVICE PARAMETERS.
+> Always use the native CHS device parameters for the ATA commands READ
+> NATIVE MAX ADDRESS and READ NATIVE MAX ADDRESS EXT, not those limited
+> by the ATA command INITIALIZE_DEVICE_PARAMETERS (introduced in patch
+> 176e4961, hw/ide/core.c: Implement ATA INITIALIZE_DEVICE_PARAMETERS
+> command, 2022-07-07.)
 >
+> As stated by the ATA/ATAPI specification, "[t]he native maximum is the
+> highest address accepted by the device in the factory default
+> condition."  Therefore this patch substitutes the native values in
+> drive_heads and drive_sectors before calling ide_set_sector().
+>
+> One consequence of the prior behavior was that setting zero sectors
+> per track could lead to an FPE within ide_set_sector().  Thanks to
+> Alexander Bulekov for reporting this issue.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1243
 > Signed-off-by: Lev Kujawski <lkujaw@mailbox.org>
 
-Does this still need to be staged or merged?
+Does this need attention?
 
 --js
 
 > ---
->  tests/qtest/ide-test.c | 47 +++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 46 insertions(+), 1 deletion(-)
+>  hw/ide/core.c | 21 +++++++++++++++++----
+>  1 file changed, 17 insertions(+), 4 deletions(-)
 >
-> diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-> index dbe1563b23..c406e6752a 100644
-> --- a/tests/qtest/ide-test.c
-> +++ b/tests/qtest/ide-test.c
-> @@ -37,7 +37,8 @@
->  /* TODO actually test the results and get rid of this */
->  #define qmp_discard_response(q, ...) qobject_unref(qtest_qmp(q, __VA_ARGS__))
+> diff --git a/hw/ide/core.c b/hw/ide/core.c
+> index 39afdc0006..ee836401bc 100644
+> --- a/hw/ide/core.c
+> +++ b/hw/ide/core.c
+> @@ -1608,11 +1608,24 @@ static bool cmd_read_native_max(IDEState *s, uint8_t cmd)
+>      /* Refuse if no sectors are addressable (e.g. medium not inserted) */
+>      if (s->nb_sectors == 0) {
+>          ide_abort_command(s);
+> -        return true;
+> -    }
+> +    } else {
+> +        /*
+> +         * Save the active drive parameters, which may have been
+> +         * limited from their native counterparts by, e.g., INITIALIZE
+> +         * DEVICE PARAMETERS or SET MAX ADDRESS.
+> +         */
+> +        const int aheads = s->heads;
+> +        const int asectors = s->sectors;
 >
-> -#define TEST_IMAGE_SIZE 64 * 1024 * 1024
-> +/* Specified by ATA (physical) CHS geometry for ~64 MiB device.  */
-> +#define TEST_IMAGE_SIZE ((130 * 16 * 63) * 512)
+> -    ide_cmd_lba48_transform(s, lba48);
+> -    ide_set_sector(s, s->nb_sectors - 1);
+> +        s->heads = s->drive_heads;
+> +        s->sectors = s->drive_sectors;
+> +
+> +        ide_cmd_lba48_transform(s, lba48);
+> +        ide_set_sector(s, s->nb_sectors - 1);
+> +
+> +        s->heads = aheads;
+> +        s->sectors = asectors;
+> +    }
 >
->  #define IDE_PCI_DEV     1
->  #define IDE_PCI_FUNC    1
-> @@ -91,11 +92,13 @@ enum {
->  enum {
->      CMD_DSM         = 0x06,
->      CMD_DIAGNOSE    = 0x90,
-> +    CMD_INIT_DP     = 0x91,  /* INITIALIZE DEVICE PARAMETERS */
->      CMD_READ_DMA    = 0xc8,
->      CMD_WRITE_DMA   = 0xca,
->      CMD_FLUSH_CACHE = 0xe7,
->      CMD_IDENTIFY    = 0xec,
->      CMD_PACKET      = 0xa0,
-> +    CMD_READ_NATIVE = 0xf8,  /* READ NATIVE MAX ADDRESS */
->
->      CMDF_ABORT      = 0x100,
->      CMDF_NO_BM      = 0x200,
-> @@ -562,6 +565,46 @@ static void string_cpu_to_be16(uint16_t *s, size_t bytes)
->      }
+>      return true;
 >  }
->
-> +static void test_specify(void)
-> +{
-> +    QTestState *qts;
-> +    QPCIDevice *dev;
-> +    QPCIBar bmdma_bar, ide_bar;
-> +    uint16_t cyls;
-> +    uint8_t heads, spt;
-> +
-> +    qts = ide_test_start(
-> +        "-blockdev driver=file,node-name=hda,filename=%s "
-> +        "-device ide-hd,drive=hda,bus=ide.0,unit=0 ",
-> +        tmp_path[0]);
-> +
-> +    dev = get_pci_device(qts, &bmdma_bar, &ide_bar);
-> +
-> +    /* Initialize drive with zero sectors per track and one head.  */
-> +    qpci_io_writeb(dev, ide_bar, reg_nsectors, 0);
-> +    qpci_io_writeb(dev, ide_bar, reg_device, 0);
-> +    qpci_io_writeb(dev, ide_bar, reg_command, CMD_INIT_DP);
-> +
-> +    /* READ NATIVE MAX ADDRESS (CHS mode).  */
-> +    qpci_io_writeb(dev, ide_bar, reg_device, 0xa0);
-> +    qpci_io_writeb(dev, ide_bar, reg_command, CMD_READ_NATIVE);
-> +
-> +    heads = qpci_io_readb(dev, ide_bar, reg_device) & 0xf;
-> +    ++heads;
-> +    g_assert_cmpint(heads, ==, 16);
-> +
-> +    cyls = qpci_io_readb(dev, ide_bar, reg_lba_high) << 8;
-> +    cyls |= qpci_io_readb(dev, ide_bar, reg_lba_middle);
-> +    ++cyls;
-> +    g_assert_cmpint(cyls, ==, 130);
-> +
-> +    spt = qpci_io_readb(dev, ide_bar, reg_lba_low);
-> +    g_assert_cmpint(spt, ==, 63);
-> +
-> +    ide_test_quit(qts);
-> +    free_pci_device(dev);
-> +}
-> +
->  static void test_identify(void)
->  {
->      QTestState *qts;
-> @@ -1079,6 +1122,8 @@ int main(int argc, char **argv)
->      /* Run the tests */
->      g_test_init(&argc, &argv, NULL);
->
-> +    qtest_add_func("/ide/read_native", test_specify);
-> +
->      qtest_add_func("/ide/identify", test_identify);
->
->      qtest_add_func("/ide/diagnostic", test_diagnostic);
 > --
 > 2.34.1
 >
