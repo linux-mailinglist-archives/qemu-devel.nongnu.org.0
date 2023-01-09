@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15902662784
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:45:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B73A662757
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:40:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEsDT-0000md-E0; Mon, 09 Jan 2023 08:29:31 -0500
+	id 1pEsFN-00019m-SB; Mon, 09 Jan 2023 08:31:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pEsDO-0000lg-Cq
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:29:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pEsEp-00016r-3l; Mon, 09 Jan 2023 08:31:00 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pEsDM-0000en-G9
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:29:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673270963;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ea6gowjU6th9nzASDBvBVoNppLGwT6aF0cAsjBNbciw=;
- b=U8MpldSfSExTrQ7juRP0Q5i5qXiE2I+qVEHiVQWkIIlaGeUMV82tl1ykaUaSiWV20Xs1dl
- XcxXvD6PbWQenV0x8E+hLJ6RhEoamgns50Bq7eFqKDUeYyh5IvaQkU4xKhORvQ7G0M9Wkj
- G9vgh/ZqhhBI4FllPMArr0Na0ZCCjis=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-546--2h-3FhPP06Tb5u_XLdB8A-1; Mon, 09 Jan 2023 08:29:19 -0500
-X-MC-Unique: -2h-3FhPP06Tb5u_XLdB8A-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CEFA85A588;
- Mon,  9 Jan 2023 13:29:19 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BB71492C14;
- Mon,  9 Jan 2023 13:29:17 +0000 (UTC)
-Date: Mon, 9 Jan 2023 14:29:15 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Jonathan Derrick <jonathan.derrick@linux.dev>
-Cc: qemu-devel@nongnu.org, Michael Kropaczek <michael.kropaczek@solidigm.com>,
- qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <its@irrelevant.dk>, Hanna Reitz <hreitz@redhat.com>,
- pkrempa@redhat.com, armbru@redhat.com
-Subject: Re: [PATCH v4 0/2] hw/nvme: Support for Namespaces Management from
- guest OS
-Message-ID: <Y7wWq/joPxKqHFfl@redhat.com>
-References: <20221228194141.118-1-jonathan.derrick@linux.dev>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pEsEn-00016P-Fx; Mon, 09 Jan 2023 08:30:54 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.7])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id C2411152198B2;
+ Mon,  9 Jan 2023 14:30:48 +0100 (CET)
+Received: from kaod.org (37.59.142.105) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 9 Jan
+ 2023 14:30:47 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006c54f7ce2-ba88-47c0-9296-6db91aa9c8f0,
+ 1F76CF3ACB56F17C32A409AA235EFAF7B7A61927) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <d9194b49-9841-87b5-6355-b7d5f82da6b6@kaod.org>
+Date: Mon, 9 Jan 2023 14:30:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221228194141.118-1-jonathan.derrick@linux.dev>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 3/4] s390x/pv: Introduce a s390_pv_check() helper for
+ runtime
+Content-Language: en-US
+To: Janosch Frank <frankja@linux.ibm.com>, <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, Halil Pasic
+ <pasic@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, David Hildenbrand
+ <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>, Eric Farman
+ <farman@linux.ibm.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+References: <20230106075330.3662549-1-clg@kaod.org>
+ <20230106075330.3662549-4-clg@kaod.org>
+ <49bf32c7-4a44-a3c9-29b5-b6580113700c@linux.ibm.com>
+ <bc3ec4b4-1c7a-a4a9-01ea-78fca7ad10c6@kaod.org>
+ <8e04a10e-8978-494c-5d0f-2507e78134aa@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <8e04a10e-8978-494c-5d0f-2507e78134aa@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 630045bd-16f7-4b19-b969-3bf305591ba9
+X-Ovh-Tracer-Id: 1659576466123557877
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeigdegkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehfrhgrnhhkjhgrsehlihhnuhigrdhisghmrdgtohhmpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhthhhuthhhsehrvgguhhgrthdrtghomhdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdpsghorhhnthhrrggvghgvrheslhhinhhugidrihgsmhdrtghomhdpihhmsghrvghnuggrsehlihhnuhigrdhisghmrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdpihhiiheslhhinhhugidrihgsmh
+ drtghomhdpfhgrrhhmrghnsehlihhnuhigrdhisghmrdgtohhmpdgtlhhgsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,71 +82,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 28.12.2022 um 20:41 hat Jonathan Derrick geschrieben:
-> Here is the approach:
-> The nvme device will get new parameter:
->  - auto-ns-path, which specifies the path to the storage area where back-end
->    image and necessary config files located stored.
+On 1/9/23 10:49, Janosch Frank wrote:
+> On 1/9/23 10:27, Cédric Le Goater wrote:
+>> On 1/9/23 10:04, Janosch Frank wrote:
+>>> On 1/6/23 08:53, Cédric Le Goater wrote:
+>>>> From: Cédric Le Goater <clg@redhat.com>
+>>>>
+>>>> If a secure kernel is started in a non-protected VM, the OS will hang
+>>>> during boot without giving a proper error message to the user.
+>>>
+>>> Most of the time you see nothing in the console because libvirt is too slow. If you start the VM in paused mode, attach a console and then resume it, then you'll see a nice error message.
+>>
+>> If you wait long enough, the VM fails to mount / and falls into the dracut
+>> initrams.
 > 
-> The virtual devices representing namespaces will be created dynamically during
-> the Qemu running session following issuance of nvme create-ns and delete-ns
-> commands from the guest OS. QOM classes and instances will be created utilizing
-> existing configuration scheme used during Qemu's start-up. Back-end image files
-> will be neither created nor deleted during Qemu's startup or running session.
-> Instead a set of back-end image files and relevant config will be created by
-> qemu-img tool with createns sub-command prior to Qemu's session.
-> Required parameters are: -S serial number which must match serial parameter of
-> qemu-system-xx -device nvme command line specification, -C total capacity, and
-> optional -N that will set a maximal limit on number of allowed
-> namespaces (default 256) which will be followed by path name pointing to
-> storage location corresponding to auto-ns-path of qemu-system-xx -device nvme
-> parameter.
-> 
-> Those created back-end image files will be pre-loaded during Qemu's start-up
-> and then during running Qemu's session will be associated or disassociated with
-> QOM namespaces virtual instances, as a result of issuing nvme create-ns or
-> delete-ns commands. The associated back-end image file for relevant namespace
-> will be re-sized as follows: delete-ns command will truncate image file to the
-> size of 0, whereas create-ns command will re-size the image file to the size
-> provided by nvme create-ns command parameters. Truncating/re-sizing is a result
-> of blk_truncate() API which utilizes co-routines and should not block Qemu main
-> thread while scheduling AIO operations. It is assured that all settings will
-> retain over Qemu's start-ups and shutdowns. The implementation makes it
-> possible to combine the existing "Additional Namespace" implementation with the
-> new "Managed Namespaces". Those will coexist with obvious restrictions, like
-> both will share the same NsIds space, "static" namespaces cannot be deleted or
-> if its NsId specified at Qemu's command line will conflicts with previously
-> created one by nvme create-ns (and retained), this will lead to an abort of
-> Qemu at its start up.
+> I have the feeling that we're not talking about the same thing here.>
+  > A PV VM always starts out as a non-PV VM and is put into PV mode via two diag308 subcodes (8 & 10). ALL PV subcodes (8 - 10) are spec exceptions if the host isn't enabled for PV.
 
-This looks like a valid approach for a proof of concept, but from a
-backend perspective, I'm concerned that this approach might be too
-limiting and we won't have a good path forward.
+The corner case this patch is trying to address is for a PV-enabled host,
+a secure enabled OS and !PV-enabled QEMU.
 
-For example, how can we integrate this with snapshots? You expect a
-specific filename for the image, but taking an external snapshot means
-creating an overlay image with a different name.
+Please run this command on a secure disk image :
 
-How do we migrate storage like this? If the management tool (probably
-libvirt) knows about all the namespace images and the config file (!),
-it can possibly migrate them individually, but note that while a mirror
-job is active, images can't be resized any more.
+   qemu-system-s390x -M s390-ccw-virtio -accel kvm -drive file=<file>,if=virtio,format=qcow2 -nographic -nodefaults -serial mon:stdio
 
-What if we don't want to use a directory on the local filesystem to
-store the images, but some network protocol?
+and tell me what you get.
 
-It seems to me that we should define proper block layer APIs for
-handling namespaces, and then we can have your implementation as one
-possible image driver that supports these APIs, for which we can accept
-these limitations for now. At least this would already avoid having
-backend logic in the device implementation, and allow us to replace it
-with something better later without having to change the design of the
-device emulation code.
+Thanks,
 
-Eventually, I think, if we want to have dynamic namespaces properly
-supported, they need to be a feature on the image format level, so that
-you could keep all namespaces in a single qcow2 file.
-
-Kevin
-
+C.
 
