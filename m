@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5B06631B5
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 21:43:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142346631B4
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 21:43:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEyyj-0006mc-U7; Mon, 09 Jan 2023 15:42:45 -0500
+	id 1pEyyo-0006po-01; Mon, 09 Jan 2023 15:42:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pEyya-0006lm-TL
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pEyyb-0006ln-M8
  for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:42:37 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pEyyY-0002u3-Sl
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:42:36 -0500
-Received: by mail-ed1-x536.google.com with SMTP id x10so11519119edd.10
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 12:42:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pEyya-0002ug-5v
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:42:37 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id i9so14441604edj.4
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 12:42:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5yAJo9cGPp1zqG3klMq3hhG+PJdL4i7lidfguILtK8M=;
- b=UbzVGI0cwb2qlyiLeSMNrH4TsZCo9oqUNCH7ctwXwUJ+uu3D2PM7LRQRPbF561BWGs
- yNXVrAeXr0cyUsXYGRpARut4Wmmasq1oU63rRwrqTKTtx0Qq2Z15b6PGd9KjKkHp0w9a
- /+wudPw+sRQkTIg8Lz/DhlJSzqMUp4BRiafuUDNH4qyQ4IXhuDZbIvHSD6RpHpPLTwmC
- aAo5m4Y26EVsiJb02zqAluNnRvPN4lj91dKY7iegTfT7iLjaP8ibMpGWsT/SmGQSLEnm
- aGhf47Q1m/qYpPickRlWJsHr7vlV2yg9uHgQV2Zj1TR7UtlvqohjEu8YuMoI8KZIM1np
- y9aw==
+ bh=+vQGjzzE/CoQGB/cMKXGEyC0JB45XYFEg3Frz9/9KeA=;
+ b=LxeU3+VlURFV7LhvgwXwPleDT7kC1hnyGde0ho2Z+FISDz1m2eqBSx4LUlorGhjd4e
+ 6QUDY3J+h8GX/k2V7oX0XJlUHXNSceTZqF4fi801tsjA7LO/Bme05XgiO/gtXK91/DPp
+ d3GNcSYbYGPBx05zKUpnDWLkTmooMO0VrMiC9Lk0kh8EWOWROkbXfsUjCIfSuPq0idx5
+ L2RYZp5XD3neb4oG3AUBkG7z1H9Qu/sNmtBO5WwUwIGb0yQDR0Pmn1rqDF5LcJN3VVnr
+ VRTgDi1ymeE4A62gCtFAud0uXoeFKuSZKEV4pYUw6qC0xbN+UG1vV4EBIiYtCtSFVC85
+ XATw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5yAJo9cGPp1zqG3klMq3hhG+PJdL4i7lidfguILtK8M=;
- b=zSgbwQ6xFdK83RJqPjK6YzgkTDjHDXjf2IitLvekng5yTm1mgpTyptA8nTEwQsfBHP
- aWefgIY+ty7z/3q0l9jY+v5/dOiTcGgjt7DucbTUkdmsHTMROuYLazM+98pqEajv7PRu
- wIvdxQT2l9Ra6bb7u2f8s79trLHCzKAQHmWPMV5bxkwZERNpL8MfdrCD7I+mBAOIjPyD
- /TNhNwlH+0anGhgba6uAwLIDeLdaAAj121WgW/1rNn8pVuchmB/Bdb1psgf+lQsqx5Pq
- NM7tbCKD0Y8OSRvy9xmcd81RMRlCKKuy303+Yr4oOpkDpCbl6jKp5mHL14Gzl7HD2hR2
- 3hGA==
-X-Gm-Message-State: AFqh2krGyWESsV7jBqM0tQ6EWi8bN0msRlyUYWouBa1JkXTKs/vWrdpC
- dkz1/1ILC0v/AjADvCI8K4XusUx0ECM=
-X-Google-Smtp-Source: AMrXdXs4nd0KHyx2SwT+0wbTjkc3wIl6t9a+xyFpvt41CRimniQS+fLBDAaoQzzhSAVtb+ElLjcliA==
-X-Received: by 2002:a05:6402:299b:b0:499:70a8:f91a with SMTP id
- eq27-20020a056402299b00b0049970a8f91amr5609249edb.19.1673296953286; 
- Mon, 09 Jan 2023 12:42:33 -0800 (PST)
+ bh=+vQGjzzE/CoQGB/cMKXGEyC0JB45XYFEg3Frz9/9KeA=;
+ b=tSIZffPapEv33EpTOfY1ToWu+p9EbNXuXkEZUIKgX1tO5rc2e+vCeN3xa8VDVdcMwJ
+ agWjyhvhkOd/kb0P24XMCAWWAkYAjsM8SU2ORiLXpWYL+/yGbklRYnzx5vvmxnFy5JJG
+ b3S+PhufF6KcfkYnHOlSKVyjfwvGInSnS9vUYa7a3IClWPxd7e9KEJMDF+kwa3ww7XVk
+ DfbXP7sJ7TOp71AbT5PA6CF54uZe5v7lXaS1p1R91vCnbhxLhUKa6LTB15EyqSiVi70U
+ 6xFECQGwRfAYIp+AlNVl8MttIhlgmjKKrw9SgfCgwYyBhkjMIMgGbmqkXmHjJ6P3lldA
+ tdDQ==
+X-Gm-Message-State: AFqh2kr98I25Xuu8jvsPK0nREULbgFF8iIa9fQOaUDRfm10SPqHWgJp6
+ YRjoMZdMec9QpP+ymntZF5dDKXgwiJQ=
+X-Google-Smtp-Source: AMrXdXtk7os9d0BXMP0hedZaugN96cSMRUXw3tiT3jDANDi+cVoen78ZsEEEiK7EKSp/O0kqaTKHJw==
+X-Received: by 2002:aa7:d61a:0:b0:499:376e:6b2d with SMTP id
+ c26-20020aa7d61a000000b00499376e6b2dmr7889372edr.0.1673296954653; 
+ Mon, 09 Jan 2023 12:42:34 -0800 (PST)
 Received: from localhost.localdomain (ip-185-104-138-30.ptr.icomera.net.
  [185.104.138.30]) by smtp.gmail.com with ESMTPSA id
- ca20-20020aa7cd74000000b0046267f8150csm4078018edb.19.2023.01.09.12.42.32
+ ca20-20020aa7cd74000000b0046267f8150csm4078018edb.19.2023.01.09.12.42.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 12:42:32 -0800 (PST)
+ Mon, 09 Jan 2023 12:42:34 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 3/4] configs/devices/mips-softmmu/common: Remove redundant
- selections of SuperIO and ISA devices
-Date: Mon,  9 Jan 2023 21:41:23 +0100
-Message-Id: <20230109204124.102592-4-shentey@gmail.com>
+Subject: [PATCH 4/4] hw/mips/Kconfig: Move device selections to respective
+ boards
+Date: Mon,  9 Jan 2023 21:41:24 +0100
+Message-Id: <20230109204124.102592-5-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230109204124.102592-1-shentey@gmail.com>
 References: <20230109204124.102592-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,36 +90,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These devices should now be selected by their respective boards or
-parent devices.
+Allows to see more easily which board has which devices.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- configs/devices/mips-softmmu/common.mak | 9 ---------
- 1 file changed, 9 deletions(-)
+ configs/devices/mips-softmmu/common.mak      |  7 -------
+ configs/devices/mips64el-softmmu/default.mak |  3 ---
+ hw/mips/Kconfig                              | 12 ++++++++++++
+ 3 files changed, 12 insertions(+), 10 deletions(-)
 
 diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
-index 8ed6b62ae7..d1cfe16b81 100644
+index d1cfe16b81..4e535e2246 100644
 --- a/configs/devices/mips-softmmu/common.mak
 +++ b/configs/devices/mips-softmmu/common.mak
-@@ -11,17 +11,8 @@ CONFIG_VGA_MMIO=y
+@@ -7,17 +7,10 @@ CONFIG_ISA_BUS=y
+ CONFIG_PCI=y
+ CONFIG_PCI_DEVICES=y
+ CONFIG_VGA_ISA=y
+-CONFIG_VGA_MMIO=y
  CONFIG_VGA_CIRRUS=y
  CONFIG_VMWARE_VGA=y
- CONFIG_SERIAL=y
--CONFIG_SERIAL_ISA=y
--CONFIG_PARALLEL=y
--CONFIG_I8254=y
--CONFIG_PCSPK=y
--CONFIG_PCKBD=y
--CONFIG_FDC=y
--CONFIG_I8257=y
--CONFIG_IDE_ISA=y
- CONFIG_PFLASH_CFI01=y
- CONFIG_I8259=y
--CONFIG_MC146818RTC=y
- CONFIG_EMPTY_SLOT=y
+-CONFIG_SERIAL=y
+-CONFIG_PFLASH_CFI01=y
+-CONFIG_I8259=y
+-CONFIG_EMPTY_SLOT=y
  CONFIG_MIPS_CPS=y
  CONFIG_MIPS_ITU=y
+ CONFIG_MALTA=y
+-CONFIG_PCNET_PCI=y
+ CONFIG_MIPSSIM=y
+-CONFIG_SMBUS_EEPROM=y
+ CONFIG_TEST_DEVICES=y
+diff --git a/configs/devices/mips64el-softmmu/default.mak b/configs/devices/mips64el-softmmu/default.mak
+index d5188f7ea5..88a37cf27f 100644
+--- a/configs/devices/mips64el-softmmu/default.mak
++++ b/configs/devices/mips64el-softmmu/default.mak
+@@ -3,8 +3,5 @@
+ include ../mips-softmmu/common.mak
+ CONFIG_FULOONG=y
+ CONFIG_LOONGSON3V=y
+-CONFIG_ATI_VGA=y
+-CONFIG_RTL8139_PCI=y
+ CONFIG_JAZZ=y
+-CONFIG_VT82C686=y
+ CONFIG_MIPS_BOSTON=y
+diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
+index 78400f8c23..67d2859be4 100644
+--- a/hw/mips/Kconfig
++++ b/hw/mips/Kconfig
+@@ -1,8 +1,14 @@
+ config MALTA
+     bool
++    select EMPTY_SLOT
+     select I8259
+     select ISA_SUPERIO
++    select MIPS_CPS
++    select PCNET_PCI
++    select PFLASH_CFI01
+     select PIIX
++    select SERIAL
++    select SMBUS_EEPROM
+ 
+ config MIPSSIM
+     bool
+@@ -28,10 +34,15 @@ config JAZZ
+     select PARALLEL
+     select DS1225Y
+     select JAZZ_LED
++    select VGA_MMIO
+ 
+ config FULOONG
+     bool
++    select ATI_VGA
+     select PCI_BONITO
++    select RTL8139_PCI
++    select SMBUS_EEPROM
++    select VT82C686
+ 
+ config LOONGSON3V
+     bool
+@@ -39,6 +50,7 @@ config LOONGSON3V
+     imply QXL if SPICE
+     select SERIAL
+     select GOLDFISH_RTC
++    select I8259
+     select LOONGSON_LIOINTC
+     select PCI_DEVICES
+     select PCI_EXPRESS_GENERIC_BRIDGE
 -- 
 2.39.0
 
