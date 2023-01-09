@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A2A662E85
+	by mail.lfdr.de (Postfix) with ESMTPS id B7659662E86
 	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 19:16:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEwfz-0006e3-4I; Mon, 09 Jan 2023 13:15:15 -0500
+	id 1pEwg1-0006eb-Ka; Mon, 09 Jan 2023 13:15:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pEwfx-0006dJ-3o
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 13:15:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pEwfz-0006e9-Az
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 13:15:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pEwfv-00069K-LZ
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 13:15:12 -0500
+ id 1pEwfx-00069m-Mq
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 13:15:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673288111;
+ s=mimecast20190719; t=1673288113;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fIniHOrBjPMvOLZBU2xRUwqzNG7qOflu38nap2xdqoc=;
- b=DMW/YJf0I5pNmzab10TmN8VK4Ejw9oh55aoGKOty3ZGfNEBAc6qFzdIHKWPylwPA2RceEh
- XsI2LfrES5rEQbAJ+dNkD8g3AiQ7VlAV7aqiGVnp6F90AVsjcUnwVCRG7zCC22X8aIQMqi
- 5Th7uNWFf+4BEA+cWH1zT41tzCU+nZs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=O4bcdIamR/UYLssDq4J/lT5HEewpacYug2bz0YOnVPU=;
+ b=gYqksG96XvC9l+ehfN2y7Z2meZ5GLWFmf1FHr7s8pcnOzuRHxusseJSHUzv7VPvVogQW2A
+ PfBi/BFFITPB2DoYDRXLtH4aEo1Xe+grlBX3feO33O58rP9CsoHwojrGXmENSO7djhhhNV
+ vdPr/7gg4wKtZ6eLENfZ2ptdztBbvOY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-kvMzAKscNGOK9SdUTUw14Q-1; Mon, 09 Jan 2023 13:15:05 -0500
-X-MC-Unique: kvMzAKscNGOK9SdUTUw14Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-674-bAIF0NUPNdSSO7JfsHZU0g-1; Mon, 09 Jan 2023 13:15:09 -0500
+X-MC-Unique: bAIF0NUPNdSSO7JfsHZU0g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 050A43813F20;
- Mon,  9 Jan 2023 18:15:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3CE51181E3F0;
+ Mon,  9 Jan 2023 18:15:09 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D61AB40C2005;
- Mon,  9 Jan 2023 18:15:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 74ABA2166B26;
+ Mon,  9 Jan 2023 18:15:08 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
@@ -59,16 +59,16 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Michael Roth <michael.roth@amd.com>
-Subject: [PATCH v2 3/5] configure: replace Perl usage with sed
-Date: Mon,  9 Jan 2023 22:14:45 +0400
-Message-Id: <20230109181447.235989-4-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 4/5] meson: replace Perl usage with Python
+Date: Mon,  9 Jan 2023 22:14:46 +0400
+Message-Id: <20230109181447.235989-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20230109181447.235989-1-marcandre.lureau@redhat.com>
 References: <20230109181447.235989-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -95,35 +95,44 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Let's try to reduce our Perl usage during config/build-time.
-
-Note: this patch might be dropped if "configure: remove
-backwards-compatibility code" is merged earlier.
+Let's try to remove Perl usage during build time.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- configure | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ tests/qapi-schema/meson.build | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/configure b/configure
-index 2281892657..e45acde404 100755
---- a/configure
-+++ b/configure
-@@ -2571,11 +2571,9 @@ else
-   if test -f meson-private/cmd_line.txt; then
-     # Adjust old command line options whose type was changed
-     # Avoids having to use "setup --wipe" when Meson is upgraded
--    perl -i -ne '
--      s/^gettext = true$/gettext = auto/;
--      s/^gettext = false$/gettext = disabled/;
--      /^b_staticpic/ && next;
--      print;' meson-private/cmd_line.txt
-+    sed -i.bak 's/^gettext = true/gettext = auto/g' -e \
-+      's/^gettext = false/gettext = disabled/g' -e \
-+      '/^b_staticpic/d' meson-private/cmd_line.txt
-   fi
- fi
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index 9dfe98bc9a..d85b14f28c 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -259,22 +259,23 @@ if build_docs
+   # Fix possible inconsistency in line endings in generated output and
+   # in the golden reference (which could otherwise cause test failures
+   # on Windows hosts). Unfortunately diff --strip-trailing-cr
+-  # is GNU-diff only. The odd-looking perl is because we must avoid
++  # is GNU-diff only. The odd-looking python is because we must avoid
+   # using an explicit '\' character in the command arguments to
+   # a custom_target(), as Meson will unhelpfully replace it with a '/'
+   # (https://github.com/mesonbuild/meson/issues/1564)
++  remove_cr = [python, '-c', 'import sys;[sys.stdout.write(line.replace(chr(13), "")) for line in sys.stdin]']
+   qapi_doc_out_nocr = custom_target('QAPI rST doc newline-sanitized',
+                                     output: ['doc-good.txt.nocr'],
+                                     input: qapi_doc_out[0],
+                                     build_by_default: true,
+-                                    command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
++                                    command: [remove_cr, '@INPUT@'],
+                                     capture: true)
  
+   qapi_doc_ref_nocr = custom_target('QAPI rST doc reference newline-sanitized',
+                                     output: ['doc-good.ref.nocr'],
+                                     input: files('doc-good.txt'),
+                                     build_by_default: true,
+-                                    command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
++                                    command: [remove_cr, '@INPUT@'],
+                                     capture: true)
+ 
+   test('QAPI rST doc', diff, args: ['-u', qapi_doc_ref_nocr[0], qapi_doc_out_nocr[0]],
 -- 
 2.39.0
 
