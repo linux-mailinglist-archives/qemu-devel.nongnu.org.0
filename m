@@ -2,88 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC85662F98
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 19:56:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2DD662FAD
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 20:00:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pExJX-0000ib-HS; Mon, 09 Jan 2023 13:56:07 -0500
+	id 1pExN2-0001rd-GS; Mon, 09 Jan 2023 13:59:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pExJV-0000iH-BU; Mon, 09 Jan 2023 13:56:05 -0500
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pExJT-0007Gl-7Q; Mon, 09 Jan 2023 13:56:04 -0500
-Received: by mail-lj1-x22b.google.com with SMTP id p25so3695937ljn.12;
- Mon, 09 Jan 2023 10:56:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9fDzuBBVw5pb/ik8wTopy/kRBtIKZu4/jsXs++/QUKA=;
- b=XMnvqLnj+kl6ybaAheslWJRUf1rwXmkrMZIJnKDGIqrohzdPc3eoR1ybQkUIT3Xnyp
- XrkNnkQrmTqaUDOV0DX0ToLu9w/TNPZirk5H/un1PwnyUWgDjEheurul4ofwzGuTagGu
- j29u/otjjRWD9Yv+J2rZcQgi6SDZ2ReDe+MUYxsxPRXD/H6cUSbW4VaYDzpUQMegzOCZ
- EKVMwl2qFT6Xi//va/wX4j/4YdU1e8vyHmnb38LI/JcQRtRiyOYN0L2iYJgDYreQ7O/g
- PQ93aDg3Lm0XWaQ1vSxY95fxU5ZPY+NAOEPSdmEEo6kIgtrmiRvbi/B+4TiOsrGzuUyB
- B+Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9fDzuBBVw5pb/ik8wTopy/kRBtIKZu4/jsXs++/QUKA=;
- b=ojanoDUbdI6MTo2F72UX+4XkR1nZzS/ApztDT4NHQZnVuJgul7H5bLCRFRCv/0e7eh
- sFUn80IHnnZ2vPtOFdtW8s5uGMM7H6kmQu8PUcQXuqD5LNSaioU0Y0nkNHfmmHv9lT9y
- 7sH+EqV4Mqn3S4rq44fx0g2+uN1LJB4KP1iaoBr6lf0lks9Do/A2cFFrRBdtMtBTOzee
- U29t5j/mvI/JUYwcgrIXuDnJs7WxRzIwsi90VMYsqIL9ItbdD8ZWzXdsK8YQ/bs/GewX
- WZyl5HqLIquJgEKTGghwh52+f1afFEYtPTF4i9c1k00o30rXAQQSQF6hg/rjIur/SkXo
- 8TJg==
-X-Gm-Message-State: AFqh2krQ/nh2hQjJ61kTlN3MGcqbI7UxfUHsrFhggj4GyGfx2ziL9abo
- EunWNkKObenhEDhz8UuUPRnX5nDVR4jGV2n4ZoQ=
-X-Google-Smtp-Source: AMrXdXtSRjyJt37J34pGfOx7xUAhLmEj/qgUk3OqGj9JVSZeQHNVgw8gY5mGTJwRGyJ0u4vy1V5lnDee6cxMfrW8WLo=
-X-Received: by 2002:a05:651c:1949:b0:27a:51d:274c with SMTP id
- bs9-20020a05651c194900b0027a051d274cmr2776674ljb.94.1673290560456; Mon, 09
- Jan 2023 10:56:00 -0800 (PST)
-MIME-Version: 1.0
-References: <20230109181447.235989-1-marcandre.lureau@redhat.com>
- <20230109181447.235989-5-marcandre.lureau@redhat.com>
- <CAFEAcA_YHvJWJMwxSQAQRphCgDNOSf2arbqMY8_T7VCByXCVsA@mail.gmail.com>
-In-Reply-To: <CAFEAcA_YHvJWJMwxSQAQRphCgDNOSf2arbqMY8_T7VCByXCVsA@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 9 Jan 2023 22:55:48 +0400
-Message-ID: <CAJ+F1CJUDo=r-OX_xbe6Q7MYHLZ_Q8pb0NbWVHJgfi2LgEVsYA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] meson: replace Perl usage with Python
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Markus Armbruster <armbru@redhat.com>, Ed Maste <emaste@freebsd.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>, 
- Eric Farman <farman@linux.ibm.com>, John Snow <jsnow@redhat.com>, 
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, 
- Li-Wen Hsu <lwhsu@freebsd.org>, David Hildenbrand <david@redhat.com>,
- kraxel@redhat.com, 
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Michael Roth <michael.roth@amd.com>
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pExN0-0001rD-4w
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 13:59:42 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pExMy-00009f-5a
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 13:59:41 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 309HNxum007468
+ for <qemu-devel@nongnu.org>; Mon, 9 Jan 2023 18:59:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : content-transfer-encoding : mime-version; s=pp1;
+ bh=OocGyUsHg7V3hp/YMpspAGYKZ2Qsl2dgUhNLKrhYmMc=;
+ b=nRUnwnvQ7HiDNKB6EMZ1vqOS4m0hOGV3bKrB0wtOT9rAp/7N9FGf+iY59ilvDccreiQe
+ lquLjVWZsaEYmXt2e5/ZtN/AgjbXUF4+cFmUEsS5yf/ul7N8CIiUWpsj52Rbo8jJPyxS
+ Cc3lYQO7qqhYnwEwpbiPlAi2sMM+3nK6p9jqnF0xoTgy0QmBBB6C6O6A3hgZGtHCla5g
+ a/wNPXIXhBxcZBFm8AvB+g36mvicmPlkqA5goDKg2i/HuDivRG2byInXGv2O26Jeu1eb
+ KFim8Sr2CvWdFf8ycKkkEO0jzU6yNmje0Hc4Dl1NqRyVWrANoEkfsCh4msGvH9fj0czs Gw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3myjw3nug1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 18:59:38 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 309Iqsi3027691
+ for <qemu-devel@nongnu.org>; Mon, 9 Jan 2023 18:59:38 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3myjw3nufr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Jan 2023 18:59:38 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 309Iv6Wr029230;
+ Mon, 9 Jan 2023 18:59:37 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
+ by ppma03dal.us.ibm.com (PPS) with ESMTPS id 3my0c7gpvj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Jan 2023 18:59:37 +0000
+Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
+ by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 309IxZZl38011290
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 9 Jan 2023 18:59:36 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A0E967805C;
+ Mon,  9 Jan 2023 20:36:09 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8390E7805F;
+ Mon,  9 Jan 2023 20:36:08 +0000 (GMT)
+Received: from lingrow.int.hansenpartnership.com (unknown [9.163.48.220])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon,  9 Jan 2023 20:36:08 +0000 (GMT)
+Message-ID: <30c728d0c624cfab4eff57dbae80422d7cc52748.camel@linux.ibm.com>
+Subject: Re: [PATCH 2/2] tpm: add backend for mssim
+From: James Bottomley <jejb@linux.ibm.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Stefan Berger <stefanb@linux.ibm.com>, "Daniel P."
+ =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Date: Mon, 09 Jan 2023 13:59:33 -0500
+In-Reply-To: <Y7xi9uoa0Ql0YnEC@work-vm>
+References: <a990f3c8-cca9-86ff-6995-6e49ba90f839@linux.ibm.com>
+ <Y5xqgK8UXe28VZQ2@redhat.com>
+ <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
+ <Y5yAz0qzaIW4HwFi@redhat.com> <Y7xH1i0Uvbo0FUwG@work-vm>
+ <5c07f6ab6adfe53f7e7fbeeda67f2eb62afccdfa.camel@linux.ibm.com>
+ <Y7xUVq9PT9ohGfCj@work-vm>
+ <af22847d6e8f3a64720c4d4d00b93f57ea63ad3e.camel@linux.ibm.com>
+ <f2e036a7-5cff-4f95-902f-b31fce3c0ade@linux.ibm.com>
+ <f928986fd4095b1f27c83ede96f3b0dd65ad965e.camel@linux.ibm.com>
+ <Y7xi9uoa0Ql0YnEC@work-vm>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Evolution 3.42.4 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: HzuBR_RzdZoD4eo2cX5lkXVcOZ7Li_4Y
+X-Proofpoint-GUID: nUPqQfSX9ck68ow44_j_AuK6sKb9RN67
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-09_12,2023-01-09_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 mlxscore=0
+ malwarescore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=424 phishscore=0
+ spamscore=0 clxscore=1015 impostorscore=0 suspectscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301090132
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,89 +122,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+On Mon, 2023-01-09 at 18:54 +0000, Dr. David Alan Gilbert wrote:
+> * James Bottomley (jejb@linux.ibm.com) wrote:
+> > On Mon, 2023-01-09 at 13:34 -0500, Stefan Berger wrote:
+> > > 
+> > > 
+> > > On 1/9/23 12:55, James Bottomley wrote:
+> > > > On Mon, 2023-01-09 at 17:52 +0000, Dr. David Alan Gilbert
+> > > > wrote:
+> > > > > * James Bottomley (jejb@linux.ibm.com) wrote:
+> > > > [...]
+> > > > > > external MSSIM TPM emulator has to be kept running to
+> > > > > > preserve
+> > > > > > the state.  If you restart it, the migration will fail.
+> > > > > 
+> > > > > Document that and we're getting there.
+> > > > 
+> > > > 
+> > > > The documentation in the current patch series says
+> > > > 
+> > > > ----
+> > > > The mssim backend supports snapshotting and migration, but the
+> > > > state of the Microsoft Simulator server must be preserved (or
+> > > > the
+> > > > server kept running) outside of QEMU for restore to be
+> > > > successful.
+> > > > ----
+> > > > 
+> > > > What, beyond this would you want to see?
+> > > 
+> > > mssim today lacks the functionality of marshalling and
+> > > unmarshalling
+> > > the permanent and volatile state of the TPM 2, which are both
+> > > needed
+> > > for snapshot support. How does this work with mssim?
+> > 
+> > You preserve the state by keeping the simulator running as the
+> > above
+> > says.  As long as you can preserve the state, there's no maximum
+> > time
+> > between snapshots.  There's no need of marshal/unmarshal if you do
+> > this.
+> 
+> So I think I can understand how that works with a suspend/resume; I'm
+> less sure about a live migration.
+> 
+> In a live migration, you normally start up the destination VM
+> qemu process and other processes attached to it, prior to the inwards
+> live migration of state.  Then you live migrate the state, then kill
+> the source.
+> 
+> With this mssim setup, will the start up of the destination attempt
+> to change the vtpm state during the initialisation?
 
-On Mon, Jan 9, 2023 at 10:52 PM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
->
-> On Mon, 9 Jan 2023 at 18:16, <marcandre.lureau@redhat.com> wrote:
-> >
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Let's try to remove Perl usage during build time.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  tests/qapi-schema/meson.build | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.bu=
-ild
-> > index 9dfe98bc9a..d85b14f28c 100644
-> > --- a/tests/qapi-schema/meson.build
-> > +++ b/tests/qapi-schema/meson.build
-> > @@ -259,22 +259,23 @@ if build_docs
-> >    # Fix possible inconsistency in line endings in generated output and
-> >    # in the golden reference (which could otherwise cause test failures
-> >    # on Windows hosts). Unfortunately diff --strip-trailing-cr
-> > -  # is GNU-diff only. The odd-looking perl is because we must avoid
-> > +  # is GNU-diff only. The odd-looking python is because we must avoid
-> >    # using an explicit '\' character in the command arguments to
-> >    # a custom_target(), as Meson will unhelpfully replace it with a '/'
-> >    # (https://github.com/mesonbuild/meson/issues/1564)
->
-> This comment is not applicable to your Python rewrite of this.
+The backend driver contains state checks to prevent this, so if you
+follow the standard migration in
 
-To my interpretation, the comment still applies. I would have written
-a much simpler sed invocation if we were allowed to use backslashes.
+https://www.qemu.org/docs/master/devel/migration.html
 
-> It's talking about the way that the Perl code has to create
-> a variable with a '\r' value in a weird way (using "$x =3D chr 13")
-> and then do a substitution using that variable, rather than the obvious
-> direct s// command ("s/\r//"), to work around a meson bug if the code
-> has a literal \ character in it. Your python has no '\'s in it.
->
-> > +  remove_cr =3D [python, '-c', 'import sys;[sys.stdout.write(line.repl=
-ace(chr(13), "")) for line in sys.stdin]']
-> >    qapi_doc_out_nocr =3D custom_target('QAPI rST doc newline-sanitized'=
-,
-> >                                      output: ['doc-good.txt.nocr'],
-> >                                      input: qapi_doc_out[0],
-> >                                      build_by_default: true,
-> > -                                    command: ['perl', '-pe', '$x =3D c=
-hr 13; s/$x$//', '@INPUT@'],
-> > +                                    command: [remove_cr, '@INPUT@'],
-> >                                      capture: true)
-> >
-> >    qapi_doc_ref_nocr =3D custom_target('QAPI rST doc reference newline-=
-sanitized',
-> >                                      output: ['doc-good.ref.nocr'],
-> >                                      input: files('doc-good.txt'),
-> >                                      build_by_default: true,
-> > -                                    command: ['perl', '-pe', '$x =3D c=
-hr 13; s/$x$//', '@INPUT@'],
-> > +                                    command: [remove_cr, '@INPUT@'],
-> >                                      capture: true)
-> >
-> >    test('QAPI rST doc', diff, args: ['-u', qapi_doc_ref_nocr[0], qapi_d=
-oc_out_nocr[0]],
-> > --
-> > 2.39.0
->
-> Maybe we should consider putting the Python into a script in
-> scripts/ ? "Remove \r characters" is pretty trivial, but on the
-> other hand I think this is the only Meson custom_target() we
-> have where we directly invoke a script interpreter with a
-> bit of inline script, and inline bits of script doesn't really
-> seem to be a style Meson encourages (unlike Make).
+it detects that you have done a migration on shutdown and simply closes
+the TPM socket.  On start up it sees you're in migrate and doesn't do
+the power on reset of the TPM.
 
-It's a quite simple one-liner, and I hope we can drop it when meson
-fix the mentionned bug. But I am fine putting it in a script, if that
-can help.
+James
 
---=20
-Marc-Andr=C3=A9 Lureau
 
