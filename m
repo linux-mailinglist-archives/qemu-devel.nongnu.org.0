@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 835F06624B2
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 12:54:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 705906624F6
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:03:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEqiS-0002mg-JY; Mon, 09 Jan 2023 06:53:24 -0500
+	id 1pEqiW-0002no-Dc; Mon, 09 Jan 2023 06:53:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqiP-0002lR-Mm
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:53:21 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqiU-0002n3-EE
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:53:26 -0500
 Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqiO-0007tT-6G
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:53:21 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id d17so7891422wrs.2
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 03:53:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqiS-0007xA-H0
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:53:26 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id j7so2877314wrn.9
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 03:53:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=En2ECShv0kRWnzSOnm7XMPCMXkKsPEIuZqm6vHr6CKI=;
- b=u8KMncHg76duqBCs6KrKvA+tOa4W8vEunpceL24mhz3ZpBXxQ1NOZG9tIzCT8QQ+BI
- 83dDTtMaAaI2FfRybaUAlQQNvNOPEsXQFiCC2jJa7WOcbxbWeBKhA0/GVEeBsack0e7D
- LH692XhsVf1HZLIiCHYVo5y9urFrYkUNZFmOttsX7aPyVf35zmp0s/CHBtUnFR4Y2NAt
- X6rizteHEmIm9HIESHvdMl/cjO3aXe1CvSriQ15LKwvUYgnDJheW4g8sTKlaB/sXq4s7
- b44ftJx61aFs5yQa/Qrvj/IBeGYTzqL5JEHroelaLewbFGe25f3WwqzJK1i+HrAZvIH+
- OFhQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iQs1+OIM6FI+xXo1eNVCeEzgZwL+2/Sa1KGrztxPB6E=;
+ b=LHUpQHsGMytocszGYclxxFY/M0sI4Wy83DOeMv67XaQlZjsqp3QXXAy4ByzQW+Nu5G
+ Yx+deKJeqp+pLH4vSzj/oFuhvWNm1V1ao0WgxhlyMKPbMh2eFlASN0y05W2jqvQkz9li
+ qavptblnClL/RMxD/dm+V/lPWzomhuCkD28gqtNER1MQ6bIayj7IcI+9AEu9sQwilqUK
+ X4hgHYe72wWx4ND3foCra70qRuy6Z96KQJKrTaSUWevKYlqKl4o/5uMzbPyfVbX4GoNu
+ i5P06j9e1s52YPrKMe/4BgltPHFPq9SUEXKBp8DvRkWI6kcoMLSemL07RWMIDCm4aA/S
+ juoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=En2ECShv0kRWnzSOnm7XMPCMXkKsPEIuZqm6vHr6CKI=;
- b=fEnBxbJt74UwZiRdVyDKbq5tjUBpPHxL+WPMLX1hYd0Uq3B1+PxHA+p99fz1hDggTK
- bS8sGwWxpEv7B5v71hbvU5c2poPLqqbGOJ2AkGQYDMOoiqVrwmHkXKCbV/gwVvaTvAuv
- enn80JCc8n+GAJmFfJAuzuVCvTPJJ5IK7cVNHUlgMvZnCie2exd2uVYBWznn2gO9bL+5
- Witt9mpR7j16nV7ulWOoBubQiC+a0FZAz1rp+HfNgoswvH9stFR2TnmEr4u0jslUXR3i
- hobP5pETZp1eD2FMae8yB6omCKOAzNJK7EjnoiN6JS+W4JRSmgSnPgSna782Q2hG8Zsg
- h/Gw==
-X-Gm-Message-State: AFqh2kpYdWb1DMS2ZoreuP7VmtP7yAyTrkPEZEDOo3i+pqLUV6RhC2JZ
- CPZZYzQyZ0OQRkm4fkO3VwX48qnmLufzvDU1
-X-Google-Smtp-Source: AMrXdXurLCL0BPU+5mpNRSkOCxTbYCnOnrHS4MXBLC+zxLW+1ys0QnIF2xNbjYOum494OI371ME6PA==
-X-Received: by 2002:a5d:6e0c:0:b0:27d:a1ea:dcfa with SMTP id
- h12-20020a5d6e0c000000b0027da1eadcfamr30774572wrz.19.1673265198291; 
- Mon, 09 Jan 2023 03:53:18 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iQs1+OIM6FI+xXo1eNVCeEzgZwL+2/Sa1KGrztxPB6E=;
+ b=4YBZpjbviyrN9DNsIRANq6M1xWCf3cj5wcCcVNlZI8uyMzYQfGlLfmrg6pxWJ1bKTu
+ YILveFaNSg19W2IdTncxIb49BlMmjTjAmH2d1xPCySydYAhPL94hobhZEkxF2sXzmnYg
+ 0+rPoEZ7EtzvowfC4YgRr/AIZtoRDWkDh4ZyJBCA2bs81DMDQnQzNdxxT/jXWkYY8DCF
+ v1lmBf7KXrvWklyNQGYEoOH8JCVetFSaB2RDeqIbnSbrCL+AJ6prTa4puaFSuncHlOB4
+ 7G1OzBv0DQGCteO9NrQ0Rc23Dtxlzpc+ekTME4o2lpulEklOh23QDcRH1si9yIBgqddp
+ mGiw==
+X-Gm-Message-State: AFqh2kqpSI00PU+NnvHGjkcJkJiKEifwIbJ5951l4lmpp1/EYipJjQ3q
+ LgifD4QVsc/PonXpEnjeFQOTaDzUf4sgJnCO
+X-Google-Smtp-Source: AMrXdXvtcqpRhYAkOMcpFj5EggLXGaSJYEPX407TQS/a3sSIxJl1XT0TFrrQEBlwPgCq4+yBc0Cu2Q==
+X-Received: by 2002:a5d:620f:0:b0:242:9e3:72b8 with SMTP id
+ y15-20020a5d620f000000b0024209e372b8mr46471796wru.31.1673265203010; 
+ Mon, 09 Jan 2023 03:53:23 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- k2-20020a5d5182000000b00236545edc91sm8475609wrv.76.2023.01.09.03.53.17
+ f14-20020adff58e000000b00241fea203b6sm8495136wro.87.2023.01.09.03.53.22
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 09 Jan 2023 03:53:17 -0800 (PST)
+ Mon, 09 Jan 2023 03:53:22 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  Jan Kiszka <jan.kiszka@web.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 00/13] hw/arm: Cleanups before pflash refactor
-Date: Mon,  9 Jan 2023 12:53:03 +0100
-Message-Id: <20230109115316.2235-1-philmd@linaro.org>
+Subject: [PATCH 01/13] hw/arm/pxa2xx: Simplify pxa255_init()
+Date: Mon,  9 Jan 2023 12:53:04 +0100
+Message-Id: <20230109115316.2235-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230109115316.2235-1-philmd@linaro.org>
+References: <20230109115316.2235-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
  envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
@@ -87,41 +90,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Various trivial cleanups:
-- Remove unnecessary sysmem argument from pxa2xx_init()
-- Use IEC binary prefix definitions
-- Remove unreachable code calling pflash_cfi01_register()
-  (another use in PPC sam460ex will be removed separately).
+Since pxa255_init() must map the device in the system memory,
+there is no point in passing get_system_memory() by argument.
 
-Philippe Mathieu-Daudé (13):
-  hw/arm/pxa2xx: Simplify pxa255_init()
-  hw/arm/pxa2xx: Simplify pxa270_init()
-  hw/arm/collie: Use the IEC binary prefix definitions
-  hw/arm/collie: Simplify flash creation using for() loop
-  hw/arm/gumstix: Improve documentation
-  hw/arm/gumstix: Use the IEC binary prefix definitions
-  hw/arm/mainstone: Use the IEC binary prefix definitions
-  hw/arm/musicpal: Use the IEC binary prefix definitions
-  hw/arm/omap_sx1: Remove unused 'total_ram' definitions
-  hw/arm/omap_sx1: Use the IEC binary prefix definitions
-  hw/arm/z2: Use the IEC binary prefix definitions
-  hw/arm/vexpress: Remove dead code in vexpress_common_init()
-  hw/arm: Remove unreachable code calling pflash_cfi01_register()
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ hw/arm/gumstix.c     | 3 +--
+ hw/arm/pxa2xx.c      | 4 +++-
+ hw/arm/tosa.c        | 2 +-
+ include/hw/arm/pxa.h | 2 +-
+ 4 files changed, 6 insertions(+), 5 deletions(-)
 
- hw/arm/collie.c      | 25 +++++++++++-----------
- hw/arm/gumstix.c     | 45 +++++++++++++++++---------------------
- hw/arm/mainstone.c   | 37 +++++++++++++++-----------------
- hw/arm/musicpal.c    |  9 +++++---
- hw/arm/omap_sx1.c    | 51 +++++++++++++++++++-------------------------
- hw/arm/pxa2xx.c      |  8 ++++---
- hw/arm/spitz.c       |  6 ++----
- hw/arm/tosa.c        |  2 +-
- hw/arm/versatilepb.c |  6 ++----
- hw/arm/vexpress.c    | 10 +--------
- hw/arm/z2.c          | 16 ++++++--------
- include/hw/arm/pxa.h |  5 ++---
- 12 files changed, 98 insertions(+), 122 deletions(-)
-
+diff --git a/hw/arm/gumstix.c b/hw/arm/gumstix.c
+index 3a4bc332c4..c167518a46 100644
+--- a/hw/arm/gumstix.c
++++ b/hw/arm/gumstix.c
+@@ -51,12 +51,11 @@ static void connex_init(MachineState *machine)
+ {
+     PXA2xxState *cpu;
+     DriveInfo *dinfo;
+-    MemoryRegion *address_space_mem = get_system_memory();
+ 
+     uint32_t connex_rom = 0x01000000;
+     uint32_t connex_ram = 0x04000000;
+ 
+-    cpu = pxa255_init(address_space_mem, connex_ram);
++    cpu = pxa255_init(connex_ram);
+ 
+     dinfo = drive_get(IF_PFLASH, 0, 0);
+     if (!dinfo && !qtest_enabled()) {
+diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
+index 93dda83d7a..8b8845fc63 100644
+--- a/hw/arm/pxa2xx.c
++++ b/hw/arm/pxa2xx.c
+@@ -11,6 +11,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ #include "qapi/error.h"
++#include "exec/address-spaces.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+@@ -2230,8 +2231,9 @@ PXA2xxState *pxa270_init(MemoryRegion *address_space,
+ }
+ 
+ /* Initialise a PXA255 integrated chip (ARM based core).  */
+-PXA2xxState *pxa255_init(MemoryRegion *address_space, unsigned int sdram_size)
++PXA2xxState *pxa255_init(unsigned int sdram_size)
+ {
++    MemoryRegion *address_space = get_system_memory();
+     PXA2xxState *s;
+     int i;
+     DriveInfo *dinfo;
+diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
+index d5a6763cf9..3ca2e4459c 100644
+--- a/hw/arm/tosa.c
++++ b/hw/arm/tosa.c
+@@ -242,7 +242,7 @@ static void tosa_init(MachineState *machine)
+     TC6393xbState *tmio;
+     DeviceState *scp0, *scp1;
+ 
+-    mpu = pxa255_init(address_space_mem, tosa_binfo.ram_size);
++    mpu = pxa255_init(tosa_binfo.ram_size);
+ 
+     memory_region_init_rom(rom, NULL, "tosa.rom", TOSA_ROM, &error_fatal);
+     memory_region_add_subregion(address_space_mem, 0, rom);
+diff --git a/include/hw/arm/pxa.h b/include/hw/arm/pxa.h
+index 1095504b86..c26007e57f 100644
+--- a/include/hw/arm/pxa.h
++++ b/include/hw/arm/pxa.h
+@@ -195,6 +195,6 @@ struct PXA2xxI2SState {
+ 
+ PXA2xxState *pxa270_init(MemoryRegion *address_space, unsigned int sdram_size,
+                          const char *revision);
+-PXA2xxState *pxa255_init(MemoryRegion *address_space, unsigned int sdram_size);
++PXA2xxState *pxa255_init(unsigned int sdram_size);
+ 
+ #endif /* PXA_H */
 -- 
 2.38.1
 
