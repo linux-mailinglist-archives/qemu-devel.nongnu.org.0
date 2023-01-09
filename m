@@ -2,63 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6380A6622B6
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 11:14:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30AC866230C
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 11:21:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEp9j-0000EZ-Sk; Mon, 09 Jan 2023 05:13:27 -0500
+	id 1pEpGd-0002HU-Ad; Mon, 09 Jan 2023 05:20:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pEp9a-0000Bk-Q2
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:13:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pEpGa-0002Ft-Ik
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:20:32 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pEp9X-00038H-Ku
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:13:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673259194;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=kfG/VsXk1JLX28bY+PJlP4gGX45KGxAi0XYHmJIK9x4=;
- b=Tl3W1boKWL1H7qSS7y3B+01oGFc/tLh1Wnwh53m0/BcgNWF/EtmrBco7q+bcFdeGpyPg10
- 2sD+eMEnudktsNxzltsrwfAmaFYycahk6zXl9erQJwSO11IL21+7AG7T70nTIR9aWnklmC
- 3e6aopGgoUMYp7PhB+D2SpBcF0zpfIM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-257-iqFIe7ITNYa7S7fbQTTa9w-1; Mon, 09 Jan 2023 05:13:10 -0500
-X-MC-Unique: iqFIe7ITNYa7S7fbQTTa9w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6FCDD3813F2B;
- Mon,  9 Jan 2023 10:13:10 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A10D6175AD;
- Mon,  9 Jan 2023 10:13:08 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH] tests/qtest/test-hmp: Improve the check for verbose mode
-Date: Mon,  9 Jan 2023 11:13:06 +0100
-Message-Id: <20230109101306.271444-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pEpGX-0007gy-O7
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:20:32 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.214])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 3FB2F152087A0;
+ Mon,  9 Jan 2023 11:20:25 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 9 Jan
+ 2023 11:20:24 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0024b974a15-f87f-4584-a147-4b6d7b66e8c4,
+ 1F76CF3ACB56F17C32A409AA235EFAF7B7A61927) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <27a868cc-d816-76f1-1ce1-60b6552d791f@kaod.org>
+Date: Mon, 9 Jan 2023 11:20:21 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 10/14] vfio/migration: Implement VFIO migration
+ protocol v2
+Content-Language: en-US
+To: Avihai Horon <avihaih@nvidia.com>, <qemu-devel@nongnu.org>
+CC: Alex Williamson <alex.williamson@redhat.com>, Halil Pasic
+ <pasic@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, Richard Henderson
+ <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>, Ilya
+ Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, Juan
+ Quintela <quintela@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck
+ <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, Eric Blake
+ <eblake@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>, John Snow <jsnow@redhat.com>,
+ <qemu-s390x@nongnu.org>, <qemu-block@nongnu.org>, Yishai Hadas
+ <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
+ <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
+ <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+References: <20221229110345.12480-1-avihaih@nvidia.com>
+ <20221229110345.12480-11-avihaih@nvidia.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20221229110345.12480-11-avihaih@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 56a0d325-f576-4185-bad3-697c1d10ce13
+X-Ovh-Tracer-Id: 16891031881525725992
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeigddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghvihhhrghihhesnhhvihguihgrrdgtohhmpdhkfigrnhhkhhgvuggvsehnvhhiughirgdrtghomhdpmhgrohhrghesnhhvihguihgrrdgtohhmpdhjghhgsehnvhhiughirgdrtghomhdphihishhhrghihhesnhhvihguihgrrdgtohhmpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhjshhnohifsehrvgguhhgrthdrtghomhdpvhhsvghmvghnthhsohhvseihrghnuggvgidqthgvrghmrdhruhdpvggslhgrkh
+ gvsehrvgguhhgrthdrtghomhdpfhgrmhesvghuphhhohhnrdhnvghtpdhsthgvfhgrnhhhrgesrhgvughhrghtrdgtohhmpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdgtohhhuhgtkhesrhgvughhrghtrdgtohhmpdhmshhtsehrvgguhhgrthdrtghomhdpughgihhlsggvrhhtsehrvgguhhgrthdrtghomhdpqhhuihhnthgvlhgrsehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhiihhisehlihhnuhigrdhisghmrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhfrghrmhgrnheslhhinhhugidrihgsmhdrtghomhdpsghorhhnthhrrggvghgvrheslhhinhhugidrihgsmhdrtghomhdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdprghlvgigrdifihhllhhirghmshhonhesrhgvughhrghtrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhtrghrghhuphhtrgesnhhvihguihgrrdgtohhmpdhjohgrohdrmhdrmhgrrhhtihhnshesohhrrggtlhgvrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,29 +88,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Running the test-hmp with V=2 up to V=9 runs the test in verbose mode,
-but running for example with V=10 falls back to non-verbose mode ...
-Improve this oddity by properly treating the argument as a number.
+Hello Avihai,
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/test-hmp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/test-hmp.c b/tests/qtest/test-hmp.c
-index f8b22abe4c..b4a920df89 100644
---- a/tests/qtest/test-hmp.c
-+++ b/tests/qtest/test-hmp.c
-@@ -151,7 +151,7 @@ int main(int argc, char **argv)
- {
-     char *v_env = getenv("V");
- 
--    if (v_env && *v_env >= '2') {
-+    if (v_env && atoi(v_env) >= 2) {
-         verbose = true;
-     }
- 
--- 
-2.31.1
+On 12/29/22 12:03, Avihai Horon wrote:
+>   
+> +static int vfio_save_setup(QEMUFile *f, void *opaque)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    uint64_t stop_copy_size;
+> +
+> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
+> +
+> +    if (vfio_query_stop_copy_size(vbasedev, &stop_copy_size)) {
+> +        stop_copy_size = VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE;
+> +    }
+> +    migration->data_buffer_size = MIN(VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE,
+> +                                      stop_copy_size);
+> +    migration->data_buffer = g_try_malloc0(migration->data_buffer_size);
+> +    if (!migration->data_buffer) {
+> +        error_report("%s: Failed to allocate migration data buffer",
+> +                     vbasedev->name);
+> +        return -ENOMEM;
+> +    }
+> +
+> +    trace_vfio_save_setup(vbasedev->name, migration->data_buffer_size);
+> +
+> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+> +
+> +    return qemu_file_get_error(f);
+> +}
+> +
 
+This fails to compile with :
+
+   gcc version 12.2.1 20221121 (Red Hat 12.2.1-4) (GCC) complains with :
+
+
+   ../include/qemu/osdep.h:315:22: error: ‘stop_copy_size’ may be used uninitialized [-Werror=maybe-uninitialized]
+     315 |         _a < _b ? _a : _b;                              \
+         |                      ^
+   ../hw/vfio/migration.c:262:14: note: ‘stop_copy_size’ was declared here
+     262 |     uint64_t stop_copy_size;
+         |              ^~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+
+May be rework the code slightly to avoid the breakage :
+
++++ qemu.git/hw/vfio/migration.c
+@@ -259,13 +259,11 @@ static int vfio_save_setup(QEMUFile *f,
+  {
+      VFIODevice *vbasedev = opaque;
+      VFIOMigration *migration = vbasedev->migration;
+-    uint64_t stop_copy_size;
++    uint64_t stop_copy_size = VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE;
+  
+      qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
+  
+-    if (vfio_query_stop_copy_size(vbasedev, &stop_copy_size)) {
+-        stop_copy_size = VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE;
+-    }
++    vfio_query_stop_copy_size(vbasedev, &stop_copy_size);
+      migration->data_buffer_size = MIN(VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE,
+                                        stop_copy_size);
+      migration->data_buffer = g_try_malloc0(migration->data_buffer_size);
+
+
+and report the error in vfio_query_stop_copy_size()
+
+Thanks,
+
+C.
 
