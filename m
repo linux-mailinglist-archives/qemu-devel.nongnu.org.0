@@ -2,67 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E71668A6B4
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 00:01:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5235E68A749
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 01:35:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO53G-0003zf-DT; Fri, 03 Feb 2023 18:01:02 -0500
+	id 1pO6Ve-0005bc-KP; Fri, 03 Feb 2023 19:34:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pO53D-0003yr-U6
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 18:00:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1pO6Va-0005Yw-SC; Fri, 03 Feb 2023 19:34:23 -0500
+Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pO53C-0006JE-7p
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 18:00:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675465257;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vierdp5mmOXWkBv/H5tO4qyfCyLpm656VrHeIC6vJaA=;
- b=RWTMtv2E7sCCZhqVcrFRuOw2m36Faj0rCG6wsyTm8rsZuq5n1QDLRQ8XEgwmMmEhPv6UnD
- oZYQfcY7TdhpsiDK6s9LPmj2qNNmLOe2Fl1gY8J/YVPW50mUwGDMPH3Z+ArhNJd8DuD1Y0
- TNxFdL2xl7CbG/doWN6CIgfmAbTa03w=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-297-RK_OywZLOfS3UzIe3F8pgg-1; Fri, 03 Feb 2023 18:00:54 -0500
-X-MC-Unique: RK_OywZLOfS3UzIe3F8pgg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D9C33806647;
- Fri,  3 Feb 2023 23:00:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 268E4140EBF4;
- Fri,  3 Feb 2023 23:00:53 +0000 (UTC)
-Date: Fri, 3 Feb 2023 17:00:51 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, mjt@tls.msk.ru
-Subject: Re: [PATCH 5/5] docs: add throttle filter description
-Message-ID: <20230203230051.hcyftzh7fmbhnz5p@redhat.com>
-References: <20230201211234.301918-1-stefanha@redhat.com>
- <20230201211234.301918-6-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1pO6VY-0003rB-Ug; Fri, 03 Feb 2023 19:34:22 -0500
+Authentication-Results: mail-b.sr.ht; dkim=none 
+Received: from git.sr.ht (unknown [173.195.146.142])
+ by mail-b.sr.ht (Postfix) with ESMTPSA id C988611F050;
+ Sat,  4 Feb 2023 00:34:17 +0000 (UTC)
+From: ~dreiss-meta <dreiss-meta@git.sr.ht>
+Date: Mon, 09 Jan 2023 15:05:21 -0800
+Subject: [PATCH qemu v3 1/2] target/arm/gdbstub: Support reading M system
+ registers from GDB
+Message-ID: <167547085745.18032.9674021893886143814-1@git.sr.ht>
+X-Mailer: git.sr.ht
+In-Reply-To: <167547085745.18032.9674021893886143814-0@git.sr.ht>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230201211234.301918-6-stefanha@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
+ helo=mail-b.sr.ht
+X-Spam_score_int: 15
+X-Spam_score: 1.5
+X-Spam_bar: +
+X-Spam_report: (1.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,43 +51,268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: ~dreiss-meta <dreiss@meta.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 01, 2023 at 04:12:34PM -0500, Stefan Hajnoczi wrote:
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  docs/system/qemu-block-drivers.rst.inc | 110 +++++++++++++++++++++++++
->  1 file changed, 110 insertions(+)
+From: David Reiss <dreiss@meta.com>
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Follows a fairly similar pattern to the existing special register debug
+support.  Only reading is implemented, but it should be possible to
+implement writes.
 
-> 
-> diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
-> index af72817763..ea4be5c210 100644
-> --- a/docs/system/qemu-block-drivers.rst.inc
-> +++ b/docs/system/qemu-block-drivers.rst.inc
-> @@ -1004,3 +1004,113 @@ some additional tasks, hooking io requests.
->    .. option:: prealloc-size
->  
->      How much to preallocate (in bytes), default 128M.
-> +
-> +.. program:: filter-drivers
-> +.. option:: throttle
-> +
-> +  The throttle filter driver rate limits I/O requests so that the given IOPS
-> +  and bandwidth values are not exceeded. Limits are specified using the
-> +  following syntax::
-> +
-> +     --object '{"driver":"throttle-group","id":"tg0","limits":{"iops-total":2048,"bps-total":10485760}}'
+`v7m_mrs_control` was renamed `arm_v7m_mrs_control` and made
+non-static so this logic could be shared between the MRS instruction and
+the GDB stub.
 
-Is it worth adding spaces after the commas, since JSON permits that,
-to make the line a bit less cluttered?
+Signed-off-by: David Reiss <dreiss@meta.com>
+---
+ target/arm/cpu.h         |  12 +++-
+ target/arm/gdbstub.c     | 125 +++++++++++++++++++++++++++++++++++++++
+ target/arm/m_helper.c    |   6 +-
+ tests/lcitool/libvirt-ci |   2 +-
+ 4 files changed, 139 insertions(+), 6 deletions(-)
 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 7bc97fece9..2ba64811a0 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -867,6 +867,7 @@ struct ArchCPU {
+=20
+     DynamicGDBXMLInfo dyn_sysreg_xml;
+     DynamicGDBXMLInfo dyn_svereg_xml;
++    DynamicGDBXMLInfo dyn_m_systemreg_xml;
+=20
+     /* Timers used by the generic (architected) timer */
+     QEMUTimer *gt_timer[NUM_GTIMERS];
+@@ -1111,11 +1112,13 @@ int arm_cpu_gdb_read_register(CPUState *cpu, GByteArr=
+ay *buf, int reg);
+ int arm_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+=20
+ /*
+- * Helpers to dynamically generates XML descriptions of the sysregs
+- * and SVE registers. Returns the number of registers in each set.
++ * Helpers to dynamically generate XML descriptions of the sysregs,
++ * SVE registers, and M-profile system registers.
++ * Returns the number of registers in each set.
+  */
+ int arm_gen_dynamic_sysreg_xml(CPUState *cpu, int base_reg);
+ int arm_gen_dynamic_svereg_xml(CPUState *cpu, int base_reg);
++int arm_gen_dynamic_m_systemreg_xml(CPUState *cpu, int base_reg);
+=20
+ /* Returns the dynamically generated XML for the gdb stub.
+  * Returns a pointer to the XML contents for the specified XML file or NULL
+@@ -1507,6 +1510,11 @@ FIELD(SVCR, ZA, 1, 1)
+ FIELD(SMCR, LEN, 0, 4)
+ FIELD(SMCR, FA64, 31, 1)
+=20
++/*
++ * Read the CONTROL register as the MRS instruction would.
++ */
++uint32_t arm_v7m_mrs_control(CPUARMState *env, uint32_t secure);
++
+ /* Write a new value to v7m.exception, thus transitioning into or out
+  * of Handler mode; this may result in a change of active stack pointer.
+  */
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+index 2f806512d0..2780a089ec 100644
+--- a/target/arm/gdbstub.c
++++ b/target/arm/gdbstub.c
+@@ -322,6 +322,121 @@ int arm_gen_dynamic_sysreg_xml(CPUState *cs, int base_r=
+eg)
+     return cpu->dyn_sysreg_xml.num;
+ }
+=20
++/*
++ * Helper required because g_array_append_val is a macro
++ * that cannot handle string literals.
++ */
++static inline void g_array_append_str_literal(GArray *array, const char *str)
++{
++    g_array_append_val(array, str);
++}
++
++static int arm_gdb_get_m_systemreg(CPUARMState *env, GByteArray *buf, int re=
+g)
++{
++    /* NOTE: This implementation shares a lot of logic with v7m_mrs. */
++    switch (reg) {
++
++    /*
++     * NOTE: MSP and PSP technically don't exist if the secure extension
++     * is present (replaced by MSP_S, MSP_NS, PSP_S, PSP_NS).  Similar for
++     * MSPLIM and PSPLIM.
++     * However, the MRS instruction is still allowed to read from MSP and PS=
+P,
++     * and will return the value associated with the current security state.
++     * We replicate this behavior for the convenience of users, who will see
++     * GDB behave similarly to their assembly code, even if they are oblivio=
+us
++     * to the security extension.
++     */
++    case 0: /* MSP */
++        return gdb_get_reg32(buf,
++            v7m_using_psp(env) ? env->v7m.other_sp : env->regs[13]);
++    case 1: /* PSP */
++        return gdb_get_reg32(buf,
++            v7m_using_psp(env) ? env->regs[13] : env->v7m.other_sp);
++    case 6: /* MSPLIM */
++        if (!arm_feature(env, ARM_FEATURE_V8)) {
++            return 0;
++        }
++        return gdb_get_reg32(buf, env->v7m.msplim[env->v7m.secure]);
++    case 7: /* PSPLIM */
++        if (!arm_feature(env, ARM_FEATURE_V8)) {
++            return 0;
++        }
++        return gdb_get_reg32(buf, env->v7m.psplim[env->v7m.secure]);
++
++    /*
++     * NOTE: PRIMASK, BASEPRI, and FAULTMASK are defined a bit differently
++     * from the SP family, but have similar banking behavior.
++     */
++    case 2: /* PRIMASK */
++        return gdb_get_reg32(buf, env->v7m.primask[env->v7m.secure]);
++    case 3: /* BASEPRI */
++        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
++            return 0;
++        }
++        return gdb_get_reg32(buf, env->v7m.basepri[env->v7m.secure]);
++    case 4: /* FAULTMASK */
++        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
++            return 0;
++        }
++        return gdb_get_reg32(buf, env->v7m.faultmask[env->v7m.secure]);
++
++    /*
++     * NOTE: CONTROL has a mix of banked and non-banked bits.  We continue
++     * to emulate the MRS instruction.  Unfortunately, this gives GDB no way
++     * to read the SFPA bit when the CPU is in a non-secure state.
++     */
++    case 5: /* CONTROL */
++        return gdb_get_reg32(buf, arm_v7m_mrs_control(env, env->v7m.secure));
++    }
++
++    return 0;
++}
++
++static int arm_gdb_set_m_systemreg(CPUARMState *env, uint8_t *buf, int reg)
++{
++    /* TODO: Implement. */
++    return 0;
++}
++
++int arm_gen_dynamic_m_systemreg_xml(CPUState *cs, int base_reg)
++{
++    ARMCPU *cpu =3D ARM_CPU(cs);
++    CPUARMState *env =3D &cpu->env;
++    GString *s =3D g_string_new(NULL);
++    DynamicGDBXMLInfo *info =3D &cpu->dyn_m_systemreg_xml;
++    bool is_v8 =3D arm_feature(env, ARM_FEATURE_V8);
++    bool is_main =3D arm_feature(env, ARM_FEATURE_M_MAIN);
++
++    g_string_printf(s, "<?xml version=3D\"1.0\"?>");
++    g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
++    g_string_append_printf(s, "<feature name=3D\"org.gnu.gdb.arm.m-system\">=
+\n");
++
++    g_autoptr(GArray) regs =3D g_array_new(false, true, sizeof(const char *)=
+);
++    /* 0 */ g_array_append_str_literal(regs, "msp");
++    /* 1 */ g_array_append_str_literal(regs, "psp");
++    /* 2 */ g_array_append_str_literal(regs, "primask");
++    /* 3 */ g_array_append_str_literal(regs, is_main ? "basepri" : NULL);
++    /* 4 */ g_array_append_str_literal(regs, is_main ? "faultmask" : NULL);
++    /* 5 */ g_array_append_str_literal(regs, "control");
++    /* 6 */ g_array_append_str_literal(regs, is_v8 ? "msplim" : NULL);
++    /* 7 */ g_array_append_str_literal(regs, is_v8 ? "psplim" : NULL);
++
++    for (int idx =3D 0; idx < regs->len; idx++) {
++        const char *name =3D g_array_index(regs, const char *, idx);
++        if (name) {
++            g_string_append_printf(s,
++                        "<reg name=3D\"%s\" bitsize=3D\"32\" regnum=3D\"%d\"=
+/>\n",
++                        name, base_reg);
++        }
++        base_reg++;
++    }
++    info->num =3D regs->len;
++
++    g_string_append_printf(s, "</feature>");
++    info->desc =3D g_string_free(s, false);
++    return info->num;
++}
++
+ struct TypeSize {
+     const char *gdb_type;
+     int  size;
+@@ -450,6 +565,8 @@ const char *arm_gdb_get_dynamic_xml(CPUState *cs, const c=
+har *xmlname)
+         return cpu->dyn_sysreg_xml.desc;
+     } else if (strcmp(xmlname, "sve-registers.xml") =3D=3D 0) {
+         return cpu->dyn_svereg_xml.desc;
++    } else if (strcmp(xmlname, "arm-m-system.xml") =3D=3D 0) {
++        return cpu->dyn_m_systemreg_xml.desc;
+     }
+     return NULL;
+ }
+@@ -493,6 +610,14 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+              */
+             gdb_register_coprocessor(cs, vfp_gdb_get_sysreg, vfp_gdb_set_sys=
+reg,
+                                      2, "arm-vfp-sysregs.xml", 0);
++        } else {
++            /* M-profile coprocessors. */
++            gdb_register_coprocessor(cs,
++                                     arm_gdb_get_m_systemreg,
++                                     arm_gdb_set_m_systemreg,
++                                     arm_gen_dynamic_m_systemreg_xml(
++                                         cs, cs->gdb_num_regs),
++                                     "arm-m-system.xml", 0);
+         }
+     }
+     if (cpu_isar_feature(aa32_mve, cpu)) {
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index e7e746ea18..c20bcac977 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -53,7 +53,7 @@ static uint32_t v7m_mrs_xpsr(CPUARMState *env, uint32_t reg=
+, unsigned el)
+     return xpsr_read(env) & mask;
+ }
+=20
+-static uint32_t v7m_mrs_control(CPUARMState *env, uint32_t secure)
++uint32_t arm_v7m_mrs_control(CPUARMState *env, uint32_t secure)
+ {
+     uint32_t value =3D env->v7m.control[secure];
+=20
+@@ -90,7 +90,7 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
+     case 0 ... 7: /* xPSR sub-fields */
+         return v7m_mrs_xpsr(env, reg, 0);
+     case 20: /* CONTROL */
+-        return v7m_mrs_control(env, 0);
++        return arm_v7m_mrs_control(env, 0);
+     default:
+         /* Unprivileged reads others as zero.  */
+         return 0;
+@@ -2420,7 +2420,7 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
+     case 0 ... 7: /* xPSR sub-fields */
+         return v7m_mrs_xpsr(env, reg, el);
+     case 20: /* CONTROL */
+-        return v7m_mrs_control(env, env->v7m.secure);
++        return arm_v7m_mrs_control(env, env->v7m.secure);
+     case 0x94: /* CONTROL_NS */
+         /*
+          * We have to handle this here because unprivileged Secure code
+diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
+index 319a534c22..e3eb28cf2e 160000
+--- a/tests/lcitool/libvirt-ci
++++ b/tests/lcitool/libvirt-ci
+@@ -1 +1 @@
+-Subproject commit 319a534c220f53fc8670254cac25d6f662c82112
++Subproject commit e3eb28cf2e17fbcf7fe7e19505ee432b8ec5bbb5
+--=20
+2.34.5
 
 
