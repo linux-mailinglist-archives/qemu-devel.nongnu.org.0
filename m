@@ -2,76 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DBEB6626A5
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:15:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A31662733
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:35:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pErXE-0004AI-5E; Mon, 09 Jan 2023 07:45:52 -0500
+	id 1pErZv-0005sI-8D; Mon, 09 Jan 2023 07:48:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhiyong@bytedance.com>)
- id 1pErX1-00048i-HA
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:45:41 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yezhiyong@bytedance.com>)
- id 1pErWy-0005Dd-NJ
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:45:38 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id w3so9388279ply.3
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 04:45:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:subject:from:cc:to:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=UNyhFeanROxpfDshtZYAnHS8qmSwjG071nqJxqah6KA=;
- b=HCuNkT1prA+bJiRag4YRM5b1GJh3Fp7bleYigNaE3zhbRcEKqZ9v0jlDp4v/tgeRi3
- tvHPbRfTDxc14kAZ7jl5Ab9eStSWvK4Q5R6rGqUdlyz+dATCRszpI4dvLl0Yx3exJkMf
- zacu5niHS4FzVdhsRXa7+x1dY/uBgyPttXCGHGVLcnagpOA/S0bmZFGisqKc1ok43bdy
- 2aEncwc9gNKzf0scGITKIO7zdCpv54WRTjtLrfSfs1Od1J5h/pew5vTtIdEPqgWmJa7k
- ZMY9akdzHWHORLrTJlP38NrJ2wgng0leIfKrY6QM7zXwV+z26cGlj0yBtUoagOzpYHHZ
- 1uNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:subject:from:cc:to:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=UNyhFeanROxpfDshtZYAnHS8qmSwjG071nqJxqah6KA=;
- b=adnZsFc9BeMQNWuJrMTFwCifFG+7lr+GbmV9Yi2agMjp7d7IskRtXNoY+/brU6F/3l
- j2pgfQ3CdZYZ5s6a8XSPJ2psmr6S/6RrqxBEzwRdnBq0f4fOJMxkTeJ2oOXKWM8I/tvj
- P0xOfilsUvBIvkaKXMsqRc7PSZtLMoe5iBgvZ4gg/qoQQpYQza5hjWqPbLPVOXoRoZV+
- gE6KXdThNPplnqMSX4RjDh1F/Zv9zSnWrLM/XnMcfRTh9DzbuOG8fp+J0lPFU+t3G7oQ
- 1xRYAz3+OaIx4sbzV8uxk57bAdRXadmrckmgRGQNpw2SFj3YrrzvWvBTUCRyimp8V0LI
- sl1Q==
-X-Gm-Message-State: AFqh2koInoe4sMyfWNV5aCFqa4M4wdgPdmVMiZb48zOomANVK8cHs6LB
- /5N7adHQBFmJ5T4y6OY265/bCg==
-X-Google-Smtp-Source: AMrXdXvngqbf7gY9+kyWhI8TGk1BKuE5dCKq4peO3FBFaSoFh9Tl02NeQNGWjSwE3VPSsPjIH94awQ==
-X-Received: by 2002:a17:902:9008:b0:189:ed86:178b with SMTP id
- a8-20020a170902900800b00189ed86178bmr72790941plp.64.1673268331482; 
- Mon, 09 Jan 2023 04:45:31 -0800 (PST)
-Received: from [10.87.56.20] ([139.177.225.237])
- by smtp.gmail.com with ESMTPSA id
- u8-20020a1709026e0800b001928c9d772bsm5361264plk.206.2023.01.09.04.45.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 04:45:31 -0800 (PST)
-Message-ID: <90855f8f-76ce-0a5f-3156-e69b157342c9@bytedance.com>
-Date: Mon, 9 Jan 2023 20:45:27 +0800
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pErZq-0005oC-Vs; Mon, 09 Jan 2023 07:48:35 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pErZp-0005tY-6c; Mon, 09 Jan 2023 07:48:34 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C7CB4745720;
+ Mon,  9 Jan 2023 13:46:11 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 913C8745706; Mon,  9 Jan 2023 13:46:11 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 8FA317456E3;
+ Mon,  9 Jan 2023 13:46:11 +0100 (CET)
+Date: Mon, 9 Jan 2023 13:46:11 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+cc: qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
+ Yoshinori Sato <ysato@users.sourceforge.jp>, 
+ Aurelien Jarno <aurelien@aurel32.net>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Magnus Damm <magnus.damm@gmail.com>, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH 4/5] hw/sh4/r2d: Use the IEC binary prefix definitions
+In-Reply-To: <20230109120154.2868-5-philmd@linaro.org>
+Message-ID: <31e6a45c-3fec-f6ae-875f-b1a8ac8749e0@eik.bme.hu>
+References: <20230109120154.2868-1-philmd@linaro.org>
+ <20230109120154.2868-5-philmd@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-To: Kevin Wolf <kwolf@redhat.com>, mreitz@redhat.com, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org
-From: Zhiyong Ye <yezhiyong@bytedance.com>
-Subject: Questions about how block devices use snapshots
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=yezhiyong@bytedance.com; helo=mail-pl1-x62e.google.com
+Content-Type: multipart/mixed;
+ boundary="3866299591-1211703913-1673268371=:7264"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,20 +63,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Dear all,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Qemu provides powerful snapshot capabilities for different file formats. 
-But this is limited to the block backend being a file, and support is 
-not good enough when it is a block device. When creating snapshots based 
-on files, there is no need to specify the size of the snapshot image, 
-which can grow dynamically as the virtual machine is used. But block 
-devices are fixed in size at creation and cannot be dynamically grown at 
-a later time.
+--3866299591-1211703913-1673268371=:7264
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-So is there any way to support snapshots when the block backend is a 
-block device?
+On Mon, 9 Jan 2023, Philippe Mathieu-Daudé wrote:
+> IEC binary prefixes ease code review: the unit is explicit.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+> hw/sh4/r2d.c | 6 +++---
+> 1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
+> index 39fc4f19d9..b3667e9b12 100644
+> --- a/hw/sh4/r2d.c
+> +++ b/hw/sh4/r2d.c
+> @@ -47,10 +47,10 @@
+> #define FLASH_BASE 0x00000000
+> #define FLASH_SIZE (16 * MiB)
+>
+> -#define SDRAM_BASE 0x0c000000 /* Physical location of SDRAM: Area 3 */
+> -#define SDRAM_SIZE 0x04000000
+> +#define SDRAM_BASE          (192 * MiB) /* Physical location of SDRAM: Area 3 */
+> +#define SDRAM_SIZE          (64 * MiB)
 
-Regards
+I don't think changing these help as the docs probably have memory map 
+with the hex numbers rather than sizes so it's easier to match as it is 
+now.
 
-Zhiyong
+> -#define SM501_VRAM_SIZE 0x800000
+> +#define SM501_VRAM_SIZE     (8 * MiB)
+
+This one is OK but since it's only used once in
+
+qdev_prop_set_uint32(dev, "vram-size", SM501_VRAM_SIZE);
+
+you might as well just inline it there and remove the define which is then 
+pretty clear and easier to see without needing to look up the define far 
+away from its usage.
+
+Regards,
+BALATON Zoltan
+
+> #define BOOT_PARAMS_OFFSET 0x0010000
+> /* CONFIG_BOOT_LINK_OFFSET of Linux kernel */
+>
+--3866299591-1211703913-1673268371=:7264--
 
