@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88FDD6621A4
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 10:32:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2866621C3
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 10:39:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEoO2-0003Dr-FL; Mon, 09 Jan 2023 04:24:10 -0500
+	id 1pEoQH-0003sg-BD; Mon, 09 Jan 2023 04:26:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pEoNt-00039U-Fn
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:24:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pEoNs-0004kp-0f
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:24:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673256239;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=y/ye6nhtO7Elz/d4Jv2aPfIBe/neeAFuLoECmtpJhLY=;
- b=VxuQbuo37DG7QZmxMRxhruzT99cenobcUxQLj9IERDhAMBY3NkjBwaguExQD7dwgvrZYih
- 8Zk+x2v3wLPf1CTRjbTC+L+z6xTRDpRquQ2m0xqa5VIbTipySBx/u4uRW99rJHwEQX65G5
- S65trA4u2qwfmqywqXl8752NNQBdbEA=
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
- [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-100-9cQIEb-PODet83HHtSwS9A-1; Mon, 09 Jan 2023 04:23:57 -0500
-X-MC-Unique: 9cQIEb-PODet83HHtSwS9A-1
-Received: by mail-oa1-f72.google.com with SMTP id
- 586e51a60fabf-150f42d958eso1961046fac.13
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 01:23:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEoQC-0003rK-U1
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:26:25 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEoQ9-0005PJ-2c
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:26:23 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ k26-20020a05600c1c9a00b003d972646a7dso8496918wms.5
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 01:26:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=C4lODMUw+lyok56lujGJxoUDao4pczQAdswQ0O0cpMg=;
+ b=oVaG40X9uyUOx9UUHZBCdaeCM60vWva8ltHNIrb56BBxPg7i+UHcg5FKI4rtoMmPXF
+ RszLmhvvCIuGPE5iYcHNceYLJjxM2pNophquikiBYImDuir2dymRUVD6vVVuP6Humu1c
+ sP2SJuIBTwTqH1oQkv8Ds1zL1Mk0bxyXXk87I40ietdugNtdB8++0F25RQc+03mGE5cX
+ bwaun/TjHDZuyBPAHeSv8sBTdLBN3wHjs9Z21fEaeMb1rx0DYZ1vK4myRmBuaHa6/onO
+ dK582rHo0weYqgZYSsVoPjf35GiobTiwDzi8NNcvF4G7qbm+1zpmuJ5cFrRC+xmvojcU
+ qSgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=y/ye6nhtO7Elz/d4Jv2aPfIBe/neeAFuLoECmtpJhLY=;
- b=r5GPxZaFSRcYo7+pVn8DBBoG4iJ85Pfa9M8icB3VEZfBzondsacMKe3fETe5zhqgeG
- s4gjvd4dqgdY70lUFyxEai0lKDkTbXtjRjPHDgJwwe+9zngHstfM4qcn09qHvLPScbVm
- sZkAvIQVlqwCda4tA6ZSZR0NhMhOz6rMQwZQGKCW98ZSwHnyfyqmbje54Rit6Aggksef
- l9DW8cDzB3cRWXtcyA7zgqR7lRW9TTkyfaBUGFF0Z/mYk2/rWZhMnkvpTBLBsRACsl+o
- BdGZsJANJO4c6MMOOVAtJO96cCy7V3CHtmyvqWLoIzHiXka//YwUr0G8MbduAIBM6vZ3
- CSWQ==
-X-Gm-Message-State: AFqh2krQ8vq596Idv0HsNYh0JhGrX8l81BM+MvGMSTZXJEDy+bbgu5jS
- z0UqIa9mJqEU5XhN7CnLb8KNb7qgsizFy2BPqYu2N5wkA/Gwc44W03+rF2ZcfVoBvOu889dhr5K
- fptEzy+vbjLIIDDm3tu4nuLQ789ywmWM=
-X-Received: by 2002:a54:4e89:0:b0:35c:303d:fe37 with SMTP id
- c9-20020a544e89000000b0035c303dfe37mr2725087oiy.35.1673256237168; 
- Mon, 09 Jan 2023 01:23:57 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXs10+VJVYi27B7n5X70PhD4nyNp1le64zCX/NxLGSzJ1kPEe8yquVAMQ+rdUaJ+7ic7DroKx3wEvYFyIxau2sA=
-X-Received: by 2002:a54:4e89:0:b0:35c:303d:fe37 with SMTP id
- c9-20020a544e89000000b0035c303dfe37mr2725085oiy.35.1673256236932; Mon, 09 Jan
- 2023 01:23:56 -0800 (PST)
+ bh=C4lODMUw+lyok56lujGJxoUDao4pczQAdswQ0O0cpMg=;
+ b=RqCLyI7/oUWPF0aHxo8ZkgK2yxZAEx8qSEkbyESXBOR+y2jlVhGrJXz5DZweAqnD8B
+ Hh3pambuWIlRYo/xSuekkgFJEoXXwq0QdX2WMVVx7SjSlWucmorkcEuGY4QZb0noxxDi
+ CvHBVcwsngQ7Zmi4hUcbpxk/dic4bpVbYcfLlgjHM/2ZZCd6sfPLUH98OGNdnAOqurll
+ RbWzf1kYHraHA2ANzQH5zTV6L/iMWWnevb9w3l+mFyY64Yq9zHKEFnFqAU1s3NOe4BdS
+ xBXugV6PL1CV7Vv8tVyDoeljrOpSy4BcmmIRbQyJmzCvwauLbKQdfnoHJjV/rgYQqywi
+ oMow==
+X-Gm-Message-State: AFqh2kosWHDqzyN1A+L6Buxs6OAY0hXVOQT17n4vu+JveUFDSCsijCSE
+ ZN92n5mMhILPTedA4yzMLfEAyZGvOOQr5Jph
+X-Google-Smtp-Source: AMrXdXugNuxz61cqqab8vDIrIufdrsegLLWRh6MmlhW/ilBcquvzylAtKorC56SfPPAZrMSr39x6dg==
+X-Received: by 2002:a05:600c:3b2a:b0:3d9:f42c:56d0 with SMTP id
+ m42-20020a05600c3b2a00b003d9f42c56d0mr678594wms.16.1673256379435; 
+ Mon, 09 Jan 2023 01:26:19 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ p9-20020a05600c358900b003cffd3c3d6csm11493507wmq.12.2023.01.09.01.26.18
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 09 Jan 2023 01:26:19 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-arm@nongnu.org,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 0/9] hw: Convert simple devices from SysBus to QDev
+Date: Mon,  9 Jan 2023 10:26:08 +0100
+Message-Id: <20230109092617.80224-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221230202710.115187-1-blue@cmd.nu>
-In-Reply-To: <20221230202710.115187-1-blue@cmd.nu>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 9 Jan 2023 17:23:45 +0800
-Message-ID: <CACGkMEseLO_8iVjLZ5VXwJcC+irmHpSu+G0Cn=7zmESCf=NVxA@mail.gmail.com>
-Subject: Re: [PATCH] net: Increase L2TPv3 buffer to fit jumboframes
-To: Christian Svensson <blue@cmd.nu>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,40 +95,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Dec 31, 2022 at 4:27 AM Christian Svensson <blue@cmd.nu> wrote:
->
-> Increase the allocated buffer size to fit larger packets.
-> Given that jumboframes can commonly be up to 9000 bytes the closest suitable
-> value seems to be 16 KiB.
->
-> Tested by running qemu towards a Linux L2TPv3 endpoint and pushing
-> jumboframe traffic through the interfaces.
->
-> Signed-off-by: Christian Svensson <blue@cmd.nu>
+Various simple devices (usually GPIO related) don't access
+the 'system bus': no IRQ lines / memory regions exposed via
+the SysBus API, no memory region mapped.
 
-Queued.
+To reduce complexity, remove the sysbus onion layer from
+these devices.
 
-Thanks
+Introduce the qdev_create_simple() helper similar to the
+pattern used for other device creation helpers:
 
-> ---
->  net/l2tpv3.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/net/l2tpv3.c b/net/l2tpv3.c
-> index 5852e42738..3d5c6d11d3 100644
-> --- a/net/l2tpv3.c
-> +++ b/net/l2tpv3.c
-> @@ -42,7 +42,7 @@
->   */
->
->  #define BUFFER_ALIGN sysconf(_SC_PAGESIZE)
-> -#define BUFFER_SIZE 2048
-> +#define BUFFER_SIZE 16384
->  #define IOVSIZE 2
->  #define MAX_L2TPV3_MSGCNT 64
->  #define MAX_L2TPV3_IOVCNT (MAX_L2TPV3_MSGCNT * IOVSIZE)
-> --
-> 2.36.2
->
+ $ git grep _create_simple include/
+ include/hw/i2c/i2c.h:175:I2CSlave *i2c_slave_create_simple(I2CBus *bus, const char *name, uint8_t addr);
+ include/hw/isa/isa.h:86:ISADevice *isa_create_simple(ISABus *bus, const char *name);
+ include/hw/misc/led.h:93:LEDState *led_create_simple(Object *parentobj,
+ include/hw/pci/pci.h:735:PCIDevice *pci_create_simple_multifunction(PCIBus *bus, int devfn,
+ include/hw/pci/pci.h:738:PCIDevice *pci_create_simple(PCIBus *bus, int devfn, const char *name);
+ include/hw/sysbus.h:100:static inline DeviceState *sysbus_create_simple(const char *name,
+ include/hw/usb.h:505:USBDevice *usb_create_simple(USBBus *bus, const char *name);
+
+Based-on: <20230109084121.72138-1-philmd@linaro.org>
+          "hw/i2c/bitbang_i2c: Housekeeping"
+
+Philippe Mathieu-Daudé (9):
+  hw/arm/musicpal: Remove unused dummy MemoryRegion
+  qdev: Add qdev_create_simple() helper
+  hw/i2c/bitbang_i2c: Convert TYPE_GPIO_I2C from SysBus to QDev
+  hw/arm/tosa: Convert TYPE_TOSA_MISC_GPIO from SysBus to QDev
+  hw/arm/palm: Convert TYPE_PALM_MISC_GPIO from SysBus to QDev
+  hw/arm/musicpal: Convert TYPE_MUSICPAL_KEY from SysBus to QDev
+  hw/arm/spitz: Convert TYPE_SPITZ_KEYBOARD from SysBus to QDev
+  hw/arm/tosa: Convert TYPE_SPITZ_MISC_GPIO from SysBus to QDev
+  hw/i386/kvm: Convert TYPE_KVM_CLOCK from SysBus to QDev
+
+ hw/arm/musicpal.c      | 12 ++++--------
+ hw/arm/palm.c          |  9 ++-------
+ hw/arm/spitz.c         | 18 ++++++++++++------
+ hw/arm/tosa.c          |  9 ++-------
+ hw/core/qdev.c         |  9 +++++++++
+ hw/i2c/bitbang_i2c.c   |  5 ++---
+ hw/i386/kvm/clock.c    |  6 +++---
+ include/hw/qdev-core.h | 11 +++++++++++
+ 8 files changed, 45 insertions(+), 34 deletions(-)
+
+-- 
+2.38.1
 
 
