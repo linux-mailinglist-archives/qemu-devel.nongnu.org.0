@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFEB662FDD
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 20:06:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B5D1662FE9
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 20:07:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pExRa-0004VS-Lx; Mon, 09 Jan 2023 14:04:26 -0500
+	id 1pExRY-0004Lz-0j; Mon, 09 Jan 2023 14:04:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pExQr-00041L-5J
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:03:41 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pExQn-0003xJ-Rq
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:03:38 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pExQm-0001M8-Sr
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:03:40 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pExQj-0001J7-T8
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:03:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673291015;
+ s=mimecast20190719; t=1673291008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HcKOUJvb2FOhgRFXm+hMd9NFRhOneB0yJ7Prs7FFJX8=;
- b=Hq+Go4kpNeNxUUbTwOW1M3A2SClw4VlhxfLLoXgWj7dqWS7Oy4lHsyTQApSw8LBIlmKlIe
- 4M25q41JRUhYNuwV22d4MF4gbMVhHJqLgvAABIBKfI+MKYjyFNLpPrVuP7+aY+MrFAejql
- yx4fA/P272Jqr6Wv1FFrDJDOJWfCYS0=
+ bh=vYEN8u+nr8ehSNY8DBiXNicgkVNI0viYPy4uZwDn06Y=;
+ b=hVPRYoz6QFPpXrOz7aa0DoDxSm75Gj0Qnf2PkZMbIErvyOfuHxqYMadFWU66jA9pe8bTEW
+ qi2/8bxzVGvV5nxNVX0EAIKM7i4RU7fI6yVAmAfBSnmjpfRw/QmVs3rp9jlgKp46ZR7ff6
+ LsPdkdDqRrNuRb56+nYpqYk5OpoFxx4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-KnJm4SqUPJ23-EZL3sMP4Q-1; Mon, 09 Jan 2023 14:03:28 -0500
-X-MC-Unique: KnJm4SqUPJ23-EZL3sMP4Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-551-PDGj53_ROPu4L2VrXadlfA-1; Mon, 09 Jan 2023 14:03:24 -0500
+X-MC-Unique: PDGj53_ROPu4L2VrXadlfA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 91FC4802C1D;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6AB6C101A521;
  Mon,  9 Jan 2023 19:03:24 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FDE42166B26;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FEAA1121319;
  Mon,  9 Jan 2023 19:03:24 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B52F621E5A16; Mon,  9 Jan 2023 20:03:21 +0100 (CET)
+ id B8B1021E5A17; Mon,  9 Jan 2023 20:03:21 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com,
  philmd@linaro.org
-Subject: [PATCH v4 13/17] ui: Factor out hmp_change_vnc(),
- and move to ui/ui-hmp-cmds.c
-Date: Mon,  9 Jan 2023 20:03:17 +0100
-Message-Id: <20230109190321.1056914-14-armbru@redhat.com>
+Subject: [PATCH v4 14/17] ui: Reduce nesting in hmp_change_vnc() slightly
+Date: Mon,  9 Jan 2023 20:03:18 +0100
+Message-Id: <20230109190321.1056914-15-armbru@redhat.com>
 In-Reply-To: <20230109190321.1056914-1-armbru@redhat.com>
 References: <20230109190321.1056914-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -80,160 +79,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Transform
+
+    if (good) {
+        do stuff
+    } else {
+        handle error
+    }
+
+to
+
+    if (!good) {
+        handle error
+	return;
+    }
+    do stuff
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- include/monitor/hmp.h |  5 +++++
- monitor/hmp-cmds.c    | 30 ++----------------------------
- monitor/qmp-cmds.c    |  2 +-
- ui/ui-hmp-cmds.c      | 35 ++++++++++++++++++++++++++++++++++-
- 4 files changed, 42 insertions(+), 30 deletions(-)
+ ui/ui-hmp-cmds.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index b228a406f3..df89eac22a 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -73,6 +73,11 @@ void hmp_x_colo_lost_heartbeat(Monitor *mon, const QDict *qdict);
- void hmp_set_password(Monitor *mon, const QDict *qdict);
- void hmp_expire_password(Monitor *mon, const QDict *qdict);
- void hmp_change(Monitor *mon, const QDict *qdict);
-+#ifdef CONFIG_VNC
-+void hmp_change_vnc(Monitor *mon, const char *device, const char *target,
-+                    const char *arg, const char *read_only, bool force,
-+                    Error **errp);
-+#endif
- void hmp_migrate(Monitor *mon, const QDict *qdict);
- void hmp_device_add(Monitor *mon, const QDict *qdict);
- void hmp_device_del(Monitor *mon, const QDict *qdict);
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 4340e71c90..1dba973092 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -25,7 +25,7 @@
- #include "qemu/timer.h"
- #include "qemu/sockets.h"
- #include "qemu/help_option.h"
--#include "monitor/monitor-internal.h"
-+#include "monitor/monitor.h"
- #include "qapi/error.h"
- #include "qapi/clone-visitor.h"
- #include "qapi/opts-visitor.h"
-@@ -41,7 +41,6 @@
- #include "qapi/qapi-commands-run-state.h"
- #include "qapi/qapi-commands-stats.h"
- #include "qapi/qapi-commands-tpm.h"
--#include "qapi/qapi-commands-ui.h"
- #include "qapi/qapi-commands-virtio.h"
- #include "qapi/qapi-visit-virtio.h"
- #include "qapi/qapi-visit-net.h"
-@@ -1075,15 +1074,6 @@ void hmp_x_colo_lost_heartbeat(Monitor *mon, const QDict *qdict)
-     hmp_handle_error(mon, err);
- }
- 
--#ifdef CONFIG_VNC
--static void hmp_change_read_arg(void *opaque, const char *password,
--                                void *readline_opaque)
--{
--    qmp_change_vnc_password(password, NULL);
--    monitor_read_command(opaque, 1);
--}
--#endif
--
- void hmp_change(Monitor *mon, const QDict *qdict)
- {
-     const char *device = qdict_get_str(qdict, "device");
-@@ -1096,23 +1086,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
- 
- #ifdef CONFIG_VNC
-     if (strcmp(device, "vnc") == 0) {
--        if (read_only) {
--            error_setg(&err, "Parameter 'read-only-mode' is invalid for VNC");
--            goto end;
--        }
--        if (strcmp(target, "passwd") == 0 ||
--            strcmp(target, "password") == 0) {
--            if (!arg) {
--                MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
--                monitor_read_password(hmp_mon, hmp_change_read_arg, NULL);
--                return;
--            } else {
--                qmp_change_vnc_password(arg, &err);
--            }
--        } else {
--            error_setg(&err, "Expected 'password' after 'vnc'");
--            goto end;
--        }
-+        hmp_change_vnc(mon, device, target, arg, read_only, force, &err);
-     } else
- #endif
-     {
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index b5b736761a..14f0f78e51 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -168,7 +168,7 @@ void qmp_add_client(const char *protocol, const char *fdname,
-                     bool has_skipauth, bool skipauth, bool has_tls, bool tls,
-                     Error **errp)
- {
--    static struct {
-+    static const struct {
-         const char *name;
-         bool (*add_client)(int fd, bool has_skipauth, bool skipauth,
-                            bool has_tls, bool tls, Error **errp);
 diff --git a/ui/ui-hmp-cmds.c b/ui/ui-hmp-cmds.c
-index 4af92f8eaf..8ae96749f3 100644
+index 8ae96749f3..7ca80c8626 100644
 --- a/ui/ui-hmp-cmds.c
 +++ b/ui/ui-hmp-cmds.c
-@@ -18,7 +18,8 @@
- #include <spice/enums.h>
- #endif
- #include "monitor/hmp.h"
--#include "monitor/monitor.h"
-+#include "monitor/monitor-internal.h"
-+#include "qapi/error.h"
- #include "qapi/qapi-commands-ui.h"
- #include "qapi/qmp/qdict.h"
- #include "qemu/cutils.h"
-@@ -311,6 +312,38 @@ out:
-     hmp_handle_error(mon, err);
- }
- 
-+#ifdef CONFIG_VNC
-+static void hmp_change_read_arg(void *opaque, const char *password,
-+                                void *readline_opaque)
-+{
-+    qmp_change_vnc_password(password, NULL);
-+    monitor_read_command(opaque, 1);
-+}
-+
-+void hmp_change_vnc(Monitor *mon, const char *device, const char *target,
-+                    const char *arg, const char *read_only, bool force,
-+                    Error **errp)
-+{
-+    if (read_only) {
-+        error_setg(errp, "Parameter 'read-only-mode' is invalid for VNC");
-+        return;
-+    }
-+    if (strcmp(target, "passwd") == 0 ||
-+        strcmp(target, "password") == 0) {
-+        if (!arg) {
-+            MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
-+            monitor_read_password(hmp_mon, hmp_change_read_arg, NULL);
-+            return;
-+        } else {
-+            qmp_change_vnc_password(arg, errp);
-+        }
+@@ -328,19 +328,16 @@ void hmp_change_vnc(Monitor *mon, const char *device, const char *target,
+         error_setg(errp, "Parameter 'read-only-mode' is invalid for VNC");
+         return;
+     }
+-    if (strcmp(target, "passwd") == 0 ||
+-        strcmp(target, "password") == 0) {
+-        if (!arg) {
+-            MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
+-            monitor_read_password(hmp_mon, hmp_change_read_arg, NULL);
+-            return;
+-        } else {
+-            qmp_change_vnc_password(arg, errp);
+-        }
+-    } else {
++    if (strcmp(target, "passwd") && strcmp(target, "password")) {
+         error_setg(errp, "Expected 'password' after 'vnc'");
+         return;
+     }
++    if (!arg) {
++        MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
++        monitor_read_password(hmp_mon, hmp_change_read_arg, NULL);
 +    } else {
-+        error_setg(errp, "Expected 'password' after 'vnc'");
-+        return;
++        qmp_change_vnc_password(arg, errp);
 +    }
-+}
-+#endif
-+
- void hmp_sendkey(Monitor *mon, const QDict *qdict)
- {
-     const char *keys = qdict_get_str(qdict, "keys");
+ }
+ #endif
+ 
 -- 
 2.39.0
 
