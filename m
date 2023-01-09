@@ -2,30 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869C76636D4
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D42C6636D3
 	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 02:42:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF3dE-0003gx-CS; Mon, 09 Jan 2023 20:40:52 -0500
+	id 1pF3dG-0003nz-Dw; Mon, 09 Jan 2023 20:40:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1pF1PH-0004hk-SZ; Mon, 09 Jan 2023 18:18:23 -0500
+ id 1pF1PG-0004hj-DY; Mon, 09 Jan 2023 18:18:23 -0500
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1pF1PA-0006NU-Hy; Mon, 09 Jan 2023 18:18:18 -0500
+ id 1pF1PA-0006NW-Hq; Mon, 09 Jan 2023 18:18:16 -0500
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 49CB511EE06;
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 6DDD111EF01;
  Mon,  9 Jan 2023 23:18:05 +0000 (UTC)
 From: ~dreiss-meta <dreiss-meta@git.sr.ht>
-Date: Mon, 09 Jan 2023 15:05:19 -0800
-Subject: [PATCH qemu 1/3] target/arm: Unify checking for M Main Extension in
- MRS/MSR
-Message-ID: <167330628518.10497.13100425787268927786-0@git.sr.ht>
+Date: Mon, 09 Jan 2023 15:05:21 -0800
+Subject: [PATCH qemu 2/3] target/arm/gdbstub: Support reading M system
+ registers from GDB
+Message-ID: <167330628518.10497.13100425787268927786-1@git.sr.ht>
 X-Mailer: git.sr.ht
+In-Reply-To: <167330628518.10497.13100425787268927786-0@git.sr.ht>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="utf-8"
@@ -57,80 +58,252 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Reiss <dreiss@meta.com>
 
-BASEPRI, FAULTMASK, and their _NS equivalents only exist on devices with
-the Main Extension.  However, the MRS instruction did not check this,
-and the MSR instruction handled it inconsistently (warning BASEPRI, but
-silently ignoring writes to BASEPRI_NS).  Unify this behavior and always
-warn when reading or writing any of these registers if the extension is
-not present.
+Follows a fairly similar pattern to the existing special register debug
+support.  Only reading is implemented, but it should be possible to
+implement writes.
+
+`v7m_mrs_control` was renamed `arm_v7m_mrs_control` and made
+non-static so this logic could be shared between the MRS instruction and
+the GDB stub.
 
 Signed-off-by: David Reiss <dreiss@meta.com>
 ---
- target/arm/m_helper.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+ target/arm/cpu.h      |  11 +++-
+ target/arm/gdbstub.c  | 125 ++++++++++++++++++++++++++++++++++++++++++
+ target/arm/m_helper.c |   6 +-
+ 3 files changed, 137 insertions(+), 5 deletions(-)
 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 2b4bd20f9d..5cf86cf2d7 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -852,6 +852,7 @@ struct ArchCPU {
+=20
+     DynamicGDBXMLInfo dyn_sysreg_xml;
+     DynamicGDBXMLInfo dyn_svereg_xml;
++    DynamicGDBXMLInfo dyn_m_systemreg_xml;
+=20
+     /* Timers used by the generic (architected) timer */
+     QEMUTimer *gt_timer[NUM_GTIMERS];
+@@ -1094,11 +1095,13 @@ int arm_cpu_gdb_read_register(CPUState *cpu, GByteArr=
+ay *buf, int reg);
+ int arm_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+=20
+ /*
+- * Helpers to dynamically generates XML descriptions of the sysregs
+- * and SVE registers. Returns the number of registers in each set.
++ * Helpers to dynamically generates XML descriptions of the sysregs,
++ * SVE registers, and M-profile system registers.
++ * Returns the number of registers in each set.
+  */
+ int arm_gen_dynamic_sysreg_xml(CPUState *cpu, int base_reg);
+ int arm_gen_dynamic_svereg_xml(CPUState *cpu, int base_reg);
++int arm_gen_dynamic_m_systemreg_xml(CPUState *cpu, int base_reg);
+=20
+ /* Returns the dynamically generated XML for the gdb stub.
+  * Returns a pointer to the XML contents for the specified XML file or NULL
+@@ -1490,6 +1493,10 @@ FIELD(SVCR, ZA, 1, 1)
+ FIELD(SMCR, LEN, 0, 4)
+ FIELD(SMCR, FA64, 31, 1)
+=20
++/* Read the CONTROL register as the MRS instruction would.
++ */
++uint32_t arm_v7m_mrs_control(CPUARMState *env, uint32_t secure);
++
+ /* Write a new value to v7m.exception, thus transitioning into or out
+  * of Handler mode; this may result in a change of active stack pointer.
+  */
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+index 2f806512d0..4456892e91 100644
+--- a/target/arm/gdbstub.c
++++ b/target/arm/gdbstub.c
+@@ -322,6 +322,121 @@ int arm_gen_dynamic_sysreg_xml(CPUState *cs, int base_r=
+eg)
+     return cpu->dyn_sysreg_xml.num;
+ }
+=20
++/*
++ * Helper required because g_array_append_val is a macro
++ * that cannot handle string literals.
++ */
++static inline void g_array_append_str_literal(GArray *array, const char *str)
++{
++    g_array_append_val(array, str);
++}
++
++static int arm_gdb_get_m_systemreg(CPUARMState *env, GByteArray *buf, int re=
+g)
++{
++    /* NOTE: This implementation shares a lot of logic with v7m_mrs. */
++    switch (reg) {
++
++    /*
++     * NOTE: MSP and PSP technically don't exist if the secure extension
++     * is present (replaced by MSP_S, MSP_NS, PSP_S, PSP_NS).  Similar for
++     * MSPLIM and PSPLIM.
++     * However, the MRS instruction is still allowed to read from MSP and PS=
+P,
++     * and will return the value associated with the current security state.
++     * We replicate this behavior for the convenience of users, who will see
++     * GDB behave similarly to their assembly code, even if they are oblivio=
+us
++     * to the security extension.
++     */
++    case 0: /* MSP */
++        return gdb_get_reg32(buf,
++            v7m_using_psp(env) ? env->v7m.other_sp : env->regs[13]);
++    case 1: /* PSP */
++        return gdb_get_reg32(buf,
++            v7m_using_psp(env) ? env->regs[13] : env->v7m.other_sp);
++    case 6: /* MSPLIM */
++        if (!arm_feature(env, ARM_FEATURE_V8)) {
++            return 0;
++        }
++        return gdb_get_reg32(buf, env->v7m.msplim[env->v7m.secure]);
++    case 7: /* PSPLIM */
++        if (!arm_feature(env, ARM_FEATURE_V8)) {
++            return 0;
++        }
++        return gdb_get_reg32(buf, env->v7m.psplim[env->v7m.secure]);
++
++    /*
++     * NOTE: PRIMAKS, BASEPRI, and FAULTMASK are defined a bit differently
++     * from the SP family, but have similar banking behavior.
++     */
++    case 2: /* PRIMASK */
++        return gdb_get_reg32(buf, env->v7m.primask[env->v7m.secure]);
++    case 3: /* BASEPRI */
++        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
++            return 0;
++        }
++        return gdb_get_reg32(buf, env->v7m.basepri[env->v7m.secure]);
++    case 4: /* FAULTMASK */
++        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
++            return 0;
++        }
++        return gdb_get_reg32(buf, env->v7m.faultmask[env->v7m.secure]);
++
++    /*
++     * NOTE: CONTROL has a mix of banked and non-banked bits.  We continue
++     * to emulate the MRS instruction.  Unfortunately, this gives GDB no way
++     * to read the SFPA bit when the CPU is in a non-secure state.
++     */
++    case 5: /* CONTROL */
++        return gdb_get_reg32(buf, arm_v7m_mrs_control(env, env->v7m.secure));
++    }
++
++    return 0;
++}
++
++static int arm_gdb_set_m_systemreg(CPUARMState *env, uint8_t *buf, int reg)
++{
++    /* TODO: Implement. */
++    return 0;
++}
++
++int arm_gen_dynamic_m_systemreg_xml(CPUState *cs, int base_reg)
++{
++    ARMCPU *cpu =3D ARM_CPU(cs);
++    CPUARMState *env =3D &cpu->env;
++    GString *s =3D g_string_new(NULL);
++    DynamicGDBXMLInfo *info =3D &cpu->dyn_m_systemreg_xml;
++    g_string_printf(s, "<?xml version=3D\"1.0\"?>");
++    g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
++    g_string_append_printf(s, "<feature name=3D\"org.gnu.gdb.arm.m-system\">=
+\n");
++
++    int is_v8 =3D arm_feature(env, ARM_FEATURE_V8);
++    int is_main =3D arm_feature(env, ARM_FEATURE_M_MAIN);
++
++    g_autoptr(GArray) regs =3D g_array_new(false, true, sizeof(const char *)=
+);
++    /* 0 */ g_array_append_str_literal(regs, "msp");
++    /* 1 */ g_array_append_str_literal(regs, "psp");
++    /* 2 */ g_array_append_str_literal(regs, "primask");
++    /* 3 */ g_array_append_str_literal(regs, is_main ? "basepri" : "");
++    /* 4 */ g_array_append_str_literal(regs, is_main ? "faultmask" : "");
++    /* 5 */ g_array_append_str_literal(regs, "control");
++    /* 6 */ g_array_append_str_literal(regs, is_v8 ? "msplim" : "");
++    /* 7 */ g_array_append_str_literal(regs, is_v8 ? "psplim" : "");
++
++    for (int idx =3D 0; idx < regs->len; idx++) {
++        const char *name =3D g_array_index(regs, const char *, idx);
++        if (*name !=3D '\0') {
++            g_string_append_printf(s,
++                        "<reg name=3D\"%s\" bitsize=3D\"32\" regnum=3D\"%d\"=
+/>\n",
++                        name, base_reg);
++        }
++        base_reg++;
++    }
++    info->num =3D regs->len;
++
++    g_string_append_printf(s, "</feature>");
++    info->desc =3D g_string_free(s, false);
++    return info->num;
++}
++
+ struct TypeSize {
+     const char *gdb_type;
+     int  size;
+@@ -450,6 +565,8 @@ const char *arm_gdb_get_dynamic_xml(CPUState *cs, const c=
+har *xmlname)
+         return cpu->dyn_sysreg_xml.desc;
+     } else if (strcmp(xmlname, "sve-registers.xml") =3D=3D 0) {
+         return cpu->dyn_svereg_xml.desc;
++    } else if (strcmp(xmlname, "arm-m-system.xml") =3D=3D 0) {
++        return cpu->dyn_m_systemreg_xml.desc;
+     }
+     return NULL;
+ }
+@@ -493,6 +610,14 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+              */
+             gdb_register_coprocessor(cs, vfp_gdb_get_sysreg, vfp_gdb_set_sys=
+reg,
+                                      2, "arm-vfp-sysregs.xml", 0);
++        } else {
++            /* M-profile coprocessors. */
++            gdb_register_coprocessor(cs,
++                                     arm_gdb_get_m_systemreg,
++                                     arm_gdb_set_m_systemreg,
++                                     arm_gen_dynamic_m_systemreg_xml(
++                                         cs, cs->gdb_num_regs),
++                                     "arm-m-system.xml", 0);
+         }
+     }
+     if (cpu_isar_feature(aa32_mve, cpu)) {
 diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 355cd4d60a..e5ccfa9615 100644
+index e5ccfa9615..31d4dfba4b 100644
 --- a/target/arm/m_helper.c
 +++ b/target/arm/m_helper.c
-@@ -2481,11 +2481,17 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t r=
-eg)
-             }
-             return env->v7m.primask[M_REG_NS];
-         case 0x91: /* BASEPRI_NS */
-+            if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+                goto bad_reg;
-+            }
-             if (!env->v7m.secure) {
-                 return 0;
-             }
-             return env->v7m.basepri[M_REG_NS];
-         case 0x93: /* FAULTMASK_NS */
-+            if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+                goto bad_reg;
-+            }
-             if (!env->v7m.secure) {
-                 return 0;
-             }
-@@ -2531,8 +2537,14 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t re=
-g)
-         return env->v7m.primask[env->v7m.secure];
-     case 17: /* BASEPRI */
-     case 18: /* BASEPRI_MAX */
-+        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_reg;
-+        }
-         return env->v7m.basepri[env->v7m.secure];
-     case 19: /* FAULTMASK */
-+        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_reg;
-+        }
-         return env->v7m.faultmask[env->v7m.secure];
+@@ -69,7 +69,7 @@ static uint32_t v7m_mrs_xpsr(CPUARMState *env, uint32_t reg=
+, unsigned el)
+     return xpsr_read(env) & mask;
+ }
+=20
+-static uint32_t v7m_mrs_control(CPUARMState *env, uint32_t secure)
++uint32_t arm_v7m_mrs_control(CPUARMState *env, uint32_t secure)
+ {
+     uint32_t value =3D env->v7m.control[secure];
+=20
+@@ -106,7 +106,7 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
+     case 0 ... 7: /* xPSR sub-fields */
+         return v7m_mrs_xpsr(env, reg, 0);
+     case 20: /* CONTROL */
+-        return v7m_mrs_control(env, 0);
++        return arm_v7m_mrs_control(env, 0);
      default:
-     bad_reg:
-@@ -2597,13 +2609,19 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskr=
-eg, uint32_t val)
-             env->v7m.primask[M_REG_NS] =3D val & 1;
-             return;
-         case 0x91: /* BASEPRI_NS */
--            if (!env->v7m.secure || !arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+            if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+                goto bad_reg;
-+            }
-+            if (!env->v7m.secure) {
-                 return;
-             }
-             env->v7m.basepri[M_REG_NS] =3D val & 0xff;
-             return;
-         case 0x93: /* FAULTMASK_NS */
--            if (!env->v7m.secure || !arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+            if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+                goto bad_reg;
-+            }
-+            if (!env->v7m.secure) {
-                 return;
-             }
-             env->v7m.faultmask[M_REG_NS] =3D val & 1;
+         /* Unprivileged reads others as zero.  */
+         return 0;
+@@ -2436,7 +2436,7 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
+     case 0 ... 7: /* xPSR sub-fields */
+         return v7m_mrs_xpsr(env, reg, el);
+     case 20: /* CONTROL */
+-        return v7m_mrs_control(env, env->v7m.secure);
++        return arm_v7m_mrs_control(env, env->v7m.secure);
+     case 0x94: /* CONTROL_NS */
+         /*
+          * We have to handle this here because unprivileged Secure code
 --=20
 2.34.5
 
