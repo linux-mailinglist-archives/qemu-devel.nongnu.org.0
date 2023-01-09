@@ -2,84 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAADA66289C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:33:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C34A66283D
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:16:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEslR-0001zC-IP; Mon, 09 Jan 2023 09:04:37 -0500
+	id 1pEspA-0003VW-Mq; Mon, 09 Jan 2023 09:08:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEslE-0001tE-0j
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:04:24 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEslA-0007Fv-MP
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:04:23 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- i17-20020a05600c355100b003d99434b1cfso6859934wmq.1
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 06:04:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WrR1GDMObTllDPwJtD3Of+jW/9BkqqN5WyyEeN1uJKY=;
- b=iOZ+uxN5jCKG7I/DUWcF6QaCuPpV14kq9LNDH7pB/h2nPr8ZNwh5h9M9a2USyhvQiI
- q+nGXUiUKan1D7a/RatyCvAlAPp4zH8fuhUt3g9R1vVGC+cWCIIG363Ja6YFd9fzBzgJ
- xJJN3Ef5A6K45/R79amUCbOkD4wlWUrFd/tjz2+iLAkdxccpNsHWVjL1oWCH/b1WaYxH
- 6ZCYlxq6bftJvSO8TV5fCnVMRczNcueSoZM+MauthPn5d7siI0Fe+grXiXf9bfrUEW9J
- wsXvi8NsTdpPyTrGOYhdp/HqBXtyD05EycNT6gX+lITCzXC4ejnLUSOhciazLYEbvqNo
- iKEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WrR1GDMObTllDPwJtD3Of+jW/9BkqqN5WyyEeN1uJKY=;
- b=Hz/Sq8OPQ4ZS/cSGOF09iHiFBHc36YWurGK38odrzhj0Ga2oPdcxeM8/9ikn1L/TZU
- QIcPZhtVCMdZHhllh/Wy74Ax2s2xY2WVqpHIY4oHW5Tdxm8Obs1egkhoUBMnn6191vfE
- xduqYkzJfyM9F0Z2nXWyjw3drTjNEA3UAfbnIhIBRDsEIcYoyiW/pqkd7/3nZcJGW/iF
- q+SFrVO6bNCyDtz2TiCHNGv0WXeI1AeTcz9JW58ATWxCjFnDHgMmsieLiFZpiuPsasRd
- tYqbNAZAss4lLpXdzuMLsMPedbXNu0ZPEro0nZAT7Uv6xBSDPQq1JrEP3qTnjAYjwr78
- dWdQ==
-X-Gm-Message-State: AFqh2ko1tV8oLlm/6Qj/XJKc/mMTqgi2tJZg2XaEVvm2ktfRiMURPI3P
- WCTXcRC1C5iyfNgXQykzIQkYLHZ9qbPP5F4A
-X-Google-Smtp-Source: AMrXdXuaDwPJrvoha9f5KjblbefxTgp5WRSb2sQ3b/JhocV1mkVdPBs9eMj6KzJmI9sF9f5vbEE0vw==
-X-Received: by 2002:a05:600c:348b:b0:3d2:2a72:2577 with SMTP id
- a11-20020a05600c348b00b003d22a722577mr45551835wmq.27.1673273058111; 
- Mon, 09 Jan 2023 06:04:18 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- o19-20020a05600c339300b003cff309807esm15064539wmp.23.2023.01.09.06.04.17
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 09 Jan 2023 06:04:17 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Havard Skinnemoen <hskinnemoen@google.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Tyrone Ting <kfting@nuvoton.com>
-Subject: [PATCH 14/14] hw/timer/xilinx_timer: Use XpsTimerState instead of
- 'struct timerblock'
-Date: Mon,  9 Jan 2023 15:03:06 +0100
-Message-Id: <20230109140306.23161-15-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230109140306.23161-1-philmd@linaro.org>
-References: <20230109140306.23161-1-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pEsp5-0003Ub-GG
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:08:23 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pEsp3-0008WC-Tt
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:08:23 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 1070374632B;
+ Mon,  9 Jan 2023 15:06:03 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id C6CFF746324; Mon,  9 Jan 2023 15:06:02 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id C58B37462DB;
+ Mon,  9 Jan 2023 15:06:02 +0100 (CET)
+Date: Mon, 9 Jan 2023 15:06:02 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 10/21] hw/sh4: Open-code pflash_cfi02_register()
+In-Reply-To: <aea40df1-3467-ba52-20b4-0a3620e34329@linaro.org>
+Message-ID: <ff0aeea2-b818-7f89-b3e4-f080cc53ca46@eik.bme.hu>
+References: <20230109120833.3330-1-philmd@linaro.org>
+ <20230109120833.3330-11-philmd@linaro.org>
+ <088bef9e-b1e9-aef4-bb40-87b3b03172dd@eik.bme.hu>
+ <aea40df1-3467-ba52-20b4-0a3620e34329@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed; boundary="3866299591-893555027-1673273162=:7264"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,120 +62,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This remove a use of 'struct' in the DECLARE_INSTANCE_CHECKER()
-macro call, to avoid after a QOM refactor:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-  hw/timer/xilinx_timer.c:65:1: error: declaration of anonymous struct must be a definition
-  DECLARE_INSTANCE_CHECKER(struct timerblock, XILINX_TIMER,
-                           ^
+--3866299591-893555027-1673273162=:7264
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- hw/timer/xilinx_timer.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+On Mon, 9 Jan 2023, Philippe Mathieu-Daudé wrote:
+> On 9/1/23 14:40, BALATON Zoltan wrote:
+>> On Mon, 9 Jan 2023, Philippe Mathieu-Daudé wrote:
+>>> pflash_cfi02_register() hides an implicit sysbus mapping of
+>>> MMIO region #0. This is not practical in a heterogeneous world
+>>> where multiple cores use different address spaces. In order to
+>>> remove pflash_cfi02_register() from the pflash API, open-code it
+>>> as a qdev creation call followed by an explicit sysbus mapping.
+>>> 
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>> ---
+>>> hw/sh4/r2d.c | 21 +++++++++++++++++----
+>>> 1 file changed, 17 insertions(+), 4 deletions(-)
+>>> 
+>>> diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
+>>> index 6e0c65124a..9d31fad807 100644
+>>> --- a/hw/sh4/r2d.c
+>>> +++ b/hw/sh4/r2d.c
+>>> @@ -303,10 +303,23 @@ static void r2d_init(MachineState *machine)
+>>>      * addressable in words of 16bit.
+>>>      */
+>>>     dinfo = drive_get(IF_PFLASH, 0, 0);
+>>> -    pflash_cfi02_register(0x0, "r2d.flash", FLASH_SIZE,
+>>> -                          dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
+>>> -                          FLASH_SECTOR_SIZE, 1, 2,
+>>> -                          0x0001, 0x227e, 0x2220, 0x2200, 0x555, 0x2aa, 
+>>> 0);
+>>> +    dev = qdev_new(TYPE_PFLASH_CFI02);
+>>> +    qdev_prop_set_string(dev, "name", "r2d.flash");
+>>> +    qdev_prop_set_drive(dev, "drive",
+>>> +                        dinfo ? blk_by_legacy_dinfo(dinfo) : NULL);
+>>> +    qdev_prop_set_uint32(dev, "num-blocks", FLASH_SIZE / 
+>>> FLASH_SECTOR_SIZE);
+>>> +    qdev_prop_set_uint32(dev, "sector-length", FLASH_SECTOR_SIZE);
+>>> +    qdev_prop_set_uint8(dev, "device-width", 2);
+>>> +    qdev_prop_set_uint8(dev, "mappings", 1);
+>>> +    qdev_prop_set_uint8(dev, "big-endian", false);
+>>> +    qdev_prop_set_uint16(dev, "id0", 0x0001);
+>>> +    qdev_prop_set_uint16(dev, "id1", 0x227e);
+>>> +    qdev_prop_set_uint16(dev, "id2", 0x2220);
+>>> +    qdev_prop_set_uint16(dev, "id3", 0x2200);
+>>> +    qdev_prop_set_uint16(dev, "unlock-addr0", 0x555);
+>>> +    qdev_prop_set_uint16(dev, "unlock-addr1", 0x2aa);
+>>> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>>> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0x00000000);
+>> 
+>> Instead of 0x00000000 can you just write 0 or if you really want then maybe 
+>> 0x0? With the lot of zeros it's hard to tell it's not 0x00008000 or 
+>> something so it's best to keep is simple if there's no good reason to 
+>> obfuscate it.
+>
+> OK, maybe 0x0 to differentiate between the MMIO index and the base address.
 
-diff --git a/hw/timer/xilinx_timer.c b/hw/timer/xilinx_timer.c
-index c7f17cd646..32a9df69e0 100644
---- a/hw/timer/xilinx_timer.c
-+++ b/hw/timer/xilinx_timer.c
-@@ -62,10 +62,10 @@ struct xlx_timer
- };
- 
- #define TYPE_XILINX_TIMER "xlnx.xps-timer"
--DECLARE_INSTANCE_CHECKER(struct timerblock, XILINX_TIMER,
--                         TYPE_XILINX_TIMER)
-+typedef struct XpsTimerState XpsTimerState;
-+DECLARE_INSTANCE_CHECKER(XpsTimerState, XILINX_TIMER, TYPE_XILINX_TIMER)
- 
--struct timerblock
-+struct XpsTimerState
- {
-     SysBusDevice parent_obj;
- 
-@@ -76,7 +76,7 @@ struct timerblock
-     struct xlx_timer *timers;
- };
- 
--static inline unsigned int num_timers(struct timerblock *t)
-+static inline unsigned int num_timers(XpsTimerState *t)
- {
-     return 2 - t->one_timer_only;
- }
-@@ -87,7 +87,7 @@ static inline unsigned int timer_from_addr(hwaddr addr)
-     return addr >> 2;
- }
- 
--static void timer_update_irq(struct timerblock *t)
-+static void timer_update_irq(XpsTimerState *t)
- {
-     unsigned int i, irq = 0;
-     uint32_t csr;
-@@ -104,7 +104,7 @@ static void timer_update_irq(struct timerblock *t)
- static uint64_t
- timer_read(void *opaque, hwaddr addr, unsigned int size)
- {
--    struct timerblock *t = opaque;
-+    XpsTimerState *t = opaque;
-     struct xlx_timer *xt;
-     uint32_t r = 0;
-     unsigned int timer;
-@@ -155,7 +155,7 @@ static void
- timer_write(void *opaque, hwaddr addr,
-             uint64_t val64, unsigned int size)
- {
--    struct timerblock *t = opaque;
-+    XpsTimerState *t = opaque;
-     struct xlx_timer *xt;
-     unsigned int timer;
-     uint32_t value = val64;
-@@ -202,7 +202,7 @@ static const MemoryRegionOps timer_ops = {
- static void timer_hit(void *opaque)
- {
-     struct xlx_timer *xt = opaque;
--    struct timerblock *t = xt->parent;
-+    XpsTimerState *t = xt->parent;
-     D(fprintf(stderr, "%s %d\n", __func__, xt->nr));
-     xt->regs[R_TCSR] |= TCSR_TINT;
- 
-@@ -213,7 +213,7 @@ static void timer_hit(void *opaque)
- 
- static void xilinx_timer_realize(DeviceState *dev, Error **errp)
- {
--    struct timerblock *t = XILINX_TIMER(dev);
-+    XpsTimerState *t = XILINX_TIMER(dev);
-     unsigned int i;
- 
-     /* Init all the ptimers.  */
-@@ -236,16 +236,15 @@ static void xilinx_timer_realize(DeviceState *dev, Error **errp)
- 
- static void xilinx_timer_init(Object *obj)
- {
--    struct timerblock *t = XILINX_TIMER(obj);
-+    XpsTimerState *t = XILINX_TIMER(obj);
- 
-     /* All timers share a single irq line.  */
-     sysbus_init_irq(SYS_BUS_DEVICE(obj), &t->irq);
- }
- 
- static Property xilinx_timer_properties[] = {
--    DEFINE_PROP_UINT32("clock-frequency", struct timerblock, freq_hz,
--                                                                62 * 1000000),
--    DEFINE_PROP_UINT8("one-timer-only", struct timerblock, one_timer_only, 0),
-+    DEFINE_PROP_UINT32("clock-frequency", XpsTimerState, freq_hz, 62 * 1000000),
-+    DEFINE_PROP_UINT8("one-timer-only", XpsTimerState, one_timer_only, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -260,7 +259,7 @@ static void xilinx_timer_class_init(ObjectClass *klass, void *data)
- static const TypeInfo xilinx_timer_info = {
-     .name          = TYPE_XILINX_TIMER,
-     .parent        = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(struct timerblock),
-+    .instance_size = sizeof(XpsTimerState),
-     .instance_init = xilinx_timer_init,
-     .class_init    = xilinx_timer_class_init,
- };
--- 
-2.38.1
+OK, you can also add:
 
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+--3866299591-893555027-1673273162=:7264--
 
