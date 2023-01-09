@@ -2,80 +2,152 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03EFE663006
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 20:12:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A6B66302B
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 20:17:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pExZ0-0007MQ-JZ; Mon, 09 Jan 2023 14:12:06 -0500
+	id 1pExcp-00028W-UN; Mon, 09 Jan 2023 14:16:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pExYx-0007Dr-MX
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:12:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1pExcl-000282-Sn
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:16:00 -0500
+Received: from mga11.intel.com ([192.55.52.93])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pExYw-0005JR-0k
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:12:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673291521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EE1tb7ciLqruLsIGRurZitFhYxoY31qScnu4lB90hes=;
- b=UDZPtlFvS+Wq43yQNmYMRmiGkvz4adukCQUyZXS8aTpiDqvHKmTltz21MngqutbPSwotix
- Zek0boq6C84AXQZLFD/+q2J6EQgsogMlhXLfmpSM2aESHQxcRRP2w0inVN7dzBiScniw9u
- C2y1ibzeBkQ55BFSJrBTEVncbMMJGDs=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-556-TzWk5d62MyyJfjzAioZhfw-1; Mon, 09 Jan 2023 14:12:00 -0500
-X-MC-Unique: TzWk5d62MyyJfjzAioZhfw-1
-Received: by mail-lf1-f71.google.com with SMTP id
- l15-20020a056512110f00b004b6fe4513b7so3481305lfg.23
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 11:12:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EE1tb7ciLqruLsIGRurZitFhYxoY31qScnu4lB90hes=;
- b=cpiFz8arCIOU5sOvGQAUwfjN06qlkvijxXkhYloF8dzGZK6oEVFH+dYM+epOAgKjWE
- 6aqrc7+DAVmgOUhLfLGXSF7JOSdDSpngXAAeNAIsTis9py1X6BofPPP1o6WZTs7rUmOY
- BldMbRAZpOGj4LkWoLoMhT5E5bjD+2O5DDjaTa6o3basap47y/ON09pwpTU2ydL0xZAf
- 4Z2qfXTXiI3a1+m7riWD7/AOt/dHmcPWbnlc2oZAs6+Y7K8FfahYj939E5DaxeA3lGnA
- RwKNs07h/lfyxCYHvmGoq8KhS0rXwnjCYgzXA3aJFcg34nEoIjIgv5QOseXQYwCayTOp
- JBkA==
-X-Gm-Message-State: AFqh2kr2ZMX+zOOn6GwAxjE1ocNlhyjuI25J7im8cEOS2QuPa4Nb2QOi
- SH5SBcxGG6XZbc3dO171hWfreQhPJ9YvDXled/U285o6duWPJYm313wIr+7K+2RdwD2gCsuZfqb
- 0K+iCc2CcTQDD+5nTs5JPTHN4hhfw9Aw=
-X-Received: by 2002:a05:6512:280e:b0:4cb:3b24:8395 with SMTP id
- cf14-20020a056512280e00b004cb3b248395mr2092230lfb.399.1673291518879; 
- Mon, 09 Jan 2023 11:11:58 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXs6xjAZ2lW8kdfNDRND9u4uVut2OyKIfAhHDHb3EVNj3OF0yYtPwVt5ixNvm6R3Rb9sZyLnl6Fvj5Aq2pbMl9o=
-X-Received: by 2002:a05:6512:280e:b0:4cb:3b24:8395 with SMTP id
- cf14-20020a056512280e00b004cb3b248395mr2092229lfb.399.1673291518724; Mon, 09
- Jan 2023 11:11:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1pExcj-0006f1-1o
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:15:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673291757; x=1704827757;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=lZVd7dZS0E2j5P1EiCtyUJtKYmbScLKjkUXiMxD0v0M=;
+ b=EsW11LEhjrVqCL3bezQ+Up8DR1FHFM4aJ9F1fU8GycS/7GemBnqpN80h
+ bJw0RVSemCxZeH+dSMSq281Epqq909AlkINj5Jniw/+lPiXCeYDiae+ZX
+ 41noVbfnKmq99gK9VE/JDJxAGyDU7zJ3OyRWM7PDbE1miskEWd+SnRDmN
+ 6ZRD3+yQBt/TmGA17/Ea+jVp8hdBj2j2CJiooind3uVO2XaS3JON28RCq
+ tquOHA50oe786mLEL0CeyuUxHTq9hal/YM5ZUlpegle6dfWdnyaw2yodJ
+ Kdc3ZYurMiLLMt2pqK7IhHR/M5vjrYefm8P5ms0soA711gUljwA/9J17e w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="320656821"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="320656821"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2023 11:15:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="658712239"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; d="scan'208";a="658712239"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga007.fm.intel.com with ESMTP; 09 Jan 2023 11:15:37 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 9 Jan 2023 11:15:36 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Mon, 9 Jan 2023 11:15:36 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.176)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Mon, 9 Jan 2023 11:15:36 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hVIWJtfNiETVI8GAAwbu9lyoMhwWpF6RfqoDe3MefYrMQlni+LQCEduW09qGdBtlN0wQR5IyaRQhTG2zpT8CBHRV8mV2dYC0dw8owhMICCfIlukYNEleHgMXdMX736tb6Jhj3wEWb73hB5ZQ+8TZZhe1a6fISPqA3oYrgAW2S0uo4rWx4Wg/lc14fOOqIsLNsE4VpW9hG7VVlUfUNZm/v8Sr61N5DHcqNkQzNhleG8qVs98PsaYP+VUwScV2f023b561yDIiE7bQgC6oQLwp1RCcITpz0pNpyHM59T4bJ5KmIDpbuCQObnFpH1Y85tYUU0F35lMDZ7KcPnVCB7H/Uw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VqxILzVM7/1NCvot0T4XXYMXuI465xy9v3j18tC1Jkc=;
+ b=MjAcuB9Gbw66s/Qc15oMWk9G5gFLoO/3AfDyRp8LLBxyrVz6gWfgy3PW4vN8yae6NmrD2TRNUPekhA7vH6Ph7DOvPnodghWPRZKtVQtK9r/BoybwOLmTD8ZSWPRX9/DjhUGZw/mEOezMMEMJJJJu0rzcDfdIvlHl7AyEl64mAftv/21uVE4sb/Gh/YwyJDv6fZguAb+VBvtkgikbxoi44iF4Jaai3RGuvpqTkW9gERZcRjU7c+UF3jno+tgqPxZMmEb9z2c1HLXpXTIaAYlSbdVuKtI8Q53sLgclVKNk7sSTS4Y5vW9j0YlJ1gYoIVr5GLBHZeF4Fj1JaNzx14UqSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by BL1PR11MB6025.namprd11.prod.outlook.com (2603:10b6:208:390::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Mon, 9 Jan
+ 2023 19:15:33 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::288d:5cae:2f30:828b]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::288d:5cae:2f30:828b%8]) with mapi id 15.20.5986.018; Mon, 9 Jan 2023
+ 19:15:33 +0000
+Date: Mon, 9 Jan 2023 11:15:28 -0800
+From: Ira Weiny <ira.weiny@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>, Peter Maydell
+ <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 8/8] hw/cxl/events: Add in inject general media event
+Message-ID: <Y7xn0NNupucMou4b@iweiny-desk3>
+References: <20221221-ira-cxl-events-2022-11-17-v2-0-2ce2ecc06219@intel.com>
+ <20221221-ira-cxl-events-2022-11-17-v2-8-2ce2ecc06219@intel.com>
+ <20230103180719.00006437@huawei.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230103180719.00006437@huawei.com>
+X-ClientProxiedBy: SJ0PR13CA0199.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::24) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
 MIME-Version: 1.0
-References: <20221010085229.2431276-1-lkujaw@mailbox.org>
-In-Reply-To: <20221010085229.2431276-1-lkujaw@mailbox.org>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 9 Jan 2023 14:11:46 -0500
-Message-ID: <CAFn=p-aHLW0kmOLUw6OJFYwY8a24bmb4grFYL3XE_ircmcTbJQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] hw/ide/core.c (cmd_read_native_max): Avoid limited
- device parameters
-To: Lev Kujawski <lkujaw@mailbox.org>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|BL1PR11MB6025:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a2cab95-8fe0-4da5-6c22-08daf275e16c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /xXzt4XtTNE//f8UzgrXsJ/vJZO2oEkphBctyH95YApOZHrdz/QFn+nIcjl/rcWJOaYLSuRnzcRJlKb6EnwaifA5+EUvU0jAkuFSTmY3XDDfczc3GnbmRg/90Tk4mK641cyA/w67LOaExYSSMAcT8nVegoEH0p36GiOLm+syuQAQ+CBEJG61ERNU4S6Yo6ZOwsEGzo6sW1mbmIgxVbglDyvkILryvzEqVPk8YqjbIr3DplMcqvInlzTvSN8DSniIbCeP+Y2sBk3jJxz9NRuV38d5skr3NJOvvMKR96qaXNSFB7p1X4iVMultdhnN2K7RyG1nUjfmJrJ//+c3BAokeuB8ZywLGaWpZpr1epORQ7iw99BSXyHKwe072tTM43Vo8kadRNO5qqKXSIMcaCkHutkc3/Okl3vLRz4DUoeDHi9wEPbMW+PZ+VDlCOjHLvF5fZ9RH34v4DQhJxmtxB2aKNJCPmCynp6hM+VvDcHRIzj3T2D0UZnuPUGldHfM9rikcxQkYuwEFKkMK9xIFsvGakMJud/1kbQTLtLscKn8HITVVHzP4OUbcty6pmlPRBWTOfCV5hBQuuqzaW9iqDb+yt7UBVeQVw1rmGsH13hj5tZJ4jmDMWOKr3LGfvfutbVbGIxEZ1CwRAwFp0wyJpHMKLToAMAl7wZcjWyai0Yv3Ns=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(7916004)(136003)(396003)(39860400002)(366004)(376002)(346002)(451199015)(38100700002)(82960400001)(83380400001)(6916009)(86362001)(66476007)(8676002)(4326008)(41300700001)(66556008)(66946007)(54906003)(316002)(44832011)(2906002)(5660300002)(8936002)(6512007)(33716001)(9686003)(966005)(6506007)(26005)(186003)(6486002)(478600001)(6666004);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gmEHQXwOD8wJNFH/I2WfGE6lLIapvYVjnZ2ESyN8CscT+5BjgyA/GwWUULMh?=
+ =?us-ascii?Q?UZw6d3uqo3iVtC9RU3ZaVCGRJNmEghRsPOQxsV8p6iyeMLqdTichYKu2TPQs?=
+ =?us-ascii?Q?lveV2ZeR0S7hSSm0x7fgqJy5T5GYApFQ2FxKixsr29SXg3Sa5tkr/AlNX2LZ?=
+ =?us-ascii?Q?njXhJAyU1BWim34lFtEqhtNyJ58Yc3CNPaLN/F4rTdFTMcgNFUHh+2iP60Di?=
+ =?us-ascii?Q?TvGEWQ8OifpWNavOImyqtzOu0qzPcyguhcLmLM1K/z+piUxnHj6wNQIyxABN?=
+ =?us-ascii?Q?X1U7RMdE9/pKzxMAAU4dlyNSexERZqXw3dJnxknjA+WgkmSkLrW1JHvXe6qZ?=
+ =?us-ascii?Q?dLxZBAI67piIf9T9ofNHhYbCqSWbVjbLMqL/NFnCzaj1/XMSVWt5VD8lqQjJ?=
+ =?us-ascii?Q?Lv8Lt2VlTVXzxuhKcSoq+WoZmyLUK58fvTj9tjFIX6TRpHO7jwSPzlSXLZAL?=
+ =?us-ascii?Q?Tb92YzyH+qNiBOFraGgh/aW3EWmY5BrBvp8OS33NZ3vhslZI15Et/1CcdB2n?=
+ =?us-ascii?Q?g7Vl0mqM9ZczlGaKwXyFfn06aIqjkhusrm3T+IrRIjnrb4ft/V651DZSZaBY?=
+ =?us-ascii?Q?DVhW+cr8fRG5BVC2TWrk3oXTRgpvp+MSewtpY1WeUFIuvqR223cSo2FrIs/w?=
+ =?us-ascii?Q?ATLqdusHBf+SQN4bHeCIiz23oF9qJygZl0l4ugc7w7DNaHfgpgACBcOG6Zhm?=
+ =?us-ascii?Q?xs8iXLP3Z/zT5HFNh5JL+Dkf7SOIXgR8wJVYEB1EwiGct9JtGSv7J5Y+Yd66?=
+ =?us-ascii?Q?61Xa425UvyjFHuzJP6hinQg6hv1/yB5u0XrQ4BpUJ3cX188jekadJUL4VYPO?=
+ =?us-ascii?Q?PbV8G9LdtVzLTE/EITxHcDa7ekKy3JLCGPruswJg5JOWzfPVv81zFSb3iAGA?=
+ =?us-ascii?Q?BYBPG0agSEiYayBFukshyw1k5KFDgZoi6WlTi7E3QP6SV8b0h0TGasAATlrb?=
+ =?us-ascii?Q?DAZu/bka0eYuo5FLReQc818hInN5Ws3lrgP5a7vBGiJGpfEWROOAHbGMosOM?=
+ =?us-ascii?Q?mrGzP1yR8YmzgNdqgMQ3SeNHJJs06MPsg57qCTHwGL4ZmO9LtglEDyOBtmul?=
+ =?us-ascii?Q?+y6lmJGtcf3d9CDhLNDP6tHcGRb8bMaZwx4saSrvATh/EJ2GSuqhnlt9t7IF?=
+ =?us-ascii?Q?W3ePwvrqf10f8XEpX+s7Q0sx7C9Z3O0VbHWqn6dmv824TTI3nMRMPgoZf7WN?=
+ =?us-ascii?Q?a9eCf6MOVgHsg7lGtEqIXmds9eGZ3H4wRCk8mJrlqjqwHEVd6gJ85RY8c7Y3?=
+ =?us-ascii?Q?V79dMHVLw41cQR5HxY/T2z0xKjyzF747C80WhBb+K2yuJs3tijjkGIdRYNS4?=
+ =?us-ascii?Q?JxcLn+xhf1kCN5cqQsz1Pzv73ZkPNWO1wu8KLGPh/7aIrMpnwAeWYJ/rqOl9?=
+ =?us-ascii?Q?ScniOtwA127yJh8h0oC154oNST+on7Q9T5Hzwy6qI1knmqGhyqveeJy7rDhG?=
+ =?us-ascii?Q?KSK+ylErbkuKRr5uWm1BR2bQOMFu8P91kNvkSPrX8lWc7iuXpN18iCpmrCNP?=
+ =?us-ascii?Q?k5/0D+K4rGZZX456W7qfUzodQDXdlbdZrKREzXAABGtpQFGp35WE96qkyysK?=
+ =?us-ascii?Q?MwaZb1LWEq6yBrFsxcAdWA8X3maK+AHUid6AynkZ?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a2cab95-8fe0-4da5-6c22-08daf275e16c
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2023 19:15:33.4983 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6R6fYNKVe1ThzJ/OukhQ29VnrgYGDnUnhohO0WZfmjJ9YmJehZhe4LeHQcLEvXDgK4lCZtwox919qpkYx16/DQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB6025
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=ira.weiny@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,69 +164,308 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 10, 2022 at 4:52 AM Lev Kujawski <lkujaw@mailbox.org> wrote:
->
-> Always use the native CHS device parameters for the ATA commands READ
-> NATIVE MAX ADDRESS and READ NATIVE MAX ADDRESS EXT, not those limited
-> by the ATA command INITIALIZE_DEVICE_PARAMETERS (introduced in patch
-> 176e4961, hw/ide/core.c: Implement ATA INITIALIZE_DEVICE_PARAMETERS
-> command, 2022-07-07.)
->
-> As stated by the ATA/ATAPI specification, "[t]he native maximum is the
-> highest address accepted by the device in the factory default
-> condition."  Therefore this patch substitutes the native values in
-> drive_heads and drive_sectors before calling ide_set_sector().
->
-> One consequence of the prior behavior was that setting zero sectors
-> per track could lead to an FPE within ide_set_sector().  Thanks to
-> Alexander Bulekov for reporting this issue.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1243
-> Signed-off-by: Lev Kujawski <lkujaw@mailbox.org>
+On Tue, Jan 03, 2023 at 06:07:19PM +0000, Jonathan Cameron wrote:
+> On Wed, 21 Dec 2022 20:24:38 -0800
+> Ira Weiny <ira.weiny@intel.com> wrote:
+> 
+> > To facilitate testing provide a QMP command to inject a general media
+> > event.  The event can be added to the log specified.
+> > 
+> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> 
+> Hi Ira,
+> 
+> Suggestion inline on how to more neatly handle optional arguments using
+> QMPs inbuilt handling.  Short version is stick a * in front of the
+> argument name in the json and you get a bonus parameter in the callback
+> bool has_<name> which lets you identify if it is provided or not.
+> 
+> Jonathan
+> 
+> > 
+> > ---
+> > Changes from RFC:
+> > 	Add all fields for this event
+> > 	irq happens automatically when log transitions from 0 to 1
+> > ---
+> >  hw/mem/cxl_type3.c          | 93 +++++++++++++++++++++++++++++++++++++++++++++
+> >  hw/mem/cxl_type3_stubs.c    |  8 ++++
+> >  include/hw/cxl/cxl_events.h | 20 ++++++++++
+> >  qapi/cxl.json               | 25 ++++++++++++
+> >  4 files changed, 146 insertions(+)
+> > 
+> > diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> > index a43949cab120..bedd09e500ba 100644
+> > --- a/hw/mem/cxl_type3.c
+> > +++ b/hw/mem/cxl_type3.c
+> > @@ -916,6 +916,99 @@ static CXLPoisonList *get_poison_list(CXLType3Dev *ct3d)
+> >      return &ct3d->poison_list;
+> >  }
+> >  
+> > +static void cxl_assign_event_header(struct cxl_event_record_hdr *hdr,
+> > +                                    QemuUUID *uuid, uint8_t flags,
+> > +                                    uint8_t length)
+> > +{
+> > +    hdr->flags[0] = flags;
+> > +    hdr->length = length;
+> > +    memcpy(&hdr->id, uuid, sizeof(hdr->id));
+> > +    hdr->timestamp = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> > +}
+> > +
+> > +QemuUUID gen_media_uuid = {
+> > +    .data = UUID(0xfbcd0a77, 0xc260, 0x417f,
+> > +                 0x85, 0xa9, 0x08, 0x8b, 0x16, 0x21, 0xeb, 0xa6),
+> > +};
+> > +
+> > +#define CXL_GMER_VALID_CHANNEL                          BIT(0)
+> > +#define CXL_GMER_VALID_RANK                             BIT(1)
+> > +#define CXL_GMER_VALID_DEVICE                           BIT(2)
+> > +#define CXL_GMER_VALID_COMPONENT                        BIT(3)
+> > +
+> > +/*
+> > + * For channel, rank, and device; any value inside of the fields valid range
+> > + * will flag that field to be valid.  IE pass -1 to mark the field invalid.
+> > + *
+> > + * Component ID is device specific.  Define this as a string.
+> > + */
+> > +void qmp_cxl_inject_gen_media_event(const char *path, uint8_t log,
+> > +                                    uint8_t flags, uint64_t physaddr,
+> > +                                    uint8_t descriptor, uint8_t type,
+> > +                                    uint8_t transaction_type,
+> > +                                    int16_t channel, int16_t rank,
+> > +                                    int32_t device,
+> > +                                    const char *component_id,
+> > +                                    Error **errp)
+> > +{
+> > +    Object *obj = object_resolve_path(path, NULL);
+> > +    struct cxl_event_gen_media gem;
+> > +    struct cxl_event_record_hdr *hdr = &gem.hdr;
+> > +    CXLDeviceState *cxlds;
+> > +    CXLType3Dev *ct3d;
+> > +    uint16_t valid_flags = 0;
+> > +
+> > +    if (log >= CXL_EVENT_TYPE_MAX) {
+> > +        error_setg(errp, "Invalid log type: %d", log);
+> > +        return;
+> > +    }
+> > +    if (!obj) {
+> > +        error_setg(errp, "Unable to resolve path");
+> > +        return;
+> > +    }
+> > +    if (!object_dynamic_cast(obj, TYPE_CXL_TYPE3)) {
+> > +        error_setg(errp, "Path does not point to a CXL type 3 device");
+> > +    }
+> > +    ct3d = CXL_TYPE3(obj);
+> > +    cxlds = &ct3d->cxl_dstate;
+> > +
+> > +    memset(&gem, 0, sizeof(gem));
+> > +    cxl_assign_event_header(hdr, &gen_media_uuid, flags,
+> > +                            sizeof(struct cxl_event_gen_media));
+> > +
+> > +    gem.phys_addr = physaddr;
+> > +    gem.descriptor = descriptor;
+> > +    gem.type = type;
+> > +    gem.transaction_type = transaction_type;
+> > +
+> > +    if (0 <= channel && channel <= 0xFF) {
+> > +        gem.channel = channel;
+> > +        valid_flags |= CXL_GMER_VALID_CHANNEL;
+> > +    }
+> > +
+> > +    if (0 <= rank && rank <= 0xFF) {
+> > +        gem.rank = rank;
+> > +        valid_flags |= CXL_GMER_VALID_RANK;
+> > +    }
+> > +
+> > +    if (0 <= device && device <= 0xFFFFFF) {
+> > +        st24_le_p(gem.device, device);
+> > +        valid_flags |= CXL_GMER_VALID_DEVICE;
+> > +    }
+> > +
+> > +    if (component_id && strcmp(component_id, "")) {
+> > +        strncpy((char *)gem.component_id, component_id,
+> > +                sizeof(gem.component_id) - 1);
+> > +        valid_flags |= CXL_GMER_VALID_COMPONENT;
+> > +    }
+> > +
+> > +    stw_le_p(gem.validity_flags, valid_flags);
+> > +
+> > +    if (cxl_event_insert(cxlds, log, (struct cxl_event_record_raw *)&gem)) {
+> > +        cxl_event_irq_assert(ct3d);
+> > +    }
+> > +}
+> > +
+> >  void qmp_cxl_inject_poison(const char *path, uint64_t start, uint64_t length,
+> >                             Error **errp)
+> >  {
+> > diff --git a/hw/mem/cxl_type3_stubs.c b/hw/mem/cxl_type3_stubs.c
+> > index f2c9f48f4010..62f04d487031 100644
+> > --- a/hw/mem/cxl_type3_stubs.c
+> > +++ b/hw/mem/cxl_type3_stubs.c
+> > @@ -2,6 +2,14 @@
+> >  #include "qemu/osdep.h"
+> >  #include "qapi/qapi-commands-cxl.h"
+> >  
+> > +void qmp_cxl_inject_gen_media_event(const char *path, uint8_t log,
+> > +                                    uint8_t flags, uint64_t physaddr,
+> > +                                    uint8_t descriptor, uint8_t type,
+> > +                                    uint8_t transaction_type,
+> > +                                    int16_t channel, int16_t rank,
+> > +                                    int32_t device,
+> > +                                    char *component_id,
+> > +                                    Error **errp) {}
+> >  void qmp_cxl_inject_poison(const char *path, uint64_t start, uint64_t length,
+> >                             Error **errp) {}
+> >  void qmp_cxl_inject_uncorrectable_error(const char *path,
+> > diff --git a/include/hw/cxl/cxl_events.h b/include/hw/cxl/cxl_events.h
+> > index 2df40720320a..3175e9d9866d 100644
+> > --- a/include/hw/cxl/cxl_events.h
+> > +++ b/include/hw/cxl/cxl_events.h
+> > @@ -103,4 +103,24 @@ struct cxl_event_interrupt_policy {
+> >  /* DCD is optional but other fields are not */
+> >  #define CXL_EVENT_INT_SETTING_MIN_LEN 4
+> >  
+> > +/*
+> > + * General Media Event Record
+> > + * CXL rev 3.0 Section 8.2.9.2.1.1; Table 8-43
+> > + */
+> > +#define CXL_EVENT_GEN_MED_COMP_ID_SIZE  0x10
+> > +#define CXL_EVENT_GEN_MED_RES_SIZE      0x2e
+> > +struct cxl_event_gen_media {
+> > +    struct cxl_event_record_hdr hdr;
+> > +    uint64_t phys_addr;
+> > +    uint8_t descriptor;
+> > +    uint8_t type;
+> > +    uint8_t transaction_type;
+> > +    uint8_t validity_flags[2];
+> > +    uint8_t channel;
+> > +    uint8_t rank;
+> > +    uint8_t device[3];
+> > +    uint8_t component_id[CXL_EVENT_GEN_MED_COMP_ID_SIZE];
+> > +    uint8_t reserved[CXL_EVENT_GEN_MED_RES_SIZE];
+> > +} QEMU_PACKED;
+> > +
+> >  #endif /* CXL_EVENTS_H */
+> > diff --git a/qapi/cxl.json b/qapi/cxl.json
+> > index b4836bb87f53..56e85a28d7e0 100644
+> > --- a/qapi/cxl.json
+> > +++ b/qapi/cxl.json
+> > @@ -5,6 +5,31 @@
+> >  # = CXL devices
+> >  ##
+> >  
+> > +##
+> > +# @cxl-inject-gen-media-event:
+> > +#
+> > +# @path: CXL type 3 device canonical QOM path
+> > +#
+> > +# @log: Event Log to add the event to
+> > +# @flags: header flags
+> > +# @physaddr: Physical Address
+> > +# @descriptor: Descriptor
+> > +# @type: Type
+> > +# @transactiontype: Transaction Type
+> > +# @channel: Channel
+> > +# @rank: Rank
+> > +# @device: Device
+> > +# @componentid: Device specific string
+> > +#
+> > +##
+> > +{ 'command': 'cxl-inject-gen-media-event',
+> > +  'data': { 'path': 'str', 'log': 'uint8', 'flags': 'uint8',
+> > +            'physaddr': 'uint64', 'descriptor': 'uint8',
+> > +            'type': 'uint8', 'transactiontype': 'uint8',
+> > +            'channel': 'int16', 'rank': 'int16',
+> > +            'device': 'int32', 'componentid': 'str'
+> > +            }}
+> 
+> From an interface cleanliness point of view I'd rather see
+> all the optional fields as optional.  That's done by marking them
+> with a * so
+> '*channel': 'int16'
+> 
+> Then the signature of the related qmp_cxl_inject_gen_media_event
+> gains a boolean has_channel parameter (before channel)
+> 
+> Those booleans can be used to set the flags etc.
 
-Does this need attention?
+Ah!  Ok cool.  Yes this would make a lot more sense.  I did not realize QMP did
+this optional thing.  That makes scripting this easier as well!
 
---js
+Did you put all this on a branch or not?  I did not see anything new at:
 
-> ---
->  hw/ide/core.c | 21 +++++++++++++++++----
->  1 file changed, 17 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/ide/core.c b/hw/ide/core.c
-> index 39afdc0006..ee836401bc 100644
-> --- a/hw/ide/core.c
-> +++ b/hw/ide/core.c
-> @@ -1608,11 +1608,24 @@ static bool cmd_read_native_max(IDEState *s, uint8_t cmd)
->      /* Refuse if no sectors are addressable (e.g. medium not inserted) */
->      if (s->nb_sectors == 0) {
->          ide_abort_command(s);
-> -        return true;
-> -    }
-> +    } else {
-> +        /*
-> +         * Save the active drive parameters, which may have been
-> +         * limited from their native counterparts by, e.g., INITIALIZE
-> +         * DEVICE PARAMETERS or SET MAX ADDRESS.
-> +         */
-> +        const int aheads = s->heads;
-> +        const int asectors = s->sectors;
->
-> -    ide_cmd_lba48_transform(s, lba48);
-> -    ide_set_sector(s, s->nb_sectors - 1);
-> +        s->heads = s->drive_heads;
-> +        s->sectors = s->drive_sectors;
-> +
-> +        ide_cmd_lba48_transform(s, lba48);
-> +        ide_set_sector(s, s->nb_sectors - 1);
-> +
-> +        s->heads = aheads;
-> +        s->sectors = asectors;
-> +    }
->
->      return true;
->  }
-> --
-> 2.34.1
->
+https://gitlab.com/jic23/qemu.git
 
+I can definitely respin but it sounds like you were going to make some changes.
+
+Ira
+
+> 
+> Very lightly tested: 
+> 
+> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> index 4660a44ef8..cb9bb0b166 100644
+> --- a/hw/mem/cxl_type3.c
+> +++ b/hw/mem/cxl_type3.c
+> @@ -1203,8 +1203,9 @@ void qmp_cxl_inject_gen_media_event(const char *path, uint8_t log,
+>                                      uint8_t flags, uint64_t physaddr,
+>                                      uint8_t descriptor, uint8_t type,
+>                                      uint8_t transaction_type,
+> -                                    int16_t channel, int16_t rank,
+> -                                    int32_t device,
+> +                                    bool has_channel, uint8_t channel,
+> +                                    bool has_rank, uint8_t rank,
+> +                                    bool has_device, uint32_t device,
+>                                      const char *component_id,
+>                                      Error **errp)
+>  {
+> @@ -1238,22 +1239,22 @@ void qmp_cxl_inject_gen_media_event(const char *path, uint8_t log,
+>      gem.type = type;
+>      gem.transaction_type = transaction_type;
+> 
+> -    if (0 <= channel && channel <= 0xFF) {
+> +    if (has_channel) {
+>          gem.channel = channel;
+>          valid_flags |= CXL_GMER_VALID_CHANNEL;
+>      }
+> 
+> -    if (0 <= rank && rank <= 0xFF) {
+> +    if (has_rank) {
+>          gem.rank = rank;
+>          valid_flags |= CXL_GMER_VALID_RANK;
+>      }
+> 
+> -    if (0 <= device && device <= 0xFFFFFF) {
+> +    if (has_device) {
+>          st24_le_p(gem.device, device);
+>          valid_flags |= CXL_GMER_VALID_DEVICE;
+>      }
+> 
+> -    if (component_id && strcmp(component_id, "")) {
+> +    if (component_id) {
+>         strncpy((char *)gem.component_id, component_id,
+>                  sizeof(gem.component_id) - 1);
+>          valid_flags |= CXL_GMER_VALID_COMPONENT;
+> diff --git a/qapi/cxl.json b/qapi/cxl.json
+> index 56e85a28d7..085f82e7da 100644
+> --- a/qapi/cxl.json
+> +++ b/qapi/cxl.json
+> @@ -26,8 +26,8 @@
+>    'data': { 'path': 'str', 'log': 'uint8', 'flags': 'uint8',
+>              'physaddr': 'uint64', 'descriptor': 'uint8',
+>              'type': 'uint8', 'transactiontype': 'uint8',
+> -            'channel': 'int16', 'rank': 'int16',
+> -            'device': 'int32', 'componentid': 'str'
+> +            '*channel': 'uint8', '*rank': 'uint8',
+> +            '*device': 'uint32', '*componentid': 'str'
+>              }}
+> 
+>  ##
+> 
+> > +
+> >  ##
+> >  # @cxl-inject-poison:
+> >  #
+> > 
+> 
 
