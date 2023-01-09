@@ -2,52 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3F9662761
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:41:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E60B1662693
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:11:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pErdC-0006po-TI; Mon, 09 Jan 2023 07:52:02 -0500
+	id 1pErha-0007ta-2a; Mon, 09 Jan 2023 07:56:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pErd1-0006oS-Cq; Mon, 09 Jan 2023 07:51:53 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pErhX-0007t7-NP
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:56:31 -0500
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pErcz-0007Tu-Pc; Mon, 09 Jan 2023 07:51:51 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 99A257457E7;
- Mon,  9 Jan 2023 13:49:29 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 64964745720; Mon,  9 Jan 2023 13:49:29 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 636B7745712;
- Mon,  9 Jan 2023 13:49:29 +0100 (CET)
-Date: Mon, 9 Jan 2023 13:49:29 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-cc: qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
- Yoshinori Sato <ysato@users.sourceforge.jp>, 
- Aurelien Jarno <aurelien@aurel32.net>, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Magnus Damm <magnus.damm@gmail.com>, 
- qemu-ppc@nongnu.org
-Subject: Re: [PATCH 5/5] hw/sh4/r2d: Add the FLASH_SECTOR_SIZE definition
-In-Reply-To: <20230109120154.2868-6-philmd@linaro.org>
-Message-ID: <2dec43d6-98ca-1f79-494b-e292d1052c92@eik.bme.hu>
-References: <20230109120154.2868-1-philmd@linaro.org>
- <20230109120154.2868-6-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pErhV-0000Vb-Nv
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:56:31 -0500
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id DD7135FBC5;
+ Mon,  9 Jan 2023 15:56:18 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b685::1:3c] (unknown
+ [2a02:6b8:b081:b685::1:3c])
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ GubxKm1R50U1-2xyTcDA6; Mon, 09 Jan 2023 15:56:17 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1673268977; bh=1VgH0piQYRTPLsuyEQ2vOHsGfEDWRxag93SkGsLlZIQ=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=YLwoxXF0j5WR/3GbDbue6Z7C0INNF1o7MuhQG7OVmPVYui8SgpfvchE+4/7UPcgx0
+ bl1n3Mm/FW2A/XbyjOiRi3rWzoYKSTO+sqklDf1tba2485aOrx7gYGSY1kZw33nNFa
+ v58zuHZ42Ts/tMGimq4HDKtNatBD5lWnl+b5W/dI=
+Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <ef0016b0-c744-9d8b-59a3-145f90db9edb@yandex-team.ru>
+Date: Mon, 9 Jan 2023 15:56:16 +0300
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1959592125-1673268569=:7264"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH for-8.0] ui/vnc: fix bad address parsing
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: kraxel@redhat.com, qemu-trivial@nongnu.org,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20221206192334.65012-1-vsementsov@yandex-team.ru>
+ <6fb5f423-cb24-6214-e776-e8c27920240c@linaro.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <6fb5f423-cb24-6214-e776-e8c27920240c@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,53 +79,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 12/6/22 23:12, Philippe Mathieu-Daudé wrote:
+> I was pretty sure we had a helper for that, but can't find any.
 
---3866299591-1959592125-1673268569=:7264
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
 
-On Mon, 9 Jan 2023, Philippe Mathieu-Daudé wrote:
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
-> hw/sh4/r2d.c | 7 ++++---
-> 1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
-> index b3667e9b12..6e0c65124a 100644
-> --- a/hw/sh4/r2d.c
-> +++ b/hw/sh4/r2d.c
-> @@ -45,7 +45,8 @@
-> #include "hw/block/flash.h"
->
-> #define FLASH_BASE 0x00000000
-> -#define FLASH_SIZE (16 * MiB)
-> +#define FLASH_SIZE          (16 * MiB)
-> +#define FLASH_SECTOR_SIZE   (128 * KiB)
+is uri_parse() from util/uri.c appropriate?
 
-I'm not a fan of single use defines when it makes harder to see what value 
-is used than using a constant. This one is border line case as the 
-pflash_cfi02_register() function has so many arguments that it's not clear 
-which is which but I'm not sure it worth the churn but I don't care too 
-much either.
+-- 
+Best regards,
+Vladimir
 
-Regards,
-BALATON Zoltan
-
-> #define SDRAM_BASE          (192 * MiB) /* Physical location of SDRAM: Area 3 */
-> #define SDRAM_SIZE          (64 * MiB)
-> @@ -304,8 +305,8 @@ static void r2d_init(MachineState *machine)
->     dinfo = drive_get(IF_PFLASH, 0, 0);
->     pflash_cfi02_register(0x0, "r2d.flash", FLASH_SIZE,
->                           dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
-> -                          64 * KiB, 1, 2, 0x0001, 0x227e, 0x2220, 0x2200,
-> -                          0x555, 0x2aa, 0);
-> +                          FLASH_SECTOR_SIZE, 1, 2,
-> +                          0x0001, 0x227e, 0x2220, 0x2200, 0x555, 0x2aa, 0);
->
->     /* NIC: rtl8139 on-board, and 2 slots. */
->     for (i = 0; i < nb_nics; i++)
->
---3866299591-1959592125-1673268569=:7264--
 
