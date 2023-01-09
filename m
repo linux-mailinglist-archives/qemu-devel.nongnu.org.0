@@ -2,53 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DBB8662568
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:22:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED16662574
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:24:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEr7R-0006hi-D3; Mon, 09 Jan 2023 07:19:13 -0500
+	id 1pEr7X-0006nW-ST; Mon, 09 Jan 2023 07:19:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
- id 1pEr7N-0006eC-PW
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:19:09 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pEr7Q-0006kD-Os
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:19:13 -0500
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
- id 1pEr7L-0003Hi-FJ
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:19:09 -0500
-Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NrCcp4xtgznVCN;
- Mon,  9 Jan 2023 20:17:30 +0800 (CST)
-Received: from localhost.localdomain (10.175.124.27) by
- dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Mon, 9 Jan 2023 20:19:03 +0800
-To: <qemu-devel@nongnu.org>
-CC: <quintela@redhat.com>, <dgilbert@redhat.com>, <yubihong@huawei.com>,
- <xiexiangyou@huawei.com>, <zhengchuan@huawei.com>, <linyilu@huawei.com>,
- <jiangjiacheng@huawei.com>
-Subject: [RESEND PATCH 2/2] migration: report multiFd related thread pid to
- libvirt
-Date: Mon, 9 Jan 2023 20:12:35 +0800
-Message-ID: <20230109121235.2666476-3-jiangjiacheng@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20230109121235.2666476-1-jiangjiacheng@huawei.com>
-References: <20230109121235.2666476-1-jiangjiacheng@huawei.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pEr7O-0003Hj-Po
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:19:12 -0500
+Received: from myt6-23a5e62c0090.qloud-c.yandex.net
+ (myt6-23a5e62c0090.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id B8D685FE97;
+ Mon,  9 Jan 2023 15:19:03 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b685::1:3c] (unknown
+ [2a02:6b8:b081:b685::1:3c])
+ by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 2JbOgH2RRW21-lJUDHt5n; Mon, 09 Jan 2023 15:19:02 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1673266742; bh=AfV8sJOJTsNYxLxMrquL2gOSempm8JF4FmvD0Hpd7Qo=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=sDBJQ4kputQODtYeSXt+gJyeHGFp0w7HIXhCiVrbaRkQ19O4BDYwF3gCnfiDVNnwN
+ QWmuGxKBlU3eeEy78o4nFNO+sJl4C2aGoQIj/jHZ3vVZLFybWSgtmfVkyio8Rs2M1u
+ 63oPgVUro6Wa3I4Y+pmxGRga+b+1ysZwsxaYGNOY=
+Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <729ff4f0-6c98-0ae6-d60b-93b5ad1fbcf5@yandex-team.ru>
+Date: Mon, 9 Jan 2023 15:19:02 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.124.27]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml500022.china.huawei.com (7.185.36.66)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=jiangjiacheng@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] shpc: disallow unplug when power indicator is blinking
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: marcel.apfelbaum@gmail.com, mst@redhat.com, kraxel@redhat.com
+References: <20221116214458.82090-1-vsementsov@yandex-team.ru>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20221116214458.82090-1-vsementsov@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,66 +72,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jiang Jiacheng <jiangjiacheng@huawei.com>
-From:  Jiang Jiacheng via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Zheng Chuan <zhengchuan@huawei.com>
+ping
 
-Report multiFd related thread pid to libvirt in order to
-pin multiFd thread to different cpu.
----
- migration/multifd.c |  4 ++++
- qapi/migration.json | 12 ++++++++++++
- 2 files changed, 16 insertions(+)
-
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 000ca4d4ec..f3f7e8ae31 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -17,6 +17,7 @@
- #include "exec/ramblock.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-events-migration.h"
- #include "ram.h"
- #include "migration.h"
- #include "socket.h"
-@@ -650,6 +651,9 @@ static void *multifd_send_thread(void *opaque)
-     int ret = 0;
-     bool use_zero_copy_send = migrate_use_zero_copy_send();
- 
-+    /* report multifd thread pid to libvirt */
-+    qapi_event_send_migration_multifd_pid(qemu_get_thread_id());
-+
-     trace_multifd_send_thread_start(p->id);
-     rcu_register_thread();
- 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index aafc940617..33fc319329 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1286,6 +1286,18 @@
- { 'event': 'MIGRATION_PASS',
-   'data': { 'pass': 'int' } }
- 
-+##
-+# @MIGRATION_MULTIFD_PID:
-+#
-+# Emitted when multifd thread appear
-+#
-+# @pid: pid of multifd thread
-+#
-+# Since: 7.2
-+##
-+{ 'event': 'MIGRATION_MULTIFD_PID',
-+  'data': { 'pid': 'int' } }
-+
- ##
- # @MIGRATION_PID:
- #
 -- 
-2.33.0
+Best regards,
+Vladimir
 
 
