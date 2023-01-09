@@ -2,69 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B640266291F
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:54:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2CC2662917
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:53:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEtOL-0002Ql-Qs; Mon, 09 Jan 2023 09:44:49 -0500
+	id 1pEtW6-0005OP-GY; Mon, 09 Jan 2023 09:52:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pEtOI-0002Q1-UJ
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:44:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1pEtW3-0005Kh-2z; Mon, 09 Jan 2023 09:52:47 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pEtOH-0007Xb-6V
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:44:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673275484;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=yMloKxmUSArezKXuyLYDo6aqshfD8TmurnNTTr/1qas=;
- b=X4tpX2A5zVJs2yE00HsP5OVEmAmvj3fTXS/pl5njxe2kfpfRD538ii9etdCdJSLHsTHPVc
- AM1Jr8QeiKzdbjCeGiEQTJK+XHCivK53I7mhuwwoNoBE+J/PEKN25Bu48P50NJ422pCvw2
- oBcxle7hX2UjfbXkQyzTt8Iwl6GBHx8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-425-MXdg0jz3ONmdgXHYkvQBxA-1; Mon, 09 Jan 2023 09:44:41 -0500
-X-MC-Unique: MXdg0jz3ONmdgXHYkvQBxA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D95118E0921;
- Mon,  9 Jan 2023 14:44:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.37.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 63A7A492B00;
- Mon,  9 Jan 2023 14:44:38 +0000 (UTC)
-Date: Mon, 9 Jan 2023 14:44:32 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Jiang Jiacheng <jiangjiacheng@huawei.com>
-Cc: qemu-devel@nongnu.org, yubihong@huawei.com, xiexiangyou@huawei.com,
- zhengchuan@huawei.com, linyilu@huawei.com
-Subject: Re: [PATCH 2/2] migration: report multiFd related thread pid to
- libvirt
-Message-ID: <Y7woUMY8dtVWzTlJ@redhat.com>
-References: <20230109111631.2386894-1-jiangjiacheng@huawei.com>
- <20230109111631.2386894-3-jiangjiacheng@huawei.com>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1pEtW0-0003fO-MC; Mon, 09 Jan 2023 09:52:46 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 309E0KWi005345; Mon, 9 Jan 2023 14:52:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : from : to : cc : references : subject : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=6TeXVBxDfEcgflVjHwCkhSXgN08UOeOt0Nf+3m9FVys=;
+ b=U8z4w0V2zds3xWoJkb0JnUGgDUUzFpxp5CG51ZgZdpzTMxY/dZ085Iu92ojFLxyFMWwh
+ 0Gf16Ew2BuKymTFDgHnfCOErYd9tsBpc151vUgLhLiNtl6jviNY25fcvSsMyMcNAsyqL
+ Yogu8Y1XV6rmRJfEVrmPGYe7pP/gmM7/6fVmTxcGghwufd2Qjqv8re6lQszKheMkBlRo
+ MAtLLAp+YVIIbgNh5chAXCvzmuQsYijiGg2jjTTDawxMrwKM2okowM/Gxn5gGGe9gcnT
+ rYLL4XNYlNPtLx1CbKPM0qjXLZ4a+KBwxYCD9wPw1+0o0YRyOLNRRkf8HR1QjIIwSe8n jg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3myjgdrf9g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Jan 2023 14:52:40 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 309EFvlm008259;
+ Mon, 9 Jan 2023 14:52:39 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3myjgdrf8m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Jan 2023 14:52:39 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3095oZit029843;
+ Mon, 9 Jan 2023 14:52:37 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3my00fj7vw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Jan 2023 14:52:36 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 309EqXqP52298066
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 9 Jan 2023 14:52:33 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 48B3F20040;
+ Mon,  9 Jan 2023 14:52:33 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C5DC320043;
+ Mon,  9 Jan 2023 14:52:32 +0000 (GMT)
+Received: from [9.171.16.4] (unknown [9.171.16.4])
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon,  9 Jan 2023 14:52:32 +0000 (GMT)
+Message-ID: <a6aa35a8-c3fe-47d8-3a80-38cb8d94fdba@linux.ibm.com>
+Date: Mon, 9 Jan 2023 15:52:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230109111631.2386894-3-jiangjiacheng@huawei.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Content-Language: en-US
+From: Janosch Frank <frankja@linux.ibm.com>
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>
+References: <20230106075330.3662549-1-clg@kaod.org>
+ <20230106075330.3662549-4-clg@kaod.org>
+ <49bf32c7-4a44-a3c9-29b5-b6580113700c@linux.ibm.com>
+ <bc3ec4b4-1c7a-a4a9-01ea-78fca7ad10c6@kaod.org>
+ <8e04a10e-8978-494c-5d0f-2507e78134aa@linux.ibm.com>
+ <d9194b49-9841-87b5-6355-b7d5f82da6b6@kaod.org>
+ <6d121914-9add-88ab-1650-9735e1fada73@linux.ibm.com>
+ <c333500f-307b-7521-c768-99e00509dd15@redhat.com>
+ <d4ec20fc-5b68-ee04-c387-4e87428d6c7f@linux.ibm.com>
+Subject: Re: [PATCH v2 3/4] s390x/pv: Introduce a s390_pv_check() helper for
+ runtime
+In-Reply-To: <d4ec20fc-5b68-ee04-c387-4e87428d6c7f@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: rBO825rX8U-WhJd5WIwZboWdoj7VS9vi
+X-Proofpoint-ORIG-GUID: KQeWy4ZhoKDtQI4dt7Gj9jzE83O5dcCd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-09_08,2023-01-09_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 adultscore=0 mlxlogscore=999 impostorscore=0 mlxscore=0
+ priorityscore=1501 phishscore=0 clxscore=1015 bulkscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301090105
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,71 +124,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 09, 2023 at 07:16:31PM +0800, Jiang Jiacheng via wrote:
-> From: Zheng Chuan <zhengchuan@huawei.com>
-> 
-> Report multiFd related thread pid to libvirt in order to
-> pin multiFd thread to different cpu.
-> ---
->  migration/multifd.c |  4 ++++
->  qapi/migration.json | 12 ++++++++++++
->  2 files changed, 16 insertions(+)
-> 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 000ca4d4ec..f3f7e8ae31 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -17,6 +17,7 @@
->  #include "exec/ramblock.h"
->  #include "qemu/error-report.h"
->  #include "qapi/error.h"
-> +#include "qapi/qapi-events-migration.h"
->  #include "ram.h"
->  #include "migration.h"
->  #include "socket.h"
-> @@ -650,6 +651,9 @@ static void *multifd_send_thread(void *opaque)
->      int ret = 0;
->      bool use_zero_copy_send = migrate_use_zero_copy_send();
->  
-> +    /* report multifd thread pid to libvirt */
-> +    qapi_event_send_migration_multifd_pid(qemu_get_thread_id());
-> +
->      trace_multifd_send_thread_start(p->id);
->      rcu_register_thread();
->  
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index aafc940617..33fc319329 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -1286,6 +1286,18 @@
->  { 'event': 'MIGRATION_PASS',
->    'data': { 'pass': 'int' } }
->  
-> +##
-> +# @MIGRATION_MULTIFD_PID:
-> +#
-> +# Emitted when multifd thread appear
-> +#
-> +# @pid: pid of multifd thread
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'event': 'MIGRATION_MULTIFD_PID',
-> +  'data': { 'pid': 'int' } }
-
-Why do we need to have separate events instead of emitting MIGRATION_PID
-multiple times, possibly with a 'type' field if clients genuinely need
-to distinguish multifd threads.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+T24gMS85LzIzIDE1OjMxLCBKYW5vc2NoIEZyYW5rIHdyb3RlOg0KPiBPbiAxLzkvMjMgMTQ6
+NTMsIEPDqWRyaWMgTGUgR29hdGVyIHdyb3RlOg0KPj4gT24gMS85LzIzIDE0OjQ1LCBKYW5v
+c2NoIEZyYW5rIHdyb3RlOg0KPj4+IE9uIDEvOS8yMyAxNDozMCwgQ8OpZHJpYyBMZSBHb2F0
+ZXIgd3JvdGU6DQo+Pj4+IE9uIDEvOS8yMyAxMDo0OSwgSmFub3NjaCBGcmFuayB3cm90ZToN
+Cj4+Pj4+IE9uIDEvOS8yMyAxMDoyNywgQ8OpZHJpYyBMZSBHb2F0ZXIgd3JvdGU6DQo+Pj4+
+Pj4gT24gMS85LzIzIDEwOjA0LCBKYW5vc2NoIEZyYW5rIHdyb3RlOg0KPj4+Pj4+PiBPbiAx
+LzYvMjMgMDg6NTMsIEPDqWRyaWMgTGUgR29hdGVyIHdyb3RlOg0KPj4+Pj4+Pj4gRnJvbTog
+Q8OpZHJpYyBMZSBHb2F0ZXIgPGNsZ0ByZWRoYXQuY29tPg0KPj4+Pj4+Pj4NCj4+Pj4+Pj4+
+IElmIGEgc2VjdXJlIGtlcm5lbCBpcyBzdGFydGVkIGluIGEgbm9uLXByb3RlY3RlZCBWTSwg
+dGhlIE9TIHdpbGwgaGFuZw0KPj4+Pj4+Pj4gZHVyaW5nIGJvb3Qgd2l0aG91dCBnaXZpbmcg
+YSBwcm9wZXIgZXJyb3IgbWVzc2FnZSB0byB0aGUgdXNlci4NCj4+Pj4+Pj4NCj4+Pj4+Pj4g
+TW9zdCBvZiB0aGUgdGltZSB5b3Ugc2VlIG5vdGhpbmcgaW4gdGhlIGNvbnNvbGUgYmVjYXVz
+ZSBsaWJ2aXJ0IGlzIHRvbyBzbG93LiBJZiB5b3Ugc3RhcnQgdGhlIFZNIGluIHBhdXNlZCBt
+b2RlLCBhdHRhY2ggYSBjb25zb2xlIGFuZCB0aGVuIHJlc3VtZSBpdCwgdGhlbiB5b3UnbGwg
+c2VlIGEgbmljZSBlcnJvciBtZXNzYWdlLg0KPj4+Pj4+DQo+Pj4+Pj4gSWYgeW91IHdhaXQg
+bG9uZyBlbm91Z2gsIHRoZSBWTSBmYWlscyB0byBtb3VudCAvIGFuZCBmYWxscyBpbnRvIHRo
+ZSBkcmFjdXQNCj4+Pj4+PiBpbml0cmFtcy4NCj4+Pj4+DQo+Pj4+PiBJIGhhdmUgdGhlIGZl
+ZWxpbmcgdGhhdCB3ZSdyZSBub3QgdGFsa2luZyBhYm91dCB0aGUgc2FtZSB0aGluZyBoZXJl
+Lj4NCj4+Pj4gICDCoMKgID4gQSBQViBWTSBhbHdheXMgc3RhcnRzIG91dCBhcyBhIG5vbi1Q
+ViBWTSBhbmQgaXMgcHV0IGludG8gUFYgbW9kZSB2aWEgdHdvIGRpYWczMDggc3ViY29kZXMg
+KDggJiAxMCkuIEFMTCBQViBzdWJjb2RlcyAoOCAtIDEwKSBhcmUgc3BlYyBleGNlcHRpb25z
+IGlmIHRoZSBob3N0IGlzbid0IGVuYWJsZWQgZm9yIFBWLg0KPj4+Pg0KPj4+PiBUaGUgY29y
+bmVyIGNhc2UgdGhpcyBwYXRjaCBpcyB0cnlpbmcgdG8gYWRkcmVzcyBpcyBmb3IgYSBQVi1l
+bmFibGVkIGhvc3QsDQo+Pj4+IGEgc2VjdXJlIGVuYWJsZWQgT1MgYW5kICFQVi1lbmFibGVk
+IFFFTVUuDQo+Pj4+DQo+Pj4+IFBsZWFzZSBydW4gdGhpcyBjb21tYW5kIG9uIGEgc2VjdXJl
+IGRpc2sgaW1hZ2UgOg0KPj4+Pg0KPj4+PiAgIMKgwqDCoCBxZW11LXN5c3RlbS1zMzkweCAt
+TSBzMzkwLWNjdy12aXJ0aW8gLWFjY2VsIGt2bSAtZHJpdmUgZmlsZT08ZmlsZT4saWY9dmly
+dGlvLGZvcm1hdD1xY293MiAtbm9ncmFwaGljIC1ub2RlZmF1bHRzIC1zZXJpYWwgbW9uOnN0
+ZGlvDQo+Pj4+DQo+Pj4+IGFuZCB0ZWxsIG1lIHdoYXQgeW91IGdldC4NCj4+Pj4NCj4+Pg0K
+Pj4+IHFlbXUtc3lzdGVtLXMzOTB4IC1NIHMzOTAtY2N3LXZpcnRpbyAtYWNjZWwga3ZtIC1k
+cml2ZSBmaWxlPXUyMjA0LnFjb3cyLGlmPXZpcnRpbyxmb3JtYXQ9cWNvdzIgLW5vZ3JhcGhp
+YyAtbm9kZWZhdWx0cyAtc2VyaWFsIG1vbjpzdGRpbw0KPj4+IExPQURQQVJNPVvCoMKgwqDC
+oMKgwqDCoCBdDQo+Pj4gVXNpbmcgdmlydGlvLWJsay4NCj4+PiBVc2luZyBTQ1NJIHNjaGVt
+ZS4NCj4+PiAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
+Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
+Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLg0KPj4+IFNlY3VyZSB1bnBhY2sgZmFjaWxpdHkg
+aXMgbm90IGF2YWlsYWJsZQ0KPj4NCj4+IFllcy4gVGhhdCdzIHdpdGggYSAhUFYtZW5hYmxl
+ZCBob3N0LiBDb3JyZWN0ID8NCj4+DQo+PiBDYW4geW91IHRyeSB3aXRoIHByb3RfdmlydD0x
+IG9uIHRoZSBob3N0IHBsZWFzZSA/DQo+IA0KPiBXaXRoIHByb3RfdmlydD0xIGl0IGJvb3Rz
+IHVudGlsIGl0IGRvZXNuJ3QgZmluZCB0aGUgZmlsZSBzeXN0ZW0gKGF0DQo+IGxlYXN0IGlm
+IHlvdSBnaXZlIGl0IGEgYml0IG1vcmUgbWVtb3J5IHRoYW4gdGhlIHN0YW5kYXJkIDI1Nk1C
+KToNCj4gDQo+IHFlbXUtc3lzdGVtLXMzOTB4IC1NIHMzOTAtY2N3LXZpcnRpbyAtYWNjZWwg
+a3ZtIC1kcml2ZQ0KPiBmaWxlPXUyMjA0LnFjb3cyLGlmPXZpcnRpbyxmb3JtYXQ9cWNvdzIg
+LW5vZ3JhcGhpYyAtbm9kZWZhdWx0cyAtc2VyaWFsDQo+IG1vbjpzdGRpbyAtbSA0MDk2DQo+
+IFtMaW51eCBib290IHN0dWZmXQ0KPiBBTEVSVCEgIC9kZXYvZGlzay9ieS1wYXRoL2Njdy0w
+LjAuMDAwMC1wYXJ0MSBkb2VzIG5vdCBleGlzdC4gIERyb3BwaW5nDQo+IHRvIGEgc2hlbGwh
+DQo+IA0KDQpJLmUuIGl0IGJvb3RzIGludG8gc2VjdXJlIG1vZGUganVzdCBmaW5lLg0KDQpO
+b3cgaWYgeW91IGFkZCBpb21tdV9wbGF0Zm9ybT10cnVlIHRvIHRoZSBkZXZpY2UgdGhlbiBp
+dCdsbCBldmVuIGJvb3QgDQpmcm9tIGRpc2suDQoNClNvIHdlJ2QgcmF0aGVyIG5lZWQgYW4g
+ZXJyb3IgbWVzc2FnZSBpZiB5b3UgYXR0YWNoIGEgZGV2aWNlIHdpdGhvdXQgdGhlIA0KaW9t
+bXUgYmVpbmcgc2V0IHRvIHRydWUuIFRoZSB3aG9sZSB0b3BpYyBvZiBQViBpb21tdSBwcm9i
+bGVtcyBoYXMgYSBmZXcgDQp3aW5kaW5ncyB3aGljaCBJIGRvbid0IGZ1bGx5IHdhbnQgdG8g
+YnJpbmcgdG8gZWxlY3Ryb25pYyBwYXBlciByaWdodCBub3cuDQoNCkVpdGhlciB5b3Ugc3Rh
+cnQgYSBzZWN1cmUgZ3Vlc3QgdGhhdCBoYXMgZGV2aWNlcyB3aXRoIG1hbnVhbCBpb21tdSAN
+CmVudHJpZXMgb3IgeW91IGdvIHRoZSBsYXVuY2ggc2VjdXJpdHkgcm91dGUgYW5kIGxldCBs
+aWJ2aXJ0L3FlbXUgaGFuZGxlIA0KaXQgZm9yIHlvdS4NCg==
 
