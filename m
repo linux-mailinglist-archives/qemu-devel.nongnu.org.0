@@ -2,100 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CFA9662BF2
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:00:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB77662C1E
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:05:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEvUP-0004mx-Le; Mon, 09 Jan 2023 11:59:13 -0500
+	id 1pEvZ3-00081n-9m; Mon, 09 Jan 2023 12:04:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pEvUN-0004mZ-L9
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 11:59:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pEvUL-0006Jg-JY
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 11:59:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673283548;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uxWJtwDf98FHh+dJ9IP8U9INPYTZ5AU0UFy/uiVH1m4=;
- b=bQKmo3P77pwlWpmuzgwbqC9+Z3fIeqqifhoVk+8RWu/ryhewtwZ/nmaH565lq5m6OS70UW
- U403GrP0HsJzE1569a62e+1XvVSO3JpN/XIAM4fpN2qNP50EK6LZ1Mf0JbYRqqRVWkqqJE
- 90kMW4V7YZJgaUtNjYK2bD1t3aT58tU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-27-JOTHj4PyP0OFOoAA0ZvdNA-1; Mon, 09 Jan 2023 11:59:06 -0500
-X-MC-Unique: JOTHj4PyP0OFOoAA0ZvdNA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q3-20020adfab03000000b002b32e25058dso1432467wrc.5
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 08:59:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pEvYm-0007rI-Rp
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:03:45 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pEvYk-0007gc-9R
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:03:44 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id j7so3870469wrn.9
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 09:03:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vNGDkXlHTP33TpyjFRprNS8SOHYdp9qTngXO8OmT7UI=;
+ b=fLbp0VyNC8eWnMq13Q8OR2CBJunqi5P0AWFdWj3Yq/gVWST3Obk3I376S2YvW3+tQu
+ k1NSvSP0kUvtosWn1ySWImoavC6/cuiCONznBSfI1GTQkjgPG/OJp9iOqOLU2nRtCZzN
+ DKTpAaJ7Ij2wdqCRcWP8QzdjXhbTMe4Fv1jjaT2WiIwSKB1+KMbjzw9DTa473TbNrdmd
+ vanBAZzXyZ69E12BqzwScW8gKhQAujrPwppCz+0uTXP9JnY3AKv1F/Nk+ACwzjDSzLkq
+ Axafy1c7dkKilAeQv5Pu4MRnN/DCSb+mozqEa4c/7QZvqKsN3iQOTurC0IEssyMyIFX/
+ IyuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=uxWJtwDf98FHh+dJ9IP8U9INPYTZ5AU0UFy/uiVH1m4=;
- b=RjuDVnwM1CaVLD6EWOK1Y1ApRa2ow7c4cI3KKUxZlidDsfRcni2wwXGljW1A8hOMdp
- aHPeVGivVPW7NF33ic+/nK5Wz+559shF8pqYBWfs/q5m6uZiQwXlGa7AFn8HC1m2K0ri
- 6JHOgwyLWw2WQLLiHpErxr2zuU8rx6D13anbw5L9xo/77swAWKnueQH5cz6+qe7fj/GG
- RyqeBAWdgowowGhLorn6pThOCEw2FTTt8KeR0czoOtg+SUozNMnqOn8/wKaTOs0eLZ+7
- v29a+VRrSyoFjqf6FqCWeTSzilz1NjEy0qIwDUaJiJUvirH1AyTe9S+3i7wrAgY7N2mP
- JeiQ==
-X-Gm-Message-State: AFqh2kpSDZw9kdlL9BUHEwv7AJGWDrCsj+Dx9Kttz+5VxMiA0E05um5f
- T/JcrR9bDORfTB8dK5w1XwJXiqFIXvrtY0y7axqMs9CA6tOosNmy6NK2goj9nJGdrcaWJ+VLWqQ
- tenP3Htf9i+w+x4I=
-X-Received: by 2002:a5d:6844:0:b0:2a2:5a2:cc10 with SMTP id
- o4-20020a5d6844000000b002a205a2cc10mr14007667wrw.36.1673283545603; 
- Mon, 09 Jan 2023 08:59:05 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsW9mgMzOZuPGgOFy3l3dIop5IgvpVZD7fj7GizFR9LnD9bGr/vpQWzEXhnlXREoXUe4t8Wjw==
-X-Received: by 2002:a5d:6844:0:b0:2a2:5a2:cc10 with SMTP id
- o4-20020a5d6844000000b002a205a2cc10mr14007650wrw.36.1673283545319; 
- Mon, 09 Jan 2023 08:59:05 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ bh=vNGDkXlHTP33TpyjFRprNS8SOHYdp9qTngXO8OmT7UI=;
+ b=EcfED4ESB30/nsSiTWeEF47rQCFzkLySOTqQ5VntBrjKjvc3T7vx4hPtSxLFEHsaaJ
+ eWrK3MHtHT3Pz0Zrp6wcmQQpmCwEQ95YsSI9+4Cte39K3vRNpU9lEIRALGFaBx+ZnJUZ
+ SK96EJ09i023OmMrJU5KO5dHLpbIbMpeYyJTxe5nJRGDpMX5cy1VQIIX+37i0TsZyeDE
+ aTOJ9eAX2Rt5rLJBI37Y5QXNrrPfMsUuxbJMqQpX1xfL1OWZB0dAvkyXkI6S7CGuQN+Q
+ M1MJ9ID6Yaqkps21CGRYKWPxoaXMPJlvp5HmG3PgKI5d4LKugiBEMpf3qYlWCqmpsL4N
+ 2ayg==
+X-Gm-Message-State: AFqh2koqCSxfnlV/Vb182I8um2dH+2YVq1+OBD2pxzZnUpZyyh/wieLv
+ XxgQWZd8ql0JxbCALpXsU3TnHA==
+X-Google-Smtp-Source: AMrXdXvTk4yck9HqxuPnDjEDrlWPZUcTdcNswJcqGZHlS/j5W44eo0GJgXVmxYCcuvEW3xyWn7y/qQ==
+X-Received: by 2002:adf:de04:0:b0:29a:f48:770a with SMTP id
+ b4-20020adfde04000000b0029a0f48770amr19324521wrm.40.1673283819395; 
+ Mon, 09 Jan 2023 09:03:39 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- o14-20020a5d58ce000000b002879c013b8asm9008949wrf.42.2023.01.09.08.59.04
+ l1-20020adfe9c1000000b00289bdda07b7sm8837321wrn.92.2023.01.09.09.03.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 08:59:04 -0800 (PST)
-Date: Mon, 9 Jan 2023 16:59:02 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Stefan Berger <stefanb@linux.ibm.com>, jejb@linux.ibm.com,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 2/2] tpm: add backend for mssim
-Message-ID: <Y7xH1i0Uvbo0FUwG@work-vm>
-References: <10fbda0f-7c8a-3819-fb22-34a9249ac138@linux.ibm.com>
- <b5d26ab0e54c15c408e9bae136bce969283ed5bd.camel@linux.ibm.com>
- <9fac7d95-d891-413f-93f1-18324c7943ea@linux.ibm.com>
- <a8863d1905aa427543facb68d8892af369262f19.camel@linux.ibm.com>
- <29e99f54-d5e8-b18d-08a6-d24435032272@linux.ibm.com>
- <Y5xH/0bbgFzi+G//@redhat.com>
- <a990f3c8-cca9-86ff-6995-6e49ba90f839@linux.ibm.com>
- <Y5xqgK8UXe28VZQ2@redhat.com>
- <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
- <Y5yAz0qzaIW4HwFi@redhat.com>
+ Mon, 09 Jan 2023 09:03:39 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8D9101FFB7;
+ Mon,  9 Jan 2023 17:03:38 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>
+Subject: [RFC PATCH] docs: add a proper feature overview in "About QEMU"
+Date: Mon,  9 Jan 2023 17:03:23 +0000
+Message-Id: <20230109170323.3796306-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y5yAz0qzaIW4HwFi@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,116 +98,362 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Daniel P. BerrangÈ (berrange@redhat.com) wrote:
-> On Fri, Dec 16, 2022 at 08:32:44AM -0500, Stefan Berger wrote:
-> > 
-> > 
-> > On 12/16/22 07:54, Daniel P. BerrangÈ wrote:
-> > > On Fri, Dec 16, 2022 at 07:28:59AM -0500, Stefan Berger wrote:
-> > > > 
-> > > > 
-> > > > On 12/16/22 05:27, Daniel P. BerrangÈ wrote:
-> > > > > On Thu, Dec 15, 2022 at 03:53:43PM -0500, Stefan Berger wrote:
-> > > > > > 
-> > > > > > 
-> > > > > > On 12/15/22 15:30, James Bottomley wrote:
-> > > > > > > On Thu, 2022-12-15 at 15:22 -0500, Stefan Berger wrote:
-> > > > > > > > On 12/15/22 15:07, James Bottomley wrote:
-> > > > > > > [...]
-> > > > > > > > > don't really have much interest in the migration use case, but I
-> > > > > > > > > knew it should work like the passthrough case, so that's what I
-> > > > > > > > > tested.
-> > > > > > > > 
-> > > > > > > > I think your device needs to block migrations since it doesn't handle
-> > > > > > > > all migration scenarios correctly.
-> > > > > > > 
-> > > > > > > Passthrough doesn't block migrations either, presumably because it can
-> > > > > > > also be made to work if you know what you're doing.  I might not be
-> > > > > > 
-> > > > > > Don't compare it to passthrough, compare it to swtpm. It should
-> > > > > > have at least the same features as swtpm or be better, otherwise
-> > > > > > I don't see why we need to have the backend device in the upstream
-> > > > > > repo.
-> > > > > 
-> > > > > James has explained multiple times that mssim is a beneficial
-> > > > > thing to support, given that it is the reference implementation
-> > > > > of TPM2. Requiring the same or greater features than swtpm is
-> > > > > an unreasonable thing to demand.
-> > > > 
-> > > > Nevertheless it needs documentation and has to handle migration
-> > > > scenarios either via a blocker or it has to handle them all
-> > > > correctly. Since it's supposed to be a TPM running remote you
-> > > > had asked for TLS support iirc.
-> > > 
-> > > If the mssim implmentation doesn't provide TLS itself, then I don't
-> > > consider that a blocker on the QEMU side, merely a nice-to-have.
-> > > 
-> > > With swtpm the control channel is being used to load and store state
-> > > during the migration dance. This makes the use of an external process
-> > > largely transparent to the user, since QEMU handles all the state
-> > > save/load as part of its migration data stream.
-> > > 
-> > > With mssim there is state save/load co-ordination with QEMU. Instead
-> > > whomever/whatever is managing the mssim instance, is responsible for
-> > > ensuring it is running with the correct state at the time QEMU does
-> > > a vmstate load. If doing a live migration this co-ordination is trivial
-> > > if you just use the same mssim instance for both src/dst to connect to.
-> > > 
-> > > If doing save/store to disk, the user needs to be able to save the mssim
-> > > state and load it again later. If doing snapshots and reverting to old
-> > 
-> > There is no way for storing and loading the *volatile state* of the
-> > mssim device.
-> > 
-> > > snapshots, then again whomever manages mssim needs to be keeping saved
-> > > TPM state corresponding to each QEMU snapshot saved, and picking the
-> > > right one when restoring to old snapshots.
-> > 
-> > This doesn't work.
-> > Either way, if it's possible it can be documented and shown how this works.
-> > 
-> > > 
-> > > QEMU exposes enough functionality to enable a mgmt app / admin us> achieve all of this.
-> > 
-> > How do you store the volatile state of this device, like the current
-> > state of the PCRs, loaded sessions etc? It doesn't support this.
-> > 
-> > > 
-> > > This is not as seemlessly integrated with swtpm is, but it is still
-> > > technically posssible todo the right thing with migration from QEMU's
-> > > POV. Whether or not the app/person managing mssim instance actually
-> > > does the right thing in practice is not a concern of QEMU. I don't
-> > > see a need for a migration blocker here.
-> > 
-> > I do see it because the *volatile state* cannot be extracted from
-> > this device. The state of the PCRs is going to be lost.
-> 
-> All the objections you're raising are related to the current
-> specifics of the implementation of the mssim remote server.
-> While valid, this is of no concern to QEMU when deciding whether
-> to require a migration blocker on the client side. This is 3rd
-> party remote service that should be considered a black box from
-> QEMU's POV. It is possible to write a remote server that supports
-> the mssim network protocol, and has the ability to serialize
-> its state. Whether such an impl exists today or not is separate.
+I decide to do this because I was looking for the best place to add a
+reference to a document on semihosting and there didn't seem to be
+an obvious place to do this. To do this I took the original pre-amble
+to the about index and moved it to its own section, expanding the
+description and giving a quick high level overview of some of the key
+feature of QEMU.
 
-We would normally want an example of a working implementation though
-wouldn't we?
+Signed-off-by: Alex Benn√©e <alex.bennee@linaro.org>
+---
+ docs/about/features.rst       | 236 ++++++++++++++++++++++++++++++++++
+ docs/about/index.rst          |  16 +--
+ docs/devel/tcg-plugins.rst    |   2 +
+ docs/system/arm/emulation.rst |   2 +
+ docs/system/index.rst         |   2 +
+ docs/system/multi-process.rst |   2 +
+ docs/tools/index.rst          |   2 +
+ docs/user/index.rst           |   2 +
+ 8 files changed, 249 insertions(+), 15 deletions(-)
+ create mode 100644 docs/about/features.rst
 
-So I think it's fair to at least want some documentation; if it can be
-documented and works, fine; if it doesn't work, then it needs a blocker.
-
-Dave
-
-> With regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
-> 
+diff --git a/docs/about/features.rst b/docs/about/features.rst
+new file mode 100644
+index 0000000000..037234c10a
+--- /dev/null
++++ b/docs/about/features.rst
+@@ -0,0 +1,236 @@
++Features
++========
++
++Virtualisation
++--------------
++
++The most common use case for QEMU is to provide a virtual model of a
++machine (CPU, memory and emulated devices) to run a guest OS. It
++supports a number of hypervisors (known as accelerators) as well as a
++dynamic JIT known as the Tiny Code Generator (TCG) capable of
++emulating many CPUs.
++
++.. list-table:: Supported Accelerators
++  :header-rows: 1
++
++  * - Accelerator
++    - Host OS
++    - Host Architectures
++  * - KVM
++    - Linux
++    - Arm (64 bit only), MIPS, PPC, RISC-V, s390x, x86
++  * - Xen
++    - Linux (as dom0)
++    - Arm, x86
++  * - Intel HAXM (hax)
++    - Linux, Windows
++    - x86
++  * - Hypervisor Framework (hvf)
++    - MacOS
++    - x86 (64 bit only), Arm (64 bit only)
++  * - Windows Hypervisor Platform (wphx)
++    - Windows
++    - x86
++  * - NetBSD Virtual Machine Monitor (nvmm)
++    - NetBSD
++    - x86
++  * - Tiny Code Generator (tcg)
++    - Linux, other POSIX, Windows, MacOS
++    - Arm, x86, Loongarch64, MIPS, PPC, s390x, Sparc64, TCI [#tci]_
++
++.. [#tci] The Tiny Code Interpreter (TCI) can be used where there is no
++          explicit support for a processor backend. It will be even
++          slower than normal TCG guests.
++
++Related features
++~~~~~~~~~~~~~~~~
++
++System emulation provides a wide range of device models to emulate
++various hardware components you may want to add to your machine. This
++includes a wide number of VirtIO devices which are specifically tuned
++for efficient operation under virtualisation. Some of the device
++emulation can be offloaded from the main QEMU process using either
++vhost-user (for VirtIO) or :ref:`Multi-process QEMU`. If the platform
++supports it QEMU also supports directly passing devices through to
++guest VMs to eliminate the device emulation overhead. See
++:ref:`device-emulation` for more details.
++
++There is a full featured block layer allows for construction of
++complex storage typologies which can be stacked across multiple layers
++supporting redirection, networking, snapshots and migration support.
++
++The flexible ``chardev`` system allows for handling IO from character
++like devices using stdio, files, unix sockets and TCP networking.
++
++QEMU provides a number of management interfaces including a line based
++Human Monitor Protocol (HMP) that allows you to dynamically add and
++remove devices as well as introspect the system state. The QEMU
++Monitor Protocol (QMP) is a well defined, versioned, machine usable
++API that presents a rich interface to other tools to create, control
++and manage Virtual Machines. This is the interface used by higher
++level tools interfaces such as `Virt Manager
++<https://virt-manager.org/>`_ using the `libvirt framework
++<https://libvirt.org>`_. Using some sort of management layer to
++configure complex QEMU setups is recommended.
++
++For the common accelerators QEMU supported debugging with its
++:ref:`gdbstub<GDB usage>` which allows users to connect GDB and debug
++system software images.
++
++See the :ref:`System Emulation` section of the manual for full details
++of how to run QEMU as a VMM.
++
++Emulation
++---------
++
++As alluded to above QEMU's Tiny Code Generator (TCG) also has the
++ability to emulate a number of CPU architectures on any supported
++platform. This can either be using full system emulation or using its
++"user mode emulation" support to run user space processes compiled for
++one CPU on another CPU.
++
++See `User Mode Emulation` for more details on running in this mode.
++
++.. list-table:: Supported Guest Architectures for Emulation
++  :widths: 30 10 10 50
++  :header-rows: 1
++
++  * - Architecture (qemu name)
++    - System
++    - User-mode
++    - Notes
++  * - Alpha
++    - Yes
++    - Yes
++    - Legacy 64 bit RISC ISA developed by DEC
++  * - Arm (arm, aarch64)
++    - Yes
++    - Yes
++    - Wide range of features, see :ref:`Arm Emulation` for details
++  * - AVR
++    - Yes
++    - No
++    - 8 bit micro controller, often used in maker projects
++  * - Cris
++    - Yes
++    - Yes
++    - Embedded RISC chip developed by AXIS
++  * - Hexagon
++    - No
++    - Yes
++    - Family of DSPs by Qualcomm
++  * - PA-RISC (hppa)
++    - Yes
++    - Yes
++    - A legacy RISC system used in HPs old minicomputers
++  * - x86 (i386, x86_64)
++    - Yes
++    - Yes
++    - The ubiquitous desktop PC CPU architecture, 32 and 64 bit.
++  * - Loongarch
++    - Yes
++    - Yes
++    - A MIPs-like 64bit RISC architecture developed in China
++  * - m68k
++    - Yes
++    - Yes
++    - Motorola 68000 variants and ColdFire
++  * - Microblaze
++    - Yes
++    - Yes
++    - RISC based soft-core by Xilinx
++  * - MIPS (mips, mipsel, mips64, mips64el)
++    - Yes
++    - Yes
++    - Venerable RISC architecture originally out of Stanford University
++  * - Nios2
++    - Yes
++    - Yes
++    - 32 bit embedded soft-core by Altera
++  * - OpenRISC
++    - Yes
++    - Yes
++    - Open source RISC architecture developed by the OpenRISC community
++  * - Power (ppc, ppc64)
++    - Yes
++    - Yes
++    - A general purpose RISC architecture now managed by IBM
++  * - RISC-V
++    - Yes
++    - Yes
++    - An open standard RISC ISA maintained by RISC-V International
++  * - RX
++    - Yes
++    - No
++    - A 32 bit micro controller developed by Renesas
++  * - s390x
++    - Yes
++    - Yes
++    - A 64 bit CPU found in IBM's System Z mainframes
++  * - sh4
++    - Yes
++    - Yes
++    - A 32 bit RISC embedded CPU developed by Hitachi
++  * - SPARC (sparc, sparc64)
++    - Yes
++    - Yes
++    - A RISC ISA originally developed by Sun Microsystems
++  * - Tricore
++    - Yes
++    - No
++    - A 32 bit RISC/uController/DSP developed by Infineon
++  * - Xtensa
++    - Yes
++    - Yes
++    - A configurable 32 bit soft core now owned by Cadence
++
++Semi-hosting
++~~~~~~~~~~~~
++
++A number of guest architecture support semi-hosting which provides a
++way for guest programs to access the host system though a POSIX-like
++system call layer. This has applications for early software bring-up
++making it easy for a guest to dump data or read configuration files
++before a full operating system is implemented.
++
++Some of those guest architectures also support semi-hosting in
++user-mode making the testing of "bare-metal" micro-controller code
++easy in a user-mode environment that doesn't have a full libc port.
++
++Deterministic Execution with Record/Replay
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++For system emulation QEMU offers a execution mode called ``icount``
++which allows for guest time to be purely a function of the number of
++instructions executed. Combined with snapshots and a logging of HW
++events a deterministic execution can be recorded and played back at
++will.
++
++gdbstub
++~~~~~~~
++
++Under emulation the :ref:`gdbstub<GDB usage>` is fully supported and
++takes advantage of the implementation to support unlimited breakpoints
++in the guest code. For system emulation we also support an unlimited
++number of memory based watchpoints as well as integration with
++record/replay to support reverse debugging.
++
++
++TCG Plugins
++~~~~~~~~~~~
++
++In any emulation execution mode you can write :ref:`TCG Plugins` which
++can instrument the guest code as it executes to a per-instruction
++granularity. This is useful for writing tools to analyse the real
++world execution behaviour of your programs.
++
++Tools
++-----
++
++QEMU also provides a number of standalone commandline utilities, such
++as the ``qemu-img`` disk image utility that allows you to create,
++convert and modify disk images. While most are expected to be used in
++conjunction with QEMU itself some can also be used with other VMMs
++that support the same interfaces.
++
++See :ref:`Tools` for more details.
+diff --git a/docs/about/index.rst b/docs/about/index.rst
+index 5bea653c07..6949e6dc93 100644
+--- a/docs/about/index.rst
++++ b/docs/about/index.rst
+@@ -4,24 +4,10 @@ About QEMU
+ 
+ QEMU is a generic and open source machine emulator and virtualizer.
+ 
+-QEMU can be used in several different ways. The most common is for
+-"system emulation", where it provides a virtual model of an
+-entire machine (CPU, memory and emulated devices) to run a guest OS.
+-In this mode the CPU may be fully emulated, or it may work with
+-a hypervisor such as KVM, Xen, Hax or Hypervisor.Framework to
+-allow the guest to run directly on the host CPU.
+-
+-The second supported way to use QEMU is "user mode emulation",
+-where QEMU can launch processes compiled for one CPU on another CPU.
+-In this mode the CPU is always emulated.
+-
+-QEMU also provides a number of standalone commandline utilities,
+-such as the ``qemu-img`` disk image utility that allows you to create,
+-convert and modify disk images.
+-
+ .. toctree::
+    :maxdepth: 2
+ 
++   features
+    build-platforms
+    deprecated
+    removed-features
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 9740a70406..81dcd43a61 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -3,6 +3,8 @@
+    Copyright (c) 2019, Linaro Limited
+    Written by Emilio Cota and Alex Benn√©e
+ 
++.. _TCG Plugins:
++
+ QEMU TCG Plugins
+ ================
+ 
+diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
+index b33d7c28dc..b87e064d9d 100644
+--- a/docs/system/arm/emulation.rst
++++ b/docs/system/arm/emulation.rst
+@@ -1,3 +1,5 @@
++.. _Arm Emulation:
++
+ A-profile CPU architecture support
+ ==================================
+ 
+diff --git a/docs/system/index.rst b/docs/system/index.rst
+index e3695649c5..282b6ffb56 100644
+--- a/docs/system/index.rst
++++ b/docs/system/index.rst
+@@ -1,3 +1,5 @@
++.. _System Emulation:
++
+ ----------------
+ System Emulation
+ ----------------
+diff --git a/docs/system/multi-process.rst b/docs/system/multi-process.rst
+index 210531ee17..16f0352416 100644
+--- a/docs/system/multi-process.rst
++++ b/docs/system/multi-process.rst
+@@ -1,3 +1,5 @@
++.. _Multi-process QEMU:
++
+ Multi-process QEMU
+ ==================
+ 
+diff --git a/docs/tools/index.rst b/docs/tools/index.rst
+index 1edd5a8054..2151adcf78 100644
+--- a/docs/tools/index.rst
++++ b/docs/tools/index.rst
+@@ -1,3 +1,5 @@
++.. _Tools:
++
+ -----
+ Tools
+ -----
+diff --git a/docs/user/index.rst b/docs/user/index.rst
+index 2c4e29f3db..782d27cda2 100644
+--- a/docs/user/index.rst
++++ b/docs/user/index.rst
+@@ -1,3 +1,5 @@
++.. _User Mode Emulation:
++
+ -------------------
+ User Mode Emulation
+ -------------------
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.34.1
 
 
