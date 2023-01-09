@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08AA663435
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CF866343D
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:46:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF0r9-00047f-Uq; Mon, 09 Jan 2023 17:43:03 -0500
+	id 1pF0rF-0004Cq-Ab; Mon, 09 Jan 2023 17:43:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pF0r8-00046g-JB; Mon, 09 Jan 2023 17:43:02 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ id 1pF0rC-00048s-BB; Mon, 09 Jan 2023 17:43:06 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pF0r6-00041c-Su; Mon, 09 Jan 2023 17:43:02 -0500
+ id 1pF0rA-000425-2C; Mon, 09 Jan 2023 17:43:06 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8C3704D368;
- Mon,  9 Jan 2023 22:42:59 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 906DE3F9BF;
+ Mon,  9 Jan 2023 22:43:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673304179; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ t=1673304182; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zmK4Ea/HaIadAjuTHVjNYSm3Ct4FOeHVNr26BCQ9nXw=;
- b=yIVIDKnxNTIQkV0AOn9T8AB7ycAHjHE0rb4fOWA0r0YuGZwnF89Izk4JJ1RI1JO0alNLv5
- du3vA6XVteNb4FT+cRrvFY6iX0ANjxe0vFPfqFaqQSvQM7UkCD47sMZVXjN4AaDsesQcbD
- 08rK6PVthgncRejhk8fjyYFH40iLnc8=
+ bh=sG/6HUvkCgEta+b0aAU3bFfLkmRWUJOwE35xCvrY564=;
+ b=wnc8vp4UwwVWcAWWrISs0rKC6frLTptKRKcSpMhxu9RztKy4G4A1PDjTEcDIpL22QXWqZR
+ DXdYBXjHkC9/G5Rc5+zZuyB6InrxdKsKHWmCHK4NvQacrRzuWkiCKnJIEPiVFoowLHvd/q
+ f+XMPInfDah06hAiOpkvfAWSwX9qOEQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673304179;
+ s=susede2_ed25519; t=1673304182;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zmK4Ea/HaIadAjuTHVjNYSm3Ct4FOeHVNr26BCQ9nXw=;
- b=MgHR6q0geCCn0qxHOwnhQFsLgP9tWECxDJ4J4BmfWjTsp3Mat7uGplVxQa34dL86qmLsyX
- zxuJDc3yRuzgoZCg==
+ bh=sG/6HUvkCgEta+b0aAU3bFfLkmRWUJOwE35xCvrY564=;
+ b=adybg3gWytn6Wn9DakOIeM5b7JIKYqLXwwT3MUlRM3jnikiy9jcxAG/ioGBEwTX3yEyxcU
+ fh8zhhP+mSms7yAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EEC0A13583;
- Mon,  9 Jan 2023 22:42:56 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F11F313583;
+ Mon,  9 Jan 2023 22:42:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id oJaRLXCYvGMdIQAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 09 Jan 2023 22:42:56 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id MOQSLnOYvGMdIQAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 09 Jan 2023 22:42:59 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,16 +57,16 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-Subject: [RFC PATCH v2 07/19] target/arm: Move helper_set_pstate_* into
- cpregs.c
-Date: Mon,  9 Jan 2023 19:42:20 -0300
-Message-Id: <20230109224232.11661-8-farosas@suse.de>
+Subject: [RFC PATCH v2 08/19] target/arm: move translate modules to tcg/
+Date: Mon,  9 Jan 2023 19:42:21 -0300
+Message-Id: <20230109224232.11661-9-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230109224232.11661-1-farosas@suse.de>
 References: <20230109224232.11661-1-farosas@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
  helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -90,97 +90,280 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We want to move sme_helper into the tcg directory, but the cpregs
-accessor functions cannot go along, otherwise they would be separate
-from the respective ARMCPRegInfo definition which needs to be compiled
-with CONFIG_TCG=n as well.
+Introduce the target/arm/tcg directory. Its purpose is to hold the TCG
+code that is selected by CONFIG_TCG.
 
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/arm/cpregs.c     | 29 +++++++++++++++++++++++++++++
- target/arm/sme_helper.c | 29 -----------------------------
- 2 files changed, 29 insertions(+), 29 deletions(-)
+I also moved translate-{m-nocp,mve,neon,vfp,sme}.c
 
-diff --git a/target/arm/cpregs.c b/target/arm/cpregs.c
-index 88d71dbe70..a6deae9926 100644
---- a/target/arm/cpregs.c
-+++ b/target/arm/cpregs.c
-@@ -6633,6 +6633,35 @@ static CPAccessResult access_esm(CPUARMState *env, const ARMCPRegInfo *ri,
-     return CP_ACCESS_OK;
- }
+Originally from:
+https://lore.kernel.org/r/20210416162824.25131-2-cfontana@suse.de
+[RFC v14 01/80] target/arm: move translate modules to tcg/
+---
+ MAINTAINERS                             |  1 +
+ target/arm/meson.build                  | 30 ++++-------------------
+ target/arm/{ => tcg}/a32-uncond.decode  |  0
+ target/arm/{ => tcg}/a32.decode         |  0
+ target/arm/{ => tcg}/m-nocp.decode      |  0
+ target/arm/tcg/meson.build              | 32 +++++++++++++++++++++++++
+ target/arm/{ => tcg}/mve.decode         |  0
+ target/arm/{ => tcg}/neon-dp.decode     |  0
+ target/arm/{ => tcg}/neon-ls.decode     |  0
+ target/arm/{ => tcg}/neon-shared.decode |  0
+ target/arm/{ => tcg}/sme-fa64.decode    |  0
+ target/arm/{ => tcg}/sme.decode         |  0
+ target/arm/{ => tcg}/sve.decode         |  0
+ target/arm/{ => tcg}/t16.decode         |  0
+ target/arm/{ => tcg}/t32.decode         |  0
+ target/arm/{ => tcg}/translate-a64.c    |  0
+ target/arm/{ => tcg}/translate-a64.h    |  0
+ target/arm/{ => tcg}/translate-m-nocp.c |  0
+ target/arm/{ => tcg}/translate-mve.c    |  0
+ target/arm/{ => tcg}/translate-neon.c   |  0
+ target/arm/{ => tcg}/translate-sme.c    |  0
+ target/arm/{ => tcg}/translate-sve.c    |  0
+ target/arm/{ => tcg}/translate-vfp.c    |  0
+ target/arm/{ => tcg}/translate.c        |  0
+ target/arm/{ => tcg}/translate.h        |  0
+ target/arm/{ => tcg}/vfp-uncond.decode  |  0
+ target/arm/{ => tcg}/vfp.decode         |  0
+ 27 files changed, 37 insertions(+), 26 deletions(-)
+ rename target/arm/{ => tcg}/a32-uncond.decode (100%)
+ rename target/arm/{ => tcg}/a32.decode (100%)
+ rename target/arm/{ => tcg}/m-nocp.decode (100%)
+ create mode 100644 target/arm/tcg/meson.build
+ rename target/arm/{ => tcg}/mve.decode (100%)
+ rename target/arm/{ => tcg}/neon-dp.decode (100%)
+ rename target/arm/{ => tcg}/neon-ls.decode (100%)
+ rename target/arm/{ => tcg}/neon-shared.decode (100%)
+ rename target/arm/{ => tcg}/sme-fa64.decode (100%)
+ rename target/arm/{ => tcg}/sme.decode (100%)
+ rename target/arm/{ => tcg}/sve.decode (100%)
+ rename target/arm/{ => tcg}/t16.decode (100%)
+ rename target/arm/{ => tcg}/t32.decode (100%)
+ rename target/arm/{ => tcg}/translate-a64.c (100%)
+ rename target/arm/{ => tcg}/translate-a64.h (100%)
+ rename target/arm/{ => tcg}/translate-m-nocp.c (100%)
+ rename target/arm/{ => tcg}/translate-mve.c (100%)
+ rename target/arm/{ => tcg}/translate-neon.c (100%)
+ rename target/arm/{ => tcg}/translate-sme.c (100%)
+ rename target/arm/{ => tcg}/translate-sve.c (100%)
+ rename target/arm/{ => tcg}/translate-vfp.c (100%)
+ rename target/arm/{ => tcg}/translate.c (100%)
+ rename target/arm/{ => tcg}/translate.h (100%)
+ rename target/arm/{ => tcg}/vfp-uncond.decode (100%)
+ rename target/arm/{ => tcg}/vfp.decode (100%)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7a40d4d865..50ccb74593 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -159,6 +159,7 @@ M: Peter Maydell <peter.maydell@linaro.org>
+ L: qemu-arm@nongnu.org
+ S: Maintained
+ F: target/arm/
++F: target/arm/tcg/
+ F: tests/tcg/arm/
+ F: tests/tcg/aarch64/
+ F: tests/qtest/arm-cpu-features.c
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index aa5aae9888..6dc7b800e6 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -1,22 +1,4 @@
+-gen = [
+-  decodetree.process('sve.decode', extra_args: '--decode=disas_sve'),
+-  decodetree.process('sme.decode', extra_args: '--decode=disas_sme'),
+-  decodetree.process('sme-fa64.decode', extra_args: '--static-decode=disas_sme_fa64'),
+-  decodetree.process('neon-shared.decode', extra_args: '--decode=disas_neon_shared'),
+-  decodetree.process('neon-dp.decode', extra_args: '--decode=disas_neon_dp'),
+-  decodetree.process('neon-ls.decode', extra_args: '--decode=disas_neon_ls'),
+-  decodetree.process('vfp.decode', extra_args: '--decode=disas_vfp'),
+-  decodetree.process('vfp-uncond.decode', extra_args: '--decode=disas_vfp_uncond'),
+-  decodetree.process('m-nocp.decode', extra_args: '--decode=disas_m_nocp'),
+-  decodetree.process('mve.decode', extra_args: '--decode=disas_mve'),
+-  decodetree.process('a32.decode', extra_args: '--static-decode=disas_a32'),
+-  decodetree.process('a32-uncond.decode', extra_args: '--static-decode=disas_a32_uncond'),
+-  decodetree.process('t32.decode', extra_args: '--static-decode=disas_t32'),
+-  decodetree.process('t16.decode', extra_args: ['-w', '16', '--static-decode=disas_t16']),
+-]
+-
+ arm_ss = ss.source_set()
+-arm_ss.add(gen)
+ arm_ss.add(files(
+   'cpregs.c',
+   'cpu.c',
+@@ -30,11 +12,6 @@ arm_ss.add(files(
+   'neon_helper.c',
+   'op_helper.c',
+   'tlb_helper.c',
+-  'translate.c',
+-  'translate-m-nocp.c',
+-  'translate-mve.c',
+-  'translate-neon.c',
+-  'translate-vfp.c',
+   'vec_helper.c',
+   'vfp_helper.c',
+   'cpu_tcg.c',
+@@ -51,9 +28,6 @@ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+   'pauth_helper.c',
+   'sve_helper.c',
+   'sme_helper.c',
+-  'translate-a64.c',
+-  'translate-sve.c',
+-  'translate-sme.c',
+ ))
  
-+void helper_set_pstate_sm(CPUARMState *env, uint32_t i)
-+{
-+    if (i == FIELD_EX64(env->svcr, SVCR, SM)) {
-+        return;
-+    }
-+    env->svcr ^= R_SVCR_SM_MASK;
-+    arm_reset_sve_state(env);
-+}
-+
-+void helper_set_pstate_za(CPUARMState *env, uint32_t i)
-+{
-+    if (i == FIELD_EX64(env->svcr, SVCR, ZA)) {
-+        return;
-+    }
-+    env->svcr ^= R_SVCR_ZA_MASK;
-+
-+    /*
-+     * ResetSMEState.
-+     *
-+     * SetPSTATE_ZA zeros on enable and disable.  We can zero this only
-+     * on enable: while disabled, the storage is inaccessible and the
-+     * value does not matter.  We're not saving the storage in vmstate
-+     * when disabled either.
-+     */
-+    if (i) {
-+        memset(env->zarray, 0, sizeof(env->zarray));
-+    }
-+}
-+
- static void svcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                        uint64_t value)
- {
-diff --git a/target/arm/sme_helper.c b/target/arm/sme_helper.c
-index f891306bb9..ed04daf5d4 100644
---- a/target/arm/sme_helper.c
-+++ b/target/arm/sme_helper.c
-@@ -38,35 +38,6 @@ void arm_reset_sve_state(CPUARMState *env)
-     vfp_set_fpcr(env, 0x0800009f);
- }
+ arm_softmmu_ss = ss.source_set()
+@@ -68,5 +42,9 @@ arm_softmmu_ss.add(files(
  
--void helper_set_pstate_sm(CPUARMState *env, uint32_t i)
--{
--    if (i == FIELD_EX64(env->svcr, SVCR, SM)) {
--        return;
--    }
--    env->svcr ^= R_SVCR_SM_MASK;
--    arm_reset_sve_state(env);
--}
--
--void helper_set_pstate_za(CPUARMState *env, uint32_t i)
--{
--    if (i == FIELD_EX64(env->svcr, SVCR, ZA)) {
--        return;
--    }
--    env->svcr ^= R_SVCR_ZA_MASK;
--
--    /*
--     * ResetSMEState.
--     *
--     * SetPSTATE_ZA zeros on enable and disable.  We can zero this only
--     * on enable: while disabled, the storage is inaccessible and the
--     * value does not matter.  We're not saving the storage in vmstate
--     * when disabled either.
--     */
--    if (i) {
--        memset(env->zarray, 0, sizeof(env->zarray));
--    }
--}
--
- void helper_sme_zero(CPUARMState *env, uint32_t imm, uint32_t svl)
- {
-     uint32_t i;
+ subdir('hvf')
+ 
++if 'CONFIG_TCG' in config_all
++   subdir('tcg')
++endif
++
+ target_arch += {'arm': arm_ss}
+ target_softmmu_arch += {'arm': arm_softmmu_ss}
+diff --git a/target/arm/a32-uncond.decode b/target/arm/tcg/a32-uncond.decode
+similarity index 100%
+rename from target/arm/a32-uncond.decode
+rename to target/arm/tcg/a32-uncond.decode
+diff --git a/target/arm/a32.decode b/target/arm/tcg/a32.decode
+similarity index 100%
+rename from target/arm/a32.decode
+rename to target/arm/tcg/a32.decode
+diff --git a/target/arm/m-nocp.decode b/target/arm/tcg/m-nocp.decode
+similarity index 100%
+rename from target/arm/m-nocp.decode
+rename to target/arm/tcg/m-nocp.decode
+diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
+new file mode 100644
+index 0000000000..044561bd4d
+--- /dev/null
++++ b/target/arm/tcg/meson.build
+@@ -0,0 +1,32 @@
++gen = [
++  decodetree.process('sve.decode', extra_args: '--decode=disas_sve'),
++  decodetree.process('sme.decode', extra_args: '--decode=disas_sme'),
++  decodetree.process('sme-fa64.decode', extra_args: '--static-decode=disas_sme_fa64'),
++  decodetree.process('neon-shared.decode', extra_args: '--decode=disas_neon_shared'),
++  decodetree.process('neon-dp.decode', extra_args: '--decode=disas_neon_dp'),
++  decodetree.process('neon-ls.decode', extra_args: '--decode=disas_neon_ls'),
++  decodetree.process('vfp.decode', extra_args: '--decode=disas_vfp'),
++  decodetree.process('vfp-uncond.decode', extra_args: '--decode=disas_vfp_uncond'),
++  decodetree.process('m-nocp.decode', extra_args: '--decode=disas_m_nocp'),
++  decodetree.process('mve.decode', extra_args: '--decode=disas_mve'),
++  decodetree.process('a32.decode', extra_args: '--static-decode=disas_a32'),
++  decodetree.process('a32-uncond.decode', extra_args: '--static-decode=disas_a32_uncond'),
++  decodetree.process('t32.decode', extra_args: '--static-decode=disas_t32'),
++  decodetree.process('t16.decode', extra_args: ['-w', '16', '--static-decode=disas_t16']),
++]
++
++arm_ss.add(gen)
++
++arm_ss.add(files(
++  'translate.c',
++  'translate-m-nocp.c',
++  'translate-mve.c',
++  'translate-neon.c',
++  'translate-vfp.c',
++))
++
++arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
++  'translate-a64.c',
++  'translate-sve.c',
++  'translate-sme.c',
++))
+diff --git a/target/arm/mve.decode b/target/arm/tcg/mve.decode
+similarity index 100%
+rename from target/arm/mve.decode
+rename to target/arm/tcg/mve.decode
+diff --git a/target/arm/neon-dp.decode b/target/arm/tcg/neon-dp.decode
+similarity index 100%
+rename from target/arm/neon-dp.decode
+rename to target/arm/tcg/neon-dp.decode
+diff --git a/target/arm/neon-ls.decode b/target/arm/tcg/neon-ls.decode
+similarity index 100%
+rename from target/arm/neon-ls.decode
+rename to target/arm/tcg/neon-ls.decode
+diff --git a/target/arm/neon-shared.decode b/target/arm/tcg/neon-shared.decode
+similarity index 100%
+rename from target/arm/neon-shared.decode
+rename to target/arm/tcg/neon-shared.decode
+diff --git a/target/arm/sme-fa64.decode b/target/arm/tcg/sme-fa64.decode
+similarity index 100%
+rename from target/arm/sme-fa64.decode
+rename to target/arm/tcg/sme-fa64.decode
+diff --git a/target/arm/sme.decode b/target/arm/tcg/sme.decode
+similarity index 100%
+rename from target/arm/sme.decode
+rename to target/arm/tcg/sme.decode
+diff --git a/target/arm/sve.decode b/target/arm/tcg/sve.decode
+similarity index 100%
+rename from target/arm/sve.decode
+rename to target/arm/tcg/sve.decode
+diff --git a/target/arm/t16.decode b/target/arm/tcg/t16.decode
+similarity index 100%
+rename from target/arm/t16.decode
+rename to target/arm/tcg/t16.decode
+diff --git a/target/arm/t32.decode b/target/arm/tcg/t32.decode
+similarity index 100%
+rename from target/arm/t32.decode
+rename to target/arm/tcg/t32.decode
+diff --git a/target/arm/translate-a64.c b/target/arm/tcg/translate-a64.c
+similarity index 100%
+rename from target/arm/translate-a64.c
+rename to target/arm/tcg/translate-a64.c
+diff --git a/target/arm/translate-a64.h b/target/arm/tcg/translate-a64.h
+similarity index 100%
+rename from target/arm/translate-a64.h
+rename to target/arm/tcg/translate-a64.h
+diff --git a/target/arm/translate-m-nocp.c b/target/arm/tcg/translate-m-nocp.c
+similarity index 100%
+rename from target/arm/translate-m-nocp.c
+rename to target/arm/tcg/translate-m-nocp.c
+diff --git a/target/arm/translate-mve.c b/target/arm/tcg/translate-mve.c
+similarity index 100%
+rename from target/arm/translate-mve.c
+rename to target/arm/tcg/translate-mve.c
+diff --git a/target/arm/translate-neon.c b/target/arm/tcg/translate-neon.c
+similarity index 100%
+rename from target/arm/translate-neon.c
+rename to target/arm/tcg/translate-neon.c
+diff --git a/target/arm/translate-sme.c b/target/arm/tcg/translate-sme.c
+similarity index 100%
+rename from target/arm/translate-sme.c
+rename to target/arm/tcg/translate-sme.c
+diff --git a/target/arm/translate-sve.c b/target/arm/tcg/translate-sve.c
+similarity index 100%
+rename from target/arm/translate-sve.c
+rename to target/arm/tcg/translate-sve.c
+diff --git a/target/arm/translate-vfp.c b/target/arm/tcg/translate-vfp.c
+similarity index 100%
+rename from target/arm/translate-vfp.c
+rename to target/arm/tcg/translate-vfp.c
+diff --git a/target/arm/translate.c b/target/arm/tcg/translate.c
+similarity index 100%
+rename from target/arm/translate.c
+rename to target/arm/tcg/translate.c
+diff --git a/target/arm/translate.h b/target/arm/tcg/translate.h
+similarity index 100%
+rename from target/arm/translate.h
+rename to target/arm/tcg/translate.h
+diff --git a/target/arm/vfp-uncond.decode b/target/arm/tcg/vfp-uncond.decode
+similarity index 100%
+rename from target/arm/vfp-uncond.decode
+rename to target/arm/tcg/vfp-uncond.decode
+diff --git a/target/arm/vfp.decode b/target/arm/tcg/vfp.decode
+similarity index 100%
+rename from target/arm/vfp.decode
+rename to target/arm/tcg/vfp.decode
 -- 
 2.35.3
 
