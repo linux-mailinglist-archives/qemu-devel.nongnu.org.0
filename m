@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C03E1663470
+	by mail.lfdr.de (Postfix) with ESMTPS id B382F66346F
 	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:55:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF12N-0004tt-Bn; Mon, 09 Jan 2023 17:54:39 -0500
+	id 1pF12T-00058X-MD; Mon, 09 Jan 2023 17:54:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pF12K-0004nA-V3
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:54:36 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pF12Q-00051R-4W
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:54:42 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pF12I-0007jB-9a
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:54:35 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- p1-20020a05600c1d8100b003d8c9b191e0so8465065wms.4
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 14:54:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pF12N-0007jm-Pd
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:54:41 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ bi26-20020a05600c3d9a00b003d3404a89faso80472wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 14:54:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TEIyfTZu5Mi/i+A1aDFcrn/cc8NYJ3wg49JfcYmsmDE=;
- b=HRpR2jNZdY5XRSuS9ewBPJgZWnUTfB4+X7CL7Wjorn0m9hjGS+ybnj6+y1aaGN1/on
- XttWwAu4n+dMXqBcGV30NcDYylXasFl3jFD2O54JMN0Tzj0ZL3Q0/q0sgJw9vhfRQgNm
- Q6QlS1DSO898Bl1sl7DPWincv85QzOBjgb9kOPvebGCXlPA2Wu5qmVGc9AkrU06BNgKK
- 6tSeDgTlK6q8fJw/jAyx7glmEDfKI2F3gSdvJfG3Id1wEUVeBoPuSSlcO+IjfFuZB6zI
- esnuw602lJzOIEQwbtvadyU5iQTP4ApZnHn4GUWcykOiOsCfb1Ea+4t6cnT1AN70B8Yg
- K1RA==
+ bh=zmsiOvblx944I2vPr/ngo2q8F1qd2s6a6mFL2ICxK8U=;
+ b=zBOlBtqPleDHf0VdO+y+cAIUshMH5wpIxsHdQ1/8Ysxewl1rpAxa0IohtYijfMmaFw
+ 40lem8oQt0rbRt/u2PfxdcX4BcBBwHjzc+wxi3ZRb9IsSaLQo/xy79kali1Dz6fL+ZQ2
+ hHz8RwTTfKtBo/Tx9734tp7U+oNJCzbf8oStlbk6YwLz/dHpvKD5mAVLxCvkJ4GZ0N8K
+ J5GdZjwR+HXN+tQXNgFjYi5gad0a4O2rHEWnotR8WsqfCrIrYmwryxDbYttxM2Jt/sNY
+ B/0NZ2z+4RxUMOuGB4mEXhgTKJyKtzuV/FkJutV8BuwExV6ehmXhuhxJKMJyUExeWOPx
+ 69BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TEIyfTZu5Mi/i+A1aDFcrn/cc8NYJ3wg49JfcYmsmDE=;
- b=y4+mhGiasIk3wYspYvTumtUKRKnZYsQzViUmeO4i1zJkd+RCMC5DkYwrvJ5QFh0O4g
- kxY8q2oOE/A6HJrNtWUXVADdhHb/SR/kIrlVHHRlrE++0+eE2ko3B8CgZYOpkzwOvKA6
- nwDxRyVDPd+gAiUSfaWpyFdb1Qtd6Jita/lM7y13NHqVlsLfZDApK5Prdss/IAhNrqnm
- HqWA2sariBmZfgCbnL2xHjSviK1YfqQw80gDHpWr7d+UJjZ1oXxWbQxCCGhNvHPNS8EX
- D+dNt9PU6yheI6/2m6y0W9XXtB7zN9KvJsSUMiPQPZVS8eguj0hoqYDdtcSiMe7AjgY8
- 60sg==
-X-Gm-Message-State: AFqh2krcrsuUWWfYfEnNb+8QN4QZ3lAMJ8jqNr9Y9YGjrImoomRaNrAW
- VRHyvrC4O51skomZNza2QMn6qxG106l8ZpNp
-X-Google-Smtp-Source: AMrXdXtcqYFauBKrqFI1URfmJh1PJVo0GZ01N/0aVvbSt/0ZSUIYVDbK5LVZ6tgSqA4cyE+X2OcIgA==
-X-Received: by 2002:a05:600c:35ca:b0:3d1:f2de:195a with SMTP id
- r10-20020a05600c35ca00b003d1f2de195amr50942726wmq.32.1673304872811; 
- Mon, 09 Jan 2023 14:54:32 -0800 (PST)
+ bh=zmsiOvblx944I2vPr/ngo2q8F1qd2s6a6mFL2ICxK8U=;
+ b=pEwmIVELwcwbF3VbHDWl0eNfTNcWu0XfvHrbSkOZ9xPuy9cEvh0CQHlzn57jRRP/1x
+ yep/E25EEa2gzmWQU7r/LlXoImv3z/Z5P6OhcbY6xkTzSdoZSCmBtPQxhC+ZSBmA7nL3
+ 4UKhYXdO2HIuFbPl4f/QGQ8h4EO/IpeQrGQM5P/3cs/NjpVnysAX2DkrYY4x3T2AM28K
+ 1/eJW/PLpOTWWFs56t9q0BMuvZZqBkQdBj7USljqH/77aj524eMbd4Rnm+jQrtYtDTzq
+ 4Omq4Hp0KUq8CWMyCFhmor8k1D2H4HxiR+cIKPPvJvfOr7mAq0KzAOdpMIRIEMNPMrBq
+ JueQ==
+X-Gm-Message-State: AFqh2kpxzgxbt9fG/x+eJ7+jf8grRRUs1z/q4MgDwJV/JE23SzvlnWuu
+ LUQCWgl93g02JvnsGFPZC7+KxXCRVaDLMRDT
+X-Google-Smtp-Source: AMrXdXsRlLkZ/9H9ds1U559l3BgFirCYACmlt9POcIPyTcDQV0jWonAf/J5tZ2lcZSmbU/CpDqRsgg==
+X-Received: by 2002:a05:600c:348b:b0:3d2:2a72:2577 with SMTP id
+ a11-20020a05600c348b00b003d22a722577mr46677666wmq.27.1673304878167; 
+ Mon, 09 Jan 2023 14:54:38 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- t9-20020a05600c198900b003d9e74dd9b2sm9273003wmq.9.2023.01.09.14.54.31
+ m25-20020a05600c3b1900b003d9ed49ee2bsm7266879wms.1.2023.01.09.14.54.36
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 09 Jan 2023 14:54:32 -0800 (PST)
+ Mon, 09 Jan 2023 14:54:37 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
  Markus Armbruster <armbru@redhat.com>,
@@ -61,18 +61,17 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-Subject: [RFC PATCH 2/4] hw/block: Rename TYPE_PFLASH_CFI02 'width' property
- as 'device-width'
-Date: Mon,  9 Jan 2023 23:54:17 +0100
-Message-Id: <20230109225419.22621-3-philmd@linaro.org>
+Subject: [RFC PATCH 3/4] util: Introduce helpers to compare QEMU versions
+Date: Mon,  9 Jan 2023 23:54:18 +0100
+Message-Id: <20230109225419.22621-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230109225419.22621-1-philmd@linaro.org>
 References: <20230109225419.22621-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,49 +94,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use the same property name than the TYPE_PFLASH_CFI01 model.
-
-Deprecate the current 'width' property and add the 'device-width'
-property pointing to the same field in PFlashCFI02.
+Add qemu_version_delta() to compare 2 QEMU versions,
+and qemu_version_delta_current() to compare with the
+current QEMU version.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/block/pflash_cfi02.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ include/qemu/qemu-version.h | 36 ++++++++++++++++++++++++++++++++++++
+ util/meson.build            |  1 +
+ util/qemu-version.c         | 37 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 74 insertions(+)
+ create mode 100644 include/qemu/qemu-version.h
+ create mode 100644 util/qemu-version.c
 
-diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 2a99b286b0..bbf78ad1e4 100644
---- a/hw/block/pflash_cfi02.c
-+++ b/hw/block/pflash_cfi02.c
-@@ -950,6 +950,7 @@ static Property pflash_cfi02_properties[] = {
-     DEFINE_PROP_UINT32("num-blocks3", PFlashCFI02, nb_blocs[3], 0),
-     DEFINE_PROP_UINT32("sector-length3", PFlashCFI02, sector_len[3], 0),
-     DEFINE_PROP_UINT8("width", PFlashCFI02, width, 0),
-+    DEFINE_PROP_UINT8("device-width", PFlashCFI02, width, 0),
-     DEFINE_PROP_UINT8("mappings", PFlashCFI02, mappings, 0),
-     DEFINE_PROP_UINT8("big-endian", PFlashCFI02, be, 0),
-     DEFINE_PROP_UINT16("id0", PFlashCFI02, ident0, 0),
-@@ -978,6 +979,11 @@ static void pflash_cfi02_class_init(ObjectClass *klass, void *data)
-     dc->unrealize = pflash_cfi02_unrealize;
-     device_class_set_props(dc, pflash_cfi02_properties);
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+diff --git a/include/qemu/qemu-version.h b/include/qemu/qemu-version.h
+new file mode 100644
+index 0000000000..c9274bfaf0
+--- /dev/null
++++ b/include/qemu/qemu-version.h
+@@ -0,0 +1,36 @@
++/*
++ * Utility function around QEMU release version
++ *
++ * Copyright (c) 2023 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
 +
-+    object_class_property_deprecate(klass, "width",
-+                                    "renamed as '"
-+                                    TYPE_PFLASH_CFI02 ".device-width'",
-+                                    8, 0);
- }
++#ifndef QEMU_UTIL_VERSION_H
++#define QEMU_UTIL_VERSION_H
++
++/**
++ * qemu_version_delta - Return delta between two release versions ('A' and 'B').
++ * @version_major_a: Version 'A' major number
++ * @version_minor_a: Version 'A' minor number
++ * @version_major_b: Version 'B' major number
++ * @version_minor_b: Version 'B' minor number
++ *
++ * Returns a negative number is returned if 'A' is older than 'B', or positive
++ * if 'A' is newer than 'B'. The number represents the number of minor versions.
++ */
++int qemu_version_delta(unsigned version_major_a, unsigned version_minor_a,
++                       unsigned version_major_b, unsigned version_minor_b);
++
++/**
++ * qemu_version_delta_current - Return delta with current QEMU release version.
++ * @version_major: The major version
++ * @version_minor: The minor version
++ *
++ * Returns the number of minor versions between the current released
++ * version and the requested $major.$minor. A negative number is returned
++ * for older versions and positive for newer.
++ */
++int qemu_version_delta_current(unsigned version_major, unsigned version_minor);
++
++#endif
+diff --git a/util/meson.build b/util/meson.build
+index d8d109ff84..655debeec1 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -58,6 +58,7 @@ util_ss.add(files('yank.c'))
+ util_ss.add(files('int128.c'))
+ util_ss.add(files('memalign.c'))
+ util_ss.add(files('interval-tree.c'))
++util_ss.add(files('qemu-version.c'))
  
- static const TypeInfo pflash_cfi02_info = {
-@@ -1014,7 +1020,7 @@ PFlashCFI02 *pflash_cfi02_register(hwaddr base,
-     assert(QEMU_IS_ALIGNED(size, sector_len));
-     qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
-     qdev_prop_set_uint32(dev, "sector-length", sector_len);
--    qdev_prop_set_uint8(dev, "width", width);
-+    qdev_prop_set_uint8(dev, "device-width", width);
-     qdev_prop_set_uint8(dev, "mappings", nb_mappings);
-     qdev_prop_set_uint8(dev, "big-endian", !!be);
-     qdev_prop_set_uint16(dev, "id0", id0);
+ if have_user
+   util_ss.add(files('selfmap.c'))
+diff --git a/util/qemu-version.c b/util/qemu-version.c
+new file mode 100644
+index 0000000000..d409a6e574
+--- /dev/null
++++ b/util/qemu-version.c
+@@ -0,0 +1,37 @@
++/*
++ * Utility function around QEMU release version
++ *
++ * Copyright (c) 2023 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/qemu-version.h"
++#include "config-host.h"
++
++#define QEMU_FIRST_MAJOR_VERSION_SUPPORTED 4
++#define QEMU_MINOR_VERSIONS_PER_MAJOR 3
++
++int qemu_version_delta(unsigned version_major_a, unsigned version_minor_a,
++                       unsigned version_major_b, unsigned version_minor_b)
++{
++    int delta;
++
++    assert(version_major_a >= QEMU_FIRST_MAJOR_VERSION_SUPPORTED);
++    assert(version_major_b >= QEMU_FIRST_MAJOR_VERSION_SUPPORTED);
++    assert(version_minor_a < QEMU_MINOR_VERSIONS_PER_MAJOR);
++    assert(version_minor_b < QEMU_MINOR_VERSIONS_PER_MAJOR);
++
++    delta = version_major_b - version_major_a;
++    delta *= QEMU_MINOR_VERSIONS_PER_MAJOR;
++    delta += version_minor_b - version_minor_a;
++
++    return delta;
++}
++
++int qemu_version_delta_current(unsigned version_major, unsigned version_minor)
++{
++    return qemu_version_delta(QEMU_VERSION_MAJOR, QEMU_VERSION_MINOR,
++                              version_major, version_minor);
++}
 -- 
 2.38.1
 
