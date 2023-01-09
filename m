@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50F8A662778
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15902662784
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:45:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEsCW-0000aE-0E; Mon, 09 Jan 2023 08:28:32 -0500
+	id 1pEsDT-0000md-E0; Mon, 09 Jan 2023 08:29:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pEsCN-0000ZN-0a
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:28:23 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pEsCK-000876-PZ
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:28:22 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 736944414;
- Mon,  9 Jan 2023 13:28:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673270899; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pEsDO-0000lg-Cq
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:29:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pEsDM-0000en-G9
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:29:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673270963;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=E0FzxJXbPL1zfzz/YerwWCTRmGEkHPkMlM2jNBC9kRg=;
- b=vfsL6VpmSvXh9Cy26Ad75l2WlWltJ2FpciD4oPjL5An6xjD/3M6haJ5zqtLo2ctemly2LG
- Msb8njcH07UZbEjpfXUHgpG0L870IzFFaZ0P2rx6KMDCv9/UKzuJstTQeEn9cI66TjudJn
- kNoHJeipOEqwgqd3mc1Kqx+OPO8jmnk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673270899;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E0FzxJXbPL1zfzz/YerwWCTRmGEkHPkMlM2jNBC9kRg=;
- b=LJmYIOd4UNeogOm2SULdhDcw9RSoQ3xWaINQlJPmJGQlX73lXRXAmbrmu0XsXM9Ep6e+tf
- +LEO0kki73HrjlCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=Ea6gowjU6th9nzASDBvBVoNppLGwT6aF0cAsjBNbciw=;
+ b=U8MpldSfSExTrQ7juRP0Q5i5qXiE2I+qVEHiVQWkIIlaGeUMV82tl1ykaUaSiWV20Xs1dl
+ XcxXvD6PbWQenV0x8E+hLJ6RhEoamgns50Bq7eFqKDUeYyh5IvaQkU4xKhORvQ7G0M9Wkj
+ G9vgh/ZqhhBI4FllPMArr0Na0ZCCjis=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-546--2h-3FhPP06Tb5u_XLdB8A-1; Mon, 09 Jan 2023 08:29:19 -0500
+X-MC-Unique: -2h-3FhPP06Tb5u_XLdB8A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 38F90134AD;
- Mon,  9 Jan 2023 13:28:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 6xRLDHMWvGOvDAAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 09 Jan 2023 13:28:19 +0000
-Message-ID: <e0e82b95-0f0a-58d2-cc22-13f2ee4acc52@suse.de>
-Date: Mon, 9 Jan 2023 14:28:18 +0100
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CEFA85A588;
+ Mon,  9 Jan 2023 13:29:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BB71492C14;
+ Mon,  9 Jan 2023 13:29:17 +0000 (UTC)
+Date: Mon, 9 Jan 2023 14:29:15 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Jonathan Derrick <jonathan.derrick@linux.dev>
+Cc: qemu-devel@nongnu.org, Michael Kropaczek <michael.kropaczek@solidigm.com>,
+ qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <its@irrelevant.dk>, Hanna Reitz <hreitz@redhat.com>,
+ pkrempa@redhat.com, armbru@redhat.com
+Subject: Re: [PATCH v4 0/2] hw/nvme: Support for Namespaces Management from
+ guest OS
+Message-ID: <Y7wWq/joPxKqHFfl@redhat.com>
+References: <20221228194141.118-1-jonathan.derrick@linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC PATCH v2] qom: Extract object_try_new() from qdev_new()
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20230109113158.1500-1-philmd@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <20230109113158.1500-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221228194141.118-1-jonathan.derrick@linux.dev>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,155 +79,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Philippe,
-
-On 1/9/23 12:31, Philippe Mathieu-Daudé wrote:
-> The module resolving in qdev_new() is specific to QOM, not to
-> QDev. Extract the code as a new QOM object_try_new() helper so
-> it can be reused by non-QDev code.
+Am 28.12.2022 um 20:41 hat Jonathan Derrick geschrieben:
+> Here is the approach:
+> The nvme device will get new parameter:
+>  - auto-ns-path, which specifies the path to the storage area where back-end
+>    image and necessary config files located stored.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
-> RFC because I'm wonder if we can't find a better name...
+> The virtual devices representing namespaces will be created dynamically during
+> the Qemu running session following issuance of nvme create-ns and delete-ns
+> commands from the guest OS. QOM classes and instances will be created utilizing
+> existing configuration scheme used during Qemu's start-up. Back-end image files
+> will be neither created nor deleted during Qemu's startup or running session.
+> Instead a set of back-end image files and relevant config will be created by
+> qemu-img tool with createns sub-command prior to Qemu's session.
+> Required parameters are: -S serial number which must match serial parameter of
+> qemu-system-xx -device nvme command line specification, -C total capacity, and
+> optional -N that will set a maximal limit on number of allowed
+> namespaces (default 256) which will be followed by path name pointing to
+> storage location corresponding to auto-ns-path of qemu-system-xx -device nvme
+> parameter.
 > 
-> Also, should we refactor object_initialize() similarly,
-> having object_try_initialize(..., Error *)?
-> ---
->  hw/core/qdev.c       | 23 ++---------------------
->  include/qom/object.h | 12 ++++++++++++
->  qom/object.c         | 25 ++++++++++++++++++++++++-
->  3 files changed, 38 insertions(+), 22 deletions(-)
-> 
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index d759c4602c..3a076dcc7f 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -147,31 +147,12 @@ bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp)
->  
->  DeviceState *qdev_new(const char *name)
->  {
-> -    ObjectClass *oc = object_class_by_name(name);
-> -#ifdef CONFIG_MODULES
-> -    if (!oc) {
-> -        int rv = module_load_qom(name, &error_fatal);
-> -        if (rv > 0) {
-> -            oc = object_class_by_name(name);
-> -        } else {
-> -            error_report("could not find a module for type '%s'", name);
-> -            exit(1);
-> -        }
-> -    }
-> -#endif
-> -    if (!oc) {
-> -        error_report("unknown type '%s'", name);
-> -        abort();
-> -    }
-> -    return DEVICE(object_new(name));
-> +    return DEVICE(object_try_new(name, &error_fatal));
+> Those created back-end image files will be pre-loaded during Qemu's start-up
+> and then during running Qemu's session will be associated or disassociated with
+> QOM namespaces virtual instances, as a result of issuing nvme create-ns or
+> delete-ns commands. The associated back-end image file for relevant namespace
+> will be re-sized as follows: delete-ns command will truncate image file to the
+> size of 0, whereas create-ns command will re-size the image file to the size
+> provided by nvme create-ns command parameters. Truncating/re-sizing is a result
+> of blk_truncate() API which utilizes co-routines and should not block Qemu main
+> thread while scheduling AIO operations. It is assured that all settings will
+> retain over Qemu's start-ups and shutdowns. The implementation makes it
+> possible to combine the existing "Additional Namespace" implementation with the
+> new "Managed Namespaces". Those will coexist with obvious restrictions, like
+> both will share the same NsIds space, "static" namespaces cannot be deleted or
+> if its NsId specified at Qemu's command line will conflicts with previously
+> created one by nvme create-ns (and retained), this will lead to an abort of
+> Qemu at its start up.
 
-for clarity, why this last line change?
+This looks like a valid approach for a proof of concept, but from a
+backend perspective, I'm concerned that this approach might be too
+limiting and we won't have a good path forward.
 
-The new object_new() implementation does exactly this, ie: {
-   return object_try_new(typename, &error_fatal);
-}
+For example, how can we integrate this with snapshots? You expect a
+specific filename for the image, but taking an external snapshot means
+creating an overlay image with a different name.
 
-and from a reader perspective, when calling qdev_new() - as opposed to qdev_try_new() - 
-we want the object to be created, there is no "try".
+How do we migrate storage like this? If the management tool (probably
+libvirt) knows about all the namespace images and the config file (!),
+it can possibly migrate them individually, but note that while a mirror
+job is active, images can't be resized any more.
 
-It is not a functional thing, just something that would seem clearer to me.
+What if we don't want to use a directory on the local filesystem to
+store the images, but some network protocol?
 
+It seems to me that we should define proper block layer APIs for
+handling namespaces, and then we can have your implementation as one
+possible image driver that supports these APIs, for which we can accept
+these limitations for now. At least this would already avoid having
+backend logic in the device implementation, and allow us to replace it
+with something better later without having to change the design of the
+device emulation code.
 
->  }
->  
->  DeviceState *qdev_try_new(const char *name)
->  {
-> -    if (!module_object_class_by_name(name)) {
-> -        return NULL;
-> -    }
-> -    return DEVICE(object_new(name));
-> +    return DEVICE(object_try_new(name, NULL));
->  }
+Eventually, I think, if we want to have dynamic namespaces properly
+supported, they need to be a feature on the image format level, so that
+you could keep all namespaces in a single qcow2 file.
 
-Ok. Here it make sense for me to see "try_new", as we are trying to create a qdev.
-
->  
->  static QTAILQ_HEAD(, DeviceListener) device_listeners
-> diff --git a/include/qom/object.h b/include/qom/object.h
-> index ef7258a5e1..27059cafb7 100644
-> --- a/include/qom/object.h
-> +++ b/include/qom/object.h
-> @@ -565,6 +565,18 @@ Object *object_new_with_class(ObjectClass *klass);
->   */
->  Object *object_new(const char *typename);
->  
-> +/**
-> + * object_try_new: Try to create an object on the heap
-> + * @typename: The name of the type of the object to instantiate.
-> + * @errp: pointer to Error object.
-> + *
-> + * This is like object_new(), except it returns %NULL when type @typename
-> + * does not exist, rather than asserting.
-> + *
-> + * Returns: The newly allocated and instantiated object, or %NULL.
-
-Does it make sense to warn or document that in order to make any error fatal,
-those special values can be passed? I know it is documented in include/qapi/error.h in pages of text,
-
-but from reading this function alone, one would think that try_new is never fatal, which in some way
-is true, but also isn't..
-
-When is the actual error propagation and check for the special value error_fatal and error_abort happening?
-Is it worthwhile documenting it here, especially for someone investigating the use of qdev_new() ?
-
-
-> + */
-> +Object *object_try_new(const char *typename, Error **errp);
-> +
->  /**
->   * object_new_with_props:
->   * @typename:  The name of the type of the object to instantiate.
-> diff --git a/qom/object.c b/qom/object.c
-> index e25f1e96db..13070393ef 100644
-> --- a/qom/object.c
-> +++ b/qom/object.c
-> @@ -747,14 +747,37 @@ Object *object_new_with_class(ObjectClass *klass)
->      return object_new_with_type(klass->type);
->  }
->  
-> -Object *object_new(const char *typename)
-> +
-> +Object *object_try_new(const char *typename, Error **errp)
->  {
->      TypeImpl *ti = type_get_by_name(typename);
->  
-> +#ifdef CONFIG_MODULES
-> +    if (!ti) {
-> +        int rv = module_load_qom(typename, errp);
-> +        if (rv) {
-> +            error_prepend(errp, "could not find a module for type '%s': ",
-> +                          typename);
-> +            return NULL;
-> +        }
-> +        ti = type_get_by_name(typename);
-> +    }
-> +#endif
-> +    if (!ti) {
-> +        error_setg(errp, "unknown type '%s'", typename);
-> +        return NULL;
-> +    }
-> +
->      return object_new_with_type(ti);
->  }
->  
->  
-> +Object *object_new(const char *typename)
-> +{
-> +    return object_try_new(typename, &error_fatal);
-> +}
-> +
-> +
->  Object *object_new_with_props(const char *typename,
->                                Object *parent,
->                                const char *id,
+Kevin
 
 
