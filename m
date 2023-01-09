@@ -2,89 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F26662589
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:27:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D285662569
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:22:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEr8p-0007xZ-2E; Mon, 09 Jan 2023 07:20:39 -0500
+	id 1pEr9i-0000Kp-S1; Mon, 09 Jan 2023 07:21:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEr8j-0007ur-0W
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:20:33 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEr8h-0003lG-EY
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:20:32 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- p1-20020a05600c1d8100b003d8c9b191e0so6537477wms.4
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 04:20:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Fu/jx2uXwn8KA463tuCQh724LOLPDTJwQ6fpu46pse4=;
- b=bHUTc6l/kwEyKe8m32FnvVxuMnXvBaiTblIC216EmM979KMFCdN2U/4JQz1pkoqS00
- x5gh8k6IBRzDLJYxsKA6XOJGCC0Kuz1FBGXBOIk1lx6awa9u3F2JKd+3v1F21vzqn9Ws
- zfZifIiY+pJOLLZQ51vp8Y/dUnXU/HLfCxxvyS5V5RDoI5UwylfjtIh0azs2JsynAHfN
- HAG+iRhng2o0eOJThJtNXYblQTcT7U8yQDOqD/VMCS6+omHMpE6lxnaatwEALhRFwJj+
- vjDOjjokprt2XUBrRtx6UvUQNwA92EcOxpXD3oA3IvvJreuO31RvWOjWkjSUYM5KIXFo
- sD7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Fu/jx2uXwn8KA463tuCQh724LOLPDTJwQ6fpu46pse4=;
- b=pS3CrYIyVsweAoVDispXSV/0K4rvJVnTaS/M1CKPOJtQu8ag43lXj5yyhza/NPEy6t
- 3f4wcphz2rGRZg0FBaa6sS4umz2eoL9da53vkTKeKk/8uGH3B7F61QnJyxcbkX46tmlo
- sstpgR4ic2Tca5Hu/nM72R4PI2eWQBybv66ZvrB/LAsq/2KH9YBUN1zDe1XYDY5AqdMq
- TREbRZJLRI4m+se00OwENSdNtqDns2DNMakbocIZdWl9R+/wjg7CgXSQGn+6mX2thWy0
- uhvTDqMSH7QLGBod4lWEwSW9BnXPWFXfebDP2x84WutkCxvYBRnXWW2udaz5qT6Rn0TJ
- OUQA==
-X-Gm-Message-State: AFqh2kp8e/GJTdfTkQdHq9a2q8OsO4vFbDwkWeX0Wk5KN+1RqXFFCHhL
- GO0EyGmnYt/2Ee+ARyXfrL+xxQ==
-X-Google-Smtp-Source: AMrXdXsjFjd+0ReoZIWbbvUAB0adExtbfrmfCbjgx1rgJ8ULdY7t7Kl5UfGYqm3qz6Z1ASQs9tOScw==
-X-Received: by 2002:a05:600c:1e18:b0:3d2:5e4e:701 with SMTP id
- ay24-20020a05600c1e1800b003d25e4e0701mr46108953wmb.31.1673266829734; 
- Mon, 09 Jan 2023 04:20:29 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h15-20020a05600c314f00b003d99469ece1sm16773658wmo.24.2023.01.09.04.20.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 04:20:29 -0800 (PST)
-Message-ID: <a0b0e603-577c-f018-e8db-050200293e76@linaro.org>
-Date: Mon, 9 Jan 2023 13:20:27 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pEr9J-0008U1-38
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:21:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pEr9E-0003tU-UK
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:21:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673266863;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7PBxGVfWAIh4jy7kwMxYvvcElgnz6bQtjp5xAtCoIig=;
+ b=iaaL7LpylT9XDAJQ3Eh6Ys5sUu0EJPLZP6T9F4uZmkIWbhOj1YAaN8Ky7/6VTIP7jfU+Pa
+ 6kH5gHJnlUkenGEPYy36BSRZZpiC1hkLXHhbmt4gqIHGCRC1Q3xCMfQvLjZaYTkIy6ArEh
+ 34gsdDUY+VD28th4NZH2/BHwh74Lmq0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-124-rUe3OkAkM8GwNXOEZCFQqQ-1; Mon, 09 Jan 2023 07:20:59 -0500
+X-MC-Unique: rUe3OkAkM8GwNXOEZCFQqQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 60ABE85CCE1;
+ Mon,  9 Jan 2023 12:20:59 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.37.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 126CA1121314;
+ Mon,  9 Jan 2023 12:20:52 +0000 (UTC)
+Date: Mon, 9 Jan 2023 12:20:48 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 08/10] qmp: add 'get-win32-socket'
+Message-ID: <Y7wGoMdJpfIkEDwx@redhat.com>
+References: <20230103110814.3726795-1-marcandre.lureau@redhat.com>
+ <20230103110814.3726795-9-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 1/2] build-sys: fix crlf-ending C code
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, pbonzini@redhat.com,
- David Hildenbrand <david@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- kraxel@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
-References: <20230109112110.128967-1-marcandre.lureau@redhat.com>
- <20230109112110.128967-2-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230109112110.128967-2-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+In-Reply-To: <20230103110814.3726795-9-marcandre.lureau@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,53 +87,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/1/23 12:21, marcandre.lureau@redhat.com wrote:
+On Tue, Jan 03, 2023 at 03:08:12PM +0400, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> On msys2, the shader-to-C script produces bad C:
-> ./ui/shader/texture-blit-vert.h:2:5: error: missing terminating " character [-Werror]
+> A process with enough capabilities can duplicate a socket to QEMU. Add a
+> QMP command to import it and add it to the monitor fd list, so it can be
+> later used by other commands.
 > 
-> Fix it by changing the line ending from crlf to lf, and convert the
-> script to Python (qemu build seems perl-free after that).
+> Note that we actually store the SOCKET in the FD list, appropriate care
+> must now be taken to use the correct socket functions (similar approach
+> is taken by our io/ code and in glib, this is internal and shouldn't
+> affect the QEMU/QMP users)
 > 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   meson.build              |  2 +-
->   scripts/shaderinclude.pl | 16 ----------------
->   scripts/shaderinclude.py | 22 ++++++++++++++++++++++
->   3 files changed, 23 insertions(+), 17 deletions(-)
->   delete mode 100644 scripts/shaderinclude.pl
->   create mode 100755 scripts/shaderinclude.py
+>  qapi/misc.json | 32 ++++++++++++++++++++++
+>  monitor/misc.c | 74 ++++++++++++++++++++++++++++++++++++++++----------
+>  2 files changed, 91 insertions(+), 15 deletions(-)
+> 
+> diff --git a/qapi/misc.json b/qapi/misc.json
+> index 27ef5a2b20..a19dd78fab 100644
+> --- a/qapi/misc.json
+> +++ b/qapi/misc.json
+> @@ -272,6 +272,38 @@
+>  ##
+>  { 'command': 'getfd', 'data': {'fdname': 'str'} }
+>  
+> +##
+> +# @get-win32-socket:
+> +#
+> +# Add a socket that was duplicated to QEMU process with WSADuplicateSocketW()
+> +# via WSASocket() & WSAPROTOCOL_INFOW structure and assign it a name. A SOCKET
+> +# is considered as a kind of "file descriptor" by QMP clients, for historical
+> +# reasons and simplicity, although QEMU takes care to use socket functions
+> +# appropriately.
+> +#
+> +# @info: the WSAPROTOCOL_INFOW structure (encoded in base64)
+> +#
+> +# @fdname: file descriptor name
+> +#
+> +# Returns: Nothing on success
+> +#
+> +# Since: 8.0
+> +#
+> +# Notes: If @fdname already exists, the file descriptor assigned to
+> +#        it will be closed and replaced by the received file
+> +#        descriptor.
+> +#
+> +#        The 'closefd' command can be used to explicitly close the
+> +#        file descriptor when it is no longer needed.
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "get-win32-socket", "arguments": { "info": "abcd123..", fdname": "skclient" } }
+> +# <- { "return": {} }
+> +#
+> +##
+> +{ 'command': 'get-win32-socket', 'data': {'info': 'str', 'fdname': 'str'}, 'if': 'CONFIG_WIN32' }
 
+IIUC, this is needed because  'getfd' doesn't work on Windows ?
 
-> diff --git a/scripts/shaderinclude.py b/scripts/shaderinclude.py
-> new file mode 100755
-> index 0000000000..c314b7ac63
-> --- /dev/null
-> +++ b/scripts/shaderinclude.py
-> @@ -0,0 +1,22 @@
+Can't we just implement getfd on Windows, using this WSAPROTOCOL_INFOW
+structure passing, or are you anticipating that future Windows make get
+normal 'getfd' support ?  
 
-Missing license boilerplate.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-> +#!/usr/bin/env python3
-> +
-> +import sys
-> +import os
-> +
-> +
-> +def main(args):
-> +    file_path = args[1]
-> +    basename = os.path.basename(file_path)
-> +    varname = basename.replace('-', '_').replace('.', '_')
-> +
-> +    with os.fdopen(sys.stdout.fileno(), "wt", closefd=False, newline='\n') as stdout:
-> +        with open(file_path, "r", encoding='utf-8') as file:
-> +            print(f'static GLchar {varname}_src[] =', file=stdout)
-> +            for line in file:
-> +                line = line.rstrip()
-> +                print(f'    "{line}\\n"', file=stdout)
-> +            print('    "\\n";', file=stdout)
 
