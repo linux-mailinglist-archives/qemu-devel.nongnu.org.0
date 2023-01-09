@@ -2,96 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B966628B3
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:41:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2019F6628FA
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:50:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEtJS-0000pU-2v; Mon, 09 Jan 2023 09:39:46 -0500
+	id 1pEtLh-0001ct-Tt; Mon, 09 Jan 2023 09:42:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pEtJP-0000pD-Qz
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:39:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pEtJN-0003os-V5
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:39:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673275180;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pEtLg-0001cb-1f; Mon, 09 Jan 2023 09:42:04 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pEtLe-0004sk-HJ; Mon, 09 Jan 2023 09:42:03 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2A6763EF62;
+ Mon,  9 Jan 2023 14:41:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1673275319; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2LanOiT9SUOGeGFbabfuxBTLWrQTmgobAIvi3aSWR+M=;
- b=Bz3VSeNvPQ8ZLzyf5rbLTkaze2htEQ65DhQUofYlBcxlZxYzPdLIzxhpO4MO7sZk4ngs/G
- eLWYHvKQ3btZAseGAmEvaWWTMDsMyV5Ns6X7VNnVTpHT8RjnRgRybTcP0dBd9bbLYtY5LV
- LQ/DoTZtSEl1oh+ZP4DVQTpq1gPm43Y=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-42-rKzNl1TnPd6XKVJQCW9__Q-1; Mon, 09 Jan 2023 09:39:39 -0500
-X-MC-Unique: rKzNl1TnPd6XKVJQCW9__Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- p34-20020a05600c1da200b003d990064285so7363154wms.8
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 06:39:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2LanOiT9SUOGeGFbabfuxBTLWrQTmgobAIvi3aSWR+M=;
- b=6gaQ64JCAD09CJWfEOY1tpbV4n5/2GrxhdFtFit9QDMZHcTDCDAhUMaJRwr6/F87+J
- YpuMXKEo6Z+6kVX8QG6diIsEXnKk5lJPFQoeysa4/7wU4UinzAGlIpDSyyEP7nhATXYe
- OsXdPbm5/qL9oXmmO0pnbkdDD+RNGA+2uEnfsZLHg+/KEE4Q21vlek4duEc7uZ99Hc8J
- N5DEVlmcoxDYjcy3RFNY9ku0Ig9jVo/CtAd/4vb3UQBn9zGq73HEUVV8VChGsHalkPWu
- AQufl0VyXwwkyhOP1S4XR5TMAt+4Wv12Db9qLrYM2MM7x2NipsRKxZ7ZfAutAYVVzRwp
- QjDQ==
-X-Gm-Message-State: AFqh2kpKouc9HGm4PNGfJ7PwYHef8JZp9SdQbeiCsR7TAgdRfu5HlVSs
- pxXc/6NQnXhc0DZmL/tNe7BbZ79GWDjfRdAPBMlP8HN6EP2l+zmj1sps5tPrwFE6dz68STEwI5r
- MA0rIpR8AOW1hqoM=
-X-Received: by 2002:a1c:770b:0:b0:3cf:a18d:399c with SMTP id
- t11-20020a1c770b000000b003cfa18d399cmr48668795wmi.1.1673275178191; 
- Mon, 09 Jan 2023 06:39:38 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtyrQfUatJQs7wW3gZqIASL7rqNDVksxyhu+iiNd7dkbsaaJLewmiAYbX8ZvedRwly6SkZUSQ==
-X-Received: by 2002:a1c:770b:0:b0:3cf:a18d:399c with SMTP id
- t11-20020a1c770b000000b003cfa18d399cmr48668779wmi.1.1673275177971; 
- Mon, 09 Jan 2023 06:39:37 -0800 (PST)
-Received: from ?IPV6:2003:cb:c703:8f00:ba3:7d27:204f:8e29?
- (p200300cbc7038f000ba37d27204f8e29.dip0.t-ipconnect.de.
- [2003:cb:c703:8f00:ba3:7d27:204f:8e29])
- by smtp.gmail.com with ESMTPSA id
- c18-20020a05600c0ad200b003d9c97d82f2sm11562151wmr.8.2023.01.09.06.39.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 06:39:37 -0800 (PST)
-Message-ID: <44b9b396-f3ae-5066-4674-4c4eac5f9b2e@redhat.com>
-Date: Mon, 9 Jan 2023 15:39:36 +0100
+ bh=iHFlgpkGpYic5RNI5UT+NVGDLtt0LXFu+Yz4SP+WGu4=;
+ b=N6CUBhvRe1EONzsKoVw5j6ASc581na+ZPU2WVF4aqp8pJAPkzkTVPOBbwa12ZaM/AJUwt9
+ Dm6vto2v8xZeegelCpLVlsBrT4eSDXKL4D9Rnj2uNb2GhyWJB5vCmltBOG+rVpyo65PRyr
+ FiVqiwIXrBCJ7qgHF6xwU81zvGXwaYE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1673275319;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iHFlgpkGpYic5RNI5UT+NVGDLtt0LXFu+Yz4SP+WGu4=;
+ b=2T3oSKLuVPe0kunXbyaAwdjrinGLVuq/hAmEsqng8bHAjvfY0Dorb1H1m1tsWUxXehZiha
+ WOQzcupeMx/JgVDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A961213583;
+ Mon,  9 Jan 2023 14:41:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id X6S/GrYnvGO1NAAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 09 Jan 2023 14:41:58 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Alex =?utf-8?Q?Benn?=
+ =?utf-8?Q?=C3=A9e?= <alex.bennee@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>, Wainer dos Santos Moschetta
+ <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Subject: Re: [PATCH] tests/avocado: add machine:none tag to version.py
+In-Reply-To: <20221215224725.3236-1-farosas@suse.de>
+References: <20221215224725.3236-1-farosas@suse.de>
+Date: Mon, 09 Jan 2023 11:41:56 -0300
+Message-ID: <87358jzs5n.fsf@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 3/6] migration: Factor out checks for advised and
- listening incomming postcopy
-Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-References: <20221222110215.130392-1-david@redhat.com>
- <20221222110215.130392-4-david@redhat.com> <Y7cGdweVxbGlcvWh@x1n>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <Y7cGdweVxbGlcvWh@x1n>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,26 +85,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05.01.23 18:18, Peter Xu wrote:
-> On Thu, Dec 22, 2022 at 12:02:12PM +0100, David Hildenbrand wrote:
->> +bool migration_incoming_postcopy_listening(void)
->> +{
->> +    PostcopyState ps = postcopy_state_get();
->> +
->> +    return ps >= POSTCOPY_INCOMING_LISTENING && ps < POSTCOPY_INCOMING_END;
->> +}
-> 
-> This name is misleading, IMHO.
-> 
-> The code means "we passed listening phase" but the name implies "we're
-> listening".  We can add the "incoming" into that if we want, though.
-> 
+Fabiano Rosas <farosas@suse.de> writes:
 
-Let me call that migration_incoming_postcopy_running(). Thanks!
+> This test currently fails when run on a host for which the QEMU target
+> has no default machine set:
+>
+> ERROR| Output: qemu-system-aarch64: No machine specified, and there is
+> no default
+>
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> ---
+>  tests/avocado/version.py | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/tests/avocado/version.py b/tests/avocado/version.py
+> index ded7f039c1..dd775955eb 100644
+> --- a/tests/avocado/version.py
+> +++ b/tests/avocado/version.py
+> @@ -15,6 +15,7 @@
+>  class Version(QemuSystemTest):
+>      """
+>      :avocado: tags=quick
+> +    :avocado: tags=machine:none
+>      """
+>      def test_qmp_human_info_version(self):
+>          self.vm.add_args('-nodefaults')
 
--- 
-Thanks,
-
-David / dhildenb
-
+Ping
 
