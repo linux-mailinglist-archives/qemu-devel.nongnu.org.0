@@ -2,93 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C04B662491
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 12:48:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712086624A9
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 12:52:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEqdA-0001Ds-1V; Mon, 09 Jan 2023 06:47:56 -0500
+	id 1pEqgJ-00028W-Il; Mon, 09 Jan 2023 06:51:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pEqd1-0001Cc-2r
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:47:48 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pEqgE-000264-C9
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:51:06 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pEqcw-0004Dz-Fw
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:47:44 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pEqgC-00054S-Ah
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:51:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673264861;
+ s=mimecast20190719; t=1673265062;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=H5kpYdG7v3oUc5+pTCU+b3zSzgeBwsSMKnGnE2c/6lE=;
- b=V68PVpUaN673ttgJqHz90XlYM2OdwYvTSWprP0Se0Q0GBoT/g+RvLeisyh3YeCQxlWX1j7
- mcTf0mEIb0I8ITdFtEmHZguPaiJYWRgICbo1TvXxs3II5wc1q5+rTItemrnRbidLjq5PCV
- y/ZnWBsymYTLYYEN+wpUBb05zy5ZHGE=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-401-wnVFJkUNOva-LvwMusLRLQ-1; Mon, 09 Jan 2023 06:47:39 -0500
-X-MC-Unique: wnVFJkUNOva-LvwMusLRLQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- xj11-20020a170906db0b00b0077b6ecb23fcso5270442ejb.5
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 03:47:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=H5kpYdG7v3oUc5+pTCU+b3zSzgeBwsSMKnGnE2c/6lE=;
- b=AFMGu/4cIQQldmeUKUN+JVfE9UyyM2BWjco959lH7ght5zRArWMp75ACB2JWuRp8zf
- Y6I56FHR+FBRZwqvEDqEECdO/Q5/tiGcb5nDq0f9H1hRirDKMrU2ltqvA2Zs5DoBI0s2
- QxcoGhmknYW87sYgyaVPHUppTi7/OG4f7UN6T0wbGSSzweZtIAPIdAkZW+fA2o/TwCC2
- Nu8+q6bRzRlLUCYGXU8/iVtMIJDqpYgddo+i2f8ZXEo7GWrOTgOIy4ciVNYlZSd9eGzk
- /wb3+nj8oZccESM6QuyyCWUsvZ5g2+u1Y2DQjlnKX1Z0gjEYdLdFZopGpdgUZ6VJ1tzG
- jhNw==
-X-Gm-Message-State: AFqh2kpzOMeqGucEs9oFErBq4EYSro51QKKlzHhCBcP+vop2MKeXYvt8
- LtJnK1BbRhU4YAndYa2c57tnyQkxLcjYhVxU6Qr0cAHEMWkFTkG0PhPRzCiMw9rukkzlhArZEwn
- y8bRFoL/caMaaxE/H8SnYJft8Qob5jW4=
-X-Received: by 2002:a17:906:5255:b0:7c1:6b1f:e131 with SMTP id
- y21-20020a170906525500b007c16b1fe131mr4001092ejm.557.1673264858321; 
- Mon, 09 Jan 2023 03:47:38 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvaS9uPOoOi7tAmRPJentoqtB+50R0so+dyupFKGoA6IrYidYcA9XGE1FI+uGckNvwDoWci3nROyLsKsvlzAIU=
-X-Received: by 2002:a17:906:5255:b0:7c1:6b1f:e131 with SMTP id
- y21-20020a170906525500b007c16b1fe131mr4001075ejm.557.1673264858079; Mon, 09
- Jan 2023 03:47:38 -0800 (PST)
+ bh=YF3QJTQLzUl11/uOraUtmmPZgUkt+/7HM/lBUXXvtRo=;
+ b=Y9/XXjTxS39CCuT4YDEA9lZfDYVlQ2Bz1kpsq8jkFyMFsCVk74gCA/njWeMFX8AjJWS5pW
+ J8A6+GJyLUV0mQF/KeMtpL+l7Q6sQEYhhd2t0QL/OdzkNhO1MyHkW7GJ6CHI7vHEiuYlb4
+ ZwA4k2nJ1jUDq6WGNUqMPFU/Mcf1KQA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-589-PLb0q8dVNxWbX5B8CGEHew-1; Mon, 09 Jan 2023 06:51:01 -0500
+X-MC-Unique: PLb0q8dVNxWbX5B8CGEHew-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ECC6A101A521;
+ Mon,  9 Jan 2023 11:51:00 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF3622166B26;
+ Mon,  9 Jan 2023 11:51:00 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7E97221E675B; Mon,  9 Jan 2023 12:50:59 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org,  kraxel@redhat.com,  berrange@redhat.com,
+ philmd@linaro.org
+Subject: Re: [PATCH v3 02/18] ui: Fix silent truncation of numeric keys in
+ HMP sendkey
+References: <20221220090645.2844881-1-armbru@redhat.com>
+ <20221220090645.2844881-3-armbru@redhat.com>
+ <Y7Wm94X4gxl738Fd@work-vm>
+Date: Mon, 09 Jan 2023 12:50:59 +0100
+In-Reply-To: <Y7Wm94X4gxl738Fd@work-vm> (David Alan Gilbert's message of "Wed, 
+ 4 Jan 2023 16:19:03 +0000")
+Message-ID: <87y1qcorj0.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20230109112110.128967-1-marcandre.lureau@redhat.com>
- <20230109112110.128967-2-marcandre.lureau@redhat.com>
- <0b04303a-20a6-d4fe-d9bc-0940e475d24b@redhat.com>
-In-Reply-To: <0b04303a-20a6-d4fe-d9bc-0940e475d24b@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 9 Jan 2023 15:47:26 +0400
-Message-ID: <CAMxuvazQMf==JGTMMSEMZP30DNTTpZ3bVYB8EiKf1mSaJaM_vA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] build-sys: fix crlf-ending C code
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, pbonzini@redhat.com, 
- David Hildenbrand <david@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- kraxel@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Beraldo Leal <bleal@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000007b347a05f1d355f1"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,103 +82,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000007b347a05f1d355f1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
 
-Hi
-
-On Mon, Jan 9, 2023 at 3:41 PM Thomas Huth <thuth@redhat.com> wrote:
-
-> On 09/01/2023 12.21, marcandre.lureau@redhat.com wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > On msys2, the shader-to-C script produces bad C:
-> > ./ui/shader/texture-blit-vert.h:2:5: error: missing terminating "
-> character [-Werror]
-> >
-> > Fix it by changing the line ending from crlf to lf, and convert the
-> > script to Python (qemu build seems perl-free after that).
+> * Markus Armbruster (armbru@redhat.com) wrote:
+>> Keys are int.  HMP sendkey assigns them from the value strtoul(),
+>> silently truncating values greater than INT_MAX.  Fix to reject them.
+>> 
+>> While there, use qemu_strtoul() instead of strtoul() so checkpatch.pl
+>> won't complain.
 >
-> If the build process does not depend on Perl anymore, would it make sense
-> to
-> also add a patch that removes perl from most of the containers (the ones
-> that don't use check_patch.pl etc.)? ... that way we would make sure that
-> the dependency does not creep in again later...
->
+> Last time through you said you could switch to qemu_strtoui, but
 
-Let's try that. A quick check reveals that configure already still has perl
-usage. I will take a look.
+Did I?  Oh, I did in review of
 
+    [PATCH 08/12] pci: Fix silent truncation of pcie_aer_inject_error argument
 
->
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >   meson.build              |  2 +-
-> >   scripts/shaderinclude.pl | 16 ----------------
-> >   scripts/shaderinclude.py | 22 ++++++++++++++++++++++
-> >   3 files changed, 23 insertions(+), 17 deletions(-)
-> >   delete mode 100644 scripts/shaderinclude.pl
-> >   create mode 100755 scripts/shaderinclude.py
->
-> Acked-by: Thomas Huth <thuth@redhat.com>
->
->
+but failed to do it here, too.
 
---0000000000007b347a05f1d355f1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> I just noticed we've actually got a qemu_strto*i* - that
+> would remove the value comparison
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 9, 2023 at 3:41 PM Thom=
-as Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 09/01/20=
-23 12.21, <a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">=
-marcandre.lureau@redhat.com</a> wrote:<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt; <br>
-&gt; On msys2, the shader-to-C script produces bad C:<br>
-&gt; ./ui/shader/texture-blit-vert.h:2:5: error: missing terminating &quot;=
- character [-Werror]<br>
-&gt; <br>
-&gt; Fix it by changing the line ending from crlf to lf, and convert the<br=
->
-&gt; script to Python (qemu build seems perl-free after that).<br>
-<br>
-If the build process does not depend on Perl anymore, would it make sense t=
-o <br>
-also add a patch that removes perl from most of the containers (the ones <b=
-r>
-that don&#39;t use <a href=3D"http://check_patch.pl" rel=3D"noreferrer" tar=
-get=3D"_blank">check_patch.pl</a> etc.)? ... that way we would make sure th=
-at <br>
-the dependency does not creep in again later...<br></blockquote><div><br></=
-div><div>Let&#39;s try that. A quick check reveals that configure already s=
-till has perl usage. I will take a look.</div><div>=C2=A0<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 2 +-<br>
-&gt;=C2=A0 =C2=A0scripts/<a href=3D"http://shaderinclude.pl" rel=3D"norefer=
-rer" target=3D"_blank">shaderinclude.pl</a> | 16 ----------------<br>
-&gt;=C2=A0 =C2=A0scripts/shaderinclude.py | 22 ++++++++++++++++++++++<br>
-&gt;=C2=A0 =C2=A03 files changed, 23 insertions(+), 17 deletions(-)<br>
-&gt;=C2=A0 =C2=A0delete mode 100644 scripts/<a href=3D"http://shaderinclude=
-.pl" rel=3D"noreferrer" target=3D"_blank">shaderinclude.pl</a><br>
-&gt;=C2=A0 =C2=A0create mode 100755 scripts/shaderinclude.py<br>
-<br>
-Acked-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=3D"_bl=
-ank">thuth@redhat.com</a>&gt;<br>
-<br>
-</blockquote></div></div>
-
---0000000000007b347a05f1d355f1--
+Thanks!
 
 
