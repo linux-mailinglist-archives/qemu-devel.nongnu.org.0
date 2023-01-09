@@ -2,50 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2207566281E
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22F066281C
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:09:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEscF-0006ze-4Z; Mon, 09 Jan 2023 08:55:07 -0500
+	id 1pEsaz-0006fZ-5O; Mon, 09 Jan 2023 08:53:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pEscC-0006zN-Sc
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:55:04 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pEsal-0006cI-TV
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:53:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pEscA-0001jV-IT
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:55:04 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 0A8B8745712;
- Mon,  9 Jan 2023 14:52:40 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C6D8D745706; Mon,  9 Jan 2023 14:52:39 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id C53107456E3;
- Mon,  9 Jan 2023 14:52:39 +0100 (CET)
-Date: Mon, 9 Jan 2023 14:52:39 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 19/21] hw/ppc: Open-code pflash_cfi01_register()
-In-Reply-To: <20230109120833.3330-20-philmd@linaro.org>
-Message-ID: <e4ea9f6d-1ac6-27f5-0aaf-faf37643d95f@eik.bme.hu>
-References: <20230109120833.3330-1-philmd@linaro.org>
- <20230109120833.3330-20-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pEsai-0001WK-Co
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:53:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673272410;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=skLu4osG9acM+YVKMnSW9QWA9Yrshp2soRErlz7UXc4=;
+ b=TP3QNwK/LpzP2IAG36/lAS6T2hqDfGcYrGIrbEMtV2hCM/ap2oVJWYNsECysvjdkeD8lAs
+ 9AhxUrj5Iqh0A0iDLC3IbeMXpT6uNpjQeHbj9tVrstPhca1V0DOaI5tUWwXah+ApUB0XpP
+ vWLUWQCKejPGBXOjxefLIj64i8rP3do=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-326-ehiTW9S6MFe0H0-aks7Hwg-1; Mon, 09 Jan 2023 08:53:29 -0500
+X-MC-Unique: ehiTW9S6MFe0H0-aks7Hwg-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ cx11-20020a056214188b00b00531cacde854so5180035qvb.6
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 05:53:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=skLu4osG9acM+YVKMnSW9QWA9Yrshp2soRErlz7UXc4=;
+ b=UNW2LeTw3rgu5hoOwea1yMoq8DDrhpNIGph5yBooUsfAgxhUfW72Izx4JagmyFEubj
+ 6YvkbBZXeLs4HjFyJar/9J0zh9bVzif7l8NB974Cz8GgUgisTY7uZbR2wDe4CFBajg6v
+ 0AlWCMio5KnGgGV4326cHXzWw6SJMMchURk3PFmXUfbAFvhtuDzZrMZznOOdkmN+Bsbx
+ ja/9rb1h8Toq/n4aTr5gTpYpoTGU2TKwuCK/WjBXpVB9UPcoqyc2+aaUrNubR9G0JBQD
+ 8kaBVYnZm4V6D2ZN+5ZFgdzcGIWfr53Y+WC/YeE4JIT3MhyrR5WlokCEhALMvOdnDFMN
+ loEQ==
+X-Gm-Message-State: AFqh2kpauQHb2LYzHCJOl3s9FCEOZGfsQXFXpl2xPweTuG+/zLVSTBNK
+ 4TVTiC4ao07nFnSchuE3FOAAjAJBpuSoEXnfj+sHHIrP5v8encywdV6mEDSyZAEQETqifNUEon0
+ JovTyJYpwraYCAS4=
+X-Received: by 2002:ac8:4514:0:b0:3ab:6b9c:7285 with SMTP id
+ q20-20020ac84514000000b003ab6b9c7285mr83849782qtn.44.1673272408673; 
+ Mon, 09 Jan 2023 05:53:28 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvajfHujWKhoLO0yTam35Ca/O6TukAN0gVgRcDvAzzcyosxtkpRQ/OAhEcvHnZMei9ufMoZzg==
+X-Received: by 2002:ac8:4514:0:b0:3ab:6b9c:7285 with SMTP id
+ q20-20020ac84514000000b003ab6b9c7285mr83849754qtn.44.1673272408427; 
+ Mon, 09 Jan 2023 05:53:28 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
+ ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
+ by smtp.gmail.com with ESMTPSA id
+ x15-20020a05620a448f00b006ea7f9d8644sm5398983qkp.96.2023.01.09.05.53.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 05:53:28 -0800 (PST)
+Message-ID: <c333500f-307b-7521-c768-99e00509dd15@redhat.com>
+Date: Mon, 9 Jan 2023 14:53:25 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1384785753-1673272359=:7264"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 3/4] s390x/pv: Introduce a s390_pv_check() helper for
+ runtime
+Content-Language: en-US
+To: Janosch Frank <frankja@linux.ibm.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>
+References: <20230106075330.3662549-1-clg@kaod.org>
+ <20230106075330.3662549-4-clg@kaod.org>
+ <49bf32c7-4a44-a3c9-29b5-b6580113700c@linux.ibm.com>
+ <bc3ec4b4-1c7a-a4a9-01ea-78fca7ad10c6@kaod.org>
+ <8e04a10e-8978-494c-5d0f-2507e78134aa@linux.ibm.com>
+ <d9194b49-9841-87b5-6355-b7d5f82da6b6@kaod.org>
+ <6d121914-9add-88ab-1650-9735e1fada73@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+In-Reply-To: <6d121914-9add-88ab-1650-9735e1fada73@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=clg@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,93 +113,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 1/9/23 14:45, Janosch Frank wrote:
+> On 1/9/23 14:30, Cédric Le Goater wrote:
+>> On 1/9/23 10:49, Janosch Frank wrote:
+>>> On 1/9/23 10:27, Cédric Le Goater wrote:
+>>>> On 1/9/23 10:04, Janosch Frank wrote:
+>>>>> On 1/6/23 08:53, Cédric Le Goater wrote:
+>>>>>> From: Cédric Le Goater <clg@redhat.com>
+>>>>>>
+>>>>>> If a secure kernel is started in a non-protected VM, the OS will hang
+>>>>>> during boot without giving a proper error message to the user.
+>>>>>
+>>>>> Most of the time you see nothing in the console because libvirt is too slow. If you start the VM in paused mode, attach a console and then resume it, then you'll see a nice error message.
+>>>>
+>>>> If you wait long enough, the VM fails to mount / and falls into the dracut
+>>>> initrams.
+>>>
+>>> I have the feeling that we're not talking about the same thing here.>
+>>    > A PV VM always starts out as a non-PV VM and is put into PV mode via two diag308 subcodes (8 & 10). ALL PV subcodes (8 - 10) are spec exceptions if the host isn't enabled for PV.
+>>
+>> The corner case this patch is trying to address is for a PV-enabled host,
+>> a secure enabled OS and !PV-enabled QEMU.
+>>
+>> Please run this command on a secure disk image :
+>>
+>>     qemu-system-s390x -M s390-ccw-virtio -accel kvm -drive file=<file>,if=virtio,format=qcow2 -nographic -nodefaults -serial mon:stdio
+>>
+>> and tell me what you get.
+>>
+> 
+> qemu-system-s390x -M s390-ccw-virtio -accel kvm -drive file=u2204.qcow2,if=virtio,format=qcow2 -nographic -nodefaults -serial mon:stdio
+> LOADPARM=[        ]
+> Using virtio-blk.
+> Using SCSI scheme.
+> .............................................................................................................................
+> Secure unpack facility is not available
 
---3866299591-1384785753-1673272359=:7264
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Yes. That's with a !PV-enabled host. Correct ?
 
-On Mon, 9 Jan 2023, Philippe Mathieu-Daudé wrote:
-> pflash_cfi01_register() hides an implicit sysbus mapping of
-> MMIO region #0. This is not practical in a heterogeneous world
-> where multiple cores use different address spaces. In order to
-> remove pflash_cfi01_register() from the pflash API, open-code it
-> as a qdev creation call followed by an explicit sysbus mapping.
->
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
-> hw/ppc/sam460ex.c     | 19 ++++++++++++++-----
-> hw/ppc/virtex_ml507.c | 15 ++++++++++++---
-> 2 files changed, 26 insertions(+), 8 deletions(-)
->
-> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-> index cf7213f7c9..d2bf11d774 100644
-> --- a/hw/ppc/sam460ex.c
-> +++ b/hw/ppc/sam460ex.c
-> @@ -99,14 +99,23 @@ static int sam460ex_load_uboot(void)
->      *
->      * TODO Figure out what we really need here, and clean this up.
->      */
-> -
-> +    DeviceState *dev;
->     DriveInfo *dinfo;
->
->     dinfo = drive_get(IF_PFLASH, 0, 0);
-> -    pflash_cfi01_register(FLASH_BASE | ((hwaddr)FLASH_BASE_H << 32),
-> -                          "sam460ex.flash", FLASH_SIZE,
-> -                          dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
-> -                          64 * KiB, 1, 0x89, 0x18, 0x0000, 0x0, 1));
-> +    dev = qdev_new(TYPE_PFLASH_CFI01);
-> +    qdev_prop_set_string(dev, "name", "sam460ex.flash");
-> +    qdev_prop_set_drive(dev, "drive",
-> +                        dinfo ? blk_by_legacy_dinfo(dinfo) : NULL);
-> +    qdev_prop_set_uint32(dev, "num-blocks", FLASH_SIZE / (64 * KiB));
-> +    qdev_prop_set_uint64(dev, "sector-length", 64 * KiB);
-> +    qdev_prop_set_uint8(dev, "width", 1);
-> +    qdev_prop_set_bit(dev, "big-endian", true);
-> +    qdev_prop_set_uint16(dev, "id0", 0x0089);
-> +    qdev_prop_set_uint16(dev, "id1", 0x0018);
+Can you try with prot_virt=1 on the host please ?
 
-Can you drop unneeded zeros? Otherwise
+Thanks,
 
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+C.
 
-Regards,
-BALATON Zoltan
-
-> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0,
-> +                    FLASH_BASE | ((hwaddr)FLASH_BASE_H << 32));
->
->     if (!dinfo) {
->         /*error_report("No flash image given with the 'pflash' parameter,"
-> diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
-> index f2f81bd425..2532806922 100644
-> --- a/hw/ppc/virtex_ml507.c
-> +++ b/hw/ppc/virtex_ml507.c
-> @@ -233,9 +233,18 @@ static void virtex_init(MachineState *machine)
->     memory_region_add_subregion(address_space_mem, ram_base, machine->ram);
->
->     dinfo = drive_get(IF_PFLASH, 0, 0);
-> -    pflash_cfi01_register(PFLASH_BASEADDR, "virtex.flash", FLASH_SIZE,
-> -                          dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
-> -                          64 * KiB, 1, 0x89, 0x18, 0x0000, 0x0, 1);
-> +    dev = qdev_new(TYPE_PFLASH_CFI01);
-> +    qdev_prop_set_string(dev, "name", "virtex.flash");
-> +    qdev_prop_set_drive(dev, "drive",
-> +                        dinfo ? blk_by_legacy_dinfo(dinfo) : NULL);
-> +    qdev_prop_set_uint32(dev, "num-blocks", FLASH_SIZE / (64 * KiB));
-> +    qdev_prop_set_uint64(dev, "sector-length", 64 * KiB);
-> +    qdev_prop_set_uint8(dev, "width", 1);
-> +    qdev_prop_set_bit(dev, "big-endian", true);
-> +    qdev_prop_set_uint16(dev, "id0", 0x0089);
-> +    qdev_prop_set_uint16(dev, "id1", 0x0018);
-> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, PFLASH_BASEADDR);
->
->     cpu_irq = qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT);
->     dev = qdev_new("xlnx.xps-intc");
->
---3866299591-1384785753-1673272359=:7264--
 
