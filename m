@@ -2,76 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F45661C1F
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 02:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D590661C25
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 02:56:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEhBx-0000tG-Ff; Sun, 08 Jan 2023 20:43:13 -0500
+	id 1pEhOG-00072N-1G; Sun, 08 Jan 2023 20:55:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEhBw-0000sL-3N
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:43:12 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ id 1pEhOE-000729-8C
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:55:54 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEhBu-0001af-Iv
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:43:11 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- fz16-20020a17090b025000b002269d6c2d83so10246398pjb.0
- for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 17:43:10 -0800 (PST)
+ id 1pEhOC-0007e2-I5
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:55:53 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ h7-20020a17090aa88700b00225f3e4c992so11289832pjq.1
+ for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 17:55:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=+h7RCn1T3BLlChRBESm2AUKCCLXsKfuBBeFApIcrDxY=;
- b=wT5yyM6zUtVSQbCKL2TDavKToH9e8JA9+hT1i1OxFgH/ju8yO/ZtL8kNn8SZct9cd3
- g8BTi8HtM0oMCBdWlUk7WeYtMx0EWg1fRwI2EXqcfEL+eLWmEsEXa3xuT3uxUEWC1Oq+
- olz+v5s3akkt8dlEjES2Od8iV6WSMQCI5f16FIqb2y2IlyjO0boehZUorJoM2wT5jYFe
- /Fsmvz8KVbLIntREquCtzf5Vr3A9ep4kyh1qkWArDRZ6aKiRBRbpgbjvKtqQ4OGpebZi
- ZYyD2980sVUFeEEqg7NJsDLXGrrZrNERmep3O6qccaehMeYNfQCl8rICjpKr+4CByf4T
- OLxw==
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=psfbrZsoxIbulYD67eHrpa9HbBjEZa9GhFh8vxKqOPA=;
+ b=IUrBbROi7Nr6ACChzbnH+xBhenOpJZPHg0cLQeQJ1kij2qovrQv9gccjmYHNp1baEV
+ 4eR1qX/p8RfgSBtdZUTOesbP0u8uhBaagZ9qHohqDdJKxy0CgmuOYKeTY0Maj/fhfy6l
+ y2imzJpujYkdVI7UlC1VEqaUFXTb9ySqX3QeOschlz5/+m6/mMY0eBAbXK1ciAL3Wvgo
+ 7xRy05v0xtLbuOlGD/HRo0dnB5SoPtD3YwbynyrZUHLBbwxJENLPAKztRNQcnd8+Mq1w
+ kQexJJYMOFB6p2SahaZ7oui3ZGLYJb3WPKx5VDQY+FoOImQRJC27uxZsUpr/MITf1h+3
+ FKBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+h7RCn1T3BLlChRBESm2AUKCCLXsKfuBBeFApIcrDxY=;
- b=RL2r5IfT7jDYbrlwnNsqEwUcs3tJ3cdkD1QjmxBfGxu1GeAzCqwMF4VNU5gAWLrsb+
- eklX7FUSmvrwDFA8gAjA333ThACgSfopeBAyLYyaxluxXa1C63awCRaVzLj1TCMpaQ66
- m1U+3d5KYGf1gNg9pXxlAnhtnlp05bm/a+vR8GZokjbdtRalYKt3S2GPZvoD1MJttyX8
- kxqvyqpfqkvoids8OvnQWW6RxQ5SoRI4CR1HKUbp9vbTkFzKFObv2hoX+SmJcHa0RHiK
- T1X6qJUtplaQcY3MfjmKQoE3OTGHZnKdnRDdH1RiWYT9LhtTqmh9ca915RQRrMjo+r98
- I/jQ==
-X-Gm-Message-State: AFqh2kr2+4tY08yeuImVSHXD79YY3lsH8BlLslo+cZInvicpyUb7ACc1
- 8ARMZ5EQRbyejyD1AV9w35NmjI50wLXQhKBH
-X-Google-Smtp-Source: AMrXdXs1XSpJY09O/o7ZgeVFSMs3fHou25EthMRo5FEUfCJ+odrofa6afsa4vK/WlTOoprrBsaagFg==
-X-Received: by 2002:a17:903:240b:b0:192:8bee:3e29 with SMTP id
- e11-20020a170903240b00b001928bee3e29mr53786136plo.2.1673228589290; 
- Sun, 08 Jan 2023 17:43:09 -0800 (PST)
-Received: from stoup.. ([2602:47:d48c:8101:a909:891c:953d:a6b0])
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=psfbrZsoxIbulYD67eHrpa9HbBjEZa9GhFh8vxKqOPA=;
+ b=GRrzhEVcoaFMK7llfD202huUNTfxcMFpXAxz83gVxY+eplQSop08lvuO0aP0QTMUMV
+ DzrSCXcEJLOpOsv07NGclrPDpSs+cIl13/KDFQZZl0Udq+tkXN8X8RbLQbWu/n/8jXau
+ 24qlFU7MF6XdZmVl9CsX0hfWL11ThOHynVYNZYLn0DQACAqNS9fm/rQ2uH4DFoZSEcWp
+ Glwfjj0siSwOm/sJWiMhadNo89QkeBf3n2LBrJOWHV/nGs4xhbuaGpt0XD/SWz320eGO
+ tr0+Ux7k12vl1X2iaElk2qrChFfttypTZHp4PzW5EBbvZ1M1rN8AjSbOUOsekGASh84r
+ sB6w==
+X-Gm-Message-State: AFqh2kp5fKlmNo9lm2tUs3a8dlixaZCqR4PH9O/QlZh9M7uQfA31fwQw
+ uAqDeDhsoA3YkJMY2Iuy1FiPTA==
+X-Google-Smtp-Source: AMrXdXsdW0ATMjZnWU3W3f6m1TKvFs9rvwZODjdT+LZg4fOf/+p0y0gyAJgXpUgRtU+YdCBmLRVBXw==
+X-Received: by 2002:a05:6a20:4f87:b0:b5:b459:dd74 with SMTP id
+ gh7-20020a056a204f8700b000b5b459dd74mr4459266pzb.41.1673229350946; 
+ Sun, 08 Jan 2023 17:55:50 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:a909:891c:953d:a6b0?
+ ([2602:47:d48c:8101:a909:891c:953d:a6b0])
  by smtp.gmail.com with ESMTPSA id
- w13-20020a170902ca0d00b00178b77b7e71sm4743617pld.188.2023.01.08.17.43.08
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Jan 2023 17:43:08 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 22/22] tcg/riscv: Implement direct branch for goto_tb
-Date: Sun,  8 Jan 2023 17:42:48 -0800
-Message-Id: <20230109014248.2894281-23-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230109014248.2894281-1-richard.henderson@linaro.org>
-References: <20230109014248.2894281-1-richard.henderson@linaro.org>
+ u11-20020a6540cb000000b0046ff3634a78sm4095193pgp.71.2023.01.08.17.55.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 08 Jan 2023 17:55:50 -0800 (PST)
+Message-ID: <94c9df50-7eb2-4370-a968-47139c2bd393@linaro.org>
+Date: Sun, 8 Jan 2023 17:55:48 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 4/4] target/m68k: fix FPSR quotient byte for frem
+ instruction
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, laurent@vivier.eu,
+ qemu-devel@nongnu.org
+References: <20230104134554.138012-1-mark.cave-ayland@ilande.co.uk>
+ <20230104134554.138012-5-mark.cave-ayland@ilande.co.uk>
+ <51da8243-885d-a98e-deb6-746383da1d7d@linaro.org>
+ <312b1b75-e74e-c107-ec98-c05476e9125a@ilande.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <312b1b75-e74e-c107-ec98-c05476e9125a@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,53 +98,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now that tcg can handle direct and indirect goto_tb simultaneously,
-we can optimistically leave space for a direct branch and fall back
-to loading the pointer from the TB for an indirect branch.
+On 1/7/23 15:00, Mark Cave-Ayland wrote:
+>>>   void HELPER(frem)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
+>>>   {
+>>> +    float_status fp_status;
+>>> +    FPReg fp_quot;
+>>>       uint32_t quotient;
+>>>       int sign;
+>>> +    /* Calculate quotient directly using round to nearest mode */
+>>> +    set_float_rounding_mode(float_round_nearest_even, &fp_status);
+>>> +    set_floatx80_rounding_precision(
+>>> +        get_floatx80_rounding_precision(&env->fp_status), &fp_status);
+>>> +    fp_quot.d = floatx80_div(val1->d, val0->d, &fp_status);
+>>> +
+>>>       res->d = floatx80_rem(val1->d, val0->d, &env->fp_status);
+>>> -    if (floatx80_is_any_nan(res->d)) {
+>>> +    if (floatx80_is_any_nan(fp_quot.d)) {
+>>
+>> I think you should leave this line unchanged, and move the div afterward.
+>> I also think you should completely initialize the local fp_status = { }.
+>>
+>> With that,
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> I can leave the floatx80_is_any_nan() line above unchanged and also initialise the local 
+> fp_status, however the floatx80_div() has to happen before floatx80_rem() function is 
+> called. This is because the fmod and frem instructions write the result back to one of the 
+> input registers, which then causes the subsequent floatx80_div() to return an incorrect 
+> result.
+> 
+> Would just these 2 changes be enough to keep your R-B tag for a v3?
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/riscv/tcg-target.c.inc | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+Mm.  I suppose so.  Otherwise, compute into a local variable:
 
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 82ca86431e..f0b0a98e2c 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -1303,7 +1303,11 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t a0)
- 
- static void tcg_out_goto_tb(TCGContext *s, int which)
- {
--    /* indirect jump method */
-+    /* Direct branch will be patched by tb_target_set_jmp_target. */
-+    set_jmp_insn_offset(s, which);
-+    tcg_out32(s, OPC_NOP);
-+
-+    /* When branch is out of range, fall through to indirect. */
-     tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
-                get_jmp_target_addr(s, which));
-     tcg_out_opc_imm(s, OPC_JALR, TCG_REG_ZERO, TCG_REG_TMP0, 0);
-@@ -1313,7 +1317,18 @@ static void tcg_out_goto_tb(TCGContext *s, int which)
- void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
-                               uintptr_t jmp_rx, uintptr_t jmp_rw)
- {
--    /* Always indirect, nothing to do */
-+    uintptr_t addr = tb->jmp_target_addr[n];
-+    ptrdiff_t offset = addr - jmp_rx;
-+    tcg_insn_unit insn;
-+
-+    /* Either directly branch, or fall through to indirect branch. */
-+    if (offset == sextreg(offset, 0, 20)) {
-+        insn = encode_uj(OPC_JAL, TCG_REG_ZERO, offset);
-+    } else {
-+        insn = OPC_NOP;
-+    }
-+    qatomic_set((uint32_t *)jmp_rw, insn);
-+    flush_idcache_range(jmp_rx, jmp_rw, 4);
- }
- 
- static void tcg_out_op(TCGContext *s, TCGOpcode opc,
--- 
-2.34.1
+     floatx80 fp_rem = floatx80_rem(val1->d, val0->d, &env->fp_status);
+     if (!floatx80_is_any_nan(fp_rem)) {
+         float_status scratch = env->fp_status;
+         floatx80 fp_quot;
+         uint32_t int_quot;
+         int sign;
 
+         set_float_rounding_mode(float_round_nearest_even, &scratch);
+         fp_quot = floatx80_div(val1->d, val0->d, &scratch);
+
+         sign = ...
+         int_quot = ...
+         ...
+     }
+     res->d = fp_rem;
+
+?
+
+
+r~
 
