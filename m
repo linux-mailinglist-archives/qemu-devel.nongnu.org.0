@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E89662148
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 10:19:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7797C66219A
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 10:31:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEoIK-0000y5-Et; Mon, 09 Jan 2023 04:18:16 -0500
+	id 1pEoIP-0000zi-Fn; Mon, 09 Jan 2023 04:18:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEoII-0000xY-1A
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:18:14 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEoIM-0000z8-SH
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:18:18 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEoIF-0002mN-Bo
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:18:12 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- k22-20020a05600c1c9600b003d1ee3a6289so6086269wms.2
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 01:18:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEoIK-0002ov-2n
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:18:18 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ z8-20020a05600c220800b003d33b0bda11so6774331wml.0
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 01:18:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OifjLWkIiTpp4NzZ3D7HB/BxO662eTPuWGQeISpUJWM=;
- b=y95U5XbFCWMH4UqxWXs/nMeNNckTxjBw5GqzEhKQPhz4seP5+cFAG0pqzIo9ZJ4zs0
- ilHmhIGE5yZ0bHOYFagl7O2tmUx4IzDa3xMSF8Yuptg9fgHyx19P3yu2vKV1yTkZsqPg
- 4njqe4X1UHpV8ygPQSgRJljrF6p/C/qwfiAMcs3GPlRn4/+KJJl0VERg9Hh7jOZspBzo
- Qi2/gDJ93kONkTHMVk3USBmq0Ey5Gss7o1VRGLGq5KgFC1cYw6PVaz7R0nDxDqa8q3C2
- XXMTaxKPkxL0clu7Nc63uOLH5A29kSFLPmjFG5pGTNATtvJC2o11eSxAoq3lVEYwqUrJ
- wYug==
+ bh=XBZPNJwwwaWX0RjrF0KkQO4XpoIayE+6GXh3agPp5AU=;
+ b=HThy/Od9Mw18GjYaLpxMrV0IBibiTJIH/JaBK0A/JuGRaNHin+DU8kmFzbfHDO0YN+
+ 7jIPVAfQk7CczHZ0wrmUezEpcsdXKchz3kU1xZHH5xq9X+hmrsa3HjuFGg2nXDuR1MT3
+ 3KSySxx8WvUWBfJ71sEOlg8Saeao9kyKD+89EgYtXmiIgdKQFnI+uUIX3DSr8jFD9K3V
+ YW7ukY+orZbwUmi3eELYgmfUSGhRGu5nOvQZt38diMysDx2cJy1yJABVQFQWjteSctmY
+ 2LQHNAv1Gy35RPZsKj7fsMVEvUsuliOOYP3nJqbgDL0bFRc6XVubktlmW4HemYvtoW7N
+ UA9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OifjLWkIiTpp4NzZ3D7HB/BxO662eTPuWGQeISpUJWM=;
- b=mt0gKyuvDEu3ERWmTgk3XBcClkYYmOzqSlS0eZdFZtkQqHmI1ukcQK/wVDZ1tV1Fip
- j6rM6H+s1j6RaoaECNUTgP8Rm2smY8ZwisvR8beybNiSTiiQ1NjJXUIA9ZDyBdJcPjJ5
- Mk/fuWcnwRnZkr6gRtkFSPF+TC5BAQPcc21NqQSlvfqCn1JEoE/tUmlH0SYAjUUcU9of
- IIGIsYCVUrl2GTJbUq7IHD2ppaS9YmXnY5VQmAh8ZsFHKwXuVc0JrxuDCFcMcD00v98L
- qfFBC2ep/mx0PZb/YmleFV0DvAGvNFfPMej1VQ6/a1haSNj+0aOGkgAPL+ZRKbbsofAc
- Cj6w==
-X-Gm-Message-State: AFqh2kofYaPMHaIvwqnCvCCJMXl9W/vbWG3eoKP82puqOzRpIH/b78g5
- K0OZYRV/O/SUSnc1I0Tv0eWfG+ao5BLjGVWv
-X-Google-Smtp-Source: AMrXdXtrZ72blCJVqjEUB0SK8nNZ2olujCinE4MhXcIqiCBvKLO0hRKWBcgONjwNqUwxkofNQcYLnw==
-X-Received: by 2002:a05:600c:5022:b0:3c6:e61e:ae8c with SMTP id
- n34-20020a05600c502200b003c6e61eae8cmr55792568wmr.28.1673255889877; 
- Mon, 09 Jan 2023 01:18:09 -0800 (PST)
+ bh=XBZPNJwwwaWX0RjrF0KkQO4XpoIayE+6GXh3agPp5AU=;
+ b=sEQREgk2s90K87TC4atpSaHfSNeZxxjsGBkiEODEmiR9BDPLrFTVSK/oiAQmchsXdP
+ trVVRtgII0/MeXP4hFdmqTwjGx13BNgXLO70GAABKVt7HOyFFUNATB4E1zyH4IOURUc0
+ 9vakHH/PJjlOrr93NZdHxbAvjD6P9zh48pWZZJ+Tk/EBg4RduUUeeF9SIZP3C0LrsZvQ
+ Qd6+qCeTiQro01m9qf480L9GIBvx0ksSiE72qqLf61Wa8/g6UwDUoJVLdqPKpkp17Mj1
+ XiaNy4bIub4aue/Nvd7uFsfXNMvlg7JjclcM1D/qkdtq4R7oiNGxWZoCBAf1M8lcRpsQ
+ rpTQ==
+X-Gm-Message-State: AFqh2kpwq568l8aSAFtRS1riBbNnGJR2+wdtEUV33DUPvvJtSUwelBUa
+ vj0tu9pEihUqgjuOYYcnD6//u5ZXDJZtcXw2
+X-Google-Smtp-Source: AMrXdXuDrsfwH2tcylv6oI9mcj1wyAAxWANdkDTDmwCxYZ9GhWE9H/g7/T71ECTXVVBLiekHUyJ0Bg==
+X-Received: by 2002:a05:600c:1d89:b0:3d3:5cd6:781 with SMTP id
+ p9-20020a05600c1d8900b003d35cd60781mr44990326wms.37.1673255894537; 
+ Mon, 09 Jan 2023 01:18:14 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- 2-20020a05600c228200b003d9e00dfccfsm8342334wmf.8.2023.01.09.01.18.09
+ bg24-20020a05600c3c9800b003cfa3a12660sm27714784wmb.1.2023.01.09.01.18.13
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 09 Jan 2023 01:18:09 -0800 (PST)
+ Mon, 09 Jan 2023 01:18:14 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 3/5] hw/i2c/versatile_i2c: Replace TYPE_VERSATILE_I2C ->
- TYPE_ARM_SBCON_I2C
-Date: Mon,  9 Jan 2023 10:17:52 +0100
-Message-Id: <20230109091754.79499-4-philmd@linaro.org>
+Subject: [PATCH 4/5] hw/i2c/versatile_i2c: Use ARM_SBCON_I2C() macro
+Date: Mon,  9 Jan 2023 10:17:53 +0100
+Message-Id: <20230109091754.79499-5-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230109091754.79499-1-philmd@linaro.org>
 References: <20230109091754.79499-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,90 +90,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+ARM_SBCON_I2C() macro and ArmSbconI2CState typedef are
+already declared via the QOM DECLARE_INSTANCE_CHECKER()
+macro in "hw/i2c/arm_sbcon_i2c.h". Drop the VERSATILE_I2C
+declarations from versatile_i2c.c.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/arm/realview.c              | 2 +-
- hw/arm/versatilepb.c           | 2 +-
- hw/arm/vexpress.c              | 2 +-
- hw/i2c/versatile_i2c.c         | 4 ++--
- include/hw/i2c/arm_sbcon_i2c.h | 3 +--
- 5 files changed, 6 insertions(+), 7 deletions(-)
+ hw/i2c/versatile_i2c.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/hw/arm/realview.c b/hw/arm/realview.c
-index d2dc8a8952..a5aa2f046a 100644
---- a/hw/arm/realview.c
-+++ b/hw/arm/realview.c
-@@ -309,7 +309,7 @@ static void realview_init(MachineState *machine,
-         }
-     }
- 
--    dev = sysbus_create_simple(TYPE_VERSATILE_I2C, 0x10002000, NULL);
-+    dev = sysbus_create_simple(TYPE_ARM_SBCON_I2C, 0x10002000, NULL);
-     i2c = (I2CBus *)qdev_get_child_bus(dev, "i2c");
-     i2c_slave_create_simple(i2c, "ds1338", 0x68);
- 
-diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
-index ecc1f6cf74..e4fff668e2 100644
---- a/hw/arm/versatilepb.c
-+++ b/hw/arm/versatilepb.c
-@@ -336,7 +336,7 @@ static void versatile_init(MachineState *machine, int board_id)
-     /* Add PL031 Real Time Clock. */
-     sysbus_create_simple("pl031", 0x101e8000, pic[10]);
- 
--    dev = sysbus_create_simple(TYPE_VERSATILE_I2C, 0x10002000, NULL);
-+    dev = sysbus_create_simple(TYPE_ARM_SBCON_I2C, 0x10002000, NULL);
-     i2c = (I2CBus *)qdev_get_child_bus(dev, "i2c");
-     i2c_slave_create_simple(i2c, "ds1338", 0x68);
- 
-diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
-index e1d1983ae6..391199d458 100644
---- a/hw/arm/vexpress.c
-+++ b/hw/arm/vexpress.c
-@@ -646,7 +646,7 @@ static void vexpress_common_init(MachineState *machine)
-     sysbus_create_simple("sp804", map[VE_TIMER01], pic[2]);
-     sysbus_create_simple("sp804", map[VE_TIMER23], pic[3]);
- 
--    dev = sysbus_create_simple(TYPE_VERSATILE_I2C, map[VE_SERIALDVI], NULL);
-+    dev = sysbus_create_simple(TYPE_ARM_SBCON_I2C, map[VE_SERIALDVI], NULL);
-     i2c = (I2CBus *)qdev_get_child_bus(dev, "i2c");
-     i2c_slave_create_simple(i2c, "sii9022", 0x39);
- 
 diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/versatile_i2c.c
-index ee095762e5..b95c70608b 100644
+index b95c70608b..d19df62265 100644
 --- a/hw/i2c/versatile_i2c.c
 +++ b/hw/i2c/versatile_i2c.c
-@@ -31,7 +31,7 @@
- 
- typedef ArmSbconI2CState VersatileI2CState;
- DECLARE_INSTANCE_CHECKER(ArmSbconI2CState, VERSATILE_I2C,
--                         TYPE_VERSATILE_I2C)
-+                         TYPE_ARM_SBCON_I2C)
- 
- 
- 
-@@ -98,7 +98,7 @@ static void versatile_i2c_init(Object *obj)
- }
- 
- static const TypeInfo versatile_i2c_info = {
--    .name          = TYPE_VERSATILE_I2C,
-+    .name          = TYPE_ARM_SBCON_I2C,
-     .parent        = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(ArmSbconI2CState),
-     .instance_init = versatile_i2c_init,
-diff --git a/include/hw/i2c/arm_sbcon_i2c.h b/include/hw/i2c/arm_sbcon_i2c.h
-index 0101422d9d..da9b5e8f83 100644
---- a/include/hw/i2c/arm_sbcon_i2c.h
-+++ b/include/hw/i2c/arm_sbcon_i2c.h
-@@ -17,8 +17,7 @@
- #include "hw/i2c/bitbang_i2c.h"
+@@ -29,11 +29,6 @@
+ #include "qemu/module.h"
  #include "qom/object.h"
  
--#define TYPE_VERSATILE_I2C "versatile_i2c"
--#define TYPE_ARM_SBCON_I2C TYPE_VERSATILE_I2C
-+#define TYPE_ARM_SBCON_I2C "versatile_i2c"
+-typedef ArmSbconI2CState VersatileI2CState;
+-DECLARE_INSTANCE_CHECKER(ArmSbconI2CState, VERSATILE_I2C,
+-                         TYPE_ARM_SBCON_I2C)
+-
+-
  
- typedef struct ArmSbconI2CState ArmSbconI2CState;
- DECLARE_INSTANCE_CHECKER(ArmSbconI2CState, ARM_SBCON_I2C, TYPE_ARM_SBCON_I2C)
+ REG32(CONTROL_GET, 0)
+ REG32(CONTROL_SET, 0)
+@@ -86,7 +81,7 @@ static const MemoryRegionOps versatile_i2c_ops = {
+ static void versatile_i2c_init(Object *obj)
+ {
+     DeviceState *dev = DEVICE(obj);
+-    ArmSbconI2CState *s = VERSATILE_I2C(obj);
++    ArmSbconI2CState *s = ARM_SBCON_I2C(obj);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+     I2CBus *bus;
+ 
 -- 
 2.38.1
 
