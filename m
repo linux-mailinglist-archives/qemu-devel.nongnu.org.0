@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67AED662FD8
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 20:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B1C9662FFB
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 20:10:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pExRQ-000456-TT; Mon, 09 Jan 2023 14:04:16 -0500
+	id 1pExRZ-0004Qn-Au; Mon, 09 Jan 2023 14:04:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pExQn-0003xD-57
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pExQn-0003xF-9B
  for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:03:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pExQj-0001Hm-JD
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pExQj-0001JB-Jf
  for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:03:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673291004;
+ s=mimecast20190719; t=1673291008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xaJyR4agGYr5y49FQtiUz5de91ILyd/LcvQho4CUPhA=;
- b=eBWtijrU3asBMVfjv5ANNEVriBbEcKSJ7r74RuBsyAr5LTQpKUSXqocv4WDPJwNVKcv8MH
- fHNmA2JipZlt7rFnICphimXMcjkDDtvDPqXCqfMpOXvK2Ti+VQVqnF9g1R2HlWz1fsVw1a
- DTig5oPag0dKLjsDWu88hAGq6oi/t9I=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jpRGMSnjdQBFdYzT7kRqcM9X4dCB5RwVGG+X1Gtf2KU=;
+ b=QZ99nwupZmkr84umoPxYMMX14NRH3KqgZ7HV/zQWKeArhaJ46jk2rF8HvyJbDln7RcS76g
+ Cz5C6VfCF9bCTQrVxaYWmHnFvGmxow3Z0A3etqg3g/ymETRzgh3RIf5PVm+03oP9VXODgK
+ hKnBShUJHkfdSyd9mba7Cd0FA9RAvbA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-Z2eZdWZEOxeCfI9mOiIjAA-1; Mon, 09 Jan 2023 14:03:23 -0500
-X-MC-Unique: Z2eZdWZEOxeCfI9mOiIjAA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-256-I-fsgrzyPSmdTc_caZ8o1Q-1; Mon, 09 Jan 2023 14:03:24 -0500
+X-MC-Unique: I-fsgrzyPSmdTc_caZ8o1Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F397B1C09040;
- Mon,  9 Jan 2023 19:03:22 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86B8E857F42;
+ Mon,  9 Jan 2023 19:03:24 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C46C8175AD;
- Mon,  9 Jan 2023 19:03:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EA3740C2004;
+ Mon,  9 Jan 2023 19:03:24 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 928AB21E5DFF; Mon,  9 Jan 2023 20:03:21 +0100 (CET)
+ id 9724121E675B; Mon,  9 Jan 2023 20:03:21 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com,
  philmd@linaro.org
-Subject: [PATCH v4 04/17] Revert "hmp: info spice: take out webdav"
-Date: Mon,  9 Jan 2023 20:03:08 +0100
-Message-Id: <20230109190321.1056914-5-armbru@redhat.com>
+Subject: [PATCH v4 05/17] ui/spice: Require spice-server >= 0.14.0
+Date: Mon,  9 Jan 2023 20:03:09 +0100
+Message-Id: <20230109190321.1056914-6-armbru@redhat.com>
 In-Reply-To: <20230109190321.1056914-1-armbru@redhat.com>
 References: <20230109190321.1056914-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,35 +79,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This reverts commit 7c6044a94e52db8aef9a71d616c7a0914adb71ab.
+Version 0.14.0 is now old enough to have made it into the major
+distributions:
 
-We had to take it out because SPICE_CHANNEL_WEBDAV requires
-spice-protocol 0.12.7, but we had only 0.12.3.  We have 0.14.0 now, so
-put it back in.
+     Debian 11: 0.14.3
+     RHEL-8: 0.14.3
+     FreeBSD (ports): 0.15.0
+     Fedora 35: 0.15.0
+     Ubuntu 20.04: 0.14.2
+     OpenSUSE Leap 15.3: 0.14.3
+
+Requiring it lets us drop a number of version checks.  The next commit
+will clean up some more.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- monitor/hmp-cmds.c | 5 -----
- 1 file changed, 5 deletions(-)
+ meson.build                | 2 +-
+ hw/display/qxl.h           | 2 --
+ include/ui/qemu-spice.h    | 6 +-----
+ include/ui/spice-display.h | 2 --
+ chardev/spice.c            | 2 --
+ hw/display/qxl.c           | 7 +------
+ 6 files changed, 3 insertions(+), 18 deletions(-)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 9947ff0b45..67e39f408e 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -622,12 +622,7 @@ void hmp_info_spice(Monitor *mon, const QDict *qdict)
-         [SPICE_CHANNEL_SMARTCARD] = "smartcard",
-         [SPICE_CHANNEL_USBREDIR] = "usbredir",
-         [SPICE_CHANNEL_PORT] = "port",
--#if 0
--        /* minimum spice-protocol is 0.12.3, webdav was added in 0.12.7,
--         * no easy way to #ifdef (SPICE_CHANNEL_* is a enum).  Disable
--         * as quick fix for build failures with older versions. */
-         [SPICE_CHANNEL_WEBDAV] = "webdav",
+diff --git a/meson.build b/meson.build
+index 8fabfbcf95..4bc0a482b5 100644
+--- a/meson.build
++++ b/meson.build
+@@ -748,7 +748,7 @@ if not get_option('spice_protocol').auto() or have_system
+ endif
+ spice = not_found
+ if not get_option('spice').auto() or have_system
+-  spice = dependency('spice-server', version: '>=0.12.5',
++  spice = dependency('spice-server', version: '>=0.14.0',
+                      required: get_option('spice'),
+                      method: 'pkg-config', kwargs: static_kwargs)
+ endif
+diff --git a/hw/display/qxl.h b/hw/display/qxl.h
+index 7894bd5134..5bec25cdd3 100644
+--- a/hw/display/qxl.h
++++ b/hw/display/qxl.h
+@@ -100,9 +100,7 @@ struct PCIQXLDevice {
+     QXLModes           *modes;
+     uint32_t           rom_size;
+     MemoryRegion       rom_bar;
+-#if SPICE_SERVER_VERSION >= 0x000c06 /* release 0.12.6 */
+     uint16_t           max_outputs;
 -#endif
-     };
  
-     info = qmp_query_spice(NULL);
+     /* vram pci bar */
+     uint64_t           vram_size;
+diff --git a/include/ui/qemu-spice.h b/include/ui/qemu-spice.h
+index 21fe195e18..a7a1890b3f 100644
+--- a/include/ui/qemu-spice.h
++++ b/include/ui/qemu-spice.h
+@@ -34,13 +34,9 @@ int qemu_spice_add_display_interface(QXLInstance *qxlin, QemuConsole *con);
+ int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
+                             const char *subject);
+ 
+-#if !defined(SPICE_SERVER_VERSION) || (SPICE_SERVER_VERSION < 0xc06)
+-#define SPICE_NEEDS_SET_MM_TIME 1
+-#else
+ #define SPICE_NEEDS_SET_MM_TIME 0
+-#endif
+ 
+-#if defined(SPICE_SERVER_VERSION) && (SPICE_SERVER_VERSION >= 0x000f00)
++#if SPICE_SERVER_VERSION >= 0x000f00 /* release 0.15.0 */
+ #define SPICE_HAS_ATTACHED_WORKER 1
+ #else
+ #define SPICE_HAS_ATTACHED_WORKER 0
+diff --git a/include/ui/spice-display.h b/include/ui/spice-display.h
+index e271e011da..5aa13664d6 100644
+--- a/include/ui/spice-display.h
++++ b/include/ui/spice-display.h
+@@ -28,11 +28,9 @@
+ #include "ui/console.h"
+ 
+ #if defined(CONFIG_OPENGL) && defined(CONFIG_GBM)
+-# if SPICE_SERVER_VERSION >= 0x000d01 /* release 0.13.1 */
+ #  define HAVE_SPICE_GL 1
+ #  include "ui/egl-helpers.h"
+ #  include "ui/egl-context.h"
+-# endif
+ #endif
+ 
+ #define NUM_MEMSLOTS 8
+diff --git a/chardev/spice.c b/chardev/spice.c
+index bbffef4913..e843d961a7 100644
+--- a/chardev/spice.c
++++ b/chardev/spice.c
+@@ -98,9 +98,7 @@ static SpiceCharDeviceInterface vmc_interface = {
+     .write              = vmc_write,
+     .read               = vmc_read,
+     .event              = vmc_event,
+-#if SPICE_SERVER_VERSION >= 0x000c06
+     .flags              = SPICE_CHAR_DEVICE_NOTIFY_WRITABLE,
+-#endif
+ };
+ 
+ 
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index 6772849dec..ddca611804 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -260,8 +260,7 @@ static void qxl_spice_monitors_config_async(PCIQXLDevice *qxl, int replay)
+                     QXL_COOKIE_TYPE_POST_LOAD_MONITORS_CONFIG,
+                     0));
+     } else {
+-/* >= release 0.12.6, < release 0.14.2 */
+-#if SPICE_SERVER_VERSION >= 0x000c06 && SPICE_SERVER_VERSION < 0x000e02
++#if SPICE_SERVER_VERSION < 0x000e02 /* release 0.14.2 */
+         if (qxl->max_outputs) {
+             spice_qxl_set_max_monitors(&qxl->ssd.qxl, qxl->max_outputs);
+         }
+@@ -1089,12 +1088,10 @@ static int interface_client_monitors_config(QXLInstance *sin,
+         return 1;
+     }
+ 
+-#if SPICE_SERVER_VERSION >= 0x000c06 /* release 0.12.6 */
+     /* limit number of outputs based on setting limit */
+     if (qxl->max_outputs && qxl->max_outputs <= max_outputs) {
+         max_outputs = qxl->max_outputs;
+     }
+-#endif
+ 
+     config_changed = qxl_rom_monitors_config_changed(rom,
+                                                      monitors_config,
+@@ -2487,9 +2484,7 @@ static Property qxl_properties[] = {
+         DEFINE_PROP_UINT32("vram64_size_mb", PCIQXLDevice, vram_size_mb, -1),
+         DEFINE_PROP_UINT32("vgamem_mb", PCIQXLDevice, vgamem_size_mb, 16),
+         DEFINE_PROP_INT32("surfaces", PCIQXLDevice, ssd.num_surfaces, 1024),
+-#if SPICE_SERVER_VERSION >= 0x000c06 /* release 0.12.6 */
+         DEFINE_PROP_UINT16("max_outputs", PCIQXLDevice, max_outputs, 0),
+-#endif
+         DEFINE_PROP_UINT32("xres", PCIQXLDevice, xres, 0),
+         DEFINE_PROP_UINT32("yres", PCIQXLDevice, yres, 0),
+         DEFINE_PROP_BOOL("global-vmstate", PCIQXLDevice, vga.global_vmstate, false),
 -- 
 2.39.0
 
