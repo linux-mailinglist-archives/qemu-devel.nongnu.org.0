@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F9D6626C8
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:21:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE1AE6626E7
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:23:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEqz4-0000cB-BK; Mon, 09 Jan 2023 07:10:34 -0500
+	id 1pEr7T-0006nK-Af; Mon, 09 Jan 2023 07:19:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqyn-0000US-NT
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:10:19 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqyj-00075j-Te
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:10:17 -0500
-Received: by mail-wr1-x430.google.com with SMTP id z5so6873536wrt.6
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 04:10:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CQ5ASrGaNWsN6DpEPRppXsFKltp3KdI23QpZkfV//Sk=;
- b=upJZb1eD8JaPoGdmoCWTf0TpmPHJ0MC9/P7h+KSI6ZV0vN2oWKamdQaOJCir2QR/8+
- nxb/KxoseEqdtvqdTn7GwEvleaggxf1k/cGOQbPJ8p7ebV/pWYL1HRE290g2eXMZlO+Q
- Om+hZB88tCjZnQvVCBGTEFqXX6ZDWGgmra9jDmHIzetUHtqlevzxK+h8orWsNgsw0Rn2
- HzRr67mUZTBMOgYE7xn+o7PAcvJdM14JTKGfIoQQV7qfPKTF+FRhl8pQg6ga53ZR5U08
- om8q3OMdtubU7AKKZS3MYwHIqLOxB1j8HzjtNtMqes9LP6ZykdoiBb1vwAvefSRPPy63
- j2ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CQ5ASrGaNWsN6DpEPRppXsFKltp3KdI23QpZkfV//Sk=;
- b=VVKluF0/tnFAaWUyrsdNIFES5D/hYV16MuO4yfJ2mA7E8LcYT4H2O9vnQ3nujeLgtE
- l0naIw2UFijlNMtNetlEBOTANi3ViXk9F1MpgT/b57r2h2O3xofqjcaxR9ST6vqDuEJt
- 8Qgb71RU2reHvlB4BBVafQ390Am71+mDaYAcmXDMpal1gL5xM6raxr2EhCEr252RAu7o
- bA1HswOTmXTU+1mkn/XahguogJyWzw5gSUKSdqws5ZV4eIv2KL7V/zirKJ8j+xGWlaXo
- UKxJzIrdHC1CxkLQs47iuteA3G5ho6FUoxqY6wl9f7FhZ9lhAsXXsmsCHaWy8N5haAMB
- jIWA==
-X-Gm-Message-State: AFqh2kqbRIqckIKsCxOdKYcJrPLgFSIPqb/OT6kDi2LUsuaQnaRk6oLA
- oWCqTnHKzprnycst+Dz1kSWGfUSCvhJsPQyV
-X-Google-Smtp-Source: AMrXdXtr2775RJAVW6TqSye0zyvW030j3hIOSFpBphhzJFf6VW7paWmJF7TAGp+Ai4/FzB4TXedzuA==
-X-Received: by 2002:a5d:4f05:0:b0:28c:6430:c1bc with SMTP id
- c5-20020a5d4f05000000b0028c6430c1bcmr23392843wru.3.1673266211224; 
- Mon, 09 Jan 2023 04:10:11 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- a26-20020a5d457a000000b0028e8693bb75sm9712113wrc.63.2023.01.09.04.10.10
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 09 Jan 2023 04:10:10 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bin Meng <bmeng.cn@gmail.com>
-Subject: [PATCH v2 20/21] hw/block: Remove unused pflash_cfi01_register()
-Date: Mon,  9 Jan 2023 13:08:32 +0100
-Message-Id: <20230109120833.3330-21-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230109120833.3330-1-philmd@linaro.org>
-References: <20230109120833.3330-1-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
+ id 1pEr7P-0006gg-3Q
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:19:11 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
+ id 1pEr7M-0003IL-Tu
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:19:10 -0500
+Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.56])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NrCcp6XBrz16MdM;
+ Mon,  9 Jan 2023 20:17:30 +0800 (CST)
+Received: from localhost.localdomain (10.175.124.27) by
+ dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Mon, 9 Jan 2023 20:19:02 +0800
+To: <qemu-devel@nongnu.org>
+CC: <quintela@redhat.com>, <dgilbert@redhat.com>, <yubihong@huawei.com>,
+ <xiexiangyou@huawei.com>, <zhengchuan@huawei.com>, <linyilu@huawei.com>,
+ <jiangjiacheng@huawei.com>
+Subject: [RESEND PATCH 1/2] migration: report migration related thread pid to
+ libvirt
+Date: Mon, 9 Jan 2023 20:12:34 +0800
+Message-ID: <20230109121235.2666476-2-jiangjiacheng@huawei.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20230109121235.2666476-1-jiangjiacheng@huawei.com>
+References: <20230109121235.2666476-1-jiangjiacheng@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.124.27]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500022.china.huawei.com (7.185.36.66)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=jiangjiacheng@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,88 +62,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jiang Jiacheng <jiangjiacheng@huawei.com>
+From:  Jiang Jiacheng via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We converted all caller of pflash_cfi01_register() by open
-coding a call to pflash_cfi01_create() followed by an explicit
-call to sysbus_mmio_map(); we can now remove it.
+From: Zheng Chuan <zhengchuan@huawei.com>
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Report migration thread pid to libvirt in order to pin
+migration thread to different cpu.
 ---
- hw/block/pflash_cfi01.c  | 31 -------------------------------
- include/hw/block/flash.h | 10 ----------
- 2 files changed, 41 deletions(-)
+ migration/migration.c |  3 +++
+ qapi/migration.json   | 12 ++++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 866ea596ea..4e74c9e0d9 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -953,37 +953,6 @@ static void pflash_cfi01_register_types(void)
+diff --git a/migration/migration.c b/migration/migration.c
+index 52b5d39244..2534e5a1f1 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3955,6 +3955,9 @@ static void *migration_thread(void *opaque)
+     MigThrError thr_error;
+     bool urgent = false;
  
- type_init(pflash_cfi01_register_types)
++    /* report migration thread pid to libvirt */
++    qapi_event_send_migration_pid(qemu_get_thread_id());
++
+     rcu_register_thread();
  
--PFlashCFI01 *pflash_cfi01_register(hwaddr base,
--                                   const char *name,
--                                   hwaddr size,
--                                   BlockBackend *blk,
--                                   uint32_t sector_len,
--                                   int bank_width,
--                                   uint16_t id0, uint16_t id1,
--                                   uint16_t id2, uint16_t id3,
--                                   int be)
--{
--    DeviceState *dev = qdev_new(TYPE_PFLASH_CFI01);
--
--    if (blk) {
--        qdev_prop_set_drive(dev, "drive", blk);
--    }
--    assert(QEMU_IS_ALIGNED(size, sector_len));
--    qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
--    qdev_prop_set_uint64(dev, "sector-length", sector_len);
--    qdev_prop_set_uint8(dev, "width", bank_width);
--    qdev_prop_set_bit(dev, "big-endian", !!be);
--    qdev_prop_set_uint16(dev, "id0", id0);
--    qdev_prop_set_uint16(dev, "id1", id1);
--    qdev_prop_set_uint16(dev, "id2", id2);
--    qdev_prop_set_uint16(dev, "id3", id3);
--    qdev_prop_set_string(dev, "name", name);
--    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
--
--    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
--    return PFLASH_CFI01(dev);
--}
--
- BlockBackend *pflash_cfi01_get_blk(DeviceState *dev)
- {
-     PFlashCFI01 *fl = PFLASH_CFI01(dev);
-diff --git a/include/hw/block/flash.h b/include/hw/block/flash.h
-index aeec4a369b..20e5424525 100644
---- a/include/hw/block/flash.h
-+++ b/include/hw/block/flash.h
-@@ -11,20 +11,10 @@
- OBJECT_DECLARE_SIMPLE_TYPE(PFlashCFI01, PFLASH_CFI01)
+     object_ref(OBJECT(s));
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 88ecf86ac8..aafc940617 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1286,6 +1286,18 @@
+ { 'event': 'MIGRATION_PASS',
+   'data': { 'pass': 'int' } }
  
- 
--PFlashCFI01 *pflash_cfi01_register(hwaddr base,
--                                   const char *name,
--                                   hwaddr size,
--                                   BlockBackend *blk,
--                                   uint32_t sector_len,
--                                   int width,
--                                   uint16_t id0, uint16_t id1,
--                                   uint16_t id2, uint16_t id3,
--                                   int be);
- BlockBackend *pflash_cfi01_get_blk(DeviceState *dev);
- MemoryRegion *pflash_cfi01_get_memory(DeviceState *dev);
- void pflash_cfi01_legacy_drive(DeviceState *dev, DriveInfo *dinfo);
- 
--
- /* nand.c */
- DeviceState *nand_init(BlockBackend *blk, int manf_id, int chip_id);
- void nand_setpins(DeviceState *dev, uint8_t cle, uint8_t ale,
++##
++# @MIGRATION_PID:
++#
++# Emitted when migration thread appear
++#
++# @pid: pid of migration thread
++#
++# Since: 7.2
++##
++{ 'event': 'MIGRATION_PID',
++  'data': { 'pid': 'int' } }
++
+ ##
+ # @COLOMessage:
+ #
 -- 
-2.38.1
+2.33.0
 
 
