@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7658A66344C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:50:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8325766345D
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:52:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF0rv-0005B0-5s; Mon, 09 Jan 2023 17:43:51 -0500
+	id 1pF0yP-0005gu-CL; Mon, 09 Jan 2023 17:50:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pF0ro-00058v-NA; Mon, 09 Jan 2023 17:43:46 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pF0yC-0005f6-RT
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:50:21 -0500
+Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pF0rj-00046q-G6; Mon, 09 Jan 2023 17:43:40 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6E93C4D34C;
- Mon,  9 Jan 2023 22:43:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673304217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GJJaQ6RX18AB1IgIirPBH7v9XndR2ZG0D9lUt6BsoB8=;
- b=zHhLLfRvhjUr7LV5rAIfzHgU2/WZFTBhz7ImM+U1AzkyQJRtixaVnPm4J5iFVa4myOEzmF
- zDNVVy4Ja5wAHX3XFMcgC3DbuYeI5lhdEBmXzQXqcoy8UtRbN5r5ERAinmVA5QaaD9RPXn
- XKki7LYPbgQEgS3N5PEXkoHm8mRCM90=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673304217;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GJJaQ6RX18AB1IgIirPBH7v9XndR2ZG0D9lUt6BsoB8=;
- b=h2shsNdXIdCsBnrxdBpNaV/a8dKdocNaO4NE8Z/zu5RUmNnOIcrvepiJ4ZODoiFZ8Hg07t
- dfnNVk+QzLYoqTAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D65FF13583;
- Mon,  9 Jan 2023 22:43:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IKaoJ5aYvGMdIQAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 09 Jan 2023 22:43:34 +0000
-From: Fabiano Rosas <farosas@suse.de>
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pF0yB-00076O-AE
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 17:50:20 -0500
+Received: by mail-qt1-x835.google.com with SMTP id bp44so9583533qtb.0
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 14:50:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=braap-org.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=xQqCQgp8pGVOQEGoSiZ4Q+bXavsqHtzJHPwEDIc9XCc=;
+ b=rlt3nmXxXuHt8BJgfNXdR/Y3QEbB2RRWXCGQ8SwEgVagEeLaXLGShJMhc6HurmA9zY
+ OSUqnhLWjuC+tssBoP3D32VGW6Ew2wAlmMxJR4BBydLCkIhOpoPojrBr1HklmQm7ygMc
+ k4/rvhwr7OdOdpulVJObCYQro4pBYaRvFC1iSpViKGudNFuK9CDniPRydjHaDaflk1WW
+ aq9Gow6zjndMWaYQoUAyjyBtwcOCAk7alEAHrRtwtqo5qLIewxHGk5GUDx8QsTfUJd5K
+ OeOADc44GXYXQhvsXKrASPD3PvlFyaov2E9iv44ili1Kjpi4EzErc9dcuKVzrN2nkHf8
+ qmtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xQqCQgp8pGVOQEGoSiZ4Q+bXavsqHtzJHPwEDIc9XCc=;
+ b=Nf2Vf9cyspwwq0cNEI8QnhcngMSiZkS7C+Dpxh9IhqV2EpJGecmlmCCtNNYZEQCClB
+ qtB8A3FO1ReCl8aaxniFLHVOxZt+jwpmX+po0mzxMeQYP73HxUIvHh/je8OT6mvKJd6n
+ GODV0SHzicePOXxkjhjE4fwVagSle+cS12C90kGXO/JYAnUGQTMjy/y8Zh5wbpsu5X/A
+ yU6jPnLd5rl/5jg4gpTaLLSpFCaG3bAdbg95QlkUsUlqIYuwzCU4g7bXkKroxbnRh0a0
+ +ZBuNzVTKqoSnhsz+mh53JKoMUUROJSZb263xZKu04ASwLM5GLxaVVzjDjZjDnWO8WbK
+ VBVQ==
+X-Gm-Message-State: AFqh2kqpEBcQ//sQjSZCSlN8w4triiCPQwgc57JEtrew7SangwJQuggl
+ xuYDMT6yyY1bI4MgGEd29TJLtmM+Ng0Mgu8KpII=
+X-Google-Smtp-Source: AMrXdXsH/7OW+fOItqXtOwW0BMMdTAqIPuqQVod3PnE7sAyRcOoV3Gw71KNvZpCQHF8FhFCfpRTitQ==
+X-Received: by 2002:a05:622a:4a8b:b0:3a8:1617:bdac with SMTP id
+ fw11-20020a05622a4a8b00b003a81617bdacmr98110057qtb.5.1673304614966; 
+ Mon, 09 Jan 2023 14:50:14 -0800 (PST)
+Received: from localhost (pool-100-2-99-22.nycmny.fios.verizon.net.
+ [100.2.99.22]) by smtp.gmail.com with ESMTPSA id
+ bp43-20020a05622a1bab00b003a68f5d98c1sm5132802qtb.93.2023.01.09.14.50.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Jan 2023 14:50:14 -0800 (PST)
+From: Emilio Cota <cota@braap.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-Subject: [RFC PATCH v2 19/19] target/arm: don't access TCG code when debugging
- with KVM
-Date: Mon,  9 Jan 2023 19:42:32 -0300
-Message-Id: <20230109224232.11661-20-farosas@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230109224232.11661-1-farosas@suse.de>
-References: <20230109224232.11661-1-farosas@suse.de>
+ Emilio Cota <cota@braap.org>
+Subject: [PATCH v2 0/5] tsan fixes
+Date: Mon,  9 Jan 2023 17:49:49 -0500
+Message-Id: <20230109224954.161672-1-cota@braap.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: softfail client-ip=2607:f8b0:4864:20::835;
+ envelope-from=cota@braap.org; helo=mail-qt1-x835.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,41 +88,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When TCG is disabled this part of the code should not be reachable, so
-wrap it with an ifdef for now.
+Changes since v1:
 
-This allows us to start using CONFIG_TCG=n (--disable-tcg in the
-configure line).
+- call g_free_rcu on tb_jmp_cache directly, and call
+  tcg_exec_unrealizefn after calling cpu_list_remove(cpu)
 
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/ptw.c | 4 ++++
- 1 file changed, 4 insertions(+)
+- add patch to de-const qemu_spin_destroy
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 4bda0590c7..2af75d0904 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -254,6 +254,7 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
-         ptw->out_host = NULL;
-         ptw->out_rw = false;
-     } else {
-+#ifdef CONFIG_TCG
-         CPUTLBEntryFull *full;
-         int flags;
- 
-@@ -270,6 +271,9 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
-         ptw->out_rw = full->prot & PAGE_WRITE;
-         pte_attrs = full->pte_attrs;
-         pte_secure = full->attrs.secure;
-+#else
-+        g_assert_not_reached();
-+#endif
-     }
- 
-     if (regime_is_stage2(s2_mmu_idx)) {
--- 
-2.35.3
+- remove wrappers for qht_do_if_first_in_stripe
+
+Thanks,
+		Emilio
+
 
 
