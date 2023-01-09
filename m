@@ -2,113 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40EE0662DBB
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:56:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B55E662DD6
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 19:00:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEwN9-00062R-4R; Mon, 09 Jan 2023 12:55:47 -0500
+	id 1pEwQr-0000R4-Pf; Mon, 09 Jan 2023 12:59:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1pEwMy-0005wG-Eb
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:55:38 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1pEwMw-0007Py-Fr
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:55:36 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 309Fl6iR015694
- for <qemu-devel@nongnu.org>; Mon, 9 Jan 2023 17:55:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=/6DoJov/xOkJWaGNdp6k5vo06ispOPMQAnKDsu9/Joc=;
- b=YccG6XXjnWCunVTJlKAPNSI337yHYTAssax4NbrhEbr2I6evkJwEerIyEvBsVa54gRBV
- pCZniLpJAHJHwhPs9z1H3zRFVjIab+/fmK8+G9tStJSYQWa9p3ky/LrNKiJ9IVbvGVKI
- 0tTg9sW23QAiQQGIej1oMB8Qj3Xef6Mj/nmV4Hkdns1oHn3ro1DYH1oBFnTGI2UC6+0J
- Ib9/4BfgN4uqf+upxw7LqoxFAwrkZDYKVMve9VQ2ULMtr+wTwcSUDTcMMb/UynmK7+qq
- 4JM4l5Vpv6YJvpv7OjDJEn9UxxA2KQPZTA4yNHRWGFhXj3m5ZJNcGZuDrFSMd3Pw6xSL gg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3myjp24th7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 17:55:32 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 309HksP3017670
- for <qemu-devel@nongnu.org>; Mon, 9 Jan 2023 17:55:32 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3myjp24tgw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Jan 2023 17:55:32 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 309GraRG021932;
- Mon, 9 Jan 2023 17:55:31 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([9.208.130.102])
- by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3my0c7r90f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Jan 2023 17:55:31 +0000
-Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
- by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 309HtU2D65995106
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 9 Jan 2023 17:55:30 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 679C87805E;
- Mon,  9 Jan 2023 19:32:02 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 731447805C;
- Mon,  9 Jan 2023 19:32:01 +0000 (GMT)
-Received: from lingrow.int.hansenpartnership.com (unknown [9.163.48.220])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon,  9 Jan 2023 19:32:01 +0000 (GMT)
-Message-ID: <af22847d6e8f3a64720c4d4d00b93f57ea63ad3e.camel@linux.ibm.com>
-Subject: Re: [PATCH 2/2] tpm: add backend for mssim
-From: James Bottomley <jejb@linux.ibm.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Stefan
- Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org, Markus Armbruster
- <armbru@redhat.com>
-Date: Mon, 09 Jan 2023 12:55:27 -0500
-In-Reply-To: <Y7xUVq9PT9ohGfCj@work-vm>
-References: <9fac7d95-d891-413f-93f1-18324c7943ea@linux.ibm.com>
- <a8863d1905aa427543facb68d8892af369262f19.camel@linux.ibm.com>
- <29e99f54-d5e8-b18d-08a6-d24435032272@linux.ibm.com>
- <Y5xH/0bbgFzi+G//@redhat.com>
- <a990f3c8-cca9-86ff-6995-6e49ba90f839@linux.ibm.com>
- <Y5xqgK8UXe28VZQ2@redhat.com>
- <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
- <Y5yAz0qzaIW4HwFi@redhat.com> <Y7xH1i0Uvbo0FUwG@work-vm>
- <5c07f6ab6adfe53f7e7fbeeda67f2eb62afccdfa.camel@linux.ibm.com>
- <Y7xUVq9PT9ohGfCj@work-vm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pEwQp-0000Qi-Pu
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:59:35 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pEwQo-0008LN-89
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:59:35 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id q64so9571274pjq.4
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 09:59:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tmI+4WR/xzy3+CxB+qI0dx25hS44O6VG+ewPfYR1kqo=;
+ b=G18at7xAXlQQ9iiPO+yn9jBXvXlEgzT+VmcakBeEQCifbGFsh4ii6M8/jT55QDrQzU
+ 4APvuC/N7O/Ii2YsJBoroTofdrhkYJTPHlENhA+B2LpuY+FmDGY1YtAT0TfAthpk88DK
+ sii9JWX8LPm2MGaC2rUTsewEFHVMkqHyephDr6Q8vk7GSkNQ/3qxww3QwV2QzhhmTLyp
+ UO1tyCc09Al5xqrqvVCTYs2+CT6+VjJAa+g1Bi2fjRDoKqylTumFcfu+rJ0DKhypDhMU
+ hZ4eNVsgWNTBojifRoOgpRwftgnpPoYdrpnkXzyxhc3XXEVppFztRzNpfRDQUMEnY4Z6
+ vYFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tmI+4WR/xzy3+CxB+qI0dx25hS44O6VG+ewPfYR1kqo=;
+ b=dS31S6DaGy8VZvCrbSi8GUn9sJ9J0U2gYewV0NyWIUKas/1H1R6G0UoNFEQZWJP/xH
+ VecmqjL90rZyN+D19O9UyHF3BqCXnCsiKB3/KgC3yhx7y4/k31OqNJAo8aalrgmGlVAi
+ RxXsWDNRfSeKDsC/8RnFR/mwilQ9imTYFelZ2JqGWwbUIntRm+5LbJJK30Dh2kys7eY4
+ lbDKRagcVU8MG3bdkPg/jr/lN4Q3PN0vNB4rlxLcTZ2NGzP0MUKJY9eQI+FnVF9l8+A6
+ TAsm49czVieZZlP+R5z7UjRi/RTLqc/VwzUrmF1x6ksVyGHHg7vtv4P0yiu4El2NLYA4
+ Ruqg==
+X-Gm-Message-State: AFqh2kpHyC8Q9CMQuit5eIU0wdEK5KgNQN4s4dpEP41Kw9fQ26/eBj+M
+ 7zLMjYL13prbkVrAr9uIWCILaw==
+X-Google-Smtp-Source: AMrXdXvql1eU2uZ61JAjs2nErQU8zPoCrsPOhnBmXQjbZ8+uoRjVjO23O20YF6ciIygzCVkwSiO2kw==
+X-Received: by 2002:a05:6a20:4a23:b0:b5:fc85:d864 with SMTP id
+ fr35-20020a056a204a2300b000b5fc85d864mr1326387pzb.32.1673287172695; 
+ Mon, 09 Jan 2023 09:59:32 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:a909:891c:953d:a6b0?
+ ([2602:47:d48c:8101:a909:891c:953d:a6b0])
+ by smtp.gmail.com with ESMTPSA id
+ l33-20020a635721000000b0047702d44861sm5328061pgb.18.2023.01.09.09.59.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 09:59:32 -0800 (PST)
+Message-ID: <099810fb-6b1f-3913-1a35-4adb30c5ca07@linaro.org>
+Date: Mon, 9 Jan 2023 09:59:30 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 00/14] hw/arm: QOM OBJECT_DECLARE_SIMPLE_TYPE cleanups
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Havard Skinnemoen <hskinnemoen@google.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Tyrone Ting <kfting@nuvoton.com>
+References: <20230109140306.23161-1-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230109140306.23161-1-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: cCJqEpJiO-CEwYIqL59aE9ucn7zl2ENG
-X-Proofpoint-GUID: CFEeoTPT80Y0xjQXsiTk71nwFeIyHS9s
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-09_10,2023-01-09_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=543 impostorscore=0 bulkscore=0 clxscore=1015 suspectscore=0
- phishscore=0 spamscore=0 mlxscore=0 adultscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301090125
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,29 +95,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 2023-01-09 at 17:52 +0000, Dr. David Alan Gilbert wrote:
-> * James Bottomley (jejb@linux.ibm.com) wrote:
-[...]
-> > external MSSIM TPM emulator has to be kept running to preserve the
-> > state.  If you restart it, the migration will fail.
-> 
-> Document that and we're getting there.
+On 1/9/23 06:02, Philippe Mathieu-Daudé wrote:
+> Philippe Mathieu-Daudé (14):
+>    hw/arm/pxa: Avoid forward-declaring PXA2xxI2CState
+>    hw/gpio/omap_gpio: Add local variable to avoid embedded cast
+>    hw/arm/omap: Drop useless casts from void * to pointer
+>    hw/gpio/omap_gpio: Use CamelCase for TYPE_OMAP1_GPIO type name
+>    hw/gpio/omap_gpio: Use CamelCase for TYPE_OMAP2_GPIO type name
+>    hw/intc/omap_intc: Use CamelCase for TYPE_OMAP_INTC type name
+>    hw/arm/stellaris: Drop useless casts from void * to pointer
+>    hw/arm/stellaris: Use CamelCase for STELLARIS_ADC type name
+>    hw/arm/bcm2836: Remove definitions generated by OBJECT_DECLARE_TYPE()
+>    hw/arm/npcm7xx: Declare QOM macros using OBJECT_DECLARE_SIMPLE_TYPE()
+>    hw/misc/sbsa_ec: Rename TYPE_SBSA_EC -> TYPE_SBSA_SECURE_EC
+>    hw/misc/sbsa_ec: Declare QOM macros using OBJECT_DECLARE_SIMPLE_TYPE()
+>    hw/intc/xilinx_intc: Use 'XpsIntc' typedef instead of 'struct xlx_pic'
+>    hw/timer/xilinx_timer: Use XpsTimerState instead of 'struct
+>      timerblock'
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-The documentation in the current patch series says
-
-----
-The mssim backend supports snapshotting and migration, but the state
-of the Microsoft Simulator server must be preserved (or the server
-kept running) outside of QEMU for restore to be successful.
-----
-
-What, beyond this would you want to see?
-
-James
-
+r~
 
