@@ -2,74 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2019F6628FA
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:50:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D55756628BA
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:44:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEtLh-0001ct-Tt; Mon, 09 Jan 2023 09:42:05 -0500
+	id 1pEtMf-0001vV-Mp; Mon, 09 Jan 2023 09:43:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pEtLg-0001cb-1f; Mon, 09 Jan 2023 09:42:04 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pEtLe-0004sk-HJ; Mon, 09 Jan 2023 09:42:03 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2A6763EF62;
- Mon,  9 Jan 2023 14:41:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673275319; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pEtMa-0001vF-1v
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:43:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pEtMY-00065m-FR
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:42:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673275377;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iHFlgpkGpYic5RNI5UT+NVGDLtt0LXFu+Yz4SP+WGu4=;
- b=N6CUBhvRe1EONzsKoVw5j6ASc581na+ZPU2WVF4aqp8pJAPkzkTVPOBbwa12ZaM/AJUwt9
- Dm6vto2v8xZeegelCpLVlsBrT4eSDXKL4D9Rnj2uNb2GhyWJB5vCmltBOG+rVpyo65PRyr
- FiVqiwIXrBCJ7qgHF6xwU81zvGXwaYE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673275319;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iHFlgpkGpYic5RNI5UT+NVGDLtt0LXFu+Yz4SP+WGu4=;
- b=2T3oSKLuVPe0kunXbyaAwdjrinGLVuq/hAmEsqng8bHAjvfY0Dorb1H1m1tsWUxXehZiha
- WOQzcupeMx/JgVDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A961213583;
- Mon,  9 Jan 2023 14:41:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id X6S/GrYnvGO1NAAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 09 Jan 2023 14:41:58 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Alex =?utf-8?Q?Benn?=
- =?utf-8?Q?=C3=A9e?= <alex.bennee@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, Wainer dos Santos Moschetta
- <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH] tests/avocado: add machine:none tag to version.py
-In-Reply-To: <20221215224725.3236-1-farosas@suse.de>
-References: <20221215224725.3236-1-farosas@suse.de>
-Date: Mon, 09 Jan 2023 11:41:56 -0300
-Message-ID: <87358jzs5n.fsf@suse.de>
+ bh=pqgr9CNoN1ocvZ5fzfjVgbeJyxZTq+v1fsDHAcX952M=;
+ b=XVoXzeQpl+2EwYDW8EOVNIxM4LPpWbzgbcl5SkT99EMCF5c7efgmb88vGrN6bs2XPjmZDQ
+ kd1cXVQLMXsn4AkeU24HV4hEJOsBMbxJZDdfQuVjU2WiYyl+7n5VQGSjiwKyP8t4ZIjtR9
+ x9+ntgal+4OY8Hw3N8Ns6oAD+hZQytc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-595-5ScqG8jUMqmX8WLgxKGeMg-1; Mon, 09 Jan 2023 09:42:56 -0500
+X-MC-Unique: 5ScqG8jUMqmX8WLgxKGeMg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ bi18-20020a05600c3d9200b003d991844dbcso7373866wmb.4
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 06:42:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :from:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pqgr9CNoN1ocvZ5fzfjVgbeJyxZTq+v1fsDHAcX952M=;
+ b=x/5xEEDzmedVu8fNIMYdfddQG4LbSGGQHqtLfIEBWrOwVFQPFczpDST8UKVC4EJvHH
+ PpHkS+cFrY6DL5KPPlL3quHREZ5FJILyktkruKxgHHoCELW0nhlKNLIQFB6+mnZeUC4w
+ 9yDA/0AZh9jDg7nHX30pb3iGj+2Aidx9Ew2PpO02Y6ifMGCb6N3s6VNgUtDZ8gJfmBnC
+ vsVRTejgZCNo6/wvR3jYlvgkC9jGN+rznN8UT5cIt1C1yuwZL/GOxljNHzkesssjVF3w
+ MWVxgnvCfZVGxnVf3ujMDw1Gm62HxlqPTEK9pmSPCtytAHO68AG7E+oqBz17rdtpf0MG
+ cqrg==
+X-Gm-Message-State: AFqh2kqy3IhOwVYZATWcLgHTBLS3H0IUKSRAANSBEqPojLJRJvXpiG0q
+ bn9ltiL9IXw7Q+oQRNscEBW8bSl1DpS5NKrPgFwdAda3aPBIiX033Ifh7LGTQjQ9bGH2cnoBHyR
+ tD1zPFtsfGaFsthI=
+X-Received: by 2002:a05:600c:4854:b0:3d3:5a4a:90ff with SMTP id
+ j20-20020a05600c485400b003d35a4a90ffmr48850484wmo.23.1673275375259; 
+ Mon, 09 Jan 2023 06:42:55 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXusne7feucIki7iO6xWiJCcX5XpyOtUIAOnG16y0qJUVnTqIrsIMUVL8nZ0t1eIg4JyRMWhSg==
+X-Received: by 2002:a05:600c:4854:b0:3d3:5a4a:90ff with SMTP id
+ j20-20020a05600c485400b003d35a4a90ffmr48850468wmo.23.1673275374950; 
+ Mon, 09 Jan 2023 06:42:54 -0800 (PST)
+Received: from ?IPV6:2003:cb:c703:8f00:ba3:7d27:204f:8e29?
+ (p200300cbc7038f000ba37d27204f8e29.dip0.t-ipconnect.de.
+ [2003:cb:c703:8f00:ba3:7d27:204f:8e29])
+ by smtp.gmail.com with ESMTPSA id
+ z14-20020a05600c220e00b003d99fad7511sm11208399wml.22.2023.01.09.06.42.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 06:42:54 -0800 (PST)
+Message-ID: <4b70ab3b-c9ea-636b-3139-31ab1dab0809@redhat.com>
+Date: Mon, 9 Jan 2023 15:42:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3 3/6] migration: Factor out checks for advised and
+ listening incomming postcopy
+Content-Language: en-US
+From: David Hildenbrand <david@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>
+References: <20221222110215.130392-1-david@redhat.com>
+ <20221222110215.130392-4-david@redhat.com> <Y7cGdweVxbGlcvWh@x1n>
+ <44b9b396-f3ae-5066-4674-4c4eac5f9b2e@redhat.com>
+Organization: Red Hat
+In-Reply-To: <44b9b396-f3ae-5066-4674-4c4eac5f9b2e@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,31 +108,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fabiano Rosas <farosas@suse.de> writes:
+On 09.01.23 15:39, David Hildenbrand wrote:
+> On 05.01.23 18:18, Peter Xu wrote:
+>> On Thu, Dec 22, 2022 at 12:02:12PM +0100, David Hildenbrand wrote:
+>>> +bool migration_incoming_postcopy_listening(void)
+>>> +{
+>>> +    PostcopyState ps = postcopy_state_get();
+>>> +
+>>> +    return ps >= POSTCOPY_INCOMING_LISTENING && ps < POSTCOPY_INCOMING_END;
+>>> +}
+>>
+>> This name is misleading, IMHO.
+>>
+>> The code means "we passed listening phase" but the name implies "we're
+>> listening".  We can add the "incoming" into that if we want, though.
+>>
+> 
+> Let me call that migration_incoming_postcopy_running(). Thanks!
+> 
 
-> This test currently fails when run on a host for which the QEMU target
-> has no default machine set:
->
-> ERROR| Output: qemu-system-aarch64: No machine specified, and there is
-> no default
->
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
->  tests/avocado/version.py | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/tests/avocado/version.py b/tests/avocado/version.py
-> index ded7f039c1..dd775955eb 100644
-> --- a/tests/avocado/version.py
-> +++ b/tests/avocado/version.py
-> @@ -15,6 +15,7 @@
->  class Version(QemuSystemTest):
->      """
->      :avocado: tags=quick
-> +    :avocado: tags=machine:none
->      """
->      def test_qmp_human_info_version(self):
->          self.vm.add_args('-nodefaults')
+... which is also misleading. Let me just drop the sanity check and this 
+function.
 
-Ping
+-- 
+Thanks,
+
+David / dhildenb
+
 
