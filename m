@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19004662EEF
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 19:26:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1531E662F06
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 19:28:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEwpo-0004dx-O7; Mon, 09 Jan 2023 13:25:24 -0500
+	id 1pEwsG-00062L-Rf; Mon, 09 Jan 2023 13:27:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pEwpk-0004br-Oy
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 13:25:20 -0500
+ id 1pEwsE-00061n-Au
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 13:27:54 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pEwpi-0002LP-6N
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 13:25:20 -0500
+ id 1pEwsC-00036c-9U
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 13:27:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673288717;
+ s=mimecast20190719; t=1673288871;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=QGnuWOardXtAlAPJLBzRCWpRtKMeypWm9KiaIXT8uLc=;
- b=a2dCdBe0WeEyknR/4uSYzuLrFH6rllzydhbdKitdyVWCF6Klqmq3suJA5mepMrp1dh9ALz
- JKoHom7dhMpJMiGrCRoZ30vxN4316wZWsbZi8T6P0UoiqjLUK05CCtBGpoB5N7LSuJYUxm
- w2BjZ5YZcC8oEeV0lozPHb5wAa87r98=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IE11b+bdY6WUEYS7IEIZaH90tfN4Ae430rqBjxH7iQI=;
+ b=PlLD7DIv0LTnWLaF1w/w/QQjB0I8D1+nnvSyS8DfHIVZCrN+fPuEUKCn0JD8J+hj01ibjS
+ 3SOPeSco46jTTtfQxIIU1p55Kyl/v5LMTUXwk9h8HhfolVWEuMZk/qfCZMkdWKn3xvquq1
+ FlF3/B74vHyvwdE8AgkwFauLLsm6Zk4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-644-Eq8eutSQPNe5034mnUUpUA-1; Mon, 09 Jan 2023 13:25:13 -0500
-X-MC-Unique: Eq8eutSQPNe5034mnUUpUA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-554-y00e2RdfMD-6WM42L-yjYA-1; Mon, 09 Jan 2023 13:27:47 -0500
+X-MC-Unique: y00e2RdfMD-6WM42L-yjYA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 988B585A588;
- Mon,  9 Jan 2023 18:25:11 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C7B91C0A583;
+ Mon,  9 Jan 2023 18:27:47 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.37.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A6B6175AD;
- Mon,  9 Jan 2023 18:25:10 +0000 (UTC)
-Date: Mon, 9 Jan 2023 18:25:05 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B0F8C40C2004;
+ Mon,  9 Jan 2023 18:27:38 +0000 (UTC)
+Date: Mon, 9 Jan 2023 18:27:35 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>,
- Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>
-Subject: Re: QEMU cirrus freebsd 13 CI failing with 'Undefined symbol
- "rl_set_timeout"'
-Message-ID: <Y7xcAThWrjYCVUcv@redhat.com>
-References: <CAFEAcA_C0orpsqaOFHc-eNXySUrDiXsi6zmcRfn3aJy-0c-KQQ@mail.gmail.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Eric Farman <farman@linux.ibm.com>, John Snow <jsnow@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ David Hildenbrand <david@redhat.com>, kraxel@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Michael Roth <michael.roth@amd.com>
+Subject: Re: [PATCH v2 5/5] Draft: Update lcitool
+Message-ID: <Y7xcl38xQ6vxbRKW@redhat.com>
+References: <20230109181447.235989-1-marcandre.lureau@redhat.com>
+ <20230109181447.235989-6-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA_C0orpsqaOFHc-eNXySUrDiXsi6zmcRfn3aJy-0c-KQQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230109181447.235989-6-marcandre.lureau@redhat.com>
 User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -81,32 +96,19 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 09, 2023 at 05:14:38PM +0000, Peter Maydell wrote:
-> I've just noticed that our (optional) FreeBSD 13 CI job is
-> failing while running the qemu-iotests, like this:
+On Mon, Jan 09, 2023 at 10:14:47PM +0400, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> +ld-elf.so.1: /usr/local/bin/bash: Undefined symbol "rl_set_timeout"
+> - Update to fedora-37
+> - Drop perl
 > 
-> Full job logs from a couple of sample builds:
-> https://cirrus-ci.com/task/6541458329567232
-> https://cirrus-ci.com/task/6036627739377664
-> 
-> Any idea what this is about? It looks at first glance like
-> the bash on the CI system is busted because it can't find
-> libreadline, but maybe I'm missing something. Are we missing
-> some runtime shared library from a config file?
+> Note: see https://gitlab.com/libvirt/libvirt-ci/-/merge_requests/344 merge
+> status before merging with proper submodule sha1.
 
-Usually this kind of thing happens when FreeBSD issue a new
-minor release. The ports build will pick up a dependency on
-an API in the new release, and the ports package manager
-never checks that it is running on the current base image.
+There is no need to wait for that change. We don't use the qemu.yml
+file in lcitool.git, and it should be ignored. The one you changed
+in qemu.git is the canonical one 
 
-In this case though, we're already running on FreeBSD 13.1,
-which is most current release, and 13.2 isn't due for at
-least 2 months. So my usual fix of updating the base image
-version won't solve this.
-
-It does feel like the ports 'bash' build is broken.
 
 With regards,
 Daniel
