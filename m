@@ -2,80 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D590661C25
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 02:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6F4661C2E
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 02:59:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEhOG-00072N-1G; Sun, 08 Jan 2023 20:55:56 -0500
+	id 1pEhRg-0008CU-Dp; Sun, 08 Jan 2023 20:59:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEhOE-000729-8C
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:55:54 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ id 1pEhRd-0008CK-Gp
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:59:26 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEhOC-0007e2-I5
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:55:53 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id
- h7-20020a17090aa88700b00225f3e4c992so11289832pjq.1
- for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 17:55:52 -0800 (PST)
+ id 1pEhRb-0008Er-Aw
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:59:25 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id v23so7287309pju.3
+ for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 17:59:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=psfbrZsoxIbulYD67eHrpa9HbBjEZa9GhFh8vxKqOPA=;
- b=IUrBbROi7Nr6ACChzbnH+xBhenOpJZPHg0cLQeQJ1kij2qovrQv9gccjmYHNp1baEV
- 4eR1qX/p8RfgSBtdZUTOesbP0u8uhBaagZ9qHohqDdJKxy0CgmuOYKeTY0Maj/fhfy6l
- y2imzJpujYkdVI7UlC1VEqaUFXTb9ySqX3QeOschlz5/+m6/mMY0eBAbXK1ciAL3Wvgo
- 7xRy05v0xtLbuOlGD/HRo0dnB5SoPtD3YwbynyrZUHLBbwxJENLPAKztRNQcnd8+Mq1w
- kQexJJYMOFB6p2SahaZ7oui3ZGLYJb3WPKx5VDQY+FoOImQRJC27uxZsUpr/MITf1h+3
- FKBw==
+ bh=lVAiNBVZAn9/8dc7Wygd/6js0yB815Une/4/QJY5rI8=;
+ b=osIMxAF6FYjofZfCTP0m+dVFac49of1dPC00ZisAv+D4j31u8L2KobvVZEt4urBXuY
+ DvQbSGqw2b0RwVKnBjIOaiGh3AplbufNsGP9bPF1v4qdYuMtRVF40O0OvyHsEh6PM4As
+ Gf6Q048Ikj0VZTbw7UXNOInyWbusytVI6ljnRhzFwMCw6LeMPqSzGcHZlQqPQmaMU2M2
+ 4V3+AC6TOgDUMRodQDj2hqxOGAQAUd+BrKSPQfpO+lIyzHijwINDCO0rpC1S1iIbq4OC
+ Kus7TqHcg3TkdwiKe0DdE7CIuHlBfzs6haHLxMUSYkw1vdVzMb7Bn+EbVn9vpsMS3VD8
+ B34Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=psfbrZsoxIbulYD67eHrpa9HbBjEZa9GhFh8vxKqOPA=;
- b=GRrzhEVcoaFMK7llfD202huUNTfxcMFpXAxz83gVxY+eplQSop08lvuO0aP0QTMUMV
- DzrSCXcEJLOpOsv07NGclrPDpSs+cIl13/KDFQZZl0Udq+tkXN8X8RbLQbWu/n/8jXau
- 24qlFU7MF6XdZmVl9CsX0hfWL11ThOHynVYNZYLn0DQACAqNS9fm/rQ2uH4DFoZSEcWp
- Glwfjj0siSwOm/sJWiMhadNo89QkeBf3n2LBrJOWHV/nGs4xhbuaGpt0XD/SWz320eGO
- tr0+Ux7k12vl1X2iaElk2qrChFfttypTZHp4PzW5EBbvZ1M1rN8AjSbOUOsekGASh84r
- sB6w==
-X-Gm-Message-State: AFqh2kp5fKlmNo9lm2tUs3a8dlixaZCqR4PH9O/QlZh9M7uQfA31fwQw
- uAqDeDhsoA3YkJMY2Iuy1FiPTA==
-X-Google-Smtp-Source: AMrXdXsdW0ATMjZnWU3W3f6m1TKvFs9rvwZODjdT+LZg4fOf/+p0y0gyAJgXpUgRtU+YdCBmLRVBXw==
-X-Received: by 2002:a05:6a20:4f87:b0:b5:b459:dd74 with SMTP id
- gh7-20020a056a204f8700b000b5b459dd74mr4459266pzb.41.1673229350946; 
- Sun, 08 Jan 2023 17:55:50 -0800 (PST)
+ bh=lVAiNBVZAn9/8dc7Wygd/6js0yB815Une/4/QJY5rI8=;
+ b=UzUEvP3kjKlEaGIDXmlJ/fULDJnJ73YKedaG6dFdsLq591b9Js6Tsbaurg2Puox6DN
+ gjDD1lc1q6XaVL5a570+7Xk6jaSc2RyObCL8KJ49c2830+sQ8FCOs2KZeR84K3ldmg39
+ QhCy8sfa9vV3avrI5lnpJc0U2u8SSiTerA8UkkdM7Qfh446svCfGY9TOZ+Z79pA6CDSd
+ ZQVfa2ijQf592VB/G30ZxKfejqCSjSTy8hmyl3OM46HmGujkJBcb9z3X1OBrePyj7gs6
+ oe9/1NeHvvxznSZ5UF4CuQFHSgfWYi3pvZ4xjNlFcjugskHe+7yshl8dMKHQCgTiXunS
+ ZJhQ==
+X-Gm-Message-State: AFqh2kpdvABjGO9G2jSPgHnOsl3+T9L0kojv8it5g4PFV5kNkgufAfsl
+ lit4xhztEmZKVtO9Z9Nm9BHpqg==
+X-Google-Smtp-Source: AMrXdXs/ancvXqlRWsNU24NFpA7bsYGi68mcZXNSkzExElSIqqV4zz9mqv+y0C7sKrL4rL/ptqt9mQ==
+X-Received: by 2002:a17:903:260f:b0:192:4b1b:6cdb with SMTP id
+ jd15-20020a170903260f00b001924b1b6cdbmr64137896plb.7.1673229561723; 
+ Sun, 08 Jan 2023 17:59:21 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:a909:891c:953d:a6b0?
  ([2602:47:d48c:8101:a909:891c:953d:a6b0])
  by smtp.gmail.com with ESMTPSA id
- u11-20020a6540cb000000b0046ff3634a78sm4095193pgp.71.2023.01.08.17.55.50
+ j16-20020a170902da9000b001769206a766sm4658915plx.307.2023.01.08.17.59.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Jan 2023 17:55:50 -0800 (PST)
-Message-ID: <94c9df50-7eb2-4370-a968-47139c2bd393@linaro.org>
-Date: Sun, 8 Jan 2023 17:55:48 -0800
+ Sun, 08 Jan 2023 17:59:21 -0800 (PST)
+Message-ID: <6f26d23b-007e-2eb0-395c-0f46fa0fc316@linaro.org>
+Date: Sun, 8 Jan 2023 17:59:19 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 4/4] target/m68k: fix FPSR quotient byte for frem
- instruction
+Subject: Re: [PATCH] Update scripts/meson-buildoptions.sh
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, laurent@vivier.eu,
- qemu-devel@nongnu.org
-References: <20230104134554.138012-1-mark.cave-ayland@ilande.co.uk>
- <20230104134554.138012-5-mark.cave-ayland@ilande.co.uk>
- <51da8243-885d-a98e-deb6-746383da1d7d@linaro.org>
- <312b1b75-e74e-c107-ec98-c05476e9125a@ilande.co.uk>
+To: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
+ <stefanha@gmail.com>, Peter Maydell <peter.maydell@linaro.org>
+Cc: Alessandro Di Federico <ale@rev.ng>, qemu-devel@nongnu.org,
+ Thomas Huth <thuth@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Anton Johansson <anjo@rev.ng>, philmd@linaro.org, bcain@quicinc.com,
+ quic_mathbern@quicinc.com, stefanha@redhat.com
+References: <20230102104113.3438895-1-ale@rev.ng>
+ <CAJSP0QVbvgr6wHY9e6f7UgZ-vum5vGUNH+h0Lf93BpdEcFJf0A@mail.gmail.com>
+ <20230103162603.74f631aa@orange>
+ <CAJSP0QUd9Q25pT3OXst4V-1FKLo65jJnn-6-7d_O5hkPeJfPyw@mail.gmail.com>
+ <20230103171149.3bcf0526@orange>
+ <CAFEAcA8XY0Ks1mxMasZ9U4m-CNPsuLFU+9ercmb10kscP3iYSw@mail.gmail.com>
+ <CAJSP0QUWxTbpyfuQhKQ33BKHKOWTTMrCo5QASSqjag9wz9a=gA@mail.gmail.com>
+ <8cf1e1ee-1e2a-d53f-3f8c-e870fe51f75d@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <312b1b75-e74e-c107-ec98-c05476e9125a@ilande.co.uk>
+In-Reply-To: <8cf1e1ee-1e2a-d53f-3f8c-e870fe51f75d@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,56 +104,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/7/23 15:00, Mark Cave-Ayland wrote:
->>>   void HELPER(frem)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
->>>   {
->>> +    float_status fp_status;
->>> +    FPReg fp_quot;
->>>       uint32_t quotient;
->>>       int sign;
->>> +    /* Calculate quotient directly using round to nearest mode */
->>> +    set_float_rounding_mode(float_round_nearest_even, &fp_status);
->>> +    set_floatx80_rounding_precision(
->>> +        get_floatx80_rounding_precision(&env->fp_status), &fp_status);
->>> +    fp_quot.d = floatx80_div(val1->d, val0->d, &fp_status);
->>> +
->>>       res->d = floatx80_rem(val1->d, val0->d, &env->fp_status);
->>> -    if (floatx80_is_any_nan(res->d)) {
->>> +    if (floatx80_is_any_nan(fp_quot.d)) {
->>
->> I think you should leave this line unchanged, and move the div afterward.
->> I also think you should completely initialize the local fp_status = { }.
->>
->> With that,
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 1/7/23 10:02, Paolo Bonzini wrote:
+> On 1/3/23 20:31, Stefan Hajnoczi wrote:
+>>> The other problem with this file is that it appears to
+>>> be generated differently depending on the host distro
+>>> (specifically the default value for the --libdir option).
+>>> That also would seem to nudge towards "don't commit a
+>>> generated file".
 > 
-> I can leave the floatx80_is_any_nan() line above unchanged and also initialise the local 
-> fp_status, however the floatx80_div() has to happen before floatx80_rem() function is 
-> called. This is because the fmod and frem instructions write the result back to one of the 
-> input registers, which then causes the subsequent floatx80_div() to return an incorrect 
-> result.
+> I wasn't aware of the libdir default that Peter mentioned, but the same issue would happen 
+> for release tarballs so "do not commit it" would have to be extended to "do not ship it", 
+> that is do everything in Python.
 > 
-> Would just these 2 changes be enough to keep your R-B tag for a v3?
+> This in turn goes back to the reason for the buildoptions.sh approach: the path to the 
+> Python binary is not known when "configure --help" prints the help message.  If the user 
+> does not have a python3 or meson binary in the path, requiring "configure --meson=... 
+> --help" or "configure --python=... --help" is not hideous I guess, but not pretty either.
 
-Mm.  I suppose so.  Otherwise, compute into a local variable:
-
-     floatx80 fp_rem = floatx80_rem(val1->d, val0->d, &env->fp_status);
-     if (!floatx80_is_any_nan(fp_rem)) {
-         float_status scratch = env->fp_status;
-         floatx80 fp_quot;
-         uint32_t int_quot;
-         int sign;
-
-         set_float_rounding_mode(float_round_nearest_even, &scratch);
-         fp_quot = floatx80_div(val1->d, val0->d, &scratch);
-
-         sign = ...
-         int_quot = ...
-         ...
-     }
-     res->d = fp_rem;
-
-?
+I think an extremely early error message for missing python (and pointer to --python) is 
+perfectly reasonable.  I imagine it would be very rare, a case of forgetting to install 
+all of the build dependencies into a fresh container.
 
 
 r~
