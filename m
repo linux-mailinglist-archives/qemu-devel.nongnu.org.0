@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6D7F662164
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 10:26:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88FDD6621A4
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 10:32:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEoKR-00024B-5X; Mon, 09 Jan 2023 04:20:27 -0500
+	id 1pEoO2-0003Dr-FL; Mon, 09 Jan 2023 04:24:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pEoKH-00023j-IY
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:20:18 -0500
+ id 1pEoNt-00039U-Fn
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:24:01 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pEoKE-0003UR-4l
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:20:17 -0500
+ id 1pEoNs-0004kp-0f
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:24:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673256013;
+ s=mimecast20190719; t=1673256239;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9QjfDoAtssiP4Rx4kwu8L2uOhRb9t/mXpUqewhUizH0=;
- b=gNcs9z0YWn/ku0rqfZr/4PxXg60aaoM73FtVyAp2oiOtha2isfYJ/m1yekF9ZW7YiHLo1J
- RTR1xdpcVtc92GIICM/2+5XxeYTOyVh0rdXN/tpkd1+am/g58hDiMlaAcFOpP4du3h/76h
- p1JDA6YQEehx68MmAjMMv5McdObpCcQ=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=y/ye6nhtO7Elz/d4Jv2aPfIBe/neeAFuLoECmtpJhLY=;
+ b=VxuQbuo37DG7QZmxMRxhruzT99cenobcUxQLj9IERDhAMBY3NkjBwaguExQD7dwgvrZYih
+ 8Zk+x2v3wLPf1CTRjbTC+L+z6xTRDpRquQ2m0xqa5VIbTipySBx/u4uRW99rJHwEQX65G5
+ S65trA4u2qwfmqywqXl8752NNQBdbEA=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-144-6eOWJ3mRPJWPKbzuxsuo0w-1; Mon, 09 Jan 2023 04:20:11 -0500
-X-MC-Unique: 6eOWJ3mRPJWPKbzuxsuo0w-1
-Received: by mail-oi1-f198.google.com with SMTP id
- c5-20020a544e85000000b00361126f6443so2303666oiy.16
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 01:20:11 -0800 (PST)
+ us-mta-100-9cQIEb-PODet83HHtSwS9A-1; Mon, 09 Jan 2023 04:23:57 -0500
+X-MC-Unique: 9cQIEb-PODet83HHtSwS9A-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-150f42d958eso1961046fac.13
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 01:23:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=9QjfDoAtssiP4Rx4kwu8L2uOhRb9t/mXpUqewhUizH0=;
- b=Wi4xYAIsW8AS3kfyQIAhVfi1UmDdNIl4FBDar/LJap0cdrUV9Ktz2ilw4Mn8K+HqAx
- Zntb/fnw//SKS1xRbgcFITYsY9Hdw4LK8MJP8IYvLQdt8sNzTKL9W1waB6mklBSt0tUG
- Z/jAYKonQESHZMD8/6X4iIEgU8cO6jYgfTHS5UHGH1z8VROrcekeOhz3+h7D1IQrvHNi
- wJhB0gDYr3PrRW3nNxmMtdaFaqbZ0VbnvVJbOngN/ONfmAA71dyrH6258NrQZscvLkdF
- cAaCxprmjREVPZZ2VnOckTlGL08UNfU6H5jl0ux5eY5o7z53WHV5VXZy6DqBxGRXNTsK
- uJ0A==
-X-Gm-Message-State: AFqh2kqBXzEMVO/YcWzVP5qhJjwCLLURLiAtykuMgGRq8kAtBzUKTJWQ
- ZbGD82DDKP7FUL/3aXA3M629IDXYNZj4hT0Z3IfF1eQAjy/kSCII+aPIj8ec0TNeSb4fw8u8/96
- yUSzjbHVse6oNYCZzdMTRUNvDq5bIzVA=
-X-Received: by 2002:a05:6870:4413:b0:144:a97b:1ae2 with SMTP id
- u19-20020a056870441300b00144a97b1ae2mr3403171oah.35.1673256010246; 
- Mon, 09 Jan 2023 01:20:10 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvm+huypdpS8KXrx1YqsUR5G1lgsvd2qlrWCNRe21hYPy+VxiVtavWYa2aM5pBZ9ZoejLxhf9isVZ8TxdsxOBk=
-X-Received: by 2002:a05:6870:4413:b0:144:a97b:1ae2 with SMTP id
- u19-20020a056870441300b00144a97b1ae2mr3403168oah.35.1673256009982; Mon, 09
- Jan 2023 01:20:09 -0800 (PST)
+ bh=y/ye6nhtO7Elz/d4Jv2aPfIBe/neeAFuLoECmtpJhLY=;
+ b=r5GPxZaFSRcYo7+pVn8DBBoG4iJ85Pfa9M8icB3VEZfBzondsacMKe3fETe5zhqgeG
+ s4gjvd4dqgdY70lUFyxEai0lKDkTbXtjRjPHDgJwwe+9zngHstfM4qcn09qHvLPScbVm
+ sZkAvIQVlqwCda4tA6ZSZR0NhMhOz6rMQwZQGKCW98ZSwHnyfyqmbje54Rit6Aggksef
+ l9DW8cDzB3cRWXtcyA7zgqR7lRW9TTkyfaBUGFF0Z/mYk2/rWZhMnkvpTBLBsRACsl+o
+ BdGZsJANJO4c6MMOOVAtJO96cCy7V3CHtmyvqWLoIzHiXka//YwUr0G8MbduAIBM6vZ3
+ CSWQ==
+X-Gm-Message-State: AFqh2krQ8vq596Idv0HsNYh0JhGrX8l81BM+MvGMSTZXJEDy+bbgu5jS
+ z0UqIa9mJqEU5XhN7CnLb8KNb7qgsizFy2BPqYu2N5wkA/Gwc44W03+rF2ZcfVoBvOu889dhr5K
+ fptEzy+vbjLIIDDm3tu4nuLQ789ywmWM=
+X-Received: by 2002:a54:4e89:0:b0:35c:303d:fe37 with SMTP id
+ c9-20020a544e89000000b0035c303dfe37mr2725087oiy.35.1673256237168; 
+ Mon, 09 Jan 2023 01:23:57 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs10+VJVYi27B7n5X70PhD4nyNp1le64zCX/NxLGSzJ1kPEe8yquVAMQ+rdUaJ+7ic7DroKx3wEvYFyIxau2sA=
+X-Received: by 2002:a54:4e89:0:b0:35c:303d:fe37 with SMTP id
+ c9-20020a544e89000000b0035c303dfe37mr2725085oiy.35.1673256236932; Mon, 09 Jan
+ 2023 01:23:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20230102010821.5462-1-j@getutm.app>
-In-Reply-To: <20230102010821.5462-1-j@getutm.app>
+References: <20221230202710.115187-1-blue@cmd.nu>
+In-Reply-To: <20221230202710.115187-1-blue@cmd.nu>
 From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 9 Jan 2023 17:19:58 +0800
-Message-ID: <CACGkMEuusrxZpKSvvWYRJYJ2k95ojt=4rza14mo3nORnbqRH-w@mail.gmail.com>
-Subject: Re: [PATCH] vmnet: stop recieving events when VM is stopped
-To: Joelle van Dyne <j@getutm.app>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Date: Mon, 9 Jan 2023 17:23:45 +0800
+Message-ID: <CACGkMEseLO_8iVjLZ5VXwJcC+irmHpSu+G0Cn=7zmESCf=NVxA@mail.gmail.com>
+Subject: Re: [PATCH] net: Increase L2TPv3 buffer to fit jumboframes
+To: Christian Svensson <blue@cmd.nu>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -92,121 +91,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 2, 2023 at 9:08 AM Joelle van Dyne <j@getutm.app> wrote:
+On Sat, Dec 31, 2022 at 4:27 AM Christian Svensson <blue@cmd.nu> wrote:
 >
-> When the VM is stopped using the HMP command "stop", soon the handler will
-> stop reading from the vmnet interface. This causes a flood of
-> `VMNET_INTERFACE_PACKETS_AVAILABLE` events to arrive and puts the host CPU
-> at 100%. We fix this by removing the event handler from vmnet when the VM
-> is no longer in a running state and restore it when we return to a running
-> state.
+> Increase the allocated buffer size to fit larger packets.
+> Given that jumboframes can commonly be up to 9000 bytes the closest suitable
+> value seems to be 16 KiB.
 >
-> Signed-off-by: Joelle van Dyne <j@getutm.app>
+> Tested by running qemu towards a Linux L2TPv3 endpoint and pushing
+> jumboframe traffic through the interfaces.
+>
+> Signed-off-by: Christian Svensson <blue@cmd.nu>
 
-Applied.
+Queued.
 
 Thanks
 
 > ---
->  net/vmnet_int.h    |  2 ++
->  net/vmnet-common.m | 48 +++++++++++++++++++++++++++++++++-------------
->  2 files changed, 37 insertions(+), 13 deletions(-)
+>  net/l2tpv3.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/net/vmnet_int.h b/net/vmnet_int.h
-> index adf6e8c20d..ffba92108f 100644
-> --- a/net/vmnet_int.h
-> +++ b/net/vmnet_int.h
-> @@ -46,6 +46,8 @@ typedef struct VmnetState {
->      int packets_send_end_pos;
+> diff --git a/net/l2tpv3.c b/net/l2tpv3.c
+> index 5852e42738..3d5c6d11d3 100644
+> --- a/net/l2tpv3.c
+> +++ b/net/l2tpv3.c
+> @@ -42,7 +42,7 @@
+>   */
 >
->      struct iovec iov_buf[VMNET_PACKETS_LIMIT];
-> +
-> +    VMChangeStateEntry *change;
->  } VmnetState;
->
->  const char *vmnet_status_map_str(vmnet_return_t status);
-> diff --git a/net/vmnet-common.m b/net/vmnet-common.m
-> index 2cb60b9ddd..2958283485 100644
-> --- a/net/vmnet-common.m
-> +++ b/net/vmnet-common.m
-> @@ -17,6 +17,7 @@
->  #include "clients.h"
->  #include "qemu/error-report.h"
->  #include "qapi/error.h"
-> +#include "sysemu/runstate.h"
->
->  #include <vmnet/vmnet.h>
->  #include <dispatch/dispatch.h>
-> @@ -242,6 +243,35 @@ static void vmnet_bufs_init(VmnetState *s)
->      }
->  }
->
-> +/**
-> + * Called on state change to un-register/re-register handlers
-> + */
-> +static void vmnet_vm_state_change_cb(void *opaque, bool running, RunState state)
-> +{
-> +    VmnetState *s = opaque;
-> +
-> +    if (running) {
-> +        vmnet_interface_set_event_callback(
-> +            s->vmnet_if,
-> +            VMNET_INTERFACE_PACKETS_AVAILABLE,
-> +            s->if_queue,
-> +            ^(interface_event_t event_id, xpc_object_t event) {
-> +                assert(event_id == VMNET_INTERFACE_PACKETS_AVAILABLE);
-> +                /*
-> +                 * This function is being called from a non qemu thread, so
-> +                 * we only schedule a BH, and do the rest of the io completion
-> +                 * handling from vmnet_send_bh() which runs in a qemu context.
-> +                 */
-> +                qemu_bh_schedule(s->send_bh);
-> +            });
-> +    } else {
-> +        vmnet_interface_set_event_callback(
-> +            s->vmnet_if,
-> +            VMNET_INTERFACE_PACKETS_AVAILABLE,
-> +            NULL,
-> +            NULL);
-> +    }
-> +}
->
->  int vmnet_if_create(NetClientState *nc,
->                      xpc_object_t if_desc,
-> @@ -329,19 +359,9 @@ int vmnet_if_create(NetClientState *nc,
->      s->packets_send_current_pos = 0;
->      s->packets_send_end_pos = 0;
->
-> -    vmnet_interface_set_event_callback(
-> -        s->vmnet_if,
-> -        VMNET_INTERFACE_PACKETS_AVAILABLE,
-> -        s->if_queue,
-> -        ^(interface_event_t event_id, xpc_object_t event) {
-> -            assert(event_id == VMNET_INTERFACE_PACKETS_AVAILABLE);
-> -            /*
-> -             * This function is being called from a non qemu thread, so
-> -             * we only schedule a BH, and do the rest of the io completion
-> -             * handling from vmnet_send_bh() which runs in a qemu context.
-> -             */
-> -            qemu_bh_schedule(s->send_bh);
-> -        });
-> +    vmnet_vm_state_change_cb(s, 1, RUN_STATE_RUNNING);
-> +
-> +    s->change = qemu_add_vm_change_state_handler(vmnet_vm_state_change_cb, s);
->
->      return 0;
->  }
-> @@ -356,6 +376,8 @@ void vmnet_cleanup_common(NetClientState *nc)
->          return;
->      }
->
-> +    vmnet_vm_state_change_cb(s, 0, RUN_STATE_SHUTDOWN);
-> +    qemu_del_vm_change_state_handler(s->change);
->      if_stopped_sem = dispatch_semaphore_create(0);
->      vmnet_stop_interface(
->          s->vmnet_if,
+>  #define BUFFER_ALIGN sysconf(_SC_PAGESIZE)
+> -#define BUFFER_SIZE 2048
+> +#define BUFFER_SIZE 16384
+>  #define IOVSIZE 2
+>  #define MAX_L2TPV3_MSGCNT 64
+>  #define MAX_L2TPV3_IOVCNT (MAX_L2TPV3_MSGCNT * IOVSIZE)
 > --
-> 2.28.0
+> 2.36.2
 >
 
 
