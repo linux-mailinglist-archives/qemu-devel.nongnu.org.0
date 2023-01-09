@@ -2,98 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B994E66247A
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 12:43:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C04B662491
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 12:48:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEqY6-0008UQ-JD; Mon, 09 Jan 2023 06:42:42 -0500
+	id 1pEqdA-0001Ds-1V; Mon, 09 Jan 2023 06:47:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pEqY2-0008QL-7m
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:42:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1pEqd1-0001Cc-2r
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:47:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pEqY0-00021T-QS
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:42:37 -0500
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1pEqcw-0004Dz-Fw
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:47:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673264556;
+ s=mimecast20190719; t=1673264861;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s3FaMVk5b/TYXRBc1IkiFUyLIBCBB32V1L721cL9j3g=;
- b=eVjG93Zywswpi7zA38hPWMJkhqXbH4Iy35GrYOewQG7LhwAqUJS1lmx2ep1CQjI2to/KSz
- 1THO3w6FP6xk7wAxGKJj9Hhsvt8j/ZRBm/b8OA4krpeZs2dyRfceaNQ7igBZHgDdiL/dI9
- XB9bIWKWNJMZGTcoeyE4Z+t5/mdjXxQ=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=H5kpYdG7v3oUc5+pTCU+b3zSzgeBwsSMKnGnE2c/6lE=;
+ b=V68PVpUaN673ttgJqHz90XlYM2OdwYvTSWprP0Se0Q0GBoT/g+RvLeisyh3YeCQxlWX1j7
+ mcTf0mEIb0I8ITdFtEmHZguPaiJYWRgICbo1TvXxs3II5wc1q5+rTItemrnRbidLjq5PCV
+ y/ZnWBsymYTLYYEN+wpUBb05zy5ZHGE=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-180-MlkwRVndNiyRI69RGaik3g-1; Mon, 09 Jan 2023 06:42:34 -0500
-X-MC-Unique: MlkwRVndNiyRI69RGaik3g-1
-Received: by mail-qk1-f199.google.com with SMTP id
- q21-20020a05620a0d9500b0070572ccdbf9so6312373qkl.10
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 03:42:34 -0800 (PST)
+ us-mta-401-wnVFJkUNOva-LvwMusLRLQ-1; Mon, 09 Jan 2023 06:47:39 -0500
+X-MC-Unique: wnVFJkUNOva-LvwMusLRLQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ xj11-20020a170906db0b00b0077b6ecb23fcso5270442ejb.5
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 03:47:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=s3FaMVk5b/TYXRBc1IkiFUyLIBCBB32V1L721cL9j3g=;
- b=w/1QNlkHv0GNlWjRF3obagA/jKPtm8iTsor4r1qWVdVgmmrznWFp9d65p0UZaYQCq9
- 2lF8gGtzk8GeQeAFJruBiu9cnqtQ4pkVeNs4r4yglXGFO/aQQHYcP0PhsMDUVW1JtYeH
- PUmjsMlOw7Dt6J8/yd22FQbx0myuXcEN1Y2QJ1b06/2LYXKx/zhrzzTera4y4Ser9efI
- ivefZjF765aFF1TM1YIlbLrfLpYKsm/JetTXrX2h3AI+4nYgHWqUnjD8Jaex33tqp7OO
- KbHI31bcKEdZVQlRPuSPZRlTs/wUZZlA+Ycv9i0icjnQ0XgxzB8DnBfCw99BUH4k7z9W
- /qdQ==
-X-Gm-Message-State: AFqh2krHealigTQD1+EeCArUP4uAq9tQ4HipN9G5h+AWzuEZ7aowPij9
- dlheGJ1FNUZglksUBukXLUIAtbeeVDURnemb8ZclHpdHlvprPbgGzW6EyXJwOx08bY6hdzVcMlc
- A2S09U8WWitaaVRE=
-X-Received: by 2002:a05:622a:1aa5:b0:3ad:202f:8797 with SMTP id
- s37-20020a05622a1aa500b003ad202f8797mr6603117qtc.9.1673264554510; 
- Mon, 09 Jan 2023 03:42:34 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtqJt/3nNXIhu7fDwiu4ap4FkE/plD/hm5ntHR0Cd9bpFHnAIGyuqH/O3yFdwwVwSMVsFtbhA==
-X-Received: by 2002:a05:622a:1aa5:b0:3ad:202f:8797 with SMTP id
- s37-20020a05622a1aa500b003ad202f8797mr6603094qtc.9.1673264554276; 
- Mon, 09 Jan 2023 03:42:34 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-179-204.web.vodafone.de.
- [109.43.179.204]) by smtp.gmail.com with ESMTPSA id
- 19-20020a05620a071300b006f474e6a715sm5093980qkc.131.2023.01.09.03.42.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 03:42:33 -0800 (PST)
-Message-ID: <85c9ea58-a261-e629-de71-48fdb3ba1ea4@redhat.com>
-Date: Mon, 9 Jan 2023 12:42:28 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=H5kpYdG7v3oUc5+pTCU+b3zSzgeBwsSMKnGnE2c/6lE=;
+ b=AFMGu/4cIQQldmeUKUN+JVfE9UyyM2BWjco959lH7ght5zRArWMp75ACB2JWuRp8zf
+ Y6I56FHR+FBRZwqvEDqEECdO/Q5/tiGcb5nDq0f9H1hRirDKMrU2ltqvA2Zs5DoBI0s2
+ QxcoGhmknYW87sYgyaVPHUppTi7/OG4f7UN6T0wbGSSzweZtIAPIdAkZW+fA2o/TwCC2
+ Nu8+q6bRzRlLUCYGXU8/iVtMIJDqpYgddo+i2f8ZXEo7GWrOTgOIy4ciVNYlZSd9eGzk
+ /wb3+nj8oZccESM6QuyyCWUsvZ5g2+u1Y2DQjlnKX1Z0gjEYdLdFZopGpdgUZ6VJ1tzG
+ jhNw==
+X-Gm-Message-State: AFqh2kpzOMeqGucEs9oFErBq4EYSro51QKKlzHhCBcP+vop2MKeXYvt8
+ LtJnK1BbRhU4YAndYa2c57tnyQkxLcjYhVxU6Qr0cAHEMWkFTkG0PhPRzCiMw9rukkzlhArZEwn
+ y8bRFoL/caMaaxE/H8SnYJft8Qob5jW4=
+X-Received: by 2002:a17:906:5255:b0:7c1:6b1f:e131 with SMTP id
+ y21-20020a170906525500b007c16b1fe131mr4001092ejm.557.1673264858321; 
+ Mon, 09 Jan 2023 03:47:38 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvaS9uPOoOi7tAmRPJentoqtB+50R0so+dyupFKGoA6IrYidYcA9XGE1FI+uGckNvwDoWci3nROyLsKsvlzAIU=
+X-Received: by 2002:a17:906:5255:b0:7c1:6b1f:e131 with SMTP id
+ y21-20020a170906525500b007c16b1fe131mr4001075ejm.557.1673264858079; Mon, 09
+ Jan 2023 03:47:38 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 2/2] .gitlab-ci.d/windows: do not disable opengl
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, pbonzini@redhat.com,
+References: <20230109112110.128967-1-marcandre.lureau@redhat.com>
+ <20230109112110.128967-2-marcandre.lureau@redhat.com>
+ <0b04303a-20a6-d4fe-d9bc-0940e475d24b@redhat.com>
+In-Reply-To: <0b04303a-20a6-d4fe-d9bc-0940e475d24b@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Mon, 9 Jan 2023 15:47:26 +0400
+Message-ID: <CAMxuvazQMf==JGTMMSEMZP30DNTTpZ3bVYB8EiKf1mSaJaM_vA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] build-sys: fix crlf-ending C code
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, pbonzini@redhat.com, 
  David Hildenbrand <david@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
  Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
  kraxel@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Richard Henderson <richard.henderson@linaro.org>,
- qemu-s390x@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Beraldo Leal <bleal@redhat.com>
-References: <20230109112110.128967-1-marcandre.lureau@redhat.com>
- <20230109112110.128967-3-marcandre.lureau@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230109112110.128967-3-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ Cornelia Huck <cohuck@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000007b347a05f1d355f1"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,39 +104,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09/01/2023 12.21, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> The previous patch should fix shader compilation.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   .gitlab-ci.d/windows.yml | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-> index 22f794e537..5e59a7cc96 100644
-> --- a/.gitlab-ci.d/windows.yml
-> +++ b/.gitlab-ci.d/windows.yml
-> @@ -71,7 +71,7 @@ msys2-64bit:
->     # for the msys2 64-bit job, due to the build could not complete within
->     # the project timeout.
->     - ..\msys64\usr\bin\bash -lc '../configure --target-list=x86_64-softmmu
-> -      --without-default-devices --disable-opengl'
-> +      --without-default-devices'
->     - ..\msys64\usr\bin\bash -lc 'make'
->     # qTests don't run successfully with "--without-default-devices",
->     # so let's exclude the qtests from CI for now.
-> @@ -113,7 +113,6 @@ msys2-32bit:
->     - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
->     - mkdir output
->     - cd output
-> -  - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu
-> -        --disable-opengl'
-> +  - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu'
->     - ..\msys64\usr\bin\bash -lc 'make'
->     - ..\msys64\usr\bin\bash -lc 'make check || { cat meson-logs/testlog.txt; exit 1; } ;'
+--0000000000007b347a05f1d355f1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Hi
+
+On Mon, Jan 9, 2023 at 3:41 PM Thomas Huth <thuth@redhat.com> wrote:
+
+> On 09/01/2023 12.21, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > On msys2, the shader-to-C script produces bad C:
+> > ./ui/shader/texture-blit-vert.h:2:5: error: missing terminating "
+> character [-Werror]
+> >
+> > Fix it by changing the line ending from crlf to lf, and convert the
+> > script to Python (qemu build seems perl-free after that).
+>
+> If the build process does not depend on Perl anymore, would it make sense
+> to
+> also add a patch that removes perl from most of the containers (the ones
+> that don't use check_patch.pl etc.)? ... that way we would make sure that
+> the dependency does not creep in again later...
+>
+
+Let's try that. A quick check reveals that configure already still has perl
+usage. I will take a look.
+
+
+>
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >   meson.build              |  2 +-
+> >   scripts/shaderinclude.pl | 16 ----------------
+> >   scripts/shaderinclude.py | 22 ++++++++++++++++++++++
+> >   3 files changed, 23 insertions(+), 17 deletions(-)
+> >   delete mode 100644 scripts/shaderinclude.pl
+> >   create mode 100755 scripts/shaderinclude.py
+>
+> Acked-by: Thomas Huth <thuth@redhat.com>
+>
+>
+
+--0000000000007b347a05f1d355f1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 9, 2023 at 3:41 PM Thom=
+as Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 09/01/20=
+23 12.21, <a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">=
+marcandre.lureau@redhat.com</a> wrote:<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; On msys2, the shader-to-C script produces bad C:<br>
+&gt; ./ui/shader/texture-blit-vert.h:2:5: error: missing terminating &quot;=
+ character [-Werror]<br>
+&gt; <br>
+&gt; Fix it by changing the line ending from crlf to lf, and convert the<br=
+>
+&gt; script to Python (qemu build seems perl-free after that).<br>
+<br>
+If the build process does not depend on Perl anymore, would it make sense t=
+o <br>
+also add a patch that removes perl from most of the containers (the ones <b=
+r>
+that don&#39;t use <a href=3D"http://check_patch.pl" rel=3D"noreferrer" tar=
+get=3D"_blank">check_patch.pl</a> etc.)? ... that way we would make sure th=
+at <br>
+the dependency does not creep in again later...<br></blockquote><div><br></=
+div><div>Let&#39;s try that. A quick check reveals that configure already s=
+till has perl usage. I will take a look.</div><div>=C2=A0<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 2 +-<br>
+&gt;=C2=A0 =C2=A0scripts/<a href=3D"http://shaderinclude.pl" rel=3D"norefer=
+rer" target=3D"_blank">shaderinclude.pl</a> | 16 ----------------<br>
+&gt;=C2=A0 =C2=A0scripts/shaderinclude.py | 22 ++++++++++++++++++++++<br>
+&gt;=C2=A0 =C2=A03 files changed, 23 insertions(+), 17 deletions(-)<br>
+&gt;=C2=A0 =C2=A0delete mode 100644 scripts/<a href=3D"http://shaderinclude=
+.pl" rel=3D"noreferrer" target=3D"_blank">shaderinclude.pl</a><br>
+&gt;=C2=A0 =C2=A0create mode 100755 scripts/shaderinclude.py<br>
+<br>
+Acked-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=3D"_bl=
+ank">thuth@redhat.com</a>&gt;<br>
+<br>
+</blockquote></div></div>
+
+--0000000000007b347a05f1d355f1--
 
 
