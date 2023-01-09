@@ -2,83 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911C9661FD0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 09:19:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23739662027
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 09:38:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEnM6-0001VA-BA; Mon, 09 Jan 2023 03:18:06 -0500
+	id 1pEnee-0004vO-FL; Mon, 09 Jan 2023 03:37:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pEnM0-0001Ug-SL
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 03:18:00 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pEnLz-0007ct-6r
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 03:18:00 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- k26-20020a05600c1c9a00b003d972646a7dso8364286wms.5
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 00:17:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zixhl4RSE0u3gVtaKDIIz2mnQga8K7TFeW5ZZdrtuc4=;
- b=xXm7ay235hX4IGDy8JAt5uIa+cBDEi2Wxb46d7iu1GWA+K3wgd5d0PVjs238KRM8kL
- N+kra9ILfsGesY6BlAjNuo+8jp7Tcl2fhIj1t5uDvLi6UiH0ZQGnFtWLxYTKjhzl1Ple
- D6YgHYFFpg+c3/pQGviuXYvbEJzwn4l7UrhblDlfO/IXjv+vr3dIdviP7L2vib+IUEcZ
- UrUcOfImdoD9QRcCAMZoE4rRvJurEMSChRSdWdpM7tBYNJjxoY1PxPYtVh+7tDc9i52a
- mOqzKBywJ1m+s7+DJduFYyfi20YKLi4JgZM/f9TBaLmT+27HzsbFRzi6YnxutQ4npCzk
- S5Iw==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pEneb-0004v2-SJ
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 03:37:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pEnea-0007g4-1o
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 03:37:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673253429;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DInKmm4Rn61yi+CpphqaWk9/SltttB2wzvO79sH+IJ4=;
+ b=BG/pLuMq7+1bGrMSxQU/s62jermPc05+SO6xWFIG24iinrAkLnAQhFLFqTzoW2zHqQppbM
+ U6Xm78T00/s6C5FPGMCC9whZAsDIe32uuYOIjv3HICm/aDifzg3TWsuGV2ONH7xXJPX7X0
+ mQFoZQkZIUMyhR4hy9lTPOVMT6QlSrg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-205-rXlnUJXkMEyF1NOPWtzCFA-1; Mon, 09 Jan 2023 03:37:07 -0500
+X-MC-Unique: rXlnUJXkMEyF1NOPWtzCFA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j15-20020a05600c1c0f00b003d9ec0eaa74so1058311wms.1
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 00:37:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=zixhl4RSE0u3gVtaKDIIz2mnQga8K7TFeW5ZZdrtuc4=;
- b=kXizauj90r7Tdatkmye8Q9/VoYJ6OPnO+OW8phMdHJ/xpIxYft3Iyie130ofVJACPi
- XIMprPNKmhihbh7AKXv0jKLtDRUCmOI+bMRaDwDu8LI70jQ2/ojniDmUkuhyEI35nOO0
- PPVbPL7F28PCzqzO8nci1wSSPenIafXYIPNrA7350Jt/cnfckrPHV934ElVK/OeRYfxh
- dUSoHVhcz9Pm43zxCY4xlsX8euJYzBKyfv/9Hv+c/TA+59B6nzCRRDlk1GsB16N2/taC
- x/6rmvY4z8a8Wv50egU7pDi9Hm/4vemL0FkLrN9vHrBiA7dEsrrULFx3+Oi0pjF7vAJ3
- /c2A==
-X-Gm-Message-State: AFqh2ko19Jm2ED+S8KsBtjQ2P/nhWBD949GsYO2RKNReA6jma1qar2AW
- 79pSpmI3a5omonyvzOwUOqKh0g==
-X-Google-Smtp-Source: AMrXdXu/GleAeAqAXx96HRT6Ga1nuw4M673xREzeVVzw2p5UFEmNxvK+NdjxfeFMsG5Ruom+sgTVeQ==
-X-Received: by 2002:a05:600c:218f:b0:3d1:fbf9:3bd4 with SMTP id
- e15-20020a05600c218f00b003d1fbf93bd4mr46143507wme.10.1673252276992; 
- Mon, 09 Jan 2023 00:17:56 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DInKmm4Rn61yi+CpphqaWk9/SltttB2wzvO79sH+IJ4=;
+ b=SPDepdoileJLcUgknmRAl1vCgpbiW2ma2n701uSmXVp27wiuBKOigMJNrhwfqRGD/5
+ MSspt0VcyIpBKzVXp2y7dmOlpVarQG4ioQV4pylnaTCEzKnRyirnK3lMAUcGqwMePyL5
+ Rzru0eoSDJ7zC3hAR2agWqNvCDy+Xuqw6Uk14XJViDclznsk/njG4gN8X4huCXKDF+St
+ /Y6xP8oiQsNZByQ0li833MB3+GCPUp5OduKrTU6bItvK+9g/ZjG54VZ6cUrHNChK1Jz3
+ QlntqKAFVzb9U9BNzyKDzXO3yQxPR/OUnPQy4Dk+zfEymybBnFpgv9eV261+RiKS1fKZ
+ 9FIw==
+X-Gm-Message-State: AFqh2kop3HeGsQ5vX/aHZtuB9OBG6yMT81ovTfLzANKbXikgr4fLt61n
+ StRBSIYn5hjk8oJYaHnfFKQzElo2Yz+6+aGc0gjsIoxP09xbEWKztlf4iAJfTElDsQBkec3wZGc
+ rErff/5QxFUw1zW8=
+X-Received: by 2002:a05:600c:1d8a:b0:3d9:ebab:ccff with SMTP id
+ p10-20020a05600c1d8a00b003d9ebabccffmr3467792wms.33.1673253426272; 
+ Mon, 09 Jan 2023 00:37:06 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvNwZhFS2PWT+nKjVzLE8oWGA+HlI3UUdR1qHPGHR8atsn+R6GiR6En1TNuk5RhuK0JVeHb2g==
+X-Received: by 2002:a05:600c:1d8a:b0:3d9:ebab:ccff with SMTP id
+ p10-20020a05600c1d8a00b003d9ebabccffmr3467776wms.33.1673253425998; 
+ Mon, 09 Jan 2023 00:37:05 -0800 (PST)
+Received: from ?IPV6:2003:cb:c703:8f00:ba3:7d27:204f:8e29?
+ (p200300cbc7038f000ba37d27204f8e29.dip0.t-ipconnect.de.
+ [2003:cb:c703:8f00:ba3:7d27:204f:8e29])
  by smtp.gmail.com with ESMTPSA id
- he12-20020a05600c540c00b003d9ddc82450sm10240745wmb.45.2023.01.09.00.17.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 00:17:56 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E05A61FFB7;
- Mon,  9 Jan 2023 08:17:55 +0000 (GMT)
-References: <20230109063130.81296-1-akihiko.odaki@daynix.com>
-User-agent: mu4e 1.9.12; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] vhost-user: Correct a reference of TARGET_AARCH64
-Date: Mon, 09 Jan 2023 08:17:51 +0000
-In-reply-to: <20230109063130.81296-1-akihiko.odaki@daynix.com>
-Message-ID: <87wn5wnmto.fsf@linaro.org>
+ hg11-20020a05600c538b00b003cf6a55d8e8sm10351250wmb.7.2023.01.09.00.37.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 00:37:05 -0800 (PST)
+Message-ID: <84a9bbce-bcd6-15b7-23b4-d10689738995@redhat.com>
+Date: Mon, 9 Jan 2023 09:37:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v1 0/5] migration/ram: background snapshot fixes and
+ optimiations
+Content-Language: en-US
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+References: <20230105124528.93813-1-david@redhat.com> <Y7c9He14F8kKkffw@x1n>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <Y7c9He14F8kKkffw@x1n>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,16 +106,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 05.01.23 22:11, Peter Xu wrote:
+> On Thu, Jan 05, 2023 at 01:45:23PM +0100, David Hildenbrand wrote:
+>> Playing with background snapshots in combination with hugetlb and
+>> virtio-mem, I found two issues and some reasonable optimizations (skip
+>> unprotecting when unregistering).
+>>
+>> With virtio-mem (RamDiscardManager), we now won't be allocating unnecessary
+>> page tables for unplugged ranges when using uffd-wp with shmem/hugetlb.
+>>
+>> Cc: Juan Quintela <quintela@redhat.com> (maintainer:Migration)
+>> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com> (maintainer:Migration)
+>> Cc: Peter Xu <peterx@redhat.com>
+>> Cc: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+>>
+>> David Hildenbrand (5):
+>>    migration/ram: Fix populate_read_range()
+>>    migration/ram: Fix error handling in ram_write_tracking_start()
+>>    migration/ram: Don't explicitly unprotect when unregistering uffd-wp
+>>    migration/ram: Rely on used_length for uffd_change_protection()
+>>    migration/ram: Optimize ram_write_tracking_start() for
+>>      RamDiscardManager
+> 
+> For the series:
+> 
+> Acked-by: Peter Xu <peterx@redhat.com>
 
-Akihiko Odaki <akihiko.odaki@daynix.com> writes:
+Thanks!
 
-> Presumably TARGET_ARM_64 should be a mistake of TARGET_AARCH64.
->
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+-- 
+Thanks,
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+David / dhildenb
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
