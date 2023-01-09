@@ -2,85 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2ED662544
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:17:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D65D6625A8
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:32:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEqkS-0003xk-LS; Mon, 09 Jan 2023 06:55:28 -0500
+	id 1pEqqv-0005qK-9i; Mon, 09 Jan 2023 07:02:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pEqkQ-0003wj-Cd
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:55:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pEqkO-0000Bb-N8
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:55:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673265324;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2Bax02BSkvxaOEt2CRhklLybKGV/xR8mYNLZmlYBdyg=;
- b=iZ1vw41NOfSmJlm+VPfFnXYnGMs6gnAeQ716TUqyu63V9hqbjmvtDBFk6gbcZrmUad45lT
- pwmI2TxnnLHhfCIXaI0p8OKnnmfzVA+52FExnVifAqVlHY2/EzW97TJ7miQDe5dKzkEcau
- WrMC9On41xRaf9OSanPuR+QBd1t3mN4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-496-1tSs-3KtOzSxT7itYk1Mjw-1; Mon, 09 Jan 2023 06:55:20 -0500
-X-MC-Unique: 1tSs-3KtOzSxT7itYk1Mjw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5B4C858F0E;
- Mon,  9 Jan 2023 11:55:19 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.37.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 51B4D2026D4B;
- Mon,  9 Jan 2023 11:55:07 +0000 (UTC)
-Date: Mon, 9 Jan 2023 11:55:00 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-ppc@nongnu.org, xen-devel@lists.xenproject.org,
- Laurent Vivier <lvivier@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- virtio-fs@redhat.com, Michael Roth <michael.roth@amd.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org, Paul Durrant <paul@xen.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 5/6] tests: add G_GNUC_PRINTF for various functions
-Message-ID: <Y7wAlHEIafbNzsdf@redhat.com>
-References: <20221219130205.687815-1-berrange@redhat.com>
- <20221219130205.687815-6-berrange@redhat.com>
- <27da4d93-38e6-1c40-4a60-92f3343f380f@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqqn-0005lZ-7Y
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:02:06 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqqk-0001tX-DN
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:01:59 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ c4-20020a1c3504000000b003d9e2f72093so3983556wma.1
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 04:01:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eaIo71wEppzNboWDo3gtAwm6cZm3yvCPLcZVHzqS25Y=;
+ b=ayJskYNSaDbPJ0euc2Un9EOqYuLniLzE5XB2d0fBnVPso5PxkNR+swIvy6mExvtGMg
+ jWdieOTXFdWZa+z66eZegZviNegriJeRCT4llpdBAXkRZ/NtHkxFq0lrYia3TyJSmKpw
+ vMJBgSod2aOdJKeXMpUJaPIus/PQ2F3WVv0yhgphaK55eSVP/PE/tSAkc0fuYRRmDQjq
+ mwCstvNSD8fYteT3dXAVvNIQ+pB4Zy5iISanJlo66V5BffuB8WUxRbVFlc9S4sJzfv97
+ 78yn1LmaFYfyrRG4R3I2ps7zfoIL6+Mbpx8AwVK7FoNh5kGAGn3xGIhdAYyNt0bpL/qp
+ oeZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eaIo71wEppzNboWDo3gtAwm6cZm3yvCPLcZVHzqS25Y=;
+ b=BDRCL+RN9uHQioG/UspI825z5wJoIQhADtm/Ay1tQXeJgQ49sMsMNr1DlwUKXaCEtl
+ Sj6BY49J9UkVX65QSVJKA9NVAFKgjKoepj/5vrmq4iRBkfgVOasNGZX0H2AMxRax7HdS
+ lfwerfae754xQkq73CPIpFnXCu/xVzZCteREHTZV7y0N1Kew1I/ve2M3/2KoBvHti+iy
+ XyZcN2iTv5+8iIjByrZqZ0BYEn73sOcEu4oUreJ9iO2f578OAUhTttSh2lT56Mojv70O
+ 9NAhDal21UQ9mtctqSfUwUQbxotA7x1d6K7sbBPVLIHeIiI2Wzsr802YfEB01qmlyAR3
+ U8Bg==
+X-Gm-Message-State: AFqh2krGk2o9Y6Ma+Q9V7rl8OBQKFp7zq4m14vB/wHC+8vktCg+qkBsu
+ NwcY1xJ0LaqSeovLvPspMHD1cSsOjuSScBE+
+X-Google-Smtp-Source: AMrXdXt1RNMmaR3KbD+2mnm60LV3BGnlNUAa2FIB0T5kpey8gqhlhgeG/ScWUIdUFcyY4kNPcmAO5w==
+X-Received: by 2002:a05:600c:3506:b0:3cf:803b:d7cc with SMTP id
+ h6-20020a05600c350600b003cf803bd7ccmr49167302wmq.33.1673265716615; 
+ Mon, 09 Jan 2023 04:01:56 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ l11-20020a05600c1d0b00b003d01b84e9b2sm12263482wms.27.2023.01.09.04.01.55
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 09 Jan 2023 04:01:56 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Magnus Damm <magnus.damm@gmail.com>,
+ qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH 0/5] hw: Cleanups around PFLASH use
+Date: Mon,  9 Jan 2023 13:01:49 +0100
+Message-Id: <20230109120154.2868-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <27da4d93-38e6-1c40-4a60-92f3343f380f@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,71 +88,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 29, 2022 at 10:34:55AM +0100, Thomas Huth wrote:
-> On 19/12/2022 14.02, Daniel P. Berrangé wrote:
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >   tests/qtest/ahci-test.c           |  3 +++
-> >   tests/qtest/arm-cpu-features.c    |  1 +
-> >   tests/qtest/erst-test.c           |  2 +-
-> >   tests/qtest/ide-test.c            |  3 ++-
-> >   tests/qtest/ivshmem-test.c        |  4 ++--
-> >   tests/qtest/libqmp.c              |  2 +-
-> >   tests/qtest/libqos/libqos-pc.h    |  6 ++++--
-> >   tests/qtest/libqos/libqos-spapr.h |  6 ++++--
-> >   tests/qtest/libqos/libqos.h       |  6 ++++--
-> >   tests/qtest/libqos/virtio-9p.c    |  1 +
-> >   tests/qtest/migration-helpers.h   |  1 +
-> >   tests/qtest/rtas-test.c           |  2 +-
-> >   tests/qtest/usb-hcd-uhci-test.c   |  4 ++--
-> >   tests/unit/test-qmp-cmds.c        | 13 +++++++++----
-> >   14 files changed, 36 insertions(+), 18 deletions(-)
-> ...
-> > diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
-> > index 2373cd64cb..6d52b4e5d8 100644
-> > --- a/tests/unit/test-qmp-cmds.c
-> > +++ b/tests/unit/test-qmp-cmds.c
-> > @@ -138,6 +138,7 @@ void qmp___org_qemu_x_command(__org_qemu_x_EnumList *a,
-> >   }
-> > +G_GNUC_PRINTF(2, 3)
-> >   static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ...)
-> >   {
-> >       va_list ap;
-> > @@ -160,6 +161,7 @@ static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ...)
-> >       return ret;
-> >   }
-> > +G_GNUC_PRINTF(3, 4)
-> >   static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
-> >                                     const char *template, ...)
-> >   {
-> > @@ -269,7 +271,7 @@ static void test_dispatch_cmd_io(void)
-> >   static void test_dispatch_cmd_deprecated(void)
-> >   {
-> > -    const char *cmd = "{ 'execute': 'test-command-features1' }";
-> > +    #define cmd "{ 'execute': 'test-command-features1' }"
-> >       QDict *ret;
-> 
-> That looks weird, why is this required?
+Trivial cleanups before PFLASH refactor:
 
-This means that the compiler can see we're passing a constant string
-into the API call a few lines lower. Without it, the compiler can't
-see that 'cmd' doesn't contain any printf format specifiers, and thus
-it would force us to use  func('%s', cmd)... except that's not actually
-possible since our crazy json printf formatter doesn't allow arbitrary
-'%s', the '%s' can only occur at well defined points in the JSON doc.
+- Remove unreachable error path calling pflash_cfi01_register()
+- Add FLASH_SECTOR_SIZE definitions
+- Use more IEC binary prefix definition
 
-Using a constant string via #define was the easiest way to give the
-compiler visibility of the safety.
+Philippe Mathieu-Daudé (5):
+  hw/ppc/sam460ex: Remove unreachable code calling
+    pflash_cfi01_register()
+  hw/microblaze/petalogix: Add FLASH_SECTOR_SIZE definitions
+  hw/mips/malta: Add the FLASH_SECTOR_SIZE definition
+  hw/sh4/r2d: Use the IEC binary prefix definitions
+  hw/sh4/r2d: Add the FLASH_SECTOR_SIZE definition
 
-With regards,
-Daniel
+ hw/microblaze/petalogix_ml605_mmu.c      |  3 ++-
+ hw/microblaze/petalogix_s3adsp1800_mmu.c |  3 ++-
+ hw/mips/malta.c                          |  5 +++--
+ hw/ppc/sam460ex.c                        | 12 ++++--------
+ hw/sh4/r2d.c                             | 13 +++++++------
+ 5 files changed, 18 insertions(+), 18 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.38.1
 
 
