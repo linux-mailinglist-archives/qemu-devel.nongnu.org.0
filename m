@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5086625A9
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:33:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577A0662594
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:30:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEqxp-00005Y-EZ; Mon, 09 Jan 2023 07:09:20 -0500
+	id 1pEqxw-0000BJ-A1; Mon, 09 Jan 2023 07:09:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqxk-0008W2-6h
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:09:12 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqxu-0000Aj-6j
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:09:22 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqxi-0005zG-Iv
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:09:11 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- z8-20020a05600c220800b003d33b0bda11so7017346wml.0
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 04:09:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqxs-00060U-4V
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:09:21 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id t5so3514628wrq.1
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 04:09:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RlZzQsn6LG39OnRXiNzAdXltRv/HPGk8unzxKgnfU6M=;
- b=dO0T4HaZ9g5WFHME+0loKXa6sUjYWH+rPgUokm3oskdePX6NGY+UrljVjwILlkI86P
- qMbW4upTk1lcz2IAQgQs0PXHUs0qLSFP2JMKCDcGYLcxaKTIpjfOIUyfofJUciW6x4kx
- AG7maSg7s+CDfVwfXSaib7bcGAA+BwWax+ztCXsEkhUsbV/YeyptPokqmlJMx5uamqbP
- XiAEJuJ9DYJauLwm9dKWTNGlSX7oZ3RrWfkLNdEV3K+9xrCPMasSSwwNwbidCI3uv5K7
- 4AiEl27XrcieKxambVpSDXVXiLGP7kRvXuYozstimXLdjc/WMWGH4pL+Tz8o2O0+aglQ
- mhOw==
+ bh=msNbVrY5Ck7M2M2GqYUu6XWKiG6PjDQ57JW5BgILQCE=;
+ b=OS072HexoXTpyY7zA3ANAPfTWvtKrvA4WxUArtaRd9meeb1cpP7HPVucsuVNGkVaEW
+ zYd9pLVyIMTHW2fABo7kT+xJe+6Ls2Pd068P7vHzi+IrPcgIWyb12QYrOqRQpJl5FOk/
+ CAe2+gWzvJiOfmrWctfcO/2gJN5HICpwc1Ye2EMzb9UIMtvcdefA527OQqZ5jj32QIC+
+ WpKyWvIT22AsEox9FnRQB6dYrT029mn1Or4sMOBXhpRwecu274b/umsJy8Ber0KSYryN
+ 9YPrCxK35NjbH2uO/OrJVViURz8otPp55fWjnfAzhMElbsx/F9tFREK9rkOR5mkJZxcl
+ Ywfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RlZzQsn6LG39OnRXiNzAdXltRv/HPGk8unzxKgnfU6M=;
- b=b+JdRvGACwGAG7HKRmZKMAcJgdsg4dNIDyCSmQZDId+f3DDgaHLO71GKxYNuGiX896
- W0yFdHM22e2mrKVEGFG7KHvB1aVCKAz7cfoDocc4O3HQqLdw8O5BlzwTmd5io7dPA35X
- /s2JKW3jayxPHOEa6bN8JIeuVmaZY7v4nrjQOU3PJ/WIclSW4nTfFPIm1oAKSxxXIhg/
- I3gTzPNCDjwdky7bK0RhDHIcmaPJmuXJ8f7e9dlbUINtj4lXqMwuvnh3HNAyClBpv/Q6
- YYay9q7jZVcC+MbEBdus7lD5f621WHbncTkIEa+l/w5kdLxA03k5qyk5r/QKoX9iSgjS
- hzAg==
-X-Gm-Message-State: AFqh2kp4DgAhC5f9kMGR6V8CQRhz9kxO/TtQg9vbYn8uOKGIB9W4yZ5h
- Pkms2SW1WyAa9GryxrRGtY/Iclf7ioHQJ21B
-X-Google-Smtp-Source: AMrXdXtrpABj/03F5CWvqmV03iWrMn/RQxhSrwc6+gsYPoQm+HxIL1IXPEjgJelfeAq88oW+Z9RidA==
-X-Received: by 2002:a05:600c:13ca:b0:3d3:4427:dfbf with SMTP id
- e10-20020a05600c13ca00b003d34427dfbfmr45606329wmg.5.1673266148780; 
- Mon, 09 Jan 2023 04:09:08 -0800 (PST)
+ bh=msNbVrY5Ck7M2M2GqYUu6XWKiG6PjDQ57JW5BgILQCE=;
+ b=CfxAoaM23u7KHYiWPskJRHn7Zf0rdZyiTEY5AHnutRiuVVX7HNFbrAkoNysMDhGhav
+ ++kJ/L5n9j468I1jvernKDOT91XZNwNfGS5TLlg4EkUwbn6Geyu+6uNJSjUWYC9pISc4
+ 9mLqXgS2Ji6RqH6SIpry64eCVSG0gJzwR99qss4fh+iV0W84AxEebi5LSNE9ScK8w/Q1
+ gKHpyDEJP0RosaCcw5DgJTdhry5ipMumhMaiPbNgtEo8bZqOOgft6ylc7JdyKtGNERWZ
+ YiOJUZjgjrneJrq3AGjhq7djSf65lrO4rlgqIBbgayxxH9tm4PRotd3gS/8AtWa+DnvT
+ UWKA==
+X-Gm-Message-State: AFqh2kqNSXOIS3S72L6rpE8cZlziUX1zwIBEiYS6ysGW31woSXuG1Abt
+ ZRxpM8vQ5LQd7+pGqEZU2Whft7BP+lcq4kzG
+X-Google-Smtp-Source: AMrXdXthzH+q3qR4uQrUpNrrVgrqTK5aYd/vOuD/1gwezWtwRkqnBFJAr7Oc4oyPlgm/5Dsl8LazOQ==
+X-Received: by 2002:a05:6000:4088:b0:2bb:e896:5a09 with SMTP id
+ da8-20020a056000408800b002bbe8965a09mr3577725wrb.66.1673266153523; 
+ Mon, 09 Jan 2023 04:09:13 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- f19-20020a05600c155300b003d98a7aa12csm17583162wmg.16.2023.01.09.04.09.07
+ k2-20020a5d5182000000b00236545edc91sm8511680wrv.76.2023.01.09.04.09.12
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 09 Jan 2023 04:09:08 -0800 (PST)
+ Mon, 09 Jan 2023 04:09:13 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
  Bin Meng <bmeng.cn@gmail.com>
-Subject: [PATCH v2 07/21] hw/riscv: Use generic DeviceState instead of
+Subject: [PATCH v2 08/21] hw/i386: Use generic DeviceState instead of
  PFlashCFI01
-Date: Mon,  9 Jan 2023 13:08:19 +0100
-Message-Id: <20230109120833.3330-8-philmd@linaro.org>
+Date: Mon,  9 Jan 2023 13:08:20 +0100
+Message-Id: <20230109120833.3330-9-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230109120833.3330-1-philmd@linaro.org>
 References: <20230109120833.3330-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,82 +94,94 @@ Nothing here requires access to PFlashCFI01 internal fields:
 use the inherited generic DeviceState.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 ---
- hw/riscv/virt.c         | 9 +++++----
- include/hw/riscv/virt.h | 3 +--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ hw/i386/pc_sysfw.c   | 14 +++++++-------
+ include/hw/i386/pc.h |  3 +--
+ 2 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index aa8db65685..a2cd174599 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -46,6 +46,7 @@
- #include "sysemu/sysemu.h"
- #include "sysemu/kvm.h"
- #include "sysemu/tpm.h"
-+#include "hw/block/flash.h"
- #include "hw/pci/pci.h"
- #include "hw/pci-host/gpex.h"
- #include "hw/display/ramfb.h"
-@@ -106,7 +107,7 @@ static MemMapEntry virt_high_pcie_memmap;
+diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+index 60db0efb41..1a12207dd1 100644
+--- a/hw/i386/pc_sysfw.c
++++ b/hw/i386/pc_sysfw.c
+@@ -71,7 +71,7 @@ static void pc_isa_bios_init(MemoryRegion *rom_memory,
+     memory_region_set_readonly(isa_bios, true);
+ }
  
- #define VIRT_FLASH_SECTOR_SIZE (256 * KiB)
- 
--static PFlashCFI01 *virt_flash_create1(RISCVVirtState *s,
-+static DeviceState *virt_flash_create1(RISCVVirtState *s,
-                                        const char *name,
-                                        const char *alias_prop_name)
+-static PFlashCFI01 *pc_pflash_create(PCMachineState *pcms,
++static DeviceState *pc_pflash_create(PCMachineState *pcms,
+                                      const char *name,
+                                      const char *alias_prop_name)
  {
-@@ -130,7 +131,7 @@ static PFlashCFI01 *virt_flash_create1(RISCVVirtState *s,
-     object_property_add_alias(OBJECT(s), alias_prop_name,
-                               OBJECT(dev), "drive");
- 
+@@ -88,7 +88,7 @@ static PFlashCFI01 *pc_pflash_create(PCMachineState *pcms,
+      * will be removed with object_unparent.
+      */
+     object_unref(OBJECT(dev));
 -    return PFLASH_CFI01(dev);
 +    return dev;
  }
  
- static void virt_flash_create(RISCVVirtState *s)
-@@ -139,7 +140,7 @@ static void virt_flash_create(RISCVVirtState *s)
-     s->flash[1] = virt_flash_create1(s, "virt.flash1", "pflash1");
- }
+ void pc_system_flash_create(PCMachineState *pcms)
+@@ -143,7 +143,7 @@ static void pc_system_flash_map(PCMachineState *pcms,
+     int i;
+     BlockBackend *blk;
+     int64_t size;
+-    PFlashCFI01 *system_flash;
++    DeviceState *system_flash;
+     MemoryRegion *flash_mem;
+     void *flash_ptr;
+     int flash_size;
+@@ -152,7 +152,7 @@ static void pc_system_flash_map(PCMachineState *pcms,
  
--static void virt_flash_map1(PFlashCFI01 *flash,
-+static void virt_flash_map1(DeviceState *flash,
-                             hwaddr base, hwaddr size,
-                             MemoryRegion *sysmem)
- {
-@@ -1514,7 +1515,7 @@ static void virt_machine_init(MachineState *machine)
+     for (i = 0; i < ARRAY_SIZE(pcms->flash); i++) {
+         system_flash = pcms->flash[i];
+-        blk = pflash_cfi01_get_blk(DEVICE(system_flash));
++        blk = pflash_cfi01_get_blk(system_flash);
+         if (!blk) {
+             break;
+         }
+@@ -187,7 +187,7 @@ static void pc_system_flash_map(PCMachineState *pcms,
+                         0x100000000ULL - total_size);
  
-     for (i = 0; i < ARRAY_SIZE(s->flash); i++) {
-         /* Map legacy -drive if=pflash to machine properties */
--        pflash_cfi01_legacy_drive(DEVICE(s->flash[i]),
-+        pflash_cfi01_legacy_drive(s->flash[i],
+         if (i == 0) {
+-            flash_mem = pflash_cfi01_get_memory(DEVICE(system_flash));
++            flash_mem = pflash_cfi01_get_memory(system_flash);
+             pc_isa_bios_init(rom_memory, flash_mem, size);
+ 
+             /* Encrypt the pflash boot ROM */
+@@ -214,9 +214,9 @@ void pc_system_firmware_init(PCMachineState *pcms,
+ 
+     /* Map legacy -drive if=pflash to machine properties */
+     for (i = 0; i < ARRAY_SIZE(pcms->flash); i++) {
+-        pflash_cfi01_legacy_drive(DEVICE(pcms->flash[i]),
++        pflash_cfi01_legacy_drive(pcms->flash[i],
                                    drive_get(IF_PFLASH, 0, i));
+-        pflash_blk[i] = pflash_cfi01_get_blk(DEVICE(pcms->flash[i]));
++        pflash_blk[i] = pflash_cfi01_get_blk(pcms->flash[i]);
      }
-     virt_flash_map(s, system_memory);
-diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index 3407c9e8dd..2be47547ac 100644
---- a/include/hw/riscv/virt.h
-+++ b/include/hw/riscv/virt.h
-@@ -21,7 +21,6 @@
  
- #include "hw/riscv/riscv_hart.h"
- #include "hw/sysbus.h"
+     /* Reject gaps */
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 991f905f5d..70abe61805 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -6,7 +6,6 @@
+ #include "qemu/uuid.h"
+ #include "hw/boards.h"
+ #include "hw/block/fdc.h"
 -#include "hw/block/flash.h"
- #include "qom/object.h"
+ #include "hw/i386/x86.h"
  
- #define VIRT_CPUS_MAX_BITS             9
-@@ -49,7 +48,7 @@ struct RISCVVirtState {
-     DeviceState *platform_bus_dev;
-     RISCVHartArrayState soc[VIRT_SOCKETS_MAX];
-     DeviceState *irqchip[VIRT_SOCKETS_MAX];
+ #include "hw/acpi/acpi_dev_interface.h"
+@@ -35,7 +34,7 @@ typedef struct PCMachineState {
+     /* Pointers to devices and objects: */
+     PCIBus *bus;
+     I2CBus *smbus;
 -    PFlashCFI01 *flash[2];
 +    DeviceState *flash[2];
-     FWCfgState *fw_cfg;
+     ISADevice *pcspk;
+     DeviceState *iommu;
  
-     int fdt_size;
 -- 
 2.38.1
 
