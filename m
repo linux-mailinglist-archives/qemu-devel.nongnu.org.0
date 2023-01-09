@@ -2,106 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990F566306E
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 20:33:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0E5663078
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 20:34:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pExsY-0000El-Qo; Mon, 09 Jan 2023 14:32:18 -0500
+	id 1pExuc-0001a1-Ks; Mon, 09 Jan 2023 14:34:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pExsW-0000BE-G3
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:32:16 -0500
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pExsT-0006ay-CZ
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:32:15 -0500
-Received: by mail-pf1-x431.google.com with SMTP id c9so6965285pfj.5
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 11:32:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=MS9c8pSDmVucTZdPdHhH3mdXKbPND6bL5OXnhsaz428=;
- b=sOIFmmww5t87chNqg4RrjKvRSK55mbJUfkLlDwVdXFzdUVNQpuL8j+67d+DkgdzGV/
- cY+1zKjyGAv7inACtQNgX5uUKu4ApW+iH+DVN7GkXfrRLLF2Mvo9WifnFmurzCTgdAvo
- yO0VsoKDonS/b5FpljJp4kIUzSG1uLseP8M04BYadiPR3LnDKhEB8JDIFZ6XY2cYQ9Ip
- q/lAxkFfWGCi4n140C5isaU+LhXs1upwAI92uUGwcJ28pRBl0VFZtoKmw+InBC55cTsl
- h4qHQp+F6duxw8RJ/SXhE+ei/WHcJpuK0DK+gQrpAmJlxVZpoBxyR4o9mafVKF6RyDWB
- AG3Q==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pExua-0001ZN-WF
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:34:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pExuZ-00071n-2b
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:34:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673292861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7EVUBU840NUjR5zHhM1cr4SWiBLCBTG8mcIHAc/HZX4=;
+ b=fuoO77sEDIuDpyZOr3RojYFxQABGh8i/Ikx3f4iUTLdnop/vNDOe4/7xrPykCv4CvbPBnL
+ LLzA36A4kN44Y9qfrgBnyiySCY2+7FK5F/oCzp1MJ+Q9FezRyxPupOwjzyLdQ99u7xHpYH
+ PnMWorFjvO4E2xGpnBi71OxR0g08mMs=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-32-AMG9j8CFMIC5yGNENU1s0g-1; Mon, 09 Jan 2023 14:34:20 -0500
+X-MC-Unique: AMG9j8CFMIC5yGNENU1s0g-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ br6-20020a05620a460600b007021e1a5c48so7088093qkb.6
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 11:34:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MS9c8pSDmVucTZdPdHhH3mdXKbPND6bL5OXnhsaz428=;
- b=faQOXiT4NW+1YA/ls8CS3flxDMa5LzTZI0SKMjcOR7pXEjG63yj9Vc3FGjfIS8cAxD
- dH27/PcuaR6U+M6f6YAfqq8yJBh36/3PLnroF3NfX9FBASx8eeh5jILn2ngx+Avq6TGp
- E8EfHFgVYGkc5tnOww283Yn/mbBrC39xoGIYKxRGCdOXJuhseoVhbGFu/u/klABqrh/2
- P0zNlQdj/oBZAwyzj504HxBZ3U/5uwHNLvRYDkEHRfj6ZGSefBj3ZYurOXNFvezRIVzl
- yyFX3exbod6j+Q6oI+eX5zvZ/LLnWvgaqmZKhDWSO3HCl7PXiFHflwH1tzn8BOLyKMzz
- eNMw==
-X-Gm-Message-State: AFqh2kqtLsxlXBIkMe+786ZlQxDVAuSY15R/7Zj9QcpuGOTwUZYA5lfY
- ss0Aoz63AA0IjN7F4rGyWUooNg==
-X-Google-Smtp-Source: AMrXdXsOvwNIYYmxRZ1A4P2qL2M11DO9ETy3xVnstT6ROBE9IIpgFgsb6iMlmsjwANei+MKsQQb7Fw==
-X-Received: by 2002:aa7:973c:0:b0:574:8995:c0d0 with SMTP id
- k28-20020aa7973c000000b005748995c0d0mr742042pfg.1.1673292729425; 
- Mon, 09 Jan 2023 11:32:09 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- 194-20020a6214cb000000b005809d382016sm6429041pfu.74.2023.01.09.11.32.08
+ bh=7EVUBU840NUjR5zHhM1cr4SWiBLCBTG8mcIHAc/HZX4=;
+ b=ecSqQtEnC8FTNagYR9KSb65L/qlpiy634sL6puvyO+INdOPqlCaUs4A38pefmU3KNC
+ rxfy90IYDBbbWXhoMJud53IUlKAk4/3b/7b3r7+S5S2+qaz59aelPyjF1kDL+pmaCy8g
+ 0dBJHdHqoJcTXG1+TlFn3aFuK1d+yLIAgcZANBS70N0iNcaUDEX1rVfPhz7S79M+MeoB
+ OfgCF5RZ+dKEu2T5uDGgU0b3i+uT3X7Lnm8i3BQr+mDMIZFqlKT1RK+00zkJHMuwjTwA
+ olYDD626oXorjtI0Q1FPQ33GFIP6LnyiatczKJTTYb/WvcrgLkHnmdkElgj/JYz/FFSB
+ bmfw==
+X-Gm-Message-State: AFqh2kox7QBFtOtpZupk4yDb8jb7prrqaEFYcSj252y08MDr8X8icqGr
+ aQw8pQ01jQ0SVxfxC4npwb8x/aulCxxX2k+xXzuIjxEmUBZayHNVgiyy4U7GrB3G+1gDKjtWosH
+ KTuH0ay6UlHBhoLc=
+X-Received: by 2002:ad4:4e09:0:b0:51f:f4f4:e4f8 with SMTP id
+ dl9-20020ad44e09000000b0051ff4f4e4f8mr79710269qvb.25.1673292860037; 
+ Mon, 09 Jan 2023 11:34:20 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsr6BICr2GsR3NNluXeM0yuFy7T6D7C9LcW68lQOhialKtjQelFklSX7iujWg9ug+A3OJmLAA==
+X-Received: by 2002:ad4:4e09:0:b0:51f:f4f4:e4f8 with SMTP id
+ dl9-20020ad44e09000000b0051ff4f4e4f8mr79710249qvb.25.1673292859775; 
+ Mon, 09 Jan 2023 11:34:19 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-39-70-52-228-144.dsl.bell.ca.
+ [70.52.228.144]) by smtp.gmail.com with ESMTPSA id
+ bp32-20020a05620a45a000b00705b4001fbasm2949201qkb.128.2023.01.09.11.34.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 11:32:09 -0800 (PST)
-Date: Mon, 9 Jan 2023 19:32:05 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Jarkko Sakkinen <jarkko@kernel.org>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <Y7xrtf9FCuYRYm1q@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
- <Y7azFdnnGAdGPqmv@kernel.org>
- <20230106094000.GA2297836@chaop.bj.intel.com>
+ Mon, 09 Jan 2023 11:34:19 -0800 (PST)
+Date: Mon, 9 Jan 2023 14:34:17 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v3] intel-iommu: Document iova_tree
+Message-ID: <Y7xsOWxcGqW4difr@x1n>
+References: <20221206221348.396020-1-peterx@redhat.com>
+ <CACGkMEtK8w2OkeZR=Ebp3t8t6bfaJusTRyC0eB3BGyA7KuX5-g@mail.gmail.com>
+ <Y6XWy9XPHqhK8BMh@x1n>
+ <CACGkMEu6OC7eCyR-ztBXGMe-mtWHfLMHPVJrGWO6Rpx3bHTCPQ@mail.gmail.com>
+ <Y7RmMvRNFf+YYRyH@x1n>
+ <CACGkMEu+7rnSudmZBi1EZjsgD4RwYeFg_ktxqg+e3e5C9SdaaQ@mail.gmail.com>
+ <Y7WXwS1qsvOorJlU@x1n>
+ <CACGkMEvZh0EdwL5+3o-BNDPez12eAO8YUNq8vWyv0ZruBfw_GA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230106094000.GA2297836@chaop.bj.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=seanjc@google.com; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+In-Reply-To: <CACGkMEvZh0EdwL5+3o-BNDPez12eAO8YUNq8vWyv0ZruBfw_GA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,55 +104,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 06, 2023, Chao Peng wrote:
-> On Thu, Jan 05, 2023 at 11:23:01AM +0000, Jarkko Sakkinen wrote:
-> > On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
-> > > To make future maintenance easy, internally use a binary compatible
-> > > alias struct kvm_user_mem_region to handle both the normal and the
-> > > '_ext' variants.
-> > 
-> > Feels bit hacky IMHO, and more like a completely new feature than
-> > an extension.
-> > 
-> > Why not just add a new ioctl? The commit message does not address
-> > the most essential design here.
+On Mon, Jan 09, 2023 at 05:08:59PM +0800, Jason Wang wrote:
+> Either:
 > 
-> Yes, people can always choose to add a new ioctl for this kind of change
-> and the balance point here is we want to also avoid 'too many ioctls' if
-> the functionalities are similar.  The '_ext' variant reuses all the
-> existing fields in the 'normal' variant and most importantly KVM
-> internally can reuse most of the code. I certainly can add some words in
-> the commit message to explain this design choice.
+> 1) cropping in the memory core and remove the iommu cropping like
+> smmu_unmap_notifier_range()
+> 
+> or
+> 
+> 2) don't corp in the memory core but move smmu_unmap_notifier_range to
+> the core (still, a kind of implicit crop, since the function was
+> called without a range)
+> 
+> 2) seems safer but I can go with 1 if you insist.
 
-After seeing the userspace side of this, I agree with Jarkko; overloading
-KVM_SET_USER_MEMORY_REGION is a hack.  E.g. the size validation ends up being
-bogus, and userspace ends up abusing unions or implementing kvm_user_mem_region
-itself.
+No strong opinion here, thanks for checking!  I'm not exactly sure how
+it'll look like at last with 2), but so far either way sounds good.
 
-It feels absolutely ridiculous, but I think the best option is to do:
+[...]
 
-#define KVM_SET_USER_MEMORY_REGION2 _IOW(KVMIO, 0x49, \
-					 struct kvm_userspace_memory_region2)
+> > It depends on how to define the "real invalidations".  There're two places
+> > that can enlarge an invalidation, here I wanted to reference the case where
+> > e.g. a PSI is enlarged to a DSI.  Even if that's the driver behavior, I
+> > wanted to make sure the qemu iommu notifiees are aware of the facts that
+> > unmap can be bigger than what it used to have mapped.
+> 
+> Ok, I think the confusion came from "real invalidations". I think
+> there's no way for the device to know about the real invalidation
+> since the driver can enlarge it at will? If this is true, is this
+> better to say the UNAMP messages can cover the range that is not
+> mapped?
 
-/* for KVM_SET_USER_MEMORY_REGION2 */
-struct kvm_user_mem_region2 {
-	__u32 slot;
-	__u32 flags;
-	__u64 guest_phys_addr;
-	__u64 memory_size;
-	__u64 userspace_addr;
-	__u64 restricted_offset;
-	__u32 restricted_fd;
-	__u32 pad1;
-	__u64 pad2[14];
-}
+I can reword, will repost soon.
 
-And it's consistent with other KVM ioctls(), e.g. KVM_SET_CPUID2.
+Thanks,
 
-Regarding the userspace side of things, please include Vishal's selftests in v11,
-it's impossible to properly review the uAPI changes without seeing the userspace
-side of things.  I'm in the process of reviewing Vishal's v2[*], I'll try to
-massage it into a set of patches that you can incorporate into your series.
+-- 
+Peter Xu
 
-[*] https://lore.kernel.org/all/20221205232341.4131240-1-vannapurve@google.com
 
