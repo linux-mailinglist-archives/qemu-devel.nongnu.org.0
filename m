@@ -2,54 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1AE6626E7
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:23:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28DC96626A7
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:15:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEr7T-0006nK-Af; Mon, 09 Jan 2023 07:19:15 -0500
+	id 1pEr1t-0002FQ-N2; Mon, 09 Jan 2023 07:13:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
- id 1pEr7P-0006gg-3Q
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:19:11 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
- id 1pEr7M-0003IL-Tu
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:19:10 -0500
-Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.56])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NrCcp6XBrz16MdM;
- Mon,  9 Jan 2023 20:17:30 +0800 (CST)
-Received: from localhost.localdomain (10.175.124.27) by
- dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Mon, 9 Jan 2023 20:19:02 +0800
-To: <qemu-devel@nongnu.org>
-CC: <quintela@redhat.com>, <dgilbert@redhat.com>, <yubihong@huawei.com>,
- <xiexiangyou@huawei.com>, <zhengchuan@huawei.com>, <linyilu@huawei.com>,
- <jiangjiacheng@huawei.com>
-Subject: [RESEND PATCH 1/2] migration: report migration related thread pid to
- libvirt
-Date: Mon, 9 Jan 2023 20:12:34 +0800
-Message-ID: <20230109121235.2666476-2-jiangjiacheng@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20230109121235.2666476-1-jiangjiacheng@huawei.com>
-References: <20230109121235.2666476-1-jiangjiacheng@huawei.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEr1r-00029T-5k
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:13:27 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEr1o-0007sF-0a
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:13:26 -0500
+Received: by mail-wr1-x431.google.com with SMTP id bk16so7923932wrb.11
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 04:13:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oOa558W65nN+mwNWf4ehs5ixKO9EILkwd73Dl1/KY5o=;
+ b=PuQuI74czYjUtr2rm0hjfOH1AslxKCn6g1PF6QqtoswM1Sk6U2qcMQ5B/4pTULuZeg
+ oDWjOvVp/oUVD4wST9ssqo09Q/KRtsYWCtLIeQ5y4RD5jsok+vnMHmQXBp7GjaFa9aDc
+ 6JJXy6V9M/8H01dXogYeEaj+tXrBqmEM3pH5BInqskRGLPU2331GjkKAr7tDUZpsGOma
+ NDfXpHPa+4g4Nv2fhsklrcV7hPfSlZe5Kw9x4kxAL3Rf/Q05pnQCxGdEqUqws6RZeuWq
+ QTHaj/CobfOXIMCiV5absvugbdGvXmc7dLpv0xZBD/K04LoYSP5roTZjaZdfWu7VrP6f
+ 7gaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oOa558W65nN+mwNWf4ehs5ixKO9EILkwd73Dl1/KY5o=;
+ b=3aqzsoSi57A6MuEgGYcpoTZnsHEU+Iw5C6M+MRPF8jGYvi8KidfnDY0uy+K7jwzdAJ
+ wN6VT7C4EgprCkqNp+7fblIC+5mcyzycmjWH5SMNbeJswu3cliOcf9aQ522oDlOZ2nwx
+ +JuEnYh1w4A+JcZ1O2JdKMWRL00SIKpUUbLBKJw9MlolN2fYGOXMlMALwcUX9hExakYO
+ jlr6Y2aU2Ye/ecxRD8v0Piy9v3Xg86zAG9WqOPzURh9CJFObcwU+2T7syJnc9wLk8F4L
+ p7Q+Gl2jJoo2bNVtO9AH5o1FTbZHlzP+4LXYesW8LIgxg5UlliqGfwCX2baPJwyCkrDA
+ W0zQ==
+X-Gm-Message-State: AFqh2koydp5Z+IxVRZ49IHYqHuo+VpoUJj1apbRNgVEY+g8yszWmfTnz
+ j05aftHmloUzxigTaTcO+eYcShH5mmsQOR2t
+X-Google-Smtp-Source: AMrXdXsHgQ52Ck2tp7xpe9Yo1kEeKssHFEVhiWNTk6eI1v+ApwgdTpbiT4ZQis3l97GX98/KQfVztQ==
+X-Received: by 2002:a05:6000:1f1b:b0:2b8:27df:d43f with SMTP id
+ bv27-20020a0560001f1b00b002b827dfd43fmr12843832wrb.24.1673266402512; 
+ Mon, 09 Jan 2023 04:13:22 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ k18-20020adfb352000000b00241fab5a296sm8637861wrd.40.2023.01.09.04.13.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 04:13:21 -0800 (PST)
+Message-ID: <0e0f31fd-4d10-7bfe-af6d-3bee3cee1073@linaro.org>
+Date: Mon, 9 Jan 2023 13:13:20 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 00/21] hw: Remove implicit sysbus_mmio_map() from
+ pflash APIs
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+References: <20230109120833.3330-1-philmd@linaro.org>
+Cc: qemu-ppc@nongnu.org, qemu-arm <qemu-arm@nongnu.org>,
+ "open list:SiFive Machines" <qemu-riscv@nongnu.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Magnus Damm <magnus.damm@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Song Gao <gaosong@loongson.cn>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230109120833.3330-1-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.124.27]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml500022.china.huawei.com (7.185.36.66)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=jiangjiacheng@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,58 +93,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jiang Jiacheng <jiangjiacheng@huawei.com>
-From:  Jiang Jiacheng via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Zheng Chuan <zhengchuan@huawei.com>
+On 9/1/23 13:08, Philippe Mathieu-Daudé wrote:
+> Since v1:
+> - Do not introduce pflash_cfi_create(), directly
+>    open-code pflash_cfi_register() before removing it (Peter)
+> - Added R-b tags
 
-Report migration thread pid to libvirt in order to pin
-migration thread to different cpu.
----
- migration/migration.c |  3 +++
- qapi/migration.json   | 12 ++++++++++++
- 2 files changed, 15 insertions(+)
+Sigh, my sendemail.cccmd command didn't work, so Cc'ing manually the cover.
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 52b5d39244..2534e5a1f1 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3955,6 +3955,9 @@ static void *migration_thread(void *opaque)
-     MigThrError thr_error;
-     bool urgent = false;
- 
-+    /* report migration thread pid to libvirt */
-+    qapi_event_send_migration_pid(qemu_get_thread_id());
-+
-     rcu_register_thread();
- 
-     object_ref(OBJECT(s));
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 88ecf86ac8..aafc940617 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1286,6 +1286,18 @@
- { 'event': 'MIGRATION_PASS',
-   'data': { 'pass': 'int' } }
- 
-+##
-+# @MIGRATION_PID:
-+#
-+# Emitted when migration thread appear
-+#
-+# @pid: pid of migration thread
-+#
-+# Since: 7.2
-+##
-+{ 'event': 'MIGRATION_PID',
-+  'data': { 'pid': 'int' } }
-+
- ##
- # @COLOMessage:
- #
--- 
-2.33.0
+> Paving the road toward heterogeneous QEMU, the limitations of
+> having a single machine sysbus become more apparent.
+> 
+> The sysbus_mmio_map() API forces the caller to map a sysbus
+> device to an address on the system bus (system bus here is
+> the root MemoryRegion returned by get_system_memory() ).
+> 
+> This is not practical when each core has its own address
+> space and group of cores have access to a part of the
+> peripherals.
+> 
+> Experimenting with the PFLASH devices. Here the fix is
+> quite easy: open-code the pflash_cfi_register() functions.
+> 
+> Since we were touching the PFLASH API, we restricted the
+> PFlashCFI0X structures to their models. The API now deals
+> with a generic qdev pointer (DeviceState*).
+> 
+> Please review,
+> 
+> Phil.
+> 
+> Based-on: <20230109115316.2235-1-philmd@linaro.org>
+>            "hw/arm: Cleanups before pflash refactor"
+> Based-on: <20230109120154.2868-1-philmd@linaro.org>
+>            "hw/misc: Cleanups around PFLASH use"
+> 
+> Philippe Mathieu-Daudé (21):
+>    hw/block: Rename TYPE_PFLASH_CFI02 'width' property as 'device-width'
+>    hw/block: Pass DeviceState to pflash_cfi01_get_blk()
+>    hw/block: Use pflash_cfi01_get_blk() in pflash_cfi01_legacy_drive()
+>    hw/block: Pass DeviceState to pflash_cfi01_get_memory()
+>    hw/arm: Use generic DeviceState instead of PFlashCFI01
+>    hw/loongarch: Use generic DeviceState instead of PFlashCFI01
+>    hw/riscv: Use generic DeviceState instead of PFlashCFI01
+>    hw/i386: Use generic DeviceState instead of PFlashCFI01
+>    hw/xtensa: Use generic DeviceState instead of PFlashCFI01
+>    hw/sh4: Open-code pflash_cfi02_register()
+>    hw/arm/digic: Open-code pflash_cfi02_register()
+>    hw/arm/musicpal: Open-code pflash_cfi02_register()
+>    hw/arm/xilinx_zynq: Open-code pflash_cfi02_register()
+>    hw/block: Remove unused pflash_cfi02_register()
+>    hw/block: Make PFlashCFI02 QOM declaration internal
+>    hw/arm: Open-code pflash_cfi01_register()
+>    hw/microblaze: Open-code pflash_cfi01_register()
+>    hw/mips: Open-code pflash_cfi01_register()
+>    hw/ppc: Open-code pflash_cfi01_register()
+>    hw/block: Remove unused pflash_cfi01_register()
+>    hw/block: Make PFlashCFI01 QOM declaration internal
 
 
