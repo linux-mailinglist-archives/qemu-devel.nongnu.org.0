@@ -2,72 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B162266286C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:25:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA4A662861
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:24:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEsv5-0005Se-Vm; Mon, 09 Jan 2023 09:14:36 -0500
+	id 1pEt1N-00017x-PQ; Mon, 09 Jan 2023 09:21:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pEsv3-0005S8-QZ
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:14:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pEt0w-0000vr-AF
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:20:41 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pEsv2-0001aR-1W
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:14:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673273671;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ovTw3XpHkMiHfxttlwYF/6CqCblNJMzG9tffHHdbOXs=;
- b=FMnrAR1EJwG0uRuLZT3QhZXdQAlL8qjIV4SKQxPenzBpLtJZVXtMVYk0EcUwO9Mqb+EfVp
- S4KRMBhQ5uemkhPCq8SAmVSKpUbJgMkXr1aw2q8yp/v1o9CkmfNPpdV6LTzhLDN4o6WU5p
- BMxinY5Yzv7eCBAcXa+7/Uu0+7nrBsM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-o0e7_bI7PFW9upihGpdmlA-1; Mon, 09 Jan 2023 09:14:26 -0500
-X-MC-Unique: o0e7_bI7PFW9upihGpdmlA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7E35387A9E1;
- Mon,  9 Jan 2023 14:14:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.37.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A9B540C2004;
- Mon,  9 Jan 2023 14:14:24 +0000 (UTC)
-Date: Mon, 9 Jan 2023 14:14:19 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
- dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
- eblake@redhat.com, Manish Mishra <manish.mishra@nutanix.com>,
- Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-Subject: Re: [PATCH 3/5] migration: Avoid multiple parsing of uri in
- migration code flow
-Message-ID: <Y7whO59PHwUCSaRx@redhat.com>
-References: <20221226053329.157905-1-het.gala@nutanix.com>
- <20221226053329.157905-4-het.gala@nutanix.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pEt0u-0006sf-BR
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:20:37 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id A457E74632B;
+ Mon,  9 Jan 2023 15:18:15 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 69C12746324; Mon,  9 Jan 2023 15:18:15 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 680637462DB;
+ Mon,  9 Jan 2023 15:18:15 +0100 (CET)
+Date: Mon, 9 Jan 2023 15:18:15 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+cc: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>, 
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 01/21] hw/block: Rename TYPE_PFLASH_CFI02 'width'
+ property as 'device-width'
+In-Reply-To: <8507ed0d-fc90-8ce3-2d7d-82c106b20231@linaro.org>
+Message-ID: <477d20c7-4973-9290-09db-e3877b76c806@eik.bme.hu>
+References: <20230109120833.3330-1-philmd@linaro.org>
+ <20230109120833.3330-2-philmd@linaro.org>
+ <791cd783-4f27-dd18-c6bd-b9a316bb42cd@eik.bme.hu>
+ <8507ed0d-fc90-8ce3-2d7d-82c106b20231@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221226053329.157905-4-het.gala@nutanix.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed; boundary="3866299591-553828547-1673273895=:7264"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,139 +62,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 26, 2022 at 05:33:27AM +0000, Het Gala wrote:
-> From: Author Het Gala <het.gala@nutanix.com>
-> 
-> Existing uri is encoded at multiple levels to extract the relevant
-> migration information.
-> 
-> The modified QAPI design maps migration parameters into MigrateChannel
-> struct before, thus avoiding double-level uri encoding.
-> 
-> socket_outgoing_migration() has been depricated as It's only purpose was
-> uri parsing.
-> Renamed socket_outgoing_migration_internal() as socket_outgoing_migration().
-> qemu_uri_parsing() has been introduced to parse uri string (backward
-> compatibility) and populate the MigrateChannel struct parameters. Note that
-> the function will no longer be needed once the 'uri' parameter is depricated.
-> 
-> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
-> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
-> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-> Signed-off-by: Het Gala <het.gala@nutanix.com>
-> ---
->  migration/migration.c | 78 +++++++++++++++++++++++++++++++++++--------
->  migration/socket.c    | 15 +--------
->  migration/socket.h    |  3 +-
->  3 files changed, 67 insertions(+), 29 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 1b6e62612a..36de9f6a6b 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -61,6 +61,7 @@
->  #include "sysemu/cpus.h"
->  #include "yank_functions.h"
->  #include "sysemu/qtest.h"
-> +#include "qemu/sockets.h"
->  
->  #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
->  
-> @@ -486,6 +487,39 @@ void migrate_add_address(SocketAddress *address)
->                        QAPI_CLONE(SocketAddress, address));
->  }
->  
-> +static void qemu_uri_parsing(const char *uri,
-> +                             MigrateChannel **channel,
-> +                             Error **errp)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Coding style would prefer 'bool' instad of 'void'...
+--3866299591-553828547-1673273895=:7264
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Also lets call this 'migrate_uri_parse'
+On Mon, 9 Jan 2023, Philippe Mathieu-Daudé wrote:
+> On 9/1/23 14:33, BALATON Zoltan wrote:
+>> On Mon, 9 Jan 2023, Philippe Mathieu-Daudé wrote:
+>>> Use the same property name than the TYPE_PFLASH_CFI01 model.
+>> 
+>> Nothing uses it? Can this break command lines and if so do we need 
+>> deprecation or some compatibility function until everybody changed their 
+>> usage?
+>
+> Good point... I missed that :/
+>
+> How deprecation works in that case, can I simply add an extra
+> property with DEFINE_PROP_UINT8()? I'm worried about an user
+> doing:
+>
+> -device cfi.pflash02,device-width=4,width=2,...
 
-> +{
-> +    Error *local_err = NULL;
-> +    const char *p = NULL;
-> +    MigrateChannel *val = g_new0(MigrateChannel, 1);
-> +    MigrateAddress *addrs = g_new0(MigrateAddress, 1);
-> +    SocketAddress *saddr = g_new0(SocketAddress, 1);
-> +
-> +    if (strstart(uri, "exec:", &p)) {
-> +        addrs->transport = MIGRATE_TRANSPORT_EXEC;
-> +        addrs->u.exec.exec_str = g_strdup(p + strlen("exec:"));
-> +    } else if (strstart(uri, "rdma:", NULL)) {
-> +        addrs->transport = MIGRATE_TRANSPORT_RDMA;
-> +        addrs->u.rdma.rdma_str = g_strdup(p + strlen("rdma:"));
-> +    } else if (strstart(uri, "tcp:", NULL) ||
-> +                strstart(uri, "unix:", NULL) ||
-> +                strstart(uri, "vsock:", NULL) ||
-> +                strstart(uri, "fd:", NULL)) {
-> +        addrs->transport = MIGRATE_TRANSPORT_SOCKET;
-> +        saddr = socket_parse(uri, &local_err);
-> +        addrs->u.socket.socket_type = saddr;
-> +    }
-> +    val->channeltype = MIGRATE_CHANNEL_TYPE_MAIN;
-> +    val->addr = addrs;
-> +    *channel = val;
-> +
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
+Or maybe just leave it alone to avoid further problems. Cfi02 only has 
+width and 4 sector lengths with corresponding sizes, while cfi01 has 
+width, device-width and max-device-width so these just seem to be 
+describing geometry differently so maybe no need to try to use same 
+property names. Width is also shorter than device-width so I'd keep that 
+for brevity.
 
-     ...   'return false';
-> +    }
-  ...  'return true;'
+Regards,
+BALATON Zoltan
 
-> +}
-> +
->  static void qemu_start_incoming_migration(const char *uri, Error **errp)
->  {
->      const char *p = NULL;
-> @@ -2397,7 +2431,8 @@ void qmp_migrate(const char *uri, MigrateChannel *channel, bool has_blk,
->  {
->      Error *local_err = NULL;
->      MigrationState *s = migrate_get_current();
-> -    const char *p = NULL;
-> +    MigrateAddress *addrs = g_new0(MigrateAddress, 1);
-> +    SocketAddress *saddr = g_new0(SocketAddress, 1);
->  
->      if (!migrate_prepare(s, has_blk && blk, has_inc && inc,
->                           has_resume && resume, errp)) {
-> @@ -2411,20 +2446,35 @@ void qmp_migrate(const char *uri, MigrateChannel *channel, bool has_blk,
->          }
->      }
->  
-> +    /*
-> +     * motive here is just to have checks and convert uri into
-> +     * socketaddress struct
-> +     */
-> +    if (uri && channel) {
-> +        error_setg(errp, "uri and channels options should be"
-> +                          "mutually exclusive");
-
-Needs a 'return' statement after reporting the error. ALso, this
-check should be moved to the earlier patch that introduced the
-'channel' field.
-
-> +    } else if (uri) {
-> +        qemu_uri_parsing(uri, &channel, &local_err);
-
-Needs to 'return' on error, eg
-
-  } else if (uri && !qemu_uri_parsing(...))
-      return;
-
-> +    }
-> +
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> and the processing order of the properties, besides property
+> overwritten isn't warned to the user.
+>
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>> ---
+>>> hw/block/pflash_cfi02.c | 4 ++--
+>>> 1 file changed, 2 insertions(+), 2 deletions(-)
+>>> 
+>>> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+>>> index 2a99b286b0..55ddd0916c 100644
+>>> --- a/hw/block/pflash_cfi02.c
+>>> +++ b/hw/block/pflash_cfi02.c
+>>> @@ -949,7 +949,7 @@ static Property pflash_cfi02_properties[] = {
+>>>     DEFINE_PROP_UINT32("sector-length2", PFlashCFI02, sector_len[2], 0),
+>>>     DEFINE_PROP_UINT32("num-blocks3", PFlashCFI02, nb_blocs[3], 0),
+>>>     DEFINE_PROP_UINT32("sector-length3", PFlashCFI02, sector_len[3], 0),
+>>> -    DEFINE_PROP_UINT8("width", PFlashCFI02, width, 0),
+>>> +    DEFINE_PROP_UINT8("device-width", PFlashCFI02, width, 0),
+>>>     DEFINE_PROP_UINT8("mappings", PFlashCFI02, mappings, 0),
+>>>     DEFINE_PROP_UINT8("big-endian", PFlashCFI02, be, 0),
+>>>     DEFINE_PROP_UINT16("id0", PFlashCFI02, ident0, 0),
+>>> @@ -1014,7 +1014,7 @@ PFlashCFI02 *pflash_cfi02_register(hwaddr base,
+>>>     assert(QEMU_IS_ALIGNED(size, sector_len));
+>>>     qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
+>>>     qdev_prop_set_uint32(dev, "sector-length", sector_len);
+>>> -    qdev_prop_set_uint8(dev, "width", width);
+>>> +    qdev_prop_set_uint8(dev, "device-width", width);
+>>>     qdev_prop_set_uint8(dev, "mappings", nb_mappings);
+>>>     qdev_prop_set_uint8(dev, "big-endian", !!be);
+>>>     qdev_prop_set_uint16(dev, "id0", id0);
+>>> 
+>
+>
+--3866299591-553828547-1673273895=:7264--
 
