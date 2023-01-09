@@ -2,90 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DFB9662D85
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:49:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD7C662D07
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:42:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEw27-0005RZ-ES; Mon, 09 Jan 2023 12:34:03 -0500
+	id 1pEw8m-0005L0-HL; Mon, 09 Jan 2023 12:40:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pEw23-0005QD-JX; Mon, 09 Jan 2023 12:34:00 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pEw8h-0005Er-6j
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:40:51 -0500
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pEw21-0003oW-2m; Mon, 09 Jan 2023 12:33:58 -0500
-Received: by mail-ed1-x529.google.com with SMTP id s5so13595841edc.12;
- Mon, 09 Jan 2023 09:33:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8BrD3dAuDlRJQEgOIeTTcHkbf46/a3HVv2V/5SNLI3k=;
- b=pRMMqjcQQQQG2YM1IhFN/sErVdBg9AdlNJf9Nu7wwqCftcGKP3MhKxuYBI+0Ddzfez
- 292pogKTyYNl/7FSKDSzbdp1ubnwCFtlbD+aJNetOdvy/lMb3eo8n38l4EQmYIpfi8gL
- xm/wSliaBOTqquirutWorLDU201qG0MKtC7FrAvLL1Xp6nPHqC1sKQr2jN8WvQ8bdSRd
- 8EyCdsUkYqYWNUzfrFpG2zk9FIPj/p0kSjmNvauCNnJ527soTYyICbjhHX0f24r/Y99c
- RGJwClRY2gF0Wz33xTYlamASv0HIrqhicU9+gQkWa3SYDRvachply9bKN/oR4EfSjgA1
- U8Zg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pEw8e-0006lO-SO
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:40:50 -0500
+Received: by mail-pl1-x632.google.com with SMTP id d3so10284881plr.10
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 09:40:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tXWhE1XisfJ6nzvcUpo2PoJy/dKFyeRVIIfvt8sSBUo=;
+ b=H0Fx1w892mswWkJQWeCtqSKpC2Jjmo//J42Q5qL3EghCwA0UVswrXC6d8V6u7vj41x
+ VB+kCHQ3UqyA8G9xUyVKMuoppqFOJCRVDC4x5j33u19j9Ilw1BEyUDlpVeOokpdsYDse
+ N1Vzf1tlyq7yC+CjSKCHk0o4kz5Zm1nI2pOfj0W6RzRTzmhgQ8Swj56cKPc/vwAeRHGv
+ YDlb5+4N+aZJU+tF7JBvRo36WGTWrZGq4kZavmir0RnFNZ+wAfN77o94OfT3Ssz2BR+i
+ uEcEqXelwOTTv3QzdbkB41TKwM9FCwLyW7Ek/bNgXwf5JnqXz6o78jsG6isAaZGCbfh/
+ 97Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8BrD3dAuDlRJQEgOIeTTcHkbf46/a3HVv2V/5SNLI3k=;
- b=NzEnJLlWduBPDyU9aeEXVYytiVM3A1+c6if/lA5fjpWPLpOMxQrKEMAVTzQgHSGchr
- MMbfFSRdDgdZZ6ZaoDC0xzRDKU8mbTPJEEKrBNx8e1jPasXYcmqPi9uSXovuoTVH55V8
- 4LZdAxWao8w2CLwmOfAaeIc2huDSuavUIirxAPlGbhBwG+MtOsoGh+f62MUK9vEMcnQG
- 8mw11ZjpNzznNy4Pq/uG/ueTC9C7OYqSm6JtQvBj+CiYz4OnpmrL6SmXLAc+dqFu1mvx
- SCFDYOsBxM7EvrAOZMY+g7EuoHgOCBekHiQ9+QaqGuN8mgKaAbCBve05uA027NH+Kffu
- DrCQ==
-X-Gm-Message-State: AFqh2krJE6tst9ZOX4VFzuNavo4Z73RRf/53YUpSo+wy+RDRfqBHcmR6
- RLHfJB8rj9AUpPDpAYFvX50=
-X-Google-Smtp-Source: AMrXdXuTyuzIjBp6npnJQlxIp4aPX9j90feaM9k/kmCSdnwPIl737MYWa3OEMUl+AtCgVLLBGu7Flw==
-X-Received: by 2002:a05:6402:34f:b0:475:b13b:7d78 with SMTP id
- r15-20020a056402034f00b00475b13b7d78mr57212582edw.39.1673285634932; 
- Mon, 09 Jan 2023 09:33:54 -0800 (PST)
-Received: from ?IPv6:::1?
- (p200300faaf0bb20074734860dc6c494f.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:7473:4860:dc6c:494f])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tXWhE1XisfJ6nzvcUpo2PoJy/dKFyeRVIIfvt8sSBUo=;
+ b=ca9b+sO6rN0G2m+/m6HJjg7d4PELr4oEG91f0Lfrqwy15xdPET63vQ1fz//4JuaIKE
+ jZV/T0209UcH2KKkRnG2Yj+9IPyylYbUhnqnRYeNjIBRHn3SKB2/qHLlXOx8lJaSOZMU
+ 7lpnHBchSw6EVxHwEPhu2jV1D2uKXuJzXizarOEbyZq/zdplsXW0wUX+IZAmgSXD9a6c
+ 8yTdwUfvxLghIcE7IGC5LBEOyw1dfbmQBiBE3MHB1pc0Cs851IcXus3IZbyaLXOfTWdc
+ 8cxPW28HgL+RUUM4jFjc38TIG8qRjTUV1DRHMNG9wekmLMXqAgVLfrGQolnFiqGXQMgH
+ S+0A==
+X-Gm-Message-State: AFqh2koNfWyFIlw5Os+V+SutrpgBwIhpsrOp7MsFWAeBsThOWpf4XWAr
+ FoFegQYOMh5BBm3KB7sgHZaO0w==
+X-Google-Smtp-Source: AMrXdXtCXYNkllAOylWpZHjHBO3a1Lko8lVEA2L70s4H/oa4b44BsRoriR2dh0GHC+iq8tXOgq3mtA==
+X-Received: by 2002:a05:6a20:d39a:b0:b0:2b4f:a9d9 with SMTP id
+ iq26-20020a056a20d39a00b000b02b4fa9d9mr90288754pzb.5.1673286047313; 
+ Mon, 09 Jan 2023 09:40:47 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:a909:891c:953d:a6b0?
+ ([2602:47:d48c:8101:a909:891c:953d:a6b0])
  by smtp.gmail.com with ESMTPSA id
- a3-20020aa7cf03000000b0049019b48373sm3963266edy.85.2023.01.09.09.33.54
+ 17-20020a630211000000b0049f77341db3sm5511554pgc.42.2023.01.09.09.40.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 09:33:54 -0800 (PST)
-Date: Mon, 09 Jan 2023 17:33:49 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-CC: Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Ani Sinha <ani@anisinha.ca>,
- Richard Henderson <richard.henderson@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Aurelien Jarno <aurelien@aurel32.net>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, John Snow <jsnow@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v5 00/31] Consolidate PIIX south bridges
-In-Reply-To: <7f47fd16-8e87-32d0-9ae5-4b288930c24f@linaro.org>
-References: <20230105143228.244965-1-shentey@gmail.com>
- <dcbda1fc-3380-a96b-78c7-b3b35dee5ac4@ilande.co.uk>
- <50FFD7E4-A40C-4428-ACD2-F7C93C687572@gmail.com>
- <7f47fd16-8e87-32d0-9ae5-4b288930c24f@linaro.org>
-Message-ID: <82E6442C-A4A7-4287-98FF-DBCF99E68BEE@gmail.com>
+ Mon, 09 Jan 2023 09:40:46 -0800 (PST)
+Message-ID: <5bcc36c3-ec86-9cd3-f62f-f27392eca69f@linaro.org>
+Date: Mon, 9 Jan 2023 09:40:44 -0800
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x529.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 00/13] hw/arm: Cleanups before pflash refactor
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Jan Kiszka <jan.kiszka@web.de>
+References: <20230109115316.2235-1-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230109115316.2235-1-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,65 +95,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 1/9/23 03:53, Philippe Mathieu-Daudé wrote:
+> Philippe Mathieu-Daudé (13):
+>    hw/arm/pxa2xx: Simplify pxa255_init()
+>    hw/arm/pxa2xx: Simplify pxa270_init()
+>    hw/arm/collie: Use the IEC binary prefix definitions
+>    hw/arm/collie: Simplify flash creation using for() loop
+>    hw/arm/gumstix: Improve documentation
+>    hw/arm/gumstix: Use the IEC binary prefix definitions
+>    hw/arm/mainstone: Use the IEC binary prefix definitions
+>    hw/arm/musicpal: Use the IEC binary prefix definitions
+>    hw/arm/omap_sx1: Remove unused 'total_ram' definitions
+>    hw/arm/omap_sx1: Use the IEC binary prefix definitions
+>    hw/arm/z2: Use the IEC binary prefix definitions
+>    hw/arm/vexpress: Remove dead code in vexpress_common_init()
+>    hw/arm: Remove unreachable code calling pflash_cfi01_register()
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Am 8=2E Januar 2023 18:28:28 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <ph=
-ilmd@linaro=2Eorg>:
->On 8/1/23 16:12, Bernhard Beschow wrote:
->> Am 7=2E Januar 2023 23:57:32 UTC schrieb Mark Cave-Ayland <mark=2Ecave-=
-ayland@ilande=2Eco=2Euk>:
->>> On 05/01/2023 14:31, Bernhard Beschow wrote:
->
->>>> Bernhard Beschow (28):
->>>>     hw/mips/Kconfig: Track Malta's PIIX dependencies via Kconfig
->>>>     hw/usb/hcd-uhci: Introduce TYPE_ defines for device models
->>>>     hw/i386/pc_piix: Associate pci_map_irq_fn as soon as PCI bus is
->>>>       created
->>>>     hw/i386/pc_piix: Allow for setting properties before realizing PI=
-IX3
->>>>       south bridge
->>>>     hw/i386/pc: Create RTC controllers in south bridges
->>>>     hw/i386/pc: No need for rtc_state to be an out-parameter
->>>>     hw/isa/piix3: Create USB controller in host device
->>>>     hw/isa/piix3: Create power management controller in host device
->>>>     hw/intc/i8259: Make using the isa_pic singleton more type-safe
->>>>     hw/intc/i8259: Introduce i8259 proxy "isa-pic"
->>>>     hw/isa/piix3: Create ISA PIC in host device
->>>>     hw/isa/piix3: Create IDE controller in host device
->>>>     hw/isa/piix3: Wire up ACPI interrupt internally
->>>>     hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS
->>>>     hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4
->>>>     hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4
->>>>     hw/isa/piix3: Drop the "3" from PIIX base class
->>>>     hw/isa/piix4: Make PIIX4's ACPI and USB functions optional
->>>>     hw/isa/piix4: Remove unused inbound ISA interrupt lines
->>>>     hw/isa/piix4: Use ISA PIC device
->>>>     hw/isa/piix4: Reuse struct PIIXState from PIIX3
->>>>     hw/isa/piix4: Rename reset control operations to match PIIX3
->>>>     hw/isa/piix3: Merge hw/isa/piix4=2Ec
->>>>     hw/isa/piix: Harmonize names of reset control memory regions
->>>>     hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4
->>>>     hw/isa/piix: Rename functions to be shared for interrupt triggeri=
-ng
->>>>     hw/isa/piix: Consolidate IRQ triggering
->>>>     hw/isa/piix: Share PIIX3's base class with PIIX4
->
->>> Phil - over to you!
->
->Thanks for the review Mark!
->
->> Shall I respin? I could integrate my PCI series into this one in order =
-to avoid the outdated MIPS patches while still delivering a working series=
-=2E Yes/No?
->
->If you don't mind, that is certainly easier for me :)
-
-v6 is out! I've also rebased onto latest master which resolves some merge =
-conflicts (PCI, building) for you=2E I hope you don't mind some minor clean=
-ups that I've made to the PCI INTx series which aligns board code with my l=
-atest fuloong2e cleanup series=2E
-
-Best regards,
-Bernhard
->
+r~
 
