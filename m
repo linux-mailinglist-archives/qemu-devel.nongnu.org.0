@@ -2,117 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 084FC662FB3
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 20:01:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8572E662FC6
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 20:03:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pExOg-0002kB-I9; Mon, 09 Jan 2023 14:01:26 -0500
+	id 1pExQP-0003nv-Ee; Mon, 09 Jan 2023 14:03:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pExOe-0002jV-Nn
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:01:24 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pExQ1-0003lg-VL
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:02:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pExOc-0000q0-PJ
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:01:24 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 309HWAGK006217
- for <qemu-devel@nongnu.org>; Mon, 9 Jan 2023 19:01:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=+ATHlYPkxGJNgpawQA75xjvDf/aO1BmoJ6dvDFVtWsE=;
- b=bqImX8FEfAtodebRB34Sc/WllAJzORQBr3KsfMojuzt0TcHot1WaCSmeDgxK9T/S+j+t
- K69Ofc3ZE5pPgvvsJ/lOoqWYBNWE0PUj3wJC39KDsQHbl0qlJXafVGwBlnxIWeHklaiB
- P6NoKppIpo3l52Mjc1b0KgCxKGAS28X2NXQHkm5bDTMNqWUmUb8FMamAKR3UI4EF6EsN
- 9d91wvCNFxW4Cw9WnRpWKVxMq+H5pxDjKzazR4U9hkB8FJcLNDO2/kDWY8SUd4dCdky5
- UxmVq9iDeuqWXJrjA/fLQC3qkL7fvbkIcGy3Fg0nYoTJZH9peXF2nin9Wg5RLnA/h0F+ Xw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3myjgdxx3e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 19:01:20 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 309Ir2p7016497
- for <qemu-devel@nongnu.org>; Mon, 9 Jan 2023 19:01:20 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3myjgdxx2r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Jan 2023 19:01:20 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 309IC6xc014050;
- Mon, 9 Jan 2023 19:01:18 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([9.208.129.118])
- by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3my0c75du2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Jan 2023 19:01:18 +0000
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com
- [10.241.53.100])
- by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 309J1H3D4653720
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 9 Jan 2023 19:01:17 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5BC6E58058;
- Mon,  9 Jan 2023 19:01:17 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0A41858057;
- Mon,  9 Jan 2023 19:01:17 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Mon,  9 Jan 2023 19:01:16 +0000 (GMT)
-Message-ID: <a7472cd7-97b2-a063-0065-a78e49d0509a@linux.ibm.com>
-Date: Mon, 9 Jan 2023 14:01:16 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 2/2] tpm: add backend for mssim
-Content-Language: en-US
-To: jejb@linux.ibm.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <9fac7d95-d891-413f-93f1-18324c7943ea@linux.ibm.com>
- <a8863d1905aa427543facb68d8892af369262f19.camel@linux.ibm.com>
- <29e99f54-d5e8-b18d-08a6-d24435032272@linux.ibm.com>
- <Y5xH/0bbgFzi+G//@redhat.com>
- <a990f3c8-cca9-86ff-6995-6e49ba90f839@linux.ibm.com>
- <Y5xqgK8UXe28VZQ2@redhat.com>
- <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
- <Y5yAz0qzaIW4HwFi@redhat.com> <Y7xH1i0Uvbo0FUwG@work-vm>
- <5c07f6ab6adfe53f7e7fbeeda67f2eb62afccdfa.camel@linux.ibm.com>
- <Y7xUVq9PT9ohGfCj@work-vm>
- <af22847d6e8f3a64720c4d4d00b93f57ea63ad3e.camel@linux.ibm.com>
- <f2e036a7-5cff-4f95-902f-b31fce3c0ade@linux.ibm.com>
- <f928986fd4095b1f27c83ede96f3b0dd65ad965e.camel@linux.ibm.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <f928986fd4095b1f27c83ede96f3b0dd65ad965e.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: oItfoZ3lvXKmfaouM9o_V9CHTFJypMBB
-X-Proofpoint-ORIG-GUID: fV7Q_s6GWwk0CTiSCMoyu-O6At_Cey_C
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pExQ0-0001CL-7N
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 14:02:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673290966;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vJ46I4X8xJfWbeZMLBjOO87PGNBpt3aiLFz9tQNvxyQ=;
+ b=UTaNcK6X8HG9lQec631buuTyHY8E4NU0QY5NODu/q+oqjUu5YxNq6s60Q60LvdTFxQd8zd
+ yB6/eII9AvsoRkqJ/Uh/WY4fSx44QBFcW8WPcBH9sASnSEa+xqvf2kykXb4EjNv7dfweM4
+ +zMlIF00p5lQJnxIusZfY1QPWNXU35s=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-349-3ULtlRo_M3GpkdZmp7AE0g-1; Mon, 09 Jan 2023 14:02:45 -0500
+X-MC-Unique: 3ULtlRo_M3GpkdZmp7AE0g-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ p16-20020a2e7410000000b0027fdc588a62so2227771ljc.17
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 11:02:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vJ46I4X8xJfWbeZMLBjOO87PGNBpt3aiLFz9tQNvxyQ=;
+ b=brbTS6l3Bus0cSjpmrlcApODj186OHdoglaijghRbhUQDryBsWy0KPOPi9VClvhD10
+ 0f0eBbQTL+qMZl4lrYtc7UY/Vfk5VGJZWUV+ct5WoIuQR/PjbMbJOG5jOrI/K+gbZNqw
+ gNHmqTVuigbWQkKsjOWcku2AQ3Gn+FUrR1tECFJtsnL0g3x9So5lOaDFwnywzumCifd+
+ tCDzcIlpoJtQSRKHpiLsRg3GedENJ1NtYLesZQ31R3K/8lXdFdoOAoCNIM03Thws2GMs
+ F8mRA/9iUb0R3Eh81kqUKzPykHQ/h1dAty2yui8lzPqhH3HtmBg3FXM+awgbnItg6mX1
+ fFcg==
+X-Gm-Message-State: AFqh2kqe4gby3JiJ9b+hhrs2wEo3ky7kWWp58fDls5XFAHL170H/kXEV
+ r84HVmqDntZaqYLmwF5VCjYLDdDwt25p7flqkfW922EUj7Nx7jpa9kOhCk2JI5adJmJL9nPN+Bk
+ UKl46Z/D+j3tj5VfkzBgnkc1pzWRQsDQ=
+X-Received: by 2002:a2e:9f06:0:b0:281:980:a708 with SMTP id
+ u6-20020a2e9f06000000b002810980a708mr1135094ljk.354.1673290963823; 
+ Mon, 09 Jan 2023 11:02:43 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs9qOHzx09NqB9BOaETp8Okv30PBzaTGowW4exe73RVzkYIeOgMmlaT81fsM/WDPXXhb51Pd8gPX/bIQLWiK/A=
+X-Received: by 2002:a2e:9f06:0:b0:281:980:a708 with SMTP id
+ u6-20020a2e9f06000000b002810980a708mr1135074ljk.354.1673290963510; Mon, 09
+ Jan 2023 11:02:43 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-09_12,2023-01-09_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 adultscore=0 mlxlogscore=999 impostorscore=0 mlxscore=0
- priorityscore=1501 phishscore=0 clxscore=1015 bulkscore=0 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301090135
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20230109181447.235989-1-marcandre.lureau@redhat.com>
+ <20230109181447.235989-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20230109181447.235989-2-marcandre.lureau@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 9 Jan 2023 14:02:31 -0500
+Message-ID: <CAFn=p-aMdBxE4rmmu3Gw1tw+U07YOM-psKPt4U1dwQCvKDWHDg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] build-sys: fix crlf-ending C code
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Markus Armbruster <armbru@redhat.com>, Ed Maste <emaste@freebsd.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>, 
+ Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, 
+ Cleber Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, 
+ David Hildenbrand <david@redhat.com>, kraxel@redhat.com, 
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Michael Roth <michael.roth@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -129,54 +106,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Jan 9, 2023 at 1:14 PM <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> On msys2, the shader-to-C script produces bad C:
+> ./ui/shader/texture-blit-vert.h:2:5: error: missing terminating " charact=
+er [-Werror]
+>
+> Fix it by changing the line ending from crlf to lf, and convert the
+> script to Python (qemu build seems perl-free after that).
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  meson.build              |  2 +-
+>  scripts/shaderinclude.pl | 16 ----------------
+>  scripts/shaderinclude.py | 26 ++++++++++++++++++++++++++
+>  3 files changed, 27 insertions(+), 17 deletions(-)
+>  delete mode 100644 scripts/shaderinclude.pl
+>  create mode 100755 scripts/shaderinclude.py
+>
+> diff --git a/meson.build b/meson.build
+> index 175517eafd..b3c6db8343 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2781,7 +2781,7 @@ config_host_data.set('CONFIG_SLIRP', slirp.found())
+>  genh +=3D configure_file(output: 'config-host.h', configuration: config_=
+host_data)
+>
+>  hxtool =3D find_program('scripts/hxtool')
+> -shaderinclude =3D find_program('scripts/shaderinclude.pl')
+> +shaderinclude =3D find_program('scripts/shaderinclude.py')
+>  qapi_gen =3D find_program('scripts/qapi-gen.py')
+>  qapi_gen_depends =3D [ meson.current_source_dir() / 'scripts/qapi/__init=
+__.py',
+>                       meson.current_source_dir() / 'scripts/qapi/commands=
+.py',
+> diff --git a/scripts/shaderinclude.pl b/scripts/shaderinclude.pl
+> deleted file mode 100644
+> index cd3bb40b12..0000000000
+> --- a/scripts/shaderinclude.pl
+> +++ /dev/null
+> @@ -1,16 +0,0 @@
+> -#!/usr/bin/env perl
+> -use strict;
+> -use warnings;
+> -
+> -my $file =3D shift;
+> -open FILE, "<", $file or die "open $file: $!";
+> -my $name =3D $file;
+> -$name =3D~ s|.*/||;
+> -$name =3D~ s/[-.]/_/g;
+> -print "static GLchar ${name}_src[] =3D\n";
+> -while (<FILE>) {
+> -    chomp;
+> -    printf "    \"%s\\n\"\n", $_;
+> -}
+> -print "    \"\\n\";\n";
+> -close FILE;
+> diff --git a/scripts/shaderinclude.py b/scripts/shaderinclude.py
+> new file mode 100755
+> index 0000000000..ab2aade2cd
+> --- /dev/null
+> +++ b/scripts/shaderinclude.py
+> @@ -0,0 +1,26 @@
+> +#!/usr/bin/env python3
+> +#
+> +# Copyright (C) 2023 Red Hat, Inc.
+> +#
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +import sys
+> +import os
+> +
+> +
+> +def main(args):
+> +    file_path =3D args[1]
+> +    basename =3D os.path.basename(file_path)
+> +    varname =3D basename.replace('-', '_').replace('.', '_')
+> +
+> +    with os.fdopen(sys.stdout.fileno(), "wt", closefd=3DFalse, newline=
+=3D'\n') as stdout:
 
+fancy ~
 
-On 1/9/23 13:51, James Bottomley wrote:
-> On Mon, 2023-01-09 at 13:34 -0500, Stefan Berger wrote:
->>
->>
->> On 1/9/23 12:55, James Bottomley wrote:
->>> On Mon, 2023-01-09 at 17:52 +0000, Dr. David Alan Gilbert wrote:
->>>> * James Bottomley (jejb@linux.ibm.com) wrote:
->>> [...]
->>>>> external MSSIM TPM emulator has to be kept running to preserve
->>>>> the state.  If you restart it, the migration will fail.
->>>>
->>>> Document that and we're getting there.
->>>
->>>
->>> The documentation in the current patch series says
->>>
->>> ----
->>> The mssim backend supports snapshotting and migration, but the
->>> state of the Microsoft Simulator server must be preserved (or the
->>> server kept running) outside of QEMU for restore to be successful.
->>> ----
->>>
->>> What, beyond this would you want to see?
->>
->> mssim today lacks the functionality of marshalling and unmarshalling
->> the permanent and volatile state of the TPM 2, which are both needed
->> for snapshot support. How does this work with mssim?
-> 
-> You preserve the state by keeping the simulator running as the above
-> says.  As long as you can preserve the state, there's no maximum time
-> between snapshots.  There's no need of marshal/unmarshal if you do
-> this
+> +        with open(file_path, "r", encoding=3D'utf-8') as file:
+> +            print(f'static GLchar {varname}_src[] =3D', file=3Dstdout)
+> +            for line in file:
+> +                line =3D line.rstrip()
+> +                print(f'    "{line}\\n"', file=3Dstdout)
+> +            print('    "\\n";', file=3Dstdout)
+> +
+> +
+> +if __name__ =3D=3D '__main__':
+> +    sys.exit(main(sys.argv))
+> --
+> 2.39.0
+>
 
- From https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg03146.html
+ACK on the Python.
 
-"VM snapshotting is basically VM suspend / resume on steroids requiring
-permanent and volatile state to be saved and restoreable from possible very
-different points in time with possibly different seeds, NVRAM locations etc.
-How the mssim protocol does this is non-obvious to me and how one coordinates
-the restoring and saving of the TPM's state without direct coordination by QEMU
-is also non-obvious."
+--js
 
-
-    Stefan
-.
-> 
-> James
-> 
 
