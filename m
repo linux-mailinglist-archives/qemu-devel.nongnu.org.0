@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9030866286E
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:26:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9972662877
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 15:30:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEslQ-0001qV-4W; Mon, 09 Jan 2023 09:04:36 -0500
+	id 1pEslS-0001zW-GV; Mon, 09 Jan 2023 09:04:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEsl3-0001ml-7X
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:04:13 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEslA-0001sB-Tf
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:04:22 -0500
 Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEskz-00075e-Np
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:04:11 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id ay40so6346058wmb.2
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 06:04:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEsl4-00075e-67
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 09:04:19 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id ay40so6346304wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 06:04:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7BFQYTotXMIsrw/hyKX+oi+c+rZBE8f8yezrJmKudvs=;
- b=X0Lve+yN2jV2HlrkcE0RiLBXetXm5XbVn/pIRfzyp5PEoxSgfn+Z1EJyezUwse8F2R
- zX8WgUuVM296gZSqJb3SxLK2xDjv0aQnKjm+cUXWKTgiyaTB7RDVreDMCf+iuHswCQGx
- EpKdqKzZcmglNXA0KQMXD2CXzMGOtYhsgGw68BDh2kc4ePoK5tvasKuaY6O/p1QWhS3Y
- s1Izai2Xsz8CBp9XpLvnsjqjPmiMY1b4P83BA1FJXLIX5jOwDXRAS/L+Z3djoSkLwrpY
- NeUslyD1we7hObvLTdk+yiv8Hpm8El1H7tlq8p1YVcAVZm0a2i7gYIsQYwEf3WgUT89I
- 9LCw==
+ bh=2gvdf7MKgAqOkpgoECI87U6UIVZrGkUaGXJayKsJqzE=;
+ b=xvoG6pZO1tl/N0GOiWKJDNz4VIn0BW/rIN6xl/jJwGwJPmX4hkRbbG1FojLhjg4ziQ
+ WA0JWvl3Bcwp8gctRtDvitDN4B+WQVPGMTC+lgEqpVU/yn6CSJ/hUGf4qdES22U5UdNF
+ Pgcuy+9VtHs5v5l2PooPedXvagnOXcBw8eyPPrtUmYCvBs6hdSY5XrjjeKrBUHnpPPhG
+ A6Fzif7Xk64vwrjbq9WXgsLjPpcv/uwtEXhGMlVBAU8cv+OAQDJWUO3f/xvWDTEWYG0I
+ grgVeMu6IZosom+gC0uDJ5N1RMulZku2SZNlBkfhrJEIoYnxwnbrFOJKxVHdHnaT+9FZ
+ mDKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7BFQYTotXMIsrw/hyKX+oi+c+rZBE8f8yezrJmKudvs=;
- b=LAlJk8CWQrzkYUTWL4uLA8c0ROIaZJxi2vrkiCURMsMj0RBlCsWzfwu7kmBIxQMq78
- dLmhUpn6YUaX+uveZJBwwUCABQypHPbiyhWLfObtAgSCd9+t515o7lmisP5Owf90+rx5
- kWLEEQydY8t0g+8Uue9jpOXIusgvL1oSFO3J2eVicnSEVCEQStM/rA/h9YeslkU25T5W
- 47oPWWagDd0swWH42JljXKIAo4R+Io//OWcZwHmUj4XrUFOIf+6a7Oehd2AFxRLJxmPl
- itkl52jIXrMwwOHzUEUhx9t/i7vvneo01cA+kaB4pxkd92XnvbdyYLV91mMSvwyTNDJO
- K/jg==
-X-Gm-Message-State: AFqh2koCdislPzMQbuJJlw4M7HUBg/i4yPV6XQaqviqIzCmH5be18J6V
- /r9PkAV6adFuGw+8srIYy5WUaVUkQR546q0M
-X-Google-Smtp-Source: AMrXdXvKszs6jcVWRU/R1xY5ui4nm5WPCU4lPooCn/xcOx2UeVXag85mtjzULNuuYL1GLIyW3vo8xw==
-X-Received: by 2002:a05:600c:5024:b0:3d3:55ad:a114 with SMTP id
- n36-20020a05600c502400b003d355ada114mr46999823wmr.38.1673273048229; 
- Mon, 09 Jan 2023 06:04:08 -0800 (PST)
+ bh=2gvdf7MKgAqOkpgoECI87U6UIVZrGkUaGXJayKsJqzE=;
+ b=SZ1d/bw6wK0PPqoKyEz+PPof940X2892dEJBk6T5iRQmOSynxalVg+/rK7hb+fVMJB
+ 2OLqb/20YC7tydjEGSpzwZzZNEzDDipHtjTmzdnfEwVecs9MXqbKGmyDXOgouAOOjI+3
+ FtxlNnY66KAnDPd+UwR/UXl9c9tPcb1MyrQmed97HusD6Iolr6/eBDfR6LGgjE2/dLuL
+ no/JoNL2dXXBS/Fvw2bRb569GNnLQ1G2fjSO6LwFtRCucTHmE9ZljL/JH0Tk3UtQFJBj
+ xvElbq+7EnRokG52htCvrPqEbkAcqjvTtC+A6FSxCikGnGERBcmB0slZF6CeuJJM4Qrx
+ t4DA==
+X-Gm-Message-State: AFqh2koGR0oV5viu6If/ZP5dhPQMp2EB35FgxGcNL2/na87oHOhGtFm9
+ J7pKupHPZrnaXKpeF2Iij/nDRKixOgQLlVHx
+X-Google-Smtp-Source: AMrXdXvrDxn7UYpq+gUIs5Ez0UFHr8I9lCRb4bkBmc/xjPlYy8OIlGq0aIjOGC7cd+mHe5Tuj6sqJw==
+X-Received: by 2002:a05:600c:539a:b0:3d9:efe8:a424 with SMTP id
+ hg26-20020a05600c539a00b003d9efe8a424mr2516127wmb.34.1673273053181; 
+ Mon, 09 Jan 2023 06:04:13 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- h15-20020a05600c314f00b003d99469ece1sm17126842wmo.24.2023.01.09.06.04.07
+ fc14-20020a05600c524e00b003a3442f1229sm18134541wmb.29.2023.01.09.06.04.12
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 09 Jan 2023 06:04:07 -0800 (PST)
+ Mon, 09 Jan 2023 06:04:12 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Havard Skinnemoen <hskinnemoen@google.com>,
@@ -60,10 +60,10 @@ Cc: qemu-arm@nongnu.org, Havard Skinnemoen <hskinnemoen@google.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>, Tyrone Ting <kfting@nuvoton.com>
-Subject: [PATCH 12/14] hw/misc/sbsa_ec: Declare QOM macros using
- OBJECT_DECLARE_SIMPLE_TYPE()
-Date: Mon,  9 Jan 2023 15:03:04 +0100
-Message-Id: <20230109140306.23161-13-philmd@linaro.org>
+Subject: [PATCH 13/14] hw/intc/xilinx_intc: Use 'XpsIntc' typedef instead of
+ 'struct xlx_pic'
+Date: Mon,  9 Jan 2023 15:03:05 +0100
+Message-Id: <20230109140306.23161-14-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230109140306.23161-1-philmd@linaro.org>
 References: <20230109140306.23161-1-philmd@linaro.org>
@@ -94,29 +94,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This model was merged few days before the QOM cleanup from
-commit 8063396bf3 ("Use OBJECT_DECLARE_SIMPLE_TYPE when possible")
-was pulled and merged. Manually adapt.
+This remove a use of 'struct' in the DECLARE_INSTANCE_CHECKER()
+macro call, to avoid after a QOM refactor:
+
+  hw/intc/xilinx_intc.c:45:1: error: declaration of anonymous struct must be a definition
+  DECLARE_INSTANCE_CHECKER(struct xlx_pic, XILINX_INTC,
+                           ^
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/misc/sbsa_ec.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/intc/xilinx_intc.c | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
-diff --git a/hw/misc/sbsa_ec.c b/hw/misc/sbsa_ec.c
-index 6f19c21195..86b23a5372 100644
---- a/hw/misc/sbsa_ec.c
-+++ b/hw/misc/sbsa_ec.c
-@@ -21,8 +21,7 @@ typedef struct SECUREECState {
- } SECUREECState;
+diff --git a/hw/intc/xilinx_intc.c b/hw/intc/xilinx_intc.c
+index 4c4397b3d2..6e5012e66e 100644
+--- a/hw/intc/xilinx_intc.c
++++ b/hw/intc/xilinx_intc.c
+@@ -42,10 +42,10 @@
+ #define R_MAX       8
  
- #define TYPE_SBSA_SECURE_EC "sbsa-ec"
--#define SBSA_SECURE_EC(obj) \
--        OBJECT_CHECK(SECUREECState, (obj), TYPE_SBSA_SECURE_EC)
-+OBJECT_DECLARE_SIMPLE_TYPE(SECUREECState, SBSA_SECURE_EC)
+ #define TYPE_XILINX_INTC "xlnx.xps-intc"
+-DECLARE_INSTANCE_CHECKER(struct xlx_pic, XILINX_INTC,
+-                         TYPE_XILINX_INTC)
++typedef struct XpsIntc XpsIntc;
++DECLARE_INSTANCE_CHECKER(XpsIntc, XILINX_INTC, TYPE_XILINX_INTC)
  
- enum sbsa_ec_powerstates {
-     SBSA_EC_CMD_POWEROFF = 0x01,
+-struct xlx_pic
++struct XpsIntc
+ {
+     SysBusDevice parent_obj;
+ 
+@@ -62,7 +62,7 @@ struct xlx_pic
+     uint32_t irq_pin_state;
+ };
+ 
+-static void update_irq(struct xlx_pic *p)
++static void update_irq(XpsIntc *p)
+ {
+     uint32_t i;
+ 
+@@ -87,10 +87,9 @@ static void update_irq(struct xlx_pic *p)
+     qemu_set_irq(p->parent_irq, (p->regs[R_MER] & 1) && p->regs[R_IPR]);
+ }
+ 
+-static uint64_t
+-pic_read(void *opaque, hwaddr addr, unsigned int size)
++static uint64_t pic_read(void *opaque, hwaddr addr, unsigned int size)
+ {
+-    struct xlx_pic *p = opaque;
++    XpsIntc *p = opaque;
+     uint32_t r = 0;
+ 
+     addr >>= 2;
+@@ -106,11 +105,10 @@ pic_read(void *opaque, hwaddr addr, unsigned int size)
+     return r;
+ }
+ 
+-static void
+-pic_write(void *opaque, hwaddr addr,
+-          uint64_t val64, unsigned int size)
++static void pic_write(void *opaque, hwaddr addr,
++                      uint64_t val64, unsigned int size)
+ {
+-    struct xlx_pic *p = opaque;
++    XpsIntc *p = opaque;
+     uint32_t value = val64;
+ 
+     addr >>= 2;
+@@ -154,7 +152,7 @@ static const MemoryRegionOps pic_ops = {
+ 
+ static void irq_handler(void *opaque, int irq, int level)
+ {
+-    struct xlx_pic *p = opaque;
++    XpsIntc *p = opaque;
+ 
+     /* edge triggered interrupt */
+     if (p->c_kind_of_intr & (1 << irq) && p->regs[R_MER] & 2) {
+@@ -168,7 +166,7 @@ static void irq_handler(void *opaque, int irq, int level)
+ 
+ static void xilinx_intc_init(Object *obj)
+ {
+-    struct xlx_pic *p = XILINX_INTC(obj);
++    XpsIntc *p = XILINX_INTC(obj);
+ 
+     qdev_init_gpio_in(DEVICE(obj), irq_handler, 32);
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &p->parent_irq);
+@@ -179,7 +177,7 @@ static void xilinx_intc_init(Object *obj)
+ }
+ 
+ static Property xilinx_intc_properties[] = {
+-    DEFINE_PROP_UINT32("kind-of-intr", struct xlx_pic, c_kind_of_intr, 0),
++    DEFINE_PROP_UINT32("kind-of-intr", XpsIntc, c_kind_of_intr, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -193,7 +191,7 @@ static void xilinx_intc_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo xilinx_intc_info = {
+     .name          = TYPE_XILINX_INTC,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+-    .instance_size = sizeof(struct xlx_pic),
++    .instance_size = sizeof(XpsIntc),
+     .instance_init = xilinx_intc_init,
+     .class_init    = xilinx_intc_class_init,
+ };
 -- 
 2.38.1
 
