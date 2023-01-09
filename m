@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2866621C3
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 10:39:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5686621C9
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 10:39:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEoQH-0003sg-BD; Mon, 09 Jan 2023 04:26:29 -0500
+	id 1pEoQM-0003te-GS; Mon, 09 Jan 2023 04:26:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEoQC-0003rK-U1
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:26:25 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEoQF-0003rl-Qv
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:26:28 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEoQ9-0005PJ-2c
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:26:23 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- k26-20020a05600c1c9a00b003d972646a7dso8496918wms.5
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 01:26:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEoQE-0005Q7-9h
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:26:27 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id m7so7475901wrn.10
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 01:26:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=C4lODMUw+lyok56lujGJxoUDao4pczQAdswQ0O0cpMg=;
- b=oVaG40X9uyUOx9UUHZBCdaeCM60vWva8ltHNIrb56BBxPg7i+UHcg5FKI4rtoMmPXF
- RszLmhvvCIuGPE5iYcHNceYLJjxM2pNophquikiBYImDuir2dymRUVD6vVVuP6Humu1c
- sP2SJuIBTwTqH1oQkv8Ds1zL1Mk0bxyXXk87I40ietdugNtdB8++0F25RQc+03mGE5cX
- bwaun/TjHDZuyBPAHeSv8sBTdLBN3wHjs9Z21fEaeMb1rx0DYZ1vK4myRmBuaHa6/onO
- dK582rHo0weYqgZYSsVoPjf35GiobTiwDzi8NNcvF4G7qbm+1zpmuJ5cFrRC+xmvojcU
- qSgw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mJUniGzlTDF6ixFuHu4g7ABnLTHD1CJ9TnkuUuv7wWI=;
+ b=hkCIZQCHQp1FroAn2gI2/1l5DOwcafYO+5t04QxOmU75E+xSw5ARtl6o9vEBhsefqo
+ zPgBgZUq+3w3trwO53EphRoMYBNUHxYhii07midJZnViYQ7WcLZjVLetrjZX5hpDaltV
+ Rk92NJeBs8JOycuZ67lzi4+izJU5TFYUOGFvxlbh937oMlhzhVOlM6GwmsEBeWSkxA77
+ JaapLuxyYe4K/OKh+z7pwxCmQvOIB6pNOQwR63NJ+XPwyiHA9fBna7tU/uzaBefdS4Cn
+ 58qRxkhGdnxoEcaIoUYUocRApm6QzIUp1/p9ozLpIbFjel94Lj9XnqLoiQzH+KAvRy7W
+ 562Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=C4lODMUw+lyok56lujGJxoUDao4pczQAdswQ0O0cpMg=;
- b=RqCLyI7/oUWPF0aHxo8ZkgK2yxZAEx8qSEkbyESXBOR+y2jlVhGrJXz5DZweAqnD8B
- Hh3pambuWIlRYo/xSuekkgFJEoXXwq0QdX2WMVVx7SjSlWucmorkcEuGY4QZb0noxxDi
- CvHBVcwsngQ7Zmi4hUcbpxk/dic4bpVbYcfLlgjHM/2ZZCd6sfPLUH98OGNdnAOqurll
- RbWzf1kYHraHA2ANzQH5zTV6L/iMWWnevb9w3l+mFyY64Yq9zHKEFnFqAU1s3NOe4BdS
- xBXugV6PL1CV7Vv8tVyDoeljrOpSy4BcmmIRbQyJmzCvwauLbKQdfnoHJjV/rgYQqywi
- oMow==
-X-Gm-Message-State: AFqh2kosWHDqzyN1A+L6Buxs6OAY0hXVOQT17n4vu+JveUFDSCsijCSE
- ZN92n5mMhILPTedA4yzMLfEAyZGvOOQr5Jph
-X-Google-Smtp-Source: AMrXdXugNuxz61cqqab8vDIrIufdrsegLLWRh6MmlhW/ilBcquvzylAtKorC56SfPPAZrMSr39x6dg==
-X-Received: by 2002:a05:600c:3b2a:b0:3d9:f42c:56d0 with SMTP id
- m42-20020a05600c3b2a00b003d9f42c56d0mr678594wms.16.1673256379435; 
- Mon, 09 Jan 2023 01:26:19 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mJUniGzlTDF6ixFuHu4g7ABnLTHD1CJ9TnkuUuv7wWI=;
+ b=h7bk1GRgmuwgz2CJMOPhWXzHy/OJj3+fekpmPIPtX1ywzgT95E0QnUxseiyYIj/f3x
+ 2QYpW1Y3BakCE1MJJB1fucEsAc7iLsh6yD+EpBTBWl2wVg5HpvC42FmiR5oMgFaqmb/3
+ +H59m1SdxqqbHqM29TAXDt43y4EWccwc5TtNh/ndhakCsE7KBcr1HAZIHsFM1mKFj+EY
+ Kswx9giYY/eHTCRALaz6vb95tByWKrvgYZEuPey0iSLgGnRcjzpXnblnekSYk94w0hxV
+ mHKQAddyeWn7RYLJM6I5BNlGKgEuoGGX8gUBOmynuTi7SkuS1cy1yKnkP3pk482XXRgj
+ iSKw==
+X-Gm-Message-State: AFqh2koXRlC3tcFngWvGARu0XiPJzDMjXRkL+cTdIHcPzt6TxlJmVyCy
+ Cm6LI9YW0E/4kBSo7LRJTBuW2VLsyxUXyVxS
+X-Google-Smtp-Source: AMrXdXt/KN1/kv0D2QhrCZXkzeXOaLRtM9oyyWMl8JDYB9u87PkJ6ib+WUQW8aNuifSHsU+kmuGkLw==
+X-Received: by 2002:a5d:68cc:0:b0:2bb:9106:d0a with SMTP id
+ p12-20020a5d68cc000000b002bb91060d0amr4101166wrw.14.1673256384583; 
+ Mon, 09 Jan 2023 01:26:24 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- p9-20020a05600c358900b003cffd3c3d6csm11493507wmq.12.2023.01.09.01.26.18
+ n4-20020a5d6b84000000b00282194eaf7bsm7799550wrx.71.2023.01.09.01.26.23
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 09 Jan 2023 01:26:19 -0800 (PST)
+ Mon, 09 Jan 2023 01:26:24 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Jan Kiszka <jan.kiszka@web.de>,
@@ -64,15 +64,17 @@ Cc: Jan Kiszka <jan.kiszka@web.de>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 0/9] hw: Convert simple devices from SysBus to QDev
-Date: Mon,  9 Jan 2023 10:26:08 +0100
-Message-Id: <20230109092617.80224-1-philmd@linaro.org>
+Subject: [PATCH 1/9] hw/arm/musicpal: Remove unused dummy MemoryRegion
+Date: Mon,  9 Jan 2023 10:26:09 +0100
+Message-Id: <20230109092617.80224-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230109092617.80224-1-philmd@linaro.org>
+References: <20230109092617.80224-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,49 +97,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Various simple devices (usually GPIO related) don't access
-the 'system bus': no IRQ lines / memory regions exposed via
-the SysBus API, no memory region mapped.
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ hw/arm/musicpal.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-To reduce complexity, remove the sysbus onion layer from
-these devices.
-
-Introduce the qdev_create_simple() helper similar to the
-pattern used for other device creation helpers:
-
- $ git grep _create_simple include/
- include/hw/i2c/i2c.h:175:I2CSlave *i2c_slave_create_simple(I2CBus *bus, const char *name, uint8_t addr);
- include/hw/isa/isa.h:86:ISADevice *isa_create_simple(ISABus *bus, const char *name);
- include/hw/misc/led.h:93:LEDState *led_create_simple(Object *parentobj,
- include/hw/pci/pci.h:735:PCIDevice *pci_create_simple_multifunction(PCIBus *bus, int devfn,
- include/hw/pci/pci.h:738:PCIDevice *pci_create_simple(PCIBus *bus, int devfn, const char *name);
- include/hw/sysbus.h:100:static inline DeviceState *sysbus_create_simple(const char *name,
- include/hw/usb.h:505:USBDevice *usb_create_simple(USBBus *bus, const char *name);
-
-Based-on: <20230109084121.72138-1-philmd@linaro.org>
-          "hw/i2c/bitbang_i2c: Housekeeping"
-
-Philippe Mathieu-Daudé (9):
-  hw/arm/musicpal: Remove unused dummy MemoryRegion
-  qdev: Add qdev_create_simple() helper
-  hw/i2c/bitbang_i2c: Convert TYPE_GPIO_I2C from SysBus to QDev
-  hw/arm/tosa: Convert TYPE_TOSA_MISC_GPIO from SysBus to QDev
-  hw/arm/palm: Convert TYPE_PALM_MISC_GPIO from SysBus to QDev
-  hw/arm/musicpal: Convert TYPE_MUSICPAL_KEY from SysBus to QDev
-  hw/arm/spitz: Convert TYPE_SPITZ_KEYBOARD from SysBus to QDev
-  hw/arm/tosa: Convert TYPE_SPITZ_MISC_GPIO from SysBus to QDev
-  hw/i386/kvm: Convert TYPE_KVM_CLOCK from SysBus to QDev
-
- hw/arm/musicpal.c      | 12 ++++--------
- hw/arm/palm.c          |  9 ++-------
- hw/arm/spitz.c         | 18 ++++++++++++------
- hw/arm/tosa.c          |  9 ++-------
- hw/core/qdev.c         |  9 +++++++++
- hw/i2c/bitbang_i2c.c   |  5 ++---
- hw/i386/kvm/clock.c    |  6 +++---
- include/hw/qdev-core.h | 11 +++++++++++
- 8 files changed, 45 insertions(+), 34 deletions(-)
-
+diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
+index 813232682f..23359a6ac3 100644
+--- a/hw/arm/musicpal.c
++++ b/hw/arm/musicpal.c
+@@ -1071,7 +1071,6 @@ struct musicpal_key_state {
+     SysBusDevice parent_obj;
+     /*< public >*/
+ 
+-    MemoryRegion iomem;
+     uint32_t kbd_extended;
+     uint32_t pressed_keys;
+     qemu_irq out[8];
+@@ -1160,9 +1159,6 @@ static void musicpal_key_init(Object *obj)
+     DeviceState *dev = DEVICE(sbd);
+     musicpal_key_state *s = MUSICPAL_KEY(dev);
+ 
+-    memory_region_init(&s->iomem, obj, "dummy", 0);
+-    sysbus_init_mmio(sbd, &s->iomem);
+-
+     s->kbd_extended = 0;
+     s->pressed_keys = 0;
+ 
 -- 
 2.38.1
 
