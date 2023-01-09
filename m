@@ -2,77 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D76662A99
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 16:55:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6C5662A9B
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 16:57:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEuTp-0003Az-Sq; Mon, 09 Jan 2023 10:54:33 -0500
+	id 1pEuVs-0004zP-Fj; Mon, 09 Jan 2023 10:56:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pEuTn-0003AK-Ah
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 10:54:31 -0500
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pEuTl-0003eU-8U
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 10:54:30 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id h7so2247261pfq.4
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 07:54:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=385/ZAYYmMLF+f7ZEIUOFxU8VYzhpcH+D2A7SN1hROI=;
- b=VsjB/XLoPObCRGtciBZBmNbc31+SwZVQd+hdLgX89L39H6AIUhKwKecAkEyWwm8sBd
- ZUvcLraO/gfQDrmVA4fHJj3frAEZVoVvn58PkBjMta24KMI8up6Rmtj5gTjNTQapYORD
- musOzLCSUKA1RDsjbljkR8y28F0ozE3NRnu+y6pZlE19DBpWyVyg03yF90CrZH6Ghva7
- YHev2XsDC9q4FFEEtQEVHVurICsN6l+HKTK+ixlZHmOdXy7ns+KgdH9q45qOS/7zTfX2
- Owsf+0p9e84+rw128BWoWWINOFVz9FktcPFBseGi5MM6OJ8Isq20ccz4FBHVzKoC5mqF
- LMhA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pEuVp-0004ye-JT
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 10:56:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pEuVk-0004gQ-5o
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 10:56:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673279789;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PnT7BPGpKx4CXFPh0sQkwkxOICmbO+wBQS/21+/GroI=;
+ b=gSn/pXRzSqj71Drwvhf8QjIysLNvFjc7YmyXjluMKMHaerpjww9bx8oLBdqH9m875R/n+7
+ F5f5YZ7Zj0xPFI/iXpLAM4JPGTSv2IMFr66WYfWeuXtO5E+LTqCIo8MYdxMoxekZbLI7Es
+ Fpdk6GLfU8O3QpOl3qkMCfP7n2L7O7Y=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-274-6pOxOeeLPzWfVCicp5tw9A-1; Mon, 09 Jan 2023 10:56:28 -0500
+X-MC-Unique: 6pOxOeeLPzWfVCicp5tw9A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ fm25-20020a05600c0c1900b003d9702a11e5so4989690wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 07:56:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=385/ZAYYmMLF+f7ZEIUOFxU8VYzhpcH+D2A7SN1hROI=;
- b=Codr/4SMNIUMIsEXOmL2UaYPdzk9SQHUWUIcBoRmordoz7r7flz/JShlsUeJ+kyOZ4
- KY831oq23pZiqga3zlKzJVURbyEQ6U7XXNSTOkk3BlAr2t62+bzZfPY6CpZjAdlp9maU
- 7hcqtyjYtdcKBcfUMMr+0X3fOCXOecw1exSMv1UVgSwZjyEPUIgWdGotsPC41L3Bnd0S
- QM0glaJHjE8vPqHcp/lA3jgS3v/FBxR/urANPAWM2aiMPTpg7RZt2G1A7zw+j44cHorM
- YfCrKsQ2zDTuzYQ9s0Qe0O7MITuXLmsnliqR2wZ8yvxH8jk78RbUncTuElnMNqcBicJ5
- FxGw==
-X-Gm-Message-State: AFqh2koMS4fI8IaWHivGDlPmLo2hvxdrUDeXses7kCOy/yHaW2+DSgAh
- a6HeQD6X+mwqGwiyhv2C0Y1+TBrbmG4ZXmTmUi3s+Q==
-X-Google-Smtp-Source: AMrXdXu5cnMO4VHWq3i4jjZ6kOCF04vxTt0gNtekYVVHNn3hGhzRIsOJjYrAs+UOhhNHd34fylFSwlOjiuAc6n3tBuo=
-X-Received: by 2002:aa7:999c:0:b0:582:74a2:1e4e with SMTP id
- k28-20020aa7999c000000b0058274a21e4emr2228600pfh.26.1673279667531; Mon, 09
- Jan 2023 07:54:27 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PnT7BPGpKx4CXFPh0sQkwkxOICmbO+wBQS/21+/GroI=;
+ b=J+zvzLGP79XQD3ofygZlHBxPjUUs44XJajY3l8IIt8Lct2ftktYNBOFiA/iUbrx6WM
+ Cd5yiHZ8bWL1tK1OL09lo52fjfgRrFfnondi6iePNeP0Tosp5oJKNKx0nfVV74EB8T3a
+ 1pVcqBFLQ5qJ6bJDWap+ZiAaTU9RAgcuoz/l0qhzLrgB/MU2DAneMPxOismjWEqQACFb
+ mCtxyF17dNpoeN7h5j8p8tm0QK4vGi6CyGqKOAdwabHuKsKIEOvwNErN9BoPxr2fzwg8
+ aiEr8a0L5IxfrM/T6TJEYHn4PlqF+EsO4Zvud0M6FQBoRz65cWe6k3zDELckegLzR1Ng
+ 10/g==
+X-Gm-Message-State: AFqh2kqXUphijvRDy/U0mcj5ZMAIeYlFh1oE+Nx4lRzs3k2rntoFTdsP
+ dn+lC56n119gNyjiQwi3gVA1hMqw8V9UvlQymhHQr3c1pHze9WeYH+i2Kx0uNUIRHN1Gu1U5hKO
+ OboHBo05yT8FI6hI=
+X-Received: by 2002:a05:600c:4f96:b0:3d9:ed3b:5b3e with SMTP id
+ n22-20020a05600c4f9600b003d9ed3b5b3emr3971354wmq.19.1673279786961; 
+ Mon, 09 Jan 2023 07:56:26 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsdSUVIKhK0/O8BC0JSCTEzOfdJeRHeFJGMfOoYi2VJfWYGmdZcTFtXGHlV47/RKp/+6+aXPQ==
+X-Received: by 2002:a05:600c:4f96:b0:3d9:ed3b:5b3e with SMTP id
+ n22-20020a05600c4f9600b003d9ed3b5b3emr3971341wmq.19.1673279786718; 
+ Mon, 09 Jan 2023 07:56:26 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ j6-20020a05600c42c600b003b492753826sm11213442wme.43.2023.01.09.07.56.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 07:56:26 -0800 (PST)
+Message-ID: <39362914-0c20-69b9-e213-8fdfb295fb9d@redhat.com>
+Date: Mon, 9 Jan 2023 16:56:25 +0100
 MIME-Version: 1.0
-References: <20230105091310.263867-1-mst@redhat.com>
- <20230105045619-mutt-send-email-mst@kernel.org>
- <20230105113111-mutt-send-email-mst@kernel.org>
- <CAFEAcA8Dr_vT2YrrrapL5vAtL5baGxPpk0busNPU-vutJcA10A@mail.gmail.com>
- <20230105165242-mutt-send-email-mst@kernel.org>
- <CAFEAcA8C5cfBc6qU1bZ_U0PusAAemOD6TYGhgxtQbwP-YA3yVQ@mail.gmail.com>
- <20230108015336-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20230108015336-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 Jan 2023 15:54:16 +0000
-Message-ID: <CAFEAcA94Dpq6M9gtexWXL+gBvWciuBgFAkx9jz8ZjQP8szastg@mail.gmail.com>
-Subject: Re: [PULL 00/51] virtio,pc,pci: features, cleanups, fixes
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42e.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 1/2] build-sys: fix crlf-ending C code
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ kraxel@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-s390x@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Beraldo Leal <bleal@redhat.com>
+References: <20230109112110.128967-1-marcandre.lureau@redhat.com>
+ <20230109112110.128967-2-marcandre.lureau@redhat.com>
+ <0b04303a-20a6-d4fe-d9bc-0940e475d24b@redhat.com>
+ <CAMxuvazQMf==JGTMMSEMZP30DNTTpZ3bVYB8EiKf1mSaJaM_vA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAMxuvazQMf==JGTMMSEMZP30DNTTpZ3bVYB8EiKf1mSaJaM_vA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,86 +116,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 8 Jan 2023 at 13:58, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Fri, Jan 06, 2023 at 03:29:01PM +0000, Peter Maydell wrote:
-> > On Thu, 5 Jan 2023 at 21:53, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > On Thu, Jan 05, 2023 at 09:04:37PM +0000, Peter Maydell wrote:
-> > > > On Thu, 5 Jan 2023 at 16:32, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > >
-> > > > > On Thu, Jan 05, 2023 at 04:56:39AM -0500, Michael S. Tsirkin wrote:
-> > > > > > On Thu, Jan 05, 2023 at 04:14:20AM -0500, Michael S. Tsirkin wrote:
-> > > > > > > The following changes since commit cb9c6a8e5ad6a1f0ce164d352e3102df46986e22:
-> > > > > > >
-> > > > > > >   .gitlab-ci.d/windows: Work-around timeout and OpenGL problems of the MSYS2 jobs (2023-01-04 18:58:33 +0000)
-> > > > > > >
-> > > > > > > are available in the Git repository at:
-> > > > > > >
-> > > > > > >   https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> > > > > > >
-> > > > > > > for you to fetch changes up to 6529cb46fa76bb4b4f217d6fcc68b61b543062c4:
-> > > > > >
-> > > > > > 7c77271205339d3b161bdf925f5ead799b582e47 now - I dropped one patch
-> > > > > > as v2 is forthcoming.
-> > > > >
-> > > > > And now it's c46dcec9f699508e811cb6a140250d07486b0e41 as I replaced that
-> > > > > patch with it's v2. Sorry about the back and forth, but it seemed
-> > > > > important :(
-> > > > >
-> > > > > >
-> > > > > > >   vhost-scsi: fix memleak of vsc->inflight (2023-01-05 04:07:39 -0500)
-> > > > > > >
-> > > > > > > ----------------------------------------------------------------
-> > > > > > > virtio,pc,pci: features, cleanups, fixes
-> > > > > > >
-> > > > > > > mostly vhost-vdpa:
-> > > > > > >     guest announce feature emulation when using shadow virtqueue
-> > > > > > >     support for configure interrupt
-> > > > > > >     startup speed ups
-> > > > > > >
-> > > > > > > an acpi change to only generate cluster node in PPTT when specified for arm
-> > > > > > >
-> > > > > > > misc fixes, cleanups
-> > > > > > >
-> > > > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > > > >
-> > > > > > > ----------------------------------------------------------------
-> > > > > > >
-> > > > > > > Note: linux-user build is failing for me on master, I just
-> > > > > > > disabled it for now as nothing I'm doing should affect linux-user.
-> > > > > > > Didn't debug yet.
-> > > >
-> > > > Compile failures on freebsd in the bsd-user build:
-> > > >
-> > > > https://gitlab.com/qemu-project/qemu/-/jobs/3561556072
-> > > > https://gitlab.com/qemu-project/qemu/-/jobs/3561556071
-> > > >
-> > > > Probably something in Markus' include-file cleanup, I suspect
-> > > > some file is missing its osdep.h include.
-> > > >
-> > > > thanks
-> > > > -- PMM
-> > >
-> > >
-> > > Pushed a fixup, commit 1df76fab679e9a673b71531925fe12ceb89eaecb now.
-> > > Pls let me know, thanks!
-> >
-> > Still failing on FreeBSD, for a different reason:
-> > https://gitlab.com/qemu-project/qemu/-/jobs/3565200188
-> >
-> > thanks
-> > -- PMM
->
-> Dropped the offending patch, commit aba0d042b1c1be38818cec16af3f34e9e9e2aed2
-> now.  Pls let me know, thanks!
->
+On 1/9/23 12:47, Marc-André Lureau wrote:
+> Let's try that. A quick check reveals that configure already still has 
+> perl usage. I will take a look.
 
+There's already a patch planned to remove it ("configure: remove 
+backwards-compatibility code").
 
-Applied, thanks.
+Paolo
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
--- PMM
 
