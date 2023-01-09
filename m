@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0AA86631B3
+	by mail.lfdr.de (Postfix) with ESMTPS id 90AD16631B2
 	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 21:43:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEyyb-0006lD-SW; Mon, 09 Jan 2023 15:42:39 -0500
+	id 1pEyyh-0006li-P1; Mon, 09 Jan 2023 15:42:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pEyyX-0006kt-4P
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:42:33 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pEyyY-0006l5-8Y
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:42:34 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pEyyV-0002sO-Ek
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:42:32 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id 18so14413805edw.7
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 12:42:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pEyyW-0002tJ-Mp
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:42:34 -0500
+Received: by mail-ed1-x536.google.com with SMTP id i15so14441563edf.2
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 12:42:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=yOzJ3VJ5vGdulfKIfWme6JP1/gQuvzjt8i6hSU0RGsI=;
- b=pF991pAEhxX/EAnF34UrryrmyJ0sYy52JeqJs4ULo9rdkYLka/v0nHH+bg0N4xootd
- 9jwd8MXDgXfuVonYG4kVT620k69NYTV1eA8YPwSmURboakCdJZX9/vZNd+4Yj8F+gV21
- HP9BQ/3OUPFvdmas8Ykw4yk4qp228MURBOXd357g6pQX9zV5KbMpQ63adU7XHNYZ8KkX
- 1vApdARpK4gHq2TJR/CrzCJ5lrIm/yBuWgUr5aM27pOymfJ1My6QtVRlAO4wqmAoDnjC
- kQEjwnTAHCqlzcVB3J1LkUARijARg1Ex4iwf1J6TV+uzMNrb0gEulNNvr9MFdIy6/0Dt
- PD9g==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iqrzbqkehjMiObCYabTBJTHd54TXr5OaZJNbLN173bg=;
+ b=lrnQ9l6Gr/IM6zE6pepuTH6hf0iDgZpNYobVBDPHOa6ZfDaygOUA0gtYDRwfcb2Cog
+ 6mobI3UdkfjW+hSwVJXADobzbhpz1EkDR6CjUMWyK7QmCFqedE3JfG4Fg7P3MQQ8y8eG
+ L4Vka0KzSKq518WHY2kPby9STh5NENhnAegdztKbq4iuPVYpvSkK1Z1hceqU8opyQIj5
+ IUHvusTJbLw/Z+48wT8ZYg9aZJoGdak8RDNMREs5uEukXKKVWM9i2JNIeW2HpHSSHqTy
+ Gm2nRuoy3K5Wn2AFs0qJv17U+mG04EXpVvPnC2xvezLjeJsZd46HhTF08hzfJe75MQZv
+ w0JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yOzJ3VJ5vGdulfKIfWme6JP1/gQuvzjt8i6hSU0RGsI=;
- b=fxJigA/I/4+r+7x8gNL8vwzIEWAuH/EVhgii6zmJckwt1Yf4bugB/o6C4tfU96Shk+
- dIS06Sgh4b4b7Tk08C1YwtWbErXpCn41yZYFNP6+Rz8YDLpf8kJYWV+w0OpnCDsV2eZh
- gB4wamGZVwcPs99FtTnTejuGko6pgcDo+VENDinCiPfN3jVlGY8YduuWMDMoNJHiAaB8
- FRbb3hvc9d/wkA0zn/Gad7Abs7lU6rgy41+z02v2BxM5ppgKMdUWXaW2jch8dWu5PKVI
- n+rBkCsnySFeUtfJoYkjfDDvcNz9/J6dY/YE2Ap8XLJoEagX1ejjLwUFauFXtJdv+afx
- MlOQ==
-X-Gm-Message-State: AFqh2kqfDfo5/P5c5m9Skwtd6x40uLVjwz35z94cPuFYX/r04ck3nPuy
- Apxy1PZAlWHub2f+Ix/Qhd8PMu/SlTc=
-X-Google-Smtp-Source: AMrXdXs2IS0ibP11uiDgKqM/H1QTXrltDNPqt1S/XDUfyPD83FPXE5BB39CDyX4jq0aUPsmz+pfbCg==
-X-Received: by 2002:a05:6402:5485:b0:497:c96b:4ded with SMTP id
- fg5-20020a056402548500b00497c96b4dedmr9244211edb.34.1673296949511; 
- Mon, 09 Jan 2023 12:42:29 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iqrzbqkehjMiObCYabTBJTHd54TXr5OaZJNbLN173bg=;
+ b=K7vudpFFdbxggJ2a3lGkX1tHU/6i+a7A2T1wx62APfUmjLMiPqm69UvgOuTAigZlt9
+ vW0t80nb6wYJwwFOcmpKpH12NG7DMNHGjuAM71yos/zD8UBs5bxm8h79zA/aJB4ZwU6v
+ SyTOrPYxNKrHyMfG7ml8C9yY6rfbPLR+paZXDQR1QJ3EJGpR/GJeOQ+6GDfRXLguxAPq
+ sSjMx+rw+J6A8JPlBDiFLD4YYboQby7p0Remb95Epgjd2uL9H+yuxS6N1jxtEaWgCaUB
+ n41ZY8g8YhQEthNfEcZUJA6be8Gdd1XecPVGsWdF27u+78jcPiP50WDYeggdgAdCFSNS
+ I39Q==
+X-Gm-Message-State: AFqh2krnODwN2qFpPS+xyz6MEEMU0V4PAYwBV6UAuoXO1EyGCFxspjzC
+ Xt8dUlCC034OOs7GY8JxlPqNTP7Lqms=
+X-Google-Smtp-Source: AMrXdXumdyg/IO2pxa8g2xgkr6gYMN/TMEb5vI7d1bzraIq4XF6M3trWiB755mzf+4sJmMx7f1FPCg==
+X-Received: by 2002:aa7:d984:0:b0:496:9d0f:3081 with SMTP id
+ u4-20020aa7d984000000b004969d0f3081mr10838973eds.3.1673296950736; 
+ Mon, 09 Jan 2023 12:42:30 -0800 (PST)
 Received: from localhost.localdomain (ip-185-104-138-30.ptr.icomera.net.
  [185.104.138.30]) by smtp.gmail.com with ESMTPSA id
- ca20-20020aa7cd74000000b0046267f8150csm4078018edb.19.2023.01.09.12.42.28
+ ca20-20020aa7cd74000000b0046267f8150csm4078018edb.19.2023.01.09.12.42.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 12:42:29 -0800 (PST)
+ Mon, 09 Jan 2023 12:42:30 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 0/4] More precise dependency tracking for MIPS boards
-Date: Mon,  9 Jan 2023 21:41:20 +0100
-Message-Id: <20230109204124.102592-1-shentey@gmail.com>
+Subject: [PATCH 1/4] hw/isa/Kconfig: Add missing PARALLEL dependency to
+ ISA_SUPERIO
+Date: Mon,  9 Jan 2023 21:41:21 +0100
+Message-Id: <20230109204124.102592-2-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20230109204124.102592-1-shentey@gmail.com>
+References: <20230109204124.102592-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52c.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,40 +90,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This series aims for cleaning up the dependency graphs of MIPS boards in or=
-der=0D
-to see much quicker which board uses which hardware -- and thus, which boar=
-d=0D
-can be used to test which hardware.=0D
-=0D
-The final patch has been compiled successfully multiple times for mips64el =
-with=0D
-only one board enabled respectively. The boards considered were:=0D
-- CONFIG_MALTA=0D
-- CONFIG_MIPSSIM=0D
-- CONFIG_FULOONG=0D
-- CONFIG_LOONGSON3V=0D
-- CONFIG_JAZZ=0D
-- CONFIG_MIPS_BOSTON=0D
-=0D
-Based-on: <20230109172347.1830-1-shentey@gmail.com>=0D
-          "[PATCH v6 00/33] Consolidate PIIX south bridges"=0D
-=0D
-Bernhard Beschow (4):=0D
-  hw/isa/Kconfig: Add missing PARALLEL dependency to ISA_SUPERIO=0D
-  hw/mips/Kconfig: Remove ISA dependencies from MIPSsim board=0D
-  configs/devices/mips-softmmu/common: Remove redundant selections of=0D
-    SuperIO and ISA devices=0D
-  hw/mips/Kconfig: Move device selections to respective boards=0D
-=0D
- configs/devices/mips-softmmu/common.mak      | 16 ----------------=0D
- configs/devices/mips64el-softmmu/default.mak |  3 ---=0D
- hw/mips/mipssim.c                            |  1 -=0D
- hw/isa/Kconfig                               |  1 +=0D
- hw/mips/Kconfig                              | 15 +++++++++++++--=0D
- 5 files changed, 14 insertions(+), 22 deletions(-)=0D
-=0D
--- =0D
-2.39.0=0D
-=0D
+isa-superio.c, managed by ISA_SUPERIO, instantiates TYPE_ISA_PARALLEL,
+managed by PARALLEL.
+
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+---
+ hw/isa/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
+index 040a18c070..58137f2702 100644
+--- a/hw/isa/Kconfig
++++ b/hw/isa/Kconfig
+@@ -16,6 +16,7 @@ config I82378
+ config ISA_SUPERIO
+     bool
+     select ISA_BUS
++    select PARALLEL
+     select PCKBD
+     select FDC_ISA
+ 
+-- 
+2.39.0
+
 
