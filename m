@@ -2,173 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E1C2661BDD
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 02:21:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C297B661C0E
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 02:44:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEgps-0005tp-IJ; Sun, 08 Jan 2023 20:20:24 -0500
+	id 1pEhBf-0000jP-Sj; Sun, 08 Jan 2023 20:42:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
- id 1pEgpn-0005tb-23
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:20:19 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
- id 1pEgpk-0007KZ-2C
- for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:20:18 -0500
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 308NTVVp019351; Mon, 9 Jan 2023 01:20:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : from : to : cc : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=5AMS8xBXKirSq6qXoJ8h7F8UILrJDRV1ze7czode0K0=;
- b=z0mZT4VckPsE/DszzTAkSCTz9C5TyFou7efN72i45QktTwiCz7FL1ZlgOc8anI/r1Fbp
- myTYV2W9oTnXe4e3J3PHCc2T2vHN3zfd5ZE9PvF1LIt+1XOxFTyOvNOZ4l0/Q/6mcdoI
- jnvQDBL+XXMw6NmQGhAPKMEZT5Fbbapvhjheklnp9+SYFbt2UJ/yFeN7HsTfivt8ZuMk
- CVzcPNkZmCTIppbTZ6omJGnwPgou5uyJhi65+/7bexkdXA1kjGAy1dCNBOly54NkNevb
- k5HtWMP2GAcd37fDfrPcTVG9YVXskVfnEt/Uw7N4zeBostZl/tHLJDRr2XLSVBpJTbp7 IA== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3n05w0g4a3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 09 Jan 2023 01:20:01 +0000
-Received: from pps.filterd
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 308JuR17008102; Mon, 9 Jan 2023 01:20:00 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3mxy69dnmd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 09 Jan 2023 01:19:59 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gZFsmLiS86k29RrJYZY0D3ei3+r+spHv2ol44KANj2CliFtZLBzbU7uEDz/8CWyK3Twe8ITws9plI6IEs3zuj3D8+bmn27/OySrifE715OrjxRlpXRw4whXQ4f0e4a2HjkoIP1uElGHZ5axx08fPxLZkTBNM9T+OR14stoiDgStmivRG5P6lUmc04ZEoCzDjbJ+pxO6WmleksEF6KgokSCfaTu2XLsL0Msq1AtLuFqj84vGim7gncWPttWa1B8P+tcyMS6DlO0/ML2pcp3+OUDjy5Zsc3Vq1WBvoyr+ARGWvYgCqsoqJudKfS7At6MqmAVEaO/Rb+YyHFzcDVf+nCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5AMS8xBXKirSq6qXoJ8h7F8UILrJDRV1ze7czode0K0=;
- b=HXq+eNeiqY5XBz04zCR/f2qXQx6p6Q9oU8eDFlHFdYspIfaub5ZiSEJOtSo9PiO78K7YjEw9QMuHvAtmszcPFc7glpQu4cwVdCdjjezJMpv+KC26aHr0DuIFUO7+gW2Xhl3TJ47s8YqyO20psCSBWXNOFoKxIHW+xsBCYW5Ei/XYwcnEPfJT4lFpoiI41Ka4DVW+B/nVMg3Vlv6qtAr5vPs768kJrqi9abaYrL/IhQpAHPjEl/t80UzH9hgZb0k9Vkv6TXX6fEDh5OxywUtz5bx0/QTDjFdv3WFwriJ2A4Tra+lOAeb10kwjUBrfXkdtNNZMWd5wC2o2dLeqHUlctw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5AMS8xBXKirSq6qXoJ8h7F8UILrJDRV1ze7czode0K0=;
- b=Ai6C20Ckw89trLSSJ1feHd7vSZc1k3Z3GpviOQhxe5l+c1yp/X1Cg3b6J1y6wGBgvlEg9RWYp6Tl66SfmU9b5Kn1PUaQYDUm146LTR0ACA9EDP4oIhczZtHhgtHYrLebpFmr1fH9aglFH0/jaJURWJ9Wodhx5AEq5va4kncmFjk=
-Received: from BYAPR10MB2663.namprd10.prod.outlook.com (2603:10b6:a02:a9::20)
- by SJ0PR10MB4751.namprd10.prod.outlook.com (2603:10b6:a03:2db::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.10; Mon, 9 Jan
- 2023 01:19:57 +0000
-Received: from BYAPR10MB2663.namprd10.prod.outlook.com
- ([fe80::d868:78cd:33d4:ec7]) by BYAPR10MB2663.namprd10.prod.outlook.com
- ([fe80::d868:78cd:33d4:ec7%7]) with mapi id 15.20.5944.019; Mon, 9 Jan 2023
- 01:19:57 +0000
-Message-ID: <eea7b6ba-c0bd-8a1e-b2a8-2f08c954628b@oracle.com>
-Date: Sun, 8 Jan 2023 17:19:50 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 0/2] target/i386/kvm: fix two svm pmu virtualization
- bugs
-From: Dongli Zhang <dongli.zhang@oracle.com>
-To: qemu-devel@nongnu.org, kvm@vger.kernel.org
-Cc: pbonzini@redhat.com, mtosatti@redhat.com, joe.jin@oracle.com,
- likexu@tencent.com, groug@kaod.org, lyan@digitalocean.com
-References: <20221202002256.39243-1-dongli.zhang@oracle.com>
- <895f5505-db8c-afa4-bfb1-26ecbe27690a@oracle.com>
-Content-Language: en-US
-In-Reply-To: <895f5505-db8c-afa4-bfb1-26ecbe27690a@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA0PR13CA0005.namprd13.prod.outlook.com
- (2603:10b6:806:130::10) To BYAPR10MB2663.namprd10.prod.outlook.com
- (2603:10b6:a02:a9::20)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pEhBe-0000jH-DR
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:42:54 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pEhBc-0001VP-Iz
+ for qemu-devel@nongnu.org; Sun, 08 Jan 2023 20:42:54 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ h7-20020a17090aa88700b00225f3e4c992so11263661pjq.1
+ for <qemu-devel@nongnu.org>; Sun, 08 Jan 2023 17:42:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=q+fB6VJ+YRBoF2GQRv/rrUiVp1c6UDy0LLsCyWGTU8Y=;
+ b=xCOE8F4kanGPSXUlQ+2sHU4wZ7mTi3sPgkVBf91dHtQun+k7N+S/VTHeEN6fMnUENT
+ 9li2gdET8/MwyzGS98UwnTtibmiVRoLYHvsRi5lc6ggKohZES5s/IBzP3fpILZ4th8BB
+ jcMAAAH58JqT/2pcpQ7U2JaC1J+n538UoqxDKOmxLMONaCZGypKFgGzMr4XHKuiKPHXB
+ xDLZyI3PxwR+DCT6Jewe1jZYtqTQus8Z7j5PenR567B7hHwUs5FXxFbvG5hifXMegCMF
+ Hqs/I80fiJAWResWPlQnhSnj+QUjc/tAIx40hlXwOoHVWYUkoWb2kKl+ILdkAQcpc8X4
+ D4AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=q+fB6VJ+YRBoF2GQRv/rrUiVp1c6UDy0LLsCyWGTU8Y=;
+ b=MxGcfaOghJjU7UZhTZArnJALbLApxGnM/nLxOUSibS8Av0QK5/x6tb+7zJQIdsf16P
+ DZ2godPsNs2GpT4cRBh+0VNEx6p8pMDgw26Ipab31G/FX1dfJoS2qhgoR/eyR4PRkGMe
+ ypzekqVHAf0eq+oNAnaSVvE+c25Fn47Rxej+ALy93bhiijGe8BUROrZ0fnPz0qNrytQC
+ J5XVLHRL62JTwO761LiOeu/M5xtkDYhqQLHGwPH3VbeEswgKaIAsZkY81ZjZK95lO2Tv
+ W9JT2En+Djy03cqk79GqSPoZDvVRDFXo6aLElRU4a5Y8MRyHhIquhrvShrBmy0D6v8Mx
+ 4xGA==
+X-Gm-Message-State: AFqh2kpWnh7dCDdDdg2txbknss365JmZ5uIBeIcAJ3vBgKKpHsmOsltb
+ RJpz7+WXuE3IEBGRgC600e9pr+AHX/TpNFAs
+X-Google-Smtp-Source: AMrXdXvE7qU8hbCdl9C0QejFPCpxbuWgqqel40holedTUsNDel+9mEk7vawTMeueOgEPghLEQPnl6w==
+X-Received: by 2002:a17:902:bb86:b0:193:1f24:a042 with SMTP id
+ m6-20020a170902bb8600b001931f24a042mr5688286pls.29.1673228570644; 
+ Sun, 08 Jan 2023 17:42:50 -0800 (PST)
+Received: from stoup.. ([2602:47:d48c:8101:a909:891c:953d:a6b0])
+ by smtp.gmail.com with ESMTPSA id
+ w13-20020a170902ca0d00b00178b77b7e71sm4743617pld.188.2023.01.08.17.42.49
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 08 Jan 2023 17:42:49 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/22] tcg: exit_tb tidy, goto_tb reorg
+Date: Sun,  8 Jan 2023 17:42:26 -0800
+Message-Id: <20230109014248.2894281-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR10MB2663:EE_|SJ0PR10MB4751:EE_
-X-MS-Office365-Filtering-Correlation-Id: c51dec9f-d9cc-49af-6829-08daf1df9eb0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NPHWPyDtBFwELhIqdXMqfgDCT+P5NUymPDsl/4H8dXGeINYXLBBMfCTM92Itq3X18ccCx6Mn825BR3YTzm0HPGqGCMtCs0uOlgVKSO3NwMLpzzWK1ZcARdCuEXwt+NCvuRyVJrpjIyE011U3vgVifSoRHLlDMGAhxAorgLR3FHYkLIuMlm9+ow2/rPyud2vEdGvHW05k4kSWA9NZDxd+1J6VYSY2FIbvQQkFEfKeV9tEUIywaOnKAeRbjq2CUgvNOWKJ9+be8LhmSs9QGRiTae3Il5zqMNqjL2NSfHm1dAn8BPFgNJRDRD0xN/B20+3zEZyXYl+sPahJSOE9Ivyjdj0C+RYAFNEVo2yXtNMiywHCIRoex/8Cn/XpNVol8Tx40jsD/kiQgMngKuxj9ClXET2zBuBU0J2UFclgODX2K898HazTtL0X1QXAxHa88REQgYWZjGXFaE9VSg0h6IorUCzcfDY8LCeN3qKN22ZhfeopJdS0ViCdbGYxrg41X2HErDJgfV9IBQ/q6ArjnSbPVsxRG2K2IukbYLarHLx4xwC4UEkYsxIFA53Q/4SZD/vyPzoEQoFWq6EhczJYixpZJXP/SjWsK9jbxB5pcJmYHuXmebF0agfWrVNuDHOydnC3sdNfKFAz4Gm3icOV91j1tHjz3aRcIBURFTUXe15uj50aR04sgkYWNYplncgdVSVLxI6oK0gypCJDJCrced5IvgeEmTNQuyU2QDjrlf+vW5ZzhDn39h5H/KlkMu/MWRQ1DZQngd95Rlt4VV4aBcppCAchmpvE4nYRlW/dZB+kXmg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB2663.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(346002)(376002)(39860400002)(366004)(136003)(451199015)(38100700002)(86362001)(66946007)(83380400001)(66556008)(66476007)(4326008)(8676002)(31696002)(41300700001)(316002)(44832011)(2906002)(5660300002)(8936002)(6512007)(2616005)(186003)(966005)(478600001)(6486002)(53546011)(6666004)(6506007)(31686004)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGlZR29FSHZoR2NIVVRKd05hZ2dVcThCbkRDVjZLTmNXTEhyWWh6TnBPd1F3?=
- =?utf-8?B?RXFjWGo4Z203WHBaRk54Vk82Z3Jzc0Jqb1JYbCtzNkFpa1lxL1FMSjVMSjFu?=
- =?utf-8?B?MnV1bytPS2Z5OFJ1YVZaUmVHc1NaaWNaSk5Fb2JrTmZlcFBHdVRuRGYyOVNM?=
- =?utf-8?B?OHlYUHdSZHc1c3cxeWJyNFV4andlSGNDQU9OZDB2eGhqMmE1VEtuY0t2bFNI?=
- =?utf-8?B?dUExb0piMDc1ZUpVd3hIUm9rVW80YzI5bTE0WDBaVVdYTy9YM25KT0k0U0Qr?=
- =?utf-8?B?QTJsdzdoUDdXbkg3UTJHRnBmRUFadU8rUGxybXNZa1lQcERPalBKa1lJVlhU?=
- =?utf-8?B?OWJHWE1vL2twZm1uMmtzeExaZ1J5aGRkRitUM2xSYmdFNnEwc0l4OFRuaGh1?=
- =?utf-8?B?SzVsUzFlbjhhWXJMc1Z5SSt2T3VuOWVQbVpJOFF1VytOWWFTK0F2cFoxc1lX?=
- =?utf-8?B?cjBoVXo0aEcyaUQ2VnZNSDdoV2wxU3lIakgyN0h3ZjRrSmoybkFDaG1rWnVD?=
- =?utf-8?B?a0VPWnFQZ24vZmRhcWlCdXJXNE5Wc1F4OExzWVlyZGpxWjh6dDVQMWpCM3FR?=
- =?utf-8?B?VjZ4QkU4S0tDWnpXOTFpdCtaS0F6akpHK0ZBMUhLUnVtdlNwK29ZcnVYSVFm?=
- =?utf-8?B?ZldwYUV6aDBqVVM3WlNWeGdvRVpNOXlUcVYyd1ZTSGNDcDRya1ZuQnJFTnQ4?=
- =?utf-8?B?QlNzemtUQkRVa2ZJWTZ5YU5WK091eUpyWVlkNmQwNzNDVUdvSVdJdWp1V0pj?=
- =?utf-8?B?cVU5cWtjcDZKcDRmZ2MwK2VHTjMySFRJdVN6WGtSWURhb3k4NnVJWXpURlRX?=
- =?utf-8?B?RWNIcXVweGJJVEJLUjV0K1FNV09XRFB6aWNrQjZlOXF5L1hWV1YxeDhYQnRB?=
- =?utf-8?B?a0lqZjl4eG1KbzNSL21MNHl2endEdllPazBuRUpvOHJQTmxvSS9pK2pXbjZI?=
- =?utf-8?B?NmtrcllwamhoMjE5aDQ3cUdzc20ycFZTSlF6N1M5UFN6TE9BbmxDMExIMmpO?=
- =?utf-8?B?OHNQNkpPNWZuWmVyTUR6bUN4NW5WVWl1OGgxbWNTR2hUaUNkV3lRenlGQmJh?=
- =?utf-8?B?MUcrVXJsUFg4bVJ3VTB3bzRHK1hOVE9tOW04SXBVb3VWRnY4OStEYXNvUVNW?=
- =?utf-8?B?aUlxSXp3bTQ2bUNidDNHYmJtblBZbEU4cnRWNndkcWpxSTZHaGRqNVNDRmV0?=
- =?utf-8?B?TXE3eG1lQzFFOE1LSGgwdTJFUkw1QUJFb0VYR2xaUExwRHNqa1lwM3ZBdEE2?=
- =?utf-8?B?S1htUHVHdTkxdWRrK2wrZlhDc1E1d0txNnJWU1FIWW1QMUdiUkdLQTVEeFF4?=
- =?utf-8?B?T2JIUERPYzhOUGt2S0s1N1JtV0hKU0I3dGFIL2dYNER0Uis4ajZ2Rnh3cFdj?=
- =?utf-8?B?eHVJdm91dGxLcGN2d3NUTW92K2dJTkM1UXB3c0k1aEpoWmR2eVBTckMxQlAw?=
- =?utf-8?B?d00yMEI1YUJyMHI2ZnAvUnA3TzJsR0pNOG5RZTVZSUJhMG5QUU9IampIbnd5?=
- =?utf-8?B?blV2SjludHUyNGw4WmdWODRCZ1IyOVVWVEFMZmVJT242Vm5nTCszdnJFSmVZ?=
- =?utf-8?B?NnFtRVZzYVNsaUdwS3JtNkgycE1sWUdQK3I0R0xvSjAvYXJwaFUvT3Vsa3Bn?=
- =?utf-8?B?NUhOYk9JWUhGQXlOSE5zSkk0cGYvVDVHazdLS0pOZmx5TWNoUFdoSlhxdmNp?=
- =?utf-8?B?QW1FRzM1d2pPNTFIYjdrNWp6TTJKTENYUUhqT3NtOVlkM2p0WENMU2NlQS9l?=
- =?utf-8?B?c1NyR3lkTjJRQSs5RlUyN2c0dEtGZjQyeCszTlN6SzB5elBORlJOTU1PNnY0?=
- =?utf-8?B?R2R0cFVBRk1PZEZvb1RNck9USWtIY05kc3VnMSt5bFlTa2M3d3V0dFlCSGhJ?=
- =?utf-8?B?Z2hhYjBsTVo4S3dlVHMxZmloU1VXTlc1aW9pNUFPb0pqRVpPcmhVNGh5ZHpn?=
- =?utf-8?B?dWlzemZlTkFNcHhrbEtYeW83WW0rTWkraXlicmsxbkJIWkNTNWZ2UlZJa2pw?=
- =?utf-8?B?Z21rdzNzM24yYlVWZnF4QWV2b1I3WXpMTUUxTC9VckRhY0VUMnJvZ0dEcm9D?=
- =?utf-8?B?MVJCbEFIdmRCTlUwWWhmZXMwZGZXLzkvTUhiM1JDVTlSSzBYMERveUZ2clRN?=
- =?utf-8?B?aHMzY3NmY0R3bWpmRVQ0aHhvRnkvendOdUtXV3R1dW8rb0J6U3hYQXl3UWhm?=
- =?utf-8?Q?btgXer4j5dXbR4mbHC+1xA4=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: DikXP7fXO1nBFQE0iKwXVqM7vOC+plrj+wFsN9w/M5Eg5ef9peTJ6doqHXQCoM3VvYJYGXpDX28IPkW3HOWwaWxTcA40ZIUWfNWikyCYNiwfumaCpHLttjdqTDBLZYts9Ms+NIRLQut2Hiv8igilGOqupOXoHIptqYNJPNm1xcK9mDGcdulBXq6VfsyBqpStxhS1DC6SA/TWW7daBJKgKJSHW32ZwjQEysq0NfcKf2mfRtsds8VgNE+sjt1jvlChZ3ah78PUXePhwA7MtBzqP5+zbYt/9oVGAmuJ3P4fLpS4wNKAonWL+4h53Kh0EEkbKwQkMAMM0TkfLHvfRq0oWbI9jQ+0FuM6NGPIX3EYjJxU+b7wsapinD/uvrwYfvihnRqk20fjtMf53GIWiAb2ZpBxt0EE6EYcZMq8tRbnJFTiMO3jB2aD+W9o+Et10GK+ftLrV9U9e1eZdcDx3+zG7PJaOuACWccDx6xxspfKxlAYnGPmz/5BwB6xVuogEQfxNOVeUJ+FO0YDih8bX5D5+qcQF5E3mm8vFiQFubk7v6cWfPXFe9abnehj0W01CiPdfX7wqbU5SX8Hy7WB52hWo4bwo0kMiTavUCc1rZX98fGX1zRLIRYBJ0GRSz47G0zWxxh9R/Sa0ci538vDLnVFgH7ovg3/KhQGyAdFxA0GR8FsH+Ey3VEE+FWsZgqVrLYosIzFwSk0MCfME+XwmMam6fjB942g4I95hPvDaeyxJKUinad0yUh4y0iognb2unT2DdAlADwJhlyb5HQWkaxt8F9seo5bP62VIbbjglmTI5VAjHjVPQAgpYmzJj7uofIlcaX01DOpJYumz/mIadD9n+QWzyA5eiDQzq01SL3oCYf/3v0dOiWnYL0mFOJLHm6RMP/RkV4Yi9f7NpsV6Yzfs9Px4A0euUkbsaItTtpEQpo=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c51dec9f-d9cc-49af-6829-08daf1df9eb0
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2663.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2023 01:19:57.0739 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8xgc+5bw05F773DRVrYLrj3N3aSYUipul8kzUXX2GTsl3CaR4p6Z3OQL4ol04wFnyQRVl8Yx+D6STxRw3ew5vg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4751
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-08_19,2023-01-06_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=0
- malwarescore=0 bulkscore=0 phishscore=0 mlxlogscore=999 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301090008
-X-Proofpoint-GUID: LaiNVy3exgU2PGjXQk0dDwYNsGKebNtm
-X-Proofpoint-ORIG-GUID: LaiNVy3exgU2PGjXQk0dDwYNsGKebNtm
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=dongli.zhang@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -185,112 +87,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ping?
+Small patch for exit_tb.  Large reorg for goto_tb, primarily aimed at
+fixing a race condition in which a host thread gets suspended in the
+middle of executing a two insn sequence, and the sequence is updated.
+The updated second insn does not match the previous first insn, so
+when the thread restarts the entire sequence will not branch to either
+the old or the new destination.
 
-About [PATCH v2 2/2], the bad thing is that the customer will not be able to
-notice the issue, that is, the "Broken BIOS detected" in dmesg, immediately.
+The middle-end is adjusted to support both direct and indirect jumps
+simultaneously, instead of depending on TCG_TARGET_HAS_direct_jump.
+This allows the backend to decide whether to use direct or indirect
+based on the branch displacement.  Which allows us to only update a
+single instruction, which means there's no multi-insn sequence that
+can be interrupted.
 
-As a result, the customer VM many panic randomly anytime in the future (once
-issue is encountered) if "/proc/sys/kernel/unknown_nmi_panic" is enabled.
+Changes for v2:
+  * Rebase on master,
+  * Remove if (0) accidentially left in tcg/sparc64/.
 
-Thank you very much!
 
-Dongli Zhang
+r~
 
-On 12/19/22 06:45, Dongli Zhang wrote:
-> Can I get feedback for this patchset, especially the [PATCH v2 2/2]?
-> 
-> About the [PATCH v2 2/2], currently the issue impacts the usage of PMUs on AMD
-> VM, especially the below case:
-> 
-> 1. Enable panic on nmi.
-> 2. Use perf to monitor the performance of VM. Although without a test, I think
-> the nmi watchdog has the same effect.
-> 3. A sudden system reset, or a kernel panic (kdump/kexec).
-> 4. After reboot, there will be random unknown NMI.
-> 5. Unfortunately, the "panic on nmi" may panic the VM randomly at any time.
-> 
-> Thank you very much!
-> 
-> Dongli Zhang
-> 
-> On 12/1/22 16:22, Dongli Zhang wrote:
->> This patchset is to fix two svm pmu virtualization bugs, x86 only.
->>
->> version 1:
->> https://lore.kernel.org/all/20221119122901.2469-1-dongli.zhang@oracle.com/
->>
->> 1. The 1st bug is that "-cpu,-pmu" cannot disable svm pmu virtualization.
->>
->> To use "-cpu EPYC" or "-cpu host,-pmu" cannot disable the pmu
->> virtualization. There is still below at the VM linux side ...
->>
->> [    0.510611] Performance Events: Fam17h+ core perfctr, AMD PMU driver.
->>
->> ... although we expect something like below.
->>
->> [    0.596381] Performance Events: PMU not available due to virtualization, using software events only.
->> [    0.600972] NMI watchdog: Perf NMI watchdog permanently disabled
->>
->> The 1st patch has introduced a new x86 only accel/kvm property
->> "pmu-cap-disabled=true" to disable the pmu virtualization via
->> KVM_PMU_CAP_DISABLE.
->>
->> I considered 'KVM_X86_SET_MSR_FILTER' initially before patchset v1.
->> Since both KVM_X86_SET_MSR_FILTER and KVM_PMU_CAP_DISABLE are VM ioctl. I
->> finally used the latter because it is easier to use.
->>
->>
->> 2. The 2nd bug is that un-reclaimed perf events (after QEMU system_reset)
->> at the KVM side may inject random unwanted/unknown NMIs to the VM.
->>
->> The svm pmu registers are not reset during QEMU system_reset.
->>
->> (1). The VM resets (e.g., via QEMU system_reset or VM kdump/kexec) while it
->> is running "perf top". The pmu registers are not disabled gracefully.
->>
->> (2). Although the x86_cpu_reset() resets many registers to zero, the
->> kvm_put_msrs() does not puts AMD pmu registers to KVM side. As a result,
->> some pmu events are still enabled at the KVM side.
->>
->> (3). The KVM pmc_speculative_in_use() always returns true so that the events
->> will not be reclaimed. The kvm_pmc->perf_event is still active.
->>
->> (4). After the reboot, the VM kernel reports below error:
->>
->> [    0.092011] Performance Events: Fam17h+ core perfctr, Broken BIOS detected, complain to your hardware vendor.
->> [    0.092023] [Firmware Bug]: the BIOS has corrupted hw-PMU resources (MSR c0010200 is 530076)
->>
->> (5). In a worse case, the active kvm_pmc->perf_event is still able to
->> inject unknown NMIs randomly to the VM kernel.
->>
->> [...] Uhhuh. NMI received for unknown reason 30 on CPU 0.
->>
->> The 2nd patch is to fix the issue by resetting AMD pmu registers as well as
->> Intel registers.
->>
->>
->> This patchset does not cover PerfMonV2, until the below patchset is merged
->> into the KVM side.
->>
->> [PATCH v3 0/8] KVM: x86: Add AMD Guest PerfMonV2 PMU support
->> https://lore.kernel.org/all/20221111102645.82001-1-likexu@tencent.com/
->>
->>
->> Dongli Zhang (2):
->>       target/i386/kvm: introduce 'pmu-cap-disabled' to set KVM_PMU_CAP_DISABLE
->>       target/i386/kvm: get and put AMD pmu registers
->>
->>  accel/kvm/kvm-all.c      |   1 +
->>  include/sysemu/kvm_int.h |   1 +
->>  qemu-options.hx          |   7 +++
->>  target/i386/cpu.h        |   5 ++
->>  target/i386/kvm/kvm.c    | 129 +++++++++++++++++++++++++++++++++++++++++-
->>  5 files changed, 141 insertions(+), 2 deletions(-)
->>
->> Thank you very much!
->>
->> Dongli Zhang
->>
->>
+
+Richard Henderson (22):
+  tcg: Split out tcg_out_exit_tb
+  tcg/i386: Remove unused goto_tb code for indirect jump
+  tcg/ppc: Remove unused goto_tb code for indirect jump
+  tcg/sparc64: Remove unused goto_tb code for indirect jump
+  tcg: Replace asserts on tcg_jmp_insn_offset
+  tcg: Introduce set_jmp_insn_offset
+  tcg: Introduce get_jmp_target_addr
+  tcg: Split out tcg_out_goto_tb
+  tcg: Rename TB_JMP_RESET_OFFSET_INVALID to TB_JMP_OFFSET_INVALID
+  tcg: Add gen_tb to TCGContext
+  tcg: Add TranslationBlock.jmp_insn_offset
+  tcg: Change tb_target_set_jmp_target arguments
+  tcg: Move tb_target_set_jmp_target declaration to tcg.h
+  tcg: Always define tb_target_set_jmp_target
+  tcg: Remove TCG_TARGET_HAS_direct_jump
+  tcg/aarch64: Reorg goto_tb implementation
+  tcg/ppc: Reorg goto_tb implementation
+  tcg/sparc64: Remove USE_REG_TB
+  tcg/sparc64: Reorg goto_tb implementation
+  tcg/arm: Implement direct branch for goto_tb
+  tcg/riscv: Introduce OPC_NOP
+  tcg/riscv: Implement direct branch for goto_tb
+
+ include/exec/exec-all.h          |   5 +-
+ include/tcg/tcg.h                |  14 +--
+ tcg/aarch64/tcg-target.h         |   7 +-
+ tcg/arm/tcg-target.h             |   5 -
+ tcg/i386/tcg-target.h            |   9 --
+ tcg/loongarch64/tcg-target.h     |   3 -
+ tcg/mips/tcg-target.h            |   5 -
+ tcg/ppc/tcg-target.h             |   7 +-
+ tcg/riscv/tcg-target.h           |   4 -
+ tcg/s390x/tcg-target.h           |  11 --
+ tcg/sparc64/tcg-target.h         |   4 -
+ tcg/tci/tcg-target.h             |   4 -
+ accel/tcg/cpu-exec.c             |  16 ++-
+ accel/tcg/translate-all.c        |  10 +-
+ tcg/tcg-op.c                     |  14 +--
+ tcg/tcg.c                        |  42 +++++--
+ tcg/aarch64/tcg-target.c.inc     | 104 ++++++++--------
+ tcg/arm/tcg-target.c.inc         |  89 +++++++++-----
+ tcg/i386/tcg-target.c.inc        |  68 ++++++-----
+ tcg/loongarch64/tcg-target.c.inc |  66 +++++-----
+ tcg/mips/tcg-target.c.inc        |  59 +++++----
+ tcg/ppc/tcg-target.c.inc         | 193 +++++++++--------------------
+ tcg/riscv/tcg-target.c.inc       |  65 +++++++---
+ tcg/s390x/tcg-target.c.inc       |  67 +++++++----
+ tcg/sparc64/tcg-target.c.inc     | 201 ++++++++++++-------------------
+ tcg/tci/tcg-target.c.inc         |  31 +++--
+ 26 files changed, 522 insertions(+), 581 deletions(-)
+
+-- 
+2.34.1
+
 
