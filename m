@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE16166313B
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 21:18:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 645C6663130
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 21:16:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEyRo-00037X-PP; Mon, 09 Jan 2023 15:08:44 -0500
+	id 1pEyRq-0003CC-PW; Mon, 09 Jan 2023 15:08:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEyRl-00032Y-3a
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:08:41 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ id 1pEyRm-000346-3e
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:08:42 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pEyRj-0007Xk-GW
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:08:40 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id y1so10782570plb.2
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 12:08:39 -0800 (PST)
+ id 1pEyRk-0007Yi-GQ
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 15:08:41 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ o1-20020a17090a678100b00219cf69e5f0so13994204pjj.2
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 12:08:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3kEe5fNGYkVr+4UJdUprtIi1urVwj9zZaNxQZb+ASkI=;
- b=vGdj34OuogiNh7FheRmpKpNUEM83HCrm3Nqbs9IfiZWnHBcYefwfakoB8k4aSACdGX
- Kl00fT2J0cqGl75vN5/8Frc9YCZf2TobFjNv7yBN+wvPSaGf/rBitRx6pShufFXouyU1
- naX1f1Li3DrYvQhjX7WDLP652gA/BZS8ijFyTZ8BWnA5+Z7yZomW5I0yLNzm+Fht1+4B
- rxX1o7tpTwnOL95lUQpjl2t67nVZG4H0NQoAh/xtpfsoZKdfFR8OEhxGd7ulV6WIqHm3
- eFhyQekzDGU5m0mbIX7gm1bNbF42dkI+zVnNTRLtgdqQl8SmbH/pR4l8HFIMWFpw2qHw
- 6tCA==
+ bh=LthcmYqoGylcnimKyPE4SUZ0KHnZX+uAbIpucCo0mYE=;
+ b=HnDKjEAbDGsmyrHt3Gsu7ysr5yTMHLwT6t87tt7Atm6lIsMQZrHV0l1qVe5l3TVwbR
+ +fuQDRtoP9ewLiThFtkItitugHGUyzo7csghfAsUO3gsUgtVUEGtqVB9Q2u2h6mHX4xu
+ rtx9eizzSS3YWuWPQlEuSOo26u8xhZgi5P2XjVUgaX/xfFhJm5RPhLleqG+2vqFrD6RK
+ fYbHU2eRIAOu63SB/TQkvVJkFdDmRSWRDUz7lFFaBv93SvitYLUd9dC1Q0f20QmCRVfC
+ KlGbVlZM/WoxLiJMDiXy5kTTz5OKyKvEOdr2I3lgcyQenCVu1j8HoplPoSAfBDLYp/rl
+ SMSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3kEe5fNGYkVr+4UJdUprtIi1urVwj9zZaNxQZb+ASkI=;
- b=nDMIowv6Y65pW8KQi/3kOMCIU1Lawf6us51DueTV3U78m/1sOS37h7U+hUeRv8nTaS
- PfPEs+XxEnq29zI6wjg9M1gEO9LweZGWQ3VH7eCVQQ4/cLUrf5W09euN2tJ3fO0zo29A
- bE3tBRBqtxT39XvVDjx29R2zX7kbsTuwT0upKQX1Q+3REH6cwwwQc73VdPKRqlo3mzYT
- xUJRuKEK0smVw1+HmektaLIYlA65Jg8j7/yOz9faF0dSh7EUhDDfpGXCU7/U8BeEdAEs
- PZf+tj4VqGEjJpp+PgqzVQRblgipYGtR95WaG/zh77nnt24Nco7qDQ5dD4lbPuIfSUN5
- YTrw==
-X-Gm-Message-State: AFqh2krQV1snZG/T/wtlhUbwHaqFsivXMgS64WEIndqzjr5zbZ2nUJgp
- 0mYze5fquske9WCbkEsSPMVjgoLVmToIGH41
-X-Google-Smtp-Source: AMrXdXuRABT4pB+/vNas7Sq+bhcyV26P/70rHm5/F4UhGXPpLMxcxWfi1edxnrwwEXvxF50zOK1zVw==
-X-Received: by 2002:a17:90a:f10d:b0:219:705c:7193 with SMTP id
- cc13-20020a17090af10d00b00219705c7193mr68856648pjb.11.1673294917805; 
- Mon, 09 Jan 2023 12:08:37 -0800 (PST)
+ bh=LthcmYqoGylcnimKyPE4SUZ0KHnZX+uAbIpucCo0mYE=;
+ b=KUl1hl598SoFKSXJgB3UB/Wy8EJhw7JSGljV1l/n78YCyghxndlfmM9dvcfvSQBzDF
+ RPvCHYCWq2gS/RkX8fBSpAeGDQct2712Yoha5tah9Vi6AIG/o6pkBq8Ai36DKZKtLcoF
+ UahyMlcw2OQNt7BkqtDPhlun1D4cTGDYCHqUvdUHNgNzsOVWvp34UUSLhu6QYE/pvjRY
+ JSOaaWtv64PSNYdUZQvJSFAQMfslG5z5OYCtWzYQ0jlgauFCT37yD/4Rn3D71fv7N0tQ
+ /pw/TJM5YXMZWurvxUE7fdSA0ZEqo3k8H3zz5WWud6TudtZ/KbGCvKhiCBFUF8xwWJjj
+ VUZA==
+X-Gm-Message-State: AFqh2koRIFeN/aZe6RTZkh003ps6TJNFB/nmp7LI6VIVSfZ0Df+fdeVj
+ fuuByAqHRVUv9a1KXSNpDy9docabBJD9KWNL
+X-Google-Smtp-Source: AMrXdXvxYmgQ0IximkTQFlb6v9mO2z4BUoR4Jn/9JnHRRl3I7GXAl7tdEdSqPcobcZOQ4lpczadC8Q==
+X-Received: by 2002:a17:90b:19cc:b0:226:cdcf:da83 with SMTP id
+ nm12-20020a17090b19cc00b00226cdcfda83mr15747043pjb.46.1673294918825; 
+ Mon, 09 Jan 2023 12:08:38 -0800 (PST)
 Received: from stoup.. ([2602:47:d48c:8101:158e:facf:7a46:ba9f])
  by smtp.gmail.com with ESMTPSA id
- l2-20020a17090a384200b0022727d4af8dsm577574pjf.48.2023.01.09.12.08.37
+ l2-20020a17090a384200b0022727d4af8dsm577574pjf.48.2023.01.09.12.08.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 12:08:37 -0800 (PST)
+ Mon, 09 Jan 2023 12:08:38 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-s390x@nongnu.org,
-	Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v3 14/27] target/s390x: Assert masking of psw.addr in
- cpu_get_tb_cpu_state
-Date: Mon,  9 Jan 2023 12:08:06 -0800
-Message-Id: <20230109200819.3916395-15-richard.henderson@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v3 15/27] target/s390x: Add disp argument to update_psw_addr
+Date: Mon,  9 Jan 2023 12:08:07 -0800
+Message-Id: <20230109200819.3916395-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230109200819.3916395-1-richard.henderson@linaro.org>
 References: <20230109200819.3916395-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,71 +93,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When changing modes via SAM, we raise a specification exception if the
-new PC is out of range.  The masking in s390x_tr_init_disas_context
-was too late to be correct, but may be removed.  Add a debugging
-assert in cpu_get_tb_cpu_state.
+Rename to update_psw_addr_disp at the same time.
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/cpu.h           | 20 ++++++++++++++------
- target/s390x/tcg/translate.c |  6 +-----
- 2 files changed, 15 insertions(+), 11 deletions(-)
+ target/s390x/tcg/translate.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 7d6d01325b..c7eeebfc53 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -379,17 +379,25 @@ static inline int cpu_mmu_index(CPUS390XState *env, bool ifetch)
- }
- 
- static inline void cpu_get_tb_cpu_state(CPUS390XState* env, target_ulong *pc,
--                                        target_ulong *cs_base, uint32_t *flags)
-+                                        target_ulong *cs_base, uint32_t *pflags)
- {
--    *pc = env->psw.addr;
--    *cs_base = env->ex_value;
--    *flags = (env->psw.mask >> FLAG_MASK_PSW_SHIFT) & FLAG_MASK_PSW;
-+    int flags = (env->psw.mask >> FLAG_MASK_PSW_SHIFT) & FLAG_MASK_PSW;
-     if (env->cregs[0] & CR0_AFP) {
--        *flags |= FLAG_MASK_AFP;
-+        flags |= FLAG_MASK_AFP;
-     }
-     if (env->cregs[0] & CR0_VECTOR) {
--        *flags |= FLAG_MASK_VECTOR;
-+        flags |= FLAG_MASK_VECTOR;
-     }
-+    *pflags = flags;
-+    *cs_base = env->ex_value;
-+    *pc = env->psw.addr;
-+#ifdef CONFIG_DEBUG_TCG
-+    if (!(flags & FLAG_MASK_32)) {
-+        assert(*pc <= 0xffffff);
-+    } else if (!(flags & FLAG_MASK_64)) {
-+        assert(*pc <= 0x7fffffff);
-+    }
-+#endif
- }
- 
- /* PER bits from control register 9 */
 diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 449e854c82..de2d8edb47 100644
+index de2d8edb47..56e1259dc6 100644
 --- a/target/s390x/tcg/translate.c
 +++ b/target/s390x/tcg/translate.c
-@@ -6493,11 +6493,7 @@ static void s390x_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+@@ -336,9 +336,9 @@ static void return_low128(TCGv_i64 dest)
+     tcg_gen_ld_i64(dest, cpu_env, offsetof(CPUS390XState, retxl));
+ }
+ 
+-static void update_psw_addr(DisasContext *s)
++static void update_psw_addr_disp(DisasContext *s, int64_t disp)
  {
-     DisasContext *dc = container_of(dcbase, DisasContext, base);
+-    gen_psw_addr_disp(s, psw_addr, 0);
++    gen_psw_addr_disp(s, psw_addr, disp);
+ }
  
--    /* 31-bit mode */
--    if (!(dc->base.tb->flags & FLAG_MASK_64)) {
--        dc->base.pc_first &= 0x7fffffff;
--        dc->base.pc_next = dc->base.pc_first;
--    }
-+    /* Note cpu_get_tb_cpu_state asserts PC is masked for the mode. */
+ static void per_branch(DisasContext *s, bool to_next)
+@@ -444,7 +444,7 @@ static void gen_program_exception(DisasContext *s, int code)
+                    offsetof(CPUS390XState, int_pgm_ilen));
  
-     dc->cc_op = CC_OP_DYNAMIC;
-     dc->ex_value = dc->base.tb->cs_base;
+     /* update the psw */
+-    update_psw_addr(s);
++    update_psw_addr_disp(s, 0);
+ 
+     /* Save off cc.  */
+     update_cc_op(s);
+@@ -1168,11 +1168,11 @@ static DisasJumpType help_goto_direct(DisasContext *s, int64_t disp)
+         update_cc_op(s);
+         per_breaking_event(s);
+         tcg_gen_goto_tb(0);
+-        gen_psw_addr_disp(s, psw_addr, disp);
++        update_psw_addr_disp(s, disp);
+         tcg_gen_exit_tb(s->base.tb, 0);
+         return DISAS_NORETURN;
+     } else {
+-        gen_psw_addr_disp(s, psw_addr, disp);
++        update_psw_addr_disp(s, disp);
+         per_branch(s, false);
+         return DISAS_PC_UPDATED;
+     }
+@@ -2448,7 +2448,7 @@ static DisasJumpType op_ex(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+ 
+-    update_psw_addr(s);
++    update_psw_addr_disp(s, 0);
+     update_cc_op(s);
+ 
+     if (r1 == 0) {
+@@ -3175,7 +3175,7 @@ static DisasJumpType op_lpd(DisasContext *s, DisasOps *o)
+ 
+     /* In a parallel context, stop the world and single step.  */
+     if (tb_cflags(s->base.tb) & CF_PARALLEL) {
+-        update_psw_addr(s);
++        update_psw_addr_disp(s, 0);
+         update_cc_op(s);
+         gen_exception(EXCP_ATOMIC);
+         return DISAS_NORETURN;
+@@ -4492,7 +4492,7 @@ static DisasJumpType op_stura(DisasContext *s, DisasOps *o)
+     tcg_gen_qemu_st_tl(o->in1, o->in2, MMU_REAL_IDX, s->insn->data);
+ 
+     if (s->base.tb->flags & FLAG_MASK_PER) {
+-        update_psw_addr(s);
++        update_psw_addr_disp(s, 0);
+         gen_helper_per_store_real(cpu_env);
+     }
+     return DISAS_NEXT;
+@@ -4730,7 +4730,7 @@ static DisasJumpType op_svc(DisasContext *s, DisasOps *o)
+ {
+     TCGv_i32 t;
+ 
+-    update_psw_addr(s);
++    update_psw_addr_disp(s, 0);
+     update_cc_op(s);
+ 
+     t = tcg_constant_i32(get_field(s, i1) & 0xff);
+@@ -6475,7 +6475,7 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
+     if (s->base.tb->flags & FLAG_MASK_PER) {
+         /* An exception might be triggered, save PSW if not already done.  */
+         if (ret == DISAS_NEXT || ret == DISAS_TOO_MANY) {
+-            gen_psw_addr_disp(s, psw_addr, s->ilen);
++            update_psw_addr_disp(s, s->ilen);
+         }
+ 
+         /* Call the helper to check for a possible PER exception.  */
+@@ -6544,7 +6544,7 @@ static void s390x_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+     case DISAS_NORETURN:
+         break;
+     case DISAS_TOO_MANY:
+-        update_psw_addr(dc);
++        update_psw_addr_disp(dc, 0);
+         /* FALLTHRU */
+     case DISAS_PC_UPDATED:
+         /* Next TB starts off with CC_OP_DYNAMIC, so make sure the
 -- 
 2.34.1
 
