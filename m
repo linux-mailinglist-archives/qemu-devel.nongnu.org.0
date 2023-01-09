@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC94662AAF
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 16:59:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 432F5662AC3
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 17:05:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEuYb-00062y-Sl; Mon, 09 Jan 2023 10:59:29 -0500
+	id 1pEudE-0007Ss-FM; Mon, 09 Jan 2023 11:04:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pEuYa-00062m-MD; Mon, 09 Jan 2023 10:59:28 -0500
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pEudB-0007SJ-V9
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 11:04:13 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pEuYZ-0005XF-2j; Mon, 09 Jan 2023 10:59:28 -0500
-Received: by mail-lj1-x22b.google.com with SMTP id q2so9306343ljp.6;
- Mon, 09 Jan 2023 07:59:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ooFoxjkBJMHWKpG4WzM4ayARgpzmkfVql+sohPb1uM0=;
- b=gcfl0jnbzEY8oRYlghfyVk2AJ6Zu52nFPrBXPsuNxBLhE5WigGKrPUmbv3uOhLujE+
- e5rDMbtYCIbGe6IStXXnyhxCu9tCnvAp/RPP6tIIOJD7SyW/DmCA3hvQd2Fv+6Y3Syvl
- 1bZBCSXiMGt7gdUpgH0lM5+WBADzRcPAsiZ/sP8ST1OBB2XCZx4XLBK1dI9a/VaZChoz
- fpW4aPl5sSNNJ2MRAfumZreFiWsQUHxM7sZ7HV0UnRNgreHZ7lPN+jRCIFi+PyyVkmE7
- aC0UI8cWj/9KfbwDBSH1T1iZEyQxohtOksVBz2DNKMA3BlCq+LTSR7D3KV9vTRer+Jxk
- z5kw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pEudA-0007OJ-Ba
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 11:04:13 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ m7-20020a17090a730700b00225ebb9cd01so13246493pjk.3
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 08:04:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hDSGGa2mIec3Z/Eyh62lHcxtXQEkdf79o5GxRHENBpg=;
+ b=NK7ovHYk83SGT5W8AxUehZpsJBxiWqIYf7o00fwX8TL/105XEXLWFcNmK9zvV672Wf
+ U9EgqxQPAabMNAw2iOqM27DOUuXtchuhyx56H3Iq6BJ04PN+enUrHnG4Q3dlGE/R0cdw
+ mP4He7oqSuRJd7JbwNTpTpoAr3Mp6FU6J8SD0n+AkWYhWxzUnnqvzPyAGpuNyipWWrpu
+ 55yOGPaNveN1Uineys3qL1Gu88lLFdbMVpGTYxNeA2SheOFPWRE0azO6qJwbC5zuZ5uO
+ hMqo+pAreKM644i56UUmDSL69KiU3BjJiT3LzqOJTSpaRZ8pM7DLYdETkWuWto9E6X1+
+ YKhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ooFoxjkBJMHWKpG4WzM4ayARgpzmkfVql+sohPb1uM0=;
- b=7abClbwDhNzl5JVTv7LqujZ7av1tBsoB1Gnnqs31c0U40b2GLsn3G0r49noOJe4FfJ
- g35UMKIlpsy6rtcdaCvt1D+TU0g3V/NWDA+k7/R0nXqmZof/pYFZ0+kHqdl9lmmel2Cu
- ZyEvYl3Q+0eJtnUlLq/6RRtZVCq67OtD13AeGXK4Dh+n8QHdpSUTNG2r0k8Yb+5B2Sy4
- t+l05dcvJ6snyBrTuM9fiRO8EJdRbsqVBd+UMmOudyaWVvK27z3bXoetHVyS+18LoMsg
- YwgeoPXDyg1oCojIGWvEsSIaFucjF4ODvY8jocPN7TGEpBl9g/lpxgI89stLfK2/Fbcs
- E2+Q==
-X-Gm-Message-State: AFqh2kqUEx82QQgX/PKMRfdDClmkOMG8bIYRdQt1HX9DesHDL/qgRv4n
- 1TCaJVcv9rwy0hRZ58Ys8ETmksasdkG2ic56rcQ=
-X-Google-Smtp-Source: AMrXdXspgyekZ3zqtEEUZSfYMcQX7uF1rcxigFvjNagugw8G0hhD7U2UAnHj3IPbKSpfYuNbqkpA9GinneJ0JiciOMs=
-X-Received: by 2002:a2e:9586:0:b0:27f:e145:bffe with SMTP id
- w6-20020a2e9586000000b0027fe145bffemr2041374ljh.529.1673279964184; Mon, 09
- Jan 2023 07:59:24 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hDSGGa2mIec3Z/Eyh62lHcxtXQEkdf79o5GxRHENBpg=;
+ b=jQo0vPLGyOYfn5nd7yjS0JffaZFS+/4LZkg8KcBB2LFEz9AKgp6EJEnz+PaotPFS71
+ M87mhBPr3wc3OgMaRFG5tCI4Pj/lb/8qnZtf+12V4SEBP6GQwNnPLQCpII2+qTpdNs1Y
+ JDn5sk49h/pI6QkIchtFpsOxnaYsUr9LDpFpwGdMcaU8LfAXyIs1u1L/lnbZaOxHyYK7
+ z/U/1wwfnPRCPdkLe7D4MOOtCFlWKv2EbIzP0pOPpHhhs6543JkbUq5IA0r+OTZygsfJ
+ 1iV3KZO+UD0B6BSkBr+T0yceephDPbSD8M52AGZbd3izksiHC73SVlMLzuEp8JSXxma9
+ SFFg==
+X-Gm-Message-State: AFqh2ko6U4HA3lPYAr3BjkIpHouy/z+ngh/6Oi6X0r4iGbJuqMOTZIl/
+ DVdN45hXfNBbD5nbP/rX6D/wrA==
+X-Google-Smtp-Source: AMrXdXt7BZfuJ0YeM8omzk6LQmFFl4tdlJYcllBNIitnocEwwps+zwwpnWRKg3lOLP66s4NstgMKzQ==
+X-Received: by 2002:a17:902:9895:b0:191:282:5d72 with SMTP id
+ s21-20020a170902989500b0019102825d72mr79790370plp.51.1673280250004; 
+ Mon, 09 Jan 2023 08:04:10 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:a909:891c:953d:a6b0?
+ ([2602:47:d48c:8101:a909:891c:953d:a6b0])
+ by smtp.gmail.com with ESMTPSA id
+ t2-20020a1709027fc200b00192f9991e51sm6184362plb.251.2023.01.09.08.04.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 08:04:09 -0800 (PST)
+Message-ID: <8d60f5b9-9fa9-2c21-d72e-609bfbaecf39@linaro.org>
+Date: Mon, 9 Jan 2023 08:04:07 -0800
 MIME-Version: 1.0
-References: <20230109112110.128967-1-marcandre.lureau@redhat.com>
- <20230109112110.128967-2-marcandre.lureau@redhat.com>
- <0b04303a-20a6-d4fe-d9bc-0940e475d24b@redhat.com>
- <CAMxuvazQMf==JGTMMSEMZP30DNTTpZ3bVYB8EiKf1mSaJaM_vA@mail.gmail.com>
- <39362914-0c20-69b9-e213-8fdfb295fb9d@redhat.com>
-In-Reply-To: <39362914-0c20-69b9-e213-8fdfb295fb9d@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 9 Jan 2023 19:59:07 +0400
-Message-ID: <CAJ+F1CJGrs624cik_SnEDWz=s1THWghyS78Zs=oEEXvKyVjHAQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] build-sys: fix crlf-ending C code
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, 
- John Snow <jsnow@redhat.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- kraxel@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Beraldo Leal <bleal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22b.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] target/riscv: Use TARGET_FMT_lx for env->mhartid
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Bin Meng <bmeng@tinylab.org>, Alistair Francis <Alistair.Francis@wdc.com>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20230109152655.340114-1-bmeng@tinylab.org>
+ <6e3de50d-38d9-b5ba-dac4-91352be8b96b@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <6e3de50d-38d9-b5ba-dac4-91352be8b96b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,25 +98,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+On 1/9/23 07:47, Philippe Mathieu-Daudé wrote:
+> On 9/1/23 16:26, Bin Meng wrote:
+>> env->mhartid is currently casted to long before printed, which drops
+>> the high 32-bit for rv64 on 32-bit host. Use TARGET_FMT_lx instead.
+> 
+> Oh, a 32-bit host user!
+> 
+>> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+>> ---
+>>
+>>   target/riscv/cpu.c | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index cc75ca7667..a5ed6d3f63 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -660,9 +660,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>>               (env->priv_ver < isa_edata_arr[i].min_version)) {
+>>               isa_ext_update_enabled(cpu, &isa_edata_arr[i], false);
+>>   #ifndef CONFIG_USER_ONLY
+>> -            warn_report("disabling %s extension for hart 0x%lx because "
+>> -                        "privilege spec version does not match",
+>> -                        isa_edata_arr[i].name, (unsigned long)env->mhartid);
+>> +            warn_report("disabling %s extension for hart 0x" TARGET_FMT_lx
+>> +                        " because privilege spec version does not match",
+>> +                        isa_edata_arr[i].name, env->mhartid);
+> 
+> Could we cast it to vaddr instead? I'm trying to remove target_[u]long
+> from hw/ and restrict it to the target/ directory. Per "exec/cpu-common.h":
 
-On Mon, Jan 9, 2023 at 7:57 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 1/9/23 12:47, Marc-Andr=C3=A9 Lureau wrote:
-> > Let's try that. A quick check reveals that configure already still has
-> > perl usage. I will take a look.
->
-> There's already a patch planned to remove it ("configure: remove
-> backwards-compatibility code").
-
-Ok, in the meantime, I replaced it with sed :)
-The remaining one seems to be some sphinx workaround.
-
-We'll need to update lcitool, my test CI branch is currently running from:
-
-https://gitlab.com/marcandre.lureau/qemu/-/commits/test
+This isn't in hw/, it's in target/.  And no, it's a target-width register.
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+r~
 
