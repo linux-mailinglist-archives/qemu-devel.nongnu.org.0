@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84AEB6624C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 12:55:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D081566254B
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:18:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEqib-0002pB-Is; Mon, 09 Jan 2023 06:53:33 -0500
+	id 1pEqis-0002t8-AX; Mon, 09 Jan 2023 06:53:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqiZ-0002od-9x
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:53:31 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqid-0002re-Iq
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:53:35 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqiX-00081k-EU
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:53:31 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id m3so6086048wmq.0
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 03:53:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqib-00082Z-Ss
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 06:53:35 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ i17-20020a05600c355100b003d99434b1cfso6480301wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 03:53:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=f5egngPnKd3eXowoe9rSvuOk/WYn87jONK9fpMWE9oo=;
- b=nq0LEoq9wNXmRpFMh9EiF5b22JVd2yATmMcp9kR7Tv24lPBvOe3UT+LOJ4QWALohbi
- y3H7PM64pnp6BLlCkauBQL5o1DPnfsZNK2EAOl7FPMBNGKqwJ5jeWQ1qHq7D6cVsjm6d
- SMVzSltoxU2KxC6m959HITQoIKXhzrNJIA+EKu3T3TVLyO0ex7+mpHswTVSGPyApPExk
- 4hHji9kPKlFMOB12nYj3oDTFIZqHCZtkiC2aDBGQR0/ihJDLjELMiFhGKNeehsEcmqfk
- 4RjX0z96Hg0QXP+H3jHguNfJo76O0a3o+UuvxvpE+zxZlNGzor7qmQz/RTfgDPBG08LZ
- BUiQ==
+ bh=kABC6Dg8afXn22QWktdCfTPtG/Bv98gX9IL+lt9WyQQ=;
+ b=MpY4iZiX5WIaoEoozJxdF8cC26tBpsQTe6o+9CeNBtAyqsEBH1emKIrLxEM+A8qBBw
+ QyHaQUQBSRie0wFHpyW+VKScOudKrvYGYqLsAuRksLZOJW0P51NGY8IbaTeZ62npMLXS
+ LNOo6JNc4fxZr7Mc23wmUr7x0O16A/ldOp5f3VwLM/MfTy0TWi6A1m20kN1O2kddPNEB
+ FetHlSO5ayv7NSwc5OqG6yThPjgMWdmMe3/FvIlDX4OUWWR0+Q3lzTik74w5xtLeDBjK
+ i6O/NixQs7CvhX24quiwoAnDde6cMqCW4DstQk8V9ZQHjPsus115ytlwQ8mJHIgTAtgq
+ 3hIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=f5egngPnKd3eXowoe9rSvuOk/WYn87jONK9fpMWE9oo=;
- b=NGQI6oYlVYCmZ72MrBu7gW0sMTP1yiwMnBA7xwRM+fyj7f0xt14Fjae7YazB0U6LMQ
- RmM+tliMYaMNgl6jNWj7M6flswH83pIkSpPMr90TgatkCuoxqn1+pUQ0pZrqX9gID6T1
- 07s0Ui1xqRd+7JgpS5+1wuB+f6GNosdLbx57P85sgSRL1Bq8ZEXbCxb9iUjOPzigi0YP
- u+NGSTBCrrkRgnmAYvyo27EP0oY6eNi+EJpO8gFhZmioBopujBbDulVQcg07/sBszCyI
- OmN6Et3kSZsySkOw5UU0Jo37DxzEviOcegQxikRawfvxpU6OhWvEBnRdXbDwkPtYlAwg
- q0yQ==
-X-Gm-Message-State: AFqh2kpGLukgrV1fTa1anGoaRJePNhhmmeU+SzbGEoDWvV2KqK594ukP
- TGiOQwZ+6YeUlGOIi6LBEbvhg76+mMV5joKj
-X-Google-Smtp-Source: AMrXdXvK2gh1EpgI/tvEnS3PZe14SA66JxTOOtePl0Gbfbpr/ctjCJTPbDAHt29TZ2B7gefSydhP6Q==
-X-Received: by 2002:a05:600c:4690:b0:3d9:f42c:56c5 with SMTP id
- p16-20020a05600c469000b003d9f42c56c5mr1086470wmo.4.1673265207803; 
- Mon, 09 Jan 2023 03:53:27 -0800 (PST)
+ bh=kABC6Dg8afXn22QWktdCfTPtG/Bv98gX9IL+lt9WyQQ=;
+ b=6sY0LS0HhJ03Mtv/1QVt63uJSsn6ALLlyKhTL12PYlxYtp97QBk9L43WDqxc5scUNF
+ jO0LjQtmFCrdIobkuMIxbyhZfAyj2iH0e+IPbPX+y+CogyUbkInBt30LIJw3cNyVHpMo
+ CBmo9iLxkfovgPkNSBpJe71youJ+r6CoYtNLkvV++Lkm98TZuwtnUHfYyuhwx4NAXHui
+ 15csl5qwQ6hIzf2fieqHR4+DsevJGvT4cCdethPtkNmqCPLLKCf1thXOkeRfhYcNiyKq
+ 4hUgT/YGfRxf8nH8lI1fl5pYpIIaNekHFa0jAPushH94Uqd+wZllyS1iUwf9wLt38Nah
+ LeEw==
+X-Gm-Message-State: AFqh2kpjEZuhj/pP8pJ0CZquaKIqWuewV3M0pRzzbAg8hDH6z8nBKHAL
+ AUhtP5rQgbeMAKeU1nWKwaoMwweILPZ2yHEw
+X-Google-Smtp-Source: AMrXdXtT60/8GtRWd8hZMJF0++piRHnN0vKyOb7Gtm8wuqt8/65BiJwdpLnCYqQBiXaNt6xnJ2B4bQ==
+X-Received: by 2002:a05:600c:4fcf:b0:3d1:d396:1ade with SMTP id
+ o15-20020a05600c4fcf00b003d1d3961ademr45806891wmq.9.1673265212398; 
+ Mon, 09 Jan 2023 03:53:32 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- l3-20020a05600c4f0300b003a6125562e1sm11840678wmq.46.2023.01.09.03.53.26
+ f28-20020a05600c491c00b003d9bd56e9c1sm10568247wmp.11.2023.01.09.03.53.31
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 09 Jan 2023 03:53:27 -0800 (PST)
+ Mon, 09 Jan 2023 03:53:32 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  Jan Kiszka <jan.kiszka@web.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 02/13] hw/arm/pxa2xx: Simplify pxa270_init()
-Date: Mon,  9 Jan 2023 12:53:05 +0100
-Message-Id: <20230109115316.2235-3-philmd@linaro.org>
+Subject: [PATCH 03/13] hw/arm/collie: Use the IEC binary prefix definitions
+Date: Mon,  9 Jan 2023 12:53:06 +0100
+Message-Id: <20230109115316.2235-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230109115316.2235-1-philmd@linaro.org>
 References: <20230109115316.2235-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,150 +91,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since pxa270_init() must map the device in the system memory,
-there is no point in passing get_system_memory() by argument.
+IEC binary prefixes ease code review: the unit is explicit.
+
+Add definitions for RAM / Flash / Flash blocksize.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/arm/gumstix.c     |  3 +--
- hw/arm/mainstone.c   | 10 ++++------
- hw/arm/pxa2xx.c      |  4 ++--
- hw/arm/spitz.c       |  6 ++----
- hw/arm/z2.c          |  3 +--
- include/hw/arm/pxa.h |  3 +--
- 6 files changed, 11 insertions(+), 18 deletions(-)
+ hw/arm/collie.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/hw/arm/gumstix.c b/hw/arm/gumstix.c
-index c167518a46..ab9b0182f6 100644
---- a/hw/arm/gumstix.c
-+++ b/hw/arm/gumstix.c
-@@ -80,12 +80,11 @@ static void verdex_init(MachineState *machine)
- {
-     PXA2xxState *cpu;
-     DriveInfo *dinfo;
--    MemoryRegion *address_space_mem = get_system_memory();
+diff --git a/hw/arm/collie.c b/hw/arm/collie.c
+index 8df31e2793..d59c376e60 100644
+--- a/hw/arm/collie.c
++++ b/hw/arm/collie.c
+@@ -20,6 +20,10 @@
+ #include "cpu.h"
+ #include "qom/object.h"
  
-     uint32_t verdex_rom = 0x02000000;
-     uint32_t verdex_ram = 0x10000000;
++#define RAM_SIZE            (512 * MiB)
++#define FLASH_SIZE          (32 * MiB)
++#define FLASH_SECTOR_SIZE   (64 * KiB)
++
+ struct CollieMachineState {
+     MachineState parent;
  
--    cpu = pxa270_init(address_space_mem, verdex_ram, machine->cpu_type);
-+    cpu = pxa270_init(verdex_ram, machine->cpu_type);
+@@ -31,7 +35,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(CollieMachineState, COLLIE_MACHINE)
  
-     dinfo = drive_get(IF_PFLASH, 0, 0);
-     if (!dinfo && !qtest_enabled()) {
-diff --git a/hw/arm/mainstone.c b/hw/arm/mainstone.c
-index 8454b65458..f6293c6c13 100644
---- a/hw/arm/mainstone.c
-+++ b/hw/arm/mainstone.c
-@@ -108,8 +108,7 @@ static struct arm_boot_info mainstone_binfo = {
-     .ram_size = 0x04000000,
+ static struct arm_boot_info collie_binfo = {
+     .loader_start = SA_SDCS0,
+-    .ram_size = 0x20000000,
++    .ram_size = RAM_SIZE,
  };
  
--static void mainstone_common_init(MemoryRegion *address_space_mem,
--                                  MachineState *machine,
-+static void mainstone_common_init(MachineState *machine,
-                                   enum mainstone_model_e model, int arm_id)
- {
-     uint32_t sector_len = 256 * 1024;
-@@ -121,11 +120,10 @@ static void mainstone_common_init(MemoryRegion *address_space_mem,
-     MemoryRegion *rom = g_new(MemoryRegion, 1);
- 
-     /* Setup CPU & memory */
--    mpu = pxa270_init(address_space_mem, mainstone_binfo.ram_size,
--                      machine->cpu_type);
-+    mpu = pxa270_init(mainstone_binfo.ram_size, machine->cpu_type);
-     memory_region_init_rom(rom, NULL, "mainstone.rom", MAINSTONE_ROM,
-                            &error_fatal);
--    memory_region_add_subregion(address_space_mem, 0, rom);
-+    memory_region_add_subregion(get_system_memory(), 0x00000000, rom);
- 
-     /* There are two 32MiB flash devices on the board */
-     for (i = 0; i < 2; i ++) {
-@@ -165,7 +163,7 @@ static void mainstone_common_init(MemoryRegion *address_space_mem,
- 
- static void mainstone_init(MachineState *machine)
- {
--    mainstone_common_init(get_system_memory(), machine, mainstone, 0x196);
-+    mainstone_common_init(machine, mainstone, 0x196);
- }
- 
- static void mainstone2_machine_init(MachineClass *mc)
-diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
-index 8b8845fc63..07d5dd8691 100644
---- a/hw/arm/pxa2xx.c
-+++ b/hw/arm/pxa2xx.c
-@@ -2092,9 +2092,9 @@ static void pxa2xx_reset(void *opaque, int line, int level)
- }
- 
- /* Initialise a PXA270 integrated chip (ARM based core).  */
--PXA2xxState *pxa270_init(MemoryRegion *address_space,
--                         unsigned int sdram_size, const char *cpu_type)
-+PXA2xxState *pxa270_init(unsigned int sdram_size, const char *cpu_type)
- {
-+    MemoryRegion *address_space = get_system_memory();
-     PXA2xxState *s;
-     int i;
-     DriveInfo *dinfo;
-diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-index 5aab0b8565..f732fe0acf 100644
---- a/hw/arm/spitz.c
-+++ b/hw/arm/spitz.c
-@@ -986,18 +986,16 @@ static void spitz_common_init(MachineState *machine)
-     SpitzMachineState *sms = SPITZ_MACHINE(machine);
-     enum spitz_model_e model = smc->model;
-     PXA2xxState *mpu;
--    MemoryRegion *address_space_mem = get_system_memory();
-     MemoryRegion *rom = g_new(MemoryRegion, 1);
- 
-     /* Setup CPU & memory */
--    mpu = pxa270_init(address_space_mem, spitz_binfo.ram_size,
--                      machine->cpu_type);
-+    mpu = pxa270_init(spitz_binfo.ram_size, machine->cpu_type);
-     sms->mpu = mpu;
- 
-     sl_flash_register(mpu, (model == spitz) ? FLASH_128M : FLASH_1024M);
- 
-     memory_region_init_rom(rom, NULL, "spitz.rom", SPITZ_ROM, &error_fatal);
--    memory_region_add_subregion(address_space_mem, 0, rom);
-+    memory_region_add_subregion(get_system_memory(), 0, rom);
- 
-     /* Setup peripherals */
-     spitz_keyboard_register(mpu);
-diff --git a/hw/arm/z2.c b/hw/arm/z2.c
-index 9c1e876207..8eb6f495bc 100644
---- a/hw/arm/z2.c
-+++ b/hw/arm/z2.c
-@@ -299,7 +299,6 @@ static const TypeInfo aer915_info = {
- 
- static void z2_init(MachineState *machine)
- {
--    MemoryRegion *address_space_mem = get_system_memory();
-     uint32_t sector_len = 0x10000;
-     PXA2xxState *mpu;
-     DriveInfo *dinfo;
-@@ -308,7 +307,7 @@ static void z2_init(MachineState *machine)
-     DeviceState *wm;
- 
-     /* Setup CPU & memory */
--    mpu = pxa270_init(address_space_mem, z2_binfo.ram_size, machine->cpu_type);
-+    mpu = pxa270_init(z2_binfo.ram_size, machine->cpu_type);
+ static void collie_init(MachineState *machine)
+@@ -52,14 +56,14 @@ static void collie_init(MachineState *machine)
+     memory_region_add_subregion(get_system_memory(), SA_SDCS0, machine->ram);
  
      dinfo = drive_get(IF_PFLASH, 0, 0);
-     if (!pflash_cfi01_register(Z2_FLASH_BASE, "z2.flash0", Z2_FLASH_SIZE,
-diff --git a/include/hw/arm/pxa.h b/include/hw/arm/pxa.h
-index c26007e57f..ba8f49e48e 100644
---- a/include/hw/arm/pxa.h
-+++ b/include/hw/arm/pxa.h
-@@ -193,8 +193,7 @@ struct PXA2xxI2SState {
+-    pflash_cfi01_register(SA_CS0, "collie.fl1", 0x02000000,
++    pflash_cfi01_register(SA_CS0, "collie.fl1", FLASH_SIZE,
+                     dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
+-                    64 * KiB, 4, 0x00, 0x00, 0x00, 0x00, 0);
++                    FLASH_SECTOR_SIZE, 4, 0x00, 0x00, 0x00, 0x00, 0);
  
- # define PA_FMT			"0x%08lx"
+     dinfo = drive_get(IF_PFLASH, 0, 1);
+-    pflash_cfi01_register(SA_CS1, "collie.fl2", 0x02000000,
++    pflash_cfi01_register(SA_CS1, "collie.fl2", FLASH_SIZE,
+                     dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
+-                    64 * KiB, 4, 0x00, 0x00, 0x00, 0x00, 0);
++                    FLASH_SECTOR_SIZE, 4, 0x00, 0x00, 0x00, 0x00, 0);
  
--PXA2xxState *pxa270_init(MemoryRegion *address_space, unsigned int sdram_size,
--                         const char *revision);
-+PXA2xxState *pxa270_init(unsigned int sdram_size, const char *revision);
- PXA2xxState *pxa255_init(unsigned int sdram_size);
+     sysbus_create_simple("scoop", 0x40800000, NULL);
  
- #endif /* PXA_H */
+@@ -75,7 +79,7 @@ static void collie_machine_class_init(ObjectClass *oc, void *data)
+     mc->init = collie_init;
+     mc->ignore_memory_transaction_failures = true;
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("sa1110");
+-    mc->default_ram_size = 0x20000000;
++    mc->default_ram_size = RAM_SIZE;
+     mc->default_ram_id = "strongarm.sdram";
+ }
+ 
 -- 
 2.38.1
 
