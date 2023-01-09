@@ -2,99 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A7266235A
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 11:42:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89510662366
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 11:45:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEpZR-0000uN-LR; Mon, 09 Jan 2023 05:40:01 -0500
+	id 1pEpd6-0002AQ-2D; Mon, 09 Jan 2023 05:43:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEpZP-0000rW-H6
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:39:59 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEpZM-0006F2-JC
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:39:59 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- ay12-20020a05600c1e0c00b003d9ea12bafcso3247097wmb.3
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 02:39:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xTy+zRGaEwMAcEbHvrvejMsiUb0iYAe4ynWYjVfKoxI=;
- b=Z1268/tM6Aj/IyFSOml1jlpxYo5Tmm9/LFWbpXJoBCxMsdpuCsa2S+rB60JDUJd8zN
- 57RArsniLkLotHCCihCrjErybNDEHwnS/CjbP7xKWI7mj2XO2FWlH2EZiKR2VKfTzO2n
- wQ1w09lNMuwU/wuqr6PHCCdvWaEz+eJKSItvQ0tEYYuHzLZb4DZ77Dphp+DtV4QRM/iE
- 2xGDTlcx5+Lno0BMonPSAz0rUC2gAzj3Clyuvf+JKrgDk5di/jX39cFZo6e0kvojbLVx
- JDO07FXFk28qWTeFvO0MC4GfuMuJXAz7JqzALlm7Uom2C9lNEWOAVr/kc5T8WuO9GxpZ
- Gpew==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pEpd3-00029q-2u
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:43:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pEpd1-0000ZQ-EP
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:43:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673261022;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jnb5WeHNbExJ4yuwNGr8qjmzbbmpw2qgBrspz2OfmYg=;
+ b=DASNnYjDUDqEaTj6lYNBDA0VUXB2IIhdlJ/YMxAtyi4IkzIW1ewG1FkiHGxqglg1e+JN/o
+ LlEg5Zm0nJZFUWyaO2kBBQB2nTyUGsNbeNF/KzqMe0PjvzSmhdZd4S02aBvWMB9YCB3sLF
+ tD1FOcz+HEwWQlS1WVinqt1NkKTyjo8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-341-AGgEhfZuODS4gexEWBTNdA-1; Mon, 09 Jan 2023 05:43:41 -0500
+X-MC-Unique: AGgEhfZuODS4gexEWBTNdA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ b6-20020adfc746000000b002bae2b30112so1161830wrh.13
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 02:43:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xTy+zRGaEwMAcEbHvrvejMsiUb0iYAe4ynWYjVfKoxI=;
- b=brBM3P+KzJX7MYleUzKPvb5f6pnergq3O7KruyXsnNInFKEDZBNLXPcJ28MR+KSfJT
- XfgMBS6Gwdf02XxGrjwOvK2AmG3bItKgkOm6aW4UZRdocNFc+HzKWXAqAc5VnUkOlkCm
- kRc21X3mLCbGb4BaPI02/Ih1PRBEFeXA6BqlHrDZleLomn1VIcukRm2mXR1bP2ZqyF5E
- JKYLyzd7ecOPDkCWNzpe6IESAmEH77+HNGWigyUjP1lyRgpbIP2AFjGbIWE59bTIhUV3
- lv+fB1Zb7DAiwaKGudpYIcOg4tUb4R3TPolu0jHiVCsvT89xQXzBGDFu6bkiLZsIj66u
- kCUw==
-X-Gm-Message-State: AFqh2koRwaBqhzDQdMJaMdEDoxlPxHwt+86fL6KWcEwTdf3ODr0c9/dh
- 78znCSlchBDS+p97JlRp0iUHApe7wh/vSLTo
-X-Google-Smtp-Source: AMrXdXthBUXATOPlkec5oXveGh6z9ogH8gGRCTiMoMnVLKfg4FxlxrzuSxfHzu5FnCWXDA3dtjRI4Q==
-X-Received: by 2002:a05:600c:4fce:b0:3d9:ee01:60a4 with SMTP id
- o14-20020a05600c4fce00b003d9ee0160a4mr3050376wmq.1.1673260794779; 
- Mon, 09 Jan 2023 02:39:54 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o5-20020a05600c510500b003b4ff30e566sm24693383wms.3.2023.01.09.02.39.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 02:39:54 -0800 (PST)
-Message-ID: <9ce88e6c-005a-68a3-0962-361981604536@linaro.org>
-Date: Mon, 9 Jan 2023 11:39:51 +0100
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Jnb5WeHNbExJ4yuwNGr8qjmzbbmpw2qgBrspz2OfmYg=;
+ b=mLTIdDh3l2CxTiijXdvX38dBTc09xp88VUSqS07J5KQPXMKoS697yecGA72HrkcR30
+ 4mLZBNUPrEBUAv5LrOvQZu12aygmwx3yWxJplVxqD/HY+pw3TW4HvExse57IKKppLHQU
+ 8uJq5WZpzLHvYyF32pDgA9tah2GHupegkMttXPRWzHqUBu7e+C0O8bjYmbjc+xE1p9JW
+ u6gLuvTQWYl1E6E2CWm7P1VQ8sEOchG3Q0WiZIZHMo4hKdwIJFqtpoLy81e0/yE/etr3
+ djp0bDJNiESiXpnbLK/XDtj4eNHeBX8kHCKScK9kGhRIJN0hfjzRviNvhQ4lYLFTd9Px
+ 66sw==
+X-Gm-Message-State: AFqh2kqTqNmdqOvvfDcqr3O/sAm8Sf5XnIhqjY6/CL1oNOwfRVvYuWCO
+ jV6j/RCYmy324dLEj5Of+NtTqBOI+LL53x6EmgejEFoPv6cabBACF8VsCR7lu7l1I6Ll6Kwn8C5
+ Bdst0ajg96J0XtBM=
+X-Received: by 2002:a05:600c:35ca:b0:3d1:f2de:195a with SMTP id
+ r10-20020a05600c35ca00b003d1f2de195amr49230428wmq.32.1673261019642; 
+ Mon, 09 Jan 2023 02:43:39 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtyMmSfRXjsJRFM/sKQ7R5hRxN9OPuiVRhM0+00kn6TjZy9tZ3OhoEkf2db3wuaBF8tQxSpKg==
+X-Received: by 2002:a05:600c:35ca:b0:3d1:f2de:195a with SMTP id
+ r10-20020a05600c35ca00b003d1f2de195amr49230408wmq.32.1673261019411; 
+ Mon, 09 Jan 2023 02:43:39 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ n14-20020a05600c3b8e00b003b49bd61b19sm17305613wms.15.2023.01.09.02.43.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Jan 2023 02:43:39 -0800 (PST)
+Date: Mon, 9 Jan 2023 10:43:37 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ David Daney <david.daney@fungible.com>,
+ Marcin Nowakowski <marcin.nowakowski@fungible.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, quintela@redhat.com,
+ peterx@redhat.com
+Subject: Re: [PULL v4 42/83] virtio-rng-pci: Allow setting nvectors, so we
+ can use MSI-X
+Message-ID: <Y7vv2dfvs47PIiRo@work-vm>
+References: <20221107224600.934080-1-mst@redhat.com>
+ <20221107224600.934080-43-mst@redhat.com>
+ <Y7vqfatDXI5RD3I5@work-vm>
+ <20230109053440-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 00/20] hw: Remove implicit sysbus_mmio_map() from pflash
- APIs
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Song Gao <gaosong@loongson.cn>,
- Antony Pavlov <antonynpavlov@gmail.com>, Jan Kiszka <jan.kiszka@web.de>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Hanna Reitz <hreitz@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
- BALATON Zoltan <balaton@eik.bme.hu>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
- Mark Burton <mburton@qti.qualcomm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost
- <eduardo@habkost.net>, Palmer Dabbelt <palmer@dabbelt.com>,
- Radoslaw Biernacki <rad@semihalf.com>, Jiaxun Yang
- <jiaxun.yang@flygoat.com>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-block@nongnu.org,
- qemu-riscv@nongnu.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- Leif Lindholm <quic_llindhol@quicinc.com>, Kevin Wolf <kwolf@redhat.com>
-References: <20230104220449.41337-1-philmd@linaro.org>
- <CAFEAcA_sw=SdiKD4X3E1=AURS40NTv7zeLNfRTTP6zdLnr93rg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CAFEAcA_sw=SdiKD4X3E1=AURS40NTv7zeLNfRTTP6zdLnr93rg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+In-Reply-To: <20230109053440-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,30 +111,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/1/23 18:51, Peter Maydell wrote:
-> On Wed, 4 Jan 2023 at 22:04, Philippe Mathieu-DaudÃ© <philmd@linaro.org> wrote:
->>
->> Paving the road toward heterogeneous QEMU, the limitations of
->> having a single machine sysbus become more apparent.
->>
->> The sysbus_mmio_map() API forces the caller to map a sysbus
->> device to an address on the system bus (system bus here is
->> the root MemoryRegion returned by get_system_memory() ).
->>
->> This is not practical when each core has its own address
->> space and group of cores have access to a part of the
->> peripherals.
->>
->> Experimenting with the PFLASH devices. Here the fix is
->> quite easy, we split the pflash_cfi_register() -- which
->> does the implicit sysbus mapping -- into an explicit qdev
->> pflash_cfi_create() followed by the sysbus_mmio_map() call.
+* Michael S. Tsirkin (mst@redhat.com) wrote:
+> On Mon, Jan 09, 2023 at 10:20:45AM +0000, Dr. David Alan Gilbert wrote:
+> > * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > > From: David Daney <david.daney@fungible.com>
+> > > 
+> > > Most other virtio-pci devices allow MSI-X, let's have it for rng too.
+> > > 
+> > > Signed-off-by: David Daney <david.daney@fungible.com>
+> > > Reviewed-by: Marcin Nowakowski <marcin.nowakowski@fungible.com>
+> > > Signed-off-by: Philippe Mathieu-Daudé <philmd@fungible.com>
+> > > Message-Id: <20221014160947.66105-1-philmd@fungible.com>
+> > > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > 
+> > This breaks migration compatibility 7.1->7.2 :
+> > 
+> > (qemu) qemu: get_pci_config_device: Bad config data: i=0x34 read: 84 device: 98 cmask: ff wmask: 0 w1cmask:0
+> > qemu: Failed to load PCIDevice:config
+> > qemu: Failed to load virtio-rng:virtio
+> > qemu: error while loading state for instance 0x0 of device '0000:00:03.0/virtio-rng'
+> > qemu: load of migration failed: Invalid argument
+> > 
+> > because the destination is configured with msi-x but the source isn't.
+> > 
+> > The fix is in theory simple:
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index f589b92909..45459d1cef 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -45,6 +45,7 @@ const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
+> >  
+> >  GlobalProperty hw_compat_7_1[] = {
+> >      { "virtio-device", "queue_reset", "false" },
+> > +    { "virtio-rng-pci", "vectors", "0" },
+> >  };
+> >  const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
+> > 
+> > the gotcha is that will break 7.2->7.2-fixed.
+> > 
+> > (I guess you can also work around it by explicitly passing vectors=0 to
+> > the virtio-rng on the cli)
+> > 
+> > Does anyone have preferences as to whether that should be fixed in the
+> > 7.2 world or left as is?
+> > 
+> > This is:
+> > https://bugzilla.redhat.com/show_bug.cgi?id=2155749
+> > 
+> > Dave
 > 
-> pflash_cfi_register() is a legacy convenience function. If
-> you don't like the sysbus_mmio_map() it does then you can
-> create, configure, realize and map the device directly.
-> This is what hw/arm/virt.c does, for instance (it wants to
-> map the flash devices into either secure or non secure RAM).
+> I think that yes, it should be fixed in 7.2.
 
-Good point, thanks!
+OK, I'll resend that as a patch in a mo.
+
+Dave
+
+> 
+> > > ---
+> > >  hw/virtio/virtio-rng-pci.c | 14 ++++++++++++++
+> > >  1 file changed, 14 insertions(+)
+> > > 
+> > > diff --git a/hw/virtio/virtio-rng-pci.c b/hw/virtio/virtio-rng-pci.c
+> > > index 151ece6f94..6e76f8b57b 100644
+> > > --- a/hw/virtio/virtio-rng-pci.c
+> > > +++ b/hw/virtio/virtio-rng-pci.c
+> > > @@ -13,6 +13,7 @@
+> > >  
+> > >  #include "hw/virtio/virtio-pci.h"
+> > >  #include "hw/virtio/virtio-rng.h"
+> > > +#include "hw/qdev-properties.h"
+> > >  #include "qapi/error.h"
+> > >  #include "qemu/module.h"
+> > >  #include "qom/object.h"
+> > > @@ -31,11 +32,23 @@ struct VirtIORngPCI {
+> > >      VirtIORNG vdev;
+> > >  };
+> > >  
+> > > +static Property virtio_rng_properties[] = {
+> > > +    DEFINE_PROP_BIT("ioeventfd", VirtIOPCIProxy, flags,
+> > > +                    VIRTIO_PCI_FLAG_USE_IOEVENTFD_BIT, true),
+> > > +    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
+> > > +                       DEV_NVECTORS_UNSPECIFIED),
+> > > +    DEFINE_PROP_END_OF_LIST(),
+> > > +};
+> > > +
+> > >  static void virtio_rng_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+> > >  {
+> > >      VirtIORngPCI *vrng = VIRTIO_RNG_PCI(vpci_dev);
+> > >      DeviceState *vdev = DEVICE(&vrng->vdev);
+> > >  
+> > > +    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
+> > > +        vpci_dev->nvectors = 2;
+> > > +    }
+> > > +
+> > >      if (!qdev_realize(vdev, BUS(&vpci_dev->bus), errp)) {
+> > >          return;
+> > >      }
+> > > @@ -54,6 +67,7 @@ static void virtio_rng_pci_class_init(ObjectClass *klass, void *data)
+> > >      pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_RNG;
+> > >      pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
+> > >      pcidev_k->class_id = PCI_CLASS_OTHERS;
+> > > +    device_class_set_props(dc, virtio_rng_properties);
+> > >  }
+> > >  
+> > >  static void virtio_rng_initfn(Object *obj)
+> > > -- 
+> > > MST
+> > > 
+> > > 
+> > -- 
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
