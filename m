@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB807662CBD
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:31:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071F2662CE4
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:36:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEvtT-0002XQ-9X; Mon, 09 Jan 2023 12:25:07 -0500
+	id 1pEvtU-0002Yt-5b; Mon, 09 Jan 2023 12:25:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pEvtQ-0002V6-JW; Mon, 09 Jan 2023 12:25:04 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+ id 1pEvtQ-0002VN-Oz; Mon, 09 Jan 2023 12:25:04 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pEvtN-00011P-Iz; Mon, 09 Jan 2023 12:25:03 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id az20so2851990ejc.1;
+ id 1pEvtO-00011o-M9; Mon, 09 Jan 2023 12:25:04 -0500
+Received: by mail-ej1-x634.google.com with SMTP id ss4so14653060ejb.11;
  Mon, 09 Jan 2023 09:25:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HFZLkOaHIgvv7qhFZA095vQcTQAdXZAkOVZq4bJbsfE=;
- b=g9araM3lg2wNSJzfp7RczUUcwINUOSLD3Mo8jgyiqMVkWwqFW6JCD05juS6vcquNgx
- fHYW9hidr6/St7fjR8rTIwyzRXsNXsPIFJjHQJK8zAIbjj2UOlAJ0HkQNLSTaJWALMtX
- etiB3VmGqS5P0J3klKnroOJFsnVxu8M6DnSFahYchELEO09vZKDwl6PwM+byHwvjZp2w
- 8VXG2Tfl0ebk3KwL1w3p0Nrfh/BtYDfj/KxtTKgGBVYwi5s5+igyRT5OVjiU93iLv8x8
- Nx3W9+LSUkdTZjMPlLaW5Zi+PRxzWyJeHo0ljR/iOJ/E7UYL8nOMDVmhlniFS6sZTGfY
- GZ1Q==
+ bh=p6J2v0tgeCkV2MZ5+hrgzpQYTQ8Rtc49tSsYVauuw7Y=;
+ b=XP5GJbWrSWiajdiphB7mB87qbbp2fqOlBnZTBVCWObi35aql7M70iIIf+1Q/Im1GCa
+ b6D6fPsoqLC8d9MGd0BaesPwrwdtI55sXtRI0i0jHXeGAKpNyVS1AN80uwb+Clh4Y3Ox
+ JAQnNEEfzYzyrvoL0pMht5WVbrakyZ8cP5M5SxvmWYSP1alDDeez2aJtBaxUirY3uwQB
+ k/F3I2eNnrppWfw8vTCWoZy4pJGYQSZCufMppranauXULkYOtmZN+65J4xIbzn/eL9WB
+ N65O35s2JcmPNNot0FlVK15hLLTbtcikf69LSzDMCrvXR1d23CJeMi/DOdhUmcR2Xz5i
+ /O1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HFZLkOaHIgvv7qhFZA095vQcTQAdXZAkOVZq4bJbsfE=;
- b=iwCX6q2vg7fgK3zCtLLsGnBf0AGFuIHgYtiHa+0ms6VvzDra5G7cwjMfgXJILXPtNy
- aMCQZUNjhOOzrL+QJkOEj+zidQjecmFQeO0PVYkNW5y4IggA63Qw3n8iQHZXZscmjd9c
- d8W06DJryxlmGddo3RBsvelcJ9u/DKtNg5DGrXcSw/+Ov3zlEVWGsaU3Xpk+YYd4ar/I
- oVe74WNHeZwb/sVVEpF9fKo/5kaUtWKsmxQSgTzntBLpGTGcVrwjXLtJsDQvmufZNn8f
- 8giZafKJ84Wc0OokKhM3Oy1QGeckBoD6/6wOERm+KrJzMeoWqKV3KRyHR0X9BHuMiN06
- DZxw==
-X-Gm-Message-State: AFqh2krPUot9ZgqaHLGy81KB2chMoBMbNDvPmA5xymC5r/a9bTeFlmDA
- ey+A+lIMD4uNFTXIMG2QIuayAbCTDrlFXg==
-X-Google-Smtp-Source: AMrXdXutevugZNah43TQK1WxTCGu9IZqHbGVJ6UuSfI0k3nFmawfb7leXuGcprbwJz5QhsSiRLRQfg==
-X-Received: by 2002:a17:906:2859:b0:7c1:32:3574 with SMTP id
- s25-20020a170906285900b007c100323574mr45893559ejc.12.1673285098622; 
- Mon, 09 Jan 2023 09:24:58 -0800 (PST)
+ bh=p6J2v0tgeCkV2MZ5+hrgzpQYTQ8Rtc49tSsYVauuw7Y=;
+ b=0I3xHoFLTLm2N7kaNyDnjYgcUtN65J95rZ03098Oggnk8+5/xLFp4XIWV/yveW0OMq
+ S1xtiysYQ4ILyfuhenA4GLRKMLtlCYK6O9TVjPl1AgxmkjaR/4xF1ZWHOsWYNQszG7If
+ URAZW0gZpIQ5XW3JbQDiuh8zZICy55LgKVb+LZ11dw6upJDeOEaAzj0KwchI+ranjjMF
+ fhsTUAc3huZkJewn3JL32jTTzbOrYIpT/mt3PZ2ZiSO0VeGqPIx3xvHYCMuk3ceRW5LA
+ EJwGpvv38blZG7IUgzWSk8syfA6sKOa7+HQKzFWBidYsLApsKxy3F7z+LopRhJkJ9S7z
+ yiWg==
+X-Gm-Message-State: AFqh2kopoE7GvTSIuCgydMyQo74xE5osLzp1Gs61qlluKYhBX8zi+A8d
+ g24JNB9BqnkftUO2Wew/fKJhpU+CRYoTOQ==
+X-Google-Smtp-Source: AMrXdXs2ir7JnSNcw40tbknn4ISSeyuQkwgzbkb3LFDQBjq+IBLqCgZ7cCcaIljH2O33WNBwJV6+tg==
+X-Received: by 2002:a17:907:8a24:b0:846:95f9:5b4d with SMTP id
+ sc36-20020a1709078a2400b0084695f95b4dmr73515340ejc.42.1673285099734; 
+ Mon, 09 Jan 2023 09:24:59 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- 18-20020a170906201200b00846734faa9asm3925625ejo.164.2023.01.09.09.24.57
+ 18-20020a170906201200b00846734faa9asm3925625ejo.164.2023.01.09.09.24.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 09:24:58 -0800 (PST)
+ Mon, 09 Jan 2023 09:24:59 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: John G Johnson <john.g.johnson@oracle.com>,
@@ -71,18 +71,18 @@ Cc: John G Johnson <john.g.johnson@oracle.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v6 06/33] hw/isa/piix4: Decouple INTx-to-LNKx routing which is
- board-specific
-Date: Mon,  9 Jan 2023 18:23:19 +0100
-Message-Id: <20230109172347.1830-7-shentey@gmail.com>
+Subject: [PATCH v6 07/33] hw/mips/Kconfig: Track Malta's PIIX dependencies via
+ Kconfig
+Date: Mon,  9 Jan 2023 18:23:20 +0100
+Message-Id: <20230109172347.1830-8-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230109172347.1830-1-shentey@gmail.com>
 References: <20230109172347.1830-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -105,115 +105,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-pci_map_irq_fn's in general seem to be board-specific, and PIIX4's
-pci_slot_get_pirq() in particular seems very Malta-specific. So move the
-latter to malta.c to 1/ keep the board logic in one place and 2/ avoid
-PIIX4 to make assumptions about its board.
+Tracking dependencies via Kconfig seems much cleaner.
+
+Note that PIIX4 already depends on ACPI_PIIX4.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/isa/piix4.c  | 26 --------------------------
- hw/mips/malta.c | 27 +++++++++++++++++++++++++++
- 2 files changed, 27 insertions(+), 26 deletions(-)
+ configs/devices/mips-softmmu/common.mak | 2 --
+ hw/mips/Kconfig                         | 1 +
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 9c79c9677b..6e9434129d 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -79,31 +79,6 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
-     }
- }
+diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
+index 88aff94625..8ed6b62ae7 100644
+--- a/configs/devices/mips-softmmu/common.mak
++++ b/configs/devices/mips-softmmu/common.mak
+@@ -17,9 +17,7 @@ CONFIG_I8254=y
+ CONFIG_PCSPK=y
+ CONFIG_PCKBD=y
+ CONFIG_FDC=y
+-CONFIG_ACPI_PIIX4=y
+ CONFIG_I8257=y
+-CONFIG_PIIX4=y
+ CONFIG_IDE_ISA=y
+ CONFIG_PFLASH_CFI01=y
+ CONFIG_I8259=y
+diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
+index 725525358d..4e7042f03d 100644
+--- a/hw/mips/Kconfig
++++ b/hw/mips/Kconfig
+@@ -1,6 +1,7 @@
+ config MALTA
+     bool
+     select ISA_SUPERIO
++    select PIIX4
  
--static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
--{
--    int slot;
--
--    slot = PCI_SLOT(pci_dev->devfn);
--
--    switch (slot) {
--    /* PIIX4 USB */
--    case 10:
--        return 3;
--    /* AMD 79C973 Ethernet */
--    case 11:
--        return 1;
--    /* Crystal 4281 Sound */
--    case 12:
--        return 2;
--    /* PCI slot 1 to 4 */
--    case 18 ... 21:
--        return ((slot - 18) + irq_num) & 0x03;
--    /* Unknown device, don't do any translation */
--    default:
--        return irq_num;
--    }
--}
--
- static void piix4_isa_reset(DeviceState *dev)
- {
-     PIIX4State *d = PIIX4_PCI_DEVICE(dev);
-@@ -272,7 +247,6 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-     qdev_connect_gpio_out(DEVICE(&s->pm), 0, s->isa[9]);
- 
-     pci_bus_irqs(pci_bus, piix4_set_irq, s, PIIX_NUM_PIRQS);
--    pci_bus_map_irqs(pci_bus, pci_slot_get_pirq);
- }
- 
- static void piix4_init(Object *obj)
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index c3dcd43f37..94d4c49bf5 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -39,6 +39,7 @@
- #include "hw/mips/bootloader.h"
- #include "hw/mips/cpudevs.h"
- #include "hw/pci/pci.h"
-+#include "hw/pci/pci_bus.h"
- #include "qemu/log.h"
- #include "hw/mips/bios.h"
- #include "hw/ide/pci.h"
-@@ -1161,6 +1162,31 @@ static void malta_mips_config(MIPSCPU *cpu)
-     }
- }
- 
-+static int malta_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
-+{
-+    int slot;
-+
-+    slot = PCI_SLOT(pci_dev->devfn);
-+
-+    switch (slot) {
-+    /* PIIX4 USB */
-+    case 10:
-+        return 3;
-+    /* AMD 79C973 Ethernet */
-+    case 11:
-+        return 1;
-+    /* Crystal 4281 Sound */
-+    case 12:
-+        return 2;
-+    /* PCI slot 1 to 4 */
-+    case 18 ... 21:
-+        return ((slot - 18) + irq_num) & 0x03;
-+    /* Unknown device, don't do any translation */
-+    default:
-+        return irq_num;
-+    }
-+}
-+
- static void main_cpu_reset(void *opaque)
- {
-     MIPSCPU *cpu = opaque;
-@@ -1414,6 +1440,7 @@ void mips_malta_init(MachineState *machine)
-     /* Northbridge */
-     dev = sysbus_create_simple("gt64120", -1, NULL);
-     pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
-+    pci_bus_map_irqs(pci_bus, malta_pci_slot_get_pirq);
-     /*
-      * The whole address space decoded by the GT-64120A doesn't generate
-      * exception when accessing invalid memory. Create an empty slot to
+ config MIPSSIM
+     bool
 -- 
 2.39.0
 
