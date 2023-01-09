@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F23663444
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:48:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE3D663459
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 23:51:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF0rU-0004bs-6X; Mon, 09 Jan 2023 17:43:24 -0500
+	id 1pF0rX-0004h4-FM; Mon, 09 Jan 2023 17:43:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pF0rR-0004Y9-JN; Mon, 09 Jan 2023 17:43:21 -0500
+ id 1pF0rU-0004cy-SW; Mon, 09 Jan 2023 17:43:24 -0500
 Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pF0rQ-00044R-3G; Mon, 09 Jan 2023 17:43:21 -0500
+ id 1pF0rT-000451-A5; Mon, 09 Jan 2023 17:43:24 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 459053F8AB;
- Mon,  9 Jan 2023 22:43:18 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BA06A4D34C;
+ Mon,  9 Jan 2023 22:43:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673304198; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1673304201; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1TOeNshkMsKn2Y3CsqOHq9PQkcZYQvOcN/VHQdwTADc=;
- b=Y5mJLlJU7jn+plUG6zJNlfKJxcqtf+AauJMcOcvYiqKWOtAllU1C/pBlh1R5TB1iBJ+K71
- Rw54NziHeG/qXubVsGHpjYJU+amU7LTTxHyfA2fOA4WC4RWvI6wGOe9mZphh1p0loZkigQ
- 5/AcAcPLhoen364OsiF157lvChfI+Ok=
+ bh=dDe5vfmZ31EwcRxKz3+oipci4tDkatYe8l7lx/XZLg4=;
+ b=fMv+tufBZX1rjQwENHKv7D/dAmX8tqAaoJlOekWyDO3AgSjFssSCKOEzhamRFPvFsjKb2d
+ TN4AGC+DDBe12yW6nvCJYseN57hcBMnPlZ4NMHPkIDahfTvg1SOFsUVsQytx2uzv3OCHyu
+ xZDIR9ZAQ1kczkjSVxTB8WOKI+0kNYw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673304198;
+ s=susede2_ed25519; t=1673304201;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1TOeNshkMsKn2Y3CsqOHq9PQkcZYQvOcN/VHQdwTADc=;
- b=ZEr9t76sBPGskZ9LDMLm5p269z52td372NzYsVh7HOyiZXUtyFhIEhE2JYhUzpAPxz5oJm
- 1sMjkr5XMemRENBQ==
+ bh=dDe5vfmZ31EwcRxKz3+oipci4tDkatYe8l7lx/XZLg4=;
+ b=6vqqybGYt70MaIQ3oxk5MsqA4QU02cW6nQc5qAnZNc+lW68dbd4Pwk/T99zrpy/go2rZRO
+ roctYdqXC642hzAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 05C9F13583;
- Mon,  9 Jan 2023 22:43:14 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AA41813583;
+ Mon,  9 Jan 2023 22:43:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4Gs4MIKYvGMdIQAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 09 Jan 2023 22:43:14 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id wHy1HIaYvGMdIQAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 09 Jan 2023 22:43:18 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,12 +57,11 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [RFC PATCH v2 13/19] tests: do not run test-hmp on all machines for
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Subject: [RFC PATCH v2 14/19] tests: do not run qom-test on all machines for
  ARM KVM-only
-Date: Mon,  9 Jan 2023 19:42:26 -0300
-Message-Id: <20230109224232.11661-14-farosas@suse.de>
+Date: Mon,  9 Jan 2023 19:42:27 -0300
+Message-Id: <20230109224232.11661-15-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230109224232.11661-1-farosas@suse.de>
 References: <20230109224232.11661-1-farosas@suse.de>
@@ -104,18 +103,17 @@ machine in this case.
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Cc: Thomas Huth <thuth@redhat.com>
-cc: Laurent Vivier <lvivier@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>
 ---
- tests/qtest/test-hmp.c | 21 +++++++++++++++++++++
+ tests/qtest/qom-test.c | 21 +++++++++++++++++++++
  1 file changed, 21 insertions(+)
 
-diff --git a/tests/qtest/test-hmp.c b/tests/qtest/test-hmp.c
-index f8b22abe4c..daa1e76a06 100644
---- a/tests/qtest/test-hmp.c
-+++ b/tests/qtest/test-hmp.c
-@@ -157,8 +157,29 @@ int main(int argc, char **argv)
- 
+diff --git a/tests/qtest/qom-test.c b/tests/qtest/qom-test.c
+index 13510bc349..aea969ef60 100644
+--- a/tests/qtest/qom-test.c
++++ b/tests/qtest/qom-test.c
+@@ -105,7 +105,28 @@ int main(int argc, char **argv)
+ {
      g_test_init(&argc, &argv, NULL);
  
 +    /*
@@ -141,9 +139,8 @@ index f8b22abe4c..daa1e76a06 100644
 +    goto add_machine_test_done;
  
 + add_machine_test_done:
-     /* as none machine has no memory by default, add a test case with memory */
-     qtest_add_data_func("hmp/none+2MB", g_strdup("none -m 2"), test_machine);
- 
+     return g_test_run();
+ }
 -- 
 2.35.3
 
