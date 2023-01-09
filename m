@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F4C662280
+	by mail.lfdr.de (Postfix) with ESMTPS id 8907A66227F
 	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 11:08:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEp3A-0006Hc-52; Mon, 09 Jan 2023 05:06:40 -0500
+	id 1pEp3S-0006Nj-MF; Mon, 09 Jan 2023 05:06:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pEp2p-0006Fj-2v
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:06:22 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+ id 1pEp3L-0006NG-Q1
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:06:51 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pEp2m-0000lq-RS
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:06:18 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id r18so5485996pgr.12
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 02:06:15 -0800 (PST)
+ id 1pEp3J-0000zT-ML
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 05:06:51 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ b9-20020a17090a7ac900b00226ef160dcaso7122938pjl.2
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 02:06:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=OMTzlQv56uXFeKfOUdmsqzHW0WOzBQUpkVFq7Yegk0o=;
- b=JPV0CKeYZmVUiShqa/hXh2rFsUray2ec4WW2mreQHRpfYzUEyxAB9QQBE3fdd54Tb0
- UDzRxsPbRkGumVD5dSNlvxe7KCELYPATLNFqWsjfq2u1nrdkjdkjPWLl9lctdLxUtc3l
- QJ5OVevfJJLCd6rZQYDCWm5NVAB7vaEuY6alP60n9BTDEm3LuGty0uyx9Oq8aYqYYt1z
- zdfC2SxzPkhzPCxIvaZ28hsmfrWLbR58FsES6w7v27S+78PIQZ8Fr4dtoqs857UDmKhT
- mAk2R2tlwX7CLSZbogxaYDU6px2El6bTnyTn1ilVvH7EDY9/8UfbLCat2LQVvQVNQ8TZ
- PCYw==
+ bh=ytKt80EqX5FoLvaKgJ2+SxQdrfyHTckd5i0WAXrfV1w=;
+ b=GLg6gwqtPEGt/wIfz467scDPuWBr5scsK20BlKw2wAuZWWtFZJQIR040pkoAKuwcnU
+ pMkhtW/81xReNxAU7ipBIRNfp0d7KLhkWz1/1rz1lrJOx4tngefSm520IwsOyUzcHo26
+ ygdNCnU+LWqWNCVUlmQKqYR4TbtnAHCmcDtV/9/w15S6akglScYIJ0EGU64ftcl74V+O
+ OHFPqz+iOAYA7Eo7dUP8ZQOj2icoTenZ56geFJzP7hYXASixFgAU5rJVADaEHKY1XXA5
+ F+VhDmCIkjWuCj10h7ve7BmwlhackorK1vckMvnvjaDJF09sV1PTE5qx5kOrDZdvYozn
+ nLxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=OMTzlQv56uXFeKfOUdmsqzHW0WOzBQUpkVFq7Yegk0o=;
- b=JYhqt73nQOCVCCo2AObVSTXX/7ipa5+v1c02rUKRfhpMewfISnJgVPghgFAVBP3/HJ
- TpNdCwUCsynmv+IpLKmDMez5XKRwfHv8yP6Wly3vkxPBqoPM+Vhre+92vFLI9Zhav8X7
- fMC/EK8K9Xha5Q18r+v9pvtQNMyoUrIK600PAlBmwwfkIClBC/N+ZpEQooFic5YOy+b2
- WVNFTPCOvcUFv7coPyugtvwrgQNwQOFKK8JqS7miUDVFFeK1U6nU+DAlzjcRwIYiVJHO
- AClUSHnT14r0w4pj4pNltIQk8Qh92s0VgfjwoG0NuUp196cdpjSx8IDhVZ/3nKkp6I6s
- YsNw==
-X-Gm-Message-State: AFqh2kpmzy349HnBhXo8L1yiu7LwxbWoWWHFBkLZYDnd141GJSIIJKtU
- GmHtFs8H/jrvU2G0buF760e8kZcUHLbFiEkx+mEypQ==
-X-Google-Smtp-Source: AMrXdXt1uNj8h0BJp9QFFERYXcHqre19i8wVKNfb4107JBJG6IXgALQErj6lv0k64o500nTVyGIcauOy06LBEgQG85g=
-X-Received: by 2002:a63:9d47:0:b0:4af:9f91:54d1 with SMTP id
- i68-20020a639d47000000b004af9f9154d1mr401065pgd.192.1673258773898; Mon, 09
- Jan 2023 02:06:13 -0800 (PST)
+ bh=ytKt80EqX5FoLvaKgJ2+SxQdrfyHTckd5i0WAXrfV1w=;
+ b=tf7DN9rnqBFJwm4SVs78tR2+h9GQapAzKhosr/NlGSq8frAVLjqImFC9MqmhPq3P3q
+ E+uuzZmH/DEdxbel8vQOdwCPPNNfrWYhQzRt8KUa66wisrK3I6mWkWYp01ngT+pzDiWe
+ 6DszJauvi5l1zco6P62MBYchpOIp6QTrTDY7vcsSv289iFjYXKHBOpIEPfOb1P8GbalT
+ yh+y999DjiJ0GY7CjH12EGe6nBTyUmwPMctu+h2PdjQHFnmdaAALDtuCJin5VzYYN2XM
+ R7kENLfcGp29gtrMOgMzIXRLqNH9ZOlr/rVysATP9/rxdn+nTp4AdOA+hbgF0zZkAT7Q
+ r4IQ==
+X-Gm-Message-State: AFqh2krP2ovH3wa9bqAXTf8Pom3bkkAXB8J+ChPOyuNx3ns5MP2gpshS
+ YStFP74StQw8/SG67hMxSSLyH22euP3OTWlQi40MHw==
+X-Google-Smtp-Source: AMrXdXs8PwvFczIeYupfgRhSXVl/+hbhGQX7Quo0PyP2kBifR478vTHfwTKnpl5DmKNpPRKygZv1fXjtPr5TryxWTVQ=
+X-Received: by 2002:a17:90a:77c7:b0:219:e2f1:81ad with SMTP id
+ e7-20020a17090a77c700b00219e2f181admr5113644pjs.19.1673258808272; Mon, 09 Jan
+ 2023 02:06:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20230107132153.108680-1-pbonzini@redhat.com>
-In-Reply-To: <20230107132153.108680-1-pbonzini@redhat.com>
+References: <20230106082853.31787-1-thuth@redhat.com>
+ <CAFEAcA_0hWNJWhmjW=yjSVgy1HK4c-_G3DBNPUpbj5KKpjjqeA@mail.gmail.com>
+ <ae618c74-4a5b-79df-1285-dc336430e0a4@redhat.com>
+In-Reply-To: <ae618c74-4a5b-79df-1285-dc336430e0a4@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 Jan 2023 10:06:02 +0000
-Message-ID: <CAFEAcA9XR3CLQCaTAsUB3zfkbUge9csONs8OW2gFf03uaHb-Uw@mail.gmail.com>
-Subject: Re: [PULL v2 00/24] QEMU patches for 2022-12-21
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
+Date: Mon, 9 Jan 2023 10:06:37 +0000
+Message-ID: <CAFEAcA__A62M8+3F1pr-xHXbojcOBbGztEFr5X85LBh0g4SCqw@mail.gmail.com>
+Subject: Re: [PULL 00/15] First batch of s390x, qtests and misc fixes in 2023
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Nikita Ivanov <nivanov@cloudlinux.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,33 +85,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 7 Jan 2023 at 13:22, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Mon, 9 Jan 2023 at 07:50, Thomas Huth <thuth@redhat.com> wrote:
 >
-> The following changes since commit d1852caab131ea898134fdcea8c14bc2ee75fbe9:
+> On 07/01/2023 15.25, Peter Maydell wrote:
+> > On Fri, 6 Jan 2023 at 08:29, Thomas Huth <thuth@redhat.com> wrote:
+> >>
+> >>   Hi Peter!
+> >>
+> >> The following changes since commit cb9c6a8e5ad6a1f0ce164d352e3102df46986e22:
+> >>
+> >>    .gitlab-ci.d/windows: Work-around timeout and OpenGL problems of the MSYS2 jobs (2023-01-04 18:58:33 +0000)
+> >>
+> >> are available in the Git repository at:
+> >>
+> >>    https://gitlab.com/thuth/qemu.git tags/pull-request-2023-01-06
+> >>
+> >> for you to fetch changes up to 975f619662a46cb5dc7a3b17b84a1b540fb7df5c:
+> >>
+> >>    .gitlab-ci.d/windows: Do not run the qtests in the msys2-32bit job (2023-01-05 21:50:21 +0100)
+> >>
+> >> ----------------------------------------------------------------
+> >> * s390x header clean-ups from Philippe
+> >> * Rework and improvements of the EINTR handling by Nikita
+> >> * Deprecate the -no-hpet command line option
+> >> * Disable the qtests in the 32-bit Windows CI job again
+> >> * Some other misc fixes here and there
+> >
+> > Hi -- this produces new warnings during 'make check' on the bios-tables-test:
+> >
+> > qemu-system-i386: -no-hpet: warning: -no-hpet is deprecated, use
+> > '-machine hpet=off' instead
+> >
+> > If we're deprecating that option, can we update the test suite
+> > to not use it, please ?
 >
->   Merge tag 'python-pull-request' of https://gitlab.com/jsnow/qemu into staging (2023-01-05 16:59:22 +0000)
+> Oh, looks like these warnings now only show up in meson-logs/testlog.txt and
+> not in the standard output anymore as they did in the past? ... that's why I
+> didn't notice this.
 >
-> are available in the Git repository at:
+> Thanks for the hint, I'll write a patch to fix it.
 >
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to fb418b51b7b43c34873f4b9af3da7031b7452115:
->
->   i386: SGX: remove deprecated member of SGXInfo (2023-01-06 00:51:02 +0100)
->
-> ----------------------------------------------------------------
-> * Atomic memslot updates for KVM (Emanuele, David)
-> * Always send errors to logfile when daemonized (Greg)
-> * Add support for IDE CompactFlash card (Lubomir)
-> * First round of build system cleanups (myself)
-> * First round of feature removals (myself)
-> * Reduce "qemu/accel.h" inclusion (Philippe)
+> Do you want me then to respin the pull request with the patch included?
 
+Yes, please.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
+thanks
 -- PMM
 
