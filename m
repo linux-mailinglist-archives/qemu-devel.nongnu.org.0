@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED9F86625D1
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:47:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9045366252D
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 13:13:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEqz4-0000YR-92; Mon, 09 Jan 2023 07:10:34 -0500
+	id 1pEqz5-0000d5-3E; Mon, 09 Jan 2023 07:10:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqyd-0000P9-Vp
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:10:12 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqym-0000U3-E9
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:10:19 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqyY-0006qD-3S
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:10:06 -0500
-Received: by mail-wr1-x433.google.com with SMTP id d17so7940579wrs.2
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 04:10:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEqyd-00072S-Um
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 07:10:14 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ m8-20020a05600c3b0800b003d96f801c48so8821929wms.0
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 04:10:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GrtKRjVCEXmnX65xOqafU/4NBjLWdOq8NqX2Mi8y/bQ=;
- b=vWiqiUgel9gqgFUMk2dMTHnaIgThkHBREXtOZXsU6EXQs3kSu9VWAgILixHYtfSUFx
- s+FyoYULt2UIF7k67DNcJGSK8Iq+xnQ+wNsAJvNF06dtWj7E3F1KXEYUEhJXP6zaB2Ch
- 9M7Vcl2Y7fTvS17Ym5/wTa0f8iUg+lk+zN6GJd9je9Usgm2HErr6D7Bh74rawr4dZlp4
- 1gHuTNi7CI0ZSCoeWiHhGQ1UKHmSUgaod7FHLAUrHadVazkKJdUascBxV4p0NULNHrCC
- KibeLmJuLPvD4Q6jxiQBr7W0suh0hkRw+/Vx24GvgQFs5rQ72WPYXeTtACBZ2IVwf9OU
- D/XQ==
+ bh=tnHz5pT3+i4xDM6inKPhqyLsvi12m2D1eIZxQ/5bEAw=;
+ b=KDXgpqfdxgT7RO04VyC5q0FG8xImDYad0HLtYR2qUL5xrpwKr/2mBRC4AQGhYdtERw
+ z02F2+eDe+WYJLCuYyVJcfmr65N3do14SYSURoUX6FeLxWiQcBBIA0/Huv/i3I2qq9M7
+ 28FJFf/AeE7o94Q7BYvt3vRcR2wjwK/P5PcCPc4pBRZZDH2f51KfhdlyMyRMtRGyoT9r
+ UYHCb6HTYQAngIh+q6WT6hcvV5UHLdaBcMNTtHwx2y7XJdcwld/kub3TuCaPk+xzkaK2
+ VkxzFj8syhCZh9GubhthRgd7MP6IKlRVIbZTcx6T7xcTGWGb3BpCJgoD61WF596VBkSv
+ 7V5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GrtKRjVCEXmnX65xOqafU/4NBjLWdOq8NqX2Mi8y/bQ=;
- b=gT0IhO8HrRULK38dXjVoC3bqeNPAhzah6jTdFXrcQgLDv4d6t3uyrSdbey2/pxoRhX
- 71U9Pr/eDtIEvb10BGiKJTcjEzhQm0j/mfAgkQVjeAkWdUo5H5pcWkMHO/rwSQ+GadDr
- ihm7CoPcq9NaWWNwkefTHHroXq+DESK0OMdQXOXmPp7gtXrWJL7X2ALdCFmkICQ8FQss
- eM5Nk/hiTW3S+Ghuc5tQHM8+PMXi975Az+o2ZDR9Vt2amqcfkOQXNL/qkKYbQdrP9y38
- vbPUP3Rj9hpvBInbb61RYILpY8SmBu1wBGxLweIipjLuRJef5XFiVmqybFjqUNMUmJ34
- Cv/A==
-X-Gm-Message-State: AFqh2kop2/UNulnFoCEUPBBdjqmTUadtS1xjYlpVGa63VJVbt/Jt4ygi
- cOoMlFu3OFZ3KgLefqnR+Yx2sIl4aODNsuaO
-X-Google-Smtp-Source: AMrXdXtckS4++YXSnQVK7ch+7xurwfRNC0EhhzMAHoN3/7dlML4vKEvpQbxsAcg+qyKJZWj2dxq9cQ==
-X-Received: by 2002:adf:d084:0:b0:278:29ac:f894 with SMTP id
- y4-20020adfd084000000b0027829acf894mr31387214wrh.64.1673266200602; 
- Mon, 09 Jan 2023 04:10:00 -0800 (PST)
+ bh=tnHz5pT3+i4xDM6inKPhqyLsvi12m2D1eIZxQ/5bEAw=;
+ b=JpPWA4b+fdbf/rrihDfZkgTvhw7loJDsfZNcJku8r37TB59wtvDA6Mhzvma+sl7rFs
+ MWmV/DbrtW+qQJhHGppT9OXH2GjSIe5LFzix5T5EVE2OC3+2/9bHA5dcr6bwuFswWD42
+ Cg43eJoPyhOppKOu6HZQB3EdV9itQj7dxI6ismLJtkSywsUFtM+OKziliV29LMt8/w2H
+ /qnbXXQ3Ei/yFOs2IHOZfMRVJxKeO0IbBLtpfk1+Qm8rVkqlCAWvKRqM0bE5bqxCxiue
+ sE4xD8Zi0lGEH58gN8lAR8A3o1J0OmxWZq9qd2M3sToVcSHKGnQwuQ0Zsl/Uuhy4R+6J
+ YmoA==
+X-Gm-Message-State: AFqh2kqZxDQ3tn5pwKL9SEkHi9i4UsTvq4Utc7gRrVuA4UKokLpQoPQe
+ j4rpuV+OMq62pCBMsuTe9EndM3geIWNajV1K
+X-Google-Smtp-Source: AMrXdXsHXHX0Mat6CK0WBd+D2DKSoIDYbCZkoP3rR4khJv64+hPcUpCau69aK7f+/T94aTl+ldScwQ==
+X-Received: by 2002:a7b:c3c1:0:b0:3c7:1359:783b with SMTP id
+ t1-20020a7bc3c1000000b003c71359783bmr46022830wmj.1.1673266206264; 
+ Mon, 09 Jan 2023 04:10:06 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- c18-20020adffb52000000b0025e86026866sm9874017wrs.0.2023.01.09.04.09.59
+ o9-20020a05600c510900b003c6f8d30e40sm17551744wms.31.2023.01.09.04.10.05
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 09 Jan 2023 04:10:00 -0800 (PST)
+ Mon, 09 Jan 2023 04:10:05 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2 18/21] hw/mips: Open-code pflash_cfi01_register()
-Date: Mon,  9 Jan 2023 13:08:30 +0100
-Message-Id: <20230109120833.3330-19-philmd@linaro.org>
+Subject: [PATCH v2 19/21] hw/ppc: Open-code pflash_cfi01_register()
+Date: Mon,  9 Jan 2023 13:08:31 +0100
+Message-Id: <20230109120833.3330-20-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230109120833.3330-1-philmd@linaro.org>
 References: <20230109120833.3330-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,44 +97,69 @@ as a qdev creation call followed by an explicit sysbus mapping.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/mips/malta.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ hw/ppc/sam460ex.c     | 19 ++++++++++++++-----
+ hw/ppc/virtex_ml507.c | 15 ++++++++++++---
+ 2 files changed, 26 insertions(+), 8 deletions(-)
 
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 9657f7f6da..4605b06b3b 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -1223,7 +1223,6 @@ void mips_malta_init(MachineState *machine)
-     const char *kernel_cmdline = machine->kernel_cmdline;
-     const char *initrd_filename = machine->initrd_filename;
-     char *filename;
--    PFlashCFI01 *fl;
-     MemoryRegion *system_memory = get_system_memory();
-     MemoryRegion *ram_low_preio = g_new(MemoryRegion, 1);
-     MemoryRegion *ram_low_postio;
-@@ -1287,12 +1286,16 @@ void mips_malta_init(MachineState *machine)
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index cf7213f7c9..d2bf11d774 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -99,14 +99,23 @@ static int sam460ex_load_uboot(void)
+      *
+      * TODO Figure out what we really need here, and clean this up.
+      */
+-
++    DeviceState *dev;
+     DriveInfo *dinfo;
  
-     /* Load firmware in flash / BIOS. */
-     dinfo = drive_get(IF_PFLASH, 0, fl_idx);
--    fl = pflash_cfi01_register(FLASH_ADDRESS, "mips_malta.bios",
--                               FLASH_SIZE,
--                               dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
--                               FLASH_SECTOR_SIZE,
--                               4, 0x0000, 0x0000, 0x0000, 0x0000, be);
--    dev = DEVICE(fl);
+     dinfo = drive_get(IF_PFLASH, 0, 0);
+-    pflash_cfi01_register(FLASH_BASE | ((hwaddr)FLASH_BASE_H << 32),
+-                          "sam460ex.flash", FLASH_SIZE,
+-                          dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
+-                          64 * KiB, 1, 0x89, 0x18, 0x0000, 0x0, 1));
 +    dev = qdev_new(TYPE_PFLASH_CFI01);
-+    qdev_prop_set_string(dev, "name", "mips_malta.bios");
++    qdev_prop_set_string(dev, "name", "sam460ex.flash");
 +    qdev_prop_set_drive(dev, "drive",
 +                        dinfo ? blk_by_legacy_dinfo(dinfo) : NULL);
-+    qdev_prop_set_uint32(dev, "num-blocks", FLASH_SIZE / FLASH_SECTOR_SIZE);
-+    qdev_prop_set_uint64(dev, "sector-length", FLASH_SECTOR_SIZE);
-+    qdev_prop_set_uint8(dev, "width", 4);
-+    qdev_prop_set_bit(dev, "big-endian", be);
++    qdev_prop_set_uint32(dev, "num-blocks", FLASH_SIZE / (64 * KiB));
++    qdev_prop_set_uint64(dev, "sector-length", 64 * KiB);
++    qdev_prop_set_uint8(dev, "width", 1);
++    qdev_prop_set_bit(dev, "big-endian", true);
++    qdev_prop_set_uint16(dev, "id0", 0x0089);
++    qdev_prop_set_uint16(dev, "id1", 0x0018);
 +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, FLASH_ADDRESS);
-     bios = pflash_cfi01_get_memory(dev);
-     fl_idx++;
-     if (kernel_filename) {
++    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0,
++                    FLASH_BASE | ((hwaddr)FLASH_BASE_H << 32));
+ 
+     if (!dinfo) {
+         /*error_report("No flash image given with the 'pflash' parameter,"
+diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+index f2f81bd425..2532806922 100644
+--- a/hw/ppc/virtex_ml507.c
++++ b/hw/ppc/virtex_ml507.c
+@@ -233,9 +233,18 @@ static void virtex_init(MachineState *machine)
+     memory_region_add_subregion(address_space_mem, ram_base, machine->ram);
+ 
+     dinfo = drive_get(IF_PFLASH, 0, 0);
+-    pflash_cfi01_register(PFLASH_BASEADDR, "virtex.flash", FLASH_SIZE,
+-                          dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
+-                          64 * KiB, 1, 0x89, 0x18, 0x0000, 0x0, 1);
++    dev = qdev_new(TYPE_PFLASH_CFI01);
++    qdev_prop_set_string(dev, "name", "virtex.flash");
++    qdev_prop_set_drive(dev, "drive",
++                        dinfo ? blk_by_legacy_dinfo(dinfo) : NULL);
++    qdev_prop_set_uint32(dev, "num-blocks", FLASH_SIZE / (64 * KiB));
++    qdev_prop_set_uint64(dev, "sector-length", 64 * KiB);
++    qdev_prop_set_uint8(dev, "width", 1);
++    qdev_prop_set_bit(dev, "big-endian", true);
++    qdev_prop_set_uint16(dev, "id0", 0x0089);
++    qdev_prop_set_uint16(dev, "id1", 0x0018);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, PFLASH_BASEADDR);
+ 
+     cpu_irq = qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT);
+     dev = qdev_new("xlnx.xps-intc");
 -- 
 2.38.1
 
