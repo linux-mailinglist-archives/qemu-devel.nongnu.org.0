@@ -2,79 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81693662762
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:41:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05754662734
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:35:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEs2B-00063V-O2; Mon, 09 Jan 2023 08:17:51 -0500
+	id 1pEs9K-00081f-0N; Mon, 09 Jan 2023 08:25:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pEs21-00062O-4Z
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:17:41 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pEs1y-0004lZ-87
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:17:39 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A1C473F1ED;
- Mon,  9 Jan 2023 13:17:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673270254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eE4WKjL763M+HQdVDPspv+9g5KDDMF7QXCnBB9d4JMw=;
- b=uCghQ+m3qDurd5iDDlaNkA2Te5dzoeZSCutwxgmqNk2G52Q7mI3g2+GSg2GuTELHNtJWix
- o8DMuWvvaYk+j5zi56RfRmuO/Dm8+Bya2wjPeTzs5fNUo+C79WExKh6xcTfR8wfbS0X047
- ltRXej+0oMS/KbzQ0b8jzeqjmhUjejM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673270254;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eE4WKjL763M+HQdVDPspv+9g5KDDMF7QXCnBB9d4JMw=;
- b=xiIJV1LUiPDWBb4BOHwu0Tu3G/2BXB/gdCnuh4HAQMVgjQgkRvTsx1esq+017FIZLzPFaV
- S9nBWK1wVyaF3tDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 61810134AD;
- Mon,  9 Jan 2023 13:17:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wqsmFu4TvGPwBgAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 09 Jan 2023 13:17:34 +0000
-Message-ID: <848b35b9-8477-e64a-0dfc-ba94674bd68f@suse.de>
-Date: Mon, 9 Jan 2023 14:17:11 +0100
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pEs8n-0007zK-Vu
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:24:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pEs8l-0006R8-B7
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 08:24:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673270673;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5QseVhw36DLyG46FI4iqZzHWHTrQIjKtchuxWLjDASg=;
+ b=XDukr8AkC0NWsSDn9Jc1EvWWfaORIyEYSxkx5oGIfaYMfQ6hjRnAWF8lOXqpnYKxeSxOal
+ EGpjvL/wTCuwzx3r16UTzDkRuZCRC5oqv97shG64iqQGmx9zSUHRWfytivRMnxAUSlLo5c
+ /0YhvztPQdBihTpKtWw5b5gwqLM9shk=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-342-bcY5Xq6MOR-xtXcNaKjnEA-1; Mon, 09 Jan 2023 08:24:32 -0500
+X-MC-Unique: bcY5Xq6MOR-xtXcNaKjnEA-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ m9-20020a05620a290900b0070596994c7eso6456790qkp.7
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 05:24:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:subject:to:from:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=5QseVhw36DLyG46FI4iqZzHWHTrQIjKtchuxWLjDASg=;
+ b=K0knycrSbiND7zZV3YEk7+Kb1X60CpishLhJaPUqB29MxiXFbMi9c6CUM3FdzZxnlV
+ 1+jAeouwpBkF0W7WJ14sdkitRlptZ07YIeyhSKtExXh0DSzOihXEk88SfyXYAuXjuZgV
+ 42cKlukooGioFp/YLAQmNkOAmfjk9Z0pJK48ynIg+TvcFc6di3QWDNVHGfxyZSsm5PQh
+ hkMtaiU1ZMF/Oj+/TYJBxcs8jzonsS550TfRd7GMyPnZB0MxBeoqzTy62vr0xc2Vgir6
+ Wi5wvfJfCoMgE3dCfJFD2cekSkjhfOdwtZNiz9P2IaOh3paisJnLLvQmHUxnpHqDKO6T
+ ZNEw==
+X-Gm-Message-State: AFqh2kq376mAZk9rk1WVFoc4Zkmj1WjaoVsso8Zmj8ZBaxQvqhrh71XW
+ /wHnMJTpc84cGvB+TciQfZmV0g9Y3nhiG6PjCNnCCBplzHxBtBjcIF7n6493wpGFIaygCJeud6Z
+ 6V3rjiVhLIfnXIWE=
+X-Received: by 2002:ac8:75d4:0:b0:3a8:1edf:e8f5 with SMTP id
+ z20-20020ac875d4000000b003a81edfe8f5mr86390456qtq.50.1673270671714; 
+ Mon, 09 Jan 2023 05:24:31 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvMV2pCGkO8vDH1E9YItQJqpEJxO3AGiVHXKQxq1JbDO5WJeLZ15QEF88zSkWQwAf6wLtF1lA==
+X-Received: by 2002:ac8:75d4:0:b0:3a8:1edf:e8f5 with SMTP id
+ z20-20020ac875d4000000b003a81edfe8f5mr86390438qtq.50.1673270671464; 
+ Mon, 09 Jan 2023 05:24:31 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ c11-20020ac853cb000000b00397b1c60780sm4523502qtq.61.2023.01.09.05.24.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 05:24:29 -0800 (PST)
+Message-ID: <0bc2f2e5-630e-e721-254d-f224d1a3bdcd@redhat.com>
+Date: Mon, 9 Jan 2023 14:24:26 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC PATCH] qom: Extract object_try_new() from qdev_new()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20230109112056.94385-1-philmd@linaro.org>
- <Y7wLH3wg5YnlYx+n@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <Y7wLH3wg5YnlYx+n@redhat.com>
+From: Eric Auger <eauger@redhat.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ qemu list <qemu-devel@nongnu.org>
+Subject: virtio-iommu issue with VFIO device downstream to a PCIe-to-PCI
+ bridge: VFIO devices are not assigned any iommu group
+Cc: Peter Xu <peterx@redhat.com>, Alex Williamson
+ <alex.williamson@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,160 +101,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/9/23 13:39, Daniel P. Berrangé wrote:
-> On Mon, Jan 09, 2023 at 12:20:56PM +0100, Philippe Mathieu-Daudé wrote:
->> The module resolving in qdev_new() is specific to QOM, not to
->> QDev. Extract the code as a new QOM object_try_new() helper so
->> it can be reused by non-QDev code.
-> 
-> qdev_new() unconditionally tries loading the module, regardless
-> of whether that particular device type can be built as a module.
-> Not an issue, as we should only hit the error code of missing
-> object type for devices which can be loadable, or in case of
-> programmer error in typename. The latter shouldn't ever happen.
-> 
-> If we want to push this logic down into QOM, this suggests
-> not introducing a new object_try_new() helper at all. Instead
-> modify  'object_new' to unconditionally try to load modules.
-> 
-> Or even take it one step further, make 'object_class_by_name'
-> try to load the module in its error path.
+Hi,
 
-As far as I understand, when we want this behavior this is what we currently achieve with module_object_class_by_name().
+we have a trouble with virtio-iommu and protected assigned devices
+downstream to a pcie-to-pci bridge. In that use case we observe the
+assigned devices are not put to any group. This is true on both x86 and
+aarch64. This use case works with intel-iommu.
 
-If we are to make module_object_class_by_name() the only way to do object_class_by_name I would just recommend a lot of care and a lot of testing
-given the amount of calls to object_class_by_name in the code, studying the underlying assumptions of the code in each case,
-
-especially testing with/without loadable modules, with the modules builtin, loadable but not present, etc.
-
-> 
-> Can anyone think of other scenarios where object_class_by_name
-> would be expected to fail, that aren't a case of the typename
-> being a loadable module, or a programmer error ? If not, then
-> modifying object_class_by_name should be ok.
-
-Currently optional AccelCPUClass cpu interfaces can be used to extend a CPUClass with additional acceelerator-specific initializations.
-In this context, object_class_by_name in accel-common.c can fail if no such extension is needed,
-and since we don't have full target-specific accelerator loadable modules in QEMU, this isn't always a case of the typename being a loadable module, or a programmer error.
-
-Thanks,
-
-Claudio
+*** Guest PCI topology is:
+lspci -tv
+-[0000:00]-+-00.0  Intel Corporation 82G33/G31/P35/P31 Express DRAM
+Controller
+           +-01.0  Device 1234:1111
+           +-02.0-[01-02]----00.0-[02]----01.0  Broadcom Inc. and
+subsidiaries BCM57416 NetXtreme-E Dual-Media 10G RDMA Ethernet Controller
+           +-02.1-[03]--
+           +-02.2-[04]----00.0  Red Hat, Inc. Virtio block device
+           +-0a.0  Red Hat, Inc. Device 1057
+           +-1f.0  Intel Corporation 82801IB (ICH9) LPC Interface Controller
+           +-1f.2  Intel Corporation 82801IR/IO/IH (ICH9R/DO/DH) 6 port
+SATA Controller [AHCI mode]
+           \-1f.3  Intel Corporation 82801I (ICH9 Family) SMBus Controller
 
 
-> 
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> ---
->> RFC because I'm wonder if we can't find a better name...
->>
->> Also, should we refactor object_initialize() similarly,
->> having object_try_initialize(..., Error *)?
->> ---
->>  hw/core/qdev.c       | 23 ++---------------------
->>  include/qom/object.h | 12 ++++++++++++
->>  qom/object.c         | 23 +++++++++++++++++++++++
->>  3 files changed, 37 insertions(+), 21 deletions(-)
->>
->> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
->> index d759c4602c..3a076dcc7f 100644
->> --- a/hw/core/qdev.c
->> +++ b/hw/core/qdev.c
->> @@ -147,31 +147,12 @@ bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp)
->>  
->>  DeviceState *qdev_new(const char *name)
->>  {
->> -    ObjectClass *oc = object_class_by_name(name);
->> -#ifdef CONFIG_MODULES
->> -    if (!oc) {
->> -        int rv = module_load_qom(name, &error_fatal);
->> -        if (rv > 0) {
->> -            oc = object_class_by_name(name);
->> -        } else {
->> -            error_report("could not find a module for type '%s'", name);
->> -            exit(1);
->> -        }
->> -    }
->> -#endif
->> -    if (!oc) {
->> -        error_report("unknown type '%s'", name);
->> -        abort();
->> -    }
->> -    return DEVICE(object_new(name));
->> +    return DEVICE(object_try_new(name, &error_fatal));
->>  }
->>  
->>  DeviceState *qdev_try_new(const char *name)
->>  {
->> -    if (!module_object_class_by_name(name)) {
->> -        return NULL;
->> -    }
->> -    return DEVICE(object_new(name));
->> +    return DEVICE(object_try_new(name, NULL));
->>  }
->>  
->>  static QTAILQ_HEAD(, DeviceListener) device_listeners
->> diff --git a/include/qom/object.h b/include/qom/object.h
->> index ef7258a5e1..9cc5bf30ec 100644
->> --- a/include/qom/object.h
->> +++ b/include/qom/object.h
->> @@ -565,6 +565,18 @@ Object *object_new_with_class(ObjectClass *klass);
->>   */
->>  Object *object_new(const char *typename);
->>  
->> +/**
->> + * object_try_new: Try to create an object on the heap
->> + * @name: The name of the type of the object to instantiate.
->> + * @errp: pointer to Error object.
->> + *
->> + * This is like object_new(), except it returns %NULL when type @name
->> + * does not exist, rather than asserting.
->> + *
->> + * Returns: The newly allocated and instantiated object, or %NULL.
->> + */
->> +Object *object_try_new(const char *name, Error **errp);
->> +
->>  /**
->>   * object_new_with_props:
->>   * @typename:  The name of the type of the object to instantiate.
->> diff --git a/qom/object.c b/qom/object.c
->> index e25f1e96db..6d3faaeb6e 100644
->> --- a/qom/object.c
->> +++ b/qom/object.c
->> @@ -755,6 +755,29 @@ Object *object_new(const char *typename)
->>  }
->>  
->>  
->> +Object *object_try_new(const char *name, Error **errp)
->> +{
->> +    TypeImpl *ti = type_get_by_name(name);
->> +
->> +    if (!ti) {
->> +#ifdef CONFIG_MODULES
->> +        int rv = module_load_qom(name, errp);
->> +        if (rv <= 0) {
->> +            error_report("could not find a module for type '%s'", name);
->> +            exit(1);
->> +        }
->> +        ti = type_get_by_name(name);
->> +#endif
->> +    }
->> +    if (!ti) {
->> +        error_setg(errp, "unknown type '%s'", name);
->> +        return NULL;
->> +    }
->> +
->> +    return object_new_with_type(ti);
->> +}
->> +
->> +
->>  Object *object_new_with_props(const char *typename,
->>                                Object *parent,
->>                                const char *id,
->> -- 
->> 2.38.1
->>
-> 
-> With regards,
-> Daniel
+All the assigned devices are aliased and they get devfn=0x0.
+see qemu pci_device_iommu_address_space in hw/pci.c
+
+Initially I see the following traces
+pci_device_iommu_address_space name=vfio-pci BDF=0x8 bus=0 devfn=0x8
+pci_device_iommu_address_space name=vfio-pci BDF=0x8 bus=0 devfn=0x8
+call iommu_fn with bus=0x55f556dde180 and devfn=0
+virtio_iommu_init_iommu_mr init virtio-iommu-memory-region-0-0
+
+Note the bus is 0 at this time and devfn that is used in the
+virtio-iommu is 0. So an associated IOMMU MR is created with this bus at
+devfn=0 slot. This is before bus actual numbering.
+
+However later on, I see virtio_iommu_probe() and virtio_iommu_attach()
+getting called with ep_id=520
+because in the qemu virtio-iommu device, virtio_iommu_mr(pe_id) fails to
+find the iommu_mr and returns -ENOENT
+
+On guest side I see that
+acpi_iommu_configure_id/iommu_probe_device() fails
+(__iommu_probe_device) and also __iommu_attach_device would also fail
+anyway.
+
+I guess those get called before actual bus number recomputation?
+
+on aarch64 I eventually see the "good" MR beeing created, ie. featuring
+the right bus number:
+qemu-system-aarch64: pci_device_iommu_address_space name=vfio-pci
+BDF=0x208 bus=2 devfn=0x8
+qemu-system-aarch64: pci_device_iommu_address_space name=vfio-pci
+BDF=0x208 bus=2 devfn=0x8 call iommu_fn with bus=0xaaaaef12c450 and devfn=0
+
+But this does not happen on x86.
+
+Jean, do you have any idea about how to fix that? Do you think we have a
+trouble in the acpi/viot setup or virtio-iommu probe sequence. It looks
+like virtio probe and attach commands are called too early, before the
+bus is actually correctly numbered.
+
+Thanks
+
+Eric
+
+
+
+
+
+
 
 
