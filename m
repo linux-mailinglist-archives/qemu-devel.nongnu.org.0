@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800BB662CC0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBCDE662CF3
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:38:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEvtY-0002en-3H; Mon, 09 Jan 2023 12:25:12 -0500
+	id 1pEvtX-0002dX-FO; Mon, 09 Jan 2023 12:25:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pEvtT-0002YZ-9u; Mon, 09 Jan 2023 12:25:07 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+ id 1pEvtU-0002aO-B6; Mon, 09 Jan 2023 12:25:08 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pEvtR-000131-EN; Mon, 09 Jan 2023 12:25:06 -0500
-Received: by mail-ej1-x635.google.com with SMTP id u19so21850666ejm.8;
- Mon, 09 Jan 2023 09:25:03 -0800 (PST)
+ id 1pEvtS-00018g-Dx; Mon, 09 Jan 2023 12:25:08 -0500
+Received: by mail-ej1-x636.google.com with SMTP id tz12so21912191ejc.9;
+ Mon, 09 Jan 2023 09:25:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=I3VPNcWT0IkTBlW+dRFbpN8NmE5WBffC1A4qiIMiSXg=;
- b=Qnz1Hf2lM7TonokV8eyMb9YtNvEozK1vHItNnPm5u7tIUA2IGAlC7rCNZ4kKqcMrgM
- 7ddjkghgaWnwz5uFzEk7tyl3JKmFcf2NPCIV82Fz2fXa1nB1aoiex0Z4r3g9OPfYVo3f
- Q2RvNitQ5iFDtQ5pcILObsD5yqJ84Lu+mrXTwVCOdfDhup4k//whGVIlDPdiAGmUC0n5
- YZHdD42/5bdzzogOd8bgRQb9aAQ1yVPcVqTHHV4un82sXnS0BfedYkH+JSvW890lW8le
- fQ35YnKayn0NNwpXMCTUxP6+BjQSWwUBZIK3Y3i/JrlaBTmbuIGT0Qc8Hr7la3pZOHFo
- H/1A==
+ bh=mgtdEHCrqZkKeHSwNr7rmdJndX3/1+NtuZOqm1NlxBM=;
+ b=edWXly4/xlZUFJQS3XM2sjm+nkuogrWXzLJyJVv7bxCRTz8rH44ScwLV3NAX7m+XtD
+ N1fEHOXosf5kPhd9mG02yyVBzsAhTC+HvPOBs211O7Tk4vzwT1VEGCEVcPRHb7U92VCo
+ pyXCKVN2yzxei7wB9McFAi+C5UuDI+Z54+GWZdYl4I8ciFiLpApzdQBNNYuBUbYzzkBn
+ NnhDMtzE9MRbNO62a60yiNRD73deyW7z6hX6hkxFR303AeWZWLAdFN3GegJI3I4nX50N
+ 0juiWDwIuyN9a0xowe8ER9WBF2JQg8bqZ1FSwCBnurQCOc2BDDo2rMoz1nQjAP8Gz9Fk
+ XbJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=I3VPNcWT0IkTBlW+dRFbpN8NmE5WBffC1A4qiIMiSXg=;
- b=LoK2eLJfz8nMNE/X9Wt4DpW1MU1cZGAjfXjZfYmof9HQI92qI2PE05ZA9XeKnT1OXH
- TrGERoJUzWtDTr5j/oCO6hkLbKYmNTNAAn4nMEqz0/m+MeBzn1gJFlTfulrZpwGaR6i+
- KAvipMVrxKXmi937WxtvM7PCsCkFPG+K0h0fSiiZxs3dDXHS+2l4Dhtt2s+MKJ9P2uxa
- KZor33jhO8QxzFPOQ5+y/wZ8f+rarP3tfBy9la5o5YmGRHj03J82OyYD80HASuB05LPb
- ezwEGeXUgQcAq1Vl87OkSZJ9kNVUkUTsgCAGNT3Q2XF/H8GaWa/XngMjuIkS6LEFKm28
- WLXg==
-X-Gm-Message-State: AFqh2koYd8suWBIScRS/CawI0qEuuPwOg25ZmlmbrK+85SA+/ACDvDoi
- 7s5KCEi+gJo0vqpr3wdepA/xy4Ai8VMdQA==
-X-Google-Smtp-Source: AMrXdXurNRYhfEfDoQXKOzXWJSmjmmYw9iDxcjQWAHXdZ0ZgVg5humDwGfAILsO21uL76k9Wfy79uQ==
-X-Received: by 2002:a17:907:8b90:b0:84d:207d:c00c with SMTP id
- tb16-20020a1709078b9000b0084d207dc00cmr11800179ejc.25.1673285102212; 
- Mon, 09 Jan 2023 09:25:02 -0800 (PST)
+ bh=mgtdEHCrqZkKeHSwNr7rmdJndX3/1+NtuZOqm1NlxBM=;
+ b=ke1Wqjs+mrbNBLj9Z8S6FSJ0wT6LnNlKvSXsohZr1+yjU1MuLJk6wCRrkttdZkwM73
+ VPZ6r5BQD3ORGM0dJvkE10YiHDqRxuTkmauepW1C3BSlCTUYeA6O9dBLZfNSQwvwSAJG
+ YlYJs9DK3SdOvHwp4WzxGjcTnzpJKCsUixyh3iY850OuQy4ER0sS3NQuesBo6OmCIsJH
+ w/6hi0Bb19Xiq9FG+kifzJBSG483pBF01QXYkveON3mlcSffF2OiqI0bgCl5kCu52QUK
+ 0mtJc9JVE+Js7f6whKpO/PCO5JnKNmOXuwh3FIvS4seQgk3oTXROMhXxGtODp8JaEpic
+ bH9A==
+X-Gm-Message-State: AFqh2kqVkfqKCQcN7rVWZAsrgxgK3D21uQVRdmvKNsm/jK6mNgiJe/Wu
+ MlY3oSFdrVSHy6k4fLuxU+/WcTE9nokWRQ==
+X-Google-Smtp-Source: AMrXdXuic62Aiz+DnbbQwGcWL39rL9552xZ9eoepxTQgvf8CDpJeJQSKWGBp/Jyk+cyG1zYm4htx/Q==
+X-Received: by 2002:a17:907:d50d:b0:801:d6f2:754 with SMTP id
+ wb13-20020a170907d50d00b00801d6f20754mr57240208ejc.52.1673285103344; 
+ Mon, 09 Jan 2023 09:25:03 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- 18-20020a170906201200b00846734faa9asm3925625ejo.164.2023.01.09.09.25.01
+ 18-20020a170906201200b00846734faa9asm3925625ejo.164.2023.01.09.09.25.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Jan 2023 09:25:01 -0800 (PST)
+ Mon, 09 Jan 2023 09:25:02 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: John G Johnson <john.g.johnson@oracle.com>,
@@ -72,17 +72,16 @@ Cc: John G Johnson <john.g.johnson@oracle.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Bernhard Beschow <shentey@gmail.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH v6 09/33] hw/intc/i8259: Make using the isa_pic singleton more
- type-safe
-Date: Mon,  9 Jan 2023 18:23:22 +0100
-Message-Id: <20230109172347.1830-10-shentey@gmail.com>
+Subject: [PATCH v6 10/33] hw/intc/i8259: Introduce i8259 proxy TYPE_ISA_PIC
+Date: Mon,  9 Jan 2023 18:23:23 +0100
+Message-Id: <20230109172347.1830-11-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230109172347.1830-1-shentey@gmail.com>
 References: <20230109172347.1830-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -105,95 +104,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This even spares some casts in hot code paths along the way.
+Having an i8259 proxy allows for ISA PICs to be created and wired up in
+southbridges. This is especially interesting for PIIX3 for two reasons:
+First, the southbridge doesn't need to care about the virtualization
+technology used (KVM, TCG, Xen) due to in-IRQs (where devices get
+attached) and out-IRQs (which will trigger the IRQs of the respective
+virtualization technology) are separated. Second, since the in-IRQs are
+populated with fully initialized qemu_irq's, they can already be wired
+up inside PIIX3.
 
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
-Note: The next patch will introduce a class "isa-pic", which is
-shall not be confused with the isa_pic singleton.
----
- include/hw/intc/i8259.h |  6 +++---
- include/qemu/typedefs.h |  1 +
- hw/intc/i8259.c         | 11 ++++-------
- 3 files changed, 8 insertions(+), 10 deletions(-)
+ include/hw/intc/i8259.h | 18 ++++++++++++++++++
+ hw/intc/i8259.c         | 27 +++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+)
 
 diff --git a/include/hw/intc/i8259.h b/include/hw/intc/i8259.h
-index e2b1e8c59a..a0e34dd990 100644
+index a0e34dd990..7fb403971c 100644
 --- a/include/hw/intc/i8259.h
 +++ b/include/hw/intc/i8259.h
-@@ -3,10 +3,10 @@
+@@ -1,6 +1,24 @@
+ #ifndef HW_I8259_H
+ #define HW_I8259_H
  
++#include "qom/object.h"
++#include "hw/isa/isa.h"
++#include "qemu/typedefs.h"
++
++#define TYPE_ISA_PIC "isa-pic"
++OBJECT_DECLARE_SIMPLE_TYPE(ISAPICState, ISA_PIC)
++
++/*
++ * TYPE_ISA_PIC is currently a PIC proxy which allows for interrupt wiring in
++ * a virtualization technology agnostic way.
++ */
++struct ISAPICState {
++    DeviceState parent_obj;
++
++    qemu_irq in_irqs[ISA_NUM_IRQS];
++    qemu_irq out_irqs[ISA_NUM_IRQS];
++};
++
  /* i8259.c */
  
--extern DeviceState *isa_pic;
-+extern PICCommonState *isa_pic;
- qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq);
- qemu_irq *kvm_i8259_init(ISABus *bus);
--int pic_get_output(DeviceState *d);
--int pic_read_irq(DeviceState *d);
-+int pic_get_output(PICCommonState *s);
-+int pic_read_irq(PICCommonState *s);
- 
- #endif
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index 073abab998..fba04875c2 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -99,6 +99,7 @@ typedef struct PCIExpressDevice PCIExpressDevice;
- typedef struct PCIExpressHost PCIExpressHost;
- typedef struct PCIHostDeviceAddress PCIHostDeviceAddress;
- typedef struct PCIHostState PCIHostState;
-+typedef struct PICCommonState PICCommonState;
- typedef struct PostcopyDiscardState PostcopyDiscardState;
- typedef struct Property Property;
- typedef struct PropertyInfo PropertyInfo;
+ extern PICCommonState *isa_pic;
 diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-index cc4e21ffec..0261f087b2 100644
+index 0261f087b2..e99d02136d 100644
 --- a/hw/intc/i8259.c
 +++ b/hw/intc/i8259.c
-@@ -55,7 +55,7 @@ struct PICClass {
- #ifdef DEBUG_IRQ_LATENCY
- static int64_t irq_time[16];
- #endif
--DeviceState *isa_pic;
-+PICCommonState *isa_pic;
- static PICCommonState *slave_pic;
+@@ -455,9 +455,36 @@ static const TypeInfo i8259_info = {
+     .class_size = sizeof(PICClass),
+ };
  
- /* return the highest priority found in mask (highest = smallest
-@@ -173,9 +173,8 @@ static void pic_intack(PICCommonState *s, int irq)
-     pic_update_irq(s);
- }
- 
--int pic_read_irq(DeviceState *d)
-+int pic_read_irq(PICCommonState *s)
++static void isapic_set_irq(void *opaque, int irq, int level)
++{
++    ISAPICState *s = opaque;
++
++    qemu_set_irq(s->out_irqs[irq], level);
++}
++
++static void isapic_init(Object *obj)
++{
++    ISAPICState *s = ISA_PIC(obj);
++
++    qdev_init_gpio_in(DEVICE(s), isapic_set_irq, ISA_NUM_IRQS);
++    qdev_init_gpio_out(DEVICE(s), s->out_irqs, ISA_NUM_IRQS);
++
++    for (int i = 0; i < ISA_NUM_IRQS; ++i) {
++        s->in_irqs[i] = qdev_get_gpio_in(DEVICE(s), i);
++    }
++}
++
++static const TypeInfo isapic_info = {
++    .name          = TYPE_ISA_PIC,
++    .parent        = TYPE_DEVICE,
++    .instance_size = sizeof(ISAPICState),
++    .instance_init = isapic_init,
++};
++
+ static void pic_register_types(void)
  {
--    PICCommonState *s = PIC_COMMON(d);
-     int irq, intno;
- 
-     irq = pic_get_irq(s);
-@@ -354,10 +353,8 @@ static uint64_t pic_ioport_read(void *opaque, hwaddr addr,
-     return ret;
+     type_register_static(&i8259_info);
++    type_register_static(&isapic_info);
  }
  
--int pic_get_output(DeviceState *d)
-+int pic_get_output(PICCommonState *s)
- {
--    PICCommonState *s = PIC_COMMON(d);
--
-     return (pic_get_irq(s) >= 0);
- }
- 
-@@ -426,7 +423,7 @@ qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq)
-         irq_set[i] = qdev_get_gpio_in(dev, i);
-     }
- 
--    isa_pic = dev;
-+    isa_pic = PIC_COMMON(dev);
- 
-     isadev = i8259_init_chip(TYPE_I8259, bus, false);
-     dev = DEVICE(isadev);
+ type_init(pic_register_types)
 -- 
 2.39.0
 
