@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973866621C4
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 10:39:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E96CC662196
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 10:30:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEoRv-0004Qx-HB; Mon, 09 Jan 2023 04:28:11 -0500
+	id 1pEoTb-0005Wl-9T; Mon, 09 Jan 2023 04:29:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pEoRn-0004Ly-E5; Mon, 09 Jan 2023 04:28:07 -0500
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pEoRk-0005nK-LH; Mon, 09 Jan 2023 04:28:02 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.227])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6BC2515202DED;
- Mon,  9 Jan 2023 10:27:48 +0100 (CET)
-Received: from kaod.org (37.59.142.106) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 9 Jan
- 2023 10:27:47 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R0064b132e77-35f8-4a86-b216-baae548b4ac4,
- 1F76CF3ACB56F17C32A409AA235EFAF7B7A61927) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <bc3ec4b4-1c7a-a4a9-01ea-78fca7ad10c6@kaod.org>
-Date: Mon, 9 Jan 2023 10:27:41 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEoTQ-0005TY-V3
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:29:46 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEoTP-0007uh-2r
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 04:29:44 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id m3so5806174wmq.0
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 01:29:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hBlUJ44Oh9WLfFR1ZERviiOLSvWR/WNjWxMzKjtf5Ow=;
+ b=jDj8EEbpfNzOFNPoctf4POE21E3pfejeXgh0uoKJNZ9Ezqml1hej3nhGCxklTp85if
+ NKYfGf1SR2t61jjw8AOlDWleSKNOktCLQQcMt7EqQccB/QQXKdfq+kHww5mHpN8kMJsv
+ F573MpTINy0COZzgQMN768LOZG2eLeqWkGCxgiOrUYeZLmNjonamYFo+B4V6H+PiajZk
+ WkRwi6HgB7fSJfye3R8ruM4x6YY/EuRVplJQTTh8vfx0FgUSn7vRNbe2ylfqWBKJc1Pk
+ 8GK35xMU8rNP5P3UgHv/sMmtG2SUiTgQTTF1zruXNoSNSEuKK175Y3eSWijcgJdZP/b4
+ CvpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hBlUJ44Oh9WLfFR1ZERviiOLSvWR/WNjWxMzKjtf5Ow=;
+ b=VMzTLVePNrothrT3Lj36F1gvTvPGK7saxZPHpiWj/uLGu3w8TRyKqJInZxWJ46NDuG
+ s6xYVl+bG+fQr1DTt1R3Mx01D7jVqS3dkvwF6AUSbn9uNi0Pd0C20ifXEDudkMRsnaHH
+ EESI0WkiCTy+AqmURt33gOWgtwxnJpZszht0emW0+1qJrU+pFiX+UHeXDA3gD03kleWv
+ QSYV2RB79mThUJwtONNQBoG3kxtFuCPMtc9JiW5d211JtY5pePQrfpXRiaBw7j+JywJv
+ PvjQOTwMxbGcFmCrEM2812vDohUi9laJCdJZg775cTs//o5s7as/d2yWUlThSKjK4toI
+ ikDQ==
+X-Gm-Message-State: AFqh2koMPCkY6+L/hzHa/DGt9+s42i4SmGCdWk17m5Cbsv56wWUwHrDL
+ ZPmqf5IGx+G10PYnN7spwY2+qfv5j83o9Wtm
+X-Google-Smtp-Source: AMrXdXv3eOQC0JmVTqlvuvp9ipbU9e+UobuimfPEF3RyE9clo+MOKffAWBwAhPIaoVJXJ+pjbTX11Q==
+X-Received: by 2002:a05:600c:798:b0:3d3:5737:3b0f with SMTP id
+ z24-20020a05600c079800b003d357373b0fmr55871873wmo.36.1673256581389; 
+ Mon, 09 Jan 2023 01:29:41 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ r7-20020a05600c458700b003d974076f13sm11431298wmo.3.2023.01.09.01.29.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Jan 2023 01:29:41 -0800 (PST)
+Message-ID: <e901bc9d-1c3c-5cc0-7a59-e55816babffa@linaro.org>
+Date: Mon, 9 Jan 2023 10:29:40 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 3/4] s390x/pv: Introduce a s390_pv_check() helper for
- runtime
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 5/5] hw/i2c/versatile_i2c: Rename versatile_i2c ->
+ arm_sbcon_i2c
 Content-Language: en-US
-To: Janosch Frank <frankja@linux.ibm.com>, <qemu-s390x@nongnu.org>
-CC: <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, Halil Pasic
- <pasic@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, David Hildenbrand
- <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>, Eric Farman
- <farman@linux.ibm.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-References: <20230106075330.3662549-1-clg@kaod.org>
- <20230106075330.3662549-4-clg@kaod.org>
- <49bf32c7-4a44-a3c9-29b5-b6580113700c@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <49bf32c7-4a44-a3c9-29b5-b6580113700c@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
+References: <20230109091754.79499-1-philmd@linaro.org>
+ <20230109091754.79499-6-philmd@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230109091754.79499-6-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 5f2858b5-dbce-484d-a360-fe694f340d0c
-X-Ovh-Tracer-Id: 16002415378306403317
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeehgddufeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrsehlihhnuhigrdhisghmrdgtohhmpdhimhgsrhgvnhgurgeslhhinhhugidrihgsmhdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhiihhisehlihhnuhigrdhisg
- hmrdgtohhmpdhfrghrmhgrnheslhhinhhugidrihgsmhdrtghomhdptghlghesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,46 +91,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/9/23 10:04, Janosch Frank wrote:
-> On 1/6/23 08:53, Cédric Le Goater wrote:
->> From: Cédric Le Goater <clg@redhat.com>
->>
->> If a secure kernel is started in a non-protected VM, the OS will hang
->> during boot without giving a proper error message to the user.
+On 9/1/23 10:17, Philippe Mathieu-Daudé wrote:
+> This device model started with the Versatile board, named
+> TYPE_VERSATILE_I2C, then ended up renamed TYPE_ARM_SBCON_I2C
+> as per the official "ARM SBCon two-wire serial bus interface"
+> description from:
+> https://developer.arm.com/documentation/dui0440/b/programmer-s-reference/two-wire-serial-bus-interface--sbcon
 > 
-> Most of the time you see nothing in the console because libvirt is too slow. If you start the VM in paused mode, attach a console and then resume it, then you'll see a nice error message.
-
-If you wait long enough, the VM fails to mount / and falls into the dracut
-initrams.
-
->> Perform the checks on Confidential Guest support at runtime with an
->> helper called from the service call switching the guest to protected
->> mode.
+> Use the latter name as a better description.
 > 
-> If we don't have PV support then the subcodes >=8 are a specification exception 
-> so this is never executed AFAIK.
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   hw/arm/Kconfig                              |  4 ++--
+>   hw/i2c/Kconfig                              |  2 +-
+>   hw/i2c/{versatile_i2c.c => arm_sbcon_i2c.c} | 24 ++++++++++-----------
+>   hw/i2c/meson.build                          |  2 +-
+>   4 files changed, 16 insertions(+), 16 deletions(-)
+>   rename hw/i2c/{versatile_i2c.c => arm_sbcon_i2c.c} (81%)
 
-It is. The test on huge page size was added just above this change.
 
-Thanks,
+> diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/arm_sbcon_i2c.c
+> similarity index 81%
+> rename from hw/i2c/versatile_i2c.c
+> rename to hw/i2c/arm_sbcon_i2c.c
 
-C.
+Sorry I forgot this hunk:
 
-> 
->>       if (env->psw.mask & PSW_MASK_PSTATE) {
->>           s390_program_interrupt(env, PGM_PRIVILEGED, ra);
->> @@ -176,6 +177,12 @@ out:
->>               return;
->>           }
->> +        if (!s390_pv_check(&local_err)) {
->> +            error_report_err(local_err);
->> +            env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
->> +            return;
->> +        }
->> +
->>           s390_ipl_reset_request(cs, S390_RESET_PV);
->>           break;
->>       default:
-> 
+-- >8 --
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7a40d4d865..a3c7748505 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -940,6 +940,7 @@ M: Peter Maydell <peter.maydell@linaro.org>
+  L: qemu-arm@nongnu.org
+  S: Maintained
+  F: hw/*/versatile*
++F: hw/i2c/arm_sbcon_i2c.c
+  F: include/hw/i2c/arm_sbcon_i2c.h
+  F: hw/misc/arm_sysctl.c
+  F: docs/system/arm/versatile.rst
 
+---
 
