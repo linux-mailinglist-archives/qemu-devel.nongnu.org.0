@@ -2,67 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439F8662DBA
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:55:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40EE0662DBB
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 18:56:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEwMQ-0005ZJ-PA; Mon, 09 Jan 2023 12:55:02 -0500
+	id 1pEwN9-00062R-4R; Mon, 09 Jan 2023 12:55:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pEwMO-0005Y8-R1; Mon, 09 Jan 2023 12:55:00 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pEwMy-0005wG-Eb
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:55:38 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pEwMN-00074a-29; Mon, 09 Jan 2023 12:55:00 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.237])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 2B51015230CB4;
- Mon,  9 Jan 2023 18:54:53 +0100 (CET)
-Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 9 Jan
- 2023 18:54:52 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0018f856684-d757-4259-be3a-f4ca134e8240,
- 1F76CF3ACB56F17C32A409AA235EFAF7B7A61927) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <f92e9758-bd42-bf7c-f5a0-8998d2eabf20@kaod.org>
-Date: Mon, 9 Jan 2023 18:54:49 +0100
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pEwMw-0007Py-Fr
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 12:55:36 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 309Fl6iR015694
+ for <qemu-devel@nongnu.org>; Mon, 9 Jan 2023 17:55:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : mime-version : content-transfer-encoding; s=pp1;
+ bh=/6DoJov/xOkJWaGNdp6k5vo06ispOPMQAnKDsu9/Joc=;
+ b=YccG6XXjnWCunVTJlKAPNSI337yHYTAssax4NbrhEbr2I6evkJwEerIyEvBsVa54gRBV
+ pCZniLpJAHJHwhPs9z1H3zRFVjIab+/fmK8+G9tStJSYQWa9p3ky/LrNKiJ9IVbvGVKI
+ 0tTg9sW23QAiQQGIej1oMB8Qj3Xef6Mj/nmV4Hkdns1oHn3ro1DYH1oBFnTGI2UC6+0J
+ Ib9/4BfgN4uqf+upxw7LqoxFAwrkZDYKVMve9VQ2ULMtr+wTwcSUDTcMMb/UynmK7+qq
+ 4JM4l5Vpv6YJvpv7OjDJEn9UxxA2KQPZTA4yNHRWGFhXj3m5ZJNcGZuDrFSMd3Pw6xSL gg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3myjp24th7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 17:55:32 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 309HksP3017670
+ for <qemu-devel@nongnu.org>; Mon, 9 Jan 2023 17:55:32 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3myjp24tgw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Jan 2023 17:55:32 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 309GraRG021932;
+ Mon, 9 Jan 2023 17:55:31 GMT
+Received: from smtprelay04.dal12v.mail.ibm.com ([9.208.130.102])
+ by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3my0c7r90f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Jan 2023 17:55:31 +0000
+Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
+ by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 309HtU2D65995106
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 9 Jan 2023 17:55:30 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 679C87805E;
+ Mon,  9 Jan 2023 19:32:02 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 731447805C;
+ Mon,  9 Jan 2023 19:32:01 +0000 (GMT)
+Received: from lingrow.int.hansenpartnership.com (unknown [9.163.48.220])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon,  9 Jan 2023 19:32:01 +0000 (GMT)
+Message-ID: <af22847d6e8f3a64720c4d4d00b93f57ea63ad3e.camel@linux.ibm.com>
+Subject: Re: [PATCH 2/2] tpm: add backend for mssim
+From: James Bottomley <jejb@linux.ibm.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Stefan
+ Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org, Markus Armbruster
+ <armbru@redhat.com>
+Date: Mon, 09 Jan 2023 12:55:27 -0500
+In-Reply-To: <Y7xUVq9PT9ohGfCj@work-vm>
+References: <9fac7d95-d891-413f-93f1-18324c7943ea@linux.ibm.com>
+ <a8863d1905aa427543facb68d8892af369262f19.camel@linux.ibm.com>
+ <29e99f54-d5e8-b18d-08a6-d24435032272@linux.ibm.com>
+ <Y5xH/0bbgFzi+G//@redhat.com>
+ <a990f3c8-cca9-86ff-6995-6e49ba90f839@linux.ibm.com>
+ <Y5xqgK8UXe28VZQ2@redhat.com>
+ <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
+ <Y5yAz0qzaIW4HwFi@redhat.com> <Y7xH1i0Uvbo0FUwG@work-vm>
+ <5c07f6ab6adfe53f7e7fbeeda67f2eb62afccdfa.camel@linux.ibm.com>
+ <Y7xUVq9PT9ohGfCj@work-vm>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] hw/net: Fix read of uninitialized memory in ftgmac100
-Content-Language: en-US
-To: Stephen Longfield <slongfield@google.com>
-CC: <peter.maydell@linaro.org>, <qemu-arm@nongnu.org>,
- <qemu-devel@nongnu.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
- <venture@google.com>, <wuhaotsh@google.com>
-References: <20221220221437.3303721-1-slongfield@google.com>
- <587d650e-fba3-ba44-793e-919dd6f75a90@kaod.org>
- <CAK_0=FLEiWQMWqzkM_EZ4VCzwRYeTbN9djuFgDR1EwVAZ1oALA@mail.gmail.com>
- <CAK_0=FKBx8DxTCJ1QzW7SC8QenNmvm13aJyO9P882V3gKhWxLg@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CAK_0=FKBx8DxTCJ1QzW7SC8QenNmvm13aJyO9P882V3gKhWxLg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: baa6b6ee-9020-4760-8e27-e0f1fa4e4fea
-X-Ovh-Tracer-Id: 6119547468826446700
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeigddutddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefgfekteekgeelheeujeeghfetkeetleeiudeuffektefgkeehueffheevveekjeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepshhlohhnghhfihgvlhgusehgohhoghhlvgdrtghomhdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgrnhgurhgvfiesrghjrdhiugdrrghupdhjohgvlhesjhhmshdrihgurdgruhdpvhgvnhhtuhhrvgesghhoohhglhgvrdgtohhmpdifuhhhrghothhshhesghhoohhglhgvrdgtohhmpdfovfetjf
- hoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: cCJqEpJiO-CEwYIqL59aE9ucn7zl2ENG
+X-Proofpoint-GUID: CFEeoTPT80Y0xjQXsiTk71nwFeIyHS9s
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-09_10,2023-01-09_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ mlxlogscore=543 impostorscore=0 bulkscore=0 clxscore=1015 suspectscore=0
+ phishscore=0 spamscore=0 mlxscore=0 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301090125
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,89 +121,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/9/23 18:50, Stephen Longfield wrote:
-> Does anything more need to happen with this patch before it can be
-> applied? Not sure if it had gotten lost over the holidays.
-
-I queued it with other aspeed changes :
-
-   https://github.com/legoater/qemu/commits/aspeed-8.0
-
-We have some time before 8.0 is released.
-
-Thanks,
-
-C.
-
-
+On Mon, 2023-01-09 at 17:52 +0000, Dr. David Alan Gilbert wrote:
+> * James Bottomley (jejb@linux.ibm.com) wrote:
+[...]
+> > external MSSIM TPM emulator has to be kept running to preserve the
+> > state.  If you restart it, the migration will fail.
 > 
-> Best,
-> 
-> --Stephen
-> 
-> 
-> On Wed, Dec 21, 2022 at 9:58 AM Stephen Longfield <slongfield@google.com> wrote:
->>
->> On Tue, Dec 20, 2022 at 11:30 PM Cédric Le Goater <clg@kaod.org> wrote:
->>>
->>> On 12/20/22 23:14, Stephen Longfield wrote:
->>>> With the `size += 4` before the call to `crc32`, the CRC calculation
->>>> would overrun the buffer. Size is used in the while loop starting on
->>>> line 1009 to determine how much data to write back, with the last
->>>> four bytes coming from `crc_ptr`, so do need to increase it, but should
->>>> do this after the computation.
->>>>
->>>> I'm unsure why this use of uninitialized memory in the CRC doesn't
->>>> result in CRC errors, but it seems clear to me that it should not be
->>>> included in the calculation.
->>>>
->>>> Signed-off-by: Stephen Longfield <slongfield@google.com>
->>>> Reviewed-by: Hao Wu <wuhaotsh@google.com>
->>>
->>>
->>> Reviewed-by: Cédric Le Goater <clg@kaod.org>
->>>
->>> I think imx_fec.c is impacted also.
->>>
->>> Thanks,
->>>
->>> C.
->>>
->>
->> Thanks for pointing that out, looks to be exactly the same. I'll send
->> out a separate patch that fixes the issue in that file.
->>
->> Best,
->>
->> --Stephen
->>
->>>
->>>> ---
->>>>    hw/net/ftgmac100.c | 4 ++--
->>>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
->>>> index 83ef0a783e..d3bf14be53 100644
->>>> --- a/hw/net/ftgmac100.c
->>>> +++ b/hw/net/ftgmac100.c
->>>> @@ -980,9 +980,9 @@ static ssize_t ftgmac100_receive(NetClientState *nc, const uint8_t *buf,
->>>>            return size;
->>>>        }
->>>>
->>>> -    /* 4 bytes for the CRC.  */
->>>> -    size += 4;
->>>>        crc = cpu_to_be32(crc32(~0, buf, size));
->>>> +    /* Increase size by 4, loop below reads the last 4 bytes from crc_ptr. */
->>>> +    size += 4;
->>>>        crc_ptr = (uint8_t *) &crc;
->>>>
->>>>        /* Huge frames are truncated.  */
->>>> --
->>>> 2.39.0.314.g84b9a713c41-goog
->>>>
->>>
+> Document that and we're getting there.
+
+
+The documentation in the current patch series says
+
+----
+The mssim backend supports snapshotting and migration, but the state
+of the Microsoft Simulator server must be preserved (or the server
+kept running) outside of QEMU for restore to be successful.
+----
+
+What, beyond this would you want to see?
+
+James
 
 
