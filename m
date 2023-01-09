@@ -2,84 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF75663242
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C537663241
 	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 22:08:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEzLr-0006tP-9E; Mon, 09 Jan 2023 16:06:39 -0500
+	id 1pEzMO-0006yb-VK; Mon, 09 Jan 2023 16:07:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pEzLn-0006sH-Qo
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 16:06:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pEzMH-0006yK-8s
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 16:07:05 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pEzLl-0007k8-E6
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 16:06:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673298392;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pxTGpzqbR46LUVcCqxi0RD72ksLcjVab7BpPXgRkIug=;
- b=Zgi232NZUTvj6BsXNnpM83lPPn8YwpzRWy2aok3TyuZymbYHvwvQ9myhdZydWOWnOVLY4A
- oeKN3fcmxyUqji3dF/EVjLq9T97Dy2z3toyPz8UWxMZfwBRnwbvtjDynJpB8rL7n4hmmlO
- lLJ+DO9XGEblOBPDRCK3amGTSg+0S1A=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-641-0HZpX8mmNl-kuLEK71MxYw-1; Mon, 09 Jan 2023 16:06:31 -0500
-X-MC-Unique: 0HZpX8mmNl-kuLEK71MxYw-1
-Received: by mail-lf1-f71.google.com with SMTP id
- x12-20020a056512130c00b004cc7af49b05so2144876lfu.10
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 13:06:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pxTGpzqbR46LUVcCqxi0RD72ksLcjVab7BpPXgRkIug=;
- b=a0Jym/GwzU0Iuwl3QClAN1QZiWgbU5uZuN49C1o9RsBEf4ujltD8DT4L8XlaFk86Yk
- nyqVa20lgBerlF+TDWcCGUUrGK/+I0eXl8ftWGHnR0BEI+PhcttErVmPCy3Mmv0fX0il
- QNHcDjpRcULCwf8KSNahwqGoo9vZLXMcPkBbbPXj1Hlbg2cQdF+qVGRHGQ38YeFBQylg
- 19GaFAZy5UZ5TSRkR/VyroJxcPMmoEzEHLCXTcKYm2lc+AfeTGWXnQp2aEX6qN/tk2Aq
- 3kIc1eI3/QfkwamcNPytaZIQj6a20t2fLZwRankMF6ICNhBg6AvNXKRK0QBTsPw6CvH+
- GE2w==
-X-Gm-Message-State: AFqh2koiYwi0p1gpa1blDtTPgI9X/BDktmv0KdTPABtCqsCwFVqNI3/B
- 30IODGanIqd0vZavlDSfMyPrYnXx+3yHkH85jvphqzEkXgqZc71YCnsz9Qar3meOTqsLYOK6uUY
- wrxU3eBglj+TTBUlPasVY3pfoGm4Dc78=
-X-Received: by 2002:ac2:5e78:0:b0:4b4:c06b:243b with SMTP id
- a24-20020ac25e78000000b004b4c06b243bmr3249424lfr.280.1673298389816; 
- Mon, 09 Jan 2023 13:06:29 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt7K+R1vtf/5ZnQoafru/Ya0i6DOVBzIVOZgTNIjTLophglF/uql3iev+bC75JAlj16pwNXzdEDH73uUbzwbJU=
-X-Received: by 2002:ac2:5e78:0:b0:4b4:c06b:243b with SMTP id
- a24-20020ac25e78000000b004b4c06b243bmr3249417lfr.280.1673298389569; Mon, 09
- Jan 2023 13:06:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pEzMC-0007lx-Dz
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 16:07:03 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 309JI3og031005
+ for <qemu-devel@nongnu.org>; Mon, 9 Jan 2023 21:06:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : from : to : cc : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=mVLn6aB+pEOXoLM6FNz4u97dKC7MuwesFBsSUBkm9y8=;
+ b=JEqZ2WNMGPDchkoVzlZ2nvo+cYNfEAiahN98A49StqcQ6Hpb209nygQhI1/cKWpYqQ8p
+ Ml5rw5Zj7JGlKozHkoi55ez1E78PkonrsDsE/QZhWc7u0I2T1LFkb3ae9LkDNe2qO267
+ iwcTRhnM3iFochkieCq6U2bKEAuFTnqfBUOh6VIV5icwPrxPvzulprVvRyzzLTb6AHWo
+ nHtNAsfh/fvu2WyKfIyWYkd0KjdgpUr0gVh8IsSmfKj0wNoaJJr87+YtcGg60WNi2J+6
+ xEp58Qf26/KdnpQTQHB8+w0mifZjLmoICHIlsu4YVYDcKbGQf8lBCp2amPj+/ypgjxry aA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n0rya2c4g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 21:06:35 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 309Ktrf5004115
+ for <qemu-devel@nongnu.org>; Mon, 9 Jan 2023 21:06:35 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n0rya2c43-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Jan 2023 21:06:35 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 309Iv6NB029230;
+ Mon, 9 Jan 2023 21:06:34 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([9.208.130.98])
+ by ppma03dal.us.ibm.com (PPS) with ESMTPS id 3my0c7hevx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Jan 2023 21:06:34 +0000
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com
+ [10.241.53.102])
+ by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 309L6XLa1114762
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 9 Jan 2023 21:06:33 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 51F4758056;
+ Mon,  9 Jan 2023 21:06:33 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 049C85806F;
+ Mon,  9 Jan 2023 21:06:33 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Mon,  9 Jan 2023 21:06:32 +0000 (GMT)
+Message-ID: <c15c7dd1-0ac2-a00c-0895-2ea41eb7414d@linux.ibm.com>
+Date: Mon, 9 Jan 2023 16:06:32 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 2/2] tpm: add backend for mssim
+Content-Language: en-US
+From: Stefan Berger <stefanb@linux.ibm.com>
+To: jejb@linux.ibm.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+References: <9fac7d95-d891-413f-93f1-18324c7943ea@linux.ibm.com>
+ <a8863d1905aa427543facb68d8892af369262f19.camel@linux.ibm.com>
+ <29e99f54-d5e8-b18d-08a6-d24435032272@linux.ibm.com>
+ <Y5xH/0bbgFzi+G//@redhat.com>
+ <a990f3c8-cca9-86ff-6995-6e49ba90f839@linux.ibm.com>
+ <Y5xqgK8UXe28VZQ2@redhat.com>
+ <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
+ <Y5yAz0qzaIW4HwFi@redhat.com> <Y7xH1i0Uvbo0FUwG@work-vm>
+ <5c07f6ab6adfe53f7e7fbeeda67f2eb62afccdfa.camel@linux.ibm.com>
+ <Y7xUVq9PT9ohGfCj@work-vm>
+ <af22847d6e8f3a64720c4d4d00b93f57ea63ad3e.camel@linux.ibm.com>
+ <f2e036a7-5cff-4f95-902f-b31fce3c0ade@linux.ibm.com>
+ <f928986fd4095b1f27c83ede96f3b0dd65ad965e.camel@linux.ibm.com>
+ <a7472cd7-97b2-a063-0065-a78e49d0509a@linux.ibm.com>
+In-Reply-To: <a7472cd7-97b2-a063-0065-a78e49d0509a@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: MD6JALKSvC2XyfNP1238pvWvFChuBGQp
+X-Proofpoint-GUID: 3aO1oEdnGP5L0RlHtzS13K17gMpkDN4B
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20220630123419.1019367-1-marcandre.lureau@redhat.com>
- <CAFn=p-Z1JqriE2iD26pYFycNBZhkxK3wqOcz6KzD-CegFP+qKQ@mail.gmail.com>
- <CAJ+F1C+NEqp-P9BAzT5ADkxVP_pZyvtZPAOVz3R_Xq0w7tCmpg@mail.gmail.com>
-In-Reply-To: <CAJ+F1C+NEqp-P9BAzT5ADkxVP_pZyvtZPAOVz3R_Xq0w7tCmpg@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 9 Jan 2023 16:06:17 -0500
-Message-ID: <CAFn=p-b-hXVGZJruWa7zY+-pXiqMCEN17FTSpHGNHWPPKMik2A@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] python/qemu/machine: fix potential hang in QMP
- accept
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-09_14,2023-01-09_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 mlxscore=0
+ clxscore=1015 adultscore=0 priorityscore=1501 lowpriorityscore=0
+ impostorscore=0 spamscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301090147
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,62 +130,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jul 25, 2022 at 7:23 AM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Fri, Jul 1, 2022 at 2:51 AM John Snow <jsnow@redhat.com> wrote:
->>
->> On Thu, Jun 30, 2022 at 8:34 AM <marcandre.lureau@redhat.com> wrote:
->> >
->> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >
->> > Hi,
->> >
->> > As reported earlier by Richard Henderson ("virgl avocado hang" thread)=
-, avocado
->> > tests may hang when QEMU exits before the QMP connection is establishe=
-d.
->> >
->> > v2:
->> >  - use a socketpair() for QMP (instead of async concurrent code from v=
-1) as
->> >    suggested by Daniel Berrange.
->> >  - should not regress (hopefully)
->> >
->> > Marc-Andr=C3=A9 Lureau (3):
->> >   python/qmp/protocol: add open_with_socket()
->> >   python/qmp/legacy: make QEMUMonitorProtocol accept a socket
->> >   python/qemu/machine: use socketpair() for QMP by default
->> >
->> >  python/qemu/machine/machine.py | 24 ++++++++++++++++--------
->> >  python/qemu/qmp/legacy.py      | 18 +++++++++++++++---
->> >  python/qemu/qmp/protocol.py    | 25 ++++++++++++++++++++-----
->> >  3 files changed, 51 insertions(+), 16 deletions(-)
->> >
->> > --
->> > 2.37.0.rc0
->> >
->>
->> For anything that touches python/qemu/qmp/*, may I please ask that you
->> submit them to https://gitlab.com/qemu-project/python-qemu-qmp ?
->>
->
-> Ok
->
->>
->> (I'll review them in the meantime on-list just in the interest of
->> moving things along.)
->
->
-> I was waiting for a review before updating the patches / moving to python=
--qemu-qmp.
->
 
-Fair enough - can I kindly ask you to resend, though? My apologies and
-Happy New Year!
 
---js
+On 1/9/23 14:01, Stefan Berger wrote:
+> 
+> 
+> On 1/9/23 13:51, James Bottomley wrote:
+>> On Mon, 2023-01-09 at 13:34 -0500, Stefan Berger wrote:
+>>> 
+>>> 
+>>> On 1/9/23 12:55, James Bottomley wrote:
+>>>> On Mon, 2023-01-09 at 17:52 +0000, Dr. David Alan Gilbert 
+>>>> wrote:
+>>>>> * James Bottomley (jejb@linux.ibm.com) wrote:
+>>>> [...]
+>>>>>> external MSSIM TPM emulator has to be kept running to 
+>>>>>> preserve the state.  If you restart it, the migration will 
+>>>>>> fail.
+>>>>> 
+>>>>> Document that and we're getting there.
+>>>> 
+>>>> 
+>>>> The documentation in the current patch series says
+>>>> 
+>>>> ---- The mssim backend supports snapshotting and migration,
+>>>> but the state of the Microsoft Simulator server must be
+>>>> preserved (or the server kept running) outside of QEMU for
+>>>> restore to be successful. ----
+>>>> 
+>>>> What, beyond this would you want to see?
+>>> 
+>>> mssim today lacks the functionality of marshalling and 
+>>> unmarshalling the permanent and volatile state of the TPM 2, 
+>>> which are both needed for snapshot support. How does this work 
+>>> with mssim?
+>> 
+>> You preserve the state by keeping the simulator running as the 
+>> above says.  As long as you can preserve the state, there's no 
+>> maximum time between snapshots.  There's no need of 
+>> marshal/unmarshal if you do this
+> 
+> From 
+> https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg03146.html
+> 
+> "VM snapshotting is basically VM suspend / resume on steroids 
+> requiring permanent and volatile state to be saved and restoreable 
+> from possible very different points in time with possibly different 
+> seeds, NVRAM locations etc. How the mssim protocol does this is 
+> non-obvious to me and how one coordinates the restoring and saving
+> of the TPM's state without direct coordination by QEMU is also 
+> non-obvious."
 
+One thing, though: I am aware of the issues that may arise due to
+support for TPM state migration. However, whether TPM state migration becomes an issue
+depends on how you use the TPM 2.
+
+If the use case is to use the TPM 2 as a local crypto device then state migration
+is  likely not an issue. You may have different keys in the TPM 2 at
+different points in time and even snapshotting may not be an issue but possibly
+quite a welcome feature to have along with support of scenarios of VM suspend + host
+upgrade + host reboot + VM resume.
+
+If you use TPM 2 for attestation then certain TPM 2 state migration scenarios
+may become problematic. One could construct a scenario where attestation preceeds
+some action that requires trust to have been established in the system in the
+preceeding attestation step and support for snapshotting the state of the TPM 2
+could become an issue if I was to wait for the attestation to have been concluded
+and then I quickly restart a different snapshot that is not trustworthy and the client
+proceeds thinking that the system is trustworthy (maybe a few SYNs from the client
+went into the void)
+
+Eliminating TPM 2 state migration is probably not a good idea, because  environments
+where attestation may occur may also support VM suspend/resume along  with upgrading
+a host and rebooting the host or VM migration for some sort of host evacuation
+before upgrade.
+
+
+When it comes to snapshotting and using the TPM 2 as a crypto device just saying that
+VM snapshot is supported by leaving the TPM 2 running and not touching it doesn't make
+this function correctly for all scenarios where the TPM 2 may have had different keys
+loaded. It is even a worse idea for attestation where I could construct a snapshot A
+and wait until the attestation has passed and then resume with a snapshot A' that runs
+untrustworty software but uses the state of the TPM 2 from snapshot A times and remains
+happy to quote the state of the PCRs from before. If launching a snapshot also restores
+the state of the PCRs that goes along with the state of the system at that time then
+that at least allows for quotes to have valid contents of PCRs that reflects the
+system state at snapshot A'.
+
+Kexec also comes to mind in this context where I could quickly start a new system
+post attestation. So physical system could possibly be used for fooling clients as well.
+
+A solution for how to resolve this may involve some sort of protocol and a  connection
+that may not be broken *while* the system needs to be in a trusted state. The protocol
+would have to help detection of substantial changes of state such as resume of some
+snapshot or kexec into a system. Repeated attestation (with correctly restored TPM 2 state)
+  may also help resolve the issue.
+
+Cheers!
+   Stefan
+
+
+
+
+> 
+> 
+> Stefan .
+>> 
+>> James
+>>
+
+> 
 
