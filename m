@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3620662999
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 16:15:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 596496629AA
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 16:18:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEtrG-0001Wi-Mk; Mon, 09 Jan 2023 10:14:42 -0500
+	id 1pEtu8-0003H2-MD; Mon, 09 Jan 2023 10:17:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEtrD-0001OI-Ui
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 10:14:39 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEtu6-0003Gk-I0
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 10:17:38 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEtrB-0007vW-0a
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 10:14:38 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id bs20so8504595wrb.3
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 07:14:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pEtu5-00014r-3i
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 10:17:38 -0500
+Received: by mail-wr1-x436.google.com with SMTP id co23so8513690wrb.4
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 07:17:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=/bXbPMNxJI/reIh3sDfCJwx3V/Krxn/udRJEoqHAjPs=;
- b=Sii8GQgrEUNqfwelKMQY2ono8J4+HkaTYHSws/5EiIqToQmzKv0/qQWizyIR8y81Ic
- YE4TMSIavn5ftOtA8njbh9ZamqS4eXeS7KCrrRRllyvScVaxEisff0zIZK5LCd+6qLzw
- ULLex2WDrujluNvE6dsoqR4jhlXJ6kBLm8IbEYufncYlre+bR96+rEA9z0yP54pV3gm4
- w5qA9G2aE6MCRTXg5kAI3aqB2fxs64IXPTjrXwo0V8HdFzNhEhG+mXemR8IpFmM0q2L2
- J3UTfY6bIyNRkPdiF9/TK2XTX5SuU6AK0W2Cf12aCfBsv3UJLP1en/us5Sv6PusWmheI
- a/iA==
+ bh=l/G1AvuM34wWoPbSWCK9nzUURANsLw24EItiFUk3Ew8=;
+ b=iJzM929zNLRQP4OjYIFx+C2RLPOrQphgNW6gMUqs8VCFNxB4KeA7mCfpkyhHQxXRxv
+ 1FCVYHek1MuEeIQz+6lwpLlO0i7jjZfu8RmckKNj+AWKxRD3mqKHsEDkaupyK5GJqwjm
+ Ogg/yy7m8LkZb6Bq6gOk1yeKmpXrx0sumUAgQTxF1bWwTN9iDFum0vq/qIateKXaHyAU
+ zEfcrrCaoPQeCHz7l+kGM+9sdP8IxbGhtHhMu/OuGaQDsWwAU5nQg3ueH+4YXdIYsZxd
+ nm2Ka0B+ViYJEpryjnk3xdtUdCNT5/13NMxZeCh6WzpNMKf+W5Jrskx4NvEcpP9OaTRE
+ bsjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/bXbPMNxJI/reIh3sDfCJwx3V/Krxn/udRJEoqHAjPs=;
- b=iEk7nrpxktaYmUD+P4azkek/fha3AgZelBvAMpedzFUbUgPK41YW5UvCB/pBFCplne
- 25yD/0TXbIYEUGtnkOllkUg0RNQKn8aqYs95MXNf5uqgOCpW9yKN08w/jpGIBtTPeYxS
- LTYx2/0DLPfg/5Cf3sUTRdQDRPxxFrP30AkB0S30XChfkW2ElE3h4qyuN5ZVwAb1VqZm
- y44bh1zvASPKHfujAkDMH7+OBo+G+s6DyIeIQRkufxiYxxV9p5dozGrqk942l6r5rglt
- blYoVMvJOjqRr34co/RzOlGQeS8VJHgnVBQUeAYViy6F3v5iFmvy/vqnwKZ/p6hBUtqz
- bqRA==
-X-Gm-Message-State: AFqh2ko/9KCFXrs39+EaT+e2cLQF+Y8PbP3ank1j4T0rVxbFX3V1AgMT
- O3rYphtHD5uabSsiURm1BFrR4g==
-X-Google-Smtp-Source: AMrXdXvwsD/4L5PFYIbQBFopSZhVZ52mcyTE8z74aqSO2JF0xBf0gpnuufrvpGEOTzR+Pm2pzGx1sA==
-X-Received: by 2002:a05:6000:80b:b0:29a:c631:e3ff with SMTP id
- bt11-20020a056000080b00b0029ac631e3ffmr18320649wrb.53.1673277275596; 
- Mon, 09 Jan 2023 07:14:35 -0800 (PST)
+ bh=l/G1AvuM34wWoPbSWCK9nzUURANsLw24EItiFUk3Ew8=;
+ b=Rh2bpou55b01MQFzsA8szfUOfuJCFWoedyE8cedyXn21LOWaR0lSp5Bf71PbVdv5+G
+ JROpgSvHlX3qU46K7IE9a7Beofotuo2aC8T57afLAK6Xzt0WZRWe3etG68atPV2juPPz
+ XJFcuxaYMhzIbly8wbgMjx+dsIZxIP6ke5+2KLLR9MU2wWQnWbyKkVzN5cyXGLuY1MQu
+ RnSftsxw5JoQHxYkfun+MaF8C8swU97K/j4keBEB6TKmPPYhyTB83dKQDJ5UYeltAZQo
+ p02R7HaNgvW+ya/qlUukzZsqwA7JSUliZmPN+JnXC3Ux+Qsstml7xnQd9e4itXNXVbC2
+ F1pw==
+X-Gm-Message-State: AFqh2koxFMr+L3VCbrqFgKqEaIoiRueubki7rm/YQOt3CJdKpvZRcYn/
+ cFYR49CnRfJwOkWAm4bUYUh/Vo/6LWAT+GOu
+X-Google-Smtp-Source: AMrXdXtL96kNTKPEdD7FEiRY0qNUKYiht6ElYWkalVXLi6JebePNIYl6CZEVR2vuOSEy6SOKL+KR2A==
+X-Received: by 2002:a05:6000:1c05:b0:261:d8be:3046 with SMTP id
+ ba5-20020a0560001c0500b00261d8be3046mr43994782wrb.0.1673277455712; 
+ Mon, 09 Jan 2023 07:17:35 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- e35-20020a5d5963000000b00276d8c2332fsm9818009wri.108.2023.01.09.07.14.33
+ n4-20020a5d6b84000000b00282194eaf7bsm8511766wrx.71.2023.01.09.07.17.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 07:14:35 -0800 (PST)
-Message-ID: <370e707a-452c-6a2b-eef5-46605ac048d4@linaro.org>
-Date: Mon, 9 Jan 2023 16:14:33 +0100
+ Mon, 09 Jan 2023 07:17:35 -0800 (PST)
+Message-ID: <a209bcf3-275b-a824-3995-337cc5a9d7a8@linaro.org>
+Date: Mon, 9 Jan 2023 16:17:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
 Subject: Re: [PATCH v2 01/21] hw/block: Rename TYPE_PFLASH_CFI02 'width'
  property as 'device-width'
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: BALATON Zoltan <balaton@eik.bme.hu>, Markus Armbruster
+ <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 References: <20230109120833.3330-1-philmd@linaro.org>
  <20230109120833.3330-2-philmd@linaro.org>
  <791cd783-4f27-dd18-c6bd-b9a316bb42cd@eik.bme.hu>
  <8507ed0d-fc90-8ce3-2d7d-82c106b20231@linaro.org>
- <477d20c7-4973-9290-09db-e3877b76c806@eik.bme.hu>
+ <Y7wlnqwU+/auE0Jj@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <477d20c7-4973-9290-09db-e3877b76c806@eik.bme.hu>
+In-Reply-To: <Y7wlnqwU+/auE0Jj@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,15 +95,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/1/23 15:18, BALATON Zoltan wrote:
-> On Mon, 9 Jan 2023, Philippe Mathieu-Daudé wrote:
+On 9/1/23 15:33, Daniel P. Berrangé wrote:
+> On Mon, Jan 09, 2023 at 02:56:13PM +0100, Philippe Mathieu-Daudé wrote:
 >> On 9/1/23 14:33, BALATON Zoltan wrote:
 >>> On Mon, 9 Jan 2023, Philippe Mathieu-Daudé wrote:
 >>>> Use the same property name than the TYPE_PFLASH_CFI01 model.
 >>>
->>> Nothing uses it? Can this break command lines and if so do we need 
->>> deprecation or some compatibility function until everybody changed 
->>> their usage?
+>>> Nothing uses it? Can this break command lines and if so do we need
+>>> deprecation or some compatibility function until everybody changed their
+>>> usage?
 >>
 >> Good point... I missed that :/
 >>
@@ -112,22 +111,19 @@ On 9/1/23 15:18, BALATON Zoltan wrote:
 >> property with DEFINE_PROP_UINT8()? I'm worried about an user
 >> doing:
 >>
->> -device cfi.pflash02,device-width=4,width=2,...
+>>   -device cfi.pflash02,device-width=4,width=2,...
+>>
+>> and the processing order of the properties, besides property
+>> overwritten isn't warned to the user.
 > 
-> Or maybe just leave it alone to avoid further problems. Cfi02 only has 
-> width and 4 sector lengths with corresponding sizes, while cfi01 has 
-> width, device-width and max-device-width so these just seem to be 
-> describing geometry differently so maybe no need to try to use same 
-> property names. Width is also shorter than device-width so I'd keep that 
-> for brevity.
-I don't mind for this particular model, but I'd like to understand
-how to fix this generically, because I have other models to modify...
+> Correct nothing warns.
+> 
+> Something would need to issue a warning when the deprecated
+> property is set.
 
+For a one-shot change we could use object_property_add(), having the
+setter() displaying the warning.
 
-Back to our pflash models, the multiple '*width' properties are a way
-to implement interleaved parallel flashes. For previous discussions
-see:
-https://lore.kernel.org/qemu-devel/20190426162624.55977-5-stephen.checkoway@oberlin.edu/
-and a way to unify:
-https://lore.kernel.org/qemu-devel/20200817161853.593247-5-f4bug@amsat.org/
+If this is recurrent, we could add a 
+object_property_add_deprecated_alias() helper.
 
