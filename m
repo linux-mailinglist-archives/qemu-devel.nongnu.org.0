@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A31662733
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:35:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3F9662761
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 14:41:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pErZv-0005sI-8D; Mon, 09 Jan 2023 07:48:39 -0500
+	id 1pErdC-0006po-TI; Mon, 09 Jan 2023 07:52:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pErZq-0005oC-Vs; Mon, 09 Jan 2023 07:48:35 -0500
+ id 1pErd1-0006oS-Cq; Mon, 09 Jan 2023 07:51:53 -0500
 Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pErZp-0005tY-6c; Mon, 09 Jan 2023 07:48:34 -0500
+ id 1pErcz-0007Tu-Pc; Mon, 09 Jan 2023 07:51:51 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C7CB4745720;
- Mon,  9 Jan 2023 13:46:11 +0100 (CET)
+ by localhost (Postfix) with SMTP id 99A257457E7;
+ Mon,  9 Jan 2023 13:49:29 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 913C8745706; Mon,  9 Jan 2023 13:46:11 +0100 (CET)
+ id 64964745720; Mon,  9 Jan 2023 13:49:29 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 8FA317456E3;
- Mon,  9 Jan 2023 13:46:11 +0100 (CET)
-Date: Mon, 9 Jan 2023 13:46:11 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 636B7745712;
+ Mon,  9 Jan 2023 13:49:29 +0100 (CET)
+Date: Mon, 9 Jan 2023 13:49:29 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
 cc: qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
@@ -32,14 +32,14 @@ cc: qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
  Aurelien Jarno <aurelien@aurel32.net>, 
  Jiaxun Yang <jiaxun.yang@flygoat.com>, Magnus Damm <magnus.damm@gmail.com>, 
  qemu-ppc@nongnu.org
-Subject: Re: [PATCH 4/5] hw/sh4/r2d: Use the IEC binary prefix definitions
-In-Reply-To: <20230109120154.2868-5-philmd@linaro.org>
-Message-ID: <31e6a45c-3fec-f6ae-875f-b1a8ac8749e0@eik.bme.hu>
+Subject: Re: [PATCH 5/5] hw/sh4/r2d: Add the FLASH_SECTOR_SIZE definition
+In-Reply-To: <20230109120154.2868-6-philmd@linaro.org>
+Message-ID: <2dec43d6-98ca-1f79-494b-e292d1052c92@eik.bme.hu>
 References: <20230109120154.2868-1-philmd@linaro.org>
- <20230109120154.2868-5-philmd@linaro.org>
+ <20230109120154.2868-6-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="3866299591-1211703913-1673268371=:7264"
+ boundary="3866299591-1959592125-1673268569=:7264"
 X-Spam-Probability: 9%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
@@ -66,51 +66,50 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-1211703913-1673268371=:7264
+--3866299591-1959592125-1673268569=:7264
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
 On Mon, 9 Jan 2023, Philippe Mathieu-Daudé wrote:
-> IEC binary prefixes ease code review: the unit is explicit.
->
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
-> hw/sh4/r2d.c | 6 +++---
-> 1 file changed, 3 insertions(+), 3 deletions(-)
+> hw/sh4/r2d.c | 7 ++++---
+> 1 file changed, 4 insertions(+), 3 deletions(-)
 >
 > diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
-> index 39fc4f19d9..b3667e9b12 100644
+> index b3667e9b12..6e0c65124a 100644
 > --- a/hw/sh4/r2d.c
 > +++ b/hw/sh4/r2d.c
-> @@ -47,10 +47,10 @@
-> #define FLASH_BASE 0x00000000
-> #define FLASH_SIZE (16 * MiB)
+> @@ -45,7 +45,8 @@
+> #include "hw/block/flash.h"
 >
-> -#define SDRAM_BASE 0x0c000000 /* Physical location of SDRAM: Area 3 */
-> -#define SDRAM_SIZE 0x04000000
-> +#define SDRAM_BASE          (192 * MiB) /* Physical location of SDRAM: Area 3 */
-> +#define SDRAM_SIZE          (64 * MiB)
+> #define FLASH_BASE 0x00000000
+> -#define FLASH_SIZE (16 * MiB)
+> +#define FLASH_SIZE          (16 * MiB)
+> +#define FLASH_SECTOR_SIZE   (128 * KiB)
 
-I don't think changing these help as the docs probably have memory map 
-with the hex numbers rather than sizes so it's easier to match as it is 
-now.
-
-> -#define SM501_VRAM_SIZE 0x800000
-> +#define SM501_VRAM_SIZE     (8 * MiB)
-
-This one is OK but since it's only used once in
-
-qdev_prop_set_uint32(dev, "vram-size", SM501_VRAM_SIZE);
-
-you might as well just inline it there and remove the define which is then 
-pretty clear and easier to see without needing to look up the define far 
-away from its usage.
+I'm not a fan of single use defines when it makes harder to see what value 
+is used than using a constant. This one is border line case as the 
+pflash_cfi02_register() function has so many arguments that it's not clear 
+which is which but I'm not sure it worth the churn but I don't care too 
+much either.
 
 Regards,
 BALATON Zoltan
 
-> #define BOOT_PARAMS_OFFSET 0x0010000
-> /* CONFIG_BOOT_LINK_OFFSET of Linux kernel */
+> #define SDRAM_BASE          (192 * MiB) /* Physical location of SDRAM: Area 3 */
+> #define SDRAM_SIZE          (64 * MiB)
+> @@ -304,8 +305,8 @@ static void r2d_init(MachineState *machine)
+>     dinfo = drive_get(IF_PFLASH, 0, 0);
+>     pflash_cfi02_register(0x0, "r2d.flash", FLASH_SIZE,
+>                           dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
+> -                          64 * KiB, 1, 2, 0x0001, 0x227e, 0x2220, 0x2200,
+> -                          0x555, 0x2aa, 0);
+> +                          FLASH_SECTOR_SIZE, 1, 2,
+> +                          0x0001, 0x227e, 0x2220, 0x2200, 0x555, 0x2aa, 0);
 >
---3866299591-1211703913-1673268371=:7264--
+>     /* NIC: rtl8139 on-board, and 2 slots. */
+>     for (i = 0; i < nb_nics; i++)
+>
+--3866299591-1959592125-1673268569=:7264--
 
