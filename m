@@ -2,93 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599FF663265
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 22:11:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 786096632AA
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Jan 2023 22:19:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pEzQX-00010y-QB; Mon, 09 Jan 2023 16:11:29 -0500
+	id 1pEzXZ-0002ZF-H1; Mon, 09 Jan 2023 16:18:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pEzQV-00010h-IQ
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 16:11:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from
+ <BATV+ef51117798de1fdb0eeb+7078+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pEzXU-0002Z7-Pu
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 16:18:41 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pEzQU-0001tM-3a
- for qemu-devel@nongnu.org; Mon, 09 Jan 2023 16:11:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673298685;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jWszbajlfIon8UOzUFX48i8ucc+I9ZIG2M+goJXMKdY=;
- b=hS09QMAAyH6DYVGHD3XscBLV5f6MiNK1EsgYEKx674obsYYDTQkOR3YSxZwRFqc0Ri6g7C
- POz+JexxWpShV0b4IlPXEF1PkYguAo6C50StOV16JRhz5C+kYp9KCafB/v++pW4IOCtBYX
- Q1ZFVZMQkKiSrYXh3zKli4ERUdlQvNc=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-672-1xDsStdqOIqsKA_Z1lFQAw-1; Mon, 09 Jan 2023 16:11:24 -0500
-X-MC-Unique: 1xDsStdqOIqsKA_Z1lFQAw-1
-Received: by mail-vs1-f72.google.com with SMTP id
- s62-20020a675e41000000b003cefb1730d9so1273441vsb.0
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 13:11:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jWszbajlfIon8UOzUFX48i8ucc+I9ZIG2M+goJXMKdY=;
- b=E47GUz9z4CJjZr4hbgTYOpHrsyy8b5msEBt6/rRG2RjnVlaAoTatXmgNJ01SwhyiKS
- Pur9XZ+QvOKOxfkjTXz2g9wqBD+QH/dyiu1a+BmderSoTALWrk4DMHDtPvdE7b86WCgW
- YSHfFUpF1OXPKWyd+wTYf8DY4IcMcwgO/rpiDpWNl8WuBpDf05BirSgv5ectVeE/2VRM
- 2sTApQ4SqhcFuLpERrpOnIhW7Qmc+yjv31btrVs/B0K+FDCf1t7KR/BVujnlRVsy+K70
- VN+kFQ62qgdYBZBC3RhukTcvW0w3nln6XQ6HuCJWLc00hh2xv+VWbWzcHKu5yIt9Ebs5
- YyqQ==
-X-Gm-Message-State: AFqh2kpmnCJ/QauSJrZRZT+7ZHu/t999Qz8nN6G6GqoGPyml616+AmaE
- ECVjoPDScB/c6lDsF4VxiEFEeRKMlx4SjhRhFrVjFd8GEL5Em+Q2o+SUSaZh7km9znpv+8N/ktj
- eliDd+F1tVpAjPAU=
-X-Received: by 2002:a05:6102:116a:b0:3c6:fca5:b8f7 with SMTP id
- k10-20020a056102116a00b003c6fca5b8f7mr24515316vsg.7.1673298683773; 
- Mon, 09 Jan 2023 13:11:23 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvCheZ7Ja5CWH334atVYHJb2z1sc7zRdyzCmVnGbl+A0ZAAKvNDIz98G0+IeE/G7WlQFMrDag==
-X-Received: by 2002:a05:6102:116a:b0:3c6:fca5:b8f7 with SMTP id
- k10-20020a056102116a00b003c6fca5b8f7mr24515297vsg.7.1673298683511; 
- Mon, 09 Jan 2023 13:11:23 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- dm42-20020a05620a1d6a00b00705bac8891esm2139842qkb.40.2023.01.09.13.11.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 13:11:22 -0800 (PST)
-Message-ID: <0eb96eb5-703d-dacd-49ff-f61e02d98eb9@redhat.com>
-Date: Mon, 9 Jan 2023 22:11:19 +0100
+ (Exim 4.90_1) (envelope-from
+ <BATV+ef51117798de1fdb0eeb+7078+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pEzXS-0002ve-B1
+ for qemu-devel@nongnu.org; Mon, 09 Jan 2023 16:18:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=4f1sIhcGlksQEWAJDA4Crs/CH5X5vJ6N4+QI50sjSbY=; b=HN82nllrEIMbU6RDwob0rWoNfl
+ K25jW3wTEo47HKEr1x5HoMFwhF1I/dSxlqUzh8GYHnAytQ6qnRkSK3wRgMiBflFuyVZt3c4O2AaBU
+ dX/KSfKdTB5yExRWXIWbA0HvGCrJ6hP45k2ydLNZuR7l50dIXyB4z66XWpgSgpnv0mjrT0OK8FUs+
+ XQh6nqo9siPKNfS2589fbxnm4hWhFM8zbzVc9GnBD58G/8kclRYn9j4ufiSDlhbfUgJ+9vWaMCYGW
+ WSBvGuHr9LdVk33+0XmJ1YtoaoeiAzDUT7jzElMpampMv4UQL/3gPu+z75Vr6hVSI/cfLgMZXwe23
+ KePH41Og==;
+Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pEzXY-002dhJ-Oh; Mon, 09 Jan 2023 21:18:44 +0000
+Message-ID: <e01807f69df95883de9c5ae75af5afd5a57da399.camel@infradead.org>
+Subject: Re: [RFC PATCH v5 28/52] i386/xen: Add support for Xen event
+ channel delivery to vCPU
+From: David Woodhouse <dwmw2@infradead.org>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>, Joao
+ Martins <joao.m.martins@oracle.com>, Ankur Arora
+ <ankur.a.arora@oracle.com>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
+ <philmd@linaro.org>, Thomas Huth <thuth@redhat.com>, Alex
+ =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Juan Quintela
+ <quintela@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
+Date: Mon, 09 Jan 2023 21:18:31 +0000
+In-Reply-To: <20221230121235.1282915-29-dwmw2@infradead.org>
+References: <20221230121235.1282915-1-dwmw2@infradead.org>
+ <20221230121235.1282915-29-dwmw2@infradead.org>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-LexYA2qrgFlJoMiYW/Cr"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: virtio-iommu issue with VFIO device downstream to a PCIe-to-PCI
- bridge: VFIO devices are not assigned any iommu group
-Content-Language: en-US
-From: Eric Auger <eauger@redhat.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- qemu list <qemu-devel@nongnu.org>
-Cc: Peter Xu <peterx@redhat.com>, Alex Williamson
- <alex.williamson@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>
-References: <0bc2f2e5-630e-e721-254d-f224d1a3bdcd@redhat.com>
-In-Reply-To: <0bc2f2e5-630e-e721-254d-f224d1a3bdcd@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+ef51117798de1fdb0eeb+7078+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,91 +81,326 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
 
-On 1/9/23 14:24, Eric Auger wrote:
-> Hi,
-> 
-> we have a trouble with virtio-iommu and protected assigned devices
-> downstream to a pcie-to-pci bridge. In that use case we observe the
-> assigned devices are not put to any group. This is true on both x86 and
-> aarch64. This use case works with intel-iommu.
-> 
-> *** Guest PCI topology is:
-> lspci -tv
-> -[0000:00]-+-00.0  Intel Corporation 82G33/G31/P35/P31 Express DRAM
-> Controller
->            +-01.0  Device 1234:1111
->            +-02.0-[01-02]----00.0-[02]----01.0  Broadcom Inc. and
-> subsidiaries BCM57416 NetXtreme-E Dual-Media 10G RDMA Ethernet Controller
->            +-02.1-[03]--
->            +-02.2-[04]----00.0  Red Hat, Inc. Virtio block device
->            +-0a.0  Red Hat, Inc. Device 1057
->            +-1f.0  Intel Corporation 82801IB (ICH9) LPC Interface Controller
->            +-1f.2  Intel Corporation 82801IR/IO/IH (ICH9R/DO/DH) 6 port
-> SATA Controller [AHCI mode]
->            \-1f.3  Intel Corporation 82801I (ICH9 Family) SMBus Controller
-> 
-> 
-> All the assigned devices are aliased and they get devfn=0x0.
-> see qemu pci_device_iommu_address_space in hw/pci.c
-> 
-> Initially I see the following traces
-> pci_device_iommu_address_space name=vfio-pci BDF=0x8 bus=0 devfn=0x8
-> pci_device_iommu_address_space name=vfio-pci BDF=0x8 bus=0 devfn=0x8
-> call iommu_fn with bus=0x55f556dde180 and devfn=0
-> virtio_iommu_init_iommu_mr init virtio-iommu-memory-region-0-0
-> 
-> Note the bus is 0 at this time and devfn that is used in the
-> virtio-iommu is 0. So an associated IOMMU MR is created with this bus at
-> devfn=0 slot. This is before bus actual numbering.
-> 
-> However later on, I see virtio_iommu_probe() and virtio_iommu_attach()
-> getting called with ep_id=520
-> because in the qemu virtio-iommu device, virtio_iommu_mr(pe_id) fails to
-> find the iommu_mr and returns -ENOENT
-> 
-> On guest side I see that
-> acpi_iommu_configure_id/iommu_probe_device() fails
-> (__iommu_probe_device) and also __iommu_attach_device would also fail
-> anyway.
-> 
-> I guess those get called before actual bus number recomputation?
-> 
-> on aarch64 I eventually see the "good" MR beeing created, ie. featuring
-> the right bus number:
-> qemu-system-aarch64: pci_device_iommu_address_space name=vfio-pci
-> BDF=0x208 bus=2 devfn=0x8
-> qemu-system-aarch64: pci_device_iommu_address_space name=vfio-pci
-> BDF=0x208 bus=2 devfn=0x8 call iommu_fn with bus=0xaaaaef12c450 and devfn=0
-> 
-> But this does not happen on x86.
-> 
-> Jean, do you have any idea about how to fix that? Do you think we have a
-> trouble in the acpi/viot setup or virtio-iommu probe sequence. It looks
-> like virtio probe and attach commands are called too early, before the
-> bus is actually correctly numbered.
+--=-LexYA2qrgFlJoMiYW/Cr
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-So after further investigations looks this is not a problem of bus
-number, which is good at the time of the virtio cmd calls but rather a
-problem related to the devfn (0 was used when creating the IOMMU MR)
-whereas the virtio-iommu cmds looks for the non aliased devfn. With that
-fixed, the probe and attach at least succeeds. The device still does not
-work for me but I will continue my investigations and send a tentative fix.
+On Fri, 2022-12-30 at 12:12 +0000, David Woodhouse wrote:
+>=20
+> +static void *gpa_to_hva(uint64_t gpa)
+> +{
+> +=C2=A0=C2=A0=C2=A0 MemoryRegionSection mrs;
+> +
+> +=C2=A0=C2=A0=C2=A0 mrs =3D memory_region_find(get_system_memory(), gpa, =
+1);
+> +=C2=A0=C2=A0=C2=A0 return !mrs.mr ? NULL : qemu_map_ram_ptr(mrs.mr->ram_=
+block,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mrs.offset_within_region);
+> +}
+> +
+> +void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id)
+> +{
+> +=C2=A0=C2=A0=C2=A0 CPUState *cs =3D qemu_get_cpu(vcpu_id);
+> +=C2=A0=C2=A0=C2=A0 CPUX86State *env;
+> +=C2=A0=C2=A0=C2=A0 uint64_t gpa;
+> +
+> +=C2=A0=C2=A0=C2=A0 if (!cs) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
+> +=C2=A0=C2=A0=C2=A0 }
+> +=C2=A0=C2=A0=C2=A0 env =3D &X86_CPU(cs)->env;
+> +
+> +=C2=A0=C2=A0=C2=A0 gpa =3D env->xen_vcpu_info_gpa;
+> +=C2=A0=C2=A0=C2=A0 if (gpa =3D=3D INVALID_GPA) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpa =3D env->xen_vcpu_info_de=
+fault_gpa;
+> +=C2=A0=C2=A0=C2=A0 }
+> +=C2=A0=C2=A0=C2=A0 if (gpa =3D=3D INVALID_GPA) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
+> +=C2=A0=C2=A0=C2=A0 }
+> +
+> +=C2=A0=C2=A0=C2=A0 return gpa_to_hva(gpa);
+> +}
 
-Thanks
+Hm, no. That leaks a refcount on the MemoryRegion each time, doesn't
+it?
 
-Eric
-> 
-> Thanks
-> 
-> Eric
-> 
-> 
-> 
-> 
-> 
-> 
-> 
+Fixing it up something like this, by caching the HVA (and the
+MemoryRegion so we can unref it later)...=C2=A0
 
+I'll send the incremental patch to allow for specific review without it
+getting lost in the noise:
+
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 1a411e1b49..b579f0f0f8 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1791,6 +1791,8 @@ typedef struct CPUArchState {
+ #endif
+ #if defined(CONFIG_KVM)
+     struct kvm_nested_state *nested_state;
++    MemoryRegion *xen_vcpu_info_mr;
++    void *xen_vcpu_info_hva;
+     uint64_t xen_vcpu_info_gpa;
+     uint64_t xen_vcpu_info_default_gpa;
+     uint64_t xen_vcpu_time_info_gpa;
+diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
+index 6c0f180059..aa2c00e0b9 100644
+--- a/target/i386/kvm/xen-emu.c
++++ b/target/i386/kvm/xen-emu.c
+@@ -320,6 +320,35 @@ static void do_set_vcpu_callback_vector(CPUState *cs, =
+run_on_cpu_data data)
+     }
+ }
+=20
++static int set_vcpu_info(CPUState *cs, uint64_t gpa)
++{
++    X86CPU *cpu =3D X86_CPU(cs);
++    CPUX86State *env =3D &cpu->env;
++    MemoryRegionSection mrs;
++    int ret;
++
++    ret =3D kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO, gp=
+a);
++    if (ret || gpa =3D=3D INVALID_GPA) {
++    fail:
++        if (env->xen_vcpu_info_mr) {
++            memory_region_unref(env->xen_vcpu_info_mr);
++            env->xen_vcpu_info_mr =3D NULL;
++        }
++        env->xen_vcpu_info_hva =3D NULL;
++        return ret;
++    }
++
++    mrs =3D memory_region_find(get_system_memory(), gpa, sizeof(struct vcp=
+u_info));
++    if (!mrs.mr || !mrs.mr->ram_block || mrs.size < sizeof(struct vcpu_inf=
+o) ||
++        !(env->xen_vcpu_info_hva =3D qemu_map_ram_ptr(mrs.mr->ram_block,
++                                                    mrs.offset_within_regi=
+on))) {
++        ret =3D -EINVAL;
++        goto fail;
++    }
++    env->xen_vcpu_info_mr =3D mrs.mr;
++    return 0;
++}
++
+ static void do_set_vcpu_info_default_gpa(CPUState *cs, run_on_cpu_data dat=
+a)
+ {
+     X86CPU *cpu =3D X86_CPU(cs);
+@@ -329,8 +358,7 @@ static void do_set_vcpu_info_default_gpa(CPUState *cs, =
+run_on_cpu_data data)
+=20
+     /* Changing the default does nothing if a vcpu_info was explicitly set=
+. */
+     if (env->xen_vcpu_info_gpa =3D=3D INVALID_GPA) {
+-        kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO,
+-                              env->xen_vcpu_info_default_gpa);
++        set_vcpu_info(cs, env->xen_vcpu_info_default_gpa);
+     }
+ }
+=20
+@@ -341,55 +369,30 @@ static void do_set_vcpu_info_gpa(CPUState *cs, run_on=
+_cpu_data data)
+=20
+     env->xen_vcpu_info_gpa =3D data.host_ulong;
+=20
+-    kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO,
+-                          env->xen_vcpu_info_gpa);
+-}
+-
+-static void *gpa_to_hva(uint64_t gpa)
+-{
+-    MemoryRegionSection mrs;
+-
+-    mrs =3D memory_region_find(get_system_memory(), gpa, 1);
+-    return !mrs.mr ? NULL : qemu_map_ram_ptr(mrs.mr->ram_block,
+-                                             mrs.offset_within_region);
+-}
+-
+-static void *vcpu_info_hva_from_cs(CPUState *cs)
+-{
+-    CPUX86State *env =3D &X86_CPU(cs)->env;
+-    uint64_t gpa =3D env->xen_vcpu_info_gpa;
+-
+-    if (gpa =3D=3D INVALID_GPA) {
+-        gpa =3D env->xen_vcpu_info_default_gpa;
+-    }
+-    if (gpa =3D=3D INVALID_GPA) {
+-        return NULL;
+-    }
+-
+-    return gpa_to_hva(gpa);
++    set_vcpu_info(cs, env->xen_vcpu_info_gpa);
+ }
+=20
+ void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id)
+ {
+     CPUState *cs =3D qemu_get_cpu(vcpu_id);
+-
+     if (!cs) {
+             return NULL;
+     }
+=20
+-    return vcpu_info_hva_from_cs(cs);
++    return X86_CPU(cs)->env.xen_vcpu_info_hva;
+ }
+=20
+ void kvm_xen_maybe_deassert_callback(CPUState *cs)
+ {
+-    struct vcpu_info *vi =3D vcpu_info_hva_from_cs(cs);
++    CPUX86State *env =3D &X86_CPU(cs)->env;
++    struct vcpu_info *vi =3D env->xen_vcpu_info_hva;
+     if (!vi) {
+             return;
+     }
+=20
+     /* If the evtchn_upcall_pending flag is cleared, turn the GSI off. */
+     if (!vi->evtchn_upcall_pending) {
+-        X86_CPU(cs)->env.xen_callback_asserted =3D false;
++        env->xen_callback_asserted =3D false;
+         xen_evtchn_set_callback_level(0);
+     }
+ }
+@@ -519,7 +522,7 @@ static void do_vcpu_soft_reset(CPUState *cs, run_on_cpu=
+_data data)
+     env->xen_singleshot_timer_ns =3D 0;
+     memset(env->xen_virq, 0, sizeof(env->xen_virq));
+=20
+-    kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO, INVALID_GP=
+A);
++    set_vcpu_info(cs, INVALID_GPA);
+     kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_TIME_INFO,
+                           INVALID_GPA);
+     kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADDR,
+@@ -1572,7 +1575,7 @@ int kvm_put_xen_state(CPUState *cs)
+     }
+=20
+     if (gpa !=3D INVALID_GPA) {
+-        ret =3D kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO=
+, gpa);
++        ret =3D set_vcpu_info(cs, gpa);
+         if (ret < 0) {
+             return ret;
+         }
+
+
+--=-LexYA2qrgFlJoMiYW/Cr
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMTA5MjExODMxWjAvBgkqhkiG9w0BCQQxIgQgcJ68AFN+
+p7fg0kKdxG/n7TOOhPvbnBxT12No4Ej+Lz4wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBnRWVv7yjJPasaA29VoIMJ0LxwrNAG65wH
+y22iM0zgy0iYMcBH4W1GA6HpXEFo2WBKSe0l0FU09ttlQ8lzYwn7IQ0WXkx+9nNZUUT6XaWdchI2
+ttF+edUUS/QpqblRU6KSjp5fmeV0EC3f8BXvIxQOVt+JlBTENIqVKmK+RMAM8ejWwUyyD0iVn1Bw
+9i35K2EWu2OlGTw9EQMqsPlqcVRz54vc/SX4lshfJ1Vo9AinVqn+nLjLuqsXfB4G1FSsJfXTR2LI
+Tl9DfERMD6xkov1FlXPQSn9HNUpLuuZiTSKnH4Q6scc3udtGurxyOHX4zwcBDt6uC9cwD1dsa5BK
+/FsIdFO6L4tx3ggTzRx5vhP4LJ+R7Qlbuwo7VSviDsSQ5GiMGw9Pa2AzX+fVnXCq0AEz+qaWwps6
+3P/LID/VwpTFvlI1myAdv7otpW35gHKmFY04uOx3lT1Or9FfgKu5XJ+nDBXKugvMi9KkbIIi0/2d
+nDJV7kt0urIi9+BwcDvhUbKP12qTVAgNJ/62VDEa0MmrwLfMgnJi8FEnnvDDdgZPzGcjxAeLFiKq
+CZsxJuZFUuycKhGTOxuJ+wzN4GQubBSgyN+75lIzslgwn6r8TBEs+6O5oRod0iONiJ3BEyXudLZO
+Ta/2tMMfeQUxPJDi0cIhfqwuah6Qiyra/H9sgUOIGwAAAAAAAA==
+
+
+--=-LexYA2qrgFlJoMiYW/Cr--
 
