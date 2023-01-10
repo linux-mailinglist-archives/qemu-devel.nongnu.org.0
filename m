@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FBFE6639CB
+	by mail.lfdr.de (Postfix) with ESMTPS id B47D86639CD
 	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 08:19:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF8tX-0006oV-3d; Tue, 10 Jan 2023 02:18:03 -0500
+	id 1pF8th-0006u5-ST; Tue, 10 Jan 2023 02:18:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pF8tU-0006lk-GX; Tue, 10 Jan 2023 02:18:00 -0500
+ id 1pF8tY-0006q0-0f; Tue, 10 Jan 2023 02:18:04 -0500
 Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pF8tT-0003Lr-0E; Tue, 10 Jan 2023 02:18:00 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 8F6103200989;
- Tue, 10 Jan 2023 02:17:56 -0500 (EST)
+ id 1pF8tW-0003MF-ER; Tue, 10 Jan 2023 02:18:03 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id B7B863200943;
+ Tue, 10 Jan 2023 02:17:59 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 10 Jan 2023 02:17:57 -0500
+ by compute2.internal (MEProxy); Tue, 10 Jan 2023 02:18:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1673335076; x=
- 1673421476; bh=v+pwZ7Xj3smDj+yWBJfTO38yRtfwHhoOqV+E+YskYOM=; b=Z
- n5W8z4EbnUZI3eODPAIbMF2dcZdeZuHMsdQIUSXKkslgipbrrEdMkDDINpln4ohT
- mHQQ2sdT6MMBXwEugdGF6I4l6iiQq2RX2QUIlkCoWj6d5N18fAQDRFnajd3m+Tsj
- 5tg4mkyhd/K9Bos2sgUfdEsU5Q0GKOcPkjp7mw1TMHPb4cbMygpv6iK4Pu2M02Wn
- GIn897ao7xBF9SYvoCBd1WuHF5813nCJd8xIy/SEEfrslPy5gjwA6nevpMXkvVBp
- T1ZaR5BSj3O0xoY386EqvgZ8PN0pR+RBSpxTriESctcUeDwADszxu7SBstJ5ZseR
- CMvvTHD0MDarKUbubweGw==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1673335079; x=
+ 1673421479; bh=yjjzkGl9WploOz3oaavu6EMFqtcnpfOdirkUoRQSSoE=; b=E
+ EAovCkVci4bbHDKfn4QLplDWFLtupo/5oqtI74ziLcbce4/2IuhH3MYsD92ysHNJ
+ 0Obni7TBpt7xvdc6Xx9I2pAeEtPEDhPmMV/nYJ9vtqpIJbaQLgBYBFze1scJfiTP
+ N87fX01vlbWbBVHuRamJxL4zZap2PFtzQoFBEH+/sIJySb7cU+PhsTQWdJNcnTDA
+ Hz6RJbe7VXpxPe/Vg43UKF3COOtiNIaOlGCFJ2H9FocYIbNyxmAkE6LjntL9twTm
+ 8fZmmStLVCOqY7BX/MLmsx+kEVJHUs5ZSB2lDLjBpWhbroiSr6G9/AkwvR3t5LUr
+ PiTR3Cau8EZdq5OoB0eww==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1673335076; x=1673421476; bh=v+pwZ7Xj3smDj
- +yWBJfTO38yRtfwHhoOqV+E+YskYOM=; b=Fm02Q+8UXQS2/HtFwUN3EUPPUCUnq
- Cjc17Y42C2FJO/JD4YEvJAVMI+sNO9REdwDCuDUxGWREbwD6pcLmCZDc/p+nM9/H
- ynDntbo0AqWYsw5Sr8Guws9QMovl209x8wivX6SQ6IgL+BLWMNmNkxqXjfrhm5BH
- qkEQV5EXCR8LjT6Jym56hFm+2ZlwL5cHTyovBmcdShYfX53YgawMHghVu7OJuMvf
- prTd66sG1Fi4wJF4mbIPOAcuQvfLzTBuH3oO6yTi/3MhPxtb4z7CzMVI8Gh6qqq4
- 5rJ3uBemtYLUmQ4WxwhKYyqpTYh0k+2+mUTrawMna+KXrzVE5RE9PrFWA==
-X-ME-Sender: <xms:IxG9YxTd23KnsHmeqco_08EfVxBABpMotnhn5GpTAbV6xfjprL_isg>
- <xme:IxG9Y6w1o941TmCzi9Pbk-R4a0TeyvPOW8TcKK-9b4f1Hvt-vYy6qchxA2Q-C4OGs
- 3I1MYJ2EzLrM5W_Eko>
-X-ME-Received: <xmr:IxG9Y226pgeB9hkz-xpQTthdUVqLNY5WBq5qi2GUvZweAGnnSwQWKJyvVvXOxDc_uGZymfg2qx2ma5NqyXZYBCJBFv9vkLDbQfFZqQ>
+ :x-sasl-enc; s=fm3; t=1673335079; x=1673421479; bh=yjjzkGl9WploO
+ z3oaavu6EMFqtcnpfOdirkUoRQSSoE=; b=avFYoFIU9oc9z1AulstncAXOE+AX+
+ j63R8rloEEboIS+gHWuZdaN+HLp+wLf+lC9TCuax1UHY4xIL0EXXN2RV1gJ557Pw
+ H/ZaufsnbntINqL2GA2CIuOsuDdLpSkn1GeNnYFmcUfqIqeF8gOBkBtK9H3pUbyw
+ CiHBrDOLK5bXCv0POyNh5SMu0J5xYz5w2MRGnF6KCXTTTwL66Y32aKWFE2Ix276W
+ 1S7Px2Q6CMKj69UxujndkpDdMKll0eKTyX5PHbYF8hLZmNAsSs2rDys0HHFXrDar
+ o2JAgJNYypa2Sjhzz5Br37k4gZO33BbxawHvWWNYnfNErkogX/VZhb4uQ==
+X-ME-Sender: <xms:JxG9YxpfN1R-Ppsrw2UZH2xS-VHYB59tMmlCqMq1sorzC6eE3FhLCQ>
+ <xme:JxG9Yzr28hrLel65kwAemlF6kHctJGxqwQAP-OoJxnYZeSX_LsA5lWYd9pDl0OKkg
+ wDKJy09-THE2aG_SlU>
+X-ME-Received: <xmr:JxG9Y-NKgwPrqEX4HjGXK6ktNMpwmhE0c84dwNzOC0oyIJxmRLHjZE9Z8j8qOKW8RrKbcpxLz2HPyY-Io-l4PVtMem1eUpgnbl1U-g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkeejgddutdekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -56,36 +56,36 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkeejgddutdekucetufdoteggod
  htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
  udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:JBG9Y5C62rTI_LbwG_IP4yXWLMfpt04Sjh6ig3_XcRhfTsd6gEMWSw>
- <xmx:JBG9Y6iTwp3ulqn21NV8hpsjvB81dAR7BxqZ8uUXNhakZYchCVV6Kw>
- <xmx:JBG9Y9pqSExTyWcRNN-FOQgbPuM5Nunw4Qo6J2K4DIGjQLLzgCy-mQ>
- <xmx:JBG9Y1WvCjol-QWCsOi8WBfAeUuZGLGfe_JCTAVe5dEGDv4olo2_sw>
+X-ME-Proxy: <xmx:JxG9Y85AVpxJHwYLgNdnIyFjyfg2IzLaSblclbBbT28gVF-f2xpZ3w>
+ <xmx:JxG9Yw5wHq0EJQSvxmiZcQv8c1Jag2jrli4Ln_AZfvLGGEWMd1mtug>
+ <xmx:JxG9Y0jmcADO5DnpcDRegS2FGvUZoLcl3g80d1XXNI-HBqTu1kJHmQ>
+ <xmx:JxG9Y_aCTgJUUQr2f7nV_rsNtF3bzF4dqXkTq3Y97cuYDFeRngFQlQ>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 10 Jan 2023 02:17:54 -0500 (EST)
+ 10 Jan 2023 02:17:57 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
  Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-stable@nongnu.org, Guenter Roeck <linux@roeck-us.net>
-Subject: [PULL 3/4] hw/nvme: fix missing endian conversions for doorbell
- buffers
-Date: Tue, 10 Jan 2023 08:17:42 +0100
-Message-Id: <20230110071743.63507-4-its@irrelevant.dk>
+ qemu-stable@nongnu.org, qemu-riscv@nongnu.org,
+ Guenter Roeck <linux@roeck-us.net>
+Subject: [PULL 4/4] hw/nvme: fix missing cq eventidx update
+Date: Tue, 10 Jan 2023 08:17:43 +0100
+Message-Id: <20230110071743.63507-5-its@irrelevant.dk>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230110071743.63507-1-its@irrelevant.dk>
 References: <20230110071743.63507-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1817; i=k.jensen@samsung.com;
- h=from:subject; bh=X14mTLElADuOBbLWP/86wawuglEhbJ8qpNIESqKJWFQ=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGO9ERdljUACEbfXwlH42GNC3uq0bDKo7lwUFLV5
- ELJcP0EhpokBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjvREXAAoJEE3hrzFtTw3pHv
- YIAJrLzqp6Uq8M5cACjdTxqL5R9YLutsT2jpiPWEnSnp1L7GquHNS+7Fy+Rw9xhfiornOGaOM2aaQL
- ccwnYgFoWFIYQhpH7lBiLE2aOUUZm5YNOr2c0jHXfHcB3lSLTWpA2zvyKHCyVbSw3bCzGeM6GWpUTf
- e9sxqfZOOMdjv4qx/VdGCYtI/mh3X3J8EzgqxIOeurw6vPaorbp8tdE8Y2AZlGeHGB9JnP50unS5eu
- mSKCgQIHhffdL/VT49WJNxmEbIVJ1lUTJP51w44Jr1EQR+xYS4ug86CRKyBDJc+kIarGiARj1wAdDM
- B5sq5oKi8q+WLaj07zuOa/3ykIc24Gor8lT6l2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1414; i=k.jensen@samsung.com;
+ h=from:subject; bh=ZXD346KYWBQ1ppNzRS48H9du8tV5U4eKh3aFsjFnjSA=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGO9EReoCgLaoNslR0/8Se/AFY4fl03KSFATsS2D
+ lji6oaQEz4kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjvREXAAoJEE3hrzFtTw3pNS
+ 0H/jLgaSBTm97lD63+sIoKrXMJAssZ4FI9YP7QkOYjerL5xyn1uyw5izNd5aGHq6F+CoupCf36ScFY
+ htWTK03TM6Dw8ZpSMH2vHMxoYcXTJP5PFD2Ku6uLEpjHRoA1ksUxv0o4q9nOh2plBT4CV0MFx8jtao
+ cFpSRcUgrueB3S6ZIc9XjhExjVbQoMtaKCiCf7RrUYpY2I4a+jgbrGk6s7Y8okTifAGqQI7cF51D6a
+ UH4HrkIojdVk/RhHmV9f7HbxcjKcfD5Ui9n9sNkSbhUQGu45HsOJAmHR2JJzkoB7qbzYE5QMjG2FJq
+ rYqeES6glieAlBrwEH46Ra4oNgKum2zM+1wabU
 X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
  fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
@@ -115,61 +115,50 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The eventidx and doorbell value are not handling endianness correctly.
-Fix this.
+Prior to reading the shadow doorbell cq head, we have to update the
+eventidx. Otherwise, we risk that the driver will skip an mmio doorbell
+write. This happens on riscv64, as reported by Guenter.
+
+Adding the missing update to the cq eventidx fixes the issue.
 
 Fixes: 3f7fe8de3d49 ("hw/nvme: Implement shadow doorbell buffer support")
 Cc: qemu-stable@nongnu.org
+Cc: qemu-riscv@nongnu.org
 Reported-by: Guenter Roeck <linux@roeck-us.net>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+ hw/nvme/ctrl.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index cfe16476f0a4..28e02ec7baa6 100644
+index 28e02ec7baa6..226480033771 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -1336,8 +1336,11 @@ static inline void nvme_blk_write(BlockBackend *blk, int64_t offset,
+@@ -1334,6 +1334,15 @@ static inline void nvme_blk_write(BlockBackend *blk, int64_t offset,
+     }
+ }
  
++static void nvme_update_cq_eventidx(const NvmeCQueue *cq)
++{
++    uint32_t v = cpu_to_le32(cq->head);
++
++    trace_pci_nvme_update_cq_eventidx(cq->cqid, cq->head);
++
++    pci_dma_write(PCI_DEVICE(cq->ctrl), cq->ei_addr, &v, sizeof(v));
++}
++
  static void nvme_update_cq_head(NvmeCQueue *cq)
  {
--    pci_dma_read(PCI_DEVICE(cq->ctrl), cq->db_addr, &cq->head,
--                 sizeof(cq->head));
-+    uint32_t v;
-+
-+    pci_dma_read(PCI_DEVICE(cq->ctrl), cq->db_addr, &v, sizeof(v));
-+
-+    cq->head = le32_to_cpu(v);
+     uint32_t v;
+@@ -1358,6 +1367,7 @@ static void nvme_post_cqes(void *opaque)
+         hwaddr addr;
  
-     trace_pci_nvme_update_cq_head(cq->cqid, cq->head);
- }
-@@ -6148,16 +6151,20 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+         if (n->dbbuf_enabled) {
++            nvme_update_cq_eventidx(cq);
+             nvme_update_cq_head(cq);
+         }
  
- static void nvme_update_sq_eventidx(const NvmeSQueue *sq)
- {
-+    uint32_t v = cpu_to_le32(sq->tail);
-+
-     trace_pci_nvme_update_sq_eventidx(sq->sqid, sq->tail);
- 
--    pci_dma_write(PCI_DEVICE(sq->ctrl), sq->ei_addr, &sq->tail,
--                  sizeof(sq->tail));
-+    pci_dma_write(PCI_DEVICE(sq->ctrl), sq->ei_addr, &v, sizeof(v));
- }
- 
- static void nvme_update_sq_tail(NvmeSQueue *sq)
- {
--    pci_dma_read(PCI_DEVICE(sq->ctrl), sq->db_addr, &sq->tail,
--                 sizeof(sq->tail));
-+    uint32_t v;
-+
-+    pci_dma_read(PCI_DEVICE(sq->ctrl), sq->db_addr, &v, sizeof(v));
-+
-+    sq->tail = le32_to_cpu(v);
- 
-     trace_pci_nvme_update_sq_tail(sq->sqid, sq->tail);
- }
 -- 
 2.39.0
 
