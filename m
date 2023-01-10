@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DA7663F05
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 12:10:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87087663F44
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 12:31:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFCGS-0005AJ-1e; Tue, 10 Jan 2023 05:53:56 -0500
+	id 1pFCpS-00074u-G9; Tue, 10 Jan 2023 06:30:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFCGO-00058p-K5
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 05:53:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFCGN-0005Gj-0d
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 05:53:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673348030;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4tmYaFBmNik+WGeB0TZCIjX+6rLEUijFsKPWHQ+78Jk=;
- b=VrGI43nIpnVvp2ak3mLBPpq2+0w0PDgmGUqyb0W0MjlGiI7ikeXY5aAvqkYgLIXaVwA4tV
- bZ9SSfMaKcpVRCDGN87MB7xd8Gl4/XvPIEDzfpcfKOXlYJLCRW16av0qt2MGMfYbpoVeP9
- 188VrFlCJ22ZHZL8DVDApJXD+POtfYo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-plqdiF85NBua6NIpvbN3qw-1; Tue, 10 Jan 2023 05:53:46 -0500
-X-MC-Unique: plqdiF85NBua6NIpvbN3qw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 85A0680D0E3;
- Tue, 10 Jan 2023 10:53:46 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 01D57492C14;
- Tue, 10 Jan 2023 10:53:35 +0000 (UTC)
-Date: Tue, 10 Jan 2023 10:53:28 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-block@nongnu.org, jsnow@redhat.com, crosa@redhat.com,
- kwolf@redhat.com, hreitz@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 02/11] python/qemu: rename command() to cmd()
-Message-ID: <Y71DqHAgg/Wvbz7+@redhat.com>
-References: <20230110083758.161201-1-vsementsov@yandex-team.ru>
- <20230110083758.161201-3-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFCpP-00072r-Ri
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 06:30:03 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFCpO-0007aR-6d
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 06:30:03 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id co23so11391078wrb.4
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 03:30:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Ehh+Cs9PNCMirnFKKCN1I9i+Cr5geeEQ8vUW6kZb5wM=;
+ b=dZoZlOoItsVw7yZCZ1MPIMJAaycLwc/yRXokFRWToHPMkhmA8NsGl52OmCfSIMsYzw
+ SFwWkNaI6BQHLCeMvdNhI31ckVFaSlKFYic64HcI8VgaRh4PvxfQHHyJQrgA1ZKqwuus
+ AZKyovzaPM8PEB5u9uN1kbjVGdlafupvyH3lUWJcWL6Q7NrxGgkI7Jq+nsaCC701S3IU
+ ZW74ibRjFI8/qkLFHBoctYaxXUYdYRrWZb84FO37iO6n/ALd5d1LBwrywCSrD34IVi6n
+ 0DWuN82nNIZr8M4LMPmDH7PI1Ug22ixklaIWnAYSMsJ0MkyA/BMW2fsaC2+qCfxdFxYc
+ hBLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ehh+Cs9PNCMirnFKKCN1I9i+Cr5geeEQ8vUW6kZb5wM=;
+ b=3y1NV1dA/M1Rg3JACwu6X2/q6Vo29W9jfNd7ZRgUPoY+a63e4VjWkSbmUztXVkRTY2
+ U5yQK2z83szNr52ixPJ2yGS9MCMcOae+6wxVfwOD8hKrLQYuNH5Io7BJib3AFdfQo3fE
+ Ifbo5tIOo+pKi/cyVkAE4bgoexNL/7NkwiPm60GFnC+Jq6O4g7O9yMy3Vnc7RU79kTbK
+ qHgtRIjpupSZtaStGKbPt+F2kanxxjYKQMWxdLBk8FXH99purBpD2RDSozqgJzOTiJ23
+ AnPmLf+Gze8Ahyl0QHQRiLE5a1WMnprikKVSOMMViWMK7625DJ+VG4vwB3Pua595Wf1+
+ hzIQ==
+X-Gm-Message-State: AFqh2koc3Pimg8OpvglyGeHzaMcScDSTp9TcHRt5cdlP+xdsTLKvfhZP
+ w2pk6GOvVwtMDFxXd1fPq1AlRA==
+X-Google-Smtp-Source: AMrXdXucJU6yVGSDQSvlvFg20uULpq5hjPchcZ4el30yvUvkKJJY9G7EKlXJVYLKhI7N4Xvy2PR5Qw==
+X-Received: by 2002:a5d:6210:0:b0:236:695b:82d4 with SMTP id
+ y16-20020a5d6210000000b00236695b82d4mr42528116wru.30.1673350200203; 
+ Tue, 10 Jan 2023 03:30:00 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ bj7-20020a0560001e0700b002b6667d3adfsm10949895wrb.80.2023.01.10.03.29.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Jan 2023 03:29:59 -0800 (PST)
+Message-ID: <1fcba4cf-57b0-ceb4-61be-1708a74a7bfe@linaro.org>
+Date: Tue, 10 Jan 2023 12:29:58 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] mips: always include nanomips disassembler
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20230110084942.299460-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230110084942.299460-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230110083758.161201-3-vsementsov@yandex-team.ru>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,59 +86,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 10, 2023 at 11:37:49AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Use a shorter name. We are going to move in iotests from qmp() to
-> command() where possible. But command() is longer than qmp() and don't
-> look better. Let's rename.
+On 10/1/23 09:49, Paolo Bonzini wrote:
+> Since the nanomips disassembler is not C++ code anymore, it need not
+> depend on link_language == cpp.  Always include it and remove the
+> CONFIG_NANOMIPS_DIS symbol.
 > 
-> You can simply grep for '\.command(' and for 'def command(' to check
-> that everything is updated (command() in tests/docker/docker.py is
-> unrelated).
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  docs/devel/testing.rst                    |  10 +-
->  python/qemu/machine/machine.py            |   8 +-
->  python/qemu/qmp/legacy.py                 |   2 +-
->  python/qemu/qmp/qmp_shell.py              |   2 +-
->  python/qemu/utils/qemu_ga_client.py       |   2 +-
->  python/qemu/utils/qom.py                  |   8 +-
->  python/qemu/utils/qom_common.py           |   2 +-
->  python/qemu/utils/qom_fuse.py             |   6 +-
->  scripts/cpu-x86-uarch-abi.py              |   8 +-
->  scripts/device-crash-test                 |   8 +-
->  scripts/render_block_graph.py             |   8 +-
->  tests/avocado/avocado_qemu/__init__.py    |   4 +-
->  tests/avocado/cpu_queries.py              |   5 +-
->  tests/avocado/hotplug_cpu.py              |  10 +-
->  tests/avocado/info_usernet.py             |   4 +-
->  tests/avocado/machine_arm_integratorcp.py |   6 +-
->  tests/avocado/machine_m68k_nextcube.py    |   4 +-
->  tests/avocado/machine_mips_malta.py       |   6 +-
->  tests/avocado/machine_s390_ccw_virtio.py  |  28 ++--
->  tests/avocado/migration.py                |  10 +-
->  tests/avocado/pc_cpu_hotplug_props.py     |   2 +-
->  tests/avocado/version.py                  |   4 +-
->  tests/avocado/virtio_check_params.py      |   6 +-
->  tests/avocado/virtio_version.py           |   5 +-
->  tests/avocado/x86_cpu_model_versions.py   |  13 +-
->  tests/migration/guestperf/engine.py       | 150 +++++++++++-----------
->  tests/qemu-iotests/256                    |  34 ++---
->  tests/qemu-iotests/257                    |  36 +++---
->  28 files changed, 198 insertions(+), 193 deletions(-)
+>   disas/meson.build     | 3 +--
+>   include/exec/poison.h | 1 -
+>   meson.build           | 7 +------
+>   target/mips/cpu.c     | 2 --
+>   4 files changed, 2 insertions(+), 11 deletions(-)
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
+> diff --git a/meson.build b/meson.build
+> index 175517eafde8..bfb461d1efac 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2478,7 +2478,7 @@ disassemblers = {
+>     'x86_64' : ['CONFIG_I386_DIS'],
+>     'm68k' : ['CONFIG_M68K_DIS'],
+>     'microblaze' : ['CONFIG_MICROBLAZE_DIS'],
+> -  'mips' : ['CONFIG_MIPS_DIS'],
+> +  'mips' : [ 'CONFIG_MIPS_DIS'],
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Queue to mips-next (dropping this one-space change).
+
+>     'nios2' : ['CONFIG_NIOS2_DIS'],
+>     'or1k' : ['CONFIG_OPENRISC_DIS'],
+>     'ppc' : ['CONFIG_PPC_DIS'],
+> @@ -2490,11 +2490,6 @@ disassemblers = {
+>     'xtensa' : ['CONFIG_XTENSA_DIS'],
+>     'loongarch' : ['CONFIG_LOONGARCH_DIS'],
+>   }
 
 
