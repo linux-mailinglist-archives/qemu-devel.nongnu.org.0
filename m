@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D86664382
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 15:44:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F2366434A
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 15:32:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFDeK-0008Lu-Fm; Tue, 10 Jan 2023 07:22:41 -0500
+	id 1pFDev-0000Hv-0s; Tue, 10 Jan 2023 07:23:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFDcn-00077f-MD
+ id 1pFDcu-00078Y-BG
  for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:13 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFDcj-0000PV-Ta
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:05 -0500
+ id 1pFDcn-0000Si-BE
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=wMqu5dV9sC2nmU2DnKJjcgBjYJyzsBcKG3sb6NI7n9A=; b=t3krKyV2apKQaWhVnsjjRvjTGT
- yntEP7n0/iE7uOJEe3/L94UT3vvsdiMVNal1t/s6+6/kghNQYOkNI/9L4eOospowQBFARv1a34YiG
- dWuDFfD+DP66H2/X0PvWJeY1gOkmTHteJyoH91eh9VOcCJ2Ac2kCiL7Q1itMS1y9RntPvVoVDF5O1
- Z5eBMNwzBdb1MuIMc71dVicbIqP9R9Mq7DXW20zCi5bFKWtXOFur2DZDNj3TYQ4wXxu5Hmv+TPYKu
- gdrhVEsuhI7N6j0jED34U2A6VeQyLg7KHcCy6TA9vnMol48T10EQhrzSe55p9DEXRM4XbOLczURw9
- MiqH2WDA==;
+ bh=w0N1d/l24ZYigZBNpggZnDn7YNMoOgRzCmZaKScixLg=; b=limHQMxruw6dhiRqlArzcUGp7H
+ Oy21Ur/gLMAJvHONQ7T6wfJqH1cWC+WKARNl9L4YAbsUT47lvjc76Kl9gvaDh+R/lCfDpnbXGhHRe
+ bkKvAYXz6zkZ7/qsomrogMvuMkRBfOaPugjCEZUtxGV1X7+DqQuPTHWKEmnZ6nmgo8x4TnLczhZ7n
+ YVyCpiffvfHVOHcPvK7LCob+AOZXCkCq+O1YzZ/iimHgyIXZsqn9M7MC7rCWl7jCeg/o1Hruu6SZe
+ kCGTNDDzBRwHCztNM7ySsfCk6Qik6G6l4osdOTpp/vX7xT8L5d3Sb5H+KMeDP/hXnSYu0ubTo4jpC
+ 6oEkfiTg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pFDcg-003C5s-Lx; Tue, 10 Jan 2023 12:20:59 +0000
+ id 1pFDcg-003C5q-Ly; Tue, 10 Jan 2023 12:20:59 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pFDcS-006YeO-Oq; Tue, 10 Jan 2023 12:20:44 +0000
+ Hat Linux)) id 1pFDcS-006YeR-Pg; Tue, 10 Jan 2023 12:20:44 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,9 +46,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [PATCH v6 18/51] i386/xen: implement HYPERVISOR_hvm_op
-Date: Tue, 10 Jan 2023 12:20:09 +0000
-Message-Id: <20230110122042.1562155-19-dwmw2@infradead.org>
+Subject: [PATCH v6 19/51] i386/xen: implement HYPERVISOR_vcpu_op
+Date: Tue, 10 Jan 2023 12:20:10 +0000
+Message-Id: <20230110122042.1562155-20-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230110122042.1562155-1-dwmw2@infradead.org>
 References: <20230110122042.1562155-1-dwmw2@infradead.org>
@@ -83,56 +83,66 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-This is when guest queries for support for HVMOP_pagetable_dying.
+This is simply when guest tries to register a vcpu_info
+and since vcpu_info placement is optional in the minimum ABI
+therefore we can just fail with -ENOSYS
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- target/i386/kvm/xen-emu.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ target/i386/kvm/xen-emu.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 06fd45d7eb..5005bf848f 100644
+index 5005bf848f..e95a2aee35 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -25,6 +25,7 @@
- #include "standard-headers/xen/version.h"
+@@ -26,6 +26,7 @@
  #include "standard-headers/xen/sched.h"
  #include "standard-headers/xen/memory.h"
-+#include "standard-headers/xen/hvm/hvm_op.h"
+ #include "standard-headers/xen/hvm/hvm_op.h"
++#include "standard-headers/xen/vcpu.h"
  
  #include "xen-compat.h"
  
-@@ -346,6 +347,19 @@ static bool kvm_xen_hcall_memory_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-     return true;
+@@ -360,6 +361,25 @@ static bool kvm_xen_hcall_hvm_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+     }
  }
  
-+static bool kvm_xen_hcall_hvm_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-+                                 int cmd, uint64_t arg)
++static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
++                                  int cmd, int vcpu_id, uint64_t arg)
 +{
++    int err;
++
 +    switch (cmd) {
-+    case HVMOP_pagetable_dying:
-+        exit->u.hcall.result = -ENOSYS;
-+        return true;
++    case VCPUOP_register_vcpu_info:
++        /* no vcpu info placement for now */
++        err = -ENOSYS;
++        break;
 +
 +    default:
 +        return false;
 +    }
++
++    exit->u.hcall.result = err;
++    return true;
 +}
 +
  static int kvm_xen_soft_reset(void)
  {
      int err;
-@@ -440,6 +454,9 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+@@ -454,6 +474,11 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
      case __HYPERVISOR_sched_op:
          return kvm_xen_hcall_sched_op(exit, cpu, exit->u.hcall.params[0],
                                        exit->u.hcall.params[1]);
-+    case __HYPERVISOR_hvm_op:
-+        return kvm_xen_hcall_hvm_op(exit, cpu, exit->u.hcall.params[0],
-+                                    exit->u.hcall.params[1]);
-     case __HYPERVISOR_memory_op:
-         return kvm_xen_hcall_memory_op(exit, cpu, exit->u.hcall.params[0],
-                                        exit->u.hcall.params[1]);
++    case __HYPERVISOR_vcpu_op:
++        return kvm_xen_hcall_vcpu_op(exit, cpu,
++                                     exit->u.hcall.params[0],
++                                     exit->u.hcall.params[1],
++                                     exit->u.hcall.params[2]);
+     case __HYPERVISOR_hvm_op:
+         return kvm_xen_hcall_hvm_op(exit, cpu, exit->u.hcall.params[0],
+                                     exit->u.hcall.params[1]);
 -- 
 2.35.3
 
