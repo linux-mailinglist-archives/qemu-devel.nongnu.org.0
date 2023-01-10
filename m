@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1E4663D4B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:52:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266C4663CDC
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:30:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFAKv-0004DV-1z; Tue, 10 Jan 2023 03:50:30 -0500
+	id 1pFAL3-0004HJ-BC; Tue, 10 Jan 2023 03:50:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pFAKP-0004Ca-1B
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:49:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pFAKQ-0004D4-NB
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:49:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pFAKM-0002Va-JI
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:49:51 -0500
+ id 1pFAKO-0002dF-Pt
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:49:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673340589;
+ s=mimecast20190719; t=1673340591;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=vIShYGO9WdhQiPZm0PFpeZZ+9VyMKYo36UihVeQYZBU=;
- b=EB7jikET1OYahw3MJoDtxe9yo33nZcgssr2FEfZs1pogiXeDrYDbwO8TjVAVlRQfI2oank
- rgOy1JlHYW+P6b78fenf12y9JkGb9ZUlEPGEmtQxCq8fb1j5w7LQ4GgSbsHmgz7msiICtz
- Ym42AFWdrOfQgcAVYExhKYAztLm8LUo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+3zdaZdNFTeczIJd07e3iWgeA2mI+VXU0S7q8VlSEaI=;
+ b=Mu80miZDQrgX/qJjyKulRbCVl4Kp9yx26uo6IdUue6u8Og1+TNJnWsD3oDSUDkHgrSULjD
+ Wx18DRQYY0X3/62iZOObXjiZ9cN8ihoTgeCuDtONX+wcNfCt/XeyORqybJ+qztWuZdpYIz
+ HuU6kDwCdqCSsjrTkSvE7i7g6FcfVpc=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-280-_QqqIiw0OtmJwW-gaDBTSQ-1; Tue, 10 Jan 2023 03:49:48 -0500
-X-MC-Unique: _QqqIiw0OtmJwW-gaDBTSQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- h18-20020a05640250d200b004758e655ebeso7087876edb.11
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 00:49:47 -0800 (PST)
+ us-mta-263-tfkJYuDmPFeww8BbWEkJGQ-1; Tue, 10 Jan 2023 03:49:50 -0500
+X-MC-Unique: tfkJYuDmPFeww8BbWEkJGQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ xj11-20020a170906db0b00b0077b6ecb23fcso7263072ejb.5
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 00:49:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vIShYGO9WdhQiPZm0PFpeZZ+9VyMKYo36UihVeQYZBU=;
- b=tsIFdIwjDkg8nchWzZBd7cwg5/seuF4x4VLelKEIcZHM7/GhfLO0IgoddOKrfZGs7t
- GvpejBd0A9dc37Zp43zqzwS0HR3bL0j/WZc4Xp8RUFhZ7anhwAhSHB9ZMyWNsNBqgl74
- n6lt4UnqE5cXfeOzMr05kRqzVZr0WxBsJ926J0Hw5XethreAafPUlwaaIFJUNJQaFflp
- pTOBp41XFGp6LdBLqfxhEPKLLHykzjdt6GhpyUWZRox543XZ1DuBxk78lJ38GlteOkeN
- Az/M5bCJwphd3gQehdQSGdrfATSgi54gvf+2QJ0CcSWeMUM/t6GIQ/AeOi4uLH+PqzvD
- 6EEQ==
-X-Gm-Message-State: AFqh2kpVn74OFZR5TpPPrOz3izednWfP2Vr+eA1IUuviKdIHonRGvfDe
- DKAcbO9oP11zIp2ybg2chR61pMnouH1P/u3pFg9vEJDy2tlN9mlFqkqTV21Z75xymvOQVpDCfbO
- OCv66ol6ucePSllGLowYEx2xHfowPMex8isL1bHafGto/VUOr0+GJr90e195wJ/UNWuk=
-X-Received: by 2002:a17:906:d047:b0:78d:f454:ba46 with SMTP id
- bo7-20020a170906d04700b0078df454ba46mr57065402ejb.69.1673340585805; 
- Tue, 10 Jan 2023 00:49:45 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtFCQxzKIjSG3msbgqLaAm8konSJmyKvYAYGhlAhMcCRlbY7B7GNhmKRKl8Hp49d/mDB05U8g==
-X-Received: by 2002:a17:906:d047:b0:78d:f454:ba46 with SMTP id
- bo7-20020a170906d04700b0078df454ba46mr57065387ejb.69.1673340585472; 
- Tue, 10 Jan 2023 00:49:45 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+3zdaZdNFTeczIJd07e3iWgeA2mI+VXU0S7q8VlSEaI=;
+ b=pKaYZX+W9uBPNBavQbMVX8aHhgksrVzuCWZUNN+pBlbBQWshm6mhMXQC/aDpRJYXq5
+ /leFJlFh+DRqylEozArC3xAW5pYtfx/bnT1fBglK16hjr+uyrw2MTHUpOVEF1FF7hB7s
+ C0S/F1fPxrgtGY8mpj8ON9tk7K+4x0PQkRsG+wn81jKF49NmU324KTZsDRzIkEMp/Wgp
+ FdvrqvdK5tPV5A/8JDuuzkOMmgXLmkfX5zxMIUwKC6KGGDCz/l3nTE8Ld032KlKOoMkP
+ UqbCrM9umWCKzDcPNW/A2vp13ZVQPpm/+fE7/poeP3Kg2c8Mo9TuJl3DhIu/Wgs3hInm
+ mWzw==
+X-Gm-Message-State: AFqh2koeLFl9IDwB1ukoU4am0S+AzinFPkdW2UNnhIYVss1zzrWoQw/L
+ Fs7eCqm7cO0HRORqWXcEosVbXfuR55gXSN2NIfuQESumfS0WhbWhOju+c8MNf4ycwc/eUzdfMcE
+ ljO5sFt2sO8RCNXLDTouN0HnNNxENb9NVG1nLD+4KPWIlukA9JFLXbz9o7E4Frv/avIA=
+X-Received: by 2002:a17:906:2816:b0:7c0:d452:2e74 with SMTP id
+ r22-20020a170906281600b007c0d4522e74mr58288002ejc.4.1673340588947; 
+ Tue, 10 Jan 2023 00:49:48 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuB1KG+IaBRrnD+Ap/T9SVjj5Egrx6utyFps7myQFx+JkMZ3FKkisjjZOuwt7pboRnY80W0yw==
+X-Received: by 2002:a17:906:2816:b0:7c0:d452:2e74 with SMTP id
+ r22-20020a170906281600b007c0d4522e74mr58287988ejc.4.1673340588638; 
+ Tue, 10 Jan 2023 00:49:48 -0800 (PST)
 Received: from avogadro.local ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- 18-20020a170906211200b007c0b28b85c5sm4650208ejt.138.2023.01.10.00.49.44
+ v10-20020a170906292a00b00782fbb7f5f7sm4721392ejd.113.2023.01.10.00.49.47
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 00:49:44 -0800 (PST)
+ Tue, 10 Jan 2023 00:49:48 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH] mips: always include nanomips disassembler
-Date: Tue, 10 Jan 2023 09:49:42 +0100
-Message-Id: <20230110084942.299460-1-pbonzini@redhat.com>
+Subject: [PATCH] remove unnecessary extern "C" blocks
+Date: Tue, 10 Jan 2023 09:49:46 +0100
+Message-Id: <20230110084946.299480-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,84 +95,216 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since the nanomips disassembler is not C++ code anymore, it need not
-depend on link_language == cpp.  Always include it and remove the
-CONFIG_NANOMIPS_DIS symbol.
+A handful of header files in QEMU are wrapped with extern "C" blocks.
+These are not necessary: there are C++ source files anymore in QEMU,
+and even where there were some, they did not include most of these
+files anyway.
 
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Remove them for consistency.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- disas/meson.build     | 3 +--
- include/exec/poison.h | 1 -
- meson.build           | 7 +------
- target/mips/cpu.c     | 2 --
- 4 files changed, 2 insertions(+), 11 deletions(-)
+ include/disas/dis-asm.h   | 8 --------
+ include/qemu/bswap.h      | 8 --------
+ include/qemu/envlist.h    | 8 --------
+ include/qemu/rcu.h        | 8 --------
+ include/qemu/rcu_queue.h  | 8 --------
+ include/qemu/uri.h        | 7 -------
+ include/sysemu/os-posix.h | 8 --------
+ include/sysemu/os-win32.h | 8 --------
+ 8 files changed, 63 deletions(-)
 
-diff --git a/disas/meson.build b/disas/meson.build
-index 1977f5cd92ef..c865bdd8827f 100644
---- a/disas/meson.build
-+++ b/disas/meson.build
-@@ -4,8 +4,7 @@ common_ss.add(when: 'CONFIG_HEXAGON_DIS', if_true: files('hexagon.c'))
- common_ss.add(when: 'CONFIG_HPPA_DIS', if_true: files('hppa.c'))
- common_ss.add(when: 'CONFIG_M68K_DIS', if_true: files('m68k.c'))
- common_ss.add(when: 'CONFIG_MICROBLAZE_DIS', if_true: files('microblaze.c'))
--common_ss.add(when: 'CONFIG_MIPS_DIS', if_true: files('mips.c'))
--common_ss.add(when: 'CONFIG_NANOMIPS_DIS', if_true: files('nanomips.c'))
-+common_ss.add(when: 'CONFIG_MIPS_DIS', if_true: files('mips.c', 'nanomips.c'))
- common_ss.add(when: 'CONFIG_NIOS2_DIS', if_true: files('nios2.c'))
- common_ss.add(when: 'CONFIG_RISCV_DIS', if_true: files('riscv.c'))
- common_ss.add(when: 'CONFIG_SH4_DIS', if_true: files('sh4.c'))
-diff --git a/include/exec/poison.h b/include/exec/poison.h
-index f0959bc84ef5..140daa4a85a4 100644
---- a/include/exec/poison.h
-+++ b/include/exec/poison.h
-@@ -74,7 +74,6 @@
- #pragma GCC poison CONFIG_M68K_DIS
- #pragma GCC poison CONFIG_MICROBLAZE_DIS
- #pragma GCC poison CONFIG_MIPS_DIS
--#pragma GCC poison CONFIG_NANOMIPS_DIS
- #pragma GCC poison CONFIG_NIOS2_DIS
- #pragma GCC poison CONFIG_PPC_DIS
- #pragma GCC poison CONFIG_RISCV_DIS
-diff --git a/meson.build b/meson.build
-index 175517eafde8..bfb461d1efac 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2478,7 +2478,7 @@ disassemblers = {
-   'x86_64' : ['CONFIG_I386_DIS'],
-   'm68k' : ['CONFIG_M68K_DIS'],
-   'microblaze' : ['CONFIG_MICROBLAZE_DIS'],
--  'mips' : ['CONFIG_MIPS_DIS'],
-+  'mips' : [ 'CONFIG_MIPS_DIS'],
-   'nios2' : ['CONFIG_NIOS2_DIS'],
-   'or1k' : ['CONFIG_OPENRISC_DIS'],
-   'ppc' : ['CONFIG_PPC_DIS'],
-@@ -2490,11 +2490,6 @@ disassemblers = {
-   'xtensa' : ['CONFIG_XTENSA_DIS'],
-   'loongarch' : ['CONFIG_LOONGARCH_DIS'],
- }
--if link_language == 'cpp'
--  disassemblers += {
--    'mips' : [ 'CONFIG_MIPS_DIS', 'CONFIG_NANOMIPS_DIS'],
--  }
--endif
+diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+index 64247ecb11f4..32cda9ef14c5 100644
+--- a/include/disas/dis-asm.h
++++ b/include/disas/dis-asm.h
+@@ -11,10 +11,6 @@
  
- have_ivshmem = config_host_data.get('CONFIG_EVENTFD')
- host_kconfig = \
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index c614b04607a2..a216cb0df072 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -439,9 +439,7 @@ static void mips_cpu_disas_set_info(CPUState *s, disassemble_info *info)
-         info->print_insn = print_insn_little_mips;
- #endif
-     } else {
--#if defined(CONFIG_NANOMIPS_DIS)
-         info->print_insn = print_insn_nanomips;
+ #include "qemu/bswap.h"
+ 
+-#ifdef __cplusplus
+-extern "C" {
 -#endif
-     }
+-
+ typedef void *PTR;
+ typedef uint64_t bfd_vma;
+ typedef int64_t bfd_signed_vma;
+@@ -506,8 +502,4 @@ static inline bfd_vma bfd_getb16(const bfd_byte *addr)
+ 
+ typedef bool bfd_boolean;
+ 
+-#ifdef __cplusplus
+-}
+-#endif
+-
+ #endif /* DISAS_DIS_ASM_H */
+diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
+index 346d05f2aab3..eb8923b1fe07 100644
+--- a/include/qemu/bswap.h
++++ b/include/qemu/bswap.h
+@@ -15,10 +15,6 @@
+ #define BSWAP_FROM_FALLBACKS
+ #endif /* ! CONFIG_MACHINE_BSWAP_H */
+ 
+-#ifdef __cplusplus
+-extern "C" {
+-#endif
+-
+ #ifdef BSWAP_FROM_BYTESWAP
+ static inline uint16_t bswap16(uint16_t x)
+ {
+@@ -448,8 +444,4 @@ DO_STN_LDN_P(be)
+ #undef le_bswaps
+ #undef be_bswaps
+ 
+-#ifdef __cplusplus
+-}
+-#endif
+-
+ #endif /* BSWAP_H */
+diff --git a/include/qemu/envlist.h b/include/qemu/envlist.h
+index b9addcc11f7d..6006dfae44c3 100644
+--- a/include/qemu/envlist.h
++++ b/include/qemu/envlist.h
+@@ -1,10 +1,6 @@
+ #ifndef ENVLIST_H
+ #define ENVLIST_H
+ 
+-#ifdef __cplusplus
+-extern "C" {
+-#endif
+-
+ typedef struct envlist envlist_t;
+ 
+ envlist_t *envlist_create(void);
+@@ -15,8 +11,4 @@ int envlist_parse_set(envlist_t *, const char *);
+ int envlist_parse_unset(envlist_t *, const char *);
+ char **envlist_to_environ(const envlist_t *, size_t *);
+ 
+-#ifdef __cplusplus
+-}
+-#endif
+-
+ #endif /* ENVLIST_H */
+diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+index b063c6fde81d..313fc414bc2a 100644
+--- a/include/qemu/rcu.h
++++ b/include/qemu/rcu.h
+@@ -31,10 +31,6 @@
+ #include "qemu/sys_membarrier.h"
+ #include "qemu/coroutine-tls.h"
+ 
+-#ifdef __cplusplus
+-extern "C" {
+-#endif
+-
+ /*
+  * Important !
+  *
+@@ -196,8 +192,4 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(RCUReadAuto, rcu_read_auto_unlock)
+ void rcu_add_force_rcu_notifier(Notifier *n);
+ void rcu_remove_force_rcu_notifier(Notifier *n);
+ 
+-#ifdef __cplusplus
+-}
+-#endif
+-
+ #endif /* QEMU_RCU_H */
+diff --git a/include/qemu/rcu_queue.h b/include/qemu/rcu_queue.h
+index 0e53ddd5305e..4e6298d47307 100644
+--- a/include/qemu/rcu_queue.h
++++ b/include/qemu/rcu_queue.h
+@@ -28,11 +28,6 @@
+ #include "qemu/queue.h"
+ #include "qemu/atomic.h"
+ 
+-#ifdef __cplusplus
+-extern "C" {
+-#endif
+-
+-
+ /*
+  * List access methods.
+  */
+@@ -311,7 +306,4 @@ extern "C" {
+          (var) && ((next) = qatomic_rcu_read(&(var)->field.sle_next), 1); \
+          (var) = (next))
+ 
+-#ifdef __cplusplus
+-}
+-#endif
+ #endif /* QEMU_RCU_QUEUE_H */
+diff --git a/include/qemu/uri.h b/include/qemu/uri.h
+index d201c61260de..db5218c39ec0 100644
+--- a/include/qemu/uri.h
++++ b/include/qemu/uri.h
+@@ -53,10 +53,6 @@
+ #ifndef QEMU_URI_H
+ #define QEMU_URI_H
+ 
+-#ifdef __cplusplus
+-extern "C" {
+-#endif
+-
+ /**
+  * URI:
+  *
+@@ -105,7 +101,4 @@ struct QueryParams *query_params_new (int init_alloc);
+ extern QueryParams *query_params_parse (const char *query);
+ extern void query_params_free (QueryParams *ps);
+ 
+-#ifdef __cplusplus
+-}
+-#endif
+ #endif /* QEMU_URI_H */
+diff --git a/include/sysemu/os-posix.h b/include/sysemu/os-posix.h
+index 58de7c994d85..616d07790445 100644
+--- a/include/sysemu/os-posix.h
++++ b/include/sysemu/os-posix.h
+@@ -38,10 +38,6 @@
+ #include <sys/sysmacros.h>
+ #endif
+ 
+-#ifdef __cplusplus
+-extern "C" {
+-#endif
+-
+ int os_parse_cmd_args(int index, const char *optarg);
+ void os_set_line_buffering(void);
+ void os_setup_early_signal_handling(void);
+@@ -96,8 +92,4 @@ static inline void qemu_funlockfile(FILE *f)
+     funlockfile(f);
  }
  
+-#ifdef __cplusplus
+-}
+-#endif
+-
+ #endif
+diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+index 5b38c7bd0451..ef3d1a1b181e 100644
+--- a/include/sysemu/os-win32.h
++++ b/include/sysemu/os-win32.h
+@@ -47,10 +47,6 @@ typedef struct sockaddr_un {
+ #define SIO_AF_UNIX_GETPEERPID _WSAIOR(IOC_VENDOR, 256)
+ #endif
+ 
+-#ifdef __cplusplus
+-extern "C" {
+-#endif
+-
+ #if defined(_WIN64)
+ /* On w64, setjmp is implemented by _setjmp which needs a second parameter.
+  * If this parameter is NULL, longjump does no stack unwinding.
+@@ -221,8 +217,4 @@ ssize_t qemu_recv_wrap(int sockfd, void *buf, size_t len, int flags);
+ ssize_t qemu_recvfrom_wrap(int sockfd, void *buf, size_t len, int flags,
+                            struct sockaddr *addr, socklen_t *addrlen);
+ 
+-#ifdef __cplusplus
+-}
+-#endif
+-
+ #endif
 -- 
 2.38.1
 
