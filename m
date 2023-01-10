@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E40666479C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 18:44:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A1D664BD4
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 20:00:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFIbO-0003ns-8t; Tue, 10 Jan 2023 12:39:58 -0500
+	id 1pFIiH-000760-Lv; Tue, 10 Jan 2023 12:47:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIb9-0003Zv-QI
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:43 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ id 1pFIiE-00072N-8v
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:47:02 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIb5-0001Ce-Al
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:43 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- k22-20020a05600c1c9600b003d1ee3a6289so10701119wms.2
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:39:38 -0800 (PST)
+ id 1pFIiC-0003aS-JM
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:47:01 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id bs20so12610928wrb.3
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:47:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3efp7i/kAcT0mSvJTtxOgGsEOMU+SonxpGs9nYXT4Ro=;
- b=ycbGXSmgkgH0kzY6HX8SB4y/Mw8TOfLmp3dcjSjBBSvxXu1y/N0yB9yORzNTLfPQa6
- nPe6MMOtGc16l9tehHE8UyYm9Fff4NaXIk3D3ot4oXzSQxBUaOlylGL8ZE/jbiBn9l9j
- pAUiqv5SXD66qgRd9Fhqafc1YJ6k0dod07Bkqtv9JZ5BdQmevJidJV0kij3N1TY2nSyG
- 5x25mlBhKrJ0DtnFLK4Vg+8cvLDgOfEe9GInEXgNnC5x97bWds9nAGu62SDxLO86H6GK
- kKqR+OpBnOlFmacF+MQfW4JUpmthPN9ZY/ivMYXhyYTOsyd/qai2AKQniUhh0InFIp4h
- jH9w==
+ bh=SFp5fLykrTmSrzOYijtFAOoQNLwJRutVy2bxJGeiOow=;
+ b=qgXIUn96/XpkFKbF8mC+27Idw4WpE34vO5zxCuMhIeV18k0x8CLEXePY1w1j2j+GqN
+ hmC63EGoL18CFoOdXuvBSzQ10uGedVmMbY/Wrg+shxs8T6IFtAekZgFhh5v27UxkEJNB
+ S8pdE+5lQj3NkPlLNo/VehZGJEIMW8IoczmbKGXDWBaue6PPuUWjlhajkNL47eXqgxF4
+ no1dRRFGyf+sf5Fu+scLzGq7KOnLh7GTG7wvsH2ABxbRzf0GCoBxa2TUBTdY8LUirGwM
+ 3vAIBv4w8tzbM1LUd+CTJuYa5oFITtkcoZJ/wc68Meq9iOgjGCmuxylyGzZND8yJXyxh
+ Q1+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3efp7i/kAcT0mSvJTtxOgGsEOMU+SonxpGs9nYXT4Ro=;
- b=rDBp/wRH36iGPK3uDNg2XBF//Brg2IVcmjKyN9JyPy6VS3ZkirAmUcCk78W4aygN36
- dIla8LilNxWfzBmx0eBys9HS2sOb4hksJfUoDJD9hCB4FbVR4C9tmTypRv+FoFaKqa4v
- qoEWZi8U8EL4ptMs3d4BpJlTv87nG17V0SRfMdLc+q/4leNllsSfy73txRufBD2EglX7
- MPgLX20FmjT3a9Qtiue3sxVMG4Qvo1nFlvahR0m0vqx2RlFG+D869aNJbI+++S968TJk
- qR+mwzs2VXwKt3yUOhj5OBs75m+AgpBJxIFOSWHwBLjDKrxQvGkyvMTAEWfaQ2/s7WsX
- h3pg==
-X-Gm-Message-State: AFqh2kpoDCHg/V17w9cQjxC2CBexCRyuM4Qqfzf8srR7K41Agl8Q94kl
- EVVuuGMzb3hvJSHxgp/8ijgSng==
-X-Google-Smtp-Source: AMrXdXtocgTK+53ZCPWsdRm0M9n/n/xyavNEbxbA2mNNcA0JNGd090sVZ3nQnteNgHjNLTy30qqu1Q==
-X-Received: by 2002:a05:600c:33a5:b0:3d3:5a42:bd5d with SMTP id
- o37-20020a05600c33a500b003d35a42bd5dmr50138053wmp.32.1673372378624; 
- Tue, 10 Jan 2023 09:39:38 -0800 (PST)
+ bh=SFp5fLykrTmSrzOYijtFAOoQNLwJRutVy2bxJGeiOow=;
+ b=QF5hMmfTr0Vly3WpI4swrd4cQ/7TZcJPQbzOnpydEAkVh/GM3DA8ATEAmVPeKbO0m2
+ dshHFkbMjxtyPhYVY4yl10rPO7q3UzPXKC3K79OI/7naIXkuwV5z1BXEDgdh2Dhm2RLo
+ 6iWgt0SCqSkIrgzY3T+W72rnVd62+NIOV5/H7QQNMejCq0Q2YncZJl9IMsAuuLEtXEag
+ kRhBsaZgiVMW5ZUNaUHlbm8Dg7nVtU0//2VlVhm1LvFHe1mNgExB6zEajRRNr5E0aOwt
+ D4EZyfY1AYaQb2Z3E+s9IWiHnBc0suUDyDEDvyJU0sxi4KOlM9fboX98ulrQGn4CgJcq
+ +8Eg==
+X-Gm-Message-State: AFqh2kpOxHNfI8fyzbZjg0Xx+EImYMIqP62Je/qRfxsda2i/0CEfq9sS
+ Cm4mqPAiB4McmDMEfKqp9iYudg==
+X-Google-Smtp-Source: AMrXdXt3NRKz70KxP+igSuUAb24Sj9c3fykq1hASH9Zy4YpYvCnqAHbOfMJKcI5CmOUWTiBv4m0awg==
+X-Received: by 2002:a5d:6145:0:b0:2bb:6b92:d4cc with SMTP id
+ y5-20020a5d6145000000b002bb6b92d4ccmr8176826wrt.53.1673372818709; 
+ Tue, 10 Jan 2023 09:46:58 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- o19-20020a05600c511300b003d9862ec435sm3763112wms.20.2023.01.10.09.39.34
+ z2-20020a5d6402000000b00297dcfdc90fsm11713916wru.24.2023.01.10.09.46.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 09:39:36 -0800 (PST)
+ Tue, 10 Jan 2023 09:46:58 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 081B21FFCE;
+ by zen.linaroharston (Postfix) with ESMTP id 249D91FFCF;
  Tue, 10 Jan 2023 17:39:26 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -80,17 +79,18 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Mahmoud Mandour <ma.mandourr@gmail.com>,
  John G Johnson <john.g.johnson@oracle.com>, Emilio Cota <cota@braap.org>
-Subject: [PATCH 25/26] tcg: exclude lookup_tb_ptr from helper instrumentation
-Date: Tue, 10 Jan 2023 17:39:21 +0000
-Message-Id: <20230110173922.265055-26-alex.bennee@linaro.org>
+Subject: [PATCH 26/26] cpu-exec: assert that plugin_mem_cbs is NULL after
+ execution
+Date: Tue, 10 Jan 2023 17:39:22 +0000
+Message-Id: <20230110173922.265055-27-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230110173922.265055-1-alex.bennee@linaro.org>
 References: <20230110173922.265055-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -115,35 +115,59 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Emilio Cota <cota@braap.org>
 
-It is internal to TCG and therefore we know it does not
-access guest memory.
-
-Related: #1381
+Fixes: #1381
 
 Signed-off-by: Emilio Cota <cota@braap.org>
-Message-Id: <20230108164731.61469-4-cota@braap.org>
+Message-Id: <20230108165107.62488-1-cota@braap.org>
+[AJB: manually applied follow-up fix]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tcg/tcg.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ include/qemu/plugin.h | 4 ++++
+ accel/tcg/cpu-exec.c  | 2 ++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index da91779890..ee67eefc0c 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -1652,8 +1652,10 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
-     op = tcg_op_alloc(INDEX_op_call, total_args);
- 
+diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+index e0ebedef84..fb338ba576 100644
+--- a/include/qemu/plugin.h
++++ b/include/qemu/plugin.h
+@@ -59,6 +59,8 @@ get_plugin_meminfo_rw(qemu_plugin_meminfo_t i)
  #ifdef CONFIG_PLUGIN
--    /* detect non-plugin helpers */
--    if (tcg_ctx->plugin_insn && unlikely(strncmp(info->name, "plugin_", 7))) {
-+    /* flag helpers that are not internal to TCG */
-+    if (tcg_ctx->plugin_insn &&
-+        strncmp(info->name, "plugin_", 7) &&
-+        strcmp(info->name, "lookup_tb_ptr")) {
-         tcg_ctx->plugin_insn->calls_helpers = true;
+ extern QemuOptsList qemu_plugin_opts;
+ 
++#define QEMU_PLUGIN_ASSERT(cond) g_assert(cond)
++
+ static inline void qemu_plugin_add_opts(void)
+ {
+     qemu_add_opts(&qemu_plugin_opts);
+@@ -250,6 +252,8 @@ void qemu_plugin_user_postfork(bool is_child);
+ 
+ #else /* !CONFIG_PLUGIN */
+ 
++#define QEMU_PLUGIN_ASSERT(cond)
++
+ static inline void qemu_plugin_add_opts(void)
+ { }
+ 
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 6bd29227f3..f272504611 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -504,6 +504,7 @@ static void cpu_exec_exit(CPUState *cpu)
+     if (cc->tcg_ops->cpu_exec_exit) {
+         cc->tcg_ops->cpu_exec_exit(cpu);
      }
- #endif
++    QEMU_PLUGIN_ASSERT(cpu->plugin_mem_cbs == NULL);
+ }
+ 
+ void cpu_exec_step_atomic(CPUState *cpu)
+@@ -1031,6 +1032,7 @@ int cpu_exec(CPUState *cpu)
+ 
+             cpu_loop_exec_tb(cpu, tb, pc, &last_tb, &tb_exit);
+ 
++            QEMU_PLUGIN_ASSERT(cpu->plugin_mem_cbs == NULL);
+             /* Try to align the host and virtual clocks
+                if the guest is in advance */
+             align_clocks(&sc, cpu);
 -- 
 2.34.1
 
