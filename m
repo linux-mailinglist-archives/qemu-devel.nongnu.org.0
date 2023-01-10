@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9290C664EC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 23:27:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA30E664ECB
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 23:28:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFN4G-00045b-Py; Tue, 10 Jan 2023 17:26:04 -0500
+	id 1pFN5c-0004vj-7N; Tue, 10 Jan 2023 17:27:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pFN4E-00045F-Mg; Tue, 10 Jan 2023 17:26:02 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pFN4C-0008RB-Vo; Tue, 10 Jan 2023 17:26:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Tdadf0WiEUJFLoPhsmeJP8cGH/AUSB2Jw1S0yO8e+eo=; b=E5MpvIzMet9ufimTyeTGOnPkZC
- Ul62OsUCBg0FxTVtSBjXiiiwv4iCiQqdSg3nITvZbQDiTrb0owzrSmV56nvAbsZWx9B90jL2IWT5a
- QgaMyq97aLWVVa7sgf9Y6NAIi0DptIKogi/J2dOSShAXbciVtAdR8qWLYXZgKFyQ2NCbQBB3RngXd
- Q3SzOT9X/1FiMiHNZ2M61jALktr0EBI7KcyFDHxOrTwlQWSP2CsEZAvhQ24dWL1M7uGtdtl+bJGlE
- kJPfTyYP4Z+IUWUI8CXWTI05ll/EuT0DIQnvI3bCAHkUj0nUBuv+9ApQcIKb+lBFZj54y+Ht54by5
- 9cqMbbGa6zWhMuRveGBJfanbXTZwdTw1d48YOSFBdZRBC6Fl0cyewuoBwS6Zp+BUAVeDCwlicNOCd
- t3QNYdsS7vq+1sQwXWNVPWpq99HpWbVVXWKwMaBmVX21izoFN6Tn+7ESF1yYHsLswq5mGQ+rmXEdc
- Rs+dWMRgUXQ2o9u7U4/mzrv8pnNAS33edAq9kI9RqLeKQscEgH6n+BjAxXYA9/dXire5dc5jUESjj
- 80LAruVu9MPATWMOn+NKJ4YrDM+GIwzF+D4OgntPi28eVgJwyl6/6Ii5OmAfOPqrpDDiDylcAegQl
- Uq23wcTMKejo/9UhgzGzhMpqZbb5wGHtIGA2ugDVg=;
-Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pFN3l-0008XY-EZ; Tue, 10 Jan 2023 22:25:37 +0000
-Message-ID: <8e775600-f394-0e9c-9ee9-15dd635275e9@ilande.co.uk>
-Date: Tue, 10 Jan 2023 22:25:53 +0000
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pFN5a-0004vH-3l
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 17:27:26 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pFN5X-0000CO-8L
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 17:27:25 -0500
+Received: by mail-oi1-x241.google.com with SMTP id i127so11338811oif.8
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 14:27:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=IpoeC3L4roef9zj3oNJSECsxwrRb8L77/kWW9Ca4OjE=;
+ b=M3bRd1KXmm1YAUUllfmPJS91n25kMXC0NzesyNd4hB4Uq5/95W1NObH5bRz5iHBQQN
+ FvcId6jogwG4DMgPq1LAFqr2PdpyAx9hHLt7NL1LTgma0nSB1/EDGg1EwPGHi8m7ihCY
+ Gdq/mnIvFDplKqDQUJCvNIP5+05E4UeoIgOExjENpacBaOwuzeXc+wUAGp70um14hyQB
+ Tk8MF4F8jnqai+idLFE0Y8/dZCWIf7JIrGBhKmJ2OCQQndaH85yls1SCWA/MdSY+QTHT
+ l3pKG2rDW5J59hnBhnRyJuhmJSmaJPPoWIp7Aoi9e9fvBfkQtSsPABA56IE0VTuEVAT5
+ pqXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IpoeC3L4roef9zj3oNJSECsxwrRb8L77/kWW9Ca4OjE=;
+ b=CpJMy01W0mGptJZx9DH25EDtr1cuw5WYMEuwJuoSgvEE4bOTxpf2jvhUS4rpgwNIcj
+ aFe6cw0MQP8ZeK6lj0Y4orxoTuyElBP4zDQzyDjUDlzokDM6j3/RDLvp38zcIw1bH+o8
+ hU4pcNcQxu/goaJzBiMwH30ineVPGyN3ZrlrZeuvrhqqPgVj7tDGv68OGtLGgjyUhDkJ
+ jYBO08c+snM+WnnAX3RCmokpjx8y/Pmv6HBt76w8jxyNiHvWIQE1LHC8Azarlz1SNMv4
+ vUBB5qMDskUI3N8sC26I4e6YjxX4PLTv6CiN3RrOkAIXRtkZgppV70gtJkO4ESU0vpk2
+ wAJA==
+X-Gm-Message-State: AFqh2kpQFOIgoz5XYGSQ4JoXKBpqKVM3/xDZn9QZ8z7mzTGn5zLSaLBH
+ ExphHoh0tAcMX9fUH9joo/aFJEM10P9eeXgNjEI=
+X-Google-Smtp-Source: AMrXdXulFaF1xAqbNuVt6XDKi3TPC5Ums6arIcqg6x2+83NkwYTQ1ABQ8zajgXQmCYb8JYFYDTtfQA==
+X-Received: by 2002:a54:400b:0:b0:364:5ec5:bc with SMTP id
+ x11-20020a54400b000000b003645ec500bcmr1565594oie.59.1673389641593; 
+ Tue, 10 Jan 2023 14:27:21 -0800 (PST)
+Received: from [192.168.68.107] ([152.250.93.24])
+ by smtp.gmail.com with ESMTPSA id
+ g19-20020a544f93000000b00363ef79e2a1sm5876316oiy.31.2023.01.10.14.27.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Jan 2023 14:27:21 -0800 (PST)
+Message-ID: <2613669e-f535-e91d-14b8-5968094877eb@ventanamicro.com>
+Date: Tue, 10 Jan 2023 19:27:18 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 0/2] target/riscv/cpu: fix sifive_u 32/64bits boot in
+ riscv-to-apply.next
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ richard.henderson@linaro.org
+References: <20230110201405.247785-1-dbarboza@ventanamicro.com>
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <e8d6aa41eeb0461d285fa4c12e0fff05d366e8fa.1672868854.git.balaton@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <e8d6aa41eeb0461d285fa4c12e0fff05d366e8fa.1672868854.git.balaton@eik.bme.hu>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230110201405.247785-1-dbarboza@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v7 3/7] mac_{old,new}world: Pass MacOS VGA NDRV in card
- ROM instead of fw_cfg
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x241.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,125 +95,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 04/01/2023 21:59, BALATON Zoltan wrote:
+Hi,
 
-> OpenBIOS cannot run FCode ROMs yet but it can detect NDRV in VGA card
-> ROM and add it to the device tree for MacOS. Pass the NDRV this way
-> instead of via fw_cfg. This solves the problem with OpenBIOS also
-> adding the NDRV to ati-vga which it does not work with. This does not
-> need any changes to OpenBIOS as this NDRV ROM handling is already
-> there but this patch also allows simplifying OpenBIOS later to remove
-> the fw_cfg ndrv handling from the vga FCode and also drop the
-> vga-ndrv? option which is not needed any more as users can disable the
-> ndrv with -device VGA,romfile="" (or override it with their own NDRV
-> or ROM). Once FCode support is implemented in OpenBIOS, the proper
-> FCode ROM can be set the same way so this paves the way to remove some
-> hacks.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/ppc/mac_newworld.c | 18 ++++++------------
->   hw/ppc/mac_oldworld.c | 18 ++++++------------
->   2 files changed, 12 insertions(+), 24 deletions(-)
-> 
-> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-> index 460c14b5e3..60c9c27986 100644
-> --- a/hw/ppc/mac_newworld.c
-> +++ b/hw/ppc/mac_newworld.c
-> @@ -510,18 +510,6 @@ static void ppc_core99_init(MachineState *machine)
->       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
->       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_NVRAM_ADDR, nvram_addr);
->   
-> -    /* MacOS NDRV VGA driver */
-> -    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
-> -    if (filename) {
-> -        gchar *ndrv_file;
-> -        gsize ndrv_size;
-> -
-> -        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
-> -            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, ndrv_size);
-> -        }
-> -        g_free(filename);
-> -    }
-> -
->       qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
->   }
->   
-> @@ -565,6 +553,11 @@ static int core99_kvm_type(MachineState *machine, const char *arg)
->       return 2;
->   }
->   
-> +static GlobalProperty props[] = {
-> +    /* MacOS NDRV VGA driver */
-> +    { "VGA", "romfile", NDRV_VGA_FILENAME },
-> +};
-> +
->   static void core99_machine_class_init(ObjectClass *oc, void *data)
->   {
->       MachineClass *mc = MACHINE_CLASS(oc);
-> @@ -585,6 +578,7 @@ static void core99_machine_class_init(ObjectClass *oc, void *data)
->   #endif
->       mc->default_ram_id = "ppc_core99.ram";
->       mc->ignore_boot_device_suffixes = true;
-> +    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
->       fwc->get_dev_path = core99_fw_dev_path;
->   }
->   
-> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-> index 5a7b25a4a8..6a1b1ad47a 100644
-> --- a/hw/ppc/mac_oldworld.c
-> +++ b/hw/ppc/mac_oldworld.c
-> @@ -344,18 +344,6 @@ static void ppc_heathrow_init(MachineState *machine)
->       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_CLOCKFREQ, CLOCKFREQ);
->       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
->   
-> -    /* MacOS NDRV VGA driver */
-> -    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
-> -    if (filename) {
-> -        gchar *ndrv_file;
-> -        gsize ndrv_size;
-> -
-> -        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
-> -            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, ndrv_size);
-> -        }
-> -        g_free(filename);
-> -    }
-> -
->       qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
->   }
->   
-> @@ -400,6 +388,11 @@ static int heathrow_kvm_type(MachineState *machine, const char *arg)
->       return 2;
->   }
->   
-> +static GlobalProperty props[] = {
-> +    /* MacOS NDRV VGA driver */
-> +    { "VGA", "romfile", NDRV_VGA_FILENAME },
-> +};
-> +
->   static void heathrow_class_init(ObjectClass *oc, void *data)
->   {
->       MachineClass *mc = MACHINE_CLASS(oc);
-> @@ -420,6 +413,7 @@ static void heathrow_class_init(ObjectClass *oc, void *data)
->       mc->default_display = "std";
->       mc->ignore_boot_device_suffixes = true;
->       mc->default_ram_id = "ppc_heathrow.ram";
-> +    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
->       fwc->get_dev_path = heathrow_fw_dev_path;
->   }
+I mentioned that the bug were found in riscv-to-apply.next but forgot to
+mentioned that the patches were also based on top of it as well:
 
-The qemu_vga.ndrv is deliberately kept separate from the PCI option ROM because it is 
-a binary generated by a separate project: otherwise you'd end up creating a 
-dependency between OpenBIOS and QemuMacDrivers, which is almost impossible to achieve 
-since qemu_vga.ndrv can only (currently) be built in an emulated MacOS 9 guest.
-
-The best way to do this would be to extract the PCI config words from your ATI 
-OpenBIOS patches and the alter drivers/vga.fs so that it only generates the 
-driver,AAPL,MacOS,PowerPC property if the device id and vendor id match that of the 
-QEMU VGA device.
+https://github.com/alistair23/qemu/tree/riscv-to-apply.next
 
 
-ATB,
+Thanks,
 
-Mark.
+
+Daniel
+
+On 1/10/23 17:14, Daniel Henrique Barboza wrote:
+> Hi,
+>
+> I found this bug when testing my avocado changes in riscv-to-apply.next.
+> The sifive_u board, both 32 and 64 bits, stopped booting OpenSBI. The
+> guest hangs indefinitely.
+>
+> Git bisect points that this patch broke things:
+>
+> 8c3f35d25e7e98655c609b6c1e9f103b9240f8f8 is the first bad commit
+> commit 8c3f35d25e7e98655c609b6c1e9f103b9240f8f8
+> Author: Weiwei Li <liweiwei@iscas.ac.cn>
+> Date:   Wed Dec 28 14:20:21 2022 +0800
+>
+>      target/riscv: add support for Zca extension
+>      
+>      Modify the check for C extension to Zca (C implies Zca)
+> (https://github.com/alistair23/qemu/commit/8c3f35d25e7e98655c609b6c1e9f103b9240f8f8)
+>      
+>
+> But this patch per se isn't doing anything wrong. The root of the
+> problem is that this patch makes assumptions based on the previous
+> patch:
+>
+> commit a2b409aa6cadc1ed9715e1ab916ddd3dade0ba85
+> Author: Weiwei Li <liweiwei@iscas.ac.cn>
+> Date:   Wed Dec 28 14:20:20 2022 +0800
+>
+>      target/riscv: add cfg properties for Zc* extension
+> (https://github.com/alistair23/qemu/commit/a2b409aa6cadc1ed9715e1ab916ddd3dade0ba85)
+>
+> Which added a lot of logic and assumptions that are being skipped by all
+> the SiFive boards because, during riscv_cpu_realize(), we have this
+> code:
+>
+>      /* If only MISA_EXT is unset for misa, then set it from properties */
+>      if (env->misa_ext == 0) {
+>          uint32_t ext = 0;
+>          (...)
+>      }
+>
+> In short, we have a lot of code that are being skipped by all SiFive
+> CPUs because these CPUs are setting a non-zero value in set_misa() in
+> their respective cpu_init() functions.
+>
+> It's possible to just hack in and fix the SiFive problem in isolate, but
+> I believe we can do better and allow all riscv_cpu_realize() to be executed
+> for all CPUs, regardless of what they've done during their cpu_init().
+>
+>
+> Daniel Henrique Barboza (2):
+>    target/riscv/cpu: set cpu->cfg in register_cpu_props()
+>    target/riscv/cpu.c: do not skip misa logic in riscv_cpu_realize()
+>
+>   target/riscv/cpu.c | 525 +++++++++++++++++++++++++--------------------
+>   target/riscv/cpu.h |   4 +
+>   2 files changed, 292 insertions(+), 237 deletions(-)
+>
+
 
