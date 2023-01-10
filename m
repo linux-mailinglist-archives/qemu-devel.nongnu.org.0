@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C6B3664B6E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:44:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC3F664810
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:04:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFIb7-0003Wt-Ix; Tue, 10 Jan 2023 12:39:41 -0500
+	id 1pFIbI-0003go-05; Tue, 10 Jan 2023 12:39:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIb4-0003UX-V7
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:38 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ id 1pFIb9-0003Zj-KJ
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:43 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIb1-0001Gh-5H
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:38 -0500
-Received: by mail-wr1-x430.google.com with SMTP id v2so1584590wrw.10
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:39:34 -0800 (PST)
+ id 1pFIb4-0001Cn-B1
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:43 -0500
+Received: by mail-wm1-x334.google.com with SMTP id o15so9366428wmr.4
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:39:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MXFxyJRI2iR/xunMULJui4KM0BQsyU2Vc+mAIPXoOSM=;
- b=Q9FXpp+LMQLJXSxBjuap6LoOG11HDSKTDs6+gotY7/qiJySt0pxepIoHKpTXpHATP3
- GIhv1cqEb5DmeWuCJY8rMbHJLGYDwiR2f1QSRSYmvRVqDd9vuy0jpBQarZs9y08S6Yq5
- IkUOnHntASQRzK7T6vy6Y/WdZodftWcE1BoBguvw2r+qHCMxj61U5gYbZpA5MNMwfjGe
- Ib1obRxtofIpx+AxcsOO9ClJk9TyZfehlgsBX2uaNWM+sPewF406WU7z/L18vSBupsGm
- 8460NuVzrAG3yYegyMpNxDbusLAs+E++okQIwz1/8+bbezPGlVHq/mjCwsf3Vx5VyAX2
- R7tg==
+ bh=ycgI82N5PiT9dD2l3RH+0isxFtJNAT6vrCry8xsNvlY=;
+ b=Me7VTXhUqyjA3vz7jjuLGZQGRlNGlVASOmSYtRh3NVlIzXgXWIe572f2gsg/Ey6I/5
+ 1rOOPiTOC+cwDdraS8cqVmfNU6m+kLHaS7uovsTZ0gfzK/ScGulzlMk3s5cbYcRLFA3C
+ LrpUKUSfsBNczhH9OrvTxAYykWxpcX8WgHA4k724A9nv9Ur/CfeXfILWSYUO9v1VmXur
+ YptsnJjuozPEXXPuMcRZJg+6kKd5paLb4V7xfBL3eugya7lSH+Nbww6mQwVXbsBEfIjz
+ jpF00pWhjLK6W4cn6YWWHe+Rtj8aQn7yrKV1eCBJdW6xK2Ue63jZDO1hO0udsnEaCc+D
+ lGkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MXFxyJRI2iR/xunMULJui4KM0BQsyU2Vc+mAIPXoOSM=;
- b=dhbfIqKdLWEOrSQGMWnegzVwrQgXYg6IjLkJDwXxd1zzqevas0JWRUtCF4G7u2iRF1
- fs7kfNpqIgrbhkJpE0CtxW4CTu8+rOJvF9gKH66ZF6bNmr9mrmV48wscwrGD3nfrr4Ev
- 22RBibncg09dC3hCTZbOIGCbvIOuhlaJsFZAGIqVRQIzwV1iBF8bDQELbBakfLYOaE0p
- zQDSPVbxzPT54PZZu6I8y4GiEhf/nBSvDgZKm7R8pgOFKVSjBZCI+wmwhQS44YH/o+AS
- E1Mn9Gg/b8oY8EIS2NNKx8pCAb+PbZEgR5+QaiwehdyHoGEN4KQ2xqllygwB6fE7bxaC
- aDkA==
-X-Gm-Message-State: AFqh2kqjk+YTsxmUQT9OTsXi4ctefxz7ybmIsBKYqQS+mHgAUjKMvGpH
- xdlJqcXZZEhCjlIvInbaR1lGlQ==
-X-Google-Smtp-Source: AMrXdXucUtTQ/RuZ+GO6N1CwMWOshR5t4BJN/1buLLw/Q8YSQNbgHC3FgTlbxNiHVRfu7ayxEqvmKQ==
-X-Received: by 2002:a05:6000:705:b0:273:7d1b:7337 with SMTP id
- bs5-20020a056000070500b002737d1b7337mr40397725wrb.7.1673372373543; 
- Tue, 10 Jan 2023 09:39:33 -0800 (PST)
+ bh=ycgI82N5PiT9dD2l3RH+0isxFtJNAT6vrCry8xsNvlY=;
+ b=RjT8w8BhEEO/1dkkUGinfYxSC1fRZm8ADvcUDl0IBsias2WiiNZh6rFa3zK7neaDHf
+ PIde7ESbI2oQwM67R/qCEet6UuS+Po26I9+acz3q2umDBlFGYMFL5AJ3WRe3Wiquogj/
+ wTcTqi/uvPwRkdDt2yrzPQLN5TCiRpGs4zPeFU8QwvggdM70o8aWh5S2Am6BWSn48SF2
+ JvAxS9M+5yVfVqDMtOPBDXpdw+WJg9ZjzLofpKEt4Axib4h8v3EGa7Gozjq251xPOwdF
+ yLgrFc9lFjaex9XudjOIDUXImcsIY60irVteFc+X/GdW4QNeOvnFShPo/v0/Qd8mW7ik
+ RwJA==
+X-Gm-Message-State: AFqh2kq9XENvmRKJsd3kGEsNrf5Go3nhj2ikLqkzw2wbN1HMMg+NHfMu
+ 8cS1CXyVb/5+/syRZNhq7DVEbA==
+X-Google-Smtp-Source: AMrXdXujOnGWUyRe/m5MFUeGHZV+ZrNN9srkoIn7CvsaMNfTVCBvN6L+5mOpuEx3SMTzcZ5qPaEWGw==
+X-Received: by 2002:a05:600c:4f8a:b0:3d9:f559:1f7e with SMTP id
+ n10-20020a05600c4f8a00b003d9f5591f7emr4810385wmq.20.1673372377613; 
+ Tue, 10 Jan 2023 09:39:37 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- r10-20020adfda4a000000b0029a06f11022sm11796931wrl.112.2023.01.10.09.39.32
+ r126-20020a1c2b84000000b003d35c845cbbsm19782463wmr.21.2023.01.10.09.39.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 09:39:32 -0800 (PST)
+ Tue, 10 Jan 2023 09:39:36 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5EBC61FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id 7728F1FFCA;
  Tue, 10 Jan 2023 17:39:25 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -79,24 +79,24 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Mahmoud Mandour <ma.mandourr@gmail.com>,
  John G Johnson <john.g.johnson@oracle.com>, Emilio Cota <cota@braap.org>
-Subject: [PATCH 19/26] util/qht: add missing atomic_set(hashes[i])
-Date: Tue, 10 Jan 2023 17:39:15 +0000
-Message-Id: <20230110173922.265055-20-alex.bennee@linaro.org>
+Subject: [PATCH 20/26] thread: de-const qemu_spin_destroy
+Date: Tue, 10 Jan 2023 17:39:16 +0000
+Message-Id: <20230110173922.265055-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230110173922.265055-1-alex.bennee@linaro.org>
 References: <20230110173922.265055-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,33 +114,32 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Emilio Cota <cota@braap.org>
 
-We forgot to add this one in "a890643958 util/qht: atomically set b->hashes".
-
-Detected with tsan.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Emilio Cota <cota@braap.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230109224954.161672-3-cota@braap.org>
+Message-Id: <20230109224954.161672-4-cota@braap.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- util/qht.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qemu/thread.h | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/util/qht.c b/util/qht.c
-index 065fc501f4..15866299e6 100644
---- a/util/qht.c
-+++ b/util/qht.c
-@@ -688,7 +688,7 @@ static inline void qht_bucket_remove_entry(struct qht_bucket *orig, int pos)
-     int i;
+diff --git a/include/qemu/thread.h b/include/qemu/thread.h
+index 7c6703bce3..7841084199 100644
+--- a/include/qemu/thread.h
++++ b/include/qemu/thread.h
+@@ -237,11 +237,10 @@ static inline void qemu_spin_init(QemuSpin *spin)
+ #endif
+ }
  
-     if (qht_entry_is_last(orig, pos)) {
--        orig->hashes[pos] = 0;
-+        qatomic_set(&orig->hashes[pos], 0);
-         qatomic_set(&orig->pointers[pos], NULL);
-         return;
-     }
+-/* const parameter because the only purpose here is the TSAN annotation */
+-static inline void qemu_spin_destroy(const QemuSpin *spin)
++static inline void qemu_spin_destroy(QemuSpin *spin)
+ {
+ #ifdef CONFIG_TSAN
+-    __tsan_mutex_destroy((void *)spin, __tsan_mutex_not_static);
++    __tsan_mutex_destroy(spin, __tsan_mutex_not_static);
+ #endif
+ }
+ 
 -- 
 2.34.1
 
