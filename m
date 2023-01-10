@@ -2,88 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D7D3664BFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 20:05:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8B2664C33
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 20:18:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFJtk-0000h6-UL; Tue, 10 Jan 2023 14:03:00 -0500
+	id 1pFJw0-000227-KU; Tue, 10 Jan 2023 14:05:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pFJtU-0000ao-SS
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 14:02:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1pFJvu-000211-BR
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 14:05:15 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pFJtT-0003Wo-DG
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 14:02:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673377362;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Jjl+iFsVUfqhwGd8i3AU+kl3yi19vtb1FRGfwcx/Wf0=;
- b=JMmcEeFTJ+z8oA+0hWNfrqA08AS/EV7fCLRpIstpPlqMl7NroUYPgwBAA5P8fNKWVl0tiR
- GywNLapmoFutt8Js5a6WZaXl2/2iJbL7VPYHVQPkjbWNXMmRHBiEXlBXiAt2JEJ7e9v5iL
- getIowVLEYyeo0djuVVUZ83sQd6rEsA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-32-PbOUIjP7M_eq4JrE2tetFg-1; Tue, 10 Jan 2023 14:02:40 -0500
-X-MC-Unique: PbOUIjP7M_eq4JrE2tetFg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- fm17-20020a05600c0c1100b003d96f0a7f2eso9400956wmb.6
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 11:02:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Jjl+iFsVUfqhwGd8i3AU+kl3yi19vtb1FRGfwcx/Wf0=;
- b=W5bARs8lJsIEZMfmgNmpdj231IFpFysg0uqh2bqMVQ7W4lPSFkJ14FR2ZXWX5kZ2TM
- v+MmrHN2P49td4XhsMu5zXWDtbgYa6pjDXiAfbp65xOTHlVi7aPEeIhqELA1izQK9+Lv
- ULjIe91w2TCjp65dl9u5l1uYTc3c7Uy6BGlKh9VDxbJmu/Mi4mfhenxqg8YFPf2NUl0c
- 09y9We3TMLDoYtYnSoWBNCeNFSoasNRFxn/EtEtipbxJXrWODzQJjssXU0Smo1D0df4s
- VSlSGxcOi/iWGc9+HPGFEeJU0M1b4DixGAv+IkU2Fg0m/UDxZ6tHqTu9/DMiRwrWkELT
- GJtA==
-X-Gm-Message-State: AFqh2kqBm0DwxB1pcr+z4Xm42MjsOvxe8Ivo8G+udYVwVZLTwZYe08qH
- TPB9YuvY52CMcR2yrTH0SYzCasBPGY4nPn98+DdtwtFBz8yjAr6O9anVh+nwtXEVfkCH7lpD/Uv
- K0bZV4aP6l651OV4=
-X-Received: by 2002:a5d:5707:0:b0:2b9:d6ba:21f1 with SMTP id
- a7-20020a5d5707000000b002b9d6ba21f1mr12354870wrv.21.1673377359543; 
- Tue, 10 Jan 2023 11:02:39 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXti4yRxMbmxYPCpbih2Lj96ZOeyLfekKznMfxSxxZEfvVynQwbE5wuUybTcGFhKkrnVeKJaEg==
-X-Received: by 2002:a5d:5707:0:b0:2b9:d6ba:21f1 with SMTP id
- a7-20020a5d5707000000b002b9d6ba21f1mr12354856wrv.21.1673377359328; 
- Tue, 10 Jan 2023 11:02:39 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- c18-20020adffb52000000b0025e86026866sm13936293wrs.0.2023.01.10.11.02.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 11:02:38 -0800 (PST)
-Date: Tue, 10 Jan 2023 19:02:36 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Kei IKEDA <s228040u@st.go.tuat.ac.jp>
-Cc: qemu-devel@nongnu.org
-Subject: Re: Postcopy migration failed with "qemu-system-x86_64:
- postcopy_ram_listen_thread: loadvm failed: -5"
-Message-ID: <Y722TIv3N9gMB8te@work-vm>
-References: <CANPJ4po4sXZ9F3zbmpup4MmHamZG7GPf0AdDhWhDy=HNpRQyAg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1pFJvq-00048k-NI
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 14:05:14 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30AIvc8U030869; Tue, 10 Jan 2023 19:05:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=7bmQHm/jZEDTX/Srflc17HjQZA8P6vtFZUvSlUnNAIo=;
+ b=MTCxMgRt46KY93EaBgwzl9WLCnPvCkXsqDMUzDY9VQm2fdEIUuKLRdjTd6TfKJ4WswDg
+ FwhG8sXj6p5PuF0+HIXyAd+HLSZNhPL3OBbOtjeJEe3N0VLj7xFtoe2DJ81VD4TbhCV7
+ myk4GN82UI1jLTInIpsVzP/VGrsOXk60yqy32Zq2Kb38iXnPfXZ8rinbp5ATReJovY39
+ bnJH1ZWD9nJiD7gaRND3maaHiYKyOcrrGpLpdNtYvvtLxJVbCCzBcMhJysZcHQ8j2U54
+ KFhFKfXH+RcJ2FrSACtRFmFbukhQLVCNAUs1vDTOCBgtMdIY0t5rZpqKy5ZAaCTGNt8r 3Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1drpr4st-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 10 Jan 2023 19:05:04 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30AJ2vgS017003;
+ Tue, 10 Jan 2023 19:05:04 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1drpr4rv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 10 Jan 2023 19:05:04 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30AHcXKD013339;
+ Tue, 10 Jan 2023 19:05:02 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3my00fnbun-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 10 Jan 2023 19:05:02 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
+ [10.20.54.104])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30AJ4xE117302228
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Jan 2023 19:04:59 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AD31B2004B;
+ Tue, 10 Jan 2023 19:04:59 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5BA0F2004D;
+ Tue, 10 Jan 2023 19:04:59 +0000 (GMT)
+Received: from [9.171.9.121] (unknown [9.171.9.121])
+ by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 10 Jan 2023 19:04:59 +0000 (GMT)
+Message-ID: <fec1b798-2170-79b1-3bec-435777ca5afe@linux.ibm.com>
+Date: Tue, 10 Jan 2023 20:04:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] Makefile: allow 'make uninstall'
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20230110151318.24462-1-peter.maydell@linaro.org>
+Content-Language: en-US
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20230110151318.24462-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: _B2-eik10bT5JTrDT4YXP70Jhzy3RrnA
+X-Proofpoint-GUID: 6WxlCVogYIJ5mwYQ4Jc52z4DSAnMFmZI
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANPJ4po4sXZ9F3zbmpup4MmHamZG7GPf0AdDhWhDy=HNpRQyAg@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-10_08,2023-01-10_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ bulkscore=0 clxscore=1011 malwarescore=0 phishscore=0 spamscore=0
+ adultscore=0 impostorscore=0 mlxscore=0 suspectscore=0 priorityscore=1501
+ mlxlogscore=809 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301100124
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,69 +116,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Kei IKEDA (s228040u@st.go.tuat.ac.jp) wrote:
-> Hi!
+Am 10.01.23 um 16:13 schrieb Peter Maydell:
+> Meson supports an "uninstall", so we can easily allow it to work by
+> not suppressing the forwarding of it from Make to meson.
 > 
-> I am experimenting with post-copy by modifying qemu-6.0.0 in my research.
-> I transfer a VM between two machines but it fails most of the time with
-> these error messages.
+> We originally suppressed this because Meson's 'uninstall' has a hole
+> in it: it will remove everything that is installed by a mechanism
+> meson knows about, but not things installed by "custom install
+> scripts", and there is no "custom uninstall script" mechanism.
 > 
-> ```
-> qemu-system-x86_64: postcopy_ram_listen_thread: loadvm failed: -5
+> For QEMU, though, the only thing that was being installed by a custom
+> install script was the LC_MESSAGES files handled by Meson's i18n
+> module, and that code was fixed in Meson commit 487d45c1e5bfff0fbdb4,
+> which is present in Meson 0.60.0 and later.  Since we already require
+> a Meson version newer than that, we're now safe to enable
+> 'uninstall', as it will now correctly uninstall everything that was
+> installed.
 > 
-> 
-> qemu-system-x86_64: error while loading state for instance 0x0 of device
-> 'kvm-tpr-opt'
-> 
-> qemu-system-x86_64: load of migration failed: Operation not permitted
-> ```
-> 
-> I checked that it does not happen in vanilla qemu-6.0.0 post-copy migration
-> so my modifying causes this error.
-> 
-> I want to fix this error but I don't know what these error messages mean.
-> 
-> If anyone knows what the situation is with this error, please let me know.
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/109
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-My guess from that error is that the vapic_post_load function in
-hw/i386/kvmvacpic.c is erroring - or something around that;  it tells
-you it's the 'kvm-tpr-opt' device that's failing to load, so you need to
-find out why.
-
-Are your changes anything to do with apic?
-
-Dave
-
-> Thanks.
-> 
-> ---Experiment information---
-> machine
->  HPE ProLiant DL360 Gen10
-> OS
->  Linux 5.11.22 with Ubuntu 22.04.1 LTS
-> Startup command
->  source side
->   ```
->   sudo /home/work/qemu-6.0.0/build/x86_64-softmmu/qemu-system-x86_64 -cpu
-> host -smp 8 -m 16G -enable-kvm -drive
-> if=virtio,file=/var/nfs/migrate/64G.qcow2,cache=none -monitor stdio -qmp
-> tcp:localhost:4445,server,nowait -net nic -netdev
-> bridge,helper=/usr/lib/qemu/qemu-bridge-helper,id=hn0 -device
-> virtio-net-pci,netdev=hn0,id=br0,mac=00:16:3e:33:ad:7d -net
-> user,smb=/var/nfs/migrate,hostfwd=tcp::5557-:22,hostfwd=tcp::8000-:11211
->  ```
->  destination side
->   ```
->   sudo /home/kei/work/qeme-6.0.0/build/x86_64-softmmu/qemu-system-x86_64
-> -cpu host -smp 8 -m 16G -enable-kvm -drive
-> if=virtio,file=/var/nfs/migrate/64G.qcow2,cache=none -monitor stdio
-> -incoming tcp:0:4444 -qmp tcp:0:4446,server,nowait -net nic -netdev
-> bridge,helper=/usr/lib/qemu/qemu-bridge-helper,id=hn0 -device
-> virtio-net-pci,netdev=hn0,id=br0,mac=00:16:3e:33:ad:7d -net
-> user,smb=/var/nfs/migrate,hostfwd=tcp::5557-:22,hostfwd=tcp::8000-:11211
->   ```
-> ---------------------------------------
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Always missed that functionality. Thanks.
 
 
