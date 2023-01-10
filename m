@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29084664292
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 14:57:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3358E664179
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 14:21:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFDe7-0008J3-Te; Tue, 10 Jan 2023 07:22:28 -0500
+	id 1pFDfR-000193-W5; Tue, 10 Jan 2023 07:23:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFDcm-00077P-T8
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:05 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pFDcx-0007B0-RA
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:16 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFDcg-0000Pc-H6
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:03 -0500
+ <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pFDcs-0000UQ-9q
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=urignLv0rHK2GD1LSTxzwRvKBmoZG9nIH5aFiI2May0=; b=ICIJ5AsNp+YvQhgpgerBKJPqZo
- 2A7+6rLfu2xnQV10qE9Elo6pQtUrYqXpQBd1f0bImR/l9J1scV2G4xj1ik28BGe9S4DHdRDRPK3wD
- gWM+H0E0H/vGvyT7n2/97xjD6PBNZSEwm7tB9J5+xa2nRRa32NM3KXff9tvhskRt2xstzxrxBRyK3
- uYDs3YSL34yDu0L0JLOfxSaUOFK9YUfAW475yE2YAgO6175KHHoxWFidcjOc5CcpEhQUcRJwOlKcv
- 0+X92ydtzRttOw4fHQeDvyFo6s/kjrC/Uy8VYbCJ994sJYTFSQhT/cixozHB+bS3gNi4E0obbcszf
- plfegd5Q==;
+ bh=vo8xKCANcU8VlOPsSOwqRfONZRa5zu45E6N+Ww5FOoc=; b=BHm3+WNUFVcfJkBdl8zL/UNmT7
+ qGTorkjFkNqJ5g9CdfOiNQeo5fWz7R8hD1IOWV0Tn3hLL3yGxer92547qRAoX+zr/Cg67KmHrnfSn
+ pUQhy130EUD0t6wPJ+8Rlf5hPCYC6LZ2f4Yct0Co79lE7M1ygJ70yR/FiWUHTQUdtOIdH3JIdxOBK
+ kaFZ2tTV2QHyyhM2Rwkk1cfsZEtUOt9ONoZAkDx18s8qB8iR6Cp9W0UgIVlZI+HqTQwecL8HnNXBC
+ ekghCMNaPhiwRFtmsQg02hHAxXjbLe+Yy/3j7+IxZH5WW35HDITRaffj3qMgj9O6xgNh3r+ORlUEg
+ hz+r3poQ==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pFDcg-003C5j-Ld; Tue, 10 Jan 2023 12:20:59 +0000
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pFDcM-0037tU-1R; Tue, 10 Jan 2023 12:20:51 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pFDcS-006Yej-Va; Tue, 10 Jan 2023 12:20:44 +0000
+ Hat Linux)) id 1pFDcT-006Yep-1H; Tue, 10 Jan 2023 12:20:45 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,19 +46,20 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [PATCH v6 25/51] i386/xen: implement HVMOP_set_param
-Date: Tue, 10 Jan 2023 12:20:16 +0000
-Message-Id: <20230110122042.1562155-26-dwmw2@infradead.org>
+Subject: [PATCH v6 27/51] i386/xen: Add support for Xen event channel delivery
+ to vCPU
+Date: Tue, 10 Jan 2023 12:20:18 +0000
+Message-Id: <20230110122042.1562155-28-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230110122042.1562155-1-dwmw2@infradead.org>
 References: <20230110122042.1562155-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -81,70 +82,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ankur Arora <ankur.a.arora@oracle.com>
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-This is the hook for adding the HVM_PARAM_CALLBACK_IRQ parameter in a
-subsequent commit.
+The kvm_xen_inject_vcpu_callback_vector() function will either deliver
+the per-vCPU local APIC vector (as an MSI), or just kick the vCPU out
+of the kernel to trigger KVM's automatic delivery of the global vector.
+Support for asserting the GSI/PCI_INTX callbacks will come later.
 
-Signed-off-by: Ankur Arora <ankur.a.arora@oracle.com>
-Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-[dwmw2: Split out from another commit]
+Also add kvm_xen_get_vcpu_info_hva() which returns the vcpu_info of
+a given vCPU.
+
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- target/i386/kvm/xen-emu.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ include/sysemu/kvm_xen.h  |  2 +
+ target/i386/cpu.h         |  2 +
+ target/i386/kvm/xen-emu.c | 86 ++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 84 insertions(+), 6 deletions(-)
 
+diff --git a/include/sysemu/kvm_xen.h b/include/sysemu/kvm_xen.h
+index 3e43cd7843..ee53294deb 100644
+--- a/include/sysemu/kvm_xen.h
++++ b/include/sysemu/kvm_xen.h
+@@ -17,6 +17,8 @@
+ #define INVALID_GFN UINT64_MAX
+ 
+ uint32_t kvm_xen_get_caps(void);
++void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id);
++void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type);
+ 
+ #define kvm_xen_has_cap(cap) (!!(kvm_xen_get_caps() &           \
+                                  KVM_XEN_HVM_CONFIG_ ## cap))
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 938a1b9c8b..c9b12e7476 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1788,6 +1788,8 @@ typedef struct CPUArchState {
+ #endif
+ #if defined(CONFIG_KVM)
+     struct kvm_nested_state *nested_state;
++    MemoryRegion *xen_vcpu_info_mr;
++    void *xen_vcpu_info_hva;
+     uint64_t xen_vcpu_info_gpa;
+     uint64_t xen_vcpu_info_default_gpa;
+     uint64_t xen_vcpu_time_info_gpa;
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index d56d63b02e..a27facb90f 100644
+index 42e65573de..eced4bce5c 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -486,6 +486,36 @@ static bool kvm_xen_hcall_memory_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-     return true;
+@@ -20,6 +20,8 @@
+ #include "trace.h"
+ #include "sysemu/runstate.h"
+ 
++#include "hw/pci/msi.h"
++#include "hw/i386/apic-msidef.h"
+ #include "hw/i386/kvm/xen_overlay.h"
+ #include "hw/i386/kvm/xen_evtchn.h"
+ 
+@@ -247,6 +249,35 @@ static void do_set_vcpu_callback_vector(CPUState *cs, run_on_cpu_data data)
+     }
  }
  
-+static bool handle_set_param(struct kvm_xen_exit *exit, X86CPU *cpu,
-+                             uint64_t arg)
++static int set_vcpu_info(CPUState *cs, uint64_t gpa)
 +{
-+    CPUState *cs = CPU(cpu);
-+    struct xen_hvm_param hp;
-+    int err = 0;
++    X86CPU *cpu = X86_CPU(cs);
++    CPUX86State *env = &cpu->env;
++    MemoryRegionSection mrs;
++    int ret;
 +
-+    /* No need for 32/64 compat handling */
-+    qemu_build_assert(sizeof(hp) == 16);
-+
-+    if (kvm_copy_from_gva(cs, arg, &hp, sizeof(hp))) {
-+        err = -EFAULT;
-+        goto out;
++    ret = kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO, gpa);
++    if (ret || gpa == INVALID_GPA) {
++    fail:
++        if (env->xen_vcpu_info_mr) {
++            memory_region_unref(env->xen_vcpu_info_mr);
++            env->xen_vcpu_info_mr = NULL;
++        }
++        env->xen_vcpu_info_hva = NULL;
++        return ret;
 +    }
 +
-+    if (hp.domid != DOMID_SELF && hp.domid != xen_domid) {
-+        err = -ESRCH;
-+        goto out;
++    mrs = memory_region_find(get_system_memory(), gpa, sizeof(struct vcpu_info));
++    if (!mrs.mr || !mrs.mr->ram_block || mrs.size < sizeof(struct vcpu_info) ||
++        !(env->xen_vcpu_info_hva = qemu_map_ram_ptr(mrs.mr->ram_block,
++                                                    mrs.offset_within_region))) {
++        ret = -EINVAL;
++        goto fail;
 +    }
-+
-+    switch (hp.index) {
-+    default:
-+        return false;
-+    }
-+
-+out:
-+    exit->u.hcall.result = err;
-+    return true;
++    env->xen_vcpu_info_mr = mrs.mr;
++    return 0;
 +}
 +
- static int kvm_xen_hcall_evtchn_upcall_vector(struct kvm_xen_exit *exit,
-                                               X86CPU *cpu, uint64_t arg)
+ static void do_set_vcpu_info_default_gpa(CPUState *cs, run_on_cpu_data data)
  {
-@@ -527,6 +557,9 @@ static bool kvm_xen_hcall_hvm_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-         ret = -ENOSYS;
-         break;
+     X86CPU *cpu = X86_CPU(cs);
+@@ -256,8 +287,7 @@ static void do_set_vcpu_info_default_gpa(CPUState *cs, run_on_cpu_data data)
  
-+    case HVMOP_set_param:
-+        return handle_set_param(exit, cpu, arg);
-+
-     default:
-         return false;
+     /* Changing the default does nothing if a vcpu_info was explicitly set. */
+     if (env->xen_vcpu_info_gpa == INVALID_GPA) {
+-        kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO,
+-                              env->xen_vcpu_info_default_gpa);
++        set_vcpu_info(cs, env->xen_vcpu_info_default_gpa);
      }
+ }
+ 
+@@ -268,8 +298,52 @@ static void do_set_vcpu_info_gpa(CPUState *cs, run_on_cpu_data data)
+ 
+     env->xen_vcpu_info_gpa = data.host_ulong;
+ 
+-    kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO,
+-                          env->xen_vcpu_info_gpa);
++    set_vcpu_info(cs, env->xen_vcpu_info_gpa);
++}
++
++void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id)
++{
++    CPUState *cs = qemu_get_cpu(vcpu_id);
++    if (!cs) {
++        return NULL;
++    }
++
++    return X86_CPU(cs)->env.xen_vcpu_info_hva;
++}
++
++void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type)
++{
++    CPUState *cs = qemu_get_cpu(vcpu_id);
++    uint8_t vector;
++
++    if (!cs) {
++        return;
++    }
++
++    vector = X86_CPU(cs)->env.xen_vcpu_callback_vector;
++    if (vector) {
++        /*
++         * The per-vCPU callback vector injected via lapic. Just
++         * deliver it as an MSI.
++         */
++        MSIMessage msg = {
++            .address = APIC_DEFAULT_ADDRESS | X86_CPU(cs)->apic_id,
++            .data = vector | (1UL << MSI_DATA_LEVEL_SHIFT),
++        };
++        kvm_irqchip_send_msi(kvm_state, msg);
++        return;
++    }
++
++    switch (type) {
++    case HVM_PARAM_CALLBACK_TYPE_VECTOR:
++        /*
++         * If the evtchn_upcall_pending field in the vcpu_info is set, then
++         * KVM will automatically deliver the vector on entering the vCPU
++         * so all we have to do is kick it out.
++         */
++        qemu_cpu_kick(cs);
++        break;
++    }
+ }
+ 
+ static void do_set_vcpu_time_info_gpa(CPUState *cs, run_on_cpu_data data)
+@@ -305,7 +379,7 @@ static void do_vcpu_soft_reset(CPUState *cs, run_on_cpu_data data)
+     env->xen_vcpu_runstate_gpa = INVALID_GPA;
+     env->xen_vcpu_callback_vector = 0;
+ 
+-    kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO, INVALID_GPA);
++    set_vcpu_info(cs, INVALID_GPA);
+     kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_TIME_INFO,
+                           INVALID_GPA);
+     kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADDR,
+@@ -885,7 +959,7 @@ int kvm_put_xen_state(CPUState *cs)
+     }
+ 
+     if (gpa != INVALID_GPA) {
+-        ret = kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO, gpa);
++        ret = set_vcpu_info(cs, gpa);
+         if (ret < 0) {
+             return ret;
+         }
 -- 
 2.35.3
 
