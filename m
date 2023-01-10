@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61553664B70
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:44:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D396D66475E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 18:26:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFHdn-0001JV-5L; Tue, 10 Jan 2023 11:38:23 -0500
+	id 1pFHg2-0002No-06; Tue, 10 Jan 2023 11:40:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pFHdk-0001IU-Dk
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:38:20 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pFHdV-00054A-Jq
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:38:20 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id s67so8616060pgs.3
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 08:38:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=gsMi1/vqAxQV2jZnkiUsMkhQcNTkVr+riluyNlnTS6c=;
- b=dEUbvFbzcRnxnal12apG7Nl59WcbUu6bemtpfI2dlOHdCdqpKkfQMgcf3djzGgrK5F
- ZlY/j1s29dt9PcYYnPxLqZ8V2N35MygOGpBiWCm4hMB8Al9S1YUTqRLPZWjB1YK7Obu3
- euZr1tQDvGQTD1OtsWP9RVPYu0FKDnsFqj0rHnY5riAe6n/CHcItFFKl38dXtg+dzLx+
- nrUZQx3X5vr9Ol4QUDKy40vbZCXq+lSv/VQncnM7zqwcBulJgJPEKIh6FNuQbjx2+XpG
- a41dLEOVFAfL8rzbQpF2mB+V/YMcGrzDjfl6TRLYwhlx5vxBnxAycFpeYiV3yEwCdq2n
- pEAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gsMi1/vqAxQV2jZnkiUsMkhQcNTkVr+riluyNlnTS6c=;
- b=aaoEzp3Ev99et7gUWA/Um/MRasP1KCCq7hIyvgqsrkE2Y+exAG/Vv/x21kqcu9Nw6V
- q/tLy8k3L8JKFlzuoxkmut2kvGAzKaF+KqCAmOI991B6XGBUwLkHxYKOzcMRNBgHSABC
- nNObmHcoQZCEI5gbvCOJfT509yQ4/r22m4E5Ohl3MpEcPalLqPcLOMYvehc4NfwJGeyc
- tt+BKCIFnl9Ak8r860gyIyLPgGS+Jt4lP1ULW2dWlGlgw27PnHtQQf6O5mcVZ0KlSO5f
- 3zp8mrLxBi/MJ71R1knlUgNz2moh1zgqdY5y+BUJzDiqVJTY3NFGTR5eVp/IEIspF2+0
- QDbg==
-X-Gm-Message-State: AFqh2kquz7DA/ENt9hf0VvGK2TxiISxX8Tx/i5xk3tIyrtiYGljZG7eD
- Wp4aD81FK6QOz5Hx9ddY0xRa9d9LR/WfCl4t7AkF3A==
-X-Google-Smtp-Source: AMrXdXvGCWii8oyCi8kQzvBBJEDvXoQoynP7Qz+jX+zf6aC5opErcGtKXGj2qKcwB2Qx0AMRGWtin5cBh/jBMxWmxjE=
-X-Received: by 2002:aa7:999c:0:b0:582:74a2:1e4e with SMTP id
- k28-20020aa7999c000000b0058274a21e4emr2645464pfh.26.1673368683904; Tue, 10
- Jan 2023 08:38:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pFHfz-0002MQ-Js
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:40:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pFHfx-0005eh-Ax
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:40:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673368836;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=zMjqy43np1vBHch+KMA9FysBo0T1CLp6RQkRoeitwWU=;
+ b=C94xJrVW9zG+NbLR7AwQTDL8SSiX/u4PmRGZfyC4+m/IdT47EsLRh/x0hpU9OmEgDUiLoC
+ bLW1/OERJJAaVSj4nwi2d8L0ivzK+HY/rZhgUIOBH1fOvwsv/LYUyXuFwlcLS4GSZZN1tq
+ maky855qfRyWcjorZDqNpHeaC+TNcRw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-633-pv32nBlWMemGH8xGLmmq9Q-1; Tue, 10 Jan 2023 11:40:35 -0500
+X-MC-Unique: pv32nBlWMemGH8xGLmmq9Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AFC3E811E6E
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 16:40:34 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DDEAC16031;
+ Tue, 10 Jan 2023 16:40:33 +0000 (UTC)
+Date: Tue, 10 Jan 2023 16:40:31 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PULL 08/29] gitlab: remove redundant setting of PKG_CONFIG_PATH
+Message-ID: <Y72U/8LeENuOKu/i@redhat.com>
+References: <20230110160233.339771-1-pbonzini@redhat.com>
+ <20230110160233.339771-9-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <87tu0yo458.fsf@pond.sub.org>
- <CAFEAcA8ugDcG_e_DWgbz7MW_cK6xuCMcps7MgqyWF=bXjT8CmA@mail.gmail.com>
- <87358inyoe.fsf@pond.sub.org>
-In-Reply-To: <87358inyoe.fsf@pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 10 Jan 2023 16:37:52 +0000
-Message-ID: <CAFEAcA-5dbeuw9XJu-2n3hufZBt9P-tnGnZeuGCMN5MrK8GO8Q@mail.gmail.com>
-Subject: Re: make vm-build-freebsd appears to require . in PATH
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230110160233.339771-9-pbonzini@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,44 +76,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 10 Jan 2023 at 16:26, Markus Armbruster <armbru@redhat.com> wrote:
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> > Does it actually require '.' on the PATH, or does it just want
-> > a qemu-img binary on the PATH? (eg your distro one in /usr/bin).
-> > I don't have '.' on my PATH and it works for me.
->
-> Do we want to use qemu-img, qemu-system-x86_64 and so forth from PATH,
-> or the one in the build tree?
+On Tue, Jan 10, 2023 at 05:02:12PM +0100, Paolo Bonzini wrote:
+> From: Daniel P. Berrang?? <berrange@redhat.com>
+> 
+> The PKG_CONFIG_PATH variable is not defined in GitLab CI
+> envs and even if it was, we don't need to set it to its
+> existing value.
+> 
+> Signed-off-by: Daniel P. Berrang?? <berrange@redhat.com>
 
-There's no guarantee there is one in the build tree at all.
-I usually use these like
- (cd build && ../configure)
- make -C build  vm-build-openbsd
+This has mangled my name - think your client sending mail
+needs to specify utf8 charset in the mail headers perhaps ?
 
-in which case it doesn't need to build anything in the build
-tree at all (neither qemu-system-x86_64 nor qemu-img).
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Message-Id: <20221103173044.3969425-2-berrange@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-It's nice to be able to do "test this build on *BSD" with
-a known-good QEMU running the VM rather than having the
-code-under-test affecting both the outer QEMU and the
-build-and-make-check running inside the VM.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-> The former could well be old, which feels like a potential source of
-> problems.
-
-In practice we only use it for very simple operations
-("create a qcow2 image" and "resize this qcow2 file"),
-so using the distro qemu-img has never been an issue for me.
-
-I think I have in the past run into problems because the
-system's qemu-system-x86_64 was super-old, but it was easy
-to just build a known-good QEMU version and put that on
-the PATH. (And now that system has had a host distro
-upgrade, so I have gone back to using the system binary.)
-
-thanks
--- PMM
 
