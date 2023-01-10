@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA196640AF
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:41:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F4866408C
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:33:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFDdk-0007jO-DQ; Tue, 10 Jan 2023 07:22:05 -0500
+	id 1pFDd0-00076q-P8; Tue, 10 Jan 2023 07:21:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pFDck-00077A-EO
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:03 -0500
+ id 1pFDch-00075d-G3
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:20:59 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pFDcg-0000QK-GW
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:02 -0500
+ id 1pFDcf-0000Qy-2p
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:20:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=AUdP85slYsVQ6+fWPJ1GSyW7d48ssyoIWP3MWfiyj5k=; b=kneGFM9V1iCFKQmGEB88ah0dk2
- fCP5slzi9e/ojChYbIC8V+cce1oUH+56Ttly+g7zrfHpbr+DWRLLnq6E4ps2j0D2awq0RKcFsBAU8
- ne/1s5RLAkm3PPhReA+GZ3FI6XAJQQB9aozPFyzDmNiBAgmujcx2rMLm4aBwrAiiBuLxhhKq6+sM4
- /sNqNVhio8AOyJ28Gwpg+kXXDQEKL26Fxs4gNdwr8230fReV3Avsy5YPy5z2VawrKzw3pmWqMZr4J
- CqO5is0bLaqVrgqVBTzU1KRw4/EAwdnrv9HnnZBB7J8BiJ/jsOB2UPbppGtIZTWKu+HsT57bh6acO
- Bui2tyHA==;
+ Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+ To:From:Reply-To:Content-ID:Content-Description;
+ bh=nPsKqZTfl12SYQwiQiBxvrQJBRu+x3J48nGAGPGz19k=; b=G3ueN301r4zhD8N6Bv55ZOAaOI
+ ByxkuL9lOiiEghmzSypWH+UmEGk8I0ey8Gt54WD0x6DvgJ2ZCvbNuokkcOwITLnOZweWhXLayvUSb
+ 2bw++/5ryQ/Ur2mxZyJwK0kW3D3VFng5p5aKHMQJOqeRGJ5J0dZzGLZCFl0ibCrdEyzC5MArNyDSA
+ XP0mX2m4nEziPBnf7eyh7+T776BCnCYQSFaZLYHH9mgi7IhMCE8r0nJKN1HIOlld3P66JjsHsVSJV
+ Phmx0ltLFpK28My1gN+4M4yUFjRCoNd2PE6Tj0bgI274XPPhE9U6tASKa3Wh+jsqQO6plRxjajDcO
+ yy4xs8Jg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pFDcM-0037tR-1J; Tue, 10 Jan 2023 12:20:39 +0000
+ id 1pFDcM-0037tV-2F; Tue, 10 Jan 2023 12:20:41 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pFDcT-006YfI-AP; Tue, 10 Jan 2023 12:20:45 +0000
+ Hat Linux)) id 1pFDcT-006Yfa-GB; Tue, 10 Jan 2023 12:20:45 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,13 +46,15 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [PATCH v6 36/51] hw/xen: Implement EVTCHNOP_bind_vcpu
-Date: Tue, 10 Jan 2023 12:20:27 +0000
-Message-Id: <20230110122042.1562155-37-dwmw2@infradead.org>
+Subject: [PATCH v6 42/51] hw/xen: Add xen_gnttab device for grant table
+ emulation
+Date: Tue, 10 Jan 2023 12:20:33 +0000
+Message-Id: <20230110122042.1562155-43-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230110122042.1562155-1-dwmw2@infradead.org>
 References: <20230110122042.1562155-1-dwmw2@infradead.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
  desiato.infradead.org. See http://www.infradead.org/rpr.html
@@ -85,104 +87,208 @@ From: David Woodhouse <dwmw@amazon.co.uk>
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/kvm/xen_evtchn.c  | 40 +++++++++++++++++++++++++++++++++++++++
- hw/i386/kvm/xen_evtchn.h  |  2 ++
- target/i386/kvm/xen-emu.c | 12 ++++++++++++
- 3 files changed, 54 insertions(+)
+ hw/i386/kvm/meson.build   |   1 +
+ hw/i386/kvm/xen_gnttab.c  | 110 ++++++++++++++++++++++++++++++++++++++
+ hw/i386/kvm/xen_gnttab.h  |  18 +++++++
+ hw/i386/pc.c              |   2 +
+ target/i386/kvm/xen-emu.c |   3 ++
+ 5 files changed, 134 insertions(+)
+ create mode 100644 hw/i386/kvm/xen_gnttab.c
+ create mode 100644 hw/i386/kvm/xen_gnttab.h
 
-diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index 511d52a31d..ad75cddc5e 100644
---- a/hw/i386/kvm/xen_evtchn.c
-+++ b/hw/i386/kvm/xen_evtchn.c
-@@ -782,6 +782,46 @@ int xen_evtchn_unmask_op(struct evtchn_unmask *unmask)
-     return ret;
- }
+diff --git a/hw/i386/kvm/meson.build b/hw/i386/kvm/meson.build
+index 577eb50a18..7b4675a3b0 100644
+--- a/hw/i386/kvm/meson.build
++++ b/hw/i386/kvm/meson.build
+@@ -7,6 +7,7 @@ i386_kvm_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
+ i386_kvm_ss.add(when: 'CONFIG_XEN_EMU', if_true: files(
+   'xen_overlay.c',
+   'xen_evtchn.c',
++  'xen_gnttab.c',
+   ))
  
-+int xen_evtchn_bind_vcpu_op(struct evtchn_bind_vcpu *vcpu)
+ i386_ss.add_all(when: 'CONFIG_KVM', if_true: i386_kvm_ss)
+diff --git a/hw/i386/kvm/xen_gnttab.c b/hw/i386/kvm/xen_gnttab.c
+new file mode 100644
+index 0000000000..7a441445cd
+--- /dev/null
++++ b/hw/i386/kvm/xen_gnttab.c
+@@ -0,0 +1,110 @@
++/*
++ * QEMU Xen emulation: Grant table support
++ *
++ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
++ *
++ * Authors: David Woodhouse <dwmw2@infradead.org>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/host-utils.h"
++#include "qemu/module.h"
++#include "qemu/main-loop.h"
++#include "qapi/error.h"
++#include "qom/object.h"
++#include "exec/target_page.h"
++#include "exec/address-spaces.h"
++#include "migration/vmstate.h"
++
++#include "hw/sysbus.h"
++#include "hw/xen/xen.h"
++#include "xen_overlay.h"
++#include "xen_gnttab.h"
++
++#include "sysemu/kvm.h"
++#include "sysemu/kvm_xen.h"
++
++#include "standard-headers/xen/memory.h"
++#include "standard-headers/xen/grant_table.h"
++
++#define TYPE_XEN_GNTTAB "xen-gnttab"
++OBJECT_DECLARE_SIMPLE_TYPE(XenGnttabState, XEN_GNTTAB)
++
++#define XEN_PAGE_SHIFT 12
++#define XEN_PAGE_SIZE (1ULL << XEN_PAGE_SHIFT)
++
++struct XenGnttabState {
++    /*< private >*/
++    SysBusDevice busdev;
++    /*< public >*/
++
++    uint32_t nr_frames;
++    uint32_t max_frames;
++};
++
++struct XenGnttabState *xen_gnttab_singleton;
++
++static void xen_gnttab_realize(DeviceState *dev, Error **errp)
 +{
-+    XenEvtchnState *s = xen_evtchn_singleton;
-+    XenEvtchnPort *p;
-+    int ret = -EINVAL;
++    XenGnttabState *s = XEN_GNTTAB(dev);
 +
-+    if (!s) {
-+        return -ENOTSUP;
++    if (xen_mode != XEN_EMULATE) {
++        error_setg(errp, "Xen grant table support is for Xen emulation");
++        return;
 +    }
-+
-+    if (!valid_port(vcpu->port)) {
-+        return -EINVAL;
-+    }
-+
-+    if (!valid_vcpu(vcpu->vcpu)) {
-+        return -ENOENT;
-+    }
-+
-+    qemu_mutex_lock(&s->port_lock);
-+
-+    p = &s->port_table[vcpu->port];
-+
-+    if (p->type == EVTCHNSTAT_interdomain ||
-+        p->type == EVTCHNSTAT_unbound ||
-+        p->type == EVTCHNSTAT_pirq ||
-+        (p->type == EVTCHNSTAT_virq && virq_is_global(p->type_val))) {
-+        /*
-+         * unmask_port() with do_unmask==false will just raise the event
-+         * on the new vCPU if the port was already pending.
-+         */
-+        p->vcpu = vcpu->vcpu;
-+        unmask_port(s, vcpu->port, false);
-+        ret = 0;
-+    }
-+
-+    qemu_mutex_unlock(&s->port_lock);
-+
-+    return ret;
++    s->nr_frames = 0;
++    s->max_frames = kvm_xen_get_gnttab_max_frames();
 +}
 +
- int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq)
- {
-     XenEvtchnState *s = xen_evtchn_singleton;
-diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-index 1ebc7580eb..486b031c82 100644
---- a/hw/i386/kvm/xen_evtchn.h
-+++ b/hw/i386/kvm/xen_evtchn.h
-@@ -23,6 +23,7 @@ struct evtchn_bind_ipi;
- struct evtchn_send;
- struct evtchn_alloc_unbound;
- struct evtchn_bind_interdomain;
-+struct evtchn_bind_vcpu;
- int xen_evtchn_status_op(struct evtchn_status *status);
- int xen_evtchn_close_op(struct evtchn_close *close);
- int xen_evtchn_unmask_op(struct evtchn_unmask *unmask);
-@@ -31,5 +32,6 @@ int xen_evtchn_bind_ipi_op(struct evtchn_bind_ipi *ipi);
- int xen_evtchn_send_op(struct evtchn_send *send);
- int xen_evtchn_alloc_unbound_op(struct evtchn_alloc_unbound *alloc);
- int xen_evtchn_bind_interdomain_op(struct evtchn_bind_interdomain *interdomain);
-+int xen_evtchn_bind_vcpu_op(struct evtchn_bind_vcpu *vcpu);
- 
- #endif /* QEMU_XEN_EVTCHN_H */
++static bool xen_gnttab_is_needed(void *opaque)
++{
++    return xen_mode == XEN_EMULATE;
++}
++
++static const VMStateDescription xen_gnttab_vmstate = {
++    .name = "xen_gnttab",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = xen_gnttab_is_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(nr_frames, XenGnttabState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void xen_gnttab_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->realize = xen_gnttab_realize;
++    dc->vmsd = &xen_gnttab_vmstate;
++}
++
++static const TypeInfo xen_gnttab_info = {
++    .name          = TYPE_XEN_GNTTAB,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(XenGnttabState),
++    .class_init    = xen_gnttab_class_init,
++};
++
++void xen_gnttab_create(void)
++{
++    xen_gnttab_singleton = XEN_GNTTAB(sysbus_create_simple(TYPE_XEN_GNTTAB,
++                                                           -1, NULL));
++}
++
++static void xen_gnttab_register_types(void)
++{
++    type_register_static(&xen_gnttab_info);
++}
++
++type_init(xen_gnttab_register_types)
++
++int xen_gnttab_map_page(uint64_t idx, uint64_t gfn)
++{
++    return -ENOSYS;
++}
++
+diff --git a/hw/i386/kvm/xen_gnttab.h b/hw/i386/kvm/xen_gnttab.h
+new file mode 100644
+index 0000000000..a7caa94c83
+--- /dev/null
++++ b/hw/i386/kvm/xen_gnttab.h
+@@ -0,0 +1,18 @@
++/*
++ * QEMU Xen emulation: Grant table support
++ *
++ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
++ *
++ * Authors: David Woodhouse <dwmw2@infradead.org>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef QEMU_XEN_GNTTAB_H
++#define QEMU_XEN_GNTTAB_H
++
++void xen_gnttab_create(void);
++int xen_gnttab_map_page(uint64_t idx, uint64_t gfn);
++
++#endif /* QEMU_XEN_GNTTAB_H */
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 61a90c9e5b..b9f92010f9 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -91,6 +91,7 @@
+ #include "hw/virtio/virtio-mem-pci.h"
+ #include "hw/i386/kvm/xen_overlay.h"
+ #include "hw/i386/kvm/xen_evtchn.h"
++#include "hw/i386/kvm/xen_gnttab.h"
+ #include "hw/mem/memory-device.h"
+ #include "sysemu/replay.h"
+ #include "target/i386/cpu.h"
+@@ -1858,6 +1859,7 @@ int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
+     if (xen_mode == XEN_EMULATE) {
+         xen_overlay_create();
+         xen_evtchn_create();
++        xen_gnttab_create();
+     }
+ #endif
+     return 0;
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 2471a4f703..afc6d28357 100644
+index 75cbf42573..6570c65ea6 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -938,6 +938,18 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-         }
-         break;
-     }
-+    case EVTCHNOP_bind_vcpu: {
-+        struct evtchn_bind_vcpu vcpu;
+@@ -24,6 +24,7 @@
+ #include "hw/i386/apic-msidef.h"
+ #include "hw/i386/kvm/xen_overlay.h"
+ #include "hw/i386/kvm/xen_evtchn.h"
++#include "hw/i386/kvm/xen_gnttab.h"
+ 
+ #include "standard-headers/xen/version.h"
+ #include "standard-headers/xen/sched.h"
+@@ -535,6 +536,8 @@ static int add_to_physmap_one(uint32_t space, uint64_t idx, uint64_t gfn)
+         return xen_set_shared_info(gfn);
+ 
+     case XENMAPSPACE_grant_table:
++        return xen_gnttab_map_page(idx, gfn);
 +
-+        qemu_build_assert(sizeof(vcpu) == 8);
-+        if (kvm_copy_from_gva(cs, arg, &vcpu, sizeof(vcpu))) {
-+            err = -EFAULT;
-+            break;
-+        }
-+
-+        err = xen_evtchn_bind_vcpu_op(&vcpu);
-+        break;
-+    }
-     default:
-         return false;
-     }
+     case XENMAPSPACE_gmfn:
+     case XENMAPSPACE_gmfn_range:
+         return -ENOTSUP;
 -- 
 2.35.3
 
