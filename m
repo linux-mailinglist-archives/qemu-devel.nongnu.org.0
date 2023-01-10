@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F277F66443F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 16:13:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A8A66452D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 16:45:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFEms-0004IV-Qc; Tue, 10 Jan 2023 08:35:34 -0500
+	id 1pFEo9-00050X-KJ; Tue, 10 Jan 2023 08:36:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFEmf-0004Fy-Jq
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 08:35:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pFEo4-000503-BU
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 08:36:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFEmd-0005BF-Ni
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 08:35:21 -0500
+ id 1pFEo2-0005aI-RX
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 08:36:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673357719;
+ s=mimecast20190719; t=1673357806;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9yeGBN51Brkijzauv7csHSI1CZlOkZ0PJM7beLuBd+s=;
- b=WUSb+DKyPmGmBHvG3bQiw6b2PSFNMlMtmy56me/r4tMPO388vwFD2coQYTYYad4UvMO6yz
- 8d89fs+dN5Gv45XMhnr2MgaEWWHyUxZDzebUpSZUVmGcItWqlcjlZ9KMv/eV/t8SCiBj7c
- AhXdg6lt3rcfAWv9OdVdNAl+28ZcqMw=
+ bh=p7LWmINP4SivPp9eXxOnNHesgj+i1M8QXxizmkrsEKA=;
+ b=Ts/6rFMTXs6B0Et0351J7ELo+vu3Zo6K9T+lkCn8Q0qxl1CQvCEM5ggyQBe7huUEq3R6ws
+ 6W9n2tP4uag5HiE8HZ4gvKRnB5Pv02a1vOHrD6P/fQeEsK/VA883hOQsI8AIwhMYtFfbIF
+ eMmRPOqSqH92aC6pz5gV9oTBz/6VWvQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-434-rWcHvRgaNyqAjojKt93d9g-1; Tue, 10 Jan 2023 08:35:16 -0500
-X-MC-Unique: rWcHvRgaNyqAjojKt93d9g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-343-kBOhrJvbMcOhziFP_w6JJw-1; Tue, 10 Jan 2023 08:36:42 -0500
+X-MC-Unique: kBOhrJvbMcOhziFP_w6JJw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C5CB87B2A3;
- Tue, 10 Jan 2023 13:35:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0CA60100F906;
+ Tue, 10 Jan 2023 13:36:42 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D4E54407D466;
- Tue, 10 Jan 2023 13:35:12 +0000 (UTC)
-Date: Tue, 10 Jan 2023 13:35:10 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B4BF140EBF4;
+ Tue, 10 Jan 2023 13:36:39 +0000 (UTC)
+Date: Tue, 10 Jan 2023 13:36:37 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: marcandre.lureau@redhat.com
 Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>, kraxel@redhat.com,
@@ -62,18 +62,18 @@ Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>, kraxel@redhat.com,
  Michael Roth <michael.roth@amd.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
  qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
  Ed Maste <emaste@freebsd.org>
-Subject: Re: [PATCH v4 3/8] configure: replace Perl usage with sed
-Message-ID: <Y71pjipeYl2ByOjt@redhat.com>
+Subject: Re: [PATCH v4 7/8] lcitool: drop perl from QEMU project/dependencies
+Message-ID: <Y71p5ZGj9I+C1ahw@redhat.com>
 References: <20230110132700.833690-1-marcandre.lureau@redhat.com>
- <20230110132700.833690-4-marcandre.lureau@redhat.com>
+ <20230110132700.833690-8-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230110132700.833690-4-marcandre.lureau@redhat.com>
+In-Reply-To: <20230110132700.833690-8-marcandre.lureau@redhat.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,39 +98,37 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 10, 2023 at 05:26:55PM +0400, marcandre.lureau@redhat.com wrote:
+On Tue, Jan 10, 2023 at 05:26:59PM +0400, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Let's try to reduce our Perl usage during config/build-time.
-> 
-> Note: this patch might be dropped if "configure: remove
-> backwards-compatibility code" is merged earlier.
-> 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Tested-by: Thomas Huth <thuth@redhat.com>
 > ---
->  configure | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 2281892657..9a944698b4 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2571,11 +2571,9 @@ else
->    if test -f meson-private/cmd_line.txt; then
->      # Adjust old command line options whose type was changed
->      # Avoids having to use "setup --wipe" when Meson is upgraded
-> -    perl -i -ne '
-> -      s/^gettext = true$/gettext = auto/;
-> -      s/^gettext = false$/gettext = disabled/;
-> -      /^b_staticpic/ && next;
-> -      print;' meson-private/cmd_line.txt
-> +    sed -i.bak -e 's/^gettext = true$/gettext = auto/g' \
-> +      -e 's/^gettext = false$/gettext = disabled/g' \
-> +      -e '/^b_staticpic/d' meson-private/cmd_line.txt
+>  .gitlab-ci.d/cirrus/freebsd-12.vars                   | 2 +-
+>  .gitlab-ci.d/cirrus/freebsd-13.vars                   | 2 +-
+>  .gitlab-ci.d/cirrus/macos-12.vars                     | 2 +-
+>  scripts/ci/setup/build-environment.yml                | 1 -
+>  tests/docker/dockerfiles/alpine.docker                | 1 -
+>  tests/docker/dockerfiles/centos8.docker               | 1 -
+>  tests/docker/dockerfiles/debian-amd64-cross.docker    | 1 -
+>  tests/docker/dockerfiles/debian-amd64.docker          | 1 -
+>  tests/docker/dockerfiles/debian-arm64-cross.docker    | 1 -
+>  tests/docker/dockerfiles/debian-armel-cross.docker    | 1 -
+>  tests/docker/dockerfiles/debian-armhf-cross.docker    | 1 -
+>  tests/docker/dockerfiles/debian-mips64el-cross.docker | 1 -
+>  tests/docker/dockerfiles/debian-mipsel-cross.docker   | 1 -
+>  tests/docker/dockerfiles/debian-ppc64el-cross.docker  | 1 -
+>  tests/docker/dockerfiles/debian-s390x-cross.docker    | 1 -
+>  tests/docker/dockerfiles/debian-tricore-cross.docker  | 1 -
+>  tests/docker/dockerfiles/fedora-win32-cross.docker    | 1 -
+>  tests/docker/dockerfiles/fedora-win64-cross.docker    | 1 -
+>  tests/docker/dockerfiles/fedora.docker                | 1 -
+>  tests/docker/dockerfiles/opensuse-leap.docker         | 1 -
+>  tests/docker/dockerfiles/ubuntu2004.docker            | 1 -
+>  tests/lcitool/projects/qemu.yml                       | 1 -
+>  tests/vm/centos.aarch64                               | 2 +-
+>  23 files changed, 4 insertions(+), 23 deletions(-)
 
-Do we really need to have a '.bak' file created ? The original
-perl cmd didn't
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
 
 With regards,
