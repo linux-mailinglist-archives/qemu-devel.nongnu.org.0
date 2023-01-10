@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A244C66423D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 14:49:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F30196643E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 16:01:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFEnS-0004jt-0h; Tue, 10 Jan 2023 08:36:14 -0500
+	id 1pFEoJ-00056J-Bo; Tue, 10 Jan 2023 08:37:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFEnO-0004jD-VN
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 08:36:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFEnN-0005R6-Ca
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 08:36:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673357764;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GHqPbFiJPUo95+d+ter+3p0cbH0Aj4PaPVcQpHkb1ac=;
- b=ISC5ypB6ONd3UA0Rm2MItwx5gOmBgz7dcPDsbjhvGGwI8LYYxBlu/gDIlIshmyY2dBKjD6
- Jv6yKURMN2M0ssENQgb09amog61q/ZlPA4E2DCZgoa63hJwFzpQqR+k7z2NBkiOxpIYJak
- FYODdsXyU78cXOz7tm4VaYkED/q4wtc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-634-IaM6M0w3My2MiQ7mLLtxsg-1; Tue, 10 Jan 2023 08:36:03 -0500
-X-MC-Unique: IaM6M0w3My2MiQ7mLLtxsg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pFEoG-000556-Q6; Tue, 10 Jan 2023 08:37:00 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pFEoE-0005bE-Vs; Tue, 10 Jan 2023 08:37:00 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0269A3C0F677;
- Tue, 10 Jan 2023 13:36:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 50F5B1121314;
- Tue, 10 Jan 2023 13:36:00 +0000 (UTC)
-Date: Tue, 10 Jan 2023 13:35:58 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>, kraxel@redhat.com,
- Beraldo Leal <bleal@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- pbonzini@redhat.com, Eric Farman <farman@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, thuth@redhat.com,
- Halil Pasic <pasic@linux.ibm.com>,
- Michael Roth <michael.roth@amd.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Ed Maste <emaste@freebsd.org>
-Subject: Re: [PATCH v4 5/8] docs: drop texinfo options
-Message-ID: <Y71pvvR7PktPKSpy@redhat.com>
-References: <20230110132700.833690-1-marcandre.lureau@redhat.com>
- <20230110132700.833690-6-marcandre.lureau@redhat.com>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 03F2676198;
+ Tue, 10 Jan 2023 13:36:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1673357816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2FZoGBZyY5QIjarJEBtrX/c/I4Z/CXUzrjP9bsG5GHk=;
+ b=SZk7/KsDO9G89/jCCVRArO5jrcBpv5dfuHA3dD0u3FbJbC6p5EoUYUMztW/rm/dhXZgWc7
+ Y7hFr+9X6w3ExLd4aEm1lTTMpXIi3B5BZaaRieLRsgWj1/ICPyKSNRG36F+1vIgDmiSytk
+ 7cIabZm7CrW7gN1hWwJy9RaqWDo7X4U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1673357816;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2FZoGBZyY5QIjarJEBtrX/c/I4Z/CXUzrjP9bsG5GHk=;
+ b=xT6pQVAkcKbSsPLhW2MZ/sIc/de5V+2DOiaJP8hdJPm0nfh3WzOxFHvuqGGBGunTIZTobS
+ Bwk81jEIbf6ioTDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 76F5313338;
+ Tue, 10 Jan 2023 13:36:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8UrnD/dpvWNCQQAAMHmgww
+ (envelope-from <farosas@suse.de>); Tue, 10 Jan 2023 13:36:55 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Richard
+ Henderson <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, Claudio
+ Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>, Laurent Vivier <lvivier@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [RFC PATCH v2 13/19] tests: do not run test-hmp on all machines
+ for ARM KVM-only
+In-Reply-To: <CAFEAcA_x_kTdNt8+5YAjo518Wj_Ej4jZ=0OrCQmutNOjJx=3Gw@mail.gmail.com>
+References: <20230109224232.11661-1-farosas@suse.de>
+ <20230109224232.11661-14-farosas@suse.de>
+ <35870ab3-1da6-c222-b708-06ac71a5883c@redhat.com> <87zgaqa6jk.fsf@suse.de>
+ <CAFEAcA_x_kTdNt8+5YAjo518Wj_Ej4jZ=0OrCQmutNOjJx=3Gw@mail.gmail.com>
+Date: Tue, 10 Jan 2023 10:36:52 -0300
+Message-ID: <87sfgia4uj.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230110132700.833690-6-marcandre.lureau@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,28 +89,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 10, 2023 at 05:26:57PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> It looks like this is no longer wanted, we only build the html output.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  docs/conf.py | 13 -------------
->  1 file changed, 13 deletions(-)
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> On Tue, 10 Jan 2023 at 13:00, Fabiano Rosas <farosas@suse.de> wrote:
+>>
+>> Thomas Huth <thuth@redhat.com> writes:
+>>
+>> > On 09/01/2023 23.42, Fabiano Rosas wrote:
+>> >> From: Claudio Fontana <cfontana@suse.de>
+>> >>
+>> >> on ARM we currently list and build all machines, even when
+>> >> building KVM-only, without TCG.
+>> >>
+>> >> Until we fix this (and we only list and build machines that are
+>> >> compatible with KVM), only test specifically using the "virt"
+>> >> machine in this case.
+>> >
+>> > Why don't you fix it immediately? ...
+>>
+>> My idea was to have in this series the minimum to unbreak the
+>> --disable-tcg build and later bring the rest of the changes
+>> incrementally.
+>
+> This test is basically checking "all the machines should
+> work". That's an important invariant to maintain, so
+> I don't think we should just skip it for Arm targets.
 
+But what does "all machines" mean in a no-TCG build? The original intent
+of the patch was that only 'virt' should be present and therefore the
+only one tested.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+>
+> -- PMM
 
