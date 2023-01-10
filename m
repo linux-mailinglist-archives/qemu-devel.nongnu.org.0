@@ -2,32 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67268663AFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB83663ABA
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:17:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF9gK-000112-KK; Tue, 10 Jan 2023 03:08:28 -0500
+	id 1pF9g8-00010O-NM; Tue, 10 Jan 2023 03:08:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pdel@pdel-mbp.localdomain>)
- id 1pF9fz-0000z8-LS
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:08:10 -0500
+ id 1pF9g0-0000zD-3T
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:08:11 -0500
 Received: from [163.114.132.7] (helo=pdel-mbp.localdomain)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pdel@pdel-mbp.localdomain>) id 1pF9fw-0000Ce-Sx
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:08:06 -0500
+ (envelope-from <pdel@pdel-mbp.localdomain>) id 1pF9fw-0000Bw-Sx
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:08:07 -0500
 Received: by pdel-mbp.localdomain (Postfix, from userid 501)
- id 2ECBCE17559; Tue, 10 Jan 2023 00:07:57 -0800 (PST)
+ id 2B7C4E17558; Tue, 10 Jan 2023 00:07:57 -0800 (PST)
 From: Peter Delevoryas <peter@pjd.dev>
 To: 
 Cc: jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com, philmd@linaro.org,
  wainersm@redhat.com, qemu-devel@nongnu.org,
  Peter Delevoryas <peter@pjd.dev>
-Subject: [PATCH v4 0/1] python/machine: Fix AF_UNIX path too long
-Date: Tue, 10 Jan 2023 00:07:55 -0800
-Message-Id: <20230110080756.38271-1-peter@pjd.dev>
+Subject: [PATCH v4 1/1] python/machine: Fix AF_UNIX path too long on macOS
+Date: Tue, 10 Jan 2023 00:07:56 -0800
+Message-Id: <20230110080756.38271-2-peter@pjd.dev>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230110080756.38271-1-peter@pjd.dev>
+References: <20230110080756.38271-1-peter@pjd.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -55,57 +57,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v1: https://lore.kernel.org/qemu-devel/20220705214659.73369-1-peter@pjd.dev/
-v2: https://lore.kernel.org/qemu-devel/20220716173434.17183-1-peter@pjd.dev/
-v3:
-    - Changed QEMUMachine._name to f"{id(self):x}". Suggestion was to do
-      f"{id(self):02x}", but the id's look like they are probably just the
-      object address (8-byte pointer), so the "02" had no effect.
-    - Changed QMP socket name suffix from "-monitor.sock" to ".qmp".
-    - Changed console socket name suffix from "-console.sock" to ".con".
-v4:
-	- Just resending v3 after rebasing from a long time ago
+On macOS, private $TMPDIR's are the default. These $TMPDIR's are
+generated from a user's unix UID and UUID [1], which can create a
+relatively long path:
 
-I tried to run `make check-avocado` before sending again, but it looks like
-there is some other issue. Probably related to the python version I have (I
-have like 5 different Python versions installed on my work laptop).
+    /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
 
-Thanks,
-Peter
+QEMU's avocado tests create a temporary directory prefixed by
+"avo_qemu_sock_", and create QMP sockets within _that_ as well.
+The QMP socket is unnecessarily long, because a temporary directory
+is created for every QEMUMachine object.
 
-$ make check-avocado
-changing dir to build for /Library/Developer/CommandLineTools/usr/bin/make "check-avocado"...
-  GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc
-  VENV    /Users/pdel/qemu/build/tests/venv
-  VENVPIP install -e /Users/pdel/qemu/python/
-  VENVPIP install -r /Users/pdel/qemu/tests/requirements.txt
-  MKDIR   /Users/pdel/qemu/build/tests/results
-  AVOCADO Downloading avocado tests VM image for aarch64
-The image was downloaded:
-Provider Version Architecture File
-fedora   31      aarch64      /Users/pdel/avocado/data/cache/by_location/4f156e531446a679cbfe13caef8b7c9f9f79aafa/Fedora-C
-loud-Base-31-1.9.aarch64.qcow2
-  AVOCADO tests/avocado
-Fetching asset from tests/avocado/boot_linux_console.py:BootLinuxConsole.test_aarch64_raspi3_atf
-Fetching asset from tests/avocado/boot_xen.py:BootXen.test_arm64_xen_411_and_dom0
-Fetching asset from tests/avocado/boot_xen.py:BootXen.test_arm64_xen_414_and_dom0
-Fetching asset from tests/avocado/boot_xen.py:BootXen.test_arm64_xen_415_and_dom0
-Fetching asset from tests/avocado/machine_aarch64_virt.py:Aarch64VirtMachine.test_alpine_virt_tcg_gic_max
-Fetching asset from tests/avocado/machine_aarch64_virt.py:Aarch64VirtMachine.test_aarch64_virt
-Fetching asset from tests/avocado/replay_kernel.py:ReplayKernelNormal.test_aarch64_virt
-Fetching asset from tests/avocado/reverse_debugging.py:ReverseDebugging_AArch64.test_aarch64_virt
-JOB ID     : 18a949ed9150e22d6ecea69b99ede1ded17233f4
-JOB LOG    : /Users/pdel/qemu/build/tests/results/job-2023-01-10T00.03-18a949e/job.log
+    /avo_qemu_sock_uh3w_dgc/qemu-37331-10bacf110-monitor.sock
 
-Avocado crashed: TypeError: cannot pickle '_thread.RLock' object
+The path limit for unix sockets on macOS is 104: [2]
 
-Peter Delevoryas (1):
-  python/machine: Fix AF_UNIX path too long on macOS
+    /*
+     * [XSI] Definitions for UNIX IPC domain.
+     */
+    struct  sockaddr_un {
+        unsigned char   sun_len;        /* sockaddr len including null */
+        sa_family_t     sun_family;     /* [XSI] AF_UNIX */
+        char            sun_path[104];  /* [XSI] path name (gag) */
+    };
 
+This results in avocado tests failing on macOS because the QMP unix
+socket can't be created, because the path is too long:
+
+    ERROR| Failed to establish connection: OSError: AF_UNIX path too long
+
+This change resolves by reducing the size of the socket directory prefix
+and the suffix on the QMP and console socket names.
+
+The result is paths like this:
+
+    pdel@pdel-mbp:/var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T
+    $ tree qemu*
+    qemu_df4evjeq
+    qemu_jbxel3gy
+    qemu_ml9s_gg7
+    qemu_oc7h7f3u
+    qemu_oqb1yf97
+    ├── 10a004050.con
+    └── 10a004050.qmp
+
+[1] https://apple.stackexchange.com/questions/353832/why-is-mac-osx-temp-directory-in-weird-path
+[2] /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/sys/un.h
+
+Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+---
  python/qemu/machine/machine.py         | 6 +++---
  tests/avocado/avocado_qemu/__init__.py | 2 +-
  2 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+index 748a0d807c9d..d70977378305 100644
+--- a/python/qemu/machine/machine.py
++++ b/python/qemu/machine/machine.py
+@@ -157,7 +157,7 @@ def __init__(self,
+         self._wrapper = wrapper
+         self._qmp_timer = qmp_timer
+ 
+-        self._name = name or f"qemu-{os.getpid()}-{id(self):02x}"
++        self._name = name or f"{id(self):x}"
+         self._temp_dir: Optional[str] = None
+         self._base_temp_dir = base_temp_dir
+         self._sock_dir = sock_dir
+@@ -167,7 +167,7 @@ def __init__(self,
+             self._monitor_address = monitor_address
+         else:
+             self._monitor_address = os.path.join(
+-                self.sock_dir, f"{self._name}-monitor.sock"
++                self.sock_dir, f"{self._name}.qmp"
+             )
+ 
+         self._console_log_path = console_log
+@@ -192,7 +192,7 @@ def __init__(self,
+         self._console_set = False
+         self._console_device_type: Optional[str] = None
+         self._console_address = os.path.join(
+-            self.sock_dir, f"{self._name}-console.sock"
++            self.sock_dir, f"{self._name}.con"
+         )
+         self._console_socket: Optional[socket.socket] = None
+         self._remove_files: List[str] = []
+diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+index 910f3ba1eab8..25a546842fab 100644
+--- a/tests/avocado/avocado_qemu/__init__.py
++++ b/tests/avocado/avocado_qemu/__init__.py
+@@ -306,7 +306,7 @@ def require_netdev(self, netdevname):
+             self.cancel('no support for user networking')
+ 
+     def _new_vm(self, name, *args):
+-        self._sd = tempfile.TemporaryDirectory(prefix="avo_qemu_sock_")
++        self._sd = tempfile.TemporaryDirectory(prefix="qemu_")
+         vm = QEMUMachine(self.qemu_bin, base_temp_dir=self.workdir,
+                          sock_dir=self._sd.name, log_dir=self.logdir)
+         self.log.debug('QEMUMachine "%s" created', name)
 -- 
 2.39.0
 
