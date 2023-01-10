@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0DA66473D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 18:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3EC866471B
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 18:15:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFHk2-000432-A3; Tue, 10 Jan 2023 11:44:50 -0500
+	id 1pFHkY-00047S-NT; Tue, 10 Jan 2023 11:45:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFHjz-00042I-H8
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:44:47 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFHk4-00043r-6Q
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:44:52 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFHjx-0006DA-Lc
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:44:47 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- bi26-20020a05600c3d9a00b003d3404a89faso1146169wmb.1
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 08:44:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFHk2-0006E9-AC
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:44:51 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ i17-20020a05600c355100b003d99434b1cfso10569516wmq.1
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 08:44:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QOYDxSc6OXbzkAgjy4QYJseOLob50f8TeLldg9E4I/c=;
- b=KmsiWHbeYo5WOPbJFMJP76T1tNWPGlZ4g1u5VBJ5+WJzyF+11Kam075gcfhp8+kjy6
- Z+ypXL8JuBBJWANd+TEay96n4x4on/bo8wo/z2PqGB2ko0+DqWmpIOiIDHSpOk/uEUlv
- uIWBdVci61nIhC5Cxc0jeuwKV9fUFNC7qDm1uAS5bk+6WEy2+QBKdtU5P3HM0sLDWNtL
- XG5hVc3aODiZazXjqsmkKSE9ZapAqws+2PMerBdlmxrN5iAmJh5JahFofYd8gU7Mzd1W
- bb08n47gOplHEYsfyUyPdykU4piOnW534o8kz/hEQR+0xmkdEX3BGLsFz3opZlPxQerd
- ZJcw==
+ bh=U5AzzHmUwF9EkYU4+2STuaeBR+wnyLjuTzOXCdKeZuQ=;
+ b=wTQbab7mRQhcSOmQh1COeTtP/GWmQ0o0ir81b5S3ZSMJ2Ixun3ligJWPjC9uBhyJgh
+ 3lBLT6SVDa8KxQv5lUt+eD2Ol1zI44zI8W/DhWA61qrFhre9DFEYtMDS6Qe1R4qQLsUH
+ OiJj7zrC+P/A/N9AoGDP3mVR01//aG1rP/8kJ/9QP4ZylUauM4pWN/+7GPwhdYEo/hgr
+ B0iGXPAY0eFccA9CD0nABz2gBX2EcJVrg2Kcx9tThFKBIuLto59oVNAn0P8S3j4FOB5E
+ aAbZkcVs6Iyw0kREkUx/fwAhdakQeIFduSVhq8w8fRBqLkoOPW4YYdjH+NnCAv+lwviV
+ Y2bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QOYDxSc6OXbzkAgjy4QYJseOLob50f8TeLldg9E4I/c=;
- b=ne78/o8vLuVwXv4Mzx0yZfdBsHlxhflPNIkfdkg2XRk7AbdGK/Qm2STBlquqNBGPb0
- FtXdURGUtvYfW3EwnCXsSGBMK9qWL+06UQ4nDc+XP0oTKKt+X59rRXi+X22ZIjec+NU9
- OfFScuSp6tsrmRR2LW208Xrxuq0yU3nmktWMyL0kLyNE1SN8CSDu0OHomy4ZLzYgPMNe
- bP1IEO6Ou4ZrVfdVFZ6g24kkciGtOch2t3HLwlKtP5J5js0Sq3Y4TLuBTotU/okTivrx
- rvOZYBecVgEROP8ozB6D0SSlFccxQ70/1MWmFX5RAfYyqkSBSa5X3p/alfoyWw235sAd
- DV0g==
-X-Gm-Message-State: AFqh2kpNWTW0gOcMyJFYpDK/SGZ6qNR6/BT7pjBgLr2V3kzSyGyaEref
- t0qbgcX+/arXyTsQW7QMGM9DzmcTim107aFj
-X-Google-Smtp-Source: AMrXdXtYMrNcBbh3J2bgiIa2fBytAr2H6aM05PHZEjqii8DZA8K6iWRff02yTT7Cxi2LWHNaGkvIeg==
-X-Received: by 2002:a05:600c:4f08:b0:3d9:efd1:214d with SMTP id
- l8-20020a05600c4f0800b003d9efd1214dmr6194442wmq.25.1673369083044; 
- Tue, 10 Jan 2023 08:44:43 -0800 (PST)
+ bh=U5AzzHmUwF9EkYU4+2STuaeBR+wnyLjuTzOXCdKeZuQ=;
+ b=20gdOtw06oS1GDwoGs5tiunPijPzrw+yeG0f0pnUvCq6j30B/yhDqHfiG3+4am3SX2
+ 5LK+fwcwv6ldSQCeMxY/OTlr/kWk81vpQW6jhxUPJo5FiB01mXi8LobGbLcm/wTqomkr
+ VzFEowhlnaI0rB0sGXZKA4npjtDEx3MMYNYM3bbZme82DcV1icqj18aSptnbi4q6OPgS
+ bIYabm/5KQxgRw+nZe8+k4vr5jeQCzYATx9dEttBBqbqgUpS7ZVBEa7p6fvkVmg22KJp
+ KTf0WYFatClVg04hr80BKChZ8o9+oLmNfa9bx6cCNCqmFLserwYE6xOh26g+v6zN2Efk
+ kWEA==
+X-Gm-Message-State: AFqh2krVJ/LYcXQostFQC8eRs5WWb+CgZoJonOutPuolwx068ajWI3DZ
+ Kd6jjilnIyktFUNwZeSJ4xDG6FzMkP1mfncw
+X-Google-Smtp-Source: AMrXdXtODRXbYbrAiiUNuV9W19oduQLd+MPYCTxNso1bNsLjnfkMPUa8M04sLGYtSiNW5me9qNUQSQ==
+X-Received: by 2002:a05:600c:3844:b0:3d2:191d:2420 with SMTP id
+ s4-20020a05600c384400b003d2191d2420mr50736477wmr.7.1673369088850; 
+ Tue, 10 Jan 2023 08:44:48 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- h10-20020a05600c2caa00b003cfd58409desm20873245wmc.13.2023.01.10.08.44.41
+ i8-20020a05600c354800b003cf894dbc4fsm16720914wmq.25.2023.01.10.08.44.47
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 10 Jan 2023 08:44:42 -0800 (PST)
+ Tue, 10 Jan 2023 08:44:48 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, Andrey Smirnov <andrew.smirnov@gmail.com>,
@@ -65,18 +65,17 @@ Cc: ale@rev.ng, Andrey Smirnov <andrew.smirnov@gmail.com>,
  Antonio Caggiano <antonio.caggiano@collabora.com>,
  Rob Herring <robh@kernel.org>, Antony Pavlov <antonynpavlov@gmail.com>,
  Jan Kiszka <jan.kiszka@web.de>, Beniamino Galvani <b.galvani@gmail.com>
-Subject: [PATCH 06/18] target/arm: Move CPU definitions consumed by HW model
- to "hw/arm/cpu.h"
-Date: Tue, 10 Jan 2023 17:43:54 +0100
-Message-Id: <20230110164406.94366-7-philmd@linaro.org>
+Subject: [PATCH 07/18] hw/arm: Move more units to softmmu_ss[]
+Date: Tue, 10 Jan 2023 17:43:55 +0100
+Message-Id: <20230110164406.94366-8-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230110164406.94366-1-philmd@linaro.org>
 References: <20230110164406.94366-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,171 +98,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Units including "target/arm/cpu.h" can't be built once via meson's
-softmmu_ss[] source set. Since this header depends on specific
-definitions such the word size (32 or 64-bit), for ARM such units
-must go to the per-target arm_ss[].
+The following units don't require "target/arm/cpu.h":
 
-We want to expose few architectural definitions to hardware models.
+ - collie.c
+ - gumstix.c
+ - omap_sx1.c
+ - z2.c
 
-Expose the ARM architectural definitions used by hardware models,
-in order to reduce the inclusion of "target/arm/cpu.h".
+Once the header removed, we can move the units from
+meson's arm_ss[] to softmmu_ss[] to build them once.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- include/hw/arm/cpu.h | 49 ++++++++++++++++++++++++++++++++++++++++++++
- target/arm/cpu-qom.h | 15 --------------
- target/arm/cpu.h     | 34 ------------------------------
- 3 files changed, 49 insertions(+), 49 deletions(-)
+ hw/arm/collie.c    | 1 -
+ hw/arm/gumstix.c   | 1 -
+ hw/arm/meson.build | 8 ++++----
+ hw/arm/omap_sx1.c  | 1 -
+ hw/arm/z2.c        | 1 -
+ 5 files changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/arm/cpu.h b/include/hw/arm/cpu.h
-index 0c5d6ca2a8..6758bffe34 100644
---- a/include/hw/arm/cpu.h
-+++ b/include/hw/arm/cpu.h
-@@ -25,4 +25,53 @@ DECLARE_CLASS_CHECKERS(AArch64CPUClass, AARCH64_CPU, TYPE_AARCH64_CPU)
- #define ARM_CPU_TYPE_SUFFIX "-" TYPE_ARM_CPU
- #define ARM_CPU_TYPE_NAME(name) (name ARM_CPU_TYPE_SUFFIX)
+diff --git a/hw/arm/collie.c b/hw/arm/collie.c
+index 9edff59370..a4576feff0 100644
+--- a/hw/arm/collie.c
++++ b/hw/arm/collie.c
+@@ -17,7 +17,6 @@
+ #include "hw/arm/boot.h"
+ #include "hw/block/flash.h"
+ #include "exec/address-spaces.h"
+-#include "cpu.h"
+ #include "qom/object.h"
  
-+enum QemuPsciConduit {
-+    QEMU_PSCI_CONDUIT_DISABLED = 0,
-+    QEMU_PSCI_CONDUIT_SMC = 1,
-+    QEMU_PSCI_CONDUIT_HVC = 2,
-+};
-+
-+/* Meanings of the ARMCPU object's four inbound GPIO lines */
-+#define ARM_CPU_IRQ 0
-+#define ARM_CPU_FIQ 1
-+#define ARM_CPU_VIRQ 2
-+#define ARM_CPU_VFIQ 3
-+
-+#define GTIMER_PHYS     0
-+#define GTIMER_VIRT     1
-+#define GTIMER_HYP      2
-+#define GTIMER_SEC      3
-+#define GTIMER_HYPVIRT  4
-+#define NUM_GTIMERS     5
-+
-+/* For M profile, some registers are banked secure vs non-secure;
-+ * these are represented as a 2-element array where the first element
-+ * is the non-secure copy and the second is the secure copy.
-+ * When the CPU does not have implement the security extension then
-+ * only the first element is used.
-+ * This means that the copy for the current security state can be
-+ * accessed via env->registerfield[env->v7m.secure] (whether the security
-+ * extension is implemented or not).
-+ */
-+enum {
-+    M_REG_NS = 0,
-+    M_REG_S = 1,
-+    M_REG_NUM_BANKS = 2,
-+};
-+
-+#define ARM_AFF0_SHIFT 0
-+#define ARM_AFF0_MASK  (0xFFULL << ARM_AFF0_SHIFT)
-+#define ARM_AFF1_SHIFT 8
-+#define ARM_AFF1_MASK  (0xFFULL << ARM_AFF1_SHIFT)
-+#define ARM_AFF2_SHIFT 16
-+#define ARM_AFF2_MASK  (0xFFULL << ARM_AFF2_SHIFT)
-+#define ARM_AFF3_SHIFT 32
-+#define ARM_AFF3_MASK  (0xFFULL << ARM_AFF3_SHIFT)
-+#define ARM_DEFAULT_CPUS_PER_CLUSTER 8
-+
-+#define ARM32_AFFINITY_MASK (ARM_AFF0_MASK|ARM_AFF1_MASK|ARM_AFF2_MASK)
-+#define ARM64_AFFINITY_MASK \
-+    (ARM_AFF0_MASK|ARM_AFF1_MASK|ARM_AFF2_MASK|ARM_AFF3_MASK)
-+#define ARM64_AFFINITY_INVALID (~ARM64_AFFINITY_MASK)
-+
- #endif
-diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
-index b98904b6bc..d37037e214 100644
---- a/target/arm/cpu-qom.h
-+++ b/target/arm/cpu-qom.h
-@@ -68,19 +68,4 @@ void arm_gt_htimer_cb(void *opaque);
- void arm_gt_stimer_cb(void *opaque);
- void arm_gt_hvtimer_cb(void *opaque);
+ #define RAM_SIZE            (512 * MiB)
+diff --git a/hw/arm/gumstix.c b/hw/arm/gumstix.c
+index 2ca4140c9f..3f2bcaa24e 100644
+--- a/hw/arm/gumstix.c
++++ b/hw/arm/gumstix.c
+@@ -44,7 +44,6 @@
+ #include "hw/boards.h"
+ #include "exec/address-spaces.h"
+ #include "sysemu/qtest.h"
+-#include "cpu.h"
  
--#define ARM_AFF0_SHIFT 0
--#define ARM_AFF0_MASK  (0xFFULL << ARM_AFF0_SHIFT)
--#define ARM_AFF1_SHIFT 8
--#define ARM_AFF1_MASK  (0xFFULL << ARM_AFF1_SHIFT)
--#define ARM_AFF2_SHIFT 16
--#define ARM_AFF2_MASK  (0xFFULL << ARM_AFF2_SHIFT)
--#define ARM_AFF3_SHIFT 32
--#define ARM_AFF3_MASK  (0xFFULL << ARM_AFF3_SHIFT)
--#define ARM_DEFAULT_CPUS_PER_CLUSTER 8
--
--#define ARM32_AFFINITY_MASK (ARM_AFF0_MASK|ARM_AFF1_MASK|ARM_AFF2_MASK)
--#define ARM64_AFFINITY_MASK \
--    (ARM_AFF0_MASK|ARM_AFF1_MASK|ARM_AFF2_MASK|ARM_AFF3_MASK)
--#define ARM64_AFFINITY_INVALID (~ARM64_AFFINITY_MASK)
--
- #endif
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 52ac99cad3..ab6fdecf48 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -72,21 +72,6 @@
- #define ARMV7M_EXCP_PENDSV  14
- #define ARMV7M_EXCP_SYSTICK 15
+ #define CONNEX_FLASH_SIZE   (16 * MiB)
+ #define CONNEX_RAM_SIZE     (64 * MiB)
+diff --git a/hw/arm/meson.build b/hw/arm/meson.build
+index 4babaa8dfc..7c71798661 100644
+--- a/hw/arm/meson.build
++++ b/hw/arm/meson.build
+@@ -13,16 +13,12 @@ arm_ss.add(when: 'CONFIG_NETDUINO2', if_true: files('netduino2.c'))
+ arm_ss.add(when: 'CONFIG_NETDUINOPLUS2', if_true: files('netduinoplus2.c'))
+ arm_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx.c', 'npcm7xx_boards.c'))
+ arm_ss.add(when: 'CONFIG_NSERIES', if_true: files('nseries.c'))
+-arm_ss.add(when: 'CONFIG_SX1', if_true: files('omap_sx1.c'))
+ arm_ss.add(when: 'CONFIG_CHEETAH', if_true: files('palm.c'))
+-arm_ss.add(when: 'CONFIG_GUMSTIX', if_true: files('gumstix.c'))
+ arm_ss.add(when: 'CONFIG_SPITZ', if_true: files('spitz.c'))
+-arm_ss.add(when: 'CONFIG_Z2', if_true: files('z2.c'))
+ arm_ss.add(when: 'CONFIG_REALVIEW', if_true: files('realview.c'))
+ arm_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa-ref.c'))
+ arm_ss.add(when: 'CONFIG_STELLARIS', if_true: files('stellaris.c'))
+ arm_ss.add(when: 'CONFIG_STM32VLDISCOVERY', if_true: files('stm32vldiscovery.c'))
+-arm_ss.add(when: 'CONFIG_COLLIE', if_true: files('collie.c'))
+ arm_ss.add(when: 'CONFIG_VERSATILE', if_true: files('versatilepb.c'))
+ arm_ss.add(when: 'CONFIG_VEXPRESS', if_true: files('vexpress.c'))
+ arm_ss.add(when: 'CONFIG_ZYNQ', if_true: files('xilinx_zynq.c'))
+@@ -62,8 +58,12 @@ arm_ss.add(when: 'CONFIG_FSL_IMX6UL', if_true: files('fsl-imx6ul.c', 'mcimx6ul-e
+ arm_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_soc.c'))
  
--/* For M profile, some registers are banked secure vs non-secure;
-- * these are represented as a 2-element array where the first element
-- * is the non-secure copy and the second is the secure copy.
-- * When the CPU does not have implement the security extension then
-- * only the first element is used.
-- * This means that the copy for the current security state can be
-- * accessed via env->registerfield[env->v7m.secure] (whether the security
-- * extension is implemented or not).
-- */
--enum {
--    M_REG_NS = 0,
--    M_REG_S = 1,
--    M_REG_NUM_BANKS = 2,
--};
--
- /* ARM-specific interrupt pending bits.  */
- #define CPU_INTERRUPT_FIQ   CPU_INTERRUPT_TGT_EXT_1
- #define CPU_INTERRUPT_VIRQ  CPU_INTERRUPT_TGT_EXT_2
-@@ -107,12 +92,6 @@ enum {
- #define offsetofhigh32(S, M) (offsetof(S, M) + sizeof(uint32_t))
- #endif
+ softmmu_ss.add(when: 'CONFIG_ARM_SMMUV3', if_true: files('smmu-common.c'))
++softmmu_ss.add(when: 'CONFIG_COLLIE', if_true: files('collie.c'))
+ softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4_boards.c'))
++softmmu_ss.add(when: 'CONFIG_GUMSTIX', if_true: files('gumstix.c'))
+ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_peripherals.c'))
++softmmu_ss.add(when: 'CONFIG_SX1', if_true: files('omap_sx1.c'))
+ softmmu_ss.add(when: 'CONFIG_TOSA', if_true: files('tosa.c'))
++softmmu_ss.add(when: 'CONFIG_Z2', if_true: files('z2.c'))
  
--/* Meanings of the ARMCPU object's four inbound GPIO lines */
--#define ARM_CPU_IRQ 0
--#define ARM_CPU_FIQ 1
--#define ARM_CPU_VIRQ 2
--#define ARM_CPU_VFIQ 3
--
- /* ARM-specific extra insn start words:
-  * 1: Conditional execution bits
-  * 2: Partial exception syndrome for data aborts
-@@ -160,13 +139,6 @@ typedef struct ARMGenericTimer {
-     uint64_t ctl; /* Timer Control register */
- } ARMGenericTimer;
+ hw_arch += {'arm': arm_ss}
+diff --git a/hw/arm/omap_sx1.c b/hw/arm/omap_sx1.c
+index 1d156bc344..c7ddc90d02 100644
+--- a/hw/arm/omap_sx1.c
++++ b/hw/arm/omap_sx1.c
+@@ -35,7 +35,6 @@
+ #include "hw/block/flash.h"
+ #include "sysemu/qtest.h"
+ #include "exec/address-spaces.h"
+-#include "cpu.h"
+ #include "qemu/cutils.h"
  
--#define GTIMER_PHYS     0
--#define GTIMER_VIRT     1
--#define GTIMER_HYP      2
--#define GTIMER_SEC      3
--#define GTIMER_HYPVIRT  4
--#define NUM_GTIMERS     5
--
- #define VTCR_NSW (1u << 29)
- #define VTCR_NSA (1u << 30)
- #define VSTCR_SW VTCR_NSW
-@@ -3323,12 +3295,6 @@ static inline bool arm_cpu_bswap_data(CPUARMState *env)
- void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-                           target_ulong *cs_base, uint32_t *flags);
+ /*****************************************************************************/
+diff --git a/hw/arm/z2.c b/hw/arm/z2.c
+index dc25304290..610f3b5a0f 100644
+--- a/hw/arm/z2.c
++++ b/hw/arm/z2.c
+@@ -25,7 +25,6 @@
+ #include "hw/audio/wm8750.h"
+ #include "audio/audio.h"
+ #include "exec/address-spaces.h"
+-#include "cpu.h"
+ #include "qom/object.h"
  
--enum {
--    QEMU_PSCI_CONDUIT_DISABLED = 0,
--    QEMU_PSCI_CONDUIT_SMC = 1,
--    QEMU_PSCI_CONDUIT_HVC = 2,
--};
--
- #ifndef CONFIG_USER_ONLY
- /* Return the address space index to use for a memory access */
- static inline int arm_asidx_from_attrs(CPUState *cs, MemTxAttrs attrs)
+ #ifdef DEBUG_Z2
 -- 
 2.38.1
 
