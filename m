@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2792366417D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 14:21:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE38E6643B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 15:53:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFDtz-0007K0-JL; Tue, 10 Jan 2023 07:38:52 -0500
+	id 1pFEB5-0005tl-Gg; Tue, 10 Jan 2023 07:56:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pFDtF-0007Bp-HF
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:38:12 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pFDtC-0006Zj-Fx
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:38:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=L2T/JgvfkiH7T25haxE9RzlLzAal34/mDYOsxjK/f3k=; b=OViGgdm/hVDrGBBto23lqLdGvo
- dRuA4ldzsfphzE8ElwK4Q356LLVlFSdPlokqo8IlfDaBeOR5EJByeAXK4gusD114bzpf7p29A5Hy4
- u9aQnash48WqDa0v5eqiLaupzujQ8Xk45IpHB2uu25ru2o5xTbSSI2A8u82k+HfmqpEVAqu5X519F
- eJa0BOIl/HFZIgMOG/FnrFmnCc8AugqxNW9xjt36npMrsg2drdTT+C7Mut2WFymrGNRBJtEToq3wi
- FFkQ2+19Br6Xq+3Z+jqJn13CXnkvBgS9IWCSIRKadKSYzptd69tfs2/DIkxAG/4eLA1ix39S0TBZj
- pmNQqcZA==;
-Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pFDsz-00388K-2L; Tue, 10 Jan 2023 12:37:49 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pFDt6-006Z6g-Tg; Tue, 10 Jan 2023 12:37:56 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [RFC PATCH v1 15/15] i386/xen: Initialize XenBus and legacy backends
- from pc_init1()
-Date: Tue, 10 Jan 2023 12:37:54 +0000
-Message-Id: <20230110123754.1564465-16-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230110123754.1564465-1-dwmw2@infradead.org>
-References: <20230110122042.1562155-1-dwmw2@infradead.org>
- <20230110123754.1564465-1-dwmw2@infradead.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pFEAz-0005tB-Ac
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:56:25 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pFEAx-0003gy-3o
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:56:24 -0500
+Received: by mail-wm1-x334.google.com with SMTP id ja17so8712221wmb.3
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 04:56:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=71tJgIQCs7ueEr/v8AFbcWJ1xJqHy7WsUWnMUWGgZss=;
+ b=HBGjXqzLNNJq9IyLmTEESJTif97TeZYULtF2YYMRSMp3BRYHgPPenyTCME4VI0J7uQ
+ VyS9n/7YLouoWRbJQhEogiFtYRMUOk3ogxRGwEZz9p60PHiO07HwJCmvWsMNCE1gepLW
+ aMIaCBlMPuyTjkV6tmR2TA7ZjFVVibT3C2/z1ADslhuyXz5fygPN4nKEApdavNV4Nb5d
+ 08zalmw2KLaKNfNdXUOqA2Mux1xX/XgaxOXQDi+AlfdhE0oqbAnBbaBHC7pERNLmWclQ
+ lyce+6TQIAvbK+0E+hT1/t6ai96cgCn1rGwYcZX+vrvdDb7vVbyQzCIrk2lYMEGaC2jH
+ sJ3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=71tJgIQCs7ueEr/v8AFbcWJ1xJqHy7WsUWnMUWGgZss=;
+ b=XX0svrzv2UbGvP4O0zQWNxaG8TY3ePrJFdXKpip/A717Mq6m+rCRBCcGzUre6KmQqh
+ YL5Oz44U4sOkvd56JMSKBb/Fi05ZRaUySrqtAiRROcDTJlokqdbdjh4fnRPdBGeoZa+9
+ v0i28sXv3HGWiKlJ78AgInvMILQjEhJJHgoofc9cMISRHOv/OI5bRfGsRFdp19w5CHXl
+ VFCgrcjdjMTLJdqWLJ5RfkwdTLHmHNt9dM8Jl1kHUc0JhNaFHyKoZZpoDVTDuvo95hl0
+ ePdfMrfK4QasNnnAyPtcU5qy/3d0dKWlrE4O6lbDE5SP/DrSnKAGDBoCFf1mikOiGMle
+ FSQQ==
+X-Gm-Message-State: AFqh2kpR9MkaPOZOeQR1YCtXNgcBxpAITjkNbbpD1LY+SLdZG6ybhe3j
+ J7wp+CupNyzF8Q0UNImRwJ5/iQ==
+X-Google-Smtp-Source: AMrXdXskrTvhjLtcfUlKu1dE7Lylau2NXCjaLrwP54lk5bC8eh3t9OeGDjgGICZx8qIZuUvgtPybbQ==
+X-Received: by 2002:a05:600c:5012:b0:3d3:5a4a:9103 with SMTP id
+ n18-20020a05600c501200b003d35a4a9103mr48300171wmr.31.1673355381405; 
+ Tue, 10 Jan 2023 04:56:21 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ g12-20020a05600c310c00b003c70191f267sm20940123wmo.39.2023.01.10.04.56.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Jan 2023 04:56:21 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 72BBE1FFB7;
+ Tue, 10 Jan 2023 12:56:20 +0000 (GMT)
+References: <20230109224954.161672-1-cota@braap.org>
+User-agent: mu4e 1.9.12; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Emilio Cota <cota@braap.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
+ <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 0/5] tsan fixes
+Date: Tue, 10 Jan 2023 12:55:30 +0000
+In-reply-to: <20230109224954.161672-1-cota@braap.org>
+Message-ID: <87y1qamtu3.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,87 +95,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
 
-Now that we're close to being able to use the PV backends without actual
-Xen, move the bus instantiation out from xen_hvm_init_pc() to pc_init1().
+Emilio Cota <cota@braap.org> writes:
 
-However, still only do it for (xen_mode == XEN_ATTACH) (i.e. when running
-on true Xen) because we don't have XenStore ops for emulation yet, and
-the XenBus instantiation failure is fatal. Once we have a functional
-XenStore for emulated mode, this will become (xen_mode != XEN_DISABLED).
+> Changes since v1:
+>
+> - call g_free_rcu on tb_jmp_cache directly, and call
+>   tcg_exec_unrealizefn after calling cpu_list_remove(cpu)
+>
+> - add patch to de-const qemu_spin_destroy
+>
+> - remove wrappers for qht_do_if_first_in_stripe
+>
+> Thanks,
+> 		Emilio
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
----
- hw/i386/pc_piix.c     | 17 +++++++++++++++++
- hw/i386/xen/xen-hvm.c | 11 -----------
- 2 files changed, 17 insertions(+), 11 deletions(-)
+Queued to plugins/next, as there is some intersection with plugins.
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index b48047f50c..5678112dc2 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -57,6 +57,10 @@
- #include <xen/hvm/hvm_info_table.h>
- #include "hw/xen/xen_pt.h"
- #endif
-+#ifdef CONFIG_XENFV_MACHINE
-+#include "hw/xen/xen-legacy-backend.h"
-+#include "hw/xen/xen-bus.h"
-+#endif
- #include "migration/global_state.h"
- #include "migration/misc.h"
- #include "sysemu/numa.h"
-@@ -157,6 +161,19 @@ static void pc_init1(MachineState *machine,
-         }
-     }
- 
-+#ifdef CONFIG_XENFV_MACHINE
-+    if (xen_mode == XEN_ATTACH) {
-+        /* Initialize backend core & drivers */
-+        xen_bus_init();
-+
-+        if (xen_be_init() != 0) {
-+            error_report("xen backend core setup failed");
-+            exit(1);
-+        }
-+        xen_be_register_common();
-+    }
-+#endif
-+
-     pc_machine_init_sgx_epc(pcms);
-     x86_cpus_init(x86ms, pcmc->default_cpu_version);
- 
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index 779d923e10..48f289f8ee 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -20,8 +20,6 @@
- #include "hw/i386/apic-msidef.h"
- #include "hw/xen/xen_native.h"
- #include "hw/xen/xen_backend_ops.h"
--#include "hw/xen/xen-legacy-backend.h"
--#include "hw/xen/xen-bus.h"
- #include "hw/xen/xen-x86.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-migration.h"
-@@ -1505,15 +1503,6 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
-     QLIST_INIT(&state->dev_list);
-     device_listener_register(&state->device_listener);
- 
--    xen_bus_init();
--
--    /* Initialize backend core & drivers */
--    if (xen_be_init() != 0) {
--        error_report("xen backend core setup failed");
--        goto err;
--    }
--    xen_be_register_common();
--
-     QLIST_INIT(&xen_physmap);
-     xen_read_physmap(state);
- 
--- 
-2.35.3
+Richard,
 
+Please shout if you want to pull this stuff in directly.
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
