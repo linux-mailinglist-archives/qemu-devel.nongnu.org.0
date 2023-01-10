@@ -2,102 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6459B663C4B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:09:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E697663CDB
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:30:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFALT-0004Zc-05; Tue, 10 Jan 2023 03:50:59 -0500
+	id 1pFANw-0005KL-SM; Tue, 10 Jan 2023 03:53:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFALQ-0004Xt-Dl
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:50:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pFANo-0005Id-Kl; Tue, 10 Jan 2023 03:53:26 -0500
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFALM-000333-3y
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:50:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673340651;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ioCqEu8CqD0oia8Vgb7CSuS8bqNJbYMTGSrVUNNv0IM=;
- b=FOaajokMGAtfAt/gm2GHYdDCBmo4ZwA7dB+ppoIk8PzFxWvw4NOfnFD54sQoDJTfg1jGB9
- dP0x1V516+KkArCd0/VO5+1Bf46MPV4Ak2YWLuvZoTDGFehT1X2t/c/bQMpWdQImSAIC11
- pUxMmMAK6KVJJJfhvhZd3ShKX4dMpIo=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-655-hEFewPLHOsex_1rcix6f2Q-1; Tue, 10 Jan 2023 03:50:50 -0500
-X-MC-Unique: hEFewPLHOsex_1rcix6f2Q-1
-Received: by mail-qk1-f198.google.com with SMTP id
- h13-20020a05620a244d00b006fb713618b8so8311223qkn.0
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 00:50:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ioCqEu8CqD0oia8Vgb7CSuS8bqNJbYMTGSrVUNNv0IM=;
- b=FXNUwISRg2jBk6VxBCN482XAPGezw+tdR+1NqOa7C2G7BWuoTqQYgNbHgO4tziB80J
- 3J4AsXxQUOBnSJF4feG5M6kmgsfY4fzw5IaxGSv5ACJUWHwUIub7Fo3aJdSML0RiMZPN
- EOjpKD4m0ntaph9iag0H4RRRMCc2dd9JH8LI4rnATkszwHdDDh9RC/StqlE9y1amn9c1
- NYf5sdbuLfeHJngte3MkQ0lcf7bzeXEg3BNwXks9eHPWzBNRyiKRO+3yoMS4LnIpILWH
- LHGcoOHitun4vqmvhjGLQlAkCMibEd0NMvQGIgx+hgNrtVCbmqk1sdWU4o8EUcaIY/e9
- o+Sw==
-X-Gm-Message-State: AFqh2kr9chtpxye8sY4B/ac4z+f2nRL2y2YHdhOnBMfa0lTzT5qHYv+S
- DVXGM4XQbla9gMXuJRxCu8nyd34G7RrH0TgsrjmDOnKZE3c1inUrjiQtIAxRkx3TGrpOlQ5EhXT
- iNd1wP/y1TDtJTC0=
-X-Received: by 2002:ac8:5142:0:b0:3a7:eb36:5cb2 with SMTP id
- h2-20020ac85142000000b003a7eb365cb2mr85232671qtn.29.1673340650034; 
- Tue, 10 Jan 2023 00:50:50 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtUtDUuA+yBWkBrOav46rBAuocJd18jJsxefX2jzyhB/2rNNBgqYrQaJFGoDR1JRrFSVk4F3Q==
-X-Received: by 2002:ac8:5142:0:b0:3a7:eb36:5cb2 with SMTP id
- h2-20020ac85142000000b003a7eb365cb2mr85232650qtn.29.1673340649820; 
- Tue, 10 Jan 2023 00:50:49 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-179-237.web.vodafone.de.
- [109.43.179.237]) by smtp.gmail.com with ESMTPSA id
- s1-20020a05620a0bc100b006fa4ac86bfbsm6754395qki.55.2023.01.10.00.50.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jan 2023 00:50:49 -0800 (PST)
-Message-ID: <f9554731-cdc3-7185-2b77-9b26b85d8e9a@redhat.com>
-Date: Tue, 10 Jan 2023 09:50:45 +0100
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pFANl-000428-UU; Tue, 10 Jan 2023 03:53:24 -0500
+Received: from myt6-23a5e62c0090.qloud-c.yandex.net
+ (myt6-23a5e62c0090.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 0B1CF604E0;
+ Tue, 10 Jan 2023 11:53:10 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b685::1:3c] (unknown
+ [2a02:6b8:b081:b685::1:3c])
+ by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 8rY1oR2RPGk1-5UoiAYsj; Tue, 10 Jan 2023 11:53:09 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1673340789; bh=4q7PZXXHDuK6wQ4lAKyd5kY+RUDOLRgjEfRD4wW5c18=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=aLfodXnPZ/JDtMjBHs1Tf07mIWJyWOwEnRQn+8DD45agMTLkFq8+Piq+nCAxkhepQ
+ p1t7Itk0GZQ2FWw9xEt+QgD3ZZ2gawN+Els7x+uYX51L5OTIjyJOK2pj19tavS4kt4
+ wkkXHKqYzEoixgHh382fATLrF2Wz0C1syZr6Ptk8=
+Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <9b5a291e-d8a2-e789-0a87-b923240a3e3a@yandex-team.ru>
+Date: Tue, 10 Jan 2023 11:53:08 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3 3/8] configure: replace Perl usage with sed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] python: QEMUMachine: enable qmp accept timeout by default
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- pbonzini@redhat.com, Markus Armbruster <armbru@redhat.com>,
- qemu-s390x@nongnu.org, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Ed Maste <emaste@freebsd.org>, kraxel@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Michael Roth <michael.roth@amd.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- John Snow <jsnow@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20230110080246.536056-1-marcandre.lureau@redhat.com>
- <20230110080246.536056-4-marcandre.lureau@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230110080246.536056-4-marcandre.lureau@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
+References: <20220624195252.175249-1-vsementsov@yandex-team.ru>
+ <CAFn=p-bzPUmF4YZ-461Tzr9MO_ReotL+wuot2egKW7jQgvaHOw@mail.gmail.com>
+ <CAFn=p-bwAXCJnWPj7JwSmN2N52hv7R0p1Fn2GxPpHPpDaDaDHQ@mail.gmail.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <CAFn=p-bwAXCJnWPj7JwSmN2N52hv7R0p1Fn2GxPpHPpDaDaDHQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,41 +77,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/01/2023 09.02, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 7/12/22 00:21, John Snow wrote:
+> On Mon, Jul 11, 2022 at 5:16 PM John Snow <jsnow@redhat.com> wrote:
+>>
+>> On Fri, Jun 24, 2022 at 3:53 PM Vladimir Sementsov-Ogievskiy
+>> <vsementsov@yandex-team.ru> wrote:
+>>>
+>>> I've spent much time trying to debug hanging pipeline in gitlab. I
+>>> started from and idea that I have problem in code in my series (which
+>>> has some timeouts). Finally I found that the problem is that I've used
+>>> QEMUMachine class directly to avoid qtest, and didn't add necessary
+>>> arguments. Qemu fails and we wait for qmp accept endlessly. In gitlab
+>>> it's just stopped by timeout (one hour) with no sign of what's going
+>>> wrong.
+>>>
+>>> With timeout enabled, gitlab don't wait for an hour and prints all
+>>> needed information.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>>> ---
+>>>
+>>> Hi all!
+>>>
+>>> Just compare this
+>>>    https://gitlab.com/vsementsov/qemu/-/pipelines/572232557
+>>> and this
+>>>    https://gitlab.com/vsementsov/qemu/-/pipelines/572526252
+>>>
+>>> and you'll see that the latter is much better.
+>>>
+>>>   python/qemu/machine/machine.py | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+>>> index 37191f433b..01a12f6f73 100644
+>>> --- a/python/qemu/machine/machine.py
+>>> +++ b/python/qemu/machine/machine.py
+>>> @@ -131,7 +131,7 @@ def __init__(self,
+>>>                    drain_console: bool = False,
+>>>                    console_log: Optional[str] = None,
+>>>                    log_dir: Optional[str] = None,
+>>> -                 qmp_timer: Optional[float] = None):
+>>> +                 qmp_timer: float = 30):
+>>>           '''
+>>>           Initialize a QEMUMachine
+>>>
+>>> --
+>>> 2.25.1
+>>>
+>>
+>> Oh, this is because machine.py uses the qmp_timer for *all* timeouts,
+>> and not just the QMP commands themselves, and this relates to the work
+>> Marc Andre is doing with regards to changing the launch mechanism to
+>> handle the race condition when the QEMU launch fails, but the QMP
+>> connection just sits waiting.
+>>
+>> I'm quite of the mind that it's really time to rewrite machine.py to
+>> use the native asyncio interfaces I've been writing to help manage
+>> this, but in the meantime I think this is probably a reasonable
+>> concession and a more useful default.
+>>
+>> ...I think. Willing to take it for now and re-investigate when the
+>> other fixes make it to the tree.
+>>
+>> Reviewed-by: John Snow <jsnow@redhat.com>
 > 
-> Let's try to reduce our Perl usage during config/build-time.
+> Oh, keep the type as Optional[float], though, so the timeout can be
+> disabled again, and keeps the type consistent with the qtest
+> derivative class. I've staged your patch with that change made, let me
+> know if that's not OK. Modified patch is on my python branch:
 > 
-> Note: this patch might be dropped if "configure: remove
-> backwards-compatibility code" is merged earlier.
+> Thanks, merged.
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   configure | 8 +++-----
->   1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 2281892657..9a944698b4 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2571,11 +2571,9 @@ else
->     if test -f meson-private/cmd_line.txt; then
->       # Adjust old command line options whose type was changed
->       # Avoids having to use "setup --wipe" when Meson is upgraded
-> -    perl -i -ne '
-> -      s/^gettext = true$/gettext = auto/;
-> -      s/^gettext = false$/gettext = disabled/;
-> -      /^b_staticpic/ && next;
-> -      print;' meson-private/cmd_line.txt
-> +    sed -i.bak -e 's/^gettext = true$/gettext = auto/g' \
-> +      -e 's/^gettext = false$/gettext = disabled/g' \
-> +      -e '/^b_staticpic/d' meson-private/cmd_line.txt
->     fi
->   fi
 
-I've ran "make vm-build-freebsd" and "make vm-build-openbsd" with this patch 
-and it worked fine, I didn't spot anything in the console output, thus:
+Hmm, seems that's lost.. I don't see it neither in master nor in your python branch..
 
-Tested-by: Thomas Huth <thuth@redhat.com>
+-- 
+Best regards,
+Vladimir
 
 
