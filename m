@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68EE3663A7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E6D663A62
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:04:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF9bI-0007C3-R0; Tue, 10 Jan 2023 03:03:16 -0500
+	id 1pF9bJ-0007CJ-Kr; Tue, 10 Jan 2023 03:03:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pF9bA-00078S-2z
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:03:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pF9bD-000791-MR
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:03:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pF9b6-0007eg-00
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:03:05 -0500
+ id 1pF9bA-0007fb-0E
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:03:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673337783;
+ s=mimecast20190719; t=1673337787;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+kQC5W1HJVyZlSr7LmwSXpnisNfrSjXBHbjOM87JegU=;
- b=XuJc+W6RmhbhVlkYJR1UO294imDUFzYf19RPGwCsbO0dURepWLAzLmJwfy3xv9WFfX4yJH
- qGn1QU83cQf1l8/MaP/5nnIQqnnU5O8R6ZQ+9xteOopFE7/I1C4qejLMXL0umnrqvrTREi
- JNwx6iM+005ngHzq/PmOUWiiE+aGfzY=
+ bh=fY+d6VJaIA3+VtE0G1AyUXLs9CxCAWP0Re8FK5LEXFs=;
+ b=DUo667tg3XvI7w+KhgQtuuqMDzuuXqwMfkboHoHNvtjnvJ19b0iWmtffPI9QReHLXWKyPq
+ VYbUs0UC8Yhfq0a6mAseN+ecImIPz1ON7YR1hcOGDoYMBqe1pXS4H9yb5VDuJAh9B7bhIx
+ ygDfb8x9KZw+sZu6GLuvPHPYyjmwJzI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-208-I7jBPQLBNXKcaFNYtbOVUw-1; Tue, 10 Jan 2023 03:02:59 -0500
-X-MC-Unique: I7jBPQLBNXKcaFNYtbOVUw-1
+ us-mta-611-jmKEBSUzPZi9xYiBgHXk4Q-1; Tue, 10 Jan 2023 03:03:03 -0500
+X-MC-Unique: jmKEBSUzPZi9xYiBgHXk4Q-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2CDE857A8E;
- Tue, 10 Jan 2023 08:02:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F2CC811E6E;
+ Tue, 10 Jan 2023 08:03:02 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A9C97492C14;
- Tue, 10 Jan 2023 08:02:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A856F492C18;
+ Tue, 10 Jan 2023 08:03:01 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
@@ -61,16 +61,16 @@ Cc: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
  John Snow <jsnow@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v3 2/8] .gitlab-ci.d/windows: do not disable opengl
-Date: Tue, 10 Jan 2023 12:02:40 +0400
-Message-Id: <20230110080246.536056-3-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 3/8] configure: replace Perl usage with sed
+Date: Tue, 10 Jan 2023 12:02:41 +0400
+Message-Id: <20230110080246.536056-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20230110080246.536056-1-marcandre.lureau@redhat.com>
 References: <20230110080246.536056-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,37 +97,35 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The previous patch should fix shader compilation.
+Let's try to reduce our Perl usage during config/build-time.
+
+Note: this patch might be dropped if "configure: remove
+backwards-compatibility code" is merged earlier.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/windows.yml | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ configure | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index a1d5790580..cf445b77f6 100644
---- a/.gitlab-ci.d/windows.yml
-+++ b/.gitlab-ci.d/windows.yml
-@@ -71,7 +71,7 @@ msys2-64bit:
-   # for the msys2 64-bit job, due to the build could not complete within
-   # the project timeout.
-   - ..\msys64\usr\bin\bash -lc '../configure --target-list=x86_64-softmmu
--      --without-default-devices --disable-opengl'
-+      --without-default-devices'
-   - ..\msys64\usr\bin\bash -lc 'make'
-   # qTests don't run successfully with "--without-default-devices",
-   # so let's exclude the qtests from CI for now.
-@@ -113,8 +113,7 @@ msys2-32bit:
-   - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
-   - mkdir output
-   - cd output
--  - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu
--        --disable-opengl'
-+  - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu'
-   - ..\msys64\usr\bin\bash -lc 'make'
-   - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS=\"--no-suite qtest\" ||
-                                 { cat meson-logs/testlog.txt; exit 1; }'
+diff --git a/configure b/configure
+index 2281892657..9a944698b4 100755
+--- a/configure
++++ b/configure
+@@ -2571,11 +2571,9 @@ else
+   if test -f meson-private/cmd_line.txt; then
+     # Adjust old command line options whose type was changed
+     # Avoids having to use "setup --wipe" when Meson is upgraded
+-    perl -i -ne '
+-      s/^gettext = true$/gettext = auto/;
+-      s/^gettext = false$/gettext = disabled/;
+-      /^b_staticpic/ && next;
+-      print;' meson-private/cmd_line.txt
++    sed -i.bak -e 's/^gettext = true$/gettext = auto/g' \
++      -e 's/^gettext = false$/gettext = disabled/g' \
++      -e '/^b_staticpic/d' meson-private/cmd_line.txt
+   fi
+ fi
+ 
 -- 
 2.39.0
 
