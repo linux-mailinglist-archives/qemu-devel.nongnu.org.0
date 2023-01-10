@@ -2,46 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB83663ABA
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:17:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3409E663C17
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:01:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF9g8-00010O-NM; Tue, 10 Jan 2023 03:08:16 -0500
+	id 1pF9hN-0001LT-Ok; Tue, 10 Jan 2023 03:09:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pdel@pdel-mbp.localdomain>)
- id 1pF9g0-0000zD-3T
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:08:11 -0500
-Received: from [163.114.132.7] (helo=pdel-mbp.localdomain)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pdel@pdel-mbp.localdomain>) id 1pF9fw-0000Bw-Sx
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:08:07 -0500
-Received: by pdel-mbp.localdomain (Postfix, from userid 501)
- id 2B7C4E17558; Tue, 10 Jan 2023 00:07:57 -0800 (PST)
-From: Peter Delevoryas <peter@pjd.dev>
-To: 
-Cc: jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com, philmd@linaro.org,
- wainersm@redhat.com, qemu-devel@nongnu.org,
- Peter Delevoryas <peter@pjd.dev>
-Subject: [PATCH v4 1/1] python/machine: Fix AF_UNIX path too long on macOS
-Date: Tue, 10 Jan 2023 00:07:56 -0800
-Message-Id: <20230110080756.38271-2-peter@pjd.dev>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230110080756.38271-1-peter@pjd.dev>
-References: <20230110080756.38271-1-peter@pjd.dev>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pF9hG-0001Ha-Sg
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:09:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pF9hE-0000b9-35
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:09:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673338163;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eg6pIzfk5vKkPSb+kJL6n/HwR+JmS1XbU1ZjUEnXDUI=;
+ b=DXtwumK10/qK7ea1ioZi0D+M9MRrwUmE7VXRFqxdWvyw02TFJl/3rUdfgcKACumtnuprJb
+ eXDITUNdihf1/TTavoY2lSF/59pKcgoKBNF/zNVv24o29Ix9XyzukcIstJ4nHiBwnwwLcW
+ taEREBzgfqP/dRxw/cH2AbZJJd1LTjY=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-414-La_Sr_svPBSJedh-B0NkAA-1; Tue, 10 Jan 2023 03:09:22 -0500
+X-MC-Unique: La_Sr_svPBSJedh-B0NkAA-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ m3-20020a05620a24c300b006fee2294e97so8276350qkn.11
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 00:09:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eg6pIzfk5vKkPSb+kJL6n/HwR+JmS1XbU1ZjUEnXDUI=;
+ b=keJ2MKRoFvWkNKvFahl3LxXXR2EQxMzHYHnf0hrGlP1kYQF7pUwD42aOTZh/3vVwxw
+ n8GpBFoWoKqyThTnl3U/4MHrJ9D/MLKW429GkHbMfJR2JN/ew+mdvV9pdK4F91OuIy3W
+ Fu4+zXqCpIEswXC4BYbZmka1goZFsaXblaAn9OYRC82WoWx0pIdrhX7rNXvs2wvFrso/
+ BLbZP0eDbrb9fpGZ5idonXVk51T31y+Eggsx83xl0H1RLqtZm2eIJDXFuN+VufmTx+Bs
+ nUWsfYydHH+gPFoBTSg11vfC5+jxmAyUsoVmzF6O14TmVlzwhPQkQlWJP2YygOiiXJWm
+ sD9A==
+X-Gm-Message-State: AFqh2koCiWUn4w8lfPm7ZFjQTqCK+ywMFO23XFSKSN56wJtkFV94TG5V
+ P9e5epOUPvJMqV/O3fY++/Sfver6sbsTz2JxtdJj0sakwpc4aF3q5QweSX35Yrft+kGDApI+rkj
+ KYz19ULKXF68BQ4w=
+X-Received: by 2002:ad4:52e5:0:b0:4c7:797e:7788 with SMTP id
+ p5-20020ad452e5000000b004c7797e7788mr87174506qvu.20.1673338161759; 
+ Tue, 10 Jan 2023 00:09:21 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXukRsZkXTZ2sz8ANcFzgYWnjSbTsdpCWJpl52Qiz/g9Y6fhOnLO+Y4Fmc9YAlA5IFzXrtEIKg==
+X-Received: by 2002:ad4:52e5:0:b0:4c7:797e:7788 with SMTP id
+ p5-20020ad452e5000000b004c7797e7788mr87174490qvu.20.1673338161547; 
+ Tue, 10 Jan 2023 00:09:21 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-179-237.web.vodafone.de.
+ [109.43.179.237]) by smtp.gmail.com with ESMTPSA id
+ c5-20020a05620a268500b006e8f8ca8287sm1986160qkp.120.2023.01.10.00.09.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Jan 2023 00:09:21 -0800 (PST)
+Message-ID: <f4b11be2-96ff-a488-0622-d52177bcd3d2@redhat.com>
+Date: Tue, 10 Jan 2023 09:09:16 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 6/8] Update lcitool and fedora to 37
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ pbonzini@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ qemu-s390x@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Ed Maste <emaste@freebsd.org>, kraxel@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Michael Roth <michael.roth@amd.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ John Snow <jsnow@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>
+References: <20230110080246.536056-1-marcandre.lureau@redhat.com>
+ <20230110080246.536056-7-marcandre.lureau@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230110080246.536056-7-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 163.114.132.7 (failed)
-Received-SPF: none client-ip=163.114.132.7;
- envelope-from=pdel@pdel-mbp.localdomain; helo=pdel-mbp.localdomain
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NO_DNS_FOR_FROM=0.001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,104 +114,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On macOS, private $TMPDIR's are the default. These $TMPDIR's are
-generated from a user's unix UID and UUID [1], which can create a
-relatively long path:
+On 10/01/2023 09.02, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Fedora 35 is EOL, upstream lcitool replaced it with 37.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+...
+> diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
+> index e3eb28cf2e..319a534c22 160000
+> --- a/tests/lcitool/libvirt-ci
+> +++ b/tests/lcitool/libvirt-ci
+> @@ -1 +1 @@
+> -Subproject commit e3eb28cf2e17fbcf7fe7e19505ee432b8ec5bbb5
+> +Subproject commit 319a534c220f53fc8670254cac25d6f662c82112
 
-    /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
+In case you respin this patch, please add a note to the commit description 
+explaining why you update the submodule here (I assume it's necessary to 
+pull in some changes for F37 support?).
 
-QEMU's avocado tests create a temporary directory prefixed by
-"avo_qemu_sock_", and create QMP sockets within _that_ as well.
-The QMP socket is unnecessarily long, because a temporary directory
-is created for every QEMUMachine object.
-
-    /avo_qemu_sock_uh3w_dgc/qemu-37331-10bacf110-monitor.sock
-
-The path limit for unix sockets on macOS is 104: [2]
-
-    /*
-     * [XSI] Definitions for UNIX IPC domain.
-     */
-    struct  sockaddr_un {
-        unsigned char   sun_len;        /* sockaddr len including null */
-        sa_family_t     sun_family;     /* [XSI] AF_UNIX */
-        char            sun_path[104];  /* [XSI] path name (gag) */
-    };
-
-This results in avocado tests failing on macOS because the QMP unix
-socket can't be created, because the path is too long:
-
-    ERROR| Failed to establish connection: OSError: AF_UNIX path too long
-
-This change resolves by reducing the size of the socket directory prefix
-and the suffix on the QMP and console socket names.
-
-The result is paths like this:
-
-    pdel@pdel-mbp:/var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T
-    $ tree qemu*
-    qemu_df4evjeq
-    qemu_jbxel3gy
-    qemu_ml9s_gg7
-    qemu_oc7h7f3u
-    qemu_oqb1yf97
-    ├── 10a004050.con
-    └── 10a004050.qmp
-
-[1] https://apple.stackexchange.com/questions/353832/why-is-mac-osx-temp-directory-in-weird-path
-[2] /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/sys/un.h
-
-Signed-off-by: Peter Delevoryas <peter@pjd.dev>
----
- python/qemu/machine/machine.py         | 6 +++---
- tests/avocado/avocado_qemu/__init__.py | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index 748a0d807c9d..d70977378305 100644
---- a/python/qemu/machine/machine.py
-+++ b/python/qemu/machine/machine.py
-@@ -157,7 +157,7 @@ def __init__(self,
-         self._wrapper = wrapper
-         self._qmp_timer = qmp_timer
- 
--        self._name = name or f"qemu-{os.getpid()}-{id(self):02x}"
-+        self._name = name or f"{id(self):x}"
-         self._temp_dir: Optional[str] = None
-         self._base_temp_dir = base_temp_dir
-         self._sock_dir = sock_dir
-@@ -167,7 +167,7 @@ def __init__(self,
-             self._monitor_address = monitor_address
-         else:
-             self._monitor_address = os.path.join(
--                self.sock_dir, f"{self._name}-monitor.sock"
-+                self.sock_dir, f"{self._name}.qmp"
-             )
- 
-         self._console_log_path = console_log
-@@ -192,7 +192,7 @@ def __init__(self,
-         self._console_set = False
-         self._console_device_type: Optional[str] = None
-         self._console_address = os.path.join(
--            self.sock_dir, f"{self._name}-console.sock"
-+            self.sock_dir, f"{self._name}.con"
-         )
-         self._console_socket: Optional[socket.socket] = None
-         self._remove_files: List[str] = []
-diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-index 910f3ba1eab8..25a546842fab 100644
---- a/tests/avocado/avocado_qemu/__init__.py
-+++ b/tests/avocado/avocado_qemu/__init__.py
-@@ -306,7 +306,7 @@ def require_netdev(self, netdevname):
-             self.cancel('no support for user networking')
- 
-     def _new_vm(self, name, *args):
--        self._sd = tempfile.TemporaryDirectory(prefix="avo_qemu_sock_")
-+        self._sd = tempfile.TemporaryDirectory(prefix="qemu_")
-         vm = QEMUMachine(self.qemu_bin, base_temp_dir=self.workdir,
-                          sock_dir=self._sd.name, log_dir=self.logdir)
-         self.log.debug('QEMUMachine "%s" created', name)
--- 
-2.39.0
+Apart from that:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
