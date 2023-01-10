@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370E2664F9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 00:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBFD664F9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 00:09:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFNih-0006Wa-Be; Tue, 10 Jan 2023 18:07:51 -0500
+	id 1pFNjU-0006ha-Fo; Tue, 10 Jan 2023 18:08:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pFNif-0006WM-Bh; Tue, 10 Jan 2023 18:07:49 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pFNid-0006Es-Ac; Tue, 10 Jan 2023 18:07:48 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id u19so32542549ejm.8;
- Tue, 10 Jan 2023 15:07:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yhzDadNnqRN37FW7Pnkv9sJDfct5eDyIDGgrVAzlkcs=;
- b=eKh0t9Xr5GpLSemHlDYsAjADXKNQRW6LZldPj/GjebzFEJ25CN/e27kU8I51PSWiM1
- OEkP3SC2JyFik6VMQlY2gB6tOEvobtTnRCjYPMczbaaf7q+8m7vJ1LsARiP3NmiNx0JN
- aMuB/lMx8gDWWGYYGpge2UNhNNIMLs6WHvU7WaRmhK1eFQl+AJgoIseh+Tzg6vhQzN7e
- fPl6hpNrefqssajlW3j1pvFgBGTQQW1chNtd1p0UJzlV8uUQvD/IgqkNP5DBtzuaHlA5
- nEStOlxze6yQIjY6+md0hJGv7t6ItDXd0fX2K2KSEplgU3pFc/Xgs44PmBn7zqQ2rbfU
- 8efA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yhzDadNnqRN37FW7Pnkv9sJDfct5eDyIDGgrVAzlkcs=;
- b=fMS0YnH7HIrptztwVcOhVHSvpWPBdeyqrm9bFnIfqxxARSSnC15MwpQP9ikJhAuJcq
- fu5FfeIw6Xavzg1jgVn+K4LCF9jGrpgNAgBFA5SVGnHPu8a1pjR7O7Hc5QUNFhNDwF/z
- CgdEvOnPgku6zdD+JeeQEhHcShxmMXWijh7lioLCOm1jr/o5UFAJhE5Hhc9got/QFeLL
- Tcw6lJqKZadc8OvtOKb+RG1EZExq6aPlpacdodMTfriclaYCiBmtQjYwNEmmihuayw4+
- mGBvxqfCD9DPbrfWFbEhqYC1hdyD60Y1q9/a7adY0omHhZsaMckiZayCY7Vj9bz5jGRt
- +6sg==
-X-Gm-Message-State: AFqh2kr35uvF/3jCIpUC9+w/1t/2a6G2IbolpdjEiOZvxXBbao2Xi7Ak
- wFDXSsvmsj6WrjvYJoesjug=
-X-Google-Smtp-Source: AMrXdXuugN1Tq6/cZnUMgXdOZiGUdyKJxiFlq2c4uRxibwgtkGbBofbttqeQJLVC1zQQcUvDgZa6+A==
-X-Received: by 2002:a17:907:8b09:b0:7c1:6e82:35fc with SMTP id
- sz9-20020a1709078b0900b007c16e8235fcmr79654724ejc.40.1673392063713; 
- Tue, 10 Jan 2023 15:07:43 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-092-224-208-176.92.224.pool.telefonica.de.
- [92.224.208.176]) by smtp.gmail.com with ESMTPSA id
- d26-20020a170906305a00b0084c90164a56sm5488904ejd.29.2023.01.10.15.07.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jan 2023 15:07:43 -0800 (PST)
-Date: Tue, 10 Jan 2023 23:07:40 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: John Snow <jsnow@redhat.com>
-CC: qemu-devel@nongnu.org, Liav Albani <liavalb@gmail.com>,
- qemu-block@nongnu.org
-Subject: Re: [PATCH 0/1] hw/ide: share bmdma read and write functions
-In-Reply-To: <CAFn=p-bzzTM2cyEM_uVpnutj=7D5NgKFb3=854rNQe_Qc4GTfA@mail.gmail.com>
-References: <20220219080818.327683-1-liavalb@gmail.com>
- <A83604D0-B156-4C34-BAF2-29D13D341386@gmail.com>
- <CAFn=p-bzzTM2cyEM_uVpnutj=7D5NgKFb3=854rNQe_Qc4GTfA@mail.gmail.com>
-Message-ID: <59AF7FF6-64F3-4633-B079-2C41DDF3B76C@gmail.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pFNjS-0006gR-AY
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 18:08:38 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pFNjQ-0006IF-7k
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 18:08:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=yvEarLBsE0rrSy/UBh9yLC9DSmvQQcR3jtKW2cx8+Ow=; b=j9eORjwFWoXEZOrR12RyJuJ/iH
+ DDU8l91me0l6iEFngW9m4nMmhN+YfZSFMAx2LtdoSJt4fnvTqv1OnvgT4RdmL9YmdGp70zoGF/u3p
+ gjBxP3peEzLg4UiSlR1V0vyaFVQFsTesatO7oewidTOL6TuL9GTs3tqVr+mM20CWeKjGrZPeNpSus
+ B9FDSd28IfT55xxK2eohHQs8EhHsYLrKfmtvibmMnT+oqVD2wSwiBa5Nrkh4x2lxbIUxWVbI9o1n5
+ YozweSewDKFZCnbI5ISI1iKtrW3AOuGDNrd0/2V5OJBruPXM83GfaogEvkERY8JgPQpDsdSWl3uJh
+ gfsPnpYOf2Iy0oyD+QJr5SRHFg39d2tzF0m+bXfGbnco0CxN44E9Uk8N16sdBSxcrfzB+BMyIi3RL
+ hg/Capy83L7k/Jn/bidfaP+d0efwChqN/8gp/je5kR3WCkN636TLHkjUeq2QUI9As3CAA1+RcG5qv
+ YUbS2IoEGQea08yVHxvuUOQ7lw8dxTt4bvPCrNTHGuGL10dFeMasEwjvi/JL5bPuA1R2Xt+kz0Tkm
+ ZKBHlCdqYWlw3FmYCckMQuFapct/eKIhaK0Usv/OgutKeefzkToe1tnSjv7X6jWyzsuY63Q685C0Y
+ 5kA5ij+ZYa0GvbFAfmWdjXYrV1kDwDW81ZVr69JSM=;
+Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pFNiy-00092j-BK; Tue, 10 Jan 2023 23:08:12 +0000
+Message-ID: <d2850ef0-d825-bb03-09d4-0d1427cf6577@ilande.co.uk>
+Date: Tue, 10 Jan 2023 23:08:27 +0000
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: ~henca <hc1245@poolhem.se>, qemu-devel@nongnu.org
+Cc: atar4qemu@gmail.com
+References: <167305907804.10652.2746409341903316717-1@git.sr.ht>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <167305907804.10652.2746409341903316717-1@git.sr.ht>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH qemu v3 1/1] Emulating sun keyboard language layout dip
+ switches, taking the value for the dip switches from the "-k" option to qemu.
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,54 +80,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 06/01/2023 21:33, ~henca wrote:
+
+> From: Henrik Carlqvist <hc1245@poolhem.se>
+> 
+> SUN Type 4, 5 and 5c keyboards have dip switches to choose the language
+> layout of the keyboard. Solaris makes an ioctl to query the value of the
+> dipswitches and uses that value to select keyboard layout. Also the SUN
+> bios like the one in the file ss5.bin uses this value to support at least
+> some keyboard layouts. However, the OpenBIOS provided with qemu is
+> hardcoded to always use an US keyboard layout.
+> 
+> Before this patch, qemu allways gave dip switch value 0x21 (US keyboard),
+> this patch uses the command line switch "-k" (keyboard layout) to select
+> dip switch value. A table is used to lookup values from arguments like:
+> 
+> -k fr
+> -k es
+> 
+> But the patch also accepts numeric dip switch values directly to the -k
+> switch:
+> 
+> -k 0x2b
+> -k 43
+> 
+> Both values above are the same and select swedish keyboard as explained in
+> table 3-15 at
+> https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.html
+> 
+> Unless you want to do a full Solaris installation but happen to have
+> access to a bios file, the easiest way to test that the patch works is to:
+> 
+> qemu-system-sparc -k sv -bios /path/to/ss5.bin
+> 
+> If you already happen to have a Solaris installation in a qemu disk image
+> file you can easily try different keyboard layouts after this patch is
+> applied.
+> ---
+>   hw/char/escc.c | 74 +++++++++++++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 73 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/char/escc.c b/hw/char/escc.c
+> index 17a908c59b..53022ccf39 100644
+> --- a/hw/char/escc.c
+> +++ b/hw/char/escc.c
+> @@ -31,6 +31,8 @@
+>   #include "qemu/module.h"
+>   #include "hw/char/escc.h"
+>   #include "ui/console.h"
+> +#include "sysemu/sysemu.h"
+> +#include "qemu/cutils.h"
+>   #include "trace.h"
+>   
+>   /*
+> @@ -190,6 +192,7 @@
+>   #define R_MISC1I 14
+>   #define R_EXTINT 15
+>   
+> +static unsigned char sun_keyboard_layout_dip_switch(void);
+>   static void handle_kbd_command(ESCCChannelState *s, int val);
+>   static int serial_can_receive(void *opaque);
+>   static void serial_receive_byte(ESCCChannelState *s, int ch);
+> @@ -846,6 +849,75 @@ static QemuInputHandler sunkbd_handler = {
+>       .event = sunkbd_handle_event,
+>   };
+>   
+> +static unsigned char sun_keyboard_layout_dip_switch(void)
+> +{
+> +    /* Return the value of the dip-switches in a SUN Type 5 keyboard */
+> +    static unsigned char ret = 0xff;
+> +
+> +    if ((ret == 0xff) && keyboard_layout) {
+> +        int i;
+> +        struct layout_values {
+> +            const char *lang;
+> +            unsigned char dip;
+> +        } languages[] =
+> +    /* Dip values from table 3-16 Layouts for Type 4, 5, and 5c Keyboards */
+> +            {
+> +                {"en-us", 0x21}, /* U.S.A. (US5.kt) */
+> +                                 /* 0x22 is some other US (US_UNIX5.kt)*/
+> +                {"fr",    0x23}, /* France (France5.kt) */
+> +                {"da",    0x24}, /* Denmark (Denmark5.kt) */
+> +                {"de",    0x25}, /* Germany (Germany5.kt) */
+> +                {"it",    0x26}, /* Italy (Italy5.kt) */
+> +                {"nl",    0x27}, /* The Netherlands (Netherland5.kt) */
+> +                {"no",    0x28}, /* Norway (Norway.kt) */
+> +                {"pt",    0x29}, /* Portugal (Portugal5.kt) */
+> +                {"es",    0x2a}, /* Spain (Spain5.kt) */
+> +                {"sv",    0x2b}, /* Sweden (Sweden5.kt) */
+> +                {"fr-ch", 0x2c}, /* Switzerland/French (Switzer_Fr5.kt) */
+> +                {"de-ch", 0x2d}, /* Switzerland/German (Switzer_Ge5.kt) */
+> +                {"en-gb", 0x2e}, /* Great Britain (UK5.kt) */
+> +                {"ko",    0x2f}, /* Korea (Korea5.kt) */
+> +                {"tw",    0x30}, /* Taiwan (Taiwan5.kt) */
+> +                {"ja",    0x31}, /* Japan (Japan5.kt) */
+> +                {"fr-ca", 0x32}, /* Canada/French (Canada_Fr5.kt) */
+> +                {"hu",    0x33}, /* Hungary (Hungary5.kt) */
+> +                {"pl",    0x34}, /* Poland (Poland5.kt) */
+> +                {"cz",    0x35}, /* Czech (Czech5.kt) */
+> +                {"ru",    0x36}, /* Russia (Russia5.kt) */
+> +                {"lv",    0x37}, /* Latvia (Latvia5.kt) */
+> +                {"tr",    0x38}, /* Turkey-Q5 (TurkeyQ5.kt) */
+> +                {"gr",    0x39}, /* Greece (Greece5.kt) */
+> +                {"ar",    0x3a}, /* Arabic (Arabic5.kt) */
+> +                {"lt",    0x3b}, /* Lithuania (Lithuania5.kt) */
+> +                {"nl-be", 0x3c}, /* Belgium (Belgian5.kt) */
+> +                {"be",    0x3c}, /* Belgium (Belgian5.kt) */
+> +            };
+> +
+> +        for (i = 0;
+> +             i < sizeof(languages) / sizeof(struct layout_values);
+> +             i++) {
+> +            if (!strcmp(keyboard_layout, languages[i].lang)) {
+> +                ret = languages[i].dip;
+> +                return ret;
+> +            }
+> +        }
+> +        /* Found no known language code */
+> +
+> +        if ((keyboard_layout[0] >= '0') && (keyboard_layout[0] <= '9')) {
+> +            unsigned int tmp;
+> +            /* As a fallback we also accept numeric dip switch value */
+> +            if (!qemu_strtoui(keyboard_layout, NULL, 0, &tmp)) {
+> +                ret = (unsigned char)tmp;
+> +            }
+> +        }
+> +    }
+> +    if (ret == 0xff) {
+> +        /* Final fallback if keyboard_layout was not set or recognized */
+> +        ret = 0x21; /* en-us layout */
+> +    }
+> +    return ret;
+> +}
+> +
+>   static void handle_kbd_command(ESCCChannelState *s, int val)
+>   {
+>       trace_escc_kbd_command(val);
+> @@ -867,7 +939,7 @@ static void handle_kbd_command(ESCCChannelState *s, int val)
+>       case 0xf:
+>           clear_queue(s);
+>           put_queue(s, 0xfe);
+> -        put_queue(s, 0x21); /*  en-us layout */
+> +        put_queue(s, sun_keyboard_layout_dip_switch());
+>           break;
+>       default:
+>           break;
+
+Thanks for the patch. I think what you're effectively doing here is equivalent to 
+creating a qdev property that is used to set the keyboard layout, which is a nicer 
+approach because it enables better control from the command line and also handles the 
+default value.
+
+Does changing the keyboard layout work with other OSs? It may also be that OpenBIOS 
+will be difficult to use if the layout defaults to anything other than en-us since I 
+suspect it will be hardcoded there too.
 
 
-Am 9=2E Januar 2023 19:24:16 UTC schrieb John Snow <jsnow@redhat=2Ecom>:
->On Tue, Sep 6, 2022 at 10:27 AM Bernhard Beschow <shentey@gmail=2Ecom> wr=
-ote:
->>
->> Am 19=2E Februar 2022 08:08:17 UTC schrieb Liav Albani <liavalb@gmail=
-=2Ecom>:
->> >This is a preparation before I send v3 of ich6-ide controller emulatio=
-n patch=2E
->> >I figured that it's more trivial to split the changes this way, by ext=
-racting
->> >the bmdma functions from via=2Ec and piix=2Ec and sharing them togethe=
-r=2E Then,
->> >I could easily put these into use when I send v3 of the ich6-ide patch=
- by just
->> >using the already separated functions=2E This was suggested by BALATON=
- Zoltan when
->> >he submitted a code review on my ich6-ide controller emulation patch=
-=2E
->>
->> Ping=2E Any news?
->
->*cough*=2E
->
->Has this been folded into subsequent series, or does this still need atte=
-ntion?
+ATB,
 
-Both piix and via still have their own bmdma implementations=2E This patch=
- might be worth having=2E
-
-Best regards,
-Bernhard
-
->
->>
->> >Liav Albani (1):
->> >  hw/ide: share bmdma read and write functions between piix=2Ec and vi=
-a=2Ec
->> >
->> > hw/ide/pci=2Ec         | 47 ++++++++++++++++++++++++++++++++++++++++
->> > hw/ide/piix=2Ec        | 50 ++---------------------------------------=
---
->> > hw/ide/via=2Ec         | 51 ++---------------------------------------=
----
->> > include/hw/ide/pci=2Eh |  4 ++++
->> > 4 files changed, 55 insertions(+), 97 deletions(-)
->> >
->>
->
+Mark.
 
