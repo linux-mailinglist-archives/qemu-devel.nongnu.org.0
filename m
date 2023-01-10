@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D356645BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 17:13:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE59664514
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 16:41:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFGJ9-0007w0-Az; Tue, 10 Jan 2023 10:12:59 -0500
+	id 1pFGJl-000895-Ah; Tue, 10 Jan 2023 10:13:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pFGJ7-0007vT-8Z
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 10:12:57 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ id 1pFGJc-00088H-OQ
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 10:13:29 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pFGJ5-0002JC-Kt
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 10:12:56 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id v2so1101441wrw.10
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 07:12:55 -0800 (PST)
+ id 1pFGJW-0002L7-PX
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 10:13:28 -0500
+Received: by mail-wr1-x434.google.com with SMTP id d17so12112657wrs.2
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 07:13:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
  bh=V9Elq3Pte1ictUNgwaSo3zapEQwR4HWZHEsrAR06n1U=;
- b=jMRFb2Zxb6ZEUFQo5qNrMfId0mJk0vgF44CoQq+H9Ad56YsNESQTAUcEstmuaZCls4
- v6pWfcxOWSGTYosqqoVTwKog8tPtoXS6eppxVKy8vpuCWsNX4cuJL29cpLBG17Rz3Tq0
- WGXCJ7DHx8TeefPlizM+cXCwYhpQ/dhifWee1cF/kr6hI4He8hJZv8LYEbUjHezI5moy
- AAT8i6IUZbeUegjMj72MWb/Y/TodKgEehJ0/LviFb5sCYs4d4dJ44QYTaL3k61V6tHbp
- cleVS2mXQmAzGF05F9R/YGYZKwAgrdgS/39idmNdjY4pP7q72lQ9zcH7dDIWZK7/7UfT
- fK6g==
+ b=IQ1GX5+f9xkkLBAxHRGPpbwQUrYH6iks/Ra9dTui36bHo5X72qywLPE1dphRzoh/DU
+ qW2edwZjoqoBRJmJfVfDy+22GzJknKocQML96hYquFenn1hr5K6jhZBuapr7tqA1EHwu
+ dwx+rdtYRenQwgEoAVWmxyDnd+UOKHKciCjH/xIFlOvLc3KBcvhFOR5ZgWayEQqw1MCX
+ ZfZRldBQr5R+gDZljBl61zmSlk4YWDbb6dUhWRZA941DhuIQFjn9U5JT1IzAE+EVrDQA
+ l7hZwntWbdBh1UWZje7k9fq8UgBUGaeq5Q+EPfzX0KiaY8aqw3WUXkfyona2sm8PHTl+
+ TnPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
  bh=V9Elq3Pte1ictUNgwaSo3zapEQwR4HWZHEsrAR06n1U=;
- b=LM0tesuFenSuzA4M6GzeqzfqnFaafA1kODbG0QymbJ2vQC+mLbTPg0rebDtl44ZbgW
- WoH647C1NvmCIGBADFQYmNqPv7+rxeL53WPQtme3HDNr7DUE41loGTt59pMS3y6GGagu
- 2gEhJZKZ0E/0O5FEvJtj+1BLieUfNy8omG0No4oQA2/mX0MoDYidRDtqbBJUJJjQGwvz
- wUSFIauTgWZ+IJggParyKxr3zB2t14sfT5q74VO88dMoePNWnh6e+BKJcaSRcp01EuEP
- 8p6ArcN8BAqy42Hbhblpt/8VtceXrsQeRrgdqvayqznbc6kybe17uTWkJ+rc1RzpRQGp
- boOg==
-X-Gm-Message-State: AFqh2krQQrAQbo0i21X9GbBjiklg8JKBQllGwZKmlY4fpL8mIKe1K136
- HbQxc9PcUD++M3TUhaequmrf9jqYaJke1Pss
-X-Google-Smtp-Source: AMrXdXtEAJkk7Fxcrg5mYz6vOqiC7fazvrbYDY2bsrX3C+6R67HUNL/k4G4sLhAqS0XKTIcjrstKeQ==
-X-Received: by 2002:a5d:6f0f:0:b0:298:7fc:60ac with SMTP id
- ay15-20020a5d6f0f000000b0029807fc60acmr23841921wrb.59.1673363573073; 
- Tue, 10 Jan 2023 07:12:53 -0800 (PST)
+ b=NNRYaEYxSFnju0MneC9Z4yq4LKQOMeSSbwYEqCC4U2Ogj+vMyPa/5DXsKeNT1B7lCg
+ 4DtejttXfhdtWa7xy5LWN+GkqegPAyIChpMbaF1vz6T54Bw9wxHxMQ60z1PgJka7uACj
+ d3Cq0xqaOVrKpxzmKrh3KlOUIrXYBFIGlGVC0C3B5LBMP5netT3hvb420kwoZFQ+PmKk
+ 1SC4manvlOc6VIeNQkeAbNLaSjr+DIB7cCYWrmSrQcoGgpzNATsVvEeheK4W9Pvgm4/l
+ L4xxmFSLJkpumCymFL0UnwD82T9z7u+HF3iECnmj/pwLNWScdn0JqhUtGZ9hxTxVTs4D
+ WpHA==
+X-Gm-Message-State: AFqh2kq8LISSUn8TIeYQaI6zLdWasY1JY21i25T8GYlmDohzBXdD1X+5
+ 07cJkxlJXIc+VaBDGO3uhGfz37FsDiv3W2qk
+X-Google-Smtp-Source: AMrXdXugbpyQ0fCVZUDWNwkLE4qQzKAivfYIL4PO/QNg5wfS5Wj+qr08SxBe9B415UY7vRAEh+uXEQ==
+X-Received: by 2002:adf:d084:0:b0:278:29ac:f894 with SMTP id
+ y4-20020adfd084000000b0027829acf894mr34039491wrh.64.1673363600537; 
+ Tue, 10 Jan 2023 07:13:20 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- m7-20020adffe47000000b002b880b6ef19sm11359975wrs.66.2023.01.10.07.12.52
+ l13-20020adfe58d000000b00296730b5c3esm11506277wrm.102.2023.01.10.07.13.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 07:12:52 -0800 (PST)
+ Tue, 10 Jan 2023 07:13:20 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Subject: [PATCH] Makefile: allow 'make uninstall'
-Date: Tue, 10 Jan 2023 15:12:50 +0000
-Message-Id: <20230110151250.24434-1-peter.maydell@linaro.org>
+Date: Tue, 10 Jan 2023 15:13:18 +0000
+Message-Id: <20230110151318.24462-1-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
