@@ -2,71 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8445663E27
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 11:26:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50740663E5F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 11:37:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFBKa-0002QT-7n; Tue, 10 Jan 2023 04:54:08 -0500
+	id 1pFBKc-0002Tz-0C; Tue, 10 Jan 2023 04:54:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFBKX-0002P1-9i
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:54:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1pFBKY-0002Pc-Ld
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:54:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFBKU-0002g1-QU
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:54:05 -0500
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1pFBKV-0002ho-CG
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:54:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1673344442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aZcto+BlJNE7AdsRcZRlBGzQMnV1L0AbV58fUnjwiDs=;
- b=futpo80O6W6W/WFDcnRi3moMRcKOTjtKboRakBG8QgdeF0x/5jk85tw+By7AcsitCV/2ci
- GF7KSFoQd5neWriXgRaEMsbXam2TwqSZhe45SIMyC4C2ChnMsv5CYgZ3PzqhmEScldm+Hv
- BzZ0OpMYD0Zt84ijq+2MBdiNevQwIRE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-OK3LE8hBPNWLxDvVUcrVYQ-1; Tue, 10 Jan 2023 04:53:59 -0500
-X-MC-Unique: OK3LE8hBPNWLxDvVUcrVYQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 824B93806626;
- Tue, 10 Jan 2023 09:53:58 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2EC004085720;
- Tue, 10 Jan 2023 09:53:56 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Michael S Tsirkin <mst@redhat.com>,
- qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- BALATON Zoltan <balaton@eik.bme.hu>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH v6 1/4] hw/intc: Extract the IRQ counting functions into a
- separate file
-Date: Tue, 10 Jan 2023 10:53:48 +0100
-Message-Id: <20230110095351.611724-2-thuth@redhat.com>
-In-Reply-To: <20230110095351.611724-1-thuth@redhat.com>
-References: <20230110095351.611724-1-thuth@redhat.com>
+ bh=Uc0t1hrg1WABt7f+Z+uhA7C95FB2Ch6o82+udo/lSMY=;
+ b=OkdyPE6NPgAPHMQUOyiKEohaSd1eh+sHK2ezStNvS2KaB2uQUqHMIOAsZtbmU3FO1BlWBf
+ 37zg8Mm12bxmQR5o3Dj4PGRT7NbiP47RDhPTC8DMyaWPpEl/3TJCgEfFFRyzwQDqRc4mKX
+ wC2pISxUCJcshz+84Aix7kb0IgWAukM=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-383-5bARiPzpPYuEXqpfs-vBKA-1; Tue, 10 Jan 2023 04:54:01 -0500
+X-MC-Unique: 5bARiPzpPYuEXqpfs-vBKA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ hs18-20020a1709073e9200b007c0f9ac75f9so7307827ejc.9
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 01:54:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Uc0t1hrg1WABt7f+Z+uhA7C95FB2Ch6o82+udo/lSMY=;
+ b=S/p3KEXFD3HalGtxWtVTp7nSiMOoxYvLUOEO+rxioElvjosf4a0z62KZwKgede2oK/
+ py6UPCGAmx7WPj9JCnwp/4c5CUmZDI+lMJshxUxC6jQ4/w+QEveE9urktsf6Jeji+Oeo
+ GIiDODwOuPb/Fj1uoHYfItep7QwKiN4sxtM+KNPYzau8bFZQJC8JLCSPJwEQg+2WMMGW
+ L6kAey/N8Sjh0WuHYLsvQxKOM2+ff06jQLF1R46d5Hi+N+TbD10PQurE6du+AdeuG36T
+ syR18wynlVe6rZXx1CGTxbW3V93uWErPGn4cr4Cx4Ivx6dBJB7Q36f40tARTn+d0gh8s
+ +8UA==
+X-Gm-Message-State: AFqh2koWb8Sl+4jYAjxHwIPGnfsbcCHs5DbRjNJu7MHBOIKyO6zasOKv
+ +EWAvflo/bCLIgesuUGqZUbbFSWXysur4lAxbCN8bo/sWjWMqjzmaeI0fGjv8uacJUQlX3QNZtN
+ ZdRDiQLHTBcAuSVnEPEXKUMLRmd5R4uk=
+X-Received: by 2002:a17:906:1116:b0:859:8a72:77a with SMTP id
+ h22-20020a170906111600b008598a72077amr61269eja.482.1673344440065; 
+ Tue, 10 Jan 2023 01:54:00 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsrpD6jN3OVHGNMGeRYo6jJTU7sCkCKsj98w/kUgOSSWIyx3dnS9qU3CG8QPpl4DgjXAnXZvsISF2JK6Qxecp0=
+X-Received: by 2002:a17:906:1116:b0:859:8a72:77a with SMTP id
+ h22-20020a170906111600b008598a72077amr61255eja.482.1673344439810; Tue, 10 Jan
+ 2023 01:53:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+References: <20230110080246.536056-1-marcandre.lureau@redhat.com>
+ <20230110080246.536056-2-marcandre.lureau@redhat.com>
+ <b3f236ad-6e18-c735-a4ba-6f35cf9f3cdf@redhat.com>
+In-Reply-To: <b3f236ad-6e18-c735-a4ba-6f35cf9f3cdf@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 10 Jan 2023 13:53:48 +0400
+Message-ID: <CAMxuvawVQuichuy7H3S67rE3qmVLukU_k-F52KGwLkKomBwkSA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/8] build-sys: fix crlf-ending C code
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, 
+ Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>, 
+ Markus Armbruster <armbru@redhat.com>, qemu-s390x@nongnu.org, 
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ Ed Maste <emaste@freebsd.org>, kraxel@redhat.com, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Michael Roth <michael.roth@amd.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ John Snow <jsnow@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000ec0ef105f1e5dce7"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,331 +108,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These IRQ counting functions will soon be required in binaries that
-do not include the APIC code, too, so let's extract them into a
-separate file that can be linked independently of the APIC code.
+--000000000000ec0ef105f1e5dce7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-While we're at it, change the apic_* prefix into kvm_* since the
-functions are used from the i8259 PIC (i.e. not the APIC), too.
+Hi
 
-Reviewed-by: Bernhard Beschow <shentey@gmail.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- include/hw/i386/apic.h          |  2 --
- include/hw/i386/apic_internal.h |  1 -
- include/hw/intc/kvm_irqcount.h  | 10 +++++++
- hw/i386/kvm/i8259.c             |  4 +--
- hw/i386/kvm/ioapic.c            |  4 +--
- hw/intc/apic.c                  |  3 +-
- hw/intc/apic_common.c           | 30 ++------------------
- hw/intc/kvm_irqcount.c          | 49 +++++++++++++++++++++++++++++++++
- hw/rtc/mc146818rtc.c            |  6 ++--
- hw/intc/meson.build             |  6 ++++
- hw/intc/trace-events            |  9 +++---
- 11 files changed, 81 insertions(+), 43 deletions(-)
- create mode 100644 include/hw/intc/kvm_irqcount.h
- create mode 100644 hw/intc/kvm_irqcount.c
+On Tue, Jan 10, 2023 at 12:33 PM Thomas Huth <thuth@redhat.com> wrote:
 
-diff --git a/include/hw/i386/apic.h b/include/hw/i386/apic.h
-index da1d2fe155..bdc15a7a73 100644
---- a/include/hw/i386/apic.h
-+++ b/include/hw/i386/apic.h
-@@ -9,8 +9,6 @@ int apic_accept_pic_intr(DeviceState *s);
- void apic_deliver_pic_intr(DeviceState *s, int level);
- void apic_deliver_nmi(DeviceState *d);
- int apic_get_interrupt(DeviceState *s);
--void apic_reset_irq_delivered(void);
--int apic_get_irq_delivered(void);
- void cpu_set_apic_base(DeviceState *s, uint64_t val);
- uint64_t cpu_get_apic_base(DeviceState *s);
- void cpu_set_apic_tpr(DeviceState *s, uint8_t val);
-diff --git a/include/hw/i386/apic_internal.h b/include/hw/i386/apic_internal.h
-index 968b6648b3..5f2ba24bfc 100644
---- a/include/hw/i386/apic_internal.h
-+++ b/include/hw/i386/apic_internal.h
-@@ -199,7 +199,6 @@ typedef struct VAPICState {
- 
- extern bool apic_report_tpr_access;
- 
--void apic_report_irq_delivered(int delivered);
- bool apic_next_timer(APICCommonState *s, int64_t current_time);
- void apic_enable_tpr_access_reporting(DeviceState *d, bool enable);
- void apic_enable_vapic(DeviceState *d, hwaddr paddr);
-diff --git a/include/hw/intc/kvm_irqcount.h b/include/hw/intc/kvm_irqcount.h
-new file mode 100644
-index 0000000000..0ed5999e49
---- /dev/null
-+++ b/include/hw/intc/kvm_irqcount.h
-@@ -0,0 +1,10 @@
-+/* SPDX-License-Identifier: LGPL-2.1-or-later */
-+
-+#ifndef KVM_IRQCOUNT_H
-+#define KVM_IRQCOUNT_H
-+
-+void kvm_report_irq_delivered(int delivered);
-+void kvm_reset_irq_delivered(void);
-+int kvm_get_irq_delivered(void);
-+
-+#endif
-diff --git a/hw/i386/kvm/i8259.c b/hw/i386/kvm/i8259.c
-index d61bae4dc3..3ca0e1ff03 100644
---- a/hw/i386/kvm/i8259.c
-+++ b/hw/i386/kvm/i8259.c
-@@ -14,7 +14,7 @@
- #include "hw/isa/i8259_internal.h"
- #include "hw/intc/i8259.h"
- #include "qemu/module.h"
--#include "hw/i386/apic_internal.h"
-+#include "hw/intc/kvm_irqcount.h"
- #include "hw/irq.h"
- #include "sysemu/kvm.h"
- #include "qom/object.h"
-@@ -117,7 +117,7 @@ static void kvm_pic_set_irq(void *opaque, int irq, int level)
- 
-     pic_stat_update_irq(irq, level);
-     delivered = kvm_set_irq(kvm_state, irq, level);
--    apic_report_irq_delivered(delivered);
-+    kvm_report_irq_delivered(delivered);
- }
- 
- static void kvm_pic_realize(DeviceState *dev, Error **errp)
-diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
-index ee7c8ef68b..272e26b4a2 100644
---- a/hw/i386/kvm/ioapic.c
-+++ b/hw/i386/kvm/ioapic.c
-@@ -15,7 +15,7 @@
- #include "hw/i386/x86.h"
- #include "hw/qdev-properties.h"
- #include "hw/i386/ioapic_internal.h"
--#include "hw/i386/apic_internal.h"
-+#include "hw/intc/kvm_irqcount.h"
- #include "sysemu/kvm.h"
- 
- /* PC Utility function */
-@@ -116,7 +116,7 @@ static void kvm_ioapic_set_irq(void *opaque, int irq, int level)
- 
-     ioapic_stat_update_irq(common, irq, level);
-     delivered = kvm_set_irq(kvm_state, s->kvm_gsi_base + irq, level);
--    apic_report_irq_delivered(delivered);
-+    kvm_report_irq_delivered(delivered);
- }
- 
- static void kvm_ioapic_realize(DeviceState *dev, Error **errp)
-diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-index 3df11c34d6..2d3e55f4e2 100644
---- a/hw/intc/apic.c
-+++ b/hw/intc/apic.c
-@@ -22,6 +22,7 @@
- #include "hw/i386/apic.h"
- #include "hw/i386/ioapic.h"
- #include "hw/intc/i8259.h"
-+#include "hw/intc/kvm_irqcount.h"
- #include "hw/pci/msi.h"
- #include "qemu/host-utils.h"
- #include "sysemu/kvm.h"
-@@ -399,7 +400,7 @@ void apic_poll_irq(DeviceState *dev)
- 
- static void apic_set_irq(APICCommonState *s, int vector_num, int trigger_mode)
- {
--    apic_report_irq_delivered(!apic_get_bit(s->irr, vector_num));
-+    kvm_report_irq_delivered(!apic_get_bit(s->irr, vector_num));
- 
-     apic_set_bit(s->irr, vector_num);
-     if (trigger_mode)
-diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
-index 2a20982066..4a34f03047 100644
---- a/hw/intc/apic_common.c
-+++ b/hw/intc/apic_common.c
-@@ -25,6 +25,7 @@
- #include "qapi/visitor.h"
- #include "hw/i386/apic.h"
- #include "hw/i386/apic_internal.h"
-+#include "hw/intc/kvm_irqcount.h"
- #include "trace.h"
- #include "hw/boards.h"
- #include "sysemu/hax.h"
-@@ -33,7 +34,6 @@
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
- 
--static int apic_irq_delivered;
- bool apic_report_tpr_access;
- 
- void cpu_set_apic_base(DeviceState *dev, uint64_t val)
-@@ -122,32 +122,6 @@ void apic_handle_tpr_access_report(DeviceState *dev, target_ulong ip,
-     vapic_report_tpr_access(s->vapic, CPU(s->cpu), ip, access);
- }
- 
--void apic_report_irq_delivered(int delivered)
--{
--    apic_irq_delivered += delivered;
--
--    trace_apic_report_irq_delivered(apic_irq_delivered);
--}
--
--void apic_reset_irq_delivered(void)
--{
--    /* Copy this into a local variable to encourage gcc to emit a plain
--     * register for a sys/sdt.h marker.  For details on this workaround, see:
--     * https://sourceware.org/bugzilla/show_bug.cgi?id=13296
--     */
--    volatile int a_i_d = apic_irq_delivered;
--    trace_apic_reset_irq_delivered(a_i_d);
--
--    apic_irq_delivered = 0;
--}
--
--int apic_get_irq_delivered(void)
--{
--    trace_apic_get_irq_delivered(apic_irq_delivered);
--
--    return apic_irq_delivered;
--}
--
- void apic_deliver_nmi(DeviceState *dev)
- {
-     APICCommonState *s = APIC_COMMON(dev);
-@@ -272,7 +246,7 @@ static void apic_reset_common(DeviceState *dev)
-     s->apicbase = APIC_DEFAULT_ADDRESS | bsp | MSR_IA32_APICBASE_ENABLE;
-     s->id = s->initial_apic_id;
- 
--    apic_reset_irq_delivered();
-+    kvm_reset_irq_delivered();
- 
-     s->vapic_paddr = 0;
-     info->vapic_base_update(s);
-diff --git a/hw/intc/kvm_irqcount.c b/hw/intc/kvm_irqcount.c
-new file mode 100644
-index 0000000000..2ef8a83a7a
---- /dev/null
-+++ b/hw/intc/kvm_irqcount.c
-@@ -0,0 +1,49 @@
-+/*
-+ * KVM PIC functions for counting the delivered IRQs.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/intc/kvm_irqcount.h"
-+#include "trace.h"
-+
-+static int kvm_irq_delivered;
-+
-+void kvm_report_irq_delivered(int delivered)
-+{
-+    kvm_irq_delivered += delivered;
-+
-+    trace_kvm_report_irq_delivered(kvm_irq_delivered);
-+}
-+
-+void kvm_reset_irq_delivered(void)
-+{
-+    /*
-+     * Copy this into a local variable to encourage gcc to emit a plain
-+     * register for a sys/sdt.h marker.  For details on this workaround, see:
-+     * https://sourceware.org/bugzilla/show_bug.cgi?id=13296
-+     */
-+    volatile int k_i_d = kvm_irq_delivered;
-+    trace_kvm_reset_irq_delivered(k_i_d);
-+
-+    kvm_irq_delivered = 0;
-+}
-+
-+int kvm_get_irq_delivered(void)
-+{
-+    trace_kvm_get_irq_delivered(kvm_irq_delivered);
-+
-+    return kvm_irq_delivered;
-+}
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index 1ebb412479..947d68c257 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -27,6 +27,7 @@
- #include "qemu/module.h"
- #include "qemu/bcd.h"
- #include "hw/acpi/acpi_aml_interface.h"
-+#include "hw/intc/kvm_irqcount.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
-@@ -46,7 +47,6 @@
- 
- #ifdef TARGET_I386
- #include "qapi/qapi-commands-misc-target.h"
--#include "hw/i386/apic.h"
- #endif
- 
- //#define DEBUG_CMOS
-@@ -124,9 +124,9 @@ void qmp_rtc_reset_reinjection(Error **errp)
- 
- static bool rtc_policy_slew_deliver_irq(RTCState *s)
- {
--    apic_reset_irq_delivered();
-+    kvm_reset_irq_delivered();
-     qemu_irq_raise(s->irq);
--    return apic_get_irq_delivered();
-+    return kvm_get_irq_delivered();
- }
- 
- static void rtc_coalesced_timer(void *opaque)
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index bcbf22ff51..cd9f1ee888 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -25,6 +25,12 @@ softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_intc.c'))
- softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP', if_true: files('xlnx-zynqmp-ipi.c'))
- softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_PMU', if_true: files('xlnx-pmu-iomod-intc.c'))
- 
-+if config_all_devices.has_key('CONFIG_APIC') or \
-+   config_all_devices.has_key('CONFIG_I8259') or \
-+   config_all_devices.has_key('CONFIG_MC146818RTC')
-+    softmmu_ss.add(files('kvm_irqcount.c'))
-+endif
-+
- specific_ss.add(when: 'CONFIG_ALLWINNER_A10_PIC', if_true: files('allwinner-a10-pic.c'))
- specific_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c', 'apic_common.c'))
- specific_ss.add(when: 'CONFIG_ARM_GIC', if_true: files('arm_gicv3_cpuif_common.c'))
-diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-index 6fbc2045e6..50cadfb996 100644
---- a/hw/intc/trace-events
-+++ b/hw/intc/trace-events
-@@ -10,10 +10,6 @@ pic_ioport_read(bool master, uint64_t addr, int val) "master %d addr 0x%"PRIx64"
- # apic_common.c
- cpu_set_apic_base(uint64_t val) "0x%016"PRIx64
- cpu_get_apic_base(uint64_t val) "0x%016"PRIx64
--# coalescing
--apic_report_irq_delivered(int apic_irq_delivered) "coalescing %d"
--apic_reset_irq_delivered(int apic_irq_delivered) "old coalescing %d"
--apic_get_irq_delivered(int apic_irq_delivered) "returning coalescing %d"
- 
- # apic.c
- apic_local_deliver(int vector, uint32_t lvt) "vector %d delivery mode %d"
-@@ -30,6 +26,11 @@ ioapic_mem_read(uint8_t addr, uint8_t regsel, uint8_t size, uint32_t val) "ioapi
- ioapic_mem_write(uint8_t addr, uint8_t regsel, uint8_t size, uint32_t val) "ioapic mem write addr 0x%"PRIx8" regsel: 0x%"PRIx8" size 0x%"PRIx8" val 0x%"PRIx32
- ioapic_set_irq(int vector, int level) "vector: %d level: %d"
- 
-+# kvm_irqcount.c
-+kvm_report_irq_delivered(int irq_delivered) "coalescing %d"
-+kvm_reset_irq_delivered(int irq_delivered) "old coalescing %d"
-+kvm_get_irq_delivered(int irq_delivered) "returning coalescing %d"
-+
- # slavio_intctl.c
- slavio_intctl_mem_readl(uint32_t cpu, uint64_t addr, uint32_t ret) "read cpu %d reg 0x%"PRIx64" = 0x%x"
- slavio_intctl_mem_writel(uint32_t cpu, uint64_t addr, uint32_t val) "write cpu %d reg 0x%"PRIx64" = 0x%x"
--- 
-2.31.1
+> On 10/01/2023 09.02, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > On msys2, the shader-to-C script produces bad C:
+> > ./ui/shader/texture-blit-vert.h:2:5: error: missing terminating "
+> character [-Werror]
+> >
+> > Fix it by changing the line ending from crlf to lf, and convert the
+> > script to Python (qemu build seems perl-free after that).
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > Acked-by: Thomas Huth <thuth@redhat.com>
+> > ---
+> >   meson.build              |  2 +-
+> >   scripts/shaderinclude.pl | 16 ----------------
+> >   scripts/shaderinclude.py | 26 ++++++++++++++++++++++++++
+> >   3 files changed, 27 insertions(+), 17 deletions(-)
+> >   delete mode 100644 scripts/shaderinclude.pl
+> >   create mode 100755 scripts/shaderinclude.py
+>
+> This seems to break our "make vm-build-freebsd" test... I'm now getting:
+>
+> [281/1485] Generating ui/shader/texture-blit-frag.h with a custom command
+> (wrapped by meson to capture output)
+> FAILED: ui/shader/texture-blit-frag.h
+> /usr/local/bin/python3.7
+> /usr/home/qemu/qemu-test.SnknY0/src/meson/meson.py
+> --internal exe --capture ui/shader/texture-blit-frag.h --
+> /usr/home/qemu/qemu-test.SnknY0/src/scripts/shaderinclude.py
+> ../src/ui/shader/texture-blit.frag
+> --- stderr ---
+> env: python3: No such file or directory
+>
+> Looks like you've got to do "chmod a-x scripts/shaderinclude.py" to get
+> this
+> fixed, after removing the executable bits, I'm getting:
+>
+> [281/1485] Generating ui/shader/texture-blit-frag.h with a custom command
+> (wrapped by meson to capture output)
+>
+> and the compilation process continues happily.
+>
+
+thanks for the tip, indeed since 0.51 "find_program: use Meson's Python3
+for non-executable Python scripts":
+https://github.com/mesonbuild/meson/commit/0078d808a2a2b01c634483ca4a986f52=
+ffe1ce3c
+
+It's a bit annoying to have a mix of executable and non-executable
+scripts/*.py, but python.., oh well.. I suppose the ones used during build
+are -x, the one used manually are +x.
+
+--000000000000ec0ef105f1e5dce7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 10, 2023 at 12:33 PM Th=
+omas Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 10/01/=
+2023 09.02, <a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank=
+">marcandre.lureau@redhat.com</a> wrote:<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; On msys2, the shader-to-C script produces bad C:<br>
+&gt; ./ui/shader/texture-blit-vert.h:2:5: error: missing terminating &quot;=
+ character [-Werror]<br>
+&gt; <br>
+&gt; Fix it by changing the line ending from crlf to lf, and convert the<br=
+>
+&gt; script to Python (qemu build seems perl-free after that).<br>
+&gt; <br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt; Acked-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=
+=3D"_blank">thuth@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 2 +-<br>
+&gt;=C2=A0 =C2=A0scripts/<a href=3D"http://shaderinclude.pl" rel=3D"norefer=
+rer" target=3D"_blank">shaderinclude.pl</a> | 16 ----------------<br>
+&gt;=C2=A0 =C2=A0scripts/shaderinclude.py | 26 ++++++++++++++++++++++++++<b=
+r>
+&gt;=C2=A0 =C2=A03 files changed, 27 insertions(+), 17 deletions(-)<br>
+&gt;=C2=A0 =C2=A0delete mode 100644 scripts/<a href=3D"http://shaderinclude=
+.pl" rel=3D"noreferrer" target=3D"_blank">shaderinclude.pl</a><br>
+&gt;=C2=A0 =C2=A0create mode 100755 scripts/shaderinclude.py<br>
+<br>
+This seems to break our &quot;make vm-build-freebsd&quot; test... I&#39;m n=
+ow getting:<br>
+<br>
+[281/1485] Generating ui/shader/texture-blit-frag.h with a custom command <=
+br>
+(wrapped by meson to capture output)<br>
+FAILED: ui/shader/texture-blit-frag.h<br>
+/usr/local/bin/python3.7 /usr/home/qemu/qemu-test.SnknY0/src/meson/meson.py=
+ <br>
+--internal exe --capture ui/shader/texture-blit-frag.h -- <br>
+/usr/home/qemu/qemu-test.SnknY0/src/scripts/shaderinclude.py <br>
+../src/ui/shader/texture-blit.frag<br>
+--- stderr ---<br>
+env: python3: No such file or directory<br>
+<br>
+Looks like you&#39;ve got to do &quot;chmod a-x scripts/shaderinclude.py&qu=
+ot; to get this <br>
+fixed, after removing the executable bits, I&#39;m getting:<br>
+<br>
+[281/1485] Generating ui/shader/texture-blit-frag.h with a custom command <=
+br>
+(wrapped by meson to capture output)<br>
+<br>
+and the compilation process continues happily.<br></blockquote><div><br></d=
+iv><div>thanks for the tip, indeed since 0.51 &quot;find_program: use Meson=
+&#39;s Python3 for non-executable Python scripts&quot;:</div><div><a href=
+=3D"https://github.com/mesonbuild/meson/commit/0078d808a2a2b01c634483ca4a98=
+6f52ffe1ce3c">https://github.com/mesonbuild/meson/commit/0078d808a2a2b01c63=
+4483ca4a986f52ffe1ce3c</a></div><div><br> </div><div>It&#39;s a bit annoyin=
+g to have a mix of executable and non-executable scripts/*.py, but python..=
+, oh well.. I suppose the ones used during build are -x, the one used manua=
+lly are <a class=3D"gmail_plusreply" id=3D"plusReplyChip-1">+x.</a><br></di=
+v></div></div>
+
+--000000000000ec0ef105f1e5dce7--
 
 
