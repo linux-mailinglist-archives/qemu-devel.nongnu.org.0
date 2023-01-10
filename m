@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A3266434D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 15:32:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D86664382
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 15:44:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFDf8-00018S-5P; Tue, 10 Jan 2023 07:23:30 -0500
+	id 1pFDeK-0008Lu-Fm; Tue, 10 Jan 2023 07:22:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFDcu-00078T-7t
+ id 1pFDcn-00077f-MD
  for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:13 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFDcj-0000Pf-TW
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:07 -0500
+ id 1pFDcj-0000PV-Ta
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
- To:From:Reply-To:Content-ID:Content-Description;
- bh=Lmdr4n8l7dvB/jjVMD9HZib/tr0a9ZPhpeWPKScEJFc=; b=K6q0dz4rSUmS/A4B38lzYCFAdq
- rj1OUSVYpw5Ykv+9swmW8qidt0zXlEyZ4qE4LkhpqZ2fkF5ko+W0D++jZ2HmmhUcqV+phYhCjRo81
- 7qkDCxF0AUOSrqkLelIpjYEFV1W2UEGpZp1KZwFbcbLPc7GQ6CDe0uoHnfBiB5rl2trBiYvwRTAIG
- ikvdr5czn+LEmDGcGHPpIfHo8JOu6WP44GjdHZXssqnUdsmxq6UZ7roieb5tlzehWQL33vJfgcX2D
- WTE84L6RrFLFNabwvdjOhU7c2FY9GqVJ38JjW+/9lUtWUL+gpcColSEOXX9eEpD9hsopYXfGJ3q+j
- mrYxgCRg==;
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=wMqu5dV9sC2nmU2DnKJjcgBjYJyzsBcKG3sb6NI7n9A=; b=t3krKyV2apKQaWhVnsjjRvjTGT
+ yntEP7n0/iE7uOJEe3/L94UT3vvsdiMVNal1t/s6+6/kghNQYOkNI/9L4eOospowQBFARv1a34YiG
+ dWuDFfD+DP66H2/X0PvWJeY1gOkmTHteJyoH91eh9VOcCJ2Ac2kCiL7Q1itMS1y9RntPvVoVDF5O1
+ Z5eBMNwzBdb1MuIMc71dVicbIqP9R9Mq7DXW20zCi5bFKWtXOFur2DZDNj3TYQ4wXxu5Hmv+TPYKu
+ gdrhVEsuhI7N6j0jED34U2A6VeQyLg7KHcCy6TA9vnMol48T10EQhrzSe55p9DEXRM4XbOLczURw9
+ MiqH2WDA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pFDcg-003C5w-MW; Tue, 10 Jan 2023 12:21:00 +0000
+ id 1pFDcg-003C5s-Lx; Tue, 10 Jan 2023 12:20:59 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pFDcS-006YeI-Mt; Tue, 10 Jan 2023 12:20:44 +0000
+ Hat Linux)) id 1pFDcS-006YeO-Oq; Tue, 10 Jan 2023 12:20:44 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,14 +46,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [PATCH v6 16/51] i386/xen: implement HYPERVISOR_memory_op
-Date: Tue, 10 Jan 2023 12:20:07 +0000
-Message-Id: <20230110122042.1562155-17-dwmw2@infradead.org>
+Subject: [PATCH v6 18/51] i386/xen: implement HYPERVISOR_hvm_op
+Date: Tue, 10 Jan 2023 12:20:09 +0000
+Message-Id: <20230110122042.1562155-19-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230110122042.1562155-1-dwmw2@infradead.org>
 References: <20230110122042.1562155-1-dwmw2@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
  casper.infradead.org. See http://www.infradead.org/rpr.html
@@ -84,209 +83,56 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-Specifically XENMEM_add_to_physmap with space XENMAPSPACE_shared_info to
-allow the guest to set its shared_info page.
+This is when guest queries for support for HVMOP_pagetable_dying.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-[dwmw2: Use the xen_overlay device, add compat support]
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- target/i386/kvm/trace-events |   1 +
- target/i386/kvm/xen-compat.h |  27 +++++++++
- target/i386/kvm/xen-emu.c    | 114 ++++++++++++++++++++++++++++++++++-
- 3 files changed, 141 insertions(+), 1 deletion(-)
- create mode 100644 target/i386/kvm/xen-compat.h
+ target/i386/kvm/xen-emu.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/target/i386/kvm/trace-events b/target/i386/kvm/trace-events
-index cd6f842b1f..0a47c26e80 100644
---- a/target/i386/kvm/trace-events
-+++ b/target/i386/kvm/trace-events
-@@ -8,3 +8,4 @@ kvm_x86_update_msi_routes(int num) "Updated %d MSI routes"
- 
- # xen-emu.c
- kvm_xen_hypercall(int cpu, uint8_t cpl, uint64_t input, uint64_t a0, uint64_t a1, uint64_t a2, uint64_t ret) "xen_hypercall: cpu %d cpl %d input %" PRIu64 " a0 0x%" PRIx64 " a1 0x%" PRIx64 " a2 0x%" PRIx64" ret 0x%" PRIx64
-+kvm_xen_set_shared_info(uint64_t gfn) "shared info at gfn 0x%" PRIx64
-diff --git a/target/i386/kvm/xen-compat.h b/target/i386/kvm/xen-compat.h
-new file mode 100644
-index 0000000000..0b7088662a
---- /dev/null
-+++ b/target/i386/kvm/xen-compat.h
-@@ -0,0 +1,27 @@
-+/*
-+ * Xen HVM emulation support in KVM
-+ *
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef QEMU_I386_KVM_XEN_COMPAT_H
-+#define QEMU_I386_KVM_XEN_COMPAT_H
-+
-+#include "standard-headers/xen/memory.h"
-+
-+typedef uint32_t compat_pfn_t;
-+typedef uint32_t compat_ulong_t;
-+
-+struct compat_xen_add_to_physmap {
-+    domid_t domid;
-+    uint16_t size;
-+    unsigned int space;
-+    compat_ulong_t idx;
-+    compat_pfn_t gpfn;
-+};
-+
-+#endif /* QEMU_I386_XEN_COMPAT_H */
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 80f09f33df..1f2e8275bc 100644
+index 06fd45d7eb..5005bf848f 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -11,6 +11,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "hw/xen/xen.h"
- #include "sysemu/kvm_int.h"
- #include "sysemu/kvm_xen.h"
- #include "kvm/kvm_i386.h"
-@@ -23,6 +24,15 @@
- 
+@@ -25,6 +25,7 @@
  #include "standard-headers/xen/version.h"
  #include "standard-headers/xen/sched.h"
-+#include "standard-headers/xen/memory.h"
-+
-+#include "xen-compat.h"
-+
-+#ifdef TARGET_X86_64
-+#define hypercall_compat32(longmode) (!(longmode))
-+#else
-+#define hypercall_compat32(longmode) (false)
-+#endif
+ #include "standard-headers/xen/memory.h"
++#include "standard-headers/xen/hvm/hvm_op.h"
  
- static int kvm_gva_rw(CPUState *cs, uint64_t gva, void *_buf, size_t sz,
-                       bool is_write)
-@@ -174,9 +184,108 @@ static bool kvm_xen_hcall_xen_version(struct kvm_xen_exit *exit, X86CPU *cpu,
+ #include "xen-compat.h"
+ 
+@@ -346,6 +347,19 @@ static bool kvm_xen_hcall_memory_op(struct kvm_xen_exit *exit, X86CPU *cpu,
      return true;
  }
  
-+static int xen_set_shared_info(uint64_t gfn)
++static bool kvm_xen_hcall_hvm_op(struct kvm_xen_exit *exit, X86CPU *cpu,
++                                 int cmd, uint64_t arg)
 +{
-+    uint64_t gpa = gfn << TARGET_PAGE_BITS;
-+    int err;
-+
-+    /*
-+     * The xen_overlay device tells KVM about it too, since it had to
-+     * do that on migration load anyway (unless we're going to jump
-+     * through lots of hoops to maintain the fiction that this isn't
-+     * KVM-specific.
-+     */
-+    err = xen_overlay_map_shinfo_page(gpa);
-+    if (err) {
-+            return err;
-+    }
-+
-+    trace_kvm_xen_set_shared_info(gfn);
-+
-+    return err;
-+}
-+
-+static int add_to_physmap_one(uint32_t space, uint64_t idx, uint64_t gfn)
-+{
-+    switch (space) {
-+    case XENMAPSPACE_shared_info:
-+        if (idx > 0) {
-+            return -EINVAL;
-+        }
-+        return xen_set_shared_info(gfn);
-+
-+    case XENMAPSPACE_grant_table:
-+    case XENMAPSPACE_gmfn:
-+    case XENMAPSPACE_gmfn_range:
-+        return -ENOTSUP;
-+
-+    case XENMAPSPACE_gmfn_foreign:
-+    case XENMAPSPACE_dev_mmio:
-+        return -EPERM;
-+
-+    default:
-+        return -EINVAL;
-+    }
-+}
-+
-+static int do_add_to_physmap(struct kvm_xen_exit *exit, X86CPU *cpu,
-+                             uint64_t arg)
-+{
-+    struct xen_add_to_physmap xatp;
-+    CPUState *cs = CPU(cpu);
-+
-+    if (hypercall_compat32(exit->u.hcall.longmode)) {
-+        struct compat_xen_add_to_physmap xatp32;
-+
-+        qemu_build_assert(sizeof(struct compat_xen_add_to_physmap) == 16);
-+        if (kvm_copy_from_gva(cs, arg, &xatp32, sizeof(xatp32))) {
-+            return -EFAULT;
-+        }
-+        xatp.domid = xatp32.domid;
-+        xatp.size = xatp32.size;
-+        xatp.space = xatp32.space;
-+        xatp.idx = xatp32.idx;
-+        xatp.gpfn = xatp32.gpfn;
-+    } else {
-+        if (kvm_copy_from_gva(cs, arg, &xatp, sizeof(xatp))) {
-+            return -EFAULT;
-+        }
-+    }
-+
-+    if (xatp.domid != DOMID_SELF && xatp.domid != xen_domid) {
-+        return -ESRCH;
-+    }
-+
-+    return add_to_physmap_one(xatp.space, xatp.idx, xatp.gpfn);
-+}
-+
-+static bool kvm_xen_hcall_memory_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-+                                   int cmd, uint64_t arg)
-+{
-+    int err;
-+
 +    switch (cmd) {
-+    case XENMEM_add_to_physmap:
-+        err = do_add_to_physmap(exit, cpu, arg);
-+        break;
++    case HVMOP_pagetable_dying:
++        exit->u.hcall.result = -ENOSYS;
++        return true;
 +
 +    default:
 +        return false;
 +    }
-+
-+    exit->u.hcall.result = err;
-+    return true;
 +}
 +
  static int kvm_xen_soft_reset(void)
  {
--    /* Nothing to reset... yet. */
-+    int err;
-+
-+    err = xen_overlay_map_shinfo_page(INVALID_GFN);
-+    if (err) {
-+        return err;
-+    }
-+
-     return 0;
- }
- 
-@@ -262,6 +371,9 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+     int err;
+@@ -440,6 +454,9 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
      case __HYPERVISOR_sched_op:
          return kvm_xen_hcall_sched_op(exit, cpu, exit->u.hcall.params[0],
                                        exit->u.hcall.params[1]);
-+    case __HYPERVISOR_memory_op:
-+        return kvm_xen_hcall_memory_op(exit, cpu, exit->u.hcall.params[0],
-+                                       exit->u.hcall.params[1]);
-     case __HYPERVISOR_xen_version:
-         return kvm_xen_hcall_xen_version(exit, cpu, exit->u.hcall.params[0],
-                                          exit->u.hcall.params[1]);
++    case __HYPERVISOR_hvm_op:
++        return kvm_xen_hcall_hvm_op(exit, cpu, exit->u.hcall.params[0],
++                                    exit->u.hcall.params[1]);
+     case __HYPERVISOR_memory_op:
+         return kvm_xen_hcall_memory_op(exit, cpu, exit->u.hcall.params[0],
+                                        exit->u.hcall.params[1]);
 -- 
 2.35.3
 
