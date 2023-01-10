@@ -2,82 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B73663C70
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:12:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C53D663D33
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:46:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFA10-0006dt-BG; Tue, 10 Jan 2023 03:29:50 -0500
+	id 1pFA7x-0000T9-Di; Tue, 10 Jan 2023 03:37:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFA0x-0006cg-Sk
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:29:47 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFA0v-0006IH-Gr
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:29:47 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- ay12-20020a05600c1e0c00b003d9ea12bafcso5778686wmb.3
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 00:29:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QqhX9d7OWrlFhlOYzosdT2uap07wVT4JcGVQZKlWVp8=;
- b=Th+bt4yJ1lcPNJmp7mm2guWyOANYuNWceYvjvU+oRqcRB4ydQ1ifTIcBQBiktd0C6C
- cwcedNwb75CB+7lHWfu2nLFJB9IyBS1sjdh2pE+ItF4XdghndWH08OM1bxukCVW7iiNG
- ttBllF+GcbM5Bi6QyVtkNWCXv/DVs/I0Uo6B1y7KHEVIUAHlSQyp1m+1Vh685t0wQDOT
- 7lwxoO2stSbFWbes7TREhQ80c7+gKNziZz4ktlaUvZ4OkudyZD/ulLiMUVY383iA7qJ4
- a61J93MviWrke6JreQEb4GBpj67WYxVqMtrI4MSe5LhwqEM0aoecQdU71i4ttj8OWuM4
- 3Yfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QqhX9d7OWrlFhlOYzosdT2uap07wVT4JcGVQZKlWVp8=;
- b=4tHJ3XWi4EyMqWR3npsLfFvab8TKizNfGB6+myyZkf69nVyzfLsf4ztqqs7573uDzI
- kxyL+qXVnD1ZV5oWob6msqyaH5g0UH03Diw5KYbZ5XeGF5excI04ZHMsDJ+2M5BXlmkU
- EE7tI9OuRAcEtAJEULdaYLMmS619VrjfmsDEBwLkZPTkIAChHeZ3A9gfDEq0MhgIY2mB
- 1FAZi5U0Cm+tH4/GrTeU7byqQTzz1GSCKMoG2fKFddXwTeSyAqkKZd3unVmiCWnqcSY0
- Nz0VZxy9+XuJCHXlVVyf2ysTmnm05OLH6H9UeO3HEhw/2VZWsIp+Xf4e/pHy9Gi9P0p9
- 1FpQ==
-X-Gm-Message-State: AFqh2kq+omMOqduQsRe/XWL0cgNt4F3zJEshS5nBf+nD9Zph45XIv5sX
- 9lCn3tvknTpu4wJtOhRP/dN1Z7cMScbIcZnw
-X-Google-Smtp-Source: AMrXdXs9v/Pm0P05MA7IdtYdorpIWPPuxFRgLkIaRNr7x5/ccT9YIEVyC85u3FVEVF1P4vAts4sN5w==
-X-Received: by 2002:a05:600c:1c11:b0:3d0:a531:5413 with SMTP id
- j17-20020a05600c1c1100b003d0a5315413mr47868871wms.34.1673339384053; 
- Tue, 10 Jan 2023 00:29:44 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- o21-20020a1c7515000000b003d995a704fdsm13949842wmc.33.2023.01.10.00.29.43
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 10 Jan 2023 00:29:43 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Jan Kiszka <jan.kiszka@web.de>,
- qemu-trivial@nongnu.org, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2 2/5] hw/i2c/bitbang_i2c: Remove unused dummy MemoryRegion
-Date: Tue, 10 Jan 2023 09:29:29 +0100
-Message-Id: <20230110082932.24386-3-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230110082932.24386-1-philmd@linaro.org>
-References: <20230110082932.24386-1-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <pdel@pdel-mbp.localdomain>)
+ id 1pFA7u-0000S1-Nb
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:36:58 -0500
+Received: from c-71-202-42-236.hsd1.ca.comcast.net ([71.202.42.236]
+ helo=pdel-mbp.localdomain) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pdel@pdel-mbp.localdomain>) id 1pFA7t-0000Nx-48
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:36:58 -0500
+Received: by pdel-mbp.localdomain (Postfix, from userid 501)
+ id 82CAAE1AD43; Tue, 10 Jan 2023 00:29:31 -0800 (PST)
+From: Peter Delevoryas <peter@pjd.dev>
+To: 
+Cc: jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com, philmd@linaro.org,
+ wainersm@redhat.com, qemu-devel@nongnu.org,
+ Peter Delevoryas <peter@pjd.dev>
+Subject: [PATCH v5 0/1] python/machine: Fix AF_UNIX path too long
+Date: Tue, 10 Jan 2023 00:29:29 -0800
+Message-Id: <20230110082930.42129-1-peter@pjd.dev>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: none client-ip=71.202.42.236;
+ envelope-from=pdel@pdel-mbp.localdomain; helo=pdel-mbp.localdomain
+X-Spam_score_int: 31
+X-Spam_score: 3.1
+X-Spam_bar: +++
+X-Spam_report: (3.1 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, KHOP_HELO_FCRDNS=0.399,
+ NO_DNS_FOR_FROM=0.001, PDS_RDNS_DYNAMIC_FP=0.001, RCVD_IN_PBL=3.335,
+ RCVD_IN_SORBS_DUL=0.001, RDNS_DYNAMIC=0.982, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,42 +56,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- hw/i2c/bitbang_i2c.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+v1: https://lore.kernel.org/qemu-devel/20220705214659.73369-1-peter@pjd.dev/
+v2: https://lore.kernel.org/qemu-devel/20220716173434.17183-1-peter@pjd.dev/
+v3:
+    - Changed QEMUMachine._name to f"{id(self):x}". Suggestion was to do
+      f"{id(self):02x}", but the id's look like they are probably just the
+      object address (8-byte pointer), so the "02" had no effect.
+    - Changed QMP socket name suffix from "-monitor.sock" to ".qmp".
+    - Changed console socket name suffix from "-console.sock" to ".con".
+v4:
+	- Just resending v3 after rebasing from a long time ago
+v5:
+    - I forgot to disable the VPN on my laptop before sending the v4 series,
+      and I always have very mysterious errors and/or delays when I send email
+      through the VPN because our security team doesn't allow split tunneling.
+    - I also forgot to include the reviewed-by tags. Daniel reviewed v3,
+      Phil reviewed v4.
 
-diff --git a/hw/i2c/bitbang_i2c.c b/hw/i2c/bitbang_i2c.c
-index ac84bf0262..e41cb63daa 100644
---- a/hw/i2c/bitbang_i2c.c
-+++ b/hw/i2c/bitbang_i2c.c
-@@ -165,9 +165,10 @@ void bitbang_i2c_init(bitbang_i2c_interface *s, I2CBus *bus)
- OBJECT_DECLARE_SIMPLE_TYPE(GPIOI2CState, GPIO_I2C)
- 
- struct GPIOI2CState {
-+    /*< private >*/
-     SysBusDevice parent_obj;
-+    /*< public >*/
- 
--    MemoryRegion dummy_iomem;
-     bitbang_i2c_interface bitbang;
-     int last_level;
-     qemu_irq out;
-@@ -188,12 +189,8 @@ static void gpio_i2c_init(Object *obj)
- {
-     DeviceState *dev = DEVICE(obj);
-     GPIOI2CState *s = GPIO_I2C(obj);
--    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-     I2CBus *bus;
- 
--    memory_region_init(&s->dummy_iomem, obj, "gpio_i2c", 0);
--    sysbus_init_mmio(sbd, &s->dummy_iomem);
--
-     bus = i2c_init_bus(dev, "i2c");
-     bitbang_i2c_init(&s->bitbang, bus);
- 
+I tried to run `make check-avocado` before sending again, but it looks like
+there is some other issue. Probably related to the python version I have (I
+have like 5 different Python versions installed on my work laptop).
+
+Thanks,
+Peter
+
+$ make check-avocado
+changing dir to build for /Library/Developer/CommandLineTools/usr/bin/make "check-avocado"...
+  GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc
+  VENV    /Users/pdel/qemu/build/tests/venv
+  VENVPIP install -e /Users/pdel/qemu/python/
+  VENVPIP install -r /Users/pdel/qemu/tests/requirements.txt
+  MKDIR   /Users/pdel/qemu/build/tests/results
+  AVOCADO Downloading avocado tests VM image for aarch64
+The image was downloaded:
+Provider Version Architecture File
+fedora   31      aarch64      /Users/pdel/avocado/data/cache/by_location/4f156e531446a679cbfe13caef8b7c9f9f79aafa/Fedora-C
+loud-Base-31-1.9.aarch64.qcow2
+  AVOCADO tests/avocado
+Fetching asset from tests/avocado/boot_linux_console.py:BootLinuxConsole.test_aarch64_raspi3_atf
+Fetching asset from tests/avocado/boot_xen.py:BootXen.test_arm64_xen_411_and_dom0
+Fetching asset from tests/avocado/boot_xen.py:BootXen.test_arm64_xen_414_and_dom0
+Fetching asset from tests/avocado/boot_xen.py:BootXen.test_arm64_xen_415_and_dom0
+Fetching asset from tests/avocado/machine_aarch64_virt.py:Aarch64VirtMachine.test_alpine_virt_tcg_gic_max
+Fetching asset from tests/avocado/machine_aarch64_virt.py:Aarch64VirtMachine.test_aarch64_virt
+Fetching asset from tests/avocado/replay_kernel.py:ReplayKernelNormal.test_aarch64_virt
+Fetching asset from tests/avocado/reverse_debugging.py:ReverseDebugging_AArch64.test_aarch64_virt
+JOB ID     : 18a949ed9150e22d6ecea69b99ede1ded17233f4
+JOB LOG    : /Users/pdel/qemu/build/tests/results/job-2023-01-10T00.03-18a949e/job.log
+
+Avocado crashed: TypeError: cannot pickle '_thread.RLock' object
+
+Peter Delevoryas (1):
+  python/machine: Fix AF_UNIX path too long on macOS
+
+ python/qemu/machine/machine.py         | 6 +++---
+ tests/avocado/avocado_qemu/__init__.py | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
 -- 
-2.38.1
+2.39.0
 
 
