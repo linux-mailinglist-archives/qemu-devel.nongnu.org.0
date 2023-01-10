@@ -2,101 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A1D664BD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 20:00:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF7D0664806
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:03:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFIiH-000760-Lv; Tue, 10 Jan 2023 12:47:05 -0500
+	id 1pFIgu-0006RD-WF; Tue, 10 Jan 2023 12:45:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIiE-00072N-8v
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:47:02 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIiC-0003aS-JM
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:47:01 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id bs20so12610928wrb.3
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:47:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SFp5fLykrTmSrzOYijtFAOoQNLwJRutVy2bxJGeiOow=;
- b=qgXIUn96/XpkFKbF8mC+27Idw4WpE34vO5zxCuMhIeV18k0x8CLEXePY1w1j2j+GqN
- hmC63EGoL18CFoOdXuvBSzQ10uGedVmMbY/Wrg+shxs8T6IFtAekZgFhh5v27UxkEJNB
- S8pdE+5lQj3NkPlLNo/VehZGJEIMW8IoczmbKGXDWBaue6PPuUWjlhajkNL47eXqgxF4
- no1dRRFGyf+sf5Fu+scLzGq7KOnLh7GTG7wvsH2ABxbRzf0GCoBxa2TUBTdY8LUirGwM
- 3vAIBv4w8tzbM1LUd+CTJuYa5oFITtkcoZJ/wc68Meq9iOgjGCmuxylyGzZND8yJXyxh
- Q1+A==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pFIgr-0006Q1-7f
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:45:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pFIgo-0003AP-PN
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:45:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673372733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X2qoeWeUfeS8LDZ7Iy4AcwFqpFNz0g7U2JniA7szB2c=;
+ b=Hkqq/MuQkiVZYZJFAxtFG6VYYFQ+3IOZXqivna21Li/2N+j/G7JMTHRpwSW1U3lmL1ew1I
+ sQUhj4jvuX/Qcvt3rY1pdKuXa4UHNd0f9tEkqfGgyBB5PlERaVxU2v91JXdlsaCuiMqIJ0
+ V1oJuW28xvyTLbiqkTb+c3+d6HBFEws=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-649-GxJ8X_IANVOtCsAsyQ5vTw-1; Tue, 10 Jan 2023 12:45:31 -0500
+X-MC-Unique: GxJ8X_IANVOtCsAsyQ5vTw-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ l15-20020a056512110f00b004b6fe4513b7so4777767lfg.23
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:45:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SFp5fLykrTmSrzOYijtFAOoQNLwJRutVy2bxJGeiOow=;
- b=QF5hMmfTr0Vly3WpI4swrd4cQ/7TZcJPQbzOnpydEAkVh/GM3DA8ATEAmVPeKbO0m2
- dshHFkbMjxtyPhYVY4yl10rPO7q3UzPXKC3K79OI/7naIXkuwV5z1BXEDgdh2Dhm2RLo
- 6iWgt0SCqSkIrgzY3T+W72rnVd62+NIOV5/H7QQNMejCq0Q2YncZJl9IMsAuuLEtXEag
- kRhBsaZgiVMW5ZUNaUHlbm8Dg7nVtU0//2VlVhm1LvFHe1mNgExB6zEajRRNr5E0aOwt
- D4EZyfY1AYaQb2Z3E+s9IWiHnBc0suUDyDEDvyJU0sxi4KOlM9fboX98ulrQGn4CgJcq
- +8Eg==
-X-Gm-Message-State: AFqh2kpOxHNfI8fyzbZjg0Xx+EImYMIqP62Je/qRfxsda2i/0CEfq9sS
- Cm4mqPAiB4McmDMEfKqp9iYudg==
-X-Google-Smtp-Source: AMrXdXt3NRKz70KxP+igSuUAb24Sj9c3fykq1hASH9Zy4YpYvCnqAHbOfMJKcI5CmOUWTiBv4m0awg==
-X-Received: by 2002:a5d:6145:0:b0:2bb:6b92:d4cc with SMTP id
- y5-20020a5d6145000000b002bb6b92d4ccmr8176826wrt.53.1673372818709; 
- Tue, 10 Jan 2023 09:46:58 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- z2-20020a5d6402000000b00297dcfdc90fsm11713916wru.24.2023.01.10.09.46.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 09:46:58 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 249D91FFCF;
- Tue, 10 Jan 2023 17:39:26 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Alexandre Iooss <erdnaxe@crans.org>, Beraldo Leal <bleal@redhat.com>,
- Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Ed Maste <emaste@freebsd.org>, Yanan Wang <wangyanan55@huawei.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-arm@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- John G Johnson <john.g.johnson@oracle.com>, Emilio Cota <cota@braap.org>
-Subject: [PATCH 26/26] cpu-exec: assert that plugin_mem_cbs is NULL after
- execution
-Date: Tue, 10 Jan 2023 17:39:22 +0000
-Message-Id: <20230110173922.265055-27-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230110173922.265055-1-alex.bennee@linaro.org>
-References: <20230110173922.265055-1-alex.bennee@linaro.org>
+ bh=X2qoeWeUfeS8LDZ7Iy4AcwFqpFNz0g7U2JniA7szB2c=;
+ b=pbOep91iX/8B6vxAxwhCibF9T4fanDKM7wv2NKq4L7OiSUEQfTYtXGpnJ+olA7XNQw
+ DoNYldFaPnYC5fWxIseBJEd5llpTAcKa7QR7R/cwjZFSbS7iDq3nI38/h/UHtBAAI9GM
+ p2FGgCYDtBmDkZqVQxCap5QZ7+E65rUwxbNY0PHjjtjYOGGPbVVfKL65zfsnh1YeL1q3
+ fU423TCz4RLVRVvLTQOB58s4sBZ73s1x92QGodNGnxqlI1YXqRsSKZ/vtPeut1AYZAKM
+ xEK/epwlc1/MNjzidG92y+XXu9OO+z3hw/bk23P1gLCTqI+H5lq5AI2eBrGa5lQVp1/S
+ y2Cw==
+X-Gm-Message-State: AFqh2kpE0rXHB9Cx63QZvcwONsRFKYZNI4sejDBxM25IZtKduU39Vb8x
+ CxfvaqpoPLAkdRrY5Dgy1OtFRUzyVTwPWczxo1xS6+Fkt9BaByii67Pub6/ZAA5hCI0fzLCqr+7
+ rY+q29/iYQxAWPy5CMe3VyNHsSd7r0tE=
+X-Received: by 2002:a05:6512:1cd:b0:4b5:b10b:6822 with SMTP id
+ f13-20020a05651201cd00b004b5b10b6822mr3056268lfp.621.1673372729937; 
+ Tue, 10 Jan 2023 09:45:29 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsKisiWegJuNXT/KU9BQcNeIQQiewczDjfYEk5vQmz4CWM3pFaoxRaEaDgD+JNWaSLSxCRWRb+chKDKZZG8p08=
+X-Received: by 2002:a05:6512:1cd:b0:4b5:b10b:6822 with SMTP id
+ f13-20020a05651201cd00b004b5b10b6822mr3056262lfp.621.1673372729719; Tue, 10
+ Jan 2023 09:45:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+References: <20220630123419.1019367-1-marcandre.lureau@redhat.com>
+ <CAFn=p-Z1JqriE2iD26pYFycNBZhkxK3wqOcz6KzD-CegFP+qKQ@mail.gmail.com>
+ <CAJ+F1C+NEqp-P9BAzT5ADkxVP_pZyvtZPAOVz3R_Xq0w7tCmpg@mail.gmail.com>
+ <CAFn=p-b-hXVGZJruWa7zY+-pXiqMCEN17FTSpHGNHWPPKMik2A@mail.gmail.com>
+ <CAJ+F1CLrTb_UWwubr38v=2dEbVkJCF4RYKKDLRax=rhGyoiU0A@mail.gmail.com>
+In-Reply-To: <CAJ+F1CLrTb_UWwubr38v=2dEbVkJCF4RYKKDLRax=rhGyoiU0A@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 10 Jan 2023 12:45:18 -0500
+Message-ID: <CAFn=p-apVFU3XMK8ZWKbE8eYrXtWhV-VmQX1Y_rXETX7emOzDw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] python/qemu/machine: fix potential hang in QMP
+ accept
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,62 +98,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Emilio Cota <cota@braap.org>
+On Tue, Jan 10, 2023 at 2:05 AM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
+> Hi John
+>
+> On Tue, Jan 10, 2023 at 1:06 AM John Snow <jsnow@redhat.com> wrote:
+> >
+> > On Mon, Jul 25, 2022 at 7:23 AM Marc-Andr=C3=A9 Lureau
+> > <marcandre.lureau@gmail.com> wrote:
+> > >
+> > > Hi
+> > >
+> > > On Fri, Jul 1, 2022 at 2:51 AM John Snow <jsnow@redhat.com> wrote:
+> > >>
+> > >> On Thu, Jun 30, 2022 at 8:34 AM <marcandre.lureau@redhat.com> wrote:
+> > >> >
+> > >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > >> >
+> > >> > Hi,
+> > >> >
+> > >> > As reported earlier by Richard Henderson ("virgl avocado hang" thr=
+ead), avocado
+> > >> > tests may hang when QEMU exits before the QMP connection is establ=
+ished.
+> > >> >
+> > >> > v2:
+> > >> >  - use a socketpair() for QMP (instead of async concurrent code fr=
+om v1) as
+> > >> >    suggested by Daniel Berrange.
+> > >> >  - should not regress (hopefully)
+> > >> >
+> > >> > Marc-Andr=C3=A9 Lureau (3):
+> > >> >   python/qmp/protocol: add open_with_socket()
+> > >> >   python/qmp/legacy: make QEMUMonitorProtocol accept a socket
+> > >> >   python/qemu/machine: use socketpair() for QMP by default
+> > >> >
+> > >> >  python/qemu/machine/machine.py | 24 ++++++++++++++++--------
+> > >> >  python/qemu/qmp/legacy.py      | 18 +++++++++++++++---
+> > >> >  python/qemu/qmp/protocol.py    | 25 ++++++++++++++++++++-----
+> > >> >  3 files changed, 51 insertions(+), 16 deletions(-)
+> > >> >
+> > >> > --
+> > >> > 2.37.0.rc0
+> > >> >
+> > >>
+> > >> For anything that touches python/qemu/qmp/*, may I please ask that y=
+ou
+> > >> submit them to https://gitlab.com/qemu-project/python-qemu-qmp ?
+> > >>
+> > >
+> > > Ok
+> > >
+> > >>
+> > >> (I'll review them in the meantime on-list just in the interest of
+> > >> moving things along.)
+> > >
+> > >
+> > > I was waiting for a review before updating the patches / moving to py=
+thon-qemu-qmp.
+> > >
+> >
+> > Fair enough - can I kindly ask you to resend, though? My apologies and
+> > Happy New Year!
+>
+> I am confused, what's the relation between QEMU python/qemu/qmp and
+> https://gitlab.com/qemu-project/python-qemu-qmp ?
+>
+> When / how is the code sync ?
+>
 
-Fixes: #1381
+python-qemu-qmp supersedes the code that is in qemu.git.
+qemu.git/python/qemu/qmp is scheduled to be deleted, but there are
+changes that need to go in to configure etc to support the deletion
+first, and I've been backlogged/waylaid on making those changes.
 
-Signed-off-by: Emilio Cota <cota@braap.org>
-Message-Id: <20230108165107.62488-1-cota@braap.org>
-[AJB: manually applied follow-up fix]
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- include/qemu/plugin.h | 4 ++++
- accel/tcg/cpu-exec.c  | 2 ++
- 2 files changed, 6 insertions(+)
-
-diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
-index e0ebedef84..fb338ba576 100644
---- a/include/qemu/plugin.h
-+++ b/include/qemu/plugin.h
-@@ -59,6 +59,8 @@ get_plugin_meminfo_rw(qemu_plugin_meminfo_t i)
- #ifdef CONFIG_PLUGIN
- extern QemuOptsList qemu_plugin_opts;
- 
-+#define QEMU_PLUGIN_ASSERT(cond) g_assert(cond)
-+
- static inline void qemu_plugin_add_opts(void)
- {
-     qemu_add_opts(&qemu_plugin_opts);
-@@ -250,6 +252,8 @@ void qemu_plugin_user_postfork(bool is_child);
- 
- #else /* !CONFIG_PLUGIN */
- 
-+#define QEMU_PLUGIN_ASSERT(cond)
-+
- static inline void qemu_plugin_add_opts(void)
- { }
- 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 6bd29227f3..f272504611 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -504,6 +504,7 @@ static void cpu_exec_exit(CPUState *cpu)
-     if (cc->tcg_ops->cpu_exec_exit) {
-         cc->tcg_ops->cpu_exec_exit(cpu);
-     }
-+    QEMU_PLUGIN_ASSERT(cpu->plugin_mem_cbs == NULL);
- }
- 
- void cpu_exec_step_atomic(CPUState *cpu)
-@@ -1031,6 +1032,7 @@ int cpu_exec(CPUState *cpu)
- 
-             cpu_loop_exec_tb(cpu, tb, pc, &last_tb, &tb_exit);
- 
-+            QEMU_PLUGIN_ASSERT(cpu->plugin_mem_cbs == NULL);
-             /* Try to align the host and virtual clocks
-                if the guest is in advance */
-             align_clocks(&sc, cpu);
--- 
-2.34.1
+--js
 
 
