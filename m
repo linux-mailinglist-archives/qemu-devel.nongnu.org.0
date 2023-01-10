@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 483EA663FB3
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:03:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07AD3664082
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:31:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFDLQ-00017o-Uh; Tue, 10 Jan 2023 07:03:18 -0500
+	id 1pFDf0-0000ct-5k; Tue, 10 Jan 2023 07:23:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1pFDKo-00010U-PA; Tue, 10 Jan 2023 07:02:41 -0500
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1pFDKh-0001aR-GD; Tue, 10 Jan 2023 07:02:25 -0500
-Received: by mail-lj1-x232.google.com with SMTP id o7so11863277ljj.8;
- Tue, 10 Jan 2023 04:02:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=gnbzpvoQ4eKeeZKYsWILJWo3UH7620WiiCMoShR6aSY=;
- b=jkuAY340miTrtxnx65h4km4PzgRMtM+JbKmzPtBuU/odg5CCO16uDiWAFBpKbZLnqB
- +LVkuswdAS0wdlbDfRsR/7aShP1oG0U0m6fiBUxdYpSNJfTYfMHfCh/T/KPEfxFIG9M9
- AzGvaUsFBuQNxlnkuv51mtsLAXvP2ug/iS8PyUzAjLKhts24yBbjTs0F07yaETtjy5hc
- WYIAaiEu6Nsr2ttgrNqCx/DM3zRMUVf93f4DP3aLz3z1E6qQ2rK+wZB2z5fb3OQTjMW+
- a+UClFQB2mxdD3nzF7Ef4HNGcCqS2QaLTJDFmbDbmRDSgcAZbSr9c2ya0etOQ404+zVI
- Swsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gnbzpvoQ4eKeeZKYsWILJWo3UH7620WiiCMoShR6aSY=;
- b=KNz+oYAswPmqHk0xcc6QhJqJnl+c000nJkzq0ghBNs5wCTnipppY4nG4rF0hquUhyR
- GiJSn7E5HNv2VQcTGhEoGlKvkuNr7N76PrMmyOj1GAKiO6j2+PdLXtwXJfqh/ctt7222
- /6xbtRbYnirCypghtDPu1tpGEQBIsJTPysthknMXlWByrMUpsL1fhof+3hUh8XOUePDW
- hHqq1jRJLH1KFnxSvwBnIcXopPdUyZSuC1nsOwo/u5xkN/DAe3F0rXbw2vHLVumZdoE0
- ClATQo1Lo60GJnJRF0UuGW/MXv3/UdV+1YU7yFwIDcr3oMwn2DnsL+j8ohYMxavQ72bd
- yLqQ==
-X-Gm-Message-State: AFqh2kotjN7LXe4pitHMkg/fLuI0gLPeBLhmHY/5trD83NApYVXRsgAz
- dz2IOTKJ/L9t93K+wuG/nIQ=
-X-Google-Smtp-Source: AMrXdXsgLjwEu3yvLDT+aZ17Tvijv9pRFMqZHnoWESN+w0LTm6aezF0B+vTsfRpgVPIJUIKyRg/AKw==
-X-Received: by 2002:a05:651c:10d:b0:27f:e6e7:7e36 with SMTP id
- a13-20020a05651c010d00b0027fe6e77e36mr11021340ljb.21.1673352136695; 
- Tue, 10 Jan 2023 04:02:16 -0800 (PST)
-Received: from gmail.com (81-232-4-135-no39.tbcn.telia.com. [81.232.4.135])
- by smtp.gmail.com with ESMTPSA id
- bg20-20020a05651c0b9400b0027710117ebdsm1283990ljb.121.2023.01.10.04.02.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 04:02:16 -0800 (PST)
-Date: Tue, 10 Jan 2023 13:02:15 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Qiang Liu <cyruscyliu@gmail.com>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair@alistair23.me>,
- Peter Maydell <peter.maydell@linaro.org>,
- "open list:Xilinx ZynqMP and..." <qemu-arm@nongnu.org>,
- Frederic Konrad <konrad.frederic@yahoo.fr>
-Subject: Re: [PATCH] hw/display/xlnx_dp: fix overflow in
- xlnx_dp_aux_push_tx_fifo()
-Message-ID: <Y71Tx4ODBZr1HnML@toto>
-References: <20230109055933.749233-1-cyruscyliu@gmail.com>
+ (Exim 4.90_1) (envelope-from
+ <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pFDct-00078I-9H
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:13 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pFDcj-0000Pd-Te
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=64hNHlCqyltgPlWelpstoGeoj61K9td9T/+z58w2RGk=; b=IzxUY7l2viTW2itPg8Als9UwHx
+ OCMHk7tLqjevZJt/5A8lz9ng1KCwaj1r/K3ikbNFi3Aun7CN7M8/XYTwpbNk031x2WQxvs8EEHXzr
+ j8u4e3uzEoy2ZwlQuJ+nxwpJvumDJVlKmo5u2sPFR0V92JuRosyYjHtmmBA+hn9W+Uzo2xvCQPqzC
+ dM1r0j5jDUacrPduGLxOtD9WT/MotTJVxK3UFxUu5E/8pUkDAMyiIeydWeXq6h8OWgXC9PLwSXgrr
+ fZa3WWq5d/0ZF100x7gaiO5VMcZcaxI8QCt/giBkNSRaRvwdbpUQRI8UfabmS64uf9JV9RekTZ+dS
+ BQwH/eRg==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pFDcg-003C5r-LY; Tue, 10 Jan 2023 12:20:58 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1pFDcS-006Ydf-BO; Tue, 10 Jan 2023 12:20:44 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
+Subject: [PATCH v6 03/51] xen: Add XEN_DISABLED mode and make it default
+Date: Tue, 10 Jan 2023 12:19:54 +0000
+Message-Id: <20230110122042.1562155-4-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230110122042.1562155-1-dwmw2@infradead.org>
+References: <20230110122042.1562155-1-dwmw2@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230109055933.749233-1-cyruscyliu@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::232;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x232.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,42 +81,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 09, 2023 at 01:59:33PM +0800, Qiang Liu wrote:
-> This patch checks if the s->tx_fifo is full.
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-+ CC: Fred
+Also set XEN_ATTACH mode in xen_init() to reflect the truth; not that
+anyone ever cared before. It was *only* ever checked in xen_init_pv()
+before.
 
-Reviewed-by: Edgar E. Iglesias <edgar@zeroasic.com>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Reviewed-by: Paul Durrant <paul@xen.org>
+---
+ accel/xen/xen-all.c  | 2 ++
+ include/hw/xen/xen.h | 5 +++--
+ softmmu/globals.c    | 2 +-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
+diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
+index 69aa7d018b..2329556595 100644
+--- a/accel/xen/xen-all.c
++++ b/accel/xen/xen-all.c
+@@ -181,6 +181,8 @@ static int xen_init(MachineState *ms)
+      * opt out of system RAM being allocated by generic code
+      */
+     mc->default_ram_id = NULL;
++
++    xen_mode = XEN_ATTACH;
+     return 0;
+ }
+ 
+diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
+index 4d412fd4b2..b3873c581b 100644
+--- a/include/hw/xen/xen.h
++++ b/include/hw/xen/xen.h
+@@ -22,8 +22,9 @@
+ 
+ /* xen-machine.c */
+ enum xen_mode {
+-    XEN_EMULATE = 0,  // xen emulation, using xenner (default)
+-    XEN_ATTACH        // attach to xen domain created by libxl
++    XEN_DISABLED = 0, // xen support disabled (default)
++    XEN_ATTACH,       // attach to xen domain created by libxl
++    XEN_EMULATE,
+ };
+ 
+ extern uint32_t xen_domid;
+diff --git a/softmmu/globals.c b/softmmu/globals.c
+index 527edbefdd..0a4405614e 100644
+--- a/softmmu/globals.c
++++ b/softmmu/globals.c
+@@ -63,5 +63,5 @@ QemuUUID qemu_uuid;
+ bool qemu_uuid_set;
+ 
+ uint32_t xen_domid;
+-enum xen_mode xen_mode = XEN_EMULATE;
++enum xen_mode xen_mode = XEN_DISABLED;
+ bool xen_domid_restrict;
+-- 
+2.35.3
 
-> 
-> Fixes: 58ac482a66de ("introduce xlnx-dp")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1424
-> Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-> Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
-> ---
->  hw/display/xlnx_dp.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-> index 972473d94f..617b394af2 100644
-> --- a/hw/display/xlnx_dp.c
-> +++ b/hw/display/xlnx_dp.c
-> @@ -854,7 +854,11 @@ static void xlnx_dp_write(void *opaque, hwaddr offset, uint64_t value,
->          break;
->      case DP_AUX_WRITE_FIFO: {
->          uint8_t c = value;
-> -        xlnx_dp_aux_push_tx_fifo(s, &c, 1);
-> +        if (fifo8_is_full(&s->tx_fifo)) {
-> +            qemu_log_mask(LOG_GUEST_ERROR, "xlnx_dp: TX fifo is full");
-> +        } else {
-> +            xlnx_dp_aux_push_tx_fifo(s, &c, 1);
-> +        }
->          break;
->      }
->      case DP_AUX_CLOCK_DIVIDER:
-> -- 
-> 2.25.1
-> 
-> 
 
