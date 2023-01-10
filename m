@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 741D86647D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 18:57:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC9A6648B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:14:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFIly-0000XZ-Nb; Tue, 10 Jan 2023 12:50:54 -0500
+	id 1pFJ0b-0007qc-0Y; Tue, 10 Jan 2023 13:06:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pFIlw-0000VQ-FF
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:50:52 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pFJ0Z-0007qF-6Y
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 13:05:59 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pFIlu-0004aG-Ok
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:50:51 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pFJ0W-0001jE-US
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 13:05:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673373049;
+ s=mimecast20190719; t=1673373956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Y0gP4TuSdmmkwc6KaCt3EEFN0GKpf0v+bXFFXmejAWk=;
- b=T/3PxB8gfkKlci2B28FR6LJKLbBkXB7xtInxNqq9+CM2OTQ8DaK9bGTEc1ahyVskEb6xS2
- mNXbbrEYvnP9WWwI+tQb6yqvx0DWgKHTVAilDRmg3wNyCQOBmYci98zD+nIMgtMduFZ6qi
- W/cDl0RCKRH9KqXMY7XG94Y2kvOLaxM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2+qSTWtPmF4NIotVNo6bln+uWlgod6YHRDuyFn6n6zM=;
+ b=dc1MeDOhgqUt4inqhmS+3Kn+idUXP0kUCckaWHDhLf/9k6aDgWhCUf+ZGo2vgK26wAeLzH
+ mqQNOHTdRI8TWNmfP8bg0Q1XRmZqIwz6CVlX370tih+F+YZGA7WPLWNCPqTHn0lhJWZ3bO
+ KwUtMCH0eYA6iA9YgiMNC6pEmYrfjXg=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-564-N6E5JRgANWuPsi4v0O7oPA-1; Tue, 10 Jan 2023 12:50:48 -0500
-X-MC-Unique: N6E5JRgANWuPsi4v0O7oPA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- t2-20020adfa2c2000000b002bbdae91832so1750463wra.21
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:50:47 -0800 (PST)
+ us-mta-302-TP9x107xOKyhQiMMApSHkg-1; Tue, 10 Jan 2023 13:05:55 -0500
+X-MC-Unique: TP9x107xOKyhQiMMApSHkg-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ g28-20020a0565123b9c00b004cc8a085997so1211265lfv.13
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 10:05:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Y0gP4TuSdmmkwc6KaCt3EEFN0GKpf0v+bXFFXmejAWk=;
- b=iyv/cEMV0K549xKo9WjCSJd/7drtfuJB2a4sIbfR/wFRwhHRmYurabGe5hyML+3U9I
- vXv4WwqlzIcK5RN4JOhr/rVcgEVWTfGrJuY3DgibJm9A91FtoKREgJCpr4QlA0T6H7Ur
- h5nlDhJ8YwP2vs72+Wq9gBgEO/6ERVWVJ8AQNfEGa7zobuasySS7wYrFGhao2XII1yPL
- 6e3BGiNslPGWBrPNFiywup8ixbg5GNagqoaS65YeBWlOslOEXGZjLIv6/kwUk3GMsIr6
- 7D7nFstCHEC3ikhDEuveNtU/ebaDpfcV/8oBdBbCAVnchALp+Xb24ZpV+sIOEScQWENW
- atlQ==
-X-Gm-Message-State: AFqh2koQD/BRPJcnF6zH1mQ0AGF6Ovt1q2q2gezGk6n5Njm+rccK5RfL
- kpAEhEhkz+ryd8vh1/aLKGLtlN6fh8OdnEpQijm1NK56wTHjZ7G9Jeap8kdPhSpT0UFtvEI0b0+
- BZefHCh3QfR/ZY+Y=
-X-Received: by 2002:a05:600c:4f55:b0:3cf:7197:e67c with SMTP id
- m21-20020a05600c4f5500b003cf7197e67cmr48867182wmq.25.1673373047062; 
- Tue, 10 Jan 2023 09:50:47 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvN964VE6oMySWoqJrzCnjxDgFwqSfUtTAVuzagOxt9lf8/p2lV4qr1sVhbBV6+EkrtpifeNw==
-X-Received: by 2002:a05:600c:4f55:b0:3cf:7197:e67c with SMTP id
- m21-20020a05600c4f5500b003cf7197e67cmr48867174wmq.25.1673373046903; 
- Tue, 10 Jan 2023 09:50:46 -0800 (PST)
-Received: from redhat.com ([2.52.137.155]) by smtp.gmail.com with ESMTPSA id
- f11-20020a05600c4e8b00b003d04e4ed873sm23138292wmq.22.2023.01.10.09.50.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 09:50:46 -0800 (PST)
-Date: Tue, 10 Jan 2023 12:50:42 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
- pbonzini@redhat.com, ebiggers@kernel.org,
- Mathias Krause <minipli@grsecurity.net>, qemu-devel@nongnu.org
-Subject: Re: [PATCH qemu v3] x86: don't let decompressed kernel image clobber
- setup_data
-Message-ID: <20230110125005-mutt-send-email-mst@kernel.org>
-References: <Y69fUstLKNv/RLd7@zx2c4.com>
- <20221230220725.618763-1-Jason@zx2c4.com>
- <Y72FmQlNwBsp8Ntc@zx2c4.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2+qSTWtPmF4NIotVNo6bln+uWlgod6YHRDuyFn6n6zM=;
+ b=D6M4OpKbvMlbsX0TfXcJNChrLCnaug/37RCoYla2whsw++FwC/CdSGU0xbVXNs6Hoj
+ 2ZNM9zOYkHL7luthACHKSLYRc5Ja/NKdI4bxYP68wuFX8o7K29ilwEXiwfoxmm1Olqgp
+ wZNnBL/SSp9o8TbjMWO6SjAwQYAepBNb7RQpRYuv9cuyKXieYB2F3QyF7DsrO0Z9m2Ak
+ BbQ/zg1YkEPJ9S4ijvg5Oya1NhAXVGYjDez1JMWwsvEnXf3PktXV8f7lV44h7w884eX3
+ nnNT/zyNzpSc9Hh3B15tNCiKFuu1weHXPnWER72ss56PWsByVjPTl3LEWdRCIFMjWm53
+ orPw==
+X-Gm-Message-State: AFqh2kq6A0yFE12YxdGMizI+/+3s6IFowA1y1/u+zUB2No23lIv3XSyw
+ 0TpzSjC4BVNXcnb3aNtReiI6yHl/TjRUmBwUwCBQCFmbPzK54lyubPd7FcsHyaVeAOSeoVUIaRf
+ yYs5jXKZ4Bs8jphUR8Q1U8iecxuGdn5I=
+X-Received: by 2002:a05:6512:1cd:b0:4b5:b10b:6822 with SMTP id
+ f13-20020a05651201cd00b004b5b10b6822mr3059680lfp.621.1673373953211; 
+ Tue, 10 Jan 2023 10:05:53 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsdZOHjAlPr/JgLnWiB3Sf+e/XdM4Rm1gxQCXCtxerBz2lYms0FqVYajiG9iz842E4LLjHQtlj/3WWwWRZfDEY=
+X-Received: by 2002:a05:6512:1cd:b0:4b5:b10b:6822 with SMTP id
+ f13-20020a05651201cd00b004b5b10b6822mr3059673lfp.621.1673373952843; Tue, 10
+ Jan 2023 10:05:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y72FmQlNwBsp8Ntc@zx2c4.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+References: <20220624195252.175249-1-vsementsov@yandex-team.ru>
+ <CAFn=p-bzPUmF4YZ-461Tzr9MO_ReotL+wuot2egKW7jQgvaHOw@mail.gmail.com>
+ <CAFn=p-bwAXCJnWPj7JwSmN2N52hv7R0p1Fn2GxPpHPpDaDaDHQ@mail.gmail.com>
+ <9b5a291e-d8a2-e789-0a87-b923240a3e3a@yandex-team.ru>
+ <CAFn=p-bhDkvrQfYNRyuyx2bu6jKhhfTa85AUw1Ab2xavYh3wXw@mail.gmail.com>
+In-Reply-To: <CAFn=p-bhDkvrQfYNRyuyx2bu6jKhhfTa85AUw1Ab2xavYh3wXw@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 10 Jan 2023 13:05:41 -0500
+Message-ID: <CAFn=p-YqBysCqPr9qiGts+bdu+UL=2qbfizXNc9AA6zE4exgbQ@mail.gmail.com>
+Subject: Re: [PATCH] python: QEMUMachine: enable qmp accept timeout by default
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>, 
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,34 +95,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 10, 2023 at 04:34:49PM +0100, Jason A. Donenfeld wrote:
-> Hi Michael,
-> 
-> Could you queue up this patch and mark it as a fix for 7.2.1? It is a
-> straight-up bug fix for a 7.2 regression that's now affected several
-> users.
+On Tue, Jan 10, 2023 at 12:06 PM John Snow <jsnow@redhat.com> wrote:
+>
+>
+>
+> On Tue, Jan 10, 2023, 3:53 AM Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+>>
+>> On 7/12/22 00:21, John Snow wrote:
+>> > On Mon, Jul 11, 2022 at 5:16 PM John Snow <jsnow@redhat.com> wrote:
+>> >>
+>> >> On Fri, Jun 24, 2022 at 3:53 PM Vladimir Sementsov-Ogievskiy
+>> >> <vsementsov@yandex-team.ru> wrote:
+>> >>>
+>> >>> I've spent much time trying to debug hanging pipeline in gitlab. I
+>> >>> started from and idea that I have problem in code in my series (which
+>> >>> has some timeouts). Finally I found that the problem is that I've used
+>> >>> QEMUMachine class directly to avoid qtest, and didn't add necessary
+>> >>> arguments. Qemu fails and we wait for qmp accept endlessly. In gitlab
+>> >>> it's just stopped by timeout (one hour) with no sign of what's going
+>> >>> wrong.
+>> >>>
+>> >>> With timeout enabled, gitlab don't wait for an hour and prints all
+>> >>> needed information.
+>> >>>
+>> >>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>> >>> ---
+>> >>>
+>> >>> Hi all!
+>> >>>
+>> >>> Just compare this
+>> >>>    https://gitlab.com/vsementsov/qemu/-/pipelines/572232557
+>> >>> and this
+>> >>>    https://gitlab.com/vsementsov/qemu/-/pipelines/572526252
+>> >>>
+>> >>> and you'll see that the latter is much better.
+>> >>>
+>> >>>   python/qemu/machine/machine.py | 2 +-
+>> >>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>> >>>
+>> >>> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+>> >>> index 37191f433b..01a12f6f73 100644
+>> >>> --- a/python/qemu/machine/machine.py
+>> >>> +++ b/python/qemu/machine/machine.py
+>> >>> @@ -131,7 +131,7 @@ def __init__(self,
+>> >>>                    drain_console: bool = False,
+>> >>>                    console_log: Optional[str] = None,
+>> >>>                    log_dir: Optional[str] = None,
+>> >>> -                 qmp_timer: Optional[float] = None):
+>> >>> +                 qmp_timer: float = 30):
+>> >>>           '''
+>> >>>           Initialize a QEMUMachine
+>> >>>
+>> >>> --
+>> >>> 2.25.1
+>> >>>
+>> >>
+>> >> Oh, this is because machine.py uses the qmp_timer for *all* timeouts,
+>> >> and not just the QMP commands themselves, and this relates to the work
+>> >> Marc Andre is doing with regards to changing the launch mechanism to
+>> >> handle the race condition when the QEMU launch fails, but the QMP
+>> >> connection just sits waiting.
+>> >>
+>> >> I'm quite of the mind that it's really time to rewrite machine.py to
+>> >> use the native asyncio interfaces I've been writing to help manage
+>> >> this, but in the meantime I think this is probably a reasonable
+>> >> concession and a more useful default.
+>> >>
+>> >> ...I think. Willing to take it for now and re-investigate when the
+>> >> other fixes make it to the tree.
+>> >>
+>> >> Reviewed-by: John Snow <jsnow@redhat.com>
+>> >
+>> > Oh, keep the type as Optional[float], though, so the timeout can be
+>> > disabled again, and keeps the type consistent with the qtest
+>> > derivative class. I've staged your patch with that change made, let me
+>> > know if that's not OK. Modified patch is on my python branch:
+>> >
+>> > Thanks, merged.
+>> >
+>>
+>> Hmm, seems that's lost.. I don't see it neither in master nor in your python branch..
+>>
+>> --
+>> Best regards,
+>> Vladimir
+>
+>
+> :(
+>
+> I'll fix it. Thanks for resending the iotests series, too - the old version was at the very top of my inbox :)
 
-OK. In the future pls cc me if you want me to merge a patch. Thanks!
+Re-edited and Re-staged:
 
-> - It has two Tested-by tags on the thread.
-> - hpa, the maintainer of the kernel side of this, confirmed on one of
->   the various tributary threads that this approach is a correct one.
-> - It doesn't introduce any new functionality.
-> 
-> For your convenience, you can grab this out of lore here:
-> 
->   https://lore.kernel.org/lkml/20221230220725.618763-1-Jason@zx2c4.com/
-> 
-> Or if you want to yolo it:
-> 
->   curl https://lore.kernel.org/lkml/20221230220725.618763-1-Jason@zx2c4.com/raw | git am -s
-> 
-> It's now sat silent on the mailing list for a while. So let's please get
-> this committed and backported so that the bug reports stop coming in.
-> 
-> Thanks,
-> Jason
-> 
-> 
+https://gitlab.com/jsnow/qemu/-/commits/python
+
+--js
 
 
