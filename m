@@ -2,103 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3409E663C17
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:01:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73C5663AB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:16:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF9hN-0001LT-Ok; Tue, 10 Jan 2023 03:09:34 -0500
+	id 1pF9hk-0001PU-HP; Tue, 10 Jan 2023 03:09:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pF9hG-0001Ha-Sg
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:09:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pF9hE-0000b9-35
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:09:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673338163;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eg6pIzfk5vKkPSb+kJL6n/HwR+JmS1XbU1ZjUEnXDUI=;
- b=DXtwumK10/qK7ea1ioZi0D+M9MRrwUmE7VXRFqxdWvyw02TFJl/3rUdfgcKACumtnuprJb
- eXDITUNdihf1/TTavoY2lSF/59pKcgoKBNF/zNVv24o29Ix9XyzukcIstJ4nHiBwnwwLcW
- taEREBzgfqP/dRxw/cH2AbZJJd1LTjY=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-414-La_Sr_svPBSJedh-B0NkAA-1; Tue, 10 Jan 2023 03:09:22 -0500
-X-MC-Unique: La_Sr_svPBSJedh-B0NkAA-1
-Received: by mail-qk1-f198.google.com with SMTP id
- m3-20020a05620a24c300b006fee2294e97so8276350qkn.11
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 00:09:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1pF9hc-0001OP-W9
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:09:49 -0500
+Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1pF9ha-0001Tj-J4
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:09:48 -0500
+Received: by mail-qv1-xf32.google.com with SMTP id l14so4255661qvw.12
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 00:09:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:user-agent:from:in-reply-to
+ :references:mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=MkXOSS2Uc9GbZzBorr10V4YZUN0RM+L3dSx93LSbri4=;
+ b=A+Hm8NF/jyBecNYFL9UNplHWfApXxoJn/1QF+ahcdOLIJbuMWYAm7Ct7msQawJ1CgT
+ HOje2bl8/kxfdfKsxNEDG/Oa7JGugu9dYTGaeUux3YX6bDBx2xElsdtZ7krPr5z2FEWY
+ UzNmjFrQ7Ut57UWNb5ZupbrYf/VH3QSdukYK2jFKg6M5IACsNw5cIWMqCLp9IeH9E6cD
+ 9Kvb3U71P2vBP8uE7QJwl8ia2/LBRM9fNZXjM9HFrWlv81yzOCjYyEMKZ8uc5+xKkGYy
+ LXpw6KQddoiUGcRmkS4nbaefQp38DNoxgLJVPU4Elqkp06vKvApzyKukopQAAuc8CryO
+ 3fYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eg6pIzfk5vKkPSb+kJL6n/HwR+JmS1XbU1ZjUEnXDUI=;
- b=keJ2MKRoFvWkNKvFahl3LxXXR2EQxMzHYHnf0hrGlP1kYQF7pUwD42aOTZh/3vVwxw
- n8GpBFoWoKqyThTnl3U/4MHrJ9D/MLKW429GkHbMfJR2JN/ew+mdvV9pdK4F91OuIy3W
- Fu4+zXqCpIEswXC4BYbZmka1goZFsaXblaAn9OYRC82WoWx0pIdrhX7rNXvs2wvFrso/
- BLbZP0eDbrb9fpGZ5idonXVk51T31y+Eggsx83xl0H1RLqtZm2eIJDXFuN+VufmTx+Bs
- nUWsfYydHH+gPFoBTSg11vfC5+jxmAyUsoVmzF6O14TmVlzwhPQkQlWJP2YygOiiXJWm
- sD9A==
-X-Gm-Message-State: AFqh2koCiWUn4w8lfPm7ZFjQTqCK+ywMFO23XFSKSN56wJtkFV94TG5V
- P9e5epOUPvJMqV/O3fY++/Sfver6sbsTz2JxtdJj0sakwpc4aF3q5QweSX35Yrft+kGDApI+rkj
- KYz19ULKXF68BQ4w=
-X-Received: by 2002:ad4:52e5:0:b0:4c7:797e:7788 with SMTP id
- p5-20020ad452e5000000b004c7797e7788mr87174506qvu.20.1673338161759; 
- Tue, 10 Jan 2023 00:09:21 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXukRsZkXTZ2sz8ANcFzgYWnjSbTsdpCWJpl52Qiz/g9Y6fhOnLO+Y4Fmc9YAlA5IFzXrtEIKg==
-X-Received: by 2002:ad4:52e5:0:b0:4c7:797e:7788 with SMTP id
- p5-20020ad452e5000000b004c7797e7788mr87174490qvu.20.1673338161547; 
- Tue, 10 Jan 2023 00:09:21 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-179-237.web.vodafone.de.
- [109.43.179.237]) by smtp.gmail.com with ESMTPSA id
- c5-20020a05620a268500b006e8f8ca8287sm1986160qkp.120.2023.01.10.00.09.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jan 2023 00:09:21 -0800 (PST)
-Message-ID: <f4b11be2-96ff-a488-0622-d52177bcd3d2@redhat.com>
-Date: Tue, 10 Jan 2023 09:09:16 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3 6/8] Update lcitool and fedora to 37
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- pbonzini@redhat.com, Markus Armbruster <armbru@redhat.com>,
- qemu-s390x@nongnu.org, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Ed Maste <emaste@freebsd.org>, kraxel@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Michael Roth <michael.roth@amd.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- John Snow <jsnow@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20230110080246.536056-1-marcandre.lureau@redhat.com>
- <20230110080246.536056-7-marcandre.lureau@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230110080246.536056-7-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ h=cc:to:subject:message-id:date:user-agent:from:in-reply-to
+ :references:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MkXOSS2Uc9GbZzBorr10V4YZUN0RM+L3dSx93LSbri4=;
+ b=s6bi4YO4fQrxYlh6Eu6/zBaPeS8LbVAMZFO2q9Xto0lRIUt8tJj4E+mxq3JOqbzuHN
+ MHtuuaUViLIvXlKiPze614Ar5sV47JPo2KkOAQDsCDPQ5G54mFFNvxF7G3uFvPIA1Vrk
+ UQxYbNu8prqQxLalbyfKEpcUFOzmetlFR6slrY/cj8e6DQN8OTCd0UuBK65pV8+pUVCg
+ H1+fYLAF89VVnUkVQI7mGnZvdrsbuSNf+Dtbxkm3sZsKhqZrS3AcH+2Dy/ww2aUYrTjq
+ q5YqY7BBfTW45V4/3j1FVCsgaBzWLE/py2KbLmcba+49nQb6q/MMUODN1ZAu3AWBmMrY
+ Odng==
+X-Gm-Message-State: AFqh2kp1U7TpOqHdcCwWAklPfirP1uQX29Ci0Sxsc7KVMAdpjqCZFUhV
+ zfHq/DKE7IJENFt6gxiIHu1khUtnJJnXORMv9S3XLA==
+X-Google-Smtp-Source: AMrXdXtJv8qAgG+RhPH90HFZiNU+ExtoM/K5RQtdNdJHzxk7skMcvrWBZiJOF7cLVE0Cba7fyLf7ACTWmG3/TZabcUY=
+X-Received: by 2002:a0c:fac8:0:b0:532:f58:9fa6 with SMTP id
+ p8-20020a0cfac8000000b005320f589fa6mr1613203qvo.124.1673338182266; Tue, 10
+ Jan 2023 00:09:42 -0800 (PST)
+Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
+ Tue, 10 Jan 2023 00:09:41 -0800
+Mime-Version: 1.0
+References: <20221223142307.1614945-1-xuchuangxclwt@bytedance.com>
+ <20221223142307.1614945-3-xuchuangxclwt@bytedance.com>
+ <05c4cb9e-0f41-c60f-6a68-cf5050ad7a02@redhat.com>
+ <Y6XPRD4fSucgWZfT@x1n>
+ <CABgObfa=i=9CZRFyX_EXBOSW===iDhcZoDO8Ju64F-tHUAXdRA@mail.gmail.com>
+ <Y7RpPwGd0WvrENlz@x1n>
+In-Reply-To: <Y7RpPwGd0WvrENlz@x1n>
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Date: Tue, 10 Jan 2023 00:09:41 -0800
+Message-ID: <CALophuvJ2g7D9idGHfQEK3Co7o06ab38ZK3CCGZX0tDdQX_+Tg@mail.gmail.com>
+Subject: Re: [RFC v4 2/3] memory: add depth assert in address_space_to_flatview
+To: Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, David Gilbert <dgilbert@redhat.com>, 
+ "Quintela, Juan" <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ zhouyibo@bytedance.com
+Content-Type: multipart/alternative; boundary="000000000000f18f9c05f1e467d5"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qv1-xf32.google.com
+X-Spam_score_int: 19
+X-Spam_score: 1.9
+X-Spam_bar: +
+X-Spam_report: (1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ FORGED_MUA_MOZILLA=2.309, FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,27 +97,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/01/2023 09.02, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Fedora 35 is EOL, upstream lcitool replaced it with 37.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
-...
-> diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
-> index e3eb28cf2e..319a534c22 160000
-> --- a/tests/lcitool/libvirt-ci
-> +++ b/tests/lcitool/libvirt-ci
-> @@ -1 +1 @@
-> -Subproject commit e3eb28cf2e17fbcf7fe7e19505ee432b8ec5bbb5
-> +Subproject commit 319a534c220f53fc8670254cac25d6f662c82112
+--000000000000f18f9c05f1e467d5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In case you respin this patch, please add a note to the commit description 
-explaining why you update the submodule here (I assume it's necessary to 
-pull in some changes for F37 support?).
+Hi, Peter and Paolo,
+I'm sorry I didn't reply to your email in time. I was infected with
+COVID-19 two weeks ago, so I couldn't think about the problems discussed
+in your email for a long time.=F0=9F=98=B7
 
-Apart from that:
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+On 2023/1/4 =E4=B8=8A=E5=8D=881:43, Peter Xu wrote:
+> Hi, Paolo,
+>
+> On Wed, Dec 28, 2022 at 09:27:50AM +0100, Paolo Bonzini wrote:
+>> Il ven 23 dic 2022, 16:54 Peter Xu ha scritto:
+>>
+>>>> This is not valid because the transaction could happen in *another*
+>>> thread.
+>>>> In that case memory_region_transaction_depth() will be > 0, but RCU is
+>>>> needed.
+>>> Do you mean the code is wrong, or the comment? Note that the code has
+>>> checked rcu_read_locked() where introduced in patch 1, but maybe
+something
+>>> else was missed?
+>>>
+>> The assertion is wrong. It will succeed even if RCU is unlocked in this
+>> thread but a transaction is in progress in another thread.
+> IIUC this is the case where the context:
+>
+> (1) doesn't have RCU read lock held, and,
+> (2) doesn't have BQL held.
+>
+> Is it safe at all to reference any flatview in such a context? The thing
+> is I think the flatview pointer can be freed anytime if both locks are
+not
+> taken.
+>
+>> Perhaps you can check (memory_region_transaction_depth() > 0 &&
+>> !qemu_mutex_iothread_locked()) || rcu_read_locked() instead?
+> What if one thread calls address_space_to_flatview() with BQL held but
+not
+> RCU read lock held? I assume it's a legal operation, but it seems to be
+> able to trigger the assert already?
+>
+> Thanks,
+>
+I'm not sure whether I understand the content of your discussion correctly,
+so here I want to explain my understanding firstly.
 
+From my perspective, Paolo thinks that when thread 1 is in a transaction,
+thread 2 will trigger the assertion when accessing the flatview without
+holding RCU read lock, although sometimes the thread 2's access to flatview
+is legal. So Paolo suggests checking (memory_region_transaction_depth() > 0
+&& !qemu_mutex_iothread_locked()) || rcu_read_locked() instead.
+
+And Peter thinks that as long as no thread holds the BQL or RCU read lock,
+the old flatview can be released (actually executed by the rcu thread with
+BQL held). When thread 1 is in a transaction, if thread 2 access the
+flatview
+with BQL held but not RCU read lock held, it's a legal operation. In this
+legal case, it seems that both my code and Paolo's code will trigger
+assertion.
+
+I'm not sure if I have a good understanding of your emails? I think
+checking(memory_region_transaction_get_depth() =3D=3D 0 || rcu_read_locked(=
+) ||
+qemu_mutex_iothread_locked()) should cover the case you discussed.
+
+What's your take?
+
+Thanks!
+
+--000000000000f18f9c05f1e467d5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<p>Hi, Peter and Paolo,
+<br>I&#39;m sorry I didn&#39;t reply to your email in time. I was infected =
+with
+<br>COVID-19 two weeks ago, so I couldn&#39;t think about the problems disc=
+ussed
+<br>in your email for a long time.=F0=9F=98=B7
+<br>
+<br>On 2023/1/4 =E4=B8=8A=E5=8D=881:43, Peter Xu wrote:
+<br>&gt; Hi, Paolo,
+<br>&gt;
+<br>&gt; On Wed, Dec 28, 2022 at 09:27:50AM +0100, Paolo Bonzini wrote:
+<br>&gt;&gt; Il ven 23 dic 2022, 16:54 Peter Xu  ha scritto:
+<br>&gt;&gt;
+<br>&gt;&gt;&gt;&gt; This is not valid because the transaction could happen=
+ in *another*
+<br>&gt;&gt;&gt; thread.
+<br>&gt;&gt;&gt;&gt; In that case memory_region_transaction_depth() will be=
+ &gt; 0, but RCU is
+<br>&gt;&gt;&gt;&gt; needed.
+<br>&gt;&gt;&gt; Do you mean the code is wrong, or the comment?  Note that =
+the code has
+<br>&gt;&gt;&gt; checked rcu_read_locked() where introduced in patch 1, but=
+ maybe something
+<br>&gt;&gt;&gt; else was missed?
+<br>&gt;&gt;&gt;
+<br>&gt;&gt; The assertion is wrong. It will succeed even if RCU is unlocke=
+d in this
+<br>&gt;&gt; thread but a transaction is in progress in another thread.
+<br>&gt; IIUC this is the case where the context:
+<br>&gt;
+<br>&gt;    (1) doesn&#39;t have RCU read lock held, and,
+<br>&gt;    (2) doesn&#39;t have BQL held.
+<br>&gt;
+<br>&gt; Is it safe at all to reference any flatview in such a context?  Th=
+e thing
+<br>&gt; is I think the flatview pointer can be freed anytime if both locks=
+ are not
+<br>&gt; taken.
+<br>&gt;
+<br>&gt;&gt; Perhaps you can check (memory_region_transaction_depth() &gt; =
+0 &amp;&amp;
+<br>&gt;&gt; !qemu_mutex_iothread_locked()) || rcu_read_locked() instead?
+<br>&gt; What if one thread calls address_space_to_flatview() with BQL held=
+ but not
+<br>&gt; RCU read lock held?  I assume it&#39;s a legal operation, but it s=
+eems to be
+<br>&gt; able to trigger the assert already?
+<br>&gt;
+<br>&gt; Thanks,
+<br>&gt;
+<br>I&#39;m not sure whether I understand the content of your discussion co=
+rrectly,
+<br>so here I want to explain my understanding firstly.
+<br>
+<br> From my perspective, Paolo thinks that when thread 1 is in a transacti=
+on,
+<br>thread 2 will trigger the assertion when accessing the flatview without
+<br>holding RCU read lock, although sometimes the thread 2&#39;s access to =
+flatview
+<br>is legal. So Paolo suggests checking (memory_region_transaction_depth()=
+ &gt; 0
+<br>&amp;&amp; !qemu_mutex_iothread_locked()) || rcu_read_locked() instead.
+<br>
+<br>And Peter thinks that as long as no thread holds the BQL or RCU read lo=
+ck,
+<br>the old flatview can be released (actually executed by the rcu thread w=
+ith
+<br>BQL held). When thread 1 is in a transaction, if thread 2 access the fl=
+atview
+<br>with BQL held but not RCU read lock held, it&#39;s a legal operation. I=
+n this
+<br>legal case, it seems that both my code and Paolo&#39;s code will trigge=
+r assertion.
+<br>
+<br>I&#39;m not sure if I have a good understanding of your emails? I think
+<br>checking(memory_region_transaction_get_depth() =3D=3D 0 || rcu_read_loc=
+ked() ||=20
+<br>qemu_mutex_iothread_locked())  should cover the case you discussed.
+<br>
+<br>What&#39;s your take?
+<br>
+<br>Thanks!</p>
+
+--000000000000f18f9c05f1e467d5--
 
