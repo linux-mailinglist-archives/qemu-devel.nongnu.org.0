@@ -2,95 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859D8663F58
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 12:38:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A755663F66
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 12:44:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFCwc-0001en-Fh; Tue, 10 Jan 2023 06:37:30 -0500
+	id 1pFD2Z-0004ss-5V; Tue, 10 Jan 2023 06:43:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFCwa-0001dd-1t
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 06:37:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFCwY-0002gL-2x
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 06:37:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673350641;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pu3RT7qcowUmDiVIh0NP56qSN2EZOoXQWqlASCWWjk8=;
- b=JorSKB3mde9+46I/E4g/O7w/Irfoos8HESg0pKi3FKVPYPPuR2xBJUGCJv9gSCIknvvrBL
- OVFKuoe3e3g6cDd0dMiHOfgxNc9ect4zXsmFt0N5l5FlQm4lqFrojqa9muELmk8xWh2Zqf
- II+0+yXzRZwCxhm9/IExfgdYS0KTpiw=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-318-ScL5-sYcMCy0vZ8DjmDx3w-1; Tue, 10 Jan 2023 06:37:20 -0500
-X-MC-Unique: ScL5-sYcMCy0vZ8DjmDx3w-1
-Received: by mail-qk1-f198.google.com with SMTP id
- v7-20020a05620a0f0700b006faffce43b2so8522132qkl.9
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 03:37:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pFD2X-0004sI-Sl
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 06:43:37 -0500
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pFD2W-00040E-52
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 06:43:37 -0500
+Received: by mail-ot1-x331.google.com with SMTP id
+ j16-20020a056830271000b0067202045ee9so6795289otu.7
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 03:43:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jPYn0BgthB1rBM30u9n6ldnvwVWtUmfYKDvMZZfODWY=;
+ b=XvZ8R31Q6AxCW7Djs+l66CnHSuJPlSIw9dwuCkcHcqxOO7BcbQntNEuViGithK+0np
+ Tt6FVxOnF+8Gt6p3NYziFz313e4su3dinXE9+gTBxAWh4Mffh9vUYkwttrHZxDRgtxqd
+ RrjXnzo+PDCXM7ZuI710H2aWeDRb1y8fDxTX9NssKPFFmeaPeOtjZb5bWQr28yYOtKlI
+ ERiSPyQegnpZ5l9lFT4dWWGzxM6+MDD957rDT8Id7aG7R5LaHZod0xHBlsmh1mViEXWU
+ VsIAoABiwoRQsohBgGzYvp3wjCKMLtpAmVj4TB1S63CMLaaZIab038xLKJCayaLQiksC
+ 4Y1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Pu3RT7qcowUmDiVIh0NP56qSN2EZOoXQWqlASCWWjk8=;
- b=4DIlRje+sCTzSdCLbyfIiSoSRXcO71skhEFwxPysx1Ma5jhg+HGv9GAr6FI8ALZOqo
- +Wi6DEoUKUlp1fTFAOxguJpAcp0biCKSxDtcptX6IQ9Y7Mb7zbSnY1G349f2P6M5Im0w
- 4mHB2nMGp+WH9aKuQee7V97LzjAnaeqQglWyTAhGopV+9gZBmWi2Ktau4EF+8wBh/Uub
- NHzuRuHvCBuAkEFZcSsqfsccDywwORraiM3yrdtThiWOLYkTQUgk8Q2tjw2G7Fx4M7ma
- lBmmCed+wQxcdhP2DaDhbwkTKAALlcs4C0apm8StZt3YaI2YB53QviWZTso9BUkDq2T/
- 7UjQ==
-X-Gm-Message-State: AFqh2krmcIIUIvridW5PD4KQZ7vorwmG/k4QqrrcIn3Ioo9b7sTbSETr
- PPFeWnGUkk8COTpxdtXvY5XNyqoBn78Lb1oiH72eBeieZ996v8A4nqO7kJ3bS6e9S/AhG2bIoP0
- U5FK97WOpfEtpTl4=
-X-Received: by 2002:ac8:5297:0:b0:3a6:9cfa:d6c with SMTP id
- s23-20020ac85297000000b003a69cfa0d6cmr3903581qtn.39.1673350639806; 
- Tue, 10 Jan 2023 03:37:19 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu7DuRgMqmzRXitL9iQyjAQmifcaCoSY8opYmE9WcFM8y9fFzrdT1BVHJ39hSaikGWjrGSm3w==
-X-Received: by 2002:ac8:5297:0:b0:3a6:9cfa:d6c with SMTP id
- s23-20020ac85297000000b003a69cfa0d6cmr3903544qtn.39.1673350639559; 
- Tue, 10 Jan 2023 03:37:19 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-179-237.web.vodafone.de.
- [109.43.179.237]) by smtp.gmail.com with ESMTPSA id
- x10-20020a05620a448a00b006faa2c0100bsm7025280qkp.110.2023.01.10.03.37.15
+ bh=jPYn0BgthB1rBM30u9n6ldnvwVWtUmfYKDvMZZfODWY=;
+ b=GZu/jI9lNz1R/gXC55iVVGtlK3O3bhMicdOQSDcdEg6cCjnmxkeyXw/H2jXFVKAvbL
+ RY50Ccwxf+Ikr7IIgduM79A1hD7SMNZQLWUXScomXcKHYtpdqgqQSEHyYc90RaifofXh
+ QJiJya7UNK+bs2Z1oaid37xljHm/B+fKPaNf8UAANSHuO8aewCOq52Nxtyei5GBD6c7g
+ u+zg86K3Yzqf8rjBZvLxrVYrCzPo2R5lDNLJOZiMsUcRrL63QSFw6MD97gFNOXCTM0JH
+ +BGF/IIGA/19dEa5qu7qqw3lc4juuXv96EmjvPKilSDn8Hg6FGf96wvaL+likh/PzNs3
+ YJDw==
+X-Gm-Message-State: AFqh2krKOtz+UJ1rcO1/ufQWveHNwoj5YNsqrp8FlqthdJ/uhdnwrdfL
+ aqCGWsnhoKNb740jkN42qMFhiQ==
+X-Google-Smtp-Source: AMrXdXs4j8KBktuzi5NTEJoT9VHwVRLAYGwhbLyodCQzHoRuIjhUGGfTETJu8+wk/AT8/kruz4+yQg==
+X-Received: by 2002:a9d:12e:0:b0:684:9ce5:9b15 with SMTP id
+ 43-20020a9d012e000000b006849ce59b15mr1487440otu.29.1673351013978; 
+ Tue, 10 Jan 2023 03:43:33 -0800 (PST)
+Received: from [192.168.68.107] ([152.250.93.24])
+ by smtp.gmail.com with ESMTPSA id
+ j20-20020a056830271400b00684152e9ff2sm1630410otu.0.2023.01.10.03.43.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jan 2023 03:37:19 -0800 (PST)
-Message-ID: <49d343fb-f41d-455a-8630-3db2650cfcd5@redhat.com>
-Date: Tue, 10 Jan 2023 12:37:09 +0100
+ Tue, 10 Jan 2023 03:43:33 -0800 (PST)
+Message-ID: <1adba771-6632-4f68-d72f-4389f9ce7012@ventanamicro.com>
+Date: Tue, 10 Jan 2023 08:43:29 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 10/11] hw/riscv/boot.c: consolidate all kernel init in
+ riscv_load_kernel()
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
+References: <20230102115241.25733-1-dbarboza@ventanamicro.com>
+ <20230102115241.25733-11-dbarboza@ventanamicro.com>
+ <CAEUhbmUfWbssTO1w8q_VdrWDHE4JLdJvZGkkt_w+KChsR5P32g@mail.gmail.com>
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-2-pmorel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v14 01/11] s390x/cpu topology: adding s390 specificities
- to CPU topology
-In-Reply-To: <20230105145313.168489-2-pmorel@linux.ibm.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <CAEUhbmUfWbssTO1w8q_VdrWDHE4JLdJvZGkkt_w+KChsR5P32g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,107 +98,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05/01/2023 15.53, Pierre Morel wrote:
-> S390 adds two new SMP levels, drawers and books to the CPU
-> topology.
-> The S390 CPU have specific toplogy features like dedication
-> and polarity to give to the guest indications on the host
-> vCPUs scheduling and help the guest take the best decisions
-> on the scheduling of threads on the vCPUs.
-> 
-> Let us provide the SMP properties with books and drawers levels
-> and S390 CPU with dedication and polarity,
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
-...
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index b9228a5e46..ff8f2b0e84 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -900,13 +900,15 @@
->   # a CPU is being hotplugged.
->   #
->   # @node-id: NUMA node ID the CPU belongs to
-> -# @socket-id: socket number within node/board the CPU belongs to
-> +# @drawer-id: drawer number within node/board the CPU belongs to
-> +# @book-id: book number within drawer/node/board the CPU belongs to
-> +# @socket-id: socket number within book/node/board the CPU belongs to
 
-I think the new entries need a "(since 8.0)" comment (similar to die-id and 
-cluster-id below).
 
-Other question: Do we have "node-id"s on s390x? If not, is that similar to 
-books or drawers, i.e. just another word? If so, we should maybe rather 
-re-use "nodes" instead of introducing a new name for the same thing?
+On 1/8/23 00:33, Bin Meng wrote:
+> On Mon, Jan 2, 2023 at 7:55 PM Daniel Henrique Barboza
+> <dbarboza@ventanamicro.com> wrote:
+>> The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
+>> the same steps when '-kernel' is used:
+>>
+>> - execute load_kernel()
+>> - load init_rd()
+>> - write kernel_cmdline
+>>
+>> Let's fold everything inside riscv_load_kernel() to avoid code
+>> repetition. To not change the behavior of boards that aren't calling
+>> riscv_load_init(), add an 'load_initrd' flag to riscv_load_kernel() and
+> typo: should be riscv_load_initrd()
+>
+>> allow these boards to opt out from initrd loading.
+>>
+>> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>> ---
+>>   hw/riscv/boot.c            | 22 +++++++++++++++++++---
+>>   hw/riscv/microchip_pfsoc.c | 12 ++----------
+>>   hw/riscv/opentitan.c       |  2 +-
+>>   hw/riscv/sifive_e.c        |  3 ++-
+>>   hw/riscv/sifive_u.c        | 12 ++----------
+>>   hw/riscv/spike.c           | 11 +----------
+>>   hw/riscv/virt.c            | 12 ++----------
+>>   include/hw/riscv/boot.h    |  1 +
+>>   8 files changed, 30 insertions(+), 45 deletions(-)
+>>
+> Otherwise,
+> Reviewed-by: Bin Meng <bmeng@tinylab.org>
 
->   # @die-id: die number within socket the CPU belongs to (since 4.1)
->   # @cluster-id: cluster number within die the CPU belongs to (since 7.1)
->   # @core-id: core number within cluster the CPU belongs to
->   # @thread-id: thread number within core the CPU belongs to
->   #
-> -# Note: currently there are 6 properties that could be present
-> +# Note: currently there are 8 properties that could be present
->   #       but management should be prepared to pass through other
->   #       properties with device_add command to allow for future
->   #       interface extension. This also requires the filed names to be kept in
-> @@ -916,6 +918,8 @@
->   ##
->   { 'struct': 'CpuInstanceProperties',
->     'data': { '*node-id': 'int',
-> +            '*drawer-id': 'int',
-> +            '*book-id': 'int',
->               '*socket-id': 'int',
->               '*die-id': 'int',
->               '*cluster-id': 'int',
-> @@ -1465,6 +1469,10 @@
->   #
->   # @cpus: number of virtual CPUs in the virtual machine
->   #
-> +# @drawers: number of drawers in the CPU topology
-> +#
-> +# @books: number of books in the CPU topology
-> +#
+Thanks!
 
-These also need a "(since 8.0)" comment at the end.
+Alistair, let me know if you want me to send another version with the commit
+message typo fixed. I might as well take the change to rebase it with
+riscv-to-apply.next.
 
->   # @sockets: number of sockets in the CPU topology
->   #
->   # @dies: number of dies per socket in the CPU topology
-> @@ -1481,6 +1489,8 @@
->   ##
->   { 'struct': 'SMPConfiguration', 'data': {
->        '*cpus': 'int',
-> +     '*drawers': 'int',
-> +     '*books': 'int',
->        '*sockets': 'int',
->        '*dies': 'int',
->        '*clusters': 'int',
-...
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 7f99d15b23..8dc9a4c052 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -250,11 +250,13 @@ SRST
->   ERST
->   
->   DEF("smp", HAS_ARG, QEMU_OPTION_smp,
-> -    "-smp [[cpus=]n][,maxcpus=maxcpus][,sockets=sockets][,dies=dies][,clusters=clusters][,cores=cores][,threads=threads]\n"
-> +    "-smp [[cpus=]n][,maxcpus=maxcpus][,drawers=drawers][,books=books][,sockets=sockets][,dies=dies][,clusters=clusters][,cores=cores][,threads=threads]\n"
 
-This line now got too long. Please add a newline inbetween.
-
->       "                set the number of initial CPUs to 'n' [default=1]\n"
->       "                maxcpus= maximum number of total CPUs, including\n"
->       "                offline CPUs for hotplug, etc\n"
-> -    "                sockets= number of sockets on the machine board\n"
-> +    "                drawers= number of drawers on the machine board\n"
-> +    "                books= number of books in one drawer\n"
-> +    "                sockets= number of sockets in one book\n"
->       "                dies= number of dies in one socket\n"
->       "                clusters= number of clusters in one die\n"
->       "                cores= number of cores in one cluster\n"
-
-  Thomas
+Daniel
 
 
