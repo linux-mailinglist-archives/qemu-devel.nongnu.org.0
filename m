@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D228D6646E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 17:59:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7B166468C
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 17:51:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFH6g-0003db-Pr; Tue, 10 Jan 2023 11:04:10 -0500
+	id 1pFH6f-0003bO-GN; Tue, 10 Jan 2023 11:04:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pFH6P-0003QT-NF
+ id 1pFH6S-0003Tx-6j
  for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:03:59 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pFH6N-00057Q-FJ
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:03:53 -0500
+ id 1pFH6O-00057n-Sg
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:03:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673366629;
+ s=mimecast20190719; t=1673366632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XbOaISPlploGt1778joFsAZkH0/JisRO5CprslAGWp4=;
- b=EJH6XVNegWE4zLUlNChaZSsITgzKmOTrdGIEhLRoCI8rxubW53zCd5OVyINNMm1hfa3YPd
- 44L3MTYxegX/0VIvARyPb7zdbLORA7+Rm3su5EpjiKfV16X2WnJ7Cz48Y9HEO1hbcvya9e
- jQ7Zgfh6L471wYI0RANP7+YS13e1b6M=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=J9GluDZMGEQc7BsTewqVDUoFAHAmOZfv8WtZCminAlg=;
+ b=SLKKvLCuG+y3M7epZpqNF4XJIDK/eNVy6+EXi9sHb/tQeWGGq1VAQUvXVuBPjvgirdUVEs
+ XWi+J3FTmWFNXHn+hL5ymN6/D8iTKDPWG2xBDqDSmYA3uUba9uTAkx2/G7y7Sdui2rxhe+
+ g3HdDjKNdw7YLp4OxdHG5D3e37YvwO0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-16-Vn4qQFbpPyOjVtFFuaRsWg-1; Tue, 10 Jan 2023 11:03:48 -0500
-X-MC-Unique: Vn4qQFbpPyOjVtFFuaRsWg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- u15-20020adfa18f000000b002b129dc55bfso2132577wru.11
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 08:03:47 -0800 (PST)
+ us-mta-266-VAU2YSTROhadifuKbgwhqA-1; Tue, 10 Jan 2023 11:03:50 -0500
+X-MC-Unique: VAU2YSTROhadifuKbgwhqA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ r15-20020a05600c35cf00b003d9a14517b2so9219368wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 08:03:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XbOaISPlploGt1778joFsAZkH0/JisRO5CprslAGWp4=;
- b=zFhYP64lj4z2kTfRJ+XWLjEv/dZoqYxMsXIadDy7HYMSOuvZg+2XxBWw2bQXPTh7aS
- medrGCAiL/SCEFsly2Ek+a8Q9YllPmR0T984L/xco6b1FqXcOkkhpizSp2wcLU+nwfj1
- f928Dxm/wsv7yS119yfSfOc8F1Ato3kdxRdVU2rio+qydOaKa72OOVoj0v5/R5emGC8t
- wGPL6voa/Q0zW2U+1L9Xwx59pYOhiuP4onN26L4Klzc9r7A6YiwR9JezDIecdsqKZJJL
- IdUqAraJqDeTxtJ5a6+lnRBQB1KhyXupcwykhmWN2+0ZP9THlKga6hSAYpeSUfwc5V6N
- lHgg==
-X-Gm-Message-State: AFqh2koIIs7wPoTf49TYQ0jynbNwSG+WMfUtC8NL+liVg1zINZ5XbrA+
- F9dxo5dhA3zeoZNV4+z4uly5DABG2+GSJofUdYd/la/Jhm09qGsCe324MVgW+PpTwRTHo5sJ3o/
- Hm1L+3ZTrAlUjlC7P8TvMzcIKASp50k+ltHp3THLhzUICGmp2vJWnb5uHhR596FKIoQo=
-X-Received: by 2002:a7b:cd99:0:b0:3d3:5506:1bac with SMTP id
- y25-20020a7bcd99000000b003d355061bacmr50481763wmj.30.1673366626596; 
- Tue, 10 Jan 2023 08:03:46 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXurB21YXVE/NWG4XCe/m2DVfhKVsSJwjEVdFqJN0TpCrBGmH9P0BB2SzTkIMS4gMvKEnamjmA==
-X-Received: by 2002:a7b:cd99:0:b0:3d3:5506:1bac with SMTP id
- y25-20020a7bcd99000000b003d355061bacmr50481737wmj.30.1673366626317; 
- Tue, 10 Jan 2023 08:03:46 -0800 (PST)
+ bh=J9GluDZMGEQc7BsTewqVDUoFAHAmOZfv8WtZCminAlg=;
+ b=x9nGq81dpbL5L/mkZK/OrxKYh1eIqjZi2jqE80pH9eegJRSA1Czc4xAr0EUfZUz3xX
+ RR7hvTuGRJp5C2pJ01sYGktj69qlbinI1Z2R1U8vjWTOCkbE74OcL0c/rNNdj/k+5J1n
+ L0VZyE8PtuEtfmbGlWdMcwyKEiGdf2vS+TIsrMp8R02NCkuDlSpT93mfp3ano5gidY89
+ PW41ITgsvOwMXksOzPpFZZ+yx+wSyJO1aywi+BXJWIaufWsSlcuQPdUzzWBymWEi5yPs
+ bGOkcgtZYPDYXOT5UvAErwNNBSeeVo5iIH6SS9giwPN8ozJDYl+81VhoX/cV3X8anY0l
+ 810A==
+X-Gm-Message-State: AFqh2kqE7PGxNVsJzFxxc4cCXdLh76oFLEl8Lgm5uEFJOvQhB9egjzaZ
+ yKPVESefr0XNVeaVs/Vpv50boW+T1Q4lhaJR+WcYGACl+ZCkTFc+wYocS372NaZlR0ZWaWW0TwZ
+ TF6aseagT/xG/cTqCJP9c+LoYjbHBOCFyAdJodIvXzKgtpXpQvQf97/Bxf6rDBWiJ7JI=
+X-Received: by 2002:adf:f851:0:b0:2bc:7e19:fe84 with SMTP id
+ d17-20020adff851000000b002bc7e19fe84mr3906921wrq.62.1673366629284; 
+ Tue, 10 Jan 2023 08:03:49 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuCbbF6VUWnUl7ydouuYwoI2K/7IxMN3dxrFQMKlITcyAZVQQDsaLpkJQosP2uNmWzZgmiPSQ==
+X-Received: by 2002:adf:f851:0:b0:2bc:7e19:fe84 with SMTP id
+ d17-20020adff851000000b002bc7e19fe84mr3906900wrq.62.1673366628967; 
+ Tue, 10 Jan 2023 08:03:48 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- f28-20020a05600c491c00b003d9bd56e9c1sm14494316wmp.11.2023.01.10.08.03.45
+ n6-20020adfe786000000b002bdbde1d3absm1230647wrm.78.2023.01.10.08.03.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 08:03:45 -0800 (PST)
+ Tue, 10 Jan 2023 08:03:48 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Marcel Holtmann <marcel@holtmann.org>
-Subject: [PULL 26/29] libvhost-user: Add extra compiler warnings
-Date: Tue, 10 Jan 2023 17:02:30 +0100
-Message-Id: <20230110160233.339771-27-pbonzini@redhat.com>
+Subject: [PULL 27/29] libvduse: Add extra compiler warnings
+Date: Tue, 10 Jan 2023 17:02:31 +0100
+Message-Id: <20230110160233.339771-28-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230110160233.339771-1-pbonzini@redhat.com>
 References: <20230110160233.339771-1-pbonzini@redhat.com>
@@ -107,18 +107,18 @@ to catch issues early on.
 
 Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
 Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <737ebf2e697f8640558e6f73d96a692711f548f6.1671741278.git.marcel@holtmann.org>
+Message-Id: <08daa1896ad8824e17d57d6a970bc0b4bee73ece.1671741278.git.marcel@holtmann.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- subprojects/libvhost-user/meson.build | 8 +++++++-
+ subprojects/libvduse/meson.build | 8 +++++++-
  1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/subprojects/libvhost-user/meson.build b/subprojects/libvhost-user/meson.build
-index 39825d9404ae..a18014e7f26f 100644
---- a/subprojects/libvhost-user/meson.build
-+++ b/subprojects/libvhost-user/meson.build
+diff --git a/subprojects/libvduse/meson.build b/subprojects/libvduse/meson.build
+index ba08f5ee1a03..3e3b53da33ae 100644
+--- a/subprojects/libvduse/meson.build
++++ b/subprojects/libvduse/meson.build
 @@ -1,6 +1,12 @@
- project('libvhost-user', 'c',
+ project('libvduse', 'c',
          license: 'GPL-2.0-or-later',
 -        default_options: ['c_std=gnu99'])
 +        default_options: ['warning_level=1', 'c_std=gnu99'])
@@ -129,8 +129,8 @@ index 39825d9404ae..a18014e7f26f 100644
 +                                                 '-Wstrict-aliasing'),
 +                      native: false, language: 'c')
  
- threads = dependency('threads')
- glib = dependency('glib-2.0')
+ libvduse = static_library('vduse',
+                           files('libvduse.c'),
 -- 
 2.38.1
 
