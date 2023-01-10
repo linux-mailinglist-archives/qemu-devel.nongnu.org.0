@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6886640B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:43:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2EFF66405D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:23:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFDfS-00019G-UM; Tue, 10 Jan 2023 07:23:51 -0500
+	id 1pFDdY-0007RI-Hk; Tue, 10 Jan 2023 07:21:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pFDcu-00078W-BG
+ <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pFDcu-00078U-7U
  for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:13 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pFDco-0000T4-Fy
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:10 -0500
+ <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pFDcm-0000Ru-O1
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=grP2CfMehMeWZZSi4BmJZlSp9om3tMmEUTufD95V/5k=; b=gkdFw5muHYa92VQj9AxjBfAm4G
- EKBMQPtLHud4jA7uwSXAHejGJFm9NketP3Cy04ae5HRWlzIhvjTN8XSm3H6gjF3Q5kENKFikC5bvb
- cKbeAkrIj64W0iDJ8LRVJO/jc0jQvUevR9qX55zyItQx6M4Vu1J8EyHQSuJ/gIFbGwI6WC0zYiZO7
- jWR3U+aWou58u/pT4ijPF9BRLT0IHSFfyfuXGHm4gqH0ejd+3SBoIWSpZgVI9KSsksnq5PRF5dU0l
- g6MChi82ikcQiYy9pRql5p05s85ynHbIJGBHD2w/W27Lk5NRzGLRiSjaGm7/vn5m6Lsu63kvX+sGO
- y7O4njEw==;
+ bh=snn8qCK+xGplXHxubBM76iO/WjDASXeB/KiPahMh7MU=; b=wDG1fqAE0O20Wlcug39AWiprb/
+ t2K/koZMrYoyn6bHNHGs+I1l4J6LcH8/WO04XOzmBqDLqI5UejTJ6rPiL1DBvRIyKFLlfpS7QLVE/
+ 9wiIrdfhSrGGLn0fJNAAxelzPq6gG+66l/1IOdUAUC5dlK5hThbu8/mC3lTIqomD/3SWPTgoCl++l
+ n2KBcgLF5XFqfjstBCOPtm7QLGDAwd7lj6GaEFNW0tDU4RQnt6uZIl7Dw9lo4R5Xq0kHHYbmt7hl2
+ A9N7/VhLPWeCwMf5I4IxRRhNSpKmHhxkk4REzFrcqf48PV08OEY1zpaVaHH6Hj+VFsmfO6B1pJKn2
+ VZwi8MIA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pFDcM-0037tm-2E; Tue, 10 Jan 2023 12:20:47 +0000
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pFDcg-003C5x-Ld; Tue, 10 Jan 2023 12:20:58 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pFDcT-006Yfg-Ht; Tue, 10 Jan 2023 12:20:45 +0000
+ Hat Linux)) id 1pFDcT-006Yfj-Ik; Tue, 10 Jan 2023 12:20:45 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,20 +46,19 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [PATCH v6 44/51] i386/xen: Implement HYPERVISOR_grant_table_op and
- GNTTABOP_[gs]et_verson
-Date: Tue, 10 Jan 2023 12:20:35 +0000
-Message-Id: <20230110122042.1562155-45-dwmw2@infradead.org>
+Subject: [PATCH v6 45/51] hw/xen: Implement GNTTABOP_query_size
+Date: Tue, 10 Jan 2023 12:20:36 +0000
+Message-Id: <20230110122042.1562155-46-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230110122042.1562155-1-dwmw2@infradead.org>
 References: <20230110122042.1562155-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -86,149 +85,79 @@ From: David Woodhouse <dwmw@amazon.co.uk>
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/kvm/xen_gnttab.c  | 31 ++++++++++++++++++++
- hw/i386/kvm/xen_gnttab.h  |  5 ++++
- target/i386/kvm/xen-emu.c | 60 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 96 insertions(+)
+ hw/i386/kvm/xen_gnttab.c  | 19 +++++++++++++++++++
+ hw/i386/kvm/xen_gnttab.h  |  2 ++
+ target/i386/kvm/xen-emu.c | 16 +++++++++++++++-
+ 3 files changed, 36 insertions(+), 1 deletion(-)
 
 diff --git a/hw/i386/kvm/xen_gnttab.c b/hw/i386/kvm/xen_gnttab.c
-index 311f48bfdb..cdcfea5be3 100644
+index cdcfea5be3..5e8fc0184e 100644
 --- a/hw/i386/kvm/xen_gnttab.c
 +++ b/hw/i386/kvm/xen_gnttab.c
-@@ -186,3 +186,34 @@ int xen_gnttab_map_page(uint64_t idx, uint64_t gfn)
+@@ -217,3 +217,22 @@ int xen_gnttab_get_version_op(struct gnttab_get_version *get)
+     get->version = 1;
      return 0;
  }
- 
-+int xen_gnttab_set_version_op(struct gnttab_set_version *set)
++
++int xen_gnttab_query_size_op(struct gnttab_query_size *size)
 +{
-+    int ret;
++    XenGnttabState *s = xen_gnttab_singleton;
 +
-+    switch (set->version) {
-+    case 1:
-+        ret = 0;
-+        break;
-+
-+    case 2:
-+        /* Behave as before set_version was introduced. */
-+        ret = -ENOSYS;
-+        break;
-+
-+    default:
-+        ret = -EINVAL;
++    if (!s) {
++        return -ENOTSUP;
 +    }
 +
-+    set->version = 1;
-+    return ret;
-+}
-+
-+int xen_gnttab_get_version_op(struct gnttab_get_version *get)
-+{
-+    if (get->dom != DOMID_SELF && get->dom != xen_domid) {
-+        return -ESRCH;
++    if (size->dom != DOMID_SELF && size->dom != xen_domid) {
++        size->status = GNTST_bad_domain;
++        return 0;
 +    }
 +
-+    get->version = 1;
++    size->status = GNTST_okay;
++    size->nr_frames = s->nr_frames;
++    size->max_nr_frames = s->max_frames;
 +    return 0;
 +}
 diff --git a/hw/i386/kvm/xen_gnttab.h b/hw/i386/kvm/xen_gnttab.h
-index a7caa94c83..79579677ba 100644
+index 79579677ba..3bdbe96191 100644
 --- a/hw/i386/kvm/xen_gnttab.h
 +++ b/hw/i386/kvm/xen_gnttab.h
-@@ -15,4 +15,9 @@
- void xen_gnttab_create(void);
- int xen_gnttab_map_page(uint64_t idx, uint64_t gfn);
+@@ -17,7 +17,9 @@ int xen_gnttab_map_page(uint64_t idx, uint64_t gfn);
  
-+struct gnttab_set_version;
-+struct gnttab_get_version;
-+int xen_gnttab_set_version_op(struct gnttab_set_version *set);
-+int xen_gnttab_get_version_op(struct gnttab_get_version *get);
-+
+ struct gnttab_set_version;
+ struct gnttab_get_version;
++struct gnttab_query_size;
+ int xen_gnttab_set_version_op(struct gnttab_set_version *set);
+ int xen_gnttab_get_version_op(struct gnttab_get_version *get);
++int xen_gnttab_query_size_op(struct gnttab_query_size *size);
+ 
  #endif /* QEMU_XEN_GNTTAB_H */
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 6570c65ea6..8895f91d8b 100644
+index 8895f91d8b..a279d7ff89 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -33,6 +33,7 @@
- #include "standard-headers/xen/hvm/params.h"
- #include "standard-headers/xen/vcpu.h"
- #include "standard-headers/xen/event_channel.h"
-+#include "standard-headers/xen/grant_table.h"
- 
- #include "xen-compat.h"
- 
-@@ -1124,6 +1125,61 @@ static bool kvm_xen_hcall_sched_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-     return true;
- }
- 
-+static bool kvm_xen_hcall_gnttab_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-+                                    int cmd, uint64_t arg, int count)
-+{
-+    CPUState *cs = CPU(cpu);
-+    int err;
-+
-+    switch (cmd) {
-+    case GNTTABOP_set_version: {
-+        struct gnttab_set_version set;
-+
-+        qemu_build_assert(sizeof(set) == 4);
-+        if (kvm_copy_from_gva(cs, arg, &set, sizeof(set))) {
-+            err = -EFAULT;
-+            break;
-+        }
-+
-+        err = xen_gnttab_set_version_op(&set);
-+        if (!err && kvm_copy_to_gva(cs, arg, &set, sizeof(set))) {
-+            err = -EFAULT;
-+        }
-+        break;
-+    }
-+    case GNTTABOP_get_version: {
-+        struct gnttab_get_version get;
-+
-+        qemu_build_assert(sizeof(get) == 8);
-+        if (kvm_copy_from_gva(cs, arg, &get, sizeof(get))) {
-+            err = -EFAULT;
-+            break;
-+        }
-+
-+        err = xen_gnttab_get_version_op(&get);
-+        if (!err && kvm_copy_to_gva(cs, arg, &get, sizeof(get))) {
-+            err = -EFAULT;
-+        }
-+        break;
-+    }
-+    case GNTTABOP_query_size:
-+    case GNTTABOP_setup_table:
-+    case GNTTABOP_copy:
-+    case GNTTABOP_map_grant_ref:
-+    case GNTTABOP_unmap_grant_ref:
-+    case GNTTABOP_swap_grant_ref:
-+        return false;
-+
-+    default:
-+        /* Xen explicitly returns -ENOSYS to HVM guests for all others */
-+        err = -ENOSYS;
-+        break;
-+    }
-+
-+    exit->u.hcall.result = err;
-+    return true;
-+}
-+
- static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
- {
-     uint16_t code = exit->u.hcall.input;
-@@ -1134,6 +1190,10 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+@@ -1162,7 +1162,21 @@ static bool kvm_xen_hcall_gnttab_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+         }
+         break;
      }
- 
-     switch (code) {
-+    case __HYPERVISOR_grant_table_op:
-+        return kvm_xen_hcall_gnttab_op(exit, cpu, exit->u.hcall.params[0],
-+                                       exit->u.hcall.params[1],
-+                                       exit->u.hcall.params[2]);
-     case __HYPERVISOR_sched_op:
-         return kvm_xen_hcall_sched_op(exit, cpu, exit->u.hcall.params[0],
-                                       exit->u.hcall.params[1]);
+-    case GNTTABOP_query_size:
++    case GNTTABOP_query_size: {
++        struct gnttab_query_size size;
++
++        qemu_build_assert(sizeof(size) == 16);
++        if (kvm_copy_from_gva(cs, arg, &size, sizeof(size))) {
++            err = -EFAULT;
++            break;
++        }
++
++        err = xen_gnttab_query_size_op(&size);
++        if (!err && kvm_copy_to_gva(cs, arg, &size, sizeof(size))) {
++            err = -EFAULT;
++        }
++        break;
++    }
+     case GNTTABOP_setup_table:
+     case GNTTABOP_copy:
+     case GNTTABOP_map_grant_ref:
 -- 
 2.35.3
 
