@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F78663D41
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:50:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80CA1663D22
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:43:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFA9m-00015X-Gm; Tue, 10 Jan 2023 03:38:54 -0500
+	id 1pFA9m-00015e-TR; Tue, 10 Jan 2023 03:38:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pFA9T-0000yC-Ot; Tue, 10 Jan 2023 03:38:35 -0500
+ id 1pFA9U-0000zS-Ub; Tue, 10 Jan 2023 03:38:36 -0500
 Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pFA9S-0000Yt-8M; Tue, 10 Jan 2023 03:38:35 -0500
+ id 1pFA9T-0000ZD-Cf; Tue, 10 Jan 2023 03:38:36 -0500
 Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
  (sas1-c73b4b4f4b95.qloud-c.yandex.net
  [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id AF6C15FD3E;
- Tue, 10 Jan 2023 11:38:26 +0300 (MSK)
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id B1F01602F9;
+ Tue, 10 Jan 2023 11:38:27 +0300 (MSK)
 Received: from vsementsov-win.yandex-team.ru (unknown
  [2a02:6b8:b081:b685::1:3c])
  by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 2cYnPs1R4a61-JjcedUR4; Tue, 10 Jan 2023 11:38:26 +0300
+ 2cYnPs1R4a61-BHIdjKr6; Tue, 10 Jan 2023 11:38:27 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1673339906; bh=Xa/Nb3hPHrPy66Pubrc2BbYB9Q9MRT5VWmLtYp1X6Eg=;
+ t=1673339907; bh=HTWz9aNIcUA1uytOpMImQVGYow7xcWu2hDG0eM+b7Fw=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=dTS3BBwfaSK1+hNoVlRJaje+KTDQnnxFmgw8swFtCi/BMAfB15aodmU9tLAyIaXgP
- ZTaFIBPf5zKRio9t//3JPNiuLvvg7rWDhi1vGSR7pYAsV5R40lJvvfguIXLbWvgJZA
- d/+zUcHTBxW1TZk+GJ5tt8KiwyefwBdVWvAQPHM8=
+ b=k0VyzdC7CwK1Lr4D8CnfUJe/9ucD05pzb/Yb4Wvmo2eletvzpTCHw3qTeV5ubhAJR
+ U568ePk+BcxZYa/DHK3fUlI4TuvsToz/csvYrwP7SJAi5MjhrXw/e4roZDToPiVx5C
+ EbMF45bOMbCSjoGH7sFve1bi9VijGb3oRfDR44Ps=
 Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 To: qemu-block@nongnu.org
 Cc: vsementsov@yandex-team.ru, jsnow@redhat.com, crosa@redhat.com,
  kwolf@redhat.com, hreitz@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v4 09/11] iotests.py: pause_job(): drop return value
-Date: Tue, 10 Jan 2023 11:37:56 +0300
-Message-Id: <20230110083758.161201-10-vsementsov@yandex-team.ru>
+Subject: [PATCH v4 10/11] tests/vm/basevm.py: use cmd() instead of qmp()
+Date: Tue, 10 Jan 2023 11:37:57 +0300
+Message-Id: <20230110083758.161201-11-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230110083758.161201-1-vsementsov@yandex-team.ru>
 References: <20230110083758.161201-1-vsementsov@yandex-team.ru>
@@ -70,29 +70,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The returned value is unused. It's simple to check by command
-
- git grep -B 3 '\.pause_job('
+We don't expect failure here and need 'result' object. cmd() is better
+in this case.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- tests/qemu-iotests/iotests.py | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ tests/vm/basevm.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index dd08cd8a2b..38f78dae3a 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -1321,8 +1321,7 @@ def pause_job(self, job_id='job0', wait=True):
-         result = self.vm.qmp('block-job-pause', device=job_id)
-         self.assert_qmp(result, 'return', {})
-         if wait:
--            return self.pause_wait(job_id)
--        return result
-+            self.pause_wait(job_id)
- 
-     def case_skip(self, reason):
-         '''Skip this test case'''
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 2276364c42..ff7e4fea15 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -311,8 +311,8 @@ def boot(self, img, extra_args=[]):
+         self._guest = guest
+         # Init console so we can start consuming the chars.
+         self.console_init()
+-        usernet_info = guest.qmp("human-monitor-command",
+-                                 command_line="info usernet").get("return")
++        usernet_info = guest.cmd("human-monitor-command",
++                                 command_line="info usernet")
+         self.ssh_port = get_info_usernet_hostfwd_port(usernet_info)
+         if not self.ssh_port:
+             raise Exception("Cannot find ssh port from 'info usernet':\n%s" % \
 -- 
 2.34.1
 
