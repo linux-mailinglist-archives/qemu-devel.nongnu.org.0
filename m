@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07AD3664082
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:31:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B68EA66408A
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:32:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFDf0-0000ct-5k; Tue, 10 Jan 2023 07:23:22 -0500
+	id 1pFDeS-0008RW-Rh; Tue, 10 Jan 2023 07:22:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFDct-00078I-9H
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:13 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pFDcw-00079k-Ed
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:15 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFDcj-0000Pd-Te
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:06 -0500
+ <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pFDcp-0000TY-Rs
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=64hNHlCqyltgPlWelpstoGeoj61K9td9T/+z58w2RGk=; b=IzxUY7l2viTW2itPg8Als9UwHx
- OCMHk7tLqjevZJt/5A8lz9ng1KCwaj1r/K3ikbNFi3Aun7CN7M8/XYTwpbNk031x2WQxvs8EEHXzr
- j8u4e3uzEoy2ZwlQuJ+nxwpJvumDJVlKmo5u2sPFR0V92JuRosyYjHtmmBA+hn9W+Uzo2xvCQPqzC
- dM1r0j5jDUacrPduGLxOtD9WT/MotTJVxK3UFxUu5E/8pUkDAMyiIeydWeXq6h8OWgXC9PLwSXgrr
- fZa3WWq5d/0ZF100x7gaiO5VMcZcaxI8QCt/giBkNSRaRvwdbpUQRI8UfabmS64uf9JV9RekTZ+dS
- BQwH/eRg==;
+ bh=XRzdL/CALSDLJzHnESACG/cohUQWtyCqo+JBslY+hCA=; b=O7q+FYoaLLQNk85XbXC0sEHGB6
+ MpipfUXI5UH7noNAgoVBZ329w9U6EScuk39mplt5AgCoaArhRJh+eM+bnzUXLCFElfsBpm6XjaQYe
+ sz5bWuxlRtTnLLv3Ios5X7FtRumC1fLqFud2VCktDG04BCpV+ydcWn3uSFwosWboDsH6g8X8jYXMG
+ ApVCDAOqLVPiBtK3JwZIB72FWlZWSxwFmFyVhRY5m9plYfL86AL/6z7stcnoH7Uh6J7e2z1S+rG+T
+ eV5nklmFtPbnisQQ/k5kYk5YBbY2kQqlkbNjHR9mz8XtF72AJ+T5DIb5owDekEr/MKybFrN8eu3Nb
+ mKPZRPAg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pFDcg-003C5r-LY; Tue, 10 Jan 2023 12:20:58 +0000
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pFDcM-0037tP-1q; Tue, 10 Jan 2023 12:20:48 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pFDcS-006Ydf-BO; Tue, 10 Jan 2023 12:20:44 +0000
+ Hat Linux)) id 1pFDcS-006Ydr-Eh; Tue, 10 Jan 2023 12:20:44 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,19 +46,20 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [PATCH v6 03/51] xen: Add XEN_DISABLED mode and make it default
-Date: Tue, 10 Jan 2023 12:19:54 +0000
-Message-Id: <20230110122042.1562155-4-dwmw2@infradead.org>
+Subject: [PATCH v6 07/51] xen-platform: exclude vfio-pci from the PCI platform
+ unplug
+Date: Tue, 10 Jan 2023 12:19:58 +0000
+Message-Id: <20230110122042.1562155-8-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230110122042.1562155-1-dwmw2@infradead.org>
 References: <20230110122042.1562155-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -81,61 +82,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Joao Martins <joao.m.martins@oracle.com>
 
-Also set XEN_ATTACH mode in xen_init() to reflect the truth; not that
-anyone ever cared before. It was *only* ever checked in xen_init_pv()
-before.
+Such that PCI passthrough devices work for Xen emulated guests.
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- accel/xen/xen-all.c  | 2 ++
- include/hw/xen/xen.h | 5 +++--
- softmmu/globals.c    | 2 +-
- 3 files changed, 6 insertions(+), 3 deletions(-)
+ hw/i386/xen/xen_platform.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
-index 69aa7d018b..2329556595 100644
---- a/accel/xen/xen-all.c
-+++ b/accel/xen/xen-all.c
-@@ -181,6 +181,8 @@ static int xen_init(MachineState *ms)
-      * opt out of system RAM being allocated by generic code
-      */
-     mc->default_ram_id = NULL;
+diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
+index 7db0d94ec2..50174c2269 100644
+--- a/hw/i386/xen/xen_platform.c
++++ b/hw/i386/xen/xen_platform.c
+@@ -109,12 +109,25 @@ static void log_writeb(PCIXenPlatformState *s, char val)
+ #define _UNPLUG_NVME_DISKS 3
+ #define UNPLUG_NVME_DISKS (1u << _UNPLUG_NVME_DISKS)
+ 
++static bool pci_device_is_passthrough(PCIDevice *d)
++{
++    if (!strcmp(d->name, "xen-pci-passthrough")) {
++        return true;
++    }
 +
-+    xen_mode = XEN_ATTACH;
-     return 0;
++    if (xen_mode == XEN_EMULATE && !strcmp(d->name, "vfio-pci")) {
++        return true;
++    }
++
++    return false;
++}
++
+ static void unplug_nic(PCIBus *b, PCIDevice *d, void *o)
+ {
+     /* We have to ignore passthrough devices */
+     if (pci_get_word(d->config + PCI_CLASS_DEVICE) ==
+             PCI_CLASS_NETWORK_ETHERNET
+-            && strcmp(d->name, "xen-pci-passthrough") != 0) {
++            && !pci_device_is_passthrough(d)) {
+         object_unparent(OBJECT(d));
+     }
  }
+@@ -187,9 +200,8 @@ static void unplug_disks(PCIBus *b, PCIDevice *d, void *opaque)
+         !(flags & UNPLUG_IDE_SCSI_DISKS);
  
-diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
-index 4d412fd4b2..b3873c581b 100644
---- a/include/hw/xen/xen.h
-+++ b/include/hw/xen/xen.h
-@@ -22,8 +22,9 @@
+     /* We have to ignore passthrough devices */
+-    if (!strcmp(d->name, "xen-pci-passthrough")) {
++    if (pci_device_is_passthrough(d))
+         return;
+-    }
  
- /* xen-machine.c */
- enum xen_mode {
--    XEN_EMULATE = 0,  // xen emulation, using xenner (default)
--    XEN_ATTACH        // attach to xen domain created by libxl
-+    XEN_DISABLED = 0, // xen support disabled (default)
-+    XEN_ATTACH,       // attach to xen domain created by libxl
-+    XEN_EMULATE,
- };
- 
- extern uint32_t xen_domid;
-diff --git a/softmmu/globals.c b/softmmu/globals.c
-index 527edbefdd..0a4405614e 100644
---- a/softmmu/globals.c
-+++ b/softmmu/globals.c
-@@ -63,5 +63,5 @@ QemuUUID qemu_uuid;
- bool qemu_uuid_set;
- 
- uint32_t xen_domid;
--enum xen_mode xen_mode = XEN_EMULATE;
-+enum xen_mode xen_mode = XEN_DISABLED;
- bool xen_domid_restrict;
+     switch (pci_get_word(d->config + PCI_CLASS_DEVICE)) {
+     case PCI_CLASS_STORAGE_IDE:
 -- 
 2.35.3
 
