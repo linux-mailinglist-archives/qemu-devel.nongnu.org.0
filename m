@@ -2,81 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01010663A66
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:05:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67268663AFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:28:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF9cS-0007Zq-Qr; Tue, 10 Jan 2023 03:04:29 -0500
+	id 1pF9gK-000112-KK; Tue, 10 Jan 2023 03:08:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pF9cH-0007Xv-B8
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:04:20 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pF9cF-0007oK-Ms
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:04:16 -0500
-Received: by mail-wr1-x435.google.com with SMTP id w1so10824604wrt.8
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 00:04:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=nmDqK+qwaobCGlu6HmufPppNf439YWNMTe1H3Hw6FxE=;
- b=j8P8Yy7QwvQ1aIEib3dDZqbPTW6nLd/sQc8sCblk70HvglbLGv40ALYHpyF0rvg0GP
- O6/dLXJgQLdedP+vGGurRuQ4Qz0JgVQm/8oaJaSiuUO8VFs3a2MPj7R0l1mlgIUp1RfW
- IMmSR4y0M1eMnY3knwBh+y5kcv/5bI6oUbTEgK/cAfCv4F7sDkp3ONYgWV8byB+Wu0eE
- X4bVKjAFGjuWu0PGA7QKT6QWaAfOu61IWk9+dy7vWsfYWy/rvRmHiuOavPMUINCilgeB
- rcgE6uxRNADObLFRaBc0oFNKEyweW4dPCzUnBv9oHQy3B4oD6yI63AHN3XKxuvk8CtLH
- 7P/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nmDqK+qwaobCGlu6HmufPppNf439YWNMTe1H3Hw6FxE=;
- b=agVsHzlxzq8TRgi9C+s4iDKocZ0NwxhPeyqncSrknClZVC05aJ7RneKH32ULQzPgGr
- QJP0ggoGHQTHkHNi+gUOM0OliiH8cxBk6jXEMjTomEflF44YSa83810GdqDLMH8OFhJ9
- mz1htjjdlP2B8NEkj1VtqDlAz+PppbpG/1NuhXxEJTucypPXAGL5R5FoM2ecuMIM0Q55
- Iiu2Fm6qMeqYTEXOpu5hEB0vzBEqpBhT75/lOGUE/OGJyrzqUtz1NeWRR7X7i6PLbHjJ
- saPxQ2sxtSoFSSvJgx/EZgtrsD0vPZqzO7Fv86I0vQYaYwhsTlIhKanPw/IRRdYReOB4
- xBKA==
-X-Gm-Message-State: AFqh2ko+wRDzIm1pU/yA1j4rEucjpA1IHP0voyt10u8AGLyDNfd64mr8
- lYV74+9DLQUrVKktmgjl7vywVQ==
-X-Google-Smtp-Source: AMrXdXtINly5ZBB1KZGLIpeKcCDjnSaW648i4kP0noBdu/gtEZ4UnO7vywOl4+CEXrJQtPxDtzCG1Q==
-X-Received: by 2002:adf:e38e:0:b0:241:d7ce:4383 with SMTP id
- e14-20020adfe38e000000b00241d7ce4383mr43306180wrm.20.1673337851168; 
- Tue, 10 Jan 2023 00:04:11 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- u5-20020adfdb85000000b002ba2646fd30sm12263375wri.36.2023.01.10.00.04.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jan 2023 00:04:10 -0800 (PST)
-Message-ID: <3940b511-221d-dd4e-f3e2-d1a82d57f8b2@linaro.org>
-Date: Tue, 10 Jan 2023 09:04:09 +0100
+ (Exim 4.90_1) (envelope-from <pdel@pdel-mbp.localdomain>)
+ id 1pF9fz-0000z8-LS
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:08:10 -0500
+Received: from [163.114.132.7] (helo=pdel-mbp.localdomain)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pdel@pdel-mbp.localdomain>) id 1pF9fw-0000Ce-Sx
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:08:06 -0500
+Received: by pdel-mbp.localdomain (Postfix, from userid 501)
+ id 2ECBCE17559; Tue, 10 Jan 2023 00:07:57 -0800 (PST)
+From: Peter Delevoryas <peter@pjd.dev>
+To: 
+Cc: jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com, philmd@linaro.org,
+ wainersm@redhat.com, qemu-devel@nongnu.org,
+ Peter Delevoryas <peter@pjd.dev>
+Subject: [PATCH v4 0/1] python/machine: Fix AF_UNIX path too long
+Date: Tue, 10 Jan 2023 00:07:55 -0800
+Message-Id: <20230110080756.38271-1-peter@pjd.dev>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 1/4] hw/isa/Kconfig: Add missing PARALLEL dependency to
- ISA_SUPERIO
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <20230109204124.102592-1-shentey@gmail.com>
- <20230109204124.102592-2-shentey@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230109204124.102592-2-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 163.114.132.7 (failed)
+Received-SPF: none client-ip=163.114.132.7;
+ envelope-from=pdel@pdel-mbp.localdomain; helo=pdel-mbp.localdomain
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NO_DNS_FOR_FROM=0.001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,16 +55,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/1/23 21:41, Bernhard Beschow wrote:
-> isa-superio.c, managed by ISA_SUPERIO, instantiates TYPE_ISA_PARALLEL,
-> managed by PARALLEL.
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   hw/isa/Kconfig | 1 +
->   1 file changed, 1 insertion(+)
+v1: https://lore.kernel.org/qemu-devel/20220705214659.73369-1-peter@pjd.dev/
+v2: https://lore.kernel.org/qemu-devel/20220716173434.17183-1-peter@pjd.dev/
+v3:
+    - Changed QEMUMachine._name to f"{id(self):x}". Suggestion was to do
+      f"{id(self):02x}", but the id's look like they are probably just the
+      object address (8-byte pointer), so the "02" had no effect.
+    - Changed QMP socket name suffix from "-monitor.sock" to ".qmp".
+    - Changed console socket name suffix from "-console.sock" to ".con".
+v4:
+	- Just resending v3 after rebasing from a long time ago
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+I tried to run `make check-avocado` before sending again, but it looks like
+there is some other issue. Probably related to the python version I have (I
+have like 5 different Python versions installed on my work laptop).
 
+Thanks,
+Peter
+
+$ make check-avocado
+changing dir to build for /Library/Developer/CommandLineTools/usr/bin/make "check-avocado"...
+  GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc
+  VENV    /Users/pdel/qemu/build/tests/venv
+  VENVPIP install -e /Users/pdel/qemu/python/
+  VENVPIP install -r /Users/pdel/qemu/tests/requirements.txt
+  MKDIR   /Users/pdel/qemu/build/tests/results
+  AVOCADO Downloading avocado tests VM image for aarch64
+The image was downloaded:
+Provider Version Architecture File
+fedora   31      aarch64      /Users/pdel/avocado/data/cache/by_location/4f156e531446a679cbfe13caef8b7c9f9f79aafa/Fedora-C
+loud-Base-31-1.9.aarch64.qcow2
+  AVOCADO tests/avocado
+Fetching asset from tests/avocado/boot_linux_console.py:BootLinuxConsole.test_aarch64_raspi3_atf
+Fetching asset from tests/avocado/boot_xen.py:BootXen.test_arm64_xen_411_and_dom0
+Fetching asset from tests/avocado/boot_xen.py:BootXen.test_arm64_xen_414_and_dom0
+Fetching asset from tests/avocado/boot_xen.py:BootXen.test_arm64_xen_415_and_dom0
+Fetching asset from tests/avocado/machine_aarch64_virt.py:Aarch64VirtMachine.test_alpine_virt_tcg_gic_max
+Fetching asset from tests/avocado/machine_aarch64_virt.py:Aarch64VirtMachine.test_aarch64_virt
+Fetching asset from tests/avocado/replay_kernel.py:ReplayKernelNormal.test_aarch64_virt
+Fetching asset from tests/avocado/reverse_debugging.py:ReverseDebugging_AArch64.test_aarch64_virt
+JOB ID     : 18a949ed9150e22d6ecea69b99ede1ded17233f4
+JOB LOG    : /Users/pdel/qemu/build/tests/results/job-2023-01-10T00.03-18a949e/job.log
+
+Avocado crashed: TypeError: cannot pickle '_thread.RLock' object
+
+Peter Delevoryas (1):
+  python/machine: Fix AF_UNIX path too long on macOS
+
+ python/qemu/machine/machine.py         | 6 +++---
+ tests/avocado/avocado_qemu/__init__.py | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+-- 
+2.39.0
 
 
