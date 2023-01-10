@@ -2,84 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC9A6648B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:14:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA8F664A37
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:31:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFJ0b-0007qc-0Y; Tue, 10 Jan 2023 13:06:01 -0500
+	id 1pFJLS-0004C5-Bi; Tue, 10 Jan 2023 13:27:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pFJ0Z-0007qF-6Y
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 13:05:59 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFJLN-0004BH-S6
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 13:27:30 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pFJ0W-0001jE-US
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 13:05:58 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFJLM-0001QD-A9
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 13:27:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673373956;
+ s=mimecast20190719; t=1673375247;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2+qSTWtPmF4NIotVNo6bln+uWlgod6YHRDuyFn6n6zM=;
- b=dc1MeDOhgqUt4inqhmS+3Kn+idUXP0kUCckaWHDhLf/9k6aDgWhCUf+ZGo2vgK26wAeLzH
- mqQNOHTdRI8TWNmfP8bg0Q1XRmZqIwz6CVlX370tih+F+YZGA7WPLWNCPqTHn0lhJWZ3bO
- KwUtMCH0eYA6iA9YgiMNC6pEmYrfjXg=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XNuJrruTu5LhyQL2V20YY/ZteDsWCoMTmcv5RHUyK6U=;
+ b=gRLbn726Zu9HHxOJ+rDgkW2nijGJT332i0NOy42LfWjCelv4u2qfyN1tJ9i2JwD+0WRo5/
+ 3HpAt97/sWidh9p1AD1EjJcn9YTcQ8us+lwF1HyjOCuNcIFTDNYLKMHoh70xNv1iiZXQH+
+ /IssU+hl9z1FikNHdkMT0Lycd8o0l10=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-302-TP9x107xOKyhQiMMApSHkg-1; Tue, 10 Jan 2023 13:05:55 -0500
-X-MC-Unique: TP9x107xOKyhQiMMApSHkg-1
-Received: by mail-lf1-f71.google.com with SMTP id
- g28-20020a0565123b9c00b004cc8a085997so1211265lfv.13
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 10:05:54 -0800 (PST)
+ us-mta-172-yChTELGiNBmcrQXssQzSGg-1; Tue, 10 Jan 2023 13:27:25 -0500
+X-MC-Unique: yChTELGiNBmcrQXssQzSGg-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ ez10-20020a05622a4c8a00b003ab6c16856fso5945302qtb.17
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 10:27:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2+qSTWtPmF4NIotVNo6bln+uWlgod6YHRDuyFn6n6zM=;
- b=D6M4OpKbvMlbsX0TfXcJNChrLCnaug/37RCoYla2whsw++FwC/CdSGU0xbVXNs6Hoj
- 2ZNM9zOYkHL7luthACHKSLYRc5Ja/NKdI4bxYP68wuFX8o7K29ilwEXiwfoxmm1Olqgp
- wZNnBL/SSp9o8TbjMWO6SjAwQYAepBNb7RQpRYuv9cuyKXieYB2F3QyF7DsrO0Z9m2Ak
- BbQ/zg1YkEPJ9S4ijvg5Oya1NhAXVGYjDez1JMWwsvEnXf3PktXV8f7lV44h7w884eX3
- nnNT/zyNzpSc9Hh3B15tNCiKFuu1weHXPnWER72ss56PWsByVjPTl3LEWdRCIFMjWm53
- orPw==
-X-Gm-Message-State: AFqh2kq6A0yFE12YxdGMizI+/+3s6IFowA1y1/u+zUB2No23lIv3XSyw
- 0TpzSjC4BVNXcnb3aNtReiI6yHl/TjRUmBwUwCBQCFmbPzK54lyubPd7FcsHyaVeAOSeoVUIaRf
- yYs5jXKZ4Bs8jphUR8Q1U8iecxuGdn5I=
-X-Received: by 2002:a05:6512:1cd:b0:4b5:b10b:6822 with SMTP id
- f13-20020a05651201cd00b004b5b10b6822mr3059680lfp.621.1673373953211; 
- Tue, 10 Jan 2023 10:05:53 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsdZOHjAlPr/JgLnWiB3Sf+e/XdM4Rm1gxQCXCtxerBz2lYms0FqVYajiG9iz842E4LLjHQtlj/3WWwWRZfDEY=
-X-Received: by 2002:a05:6512:1cd:b0:4b5:b10b:6822 with SMTP id
- f13-20020a05651201cd00b004b5b10b6822mr3059673lfp.621.1673373952843; Tue, 10
- Jan 2023 10:05:52 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XNuJrruTu5LhyQL2V20YY/ZteDsWCoMTmcv5RHUyK6U=;
+ b=JM2FOxcMm2TAqAhoLirmXBnZLb9CjC6LcFQAizfIWHvzIxCsRF1fMQMtV2h4JHLuYg
+ ku3VJy2OUcUKeFRhzQnAhNHQWjXmPAysgzud1sllhaT7atNc0AD6J6igh0FbHu3zKg8K
+ fc+3a+ufFgE1OgoGIega9wParrkmt44sZ+RhCJCVKjJA80b+I2g24oxr2t+pCh/qipFQ
+ iX+mIMnmp62bjq4qOzOmeWddGzyuzV9meBE7tzrombdtHZJnlxszYF1pu5bORSKgQLJ+
+ cFVLzSxZZ7ocjMupu0D1Kkbq5RT2RaAuqHEYAKfPGuNKLhfKaVA3XP/BDujvoxo9+o+c
+ E4YQ==
+X-Gm-Message-State: AFqh2kqROFX4QnRmPt8O+c6b2+K1Lzs0q/V+16Mv1j3oVoB2FENsaRfH
+ 3+/CSjLpQtoW6GmH4SXWIRloJza+8ZTN3GIuwwes1EDBgt9pFnJLVGKgBmU1a4AEbaeNFZ8jBcM
+ hLi/ZGeE8XbN7ZCQ=
+X-Received: by 2002:ac8:6f1b:0:b0:3a9:7f1d:11f with SMTP id
+ bs27-20020ac86f1b000000b003a97f1d011fmr6261927qtb.36.1673375245209; 
+ Tue, 10 Jan 2023 10:27:25 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs5f2sNzuNgBLKxOrQpdWsNLQJDN93gnG54zr5muy5+hrI0db3mSGRfLVEU2sa+wHdn6APdXQ==
+X-Received: by 2002:ac8:6f1b:0:b0:3a9:7f1d:11f with SMTP id
+ bs27-20020ac86f1b000000b003a97f1d011fmr6261895qtb.36.1673375244956; 
+ Tue, 10 Jan 2023 10:27:24 -0800 (PST)
+Received: from [192.168.8.100] (tmo-125-180.customers.d1-online.com.
+ [80.187.125.180]) by smtp.gmail.com with ESMTPSA id
+ bk25-20020a05620a1a1900b006ff8ac9acfdsm7602957qkb.49.2023.01.10.10.27.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Jan 2023 10:27:24 -0800 (PST)
+Message-ID: <5a328f4e-2da3-3db7-7cde-01b8c9abe38b@redhat.com>
+Date: Tue, 10 Jan 2023 19:27:21 +0100
 MIME-Version: 1.0
-References: <20220624195252.175249-1-vsementsov@yandex-team.ru>
- <CAFn=p-bzPUmF4YZ-461Tzr9MO_ReotL+wuot2egKW7jQgvaHOw@mail.gmail.com>
- <CAFn=p-bwAXCJnWPj7JwSmN2N52hv7R0p1Fn2GxPpHPpDaDaDHQ@mail.gmail.com>
- <9b5a291e-d8a2-e789-0a87-b923240a3e3a@yandex-team.ru>
- <CAFn=p-bhDkvrQfYNRyuyx2bu6jKhhfTa85AUw1Ab2xavYh3wXw@mail.gmail.com>
-In-Reply-To: <CAFn=p-bhDkvrQfYNRyuyx2bu6jKhhfTa85AUw1Ab2xavYh3wXw@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 10 Jan 2023 13:05:41 -0500
-Message-ID: <CAFn=p-YqBysCqPr9qiGts+bdu+UL=2qbfizXNc9AA6zE4exgbQ@mail.gmail.com>
-Subject: Re: [PATCH] python: QEMUMachine: enable qmp accept timeout by default
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>, 
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] Makefile: allow 'make uninstall'
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20230110151318.24462-1-peter.maydell@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230110151318.24462-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,100 +100,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 10, 2023 at 12:06 PM John Snow <jsnow@redhat.com> wrote:
->
->
->
-> On Tue, Jan 10, 2023, 3:53 AM Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
->>
->> On 7/12/22 00:21, John Snow wrote:
->> > On Mon, Jul 11, 2022 at 5:16 PM John Snow <jsnow@redhat.com> wrote:
->> >>
->> >> On Fri, Jun 24, 2022 at 3:53 PM Vladimir Sementsov-Ogievskiy
->> >> <vsementsov@yandex-team.ru> wrote:
->> >>>
->> >>> I've spent much time trying to debug hanging pipeline in gitlab. I
->> >>> started from and idea that I have problem in code in my series (which
->> >>> has some timeouts). Finally I found that the problem is that I've used
->> >>> QEMUMachine class directly to avoid qtest, and didn't add necessary
->> >>> arguments. Qemu fails and we wait for qmp accept endlessly. In gitlab
->> >>> it's just stopped by timeout (one hour) with no sign of what's going
->> >>> wrong.
->> >>>
->> >>> With timeout enabled, gitlab don't wait for an hour and prints all
->> >>> needed information.
->> >>>
->> >>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->> >>> ---
->> >>>
->> >>> Hi all!
->> >>>
->> >>> Just compare this
->> >>>    https://gitlab.com/vsementsov/qemu/-/pipelines/572232557
->> >>> and this
->> >>>    https://gitlab.com/vsementsov/qemu/-/pipelines/572526252
->> >>>
->> >>> and you'll see that the latter is much better.
->> >>>
->> >>>   python/qemu/machine/machine.py | 2 +-
->> >>>   1 file changed, 1 insertion(+), 1 deletion(-)
->> >>>
->> >>> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
->> >>> index 37191f433b..01a12f6f73 100644
->> >>> --- a/python/qemu/machine/machine.py
->> >>> +++ b/python/qemu/machine/machine.py
->> >>> @@ -131,7 +131,7 @@ def __init__(self,
->> >>>                    drain_console: bool = False,
->> >>>                    console_log: Optional[str] = None,
->> >>>                    log_dir: Optional[str] = None,
->> >>> -                 qmp_timer: Optional[float] = None):
->> >>> +                 qmp_timer: float = 30):
->> >>>           '''
->> >>>           Initialize a QEMUMachine
->> >>>
->> >>> --
->> >>> 2.25.1
->> >>>
->> >>
->> >> Oh, this is because machine.py uses the qmp_timer for *all* timeouts,
->> >> and not just the QMP commands themselves, and this relates to the work
->> >> Marc Andre is doing with regards to changing the launch mechanism to
->> >> handle the race condition when the QEMU launch fails, but the QMP
->> >> connection just sits waiting.
->> >>
->> >> I'm quite of the mind that it's really time to rewrite machine.py to
->> >> use the native asyncio interfaces I've been writing to help manage
->> >> this, but in the meantime I think this is probably a reasonable
->> >> concession and a more useful default.
->> >>
->> >> ...I think. Willing to take it for now and re-investigate when the
->> >> other fixes make it to the tree.
->> >>
->> >> Reviewed-by: John Snow <jsnow@redhat.com>
->> >
->> > Oh, keep the type as Optional[float], though, so the timeout can be
->> > disabled again, and keeps the type consistent with the qtest
->> > derivative class. I've staged your patch with that change made, let me
->> > know if that's not OK. Modified patch is on my python branch:
->> >
->> > Thanks, merged.
->> >
->>
->> Hmm, seems that's lost.. I don't see it neither in master nor in your python branch..
->>
->> --
->> Best regards,
->> Vladimir
->
->
-> :(
->
-> I'll fix it. Thanks for resending the iotests series, too - the old version was at the very top of my inbox :)
+On 10/01/2023 16.13, Peter Maydell wrote:
+> Meson supports an "uninstall", so we can easily allow it to work by
+> not suppressing the forwarding of it from Make to meson.
+> 
+> We originally suppressed this because Meson's 'uninstall' has a hole
+> in it: it will remove everything that is installed by a mechanism
+> meson knows about, but not things installed by "custom install
+> scripts", and there is no "custom uninstall script" mechanism.
+> 
+> For QEMU, though, the only thing that was being installed by a custom
+> install script was the LC_MESSAGES files handled by Meson's i18n
+> module, and that code was fixed in Meson commit 487d45c1e5bfff0fbdb4,
+> which is present in Meson 0.60.0 and later.  Since we already require
+> a Meson version newer than that, we're now safe to enable
+> 'uninstall', as it will now correctly uninstall everything that was
+> installed.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/109
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   Makefile | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Re-edited and Re-staged:
+Works for me!
 
-https://gitlab.com/jsnow/qemu/-/commits/python
-
---js
+Tested-by: Thomas Huth <thuth@redhat.com>
 
 
