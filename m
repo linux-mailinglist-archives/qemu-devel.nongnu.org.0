@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5C4663A64
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:04:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5FE663A7E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:08:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF9bK-0007Ci-Kz; Tue, 10 Jan 2023 03:03:18 -0500
+	id 1pF9bM-0007Ec-UD; Tue, 10 Jan 2023 03:03:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pF9bG-0007A8-4k
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:03:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pF9bJ-0007Cf-Kw
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:03:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pF9bE-0007gi-16
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:03:13 -0500
+ id 1pF9bI-0007hd-6i
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:03:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673337791;
+ s=mimecast20190719; t=1673337795;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O4bcdIamR/UYLssDq4J/lT5HEewpacYug2bz0YOnVPU=;
- b=CyiN+oDvz0HCynI6cHr19Eig1yOI11oaIuih98da7xy8bTbc7RHWiAiXSvi8i9ifMCIy6D
- +R4RuRk2zY7FWXA/149dMJfwKmdeTnpxBM9tNUjFBO9iUHXK9L+YIclysN6xQAQ9/j8DTN
- 28GkdDEozAKDNN7q4uTNak07Q8mK/d0=
+ bh=/NcnNZ8oX/qws8bxs6mTxwiB41Z7/2NPlledzC3Uis8=;
+ b=OAyphOhccJx+x4CwLtHBgr9ruhX//oR3Bq//82xLYuihNKkj1OlDXKXfVjoUY6xCHrvJEt
+ qnmpWicnDx9PEs8QS/wP4spInESzVXKyU3RumLAOakOwGd8omgnOhllQBaF4ERZ9lArjQC
+ UDccLtUpNyXoCYZALGW/4pOtgfEJkW8=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-4qbfR_fRMhmaBOQgMIm-iA-1; Tue, 10 Jan 2023 03:03:08 -0500
-X-MC-Unique: 4qbfR_fRMhmaBOQgMIm-iA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-318-2WS-IGckM3288eH9of_nVg-1; Tue, 10 Jan 2023 03:03:12 -0500
+X-MC-Unique: 2WS-IGckM3288eH9of_nVg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 520EB38123A5;
- Tue, 10 Jan 2023 08:03:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CDA6228055A8;
+ Tue, 10 Jan 2023 08:03:11 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 491A6492C14;
- Tue, 10 Jan 2023 08:03:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 79B762166B26;
+ Tue, 10 Jan 2023 08:03:10 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
@@ -61,16 +61,16 @@ Cc: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
  John Snow <jsnow@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v3 4/8] meson: replace Perl usage with Python
-Date: Tue, 10 Jan 2023 12:02:42 +0400
-Message-Id: <20230110080246.536056-5-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 5/8] docs: drop texinfo options
+Date: Tue, 10 Jan 2023 12:02:43 +0400
+Message-Id: <20230110080246.536056-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20230110080246.536056-1-marcandre.lureau@redhat.com>
 References: <20230110080246.536056-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,44 +97,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Let's try to remove Perl usage during build time.
+It looks like this is no longer wanted, we only build the html output.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- tests/qapi-schema/meson.build | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ docs/conf.py | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-index 9dfe98bc9a..d85b14f28c 100644
---- a/tests/qapi-schema/meson.build
-+++ b/tests/qapi-schema/meson.build
-@@ -259,22 +259,23 @@ if build_docs
-   # Fix possible inconsistency in line endings in generated output and
-   # in the golden reference (which could otherwise cause test failures
-   # on Windows hosts). Unfortunately diff --strip-trailing-cr
--  # is GNU-diff only. The odd-looking perl is because we must avoid
-+  # is GNU-diff only. The odd-looking python is because we must avoid
-   # using an explicit '\' character in the command arguments to
-   # a custom_target(), as Meson will unhelpfully replace it with a '/'
-   # (https://github.com/mesonbuild/meson/issues/1564)
-+  remove_cr = [python, '-c', 'import sys;[sys.stdout.write(line.replace(chr(13), "")) for line in sys.stdin]']
-   qapi_doc_out_nocr = custom_target('QAPI rST doc newline-sanitized',
-                                     output: ['doc-good.txt.nocr'],
-                                     input: qapi_doc_out[0],
-                                     build_by_default: true,
--                                    command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
-+                                    command: [remove_cr, '@INPUT@'],
-                                     capture: true)
+diff --git a/docs/conf.py b/docs/conf.py
+index e33cf3d381..73a287a4f2 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -297,19 +297,6 @@
+ ]
+ man_make_section_directory = False
  
-   qapi_doc_ref_nocr = custom_target('QAPI rST doc reference newline-sanitized',
-                                     output: ['doc-good.ref.nocr'],
-                                     input: files('doc-good.txt'),
-                                     build_by_default: true,
--                                    command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
-+                                    command: [remove_cr, '@INPUT@'],
-                                     capture: true)
- 
-   test('QAPI rST doc', diff, args: ['-u', qapi_doc_ref_nocr[0], qapi_doc_out_nocr[0]],
+-# -- Options for Texinfo output -------------------------------------------
+-
+-# Grouping the document tree into Texinfo files. List of tuples
+-# (source start file, target name, title, author,
+-#  dir menu entry, description, category)
+-texinfo_documents = [
+-    (master_doc, 'QEMU', u'QEMU Documentation',
+-     author, 'QEMU', 'One line description of project.',
+-     'Miscellaneous'),
+-]
+-
+-
+-
+ # We use paths starting from qemu_docdir here so that you can run
+ # sphinx-build from anywhere and the kerneldoc extension can still
+ # find everything.
 -- 
 2.39.0
 
