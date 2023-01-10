@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197EC6647F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:00:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F8D664B7B
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:45:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFIb0-0003NK-MH; Tue, 10 Jan 2023 12:39:34 -0500
+	id 1pFIb2-0003Pn-FU; Tue, 10 Jan 2023 12:39:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIaz-0003MD-6B
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:33 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ id 1pFIay-0003LB-3n
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:32 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIav-0001Dl-DY
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:32 -0500
-Received: by mail-wr1-x431.google.com with SMTP id h16so12575073wrz.12
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:39:29 -0800 (PST)
+ id 1pFIav-0001Do-Bt
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:31 -0500
+Received: by mail-wr1-x436.google.com with SMTP id co23so12596632wrb.4
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:39:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OUd9ildWmy9isAgbHX/TLo9qeZ901KMhVb24iOZZFpk=;
- b=AsHCXpfDnJjoLLAo8LppSfgbnWkCyA1lbhjMbu2/93s6q1Lt/GZRTkgsLhYJmJzbh4
- d3mWkKAzrWgBKS8NvspK2gOQh4uvtipamOdQKJsUA9mn6ihdHVqes12UOdBlD9cI1v6Y
- Hg4Psok8FwPbtdgvl8GQdc5Y2QGAv9PlOR7L8dkz4rSSga+n/vae9hNqaLI89/1WMFZ4
- R5nmoNRqAKyHOI6/Nz1yMQCraVaDCE4W2abUvMPB/1QLY6ppazaK/bsckMbeCE41qMRn
- t7lw6dVmLlh03vCymOvbtKxfBIcj92itSJffZhr67cYBDuMO+gf0NRqhqyLL8T0BMRah
- pD6Q==
+ bh=aSooXar7HpN3Wg9/9ZGVkzt9+EmW4klxjSnXakXRJjM=;
+ b=R/kK5xrfBtRf/FxzNct8OW+Ct8EtfkNKN9MVPkBmsUcYSdqu6ziqQlw1/Z9Wd3IsTL
+ fouN9mOtm6Q6CKMogZ3qJvTKCg18EZfY4nWs46FJXTysQxPxbnAw3oYHgmZ/KIEC804o
+ nu6eNPMdgnHNB9++e9yU7DE/vlJwGv+AoGbY4EsUhLpoBKm01nKgOc9pPTpOP9e96ieE
+ 8+L4PUfN7gqsahm37q6HmZUdQo0ryh+TLl5nvreFKBZ6MVQv8aAllVaTgmRRbnWGexd1
+ xFR8lnX04kUD0PCtywjnhGRb0ClkDXdmD5R11I3bev091ftG27vx49URubDBFRrk8Nu5
+ IaJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OUd9ildWmy9isAgbHX/TLo9qeZ901KMhVb24iOZZFpk=;
- b=EoclZtWvBu80ou5Hg+C6VWH043DY4ZDSygKg5PS9G+YxLWml1dAFESCs7IITKUawu/
- QSxjnpcQS22ceSYpBBZ8Y5sTEjOVgK2aYdDoCEyBk745pgwHWN9B/VLC/EHvXibZYNBl
- hOgBVyrE56VHDYPLIQAI72orPBsvv8RAqhgKaNJ+4MhYbueksgqRuhN5oc1BC8k7nE65
- OpIBtVz+Q97p1yKZzL4uS+lR8HQuY1tclzY5WQL+iCKFhx5DnVGqqCIUtEas4/PRC2cL
- faRHcdWy28gxgGWZRh7JosZDL+G37PtCpViy6Dn6umIVJPum9cSbMoBOhgWZIHK/qhI6
- BaYQ==
-X-Gm-Message-State: AFqh2koQDdwT1g0ftwjhYLRWuD48P98ickOoB3j1CAmAxUegavsjxSlf
- gSfFunB9wovzEctmnPt1XQnQSA==
-X-Google-Smtp-Source: AMrXdXuEdWFKk0G6sWlCeE5axEFgDquSTu6zbMzp2hb3YowAKGUtdHsckEF6IlVR3RSlvGNbtYzyRg==
-X-Received: by 2002:a05:6000:81:b0:2bc:1b58:8264 with SMTP id
- m1-20020a056000008100b002bc1b588264mr5924059wrx.49.1673372367820; 
- Tue, 10 Jan 2023 09:39:27 -0800 (PST)
+ bh=aSooXar7HpN3Wg9/9ZGVkzt9+EmW4klxjSnXakXRJjM=;
+ b=PI//TRq9MWMCjoKhdLp3BJ8ABVtSh8ZmADm/mSrLLlN0VtKnMYqOteEWQ/EXQF3/4A
+ e9Nwj3jfCcuHX3OVc8lNab8Pojzy40fmanb3TQ9XtxQOh7qdJ2RhQ7Rsk1PHSQHHhOYP
+ QVv29XIfR9nfa2DzkehQUMLR0nTA05dNE0TuNTqYtFsBTPvQGEaHP4ZOWMpjolunMAmV
+ Jw9uUiAeY32r4PRl7BMmjNVyDpRFbDFVm0Lr3dS6jB/wlqa2kp+1PqubK4h6Zow8eB8q
+ YfbGPlry4D7vMsNxgIGuuLN6iat3ZXi6oF9D7DPhP1D74dk3SxVqOLcapmkB20cQSSBc
+ YK6w==
+X-Gm-Message-State: AFqh2krVh/++amDX8+4bf2MxAi9LNMv8D+FVU+VcgydMLltx+liFYxph
+ e9XTfegFypYJogv8hIrb3Lv1og==
+X-Google-Smtp-Source: AMrXdXvo6V1L5uXVe9KOePNH7ufN0D6ZEdJ9QotMY9Mpl80wIhoLIp6mubaNeli3yy+8TqXwCKuzVQ==
+X-Received: by 2002:a5d:56c1:0:b0:288:d139:3690 with SMTP id
+ m1-20020a5d56c1000000b00288d1393690mr30091172wrw.67.1673372368039; 
+ Tue, 10 Jan 2023 09:39:28 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- bu3-20020a056000078300b002bbe7efd88csm7303894wrb.41.2023.01.10.09.39.27
+ k9-20020a5d6d49000000b002bc8130cca7sm3712663wri.23.2023.01.10.09.39.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 10 Jan 2023 09:39:27 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2EC711FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id 4ED601FFBD;
  Tue, 10 Jan 2023 17:39:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -79,25 +79,24 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Mahmoud Mandour <ma.mandourr@gmail.com>,
  John G Johnson <john.g.johnson@oracle.com>
-Subject: [PATCH 04/26] tests/unit: drop hacky race avoidance in
- test-io-channel-command
-Date: Tue, 10 Jan 2023 17:39:00 +0000
-Message-Id: <20230110173922.265055-5-alex.bennee@linaro.org>
+Subject: [PATCH 05/26] build-sys: fix crlf-ending C code
+Date: Tue, 10 Jan 2023 17:39:01 +0000
+Message-Id: <20230110173922.265055-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230110173922.265055-1-alex.bennee@linaro.org>
 References: <20230110173922.265055-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,84 +112,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We don't need to play timing games to ensure one socat wins over the
-other, just create the fifo they both can use before spawning the
-processes. However in the process we need to disable two tests for
-Windows platforms as we don't have an abstraction for mkfifo().
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1403
+On msys2, the shader-to-C script produces bad C:
+./ui/shader/texture-blit-vert.h:2:5: error: missing terminating " character [-Werror]
+
+Fix it by changing the line ending from crlf to lf, and convert the
+script to Python (qemu build seems perl-free after that).
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20230110132700.833690-2-marcandre.lureau@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/unit/test-io-channel-command.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ meson.build              |  2 +-
+ scripts/shaderinclude.pl | 16 ----------------
+ scripts/shaderinclude.py | 26 ++++++++++++++++++++++++++
+ 3 files changed, 27 insertions(+), 17 deletions(-)
+ delete mode 100644 scripts/shaderinclude.pl
+ create mode 100644 scripts/shaderinclude.py
 
-diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
-index 19f72eab96..425e2f5594 100644
---- a/tests/unit/test-io-channel-command.c
-+++ b/tests/unit/test-io-channel-command.c
-@@ -20,6 +20,8 @@
+diff --git a/meson.build b/meson.build
+index 175517eafd..b3c6db8343 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2781,7 +2781,7 @@ config_host_data.set('CONFIG_SLIRP', slirp.found())
+ genh += configure_file(output: 'config-host.h', configuration: config_host_data)
  
- #include "qemu/osdep.h"
- #include <glib/gstdio.h>
-+#include <sys/types.h>
-+#include <sys/stat.h>
- #include "io/channel-command.h"
- #include "io-channel-helpers.h"
- #include "qapi/error.h"
-@@ -29,6 +31,7 @@
- 
- static char *socat = NULL;
- 
-+#ifndef _WIN32
- static void test_io_channel_command_fifo(bool async)
- {
-     g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
-@@ -40,12 +43,13 @@ static void test_io_channel_command_fifo(bool async)
-     QIOChannel *src, *dst;
-     QIOChannelTest *test;
- 
-+    if (mkfifo(fifo, 0600)) {
-+        g_error("mkfifo: %s", strerror(errno));
-+    }
+ hxtool = find_program('scripts/hxtool')
+-shaderinclude = find_program('scripts/shaderinclude.pl')
++shaderinclude = find_program('scripts/shaderinclude.py')
+ qapi_gen = find_program('scripts/qapi-gen.py')
+ qapi_gen_depends = [ meson.current_source_dir() / 'scripts/qapi/__init__.py',
+                      meson.current_source_dir() / 'scripts/qapi/commands.py',
+diff --git a/scripts/shaderinclude.pl b/scripts/shaderinclude.pl
+deleted file mode 100644
+index cd3bb40b12..0000000000
+--- a/scripts/shaderinclude.pl
++++ /dev/null
+@@ -1,16 +0,0 @@
+-#!/usr/bin/env perl
+-use strict;
+-use warnings;
+-
+-my $file = shift;
+-open FILE, "<", $file or die "open $file: $!";
+-my $name = $file;
+-$name =~ s|.*/||;
+-$name =~ s/[-.]/_/g;
+-print "static GLchar ${name}_src[] =\n";
+-while (<FILE>) {
+-    chomp;
+-    printf "    \"%s\\n\"\n", $_;
+-}
+-print "    \"\\n\";\n";
+-close FILE;
+diff --git a/scripts/shaderinclude.py b/scripts/shaderinclude.py
+new file mode 100644
+index 0000000000..ab2aade2cd
+--- /dev/null
++++ b/scripts/shaderinclude.py
+@@ -0,0 +1,26 @@
++#!/usr/bin/env python3
++#
++# Copyright (C) 2023 Red Hat, Inc.
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
 +
-     src = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) srcargv,
-                                                     O_WRONLY,
-                                                     &error_abort));
--    /* try to avoid a race to create the socket */
--    g_usleep(1000);
--
-     dst = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) dstargv,
-                                                     O_RDONLY,
-                                                     &error_abort));
-@@ -60,7 +64,6 @@ static void test_io_channel_command_fifo(bool async)
-     g_rmdir(tmpdir);
- }
- 
--
- static void test_io_channel_command_fifo_async(void)
- {
-     if (!socat) {
-@@ -80,6 +83,7 @@ static void test_io_channel_command_fifo_sync(void)
- 
-     test_io_channel_command_fifo(false);
- }
-+#endif
- 
- 
- static void test_io_channel_command_echo(bool async)
-@@ -124,10 +128,12 @@ int main(int argc, char **argv)
- 
-     socat = g_find_program_in_path("socat");
- 
-+#ifndef _WIN32
-     g_test_add_func("/io/channel/command/fifo/sync",
-                     test_io_channel_command_fifo_sync);
-     g_test_add_func("/io/channel/command/fifo/async",
-                     test_io_channel_command_fifo_async);
-+#endif
-     g_test_add_func("/io/channel/command/echo/sync",
-                     test_io_channel_command_echo_sync);
-     g_test_add_func("/io/channel/command/echo/async",
++import sys
++import os
++
++
++def main(args):
++    file_path = args[1]
++    basename = os.path.basename(file_path)
++    varname = basename.replace('-', '_').replace('.', '_')
++
++    with os.fdopen(sys.stdout.fileno(), "wt", closefd=False, newline='\n') as stdout:
++        with open(file_path, "r", encoding='utf-8') as file:
++            print(f'static GLchar {varname}_src[] =', file=stdout)
++            for line in file:
++                line = line.rstrip()
++                print(f'    "{line}\\n"', file=stdout)
++            print('    "\\n";', file=stdout)
++
++
++if __name__ == '__main__':
++    sys.exit(main(sys.argv))
 -- 
 2.34.1
 
