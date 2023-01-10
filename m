@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3EF6647B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 18:51:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 100946648F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:16:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFIkK-00089R-4d; Tue, 10 Jan 2023 12:49:12 -0500
+	id 1pFIkI-00087q-7d; Tue, 10 Jan 2023 12:49:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFIkG-00087G-If
+ id 1pFIkG-00087N-QE
  for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:49:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFIkE-0003wG-A6
+ id 1pFIkE-0003wa-OV
  for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:49:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673372945;
+ s=mimecast20190719; t=1673372946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vtIEYD2VVJF6jXYuGELYYcJOZX5tvp3QWu4CigQscNg=;
- b=iUvkj7fuTVN7LyYyEPvrixXjWF08J8vp1rlZpuqP6YQnSUQ/T4/HprfFCf+8aFlThV4o5Y
- VTm0YbC/nU/LcadQSqny8yflGLBTjfGQ2doZu5gkezRD6Mo/4tHAmn+dpwg/qBHI3HbQ07
- /LLgwNeVSB8ofN+juYeZuVokcGhrPzM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/2nvrlOnT30x56ns1M+sXtBJjG6eOeN3cCwpQKmXG/8=;
+ b=aGxwELQmt1Fr4QxLxgXRX4MrW7k2ITQ409njcNNVQ5ca1BCka3X77vD08Bs5zV5OyOq/UO
+ nFI3cZINdSHWAb6diuJiuYFN8Q8p7ScLnS+stFysEkTS7cYZII2LkNEVJtqpjJz/VNSbNq
+ tzvhYqH4d1HJs9zAGnRjc7TpcOX3z10=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-324-OKl6jTyPP-ip_eMi86jbNQ-1; Tue, 10 Jan 2023 12:49:02 -0500
-X-MC-Unique: OKl6jTyPP-ip_eMi86jbNQ-1
+ us-mta-57-zbC3VmdTN1GJHIDUe5zrIg-1; Tue, 10 Jan 2023 12:49:02 -0500
+X-MC-Unique: zbC3VmdTN1GJHIDUe5zrIg-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CBE153811F31;
- Tue, 10 Jan 2023 17:49:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17ABF1C426A6;
+ Tue, 10 Jan 2023 17:49:02 +0000 (UTC)
 Received: from virtlab420.virt.lab.eng.bos.redhat.com
  (virtlab420.virt.lab.eng.bos.redhat.com [10.19.152.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 76C3F492C14;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D56F7492C14;
  Tue, 10 Jan 2023 17:49:01 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
@@ -49,14 +50,16 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 0/2] linux-user: revert previous workaround for glibc >= 2.36
-Date: Tue, 10 Jan 2023 12:48:59 -0500
-Message-Id: <20230110174901.2580297-1-berrange@redhat.com>
+Subject: [PATCH 1/2] Revert "linux-user: add more compat ioctl definitions"
+Date: Tue, 10 Jan 2023 12:49:00 -0500
+Message-Id: <20230110174901.2580297-2-berrange@redhat.com>
+In-Reply-To: <20230110174901.2580297-1-berrange@redhat.com>
+References: <20230110174901.2580297-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,28 +83,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It didn't appear that glibc was going to fix the problem
-breaking includes of linux/mount.h vs sys/mount.h, so
-QEMU applied a workaround copying the symbols/structs we
-need into a local header.
+This reverts commit c5495f4ecb0cdaaf2e9dddeb48f1689cdb520ca0.
 
-Since then Linux modified linux/btrfs.h to pull in
-linux/fs.h which caused a clash with our workaround.
-Rather than invent workarounds for our workarounds,
-we can luckily just drop our previous workarounds.
-glibc has been fixed after all, and backported this
-fix to the stable 2.36 release series too. We should
-just expect distros to pull in the stable fix, which
-Fedora at least has already done.
+glibc has fixed (in 2.36.9000-40-g774058d729) the problem
+that caused a clash when both sys/mount.h annd linux/mount.h
+are included, and backported this to the 2.36 stable release
+too:
 
-Daniel P. Berrangé (2):
-  Revert "linux-user: add more compat ioctl definitions"
-  Revert "linux-user: fix compat with glibc >= 2.36 sys/mount.h"
+  https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
 
- linux-user/syscall.c | 43 -------------------------------------------
- meson.build          |  2 --
- 2 files changed, 45 deletions(-)
+It is saner for QEMU to remove the workaround it applied for
+glibc 2.36 and expect distros to ship the 2.36 maint release
+with the fix. This avoids needing to add a further workaround
+to QEMU to deal with the fact that linux/brtfs.h now also pulls
+in linux/mount.h via linux/fs.h since Linux 6.1
 
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ linux-user/syscall.c | 25 -------------------------
+ 1 file changed, 25 deletions(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 1f8c10f8ef..9c1e9555e1 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -111,31 +111,6 @@
+ #define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
+ #define FS_IOC32_GETVERSION            _IOR('v', 1, int)
+ #define FS_IOC32_SETVERSION            _IOW('v', 2, int)
+-
+-#define BLKGETSIZE64 _IOR(0x12,114,size_t)
+-#define BLKDISCARD _IO(0x12,119)
+-#define BLKIOMIN _IO(0x12,120)
+-#define BLKIOOPT _IO(0x12,121)
+-#define BLKALIGNOFF _IO(0x12,122)
+-#define BLKPBSZGET _IO(0x12,123)
+-#define BLKDISCARDZEROES _IO(0x12,124)
+-#define BLKSECDISCARD _IO(0x12,125)
+-#define BLKROTATIONAL _IO(0x12,126)
+-#define BLKZEROOUT _IO(0x12,127)
+-
+-#define FIBMAP     _IO(0x00,1)
+-#define FIGETBSZ   _IO(0x00,2)
+-
+-struct file_clone_range {
+-        __s64 src_fd;
+-        __u64 src_offset;
+-        __u64 src_length;
+-        __u64 dest_offset;
+-};
+-
+-#define FICLONE         _IOW(0x94, 9, int)
+-#define FICLONERANGE    _IOW(0x94, 13, struct file_clone_range)
+-
+ #else
+ #include <linux/fs.h>
+ #endif
 -- 
 2.38.1
 
