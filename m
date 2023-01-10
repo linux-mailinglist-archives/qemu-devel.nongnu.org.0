@@ -2,95 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB5CE664148
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 14:09:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451CD664274
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 14:53:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFEFF-0007O8-8d; Tue, 10 Jan 2023 08:00:49 -0500
+	id 1pFEFL-0007by-MF; Tue, 10 Jan 2023 08:00:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFEEk-0007IU-Cs
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 08:00:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFEEh-00050E-T4
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 08:00:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673355615;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pFEEp-0007Mt-0q; Tue, 10 Jan 2023 08:00:25 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pFEEm-00051X-Ty; Tue, 10 Jan 2023 08:00:22 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2161275EC9;
+ Tue, 10 Jan 2023 13:00:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1673355618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2lyt+LeqAra/2an80GVSavy/Ah+MElPYQlCaDsqLXoo=;
- b=J3B0pJ3NhWeCY9fzPASRONRGshP9QWSLIfMgkWFnr5pp9ICgxAwO5Ze9ie4k5+6k+5lD8P
- jJ2rCAaS+fH1saXNm/j5Rcng5Nch10soJhnighZx7dZtaLM8HOghinZPtI4l9e5Vgrw0lD
- K66lnRQ3rLBtvLeSpZAXS/9QyfjsbvI=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-106-vLiGGGgZMsW96UX_wA9IPg-1; Tue, 10 Jan 2023 08:00:13 -0500
-X-MC-Unique: vLiGGGgZMsW96UX_wA9IPg-1
-Received: by mail-qt1-f198.google.com with SMTP id
- fp22-20020a05622a509600b003ab920c4c89so5456142qtb.1
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 05:00:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2lyt+LeqAra/2an80GVSavy/Ah+MElPYQlCaDsqLXoo=;
- b=BzLog2jbMuaX9CSHLhHFhYc2pGWLj4X40YKAW/giiOwczPFcd3J3zaUb85V7bL3jcJ
- cGCFjvD9blg6G0scB8aAcrd9pFXO2DZwpMJ2+1blL0FiirTBF0BghRpTA83NJ9cAFQT+
- dr8/5I5bgb8bEMBlSsNsydxlbVJKVRmnf8ZAqkdZUSIOs3Ea4GbPMzwzywSBoWkj6jZy
- qGUW+hwAQXo0hGU5ZAo1SHjiz0eJbFDdJDp6JyGjTKWJyWvyo7HTxAA/QJjZWxftN/Mr
- Yc2Bpqc0ZRuYyVd9nYS9x1yM1AkrRpKlGLBeT14KZXdmysi+tq1SNLZjWXGSPzGit4vg
- wehA==
-X-Gm-Message-State: AFqh2kr6zNCY/HQVikSQNJDox0Zamre9fPvzphZpz7cdmHyd9M+R81GA
- geiUPX30eL/wjCA5vomPJlebo4vQneNKeZ1hTXt76aTs37UaXxJurcNaMf0dD3Idl1YDuA9QY3t
- Lt1lEb4Lee4tf+2A=
-X-Received: by 2002:a05:622a:a07:b0:39c:da20:626 with SMTP id
- bv7-20020a05622a0a0700b0039cda200626mr4675624qtb.48.1673355613366; 
- Tue, 10 Jan 2023 05:00:13 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsyzI1XcrBxI7qdGiOhKArruwrgxzRvM+y22AXkx12eOQm5ESrddG1TdhyP1H9zKvr7IKlhqQ==
-X-Received: by 2002:a05:622a:a07:b0:39c:da20:626 with SMTP id
- bv7-20020a05622a0a0700b0039cda200626mr4675582qtb.48.1673355613004; 
- Tue, 10 Jan 2023 05:00:13 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-179-237.web.vodafone.de.
- [109.43.179.237]) by smtp.gmail.com with ESMTPSA id
- y10-20020a05620a25ca00b006fa4cac54a5sm7069613qko.72.2023.01.10.05.00.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jan 2023 05:00:12 -0800 (PST)
-Message-ID: <5c8a22bb-5a35-d71e-9e5a-39675fa04e66@redhat.com>
-Date: Tue, 10 Jan 2023 14:00:07 +0100
+ bh=0wRSUH2PSXvUbTygbwSnIuvFX97Te0qGmgqjD9pbYVE=;
+ b=fRXdpu1TpFKZ7wpWhch2c9BMY5cuZr5N8/M6WI5N9IqUhbuBUKuKyboJiHe2fnun9xc9SS
+ R4NndP/7kJ2qDeZ4gzSX4LQYUvvtcge25STszTyYMrBjlCMgcWavAw3Iv6HWkv+yAmhFoX
+ /HIKT/TLvqYZHhEh/a/slNevWtND5XI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1673355618;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0wRSUH2PSXvUbTygbwSnIuvFX97Te0qGmgqjD9pbYVE=;
+ b=5dKz0RbPhCApt7m6iOwcUNtIXX761hfxEqxqdXBIAM7VV3uvKA0O/+NHjr/ZU2kjJvJKyA
+ /KlGEbKh5XGfCIAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A376713338;
+ Tue, 10 Jan 2023 13:00:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ay5tG2FhvWM6LQAAMHmgww
+ (envelope-from <farosas@suse.de>); Tue, 10 Jan 2023 13:00:17 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
+ <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Laurent Vivier <lvivier@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>
+Subject: Re: [RFC PATCH v2 13/19] tests: do not run test-hmp on all machines
+ for ARM KVM-only
+In-Reply-To: <35870ab3-1da6-c222-b708-06ac71a5883c@redhat.com>
+References: <20230109224232.11661-1-farosas@suse.de>
+ <20230109224232.11661-14-farosas@suse.de>
+ <35870ab3-1da6-c222-b708-06ac71a5883c@redhat.com>
+Date: Tue, 10 Jan 2023 10:00:15 -0300
+Message-ID: <87zgaqa6jk.fsf@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-3-pmorel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v14 02/11] s390x/cpu topology: add topology entries on CPU
- hotplug
-In-Reply-To: <20230105145313.168489-3-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,202 +91,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05/01/2023 15.53, Pierre Morel wrote:
-> The topology information are attributes of the CPU and are
-> specified during the CPU device creation.
-> 
-> On hot plug, we gather the topology information on the core,
-> creates a list of topology entries, each entry contains a single
-> core mask of each core with identical topology and finaly we
-> orders the list in topological order.
-> The topological order is, from higher to lower priority:
-> - physical topology
->      - drawer
->      - book
->      - socket
->      - core origin, offset in 64bit increment from core 0.
-> - modifier attributes
->      - CPU type
->      - polarization entitlement
->      - dedication
-> 
-> The possibility to insert a CPU in a mask is dependent on the
-> number of cores allowed in a socket, a book or a drawer, the
-> checking is done during the hot plug of the CPU to have an
-> immediate answer.
-> 
-> If the complete topology is not specified, the core is added
-> in the physical topology based on its core ID and it gets
-> defaults values for the modifier attributes.
-> 
-> This way, starting QEMU without specifying the topology can
-> still get some adventage of the CPU topology.
+Thomas Huth <thuth@redhat.com> writes:
 
-s/adventage/advantage/
+> On 09/01/2023 23.42, Fabiano Rosas wrote:
+>> From: Claudio Fontana <cfontana@suse.de>
+>> 
+>> on ARM we currently list and build all machines, even when
+>> building KVM-only, without TCG.
+>> 
+>> Until we fix this (and we only list and build machines that are
+>> compatible with KVM), only test specifically using the "virt"
+>> machine in this case.
+>
+> Why don't you fix it immediately? ... 
 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   include/hw/s390x/cpu-topology.h |  48 ++++++
->   hw/s390x/cpu-topology.c         | 293 ++++++++++++++++++++++++++++++++
->   hw/s390x/s390-virtio-ccw.c      |  10 ++
->   hw/s390x/meson.build            |   1 +
->   4 files changed, 352 insertions(+)
->   create mode 100644 hw/s390x/cpu-topology.c
-> 
-> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
-> index d945b57fc3..b3fd752d8d 100644
-> --- a/include/hw/s390x/cpu-topology.h
-> +++ b/include/hw/s390x/cpu-topology.h
-> @@ -10,7 +10,11 @@
->   #ifndef HW_S390X_CPU_TOPOLOGY_H
->   #define HW_S390X_CPU_TOPOLOGY_H
->   
-> +#include "qemu/queue.h"
-> +#include "hw/boards.h"
-> +
->   #define S390_TOPOLOGY_CPU_IFL   0x03
-> +#define S390_TOPOLOGY_MAX_ORIGIN ((63 + S390_MAX_CPUS) / 64)
->   
->   #define S390_TOPOLOGY_POLARITY_HORIZONTAL      0x00
->   #define S390_TOPOLOGY_POLARITY_VERTICAL_LOW    0x01
-> @@ -20,4 +24,48 @@
->   #define S390_TOPOLOGY_SHARED    0x00
->   #define S390_TOPOLOGY_DEDICATED 0x01
->   
-> +typedef union s390_topology_id {
-> +    uint64_t id;
-> +    struct {
-> +        uint64_t level_6:8; /* byte 0 BE */
-> +        uint64_t level_5:8; /* byte 1 BE */
-> +        uint64_t drawer:8;  /* byte 2 BE */
-> +        uint64_t book:8;    /* byte 3 BE */
-> +        uint64_t socket:8;  /* byte 4 BE */
-> +        uint64_t rsrv:5;
-> +        uint64_t d:1;
-> +        uint64_t p:2;       /* byte 5 BE */
-> +        uint64_t type:8;    /* byte 6 BE */
-> +        uint64_t origin:2;
-> +        uint64_t core:6;    /* byte 7 BE */
-> +    };
-> +} s390_topology_id;
+My idea was to have in this series the minimum to unbreak the
+--disable-tcg build and later bring the rest of the changes
+incrementally.
 
-Bitmasks are OK for code that will definitely only ever work with KVM ... 
-but this will certainly fail completely if we ever try to get it running 
-with TCG later. Do we care? ... if so, you should certainly avoid a bitfield 
-here. Especially since most of the fields are 8-bit anyway and could easily 
-be represented by a "uint8_t" variable. Otherwise, just ignore my comment.
+(plus the cpregs code movement which conflicts with everything, so I'd
+rather merge it sooner)
 
-> +#define TOPO_CPU_MASK       0x000000000000003fUL
-> +
-> +typedef struct S390TopologyEntry {
-> +    s390_topology_id id;
-> +    QTAILQ_ENTRY(S390TopologyEntry) next;
-> +    uint64_t mask;
-> +} S390TopologyEntry;
-> +
-> +typedef struct S390Topology {
-> +    QTAILQ_HEAD(, S390TopologyEntry) list;
-> +    uint8_t *sockets;
+> it shouldn't be too hard to add some 
+> "depends on TCG" statements to the machine entries in hw/arm/Kconfig, should it?
 
-So this "uint8_t" basically is a hidden limit of a maximum of 256 sockets 
-that can be used for per book? Do we check that limit somewhere? (I looked 
-for it, but I didn't spot such a check)
+I havent't looked into it yet. If it turns out to be simple I can do it
+now.
 
-> +    CpuTopology *smp;
-> +} S390Topology;
-> +
-> +#ifdef CONFIG_KVM
-> +bool s390_has_topology(void);
-> +void s390_topology_set_cpu(MachineState *ms, S390CPU *cpu, Error **errp);
-> +#else
-> +static inline bool s390_has_topology(void)
-> +{
-> +       return false;
-> +}
-> +static inline void s390_topology_set_cpu(MachineState *ms,
-> +                                         S390CPU *cpu,
-> +                                         Error **errp) {}
-> +#endif
-> +extern S390Topology s390_topology;
-> +
->   #endif
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> new file mode 100644
-> index 0000000000..438055c612
-> --- /dev/null
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -0,0 +1,293 @@
-> +/*
-> + * CPU Topology
-> + *
-> + * Copyright IBM Corp. 2022
+> Anyway, if that's not possible (yet), I suggest to add your hack to 
+> qtest_cb_for_every_machine() instead, so you could change this in one 
+> central place instead of adding a hack to each and every test that uses this 
+> function.
 
-Want to update to 2023 now?
+Good idea.
 
-> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
-> +
-> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
-> + * your option) any later version. See the COPYING file in the top-level
-> + * directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "qemu/error-report.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/boards.h"
-> +#include "qemu/typedefs.h"
-> +#include "target/s390x/cpu.h"
-> +#include "hw/s390x/s390-virtio-ccw.h"
-> +#include "hw/s390x/cpu-topology.h"
-> +
-> +/*
-> + * s390_topology is used to keep the topology information.
-> + * .list: queue the topology entries inside which
-> + *        we keep the information on the CPU topology.
-> + *
-> + * .smp: keeps track of the machine topology.
-> + *
-> + * .socket: tracks information on the count of cores per socket.
-> + *
-> + */
-> +S390Topology s390_topology = {
-> +    .list = QTAILQ_HEAD_INITIALIZER(s390_topology.list),
-> +    .sockets = NULL, /* will be initialized after the cpu model is realized */
-> +};
-> +
-> +/**
-> + * s390_socket_nb:
-> + * @id: s390_topology_id
-> + *
-> + * Returns the socket number used inside the socket array.
-> + */
-> +static int s390_socket_nb(s390_topology_id id)
-> +{
-> +    return (id.socket + 1) * (id.book + 1) * (id.drawer + 1); > +}
-I think there might be an off-by-one error in here - you likely need a "- 1" 
-at the very end.
-
-For example, assume that we have one socket, one book and one drawer, so 
-id.socket, id.book and id.drawer would all be 0. The function then returns 1 ...
-
-> +static void s390_topology_init(MachineState *ms)
-> +{
-> +    CpuTopology *smp = &ms->smp;
-> +
-> +    s390_topology.smp = smp;
-> +    if (!s390_topology.sockets) {
-> +        s390_topology.sockets = g_new0(uint8_t, smp->sockets *
-> +                                       smp->books * smp->drawers);
-
-... but here you only allocated one byte. So you later access 
-s390_topology.sockets[s390_socket_nb(id)], i.e. s390_topology.sockets[1] 
-which is out of bounds.
-
-> +    }
-> +}
-
-  Thomas
-
-
+>
+>   Thomas
 
