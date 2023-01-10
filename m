@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D2B664708
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 18:08:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A991C664768
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 18:27:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFHsG-0000IQ-JU; Tue, 10 Jan 2023 11:53:21 -0500
+	id 1pFI5M-00068V-9c; Tue, 10 Jan 2023 12:06:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFHs9-0000H9-Cx
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:53:14 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pFI5K-00067l-2T
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:06:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFHs5-00006J-MV
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:53:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=n6BeLMpRMKgkttz2EDofqSyjzXx2H8C0cnm/1MAQcoY=; b=V0Uy67MAGb20utqVZDXZ9pZLHl
- xOLSKMOPPhmhzhEa+t6OI+odYDEJbym22/hf7bZ4FQPDcBetijEgnUkqho6lUXZ00OQiwloAB/g5r
- muRFTyG70uU3bYUwfqnGgY6Ngjv7Oee+BWm5SmN36urXoHJL4ehbznIh6mYmRb6jUfCj/vXagYAJL
- x8IbhAMvM1DquuBadt4RyFBOUJgdd4ry5OO60WLYAQga3Iszl6E1D4mfjCdGzMcWqVzZNl3nRNF4k
- Z6yKovrvZMZUhcKMgUNqZydTDSaIG2hBRiNbfEzsbknvI14+wViGTFocBTwKucg40ThHd4Zp/g4cn
- YO5f+C3g==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.infradead.org)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pFHs5-003NYo-Mk; Tue, 10 Jan 2023 16:53:09 +0000
-Message-ID: <08a790f27c99b15ef9b28bce9139624111aef3bf.camel@infradead.org>
-Subject: Re: [RFC PATCH v1 00/15] Xen PV backend support for KVM/Xen guests
-From: David Woodhouse <dwmw2@infradead.org>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>, Ankur
- Arora <ankur.a.arora@oracle.com>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
- <philmd@linaro.org>, Thomas Huth <thuth@redhat.com>, Alex
- =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Juan Quintela
- <quintela@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>, 
- qemu-devel@nongnu.org
-Date: Tue, 10 Jan 2023 16:52:56 +0000
-In-Reply-To: <d67bb9ad-852f-e38e-d6dd-28de54d7774f@oracle.com>
-References: <20230110122042.1562155-1-dwmw2@infradead.org>
- <20230110123754.1564465-1-dwmw2@infradead.org>
- <d67bb9ad-852f-e38e-d6dd-28de54d7774f@oracle.com>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-Y1P0lK4GuIvYJSCDL/6u"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pFI5H-00034g-8e
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:06:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673370406;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=X7zBF1l9DZVWA2XrCb9R7aQRaSJS3gclEmswKeLETcU=;
+ b=E7eYtgWj6zRG+Pk+jqmvFAIzkE4Ylj0lDLZ+UCCAM8lzy63k5kGVza8OcP30TC8ofxQr8b
+ GfLUEZSTF1yeZJKioguzMAfR00X38kyJddbe6vG9OTcYkmXr3FbIliFdsbSJIEhlLSEJgU
+ PK26QmDAN94MA4t+4dzMWn/RzJ4kxPM=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-371-S3jbiJ3hPSmVuU8PnwHgyw-1; Tue, 10 Jan 2023 12:06:44 -0500
+X-MC-Unique: S3jbiJ3hPSmVuU8PnwHgyw-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ l15-20020a056512110f00b004b6fe4513b7so4745259lfg.23
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:06:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=X7zBF1l9DZVWA2XrCb9R7aQRaSJS3gclEmswKeLETcU=;
+ b=WRsO762DosYpxjtfxxrkhYIcH3XoP0ZdZm9v/OJVLrgv5mW9cEYZrOT/MYzuiNSVIf
+ ptTqMelyvo/DAEHNEYACg4yLiRy8JEIsIKAVwCn+peJ0HgcDNml5U0JPGNfn79qxG37+
+ gi6Gx4z4FQuWOMa3E0oJ3ZVGbItIHnjy0yyaoQIdSYsyvrYtEy7Ma423vgzqz/STkV35
+ UIxs8LzAB/3Vknj+EW2dNplsd2qaq+BoteRmO/YgS+u3RWYqr1GZRjUlyJghOlH8knfT
+ lxlGnhGbKwYjRRw+D3ScFHrOADKN4RJETpvjNQJdR89FfwTPOb+QAV0pI4ByMQguPatg
+ 0GOQ==
+X-Gm-Message-State: AFqh2kpyzxd/Q8NHTeSC30WSfyCdQY8flhSusxjiONLsBo3ld0Zn8aJN
+ VNDpAp5ava/tPdu7hde0cl+WPpM9h0wTk88zel23DZB3/bvuRuQ/FQPwE8nbqyax5Nlbs8N8MuA
+ dnFLW1o0QRWTtz8SH2r3/MidOb7kUZI4=
+X-Received: by 2002:a19:f018:0:b0:4cc:8e53:e698 with SMTP id
+ p24-20020a19f018000000b004cc8e53e698mr165161lfc.280.1673370403474; 
+ Tue, 10 Jan 2023 09:06:43 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXt4CHI//EMmEV8+/n7piGH65cjH1uAnXaJf7IA1wmZG8CC37kfAz8l5qP2JpJdcumHaw1Wy08zGfX1Hy+D+TYI=
+X-Received: by 2002:a19:f018:0:b0:4cc:8e53:e698 with SMTP id
+ p24-20020a19f018000000b004cc8e53e698mr165155lfc.280.1673370403222; Tue, 10
+ Jan 2023 09:06:43 -0800 (PST)
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20220624195252.175249-1-vsementsov@yandex-team.ru>
+ <CAFn=p-bzPUmF4YZ-461Tzr9MO_ReotL+wuot2egKW7jQgvaHOw@mail.gmail.com>
+ <CAFn=p-bwAXCJnWPj7JwSmN2N52hv7R0p1Fn2GxPpHPpDaDaDHQ@mail.gmail.com>
+ <9b5a291e-d8a2-e789-0a87-b923240a3e3a@yandex-team.ru>
+In-Reply-To: <9b5a291e-d8a2-e789-0a87-b923240a3e3a@yandex-team.ru>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 10 Jan 2023 12:06:31 -0500
+Message-ID: <CAFn=p-bhDkvrQfYNRyuyx2bu6jKhhfTa85AUw1Ab2xavYh3wXw@mail.gmail.com>
+Subject: Re: [PATCH] python: QEMUMachine: enable qmp accept timeout by default
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>, 
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000076486f05f1ebe80f"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,214 +94,230 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---=-Y1P0lK4GuIvYJSCDL/6u
+--00000000000076486f05f1ebe80f
 Content-Type: text/plain; charset="UTF-8"
+
+On Tue, Jan 10, 2023, 3:53 AM Vladimir Sementsov-Ogievskiy <
+vsementsov@yandex-team.ru> wrote:
+
+> On 7/12/22 00:21, John Snow wrote:
+> > On Mon, Jul 11, 2022 at 5:16 PM John Snow <jsnow@redhat.com> wrote:
+> >>
+> >> On Fri, Jun 24, 2022 at 3:53 PM Vladimir Sementsov-Ogievskiy
+> >> <vsementsov@yandex-team.ru> wrote:
+> >>>
+> >>> I've spent much time trying to debug hanging pipeline in gitlab. I
+> >>> started from and idea that I have problem in code in my series (which
+> >>> has some timeouts). Finally I found that the problem is that I've used
+> >>> QEMUMachine class directly to avoid qtest, and didn't add necessary
+> >>> arguments. Qemu fails and we wait for qmp accept endlessly. In gitlab
+> >>> it's just stopped by timeout (one hour) with no sign of what's going
+> >>> wrong.
+> >>>
+> >>> With timeout enabled, gitlab don't wait for an hour and prints all
+> >>> needed information.
+> >>>
+> >>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru
+> >
+> >>> ---
+> >>>
+> >>> Hi all!
+> >>>
+> >>> Just compare this
+> >>>    https://gitlab.com/vsementsov/qemu/-/pipelines/572232557
+> >>> and this
+> >>>    https://gitlab.com/vsementsov/qemu/-/pipelines/572526252
+> >>>
+> >>> and you'll see that the latter is much better.
+> >>>
+> >>>   python/qemu/machine/machine.py | 2 +-
+> >>>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/python/qemu/machine/machine.py
+> b/python/qemu/machine/machine.py
+> >>> index 37191f433b..01a12f6f73 100644
+> >>> --- a/python/qemu/machine/machine.py
+> >>> +++ b/python/qemu/machine/machine.py
+> >>> @@ -131,7 +131,7 @@ def __init__(self,
+> >>>                    drain_console: bool = False,
+> >>>                    console_log: Optional[str] = None,
+> >>>                    log_dir: Optional[str] = None,
+> >>> -                 qmp_timer: Optional[float] = None):
+> >>> +                 qmp_timer: float = 30):
+> >>>           '''
+> >>>           Initialize a QEMUMachine
+> >>>
+> >>> --
+> >>> 2.25.1
+> >>>
+> >>
+> >> Oh, this is because machine.py uses the qmp_timer for *all* timeouts,
+> >> and not just the QMP commands themselves, and this relates to the work
+> >> Marc Andre is doing with regards to changing the launch mechanism to
+> >> handle the race condition when the QEMU launch fails, but the QMP
+> >> connection just sits waiting.
+> >>
+> >> I'm quite of the mind that it's really time to rewrite machine.py to
+> >> use the native asyncio interfaces I've been writing to help manage
+> >> this, but in the meantime I think this is probably a reasonable
+> >> concession and a more useful default.
+> >>
+> >> ...I think. Willing to take it for now and re-investigate when the
+> >> other fixes make it to the tree.
+> >>
+> >> Reviewed-by: John Snow <jsnow@redhat.com>
+> >
+> > Oh, keep the type as Optional[float], though, so the timeout can be
+> > disabled again, and keeps the type consistent with the qtest
+> > derivative class. I've staged your patch with that change made, let me
+> > know if that's not OK. Modified patch is on my python branch:
+> >
+> > Thanks, merged.
+> >
+>
+> Hmm, seems that's lost.. I don't see it neither in master nor in your
+> python branch..
+>
+> --
+> Best regards,
+> Vladimir
+>
+
+:(
+
+I'll fix it. Thanks for resending the iotests series, too - the old version
+was at the very top of my inbox :)
+
+>
+
+--00000000000076486f05f1ebe80f
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2023-01-10 at 15:43 +0000, Joao Martins wrote:
-> On 10/01/2023 12:37, David Woodhouse wrote:
-> > Some parts of it are relatively straightforward; others less so. In
-> > particular, it looks really hard to provide a contiguous virtual mappin=
-g
-> > of multiple potentially discontiguous pages granted by the guest. To
-> > fix that we might actually need the guest memory blocks to be backed
-> > by real files (perhaps deleted or shmem) in order that they can be mapp=
-ed
-> > again in at a different virtual address.=20
->=20
-> I wonder if we really need to go to that extent.
->=20
-> As far as Qemu emulated-Xen is concerned, gref is mostly a different look=
-up
-> mechanism a GPA i.e. an index on a table (that the VMM knows about) that
-> references a GPA. Perhaps if it's simpler to teach the backends to deal w=
-ith
-> discontiguous grefs (if there's such a case today even).
-
-We thought about making the back ends deal with discontiguous grefs by
-returning an array[nr_refs] of pointers to each one.
-
-The problem is that in some cases the ring entries don't even land on
-page boundaries, leaving one entry crossing from one page to the next.
-For example the 32-bit blkif response is 12 bytes, which means it lines
-up at the end of the *first* page (64-byte ring header + 336 @12 byte
-entries =3D=3D 4096) but it won't line up at the end of the *second* page.
-
-Which is still not insurmountable, but it's kind of awful.
-
-> The only user of multi-gref mapping is the block xen driver ... and only =
-for
-> mapping the shared ring if I understood correctly. But even there you cou=
-ld
-> probably twist it... considering that the multi-gref ring is contiguous i=
-s guest
-> address space, thus the gref -> HVA conversion ius contiguous too (?). So=
- that
-> way you could still return a single HVA (provided that map-grant implemen=
-tation
-> validates the backing frame contiguosity).
-
-There's no reason a guest couldn't vmalloc its multi-page ring and have
-a virtually contiguous view for itself, while the actual GPAs are
-discontiguous. Sure, that's probably not the common case, but I didn't
-really want to have a multi-page mapping succeed *sometimes*.
-
-> > So for now we'll limit the
-> > back ends to mapping a single grant ref at a time.
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Tue, Jan 10, 2023, 3:53 AM Vladimir Sementsov-Ogiev=
+skiy &lt;<a href=3D"mailto:vsementsov@yandex-team.ru">vsementsov@yandex-tea=
+m.ru</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 7/12/22 00:2=
+1, John Snow wrote:<br>
+&gt; On Mon, Jul 11, 2022 at 5:16 PM John Snow &lt;<a href=3D"mailto:jsnow@=
+redhat.com" target=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt; w=
+rote:<br>
+&gt;&gt;<br>
+&gt;&gt; On Fri, Jun 24, 2022 at 3:53 PM Vladimir Sementsov-Ogievskiy<br>
+&gt;&gt; &lt;<a href=3D"mailto:vsementsov@yandex-team.ru" target=3D"_blank"=
+ rel=3D"noreferrer">vsementsov@yandex-team.ru</a>&gt; wrote:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; I&#39;ve spent much time trying to debug hanging pipeline in g=
+itlab. I<br>
+&gt;&gt;&gt; started from and idea that I have problem in code in my series=
+ (which<br>
+&gt;&gt;&gt; has some timeouts). Finally I found that the problem is that I=
+&#39;ve used<br>
+&gt;&gt;&gt; QEMUMachine class directly to avoid qtest, and didn&#39;t add =
+necessary<br>
+&gt;&gt;&gt; arguments. Qemu fails and we wait for qmp accept endlessly. In=
+ gitlab<br>
+&gt;&gt;&gt; it&#39;s just stopped by timeout (one hour) with no sign of wh=
+at&#39;s going<br>
+&gt;&gt;&gt; wrong.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; With timeout enabled, gitlab don&#39;t wait for an hour and pr=
+ints all<br>
+&gt;&gt;&gt; needed information.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Signed-off-by: Vladimir Sementsov-Ogievskiy &lt;<a href=3D"mai=
+lto:vsementsov@yandex-team.ru" target=3D"_blank" rel=3D"noreferrer">vsement=
+sov@yandex-team.ru</a>&gt;<br>
+&gt;&gt;&gt; ---<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Hi all!<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Just compare this<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 <a href=3D"https://gitlab.com/vsementsov/qemu/-/p=
+ipelines/572232557" rel=3D"noreferrer noreferrer" target=3D"_blank">https:/=
+/gitlab.com/vsementsov/qemu/-/pipelines/572232557</a><br>
+&gt;&gt;&gt; and this<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 <a href=3D"https://gitlab.com/vsementsov/qemu/-/p=
+ipelines/572526252" rel=3D"noreferrer noreferrer" target=3D"_blank">https:/=
+/gitlab.com/vsementsov/qemu/-/pipelines/572526252</a><br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; and you&#39;ll see that the latter is much better.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0python/qemu/machine/machine.py | 2 +-<br>
+&gt;&gt;&gt;=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; diff --git a/python/qemu/machine/machine.py b/python/qemu/mach=
+ine/machine.py<br>
+&gt;&gt;&gt; index 37191f433b..01a12f6f73 100644<br>
+&gt;&gt;&gt; --- a/python/qemu/machine/machine.py<br>
+&gt;&gt;&gt; +++ b/python/qemu/machine/machine.py<br>
+&gt;&gt;&gt; @@ -131,7 +131,7 @@ def __init__(self,<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 drain_console: bool =3D False,<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 console_log: Optional[str] =3D None,<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 log_dir: Optional[str] =3D None,<br>
+&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0qmp_timer: Optional[float] =3D None):<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0qmp_timer: float =3D 30):<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;&#39;&#39;<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Initialize a QEMUMachi=
+ne<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; --<br>
+&gt;&gt;&gt; 2.25.1<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Oh, this is because machine.py uses the qmp_timer for *all* timeou=
+ts,<br>
+&gt;&gt; and not just the QMP commands themselves, and this relates to the =
+work<br>
+&gt;&gt; Marc Andre is doing with regards to changing the launch mechanism =
+to<br>
+&gt;&gt; handle the race condition when the QEMU launch fails, but the QMP<=
+br>
+&gt;&gt; connection just sits waiting.<br>
+&gt;&gt;<br>
+&gt;&gt; I&#39;m quite of the mind that it&#39;s really time to rewrite mac=
+hine.py to<br>
+&gt;&gt; use the native asyncio interfaces I&#39;ve been writing to help ma=
+nage<br>
+&gt;&gt; this, but in the meantime I think this is probably a reasonable<br=
 >
-> Which is not a practical limitation right now.
+&gt;&gt; concession and a more useful default.<br>
+&gt;&gt;<br>
+&gt;&gt; ...I think. Willing to take it for now and re-investigate when the=
+<br>
+&gt;&gt; other fixes make it to the tree.<br>
+&gt;&gt;<br>
+&gt;&gt; Reviewed-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" tar=
+get=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; Oh, keep the type as Optional[float], though, so the timeout can be<br=
+>
+&gt; disabled again, and keeps the type consistent with the qtest<br>
+&gt; derivative class. I&#39;ve staged your patch with that change made, le=
+t me<br>
+&gt; know if that&#39;s not OK. Modified patch is on my python branch:<br>
+&gt; <br>
+&gt; Thanks, merged.<br>
+&gt; <br>
+<br>
+Hmm, seems that&#39;s lost.. I don&#39;t see it neither in master nor in yo=
+ur python branch..<br>
+<br>
+-- <br>
+Best regards,<br>
+Vladimir<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">:(</div><div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;ll fi=
+x it. Thanks for resending the iotests series, too - the old version was at=
+ the very top of my inbox :)</div><div dir=3D"auto"><div class=3D"gmail_quo=
+te"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex"></blockquote></div></div></div>
 
-That sentence can be read both ways. I first read it as "that
-limitation is impractical". But prefer to read it as "that doesn't
-limit us in practice", and I *think* the latter is what you meant from
-the rest of the paragraph...
+--00000000000076486f05f1ebe80f--
 
->  One grant ref is actually fine
-> for the everything else that is not the block shared-ring.=C2=A0 Xen devi=
-ces in Qemu
-> seem to be using the legacy backend interface, and thus (un)mapping one g=
-rant at
-> a time, or otherwise copying grefs.
-
-Right. We can absolutely live with that limitation for now; we'll teach
-xen-block not to advertise a higher max-ring-page-order if ring_order
-if the MAP_MULTIPLE feature isn't set.
-
-And I absolutely don't give a crap about 9p or usb just yet. :)
-
-> > https://git.infradead.org/users/dwmw2/qemu.git/shortlog/refs/heads/xenf=
-v-kvm-backends-1
-> >=20
-> Cool stuff! A lot better than the RFC redirection layer
->=20
-> > David Woodhouse (14):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hw/xen: Remove old version of Xen header=
-s
->=20
-> This patch looks more appropriate to your earlier v6 (?)
-
-I would have liked that but it depends on a bit on the header
-untangling that happens in between. As we introduce the backend ops
-structures, rename xen_common.h =E2=86=92 xen_native.h and remove that from=
- the
-C files that don't need it, we subtly fix things such that this final
-patch removing the old headers makes it *look* easy.=20
-
-
-
-
---=-Y1P0lK4GuIvYJSCDL/6u
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMTEwMTY1MjU2WjAvBgkqhkiG9w0BCQQxIgQgJ0Qrv1D0
-jbbLzBPFU+j6utrs3073f2zzpZvhhhX0T7Ywgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgB4B/AZ+6CVU4kL4+72PSeQ0gRxQnft8bQt
-7EOrJ+6W5hNrgYxQKF342k5c7sLfAzUSSAXn2QzjlYVO9R4ledWnWE7U2rGwMP6ypVJOH/Gkn+qy
-oBMEZchENnl/Y/F+ezc2kYsy5JlI/MSeRS1Zjjoh7v+OCANVvMOk4EPPaFKcrmfpVnNbVbmt1wDk
-6LvZx4vrx95iy2l15aVl1yRdFMoTqHs0B5oPqmwZjNQPP3ftxcWd2W/8ds1PpeN9hwSYFU5s7yyW
-3bryf26dWZHxHq1wtFMCdNu5zPa119LN6yjfwvl5M0Hant0fjALJLf8D6rtE8ZFzclwwAa3i9SKm
-qMZil7inhyXkbHWCCLJ3JCDCgQTMO+tXCfLi8B1tZqsOe4uYFaSR7q/0aT3iaHph/uTR9F/Uz8ko
-WD7J8paYfM0cl/5EEY9k8kSRC5l5cnNkfyzcZODIxALay69kUXE2IVj4YVZPQbU/3jekHc90LN1P
-2GvHAJIxlK98wVTK1YWttDYyPIyNf3vcL+XvjmSF+BozXaaQX7oah6buDn/p/TDipkdZXfVjfibU
-dzR51JQi08NBqp6Sb2DAs0nQ8PNzdmuF4ahONuX0HaLMondq1Awf/il0e+aOjVzPErVTQC6H7Qpx
-Bvyp65Q2VgZyIO0y5SuXFZZ1BLLm4OLB6wPGaiQvhwAAAAAAAA==
-
-
---=-Y1P0lK4GuIvYJSCDL/6u--
 
