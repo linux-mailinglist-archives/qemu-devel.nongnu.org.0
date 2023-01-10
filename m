@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5E0664E85
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 23:07:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3E6664E8A
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 23:12:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFMm5-0004ds-QQ; Tue, 10 Jan 2023 17:07:17 -0500
+	id 1pFMpr-0006G5-FE; Tue, 10 Jan 2023 17:11:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pFMm3-0004dU-Gb
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 17:07:15 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ id 1pFMpk-0006Ei-UL
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 17:11:04 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pFMm1-0005NW-QI
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 17:07:15 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id n12so13880448pjp.1
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 14:07:13 -0800 (PST)
+ id 1pFMpj-0006Gw-Du
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 17:11:04 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ o7-20020a17090a0a0700b00226c9b82c3aso15054896pjo.3
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 14:11:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wW+CnXgfExubGnVii7hVTKZLWDcf6z3kKoQODMIhaek=;
- b=MT62ytBsNBsUPyn1+G6fW32AmetdGDyeqFm8NOTmeYtkOEn3eqR8bVGMqgaFRDfbf5
- qXsGSoziacM4zcoxKw7bZUHYpzQ24nkEmNr5XlmngZ1vyOml+SRA34vPnF/uIVEa6E6v
- gJ2h5iIVryDdSHpa1vdg5tQjlnLi/bc2OuSINzNTdTwBnG9kTl4qIucnHbWeDqBmGg21
- INfFlpn9CahX7R8NQG8rSWDv+d3noGST9TKlND+kXFOYDcgpsSmHBn5v/JrDsJwBu59L
- fXuqqDbi/uNUFtGKDBD9MQsJ2q+7kFfqusmMaR1LBDBBMJHG2yjyN+LZaVki02pivCAV
- v+xg==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6lj0Vel8aEPc8opR519t09LYxxVN6CUFEjFMuM/h/mM=;
+ b=dJqtB3gCVQ0o+myqQuOKxG/eMCFopUVjGramrYdytB2cIPGswxh7cMLQttWRzLu4UL
+ VOIEneGpdObG0GJq09/Dg2h1eiqzO3BqrT4TM0+dRxkPRsKDf4B79ahtEQjhVjMNwYxc
+ V8LDzMgCAPnuQVFXzZSwEsmilnIwVYAbzl1Gogr04KoIYyckoj2KIv9qatmg/eJ8hjoU
+ WF9C53pzqEpyq4eNdUapzsO4xVNvsv309QxQnizAuc3sZj3qoOqQugR9US+CMKBjCKHQ
+ 3bJ3slXE8pt8OQAvxEbJxlb27Y3l8K9InupFNZ1hKk7cA/e7YtjcAdQayzfS+XIP+L9s
+ q5sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wW+CnXgfExubGnVii7hVTKZLWDcf6z3kKoQODMIhaek=;
- b=E8wG7hhhpy9tuHZYPRO6ldv9jDg+Mic18kHnKGHRU8UCnAF4905ATu0ke6+Nzd4Sk+
- N+NjzKKREogHQLxz5qI6zWz852+TUPRGqlzVIfLwQ40WT+fIVEvDgJCZJIph59A0+8mx
- 9W7kBLOQ1pgRmPxiQgYGA/wfeNM32Ah4SSXq6RjHdYkZO8hstTFSj65Ay+g1OozIue40
- jZALCx6Bc2evfguTT47Ry3VHyzbWLV5x0ZKbmCYnktRarcB8KpPNb29Jy1VJXdm9amyU
- G3wbzXcwN5OM0AnIJXZ7yAMskIZxaEdC1eb+elhbBQav38dJTcsWGpcY4P1/gnyLUgN3
- f/rg==
-X-Gm-Message-State: AFqh2kquGU3/6fY0yTJaARJUhjfgx9NNRuqoPGSFOKK7o9t2da6ZP2FZ
- s2ntTLi6B2dGQPpDNr1qQQfWBoTWZUQ82+ebqynuZg==
-X-Google-Smtp-Source: AMrXdXsADwYReE5UnhHhncA/zTtxge5at+FCt6hCEqc1cS69MVSvN/F/b9o2k9rOgiIon4HKz0q1IIeaf04vPHPuBsA=
-X-Received: by 2002:a17:90a:77c7:b0:219:e2f1:81ad with SMTP id
- e7-20020a17090a77c700b00219e2f181admr5689009pjs.19.1673388432270; Tue, 10 Jan
- 2023 14:07:12 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6lj0Vel8aEPc8opR519t09LYxxVN6CUFEjFMuM/h/mM=;
+ b=rV2O3s73f3cY/6dVg/dxsYRIjr1GvxMpew2dESFkU+BXgkVIp7gR2wV4O35MTqQAJH
+ 8j3JhXIyYvZoIDwNhTefUCB1ZRsc+MQNz097VB4Yfr9z/wwVLvW/gJOx5XfkQvqsI3QM
+ aVMNoelpEvg5X/GKjDQIQtnB3ca0jmVNTVi1ZDVHXqDx/ImvHm2/1v6NkY8W3mxbh+d7
+ FfDxd99S9YdBD89dIX9YFZKiJ7s7TfGcPeGX+3n7F459OLTs9uh6OKz182zYrA9/R4U+
+ bOCTt1/otmM+ASpo33O/c6Lks4a7ZAujUvIHILV+ZzxC/Q8sOMcaeyuv1ksS5dOwohRx
+ Gl7g==
+X-Gm-Message-State: AFqh2kqdhzUqmnu4UoFMLcnl/Dd8nfHelj67si0CKpGPMXn9utfLI+4T
+ z1npExUAdkoCKptx0iar5bY+dUpJMwOnwdk1sYp+eA==
+X-Google-Smtp-Source: AMrXdXuTics/aqk0Rg87u4viOJxOrPEKr5tDrwQeTXJbV/5nCYYcuyWXTx2EJxquGJlXnePuqxqEwqT54nkDgkh6s60=
+X-Received: by 2002:a17:90b:30ce:b0:228:dac2:3704 with SMTP id
+ hi14-20020a17090b30ce00b00228dac23704mr229934pjb.221.1673388662005; Tue, 10
+ Jan 2023 14:11:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20230110160233.339771-1-pbonzini@redhat.com>
-In-Reply-To: <20230110160233.339771-1-pbonzini@redhat.com>
+References: <CAFEAcA-f39VfWEwb-zRabjVoO-XQ-0V=iCFu1PVjg7eYChszbA@mail.gmail.com>
+ <32c53c77-5827-7839-94a1-73003bc3f8af@linux.ibm.com>
+ <CAFEAcA8Er1f=KzsOhBeMgt2+8-sTua6mQU_708fjRSSrzNu+CA@mail.gmail.com>
+ <Y727pJsNNajB77A7@redhat.com>
+In-Reply-To: <Y727pJsNNajB77A7@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 10 Jan 2023 22:07:01 +0000
-Message-ID: <CAFEAcA_Rhfz27vM5dUMdxQae8W3HJUoAxC3VOHNx8xxObs+=8w@mail.gmail.com>
-Subject: Re: [PULL 00/29] Misc patches for 2023-01-10
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
+Date: Tue, 10 Jan 2023 22:10:50 +0000
+Message-ID: <CAFEAcA9Q1GTq+zJXEn2w7u-d28L1G0J-HomHakmwfbERrwpcrg@mail.gmail.com>
+Subject: Re: intermittent hang, s390x host, bios-tables-test test, TPM
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Stefan Berger <stefanb@linux.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, 
+ Eric Auger <eric.auger@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,39 +93,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 10 Jan 2023 at 18:29, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Tue, 10 Jan 2023 at 19:25, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
 >
-> The following changes since commit 3d83b78285d6e96636130f7d449fd02e2d4deee0:
+> On Fri, Jan 06, 2023 at 03:39:31PM +0000, Peter Maydell wrote:
+> > Yeah. It would be good if we didn't deadlock without printing
+> > the assertion, though...
+> >
+> > I guess we could improve qtest_kill_qemu() so it doesn't wait
+> > indefinitely for QEMU to exit but instead sends a SIGKILL 20
+> > seconds after the SIGTERM. (Annoyingly, there is no convenient
+> > "waitpid but with a timeout" function...)
 >
->   Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2023-01-08 14:27:40 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to cd78f1d264c1ac7dfd7fa50abce0dec71a1f41ac:
->
->   configure: remove backwards-compatibility code (2023-01-09 16:54:56 +0100)
->
-> ----------------------------------------------------------------
-> * Atomic memslot updates for KVM (Emanuele, David)
-> * libvhost-user/libvduse warnings fixes (Marcel)
-> * i386 TCG fixes (Joe, myself)
-> * Remove compilation errors when -Werror=maybe-uninitialized (Eric)
-> * fix GLIB_VERSION for cross-compilation (Paolo)
->
-> ----------------------------------------------------------------
+> We don't need to touch that. Instead the tpm-emu.c file needs to
+> call  qtest_add_abrt_handler() passing a callback that will invoke
+> qio_channel_close on its end of the socket. This will cause the
+> QEMU process to get EOF on the other end of the socket. It then
+> won't be stuck holding the iothread lock, and will be able to
+> respond to SIGTERM.
 
-This provokes a new warning in compiling the testsuite on ppc:
-
-
-../../tests/fp/berkeley-testfloat-3/source/fail.c: In function 'fail':
-../../tests/fp/berkeley-testfloat-3/source/fail.c:53:5: warning:
-function 'fail' might be a candidate for 'gnu_printf' format attribute
-[-Wsuggest-attribute=format]
-   53 |     vfprintf( stderr, messagePtr, varArgs );
-      |     ^~~~~~~~
-
+That sounds straightforward and will fix this specific case
+of "the QEMU process didn't exit on SIGTERM", but it would
+be nice more generally if the test harness did not sit there
+forever without printing the assertion in this situation.
+"QEMU got permanently stuck" is something that can happen
+in more than on way, after all...
 
 thanks
 -- PMM
