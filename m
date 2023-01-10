@@ -2,111 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC82664CC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 20:48:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1567664CE0
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 20:57:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFKb9-0004zp-W5; Tue, 10 Jan 2023 14:47:52 -0500
+	id 1pFKk1-0002DN-EO; Tue, 10 Jan 2023 14:57:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pFKb8-0004zg-GB
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 14:47:50 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pFKb6-0004FF-75
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 14:47:50 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30AJQqB2006424; Tue, 10 Jan 2023 19:47:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=7mYxHy13UCVwF9cmohnNsr7l2tgX//4NHkNTy4cxn7s=;
- b=l1d7OJY4bbmccZg+5A6APvrdx6G/dRAaC4rhqz7fAyZ7cS9gYZRWKDwGonyO4EwzWxVw
- DELMLbOFn/NyXCgEkLTLBUNUOui4+dtvcp40qdJTU6b2xl451uRUw3XMcAaWajP6sMGK
- Y2QUtl8kUh/9A34+E+FRDVfOrLL+Ufpyh6dUhWLRwU0A7eky592rn5e/1Ej5F8HDZ/hg
- KENqdlylbJkcR4NHY965ZYL0S3dWaubjdz2EbSwTR8nMZkWRadeVsxMhMSfosOFJb0y0
- hTowtj5lBrMUDUKLs8aeWJudbwfJKMO1LsPrhUbctEM51KZqLc42zDPnN5QFyFJgGPYh Rw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1e6crf14-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 Jan 2023 19:47:44 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30AJRt5x008748;
- Tue, 10 Jan 2023 19:47:44 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1e6crf0w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 Jan 2023 19:47:44 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30AIWcDr017136;
- Tue, 10 Jan 2023 19:47:43 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([9.208.130.98])
- by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3my0c7ukp3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 Jan 2023 19:47:43 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com
- [10.39.53.229])
- by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30AJlgMA7799320
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Jan 2023 19:47:42 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E9E2B5805B;
- Tue, 10 Jan 2023 19:47:41 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2AB9C58058;
- Tue, 10 Jan 2023 19:47:41 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 10 Jan 2023 19:47:41 +0000 (GMT)
-Message-ID: <410f90dd-4ad1-2294-f1b3-9c7f9aeba113@linux.ibm.com>
-Date: Tue, 10 Jan 2023 14:47:40 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: intermittent hang, s390x host, bios-tables-test test, TPM
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Eric Auger <eric.auger@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <CAFEAcA-f39VfWEwb-zRabjVoO-XQ-0V=iCFu1PVjg7eYChszbA@mail.gmail.com>
- <32c53c77-5827-7839-94a1-73003bc3f8af@linux.ibm.com>
- <f1da5e4a-82ef-6da5-8669-634664c5d1e0@linux.ibm.com>
- <Y728JSBMRtdl1VUK@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <Y728JSBMRtdl1VUK@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 57qTuPtMFeQRz8DwGT8mC_Lo74ZVC20j
-X-Proofpoint-ORIG-GUID: 81TCOC9XPgfKeuiiDYD9_Lj7oNC6DbjX
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pFKjy-0002Bw-NL
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 14:56:59 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pFKjw-00064n-8e
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 14:56:58 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id q64so13517496pjq.4
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 11:56:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=N6fo+OvG3AYirqXj75knH0969uIfo9sUQ0UgZxbxj4A=;
+ b=ZZvhXQ1bm1atE+UFqpV2ZkqRdYLPKG8hhb7PYLdVlCldiSbtqJDidk0QYM5Ll5F5K6
+ QDBfG901XL/63Vc4dlRfdsUkJz4OiJy4ZcsHKJFCSKI5O4xqwbfUCIx7Lu8oZbPsvkEA
+ 5zAI10Ly51EGwrAXEWZtQZ34d4aWcZuD4DYmnI6ew7dAuOZh/lJXmed2rph1k57qiqp1
+ LSPoLyAyE5acS5HOk6flFJOdZ9O61OSVzeKL3JYD3c65JhpPNfbX4I/dPPU9YYWiym9S
+ jsvkFHsZI3pn7CYbgUQTlyd1zju6CGm2NO0s18LD4F29956nUirUbHM2WcnFeBnpYPz/
+ 9Yhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=N6fo+OvG3AYirqXj75knH0969uIfo9sUQ0UgZxbxj4A=;
+ b=wNPsxJrlNVJx22URO368l95UUebPNQEqVxx3n/vcQIoafHuufAGK4L1+7B9ZVEF/GQ
+ ucnVBq4VIVgZNH9AjCwJ20A0rUpC7rVWdRJeDAUG2s1Fa4MhQDnnDdO6gvFCf1Uh45zZ
+ wRRV7H0MyBu0gTl3CB4WrkogNZGrVI0EFc+IQeiQtVP1qfN13RQu+uI/m/UjoUJTcSEc
+ WTCZLvXzSs27GifPgP1bcwIh1PT4KISULuU4ifB3H9McTQA0qKrS6MkiUCHFfwxgyCV/
+ F/fpp8uYjs8oDpq0y0iM2srsiWWps7Tje8FT6Dl5eWkSmLaSyQ9L21zHTHy8+49oQ0qF
+ QCOA==
+X-Gm-Message-State: AFqh2kriWUmAufioVYRl2W50zOcuE8MSbpdj3yMUKVi2PocZ8JzE0iF/
+ uOfKmcSJq4Cu1NnazqS8AT5QQw==
+X-Google-Smtp-Source: AMrXdXvz7WzVBJp2TbLExOqLv8TawJRNOO/+GqOrzrmxS5V0DBIGBRphgY6UPcO/IYw21Q9/aa9ZnQ==
+X-Received: by 2002:a17:90a:ac04:b0:225:ad50:3b18 with SMTP id
+ o4-20020a17090aac0400b00225ad503b18mr71000321pjq.25.1673380613503; 
+ Tue, 10 Jan 2023 11:56:53 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:8117:35c5:a167:7030?
+ ([2602:47:d48c:8101:8117:35c5:a167:7030])
+ by smtp.gmail.com with ESMTPSA id
+ ml21-20020a17090b361500b002135de3013fsm7606109pjb.32.2023.01.10.11.56.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Jan 2023 11:56:52 -0800 (PST)
+Message-ID: <ad150bbe-6a59-7b46-2e7b-bbc8441e118a@linaro.org>
+Date: Tue, 10 Jan 2023 11:56:50 -0800
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-10_08,2023-01-10_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxlogscore=999
- clxscore=1015 priorityscore=1501 adultscore=0 mlxscore=0 suspectscore=0
- lowpriorityscore=0 impostorscore=0 malwarescore=0 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301100124
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC] Reducing NEED_CPU_H usage
+Content-Language: en-US
+To: Alessandro Di Federico <ale@rev.ng>, qemu-devel@nongnu.org
+Cc: Taylor Simpson <tsimpson@quicinc.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20221228171617.059750c3@orange>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221228171617.059750c3@orange>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -123,54 +95,246 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 1/10/23 14:27, Daniel P. Berrangé wrote:
-> On Tue, Jan 10, 2023 at 01:50:26PM -0500, Stefan Berger wrote:
->>
->>
->> On 1/6/23 10:16, Stefan Berger wrote:
->>> This here seems to be the root cause. An unknown control channel
->>> command was received from the TPM emulator backend by the control channel thread and we end up in g_assert_not_reached().
->>>
->>> https://github.com/qemu/qemu/blob/master/tests/qtest/tpm-emu.c#L189
->>>
->>>
->>>
->>>           ret = qio_channel_read(ioc, (char *)&cmd, sizeof(cmd), NULL);
->>>           if (ret <= 0) {
->>>               break;
->>>           }
->>>
->>>           cmd = be32_to_cpu(cmd);
->>>           switch (cmd) {
->>>    [...]
->>>           default:
->>>               g_debug("unimplemented %u", cmd);
->>>               g_assert_not_reached();                <------------------
->>>           }
->>>
->>> I will run this test case in an endless loop on an x86_64 host and see what we get there ...
->>
->> I could not recreate the issue running the  test on a ppc64 and x86_64
->> host. There we like >100k test runs on ppc64 and >40k on x86_64. Also
->> simulating the reception of an unsupported command did not lead to a
->> hang like shown here.
+On 12/28/22 08:16, Alessandro Di Federico wrote:
+> ## `target_ulong`
 > 
-> Assuming your ppc64 host is running an little endian OS, and
-> we're only seeing the test failure on s390x, then it points towards
-> the problem being an endianness issue in the TPM code. Something
-> missing a byteswap somewhere along the way ?
+> `target_ulong` is `uint32_t` in 32-bit targets and `uint64_t` in 64-bit
+> targets.
+> 
+> Problem: This is used in many many places to represent addresses in
+> code that could become target-independent.
+> 
+> Proposed solution: we can convert it to:
+> 
+>      typedef uint64_t target_address;
 
-Yes, my ppc64 machine is also little endian. If the issue  was not an intermittent but a permanent
-failure I would look for something like that. I would think it's more some sort of initialization
-issue, like a value on the stack that occasionally set to an undesirable value -- maybe even in a
-dependency.
+We have other typedefs that are better for this, e.g. vaddr.
 
-    Stefan
+However, at some point we do want to keep some target addresses in the proper size.  For 
+instance within the softmmu tlb, where CPUTLBEntry is either 16 or 32 bytes, depending.
+
+(On the other hand, if we drop support for 32-bit hosts, as we keep threatening to do, 
+then CPUTLB is always 32 bytes, and we might as well use vaddr there too.  But not until 
+32-bit hosts are gone.)
 
 > 
+> The problem with this is that, if arithmetic operations are performed
+> on it, we might get undesired results:
 > 
-> With regards,
-> Daniel
+>      // Was: char load_data(target_ulong address)
+>      char load_data(target_address address) {
+>        char *base_address = get_base_address();
+>        // On a 32-bits target this would overflow, it doesn't with
+>        // uint64_t
+>        target_address real_address = address + 1;
+>        return *(base_address + real_address);
+>      }
+
+Doesn't, or shouldn't matter, because we should never do anything like this in generic 
+code.  Note that
+
+     vaddr ptr = ...;
+     cpu_ldl_le_data(env, ptr + offset)
+
+does not have the problem you describe, because any overflow is truncated within the load 
+function.
+
+
+> ## `abi_ulong`
+> 
+> Similar to `target_ulong`, but with alignment info.
+
+Pardon?  There's no alignment info in abi_ulong.
+
+The difference is that 'target_ulong' is the size of the target register, and 'abi_ulong' 
+is the 'unsigned long' in the target's C ABI.  Consider e.g. x32 (x86_64 with ilp32 abi), 
+for which target_ulong is 64-bit but abi_ulong is 32-bit.
+
+This only applies to user-only, and should not matter for this project.
+
+There *is* an 'abi_ptr' type, which is shared between softmmu and user-only, which might 
+be able to be replaced by 'vaddr'.  Or 'typedef vaddr abi_ptr' in softmmu mode.  I haven't 
+done a survey on that to be certain.
+
+> ## `TCGv`
+> 
+> `TCGv` is a macro for `TCGv_i32` for 32-bit targets and `TCGv_i64`
+> for 64-bit targets.
+
+The idea is that this macro should only be visible to target-specific code, and the macro 
+provides the swizzling/encoding to the concrete type functions.
+
+> Problem: it makes `tcg-op.h` 
+
+This is fine.
+
+> and, more importantly, `tcg-op.c`
+
+This one requires some work within tcg/ to handle two target address sizes simultaneously. 
+  It should not be technically difficult to solve, but it does involve adding a few TCG 
+opcodes and adjusting all tcg backends.
+
+
+> Solution: transform current functions using them into target-specific
+> wrappers that dispatch to target-agnostic functions that accept
+> `TCGv_dyn` instead of `TCGv`:
+> 
+>      typedef struct {
+>          union {
+>              TCGv_i32 i32;
+>              TCGv_i64 i64;
+>          };
+>          bool is_64;
+>      } TCGv_dyn;
+
+This forgets that both TCGv_i32 and TCGv_i64 are represented by TCGTemp, which contains 
+'TCGType type' to discriminate.  This is not exposed to target/, but it's there.
+
+Anyway, there's no need for this.
+
+> ## `TARGET_` macros
+> 
+> These are macros that provide target-specific information.
+> 
+> Problem: they need to be abandoned in translation units that need to
+> become target agnostic.
+> 
+> Solution: promote them to fields of a `struct`.
+> Current ideas:
+> 
+>      TARGET_TB_PCREL -> TranslationBlock.pc_rel
+
+I'd been thinking a bit on the cpu, but a CF_* bit works well.
+It gets initialized for each TB from CPUState.tcg_cflags.
+TBD where we'd initialize the new bit for each cpu...
+
+
+>      TARGET_PAGE_BITS -> TranslationBlock.page_bits
+>      TARGET_PAGE_MASK -> TranslationBlock.page_mask
+
+You need to look at how TARGET_PAGE_BITS_VARY works.  The memory subsystem needs rewriting 
+if we were to support multiple page sizes.  What we can support now is one single global 
+page size, selected at startup.
+
+
+>      TARGET_PAGE_ALIGN -> CPUArchState.page_align
+>                        -> DisasContextBase.page_align
+
+This remains a trivial macro based on the variable TARGET_PAGE_MASK.
+
+
+>      TARGET_LONG_BITS -> TCGContext.long_bits
+
+Yes.
+
+I've been considering how to generalize this to arbitrary address widths, in order to 
+better support ARM top-byte-ignore and RISC-V J extension (pointer masking).  But in the 
+short term I'm happy with this number being exactly 64 or 32.
+
+>      TARGET_PAGE_SIZE -> ???
+
+Remains a trivial macro based on the variable TARGET_PAGE_MASK.
+
+>      TCG_OVERSIZED_GUEST -> ???
+
+Goes away if we drop support for 32-bit hosts, or restrict 32-bit hosts to 32-bit guests. 
+I have no other good ideas.
+
+
+>      TARGET_FMT_lx -> ???
+
+VADDR_PRIx, mostly.  May need resolving on a case-by-case basis.
+
+>      CPU_RESOLVING_TYPE -> ???
+
+Would need to be part of the per-target shared library interface.
+
+> ## `CPUState`
+> 
+> `CPUState` is a target-agnostic `struct` representing common information
+> of `ArchCPU`.
+> 
+> Problem: given an (opaque) pointer to `CPU${Arch}State`,
+> target-agnostic code often wants to reach `CPUState`, but this requires
+> knowledge of the layout of `ArchCPU`, which is target-dependent.
+> 
+> Solution: have a target-specific function to obtain the pointer to
+> `CPUState` given `CPU${Arch}State`. Where this function would go, and
+> how it would be retrieved, needs more consideration.
+> I imagine a table of target-specific function pointers.
+
+For the most part, generic code should be converted to use CPUState as much as possible, 
+and only target-specific code should deal with CPUArchState.
+
+However, generic code and the tcg backend need to be able to find CPUNegativeOffsetState 
+from CPUArchState.  This is (and must be) a per-target constant; we cannot allow full 
+flexibility of function pointers.
+
+We currently have CPUState.env_ptr; we can add 'CPUNegativeOffsetState *neg_ptr' to match, 
+then the per-target constant is the difference between the two pointers.
+
+> ## `CPUNegativeOffsetState`
+> 
+> `CPUNegativeOffsetState` is a `struct` placed in `ArchCPU` before
+> `CPU${Arch}State`.
+> 
+>      struct ArchCPU {
+>          /*< private >*/
+>          CPUState parent_obj;
+>          /*< public >*/
+>      
+>          CPUNegativeOffsetState neg;
+>          CPUAlphaState env;
+>      
+>          /* This alarm doesn't exist in real hardware; we wish it did.
+>      */ QEMUTimer *alarm_timer;
+>      };
+> 
+> Problem: used in several parts of the code that need to become
+> target-agnostic.
+> 
+> Solution: make it target-agnostic and push it into `CPUState`, which is
+> the place for target-agnostic stuff.
+> 
+> I'm not sure why this isn't already the case. I'm probably missing
+> something here, so feedback is welcome.
+
+For code generation quality, we need small negative displacements from env to find 
+icount_decr (used at the start of each TB), and CPUTLBDescFast[n].  Host specific 
+addressing modes (arm32, arm64, riscv) require the maximum of these displacements to be >= 
+-(1 << 11).
+
+Thus CPUNegativeOffsetState, and the documented (but not enforced) requirement that 'neg' 
+immediately precede 'env'.  The alignment requirements of env mean that there may be some 
+small amount of padding between the two.
+
+Before CPUNegativeOffsetState, we had all of those variables within CPUState, and even 
+comments that they should remain at the end of the struct.  But those comments were 
+ignored and one day icount_decr was too far away from env for easy addressing on arm host. 
+  Luckily there was an assert that fired, but it didn't get caught right away.
+
+As for NB_MMU_MODES, which CPUTLB depends on, we could fix this at 16.  This is larger 
+than all current targets (arm, 12; ppc 10), and is also the maximum currently supported by 
+the softmmu tlb api (uint16_t idxmap).
+
+Once upon a time it was quite expensive to have many mmu modes, as we directly allocated 
+their storage within CPUState.  But now we dynamically resize softmmu tlbs, so the 
+overhead of an unused mmu index is fairly low (sizeof(CPUTLBDesc) + sizeof(CPUTLBDescFast)).
+
+> # Current status
+> 
+> We currently have a branch where we can build (but not link nor run) a
+> `x86_64-linux-user` configuration where `NEED_CPU_H` is defined only
+> for translation units in `target/` and `linux-user/`.
+
+This effort should be exclusive to system mode -- don't consider *-user at all.
+Each linux-user target bakes in not just target architecture parameters, which are 
+complicated enough, but also C ABI, and kernel API.  Moreover, the most common use case 
+for linux-user is a statically linked binary that operates within a chroot.
+
+All you need for *-user is to make sure you don't accidentally break them while doing 
+system mode cleanup.
+
+
+r~
 
