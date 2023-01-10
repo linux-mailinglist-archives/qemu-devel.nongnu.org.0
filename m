@@ -2,89 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA8F664A37
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A194664B9F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:52:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFJLS-0004C5-Bi; Tue, 10 Jan 2023 13:27:34 -0500
+	id 1pFJMu-00056D-8t; Tue, 10 Jan 2023 13:29:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFJLN-0004BH-S6
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 13:27:30 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pFJMs-00055U-Up
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 13:29:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFJLM-0001QD-A9
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 13:27:29 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pFJMr-0001ea-Fz
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 13:29:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673375247;
+ s=mimecast20190719; t=1673375340;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XNuJrruTu5LhyQL2V20YY/ZteDsWCoMTmcv5RHUyK6U=;
- b=gRLbn726Zu9HHxOJ+rDgkW2nijGJT332i0NOy42LfWjCelv4u2qfyN1tJ9i2JwD+0WRo5/
- 3HpAt97/sWidh9p1AD1EjJcn9YTcQ8us+lwF1HyjOCuNcIFTDNYLKMHoh70xNv1iiZXQH+
- /IssU+hl9z1FikNHdkMT0Lycd8o0l10=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-172-yChTELGiNBmcrQXssQzSGg-1; Tue, 10 Jan 2023 13:27:25 -0500
-X-MC-Unique: yChTELGiNBmcrQXssQzSGg-1
-Received: by mail-qt1-f197.google.com with SMTP id
- ez10-20020a05622a4c8a00b003ab6c16856fso5945302qtb.17
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 10:27:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XNuJrruTu5LhyQL2V20YY/ZteDsWCoMTmcv5RHUyK6U=;
- b=JM2FOxcMm2TAqAhoLirmXBnZLb9CjC6LcFQAizfIWHvzIxCsRF1fMQMtV2h4JHLuYg
- ku3VJy2OUcUKeFRhzQnAhNHQWjXmPAysgzud1sllhaT7atNc0AD6J6igh0FbHu3zKg8K
- fc+3a+ufFgE1OgoGIega9wParrkmt44sZ+RhCJCVKjJA80b+I2g24oxr2t+pCh/qipFQ
- iX+mIMnmp62bjq4qOzOmeWddGzyuzV9meBE7tzrombdtHZJnlxszYF1pu5bORSKgQLJ+
- cFVLzSxZZ7ocjMupu0D1Kkbq5RT2RaAuqHEYAKfPGuNKLhfKaVA3XP/BDujvoxo9+o+c
- E4YQ==
-X-Gm-Message-State: AFqh2kqROFX4QnRmPt8O+c6b2+K1Lzs0q/V+16Mv1j3oVoB2FENsaRfH
- 3+/CSjLpQtoW6GmH4SXWIRloJza+8ZTN3GIuwwes1EDBgt9pFnJLVGKgBmU1a4AEbaeNFZ8jBcM
- hLi/ZGeE8XbN7ZCQ=
-X-Received: by 2002:ac8:6f1b:0:b0:3a9:7f1d:11f with SMTP id
- bs27-20020ac86f1b000000b003a97f1d011fmr6261927qtb.36.1673375245209; 
- Tue, 10 Jan 2023 10:27:25 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXs5f2sNzuNgBLKxOrQpdWsNLQJDN93gnG54zr5muy5+hrI0db3mSGRfLVEU2sa+wHdn6APdXQ==
-X-Received: by 2002:ac8:6f1b:0:b0:3a9:7f1d:11f with SMTP id
- bs27-20020ac86f1b000000b003a97f1d011fmr6261895qtb.36.1673375244956; 
- Tue, 10 Jan 2023 10:27:24 -0800 (PST)
-Received: from [192.168.8.100] (tmo-125-180.customers.d1-online.com.
- [80.187.125.180]) by smtp.gmail.com with ESMTPSA id
- bk25-20020a05620a1a1900b006ff8ac9acfdsm7602957qkb.49.2023.01.10.10.27.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jan 2023 10:27:24 -0800 (PST)
-Message-ID: <5a328f4e-2da3-3db7-7cde-01b8c9abe38b@redhat.com>
-Date: Tue, 10 Jan 2023 19:27:21 +0100
+ bh=WzDe9DsPuEiK/+1cAh6GTFGblJ1vSt8u3Gz+A07Prbc=;
+ b=YVHdwFHPH9jID/Xgy3ZQ37/dHB97q/kZQeBEoSWaw3nHaT/oaNVJKv/YjwhWGb9rNACzkz
+ cbWK4Wn/RflVstJZPDTcxmbX8pyT04/hStbZChgqeLuE/D+BxiWuNSGPOdgtCK6g2S0Wpv
+ p0Wp8Ds2FR+9i4Gd3tnlr4579yVrzqQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-260-LE-OdLVzO56mLNn7birUyQ-1; Tue, 10 Jan 2023 13:28:57 -0500
+X-MC-Unique: LE-OdLVzO56mLNn7birUyQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 29D81802C1C;
+ Tue, 10 Jan 2023 18:28:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F3F1C40C2064;
+ Tue, 10 Jan 2023 18:28:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D744621E6806; Tue, 10 Jan 2023 19:28:55 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,  qemu-devel@nongnu.org
+Subject: Re: [PULL 00/51] virtio,pc,pci: features, cleanups, fixes
+References: <20230105091310.263867-1-mst@redhat.com>
+ <20230105045619-mutt-send-email-mst@kernel.org>
+ <20230105113111-mutt-send-email-mst@kernel.org>
+ <CAFEAcA8Dr_vT2YrrrapL5vAtL5baGxPpk0busNPU-vutJcA10A@mail.gmail.com>
+ <20230105165242-mutt-send-email-mst@kernel.org>
+ <CAFEAcA8C5cfBc6qU1bZ_U0PusAAemOD6TYGhgxtQbwP-YA3yVQ@mail.gmail.com>
+ <20230108015336-mutt-send-email-mst@kernel.org>
+ <87cz7nsu1j.fsf@pond.sub.org>
+Date: Tue, 10 Jan 2023 19:28:55 +0100
+In-Reply-To: <87cz7nsu1j.fsf@pond.sub.org> (Markus Armbruster's message of
+ "Mon, 09 Jan 2023 14:43:04 +0100")
+Message-ID: <87mt6qmefs.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] Makefile: allow 'make uninstall'
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20230110151318.24462-1-peter.maydell@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230110151318.24462-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,31 +85,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/01/2023 16.13, Peter Maydell wrote:
-> Meson supports an "uninstall", so we can easily allow it to work by
-> not suppressing the forwarding of it from Make to meson.
-> 
-> We originally suppressed this because Meson's 'uninstall' has a hole
-> in it: it will remove everything that is installed by a mechanism
-> meson knows about, but not things installed by "custom install
-> scripts", and there is no "custom uninstall script" mechanism.
-> 
-> For QEMU, though, the only thing that was being installed by a custom
-> install script was the LC_MESSAGES files handled by Meson's i18n
-> module, and that code was fixed in Meson commit 487d45c1e5bfff0fbdb4,
-> which is present in Meson 0.60.0 and later.  Since we already require
-> a Meson version newer than that, we're now safe to enable
-> 'uninstall', as it will now correctly uninstall everything that was
-> installed.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/109
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   Makefile | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+Markus Armbruster <armbru@redhat.com> writes:
 
-Works for me!
+> "Michael S. Tsirkin" <mst@redhat.com> writes:
+>
+>> On Fri, Jan 06, 2023 at 03:29:01PM +0000, Peter Maydell wrote:
+>>> On Thu, 5 Jan 2023 at 21:53, Michael S. Tsirkin <mst@redhat.com> wrote:
+>>> >
+>>> > On Thu, Jan 05, 2023 at 09:04:37PM +0000, Peter Maydell wrote:
+>
+> [...]
+>
+>>> > > Compile failures on freebsd in the bsd-user build:
+>>> > >
+>>> > > https://gitlab.com/qemu-project/qemu/-/jobs/3561556072
+>>> > > https://gitlab.com/qemu-project/qemu/-/jobs/3561556071
+>>> > >
+>>> > > Probably something in Markus' include-file cleanup, I suspect
+>>> > > some file is missing its osdep.h include.
+>>> > >
+>>> > > thanks
+>>> > > -- PMM
+>>> >
+>>> >
+>>> > Pushed a fixup, commit 1df76fab679e9a673b71531925fe12ceb89eaecb now.
+>>> > Pls let me know, thanks!
+>>> 
+>>> Still failing on FreeBSD, for a different reason:
+>>> https://gitlab.com/qemu-project/qemu/-/jobs/3565200188
+>>> 
+>>> thanks
+>>> -- PMM
+>>
+>> Dropped the offending patch, commit aba0d042b1c1be38818cec16af3f34e9e9e2aed2 
+>> now.  Pls let me know, thanks!
+>
+> Appreciate the CI links.  I'll respin.
 
-Tested-by: Thomas Huth <thuth@redhat.com>
+I'd like to reproduce locally, and tried "make vm-build-freebsd".  No
+luck.  Any other ideas?
 
 
