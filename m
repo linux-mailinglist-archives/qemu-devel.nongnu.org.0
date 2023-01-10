@@ -2,85 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7126663D0B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:37:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 718EB663D08
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:36:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFAdY-0001nN-7n; Tue, 10 Jan 2023 04:09:40 -0500
+	id 1pFAmq-0002iW-0R; Tue, 10 Jan 2023 04:19:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFAdQ-0001iE-Uf
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:09:34 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFAdP-00083e-8C
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:09:32 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id w1so10995526wrt.8
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 01:09:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dfW/sAEPn0rJm6KxrRyVzn57OjLrNc7Fdi1FUW/dsOE=;
- b=diXcQM+uJlYjLmyLDJ/OzgWW5PKfOrFekO0CeQiJ935FLngWa7gGDfOnb2y2rwRm6G
- 4vndqX/eXbu48ng2q1og//ZlyBShbG8pWQ9JFKdHG6mrk9RjpDT6V08/JOeA5s/mjqy5
- 9PblS2tU8l6QQB7xmGCV+/geh7cnoXnlqlYKj6K4s/YF6C9omTpget2k/PyCGNVSYeLH
- 8nJgRXAKiTpZwqsIxCd0IqeyQ598LykSa5+p+oZ32ANtztXTdImp7C4DJXB2YCbVTqLC
- x/O765PvUBr6LsDKy2awZ/ZJpXiw31BFy13+nqR/dczslg45e79J4JinaJqqUif6o005
- 1GUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=dfW/sAEPn0rJm6KxrRyVzn57OjLrNc7Fdi1FUW/dsOE=;
- b=hoJ1WCIUCbffSCZkUSQPTO+X/xdmEBytamR9+CMkQMlcFyZ0N9lBIj2kUqo8YHw6yB
- BlkN7+UO9itw+Mx+q48U0vxD4AZ2l0XJQ+u64nzLFp5ew46ywjdk3PVnwAsFVgO2XlCz
- VKHDNoG+Nd5X279aZQOIYqDgjbp2i9/GjIF2AL3MB5JdLhWHq0C+Fhaq1FVpefBDIIOn
- j86dduqhEmJvsAKAGocShywP56KfYFjOM+FanMEhchQLphf9BmUYpBo4/rHHhij64vWO
- FgF7aAPnJq07fde9RSwTEeywQUpoow5RlAL5en8LBfu9iF3sgL19wOL5GpCYj3T4thGH
- sxtQ==
-X-Gm-Message-State: AFqh2kqaIFA/SgRepskigCCYag5VO+lQjoxPZ/OqoE/5q6uwhJr8/JN+
- E7h9HIu3jTaI7GOV8Ek2n4Z2XA==
-X-Google-Smtp-Source: AMrXdXsdIS1Ga3jIqedc4eONURhWzkNcytzTtnRQ3pc/rgp9BpRAF6mVBxeEpdw9YMIouiB+sBU+7Q==
-X-Received: by 2002:a05:6000:1f98:b0:29a:e549:2b98 with SMTP id
- bw24-20020a0560001f9800b0029ae5492b98mr18296712wrb.41.1673341768743; 
- Tue, 10 Jan 2023 01:09:28 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- a10-20020adfdd0a000000b002bb6b45ab57sm8723184wrm.85.2023.01.10.01.09.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 01:09:28 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0E7B21FFB7;
- Tue, 10 Jan 2023 09:09:28 +0000 (GMT)
-References: <20230109224954.161672-1-cota@braap.org>
- <20230109224954.161672-4-cota@braap.org>
-User-agent: mu4e 1.9.12; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Emilio Cota <cota@braap.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
- <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 3/5] thread: de-const qemu_spin_destroy
-Date: Tue, 10 Jan 2023 09:09:22 +0000
-In-reply-to: <20230109224954.161672-4-cota@braap.org>
-Message-ID: <877cxuoiwn.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1pFAme-0002df-3T
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:19:07 -0500
+Received: from mga09.intel.com ([134.134.136.24])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1pFAmb-0002db-Uw
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:19:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673342341; x=1704878341;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=2L0+jVEogDEzAgz7y5b+vzXDvmX8Ax8MX0YUEFpP2YQ=;
+ b=hMK6G/ElgX6zoGHEqOvSYT/2ZpWZ09G396lSONG+MoC03gwaIg8xsPjw
+ vhusF9YMLKqZ5IWu/nsncnJGM/zZlKZIkka33REZpwyca4YNwMGLVuSyP
+ nHVXDWQ/xpVhkhFxM1DzAMHxbc2WBO5sLmevvVIiNmpvcXhqfSEkuPDOt
+ 2BuLN6uGkbLXDJWsOdUpaLdi5uGKkRcPq1ygy1ZDvaMIQYCouz7tx6zEp
+ mNoRCNjMUqdpWlEI3j03CN3BjTd1GGydrqVkETlOA1pAAxFwzZfWNtTMv
+ OinhN5DcED2ZKVZhr8WjrQt70A8l1FnhMehOC/lk7I1yXBxuH0isV3Ik0 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="324343041"
+X-IronPort-AV: E=Sophos;i="5.96,314,1665471600"; d="scan'208";a="324343041"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2023 01:18:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="689352645"
+X-IronPort-AV: E=Sophos;i="5.96,314,1665471600"; d="scan'208";a="689352645"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga001.jf.intel.com with ESMTP; 10 Jan 2023 01:18:43 -0800
+Date: Tue, 10 Jan 2023 17:14:32 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20230110091432.GA2441264@chaop.bj.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
+ <Y7azFdnnGAdGPqmv@kernel.org>
+ <20230106094000.GA2297836@chaop.bj.intel.com>
+ <Y7xrtf9FCuYRYm1q@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y7xrtf9FCuYRYm1q@google.com>
+Received-SPF: none client-ip=134.134.136.24;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga09.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,39 +103,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Jan 09, 2023 at 07:32:05PM +0000, Sean Christopherson wrote:
+> On Fri, Jan 06, 2023, Chao Peng wrote:
+> > On Thu, Jan 05, 2023 at 11:23:01AM +0000, Jarkko Sakkinen wrote:
+> > > On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
+> > > > To make future maintenance easy, internally use a binary compatible
+> > > > alias struct kvm_user_mem_region to handle both the normal and the
+> > > > '_ext' variants.
+> > > 
+> > > Feels bit hacky IMHO, and more like a completely new feature than
+> > > an extension.
+> > > 
+> > > Why not just add a new ioctl? The commit message does not address
+> > > the most essential design here.
+> > 
+> > Yes, people can always choose to add a new ioctl for this kind of change
+> > and the balance point here is we want to also avoid 'too many ioctls' if
+> > the functionalities are similar.  The '_ext' variant reuses all the
+> > existing fields in the 'normal' variant and most importantly KVM
+> > internally can reuse most of the code. I certainly can add some words in
+> > the commit message to explain this design choice.
+> 
+> After seeing the userspace side of this, I agree with Jarkko; overloading
+> KVM_SET_USER_MEMORY_REGION is a hack.  E.g. the size validation ends up being
+> bogus, and userspace ends up abusing unions or implementing kvm_user_mem_region
+> itself.
 
-Emilio Cota <cota@braap.org> writes:
+How is the size validation being bogus? I don't quite follow. Then we
+will use kvm_userspace_memory_region2 as the KVM internal alias, right?
+I see similar examples use different functions to handle different
+versions but it does look easier if we use alias for this function.
 
-> Signed-off-by: Emilio Cota <cota@braap.org>
-> ---
->  include/qemu/thread.h | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/include/qemu/thread.h b/include/qemu/thread.h
-> index 7c6703bce3..7841084199 100644
-> --- a/include/qemu/thread.h
-> +++ b/include/qemu/thread.h
-> @@ -237,11 +237,10 @@ static inline void qemu_spin_init(QemuSpin *spin)
->  #endif
->  }
->=20=20
-> -/* const parameter because the only purpose here is the TSAN annotation =
-*/
-> -static inline void qemu_spin_destroy(const QemuSpin *spin)
-> +static inline void qemu_spin_destroy(QemuSpin *spin)
->  {
->  #ifdef CONFIG_TSAN
-> -    __tsan_mutex_destroy((void *)spin, __tsan_mutex_not_static);
-> +    __tsan_mutex_destroy(spin, __tsan_mutex_not_static);
->  #endif
->  }
+> 
+> It feels absolutely ridiculous, but I think the best option is to do:
+> 
+> #define KVM_SET_USER_MEMORY_REGION2 _IOW(KVMIO, 0x49, \
+> 					 struct kvm_userspace_memory_region2)
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Just interesting, is 0x49 a safe number we can use? 
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+> 
+> /* for KVM_SET_USER_MEMORY_REGION2 */
+> struct kvm_user_mem_region2 {
+> 	__u32 slot;
+> 	__u32 flags;
+> 	__u64 guest_phys_addr;
+> 	__u64 memory_size;
+> 	__u64 userspace_addr;
+> 	__u64 restricted_offset;
+> 	__u32 restricted_fd;
+> 	__u32 pad1;
+> 	__u64 pad2[14];
+> }
+> 
+> And it's consistent with other KVM ioctls(), e.g. KVM_SET_CPUID2.
+
+Okay, agree from KVM userspace API perspective this is more consistent
+with similar existing examples. I see several of them.
+
+I think we will also need a CAP_KVM_SET_USER_MEMORY_REGION2 for this new
+ioctl.
+
+> 
+> Regarding the userspace side of things, please include Vishal's selftests in v11,
+> it's impossible to properly review the uAPI changes without seeing the userspace
+> side of things.  I'm in the process of reviewing Vishal's v2[*], I'll try to
+> massage it into a set of patches that you can incorporate into your series.
+
+Previously I included Vishal's selftests in the github repo, but not
+include them in this patch series. It's OK for me to incorporate them
+directly into this series and review together if Vishal is fine.
+
+Chao
+> 
+> [*] https://lore.kernel.org/all/20221205232341.4131240-1-vannapurve@google.com
 
