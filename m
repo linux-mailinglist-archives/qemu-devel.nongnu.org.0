@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3E3664AAE
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C436647FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:02:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFIb6-0003Vz-SE; Tue, 10 Jan 2023 12:39:40 -0500
+	id 1pFIbE-0003c9-IV; Tue, 10 Jan 2023 12:39:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIb2-0003Q6-5x
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:36 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ id 1pFIb7-0003X1-6P
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:41 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIay-0001FA-HB
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:35 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- i17-20020a05600c355100b003d99434b1cfso10710362wmq.1
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:39:32 -0800 (PST)
+ id 1pFIb1-0001Dm-VR
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:40 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id e3so3373100wru.13
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:39:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KS77SMPj4oKmkGa5jb8BcpyB1iTizAYKK45SCLEMfy8=;
- b=MSxc2lEm3y/sj0EFcT+UZGb7aRRGFbdfUxSTq98zahaqKi+iB3DdOXE8uRbu7Sbcj6
- d08PlTYHZcc4oEnwPEWNXshy/QPZqqgcEYKIxHelpy7mz7hnqqZDoomZqK6AZuFXBxrS
- eJegnEen1pv1MoSBvNvgG9zobMfNJXWIqiFAGfWQTLLIIiYcqPlA+7qHG2iqcwUZUtTJ
- hnsKQJEIhbsS/G1vFi8uBmx5VFn+YSpb6BdJxJxC+Tv9VsOOMsgUVEtB/yrBxk48PyGT
- g0Zf0OljUxKS470R3Cb+yoldPBUjiAQ97V8ZxX5H3bivl9EaW4ano3s/Dpv/IVgNyqDP
- FtIw==
+ bh=z0YfL8vRVyh3lous/0s95D/+xZNaaK4U/ROvzEEMvDk=;
+ b=HITl9Ba8lZxtccssMGTgqO0xZJHhfU7GN+IM7uSaqArFjCC7vXKNRGMhIkDLCaWiXI
+ 2aJyY4fWbdBBmZdDBSmqJ+kOlQH61eaHk5ybk8OBiuOHtILorq7k7Gpzg+ECQCFnpJaM
+ T8ZDxdkToIUq6nXQxIbXE1oAbM21wyerClJpTXEH8aM/NzqKqOiGcqLAR9yjGslENT+b
+ NVCk1Omv3Ilr5VXjX7vnghLzXDAIBbhIchenWTnKG+Q2zE3aVCT1Vl9DipcTdiyPf5C0
+ f3HX0t0JNqQrmmVzuYghTggTmViWCxuxrCHqeA+HCxwrhT0YPotCFqS7UloYRsAJk0fY
+ ugvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KS77SMPj4oKmkGa5jb8BcpyB1iTizAYKK45SCLEMfy8=;
- b=6fl5VLA+6I/HZJVd8cMK6nQZpYSkIo8LHFeCo88KF4jgSCxPWrw+VHZxtZ8Ol2cfVw
- tX72CYKm+fFUCPQ5yCP8pEPBxY/2KkUgCD0xbbQcfvXoWRCe2sXCjmzk1ZpxM5FxaA+4
- ZYANghTnJp2yQb2X7sPqVnYq1JsfTC7ljmUZDGMTtLTYeoTqFWwTvx1nP9Xz7Dfunjqb
- ARtauUV+EDUyD92Y3ngqxTd7AK5urP66iQXFqpCUhVdkvDnAR4+TO0rbervt/qEmqHGA
- N0HiAhlXmLAOkmbkjFox+GGqmLHsLDgYWmTz94xq22bWl9CIg81i6sRPAN0XGQlxJeKr
- 6tcg==
-X-Gm-Message-State: AFqh2kqIa+vTetzXdJPABthDa6h1j6cN+v6nBc90SnQYCanDR5PpSv9Y
- t4+letDj9k2JPJNxbg4WQ3+OoA==
-X-Google-Smtp-Source: AMrXdXuC43opkob9bAeEj/9Efdeshe1/3ObQSSwvwoXHrRwm9U/YAPGc0cGCbyCs0NP+KPoF8FARyA==
-X-Received: by 2002:a05:600c:4920:b0:3d3:39a9:e659 with SMTP id
- f32-20020a05600c492000b003d339a9e659mr52944263wmp.21.1673372371139; 
- Tue, 10 Jan 2023 09:39:31 -0800 (PST)
+ bh=z0YfL8vRVyh3lous/0s95D/+xZNaaK4U/ROvzEEMvDk=;
+ b=YM+MIC1fG1eSbdrAm6TJU/dvRFTPQHdoxP3IQo6EVoA8sF7Q1NTcZLqQ2ixpvMNGWM
+ 3r5qFSu7thNR61xT9c0VNiQML+rWG+3cVgXWItY2iI11tJ5/5V9sQPbS7CWxW0QqMLW3
+ NxE6uCy5UhWld0dkBqhRPeO9AKFWqYm/IQHYRV293TPaFUZ9ZAi9poAXQurA7KHsI8u4
+ pCTlPkMZrVcjm2bkuCCdBe5wN+s9lODHP7XyEef6J+zwJzU7wTXUzYCYjtGdpu/AfrOW
+ HfmIenmfzdcJmyRaF1QO4KQMDLPToiijX3aDGafNLI+9F0FGMIkYNXt99anU0Kn5SmpZ
+ /Zug==
+X-Gm-Message-State: AFqh2kpCFsXw3pxtfQFySjalbmEIg2YKE5ODcz7dVjt6WfA4x79kpyVK
+ zuNqmtmuXMrFi/jpGop0b2wacg==
+X-Google-Smtp-Source: AMrXdXsympF0dw9DT5EEtACebP6H3dleiVo2pNj+dUHkFL96RXjNG8YW76OihYowLKdWvOSy8uK5KQ==
+X-Received: by 2002:a05:6000:a19:b0:2b1:c393:cbe with SMTP id
+ co25-20020a0560000a1900b002b1c3930cbemr14964056wrb.11.1673372375229; 
+ Tue, 10 Jan 2023 09:39:35 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- u16-20020a05600c00d000b003cf4eac8e80sm18814426wmm.23.2023.01.10.09.39.29
+ v14-20020adff68e000000b002365730eae8sm11744722wrp.55.2023.01.10.09.39.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 09:39:29 -0800 (PST)
+ Tue, 10 Jan 2023 09:39:32 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B0BAE1FFC1;
- Tue, 10 Jan 2023 17:39:23 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 32A091FFC3;
+ Tue, 10 Jan 2023 17:39:24 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -80,24 +79,24 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Mahmoud Mandour <ma.mandourr@gmail.com>,
  John G Johnson <john.g.johnson@oracle.com>
-Subject: [PATCH 09/26] docs: drop texinfo options
-Date: Tue, 10 Jan 2023 17:39:05 +0000
-Message-Id: <20230110173922.265055-10-alex.bennee@linaro.org>
+Subject: [PATCH 11/26] lcitool: drop perl from QEMU project/dependencies
+Date: Tue, 10 Jan 2023 17:39:07 +0000
+Message-Id: <20230110173922.265055-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230110173922.265055-1-alex.bennee@linaro.org>
 References: <20230110173922.265055-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,40 +114,313 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-It looks like this is no longer wanted, we only build the html output.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20230110132700.833690-6-marcandre.lureau@redhat.com>
+Message-Id: <20230110132700.833690-8-marcandre.lureau@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- docs/conf.py | 13 -------------
- 1 file changed, 13 deletions(-)
+ .gitlab-ci.d/cirrus/freebsd-12.vars                   | 2 +-
+ .gitlab-ci.d/cirrus/freebsd-13.vars                   | 2 +-
+ .gitlab-ci.d/cirrus/macos-12.vars                     | 2 +-
+ scripts/ci/setup/build-environment.yml                | 1 -
+ tests/docker/dockerfiles/alpine.docker                | 1 -
+ tests/docker/dockerfiles/centos8.docker               | 1 -
+ tests/docker/dockerfiles/debian-amd64-cross.docker    | 1 -
+ tests/docker/dockerfiles/debian-amd64.docker          | 1 -
+ tests/docker/dockerfiles/debian-arm64-cross.docker    | 1 -
+ tests/docker/dockerfiles/debian-armel-cross.docker    | 1 -
+ tests/docker/dockerfiles/debian-armhf-cross.docker    | 1 -
+ tests/docker/dockerfiles/debian-mips64el-cross.docker | 1 -
+ tests/docker/dockerfiles/debian-mipsel-cross.docker   | 1 -
+ tests/docker/dockerfiles/debian-ppc64el-cross.docker  | 1 -
+ tests/docker/dockerfiles/debian-s390x-cross.docker    | 1 -
+ tests/docker/dockerfiles/debian-tricore-cross.docker  | 1 -
+ tests/docker/dockerfiles/fedora-win32-cross.docker    | 1 -
+ tests/docker/dockerfiles/fedora-win64-cross.docker    | 1 -
+ tests/docker/dockerfiles/fedora.docker                | 1 -
+ tests/docker/dockerfiles/opensuse-leap.docker         | 1 -
+ tests/docker/dockerfiles/ubuntu2004.docker            | 1 -
+ tests/lcitool/projects/qemu.yml                       | 1 -
+ tests/vm/centos.aarch64                               | 2 +-
+ 23 files changed, 4 insertions(+), 23 deletions(-)
 
-diff --git a/docs/conf.py b/docs/conf.py
-index e33cf3d381..73a287a4f2 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -297,19 +297,6 @@
- ]
- man_make_section_directory = False
- 
--# -- Options for Texinfo output -------------------------------------------
--
--# Grouping the document tree into Texinfo files. List of tuples
--# (source start file, target name, title, author,
--#  dir menu entry, description, category)
--texinfo_documents = [
--    (master_doc, 'QEMU', u'QEMU Documentation',
--     author, 'QEMU', 'One line description of project.',
--     'Miscellaneous'),
--]
--
--
--
- # We use paths starting from qemu_docdir here so that you can run
- # sphinx-build from anywhere and the kerneldoc extension can still
- # find everything.
+diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
+index e3fc3235b9..f32f01a954 100644
+--- a/.gitlab-ci.d/cirrus/freebsd-12.vars
++++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
+@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+ PACKAGING_COMMAND='pkg'
+ PIP3='/usr/local/bin/pip-3.8'
+-PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+ PYPI_PKGS=''
+ PYTHON='/usr/local/bin/python3'
+diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
+index 9f56babd9c..813c051616 100644
+--- a/.gitlab-ci.d/cirrus/freebsd-13.vars
++++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
+@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+ PACKAGING_COMMAND='pkg'
+ PIP3='/usr/local/bin/pip-3.8'
+-PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+ PYPI_PKGS=''
+ PYTHON='/usr/local/bin/python3'
+diff --git a/.gitlab-ci.d/cirrus/macos-12.vars b/.gitlab-ci.d/cirrus/macos-12.vars
+index ef9e14b373..33bb4e1040 100644
+--- a/.gitlab-ci.d/cirrus/macos-12.vars
++++ b/.gitlab-ci.d/cirrus/macos-12.vars
+@@ -11,6 +11,6 @@ MAKE='/opt/homebrew/bin/gmake'
+ NINJA='/opt/homebrew/bin/ninja'
+ PACKAGING_COMMAND='brew'
+ PIP3='/opt/homebrew/bin/pip3'
+-PKGS='bash bc bison bzip2 capstone ccache cmocka ctags curl dbus diffutils dtc flex gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo json-c libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
++PKGS='bash bc bison bzip2 capstone ccache cmocka ctags curl dbus diffutils dtc flex gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo json-c libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
+ PYPI_PKGS='PyYAML numpy pillow sphinx sphinx-rtd-theme'
+ PYTHON='/opt/homebrew/bin/python3'
+diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
+index b04c2b7cee..58438008ee 100644
+--- a/scripts/ci/setup/build-environment.yml
++++ b/scripts/ci/setup/build-environment.yml
+@@ -155,7 +155,6 @@
+           - nettle-devel
+           - ninja-build
+           - nmap-ncat
+-          - perl-Test-Harness
+           - pixman-devel
+           - python36
+           - rdma-core-devel
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+index 094f66f4eb..3293c790c9 100644
+--- a/tests/docker/dockerfiles/alpine.docker
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -77,7 +77,6 @@ RUN apk update && \
+         numactl-dev \
+         openssh-client \
+         pcre-dev \
+-        perl \
+         pixman-dev \
+         pkgconf \
+         pulseaudio-dev \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index 1f70d41aeb..f13745e6cc 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -91,7 +91,6 @@ RUN dnf distro-sync -y && \
+         openssh-clients \
+         pam-devel \
+         pcre-static \
+-        perl \
+         pixman-devel \
+         pkgconfig \
+         pulseaudio-libs-devel \
+diff --git a/tests/docker/dockerfiles/debian-amd64-cross.docker b/tests/docker/dockerfiles/debian-amd64-cross.docker
+index 5e57309361..d0ace6d0f7 100644
+--- a/tests/docker/dockerfiles/debian-amd64-cross.docker
++++ b/tests/docker/dockerfiles/debian-amd64-cross.docker
+@@ -40,7 +40,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+                       ncat \
+                       ninja-build \
+                       openssh-client \
+-                      perl-base \
+                       pkgconf \
+                       python3 \
+                       python3-numpy \
+diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
+index bfeab01ee3..0517c4c315 100644
+--- a/tests/docker/dockerfiles/debian-amd64.docker
++++ b/tests/docker/dockerfiles/debian-amd64.docker
+@@ -108,7 +108,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+                       nettle-dev \
+                       ninja-build \
+                       openssh-client \
+-                      perl-base \
+                       pkgconf \
+                       python3 \
+                       python3-numpy \
+diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker b/tests/docker/dockerfiles/debian-arm64-cross.docker
+index 98885bd0ee..9ac1c1ba3f 100644
+--- a/tests/docker/dockerfiles/debian-arm64-cross.docker
++++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
+@@ -40,7 +40,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+                       ncat \
+                       ninja-build \
+                       openssh-client \
+-                      perl-base \
+                       pkgconf \
+                       python3 \
+                       python3-numpy \
+diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/docker/dockerfiles/debian-armel-cross.docker
+index d5c08714e4..8be492f4ad 100644
+--- a/tests/docker/dockerfiles/debian-armel-cross.docker
++++ b/tests/docker/dockerfiles/debian-armel-cross.docker
+@@ -40,7 +40,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+                       ncat \
+                       ninja-build \
+                       openssh-client \
+-                      perl-base \
+                       pkgconf \
+                       python3 \
+                       python3-numpy \
+diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/docker/dockerfiles/debian-armhf-cross.docker
+index 471444fcf4..da789e04af 100644
+--- a/tests/docker/dockerfiles/debian-armhf-cross.docker
++++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
+@@ -40,7 +40,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+                       ncat \
+                       ninja-build \
+                       openssh-client \
+-                      perl-base \
+                       pkgconf \
+                       python3 \
+                       python3-numpy \
+diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+index 15b0224b76..8b7c59c4f9 100644
+--- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
++++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+@@ -40,7 +40,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+                       ncat \
+                       ninja-build \
+                       openssh-client \
+-                      perl-base \
+                       pkgconf \
+                       python3 \
+                       python3-numpy \
+diff --git a/tests/docker/dockerfiles/debian-mipsel-cross.docker b/tests/docker/dockerfiles/debian-mipsel-cross.docker
+index a5d3ca6e2f..f9f1ed5fd2 100644
+--- a/tests/docker/dockerfiles/debian-mipsel-cross.docker
++++ b/tests/docker/dockerfiles/debian-mipsel-cross.docker
+@@ -40,7 +40,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+                       ncat \
+                       ninja-build \
+                       openssh-client \
+-                      perl-base \
+                       pkgconf \
+                       python3 \
+                       python3-numpy \
+diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+index d2954e61f6..e423d88c2d 100644
+--- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
++++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+@@ -40,7 +40,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+                       ncat \
+                       ninja-build \
+                       openssh-client \
+-                      perl-base \
+                       pkgconf \
+                       python3 \
+                       python3-numpy \
+diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/docker/dockerfiles/debian-s390x-cross.docker
+index d43ce16317..c1134f4cec 100644
+--- a/tests/docker/dockerfiles/debian-s390x-cross.docker
++++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
+@@ -40,7 +40,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+                       ncat \
+                       ninja-build \
+                       openssh-client \
+-                      perl-base \
+                       pkgconf \
+                       python3 \
+                       python3-numpy \
+diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
+index b573b9ded2..34b2cea4e3 100644
+--- a/tests/docker/dockerfiles/debian-tricore-cross.docker
++++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
+@@ -28,7 +28,6 @@ RUN apt update && \
+        locales \
+        make \
+        ninja-build \
+-       perl-base \
+        pkgconf \
+        python3-pip \
+        python3-setuptools \
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index cc5d1ac4be..de811b332b 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -42,7 +42,6 @@ exec "$@"' > /usr/bin/nosync && \
+                nmap-ncat \
+                openssh-clients \
+                pcre-static \
+-               perl-base \
+                python3 \
+                python3-PyYAML \
+                python3-numpy \
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index cabbf4edfc..71681d6f92 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -42,7 +42,6 @@ exec "$@"' > /usr/bin/nosync && \
+                nmap-ncat \
+                openssh-clients \
+                pcre-static \
+-               perl-base \
+                python3 \
+                python3-PyYAML \
+                python3-numpy \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index f44b005000..ca3793b04b 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -98,7 +98,6 @@ exec "$@"' > /usr/bin/nosync && \
+                openssh-clients \
+                pam-devel \
+                pcre-static \
+-               perl-base \
+                pixman-devel \
+                pkgconfig \
+                pulseaudio-libs-devel \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index 4361b01464..680f49e7dc 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -88,7 +88,6 @@ RUN zypper update -y && \
+            openssh \
+            pam-devel \
+            pcre-devel-static \
+-           perl-base \
+            pkgconfig \
+            python3-Pillow \
+            python3-PyYAML \
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 9417bca2fa..6594bba338 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -105,7 +105,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+                       nettle-dev \
+                       ninja-build \
+                       openssh-client \
+-                      perl-base \
+                       pkgconf \
+                       python3 \
+                       python3-numpy \
+diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
+index c62dbc00f9..c2af92348a 100644
+--- a/tests/lcitool/projects/qemu.yml
++++ b/tests/lcitool/projects/qemu.yml
+@@ -83,7 +83,6 @@ packages:
+  - ncursesw
+  - pam
+  - pcre-static
+- - perl
+  - pixman
+  - pkg-config
+  - pulseaudio
+diff --git a/tests/vm/centos.aarch64 b/tests/vm/centos.aarch64
+index 2de7ef6992..3f58de1e64 100755
+--- a/tests/vm/centos.aarch64
++++ b/tests/vm/centos.aarch64
+@@ -28,7 +28,7 @@ DEFAULT_CONFIG = {
+         "dnf config-manager --set-enabled powertools, "
+         "dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo, "
+         "dnf install -y make ninja-build git python38 gcc gcc-c++ flex bison "\
+-            "glib2-devel perl pixman-devel zlib-devel docker-ce.aarch64, "
++            "glib2-devel pixman-devel zlib-devel docker-ce.aarch64, "
+         "systemctl enable docker, "
+     ),
+     # We increase beyond the default time since during boot
 -- 
 2.34.1
 
