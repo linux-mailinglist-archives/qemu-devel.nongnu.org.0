@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19BBD66431C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 15:21:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE4A6643E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 16:00:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFDdv-0007uu-UW; Tue, 10 Jan 2023 07:22:16 -0500
+	id 1pFDey-0000aE-Up; Tue, 10 Jan 2023 07:23:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pFDcw-00079l-FN
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:15 -0500
+ id 1pFDcu-00078Z-BV
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:13 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pFDcr-0000Tv-TK
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:13 -0500
+ id 1pFDcn-0000Sd-8V
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=5eBfLmE6uboYXkmg99SmdHNAX9tqkKuR4529R0Vc1ko=; b=A0ukvFHXyNBlrGtT+AoEhNgQY9
- FtbtSeM+CEk3VQ0SjuPDFaW4MxN72Ybu9WprpnVtdavZvUHqTtu1M5ToS30MykdQu5BqHELYmOxsk
- dG/cgH0YPYtJ0RMmnPhiHA8OAzwekc9Wtwg72ShcYz04RiXMBnINAdQ6V6n/dAT/5ut0KQOxK0zpc
- lP7utnQw7aVl9WWLrwtudjSxaVgQhQmPU59yO47p5KsiEaZfTJEpR2kKs40JJQzyqqCKiQ/BgFWt/
- zybWm4L+mNtt33/sBszgl96fclrOHN2Q6csMKdfPORsd7AI3G43JrUauDA0+BP9pSVll99a8sf9eL
- 86nyZJbg==;
+ bh=5GVgKpAzPSHgdmscARANC2r0wf+Po0ba2fmVPsbNCdc=; b=qUAaulV2B0NUCYIczzGgMqzuUZ
+ PfjNDMaOk/dKbRMh2Jn0p4IUjqfg/BRg2vMx9GePVU/YoBYHof2PLx7dQGeOy3B9TGfERPcK8I99/
+ ZHGcB3+N0O7DUkuiNxDVYMQ71Nh9yyO+kRwfRRZ31aKcWTcEw6xigQpMprvRRnnGxvIBYwfeV8ge4
+ LgQfKL+XUq1fzHcTn1qXzLHZLuOlkVVv7bt1lHD0zDyw3KyUwS0x3rQcSD4VHKSIojyjQTtSJE7yb
+ c+Nkdf7tF47/TXtTag44H0zA/IMhUYBWzZv8S8TnOOKXjvu/WZAS59eiJFeoMgXyXf0xnaJKc9Npj
+ Kg3bLyoA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pFDcM-0037th-2F; Tue, 10 Jan 2023 12:20:50 +0000
+ id 1pFDcM-0037te-1r; Tue, 10 Jan 2023 12:20:46 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pFDcS-006Ydo-Dw; Tue, 10 Jan 2023 12:20:44 +0000
+ Hat Linux)) id 1pFDcS-006Ydu-FX; Tue, 10 Jan 2023 12:20:44 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,9 +46,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [PATCH v6 06/51] i386/hvm: Set Xen vCPU ID in KVM
-Date: Tue, 10 Jan 2023 12:19:57 +0000
-Message-Id: <20230110122042.1562155-7-dwmw2@infradead.org>
+Subject: [PATCH v6 08/51] xen-platform: allow its creation with XEN_EMULATE
+ mode
+Date: Tue, 10 Jan 2023 12:19:59 +0000
+Message-Id: <20230110122042.1562155-9-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230110122042.1562155-1-dwmw2@infradead.org>
 References: <20230110122042.1562155-1-dwmw2@infradead.org>
@@ -81,100 +82,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Joao Martins <joao.m.martins@oracle.com>
 
-There are (at least) three different vCPU ID number spaces. One is the
-internal KVM vCPU index, based purely on which vCPU was chronologically
-created in the kernel first. If userspace threads are all spawned and
-create their KVM vCPUs in essentially random order, then the KVM indices
-are basically random too.
+The only thing we need to handle on KVM side is to change the
+pfn from R/W to R/O.
 
-The second number space is the APIC ID space, which is consistent and
-useful for referencing vCPUs. MSIs will specify the target vCPU using
-the APIC ID, for example, and the KVM Xen APIs also take an APIC ID
-from userspace whenever a vCPU needs to be specified (as opposed to
-just using the appropriate vCPU fd).
-
-The third number space is not normally relevant to the kernel, and is
-the ACPI/MADT/Xen CPU number which corresponds to cs->cpu_index. But
-Xen timer hypercalls use it, and Xen timer hypercalls *really* want
-to be accelerated in the kernel rather than handled in userspace, so
-the kernel needs to be told.
-
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- target/i386/kvm/kvm.c     |  5 +++++
- target/i386/kvm/xen-emu.c | 28 ++++++++++++++++++++++++++++
- target/i386/kvm/xen-emu.h |  1 +
- 3 files changed, 34 insertions(+)
+ hw/i386/xen/meson.build    |  5 ++++-
+ hw/i386/xen/xen_platform.c | 39 +++++++++++++++++++++++++-------------
+ 2 files changed, 30 insertions(+), 14 deletions(-)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index e786a16c0b..4ab2c08af6 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -1868,6 +1868,11 @@ int kvm_arch_init_vcpu(CPUState *cs)
-             }
+diff --git a/hw/i386/xen/meson.build b/hw/i386/xen/meson.build
+index be84130300..79d75cc927 100644
+--- a/hw/i386/xen/meson.build
++++ b/hw/i386/xen/meson.build
+@@ -2,6 +2,9 @@ i386_ss.add(when: 'CONFIG_XEN', if_true: files(
+   'xen-hvm.c',
+   'xen-mapcache.c',
+   'xen_apic.c',
+-  'xen_platform.c',
+   'xen_pvdevice.c',
+ ))
++
++i386_ss.add(when: 'CONFIG_XENFV_MACHINE', if_true: files(
++  'xen_platform.c',
++))
+diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
+index 50174c2269..00f0527b30 100644
+--- a/hw/i386/xen/xen_platform.c
++++ b/hw/i386/xen/xen_platform.c
+@@ -28,9 +28,9 @@
+ #include "hw/ide.h"
+ #include "hw/ide/pci.h"
+ #include "hw/pci/pci.h"
+-#include "hw/xen/xen_common.h"
+ #include "migration/vmstate.h"
+-#include "hw/xen/xen-legacy-backend.h"
++#include "hw/xen/xen.h"
++#include "net/net.h"
+ #include "trace.h"
+ #include "sysemu/xen.h"
+ #include "sysemu/block-backend.h"
+@@ -38,6 +38,11 @@
+ #include "qemu/module.h"
+ #include "qom/object.h"
+ 
++#ifdef CONFIG_XEN
++#include "hw/xen/xen_common.h"
++#include "hw/xen/xen-legacy-backend.h"
++#endif
++
+ //#define DEBUG_PLATFORM
+ 
+ #ifdef DEBUG_PLATFORM
+@@ -280,18 +285,26 @@ static void platform_fixed_ioport_writeb(void *opaque, uint32_t addr, uint32_t v
+     PCIXenPlatformState *s = opaque;
+ 
+     switch (addr) {
+-    case 0: /* Platform flags */ {
+-        hvmmem_type_t mem_type = (val & PFFLAG_ROM_LOCK) ?
+-            HVMMEM_ram_ro : HVMMEM_ram_rw;
+-        if (xen_set_mem_type(xen_domid, mem_type, 0xc0, 0x40)) {
+-            DPRINTF("unable to change ro/rw state of ROM memory area!\n");
+-        } else {
++    case 0: /* Platform flags */
++        if (xen_mode == XEN_EMULATE) {
++            /* XX: Use i440gx/q35 PAM setup to do this? */
+             s->flags = val & PFFLAG_ROM_LOCK;
+-            DPRINTF("changed ro/rw state of ROM memory area. now is %s state.\n",
+-                    (mem_type == HVMMEM_ram_ro ? "ro":"rw"));
++#ifdef CONFIG_XEN
++        } else {
++            hvmmem_type_t mem_type = (val & PFFLAG_ROM_LOCK) ?
++                HVMMEM_ram_ro : HVMMEM_ram_rw;
++
++            if (xen_set_mem_type(xen_domid, mem_type, 0xc0, 0x40)) {
++                DPRINTF("unable to change ro/rw state of ROM memory area!\n");
++            } else {
++                s->flags = val & PFFLAG_ROM_LOCK;
++                DPRINTF("changed ro/rw state of ROM memory area. now is %s state.\n",
++                        (mem_type == HVMMEM_ram_ro ? "ro" : "rw"));
++            }
++#endif
          }
- 
-+        r = kvm_xen_init_vcpu(cs);
-+        if (r) {
-+            return r;
-+        }
+         break;
+-    }
 +
-         kvm_base += 0x100;
- #else /* CONFIG_XEN_EMU */
-         /* This should never happen as kvm_arch_init() would have died first. */
-diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 34d5bc1bc9..4883b95d9d 100644
---- a/target/i386/kvm/xen-emu.c
-+++ b/target/i386/kvm/xen-emu.c
-@@ -52,6 +52,34 @@ int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
-     return 0;
- }
+     case 2:
+         log_writeb(s, val);
+         break;
+@@ -509,8 +522,8 @@ static void xen_platform_realize(PCIDevice *dev, Error **errp)
+     uint8_t *pci_conf;
  
-+int kvm_xen_init_vcpu(CPUState *cs)
-+{
-+    int err;
-+
-+    /*
-+     * The kernel needs to know the Xen/ACPI vCPU ID because that's
-+     * what the guest uses in hypercalls such as timers. It doesn't
-+     * match the APIC ID which is generally used for talking to the
-+     * kernel about vCPUs. And if vCPU threads race with creating
-+     * their KVM vCPUs out of order, it doesn't necessarily match
-+     * with the kernel's internal vCPU indices either.
-+     */
-+    if (kvm_xen_has_cap(EVTCHN_SEND)) {
-+        struct kvm_xen_vcpu_attr va = {
-+            .type = KVM_XEN_VCPU_ATTR_TYPE_VCPU_ID,
-+            .u.vcpu_id = cs->cpu_index,
-+        };
-+        err = kvm_vcpu_ioctl(cs, KVM_XEN_VCPU_SET_ATTR, &va);
-+        if (err) {
-+            error_report("kvm: Failed to set Xen vCPU ID attribute: %s",
-+                         strerror(-err));
-+            return err;
-+        }
-+    }
-+
-+    return 0;
-+}
-+
- uint32_t kvm_xen_get_caps(void)
- {
-     return kvm_state->xen_caps;
-diff --git a/target/i386/kvm/xen-emu.h b/target/i386/kvm/xen-emu.h
-index 2101df0182..d62f1d8ed8 100644
---- a/target/i386/kvm/xen-emu.h
-+++ b/target/i386/kvm/xen-emu.h
-@@ -24,5 +24,6 @@
- #define XEN_VERSION(maj, min) ((maj) << 16 | (min))
+     /* Device will crash on reset if xen is not initialized */
+-    if (!xen_enabled()) {
+-        error_setg(errp, "xen-platform device requires the Xen accelerator");
++    if (xen_mode == XEN_DISABLED) {
++        error_setg(errp, "xen-platform device requires a Xen guest");
+         return;
+     }
  
- int kvm_xen_init(KVMState *s, uint32_t hypercall_msr);
-+int kvm_xen_init_vcpu(CPUState *cs);
- 
- #endif /* QEMU_I386_KVM_XEN_EMU_H */
 -- 
 2.35.3
 
