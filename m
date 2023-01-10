@@ -2,78 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C499663C9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:18:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1E4663D4B
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:52:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFA9r-0001Ai-Rt; Tue, 10 Jan 2023 03:38:59 -0500
+	id 1pFAKv-0004DV-1z; Tue, 10 Jan 2023 03:50:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFA9b-00014W-9W
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:38:45 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFA9Z-0000bs-H7
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:38:43 -0500
-Received: by mail-wm1-x333.google.com with SMTP id m3so8217162wmq.0
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 00:38:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ErLF4azLZLDGkLQxN7Hk+qlWB+Ke8yOtE1So2cdnFTs=;
- b=m8e0n0YLa8qgER5Ur2I9DQ42cRhoqUMpDm7HL/CN+15HMDen4jN4tRzr8CwgQa+5Lz
- fCWgLIfqTykzyvAnzEQtU9qIHAtIBpvfhpK2QDcNITAs3CdvgQfp7gzuzv+RVqK1BRVf
- JkRmw6CtFr2bwj4vQzx3sZm+yy1ZQUb73dOBSkV2M1pdKtsbXFk8vhL9j00B+VjeQFlV
- dJ4aKzLcj4T5OqitRrfe8FDpLvE5xSZIJRBwLgD6VlihKWxqvwhUSx3RkMPi5pIvWtOu
- 8qBHRXZ8Kwa0olTxUjUqkUMiQOZa3yymB67l7VeklKqrf6kXZjmdpJ1DqQJbb5dNvuny
- v7cQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pFAKP-0004Ca-1B
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:49:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pFAKM-0002Va-JI
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:49:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673340589;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vIShYGO9WdhQiPZm0PFpeZZ+9VyMKYo36UihVeQYZBU=;
+ b=EB7jikET1OYahw3MJoDtxe9yo33nZcgssr2FEfZs1pogiXeDrYDbwO8TjVAVlRQfI2oank
+ rgOy1JlHYW+P6b78fenf12y9JkGb9ZUlEPGEmtQxCq8fb1j5w7LQ4GgSbsHmgz7msiICtz
+ Ym42AFWdrOfQgcAVYExhKYAztLm8LUo=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-280-_QqqIiw0OtmJwW-gaDBTSQ-1; Tue, 10 Jan 2023 03:49:48 -0500
+X-MC-Unique: _QqqIiw0OtmJwW-gaDBTSQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ h18-20020a05640250d200b004758e655ebeso7087876edb.11
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 00:49:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ErLF4azLZLDGkLQxN7Hk+qlWB+Ke8yOtE1So2cdnFTs=;
- b=NkdW/LOZ11SXA53T8ebY4xjobhr6AM9ApzbeCfr6exo45vZ4rmeqDygP22xti0SMig
- ivA8AD6R3zoec0PxcagTePwdzD8SstPkvMpNJvaSLwW5/neUP1C/X5+cIvuij1jhA/8u
- 9z0OXdOmErLstsz/d5HySsI8xv6ddFX7DwZ1/VTvsE2KmowIDWB+d7H2QnvzCNL8S/PO
- u3tEsCrXNpjQnjM/fMIfec3ipgbIRBPhuP9P1MRPTdrcWCxyq0Jh4507Zi0yprUrka4+
- kcT+zW8yjxMu+byFE5s6W6kHCkkRo6o8uc5NcR7o0KZ+qljUmPeOk/k1UG2wWqWgO29j
- u/gw==
-X-Gm-Message-State: AFqh2kr1eI8IpIBB9/e5VYzaqU66g00nvDmcnwx7sIZUZwLjMgVkrrlf
- wziVmqSMIkSjmcxyQNR/yd+LHA==
-X-Google-Smtp-Source: AMrXdXsqEooXFlaAXmuBi+j2odKy+Q4qLtuO0ovn5MNfiBrvVi6KvqoixF6LNyEehZy8+gpSOcgx5A==
-X-Received: by 2002:a05:600c:358e:b0:3d9:9755:d659 with SMTP id
- p14-20020a05600c358e00b003d99755d659mr30970986wmq.22.1673339919916; 
- Tue, 10 Jan 2023 00:38:39 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- 2-20020a05600c020200b003d9ef8ad6b2sm6122840wmi.13.2023.01.10.00.38.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jan 2023 00:38:39 -0800 (PST)
-Message-ID: <68661c26-3292-3c34-58ef-44e61e912b21@linaro.org>
-Date: Tue, 10 Jan 2023 09:38:38 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vIShYGO9WdhQiPZm0PFpeZZ+9VyMKYo36UihVeQYZBU=;
+ b=tsIFdIwjDkg8nchWzZBd7cwg5/seuF4x4VLelKEIcZHM7/GhfLO0IgoddOKrfZGs7t
+ GvpejBd0A9dc37Zp43zqzwS0HR3bL0j/WZc4Xp8RUFhZ7anhwAhSHB9ZMyWNsNBqgl74
+ n6lt4UnqE5cXfeOzMr05kRqzVZr0WxBsJ926J0Hw5XethreAafPUlwaaIFJUNJQaFflp
+ pTOBp41XFGp6LdBLqfxhEPKLLHykzjdt6GhpyUWZRox543XZ1DuBxk78lJ38GlteOkeN
+ Az/M5bCJwphd3gQehdQSGdrfATSgi54gvf+2QJ0CcSWeMUM/t6GIQ/AeOi4uLH+PqzvD
+ 6EEQ==
+X-Gm-Message-State: AFqh2kpVn74OFZR5TpPPrOz3izednWfP2Vr+eA1IUuviKdIHonRGvfDe
+ DKAcbO9oP11zIp2ybg2chR61pMnouH1P/u3pFg9vEJDy2tlN9mlFqkqTV21Z75xymvOQVpDCfbO
+ OCv66ol6ucePSllGLowYEx2xHfowPMex8isL1bHafGto/VUOr0+GJr90e195wJ/UNWuk=
+X-Received: by 2002:a17:906:d047:b0:78d:f454:ba46 with SMTP id
+ bo7-20020a170906d04700b0078df454ba46mr57065402ejb.69.1673340585805; 
+ Tue, 10 Jan 2023 00:49:45 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtFCQxzKIjSG3msbgqLaAm8konSJmyKvYAYGhlAhMcCRlbY7B7GNhmKRKl8Hp49d/mDB05U8g==
+X-Received: by 2002:a17:906:d047:b0:78d:f454:ba46 with SMTP id
+ bo7-20020a170906d04700b0078df454ba46mr57065387ejb.69.1673340585472; 
+ Tue, 10 Jan 2023 00:49:45 -0800 (PST)
+Received: from avogadro.local ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
+ by smtp.gmail.com with ESMTPSA id
+ 18-20020a170906211200b007c0b28b85c5sm4650208ejt.138.2023.01.10.00.49.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Jan 2023 00:49:44 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH] mips: always include nanomips disassembler
+Date: Tue, 10 Jan 2023 09:49:42 +0100
+Message-Id: <20230110084942.299460-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v5 0/1] python/machine: Fix AF_UNIX path too long
-Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>
-Cc: jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com,
- wainersm@redhat.com, qemu-devel@nongnu.org
-References: <20230110082930.42129-1-peter@pjd.dev>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230110082930.42129-1-peter@pjd.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PP_MIME_FAKE_ASCII_TEXT=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,19 +98,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/1/23 09:29, Peter Delevoryas wrote:
+Since the nanomips disassembler is not C++ code anymore, it need not
+depend on link_language == cpp.  Always include it and remove the
+CONFIG_NANOMIPS_DIS symbol.
 
-> $ make check-avocado
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ disas/meson.build     | 3 +--
+ include/exec/poison.h | 1 -
+ meson.build           | 7 +------
+ target/mips/cpu.c     | 2 --
+ 4 files changed, 2 insertions(+), 11 deletions(-)
 
-> Avocado crashed: TypeError: cannot pickle '_thread.RLock' object
-
-Yeah... you have to pick Cleber's patches from
-https://gitlab.com/cleber.gnu/qemu/-/commits/WIP/tests_fixes
-and run as:
-
-$ TMPDIR=/tmp avocado run --test-runner=nrunner ...
-
-This is tracked on the avocado project:
-https://github.com/avocado-framework/avocado/issues/5138#issuecomment-1314551148
+diff --git a/disas/meson.build b/disas/meson.build
+index 1977f5cd92ef..c865bdd8827f 100644
+--- a/disas/meson.build
++++ b/disas/meson.build
+@@ -4,8 +4,7 @@ common_ss.add(when: 'CONFIG_HEXAGON_DIS', if_true: files('hexagon.c'))
+ common_ss.add(when: 'CONFIG_HPPA_DIS', if_true: files('hppa.c'))
+ common_ss.add(when: 'CONFIG_M68K_DIS', if_true: files('m68k.c'))
+ common_ss.add(when: 'CONFIG_MICROBLAZE_DIS', if_true: files('microblaze.c'))
+-common_ss.add(when: 'CONFIG_MIPS_DIS', if_true: files('mips.c'))
+-common_ss.add(when: 'CONFIG_NANOMIPS_DIS', if_true: files('nanomips.c'))
++common_ss.add(when: 'CONFIG_MIPS_DIS', if_true: files('mips.c', 'nanomips.c'))
+ common_ss.add(when: 'CONFIG_NIOS2_DIS', if_true: files('nios2.c'))
+ common_ss.add(when: 'CONFIG_RISCV_DIS', if_true: files('riscv.c'))
+ common_ss.add(when: 'CONFIG_SH4_DIS', if_true: files('sh4.c'))
+diff --git a/include/exec/poison.h b/include/exec/poison.h
+index f0959bc84ef5..140daa4a85a4 100644
+--- a/include/exec/poison.h
++++ b/include/exec/poison.h
+@@ -74,7 +74,6 @@
+ #pragma GCC poison CONFIG_M68K_DIS
+ #pragma GCC poison CONFIG_MICROBLAZE_DIS
+ #pragma GCC poison CONFIG_MIPS_DIS
+-#pragma GCC poison CONFIG_NANOMIPS_DIS
+ #pragma GCC poison CONFIG_NIOS2_DIS
+ #pragma GCC poison CONFIG_PPC_DIS
+ #pragma GCC poison CONFIG_RISCV_DIS
+diff --git a/meson.build b/meson.build
+index 175517eafde8..bfb461d1efac 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2478,7 +2478,7 @@ disassemblers = {
+   'x86_64' : ['CONFIG_I386_DIS'],
+   'm68k' : ['CONFIG_M68K_DIS'],
+   'microblaze' : ['CONFIG_MICROBLAZE_DIS'],
+-  'mips' : ['CONFIG_MIPS_DIS'],
++  'mips' : [ 'CONFIG_MIPS_DIS'],
+   'nios2' : ['CONFIG_NIOS2_DIS'],
+   'or1k' : ['CONFIG_OPENRISC_DIS'],
+   'ppc' : ['CONFIG_PPC_DIS'],
+@@ -2490,11 +2490,6 @@ disassemblers = {
+   'xtensa' : ['CONFIG_XTENSA_DIS'],
+   'loongarch' : ['CONFIG_LOONGARCH_DIS'],
+ }
+-if link_language == 'cpp'
+-  disassemblers += {
+-    'mips' : [ 'CONFIG_MIPS_DIS', 'CONFIG_NANOMIPS_DIS'],
+-  }
+-endif
+ 
+ have_ivshmem = config_host_data.get('CONFIG_EVENTFD')
+ host_kconfig = \
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index c614b04607a2..a216cb0df072 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -439,9 +439,7 @@ static void mips_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+         info->print_insn = print_insn_little_mips;
+ #endif
+     } else {
+-#if defined(CONFIG_NANOMIPS_DIS)
+         info->print_insn = print_insn_nanomips;
+-#endif
+     }
+ }
+ 
+-- 
+2.38.1
 
 
