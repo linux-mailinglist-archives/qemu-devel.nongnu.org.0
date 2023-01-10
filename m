@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EF8663AF8
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:26:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68EE3663A7C
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:07:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF9bH-0007AD-2u; Tue, 10 Jan 2023 03:03:15 -0500
+	id 1pF9bI-0007C3-R0; Tue, 10 Jan 2023 03:03:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pF9b1-00075M-QU
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:03:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pF9bA-00078S-2z
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:03:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pF9ay-0007cE-Ov
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:02:59 -0500
+ id 1pF9b6-0007eg-00
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:03:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673337776;
+ s=mimecast20190719; t=1673337783;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q3PlTL9irbvwvnRdoJfNW87UegtUzMbFLLdTRLDp1g8=;
- b=T+HqSSR0eV5y/YQaEoRS7dwZNM7n09VMjbBcuujbnK+ZuEDTNQ08Yrvd6SfvV8Rwx4M2gU
- KrZob8xWfoD46byl2M3vG0vIwpQkNr88fFT3g4c4tVoe+UWpJ6kJ0htQschwlStJSHP78a
- 57vWqMk6LKxGVVr+c9ld2Qf2Q2Eh09o=
+ bh=+kQC5W1HJVyZlSr7LmwSXpnisNfrSjXBHbjOM87JegU=;
+ b=XuJc+W6RmhbhVlkYJR1UO294imDUFzYf19RPGwCsbO0dURepWLAzLmJwfy3xv9WFfX4yJH
+ qGn1QU83cQf1l8/MaP/5nnIQqnnU5O8R6ZQ+9xteOopFE7/I1C4qejLMXL0umnrqvrTREi
+ JNwx6iM+005ngHzq/PmOUWiiE+aGfzY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-9of5ERgONOu8d-qXLHUQ8w-1; Tue, 10 Jan 2023 03:02:54 -0500
-X-MC-Unique: 9of5ERgONOu8d-qXLHUQ8w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-208-I7jBPQLBNXKcaFNYtbOVUw-1; Tue, 10 Jan 2023 03:02:59 -0500
+X-MC-Unique: I7jBPQLBNXKcaFNYtbOVUw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3621C185A794;
- Tue, 10 Jan 2023 08:02:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2CDE857A8E;
+ Tue, 10 Jan 2023 08:02:58 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E97440C2005;
- Tue, 10 Jan 2023 08:02:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A9C97492C14;
+ Tue, 10 Jan 2023 08:02:57 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
@@ -61,16 +61,16 @@ Cc: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
  John Snow <jsnow@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v3 1/8] build-sys: fix crlf-ending C code
-Date: Tue, 10 Jan 2023 12:02:39 +0400
-Message-Id: <20230110080246.536056-2-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 2/8] .gitlab-ci.d/windows: do not disable opengl
+Date: Tue, 10 Jan 2023 12:02:40 +0400
+Message-Id: <20230110080246.536056-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20230110080246.536056-1-marcandre.lureau@redhat.com>
 References: <20230110080246.536056-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -97,89 +97,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-On msys2, the shader-to-C script produces bad C:
-./ui/shader/texture-blit-vert.h:2:5: error: missing terminating " character [-Werror]
-
-Fix it by changing the line ending from crlf to lf, and convert the
-script to Python (qemu build seems perl-free after that).
+The previous patch should fix shader compilation.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- meson.build              |  2 +-
- scripts/shaderinclude.pl | 16 ----------------
- scripts/shaderinclude.py | 26 ++++++++++++++++++++++++++
- 3 files changed, 27 insertions(+), 17 deletions(-)
- delete mode 100644 scripts/shaderinclude.pl
- create mode 100755 scripts/shaderinclude.py
+ .gitlab-ci.d/windows.yml | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 175517eafd..b3c6db8343 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2781,7 +2781,7 @@ config_host_data.set('CONFIG_SLIRP', slirp.found())
- genh += configure_file(output: 'config-host.h', configuration: config_host_data)
- 
- hxtool = find_program('scripts/hxtool')
--shaderinclude = find_program('scripts/shaderinclude.pl')
-+shaderinclude = find_program('scripts/shaderinclude.py')
- qapi_gen = find_program('scripts/qapi-gen.py')
- qapi_gen_depends = [ meson.current_source_dir() / 'scripts/qapi/__init__.py',
-                      meson.current_source_dir() / 'scripts/qapi/commands.py',
-diff --git a/scripts/shaderinclude.pl b/scripts/shaderinclude.pl
-deleted file mode 100644
-index cd3bb40b12..0000000000
---- a/scripts/shaderinclude.pl
-+++ /dev/null
-@@ -1,16 +0,0 @@
--#!/usr/bin/env perl
--use strict;
--use warnings;
--
--my $file = shift;
--open FILE, "<", $file or die "open $file: $!";
--my $name = $file;
--$name =~ s|.*/||;
--$name =~ s/[-.]/_/g;
--print "static GLchar ${name}_src[] =\n";
--while (<FILE>) {
--    chomp;
--    printf "    \"%s\\n\"\n", $_;
--}
--print "    \"\\n\";\n";
--close FILE;
-diff --git a/scripts/shaderinclude.py b/scripts/shaderinclude.py
-new file mode 100755
-index 0000000000..ab2aade2cd
---- /dev/null
-+++ b/scripts/shaderinclude.py
-@@ -0,0 +1,26 @@
-+#!/usr/bin/env python3
-+#
-+# Copyright (C) 2023 Red Hat, Inc.
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+import sys
-+import os
-+
-+
-+def main(args):
-+    file_path = args[1]
-+    basename = os.path.basename(file_path)
-+    varname = basename.replace('-', '_').replace('.', '_')
-+
-+    with os.fdopen(sys.stdout.fileno(), "wt", closefd=False, newline='\n') as stdout:
-+        with open(file_path, "r", encoding='utf-8') as file:
-+            print(f'static GLchar {varname}_src[] =', file=stdout)
-+            for line in file:
-+                line = line.rstrip()
-+                print(f'    "{line}\\n"', file=stdout)
-+            print('    "\\n";', file=stdout)
-+
-+
-+if __name__ == '__main__':
-+    sys.exit(main(sys.argv))
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index a1d5790580..cf445b77f6 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -71,7 +71,7 @@ msys2-64bit:
+   # for the msys2 64-bit job, due to the build could not complete within
+   # the project timeout.
+   - ..\msys64\usr\bin\bash -lc '../configure --target-list=x86_64-softmmu
+-      --without-default-devices --disable-opengl'
++      --without-default-devices'
+   - ..\msys64\usr\bin\bash -lc 'make'
+   # qTests don't run successfully with "--without-default-devices",
+   # so let's exclude the qtests from CI for now.
+@@ -113,8 +113,7 @@ msys2-32bit:
+   - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+   - mkdir output
+   - cd output
+-  - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu
+-        --disable-opengl'
++  - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu'
+   - ..\msys64\usr\bin\bash -lc 'make'
+   - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS=\"--no-suite qtest\" ||
+                                 { cat meson-logs/testlog.txt; exit 1; }'
 -- 
 2.39.0
 
