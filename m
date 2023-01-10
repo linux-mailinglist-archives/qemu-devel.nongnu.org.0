@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC58664B8B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:49:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C82ED664B7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:45:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFIb5-0003TZ-8B; Tue, 10 Jan 2023 12:39:39 -0500
+	id 1pFIb5-0003TQ-0p; Tue, 10 Jan 2023 12:39:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIb2-0003R9-OD
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:36 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ id 1pFIb0-0003Nw-HX
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:34 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIaz-0001FK-53
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:36 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- k26-20020a05600c1c9a00b003d972646a7dso12505875wms.5
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:39:32 -0800 (PST)
+ id 1pFIaw-0001EH-C0
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:34 -0500
+Received: by mail-wr1-x429.google.com with SMTP id az7so12593383wrb.5
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:39:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/rFoN1+6hqCTYGYDksjk1ynmsYhV/AhUVVwODaCS298=;
- b=bkmPqtSyWkx4x+JxMiE38XylY27VjsZcvOsQ7DHuqx6ioKV20yPY6EHdStr5iEqVvd
- HeMhUZtP9kkgDJ2j1dKW6TnT+RFjVFbNfbRWuCSOwzJn/fIrfIkbWJJuKwDfyGPKmXUp
- Hg2WL3hDuNJfpcv3nQOZxDYp5PJzhP9E7D0U/Ri/oPWJR4Zt8jsrSeyUFAWviXI2NJsK
- +y3vy+gv43bmcMjEcUNBTOUHXLg25Y2cir5ifuutB2SDp3aLXcIZRY+Jyb8mHVBPNUlJ
- jSzyZ8xnhDW7B+8/7FNNPo6gmz2GXhUnx2meXjw/ys75h8hQhJpAAapOkZ4OR8fz6rvs
- oDTQ==
+ bh=EduU7oyQ6B1wSk7o4iq1oV+aNe30CeGVDzVVE6Byo1U=;
+ b=J/SLktG5dnNdWcoI2sj+EGyXN4ZGgy9GSddr311R/xXjH5nDjgxre/+0f4tnbM+w+9
+ r3VyliSrk4nOGVhwndXGfRTSLieV6jJKkl4nLMSUw4n4ZhkWCBS+5FakG5m8lWtLWxEy
+ GHXHLgM137zDwG/RrDijc+lqsh+J2NrXia1sKLhG/+oWold6iVelIYc9kusEkvc8T1WG
+ pOx2UGMNoRa3UL2+KqSDYWO2hNT1KJARmxd8p95r+2vauRHWorhMFDt91Tm8dcjDQ6Jl
+ +ytViHwh9YojkD7jW7I6RnVuoRHL/OR8wcrzjdVjRRC/hO9zrTL2oTD2oTUWXercYVhf
+ w3ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/rFoN1+6hqCTYGYDksjk1ynmsYhV/AhUVVwODaCS298=;
- b=PGRRJz91FfCF/0FBDkUaVLK9VpvTuKoXGsEUtAv7UhXrZHjB0D7lt3opAzhDyTbtN4
- ZdkJ5e3eu40+VBmINwcwdKz7ifEShSK7Wu5Mwvppt5KQqSCjyaVa87/9Jv/JHQrMz8XH
- 6LBFEL6W/cR2KUdr4VBFSsztjFg5sBRygqxFWhH89hJQz39DJYn3AE2tSI6Wvfg6O0AO
- Zahc62d+AZTWrGlea6mEHh1Vg12dIWq1556R7x6+SU8RMZuOLDmCncu+ZM+uoo+1/Q/Y
- mZt1rgNjjlPpXi7QJziWIhaeLGEOoHSUDClmoDGTBksYh6+y2/QDXrsEKTDbAVGSEg7Z
- V+lg==
-X-Gm-Message-State: AFqh2koObsMql1UCkkzU2QyoNVRgr0QhBqfILWhz0fe/ehSmcvdZDAk6
- ISlqRMO98fdN45CPmB6OFtfvgQ==
-X-Google-Smtp-Source: AMrXdXukNhfZSorsiLn4tGP5WxGh8kZn22lO8cBjhKzg0WvG+vEEF7RlmYWbiOb6eryjm5keudD+xA==
-X-Received: by 2002:a05:600c:3596:b0:3d2:3b8d:21e5 with SMTP id
- p22-20020a05600c359600b003d23b8d21e5mr49094455wmq.14.1673372371421; 
- Tue, 10 Jan 2023 09:39:31 -0800 (PST)
+ bh=EduU7oyQ6B1wSk7o4iq1oV+aNe30CeGVDzVVE6Byo1U=;
+ b=2QRuDogDTFH0BSZNYol4tUNbl5a7M5N+DLy5kx24JilSRXtme58nrgGd6A0nek+idD
+ m1zJg+tLRy6iUKLQv9E/wLEzKMVr2mekJaDNmXxFLGvvvzmH+eacgpMFqgSjRrYRTcuu
+ iHCo6NHS1jixCdy+0Oqm0iFPTLe29bdXnhS1PRAHrqB45hghM6M5vLOdCvkh6vQHasu0
+ Ke7zd8FnBlTT2seUCuLP9rPsbDBxPpTPtjRiB62tb3SG7H4ngr0qFTt8nS62pBRxuQlt
+ CYJi5DYIuts7NBc0g/An9AisamV0KEicpDAQ1GsdKJBO07Hga/70J6GFz28UpI/qR5Dt
+ ZW5g==
+X-Gm-Message-State: AFqh2komhChims+snmDjJRUiIRbiPHGdvnZl3Jc+VJ0sxJQn2/DVFcec
+ bJzT5/UTKMIWJknfWq+yAL+saA==
+X-Google-Smtp-Source: AMrXdXv80AeZsFfzi9aa2G6WuPZsIGxVjtL8CyUlXyaRs1ZWPkngtdso1mDKrlBO93LXAie9teJIVA==
+X-Received: by 2002:a5d:58e6:0:b0:26f:aaff:e98c with SMTP id
+ f6-20020a5d58e6000000b0026faaffe98cmr38136006wrd.27.1673372368960; 
+ Tue, 10 Jan 2023 09:39:28 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- l36-20020a05600c1d2400b003d9fb59c16fsm2455956wms.11.2023.01.10.09.39.29
+ f6-20020adffcc6000000b002bbdcd15e44sm8082510wrs.37.2023.01.10.09.39.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 09:39:29 -0800 (PST)
+ Tue, 10 Jan 2023 09:39:27 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 803761FFBF;
+ by zen.linaroharston (Postfix) with ESMTP id 98B631FFC0;
  Tue, 10 Jan 2023 17:39:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -80,17 +79,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Mahmoud Mandour <ma.mandourr@gmail.com>,
  John G Johnson <john.g.johnson@oracle.com>
-Subject: [PATCH 07/26] configure: replace Perl usage with sed
-Date: Tue, 10 Jan 2023 17:39:03 +0000
-Message-Id: <20230110173922.265055-8-alex.bennee@linaro.org>
+Subject: [PATCH 08/26] meson: replace Perl usage with Python
+Date: Tue, 10 Jan 2023 17:39:04 +0000
+Message-Id: <20230110173922.265055-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230110173922.265055-1-alex.bennee@linaro.org>
 References: <20230110173922.265055-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -115,38 +114,47 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Let's try to reduce our Perl usage during config/build-time.
-
-Note: this patch might be dropped if "configure: remove
-backwards-compatibility code" is merged earlier.
+Let's try to remove Perl usage during build time.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230110132700.833690-4-marcandre.lureau@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20230110132700.833690-5-marcandre.lureau@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- configure | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ tests/qapi-schema/meson.build | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/configure b/configure
-index 2281892657..9a944698b4 100755
---- a/configure
-+++ b/configure
-@@ -2571,11 +2571,9 @@ else
-   if test -f meson-private/cmd_line.txt; then
-     # Adjust old command line options whose type was changed
-     # Avoids having to use "setup --wipe" when Meson is upgraded
--    perl -i -ne '
--      s/^gettext = true$/gettext = auto/;
--      s/^gettext = false$/gettext = disabled/;
--      /^b_staticpic/ && next;
--      print;' meson-private/cmd_line.txt
-+    sed -i.bak -e 's/^gettext = true$/gettext = auto/g' \
-+      -e 's/^gettext = false$/gettext = disabled/g' \
-+      -e '/^b_staticpic/d' meson-private/cmd_line.txt
-   fi
- fi
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index 9dfe98bc9a..d85b14f28c 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -259,22 +259,23 @@ if build_docs
+   # Fix possible inconsistency in line endings in generated output and
+   # in the golden reference (which could otherwise cause test failures
+   # on Windows hosts). Unfortunately diff --strip-trailing-cr
+-  # is GNU-diff only. The odd-looking perl is because we must avoid
++  # is GNU-diff only. The odd-looking python is because we must avoid
+   # using an explicit '\' character in the command arguments to
+   # a custom_target(), as Meson will unhelpfully replace it with a '/'
+   # (https://github.com/mesonbuild/meson/issues/1564)
++  remove_cr = [python, '-c', 'import sys;[sys.stdout.write(line.replace(chr(13), "")) for line in sys.stdin]']
+   qapi_doc_out_nocr = custom_target('QAPI rST doc newline-sanitized',
+                                     output: ['doc-good.txt.nocr'],
+                                     input: qapi_doc_out[0],
+                                     build_by_default: true,
+-                                    command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
++                                    command: [remove_cr, '@INPUT@'],
+                                     capture: true)
  
+   qapi_doc_ref_nocr = custom_target('QAPI rST doc reference newline-sanitized',
+                                     output: ['doc-good.ref.nocr'],
+                                     input: files('doc-good.txt'),
+                                     build_by_default: true,
+-                                    command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
++                                    command: [remove_cr, '@INPUT@'],
+                                     capture: true)
+ 
+   test('QAPI rST doc', diff, args: ['-u', qapi_doc_ref_nocr[0], qapi_doc_out_nocr[0]],
 -- 
 2.34.1
 
