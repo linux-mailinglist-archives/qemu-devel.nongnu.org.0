@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB116648D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:15:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E40666479C
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 18:44:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFIbN-0003nD-Tp; Tue, 10 Jan 2023 12:39:57 -0500
+	id 1pFIbO-0003ns-8t; Tue, 10 Jan 2023 12:39:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIb9-0003Zb-Fr
+ id 1pFIb9-0003Zv-QI
  for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:43 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIb4-0001FK-02
+ id 1pFIb5-0001Ce-Al
  for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:43 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- k26-20020a05600c1c9a00b003d972646a7dso12506074wms.5
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:39:37 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id
+ k22-20020a05600c1c9600b003d1ee3a6289so10701119wms.2
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:39:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hF/3DoG9owY2pD8TEHjkZ0ZRm2+7IOUIANxR5871mgM=;
- b=GldqPs404+eL0NDoRaW6NC1GQgQQDsnqVKpLVsodyTn9cw0oLXa3XX12eZtNIu0rmx
- 0RM44NfM+JwUhWs3Ivkwq72EIaWrz2CZZB5eh4QiSe4xoiKBAOzmw8tnWbOJKLAu0yEL
- 6anRTGXbhJbb4YqCPau8UiQRRgHIt/lih3ojGnid048kLj5P/5kUaGHlygoPHCpowUsc
- nNybVQLGxqWDD08meEaJgGbjKDR/ahsa7hWEuFK3q7s/60qZrM8dtM4RZII7N/0gJfPC
- VYkCxSOBMwEjghDisRqqxBwAPZJRd/JFCJkCKe/pkz0X6WahBPaDHT+4rXe5hLn3bssE
- 3Tgg==
+ bh=3efp7i/kAcT0mSvJTtxOgGsEOMU+SonxpGs9nYXT4Ro=;
+ b=ycbGXSmgkgH0kzY6HX8SB4y/Mw8TOfLmp3dcjSjBBSvxXu1y/N0yB9yORzNTLfPQa6
+ nPe6MMOtGc16l9tehHE8UyYm9Fff4NaXIk3D3ot4oXzSQxBUaOlylGL8ZE/jbiBn9l9j
+ pAUiqv5SXD66qgRd9Fhqafc1YJ6k0dod07Bkqtv9JZ5BdQmevJidJV0kij3N1TY2nSyG
+ 5x25mlBhKrJ0DtnFLK4Vg+8cvLDgOfEe9GInEXgNnC5x97bWds9nAGu62SDxLO86H6GK
+ kKqR+OpBnOlFmacF+MQfW4JUpmthPN9ZY/ivMYXhyYTOsyd/qai2AKQniUhh0InFIp4h
+ jH9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hF/3DoG9owY2pD8TEHjkZ0ZRm2+7IOUIANxR5871mgM=;
- b=tdn+ryAORBGqB187GLt2mDebj7h6nsYu4zQlf4WVd88XwTIAk/FU4gI5gCQ/zaVklv
- 5nbGoI9hscu6vzUnFNsG3mVqQp8ebYpdcJNebLcAFzUu6tV5ujqnDlY/wQr9zF9TQnKM
- 3n35UbFzpTQSkaM9KvWfu1OiLw6OKklM06GXRevVReZKsETulNQNGNDFzWYBCOYo6KTE
- wxtLL1UTp4aF6PhG0t1JKe3I0SQnYW95eBQs39xEu2ZL8L4hDBoeC/lxmayQaUFSvB/L
- B9eoR/+8wHweNPR+YXMYKaOtKMlUOujUtV4MHVfa5nfkB+3W6veLasTiUMRoNuN+BMu8
- JLRQ==
-X-Gm-Message-State: AFqh2kpH46/EYhzLqImzMgms6uNZCwRK539C9YSR2xMP0bT29OxrBIxL
- MaNlL6eNr/nh7RNQ7gvMKZgHLA==
-X-Google-Smtp-Source: AMrXdXtKhRsctgEY2qL9Csp9dWfy3fIDeNiz1plXF3SGWso0RMc/ntX9eWlRlDamQ/ylgRK6/5f+5g==
-X-Received: by 2002:a05:600c:5399:b0:3d9:c6f5:c643 with SMTP id
- hg25-20020a05600c539900b003d9c6f5c643mr18786079wmb.29.1673372377327; 
- Tue, 10 Jan 2023 09:39:37 -0800 (PST)
+ bh=3efp7i/kAcT0mSvJTtxOgGsEOMU+SonxpGs9nYXT4Ro=;
+ b=rDBp/wRH36iGPK3uDNg2XBF//Brg2IVcmjKyN9JyPy6VS3ZkirAmUcCk78W4aygN36
+ dIla8LilNxWfzBmx0eBys9HS2sOb4hksJfUoDJD9hCB4FbVR4C9tmTypRv+FoFaKqa4v
+ qoEWZi8U8EL4ptMs3d4BpJlTv87nG17V0SRfMdLc+q/4leNllsSfy73txRufBD2EglX7
+ MPgLX20FmjT3a9Qtiue3sxVMG4Qvo1nFlvahR0m0vqx2RlFG+D869aNJbI+++S968TJk
+ qR+mwzs2VXwKt3yUOhj5OBs75m+AgpBJxIFOSWHwBLjDKrxQvGkyvMTAEWfaQ2/s7WsX
+ h3pg==
+X-Gm-Message-State: AFqh2kpoDCHg/V17w9cQjxC2CBexCRyuM4Qqfzf8srR7K41Agl8Q94kl
+ EVVuuGMzb3hvJSHxgp/8ijgSng==
+X-Google-Smtp-Source: AMrXdXtocgTK+53ZCPWsdRm0M9n/n/xyavNEbxbA2mNNcA0JNGd090sVZ3nQnteNgHjNLTy30qqu1Q==
+X-Received: by 2002:a05:600c:33a5:b0:3d3:5a42:bd5d with SMTP id
+ o37-20020a05600c33a500b003d35a42bd5dmr50138053wmp.32.1673372378624; 
+ Tue, 10 Jan 2023 09:39:38 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- z12-20020a05600c0a0c00b003cfa81e2eb4sm15551258wmp.38.2023.01.10.09.39.34
+ o19-20020a05600c511300b003d9862ec435sm3763112wms.20.2023.01.10.09.39.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 10 Jan 2023 09:39:36 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E34FC1FFCD;
- Tue, 10 Jan 2023 17:39:25 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 081B21FFCE;
+ Tue, 10 Jan 2023 17:39:26 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -80,18 +80,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Mahmoud Mandour <ma.mandourr@gmail.com>,
  John G Johnson <john.g.johnson@oracle.com>, Emilio Cota <cota@braap.org>
-Subject: [PATCH 24/26] translator: always pair plugin_gen_insn_{start,
- end} calls
-Date: Tue, 10 Jan 2023 17:39:20 +0000
-Message-Id: <20230110173922.265055-25-alex.bennee@linaro.org>
+Subject: [PATCH 25/26] tcg: exclude lookup_tb_ptr from helper instrumentation
+Date: Tue, 10 Jan 2023 17:39:21 +0000
+Message-Id: <20230110173922.265055-26-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230110173922.265055-1-alex.bennee@linaro.org>
 References: <20230110173922.265055-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -116,50 +115,35 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Emilio Cota <cota@braap.org>
 
+It is internal to TCG and therefore we know it does not
+access guest memory.
+
 Related: #1381
 
 Signed-off-by: Emilio Cota <cota@braap.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230108164731.61469-3-cota@braap.org>
+Message-Id: <20230108164731.61469-4-cota@braap.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/translator.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ tcg/tcg.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index 061519691f..ef5193c67e 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -100,19 +100,24 @@ void translator_loop(CPUState *cpu, TranslationBlock *tb, int max_insns,
-             ops->translate_insn(db, cpu);
-         }
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index da91779890..ee67eefc0c 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1652,8 +1652,10 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
+     op = tcg_op_alloc(INDEX_op_call, total_args);
  
--        /* Stop translation if translate_insn so indicated.  */
--        if (db->is_jmp != DISAS_NEXT) {
--            break;
--        }
--
-         /*
-          * We can't instrument after instructions that change control
-          * flow although this only really affects post-load operations.
-+         *
-+         * Calling plugin_gen_insn_end() before we possibly stop translation
-+         * is important. Even if this ends up as dead code, plugin generation
-+         * needs to see a matching plugin_gen_insn_{start,end}() pair in order
-+         * to accurately track instrumented helpers that might access memory.
-          */
-         if (plugin_enabled) {
-             plugin_gen_insn_end();
-         }
- 
-+        /* Stop translation if translate_insn so indicated.  */
-+        if (db->is_jmp != DISAS_NEXT) {
-+            break;
-+        }
-+
-         /* Stop translation if the output buffer is full,
-            or we have executed all of the allowed instructions.  */
-         if (tcg_op_buf_full() || db->num_insns >= db->max_insns) {
+ #ifdef CONFIG_PLUGIN
+-    /* detect non-plugin helpers */
+-    if (tcg_ctx->plugin_insn && unlikely(strncmp(info->name, "plugin_", 7))) {
++    /* flag helpers that are not internal to TCG */
++    if (tcg_ctx->plugin_insn &&
++        strncmp(info->name, "plugin_", 7) &&
++        strcmp(info->name, "lookup_tb_ptr")) {
+         tcg_ctx->plugin_insn->calls_helpers = true;
+     }
+ #endif
 -- 
 2.34.1
 
