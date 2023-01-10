@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164D1663D18
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:40:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22C1663D32
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:46:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFAa4-0000Ri-FS; Tue, 10 Jan 2023 04:06:04 -0500
+	id 1pFAak-0000eP-EQ; Tue, 10 Jan 2023 04:06:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFAZs-0000QS-Mh
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:05:56 -0500
+ id 1pFAac-0000aH-NA
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:06:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFAZq-0007Vc-Sa
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:05:52 -0500
+ id 1pFAab-0007aW-6h
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:06:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673341549;
+ s=mimecast20190719; t=1673341596;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eTkhX8XrbH6dylVyIWCxZSjDbyGJzrBcXs7WbL8F7wQ=;
- b=Tj8Xl27v9pYLkM3Zcq3hloKFoZuNGc6LnFMcgEOxWlSXnjFUnUT8UHSSHL4Wx01Ef8SXe+
- oBGPns4mTqxzxMtElkaiJgJmjJ51K6Wc837xx8iWDHOy278+Cl0ev123QKuXdxFCWOVLY4
- i5iDfnQqw8xr+ZMlOM3bSso+hKhadtE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IMnGin/xFgWs9IpH6piatg3UdFMtK9qkzPaStmVJ77o=;
+ b=Rw6yaI7s96FbkAMdFbQC1JXFuu3zvXay5odxe9FAGfoISEPAzoo0uWCbUIw8Xh+i04iCqQ
+ 2RHU8oeQWDsSh0NXpwqhADDAN/VEI5ajqT0RUL43pWjFWjhjfFbpzVfMcCJys/xF6AdHoq
+ yZoZmPKvAz5Dv20uFQ+00ZRteUa3M4c=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-136-A-vUPv6hMfClVZsbL87Lyg-1; Tue, 10 Jan 2023 04:05:46 -0500
-X-MC-Unique: A-vUPv6hMfClVZsbL87Lyg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-132-VLdtO61mNG6qCMbCCxlPRA-1; Tue, 10 Jan 2023 04:06:33 -0500
+X-MC-Unique: VLdtO61mNG6qCMbCCxlPRA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6594538123AC;
- Tue, 10 Jan 2023 09:05:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0CD3180D180;
+ Tue, 10 Jan 2023 09:06:33 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D00251121314;
- Tue, 10 Jan 2023 09:05:44 +0000 (UTC)
-Date: Tue, 10 Jan 2023 09:05:42 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B93FC16031;
+ Tue, 10 Jan 2023 09:06:32 +0000 (UTC)
+Date: Tue, 10 Jan 2023 09:06:30 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org, kraxel@redhat.com, dgilbert@redhat.com,
  philmd@linaro.org
-Subject: Re: [PATCH v4 16/17] ui: Split hmp_mouse_set() and move the HMP part
- to ui/
-Message-ID: <Y70qZvfqANpZ6MEK@redhat.com>
+Subject: Re: [PATCH v4 17/17] ui: Simplify control flow in qemu_mouse_set()
+Message-ID: <Y70qlh7BdheKfwb4@redhat.com>
 References: <20230109190321.1056914-1-armbru@redhat.com>
- <20230109190321.1056914-17-armbru@redhat.com>
+ <20230109190321.1056914-18-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230109190321.1056914-17-armbru@redhat.com>
+In-Reply-To: <20230109190321.1056914-18-armbru@redhat.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -85,15 +84,11 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 09, 2023 at 08:03:20PM +0100, Markus Armbruster wrote:
+On Mon, Jan 09, 2023 at 08:03:21PM +0100, Markus Armbruster wrote:
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  include/monitor/hmp.h |  1 +
->  include/ui/console.h  |  2 +-
->  monitor/misc.c        |  1 -
->  ui/input.c            | 15 +++++++--------
->  ui/ui-hmp-cmds.c      |  8 ++++++++
->  5 files changed, 17 insertions(+), 10 deletions(-)
+>  ui/input.c | 24 +++++++++++-------------
+>  1 file changed, 11 insertions(+), 13 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
