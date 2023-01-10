@@ -2,95 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83332663EA9
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 11:54:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 743BC663ED2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 12:02:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFC7x-00015l-HN; Tue, 10 Jan 2023 05:45:09 -0500
+	id 1pFC89-00019d-KI; Tue, 10 Jan 2023 05:45:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pFC7u-00014o-Bu
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 05:45:06 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFC87-00018j-5L
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 05:45:19 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pFC7s-0002bo-Vh
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 05:45:06 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFC85-0002eU-Uh
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 05:45:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673347504;
+ s=mimecast20190719; t=1673347515;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OpBEtLayZv812b5e4YkoMeuuObfbl7XI6KU/W9f3Fis=;
- b=UDC0Ho7BXkNMbe2wUjrhEMyXP+gLwf2gkwy7N+PJDWcT2uvYPjI4X4ndNqKoEOpVwTfeoq
- 7Ozayfy/6PQOAG9rLecbNmyuY1/qu1iSBOTA1snjYH0YYeuObF4taWQ4XslKd/RhjbhAn5
- oNoLqN8qwG2bnzQVFgsEY+7t1yEbAOg=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7Wd1rhRA/GK92VbVs5Gpx/a6dcL32K4rUH1wQrAQzQ4=;
+ b=VMRhgu+X13J9SE4dIKPRWIU+Uad/9ZhCZAaJJROZxqX4jxFHv5LXD5Crk6KP8KvNXQbgx0
+ nNOgGFNzjqjxqjTLI0jiX1TdfotBtW1psp0kFTwq/dVf/AUwSt1cMxhGfe8LY8Kp1RvL7W
+ 14YGeZrJAxr7toefhRK90hJOXeiAqNw=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-274-ZZy08JZyO6qVmxkjj3QUmw-1; Tue, 10 Jan 2023 05:45:02 -0500
-X-MC-Unique: ZZy08JZyO6qVmxkjj3QUmw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- qw20-20020a1709066a1400b007c1727f7c55so7392210ejc.2
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 02:45:02 -0800 (PST)
+ us-mta-644-WED3uC6vPECFm4X9roqc7A-1; Tue, 10 Jan 2023 05:45:13 -0500
+X-MC-Unique: WED3uC6vPECFm4X9roqc7A-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ de38-20020a05620a372600b0070224de1c6eso8511555qkb.17
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 02:45:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OpBEtLayZv812b5e4YkoMeuuObfbl7XI6KU/W9f3Fis=;
- b=srBE1m+avfjm8z9Z0pX9Ay7ZGqLEYzj3wHW5U3oc1JHRtUhLWYCrBvcVcjDpxg6ZLx
- wiuZ2WO7MLIRjbsswyPO16yARtOH938U4zlohnAv9f4lLmvi57lHpskK6jFDcjUMygJW
- jW/Mos4ZQzTK5HBgM8TPZsj5D5TFn/C89Y4vK/pKIcVfe8l/FSJYROFd3pd3TxUXtnVs
- usaGHxPBfyoKlnLG/B+OoL/u7B7nwsYukHDoYr8Y1Yf2c73ZfFsrbgpmaPHeHACspI+1
- PYGQn2c4F7HybZzDPxGrnvA9dVGEKwwfnH9K+obT35351orbeypmYaCPuw7mfHT4qGP3
- tJTg==
-X-Gm-Message-State: AFqh2krvVM8/D7InyCTjspF5VTr1gv4U0KyX2LITmC8W6bV0DTLaheB7
- ctBDM7X1rLYFeDLOeCga5UA+fqPYi+Qyphq9D4fyAijUvECULhM0BK9o1AAu1sESBFQEEWTutus
- NV9GaDhWXVg3UWx84rBqmltPArqDL7kU=
-X-Received: by 2002:a17:906:b0cd:b0:781:c97c:84d1 with SMTP id
- bk13-20020a170906b0cd00b00781c97c84d1mr5796848ejb.147.1673347501639; 
- Tue, 10 Jan 2023 02:45:01 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvNdlMfB//32sHA1Wq9N7C86pAKPycJ6bV2pnlDOBl1CJDGGPF8Z+y486ZD+N/tL+sfDvfqsoXYWBy8C4/vbV0=
-X-Received: by 2002:a17:906:b0cd:b0:781:c97c:84d1 with SMTP id
- bk13-20020a170906b0cd00b00781c97c84d1mr5796845ejb.147.1673347501508; Tue, 10
- Jan 2023 02:45:01 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7Wd1rhRA/GK92VbVs5Gpx/a6dcL32K4rUH1wQrAQzQ4=;
+ b=6bUUH6SnPmVyC+jkFAxTvKqAZ1Uds4QqeeFvaAaVdWCd6/2zzPpmfVQFUxT/0DaWlH
+ MRhJoc2VnYTnmFygaRipyp5Kho7KqPPdlG7X3cDnh+D4j1Kzy046qst2qTZIGqCRjuy/
+ eBDxoIFhQE7TXCKOXg8aGxoCvpzDAM0TXd4lX0W8HPIjmY7AfMHQuLqqsQzYWClJ8dw9
+ EcnbFk3qBYDlaN2qPD+7CgC68HZwwVCFRNFPHhJBGw4MxhBkufuB60K4HOymkqTTvKh9
+ kkzcQI5TsQ5zFR8gCKHMVvKwT9h8NR8Yz9Gf3wKWhwr/1lkUcrVcdlny8KVZ+Y7SGzmT
+ 4+vw==
+X-Gm-Message-State: AFqh2kqv1QDgWlz6D2UXw95edNTllgqYltek1whS7FZiqXx/5qABziND
+ queKceZ+0lSXsSjuPKfShauYRZ+qvnp56vK6DlvFJAoejTpi+SBJ07l/IqhzuF64UmjZvmURkY4
+ Q3gCZJqSidfACDjE=
+X-Received: by 2002:ac8:7450:0:b0:3a7:e599:1ee0 with SMTP id
+ h16-20020ac87450000000b003a7e5991ee0mr82269334qtr.63.1673347513454; 
+ Tue, 10 Jan 2023 02:45:13 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsMkMZtE8Qlhb9ogtRtov9FtyO8Ecag8e/x4CclYonAgmOYlIQ2F68AvLi66HTVKzp4u8CWpQ==
+X-Received: by 2002:ac8:7450:0:b0:3a7:e599:1ee0 with SMTP id
+ h16-20020ac87450000000b003a7e5991ee0mr82269305qtr.63.1673347513258; 
+ Tue, 10 Jan 2023 02:45:13 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-179-237.web.vodafone.de.
+ [109.43.179.237]) by smtp.gmail.com with ESMTPSA id
+ w22-20020a05620a425600b006cbc00db595sm6959690qko.23.2023.01.10.02.45.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Jan 2023 02:45:12 -0800 (PST)
+Message-ID: <c72d7868-a465-e4c7-855e-e19c7c8acee0@redhat.com>
+Date: Tue, 10 Jan 2023 11:45:07 +0100
 MIME-Version: 1.0
-References: <20230110080246.536056-1-marcandre.lureau@redhat.com>
- <87358ioen0.fsf@linaro.org>
-In-Reply-To: <87358ioen0.fsf@linaro.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 10 Jan 2023 14:44:48 +0400
-Message-ID: <CAMxuvayOmvVpWwDvF-LpF35ntD+p-pVVj9athsjB6fGsWYOypw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Subject: Re: [PATCH v3 0/8] Fix win32/msys2 shader compilation & update
  lcitool deps
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Eric Farman <farman@linux.ibm.com>, 
- Halil Pasic <pasic@linux.ibm.com>, pbonzini@redhat.com, 
- Markus Armbruster <armbru@redhat.com>, qemu-s390x@nongnu.org, 
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, Eric Farman <farman@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, pbonzini@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, qemu-s390x@nongnu.org,
  David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>,
  Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Ed Maste <emaste@freebsd.org>, kraxel@redhat.com, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Ed Maste <emaste@freebsd.org>, kraxel@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  Michael Roth <michael.roth@amd.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- John Snow <jsnow@redhat.com>, 
+ John Snow <jsnow@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000069e4de05f1e693ee"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+References: <20230110080246.536056-1-marcandre.lureau@redhat.com>
+ <87358ioen0.fsf@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <87358ioen0.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,60 +116,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000069e4de05f1e693ee
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Tue, Jan 10, 2023 at 2:41 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
-
->
+On 10/01/2023 11.41, Alex Bennée wrote:
+> 
 > marcandre.lureau@redhat.com writes:
->
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Hi,
-> >
-> > Fix the shader compilation error on win32/msys2 and convert the related
-> script
-> > from perl to python. Drop unneeded dependencies from lcitool project.
->
+> 
+>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>
+>> Hi,
+>>
+>> Fix the shader compilation error on win32/msys2 and convert the related script
+>> from perl to python. Drop unneeded dependencies from lcitool project.
+> 
 > Queued to testing/next, thanks.
->
 
-Thanks but wait for v4, Thomas pointed out some issues with the python
-scripts +x.
+Please make sure to fix the permissions (a-x) of the new script in the first 
+patch.
 
---00000000000069e4de05f1e693ee
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 10, 2023 at 2:41 PM Ale=
-x Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@lin=
-aro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex"><br>
-<a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.=
-lureau@redhat.com</a> writes:<br>
-<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt;<br>
-&gt; Hi,<br>
-&gt;<br>
-&gt; Fix the shader compilation error on win32/msys2 and convert the relate=
-d script<br>
-&gt; from perl to python. Drop unneeded dependencies from lcitool project.<=
-br>
-<br>
-Queued to testing/next, thanks.<br></blockquote><div><br></div><div>Thanks =
-but wait for v4, Thomas pointed out some issues with the python scripts <a =
-class=3D"gmail_plusreply" id=3D"plusReplyChip-2">+x.</a><br></div></div></d=
-iv>
-
---00000000000069e4de05f1e693ee--
+  Thanks,
+   Thomas
 
 
