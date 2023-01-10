@@ -2,59 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBFD664F9A
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 00:09:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC706664FAA
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 00:13:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFNjU-0006ha-Fo; Tue, 10 Jan 2023 18:08:40 -0500
+	id 1pFNn1-0008Aw-B9; Tue, 10 Jan 2023 18:12:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pFNjS-0006gR-AY
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 18:08:38 -0500
+ id 1pFNmx-0008AT-AH; Tue, 10 Jan 2023 18:12:15 -0500
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pFNjQ-0006IF-7k
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 18:08:38 -0500
+ id 1pFNmv-0006wE-9A; Tue, 10 Jan 2023 18:12:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=yvEarLBsE0rrSy/UBh9yLC9DSmvQQcR3jtKW2cx8+Ow=; b=j9eORjwFWoXEZOrR12RyJuJ/iH
- DDU8l91me0l6iEFngW9m4nMmhN+YfZSFMAx2LtdoSJt4fnvTqv1OnvgT4RdmL9YmdGp70zoGF/u3p
- gjBxP3peEzLg4UiSlR1V0vyaFVQFsTesatO7oewidTOL6TuL9GTs3tqVr+mM20CWeKjGrZPeNpSus
- B9FDSd28IfT55xxK2eohHQs8EhHsYLrKfmtvibmMnT+oqVD2wSwiBa5Nrkh4x2lxbIUxWVbI9o1n5
- YozweSewDKFZCnbI5ISI1iKtrW3AOuGDNrd0/2V5OJBruPXM83GfaogEvkERY8JgPQpDsdSWl3uJh
- gfsPnpYOf2Iy0oyD+QJr5SRHFg39d2tzF0m+bXfGbnco0CxN44E9Uk8N16sdBSxcrfzB+BMyIi3RL
- hg/Capy83L7k/Jn/bidfaP+d0efwChqN/8gp/je5kR3WCkN636TLHkjUeq2QUI9As3CAA1+RcG5qv
- YUbS2IoEGQea08yVHxvuUOQ7lw8dxTt4bvPCrNTHGuGL10dFeMasEwjvi/JL5bPuA1R2Xt+kz0Tkm
- ZKBHlCdqYWlw3FmYCckMQuFapct/eKIhaK0Usv/OgutKeefzkToe1tnSjv7X6jWyzsuY63Q685C0Y
- 5kA5ij+ZYa0GvbFAfmWdjXYrV1kDwDW81ZVr69JSM=;
+ bh=zg1B3EtJUY58dvVmW5cfiUMxfR7du+pWu6Ps0f0PkMI=; b=dSlU3O8sm3+y4vZbA8X1WtVeOm
+ E88KbLRzmdR39sM/x6+3pKaXwmoMYN0OAoQafJhuugh5krmr/uz8T5Z6xAyITqsOQraOM4fsawuF6
+ 9A4Ke1PuCR0HxUrNNvYfF9tCswekYiGiEWYrX/C7SoLeEKBZ1kDXiNlCdCLakFqUmBQULvhhpT2kk
+ hYeJT+DkLz0b/y2ZO1UpvtoMWml4+A9IKVOBiNbxKk6c9ERtuSL+03b24eg2UrBTQyhaLs3zM8nor
+ H44l9CSL4PPKmkbSLb/509IlXMWr97GlJQwqX85rBAByKMpDFK5SfzNevB6f9rY8qFmeajniKrdzU
+ +lfFj7sdJd/SYuE+Ygv2UB0ffrnb3eQFWyxdxE106PwXmUfPxRjBxonNf9nsG1mx8339z7/eSIoDt
+ kdken6INCshpczEPIJIw8YsuOMUbkhg2+/ohxM3UE/+KUaZeFL7CQRKS/RVkl5Ez8942arka0zVom
+ 6XUe18+dc+sZhBZ66URiv9Y0T2XySPazZRVx12VogDyWqUx63kRdWZFqEdvJS7ydUbVfblj5I8hhp
+ AYBcXXKnF0KxATW5lDGfbbqBSRHbvEMYh7JH6HCcNxcrQhl049figJ4radkyGy8HxY0ZGjQFmpend
+ al+1HzAqZZAHXWX/ur+CaxaW90RL8dML3/i2D4nT0=;
 Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pFNiy-00092j-BK; Tue, 10 Jan 2023 23:08:12 +0000
-Message-ID: <d2850ef0-d825-bb03-09d4-0d1427cf6577@ilande.co.uk>
-Date: Tue, 10 Jan 2023 23:08:27 +0000
+ id 1pFNmW-000959-ML; Tue, 10 Jan 2023 23:11:49 +0000
+Message-ID: <73231653-7149-6376-633c-c4f61e576c5b@ilande.co.uk>
+Date: Tue, 10 Jan 2023 23:12:08 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
 Content-Language: en-US
-To: ~henca <hc1245@poolhem.se>, qemu-devel@nongnu.org
-Cc: atar4qemu@gmail.com
-References: <167305907804.10652.2746409341903316717-1@git.sr.ht>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org,
+ qemu-riscv@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net
+References: <20230108023719.2466341-1-richard.henderson@linaro.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <167305907804.10652.2746409341903316717-1@git.sr.ht>
+In-Reply-To: <20230108023719.2466341-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH qemu v3 1/1] Emulating sun keyboard language layout dip
- switches, taking the value for the dip switches from the "-k" option to qemu.
+Subject: Re: [PATCH v4 00/36] tcg: Support for Int128 with helpers
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -80,161 +78,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 06/01/2023 21:33, ~henca wrote:
+On 08/01/2023 02:36, Richard Henderson wrote:
 
-> From: Henrik Carlqvist <hc1245@poolhem.se>
+> Changes for v4:
+>    * About half of the v3 series has been merged,
+>    * AArch64 host requires even argument register.
+>    * target/{arm,ppc,s390x,i386} uses included here.
 > 
-> SUN Type 4, 5 and 5c keyboards have dip switches to choose the language
-> layout of the keyboard. Solaris makes an ioctl to query the value of the
-> dipswitches and uses that value to select keyboard layout. Also the SUN
-> bios like the one in the file ss5.bin uses this value to support at least
-> some keyboard layouts. However, the OpenBIOS provided with qemu is
-> hardcoded to always use an US keyboard layout.
+> Patches requiring review:
+>    01-tcg-Define-TCG_TYPE_I128-and-related-helper-macro.patch
+>    02-tcg-Handle-dh_typecode_i128-with-TCG_CALL_-RET-AR.patch
+>    03-tcg-Allocate-objects-contiguously-in-temp_allocat.patch
+>    05-tcg-Add-TCG_CALL_-RET-ARG-_BY_REF.patch
+>    07-tcg-Add-TCG_CALL_RET_BY_VEC.patch
+>    08-include-qemu-int128-Use-Int128-structure-for-TCI.patch
+>    09-tcg-i386-Add-TCG_TARGET_CALL_-RET-ARG-_I128.patch
+>    10-tcg-tci-Fix-big-endian-return-register-ordering.patch
+>    11-tcg-tci-Add-TCG_TARGET_CALL_-RET-ARG-_I128.patch
+>    13-tcg-Add-temp-allocation-for-TCGv_i128.patch
+>    14-tcg-Add-basic-data-movement-for-TCGv_i128.patch
+>    15-tcg-Add-guest-load-store-primitives-for-TCGv_i128.patch
+>    16-tcg-Add-tcg_gen_-non-atomic_cmpxchg_i128.patch
+>    17-tcg-Split-out-tcg_gen_nonatomic_cmpxchg_i-32-64.patch
+>    24-target-s390x-Use-a-single-return-for-helper_divs3.patch
+>    31-target-s390x-Use-Int128-for-passing-float128.patch
+>    32-target-s390x-Use-tcg_gen_atomic_cmpxchg_i128-for-.patch
+>    33-target-s390x-Implement-CC_OP_NZ-in-gen_op_calc_cc.patch
+>    34-target-i386-Split-out-gen_cmpxchg8b-gen_cmpxchg16.patch
+>    35-target-i386-Inline-cmpxchg8b.patch
+>    36-target-i386-Inline-cmpxchg16b.patch
 > 
-> Before this patch, qemu allways gave dip switch value 0x21 (US keyboard),
-> this patch uses the command line switch "-k" (keyboard layout) to select
-> dip switch value. A table is used to lookup values from arguments like:
 > 
-> -k fr
-> -k es
+> r~
 > 
-> But the patch also accepts numeric dip switch values directly to the -k
-> switch:
 > 
-> -k 0x2b
-> -k 43
+> Ilya Leoshkevich (2):
+>    tests/tcg/s390x: Add div.c
+>    tests/tcg/s390x: Add clst.c
 > 
-> Both values above are the same and select swedish keyboard as explained in
-> table 3-15 at
-> https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.html
+> Richard Henderson (34):
+>    tcg: Define TCG_TYPE_I128 and related helper macros
+>    tcg: Handle dh_typecode_i128 with TCG_CALL_{RET,ARG}_NORMAL
+>    tcg: Allocate objects contiguously in temp_allocate_frame
+>    tcg: Introduce tcg_out_addi_ptr
+>    tcg: Add TCG_CALL_{RET,ARG}_BY_REF
+>    tcg: Introduce tcg_target_call_oarg_reg
+>    tcg: Add TCG_CALL_RET_BY_VEC
+>    include/qemu/int128: Use Int128 structure for TCI
+>    tcg/i386: Add TCG_TARGET_CALL_{RET,ARG}_I128
+>    tcg/tci: Fix big-endian return register ordering
+>    tcg/tci: Add TCG_TARGET_CALL_{RET,ARG}_I128
+>    tcg: Add TCG_TARGET_CALL_{RET,ARG}_I128
+>    tcg: Add temp allocation for TCGv_i128
+>    tcg: Add basic data movement for TCGv_i128
+>    tcg: Add guest load/store primitives for TCGv_i128
+>    tcg: Add tcg_gen_{non}atomic_cmpxchg_i128
+>    tcg: Split out tcg_gen_nonatomic_cmpxchg_i{32,64}
+>    target/arm: Use tcg_gen_atomic_cmpxchg_i128 for STXP
+>    target/arm: Use tcg_gen_atomic_cmpxchg_i128 for CASP
+>    target/ppc: Use tcg_gen_atomic_cmpxchg_i128 for STQCX
+>    tests/tcg/s390x: Add long-double.c
+>    target/s390x: Use a single return for helper_divs32/u32
+>    target/s390x: Use a single return for helper_divs64/u64
+>    target/s390x: Use Int128 for return from CLST
+>    target/s390x: Use Int128 for return from CKSM
+>    target/s390x: Use Int128 for return from TRE
+>    target/s390x: Copy wout_x1 to wout_x1_P
+>    target/s390x: Use Int128 for returning float128
+>    target/s390x: Use Int128 for passing float128
+>    target/s390x: Use tcg_gen_atomic_cmpxchg_i128 for CDSG
+>    target/s390x: Implement CC_OP_NZ in gen_op_calc_cc
+>    target/i386: Split out gen_cmpxchg8b, gen_cmpxchg16b
+>    target/i386: Inline cmpxchg8b
+>    target/i386: Inline cmpxchg16b
 > 
-> Unless you want to do a full Solaris installation but happen to have
-> access to a bios file, the easiest way to test that the patch works is to:
-> 
-> qemu-system-sparc -k sv -bios /path/to/ss5.bin
-> 
-> If you already happen to have a Solaris installation in a qemu disk image
-> file you can easily try different keyboard layouts after this patch is
-> applied.
-> ---
->   hw/char/escc.c | 74 +++++++++++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 73 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/char/escc.c b/hw/char/escc.c
-> index 17a908c59b..53022ccf39 100644
-> --- a/hw/char/escc.c
-> +++ b/hw/char/escc.c
-> @@ -31,6 +31,8 @@
->   #include "qemu/module.h"
->   #include "hw/char/escc.h"
->   #include "ui/console.h"
-> +#include "sysemu/sysemu.h"
-> +#include "qemu/cutils.h"
->   #include "trace.h"
->   
->   /*
-> @@ -190,6 +192,7 @@
->   #define R_MISC1I 14
->   #define R_EXTINT 15
->   
-> +static unsigned char sun_keyboard_layout_dip_switch(void);
->   static void handle_kbd_command(ESCCChannelState *s, int val);
->   static int serial_can_receive(void *opaque);
->   static void serial_receive_byte(ESCCChannelState *s, int ch);
-> @@ -846,6 +849,75 @@ static QemuInputHandler sunkbd_handler = {
->       .event = sunkbd_handle_event,
->   };
->   
-> +static unsigned char sun_keyboard_layout_dip_switch(void)
-> +{
-> +    /* Return the value of the dip-switches in a SUN Type 5 keyboard */
-> +    static unsigned char ret = 0xff;
-> +
-> +    if ((ret == 0xff) && keyboard_layout) {
-> +        int i;
-> +        struct layout_values {
-> +            const char *lang;
-> +            unsigned char dip;
-> +        } languages[] =
-> +    /* Dip values from table 3-16 Layouts for Type 4, 5, and 5c Keyboards */
-> +            {
-> +                {"en-us", 0x21}, /* U.S.A. (US5.kt) */
-> +                                 /* 0x22 is some other US (US_UNIX5.kt)*/
-> +                {"fr",    0x23}, /* France (France5.kt) */
-> +                {"da",    0x24}, /* Denmark (Denmark5.kt) */
-> +                {"de",    0x25}, /* Germany (Germany5.kt) */
-> +                {"it",    0x26}, /* Italy (Italy5.kt) */
-> +                {"nl",    0x27}, /* The Netherlands (Netherland5.kt) */
-> +                {"no",    0x28}, /* Norway (Norway.kt) */
-> +                {"pt",    0x29}, /* Portugal (Portugal5.kt) */
-> +                {"es",    0x2a}, /* Spain (Spain5.kt) */
-> +                {"sv",    0x2b}, /* Sweden (Sweden5.kt) */
-> +                {"fr-ch", 0x2c}, /* Switzerland/French (Switzer_Fr5.kt) */
-> +                {"de-ch", 0x2d}, /* Switzerland/German (Switzer_Ge5.kt) */
-> +                {"en-gb", 0x2e}, /* Great Britain (UK5.kt) */
-> +                {"ko",    0x2f}, /* Korea (Korea5.kt) */
-> +                {"tw",    0x30}, /* Taiwan (Taiwan5.kt) */
-> +                {"ja",    0x31}, /* Japan (Japan5.kt) */
-> +                {"fr-ca", 0x32}, /* Canada/French (Canada_Fr5.kt) */
-> +                {"hu",    0x33}, /* Hungary (Hungary5.kt) */
-> +                {"pl",    0x34}, /* Poland (Poland5.kt) */
-> +                {"cz",    0x35}, /* Czech (Czech5.kt) */
-> +                {"ru",    0x36}, /* Russia (Russia5.kt) */
-> +                {"lv",    0x37}, /* Latvia (Latvia5.kt) */
-> +                {"tr",    0x38}, /* Turkey-Q5 (TurkeyQ5.kt) */
-> +                {"gr",    0x39}, /* Greece (Greece5.kt) */
-> +                {"ar",    0x3a}, /* Arabic (Arabic5.kt) */
-> +                {"lt",    0x3b}, /* Lithuania (Lithuania5.kt) */
-> +                {"nl-be", 0x3c}, /* Belgium (Belgian5.kt) */
-> +                {"be",    0x3c}, /* Belgium (Belgian5.kt) */
-> +            };
-> +
-> +        for (i = 0;
-> +             i < sizeof(languages) / sizeof(struct layout_values);
-> +             i++) {
-> +            if (!strcmp(keyboard_layout, languages[i].lang)) {
-> +                ret = languages[i].dip;
-> +                return ret;
-> +            }
-> +        }
-> +        /* Found no known language code */
-> +
-> +        if ((keyboard_layout[0] >= '0') && (keyboard_layout[0] <= '9')) {
-> +            unsigned int tmp;
-> +            /* As a fallback we also accept numeric dip switch value */
-> +            if (!qemu_strtoui(keyboard_layout, NULL, 0, &tmp)) {
-> +                ret = (unsigned char)tmp;
-> +            }
-> +        }
-> +    }
-> +    if (ret == 0xff) {
-> +        /* Final fallback if keyboard_layout was not set or recognized */
-> +        ret = 0x21; /* en-us layout */
-> +    }
-> +    return ret;
-> +}
-> +
->   static void handle_kbd_command(ESCCChannelState *s, int val)
->   {
->       trace_escc_kbd_command(val);
-> @@ -867,7 +939,7 @@ static void handle_kbd_command(ESCCChannelState *s, int val)
->       case 0xf:
->           clear_queue(s);
->           put_queue(s, 0xfe);
-> -        put_queue(s, 0x21); /*  en-us layout */
-> +        put_queue(s, sun_keyboard_layout_dip_switch());
->           break;
->       default:
->           break;
+>   accel/tcg/tcg-runtime.h          |  11 +
+>   include/exec/cpu_ldst.h          |  10 +
+>   include/exec/helper-head.h       |   7 +
+>   include/qemu/atomic128.h         |  29 ++-
+>   include/qemu/int128.h            |  25 +-
+>   include/tcg/tcg-op.h             |  15 ++
+>   include/tcg/tcg.h                |  49 +++-
+>   target/arm/helper-a64.h          |   8 -
+>   target/i386/helper.h             |   6 -
+>   target/ppc/helper.h              |   2 -
+>   target/s390x/helper.h            |  54 ++---
+>   tcg/aarch64/tcg-target.h         |   2 +
+>   tcg/arm/tcg-target.h             |   2 +
+>   tcg/i386/tcg-target.h            |  10 +
+>   tcg/loongarch64/tcg-target.h     |   2 +
+>   tcg/mips/tcg-target.h            |   2 +
+>   tcg/riscv/tcg-target.h           |   3 +
+>   tcg/s390x/tcg-target.h           |   2 +
+>   tcg/sparc64/tcg-target.h         |   2 +
+>   tcg/tcg-internal.h               |  17 ++
+>   tcg/tci/tcg-target.h             |   3 +
+>   target/s390x/tcg/insn-data.h.inc |  60 ++---
+>   accel/tcg/cputlb.c               | 112 +++++++++
+>   accel/tcg/user-exec.c            |  66 ++++++
+>   target/arm/helper-a64.c          | 147 ------------
+>   target/arm/translate-a64.c       | 121 +++++-----
+>   target/i386/tcg/mem_helper.c     | 126 ----------
+>   target/i386/tcg/translate.c      | 126 ++++++++--
+>   target/ppc/mem_helper.c          |  44 ----
+>   target/ppc/translate.c           | 102 ++++----
+>   target/s390x/tcg/fpu_helper.c    | 103 ++++----
+>   target/s390x/tcg/int_helper.c    |  64 ++---
+>   target/s390x/tcg/mem_helper.c    |  77 +-----
+>   target/s390x/tcg/translate.c     | 217 +++++++++++------
+>   tcg/tcg-op.c                     | 393 ++++++++++++++++++++++++++-----
+>   tcg/tcg.c                        | 303 +++++++++++++++++++++---
+>   tcg/tci.c                        |  65 ++---
+>   tests/tcg/s390x/clst.c           |  82 +++++++
+>   tests/tcg/s390x/div.c            |  75 ++++++
+>   tests/tcg/s390x/long-double.c    |  24 ++
+>   util/int128.c                    |  42 ++++
+>   accel/tcg/atomic_common.c.inc    |  45 ++++
+>   tcg/aarch64/tcg-target.c.inc     |  17 +-
+>   tcg/arm/tcg-target.c.inc         |  30 ++-
+>   tcg/i386/tcg-target.c.inc        |  52 +++-
+>   tcg/loongarch64/tcg-target.c.inc |  17 +-
+>   tcg/mips/tcg-target.c.inc        |  17 +-
+>   tcg/ppc/tcg-target.c.inc         |  20 +-
+>   tcg/riscv/tcg-target.c.inc       |  17 +-
+>   tcg/s390x/tcg-target.c.inc       |  16 +-
+>   tcg/sparc64/tcg-target.c.inc     |  19 +-
+>   tcg/tci/tcg-target.c.inc         |  27 ++-
+>   tests/tcg/s390x/Makefile.target  |   3 +
+>   53 files changed, 1936 insertions(+), 954 deletions(-)
+>   create mode 100644 tests/tcg/s390x/clst.c
+>   create mode 100644 tests/tcg/s390x/div.c
+>   create mode 100644 tests/tcg/s390x/long-double.c
 
-Thanks for the patch. I think what you're effectively doing here is equivalent to 
-creating a qdev property that is used to set the keyboard layout, which is a nicer 
-approach because it enables better control from the command line and also handles the 
-default value.
-
-Does changing the keyboard layout work with other OSs? It may also be that OpenBIOS 
-will be difficult to use if the layout defaults to anything other than en-us since I 
-suspect it will be hardcoded there too.
+Now that the TCG documentation is more visible, would it be possible to add a patch 
+to update the relevant parts of docs/devel/tcg-ops.rst to reflect the new Int128 support?
 
 
 ATB,
