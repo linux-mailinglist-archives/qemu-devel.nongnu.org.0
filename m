@@ -2,96 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3488366450C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 16:39:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE906645A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 17:10:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFFdd-0007NF-7k; Tue, 10 Jan 2023 09:30:05 -0500
+	id 1pFFt1-0005Mj-5y; Tue, 10 Jan 2023 09:45:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFFdZ-0007IQ-Ci
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 09:30:01 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pFFsf-0005Ez-BD
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 09:45:41 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFFdX-0000kF-He
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 09:30:01 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pFFsd-0003sA-Me
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 09:45:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673360998;
+ s=mimecast20190719; t=1673361934;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4Mdbv1G64fK2AhDOfIQsT2A/oo3wn+sJmLF67R19hxs=;
- b=ZtqDhguxDMFWQI3kDmWj2rfsF+0Ilc5Fi7QwpwaOuyKYXeXUwMqVOKHsBa1UpL8XUEWkZs
- EwTN1kVj1ZT33Ii7t9szY4+up4mxRxY7cLnbwu2DJve8zPihUJBVuJf7xkLkl7XOc9J4UK
- oYo/VrjRVx9o8IvwCBvNjWGC/N08Eu0=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JDOfyuFJragfwMyanZnxrcJYme7TiX5Qul7RC23WBbI=;
+ b=QaEGwG8JXo5vsIDQVXIibJFfYpC23r0Xq9GctYHhobu3kil0LIhIJ8d3AH7bzOhxXuLMbC
+ G4qgNYChzfTv3CdxdVQQ7OJvcXNhhVw6ZDsD0qEvKT49arH3IF221Ch1NrVBq2FH2Sqvqb
+ CX1wXn+9bbm9oBOR9cvKIGW57P5fDts=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-342-PBE1THV5PWyAj2A4k4Yfxw-1; Tue, 10 Jan 2023 09:29:57 -0500
-X-MC-Unique: PBE1THV5PWyAj2A4k4Yfxw-1
-Received: by mail-qk1-f200.google.com with SMTP id
- x12-20020a05620a258c00b007051ae500a2so8816943qko.15
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 06:29:56 -0800 (PST)
+ us-mta-634-RyLs6UxgMs2KY6VYC8GX2g-1; Tue, 10 Jan 2023 09:45:33 -0500
+X-MC-Unique: RyLs6UxgMs2KY6VYC8GX2g-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ bj37-20020a05620a192500b00704dc44b050so8933822qkb.14
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 06:45:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4Mdbv1G64fK2AhDOfIQsT2A/oo3wn+sJmLF67R19hxs=;
- b=xhnLhDp2K805Iklcrra4/0DilvciTVmTV75YPR0juDgyEAL6KyR7z1AlleLYG7vLZp
- vTg5dVrCFV9TRvi6RJM5oDjjEVzaufELBmdzwzLJ93qrFT/W/ZAujW8iMLfxDWxwQC/t
- GBRvyyM7GQcMuuJQwq3CN6eTUOa+ZcZkXXm+JL0v4mldKNNtWIYH8fB0UZLEL/KUGyQB
- LicvU/Gb3/jjejjKU2rF3Ko3Uosb8spfnukfN/ZsV35d5jmjUTQnP57WNCJ43n9poKhk
- b3wxdDbq620TeF4wnpveAJOrHIaJFV5MbFfDgCVkKVIIjffduqhp0IwVq3L1YESHKLU+
- sSaw==
-X-Gm-Message-State: AFqh2kr5na3HILORkuvQGWv/Ujtlp2DwIgm28qiAYNDrglkDu9c6lL38
- vf9BmOahAc2EgGh78MxS4Y0kYWwWS/VDZRJbr1crz/nm/76d5WT3llVTdqo6E2UuLIecQMBYm83
- IYjJoWt/VrYgeWE4=
-X-Received: by 2002:a05:622a:4d47:b0:3a6:46b4:2a6b with SMTP id
- fe7-20020a05622a4d4700b003a646b42a6bmr106800039qtb.27.1673360996572; 
- Tue, 10 Jan 2023 06:29:56 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsZGnkw4qQORntpkkAZWTj8hOW2+/J7s2o1QV08mVVhhKkLRkEVJi6r0FHboC8QeUQfmo81uA==
-X-Received: by 2002:a05:622a:4d47:b0:3a6:46b4:2a6b with SMTP id
- fe7-20020a05622a4d4700b003a646b42a6bmr106800002qtb.27.1673360996267; 
- Tue, 10 Jan 2023 06:29:56 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-179-237.web.vodafone.de.
- [109.43.179.237]) by smtp.gmail.com with ESMTPSA id
- u12-20020a05620a430c00b006ee949b8051sm7167900qko.51.2023.01.10.06.29.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jan 2023 06:29:55 -0800 (PST)
-Message-ID: <5cf19913-b2d7-d72d-4332-27aa484f72e4@redhat.com>
-Date: Tue, 10 Jan 2023 15:29:51 +0100
+ bh=JDOfyuFJragfwMyanZnxrcJYme7TiX5Qul7RC23WBbI=;
+ b=y2sshbPcSLzMkocD3dKwTCezEmI6oEmOIfmh61AFSfuVFrjyvTStmZnUFUZjXcadeN
+ 238lgJlXuktORVULjkxs8p3m03AQcf1PHQ47gk7Wpp1PmaXrBrFkOUIuR3TxEBK6Rvk3
+ q9XXGJdW9xJUO7nkRn6pEYK7jRnJ2ioJ0JinvKcT03oIjzHNuIA3dnD4bev1nZyJEf1B
+ 6GwoDDRv9b0vvtPN3/+yKb/ypvHBa1RLsQFvl1V4jiGDAUarSCg4yasaDF595KPLJISv
+ A/I0AiIM2yU7i6ME5kCUMJY0+YafoPCjFRp7DizbG+XvWzvnt04EbgEa92lyGkgMmeJd
+ RITg==
+X-Gm-Message-State: AFqh2kqz/lv/YUcYFhYEDc6F/DYUYkTp/okQYbMGHa0W0DCkaurF4GPT
+ LpeWHsFsyYmjCv9McwJaOe1DmL0gQrngkXr8uHF47sxoH2ZKpvEMN8UJkRXDRBcQhSCOEFrjDAM
+ T047dBIdfIPpMf+c=
+X-Received: by 2002:ac8:6f07:0:b0:3ab:c8c6:51c2 with SMTP id
+ bs7-20020ac86f07000000b003abc8c651c2mr36833182qtb.62.1673361932592; 
+ Tue, 10 Jan 2023 06:45:32 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXv9Kxc34xYgzZvW9K6MNGCaxydKjDGohCt0wlKRo14iGndlw5MrghoPt+tE++/1trKbc9c5OQ==
+X-Received: by 2002:ac8:6f07:0:b0:3ab:c8c6:51c2 with SMTP id
+ bs7-20020ac86f07000000b003abc8c651c2mr36833143qtb.62.1673361932290; 
+ Tue, 10 Jan 2023 06:45:32 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-39-70-52-228-144.dsl.bell.ca.
+ [70.52.228.144]) by smtp.gmail.com with ESMTPSA id
+ bi1-20020a05620a318100b006fb0e638f12sm7241474qkb.4.2023.01.10.06.45.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Jan 2023 06:45:31 -0800 (PST)
+Date: Tue, 10 Jan 2023 09:45:30 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Chuang Xu <xuchuangxclwt@bytedance.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ David Gilbert <dgilbert@redhat.com>,
+ "Quintela, Juan" <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ zhouyibo@bytedance.com
+Subject: Re: [RFC v4 2/3] memory: add depth assert in address_space_to_flatview
+Message-ID: <Y716CoJeHKZ6nP1x@x1n>
+References: <20221223142307.1614945-1-xuchuangxclwt@bytedance.com>
+ <20221223142307.1614945-3-xuchuangxclwt@bytedance.com>
+ <05c4cb9e-0f41-c60f-6a68-cf5050ad7a02@redhat.com>
+ <Y6XPRD4fSucgWZfT@x1n>
+ <CABgObfa=i=9CZRFyX_EXBOSW===iDhcZoDO8Ju64F-tHUAXdRA@mail.gmail.com>
+ <Y7RpPwGd0WvrENlz@x1n>
+ <CALophuvJ2g7D9idGHfQEK3Co7o06ab38ZK3CCGZX0tDdQX_+Tg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org,
- frankja@linux.ibm.com
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-4-pmorel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v14 03/11] target/s390x/cpu topology: handle STSI(15) and
- build the SYSIB
-In-Reply-To: <20230105145313.168489-4-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALophuvJ2g7D9idGHfQEK3Co7o06ab38ZK3CCGZX0tDdQX_+Tg@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,206 +108,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05/01/2023 15.53, Pierre Morel wrote:
-> On interception of STSI(15.1.x) the System Information Block
-> (SYSIB) is built from the list of pre-ordered topology entries.
+On Tue, Jan 10, 2023 at 12:09:41AM -0800, Chuang Xu wrote:
+> Hi, Peter and Paolo,
+
+Hi, Chuang, Paolo,
+
+> I'm sorry I didn't reply to your email in time. I was infected with
+> COVID-19 two weeks ago, so I couldn't think about the problems discussed
+> in your email for a long time.😷
 > 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
-...
-> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> index 39ea63a416..78988048dd 100644
-> --- a/target/s390x/cpu.h
-> +++ b/target/s390x/cpu.h
-> @@ -561,6 +561,25 @@ typedef struct SysIB_322 {
->   } SysIB_322;
->   QEMU_BUILD_BUG_ON(sizeof(SysIB_322) != 4096);
->   
-> +#define S390_TOPOLOGY_MAG  6
-> +#define S390_TOPOLOGY_MAG6 0
-> +#define S390_TOPOLOGY_MAG5 1
-> +#define S390_TOPOLOGY_MAG4 2
-> +#define S390_TOPOLOGY_MAG3 3
-> +#define S390_TOPOLOGY_MAG2 4
-> +#define S390_TOPOLOGY_MAG1 5
-> +/* Configuration topology */
-> +typedef struct SysIB_151x {
-> +    uint8_t  reserved0[2];
-> +    uint16_t length;
-> +    uint8_t  mag[S390_TOPOLOGY_MAG];
-> +    uint8_t  reserved1;
-> +    uint8_t  mnest;
-> +    uint32_t reserved2;
-> +    char tle[];
-> +} QEMU_PACKED QEMU_ALIGNED(8) SysIB_151x;
-> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
-> +
->   typedef union SysIB {
->       SysIB_111 sysib_111;
->       SysIB_121 sysib_121;
-> @@ -568,9 +587,68 @@ typedef union SysIB {
->       SysIB_221 sysib_221;
->       SysIB_222 sysib_222;
->       SysIB_322 sysib_322;
-> +    SysIB_151x sysib_151x;
->   } SysIB;
->   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
->   
-> +/*
-> + * CPU Topology List provided by STSI with fc=15 provides a list
-> + * of two different Topology List Entries (TLE) types to specify
-> + * the topology hierarchy.
-> + *
-> + * - Container Topology List Entry
-> + *   Defines a container to contain other Topology List Entries
-> + *   of any type, nested containers or CPU.
-> + * - CPU Topology List Entry
-> + *   Specifies the CPUs position, type, entitlement and polarization
-> + *   of the CPUs contained in the last Container TLE.
-> + *
-> + * There can be theoretically up to five levels of containers, QEMU
-> + * uses only one level, the socket level.
+> On 2023/1/4 上午1:43, Peter Xu wrote:
+> > Hi, Paolo,
+> >
+> > On Wed, Dec 28, 2022 at 09:27:50AM +0100, Paolo Bonzini wrote:
+> >> Il ven 23 dic 2022, 16:54 Peter Xu ha scritto:
+> >>
+> >>>> This is not valid because the transaction could happen in *another*
+> >>> thread.
+> >>>> In that case memory_region_transaction_depth() will be > 0, but RCU is
+> >>>> needed.
+> >>> Do you mean the code is wrong, or the comment? Note that the code has
+> >>> checked rcu_read_locked() where introduced in patch 1, but maybe
+> something
+> >>> else was missed?
+> >>>
+> >> The assertion is wrong. It will succeed even if RCU is unlocked in this
+> >> thread but a transaction is in progress in another thread.
+> > IIUC this is the case where the context:
+> >
+> > (1) doesn't have RCU read lock held, and,
+> > (2) doesn't have BQL held.
+> >
+> > Is it safe at all to reference any flatview in such a context? The thing
+> > is I think the flatview pointer can be freed anytime if both locks are
+> not
+> > taken.
+> >
+> >> Perhaps you can check (memory_region_transaction_depth() > 0 &&
+> >> !qemu_mutex_iothread_locked()) || rcu_read_locked() instead?
+> > What if one thread calls address_space_to_flatview() with BQL held but
+> not
+> > RCU read lock held? I assume it's a legal operation, but it seems to be
+> > able to trigger the assert already?
+> >
+> > Thanks,
+> >
+> I'm not sure whether I understand the content of your discussion correctly,
+> so here I want to explain my understanding firstly.
+> 
+> From my perspective, Paolo thinks that when thread 1 is in a transaction,
+> thread 2 will trigger the assertion when accessing the flatview without
+> holding RCU read lock, although sometimes the thread 2's access to flatview
+> is legal. So Paolo suggests checking (memory_region_transaction_depth() > 0
+> && !qemu_mutex_iothread_locked()) || rcu_read_locked() instead.
+> 
+> And Peter thinks that as long as no thread holds the BQL or RCU read lock,
+> the old flatview can be released (actually executed by the rcu thread with
+> BQL held). When thread 1 is in a transaction, if thread 2 access the
+> flatview
+> with BQL held but not RCU read lock held, it's a legal operation. In this
+> legal case, it seems that both my code and Paolo's code will trigger
+> assertion.
 
-I guess that sentence needs an update again, now that you've re-added the 
-books and drawers?
+IIUC your original patch is fine in this case (BQL held, RCU not held), as
+long as depth==0.  IMHO what we want to trap here is when BQL held (while
+RCU is not) and depth>0 which can cause unpredictable side effect of using
+obsolete flatview.
 
-> + * A container of with a nesting level (NL) greater than 1 can only
-> + * contain another container of nesting level NL-1.
-> + *
-> + * A container of nesting level 1 (socket), contains as many CPU TLE
-> + * as needed to describe the position and qualities of all CPUs inside
-> + * the container.
-> + * The qualities of a CPU are polarization, entitlement and type.
-> + *
-> + * The CPU TLE defines the position of the CPUs of identical qualities
-> + * using a 64bits mask which first bit has its offset defined by
-> + * the CPU address orgin field of the CPU TLE like in:
-> + * CPU address = origin * 64 + bit position within the mask
-> + *
-> + */
-> +/* Container type Topology List Entry */
-> +/* Container type Topology List Entry */
+To summarize, the original check didn't consider BQL, and if to consider
+BQL I think it should be something like:
 
-Duplicated comment.
+  /* Guarantees valid access to the flatview, either lock works */
+  assert(BQL_HELD() || RCU_HELD());
 
-> +typedef struct SysIBTl_container {
-> +        uint8_t nl;
-> +        uint8_t reserved[6];
-> +        uint8_t id;
-> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_container;
-> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
-> +
-> +/* CPU type Topology List Entry */
-> +typedef struct SysIBTl_cpu {
-> +        uint8_t nl;
-> +        uint8_t reserved0[3];
-> +        uint8_t reserved1:5;
-> +        uint8_t dedicated:1;
-> +        uint8_t polarity:2;
+  /*
+   * Guarantees any BQL holder is not reading obsolete flatview (e.g. when
+   * during vm load)
+   */
+  if (BQL_HELD())
+      assert(depth==0);
 
-Hmmm, yet another bitfield...
+IIUC it can be merged into:
 
-> +        uint8_t type;
-> +        uint16_t origin;
-> +        uint64_t mask;
-> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_cpu;
-> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
-> +
-> +/* Max size of a SYSIB structure is when all CPU are alone in a container */
-> +#define S390_TOPOLOGY_SYSIB_SIZE (sizeof(SysIB_151x) +                         \
-> +                                  S390_MAX_CPUS * (sizeof(SysIBTl_container) + \
-> +                                                   sizeof(SysIBTl_cpu)))
-> +
-> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
-> +
->   /* MMU defines */
->   #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
->   #define ASCE_SUBSPACE         0x200       /* subspace group control           */
-> diff --git a/target/s390x/kvm/cpu_topology.c b/target/s390x/kvm/cpu_topology.c
-> new file mode 100644
-> index 0000000000..3831a3264c
-> --- /dev/null
-> +++ b/target/s390x/kvm/cpu_topology.c
-> @@ -0,0 +1,136 @@
-> +/*
-> + * QEMU S390x CPU Topology
-> + *
-> + * Copyright IBM Corp. 2022
+  assert((BQL_HELD() && depth==0) || RCU_HELD());
 
-Happy new year?
+> 
+> I'm not sure if I have a good understanding of your emails? I think
+> checking(memory_region_transaction_get_depth() == 0 || rcu_read_locked() ||
+> qemu_mutex_iothread_locked()) should cover the case you discussed.
 
-> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
-> + * your option) any later version. See the COPYING file in the top-level
-> + * directory.
-> + */
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +#include "hw/s390x/pv.h"
-> +#include "hw/sysbus.h"
-> +#include "hw/s390x/sclp.h"
-> +#include "hw/s390x/cpu-topology.h"
-> +
-> +static char *fill_container(char *p, int level, int id)
-> +{
-> +    SysIBTl_container *tle = (SysIBTl_container *)p;
-> +
-> +    tle->nl = level;
-> +    tle->id = id;
-> +    return p + sizeof(*tle);
-> +}
-> +
-> +static char *fill_tle_cpu(char *p, S390TopologyEntry *entry)
-> +{
-> +    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
-> +    s390_topology_id topology_id = entry->id;
+This seems still problematic too?  Since the assert can pass even if
+neither BQL nor RCU is held (as long as depth==0).
 
-What about the reserved fields? Should they get set to 0 ?
+Thanks,
 
-> +    tle->nl = 0;
-> +    tle->dedicated = topology_id.d;
-> +    tle->polarity = topology_id.p;
-> +    tle->type = topology_id.type;
-> +    tle->origin = topology_id.origin;
-> +    tle->mask = cpu_to_be64(entry->mask);
-
-So here you're already taking care of swapping the endianess in case we ever 
-run this code with TCG, too ... so I think it would be great to also 
-eliminate the bitfield in SysIBTl_cpu to be really on the safe side.
-
-> +    return p + sizeof(*tle);
-> +}
-...
-> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
-> +{
-> +    union {
-> +        char place_holder[S390_TOPOLOGY_SYSIB_SIZE];
-> +        SysIB_151x sysib;
-> +    } buffer QEMU_ALIGNED(8) = {};
-> +    int len;
-> +
-> +    if (!s390_has_topology() || sel2 < 2 || sel2 > SCLP_READ_SCP_INFO_MNEST) {
-> +        setcc(cpu, 3);
-> +        return;
-> +    }
-> +
-> +    len = setup_stsi(cpu, &buffer.sysib, sel2);
-> +
-> +    if (len > 4096) {
-
-Maybe use TARGET_PAGE_SIZE instead of 4096 ?
-
-> +        setcc(cpu, 3);
-> +        return;
-> +    }
-> +
-> +    buffer.sysib.length = cpu_to_be16(len);
-> +    s390_cpu_virt_mem_write(cpu, addr, ar, &buffer.sysib, len);
-
-Is this supposed to work with protected guests, too? If so, I think you 
-likely need to use s390_cpu_pv_mem_write() for protected guests?
-
-  Thomas
+-- 
+Peter Xu
 
 
