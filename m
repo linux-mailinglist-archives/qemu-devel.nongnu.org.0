@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C10F663D55
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 10:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ACC5663E44
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 11:32:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFBJo-0002CB-8u; Tue, 10 Jan 2023 04:53:20 -0500
+	id 1pFBKX-0002Oq-5c; Tue, 10 Jan 2023 04:54:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFBJY-00027b-70
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:53:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFBKT-0002Nt-R0
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:54:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFBJW-0002X3-0v
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:53:03 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFBKS-0002fV-Bq
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 04:54:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673344381;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=00eEdVq2MGiAF8ed/7IF2ZdKfw4b5zGIt0scrQewNsA=;
- b=W7q7qD6YvUseCISqNfIURFbXM1fSAUOsnWZq1rwx1yDT4cY1P6f7PQIeYH8HCrBjXFl6vD
- 3rrb+tN63+gA/kuGnhKnkGiTKKLfg/I0VNywSQgxKUkzGLceDYsdRz14qFh2XrDGZ5D9k9
- rxxZDJnh29/zKjIfxNHQJvbwecW6UB0=
+ s=mimecast20190719; t=1673344439;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ezc2iJ8OavHedCZFUbrXgpAf5yZPqXymyYjQAx+wPyM=;
+ b=CMiFZN5cGXknD4FE47ozjnWwSvPQyMh2ebDMV0VnwFtf+cGpYe0zMclKK3gSuglqp23evC
+ 1Zcd6uVUwnZUxzy6xcxUE4TrtP9x4HKeh4x3+s6I08f/1W3fqQfcVDcYMgTcGDdb40kiII
+ yYNhfWzUxwYi4Boo8QI9m2LuwR3ofDk=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-365-tY5CI6uJO5G0WqQhHNkZYw-1; Tue, 10 Jan 2023 04:53:00 -0500
-X-MC-Unique: tY5CI6uJO5G0WqQhHNkZYw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-360-crBzIJlQMeaUs0KoWzzdww-1; Tue, 10 Jan 2023 04:53:56 -0500
+X-MC-Unique: crBzIJlQMeaUs0KoWzzdww-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AEBDA1C08787;
- Tue, 10 Jan 2023 09:52:59 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 410102166B26;
- Tue, 10 Jan 2023 09:52:58 +0000 (UTC)
-Date: Tue, 10 Jan 2023 09:52:56 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [RFC PATCH 1/4] qom: Introduce object_class_property_deprecate()
-Message-ID: <Y701eB0wUmyzd1RI@redhat.com>
-References: <20230109225419.22621-1-philmd@linaro.org>
- <20230109225419.22621-2-philmd@linaro.org>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D666F3C38FEE;
+ Tue, 10 Jan 2023 09:53:55 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4A1B4085720;
+ Tue, 10 Jan 2023 09:53:53 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Michael S Tsirkin <mst@redhat.com>,
+ qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PATCH v6 0/4] Make the mc146818 RTC device target independent
+Date: Tue, 10 Jan 2023 10:53:47 +0100
+Message-Id: <20230110095351.611724-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230109225419.22621-2-philmd@linaro.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,104 +76,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 09, 2023 at 11:54:16PM +0100, Philippe Mathieu-Daudé wrote:
-> Introduce object_class_property_deprecate() to register
-> a QOM property as deprecated. When this property's getter /
-> setter is called, a deprecation warning is displayed on the
-> monitor.
-> 
-> Inspired-by: Daniel P. Berrange <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->  include/qom/object.h | 17 +++++++++++++++++
->  qom/object.c         | 23 +++++++++++++++++++++++
->  2 files changed, 40 insertions(+)
-> 
-> diff --git a/include/qom/object.h b/include/qom/object.h
-> index ef7258a5e1..b76724292c 100644
-> --- a/include/qom/object.h
-> +++ b/include/qom/object.h
-> @@ -97,6 +97,7 @@ struct ObjectProperty
->      ObjectPropertyInit *init;
->      void *opaque;
->      QObject *defval;
-> +    const char *deprecation_reason;
->  };
->  
->  /**
-> @@ -1075,6 +1076,22 @@ ObjectProperty *object_class_property_add(ObjectClass *klass, const char *name,
->                                            ObjectPropertyRelease *release,
->                                            void *opaque);
->  
-> +/**
-> + * object_class_property_deprecate:
-> + * @klass: the class to add a property to
-> + * @name: the name of the property.  This can contain any character except for
-> + *  a forward slash.  In general, you should use hyphens '-' instead of
-> + *  underscores '_' when naming properties.
-> + * @reason: the deprecation reason.
-> + * @version_major: the major version since this property is deprecated.
-> + * @version_minor: the minor version since this property is deprecated.
-> + *
-> + * Deprecate a class property.
-> + */
-> +void object_class_property_deprecate(ObjectClass *klass,
-> +                                     const char *name, const char *reason,
-> +                                     int version_major, int version_minor);
-> +
->  /**
->   * object_property_set_default_bool:
->   * @prop: the property to set
-> diff --git a/qom/object.c b/qom/object.c
-> index e25f1e96db..05b97cd424 100644
-> --- a/qom/object.c
-> +++ b/qom/object.c
-> @@ -1293,6 +1293,16 @@ object_class_property_add(ObjectClass *klass,
->      return prop;
->  }
->  
-> +void object_class_property_deprecate(ObjectClass *klass,
-> +                                     const char *name, const char *reason,
-> +                                     int version_major, int version_minor)
-> +{
-> +    ObjectProperty *prop = object_class_property_find(klass, name);
-> +
-> +    assert(prop);
-> +    prop->deprecation_reason = reason;
-> +}
+The basic idea of this patch set is to change hw/rtc/mc146818rtc.c into
+target independent code so that the file only has to be compiled once
+instead of multiple times (and that it can be used in a qemu-system-all
+binary once we get there).
 
-Nothing is using the 'version_major' / 'version_minor' parameters so
-they look redundant.
+The first patch extracts some functions from the APIC code that will be
+required for linking when the mc146818rtc becomes target-independent.
 
-> @@ -1392,6 +1413,7 @@ bool object_property_get(Object *obj, const char *name, Visitor *v,
->          return false;
->      }
->  
-> +    object_property_check_deprecation(obj, name, prop);
->      if (!prop->get) {
->          error_setg(errp, "Property '%s.%s' is not readable",
->                     object_get_typename(obj), name);
-> @@ -1412,6 +1434,7 @@ bool object_property_set(Object *obj, const char *name, Visitor *v,
->          return false;
->      }
->  
-> +    object_property_check_deprecation(obj, name, prop);
->      if (!prop->set) {
->          error_setg(errp, "Property '%s.%s' is not writable",
->                     object_get_typename(obj), name);
-> -- 
-> 2.38.1
-> 
+The second patch adds a new way for checking whether the "driftfix=slew"
+policy is available or not (since the corresponding #ifdefs in the
+mc146818rtc code will be removed).
 
-With regards,
-Daniel
+The third patch then removes the "#ifdef TARGET" switches and turns
+the mc146818rtc code into a target-independent file.
+
+The fourth patch just fixes a small cosmetic nit that I discovered along
+the way: On systems without mc146818, the "-rtc driftfix=slew" simply
+got ignored silently. We should at least emit a warning in this case.
+
+Changes since last iteration:
+- Dropped the approach of using a new "slew-tick-policy-available"
+  property that needs to be set by the machine code (and thus dropped
+  the clean-up patches from Bernhard from this series since they are
+  no longer required here now)
+- Use a new check in hw/core/qdev-properties-system.c instead
+  (see the second patch)
+
+Thomas Huth (4):
+  hw/intc: Extract the IRQ counting functions into a separate file
+  hw/core/qdev-properties-system: Allow the 'slew' policy only on x86
+  hw/rtc/mc146818rtc: Make the mc146818 RTC device target independent
+  softmmu/rtc: Emit warning when using driftfix=slew on systems without
+    mc146818
+
+ include/hw/i386/apic.h           |  2 --
+ include/hw/i386/apic_internal.h  |  1 -
+ include/hw/intc/kvm_irqcount.h   | 10 +++++++
+ include/hw/rtc/mc146818rtc.h     |  1 +
+ hw/core/qdev-properties-system.c | 28 +++++++++++++++++-
+ hw/i386/kvm/i8259.c              |  4 +--
+ hw/i386/kvm/ioapic.c             |  4 +--
+ hw/intc/apic.c                   |  3 +-
+ hw/intc/apic_common.c            | 30 ++-----------------
+ hw/intc/kvm_irqcount.c           | 49 ++++++++++++++++++++++++++++++++
+ hw/rtc/mc146818rtc.c             | 20 ++-----------
+ softmmu/rtc.c                    |  6 +++-
+ hw/intc/meson.build              |  6 ++++
+ hw/intc/trace-events             |  9 +++---
+ hw/rtc/meson.build               |  3 +-
+ 15 files changed, 115 insertions(+), 61 deletions(-)
+ create mode 100644 include/hw/intc/kvm_irqcount.h
+ create mode 100644 hw/intc/kvm_irqcount.c
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.31.1
 
 
