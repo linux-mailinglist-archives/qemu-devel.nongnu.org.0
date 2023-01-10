@@ -2,88 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0005A6638D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 06:53:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC0DA6638FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 07:01:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF7Yz-0006xP-Rd; Tue, 10 Jan 2023 00:52:45 -0500
+	id 1pF7fz-0000bz-Ed; Tue, 10 Jan 2023 00:59:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pF7Yy-0006wt-7X
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 00:52:44 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pF7fx-0000ba-2S
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 00:59:57 -0500
+Received: from sonic317-22.consmr.mail.gq1.yahoo.com ([98.137.66.148])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pF7Yv-0005n2-W2
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 00:52:43 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id dw9so9766623pjb.5
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 21:52:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2/nl3OM2e4VnI5Xc7P1UglEp4ZguT0/4xQCN6nGkq8c=;
- b=ciYnSxB3vMyKEBAaGJ+Zqg3e/pScy4n/KXPByE+Q6/XqAe9QWG6RXwcl7xPE+Tn8KZ
- CCiKJOK0lc2UlhrKKP0TEcKv3e0FqyVqxG0imhAJF1qczTVxDP2otq/Ge/UUoFbEEVEN
- 51CyIYXEXS+qVSqEXUeD+1+7Mt6vHu48neF4YcgEO5HTM7b62fuaQgim5w41w75wY7+d
- ZddEIwhSdmOo2HZmMbTqh8Kpmy6G5kzu7d043W5D9FfP+HuzmfqjlLfow+wJsYrGbqN2
- 0/H9eWuV398fySCNWICNo3FnsaRNWj8osPfEx0/Aqt9Wdsy3ZZmtEfbPEUnzmZw+PBeh
- e0qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2/nl3OM2e4VnI5Xc7P1UglEp4ZguT0/4xQCN6nGkq8c=;
- b=x5x/VanapCDTWbC5uvG50xBZu187LB7NIIW7tSCCKmcaYn12x3Q9WfVZ909db+t41r
- DAf2WOsPHyzuBymarpRq52tsBQifS6TvgKYAHdIcIDLbSzfSplU7TasnbKI/7dNaT505
- Rh/k4XOXcD/9o1odLd7cNw4zjdpyg7QR3sNb+CVmKsO9wxTpV7G3FLgbalchYAMJN2Cs
- X9aTWocjHc3GWUQRXDGzNvi/lzfjqsb/nQfAC/aX1Owe7zT23kUpPyqvh60uNzlzn4XK
- 1V6+kYk08U1Gdm2WKzhy761d+z6n8c95nX2d0Va8pT2TgmM3n3vyORymfMcj5Xcu/7tl
- sfcg==
-X-Gm-Message-State: AFqh2koJ78JvnalNbvvL4I4c8RzOxhB1SfycJp9mvB7EDfzjFG2pZHbx
- kO6KbA/x9wazfjNPDvfKcfPFHg==
-X-Google-Smtp-Source: AMrXdXt5IGcYtNL1tB8lr5UwKavyz1rdNmCt8HELNfpCRGah+6ICx4thtkyqdStx1QSYJSqC9i5rvA==
-X-Received: by 2002:a17:90b:70a:b0:227:62:8169 with SMTP id
- s10-20020a17090b070a00b0022700628169mr8333960pjz.35.1673329960504; 
- Mon, 09 Jan 2023 21:52:40 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:fbd5:d294:fb18:71f9?
- ([2602:47:d48c:8101:fbd5:d294:fb18:71f9])
- by smtp.gmail.com with ESMTPSA id
- fs7-20020a17090af28700b00218abadb6a8sm6392857pjb.49.2023.01.09.21.52.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 21:52:39 -0800 (PST)
-Message-ID: <c1541118-b5fc-d39c-cfc9-e4fa2d83c801@linaro.org>
-Date: Mon, 9 Jan 2023 21:52:38 -0800
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pF7ft-0007bc-DV
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 00:59:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1673330388; bh=IQswRJ3mNTU2rW5CB8ekxkuMTpc6VFiPyScNDj65O6E=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
+ b=uDAO4jcip6hhG13sRDD1TCwo0Uy/ZDmUpsQI5dm6JQeRwMERoUDWoefNyRxPifmxaggFFP7k+Klch+9QGaefYYZjP8wGtpPRBm8LkkUH9JJHOvmgGWjvWSKRq0ArOnuJrReNrYwkQ5Ym9C6/Z8zr3J70MfvrFS+tKTPx3Ry3JCwvCuqIMMDkSPI4d3H2xAThT0XlCvna6iRc+wO9gNbDsdQ9avTo8OPMPSBa4LKKtOehMEltjciFzvl6RqBFKS4t2ntuw8vAoEJ/yLLnLoXltaq7WUm1lpArzqU3tKsWCCajiSnfBjxikpYcSMF67SaOgH2q8erCgSXhTY+MjlxbbQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1673330388; bh=LZqtAdaC54vL/ejVGshCmWeWyIi/se6my3VUn5Dvwku=;
+ h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
+ b=riia0ZVjp6RfB8x36IDIyJla5JSgDYpM0brW+qZKNvGQduPP+3hW6fTptr9Fe7wLst4DmdyMTRnfEoZd15fNojl/Igcu97YD5WsxFloHZt9cpOVxxhIzhhb8R6o0BRJzypgEFGhHU4SFrQS7QRKpYit0635OhZ3fC7rNn3Nwy994hNUYBiKXCH1bRjbi+4aYJJztwVW6i/AZXNrLDOrZ2IUGpa9KSQoMZbR7OQdSC8YJCSCP8mjYiQtD8ezAqUrjFyNq1Rdm4LffKIsG7bGs1TWF31DU/x7Xb9UyV3KlSDQJucbD914Tz1PiToTyGbuuLN9jbiqCyFXbzZ+ik6T9+A==
+X-YMail-OSG: L4UlU_MVM1leDEms_BcRLMUJc.6udPFe1VgzSYs9.g3zFCK3S7ZEr18nxUJJtnY
+ ciVYSmIVPGDtams3XtAwHf_5Q6ILQOZ6zcYHq_fDFTVYAWlQw_cz_79xklgKkisEhs8PLATiILFk
+ zLPiUqdQ3WF2Kbde9ZLavisvZkcmb_EEq2JXMTGqX47_mbuGqqsXVAwWCC7F6FQ0YBM3qEx_cr8A
+ dgIhYpGvipfbYcew6KQFDt13QfdTMb0X92chYEX7F_Qq40JSYXhcyF2I2yEfhHnJLiXOHCFU4qCd
+ Ani6DWHP9.sRfmmmvb0BGKSlGg7she7RQRZRc9fByontYFDIVOVE58jlv8hUG8IvyK8dPGTtu8E3
+ MBx_tKSaAUg928xVgxYsEE_lF9Wsx6h7ZdJxa5SM1ycc75GkXtjEWUAiIu1UEtypcrZbrklXsWZT
+ KebkKCKtklzLYJbEWDSgqtZe1zHu6yZ1UE6jrQjcAl.EkGC6T48gJVy_q60Qz7A0GXtZjFEuUvoA
+ lF.yk0YgTxRMxsxhhkd.1Ra4366vn_hEbvtswegcdSLYp5jTzni_Qz4eWhh4JnpzpPA0EMDMwmSP
+ Rgb9YsWyhQHCGx4O6SLIxBI.LK8.2PN0rMIWwojeMHF4lheGmO2FD3wT606w770xIeEgRdE07W2C
+ BHrLKQ_vYR3pAilt.l_Ds66Aar47ZgGhcYvL.ArirvAsD94OotjqNLxMWso_iG16xOaan0RzJ4Aq
+ aOT1h3QiMehNdF4_P3roQJnRkCpzaEiPtcMW_z.ZBCq.kYaWM4bIqo9V78ugAKYYWSe.tS3QOMgt
+ BKUgw1dKYse7cBe7hnrCEqhkjW0yXvFOrsUlCoEO2l.njf71KoAwFmvit6XYL02MTqomPqBCXNpH
+ mCBzaF_8E6gzQebzU0yX3FRBW3k4MrfylZTji1pN69uOl_9mdcH10mGdiBPIio7v7MtZup3JPr2n
+ fAhet_x77uZq9CSoLwIhxEVcZChfkCADN7vMEabiLVuZNtKPXrHdsYNeXSLoOld1wR.Sufddxs.A
+ DtfeXcEUqvbBgBc4970Y7UTWNCd2N72hHOTgClYNUOW0zPi10SRL0UTYjw8ZrzUDrHnAPqikvcnx
+ XSow69zQJqdcFSajakkka_cBVWTf9AO1kL2pfZuF1DOZPbMdIMRLXerym0lR2DhapuGriv5n8LhI
+ .KBr9EDrLeTj9HRwBnOgzi3BKX9sgSEoDrlmxP5A7SV2crk1TbPwXFmWkIeO15Wey37E0ADYmLEO
+ rIOLwF_qq3Lwj5JCOSHX30uFdax64CCdHAlZmBi5mXANvGGi6R8GY8ley7mbcT0K6CK5s_y3qGGN
+ oGD.QPsapvby01QGSdJdZLKClSJRtkxVYQ54_Fuc15LVuwAatxQWbsBY3HZ5JFd8CMFaNE0NT9MV
+ j6aGCl9UYQaF27OwcWFoaIGXevW3htJXIQLbBirn5Ked75fWyiwJBHSPawVNTgLPtNgkH4lOt51S
+ KaXCn8rPmX.DqsyhCAXOA0csJEY_HIZpQUbkMrqSGDp_7ivRmda65e90cgbwOLfxXhqVrRctpT.T
+ D4mxvFwthNKrE0vXJ6w4HcmINGhe2LI.lBdZcPgUg0ik24xbURgymsCHYi17gE23r9f3N0JK65dc
+ DO735PWN5eJLQ_pLWO7BFkiP8E_EjBqPXT6EC_6NXKueHEkm5ay_Y12DN2dZZ0Hv_7zMFZAlZQLC
+ upAERu.3Salf5p3hvF_JWl82VllHqNO2XaZNMYQzPrtxcuBGzLKSUEe06cOMs1Orkbo1yQ.JfR1I
+ rjVbnY6eCU3N3Jk0KhtnVsvO_wisdhBRGU.iq4DvYNHNfGcuzZr5op69jZ9vi.UdL8oCfkUb8JjI
+ i0jva1QxsasNWFRtmzwySoyFdW6Y2xexRJztBR2I_U1qAfHaWY194dxSh07lbTEPB_WCF3CoA42o
+ O6e5ZiVQETuEp4iJZxjf53z0QcxbgEu1EmydIfZwwUQq.sb4EB8QGygdZ4QGIPmHwxwpduXmDnnb
+ SHPd_nDD3FoGCybQ6RUF6Q5mCr9BFRouIicx_F_3IBZqhZA2smKMZNSd9PCCGSj5g9RFJbm.uqO3
+ .BORoGiJ8GR7Rveyl_fIbeTMSqVIMTlKZ0781olKwxCz5_qNiZlT_pKzvbc2wyuoC_9dkBf3eGxC
+ NQnqnYR1CDuOt_ZQTZrfbA73JBiw0uWzSlWzOLkx7MOPj.jDzbKBZHp_sxGrqQthnbJb5jAlNzKM
+ dJzKAOfDMkHUg
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic317.consmr.mail.gq1.yahoo.com with HTTP; Tue, 10 Jan 2023 05:59:48 +0000
+Received: by hermes--production-ne1-7b69748c4d-bgkrh (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID a8406ef0cbcbedb2d3599d546f1be4ba; 
+ Tue, 10 Jan 2023 05:59:46 +0000 (UTC)
+Message-ID: <5d8b4bfd-92b3-e63a-58fa-b2dc953a7ee5@aol.com>
+Date: Tue, 10 Jan 2023 00:59:44 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH v2 07/19] target/arm: Move helper_set_pstate_* into
- cpregs.c
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v7] xen/pt: reserve PCI slot 2 for Intel igd-passthru
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-References: <20230109224232.11661-1-farosas@suse.de>
- <20230109224232.11661-8-farosas@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230109224232.11661-8-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, xen-devel@lists.xenproject.org
+References: <8349506149de6d81b0762f17623552c248439e93.1673297742.git.brchuckz.ref@aol.com>
+ <8349506149de6d81b0762f17623552c248439e93.1673297742.git.brchuckz@aol.com>
+ <20230109183132-mutt-send-email-mst@kernel.org>
+ <aacffaa2-1e86-1392-8302-484248b893c4@aol.com>
+ <20230110002712-mutt-send-email-mst@kernel.org>
+From: Chuck Zmudzinski <brchuckz@aol.com>
+In-Reply-To: <20230110002712-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.20982
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.66.148; envelope-from=brchuckz@aim.com;
+ helo=sonic317-22.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.096,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,15 +111,347 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/9/23 14:42, Fabiano Rosas wrote:
-> We want to move sme_helper into the tcg directory, but the cpregs
-> accessor functions cannot go along, otherwise they would be separate
-> from the respective ARMCPRegInfo definition which needs to be compiled
-> with CONFIG_TCG=n as well.
+On 1/10/2023 12:27 AM, Michael S. Tsirkin wrote:
+> On Mon, Jan 09, 2023 at 07:05:35PM -0500, Chuck Zmudzinski wrote:
+> > On 1/9/23 6:33 PM, Michael S. Tsirkin wrote:
+> > > On Mon, Jan 09, 2023 at 04:55:42PM -0500, Chuck Zmudzinski wrote:
+> > >> Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
+> > >> as noted in docs/igd-assign.txt in the Qemu source code.
+> > >> 
+> > >> Currently, when the xl toolstack is used to configure a Xen HVM guest with
+> > >> Intel IGD passthrough to the guest with the Qemu upstream device model,
+> > >> a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
+> > >> a different slot. This problem often prevents the guest from booting.
+> > >> 
+> > >> The only available workaround is not good: Configure Xen HVM guests to use
+> > >> the old and no longer maintained Qemu traditional device model available
+> > >> from xenbits.xen.org which does reserve slot 2 for the Intel IGD.
+> > >> 
+> > >> To implement this feature in the Qemu upstream device model for Xen HVM
+> > >> guests, introduce the following new functions, types, and macros:
+> > >> 
+> > >> * XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
+> > >> * XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
+> > >> * typedef XenPTQdevRealize function pointer
+> > >> * XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
+> > >> * xen_igd_reserve_slot and xen_igd_clear_slot functions
+> > >> 
+> > >> The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
+> > >> member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
+> > >> the xl toolstack with the gfx_passthru option enabled, which sets the
+> > >> igd-passthru=on option to Qemu for the Xen HVM machine type.
+> > >> 
+> > >> The new xen_igd_reserve_slot function also needs to be implemented in
+> > >> hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
+> > >> when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
+> > >> in which case it does nothing.
+> > >> 
+> > >> The new xen_igd_clear_slot function overrides qdev->realize of the parent
+> > >> PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
+> > >> since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
+> > >> created in hw/i386/pc_piix.c for the case when igd-passthru=on.
+> > >> 
+> > >> Move the call to xen_host_pci_device_get, and the associated error
+> > >> handling, from xen_pt_realize to the new xen_igd_clear_slot function to
+> > >> initialize the device class and vendor values which enables the checks for
+> > >> the Intel IGD to succeed. The verification that the host device is an
+> > >> Intel IGD to be passed through is done by checking the domain, bus, slot,
+> > >> and function values as well as by checking that gfx_passthru is enabled,
+> > >> the device class is VGA, and the device vendor in Intel.
+> > >> 
+> > >> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+> > >> ---
+> > >> Notes that might be helpful to reviewers of patched code in hw/xen:
+> > >> 
+> > >> The new functions and types are based on recommendations from Qemu docs:
+> > >> https://qemu.readthedocs.io/en/latest/devel/qom.html
+> > >> 
+> > >> Notes that might be helpful to reviewers of patched code in hw/i386:
+> > >> 
+> > >> The small patch to hw/i386/pc_piix.c is protected by CONFIG_XEN so it does
+> > >> not affect builds that do not have CONFIG_XEN defined.
+> > > 
+> > > I'm not sure how you can claim that.
+> > 
+> > I mean the small patch to pc_piix.c in this patch sits
+> > between an "#ifdef CONFIG_XEN" and the corresponding
+> > "#endif" so the preprocessor will exclude it when CONFIG_XEN
+> > is not defined. In other words, my patch is part of the
+> > xen-specific code in pc_piix.c. Or am I missing something?
+> > 
+> > 
+> > > 
+> > > ...
+> > > 
+> > >> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> > >> index b48047f50c..34a9736b5e 100644
+> > >> --- a/hw/i386/pc_piix.c
+> > >> +++ b/hw/i386/pc_piix.c
+> > >> @@ -32,6 +32,7 @@
+> > >>  #include "hw/i386/pc.h"
+> > >>  #include "hw/i386/apic.h"
+> > >>  #include "hw/pci-host/i440fx.h"
+> > >> +#include "hw/rtc/mc146818rtc.h"
+> > >>  #include "hw/southbridge/piix.h"
+> > >>  #include "hw/display/ramfb.h"
+> > >>  #include "hw/firmware/smbios.h"
+> > >> @@ -40,16 +41,16 @@
+> > >>  #include "hw/usb.h"
+> > >>  #include "net/net.h"
+> > >>  #include "hw/ide/pci.h"
+> > >> -#include "hw/ide/piix.h"
+> > >>  #include "hw/irq.h"
+> > >>  #include "sysemu/kvm.h"
+> > >>  #include "hw/kvm/clock.h"
+> > >>  #include "hw/sysbus.h"
+> > >> +#include "hw/i2c/i2c.h"
+> > >>  #include "hw/i2c/smbus_eeprom.h"
+> > >>  #include "hw/xen/xen-x86.h"
+> > >> +#include "hw/xen/xen.h"
+> > >>  #include "exec/memory.h"
+> > >>  #include "hw/acpi/acpi.h"
+> > >> -#include "hw/acpi/piix4.h"
+> > >>  #include "qapi/error.h"
+> > >>  #include "qemu/error-report.h"
+> > >>  #include "sysemu/xen.h"
+> > >> @@ -66,6 +67,7 @@
+> > >>  #include "kvm/kvm-cpu.h"
+> > >>  
+> > >>  #define MAX_IDE_BUS 2
+> > >> +#define XEN_IOAPIC_NUM_PIRQS 128ULL
+> > >>  
+> > >>  #ifdef CONFIG_IDE_ISA
+> > >>  static const int ide_iobase[MAX_IDE_BUS] = { 0x1f0, 0x170 };
+> > >> @@ -73,6 +75,32 @@ static const int ide_iobase2[MAX_IDE_BUS] = { 0x3f6, 0x376 };
+> > >>  static const int ide_irq[MAX_IDE_BUS] = { 14, 15 };
+> > >>  #endif
+> > >>  
+> > >> +/*
+> > >> + * Return the global irq number corresponding to a given device irq
+> > >> + * pin. We could also use the bus number to have a more precise mapping.
+> > >> + */
+> > >> +static int pci_slot_get_pirq(PCIDevice *pci_dev, int pci_intx)
+> > >> +{
+> > >> +    int slot_addend;
+> > >> +    slot_addend = PCI_SLOT(pci_dev->devfn) - 1;
+> > >> +    return (pci_intx + slot_addend) & 3;
+> > >> +}
+> > >> +
+> > >> +static void piix_intx_routing_notifier_xen(PCIDevice *dev)
+> > >> +{
+> > >> +    int i;
+> > >> +
+> > >> +    /* Scan for updates to PCI link routes (0x60-0x63). */
+> > >> +    for (i = 0; i < PIIX_NUM_PIRQS; i++) {
+> > >> +        uint8_t v = dev->config_read(dev, PIIX_PIRQCA + i, 1);
+> > >> +        if (v & 0x80) {
+> > >> +            v = 0;
+> > >> +        }
+> > >> +        v &= 0xf;
+> > >> +        xen_set_pci_link_route(i, v);
+> > >> +    }
+> > >> +}
+> > >> +
+> > >>  /* PC hardware initialisation */
+> > >>  static void pc_init1(MachineState *machine,
+> > >>                       const char *host_type, const char *pci_type)
+> > >> @@ -84,7 +112,7 @@ static void pc_init1(MachineState *machine,
+> > >>      MemoryRegion *system_io = get_system_io();
+> > >>      PCIBus *pci_bus;
+> > >>      ISABus *isa_bus;
+> > >> -    int piix3_devfn = -1;
+> > >> +    Object *piix4_pm;
+> > >>      qemu_irq smi_irq;
+> > >>      GSIState *gsi_state;
+> > >>      BusState *idebus[MAX_IDE_BUS];
+> > >> @@ -205,10 +233,9 @@ static void pc_init1(MachineState *machine,
+> > >>      gsi_state = pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
+> > >>  
+> > >>      if (pcmc->pci_enabled) {
+> > >> -        PIIX3State *piix3;
+> > >> +        DeviceState *dev;
+> > >>          PCIDevice *pci_dev;
+> > >> -        const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
+> > >> -                                         : TYPE_PIIX3_DEVICE;
+> > >> +        int i;
+> > >>  
+> > >>          pci_bus = i440fx_init(pci_type,
+> > >>                                i440fx_host,
+> > >> @@ -216,21 +243,65 @@ static void pc_init1(MachineState *machine,
+> > >>                                x86ms->below_4g_mem_size,
+> > >>                                x86ms->above_4g_mem_size,
+> > >>                                pci_memory, ram_memory);
+> > >> +        pci_bus_map_irqs(pci_bus,
+> > >> +                         xen_enabled() ? xen_pci_slot_get_pirq
+> > >> +                                       : pci_slot_get_pirq);
+> > >>          pcms->bus = pci_bus;
+> > >>  
+> > >> -        pci_dev = pci_create_simple_multifunction(pci_bus, -1, true, type);
+> > >> -        piix3 = PIIX3_PCI_DEVICE(pci_dev);
+> > >> -        piix3->pic = x86ms->gsi;
+> > >> -        piix3_devfn = piix3->dev.devfn;
+> > >> -        isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
+> > >> +        pci_dev = pci_new_multifunction(-1, true, TYPE_PIIX3_DEVICE);
+> > >> +        object_property_set_bool(OBJECT(pci_dev), "has-usb",
+> > >> +                                 machine_usb(machine), &error_abort);
+> > >> +        object_property_set_bool(OBJECT(pci_dev), "has-acpi",
+> > >> +                                 x86_machine_is_acpi_enabled(x86ms),
+> > >> +                                 &error_abort);
+> > >> +        qdev_prop_set_uint32(DEVICE(pci_dev), "smb_io_base", 0xb100);
+> > >> +        object_property_set_bool(OBJECT(pci_dev), "smm-enabled",
+> > >> +                                 x86_machine_is_smm_enabled(x86ms),
+> > >> +                                 &error_abort);
+> > >> +        pci_realize_and_unref(pci_dev, pci_bus, &error_fatal);
+> > >> +
+> > >> +        if (xen_enabled()) {
+> > >> +            pci_device_set_intx_routing_notifier(
+> > >> +                        pci_dev, piix_intx_routing_notifier_xen);
+> > >> +
+> > >> +            /*
+> > >> +             * Xen supports additional interrupt routes from the PCI devices to
+> > >> +             * the IOAPIC: the four pins of each PCI device on the bus are also
+> > >> +             * connected to the IOAPIC directly.
+> > >> +             * These additional routes can be discovered through ACPI.
+> > >> +             */
+> > >> +            pci_bus_irqs(pci_bus, xen_intx_set_irq, pci_dev,
+> > >> +                         XEN_IOAPIC_NUM_PIRQS);
+> > >> +        }
+> > >> +
+> > >> +        dev = DEVICE(object_resolve_path_component(OBJECT(pci_dev), "pic"));
+> > >> +        for (i = 0; i < ISA_NUM_IRQS; i++) {
+> > >> +            qdev_connect_gpio_out(dev, i, x86ms->gsi[i]);
+> > >> +        }
+> > >> +        isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(pci_dev), "isa.0"));
+> > >> +        rtc_state = ISA_DEVICE(object_resolve_path_component(OBJECT(pci_dev),
+> > >> +                                                             "rtc"));
+> > >> +        piix4_pm = object_resolve_path_component(OBJECT(pci_dev), "pm");
+> > >> +        dev = DEVICE(object_resolve_path_component(OBJECT(pci_dev), "ide"));
+> > >> +        pci_ide_create_devs(PCI_DEVICE(dev));
+> > >> +        idebus[0] = qdev_get_child_bus(dev, "ide.0");
+> > >> +        idebus[1] = qdev_get_child_bus(dev, "ide.1");
+> > >>      } else {
+> > >>          pci_bus = NULL;
+> > >> +        piix4_pm = NULL;
+> > >>          isa_bus = isa_bus_new(NULL, get_system_memory(), system_io,
+> > >>                                &error_abort);
+> > >> +        isa_bus_irqs(isa_bus, x86ms->gsi);
+> > >> +
+> > >> +        rtc_state = isa_new(TYPE_MC146818_RTC);
+> > >> +        qdev_prop_set_int32(DEVICE(rtc_state), "base_year", 2000);
+> > >> +        isa_realize_and_unref(rtc_state, isa_bus, &error_fatal);
+> > >> +
+> > >>          i8257_dma_init(isa_bus, 0);
+> > >>          pcms->hpet_enabled = false;
+> > >> +        idebus[0] = NULL;
+> > >> +        idebus[1] = NULL;
+> > >>      }
+> > >> -    isa_bus_irqs(isa_bus, x86ms->gsi);
+> > >>  
+> > >>      if (x86ms->pic == ON_OFF_AUTO_ON || x86ms->pic == ON_OFF_AUTO_AUTO) {
+> > >>          pc_i8259_create(isa_bus, gsi_state->i8259_irq);
+> > >> @@ -252,18 +323,12 @@ static void pc_init1(MachineState *machine,
+> > >>      }
+> > >>  
+> > >>      /* init basic PC hardware */
+> > >> -    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, &rtc_state, true,
+> > >> +    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, rtc_state, true,
+> > >>                           0x4);
+> > >>  
+> > >>      pc_nic_init(pcmc, isa_bus, pci_bus);
+> > >>  
+> > >>      if (pcmc->pci_enabled) {
+> > >> -        PCIDevice *dev;
+> > >> -
+> > >> -        dev = pci_create_simple(pci_bus, piix3_devfn + 1, TYPE_PIIX3_IDE);
+> > >> -        pci_ide_create_devs(dev);
+> > >> -        idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
+> > >> -        idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
+> > >>          pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
+> > >>      }
+> > >>  #ifdef CONFIG_IDE_ISA
+> > >> @@ -289,21 +354,9 @@ static void pc_init1(MachineState *machine,
+> > >>      }
+> > >>  #endif
+> > >>  
+> > >> -    if (pcmc->pci_enabled && machine_usb(machine)) {
+> > >> -        pci_create_simple(pci_bus, piix3_devfn + 2, "piix3-usb-uhci");
+> > >> -    }
+> > >> -
+> > >> -    if (pcmc->pci_enabled && x86_machine_is_acpi_enabled(X86_MACHINE(pcms))) {
+> > >> -        PCIDevice *piix4_pm;
+> > >> -
+> > >> +    if (piix4_pm) {
+> > >>          smi_irq = qemu_allocate_irq(pc_acpi_smi_interrupt, first_cpu, 0);
+> > >> -        piix4_pm = pci_new(piix3_devfn + 3, TYPE_PIIX4_PM);
+> > >> -        qdev_prop_set_uint32(DEVICE(piix4_pm), "smb_io_base", 0xb100);
+> > >> -        qdev_prop_set_bit(DEVICE(piix4_pm), "smm-enabled",
+> > >> -                          x86_machine_is_smm_enabled(x86ms));
+> > >> -        pci_realize_and_unref(piix4_pm, pci_bus, &error_fatal);
+> > >>  
+> > >> -        qdev_connect_gpio_out(DEVICE(piix4_pm), 0, x86ms->gsi[9]);
+> > >>          qdev_connect_gpio_out_named(DEVICE(piix4_pm), "smi-irq", 0, smi_irq);
+> > >>          pcms->smbus = I2C_BUS(qdev_get_child_bus(DEVICE(piix4_pm), "i2c"));
+> > >>          /* TODO: Populate SPD eeprom data.  */
+> > >> @@ -315,7 +368,7 @@ static void pc_init1(MachineState *machine,
+> > >>                                   object_property_allow_set_link,
+> > >>                                   OBJ_PROP_LINK_STRONG);
+> > >>          object_property_set_link(OBJECT(machine), PC_MACHINE_ACPI_DEVICE_PROP,
+> > >> -                                 OBJECT(piix4_pm), &error_abort);
+> > >> +                                 piix4_pm, &error_abort);
+> > >>      }
+> > >>  
+> > >>      if (machine->nvdimms_state->is_enabled) {
+> > >> @@ -405,6 +458,9 @@ static void pc_xen_hvm_init(MachineState *machine)
+> > >>      }
+> > >>  
+> > >>      pc_xen_hvm_init_pci(machine);
+> > >> +    if (xen_igd_gfx_pt_enabled()) {
+> > >> +        xen_igd_reserve_slot(pcms->bus);
+> > >> +    }
+> > >>      pci_create_simple(pcms->bus, -1, "xen-platform");
+> > >>  }
+> > >>  #endif
+> > >> @@ -441,6 +497,11 @@ static void pc_i440fx_8_0_machine_options(MachineClass *m)
+> > >>      pc_i440fx_machine_options(m);
+> > >>      m->alias = "pc";
+> > >>      m->is_default = true;
+> > >> +#ifdef CONFIG_MICROVM_DEFAULT
+> > >> +    m->is_default = false;
+> > >> +#else
+> > >> +    m->is_default = true;
+> > >> +#endif
+> > >>  }
+> > >>  
+> > >>  DEFINE_I440FX_MACHINE(v8_0, "pc-i440fx-8.0", NULL,
+> > > 
+> > > 
+> > > Lots of changes here not guarded by CONFIG_XEN.
+> > > 
+> > 
+> > What diff is this? How is my patch related to it?
+>
+>
+> This is what you posted, take a look:
+> https://lore.kernel.org/all/8349506149de6d81b0762f17623552c248439e93.1673297742.git.brchuckz@aol.com/
+>
+>
 
-Hmm.  I would have hoped these could stay tcg-only, somehow.
-I wonder if it warrants being an ARM_CP_SPECIAL_MASK value instead of svcr_write.
+Oops, I think I sent the wrong patch here. I must have used the wrong git
+branch. Sorry.
 
+I wouldn't blame you if you ignore future messages from me.
 
-r~
+I will get it right next time if there is a next time with v8. Linus
+named git a stupid content tracker. And in this case, it was
+too stupid to warn me that the patch it sent on my behalf is
+not what I expected it to be. Or maybe I am the stupid one, LOL.
+
+I hope no one is stupid enough to consider v7 of my patch any
+further! And the fact that this stupidity of mine is preserved for
+all future generations is so sweet - one of the benefits of trying
+to help out in FLOSS projects, LOL.
+
+Kind regards,
+
+Chuck
 
