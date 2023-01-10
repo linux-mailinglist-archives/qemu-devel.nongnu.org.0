@@ -2,100 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32009664C65
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 20:24:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB650664C1F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 20:14:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFIb8-0003XU-9I; Tue, 10 Jan 2023 12:39:42 -0500
+	id 1pFIkH-00087b-Ob; Tue, 10 Jan 2023 12:49:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIb5-0003Uh-2U
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:39 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFIb0-0001Dp-Uf
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:39:38 -0500
-Received: by mail-wr1-x431.google.com with SMTP id bn26so12618214wrb.0
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:39:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CPdVE2hCd/x5Gl1DBAkwRbdDFsCMANSJgVBRMiSNU68=;
- b=Bsex59+yEYVB/GABeTSnBAQEghj28lXiJ0latzWwi6j4CigPrKz3uIF7jmGPFv/Gpm
- oWYDqR4M/UZqXEMRcFlsf/u4UHH0RHyj1dgsambVht3UnsavC9IIsvrLLrgg9OYJabtj
- /ZxIhIdr/NBBk8QrVrsnz39qSQweYFcnvqXyFf/4NVXNpbcHo+1V25TN3ukUDivCnNSe
- 3eesdanScDDznpyMs7uDzHetsPXiIutyQ4rlWHqsYF7VsjfouWjjNghQA2bH9yPNgcyw
- sPuBN7FGFfMc0xp/Mzz1GRUzUyLAvYXoRe6pz5id3aQIQ5ulT+ATjh907KadRU8lX++p
- ae/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CPdVE2hCd/x5Gl1DBAkwRbdDFsCMANSJgVBRMiSNU68=;
- b=4qDFHV/ifnzmRkLbDYv02fROamgBApvYHT2VMYdeSJlIw4DaR+RnJ1XFwChycndsDJ
- l1K//w5fb4P/zo8Gapis5AayYuVbu/4S8Hiq0yHl3MOMf8knrJoMuFuWkhIC9qBENEmc
- PmSSbKXwJNNBv+mSPd9V/zfxCMidfeRI5R8tDI/FSRX+LUJUhwD5lNlcNnnlyvVm/OVg
- bUuDvnUeeGqUaXaqDjTt3m/r7S3oyMGEb8rJDqCtD6Zy/0tI65yCdhO2VI+BI284/3+B
- xggjCa0jqxojtSP57YkAWJB3BTp4CTUNLg/4d/nx+4Nwh9RBzUbGHcS8R9qhKrNIBY6l
- V8og==
-X-Gm-Message-State: AFqh2krWYJ39zuNFP9mOGv9/dnHTDjTDqzksYFsU8MS2d8htV6kCEvqV
- GvND4i61iuaYDrKflc9+KnFPgw==
-X-Google-Smtp-Source: AMrXdXtbGwyPlgChcWlvW0VdfdzO7eCeQ5yOMD2RFsGc6OWjsr/gQrfEoO7ojJ+FfHoV5apr9wrn0g==
-X-Received: by 2002:a5d:5707:0:b0:2b9:d6ba:21f1 with SMTP id
- a7-20020a5d5707000000b002b9d6ba21f1mr12188374wrv.21.1673372374149; 
- Tue, 10 Jan 2023 09:39:34 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- j15-20020a5d452f000000b0028f9132e9ddsm11737129wra.39.2023.01.10.09.39.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 09:39:32 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 45F431FFC9;
- Tue, 10 Jan 2023 17:39:25 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pFIkF-00086q-FO
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:49:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pFIkD-0003w8-OX
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:49:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673372944;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0R9c36dUPkxVfUdC6xt18GAxmAgzKuQk+BRV0TpVB1c=;
+ b=EjJZiYUA3NnB8gpvcAxOOboDdQpBL0VIaxzhg37afk1Pi+eZiNmPBjEHlHgsxU4DL0JS+p
+ cciQmm2zMu0wDfddsIaNMMSnimhm5FS4F45RRhDAm2ZNVVoqeltZUZDIETpPrM2rd59/tZ
+ vQ3EFxzCGR1I7GgOisf1pVsfzyLBrAo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-256-gEk_rHA4MoSXcxY0wq72xg-1; Tue, 10 Jan 2023 12:49:02 -0500
+X-MC-Unique: gEk_rHA4MoSXcxY0wq72xg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 586CB101A52E;
+ Tue, 10 Jan 2023 17:49:02 +0000 (UTC)
+Received: from virtlab420.virt.lab.eng.bos.redhat.com
+ (virtlab420.virt.lab.eng.bos.redhat.com [10.19.152.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21723492C18;
+ Tue, 10 Jan 2023 17:49:02 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Alexandre Iooss <erdnaxe@crans.org>, Beraldo Leal <bleal@redhat.com>,
- Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Ed Maste <emaste@freebsd.org>, Yanan Wang <wangyanan55@huawei.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-arm@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- John G Johnson <john.g.johnson@oracle.com>, Emilio Cota <cota@braap.org>
-Subject: [PATCH 18/26] cpu: free cpu->tb_jmp_cache with RCU
-Date: Tue, 10 Jan 2023 17:39:14 +0000
-Message-Id: <20230110173922.265055-19-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230110173922.265055-1-alex.bennee@linaro.org>
-References: <20230110173922.265055-1-alex.bennee@linaro.org>
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 2/2] Revert "linux-user: fix compat with glibc >= 2.36
+ sys/mount.h"
+Date: Tue, 10 Jan 2023 12:49:01 -0500
+Message-Id: <20230110174901.2580297-3-berrange@redhat.com>
+In-Reply-To: <20230110174901.2580297-1-berrange@redhat.com>
+References: <20230110174901.2580297-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,103 +84,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Emilio Cota <cota@braap.org>
+This reverts commit 3cd3df2a9584e6f753bb62a0028bd67124ab5532.
 
-Fixes the appended use-after-free. The root cause is that
-during tb invalidation we use CPU_FOREACH, and therefore
-to safely free a vCPU we must wait for an RCU grace period
-to elapse.
+glibc has fixed (in 2.36.9000-40-g774058d729) the problem
+that caused a clash when both sys/mount.h annd linux/mount.h
+are included, and backported this to the 2.36 stable release
+too:
 
-$ x86_64-linux-user/qemu-x86_64 tests/tcg/x86_64-linux-user/munmap-pthread
-=================================================================
-==1800604==ERROR: AddressSanitizer: heap-use-after-free on address 0x62d0005f7418 at pc 0x5593da6704eb bp 0x7f4961a7ac70 sp 0x7f4961a7ac60
-READ of size 8 at 0x62d0005f7418 thread T2
-    #0 0x5593da6704ea in tb_jmp_cache_inval_tb ../accel/tcg/tb-maint.c:244
-    #1 0x5593da6704ea in do_tb_phys_invalidate ../accel/tcg/tb-maint.c:290
-    #2 0x5593da670631 in tb_phys_invalidate__locked ../accel/tcg/tb-maint.c:306
-    #3 0x5593da670631 in tb_invalidate_phys_page_range__locked ../accel/tcg/tb-maint.c:542
-    #4 0x5593da67106d in tb_invalidate_phys_range ../accel/tcg/tb-maint.c:614
-    #5 0x5593da6a64d4 in target_munmap ../linux-user/mmap.c:766
-    #6 0x5593da6dba05 in do_syscall1 ../linux-user/syscall.c:10105
-    #7 0x5593da6f564c in do_syscall ../linux-user/syscall.c:13329
-    #8 0x5593da49e80c in cpu_loop ../linux-user/x86_64/../i386/cpu_loop.c:233
-    #9 0x5593da6be28c in clone_func ../linux-user/syscall.c:6633
-    #10 0x7f496231cb42 in start_thread nptl/pthread_create.c:442
-    #11 0x7f49623ae9ff  (/lib/x86_64-linux-gnu/libc.so.6+0x1269ff)
+  https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
 
-0x62d0005f7418 is located 28696 bytes inside of 32768-byte region [0x62d0005f0400,0x62d0005f8400)
-freed by thread T148 here:
-    #0 0x7f49627b6460 in __interceptor_free ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:52
-    #1 0x5593da5ac057 in cpu_exec_unrealizefn ../cpu.c:180
-    #2 0x5593da81f851  (/home/cota/src/qemu/build/qemu-x86_64+0x484851)
+It is saner for QEMU to remove the workaround it applied for
+glibc 2.36 and expect distros to ship the 2.36 maint release
+with the fix. This avoids needing to add a further workaround
+to QEMU to deal with the fact that linux/brtfs.h now also pulls
+in linux/mount.h via linux/fs.h since Linux 6.1
 
-Signed-off-by: Emilio Cota <cota@braap.org>
-Message-Id: <20230109224954.161672-2-cota@braap.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- accel/tcg/tb-jmp-cache.h |  1 +
- accel/tcg/cpu-exec.c     |  3 +--
- cpu.c                    | 11 ++++++++++-
- 3 files changed, 12 insertions(+), 3 deletions(-)
+ linux-user/syscall.c | 18 ------------------
+ meson.build          |  2 --
+ 2 files changed, 20 deletions(-)
 
-diff --git a/accel/tcg/tb-jmp-cache.h b/accel/tcg/tb-jmp-cache.h
-index ff5ffc8fc2..b3f6e78835 100644
---- a/accel/tcg/tb-jmp-cache.h
-+++ b/accel/tcg/tb-jmp-cache.h
-@@ -18,6 +18,7 @@
-  * a load_acquire/store_release to 'tb'.
-  */
- struct CPUJumpCache {
-+    struct rcu_head rcu;
-     struct {
-         TranslationBlock *tb;
- #if TARGET_TB_PCREL
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 356fe348de..6bd29227f3 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -1064,13 +1064,12 @@ void tcg_exec_realizefn(CPUState *cpu, Error **errp)
- /* undo the initializations in reverse order */
- void tcg_exec_unrealizefn(CPUState *cpu)
- {
--    qemu_plugin_vcpu_exit_hook(cpu);
- #ifndef CONFIG_USER_ONLY
-     tcg_iommu_free_notifier_list(cpu);
- #endif /* !CONFIG_USER_ONLY */
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 9c1e9555e1..f2b7634f5e 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -95,25 +95,7 @@
+ #include <linux/soundcard.h>
+ #include <linux/kd.h>
+ #include <linux/mtio.h>
+-
+-#ifdef HAVE_SYS_MOUNT_FSCONFIG
+-/*
+- * glibc >= 2.36 linux/mount.h conflicts with sys/mount.h,
+- * which in turn prevents use of linux/fs.h. So we have to
+- * define the constants ourselves for now.
+- */
+-#define FS_IOC_GETFLAGS                _IOR('f', 1, long)
+-#define FS_IOC_SETFLAGS                _IOW('f', 2, long)
+-#define FS_IOC_GETVERSION              _IOR('v', 1, long)
+-#define FS_IOC_SETVERSION              _IOW('v', 2, long)
+-#define FS_IOC_FIEMAP                  _IOWR('f', 11, struct fiemap)
+-#define FS_IOC32_GETFLAGS              _IOR('f', 1, int)
+-#define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
+-#define FS_IOC32_GETVERSION            _IOR('v', 1, int)
+-#define FS_IOC32_SETVERSION            _IOW('v', 2, int)
+-#else
+ #include <linux/fs.h>
+-#endif
+ #include <linux/fd.h>
+ #if defined(CONFIG_FIEMAP)
+ #include <linux/fiemap.h>
+diff --git a/meson.build b/meson.build
+index 175517eafd..32fed7ea6e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2039,8 +2039,6 @@ config_host_data.set('HAVE_OPTRESET',
+                      cc.has_header_symbol('getopt.h', 'optreset'))
+ config_host_data.set('HAVE_IPPROTO_MPTCP',
+                      cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPTCP'))
+-config_host_data.set('HAVE_SYS_MOUNT_FSCONFIG',
+-                     cc.has_header_symbol('sys/mount.h', 'FSCONFIG_SET_FLAG'))
  
-     tlb_destroy(cpu);
--    g_free(cpu->tb_jmp_cache);
-+    g_free_rcu(cpu->tb_jmp_cache, rcu);
- }
- 
- #ifndef CONFIG_USER_ONLY
-diff --git a/cpu.c b/cpu.c
-index 4a7d865427..21cf809614 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -176,11 +176,20 @@ void cpu_exec_unrealizefn(CPUState *cpu)
-         vmstate_unregister(NULL, &vmstate_cpu_common, cpu);
-     }
- #endif
-+
-+    /* Call the plugin hook before clearing cpu->cpu_index in cpu_list_remove */
-     if (tcg_enabled()) {
--        tcg_exec_unrealizefn(cpu);
-+        qemu_plugin_vcpu_exit_hook(cpu);
-     }
- 
-     cpu_list_remove(cpu);
-+    /*
-+     * Now that the vCPU has been removed from the RCU list, we can call
-+     * tcg_exec_unrealizefn, which may free fields using call_rcu.
-+     */
-+    if (tcg_enabled()) {
-+        tcg_exec_unrealizefn(cpu);
-+    }
- }
- 
- /*
+ # has_member
+ config_host_data.set('HAVE_SIGEV_NOTIFY_THREAD_ID',
 -- 
-2.34.1
+2.38.1
 
 
