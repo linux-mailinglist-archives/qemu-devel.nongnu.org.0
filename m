@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60F766435D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 15:35:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F391C6642FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 15:18:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFEcy-0000SV-Pa; Tue, 10 Jan 2023 08:25:20 -0500
+	id 1pFEf0-0001M8-HR; Tue, 10 Jan 2023 08:27:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pFEcf-0000Ln-S1
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 08:25:08 -0500
-Received: from forwardcorp1a.mail.yandex.net
- ([2a02:6b8:c0e:500:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1pFEey-0001Ll-2Z
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 08:27:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pFEcc-0002y2-MF
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 08:25:01 -0500
-Received: from vla5-b2806cb321eb.qloud-c.yandex.net
- (vla5-b2806cb321eb.qloud-c.yandex.net
- [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 9D1A95FED1;
- Tue, 10 Jan 2023 16:24:43 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b685::1:3c] (unknown
- [2a02:6b8:b081:b685::1:3c])
- by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- gOddMH2QMKo1-2LcTuPEL; Tue, 10 Jan 2023 16:24:42 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1673357083; bh=uQJZsgHdtmETGxSfcYy5m1yuHyn0cZpS6GL5AzguFn4=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=pH1VxE6+SlK7t4+bAw74CfGbeYOa62Qj0LujObNb4x1XcNLxeFtK6++PocKlxmaS6
- 8355iek6tKZDmGthJP+LgnmsHp/BLsmbdluhAvhgUOJ7ktyD1TkUg8zYZed/hxwpk4
- tbqWV1C+a4OygmRsBoj5fUGEq/it51m8XLqGw01Q=
-Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <0eab94ef-d8aa-8fc7-91d7-dbc215a7c023@yandex-team.ru>
-Date: Tue, 10 Jan 2023 16:24:42 +0300
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1pFEew-0003c9-G9
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 08:27:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673357241;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n3H8baV6Uq1G8HQpiusdI7vVdULkB5AdxSfg8CdFen0=;
+ b=B0FZ7bTAtbVMbyk6DscI6uDhmbZQ0abr8zejlNfVyHWgk+GnCC6b+eAVq5O3TkQDUlDxtm
+ pGb0hOfxG1J8Dn3BZKmc0NjExtKX8S7I3u+RmJxo0lnPeHAOXP02CpoKGea5QHo8Al+cNJ
+ PHwj+CI4a7yMAFXvPnFbptm7/1QmmIk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-637-Np7-RQktOE-gEOniHQLrvQ-1; Tue, 10 Jan 2023 08:27:18 -0500
+X-MC-Unique: Np7-RQktOE-gEOniHQLrvQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14D7B3C0CD47;
+ Tue, 10 Jan 2023 13:27:18 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 354E5140EBF4;
+ Tue, 10 Jan 2023 13:27:07 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, kraxel@redhat.com,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ pbonzini@redhat.com, Eric Farman <farman@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>, thuth@redhat.com,
+ Halil Pasic <pasic@linux.ibm.com>, Michael Roth <michael.roth@amd.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Ed Maste <emaste@freebsd.org>
+Subject: [PATCH v4 1/8] build-sys: fix crlf-ending C code
+Date: Tue, 10 Jan 2023 17:26:53 +0400
+Message-Id: <20230110132700.833690-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20230110132700.833690-1-marcandre.lureau@redhat.com>
+References: <20230110132700.833690-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v4 01/11] python: rename QEMUMonitorProtocol.cmd() to
- cmd_raw()
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-block@nongnu.org, jsnow@redhat.com, crosa@redhat.com,
- kwolf@redhat.com, hreitz@redhat.com, qemu-devel@nongnu.org
-References: <20230110083758.161201-1-vsementsov@yandex-team.ru>
- <20230110083758.161201-2-vsementsov@yandex-team.ru>
- <Y71CzobOjJxxBAXu@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <Y71CzobOjJxxBAXu@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c0e:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,178 +96,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/10/23 13:49, Daniel P. Berrangé wrote:
-> On Tue, Jan 10, 2023 at 11:37:48AM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> Having cmd() and command() methods in one class doesn't look good.
->> Rename cmd() to cmd_raw(), to show its meaning better.
->>
->> We also want to rename command() to cmd() in future, so this commit is a
->> necessary first step.
->>
->> Keep new cmd_raw() only in a few places where it's really needed and
->> move to command() where possible.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->> ---
->>   python/qemu/machine/machine.py |  2 +-
->>   python/qemu/qmp/legacy.py      |  8 ++------
->>   python/qemu/qmp/qmp_shell.py   | 13 +++++++------
->>   scripts/cpu-x86-uarch-abi.py   | 12 ++++++------
->>   tests/qemu-iotests/iotests.py  |  2 +-
->>   5 files changed, 17 insertions(+), 20 deletions(-)
->>
->> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
->> index 748a0d807c..9059dc3948 100644
->> --- a/python/qemu/machine/machine.py
->> +++ b/python/qemu/machine/machine.py
->> @@ -674,7 +674,7 @@ def qmp(self, cmd: str,
->>               conv_keys = True
->>   
->>           qmp_args = self._qmp_args(conv_keys, args)
->> -        ret = self._qmp.cmd(cmd, args=qmp_args)
->> +        ret = self._qmp.cmd_raw(cmd, args=qmp_args)
->>           if cmd == 'quit' and 'error' not in ret and 'return' in ret:
->>               self._quit_issued = True
->>           return ret
->> diff --git a/python/qemu/qmp/legacy.py b/python/qemu/qmp/legacy.py
->> index 1951754455..8e1a504052 100644
->> --- a/python/qemu/qmp/legacy.py
->> +++ b/python/qemu/qmp/legacy.py
->> @@ -186,21 +186,17 @@ def cmd_obj(self, qmp_cmd: QMPMessage) -> QMPMessage:
->>               )
->>           )
->>   
->> -    def cmd(self, name: str,
->> -            args: Optional[Dict[str, object]] = None,
->> -            cmd_id: Optional[object] = None) -> QMPMessage:
->> +    def cmd_raw(self, name: str,
->> +            args: Optional[Dict[str, object]] = None) -> QMPMessage:
->>           """
->>           Build a QMP command and send it to the QMP Monitor.
->>   
->>           :param name: command name (string)
->>           :param args: command arguments (dict)
->> -        :param cmd_id: command id (dict, list, string or int)
->>           """
->>           qmp_cmd: QMPMessage = {'execute': name}
->>           if args:
->>               qmp_cmd['arguments'] = args
->> -        if cmd_id:
->> -            qmp_cmd['id'] = cmd_id
-> 
-> The commit message didn't say anything about dropping the
-> cmd_id parameter. Presumably you've found that it is not
-> used in any caller that exists, but still it feels like
-> a valid parameter to want to support in this method ?
-> 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hmm, right. That should be a separate patch. Still, I think, when trying to unify similar functions, it's good to drop first any unused thing, to produce more clear new interface.
+On msys2, the shader-to-C script produces bad C:
+./ui/shader/texture-blit-vert.h:2:5: error: missing terminating " character [-Werror]
 
-> 
->>           return self.cmd_obj(qmp_cmd)
->>   
->>       def command(self, cmd: str, **kwds: object) -> QMPReturnValue:
->> diff --git a/python/qemu/qmp/qmp_shell.py b/python/qemu/qmp/qmp_shell.py
->> index 619ab42ced..5c0d87a0ec 100644
->> --- a/python/qemu/qmp/qmp_shell.py
->> +++ b/python/qemu/qmp/qmp_shell.py
->> @@ -98,7 +98,7 @@
->>       Sequence,
->>   )
->>   
->> -from qemu.qmp import ConnectError, QMPError, SocketAddrT
->> +from qemu.qmp import ConnectError, QMPError, SocketAddrT, ExecuteError
->>   from qemu.qmp.legacy import (
->>       QEMUMonitorProtocol,
->>       QMPBadPortError,
->> @@ -194,11 +194,12 @@ def close(self) -> None:
->>           super().close()
->>   
->>       def _fill_completion(self) -> None:
->> -        cmds = self.cmd('query-commands')
->> -        if 'error' in cmds:
->> -            return
->> -        for cmd in cmds['return']:
->> -            self._completer.append(cmd['name'])
->> +        try:
->> +            cmds = self.command('query-commands')
->> +            for cmd in cmds:
->> +                self._completer.append(cmd['name'])
->> +        except ExecuteError:
->> +            pass
->>   
->>       def _completer_setup(self) -> None:
->>           self._completer = QMPCompleter()
-> 
-> I'd suggest that re-writing callers to use 'command' is better
-> done in a prior patch, so that this patch is purely a rename of
-> cmd -> cmd_raw with no functional changes intermixed.
+Fix it by changing the line ending from crlf to lf, and convert the
+script to Python (qemu build seems perl-free after that).
 
-Agree, will do. Thanks for reviewing!
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+---
+ meson.build              |  2 +-
+ scripts/shaderinclude.pl | 16 ----------------
+ scripts/shaderinclude.py | 26 ++++++++++++++++++++++++++
+ 3 files changed, 27 insertions(+), 17 deletions(-)
+ delete mode 100644 scripts/shaderinclude.pl
+ create mode 100644 scripts/shaderinclude.py
 
-> 
->> diff --git a/scripts/cpu-x86-uarch-abi.py b/scripts/cpu-x86-uarch-abi.py
->> index 82ff07582f..893afd1b35 100644
->> --- a/scripts/cpu-x86-uarch-abi.py
->> +++ b/scripts/cpu-x86-uarch-abi.py
->> @@ -69,7 +69,7 @@
->>   shell = QEMUMonitorProtocol(sock)
->>   shell.connect()
->>   
->> -models = shell.cmd("query-cpu-definitions")
->> +models = shell.command("query-cpu-definitions")
->>   
->>   # These QMP props don't correspond to CPUID fatures
->>   # so ignore them
->> @@ -85,7 +85,7 @@
->>   
->>   names = []
->>   
->> -for model in models["return"]:
->> +for model in models:
->>       if "alias-of" in model:
->>           continue
->>       names.append(model["name"])
->> @@ -93,12 +93,12 @@
->>   models = {}
->>   
->>   for name in sorted(names):
->> -    cpu = shell.cmd("query-cpu-model-expansion",
->> -                     { "type": "static",
->> -                       "model": { "name": name }})
->> +    cpu = shell.command("query-cpu-model-expansion",
->> +                        { "type": "static",
->> +                          "model": { "name": name }})
->>   
->>       got = {}
->> -    for (feature, present) in cpu["return"]["model"]["props"].items():
->> +    for (feature, present) in cpu["model"]["props"].items():
->>           if present and feature not in skip:
->>               got[feature] = True
->>   
->> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
->> index da7d6637e1..c69b10ac82 100644
->> --- a/tests/qemu-iotests/iotests.py
->> +++ b/tests/qemu-iotests/iotests.py
->> @@ -460,7 +460,7 @@ def __init__(self, *args: str, instance_id: str = 'a', qmp: bool = False):
->>       def qmp(self, cmd: str, args: Optional[Dict[str, object]] = None) \
->>               -> QMPMessage:
->>           assert self._qmp is not None
->> -        return self._qmp.cmd(cmd, args)
->> +        return self._qmp.cmd_raw(cmd, args)
->>   
->>       def stop(self, kill_signal=15):
->>           self._p.send_signal(kill_signal)
->> -- 
->> 2.34.1
->>
->>
-> 
-> With regards,
-> Daniel
-
+diff --git a/meson.build b/meson.build
+index 175517eafd..b3c6db8343 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2781,7 +2781,7 @@ config_host_data.set('CONFIG_SLIRP', slirp.found())
+ genh += configure_file(output: 'config-host.h', configuration: config_host_data)
+ 
+ hxtool = find_program('scripts/hxtool')
+-shaderinclude = find_program('scripts/shaderinclude.pl')
++shaderinclude = find_program('scripts/shaderinclude.py')
+ qapi_gen = find_program('scripts/qapi-gen.py')
+ qapi_gen_depends = [ meson.current_source_dir() / 'scripts/qapi/__init__.py',
+                      meson.current_source_dir() / 'scripts/qapi/commands.py',
+diff --git a/scripts/shaderinclude.pl b/scripts/shaderinclude.pl
+deleted file mode 100644
+index cd3bb40b12..0000000000
+--- a/scripts/shaderinclude.pl
++++ /dev/null
+@@ -1,16 +0,0 @@
+-#!/usr/bin/env perl
+-use strict;
+-use warnings;
+-
+-my $file = shift;
+-open FILE, "<", $file or die "open $file: $!";
+-my $name = $file;
+-$name =~ s|.*/||;
+-$name =~ s/[-.]/_/g;
+-print "static GLchar ${name}_src[] =\n";
+-while (<FILE>) {
+-    chomp;
+-    printf "    \"%s\\n\"\n", $_;
+-}
+-print "    \"\\n\";\n";
+-close FILE;
+diff --git a/scripts/shaderinclude.py b/scripts/shaderinclude.py
+new file mode 100644
+index 0000000000..ab2aade2cd
+--- /dev/null
++++ b/scripts/shaderinclude.py
+@@ -0,0 +1,26 @@
++#!/usr/bin/env python3
++#
++# Copyright (C) 2023 Red Hat, Inc.
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++import sys
++import os
++
++
++def main(args):
++    file_path = args[1]
++    basename = os.path.basename(file_path)
++    varname = basename.replace('-', '_').replace('.', '_')
++
++    with os.fdopen(sys.stdout.fileno(), "wt", closefd=False, newline='\n') as stdout:
++        with open(file_path, "r", encoding='utf-8') as file:
++            print(f'static GLchar {varname}_src[] =', file=stdout)
++            for line in file:
++                line = line.rstrip()
++                print(f'    "{line}\\n"', file=stdout)
++            print('    "\\n";', file=stdout)
++
++
++if __name__ == '__main__':
++    sys.exit(main(sys.argv))
 -- 
-Best regards,
-Vladimir
+2.39.0
 
 
