@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 994376645F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 17:24:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4846645A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 17:11:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFH6d-0003aj-08; Tue, 10 Jan 2023 11:04:07 -0500
+	id 1pFH6c-0003aQ-OO; Tue, 10 Jan 2023 11:04:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pFH6G-0003M0-5N
+ id 1pFH6J-0003PZ-9L
  for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:03:59 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pFH6E-00056d-OM
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:03:43 -0500
+ id 1pFH6H-00056o-Pz
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:03:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673366621;
+ s=mimecast20190719; t=1673366624;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NMrUd07MfUZG/5ocZjzOkUszpCqrIAmJ6EfxLJBAlz4=;
- b=QrtwnbnkbcxHNbHFqJdLd0k3zKI4Z5Gi7Dk7nARIiAGsfCfdxrtNdWEM7QbiV1OpX+CuyS
- LR+MNnxAkHqBBYpch4GSOQSC+Ecw2QKlp83xqhOPyPxNHNziKqpgIBPnx5WqCCd7YZjE8l
- LLFlGNCHF92vnKTCJPLAT28t3oPC9fA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JxFwuoY0l5szGFqjgOPodO6ocLa/m3CKjP5XJeoQJfw=;
+ b=aHgiDQVvarXl69BPQ4jeLmKgYkE1d7ttbvjhC2agHwDuCunZ8c0L1ikbztT52uQG+ZICrw
+ 0ZEatmhgD2fkKgcNy89Ovd7e04rkGo48qGn2xVLdouoYikFG/+WaxQsfVnM+x1oa5KQD16
+ IaI6tjYRKTHVaNsm34TPKpI9583MmWs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-620-vFD55wRfPhWDjxn7Z4EeNQ-1; Tue, 10 Jan 2023 11:03:40 -0500
-X-MC-Unique: vFD55wRfPhWDjxn7Z4EeNQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- i2-20020adfaac2000000b002bc40f98167so1365418wrc.2
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 08:03:40 -0800 (PST)
+ us-mta-596-eAmRQmyHMMmYo90XzMEy_g-1; Tue, 10 Jan 2023 11:03:43 -0500
+X-MC-Unique: eAmRQmyHMMmYo90XzMEy_g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m7-20020a05600c4f4700b003d971a5e770so6490017wmq.3
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 08:03:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NMrUd07MfUZG/5ocZjzOkUszpCqrIAmJ6EfxLJBAlz4=;
- b=0nfTom7eKixEaR/5S3kLsq+miPrY2WLmoCADy+ISivzvnCzmWYKZLBB+Hp1/cxUbe1
- 0lqQ/w7sTYeYa6XpE1fKP4nOeZk0C+lSWq1R7zrvA2CmLpafyVuo5Icj6jA40VT/LXwb
- FqONb8NPfvHYgEpfo95VI81EfL/x0Oo7eSe0jEkqHGykJiWKh2Nc7jzWmvXlrcISyHVR
- y45bvVK5fqX5yM28OQv0ZA0+HHI0tOqQukOT0g43wES7OyjVZQ+9IopzA9I1jxnlBmiZ
- UWufeYY+ksB/l7OFRUtTiJLOHJsXPqR3cHkBYZs6kJpvXj3aZXIeKOqkiAOhcbh8c0Ud
- lwCA==
-X-Gm-Message-State: AFqh2koCUBP7HjJlIogQZMfPZZ7zYsG9ueJNGiDCsuMluRr7b0CtnK/I
- 3GpNaAuPKCl6/fNROZjhCA5j/yUYfImP0pYByTCvuSutZGWcZk8zE54r5OiuJefVmFhD4+Tt+wL
- I6vNToeHpl9iSGRZcYS4GNyhtSPut8jXHz4iu47G1sm+tXNOmZCMOWN/vAFqr+ZuLlJw=
-X-Received: by 2002:a05:600c:4e51:b0:3d1:e1f4:21d1 with SMTP id
- e17-20020a05600c4e5100b003d1e1f421d1mr60813663wmq.26.1673366618686; 
- Tue, 10 Jan 2023 08:03:38 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtEyzCX7eOfWadQd/kOREPPyHPPqy8TPnqbpZV6RZB+u1oZ39IR1ZWPTRJBXtIr5SXGgUD6sw==
-X-Received: by 2002:a05:600c:4e51:b0:3d1:e1f4:21d1 with SMTP id
- e17-20020a05600c4e5100b003d1e1f421d1mr60813633wmq.26.1673366618395; 
- Tue, 10 Jan 2023 08:03:38 -0800 (PST)
+ bh=JxFwuoY0l5szGFqjgOPodO6ocLa/m3CKjP5XJeoQJfw=;
+ b=HIWOUblKhtwvFMTeNm/MJ3BJ59p5+Kqsr7OgGWsg5IkgXoE2I8lDzaBUpH70MKeJiF
+ Jy+a5E85veOSTL06+n5gOZQkUDuHXGl/HPnOdWLPkMMu7nRMxvAHBTMUHI52508hqWHj
+ aUJgLi7LH7UTs3sTLLwTYXIWhvCiwrxa/0ByMQQpNs8OuQXiPC8SrralfNDi7U9WBcRB
+ QteKlLl8mpcLCRxsf/8SBd4TAzH+0TgCmqppz7mZNoyRqT7WuF/60XoeCnu+mQa9UFxq
+ ZlXIT2q4saCThy/vAtj/Pe8ATEzgMOCOIn56qPABHSHyDRcUBsCwOGZSVi0GWSs4tzp/
+ XLfg==
+X-Gm-Message-State: AFqh2ko7G7NY7kBp+DA6TJFLBOf9CykhpzkMImDsp2V5ohRzM+HI0yD/
+ IO5Ivu8Ilm8NhqTybcDDage4B4703FOW3EJZtJZXDjaZFOXeAjAiWKodnzMgrqg7ZQt/4bhh47g
+ lC4D2gdVuXlXVc7D0wyjg7cvOqkW0glogaPERaI3IAQEOFXr0EMPrwUUtMYwJ6SyxOHU=
+X-Received: by 2002:a05:600c:1e1d:b0:3cf:b07a:cd2f with SMTP id
+ ay29-20020a05600c1e1d00b003cfb07acd2fmr48816531wmb.37.1673366621357; 
+ Tue, 10 Jan 2023 08:03:41 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXujK+aUjfokkOYZxDs+7TneEItPwD85YE0iMkZjMq2PTf5k+WZZOI6GXhw2lQPnHS+GQQSBqQ==
+X-Received: by 2002:a05:600c:1e1d:b0:3cf:b07a:cd2f with SMTP id
+ ay29-20020a05600c1e1d00b003cfb07acd2fmr48816506wmb.37.1673366621120; 
+ Tue, 10 Jan 2023 08:03:41 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- j30-20020a05600c1c1e00b003d9f14e9085sm7539910wms.17.2023.01.10.08.03.37
+ m18-20020a05600c4f5200b003c71358a42dsm26783902wmq.18.2023.01.10.08.03.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 08:03:37 -0800 (PST)
+ Tue, 10 Jan 2023 08:03:40 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Marcel Holtmann <marcel@holtmann.org>, Xie Yongji <xieyongji@bytedance.com>
-Subject: [PULL 23/29] libvduse: Switch to unsigned int for inuse field in
- struct VduseVirtq
-Date: Tue, 10 Jan 2023 17:02:27 +0100
-Message-Id: <20230110160233.339771-24-pbonzini@redhat.com>
+Subject: [PULL 24/29] libvduse: Fix assignment in vring_set_avail_event
+Date: Tue, 10 Jan 2023 17:02:28 +0100
+Message-Id: <20230110160233.339771-25-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230110160233.339771-1-pbonzini@redhat.com>
 References: <20230110160233.339771-1-pbonzini@redhat.com>
@@ -104,39 +103,38 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marcel Holtmann <marcel@holtmann.org>
 
-It seems there is no need to keep the inuse field signed and end up with
-compiler warnings for sign-compare.
+Since the assignment is causing a compiler warning, fix it by using
+memcpy instead.
 
   CC       libvduse.o
-libvduse.c: In function ‘vduse_queue_pop’:
-libvduse.c:789:19: error: comparison of integer expressions of different signedness: ‘int’ and ‘unsigned int’ [-Werror=sign-compare]
-  789 |     if (vq->inuse >= vq->vring.num) {
-      |                   ^~
-
-Instead of casting the comparison to unsigned int, just make the inuse
-field unsigned int in the fist place.
+libvduse.c: In function ‘vring_set_avail_event’:
+libvduse.c:603:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasin]
+  603 |     *((uint16_t *)&vq->vring.used->ring[vq->vring.num]) = htole16(val);
+      |      ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
-Reviewed-by: Xie Yongji <xieyongji@bytedance.com>
-Message-Id: <9fe3fd8b042e048bd04d506ca6e43d738b5c45b7.1671741278.git.marcel@holtmann.org>
+Suggested-by: Xie Yongji <xieyongji@bytedance.com>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <4a0fe2a6436464473119fdbf0bc4076b36fbb37f.1671741278.git.marcel@holtmann.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- subprojects/libvduse/libvduse.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ subprojects/libvduse/libvduse.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvduse.c
-index c871bd331a6b..338ad5e352e7 100644
+index 338ad5e352e7..377959a0b4fb 100644
 --- a/subprojects/libvduse/libvduse.c
 +++ b/subprojects/libvduse/libvduse.c
-@@ -101,7 +101,7 @@ struct VduseVirtq {
-     uint16_t signalled_used;
-     bool signalled_used_valid;
-     int index;
--    int inuse;
-+    unsigned int inuse;
-     bool ready;
-     int fd;
-     VduseDev *dev;
+@@ -582,7 +582,8 @@ void vduse_queue_notify(VduseVirtq *vq)
+ 
+ static inline void vring_set_avail_event(VduseVirtq *vq, uint16_t val)
+ {
+-    *((uint16_t *)&vq->vring.used->ring[vq->vring.num]) = htole16(val);
++    uint16_t val_le = htole16(val);
++    memcpy(&vq->vring.used->ring[vq->vring.num], &val_le, sizeof(uint16_t));
+ }
+ 
+ static bool vduse_queue_map_single_desc(VduseVirtq *vq, unsigned int *p_num_sg,
 -- 
 2.38.1
 
