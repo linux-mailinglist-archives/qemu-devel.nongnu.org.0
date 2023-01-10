@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A41664441
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 16:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A1E66448A
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 16:24:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFFcW-0006sK-Nh; Tue, 10 Jan 2023 09:28:56 -0500
+	id 1pFDdo-0007sB-Sm; Tue, 10 Jan 2023 07:22:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mathias.krause@opensrcsec.com>)
- id 1pFDSN-00049m-Nm
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:10:22 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mathias.krause@opensrcsec.com>)
- id 1pFDSL-00057t-OS
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:10:19 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id tz12so28033879ejc.9
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 04:10:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=grsecurity.net; s=grsec;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gVc5jfW0tU6LKMV6osTzqESg4stytCoAR83GJOQq+e8=;
- b=Gf6xT4PsNimHFHc17k9pYQ9JLDCvvipCGT4JcmraLHJBhVI3LD0g+YtogCmv1JA+B5
- UlneEdMm2q1LvwxlVwwN6qDtmiwczuSsxADrTDVlCVyOcZ5Tcpqkqa7ItZgTus0yGzNI
- 4Aa80m0vGAqdCPcZI/J3E2+2BUwPrqrG/4QLyUEJk6ajXs7sGjEiCQ/oyoDxHN+F1CIt
- tY2o+FDdrlp8jsBl2Vj0vdEpOI8LnDLDZ4IxiaDWqNWQZYuSTtKDeypAltrHmzY69ZDX
- PQOYvBTJmx2f0nBTnukf8K6eBlCdVMpttgwUARII35JuMV88czEI6WD9u2yZGKnMwENF
- UC8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gVc5jfW0tU6LKMV6osTzqESg4stytCoAR83GJOQq+e8=;
- b=YpFDhEhM4sGoxAl3M/Zl8TDPWxexSMBBrYqtFKqUqrlrF2airoCT/THn3B+RtqhiPD
- apV00RtgF6KtgXMYFR+YhUMUKe/D80yGy5PUUgtDsDGkOXz7MlVDjYDbGw49LsZQo9Nn
- 7JYx/plshTjHi8AtYowQzVHFaJGoCILkzAxfQgvkjRxlufNrb1wteBpXC8o5AKElFKtU
- fmqmR4dTG2LFGL/6wFrwl19WDH36QB3dKJ+UzOVWlFkM1nOWuok5ShwOIax8gMxznxmD
- gvceT3NV7ZekSym/W5M+PXVPqHf6Nq2ttbWiCv+1QnT8icg4pfLQrO3VXdqlhI4ufjT+
- 6GTg==
-X-Gm-Message-State: AFqh2kruF7CaYHuql1bxloxukkS3UG0TvcAevEGlP80HLEuoO3ez/CAm
- 5JhYcKmeyshKzKkXDuPSfmkySQ==
-X-Google-Smtp-Source: AMrXdXuKKVnZN4iZ2Sse+Ujg+xmzXmEVaV6M+UuE8weh75aeAVNhwBfU5ToZD9KtRV10VJgBtATUjg==
-X-Received: by 2002:a17:907:20d6:b0:844:5d1f:95cc with SMTP id
- qq22-20020a17090720d600b008445d1f95ccmr54373072ejb.15.1673352615477; 
- Tue, 10 Jan 2023 04:10:15 -0800 (PST)
-Received: from ?IPV6:2003:f6:af07:6c00:a421:1191:7df8:7628?
- (p200300f6af076c00a42111917df87628.dip0.t-ipconnect.de.
- [2003:f6:af07:6c00:a421:1191:7df8:7628])
- by smtp.gmail.com with ESMTPSA id
- f6-20020a056402150600b0049622a61f8fsm4890435edw.30.2023.01.10.04.10.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Jan 2023 04:10:15 -0800 (PST)
-Message-ID: <ee8ff694-4a6b-b4da-9a80-c456fda9c99d@grsecurity.net>
-Date: Tue, 10 Jan 2023 13:10:13 +0100
+ (Exim 4.90_1) (envelope-from
+ <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pFDct-00078H-8W
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:13 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pFDcj-0000Pg-UU
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=SfFMV27NaWB6N3cHn+FnqNCTrjoZ2zThGo2HvfS1+Lc=; b=OA2PV4ORboVyIsbMetFywYBUAP
+ T/xuX08pVkBCK/xqa+6j/LlsqgFTHILsKjySTBTdYNYzZPTdEKsq+MJdAWt0ezi3DCCCaXecYX11y
+ MF4j6r9m0qDW6DbZ6iBN1pLLK8x2a5oawH2RxTuFZBn5yVE1Np8hO5/XR6aXcsCPXDYXtinjmyFRB
+ Ib2XL00zVvV3f2b/DzEJrvK08S69WfgXwx1mum23bwDPao+csi68w5iWAvH8uZG55feyqG4sc/fVC
+ kxFhHjaL8TSQkIPW73y4dA0CPe2M6p1wQsLQ0MHajqlJj20IEeIvdc4RdXcXZTKliOsYpp9aal9mR
+ biA5ZnFg==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pFDcg-003C5p-LE; Tue, 10 Jan 2023 12:21:00 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1pFDcS-006Ye0-HK; Tue, 10 Jan 2023 12:20:44 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
+Subject: [PATCH v6 10/51] i386/xen: implement HYPERVISOR_xen_version
+Date: Tue, 10 Jan 2023 12:20:01 +0000
+Message-Id: <20230110122042.1562155-11-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230110122042.1562155-1-dwmw2@infradead.org>
+References: <20230110122042.1562155-1-dwmw2@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH qemu v3] x86: don't let decompressed kernel image clobber
- setup_data
-Content-Language: en-US
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-References: <Y69fUstLKNv/RLd7@zx2c4.com>
- <20221230220725.618763-1-Jason@zx2c4.com>
-Cc: qemu-devel@nongnu.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- pbonzini@redhat.com, ebiggers@kernel.org, ardb@kernel.org,
- kraxel@redhat.com, hpa@zytor.com, bp@alien8.de, philmd@linaro.org
-From: Mathias Krause <minipli@grsecurity.net>
-In-Reply-To: <20221230220725.618763-1-Jason@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=mathias.krause@opensrcsec.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 10 Jan 2023 09:28:42 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,63 +81,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Jason!
+From: Joao Martins <joao.m.martins@oracle.com>
 
-Am 30.12.22 um 23:07 schrieb Jason A. Donenfeld:
-> The setup_data links are appended to the compressed kernel image. Since
-> the kernel image is typically loaded at 0x100000, setup_data lives at
-> `0x100000 + compressed_size`, which does not get relocated during the
-> kernel's boot process.
-> 
-> The kernel typically decompresses the image starting at address
-> 0x1000000 (note: there's one more zero there than the compressed image
-> above). This usually is fine for most kernels.
-> 
-> However, if the compressed image is actually quite large, then
-> setup_data will live at a `0x100000 + compressed_size` that extends into
-> the decompressed zone at 0x1000000. In other words, if compressed_size
-> is larger than `0x1000000 - 0x100000`, then the decompression step will
-> clobber setup_data, resulting in crashes.
-> 
-> Visually, what happens now is that QEMU appends setup_data to the kernel
-> image:
-> 
->           kernel image            setup_data
->    |--------------------------||----------------|
-> 0x100000                  0x100000+l1     0x100000+l1+l2
-> 
-> The problem is that this decompresses to 0x1000000 (one more zero). So
-> if l1 is > (0x1000000-0x100000), then this winds up looking like:
-> 
->           kernel image            setup_data
->    |--------------------------||----------------|
-> 0x100000                  0x100000+l1     0x100000+l1+l2
-> 
->                                  d e c o m p r e s s e d   k e r n e l
->                      |-------------------------------------------------------------|
->                 0x1000000                                                     0x1000000+l3
-> 
-> The decompressed kernel seemingly overwriting the compressed kernel
-> image isn't a problem, because that gets relocated to a higher address
-> early on in the boot process, at the end of startup_64. setup_data,
-> however, stays in the same place, since those links are self referential
-> and nothing fixes them up.  So the decompressed kernel clobbers it.
+This is just meant to serve as an example on how we can implement
+hypercalls. xen_version specifically since Qemu does all kind of
+feature controllability. So handling that here seems appropriate.
 
-I just ran into this very issue yesterday when trying to boot a 6.1
-kernel. pipacs pointed me to some changes of yours[1] which confirmed,
-the issue is related to the additional setup_data entries, as adding,
-e.g., '-M pc-i440fx-7.0' to the QEMU command line made the bug vanish
-(as QEMU then omits adding the random seed setup_data entries) .
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+[dwmw2: Implement kvm_gva_rw() safely]
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Reviewed-by: Paul Durrant <paul@xen.org>
+---
+ target/i386/kvm/xen-emu.c | 86 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
 
-[1] https://github.com/qemu/qemu/commit/67f7e426e538
+diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
+index 476f464ee2..1dea6feb90 100644
+--- a/target/i386/kvm/xen-emu.c
++++ b/target/i386/kvm/xen-emu.c
+@@ -14,9 +14,55 @@
+ #include "sysemu/kvm_int.h"
+ #include "sysemu/kvm_xen.h"
+ #include "kvm/kvm_i386.h"
++#include "exec/address-spaces.h"
+ #include "xen-emu.h"
+ #include "trace.h"
+ 
++#include "standard-headers/xen/version.h"
++
++static int kvm_gva_rw(CPUState *cs, uint64_t gva, void *_buf, size_t sz,
++                      bool is_write)
++{
++    uint8_t *buf = (uint8_t *)_buf;
++    int ret;
++
++    while (sz) {
++        struct kvm_translation tr = {
++            .linear_address = gva,
++        };
++
++        size_t len = TARGET_PAGE_SIZE - (tr.linear_address & ~TARGET_PAGE_MASK);
++        if (len > sz) {
++            len = sz;
++        }
++
++        ret = kvm_vcpu_ioctl(cs, KVM_TRANSLATE, &tr);
++        if (ret || !tr.valid || (is_write && !tr.writeable)) {
++            return -EFAULT;
++        }
++
++        cpu_physical_memory_rw(tr.physical_address, buf, len, is_write);
++
++        buf += len;
++        sz -= len;
++        gva += len;
++    }
++
++    return 0;
++}
++
++static inline int kvm_copy_from_gva(CPUState *cs, uint64_t gva, void *buf,
++                                    size_t sz)
++{
++    return kvm_gva_rw(cs, gva, buf, sz, false);
++}
++
++static inline int kvm_copy_to_gva(CPUState *cs, uint64_t gva, void *buf,
++                                  size_t sz)
++{
++    return kvm_gva_rw(cs, gva, buf, sz, true);
++}
++
+ int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
+ {
+     const int required_caps = KVM_XEN_HVM_CONFIG_HYPERCALL_MSR |
+@@ -87,6 +133,43 @@ uint32_t kvm_xen_get_caps(void)
+     return kvm_state->xen_caps;
+ }
+ 
++static bool kvm_xen_hcall_xen_version(struct kvm_xen_exit *exit, X86CPU *cpu,
++                                     int cmd, uint64_t arg)
++{
++    int err = 0;
++
++    switch (cmd) {
++    case XENVER_get_features: {
++        struct xen_feature_info fi;
++
++        /* No need for 32/64 compat handling */
++        qemu_build_assert(sizeof(fi) == 8);
++
++        err = kvm_copy_from_gva(CPU(cpu), arg, &fi, sizeof(fi));
++        if (err) {
++            break;
++        }
++
++        fi.submap = 0;
++        if (fi.submap_idx == 0) {
++            fi.submap |= 1 << XENFEAT_writable_page_tables |
++                         1 << XENFEAT_writable_descriptor_tables |
++                         1 << XENFEAT_auto_translated_physmap |
++                         1 << XENFEAT_supervisor_mode_kernel;
++        }
++
++        err = kvm_copy_to_gva(CPU(cpu), arg, &fi, sizeof(fi));
++        break;
++    }
++
++    default:
++        return false;
++    }
++
++    exit->u.hcall.result = err;
++    return true;
++}
++
+ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+ {
+     uint16_t code = exit->u.hcall.input;
+@@ -97,6 +180,9 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+     }
+ 
+     switch (code) {
++    case __HYPERVISOR_xen_version:
++        return kvm_xen_hcall_xen_version(exit, cpu, exit->u.hcall.params[0],
++                                         exit->u.hcall.params[1]);
+     default:
+         return false;
+     }
+-- 
+2.35.3
 
-After digging a while I found this thread and it fixes the issue for me,
-thereby:
-
-Tested-by: Mathias Krause <minipli@grsecurity.net>
-
-Thanks,
-Mathias
-
-> [snip]
 
