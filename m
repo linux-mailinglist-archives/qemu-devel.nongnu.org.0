@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4B2664769
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 18:27:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A418664BBE
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:59:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFH66-0003F4-1y; Tue, 10 Jan 2023 11:03:34 -0500
+	id 1pFH67-0003Iu-Uc; Tue, 10 Jan 2023 11:03:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pFH5i-00030R-Bc
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:03:19 -0500
+ id 1pFH5Z-0002y8-2Q
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:03:04 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pFH5g-000516-R5
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:03:09 -0500
+ id 1pFH5X-00050M-Hp
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:03:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673366588;
+ s=mimecast20190719; t=1673366578;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lZsOVWPR+s9kRXm5uSXMvjV3P56UvRsZYwNaZye5lpg=;
- b=KdnYS92k4WWCCirBlYu92MY4hA+XDgtPI7aTjx8/dCqIUqJ3Ih4hEEzINvb/xWJfWoc7MB
- jVDiSlIgvjEFBVwU1N8UlNnMUnVWRZH62bVYxmtxmi6GtmxBWott410fTqfNw2OP36hfZe
- 3ntJKfJVFka3GjHz8wo3N1enJ400Glw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zpagXfRHheB3cgO38uMf1S16+fdPzjO7pS5QWsjJ4sc=;
+ b=LcwSPLW0sndpltK74laQR5s+pqIXKfMQBbXy8H/ovhafEKBnecA1+4fdN55rhRHz/o61hF
+ DmATU10ANP6DKoBFR584U+m5VQmDqGj40TOHidtADKgs2lXIIupgq+p34EjUMVbV+923gD
+ rXvDfZIsgO/7LGWj2blHKt1IX7Hb9HE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-663-HTAHk57ONLmtqlZQW_8usg-1; Tue, 10 Jan 2023 11:03:04 -0500
-X-MC-Unique: HTAHk57ONLmtqlZQW_8usg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l17-20020a05600c1d1100b003d9a145366cso6482401wms.4
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 08:02:53 -0800 (PST)
+ us-mta-541-hj3-imHCP1q39TWMYCDS1g-1; Tue, 10 Jan 2023 11:02:56 -0500
+X-MC-Unique: hj3-imHCP1q39TWMYCDS1g-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ q21-20020a7bce95000000b003d236c91639so2672831wmj.8
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 08:02:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lZsOVWPR+s9kRXm5uSXMvjV3P56UvRsZYwNaZye5lpg=;
- b=nvP3IcObF0lbIy3rGsh5G+vg5RGXtJQ6KEjqe6FOOQzmzbCEd3jb3oFOetT/e1aup3
- iVCDHNyE+kjD+kN42oopY27eHeECG6GPfehnq2FuSjffL8Mp/2/XfyV+prSS/0xYhcRK
- VM6gzWyFzPCTLd+AiSudG0aaLR0rmUwX7NVIs3bXL4XFmolHNVb0JF4TrMv8PvwmOvRi
- yMoUWY9fy/82DNiAKf3FZy4jSFvH2JMaEAmvHpMZSo5gXpwYt21xFolTOyINfMrPm5Mm
- BBA2MTHDIf8TVjA/P7GxnjxVRMUwRR7P+61YVkUsotzC4jDZ7tjsfk4T9b/8/PsOY3RK
- VTIg==
-X-Gm-Message-State: AFqh2kok3i/OZmFLXjTWFcqfL7DyUaUt6QB0ZxlGFQAxuChg8MYJDLOu
- GvEHyUXZ8PpgypO/GUU93rYWUu8a61XqCAINlw3KuGMO6PgPKol5IM2gA6OrTTTE9vh1SXzfb7w
- scOJ6sGQ2kUtkc3lwQNpQJg+rMnrhyKdb+EmVF28bLjiHvAreqQNSsyOrklfxjpiA0xI=
-X-Received: by 2002:a05:600c:4fc5:b0:3d9:ecae:84f2 with SMTP id
- o5-20020a05600c4fc500b003d9ecae84f2mr7281991wmq.25.1673366571921; 
- Tue, 10 Jan 2023 08:02:51 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu9uN2cq+l/sGtaTY1cWuT8pYHG/ie45N/e4PefFCZfOEMhmo8yuYPs29x9wHaVaC+JFyZBjA==
-X-Received: by 2002:a05:600c:4fc5:b0:3d9:ecae:84f2 with SMTP id
- o5-20020a05600c4fc500b003d9ecae84f2mr7281964wmq.25.1673366571695; 
- Tue, 10 Jan 2023 08:02:51 -0800 (PST)
+ bh=zpagXfRHheB3cgO38uMf1S16+fdPzjO7pS5QWsjJ4sc=;
+ b=gzwSqScA7+D6dwxC+s6wwiFNgS0503ONYFeavDT+n1SIlL7dd5w1Xd3/UOkJSQFvN3
+ viq1SuzEurowsJXfNfqvFm71z4u8jMoyDH9TJusHIyEggK5/CESIzMv9KQw2HIA63ZVW
+ +9VMYjajsFwV/esRV+4bHk1itDRsRddn2m4TwJrpgWxYaWtc0vfUGPCDOKmHcNmPl1M+
+ y/nhyAN+lffwqbRKffnkeTFPdODtNqA2soC1Nx3OcSOYpphS9mTuOIadU7WFgd5tbyNM
+ Qnvf/RhwbDbqum8o3rTFfnI+I8J72ixCxXq72CMFrz8I0KECo1uajAK0OF7oRVc3e1jl
+ lc7A==
+X-Gm-Message-State: AFqh2krDTbO3fOKDPm61OjTjmp2MVHV7wKZ4XUbna3VrTCizV6VEWil7
+ VrY1F0S8R4StuEei5cD41kRkYRr10e8UkwwmJ6JsqB25Iffb+pp2FhTnaW1dnRXbphSiIeVbjye
+ TR/vcOn8EgSY5Zjrmx0DQZiWZ/0ZBVl+W9BKRo4VrY7rHur/Gf+uUy/pyVy0qxeuTRhw=
+X-Received: by 2002:a5d:6447:0:b0:2bb:9f31:3568 with SMTP id
+ d7-20020a5d6447000000b002bb9f313568mr7323125wrw.69.1673366574636; 
+ Tue, 10 Jan 2023 08:02:54 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsKigboLcZOoFGRUkDA8RLUBsG6rk/MfLayqwV0Z1deWd+6zX3T0eJP4AuG+F8fLO1fhx5Dyw==
+X-Received: by 2002:a5d:6447:0:b0:2bb:9f31:3568 with SMTP id
+ d7-20020a5d6447000000b002bb9f313568mr7323094wrw.69.1673366574061; 
+ Tue, 10 Jan 2023 08:02:54 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- u13-20020a05600c19cd00b003c6f1732f65sm21812719wmq.38.2023.01.10.08.02.50
+ w10-20020a5d404a000000b00275970a85f4sm11457740wrp.74.2023.01.10.08.02.53
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 08:02:51 -0800 (PST)
+ Tue, 10 Jan 2023 08:02:53 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Eric Auger <eric.auger@redhat.com>,
-	Stefan Weil <sw@weilnetz.de>
-Subject: [PULL 06/29] target/i386: Remove compilation errors when
- -Werror=maybe-uninitialized
-Date: Tue, 10 Jan 2023 17:02:10 +0100
-Message-Id: <20230110160233.339771-7-pbonzini@redhat.com>
+Subject: [PULL 07/29] chardev: clean up chardev-parallel.c
+Date: Tue, 10 Jan 2023 17:02:11 +0100
+Message-Id: <20230110160233.339771-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230110160233.339771-1-pbonzini@redhat.com>
 References: <20230110160233.339771-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
@@ -85,8 +82,7 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,62 +99,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Eric Auger <eric.auger@redhat.com>
+Replace HAVE_CHARDEV_PARPORT with a Meson conditional, remove unnecessary
+defines, and close the file descriptor on FreeBSD/DragonFly.
 
-To avoid compilation errors when -Werror=maybe-uninitialized is used,
-replace 'case 3' by 'default'.
-
-Otherwise we get:
-
-../target/i386/ops_sse.h: In function â€˜helper_vpermdq_ymmâ€™:
-../target/i386/ops_sse.h:2495:13: error: â€˜r3â€™ may be used
-uninitialized in this function [-Werror=maybe-uninitialized]
-   2495 |     d->Q(3) = r3;
-        |     ~~~~~~~~^~~~
-../target/i386/ops_sse.h:2494:13: error: â€˜r2â€™ may be used
-uninitialized in this function [-Werror=maybe-uninitialized]
-   2494 |     d->Q(2) = r2;
-        |     ~~~~~~~~^~~~
-../target/i386/ops_sse.h:2493:13: error: â€˜r1â€™ may be used
-uninitialized in this function [-Werror=maybe-uninitialized]
-   2493 |     d->Q(1) = r1;
-        |     ~~~~~~~~^~~~
-../target/i386/ops_sse.h:2492:13: error: â€˜r0â€™ may be used
-uninitialized in this function [-Werror=maybe-uninitialized]
-   2492 |     d->Q(0) = r0;
-        |     ~~~~~~~~^~~~
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Suggested-by: Stefan Weil <sw@weilnetz.de>
-Fixes: 790684776861 ("target/i386: reimplement 0x0f 0x3a, add AVX")
-Message-Id: <20221221163652.1239362-1-eric.auger@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/ops_sse.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ chardev/char-parallel.c | 15 ++-------------
+ chardev/meson.build     |  5 ++++-
+ include/qemu/osdep.h    |  5 -----
+ 3 files changed, 6 insertions(+), 19 deletions(-)
 
-diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index 3cbc36a59d1a..c442c8c10cdc 100644
---- a/target/i386/ops_sse.h
-+++ b/target/i386/ops_sse.h
-@@ -2466,7 +2466,7 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s, uint32_t order)
-         r0 = s->Q(0);
-         r1 = s->Q(1);
-         break;
--    case 3:
-+    default:
-         r0 = s->Q(2);
-         r1 = s->Q(3);
-         break;
-@@ -2484,7 +2484,7 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s, uint32_t order)
-         r2 = s->Q(0);
-         r3 = s->Q(1);
-         break;
--    case 3:
-+    default:
-         r2 = s->Q(2);
-         r3 = s->Q(3);
-         break;
+diff --git a/chardev/char-parallel.c b/chardev/char-parallel.c
+index 05e7efbd6ca9..a5164f975af3 100644
+--- a/chardev/char-parallel.c
++++ b/chardev/char-parallel.c
+@@ -238,7 +238,6 @@ static void qemu_chr_open_pp_fd(Chardev *chr,
+ }
+ #endif
+ 
+-#ifdef HAVE_CHARDEV_PARPORT
+ static void qmp_chardev_open_parallel(Chardev *chr,
+                                       ChardevBackend *backend,
+                                       bool *be_opened,
+@@ -276,29 +275,21 @@ static void char_parallel_class_init(ObjectClass *oc, void *data)
+ 
+     cc->parse = qemu_chr_parse_parallel;
+     cc->open = qmp_chardev_open_parallel;
+-#if defined(__linux__)
+     cc->chr_ioctl = pp_ioctl;
+-#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || \
+-    defined(__DragonFly__)
+-    cc->chr_ioctl = pp_ioctl;
+-#endif
+ }
+ 
+ static void char_parallel_finalize(Object *obj)
+ {
+-#if defined(__linux__)
+     Chardev *chr = CHARDEV(obj);
+     ParallelChardev *drv = PARALLEL_CHARDEV(chr);
+     int fd = drv->fd;
+ 
++#if defined(__linux__)
+     pp_hw_mode(drv, IEEE1284_MODE_COMPAT);
+     ioctl(fd, PPRELEASE);
++#endif
+     close(fd);
+     qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
+-#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || \
+-    defined(__DragonFly__)
+-    /* FIXME: close fd? */
+-#endif
+ }
+ 
+ static const TypeInfo char_parallel_type_info = {
+@@ -315,5 +306,3 @@ static void register_types(void)
+ }
+ 
+ type_init(register_types);
+-
+-#endif
+diff --git a/chardev/meson.build b/chardev/meson.build
+index 664f77b8879a..789b50056ae4 100644
+--- a/chardev/meson.build
++++ b/chardev/meson.build
+@@ -14,9 +14,12 @@ chardev_ss.add(files(
+ ))
+ chardev_ss.add(when: 'CONFIG_POSIX', if_true: [files(
+   'char-fd.c',
+-  'char-parallel.c',
+   'char-pty.c',
+ ), util])
++if targetos in ['linux', 'gnu/kfreebsd', 'freebsd', 'dragonfly']
++  chardev_ss.add(files('char-parallel.c'))
++endif
++
+ chardev_ss.add(when: 'CONFIG_WIN32', if_true: files(
+   'char-console.c',
+   'char-win-stdio.c',
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index b9c4307779c5..4886361be6a7 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -421,11 +421,6 @@ void qemu_anon_ram_free(void *ptr, size_t size);
+ #define HAVE_CHARDEV_SERIAL 1
+ #endif
+ 
+-#if defined(__linux__) || defined(__FreeBSD__) ||               \
+-    defined(__FreeBSD_kernel__) || defined(__DragonFly__)
+-#define HAVE_CHARDEV_PARPORT 1
+-#endif
+-
+ #if defined(__HAIKU__)
+ #define SIGIO SIGPOLL
+ #endif
 -- 
 2.38.1
 
