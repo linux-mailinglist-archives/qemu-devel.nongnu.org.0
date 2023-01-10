@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C828266452C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 16:45:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9284664440
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 16:13:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFFD2-0005uz-Li; Tue, 10 Jan 2023 09:02:36 -0500
+	id 1pFFFQ-0006gg-Jj; Tue, 10 Jan 2023 09:05:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pFFCz-0005tv-E5
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 09:02:33 -0500
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+ id 1pFFFM-0006cN-Ux
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 09:05:01 -0500
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pFFCx-0003jX-Mn
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 09:02:33 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id 141so8308848pgc.0
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 06:02:31 -0800 (PST)
+ id 1pFFFJ-0003zs-MU
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 09:05:00 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id c26so4465751pfp.10
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 06:04:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=9WC4K7zYh2oZ5YAoZKDUxrgzMbH3Ps3fi5GbO0fyXOo=;
- b=qASrqfIv0EG39YHjPe+uGZKQMDwOiJYERxXZmq8M1AHBcLGA9Z/fVF4/IB+iK99Keh
- uiHJoZ9GgaHxuEiMcpzsJaFT/m9Js8RNp6wIN7N8kLkrmFzMJWCJKna9g4Nz/vupLfj+
- ZmZ9rqks3YoNYozebD4SBOsYP5FyQCvivsEvoyv5jniw+EmVt86dLllEGtd3AhooD9wW
- IkFvPLh+4j0+pBOtJUjxp0X7/fkwwylyHXcuY7/dEhquTbKDOVm7ryh+H7Uug4HxBeBl
- JUJN0/YUd64nPffBiqT8x/d2tZqfoaOYmlvvNimiyE0YZhdotWCQpa+o1ysH7h1giMgR
- VBow==
+ bh=CJY2eY0yqtVzgZ6za+IgLscxAJNfbEbpTN8QwyUxsyo=;
+ b=HSgW3toxrOkMxdHyXyOs9lHtCVg1g16pDTNkhHKYOrailAIiB/HwgSj+tdSTUEF/Yh
+ wtkMwfoGDDGNQq58WimeNkFVHDydW81KGinNlo+z6InaQs9tHQI1vfWz4R3m480KgCOF
+ sTE0x68mnGCiILPI53knblUEvtqJLAE3c5VHnLGjWNc6NKgpKY9v13Zg4kOUGHwaJG5g
+ flpcFw2rivYpvDb0anrNWEaPrp4NgD5nY94jKCjRuXaeteUS6InRcyfOS3KRLn9K4PZz
+ XT3gfXGKptVEHj6lyNlguwGfkFHxllrdiFiRZugimxV9RTTzZBaLZ3gfi2vCkDIpQqeO
+ K61g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=9WC4K7zYh2oZ5YAoZKDUxrgzMbH3Ps3fi5GbO0fyXOo=;
- b=fQMoA+7Ka+a0TSjaaO1vgcXQy4UaUWByo/BH9I1wZHAikOcj4DnyVn1bIpfmIUb5D6
- l9hivRn21xJyUIy6XozIp6FJqb1p1sqRVQ83vQKPGvUvrvpOyJJXLzhSvKWdPa0Soouz
- yW7bziw69RT7LmfhgH6OYMlgrAhoBl7rjVt7NXDnnRH6sdDT7tjlcgJGVGPKF9hGUVqB
- /Cuw3qDei98Ej9Q3ZePjLx17aCTjPyGy8qra87ywxwx+dznUKm4pO8cKV5Zb73FS+6c/
- 5IxQSS/KfMvTBkWBducm1rNnHRp9JPQIANVz2xCFcvrK2ITa5Gdwm6KAjnyLuOn8yQZx
- j1bg==
-X-Gm-Message-State: AFqh2koxlNJ+9x/F/hMxrIJy+sBPyGhrldOiK6mIeKN0AYPvkIubKiBr
- DIJUz2GXHzRfJaSWRqG9gozAAgwBkm19+5wSQOm9Yw==
-X-Google-Smtp-Source: AMrXdXtACAqDWYIAdzi7r1gfQu5djwu2cTcgwIWqvPx62A1mz0GkKX32eR5D9EYs6UFpfDRxnj6HnWZq6ovjR5BVSrg=
-X-Received: by 2002:aa7:9485:0:b0:582:bdaa:b575 with SMTP id
- z5-20020aa79485000000b00582bdaab575mr2289819pfk.51.1673359350041; Tue, 10 Jan
- 2023 06:02:30 -0800 (PST)
+ bh=CJY2eY0yqtVzgZ6za+IgLscxAJNfbEbpTN8QwyUxsyo=;
+ b=TUz+2Z/2l7G5IFNBbkfJ4yaeaS2TTNfocF4w4iiWfYiHCgNDeRyV2eDhnkxEJ3JNoj
+ HwJUba8rtzMvN3gSY74QBpeelcZefzDN1DMydJClvAxhc7ywFcLJbsg3QfQQUQ+HAHvs
+ 5gdxDP1lDA77q2pQKlGxYnzdK07uuqrc6k3ZMC4AUmjbtrxQUtCpdUcyYu8FthHzN7yA
+ XN0YFnLd2fKxTL+SCdTZEL9OScPsbUMrdhuoPqQNd4OMIMsoQu6q+sY/xnP9jVEu2Ezy
+ LT9asZmS+Nd3GlpjcO2GP9CnMYskOq+3um4K41K22bKj2LTBZBB/+O4gksILzdN+4AZ4
+ FNog==
+X-Gm-Message-State: AFqh2kroQA6x+6QS/wzP8D8YTEEXwmXZxlTNLbxlT7PMO8lbi8tCb3BH
+ d+5Ez4z7lLtWpPzemsbYFZKjXxO/p7Z9IUOwni8yDw==
+X-Google-Smtp-Source: AMrXdXuuB2roj0oB9jj0j38YxOfvLoc2viXRiOny6vkD4I6KjPgaEQzxiMYaajjozUFlWJ+arjNA+if/VNwZjHbvj2k=
+X-Received: by 2002:a65:694b:0:b0:477:86c1:640f with SMTP id
+ w11-20020a65694b000000b0047786c1640fmr4894998pgq.231.1673359495492; Tue, 10
+ Jan 2023 06:04:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20230109224232.11661-1-farosas@suse.de>
- <20230109224232.11661-14-farosas@suse.de>
- <35870ab3-1da6-c222-b708-06ac71a5883c@redhat.com> <87zgaqa6jk.fsf@suse.de>
- <CAFEAcA_x_kTdNt8+5YAjo518Wj_Ej4jZ=0OrCQmutNOjJx=3Gw@mail.gmail.com>
- <87sfgia4uj.fsf@suse.de>
-In-Reply-To: <87sfgia4uj.fsf@suse.de>
+References: <20230110071743.63507-1-its@irrelevant.dk>
+ <Y70Rt+y56CP//81T@cormorant.local>
+In-Reply-To: <Y70Rt+y56CP//81T@cormorant.local>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 10 Jan 2023 14:02:18 +0000
-Message-ID: <CAFEAcA_AaWfwAbCLOC3ELf3c20Cv5jQhWc71Py4ww4kLo2nYeg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 13/19] tests: do not run test-hmp on all machines
- for ARM KVM-only
-To: Fabiano Rosas <farosas@suse.de>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>, 
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>, 
- Laurent Vivier <lvivier@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Date: Tue, 10 Jan 2023 14:04:44 +0000
+Message-ID: <CAFEAcA_TD-LrnH_YUW_-wc_KGxTt+JPMqp6G+nwk-wQf4eH6Yg@mail.gmail.com>
+Subject: Re: [PULL 0/4] hw/nvme updates
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,42 +84,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 10 Jan 2023 at 13:36, Fabiano Rosas <farosas@suse.de> wrote:
+On Tue, 10 Jan 2023 at 07:20, Klaus Jensen <its@irrelevant.dk> wrote:
 >
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Tue, 10 Jan 2023 at 13:00, Fabiano Rosas <farosas@suse.de> wrote:
-> >>
-> >> Thomas Huth <thuth@redhat.com> writes:
-> >>
-> >> > On 09/01/2023 23.42, Fabiano Rosas wrote:
-> >> >> From: Claudio Fontana <cfontana@suse.de>
-> >> >>
-> >> >> on ARM we currently list and build all machines, even when
-> >> >> building KVM-only, without TCG.
-> >> >>
-> >> >> Until we fix this (and we only list and build machines that are
-> >> >> compatible with KVM), only test specifically using the "virt"
-> >> >> machine in this case.
-> >> >
-> >> > Why don't you fix it immediately? ...
-> >>
-> >> My idea was to have in this series the minimum to unbreak the
-> >> --disable-tcg build and later bring the rest of the changes
-> >> incrementally.
+> On Jan 10 08:17, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
 > >
-> > This test is basically checking "all the machines should
-> > work". That's an important invariant to maintain, so
-> > I don't think we should just skip it for Arm targets.
+> > Hi,
+> >
+> > The following changes since commit 528d9f33cad5245c1099d77084c78bb2244d5143:
+> >
+> >   Merge tag 'pull-tcg-20230106' of https://gitlab.com/rth7680/qemu into staging (2023-01-08 11:23:17 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request
+> >
+> > for you to fetch changes up to fa5db2aa168bdc0f15c269b6212ef47632fab8ba:
+> >
+> >   hw/nvme: fix missing cq eventidx update (2023-01-09 08:48:46 +0100)
+> >
+> > ----------------------------------------------------------------
+> > hw/nvme updates
+> >
+> > ----------------------------------------------------------------
+> >
+> > Klaus Jensen (4):
+> >   hw/nvme: use QOM accessors
+> >   hw/nvme: rename shadow doorbell related trace events
+> >   hw/nvme: fix missing endian conversions for doorbell buffers
+> >   hw/nvme: fix missing cq eventidx update
+> >
+> >  hw/nvme/ctrl.c       | 121 ++++++++++++++++++++++++++-----------------
+> >  hw/nvme/trace-events |   8 +--
+> >  2 files changed, 78 insertions(+), 51 deletions(-)
+> >
+> > --
+> > 2.39.0
+> >
 >
-> But what does "all machines" mean in a no-TCG build? The original intent
-> of the patch was that only 'virt' should be present and therefore the
-> only one tested.
+> Argh. I forgot to update the pull url to something https://.
+>
+> Do I need to send a new pull?
 
-It means "every machine the user can create". If the
-machine can't run then either we shouldn't compile it
-in, or else we should be compiling in enough extra stuff
-to allow it to work.
+You can just send a new cover letter with the right URL-and-tag-line
+(I tried guessing what the right URL was, but didn't guess right.)
 
+thanks
 -- PMM
 
