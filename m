@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15916640D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAC24664063
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:24:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFDdT-0007OS-Bn; Tue, 10 Jan 2023 07:21:49 -0500
+	id 1pFDdj-0007fk-BR; Tue, 10 Jan 2023 07:22:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFDcm-00077R-TS
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:05 -0500
+ id 1pFDcu-00078S-6A
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:13 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+b726f73bd8c89da575c8+7079+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFDcg-0000PX-BL
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:04 -0500
+ id 1pFDcj-0000Pa-Si
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=PK5heB1kNY7bwg/pQG8nR+ynpaHQDRyHfaafy0gPir0=; b=KVC9Qlo7ex/6fOUF8Ig9ovY3ng
- NQrOqJstqandl+qRIlvtRaB5pfrbNiRroPCFYblK3ZxnNMGygCQ7aS/MXrD7UQYIExaFV0VIxB+kL
- qfO0S8RvJuw/yuK0S0MaksuvtGUJBH81zyzFkzXk5cqgrTfYAnphi9TWIGnz+tVmeKvmtXThGDO6o
- E+e/uQtVKXhJ7EyaBBAvAePRKvBHpI9/MQUBDZe85Ce2tL/B3+kS9unuVlfKKpjJlABuRbv0ls4vh
- 53o2YYoUWbO86qYFR/blH53wKjY1lDRoOtbM4AgYpyuihK1cOaItuz0AHYrXdguCVMHO+K4cmYW67
- B7qPx9EQ==;
+ bh=49y/Oi1hjfu4MTs8MPJ7O1VCX86wF3LLBGyDWlOuL6g=; b=E2xZAaaZ/SQ8kySEDSNM7UoNZL
+ FB9KQIeUxFmYmjxxFRa/LxfV4UCHWDyHatDk0uZUZYOXFSfP4YMRzVb60Xyf+T13XhoKtJv5X5Fm9
+ OuyqwPCxN1lJxsRx1k8DTwPx7A/7CkBN1jgpjlrWqXphmo6X7OaJ2ea33zEreGRz1Ps79YTl8LSKh
+ 7iUmmX+xFgXnOSekAA+2HCk7aDTpjXGlh0P8w7TuZTUtnlkJwZsXHUd8Fogj0mZfg04WFqdESmsvS
+ mNOqkeoe1Iy9R4zfeAEopiZa1+2uigvo0fPn/YSjIFGZ4RN6tXwkefOwe1zyAOaGmdC0nLgUoaJkp
+ jKet+new==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pFDcg-003C61-Ml; Tue, 10 Jan 2023 12:21:00 +0000
+ id 1pFDcg-003C64-NI; Tue, 10 Jan 2023 12:21:00 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pFDcT-006Yfm-Jb; Tue, 10 Jan 2023 12:20:45 +0000
+ Hat Linux)) id 1pFDcT-006Ygh-ML; Tue, 10 Jan 2023 12:20:45 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,9 +46,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [PATCH v6 46/51] i386/xen: handle PV timer hypercalls
-Date: Tue, 10 Jan 2023 12:20:37 +0000
-Message-Id: <20230110122042.1562155-47-dwmw2@infradead.org>
+Subject: [PATCH v6 49/51] hw/xen: Add backend implementation of interdomain
+ event channel support
+Date: Tue, 10 Jan 2023 12:20:40 +0000
+Message-Id: <20230110122042.1562155-50-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230110122042.1562155-1-dwmw2@infradead.org>
 References: <20230110122042.1562155-1-dwmw2@infradead.org>
@@ -81,58 +82,402 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Joao Martins <joao.m.martins@oracle.com>
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-Introduce support for one shot and periodic mode of Xen PV timers,
-whereby timer interrupts come through a special virq event channel
-with deadlines being set through:
+The provides the QEMU side of interdomain event channels, allowing events
+to be sent to/from the guest.
 
-1) set_timer_op hypercall (only oneshot)
-2) vcpu_op hypercall for {set,stop}_{singleshot,periodic}_timer
-hypercalls
+The API mirrors libxenevtchn, and in time both this and the real Xen one
+will be available through ops structures so that the PV backend drivers
+can use the correct one as appropriate.
 
-Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+For now, this implementation can be used directly by our XenStore which
+will be for emulated mode only.
+
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/kvm/xen_evtchn.c  |  31 +++++
- hw/i386/kvm/xen_evtchn.h  |   2 +
- target/i386/cpu.h         |   5 +
- target/i386/kvm/xen-emu.c | 245 +++++++++++++++++++++++++++++++++++++-
- target/i386/machine.c     |   1 +
- 5 files changed, 282 insertions(+), 2 deletions(-)
+ hw/i386/kvm/xen_evtchn.c | 340 ++++++++++++++++++++++++++++++++++++++-
+ hw/i386/kvm/xen_evtchn.h |  19 +++
+ 2 files changed, 352 insertions(+), 7 deletions(-)
 
 diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index c82fac69a2..9b9a10fa43 100644
+index 9b9a10fa43..39ad3eec77 100644
 --- a/hw/i386/kvm/xen_evtchn.c
 +++ b/hw/i386/kvm/xen_evtchn.c
-@@ -1159,6 +1159,37 @@ int xen_evtchn_send_op(struct evtchn_send *send)
+@@ -37,6 +37,7 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/kvm_xen.h"
+ #include <linux/kvm.h>
++#include <sys/eventfd.h>
+ 
+ #include "standard-headers/xen/memory.h"
+ #include "standard-headers/xen/hvm/params.h"
+@@ -87,6 +88,13 @@ struct compat_shared_info {
+ 
+ #define COMPAT_EVTCHN_2L_NR_CHANNELS            1024
+ 
++/* Local private implementation of struct xenevtchn_handle */
++struct xenevtchn_handle {
++    evtchn_port_t be_port;
++    evtchn_port_t guest_port; /* Or zero for unbound */
++    int fd;
++};
++
+ /*
+  * For unbound/interdomain ports there are only two possible remote
+  * domains; self and QEMU. Use a single high bit in type_val for that,
+@@ -108,6 +116,8 @@ struct XenEvtchnState {
+     uint32_t nr_ports;
+     XenEvtchnPort port_table[EVTCHN_2L_NR_CHANNELS];
+     qemu_irq gsis[GSI_NUM_PINS];
++
++    struct xenevtchn_handle *be_handles[EVTCHN_2L_NR_CHANNELS];
+ };
+ 
+ struct XenEvtchnState *xen_evtchn_singleton;
+@@ -115,6 +125,18 @@ struct XenEvtchnState *xen_evtchn_singleton;
+ /* Top bits of callback_param are the type (HVM_PARAM_CALLBACK_TYPE_xxx) */
+ #define CALLBACK_VIA_TYPE_SHIFT 56
+ 
++static void unbind_backend_ports(XenEvtchnState *s);
++
++static int xen_evtchn_pre_load(void *opaque)
++{
++    XenEvtchnState *s = opaque;
++
++    /* Unbind all the backend-side ports; they need to rebind */
++    unbind_backend_ports(s);
++
++    return 0;
++}
++
+ static int xen_evtchn_post_load(void *opaque, int version_id)
+ {
+     XenEvtchnState *s = opaque;
+@@ -148,6 +170,7 @@ static const VMStateDescription xen_evtchn_vmstate = {
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .needed = xen_evtchn_is_needed,
++    .pre_load = xen_evtchn_pre_load,
+     .post_load = xen_evtchn_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT64(callback_param, XenEvtchnState),
+@@ -362,6 +385,20 @@ static int assign_kernel_port(uint16_t type, evtchn_port_t port,
+     return kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &ha);
+ }
+ 
++static int assign_kernel_eventfd(uint16_t type, evtchn_port_t port, int fd)
++{
++    struct kvm_xen_hvm_attr ha;
++
++    ha.type = KVM_XEN_ATTR_TYPE_EVTCHN;
++    ha.u.evtchn.send_port = port;
++    ha.u.evtchn.type = type;
++    ha.u.evtchn.flags = 0;
++    ha.u.evtchn.deliver.eventfd.port = 0;
++    ha.u.evtchn.deliver.eventfd.fd = fd;
++
++    return kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &ha);
++}
++
+ static bool valid_port(evtchn_port_t port)
+ {
+     if (!port) {
+@@ -380,6 +417,32 @@ static bool valid_vcpu(uint32_t vcpu)
+     return !!qemu_get_cpu(vcpu);
+ }
+ 
++static void unbind_backend_ports(XenEvtchnState *s)
++{
++    XenEvtchnPort *p;
++    int i;
++
++    for (i = 1; i < s->nr_ports; i++) {
++        p = &s->port_table[i];
++        if (p->type == EVTCHNSTAT_interdomain &&
++            (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) ) {
++            evtchn_port_t be_port = p->type_val & PORT_INFO_TYPEVAL_REMOTE_PORT_MASK;
++
++            if (s->be_handles[be_port]) {
++                /* This part will be overwritten on the load anyway. */
++                p->type = EVTCHNSTAT_unbound;
++                p->type_val = PORT_INFO_TYPEVAL_REMOTE_QEMU;
++
++                /* Leave the backend port open and unbound too. */
++                if (kvm_xen_has_cap(EVTCHN_SEND)) {
++                    deassign_kernel_port(i);
++                }
++                s->be_handles[be_port]->guest_port = 0;
++            }
++        }
++    }
++}
++
+ int xen_evtchn_status_op(struct evtchn_status *status)
+ {
+     XenEvtchnState *s = xen_evtchn_singleton;
+@@ -815,7 +878,14 @@ static int close_port(XenEvtchnState *s, evtchn_port_t port)
+ 
+     case EVTCHNSTAT_interdomain:
+         if (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) {
+-            /* Not yet implemented. This can't happen! */
++            uint16_t be_port = p->type_val & ~PORT_INFO_TYPEVAL_REMOTE_QEMU;
++            struct xenevtchn_handle *xc = s->be_handles[be_port];
++            if (xc) {
++                if (kvm_xen_has_cap(EVTCHN_SEND)) {
++                    deassign_kernel_port(port);
++                }
++                xc->guest_port = 0;
++            }
+         } else {
+             /* Loopback interdomain */
+             XenEvtchnPort *rp = &s->port_table[p->type_val];
+@@ -1047,8 +1117,27 @@ int xen_evtchn_bind_interdomain_op(struct evtchn_bind_interdomain *interdomain)
+     }
+ 
+     if (interdomain->remote_dom == DOMID_QEMU) {
+-        /* We haven't hooked up QEMU's PV drivers to this yet */
+-        ret = -ENOSYS;
++        struct xenevtchn_handle *xc = s->be_handles[interdomain->remote_port];
++        XenEvtchnPort *lp = &s->port_table[interdomain->local_port];
++
++        if (!xc) {
++            ret = -ENOENT;
++            goto out_free_port;
++        }
++
++        if (xc->guest_port) {
++            ret = -EBUSY;
++            goto out_free_port;
++        }
++
++        assert(xc->be_port == interdomain->remote_port);
++        xc->guest_port = interdomain->local_port;
++        if (kvm_xen_has_cap(EVTCHN_SEND)) {
++            assign_kernel_eventfd(lp->type, xc->guest_port, xc->fd);
++        }
++        lp->type = EVTCHNSTAT_interdomain;
++        lp->type_val = PORT_INFO_TYPEVAL_REMOTE_QEMU | interdomain->remote_port;
++        ret = 0;
+     } else {
+         /* Loopback */
+         XenEvtchnPort *rp = &s->port_table[interdomain->remote_port];
+@@ -1066,6 +1155,7 @@ int xen_evtchn_bind_interdomain_op(struct evtchn_bind_interdomain *interdomain)
+         }
+     }
+ 
++ out_free_port:
+     if (ret) {
+         free_port(s, interdomain->local_port);
+     }
+@@ -1130,11 +1220,16 @@ int xen_evtchn_send_op(struct evtchn_send *send)
+         if (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) {
+             /*
+              * This is an event from the guest to qemu itself, which is
+-             * serving as the driver domain. Not yet implemented; it will
+-             * be hooked up to the qemu implementation of xenstore,
+-             * console, PV net/block drivers etc.
++             * serving as the driver domain.
+              */
+-            ret = -ENOSYS;
++            uint16_t be_port = p->type_val & ~PORT_INFO_TYPEVAL_REMOTE_QEMU;
++            struct xenevtchn_handle *xc = s->be_handles[be_port];
++            if (xc) {
++                eventfd_write(xc->fd, 1);
++                ret = 0;
++            } else {
++                ret = -ENOENT;
++            }
+         } else {
+             /* Loopback interdomain ports; just a complex IPI */
+             set_port_pending(s, p->type_val);
+@@ -1190,6 +1285,237 @@ int xen_evtchn_set_port(uint16_t port)
      return ret;
  }
  
-+int xen_evtchn_set_port(uint16_t port)
++struct xenevtchn_handle *xen_be_evtchn_open(void)
++{
++    struct xenevtchn_handle *xc = g_new0(struct xenevtchn_handle, 1);
++
++    xc->fd = eventfd(0, EFD_CLOEXEC);
++    if (xc->fd < 0) {
++        free(xc);
++        return NULL;
++    }
++
++    return xc;
++}
++
++static int find_be_port(XenEvtchnState *s, struct xenevtchn_handle *xc)
++{
++    int i;
++
++    for (i = 1; i < EVTCHN_2L_NR_CHANNELS; i++) {
++        if (!s->be_handles[i]) {
++            s->be_handles[i] = xc;
++            xc->be_port = i;
++            return i;
++        }
++    }
++    return 0;
++}
++
++int xen_be_evtchn_bind_interdomain(struct xenevtchn_handle *xc, uint32_t domid,
++                                   evtchn_port_t guest_port)
 +{
 +    XenEvtchnState *s = xen_evtchn_singleton;
-+    XenEvtchnPort *p;
-+    int ret = -EINVAL;
++    XenEvtchnPort *gp;
++    uint16_t be_port = 0;
++    int ret;
 +
 +    if (!s) {
 +        return -ENOTSUP;
 +    }
 +
-+    if (!valid_port(port)) {
++    if (!xc) {
++        return -EFAULT;
++    }
++
++    if (domid != xen_domid) {
++        return -ESRCH;
++    }
++
++    if (!valid_port(guest_port)) {
 +        return -EINVAL;
 +    }
 +
 +    qemu_mutex_lock(&s->port_lock);
 +
-+    p = &s->port_table[port];
++    /* The guest has to have an unbound port waiting for us to bind */
++    gp = &s->port_table[guest_port];
 +
-+    /* QEMU has no business sending to anything but these */
-+    if (p->type == EVTCHNSTAT_virq ||
-+        (p->type == EVTCHNSTAT_interdomain &&
-+         (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU))) {
-+            set_port_pending(s, port);
-+            ret = 0;
++    switch (gp->type) {
++    case EVTCHNSTAT_interdomain:
++        /* Allow rebinding after migration, preserve port # if possible */
++        be_port = gp->type_val & ~PORT_INFO_TYPEVAL_REMOTE_QEMU;
++        assert(be_port != 0);
++        if (!s->be_handles[be_port]) {
++            s->be_handles[be_port] = xc;
++            xc->guest_port = guest_port;
++            ret = xc->be_port = be_port;
++            if (kvm_xen_has_cap(EVTCHN_SEND)) {
++                assign_kernel_eventfd(gp->type, guest_port, xc->fd);
++            }
++            break;
++        }
++        /* fall through */
++
++    case EVTCHNSTAT_unbound:
++        be_port = find_be_port(s, xc);
++        if (!be_port) {
++            ret = -ENOSPC;
++            goto out;
++        }
++
++        gp->type = EVTCHNSTAT_interdomain;
++        gp->type_val = be_port | PORT_INFO_TYPEVAL_REMOTE_QEMU;
++        xc->guest_port = guest_port;
++        if (kvm_xen_has_cap(EVTCHN_SEND)) {
++            assign_kernel_eventfd(gp->type, guest_port, xc->fd);
++        }
++        ret = be_port;
++        break;
++
++    default:
++        ret = -EINVAL;
++        break;
++    }
++
++ out:
++    qemu_mutex_unlock(&s->port_lock);
++
++    return ret;
++}
++
++int xen_be_evtchn_unbind(struct xenevtchn_handle *xc, evtchn_port_t port)
++{
++    XenEvtchnState *s = xen_evtchn_singleton;
++    int ret;
++
++    if (!s) {
++        return -ENOTSUP;
++    }
++
++    if (!xc) {
++        return -EFAULT;
++    }
++
++    qemu_mutex_lock(&s->port_lock);
++
++    if (port && port != xc->be_port) {
++        ret = -EINVAL;
++        goto out;
++    }
++
++    if (xc->guest_port) {
++        XenEvtchnPort *gp = &s->port_table[xc->guest_port];
++
++        /* This should never *not* be true */
++        if (gp->type == EVTCHNSTAT_interdomain) {
++            gp->type = EVTCHNSTAT_unbound;
++            gp->type_val = PORT_INFO_TYPEVAL_REMOTE_QEMU;
++        }
++
++        if (kvm_xen_has_cap(EVTCHN_SEND)) {
++            deassign_kernel_port(xc->guest_port);
++        }
++        xc->guest_port = 0;
++    }
++
++    s->be_handles[xc->be_port] = NULL;
++    xc->be_port = 0;
++    ret = 0;
++ out:
++    qemu_mutex_unlock(&s->port_lock);
++    return ret;
++}
++
++int xen_be_evtchn_close(struct xenevtchn_handle *xc)
++{
++    if (!xc) {
++        return -EFAULT;
++    }
++
++    xen_be_evtchn_unbind(xc, 0);
++
++    close(xc->fd);
++    free(xc);
++    return 0;
++}
++
++int xen_be_evtchn_fd(struct xenevtchn_handle *xc)
++{
++    if (!xc) {
++        return -1;
++    }
++    return xc->fd;
++}
++
++int xen_be_evtchn_notify(struct xenevtchn_handle *xc, evtchn_port_t port)
++{
++    XenEvtchnState *s = xen_evtchn_singleton;
++    int ret;
++
++    if (!s) {
++        return -ENOTSUP;
++    }
++
++    if (!xc) {
++        return -EFAULT;
++    }
++
++    qemu_mutex_lock(&s->port_lock);
++
++    if (xc->guest_port) {
++        set_port_pending(s, xc->guest_port);
++        ret = 0;
++    } else {
++        ret = -ENOTCONN;
 +    }
 +
 +    qemu_mutex_unlock(&s->port_lock);
@@ -140,362 +485,87 @@ index c82fac69a2..9b9a10fa43 100644
 +    return ret;
 +}
 +
++int xen_be_evtchn_pending(struct xenevtchn_handle *xc)
++{
++    uint64_t val;
++
++    if (!xc) {
++        return -EFAULT;
++    }
++
++    if (!xc->be_port) {
++        return 0;
++    }
++
++    if (eventfd_read(xc->fd, &val)) {
++        return -errno;
++    }
++
++    return val ? xc->be_port : 0;
++}
++
++int xen_be_evtchn_unmask(struct xenevtchn_handle *xc, evtchn_port_t port)
++{
++    if (!xc) {
++        return -EFAULT;
++    }
++
++    if (xc->be_port != port) {
++        return -EINVAL;
++    }
++
++    /*
++     * We don't actually do anything to unmask it; the event was already
++     * consumed in xen_be_evtchn_pending().
++     */
++    return 0;
++}
++
++int xen_be_evtchn_get_guest_port(struct xenevtchn_handle *xc)
++{
++    return xc->guest_port;
++}
++
  static const char *type_names[] = {
      "closed",
      "unbound",
 diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-index 1f9ffc3f94..d85b45067b 100644
+index d85b45067b..b7b6f4e592 100644
 --- a/hw/i386/kvm/xen_evtchn.h
 +++ b/hw/i386/kvm/xen_evtchn.h
-@@ -20,6 +20,8 @@ int xen_evtchn_set_callback_param(uint64_t param);
- void xen_evtchn_connect_gsis(qemu_irq *system_gsis);
- void xen_evtchn_set_callback_level(int level);
+@@ -14,6 +14,8 @@
  
-+int xen_evtchn_set_port(uint16_t port);
+ #include "hw/sysbus.h"
+ 
++typedef uint32_t evtchn_port_t;
++
+ void xen_evtchn_create(void);
+ int xen_evtchn_soft_reset(void);
+ int xen_evtchn_set_callback_param(uint64_t param);
+@@ -22,6 +24,23 @@ void xen_evtchn_set_callback_level(int level);
+ 
+ int xen_evtchn_set_port(uint16_t port);
+ 
++/*
++ * These functions mirror the libxenevtchn library API, providing the QEMU
++ * backend side of "interdomain" event channels.
++ */
++struct xenevtchn_handle;
++struct xenevtchn_handle *xen_be_evtchn_open(void);
++int xen_be_evtchn_bind_interdomain(struct xenevtchn_handle *xc, uint32_t domid,
++                                   evtchn_port_t guest_port);
++int xen_be_evtchn_unbind(struct xenevtchn_handle *xc, evtchn_port_t port);
++int xen_be_evtchn_close(struct xenevtchn_handle *xc);
++int xen_be_evtchn_fd(struct xenevtchn_handle *xc);
++int xen_be_evtchn_notify(struct xenevtchn_handle *xc, evtchn_port_t port);
++int xen_be_evtchn_unmask(struct xenevtchn_handle *xc, evtchn_port_t port);
++int xen_be_evtchn_pending(struct xenevtchn_handle *xc);
++/* Apart from this which is a local addition */
++int xen_be_evtchn_get_guest_port(struct xenevtchn_handle *xc);
 +
  void hmp_xen_event_inject(Monitor *mon, const QDict *qdict);
  void hmp_xen_event_list(Monitor *mon, const QDict *qdict);
  
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index e8718c31e5..b579f0f0f8 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -26,6 +26,7 @@
- #include "exec/cpu-defs.h"
- #include "qapi/qapi-types-common.h"
- #include "qemu/cpu-float.h"
-+#include "qemu/timer.h"
- 
- #define XEN_NR_VIRQS 24
- 
-@@ -1800,6 +1801,10 @@ typedef struct CPUArchState {
-     bool xen_callback_asserted;
-     uint16_t xen_virq[XEN_NR_VIRQS];
-     uint64_t xen_singleshot_timer_ns;
-+    QEMUTimer *xen_singleshot_timer;
-+    uint64_t xen_periodic_timer_period;
-+    QEMUTimer *xen_periodic_timer;
-+    QemuMutex xen_timers_lock;
- #endif
- #if defined(CONFIG_HVF)
-     HVFX86LazyFlags hvf_lflags;
-diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index a279d7ff89..2a7750bacb 100644
---- a/target/i386/kvm/xen-emu.c
-+++ b/target/i386/kvm/xen-emu.c
-@@ -37,6 +37,9 @@
- 
- #include "xen-compat.h"
- 
-+static void xen_vcpu_singleshot_timer_event(void *opaque);
-+static void xen_vcpu_periodic_timer_event(void *opaque);
-+
- #ifdef TARGET_X86_64
- #define hypercall_compat32(longmode) (!(longmode))
- #else
-@@ -200,6 +203,23 @@ int kvm_xen_init_vcpu(CPUState *cs)
-     env->xen_vcpu_time_info_gpa = INVALID_GPA;
-     env->xen_vcpu_runstate_gpa = INVALID_GPA;
- 
-+    qemu_mutex_init(&env->xen_timers_lock);
-+    env->xen_singleshot_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-+                                             xen_vcpu_singleshot_timer_event,
-+                                             cpu);
-+    if (!env->xen_singleshot_timer) {
-+        return -ENOMEM;
-+    }
-+    env->xen_singleshot_timer->opaque = cs;
-+
-+    env->xen_periodic_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-+                                           xen_vcpu_periodic_timer_event,
-+                                           cpu);
-+    if (!env->xen_periodic_timer) {
-+        return -ENOMEM;
-+    }
-+    env->xen_periodic_timer->opaque = cs;
-+
-     return 0;
- }
- 
-@@ -231,7 +251,8 @@ static bool kvm_xen_hcall_xen_version(struct kvm_xen_exit *exit, X86CPU *cpu,
-                          1 << XENFEAT_writable_descriptor_tables |
-                          1 << XENFEAT_auto_translated_physmap |
-                          1 << XENFEAT_supervisor_mode_kernel |
--                         1 << XENFEAT_hvm_callback_vector;
-+                         1 << XENFEAT_hvm_callback_vector |
-+                         1 << XENFEAT_hvm_safe_pvclock;
-         }
- 
-         err = kvm_copy_to_gva(CPU(cpu), arg, &fi, sizeof(fi));
-@@ -848,13 +869,192 @@ static int vcpuop_register_runstate_info(CPUState *cs, CPUState *target,
-     return 0;
- }
- 
-+static uint64_t kvm_get_current_ns(void)
-+{
-+    struct kvm_clock_data data;
-+    int ret;
-+
-+    ret = kvm_vm_ioctl(kvm_state, KVM_GET_CLOCK, &data);
-+    if (ret < 0) {
-+        fprintf(stderr, "KVM_GET_CLOCK failed: %s\n", strerror(ret));
-+                abort();
-+    }
-+
-+    return data.clock;
-+}
-+
-+static void xen_vcpu_singleshot_timer_event(void *opaque)
-+{
-+    CPUState *cpu = opaque;
-+    CPUX86State *env = &X86_CPU(cpu)->env;
-+    uint16_t port = env->xen_virq[VIRQ_TIMER];
-+
-+    if (likely(port)) {
-+        xen_evtchn_set_port(port);
-+    }
-+
-+    qemu_mutex_lock(&env->xen_timers_lock);
-+    env->xen_singleshot_timer_ns = 0;
-+    qemu_mutex_unlock(&env->xen_timers_lock);
-+}
-+
-+static void xen_vcpu_periodic_timer_event(void *opaque)
-+{
-+    CPUState *cpu = opaque;
-+    CPUX86State *env = &X86_CPU(cpu)->env;
-+    uint16_t port = env->xen_virq[VIRQ_TIMER];
-+    int64_t qemu_now;
-+
-+    if (likely(port)) {
-+        xen_evtchn_set_port(port);
-+    }
-+
-+    qemu_mutex_lock(&env->xen_timers_lock);
-+
-+    qemu_now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    timer_mod_ns(env->xen_periodic_timer,
-+                 qemu_now + env->xen_periodic_timer_period);
-+
-+    qemu_mutex_unlock(&env->xen_timers_lock);
-+}
-+
-+static int do_set_periodic_timer(CPUState *target, uint64_t period_ns)
-+{
-+    CPUX86State *tenv = &X86_CPU(target)->env;
-+    int64_t qemu_now;
-+
-+    timer_del(tenv->xen_periodic_timer);
-+
-+    qemu_mutex_lock(&tenv->xen_timers_lock);
-+
-+    qemu_now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    timer_mod_ns(tenv->xen_periodic_timer, qemu_now + period_ns);
-+    tenv->xen_periodic_timer_period = period_ns;
-+
-+    qemu_mutex_unlock(&tenv->xen_timers_lock);
-+    return 0;
-+}
-+
-+#define MILLISECS(_ms)  ((int64_t)((_ms) * 1000000ULL))
-+#define MICROSECS(_us)  ((int64_t)((_us) * 1000ULL))
-+#define STIME_MAX ((time_t)((int64_t)~0ull >> 1))
-+/* Chosen so (NOW() + delta) wont overflow without an uptime of 200 years */
-+#define STIME_DELTA_MAX ((int64_t)((uint64_t)~0ull >> 2))
-+
-+static int vcpuop_set_periodic_timer(CPUState *cs, CPUState *target,
-+                                     uint64_t arg)
-+{
-+    struct vcpu_set_periodic_timer spt;
-+
-+    qemu_build_assert(sizeof(spt) == 8);
-+    if (kvm_copy_from_gva(cs, arg, &spt, sizeof(spt))) {
-+        return -EFAULT;
-+    }
-+
-+    if (spt.period_ns < MILLISECS(1) || spt.period_ns > STIME_DELTA_MAX) {
-+        return -EINVAL;
-+    }
-+
-+    return do_set_periodic_timer(target, spt.period_ns);
-+}
-+
-+static int vcpuop_stop_periodic_timer(CPUState *target)
-+{
-+    CPUX86State *tenv = &X86_CPU(target)->env;
-+
-+    qemu_mutex_lock(&tenv->xen_timers_lock);
-+
-+    timer_del(tenv->xen_periodic_timer);
-+    tenv->xen_periodic_timer_period = 0;
-+
-+    qemu_mutex_unlock(&tenv->xen_timers_lock);
-+    return 0;
-+}
-+
-+static int do_set_singleshot_timer(CPUState *cs, uint64_t timeout_abs,
-+                                   bool future, bool linux_wa)
-+{
-+    CPUX86State *env = &X86_CPU(cs)->env;
-+    int64_t now = kvm_get_current_ns();
-+    int64_t qemu_now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    int64_t delta = timeout_abs - now;
-+
-+    if (future && timeout_abs < now) {
-+        return -ETIME;
-+    }
-+
-+    if (linux_wa && unlikely((int64_t)timeout_abs < 0 ||
-+                             (delta > 0 && (uint32_t)(delta >> 50) != 0))) {
-+        /*
-+         * Xen has a 'Linux workaround' in do_set_timer_op() which checks
-+         * for negative absolute timeout values (caused by integer
-+         * overflow), and for values about 13 days in the future (2^50ns)
-+         * which would be caused by jiffies overflow. For those cases, it
-+         * sets the timeout 100ms in the future (not *too* soon, since if
-+         * a guest really did set a long timeout on purpose we don't want
-+         * to keep churning CPU time by waking it up).
-+         */
-+        delta = (100 * SCALE_MS);
-+        timeout_abs = now + delta;
-+    }
-+
-+    qemu_mutex_lock(&env->xen_timers_lock);
-+
-+    timer_mod_ns(env->xen_singleshot_timer, qemu_now + delta);
-+    env->xen_singleshot_timer_ns = now + delta;
-+
-+    qemu_mutex_unlock(&env->xen_timers_lock);
-+    return 0;
-+}
-+
-+static int vcpuop_set_singleshot_timer(CPUState *cs, uint64_t arg)
-+{
-+    struct vcpu_set_singleshot_timer sst;
-+
-+    qemu_build_assert(sizeof(sst) == 16);
-+    if (kvm_copy_from_gva(cs, arg, &sst, sizeof(sst))) {
-+        return -EFAULT;
-+    }
-+
-+    return do_set_singleshot_timer(cs, sst.timeout_abs_ns,
-+                                   !!(sst.flags & VCPU_SSHOTTMR_future),
-+                                   false);
-+}
-+
-+static int vcpuop_stop_singleshot_timer(CPUState *cs)
-+{
-+    CPUX86State *env = &X86_CPU(cs)->env;
-+
-+    qemu_mutex_lock(&env->xen_timers_lock);
-+
-+    timer_del(env->xen_singleshot_timer);
-+    env->xen_singleshot_timer_ns = 0;
-+
-+    qemu_mutex_unlock(&env->xen_timers_lock);
-+    return 0;
-+}
-+
-+static int kvm_xen_hcall_set_timer_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-+                                      uint64_t timeout)
-+{
-+    if (unlikely(timeout == 0)) {
-+        return vcpuop_stop_singleshot_timer(CPU(cpu));
-+    } else {
-+        return do_set_singleshot_timer(CPU(cpu), timeout, false, true);
-+    }
-+}
-+
- static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-                                   int cmd, int vcpu_id, uint64_t arg)
- {
--    CPUState *dest = qemu_get_cpu(vcpu_id);
-     CPUState *cs = CPU(cpu);
-+    CPUState *dest = cs->cpu_index == vcpu_id ? cs : qemu_get_cpu(vcpu_id);
-     int err;
- 
-+    if (!dest) {
-+        return -ENOENT;
-+    }
-+
-     switch (cmd) {
-     case VCPUOP_register_runstate_memory_area:
-         err = vcpuop_register_runstate_info(cs, dest, arg);
-@@ -865,6 +1065,26 @@ static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-     case VCPUOP_register_vcpu_info:
-         err = vcpuop_register_vcpu_info(cs, dest, arg);
-         break;
-+    case VCPUOP_set_singleshot_timer: {
-+        if (cs->cpu_index != vcpu_id) {
-+            return -EINVAL;
-+        }
-+        err = vcpuop_set_singleshot_timer(dest, arg);
-+        break;
-+    }
-+    case VCPUOP_stop_singleshot_timer:
-+        if (cs->cpu_index != vcpu_id) {
-+            return -EINVAL;
-+        }
-+        err = vcpuop_stop_singleshot_timer(dest);
-+        break;
-+    case VCPUOP_set_periodic_timer: {
-+        err = vcpuop_set_periodic_timer(cs, dest, arg);
-+        break;
-+    }
-+    case VCPUOP_stop_periodic_timer:
-+        err = vcpuop_stop_periodic_timer(dest);
-+        break;
- 
-     default:
-         return false;
-@@ -1204,6 +1424,9 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
-     }
- 
-     switch (code) {
-+    case __HYPERVISOR_set_timer_op:
-+        return kvm_xen_hcall_set_timer_op(exit, cpu,
-+                                          exit->u.hcall.params[0]);
-     case __HYPERVISOR_grant_table_op:
-         return kvm_xen_hcall_gnttab_op(exit, cpu, exit->u.hcall.params[0],
-                                        exit->u.hcall.params[1],
-@@ -1313,7 +1536,25 @@ int kvm_put_xen_state(CPUState *cs)
-         }
-     }
- 
-+    if (env->xen_periodic_timer_period) {
-+        ret = do_set_periodic_timer(cs, env->xen_periodic_timer_period);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+    }
-+
-     if (!kvm_xen_has_cap(EVTCHN_SEND)) {
-+        /*
-+         * If the kernel has EVTCHN_SEND support then it handles timers too,
-+         * so the timer will be restored by kvm_xen_set_vcpu_timer() below.
-+         */
-+        if (env->xen_singleshot_timer_ns) {
-+            ret = do_set_singleshot_timer(cs, env->xen_singleshot_timer_ns,
-+                                    false, false);
-+            if (ret < 0) {
-+                return ret;
-+            }
-+        }
-         return 0;
-     }
- 
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 603a1077e3..c7ac8084b2 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -1277,6 +1277,7 @@ static const VMStateDescription vmstate_xen_vcpu = {
-         VMSTATE_UINT8(env.xen_vcpu_callback_vector, X86CPU),
-         VMSTATE_UINT16_ARRAY(env.xen_virq, X86CPU, XEN_NR_VIRQS),
-         VMSTATE_UINT64(env.xen_singleshot_timer_ns, X86CPU),
-+        VMSTATE_UINT64(env.xen_periodic_timer_period, X86CPU),
-         VMSTATE_END_OF_LIST()
-     }
- };
 -- 
 2.35.3
 
