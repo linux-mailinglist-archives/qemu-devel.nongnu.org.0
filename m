@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A1F664709
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 18:09:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E686649E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:27:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFH6a-0003Xi-Bn; Tue, 10 Jan 2023 11:04:04 -0500
+	id 1pFH6X-0003WW-Lh; Tue, 10 Jan 2023 11:04:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pFH5q-00033o-IG
+ id 1pFH5q-00033n-Hv
  for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:03:19 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pFH5n-00051w-Rp
+ id 1pFH5n-00051o-Fs
  for qemu-devel@nongnu.org; Tue, 10 Jan 2023 11:03:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673366595;
+ s=mimecast20190719; t=1673366594;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kxoDxdJoAu7ijonzxciG985n50ebA+2y8TPA6VcbWzg=;
- b=gtF20BuC19xIGANOySDUdvOicDVMzrEbrzLWTojxxI/ad+qGgEW0c0xlbEv3gwt66p/346
- A0H63Rupx/zIw7Akujp+RM3idJg+J6NvR2yvuJ1aih/Ujg0ze0sNq1/1x12tzOeOCVx/w9
- SWCZYWGMO3oFFeNhnrGXkKtfwxYD/3E=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5geKxrZ9SVaENVV+7JQNCEHlK7JI4nrgTkAwQRpZSRM=;
+ b=dYkyqhKeeCef8lCk/eZgqbsKgXsQgLWtB4V6KEJA6A0iFQagrSarK9PKjkvTz1WTK3y9GU
+ J7sH+hEGeeQMviLPAv92TKWTloNa40NhaOyDsDORb5WyITC6PAOA3+pb6JrqdACQO88es0
+ wOPlKHC1zz1Ftt9EW44lOX6kEaSZaaI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-139-hgYceHObMcmVvgX5vuzPng-1; Tue, 10 Jan 2023 11:03:13 -0500
-X-MC-Unique: hgYceHObMcmVvgX5vuzPng-1
-Received: by mail-wr1-f70.google.com with SMTP id
- m12-20020adfa3cc000000b002b881cb0cb4so2098394wrb.3
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 08:03:07 -0800 (PST)
+ us-mta-49-dYnFyoLGMxq47duC8tIkZw-1; Tue, 10 Jan 2023 11:03:13 -0500
+X-MC-Unique: dYnFyoLGMxq47duC8tIkZw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ q3-20020adfab03000000b002b32e25058dso2123397wrc.5
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 08:03:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kxoDxdJoAu7ijonzxciG985n50ebA+2y8TPA6VcbWzg=;
- b=XQ6tw3iy0R/1hy8f4vG2p50rEgQnEWtPTXBfkprDkovBsmYsCtEf9gavt6Nn8w8n+B
- Cj24030KqelOWzzuULQ+SaumoHkyjfOJog7da9+0d5lq87k8M5MrnSIdr5sh/NU3U700
- Gu8vac8rHdE9888gU5/hTjFOXOfxJBCzN3dnYRZrJiYHEjwTU+EyhZO/1v+akHNalcO0
- 10x4hzkckPAF9IAGEk7dSSuYUv2o1voDBLIKhvw13phhw1yqymtn01SKjEF9yLLjXowa
- acdmaht0uzoUlvkQrLLn974kv9wZDf+9IYtCQ0XjlDhifVpN2cWQOUDM5rA9ykl8ezSO
- 8c9g==
-X-Gm-Message-State: AFqh2krm0UXmElMBljBaLdtuJZsxjVHM+OixDNjGZYTu8H670qJG10QW
- Jz/edkNsQ28UQXPB1Md7A+kF+C0que+aEW7q0d54qwCqmXsiMoBB2Yo6JoknEb/9xrGu1Ir8asB
- Y0MChAseQAh3rJT+QReZ8BWZmXz2+UHZXa2OhIOksUrsmADBNRPDNxb1WnpB3bpE2dBo=
-X-Received: by 2002:a7b:c4c8:0:b0:3d3:5a4a:9101 with SMTP id
- g8-20020a7bc4c8000000b003d35a4a9101mr53567178wmk.23.1673366585228; 
- Tue, 10 Jan 2023 08:03:05 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtureUI8Cp/efs0GXqvwEMUFiExBFERQG1uFo6OuW9LgF8ByO4tftmT45A4z7gVGxw3WI/uOQ==
-X-Received: by 2002:a7b:c4c8:0:b0:3d3:5a4a:9101 with SMTP id
- g8-20020a7bc4c8000000b003d35a4a9101mr53567143wmk.23.1673366584937; 
- Tue, 10 Jan 2023 08:03:04 -0800 (PST)
+ bh=5geKxrZ9SVaENVV+7JQNCEHlK7JI4nrgTkAwQRpZSRM=;
+ b=vwvh1XsKGKA1mNWy4qZsct9z1yAc6+6yEgwoUmwOQST6rDWI/ta8U+a0GQb2aQUDAl
+ IsOJmhH3PQBvHBC2rQTYAeF5zzoaAiO6km5u1ZPLq8t3CrbGNcjcEVpGzZ58KuyvwojM
+ lQZPQaR5FwEbiQnT19eDDKuVoW7aJHn9y7f4pT+MkYIKJaQzQpf6itR0bzpxQRispzvb
+ 1HgobW8mBlPc23elkiWB2JdOL0jbiRt65Dprr56oSQDWw4ohn209h4tt/2m5QZRfMnrP
+ ifVafjybcRuGY2yW2pfKf0J7WnO49ilvXnk5PHN+JA6LMMhz0nQDBN9rEncISbeilumf
+ vKJw==
+X-Gm-Message-State: AFqh2kqHoA94zAqnKSVz+tRuA//gL3ilY/weh17ZJpeLQM3QFor1+EDq
+ UOUCYb6FKC9FLgL/SFAIaTVWaoX28CNtxtr1mRebEKmLDhFEQ5nt2LF2Djdw0mUnozpcmKPinOK
+ yEKS++QNDBrMdoadeHt85jEkqTCPj+DdWo6HdhUZRGfeZj7TvEFt9rqZ1AWfHEHnd1SQ=
+X-Received: by 2002:adf:f482:0:b0:2bb:f4bf:e758 with SMTP id
+ l2-20020adff482000000b002bbf4bfe758mr4996055wro.48.1673366588307; 
+ Tue, 10 Jan 2023 08:03:08 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvSeoZcxa6jkDgCoWRyBXzUVoHUX0Giex3z49otRDKv/R0OOo80g184kSK9QdqyFQCsw5iCDw==
+X-Received: by 2002:adf:f482:0:b0:2bb:f4bf:e758 with SMTP id
+ l2-20020adff482000000b002bbf4bfe758mr4996010wro.48.1673366587654; 
+ Tue, 10 Jan 2023 08:03:07 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- x14-20020a1c7c0e000000b003d9f15efcd5sm6557050wmc.6.2023.01.10.08.03.04
+ g2-20020a5d4882000000b00286ad197346sm11623480wrq.70.2023.01.10.08.03.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 08:03:04 -0800 (PST)
+ Tue, 10 Jan 2023 08:03:07 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 11/29] tools/virtiofsd: add G_GNUC_PRINTF for logging functions
-Date: Tue, 10 Jan 2023 17:02:15 +0100
-Message-Id: <20230110160233.339771-12-pbonzini@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 12/29] util/error: add G_GNUC_PRINTF for various functions
+Date: Tue, 10 Jan 2023 17:02:16 +0100
+Message-Id: <20230110160233.339771-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230110160233.339771-1-pbonzini@redhat.com>
 References: <20230110160233.339771-1-pbonzini@redhat.com>
@@ -104,61 +105,38 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 From: Daniel P. Berrangé <berrange@redhat.com>
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20221219130205.687815-4-berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221219130205.687815-5-berrange@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tools/virtiofsd/fuse_log.c       | 1 +
- tools/virtiofsd/fuse_log.h       | 6 ++++--
- tools/virtiofsd/passthrough_ll.c | 1 +
- 3 files changed, 6 insertions(+), 2 deletions(-)
+ util/error-report.c | 1 +
+ util/error.c        | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/tools/virtiofsd/fuse_log.c b/tools/virtiofsd/fuse_log.c
-index 745d88cd2a49..2de3f48ee7ea 100644
---- a/tools/virtiofsd/fuse_log.c
-+++ b/tools/virtiofsd/fuse_log.c
-@@ -12,6 +12,7 @@
- #include "fuse_log.h"
- 
- 
+diff --git a/util/error-report.c b/util/error-report.c
+index 5edb2e604061..6e44a5573217 100644
+--- a/util/error-report.c
++++ b/util/error-report.c
+@@ -193,6 +193,7 @@ real_time_iso8601(void)
+  * a single phrase, with no newline or trailing punctuation.
+  * Prepend the current location and append a newline.
+  */
 +G_GNUC_PRINTF(2, 0)
- static void default_log_func(__attribute__((unused)) enum fuse_log_level level,
-                              const char *fmt, va_list ap)
+ static void vreport(report_type type, const char *fmt, va_list ap)
  {
-diff --git a/tools/virtiofsd/fuse_log.h b/tools/virtiofsd/fuse_log.h
-index 8d7091bd4d0b..e5c2967ab95a 100644
---- a/tools/virtiofsd/fuse_log.h
-+++ b/tools/virtiofsd/fuse_log.h
-@@ -45,7 +45,8 @@ enum fuse_log_level {
-  * @param ap format string arguments
-  */
- typedef void (*fuse_log_func_t)(enum fuse_log_level level, const char *fmt,
--                                va_list ap);
-+                                va_list ap)
-+    G_GNUC_PRINTF(2, 0);
- 
- /**
-  * Install a custom log handler function.
-@@ -68,6 +69,7 @@ void fuse_set_log_func(fuse_log_func_t func);
-  * @param level severity level (FUSE_LOG_ERR, FUSE_LOG_DEBUG, etc)
-  * @param fmt sprintf-style format string including newline
-  */
--void fuse_log(enum fuse_log_level level, const char *fmt, ...);
-+void fuse_log(enum fuse_log_level level, const char *fmt, ...)
-+    G_GNUC_PRINTF(2, 3);
- 
- #endif /* FUSE_LOG_H_ */
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 20f0f41f99a5..40ea2ed27fef 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -4182,6 +4182,7 @@ static void setup_nofile_rlimit(unsigned long rlimit_nofile)
+     gchar *timestr;
+diff --git a/util/error.c b/util/error.c
+index b6c89d141208..1e7af665b838 100644
+--- a/util/error.c
++++ b/util/error.c
+@@ -45,6 +45,7 @@ static void error_handle_fatal(Error **errp, Error *err)
      }
  }
  
-+G_GNUC_PRINTF(2, 0)
- static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
- {
-     g_autofree char *localfmt = NULL;
++G_GNUC_PRINTF(6, 0)
+ static void error_setv(Error **errp,
+                        const char *src, int line, const char *func,
+                        ErrorClass err_class, const char *fmt, va_list ap,
 -- 
 2.38.1
 
