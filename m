@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49A0663A00
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 08:31:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE73663A09
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 08:34:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF96O-0006qr-2M; Tue, 10 Jan 2023 02:31:20 -0500
+	id 1pF97c-0007Un-6P; Tue, 10 Jan 2023 02:32:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pF96L-0006qE-Ey
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 02:31:17 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pF97Y-0007RX-RG
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 02:32:32 -0500
+Received: from sonic308-54.consmr.mail.gq1.yahoo.com ([98.137.68.30])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pF96J-00073t-Nz
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 02:31:17 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- m8-20020a05600c3b0800b003d96f801c48so11059296wms.0
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 23:31:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MqQbsjjNJf4sQ7F15l1eL/gaAUDid8Wa3wFWl6ODroc=;
- b=yFKRjzcl/sRh84ZTFk3PEcrlaTkVEQRDs5NdVn23Hq1yFZ91aRfKxHOb3Anq/1e9TE
- 3xnQWu9rAgar/1XChEJjWGSR6cM3Q+FYgnS4SrdQbKwDf+3BEI5ZGUqUyE41ff9tcXrI
- rW9BisoDhDKVwr7DtZ897KZpoDGHc17Bx7E+II2+onhqwBim45dxYazlzXaGycV/DYOq
- 4DW6Ft3N1na70yvIxlXV89FTLgK9rQpOx1nCk7wZa1irl9P0Jj3oWZvOrXx347QaAuyr
- II1Wf+Qa0yYkOu2O1LYmknIfXZk1p8tUHgosK/FNqwKCPG6mvaA3oRbp+7Olk/NKAWy8
- 9cjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MqQbsjjNJf4sQ7F15l1eL/gaAUDid8Wa3wFWl6ODroc=;
- b=BIjGN3fFA7y19j2FXlK9SOJ8K2G0NMe7et4BXD35x8sIDw2PL/PqtF0jVyD8fy9gO7
- iydDa8CFqNdthZPzsE2MCklzVIwheunvvzmgo3g4WWW9ovg/mxv20S9LzHIOBzQCFRPu
- vzqm62hHRrPvf11Kf3QCBYbpO3dwptttDeOmbfcm9QvTIUApMkX6CN70YsBqujtWCcaq
- Auob+iVoW5kFaCZQKhsTX1/1oj3KlRmnple0LOVvr584kVH/gSaI7PmH4QS5SXf8Q983
- COWgcKEW26UGuVlZe7wkOEoZEofROj7qEqKj3rFHgNrh7x/zmDdLTn20sx33C8ohQfbo
- 6LzA==
-X-Gm-Message-State: AFqh2kpIu5fw9jHM95wCm6f99vs5znX5m7uYKfipgPIGItfkleFcHS4F
- YLeWhSZ92fXMPgXK65hIrlHe5w==
-X-Google-Smtp-Source: AMrXdXuO8Vu1ow92v4o4QwmTanUhtAaLpLAV9PJHWwJamWGNtvlH+wvn6HwThJipPI87ydz4MfLgHw==
-X-Received: by 2002:a05:600c:48a8:b0:3cf:7197:e68a with SMTP id
- j40-20020a05600c48a800b003cf7197e68amr49145294wmp.18.1673335874277; 
- Mon, 09 Jan 2023 23:31:14 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- ay13-20020a05600c1e0d00b003d34faca949sm13989186wmb.39.2023.01.09.23.31.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 23:31:13 -0800 (PST)
-Message-ID: <38a1182c-0a8d-5478-ba3a-f145b80cd9b8@linaro.org>
-Date: Tue, 10 Jan 2023 08:31:12 +0100
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pF97V-0007Dn-RD
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 02:32:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1673335947; bh=06K19SzqcQMh+hYhDSeIvS+A1/F0qrYWujU3+eUpzVU=;
+ h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
+ b=P4bfXUJ/Oj1sE4kdQK8QT7e6pQLcH4DLBCs17Yh/tS3Ez3cmciomWmb4LuLRhJP1HfsHObKGh6HOOeS8Xe1evZLESy46Ke0IIZOfyvR5TaowAotPqoqW6K8HwPOz6F6+d9Zkq41rYMNbI7t3I16CFg+6oiLVrAxCDtgX5cRXYol54on/6QCG/l/56UPQEQV7Zs8WuItBQ4W/BkHZGfwLeMuEnYAWq90yTqwhHgvIZ33idYcDJAMv8V82mJtyyygNeXnbde2mkOhR/l0OD3iJ6I2lQrOTQFIjl/1K9AQHNTODe0mRxaIO+FZqH5Y3V2mOWRgfJRigw1damskw5/JFGw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1673335947; bh=qiEct4R8jT0mwdX7UpFLVNjLYCi7GJda04po0C6cY4K=;
+ h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
+ b=dxATIrmQpuS93tvMUICVaqOLCSFREPVzQm4SQQugtK1YPeVS2q9ps0WdrqXcNA8JnZS14CuT5D3lf2bkSjPAiF2AI5xHeCRjMg76cBu9DT/26QyKjNCKe9oqKduMHlne1lVSzDriGhPOL7edrRGwo6a0SaSAUFW/PgDguRFaBrzLE3nd6L5IN79QIBKK7Le/RcC4nEFjBBA+WcuupHF4ahPLaVmENgVLfiC1kdL/YdHkwSYVkmp94whzGeKAaY4P+gd+5GeTj7G4GicfViEaRlpFNaW62hOrDky620gTBUi6UYJTHfhsnY5oDssexMHQWe5b/Ol5NlzjhGmwiR4kaQ==
+X-YMail-OSG: zDrCPGAVM1nKO6q4JEwQd0TLn_dx5z3NGvb.UsTIFqQDWW2_QU9Eu2G7qEfPxvn
+ XkCvt4XXYgZtyeSQWLmALXZwrgXq95f3.TgppA__RxHl2_GQTuNqOntSLARx7z16_SZOC405wb5P
+ dmzs_SLzVX_qv_XAe1e_6SyqumXPBj6g5GY5vJ32bommQhqlbh3CGW6MD.fVzKl9NgGDN3HrNgSQ
+ uAqOsLTA6yprOwHUOp.jPAXpcTvCi9d324aATxwhzSvleqjnwVkZn7.qn0qv7hkItw6WyBsQrxW9
+ GkGE44Ly9UU7y5vUQJkskGkygQhAgs9AHjhRT7nJwtN__Pvcksfu_wlX8yqABQ7_G9iqculoxG4y
+ 3N76GrDm4ukxhPx_WZhnzWpNyRzz80UhhRKJHmfr2SDpWhQyPbl_CKpFXgKNHmvYrAb.9_0WV8LG
+ sfGzj5axvp6izZZcH8i9jRrLGhbeXoO3ntqGWtVmSG8h_H87yu779IndHgls17iUGtFSMaQQaren
+ wCXzNwj8Mbr4CgzwbasQQNRRKLivGLBw0c_I1mnFBjK475kVyMxgQ_DQP2oeB5s5jAspyM7QUfbH
+ Shsn6NMbJotgQEYehpNI7sI6b6hHan.fcaD9pZanWen2QJQ89bYCqEyrIZigK_pUUS0.WfhsD_lZ
+ I.uembUWw4jBGrAeesqFtmiyr6Ww7CeQqsdhWtbuk3FQZZQffz5nznf0rql2k0YcWpsAteOzHDTJ
+ FwSYM3hZPqRbZQ9WMON8xK9a.MMPp87IIDpufxohXIgG4MUocFZrK7jblRzdpVZibGJt6IDf2kPe
+ LgZI24cRTUnet.inN02WTYM8RAOG_6P4CYRbbnWiCKnHE3Qx2R7yr4WPETBJCOVUlA2jODAoovrw
+ fe0vpIdUqJONkeZGwY29p4dDU4c3NsMsDrh_9KUDZJBq78vq6_5dOHXMf3VC8MOP3dhqXLPK.gX7
+ pzIIJ2l0CzzWntdcoP0Q87sdfoLzjX3VyrxNW4foh07rf0Yaa0KWDpNRWhvNozVVaGInDjlbM.cA
+ oKZiuwxYjtAz0ODQWXWcV0rAKZeLpaMoMY2z6vennE2mZ45bnr7m8II3joniWnTraAQPmpQNUSn.
+ qggbLLzSlv3UZTl_F.0EXeo6egH.Pj8QT_2xomUopIk707Fk9iKnf17dOicMfMA6fBFKQTmdjx1L
+ .fNEoRI86hN1VZQeWgLNOYr4xdXY.R7gTT5En8.yX8HynE62Z9gNja16xDbj4vzgnwJ0KX3oqKNN
+ Jik3xHuCy7j7pKO_iJCnAHxOB5v4MWP6v9oIozpMARdeUxxQ83_gBcT6XOvQLJ0oH9ScGCwqgTGr
+ OzOXeWZ7XMTcamXOkKlxaF01ZaMBVLtJulpLcbV2pPN0wrDCPBG5cVf1xavIlH87eQmkif_junML
+ 9.0qn0OePyv06EnHlmaWnGTtQoL.zk56j0DYmI0ib2L3CBN5mDL.eSuW0X4b4HGbQVvtOgstUX5y
+ XmAJ9Sp6UPd0rdKwidP5cjPkhLo6Sr6xInsgVBJ_EvRNI1JMEojo9yED6ekX_tSyRvjETuPSRLVb
+ sdtAdswCL3FueL6z0nVCay0k92c_neQjcW0jXN8R935uG_oQzaZwtjEpxD2lxN7jrn9zD0ursLDO
+ 6TVFTGaih3SthGsIFisrTjLbPrbaltMDqAcMLbV9gtHNSnlnZVzCnbZETFA021MCzqIwNZ.evpmB
+ IqSEl0LWxCUt2aq5MTQ7nHxG3b7vFLRuMbLiNPTIMOOui8SRv34t2hJ3zyjuTBuh5OvuBBnCS820
+ z7H6ZgNdO.Q_.S7YUny5YRmfs1V7GIherasBf_Q8rceMnWouTuYeZyhkIIjmCNdGeHvTq9bFUPaZ
+ 4N7zIVUNH8RGLjLS4EaE8RZNJcG.nY2MikLlUaWkuqD6yOJtIvAEMfzKCaCRaPVZUPREFB_in47z
+ kCICh4y3IQ0euEB8rs.nhin7kauvYXZUUKfQeeciiRXauvgOmVYavlYsHCBCVJMLVzKFQ9tnT0XX
+ MRCnKbyhcI.VwF36AOBqf2gpGWxikKtYCqVADkDFLWh3Bs5zgBn7xtkk3TU8W_e8Gu8435nZShSM
+ dEuZiEJ4mNfNwSbbIW9ZgD7duiaGPWXC92mTj.gih4ivW7mIlqPGFuAx4ycrvLpyjAIjpJFEysoF
+ 7ieCCClAAdBj.mrJ1DBCuQ7LxIHICbkPjXE04JWObdFgFypR1OhTpAyHTnxk1g23nynNljo4aAU8
+ -
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic308.consmr.mail.gq1.yahoo.com with HTTP; Tue, 10 Jan 2023 07:32:27 +0000
+Received: by hermes--production-ne1-7b69748c4d-bxfkx (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 00995f78f0d4fd001b9b8f1699ee7ed7; 
+ Tue, 10 Jan 2023 07:32:21 +0000 (UTC)
+From: Chuck Zmudzinski <brchuckz@aol.com>
+To: anthony.perard@citrix.com
+Cc: xen-devel@lists.xenproject.org, Wei Liu <wl@xen.org>,
+ Juergen Gross <jgross@suse.com>, qemu-devel@nongnu.org
+Subject: [XEN PATCH v2 0/3] Configure qemu upstream correctly by default for
+ igd-passthru
+Date: Tue, 10 Jan 2023 02:32:01 -0500
+Message-Id: <cover.1673300848.git.brchuckz@aol.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 5/5] plugins: make qemu_plugin_user_exit's locking
- order consistent with fork_start's
-Content-Language: en-US
-To: Emilio Cota <cota@braap.org>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20230109224954.161672-1-cota@braap.org>
- <20230109224954.161672-6-cota@braap.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230109224954.161672-6-cota@braap.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <cover.1673300848.git.brchuckz.ref@aol.com>
+Received-SPF: pass client-ip=98.137.68.30; envelope-from=brchuckz@aim.com;
+ helo=sonic308-54.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.096,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,15 +98,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/1/23 23:49, Emilio Cota wrote:
-> To fix potential deadlocks as reported by tsan.
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Emilio Cota <cota@braap.org>
-> ---
->   plugins/core.c | 16 +++++++++++-----
->   1 file changed, 11 insertions(+), 5 deletions(-)
+Sorry for the length of this cover letter but it is helpful to put all
+the pros and cons of the two different approaches to solving the problem
+of configuring the Intel IGD with qemu upstream and libxl in one place,
+which I attempt to do here. Of course the other approach involves a
+patch to qemu [1] instead of using this patch series for libxl.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+The quick answer:
+
+I think the other patch to qemu is the better option, but I would be OK
+if you use this patch series instead.
+
+Details with my reasons for preferring the other patch to qemu over this
+patch series to libxl: 
+
+I call attention to the commit message of the first patch which points
+out that using the "pc" machine and adding the xen platform device on
+the qemu upstream command line is not functionally equivalent to using
+the "xenfv" machine which automatically adds the xen platform device
+earlier in the guest creation process. As a result, there is a noticeable
+reduction in the performance of the guest during startup with the "pc"
+machne type even if the xen platform device is added via the qemu
+command line options, although eventually both Linux and Windows guests
+perform equally well once the guest operating system is fully loaded.
+
+Specifically, startup time is longer and neither the grub vga drivers
+nor the windows vga drivers in early startup perform as well when the
+xen platform device is added via the qemu command line instead of being
+added immediately after the other emulated i440fx pci devices when the
+"xenfv" machine type is used.
+
+For example, when using the "pc" machine, which adds the xen platform
+device using a command line option, the Linux guest could not display
+the grub boot menu at the native resolution of the monitor, but with the
+"xenfv" machine, the grub menu is displayed at the full 1920x1080
+native resolution of the monitor for testing. So improved startup
+performance is an advantage for the patch for qemu.
+
+I also call attention to the last point of the commit message of the
+second patch and the comments for reviewers section of the second patch.
+This approach, as opposed to fixing this in qemu upstream, makes
+maintaining the code in libxl__build_device_model_args_new more
+difficult and therefore increases the chances of problems caused by
+coding errors and typos for users of libxl. So that is another advantage
+of the patch for qemu.
+
+OTOH, fixing this in qemu causes newer qemu versions to behave
+differently than previous versions of qemu, which the qemu community
+does not like, although they seem OK with the other patch since it only
+affects qemu "xenfv" machine types, but they do not want the patch to
+affect toolstacks like libvirt that do not use qemu upstream's
+autoconfiguration options as much as libxl does, and, of course, libvirt
+can manage qemu "xenfv" machines so exising "xenfv" guests configured
+manually by libvirt could be adversely affected by the patch to qemu,
+but only if those same guests are also configured for igd-passthrough,
+which is likely a very small number of possibly affected libvirt users
+of qemu.
+
+A year or two ago I tried to configure guests for pci passthrough on xen
+using libvirt's tool to convert a libxl xl.cfg file to libvirt xml. It
+could not convert an xl.cfg file with a configuration item
+pci = [ "PCI_SPEC_STRING", "PCI_SPEC_STRING", ...] for pci passthrough.
+So it is unlikely there are any users out there using libvirt to
+configure xen hvm guests for igd passthrough on xen, and those are the
+only users that could be adversely affected by the simpler patch to qemu
+to fix this.
+
+The only advantage of this patch series over the qemu patch is that
+this patch series does not need any patches to qemu to make Intel IGD
+configuration easier with libxl so the risk of affecting other qemu
+users is entirely eliminated if we use this patch instead of patching
+qemu. The cost of patching libxl instead of qemu is reduced startup
+performance compared to what could be achieved by patching qemu instead
+and an increased risk that the tedious process of manually managing the
+slot addresses of all the emulated devices will make it more difficult
+to keep the libxl code free of bugs.
+
+I will leave it to the maintainer of the code in both qemu and libxl
+(Anthony) to decide which, if any, of the patches to apply. I am OK with
+either this patch series to libxl or the proposed patch to qemu to fix
+this problem, but I do recommend the other patch to qemu over this patch
+series because of the improved performance during startup with that
+patch and the relatively low risk that any libvirt users will be
+adversely affected by that patch.
+
+Brief statement of the problem this patch series solves:
+
+Currently only the qemu traditional device model reserves slot 2 for the
+Intel Integrated Graphics Device (IGD) with default settings. Assigning
+the Intel IGD to slot 2 is necessary for the device to operate properly
+when passed through as the primary graphics adapter. The qemu
+traditional device model takes care of this by reserving slot 2 for the
+Intel IGD, but the upstream qemu device model currently does not reserve
+slot 2 for the Intel IGD.
+
+This patch series modifies libxl so the upstream qemu device model will
+also, with default settings, assign slot 2 for the Intel IGD.
+
+There are three reasons why it is difficult to configure the guest
+so the Intel IGD is assigned to slot 2 in the guest using libxl and the
+upstream device model, so the patch series is logically organized in
+three separate patches; each patch resolves one of the three reasons
+that cause problems:
+
+The description of what each of the three libxl patches do:
+
+1. With the default "xenfv" machine type, qemu upstream is hard-coded
+   to assign the xen platform device to slot 2. The first patch fixes
+   that by using the "pc" machine instead when gfx_passthru type is igd
+   and, if xen_platform_pci is set in the guest config, libxl now assigns
+   the xen platform device to slot 3, making it possible to assign the
+   IGD to slot 2. The patch only affects guests with the gfx_passthru
+   option enabled. The default behavior (xen_platform_pci is enabled
+   but gfx_passthru option is disabled) of using the "xenfv" machine
+   type is preserved. Another way to describe what the patch does is
+   to say that it adds a second exception to the default choice of the
+   "xenfv" machine type, with the first exception being that the "pc"
+   machine type is also used instead of "xenfv" if the xen platform pci
+   device is disabled in the guest xl.cfg file.
+
+2. Currently, with libxl and qemu upstream, most emulated pci devices
+   are by default automatically assigned a pci slot, and the emulated
+   ones are assigned before the passed through ones, which means that
+   even if libxl is patched so the xen platform device will not be
+   assigned to slot 2, any other emulated device will be assigned slot 2
+   unless libxl explicitly assigns the slot address of each emulated pci
+   device in such a way that the IGD will be assigned slot 2. The second
+   patch fixes this by hard coding the slot assignment for the emulated
+   devices instead of deferring to qemu upstream's auto-assignment which
+   does not do what is necessary to configure the Intel IGD correctly.
+   With the second patch applied, it is possible to configure the Intel
+   IGD correctly by using the @VSLOT parameter in xl.cfg to specify the
+   slot address of each passed through pci device in the guest. The
+   second patch is also designed to not change the default behavior of
+   letting qemu autoconfigure the pci slot addresses when igd
+   gfx_pasthru is disabled in xl.cfg.  
+
+3. For convenience, the third patch automatically assigns slot 2 to the
+   Intel IGD when the gfx_passthru type is igd so with the third patch
+   appled it is not necessary to set the @VSLOT parameter to configure
+   the Intel IGD correctly.
+
+Testing:
+
+I tested a system with Intel IGD passthrough and two other pci devices
+passed through, with and without the xen platform device. I also did
+tests on guests without any pci passthrough configured. In all cases
+tested, libxl behaved as expected. For example, the device model
+arguments are only changed if gfx_passthru is set for the IGD, libxl
+respected administrator settings such as @VSLOT and xen_platform_pci
+with the patch series applied, and not adding the xen platform device to
+the guest caused reduced performance because in that case the guest
+could not take advantage of the improvements offered by the Xen PV
+drivers in the guest. I tested the following emulated devices on my
+setup: xen-platform, e1000, and VGA. I also verified the device that is
+added by the "hdtype = 'ahci'" xl.cfg option is configured correctly
+with the patch applied. I did not test all 12 devices that could be
+affected by patch 2 of the series. These include the intel-hda high
+definition audio device, a virtio-serial, device, etc. Once can look
+at the second patch for the full list of qemu emulated devices whose
+behavior is affected by the second patch of the series when the guest
+is configured for igd gfx_passthru. These devices are also subject
+to mistakes in the patch not discovered by the compiler, as mentioned
+in the comments for reviewers section of the second patch. 
+
+[1] https://lore.kernel.org/qemu-devel/a09d2427397621eaecee4c46b33507a99cc5f161.1673334040.git.brchuckz@aol.com/
+
+v2: correct the link to the qemu patch - the link in v1 was to an
+    incorrect version of the patch
+
+Chuck Zmudzinski (3):
+  libxl/dm: Use "pc" machine type for Intel IGD passthrough
+  libxl/dm: Manage pci slot assignment for Intel IGD passthrough
+  libxl/dm: Assign slot 2 by default for Intel IGD passthrough
+
+ tools/libs/light/libxl_dm.c | 227 +++++++++++++++++++++++++++++-------
+ 1 file changed, 183 insertions(+), 44 deletions(-)
+
+-- 
+2.39.0
 
 
