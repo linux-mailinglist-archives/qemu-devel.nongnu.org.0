@@ -2,64 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100946648F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 19:16:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 741D86647D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 18:57:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFIkI-00087q-7d; Tue, 10 Jan 2023 12:49:10 -0500
+	id 1pFIly-0000XZ-Nb; Tue, 10 Jan 2023 12:50:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFIkG-00087N-QE
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:49:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pFIlw-0000VQ-FF
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:50:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFIkE-0003wa-OV
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:49:08 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pFIlu-0004aG-Ok
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 12:50:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673372946;
+ s=mimecast20190719; t=1673373049;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/2nvrlOnT30x56ns1M+sXtBJjG6eOeN3cCwpQKmXG/8=;
- b=aGxwELQmt1Fr4QxLxgXRX4MrW7k2ITQ409njcNNVQ5ca1BCka3X77vD08Bs5zV5OyOq/UO
- nFI3cZINdSHWAb6diuJiuYFN8Q8p7ScLnS+stFysEkTS7cYZII2LkNEVJtqpjJz/VNSbNq
- tzvhYqH4d1HJs9zAGnRjc7TpcOX3z10=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-57-zbC3VmdTN1GJHIDUe5zrIg-1; Tue, 10 Jan 2023 12:49:02 -0500
-X-MC-Unique: zbC3VmdTN1GJHIDUe5zrIg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17ABF1C426A6;
- Tue, 10 Jan 2023 17:49:02 +0000 (UTC)
-Received: from virtlab420.virt.lab.eng.bos.redhat.com
- (virtlab420.virt.lab.eng.bos.redhat.com [10.19.152.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D56F7492C14;
- Tue, 10 Jan 2023 17:49:01 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 1/2] Revert "linux-user: add more compat ioctl definitions"
-Date: Tue, 10 Jan 2023 12:49:00 -0500
-Message-Id: <20230110174901.2580297-2-berrange@redhat.com>
-In-Reply-To: <20230110174901.2580297-1-berrange@redhat.com>
-References: <20230110174901.2580297-1-berrange@redhat.com>
+ bh=Y0gP4TuSdmmkwc6KaCt3EEFN0GKpf0v+bXFFXmejAWk=;
+ b=T/3PxB8gfkKlci2B28FR6LJKLbBkXB7xtInxNqq9+CM2OTQ8DaK9bGTEc1ahyVskEb6xS2
+ mNXbbrEYvnP9WWwI+tQb6yqvx0DWgKHTVAilDRmg3wNyCQOBmYci98zD+nIMgtMduFZ6qi
+ W/cDl0RCKRH9KqXMY7XG94Y2kvOLaxM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-564-N6E5JRgANWuPsi4v0O7oPA-1; Tue, 10 Jan 2023 12:50:48 -0500
+X-MC-Unique: N6E5JRgANWuPsi4v0O7oPA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ t2-20020adfa2c2000000b002bbdae91832so1750463wra.21
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 09:50:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Y0gP4TuSdmmkwc6KaCt3EEFN0GKpf0v+bXFFXmejAWk=;
+ b=iyv/cEMV0K549xKo9WjCSJd/7drtfuJB2a4sIbfR/wFRwhHRmYurabGe5hyML+3U9I
+ vXv4WwqlzIcK5RN4JOhr/rVcgEVWTfGrJuY3DgibJm9A91FtoKREgJCpr4QlA0T6H7Ur
+ h5nlDhJ8YwP2vs72+Wq9gBgEO/6ERVWVJ8AQNfEGa7zobuasySS7wYrFGhao2XII1yPL
+ 6e3BGiNslPGWBrPNFiywup8ixbg5GNagqoaS65YeBWlOslOEXGZjLIv6/kwUk3GMsIr6
+ 7D7nFstCHEC3ikhDEuveNtU/ebaDpfcV/8oBdBbCAVnchALp+Xb24ZpV+sIOEScQWENW
+ atlQ==
+X-Gm-Message-State: AFqh2koQD/BRPJcnF6zH1mQ0AGF6Ovt1q2q2gezGk6n5Njm+rccK5RfL
+ kpAEhEhkz+ryd8vh1/aLKGLtlN6fh8OdnEpQijm1NK56wTHjZ7G9Jeap8kdPhSpT0UFtvEI0b0+
+ BZefHCh3QfR/ZY+Y=
+X-Received: by 2002:a05:600c:4f55:b0:3cf:7197:e67c with SMTP id
+ m21-20020a05600c4f5500b003cf7197e67cmr48867182wmq.25.1673373047062; 
+ Tue, 10 Jan 2023 09:50:47 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvN964VE6oMySWoqJrzCnjxDgFwqSfUtTAVuzagOxt9lf8/p2lV4qr1sVhbBV6+EkrtpifeNw==
+X-Received: by 2002:a05:600c:4f55:b0:3cf:7197:e67c with SMTP id
+ m21-20020a05600c4f5500b003cf7197e67cmr48867174wmq.25.1673373046903; 
+ Tue, 10 Jan 2023 09:50:46 -0800 (PST)
+Received: from redhat.com ([2.52.137.155]) by smtp.gmail.com with ESMTPSA id
+ f11-20020a05600c4e8b00b003d04e4ed873sm23138292wmq.22.2023.01.10.09.50.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Jan 2023 09:50:46 -0800 (PST)
+Date: Tue, 10 Jan 2023 12:50:42 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
+ pbonzini@redhat.com, ebiggers@kernel.org,
+ Mathias Krause <minipli@grsecurity.net>, qemu-devel@nongnu.org
+Subject: Re: [PATCH qemu v3] x86: don't let decompressed kernel image clobber
+ setup_data
+Message-ID: <20230110125005-mutt-send-email-mst@kernel.org>
+References: <Y69fUstLKNv/RLd7@zx2c4.com>
+ <20221230220725.618763-1-Jason@zx2c4.com>
+ <Y72FmQlNwBsp8Ntc@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y72FmQlNwBsp8Ntc@zx2c4.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,63 +100,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This reverts commit c5495f4ecb0cdaaf2e9dddeb48f1689cdb520ca0.
+On Tue, Jan 10, 2023 at 04:34:49PM +0100, Jason A. Donenfeld wrote:
+> Hi Michael,
+> 
+> Could you queue up this patch and mark it as a fix for 7.2.1? It is a
+> straight-up bug fix for a 7.2 regression that's now affected several
+> users.
 
-glibc has fixed (in 2.36.9000-40-g774058d729) the problem
-that caused a clash when both sys/mount.h annd linux/mount.h
-are included, and backported this to the 2.36 stable release
-too:
+OK. In the future pls cc me if you want me to merge a patch. Thanks!
 
-  https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
-
-It is saner for QEMU to remove the workaround it applied for
-glibc 2.36 and expect distros to ship the 2.36 maint release
-with the fix. This avoids needing to add a further workaround
-to QEMU to deal with the fact that linux/brtfs.h now also pulls
-in linux/mount.h via linux/fs.h since Linux 6.1
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- linux-user/syscall.c | 25 -------------------------
- 1 file changed, 25 deletions(-)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 1f8c10f8ef..9c1e9555e1 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -111,31 +111,6 @@
- #define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
- #define FS_IOC32_GETVERSION            _IOR('v', 1, int)
- #define FS_IOC32_SETVERSION            _IOW('v', 2, int)
--
--#define BLKGETSIZE64 _IOR(0x12,114,size_t)
--#define BLKDISCARD _IO(0x12,119)
--#define BLKIOMIN _IO(0x12,120)
--#define BLKIOOPT _IO(0x12,121)
--#define BLKALIGNOFF _IO(0x12,122)
--#define BLKPBSZGET _IO(0x12,123)
--#define BLKDISCARDZEROES _IO(0x12,124)
--#define BLKSECDISCARD _IO(0x12,125)
--#define BLKROTATIONAL _IO(0x12,126)
--#define BLKZEROOUT _IO(0x12,127)
--
--#define FIBMAP     _IO(0x00,1)
--#define FIGETBSZ   _IO(0x00,2)
--
--struct file_clone_range {
--        __s64 src_fd;
--        __u64 src_offset;
--        __u64 src_length;
--        __u64 dest_offset;
--};
--
--#define FICLONE         _IOW(0x94, 9, int)
--#define FICLONERANGE    _IOW(0x94, 13, struct file_clone_range)
--
- #else
- #include <linux/fs.h>
- #endif
--- 
-2.38.1
+> - It has two Tested-by tags on the thread.
+> - hpa, the maintainer of the kernel side of this, confirmed on one of
+>   the various tributary threads that this approach is a correct one.
+> - It doesn't introduce any new functionality.
+> 
+> For your convenience, you can grab this out of lore here:
+> 
+>   https://lore.kernel.org/lkml/20221230220725.618763-1-Jason@zx2c4.com/
+> 
+> Or if you want to yolo it:
+> 
+>   curl https://lore.kernel.org/lkml/20221230220725.618763-1-Jason@zx2c4.com/raw | git am -s
+> 
+> It's now sat silent on the mailing list for a while. So let's please get
+> this committed and backported so that the bug reports stop coming in.
+> 
+> Thanks,
+> Jason
+> 
+> 
 
 
