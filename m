@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BDC46639D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 08:23:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D256639DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 08:24:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF8yd-0003pj-8Q; Tue, 10 Jan 2023 02:23:19 -0500
+	id 1pF8zS-0004yy-7f; Tue, 10 Jan 2023 02:24:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pF8ya-0003ln-BH
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 02:23:16 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pF8zP-0004yg-PO
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 02:24:07 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pF8yY-0004S9-EJ
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 02:23:15 -0500
-Received: by mail-wr1-x434.google.com with SMTP id h16so10716670wrz.12
- for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 23:23:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pF8zO-0004ZZ-63
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 02:24:07 -0500
+Received: by mail-wr1-x431.google.com with SMTP id bn26so10765280wrb.0
+ for <qemu-devel@nongnu.org>; Mon, 09 Jan 2023 23:24:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Du4mhjasHako5qwl7hv4ogJH4gnyXnB5dYi3UmU7zc0=;
- b=IJvahpBiPwCMLHvlpBUr26Y/EPp9q+WOdMVhVNnfqMWPmCkHUA0BUL13RIxoizavLk
- 5SCro0CZcyp7AgXm5+OvVx73PPUSfAREL4lBwq4uT7UDeotza2uRs2mC5UXnQnRSvXgU
- uXcKjC67EUkzQKJhN+3H4pNyl2InAuIRFo+NH2y1VTnuWdIhoNaz7l3QbpoAl/gAZmsJ
- jS8L9E0eiWFpqQhgP3ibyfUtGRR3VKkhkXUoEWQDneHnKFBxp8lA44oJDcWhmTGV7ihn
- djoUd57UeC1wPW0q21eN6+bm1CzSxkP2UNMWSBmuRZFKAL79v8Fx6XjxlkksfYqmIdvq
- brbw==
+ bh=hH6ZfBcWlCzWLsm5iivNrLW5OyrVy1G+TZfInKuwdws=;
+ b=fsiYakznsiwjNVqJC9e4+3HCbXheK6Sa/INU++x49zOF3HQSdu5lzo5juV4xNXQIn5
+ uN0NrQbVr2wI5q0TDiaL8nfkPRA8eRu0GEbX4bk4gD4k+CMclaDri9Xwt9KWRVWHMjqs
+ RyXE9AW932+eCXQNiUOyYhfEOPAp9EQr5TctDA24mxhTnBr0XPzaV851yQiBB1DWq5au
+ w4225QuZlOn0WjEdecWuKRElHoMHbXDe61SRmyGnSnJ9pOdyVeC/QdDytnm6nUm3l4WM
+ 9SROweYRaMP0i+LK5NO9o7bRCgi3FVGHnKdd9BRuXNfhV7P9j+WQP1/DyhjrGMbDa5hg
+ vZgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Du4mhjasHako5qwl7hv4ogJH4gnyXnB5dYi3UmU7zc0=;
- b=R7ZLi9LoPQOuqTXOkpNwbMTNWdOi7Qhhk+4RjsZXzlArDUeOyRNHCRgDPEOq6IuIRV
- l0OnieKwTYXfePMp+fTfj4/RnAM1fv3rwCIsfyRCsIrSFKbXX6An9ugqKd3+rNQ2lVog
- xb1FGpJmAoMTtpCG/I5ilrLWEiJ0R8OsSmdBdMOjCHkRVIpGvqkgON0h/dufCtopwYhS
- nr1j0zvHlDFJlIS4KPhc3jgCQ362dPmpXE4pYOWB5ZASmjxOnooUUj+TEkbma879DcVQ
- 0ZLH2HcUbCJx0iNe/SER70mmWQmJ3debgFfiwLkcstHemZYLpyyGXQDqdyRTuTWZsEGC
- uSmw==
-X-Gm-Message-State: AFqh2ko19ReiuvpPgz25O96udOsaYyUeGwsvoa3pKu3C4VzVgmRP78LQ
- Iu3KIhxJVbiWdKfzVsASKJ07Qg==
-X-Google-Smtp-Source: AMrXdXvw0NZq4JY4aAlnyi+6/V86iNhtiGxah7j93BMQLjzFB68BVmJoYP67DzoITuUEXX6UquYD4g==
-X-Received: by 2002:a5d:6e08:0:b0:236:84b5:6658 with SMTP id
- h8-20020a5d6e08000000b0023684b56658mr42359382wrz.64.1673335392140; 
- Mon, 09 Jan 2023 23:23:12 -0800 (PST)
+ bh=hH6ZfBcWlCzWLsm5iivNrLW5OyrVy1G+TZfInKuwdws=;
+ b=eDWbS1kq06gRkCJ0KQxlDDvNP1VAESWFRhxdFQnSNTQwI0wPOC72Aw1UEyRuRfb+fT
+ km1ZtiAFkVUnYHZ0QMJJAtgPbHybub0CznGpuRxz9XqyFhJt2UMLCttVQrtCzI/emBKX
+ CdnA63zUBXl9MWDNNjMOQA3BpR3/V69C1r5i5W9fDB9/+FIMotCa9ZMaN3YSmvhrkapC
+ Xvq2ehMniTO8xhfIKrRAVxsVfJKsvt3xBQ9iLX5ldWF+22D+AwFNRU/KnpSA2KsO42xY
+ vlfMFbRUS1brSx0OWAj933usvNjxSEWdv1zbY/MubojtTp4G/855WIPpwpAK5Ui+8bhU
+ z5nQ==
+X-Gm-Message-State: AFqh2ko7GZ61V/svhdqZcsA/GdaUYgLRF0aca0VbNYsMTLQis/fELZHS
+ UQRAbrhqknFmvzM0umbRUM93dQ==
+X-Google-Smtp-Source: AMrXdXuRnrzYtbVz09aAgSb2+kzenHvWvGzqHN246C784AtmQQEv2w/5cAYrSrTVXNE/98r161pvnA==
+X-Received: by 2002:a5d:4143:0:b0:290:3629:a824 with SMTP id
+ c3-20020a5d4143000000b002903629a824mr27848623wrq.40.1673335444732; 
+ Mon, 09 Jan 2023 23:24:04 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k2-20020a5d5182000000b00236545edc91sm10502707wrv.76.2023.01.09.23.23.11
+ q17-20020adfcd91000000b002b6bcc0b64dsm9182270wrj.4.2023.01.09.23.24.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Jan 2023 23:23:11 -0800 (PST)
-Message-ID: <b3efe230-8bda-cad4-112c-aab3ce9bf320@linaro.org>
-Date: Tue, 10 Jan 2023 08:23:10 +0100
+ Mon, 09 Jan 2023 23:24:04 -0800 (PST)
+Message-ID: <e30ad7d6-ce2d-7ecc-b513-3c951e04d42b@linaro.org>
+Date: Tue, 10 Jan 2023 08:24:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v4 15/17] ui: Don't check for mode change after mouse_set
- error
+Subject: Re: [PATCH v4 16/17] ui: Split hmp_mouse_set() and move the HMP part
+ to ui/
 Content-Language: en-US
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com
 References: <20230109190321.1056914-1-armbru@redhat.com>
- <20230109190321.1056914-16-armbru@redhat.com>
+ <20230109190321.1056914-17-armbru@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230109190321.1056914-16-armbru@redhat.com>
+In-Reply-To: <20230109190321.1056914-17-armbru@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,31 +92,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 9/1/23 20:03, Markus Armbruster wrote:
-> hmp_mouse_set() doesn't bail out when it can't find a mouse.
-> Harmless, since qemu_input_check_mode_change() should be a no-op then.
-> Clean it up anyway.
-> 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   ui/input.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/ui/input.c b/ui/input.c
-> index 8f4a87d1d7..d1c7605238 100644
-> --- a/ui/input.c
-> +++ b/ui/input.c
-> @@ -616,6 +616,7 @@ void hmp_mouse_set(Monitor *mon, const QDict *qdict)
->   
->       if (!found) {
->           error_report("Mouse at index '%d' not found", index);
-> +        return;
-
-Oops :)
-
+>   include/monitor/hmp.h |  1 +
+>   include/ui/console.h  |  2 +-
+>   monitor/misc.c        |  1 -
+>   ui/input.c            | 15 +++++++--------
+>   ui/ui-hmp-cmds.c      |  8 ++++++++
+>   5 files changed, 17 insertions(+), 10 deletions(-)
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
->       }
->   
->       qemu_input_check_mode_change();
 
 
