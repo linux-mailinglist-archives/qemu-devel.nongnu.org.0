@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68EA26640A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:37:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC1D664080
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:31:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFDdE-0007FT-T6; Tue, 10 Jan 2023 07:21:33 -0500
+	id 1pFDfW-0001Mp-M9; Tue, 10 Jan 2023 07:23:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pFDcj-00076X-8m
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:01 -0500
+ id 1pFDcw-00079j-Ej
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:15 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+6ce08bad6b360d6d5e23+7079+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pFDcf-0000RS-3A
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:00 -0500
+ id 1pFDcs-0000U6-20
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 07:21:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
  To:From:Reply-To:Content-ID:Content-Description;
- bh=depuP2UFZVz6LKpmad+mpUkHRYhUfsg5newIxCrarqo=; b=V2sGJu7QE3bhjcdzxaL/OKM1ce
- aw4GBI3ZOO0BSJvcDeW7lqeF6U9/y8usXeo9bu23puU0bvgBb8pFfTW9NRuoq3J+0WSiztWrlaCWF
- G8uVaEjy8C2fhsymdaMM1CP1WOrjcIUG9He7PQyjFZozwC57mwwfx9pnrR4HffJhbaLD+ezLvVpVM
- BT+l8EgIi0QdPpsP+VEOwMUW4/H4wZH8CbyJr50BPe5YaqVpxVLQpKRTewF+RTmxmv2btlwT255Y/
- w+m2nzESHzgoSI4p/If3kEFIQNIykJpI4/9/syP7D+/gOH+0dZf4vFBCsBFpLklHBiOsqy0RvZtmC
- GGsFlsYg==;
+ bh=gRlL+MiFDmXCjUKDCE3SV8adL9AHPKxYGqRHPGXpuOE=; b=b8UO/ex0C56hXeTLDLibY3F6Hr
+ 2ki2InmWTLSUuWQehfpLEsa5wM/WAEu3Lc2iTjqz6vjI3y+JIo6F66QGkl+6co7EqTAHd3eVwVzbr
+ a2xEt1zv32fjB+h3OuVPsSGGuVrSLJZcRGd+8Tx7/FoWRGckJd5hhJED/Pf+wFFi9ytkUXotKLY67
+ STIHb7h11nTDa06bSiUvKTHCTZnFENObk00eqOmimlCy32gEZ2o608Z6YkA9BdjYLvJfqM1UP/U9v
+ 0j3tVBr+LHIcZeXttJ/JUMUEb834A2E2Lkt/ZlXX4AzY7ZhmdNwZo/r5UwFRzR9Hb2lbTfDxdxPed
+ DSX7Z1AA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pFDcM-0037tj-1s; Tue, 10 Jan 2023 12:20:44 +0000
+ id 1pFDcM-0037ta-2e; Tue, 10 Jan 2023 12:20:50 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pFDcT-006Yem-0D; Tue, 10 Jan 2023 12:20:45 +0000
+ Hat Linux)) id 1pFDcT-006Yes-2I; Tue, 10 Jan 2023 12:20:45 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,10 +46,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [PATCH v6 26/51] hw/xen: Add xen_evtchn device for event channel
- emulation
-Date: Tue, 10 Jan 2023 12:20:17 +0000
-Message-Id: <20230110122042.1562155-27-dwmw2@infradead.org>
+Subject: [PATCH v6 28/51] hw/xen: Implement EVTCHNOP_status
+Date: Tue, 10 Jan 2023 12:20:19 +0000
+Message-Id: <20230110122042.1562155-29-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230110122042.1562155-1-dwmw2@infradead.org>
 References: <20230110122042.1562155-1-dwmw2@infradead.org>
@@ -85,270 +84,237 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Include basic support for setting HVM_PARAM_CALLBACK_IRQ to the global
-vector method HVM_PARAM_CALLBACK_TYPE_VECTOR, which is handled in-kernel
-by raising the vector whenever the vCPU's vcpu_info->evtchn_upcall_pending
-flag is set.
+This adds the basic structure for maintaining the port table and reporting
+the status of ports therein.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/kvm/meson.build   |   5 +-
- hw/i386/kvm/xen_evtchn.c  | 148 ++++++++++++++++++++++++++++++++++++++
- hw/i386/kvm/xen_evtchn.h  |  18 +++++
- hw/i386/pc.c              |   2 +
- target/i386/kvm/xen-emu.c |  10 +++
- 5 files changed, 182 insertions(+), 1 deletion(-)
- create mode 100644 hw/i386/kvm/xen_evtchn.c
- create mode 100644 hw/i386/kvm/xen_evtchn.h
+ hw/i386/kvm/xen_evtchn.c  | 104 ++++++++++++++++++++++++++++++++++++++
+ hw/i386/kvm/xen_evtchn.h  |   3 ++
+ include/sysemu/kvm_xen.h  |   3 ++
+ target/i386/kvm/xen-emu.c |  20 +++++++-
+ 4 files changed, 128 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/kvm/meson.build b/hw/i386/kvm/meson.build
-index 6165cbf019..cab64df339 100644
---- a/hw/i386/kvm/meson.build
-+++ b/hw/i386/kvm/meson.build
-@@ -4,6 +4,9 @@ i386_kvm_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c'))
- i386_kvm_ss.add(when: 'CONFIG_I8254', if_true: files('i8254.c'))
- i386_kvm_ss.add(when: 'CONFIG_I8259', if_true: files('i8259.c'))
- i386_kvm_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
--i386_kvm_ss.add(when: 'CONFIG_XEN_EMU', if_true: files('xen_overlay.c'))
-+i386_kvm_ss.add(when: 'CONFIG_XEN_EMU', if_true: files(
-+  'xen_overlay.c',
-+  'xen_evtchn.c',
-+  ))
- 
- i386_ss.add_all(when: 'CONFIG_KVM', if_true: i386_kvm_ss)
 diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-new file mode 100644
-index 0000000000..018f4ef4da
---- /dev/null
+index 018f4ef4da..ff143a8134 100644
+--- a/hw/i386/kvm/xen_evtchn.c
 +++ b/hw/i386/kvm/xen_evtchn.c
-@@ -0,0 +1,148 @@
+@@ -22,6 +22,7 @@
+ #include "hw/sysbus.h"
+ #include "hw/xen/xen.h"
+ #include "xen_evtchn.h"
++#include "xen_overlay.h"
+ 
+ #include "sysemu/kvm.h"
+ #include "sysemu/kvm_xen.h"
+@@ -33,6 +34,22 @@
+ #define TYPE_XEN_EVTCHN "xen-evtchn"
+ OBJECT_DECLARE_SIMPLE_TYPE(XenEvtchnState, XEN_EVTCHN)
+ 
++typedef struct XenEvtchnPort {
++    uint32_t vcpu;      /* Xen/ACPI vcpu_id */
++    uint16_t type;      /* EVTCHNSTAT_xxxx */
++    uint16_t type_val;  /* pirq# / virq# / remote port according to type */
++} XenEvtchnPort;
++
++#define COMPAT_EVTCHN_2L_NR_CHANNELS            1024
++
 +/*
-+ * QEMU Xen emulation: Event channel support
-+ *
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * Authors: David Woodhouse <dwmw2@infradead.org>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * For unbound/interdomain ports there are only two possible remote
++ * domains; self and QEMU. Use a single high bit in type_val for that,
++ * and the low bits for the remote port number (or 0 for unbound).
 + */
++#define PORT_INFO_TYPEVAL_REMOTE_QEMU           0x8000
++#define PORT_INFO_TYPEVAL_REMOTE_PORT_MASK      0x7FFF
 +
-+#include "qemu/osdep.h"
-+#include "qemu/host-utils.h"
-+#include "qemu/module.h"
-+#include "qemu/main-loop.h"
-+#include "qapi/error.h"
-+#include "qom/object.h"
-+#include "exec/target_page.h"
-+#include "exec/address-spaces.h"
-+#include "migration/vmstate.h"
-+
-+#include "hw/sysbus.h"
-+#include "hw/xen/xen.h"
-+#include "xen_evtchn.h"
-+
-+#include "sysemu/kvm.h"
-+#include "sysemu/kvm_xen.h"
-+#include <linux/kvm.h>
-+
-+#include "standard-headers/xen/memory.h"
-+#include "standard-headers/xen/hvm/params.h"
-+
-+#define TYPE_XEN_EVTCHN "xen-evtchn"
-+OBJECT_DECLARE_SIMPLE_TYPE(XenEvtchnState, XEN_EVTCHN)
-+
-+struct XenEvtchnState {
-+    /*< private >*/
-+    SysBusDevice busdev;
-+    /*< public >*/
-+
-+    uint64_t callback_param;
-+    bool evtchn_in_kernel;
-+
-+    QemuMutex port_lock;
-+};
-+
-+struct XenEvtchnState *xen_evtchn_singleton;
-+
-+/* Top bits of callback_param are the type (HVM_PARAM_CALLBACK_TYPE_xxx) */
-+#define CALLBACK_VIA_TYPE_SHIFT 56
-+
-+static int xen_evtchn_post_load(void *opaque, int version_id)
-+{
-+    XenEvtchnState *s = opaque;
-+
-+    if (s->callback_param) {
-+        xen_evtchn_set_callback_param(s->callback_param);
-+    }
-+
-+    return 0;
-+}
-+
-+static bool xen_evtchn_is_needed(void *opaque)
-+{
-+    return xen_mode == XEN_EMULATE;
-+}
-+
-+static const VMStateDescription xen_evtchn_vmstate = {
-+    .name = "xen_evtchn",
+ struct XenEvtchnState {
+     /*< private >*/
+     SysBusDevice busdev;
+@@ -42,6 +59,8 @@ struct XenEvtchnState {
+     bool evtchn_in_kernel;
+ 
+     QemuMutex port_lock;
++    uint32_t nr_ports;
++    XenEvtchnPort port_table[EVTCHN_2L_NR_CHANNELS];
+ };
+ 
+ struct XenEvtchnState *xen_evtchn_singleton;
+@@ -65,6 +84,18 @@ static bool xen_evtchn_is_needed(void *opaque)
+     return xen_mode == XEN_EMULATE;
+ }
+ 
++static const VMStateDescription xen_evtchn_port_vmstate = {
++    .name = "xen_evtchn_port",
 +    .version_id = 1,
 +    .minimum_version_id = 1,
-+    .needed = xen_evtchn_is_needed,
-+    .post_load = xen_evtchn_post_load,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(callback_param, XenEvtchnState),
++        VMSTATE_UINT32(vcpu, XenEvtchnPort),
++        VMSTATE_UINT16(type, XenEvtchnPort),
++        VMSTATE_UINT16(type_val, XenEvtchnPort),
 +        VMSTATE_END_OF_LIST()
 +    }
 +};
 +
-+static void xen_evtchn_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
+ static const VMStateDescription xen_evtchn_vmstate = {
+     .name = "xen_evtchn",
+     .version_id = 1,
+@@ -73,6 +104,9 @@ static const VMStateDescription xen_evtchn_vmstate = {
+     .post_load = xen_evtchn_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT64(callback_param, XenEvtchnState),
++        VMSTATE_UINT32(nr_ports, XenEvtchnState),
++        VMSTATE_STRUCT_VARRAY_UINT32(port_table, XenEvtchnState, nr_ports, 1,
++                                     xen_evtchn_port_vmstate, XenEvtchnPort),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+@@ -146,3 +180,73 @@ int xen_evtchn_set_callback_param(uint64_t param)
+ 
+     return ret;
+ }
 +
-+    dc->vmsd = &xen_evtchn_vmstate;
++static bool valid_port(evtchn_port_t port)
++{
++    if (!port) {
++        return false;
++    }
++
++    if (xen_is_long_mode()) {
++        return port < EVTCHN_2L_NR_CHANNELS;
++    } else {
++        return port < COMPAT_EVTCHN_2L_NR_CHANNELS;
++    }
 +}
 +
-+static const TypeInfo xen_evtchn_info = {
-+    .name          = TYPE_XEN_EVTCHN,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(XenEvtchnState),
-+    .class_init    = xen_evtchn_class_init,
-+};
-+
-+void xen_evtchn_create(void)
-+{
-+    XenEvtchnState *s = XEN_EVTCHN(sysbus_create_simple(TYPE_XEN_EVTCHN,
-+                                                        -1, NULL));
-+    xen_evtchn_singleton = s;
-+
-+    qemu_mutex_init(&s->port_lock);
-+}
-+
-+static void xen_evtchn_register_types(void)
-+{
-+    type_register_static(&xen_evtchn_info);
-+}
-+
-+type_init(xen_evtchn_register_types)
-+
-+int xen_evtchn_set_callback_param(uint64_t param)
++int xen_evtchn_status_op(struct evtchn_status *status)
 +{
 +    XenEvtchnState *s = xen_evtchn_singleton;
-+    bool in_kernel = false;
-+    int ret;
++    XenEvtchnPort *p;
 +
 +    if (!s) {
 +        return -ENOTSUP;
 +    }
 +
++    if (status->dom != DOMID_SELF && status->dom != xen_domid) {
++        return -ESRCH;
++    }
++
++    if (!valid_port(status->port)) {
++        return -EINVAL;
++    }
++
 +    qemu_mutex_lock(&s->port_lock);
 +
-+    switch (param >> CALLBACK_VIA_TYPE_SHIFT) {
-+    case HVM_PARAM_CALLBACK_TYPE_VECTOR: {
-+        struct kvm_xen_hvm_attr xa = {
-+            .type = KVM_XEN_ATTR_TYPE_UPCALL_VECTOR,
-+            .u.vector = (uint8_t)param,
-+        };
++    p = &s->port_table[status->port];
 +
-+        ret = kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &xa);
-+        if (!ret && kvm_xen_has_cap(EVTCHN_SEND)) {
-+            in_kernel = true;
++    status->status = p->type;
++    status->vcpu = p->vcpu;
++
++    switch (p->type) {
++    case EVTCHNSTAT_unbound:
++        if (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) {
++            status->u.unbound.dom = DOMID_QEMU;
++        } else {
++            status->u.unbound.dom = xen_domid;
 +        }
 +        break;
-+    }
-+    default:
-+        ret = -ENOSYS;
-+        break;
-+    }
 +
-+    if (!ret) {
-+        s->callback_param = param;
-+        s->evtchn_in_kernel = in_kernel;
++    case EVTCHNSTAT_interdomain:
++        if (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) {
++            status->u.interdomain.dom = DOMID_QEMU;
++        } else {
++            status->u.interdomain.dom = xen_domid;
++        }
++
++        status->u.interdomain.port = p->type_val &
++            PORT_INFO_TYPEVAL_REMOTE_PORT_MASK;
++        break;
++
++    case EVTCHNSTAT_pirq:
++        status->u.pirq = p->type_val;
++        break;
++
++    case EVTCHNSTAT_virq:
++        status->u.virq = p->type_val;
++        break;
 +    }
 +
 +    qemu_mutex_unlock(&s->port_lock);
-+
-+    return ret;
++    return 0;
 +}
 diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-new file mode 100644
-index 0000000000..c9b7f9d11f
---- /dev/null
+index c9b7f9d11f..76467636ee 100644
+--- a/hw/i386/kvm/xen_evtchn.h
 +++ b/hw/i386/kvm/xen_evtchn.h
-@@ -0,0 +1,18 @@
-+/*
-+ * QEMU Xen emulation: Event channel support
-+ *
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * Authors: David Woodhouse <dwmw2@infradead.org>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
+@@ -15,4 +15,7 @@
+ void xen_evtchn_create(void);
+ int xen_evtchn_set_callback_param(uint64_t param);
+ 
++struct evtchn_status;
++int xen_evtchn_status_op(struct evtchn_status *status);
 +
-+#ifndef QEMU_XEN_EVTCHN_H
-+#define QEMU_XEN_EVTCHN_H
+ #endif /* QEMU_XEN_EVTCHN_H */
+diff --git a/include/sysemu/kvm_xen.h b/include/sysemu/kvm_xen.h
+index ee53294deb..2192ceea10 100644
+--- a/include/sysemu/kvm_xen.h
++++ b/include/sysemu/kvm_xen.h
+@@ -16,6 +16,9 @@
+ #define INVALID_GPA UINT64_MAX
+ #define INVALID_GFN UINT64_MAX
+ 
++/* Qemu plays the rôle of dom0 for "interdomain" communication. */
++#define DOMID_QEMU  0
 +
-+void xen_evtchn_create(void);
-+int xen_evtchn_set_callback_param(uint64_t param);
-+
-+#endif /* QEMU_XEN_EVTCHN_H */
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 0ddae2f6ad..8f668a5138 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -90,6 +90,7 @@
- #include "hw/virtio/virtio-pmem-pci.h"
- #include "hw/virtio/virtio-mem-pci.h"
- #include "hw/i386/kvm/xen_overlay.h"
-+#include "hw/i386/kvm/xen_evtchn.h"
- #include "hw/mem/memory-device.h"
- #include "sysemu/replay.h"
- #include "target/i386/cpu.h"
-@@ -1850,6 +1851,7 @@ int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
- #ifdef CONFIG_XEN_EMU
-     if (xen_mode == XEN_EMULATE) {
-         xen_overlay_create();
-+        xen_evtchn_create();
-     }
- #endif
-     return 0;
+ uint32_t kvm_xen_get_caps(void);
+ void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id);
+ void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type);
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index a27facb90f..42e65573de 100644
+index eced4bce5c..dc17a6bbe7 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -21,6 +21,7 @@
- #include "sysemu/runstate.h"
+@@ -765,9 +765,10 @@ static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+     return true;
+ }
  
- #include "hw/i386/kvm/xen_overlay.h"
-+#include "hw/i386/kvm/xen_evtchn.h"
+-static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit,
++static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+                                     int cmd, uint64_t arg)
+ {
++    CPUState *cs = CPU(cpu);
+     int err = -ENOSYS;
  
- #include "standard-headers/xen/version.h"
- #include "standard-headers/xen/sched.h"
-@@ -507,6 +508,10 @@ static bool handle_set_param(struct kvm_xen_exit *exit, X86CPU *cpu,
-     }
+     switch (cmd) {
+@@ -775,6 +776,21 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit,
+         err = -ENOSYS;
+         break;
  
-     switch (hp.index) {
-+    case HVM_PARAM_CALLBACK_IRQ:
-+        err = xen_evtchn_set_callback_param(hp.value);
-+        xen_set_long_mode(exit->u.hcall.longmode);
++    case EVTCHNOP_status: {
++        struct evtchn_status status;
++
++        qemu_build_assert(sizeof(status) == 24);
++        if (kvm_copy_from_gva(cs, arg, &status, sizeof(status))) {
++            err = -EFAULT;
++            break;
++        }
++
++        err = xen_evtchn_status_op(&status);
++        if (!err && kvm_copy_to_gva(cs, arg, &status, sizeof(status))) {
++            err = -EFAULT;
++        }
 +        break;
++    }
      default:
          return false;
      }
-@@ -709,6 +714,11 @@ static int kvm_xen_soft_reset(void)
-     CPUState *cpu;
-     int err;
- 
-+    err = xen_evtchn_set_callback_param(0);
-+    if (err) {
-+        return err;
-+    }
-+
-     CPU_FOREACH(cpu) {
-         async_run_on_cpu(cpu, do_vcpu_soft_reset, RUN_ON_CPU_NULL);
-     }
+@@ -888,7 +904,7 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+         return kvm_xen_hcall_sched_op(exit, cpu, exit->u.hcall.params[0],
+                                       exit->u.hcall.params[1]);
+     case __HYPERVISOR_event_channel_op:
+-        return kvm_xen_hcall_evtchn_op(exit, exit->u.hcall.params[0],
++        return kvm_xen_hcall_evtchn_op(exit, cpu, exit->u.hcall.params[0],
+                                        exit->u.hcall.params[1]);
+     case __HYPERVISOR_vcpu_op:
+         return kvm_xen_hcall_vcpu_op(exit, cpu,
 -- 
 2.35.3
 
