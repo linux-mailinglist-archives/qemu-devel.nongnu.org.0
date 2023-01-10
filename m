@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8145663F9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:00:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 483EA663FB3
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 13:03:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFDIY-0008NI-Mj; Tue, 10 Jan 2023 07:00:10 -0500
+	id 1pFDLQ-00017o-Uh; Tue, 10 Jan 2023 07:03:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1pFDIT-0008Mt-RO; Tue, 10 Jan 2023 07:00:05 -0500
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a])
+ id 1pFDKo-00010U-PA; Tue, 10 Jan 2023 07:02:41 -0500
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1pFDIS-0000mf-55; Tue, 10 Jan 2023 07:00:05 -0500
-Received: by mail-lf1-x12a.google.com with SMTP id bp15so18005820lfb.13;
- Tue, 10 Jan 2023 04:00:03 -0800 (PST)
+ id 1pFDKh-0001aR-GD; Tue, 10 Jan 2023 07:02:25 -0500
+Received: by mail-lj1-x232.google.com with SMTP id o7so11863277ljj.8;
+ Tue, 10 Jan 2023 04:02:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=pzbpW94v8kWOhXIB6ZCp0GJ688lmlczVML2krcqmSY8=;
- b=Ho1aPlSmv8w+WSGMlYAVT0KFE5qLkrcxepXeonrdH11D8ytQdU2ICWLK9qyD7xI+j5
- 9YEaroCq3o95N4Kck3giU7pd5RoIBzmcrePq8gMwrhrbgST9RubpabqZnlYNW+jV0zzE
- c+MY9cX9G8xod9B7h9Agvj69x+SwX2SEI29U1sZHRbXt9dj9zj2VAx4bs2nATT6L9H6a
- l+qhByojJAfL5wXLHCFKqWKI1kvDSDQ4sLYz9n4FXGbWB0CR2wcHaEcUABYqQr6W1qCC
- lVAmnklWhX4Qlk3yUzPtSKCgtBk1w72klHQ6QIFiiCfXaOL0IXVZyFeC5Po58AyhgVZ+
- KVSg==
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=gnbzpvoQ4eKeeZKYsWILJWo3UH7620WiiCMoShR6aSY=;
+ b=jkuAY340miTrtxnx65h4km4PzgRMtM+JbKmzPtBuU/odg5CCO16uDiWAFBpKbZLnqB
+ +LVkuswdAS0wdlbDfRsR/7aShP1oG0U0m6fiBUxdYpSNJfTYfMHfCh/T/KPEfxFIG9M9
+ AzGvaUsFBuQNxlnkuv51mtsLAXvP2ug/iS8PyUzAjLKhts24yBbjTs0F07yaETtjy5hc
+ WYIAaiEu6Nsr2ttgrNqCx/DM3zRMUVf93f4DP3aLz3z1E6qQ2rK+wZB2z5fb3OQTjMW+
+ a+UClFQB2mxdD3nzF7Ef4HNGcCqS2QaLTJDFmbDbmRDSgcAZbSr9c2ya0etOQ404+zVI
+ Swsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pzbpW94v8kWOhXIB6ZCp0GJ688lmlczVML2krcqmSY8=;
- b=xwmNRknzgpBqK8BjQ2a0CUO3uZLPFx03B+eKW5Lf2RlIBMHTkNCluPNlCIBO95yNuT
- DFo8QDrnEqPFjNj/5K2AwnrkWJ2/0207yPJUVN4IFBPyHLMkC5TpbvYBgkwpTC8Z9UW3
- LWozaz1ZdwNpY5AHsjvGTX1N03grZ3ffV/NiL0a1S+J2SSYipfgQg8eKtROIwS5pvYeu
- unSN6e24BRHqb/Li/MSfLR0t4bQWLX7dE5UvCwj0/bSDvBJfh8QpYi8EnTLoiFvgp+cn
- zP1nVt4Ge90AlwHYi1UnBXTtHAs3DePEt7OMNaAu4Ml1c2Hf6ErD6ZLhwdpM9/uHjs46
- QY4w==
-X-Gm-Message-State: AFqh2kpXWr9OefrISnyeejWA/uKRlDquxl2wZQXFuMjsmBdKmjD8P+5s
- 4rly5Nxs+VCtD1jBRYbn+0s=
-X-Google-Smtp-Source: AMrXdXv7bJOjCTbBcAHHKqd/KYxex+5tL95GC+G2mFPVSEc65K84Pu5yRKZkHZmYgt0br1gb+NJ7zQ==
-X-Received: by 2002:ac2:490f:0:b0:4b6:eca8:f6ca with SMTP id
- n15-20020ac2490f000000b004b6eca8f6camr16632641lfi.67.1673352001827; 
- Tue, 10 Jan 2023 04:00:01 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gnbzpvoQ4eKeeZKYsWILJWo3UH7620WiiCMoShR6aSY=;
+ b=KNz+oYAswPmqHk0xcc6QhJqJnl+c000nJkzq0ghBNs5wCTnipppY4nG4rF0hquUhyR
+ GiJSn7E5HNv2VQcTGhEoGlKvkuNr7N76PrMmyOj1GAKiO6j2+PdLXtwXJfqh/ctt7222
+ /6xbtRbYnirCypghtDPu1tpGEQBIsJTPysthknMXlWByrMUpsL1fhof+3hUh8XOUePDW
+ hHqq1jRJLH1KFnxSvwBnIcXopPdUyZSuC1nsOwo/u5xkN/DAe3F0rXbw2vHLVumZdoE0
+ ClATQo1Lo60GJnJRF0UuGW/MXv3/UdV+1YU7yFwIDcr3oMwn2DnsL+j8ohYMxavQ72bd
+ yLqQ==
+X-Gm-Message-State: AFqh2kotjN7LXe4pitHMkg/fLuI0gLPeBLhmHY/5trD83NApYVXRsgAz
+ dz2IOTKJ/L9t93K+wuG/nIQ=
+X-Google-Smtp-Source: AMrXdXsgLjwEu3yvLDT+aZ17Tvijv9pRFMqZHnoWESN+w0LTm6aezF0B+vTsfRpgVPIJUIKyRg/AKw==
+X-Received: by 2002:a05:651c:10d:b0:27f:e6e7:7e36 with SMTP id
+ a13-20020a05651c010d00b0027fe6e77e36mr11021340ljb.21.1673352136695; 
+ Tue, 10 Jan 2023 04:02:16 -0800 (PST)
 Received: from gmail.com (81-232-4-135-no39.tbcn.telia.com. [81.232.4.135])
  by smtp.gmail.com with ESMTPSA id
- bq33-20020a056512152100b004cc7da37d52sm1495026lfb.94.2023.01.10.04.00.01
+ bg20-20020a05651c0b9400b0027710117ebdsm1283990ljb.121.2023.01.10.04.02.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 04:00:01 -0800 (PST)
-Date: Tue, 10 Jan 2023 13:00:00 +0100
+ Tue, 10 Jan 2023 04:02:16 -0800 (PST)
+Date: Tue, 10 Jan 2023 13:02:15 +0100
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Havard Skinnemoen <hskinnemoen@google.com>,
- Alistair Francis <alistair@alistair23.me>,
+To: Qiang Liu <cyruscyliu@gmail.com>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair@alistair23.me>,
  Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Tyrone Ting <kfting@nuvoton.com>
-Subject: Re: [PATCH 14/14] hw/timer/xilinx_timer: Use XpsTimerState instead
- of 'struct timerblock'
-Message-ID: <Y71TQPIv21qOe1ZT@toto>
-References: <20230109140306.23161-1-philmd@linaro.org>
- <20230109140306.23161-15-philmd@linaro.org>
+ "open list:Xilinx ZynqMP and..." <qemu-arm@nongnu.org>,
+ Frederic Konrad <konrad.frederic@yahoo.fr>
+Subject: Re: [PATCH] hw/display/xlnx_dp: fix overflow in
+ xlnx_dp_aux_push_tx_fifo()
+Message-ID: <Y71Tx4ODBZr1HnML@toto>
+References: <20230109055933.749233-1-cyruscyliu@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230109140306.23161-15-philmd@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12a.google.com
+In-Reply-To: <20230109055933.749233-1-cyruscyliu@gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x232.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,126 +90,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 09, 2023 at 03:03:06PM +0100, Philippe Mathieu-Daudé wrote:
-> This remove a use of 'struct' in the DECLARE_INSTANCE_CHECKER()
-> macro call, to avoid after a QOM refactor:
-> 
->   hw/timer/xilinx_timer.c:65:1: error: declaration of anonymous struct must be a definition
->   DECLARE_INSTANCE_CHECKER(struct timerblock, XILINX_TIMER,
->                            ^
+On Mon, Jan 09, 2023 at 01:59:33PM +0800, Qiang Liu wrote:
+> This patch checks if the s->tx_fifo is full.
 
++ CC: Fred
 
 Reviewed-by: Edgar E. Iglesias <edgar@zeroasic.com>
 
 
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Fixes: 58ac482a66de ("introduce xlnx-dp")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1424
+> Reported-by: Qiang Liu <cyruscyliu@gmail.com>
+> Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
 > ---
->  hw/timer/xilinx_timer.c | 27 +++++++++++++--------------
->  1 file changed, 13 insertions(+), 14 deletions(-)
+>  hw/display/xlnx_dp.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/timer/xilinx_timer.c b/hw/timer/xilinx_timer.c
-> index c7f17cd646..32a9df69e0 100644
-> --- a/hw/timer/xilinx_timer.c
-> +++ b/hw/timer/xilinx_timer.c
-> @@ -62,10 +62,10 @@ struct xlx_timer
->  };
->  
->  #define TYPE_XILINX_TIMER "xlnx.xps-timer"
-> -DECLARE_INSTANCE_CHECKER(struct timerblock, XILINX_TIMER,
-> -                         TYPE_XILINX_TIMER)
-> +typedef struct XpsTimerState XpsTimerState;
-> +DECLARE_INSTANCE_CHECKER(XpsTimerState, XILINX_TIMER, TYPE_XILINX_TIMER)
->  
-> -struct timerblock
-> +struct XpsTimerState
->  {
->      SysBusDevice parent_obj;
->  
-> @@ -76,7 +76,7 @@ struct timerblock
->      struct xlx_timer *timers;
->  };
->  
-> -static inline unsigned int num_timers(struct timerblock *t)
-> +static inline unsigned int num_timers(XpsTimerState *t)
->  {
->      return 2 - t->one_timer_only;
->  }
-> @@ -87,7 +87,7 @@ static inline unsigned int timer_from_addr(hwaddr addr)
->      return addr >> 2;
->  }
->  
-> -static void timer_update_irq(struct timerblock *t)
-> +static void timer_update_irq(XpsTimerState *t)
->  {
->      unsigned int i, irq = 0;
->      uint32_t csr;
-> @@ -104,7 +104,7 @@ static void timer_update_irq(struct timerblock *t)
->  static uint64_t
->  timer_read(void *opaque, hwaddr addr, unsigned int size)
->  {
-> -    struct timerblock *t = opaque;
-> +    XpsTimerState *t = opaque;
->      struct xlx_timer *xt;
->      uint32_t r = 0;
->      unsigned int timer;
-> @@ -155,7 +155,7 @@ static void
->  timer_write(void *opaque, hwaddr addr,
->              uint64_t val64, unsigned int size)
->  {
-> -    struct timerblock *t = opaque;
-> +    XpsTimerState *t = opaque;
->      struct xlx_timer *xt;
->      unsigned int timer;
->      uint32_t value = val64;
-> @@ -202,7 +202,7 @@ static const MemoryRegionOps timer_ops = {
->  static void timer_hit(void *opaque)
->  {
->      struct xlx_timer *xt = opaque;
-> -    struct timerblock *t = xt->parent;
-> +    XpsTimerState *t = xt->parent;
->      D(fprintf(stderr, "%s %d\n", __func__, xt->nr));
->      xt->regs[R_TCSR] |= TCSR_TINT;
->  
-> @@ -213,7 +213,7 @@ static void timer_hit(void *opaque)
->  
->  static void xilinx_timer_realize(DeviceState *dev, Error **errp)
->  {
-> -    struct timerblock *t = XILINX_TIMER(dev);
-> +    XpsTimerState *t = XILINX_TIMER(dev);
->      unsigned int i;
->  
->      /* Init all the ptimers.  */
-> @@ -236,16 +236,15 @@ static void xilinx_timer_realize(DeviceState *dev, Error **errp)
->  
->  static void xilinx_timer_init(Object *obj)
->  {
-> -    struct timerblock *t = XILINX_TIMER(obj);
-> +    XpsTimerState *t = XILINX_TIMER(obj);
->  
->      /* All timers share a single irq line.  */
->      sysbus_init_irq(SYS_BUS_DEVICE(obj), &t->irq);
->  }
->  
->  static Property xilinx_timer_properties[] = {
-> -    DEFINE_PROP_UINT32("clock-frequency", struct timerblock, freq_hz,
-> -                                                                62 * 1000000),
-> -    DEFINE_PROP_UINT8("one-timer-only", struct timerblock, one_timer_only, 0),
-> +    DEFINE_PROP_UINT32("clock-frequency", XpsTimerState, freq_hz, 62 * 1000000),
-> +    DEFINE_PROP_UINT8("one-timer-only", XpsTimerState, one_timer_only, 0),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> @@ -260,7 +259,7 @@ static void xilinx_timer_class_init(ObjectClass *klass, void *data)
->  static const TypeInfo xilinx_timer_info = {
->      .name          = TYPE_XILINX_TIMER,
->      .parent        = TYPE_SYS_BUS_DEVICE,
-> -    .instance_size = sizeof(struct timerblock),
-> +    .instance_size = sizeof(XpsTimerState),
->      .instance_init = xilinx_timer_init,
->      .class_init    = xilinx_timer_class_init,
->  };
+> diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
+> index 972473d94f..617b394af2 100644
+> --- a/hw/display/xlnx_dp.c
+> +++ b/hw/display/xlnx_dp.c
+> @@ -854,7 +854,11 @@ static void xlnx_dp_write(void *opaque, hwaddr offset, uint64_t value,
+>          break;
+>      case DP_AUX_WRITE_FIFO: {
+>          uint8_t c = value;
+> -        xlnx_dp_aux_push_tx_fifo(s, &c, 1);
+> +        if (fifo8_is_full(&s->tx_fifo)) {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "xlnx_dp: TX fifo is full");
+> +        } else {
+> +            xlnx_dp_aux_push_tx_fifo(s, &c, 1);
+> +        }
+>          break;
+>      }
+>      case DP_AUX_CLOCK_DIVIDER:
 > -- 
-> 2.38.1
+> 2.25.1
+> 
 > 
 
