@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC30663ABE
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:18:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EF8663AF8
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Jan 2023 09:26:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pF9bH-0007Ap-If; Tue, 10 Jan 2023 03:03:15 -0500
+	id 1pF9bH-0007AD-2u; Tue, 10 Jan 2023 03:03:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pF9b0-000754-5S
+ id 1pF9b1-00075M-QU
  for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:03:00 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pF9ax-0007ZE-9j
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:02:57 -0500
+ id 1pF9ay-0007cE-Ov
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 03:02:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673337774;
+ s=mimecast20190719; t=1673337776;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=XPihbrXvlTgdWFv279jijUIt/zSyHvchsxQ8bHVftm8=;
- b=en0LqBiWqZQjm3OY/5442wAEEEqbdEaHwsnupFL+t0PfQ2kDHrhxIqbB/z7y1SysHuj0Ah
- FLkiQ1u6ixRdbqCI6REXu/VhA+FIj7qk469B4vzJed7EjTor72Vie/+gi6zQ9Q7RlVfq2y
- mk2xTK4OxOuLjEAAddT6GPi+Pdh5lk8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q3PlTL9irbvwvnRdoJfNW87UegtUzMbFLLdTRLDp1g8=;
+ b=T+HqSSR0eV5y/YQaEoRS7dwZNM7n09VMjbBcuujbnK+ZuEDTNQ08Yrvd6SfvV8Rwx4M2gU
+ KrZob8xWfoD46byl2M3vG0vIwpQkNr88fFT3g4c4tVoe+UWpJ6kJ0htQschwlStJSHP78a
+ 57vWqMk6LKxGVVr+c9ld2Qf2Q2Eh09o=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-277-5hdFZfcCN_iwtqbIrKz2-A-1; Tue, 10 Jan 2023 03:02:50 -0500
-X-MC-Unique: 5hdFZfcCN_iwtqbIrKz2-A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-227-9of5ERgONOu8d-qXLHUQ8w-1; Tue, 10 Jan 2023 03:02:54 -0500
+X-MC-Unique: 9of5ERgONOu8d-qXLHUQ8w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA497100F932;
- Tue, 10 Jan 2023 08:02:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3621C185A794;
+ Tue, 10 Jan 2023 08:02:54 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D962C14152F6;
- Tue, 10 Jan 2023 08:02:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E97440C2005;
+ Tue, 10 Jan 2023 08:02:52 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
@@ -60,14 +61,15 @@ Cc: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
  John Snow <jsnow@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v3 0/8] Fix win32/msys2 shader compilation & update lcitool
- deps
-Date: Tue, 10 Jan 2023 12:02:38 +0400
-Message-Id: <20230110080246.536056-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 1/8] build-sys: fix crlf-ending C code
+Date: Tue, 10 Jan 2023 12:02:39 +0400
+Message-Id: <20230110080246.536056-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20230110080246.536056-1-marcandre.lureau@redhat.com>
+References: <20230110080246.536056-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -77,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,67 +97,89 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,
+On msys2, the shader-to-C script produces bad C:
+./ui/shader/texture-blit-vert.h:2:5: error: missing terminating " character [-Werror]
 
-Fix the shader compilation error on win32/msys2 and convert the related script
-from perl to python. Drop unneeded dependencies from lcitool project.
+Fix it by changing the line ending from crlf to lf, and convert the
+script to Python (qemu build seems perl-free after that).
 
-v3:
-- split lcitool & f37 update
-- fix sed portability usage, add back trailing $ in the regex
-- add some patches to drop texinfo references/deps
-
-v2:
-- add a few patches to drop perl from the build dependencies
-- add some tags for v1 patches
-- add copyright header to the python script
-
-Marc-André Lureau (8):
-  build-sys: fix crlf-ending C code
-  .gitlab-ci.d/windows: do not disable opengl
-  configure: replace Perl usage with sed
-  meson: replace Perl usage with Python
-  docs: drop texinfo options
-  Update lcitool and fedora to 37
-  lcitool: drop perl from QEMU project/dependencies
-  lcitool: drop texinfo from QEMU project/dependencies
-
- docs/conf.py                                  | 13 ----------
- configure                                     |  8 +++---
- meson.build                                   |  2 +-
- .gitlab-ci.d/cirrus/freebsd-12.vars           |  2 +-
- .gitlab-ci.d/cirrus/freebsd-13.vars           |  2 +-
- .gitlab-ci.d/cirrus/macos-12.vars             |  2 +-
- .gitlab-ci.d/windows.yml                      |  5 ++--
- scripts/ci/setup/build-environment.yml        |  1 -
- scripts/shaderinclude.pl                      | 16 ------------
- scripts/shaderinclude.py                      | 26 +++++++++++++++++++
- tests/docker/dockerfiles/alpine.docker        |  2 --
- tests/docker/dockerfiles/centos8.docker       |  2 --
- .../dockerfiles/debian-amd64-cross.docker     |  4 +--
- tests/docker/dockerfiles/debian-amd64.docker  |  2 --
- .../dockerfiles/debian-arm64-cross.docker     |  4 +--
- .../dockerfiles/debian-armel-cross.docker     |  4 +--
- .../dockerfiles/debian-armhf-cross.docker     |  4 +--
- .../dockerfiles/debian-mips64el-cross.docker  |  4 +--
- .../dockerfiles/debian-mipsel-cross.docker    |  4 +--
- .../dockerfiles/debian-ppc64el-cross.docker   |  4 +--
- .../dockerfiles/debian-s390x-cross.docker     |  4 +--
- .../dockerfiles/debian-tricore-cross.docker   |  1 -
- .../dockerfiles/fedora-win32-cross.docker     |  6 ++---
- .../dockerfiles/fedora-win64-cross.docker     |  6 ++---
- tests/docker/dockerfiles/fedora.docker        |  6 ++---
- tests/docker/dockerfiles/opensuse-leap.docker |  2 --
- tests/docker/dockerfiles/ubuntu2004.docker    |  2 --
- tests/lcitool/libvirt-ci                      |  2 +-
- tests/lcitool/projects/qemu.yml               |  2 --
- tests/lcitool/refresh                         |  6 ++---
- tests/qapi-schema/meson.build                 |  7 ++---
- tests/vm/centos.aarch64                       |  2 +-
- 32 files changed, 58 insertions(+), 99 deletions(-)
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+---
+ meson.build              |  2 +-
+ scripts/shaderinclude.pl | 16 ----------------
+ scripts/shaderinclude.py | 26 ++++++++++++++++++++++++++
+ 3 files changed, 27 insertions(+), 17 deletions(-)
  delete mode 100644 scripts/shaderinclude.pl
  create mode 100755 scripts/shaderinclude.py
 
+diff --git a/meson.build b/meson.build
+index 175517eafd..b3c6db8343 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2781,7 +2781,7 @@ config_host_data.set('CONFIG_SLIRP', slirp.found())
+ genh += configure_file(output: 'config-host.h', configuration: config_host_data)
+ 
+ hxtool = find_program('scripts/hxtool')
+-shaderinclude = find_program('scripts/shaderinclude.pl')
++shaderinclude = find_program('scripts/shaderinclude.py')
+ qapi_gen = find_program('scripts/qapi-gen.py')
+ qapi_gen_depends = [ meson.current_source_dir() / 'scripts/qapi/__init__.py',
+                      meson.current_source_dir() / 'scripts/qapi/commands.py',
+diff --git a/scripts/shaderinclude.pl b/scripts/shaderinclude.pl
+deleted file mode 100644
+index cd3bb40b12..0000000000
+--- a/scripts/shaderinclude.pl
++++ /dev/null
+@@ -1,16 +0,0 @@
+-#!/usr/bin/env perl
+-use strict;
+-use warnings;
+-
+-my $file = shift;
+-open FILE, "<", $file or die "open $file: $!";
+-my $name = $file;
+-$name =~ s|.*/||;
+-$name =~ s/[-.]/_/g;
+-print "static GLchar ${name}_src[] =\n";
+-while (<FILE>) {
+-    chomp;
+-    printf "    \"%s\\n\"\n", $_;
+-}
+-print "    \"\\n\";\n";
+-close FILE;
+diff --git a/scripts/shaderinclude.py b/scripts/shaderinclude.py
+new file mode 100755
+index 0000000000..ab2aade2cd
+--- /dev/null
++++ b/scripts/shaderinclude.py
+@@ -0,0 +1,26 @@
++#!/usr/bin/env python3
++#
++# Copyright (C) 2023 Red Hat, Inc.
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++import sys
++import os
++
++
++def main(args):
++    file_path = args[1]
++    basename = os.path.basename(file_path)
++    varname = basename.replace('-', '_').replace('.', '_')
++
++    with os.fdopen(sys.stdout.fileno(), "wt", closefd=False, newline='\n') as stdout:
++        with open(file_path, "r", encoding='utf-8') as file:
++            print(f'static GLchar {varname}_src[] =', file=stdout)
++            for line in file:
++                line = line.rstrip()
++                print(f'    "{line}\\n"', file=stdout)
++            print('    "\\n";', file=stdout)
++
++
++if __name__ == '__main__':
++    sys.exit(main(sys.argv))
 -- 
 2.39.0
 
