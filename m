@@ -2,62 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0912665400
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 06:51:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28619665401
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 06:51:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFU0h-0002Ja-Fu; Wed, 11 Jan 2023 00:50:51 -0500
+	id 1pFU1D-0002ST-Sd; Wed, 11 Jan 2023 00:51:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pFU0e-0002IR-Hy
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 00:50:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pFU1C-0002SK-KG
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 00:51:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pFU0c-00045d-Jo
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 00:50:47 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pFU1A-0004F0-EY
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 00:51:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673416245;
+ s=mimecast20190719; t=1673416279;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8XSk03PmbwzSAtgGNm22IF6n86rx+E2B+OHSn/12IHA=;
- b=BbF0fRkw6ZRQCikZATi9Kasg7exvKhdmuIAGxvYK02ZU5M3iAlfFIF5tyMANPi5ytqcQC2
- dvSjnkSW0/uJCqFc+FUcObN0ilLgtA6+dRU6htv68yDt/XG2HNg8uODj8cbcwihPIRC4Kq
- s080oSLrG9U98zf9x/Vf27aRvAODa2s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-CspZBOe7PYWuqL9M2Auqaw-1; Wed, 11 Jan 2023 00:50:43 -0500
-X-MC-Unique: CspZBOe7PYWuqL9M2Auqaw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 81C81101A521;
- Wed, 11 Jan 2023 05:50:43 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E8C940C2064;
- Wed, 11 Jan 2023 05:50:43 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 398F021E675B; Wed, 11 Jan 2023 06:50:42 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: make vm-build-freebsd appears to require . in PATH
-References: <87tu0yo458.fsf@pond.sub.org>
- <CAFEAcA8ugDcG_e_DWgbz7MW_cK6xuCMcps7MgqyWF=bXjT8CmA@mail.gmail.com>
- <87358inyoe.fsf@pond.sub.org>
- <CAFEAcA-5dbeuw9XJu-2n3hufZBt9P-tnGnZeuGCMN5MrK8GO8Q@mail.gmail.com>
-Date: Wed, 11 Jan 2023 06:50:42 +0100
-In-Reply-To: <CAFEAcA-5dbeuw9XJu-2n3hufZBt9P-tnGnZeuGCMN5MrK8GO8Q@mail.gmail.com>
- (Peter Maydell's message of "Tue, 10 Jan 2023 16:37:52 +0000")
-Message-ID: <87k01tk4b1.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ bh=AJN4O6ZbL/LTa+g1gA9yIfOEF0lP60Ee7isPnTi7RTM=;
+ b=V1Kw8cxbRg/0FHvCJRJgZYfDBBTmI9J8BPygcihpmChK5oWT3bCjvefpSxoV9xfqpQr5Av
+ wHcF/Ay0mzlJLYkbI5WjHeLTmOPEctEO78+Lr/vrQmXHPseDYFPOiHuxwIt43PGtU19bJ5
+ bneAdAb30Uc50euOWrn+ukrr/ubybr0=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-142-fatgUqkpM-OSEk615rT1uw-1; Wed, 11 Jan 2023 00:51:18 -0500
+X-MC-Unique: fatgUqkpM-OSEk615rT1uw-1
+Received: by mail-ot1-f70.google.com with SMTP id
+ c7-20020a9d6c87000000b006834828052cso6967607otr.8
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 21:51:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=AJN4O6ZbL/LTa+g1gA9yIfOEF0lP60Ee7isPnTi7RTM=;
+ b=e3h4MUMdkmJLOU4h5LsnukmjUzGerzFYQFrEEq4d7mxS+2jrVdK933u+wO3ZKEcCj9
+ VXXNPFft0JqgSXVrkfBZlyFi5b3N6FH3/Z/LFCwfYWgAYWNHBbKkVHUihobmZr+0vS7w
+ 2db4IgBCFp1j5mIL4o5aUSjqRqFGGXh8QsQ+o5hp89aId661m1rn2TCC/2jh5O5Fhwhd
+ G7XUlfOxfZHbDVNtVZA6oxlG818H2QEHc4609vI/rondrjaVpMJ4HF69oQT7NvFpQaM+
+ jvLXXAdKDJObVPVydqyo/FCzWmjYAlzMprEecWgXwe4/RJzumjMumuBCeXRr2BPrzrjH
+ jX/g==
+X-Gm-Message-State: AFqh2kp7H2uSMxXPM+rr/VEgCznen7kUGHvPZuXpzttF66zLT6L62D7/
+ o+/k+3S6hliQ0fhGzO40nf27vZ0QBCzfSV+j80aJ5aFdkS8EmYtmshPhxAGK6GgQiUkB4AyZGJd
+ koLBUBMC3yWZwkIiP0eKCJU4RehX54b0=
+X-Received: by 2002:a05:6870:9e9a:b0:15b:96b5:9916 with SMTP id
+ pu26-20020a0568709e9a00b0015b96b59916mr673821oab.280.1673416277882; 
+ Tue, 10 Jan 2023 21:51:17 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXstqxp1LYhD0Fo00tz0r/1sdT5oAB4Ufq4DVCqwPVnBOrl62QnApsPq4Zhn4DvJQhsg2xuLkLl5Mr4/aCj/Xz4=
+X-Received: by 2002:a05:6870:9e9a:b0:15b:96b5:9916 with SMTP id
+ pu26-20020a0568709e9a00b0015b96b59916mr673810oab.280.1673416277641; Tue, 10
+ Jan 2023 21:51:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+References: <20221205170436.2977336-1-eperezma@redhat.com>
+ <20221205170436.2977336-11-eperezma@redhat.com>
+ <CACGkMEtcQztTdRbX3xyFvNYSRsu58tRppoyTUh94vXwSGLPH=A@mail.gmail.com>
+ <PH0PR12MB5481EB05212DD70C97AC5729DCFF9@PH0PR12MB5481.namprd12.prod.outlook.com>
+ <CACGkMEthSYTw9JEHT_CM2FdV88eDqan+Ckj7McwTBRK92ziyUg@mail.gmail.com>
+ <PH0PR12MB548141C98FA3C7593E4B3C40DCFC9@PH0PR12MB5481.namprd12.prod.outlook.com>
+In-Reply-To: <PH0PR12MB548141C98FA3C7593E4B3C40DCFC9@PH0PR12MB5481.namprd12.prod.outlook.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 11 Jan 2023 13:51:06 +0800
+Message-ID: <CACGkMEvriASFy1JTXHPrnP2O99B+mjYY+NMB9x9dHbiG0J7Y3w@mail.gmail.com>
+Subject: Re: [RFC PATCH for 8.0 10/13] virtio-net: Migrate vhost inflight
+ descriptors
+To: Parav Pandit <parav@nvidia.com>
+Cc: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Eli Cohen <elic@nvidia.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Juan Quintela <quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,54 +108,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Tue, 10 Jan 2023 at 16:26, Markus Armbruster <armbru@redhat.com> wrote:
->> Peter Maydell <peter.maydell@linaro.org> writes:
->> > Does it actually require '.' on the PATH, or does it just want
->> > a qemu-img binary on the PATH? (eg your distro one in /usr/bin).
->> > I don't have '.' on my PATH and it works for me.
->>
->> Do we want to use qemu-img, qemu-system-x86_64 and so forth from PATH,
->> or the one in the build tree?
+On Wed, Jan 11, 2023 at 12:40 PM Parav Pandit <parav@nvidia.com> wrote:
 >
-> There's no guarantee there is one in the build tree at all.
-> I usually use these like
->  (cd build && ../configure)
->  make -C build  vm-build-openbsd
 >
-> in which case it doesn't need to build anything in the build
-> tree at all (neither qemu-system-x86_64 nor qemu-img).
+> > From: Jason Wang <jasowang@redhat.com>
+> > Sent: Tuesday, January 10, 2023 11:35 PM
+> >
+> > On Tue, Jan 10, 2023 at 11:02 AM Parav Pandit <parav@nvidia.com> wrote:
+> > >
+> > > Hi Jason,
+> > >
+> > > > From: Jason Wang <jasowang@redhat.com>
+> > > > Sent: Monday, December 5, 2022 10:25 PM
+> > >
+> > > >
+> > > > A dumb question, any reason we need bother with virtio-net? It look=
+s
+> > > > to me it's not a must and would complicate migration compatibility.
+> > >
+> > > Virtio net vdpa device is processing the descriptors out of order.
+> > > This vdpa device doesn=E2=80=99t offer IN_ORDER flag.
+> > >
+> > > And when a VQ is suspended it cannot complete these descriptors as so=
+me
+> > dummy zero length completions.
+> > > The guest VM is flooded with [1].
+> >
+> > Yes, but any reason for the device to do out-of-order for RX?
+> >
+> For some devices it is more optimal to process them out of order.
+> And its not limited to RX.
+
+TX should be fine, since the device can anyhow pretend to send all
+packets, so we won't have any in-flight descriptors.
+
 >
-> It's nice to be able to do "test this build on *BSD" with
-> a known-good QEMU running the VM rather than having the
-> code-under-test affecting both the outer QEMU and the
-> build-and-make-check running inside the VM.
+> > >
+> > > So it is needed for the devices that doesn=E2=80=99t offer IN_ORDER f=
+eature.
+> > >
+> > > [1]
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+e
+> > > e/drivers/net/virtio_net.c?h=3Dv6.2-rc3#n1252
+> >
+> > It is only enabled in a debug kernel which should be harmless?
+> it is KERN_DEBUG log level. Its is not debug kernel, just the debug log l=
+evel.
 
-True.
+Ok, but the production environment should not use that level anyhow.
 
->> The former could well be old, which feels like a potential source of
->> problems.
->
-> In practice we only use it for very simple operations
-> ("create a qcow2 image" and "resize this qcow2 file"),
-> so using the distro qemu-img has never been an issue for me.
->
-> I think I have in the past run into problems because the
-> system's qemu-system-x86_64 was super-old, but it was easy
-> to just build a known-good QEMU version and put that on
-> the PATH. (And now that system has had a host distro
-> upgrade, so I have gone back to using the system binary.)
+> And regardless, generating zero length packets for debug kernel is even m=
+ore confusing.
 
-I since came to understand this line in output of vm-help:
+Note that it is allowed in the virtio-spec[1] (we probably can fix
+that in the driver) and we have pr_debug() all over this drivers and
+other places. It doesn't cause any side effects except for the
+debugging purpose.
 
-    QEMU_LOCAL=1                 - Use QEMU binary local to this build.
+So I think having inflight tracking is useful, but I'm not sure it's
+worth bothering with virtio-net (or worth to bothering now):
 
-So the intent appears to be "use (presumably known-good) QEMU tooling
-from $PATH by default, pass QEMU_LOCAL=1 to use the build tree instead,
-and pass QEMU=... QEMU_IMG=... QEMU_CONFIG=... when you need even more
-control."
+- zero length is allowed
+- it only helps for debugging
+- may cause issues for migration compatibility
+- requires new infrastructure to be invented
 
-Thanks again!
+Thanks
+
+[1] spec said
+
+"
+Note: len is particularly useful for drivers using untrusted buffers:
+if a driver does not know exactly how much has been written by the
+device, the driver would have to zero the buffer in advance to ensure
+no data leakage occurs.
+"
 
 
