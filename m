@@ -2,48 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BC2E6650C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 01:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31EA665137
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 02:48:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFPQ9-0001Ra-Ae; Tue, 10 Jan 2023 19:56:49 -0500
+	id 1pFQD3-0001VR-3f; Tue, 10 Jan 2023 20:47:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pFPQ7-0001RO-4b; Tue, 10 Jan 2023 19:56:47 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pFQD1-0001V3-8m
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 20:47:19 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pFPQ4-0004Zc-R1; Tue, 10 Jan 2023 19:56:46 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1C833745712;
- Wed, 11 Jan 2023 01:54:22 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id BE6EB745706; Wed, 11 Jan 2023 01:54:21 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id BCA0F7456E3;
- Wed, 11 Jan 2023 01:54:21 +0100 (CET)
-Date: Wed, 11 Jan 2023 01:54:21 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v7 3/7] mac_{old,new}world: Pass MacOS VGA NDRV in card
- ROM instead of fw_cfg
-In-Reply-To: <8e775600-f394-0e9c-9ee9-15dd635275e9@ilande.co.uk>
-Message-ID: <a7d27169-97fd-2cb2-e6d1-a050dbf76e30@eik.bme.hu>
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <e8d6aa41eeb0461d285fa4c12e0fff05d366e8fa.1672868854.git.balaton@eik.bme.hu>
- <8e775600-f394-0e9c-9ee9-15dd635275e9@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pFQCy-00037P-RW
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 20:47:18 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30B1XuMP033203; Wed, 11 Jan 2023 01:47:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=7B2M9vAF0yK+EXD+V5NirLRszmQsQl4Bk1Z0ex2rewk=;
+ b=P3pHYVWhXZjrYRhJFf+v9p8BSd0s+gX6sZBJvDQoZT5EQUP1WwXL0wGhsPEUqg5J+7GB
+ +JMuyIi1KYokZQZJ7Y0Cs70n57Iz/vwrtES+WA8WvrWHB/mykx+urfuaNRGMdlAlxU1k
+ CmWdti4m5XVINUWtDO7NFf/2kKr1x69JYW/sDNanVFWWT75l1orTisGlrxTru1d1KiHD
+ M6A8kuLnIYEhdcE2h5h6svmJy22DH86PGqJJomk8em+7AiOnTNL0H9AoUbUweWa0booQ
+ rXDsNoYV+NqfDltfAlb7vChLF5pE47pmm1t36CXVxsQM7WyPLh65JQDPBMj/OpDiCx+f RQ== 
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1kjb87kh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Jan 2023 01:47:13 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30B1crCc001496;
+ Wed, 11 Jan 2023 01:47:12 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3n1kmrr08j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Jan 2023 01:47:11 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30B1l7AX46465484
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 11 Jan 2023 01:47:07 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9E6D620043;
+ Wed, 11 Jan 2023 01:47:07 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3FC0420040;
+ Wed, 11 Jan 2023 01:47:07 +0000 (GMT)
+Received: from heavy.lan (unknown [9.179.23.250])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 11 Jan 2023 01:47:07 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org, 
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v3 0/3] tcg: add perfmap and jitdump
+Date: Wed, 11 Jan 2023 02:47:02 +0100
+Message-Id: <20230111014705.2275040-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.39.0
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: GfJMkj7JcRs1UFN2jDrrg7VzxOr0V1f4
+X-Proofpoint-ORIG-GUID: GfJMkj7JcRs1UFN2jDrrg7VzxOr0V1f4
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-10_10,2023-01-10_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 phishscore=0 mlxlogscore=999 clxscore=1015 adultscore=0
+ mlxscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301110005
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,147 +103,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 10 Jan 2023, Mark Cave-Ayland wrote:
-> On 04/01/2023 21:59, BALATON Zoltan wrote:
->> OpenBIOS cannot run FCode ROMs yet but it can detect NDRV in VGA card
->> ROM and add it to the device tree for MacOS. Pass the NDRV this way
->> instead of via fw_cfg. This solves the problem with OpenBIOS also
->> adding the NDRV to ati-vga which it does not work with. This does not
->> need any changes to OpenBIOS as this NDRV ROM handling is already
->> there but this patch also allows simplifying OpenBIOS later to remove
->> the fw_cfg ndrv handling from the vga FCode and also drop the
->> vga-ndrv? option which is not needed any more as users can disable the
->> ndrv with -device VGA,romfile="" (or override it with their own NDRV
->> or ROM). Once FCode support is implemented in OpenBIOS, the proper
->> FCode ROM can be set the same way so this paves the way to remove some
->> hacks.
->> 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>   hw/ppc/mac_newworld.c | 18 ++++++------------
->>   hw/ppc/mac_oldworld.c | 18 ++++++------------
->>   2 files changed, 12 insertions(+), 24 deletions(-)
->> 
->> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
->> index 460c14b5e3..60c9c27986 100644
->> --- a/hw/ppc/mac_newworld.c
->> +++ b/hw/ppc/mac_newworld.c
->> @@ -510,18 +510,6 @@ static void ppc_core99_init(MachineState *machine)
->>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
->>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_NVRAM_ADDR, nvram_addr);
->>   -    /* MacOS NDRV VGA driver */
->> -    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
->> -    if (filename) {
->> -        gchar *ndrv_file;
->> -        gsize ndrv_size;
->> -
->> -        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
->> -            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, 
->> ndrv_size);
->> -        }
->> -        g_free(filename);
->> -    }
->> -
->>       qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
->>   }
->>   @@ -565,6 +553,11 @@ static int core99_kvm_type(MachineState *machine, 
->> const char *arg)
->>       return 2;
->>   }
->>   +static GlobalProperty props[] = {
->> +    /* MacOS NDRV VGA driver */
->> +    { "VGA", "romfile", NDRV_VGA_FILENAME },
->> +};
->> +
->>   static void core99_machine_class_init(ObjectClass *oc, void *data)
->>   {
->>       MachineClass *mc = MACHINE_CLASS(oc);
->> @@ -585,6 +578,7 @@ static void core99_machine_class_init(ObjectClass *oc, 
->> void *data)
->>   #endif
->>       mc->default_ram_id = "ppc_core99.ram";
->>       mc->ignore_boot_device_suffixes = true;
->> +    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
->>       fwc->get_dev_path = core99_fw_dev_path;
->>   }
->>   diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
->> index 5a7b25a4a8..6a1b1ad47a 100644
->> --- a/hw/ppc/mac_oldworld.c
->> +++ b/hw/ppc/mac_oldworld.c
->> @@ -344,18 +344,6 @@ static void ppc_heathrow_init(MachineState *machine)
->>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_CLOCKFREQ, CLOCKFREQ);
->>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
->>   -    /* MacOS NDRV VGA driver */
->> -    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
->> -    if (filename) {
->> -        gchar *ndrv_file;
->> -        gsize ndrv_size;
->> -
->> -        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
->> -            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, 
->> ndrv_size);
->> -        }
->> -        g_free(filename);
->> -    }
->> -
->>       qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
->>   }
->>   @@ -400,6 +388,11 @@ static int heathrow_kvm_type(MachineState *machine, 
->> const char *arg)
->>       return 2;
->>   }
->>   +static GlobalProperty props[] = {
->> +    /* MacOS NDRV VGA driver */
->> +    { "VGA", "romfile", NDRV_VGA_FILENAME },
->> +};
->> +
->>   static void heathrow_class_init(ObjectClass *oc, void *data)
->>   {
->>       MachineClass *mc = MACHINE_CLASS(oc);
->> @@ -420,6 +413,7 @@ static void heathrow_class_init(ObjectClass *oc, void 
->> *data)
->>       mc->default_display = "std";
->>       mc->ignore_boot_device_suffixes = true;
->>       mc->default_ram_id = "ppc_heathrow.ram";
->> +    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
->>       fwc->get_dev_path = heathrow_fw_dev_path;
->>   }
->
-> The qemu_vga.ndrv is deliberately kept separate from the PCI option ROM 
-> because it is a binary generated by a separate project: otherwise you'd end 
-> up creating a dependency between OpenBIOS and QemuMacDrivers, which is almost 
-> impossible to achieve since qemu_vga.ndrv can only (currently) be built in an 
-> emulated MacOS 9 guest.
+v2:
+https://lists.gnu.org/archive/html/qemu-devel/2022-11/msg02385.html
+https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg01026.html
 
-I don't get this. The dependency is already there as qemu_vga.ndrv ships 
-with QEMU such as all the vgabios-*.bin and SeaBIOS binaries which are 
-also built from different projects. The qemu_vga.ndrv would also still be 
-part of an FCode ROM together with vga.fs if OpenBIOS could run that so 
-this patch solely changes the way of passing the ROM binary to OpenBIOS 
-from fw_cfg to the card ROM which is closer to how it should be and can 
-direcly be replaced with the FCode ROM later after OpenBIOS will be 
-advanced to that point.
+v2 -> v3:
+* Enable only for CONFIG_LINUX (Alex).
+* Use qemu_get_thread_id() instead of gettid() (Alex).
+* Fix CI (Alex).
+  https://gitlab.com/iii-i/qemu/-/pipelines/743684604
+* Drop unnecessary #includes (Alex).
+* Drop the constification change (Alex/Richard).
+* Split debuginfo support into a separate patch.
+* Fix partial perfmap/jitdump files when terminating due to a signal.
+* Fix debuginfo strings being accessed outside of debuginfo lock.
+* Fix address resolution with TARGET_TB_PCREL.
+* Add DEBUGINFOD_URLS= to the doc; without it perf inject is
+  unacceptably slow.
+* Note: it's better to test this with the latest perf
+  (6.2.rc3.g7dd4b804e080 worked fine for me). There has been at least
+  one breakage in the JIT area recently (fixed by 6d518ac7be62).
 
-> The best way to do this would be to extract the PCI config words from your 
-> ATI OpenBIOS patches and the alter drivers/vga.fs so that it only generates 
-> the driver,AAPL,MacOS,PowerPC property if the device id and vendor id match 
-> that of the QEMU VGA device.
+v1:
+https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg01824.html
+https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg01073.html
 
-This is further down the road and does not block this patch. The config 
-access words should be provided by OpenBIOS not vga.fs. If we want to do 
-it like on the real machine then vga.fs and qemu_vga,ndrv should be 
-together the FCode ROM that the card has and OpenBIOS would run that. This 
-is also how the ATI and NVIDIA ROMs do it which contain some Forth to init 
-the card and add the embedded ndrv to the device tree for MacOS. But 
-that's independent of this patch and needs OpenBIOS changes, while this 
-patch does not need any change in OpenBIOS just moves to that direction to 
-be able to attach a proper FCode ROM sometimes later and simpify fw_cfg 
-handling in OpenBIOS. For now adding the ndrv in the ROM is enough for 
-OpenBIOS as it has additional code to handle it already.
+v1 -> v2:
+* Use QEMU_LOCK_GUARD (Alex).
+* Handle TARGET_TB_PCREL (Alex).
+* Support ELF -kernels, add a note about this (Alex). Tested with
+  qemu-system-x86_64 and Linux kernel - it's not fast, but it works.
+* Minor const correctness and style improvements.
 
-So this patch neither adds new dependency to QEMU nor repends on any 
-change in OpenBIOS. It just gets rid of passing files via fw_cfg.
+Ilya Leoshkevich (3):
+  linux-user: Clean up when exiting due to a signal
+  accel/tcg: Add debuginfo support
+  tcg: add perfmap and jitdump
 
-Regards,
-BALATON Zoltan
+ accel/tcg/debuginfo.c     |  96 ++++++++++
+ accel/tcg/debuginfo.h     |  77 ++++++++
+ accel/tcg/meson.build     |   2 +
+ accel/tcg/perf.c          | 366 ++++++++++++++++++++++++++++++++++++++
+ accel/tcg/perf.h          |  49 +++++
+ accel/tcg/translate-all.c |   8 +
+ docs/devel/tcg.rst        |  23 +++
+ hw/core/loader.c          |   5 +
+ linux-user/elfload.c      |   3 +
+ linux-user/exit.c         |   2 +
+ linux-user/main.c         |  15 ++
+ linux-user/meson.build    |   1 +
+ linux-user/signal.c       |   8 +-
+ meson.build               |   8 +
+ qemu-options.hx           |  20 +++
+ softmmu/vl.c              |  11 ++
+ tcg/tcg.c                 |   2 +
+ 17 files changed, 693 insertions(+), 3 deletions(-)
+ create mode 100644 accel/tcg/debuginfo.c
+ create mode 100644 accel/tcg/debuginfo.h
+ create mode 100644 accel/tcg/perf.c
+ create mode 100644 accel/tcg/perf.h
+
+-- 
+2.39.0
+
 
