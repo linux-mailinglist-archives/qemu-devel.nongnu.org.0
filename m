@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0AEC666008
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 17:09:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52DFE666020
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 17:15:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFddD-000737-SK; Wed, 11 Jan 2023 11:07:15 -0500
+	id 1pFdjR-0000kK-OP; Wed, 11 Jan 2023 11:13:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFdd9-00072r-O7
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:07:11 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFdd7-0001ui-U9
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:07:11 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- bg13-20020a05600c3c8d00b003d9712b29d2so14747777wmb.2
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 08:07:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hvMdInq1GfHSa6VurOCw33Z4fJEcoM66wnAGb8PRKag=;
- b=KUhZaGwrthKKRlNllrrY8oLuk3f01E560iYjPGObrFnKWaACNNcQ+5QBKJZjQ9sNaX
- wwQ6DnIArMalS7QeyRTbA8/g/4Ypu61BBXgtCf4Csq52SohZ9vO2IOsu/CCMTKaP7PBS
- WzIMDt6XNxfnfbGs2dHSvT6AStZ7cxC37y6wjqajMh2cbHggMhlqfYQh+I5EsZIwMUdD
- +uYdhCrgwUqJ/u4UmkG2BvTQNtk8d/4tGINF7Por5kzws7/SI1C04xK+923/jFOfFW18
- uMPgVWR2dV5JwnCMD0+/AJtKy1HFZA0QeBOqQ+vDZwq9z/D1GbyfGT4y2qXS8rOho4Gy
- apiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hvMdInq1GfHSa6VurOCw33Z4fJEcoM66wnAGb8PRKag=;
- b=Z4rmlS/npB6ZinIOMAtOgycQLGlw6Gix1t3mZ83hYFNaNLalfoIUeWRVG1FFLD94T2
- XcDaDLv0KXmkw6VI9KFzLyAdZJrj8VC5w3NA2b96vTV8Shnf6q9ffDZLIrD/X8mJ87v5
- 63LTUc34SU++tXNPPe7xngGpJ0PcB2cUB2TuMDnBlJqGYUAwj9OnsLowraWgsAbzmt3X
- 9nFKxyCBFo8xqVzPMeFYKsjTw8jUnDgOKpzPK/XrvLk/pdModNO2FCybQp1JfBg5hHhd
- w/fNP1SXvoV5alBhStaGOo9kwyUxmAREquaPnYu97WfV55/db6roNUnoXdogw6MIdY7x
- XLWA==
-X-Gm-Message-State: AFqh2kqfPfldahKVsTH9AnOdJeAU1LWe0iTKXmYlV5zklyGM9kC2tBen
- FF9QlCfcWHs7FMCw7vKRlL1Jcw==
-X-Google-Smtp-Source: AMrXdXuDYz/ZJhg0YadhHp0Bl9SBUd7tGBjhGtfPC6ArK0OMyLe7dYcXcG/2CvyUndNgn78bFGFypQ==
-X-Received: by 2002:a05:600c:1d03:b0:3d3:4aa6:4fe6 with SMTP id
- l3-20020a05600c1d0300b003d34aa64fe6mr51918208wms.3.1673453228391; 
- Wed, 11 Jan 2023 08:07:08 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m17-20020a05600c3b1100b003cfbbd54178sm6620416wms.2.2023.01.11.08.07.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 08:07:07 -0800 (PST)
-Message-ID: <aa007274-a787-5c93-c9b3-843a6b50f1f2@linaro.org>
-Date: Wed, 11 Jan 2023 17:07:06 +0100
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pFdjK-0000hi-D0
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:13:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pFdjH-0002wZ-3a
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:13:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673453610;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2O5r+h1JPk+X/war6I5vcdeRlO1354IkopAVvOAyb6g=;
+ b=JP5K783gU+qZepKjq4r7W7tpur7nxBS+Tmk+obisjO472AhWLCCVgxBz6Jmrp66igFUpnE
+ Cg5+JANXUWeDNifwrmwP14Ubhu2dtGPUddsajMLhGMWrGrzuLVxgRprmdUfmMfGVFe9kfU
+ fkINvy0F3eDUSV4YobRbFEteW1wwd4g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-410-LfMzgFZCNfqmoCbz9En3Jw-1; Wed, 11 Jan 2023 11:13:24 -0500
+X-MC-Unique: LfMzgFZCNfqmoCbz9En3Jw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6E9A9280482A;
+ Wed, 11 Jan 2023 16:13:24 +0000 (UTC)
+Received: from gondolin.redhat.com (unknown [10.39.195.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BEF7A2026D68;
+ Wed, 11 Jan 2023 16:13:21 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org,
+ Eric Auger <eauger@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH v4 0/2] arm: enable MTE for QEMU + kvm
+Date: Wed, 11 Jan 2023 17:13:15 +0100
+Message-Id: <20230111161317.52250-1-cohuck@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 6/8] qemu/bswap: Add const_le64()
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
- Michael Tsirkin <mst@redhat.com>
-Cc: Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
- linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
- Gregory Price <gourry.memverge@gmail.com>
-References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
- <20230111142440.24771-7-Jonathan.Cameron@huawei.com>
- <68f9b74a-b0e7-c5a6-7b99-ce4f96d79f36@linaro.org>
-In-Reply-To: <68f9b74a-b0e7-c5a6-7b99-ce4f96d79f36@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,24 +78,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/1/23 16:49, Philippe Mathieu-Daudé wrote:
-> On 11/1/23 15:24, Jonathan Cameron via wrote:
->> From: Ira Weiny <ira.weiny@intel.com>
->>
->> Gcc requires constant versions of cpu_to_le* calls.
->>
->> Add a 64 bit version.
->>
->> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
->> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->> ---
->>   include/qemu/bswap.h | 10 ++++++++++
->>   1 file changed, 10 insertions(+)
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Here's another repost of my kvm/mte series; no substantial changes.
 
-Actually I thought this was already merged but apparently
-this never got in:
-https://lore.kernel.org/qemu-devel/20200928131934.739451-1-philmd@redhat.com/
+Changes v3->v4:
+- rebase to current master
+- tweak message when specifying "mte=on" for the virt machine for non-tcg
+- added Thomas' ack for the qtests patch
+
+Cornelia Huck (2):
+  arm/kvm: add support for MTE
+  qtests/arm: add some mte tests
+
+ docs/system/arm/cpu-features.rst |  21 +++++
+ hw/arm/virt.c                    |   2 +-
+ target/arm/cpu.c                 |  18 ++---
+ target/arm/cpu.h                 |   1 +
+ target/arm/cpu64.c               | 133 +++++++++++++++++++++++++++++++
+ target/arm/internals.h           |   1 +
+ target/arm/kvm64.c               |   5 ++
+ target/arm/kvm_arm.h             |  12 +++
+ target/arm/monitor.c             |   1 +
+ tests/qtest/arm-cpu-features.c   |  76 ++++++++++++++++++
+ 10 files changed, 257 insertions(+), 13 deletions(-)
+
+-- 
+2.39.0
+
 
