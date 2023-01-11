@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490D06667FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 01:41:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A204966680C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 01:44:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFlaC-0007Rk-VO; Wed, 11 Jan 2023 19:36:40 -0500
+	id 1pFlaG-0007TM-9h; Wed, 11 Jan 2023 19:36:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFlaB-0007R1-1S
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:39 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ id 1pFlaE-0007TD-GU
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:42 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFla9-0001fE-IT
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:38 -0500
-Received: by mail-pl1-x634.google.com with SMTP id b17so11065995pld.7
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 16:36:37 -0800 (PST)
+ id 1pFlaC-0001fh-R2
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:42 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ o1-20020a17090a678100b00219cf69e5f0so21868103pjj.2
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 16:36:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=PT8CyXGPNEkjg77kFPkUizyGOQAoIUUs/Kep0RL7xMU=;
- b=m4rZ8YwKU2NtY103tuPKWk3jqfPFkHfh6JWMY+eDKSI4QpQL82IqVOK99NPMXV4WI0
- necK07ounx9LSfSGb+ZEcL+s1LAlKht6N+WATEzm6x7jYS4up89ZqgXktJemfze4levh
- GcrnYvxLDxOm0SDKvdjcI2fj6d4PZi6VSGhNUPQcfHzVzdmXyRjMhKwt0CBW/4qiZItQ
- NxVrIxUD6vRYQCe86pVUaAfbNlmO4ZoP9mv2zulxV3qdb+fgSLQyT8Vcedcsly2tyhoP
- 0/WTKfKMs2L5Mil2qP0FPMVrUWo9uI3Bb9vESMJPtUuDT9vJ/YDOtxcm5BRDFfHPcUA8
- GG7w==
+ bh=CeTMTTVNnQKb1HCCglqBARVyPNNw8fotLbJxCYUxTlY=;
+ b=Q4QKAw34fyamuUjlJk6cNPAHRV/GXppBjX4AeQRbdi9JN5q9AbNRPftcmQYNgRanDe
+ PQhVexgCChBUN08Ra4ibNLpPwu8y1f5XL9nb6c/aid2j8pWjeBQX9Sb2LXelRn7bdmLu
+ KpbdFAFKQLXmzVWbNfv4Vg0LxDWmJPWBT//2pl4eXTRv103ACRKBt0tuUWxZp0JCPMWu
+ HVhKd0T9QU4lKDb4RyuLPv4E9Wl0oL/6YQI5SJJGXY0osTqoB9g5BU2g+NmozgZX1TVf
+ HwTXSYJ7BHAz5qFj611vdaaPhJ0WB68VLpe5yJO/f2YVWczmjFEezEIihD4t//nsbZyt
+ /zSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PT8CyXGPNEkjg77kFPkUizyGOQAoIUUs/Kep0RL7xMU=;
- b=ONss3ETJk7KJwMoEvw3mH4qSqsb/23xrD2aax9ZM+fNXNdoZ44cZCEIAXE86WeRja5
- FlIiWI3yU9t7kVzxOX2kNu7+8kjt27XmS6oNwV7zbIUNMdyohaRIO0/Tlqh9fgNg3gMD
- mVBpqu/tvW/gA/sBZDwuS78Wd+UTIgPzJmVzR3ej6DDHcCkGPf73nYwShfDP+9nuneCG
- EYX/Uj67Bpmx0QIBQNNkC0F2W98Nk/QxOj+jq5k2Oni5MPzYIkElL38+hhbSdnbWDVML
- j5iQTUNtOp4pNtWWfGJPyBAECkQ6j9xGyhGl8myuGeYOW5HYZy7ncz9lKzl9KnVwt+mF
- G9Lg==
-X-Gm-Message-State: AFqh2ko1iIoJTLwq53VtvfVKqDgfz2+4loop3DDR4R6K1f+4+JzSd+xi
- bKw48fo1vpm/acNgMCxeInW8dQ==
-X-Google-Smtp-Source: AMrXdXs2paxZi318AWcDDvkuI0jm1ClqO9GIlntFkLMNB8LoqY0yQ2CPhVXT6EIgW9hIIR7ii5DkmQ==
-X-Received: by 2002:a05:6a20:2a94:b0:9d:efc0:76 with SMTP id
- v20-20020a056a202a9400b0009defc00076mr111397340pzh.30.1673483796323; 
- Wed, 11 Jan 2023 16:36:36 -0800 (PST)
+ bh=CeTMTTVNnQKb1HCCglqBARVyPNNw8fotLbJxCYUxTlY=;
+ b=MxejD923m4SxKH6Sa7IyDFw9qXp2yfh1jeRoHoaZOQdK3bq3a1ke101DVz6/ALEE+n
+ feKSDDQYJxP3tJIUFz6MgjUQzH853RP1sDC2KHHSOLP0kMck05WSJkq7xUv97OK8vqQo
+ rsZFh+qBj1xRTtRXJ44w9BZpKYkKF5VZOs7lY8qLhGkSWU5BpeOM8GbOzblxnmQF4riz
+ VDwK5nf/51iE7s+28sfz4bTAadmgBa/EmRg4sXhkhSloJu9eKIDRF1NZta2N+lJaaLUD
+ JwZhVduw1BYvyo/qqVkG+hKFRoAtoeM7tTQXTRYNgbUhTjYdMViGRtdGWDsb6iea4R1M
+ mr3g==
+X-Gm-Message-State: AFqh2koS2dKbnEZebQSjjrbkHQ3JZcwyy74MnaHaJLMqpgFODR66zbJH
+ 8L0KxcGPHgnU3MSJZpRgLhmJpA==
+X-Google-Smtp-Source: AMrXdXtylTm51O4WToxd5qObCFnXpYhdCHdzGhFsoyCMYo5ckSSoXoq6v9DWgi+3v8e+C7AiOKvzIA==
+X-Received: by 2002:a17:90b:110a:b0:223:2001:4ee8 with SMTP id
+ gi10-20020a17090b110a00b0022320014ee8mr76762134pjb.27.1673483799233; 
+ Wed, 11 Jan 2023 16:36:39 -0800 (PST)
 Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- j15-20020a170903028f00b00190c6518e30sm10735426plr.243.2023.01.11.16.36.35
+ qe12-20020a17090b4f8c00b00218fba260e2sm11153409pjb.43.2023.01.11.16.36.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 16:36:35 -0800 (PST)
-Message-ID: <0e28d896-7e03-64bd-6f52-bafd21f6241c@linaro.org>
-Date: Wed, 11 Jan 2023 09:09:34 -1000
+ Wed, 11 Jan 2023 16:36:38 -0800 (PST)
+Message-ID: <d05ae248-a3e1-3a14-aabf-4625378f3fb4@linaro.org>
+Date: Wed, 11 Jan 2023 09:10:03 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 20/26] thread: de-const qemu_spin_destroy
+Subject: Re: [PATCH 21/26] util/qht: use striped locks under TSAN
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20230110173922.265055-1-alex.bennee@linaro.org>
- <20230110173922.265055-21-alex.bennee@linaro.org>
+ <20230110173922.265055-22-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230110173922.265055-21-alex.bennee@linaro.org>
+In-Reply-To: <20230110173922.265055-22-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -96,13 +97,43 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 1/10/23 09:39, Alex Bennée wrote:
 > From: Emilio Cota<cota@braap.org>
 > 
+> Fixes this tsan crash, easy to reproduce with any large enough program:
+> 
+> $ tests/unit/test-qht
+> 1..2
+> ThreadSanitizer: CHECK failed: sanitizer_deadlock_detector.h:67 "((n_all_locks_)) < (((sizeof(all_locks_with_contexts_)/sizeof((all_locks_with_contexts_)[0]))))" (0x40, 0x40) (tid=1821568)
+>      #0 __tsan::CheckUnwind() ../../../../src/libsanitizer/tsan/tsan_rtl.cpp:353 (libtsan.so.2+0x90034)
+>      #1 __sanitizer::CheckFailed(char const*, int, char const*, unsigned long long, unsigned long long) ../../../../src/libsanitizer/sanitizer_common/sanitizer_termination.cpp:86 (libtsan.so.2+0xca555)
+>      #2 __sanitizer::DeadlockDetectorTLS<__sanitizer::TwoLevelBitVector<1ul, __sanitizer::BasicBitVector<unsigned long> > >::addLock(unsigned long, unsigned long, unsigned int) ../../../../src/libsanitizer/sanitizer_common/sanitizer_deadlock_detector.h:67 (libtsan.so.2+0xb3616)
+>      #3 __sanitizer::DeadlockDetectorTLS<__sanitizer::TwoLevelBitVector<1ul, __sanitizer::BasicBitVector<unsigned long> > >::addLock(unsigned long, unsigned long, unsigned int) ../../../../src/libsanitizer/sanitizer_common/sanitizer_deadlock_detector.h:59 (libtsan.so.2+0xb3616)
+>      #4 __sanitizer::DeadlockDetector<__sanitizer::TwoLevelBitVector<1ul, __sanitizer::BasicBitVector<unsigned long> > >::onLockAfter(__sanitizer::DeadlockDetectorTLS<__sanitizer::TwoLevelBitVector<1ul, __sanitizer::BasicBitVector<unsigned long> > >*, unsigned long, unsigned int) ../../../../src/libsanitizer/sanitizer_common/sanitizer_deadlock_detector.h:216 (libtsan.so.2+0xb3616)
+>      #5 __sanitizer::DD::MutexAfterLock(__sanitizer::DDCallback*, __sanitizer::DDMutex*, bool, bool) ../../../../src/libsanitizer/sanitizer_common/sanitizer_deadlock_detector1.cpp:169 (libtsan.so.2+0xb3616)
+>      #6 __tsan::MutexPostLock(__tsan::ThreadState*, unsigned long, unsigned long, unsigned int, int) ../../../../src/libsanitizer/tsan/tsan_rtl_mutex.cpp:200 (libtsan.so.2+0xa3382)
+>      #7 __tsan_mutex_post_lock ../../../../src/libsanitizer/tsan/tsan_interface_ann.cpp:384 (libtsan.so.2+0x76bc3)
+>      #8 qemu_spin_lock /home/cota/src/qemu/include/qemu/thread.h:259 (test-qht+0x44a97)
+>      #9 qht_map_lock_buckets ../util/qht.c:253 (test-qht+0x44a97)
+>      #10 do_qht_iter ../util/qht.c:809 (test-qht+0x45f33)
+>      #11 qht_iter ../util/qht.c:821 (test-qht+0x45f33)
+>      #12 iter_check ../tests/unit/test-qht.c:121 (test-qht+0xe473)
+>      #13 qht_do_test ../tests/unit/test-qht.c:202 (test-qht+0xe473)
+>      #14 qht_test ../tests/unit/test-qht.c:240 (test-qht+0xe7c1)
+>      #15 test_default ../tests/unit/test-qht.c:246 (test-qht+0xe828)
+>      #16 <null> <null> (libglib-2.0.so.0+0x7daed)
+>      #17 <null> <null> (libglib-2.0.so.0+0x7d80a)
+>      #18 <null> <null> (libglib-2.0.so.0+0x7d80a)
+>      #19 g_test_run_suite <null> (libglib-2.0.so.0+0x7dfe9)
+>      #20 g_test_run <null> (libglib-2.0.so.0+0x7e055)
+>      #21 main ../tests/unit/test-qht.c:259 (test-qht+0xd2c6)
+>      #22 __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58 (libc.so.6+0x29d8f)
+>      #23 __libc_start_main_impl ../csu/libc-start.c:392 (libc.so.6+0x29e3f)
+>      #24 _start <null> (test-qht+0xdb44)
+> 
 > Signed-off-by: Emilio Cota<cota@braap.org>
-> Reviewed-by: Alex Bennée<alex.bennee@linaro.org>
-> Message-Id:<20230109224954.161672-4-cota@braap.org>
+> Message-Id:<20230109224954.161672-5-cota@braap.org>
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   include/qemu/thread.h | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
+>   util/qht.c | 101 +++++++++++++++++++++++++++++++++++++++++++++--------
+>   1 file changed, 87 insertions(+), 14 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
