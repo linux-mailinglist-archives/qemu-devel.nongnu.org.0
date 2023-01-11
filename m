@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D526667CF
+	by mail.lfdr.de (Postfix) with ESMTPS id 8926B6667CE
 	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 01:37:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFlZx-0007Or-N3; Wed, 11 Jan 2023 19:36:25 -0500
+	id 1pFla4-0007PS-7v; Wed, 11 Jan 2023 19:36:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFlZw-0007Od-5P
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:24 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ id 1pFla2-0007PJ-7A
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:30 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFlZu-0001dV-HR
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:23 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- w4-20020a17090ac98400b002186f5d7a4cso21909888pjt.0
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 16:36:21 -0800 (PST)
+ id 1pFla0-0001eC-Ij
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:29 -0500
+Received: by mail-pl1-x630.google.com with SMTP id p24so18545398plw.11
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 16:36:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=VQAcl5qzbvA+J+Qxk2U4GQC98qpkOQ2b+sF/9jCwzrM=;
- b=A6GkY7JKAyd4BZqCrGwcT2/gVToyBwHpNkPJrDDP98fahvoD2/wQukDAZcOuvWLn3/
- Pr/gh9v+JTZ0EuPn6rlJ4rBFK/q4hb5cGL0GsscLgb/qbGRRoGmhn21NPnY2k4NeyTmK
- 6UYOoYlQlKDNMta611M7p5/wayitoboxf/gKnN4eCsxPuhBKbGiPJqUfNrV3WqC5D33F
- rMZ6kRstQF4UMx2pM/WjS2GF4dRxY2bcFzrbp4gfoPSIvRqgXCVT2DbVWIFgLaS88G3C
- RlRKTdAfbQn4DPtwLBDbF3AXbI14fHbawa12iZigu5kpyxDBwsxQUDDJwSDS4vpuTRly
- br6Q==
+ bh=0UYHDDae1iv/G5gKuoIFtCIUfU69f+LvCONAgmbNqUM=;
+ b=ctxuXbzWEi7mk/iAp54vHW3MbCrLZLJgFn9emQUpJ9g64wgJpvlirzysz5RDgR7knF
+ kE+b5Dg9pFupbVPoNMyrHy/qoChqiR3/42j8abef1Qudbro13UsNL6xrIInVMqtzwxVx
+ QS2VNBD3JGVuwT57YR3jdD0SbN/MUY4EEJXXZTu31WhllMvUR5822tIEiXKBFhhq+hnh
+ Ai6y9IONw2ixjuwUcV6z9ZQlttYyb68P5FKZv+YFseD0EBhK/bzNl/29aH0kTcT/dYIS
+ Bn6vFJk0tfG3ReQPTqsUgnZ1mCYAWfN5Ob+FqrUXu3e96kTxSsUDNMbqS7zPZ9vGoq91
+ rn8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VQAcl5qzbvA+J+Qxk2U4GQC98qpkOQ2b+sF/9jCwzrM=;
- b=DDrVEZJkBHL+lHZW4/oS/2bvT9sjC4ahhjLjLXKKxMacmAC/C85pqgoFDbO3/eFmjW
- FOtKcXfG2uZsLwOJIbAdYPJnXfoEzKqy4WqLFMTyn1lSPUWBJcS/a69Aid6KmNdAAlDM
- nKCsLlm5F2Fgb7yjLuaBIe4yh029MCzIPMfcxSOc5CCeZYuLeCExQhu3QkhML9q1bJEQ
- r3PRF0Zc7SMIc63TzKD4Bixs2uQJkwmsUnPOZivC3QJRTJepw8bKRQc2W5VyeTUXQVqV
- 7TRKCJCUUnaT1q37KWK5JoBXjxV9Bef5y4gsOyauvhROflrTw01GZgc3eo+ug1/BX/XE
- IbsA==
-X-Gm-Message-State: AFqh2kqIbesLChSSwK/AXb2oIGeEaa9IcRBQl845/so4h9OJPNVxDP/t
- ONtg10rb1GmZQ76zZXgNcalBmQ==
-X-Google-Smtp-Source: AMrXdXvoT9Wyxdb9daa1xAz8f+ZNleueSCDso5aY/XEV6lDPACC850edpf4CWUxP6C0AJXIGwX19IA==
-X-Received: by 2002:a17:90a:d686:b0:229:2e7:920 with SMTP id
- x6-20020a17090ad68600b0022902e70920mr12299pju.35.1673483780253; 
- Wed, 11 Jan 2023 16:36:20 -0800 (PST)
+ bh=0UYHDDae1iv/G5gKuoIFtCIUfU69f+LvCONAgmbNqUM=;
+ b=xxdMe1P6r9bbDALFmjjbh6jYpSkxgNdniru6gDjocJBlgNLj3fHqgLVCork9Shi9n8
+ qv7UswyORweXgOcomm6W0wbhErXcA1agj85XXF3i8Donkw3wcVj0s88/J006YsGp9tp9
+ 5ynogJTlyvV77Uezr4zPuaxuFRtCyzUlKb0VU/yUkGJX77LTQqh+JTbv3z+lc2G4JaGg
+ lOqXuDxdjL5GbFAn/feb9JBDVHIu4AXf+ZoaXysiNicWOaLIZO+LN+WHpelT6xaF+ofE
+ LrgEDHBpiGlZpjLxdW2te6oNLDQjuUooRIcPTFmvTOx+4sdnpiMGN0zQ6NNQveel6+/J
+ LR5g==
+X-Gm-Message-State: AFqh2kqF4GAMacfdOApRQjLLLS1PzkWdKp4Zv97N3zHhJ+wV5afzQKbK
+ jvn6gWv/YyvG0A2Idy5ogk4RBltXt/9HWPJu
+X-Google-Smtp-Source: AMrXdXsX5DApCAtEc3UbTopZPxJ5GrkzOwGw7yUGq92f0bzMJSe/dlJ2qN+v42uRjPqkfqBBbzWPmQ==
+X-Received: by 2002:a17:902:6f17:b0:193:1c62:29c8 with SMTP id
+ w23-20020a1709026f1700b001931c6229c8mr13444078plk.51.1673483787170; 
+ Wed, 11 Jan 2023 16:36:27 -0800 (PST)
 Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- d4-20020a17090a8d8400b001fd6066284dsm9560146pjo.6.2023.01.11.16.36.19
+ k16-20020a170902c41000b00178b77b7e71sm4013851plk.188.2023.01.11.16.36.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 16:36:19 -0800 (PST)
-Message-ID: <525d562c-fe33-66f4-b9fa-896ec6e51636@linaro.org>
-Date: Wed, 11 Jan 2023 10:50:34 -0800
+ Wed, 11 Jan 2023 16:36:26 -0800 (PST)
+Message-ID: <6ff6b453-b97e-70f9-6a86-3b65a01887f1@linaro.org>
+Date: Wed, 11 Jan 2023 08:54:11 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 03/26] gitlab: just use plain --cc=clang for custom runner
- build
+Subject: Re: [PATCH 17/26] tests/tcg: add memory-sve test for aarch64
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20230110173922.265055-1-alex.bennee@linaro.org>
- <20230110173922.265055-4-alex.bennee@linaro.org>
+ <20230110173922.265055-18-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230110173922.265055-4-alex.bennee@linaro.org>
+In-Reply-To: <20230110173922.265055-18-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -95,14 +93,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/10/23 09:38, Alex Bennée wrote:
-> I think this was because older Ubuntu's didn't alias clang to whatever
-> the latest version was. They do now so lets use that and not break.
+On 1/10/23 09:39, Alex Bennée wrote:
+> This will be helpful in debugging problems with tracking SVE memory
+> accesses via the TCG plugins system.
 > 
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Cc: Robert Henry<robhenry@microsoft.com>
+> Cc: Aaron Lindsay<aaron@os.amperecomputing.com>
 > ---
->   .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   tests/tcg/aarch64/Makefile.softmmu-target | 7 +++++++
+>   tests/tcg/aarch64/system/boot.S           | 3 ++-
+>   2 files changed, 9 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
