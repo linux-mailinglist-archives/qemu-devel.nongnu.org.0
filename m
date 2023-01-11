@@ -2,91 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DE8678559
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 19:53:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE03B680255
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 23:45:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK1vI-00051R-EW; Mon, 23 Jan 2023 13:52:04 -0500
+	id 1pMGPc-0007YQ-Kq; Sun, 29 Jan 2023 17:44:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pK1vG-000515-Qq
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 13:52:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pK1vF-0002t2-2n
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 13:52:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674499918;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UjjT4J9HxHMveIDbMaJsTI9aPu2k4ZORdssrc63odAI=;
- b=ASQUA7TAaDbm6Vb5aoU/+Lbpjede1cKHJgI3WTO6zGU73WYl+gsKFEdeaQFpA5mPoQKfPx
- yWaPO2AIx8Q413nC5B/DTw8sXkgTbJPqnhS2YYCBLkWG4xsTAWB4gDZ0S45Q28Z9hWPTr6
- AUepPsNpsczlGs2f786I1aoDYqe3h98=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-107-7Gl2wWdoMLSh68hXaXpWIQ-1; Mon, 23 Jan 2023 13:51:55 -0500
-X-MC-Unique: 7Gl2wWdoMLSh68hXaXpWIQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- t4-20020adfe444000000b002be53a83610so1748019wrm.15
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 10:51:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pMGPb-0007YA-3c
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:44:35 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pMGPZ-0000Vp-8A
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:44:34 -0500
+Received: by mail-wm1-x333.google.com with SMTP id l8so6889369wms.3
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 14:44:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=braap-org.20210112.gappssmtp.com; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=WsbRZA5e02vWUBBoXG2xIQDNdseHqZPa1Z4AOPr9aAc=;
+ b=SZKMlzACnIAjqiAzsYRgH4dWzUNQr2pw10HosnHv2SWOrs50GZOCLS+RXO1jCFAwXB
+ qXzNuNY9GiFbhfmRELsoloXOWHV/BWzLtH+/e7j58pFxwQ4l3lbf9nSia1Dv1pSmTkkX
+ BZ78tAE+OQvw8dd1fkM9zxjf9UDXw3KwaWw/L109LWkvd7qF8FTmrGT/2ZWzAOM+JQ9x
+ fw5zo16RgPFHUucfzR3vXv7XTyfXYL1iA714b6bRxojD+4iyVUxNttqy/VIuAUKJDjrc
+ /rr9lK7PBZIKFWshCymzalqF/tDksejOwyAH+HZDqJErYmn5CXhMumO07oHa77K4y4rZ
+ ui4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UjjT4J9HxHMveIDbMaJsTI9aPu2k4ZORdssrc63odAI=;
- b=Hk+fv2BoXi+tnIwYC5U4FwiND1xrc9WIOKnEFK9VmklH6PiASXnInMchYjTXTq7+t4
- Y7yntGk0wP7j+OWhz5/S+ouewWd5dQW+UJUU4KgfO3UYc1joDMzknsIjE+1+g9sgTX9s
- NgB4xsnnlJu3mCwtMvD3lYZ7IQC/BiDCcUI/2bc/0bgTZfae/TFazH43hYhQKyzHWHIJ
- FhWvBsHQqD86+vpgeZL+xvSzSCLmU2mGucc1oy/Qi4NehzPqDF/voZlV7MpDtI7RTTYf
- J9zu0b+WXZy4jhcLFRjcqIpEOh+vqLTQzPEzwOhVV2vLu1d9mOkl4oMihHFAW3U4Shib
- Dhrw==
-X-Gm-Message-State: AFqh2kosaGrij+TgtXZ0bM7PQiUWXWN6K8OzmhAE8WCSgPPVfoDTL7Xb
- Oot194oFI9kHZ39es7TKqaqFuFpc6cZpb64+J6+I6dd7CaxaRrazsNFQSMtD8aG3CqFwd6xQX/E
- 7uCGlCg+uJrlLOVk=
-X-Received: by 2002:adf:cd8f:0:b0:244:48b3:d12b with SMTP id
- q15-20020adfcd8f000000b0024448b3d12bmr22265849wrj.45.1674499914246; 
- Mon, 23 Jan 2023 10:51:54 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsR9+iGojZYfpWdMGNd8XN5foDOeib2nBKXoYyaGuulZNwNomRU9i3qZWM0BXOMn4i9kKeYCw==
-X-Received: by 2002:adf:cd8f:0:b0:244:48b3:d12b with SMTP id
- q15-20020adfcd8f000000b0024448b3d12bmr22265834wrj.45.1674499914037; 
- Mon, 23 Jan 2023 10:51:54 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- m11-20020a5d624b000000b002be5bdbe40csm109359wrv.27.2023.01.23.10.51.53
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WsbRZA5e02vWUBBoXG2xIQDNdseHqZPa1Z4AOPr9aAc=;
+ b=uWyYKBAxOwguc66JjAKZEXrG0FAsX5sFb0zro+vlA0oDXJEFnvy6HlSpkpjWT61FhT
+ R6zEQKCNx87+HiJom6w8yC9P5o21UEyhcmiNQJptw9E52Yb/WVN3Kx8Ru5MOLa1mx0IK
+ ymLfbFKG49AghlWBASdfpOc3ugIJbql3xQ5CEz9fW98mHwLvCbs93evTz9OXcj7Gb100
+ Y0TXcCNPNvjAsDm6F4v7D0MhxVQJXxUHda/4aCIOJ/ITyLiESB2AnG9mL8Mb9vhbAHas
+ 1bM5iCzZqGpFK2ao/5X6/z41Qp1ydPe0ArBVuGjJUG9ebbbQdweJ9ugYWxK3V8aMjNWc
+ yuXw==
+X-Gm-Message-State: AO0yUKVq8hG/Q7bL4cMkq3rZQojbyi2Ki+yT8ljgxZ1rbX/+CqjMPSfW
+ iP3HahFLzWH8JPwNWhgCeL8A8g==
+X-Google-Smtp-Source: AK7set+VrVf4FAiMpdXV5p5bAMbLuG7/vZOMLjbkBNpwEaf/Rdw8wMCvhyGO8sg6T/HxGcZDHMfbTg==
+X-Received: by 2002:a05:600c:d4:b0:3dc:5362:134a with SMTP id
+ u20-20020a05600c00d400b003dc5362134amr3356491wmm.9.1675032270774; 
+ Sun, 29 Jan 2023 14:44:30 -0800 (PST)
+Received: from localhost ([146.70.128.243]) by smtp.gmail.com with ESMTPSA id
+ b48-20020a05600c4ab000b003db1ca20170sm1982976wmp.37.2023.01.29.14.44.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 10:51:53 -0800 (PST)
-Date: Mon, 23 Jan 2023 18:51:51 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- James Houghton <jthoughton@google.com>, Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH RFC 08/21] ramblock: Cache the length to do file mmap()
- on ramblocks
-Message-ID: <Y87XR8U1FaQVVJO+@work-vm>
-References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-9-peterx@redhat.com>
+ Sun, 29 Jan 2023 14:44:30 -0800 (PST)
+Date: Tue, 10 Jan 2023 23:01:50 -0500
+From: Emilio Cota <cota@braap.org>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ ncopa@alpinelinux.org, Kyle Evans <kevans@freebsd.org>,
+ Warner Losh <imp@bsdimp.com>, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] linux-user,bsd-user: re-exec with G_SLICE=always-malloc
+Message-ID: <Y740rpN1VLMV64Vp@cota-l14>
+References: <20221004120047.857591-1-berrange@redhat.com>
+ <Y4hP5HS8L4O6KsVO@cota-l14> <87cz93cpum.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230117220914.2062125-9-peterx@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87cz93cpum.fsf@linaro.org>
+Received-SPF: softfail client-ip=2a00:1450:4864:20::333;
+ envelope-from=cota@braap.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: 22
+X-Spam_score: 2.2
+X-Spam_bar: ++
+X-Spam_report: (2.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,100 +91,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Peter Xu (peterx@redhat.com) wrote:
-> We do proper page size alignment for file backed mmap()s for ramblocks.
-> Even if it's as simple as that, cache the value because it'll be used in
-> multiple places.
+On Thu, Dec 01, 2022 at 10:49:27 +0000, Alex Bennée wrote:
+> Emilio Cota <cota@braap.org> writes:
+> > On Tue, Oct 04, 2022 at 13:00:47 +0100, Daniel P. Berrangé wrote:
+> > (snip)
+> >> Can't say I especially like this but I'm out of other ideas for how
+> >> to guarantee a solution. Users can't set env vars prior to launching
+> >> QEMU user emulators when using binfmt.
+> >
+> > An alternative is to not use GSlice between fork/exec. I'm
+> > not sure if within that region there are other users besides
+> > GTree (GArray perhaps?), but if there aren't, then just using
+> > a different binary tree implementation should do.
 > 
-> Since at it, drop size for file_ram_alloc() and just use max_length because
-> that's always true for file-backed ramblocks.
+> Hmm my distros version of GArray certainly does and that is used quite
+> heavily across gdbstub and plugins.
 
-Having a length previously called 'memory' was a bit odd!
+Then we might have to also import a GSlice-free GArray ("QArray").
+Currently we just deadlock on POSIX-compliant code, which is
+unacceptable.
 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  include/exec/ramblock.h |  2 ++
->  softmmu/physmem.c       | 14 +++++++-------
->  2 files changed, 9 insertions(+), 7 deletions(-)
+> > Untested patches using ccan's AVL tree: 
+> >   https://github.com/cota/qemu/commits/avl
+> >
+> > Would that be more palatable?
 > 
-> diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
-> index 76cd0812c8..3f31ce1591 100644
-> --- a/include/exec/ramblock.h
-> +++ b/include/exec/ramblock.h
-> @@ -32,6 +32,8 @@ struct RAMBlock {
->      ram_addr_t offset;
->      ram_addr_t used_length;
->      ram_addr_t max_length;
-> +    /* Only used for file-backed ramblocks */
-> +    ram_addr_t mmap_length;
->      void (*resized)(const char*, uint64_t length, void *host);
->      uint32_t flags;
->      /* Protected by iothread lock.  */
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index aa1a7466e5..b5be02f1cb 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -1533,7 +1533,6 @@ static int file_ram_open(const char *path,
->  }
->  
->  static void *file_ram_alloc(RAMBlock *block,
-> -                            ram_addr_t memory,
->                              int fd,
->                              bool readonly,
->                              bool truncate,
-> @@ -1563,14 +1562,14 @@ static void *file_ram_alloc(RAMBlock *block,
->      }
->  #endif
->  
-> -    if (memory < block->page_size) {
-> +    if (block->max_length < block->page_size) {
->          error_setg(errp, "memory size 0x" RAM_ADDR_FMT " must be equal to "
->                     "or larger than page size 0x%zx",
-> -                   memory, block->page_size);
-> +                   block->max_length, block->page_size);
->          return NULL;
->      }
->  
-> -    memory = ROUND_UP(memory, block->page_size);
-> +    block->mmap_length = ROUND_UP(block->max_length, block->page_size);
->  
->      /*
->       * ftruncate is not supported by hugetlbfs in older
-> @@ -1586,7 +1585,7 @@ static void *file_ram_alloc(RAMBlock *block,
->       * those labels. Therefore, extending the non-empty backend file
->       * is disabled as well.
->       */
-> -    if (truncate && ftruncate(fd, memory)) {
-> +    if (truncate && ftruncate(fd, block->mmap_length)) {
->          perror("ftruncate");
->      }
->  
-> @@ -1594,7 +1593,8 @@ static void *file_ram_alloc(RAMBlock *block,
->      qemu_map_flags |= (block->flags & RAM_SHARED) ? QEMU_MAP_SHARED : 0;
->      qemu_map_flags |= (block->flags & RAM_PMEM) ? QEMU_MAP_SYNC : 0;
->      qemu_map_flags |= (block->flags & RAM_NORESERVE) ? QEMU_MAP_NORESERVE : 0;
-> -    area = qemu_ram_mmap(fd, memory, block->mr->align, qemu_map_flags, offset);
-> +    area = qemu_ram_mmap(fd, block->mmap_length, block->mr->align,
-> +                         qemu_map_flags, offset);
->      if (area == MAP_FAILED) {
->          error_setg_errno(errp, errno,
->                           "unable to map backing store for guest RAM");
-> @@ -2100,7 +2100,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
->      new_block->used_length = size;
->      new_block->max_length = size;
->      new_block->flags = ram_flags;
-> -    new_block->host = file_ram_alloc(new_block, size, fd, readonly,
-> +    new_block->host = file_ram_alloc(new_block, fd, readonly,
->                                       !file_size, offset, errp);
->      if (!new_block->host) {
->          g_free(new_block);
-> -- 
-> 2.37.3
+> I think generally we wouldn't want to have multiple implementations
+> unless there was a definite benefit (c.f. QHT). That said I think
+> Richard's latest optimisation work:
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>   Subject: [PATCH v2 0/7] accel/tcg: Rewrite user-only vma tracking
+>   Date: Thu, 27 Oct 2022 22:12:51 +1100
+>   Message-Id: <20221027111258.348196-1-richard.henderson@linaro.org>
+> 
+> brings in the kernel's interval tree (with unit tests). I wonder if the
+> page_collection use of GTree could be converted to that?
 
+Thanks. I looked into reusing this but I don't think it's a drop-in
+replacement for GTree.
+
+> I don't know how you would defend against re-introducing it into
+> linux-user though aside from commentary.
+
+To close the loop:
+I've sent a patch series that imports GTree-sans-GSlice as QTree,
+and uses that for TCG:
+  https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02080.html
+
+Thanks,
+		Emilio
 
