@@ -2,153 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39877666247
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 18:50:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8CC666251
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 18:53:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFfDy-0008Gc-20; Wed, 11 Jan 2023 12:49:18 -0500
+	id 1pFfH1-0000q7-3B; Wed, 11 Jan 2023 12:52:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1pFfDu-0008Fx-Bq
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 12:49:15 -0500
-Received: from mga17.intel.com ([192.55.52.151])
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pFfGy-0000pS-7f; Wed, 11 Jan 2023 12:52:24 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1pFfDr-0004nY-00
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 12:49:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673459351; x=1704995351;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=8gAcFGBXaIrdlKR9JUDCyyj1dRy/nIT2bx4wQDSqXNM=;
- b=JLDCUirxz8dnT0PaHo2vcxucncTB1wwZP4sMhznM8pnsRLxbWel82YH+
- D4KWYLqpV2d8snSfJiwTgo8U2OtHwMOEMSY8L9ekBX62KxPHBGgwOG3TI
- 0KTYiuCAaOgEAPmdc0EOUnQHNWjS6f12RZpeC812YLrWF0dYu75boxLKI
- NwypxCSjLxOB0e85po2zrHOIk+rqgfLvP7EHIK3kAxWM6HqrkWOMVKm7F
- Zim7VSu0osAwCn46aLivV74Gf1BCYbS1rDC1u5qDTkURwO+XnN5g0Lu6a
- V3hQN5q/pW5czcp5A2rYV0ad8tG2tPDNLZEF4Sivs5qSk6oTuXJKcrgEN Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="303857821"
-X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="303857821"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2023 09:48:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="720807636"
-X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="720807636"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga008.fm.intel.com with ESMTP; 11 Jan 2023 09:48:31 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 11 Jan 2023 09:48:31 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 11 Jan 2023 09:48:31 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.172)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 11 Jan 2023 09:48:31 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z2mfQnbFkCAQ4YDc3BqWL+yevaBvBIfw614hFpvZ7k14fOUdZHav+1t4dLs+Yk4Up5wXrRfvaGS009kam/hw0emGbxZVyOO749ZdhCjW3LfqsnAnvWyydEOpRbvjh7WQzWoa8quylHhGWX8dYBBMfX/zJjTTAaw6qyYR3RbokOM3zk72wFilb4KLKrxQxvCEBIz7R7wVtdlWIWJsZciG2t4CTjHat+fqM8Lc7Pdq+7wehkl0Yb/tqeSNecZMjkHch70UyE7JCili1AGTjoZvl/fZjWyFzV0/3g1GdkCnYA2FXhZGKZhyEXUWVYjoMpurwtaac+d0jvLtsTssr4J1sQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pn3bMntzmUxDDaVYJWmvZx2+iB5jGACiGZVR89Epm/0=;
- b=Tq3dhV9IrsKbX1wCqn1lKJ+Wgfh7lpS2A8E8WBbBBiAwKxo1Kby6nQF/Wpxh7C65dUzqtqVy7bdemSfXOG+DlZnTSY9IUIc3aLFjUZlIBm56cot3A4k1FZnpjZw3LYfa0liyiSGynyYK+O719SddE0/CGbdcRjPR/803oyuKVi2rGzFmlC9txvtIy8i9TE+WkCYZ5torVOYj7PdUkRNjn+KonJKw11454xjvOA4SsaD2E2mlM9oz1TlpUSpGadynBX3xbjYRbn4JWb6zJw91giCB6KR4N+fTWZjSQn4Ovr3vJu7JBPc9CGwDRKYGUsWT3SggExQb3teUBGS+7YC5Lg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by SA0PR11MB4559.namprd11.prod.outlook.com (2603:10b6:806:9a::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
- 2023 17:48:30 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::288d:5cae:2f30:828b]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::288d:5cae:2f30:828b%8]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
- 17:48:30 +0000
-Date: Wed, 11 Jan 2023 09:48:26 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
- <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
- Gregory Price <gourry.memverge@gmail.com>
-Subject: Re: [PATCH 5/8] hw/i386/acpi: Drop duplicate _UID entry for CXL root
- bridge
-Message-ID: <Y772anGNEZQKanMZ@iweiny-desk3>
-References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
- <20230111142440.24771-6-Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230111142440.24771-6-Jonathan.Cameron@huawei.com>
-X-ClientProxiedBy: BYAPR05CA0107.namprd05.prod.outlook.com
- (2603:10b6:a03:e0::48) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pFfGw-0005Li-BD; Wed, 11 Jan 2023 12:52:24 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30BGeT9b007069; Wed, 11 Jan 2023 17:52:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=bf2+KZUauErns86CeVDeMSV6FItnzCC6ssTxE/11o5s=;
+ b=WWxQPMeAErvOZEKkbe3uGkHxQFghWPHdCQE9psoaRbLX3KsyU6VGECw7HXXNG7h7lmOb
+ SWv09jxIsxJmhX1IMKVyQJS3oOx+RnqkK7FbT/4v0GFcM54s1hAxRuY+9041lfifHlm/
+ eFdyR5GEg0vUc0uEGKvuQjm1SRjAaU6pSR1z0/bIzyuGe6HiktVlSTjZCJxQQfH7awvy
+ /oYs3dy0Yi7bYP/sOjyQXig2y04OM5JmJ/oXFK29SlWjznL7YRGGi0gbOGA/lSKA72Ub
+ T5ZLKAEXXBUvS2p0dvFsOKeCSSxaBYNNP4TSr8R63Z9xDRBpV9XbWm3cxAivLvRoY6du 8Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1y4mn7nh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Jan 2023 17:52:17 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30BHbEqs028875;
+ Wed, 11 Jan 2023 17:52:16 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1y4mn7n3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Jan 2023 17:52:16 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30BCn08b030764;
+ Wed, 11 Jan 2023 17:52:14 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3n1kf7h8wt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Jan 2023 17:52:14 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
+ [10.20.54.100])
+ by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30BHqBTJ50790882
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 11 Jan 2023 17:52:11 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0BD032004E;
+ Wed, 11 Jan 2023 17:52:11 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9A95E20040;
+ Wed, 11 Jan 2023 17:52:10 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.175.58]) by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 11 Jan 2023 17:52:10 +0000 (GMT)
+Message-ID: <47b72645aaa2456476fe0d73f45d3f37ebb4eb3d.camel@linux.ibm.com>
+Subject: Re: [PATCH v14 04/11] s390x/sclp: reporting the maximum nested
+ topology entries
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Wed, 11 Jan 2023 18:52:10 +0100
+In-Reply-To: <20230105145313.168489-5-pmorel@linux.ibm.com>
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-5-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|SA0PR11MB4559:EE_
-X-MS-Office365-Filtering-Correlation-Id: 61b227bc-ce53-4271-c076-08daf3fc0cd1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fLKm8eL4e1TtZogsJyu06CHtXmXihZ+YLqKQ9hP22qPrjxOBpFqtqf2x8Db4ZSNJTMnDLEVRTanJqqhKxA3pZRP4wOKUJnBb8AtYydoadLMhdZ3s2KQv6P0hhkaxdzcEsI+EVMw1qE/UeFIzLG3lCKGcFY+hBjkzFJl3YBSF+WaLhTLN/g66iyanXYzDAAHzqqYM8qtaJ7clyG1C/FOq6SawwdDo6hCOClMj+NvTgYZ3qlpiuFsKKbcmj5jpNWsMtRzEdtBUL2X3lYfhSiSl1o3IYL9/D+Tn5KomPn9Sc1bn7J+k+d6FUqbj0q5KB5nXB5EeN8hDgyL12UN8kt19x+AFk6vVZkQLaTQig067+KMYJ5hpFZk62ofJX8jwdbek3txZ0GIIjpviIUAqQH5MY/mBgn1hBpBuBpjUTpMDzO6KZ0+OKXx0+wGt9n/rIOyKRnhDjq1xop9UeJwSy0txcJ/4MoI5rtu1Zln3uq6z+yiuVv2f27+Lmr+JNF+jr68MK4BHPD+t1JU6sACmsCvXU18UKiG0P4fpbYqD9AUce7CIHJIa/kJkKfOtFXC9EE2kEdJmQgaNUQaeJfiVgSyP0dRHrBgz9Q/yeiuLMVI5MKaI5SvUees6kxfgyJ67ZFEEuzsGIN8phhz2YBkogxlCnw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(7916004)(346002)(396003)(376002)(136003)(39860400002)(366004)(451199015)(6506007)(38100700002)(82960400001)(6666004)(2906002)(6486002)(478600001)(33716001)(4744005)(26005)(186003)(6512007)(44832011)(5660300002)(9686003)(316002)(83380400001)(8936002)(86362001)(41300700001)(6916009)(8676002)(54906003)(66946007)(66556008)(4326008)(66476007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Lgco4zzcVfsbPQnBziYH6D0eDstluMXKRUjRaCSOC8qTWRRZMnYL4IQ4WeAt?=
- =?us-ascii?Q?SFaaAgqG7dvZvn81IizKDyzNErBFaHdAk3JNeKh9Ey4a/yco3nHFjBFpAQbu?=
- =?us-ascii?Q?oewidN++mIK/HrSartE3yNSBr8B6/Kfg3gk8Bz1f0uAPauI9HlJODy6nhyG1?=
- =?us-ascii?Q?M8BOcWyTOhia/zml8GMrQFsslbBnOf5PCx3fMtI/tHfgyOVuex7n86XrQkOZ?=
- =?us-ascii?Q?1vMkbc3KNubSft8cg3wMZwIe+6UL55XaW3rAwfhXgOQZGswtKUkQVGvAQz7O?=
- =?us-ascii?Q?9tEZVFStkz0tRfAVcWwI2c2XoGIJkSWS+8Wc0n/skj51gO7llaPKw3kPrben?=
- =?us-ascii?Q?8U/V1VPLhhCjKAnWSsNah6hjdsLO47EuepElPpiJj9nzWJqVIWilbl54qh/C?=
- =?us-ascii?Q?KfXWZqTP8QjclbIAmj78ECXcf1FZZrEHU+zmQo3t5/ekNl5b6e4Xo12STmPP?=
- =?us-ascii?Q?auGzSa6DzWgIxv8xduUL7askgC84ArIZziiI6yDwwAT1cTZYLyghTC7WaPh0?=
- =?us-ascii?Q?LMCSKRGVpSM3znQOqFv4/vDzyG3OjzZd7XQL3ST338ocCle9Wzz7sB+e4Rqf?=
- =?us-ascii?Q?SeAMSX4yAyjq7tMXV+2UmAxmy9ezZunFV0TicGsbCHrM2cUEUXrKiYLCUTBh?=
- =?us-ascii?Q?OJ/r2J94THfRdVZkaqZ1ZWJS7XPIcEvGoGNlFDunlbdet0cWgnPESJFwQnNh?=
- =?us-ascii?Q?K0WGDBp8CvSxUVPZxjcMt4R9hA58Z/uQ9pix8UlfAuIEAmdLeYeZxbkPPJbw?=
- =?us-ascii?Q?TLZI+UxMyIw4BmFCBZCnp7QXU6PSjnf9+p8+c+gcJM7ohT3rjUZiHRvZzuM4?=
- =?us-ascii?Q?2F75PvP9MtCHbfJRabPm67GszTTZZIbEXh6QfWbg30RT2NmwBddHeFaQFhFD?=
- =?us-ascii?Q?HF3nX1XVZj4IvfRNslphfuwHLKSICWFescjZtnf7kQW+KjX5xCK5VnQ9CqBA?=
- =?us-ascii?Q?1iB26h9eK6IgxLP4JQ19rXUzFIud5gq52QrKajUqpBWODEqwrkHU9HsxuSk0?=
- =?us-ascii?Q?Ca3zo4t8XwpyYem/VoLEEmLuLkuVuJqma49y53CAdXyoMaxwqUG29d1DtlKy?=
- =?us-ascii?Q?S+Aw1rnu2S7motl5JeJPA7reoxapl/YCZT6gtG4kTd+gQkBlLXfy8BpCc7sI?=
- =?us-ascii?Q?wQR6RNaxR2vlJiZmqJrq/kqLv8E/wnowCPDqhT47h22Boq1EVkqpYmXmql5S?=
- =?us-ascii?Q?v+PN7t+DwC6p+/UumbbXykhgciti5Wz+9p+RNKLurtfIcxU/hF1303o+e4/z?=
- =?us-ascii?Q?zPiQwMFvv/gkmNelUAuhOGwn5/Y8S03Vl8nUOCfwJJ7UWamk4ziImG96uK8r?=
- =?us-ascii?Q?PqKPe5QfpytcF+s/F+FxvGUwEdm+j1oGI7c+1MoHGCnXjM9izjpsMrRFy/n0?=
- =?us-ascii?Q?gmrLkjQrJ2uQqITnLESaqN1am/IuF/osu7ItrvxbmUgbd5AlFEKnDBa88OMw?=
- =?us-ascii?Q?mLOH9SgF2HFizi1kOTtuGmIlcTBzxCNh5QNoLOIjFqGxXMFOZyh1ji/LuDtA?=
- =?us-ascii?Q?Dm43B+07E0GHqarGerjlH8q5TaoJT2IF3eVTEebApjdgwf4q0VcTlrKW95YZ?=
- =?us-ascii?Q?q/0vruPiR159UR8USzbPC4g5eI5gnSVPfByprQNT?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61b227bc-ce53-4271-c076-08daf3fc0cd1
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2023 17:48:29.9977 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y0y8edCfJ5B8lW8KVNDWNBIHrYBCqu0d1maleT4ThZ8/CbggQr4vYYMXMqN0dJjy8G5z2JSq9Zp8Ek5jE1BDkA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4559
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=ira.weiny@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: GKOn9ZkJGIK0c5U9GdRHKmWI2ltawZ-m
+X-Proofpoint-GUID: CwJGCI_4huQ9o_xe7Z9PpZE-W8VFPofA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-11_07,2023-01-11_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0
+ lowpriorityscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0 suspectscore=0
+ priorityscore=1501 phishscore=0 spamscore=0 impostorscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301110128
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -164,30 +118,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 11, 2023 at 02:24:37PM +0000, Jonathan Cameron wrote:
-> Noticed as this prevents iASL disasembling the DSDT table.
-> 
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+On Thu, 2023-01-05 at 15:53 +0100, Pierre Morel wrote:
+> The maximum nested topology entries is used by the guest to know
+> how many nested topology are available on the machine.
+>=20
+> Currently, SCLP READ SCP INFO reports MNEST =3D 0, which is the
+> equivalent of reporting the default value of 2.
+> Let's use the default SCLP value of 2 and increase this value in the
+> future patches implementing higher levels.
+>=20
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+Reviewed-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+if you address the issues Thomas found with the commit description
+and the nits below.
 
 > ---
->  hw/i386/acpi-build.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 127c4e2d50..a584b62ae2 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1482,7 +1482,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->                  aml_append(pkg, aml_eisaid("PNP0A03"));
->                  aml_append(dev, aml_name_decl("_CID", pkg));
->                  aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> -                aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
->                  build_cxl_osc_method(dev);
->              } else if (pci_bus_is_express(bus)) {
->                  aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
-> -- 
-> 2.37.2
-> 
+>  include/hw/s390x/sclp.h | 5 +++--
+>  hw/s390x/sclp.c         | 4 ++++
+>  2 files changed, 7 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
+> index 712fd68123..4ce852473c 100644
+> --- a/include/hw/s390x/sclp.h
+> +++ b/include/hw/s390x/sclp.h
+> @@ -112,12 +112,13 @@ typedef struct CPUEntry {
+>  } QEMU_PACKED CPUEntry;
+> =20
+>  #define SCLP_READ_SCP_INFO_FIXED_CPU_OFFSET     128
+> -#define SCLP_READ_SCP_INFO_MNEST                2
+> +#define SCLP_READ_SCP_INFO_MNEST                4
+>  typedef struct ReadInfo {
+>      SCCBHeader h;
+>      uint16_t rnmax;
+>      uint8_t rnsize;
+> -    uint8_t  _reserved1[16 - 11];       /* 11-15 */
+> +    uint8_t  _reserved1[15 - 11];       /* 11-14 */
+> +    uint8_t  stsi_parm;                 /* 15-16 */
+
+The numbering here is the same as the one in the arch doc, instead
+of the maybe more usual one where the right number is exclusive.
+So 15-16 looks like a two byte field, so just do 15 or just drop it.
+
+>      uint16_t entries_cpu;               /* 16-17 */
+>      uint16_t offset_cpu;                /* 18-19 */
+>      uint8_t  _reserved2[24 - 20];       /* 20-23 */
+> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+> index eff74479f4..07e3cb4cac 100644
+> --- a/hw/s390x/sclp.c
+> +++ b/hw/s390x/sclp.c
+> @@ -20,6 +20,7 @@
+>  #include "hw/s390x/event-facility.h"
+>  #include "hw/s390x/s390-pci-bus.h"
+>  #include "hw/s390x/ipl.h"
+> +#include "hw/s390x/cpu-topology.h"
+> =20
+>  static inline SCLPDevice *get_sclp_device(void)
+>  {
+> @@ -125,6 +126,9 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *scc=
+b)
+> =20
+>      /* CPU information */
+>      prepare_cpu_entries(machine, entries_start, &cpu_count);
+> +    if (s390_has_topology()) {
+> +        read_info->stsi_parm =3D SCLP_READ_SCP_INFO_MNEST;
+> +    }
+
+Maybe move that up a bit, not sure if it belongs under the CPU information =
+section.
+I'd leave prepare_cpu_entries and read_info->entries_cpu =3D adjacent in an=
+y case.
+
+>      read_info->entries_cpu =3D cpu_to_be16(cpu_count);
+>      read_info->offset_cpu =3D cpu_to_be16(offset_cpu);
+>      read_info->highest_cpu =3D cpu_to_be16(machine->smp.max_cpus - 1);
+
 
