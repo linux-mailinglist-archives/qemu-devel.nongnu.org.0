@@ -2,77 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A98665D66
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 15:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 100A9665DC9
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 15:26:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFbpe-0003Fg-Hx; Wed, 11 Jan 2023 09:11:58 -0500
+	id 1pFc28-0000Pn-5Q; Wed, 11 Jan 2023 09:24:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pFbpb-0003FU-Rb
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:11:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pFc26-0000PU-0K
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:24:50 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pFbpZ-0003aA-IH
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:11:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673446312;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WYmS28x6XoRTFecmVILo5hZoCXVtVYyvuEe0qOMtJSc=;
- b=Jv5/PTHLOrJ35mGsokxgZUZ0TnbaFePzNmjo8fMe5Z53Du+JtqrZx05c8V3YLvZ43o/NPG
- m6vfW7GAW/GOQLzcAYNyadvFC5++luADtFAC3KxWApEHWgfwoRzRKlh3QUglWNJMuAvwJc
- xY5UCPcCTa3/c+TG+/Oq+dHnWSdQftw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-3meJ_LWVPAWu7cAr1P2jKw-1; Wed, 11 Jan 2023 09:11:49 -0500
-X-MC-Unique: 3meJ_LWVPAWu7cAr1P2jKw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A15685A588;
- Wed, 11 Jan 2023 14:11:48 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 447B22166B26;
- Wed, 11 Jan 2023 14:11:48 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 25E8721E675B; Wed, 11 Jan 2023 15:11:47 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: huangy81@chinatelecom.cn
-Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
- Vivier <laurent@vivier.eu>,  Eric Blake <eblake@redhat.com>,  Juan
- Quintela <quintela@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Peter
- Maydell <peter.maydell@linaro.org>,  Richard Henderson
- <richard.henderson@linaro.org>
-Subject: Re: [PATCH RESEND v3 08/10] migration: Implement dirty-limit
- convergence algo
-References: <cover.1670087275.git.huangy81@chinatelecom.cn>
- <cover.1670087275.git.huangy81@chinatelecom.cn>
- <60408b08bf680b30393c8aa6d1422189521ca8cc.1670087276.git.huangy81@chinatelecom.cn>
-Date: Wed, 11 Jan 2023 15:11:47 +0100
-In-Reply-To: <60408b08bf680b30393c8aa6d1422189521ca8cc.1670087276.git.huangy81@chinatelecom.cn>
- (huangy's message of "Sun, 4 Dec 2022 01:09:11 +0800")
-Message-ID: <87v8ldduu4.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pFc23-0007bK-2a
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:24:49 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NsVLW3T60z6J9Sb;
+ Wed, 11 Jan 2023 22:24:35 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Wed, 11 Jan 2023 14:24:39 +0000
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
+CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
+ <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
+ <gourry.memverge@gmail.com>
+Subject: [PATCH 0/8] hw/cxl: CXL emulation cleanups and minor fixes for
+ upstream
+Date: Wed, 11 Jan 2023 14:24:32 +0000
+Message-ID: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,236 +61,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-huangy81@chinatelecom.cn writes:
+A small collection of misc fixes and tidying up pulled out from various
+series. I've pulled this to the top of my queue of CXL related work
+as they stand fine on their own and it will reduce the noise in
+the larger patch sets if these go upstream first.
 
-> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->
-> Implement dirty-limit convergence algo for live migration,
-> which is kind of like auto-converge algo but using dirty-limit
-> instead of cpu throttle to make migration convergent.
->
-> Enable dirty page limit if dirty_rate_high_cnt greater than 2
-> when dirty-limit capability enabled, disable dirty-limit if
-> migration be cancled.
->
-> Note that "set_vcpu_dirty_limit", "cancel_vcpu_dirty_limit"
-> commands are not allowed during dirty-limit live migration.
+Gregory's patches were posted as part of his work on adding volatile support.
+https://lore.kernel.org/linux-cxl/20221006233702.18532-1-gregory.price@memverge.com/
+https://lore.kernel.org/linux-cxl/20221128150157.97724-2-gregory.price@memverge.com/
+I might propose this for upstream inclusion this cycle, but testing is
+currently limited by lack of suitable kernel support.
 
-Only during live migration, or also during migration of a stopped guest?
-If the latter, the easy fix is to scratch "live".
+Ira's patches were part of his event injection series.
+https://lore.kernel.org/linux-cxl/20221221-ira-cxl-events-2022-11-17-v2-0-2ce2ecc06219@intel.com/
+Intent is to propose for upstream the rest of that series shortly after
+some minor changes from earlier review.
 
-> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
-> ---
->  migration/migration.c  |  3 +++
->  migration/ram.c        | 63 ++++++++++++++++++++++++++++++++++++++------=
-------
->  migration/trace-events |  1 +
->  softmmu/dirtylimit.c   | 22 ++++++++++++++++++
->  4 files changed, 74 insertions(+), 15 deletions(-)
->
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 702e7f4..127d0fe 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -240,6 +240,9 @@ void migration_cancel(const Error *error)
->      if (error) {
->          migrate_set_error(current_migration, error);
->      }
-> +    if (migrate_dirty_limit()) {
-> +        qmp_cancel_vcpu_dirty_limit(false, -1, NULL);
-> +    }
->      migrate_fd_cancel(current_migration);
->  }
->=20=20
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 5e66652..78b9167 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -45,6 +45,7 @@
->  #include "qapi/error.h"
->  #include "qapi/qapi-types-migration.h"
->  #include "qapi/qapi-events-migration.h"
-> +#include "qapi/qapi-commands-migration.h"
->  #include "qapi/qmp/qerror.h"
->  #include "trace.h"
->  #include "exec/ram_addr.h"
-> @@ -57,6 +58,8 @@
->  #include "qemu/iov.h"
->  #include "multifd.h"
->  #include "sysemu/runstate.h"
-> +#include "sysemu/dirtylimit.h"
-> +#include "sysemu/kvm.h"
->=20=20
->  #include "hw/boards.h" /* for machine_dump_guest_core() */
->=20=20
-> @@ -1139,6 +1142,30 @@ static void migration_update_rates(RAMState *rs, i=
-nt64_t end_time)
->      }
->  }
->=20=20
-> +/*
-> + * Enable dirty-limit to throttle down the guest
-> + */
-> +static void migration_dirty_limit_guest(void)
-> +{
-> +    static int64_t quota_dirtyrate;
-> +    MigrationState *s =3D migrate_get_current();
-> +
-> +    /*
-> +     * If dirty limit already enabled and migration parameter
-> +     * vcpu-dirty-limit untouched.
-> +     */
-> +    if (dirtylimit_in_service() &&
-> +        quota_dirtyrate =3D=3D s->parameters.vcpu_dirty_limit) {
-> +        return;
-> +    }
-> +
-> +    quota_dirtyrate =3D s->parameters.vcpu_dirty_limit;
-> +
-> +    /* Set or update quota dirty limit */
-> +    qmp_set_vcpu_dirty_limit(false, -1, quota_dirtyrate, NULL);
-> +    trace_migration_dirty_limit_guest(quota_dirtyrate);
-> +}
-> +
->  static void migration_trigger_throttle(RAMState *rs)
->  {
->      MigrationState *s =3D migrate_get_current();
-> @@ -1148,26 +1175,32 @@ static void migration_trigger_throttle(RAMState *=
-rs)
->      uint64_t bytes_dirty_period =3D rs->num_dirty_pages_period * TARGET_=
-PAGE_SIZE;
->      uint64_t bytes_dirty_threshold =3D bytes_xfer_period * threshold / 1=
-00;
->=20=20
-> -    /* During block migration the auto-converge logic incorrectly detects
-> -     * that ram migration makes no progress. Avoid this by disabling the
-> -     * throttling logic during the bulk phase of block migration. */
-> -    if (blk_mig_bulk_active()) {
-> -        return;
-> -    }
-> +    /*
-> +     * The following detection logic can be refined later. For now:
-> +     * Check to see if the ratio between dirtied bytes and the approx.
-> +     * amount of bytes that just got transferred since the last time
-> +     * we were in this routine reaches the threshold. If that happens
-> +     * twice, start or increase throttling.
-> +     */
->=20=20
-> -    if (migrate_auto_converge()) {
-> -        /* The following detection logic can be refined later. For now:
-> -           Check to see if the ratio between dirtied bytes and the appro=
-x.
-> -           amount of bytes that just got transferred since the last time
-> -           we were in this routine reaches the threshold. If that happens
-> -           twice, start or increase throttling. */
-> +    if ((bytes_dirty_period > bytes_dirty_threshold) &&
-> +        (++rs->dirty_rate_high_cnt >=3D 2)) {
-> +        rs->dirty_rate_high_cnt =3D 0;
-> +        /*
-> +         * During block migration the auto-converge logic incorrectly de=
-tects
-> +         * that ram migration makes no progress. Avoid this by disabling=
- the
-> +         * throttling logic during the bulk phase of block migration
-> +         */
-> +        if (blk_mig_bulk_active()) {
-> +            return;
-> +        }
->=20=20
-> -        if ((bytes_dirty_period > bytes_dirty_threshold) &&
-> -            (++rs->dirty_rate_high_cnt >=3D 2)) {
-> +        if (migrate_auto_converge()) {
->              trace_migration_throttle();
-> -            rs->dirty_rate_high_cnt =3D 0;
->              mig_throttle_guest_down(bytes_dirty_period,
->                                      bytes_dirty_threshold);
-> +        } else if (migrate_dirty_limit()) {
-> +            migration_dirty_limit_guest();
->          }
->      }
->  }
-> diff --git a/migration/trace-events b/migration/trace-events
-> index 57003ed..33a2666 100644
-> --- a/migration/trace-events
-> +++ b/migration/trace-events
-> @@ -91,6 +91,7 @@ migration_bitmap_sync_start(void) ""
->  migration_bitmap_sync_end(uint64_t dirty_pages) "dirty_pages %" PRIu64
->  migration_bitmap_clear_dirty(char *str, uint64_t start, uint64_t size, u=
-nsigned long page) "rb %s start 0x%"PRIx64" size 0x%"PRIx64" page 0x%lx"
->  migration_throttle(void) ""
-> +migration_dirty_limit_guest(int64_t dirtyrate) "guest dirty page rate li=
-mit %" PRIi64 " MB/s"
->  ram_discard_range(const char *rbname, uint64_t start, size_t len) "%s: s=
-tart: %" PRIx64 " %zx"
->  ram_load_loop(const char *rbname, uint64_t addr, int flags, void *host) =
-"%s: addr: 0x%" PRIx64 " flags: 0x%x host: %p"
->  ram_load_postcopy_loop(int channel, uint64_t addr, int flags) "chan=3D%d=
- addr=3D0x%" PRIx64 " flags=3D0x%x"
-> diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-> index 2a07200..b63032c 100644
-> --- a/softmmu/dirtylimit.c
-> +++ b/softmmu/dirtylimit.c
-> @@ -439,6 +439,8 @@ void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
->                                   int64_t cpu_index,
->                                   Error **errp)
->  {
-> +    MigrationState *ms =3D migrate_get_current();
-> +
->      if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
->          return;
->      }
-> @@ -452,6 +454,15 @@ void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
->          return;
->      }
->=20=20
-> +    if (migration_is_running(ms->state) &&
-> +        (!qemu_thread_is_self(&ms->thread)) &&
-> +        migrate_dirty_limit() &&
-> +        dirtylimit_in_service()) {
-> +        error_setg(errp, "dirty-limit live migration is running, do"
-> +                   " not allow dirty page limit to be canceled manually"=
-);
+My three patches have not previously been posted.
 
-"do not allow" sounds like a request.  What about "can't cancel dirty
-page limit while migration is running"?
+For the curious, the current state of QEMU CXL emulation that we are working
+through the backlog wrt to final cleanup before proposing for upstreaming can be found at.
 
-> +        return;
-> +    }
-> +
->      dirtylimit_state_lock();
->=20=20
->      if (has_cpu_index) {
-> @@ -487,6 +498,8 @@ void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
->                                uint64_t dirty_rate,
->                                Error **errp)
->  {
-> +    MigrationState *ms =3D migrate_get_current();
-> +
->      if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
->          error_setg(errp, "dirty page limit feature requires KVM with"
->                     " accelerator property 'dirty-ring-size' set'");
-> @@ -503,6 +516,15 @@ void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
->          return;
->      }
->=20=20
-> +    if (migration_is_running(ms->state) &&
-> +        (!qemu_thread_is_self(&ms->thread)) &&
-> +        migrate_dirty_limit() &&
-> +        dirtylimit_in_service()) {
-> +        error_setg(errp, "dirty-limit live migration is running, do"
-> +                   " not allow dirty page limit to be configured manuall=
-y");
+https://gitlab.com/jic23/qemu/-/commits/cxl-2023-01-11
 
-Likewise.
+Gregory Price (2):
+  hw/cxl: set cxl-type3 device type to PCI_CLASS_MEMORY_CXL
+  hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
 
-> +        return;
-> +    }
-> +
->      dirtylimit_state_lock();
->=20=20
->      if (!dirtylimit_in_service()) {
+Ira Weiny (3):
+  qemu/bswap: Add const_le64()
+  qemu/uuid: Add UUID static initializer
+  hw/cxl/mailbox: Use new UUID network order define for cel_uuid
+
+Jonathan Cameron (3):
+  hw/mem/cxl_type3: Improve error handling in realize()
+  hw/pci-bridge/cxl_downstream: Fix type naming mismatch
+  hw/i386/acpi: Drop duplicate _UID entry for CXL root bridge
+
+ hw/cxl/cxl-device-utils.c      |  2 +-
+ hw/cxl/cxl-mailbox-utils.c     | 27 ++++++++++++++-------------
+ hw/i386/acpi-build.c           |  1 -
+ hw/mem/cxl_type3.c             | 15 +++++++++++----
+ hw/pci-bridge/cxl_downstream.c |  2 +-
+ include/hw/cxl/cxl_device.h    |  2 +-
+ include/qemu/bswap.h           | 10 ++++++++++
+ include/qemu/uuid.h            | 12 ++++++++++++
+ 8 files changed, 50 insertions(+), 21 deletions(-)
+
+-- 
+2.37.2
 
 
