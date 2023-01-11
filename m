@@ -2,100 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD96C66663F
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 23:32:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0531666658
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 23:45:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFjcC-00025G-9n; Wed, 11 Jan 2023 17:30:36 -0500
+	id 1pFjoz-0003qN-VQ; Wed, 11 Jan 2023 17:43:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pFjc6-00024y-VB
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 17:30:30 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pFjc5-0001Lb-1Z
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 17:30:30 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30BLiHYs012999; Wed, 11 Jan 2023 22:30:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=Zx5Dbl1p7gojt9nQooYrDy8JuNDcwiq7x3HDncJ4+io=;
- b=BPtHGMmpUP6W5Cv4wXUAs4PzUj8nHEq4m5oXSvkSGVbJpKeMbhJiOdkTC+JpMNVap1O6
- SAz0yPZty7y7tBZLsXZpDVDCK/XWycMr7T4mN5IPiheH/aWC3NTXgCCrtSBxzv/F1ReX
- 5dBhzD3uTflt/ne3D/mzP8YyCyipEBVPB45FeQ43g/fI5yioVooPoRgZO6NwR/8pogUK
- f/x86zwztufMMxc9nLpB4XQvWj97QgI0NhiWxRyXxOIJXAMt+b3yIh2e5/ceTErxwwJ+
- qE/modjqNnLZbVLIUYytVUIQpEAmIXN3yCiX7i8abg340hn0xMjUZgBfUa7WR+A9eSsa WQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n259g90v9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Jan 2023 22:30:23 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30BMSUcD012276;
- Wed, 11 Jan 2023 22:30:23 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n259g90uu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Jan 2023 22:30:23 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30BLj9LJ001738;
- Wed, 11 Jan 2023 22:30:22 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([9.208.130.101])
- by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3n1kmadhdr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Jan 2023 22:30:22 +0000
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com
- [10.241.53.102])
- by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30BMULnk62521736
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 Jan 2023 22:30:21 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B5BB35803F;
- Wed, 11 Jan 2023 22:30:21 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 56D465805A;
- Wed, 11 Jan 2023 22:30:21 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 11 Jan 2023 22:30:21 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, peter.maydell@linaro.org, berrange@redhat.com,
- Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PATCH] tests/qtest: Poll on waitpid() for a while before sending
- SIGKILL
-Date: Wed, 11 Jan 2023 17:30:18 -0500
-Message-Id: <20230111223018.3965423-1-stefanb@linux.ibm.com>
-X-Mailer: git-send-email 2.39.0
+ (Exim 4.90_1) (envelope-from <fantasquex@gmail.com>)
+ id 1pFjoy-0003q5-Pk; Wed, 11 Jan 2023 17:43:48 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <fantasquex@gmail.com>)
+ id 1pFjow-0002yw-TZ; Wed, 11 Jan 2023 17:43:48 -0500
+Received: by mail-pl1-x633.google.com with SMTP id s8so10018161plk.5;
+ Wed, 11 Jan 2023 14:43:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=c4KWdzV+6EKc42uZjqIG0oUHJ+KSBV+jMnf5rUHFbX4=;
+ b=decMigvlohdfEceDI6SCjc6u0lKUYhS9inEQ3tGUfibLa0xYYrf+ZC4k4/507b5KOF
+ cmZww/xUgjPoz0AOkpN10tYzXOSvyk1q8SIruCm4Te2GsjPKvJqX+g94wwWalmp8UXxd
+ nWA0jfjMiB0dMu6g97jXu+3VnvGCcfbaB1ea/wtO/+XfSdwvmw/FokwlKLVlZIbij9qb
+ xny9E7cCsIfIjVCFJjjFoljnssLPDiXClhN3NlDPBe/eC2na9quKuJ2Ce/ACv6IKn+9Y
+ mnozkGUvTFb4b1UsFTE/7zmEiuo2X7UHngQpiKWoW1CaOiol3atHtuyg0yWHItP0iP+V
+ jijw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=c4KWdzV+6EKc42uZjqIG0oUHJ+KSBV+jMnf5rUHFbX4=;
+ b=XWXVUvR2NifpB9aEXuJe1iGpon7AFaF0Uo0g7PJx/EVZs4AYKMmQX9rfdMezAIvlEJ
+ tbXhWRtdriOv8U3OhrhBplyFeWfgZZLFq2tVzO8NGUBj5m24w/TOfreA/86Z3qIrXbb1
+ bg0UUb3xpn/FC0KEvXd38gzLzWUgSUMj38qvYSoI+/TD8de+P0rxlzTQz2foIo5AqXaa
+ mBMb3sECxjm94GQi+EacfGU4WRWH5LKLL2j4tEyKLYhc2Np9U2/fO7LFMgk3IgzcCZyI
+ hgclAkvXwE8+ApMwnCl1cCI71sHVulweFTjVh5tHuczgYJbNRLs/iKy2oLlgKiwS7KlY
+ fSFA==
+X-Gm-Message-State: AFqh2kpFJAJSSriq2aoAgE3dXhcjbC8eQvQSRZw9//TvBx+1YBx/WOWM
+ jqaH0hgvLd7tsaGCWskraj9cpFvlOQMXuD+6eqh7MtUxFdU=
+X-Google-Smtp-Source: AMrXdXsEAgsoFH4f2Plmrux5fZ9586zWIkY1TWnAqJdy4Ykdj0q9LCS1Pcjmk63Dm95w5Q7E8fAehu2CVDO/b67tSTo=
+X-Received: by 2002:a17:903:32c8:b0:189:e149:a1af with SMTP id
+ i8-20020a17090332c800b00189e149a1afmr4243871plr.18.1673477023649; Wed, 11 Jan
+ 2023 14:43:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: FUWR-vD8Jz5k1zu4Cv4680jMFrP1KJZb
-X-Proofpoint-ORIG-GUID: by-zvTD4aUT0Wwo97Sc7hcSIiC-jY5kG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-11_10,2023-01-11_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0
- impostorscore=0 adultscore=0 mlxscore=0 clxscore=1015 bulkscore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 mlxlogscore=652
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301110162
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20230101141105.12024-1-fantasquex@gmail.com>
+In-Reply-To: <20230101141105.12024-1-fantasquex@gmail.com>
+From: Letu Ren <fantasquex@gmail.com>
+Date: Thu, 12 Jan 2023 06:43:32 +0800
+Message-ID: <CAEUwDuD5iusV-=eLiVT9d-D4+xChPryYY2P=RoCXJH8QAy--Pg@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: add more netlink protocol constants
+To: qemu-devel@nongnu.org
+Cc: laurent@vivier.eu, qemu-trivial@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=fantasquex@gmail.com; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,46 +80,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To prevent getting stuck on waitpid() in case the target process does
-not terminate on SIGTERM, poll on waitpid() for 10s and if the target
-process has not changed state until then send a SIGKILL to it.
+Ping! Hi, it's been more than a week since I submitted this patch. I
+think it's a trivial patch. Maybe qemu trivial team could take a look.
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
----
- tests/qtest/libqtest.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 2fbc3b88f3..362b1f724f 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -202,8 +202,24 @@ void qtest_wait_qemu(QTestState *s)
- {
- #ifndef _WIN32
-     pid_t pid;
-+    uint64_t end;
-+
-+    /* poll for 10s until sending SIGKILL */
-+    end = g_get_monotonic_time() + 10 * G_TIME_SPAN_SECOND;
-+
-+    do {
-+        pid = waitpid(s->qemu_pid, &s->wstatus, WNOHANG);
-+        if (pid != 0) {
-+            break;
-+        }
-+        g_usleep(100 * 1000);
-+    } while (g_get_monotonic_time() < end);
-+
-+    if (pid == 0) {
-+        kill(s->qemu_pid, SIGKILL);
-+        TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
-+    }
- 
--    TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
-     assert(pid == s->qemu_pid);
- #else
-     DWORD ret;
--- 
-2.39.0
-
+Thanks,
+Letu
 
