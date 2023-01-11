@@ -2,146 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3136652EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 05:47:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C25665305
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 06:02:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFSzu-0007L5-6L; Tue, 10 Jan 2023 23:45:58 -0500
+	id 1pFTEe-00018s-Vd; Wed, 11 Jan 2023 00:01:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <parav@nvidia.com>) id 1pFSzr-0007Kb-Ff
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 23:45:55 -0500
-Received: from mail-dm6nam11on2060a.outbound.protection.outlook.com
- ([2a01:111:f400:7eaa::60a]
- helo=NAM11-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <parav@nvidia.com>) id 1pFSzp-0002C8-Cn
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 23:45:55 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XCXYUiTd9xucsGw0618tmJnU0jQ3Ey/y/XNHz9yUd0MW9nHw3RhqiMe/95yogdxAwkZ1TB9CYFBqxzKngY2ehEo/EoFs3vpjm2ZsNCUnJJ3lkgj22oHXNlOyU8bTUFoAw4gbvabdPTzCiDwI98w0n/e+ImKqlgeBZxYXd4i3qfSCM36XakMJFWkNKNLUxdFBkaZqj7AOWor9wI8NHe8W83rXtjVX/p74ekexQLXrrolp0IAnMdVgqzljazTpDzVLN3gm2Tpg/qHUW8NODGHszONllEyr660XllBoW2FOfY8GsS6K+XNTa2aqWtJpdXZGWhDtARF3FUQpihsAjvkaaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LuRSLBl7n/S4EMoRRWxjZQrMj9+Y5hQG00C47BWt17Y=;
- b=IMMIp/sLKDUFnxsx9c7ixSXP0RjuE6pKM72VPUJPUI9OuLKxFJf8CWXMWNMdlo/S5hhRdQNo5YsVh2qLcs4f8OF7APOV44E+GHUacnxK3SJjhMeDeqilAvPXVJiqnRj3Z4zArQF1Okxz1cB1TAJ3YTAOBVIujEJSTwkoOk634IJNvNg9OYkx57UeZyQOmT2hqRKLQK1c27Eu8Iwkvi+YZaCcBII606b9KlYdiwoVKUa+UtAKZj5hfdncUFlZzgolAJ3ywYo0X8/B7HJYj703pC0MISLLmpP0xJQq8QNk4vphVE9CoS4eMz11qsYRMWOCMlMT0K9z27DT6rTj8IwDPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LuRSLBl7n/S4EMoRRWxjZQrMj9+Y5hQG00C47BWt17Y=;
- b=hS6f0mmL/v2n13Bdf6oWbKE7so9UZZU24LNXtks9gUTpE8e9kJlawSSPP775tkAWeEiWeYwYCUogZdKZ7OxVgVDGV82le5OcxaT3W1ADMXE3wpH4yhIv3FkC4CnPWNBF0eRsO2uArcdo4j7hPHznbzuy/U63K2EX6ioL7vNL4t1j5LiGcRTCeBxlmlVtljsIZhaQheHbGgbSy55/rOQh1x6J8lZXh/okfE5zGg00j25neWCN8VS/Jo1IPTB1bnlfxGx24ZicgOkIEhZyKG7HuXovWb75FvvbCQ3NN95PsQKHTbb3EXtNtsZ7vpFdg9gKHPx6raiZ/zrhbV0Xwtt7Dg==
-Received: from PH0PR12MB5481.namprd12.prod.outlook.com (2603:10b6:510:d4::15)
- by IA1PR12MB8222.namprd12.prod.outlook.com (2603:10b6:208:3f2::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
- 2023 04:40:45 +0000
-Received: from PH0PR12MB5481.namprd12.prod.outlook.com
- ([fe80::a891:beb7:5440:3f0]) by PH0PR12MB5481.namprd12.prod.outlook.com
- ([fe80::a891:beb7:5440:3f0%4]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
- 04:40:45 +0000
-From: Parav Pandit <parav@nvidia.com>
-To: Jason Wang <jasowang@redhat.com>
-CC: =?utf-8?B?RXVnZW5pbyBQw6lyZXo=?= <eperezma@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Liuxiangdong
- <liuxiangdong5@huawei.com>, Stefan Hajnoczi <stefanha@redhat.com>, Harpreet
- Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>, Zhu
- Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>, Si-Wei Liu
- <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Eli
- Cohen <elic@nvidia.com>, Stefano Garzarella <sgarzare@redhat.com>, Juan
- Quintela <quintela@redhat.com>
-Subject: RE: [RFC PATCH for 8.0 10/13] virtio-net: Migrate vhost inflight
- descriptors
-Thread-Topic: [RFC PATCH for 8.0 10/13] virtio-net: Migrate vhost inflight
- descriptors
-Thread-Index: AQHZCMvCocomO4wJGEu6CYOEXtA/lK5gMvUAgDb0UJCAAbMxAIAAAETA
-Date: Wed, 11 Jan 2023 04:40:44 +0000
-Message-ID: <PH0PR12MB548141C98FA3C7593E4B3C40DCFC9@PH0PR12MB5481.namprd12.prod.outlook.com>
-References: <20221205170436.2977336-1-eperezma@redhat.com>
- <20221205170436.2977336-11-eperezma@redhat.com>
- <CACGkMEtcQztTdRbX3xyFvNYSRsu58tRppoyTUh94vXwSGLPH=A@mail.gmail.com>
- <PH0PR12MB5481EB05212DD70C97AC5729DCFF9@PH0PR12MB5481.namprd12.prod.outlook.com>
- <CACGkMEthSYTw9JEHT_CM2FdV88eDqan+Ckj7McwTBRK92ziyUg@mail.gmail.com>
-In-Reply-To: <CACGkMEthSYTw9JEHT_CM2FdV88eDqan+Ckj7McwTBRK92ziyUg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR12MB5481:EE_|IA1PR12MB8222:EE_
-x-ms-office365-filtering-correlation-id: 71cb53b7-74e8-4e71-69ea-08daf38e00bf
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kSSsCuEhwqAIpWqje4zYQ9Q8GMhwT2uqJREI2MUwu6Bf7YDv7YK0ALz1VNWwWXybfh5gmYsmg6Qau7v0ZphQpO2cEI5saJ9hs3ivzOyr5E0sEUybr84njYW5YaYx5InfD6SM7NgKPoFLJvPPTxusn76H1frTI0v+4YHQ9/dgWf69DVgdL33k56qkNF5lSgsk/y9m62HvzIObi/9r+o1UdM1N3ARgOVAGuVFvVJIQ1uNwsl95qieatZ+OLm83WX7DRJi0CXUdcv5xCSJaJ+CVRmnfD1O78Fx4z5sPdueYvJMCwThmjf+MqjJrQ2WkjWnv2+BP+OLCNlxRn+YR6Ty9s6ZMrk3gndAbW6Q6e6MZU3F6ySszmK5lhkBZXR48yLoZ2EKaACXjtDElie1xVgWR9OSJ3D3kvaioR5vt9pTemy5zS8uKSXLKT1JIYz6m6wPtbmcv2fFtesv+LHxmMy0sQKAWCYgTfW7TmhSV3BKxfAXamy5KWiIP4BD7MmZx6SjuMQk6rgDDNHpMCiEmQydCfzGmdtSWij+NP9K1iVieHZHkHhp5erJX+3EkPFFd1KBOi+tsnFn+KaABhzPYvdwnDIYkY1sCuJxVfdBo52KN1tKYZ7i49/9s9BaY2sHkoruWLybUl19/Yeoo/yiImy4xID3xNKSEKmO2/XNRqtnUYGTlsDhov3sNlRl635I1sVqAMnOgQSbR3bZLSl89o1oIwfEznD29jgozOTSOHzM5WOA=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR12MB5481.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(396003)(346002)(136003)(39860400002)(376002)(451199015)(2906002)(66899015)(7696005)(8676002)(4326008)(66446008)(6916009)(41300700001)(66476007)(33656002)(76116006)(66946007)(8936002)(5660300002)(54906003)(7416002)(66556008)(316002)(53546011)(6506007)(55016003)(52536014)(478600001)(64756008)(38070700005)(71200400001)(186003)(26005)(9686003)(966005)(86362001)(122000001)(38100700002)(83380400001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VHEyNEsydFc5czdMTjZiT3R3MHJvdlRKZmJYMDZKVVN6d3lwcUQvRDJ5TlA2?=
- =?utf-8?B?T0Y5eUUyZWFhQWRzQUl0dTFZN2hzN0RsMmRkZE9KMEg0RlRKS1RNYW9Ud0tS?=
- =?utf-8?B?QmhXUjBaazlGaDJiN0ZUTU1NbitqWTZvM0lIeVBvSXZIWTZ4aEVxckw1K0wv?=
- =?utf-8?B?VktEYjQ4bmVNMzlwUktEdCtlZ0daMXJHWEs3Y0d1L0ZsYjBYbGltSnJzZkhh?=
- =?utf-8?B?UjgzRmJtUjlwZG5iRDFLOCszTk1VcjVGNjFwSVZvNFgxM0NqVkkzTkVMa0RB?=
- =?utf-8?B?Qm9VTngxUC9rOEZKKzNIR1V1VmxQSXpYenBOR0FhV1gzaUhPSnN1NEt2VFdk?=
- =?utf-8?B?dkxJbXhUUTZhdWUzQ2laU2pWdFV0ckZacGZna1F1WXJyQ0ZSbXBjN3Fmd3kx?=
- =?utf-8?B?RkxTbEVMODU2Zm5XL1granMyMUZqRDE5MElES21TUWxkSVN1Qi83aUE4OS9R?=
- =?utf-8?B?cjZINjdaTk1ocEo1VmtxelRoV3c4VU9lTTc5b0IvU1dwZEl3empjS0ZHdGN1?=
- =?utf-8?B?WVp3UlBiV3Y1S0lJRkVuV3ZoditHM3BjaVZJb0FVendEelVoNWdQdTBvMVB4?=
- =?utf-8?B?R3EzcWNObEVtM091eFBqVXZZdk1STHZwODIrSG1EeUk4QmxHQ2M3Mk5oZHR6?=
- =?utf-8?B?U3pMQi9uVWtYUEppNzlhOXpFdll4ekpPakxGblp0NzdEMWZkd1BjUmFEbk5m?=
- =?utf-8?B?dTNBVnkyZEtxWFU5MzdzT3lCcFQ3dENSbGNTWDZFamNPZE9YUUlBZ2NEdmVJ?=
- =?utf-8?B?ZGdFSEcrc2pMdU9SUENMN2FwY2dDanVTZVlsbmM1RmgyV1NQU1BySndkU2Yw?=
- =?utf-8?B?QnZHa1lPbm1TZnJwc0lVTWN1cHdwazlHRzVBSnl2UTJzSzFTUjFTazlVd3My?=
- =?utf-8?B?VHlKRFh3d0hEbUZnbEFldDc4cDBBZHRQQzc5cmtNdnBpWE5uaWZmQ1BMSC9Y?=
- =?utf-8?B?T2xod1RmSlRNaFE3K0tjaE93bnB6Q0h3b01OZlJGQWZWeVc0QU05UGxOZVVG?=
- =?utf-8?B?Nm5FM1EzLzJkbEhNSGVjLzdQMUcwOWJaaUo2UzhHMzZlNEJDdjI2emVIaWow?=
- =?utf-8?B?ZUs1YkxZTW9ZWUVZN0hRR0UvakhUdEhNRkZLb0I5cXhMWTQ5Z25EWmZvWEli?=
- =?utf-8?B?T0JuVmlUdk01Z0dCNkh6QmhtdWtDR0FRamJLNlZ5a1h2Rmw0cEJ4ZDdEeE5p?=
- =?utf-8?B?bUFPWXFNQjk4ZWdrZXNPWlV1T2swTk8rZk94MDkzdU5BVUxGOUlhU1daZGVO?=
- =?utf-8?B?R0pXckNpT3lNaXIvcmgxdXhqQ2g1WmpXajdJcm9MejFqQ3ZDRzNRcGFYZjN6?=
- =?utf-8?B?TEJYcVpwWWpTdUgrS3M2QTh5alpBaGxyclppWmhjRitwdnlqa0RjODdnUk5q?=
- =?utf-8?B?RGZVeW5FczM3Z200YmNQM0lYczBvS0pFWDdVZEpENGxuR1JQbVFPWWhYbHBp?=
- =?utf-8?B?dnRCd2MvV1hjbWdTa0hoVmNZNFZETC9vS2xSUS9tS1ZhS1BjK05BVEhVVlQw?=
- =?utf-8?B?WmxHbFczcHNVYkxXV09uL2dhV0owd1lTNVNrK1JPbHVyci94WThHSXRwN1FE?=
- =?utf-8?B?UXpFc1pCOUhTY0FIZXlqQnpPYmI4ZWx3cVVBczFyRHc2MjNqQjFMajd3WW1i?=
- =?utf-8?B?aVEwVFA1Wit4YldNWjVZakx3YW5vVEdkWHU2alRoWEEyUGZUc0w3THBkazQx?=
- =?utf-8?B?OHZlQlFjWHgxSVBCS09RWkUrNUpFV0hXWDA3c0I3clRsTEJuZnhpbDFSYkcx?=
- =?utf-8?B?Ym5ZRVhxZ2lGd1lRbHlXOWdQV25UU3EzenEyaHFpVUZUK2FPL01GMjBUUE1K?=
- =?utf-8?B?ajNnb01mNnppeUVIcEpPTC8xdktPRHRXZ3FnTnpLRVgzSzZDSTAyeXdOd0xK?=
- =?utf-8?B?RURET1NOckVwc1BacXhuU3pKWlZpa2ViYlpJclVnZWJsbmJJaTV2MEUyUXhi?=
- =?utf-8?B?M3R5bkZaOWNOQ25LVTREMitHdTRBTmg5QWoyaDRBM3ozV2wwUDIyUVdSYTYw?=
- =?utf-8?B?Mm9Tcy9iMkdxekQrSVIya2cweUpRM3BlUjU4Q2FLYldHUTFEVDNGbWhPdG0z?=
- =?utf-8?B?MXFCY0tBTHFZYUhJcVlweGRnOFBMRkJSbWYvV3Q2SHN3dmdGR0pOWkxhMmc3?=
- =?utf-8?Q?42mg=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pFTEb-00018M-Na; Wed, 11 Jan 2023 00:01:09 -0500
+Received: from mail-vk1-xa33.google.com ([2607:f8b0:4864:20::a33])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pFTEZ-0004LW-NH; Wed, 11 Jan 2023 00:01:09 -0500
+Received: by mail-vk1-xa33.google.com with SMTP id z190so6691973vka.4;
+ Tue, 10 Jan 2023 21:01:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rgUaN+q2yvFxYwwVvqgAkek6COOSPKktoPJiGAEtmL4=;
+ b=JJ16nNnMgBvVbxK/rdYg4iufKERYb9GRAYr/Sq/j2RIWbe7ydFzzMBHk4hsmkC8vZu
+ MT4VYFWcRWKl2K6fkViU4JloiYK7EUHPGLAPeyrnWev6tAxYLk0QI4iLVDJuLMDLLy/d
+ 9/sYaspg87W9/7QqJrzm0jYC9ezbaTIFqgQxEmGloF7OB9hPJmJ1/G0a0GPWJrSnB950
+ GC+poA62kv1n+dgzftfrV47jL4fd3utFtaR2vegMz596if8mb1ju45BN+6tGndFcCN0y
+ 1sMNoz+5GFvCc51vGJeswE/Su/F2KuIvfdW6rA5fU3lhyX/9Rcsrimj/pLWTa4MNSDUt
+ NENg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rgUaN+q2yvFxYwwVvqgAkek6COOSPKktoPJiGAEtmL4=;
+ b=p+vQ7HNUDcKZO58Bu6GIPqhRRMy289OeFzXd1nTovPS0cS51XdQumZfi4+oxZO9+Ri
+ LcJPGuJCXYOGX2P3DEGk8/WVeaXP3CLZAeEdoHBGYEQwK4fRubFSDnujo2g+eo/BUAix
+ UvpZIWx3MvQG46sK/RJv0c/5LmiAsqMxzGxmOKA9WZntW1vpsuV13WCy94/jZMSyrNa3
+ 4/ewgULmzt9+fTpZraKVfDVHcLRvKBGzmkulQNrrVjDBs4TG3WQ6BLJrTMAHm68OUOW6
+ zvOpeXlp262H2JnJVxuaJN3lfq807n+1sciKKb29pCnEJz8yYQBBZmFpE/HH0+BFrZM4
+ 9W9A==
+X-Gm-Message-State: AFqh2kp227GcQEdHO7AMtzzdaGg8HDDH1oo+gRvXbyJuzpIc+Jx62a81
+ wZv1vCw82ZJTWs1kKLEEejcHEtiCDZOXCkJ0Zec=
+X-Google-Smtp-Source: AMrXdXvFkdDxLOJV3XwYCXxPFCW6T0+uymThsMDDT6KScCDnWxSno3YXBjrzm8TNu03dJzlfJI3uoCPFDqbmauEFHK8=
+X-Received: by 2002:a1f:c703:0:b0:3d5:6ccb:8748 with SMTP id
+ x3-20020a1fc703000000b003d56ccb8748mr7111250vkf.26.1673413265750; Tue, 10 Jan
+ 2023 21:01:05 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB5481.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 71cb53b7-74e8-4e71-69ea-08daf38e00bf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jan 2023 04:40:44.9484 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4V9loB++c03TwSeb+cIA6OG/VZmUF6a18zJxi6U40tWzs6KhpxrFS711CLMsHOZkKL3tfEvCDySOZ/Rm9Ecg0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8222
-Received-SPF: softfail client-ip=2a01:111:f400:7eaa::60a;
- envelope-from=parav@nvidia.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221228062028.29415-1-liweiwei@iscas.ac.cn>
+In-Reply-To: <20221228062028.29415-1-liweiwei@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 11 Jan 2023 15:00:39 +1000
+Message-ID: <CAKmqyKONF+C_xiUiM0aGww1yNVnx_-VRayK0sp+sn_gURA22=g@mail.gmail.com>
+Subject: Re: [PATCH v9 0/9] support subsets of code size reduction extension
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Cc: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a33;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa33.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -157,28 +85,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-DQo+IEZyb206IEphc29uIFdhbmcgPGphc293YW5nQHJlZGhhdC5jb20+DQo+IFNlbnQ6IFR1ZXNk
-YXksIEphbnVhcnkgMTAsIDIwMjMgMTE6MzUgUE0NCj4gDQo+IE9uIFR1ZSwgSmFuIDEwLCAyMDIz
-IGF0IDExOjAyIEFNIFBhcmF2IFBhbmRpdCA8cGFyYXZAbnZpZGlhLmNvbT4gd3JvdGU6DQo+ID4N
-Cj4gPiBIaSBKYXNvbiwNCj4gPg0KPiA+ID4gRnJvbTogSmFzb24gV2FuZyA8amFzb3dhbmdAcmVk
-aGF0LmNvbT4NCj4gPiA+IFNlbnQ6IE1vbmRheSwgRGVjZW1iZXIgNSwgMjAyMiAxMDoyNSBQTQ0K
-PiA+DQo+ID4gPg0KPiA+ID4gQSBkdW1iIHF1ZXN0aW9uLCBhbnkgcmVhc29uIHdlIG5lZWQgYm90
-aGVyIHdpdGggdmlydGlvLW5ldD8gSXQgbG9va3MNCj4gPiA+IHRvIG1lIGl0J3Mgbm90IGEgbXVz
-dCBhbmQgd291bGQgY29tcGxpY2F0ZSBtaWdyYXRpb24gY29tcGF0aWJpbGl0eS4NCj4gPg0KPiA+
-IFZpcnRpbyBuZXQgdmRwYSBkZXZpY2UgaXMgcHJvY2Vzc2luZyB0aGUgZGVzY3JpcHRvcnMgb3V0
-IG9mIG9yZGVyLg0KPiA+IFRoaXMgdmRwYSBkZXZpY2UgZG9lc27igJl0IG9mZmVyIElOX09SREVS
-IGZsYWcuDQo+ID4NCj4gPiBBbmQgd2hlbiBhIFZRIGlzIHN1c3BlbmRlZCBpdCBjYW5ub3QgY29t
-cGxldGUgdGhlc2UgZGVzY3JpcHRvcnMgYXMgc29tZQ0KPiBkdW1teSB6ZXJvIGxlbmd0aCBjb21w
-bGV0aW9ucy4NCj4gPiBUaGUgZ3Vlc3QgVk0gaXMgZmxvb2RlZCB3aXRoIFsxXS4NCj4gDQo+IFll
-cywgYnV0IGFueSByZWFzb24gZm9yIHRoZSBkZXZpY2UgdG8gZG8gb3V0LW9mLW9yZGVyIGZvciBS
-WD8NCj4NCkZvciBzb21lIGRldmljZXMgaXQgaXMgbW9yZSBvcHRpbWFsIHRvIHByb2Nlc3MgdGhl
-bSBvdXQgb2Ygb3JkZXIuDQpBbmQgaXRzIG5vdCBsaW1pdGVkIHRvIFJYLg0KIA0KPiA+DQo+ID4g
-U28gaXQgaXMgbmVlZGVkIGZvciB0aGUgZGV2aWNlcyB0aGF0IGRvZXNu4oCZdCBvZmZlciBJTl9P
-UkRFUiBmZWF0dXJlLg0KPiA+DQo+ID4gWzFdDQo+ID4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9w
-dWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L3RyZQ0KPiA+IGUvZHJp
-dmVycy9uZXQvdmlydGlvX25ldC5jP2g9djYuMi1yYzMjbjEyNTINCj4gDQo+IEl0IGlzIG9ubHkg
-ZW5hYmxlZCBpbiBhIGRlYnVnIGtlcm5lbCB3aGljaCBzaG91bGQgYmUgaGFybWxlc3M/DQppdCBp
-cyBLRVJOX0RFQlVHIGxvZyBsZXZlbC4gSXRzIGlzIG5vdCBkZWJ1ZyBrZXJuZWwsIGp1c3QgdGhl
-IGRlYnVnIGxvZyBsZXZlbC4NCkFuZCByZWdhcmRsZXNzLCBnZW5lcmF0aW5nIHplcm8gbGVuZ3Ro
-IHBhY2tldHMgZm9yIGRlYnVnIGtlcm5lbCBpcyBldmVuIG1vcmUgY29uZnVzaW5nLiANCg==
+On Wed, Dec 28, 2022 at 4:23 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>
+> This patchset implements RISC-V Zc* extension v1.0.0.RC5.7 version instru=
+ctions.
+>
+> Specification:
+> https://github.com/riscv/riscv-code-size-reduction/tree/main/Zc-specifica=
+tion
+>
+> The port is available here:
+> https://github.com/plctlab/plct-qemu/tree/plct-zce-upstream-v9
+>
+> To test Zc* implementation, specify cpu argument with 'x-zca=3Dtrue,x-zcb=
+=3Dtrue,x-zcf=3Dtrue,f=3Dtrue" and "x-zcd=3Dtrue,d=3Dtrue" (or "x-zcmp=3Dtr=
+ue,x-zcmt=3Dtrue" with c or d=3Dfalse) to enable Zca/Zcb/Zcf and Zcd(or Zcm=
+p,Zcmt) extensions support.
+>
+>
+> This implementation can pass the basic zc tests from https://github.com/y=
+ulong-plct/zc-test
+>
+> v9:
+> * rebase on riscv-to-apply.next
+>
+> v8:
+> * improve disas support in Patch 9
+>
+> v7:
+> * Fix description for Zca
+>
+> v6=EF=BC=9A
+> * fix base address for jump table in Patch 7
+> * rebase on riscv-to-apply.next
+>
+> v5:
+> * fix exception unwind problem for cpu_ld*_code in helper of cm_jalt
+>
+> v4:
+> * improve Zcmp suggested by Richard
+> * fix stateen related check for Zcmt
+>
+> v3:
+> * update the solution for Zcf to the way of Zcd
+> * update Zcb to reuse gen_load/store
+> * use trans function instead of helper for push/pop
+>
+> v2:
+> * add check for relationship between Zca/Zcf/Zcd with C/F/D based on rela=
+ted discussion in review of Zc* spec
+> * separate c.fld{sp}/fsd{sp} with fld{sp}/fsd{sp} before support of zcmp/=
+zcmt
+>
+> Weiwei Li (9):
+>   target/riscv: add cfg properties for Zc* extension
+>   target/riscv: add support for Zca extension
+>   target/riscv: add support for Zcf extension
+>   target/riscv: add support for Zcd extension
+>   target/riscv: add support for Zcb extension
+>   target/riscv: add support for Zcmp extension
+>   target/riscv: add support for Zcmt extension
+>   target/riscv: expose properties for Zc* extension
+>   disas/riscv.c: add disasm support for Zc*
+
+This series broke a range of boards that use specific CPUs. I have
+dropped it from my tree.
+
+Daniel has sent a series that should fix it though
+(https://www.mail-archive.com/qemu-devel@nongnu.org/msg930952.html). I
+have applied his fixes. Can you rebase this series on
+https://github.com/alistair23/qemu/tree/riscv-to-apply.next, test to
+ensure the SiFive boards continue to work and then re-send the series?
+
+Alistair
+
+>
+>  disas/riscv.c                             | 228 +++++++++++++++-
+>  target/riscv/cpu.c                        |  56 ++++
+>  target/riscv/cpu.h                        |  10 +
+>  target/riscv/cpu_bits.h                   |   7 +
+>  target/riscv/csr.c                        |  38 ++-
+>  target/riscv/helper.h                     |   3 +
+>  target/riscv/insn16.decode                |  63 ++++-
+>  target/riscv/insn_trans/trans_rvd.c.inc   |  18 ++
+>  target/riscv/insn_trans/trans_rvf.c.inc   |  18 ++
+>  target/riscv/insn_trans/trans_rvi.c.inc   |   4 +-
+>  target/riscv/insn_trans/trans_rvzce.c.inc | 313 ++++++++++++++++++++++
+>  target/riscv/machine.c                    |  19 ++
+>  target/riscv/meson.build                  |   3 +-
+>  target/riscv/translate.c                  |  15 +-
+>  target/riscv/zce_helper.c                 |  55 ++++
+>  15 files changed, 834 insertions(+), 16 deletions(-)
+>  create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
+>  create mode 100644 target/riscv/zce_helper.c
+>
+> --
+> 2.25.1
+>
+>
 
