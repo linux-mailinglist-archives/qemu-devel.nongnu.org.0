@@ -2,69 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19C7666344
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 20:10:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 767336663E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 20:45:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFgT9-0004KB-7I; Wed, 11 Jan 2023 14:09:03 -0500
+	id 1pFh0T-0002nN-Iu; Wed, 11 Jan 2023 14:43:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+193d99197280eaff698e+7080+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFgT4-0004Jy-S4
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 14:08:58 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pFh0R-0002nF-Ma
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 14:43:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+193d99197280eaff698e+7080+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFgT2-0000WO-2f
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 14:08:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=AIJOnKvqbbXLVbhUOA6Pz5uMbXzP73uJq311pyp3D58=; b=fMGGpdIXCu0sZPR8yRGQCKa76Q
- 9MhuCviSvkRq3AGO6BVI6omndTouWeg5r+1jAYWCf4AMHjLQjmTrpVmScjy7ZeWHMDnBS63ruTB6E
- N8QvnWUNfZPbhUfTVu36JiWK1QlDTwb6fz5AdHLNC8chLZPUPtd6whygXSGxogzbGS1O7qloKtpya
- BJJuN1sIy4ulwl7sTg/0uuqusyPZ4WBM0jZXx4UiZUGUoFn+JJiw8rokB8N3hVt2sy8XR0ziuUc9j
- OxTYCYEPPxyKuXGwmUCBNZE+PKIfNCsM4BQb2RCVuPQH40HBHSypkFH/yf5GMUqk2ePW69Qd0/37+
- RDRA3C0g==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.infradead.org)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pFgT4-004Oq7-5K; Wed, 11 Jan 2023 19:08:58 +0000
-Message-ID: <458b3d6af1ad4e5e44e1eac0b05692805e32a070.camel@infradead.org>
-Subject: Re: [RFC] Notify IRQ sources of level interrupt ack/EOI
-From: David Woodhouse <dwmw2@infradead.org>
-To: Alex Williamson <alex.williamson@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pFh0Q-0005gI-9h
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 14:43:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673466205;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8t5FKN4cZwJUZ2tRi9O973C9hqVtseRr72wDS/BVfdU=;
+ b=fD9/KGu85oTbyP/JsVLFVrBi2mBNljM43hZ8z7r4y6Nz3epnotLKRMHsrBNdEE9OmjttCG
+ 2yva5wKcvwhn3k4DT/zORRuHgS85tUqil1JNN0Xjk00tuliNhowodzDUqmsRQSMMFWCPPY
+ Kl9F0Ii3tPd1Ve9xlC5fgwiOUgLfHYs=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-386-EsFdaNplMMiEPMeq4i8QMw-1; Wed, 11 Jan 2023 14:43:23 -0500
+X-MC-Unique: EsFdaNplMMiEPMeq4i8QMw-1
+Received: by mail-il1-f199.google.com with SMTP id
+ r6-20020a92cd86000000b00304b2d1c2d7so11643484ilb.11
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 11:43:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8t5FKN4cZwJUZ2tRi9O973C9hqVtseRr72wDS/BVfdU=;
+ b=okTx/lfeWpIPsqNfuCysQNrW+7sQAeuKtt1iwE2CCEnlT2xT7E9SqIh4Hm/+VaTCmg
+ 41i+TAnAekPWeQrQzJ/agd4HLNpC0sOoFw6P+HH91jnjv9jEf+2J+HwT5ioPyCshR1Tp
+ v5Ul1Jd59fTGK8qX0sB7tR5zgNK9JZlqtk0LJJ5ZIRVLh5JdvY28xL8Csm6BP5uEhskw
+ PNpTX8yCPdOU8S5VrcS3gYhRGr0zpsBSGPrb9atAOjC+M6958keWNTb33rJn566oQs/H
+ 3FKCzHr3abZkZCVKcyeE9xlv22VU0kVpljjMjqzImUzYGyBuiAYDqfGaF2WjKF662MA/
+ ZMDg==
+X-Gm-Message-State: AFqh2krYGmWeZUc7gxftywW11x8iWZBm78n0zJPejvDj1Kj8XLvgb5sY
+ XMXXzdQgXMd0QBaFWs802vR8hAfptbt3pCMM5DxYbs7oB2yGdq3HW91R2CARVQaOMPHhre5Mg7S
+ IsfsxIT/TrvPgrEg=
+X-Received: by 2002:a6b:5a11:0:b0:704:5cb9:71f with SMTP id
+ o17-20020a6b5a11000000b007045cb9071fmr4827940iob.18.1673466203089; 
+ Wed, 11 Jan 2023 11:43:23 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvrjCrTlZCvsmTfYL4X/7P/KE8AwkSh3fQP50EAn76yESuoGPH6UzxfJiDiVFWuzN8eJMWP0w==
+X-Received: by 2002:a6b:5a11:0:b0:704:5cb9:71f with SMTP id
+ o17-20020a6b5a11000000b007045cb9071fmr4827923iob.18.1673466202746; 
+ Wed, 11 Jan 2023 11:43:22 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ w29-20020a05660205dd00b006df3382b659sm5337264iox.42.2023.01.11.11.43.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Jan 2023 11:43:22 -0800 (PST)
+Date: Wed, 11 Jan 2023 12:43:19 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: David Woodhouse <dwmw2@infradead.org>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, Marcel
  Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini
  <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,  Marcelo Tosatti
+ Eduardo Habkost <eduardo@habkost.net>, Marcelo Tosatti
  <mtosatti@redhat.com>, paul@xen.org
-Date: Wed, 11 Jan 2023 19:08:44 +0000
-In-Reply-To: <20230111112947.22237481.alex.williamson@redhat.com>
+Subject: Re: [RFC] Notify IRQ sources of level interrupt ack/EOI
+Message-ID: <20230111124319.405bf5ef.alex.williamson@redhat.com>
+In-Reply-To: <458b3d6af1ad4e5e44e1eac0b05692805e32a070.camel@infradead.org>
 References: <23caafffdd9546b8eeff851660015f3bfc021ed3.camel@infradead.org>
  <20230111112425-mutt-send-email-mst@kernel.org>
  <70eb35a08a7c48993812b7f088fa9ae3f2c8b925.camel@infradead.org>
  <20230111112947.22237481.alex.williamson@redhat.com>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-NnjXikxs3L3OI1uLqoyM"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ <458b3d6af1ad4e5e44e1eac0b05692805e32a070.camel@infradead.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+193d99197280eaff698e+7080+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,141 +107,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, 11 Jan 2023 19:08:44 +0000
+David Woodhouse <dwmw2@infradead.org> wrote:
 
---=-NnjXikxs3L3OI1uLqoyM
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, 2023-01-11 at 11:29 -0700, Alex Williamson wrote:
+> On Wed, 2023-01-11 at 11:29 -0700, Alex Williamson wrote:
+> >=20
+> > Nice.=C2=A0 IIRC, we ended up with the hack solution we have today in v=
+fio
+> > because there was too much resistance to callbacks that were only
+> > necessary for vfio in the past.=C2=A0 Once we had KVM resampling suppor=
+t,
+> > it simply wasn't worth the effort for a higher latency solution to
+> > fight that battle, so we implemented what could best be described as
+> > a universal workaround embedded in vfio.
+> >=20
+> > Clearly a callback is preferable, and yes, that's how we operate with
+> > KVM resampling and unmasking INTx, so in theory plumbing this to our
+> > existing eoi callback and removing the region toggling ought to do
+> > the right thing.=C2=A0 Thanks, =20
 >=20
-> Nice.=C2=A0 IIRC, we ended up with the hack solution we have today in vfi=
-o
-> because there was too much resistance to callbacks that were only
-> necessary for vfio in the past.=C2=A0 Once we had KVM resampling support,
-> it simply wasn't worth the effort for a higher latency solution to
-> fight that battle, so we implemented what could best be described as
-> a universal workaround embedded in vfio.
->=20
-> Clearly a callback is preferable, and yes, that's how we operate with
-> KVM resampling and unmasking INTx, so in theory plumbing this to our
-> existing eoi callback and removing the region toggling ought to do
-> the right thing.=C2=A0 Thanks,
+> Well, I'm happy for the Xen support be a second use case which means
+> it's no longer "only necessary for VFIO", and keep prodding at it if
+> that's going to be useful...
 
-Well, I'm happy for the Xen support be a second use case which means
-it's no longer "only necessary for VFIO", and keep prodding at it if
-that's going to be useful...
+Welcome aboard.  I take it from your cover letter than non-x86
+architectures would be on your todo list.  Ideally the ack callback
+would simply be a requirement for any implementation of a new interrupt
+controller, but that's where we get into striking a balance of device
+assignment imposing requirements on arbitrary architectures that may or
+may not care, or even support, device assignment.
 
---=-NnjXikxs3L3OI1uLqoyM
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+This is the... dare I say, elegance of the region access hack.  It's
+obviously not pretty or performant, but it universally provides an
+approximation of the behavior of an emulated device, ie. some form of
+guest access to the device is required to de-assert the interrupt.
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMTExMTkwODQ0WjAvBgkqhkiG9w0BCQQxIgQg34RwlrQf
-xOFFpYKfHPaIMFesIOTp/oQeANKf7LzASdEwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBBo20+jh3jHk7eMUw9B+S4edwA8M8pe4R3
-JW2oX8a5Y/yeAgY38gbM9ab9t/nhGByN+KZtdV7Sjt53Y9S+y0Uuf8ZqUQcvihtVTeHeez6FNCFp
-y8hJJ7i/TcpFS1DORoe1PEkOwDqD7ehdw5vm4nrQl+V03tNzHcGDne6iYTgPbwS6Qgl7m7V8oOPH
-7APbfzKCZ769l+MK0o6iRUQDqBApyFSvk9F2WGx9/UhxD8ddvG7uROsfKKzdHf1MKa2/W3egX2y5
-wKAtomTS0+gmAL8tYKB8Ulkh2BD209t2f5desAd1qm+jHm09a4I7tG+lIjXiLF8P8Nd16/hp3n+5
-SqyokM1e3/m7snaBG1noukdjzHfpDhkMHuL8W10oo7MSxVbExUAMebBz3ji8uvmyZa1BnaJVPSxj
-cfhSxoW1WJDqXMuAtGn2mM5/J3Pg7UtyewNn452CnkUqQm8/LnR+6LFpvAh1Y/Pok+KYU2eQUdQT
-7umvOybXD5YNp5MEM6psxPz+3lmQ8VW61b5Ck5/pWd4NvWJMoO52+AkrSRLJvlemiBXzAUw+mNzF
-iCycCS0SaogpU38YPO4gagtNbd4Vk3vuYF3RX0HmOICyvW4EL3F1InHzEAF+O1/gGMPO0crDCpXV
-SYGJyY5nHCCgnR0N7T7uI/ay3z3jxAXOBFoXH/0puQAAAAAAAA==
+We probably need some way to detect the interrupt controller support
+for the callback mechanism so we can generate an appropriate user
+warning to encourage development of that support and fall back to our
+current hack for some degree of functionality.  Thanks,
 
+Alex
 
---=-NnjXikxs3L3OI1uLqoyM--
 
