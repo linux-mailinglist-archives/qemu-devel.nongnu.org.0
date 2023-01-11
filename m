@@ -2,95 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026AA6656B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 10:01:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 443506656C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 10:02:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFWyW-0001o9-Mm; Wed, 11 Jan 2023 04:00:48 -0500
+	id 1pFWz6-00023G-Tb; Wed, 11 Jan 2023 04:01:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFWyS-0001nO-3u
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 04:00:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFWyQ-0000sV-88
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 04:00:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673427636;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6fVZh4pfsJpmZbOYSBkRk4GHEkxKt9nd3zTIFVmbyEA=;
- b=V602NJHdQXe5+PCfkwg2jnIhyI4Jv0qlEQIjKmIKMhvVng/vrxBZZbKY9ENAxTR6V70Ne+
- p6MPL4ESSvYo5TBVyLgd9vP0Wy6q585qDIZv5x332tKqjrg/+OvxUdoa1qiPqVNjFR9iX8
- A0UHxEZelSVKmmkKua0xBIrhLt98csE=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-470-PsMFFQkKOwmlEA9kksbR8g-1; Wed, 11 Jan 2023 04:00:34 -0500
-X-MC-Unique: PsMFFQkKOwmlEA9kksbR8g-1
-Received: by mail-qt1-f198.google.com with SMTP id
- ff17-20020a05622a4d9100b003abec48d547so5204594qtb.21
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 01:00:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFWyz-0001wE-3R
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 04:01:17 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFWyw-0000vR-TK
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 04:01:16 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ p1-20020a05600c1d8100b003d8c9b191e0so12065632wms.4
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 01:01:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YseKiHzchM/E9HI4JXEw8KCMkdc46Yvwu+u0m2DvUvY=;
+ b=FOJgbjh3VQc3EPHODsOOrZSA9ecu6EuAQ8GwyCasnQNuUesWSIltizJM5Xx/w9p7YZ
+ QaGhwzfQOz1xRWRYqd3o06A5bhyvo0TuSniHMr2ewgxvt1IxkofCfiX8snYWg46ZcP32
+ /OXOIk+AnnkIoT6iOWXiezL+pMbPPMXizbMdzgNBJ0FuqhGIs2Zh4FIqhjGb59Z6zP4k
+ +1Z8+Xd/CRk8LJ71SbjC+t46qHefS3ihlvKpRfb5Sj78no9nSJwsMo2Z+5x4xJUn2YSb
+ Uvlbs8x9R4qgY4XKlYg2Q6ro3TSNDBHebNA32+q8iyjvsja9f3uGIPnkry5r/G8+4JW1
+ /npg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6fVZh4pfsJpmZbOYSBkRk4GHEkxKt9nd3zTIFVmbyEA=;
- b=l3CmaQSghMcyaVuhX3pchUyXCb7xzAlJC9vdjPe4pS2/7M5nx8/2c1gZ/1M7Bk4kIT
- HwZwgx5ea8TNtsB+w39d6ayTkRVMiQL2+vkqg4dt+AfdZn4r86On5FMupvhUNDs8Z+rI
- Gh4/V1AWdogHZjPQ8PJV3AZ0FH1iyK18GzqrOKOFcImToQFvTI1DjZ+zW2AYgei+qUn5
- FND6N1n/FjQZ/v8uRSO8GOujWC/2aD8+KPpvyhYoD5X8LAylrW125D3AbkP/tLloBXhw
- /Op+3T/qWjroXKyu3+d9cLzReYqOOBGQcHsRttoL67LacLWL3cZB6N0plOJXprLHzux2
- gF9w==
-X-Gm-Message-State: AFqh2kri/5e9v2szrY3W7/1haFUOpzOBBClu+sPWLK9scBZPwJSEUyMJ
- gttbSzyPFApQFtBxZg0Iyitk60ukN1j3CwlXfrDAn861jEkwrWqIyWtOGG4Zo3HgTpKJsORdT+N
- DDy58qQmQsGDu9VU=
-X-Received: by 2002:a05:622a:4cc5:b0:3ac:c333:484 with SMTP id
- fa5-20020a05622a4cc500b003acc3330484mr19366738qtb.9.1673427634410; 
- Wed, 11 Jan 2023 01:00:34 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsxxI6TtBwQ5lXVg/ea9lcDYALmua1c7tkdHLqfy2/kdbedjjtjdcEFiGQFUvYF7ebroQL6Xg==
-X-Received: by 2002:a05:622a:4cc5:b0:3ac:c333:484 with SMTP id
- fa5-20020a05622a4cc500b003acc3330484mr19366697qtb.9.1673427634161; 
- Wed, 11 Jan 2023 01:00:34 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-91.web.vodafone.de.
- [109.43.176.91]) by smtp.gmail.com with ESMTPSA id
- x10-20020a05620a448a00b006faa2c0100bsm8746892qkp.110.2023.01.11.01.00.30
+ bh=YseKiHzchM/E9HI4JXEw8KCMkdc46Yvwu+u0m2DvUvY=;
+ b=5cc6z97Pef9MrzlENBpH/OPlqcz4n819kti0wKK73rU9rYoVwxJ7+jnUQ+DBOoxWgE
+ OVD+QvXMn3Cqg1EXiUSjXQJsc2vBOhWvKOUxAHdiquPhLn3Zm9cKyWNF3bZEhsm3uoti
+ tVIg9Qvr3QcELeY/K3NRWlNEdXvdlxEaq4kFoH3MAJJzEDh1bm5JJyeiRkveSb/hZAwm
+ TQ9q6mzhDY5AVGDtACNQF4XmsuLMtsXfmYQuurDmUNaGwKWH00kiavtARGASJVlUCfcW
+ G1ww+tlCbJ2nm/j2f2MlFgyFNwrWlovsnB89+lAhMyP76T4WpaFCNhbrMXm2H4TCbdex
+ Jvfg==
+X-Gm-Message-State: AFqh2kpPs3TpAS6vHGetYsVejItSjFfb00XhG7QYD5UZz+EJIrZbA8lM
+ 6P5snLjb9YjWsIhvu6uT6JtsMQ==
+X-Google-Smtp-Source: AMrXdXvlwEI9vUXnKJ5Bs8D+NjYCsAbLmA7+L9qnNB6jmuWUywN7nm6is7+SSkhif474ZWKeUPxTLg==
+X-Received: by 2002:a05:600c:2e44:b0:3d3:4406:8a3c with SMTP id
+ q4-20020a05600c2e4400b003d344068a3cmr51011132wmf.32.1673427672934; 
+ Wed, 11 Jan 2023 01:01:12 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ p16-20020a05600c469000b003d9b87296a9sm24407307wmo.25.2023.01.11.01.01.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 01:00:33 -0800 (PST)
-Message-ID: <f2433967-3c97-e4d7-9e2f-577b24c2369a@redhat.com>
-Date: Wed, 11 Jan 2023 10:00:29 +0100
+ Wed, 11 Jan 2023 01:01:12 -0800 (PST)
+Message-ID: <ab55c910-5da0-01d9-a097-aaf44ee18cc6@linaro.org>
+Date: Wed, 11 Jan 2023 10:01:10 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v14 05/11] s390x/cpu topology: resetting the
- Topology-Change-Report
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 12/18] hw/arm/digic: Replace object_initialize(ARMCPU) by
+ object_new(ARMCPU)
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-6-pmorel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230105145313.168489-6-pmorel@linux.ibm.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, ale@rev.ng,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, Rob Herring <robh@kernel.org>,
+ Antony Pavlov <antonynpavlov@gmail.com>, Jan Kiszka <jan.kiszka@web.de>,
+ Beniamino Galvani <b.galvani@gmail.com>
+References: <20230110164406.94366-1-philmd@linaro.org>
+ <20230110164406.94366-13-philmd@linaro.org>
+ <CAFEAcA-yEN3F3p6W16vfML4dAHzdwSnOS=759MkqQ0qDpArnaw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAFEAcA-yEN3F3p6W16vfML4dAHzdwSnOS=759MkqQ0qDpArnaw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,42 +99,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05/01/2023 15.53, Pierre Morel wrote:
-> During a subsystem reset the Topology-Change-Report is cleared
-> by the machine.
-> Let's ask KVM to clear the Modified Topology Change Report (MTCR)
-> bit of the SCA in the case of a subsystem reset.
+On 10/1/23 17:52, Peter Maydell wrote:
+> On Tue, 10 Jan 2023 at 16:45, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+>>
+>> Replace the ARMCPU field in DigicState by a reference to
+>> an allocated ARMCPU. Instead of initializing the field
+>> with object_initialize(), allocate it with object_new().
+>>
+>> As we don't access ARMCPU internal fields or size, we can
+>> move digic.c from arm_ss[] to the more generic softmmu_ss[].
 > 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
-...
-> diff --git a/target/s390x/kvm/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
-> index f9785564d0..649dae5948 100644
-> --- a/target/s390x/kvm/kvm_s390x.h
-> +++ b/target/s390x/kvm/kvm_s390x.h
-> @@ -47,5 +47,6 @@ void kvm_s390_crypto_reset(void);
->   void kvm_s390_restart_interrupt(S390CPU *cpu);
->   void kvm_s390_stop_interrupt(S390CPU *cpu);
->   void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info);
-> +int kvm_s390_topology_set_mtcr(uint64_t attr);
->   
->   #endif /* KVM_S390X_H */
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index c98b93a15f..14798ca305 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -122,6 +122,7 @@ static void subsystem_reset(void)
->               device_cold_reset(dev);
->           }
->       }
-> +    s390_cpu_topology_reset();
->   }
+> I'm not really a fan of this, because it moves away
+> from a standard coding pattern we've been using for
+> new QOM 'container' devices, where all the sub-components
+> of the device are structs embedded in the device's own
+> struct. This is as opposed to the old style which tended
+> to use "allocate memory for the sub-component and have
+> pointers to it". It means the CPU object is now being
+> treated differently from all the timers, UARTs, etc.
 
-Would it make sense to add a "if (s390_has_topology())" check around the new 
-line?
+OK, at least you don't object on patches 1-11/13 :)
 
-Anyway:
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+I might still post the other parts of this current approach to not
+lose them in case I can't find a better way.
 
+Thanks,
+
+Phil.
 
 
