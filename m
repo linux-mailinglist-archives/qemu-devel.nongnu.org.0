@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A528665174
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 03:03:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77DFB6651F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 03:44:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFQQu-00064S-VY; Tue, 10 Jan 2023 21:01:41 -0500
+	id 1pFR4U-0003rO-DR; Tue, 10 Jan 2023 21:42:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1pFQQs-00063p-Bk; Tue, 10 Jan 2023 21:01:38 -0500
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pFR4R-0003qy-As
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 21:42:31 -0500
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1pFQQq-0004om-AR; Tue, 10 Jan 2023 21:01:37 -0500
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-1442977d77dso14149518fac.6; 
- Tue, 10 Jan 2023 18:01:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=QBkfVYfqlPfJcnDfSOq/e9bEqP9nbncJPHOU7EHucEQ=;
- b=cf7fxPQTVk1lOFRz6wmSuhYKhq0mmp9Ogj7L26SWyUA4XIqlDuLYDq1BU44Seebaat
- FPwkxvY20wL3vdUqr7k0pCgAe4CWF1Im+iLpra1+nU7Pwy/8ZQovX3ZvFuXjBRlL854T
- n5RzaRsnyN1eK0/zdG9bTBoYxXIIS84bfMoDzcMduYBXhP+QPTYvSG7Fukr7ZCLts2uE
- cig2xhBJfneIsuYUAVQjkpUVLzLR9wtks36bBQq70BsVLTWNVtcesR9pWQKBOih6f5QT
- 6h6exlW0+WtxtynVDYrChhjiPtzshqQFfbu+GeQGPbmo/yqTT9gtQ3ZZn+ZD3PFfwDq2
- GUjQ==
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pFR4P-00025L-LP
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 21:42:31 -0500
+Received: by mail-qt1-x82b.google.com with SMTP id bp44so12855516qtb.0
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 18:42:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=braap-org.20210112.gappssmtp.com; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=aaGczZVmik1O4bkKA7G0Gkj4yxvKlBsEHWCJsShOaCk=;
+ b=ce8+m2JvoKIUCn0PQLdrL1J1+/1zyuSlk7cs5C9Y++fpmS+RLnx/AH2wU/ITYZDuwv
+ QFKEmgv2gNFPhnibrFyyoniP+pOUEDzH084Yqw9O18irGMrfuNGatekBKv6lQUOr4s34
+ vr5NLckm1u2ff3Db7r+ILZogrW5uUeWvdv8HHw72kea0QSDGdJ3+G+H9ibuRW+654GxI
+ AWm0wgu35GcRJgA6mgIEm0rmeKTFa6D/d+LwCawvRjgJZ0W81hqqwdbx2my4x+DKfBDK
+ m5KcjRuf4jsQ4nqMFqH/xwAx6onta5RZpaUsf77fmUPdGld32Fa3WVbhu+CkcEDKHydc
+ cUSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QBkfVYfqlPfJcnDfSOq/e9bEqP9nbncJPHOU7EHucEQ=;
- b=l+xOoChx/RsAY1Jna+Vd0E/DEwYMGXwZaihy7LwEnTwM67cbiqo9bQLXcR8eHkNkDi
- Qdw2Y8rNlCCU5bhUxD8tchYN5AsH5J3UtEfVU05kjsaWoz73APTyZsU8L1He6USCs25p
- wRDKSRBkMClZ3MWRZJUNhT1hsGA75HrImj8kaGjNOuveIe7Ht7C6iUdsuJyh5dJmM4qE
- Llw9cJvKaWv1XEkn+s8rOznlcuR0bO9yrq5SoTFUiXGWAeQfbzv/K1+H54emar70+vut
- PSSQgtUdfPNBpKRwSg792hgT3YztXXg6UNhmg8UONr9ZZKuNbGW4l0cQAyW+Hw3aVbZV
- 0iTw==
-X-Gm-Message-State: AFqh2kqBEr5sya0zIxtoIZ/qKXBmgQONhA0rzaWIZnpNcy2pZSnVlMf5
- dgHWN9qiT1gZqvY6tYXSPcJfJWBQ3qxXeuDfGv0=
-X-Google-Smtp-Source: AMrXdXu8wPH1Uddl9pGiolXRfNwQi+3RbDLaa58yYKUQMa4QdAHpZLdClQpY3q2PL4cRUKtaEDzp2pRVhJirmxYo8tw=
-X-Received: by 2002:a05:6871:296:b0:143:db39:48f7 with SMTP id
- i22-20020a056871029600b00143db3948f7mr4059340oae.275.1673402493755; Tue, 10
- Jan 2023 18:01:33 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aaGczZVmik1O4bkKA7G0Gkj4yxvKlBsEHWCJsShOaCk=;
+ b=18czqbgQaJ1P3uLaZzlsCM7/8+CtojUGRFSEXwXdLfoW8MKdasxaxr9R51avFe8KFI
+ 1pGLNl2mYP0+tohPpGBTD/Ez1vV89crAKBHuh7d37guYS1wIb4M1hrrr4/uxGKt/nKze
+ wUNe+KCspxwXF5bAFVDmUz+rFkj8f2N9Ch5Y5hPkV7V7aOKtrTaaUdGHMd4HOawIwMbT
+ cc2xTZnWabOO79nOsELBw4YHBCIr84I4b6UrkCr4wrD5vJoZRsNmaLp7pUPpLEL9OBcd
+ TaAhEffjLYY3D1lkK40zedpI8grAX972ab8tFTaSL7qbCSXFgwDdOfGSyZJVlkdNIbls
+ J87w==
+X-Gm-Message-State: AFqh2kqbh+C3xMOk+LjAdSVfFQdafiFU6ZKB7C04MobPbC8u/7ckpBX7
+ WDktZzD9LIeI6q2cYMa73YPeeA==
+X-Google-Smtp-Source: AMrXdXvM6kHHXYsScI3pX54BAA6T8PgubOmrPuVsruGdL/zHbOTFFfHcLCeB6HooAYiK6GfrJx8vEw==
+X-Received: by 2002:a05:622a:c:b0:3ab:b78b:c3cf with SMTP id
+ x12-20020a05622a000c00b003abb78bc3cfmr61525841qtw.60.1673404948017; 
+ Tue, 10 Jan 2023 18:42:28 -0800 (PST)
+Received: from localhost (pool-100-2-99-22.nycmny.fios.verizon.net.
+ [100.2.99.22]) by smtp.gmail.com with ESMTPSA id
+ h14-20020ac8548e000000b003ab1ee36ee7sm6918003qtq.51.2023.01.10.18.42.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Jan 2023 18:42:27 -0800 (PST)
+Date: Tue, 10 Jan 2023 21:41:29 -0500
+From: Emilio Cota <cota@braap.org>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 4/5] util/qht: use striped locks under TSAN
+Message-ID: <Y74h2RC+8J63Nzqj@cota-l14>
+References: <20230109224954.161672-1-cota@braap.org>
+ <20230109224954.161672-5-cota@braap.org>
+ <87cz7mm7fu.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20230109055933.749233-1-cyruscyliu@gmail.com>
- <BN7PR12MB28017305AA1A9A0FD629F86EE6FF9@BN7PR12MB2801.namprd12.prod.outlook.com>
-In-Reply-To: <BN7PR12MB28017305AA1A9A0FD629F86EE6FF9@BN7PR12MB2801.namprd12.prod.outlook.com>
-From: Qiang Liu <cyruscyliu@gmail.com>
-Date: Wed, 11 Jan 2023 10:01:22 +0800
-Message-ID: <CAAKa2jkPZOnX8av4meU5CE9pMtCr5gRuw=ZE0zNo3-+9wsS4uA@mail.gmail.com>
-Subject: Re: [PATCH] hw/display/xlnx_dp: fix overflow in
- xlnx_dp_aux_push_tx_fifo()
-To: "Konrad, Frederic" <Frederic.Konrad@amd.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>, 
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, 
- "open list:Xilinx ZynqMP and..." <qemu-arm@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000034e48805f1f3611a"
-Received-SPF: pass client-ip=2001:4860:4864:20::36;
- envelope-from=cyruscyliu@gmail.com; helo=mail-oa1-x36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87cz7mm7fu.fsf@linaro.org>
+Received-SPF: softfail client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=cota@braap.org; helo=mail-qt1-x82b.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,137 +92,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000034e48805f1f3611a
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Jan 10, 2023 at 20:58:01 +0000, Alex Bennée wrote:
+> Emilio Cota <cota@braap.org> writes:
+(snip)
+> > +static inline void qht_do_if_first_in_stripe(const struct qht_map *map,
+> > +                                             struct qht_bucket *b,
+> > +                                             void (*func)(QemuSpin *spin))
+> > +{
+> > +#ifdef CONFIG_TSAN
+> > +    unsigned long bucket_idx = b - map->buckets;
+> > +    bool is_first_in_stripe = (bucket_idx >> QHT_TSAN_BUCKET_LOCKS_BITS) == 0;
+> > +    if (is_first_in_stripe) {
+> > +        unsigned long lock_idx = bucket_idx & (QHT_TSAN_BUCKET_LOCKS - 1);
+> > +        func(&map->tsan_bucket_locks[lock_idx]);
+> 
+> Hmm I ran into an issue with:
+> 
+>      ../util/qht.c:286:10: error: incompatible pointer types passing 'const struct qht_tsan_lock *' to parameter of type 'QemuSpin *' (aka 'struct QemuSpin *') [-Werror,-Wincompatible-pointer-types]
 
-Dear Fred,
+Gaah, sorry. I didn't notice this because of unrelated noise due
+to having to configure with --disable-werror. Fixed now by removing
+a bunch of const's and also using .lock.
 
-On Tue, Jan 10, 2023 at 9:57 PM Konrad, Frederic <Frederic.Konrad@amd.com>
-wrote:
+> > +static inline void qht_bucket_lock_destroy(const struct qht_map *map,
+> > +                                           struct qht_bucket *b)
+> > +{
+> > +    qht_do_if_first_in_stripe(map, b, qemu_spin_destroy);
+> > +}
+> 
+> Who is meant to be calling this?
 
-> Hi,
->
-> > -----Original Message-----
-> > From: qemu-devel-bounces+fkonrad=amd.com@nongnu.org
-> <qemu-devel-bounces+fkonrad=amd.com@nongnu.org> On Behalf Of
-> > Qiang Liu
-> > Sent: 09 January 2023 07:00
-> > To: qemu-devel@nongnu.org
-> > Cc: Qiang Liu <cyruscyliu@gmail.com>; Alistair Francis <
-> alistair@alistair23.me>; Edgar E. Iglesias <edgar.iglesias@gmail.com>;
-> Peter
-> > Maydell <peter.maydell@linaro.org>; open list:Xilinx ZynqMP and... <
-> qemu-arm@nongnu.org>
-> > Subject: [PATCH] hw/display/xlnx_dp: fix overflow in
-> xlnx_dp_aux_push_tx_fifo()
-> >
-> > This patch checks if the s->tx_fifo is full.
-> >
-> > Fixes: 58ac482a66de ("introduce xlnx-dp")
-> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1424
-> > Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-> > Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
-> > ---
-> >  hw/display/xlnx_dp.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-> > index 972473d94f..617b394af2 100644
-> > --- a/hw/display/xlnx_dp.c
-> > +++ b/hw/display/xlnx_dp.c
-> > @@ -854,7 +854,11 @@ static void xlnx_dp_write(void *opaque, hwaddr
-> offset, uint64_t value,
-> >          break;
-> >      case DP_AUX_WRITE_FIFO: {
-> >          uint8_t c = value;
-> > -        xlnx_dp_aux_push_tx_fifo(s, &c, 1);
-> > +        if (fifo8_is_full(&s->tx_fifo)) {
-> > +            qemu_log_mask(LOG_GUEST_ERROR, "xlnx_dp: TX fifo is full");
-> > +        } else {
-> > +            xlnx_dp_aux_push_tx_fifo(s, &c, 1);
-> > +        }
->
-> I'd rather move the check in xlnx_dp_aux_push_tx_fifo, like
-> xlnx_dp_aux_pop_tx_fifo.
-> Otherwise looks good to me.
->
+Should have been removed in v2; fixed now.
 
-Sounds fine. Let me resend a patch.
+I've uploaded the v3 series to https://github.com/cota/qemu/tree/tsan-v3
 
-Best,
-Qiang
+Please let me know if you want me to also mail it to the list.
+Thanks,
 
---00000000000034e48805f1f3611a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Dear Fred,</div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 10, 2023 at 9:57 PM Konrad, Fre=
-deric &lt;<a href=3D"mailto:Frederic.Konrad@amd.com">Frederic.Konrad@amd.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->Hi,<br>
-<br>
-&gt; -----Original Message-----<br>
-&gt; From: qemu-devel-bounces+fkonrad=3D<a href=3D"mailto:amd.com@nongnu.or=
-g" target=3D"_blank">amd.com@nongnu.org</a> &lt;qemu-devel-bounces+fkonrad=
-=3D<a href=3D"mailto:amd.com@nongnu.org" target=3D"_blank">amd.com@nongnu.o=
-rg</a>&gt; On Behalf Of<br>
-&gt; Qiang Liu<br>
-&gt; Sent: 09 January 2023 07:00<br>
-&gt; To: <a href=3D"mailto:qemu-devel@nongnu.org" target=3D"_blank">qemu-de=
-vel@nongnu.org</a><br>
-&gt; Cc: Qiang Liu &lt;<a href=3D"mailto:cyruscyliu@gmail.com" target=3D"_b=
-lank">cyruscyliu@gmail.com</a>&gt;; Alistair Francis &lt;<a href=3D"mailto:=
-alistair@alistair23.me" target=3D"_blank">alistair@alistair23.me</a>&gt;; E=
-dgar E. Iglesias &lt;<a href=3D"mailto:edgar.iglesias@gmail.com" target=3D"=
-_blank">edgar.iglesias@gmail.com</a>&gt;; Peter<br>
-&gt; Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=3D"_bla=
-nk">peter.maydell@linaro.org</a>&gt;; open list:Xilinx ZynqMP and... &lt;<a=
- href=3D"mailto:qemu-arm@nongnu.org" target=3D"_blank">qemu-arm@nongnu.org<=
-/a>&gt;<br>
-&gt; Subject: [PATCH] hw/display/xlnx_dp: fix overflow in xlnx_dp_aux_push_=
-tx_fifo()<br>
-&gt; <br>
-&gt; This patch checks if the s-&gt;tx_fifo is full.<br>
-&gt; <br>
-&gt; Fixes: 58ac482a66de (&quot;introduce xlnx-dp&quot;)<br>
-&gt; Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/142=
-4" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qem=
-u/-/issues/1424</a><br>
-&gt; Reported-by: Qiang Liu &lt;<a href=3D"mailto:cyruscyliu@gmail.com" tar=
-get=3D"_blank">cyruscyliu@gmail.com</a>&gt;<br>
-&gt; Signed-off-by: Qiang Liu &lt;<a href=3D"mailto:cyruscyliu@gmail.com" t=
-arget=3D"_blank">cyruscyliu@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/display/xlnx_dp.c | 6 +++++-<br>
-&gt;=C2=A0 1 file changed, 5 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c<br>
-&gt; index 972473d94f..617b394af2 100644<br>
-&gt; --- a/hw/display/xlnx_dp.c<br>
-&gt; +++ b/hw/display/xlnx_dp.c<br>
-&gt; @@ -854,7 +854,11 @@ static void xlnx_dp_write(void *opaque, hwaddr of=
-fset, uint64_t value,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 case DP_AUX_WRITE_FIFO: {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t c =3D value;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 xlnx_dp_aux_push_tx_fifo(s, &amp;c, 1);<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fifo8_is_full(&amp;s-&gt;tx_fifo)) {<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
-OR, &quot;xlnx_dp: TX fifo is full&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xlnx_dp_aux_push_tx_fifo(s,=
- &amp;c, 1);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-I&#39;d rather move the check in xlnx_dp_aux_push_tx_fifo, like xlnx_dp_aux=
-_pop_tx_fifo.<br>
-Otherwise looks good to me.<br></blockquote><div>=C2=A0</div><div>Sounds fi=
-ne. Let me resend a patch.</div><div><br></div><div>Best,</div><div>Qiang</=
-div><div>=C2=A0</div></div></div>
-
---00000000000034e48805f1f3611a--
+		Emilio
 
