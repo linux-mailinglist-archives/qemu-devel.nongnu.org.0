@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18EF6655BE
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 09:11:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2685766565C
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 09:44:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFWBb-0005vV-78; Wed, 11 Jan 2023 03:10:15 -0500
+	id 1pFWdt-0004kQ-Uu; Wed, 11 Jan 2023 03:39:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pFWBW-0005rM-Lm
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:10:10 -0500
-Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFWdg-0004Z8-L3
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:39:21 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pFWBU-0000fM-W6
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:10:10 -0500
-Received: by mail-lf1-x136.google.com with SMTP id b3so22334840lfv.2
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 00:10:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4G7gxU1gbv2bkVQZ/VZvtNUpBYuQg3gOPz6fRhqs0jM=;
- b=BZgHKVcXI+HM5cFHwkMzYEHV/bUSJNc3PeKTg0dT3Mq/LVG0Rxf779FiUX1jOjAlvy
- VTPLf1643Ql1eoSg+Rom8iyzjIDucnJFMruvey+aAbw2Kt9U1HxQuaFuqcGvPfOGr80A
- sdD20N9/g6hbudHoxzzx/JzrPi0cCNB7hNwnUaZx3MUHuZ1a+H+jeL51fTjjVYR/vQvZ
- DdI4CV0+pGSUxg+Ud9CBF7u2+E+vryPcdJkAwdcUNt7ysNG4WJnIElm1P58kBLGjNQiP
- Lfr/xddeTWUqqkONQi1Fq1YFkGPiKLv7p2NnqfepJ4TS+EUeJiNX7aGYQhKCzVdAeLnZ
- IupQ==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFWdd-0005Nz-4z
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:39:15 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ ay12-20020a05600c1e0c00b003d9ea12bafcso8383667wmb.3
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 00:39:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QVteOLcdgywnZKReax1sWIW2ti3pURJ4pbMPZbXRnEg=;
+ b=mi+ETGfUtjY4aRXHXyIPe8/GYdeyKH7gMz7JAghbCiM+M/petCIX8rXccLewBTkQJY
+ /xR6FDmI+IOX373gnfR41CdFnwFwrmzkAEQmW6KUrxGnMIFMFII+9kK+86s5Md3B9j4g
+ 6a9mzEonmcvVRDDlt9EQlZzoYn5g51rocOvFH2jBSB2okRIH/k33LiwimdY+wPRZbMSU
+ ejK2bsip6ISmhKIGHWQgAdXgUlTb9F4NvPNKPuXlBuYm8rBgxYnAoZQAnZV/5j6fku4T
+ sxoUfdNHq6auIM9mZwMDW7YfGwA6RBrkjRcycwssIwDyovE9E+uXyPpgQGsQ1lVVomoX
+ eBlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4G7gxU1gbv2bkVQZ/VZvtNUpBYuQg3gOPz6fRhqs0jM=;
- b=uWFhLhX6LtNSxBeKBuSS/+kSDcC2w9F7h0wN+djZ2W1lU0kVkq7AmLHze6fKfNDEod
- ctnvSGf59BY3MmYEa9p8SkcCC7DjCyqBd9BJDJEaTSE2MEqTJYYbUJUIRHyW40rVmc5H
- wM4FZG4W/7x8buhMJQ4AjM8TWzEXFH6WQp51AD6gKYGo0Ag6QojsL/BWZt2YadTklCfb
- ZzXcmSQOxUWG1iUfdRZBT0IdTEoYd9RXzOu2JuTSqo3tEoaO1p9L+CSAhGclxpuw37Bn
- X4GDyi8yvv8x2WyDFe9Tw0gpRfnmnW9zIGEOjoCjPio1c/KI/IH3l2QClkS6beU5S+tQ
- G1FQ==
-X-Gm-Message-State: AFqh2kqPQyJTWFh3sM54+mvOXWqA0DfQTzApsSf+FytI4p5N1MxqVQer
- Dn3V8QBxnEL/QkkmiDYlOYcPu/JhtPeSr6k2msw=
-X-Google-Smtp-Source: AMrXdXv7R42NE5A/B0qH2KrLPqkD+0fVMZC6DH4LVUkM3hyEhCvRHOaNykegQTYpjKlkZwmOCHsdmkZTzq6T/pk+eNI=
-X-Received: by 2002:ac2:5381:0:b0:4cc:8554:ad9f with SMTP id
- g1-20020ac25381000000b004cc8554ad9fmr990063lfh.356.1673424606093; Wed, 11 Jan
- 2023 00:10:06 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QVteOLcdgywnZKReax1sWIW2ti3pURJ4pbMPZbXRnEg=;
+ b=lZC9e7vT/P3metqnUNKK5V9vflR7A4nAv0qXPzc0IAKCO6m9uedjPKgY/n7bvBe2dB
+ tzAGTEyHB/01XWK7aJCPUjDJ/vgJnCg9mq/T3tpS6YvRAv0/56jxpw9a2L8W97IwqaM1
+ HT8GAyB04Pe1/Dc7aicH1QvBLDOCCZcpsGxjZ8PPexCHkEySu8L8wZ9IHGCaVVTPjnZ2
+ q/aBnmHvJ9fiQJI2B1qgsRsb61Fv5uYRnwJyD++oJ0o8z6jtqgeZFPd57plWZaO5/YnG
+ Kf3R1fNRB3zJT1/ILXM5WYJzdyTOYNSlLbcfjbUnTmibaZT0MtKGHXXW1iddt2hiTlEz
+ ooWg==
+X-Gm-Message-State: AFqh2krw8i+jzLF2UdJzlD4bjM3TQVJS5/+jfQLn+lw7yB5kZPuaTSIT
+ uFDQCPwPahmLUqAtrH3fiPWJEYFhDvmIKtHG
+X-Google-Smtp-Source: AMrXdXuJdHbPsisPbdvVRDETb5IqtJaygQ472pbsFDxfyuHdAkPqAPrH3eYe9e+fwIbnR8p2InH4BA==
+X-Received: by 2002:a05:600c:539a:b0:3d9:efe8:a424 with SMTP id
+ hg26-20020a05600c539a00b003d9efe8a424mr7638806wmb.34.1673426351210; 
+ Wed, 11 Jan 2023 00:39:11 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ o11-20020a05600c4fcb00b003c6f3f6675bsm23898568wmq.26.2023.01.11.00.39.10
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 11 Jan 2023 00:39:10 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, qemu-ppc@nongnu.org, qemu-arm@nongnu.org,
+ qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v2 0/4] bulk: Replace TARGET_FMT_plx by HWADDR_PRIx
+Date: Wed, 11 Jan 2023 09:39:05 +0100
+Message-Id: <20230111083909.42624-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <47a155d76238fb1bae401dd77428c9125f37e0d2.camel@secunet.com>
-In-Reply-To: <47a155d76238fb1bae401dd77428c9125f37e0d2.camel@secunet.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 11 Jan 2023 12:09:54 +0400
-Message-ID: <CAJ+F1CL0AsqRyDB+e8dqeCYexs5geBQc3byyqbq5VEq1XQ8oXA@mail.gmail.com>
-Subject: Re: [PATCH] usb-ccid: make ids and descriptor configurable
-To: "Ripke, Klaus" <klaus.ripke@secunet.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kraxel@redhat.com" <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::136;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x136.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SUSPICIOUS_RECIPS=2.51 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,102 +88,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Klaus
+Since v1:
+- Fix checkpatch style violations
+- Use HWADDR_PRIx instead of HWADDR_FMT_plx (Zoltan)
 
-On Tue, Jan 10, 2023 at 7:49 PM Ripke, Klaus <klaus.ripke@secunet.com> wrot=
-e:
->
-> Signed-off-by: Klaus Ripke <klaus.ripke@secunet.com>
->
-> hw/usb/dev-smartcard-reader.c:
-> Set static values from env vars QEMU_CCID_VENDOR/PRODUCT_ID and
-> _DESCRIPTOR
+Supersedes: <20230110212947.34557-1-philmd@linaro.org>
+            "bulk: Rename TARGET_FMT_plx -> HWADDR_FMT_plx"
 
-We don't use environment variables to configure devices. Please add
-properties to ccid_properties[] instead.
+Philippe Mathieu-Daudé (4):
+  hw: Remove hardcoded tabs (code style)
+  bulk: Coding style fixes
+  bulk: Replace TARGET_FMT_plx -> HWADDR_PRIx
+  bulk: Prefix '0x' to hex values displayed with HWADDR_PRIx format
 
-thanks
+ accel/tcg/cputlb.c                  |   2 +-
+ hw/arm/strongarm.c                  |  24 ++--
+ hw/block/pflash_cfi01.c             |   5 +-
+ hw/char/digic-uart.c                |   8 +-
+ hw/char/etraxfs_ser.c               |   4 +-
+ hw/core/loader.c                    |   8 +-
+ hw/core/sysbus.c                    |   5 +-
+ hw/display/cirrus_vga.c             |   4 +-
+ hw/display/g364fb.c                 |   4 +-
+ hw/display/vga.c                    |   8 +-
+ hw/dma/etraxfs_dma.c                | 196 ++++++++++++++--------------
+ hw/dma/pl330.c                      |  26 ++--
+ hw/dma/xilinx_axidma.c              |   4 +-
+ hw/dma/xlnx_csu_dma.c               |   4 +-
+ hw/i2c/mpc_i2c.c                    |   4 +-
+ hw/i386/multiboot.c                 |   9 +-
+ hw/i386/xen/xen-hvm.c               |   9 +-
+ hw/i386/xen/xen-mapcache.c          |  21 +--
+ hw/i386/xen/xen_platform.c          |   4 +-
+ hw/intc/arm_gicv3_dist.c            |   8 +-
+ hw/intc/arm_gicv3_its.c             |  14 +-
+ hw/intc/arm_gicv3_redist.c          |   8 +-
+ hw/intc/exynos4210_combiner.c       |  20 +--
+ hw/misc/auxbus.c                    |   3 +-
+ hw/misc/ivshmem.c                   |   6 +-
+ hw/misc/macio/mac_dbdma.c           |   4 +-
+ hw/misc/mst_fpga.c                  | 162 ++++++++++++-----------
+ hw/net/allwinner-sun8i-emac.c       |   4 +-
+ hw/net/allwinner_emac.c             |   8 +-
+ hw/net/fsl_etsec/etsec.c            |   4 +-
+ hw/net/fsl_etsec/rings.c            |   4 +-
+ hw/net/pcnet.c                      |   4 +-
+ hw/net/rocker/rocker.c              |  26 ++--
+ hw/net/rocker/rocker_desc.c         |   2 +-
+ hw/net/xilinx_axienet.c             |   4 +-
+ hw/net/xilinx_ethlite.c             |   6 +-
+ hw/pci-bridge/pci_expander_bridge.c |   2 +-
+ hw/pci-host/bonito.c                |  14 +-
+ hw/pci-host/ppce500.c               |   4 +-
+ hw/pci/pci_host.c                   |   4 +-
+ hw/ppc/ppc4xx_sdram.c               |   2 +-
+ hw/rtc/exynos4210_rtc.c             |   4 +-
+ hw/sh4/sh7750.c                     |   4 +-
+ hw/ssi/xilinx_spi.c                 |   4 +-
+ hw/ssi/xilinx_spips.c               |   8 +-
+ hw/timer/digic-timer.c              |   8 +-
+ hw/timer/etraxfs_timer.c            |   3 +-
+ hw/timer/exynos4210_mct.c           |   2 +-
+ hw/timer/exynos4210_pwm.c           |   4 +-
+ hw/virtio/virtio-mmio.c             |   4 +-
+ hw/xen/xen_pt.c                     |   4 +-
+ include/exec/hwaddr.h               |   1 -
+ monitor/misc.c                      |   2 +-
+ softmmu/memory.c                    |  19 +--
+ softmmu/memory_mapping.c            |   4 +-
+ softmmu/physmem.c                   |  10 +-
+ target/i386/monitor.c               |   6 +-
+ target/loongarch/tlb_helper.c       |   2 +-
+ target/microblaze/op_helper.c       |   2 +-
+ target/mips/tcg/sysemu/tlb_helper.c |   2 +-
+ target/ppc/mmu-hash32.c             |  20 +--
+ target/ppc/mmu-hash64.c             |  12 +-
+ target/ppc/mmu_common.c             |  30 +++--
+ target/ppc/mmu_helper.c             |   4 +-
+ target/riscv/cpu_helper.c           |  10 +-
+ target/riscv/monitor.c              |   2 +-
+ target/sparc/ldst_helper.c          |   6 +-
+ target/sparc/mmu_helper.c           |  13 +-
+ target/tricore/helper.c             |   2 +-
+ 69 files changed, 430 insertions(+), 424 deletions(-)
 
->
-> ---
->  hw/usb/dev-smartcard-reader.c | 27 ++++++++++++++++++++++++---
->  1 file changed, 24 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-
-> reader.c
-> index 28164d89be..0632ab44c6 100644
-> --- a/hw/usb/dev-smartcard-reader.c
-> +++ b/hw/usb/dev-smartcard-reader.c
-> @@ -323,7 +323,7 @@ struct USBCCIDState {
->   *   0dc3:1004 Athena Smartcard Solutions, Inc.
->   */
->
-> -static const uint8_t qemu_ccid_descriptor[] =3D {
-> +static uint8_t qemu_ccid_descriptor[] =3D {
->          /* Smart Card Device Class Descriptor */
->          0x36,       /* u8  bLength; */
->          0x21,       /* u8  bDescriptorType; Functional */
-> @@ -472,7 +472,7 @@ static const USBDescDevice desc_device =3D {
->      },
->  };
->
-> -static const USBDesc desc_ccid =3D {
-> +static USBDesc desc_ccid =3D {
->      .id =3D {
->          .idVendor          =3D CCID_VENDOR_ID,
->          .idProduct         =3D CCID_PRODUCT_ID,
-> @@ -1437,12 +1437,33 @@ static Property ccid_properties[] =3D {
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> +static void env_uint16(uint16_t *val, const char *env)
-> +{
-> +    const char *str =3D getenv(env);
-> +    if (str) {
-> +        *val =3D qemu_strtoul(str, NULL, 16);
-> +    }
-> +}
-> +
->  static void ccid_class_initfn(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
->      USBDeviceClass *uc =3D USB_DEVICE_CLASS(klass);
->      HotplugHandlerClass *hc =3D HOTPLUG_HANDLER_CLASS(klass);
-> -
-> +    const char *dsc =3D getenv("QEMU_CCID_DESCRIPTOR");
-> +
-> +    if (dsc) {
-> +        unsigned int idx =3D 0;
-> +        unsigned int val =3D 0;
-> +        int off =3D 0;
-> +        for (; 2 =3D=3D sscanf(dsc, "%u:%x%n", &idx, &val, &off); dsc +=
-=3D
-> off) {
-> +            if (idx < sizeof qemu_ccid_descriptor) {
-> +                qemu_ccid_descriptor[idx] =3D val;
-> +            }
-> +        }
-> +    }
-> +    env_uint16(&desc_ccid.id.idVendor, "QEMU_CCID_VENDOR_ID");
-> +    env_uint16(&desc_ccid.id.idProduct, "QEMU_CCID_PRODUCT_ID");
->      uc->realize        =3D ccid_realize;
->      uc->product_desc   =3D "QEMU USB CCID";
->      uc->usb_desc       =3D &desc_ccid;
-> --
-> 2.34.1
->
->
->
-> --
-> Klaus Ripke
-> Senior Developer
-> Public Authorities Division
-> secunet Security Networks AG
->
-> Telefon:  +49 201 5454-2982
+-- 
+2.38.1
 
-
-
---=20
-Marc-Andr=C3=A9 Lureau
 
