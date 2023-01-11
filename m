@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A949B66608F
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 17:33:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 708E466609C
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 17:35:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFe20-0001dY-Nd; Wed, 11 Jan 2023 11:32:52 -0500
+	id 1pFe2U-0001zK-RP; Wed, 11 Jan 2023 11:33:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFe1Y-0001R1-Hf
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:32:25 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFe2E-0001wO-3b
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:33:06 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFe1W-0006FQ-LN
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:32:24 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- p3-20020a05600c1d8300b003d9ee5f125bso8310183wms.4
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 08:32:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFe2C-0006Lr-Bw
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:33:05 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ m26-20020a05600c3b1a00b003d9811fcaafso13124020wms.5
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 08:33:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=v80+rMsZqzMpEgzB1XIdOA1qaUJSrJqpOPE+0MZTyas=;
- b=MyHtzkjyygiTCAVcn3ep3+8nAvsBulZumExrDF907CTi2vaY1xO+shI+Yk9K2yVV8c
- mHeUSPZ/jJt++BFhcl9Q/1tGRC/Xi2D5FLeekf5g/OGMle01D5BwphGfCdM8OgCWwwYE
- imlGElgWpm+mPOWoEfzDIr2swi3F99CvfLAB1imM5/BcRNnOq3srZq9SseFHIdnig8ow
- Cx/turtlMNkIMyn3jCK4opXREwctewZpevXJJiNuTOOitXyfrTT2f1dUU6qBt0WEASD7
- jTTsKyOReRefshGcXBFT+bpgMmspko5gNAFTMEVEy76wAIvCDwel/QMDRK2gRuUScRmB
- JUNA==
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=y8jCKVsR4MxJB8umO/EIZGA3CTPqpk8S9QK8JC1lx7A=;
+ b=I5AKM32zy9xYd0qoWCb14QTtwZ+0zgvF5XXK80pYUKSrLlqV8momvvaObfFm0mWcTl
+ xiuAhUQUY1oMKOhwJgUsrQEcBGD1o4cteqaUnurAa2y/SO/USKpYMWoLCs6Q4ZEODqq/
+ R0SUySkf7S0QEt1tXRiMwu6rCyrkQ2eh8fYqymVV0u4r8idsNvXcdSo1INbqY/Ku4wIl
+ TGwMGuWG6hWyZOT3gn+ldJIeNt87hWt28835TF5/myQftJdn9udp2ivxd9S7Tl7Rulik
+ 19MNNYdLmNmWF/m6r9ETEfudP2xG3eN6YCIg/fszv8sX32DnnrsH2oYwn2STO9zAZ6e6
+ MKEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=v80+rMsZqzMpEgzB1XIdOA1qaUJSrJqpOPE+0MZTyas=;
- b=VI3VwuX4p8NlZhxEgWce6+JMvo4zO3lqQVK6n1NakNCYmmrJM3acpBZ8sUJYdvy9fl
- HoWXvymE1tjrop3dZ8K+SX/jPuF3AvrkqnTOFos35c98hI1IYFqRIaBTcCIt9dXX774x
- dj9fcEaO4byfuTpBXaYJTg8+B4dBTcO+U3/XkFWnLjjuDanNY3PKJAUsZP9xyICOtqfX
- hPqNGfA7wil2/X9nbgxr3yZCWUBGsVydfBtzWM6zdGH4tZXvvSMlWP2MkPzbIswkGjmI
- FwEf9OUf1QFarEGlt4O29KI7UpF4Zpuk3aF0loVWWm/ePlnzq/yLnLmTzoHaReotCGzn
- gvQg==
-X-Gm-Message-State: AFqh2krwUST1ukA/hzXVMI6UKYvVOnbnr/K7McadNbhYlcB4l6S4EqDh
- H9vHRl9doOjEIxxyMcitNTrRw5pghqb2Ymbw
-X-Google-Smtp-Source: AMrXdXtr3VJCW/uvsr3K4TWxbo/nIhjr9HDiab2xmU2BFfc9Yn9mf3sa+D2FEbF81Px1WmXSNVhH+g==
-X-Received: by 2002:a05:600c:1e24:b0:3d0:8643:caf1 with SMTP id
- ay36-20020a05600c1e2400b003d08643caf1mr53781460wmb.16.1673454740806; 
- Wed, 11 Jan 2023 08:32:20 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- z12-20020a05600c0a0c00b003cfa81e2eb4sm18720569wmp.38.2023.01.11.08.32.19
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 11 Jan 2023 08:32:20 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Ryo ONODERA <ryoon@netbsd.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Ira Weiny <ira.weiny@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Reinoud Zandijk <reinoud@netbsd.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v3 6/6] qemu/bswap: Use compiler __builtin_bswap() on NetBSD
-Date: Wed, 11 Jan 2023 17:31:47 +0100
-Message-Id: <20230111163147.71761-7-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230111163147.71761-1-philmd@linaro.org>
-References: <20230111163147.71761-1-philmd@linaro.org>
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=y8jCKVsR4MxJB8umO/EIZGA3CTPqpk8S9QK8JC1lx7A=;
+ b=cJH+rMmUEDHBUVpPo8YwVArIol1VMIhd2OaZdtdINkKswV1DQTNt2oEYU9Hb262cuO
+ MsWLKrNz1WJ57Mypl1zuV9bnU6TBQjh6m5EVdqw6fSjBU6dwxmjH5MQQEYVEVmsesOv9
+ VOSOiDlLwryTCDIbmAtLD+8ajWAEIgcRzASFe7ktWzNtjbHFTgAlbnbyOFugFe2vnZap
+ OUUHOx88S+z94gwC9V9coNZm7I2qhQBx3MovQd2Bq/r1u1Qg1Q0cm21m3k1cn+OLIFG3
+ E5HD4z2bxn7MTJyqJvQRLYMk1rLgW+Cc4fScrSHTF7SHPXuf3seuoQD5IEseRN8dpzO9
+ eScQ==
+X-Gm-Message-State: AFqh2krT6UBdQq9c20iXjO/vCCF/wEx2uQSjLPEVeA+nv11WsTiiKPGO
+ 0VR610yUxmcaYBgty9FhIC6kSA==
+X-Google-Smtp-Source: AMrXdXvNkLzrjJpnLXfhG9KwkDgzRoCFcKae1e/jpy8C6729y0u8HvDY6xd/o3ENgwN6cH7nyPmaYQ==
+X-Received: by 2002:a05:600c:3552:b0:3d9:f801:bb6 with SMTP id
+ i18-20020a05600c355200b003d9f8010bb6mr5849515wmq.10.1673454782836; 
+ Wed, 11 Jan 2023 08:33:02 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ h15-20020a05600c314f00b003d99469ece1sm25124963wmo.24.2023.01.11.08.33.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Jan 2023 08:33:02 -0800 (PST)
+Message-ID: <cb1fafb5-a83d-210c-d0a1-8129eedb5c73@linaro.org>
+Date: Wed, 11 Jan 2023 17:33:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 6/8] qemu/bswap: Add const_le64()
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
+ Michael Tsirkin <mst@redhat.com>
+Cc: Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
+ linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
+ Gregory Price <gourry.memverge@gmail.com>
+References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
+ <20230111142440.24771-7-Jonathan.Cameron@huawei.com>
+ <68f9b74a-b0e7-c5a6-7b99-ce4f96d79f36@linaro.org>
+ <aa007274-a787-5c93-c9b3-843a6b50f1f2@linaro.org>
+In-Reply-To: <aa007274-a787-5c93-c9b3-843a6b50f1f2@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,70 +96,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 11/1/23 17:07, Philippe Mathieu-Daudé wrote:
+> On 11/1/23 16:49, Philippe Mathieu-Daudé wrote:
+>> On 11/1/23 15:24, Jonathan Cameron via wrote:
+>>> From: Ira Weiny <ira.weiny@intel.com>
+>>>
+>>> Gcc requires constant versions of cpu_to_le* calls.
+>>>
+>>> Add a 64 bit version.
+>>>
+>>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>>> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+>>> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>>> ---
+>>>   include/qemu/bswap.h | 10 ++++++++++
+>>>   1 file changed, 10 insertions(+)
+>>
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> 
+> Actually I thought this was already merged but apparently
+> this never got in:
+> https://lore.kernel.org/qemu-devel/20200928131934.739451-1-philmd@redhat.com/
 
-Since commit efc6c070aca ("configure: Add a test for the minimum
-compiler version") the minimum compiler version required for GCC
-is 4.8, which supports __builtin_bswap().
-Remove the NetBSD specific ifdef'ry.
+Oops unrelated, I meant:
+https://lore.kernel.org/qemu-devel/20200917163106.49351-1-philmd@redhat.com/
 
-This reverts commit 1360677cfe3ca8f945fa1de77823df21a77e4500
-("makes NetBSD use the native bswap functions").
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/qemu/bswap.h | 11 -----------
- meson.build          |  4 ----
- 2 files changed, 15 deletions(-)
-
-diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 32d5cdec27..3cbe52246b 100644
---- a/include/qemu/bswap.h
-+++ b/include/qemu/bswap.h
-@@ -1,27 +1,16 @@
- #ifndef BSWAP_H
- #define BSWAP_H
- 
--#ifdef CONFIG_MACHINE_BSWAP_H
--# include <sys/endian.h>
--# include <machine/bswap.h>
--# else
--#define BSWAP_FROM_FALLBACKS
--#endif /* ! CONFIG_MACHINE_BSWAP_H */
--
- #ifdef __cplusplus
- extern "C" {
- #endif
- 
--#ifdef BSWAP_FROM_FALLBACKS
- #undef  bswap16
- #define bswap16(_x) __builtin_bswap16(_x)
- #undef  bswap32
- #define bswap32(_x) __builtin_bswap32(_x)
- #undef  bswap64
- #define bswap64(_x) __builtin_bswap64(_x)
--#endif
--
--#undef BSWAP_FROM_FALLBACKS
- 
- static inline void bswap16s(uint16_t *s)
- {
-diff --git a/meson.build b/meson.build
-index 697059d2c8..f2663cfc32 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2023,10 +2023,6 @@ config_host_data.set('CONFIG_INOTIFY',
-                      cc.has_header_symbol('sys/inotify.h', 'inotify_init'))
- config_host_data.set('CONFIG_INOTIFY1',
-                      cc.has_header_symbol('sys/inotify.h', 'inotify_init1'))
--config_host_data.set('CONFIG_MACHINE_BSWAP_H',
--                     cc.has_header_symbol('machine/bswap.h', 'bswap32',
--                                          prefix: '''#include <sys/endian.h>
--                                                     #include <sys/types.h>'''))
- config_host_data.set('CONFIG_PRCTL_PR_SET_TIMERSLACK',
-                      cc.has_header_symbol('sys/prctl.h', 'PR_SET_TIMERSLACK'))
- config_host_data.set('CONFIG_RTNETLINK',
--- 
-2.38.1
-
+But thank for the reminder, good opportunity to respin the
+other one ;)
 
