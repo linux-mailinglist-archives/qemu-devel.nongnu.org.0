@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CCBC66584D
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A8566584C
 	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 10:57:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFXpv-0000Mu-P0; Wed, 11 Jan 2023 04:55:59 -0500
+	id 1pFXps-0000Ls-5c; Wed, 11 Jan 2023 04:55:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pFXps-0000M2-A3
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 04:55:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pFXpq-0001ST-N3
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 04:55:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673430953;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=H6VA5T9v95vypbI3p6n7Rw0tKEUtIHJNO3nLbllmRDY=;
- b=QGvjj1KdCoNgasq0JgJ7TofxZuNHJwJ3nXnkggoomv+XcqpNVV7uXj5kLsAU1OBy20HzG8
- YrVjaLEGd17fNtvxNdCbSYKmvgwILNfjNTCu1B+roL6LPq8BZXF3MEfQ1a6q9gv1p3rhJT
- 4WHC79bCW73kRmCn35pUEkOLEK43tIE=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-613-kPhiOgzgPuKFvrZWzrALNg-1; Wed, 11 Jan 2023 04:55:49 -0500
-X-MC-Unique: kPhiOgzgPuKFvrZWzrALNg-1
-Received: by mail-ej1-f71.google.com with SMTP id
- dr5-20020a170907720500b00808d17c4f27so9694252ejc.6
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 01:55:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFXpq-0000Ld-Gm
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 04:55:54 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFXpn-0001SA-E8
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 04:55:54 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ k26-20020a05600c1c9a00b003d972646a7dso13916350wms.5
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 01:55:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5x9/vDGChQF9U9TtMWEfLV8kbt/5dXVGluDp/rqfvE8=;
+ b=SkeqKYqfQn7J+ZHaEzFGBnsQOrHff37a8q/L+p/lNRa7rcW3stNQhKZdRtSrqR4IYE
+ DZX33zq/N6azp99y5PfAkJtsHXemXvpS6BD78X/mBT1p6+v92F5KB3ipcZqHAl7EQapo
+ GrnEljRX6j54TxGipxmd0Jkq28uc3g0R67FG2KmSJ5rtdtdKQ43uFH5J7FrMk0599p3Q
+ Vur0190pKnm6If1DMglMoyeRJ/hA4x9q+tbWeS/MLoq9Lm9tp+4k69zXuLqtOATr/LMb
+ nGG2Za3pK06qwU0AoZ2g6R7NdjIMOj0Df8oLN4UWEO0Fv2d4EihUN3QIQDGD0VdVBCaj
+ WEKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=H6VA5T9v95vypbI3p6n7Rw0tKEUtIHJNO3nLbllmRDY=;
- b=1eHe8jMl4pdYRm82G81pkhhDBHmTp/gT8VkNnDPPBrwQHFPpypppaSDneXIvsvEjqV
- faRdU5u/SWMgFeC9uAPT3fSAALkzDSiP2I3bOh2Po7cqQXmKu3EOokV2JtEb7t7YQizg
- FLE0ONMYzL0RxXQUI91AU3rtjkzP/iQNMExcRGPkIPt1YBsdiTO+EM87U8SDP8yXyEl9
- 4/jczGf8aYmIFH/3Zwu8akGG8kFlgfrV6JtKzk7+JuJhZBdx08UE7GolE+luAkseUjum
- p59mUC0SI+rewui/Y36LLGMJjgKMniqiO8lgnfWkd9MZrceo/69spWJT2k/LUF8Z62oj
- peNw==
-X-Gm-Message-State: AFqh2kpchxEivCbvyyHfX/3eL/wb8uYS+J5wDeMMGjd6zz0tpINw4pvK
- CGbSU+pbaLbWg5Pb6ueB/BHePSn4z5qjxhSkgAjsQ/YpNeFxDH/9xpMsAW+mEFBWFAVt/uUEyo/
- OLBj98L2/sGkM78zT5HYgniZq9mwwUqg=
-X-Received: by 2002:a05:6402:5293:b0:497:c96b:4de9 with SMTP id
- en19-20020a056402529300b00497c96b4de9mr1277004edb.237.1673430948648; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5x9/vDGChQF9U9TtMWEfLV8kbt/5dXVGluDp/rqfvE8=;
+ b=u2If043QMI61aHjHpMRCjW4z9h1wArBk5OH6ZYXWNAYQxQSWpqGbUxeoDGOpJ2lh3/
+ KHl2fQILV0Y1GMkP0O+7bWjodunF+rqB4dakudZi0kwYdx/jKhaTQqUz7O15FLS0e9j2
+ OLdfA6AgeV4gsdhoFQxEuJV6b8VeD/aPTm0pa1cCQLCbXiGVzorx8ApsLW4yTysw5Cwf
+ UlP7y9Z79CvgJMisahAHg+bTp3pppnPZ/Sq0bBmLXhzL0SAC8xjYURxeRIKD/JdyhyJE
+ Y6FT0MATRFXaHKcxrgLP4TCb3LExVPhD+kLxc+yhTwRYUTrnGH+LNtpLALVTG03Jsnv0
+ UizA==
+X-Gm-Message-State: AFqh2kpT3IFhVy6i7a5PP6gmjFX7NvCQ+3W/yJaDXS08YBnoAbDB7GPk
+ R07OEt3+dSCGJUNSGRmLwubDAA==
+X-Google-Smtp-Source: AMrXdXtPPuWhUm6rLiIr4QSXRyzXcMTk5q2Ukrxj1jcv6Q/zN30ZLjKwvGonBLjYhzJRrqiBEH0rLA==
+X-Received: by 2002:a05:600c:3b21:b0:3d9:bad8:4e9e with SMTP id
+ m33-20020a05600c3b2100b003d9bad84e9emr24673120wms.40.1673430949210; 
+ Wed, 11 Jan 2023 01:55:49 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ 2-20020a05600c228200b003d9e00dfccfsm15091403wmf.8.2023.01.11.01.55.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
  Wed, 11 Jan 2023 01:55:48 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsxpjriK0SOYAZhNC4p7bqUJSvbMxknKV4ef944gnnAbe30GugRSuLTUqXlMFne5ChY0wZL2MOuspb+Z8+8S5E=
-X-Received: by 2002:a05:6402:5293:b0:497:c96b:4de9 with SMTP id
- en19-20020a056402529300b00497c96b4de9mr1276997edb.237.1673430948476; Wed, 11
- Jan 2023 01:55:48 -0800 (PST)
+Message-ID: <53028cf2-0028-b810-348f-b17df33a8149@linaro.org>
+Date: Wed, 11 Jan 2023 10:55:47 +0100
 MIME-Version: 1.0
-References: <20230110174901.2580297-1-berrange@redhat.com>
-In-Reply-To: <20230110174901.2580297-1-berrange@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 11 Jan 2023 13:55:36 +0400
-Message-ID: <CAMxuvazv0EGDytTzK2Ex5810YYUJaXau1TSxm4=S5d7wigVttA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] linux-user: revert previous workaround for glibc >=
- 2.36
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000003d8b2a05f1fa013b"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [RFC PATCH 0/4] qom: Introduce object_class_property_deprecate()
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+References: <20230109225419.22621-1-philmd@linaro.org>
+ <Y71h8JAqYxeB2hPe@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <Y71h8JAqYxeB2hPe@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,82 +95,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000003d8b2a05f1fa013b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 10/1/23 14:02, Kevin Wolf wrote:
+> Am 09.01.2023 um 23:54 hat Philippe Mathieu-Daudé geschrieben:
+>> Hi,
+>>
+>> There will always be a need to deprecate things. Here I'm
+>> tackling the QOM (class) properties, since they can be set
+>> from some CLI options (-object -device -global ...).
+>>
+>> As an experiment, we add object_class_property_deprecate()
+>> to register a class property as deprecated (since some version),
+>> then we deprecate the TYPE_PFLASH_CFI02 'width' property, and
+>> finally as a bonus we emit a warning when the deprecation period
+>> is over, as a reminder. (For that we introduce few 'versions'
+>> helpers).
+> 
+> The last part means that increasing the version number (i.e. the commit
+> that opens the development tree for the next release) can change the
+> output, and this is turn can break test cases.
+> 
+> If we are happy to introduce breakage with a version number change that
+> will require future commits to open the development tree less trivial
+> than they are today because they need to fix the breakage, too, why not
+> make it a build error instead of a different warning message at runtime?
 
-Hi
-
-On Tue, Jan 10, 2023 at 9:49 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
-
-> It didn't appear that glibc was going to fix the problem
-> breaking includes of linux/mount.h vs sys/mount.h, so
-> QEMU applied a workaround copying the symbols/structs we
-> need into a local header.
->
-> Since then Linux modified linux/btrfs.h to pull in
-> linux/fs.h which caused a clash with our workaround.
-> Rather than invent workarounds for our workarounds,
-> we can luckily just drop our previous workarounds.
-> glibc has been fixed after all, and backported this
-> fix to the stable 2.36 release series too. We should
-> just expect distros to pull in the stable fix, which
-> Fedora at least has already done.
->
-> Daniel P. Berrang=C3=A9 (2):
->   Revert "linux-user: add more compat ioctl definitions"
->   Revert "linux-user: fix compat with glibc >=3D 2.36 sys/mount.h"
->
->  linux-user/syscall.c | 43 -------------------------------------------
->  meson.build          |  2 --
->  2 files changed, 45 deletions(-)
->
-> --
-> 2.38.1
->
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
---0000000000003d8b2a05f1fa013b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Tue, Jan 10, 2023 at 9:49 PM Daniel P. Ber=
-rang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">It=
- didn&#39;t appear that glibc was going to fix the problem<br>
-breaking includes of linux/mount.h vs sys/mount.h, so<br>
-QEMU applied a workaround copying the symbols/structs we<br>
-need into a local header.<br>
-<br>
-Since then Linux modified linux/btrfs.h to pull in<br>
-linux/fs.h which caused a clash with our workaround.<br>
-Rather than invent workarounds for our workarounds,<br>
-we can luckily just drop our previous workarounds.<br>
-glibc has been fixed after all, and backported this<br>
-fix to the stable 2.36 release series too. We should<br>
-just expect distros to pull in the stable fix, which<br>
-Fedora at least has already done.<br>
-<br>
-Daniel P. Berrang=C3=A9 (2):<br>
-=C2=A0 Revert &quot;linux-user: add more compat ioctl definitions&quot;<br>
-=C2=A0 Revert &quot;linux-user: fix compat with glibc &gt;=3D 2.36 sys/moun=
-t.h&quot;<br>
-<br>
-=C2=A0linux-user/syscall.c | 43 -------------------------------------------=
-<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 --<br>
-=C2=A02 files changed, 45 deletions(-)<br>
-<br>
--- <br>
-2.38.1<br></blockquote><div><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lur=
-eau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@red=
-hat.com</a>&gt;</div><div>=C2=A0<br></div></div></div>
-
---0000000000003d8b2a05f1fa013b--
-
+To avoid build breakages, maybe it is clever is to store the deprecation
+version in ObjectPropertyInfo and let QAPI inspection scripts enumerate
+/ report deprecated features?
 
