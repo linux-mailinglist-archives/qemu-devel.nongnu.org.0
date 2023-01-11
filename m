@@ -2,102 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C095665EC8
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 16:08:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39EDC665EC9
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 16:08:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFcgS-0001co-Oa; Wed, 11 Jan 2023 10:06:32 -0500
+	id 1pFchi-0001pD-RF; Wed, 11 Jan 2023 10:07:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pFcgI-0001cF-T8
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 10:06:23 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pFch2-0001hy-I1
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 10:07:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pFcgG-00088z-8o
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 10:06:22 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30BF0bbD004099; Wed, 11 Jan 2023 15:06:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=SGuc0Ie44qb/i1Yd94B65X38GoKVuHs+dS4PgayAeQc=;
- b=JliqqaDjZo2ubvIy+1LquQT1pjqkt5SmhnVjmneAJwt6S8t9M/vqa3j0J0Mub2l2E1kh
- DdCf6+MkG6zz/ZVwarMfU6mc2CQ+/IEcEMwp8JUS0RdDySpPrbSJEVoeQJ0YTQfsS5c1
- P6jAJaG0HoIsKonn8klgi1GUmpre0A55eXv8imVYiEo9PjFbyeNaTTJxXvZUvTsLfwWY
- JfkEfWSQ52qBNyPH6uRAiYPZf+NZUqwETnizagYtLQlBTPrF4anqFcSeFtmgCyrGpCwP
- nEjuy7xj1N+dXyF5EqDlNIvV01dk/MYo0rdul8heceqnljyRqJPHLuQzy64zfG5m+E5T sA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1yck871m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Jan 2023 15:06:15 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30BF0Y5C003980;
- Wed, 11 Jan 2023 15:06:15 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1yck86yv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Jan 2023 15:06:15 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30B23OX0031119;
- Wed, 11 Jan 2023 15:06:13 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3n1kyx8r17-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Jan 2023 15:06:13 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30BF6Ae318481498
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 Jan 2023 15:06:10 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7F55D20040;
- Wed, 11 Jan 2023 15:06:10 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BC22720049;
- Wed, 11 Jan 2023 15:06:09 +0000 (GMT)
-Received: from [9.171.85.127] (unknown [9.171.85.127])
- by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 11 Jan 2023 15:06:09 +0000 (GMT)
-Message-ID: <5ea18eb8213350a666a945c9d97f7503542ac0db.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 3/3] tcg: add perfmap and jitdump
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, Alex
- =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org, 
- "Vanderson M . do Rosario" <vandersonmr2@gmail.com>
-Date: Wed, 11 Jan 2023 16:06:09 +0100
-In-Reply-To: <20230111014705.2275040-4-iii@linux.ibm.com>
-References: <20230111014705.2275040-1-iii@linux.ibm.com>
- <20230111014705.2275040-4-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pFch0-0008Mt-CA
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 10:07:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673449625;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZwEqF/gYy/q6kYdxJ0yA28b8ANSSGO3rF+zp5viM5qU=;
+ b=iXeLW3noFWG+pLj5n6nupSqTG6jy6L3CJ76dAkNO1Kb9xBStXv7oh19LY+kUbWYIWhbHtz
+ ekP28BIyTwX8ma1dfIl4EEVwEUSA2gt2Pva3NZ/mMe9oN3IrBP6dfPU8e8M4uBvcCp8+un
+ JYW6rb+n9QnClhDCkXDgR/Hxg69D++s=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-108-K4niW94aPwy5ync8YCUJOA-1; Wed, 11 Jan 2023 10:07:03 -0500
+X-MC-Unique: K4niW94aPwy5ync8YCUJOA-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ x32-20020a2ea9a0000000b0027b52e5e56cso4019877ljq.10
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 07:07:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZwEqF/gYy/q6kYdxJ0yA28b8ANSSGO3rF+zp5viM5qU=;
+ b=VChONuPzbZKkT1hdBruqWD2EWl424bZzf/zipTD77eRj+TPDhkre5d7uzp8ofQPItl
+ tr/5gq7aFUmcxdQI5ACj5mThrVgaNaEntSjeEIE2qSODAH/zCFhTxV6Gn58j3yr/l3Bb
+ FIpsvIksK/tfm6KSAkXGQV8LtPDPginhtNOTRlsSfWxIdUNJeQie9pT+7DazZnM49Fvl
+ +RBJCdSJu3pT8lDI9HGJfZO61QKhSLvWjiKTjO9BTcHdhMbAJ2yBTdQZXxjn7oxcuT9C
+ cbSkf1RMBfUQK2t0CmGta2zcU39359OIbumeSf/q4pDI0pBul+m8k7BVzJBwoFa1Pum0
+ 7f3A==
+X-Gm-Message-State: AFqh2kovznBAxghVFGJZkRg5D5/PpQGw7xcPHanMJlHc2Vxh4s5wl2kx
+ sUHfQ2whhGXuTiv8lJb7g7fAzvjECIUS8puvPy11S7+R3f5SFeyqtFlQrXyLiJaS00HQ59F+7ck
+ 2F7rnPeT64O26KEW5AQgPwZlX1HiqgPM=
+X-Received: by 2002:a05:6512:3a88:b0:4cc:66d4:41a0 with SMTP id
+ q8-20020a0565123a8800b004cc66d441a0mr1187220lfu.21.1673449622082; 
+ Wed, 11 Jan 2023 07:07:02 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXu7fjYXM9duO0zq4et2TCl9k+GGkfg/9nXbUBkQCQj/VbEXB7v4iF64MTlexELRl/0UqB4dQlNVs8oDwQ4fuBs=
+X-Received: by 2002:a05:6512:3a88:b0:4cc:66d4:41a0 with SMTP id
+ q8-20020a0565123a8800b004cc66d441a0mr1187213lfu.21.1673449621689; Wed, 11 Jan
+ 2023 07:07:01 -0800 (PST)
+MIME-Version: 1.0
+References: <20230110080756.38271-1-peter@pjd.dev>
+ <20230110080756.38271-2-peter@pjd.dev>
+ <CAFn=p-astqzr2vW0f3p9_36OfpiYJ1HXZRTLQDEdO7_F4g95hQ@mail.gmail.com>
+ <Y758YAboUihlFNMF@redhat.com>
+In-Reply-To: <Y758YAboUihlFNMF@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 11 Jan 2023 10:06:49 -0500
+Message-ID: <CAFn=p-bdgyuHEAdM1Dhk4AbKsuDT75S1ROJ=nKapYyO-C+pOxQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/1] python/machine: Fix AF_UNIX path too long on macOS
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Peter Delevoryas <peter@pjd.dev>, crosa@redhat.com, bleal@redhat.com,
+ philmd@linaro.org, wainersm@redhat.com, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: dlu3u-ISi0wF4iwCqjQ5bixtMV84rqF2
-X-Proofpoint-ORIG-GUID: LJVbVMtcqRJkKuZeV5Ah6c-v7DIctMd-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-11_07,2023-01-11_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 bulkscore=0 clxscore=1015 mlxscore=0 suspectscore=0
- malwarescore=0 mlxlogscore=999 phishscore=0 spamscore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301110109
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,113 +95,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2023-01-11 at 02:47 +0100, Ilya Leoshkevich wrote:
-> Add ability to dump /tmp/perf-<pid>.map and jit-<pid>.dump.
-> The first one allows the perf tool to map samples to each individual
-> translation block. The second one adds the ability to resolve symbol
-> names, line numbers and inspect JITed code.
->=20
-> Example of use:
->=20
-> =C2=A0=C2=A0=C2=A0 perf record qemu-x86_64 -perfmap ./a.out
-> =C2=A0=C2=A0=C2=A0 perf report
->=20
-> or
->=20
-> =C2=A0=C2=A0=C2=A0 perf record -k 1 qemu-x86_64 -jitdump ./a.out
-> =C2=A0=C2=A0=C2=A0 DEBUGINFOD_URLS=3D perf inject -j -i perf.data -o perf=
-.data.jitted
-> =C2=A0=C2=A0=C2=A0 perf report -i perf.data.jitted
->=20
-> Co-developed-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
-> Co-developed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
-> =C2=A0accel/tcg/meson.build=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> =C2=A0accel/tcg/perf.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 366
-> ++++++++++++++++++++++++++++++++++++++
-> =C2=A0accel/tcg/perf.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 49 +++++
-> =C2=A0accel/tcg/translate-all.c |=C2=A0=C2=A0 8 +
-> =C2=A0docs/devel/tcg.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 23 +++
-> =C2=A0linux-user/exit.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 2 +
-> =C2=A0linux-user/main.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 15 ++
-> =C2=A0qemu-options.hx=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 20 +++
-> =C2=A0softmmu/vl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 11 ++
-> =C2=A0tcg/tcg.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
-> =C2=A010 files changed, 497 insertions(+)
-> =C2=A0create mode 100644 accel/tcg/perf.c
-> =C2=A0create mode 100644 accel/tcg/perf.h
+On Wed, Jan 11, 2023 at 4:07 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Tue, Jan 10, 2023 at 06:18:29PM -0500, John Snow wrote:
+> > On Tue, Jan 10, 2023 at 3:34 AM Peter Delevoryas <peter@pjd.dev> wrote:
+> > >
+> > > On macOS, private $TMPDIR's are the default. These $TMPDIR's are
+> > > generated from a user's unix UID and UUID [1], which can create a
+> > > relatively long path:
+> > >
+> > >     /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
+> > >
+> > > QEMU's avocado tests create a temporary directory prefixed by
+> > > "avo_qemu_sock_", and create QMP sockets within _that_ as well.
+> > > The QMP socket is unnecessarily long, because a temporary directory
+> > > is created for every QEMUMachine object.
+> > >
+> > >     /avo_qemu_sock_uh3w_dgc/qemu-37331-10bacf110-monitor.sock
+> > >
+> > > The path limit for unix sockets on macOS is 104: [2]
+> > >
+> > >     /*
+> > >      * [XSI] Definitions for UNIX IPC domain.
+> > >      */
+> > >     struct  sockaddr_un {
+> > >         unsigned char   sun_len;        /* sockaddr len including nul=
+l */
+> > >         sa_family_t     sun_family;     /* [XSI] AF_UNIX */
+> > >         char            sun_path[104];  /* [XSI] path name (gag) */
+> > >     };
+> > >
+> > > This results in avocado tests failing on macOS because the QMP unix
+> > > socket can't be created, because the path is too long:
+> > >
+> > >     ERROR| Failed to establish connection: OSError: AF_UNIX path too =
+long
+> > >
+> > > This change resolves by reducing the size of the socket directory pre=
+fix
+> > > and the suffix on the QMP and console socket names.
+> > >
+> > > The result is paths like this:
+> > >
+> > >     pdel@pdel-mbp:/var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T
+> > >     $ tree qemu*
+> > >     qemu_df4evjeq
+> > >     qemu_jbxel3gy
+> > >     qemu_ml9s_gg7
+> > >     qemu_oc7h7f3u
+> > >     qemu_oqb1yf97
+> > >     =E2=94=9C=E2=94=80=E2=94=80 10a004050.con
+> > >     =E2=94=94=E2=94=80=E2=94=80 10a004050.qmp
+> > >
+> > > [1] https://apple.stackexchange.com/questions/353832/why-is-mac-osx-t=
+emp-directory-in-weird-path
+> > > [2] /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/inclu=
+de/sys/un.h
+> > >
+> > > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> >
+> > I'm tentatively staging this with a benefit-of-the-doubt [1] -- my
+> > tests are still running -- but I do have a question:
+> >
+> > > ---
+> > >  python/qemu/machine/machine.py         | 6 +++---
+> > >  tests/avocado/avocado_qemu/__init__.py | 2 +-
+> > >  2 files changed, 4 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/mac=
+hine.py
+> > > index 748a0d807c9d..d70977378305 100644
+> > > --- a/python/qemu/machine/machine.py
+> > > +++ b/python/qemu/machine/machine.py
+> > > @@ -157,7 +157,7 @@ def __init__(self,
+> > >          self._wrapper =3D wrapper
+> > >          self._qmp_timer =3D qmp_timer
+> > >
+> > > -        self._name =3D name or f"qemu-{os.getpid()}-{id(self):02x}"
+> > > +        self._name =3D name or f"{id(self):x}"
+> >
+> > Why is it safe to not differentiate based on the process ID?
+> >
+> > ... I suppose the thinking is: by default, in machine.py, this is a
+> > temp dir created by tempfile.mkdtemp which will be unique per-process.
+> > I suppose there's no protection against a caller supplying the same
+> > tempdir (or sockdir) to multiple instances, but I suppose in those
+> > cases we get to argue that "Well, don't do that, then."
+>
+> Every process will have a separate tempdir, and if there are
+> multiple instances of this class, 'id(self)' will provide
+> uniqueness within the process.
 
-...
-
-> +void perf_report_code(unsigned long long guest_pc, size_t icount,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const void *start, s=
-ize_t size)
-> +{
-> +=C2=A0=C2=A0=C2=A0 struct debuginfo_query *q;
-> +=C2=A0=C2=A0=C2=A0 size_t insn;
-> +
-> +=C2=A0=C2=A0=C2=A0 if (!perfmap && !jitdump) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
-> +=C2=A0=C2=A0=C2=A0 }
-> +
-> +=C2=A0=C2=A0=C2=A0 q =3D g_try_malloc0_n(icount, sizeof(*q));
-> +=C2=A0=C2=A0=C2=A0 if (!q) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
-> +=C2=A0=C2=A0=C2=A0 }
-> +
-> +=C2=A0=C2=A0=C2=A0 debuginfo_lock();
-> +
-> +=C2=A0=C2=A0=C2=A0 /* Query debuginfo for each guest instruction. */
-> +=C2=A0=C2=A0=C2=A0 for (insn =3D 0; insn < icount; insn++) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 q[insn].address =3D tcg_ctx->=
-gen_insn_data[insn][0] +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 (TARGET_TB_PCREL ? guest_pc : 0);
-
-Currently this produces plausibly looking, but actually wrong
-addresses. This needs to match restore_state_to_opc(), so at least:
-
---- a/accel/tcg/perf.c
-+++ b/accel/tcg/perf.c
-@@ -325,8 +325,10 @@ void perf_report_code(unsigned long long guest_pc,
-size_t icount,
-=20
-     /* Query debuginfo for each guest instruction. */
-     for (insn =3D 0; insn < icount; insn++) {
--        q[insn].address =3D tcg_ctx->gen_insn_data[insn][0] +
--                          (TARGET_TB_PCREL ? guest_pc : 0);
-+        q[insn].address =3D tcg_ctx->gen_insn_data[insn][0];
-+        if (TARGET_TB_PCREL) {
-+            q[insn].address |=3D (guest_pc & TARGET_PAGE_MASK);
-+        }
-         q[insn].flags =3D DEBUGINFO_SYMBOL | (jitdump ? DEBUGINFO_LINE :
-0);
-     }
-     debuginfo_query(q, icount);
-
-Apparently even with this there are corner cases, e.g. in
-x86_restore_state_to_opc() we have:
-
-    if (TARGET_TB_PCREL) {
-        env->eip =3D (env->eip & TARGET_PAGE_MASK) | data[0];
-    } else {
-        env->eip =3D data[0] - tb->cs_base;
-    }
-
-so if tb->cs_base !=3D 0, the result is still going to be wrong.
-
-I wonder if it would make sense to create a new TCGCPUOps member
-purely for resolving a PC from data[0]?
+Right. The only small thing is if a caller passes the same directory
+to multiple instances across multiple processes, you could
+*theoretically* get a collision, and we don't guard against it. It's
+not a super likely occurrence so I'm fine with ignoring it, but I
+think it's technically possible.
 
 
