@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462356662CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 19:31:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16647666339
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 20:02:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFfrV-00013D-S8; Wed, 11 Jan 2023 13:30:09 -0500
+	id 1pFgLQ-0001BP-A5; Wed, 11 Jan 2023 14:01:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pFfrT-00012n-UR
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 13:30:07 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pFgLO-0001A4-0o
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 14:01:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pFfrR-0002vM-Ti
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 13:30:07 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pFgLL-0007ln-OH
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 14:01:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673461799;
+ s=mimecast20190719; t=1673463658;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HqEzhQM/auRa3JV0lPF9ijOVIJLUMFCYP0+U3tn4hiY=;
- b=K8SJmr+N3WwDssI5jK7TI6ejpddC1njL1Xh0Jza0PkCtToTVXMAKvBjYXAGy5D2X91SM3W
- m5rG9SG4Gi5Ni/Eyn19ISAGl/6EooBfq6PWlTTlHloSVDNcxnfH+YVfhxrV3foYwqw/JQf
- BCNmKQY5+RE7ceq9BgSbkwbaZKLqLbs=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=13Npydp0zZzvnCih+qoTnkVVmywH6CIJoTcKogs1DK0=;
+ b=Ywken4ruPQpF7WUPtUdSzL09m8arr2DklYPPjNQ//z32xoLaHGC5OPgZHmKGiBAVIrH557
+ czgmKDyONcLAot+7ScL2kmX7deO2c0ZEGy7C2vLKwe3fJ1rMskiIgPW6tQfy8NVzr9U+3Z
+ GETZDEeBfTbiM3+PBIMYgE6XmTB0uEQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-130--soEX6JfOgecp6qzAWLLJQ-1; Wed, 11 Jan 2023 13:29:58 -0500
-X-MC-Unique: -soEX6JfOgecp6qzAWLLJQ-1
-Received: by mail-il1-f197.google.com with SMTP id
- s2-20020a056e02216200b0030bc3be69e5so11596282ilv.20
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 10:29:58 -0800 (PST)
+ us-mta-672-pDC_Z0mnOIywHOvttWK6Hg-1; Wed, 11 Jan 2023 14:00:57 -0500
+X-MC-Unique: pDC_Z0mnOIywHOvttWK6Hg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ k18-20020adfb352000000b002bdd0a7a2b5so24395wrd.0
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 11:00:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HqEzhQM/auRa3JV0lPF9ijOVIJLUMFCYP0+U3tn4hiY=;
- b=YxPR1QogANc4NjxQ+4SzrkrVS/twdfa8/D6s8t1cSrF3d02CDLfudnSoOR4kiJ42e3
- Iz5F3+uc53Jhr/NBOPma4peM0XrRBr77Nn2S62yloy6mqafVe5/IObsYRP/8PL+GKcfI
- PBAo6mzfQaf4MwPwmyALyfx9WKT+JB+NBcD/wgN5Xr8E7kHupuAwA3ssQyyjsPMKK8uk
- V5bnMsNYSx6qLPmlJlSbhmONNeJzRFNehGw2ehMzVW1N5W3zf6Q0FSd3b81JUM7Rl9on
- MT8SmC8mS/Tj2d7YwbCe7nEpiTNHjbD9qKsyvrGp9SDqrwgycQBxnNXiRTWst02NTxqB
- O36A==
-X-Gm-Message-State: AFqh2kpt2wZmIoAinvdu8qWfYwGh4J6yKj7guVbXtOPhBu29/iVJ/+nl
- 2AnlgiwWU8BZbgQKrUupj5esB/dVtY9pOp2tMObQrgiqDoNQl6YcRnlFHpAbqS3FkzMhEeMm/Zs
- XhvTx18WV2GsDGkQ=
-X-Received: by 2002:a05:6e02:de4:b0:30d:c0b3:3272 with SMTP id
- m4-20020a056e020de400b0030dc0b33272mr2823385ilj.0.1673461798097; 
- Wed, 11 Jan 2023 10:29:58 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtxL/QUqEz8MDJOGbfwa7inHMs/Fgw+P0ecF4PjKTyRMnJoaZ2pEZJt2CddNGKHnu+HP9sQ5A==
-X-Received: by 2002:a05:6e02:de4:b0:30d:c0b3:3272 with SMTP id
- m4-20020a056e020de400b0030dc0b33272mr2823369ilj.0.1673461797858; 
- Wed, 11 Jan 2023 10:29:57 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- j21-20020a023215000000b003748d3552e1sm4663361jaa.154.2023.01.11.10.29.49
+ bh=13Npydp0zZzvnCih+qoTnkVVmywH6CIJoTcKogs1DK0=;
+ b=OBhguw6SYyPLQ8RLtrMC+MDSAzcT1635ZfBYIZXs98s3C4jN41yApFYsLJyjhilNJ1
+ I2f5mE1mxPoU2AW+ix1TiFlnD8Ya4G5WytKNc7Tk7MZZAOjxlejEasDOw8CB/fxrkEzq
+ uxePFDTkCch59F2CZtPjFkP1adPr+AtPZnsYX/LbPzq8fKVC7xAmNMIlvbiSgXrV317m
+ A1tZMmAqioWNIe3sA9Ugvs442TKy3ZsdHMs6EyY2QtRcd6AVhIGGccDFt/LK7WK+C5vq
+ 6IQp/yoR2iwhDWPPsxfLMgkH+em6v2Xxg9BgdI/2LAqB2Z46tsqMXA5nm5DkEGAx4swK
+ 99jw==
+X-Gm-Message-State: AFqh2kogUuf2EwemlbR+nHlMeNIq4HrERU0YxaqZDONFKgFbnBF62FIy
+ NCigu9P7nIN4hOGQXKWjrvInCGNuZ47sSRgXo3Ck7c5cZxgsVad5CK8fq2JimpjCgA8YiB9E8sp
+ krOxO8iJyt7VyIWY=
+X-Received: by 2002:a05:6000:1d8b:b0:2aa:1d10:1ecf with SMTP id
+ bk11-20020a0560001d8b00b002aa1d101ecfmr17508713wrb.37.1673463656286; 
+ Wed, 11 Jan 2023 11:00:56 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtlsC3ag7ChrOvEprjpZR1ybLko+LAJVVklouzgiSSexC477l4tNdGHjvtT8sC3alDZujFoOA==
+X-Received: by 2002:a05:6000:1d8b:b0:2aa:1d10:1ecf with SMTP id
+ bk11-20020a0560001d8b00b002aa1d101ecfmr17508701wrb.37.1673463656064; 
+ Wed, 11 Jan 2023 11:00:56 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ f6-20020adffcc6000000b002bbdcd15e44sm10818258wrs.37.2023.01.11.11.00.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jan 2023 10:29:49 -0800 (PST)
-Date: Wed, 11 Jan 2023 11:29:47 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Marcelo Tosatti
- <mtosatti@redhat.com>, paul@xen.org
-Subject: Re: [RFC] Notify IRQ sources of level interrupt ack/EOI
-Message-ID: <20230111112947.22237481.alex.williamson@redhat.com>
-In-Reply-To: <70eb35a08a7c48993812b7f088fa9ae3f2c8b925.camel@infradead.org>
-References: <23caafffdd9546b8eeff851660015f3bfc021ed3.camel@infradead.org>
- <20230111112425-mutt-send-email-mst@kernel.org>
- <70eb35a08a7c48993812b7f088fa9ae3f2c8b925.camel@infradead.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ Wed, 11 Jan 2023 11:00:55 -0800 (PST)
+Date: Wed, 11 Jan 2023 19:00:53 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Jiang Jiacheng <jiangjiacheng@huawei.com>, jdenemar@redhat.com,
+ berrange@redhat.com
+Cc: qemu-devel@nongnu.org, quintela@redhat.com, yubihong@huawei.com,
+ xiexiangyou@huawei.com, zhengchuan@huawei.com, linyilu@huawei.com
+Subject: Re: [RESEND PATCH 2/2] migration: report multiFd related thread pid
+ to libvirt
+Message-ID: <Y78HZb0AG55Yp/i/@work-vm>
+References: <20230109121235.2666476-1-jiangjiacheng@huawei.com>
+ <20230109121235.2666476-3-jiangjiacheng@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230109121235.2666476-3-jiangjiacheng@huawei.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -105,45 +103,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 11 Jan 2023 16:58:37 +0000
-David Woodhouse <dwmw2@infradead.org> wrote:
-
-> On Wed, 2023-01-11 at 11:25 -0500, Michael S. Tsirkin wrote:
-> > On Wed, Jan 11, 2023 at 02:41:58PM +0000, David Woodhouse wrote:  
-> > > This allows drivers to register a callback on a qemu_irq, which is
-> > > invoked when a level-triggered IRQ is acked on the irqchip.
-> > > 
-> > > This allows us to simulate level-triggered interrupts more efficiently,
-> > > by resampling the state of the interrupt only when it actually matters.  
-> > 
-> > I think we tried this with vfio and had to give up on this.
-> > I don't remember the details though. Alex probably does?  
+* Jiang Jiacheng via (qemu-devel@nongnu.org) wrote:
+> From: Zheng Chuan <zhengchuan@huawei.com>
 > 
-> Hm, not sure why there would be any insurmountable problems.
-> 
-> I've seen this working at scale in a different VMM with split-irqchip
-> and PCI INTX + Xen event channel support.
-> 
-> And it's what the kernel does internally, and exposes through its dual-
-> eventfd APIs in both KVM IRQ routing and VFIO interrupts.
-> 
-> That said, I don't care *that* much. I can live with the way I've done
-> it for the Xen support, by polling the status on a vCPU0 vmexit.
-> Looking at the VFIO code made me throw up in my mouth a little bit, but
-> I just won't do that again... :)
+> Report multiFd related thread pid to libvirt in order to
+> pin multiFd thread to different cpu.
 
-Nice.  IIRC, we ended up with the hack solution we have today in vfio
-because there was too much resistance to callbacks that were only
-necessary for vfio in the past.  Once we had KVM resampling support, it
-simply wasn't worth the effort for a higher latency solution to fight
-that battle, so we implemented what could best be described as a
-universal workaround embedded in vfio.
+With multifd you may well want to pin different multifd threads
+to different cores; so you need to include the 'id' and 'name' fields of
+the multifd thread in the event.
 
-Clearly a callback is preferable, and yes, that's how we operate with
-KVM resampling and unmasking INTx, so in theory plumbing this to our
-existing eoi callback and removing the region toggling ought to do the
-right thing.  Thanks,
+(Copying in Jiri and Dan )
 
-Alex
+Dave
+
+> ---
+>  migration/multifd.c |  4 ++++
+>  qapi/migration.json | 12 ++++++++++++
+>  2 files changed, 16 insertions(+)
+> 
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 000ca4d4ec..f3f7e8ae31 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -17,6 +17,7 @@
+>  #include "exec/ramblock.h"
+>  #include "qemu/error-report.h"
+>  #include "qapi/error.h"
+> +#include "qapi/qapi-events-migration.h"
+>  #include "ram.h"
+>  #include "migration.h"
+>  #include "socket.h"
+> @@ -650,6 +651,9 @@ static void *multifd_send_thread(void *opaque)
+>      int ret = 0;
+>      bool use_zero_copy_send = migrate_use_zero_copy_send();
+>  
+> +    /* report multifd thread pid to libvirt */
+> +    qapi_event_send_migration_multifd_pid(qemu_get_thread_id());
+> +
+>      trace_multifd_send_thread_start(p->id);
+>      rcu_register_thread();
+>  
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index aafc940617..33fc319329 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1286,6 +1286,18 @@
+>  { 'event': 'MIGRATION_PASS',
+>    'data': { 'pass': 'int' } }
+>  
+> +##
+> +# @MIGRATION_MULTIFD_PID:
+> +#
+> +# Emitted when multifd thread appear
+> +#
+> +# @pid: pid of multifd thread
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'event': 'MIGRATION_MULTIFD_PID',
+> +  'data': { 'pid': 'int' } }
+> +
+>  ##
+>  # @MIGRATION_PID:
+>  #
+> -- 
+> 2.33.0
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
