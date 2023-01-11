@@ -2,62 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0531666658
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 23:45:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CE6666668
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 23:48:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFjoz-0003qN-VQ; Wed, 11 Jan 2023 17:43:49 -0500
+	id 1pFjse-0004z0-5v; Wed, 11 Jan 2023 17:47:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fantasquex@gmail.com>)
- id 1pFjoy-0003q5-Pk; Wed, 11 Jan 2023 17:43:48 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pFjsV-0004yA-G2; Wed, 11 Jan 2023 17:47:34 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fantasquex@gmail.com>)
- id 1pFjow-0002yw-TZ; Wed, 11 Jan 2023 17:43:48 -0500
-Received: by mail-pl1-x633.google.com with SMTP id s8so10018161plk.5;
- Wed, 11 Jan 2023 14:43:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pFjsT-0003bo-GV; Wed, 11 Jan 2023 17:47:26 -0500
+Received: by mail-ej1-x630.google.com with SMTP id gh17so40615958ejb.6;
+ Wed, 11 Jan 2023 14:47:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=c4KWdzV+6EKc42uZjqIG0oUHJ+KSBV+jMnf5rUHFbX4=;
- b=decMigvlohdfEceDI6SCjc6u0lKUYhS9inEQ3tGUfibLa0xYYrf+ZC4k4/507b5KOF
- cmZww/xUgjPoz0AOkpN10tYzXOSvyk1q8SIruCm4Te2GsjPKvJqX+g94wwWalmp8UXxd
- nWA0jfjMiB0dMu6g97jXu+3VnvGCcfbaB1ea/wtO/+XfSdwvmw/FokwlKLVlZIbij9qb
- xny9E7cCsIfIjVCFJjjFoljnssLPDiXClhN3NlDPBe/eC2na9quKuJ2Ce/ACv6IKn+9Y
- mnozkGUvTFb4b1UsFTE/7zmEiuo2X7UHngQpiKWoW1CaOiol3atHtuyg0yWHItP0iP+V
- jijw==
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eix9Qs1pc8UL6Tkfcg/KM+RVjD8G3z0dcoM2qLXbhWM=;
+ b=RMmK29Stdgeph632we4oCYeLFMx8/5d5t/KTV8qO5m/2zgRAQT2v1txFaFQCbyufw4
+ rsWF90QdaxVYWEgoIo0kB2ujP7tuMvvllb5QlOymuFHajv6w31A3/a+e/BNCy/YrycXE
+ ACt3v3/cPk7pUWbCGJghcAxWSnssYEjoBzsjmNstGk9jf1P+2wJMYFdEi1F6eDaotqbb
+ RpVicf/BLVgx5/BNTyvTBNpgNLK3SBWtxBG0Hy4vEv2Kjlem80hYdoFWJ8i0NpZssaiL
+ WPNZYSyj4agkWeZ/t68u0fBdPHfwwaCo93OOmRsrqfAI7Vnb3OicDMPn2uYmpdDObwGb
+ TMVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=c4KWdzV+6EKc42uZjqIG0oUHJ+KSBV+jMnf5rUHFbX4=;
- b=XWXVUvR2NifpB9aEXuJe1iGpon7AFaF0Uo0g7PJx/EVZs4AYKMmQX9rfdMezAIvlEJ
- tbXhWRtdriOv8U3OhrhBplyFeWfgZZLFq2tVzO8NGUBj5m24w/TOfreA/86Z3qIrXbb1
- bg0UUb3xpn/FC0KEvXd38gzLzWUgSUMj38qvYSoI+/TD8de+P0rxlzTQz2foIo5AqXaa
- mBMb3sECxjm94GQi+EacfGU4WRWH5LKLL2j4tEyKLYhc2Np9U2/fO7LFMgk3IgzcCZyI
- hgclAkvXwE8+ApMwnCl1cCI71sHVulweFTjVh5tHuczgYJbNRLs/iKy2oLlgKiwS7KlY
- fSFA==
-X-Gm-Message-State: AFqh2kpFJAJSSriq2aoAgE3dXhcjbC8eQvQSRZw9//TvBx+1YBx/WOWM
- jqaH0hgvLd7tsaGCWskraj9cpFvlOQMXuD+6eqh7MtUxFdU=
-X-Google-Smtp-Source: AMrXdXsEAgsoFH4f2Plmrux5fZ9586zWIkY1TWnAqJdy4Ykdj0q9LCS1Pcjmk63Dm95w5Q7E8fAehu2CVDO/b67tSTo=
-X-Received: by 2002:a17:903:32c8:b0:189:e149:a1af with SMTP id
- i8-20020a17090332c800b00189e149a1afmr4243871plr.18.1673477023649; Wed, 11 Jan
- 2023 14:43:43 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eix9Qs1pc8UL6Tkfcg/KM+RVjD8G3z0dcoM2qLXbhWM=;
+ b=U5QJtM/fG79GJ6zHSoyjLey+/q69t7c+jgOGlFJg6dnJVIH9CeW08/GH9nPVEcGD+G
+ l5tYJtgmLnlPnP84XLG64QefaYbYVbQsaDq4hkPlLPIV/wkcN1b7ulp+A0u9Xl38wKMt
+ ULdJMGR98IxAUOcegOM0US2ZwXc27KPXhZ7bDie9LRKcFnEc0KeD6g14WI5RD18dMibO
+ rqdEikD49CcVoyoGr1f0FWb82sRmxOBQif1yilqNbaFrOmf2kAAf2JULSvyROHFLPDRl
+ o+65zeDcDMBdYe9bsr0qxC6pwJRnXPgG33R/YMET65diGrMetRsl1QVN3JhCNA4Mn5PE
+ Gq2Q==
+X-Gm-Message-State: AFqh2kq/MQbElEeMmxuzilKpXhrTuD6rhqRE8tvoV+fO+BMPfN2A6O+V
+ jrH4jSsk1yHXHA/SP+ywcMs=
+X-Google-Smtp-Source: AMrXdXug5eaArAQTgFdnR3gQZwd6N82lYwOG/GY84e1QAJMPgqn/wfNAhSaIeeRSITSWxNHqNJTNIw==
+X-Received: by 2002:a17:907:a508:b0:7c1:539b:d028 with SMTP id
+ vr8-20020a170907a50800b007c1539bd028mr64058144ejc.48.1673477241399; 
+ Wed, 11 Jan 2023 14:47:21 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-077-191-046-148.77.191.pool.telefonica.de.
+ [77.191.46.148]) by smtp.gmail.com with ESMTPSA id
+ y19-20020a1709060a9300b0084debc351b3sm3430197ejf.20.2023.01.11.14.47.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Jan 2023 14:47:20 -0800 (PST)
+Date: Wed, 11 Jan 2023 22:47:13 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+CC: John G Johnson <john.g.johnson@oracle.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Ani Sinha <ani@anisinha.ca>,
+ Eduardo Habkost <eduardo@habkost.net>, Gerd Hoffmann <kraxel@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ qemu-ppc@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
+Subject: Re: [PATCH v6 25/33] hw/isa/piix4: Use TYPE_ISA_PIC device
+In-Reply-To: <803306e6-685f-2187-4a35-416e6f5a5134@linaro.org>
+References: <20230109172347.1830-1-shentey@gmail.com>
+ <20230109172347.1830-26-shentey@gmail.com>
+ <803306e6-685f-2187-4a35-416e6f5a5134@linaro.org>
+Message-ID: <5F2F9EA6-A0B9-42DB-91B7-0544B0F6B6A7@gmail.com>
 MIME-Version: 1.0
-References: <20230101141105.12024-1-fantasquex@gmail.com>
-In-Reply-To: <20230101141105.12024-1-fantasquex@gmail.com>
-From: Letu Ren <fantasquex@gmail.com>
-Date: Thu, 12 Jan 2023 06:43:32 +0800
-Message-ID: <CAEUwDuD5iusV-=eLiVT9d-D4+xChPryYY2P=RoCXJH8QAy--Pg@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: add more netlink protocol constants
-To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, qemu-trivial@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=fantasquex@gmail.com; helo=mail-pl1-x633.google.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,9 +103,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ping! Hi, it's been more than a week since I submitted this patch. I
-think it's a trivial patch. Maybe qemu trivial team could take a look.
 
-Thanks,
-Letu
+
+Am 11=2E Januar 2023 17:08:28 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <p=
+hilmd@linaro=2Eorg>:
+>On 9/1/23 18:23, Bernhard Beschow wrote:
+>> Aligns the code with PIIX3 such that PIIXState can be used in PIIX4,
+>> too=2E
+>>=20
+>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>> Reviewed-by: Michael S=2E Tsirkin <mst@redhat=2Ecom>
+>> Message-Id: <20221022150508=2E26830-33-shentey@gmail=2Ecom>
+>> ---
+>>   hw/isa/piix4=2Ec  | 28 ++++++++++------------------
+>>   hw/mips/malta=2Ec | 11 +++++++++--
+>>   hw/mips/Kconfig |  1 +
+>>   3 files changed, 20 insertions(+), 20 deletions(-)
+>
+>> @@ -1459,7 +1461,12 @@ void mips_malta_init(MachineState *machine)
+>>       pci_ide_create_devs(PCI_DEVICE(dev));
+>>         /* Interrupt controller */
+>> -    qdev_connect_gpio_out_named(DEVICE(piix4), "intr", 0, i8259_irq);
+>> +    dev =3D DEVICE(object_resolve_path_component(OBJECT(piix4), "pic")=
+);
+>> +    i8259 =3D i8259_init(isa_bus, i8259_irq);
+>> +    for (i =3D 0; i < ISA_NUM_IRQS; i++) {
+>> +        qdev_connect_gpio_out(dev, i, i8259[i]);
+>> +    }
+>> +    g_free(i8259);
+>>         /* generate SPD EEPROM data */
+>>       dev =3D DEVICE(object_resolve_path_component(OBJECT(piix4), "pm")=
+);
+>> diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
+>> index 4e7042f03d=2E=2Ed156de812c 100644
+>> --- a/hw/mips/Kconfig
+>> +++ b/hw/mips/Kconfig
+>> @@ -1,5 +1,6 @@
+>>   config MALTA
+>>       bool
+>> +    select I8259
+>>       select ISA_SUPERIO
+>>       select PIIX4
+>
+>The PIIX4 owns / exposes the I8259, so we don't need to select it here=2E
+>The Malta board only initializes it=2E Why did you have to add this?
+
+The Malta board instantiates a real I8259 while PIIX4 instantiates the TYP=
+E_ISA_PIC proxy=2E Both are implemented pragmatically in the same source fi=
+le, so both Malta and PIIX4 select it for different reasons=2E
+
+In previous iterations using the TYPE_PROXY_PIC this might have been clear=
+er: PIIX4 would select PROXY_PIC (and not I8259) while Malta would select I=
+8259=2E
+
+OK?
+
+Best regards,
+Bernhard
 
