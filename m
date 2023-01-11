@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712DE665DD5
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 15:26:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A50665DD8
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 15:26:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFc31-0000fX-74; Wed, 11 Jan 2023 09:25:47 -0500
+	id 1pFc3V-0001Qj-4F; Wed, 11 Jan 2023 09:26:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFc2y-0000ez-PP
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:25:44 -0500
+ id 1pFc3S-0001QA-T8
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:26:14 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFc2w-00082d-CB
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:25:44 -0500
+ id 1pFc3Q-00089X-VR
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:26:14 -0500
 Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NsVJn11WBz67JpL;
- Wed, 11 Jan 2023 22:23:05 +0800 (CST)
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NsVNH1nsfz6HJLh;
+ Wed, 11 Jan 2023 22:26:07 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Wed, 11 Jan 2023 14:25:40 +0000
+ 15.1.2375.34; Wed, 11 Jan 2023 14:26:10 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
  <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
  <gourry.memverge@gmail.com>
-Subject: [PATCH 2/8] hw/pci-bridge/cxl_downstream: Fix type naming mismatch
-Date: Wed, 11 Jan 2023 14:24:34 +0000
-Message-ID: <20230111142440.24771-3-Jonathan.Cameron@huawei.com>
+Subject: [PATCH 3/8] hw/cxl: set cxl-type3 device type to PCI_CLASS_MEMORY_CXL
+Date: Wed, 11 Jan 2023 14:24:35 +0000
+Message-ID: <20230111142440.24771-4-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
 References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
@@ -67,26 +67,38 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix capitalization difference between struct name and typedef.
+From: Gregory Price <gourry.memverge@gmail.com>
 
+Current code sets to STORAGE_EXPRESS and then overrides it.
+
+Signed-off-by: Gregory Price <gregory.price@memverge.com>
+Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/pci-bridge/cxl_downstream.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/mem/cxl_type3.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/pci-bridge/cxl_downstream.c b/hw/pci-bridge/cxl_downstream.c
-index 3d4e6b59cd..54f507318f 100644
---- a/hw/pci-bridge/cxl_downstream.c
-+++ b/hw/pci-bridge/cxl_downstream.c
-@@ -15,7 +15,7 @@
- #include "hw/pci/pcie_port.h"
- #include "qapi/error.h"
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index 252822bd82..217a5e639b 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -408,7 +408,6 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+     }
  
--typedef struct CXLDownStreamPort {
-+typedef struct CXLDownstreamPort {
-     /*< private >*/
-     PCIESlot parent_obj;
+     pci_config_set_prog_interface(pci_conf, 0x10);
+-    pci_config_set_class(pci_conf, PCI_CLASS_MEMORY_CXL);
  
+     pcie_endpoint_cap_init(pci_dev, 0x80);
+     if (ct3d->sn != UI64_NULL) {
+@@ -627,7 +626,7 @@ static void ct3_class_init(ObjectClass *oc, void *data)
+ 
+     pc->realize = ct3_realize;
+     pc->exit = ct3_exit;
+-    pc->class_id = PCI_CLASS_STORAGE_EXPRESS;
++    pc->class_id = PCI_CLASS_MEMORY_CXL;
+     pc->vendor_id = PCI_VENDOR_ID_INTEL;
+     pc->device_id = 0xd93; /* LVF for now */
+     pc->revision = 1;
 -- 
 2.37.2
 
