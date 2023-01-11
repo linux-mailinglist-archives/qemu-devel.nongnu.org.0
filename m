@@ -2,66 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B860B665515
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 08:21:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7661066557D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 08:54:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFVPc-0007qe-7R; Wed, 11 Jan 2023 02:20:42 -0500
+	id 1pFVue-0004F1-Nx; Wed, 11 Jan 2023 02:52:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pFVPC-0007A9-Qa; Wed, 11 Jan 2023 02:20:26 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pFVP8-0001ZN-2A; Wed, 11 Jan 2023 02:20:14 -0500
-Received: from [192.168.3.184] (unknown [61.165.33.198])
- by APP-05 (Coremail) with SMTP id zQCowABXX+8YY75jzmApDA--.161S2;
- Wed, 11 Jan 2023 15:19:54 +0800 (CST)
-Message-ID: <046ab74f-30f6-8dcb-d0e8-ba634a909d8d@iscas.ac.cn>
-Date: Wed, 11 Jan 2023 15:19:52 +0800
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1pFVuM-0004DO-Qo; Wed, 11 Jan 2023 02:52:27 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1pFVuK-00069n-Lz; Wed, 11 Jan 2023 02:52:26 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 34A073200908;
+ Wed, 11 Jan 2023 02:52:19 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 11 Jan 2023 02:52:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1673423538; x=1673509938; bh=vh
+ GE/RiWpWfU05hvSr2lPRj1Sh/RwpZCQeBZIX/JliA=; b=h1NPMLHyxUzfH5wUwg
+ Qka9DMnVb1VYXKqNicu4jxL7eVbHd632lf/JR6bwJzoWMlTGB6MoFd8iVS2tE2/U
+ W4h64c1eQ4q7ePH/ldmZhRkZYcVHdR4qWlTWg3eZxQIxW4rIvigihbTOLa/A8JoG
+ TflyhSGdcAlfklST0gO56GQB5POd81uH6Ttqfg2i6wqdb4PWAyoQaRG+7YqpEJgJ
+ j1p28WK0yxMhngP0D6yxny6cTMtfHVP9X7FUPPAbypquwG0vFkPS3KtzJLYEYEPM
+ E0p7wX6ofs9y+Ot5vGXZ8ihx95rZYrfK+f0MOo1g4f9qtAoJiU2E2vQtKsq9+uyx
+ r4Mg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1673423538; x=1673509938; bh=vhGE/RiWpWfU0
+ 5hvSr2lPRj1Sh/RwpZCQeBZIX/JliA=; b=H7gfP1byDvOCmVk1Nx0IFuL1iB/2t
+ 9B92OidymPd9k7JuQNCP1/+kQgNwKmd9jlw/xxS8wn4HYBScebae/H4rVLY+kiUQ
+ 0q6kfhdlI97PyF3Qg8zXRAjkbs6lS7tXhytbJIod0aXvmwXvg+/Pu07QrBFO6R/E
+ 5WTk58y+mhKRQlu4RtB3iNPb6aHWQ5MmVBOWdW4OPa+GeK7FhQNLWYV8hBOItK7U
+ g3y/W7IzxfOlw3jNAdN36H+EfNW/hBrddsjGHvVzXDC65jY00VVxMDDA2A15zUXn
+ pINX/x90YWSwJ06RrvMBxABiPUl7FDEnTMguwFIfyM8BkYLRJrs5K/7FA==
+X-ME-Sender: <xms:sWq-Y-objB4Bw56nUxHrvKFDGa-yhNcGfiGIiQvORPo_eKLyx3-jzA>
+ <xme:sWq-Y8o6atLZyBTCId2yu2YcetLfsbcM11G9ktSnw97YIWDcsGZHDHQTPa8cdvjSe
+ qCR3EDeHQea8JF5xik>
+X-ME-Received: <xmr:sWq-YzPcpF0G9-_XUG1cXiwqOCV0VCQEndYVjAVo0GffLccb4UWK5WTwX89CUCZ5LQIkLNGMsJc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleefgdduudduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeekvddtvdetiedvjeehjeeujedvkeefvedvkeeftefffffhfeeihfeijeelueef
+ geenucffohhmrghinhepghhithhlrggsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:smq-Y97_7npVjWXYAig8a-BCZM1uH86jPqhISfWpDlqBVxsWrc2tfQ>
+ <xmx:smq-Y94pkLLnqYv-r4nVqu3VyK0jF1FQkdSBRgTFMWYyIsaOC6y60Q>
+ <xmx:smq-Y9jjjSq_oOr36JigsvC94emgxOvnw3MHS2xNW_-2ys82r7OpTQ>
+ <xmx:smq-Yw0FogrO46pu64mpfUSiGue2NQv2fqX1g0dLjLO9grq5WmwfqQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 11 Jan 2023 02:52:15 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Cc: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PULL 0/6] hw/nvme updates
+Date: Wed, 11 Jan 2023 08:52:07 +0100
+Message-Id: <20230111075213.70404-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v9 0/9] support subsets of code size reduction extension
-To: Alistair Francis <alistair23@gmail.com>, Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: richard.henderson@linaro.org, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20221228062028.29415-1-liweiwei@iscas.ac.cn>
- <CAKmqyKONF+C_xiUiM0aGww1yNVnx_-VRayK0sp+sn_gURA22=g@mail.gmail.com>
-Content-Language: en-US
-From: weiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <CAKmqyKONF+C_xiUiM0aGww1yNVnx_-VRayK0sp+sn_gURA22=g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1128; i=k.jensen@samsung.com;
+ h=from:subject; bh=4HLp5YVBMvP2wreB6pMeZsL1UfxUjQCuNZKrVbep2Fk=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGO+aqzWsbI8Qo2avRMqAO0hNCDZfripT1DKaUT4
+ B5babeLV4IkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjvmqsAAoJEE3hrzFtTw3pU6
+ sH/3x8w7qUdUaEUZZ/JNjO622h0UEM6wfmxXSsrGPFTzbuh9066Fcfx+5kVW7oNkVn6H27d5FbGlX3
+ z7DJdp09DPvcgo3PQ+dmASmvxKVyI+YCu6z1BC/J5OQBEZGskQaEm9BahqXhuMEzKqT/MFF7ufnX89
+ pbhXYfqM2lAZIzIV+vBAShYmAtW2Tc3RcE+AibNjhhGOK1kqY0Lj7Eo651Gx5J38JYlH+KUekYW8xj
+ /yoH1/VzAyVaANSTq6sYqBEaPIMJCAceM5lLskuUZQph/tq0Q9Mt9v3aaxBJkpaNY84OCNh6A10c+5
+ Yxmnse21Jcpj7a5XDojGuAdx3SSNTBNmvUcqoI
+X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
+ fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowABXX+8YY75jzmApDA--.161S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCw1kAFWDAw1rGr47XrykuFg_yoW5KrWfpw
- 4rGFWak398JryxJw4SqF1UXw1YvFsYgr4rJwn3Aw1kGa9IyrW3Jrs7K3W3Kw17JF1rWr1j
- 9F1UCry3uw48AFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
- 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
- kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
- 67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
- CI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
- MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvf
- C2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-Originating-IP: [61.165.33.198]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,105 +110,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+From: Klaus Jensen <k.jensen@samsung.com>
 
-On 2023/1/11 13:00, Alistair Francis wrote:
-> On Wed, Dec 28, 2022 at 4:23 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->> This patchset implements RISC-V Zc* extension v1.0.0.RC5.7 version instructions.
->>
->> Specification:
->> https://github.com/riscv/riscv-code-size-reduction/tree/main/Zc-specification
->>
->> The port is available here:
->> https://github.com/plctlab/plct-qemu/tree/plct-zce-upstream-v9
->>
->> To test Zc* implementation, specify cpu argument with 'x-zca=true,x-zcb=true,x-zcf=true,f=true" and "x-zcd=true,d=true" (or "x-zcmp=true,x-zcmt=true" with c or d=false) to enable Zca/Zcb/Zcf and Zcd(or Zcmp,Zcmt) extensions support.
->>
->>
->> This implementation can pass the basic zc tests from https://github.com/yulong-plct/zc-test
->>
->> v9:
->> * rebase on riscv-to-apply.next
->>
->> v8:
->> * improve disas support in Patch 9
->>
->> v7:
->> * Fix description for Zca
->>
->> v6：
->> * fix base address for jump table in Patch 7
->> * rebase on riscv-to-apply.next
->>
->> v5:
->> * fix exception unwind problem for cpu_ld*_code in helper of cm_jalt
->>
->> v4:
->> * improve Zcmp suggested by Richard
->> * fix stateen related check for Zcmt
->>
->> v3:
->> * update the solution for Zcf to the way of Zcd
->> * update Zcb to reuse gen_load/store
->> * use trans function instead of helper for push/pop
->>
->> v2:
->> * add check for relationship between Zca/Zcf/Zcd with C/F/D based on related discussion in review of Zc* spec
->> * separate c.fld{sp}/fsd{sp} with fld{sp}/fsd{sp} before support of zcmp/zcmt
->>
->> Weiwei Li (9):
->>    target/riscv: add cfg properties for Zc* extension
->>    target/riscv: add support for Zca extension
->>    target/riscv: add support for Zcf extension
->>    target/riscv: add support for Zcd extension
->>    target/riscv: add support for Zcb extension
->>    target/riscv: add support for Zcmp extension
->>    target/riscv: add support for Zcmt extension
->>    target/riscv: expose properties for Zc* extension
->>    disas/riscv.c: add disasm support for Zc*
-> This series broke a range of boards that use specific CPUs. I have
-> dropped it from my tree.
->
-> Daniel has sent a series that should fix it though
-> (https://www.mail-archive.com/qemu-devel@nongnu.org/msg930952.html). I
-> have applied his fixes. Can you rebase this series on
-> https://github.com/alistair23/qemu/tree/riscv-to-apply.next, test to
-> ensure the SiFive boards continue to work and then re-send the series?
->
-> Alistair
+Hi Peter,
 
-This seems "C implies Zca" is not applied on specific CPUs and it'll be 
-fixed if Zc* related check is
+The following changes since commit 528d9f33cad5245c1099d77084c78bb2244d5143:
 
-moved to riscv_cpu_validate_set_extensions just as  Daniel's series.
+  Merge tag 'pull-tcg-20230106' of https://gitlab.com/rth7680/qemu into staging (2023-01-08 11:23:17 +0000)
 
-I'll rebase on it and test the CPUs in next version.
+are available in the Git repository at:
 
-Regards,
+  https://gitlab.com/birkelund/qemu.git tags/nvme-next-pull-request
 
-Weiwei Li
+for you to fetch changes up to 973f76cf7743545a5d8a0a8bfdfe2cd02aa3e238:
 
->>   disas/riscv.c                             | 228 +++++++++++++++-
->>   target/riscv/cpu.c                        |  56 ++++
->>   target/riscv/cpu.h                        |  10 +
->>   target/riscv/cpu_bits.h                   |   7 +
->>   target/riscv/csr.c                        |  38 ++-
->>   target/riscv/helper.h                     |   3 +
->>   target/riscv/insn16.decode                |  63 ++++-
->>   target/riscv/insn_trans/trans_rvd.c.inc   |  18 ++
->>   target/riscv/insn_trans/trans_rvf.c.inc   |  18 ++
->>   target/riscv/insn_trans/trans_rvi.c.inc   |   4 +-
->>   target/riscv/insn_trans/trans_rvzce.c.inc | 313 ++++++++++++++++++++++
->>   target/riscv/machine.c                    |  19 ++
->>   target/riscv/meson.build                  |   3 +-
->>   target/riscv/translate.c                  |  15 +-
->>   target/riscv/zce_helper.c                 |  55 ++++
->>   15 files changed, 834 insertions(+), 16 deletions(-)
->>   create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
->>   create mode 100644 target/riscv/zce_helper.c
->>
->> --
->> 2.25.1
->>
->>
+  hw/nvme: cleanup error reporting in nvme_init_pci() (2023-01-11 08:41:19 +0100)
+
+----------------------------------------------------------------
+hw/nvme updates
+
+----------------------------------------------------------------
+
+Klaus Jensen (6):
+  hw/nvme: use QOM accessors
+  hw/nvme: rename shadow doorbell related trace events
+  hw/nvme: fix missing endian conversions for doorbell buffers
+  hw/nvme: fix missing cq eventidx update
+  hw/nvme: clean up confusing use of errp/local_err
+  hw/nvme: cleanup error reporting in nvme_init_pci()
+
+ hw/nvme/ctrl.c       | 194 ++++++++++++++++++++++++-------------------
+ hw/nvme/trace-events |   8 +-
+ 2 files changed, 113 insertions(+), 89 deletions(-)
+
+-- 
+2.39.0
 
 
