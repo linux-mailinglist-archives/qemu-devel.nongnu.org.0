@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4781E665E04
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 15:33:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B9B665E2A
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 15:41:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFc9Q-0004Tv-1n; Wed, 11 Jan 2023 09:32:24 -0500
+	id 1pFcF7-00083D-1i; Wed, 11 Jan 2023 09:38:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pFc9L-0004SQ-OS
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:32:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pFcF5-00082h-7l
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:38:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pFc9J-0001vN-Nt
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:32:19 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pFcF2-0003Ls-NJ
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:38:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673447536;
+ s=mimecast20190719; t=1673447891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D8ySEFPPSDvJqRcu9WZ8gCqJIVMcbAVOD4nCC9L3vpY=;
- b=PgRnW8NSXio11VccUj/29LcP/CwZHO9qt3DgcqrrdCh66ukw9Hb000GZ43tujB0A8F9KHS
- gpXGaNm0mBpLtaWK68A6yLOZVyQ0bWArFFU0wGVxAh5/iezdi9VLuNUD2t7UVsOV7IN/ei
- X7+MPU1D7COQT07Ix2uoSwwk+KRg8Ng=
+ bh=FXWmTQJ7MOiwWma5pSckilyRtmlYN0mg1kUX3+lUosw=;
+ b=SxjCqlltyTbpYCBlYjWh4fUEwpkdOPF5Wy4K7gpl7jrdCXXy0rxo/PXoEUsstgEcokqCxj
+ DMIyXvPsn3I3ZgYzdSPb8mbGrsnD2OA/Gy0QcRYmRNJN3t1ptvqEzyy1OilUT4rczQyK6C
+ ALaQLJWZb24xLUIR5gVTPP4nJGCde+Y=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-539-ZYlSxLCLMbuciffuteoqhw-1; Wed, 11 Jan 2023 09:32:14 -0500
-X-MC-Unique: ZYlSxLCLMbuciffuteoqhw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-44-ousr9VlgOJmRe9n2pnIaMw-1; Wed, 11 Jan 2023 09:38:05 -0500
+X-MC-Unique: ousr9VlgOJmRe9n2pnIaMw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0340629AA3A5;
- Wed, 11 Jan 2023 14:32:13 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C84B40C2064;
- Wed, 11 Jan 2023 14:32:12 +0000 (UTC)
-Date: Wed, 11 Jan 2023 15:32:10 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Zhiyong Ye <yezhiyong@bytedance.com>
-Cc: mreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: Questions about how block devices use snapshots
-Message-ID: <Y77IajRLJOC6ohih@redhat.com>
-References: <90855f8f-76ce-0a5f-3156-e69b157342c9@bytedance.com>
- <Y7wdTurqBjWXIGmo@redhat.com>
- <e5433b9c-12c1-bfff-a3a5-878b47a86bab@bytedance.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CBE7C280412B;
+ Wed, 11 Jan 2023 14:38:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 75195C15BA0;
+ Wed, 11 Jan 2023 14:38:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C3D9F21E6A36; Wed, 11 Jan 2023 15:38:01 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: huangy81@chinatelecom.cn
+Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,  "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Laurent Vivier <laurent@vivier.eu>,  Eric Blake
+ <eblake@redhat.com>,  Juan Quintela <quintela@redhat.com>,  Thomas Huth
+ <thuth@redhat.com>,  Peter Maydell <peter.maydell@linaro.org>,  Richard
+ Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH RESEND v3 09/10] migration: Export dirty-limit time info
+ for observation
+References: <cover.1670087275.git.huangy81@chinatelecom.cn>
+ <cover.1670087275.git.huangy81@chinatelecom.cn>
+ <522bd838bcc4df6c232a240a71e5c2fa550f3f48.1670087276.git.huangy81@chinatelecom.cn>
+Date: Wed, 11 Jan 2023 15:38:01 +0100
+In-Reply-To: <522bd838bcc4df6c232a240a71e5c2fa550f3f48.1670087276.git.huangy81@chinatelecom.cn>
+ (huangy's message of "Sun, 4 Dec 2022 01:09:12 +0800")
+Message-ID: <875ydddtme.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e5433b9c-12c1-bfff-a3a5-878b47a86bab@bytedance.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,71 +88,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 11.01.2023 um 08:55 hat Zhiyong Ye geschrieben:
-> Hi Kevin,
-> 
-> Thank you for your reply and detailed answers.
-> 
-> In my scenario is the iSCSI SAN environment. The network storage device is
-> connected to the physical machine via iSCSI, and LVM is used as the middle
-> layer between the storage device and the VM for storage management and
-> metadata synchronization. Every VM uses both raw and qcow2 formats, with the
-> system disk being qcow2 and the data disk being raw. Therefore block devices
-> need to support snapshot capability in both raw and qcow2 store methods. In
-> addition, snapshot images should also be stored in iSCSI storage, which is a
-> block device.
-> 
-> Both internal and external snapshots can implement snapshots of block
-> devices, but they both have their drawbacks when multiple snapshots are
-> required.
-> 
-> Internal snapshots can only be used in qcow2 format and do not require
-> additional creation of new block devices. As you said, the block device has
-> much more space than the virtual disk. There is no telling when disk space
-> will be full when creating multiple snapshots.
-> 
-> External snapshots require the creation of additional block devices to store
-> the overlay images, but it is not clear how much space needs to be created.
-> If the space is the same as the virtual disk, when there are multiple
-> snapshots it will be a serious waste of disk space, because each time a new
-> snapshot is created the previous one will become read-only. However, if the
-> disk space created is too small, the snapshot data may not be stored when
-> the disk space is full.
-> 
-> The problem with both is the uncertainty of the space size of the block
-> device at the time of creation. Of course, we can rely on lvm's resize
-> function to dynamically grow the space of the block device. But I think this
-> is more of a workaround.
+huangy81@chinatelecom.cn writes:
 
-Yes, this is why I said it's challenging. oVirt uses resizing of LVs to
-achieve this, and it's still very complex. You need to decide yourself
-if you think implementing the management software for this is worth it.
+> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
+>
+> Export dirty limit throttle time and estimated ring full
+> time, through which we can observe if dirty limit take
+> effect during live migration.
 
-> It is mentioned in the Qemu docs page under "QEMU disk image utility" that
-> the qemu-img rebase can be used to perform a “diff” operation on two disk
-> images.
-> 
-> Say that base.img has been cloned as modified.img by copying it, and that
-> the modified.img guest has run so there are now some changes compared to
-> base.img. To construct a thin image called diff.qcow2 that contains just the
-> differences, do:
-> 
-> qemu-img create -f qcow2 -b modified.img diff.qcow2
-> qemu-img rebase -b base.img diff.qcow2
-> 
-> At this point, modified.img can be discarded, since base.img + diff.qcow2
-> contains the same information.
-> 
-> Can this “diff” operation be used on snapshots of block devices? The first
-> snapshot is a copy of the original disk (to save space we can copy only the
-> data that has already been used), while the subsequent snapshots are based
-> on the diff of the previous snapshot, so that the space required for the
-> created block device is known at the time of the snapshot.
+Suggest something like "Extend query-migrate to provide ..." both here
+and in subject.
 
-Yes, you can use raw block devices for both base.img and modified.img.
-But of course, the result is still a qcow2 file that you need to store
-somewhere.
+> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
+> ---
+>  include/sysemu/dirtylimit.h |  2 ++
+>  migration/migration.c       | 10 ++++++++++
+>  monitor/hmp-cmds.c          | 10 ++++++++++
+>  qapi/migration.json         | 15 ++++++++++++++-
+>  softmmu/dirtylimit.c        | 39 +++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 75 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/sysemu/dirtylimit.h b/include/sysemu/dirtylimit.h
+> index 8d2c1f3..f15e01d 100644
+> --- a/include/sysemu/dirtylimit.h
+> +++ b/include/sysemu/dirtylimit.h
+> @@ -34,4 +34,6 @@ void dirtylimit_set_vcpu(int cpu_index,
+>  void dirtylimit_set_all(uint64_t quota,
+>                          bool enable);
+>  void dirtylimit_vcpu_execute(CPUState *cpu);
+> +int64_t dirtylimit_throttle_time_per_full(void);
+> +int64_t dirtylimit_ring_full_time(void);
+>  #endif
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 127d0fe..3f92389 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -62,6 +62,7 @@
+>  #include "yank_functions.h"
+>  #include "sysemu/qtest.h"
+>  #include "sysemu/kvm.h"
+> +#include "sysemu/dirtylimit.h"
+>=20=20
+>  #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throt=
+tling */
+>=20=20
+> @@ -1114,6 +1115,15 @@ static void populate_ram_info(MigrationInfo *info,=
+ MigrationState *s)
+>          info->ram->remaining =3D ram_bytes_remaining();
+>          info->ram->dirty_pages_rate =3D ram_counters.dirty_pages_rate;
+>      }
+> +
+> +    if (migrate_dirty_limit() && dirtylimit_in_service()) {
+> +        info->has_dirty_limit_throttle_time_per_full =3D true;
+> +        info->dirty_limit_throttle_time_per_full =3D
+> +                            dirtylimit_throttle_time_per_full();
+> +
+> +        info->has_dirty_limit_ring_full_time =3D true;
+> +        info->dirty_limit_ring_full_time =3D dirtylimit_us_ring_full();
+> +    }
+>  }
+>=20=20
+>  static void populate_disk_info(MigrationInfo *info)
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 9ad6ee5..c3aaba3 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -339,6 +339,16 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdi=
+ct)
+>                         info->cpu_throttle_percentage);
+>      }
+>=20=20
+> +    if (info->has_dirty_limit_throttle_time_per_full) {
+> +        monitor_printf(mon, "dirty-limit throttle time: %" PRIi64 " us\n=
+",
+> +                       info->dirty_limit_throttle_time_per_full);
+> +    }
+> +
+> +    if (info->has_dirty_limit_ring_full_time) {
+> +        monitor_printf(mon, "dirty-limit ring full time: %" PRIi64 " us\=
+n",
+> +                       info->dirty_limit_ring_full_time);
+> +    }
 
-Kevin
+I discuss naming below.  If we change the names, we probably want to
+change the string literals here, too.
+
+> +
+>      if (info->has_postcopy_blocktime) {
+>          monitor_printf(mon, "postcopy blocktime: %u\n",
+>                         info->postcopy_blocktime);
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 6055fdc..ae7d22d 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -242,6 +242,17 @@
+>  #                   Present and non-empty when migration is blocked.
+>  #                   (since 6.0)
+>  #
+> +# @dirty-limit-throttle-time-per-full: Maximum throttle time (in microse=
+conds) of virtual
+> +#                                      CPUs each dirty ring full round, =
+used to observe
+
+What's a dirty "ring full round"?  Is it a migration round?  Something
+else?
+
+> +#                                      if dirty-limit take effect during=
+ live migration.
+
+takes effect
+
+I think "if dirty-limit takes effect" isn't quite right.  We can use
+this to observe how MigrationCapability dirty-limit affects the guest.
+What about "shows how MigrationCapability dirty-limit affects the
+guest"?
+
+Even though dirty-limit-throttle-time-per-full is quite long, it still
+feels abbreviated.  Full what?  What about
+dirty-limit-throttle-time-per-round?  Naming is hard.
+
+> +#                                      (since 7.3)
+> +#
+> +# @dirty-limit-ring-full-time: Estimated average dirty ring full time (i=
+n microseconds)
+> +#                              each dirty ring full round, note that the=
+ value equals
+> +#                              dirty ring memory size divided by average=
+ dirty page rate
+> +#                              of virtual CPU, which can be used to obse=
+rve the average
+> +#                              memory load of virtual CPU indirectly. (s=
+ince 7.3)
+> +#
+
+Uff.
+
+What is estimated?  The average amount of time the dirty ring (whatever
+that is) is full in each migration round?
+
+Aside: our doc comment syntax can push text blocks far to the right.
+Not good.  Also not your fault, and not your problem to fix.
+
+>  # Since: 0.14
+>  ##
+>  { 'struct': 'MigrationInfo',
+> @@ -259,7 +270,9 @@
+>             '*postcopy-blocktime' : 'uint32',
+>             '*postcopy-vcpu-blocktime': ['uint32'],
+>             '*compression': 'CompressionStats',
+> -           '*socket-address': ['SocketAddress'] } }
+> +           '*socket-address': ['SocketAddress'],
+> +           '*dirty-limit-throttle-time-per-full': 'int64',
+> +           '*dirty-limit-ring-full-time': 'int64'} }
+>=20=20
+>  ##
+>  # @query-migrate:
+
+[...]
 
 
