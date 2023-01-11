@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2330665C17
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 14:04:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0B3665C45
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 14:17:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFamF-000798-77; Wed, 11 Jan 2023 08:04:24 -0500
+	id 1pFax6-0001Yf-CX; Wed, 11 Jan 2023 08:15:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFamB-000784-Mo
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 08:04:19 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFawu-0001XX-Al
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 08:15:24 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFam7-00074u-Rr
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 08:04:18 -0500
-Received: by mail-wr1-x435.google.com with SMTP id t5so10541746wrq.1
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 05:04:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFaws-0000k0-1X
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 08:15:23 -0500
+Received: by mail-wr1-x433.google.com with SMTP id k8so485329wrc.9
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 05:15:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=suZHlIF2Y9gRILn+szSyJeFsObDJPaoFKRCgUiMBqQ8=;
- b=Gr31KVA3rUQ3kxyTrt369k///baau6IIbwWTxEADh8uXl9hTYEtP5bF0GJhCz633Kp
- Inf9AN6DbR890DmMCqWgE1ZUsp9zLx4OxtQ8ohUrGVM33mPPnEmVwCYnim6WIYyJiyrx
- BBezkoAPmb4+IhDBt6dEv22Pf3ArVU1FN7y1wuP6UiAjM8QyY5UuAFCQqB/OzjaLMPnL
- DFikZaZcd5NYs9yATMoEsqWBHf6k7BPr0oMLFn7qapkhzqevAEwC53+do/IDkINf49tk
- TXt+9OLYAIvcKaP4JLuBjoZYoWYnhb4xlv64AehRxp1zD/Mkz9iG6rMmCtXzNVoPnP0z
- JMdw==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qU/C7wn9xdtZS3vCc5UpYLK56R9uHLUvOsbu/Fl0fgM=;
+ b=Q2LGj1ctbkcaV8zkvnac1n25tgoE+3P869NwNNc/P5m4vD1pLGBM1HsQ2sg3JwywO3
+ kejGdb6hLXu+lc5BVeDRsWCT9QHQpDTCfwiNISUbzcD9TldUCMQ1FIMe11XJiTXNK4Vb
+ CkEnAmxMeR8fsF7nCULRy+efxRLra/B8fs5GRvlk1wHVCJy7+U68iGA01Gwlmvoba9pb
+ b0JsIzby918IiPTvddjAkthbGTlBtBVw8TI8jPdG0CzVGDss/o4MbsoopeLozCSM3Kex
+ PqOBZqib/p3xuxzhbDRzHpl1wZqBU82/KXLjW1bddzp5GUimYgSr6U4bE1+ldWBSTg+Y
+ ESfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=suZHlIF2Y9gRILn+szSyJeFsObDJPaoFKRCgUiMBqQ8=;
- b=D0JE0aoTH1KpMMHoJr/gHhgPHRq3RWBDPOeJGkjLyPs4u992URdj/m7jidorT9zK3D
- up6poVBDJ1QN6vZKGRi8ik6Q/EqdUNRjMoJi2Ta5PKtLDTR+HhIRXkNQC2YBP1Hshlvy
- 64tmCuMO1Ai/d38ZUg2142Bwiz02afVltox61JlyjYM+4Ur4xplAkoJElQKrxtP420Dh
- iYlDLzfEwXMTiDctc65D+YJ5gdXwyg29GiUkgWdYBaQsigS/35NHLbbRBd+N9J+vR6PP
- EvWPotwbcjUTT92hQ341d243nMRCXHqU8DubKfxM5nkkBwzs9OxSvToO8K5ON9LtgM+H
- 1MYw==
-X-Gm-Message-State: AFqh2kpcmGSjttR2/1tgbp4ZBUC96TzPj4HaTl/zdhAIl5XNkFq9xqLt
- jxWIR8Dg80QJD5chPmJZjHzJgg==
-X-Google-Smtp-Source: AMrXdXsSsvvrlD0mqtQW3dmmNU7/RJmO0iliKmxJv6vJ+t+RR6FNUfB540/8MKttWwUi36ZMzoyhXQ==
-X-Received: by 2002:a05:6000:1a41:b0:24b:b74d:8012 with SMTP id
- t1-20020a0560001a4100b0024bb74d8012mr43544083wry.18.1673442253958; 
- Wed, 11 Jan 2023 05:04:13 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- u14-20020adfdd4e000000b002366e3f1497sm13929137wrm.6.2023.01.11.05.04.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jan 2023 05:04:13 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F3A8D1FFB7;
- Wed, 11 Jan 2023 13:04:11 +0000 (GMT)
-References: <20230109224954.161672-1-cota@braap.org>
- <20230109224954.161672-5-cota@braap.org> <87cz7mm7fu.fsf@linaro.org>
- <Y74h2RC+8J63Nzqj@cota-l14>
-User-agent: mu4e 1.9.12; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Emilio Cota <cota@braap.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
- <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 4/5] util/qht: use striped locks under TSAN
-Date: Wed, 11 Jan 2023 13:03:53 +0000
-In-reply-to: <Y74h2RC+8J63Nzqj@cota-l14>
-Message-ID: <87v8ldkyt0.fsf@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qU/C7wn9xdtZS3vCc5UpYLK56R9uHLUvOsbu/Fl0fgM=;
+ b=MaSLcwHhE/eF5HhQ0BpyFoPCrvk4mKo/1aPZl6H3jFM3OJNRiMRSA4TUprtrseXKyb
+ AwL5n/D17LPP0ul7QoYxWDiIbjFPtwKER1UHETaeD3bzcOsCn1dIsufEaQ07oTta/H4d
+ owOY8JnNz5RQ1hr9XRTIYYEH3XvIPqzui4TyEcNZmUJsD9eBJqxwSZg7layPhAnCGBic
+ Vw6RJN2VRH6EdmdEFv8mWxAKK9doRDgpu+TmKoTQOKEZCWNfd9EU0WuCvKXYfALFVkqv
+ NT52i4xx43uieW3XlFIdnf/TXZyMGhwMt02YaobPpnBM+2EMWC78YJHwOQNJZhSpaFoQ
+ ye4Q==
+X-Gm-Message-State: AFqh2kpX6Qm6PZyyN5toGqcG9Oygwj8G+NB/H5Cj5FMln2w0O+fmeds5
+ bA4UFHHazfIkP5MtduocPm9eDw==
+X-Google-Smtp-Source: AMrXdXuVnDM5rIvHyKl1K3E2RAa6jlPoYR82CLmu7i0bOEQ1vZfg4QVdqLfGTJD/XLeu1ASU/+xLVQ==
+X-Received: by 2002:a05:6000:10d2:b0:299:4e2f:fca6 with SMTP id
+ b18-20020a05600010d200b002994e2ffca6mr21548794wrx.58.1673442919343; 
+ Wed, 11 Jan 2023 05:15:19 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ n6-20020adfe786000000b002bdbde1d3absm3493049wrm.78.2023.01.11.05.15.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Jan 2023 05:15:18 -0800 (PST)
+Message-ID: <800755e2-82f8-b1e5-6b61-d4766f97641e@linaro.org>
+Date: Wed, 11 Jan 2023 14:15:16 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [RFC PATCH 0/4] qom: Introduce object_class_property_deprecate()
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Hanna Reitz <hreitz@redhat.com>
+References: <20230109225419.22621-1-philmd@linaro.org>
+ <Y71h8JAqYxeB2hPe@redhat.com>
+ <53028cf2-0028-b810-348f-b17df33a8149@linaro.org>
+ <Y76IdVNKyIBAZLrl@redhat.com>
+ <9a3d8a73-9d41-8cb6-e271-7753347f238d@linaro.org>
+ <Y76PlQWd0PCvC7RS@redhat.com> <871qo1gvhd.fsf@pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <871qo1gvhd.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,59 +98,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 11/1/23 12:29, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
+> 
+>> On Wed, Jan 11, 2023 at 11:08:05AM +0100, Philippe Mathieu-Daudé wrote:
+>>> On 11/1/23 10:59, Daniel P. Berrangé wrote:
+>>>> On Wed, Jan 11, 2023 at 10:55:47AM +0100, Philippe Mathieu-Daudé wrote:
+>>>>> On 10/1/23 14:02, Kevin Wolf wrote:
+>>>>>> Am 09.01.2023 um 23:54 hat Philippe Mathieu-Daudé geschrieben:
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> There will always be a need to deprecate things. Here I'm
+>>>>>>> tackling the QOM (class) properties, since they can be set
+>>>>>>> from some CLI options (-object -device -global ...).
+>>>>>>>
+>>>>>>> As an experiment, we add object_class_property_deprecate()
+>>>>>>> to register a class property as deprecated (since some version),
+>>>>>>> then we deprecate the TYPE_PFLASH_CFI02 'width' property, and
+>>>>>>> finally as a bonus we emit a warning when the deprecation period
+>>>>>>> is over, as a reminder. (For that we introduce few 'versions'
+>>>>>>> helpers).
+>>>>>>
+>>>>>> The last part means that increasing the version number (i.e. the commit
+>>>>>> that opens the development tree for the next release) can change the
+>>>>>> output, and this is turn can break test cases.
+>>>>>>
+>>>>>> If we are happy to introduce breakage with a version number change that
+>>>>>> will require future commits to open the development tree less trivial
+>>>>>> than they are today because they need to fix the breakage, too, why not
+>>>>>> make it a build error instead of a different warning message at runtime?
+>>>>>
+>>>>> To avoid build breakages, maybe it is clever is to store the deprecation
+>>>>> version in ObjectPropertyInfo and let QAPI inspection scripts enumerate
+>>>>> / report deprecated features?
+>>>>
+>>>> I don't think we want the version information in the code nor
+>>>> introspectable at all.
+>>>>
+>>>> We want applications to only apply logic based off features that are
+>>>> actually available, not predicted future versions where something may
+>>>> or may not be removed. This is why we exposed only a plain 'deprecated'
+>>>> boolean field in QAPI schema for other deprecations.  This is just a
+>>>> warning to be ready for something to change in future. If an application
+>>>> has not been updated they are fine to carry on using the deprecated
+>>>> feature. If an application has been updated, they should probe for
+>>>> existance of the new feature and use that if available, in preference
+>>>> to the deprecated feature. There's no reason for an application to
+>>>> consider version numbers.
+>>>
+>>> Right, but "applications" can also be developer scripts right? Not
+>>> only user / sysadmin.
+>>>
+>>> In particular, some HMP commands are only useful for developers, and
+>>> they are implemented over QMP -> QAPI. So we already expose extra
+>>> developer information via QAPI.
+>>
+>> Sure, but I still don't think we should expose any version info there.
+>> A deprecated feature isn't gone until it is gone. In the deprecations
+>> doc we only mention the release where it is first deprecated, don't
+>> explicitly state when it will be removed. The 2 cycle timeframe is
+>> a minimum, not an exact removal date, so it would be misleading to
+>> claim we'll remove things in exactly 2 cycles.
+> 
+> I agree with Daniel.
+> 
+> I understand the motivation for making developers aware of expired grace
+> periods.
+> 
+> A warning is one way to make aware.  It creates another problem, though:
+> since the grace period is flexible, we need a way to extend the period,
+> and we need to decide right at the beginning of the development cycle.
+> 
+> I think the existing process for getting rid of deprecated stuff in a
+> timely manner is good enough: document all deprecations in
+> docs/about/deprecated.rst, and check the file periodically.
+> 
+> I'd recommend to follow QAPI's lead and add a "deprecated" flag to QOM.
+> 
+> We may want to follow QAPI some more and add an "unstable" flag, too.
+> See commit a3c45b3e62 'qapi: New special feature flag "unstable"' for
+> rationale.
 
-Emilio Cota <cota@braap.org> writes:
+I understand breaking the build system is not a welcomed idea and that
+the deprecation grace period can be flexible.
 
-> On Tue, Jan 10, 2023 at 20:58:01 +0000, Alex Benn=C3=A9e wrote:
->> Emilio Cota <cota@braap.org> writes:
-> (snip)
->> > +static inline void qht_do_if_first_in_stripe(const struct qht_map *ma=
-p,
->> > +                                             struct qht_bucket *b,
->> > +                                             void (*func)(QemuSpin *s=
-pin))
->> > +{
->> > +#ifdef CONFIG_TSAN
->> > +    unsigned long bucket_idx =3D b - map->buckets;
->> > +    bool is_first_in_stripe =3D (bucket_idx >> QHT_TSAN_BUCKET_LOCKS_=
-BITS) =3D=3D 0;
->> > +    if (is_first_in_stripe) {
->> > +        unsigned long lock_idx =3D bucket_idx & (QHT_TSAN_BUCKET_LOCK=
-S - 1);
->> > +        func(&map->tsan_bucket_locks[lock_idx]);
->>=20
->> Hmm I ran into an issue with:
->>=20
->>      ../util/qht.c:286:10: error: incompatible pointer types passing
->> 'const struct qht_tsan_lock *' to parameter of type 'QemuSpin *'
->> (aka 'struct QemuSpin *') [-Werror,-Wincompatible-pointer-types]
->
-> Gaah, sorry. I didn't notice this because of unrelated noise due
-> to having to configure with --disable-werror. Fixed now by removing
-> a bunch of const's and also using .lock.
->
->> > +static inline void qht_bucket_lock_destroy(const struct qht_map *map,
->> > +                                           struct qht_bucket *b)
->> > +{
->> > +    qht_do_if_first_in_stripe(map, b, qemu_spin_destroy);
->> > +}
->>=20
->> Who is meant to be calling this?
->
-> Should have been removed in v2; fixed now.
->
-> I've uploaded the v3 series to https://github.com/cota/qemu/tree/tsan-v3
->
-> Please let me know if you want me to also mail it to the list.
+I don't understand why storing version information isn't helpful, as
+I'd like to run some ./qapi-dump-deprecated-stuff script at least once
+between releases, and being able to display this info directly seems
+simpler than going to match in deprecated.rst.
 
-Please do and then I can be sure I'm upto date when I rebuild the PR.
+But overall the discussion was enlightening, so thanks!
 
-> Thanks,
->
-> 		Emilio
-
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Phil.
 
