@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF9F665E1C
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 15:36:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16359665E05
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 15:33:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFc5V-0002RG-W0; Wed, 11 Jan 2023 09:28:22 -0500
+	id 1pFc63-0002mZ-CE; Wed, 11 Jan 2023 09:28:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFc5T-0002Qk-CD
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:28:19 -0500
+ id 1pFc5y-0002mB-Or
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:28:50 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFc5R-0000R8-Cw
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:28:19 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NsVQg4Z2lz67wFS;
- Wed, 11 Jan 2023 22:28:11 +0800 (CST)
+ id 1pFc5u-0000ch-Qb
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 09:28:49 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NsVLy1wqFz67bWy;
+ Wed, 11 Jan 2023 22:24:58 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Wed, 11 Jan 2023 14:28:13 +0000
+ 15.1.2375.34; Wed, 11 Jan 2023 14:28:43 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
  <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
  <gourry.memverge@gmail.com>
-Subject: [PATCH 7/8] qemu/uuid: Add UUID static initializer
-Date: Wed, 11 Jan 2023 14:24:39 +0000
-Message-ID: <20230111142440.24771-8-Jonathan.Cameron@huawei.com>
+Subject: [PATCH 8/8] hw/cxl/mailbox: Use new UUID network order define for
+ cel_uuid
+Date: Wed, 11 Jan 2023 14:24:40 +0000
+Message-ID: <20230111142440.24771-9-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
 References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
@@ -39,7 +40,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -69,40 +70,83 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Ira Weiny <ira.weiny@intel.com>
 
-UUID's are defined as network byte order fields.  No static initializer
-was available for UUID's in their standard big endian format.
+The cel_uuid was programatically generated previously because there was
+no static initializer for network order UUIDs.
 
-Define a big endian initializer for UUIDs.
+Use the new network order initializer for cel_uuid.  Adjust
+cxl_initialize_mailbox() because it can't fail now.
+
+Update specification reference.
 
 Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- include/qemu/uuid.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/cxl/cxl-device-utils.c   |  2 +-
+ hw/cxl/cxl-mailbox-utils.c  | 13 ++++++-------
+ include/hw/cxl/cxl_device.h |  2 +-
+ 3 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/include/qemu/uuid.h b/include/qemu/uuid.h
-index 9925febfa5..dc40ee1fc9 100644
---- a/include/qemu/uuid.h
-+++ b/include/qemu/uuid.h
-@@ -61,6 +61,18 @@ typedef struct {
-     (clock_seq_hi_and_reserved), (clock_seq_low), (node0), (node1), (node2),\
-     (node3), (node4), (node5) }
+diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
+index 83ce7a8270..4c5e88aaf5 100644
+--- a/hw/cxl/cxl-device-utils.c
++++ b/hw/cxl/cxl-device-utils.c
+@@ -267,5 +267,5 @@ void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
+     cxl_device_cap_init(cxl_dstate, MEMORY_DEVICE, 0x4000);
+     memdev_reg_init_common(cxl_dstate);
  
-+/* Normal (network byte order) UUID */
-+#define UUID(time_low, time_mid, time_hi_and_version,                    \
-+  clock_seq_hi_and_reserved, clock_seq_low, node0, node1, node2,         \
-+  node3, node4, node5)                                                   \
-+  { ((time_low) >> 24) & 0xff, ((time_low) >> 16) & 0xff,                \
-+    ((time_low) >> 8) & 0xff, (time_low) & 0xff,                         \
-+    ((time_mid) >> 8) & 0xff, (time_mid) & 0xff,                         \
-+    ((time_hi_and_version) >> 8) & 0xff, (time_hi_and_version) & 0xff,   \
-+    (clock_seq_hi_and_reserved), (clock_seq_low),                        \
-+    (node0), (node1), (node2), (node3), (node4), (node5)                 \
-+  }
-+
- #define UUID_FMT "%02hhx%02hhx%02hhx%02hhx-" \
-                  "%02hhx%02hhx-%02hhx%02hhx-" \
-                  "%02hhx%02hhx-" \
+-    assert(cxl_initialize_mailbox(cxl_dstate) == 0);
++    cxl_initialize_mailbox(cxl_dstate);
+ }
+diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+index 942de73bbc..7ed344a754 100644
+--- a/hw/cxl/cxl-mailbox-utils.c
++++ b/hw/cxl/cxl-mailbox-utils.c
+@@ -192,7 +192,11 @@ static ret_code cmd_timestamp_set(struct cxl_cmd *cmd,
+     return CXL_MBOX_SUCCESS;
+ }
+ 
+-static QemuUUID cel_uuid;
++/* CXL 3.0 8.2.9.5.2.1 Command Effects Log (CEL) */
++static QemuUUID cel_uuid = {
++        .data = UUID(0x0da9c0b5, 0xbf41, 0x4b78, 0x8f, 0x79,
++                     0x96, 0xb1, 0x62, 0x3b, 0x3f, 0x17)
++};
+ 
+ /* 8.2.9.4.1 */
+ static ret_code cmd_logs_get_supported(struct cxl_cmd *cmd,
+@@ -457,11 +461,8 @@ void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
+                      DOORBELL, 0);
+ }
+ 
+-int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
++void cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
+ {
+-    /* CXL 2.0: Table 169 Get Supported Logs Log Entry */
+-    const char *cel_uuidstr = "0da9c0b5-bf41-4b78-8f79-96b1623b3f17";
+-
+     for (int set = 0; set < 256; set++) {
+         for (int cmd = 0; cmd < 256; cmd++) {
+             if (cxl_cmd_set[set][cmd].handler) {
+@@ -475,6 +476,4 @@ int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
+             }
+         }
+     }
+-
+-    return qemu_uuid_parse(cel_uuidstr, &cel_uuid);
+ }
+diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+index 250adf18b2..7e5ad65c1d 100644
+--- a/include/hw/cxl/cxl_device.h
++++ b/include/hw/cxl/cxl_device.h
+@@ -170,7 +170,7 @@ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MEMORY_DEVICE,
+                                       CXL_DEVICE_CAP_HDR1_OFFSET +
+                                           CXL_DEVICE_CAP_REG_SIZE * 2)
+ 
+-int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate);
++void cxl_initialize_mailbox(CXLDeviceState *cxl_dstate);
+ void cxl_process_mailbox(CXLDeviceState *cxl_dstate);
+ 
+ #define cxl_device_cap_init(dstate, reg, cap_id)                           \
 -- 
 2.37.2
 
