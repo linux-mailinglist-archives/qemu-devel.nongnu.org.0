@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7082665C0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 14:03:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2330665C17
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 14:04:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFajb-0005C6-Eo; Wed, 11 Jan 2023 08:01:39 -0500
+	id 1pFamF-000798-77; Wed, 11 Jan 2023 08:04:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFaj2-000563-4l
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 08:01:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFaj0-0006BN-KJ
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 08:01:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673442055;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fH76dWLRm4qvw1afrGBWOaF1gspGKCsHj2wwuT9B7DU=;
- b=MruAp+jbbYmrMmAv6M8mgL7oW4Lz89HjmXPj3ul6w9xxUitMq4PBQYXNSyV/8HbwzZ2HoD
- 8zXjO+w0Ny0Y5qBPUgrbPF9Lo/MzsmbTyEvbjRexUFphugBksrIy1sAAIRJbLSsgmtvUoA
- BIjSj98m0m5yyaNEESFCDdCJoxOZdFk=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-615-B1tcA4oSMNyw4-_w3WayFA-1; Wed, 11 Jan 2023 08:00:54 -0500
-X-MC-Unique: B1tcA4oSMNyw4-_w3WayFA-1
-Received: by mail-qk1-f197.google.com with SMTP id
- bm30-20020a05620a199e00b006ff813575b1so10956521qkb.16
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 05:00:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pFamB-000784-Mo
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 08:04:19 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pFam7-00074u-Rr
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 08:04:18 -0500
+Received: by mail-wr1-x435.google.com with SMTP id t5so10541746wrq.1
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 05:04:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=suZHlIF2Y9gRILn+szSyJeFsObDJPaoFKRCgUiMBqQ8=;
+ b=Gr31KVA3rUQ3kxyTrt369k///baau6IIbwWTxEADh8uXl9hTYEtP5bF0GJhCz633Kp
+ Inf9AN6DbR890DmMCqWgE1ZUsp9zLx4OxtQ8ohUrGVM33mPPnEmVwCYnim6WIYyJiyrx
+ BBezkoAPmb4+IhDBt6dEv22Pf3ArVU1FN7y1wuP6UiAjM8QyY5UuAFCQqB/OzjaLMPnL
+ DFikZaZcd5NYs9yATMoEsqWBHf6k7BPr0oMLFn7qapkhzqevAEwC53+do/IDkINf49tk
+ TXt+9OLYAIvcKaP4JLuBjoZYoWYnhb4xlv64AehRxp1zD/Mkz9iG6rMmCtXzNVoPnP0z
+ JMdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fH76dWLRm4qvw1afrGBWOaF1gspGKCsHj2wwuT9B7DU=;
- b=rsVX5gywZyWI6DPqf7BELL8EHlqNzs1dE7VI2kA649RC/lrd7H+eMA/+2HyZE9f6MG
- W1slSBcoF92oByFaGsZLY6lNUYqS5DFaW06pd+YMlU0l9hb2Oovkuv0XvSt0RrrV5mP8
- o5EyR+ndXpIRXkPUxLAKhlXvyRpIGx+nodhFW6mMYpQdbroBtNLE6PMdSwXQhr4HAEsn
- WIkHRTQm2iEcp9clFrSRBUYYtgLBdTYTQZSKthRJkp8CVbUqBB0lQrcDLI2xXlylm9w6
- q2709oOswNYtl64tlgLjbWiR/9xtuJvmQ1OgU0y3/6PPNj9BpNmzL77q7F35aEAWL4Cs
- Fm6g==
-X-Gm-Message-State: AFqh2koCtIwLjowz8CAsLDQkrhYNv7ugiVIovr+/QUBLF5LvijefSFKN
- zwWjdIEDSqq0sGvT9Zb14Ec1MCwzD2atZUNICUv9lVaUiPD/YpJk3m20rvA7GxOWMl/QWRD9JBY
- aV2i9LuI1fuBE2BQ=
-X-Received: by 2002:ac8:5413:0:b0:3a5:27f6:4d4e with SMTP id
- b19-20020ac85413000000b003a527f64d4emr91967743qtq.65.1673442053265; 
- Wed, 11 Jan 2023 05:00:53 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuk4zdme+D6RazZ5+1IQymw7+TfOTIgk8ZgjpKXRi6FAjggg9RGqM1xc4dkxw7q8VjfeqA2Iw==
-X-Received: by 2002:ac8:5413:0:b0:3a5:27f6:4d4e with SMTP id
- b19-20020ac85413000000b003a527f64d4emr91967620qtq.65.1673442052499; 
- Wed, 11 Jan 2023 05:00:52 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-91.web.vodafone.de.
- [109.43.176.91]) by smtp.gmail.com with ESMTPSA id
- 7-20020ac85647000000b0039cc82a319asm7551010qtt.76.2023.01.11.05.00.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 05:00:52 -0800 (PST)
-Message-ID: <cfc5086d-299c-cb31-1b14-da8490fcada0@redhat.com>
-Date: Wed, 11 Jan 2023 14:00:49 +0100
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=suZHlIF2Y9gRILn+szSyJeFsObDJPaoFKRCgUiMBqQ8=;
+ b=D0JE0aoTH1KpMMHoJr/gHhgPHRq3RWBDPOeJGkjLyPs4u992URdj/m7jidorT9zK3D
+ up6poVBDJ1QN6vZKGRi8ik6Q/EqdUNRjMoJi2Ta5PKtLDTR+HhIRXkNQC2YBP1Hshlvy
+ 64tmCuMO1Ai/d38ZUg2142Bwiz02afVltox61JlyjYM+4Ur4xplAkoJElQKrxtP420Dh
+ iYlDLzfEwXMTiDctc65D+YJ5gdXwyg29GiUkgWdYBaQsigS/35NHLbbRBd+N9J+vR6PP
+ EvWPotwbcjUTT92hQ341d243nMRCXHqU8DubKfxM5nkkBwzs9OxSvToO8K5ON9LtgM+H
+ 1MYw==
+X-Gm-Message-State: AFqh2kpcmGSjttR2/1tgbp4ZBUC96TzPj4HaTl/zdhAIl5XNkFq9xqLt
+ jxWIR8Dg80QJD5chPmJZjHzJgg==
+X-Google-Smtp-Source: AMrXdXsSsvvrlD0mqtQW3dmmNU7/RJmO0iliKmxJv6vJ+t+RR6FNUfB540/8MKttWwUi36ZMzoyhXQ==
+X-Received: by 2002:a05:6000:1a41:b0:24b:b74d:8012 with SMTP id
+ t1-20020a0560001a4100b0024bb74d8012mr43544083wry.18.1673442253958; 
+ Wed, 11 Jan 2023 05:04:13 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ u14-20020adfdd4e000000b002366e3f1497sm13929137wrm.6.2023.01.11.05.04.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Jan 2023 05:04:13 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id F3A8D1FFB7;
+ Wed, 11 Jan 2023 13:04:11 +0000 (GMT)
+References: <20230109224954.161672-1-cota@braap.org>
+ <20230109224954.161672-5-cota@braap.org> <87cz7mm7fu.fsf@linaro.org>
+ <Y74h2RC+8J63Nzqj@cota-l14>
+User-agent: mu4e 1.9.12; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Emilio Cota <cota@braap.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
+ <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 4/5] util/qht: use striped locks under TSAN
+Date: Wed, 11 Jan 2023 13:03:53 +0000
+In-reply-to: <Y74h2RC+8J63Nzqj@cota-l14>
+Message-ID: <87v8ldkyt0.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] virtio-rng-pci: fix migration compat for vectors
-Content-Language: en-US
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, mst@redhat.com, eduardo@habkost.net,
- stefanha@redhat.com, david.daney@fungible.com, qemu-stable@nongnu.org
-References: <20230109105809.163975-1-dgilbert@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230109105809.163975-1-dgilbert@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,43 +97,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09/01/2023 11.58, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Fixup the migration compatibility for existing machine types
-> so that they do not enable msi-x.
-> 
-> Symptom:
-> 
-> (qemu) qemu: get_pci_config_device: Bad config data: i=0x34 read: 84 device: 98 cmask: ff wmask: 0 w1cmask:0
-> qemu: Failed to load PCIDevice:config
-> qemu: Failed to load virtio-rng:virtio
-> qemu: error while loading state for instance 0x0 of device '0000:00:03.0/virtio-rng'
-> qemu: load of migration failed: Invalid argument
-> 
-> Note: This fix will break migration from 7.2->7.2-fixed with this patch
-> 
-> bz: https://bugzilla.redhat.com/show_bug.cgi?id=2155749
-> Fixes: 9ea02e8f1 ("virtio-rng-pci: Allow setting nvectors, so we can use MSI-X")
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->   hw/core/machine.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index f589b92909..45459d1cef 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -45,6 +45,7 @@ const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
->   
->   GlobalProperty hw_compat_7_1[] = {
->       { "virtio-device", "queue_reset", "false" },
-> +    { "virtio-rng-pci", "vectors", "0" },
->   };
->   const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
->   
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Emilio Cota <cota@braap.org> writes:
 
+> On Tue, Jan 10, 2023 at 20:58:01 +0000, Alex Benn=C3=A9e wrote:
+>> Emilio Cota <cota@braap.org> writes:
+> (snip)
+>> > +static inline void qht_do_if_first_in_stripe(const struct qht_map *ma=
+p,
+>> > +                                             struct qht_bucket *b,
+>> > +                                             void (*func)(QemuSpin *s=
+pin))
+>> > +{
+>> > +#ifdef CONFIG_TSAN
+>> > +    unsigned long bucket_idx =3D b - map->buckets;
+>> > +    bool is_first_in_stripe =3D (bucket_idx >> QHT_TSAN_BUCKET_LOCKS_=
+BITS) =3D=3D 0;
+>> > +    if (is_first_in_stripe) {
+>> > +        unsigned long lock_idx =3D bucket_idx & (QHT_TSAN_BUCKET_LOCK=
+S - 1);
+>> > +        func(&map->tsan_bucket_locks[lock_idx]);
+>>=20
+>> Hmm I ran into an issue with:
+>>=20
+>>      ../util/qht.c:286:10: error: incompatible pointer types passing
+>> 'const struct qht_tsan_lock *' to parameter of type 'QemuSpin *'
+>> (aka 'struct QemuSpin *') [-Werror,-Wincompatible-pointer-types]
+>
+> Gaah, sorry. I didn't notice this because of unrelated noise due
+> to having to configure with --disable-werror. Fixed now by removing
+> a bunch of const's and also using .lock.
+>
+>> > +static inline void qht_bucket_lock_destroy(const struct qht_map *map,
+>> > +                                           struct qht_bucket *b)
+>> > +{
+>> > +    qht_do_if_first_in_stripe(map, b, qemu_spin_destroy);
+>> > +}
+>>=20
+>> Who is meant to be calling this?
+>
+> Should have been removed in v2; fixed now.
+>
+> I've uploaded the v3 series to https://github.com/cota/qemu/tree/tsan-v3
+>
+> Please let me know if you want me to also mail it to the list.
+
+Please do and then I can be sure I'm upto date when I rebuild the PR.
+
+> Thanks,
+>
+> 		Emilio
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
