@@ -2,85 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E2DF66604F
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 17:23:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9335466606D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 17:28:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFdsU-0006hR-JU; Wed, 11 Jan 2023 11:23:02 -0500
+	id 1pFdxO-000095-3t; Wed, 11 Jan 2023 11:28:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFdsS-0006gr-0B
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:23:00 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <david.daney@fungible.com>)
+ id 1pFdtC-0006x7-HK
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:23:46 -0500
+Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFdsQ-0004XH-CE
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:22:59 -0500
-Received: by mail-wr1-x431.google.com with SMTP id co23so15608488wrb.4
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 08:22:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7VjXTY7frC5Wdz5aVyipGKSTso5yl/gBzj4eH/LvTSo=;
- b=RwYjirdTomvXL/DbBoWqGUoaZ9lg/pwEJT+dm60d/RBpsY/oWoXJlXDdXhxG05eJTE
- RmlRp/afFQa/A2TQ6dm2mXiPrAiy3JLViTI3vnZX4bbpDYm0SRWWBn8c8i+TAImuauWm
- qeotX//7nTy+F5XqhYzf2AOzup3m+x60nP1DjhcJ0FW2gSh4DQOJSIECTsl+UNHwQTL0
- OdVAYv4XRGXNCxZwNF7KSfVMw5Wyjb2AOsHrG8fTLaRU6TEG9RFJUKZEGCkPyXBlJtuH
- IWp0lACYhcu8H0W+Sp0IOWb680kQJ7WYx7GhJrExmjG19d4oEzSWBTTI/VIiTJKbh6zv
- HxDQ==
+ (Exim 4.90_1) (envelope-from <david.daney@fungible.com>)
+ id 1pFdt9-0004aQ-Ri
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:23:45 -0500
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-1433ef3b61fso16018355fac.10
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 08:23:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fungible.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=RGqntA6TXpxPqNtwO+iPD8ITry4FocB1TueRIrxVQlA=;
+ b=UGtOvNHut3nRhtp6amY/h3wWduYcB1Vjkn3Ujp3nPN7+FTEKQaRzrDfLbfAhSbrAkt
+ mOBpO9MGfB/giMTOuLStdZCEql6RcxvAWCMFP65G49DECRRkeTa7p5j8H5pe4bNoyHIr
+ X2Y2eX3ZVJ6LR5Tr8GUuBcsuePO1Ahn8+ie28=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=7VjXTY7frC5Wdz5aVyipGKSTso5yl/gBzj4eH/LvTSo=;
- b=yn9raZ34SPAW/cUV4pegmu1GosorUjw5LbLNVSmFgXgsxbXPrGkifFdi2sziwZ7gbc
- m0DmSu7Puuw1BlVyqAdu9UCn9iT77ACxPpXv+/TTm+yZyhsHA89C5m6l5gJjsxx0DZKd
- OwtCbQMoi2sLEU8H9DL/UjB+KMiiK25jPV0EbOdpD+5NiNm8GjBnd4vp/zQMKQyT8Vix
- 2FU/9bp/6qECwUBHvD8YNqgti9AtTvpE7IS3Z42M2vr5MuscnRbKU/hmbn+491om53ZF
- bjeuT14dMQyeNRcwQiref11kH+uehCbcvC7Q05yBdmTlzqInQNvYUdTC3Q+dpp2FaMUa
- 2IDA==
-X-Gm-Message-State: AFqh2koM58g/NQtz9gkwrgBWEi59huhl+mxgGpE3PbHBZ2k3LroYLPpv
- nQBt20q/LmOr+x1+OP3CrA+LjQ==
-X-Google-Smtp-Source: AMrXdXsf6FOheMp3swQxib70n4ESjENeF/CBrzqVV6hXIpew+BmCFSLuDhl1KvTjiCcsxsFr1wLw1A==
-X-Received: by 2002:a5d:534e:0:b0:2bb:6d44:5d1 with SMTP id
- t14-20020a5d534e000000b002bb6d4405d1mr10650217wrv.28.1673454176751; 
- Wed, 11 Jan 2023 08:22:56 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- m13-20020adfe94d000000b002714b3d2348sm14207669wrn.25.2023.01.11.08.22.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jan 2023 08:22:56 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E7FF61FFB7;
- Wed, 11 Jan 2023 16:22:54 +0000 (GMT)
-References: <20230111014705.2275040-1-iii@linux.ibm.com>
- <20230111014705.2275040-2-iii@linux.ibm.com>
-User-agent: mu4e 1.9.12; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, Christian Borntraeger
- <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 1/3] linux-user: Clean up when exiting due to a signal
-Date: Wed, 11 Jan 2023 16:22:49 +0000
-In-reply-to: <20230111014705.2275040-2-iii@linux.ibm.com>
-Message-ID: <871qo1niqp.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RGqntA6TXpxPqNtwO+iPD8ITry4FocB1TueRIrxVQlA=;
+ b=FocuRb0f3jlVYYwcQfBT9abwbxXBw/u5MvttSxC3nFpZYLuR4aFuE1CGl/JHd9FzaO
+ padcSpKFYEPbO0wslOvHJR4a1s7YzKnE4+3J3seGnmuFuKXQ5x7TuPjOhL2F4Lbwp6g3
+ 8ismZ+J8rv3q5R5G07k33cXblqRJT1axx6eZeQ9sl3hfqI1Q85NG+Fr1UTCiAEL+Q5Dy
+ l5KgUd+zGlR01Sj/+YQ2HNhmKOsfuratrNotbzhdqdtH/tvCW+k6hRP40ULgu00xsQRL
+ Cphvnjbq6bGOrOFTXCMnEqIaciAZBrGRXZIDWbdeh/VFsLtgS457xJkxMh9hbLY4u6Gs
+ I4iQ==
+X-Gm-Message-State: AFqh2kp5Q2P3tvAEXfyPaq2gIxLEUE9rzMn4V7TCYU5tibS39VPb04Im
+ gC053s6gg9uyfwXJjdKCaooOSyQClbK3L8AsgVvf+A==
+X-Google-Smtp-Source: AMrXdXumlKWmhwpuZVt9wmWlR3s6iUjArkQou3HBf8xdhIe87VKRfahlKtvMvkL6Sa4E/DS6wVsYKGiiTcVmfMAoQNo=
+X-Received: by 2002:a05:6870:1d13:b0:15b:8aa2:9090 with SMTP id
+ pa19-20020a0568701d1300b0015b8aa29090mr1132961oab.47.1673454221202; Wed, 11
+ Jan 2023 08:23:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+References: <20230109105809.163975-1-dgilbert@redhat.com>
+In-Reply-To: <20230109105809.163975-1-dgilbert@redhat.com>
+From: David Daney <david.daney@fungible.com>
+Date: Wed, 11 Jan 2023 10:23:30 -0600
+Message-ID: <CAFHkhwhehrxy0Ds1NykzT+UJtzW+vEYtK2xySZ2Vw+FN-0gDvg@mail.gmail.com>
+Subject: Re: [PATCH] virtio-rng-pci: fix migration compat for vectors
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, eduardo@habkost.net, 
+ stefanha@redhat.com
+Content-Type: multipart/alternative; boundary="00000000000067322c05f1ff6c5a"
+Received-SPF: pass client-ip=2001:4860:4864:20::33;
+ envelope-from=david.daney@fungible.com; helo=mail-oa1-x33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 11 Jan 2023 11:28:04 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,21 +82,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--00000000000067322c05f1ff6c5a
+Content-Type: text/plain; charset="UTF-8"
 
-Ilya Leoshkevich <iii@linux.ibm.com> writes:
+Seems good to me.
 
-> When exiting due to an exit() syscall, qemu-user calls
-> preexit_cleanup(), but this is currently not the case when exiting due
-> to a signal. This leads to various buffers not being flushed (e.g.,
-> for gprof, for gcov, and for the upcoming perf support).
+Acked-by: David Daney <david.daney@fungible.com>
+
+On Mon, Jan 9, 2023 at 4:58 AM Dr. David Alan Gilbert (git) <
+dgilbert@redhat.com> wrote:
+
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 >
-> Add the missing call.
+> Fixup the migration compatibility for existing machine types
+> so that they do not enable msi-x.
 >
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> Symptom:
+>
+> (qemu) qemu: get_pci_config_device: Bad config data: i=0x34 read: 84
+> device: 98 cmask: ff wmask: 0 w1cmask:0
+> qemu: Failed to load PCIDevice:config
+> qemu: Failed to load virtio-rng:virtio
+> qemu: error while loading state for instance 0x0 of device
+> '0000:00:03.0/virtio-rng'
+> qemu: load of migration failed: Invalid argument
+>
+> Note: This fix will break migration from 7.2->7.2-fixed with this patch
+>
+> bz: https://bugzilla.redhat.com/show_bug.cgi?id=2155749
+> Fixes: 9ea02e8f1 ("virtio-rng-pci: Allow setting nvectors, so we can use
+> MSI-X")
+>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/core/machine.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index f589b92909..45459d1cef 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -45,6 +45,7 @@ const size_t hw_compat_7_2_len =
+> G_N_ELEMENTS(hw_compat_7_2);
+>
+>  GlobalProperty hw_compat_7_1[] = {
+>      { "virtio-device", "queue_reset", "false" },
+> +    { "virtio-rng-pci", "vectors", "0" },
+>  };
+>  const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
+>
+> --
+> 2.39.0
+>
+>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+--00000000000067322c05f1ff6c5a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+<div dir=3D"ltr"><div>Seems good to me.<br></div><div><br></div><div>Acked-=
+by: David Daney &lt;<a href=3D"mailto:david.daney@fungible.com">david.daney=
+@fungible.com</a>&gt;</div></div><br><div class=3D"gmail_quote"><div dir=3D=
+"ltr" class=3D"gmail_attr">On Mon, Jan 9, 2023 at 4:58 AM Dr. David Alan Gi=
+lbert (git) &lt;<a href=3D"mailto:dgilbert@redhat.com">dgilbert@redhat.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">F=
+rom: &quot;Dr. David Alan Gilbert&quot; &lt;<a href=3D"mailto:dgilbert@redh=
+at.com" target=3D"_blank">dgilbert@redhat.com</a>&gt;<br>
+<br>
+Fixup the migration compatibility for existing machine types<br>
+so that they do not enable msi-x.<br>
+<br>
+Symptom:<br>
+<br>
+(qemu) qemu: get_pci_config_device: Bad config data: i=3D0x34 read: 84 devi=
+ce: 98 cmask: ff wmask: 0 w1cmask:0<br>
+qemu: Failed to load PCIDevice:config<br>
+qemu: Failed to load virtio-rng:virtio<br>
+qemu: error while loading state for instance 0x0 of device &#39;0000:00:03.=
+0/virtio-rng&#39;<br>
+qemu: load of migration failed: Invalid argument<br>
+<br>
+Note: This fix will break migration from 7.2-&gt;7.2-fixed with this patch<=
+br>
+<br>
+bz: <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D2155749" rel=
+=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.cgi?=
+id=3D2155749</a><br>
+Fixes: 9ea02e8f1 (&quot;virtio-rng-pci: Allow setting nvectors, so we can u=
+se MSI-X&quot;)<br>
+<br>
+Signed-off-by: Dr. David Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat=
+.com" target=3D"_blank">dgilbert@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0hw/core/machine.c | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/hw/core/machine.c b/hw/core/machine.c<br>
+index f589b92909..45459d1cef 100644<br>
+--- a/hw/core/machine.c<br>
++++ b/hw/core/machine.c<br>
+@@ -45,6 +45,7 @@ const size_t hw_compat_7_2_len =3D G_N_ELEMENTS(hw_compat=
+_7_2);<br>
+<br>
+=C2=A0GlobalProperty hw_compat_7_1[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;virtio-device&quot;, &quot;queue_reset&quot;, &=
+quot;false&quot; },<br>
++=C2=A0 =C2=A0 { &quot;virtio-rng-pci&quot;, &quot;vectors&quot;, &quot;0&q=
+uot; },<br>
+=C2=A0};<br>
+=C2=A0const size_t hw_compat_7_1_len =3D G_N_ELEMENTS(hw_compat_7_1);<br>
+<br>
+-- <br>
+2.39.0<br>
+<br>
+</blockquote></div>
+
+--00000000000067322c05f1ff6c5a--
 
