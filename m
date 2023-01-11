@@ -2,100 +2,153 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A77B666240
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 18:45:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39877666247
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 18:50:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFf9n-0005fD-Dv; Wed, 11 Jan 2023 12:44:59 -0500
+	id 1pFfDy-0008Gc-20; Wed, 11 Jan 2023 12:49:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pFf9g-0005f0-F4
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 12:44:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1pFfDu-0008Fx-Bq
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 12:49:15 -0500
+Received: from mga17.intel.com ([192.55.52.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pFf9e-0003rS-MD
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 12:44:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673459089;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kP7BTcLjPu2zuQdfCbrlqShXu7QWLIE5U4DJ8YE/HM8=;
- b=KandD/oKbNhom+2/1G9xck6EckXqqombUxi6arhKp1ZUfHRWNWXn4l5h/8rseZLVjCu5ls
- zKgPQNGLEpn6NknBx0NX+a5nhuitCfh8k4OWio4c7ww8zlxSFqC0d3x4WDXtEybNzo+9sy
- KYxNp1ejOa//8cN7tc8cKz5Lr3/k7BA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-388-4mGqY9fWO7ud3TUsjwllLw-1; Wed, 11 Jan 2023 12:44:48 -0500
-X-MC-Unique: 4mGqY9fWO7ud3TUsjwllLw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u15-20020adfa18f000000b002b129dc55bfso2948596wru.11
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 09:44:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :content-language:references:cc:to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kP7BTcLjPu2zuQdfCbrlqShXu7QWLIE5U4DJ8YE/HM8=;
- b=UUVdOOvBLqw6U5k1Lc84gPKWn7P6j+8wSeXvcd+QCCWiP+8QpUvFScPHvc9gCOGGWx
- d7eECNcvd5uTNxnWAsvhTW89AsYaYdr9avTxScIjUWVfkel8su6F9ELxpSkGXnO0VtFi
- pLGqVytXcG86GXdvJemK3w1p2kLMlwdRfgMza306SF7IWxb9ZOiElHLsvqnJ8ZEJXKJH
- GCuDaqQI+O6iKE7j2g0/nWIEwlrMooPoosBZLylnSkqbXsEyKwBVpVlPha3x8bm2mujO
- fDV0VW2IYqE+4IhRiHUl1iztxVe7+X+RnXi5gIcJd874gS9BRlNbfMlJ3MG4lxfa9vdw
- W/yQ==
-X-Gm-Message-State: AFqh2kqVVyjxIibRDlxXpv8nHmDAgwhDxA8A5by953nJjKQBRrhhtbvp
- njyMFJWNUrk0s3GMd/TEijug+HfxoEOuS0suBFF6eEqAbZraYc0fwjnUph6SN8JtJnAJirRMGk5
- xW2alPSKGL5V6aiA=
-X-Received: by 2002:a05:600c:4da0:b0:3d2:3a53:2cd6 with SMTP id
- v32-20020a05600c4da000b003d23a532cd6mr53653820wmp.9.1673459087481; 
- Wed, 11 Jan 2023 09:44:47 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuo9Pmop64X57jEr3E12qC5B0IjK6XApkNyWjaIPWNWNUv6xJOOFrvFGysS2ysJd8haSSfUrw==
-X-Received: by 2002:a05:600c:4da0:b0:3d2:3a53:2cd6 with SMTP id
- v32-20020a05600c4da000b003d23a532cd6mr53653807wmp.9.1673459087197; 
- Wed, 11 Jan 2023 09:44:47 -0800 (PST)
-Received: from ?IPV6:2003:cb:c704:5b00:5b3c:db46:8eb5:ee24?
- (p200300cbc7045b005b3cdb468eb5ee24.dip0.t-ipconnect.de.
- [2003:cb:c704:5b00:5b3c:db46:8eb5:ee24])
- by smtp.gmail.com with ESMTPSA id
- 2-20020a05600c228200b003d9e00dfccfsm16319705wmf.8.2023.01.11.09.44.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 09:44:46 -0800 (PST)
-Message-ID: <1711a861-c3a5-0851-347f-0106ade37976@redhat.com>
-Date: Wed, 11 Jan 2023 18:44:45 +0100
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1pFfDr-0004nY-00
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 12:49:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673459351; x=1704995351;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=8gAcFGBXaIrdlKR9JUDCyyj1dRy/nIT2bx4wQDSqXNM=;
+ b=JLDCUirxz8dnT0PaHo2vcxucncTB1wwZP4sMhznM8pnsRLxbWel82YH+
+ D4KWYLqpV2d8snSfJiwTgo8U2OtHwMOEMSY8L9ekBX62KxPHBGgwOG3TI
+ 0KTYiuCAaOgEAPmdc0EOUnQHNWjS6f12RZpeC812YLrWF0dYu75boxLKI
+ NwypxCSjLxOB0e85po2zrHOIk+rqgfLvP7EHIK3kAxWM6HqrkWOMVKm7F
+ Zim7VSu0osAwCn46aLivV74Gf1BCYbS1rDC1u5qDTkURwO+XnN5g0Lu6a
+ V3hQN5q/pW5czcp5A2rYV0ad8tG2tPDNLZEF4Sivs5qSk6oTuXJKcrgEN Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="303857821"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="303857821"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2023 09:48:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="720807636"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="720807636"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga008.fm.intel.com with ESMTP; 11 Jan 2023 09:48:31 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 11 Jan 2023 09:48:31 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Wed, 11 Jan 2023 09:48:31 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.172)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Wed, 11 Jan 2023 09:48:31 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z2mfQnbFkCAQ4YDc3BqWL+yevaBvBIfw614hFpvZ7k14fOUdZHav+1t4dLs+Yk4Up5wXrRfvaGS009kam/hw0emGbxZVyOO749ZdhCjW3LfqsnAnvWyydEOpRbvjh7WQzWoa8quylHhGWX8dYBBMfX/zJjTTAaw6qyYR3RbokOM3zk72wFilb4KLKrxQxvCEBIz7R7wVtdlWIWJsZciG2t4CTjHat+fqM8Lc7Pdq+7wehkl0Yb/tqeSNecZMjkHch70UyE7JCili1AGTjoZvl/fZjWyFzV0/3g1GdkCnYA2FXhZGKZhyEXUWVYjoMpurwtaac+d0jvLtsTssr4J1sQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pn3bMntzmUxDDaVYJWmvZx2+iB5jGACiGZVR89Epm/0=;
+ b=Tq3dhV9IrsKbX1wCqn1lKJ+Wgfh7lpS2A8E8WBbBBiAwKxo1Kby6nQF/Wpxh7C65dUzqtqVy7bdemSfXOG+DlZnTSY9IUIc3aLFjUZlIBm56cot3A4k1FZnpjZw3LYfa0liyiSGynyYK+O719SddE0/CGbdcRjPR/803oyuKVi2rGzFmlC9txvtIy8i9TE+WkCYZ5torVOYj7PdUkRNjn+KonJKw11454xjvOA4SsaD2E2mlM9oz1TlpUSpGadynBX3xbjYRbn4JWb6zJw91giCB6KR4N+fTWZjSQn4Ovr3vJu7JBPc9CGwDRKYGUsWT3SggExQb3teUBGS+7YC5Lg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by SA0PR11MB4559.namprd11.prod.outlook.com (2603:10b6:806:9a::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
+ 2023 17:48:30 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::288d:5cae:2f30:828b]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::288d:5cae:2f30:828b%8]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
+ 17:48:30 +0000
+Date: Wed, 11 Jan 2023 09:48:26 -0800
+From: Ira Weiny <ira.weiny@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
+ <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
+ Gregory Price <gourry.memverge@gmail.com>
+Subject: Re: [PATCH 5/8] hw/i386/acpi: Drop duplicate _UID entry for CXL root
+ bridge
+Message-ID: <Y772anGNEZQKanMZ@iweiny-desk3>
+References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
+ <20230111142440.24771-6-Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230111142440.24771-6-Jonathan.Cameron@huawei.com>
+X-ClientProxiedBy: BYAPR05CA0107.namprd05.prod.outlook.com
+ (2603:10b6:a03:e0::48) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-References: <d60f9272-1e81-00da-8046-2264a9b97e58@redhat.com>
- <Y7cFplyGc4hIrYZW@x1n> <482fadb5-7420-e07b-982d-5b0f3e8c42f8@redhat.com>
- <Y7xw4RqLQUFWZyfI@x1n> <460b6ea0-67a6-891f-f8fb-a5f23e9985c4@redhat.com>
- <c6a66296-94a7-e1ef-e0c1-098071f961d2@redhat.com> <Y73Er/n86CgQTMYu@x1n>
- <fbde8341-660b-0ed1-4f74-0afe565d5be5@redhat.com> <Y77lb+tUxWGKuQbo@x1n>
- <6c017410-cdb6-6a7c-ab02-a8412e37ecba@redhat.com> <Y77xsBnqW2per5sE@x1n>
-Content-Language: en-US
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v3 1/6] migration: Allow immutable device state to be
- migrated early (i.e., before RAM)
-In-Reply-To: <Y77xsBnqW2per5sE@x1n>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|SA0PR11MB4559:EE_
+X-MS-Office365-Filtering-Correlation-Id: 61b227bc-ce53-4271-c076-08daf3fc0cd1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fLKm8eL4e1TtZogsJyu06CHtXmXihZ+YLqKQ9hP22qPrjxOBpFqtqf2x8Db4ZSNJTMnDLEVRTanJqqhKxA3pZRP4wOKUJnBb8AtYydoadLMhdZ3s2KQv6P0hhkaxdzcEsI+EVMw1qE/UeFIzLG3lCKGcFY+hBjkzFJl3YBSF+WaLhTLN/g66iyanXYzDAAHzqqYM8qtaJ7clyG1C/FOq6SawwdDo6hCOClMj+NvTgYZ3qlpiuFsKKbcmj5jpNWsMtRzEdtBUL2X3lYfhSiSl1o3IYL9/D+Tn5KomPn9Sc1bn7J+k+d6FUqbj0q5KB5nXB5EeN8hDgyL12UN8kt19x+AFk6vVZkQLaTQig067+KMYJ5hpFZk62ofJX8jwdbek3txZ0GIIjpviIUAqQH5MY/mBgn1hBpBuBpjUTpMDzO6KZ0+OKXx0+wGt9n/rIOyKRnhDjq1xop9UeJwSy0txcJ/4MoI5rtu1Zln3uq6z+yiuVv2f27+Lmr+JNF+jr68MK4BHPD+t1JU6sACmsCvXU18UKiG0P4fpbYqD9AUce7CIHJIa/kJkKfOtFXC9EE2kEdJmQgaNUQaeJfiVgSyP0dRHrBgz9Q/yeiuLMVI5MKaI5SvUees6kxfgyJ67ZFEEuzsGIN8phhz2YBkogxlCnw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(7916004)(346002)(396003)(376002)(136003)(39860400002)(366004)(451199015)(6506007)(38100700002)(82960400001)(6666004)(2906002)(6486002)(478600001)(33716001)(4744005)(26005)(186003)(6512007)(44832011)(5660300002)(9686003)(316002)(83380400001)(8936002)(86362001)(41300700001)(6916009)(8676002)(54906003)(66946007)(66556008)(4326008)(66476007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Lgco4zzcVfsbPQnBziYH6D0eDstluMXKRUjRaCSOC8qTWRRZMnYL4IQ4WeAt?=
+ =?us-ascii?Q?SFaaAgqG7dvZvn81IizKDyzNErBFaHdAk3JNeKh9Ey4a/yco3nHFjBFpAQbu?=
+ =?us-ascii?Q?oewidN++mIK/HrSartE3yNSBr8B6/Kfg3gk8Bz1f0uAPauI9HlJODy6nhyG1?=
+ =?us-ascii?Q?M8BOcWyTOhia/zml8GMrQFsslbBnOf5PCx3fMtI/tHfgyOVuex7n86XrQkOZ?=
+ =?us-ascii?Q?1vMkbc3KNubSft8cg3wMZwIe+6UL55XaW3rAwfhXgOQZGswtKUkQVGvAQz7O?=
+ =?us-ascii?Q?9tEZVFStkz0tRfAVcWwI2c2XoGIJkSWS+8Wc0n/skj51gO7llaPKw3kPrben?=
+ =?us-ascii?Q?8U/V1VPLhhCjKAnWSsNah6hjdsLO47EuepElPpiJj9nzWJqVIWilbl54qh/C?=
+ =?us-ascii?Q?KfXWZqTP8QjclbIAmj78ECXcf1FZZrEHU+zmQo3t5/ekNl5b6e4Xo12STmPP?=
+ =?us-ascii?Q?auGzSa6DzWgIxv8xduUL7askgC84ArIZziiI6yDwwAT1cTZYLyghTC7WaPh0?=
+ =?us-ascii?Q?LMCSKRGVpSM3znQOqFv4/vDzyG3OjzZd7XQL3ST338ocCle9Wzz7sB+e4Rqf?=
+ =?us-ascii?Q?SeAMSX4yAyjq7tMXV+2UmAxmy9ezZunFV0TicGsbCHrM2cUEUXrKiYLCUTBh?=
+ =?us-ascii?Q?OJ/r2J94THfRdVZkaqZ1ZWJS7XPIcEvGoGNlFDunlbdet0cWgnPESJFwQnNh?=
+ =?us-ascii?Q?K0WGDBp8CvSxUVPZxjcMt4R9hA58Z/uQ9pix8UlfAuIEAmdLeYeZxbkPPJbw?=
+ =?us-ascii?Q?TLZI+UxMyIw4BmFCBZCnp7QXU6PSjnf9+p8+c+gcJM7ohT3rjUZiHRvZzuM4?=
+ =?us-ascii?Q?2F75PvP9MtCHbfJRabPm67GszTTZZIbEXh6QfWbg30RT2NmwBddHeFaQFhFD?=
+ =?us-ascii?Q?HF3nX1XVZj4IvfRNslphfuwHLKSICWFescjZtnf7kQW+KjX5xCK5VnQ9CqBA?=
+ =?us-ascii?Q?1iB26h9eK6IgxLP4JQ19rXUzFIud5gq52QrKajUqpBWODEqwrkHU9HsxuSk0?=
+ =?us-ascii?Q?Ca3zo4t8XwpyYem/VoLEEmLuLkuVuJqma49y53CAdXyoMaxwqUG29d1DtlKy?=
+ =?us-ascii?Q?S+Aw1rnu2S7motl5JeJPA7reoxapl/YCZT6gtG4kTd+gQkBlLXfy8BpCc7sI?=
+ =?us-ascii?Q?wQR6RNaxR2vlJiZmqJrq/kqLv8E/wnowCPDqhT47h22Boq1EVkqpYmXmql5S?=
+ =?us-ascii?Q?v+PN7t+DwC6p+/UumbbXykhgciti5Wz+9p+RNKLurtfIcxU/hF1303o+e4/z?=
+ =?us-ascii?Q?zPiQwMFvv/gkmNelUAuhOGwn5/Y8S03Vl8nUOCfwJJ7UWamk4ziImG96uK8r?=
+ =?us-ascii?Q?PqKPe5QfpytcF+s/F+FxvGUwEdm+j1oGI7c+1MoHGCnXjM9izjpsMrRFy/n0?=
+ =?us-ascii?Q?gmrLkjQrJ2uQqITnLESaqN1am/IuF/osu7ItrvxbmUgbd5AlFEKnDBa88OMw?=
+ =?us-ascii?Q?mLOH9SgF2HFizi1kOTtuGmIlcTBzxCNh5QNoLOIjFqGxXMFOZyh1ji/LuDtA?=
+ =?us-ascii?Q?Dm43B+07E0GHqarGerjlH8q5TaoJT2IF3eVTEebApjdgwf4q0VcTlrKW95YZ?=
+ =?us-ascii?Q?q/0vruPiR159UR8USzbPC4g5eI5gnSVPfByprQNT?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61b227bc-ce53-4271-c076-08daf3fc0cd1
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2023 17:48:29.9977 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: y0y8edCfJ5B8lW8KVNDWNBIHrYBCqu0d1maleT4ThZ8/CbggQr4vYYMXMqN0dJjy8G5z2JSq9Zp8Ek5jE1BDkA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4559
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=ira.weiny@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,62 +164,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
->>>
->>> Not against it if you want to keep exploring, but if so please avoid using
->>> the priority field, also I'd hope the early vmsd will be saved within
->>> qemu_savevm_state_setup() so maybe it can be another alternative to
->>> save_setup().
->>>
->>> Maybe it's still easier we keep going with the save_setup() and the shim
->>> functions above, if it works for you.
->>
->> I'll happy to go the path you suggested if we can make it work. I'd be happy
->> to have something "reasonable" for the virtio-mem device in the
->> analyze-migration.py output. But I could live with just nothing useful for
->> the device itself -- as long as at least the other devices still show up.
+On Wed, Jan 11, 2023 at 02:24:37PM +0000, Jonathan Cameron wrote:
+> Noticed as this prevents iASL disasembling the DSDT table.
 > 
-> So, let's see whether we can go back to the load_state() approach..
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+
+> ---
+>  hw/i386/acpi-build.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> static const SaveVMHandlers vmstate_virtio_mem_device_early_ops = {
->        .save_setup = virtio_mem_save_setup_early,
->        .save_state = virtio_mem_save_state_early,
->        .load_state = virtio_mem_load_state_early,
-> };
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 127c4e2d50..a584b62ae2 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1482,7 +1482,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>                  aml_append(pkg, aml_eisaid("PNP0A03"));
+>                  aml_append(dev, aml_name_decl("_CID", pkg));
+>                  aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> -                aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
+>                  build_cxl_osc_method(dev);
+>              } else if (pci_bus_is_express(bus)) {
+>                  aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+> -- 
+> 2.37.2
 > 
-> vfio handled it using a single header flag for either save_setup() or
-> save_state(), then load_state() identifies it:
-> 
->      data = qemu_get_be64(f);
->      ...
->          switch (data) {
->          case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
->          ...
->          case VFIO_MIG_FLAG_DEV_SETUP_STATE:
->          ...
-> 
-> Maybe play the same trick here?  The flag needs to be hard coded but at
-> least not the vmsd.  Based on previous experience, I could have missed
-> something else, though. :)
-
-I could also remember "internally" if load_state() was already called 
-throughout the migartion I think.
-
-But, IIUC, it will still make analyze-migration.py produce wrong 
-results, because of the vmdesc mismatch.
-
-> 
-> Or if you like go the other way I'm fine too.
-
-IMHO my approach will be cleaner on the device side but will require 
-migration code changes. I'll try getting that as clean as possible for 
-now and resend. If there are more ideas on how to get the other approach 
-running, I'll be happy to try.
-
-Thanks!
-
--- 
-Thanks,
-
-David / dhildenb
-
 
