@@ -2,56 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C0D666125
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 18:00:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58091666175
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 18:11:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFeS6-0004dA-Ae; Wed, 11 Jan 2023 11:59:50 -0500
+	id 1pFeaa-0001bF-TB; Wed, 11 Jan 2023 12:08:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFeS1-0004cb-SN
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:59:45 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFeRy-0003i3-T8
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:59:45 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NsYkJ6gXwz67NQt;
- Thu, 12 Jan 2023 00:56:56 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 11 Jan
- 2023 16:59:32 +0000
-Date: Wed, 11 Jan 2023 16:59:31 +0000
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-CC: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
- <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
- "Ira Weiny" <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>
-Subject: Re: [PATCH 6/8] qemu/bswap: Add const_le64()
-Message-ID: <20230111165931.00001b0c@huawei.com>
-In-Reply-To: <8cb2447b-a2e6-f137-5cb3-a5439a35bb7f@linaro.org>
-References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
- <20230111142440.24771-7-Jonathan.Cameron@huawei.com>
- <8cb2447b-a2e6-f137-5cb3-a5439a35bb7f@linaro.org>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFeaY-0001TR-3S
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 12:08:34 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFeaW-0005jb-Ag
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 12:08:33 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id z5so14685159wrt.6
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 09:08:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=amorKEvFOfebuftjwAEf9dE7eAQj/vV/BDBmuJEWrUI=;
+ b=A+IHlLf2DVyFIWImIJV0oBRKDmpdznQFTxBuNi23OTq6vIJOngr5SAoTbyGBfMVIbD
+ WGL/Lzvz3wmAuBECx7cQB+usLVkX8gXO67wsn6HMwMoF43sWhnemQhUGPrN9mEHnUpoE
+ W73DJLV4jQnwd6vKNIy+N69V++7Jb9jCB4YcAFAeaGuVJwsLeLGTAgXKvSZOXf3jrUs+
+ r4PtNXxfMFZz8mDrjDCAf/1nwEifDkbbPbo9fFwGWXd9tQQ7p9+GL2/FSeHmJfFus000
+ 0RPFR6mtiZql4utbJT26dg3LDCkP3N7WovJQyWeFoVayS+CF9oWGMKCm+rvNruymSoFp
+ FzhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=amorKEvFOfebuftjwAEf9dE7eAQj/vV/BDBmuJEWrUI=;
+ b=oM7/oviC0RXdDeUG728V+qApE3263RTVcPbOgeRcX2EUniJDnDIH5woWzYjj9fkrXz
+ mc9sqFnSZTlnGkslu2W/aiG0eh7GiexBGSUKcngxVnVGldyg6yXwXGqiNsIez6dH9WMX
+ xXp3KFm+MEAqNxQMv/c5OT5oBANnZFRHKS1F6rwM2uqfTtCNkkWmMRoyRK2R1hGzxDmw
+ jrmwlfEDxNaBu8x9AvxCojiXLbM88p+lcAbg07sYMZZk7jsEi5+cKUzi9jhKzuWO1UBH
+ icsRVIrGa+L/FxriDKghyphlZquf68wiAUBOXAJb6mB8RBIBxP35DPz+KOY15RjzUH9S
+ VZww==
+X-Gm-Message-State: AFqh2kpxdVzpzsb10K0dt9jQwgBtOwEKYeLXtB4H+uJ68JMoWCAxQSUr
+ 8v8ifHDnGXbofMw++V73ufD54A==
+X-Google-Smtp-Source: AMrXdXvwXfZXWP3EyP2fWL06HIlpSojgyGYhTUOrpiL9C3+AwFkb+379MeFI1Qq0Sc3ne7c55+ACVw==
+X-Received: by 2002:a05:6000:1707:b0:2ae:d9e2:7c80 with SMTP id
+ n7-20020a056000170700b002aed9e27c80mr21482262wrc.8.1673456910683; 
+ Wed, 11 Jan 2023 09:08:30 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ l1-20020adfe9c1000000b00289bdda07b7sm13886302wrn.92.2023.01.11.09.08.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Jan 2023 09:08:30 -0800 (PST)
+Message-ID: <803306e6-685f-2187-4a35-416e6f5a5134@linaro.org>
+Date: Wed, 11 Jan 2023 18:08:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v6 25/33] hw/isa/piix4: Use TYPE_ISA_PIC device
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: John G Johnson <john.g.johnson@oracle.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Ani Sinha <ani@anisinha.ca>,
+ Eduardo Habkost <eduardo@habkost.net>, Gerd Hoffmann <kraxel@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ qemu-ppc@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+References: <20230109172347.1830-1-shentey@gmail.com>
+ <20230109172347.1830-26-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230109172347.1830-26-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,70 +99,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 11 Jan 2023 17:40:46 +0100
-Philippe Mathieu-Daud=E9 <philmd@linaro.org> wrote:
+On 9/1/23 18:23, Bernhard Beschow wrote:
+> Aligns the code with PIIX3 such that PIIXState can be used in PIIX4,
+> too.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Message-Id: <20221022150508.26830-33-shentey@gmail.com>
+> ---
+>   hw/isa/piix4.c  | 28 ++++++++++------------------
+>   hw/mips/malta.c | 11 +++++++++--
+>   hw/mips/Kconfig |  1 +
+>   3 files changed, 20 insertions(+), 20 deletions(-)
 
-> On 11/1/23 15:24, Jonathan Cameron via wrote:
-> > From: Ira Weiny <ira.weiny@intel.com>
-> >=20
-> > Gcc requires constant versions of cpu_to_le* calls.
-> >=20
-> > Add a 64 bit version.
-> >=20
-> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > ---
-> >   include/qemu/bswap.h | 10 ++++++++++
-> >   1 file changed, 10 insertions(+)
-> >=20
-> > diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-> > index 346d05f2aa..e1eca22f25 100644
-> > --- a/include/qemu/bswap.h
-> > +++ b/include/qemu/bswap.h
-> > @@ -187,6 +187,15 @@ CPU_CONVERT(le, 64, uint64_t)
-> >    * used to initialize static variables.
-> >    */
-> >   #if HOST_BIG_ENDIAN
-> > +# define const_le64(_x)                          \
-> > +    ((((_x) & 0x00000000000000ffU) << 56) |      \
-> > +     (((_x) & 0x000000000000ff00U) << 40) |      \
-> > +     (((_x) & 0x0000000000ff0000U) << 24) |      \
-> > +     (((_x) & 0x00000000ff000000U) <<  8) |      \
-> > +     (((_x) & 0x000000ff00000000U) >>  8) |      \
-> > +     (((_x) & 0x0000ff0000000000U) >> 24) |      \
-> > +     (((_x) & 0x00ff000000000000U) >> 40) |      \
-> > +     (((_x) & 0xff00000000000000U) >> 56)) =20
->=20
-> So looking back at=20
-> https://lore.kernel.org/qemu-devel/20200917163106.49351-4-philmd@redhat.c=
-om/
-> this patch missed to update the function description:
->=20
->   /*
-> - * Same as cpu_to_{be,le}{16,32} described below, except that gcc will
-> + * Same as cpu_to_{be,le}{16,32,64} described below, except that gcc will
->    * figure the result is a compile-time constant if you pass in a consta=
-nt.
->    * So this can be used to initialize static variables.
->    */
+> @@ -1459,7 +1461,12 @@ void mips_malta_init(MachineState *machine)
+>       pci_ide_create_devs(PCI_DEVICE(dev));
+>   
+>       /* Interrupt controller */
+> -    qdev_connect_gpio_out_named(DEVICE(piix4), "intr", 0, i8259_irq);
+> +    dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "pic"));
+> +    i8259 = i8259_init(isa_bus, i8259_irq);
+> +    for (i = 0; i < ISA_NUM_IRQS; i++) {
+> +        qdev_connect_gpio_out(dev, i, i8259[i]);
+> +    }
+> +    g_free(i8259);
+>   
+>       /* generate SPD EEPROM data */
+>       dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "pm"));
+> diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
+> index 4e7042f03d..d156de812c 100644
+> --- a/hw/mips/Kconfig
+> +++ b/hw/mips/Kconfig
+> @@ -1,5 +1,6 @@
+>   config MALTA
+>       bool
+> +    select I8259
+>       select ISA_SUPERIO
+>       select PIIX4
 
-Good point.  The context is a little difference as your series had combined
-several comments into one, but I've put in a similar update.
-
-Obviously if your series lands first we can drop this one, but I'll carry
-it forwards for now.
-
-Thanks,
-
-Jonathan
-
->=20
->=20
-
+The PIIX4 owns / exposes the I8259, so we don't need to select it here.
+The Malta board only initializes it. Why did you have to add this?
 
