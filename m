@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE53665FAD
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 16:50:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D217665FB0
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 16:50:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFdLd-0000l8-1x; Wed, 11 Jan 2023 10:49:05 -0500
+	id 1pFdMS-0000ul-9n; Wed, 11 Jan 2023 10:49:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFdLW-0000kW-Lf
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 10:49:03 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFdMK-0000u8-A7
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 10:49:48 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFdLU-0007Bn-Ii
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 10:48:58 -0500
-Received: by mail-wr1-x431.google.com with SMTP id t5so11071993wrq.1
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 07:48:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFdMI-0007Fk-DY
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 10:49:47 -0500
+Received: by mail-wr1-x434.google.com with SMTP id z5so14425964wrt.6
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 07:49:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=N6QKQsMkd0tEzgfZl/1XKTPgvNm9zkksrUQSlImCLXg=;
- b=Fzac++Kx11k3sVfG3PP4A2YubERKKhD6cVA5T3EGQ4Me3m15e0PKO04TSjNYc/pOF3
- JjKHLgv8HScQ9pQXkRgkELifLjgNG4MwUCyUvIxIf3xoO/S3E8O9Kesi844Qodm7TkNm
- QCD1624Nts5b6F7nA5qyEe2hKIHvAaIJcxdmX9dPyFzCQYWiUmr9S4pSystuJdGg4G7n
- xRreZzvxqT37a3mdLgfYK/uw1cFB+o+3YKYRISaWxTFznKZID9sLIw9BHDsjNa5ICE4G
- PM4lHmM2OJHyqiPVootINMPHWsrlxXqksVVMt8jIKm1lVkchS87ScyZwTWiIuhDWRO9R
- lmxw==
+ bh=Kx+2PZuL7bFr6pO8WocnRiw9rL7dEOWCj9OvCwcs8pE=;
+ b=w4c8VsJcrRYnU9CnL5i5kAdkMGao5vgN1BHAT2pyItUKlaOT5BCrNcLO/2I5//YRKV
+ lOF2j+7NvgZPbT6hsYwgugWMqD4V0xlsENLfTgMCYid+U1Vj4sgHCnieGvIsQtC7NzY9
+ SnrACV+ndCKc2lrEO9dceVIe+NAkVj1qQd0S8CUTxIXqgwVWlWnV52ZtH8KizRfGIKAa
+ o1GEntZaAiQ/mE6J+ussnZWENtigREHk4HiuYc6iCuRiO3gBvThJgcRLkapBfG0+1Qpq
+ sDrQa1Fs8+9TBHAlFsdhrgvcRoGk9rVnhz3YYHbBQ17Jlmu1wNMEK8U0dGyhN0/Ct6qa
+ po7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=N6QKQsMkd0tEzgfZl/1XKTPgvNm9zkksrUQSlImCLXg=;
- b=JQHCIiSX9O24mtqLzaaqMKJjRqTx2bu/aasY5X2jmoHG270xAQ6zmJqlUoe4F9JKmZ
- rI67f8/WkMdUOLJ6yWdiEIRB5VjGqs3TYMorAtSNGVveu6MWjyDBmSWMltygKtGWyQ6G
- 4wQcFXlxtUBaIed49FsDg33LybfDZ2PCiqVXQLTecryDFLSz50OkkK6696u31AXX1e8O
- tmouMpB3ItIjmateAwkgOPPVxpm1QhnvJ0ytohSjDPzb18pYf9f3T3EY+nY4zFLba4Mh
- hwve3L86UZKta6ElqYI5BGDdpBrK0LJrlCQ1KzAvMK9Gx4HtQzI6vJd7CplRmi5D2RDf
- ogzw==
-X-Gm-Message-State: AFqh2krvx1EGm1+NYg+y8pPimbYNVXFUcUtw8cVZpitLIQyt1g9JxOUX
- nuS5tUZ+eIFqRTpM91vcpY5n9w==
-X-Google-Smtp-Source: AMrXdXuUsrvPHS5p4nQEPjja3xK1fq5S69K0Uvyh4ERcaI7Ry2EfcujmHfoPGbmbj2NkhmB2FFbjZw==
-X-Received: by 2002:adf:ee8f:0:b0:2bc:7f8e:40ba with SMTP id
- b15-20020adfee8f000000b002bc7f8e40bamr6930505wro.54.1673452134359; 
- Wed, 11 Jan 2023 07:48:54 -0800 (PST)
+ bh=Kx+2PZuL7bFr6pO8WocnRiw9rL7dEOWCj9OvCwcs8pE=;
+ b=YbSboSxcCzwn4Aj5BwV11PrBVGvpJViUj1pgcRQAk3f+TUfni1tuMabMov+Liyj3cA
+ glYRmmdD8BmDzwY0klf8gt9FXX3etQ8KvSkltx6zfmc8FHk8vXtGz7crJIxhl5JieCXq
+ 4sV4LXIZ9e2bhi96A8XKexosi9sMLD/0MaybGbgZZf4/sJ8I96jop2FSc/y1RxGPWHKs
+ r5dro4C46lZGaYD7VkaxBalKAXYuKPQ1yySHvHyLkWWWwsyYTLnusGSyqlhEaCPnVQ/K
+ g/Lq5OGgEo7KZtA5wCZCHsRHT1w52in/PuGFeog/KrlpIhYtrhofW/LLbh61wv58MHOr
+ lL/w==
+X-Gm-Message-State: AFqh2kqfMthrMRwsHlC5X4yntIy1q6p94mfP/Wrdl/ghWqQN6RIUJO/1
+ kqEfjsokHEgqcRnPc8C7dbsuedbxo30dE/RE
+X-Google-Smtp-Source: AMrXdXul+AB6ToQixj6ikqTMGn3v0zg0TZP5f/ppvrfkzZlJygOrcGx2TnWGlAVtLBcxhWdZcYn18w==
+X-Received: by 2002:a5d:5346:0:b0:2bd:c499:8f7 with SMTP id
+ t6-20020a5d5346000000b002bdc49908f7mr1595323wrv.27.1673452184630; 
+ Wed, 11 Jan 2023 07:49:44 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- l1-20020adfe9c1000000b00289bdda07b7sm13731020wrn.92.2023.01.11.07.48.53
+ l6-20020a5d6686000000b002bb3229a03csm13010875wru.34.2023.01.11.07.49.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 07:48:53 -0800 (PST)
-Message-ID: <cde5dfbf-da7d-7a1b-94b4-bf4bac7ca8ba@linaro.org>
-Date: Wed, 11 Jan 2023 16:48:52 +0100
+ Wed, 11 Jan 2023 07:49:44 -0800 (PST)
+Message-ID: <68f9b74a-b0e7-c5a6-7b99-ce4f96d79f36@linaro.org>
+Date: Wed, 11 Jan 2023 16:49:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 4/8] hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
+Subject: Re: [PATCH 6/8] qemu/bswap: Add const_le64()
 Content-Language: en-US
 To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
  Michael Tsirkin <mst@redhat.com>
@@ -64,13 +64,13 @@ Cc: Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
  linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
  Gregory Price <gourry.memverge@gmail.com>
 References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
- <20230111142440.24771-5-Jonathan.Cameron@huawei.com>
+ <20230111142440.24771-7-Jonathan.Cameron@huawei.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230111142440.24771-5-Jonathan.Cameron@huawei.com>
+In-Reply-To: <20230111142440.24771-7-Jonathan.Cameron@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,27 +94,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 11/1/23 15:24, Jonathan Cameron via wrote:
-> From: Gregory Price <gourry.memverge@gmail.com>
+> From: Ira Weiny <ira.weiny@intel.com>
 > 
-> Remove usage of magic numbers when accessing capacity fields and replace
-> with CXL_CAPACITY_MULTIPLIER, matching the kernel definition.
+> Gcc requires constant versions of cpu_to_le* calls.
 > 
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
-> Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
+> Add a 64 bit version.
+> 
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 > ---
->   hw/cxl/cxl-mailbox-utils.c | 14 ++++++++------
->   1 file changed, 8 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> index bc1bb18844..942de73bbc 100644
-> --- a/hw/cxl/cxl-mailbox-utils.c
-> +++ b/hw/cxl/cxl-mailbox-utils.c
-> @@ -14,6 +14,8 @@
->   #include "qemu/log.h"
->   #include "qemu/uuid.h"
->   
-> +#define CXL_CAPACITY_MULTIPLIER   0x10000000 /* SZ_256M */
+>   include/qemu/bswap.h | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
 
-Do you mind changing to the self-documenting (256 * MiB) ?
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
