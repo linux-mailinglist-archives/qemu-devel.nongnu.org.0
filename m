@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93701665860
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 10:59:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF86C66586D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 11:01:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFXtM-0002MU-SC; Wed, 11 Jan 2023 04:59:32 -0500
+	id 1pFXuZ-00037h-8W; Wed, 11 Jan 2023 05:00:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFXtI-0002MF-NJ
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 04:59:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFXtG-0001zk-KR
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 04:59:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673431165;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zOaEjVR3ow6yoyl5o/Wyctdnqx9Rem5fP9DJfEFG4cA=;
- b=T0YHUuzToft34atndgG9F0Qe1+Spdjgu9g8a8DsyyvG+4PSCSgp8VzRsBSUs8KaetimGA7
- aF8s9IbrMXhs8W+wnM3vf2MnBYAVjTvKHVzGzfkTMliGfWJUjpSKy5ZesIv9/Dd5543GBY
- js3N/dfzYdG6O/eF85xCWr6EHCF6ay0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-AgPxUSiWNwC_HHVhdkHFzg-1; Wed, 11 Jan 2023 04:59:22 -0500
-X-MC-Unique: AgPxUSiWNwC_HHVhdkHFzg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 249168027FE;
- Wed, 11 Jan 2023 09:59:22 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.119])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 64AF02166B26;
- Wed, 11 Jan 2023 09:59:20 +0000 (UTC)
-Date: Wed, 11 Jan 2023 09:59:17 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Thomas Huth <thuth@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [RFC PATCH 0/4] qom: Introduce object_class_property_deprecate()
-Message-ID: <Y76IdVNKyIBAZLrl@redhat.com>
-References: <20230109225419.22621-1-philmd@linaro.org>
- <Y71h8JAqYxeB2hPe@redhat.com>
- <53028cf2-0028-b810-348f-b17df33a8149@linaro.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pFXuW-00035x-Bt
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 05:00:44 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pFXuS-0002PZ-C6
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 05:00:43 -0500
+Received: by mail-wr1-x435.google.com with SMTP id z5so13420291wrt.6
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 02:00:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ow0Xg9fqIBu4e2PkotUhyl1U82f0HOK/VAHgdwlzzFE=;
+ b=CO24vEkujg5v4hiPxAnunIfn31T7BTdFUbO38mGoYbl+Rj/tV/7kgJihoQtF5rMwoE
+ aXbOWRyNfmk6SiElkopjyEcalEgG8471fllMqIryKrD1/ZgYGJAWdD54X/gRNDbzgJbl
+ qzQDS8IV6Vw37OYqy23lHde6g0t64uYljQ5uiPSJWztQQNGn1oj0hJ9k9FYVKmarB6EX
+ QL2CXEHaQha9sUwhJUYNFMkwNJvQnD+m9HwfxszwbvuITV2zGyQTpSdvJ17eZ5y0g9TW
+ 7mNo7SW4yWXcx/uSAK0qB2NvSBrMVMktU810NBZx6Mgv4cj+sct6fS5Jr338Ukgbw77U
+ vCOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Ow0Xg9fqIBu4e2PkotUhyl1U82f0HOK/VAHgdwlzzFE=;
+ b=0Mu4t+v8r+aTHwe5/aga6V5uc0LNMSIWkMrBvqAgW3oiTURwqdwY8xBi0bz/WMDCzg
+ dXC/kjvNI5+Z/xqs9DSvlMntmnn+w44uDC4R+5yRvxALaEfff1gfJHPjch3rkzcViIH4
+ yFPwxhtMq5SkAVAYUDrQRxDTpNUJGuGcRzkYhnPXHZMjTvQ5bbZZeyBK49h2mbNntZvh
+ rbsnRgnO3TSFyiUwl0ROK9F8+eCJxGtE0wuYStAuVLH+W3zXnUTTfvK9ceFEvCKh+Ze8
+ D+Jz2dfhjEWI1x1x8M+94/+U7Ixm4i04uF6j/+CkjN428BY0L59AGlUGpxtrEd9+h9x7
+ iUkA==
+X-Gm-Message-State: AFqh2krGs3Sldv96e5+coR7BDLhxebDEfT1KC57RhWt5jkMcHffJK+wG
+ 4ImkS0BLYDTcRrdBv2hqWo9bhQ==
+X-Google-Smtp-Source: AMrXdXvS7dtK3h2qoPnbyTssOVrBXo+T4kS61SJCFKGFDIR/o/Uz2Z7d12fXuzM3QyDAV+HnumEzCg==
+X-Received: by 2002:a5d:514c:0:b0:2bc:7ec3:8b2 with SMTP id
+ u12-20020a5d514c000000b002bc7ec308b2mr5980065wrt.68.1673431237217; 
+ Wed, 11 Jan 2023 02:00:37 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ o7-20020a5d62c7000000b002bbeda3809csm7777857wrv.11.2023.01.11.02.00.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Jan 2023 02:00:36 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4ABEC1FFB7;
+ Wed, 11 Jan 2023 10:00:36 +0000 (GMT)
+References: <20230108023719.2466341-1-richard.henderson@linaro.org>
+ <20230108023719.2466341-4-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.12; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org,
+ qemu-riscv@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 03/36] tcg: Allocate objects contiguously in
+ temp_allocate_frame
+Date: Wed, 11 Jan 2023 09:59:52 +0000
+In-reply-to: <20230108023719.2466341-4-richard.henderson@linaro.org>
+Message-ID: <87zgapl7az.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <53028cf2-0028-b810-348f-b17df33a8149@linaro.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,58 +94,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 11, 2023 at 10:55:47AM +0100, Philippe Mathieu-Daudé wrote:
-> On 10/1/23 14:02, Kevin Wolf wrote:
-> > Am 09.01.2023 um 23:54 hat Philippe Mathieu-Daudé geschrieben:
-> > > Hi,
-> > > 
-> > > There will always be a need to deprecate things. Here I'm
-> > > tackling the QOM (class) properties, since they can be set
-> > > from some CLI options (-object -device -global ...).
-> > > 
-> > > As an experiment, we add object_class_property_deprecate()
-> > > to register a class property as deprecated (since some version),
-> > > then we deprecate the TYPE_PFLASH_CFI02 'width' property, and
-> > > finally as a bonus we emit a warning when the deprecation period
-> > > is over, as a reminder. (For that we introduce few 'versions'
-> > > helpers).
-> > 
-> > The last part means that increasing the version number (i.e. the commit
-> > that opens the development tree for the next release) can change the
-> > output, and this is turn can break test cases.
-> > 
-> > If we are happy to introduce breakage with a version number change that
-> > will require future commits to open the development tree less trivial
-> > than they are today because they need to fix the breakage, too, why not
-> > make it a build error instead of a different warning message at runtime?
-> 
-> To avoid build breakages, maybe it is clever is to store the deprecation
-> version in ObjectPropertyInfo and let QAPI inspection scripts enumerate
-> / report deprecated features?
 
-I don't think we want the version information in the code nor
-introspectable at all.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-We want applications to only apply logic based off features that are
-actually available, not predicted future versions where something may
-or may not be removed. This is why we exposed only a plain 'deprecated'
-boolean field in QAPI schema for other deprecations.  This is just a
-warning to be ready for something to change in future. If an application
-has not been updated they are fine to carry on using the deprecated
-feature. If an application has been updated, they should probe for
-existance of the new feature and use that if available, in preference
-to the deprecated feature. There's no reason for an application to
-consider version numbers.
+> When allocating a temp to the stack frame, consider the
+> base type and allocate all parts at once.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/tcg.c | 30 ++++++++++++++++++++++--------
+>  1 file changed, 22 insertions(+), 8 deletions(-)
+>
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 99e6e4e1a8..7e69e2c9fd 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -3242,11 +3242,12 @@ static bool liveness_pass_2(TCGContext *s)
+>=20=20
+>  static void temp_allocate_frame(TCGContext *s, TCGTemp *ts)
+>  {
+> -    int size =3D tcg_type_size(ts->type);
+> -    int align;
+>      intptr_t off;
+> +    int size, align;
+>=20=20
+> -    switch (ts->type) {
+> +    /* When allocating an object, look at the full type. */
+> +    size =3D tcg_type_size(ts->base_type);
+> +    switch (ts->base_type) {
+>      case TCG_TYPE_I32:
+>          align =3D 4;
+>          break;
+> @@ -3277,13 +3278,26 @@ static void temp_allocate_frame(TCGContext *s, TC=
+GTemp *ts)
+>          tcg_raise_tb_overflow(s);
+>      }
+>      s->current_frame_offset =3D off + size;
+> -
+> -    ts->mem_offset =3D off;
+>  #if defined(__sparc__)
+> -    ts->mem_offset +=3D TCG_TARGET_STACK_BIAS;
+> +    off +=3D TCG_TARGET_STACK_BIAS;
+>  #endif
+> -    ts->mem_base =3D s->frame_temp;
+> -    ts->mem_allocated =3D 1;
+> +
+> +    /* If the object was subdivided, assign memory to all the parts. */
+> +    if (ts->base_type !=3D ts->type) {
+> +        int part_size =3D tcg_type_size(ts->type);
+> +        int part_count =3D size / part_size;
+> +
+> +        ts -=3D ts->temp_subindex;
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Whats going on here? Are we jumping to a previous temp? What guarentees
+there is something at ts - ts->temp_subindex?
 
+> +        for (int i =3D 0; i < part_count; ++i) {
+> +            ts[i].mem_offset =3D off + i * part_size;
+> +            ts[i].mem_base =3D s->frame_temp;
+> +            ts[i].mem_allocated =3D 1;
+> +        }
+> +    } else {
+> +        ts->mem_offset =3D off;
+> +        ts->mem_base =3D s->frame_temp;
+> +        ts->mem_allocated =3D 1;
+> +    }
+>  }
+>=20=20
+>  /* Assign @reg to @ts, and update reg_to_temp[]. */
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
