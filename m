@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6A566550C
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 08:15:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B860B665515
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 08:21:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFVK2-0003XE-Uc; Wed, 11 Jan 2023 02:14:54 -0500
+	id 1pFVPc-0007qe-7R; Wed, 11 Jan 2023 02:20:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pFVK0-0003WW-Sp
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 02:14:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pFVJy-0000qS-P0
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 02:14:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673421289;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YOctvuQrO4ovoOE3sA7PXW5wkAaqXNjchF8aB1pYDXs=;
- b=UdLlEmPd0PwM11+hw9MSq+3fY0O8PSrJwNYnj4poqCIDzuSe0DNJiSvbjB40zrQ/7H+Bid
- 6HOSqzEFUTCErKBBFcZ8HKTZht7angOABxx8Fsg30UxdBtw1H5w+q49El3vQl9X2PSvKY2
- Rn3vZkKxIFE35RAgZ0jNQWIoxL0iyV8=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-544-8rFeiOhoOOOHjoH9qGHfQg-1; Wed, 11 Jan 2023 02:14:48 -0500
-X-MC-Unique: 8rFeiOhoOOOHjoH9qGHfQg-1
-Received: by mail-oa1-f69.google.com with SMTP id
- 586e51a60fabf-15095be6d24so4603211fac.9
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 23:14:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YOctvuQrO4ovoOE3sA7PXW5wkAaqXNjchF8aB1pYDXs=;
- b=Mlhr1hu6KkssyG7VBirrJ3GKm4dMy8nXKzCWC1sR8Wu8BBCmoCjyQFqZZOzrche/0i
- ez7TAXupV3Xj1Dp8N2bgNypxkgrh6IGAI3EmkcHt1Bnr6p+HAgW+Sc52Cs4xRZtEUKqJ
- sb0eFdy6v/pUSz1FoVN1jTB+GnbO+8UVzswZeTMbksF9UwuUg6AtN2sBez6CYK+46EAM
- X8jIvkSd0Tp9u1Ot8q55xmD2e5rPNrrkne+3i8Syg1NWGhAZ/C9di/BGscAmyJl2mMja
- fYpHv/HWcXWPKWcXl+gcykQcoDw0f+WfeUkQ2qW/AUX9vsHMjLa2GcaGgp1TjQRvKhqS
- 8UYA==
-X-Gm-Message-State: AFqh2kquiE0Nz9nQifwECqioX8KvsssWgljHD+rlYV/qgRX/pDZmije8
- tJqfONMvNSZSh6kyUdbcA1etBDuSlvPlDBQ+WSxWKmsoZPrM9ZWYBTr2uOZbd6RGBt7+96UWQLe
- 0l2NphB5hufki7Xl9TiZm0vA2G+lBb3A=
-X-Received: by 2002:a54:4e89:0:b0:35c:303d:fe37 with SMTP id
- c9-20020a544e89000000b0035c303dfe37mr3113085oiy.35.1673421287408; 
- Tue, 10 Jan 2023 23:14:47 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuy9LGwBvWBDMvoR8pNh6KkdoZsQyaJgzt+D03N2wSgWpUJXCLFnDbf7gksE9vnT8ENXZQHL5Qx+HJQHCWNBq8=
-X-Received: by 2002:a54:4e89:0:b0:35c:303d:fe37 with SMTP id
- c9-20020a544e89000000b0035c303dfe37mr3113077oiy.35.1673421287118; Tue, 10 Jan
- 2023 23:14:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pFVPC-0007A9-Qa; Wed, 11 Jan 2023 02:20:26 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pFVP8-0001ZN-2A; Wed, 11 Jan 2023 02:20:14 -0500
+Received: from [192.168.3.184] (unknown [61.165.33.198])
+ by APP-05 (Coremail) with SMTP id zQCowABXX+8YY75jzmApDA--.161S2;
+ Wed, 11 Jan 2023 15:19:54 +0800 (CST)
+Message-ID: <046ab74f-30f6-8dcb-d0e8-ba634a909d8d@iscas.ac.cn>
+Date: Wed, 11 Jan 2023 15:19:52 +0800
 MIME-Version: 1.0
-References: <0bc2f2e5-630e-e721-254d-f224d1a3bdcd@redhat.com>
- <0eb96eb5-703d-dacd-49ff-f61e02d98eb9@redhat.com>
-In-Reply-To: <0eb96eb5-703d-dacd-49ff-f61e02d98eb9@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 11 Jan 2023 15:14:36 +0800
-Message-ID: <CACGkMEttPQddPbu7ddLuU-HoED=ELMtyv7BE=nioZ0uOaXF3+Q@mail.gmail.com>
-Subject: Re: virtio-iommu issue with VFIO device downstream to a PCIe-to-PCI
- bridge: VFIO devices are not assigned any iommu group
-To: Eric Auger <eauger@redhat.com>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- qemu list <qemu-devel@nongnu.org>, 
- Peter Xu <peterx@redhat.com>, Alex Williamson <alex.williamson@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v9 0/9] support subsets of code size reduction extension
+To: Alistair Francis <alistair23@gmail.com>, Weiwei Li <liweiwei@iscas.ac.cn>
+Cc: richard.henderson@linaro.org, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20221228062028.29415-1-liweiwei@iscas.ac.cn>
+ <CAKmqyKONF+C_xiUiM0aGww1yNVnx_-VRayK0sp+sn_gURA22=g@mail.gmail.com>
+Content-Language: en-US
+From: weiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <CAKmqyKONF+C_xiUiM0aGww1yNVnx_-VRayK0sp+sn_gURA22=g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowABXX+8YY75jzmApDA--.161S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCw1kAFWDAw1rGr47XrykuFg_yoW5KrWfpw
+ 4rGFWak398JryxJw4SqF1UXw1YvFsYgr4rJwn3Aw1kGa9IyrW3Jrs7K3W3Kw17JF1rWr1j
+ 9F1UCry3uw48AFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+ 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
+ kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+ 67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+ CI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
+ MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvf
+ C2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-Originating-IP: [61.165.33.198]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,116 +78,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 10, 2023 at 5:11 AM Eric Auger <eauger@redhat.com> wrote:
->
-> Hi,
->
-> On 1/9/23 14:24, Eric Auger wrote:
-> > Hi,
-> >
-> > we have a trouble with virtio-iommu and protected assigned devices
-> > downstream to a pcie-to-pci bridge. In that use case we observe the
-> > assigned devices are not put to any group. This is true on both x86 and
-> > aarch64. This use case works with intel-iommu.
-> >
-> > *** Guest PCI topology is:
-> > lspci -tv
-> > -[0000:00]-+-00.0  Intel Corporation 82G33/G31/P35/P31 Express DRAM
-> > Controller
-> >            +-01.0  Device 1234:1111
-> >            +-02.0-[01-02]----00.0-[02]----01.0  Broadcom Inc. and
-> > subsidiaries BCM57416 NetXtreme-E Dual-Media 10G RDMA Ethernet Controller
-> >            +-02.1-[03]--
-> >            +-02.2-[04]----00.0  Red Hat, Inc. Virtio block device
-> >            +-0a.0  Red Hat, Inc. Device 1057
-> >            +-1f.0  Intel Corporation 82801IB (ICH9) LPC Interface Controller
-> >            +-1f.2  Intel Corporation 82801IR/IO/IH (ICH9R/DO/DH) 6 port
-> > SATA Controller [AHCI mode]
-> >            \-1f.3  Intel Corporation 82801I (ICH9 Family) SMBus Controller
-> >
-> >
-> > All the assigned devices are aliased and they get devfn=0x0.
-> > see qemu pci_device_iommu_address_space in hw/pci.c
-> >
-> > Initially I see the following traces
-> > pci_device_iommu_address_space name=vfio-pci BDF=0x8 bus=0 devfn=0x8
-> > pci_device_iommu_address_space name=vfio-pci BDF=0x8 bus=0 devfn=0x8
-> > call iommu_fn with bus=0x55f556dde180 and devfn=0
-> > virtio_iommu_init_iommu_mr init virtio-iommu-memory-region-0-0
-> >
-> > Note the bus is 0 at this time and devfn that is used in the
-> > virtio-iommu is 0. So an associated IOMMU MR is created with this bus at
-> > devfn=0 slot. This is before bus actual numbering.
-> >
-> > However later on, I see virtio_iommu_probe() and virtio_iommu_attach()
-> > getting called with ep_id=520
-> > because in the qemu virtio-iommu device, virtio_iommu_mr(pe_id) fails to
-> > find the iommu_mr and returns -ENOENT
-> >
-> > On guest side I see that
-> > acpi_iommu_configure_id/iommu_probe_device() fails
-> > (__iommu_probe_device) and also __iommu_attach_device would also fail
-> > anyway.
-> >
-> > I guess those get called before actual bus number recomputation?
-> >
-> > on aarch64 I eventually see the "good" MR beeing created, ie. featuring
-> > the right bus number:
-> > qemu-system-aarch64: pci_device_iommu_address_space name=vfio-pci
-> > BDF=0x208 bus=2 devfn=0x8
-> > qemu-system-aarch64: pci_device_iommu_address_space name=vfio-pci
-> > BDF=0x208 bus=2 devfn=0x8 call iommu_fn with bus=0xaaaaef12c450 and devfn=0
-> >
-> > But this does not happen on x86.
-> >
-> > Jean, do you have any idea about how to fix that? Do you think we have a
-> > trouble in the acpi/viot setup or virtio-iommu probe sequence. It looks
-> > like virtio probe and attach commands are called too early, before the
-> > bus is actually correctly numbered.
->
-> So after further investigations looks this is not a problem of bus
-> number, which is good at the time of the virtio cmd calls but rather a
-> problem related to the devfn (0 was used when creating the IOMMU MR)
-> whereas the virtio-iommu cmds looks for the non aliased devfn. With that
-> fixed, the probe and attach at least succeeds. The device still does not
-> work for me but I will continue my investigations and send a tentative fix.
 
-Haven't thought this deeply, just one thing in my mind and in case
-that may help:
-
-intel-iommu doesn't use bus no as the key for hashing address spaces
-since it could be configured by the guest:
-
-/*
- * Note that we use pointer to PCIBus as the key, so hashing/shifting
- * based on the pointer value is intended. Note that we deal with
- * collisions through vtd_as_equal().
- */
-static guint vtd_as_hash(gconstpointer v)
-{
-    const struct vtd_as_key *key = v;
-    guint value = (guint)(uintptr_t)key->bus;
-
-    return (guint)(value << 8 | key->devfn);
-}
-
-Thanks
-
+On 2023/1/11 13:00, Alistair Francis wrote:
+> On Wed, Dec 28, 2022 at 4:23 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>> This patchset implements RISC-V Zc* extension v1.0.0.RC5.7 version instructions.
+>>
+>> Specification:
+>> https://github.com/riscv/riscv-code-size-reduction/tree/main/Zc-specification
+>>
+>> The port is available here:
+>> https://github.com/plctlab/plct-qemu/tree/plct-zce-upstream-v9
+>>
+>> To test Zc* implementation, specify cpu argument with 'x-zca=true,x-zcb=true,x-zcf=true,f=true" and "x-zcd=true,d=true" (or "x-zcmp=true,x-zcmt=true" with c or d=false) to enable Zca/Zcb/Zcf and Zcd(or Zcmp,Zcmt) extensions support.
+>>
+>>
+>> This implementation can pass the basic zc tests from https://github.com/yulong-plct/zc-test
+>>
+>> v9:
+>> * rebase on riscv-to-apply.next
+>>
+>> v8:
+>> * improve disas support in Patch 9
+>>
+>> v7:
+>> * Fix description for Zca
+>>
+>> v6：
+>> * fix base address for jump table in Patch 7
+>> * rebase on riscv-to-apply.next
+>>
+>> v5:
+>> * fix exception unwind problem for cpu_ld*_code in helper of cm_jalt
+>>
+>> v4:
+>> * improve Zcmp suggested by Richard
+>> * fix stateen related check for Zcmt
+>>
+>> v3:
+>> * update the solution for Zcf to the way of Zcd
+>> * update Zcb to reuse gen_load/store
+>> * use trans function instead of helper for push/pop
+>>
+>> v2:
+>> * add check for relationship between Zca/Zcf/Zcd with C/F/D based on related discussion in review of Zc* spec
+>> * separate c.fld{sp}/fsd{sp} with fld{sp}/fsd{sp} before support of zcmp/zcmt
+>>
+>> Weiwei Li (9):
+>>    target/riscv: add cfg properties for Zc* extension
+>>    target/riscv: add support for Zca extension
+>>    target/riscv: add support for Zcf extension
+>>    target/riscv: add support for Zcd extension
+>>    target/riscv: add support for Zcb extension
+>>    target/riscv: add support for Zcmp extension
+>>    target/riscv: add support for Zcmt extension
+>>    target/riscv: expose properties for Zc* extension
+>>    disas/riscv.c: add disasm support for Zc*
+> This series broke a range of boards that use specific CPUs. I have
+> dropped it from my tree.
 >
-> Thanks
+> Daniel has sent a series that should fix it though
+> (https://www.mail-archive.com/qemu-devel@nongnu.org/msg930952.html). I
+> have applied his fixes. Can you rebase this series on
+> https://github.com/alistair23/qemu/tree/riscv-to-apply.next, test to
+> ensure the SiFive boards continue to work and then re-send the series?
 >
-> Eric
-> >
-> > Thanks
-> >
-> > Eric
-> >
-> >
-> >
-> >
-> >
-> >
-> >
->
+> Alistair
+
+This seems "C implies Zca" is not applied on specific CPUs and it'll be 
+fixed if Zc* related check is
+
+moved to riscv_cpu_validate_set_extensions just as  Daniel's series.
+
+I'll rebase on it and test the CPUs in next version.
+
+Regards,
+
+Weiwei Li
+
+>>   disas/riscv.c                             | 228 +++++++++++++++-
+>>   target/riscv/cpu.c                        |  56 ++++
+>>   target/riscv/cpu.h                        |  10 +
+>>   target/riscv/cpu_bits.h                   |   7 +
+>>   target/riscv/csr.c                        |  38 ++-
+>>   target/riscv/helper.h                     |   3 +
+>>   target/riscv/insn16.decode                |  63 ++++-
+>>   target/riscv/insn_trans/trans_rvd.c.inc   |  18 ++
+>>   target/riscv/insn_trans/trans_rvf.c.inc   |  18 ++
+>>   target/riscv/insn_trans/trans_rvi.c.inc   |   4 +-
+>>   target/riscv/insn_trans/trans_rvzce.c.inc | 313 ++++++++++++++++++++++
+>>   target/riscv/machine.c                    |  19 ++
+>>   target/riscv/meson.build                  |   3 +-
+>>   target/riscv/translate.c                  |  15 +-
+>>   target/riscv/zce_helper.c                 |  55 ++++
+>>   15 files changed, 834 insertions(+), 16 deletions(-)
+>>   create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
+>>   create mode 100644 target/riscv/zce_helper.c
+>>
+>> --
+>> 2.25.1
+>>
+>>
 
 
