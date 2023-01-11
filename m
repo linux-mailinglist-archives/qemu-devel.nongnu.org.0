@@ -2,101 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F617666124
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 18:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5384666126
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 18:00:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFeR5-0004M8-G4; Wed, 11 Jan 2023 11:58:47 -0500
+	id 1pFeRK-0004N9-RW; Wed, 11 Jan 2023 11:59:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pFeR3-0004La-CI
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:58:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from
+ <BATV+193d99197280eaff698e+7080+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pFeRG-0004Mg-4S
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:58:58 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pFeR1-0003dj-Cm
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:58:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673456322;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7XsnJPAAEdRcoynex6XpPJJLGnFJJf1YQoMVkCJncBA=;
- b=L8reNc5qLnxcanMhHxsWgSXWcHlHaVZUtk/fESzrPb3dUCBNSM06wPKtUQ78nxwu6J9vc+
- yNgWhv/6+fr0C7ayRdXw6aa0i671vqcs9+gquUHZCxUtLzFTCUzRGguSp1C4qUwS2FqTqY
- msUyW4XNqIQtGstvipKvLQdgE6/Y1Qg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-21-eST80uAFPgWkU1OGcVm2ow-1; Wed, 11 Jan 2023 11:58:39 -0500
-X-MC-Unique: eST80uAFPgWkU1OGcVm2ow-1
-Received: by mail-wr1-f72.google.com with SMTP id
- b6-20020adfc746000000b002bae2b30112so2889021wrh.13
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 08:58:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7XsnJPAAEdRcoynex6XpPJJLGnFJJf1YQoMVkCJncBA=;
- b=hbQuXUzBIrMLFiCR0skPrthvPBTKnFjwCECnpj6Xm4wH3I5DQfXL/wZg/5R/dYXRo+
- UZPXinFTdtWbcewkzD+zOgta6dP0yxbVwPHckTyjU8ihaYPgFmaVcgpVYhqf7AiNPgxE
- IXP/0SilhNGjzbo+r/f/X/ceeLP6OHpFf/VYqhjziSvMj+tuPAos2S9t64+qWwaIyPaI
- AB0pSgHS9cTkx/I78OfXuXQMsP3vKUnQwFOBbYDyzLh6wo+88N4dnA0OwD5ZSmlN/WmV
- ui4tnf1QeqcMO9MJqQorn+2bcO1bAPxegl4pP2d2A0rv6nUJFEpb2suhmV3siJCt4YBy
- 9ZiQ==
-X-Gm-Message-State: AFqh2kqm4ExAigJeFeQg7/qUytTK7z16BZC/NVNNnn+YVpLjHWW2bYB5
- JVgsjhhr2at3M/gbBP9x/EcnUW80AXKjXHky+47pfBZ6OvKN+pSaFJFRBnafyj14yA2yMhVdFDc
- Vut8ASHgO/K3Z+J0=
-X-Received: by 2002:a05:6000:18cb:b0:242:63e5:2451 with SMTP id
- w11-20020a05600018cb00b0024263e52451mr46621603wrq.71.1673456317668; 
- Wed, 11 Jan 2023 08:58:37 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXshWln2vHj2YIQPTC9sIxPXd8ORBskfr04J0xyIyTkmCHLhzTIAYmyjZ68V/arylZ1YGcH45w==
-X-Received: by 2002:a05:6000:18cb:b0:242:63e5:2451 with SMTP id
- w11-20020a05600018cb00b0024263e52451mr46621589wrq.71.1673456317332; 
- Wed, 11 Jan 2023 08:58:37 -0800 (PST)
-Received: from ?IPV6:2003:cb:c704:5b00:5b3c:db46:8eb5:ee24?
- (p200300cbc7045b005b3cdb468eb5ee24.dip0.t-ipconnect.de.
- [2003:cb:c704:5b00:5b3c:db46:8eb5:ee24])
- by smtp.gmail.com with ESMTPSA id
- b2-20020a056000054200b0022584c82c80sm14354171wrf.19.2023.01.11.08.58.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 08:58:36 -0800 (PST)
-Message-ID: <6c017410-cdb6-6a7c-ab02-a8412e37ecba@redhat.com>
-Date: Wed, 11 Jan 2023 17:58:36 +0100
+ (Exim 4.90_1) (envelope-from
+ <BATV+193d99197280eaff698e+7080+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pFeRD-0003eS-9S
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:58:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=JLwTUUPtHJy5ZdlB/jIq2GgFJt2Xz7ovKKzKATkuJY0=; b=hEraENBUR5P/BRcwMnvrqo6Bm6
+ CYKbtMf7bJ3hRlH+8dN6XB1eVGWQ9F47ZZ5nGwL43jmNhN0fCDyDa7i6rR/55j4MUo5XuHyXHTBEx
+ GAK0JB97EWwG0bUvBmdBevLxTdw03HMvyTG3P0mKvgTjDF52QA1XmS6woXl/2ei8k9EFbJgoD0y5M
+ eiMsdacNaKmr+/GbFyBszWkg1HoaNDilixI6f/g9n06aQit/lXToPPORqF/qoj/4yqVSs2Lv9plwb
+ +dNwsN5+mxeo8pkqaCD70vCpefUXmAwoGGwe/l8qEAgHeO98s8ylW+ybnaBXE2YIvlFPNKJhkPCLk
+ qlszjssw==;
+Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pFeRA-004JMg-V0; Wed, 11 Jan 2023 16:58:53 +0000
+Message-ID: <70eb35a08a7c48993812b7f088fa9ae3f2c8b925.camel@infradead.org>
+Subject: Re: [RFC] Notify IRQ sources of level interrupt ack/EOI
+From: David Woodhouse <dwmw2@infradead.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Alex Williamson
+ <alex.williamson@redhat.com>, paul@xen.org
+Date: Wed, 11 Jan 2023 16:58:37 +0000
+In-Reply-To: <20230111112425-mutt-send-email-mst@kernel.org>
+References: <23caafffdd9546b8eeff851660015f3bfc021ed3.camel@infradead.org>
+ <20230111112425-mutt-send-email-mst@kernel.org>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-cGV77bQ1tOYVa654+URr"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-References: <20221222110215.130392-2-david@redhat.com> <Y7W2LtO5/m1r3VaL@x1n>
- <d60f9272-1e81-00da-8046-2264a9b97e58@redhat.com>
- <Y7cFplyGc4hIrYZW@x1n>
- <482fadb5-7420-e07b-982d-5b0f3e8c42f8@redhat.com> <Y7xw4RqLQUFWZyfI@x1n>
- <460b6ea0-67a6-891f-f8fb-a5f23e9985c4@redhat.com>
- <c6a66296-94a7-e1ef-e0c1-098071f961d2@redhat.com> <Y73Er/n86CgQTMYu@x1n>
- <fbde8341-660b-0ed1-4f74-0afe565d5be5@redhat.com> <Y77lb+tUxWGKuQbo@x1n>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v3 1/6] migration: Allow immutable device state to be
- migrated early (i.e., before RAM)
-In-Reply-To: <Y77lb+tUxWGKuQbo@x1n>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+193d99197280eaff698e+7080+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,186 +78,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11.01.23 17:35, Peter Xu wrote:
-> On Wed, Jan 11, 2023 at 02:48:09PM +0100, David Hildenbrand wrote:
->> On 10.01.23 21:03, Peter Xu wrote:
->>> On Tue, Jan 10, 2023 at 12:52:32PM +0100, David Hildenbrand wrote:
->>>> The following seems to work,
->>>
->>> That looks much better at least from the diffstat pov (comparing to the
->>> existing patch 1+5 and the framework changes), thanks.
->>>
->>>> but makes analyze-migration.py angry:
->>>>
->>>> $ ./scripts/analyze-migration.py -f STATEFILE
->>>> Traceback (most recent call last):
->>>>     File "/home/dhildenb/git/qemu/./scripts/analyze-migration.py", line 605, in <module>
->>>>       dump.read(dump_memory = args.memory)
->>>>     File "/home/dhildenb/git/qemu/./scripts/analyze-migration.py", line 539, in read
->>>>       classdesc = self.section_classes[section_key]
->>>>                   ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
->>>> KeyError: ('0000:00:03.0/virtio-mem-early', 0)
->>>>
->>>>
->>>> We need the vmdesc to create info for the device.
->>>
->>> Migration may ignore the save entry if save_state() not provided in the
->>> "devices" section:
->>>
->>>           if ((!se->ops || !se->ops->save_state) && !se->vmsd) {
->>>               continue;
->>>           }
->>>
->>> Could you try providing a shim save_state() for the new virtio-mem save
->>> entry?
->>>
->>> /*
->>>    * Shim function to make sure the save entry will be dumped into "devices"
->>>    * section, to make analyze-migration.py happy.
->>>    */
->>> static void virtio_mem_save_state_early(QEMUFile *file, void *opaque)
->>> {
->>> }
->>>
->>> Then:
->>>
->>> static const SaveVMHandlers vmstate_virtio_mem_device_early_ops = {
->>>       .save_setup = virtio_mem_save_setup_early,
->>>       .save_state = virtio_mem_save_state_early,
->>>       .load_state = virtio_mem_load_state_early,
->>> };
->>>
->>> I'm not 100% sure it'll work yet, but maybe worth trying.
->>
->> It doesn't. virtio_mem_load_state_early() will get called twice (once with
->> state saved during save_setup() and once with effectively nothing during
->> save_state(), which breaks the whole migration).
-> 
-> Oh hold on.. so load_state() to pair save_setup()? Maybe you should pair it
-> with load_setup(), which I just noticed..  Then the load_state() needs to
-> be another shim like save_state().
 
-Let me see if that improves the situation. E.g., ram.c writes state in 
-save_setup() but doesn't load any state in load_setup() -- it's all done 
-in load_state().
+--=-cGV77bQ1tOYVa654+URr
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-... no, still not working. It will read garbage during load_setup() now.
+On Wed, 2023-01-11 at 11:25 -0500, Michael S. Tsirkin wrote:
+> On Wed, Jan 11, 2023 at 02:41:58PM +0000, David Woodhouse wrote:
+> > This allows drivers to register a callback on a qemu_irq, which is
+> > invoked when a level-triggered IRQ is acked on the irqchip.
+> >=20
+> > This allows us to simulate level-triggered interrupts more efficiently,
+> > by resampling the state of the interrupt only when it actually matters.
+>=20
+> I think we tried this with vfio and had to give up on this.
+> I don't remember the details though. Alex probably does?
 
-qemu-system-x86_64: Property 'memaddr' changed from 0x100000002037261 to 
-0x140000000
-qemu-system-x86_64: Failed to load virtio-mem-device-early:tmp
-qemu-system-x86_64: Load state of device 0000:00:03.0/virtio-mem-early 
-failed
-qemu-system-x86_64: load of migration failed: Invalid argument
+Hm, not sure why there would be any insurmountable problems.
+
+I've seen this working at scale in a different VMM with split-irqchip
+and PCI INTX + Xen event channel support.
+
+And it's what the kernel does internally, and exposes through its dual-
+eventfd APIs in both KVM IRQ routing and VFIO interrupts.
+
+That said, I don't care *that* much. I can live with the way I've done
+it for the Xen support, by polling the status on a vCPU0 vmexit.
+Looking at the VFIO code made me throw up in my mouth a little bit, but
+I just won't do that again... :)
+
+--=-cGV77bQ1tOYVa654+URr
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMTExMTY1ODM3WjAvBgkqhkiG9w0BCQQxIgQgWDhopn0U
+kCCj5HlIw6FNLZk1/IQfli1YuIGFCfFIbkIwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAUf+aREPWP7yUgFWPyvOVYBSEJQwTwe5pI
+UaTvjRgmPbYr12Wmkk7lMjkRJsdXQX5ZhnbhApf4QW1Bqqq+L9Z8iHiIXRksq8gc/rtZ5Qp4h4z/
+0DcUjamcuR4yM071Q0Ay4UJyVuYDrx9o0tRt1+N9I5HwG4PZhEZBgjbbeAX5o/B0L+AoiehBb5Ge
+nMS2UyFyAaphc3Js4xzFpBMSrNDDpYWST5YFnB8ujxqrwN5NvPgfuUp+ZLIS3+QWpurLP3fgQHpP
+ruiDRdJFeHt05FM9i0BR93L74h4/xbNnT1UUckchFg/R7oBjBijRytUBcwsNQg/wLMBgEZfCc71f
+ivlBN+ucNOS+T1ux16esi/cbNxo0e5aI3v4lijDG7/smXpJr4ELz2R/Lwl2HVKFsGeN61CTyVp7H
+qL3Bii8yY3oPq9j7cwrmkIWZ6gc0J0Fcfn7b7+bfgJVCoZNEJaMbNuWAI9uR4K04Tmy90CQHr3/k
+0pzW32avu/mWIoVIwJfa2UE6AWjrbR3xtmJhWOnXRkzhakqNsKSPMpo7wMW5/+eTLpxy6AoRPa1B
+SjNzajHLxYUuRDxL6yPc4gn+NkCLC2+B4mt/esNWZuqLO6nSKQ+1j3B3cLhciAtbpJo+hxtnMA+a
+EAlbrODcXnSNpnCS4SjTBB9L7uxzoXm+MeEDQDTT4AAAAAAAAA==
 
 
-I don't think that load_setup() is supposed to consume anything useful 
-from the migration stream. I suspects it should actually not even 
-consume a QEMU file right now, because they way it's used is just for 
-initializing stuff.
-
-qemu_loadvm_state_main() does the actual loading part, parsing sections 
-etc. qemu_loadvm_state_setup() doesn't do any of that.
-
-AFAIKS, at least qemu_loadvm_state_setup() would have to parse sections 
-and the save_setup() users would have to be converted into using 
-load_setup() as well. Not sure if more is missing.
-
-Even with that, I doubt that it would make analyze-migration.py work, 
-because what we store is something different than what we record in the 
-vmdesc.
-
-> 
->>
->> vmdesc handling is also wrong, because analyze-migration.py gets confused
->> because it receives data stored during save_setup() but vmdesc created
->> during save_state() was told that there would be "nothing" to interpret ...
->>
->> $ ./scripts/analyze-migration.py -f STATEFILE
->> {
->>      "ram (2)": {
->>          "section sizes": {
->>              "0000:00:03.0/mem0": "0x0000000f00000000",
->>              "pc.ram": "0x0000000100000000",
->>              "/rom@etc/acpi/tables": "0x0000000000020000",
->>              "pc.bios": "0x0000000000040000",
->>              "0000:00:02.0/e1000.rom": "0x0000000000040000",
->>              "pc.rom": "0x0000000000020000",
->>              "/rom@etc/table-loader": "0x0000000000001000",
->>              "/rom@etc/acpi/rsdp": "0x0000000000001000"
->>          }
->>      },
->>      "0000:00:03.0/virtio-mem-early (51)": {
->>          "data": ""
->>      }
->> }
-> 
-> Yeah this is expected, because the whole data stream within the setup phase
-> is a black box and not described by anything.  "ram" can display correctly
-> only because it's hard coded in the python script, I think.  The trick
-> above can only make the script not break but not teaching the script to
-> also check for the early vmsd.
-
-Note that the issue here is that the scripts stops the output after the 
-virtio-mem device. So I'm not complaining about the "data": "", but 
-about the vmstate according to the vmdesc not having any other devices :)
-
-> 
-> But that's one step forward and IMHO it's fine for special devices. For
-> example, even with your initial patch, I think the static analyzer (aka,
-> qemu -dump-vmstate) will also ignore your new vmsd anyway because it's not
-> directly bound to the DeviceState* but registered separately.  So no ideal
-> solution so far, afaict, without more work done on this aspect.
-> 
->>
->>
->> Not sure if the whole thing becomes nicer when manually looking up the
->> vmdesc ... because filling it will also requires manually storing the
->> se->idstr and the se->instance_id, whereby both are migration-internal and
->> not available inside save_setup().
->>
->>
->> Hm, I really prefer something like the simplified version that let's
->> migration core deal with vmstate to be migrated during save_setup() phase.
->> We could avoid the vmstate->immutable flag and simply use a separate
->> function for registering the vmstate, like:
->>
->> vmstate_register_immutable()
->> vmstate_register_early()
->> ...
-> 
-> I agree, this looks useful.  It's just that the devices that need this will
-> be rare, and unfortunately some of them already implemented the stream in
-> other ways so maybe non-trivial to convert them.
-
-Right, I agree about the "rare" part and that conversion might be hard, 
-because they are not using a vmstate descriptor.
-
-The only way to avoid that is moving away from using a vmstate 
-descriptor and storing everything manually in virtio-mem code. Not 
-particularly happy about that, but it would be the only feasible option 
-without touching migration code that I can see.
-
-> 
-> Not against it if you want to keep exploring, but if so please avoid using
-> the priority field, also I'd hope the early vmsd will be saved within
-> qemu_savevm_state_setup() so maybe it can be another alternative to
-> save_setup().
-> 
-> Maybe it's still easier we keep going with the save_setup() and the shim
-> functions above, if it works for you.
-
-I'll happy to go the path you suggested if we can make it work. I'd be 
-happy to have something "reasonable" for the virtio-mem device in the 
-analyze-migration.py output. But I could live with just nothing useful 
-for the device itself -- as long as at least the other devices still 
-show up.
-
-Thanks Peter!
-
--- 
-Thanks,
-
-David / dhildenb
-
+--=-cGV77bQ1tOYVa654+URr--
 
