@@ -2,87 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7661066557D
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 08:54:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D6F66557C
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 08:54:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFVue-0004F1-Nx; Wed, 11 Jan 2023 02:52:45 -0500
+	id 1pFVui-0004HQ-OA; Wed, 11 Jan 2023 02:52:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pFVuM-0004DO-Qo; Wed, 11 Jan 2023 02:52:27 -0500
+ id 1pFVuN-0004DQ-BF; Wed, 11 Jan 2023 02:52:27 -0500
 Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pFVuK-00069n-Lz; Wed, 11 Jan 2023 02:52:26 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 34A073200908;
- Wed, 11 Jan 2023 02:52:19 -0500 (EST)
+ id 1pFVuK-00069t-Lz; Wed, 11 Jan 2023 02:52:27 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 8DAA7320093A;
+ Wed, 11 Jan 2023 02:52:22 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 11 Jan 2023 02:52:19 -0500
+ by compute1.internal (MEProxy); Wed, 11 Jan 2023 02:52:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1673423538; x=1673509938; bh=vh
- GE/RiWpWfU05hvSr2lPRj1Sh/RwpZCQeBZIX/JliA=; b=h1NPMLHyxUzfH5wUwg
- Qka9DMnVb1VYXKqNicu4jxL7eVbHd632lf/JR6bwJzoWMlTGB6MoFd8iVS2tE2/U
- W4h64c1eQ4q7ePH/ldmZhRkZYcVHdR4qWlTWg3eZxQIxW4rIvigihbTOLa/A8JoG
- TflyhSGdcAlfklST0gO56GQB5POd81uH6Ttqfg2i6wqdb4PWAyoQaRG+7YqpEJgJ
- j1p28WK0yxMhngP0D6yxny6cTMtfHVP9X7FUPPAbypquwG0vFkPS3KtzJLYEYEPM
- E0p7wX6ofs9y+Ot5vGXZ8ihx95rZYrfK+f0MOo1g4f9qtAoJiU2E2vQtKsq9+uyx
- r4Mg==
+ :from:in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1673423542; x=
+ 1673509942; bh=DLpuc57N+mkf16AZzMzCQXSnTERAwPhHRT54SmHfJT8=; b=n
+ Q6arYQRxOjA7Z+mGQOue/DpYUvUoIiuybTNkTh43kvLY7Q2yXEuqmz4j2a5QO7lz
+ ZWdYKG01kt5EaeNUoKzwdtggKYFXvyhX1grQYDV/UEsDHiG2Q39SgcCGRufa4Jdv
+ 4imi3sWgyBDlCf27V8mseJtX112feZdh+CnQGSq+2AUnbSeKOPA5rGiQ7YXTbyxo
+ CubBf78noHfq2j529P0SlwKLt4iRZzPSIA6UEJRV5YOHCUy1rgSy4rxdpGbd2LRj
+ l/UYcV5V9b9/BzxojjWLYfgwvznkUqroW/CK+z4iKM8WwewaetwZPSKloJvV/Ytu
+ bD+qbALa6r+sKVoTpeFzA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1673423538; x=1673509938; bh=vhGE/RiWpWfU0
- 5hvSr2lPRj1Sh/RwpZCQeBZIX/JliA=; b=H7gfP1byDvOCmVk1Nx0IFuL1iB/2t
- 9B92OidymPd9k7JuQNCP1/+kQgNwKmd9jlw/xxS8wn4HYBScebae/H4rVLY+kiUQ
- 0q6kfhdlI97PyF3Qg8zXRAjkbs6lS7tXhytbJIod0aXvmwXvg+/Pu07QrBFO6R/E
- 5WTk58y+mhKRQlu4RtB3iNPb6aHWQ5MmVBOWdW4OPa+GeK7FhQNLWYV8hBOItK7U
- g3y/W7IzxfOlw3jNAdN36H+EfNW/hBrddsjGHvVzXDC65jY00VVxMDDA2A15zUXn
- pINX/x90YWSwJ06RrvMBxABiPUl7FDEnTMguwFIfyM8BkYLRJrs5K/7FA==
-X-ME-Sender: <xms:sWq-Y-objB4Bw56nUxHrvKFDGa-yhNcGfiGIiQvORPo_eKLyx3-jzA>
- <xme:sWq-Y8o6atLZyBTCId2yu2YcetLfsbcM11G9ktSnw97YIWDcsGZHDHQTPa8cdvjSe
- qCR3EDeHQea8JF5xik>
-X-ME-Received: <xmr:sWq-YzPcpF0G9-_XUG1cXiwqOCV0VCQEndYVjAVo0GffLccb4UWK5WTwX89CUCZ5LQIkLNGMsJc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleefgdduudduucetufdoteggodetrfdotf
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673423542; x=
+ 1673509942; bh=DLpuc57N+mkf16AZzMzCQXSnTERAwPhHRT54SmHfJT8=; b=Y
+ ydgiSPyZ8YQH0BgjF7v+OxGHFW55/xPwsK0YuW5UVR4m3YgfR0EtRrR58eHBDgIL
+ I2YmMOGk9PHyc8vQrnNHCx4KvgdKU3l4mF5R0qU4n6jeI+Cru0TyRl2Xb6aFlVpb
+ ksFH1j4tuptLuyVIhSmpKRzJL5RmRI2GIruuvqIHUb5PGf7LmlMfH36cnGTG/gf+
+ QrFEPcwnX6BFVi1FwNCZgvzRK0QEPwGrPiSaLLsy3JetC89QnJl1wIA1n2lQ92b4
+ DxrGDcdvL+3tfvK3NIhUMCiuFsW9hYQZ6+VNtSbp4/4ceis5LladCwWWXhyhIrhb
+ 66OQm8zk9aHF5eM5G3jMw==
+X-ME-Sender: <xms:tWq-Y4r3zJn9tKgI7CkvceTLyVTMdYPeep2R7v2TygopCUMQUu2QRA>
+ <xme:tWq-Y-p92cl9KxjPXmLZDCSxUJFRm-AjHhVppHNdG_kEZoqw9yPb-9mrSv7jLcTTl
+ sNtrbv-Tg3j_x95oXg>
+X-ME-Received: <xmr:tWq-Y9Mw00-Cd7onz6DwgG6ivfy3GC0f0r4IOTuF9uT8dPwXCbI8l07LDM6I6R_gBSX4FcpnXzo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleefgdduudefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeekvddtvdetiedvjeehjeeujedvkeefvedvkeeftefffffhfeeihfeijeelueef
- geenucffohhmrghinhepghhithhlrggsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:smq-Y97_7npVjWXYAig8a-BCZM1uH86jPqhISfWpDlqBVxsWrc2tfQ>
- <xmx:smq-Y94pkLLnqYv-r4nVqu3VyK0jF1FQkdSBRgTFMWYyIsaOC6y60Q>
- <xmx:smq-Y9jjjSq_oOr36JigsvC94emgxOvnw3MHS2xNW_-2ys82r7OpTQ>
- <xmx:smq-Yw0FogrO46pu64mpfUSiGue2NQv2fqX1g0dLjLO9grq5WmwfqQ>
+ cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgr
+ uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
+ htthgvrhhnpeejieejjedviedtgeehieevuefghffgjefhvddtledufedtvddthffhieel
+ keeuleenucffohhmrghinhepqhguvghvrdhiugenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:tWq-Y_7HMPyzchd25LO1j2rW9afF2vf68retcDye8aFs_R7i45O36A>
+ <xmx:tWq-Y34f3xL1UNbfELabzklpEHN0S4nI8EEyckt5oavJM5-nPrZ3SA>
+ <xmx:tWq-Y_g4WkyYGWMtaKhp0IvLCyZBTYtzK-o8DLtmjBmVclQZhWc7qQ>
+ <xmx:tmq-Y9QY_DBbjs1rC5feq6ioqJqSY9rg6VzkIRiRNHS24DRZjbZAtQ>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 11 Jan 2023 02:52:15 -0500 (EST)
+ 11 Jan 2023 02:52:19 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
 Cc: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PULL 0/6] hw/nvme updates
-Date: Wed, 11 Jan 2023 08:52:07 +0100
-Message-Id: <20230111075213.70404-1-its@irrelevant.dk>
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 1/6] hw/nvme: use QOM accessors
+Date: Wed, 11 Jan 2023 08:52:08 +0100
+Message-Id: <20230111075213.70404-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230111075213.70404-1-its@irrelevant.dk>
+References: <20230111075213.70404-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1128; i=k.jensen@samsung.com;
- h=from:subject; bh=4HLp5YVBMvP2wreB6pMeZsL1UfxUjQCuNZKrVbep2Fk=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGO+aqzWsbI8Qo2avRMqAO0hNCDZfripT1DKaUT4
- B5babeLV4IkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjvmqsAAoJEE3hrzFtTw3pU6
- sH/3x8w7qUdUaEUZZ/JNjO622h0UEM6wfmxXSsrGPFTzbuh9066Fcfx+5kVW7oNkVn6H27d5FbGlX3
- z7DJdp09DPvcgo3PQ+dmASmvxKVyI+YCu6z1BC/J5OQBEZGskQaEm9BahqXhuMEzKqT/MFF7ufnX89
- pbhXYfqM2lAZIzIV+vBAShYmAtW2Tc3RcE+AibNjhhGOK1kqY0Lj7Eo651Gx5J38JYlH+KUekYW8xj
- /yoH1/VzAyVaANSTq6sYqBEaPIMJCAceM5lLskuUZQph/tq0Q9Mt9v3aaxBJkpaNY84OCNh6A10c+5
- Yxmnse21Jcpj7a5XDojGuAdx3SSNTBNmvUcqoI
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14730; i=k.jensen@samsung.com;
+ h=from:subject; bh=xt5jnwp0c+4BWpmjyZh1E1cVgbdhaY8u4TlNKr/FGhE=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGO+aqwLQjU4ureGjRycoCndgRgUOSFkCXnRFgRj
+ JUVBPSQ964kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjvmqsAAoJEE3hrzFtTw3pW6
+ UH/RNY8zd54YXoYwdJf2kI4eM8KnxmGjkWkyBQQp6cVobcqDtqjUqE9tMw5r0vQ+ThdjKDd96uujUo
+ FU2aK4c5sIKvK1z8isZynB/vfjJWvJoFbpnAOdJ/k01OfeuxtVVbS2HuPOSfdqKq/VU/sqIKtc8ATP
+ Gpl3/ufmQyxE9dTGaiJLfKDx8IoPOYX8lFi/OODgycvfO9r3khQVcwo3PM9netvvKH3C0N9n0SB3/f
+ hbha5PWZNNPrtMbjtWVMTrFIHMJDbxpJM2zTKFN808wpHruXxU5rJiOmg4wuRbMQrEIzaHvt7zxRbJ
+ 1sdP2pHL5uBLF+hw1Ru6c6Sb5Hwl3onPp2MKVu
 X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
  fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
@@ -112,37 +116,368 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Hi Peter,
+Replace various ->parent_obj use with the equivalent QOM accessors.
 
-The following changes since commit 528d9f33cad5245c1099d77084c78bb2244d5143:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c | 89 +++++++++++++++++++++++++++-----------------------
+ 1 file changed, 48 insertions(+), 41 deletions(-)
 
-  Merge tag 'pull-tcg-20230106' of https://gitlab.com/rth7680/qemu into staging (2023-01-08 11:23:17 +0000)
-
-are available in the Git repository at:
-
-  https://gitlab.com/birkelund/qemu.git tags/nvme-next-pull-request
-
-for you to fetch changes up to 973f76cf7743545a5d8a0a8bfdfe2cd02aa3e238:
-
-  hw/nvme: cleanup error reporting in nvme_init_pci() (2023-01-11 08:41:19 +0100)
-
-----------------------------------------------------------------
-hw/nvme updates
-
-----------------------------------------------------------------
-
-Klaus Jensen (6):
-  hw/nvme: use QOM accessors
-  hw/nvme: rename shadow doorbell related trace events
-  hw/nvme: fix missing endian conversions for doorbell buffers
-  hw/nvme: fix missing cq eventidx update
-  hw/nvme: clean up confusing use of errp/local_err
-  hw/nvme: cleanup error reporting in nvme_init_pci()
-
- hw/nvme/ctrl.c       | 194 ++++++++++++++++++++++++-------------------
- hw/nvme/trace-events |   8 +-
- 2 files changed, 113 insertions(+), 89 deletions(-)
-
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 4a0c51a9477e..78c2f4e39d0a 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -449,7 +449,7 @@ static int nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
+         return 0;
+     }
+ 
+-    return pci_dma_read(&n->parent_obj, addr, buf, size);
++    return pci_dma_read(PCI_DEVICE(n), addr, buf, size);
+ }
+ 
+ static int nvme_addr_write(NvmeCtrl *n, hwaddr addr, const void *buf, int size)
+@@ -469,7 +469,7 @@ static int nvme_addr_write(NvmeCtrl *n, hwaddr addr, const void *buf, int size)
+         return 0;
+     }
+ 
+-    return pci_dma_write(&n->parent_obj, addr, buf, size);
++    return pci_dma_write(PCI_DEVICE(n), addr, buf, size);
+ }
+ 
+ static bool nvme_nsid_valid(NvmeCtrl *n, uint32_t nsid)
+@@ -514,24 +514,27 @@ static uint8_t nvme_sq_empty(NvmeSQueue *sq)
+ 
+ static void nvme_irq_check(NvmeCtrl *n)
+ {
++    PCIDevice *pci = PCI_DEVICE(n);
+     uint32_t intms = ldl_le_p(&n->bar.intms);
+ 
+-    if (msix_enabled(&(n->parent_obj))) {
++    if (msix_enabled(pci)) {
+         return;
+     }
+     if (~intms & n->irq_status) {
+-        pci_irq_assert(&n->parent_obj);
++        pci_irq_assert(pci);
+     } else {
+-        pci_irq_deassert(&n->parent_obj);
++        pci_irq_deassert(pci);
+     }
+ }
+ 
+ static void nvme_irq_assert(NvmeCtrl *n, NvmeCQueue *cq)
+ {
++    PCIDevice *pci = PCI_DEVICE(n);
++
+     if (cq->irq_enabled) {
+-        if (msix_enabled(&(n->parent_obj))) {
++        if (msix_enabled(pci)) {
+             trace_pci_nvme_irq_msix(cq->vector);
+-            msix_notify(&(n->parent_obj), cq->vector);
++            msix_notify(pci, cq->vector);
+         } else {
+             trace_pci_nvme_irq_pin();
+             assert(cq->vector < 32);
+@@ -546,7 +549,7 @@ static void nvme_irq_assert(NvmeCtrl *n, NvmeCQueue *cq)
+ static void nvme_irq_deassert(NvmeCtrl *n, NvmeCQueue *cq)
+ {
+     if (cq->irq_enabled) {
+-        if (msix_enabled(&(n->parent_obj))) {
++        if (msix_enabled(PCI_DEVICE(n))) {
+             return;
+         } else {
+             assert(cq->vector < 32);
+@@ -570,7 +573,7 @@ static void nvme_req_clear(NvmeRequest *req)
+ static inline void nvme_sg_init(NvmeCtrl *n, NvmeSg *sg, bool dma)
+ {
+     if (dma) {
+-        pci_dma_sglist_init(&sg->qsg, &n->parent_obj, 0);
++        pci_dma_sglist_init(&sg->qsg, PCI_DEVICE(n), 0);
+         sg->flags = NVME_SG_DMA;
+     } else {
+         qemu_iovec_init(&sg->iov, 0);
+@@ -1333,7 +1336,7 @@ static inline void nvme_blk_write(BlockBackend *blk, int64_t offset,
+ 
+ static void nvme_update_cq_head(NvmeCQueue *cq)
+ {
+-    pci_dma_read(&cq->ctrl->parent_obj, cq->db_addr, &cq->head,
++    pci_dma_read(PCI_DEVICE(cq->ctrl), cq->db_addr, &cq->head,
+             sizeof(cq->head));
+     trace_pci_nvme_shadow_doorbell_cq(cq->cqid, cq->head);
+ }
+@@ -1363,7 +1366,7 @@ static void nvme_post_cqes(void *opaque)
+         req->cqe.sq_id = cpu_to_le16(sq->sqid);
+         req->cqe.sq_head = cpu_to_le16(sq->head);
+         addr = cq->dma_addr + cq->tail * n->cqe_size;
+-        ret = pci_dma_write(&n->parent_obj, addr, (void *)&req->cqe,
++        ret = pci_dma_write(PCI_DEVICE(n), addr, (void *)&req->cqe,
+                             sizeof(req->cqe));
+         if (ret) {
+             trace_pci_nvme_err_addr_write(addr);
+@@ -4615,6 +4618,7 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+ 
+ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
+ {
++    PCIDevice *pci = PCI_DEVICE(n);
+     uint16_t offset = (cq->cqid << 3) + (1 << 2);
+ 
+     n->cq[cq->cqid] = NULL;
+@@ -4625,8 +4629,8 @@ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
+         event_notifier_set_handler(&cq->notifier, NULL);
+         event_notifier_cleanup(&cq->notifier);
+     }
+-    if (msix_enabled(&n->parent_obj)) {
+-        msix_vector_unuse(&n->parent_obj, cq->vector);
++    if (msix_enabled(pci)) {
++        msix_vector_unuse(pci, cq->vector);
+     }
+     if (cq->cqid) {
+         g_free(cq);
+@@ -4664,8 +4668,10 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
+                          uint16_t cqid, uint16_t vector, uint16_t size,
+                          uint16_t irq_enabled)
+ {
+-    if (msix_enabled(&n->parent_obj)) {
+-        msix_vector_use(&n->parent_obj, vector);
++    PCIDevice *pci = PCI_DEVICE(n);
++
++    if (msix_enabled(pci)) {
++        msix_vector_use(pci, vector);
+     }
+     cq->ctrl = n;
+     cq->cqid = cqid;
+@@ -4716,7 +4722,7 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeRequest *req)
+         trace_pci_nvme_err_invalid_create_cq_addr(prp1);
+         return NVME_INVALID_PRP_OFFSET | NVME_DNR;
+     }
+-    if (unlikely(!msix_enabled(&n->parent_obj) && vector)) {
++    if (unlikely(!msix_enabled(PCI_DEVICE(n)) && vector)) {
+         trace_pci_nvme_err_invalid_create_cq_vector(vector);
+         return NVME_INVALID_IRQ_VECTOR | NVME_DNR;
+     }
+@@ -5959,6 +5965,7 @@ static uint16_t nvme_assign_virt_res_to_sec(NvmeCtrl *n, NvmeRequest *req,
+ 
+ static uint16_t nvme_virt_set_state(NvmeCtrl *n, uint16_t cntlid, bool online)
+ {
++    PCIDevice *pci = PCI_DEVICE(n);
+     NvmeCtrl *sn = NULL;
+     NvmeSecCtrlEntry *sctrl;
+     int vf_index;
+@@ -5968,9 +5975,9 @@ static uint16_t nvme_virt_set_state(NvmeCtrl *n, uint16_t cntlid, bool online)
+         return NVME_INVALID_CTRL_ID | NVME_DNR;
+     }
+ 
+-    if (!pci_is_vf(&n->parent_obj)) {
++    if (!pci_is_vf(pci)) {
+         vf_index = le16_to_cpu(sctrl->vfn) - 1;
+-        sn = NVME(pcie_sriov_get_vf_at_index(&n->parent_obj, vf_index));
++        sn = NVME(pcie_sriov_get_vf_at_index(pci, vf_index));
+     }
+ 
+     if (online) {
+@@ -6028,6 +6035,7 @@ static uint16_t nvme_virt_mngmt(NvmeCtrl *n, NvmeRequest *req)
+ 
+ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
+ {
++    PCIDevice *pci = PCI_DEVICE(n);
+     uint64_t dbs_addr = le64_to_cpu(req->cmd.dptr.prp1);
+     uint64_t eis_addr = le64_to_cpu(req->cmd.dptr.prp2);
+     int i;
+@@ -6054,8 +6062,7 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
+              */
+             sq->db_addr = dbs_addr + (i << 3);
+             sq->ei_addr = eis_addr + (i << 3);
+-            pci_dma_write(&n->parent_obj, sq->db_addr, &sq->tail,
+-                    sizeof(sq->tail));
++            pci_dma_write(pci, sq->db_addr, &sq->tail, sizeof(sq->tail));
+ 
+             if (n->params.ioeventfd && sq->sqid != 0) {
+                 if (!nvme_init_sq_ioeventfd(sq)) {
+@@ -6068,8 +6075,7 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
+             /* CAP.DSTRD is 0, so offset of ith cq db_addr is (i<<3)+(1<<2) */
+             cq->db_addr = dbs_addr + (i << 3) + (1 << 2);
+             cq->ei_addr = eis_addr + (i << 3) + (1 << 2);
+-            pci_dma_write(&n->parent_obj, cq->db_addr, &cq->head,
+-                    sizeof(cq->head));
++            pci_dma_write(pci, cq->db_addr, &cq->head, sizeof(cq->head));
+ 
+             if (n->params.ioeventfd && cq->cqid != 0) {
+                 if (!nvme_init_cq_ioeventfd(cq)) {
+@@ -6141,14 +6147,14 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+ 
+ static void nvme_update_sq_eventidx(const NvmeSQueue *sq)
+ {
+-    pci_dma_write(&sq->ctrl->parent_obj, sq->ei_addr, &sq->tail,
++    pci_dma_write(PCI_DEVICE(sq->ctrl), sq->ei_addr, &sq->tail,
+                   sizeof(sq->tail));
+     trace_pci_nvme_eventidx_sq(sq->sqid, sq->tail);
+ }
+ 
+ static void nvme_update_sq_tail(NvmeSQueue *sq)
+ {
+-    pci_dma_read(&sq->ctrl->parent_obj, sq->db_addr, &sq->tail,
++    pci_dma_read(PCI_DEVICE(sq->ctrl), sq->db_addr, &sq->tail,
+                  sizeof(sq->tail));
+     trace_pci_nvme_shadow_doorbell_sq(sq->sqid, sq->tail);
+ }
+@@ -6216,7 +6222,7 @@ static void nvme_update_msixcap_ts(PCIDevice *pci_dev, uint32_t table_size)
+ 
+ static void nvme_activate_virt_res(NvmeCtrl *n)
+ {
+-    PCIDevice *pci_dev = &n->parent_obj;
++    PCIDevice *pci_dev = PCI_DEVICE(n);
+     NvmePriCtrlCap *cap = &n->pri_ctrl_cap;
+     NvmeSecCtrlEntry *sctrl;
+ 
+@@ -6239,7 +6245,7 @@ static void nvme_activate_virt_res(NvmeCtrl *n)
+ 
+ static void nvme_ctrl_reset(NvmeCtrl *n, NvmeResetType rst)
+ {
+-    PCIDevice *pci_dev = &n->parent_obj;
++    PCIDevice *pci_dev = PCI_DEVICE(n);
+     NvmeSecCtrlEntry *sctrl;
+     NvmeNamespace *ns;
+     int i;
+@@ -6356,7 +6362,7 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+     uint32_t page_size = 1 << page_bits;
+     NvmeSecCtrlEntry *sctrl = nvme_sctrl(n);
+ 
+-    if (pci_is_vf(&n->parent_obj) && !sctrl->scs) {
++    if (pci_is_vf(PCI_DEVICE(n)) && !sctrl->scs) {
+         trace_pci_nvme_err_startfail_virt_state(le16_to_cpu(sctrl->nvi),
+                                                 le16_to_cpu(sctrl->nvq),
+                                                 sctrl->scs ? "ONLINE" :
+@@ -6471,6 +6477,7 @@ static void nvme_cmb_enable_regs(NvmeCtrl *n)
+ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+                            unsigned size)
+ {
++    PCIDevice *pci = PCI_DEVICE(n);
+     uint64_t cap = ldq_le_p(&n->bar.cap);
+     uint32_t cc = ldl_le_p(&n->bar.cc);
+     uint32_t intms = ldl_le_p(&n->bar.intms);
+@@ -6494,7 +6501,7 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+ 
+     switch (offset) {
+     case NVME_REG_INTMS:
+-        if (unlikely(msix_enabled(&(n->parent_obj)))) {
++        if (unlikely(msix_enabled(pci))) {
+             NVME_GUEST_ERR(pci_nvme_ub_mmiowr_intmask_with_msix,
+                            "undefined access to interrupt mask set"
+                            " when MSI-X is enabled");
+@@ -6507,7 +6514,7 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+         nvme_irq_check(n);
+         break;
+     case NVME_REG_INTMC:
+-        if (unlikely(msix_enabled(&(n->parent_obj)))) {
++        if (unlikely(msix_enabled(pci))) {
+             NVME_GUEST_ERR(pci_nvme_ub_mmiowr_intmask_with_msix,
+                            "undefined access to interrupt mask clr"
+                            " when MSI-X is enabled");
+@@ -6732,7 +6739,7 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr addr, unsigned size)
+         return 0;
+     }
+ 
+-    if (pci_is_vf(&n->parent_obj) && !nvme_sctrl(n)->scs &&
++    if (pci_is_vf(PCI_DEVICE(n)) && !nvme_sctrl(n)->scs &&
+         addr != NVME_REG_CSTS) {
+         trace_pci_nvme_err_ignored_mmio_vf_offline(addr, size);
+         return 0;
+@@ -6753,6 +6760,7 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr addr, unsigned size)
+ 
+ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+ {
++    PCIDevice *pci = PCI_DEVICE(n);
+     uint32_t qid;
+ 
+     if (unlikely(addr & ((1 << 2) - 1))) {
+@@ -6820,8 +6828,7 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+         start_sqs = nvme_cq_full(cq) ? 1 : 0;
+         cq->head = new_head;
+         if (!qid && n->dbbuf_enabled) {
+-            pci_dma_write(&n->parent_obj, cq->db_addr, &cq->head,
+-                          sizeof(cq->head));
++            pci_dma_write(pci, cq->db_addr, &cq->head, sizeof(cq->head));
+         }
+         if (start_sqs) {
+             NvmeSQueue *sq;
+@@ -6894,8 +6901,7 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+              * including ones that run on Linux, are not updating Admin Queues,
+              * so we can't trust reading it for an appropriate sq tail.
+              */
+-            pci_dma_write(&n->parent_obj, sq->db_addr, &sq->tail,
+-                          sizeof(sq->tail));
++            pci_dma_write(pci, sq->db_addr, &sq->tail, sizeof(sq->tail));
+         }
+ 
+         qemu_bh_schedule(sq->bh);
+@@ -6909,7 +6915,7 @@ static void nvme_mmio_write(void *opaque, hwaddr addr, uint64_t data,
+ 
+     trace_pci_nvme_mmio_write(addr, data, size);
+ 
+-    if (pci_is_vf(&n->parent_obj) && !nvme_sctrl(n)->scs &&
++    if (pci_is_vf(PCI_DEVICE(n)) && !nvme_sctrl(n)->scs &&
+         addr != NVME_REG_CSTS) {
+         trace_pci_nvme_err_ignored_mmio_vf_offline(addr, size);
+         return;
+@@ -7093,10 +7099,11 @@ static void nvme_init_state(NvmeCtrl *n)
+     NvmePriCtrlCap *cap = &n->pri_ctrl_cap;
+     NvmeSecCtrlList *list = &n->sec_ctrl_list;
+     NvmeSecCtrlEntry *sctrl;
++    PCIDevice *pci = PCI_DEVICE(n);
+     uint8_t max_vfs;
+     int i;
+ 
+-    if (pci_is_vf(&n->parent_obj)) {
++    if (pci_is_vf(pci)) {
+         sctrl = nvme_sctrl(n);
+         max_vfs = 0;
+         n->conf_ioqpairs = sctrl->nvq ? le16_to_cpu(sctrl->nvq) - 1 : 0;
+@@ -7125,7 +7132,7 @@ static void nvme_init_state(NvmeCtrl *n)
+     cap->cntlid = cpu_to_le16(n->cntlid);
+     cap->crt = NVME_CRT_VQ | NVME_CRT_VI;
+ 
+-    if (pci_is_vf(&n->parent_obj)) {
++    if (pci_is_vf(pci)) {
+         cap->vqprt = cpu_to_le16(1 + n->conf_ioqpairs);
+     } else {
+         cap->vqprt = cpu_to_le16(1 + n->params.max_ioqpairs -
+@@ -7138,7 +7145,7 @@ static void nvme_init_state(NvmeCtrl *n)
+                         cap->vqfrt / MAX(max_vfs, 1);
+     }
+ 
+-    if (pci_is_vf(&n->parent_obj)) {
++    if (pci_is_vf(pci)) {
+         cap->viprt = cpu_to_le16(n->conf_msix_qsize);
+     } else {
+         cap->viprt = cpu_to_le16(n->params.msix_qsize -
+@@ -7445,7 +7452,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     stl_le_p(&n->bar.vs, NVME_SPEC_VER);
+     n->bar.intmc = n->bar.intms = 0;
+ 
+-    if (pci_is_vf(&n->parent_obj) && !sctrl->scs) {
++    if (pci_is_vf(pci_dev) && !sctrl->scs) {
+         stl_le_p(&n->bar.csts, NVME_CSTS_FAILED);
+     }
+ }
+@@ -7483,6 +7490,7 @@ void nvme_attach_ns(NvmeCtrl *n, NvmeNamespace *ns)
+ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+ {
+     NvmeCtrl *n = NVME(pci_dev);
++    DeviceState *dev = DEVICE(pci_dev);
+     NvmeNamespace *ns;
+     Error *local_err = NULL;
+     NvmeCtrl *pn = NVME(pcie_sriov_get_pf(pci_dev));
+@@ -7502,8 +7510,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         return;
+     }
+ 
+-    qbus_init(&n->bus, sizeof(NvmeBus), TYPE_NVME_BUS,
+-              &pci_dev->qdev, n->parent_obj.qdev.id);
++    qbus_init(&n->bus, sizeof(NvmeBus), TYPE_NVME_BUS, dev, dev->id);
+ 
+     if (nvme_init_subsys(n, errp)) {
+         error_propagate(errp, local_err);
 -- 
 2.39.0
 
