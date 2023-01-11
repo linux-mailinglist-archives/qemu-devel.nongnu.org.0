@@ -2,99 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ACE6665CE3
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 14:48:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57FB4665CEA
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 14:49:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFbQy-0003D1-9T; Wed, 11 Jan 2023 08:46:28 -0500
+	id 1pFbSu-0004ED-OJ; Wed, 11 Jan 2023 08:48:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pFbQk-0003Bn-Ei
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 08:46:18 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pFbSi-00047b-K6
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 08:48:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pFbQY-0005uS-H5
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 08:46:06 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30BDMaUJ026027; Wed, 11 Jan 2023 13:45:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=Y5zftxIMFSR8nVe3CDIIKGak8IABrGwzm15s8w/K6cA=;
- b=OnGvN62LPYUnFdDIlSktUKSRQU8kDlOGFbk8cCiYL5H6sckoGzRJJj5s6bULXRPrZWV3
- st4dtyFZXwNiRd+Y9Ijcddm5e5bhGk8/F5xJdivbtRWC6cHFVau8pIMDWuwfqyOjrx0Y
- aEUyD1M9DM67PCTmDhsxhrYkB8BX4J1ALd4QmH1RYFn0uecZzY04pbzVtL/VL8DqRgGW
- H14Vov0ezyhLfI/GqV7EiaNsoUwZXJA+Mgww16z3dRDXjFe6eyf5hkFuGy1aqk86wpBR
- 8CU0fwGVKMfHk2JG5hXe+g+nibdmoDROsD6y3XK/SaEoX3s1VpyC2Z4kBjLot4Dp4B+H Ig== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1wxj0g1p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Jan 2023 13:45:59 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30BDf56g003516;
- Wed, 11 Jan 2023 13:45:58 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n1wxj0g1j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Jan 2023 13:45:58 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30BCodNW019887;
- Wed, 11 Jan 2023 13:45:58 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3n1k83usew-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Jan 2023 13:45:57 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com
- [10.39.53.230])
- by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30BDjuol33555152
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 Jan 2023 13:45:56 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 581D758064;
- Wed, 11 Jan 2023 13:45:56 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BE63258054;
- Wed, 11 Jan 2023 13:45:55 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 11 Jan 2023 13:45:55 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, peter.maydell@linaro.org, berrange@redhat.com,
- Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PATCH v2] tests/qtest/tpm-emu: Avoid hangs using abort handlers
- closing channels
-Date: Wed, 11 Jan 2023 08:45:47 -0500
-Message-Id: <20230111134547.3959604-1-stefanb@linux.ibm.com>
-X-Mailer: git-send-email 2.39.0
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pFbSg-0006E4-OP
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 08:48:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673444893;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e1PHgaFgb60kwMxut3qPpI4HuoDds1SICvW4hp9F+fo=;
+ b=C/0gkSkeFGJu9LRAeDS4dqwI5E1VJU9nNnRW3fu0alKy47xyUjWrXi/pH+N2sHYaCk50xU
+ mNm1Rcn3MoGztW6+Fams10H21KRyPpZLPmoOfGoLJ4w+gYwMaWL3oWRNvfWPDIQRqZ4qmC
+ QEhXkFtsRdhzXiGXBdQpF+YiElwABn8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-368-BqDFpA3-OuK6oxcceyr7Aw-1; Wed, 11 Jan 2023 08:48:12 -0500
+X-MC-Unique: BqDFpA3-OuK6oxcceyr7Aw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ u15-20020adfa18f000000b002b129dc55bfso2719413wru.11
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 05:48:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :content-language:references:cc:to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=e1PHgaFgb60kwMxut3qPpI4HuoDds1SICvW4hp9F+fo=;
+ b=ePJa55iM68qpBaGg1j4DtzzH1G2RdNvB2Fw8LU0Q6ZQJHXBV/96ALuLagEWwSUpAWE
+ HMQgij0JCMQW2mEq90GShOvXS794HEUtUBbQe/eXFuxP57ZYsTxJr96hNZJntpQejukE
+ W1qaKpUw5emzuEYJkPJXuz2fNszxug3rcWB/flrMOJdzkoLSZTkPrW9Acq7iuhDjX0Bu
+ LGsX95jzUkHpQWy8UcO7EqygLJsGays5coPaFQ19q+ioLGsocCVzBDZjozPnBE40ZawG
+ SW8Wd+uh9aAy0CIEk6cxETuZHmqD5RuR4gDJgwb5EQvqMaBTasgSndeUQ75kS8/HE2tk
+ tjXg==
+X-Gm-Message-State: AFqh2kojZwutAEplOJk6OjBViXnTmAvmEgyUdZAFLt4WYV3gCzXdm77d
+ sCbqf2lJcOm1WYsKL2bVhUjBiGoH1pmO+fDKwhSH21x/ckefrHluoz2ipkOBhvHG4IZtc3cAvZf
+ KWb3QwPQrJgeNPE4=
+X-Received: by 2002:a05:600c:1d20:b0:3d2:2aaf:316 with SMTP id
+ l32-20020a05600c1d2000b003d22aaf0316mr52764395wms.36.1673444891104; 
+ Wed, 11 Jan 2023 05:48:11 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuiuNJbg1r2igM2r77QzXp9e/ojRBD4sIgHgO01JtvQQuNEXAwhbUUJPBoEYKGoGNnuz8jIsA==
+X-Received: by 2002:a05:600c:1d20:b0:3d2:2aaf:316 with SMTP id
+ l32-20020a05600c1d2000b003d22aaf0316mr52764384wms.36.1673444890817; 
+ Wed, 11 Jan 2023 05:48:10 -0800 (PST)
+Received: from ?IPV6:2003:cb:c704:5b00:5b3c:db46:8eb5:ee24?
+ (p200300cbc7045b005b3cdb468eb5ee24.dip0.t-ipconnect.de.
+ [2003:cb:c704:5b00:5b3c:db46:8eb5:ee24])
+ by smtp.gmail.com with ESMTPSA id
+ j30-20020a05600c1c1e00b003cfa80443a0sm21071102wms.35.2023.01.11.05.48.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Jan 2023 05:48:10 -0800 (PST)
+Message-ID: <fbde8341-660b-0ed1-4f74-0afe565d5be5@redhat.com>
+Date: Wed, 11 Jan 2023 14:48:09 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: nkHfrazOTxwZefX3OsYuJZgLkb0y6LMu
-X-Proofpoint-ORIG-GUID: mCrNbmvWMZykrObfF3mbEBIeHvL94oDL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-11_06,2023-01-11_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- impostorscore=0 mlxscore=0 priorityscore=1501 clxscore=1015
- mlxlogscore=999 lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301110092
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>
+References: <20221222110215.130392-1-david@redhat.com>
+ <20221222110215.130392-2-david@redhat.com> <Y7W2LtO5/m1r3VaL@x1n>
+ <d60f9272-1e81-00da-8046-2264a9b97e58@redhat.com> <Y7cFplyGc4hIrYZW@x1n>
+ <482fadb5-7420-e07b-982d-5b0f3e8c42f8@redhat.com> <Y7xw4RqLQUFWZyfI@x1n>
+ <460b6ea0-67a6-891f-f8fb-a5f23e9985c4@redhat.com>
+ <c6a66296-94a7-e1ef-e0c1-098071f961d2@redhat.com> <Y73Er/n86CgQTMYu@x1n>
+Content-Language: en-US
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v3 1/6] migration: Allow immutable device state to be
+ migrated early (i.e., before RAM)
+In-Reply-To: <Y73Er/n86CgQTMYu@x1n>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,64 +111,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Install abort handlers that close the TPM control and data channels in
-case an abort occurs. The purpose of this is to have QEMU terminate
-under abnormal test case failures to resolve intermittent hangs on s390x
-hosts running TPM tests for QEMU/x86_64.
+On 10.01.23 21:03, Peter Xu wrote:
+> On Tue, Jan 10, 2023 at 12:52:32PM +0100, David Hildenbrand wrote:
+>> The following seems to work,
+> 
+> That looks much better at least from the diffstat pov (comparing to the
+> existing patch 1+5 and the framework changes), thanks.
+> 
+>> but makes analyze-migration.py angry:
+>>
+>> $ ./scripts/analyze-migration.py -f STATEFILE
+>> Traceback (most recent call last):
+>>    File "/home/dhildenb/git/qemu/./scripts/analyze-migration.py", line 605, in <module>
+>>      dump.read(dump_memory = args.memory)
+>>    File "/home/dhildenb/git/qemu/./scripts/analyze-migration.py", line 539, in read
+>>      classdesc = self.section_classes[section_key]
+>>                  ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+>> KeyError: ('0000:00:03.0/virtio-mem-early', 0)
+>>
+>>
+>> We need the vmdesc to create info for the device.
+> 
+> Migration may ignore the save entry if save_state() not provided in the
+> "devices" section:
+> 
+>          if ((!se->ops || !se->ops->save_state) && !se->vmsd) {
+>              continue;
+>          }
+> 
+> Could you try providing a shim save_state() for the new virtio-mem save
+> entry?
+> 
+> /*
+>   * Shim function to make sure the save entry will be dumped into "devices"
+>   * section, to make analyze-migration.py happy.
+>   */
+> static void virtio_mem_save_state_early(QEMUFile *file, void *opaque)
+> {
+> }
+> 
+> Then:
+> 
+> static const SaveVMHandlers vmstate_virtio_mem_device_early_ops = {
+>      .save_setup = virtio_mem_save_setup_early,
+>      .save_state = virtio_mem_save_state_early,
+>      .load_state = virtio_mem_load_state_early,
+> };
+> 
+> I'm not 100% sure it'll work yet, but maybe worth trying.
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
----
- tests/qtest/tpm-emu.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+It doesn't. virtio_mem_load_state_early() will get called twice (once 
+with state saved during save_setup() and once with effectively nothing 
+during save_state(), which breaks the whole migration).
 
-diff --git a/tests/qtest/tpm-emu.c b/tests/qtest/tpm-emu.c
-index 2994d1cf42..73e0000a2c 100644
---- a/tests/qtest/tpm-emu.c
-+++ b/tests/qtest/tpm-emu.c
-@@ -36,11 +36,18 @@ void tpm_emu_test_wait_cond(TPMTestState *s)
-     g_mutex_unlock(&s->data_mutex);
- }
- 
-+static void tpm_emu_close_ioc(void *ioc)
-+{
-+    qio_channel_close(ioc, NULL);
-+}
-+
- static void *tpm_emu_tpm_thread(void *data)
- {
-     TPMTestState *s = data;
-     QIOChannel *ioc = s->tpm_ioc;
- 
-+    qtest_add_abrt_handler(tpm_emu_close_ioc, ioc);
-+
-     s->tpm_msg = g_new(struct tpm_hdr, 1);
-     while (true) {
-         int minhlen = sizeof(s->tpm_msg->tag) + sizeof(s->tpm_msg->len);
-@@ -77,6 +84,7 @@ static void *tpm_emu_tpm_thread(void *data)
-                           &error_abort);
-     }
- 
-+    qtest_remove_abrt_handler(ioc);
-     g_free(s->tpm_msg);
-     s->tpm_msg = NULL;
-     object_unref(OBJECT(s->tpm_ioc));
-@@ -99,6 +107,7 @@ void *tpm_emu_ctrl_thread(void *data)
-     qio_channel_wait(QIO_CHANNEL(lioc), G_IO_IN);
-     ioc = QIO_CHANNEL(qio_channel_socket_accept(lioc, &error_abort));
-     g_assert(ioc);
-+    qtest_add_abrt_handler(tpm_emu_close_ioc, ioc);
- 
-     {
-         uint32_t cmd = 0;
-@@ -190,6 +199,7 @@ void *tpm_emu_ctrl_thread(void *data)
+vmdesc handling is also wrong, because analyze-migration.py gets 
+confused because it receives data stored during save_setup() but vmdesc 
+created during save_state() was told that there would be "nothing" to 
+interpret ...
+
+$ ./scripts/analyze-migration.py -f STATEFILE
+{
+     "ram (2)": {
+         "section sizes": {
+             "0000:00:03.0/mem0": "0x0000000f00000000",
+             "pc.ram": "0x0000000100000000",
+             "/rom@etc/acpi/tables": "0x0000000000020000",
+             "pc.bios": "0x0000000000040000",
+             "0000:00:02.0/e1000.rom": "0x0000000000040000",
+             "pc.rom": "0x0000000000020000",
+             "/rom@etc/table-loader": "0x0000000000001000",
+             "/rom@etc/acpi/rsdp": "0x0000000000001000"
          }
+     },
+     "0000:00:03.0/virtio-mem-early (51)": {
+         "data": ""
      }
- 
-+    qtest_remove_abrt_handler(ioc);
-     object_unref(OBJECT(ioc));
-     object_unref(OBJECT(lioc));
-     return NULL;
+}
+
+
+Not sure if the whole thing becomes nicer when manually looking up the 
+vmdesc ... because filling it will also requires manually storing the 
+se->idstr and the se->instance_id, whereby both are migration-internal 
+and not available inside save_setup().
+
+
+Hm, I really prefer something like the simplified version that let's 
+migration core deal with vmstate to be migrated during save_setup() 
+phase. We could avoid the vmstate->immutable flag and simply use a 
+separate function for registering the vmstate, like:
+
+vmstate_register_immutable()
+vmstate_register_early()
+...
+
 -- 
-2.39.0
+Thanks,
+
+David / dhildenb
 
 
