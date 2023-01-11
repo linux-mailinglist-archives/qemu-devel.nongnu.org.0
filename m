@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75646667C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 01:36:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CCBA666835
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 02:03:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFlY9-0006TV-0Y; Wed, 11 Jan 2023 19:34:33 -0500
+	id 1pFlaI-0007Tu-Q1; Wed, 11 Jan 2023 19:36:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pFlY6-0006T3-Js; Wed, 11 Jan 2023 19:34:30 -0500
-Received: from mail-vs1-xe36.google.com ([2607:f8b0:4864:20::e36])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pFlaH-0007Ti-FH
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:45 -0500
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pFlY5-000159-0U; Wed, 11 Jan 2023 19:34:30 -0500
-Received: by mail-vs1-xe36.google.com with SMTP id t10so6945747vsr.3;
- Wed, 11 Jan 2023 16:34:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=d1tk4Tru+qMNsCf/c1roFprY9b168ARgsT1glGAgJrs=;
- b=JksjXBJop6szgYimaecIHf03yTPM9PbDTX8cI3pcNKPoift6RwQCeBm2vSzcTcpkAg
- tFHNP+j9gZx09UtpElc5Fr1G95LD37sSc9ZFi2o1iWkRkfbvaPtEAAaB2ikq+AQeZh65
- +k25I3c4+fO8AFW3UTJ1PeGPh9+4lDcFqOFopYH9LRdLsC9VRhIu686WYA1ShfI/1WUn
- S5o1Nni4nDT2s8nSBacmHkaw6TnqJUdoQUUXdJE8kjMKMwR4HLAOqII9Bdsx1dCa/U2A
- HkifuEjRh8SxrYZn1LurDBKonRtZcKz8it6CAp53n9GOUzSbeFRdsiUp2xFs1NW7OT4H
- AAFQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pFlaF-0001hN-TQ
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:45 -0500
+Received: by mail-pf1-x432.google.com with SMTP id i65so9210925pfc.0
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 16:36:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bYJoKIZm1hyXjsTxr0wMNg1VsWwfcqhf2+zUyrxQDcs=;
+ b=aamLikFzKpKd+lUDa4skP7CC7FOncU/vYm1SDbtcIRaE7we8hqVx0adbuVj/6xkjFH
+ OUuKvUcvTumfRhTi5tFBAK11hC4YYSOPNC+k/l1JARgjWP2NN7ohgLvUct3mhMQVgjsq
+ vCJYDvvEyBVi/KvjEUHb8wxw+wjFcRWBjp7zM9aPRevjODUAFFhFcxaxFMac4Zedbh8F
+ RbgnOg1Hf9ZVyZM4/WJzs/orpMuhccpRukfNZRoxE6C41OK7xv5/n29yvNW8wMgvApTW
+ E+AFUyVNccZYhhWHwY7Sb+ykrPn50LsjXITeWQkghhdbhg1AU/1kLLzcveN+eEiK09+c
+ hEug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=d1tk4Tru+qMNsCf/c1roFprY9b168ARgsT1glGAgJrs=;
- b=qp7XPXg21G5Zay8G0y2lckSmDJ82mk9BvHJLKwnrdb4YY45YUppSYQqNkcypwg1Xn6
- Kuq/uitUoZ7emLtUIOyIEJd24dbB5E6iUOTn/dl+wYoukpQcJtL58SSAnmrjqGcYzKOp
- gDDy7D86caaCrn8zB5L3IntsdHhcI+gK6P/745NESM6dmAoKLClIR/bboA4ZlyXAlgwf
- 8QzYs5bKZWzM8yulckFHbI0UsPUwWv6Bt3lZnYaTHdMaR8g+Wou1EzJh6Nfg0DFLRvHj
- DehBoZV6plV27O7NbJcxIoiv8WIK/G5wG5ub5DkCSsX7GqbSEPe7GsqpX2PZMUCHcmxn
- iG+Q==
-X-Gm-Message-State: AFqh2kotJH9XjiwnsWO/DWQx9U0wwpn0wjb4FaFDIj11We6VebeZHmwz
- /G6H2voexe4bVATqXYYW4K+T5rAg0dAKo7W7ijA=
-X-Google-Smtp-Source: AMrXdXsuYO++2pCgVrv/MnV02FMWss2jZ2uVRTbNDFZJpwzS/sd4iAi0lNsX3VAag0pcajHPM6LZ2W7RvBhd3JmWdo4=
-X-Received: by 2002:a05:6102:510e:b0:3b1:2b83:1861 with SMTP id
- bm14-20020a056102510e00b003b12b831861mr9865244vsb.10.1673483667615; Wed, 11
- Jan 2023 16:34:27 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bYJoKIZm1hyXjsTxr0wMNg1VsWwfcqhf2+zUyrxQDcs=;
+ b=GRK5TdCGOYUnduPoQspgGWp3ftou25El9QmdgHnvcBWSAyFTjICxGzecsECoTuLoE5
+ YICbAAaccik2vEX3dfQM6LPclPzdqjO8/g7H2w6x06QvTqPRGlpxVgeUmnRN59WK8VcA
+ poTseewAanSHNCnyqbQ35eTChgqMNVhoIqNkgQpabQtKGqnQwzsDqNZgeTmaERNeL/MR
+ ufyZF5Sw/nuJTKaFs4BsA80LP13IO6qiI158+iidYbbKopkmfj1cqXaat9TEVI2rGjb0
+ UbGQBxH89mg5FJIj/0HSKI8Vhb2JfvV+C8GoH/C8YsQG6lUpJKrgEQAi3JNU503rqlSk
+ yAbg==
+X-Gm-Message-State: AFqh2kqbfGZSyENW4c1a27fhSoM8J2TjDKYtEVPSr8Tvz0MkAFoMmM8n
+ aolWE8o1jFV008jygjORbTQVFw==
+X-Google-Smtp-Source: AMrXdXs1/Hhxret3YEUJjnXkhmVFjVxnpmmHFno+HR/loGZLKNXIqULltjBvmpDW8/tZeUoXY561fA==
+X-Received: by 2002:a05:6a00:3217:b0:581:7430:aba with SMTP id
+ bm23-20020a056a00321700b0058174300abamr48969695pfb.10.1673483802378; 
+ Wed, 11 Jan 2023 16:36:42 -0800 (PST)
+Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ d2-20020aa797a2000000b005895f9657ebsm5868339pfq.70.2023.01.11.16.36.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Jan 2023 16:36:41 -0800 (PST)
+Message-ID: <e2693fc6-e7b2-74a4-53c1-4ed0c46f9c7b@linaro.org>
+Date: Wed, 11 Jan 2023 09:11:21 -1000
 MIME-Version: 1.0
-References: <20230102115241.25733-1-dbarboza@ventanamicro.com>
- <20230102115241.25733-11-dbarboza@ventanamicro.com>
-In-Reply-To: <20230102115241.25733-11-dbarboza@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 12 Jan 2023 10:34:01 +1000
-Message-ID: <CAKmqyKPri7asvqZ8wN4Bd-wjH+gwwMJJhiUd+=QZFV4RhWnyUQ@mail.gmail.com>
-Subject: Re: [PATCH v5 10/11] hw/riscv/boot.c: consolidate all kernel init in
- riscv_load_kernel()
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e36;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe36.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 24/26] translator: always pair plugin_gen_insn_{start,
+ end} calls
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20230110173922.265055-1-alex.bennee@linaro.org>
+ <20230110173922.265055-25-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230110173922.265055-25-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,85 +94,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 2, 2023 at 9:55 PM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
-> The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
-> the same steps when '-kernel' is used:
->
-> - execute load_kernel()
-> - load init_rd()
-> - write kernel_cmdline
->
-> Let's fold everything inside riscv_load_kernel() to avoid code
-> repetition. To not change the behavior of boards that aren't calling
-> riscv_load_init(), add an 'load_initrd' flag to riscv_load_kernel() and
-> allow these boards to opt out from initrd loading.
->
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+On 1/10/23 09:39, Alex Bennée wrote:
+> From: Emilio Cota<cota@braap.org>
+> 
+> Related: #1381
+> 
+> Signed-off-by: Emilio Cota<cota@braap.org>
+> Reviewed-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> Message-Id:<20230108164731.61469-3-cota@braap.org>
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->  hw/riscv/boot.c            | 22 +++++++++++++++++++---
->  hw/riscv/microchip_pfsoc.c | 12 ++----------
->  hw/riscv/opentitan.c       |  2 +-
->  hw/riscv/sifive_e.c        |  3 ++-
->  hw/riscv/sifive_u.c        | 12 ++----------
->  hw/riscv/spike.c           | 11 +----------
->  hw/riscv/virt.c            | 12 ++----------
->  include/hw/riscv/boot.h    |  1 +
->  8 files changed, 30 insertions(+), 45 deletions(-)
->
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 2594276223..4888d5c1e0 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -175,10 +175,12 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
->
->  target_ulong riscv_load_kernel(MachineState *machine,
->                                 target_ulong kernel_start_addr,
-> +                               bool load_initrd,
->                                 symbol_fn_t sym_cb)
->  {
->      const char *kernel_filename = machine->kernel_filename;
->      uint64_t kernel_load_base, kernel_entry;
-> +    void *fdt = machine->fdt;
->
->      g_assert(kernel_filename != NULL);
->
-> @@ -192,21 +194,35 @@ target_ulong riscv_load_kernel(MachineState *machine,
->      if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
->                           NULL, &kernel_load_base, NULL, NULL, 0,
->                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
-> -        return kernel_load_base;
-> +        kernel_entry = kernel_load_base;
+>   accel/tcg/translator.c | 15 ++++++++++-----
+>   1 file changed, 10 insertions(+), 5 deletions(-)
 
-This breaks 32-bit Xvisor loading. It seems that for the 32-bit guest
-we get a value of 0xffffffff80000000.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Previously the top bits would be lost as we return a target_ulong from
-this function, but with this change we pass the value
-0xffffffff80000000 to riscv_load_initrd() which causes failures.
-
-This diff fixes the failure for me
-
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 4888d5c1e0..f08ed44b97 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -194,7 +194,7 @@ target_ulong riscv_load_kernel(MachineState *machine,
-    if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
-                         NULL, &kernel_load_base, NULL, NULL, 0,
-                         EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
--        kernel_entry = kernel_load_base;
-+        kernel_entry = (target_ulong) kernel_load_base;
-        goto out;
-    }
-
-
-but I don't think that's the right fix. We should instead look at the
-CPU XLEN and drop the high bits if required.
-
-I'm going to drop this patch, do you mind looking into a proper fix?
-
-Alistair
+r~
 
