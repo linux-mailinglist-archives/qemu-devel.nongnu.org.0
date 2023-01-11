@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5CDC666022
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 17:15:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12878666048
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 17:21:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFdjU-0000nr-CK; Wed, 11 Jan 2023 11:13:44 -0500
+	id 1pFdpm-0004Wy-3Q; Wed, 11 Jan 2023 11:20:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pFdjR-0000mH-Kl
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:13:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.145.221.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pFdjL-0002xa-Td
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:13:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673453614;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Q7U3BISuSPwAWuMpwLqgxRRbJoso0xAD3vBoILCXk1A=;
- b=dnqNH50Y8PjwHwe5xP8yHw8s0RXpTbt50KyASCGiIwBU4Qj9//hRpTFpExsdnlpEGLfeof
- 5a7SXYdff5+hof3Y7BGZcn3GU2wggCmaAYzNzvEiWBVyDB5SGkgIqDRs41YQqbS5nzoc2f
- LoNm+c6oNq+nsP/k+vUB642vSfEH2xw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-2-VmhDB6ldPOS3ANR5C0iavw-1; Wed, 11 Jan 2023 11:13:30 -0500
-X-MC-Unique: VmhDB6ldPOS3ANR5C0iavw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F6D51C08797;
- Wed, 11 Jan 2023 16:13:30 +0000 (UTC)
-Received: from gondolin.redhat.com (unknown [10.39.195.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E00A52026D68;
- Wed, 11 Jan 2023 16:13:27 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org,
- Eric Auger <eauger@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v4 2/2] qtests/arm: add some mte tests
-Date: Wed, 11 Jan 2023 17:13:17 +0100
-Message-Id: <20230111161317.52250-3-cohuck@redhat.com>
-In-Reply-To: <20230111161317.52250-1-cohuck@redhat.com>
-References: <20230111161317.52250-1-cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pFdpj-0004WW-Up
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:20:12 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pFdpi-00043C-DD
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:20:11 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ g19-20020a05600c4ed300b003d9eb1dbc0aso10127195wmq.3
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 08:20:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Qeft7dz6XVBFF176iTjFmxbxgxL824tb/F/dZ8ObcU8=;
+ b=S8Vl4ROCXqEq+j8ltoKAGbFUMo5WSoOYaq+aP/sq8JXtKCoFnJdCUl0Ik0Dz/rZxlf
+ wSjcq24+NfGwy7MITmY3ynSilwySDaKZImoBUL1wgDmFktGM448KKvf5mbXz02iP398b
+ bFfY2mMtEy2c38fL7aBDpyTobYytv0HbddDR8Y+nPpedsMTcSJ+5169dqp3xDkKEoSoG
+ RbuXqbLkfVko+7u2cjkRJl9CAYAjctkBuRhmLk9bkSMOhE5ifHDY67m0k/2NL3LUcN53
+ X1uVnFtSeGBoTqbh75/6mT3TcX23/jBdqyBrjb5RIpZ+45+UA0ZFnQ4buSmWryO2S5a/
+ Rypg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Qeft7dz6XVBFF176iTjFmxbxgxL824tb/F/dZ8ObcU8=;
+ b=5C7/FEp0T0sY32f8axwqqQHFugnmVMjTH7N8brFsup/6HR7v9LvUJnr36ebDmUzKsU
+ XbatYQaXOGH0zvm4BOcMI0lvrmKa3pJloQ4IZ41Nv1aZsteJpCShryS1TOiL7NgXfita
+ M2aX8e69O7tMgcaI0tHDoKEPfqssPJsULZbu9/wT6wPcLuUSihCThZJJ2FYiTQK5/RSM
+ wGc9jUcf2b1RWDnd89qBFPhMO4GNJWP8hEFw4K/oZ+ev1UqWOFiJKhUMI+2KX6pnsHUi
+ emOnK1pIbMVRPnAARin/NsYB6pykcyBHPEmw+dPN4UkExaU9IyfOQ3cqKw/9viSl+/Hb
+ OKTQ==
+X-Gm-Message-State: AFqh2kpM6fcQAqNaa0cVkgDXNjrU9IorfCxrdjpWX5E5qNjJvojVNDeD
+ cy40NXHf9G7fnVJ8jYMdsPvpEQ==
+X-Google-Smtp-Source: AMrXdXufPKoynhKRxHIzTraTq6HT2HmxjBayeSTUQS2f9sgkCsAOPrcwwTz7xWAWPOG/CvlHktuPCg==
+X-Received: by 2002:a05:600c:3509:b0:3d3:4f99:bb32 with SMTP id
+ h9-20020a05600c350900b003d34f99bb32mr53670142wmq.36.1673454008852; 
+ Wed, 11 Jan 2023 08:20:08 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ m5-20020adfdc45000000b002428c4fb16asm14485071wrj.10.2023.01.11.08.20.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Jan 2023 08:20:08 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 088AF1FFB7;
+ Wed, 11 Jan 2023 16:20:07 +0000 (GMT)
+References: <20230111151628.320011-1-cota@braap.org>
+User-agent: mu4e 1.9.12; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Emilio Cota <cota@braap.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
+ <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 0/5] tsan fixes
+Date: Wed, 11 Jan 2023 16:19:06 +0000
+In-reply-to: <20230111151628.320011-1-cota@braap.org>
+Message-ID: <875yddnivd.fsf@linaro.org>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: permerror client-ip=216.145.221.124;
- envelope-from=cohuck@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_FAIL=0.001,
- SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,156 +96,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Acked-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- tests/qtest/arm-cpu-features.c | 76 ++++++++++++++++++++++++++++++++++
- 1 file changed, 76 insertions(+)
 
-diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index 5a145273860c..e264d2178a8b 100644
---- a/tests/qtest/arm-cpu-features.c
-+++ b/tests/qtest/arm-cpu-features.c
-@@ -22,6 +22,7 @@
- 
- #define MACHINE     "-machine virt,gic-version=max -accel tcg "
- #define MACHINE_KVM "-machine virt,gic-version=max -accel kvm -accel tcg "
-+#define MACHINE_MTE "-machine virt,gic-version=max,mte=on -accel tcg "
- #define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
-                     "  'arguments': { 'type': 'full', "
- #define QUERY_TAIL  "}}"
-@@ -155,6 +156,18 @@ static bool resp_get_feature(QDict *resp, const char *feature)
-     g_assert(qdict_get_bool(_props, feature) == (expected_value));     \
- })
- 
-+#define resp_assert_feature_str(resp, feature, expected_value)         \
-+({                                                                     \
-+    QDict *_props;                                                     \
-+                                                                       \
-+    g_assert(_resp);                                                   \
-+    g_assert(resp_has_props(_resp));                                   \
-+    _props = resp_get_props(_resp);                                    \
-+    g_assert(qdict_get(_props, feature));                              \
-+    g_assert_cmpstr(qdict_get_try_str(_props, feature), ==,            \
-+                    expected_value);                                   \
-+})
-+
- #define assert_feature(qts, cpu_type, feature, expected_value)         \
- ({                                                                     \
-     QDict *_resp;                                                      \
-@@ -165,6 +178,16 @@ static bool resp_get_feature(QDict *resp, const char *feature)
-     qobject_unref(_resp);                                              \
- })
- 
-+#define assert_feature_str(qts, cpu_type, feature, expected_value)     \
-+({                                                                     \
-+    QDict *_resp;                                                      \
-+                                                                       \
-+    _resp = do_query_no_props(qts, cpu_type);                          \
-+    g_assert(_resp);                                                   \
-+    resp_assert_feature_str(_resp, feature, expected_value);           \
-+    qobject_unref(_resp);                                              \
-+})
-+
- #define assert_set_feature(qts, cpu_type, feature, value)              \
- ({                                                                     \
-     const char *_fmt = (value) ? "{ %s: true }" : "{ %s: false }";     \
-@@ -176,6 +199,16 @@ static bool resp_get_feature(QDict *resp, const char *feature)
-     qobject_unref(_resp);                                              \
- })
- 
-+#define assert_set_feature_str(qts, cpu_type, feature, value, _fmt)    \
-+({                                                                     \
-+    QDict *_resp;                                                      \
-+                                                                       \
-+    _resp = do_query(qts, cpu_type, _fmt, feature);                    \
-+    g_assert(_resp);                                                   \
-+    resp_assert_feature_str(_resp, feature, value);                    \
-+    qobject_unref(_resp);                                              \
-+})
-+
- #define assert_has_feature_enabled(qts, cpu_type, feature)             \
-     assert_feature(qts, cpu_type, feature, true)
- 
-@@ -412,6 +445,24 @@ static void sve_tests_sve_off_kvm(const void *data)
-     qtest_quit(qts);
- }
- 
-+static void mte_tests_tag_memory_on(const void *data)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init(MACHINE_MTE "-cpu max");
-+
-+    /*
-+     * With tag memory, "mte" should default to on, and explicitly specifying
-+     * either on or off should be fine.
-+     */
-+    assert_has_feature(qts, "max", "mte");
-+
-+    assert_set_feature_str(qts, "max", "mte", "off", "{ 'mte': 'off' }");
-+    assert_set_feature_str(qts, "max", "mte", "on", "{ 'mte': 'on' }");
-+
-+    qtest_quit(qts);
-+}
-+
- static void pauth_tests_default(QTestState *qts, const char *cpu_type)
- {
-     assert_has_feature_enabled(qts, cpu_type, "pauth");
-@@ -424,6 +475,21 @@ static void pauth_tests_default(QTestState *qts, const char *cpu_type)
-                  "{ 'pauth': false, 'pauth-impdef': true }");
- }
- 
-+static void mte_tests_default(QTestState *qts, const char *cpu_type)
-+{
-+    assert_has_feature(qts, cpu_type, "mte");
-+
-+    /*
-+     * Without tag memory, mte will be off under tcg.
-+     * Explicitly enabling it yields an error.
-+     */
-+    assert_has_feature(qts, cpu_type, "mte");
-+
-+    assert_set_feature_str(qts, "max", "mte", "off", "{ 'mte': 'off' }");
-+    assert_error(qts, cpu_type, "mte=on requires tag memory",
-+                 "{ 'mte': 'on' }");
-+}
-+
- static void test_query_cpu_model_expansion(const void *data)
- {
-     QTestState *qts;
-@@ -473,6 +539,7 @@ static void test_query_cpu_model_expansion(const void *data)
- 
-         sve_tests_default(qts, "max");
-         pauth_tests_default(qts, "max");
-+        mte_tests_default(qts, "max");
- 
-         /* Test that features that depend on KVM generate errors without. */
-         assert_error(qts, "max",
-@@ -516,6 +583,13 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-         assert_set_feature(qts, "host", "pmu", false);
-         assert_set_feature(qts, "host", "pmu", true);
- 
-+        /*
-+         * Unfortunately, there's no easy way to test whether this instance
-+         * of KVM supports MTE. So we can only assert that the feature
-+         * is present, but not whether it can be toggled.
-+         */
-+        assert_has_feature(qts, "host", "mte");
-+
-         /*
-          * Some features would be enabled by default, but they're disabled
-          * because this instance of KVM doesn't support them. Test that the
-@@ -630,6 +704,8 @@ int main(int argc, char **argv)
-                             NULL, sve_tests_sve_off);
-         qtest_add_data_func("/arm/kvm/query-cpu-model-expansion/sve-off",
-                             NULL, sve_tests_sve_off_kvm);
-+        qtest_add_data_func("/arm/max/query-cpu-model-expansion/tag-memory",
-+                            NULL, mte_tests_tag_memory_on);
-     }
- 
-     return g_test_run();
--- 
-2.39.0
+Emilio Cota <cota@braap.org> writes:
 
+> Changes since v2:
+>
+> - Add R-b's
+> - patch 4/5: Fix incompatible pointer type errors
+> - patch 4/5: Remove leftover helper
+>
+> Thanks,
+> 		Emilio
+
+Queued to plugins/next, thanks.
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
