@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3F0665665
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 09:45:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424FC665677
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 09:50:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFWim-0007b9-Ry; Wed, 11 Jan 2023 03:44:32 -0500
+	id 1pFWng-0002qz-EZ; Wed, 11 Jan 2023 03:49:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFWij-0007aA-AH
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:44:29 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1pFWnR-0002hn-0H
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:49:24 -0500
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFWig-0006T2-4D
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:44:27 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id bs20so14289049wrb.3
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 00:44:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0dlyOnkT+S6TEHGI3pvKMC2BE6iB7ZgGN+GTpfgdFS4=;
- b=xRXElXMz2DMhKd5iUdSZX/KtlS4vty0R9jFenz3K1OfwwO5AWF4O1fMk6pYMgl1IEc
- 0+oqdgglQIqboA/E6uwTjPZ8k2LeyAJzHD/59E14dSjrZ+dsaHHKXbgT9Fauz3tJuzfo
- 053Hu5uNdHfec2lwfD6SN0EVFF8fHm1O5hr+lPmDFAqSI555nM27aSA1ZAoJtalIjGNG
- +/YRC3Hu4pLlQ1/b2VDYGEWefjvcdrhEaDrrWOMTfb4WUIakybf2hEJIa9K13LHnYEe9
- jpZ8G8eJywF8wnMdgqQtzHIyokDt5AID4CKq59DnP+FQv+uuQO1J8hZ22GO7IuQcHbNy
- yr7A==
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1pFWnO-0007GN-RJ
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:49:20 -0500
+Received: by mail-oi1-x22f.google.com with SMTP id r130so12230141oih.2
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 00:49:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=PalkQssPvQmtYpHPXFW9Xu+/0ECuC/QA7s4Exu4mrnE=;
+ b=o5BA1HKiiwKpcGSujFczh6XcNdbfdckfNBhN6tlGsbtLXEaP4acrWkyCVY2a8Tuc3/
+ TI7n2AZ1gsCNFkCwNKWXYpkloqjmxgjlFaAKmB9fQseTmlQMz/dT56J9qUupu45awfOp
+ ifl+69GS1SuJGq1LTgD/5sA2piGqxmOOyPz0sNz/+IAmh0xVyexAkoFm+M7sYXLaxpFz
+ t9Gnmgr6wM8aR1g/y/s8v7t7Qqr8UOrp5E84Z2moHYBHXcq9kITTs3TIqqg0Y0ne2eyQ
+ LJBJ2fYhsUC9tywhb7PIfYakP+DC7Jm91sNL1lj5BcW/b6VswJlRLVvlSl5VE8h1wapt
+ 3MpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0dlyOnkT+S6TEHGI3pvKMC2BE6iB7ZgGN+GTpfgdFS4=;
- b=38TgbjoAsgFXAG+X7iOT+EN1sTbAQ2P9FPjGW2r5TMt64sM/SMubxWraPerTbc7lwK
- 6+iDX9Zi+BAbie82UNQK0gUCw2ct6/0Qfx2Dr+UGVOcnfRiMqGCqWkKZeRQT4rC823ag
- NTofYzs111oLDPBVSecu0+gBIM0BktdNhltzX7beFVaLC2hw/2k8tp0SbObupoMny+ir
- +os3MqGJ3Wdn2VfgnNaCVpO+vooeKb4xmmX2FsmPrxiXR+qbNpwlYf26DJjfm1zHe7i/
- NW5rCmxqGSL2SkGg7ZtAF53jIfJrE3lMtSnq2bCoCB1GLVnzfSK09/3q9GtXW8zrxjbM
- nExw==
-X-Gm-Message-State: AFqh2kozc17BIcYe85ifeluw5rdXSpiJkT7zcZFGZ923VQtiwEdV0XIR
- KrsM0TyX1HYMjUrIdDgr7FuJjg==
-X-Google-Smtp-Source: AMrXdXtAoZK3rz/SnywG2Fyms9BlUPtbKyaj/J39BXEo+p1XRgq20nJO/Qlwas7cww97vda+EKAXEA==
-X-Received: by 2002:a5d:550d:0:b0:2bb:e993:6c85 with SMTP id
- b13-20020a5d550d000000b002bbe9936c85mr9217568wrv.35.1673426664413; 
- Wed, 11 Jan 2023 00:44:24 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- x2-20020adff642000000b002a01e64f7a1sm13498863wrp.88.2023.01.11.00.44.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 00:44:23 -0800 (PST)
-Message-ID: <c3291eb6-bd1c-e5d5-eac7-7edab48dfd17@linaro.org>
-Date: Wed, 11 Jan 2023 09:44:22 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PalkQssPvQmtYpHPXFW9Xu+/0ECuC/QA7s4Exu4mrnE=;
+ b=Zu1jRvnxf8bn2qHoWoe7V5Ia3YC3VYDDU/Spds2QMmMr2xnGSCMjImLBJU/uPw7zUd
+ XPBMDj7cOJx0VgOc7ac88il7QSRZoAnl6vd/EhQAD2idzsLyfSVEetWKZV5jK5DF7rpv
+ 0UjWpVS7Vxbkoai3xpB4dbNAq5ugTnk+TxIJIlTnc0gGmEX3rKAJFGHAfZd+X+q5pkrG
+ H4G4pyASv/XuB6z4h7Z0k/DVYqPci79UVj/twU5VRK6O4Y5Nb2xB2C6zWNZS5QN2JY0C
+ ybHD7oGhlPhAX7RKA8S7oLEdblxYQ6OAZt10RyKaZhhUdHMbnWeeDdDxDWr3/JkeaSYP
+ uLAQ==
+X-Gm-Message-State: AFqh2krBWLevN/9ihrDfOGbgMeMaNL3ePvTbj3sBE1f7NVgNLYzs4Tvk
+ BqJo1GPTIKMORQY2FC1rGQIyeXjdelnGJPMb6mQ=
+X-Google-Smtp-Source: AMrXdXt+OvmtuGUDxYKadn6OgIOmkvVgX/HOwTn0vWvbxbm0abaZcBi0FNdSdUGYa1boHRlrlTlc0Fi9oD/kqPk6py4=
+X-Received: by 2002:a05:6808:6093:b0:364:6b78:71e1 with SMTP id
+ de19-20020a056808609300b003646b7871e1mr169649oib.134.1673426956389; Wed, 11
+ Jan 2023 00:49:16 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
+References: <20230111070518.994646-1-cyruscyliu@gmail.com>
+ <c3291eb6-bd1c-e5d5-eac7-7edab48dfd17@linaro.org>
+In-Reply-To: <c3291eb6-bd1c-e5d5-eac7-7edab48dfd17@linaro.org>
+From: Qiang Liu <cyruscyliu@gmail.com>
+Date: Wed, 11 Jan 2023 16:49:05 +0800
+Message-ID: <CAAKa2j=q=JBMXHnG5h1bQ1MDhVTJMNJUiV3rTysg6WwCTtxfVQ@mail.gmail.com>
 Subject: Re: [PATCH] hw/net/lan9118: log [read|write]b when mode_16bit is
  enabled rather than abort
-Content-Language: en-US
-To: Qiang Liu <cyruscyliu@gmail.com>, qemu-devel@nongnu.org
-Cc: Jason Wang <jasowang@redhat.com>
-References: <20230111070518.994646-1-cyruscyliu@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230111070518.994646-1-cyruscyliu@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000004b110e05f1f9136d"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=cyruscyliu@gmail.com; helo=mail-oi1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,37 +84,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Qiang,
+--0000000000004b110e05f1f9136d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/1/23 08:05, Qiang Liu wrote:
-> This patch replaces hw_error to guest error log for [read|write]b
-> accesses when mode_16bit is enabled. This avoids aborting qemu.
-> 
-> Fixes: 1248f8d4cbc3 ("hw/lan9118: Add basic 16-bit mode support.")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1433
-> Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-> Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
-> ---
->   hw/net/lan9118.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
-> index f1cba55967..7f35715f27 100644
-> --- a/hw/net/lan9118.c
-> +++ b/hw/net/lan9118.c
-> @@ -1209,7 +1209,8 @@ static void lan9118_16bit_mode_write(void *opaque, hwaddr offset,
->           return;
->       }
->   
-> -    hw_error("lan9118_write: Bad size 0x%x\n", size);
-> +    qemu_log_mask(LOG_GUEST_ERROR,
-> +                  "lan9118_16bit_mode_write: Bad size 0x%x\n", size);
->   }
+On Wed, Jan 11, 2023 at 4:44 PM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.=
+org>
+wrote:
 
-There are two other uses via BADF(), then we can remove the BADF() macro
-and the "hw/hw.h" inclusion.
+> Hi Qiang,
+>
+> On 11/1/23 08:05, Qiang Liu wrote:
+> > This patch replaces hw_error to guest error log for [read|write]b
+> > accesses when mode_16bit is enabled. This avoids aborting qemu.
+> >
+> > Fixes: 1248f8d4cbc3 ("hw/lan9118: Add basic 16-bit mode support.")
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1433
+> > Reported-by: Qiang Liu <cyruscyliu@gmail.com>
+> > Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
+> > ---
+> >   hw/net/lan9118.c | 6 ++++--
+> >   1 file changed, 4 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
+> > index f1cba55967..7f35715f27 100644
+> > --- a/hw/net/lan9118.c
+> > +++ b/hw/net/lan9118.c
+> > @@ -1209,7 +1209,8 @@ static void lan9118_16bit_mode_write(void *opaque=
+,
+> hwaddr offset,
+> >           return;
+> >       }
+> >
+> > -    hw_error("lan9118_write: Bad size 0x%x\n", size);
+> > +    qemu_log_mask(LOG_GUEST_ERROR,
+> > +                  "lan9118_16bit_mode_write: Bad size 0x%x\n", size);
+> >   }
+>
+> There are two other uses via BADF(), then we can remove the BADF() macro
+> and the "hw/hw.h" inclusion.
 
-Regards,
+ I see. Sounds nice! Let me resend the patch.
 
-Phil.
+Best,
+Qiang
+
+--0000000000004b110e05f1f9136d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, Jan 11, 2023 at 4:44 PM Philippe =
+Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org">philmd@linaro.o=
+rg</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">Hi Qiang,<br>
+<br>
+On 11/1/23 08:05, Qiang Liu wrote:<br>
+&gt; This patch replaces hw_error to guest error log for [read|write]b<br>
+&gt; accesses when mode_16bit is enabled. This avoids aborting qemu.<br>
+&gt; <br>
+&gt; Fixes: 1248f8d4cbc3 (&quot;hw/lan9118: Add basic 16-bit mode support.&=
+quot;)<br>
+&gt; Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/143=
+3" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qem=
+u/-/issues/1433</a><br>
+&gt; Reported-by: Qiang Liu &lt;<a href=3D"mailto:cyruscyliu@gmail.com" tar=
+get=3D"_blank">cyruscyliu@gmail.com</a>&gt;<br>
+&gt; Signed-off-by: Qiang Liu &lt;<a href=3D"mailto:cyruscyliu@gmail.com" t=
+arget=3D"_blank">cyruscyliu@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0hw/net/lan9118.c | 6 ++++--<br>
+&gt;=C2=A0 =C2=A01 file changed, 4 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c<br>
+&gt; index f1cba55967..7f35715f27 100644<br>
+&gt; --- a/hw/net/lan9118.c<br>
+&gt; +++ b/hw/net/lan9118.c<br>
+&gt; @@ -1209,7 +1209,8 @@ static void lan9118_16bit_mode_write(void *opaqu=
+e, hwaddr offset,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 hw_error(&quot;lan9118_write: Bad size 0x%x\n&quot;, si=
+ze);<br>
+&gt; +=C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;=
+lan9118_16bit_mode_write: Bad size 0x%x\n&quot;, size);<br>
+&gt;=C2=A0 =C2=A0}<br>
+<br>
+There are two other uses via BADF(), then we can remove the BADF() macro<br=
+>
+and the &quot;hw/hw.h&quot; inclusion.</blockquote><div>=C2=A0I see. Sounds=
+ nice! Let me resend the patch.</div><div><br></div><div>Best,</div><div>Qi=
+ang</div></div></div>
+
+--0000000000004b110e05f1f9136d--
 
