@@ -2,81 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AFF566587E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 11:03:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB4A66588F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 11:05:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFXwq-00053R-SO; Wed, 11 Jan 2023 05:03:09 -0500
+	id 1pFXyL-0005jB-C0; Wed, 11 Jan 2023 05:04:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFXwo-000538-IN
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 05:03:06 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFXwm-0002bs-Rj
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 05:03:06 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- g19-20020a05600c4ed300b003d9eb1dbc0aso9238216wmq.3
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 02:03:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/bTip/cgfr9aJ5yt9vRToMWJBzBnB0RFmniDo+23pC4=;
- b=vzfi6EqPbxFYU3PtVQyWKRaDO4Tz6HyO6y/uHkpJi5OzjJ8t0ClSxY7vQLpod9ONvx
- Fs5ijbh0ewo2QAfo1f4fAGvu7mHTpZ1tSDw6wWJSPnlidfalHSj741JWMenMIR6TkJjr
- Y1AN7aIeHRBsloXJMvurio9gGMNN2nQ3nyX0sAjMj+TaZIxO5RlzkfeoA+Y6FIGnGTUe
- BzvsP8bfCwh5aoaCkf/8CmapmRtpIjzjBBWjQUjNkkG+1X9pFIlqkF3lXFHnKVnX7pSa
- xAumJ9bR6Qs9ZI7KPzdGMMpDkV6vRG3U3SpRiPuWeKw6CZEON2GBiyfJkT1CUkXYecd+
- 4dzQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFXy1-0005gR-D2
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 05:04:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFXxz-0002gx-Gj
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 05:04:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673431454;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ws57bKhCFEIuKPB2whL4Z/ylGixJw3tf3/cpkOfXajE=;
+ b=I2+0aDaSeR2AYgQHwKjwjqdMJN4z5iG9Wb9WobqHVDCFj2bGIRwTGiE24og4qRcOlZVLvc
+ iGlL/mbmzRiARLQ3+OVsmSOWE1nT7Ydvm3GXhc/BoE9nZUpMX6uCWjBXmgQWXEymGeXWjA
+ z0O0+w+nWQ0UitDzqrUqln9dPvGZur8=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-442-bcNcBzJcPBqrInDQrnFl0w-1; Wed, 11 Jan 2023 05:04:13 -0500
+X-MC-Unique: bcNcBzJcPBqrInDQrnFl0w-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ a5-20020ab00805000000b0052816f498d8so6567245uaf.1
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 02:04:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/bTip/cgfr9aJ5yt9vRToMWJBzBnB0RFmniDo+23pC4=;
- b=ZNOyyk2vnAZvuAOJh0HxuqmsfCsKsyQAu1B6a3r88PQaMhm1j4dTDcez2EOM4xgiBb
- SqiKSwHV9RZiQtLKTCbwjuSaAOiCHt7nGkIsyZ1G1N6sloyTgv2nwDy/rgUo6SSu25Vd
- oGrpzUyyVVZ/Z6Z01E5Stk+58wYAoVU0uFg7sqTjXXJIXn23SvcguHfHNafU8+D94v4t
- W2NIGoRfLRAYhmQQDoMIhtX/ngoWg/703fJHQTEzp4W1cqJ15rHp7e3JKd0Js+GMgpdc
- 2X1+YJdbVGDPF1aDO0Yqcna7LCKHX+UPmmgvYYPAM3UaO/1HmPjq26I1GTigrkrXsPmm
- rduQ==
-X-Gm-Message-State: AFqh2ko3J15itPOvw0haimFWFHa6GOd0VAGVwFSFuLMXQgN1hZAZ9sZ/
- jfLnZXXhfREWSHddm2cO2Vpq6A==
-X-Google-Smtp-Source: AMrXdXugH8HekBDwRGJTP0r5Hoeq3zEmg+VtoW8CjNfOTMoF5Ade7dn7fvFexOhBGroV88mw0/RNlQ==
-X-Received: by 2002:a05:600c:22d4:b0:3cf:82b9:2fe6 with SMTP id
- 20-20020a05600c22d400b003cf82b92fe6mr61788641wmg.8.1673431382711; 
- Wed, 11 Jan 2023 02:03:02 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- g14-20020a05600c310e00b003cf5ec79bf9sm19624743wmo.40.2023.01.11.02.03.01
+ bh=Ws57bKhCFEIuKPB2whL4Z/ylGixJw3tf3/cpkOfXajE=;
+ b=UBGVUDMDd0ws8td5sRoK9mJSXaBgnTq5Qbll4ztSO+NzmoI1y/zU3Vw0Y6xSJqFouE
+ 4/CBUO7voZx9AKUxITQ/A8iG2lYtsn/ty1ybgFNbIJp+6xCjdwkqg9NlvcqG3+B4PUJ6
+ QZQ3uzv9UaZJBehaVlVhDBxHobeWQqyjfSIPqilAg0DB6Fv1X2wPF9eU6D/5BeTUt4yf
+ lWs4MoznTIKrdVgCcebtC/IWqiTqEj+FF7SuaSa8tfBY8rSBHJSBIfCsLODs2RLzEcEP
+ GjKzks3MWFeq/H+GVVnutlCof/u3Ej4ZPVhbqk4+Q1odoIs6Rst2KfHwBufhlSpFSJm1
+ rdFw==
+X-Gm-Message-State: AFqh2kpPw8EzKNNL1yWi/e5utKZDIXouYLOxMGwqKcBNgGvqhXf8hWdk
+ cob1rSqkjHH5sTRly8kBMsAdhQSK7P5N+4sObdbBGfh57+j81K8g3CdsIjfYD5zCyOjXoGfEmas
+ 7ZDxLzdLRtouwFOM=
+X-Received: by 2002:a67:e208:0:b0:3c7:f2c1:93b9 with SMTP id
+ g8-20020a67e208000000b003c7f2c193b9mr34245228vsa.4.1673431453064; 
+ Wed, 11 Jan 2023 02:04:13 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvjnzgsgJJgjCqD3C1Cyv45Y2MgPPRJorKUF4GN0qROCnrOdLUxHQmLxeI8bgmisnsGaMoauw==
+X-Received: by 2002:a67:e208:0:b0:3c7:f2c1:93b9 with SMTP id
+ g8-20020a67e208000000b003c7f2c193b9mr34245203vsa.4.1673431452785; 
+ Wed, 11 Jan 2023 02:04:12 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-91.web.vodafone.de.
+ [109.43.176.91]) by smtp.gmail.com with ESMTPSA id
+ u8-20020a37ab08000000b00702311aea78sm8652658qke.82.2023.01.11.02.04.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 02:03:02 -0800 (PST)
-Message-ID: <f32b738e-ebef-da0c-b7b2-0c16e7dbf13f@linaro.org>
-Date: Wed, 11 Jan 2023 11:03:00 +0100
+ Wed, 11 Jan 2023 02:04:12 -0800 (PST)
+Message-ID: <69555196-ffde-8176-24d9-b8935fe6f365@redhat.com>
+Date: Wed, 11 Jan 2023 11:04:07 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PULL 06/29] target/i386: Remove compilation errors when
- -Werror=maybe-uninitialized
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v14 07/11] target/s390x/cpu topology: activating CPU
+ topology
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: Eric Auger <eric.auger@redhat.com>, Stefan Weil <sw@weilnetz.de>
-References: <20230110160233.339771-1-pbonzini@redhat.com>
- <20230110160233.339771-7-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230110160233.339771-7-pbonzini@redhat.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-8-pmorel@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230105145313.168489-8-pmorel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,42 +106,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/1/23 17:02, Paolo Bonzini wrote:
-> From: Eric Auger <eric.auger@redhat.com>
-> 
-> To avoid compilation errors when -Werror=maybe-uninitialized is used,
-> replace 'case 3' by 'default'.
-> 
-> Otherwise we get:
-> 
-> ../target/i386/ops_sse.h: In function â€˜helper_vpermdq_ymmâ€™:
-> ../target/i386/ops_sse.h:2495:13: error: â€˜r3â€™ may be used
+On 05/01/2023 15.53, Pierre Morel wrote:
+> The KVM capability, KVM_CAP_S390_CPU_TOPOLOGY is used to
 
-Thanksfully these odd chars                ^^^^^^^^ ...
+Remove the "," in above line?
 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Suggested-by: Stefan Weil <sw@weilnetz.de>
-> Fixes: 790684776861 ("target/i386: reimplement 0x0f 0x3a, add AVX")
-> Message-Id: <20221221163652.1239362-1-eric.auger@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> activate the S390_FEAT_CONFIGURATION_TOPOLOGY feature and
+> the topology facility for the guest in the case the topology
+
+I'd like to suggest to add "in the host CPU model" after "facility".
+
+> is available in QEMU and in KVM.
+> 
+> The feature is disabled by default and fenced for SE
+> (secure execution).
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 > ---
->   target/i386/ops_sse.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   hw/s390x/cpu-topology.c   |  2 +-
+>   target/s390x/cpu_models.c |  1 +
+>   target/s390x/kvm/kvm.c    | 13 +++++++++++++
+>   3 files changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index e6b4692581..b69955a1cd 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -52,7 +52,7 @@ static int s390_socket_nb(s390_topology_id id)
+>    */
+>   bool s390_has_topology(void)
+>   {
+> -    return false;
+> +    return s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY);
+>   }
+>   
+>   /**
+> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+> index c3a4f80633..3f05e05fd3 100644
+> --- a/target/s390x/cpu_models.c
+> +++ b/target/s390x/cpu_models.c
+> @@ -253,6 +253,7 @@ bool s390_has_feat(S390Feat feat)
+>           case S390_FEAT_SIE_CMMA:
+>           case S390_FEAT_SIE_PFMFI:
+>           case S390_FEAT_SIE_IBS:
+> +        case S390_FEAT_CONFIGURATION_TOPOLOGY:
+>               return false;
+>               break;
+>           default:
+> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+> index fb63be41b7..4e2a2ff516 100644
+> --- a/target/s390x/kvm/kvm.c
+> +++ b/target/s390x/kvm/kvm.c
+> @@ -2470,6 +2470,19 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
+>           set_bit(S390_FEAT_UNPACK, model->features);
+>       }
+>   
+> +    /*
+> +     * If we have support for CPU Topology prevent overrule
+> +     * S390_FEAT_CONFIGURATION_TOPOLOGY with S390_FEAT_DISABLE_CPU_TOPOLOGY
 
-... aren't included in your staged commits in
-https://gitlab.com/bonzini/qemu.git tags/for-upstream:
+That S390_FEAT_DISABLE_CPU_TOPOLOGY looks like a leftover from v12 ?
 
-commit c0a6665c3c4d63b113ab31c624c53d4a32de2926
-Author: Eric Auger <eric.auger@redhat.com>
-Date:   Thu Dec 22 15:01:58 2022 +0100
+Apart from that, patch looks fine to me now.
 
-     ../target/i386/ops_sse.h: In function ‘helper_vpermdq_ymm’:
-     ../target/i386/ops_sse.h:2495:13: error: ‘r3’ may be used
-     uninitialized in this function [-Werror=maybe-uninitialized]
-          2495 |     d->Q(3) = r3;
-               |     ~~~~~~~~^~~~
+  Thomas
 
-So not a blocker.
 
-Maybe a git-send-email issue?
+> +     * implemented in KVM, activate the CPU TOPOLOGY feature.
+> +     */
+> +    if (kvm_check_extension(kvm_state, KVM_CAP_S390_CPU_TOPOLOGY)) {
+> +        if (kvm_vm_enable_cap(kvm_state, KVM_CAP_S390_CPU_TOPOLOGY, 0) < 0) {
+> +            error_setg(errp, "KVM: Error enabling KVM_CAP_S390_CPU_TOPOLOGY");
+> +            return;
+> +        }
+> +        set_bit(S390_FEAT_CONFIGURATION_TOPOLOGY, model->features);
+> +    }
+> +
+>       /* We emulate a zPCI bus and AEN, therefore we don't need HW support */
+>       set_bit(S390_FEAT_ZPCI, model->features);
+>       set_bit(S390_FEAT_ADAPTER_EVENT_NOTIFICATION, model->features);
+
 
