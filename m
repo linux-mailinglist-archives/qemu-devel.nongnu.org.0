@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA0566604A
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 17:22:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2DF66604F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 17:23:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFdr6-0005IO-JC; Wed, 11 Jan 2023 11:21:36 -0500
+	id 1pFdsU-0006hR-JU; Wed, 11 Jan 2023 11:23:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhiyong@bytedance.com>)
- id 1pFdr3-0005DL-Qs
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:21:33 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pFdsS-0006gr-0B
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:23:00 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yezhiyong@bytedance.com>)
- id 1pFdr1-0004Ng-9c
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:21:33 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id b17so9788341pld.7
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 08:21:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pFdsQ-0004XH-CE
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 11:22:59 -0500
+Received: by mail-wr1-x431.google.com with SMTP id co23so15608488wrb.4
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 08:22:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qssX6qFQO9pQ1WVgqV6mHU2cqeM0SFWlUjNVaXN5s6s=;
- b=IuL6gqbk5lU5fF/HT2BuCEaM2pSbAk6TntHjR3nAi4zsexdXcHLlj/APwPDup24xXc
- 6QfxfwvrHOy8EfCNXJrwb1JDN89ke71dkU+faSOF7dU+Fx+OQw9GsQ5rjZpZjIu7SaV8
- D11WFYb5NkM7bcgJxK54LXyzcnS3MgccPRQco1NijTo/ZNv/n3iWz3KiEQR6cnRCtFEt
- /qo89pcZ/t/bLzRJuYjRHG1ayp6YzwHLS3shmBM08FijIO/z9Tuo7QodPvJf8y53yZtG
- Dku7BYyTX8nnhunrwyq3h7t38o4273RCJxagPH0zoQ3cCWVemtHF63n6H21rKc1Sf+L3
- jS4A==
+ bh=7VjXTY7frC5Wdz5aVyipGKSTso5yl/gBzj4eH/LvTSo=;
+ b=RwYjirdTomvXL/DbBoWqGUoaZ9lg/pwEJT+dm60d/RBpsY/oWoXJlXDdXhxG05eJTE
+ RmlRp/afFQa/A2TQ6dm2mXiPrAiy3JLViTI3vnZX4bbpDYm0SRWWBn8c8i+TAImuauWm
+ qeotX//7nTy+F5XqhYzf2AOzup3m+x60nP1DjhcJ0FW2gSh4DQOJSIECTsl+UNHwQTL0
+ OdVAYv4XRGXNCxZwNF7KSfVMw5Wyjb2AOsHrG8fTLaRU6TEG9RFJUKZEGCkPyXBlJtuH
+ IWp0lACYhcu8H0W+Sp0IOWb680kQJ7WYx7GhJrExmjG19d4oEzSWBTTI/VIiTJKbh6zv
+ HxDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=qssX6qFQO9pQ1WVgqV6mHU2cqeM0SFWlUjNVaXN5s6s=;
- b=EEpW0qB1fS6Ymvjij1hl2LNUr88BQQhrylikq9k1RckimPyFqtEHIpLrEJ1onmkDMw
- A4NNJuO+RRhSibyNTYP9bb/o40zqy+qDM16qhCro4gh9uPnQnTJYMwNxkFWDKfYsV15y
- wwNJSA0su5YDY35KiFD0qA8y8+gzGcybo7U+RdnLm/5zE8UuFUxJLmKjL+sjHrhYJ+gY
- dQ99GdEJ6FfqOPjyQRHCFIoyj09hT6hSaCWH4kWr+YNMRTzEvn07+7MC+u3blW+oi5Qn
- rFHPf6/r1CSVHcT89DN/yk+o8SMzwm4GvD0ePZhsFucbJ+b5s1KUhMJ89BpGpt0asz9P
- tvcw==
-X-Gm-Message-State: AFqh2kpfSbCMgZd3javwDKrcwLkz3uziCbbhdkloMyyaXiDovE5tiylG
- bvHek8in4eW2NWGN0h6MBnyAlg==
-X-Google-Smtp-Source: AMrXdXs5V7z06qvGlGbsf4HuM+FsD9PKjHIT/sqb8GOi9XtLEEZgCIVa2tP2mNcl531yfeT3GqgLVQ==
-X-Received: by 2002:a17:90b:2807:b0:219:5fc5:7790 with SMTP id
- qb7-20020a17090b280700b002195fc57790mr73909289pjb.16.1673454089595; 
- Wed, 11 Jan 2023 08:21:29 -0800 (PST)
-Received: from [10.255.193.65] ([139.177.225.235])
+ bh=7VjXTY7frC5Wdz5aVyipGKSTso5yl/gBzj4eH/LvTSo=;
+ b=yn9raZ34SPAW/cUV4pegmu1GosorUjw5LbLNVSmFgXgsxbXPrGkifFdi2sziwZ7gbc
+ m0DmSu7Puuw1BlVyqAdu9UCn9iT77ACxPpXv+/TTm+yZyhsHA89C5m6l5gJjsxx0DZKd
+ OwtCbQMoi2sLEU8H9DL/UjB+KMiiK25jPV0EbOdpD+5NiNm8GjBnd4vp/zQMKQyT8Vix
+ 2FU/9bp/6qECwUBHvD8YNqgti9AtTvpE7IS3Z42M2vr5MuscnRbKU/hmbn+491om53ZF
+ bjeuT14dMQyeNRcwQiref11kH+uehCbcvC7Q05yBdmTlzqInQNvYUdTC3Q+dpp2FaMUa
+ 2IDA==
+X-Gm-Message-State: AFqh2koM58g/NQtz9gkwrgBWEi59huhl+mxgGpE3PbHBZ2k3LroYLPpv
+ nQBt20q/LmOr+x1+OP3CrA+LjQ==
+X-Google-Smtp-Source: AMrXdXsf6FOheMp3swQxib70n4ESjENeF/CBrzqVV6hXIpew+BmCFSLuDhl1KvTjiCcsxsFr1wLw1A==
+X-Received: by 2002:a5d:534e:0:b0:2bb:6d44:5d1 with SMTP id
+ t14-20020a5d534e000000b002bb6d4405d1mr10650217wrv.28.1673454176751; 
+ Wed, 11 Jan 2023 08:22:56 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- j16-20020a63ec10000000b004b1b9e23790sm6115009pgh.92.2023.01.11.08.21.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 08:21:29 -0800 (PST)
-Message-ID: <26114701-2d32-136d-ca44-01048c61842d@bytedance.com>
-Date: Thu, 12 Jan 2023 00:21:24 +0800
+ m13-20020adfe94d000000b002714b3d2348sm14207669wrn.25.2023.01.11.08.22.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Jan 2023 08:22:56 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E7FF61FFB7;
+ Wed, 11 Jan 2023 16:22:54 +0000 (GMT)
+References: <20230111014705.2275040-1-iii@linux.ibm.com>
+ <20230111014705.2275040-2-iii@linux.ibm.com>
+User-agent: mu4e 1.9.12; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 1/3] linux-user: Clean up when exiting due to a signal
+Date: Wed, 11 Jan 2023 16:22:49 +0000
+In-reply-to: <20230111014705.2275040-2-iii@linux.ibm.com>
+Message-ID: <871qo1niqp.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: Questions about how block devices use snapshots
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: mreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <90855f8f-76ce-0a5f-3156-e69b157342c9@bytedance.com>
- <Y7wdTurqBjWXIGmo@redhat.com>
- <e5433b9c-12c1-bfff-a3a5-878b47a86bab@bytedance.com>
- <Y77IajRLJOC6ohih@redhat.com>
-From: Zhiyong Ye <yezhiyong@bytedance.com>
-In-Reply-To: <Y77IajRLJOC6ohih@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=yezhiyong@bytedance.com; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,81 +95,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Kevin,
 
-Can I ask again how base.img + diff.qcow2 can be re-merged into one 
-image via qemu-img or hmp command when modified.img is discarded?
+Ilya Leoshkevich <iii@linux.ibm.com> writes:
 
-Regards
+> When exiting due to an exit() syscall, qemu-user calls
+> preexit_cleanup(), but this is currently not the case when exiting due
+> to a signal. This leads to various buffers not being flushed (e.g.,
+> for gprof, for gcov, and for the upcoming perf support).
+>
+> Add the missing call.
+>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Zhiyong
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-On 1/11/23 10:32 PM, Kevin Wolf wrote:
-> Am 11.01.2023 um 08:55 hat Zhiyong Ye geschrieben:
->> Hi Kevin,
->>
->> Thank you for your reply and detailed answers.
->>
->> In my scenario is the iSCSI SAN environment. The network storage device is
->> connected to the physical machine via iSCSI, and LVM is used as the middle
->> layer between the storage device and the VM for storage management and
->> metadata synchronization. Every VM uses both raw and qcow2 formats, with the
->> system disk being qcow2 and the data disk being raw. Therefore block devices
->> need to support snapshot capability in both raw and qcow2 store methods. In
->> addition, snapshot images should also be stored in iSCSI storage, which is a
->> block device.
->>
->> Both internal and external snapshots can implement snapshots of block
->> devices, but they both have their drawbacks when multiple snapshots are
->> required.
->>
->> Internal snapshots can only be used in qcow2 format and do not require
->> additional creation of new block devices. As you said, the block device has
->> much more space than the virtual disk. There is no telling when disk space
->> will be full when creating multiple snapshots.
->>
->> External snapshots require the creation of additional block devices to store
->> the overlay images, but it is not clear how much space needs to be created.
->> If the space is the same as the virtual disk, when there are multiple
->> snapshots it will be a serious waste of disk space, because each time a new
->> snapshot is created the previous one will become read-only. However, if the
->> disk space created is too small, the snapshot data may not be stored when
->> the disk space is full.
->>
->> The problem with both is the uncertainty of the space size of the block
->> device at the time of creation. Of course, we can rely on lvm's resize
->> function to dynamically grow the space of the block device. But I think this
->> is more of a workaround.
-> 
-> Yes, this is why I said it's challenging. oVirt uses resizing of LVs to
-> achieve this, and it's still very complex. You need to decide yourself
-> if you think implementing the management software for this is worth it.
-> 
->> It is mentioned in the Qemu docs page under "QEMU disk image utility" that
->> the qemu-img rebase can be used to perform a “diff” operation on two disk
->> images.
->>
->> Say that base.img has been cloned as modified.img by copying it, and that
->> the modified.img guest has run so there are now some changes compared to
->> base.img. To construct a thin image called diff.qcow2 that contains just the
->> differences, do:
->>
->> qemu-img create -f qcow2 -b modified.img diff.qcow2
->> qemu-img rebase -b base.img diff.qcow2
->>
->> At this point, modified.img can be discarded, since base.img + diff.qcow2
->> contains the same information.
->>
->> Can this “diff” operation be used on snapshots of block devices? The first
->> snapshot is a copy of the original disk (to save space we can copy only the
->> data that has already been used), while the subsequent snapshots are based
->> on the diff of the previous snapshot, so that the space required for the
->> created block device is known at the time of the snapshot.
-> 
-> Yes, you can use raw block devices for both base.img and modified.img.
-> But of course, the result is still a qcow2 file that you need to store
-> somewhere.
-> 
-> Kevin
-> 
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
