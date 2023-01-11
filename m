@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8926B6667CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 01:37:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F1E6667F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 01:39:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFla4-0007PS-7v; Wed, 11 Jan 2023 19:36:32 -0500
+	id 1pFla7-0007QZ-QB; Wed, 11 Jan 2023 19:36:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFla2-0007PJ-7A
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:30 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+ id 1pFla6-0007Q3-1x
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:34 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFla0-0001eC-Ij
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:29 -0500
-Received: by mail-pl1-x630.google.com with SMTP id p24so18545398plw.11
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 16:36:28 -0800 (PST)
+ id 1pFla3-0001eX-Ns
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:36:33 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id dw9so16108759pjb.5
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 16:36:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0UYHDDae1iv/G5gKuoIFtCIUfU69f+LvCONAgmbNqUM=;
- b=ctxuXbzWEi7mk/iAp54vHW3MbCrLZLJgFn9emQUpJ9g64wgJpvlirzysz5RDgR7knF
- kE+b5Dg9pFupbVPoNMyrHy/qoChqiR3/42j8abef1Qudbro13UsNL6xrIInVMqtzwxVx
- QS2VNBD3JGVuwT57YR3jdD0SbN/MUY4EEJXXZTu31WhllMvUR5822tIEiXKBFhhq+hnh
- Ai6y9IONw2ixjuwUcV6z9ZQlttYyb68P5FKZv+YFseD0EBhK/bzNl/29aH0kTcT/dYIS
- Bn6vFJk0tfG3ReQPTqsUgnZ1mCYAWfN5Ob+FqrUXu3e96kTxSsUDNMbqS7zPZ9vGoq91
- rn8g==
+ bh=j1RG1KdJ6kTyRmwJJRR7Rf8+x7u3WP5Km0Ki6BNxsss=;
+ b=xvKQVfdVdppIZtkR6vqVjltWw73Jymfzo6BTubSokJwz0kK4Zc0CKXkuhx0REf/rrT
+ /n4u7eZkc8MT6sgRmP2I4R+NWg1UqMPQ02Jmc5zGJsJaZg83sZq81CWhFqo2LD70SCZU
+ GIrnPCCRxDEhLrJOWaDlrZ8eGLQctUhAqXeyrMiyzV/CHX5n2ipqijEbTvKDJDL3JUXH
+ b7EobVN6hCBj0C9mR226Tl0DuJ63IIiBWNakz5TN7R4/Aei+G2O7FW57tyMXxlZ42hk9
+ p6QlTGHgMluhP7inQbDl3E5vq4u/nSMkb9Jhf5voQbQ7WO0RrWGlDB4IVxTtLGhCZ2zJ
+ gNHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0UYHDDae1iv/G5gKuoIFtCIUfU69f+LvCONAgmbNqUM=;
- b=xxdMe1P6r9bbDALFmjjbh6jYpSkxgNdniru6gDjocJBlgNLj3fHqgLVCork9Shi9n8
- qv7UswyORweXgOcomm6W0wbhErXcA1agj85XXF3i8Donkw3wcVj0s88/J006YsGp9tp9
- 5ynogJTlyvV77Uezr4zPuaxuFRtCyzUlKb0VU/yUkGJX77LTQqh+JTbv3z+lc2G4JaGg
- lOqXuDxdjL5GbFAn/feb9JBDVHIu4AXf+ZoaXysiNicWOaLIZO+LN+WHpelT6xaF+ofE
- LrgEDHBpiGlZpjLxdW2te6oNLDQjuUooRIcPTFmvTOx+4sdnpiMGN0zQ6NNQveel6+/J
- LR5g==
-X-Gm-Message-State: AFqh2kqF4GAMacfdOApRQjLLLS1PzkWdKp4Zv97N3zHhJ+wV5afzQKbK
- jvn6gWv/YyvG0A2Idy5ogk4RBltXt/9HWPJu
-X-Google-Smtp-Source: AMrXdXsX5DApCAtEc3UbTopZPxJ5GrkzOwGw7yUGq92f0bzMJSe/dlJ2qN+v42uRjPqkfqBBbzWPmQ==
-X-Received: by 2002:a17:902:6f17:b0:193:1c62:29c8 with SMTP id
- w23-20020a1709026f1700b001931c6229c8mr13444078plk.51.1673483787170; 
- Wed, 11 Jan 2023 16:36:27 -0800 (PST)
+ bh=j1RG1KdJ6kTyRmwJJRR7Rf8+x7u3WP5Km0Ki6BNxsss=;
+ b=LcY7emJj+T59YAhXz1krhL/TM5pgXQjEaPwq3EgzpI2ABeZlBNoNTsdLo6xAW0Y3WH
+ fUML/3I2ZcMKaaGBGH0C033uAlxv4OC+jxY8cIYu5EX2aGFHqZ1tOzWUGY+0IL4yaECJ
+ D/7CdLezCrUtyafD/9+Ak0lOa76B+Ik7Gzl5xfp+inonFCLax5cNgKITz5NLihzeh/q6
+ x0WDJ4RiHKaMvLvWV1oaDixjQzAEdcz/YoYc/uIt+J4E5/C3BL2uyCEYxLRKtEESXb0r
+ NYlzItpnS5dqyoy5xDlNggVmaYmi6a6a1UsaPFTQuwHeDiQGaEUqQ5QgoUQo9GigfBuI
+ K1TQ==
+X-Gm-Message-State: AFqh2kqRpCebrhcAZWkghj6Hs46fhXVFDKAPlka0OYofSEmhglbxtuJB
+ 2gJdWMYkdiN3kAajRSe09nFb+Q==
+X-Google-Smtp-Source: AMrXdXuqSDl1Y9Gio2bHXRD43LYo2XNocEudDUwOMSlVlabJLS91IWGDE7G4xjO7jH6c65JoDg/d+Q==
+X-Received: by 2002:a17:902:f691:b0:194:4a8e:7eee with SMTP id
+ l17-20020a170902f69100b001944a8e7eeemr6639540plg.65.1673483790506; 
+ Wed, 11 Jan 2023 16:36:30 -0800 (PST)
 Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- k16-20020a170902c41000b00178b77b7e71sm4013851plk.188.2023.01.11.16.36.25
+ m3-20020a170902db0300b0018980f14ecfsm8044114plx.115.2023.01.11.16.36.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 16:36:26 -0800 (PST)
-Message-ID: <6ff6b453-b97e-70f9-6a86-3b65a01887f1@linaro.org>
-Date: Wed, 11 Jan 2023 08:54:11 -1000
+ Wed, 11 Jan 2023 16:36:30 -0800 (PST)
+Message-ID: <431df90e-f455-7255-81d6-bbabed8f162c@linaro.org>
+Date: Wed, 11 Jan 2023 09:06:36 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 17/26] tests/tcg: add memory-sve test for aarch64
+Subject: Re: [PATCH 16/26] semihosting: add semihosting section to the docs
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20230110173922.265055-1-alex.bennee@linaro.org>
- <20230110173922.265055-18-alex.bennee@linaro.org>
+ <20230110173922.265055-17-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230110173922.265055-18-alex.bennee@linaro.org>
+In-Reply-To: <20230110173922.265055-17-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -94,16 +94,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/10/23 09:39, Alex Bennée wrote:
-> This will be helpful in debugging problems with tracking SVE memory
-> accesses via the TCG plugins system.
+> The main reason to do this is to document our O_BINARY implementation
+> decision somewhere. However I've also moved some of the implementation
+> details out of qemu-options and added links between the two. As a
+> bonus I've highlighted the scary warnings about host access with the
+> appropriate RST tags.
 > 
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Cc: Robert Henry<robhenry@microsoft.com>
-> Cc: Aaron Lindsay<aaron@os.amperecomputing.com>
 > ---
->   tests/tcg/aarch64/Makefile.softmmu-target | 7 +++++++
->   tests/tcg/aarch64/system/boot.S           | 3 ++-
->   2 files changed, 9 insertions(+), 1 deletion(-)
+>   docs/about/features.rst    | 10 ++---
+>   docs/specs/index.rst       |  1 +
+>   docs/specs/semihosting.rst | 79 ++++++++++++++++++++++++++++++++++++++
+>   qemu-options.hx            | 27 +++++--------
+>   4 files changed, 95 insertions(+), 22 deletions(-)
+>   create mode 100644 docs/specs/semihosting.rst
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
