@@ -2,86 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B90664FF3
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 00:28:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BA666504E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 01:16:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFO1d-0004tI-WF; Tue, 10 Jan 2023 18:27:26 -0500
+	id 1pFOm2-0003KD-UR; Tue, 10 Jan 2023 19:15:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFO1Y-0004r5-N5
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 18:27:21 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pFO1S-0000pl-Gd
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 18:27:16 -0500
-Received: by mail-wr1-x432.google.com with SMTP id bn26so13399233wrb.0
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 15:27:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kvrsJvfbUsBCxqa2uMY/F1Ahi9mgZXKLdGclMUIO8og=;
- b=Eshk1hJHbWV7L+d3dcVJz6imBnhLV3nGkcMACO7Ww1q0deM14n+uJN5Tc64YFwdRXx
- 39Q5fMlCKxraRjMJhMTnCj5bDc2gYoDfDQpXl+LMkJnwh+2ExlUhivPUb1BGzX8BswxB
- +oyUsGkdDKeVuNZJCruUzmzFFxT758pJGVfdkZrQgqIwtvDzZgArvCh1V6Kp1ivEO73q
- hPmHrQzpSqTb4vbmxssNGAH2+yAf29/xAyM6DvaDEvCsHcVFIEzO6bPbB+BWAcfyvPWz
- 1I+9IJ4HQeRaHQp2vKrWTafmn786CkKN+r8hOMAdOHD+VestWJIfyNiRnx3rlsdS62+G
- SaCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=kvrsJvfbUsBCxqa2uMY/F1Ahi9mgZXKLdGclMUIO8og=;
- b=vbx2KOsGFP5TWP93uNgqWGht9k+GAzOhrHao/rP7FiC+VqZCgiXRNbSbhPV93Wdgdk
- SOONJqGhSj5cdXuv+kBuPnfXK3DF8sl/T3yBxrzX6c/LGwrp/YtSfbVux/IkrskDmC/J
- oTWvFfhNXPDdbDhndqZ2l+mPLjoOkCB39a4dg79L65JmNSCBKCfOWgRmy3oIi+BYS4Gq
- Qh8Bqpz+Dp9wj+H3kX2Jn2j8OljmG0XUqrIslhUg4ONDjIyrzXkmyry/g1/Luaim0Zy/
- JJAbQrz2jxjOk5mOSJOpox1FZoIz/bRNmIbN1/tONYqNrVg1gH1feqFGlzaTaV51rKgg
- 4ddQ==
-X-Gm-Message-State: AFqh2kpy2ydnU6jP5mV/Gdi+db2yE3avVnIuFa0fTyp1mop75xIvyzvO
- EVJGcnGCwTCuSnQwkx98f3ckcQ==
-X-Google-Smtp-Source: AMrXdXuKvtADrUD+fH9EgS/XnoMZ32xcyTYjZ6y4y1/762H7T6IpJEeDngsc/zjgYQ2yxXty/JQkZQ==
-X-Received: by 2002:a5d:5c0d:0:b0:242:1809:7e13 with SMTP id
- cc13-20020a5d5c0d000000b0024218097e13mr54419945wrb.11.1673393231887; 
- Tue, 10 Jan 2023 15:27:11 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- i2-20020adfdec2000000b002b9b9445149sm14528493wrn.54.2023.01.10.15.27.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 15:27:11 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E441B1FFB7;
- Tue, 10 Jan 2023 23:27:10 +0000 (GMT)
-References: <20230108023719.2466341-1-richard.henderson@linaro.org>
- <20230108023719.2466341-2-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.12; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org,
- qemu-riscv@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 01/36] tcg: Define TCG_TYPE_I128 and related helper
- macros
-Date: Tue, 10 Jan 2023 23:27:05 +0000
-In-reply-to: <20230108023719.2466341-2-richard.henderson@linaro.org>
-Message-ID: <878riam0mp.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pFOlz-0003Jr-85; Tue, 10 Jan 2023 19:15:20 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pFOlw-0007IM-R5; Tue, 10 Jan 2023 19:15:18 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id E7EBD7457E7;
+ Wed, 11 Jan 2023 01:12:53 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B10E8745706; Wed, 11 Jan 2023 01:12:53 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id AF6F0745720;
+ Wed, 11 Jan 2023 01:12:53 +0100 (CET)
+Date: Wed, 11 Jan 2023 01:12:53 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
+In-Reply-To: <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
+Message-ID: <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
+References: <cover.1672868854.git.balaton@eik.bme.hu>
+ <4162db13bd1da9c6ddd77f185cef738e44790467.1672868854.git.balaton@eik.bme.hu>
+ <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,21 +59,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Begin staging in support for TCGv_i128 with Int128.
-> Define the type enumerator, the typedef, and the
-> helper-head.h macros.
+On Tue, 10 Jan 2023, Mark Cave-Ayland wrote:
+> On 04/01/2023 21:59, BALATON Zoltan wrote:
 >
-> This cannot yet be used, because you can't allocate
-> temporaries of this new type.
+>> Setting emulated machine type with a property called "via" is
+>> confusing users so deprecate the "via" option in favour of newly added
+>> explicit machine types. The default via=cuda option is not a valid
+>> config (no real Mac has this combination of hardware) so no machine
+>> type could be defined for that therefore it is kept for backwards
+>> compatibility with older QEMU versions for now but other options
+>> resembling real machines are deprecated.
+>> 
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> I believe that people do use -M mac99,via=cuda to run some rare versions of 
+> MacOS in QEMU (I think possibly OS X DP and Workgroup Server?), so we would 
+> want to keep this option somewhere.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+The idea is that after previous patches we now have machine types for all 
+other via option values (that also match real Mac machines) other than 
+via=cude but that is the default for mac99 so after the reprecation period 
+when the via option is removed mac99 (which is the same as mac99,via=cuda) 
+can remain for this use case (and for backward compatibility) until the 
+other machines are fixed to not need this any more. So all via options are 
+still available but as different machine types.
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Regards,
+BALATON Zoltan
+
+>> ---
+>>   hw/ppc/mac_newworld.c | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>> 
+>> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+>> index f07c37328b..adf185bd3a 100644
+>> --- a/hw/ppc/mac_newworld.c
+>> +++ b/hw/ppc/mac_newworld.c
+>> @@ -169,6 +169,15 @@ static void ppc_core99_init(MachineState *machine)
+>>           if (PPC_INPUT(env) == PPC_FLAGS_INPUT_970) {
+>>               warn_report("mac99 with G5 CPU is deprecated, "
+>>                           "use powermac7_3 instead");
+>> +        } else {
+>> +            if (core99_machine->via_config == CORE99_VIA_CONFIG_PMU) {
+>> +                warn_report("mac99,via=pmu is deprecated, "
+>> +                            "use powermac3_1 instead");
+>> +            }
+>> +            if (core99_machine->via_config == CORE99_VIA_CONFIG_PMU_ADB) {
+>> +                warn_report("mac99,via=pmu-adb is deprecated, "
+>> +                            "use powerbook3_2 instead");
+>> +            }
+>>           }
+>>       }
+>>       /* allocate RAM */
+>
+>
+> ATB,
+>
+> Mark.
+>
+>
 
