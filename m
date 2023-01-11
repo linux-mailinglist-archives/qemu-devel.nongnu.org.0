@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F075D665ECB
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 16:08:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8942A665EE7
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 16:18:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFchk-0001zJ-HP; Wed, 11 Jan 2023 10:07:52 -0500
+	id 1pFcqY-0004sW-J1; Wed, 11 Jan 2023 10:16:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFcgy-0001hr-4L
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 10:07:14 -0500
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836])
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pFcqV-0004rN-KF
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 10:16:55 -0500
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFcgu-0008LK-Sj
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 10:07:03 -0500
-Received: by mail-qt1-x836.google.com with SMTP id e22so1475339qts.1
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 07:07:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cf/lJoArq8QrnipC49cD1Zh4f8VhsnbBmzMv7uBKIic=;
- b=JtRAqPgXWIQhTIJ/pvk9nHYyl7YD9joVmZx7bvBLPEfghgcyasYNpGEfImgnL21RZM
- Vu3LV7gd9NY3k30xaHijY9Vg0DQbiyxJAjEHqf+s9pWiPiikulqgKmoYH1kce92Aibcl
- yl84iRyD1nJ5jDH5UY/79s5T6x7lNYs8KHXW3whmtwFBVb/H40VKRmgOuiLWWrTmEvDT
- +z54+0Ji1v0WqejbtVy4wjc73ivZFxPlbsKPySg1aicbJ0299CFo8AfIW7zQLZMmpMmA
- nQNb4iI87PSSI3NUhU4g31bGpQaDIAEK7KD/iKiuiWN6x+ogimpzelpSABwID15eK1j6
- wpcQ==
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pFcqT-0001O3-Lf
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 10:16:55 -0500
+Received: by mail-il1-x12d.google.com with SMTP id f8so1948025ilj.5
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 07:16:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=braap-org.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XNhhzRjgQesGyQCx5O91c3808No3znJRbVrW1W7V6x0=;
+ b=zkh5k4IzzbADSwJ+bXENx89MmhK4AVt8O6zpuDh3a4XEWmpiiyhHCX//cubDEFW+M2
+ Fi/qxV3EANTc3aPYSimqvUfV+9gTS9WzrRMXaI5pnZLlbcAjxgkWr05Z0UJS0A26U8oL
+ 012AuTbvWAvUoJTiVR7GUazdjKqTxTKLj2qV1c7G7jzqxYnWb4APMWdO71LeWv0tl/ww
+ QXlmKyf+9aa8liMkGfIFxmFNEeOaYR95nUVpiU3l2kc7sWtbmMUKlO4ofHvbneUnmnXm
+ KFvMNOuOGKprWc48eyDI4YGCs83t0OMe+xU/K95MK242wTQ90KDj9EuXebdM6b0U0/3B
+ J3MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cf/lJoArq8QrnipC49cD1Zh4f8VhsnbBmzMv7uBKIic=;
- b=WK9V+ccQfmb1jjtj2462ysciTnxByRebHiunBpMDUKY8c8ED4iB5s31NKH2s9Ekxea
- 6Y5uHx3VX+t35KXc9/p8c/ZyxKftQ3M+Tt1sf6kpikEvbzMXiHGdSxjOjMYfZOb2Zypj
- UxGaSRDTQcd7JXpq6ZvYHEcShtVAn9HvTABMMyTz9gxhdHqXqPpTadTdHTMgsiBQVZHt
- p07Vrx+zmtgahav6vtwxQcmb/pKLWMJklDSlb8lHEN8wJH2nYXuZNO8WYM+5HWYn2Wdi
- V2VWNYdwgQbX3HHaZO/8A4XUsUnCdaB9XOmIFA7a8EptZQSnYgh0Nao1LJxtlWlZ6MZz
- +JhA==
-X-Gm-Message-State: AFqh2kqj4Qbz10XmMnVdeEyo1J070EGg21uK8uquwX24TtXjLG80gt4w
- 4FV3XIXaQ30Diz94ysUNHMBGqA==
-X-Google-Smtp-Source: AMrXdXtsl7+BdVbfYQ/BdyMcVxwR67zbAtKaRlaPFHgzN6ZcSRGdIpIaDmwAMndXGaCkuYpOGow1PQ==
-X-Received: by 2002:ac8:690c:0:b0:3ab:9974:3a06 with SMTP id
- bt12-20020ac8690c000000b003ab99743a06mr74358212qtb.38.1673449619237; 
- Wed, 11 Jan 2023 07:06:59 -0800 (PST)
-Received: from ?IPV6:2607:fb90:8062:d32d:5ad4:bcd:2063:a06?
- ([2607:fb90:8062:d32d:5ad4:bcd:2063:a06])
- by smtp.gmail.com with ESMTPSA id
- m20-20020ac866d4000000b003a6a7a20575sm7661969qtp.73.2023.01.11.07.06.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 07:06:58 -0800 (PST)
-Message-ID: <7ba0bf63-1b46-7f70-a0ff-6d62cc963d4f@linaro.org>
-Date: Wed, 11 Jan 2023 07:06:53 -0800
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XNhhzRjgQesGyQCx5O91c3808No3znJRbVrW1W7V6x0=;
+ b=fJPbnJ1/QXRBwfQciiUYgmSXmjYPuTAym0Z3x8cSoFifH99km657CoBzVwZel9HwUH
+ ybBjTLgjmFcG3jE16nSHYFkbczcECEwMvtaUZmSbmcOMLuMW2PQoa0zj4bj5SB3TyTg1
+ LQq1SHz8vE435NBVkjIluhO6hvHo7BcJyuik02WNRdbg3+mc6DPUvmWCXyezkbuqmJBF
+ 6WGdPosf99UjAUOCb43Wv3EJyd5J1OVcjW8ivZLKfJfL3XQNRWZ2RfEX5HcarQI8DQBm
+ kQ6pGUS+HMgA8UoKpqBjD7Td+AKMtDoAX7QQe5Usm8LdUQ5A1sPMJlqqw8aJF+SIDYS5
+ Pu4g==
+X-Gm-Message-State: AFqh2kq70Nw88KMmZqsOouV+TqtdG/ImW5UFLwUuf8OLF9OGJMX2GWmr
+ Vu9/vjKrbyBOPuAIEY3ovhzuV+4ZFhZcU5rbkEc=
+X-Google-Smtp-Source: AMrXdXvFh9C+5GvLvDlPUqf89BHDUVxrsEXVI2yBX4+TgsjL+El7jXwmWIWsMVaH8QA8nJ1KfZYipQ==
+X-Received: by 2002:a92:2c0d:0:b0:30b:e56f:f2f7 with SMTP id
+ t13-20020a922c0d000000b0030be56ff2f7mr54813603ile.24.1673450212043; 
+ Wed, 11 Jan 2023 07:16:52 -0800 (PST)
+Received: from localhost ([37.19.210.30]) by smtp.gmail.com with ESMTPSA id
+ p190-20020a0229c7000000b0039e2c253e68sm4555638jap.11.2023.01.11.07.16.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Jan 2023 07:16:51 -0800 (PST)
+From: Emilio Cota <cota@braap.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Emilio Cota <cota@braap.org>
+Subject: [PATCH v3 0/5] tsan fixes
+Date: Wed, 11 Jan 2023 10:16:23 -0500
+Message-Id: <20230111151628.320011-1-cota@braap.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v4 03/36] tcg: Allocate objects contiguously in
- temp_allocate_frame
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org,
- qemu-riscv@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net,
- qemu-devel@nongnu.org
-References: <20230108023719.2466341-1-richard.henderson@linaro.org>
- <20230108023719.2466341-4-richard.henderson@linaro.org>
- <87zgapl7az.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87zgapl7az.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x836.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: softfail client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=cota@braap.org; helo=mail-il1-x12d.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,33 +87,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/11/23 01:59, Alex Bennée wrote:
->> @@ -3277,13 +3278,26 @@ static void temp_allocate_frame(TCGContext *s, TCGTemp *ts)
->>           tcg_raise_tb_overflow(s);
->>       }
->>       s->current_frame_offset = off + size;
->> -
->> -    ts->mem_offset = off;
->>   #if defined(__sparc__)
->> -    ts->mem_offset += TCG_TARGET_STACK_BIAS;
->> +    off += TCG_TARGET_STACK_BIAS;
->>   #endif
->> -    ts->mem_base = s->frame_temp;
->> -    ts->mem_allocated = 1;
->> +
->> +    /* If the object was subdivided, assign memory to all the parts. */
->> +    if (ts->base_type != ts->type) {
->> +        int part_size = tcg_type_size(ts->type);
->> +        int part_count = size / part_size;
->> +
->> +        ts -= ts->temp_subindex;
-> 
-> Whats going on here? Are we jumping to a previous temp? What guarentees
-> there is something at ts - ts->temp_subindex?
+Changes since v2:
 
-Yes.  Guaranteed by base_type != type.  See tcg_temp_new_internal -- it's the raison 
-d'être of temp_subindex.
+- Add R-b's
+- patch 4/5: Fix incompatible pointer type errors
+- patch 4/5: Remove leftover helper
+
+Thanks,
+		Emilio
 
 
-r~
 
