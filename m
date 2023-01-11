@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C026D66568E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 09:53:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1781F665693
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 09:54:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFWot-0003RP-I4; Wed, 11 Jan 2023 03:50:51 -0500
+	id 1pFWot-0003Pf-1P; Wed, 11 Jan 2023 03:50:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFWoa-0003FF-GT
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:50:32 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFWof-0003Gd-7m
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:50:38 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFWoY-0007cL-1X
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:50:32 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id l26so10571224wme.5
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 00:50:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFWod-0007e7-5A
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:50:36 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ c4-20020a1c3504000000b003d9e2f72093so8981328wma.1
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 00:50:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QqhX9d7OWrlFhlOYzosdT2uap07wVT4JcGVQZKlWVp8=;
- b=Qs+/e/zaOY/tJH6z6W0tOYMKOhvkFd9y6V+YqgPBZonuTIpeatoplaVdgk5DpTYx9R
- p59vu8uTu/MlpaznSOIUN6F7I5ksUMELsLmLRzfyJfM1oyvhVvbwnYGekI/VvFt7wolc
- fyxcMxjHDbV1P+qk1qyfsIGbb0EYr/8b4qQ4C18KNNqpVGqnBo7TEX++7rsVT9btOGNI
- LjFkGF4cpvrG709+IKOvq+QhoktGMdFjkIzGOJRY6apnmi/5NreOgSrPxnuiq6fBvAic
- oPxOTCv3Shv0rlRZJCqQ1kRG6VK9uAL7pt9rqfY4mKw+wdEe6uUGjNC0v1VOeUmZu6ha
- UQTQ==
+ bh=iDnNDu+oMICH4wdH8XoWszonkd1H38BArRChhxQlZUY=;
+ b=pke7i96aicODUbCCMtqiAD2ggXYbBh6JXivqZQnOJcDKrpvoEqSo2zJdwGmIvBl5xg
+ yZwHRTWd1YcQeBG+IwX5uOKCEduo52I6In69jv0X3S+YzGAcTVX6D0+Y6dbTU7Ls/ad6
+ bpGKkwtYpbh5ye2Mel9659WNHyoPyvd2vAe8xzniRJjNwgIaSltGBiE3KpXY5RDlDjA5
+ VY1uw59ca2BZAylmcBhhjm7nP30hl6mqix6EXJu7RvSjUvSro24XUOI1CW0k7mff1ME0
+ 8rcb7+Im4ceBdlUokHnO+nITYF+LRaqfnoRhvTL+f/HX6yNDRbhZfgyaTg4dMtayr4Ew
+ lxeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QqhX9d7OWrlFhlOYzosdT2uap07wVT4JcGVQZKlWVp8=;
- b=JIoiIxxbtfZZy2xlUxSJnGQ4sfWgk/zNiqp2dMJ51k1sJBJtWRpLUL5V+iKQrNo7Ab
- AizQ8hcijVThPUuCmLdaxt4Ujb+KW7ztzhNP6kx9aPOJTXEvRgFTL8GyP2MPnRzG90AI
- Q52pTL48gVbFbMylb/Vm+nMoF2yMR/AHtzw8k9Odbnl4SgKHgrKgwPDrFWSenq50RDdN
- 5haCqVwQb0YqXIbsSeF2kjW834lLi0LVdUQsXvymPZTkL8PCvEJSne4NV+uS3PO8sWQL
- b4hIYkKgIMsi38eAn+dsBQR17op2DcADvwRhArwc8C+XHkv++Om2p5gcIKvCLPLNB94h
- lsqg==
-X-Gm-Message-State: AFqh2krdXoBY0/KpMndGCbYNx2DO8jevJxDYFzpBusKkgTmimJ7lG9B7
- VAH7WKMUUOPHOo3KZEcx1kIbxXVr1pdS3/n7
-X-Google-Smtp-Source: AMrXdXuuMuAg00zaVcj1YraGHF9XJZm1E86FSzELXrJU6wGN3B6kr0ZMNjTg4DFjgXhUnqmBgj/Uag==
-X-Received: by 2002:a05:600c:1da3:b0:3d3:4dbc:75ef with SMTP id
- p35-20020a05600c1da300b003d34dbc75efmr51264789wms.17.1673427028123; 
- Wed, 11 Jan 2023 00:50:28 -0800 (PST)
+ bh=iDnNDu+oMICH4wdH8XoWszonkd1H38BArRChhxQlZUY=;
+ b=mIgS7iGkvehZYr/Or5yNNr9OuQndQjvQTo0A/KtaIsaTDowg0M8n+Yjck2bo0gVEc2
+ o5NbGstY1STtZXVRRfktv3cS3wj8T9YbWXJp1vZOt+t5JpMAxnxDs0G9qd6xSW2baTrX
+ IWRUmSH92tUqa4xxf92VPIwN2W2z/JOeDCL8z4NRvP4LTKfwCsnsYyLzy553uJ4QleFs
+ OllTGq5HkEdJf2u6YTwmi7GfMuOpm3UD7zglNxuOn6G2brica50Y3o3VHztk2a/praJz
+ yu3koGxfIwYa2b+8fAxroTuVXKMnIPMoIoVkBXN0ZU1Kn1sfOPqPg+dg8WHIaEU/C3Lx
+ ThnQ==
+X-Gm-Message-State: AFqh2koGtTt4U072lngFBzUC8olu4gKRYv0sjyL1OV0x946s37PPUq4P
+ fO3YCzn5potrhH5fug8Go9VZXhzOumJzEgNw
+X-Google-Smtp-Source: AMrXdXtR5fpEqXEMcvIzxT3owtyy580OHRs6/GXRuZNjjol0zz/4defvgga/RFXw4+yvcXnASFzN8Q==
+X-Received: by 2002:a05:600c:1d25:b0:3d3:50b9:b192 with SMTP id
+ l37-20020a05600c1d2500b003d350b9b192mr61983619wms.18.1673427033020; 
+ Wed, 11 Jan 2023 00:50:33 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- o19-20020a05600c511300b003d9862ec435sm5963864wms.20.2023.01.11.00.50.27
+ o19-20020a05600c511300b003d9862ec435sm5964179wms.20.2023.01.11.00.50.32
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 11 Jan 2023 00:50:27 -0800 (PST)
+ Wed, 11 Jan 2023 00:50:32 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -59,17 +60,18 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  qemu-trivial@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v3 2/5] hw/i2c/bitbang_i2c: Remove unused dummy MemoryRegion
-Date: Wed, 11 Jan 2023 09:50:13 +0100
-Message-Id: <20230111085016.44551-3-philmd@linaro.org>
+Subject: [PATCH v3 3/5] hw/i2c/bitbang_i2c: Change state calling
+ bitbang_i2c_set_state() helper
+Date: Wed, 11 Jan 2023 09:50:14 +0100
+Message-Id: <20230111085016.44551-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230111085016.44551-1-philmd@linaro.org>
 References: <20230111085016.44551-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,38 +97,91 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/i2c/bitbang_i2c.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ hw/i2c/bitbang_i2c.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
 diff --git a/hw/i2c/bitbang_i2c.c b/hw/i2c/bitbang_i2c.c
-index ac84bf0262..e41cb63daa 100644
+index e41cb63daa..bf4b781393 100644
 --- a/hw/i2c/bitbang_i2c.c
 +++ b/hw/i2c/bitbang_i2c.c
-@@ -165,9 +165,10 @@ void bitbang_i2c_init(bitbang_i2c_interface *s, I2CBus *bus)
- OBJECT_DECLARE_SIMPLE_TYPE(GPIOI2CState, GPIO_I2C)
+@@ -26,13 +26,19 @@ do { printf("bitbang_i2c: " fmt , ## __VA_ARGS__); } while (0)
+ #define DPRINTF(fmt, ...) do {} while(0)
+ #endif
  
- struct GPIOI2CState {
-+    /*< private >*/
-     SysBusDevice parent_obj;
-+    /*< public >*/
- 
--    MemoryRegion dummy_iomem;
-     bitbang_i2c_interface bitbang;
-     int last_level;
-     qemu_irq out;
-@@ -188,12 +189,8 @@ static void gpio_i2c_init(Object *obj)
++static void bitbang_i2c_set_state(bitbang_i2c_interface *i2c,
++                                  bitbang_i2c_state state)
++{
++    i2c->state = state;
++}
++
+ static void bitbang_i2c_enter_stop(bitbang_i2c_interface *i2c)
  {
-     DeviceState *dev = DEVICE(obj);
-     GPIOI2CState *s = GPIO_I2C(obj);
--    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-     I2CBus *bus;
+     DPRINTF("STOP\n");
+     if (i2c->current_addr >= 0)
+         i2c_end_transfer(i2c->bus);
+     i2c->current_addr = -1;
+-    i2c->state = STOPPED;
++    bitbang_i2c_set_state(i2c, STOPPED);
+ }
  
--    memory_region_init(&s->dummy_iomem, obj, "gpio_i2c", 0);
--    sysbus_init_mmio(sbd, &s->dummy_iomem);
--
-     bus = i2c_init_bus(dev, "i2c");
-     bitbang_i2c_init(&s->bitbang, bus);
+ /* Set device data pin.  */
+@@ -69,7 +75,7 @@ int bitbang_i2c_set(bitbang_i2c_interface *i2c, int line, int level)
+         if (level == 0) {
+             DPRINTF("START\n");
+             /* START condition.  */
+-            i2c->state = SENDING_BIT7;
++            bitbang_i2c_set_state(i2c, SENDING_BIT7);
+             i2c->current_addr = -1;
+         } else {
+             /* STOP condition.  */
+@@ -96,7 +102,7 @@ int bitbang_i2c_set(bitbang_i2c_interface *i2c, int line, int level)
+     case SENDING_BIT7 ... SENDING_BIT0:
+         i2c->buffer = (i2c->buffer << 1) | data;
+         /* will end up in WAITING_FOR_ACK */
+-        i2c->state++; 
++        bitbang_i2c_set_state(i2c, i2c->state + 1);
+         return bitbang_i2c_ret(i2c, 1);
  
+     case WAITING_FOR_ACK:
+@@ -117,13 +123,14 @@ int bitbang_i2c_set(bitbang_i2c_interface *i2c, int line, int level)
+              * device we were sending to decided to NACK us).
+              */
+             DPRINTF("Got NACK\n");
++            bitbang_i2c_set_state(i2c, SENT_NACK);
+             bitbang_i2c_enter_stop(i2c);
+             return bitbang_i2c_ret(i2c, 1);
+         }
+         if (i2c->current_addr & 1) {
+-            i2c->state = RECEIVING_BIT7;
++            bitbang_i2c_set_state(i2c, RECEIVING_BIT7);
+         } else {
+-            i2c->state = SENDING_BIT7;
++            bitbang_i2c_set_state(i2c, SENDING_BIT7);
+         }
+         return bitbang_i2c_ret(i2c, 0);
+     }
+@@ -134,18 +141,18 @@ int bitbang_i2c_set(bitbang_i2c_interface *i2c, int line, int level)
+     case RECEIVING_BIT6 ... RECEIVING_BIT0:
+         data = i2c->buffer >> 7;
+         /* will end up in SENDING_ACK */
+-        i2c->state++;
++        bitbang_i2c_set_state(i2c, i2c->state + 1);
+         i2c->buffer <<= 1;
+         return bitbang_i2c_ret(i2c, data);
+ 
+     case SENDING_ACK:
+-        i2c->state = RECEIVING_BIT7;
+         if (data != 0) {
+             DPRINTF("NACKED\n");
+-            i2c->state = SENT_NACK;
++            bitbang_i2c_set_state(i2c, SENT_NACK);
+             i2c_nack(i2c->bus);
+         } else {
+             DPRINTF("ACKED\n");
++            bitbang_i2c_set_state(i2c, RECEIVING_BIT7);
+         }
+         return bitbang_i2c_ret(i2c, 1);
+     }
 -- 
 2.38.1
 
