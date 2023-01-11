@@ -2,96 +2,151 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E4D6661CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 18:29:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E89666205
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 18:35:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFeto-0006ZU-Ky; Wed, 11 Jan 2023 12:28:28 -0500
+	id 1pFeyr-0001BN-Rd; Wed, 11 Jan 2023 12:33:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pFetl-0006VH-Ga
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 12:28:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1pFeyo-00018f-Ue
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 12:33:39 -0500
+Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pFeti-0001OT-Jx
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 12:28:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673458100;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oMBgKgZ9rfrfst1YYeKRJbSJwF8uJt8+Nzoujm7eClk=;
- b=MVIpx6rTjc/PIPV/0rxjqzy4qOjBGSQFgdfYeCC3ZxL23u0J00KZBYR9g8wLATLD+vhvO2
- 6dMnieVMYv4ZfDQJAednm1T/NHG5U1qs7lL6t5XTxeSC3/jIt5V2MIFETrpzI2aC7dK+YS
- 5CngxJ4yiwttm19ihDz9RCzyIhpUoug=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-647-yEheFGcvN1Gj74siTsEhbA-1; Wed, 11 Jan 2023 12:28:19 -0500
-X-MC-Unique: yEheFGcvN1Gj74siTsEhbA-1
-Received: by mail-qt1-f199.google.com with SMTP id
- f4-20020ac86ec4000000b003ad41e7dbf2so4357493qtv.11
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 09:28:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oMBgKgZ9rfrfst1YYeKRJbSJwF8uJt8+Nzoujm7eClk=;
- b=JXkiCnDql/AzWya4F78aGpJDPzAcDRv/ALiMm1WQZvYVDcV16YPafA8tJ+VjVcgH9D
- a1CHbmsEn2rnOvLSieqPfe004d4Tk3tAq52KJM/5v+sTDRNTEoYmJJ4NByL0gjNzbE+q
- IAuNT40ysnSrPS4AXIs04D+0dyoA+6S5+YuDJOEURySONQi1WvSJEXMs3HAyEbVR3P2L
- mM8HVwvpARM01709M61etbsXsl2/wIpAuSbPYNOD3Ozntng7OSRv1t4N96SlNf0FGSgo
- SpMdU8tIDeV9rcZAhO/5lsLJNsh7zB4Wfd6ZVK49myJvAlYv4dc4k97sz16CU8m1NcCE
- KHJQ==
-X-Gm-Message-State: AFqh2koxL8BDaTKnxbEMh5XH8uGiG8hGEeFYP2DHynIxiRxmYUXwr9j2
- Ft8v0xAlO4osSQsQ8fFIyTvgdhhpjRtg5Ot/N7lnIodnVrCIubEhYFVKwXwSkBuX69tRhRLYfHu
- 94hMlV3iShZydzQ8=
-X-Received: by 2002:a05:6214:3493:b0:531:d9b0:c8bd with SMTP id
- mr19-20020a056214349300b00531d9b0c8bdmr51031228qvb.33.1673458098736; 
- Wed, 11 Jan 2023 09:28:18 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXs2/mb5+3ME3DZtj5b1f6iCAsNpt4IlORRb7rBAjzqHDv4dG5AdRxQQngYOeeBqGJNxP/omGA==
-X-Received: by 2002:a05:6214:3493:b0:531:d9b0:c8bd with SMTP id
- mr19-20020a056214349300b00531d9b0c8bdmr51031192qvb.33.1673458098396; 
- Wed, 11 Jan 2023 09:28:18 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- d3-20020ae9ef03000000b00705e0ad29cdsm1244235qkg.77.2023.01.11.09.28.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jan 2023 09:28:17 -0800 (PST)
-Date: Wed, 11 Jan 2023 12:28:16 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-Subject: Re: [PATCH v3 1/6] migration: Allow immutable device state to be
- migrated early (i.e., before RAM)
-Message-ID: <Y77xsBnqW2per5sE@x1n>
-References: <d60f9272-1e81-00da-8046-2264a9b97e58@redhat.com>
- <Y7cFplyGc4hIrYZW@x1n>
- <482fadb5-7420-e07b-982d-5b0f3e8c42f8@redhat.com>
- <Y7xw4RqLQUFWZyfI@x1n>
- <460b6ea0-67a6-891f-f8fb-a5f23e9985c4@redhat.com>
- <c6a66296-94a7-e1ef-e0c1-098071f961d2@redhat.com>
- <Y73Er/n86CgQTMYu@x1n>
- <fbde8341-660b-0ed1-4f74-0afe565d5be5@redhat.com>
- <Y77lb+tUxWGKuQbo@x1n>
- <6c017410-cdb6-6a7c-ab02-a8412e37ecba@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1pFeym-0002As-9e
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 12:33:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1673458416; x=1704994416;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=GE3PgrNw/XTdFAHIJ4NY0YJdA79X0QCabrwQRfj8JOM=;
+ b=D8L97ZQVT7HNseaqcBz3VPzTUuVfRlT5vsSGxYiO4JZ8P+1lKv2yxjSz
+ 7XKr42kb9m57Hac4wfJQ/QYW/iu9JX5CQ+0hWWmwUp5h7lMWc8lqSFg2n
+ o2I4LN3OsSpSzjGuuUsnubcMgCM1rtrxCAN2391HJKxcrkpUnq6/iwCyW
+ bCSO25hB5pCCy4ObtbsC7MBa1qWH6l82Mvt27BBy/RPHskg1WpQxRmQgg
+ xGxJqwfOgW/i6nRAg0EfFgEfY7Z53RjGVvK8bJEkdKVv/UciqGYOv9akQ
+ mQsTGYAC+PwfOaLKjH2FugExv5khndrX9PIMIrZQ0/rQ5H1CNTU/3C2aP A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="303178636"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="303178636"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2023 09:33:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="799910622"
+X-IronPort-AV: E=Sophos;i="5.96,317,1665471600"; d="scan'208";a="799910622"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga001.fm.intel.com with ESMTP; 11 Jan 2023 09:33:29 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 11 Jan 2023 09:33:29 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Wed, 11 Jan 2023 09:33:29 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.177)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Wed, 11 Jan 2023 09:33:29 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Pcr2R7uM/0kPu0fwh9WRxA3+PmqDPEu4C6jTrqZd9Pbg2sz4B2fH51tw1ugJ1OvlTkjcWQvAJgY6+bRun3au7Z2FyxxLTZ/xdmVJZ1fCku7Cel6C29afDd7dMGBs5O1OL3pc1FjkvApIJHyWqfHIvp1CpXKHHc160kX1oZCDn4mXk9rjfrEkW1S6wAO21j7GaTHiVJ8WtDxWgkD0BPfjNAeV4G85aYjcrB+kTmO42aLStUThA6hiRA9bDkJhmg18GJIKue/pWB8R3A1lH4rAiQArqxnCdl7GxiIFPsDMo2ls9ZMEaYpxZMMpyHIALHlUYRGAL8hAckYcvn5z5OjmNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nqtKc+eDksEWqyubZvmalVgQeQQ1RV+mm8hWaUJ2qOI=;
+ b=SHgYRJUlgUvXn/BioioTQNiU2cItOvwXuDnfhjagSgwJmCwIO6LarU5RxL5fVH5coi2cU2h72VbF9ez3ORebfx4QJY28InYy+neJ1N6MowUz2U0zMV5J5JkLtsy/O+dME36VXYQ2tgO7awpsfdIayVdcdZJ9H16+YV64h1BzDdL0dcUiKz63QlSDIoW6ESNeukVsYKJxY4o7gdLj/jdQ+LAGzXeMyOiFgfTLncx+GfTFCNEHiwURkau64f0HdgSqDNyVjiafr5/KXXaZ8OGudiO2/N6fLNoJ2xCVjHVQdzPfkigwHqFgLZq+H9VUHuwWONUuv0xLxEoHIsEoYlH1TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by SJ2PR11MB7476.namprd11.prod.outlook.com (2603:10b6:a03:4c4::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
+ 2023 17:33:27 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::288d:5cae:2f30:828b]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::288d:5cae:2f30:828b%8]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
+ 17:33:27 +0000
+Date: Wed, 11 Jan 2023 09:33:23 -0800
+From: Ira Weiny <ira.weiny@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
+ <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
+ Gregory Price <gourry.memverge@gmail.com>
+Subject: Re: [PATCH 1/8] hw/mem/cxl_type3: Improve error handling in realize()
+Message-ID: <Y77y47RsN7dyvKwn@iweiny-desk3>
+References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
+ <20230111142440.24771-2-Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <6c017410-cdb6-6a7c-ab02-a8412e37ecba@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <20230111142440.24771-2-Jonathan.Cameron@huawei.com>
+X-ClientProxiedBy: BYAPR08CA0014.namprd08.prod.outlook.com
+ (2603:10b6:a03:100::27) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|SJ2PR11MB7476:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1e939261-bb99-4986-28bd-08daf3f9f2be
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: V2c4WQ07gj89DF/LuTITbRABSME76bdrYTu1foXaBUp9PwvVwvGVN9GG1ap5PDcgvUy8n0k0KmPypHdCCzaF5kDs3f8p0d8IuhKIiyxZhZ38FwoGZBc6Es6Ba4resUmwcKXw7wntM7dVUSvPvzjP+yYf9AkUWJYQWtZu5Jw8rVHCfX7Yb8+cNYbMVBy8PNCILlUr4R2FxvmBiud7gSEs6q3KESeQpUt3jZJvSFneogUOqny0uMHGNdh11pzeIX5rN8iiQty351B8djAUJ6EZAnTSO+Ot5vNWgcvXn7TDcBLniuRO6pVFYkedCLub9fEgCJ1IJVI1D5vAGgE8mz2NH2Oqr3LHw3o+RR5vXwPqYuMliRMJB5VwedCK12XRdOcQhzBiC0ohF0bVi1eI4g8oq1HZ2Cv9blMkHhYTo0rwYLL1fLKTLc5ffXHvPg2HT2NAQsAecu2eXvZNZlo1g6Ca2IA0FxsmRYyyxI2lC3Mk8e3pWSmhReL3PMWBcDqSqAP0pLMkzoFvrrpULbPYQPyIX3WaFOdXwwRF1tuySd3BBGFkfIqQkxJbmJFOjVQ+9bL89MVq81k8nDgxGK4WwN3cycY7TJfrJ5rJCPyifcbR6AvVwtF1UR9atqQJPMX1UnZ74q+Y95vZyEe/sMrhbCL+Kw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(7916004)(136003)(396003)(376002)(366004)(39860400002)(346002)(451199015)(2906002)(54906003)(4326008)(5660300002)(6486002)(44832011)(86362001)(8936002)(41300700001)(66476007)(8676002)(66946007)(66556008)(82960400001)(38100700002)(6916009)(316002)(83380400001)(6506007)(6512007)(6666004)(9686003)(33716001)(26005)(478600001)(186003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Qzz84GuJhHqD2NMzGC75+Qb1F5izlmVyVoHAEIZmMMSq5jB5mP+0xLANUwPb?=
+ =?us-ascii?Q?us4/cnl24cfKZAtA6OHOP+43eU3U7N/iypQG8IskELan45zts530jbSjX3Yu?=
+ =?us-ascii?Q?AXkenIgsjJ7eS8cjuATfceX0zgPJy5rbLcsM34WXKXAreMXC5xPoXVnRWxTC?=
+ =?us-ascii?Q?+YLgo4Siztsr+RIhLPAgO156g3011CTkvTf/MCrmbrUQhG41nodkg299zyaG?=
+ =?us-ascii?Q?csPxmeHRzDNiyOweLk0rHRa6cFIQ1H6vx36fZCspMu6/cld9ImZA9Zq2M2l1?=
+ =?us-ascii?Q?ojaJqlk00++9yk8bcAAYfijyjgoQ0FsejQNwSPziyJp2ej0jL0wbcVzhVdW+?=
+ =?us-ascii?Q?zUdx29Htk13a8XB0n4lVNDHJhz/lNKf4yudFIr0Cqm/ufp6kzLkDamsu5gxi?=
+ =?us-ascii?Q?ICoYievhm+oKepaaD5q5jfl1olxCwZi9NSxAhSb3I2BINSKS2ukUhFa2CuC2?=
+ =?us-ascii?Q?hf9o7aJA97h9JANIFL6XQyzDR6OV4BrCEscAVYR9k5SRZDLCZVJldvhA1VEK?=
+ =?us-ascii?Q?9reEsLuRqaR4RW0PZ92EhtoJN9q1LiyQpCyF+l+u5IL1hX0KSpwD86bOBdoV?=
+ =?us-ascii?Q?j9lBstiTysgP8QDDzO47aw+8P1tIn19pG/HRTDRZh5y4XMLBQ8YTmzxdJRUr?=
+ =?us-ascii?Q?xPkTrE+Bw3fMAT4/Q4T+JskUzDUH9DBpU95LfkiZkl6WFF6je4o6CRurC1jH?=
+ =?us-ascii?Q?E1RWLB8kXZorp21WSJKwt98L6q/5BjLIorw1Ox90izKVqVR9zKQmt9t1OE7f?=
+ =?us-ascii?Q?J0TX45fKcKwgZZcybflEGZholAJuV6rXQ4tW8Q7Wzem0rMBQ6w8xT7WZ148p?=
+ =?us-ascii?Q?1k2/+F4C5Ar/g+/caMtOovY6lXH5TjTy72SMXB/dytNEVNqlGLJpxfPpYGY+?=
+ =?us-ascii?Q?zawBE3NOuD/U1aysL2ADPxtFp0CBI7tnv25y631qRNw3kGIoq95IFyPZmSQf?=
+ =?us-ascii?Q?+uWV9TQYcfDJeTQC8AAMPlrugV5oySrr+wuj7zsACOvRLIf/0n4nVPcUKUek?=
+ =?us-ascii?Q?Z9myckgL4SpGpEJs8/IeZdYE4iq2+1+MN0kT/gM2Teq3fzaeLAynTLntsfFa?=
+ =?us-ascii?Q?cCSphTmcTfmp6TgQEj93zKiNIPCH7EBNxPbmUoLBUCa5DlTnWZWy4HdhdB5U?=
+ =?us-ascii?Q?WuIGrlzUABDGkmRTuJc0xvwi3X8+6VwFFjhhVQdUtzx+NwkiUcnBrIcY4fuw?=
+ =?us-ascii?Q?jrdeRLYoV4BlEMsCfwVEcFSa9yGZ4sTeLRXOza9VerOLc2E9ZqbIaFYCVKJ5?=
+ =?us-ascii?Q?I2IZvaLd2iltjO2upau/8jbfFWEUlubW6VqHc8X4coBFMuDIEk8NvvExx21/?=
+ =?us-ascii?Q?/YEfC40Rk7isOEvBT+W8j5aL2wDqtQfT8ymd1udJz1rqG5yRDp83SA9vjztk?=
+ =?us-ascii?Q?X4dE7rpRP1t4Cfnm3V1UWFO01FvGzpaVxPht+NZke+sqZILzwA3ujTk2vCUl?=
+ =?us-ascii?Q?f/SUSczlF/pLEYDtYV8E77ETKqNV/uS8UCfQn/QjbClEl/TZKEKrIWgoy+Si?=
+ =?us-ascii?Q?30sYhqXRjfjyb3S3LlMMLmV+Gpjltl3HEIgnt0ixorpJ1M5ZLU9fGyB26gD9?=
+ =?us-ascii?Q?h3H6hIujVnOqF1hjgzVjL/naTw/+gkpzB+6EVgv9?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e939261-bb99-4986-28bd-08daf3f9f2be
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2023 17:33:27.2863 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mA3ZdW4bNo0wQhuDJ/y3K+oXfe4RbzY6kCMRABSXKX1fv1pESSaCYDu/N64Gr+e9GDkp47SZAEtz/GDykyjPew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7476
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=ira.weiny@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,215 +163,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 11, 2023 at 05:58:36PM +0100, David Hildenbrand wrote:
-> On 11.01.23 17:35, Peter Xu wrote:
-> > On Wed, Jan 11, 2023 at 02:48:09PM +0100, David Hildenbrand wrote:
-> > > On 10.01.23 21:03, Peter Xu wrote:
-> > > > On Tue, Jan 10, 2023 at 12:52:32PM +0100, David Hildenbrand wrote:
-> > > > > The following seems to work,
-> > > > 
-> > > > That looks much better at least from the diffstat pov (comparing to the
-> > > > existing patch 1+5 and the framework changes), thanks.
-> > > > 
-> > > > > but makes analyze-migration.py angry:
-> > > > > 
-> > > > > $ ./scripts/analyze-migration.py -f STATEFILE
-> > > > > Traceback (most recent call last):
-> > > > >     File "/home/dhildenb/git/qemu/./scripts/analyze-migration.py", line 605, in <module>
-> > > > >       dump.read(dump_memory = args.memory)
-> > > > >     File "/home/dhildenb/git/qemu/./scripts/analyze-migration.py", line 539, in read
-> > > > >       classdesc = self.section_classes[section_key]
-> > > > >                   ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-> > > > > KeyError: ('0000:00:03.0/virtio-mem-early', 0)
-> > > > > 
-> > > > > 
-> > > > > We need the vmdesc to create info for the device.
-> > > > 
-> > > > Migration may ignore the save entry if save_state() not provided in the
-> > > > "devices" section:
-> > > > 
-> > > >           if ((!se->ops || !se->ops->save_state) && !se->vmsd) {
-> > > >               continue;
-> > > >           }
-> > > > 
-> > > > Could you try providing a shim save_state() for the new virtio-mem save
-> > > > entry?
-> > > > 
-> > > > /*
-> > > >    * Shim function to make sure the save entry will be dumped into "devices"
-> > > >    * section, to make analyze-migration.py happy.
-> > > >    */
-> > > > static void virtio_mem_save_state_early(QEMUFile *file, void *opaque)
-> > > > {
-> > > > }
-> > > > 
-> > > > Then:
-> > > > 
-> > > > static const SaveVMHandlers vmstate_virtio_mem_device_early_ops = {
-> > > >       .save_setup = virtio_mem_save_setup_early,
-> > > >       .save_state = virtio_mem_save_state_early,
-> > > >       .load_state = virtio_mem_load_state_early,
-> > > > };
-> > > > 
-> > > > I'm not 100% sure it'll work yet, but maybe worth trying.
-> > > 
-> > > It doesn't. virtio_mem_load_state_early() will get called twice (once with
-> > > state saved during save_setup() and once with effectively nothing during
-> > > save_state(), which breaks the whole migration).
-> > 
-> > Oh hold on.. so load_state() to pair save_setup()? Maybe you should pair it
-> > with load_setup(), which I just noticed..  Then the load_state() needs to
-> > be another shim like save_state().
+On Wed, Jan 11, 2023 at 02:24:33PM +0000, Jonathan Cameron wrote:
+> msix_init_exclusive_bar() can fail, so if it does cleanup the address space.
 > 
-> Let me see if that improves the situation. E.g., ram.c writes state in
-> save_setup() but doesn't load any state in load_setup() -- it's all done in
-> load_state().
-> 
-> ... no, still not working. It will read garbage during load_setup() now.
-> 
-> qemu-system-x86_64: Property 'memaddr' changed from 0x100000002037261 to
-> 0x140000000
-> qemu-system-x86_64: Failed to load virtio-mem-device-early:tmp
-> qemu-system-x86_64: Load state of device 0000:00:03.0/virtio-mem-early
-> failed
-> qemu-system-x86_64: load of migration failed: Invalid argument
-> 
-> 
-> I don't think that load_setup() is supposed to consume anything useful from
-> the migration stream. I suspects it should actually not even consume a QEMU
-> file right now, because they way it's used is just for initializing stuff.
-> 
-> qemu_loadvm_state_main() does the actual loading part, parsing sections etc.
-> qemu_loadvm_state_setup() doesn't do any of that.
-> 
-> AFAIKS, at least qemu_loadvm_state_setup() would have to parse sections and
-> the save_setup() users would have to be converted into using load_setup() as
-> well. Not sure if more is missing.
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Ouch, yeah, load_setup() is unfortunate. :(
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 
-I think load_setup() should be named load_init() without having the
-qemufile at all.  But let's keep that aside for now, and see what other
-option we have..
-
+> ---
+>  hw/mem/cxl_type3.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
 > 
-> Even with that, I doubt that it would make analyze-migration.py work,
-> because what we store is something different than what we record in the
-> vmdesc.
+> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> index dae4fd89ca..252822bd82 100644
+> --- a/hw/mem/cxl_type3.c
+> +++ b/hw/mem/cxl_type3.c
+> @@ -401,7 +401,7 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+>      MemoryRegion *mr = &regs->component_registers;
+>      uint8_t *pci_conf = pci_dev->config;
+>      unsigned short msix_num = 1;
+> -    int i;
+> +    int i, rc;
+>  
+>      if (!cxl_setup_memory(ct3d, errp)) {
+>          return;
+> @@ -438,7 +438,10 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+>                       &ct3d->cxl_dstate.device_registers);
+>  
+>      /* MSI(-X) Initailization */
+> -    msix_init_exclusive_bar(pci_dev, msix_num, 4, NULL);
+> +    rc = msix_init_exclusive_bar(pci_dev, msix_num, 4, NULL);
+> +    if (rc) {
+> +        goto err_address_space_free;
+> +    }
+>      for (i = 0; i < msix_num; i++) {
+>          msix_vector_use(pci_dev, i);
+>      }
+> @@ -450,6 +453,11 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+>      cxl_cstate->cdat.free_cdat_table = ct3_free_cdat_table;
+>      cxl_cstate->cdat.private = ct3d;
+>      cxl_doe_cdat_init(cxl_cstate, errp);
+> +    return;
+> +
+> +err_address_space_free:
+> +    address_space_destroy(&ct3d->hostmem_as);
+> +    return;
+>  }
+>  
+>  static void ct3_exit(PCIDevice *pci_dev)
+> -- 
+> 2.37.2
 > 
-> > 
-> > > 
-> > > vmdesc handling is also wrong, because analyze-migration.py gets confused
-> > > because it receives data stored during save_setup() but vmdesc created
-> > > during save_state() was told that there would be "nothing" to interpret ...
-> > > 
-> > > $ ./scripts/analyze-migration.py -f STATEFILE
-> > > {
-> > >      "ram (2)": {
-> > >          "section sizes": {
-> > >              "0000:00:03.0/mem0": "0x0000000f00000000",
-> > >              "pc.ram": "0x0000000100000000",
-> > >              "/rom@etc/acpi/tables": "0x0000000000020000",
-> > >              "pc.bios": "0x0000000000040000",
-> > >              "0000:00:02.0/e1000.rom": "0x0000000000040000",
-> > >              "pc.rom": "0x0000000000020000",
-> > >              "/rom@etc/table-loader": "0x0000000000001000",
-> > >              "/rom@etc/acpi/rsdp": "0x0000000000001000"
-> > >          }
-> > >      },
-> > >      "0000:00:03.0/virtio-mem-early (51)": {
-> > >          "data": ""
-> > >      }
-> > > }
-> > 
-> > Yeah this is expected, because the whole data stream within the setup phase
-> > is a black box and not described by anything.  "ram" can display correctly
-> > only because it's hard coded in the python script, I think.  The trick
-> > above can only make the script not break but not teaching the script to
-> > also check for the early vmsd.
-> 
-> Note that the issue here is that the scripts stops the output after the
-> virtio-mem device. So I'm not complaining about the "data": "", but about
-> the vmstate according to the vmdesc not having any other devices :)
-> 
-> > 
-> > But that's one step forward and IMHO it's fine for special devices. For
-> > example, even with your initial patch, I think the static analyzer (aka,
-> > qemu -dump-vmstate) will also ignore your new vmsd anyway because it's not
-> > directly bound to the DeviceState* but registered separately.  So no ideal
-> > solution so far, afaict, without more work done on this aspect.
-> > 
-> > > 
-> > > 
-> > > Not sure if the whole thing becomes nicer when manually looking up the
-> > > vmdesc ... because filling it will also requires manually storing the
-> > > se->idstr and the se->instance_id, whereby both are migration-internal and
-> > > not available inside save_setup().
-> > > 
-> > > 
-> > > Hm, I really prefer something like the simplified version that let's
-> > > migration core deal with vmstate to be migrated during save_setup() phase.
-> > > We could avoid the vmstate->immutable flag and simply use a separate
-> > > function for registering the vmstate, like:
-> > > 
-> > > vmstate_register_immutable()
-> > > vmstate_register_early()
-> > > ...
-> > 
-> > I agree, this looks useful.  It's just that the devices that need this will
-> > be rare, and unfortunately some of them already implemented the stream in
-> > other ways so maybe non-trivial to convert them.
-> 
-> Right, I agree about the "rare" part and that conversion might be hard,
-> because they are not using a vmstate descriptor.
-> 
-> The only way to avoid that is moving away from using a vmstate descriptor
-> and storing everything manually in virtio-mem code. Not particularly happy
-> about that, but it would be the only feasible option without touching
-> migration code that I can see.
-> 
-> > 
-> > Not against it if you want to keep exploring, but if so please avoid using
-> > the priority field, also I'd hope the early vmsd will be saved within
-> > qemu_savevm_state_setup() so maybe it can be another alternative to
-> > save_setup().
-> > 
-> > Maybe it's still easier we keep going with the save_setup() and the shim
-> > functions above, if it works for you.
-> 
-> I'll happy to go the path you suggested if we can make it work. I'd be happy
-> to have something "reasonable" for the virtio-mem device in the
-> analyze-migration.py output. But I could live with just nothing useful for
-> the device itself -- as long as at least the other devices still show up.
-
-So, let's see whether we can go back to the load_state() approach..
-
-static const SaveVMHandlers vmstate_virtio_mem_device_early_ops = {
-      .save_setup = virtio_mem_save_setup_early,
-      .save_state = virtio_mem_save_state_early,
-      .load_state = virtio_mem_load_state_early,
-};
-
-vfio handled it using a single header flag for either save_setup() or
-save_state(), then load_state() identifies it:
-
-    data = qemu_get_be64(f);
-    ...
-        switch (data) {
-        case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
-        ...
-        case VFIO_MIG_FLAG_DEV_SETUP_STATE:
-        ...
-
-Maybe play the same trick here?  The flag needs to be hard coded but at
-least not the vmsd.  Based on previous experience, I could have missed
-something else, though. :)
-
-Or if you like go the other way I'm fine too.
-
-Thanks,
-
--- 
-Peter Xu
-
 
