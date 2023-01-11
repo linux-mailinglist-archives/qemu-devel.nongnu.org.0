@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77DFB6651F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 03:44:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C37066520C
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 03:59:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFR4U-0003rO-DR; Tue, 10 Jan 2023 21:42:34 -0500
+	id 1pFRJH-0006jM-EA; Tue, 10 Jan 2023 21:57:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pFR4R-0003qy-As
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 21:42:31 -0500
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pFRJG-0006j6-Ak
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 21:57:50 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pFR4P-00025L-LP
- for qemu-devel@nongnu.org; Tue, 10 Jan 2023 21:42:31 -0500
-Received: by mail-qt1-x82b.google.com with SMTP id bp44so12855516qtb.0
- for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 18:42:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=braap-org.20210112.gappssmtp.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=aaGczZVmik1O4bkKA7G0Gkj4yxvKlBsEHWCJsShOaCk=;
- b=ce8+m2JvoKIUCn0PQLdrL1J1+/1zyuSlk7cs5C9Y++fpmS+RLnx/AH2wU/ITYZDuwv
- QFKEmgv2gNFPhnibrFyyoniP+pOUEDzH084Yqw9O18irGMrfuNGatekBKv6lQUOr4s34
- vr5NLckm1u2ff3Db7r+ILZogrW5uUeWvdv8HHw72kea0QSDGdJ3+G+H9ibuRW+654GxI
- AWm0wgu35GcRJgA6mgIEm0rmeKTFa6D/d+LwCawvRjgJZ0W81hqqwdbx2my4x+DKfBDK
- m5KcjRuf4jsQ4nqMFqH/xwAx6onta5RZpaUsf77fmUPdGld32Fa3WVbhu+CkcEDKHydc
- cUSw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pFRJD-00046F-OL
+ for qemu-devel@nongnu.org; Tue, 10 Jan 2023 21:57:50 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ h7-20020a17090aa88700b00225f3e4c992so18573539pjq.1
+ for <qemu-devel@nongnu.org>; Tue, 10 Jan 2023 18:57:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JQ2CB58YKxPVDH8ptf5VYn34nkrclyuEszfQZpKf+Lo=;
+ b=fYMUKpZjtNEpGTdFZKnoLH+0+WyztHfXy97FP2b/lSny2shAJmjvuV9dnNxf6gHeLo
+ NXQAUDEULCI3uHiIGkLWEE/a1V7QF15sJ0ieMmplD7hnLwoNyEtU3qfehI5j53CRYgQ0
+ k2w+zftk05pEIkwG1n47JfW8E2EeDGb9uhaarXiZW8g3OI0mH15WY1mDn9I9Q/l7l88N
+ AvCWPDG3NVyLyntKiP+Qusr0BFFxCGG/ESiIVjIg2IpaFUdVdpmibJT3cvrnoV0+1OSb
+ SRQ4b6GacXjD+cLVk4h74oQOO2Pwekr/Cmw9N4tSQnSrXxH42idUoOIb3IgN4uvocXU/
+ bAxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aaGczZVmik1O4bkKA7G0Gkj4yxvKlBsEHWCJsShOaCk=;
- b=18czqbgQaJ1P3uLaZzlsCM7/8+CtojUGRFSEXwXdLfoW8MKdasxaxr9R51avFe8KFI
- 1pGLNl2mYP0+tohPpGBTD/Ez1vV89crAKBHuh7d37guYS1wIb4M1hrrr4/uxGKt/nKze
- wUNe+KCspxwXF5bAFVDmUz+rFkj8f2N9Ch5Y5hPkV7V7aOKtrTaaUdGHMd4HOawIwMbT
- cc2xTZnWabOO79nOsELBw4YHBCIr84I4b6UrkCr4wrD5vJoZRsNmaLp7pUPpLEL9OBcd
- TaAhEffjLYY3D1lkK40zedpI8grAX972ab8tFTaSL7qbCSXFgwDdOfGSyZJVlkdNIbls
- J87w==
-X-Gm-Message-State: AFqh2kqbh+C3xMOk+LjAdSVfFQdafiFU6ZKB7C04MobPbC8u/7ckpBX7
- WDktZzD9LIeI6q2cYMa73YPeeA==
-X-Google-Smtp-Source: AMrXdXvM6kHHXYsScI3pX54BAA6T8PgubOmrPuVsruGdL/zHbOTFFfHcLCeB6HooAYiK6GfrJx8vEw==
-X-Received: by 2002:a05:622a:c:b0:3ab:b78b:c3cf with SMTP id
- x12-20020a05622a000c00b003abb78bc3cfmr61525841qtw.60.1673404948017; 
- Tue, 10 Jan 2023 18:42:28 -0800 (PST)
-Received: from localhost (pool-100-2-99-22.nycmny.fios.verizon.net.
- [100.2.99.22]) by smtp.gmail.com with ESMTPSA id
- h14-20020ac8548e000000b003ab1ee36ee7sm6918003qtq.51.2023.01.10.18.42.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Jan 2023 18:42:27 -0800 (PST)
-Date: Tue, 10 Jan 2023 21:41:29 -0500
-From: Emilio Cota <cota@braap.org>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 4/5] util/qht: use striped locks under TSAN
-Message-ID: <Y74h2RC+8J63Nzqj@cota-l14>
-References: <20230109224954.161672-1-cota@braap.org>
- <20230109224954.161672-5-cota@braap.org>
- <87cz7mm7fu.fsf@linaro.org>
+ bh=JQ2CB58YKxPVDH8ptf5VYn34nkrclyuEszfQZpKf+Lo=;
+ b=tj/98HrjQV9bOY+RGLx+wfanhstGuqnHjHJO0/dAdULx1QyFBdTYqDALaHIgcdneAB
+ Vmn0IzgMnTBa1WSFNUBKZvCjL2JBb8jAsYZRQGNYo6YcIM51qgirr2hmKPgNGclt0hA5
+ acld3BFuAxAgl+YEAx2N+ebyc83VQXrTAeJQVIMgwBajNLSiW07H3HAagFZYwsGP9ZuW
+ ZCkiNArjE2rDXmHwoIJP4ZPuiDjseclcQFk5nyU+45bgfU7on8f8VcdlIPhFe7dJB80s
+ n5f/h5CJqqlOjSJCzbs48/hTDvTDiXpTpKle8xriQE7xN2gu3sHBXrdxBdHHOuj/M89O
+ rcmQ==
+X-Gm-Message-State: AFqh2koa0yEVSuhOOyBvt8NluznpPlc49o9i4bDSyJOIlx6cYo8iFu/I
+ O5f9G0xi8ZHkpj5iWsEMtkPZag==
+X-Google-Smtp-Source: AMrXdXuI4GCpR6DV9ahHc2mcZoDoHFAoJbQPAWpJlphA3GHbVCXNq/KpzaOgkyffWxmNM23ETTsePA==
+X-Received: by 2002:a17:902:850c:b0:192:bbe9:4cab with SMTP id
+ bj12-20020a170902850c00b00192bbe94cabmr34295733plb.24.1673405866167; 
+ Tue, 10 Jan 2023 18:57:46 -0800 (PST)
+Received: from [192.168.0.115] (63-157-97-90.dia.static.qwest.net.
+ [63.157.97.90]) by smtp.gmail.com with ESMTPSA id
+ c6-20020a170903234600b00189b2b8dbedsm8799877plh.228.2023.01.10.18.57.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Jan 2023 18:57:45 -0800 (PST)
+Message-ID: <dd853782-cdee-3e5c-c6c9-802653537e70@linaro.org>
+Date: Tue, 10 Jan 2023 18:57:43 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 4/5] hw/i2c/bitbang_i2c: Trace state changes
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Jan Kiszka <jan.kiszka@web.de>,
+ qemu-trivial@nongnu.org, qemu-arm@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20230110082932.24386-1-philmd@linaro.org>
+ <20230110082932.24386-5-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230110082932.24386-5-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87cz7mm7fu.fsf@linaro.org>
-Received-SPF: softfail client-ip=2607:f8b0:4864:20::82b;
- envelope-from=cota@braap.org; helo=mail-qt1-x82b.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,42 +97,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 10, 2023 at 20:58:01 +0000, Alex Bennée wrote:
-> Emilio Cota <cota@braap.org> writes:
-(snip)
-> > +static inline void qht_do_if_first_in_stripe(const struct qht_map *map,
-> > +                                             struct qht_bucket *b,
-> > +                                             void (*func)(QemuSpin *spin))
-> > +{
-> > +#ifdef CONFIG_TSAN
-> > +    unsigned long bucket_idx = b - map->buckets;
-> > +    bool is_first_in_stripe = (bucket_idx >> QHT_TSAN_BUCKET_LOCKS_BITS) == 0;
-> > +    if (is_first_in_stripe) {
-> > +        unsigned long lock_idx = bucket_idx & (QHT_TSAN_BUCKET_LOCKS - 1);
-> > +        func(&map->tsan_bucket_locks[lock_idx]);
-> 
-> Hmm I ran into an issue with:
-> 
->      ../util/qht.c:286:10: error: incompatible pointer types passing 'const struct qht_tsan_lock *' to parameter of type 'QemuSpin *' (aka 'struct QemuSpin *') [-Werror,-Wincompatible-pointer-types]
+On 1/10/23 00:29, Philippe Mathieu-DaudÃ© wrote:
+> +static const char *sname[] = {
 
-Gaah, sorry. I didn't notice this because of unrelated noise due
-to having to configure with --disable-werror. Fixed now by removing
-a bunch of const's and also using .lock.
+Oh,
 
-> > +static inline void qht_bucket_lock_destroy(const struct qht_map *map,
-> > +                                           struct qht_bucket *b)
-> > +{
-> > +    qht_do_if_first_in_stripe(map, b, qemu_spin_destroy);
-> > +}
-> 
-> Who is meant to be calling this?
+   const char * const sname[]
 
-Should have been removed in v2; fixed now.
+should have caught that the first time.
 
-I've uploaded the v3 series to https://github.com/cota/qemu/tree/tsan-v3
 
-Please let me know if you want me to also mail it to the list.
-Thanks,
-
-		Emilio
+r~
 
