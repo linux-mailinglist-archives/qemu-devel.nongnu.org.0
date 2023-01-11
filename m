@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA6B66569C
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 09:58:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026AA6656B6
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 10:01:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFWvR-0008K6-5M; Wed, 11 Jan 2023 03:57:37 -0500
+	id 1pFWyW-0001o9-Mm; Wed, 11 Jan 2023 04:00:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFWvN-0008HZ-AA
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:57:34 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFWyS-0001nO-3u
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 04:00:44 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFWvL-0000Tk-IY
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 03:57:33 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFWyQ-0000sV-88
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 04:00:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673427449;
+ s=mimecast20190719; t=1673427636;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oCZp470aw4dEjZsFd+fqL7Enxs229S6a8dCK934dTM4=;
- b=Od9xYVUTXDL6yDN+TUZYNhslIcoelTmnLC3fdatXeUGmMtiF2DDbC29X+WMW0VuN3oCQwW
- bgOzNsQrs4TDRd10CmgLfEfrneGSoP3XIwE+tGaN03+f8SXtcppyOzEvUyPFeDUAyppikO
- zS2xZe9ZXXSahl49eRkXZVP5QbOmpKU=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6fVZh4pfsJpmZbOYSBkRk4GHEkxKt9nd3zTIFVmbyEA=;
+ b=V602NJHdQXe5+PCfkwg2jnIhyI4Jv0qlEQIjKmIKMhvVng/vrxBZZbKY9ENAxTR6V70Ne+
+ p6MPL4ESSvYo5TBVyLgd9vP0Wy6q585qDIZv5x332tKqjrg/+OvxUdoa1qiPqVNjFR9iX8
+ A0UHxEZelSVKmmkKua0xBIrhLt98csE=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-194-pJztc_7eM0S0fZLtNs3Bng-1; Wed, 11 Jan 2023 03:57:28 -0500
-X-MC-Unique: pJztc_7eM0S0fZLtNs3Bng-1
-Received: by mail-qv1-f71.google.com with SMTP id
- q17-20020a056214019100b004b1d3c9f3acso8101083qvr.0
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 00:57:28 -0800 (PST)
+ us-mta-470-PsMFFQkKOwmlEA9kksbR8g-1; Wed, 11 Jan 2023 04:00:34 -0500
+X-MC-Unique: PsMFFQkKOwmlEA9kksbR8g-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ ff17-20020a05622a4d9100b003abec48d547so5204594qtb.21
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 01:00:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oCZp470aw4dEjZsFd+fqL7Enxs229S6a8dCK934dTM4=;
- b=RA6e+xKv3lZbXXHASDhl69WsXbtMNgiopXTLX6qfrLnKQw7MV/rgAFWACpiWr5CZab
- aNcqqZjZ2QCVYhaYV0Pm/bBH5S1q0UJQmMs0NEa8Q+OXW41J2tMo/8P468UNiTiDuz9F
- +eV5LV1IsVxvYlma+r8gLBDXvvT/8nGs92xlHKLmtGIQZDXI6kZ0c1FOUggYb+HzHpAL
- BYMm5JbCebrGx2WwMKrVPazdYcFkUS0CElqiOgrxHOL5KcthXaagN71U8ceu2mNyrqIh
- biCqHYd+MxTa+o1ZlFpbqCf7p6/KzHT+9/kIzHfGBLOX16QnzRtV2pnt8odNk03NUsGW
- 6AQg==
-X-Gm-Message-State: AFqh2kqjpPeM6KfoQeuv2xrPwIRJeiYN8Sp7TmeBaB92b8mpVjWkxWJ/
- VeeamBDWsDO4QqpveW42vFMYyuISLErU/uoXkxY1fKhnNGv07XRpIz3oMd4r7VuI6vKcRx8S2nd
- x5OI5lbyk8rDEH/o=
-X-Received: by 2002:ac8:41d4:0:b0:3a5:402:4bcf with SMTP id
- o20-20020ac841d4000000b003a504024bcfmr99558560qtm.24.1673427448231; 
- Wed, 11 Jan 2023 00:57:28 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtf1DVxBh1iPHh4gDjTTUs+xnP/MFMBHIprnZ9rnb16rmsqdKgzvommHBXUsn7MSOg1haxENA==
-X-Received: by 2002:ac8:41d4:0:b0:3a5:402:4bcf with SMTP id
- o20-20020ac841d4000000b003a504024bcfmr99558532qtm.24.1673427447981; 
- Wed, 11 Jan 2023 00:57:27 -0800 (PST)
+ bh=6fVZh4pfsJpmZbOYSBkRk4GHEkxKt9nd3zTIFVmbyEA=;
+ b=l3CmaQSghMcyaVuhX3pchUyXCb7xzAlJC9vdjPe4pS2/7M5nx8/2c1gZ/1M7Bk4kIT
+ HwZwgx5ea8TNtsB+w39d6ayTkRVMiQL2+vkqg4dt+AfdZn4r86On5FMupvhUNDs8Z+rI
+ Gh4/V1AWdogHZjPQ8PJV3AZ0FH1iyK18GzqrOKOFcImToQFvTI1DjZ+zW2AYgei+qUn5
+ FND6N1n/FjQZ/v8uRSO8GOujWC/2aD8+KPpvyhYoD5X8LAylrW125D3AbkP/tLloBXhw
+ /Op+3T/qWjroXKyu3+d9cLzReYqOOBGQcHsRttoL67LacLWL3cZB6N0plOJXprLHzux2
+ gF9w==
+X-Gm-Message-State: AFqh2kri/5e9v2szrY3W7/1haFUOpzOBBClu+sPWLK9scBZPwJSEUyMJ
+ gttbSzyPFApQFtBxZg0Iyitk60ukN1j3CwlXfrDAn861jEkwrWqIyWtOGG4Zo3HgTpKJsORdT+N
+ DDy58qQmQsGDu9VU=
+X-Received: by 2002:a05:622a:4cc5:b0:3ac:c333:484 with SMTP id
+ fa5-20020a05622a4cc500b003acc3330484mr19366738qtb.9.1673427634410; 
+ Wed, 11 Jan 2023 01:00:34 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsxxI6TtBwQ5lXVg/ea9lcDYALmua1c7tkdHLqfy2/kdbedjjtjdcEFiGQFUvYF7ebroQL6Xg==
+X-Received: by 2002:a05:622a:4cc5:b0:3ac:c333:484 with SMTP id
+ fa5-20020a05622a4cc500b003acc3330484mr19366697qtb.9.1673427634161; 
+ Wed, 11 Jan 2023 01:00:34 -0800 (PST)
 Received: from [192.168.0.2] (ip-109-43-176-91.web.vodafone.de.
  [109.43.176.91]) by smtp.gmail.com with ESMTPSA id
- t20-20020a05622a149400b0035d432f5ba3sm7371201qtx.17.2023.01.11.00.57.23
+ x10-20020a05620a448a00b006faa2c0100bsm8746892qkp.110.2023.01.11.01.00.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 00:57:27 -0800 (PST)
-Message-ID: <e65bce5b-977c-ed19-9562-3af8ee8e9fba@redhat.com>
-Date: Wed, 11 Jan 2023 09:57:22 +0100
+ Wed, 11 Jan 2023 01:00:33 -0800 (PST)
+Message-ID: <f2433967-3c97-e4d7-9e2f-577b24c2369a@redhat.com>
+Date: Wed, 11 Jan 2023 10:00:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v14 04/11] s390x/sclp: reporting the maximum nested
- topology entries
+Subject: Re: [PATCH v14 05/11] s390x/cpu topology: resetting the
+ Topology-Change-Report
 Content-Language: en-US
 To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
 Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
@@ -77,9 +77,9 @@ Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
  armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
  scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
 References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-5-pmorel@linux.ibm.com>
+ <20230105145313.168489-6-pmorel@linux.ibm.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230105145313.168489-5-pmorel@linux.ibm.com>
+In-Reply-To: <20230105145313.168489-6-pmorel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -90,7 +90,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,73 +107,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 05/01/2023 15.53, Pierre Morel wrote:
-> The maximum nested topology entries is used by the guest to know
-> how many nested topology are available on the machine.
+> During a subsystem reset the Topology-Change-Report is cleared
+> by the machine.
+> Let's ask KVM to clear the Modified Topology Change Report (MTCR)
+> bit of the SCA in the case of a subsystem reset.
 > 
-> Currently, SCLP READ SCP INFO reports MNEST = 0, which is the
-> equivalent of reporting the default value of 2.
-> Let's use the default SCLP value of 2 and increase this value in the
-> future patches implementing higher levels.
-
-I'm confused ... so does a SCLP value of 2 mean a MNEST level of 4 ?
-
 > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 > ---
->   include/hw/s390x/sclp.h | 5 +++--
->   hw/s390x/sclp.c         | 4 ++++
->   2 files changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
-> index 712fd68123..4ce852473c 100644
-> --- a/include/hw/s390x/sclp.h
-> +++ b/include/hw/s390x/sclp.h
-> @@ -112,12 +112,13 @@ typedef struct CPUEntry {
->   } QEMU_PACKED CPUEntry;
+...
+> diff --git a/target/s390x/kvm/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
+> index f9785564d0..649dae5948 100644
+> --- a/target/s390x/kvm/kvm_s390x.h
+> +++ b/target/s390x/kvm/kvm_s390x.h
+> @@ -47,5 +47,6 @@ void kvm_s390_crypto_reset(void);
+>   void kvm_s390_restart_interrupt(S390CPU *cpu);
+>   void kvm_s390_stop_interrupt(S390CPU *cpu);
+>   void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info);
+> +int kvm_s390_topology_set_mtcr(uint64_t attr);
 >   
->   #define SCLP_READ_SCP_INFO_FIXED_CPU_OFFSET     128
-> -#define SCLP_READ_SCP_INFO_MNEST                2
-> +#define SCLP_READ_SCP_INFO_MNEST                4
+>   #endif /* KVM_S390X_H */
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index c98b93a15f..14798ca305 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -122,6 +122,7 @@ static void subsystem_reset(void)
+>               device_cold_reset(dev);
+>           }
+>       }
+> +    s390_cpu_topology_reset();
+>   }
 
-... since you update it to 4 here.
+Would it make sense to add a "if (s390_has_topology())" check around the new 
+line?
 
->   typedef struct ReadInfo {
->       SCCBHeader h;
->       uint16_t rnmax;
->       uint8_t rnsize;
-> -    uint8_t  _reserved1[16 - 11];       /* 11-15 */
-> +    uint8_t  _reserved1[15 - 11];       /* 11-14 */
-> +    uint8_t  stsi_parm;                 /* 15-16 */
->       uint16_t entries_cpu;               /* 16-17 */
->       uint16_t offset_cpu;                /* 18-19 */
->       uint8_t  _reserved2[24 - 20];       /* 20-23 */
-> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-> index eff74479f4..07e3cb4cac 100644
-> --- a/hw/s390x/sclp.c
-> +++ b/hw/s390x/sclp.c
-> @@ -20,6 +20,7 @@
->   #include "hw/s390x/event-facility.h"
->   #include "hw/s390x/s390-pci-bus.h"
->   #include "hw/s390x/ipl.h"
-> +#include "hw/s390x/cpu-topology.h"
->   
->   static inline SCLPDevice *get_sclp_device(void)
->   {
-> @@ -125,6 +126,9 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
->   
->       /* CPU information */
->       prepare_cpu_entries(machine, entries_start, &cpu_count);
-> +    if (s390_has_topology()) {
-> +        read_info->stsi_parm = SCLP_READ_SCP_INFO_MNEST;
+Anyway:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-This seems to be in contradiction to what you've said in the commit 
-description - you set it to 4 and not to 2.
-
-  Thomas
-
-
-> +    }
->       read_info->entries_cpu = cpu_to_be16(cpu_count);
->       read_info->offset_cpu = cpu_to_be16(offset_cpu);
->       read_info->highest_cpu = cpu_to_be16(machine->smp.max_cpus - 1);
 
 
