@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EEC16667E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 01:38:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965CC666804
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 01:43:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFlam-0007ts-1b; Wed, 11 Jan 2023 19:37:16 -0500
+	id 1pFlaq-0007wP-I7; Wed, 11 Jan 2023 19:37:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFlak-0007s4-Jc
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:37:14 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1pFlao-0007vs-8Q
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:37:18 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFlaj-0001jJ-6F
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:37:14 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id v23so17523527pju.3
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 16:37:12 -0800 (PST)
+ id 1pFlam-0001sa-QR
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:37:18 -0500
+Received: by mail-pl1-x633.google.com with SMTP id v23so13660889plo.1
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 16:37:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=P8D66QBPX4fZgqOG7/VW8Yb8evSDFfLLLM0zaFKClFo=;
- b=rSbLegtANOTR2ZB/+rlm7Y1xRLvZck9Hp0mxHk+iVC2f13fHVCvsLap21DtLjzknyk
- yH4SUzmJZmbdxPov4EmpBBnCMmT3pO63eP+cBiSJp3N6eKY/j6Em8c7y/68TPLtuu5C9
- 38A5SG9dqZcvcGvNP13BhDHjezlJmfMsf2mF9a+GRKTpe1QiHX2b+g59HMr2HklWiFwA
- ug8uCUL9qhtxmi9rnyu0i5h5dZeHoXrCJOhpcy0EAZ7B0b57X2xERVol3ti8wPANklP/
- GikqN8840KRYpc/1CDDkc345o4NPX3TyurteWVEyw7frDTbTWa8OEROHg8cc05tqqyeM
- PsdA==
+ bh=l9App3jW8qVuiMNt5K2EeZDGvR6Z74yGDixZZP1zX9E=;
+ b=j8gRp0uSxcwp09/xZD+HnyySUq4V60/AVCwDRmFtDkSvfyk2QVY5Kbf7uIrbwg1lHj
+ St1870SZcwIo37pjGBhcp9rlyb2cVl5o5I1ywPjmA1mDK6his8scHTSWz7aBC3aX75nx
+ uaqkSQ03DLiQuRTWYOaYerHEMqFnXPFUwQQl6wfCSP7oQK68G8G3KQnKf+kzwPjwIjK7
+ RjJbvhPFwjSONg3KvhFE2yQTLWPRFm4zrHXCppvAssfT/np0Z3z7lDVNNn9nuwlGk15f
+ s653MMt1OoJXGdqMYwoUVVSX4QkrCaxBrf2HtPovn/qkbVt4wHKTu9dJLkowZcGaihfb
+ nH7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=P8D66QBPX4fZgqOG7/VW8Yb8evSDFfLLLM0zaFKClFo=;
- b=KhBH0ZMmCaxgrbcGwaoBfT1demMOPTostqDYjpQteWvXNbj1K4vS1FvHC56lSZ0gI/
- p8+TADHEyVIh2KABGy0YoCw+B9WIi8tJAZg8GDfTjnw82bokngMi6s4qfz9myc794hKr
- WYQBQRhsi4m14QYW2vNicKzyWdUic6OUJnd3eM7a8Yw6M7O/riE4hegpuY26CMxETUEe
- K+Qu2q2/YdG02p5b9GehTLQC+AUPwc0G/TwfvFUboe6qAQNufuhElwDfHj3Ha/kWFwYU
- ltRgJjp1E7QTqlQsCtX6XwDpQOaITniIof3+QG9inpizLsNoHrjQSgtGHrta09gg/5yu
- 0QSg==
-X-Gm-Message-State: AFqh2kpKkcH54x7gh35KSHcgPI2hjLj7/0QejXY5cKcN7c+jpnzivOWF
- zOKRgwQzFJ5j+j6xkP54nLhWQA==
-X-Google-Smtp-Source: AMrXdXs6ZKDxhmOUPG2eDHzcx776wA93Xks+2RCfGIWf6SLUuncO3Np/hAKVrKsvwKkf/hgns9zsrg==
-X-Received: by 2002:a17:902:a402:b0:191:7d3:7fe4 with SMTP id
- p2-20020a170902a40200b0019107d37fe4mr66366586plq.59.1673483832345; 
- Wed, 11 Jan 2023 16:37:12 -0800 (PST)
+ bh=l9App3jW8qVuiMNt5K2EeZDGvR6Z74yGDixZZP1zX9E=;
+ b=lrgso1ZV8yXW+BMNhJV23GQWn23fAaEsJy5vT/qFN0IEnSJORBzC0Dy/0n7LY12/Nj
+ lv3bjJmhfXbGxoDlZjP3O01Bo3ptcSW4lKjyVangVMQZcEOFZAu0iqHd00z5xZuRN71r
+ i1ew4RJHTCKGU9xqc5FLgDz6o8SRrGTpa+gtbY+HP1i/NiKfFka0457F3Ak5Ym53KezF
+ Ted1N7y8AOjv1ogsEFDtT7MDg7G2WpfEOkyzk7NPa6GgYA1b5yKSxNtevfJHCUmvXq0i
+ cIFTpiDms4eJi4s6eEBTvgAhLjMEHR6IE/khv0puZxfxR7+JrX18tWmEJWN9Z3fzaZIE
+ jQnA==
+X-Gm-Message-State: AFqh2kqA+KX0z4SgpDEsRzcFpwF4TTCXcPzpXv1z56wFgkSNVNX3Eojn
+ 6vIfH+KPYeAQKaRMLjkGNBnmU3ppWI7ov5e+
+X-Google-Smtp-Source: AMrXdXtcEATyuFcb385dKTxa/IRUbqWlZFkkpmIbwaBRw9Bju9FLjMP1QfeUc0C/Hf7r35Nmgghqfg==
+X-Received: by 2002:a17:902:e2c2:b0:191:1545:a652 with SMTP id
+ l2-20020a170902e2c200b001911545a652mr3510064plc.31.1673483835477; 
+ Wed, 11 Jan 2023 16:37:15 -0800 (PST)
 Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- u12-20020a17090341cc00b0019327a6b740sm7994562ple.308.2023.01.11.16.37.09
+ e14-20020a170902784e00b00186f608c543sm10654086pln.304.2023.01.11.16.37.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 16:37:11 -0800 (PST)
-Message-ID: <b316e3fd-69b1-4be4-a748-53116fa52576@linaro.org>
-Date: Wed, 11 Jan 2023 09:58:38 -1000
+ Wed, 11 Jan 2023 16:37:15 -0800 (PST)
+Message-ID: <325310d0-aad6-fc39-748a-80762d644dd8@linaro.org>
+Date: Wed, 11 Jan 2023 10:02:39 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 04/18] hw/arm: Use full "target/arm/cpu.h" path to include
- target's "cpu.h"
+Subject: Re: [PATCH 05/18] target/arm: Move CPU QOM type definitions to
+ "hw/arm/cpu.h"
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
-Cc: ale@rev.ng, Andrey Smirnov <andrew.smirnov@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- Niek Linnenbank <nieklinnenbank@gmail.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Antonio Caggiano <antonio.caggiano@collabora.com>,
- Rob Herring <robh@kernel.org>, Antony Pavlov <antonynpavlov@gmail.com>,
- Jan Kiszka <jan.kiszka@web.de>, Beniamino Galvani <b.galvani@gmail.com>
 References: <20230110164406.94366-1-philmd@linaro.org>
- <20230110164406.94366-5-philmd@linaro.org>
+ <20230110164406.94366-6-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230110164406.94366-5-philmd@linaro.org>
+In-Reply-To: <20230110164406.94366-6-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -103,18 +95,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/10/23 08:43, Philippe Mathieu-Daudé wrote:
-> First we want to introduce a new "cpu.h" header in the "hw/arm/"
-> namespace;
+> +++ b/target/arm/cpu.h
+> @@ -26,6 +26,7 @@
+>   #include "cpu-qom.h"
+>   #include "exec/cpu-defs.h"
+>   #include "qapi/qapi-types-common.h"
+> +#include "hw/arm/cpu.h"
 
-Do we?  Is that really the best name (not having seen its contents).
+I'm not a fan of this.
 
-> second we would like to get rid of '-I target/$ARCH/'
-> in the CPPFLAGS.
-> Use the full path to "cpu.h": "target/arm/cpu.h".
-
-That seems a worthy goal for hw/ though.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+If you want a smaller version of cpu-qom.h here in target/arm/, for use by hw/, that's one 
+thing.  But target/ should not be reaching back into hw/, IMO.
 
 
 r~
