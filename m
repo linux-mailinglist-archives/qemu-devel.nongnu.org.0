@@ -2,90 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A915665585
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 08:55:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D553665582
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 08:55:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFVuk-0004JL-Ao; Wed, 11 Jan 2023 02:52:50 -0500
+	id 1pFVul-0004Jt-77; Wed, 11 Jan 2023 02:52:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pFVuW-0004FV-81; Wed, 11 Jan 2023 02:52:38 -0500
+ id 1pFVuY-0004FZ-Cl; Wed, 11 Jan 2023 02:52:39 -0500
 Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pFVuU-0006Aj-B7; Wed, 11 Jan 2023 02:52:35 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 7FA4C3200970;
- Wed, 11 Jan 2023 02:52:31 -0500 (EST)
+ id 1pFVuW-0006B4-Jy; Wed, 11 Jan 2023 02:52:38 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 92C1D320095E;
+ Wed, 11 Jan 2023 02:52:34 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 11 Jan 2023 02:52:32 -0500
+ by compute5.internal (MEProxy); Wed, 11 Jan 2023 02:52:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1673423551; x=
- 1673509951; bh=yjjzkGl9WploOz3oaavu6EMFqtcnpfOdirkUoRQSSoE=; b=t
- pc8ys+7IV8ieVHxF1Lvwsk04oziNpB0RIUyAtNznuGfvJhVq0/dtOFEZZQBUoJuk
- YRib+Ugbkwk1gBEuUecGBAuoaCYyFlGNzXACLdIeIRvmrg9pXzZQKG0t01t1dJNR
- A1gyLB+b6lr444rBCszLyg7W3yTkbFJjF9jA6sfAfLCM4dgIB6IMECnO6GG6rlDD
- sz25+22s9UXVAS4o7fClSEGU43Q5sZ8DQhivcr+OOWAQqv4j6f2MPhz+Qu2rzv6X
- 4osWHbiM5Mi5C7ZcbRveOEzAq/Guc4fUBpU3/E2atczEiG6vJ9NJ3rVj2cvDcOVe
- 0ZSfDKgh10ueMqRqV+kjg==
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1673423554; x=
+ 1673509954; bh=yy8JJfEpU2SzZjOLtXC9HKHw5xPoepkZ9hRJ5KsAihs=; b=b
+ ItV66aCOiKaE5Y4fKUS/q0j4PnDbqvxC06pLuR5jmGCftXgjAPSRoXspcH3s7EeU
+ 4vSQFR4Mj95HUxSWuhdiIadpDoFtwDdMfbEjUEnaqnGam7pvn86V/7URxBmY5YEE
+ USpvBmqAvVyaU4N1BHA+SkQVOXHLM9yodAwWYD+yhk7j5Bgof1n+rPueGWbdQvBZ
+ m0tgrWerNS+LZZ3QTLAT2I2CTGzCFwCrj2bifoEXWGsV9PQfUr3S4mUXt9A8Bmhj
+ SDQYtGlCh+t3DH+eVI1bBjdvXDHTi5/HtIXPghzCMIumVRnu+ytiE/9cQIqeT4H4
+ cKpM9LbnCpEYuxIkHalGg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1673423551; x=1673509951; bh=yjjzkGl9WploO
- z3oaavu6EMFqtcnpfOdirkUoRQSSoE=; b=eEuNwOUjkR0M0GIo/DiK098BZ7xgq
- 0TcWAVv5G6WFzzxIPRP2BRAX6p01idhOmxHCJPpbQ3POvwZhuO9WregKhsjRlAle
- /y+1tmHfOF87yeB+t3PFuRY82ydPrur5w6F8JFccGP/IcS+LMqXyneW5FPEjnZV9
- 8J9BOlh2LBe97A6fjuKzVp4d8Cmh09enrMcZXHq6W1Sny9THSw5vO7AALiHx0SHG
- Q/QVKWCWSryOkPgo4gkHwWwWSZT0uKGiB4mrCW56JTCALlLf+Ie0XlBR6FjYVRKW
- 2qWfuq8togLQswCFU8/sQaSl7keZiV4Wm11udjvMIdtgXF/iGICh6SXTA==
-X-ME-Sender: <xms:v2q-YzV94zfR1PwJnakY9ybKXR2l3kJVngl_h8zMk47EA8n8dc7lMA>
- <xme:v2q-Y7kJLNlYpoKXTtmgyHJRfZFKGb4h0LpVoaDvNZ2F6Usr8EavnDh_u39q2v7K1
- QMYly-sQvnl_ew5JQ0>
-X-ME-Received: <xmr:v2q-Y_axaGSzTDK-ELM3vkbKmX73zNon7459wuLq04BypeLtM_KwB-nzysITpAFiHE13foWYPm8>
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673423554; x=
+ 1673509954; bh=yy8JJfEpU2SzZjOLtXC9HKHw5xPoepkZ9hRJ5KsAihs=; b=W
+ AFhfj+5xYY7BsFWYwVZ1u5LzQ2vCubMtsRaumVbFlb/6DrphKlEdQ00/miFJaDPW
+ PsVAoWW87DJVTMdel3qxQpmU8GwTfr13ZU6iSWnhMCD7NmTJpAmuGmGg4853mFwy
+ GXEOHEjnssLcPwvp/5TBv0ugPXRPidur4ZaTnZqPYg4qaf6xW4lKraB94M2OAGDh
+ RcB1P5aflyw3IZk1AbMB2y1vzzr3xbnGn6ZIDK/s4D+lqJK7WSdrICNn3W9AHOCz
+ hgLycZnkxClzGsyHZCka+CzS1qve7I+uvQTv3aXVpM2g4/hyRZDZPSAH2EJQZmz+
+ gFkFdNJ3/ThiRmhmznDDg==
+X-ME-Sender: <xms:wmq-Y6OZPhhpCYMp5ue4KdLR5vz7BF_v3OxXl0zweNHUmpM1akq3tA>
+ <xme:wmq-Y4_46dTEwFW9bVKvq3zRQEOGqqn6irE8RyKWWDY9bwzaPypNE9nGYNEkmmIx_
+ WGTD1uop07gOSfWsb4>
+X-ME-Received: <xmr:wmq-YxSnI_rmDH9p_RxjqTO4mIq0TFVvy-Z5jQzsTxB5Xkun8wGG4TgvatRVjbnd1BTaYhfS7g8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleefgdduudefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
- udegnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:v2q-Y-U1IniJ5lIwqCLyuh1E79kgROlYQL3vAddziwtDCjJIvcdsvg>
- <xmx:v2q-Y9l0XGQnB37EEGJPQLdzDUOh1RyWekbClZh5ZMRtIFKLZ3ydLA>
- <xmx:v2q-Y7dSSzMcXZLOgh4kG1tcJEZ7Q7k4QGlsqrX24fU2cWU9eo1l2g>
- <xmx:v2q-YzV0fzZepe8dZzS32xaMbEIGwZ3E0En_MSxvLh_NrnpvxdRH6g>
+ cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgr
+ uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
+ htthgvrhhnpeefvedtueetueduffevgffgtdeftdeuleffhfeigeffkeegfeejfeffteej
+ iefhvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:wmq-Y6uHnSywpGNIMSISwMKZ1NJ-Y7SdkItRD-oDioz6W-86_4Y7gQ>
+ <xmx:wmq-Yycq3h5qGOVu5yArWNSoz4IllKWg76TJquzBYK6-X5rPFGblow>
+ <xmx:wmq-Y-2YUe34mOOL4h3O-HpGdwyK98OhfDAOYanIu6n7nIGLI2PPFA>
+ <xmx:wmq-Y6StYQ7kOMcKf05ANMLsPh4ccNj_fqkH58odf7xUZpSRp0aREQ>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 11 Jan 2023 02:52:29 -0500 (EST)
+ 11 Jan 2023 02:52:32 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
 Cc: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org,
  Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-stable@nongnu.org, qemu-riscv@nongnu.org,
- Guenter Roeck <linux@roeck-us.net>
-Subject: [PULL 4/6] hw/nvme: fix missing cq eventidx update
-Date: Wed, 11 Jan 2023 08:52:11 +0100
-Message-Id: <20230111075213.70404-5-its@irrelevant.dk>
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 5/6] hw/nvme: clean up confusing use of errp/local_err
+Date: Wed, 11 Jan 2023 08:52:12 +0100
+Message-Id: <20230111075213.70404-6-its@irrelevant.dk>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230111075213.70404-1-its@irrelevant.dk>
 References: <20230111075213.70404-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1414; i=k.jensen@samsung.com;
- h=from:subject; bh=ZXD346KYWBQ1ppNzRS48H9du8tV5U4eKh3aFsjFnjSA=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGO+aq2oCgLaoNslR0/8Se/AFY4fl03KSFATsS2D
- lji6oaQEz4kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjvmqtAAoJEE3hrzFtTw3pqX
- EIAIKyRJ2R3FFs91sLd4P03smHrDPltF9fp0PJW88rONRogEO70L2nHH/C8JdrPIZ8Ck7hz9bX+d0D
- HsV2oJy/FNvVt6KtjurkhRXuo+0lNhuMMZnPBicnEn+fsN4VbNJEfgIObQguer5GEVzQTA6xSCmUeo
- IEsSvLz5n6h4MpY+Ln3ik8EIa+FInQaaQQAowVTC4vnPQZgSjoEksGtpEmPltJlGX60f46wm1iJ+yH
- /2+elydbcb+Q+UgnukaSlkIs5ILzT97FNHIxMauOKb5yNmjHRBK26V2ybc2FL/p3ZWREKgY8MuPf18
- a+DcYrWNOKoiSYBVe6dYY7DQz4+qHfZ/AXiaf7
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6714; i=k.jensen@samsung.com;
+ h=from:subject; bh=y9p/LzRpNTe3Yz/ddOsHqjB/L2i++1ytQ11SKHteeK4=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGO+aq2emw1nDJ9ae6mUp/cNpfJz6aaNOTQHDTTZ
+ Z1vrAQ9+QokBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjvmqtAAoJEE3hrzFtTw3plc
+ 4H/A7cv9Nms1UCqbFOYzXZLawQCkMl6tQDArpfl+TEmCvG2IqmuOYmffDUUXJAqbxJqxYe9GI1wKTt
+ piQjx6EiZFrmS9gzmH88EMU0b3ERee6xCwKOm7z7WN8AUc8C6yqRESHTMwAt67BRdEYmAu7R8Tlmo9
+ f0NtWiYJSqVuxwhc13FbxX/ERKhKhqUyhTIWPN5dmuQzJ5cOYKa0mudft1KOxeGNev0ErzPgBWvbmA
+ 3ZZ7XcL5YW+Kp19e7ImWOUjtwfDHSCIC1kDM31h25cgUBrpGAdaFtRSjwekcy6C94I7s8btYXczh2r
+ 5qV7rFpjOqzajEYKanWA61R4Am73tu+Ajxu63j
 X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
  fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
@@ -115,50 +117,198 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Prior to reading the shadow doorbell cq head, we have to update the
-eventidx. Otherwise, we risk that the driver will skip an mmio doorbell
-write. This happens on riscv64, as reported by Guenter.
+Remove an unnecessary local Error value in nvme_realize(). In the
+process, change nvme_check_constraints() to return a bool.
 
-Adding the missing update to the cq eventidx fixes the issue.
-
-Fixes: 3f7fe8de3d49 ("hw/nvme: Implement shadow doorbell buffer support")
-Cc: qemu-stable@nongnu.org
-Cc: qemu-riscv@nongnu.org
-Reported-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/nvme/ctrl.c | 48 +++++++++++++++++++++++-------------------------
+ 1 file changed, 23 insertions(+), 25 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 28e02ec7baa6..226480033771 100644
+index 226480033771..b21455ada660 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -1334,6 +1334,15 @@ static inline void nvme_blk_write(BlockBackend *blk, int64_t offset,
-     }
- }
+@@ -6981,7 +6981,7 @@ static const MemoryRegionOps nvme_cmb_ops = {
+     },
+ };
  
-+static void nvme_update_cq_eventidx(const NvmeCQueue *cq)
-+{
-+    uint32_t v = cpu_to_le32(cq->head);
-+
-+    trace_pci_nvme_update_cq_eventidx(cq->cqid, cq->head);
-+
-+    pci_dma_write(PCI_DEVICE(cq->ctrl), cq->ei_addr, &v, sizeof(v));
-+}
-+
- static void nvme_update_cq_head(NvmeCQueue *cq)
+-static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
++static bool nvme_check_params(NvmeCtrl *n, Error **errp)
  {
-     uint32_t v;
-@@ -1358,6 +1367,7 @@ static void nvme_post_cqes(void *opaque)
-         hwaddr addr;
+     NvmeParams *params = &n->params;
  
-         if (n->dbbuf_enabled) {
-+            nvme_update_cq_eventidx(cq);
-             nvme_update_cq_head(cq);
+@@ -6995,38 +6995,38 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+     if (n->namespace.blkconf.blk && n->subsys) {
+         error_setg(errp, "subsystem support is unavailable with legacy "
+                    "namespace ('drive' property)");
+-        return;
++        return false;
+     }
+ 
+     if (params->max_ioqpairs < 1 ||
+         params->max_ioqpairs > NVME_MAX_IOQPAIRS) {
+         error_setg(errp, "max_ioqpairs must be between 1 and %d",
+                    NVME_MAX_IOQPAIRS);
+-        return;
++        return false;
+     }
+ 
+     if (params->msix_qsize < 1 ||
+         params->msix_qsize > PCI_MSIX_FLAGS_QSIZE + 1) {
+         error_setg(errp, "msix_qsize must be between 1 and %d",
+                    PCI_MSIX_FLAGS_QSIZE + 1);
+-        return;
++        return false;
+     }
+ 
+     if (!params->serial) {
+         error_setg(errp, "serial property not set");
+-        return;
++        return false;
+     }
+ 
+     if (n->pmr.dev) {
+         if (host_memory_backend_is_mapped(n->pmr.dev)) {
+             error_setg(errp, "can't use already busy memdev: %s",
+                        object_get_canonical_path_component(OBJECT(n->pmr.dev)));
+-            return;
++            return false;
          }
  
+         if (!is_power_of_2(n->pmr.dev->size)) {
+             error_setg(errp, "pmr backend size needs to be power of 2 in size");
+-            return;
++            return false;
+         }
+ 
+         host_memory_backend_set_mapped(n->pmr.dev, true);
+@@ -7035,64 +7035,64 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+     if (n->params.zasl > n->params.mdts) {
+         error_setg(errp, "zoned.zasl (Zone Append Size Limit) must be less "
+                    "than or equal to mdts (Maximum Data Transfer Size)");
+-        return;
++        return false;
+     }
+ 
+     if (!n->params.vsl) {
+         error_setg(errp, "vsl must be non-zero");
+-        return;
++        return false;
+     }
+ 
+     if (params->sriov_max_vfs) {
+         if (!n->subsys) {
+             error_setg(errp, "subsystem is required for the use of SR-IOV");
+-            return;
++            return false;
+         }
+ 
+         if (params->sriov_max_vfs > NVME_MAX_VFS) {
+             error_setg(errp, "sriov_max_vfs must be between 0 and %d",
+                        NVME_MAX_VFS);
+-            return;
++            return false;
+         }
+ 
+         if (params->cmb_size_mb) {
+             error_setg(errp, "CMB is not supported with SR-IOV");
+-            return;
++            return false;
+         }
+ 
+         if (n->pmr.dev) {
+             error_setg(errp, "PMR is not supported with SR-IOV");
+-            return;
++            return false;
+         }
+ 
+         if (!params->sriov_vq_flexible || !params->sriov_vi_flexible) {
+             error_setg(errp, "both sriov_vq_flexible and sriov_vi_flexible"
+                        " must be set for the use of SR-IOV");
+-            return;
++            return false;
+         }
+ 
+         if (params->sriov_vq_flexible < params->sriov_max_vfs * 2) {
+             error_setg(errp, "sriov_vq_flexible must be greater than or equal"
+                        " to %d (sriov_max_vfs * 2)", params->sriov_max_vfs * 2);
+-            return;
++            return false;
+         }
+ 
+         if (params->max_ioqpairs < params->sriov_vq_flexible + 2) {
+             error_setg(errp, "(max_ioqpairs - sriov_vq_flexible) must be"
+                        " greater than or equal to 2");
+-            return;
++            return false;
+         }
+ 
+         if (params->sriov_vi_flexible < params->sriov_max_vfs) {
+             error_setg(errp, "sriov_vi_flexible must be greater than or equal"
+                        " to %d (sriov_max_vfs)", params->sriov_max_vfs);
+-            return;
++            return false;
+         }
+ 
+         if (params->msix_qsize < params->sriov_vi_flexible + 1) {
+             error_setg(errp, "(msix_qsize - sriov_vi_flexible) must be"
+                        " greater than or equal to 1");
+-            return;
++            return false;
+         }
+ 
+         if (params->sriov_max_vi_per_vf &&
+@@ -7100,7 +7100,7 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+             error_setg(errp, "sriov_max_vi_per_vf must meet:"
+                        " (sriov_max_vi_per_vf - 1) %% %d == 0 and"
+                        " sriov_max_vi_per_vf >= 1", NVME_VF_RES_GRANULARITY);
+-            return;
++            return false;
+         }
+ 
+         if (params->sriov_max_vq_per_vf &&
+@@ -7109,9 +7109,11 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+             error_setg(errp, "sriov_max_vq_per_vf must meet:"
+                        " (sriov_max_vq_per_vf - 1) %% %d == 0 and"
+                        " sriov_max_vq_per_vf >= 2", NVME_VF_RES_GRANULARITY);
+-            return;
++            return false;
+         }
+     }
++
++    return true;
+ }
+ 
+ static void nvme_init_state(NvmeCtrl *n)
+@@ -7512,7 +7514,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+     NvmeCtrl *n = NVME(pci_dev);
+     DeviceState *dev = DEVICE(pci_dev);
+     NvmeNamespace *ns;
+-    Error *local_err = NULL;
+     NvmeCtrl *pn = NVME(pcie_sriov_get_pf(pci_dev));
+ 
+     if (pci_is_vf(pci_dev)) {
+@@ -7524,16 +7525,13 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         n->subsys = pn->subsys;
+     }
+ 
+-    nvme_check_constraints(n, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!nvme_check_params(n, errp)) {
+         return;
+     }
+ 
+     qbus_init(&n->bus, sizeof(NvmeBus), TYPE_NVME_BUS, dev, dev->id);
+ 
+     if (nvme_init_subsys(n, errp)) {
+-        error_propagate(errp, local_err);
+         return;
+     }
+     nvme_init_state(n);
 -- 
 2.39.0
 
