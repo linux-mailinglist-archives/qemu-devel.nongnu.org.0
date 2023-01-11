@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16647666339
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 20:02:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50E166633D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 20:05:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFgLQ-0001BP-A5; Wed, 11 Jan 2023 14:01:04 -0500
+	id 1pFgOm-0002pg-Iq; Wed, 11 Jan 2023 14:04:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pFgLO-0001A4-0o
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 14:01:02 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pFgOa-0002pT-WE
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 14:04:21 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pFgLL-0007ln-OH
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 14:01:01 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pFgOZ-0008Gr-Ag
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 14:04:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673463658;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=13Npydp0zZzvnCih+qoTnkVVmywH6CIJoTcKogs1DK0=;
- b=Ywken4ruPQpF7WUPtUdSzL09m8arr2DklYPPjNQ//z32xoLaHGC5OPgZHmKGiBAVIrH557
- czgmKDyONcLAot+7ScL2kmX7deO2c0ZEGy7C2vLKwe3fJ1rMskiIgPW6tQfy8NVzr9U+3Z
- GETZDEeBfTbiM3+PBIMYgE6XmTB0uEQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-672-pDC_Z0mnOIywHOvttWK6Hg-1; Wed, 11 Jan 2023 14:00:57 -0500
-X-MC-Unique: pDC_Z0mnOIywHOvttWK6Hg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- k18-20020adfb352000000b002bdd0a7a2b5so24395wrd.0
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 11:00:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=13Npydp0zZzvnCih+qoTnkVVmywH6CIJoTcKogs1DK0=;
- b=OBhguw6SYyPLQ8RLtrMC+MDSAzcT1635ZfBYIZXs98s3C4jN41yApFYsLJyjhilNJ1
- I2f5mE1mxPoU2AW+ix1TiFlnD8Ya4G5WytKNc7Tk7MZZAOjxlejEasDOw8CB/fxrkEzq
- uxePFDTkCch59F2CZtPjFkP1adPr+AtPZnsYX/LbPzq8fKVC7xAmNMIlvbiSgXrV317m
- A1tZMmAqioWNIe3sA9Ugvs442TKy3ZsdHMs6EyY2QtRcd6AVhIGGccDFt/LK7WK+C5vq
- 6IQp/yoR2iwhDWPPsxfLMgkH+em6v2Xxg9BgdI/2LAqB2Z46tsqMXA5nm5DkEGAx4swK
- 99jw==
-X-Gm-Message-State: AFqh2kogUuf2EwemlbR+nHlMeNIq4HrERU0YxaqZDONFKgFbnBF62FIy
- NCigu9P7nIN4hOGQXKWjrvInCGNuZ47sSRgXo3Ck7c5cZxgsVad5CK8fq2JimpjCgA8YiB9E8sp
- krOxO8iJyt7VyIWY=
-X-Received: by 2002:a05:6000:1d8b:b0:2aa:1d10:1ecf with SMTP id
- bk11-20020a0560001d8b00b002aa1d101ecfmr17508713wrb.37.1673463656286; 
- Wed, 11 Jan 2023 11:00:56 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtlsC3ag7ChrOvEprjpZR1ybLko+LAJVVklouzgiSSexC477l4tNdGHjvtT8sC3alDZujFoOA==
-X-Received: by 2002:a05:6000:1d8b:b0:2aa:1d10:1ecf with SMTP id
- bk11-20020a0560001d8b00b002aa1d101ecfmr17508701wrb.37.1673463656064; 
- Wed, 11 Jan 2023 11:00:56 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- f6-20020adffcc6000000b002bbdcd15e44sm10818258wrs.37.2023.01.11.11.00.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Jan 2023 11:00:55 -0800 (PST)
-Date: Wed, 11 Jan 2023 19:00:53 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Jiang Jiacheng <jiangjiacheng@huawei.com>, jdenemar@redhat.com,
- berrange@redhat.com
-Cc: qemu-devel@nongnu.org, quintela@redhat.com, yubihong@huawei.com,
+ s=mimecast20190719; t=1673463858;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=kew7Udu+8Xpl7T9ISKZdb4IbDk/nx+F7dQTocKBFIMQ=;
+ b=d5o+JDvusMmImy31gObYKEibkgNRssrsHig6T04e8ilP5SrY7LJhdAu3+6Lpytu9cc8T6R
+ Z2a8E/r0DhmnvWEYJpA1xadL7TNo+sfqykrEQ7KYrry0ncmb2t875LqfbgOw1wGDwTpJMY
+ Ku+nGpnHvYZ5Yng/Gly+1vbKFpDsVjc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-38-5vSd1wmcM2qZfPoSLgGnYA-1; Wed, 11 Jan 2023 14:04:17 -0500
+X-MC-Unique: 5vSd1wmcM2qZfPoSLgGnYA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 28C67811E6E;
+ Wed, 11 Jan 2023 19:04:16 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 11479492C18;
+ Wed, 11 Jan 2023 19:04:13 +0000 (UTC)
+Date: Wed, 11 Jan 2023 19:04:11 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Jiang Jiacheng <jiangjiacheng@huawei.com>, jdenemar@redhat.com,
+ qemu-devel@nongnu.org, quintela@redhat.com, yubihong@huawei.com,
  xiexiangyou@huawei.com, zhengchuan@huawei.com, linyilu@huawei.com
 Subject: Re: [RESEND PATCH 2/2] migration: report multiFd related thread pid
  to libvirt
-Message-ID: <Y78HZb0AG55Yp/i/@work-vm>
+Message-ID: <Y78IK7KuJ4zalm2p@redhat.com>
 References: <20230109121235.2666476-1-jiangjiacheng@huawei.com>
  <20230109121235.2666476-3-jiangjiacheng@huawei.com>
+ <Y78HZb0AG55Yp/i/@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230109121235.2666476-3-jiangjiacheng@huawei.com>
+In-Reply-To: <Y78HZb0AG55Yp/i/@work-vm>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,78 +80,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Jiang Jiacheng via (qemu-devel@nongnu.org) wrote:
-> From: Zheng Chuan <zhengchuan@huawei.com>
+On Wed, Jan 11, 2023 at 07:00:53PM +0000, Dr. David Alan Gilbert wrote:
+> * Jiang Jiacheng via (qemu-devel@nongnu.org) wrote:
+> > From: Zheng Chuan <zhengchuan@huawei.com>
+> > 
+> > Report multiFd related thread pid to libvirt in order to
+> > pin multiFd thread to different cpu.
 > 
-> Report multiFd related thread pid to libvirt in order to
-> pin multiFd thread to different cpu.
+> With multifd you may well want to pin different multifd threads
+> to different cores; so you need to include the 'id' and 'name' fields of
+> the multifd thread in the event.
 
-With multifd you may well want to pin different multifd threads
-to different cores; so you need to include the 'id' and 'name' fields of
-the multifd thread in the event.
+Are the 'id' / 'name' fields considered stable API for QEMU ?
 
-(Copying in Jiri and Dan )
+IIRC, the mgmt app merely requests the number of multifd threads
+and doesn't assign any identifying names/ids to them, unlike
+iothreads where the mgmt app gives an explicit 'id'.
 
-Dave
 
-> ---
->  migration/multifd.c |  4 ++++
->  qapi/migration.json | 12 ++++++++++++
->  2 files changed, 16 insertions(+)
-> 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 000ca4d4ec..f3f7e8ae31 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -17,6 +17,7 @@
->  #include "exec/ramblock.h"
->  #include "qemu/error-report.h"
->  #include "qapi/error.h"
-> +#include "qapi/qapi-events-migration.h"
->  #include "ram.h"
->  #include "migration.h"
->  #include "socket.h"
-> @@ -650,6 +651,9 @@ static void *multifd_send_thread(void *opaque)
->      int ret = 0;
->      bool use_zero_copy_send = migrate_use_zero_copy_send();
->  
-> +    /* report multifd thread pid to libvirt */
-> +    qapi_event_send_migration_multifd_pid(qemu_get_thread_id());
-> +
->      trace_multifd_send_thread_start(p->id);
->      rcu_register_thread();
->  
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index aafc940617..33fc319329 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -1286,6 +1286,18 @@
->  { 'event': 'MIGRATION_PASS',
->    'data': { 'pass': 'int' } }
->  
-> +##
-> +# @MIGRATION_MULTIFD_PID:
-> +#
-> +# Emitted when multifd thread appear
-> +#
-> +# @pid: pid of multifd thread
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'event': 'MIGRATION_MULTIFD_PID',
-> +  'data': { 'pid': 'int' } }
-> +
->  ##
->  # @MIGRATION_PID:
->  #
-> -- 
-> 2.33.0
-> 
-> 
+With regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
