@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 125F7666821
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 01:52:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 063BA6667FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 01:41:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFlae-0007qt-Lm; Wed, 11 Jan 2023 19:37:08 -0500
+	id 1pFlah-0007rS-BY; Wed, 11 Jan 2023 19:37:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFlad-0007qV-7y
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:37:07 -0500
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+ id 1pFlag-0007rK-5S
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:37:10 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFlab-0001rC-NZ
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:37:06 -0500
-Received: by mail-pf1-x430.google.com with SMTP id a184so12669301pfa.9
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 16:37:05 -0800 (PST)
+ id 1pFlae-0001re-Ll
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:37:09 -0500
+Received: by mail-pl1-x634.google.com with SMTP id w3so18583171ply.3
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 16:37:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=s8xRIRpw0WAo8Z5gQD/S+cALOK5Vh9UH9kuub8CTgUo=;
- b=wGUcMmtxM3A0vIUxWY+gHjIYPSUsi33O8rLYU5YfJjIoMLnGwOqEDjb+AYW8V+aCnG
- 90t9W/Lctjp1aQSrcKHqyhma8Iqy+gi+M+wa8PyDXKRrVigHeKwyUv8jPXup8q15w6Js
- wzudOtTPoYIYb+LfrlJisoxQqbEd1S/RuCMU9yJy11mAEf+ATZ22WjO3u9KO0gvp6Kaf
- yIH66EdFRHSyq1aJ519P7YVKNhP8MTMMekC2jDOjpmOf99aE+7etnZ+i9PKWuToJwhiM
- xZPO+kvruD8dEQSXXyy7zd7dBjJBpFaK2pDDpCqCOa97XNSHJUjEvRJc/grSi1xb3n9C
- Y1UA==
+ bh=2o3Yi5sN7ePUFpOmNGZWQT8Glbuuf7MSs/9JMhNYzkU=;
+ b=Ox2p9xjPHkvzhdqW3WM3lnQpAaNhgv6w4Dez3Ow9D8eP80CYgQSISUkoWTnLANfjys
+ /KB9jBjrY5qpf7y4reLn0H2q5mfmf2nj9vsm9I7NB1tjnfG+AWRgfemlLjdUX/pwxbmH
+ At2FF2LYOz61fIEtIDopGtDuDLeMfTgoP0fkY7kVMvod1J87LubOYZhQsgzuMhcVK28s
+ j+UBjRGcO+wxI+WMyZp6K1Ta0b8kFoDxKNroC5Nk/GTB5AQNOqhR7zdnH2iJNokOHpj5
+ bmTeyZeWuip6QRuR/6hzElPVCDaneaRp63CnAK8lHY+PRqJ3/2g3VC8z0cZjvGCN33/F
+ YUAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=s8xRIRpw0WAo8Z5gQD/S+cALOK5Vh9UH9kuub8CTgUo=;
- b=yU/FrOFxGZu+2UkZFgMmYZKi31H+l64GBoidbf0i9CAqajWUarxgSKFkT5WvWxr/NE
- a3kDPlX1H/+qIAETNwwspDp8xcraGKrKgDcvMTjU7QMq4HpgtpgV4lqLWIVA6eKkBCIa
- YKB/dR7qBlM7juFPjhMAYQg6mw0xvkEjg8V+sZPoNG5rr/ihYHggtwz1Gv3KUl5nu67t
- edVREsF06agWhXzim1jMARuNpINVmOHIqynTdxA0etsfITq3lpQx3hrCcxGTuYaC8hSv
- 6nxIOekwe6RQHsqRbURKBGHgVJDOq2fTFKXKIqZxbJ/EEVGHS1QT1hArEVdB+dMam2F6
- N8fQ==
-X-Gm-Message-State: AFqh2ko37wn5eVJNkDUvgSHg1V3ctorxKEUgyWVaK5nnzj/GAtEDvFoS
- wHgBuUavzh/YnunI7DqIADXu8g==
-X-Google-Smtp-Source: AMrXdXtc6o/CS9AzkOtDd8MD+cIVACtXbeJWASrr/nypQCt7c/OI8ioroiIOJ8IHb7XmpZmIle20aA==
-X-Received: by 2002:a05:6a00:1da5:b0:577:9807:2db8 with SMTP id
- z37-20020a056a001da500b0057798072db8mr77681108pfw.3.1673483824263; 
- Wed, 11 Jan 2023 16:37:04 -0800 (PST)
+ bh=2o3Yi5sN7ePUFpOmNGZWQT8Glbuuf7MSs/9JMhNYzkU=;
+ b=5yZANcttNU8f9tBoMXZA2/aWc/R2f5GTCQIdnfC0f+gXQGRpBZIAD+G3XJZGwZc+X0
+ 3iNt/hXM0pBvd4NYVSy+G9uIS25TDoQhLqoVd7nqPy6DSGyWk4A7kooJvblcfoYXQyoA
+ ibbUhvEq62pj932TqgEg6RCh7yKw4ishDZPvSwbebLeTd0QvQDi256wTBcdRrQvA9wh1
+ AN0hyZ6rpYeET/gFFrHDaRC2xXQX9DcDD8rLjLQAnMbTah/6/yaVvPvhR9L/BramLdcr
+ Ki/HnO5URZqd7WvwcJx04dUPeum2V0K+K91Rt9GEHItRnLO27zbQCundlJ4qRMr+P2xl
+ BUkw==
+X-Gm-Message-State: AFqh2koKSabRcPtYyZXtcGApvjDvekQDrO/dZBwNON3xSHFLNEF71+WE
+ uA7FmfDPZsKKqkn11BwQsY60mX+f8I9KYgrm
+X-Google-Smtp-Source: AMrXdXtlY+PGBJ94UeYS7zCNtDlZjSYP7WIeOoKLGX4qNPObHGtgKh2P0Q86CI9ULpv2vracESKFqg==
+X-Received: by 2002:a17:902:edc5:b0:192:c882:703e with SMTP id
+ q5-20020a170902edc500b00192c882703emr35097929plk.43.1673483827324; 
+ Wed, 11 Jan 2023 16:37:07 -0800 (PST)
 Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- 8-20020a621608000000b0058a3d8eab6asm4357007pfw.134.2023.01.11.16.37.03
+ 3-20020a170902c10300b001930b189b32sm3991832pli.189.2023.01.11.16.37.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 16:37:03 -0800 (PST)
-Message-ID: <5ae82175-d692-0add-7e16-df6a4a65d247@linaro.org>
-Date: Wed, 11 Jan 2023 09:55:09 -1000
+ Wed, 11 Jan 2023 16:37:06 -0800 (PST)
+Message-ID: <7cd88410-bd48-5bd1-07b0-d69480107e3d@linaro.org>
+Date: Wed, 11 Jan 2023 09:56:30 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 02/18] hw/arm/boot: Include missing 'exec/cpu-all.h' header
+Subject: Re: [PATCH 03/18] target/arm/cpregs: Include missing
+ 'target/arm/cpu.h' header
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 References: <20230110164406.94366-1-philmd@linaro.org>
- <20230110164406.94366-3-philmd@linaro.org>
+ <20230110164406.94366-4-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230110164406.94366-3-philmd@linaro.org>
+In-Reply-To: <20230110164406.94366-4-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -94,19 +95,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/10/23 08:43, Philippe Mathieu-Daudé wrote:
-> default_reset_secondary() uses address_space_stl_notdirty(),
-> itself declared in "exec/cpu-all.h". Include this header in
-> order to avoid when refactoring headers:
-> 
->    ../hw/arm/boot.c:281:5: error: implicit declaration of function 'address_space_stl_notdirty' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
->      address_space_stl_notdirty(as, info->smp_bootreg_addr,
->      ^
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
-> ---
->   hw/arm/boot.c | 1 +
->   1 file changed, 1 insertion(+)
+> +#include "target/arm/cpu.h"
 
+Just "cpu.h" in this file.
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
