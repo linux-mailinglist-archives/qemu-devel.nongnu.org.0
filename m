@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D69B6658C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 11:14:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 594C96658C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Jan 2023 11:16:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFY7U-0001Lk-3m; Wed, 11 Jan 2023 05:14:08 -0500
+	id 1pFY8t-0002aA-RT; Wed, 11 Jan 2023 05:15:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pFY7R-0001L7-LQ
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 05:14:05 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pFY8h-0002Va-WD
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 05:15:24 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pFY7Q-00047W-AQ
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 05:14:05 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pFY8g-0004MF-LY
+ for qemu-devel@nongnu.org; Wed, 11 Jan 2023 05:15:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673432042;
+ s=mimecast20190719; t=1673432120;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bJsHHs1F8wKM5FZiZb24/FG1NQWFNkip8dPI6KDq1yA=;
- b=Cxh1JODYgWBkSLXkD1CFUDazBiD4WylmdSpNVBL1+a0+3ZTb3WQPTNk91nc4hWw80s8o2h
- vwoW2fdBmbyyr1NgSmj6+tSx8aJQiY7CT8VP01SRQOL1Hizet8uaRUYgdiWQ3lEmqX5hB3
- detu0yQx02v8oPR0xgJoxXxVYjqDjdA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=taKacc8GXvovhu9NFEpRN/oe8aHcPhrWN/bGjcZ1K5c=;
+ b=XC7pmrjOuUq2xqAM8HSmjb4CA3H5m38I+bCIBqHqtRz9OmyYGjultVbBWnF0UCNqeGSNrT
+ gzUurSA2Ufy2v0/cHYixZpps+C5Zo7wCgnfsy2wwYkIITbStIv+pI9wxpPu4ro9FLXLFfD
+ BpUA7HZni5jo4nL+zpC7eJInE9xfGEU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-422-_qj2wBEQNuSBnNhO9_Zfpg-1; Wed, 11 Jan 2023 05:14:01 -0500
-X-MC-Unique: _qj2wBEQNuSBnNhO9_Zfpg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- fm17-20020a05600c0c1100b003d96f0a7f2eso10470974wmb.6
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 02:14:01 -0800 (PST)
+ us-mta-26-ajraYpA7PEmJESI_pwZRsg-1; Wed, 11 Jan 2023 05:15:17 -0500
+X-MC-Unique: ajraYpA7PEmJESI_pwZRsg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ fm17-20020a05600c0c1100b003d96f0a7f2eso10472782wmb.6
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 02:15:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:from:references
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bJsHHs1F8wKM5FZiZb24/FG1NQWFNkip8dPI6KDq1yA=;
- b=6QirDqiDRA2HjNEeRoI/Ldbovp9RYtavv/J0rah22tyS3BxKTZ5EKlYAKtHsg+nKaQ
- P29e3NfHZBVok8oRCrfRAnU++nJluWyi4cYzK277GUWw7LSuMyjTnGtRDCWO2OpA1u2a
- lgoLZhvFsnBtYdlLPj7IoiXrg06vTofvqkLD3InRNdJ6t6fVvB3EiKlgD1y3OwzEfyaM
- S7neu7+BtGBxAJ4l+VlT787V3vjaSK87ohTejgq6AQ1l5I/wGozDX/LccAdEwci15wk4
- km/j3Bwa+cIRd1kFI1MCxnqUF/4Aq5byl0VoTklhjxgepfcNhk9TSlNrkzSQuaW4TxXn
- Dduw==
-X-Gm-Message-State: AFqh2krI57Mo72eH7OBRUD0AY7wzJLF7XvS8vXjEtoJss7m9YgXcKjhj
- I9fHDMr/j7JHbtr6h5JaapvXrGIBfKMpTeViPqeJolYbdU0qTl1+AfhdTzvXyk3gB6XiMcB6+oM
- BSFxMpZskqe7lkuI=
-X-Received: by 2002:a05:600c:35d4:b0:3d2:2d2a:d581 with SMTP id
- r20-20020a05600c35d400b003d22d2ad581mr51046923wmq.30.1673432040293; 
- Wed, 11 Jan 2023 02:14:00 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXte/L7HpWHH6ZpDEJAprYJr/vGPwAZg126M3b/w3PAMzJzs4fXLJb27pTrhH+ctAR49MmP54A==
-X-Received: by 2002:a05:600c:35d4:b0:3d2:2d2a:d581 with SMTP id
- r20-20020a05600c35d400b003d22d2ad581mr51046907wmq.30.1673432040026; 
- Wed, 11 Jan 2023 02:14:00 -0800 (PST)
+ bh=taKacc8GXvovhu9NFEpRN/oe8aHcPhrWN/bGjcZ1K5c=;
+ b=Kgi1YhT3bc2/m1Jey8H/PDnmlD8M6RNuNpXcnfI75D8lO8IfDPv1q3O0H1j4z678v9
+ qTnyIH0Xs7SOydWU3RQMq6OVvB8/rITKpDi2F2L8JDh0AkljOXTrgcEtxkn7qTS0oKB2
+ lpOO5Nx9kVfVrjaVLH/Pb8l3t0c8Fp2AikHpPeddrFgJjkf8o9xsAcgzIbXxOXUL0QNq
+ BTHOsh49zJTgy38v79QktKFxPirAnQ4diO61K13p5FcITSQ8lPJsr7IvPe0MFZL0S7TE
+ 7tKGcDvKQyVjZoWhdMMNQGGIg1eYs7VvlXgB6g3qG5mPIZsVnmb7NoJGKWFfoDsai1rs
+ JtJA==
+X-Gm-Message-State: AFqh2koapnDwmRtUkgBoV4ds4xMSMIKlppUU/TjHLYb4VKXJjdi+llaK
+ tS3RjUaULJPtVqmNyDXR1BjrUDYOrAw3VxOsU3mbcr69SfDfSaW5Vbjo9JZ7Vziqaf/p/upyAMu
+ +AEH2EoqMQzuaO2U=
+X-Received: by 2002:a05:600c:246:b0:3d3:3deb:d91f with SMTP id
+ 6-20020a05600c024600b003d33debd91fmr54284887wmj.5.1673432116362; 
+ Wed, 11 Jan 2023 02:15:16 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsuQa+/KiUsGRRJ/Xs9LZMum5IL/im0uARUTA35ON02uLKiQRTX7Fg1LjijekOmj9zGbJRsFA==
+X-Received: by 2002:a05:600c:246:b0:3d3:3deb:d91f with SMTP id
+ 6-20020a05600c024600b003d33debd91fmr54284869wmj.5.1673432116027; 
+ Wed, 11 Jan 2023 02:15:16 -0800 (PST)
 Received: from ?IPV6:2003:cb:c704:5b00:5b3c:db46:8eb5:ee24?
  (p200300cbc7045b005b3cdb468eb5ee24.dip0.t-ipconnect.de.
  [2003:cb:c704:5b00:5b3c:db46:8eb5:ee24])
  by smtp.gmail.com with ESMTPSA id
- n9-20020a05600c4f8900b003d96b8e9bcasm24698080wmq.32.2023.01.11.02.13.59
+ az28-20020a05600c601c00b003cf57329221sm22157839wmb.14.2023.01.11.02.15.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 02:13:59 -0800 (PST)
-Message-ID: <dc6a0bf0-298e-8352-018f-2b7ca9e685a9@redhat.com>
-Date: Wed, 11 Jan 2023 11:13:59 +0100
+ Wed, 11 Jan 2023 02:15:15 -0800 (PST)
+Message-ID: <9a63d0ca-4cc3-773c-245c-b6fc28070cd4@redhat.com>
+Date: Wed, 11 Jan 2023 11:15:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 2/7] target/s390x: Pass S390Access pointer into
- access_prepare
+Subject: Re: [PATCH 4/7] target/s390x: Tidy access_prepare_nf
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20230109201856.3916639-1-richard.henderson@linaro.org>
- <20230109201856.3916639-3-richard.henderson@linaro.org>
+ <20230109201856.3916639-5-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20230109201856.3916639-3-richard.henderson@linaro.org>
+In-Reply-To: <20230109201856.3916639-5-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
@@ -104,11 +103,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 09.01.23 21:18, Richard Henderson wrote:
-> Passing a pointer from the caller down to access_prepare_nf
-> eliminates a structure copy.
+> Assign to access struct immediately, rather than waiting
+> until the end of the function.  This means we can pass
+> address of haddr struct members instead of allocating
+> extra space on the local stack.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 
