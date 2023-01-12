@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C09667277
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 13:44:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0417667278
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 13:45:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFwvg-0004O6-8J; Thu, 12 Jan 2023 07:43:36 -0500
+	id 1pFwxF-0005Rl-50; Thu, 12 Jan 2023 07:45:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFwvd-0004L3-Lc
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:43:33 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFwxB-0005OC-R4
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:45:09 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFwvZ-0003rv-3J
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:43:33 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- j16-20020a05600c1c1000b003d9ef8c274bso10576978wms.0
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 04:43:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFwxA-0004FO-33
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:45:09 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id bn26so17993044wrb.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 04:45:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=JIMES/1egQyZahWwW0MZhmZ4dRHJB4QK4pSNR1zDUlw=;
- b=GNokx1Y4r9Sk2EXKUcB0f6MQgWq9XJWDS+49ugFYH1VwRgtnOlSA0kYmqmDwRTd+3y
- jVVExSMmX7p6ilVVHYZmrF16ND8QXAIIN+eymGvkbmi908FrYHrtmULZChaQ4NC2aVQG
- iyA01xprHZRtkFucXuW5HmGFxXJA45TVjt/hoD89j+B6IxfLy/9FBVe314iI3QZzmalW
- AbtCrD1+1vfugJBZGxXad66MxVTz+ldm5AsqpMJKeGQbgHfjdtonf+7xS691jbwwkTQ8
- ew+3ozD3Q38HX6XVAkHQuAdnMpOyGIGNS9NDw/IborQmued3gdQKnJMeXYq0fQsdsJFc
- +6nQ==
+ bh=7F/xXmpfa6gcNdKv8Dx8M5etMEkhCkv+n97k0/aw9zo=;
+ b=pKkPh3fQABWAQ7P4+l/NtU6NCnuiCjSg4KzavtYgGNO/HceLoZvbyy+BRI4JSxUWA1
+ gAUGpzNTvJwkD1TjeYXVJX6ou7aA96b3J/fyHJ5qeaR36/QAOyofoCLQ7dbKh5bYoWhh
+ 6qRr3iIlbUowyi65XpEx5XHHdL1am3fkIxS6zRidsHnmzOEMMDIjeA5Ucc9iR75Uqm34
+ x9qJWlMoTiYw++QURvtQBtaatRL27Nkz+27t4rNhzsPnUZ9Pn8L3CQFEFr+pEMmGy+MQ
+ pe30QT8J1XxH220dj1sf3/HiLg+AR9JigR8+jnsSq3VSi3JZtBqp3wqyrkRgQC5AC4b7
+ xCOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JIMES/1egQyZahWwW0MZhmZ4dRHJB4QK4pSNR1zDUlw=;
- b=I9bEmkfYZaR+oOFvLwBKoDtLn+6AzVJhN3ifjli/3ATXa+lxLgy68sYp8gOokkNmoB
- PuMJnXPzzFOBinyYMZ+MTNYjSfGvM8pH9WWkDz/3VW4Ks2CqDW0n6qJJnFPNhn/I7zNC
- SJjVLar1CY25DEtGGFAAQuCO8X1JeUpGoxyQeLeLywAtmeTsRcYqgoWxw0pi3gGlU5Vw
- 45KpHUWTQGgf1UhUm8PdOnLhSybhjj9CGxsV8KUeE7puZVli7V8vQGvN70twtbQEcyHD
- Gz3FItnfpemEYL3weRXlVqYmhgRMCtJiseemdhGYRpAIFzfVyG3r3g6j8/At6l4uilPp
- 8JtA==
-X-Gm-Message-State: AFqh2krp3q1iTLdRi/Q283Hse57dp6PE7CKq857iaAb4mdRKmxG2jO9K
- I6w2/3MzneieO3Tm6XFpbSzm/Q==
-X-Google-Smtp-Source: AMrXdXvd2JsPY+kiFovwZHygyM19Ejalh979cJbMk5ipujhFH1v5fXqKT0Cn8o2vq62r7efVZnynqQ==
-X-Received: by 2002:a05:600c:4f84:b0:3d9:f758:e280 with SMTP id
- n4-20020a05600c4f8400b003d9f758e280mr9097271wmq.24.1673527407118; 
- Thu, 12 Jan 2023 04:43:27 -0800 (PST)
+ bh=7F/xXmpfa6gcNdKv8Dx8M5etMEkhCkv+n97k0/aw9zo=;
+ b=gk/R/+rwJXy7JztCBldgenHlHcM11oRZgoO8HEqRvUj7HvgsKvgRqIz/yGQ4orIO15
+ OMJ0ap7N6o5BrWICopcD/Yyw7uSGHG+xSJG0Eciir85VN64HYtTGOXsgnHsVVWzueBeW
+ 3qGIOKxNWxt56GbRuudR3b1FEqZm1vVTXYy5BNRYzDRdtONMPzs7NzKErAg3lcVKwoim
+ 6sQpVaPZd2wmYCNWxoQ8TsLnGjX4NONeeBacnYt43Dzztu18BKk5Luc/yB1fcL+YHzVQ
+ ll3qVoiIdxz8lLcD8fIZ2DK3B7SnVEtYQaAmiPR+9R/pYEoXdLUtcaUSJOix2etngiDC
+ zAfg==
+X-Gm-Message-State: AFqh2kqcuLm7q8rD6o6QaCcNnbM5kR6m7VwyCYUBFfgnwigtWBbsdpUe
+ ick7ORp86Flxy5PAS0rMWxx+Wg==
+X-Google-Smtp-Source: AMrXdXtkBnvRqkXGB/F1IJAUGLEPar9R3vuS8DULRrZrMaA6uL2YGXQeG7esyoogVFTFpVyjcdYH+w==
+X-Received: by 2002:adf:e88b:0:b0:2bd:c6ce:7bef with SMTP id
+ d11-20020adfe88b000000b002bdc6ce7befmr3677814wrm.26.1673527506613; 
+ Thu, 12 Jan 2023 04:45:06 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- j6-20020a05600c42c600b003b492753826sm20286943wme.43.2023.01.12.04.43.25
+ w5-20020adfcd05000000b002bdc914a139sm3476400wrm.108.2023.01.12.04.45.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 04:43:26 -0800 (PST)
-Message-ID: <85c80422-e05b-5718-f595-ae97d08e5ca7@linaro.org>
-Date: Thu, 12 Jan 2023 13:43:24 +0100
+ Thu, 12 Jan 2023 04:45:06 -0800 (PST)
+Message-ID: <0b268419-a089-0a3a-5fdf-7bf107d746ae@linaro.org>
+Date: Thu, 12 Jan 2023 13:45:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v6 13/33] hw/i386/pc_piix: Allow for setting properties
- before realizing PIIX3 south bridge
+Subject: Re: [PATCH v6 14/33] hw/isa/piix3: Create USB controller in host
+ device
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: John G Johnson <john.g.johnson@oracle.com>,
@@ -75,20 +74,20 @@ Cc: John G Johnson <john.g.johnson@oracle.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
  =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
 References: <20230109172347.1830-1-shentey@gmail.com>
- <20230109172347.1830-14-shentey@gmail.com>
+ <20230109172347.1830-15-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230109172347.1830-14-shentey@gmail.com>
+In-Reply-To: <20230109172347.1830-15-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,15 +104,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 9/1/23 18:23, Bernhard Beschow wrote:
-> The next patches will need to take advantage of it.
+> The USB controller is an integral part of PIIX3 (function 2). So create
+> it as part of the south bridge.
+> 
+> Note that the USB function is optional in QEMU. This is why it gets
+> object_initialize_child()'ed in realize rather than in instance_init.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Message-Id: <20221022150508.26830-3-shentey@gmail.com>
+> Message-Id: <20221022150508.26830-13-shentey@gmail.com>
 > ---
->   hw/i386/pc_piix.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   include/hw/southbridge/piix.h |  4 ++++
+>   hw/i386/pc_piix.c             |  7 ++-----
+>   hw/isa/piix3.c                | 17 +++++++++++++++++
+>   hw/isa/Kconfig                |  1 +
+>   4 files changed, 24 insertions(+), 5 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
