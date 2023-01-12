@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC50667A7B
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 17:15:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB71667AA4
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 17:22:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG0Db-0007V0-EP; Thu, 12 Jan 2023 11:14:19 -0500
+	id 1pG0Jw-0004T1-Kw; Thu, 12 Jan 2023 11:20:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pG0DX-0006gF-6W
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:14:15 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pG0Ju-0004Sl-TT
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:20:50 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pG0DV-0004e3-JG
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:14:14 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id m3so13576683wmq.0
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 08:14:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pG0Jt-0005fg-9Q
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:20:50 -0500
+Received: by mail-pl1-x629.google.com with SMTP id 17so20763872pll.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 08:20:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MWGcz3OPudYdjW3Wy/h5U2IXMYcV+rWQGh5XUdGlxEM=;
- b=fLx5yg/HCX5BzkBOEotV6iBiAInP5jNYZJVMKXu+Wvm204GNK27VKf2U78hzwSGRw6
- oniQ8irfMFpcbh52YJPGpjBJ7fEK+wOVepY7RvorS03K106Ybt3CdWGM7ueJo9bGU0vw
- VOfitgjZL7E6clwBvTCp7tEb6JZhJgRIsLm7KXXNqpSS7JkV92nFAezvjQ/5794cPZC2
- EkIXA0qRVfURLDlXVwk37EUQVasjPULzzgNsZJqTGlep6gHJsrumOCDH5RHkQ7iMLMNx
- 1rxQf1le7VtMF02VA554CVBAXjJisUVPrFHlSrlNTkvLDKQ6YM7+uLvPgl6R5ztstTwJ
- Pr+A==
+ bh=kMrjHmCg1A+wNht30Z+xf3kV0pLt6BvLnr7luCC1WM0=;
+ b=rl2sQHKDLAVSQ8jPaxCedRR3mM3nhOD5ucNhJN5uZgRgOg63IxOAQqzWbIdFg5hW3L
+ cqhXUEUOciKAz/F5ZlUUEtRMcsj6J99q30SmbXbgeLrNT85msn0lcMtp7yYyolzrGOPI
+ tyb3CFFxflmsmGfEJoMOFTyL9Y7oKSclMwkPNPT9Ky5QopaFVcjuCDEbw9ThZIrnimqA
+ 9hKOrdGpxb3tGdaFtLPEAlMCJI5Gd7d9QU0S5Y0O4MqZVkOJeKqoNgIdFGphRlSfWWb9
+ aHFmJxDWi7Fkf4TA1jSdaaVkw5uunHaIk6Zqffyhe7C9T1fP3Zm4Vp1W7/KXTQt+ZvS1
+ 1MjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=MWGcz3OPudYdjW3Wy/h5U2IXMYcV+rWQGh5XUdGlxEM=;
- b=zwZplwIExNxGofe/W4tpkVpFUW80Bq39kOsnWUtH0KpOQbzbWKILSmU1cYolBNVdx7
- qSX8gjXda7HsEAbPMrpckeFrkYmgHJbJV1KChb/RMmq9WwW1z78Ge35Zp4lKc/4VS3Ew
- CU0/U091C/RVKCKmaHgRlUHGGc/nzm95v02qvOECuh4vIMD9bhjaWkydUvilJrjA3OMV
- Xb/VrNsNRj4Mjawsb4kRO/NZGCXj9dJNhal6x5bcGvu9Jfypar0HLmiw5NIBXpD7/cOp
- SGXay3ffW7xsKIhThtAmPEgd/ZSCWTVitEu+0lYnwYGPzrYk16nZfyTEhrq7i89HIwCj
- /35g==
-X-Gm-Message-State: AFqh2koztYO1NycqzQOFyy4G/b8cIhQ1m+XCkSxzivL6e5xD2rEctB7c
- xqSkFmP3LbrkNqeGhXfqKQPxng==
-X-Google-Smtp-Source: AMrXdXsrJxt56HbIRb34hO+1WB8JG5ibGwoHnt3rqtYMvmFaRHaIAXnINLTMivJek5LiB/3Ambm9XQ==
-X-Received: by 2002:a05:600c:358f:b0:3d9:7847:96e2 with SMTP id
- p15-20020a05600c358f00b003d9784796e2mr46170377wmq.2.1673540052172; 
- Thu, 12 Jan 2023 08:14:12 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- g12-20020a05600c310c00b003c70191f267sm29115886wmo.39.2023.01.12.08.14.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jan 2023 08:14:11 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4E22F1FFB7;
- Thu, 12 Jan 2023 16:14:11 +0000 (GMT)
-References: <20230112155643.7408-1-philmd@linaro.org>
-User-agent: mu4e 1.9.12; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>, Thomas Huth
- <thuth@redhat.com>, Anton Johansson <anjo@rev.ng>, Bastian Koppelmann
- <kbastian@mail.uni-paderborn.de>, Wainer dos Santos Moschetta
- <wainersm@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] tests/docker: Install flex in debian-tricore-cross
-Date: Thu, 12 Jan 2023 16:14:04 +0000
-In-reply-to: <20230112155643.7408-1-philmd@linaro.org>
-Message-ID: <87bkn3n31o.fsf@linaro.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kMrjHmCg1A+wNht30Z+xf3kV0pLt6BvLnr7luCC1WM0=;
+ b=uci2i977v2o/zzlkuybL3/cEe/M4doaG7jmwV0DArj7k5K4NMb0HKYWa5ZiUFeFdP1
+ q0UHY6fkJTyU640iwcGA4Bb73/NJJr8HWGivKrMgevcvD35xmI25TRcr5O0TiSKegAAC
+ 0V8+8lpnH1BnbPYVZh+ptfuWifmQUg+pKJkHc9S8QY8WoEg6M2XdPKvlcK9In8K8c1Dj
+ 9fa936vPdyBjahSnscWWBgYRcplgleBcJBgJfdlZ9OOLo1MN8Akmpf1koz7zo6z+DTm+
+ z1vdZmgQk4fVma54m0sukL2/8cHYUXaQDtBMD0wnUECJ8d/qDYlZBmy5/PM1s1fFeq7m
+ POaQ==
+X-Gm-Message-State: AFqh2kpj0J2Hf6ij1B+2TheBvX0P8kfMyM+smfgiJ485ZnCawMKuwcui
+ hYOZnM32LjNrTzPj0daoEMfP1pVrere+gNkNJTyBhA==
+X-Google-Smtp-Source: AMrXdXvdlVP/tfer2Id1Kqud5iB98fK3P+6OrG6Vwvl57a3z4O5W5xYze83qh1VandXCSLvFsOfVeLu25FxTm5UMjxo=
+X-Received: by 2002:a17:902:690a:b0:193:1f3a:4977 with SMTP id
+ j10-20020a170902690a00b001931f3a4977mr1628896plk.168.1673540447533; Thu, 12
+ Jan 2023 08:20:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20230112115005.1504812-1-armbru@redhat.com>
+ <20230112115005.1504812-2-armbru@redhat.com>
+ <20230112082537-mutt-send-email-mst@kernel.org> <Y8AewFAHRGf6ZI3x@redhat.com>
+ <CAFEAcA9REU2emdHRhfO2=ZZB3K9O=eKSP1k5aVh_Hwh0+cCW5w@mail.gmail.com>
+ <Y8AwXG/c+IRyJ2U6@redhat.com>
+In-Reply-To: <Y8AwXG/c+IRyJ2U6@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 Jan 2023 16:20:36 +0000
+Message-ID: <CAFEAcA_EP2_0vm8r=12DBTG4a7X7aMYAy2x+K7YctZmSZWTv2g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] include: Don't include qemu/osdep.h
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, 
+ imp@bsdimp.com, kevans@freebsd.org, ben.widawsky@intel.com, 
+ jonathan.cameron@huawei.com, kbastian@mail.uni-paderborn.de, 
+ jasowang@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com, 
+ tsimpson@quicinc.com, palmer@dabbelt.com, alistair.francis@wdc.com, 
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, philmd@linaro.org, 
+ Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,16 +95,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, 12 Jan 2023 at 16:08, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
+> I think the challenge is that osdep.h is too big as it exists
+> today. The stuff the needs to come before system headers is
+> actually little more than config-host.h and a few #defines
+> most of which are specific to windows. If those critical
+> #defines went into config-host.h, then we could have a rule
+> 'config-host.h' must be included in all .c files as the first
+> thing.
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+This doesn't seem much different to the rules we have today,
+except you've renamed osdep.h to config-host.h...
 
-> When flex is not available, binutils sources default to the
-> 'missing' script, but the current script available is not in
-> the format expected by the 'configure' script:
+> All the header files could just reference the specific
+> system headers they care about instead of making everything
+> from osdep.h visible in their namespace.  Still this would be
+> quite a lot of work to adapt to at this point.
 
-Queued to testing/next, thanks.
+It certainly does have more in it than strictly necessary,
+though we have thinned it out quite a bit from when we
+first put in the convention. A lot of the functions at
+the tail end of the file could be moved out into their
+own headers, for instance -- patches welcome ;-)
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+> All the header files could just reference the specific
+> system headers they care about instead of making everything
+> from osdep.h visible in their namespace.
+
+There are some complicated things in there, not always
+limited to Windows. Also where there is some header
+that needs a platform-specific workaround I prefer that
+that header is pulled in by osdep.h. This avoids the
+failure mode of "developer working on Linux directly
+includes some-system-header.h; works fine on their machine,
+but doesn't work on oddball-platform where the header
+needs a workaround". (For instance, handling "sys/mman.h
+on this system doesn't define MAP_ANONYMOUS", or the
+backcompat stuff in glib-compat.h.)
+
+thanks
+-- PMM
 
