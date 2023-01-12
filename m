@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF856670B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 12:17:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F176670B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 12:17:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFuqH-0005Sr-Nr; Thu, 12 Jan 2023 05:29:53 -0500
+	id 1pFurI-00064P-7M; Thu, 12 Jan 2023 05:30:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFuqF-0005Oh-Fq
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:29:51 -0500
+ id 1pFurF-00063j-6Y
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:30:53 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFuqD-0001DR-Q7
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:29:51 -0500
+ id 1pFurD-0001kH-AH
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:30:52 -0500
 Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nt10n15ntz6J6JQ;
- Thu, 12 Jan 2023 18:26:01 +0800 (CST)
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nt13G4SGTz686rg;
+ Thu, 12 Jan 2023 18:28:10 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Thu, 12 Jan 2023 10:29:47 +0000
+ 15.1.2375.34; Thu, 12 Jan 2023 10:30:48 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
  <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
  <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philmd@linaro.org>
-Subject: [PATCH v2 6/8] qemu/bswap: Add const_le64()
-Date: Thu, 12 Jan 2023 10:26:42 +0000
-Message-ID: <20230112102644.27830-7-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v2 8/8] hw/cxl/mailbox: Use new UUID network order define for
+ cel_uuid
+Date: Thu, 12 Jan 2023 10:26:44 +0000
+Message-ID: <20230112102644.27830-9-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230112102644.27830-1-Jonathan.Cameron@huawei.com>
 References: <20230112102644.27830-1-Jonathan.Cameron@huawei.com>
@@ -40,7 +41,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -70,55 +71,88 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Ira Weiny <ira.weiny@intel.com>
 
-Gcc requires constant versions of cpu_to_le* calls.
+The cel_uuid was programatically generated previously because there was
+no static initializer for network order UUIDs.
 
-Add a 64 bit version.
+Use the new network order initializer for cel_uuid.  Adjust
+cxl_initialize_mailbox() because it can't fail now.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Update specification reference.
+
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 ---
-v2: Update comment (Philippe)
+v2:
+Make it const (Philippe)
 
- include/qemu/bswap.h | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ hw/cxl/cxl-device-utils.c   |  2 +-
+ hw/cxl/cxl-mailbox-utils.c  | 13 ++++++-------
+ include/hw/cxl/cxl_device.h |  2 +-
+ 3 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 346d05f2aa..c5cb9686c5 100644
---- a/include/qemu/bswap.h
-+++ b/include/qemu/bswap.h
-@@ -182,11 +182,20 @@ CPU_CONVERT(le, 32, uint32_t)
- CPU_CONVERT(le, 64, uint64_t)
+diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
+index 83ce7a8270..4c5e88aaf5 100644
+--- a/hw/cxl/cxl-device-utils.c
++++ b/hw/cxl/cxl-device-utils.c
+@@ -267,5 +267,5 @@ void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
+     cxl_device_cap_init(cxl_dstate, MEMORY_DEVICE, 0x4000);
+     memdev_reg_init_common(cxl_dstate);
  
- /*
-- * Same as cpu_to_le{16,32}, except that gcc will figure the result is
-+ * Same as cpu_to_le{16,32,64}, except that gcc will figure the result is
-  * a compile-time constant if you pass in a constant.  So this can be
-  * used to initialize static variables.
-  */
- #if HOST_BIG_ENDIAN
-+# define const_le64(_x)                          \
-+    ((((_x) & 0x00000000000000ffU) << 56) |      \
-+     (((_x) & 0x000000000000ff00U) << 40) |      \
-+     (((_x) & 0x0000000000ff0000U) << 24) |      \
-+     (((_x) & 0x00000000ff000000U) <<  8) |      \
-+     (((_x) & 0x000000ff00000000U) >>  8) |      \
-+     (((_x) & 0x0000ff0000000000U) >> 24) |      \
-+     (((_x) & 0x00ff000000000000U) >> 40) |      \
-+     (((_x) & 0xff00000000000000U) >> 56))
- # define const_le32(_x)                          \
-     ((((_x) & 0x000000ffU) << 24) |              \
-      (((_x) & 0x0000ff00U) <<  8) |              \
-@@ -196,6 +205,7 @@ CPU_CONVERT(le, 64, uint64_t)
-     ((((_x) & 0x00ff) << 8) |                    \
-      (((_x) & 0xff00) >> 8))
- #else
-+# define const_le64(_x) (_x)
- # define const_le32(_x) (_x)
- # define const_le16(_x) (_x)
- #endif
+-    assert(cxl_initialize_mailbox(cxl_dstate) == 0);
++    cxl_initialize_mailbox(cxl_dstate);
+ }
+diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+index 3f67b665f5..206e04a4b8 100644
+--- a/hw/cxl/cxl-mailbox-utils.c
++++ b/hw/cxl/cxl-mailbox-utils.c
+@@ -193,7 +193,11 @@ static ret_code cmd_timestamp_set(struct cxl_cmd *cmd,
+     return CXL_MBOX_SUCCESS;
+ }
+ 
+-static QemuUUID cel_uuid;
++/* CXL 3.0 8.2.9.5.2.1 Command Effects Log (CEL) */
++static const QemuUUID cel_uuid = {
++    .data = UUID(0x0da9c0b5, 0xbf41, 0x4b78, 0x8f, 0x79,
++                 0x96, 0xb1, 0x62, 0x3b, 0x3f, 0x17)
++};
+ 
+ /* 8.2.9.4.1 */
+ static ret_code cmd_logs_get_supported(struct cxl_cmd *cmd,
+@@ -458,11 +462,8 @@ void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
+                      DOORBELL, 0);
+ }
+ 
+-int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
++void cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
+ {
+-    /* CXL 2.0: Table 169 Get Supported Logs Log Entry */
+-    const char *cel_uuidstr = "0da9c0b5-bf41-4b78-8f79-96b1623b3f17";
+-
+     for (int set = 0; set < 256; set++) {
+         for (int cmd = 0; cmd < 256; cmd++) {
+             if (cxl_cmd_set[set][cmd].handler) {
+@@ -476,6 +477,4 @@ int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
+             }
+         }
+     }
+-
+-    return qemu_uuid_parse(cel_uuidstr, &cel_uuid);
+ }
+diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+index 250adf18b2..7e5ad65c1d 100644
+--- a/include/hw/cxl/cxl_device.h
++++ b/include/hw/cxl/cxl_device.h
+@@ -170,7 +170,7 @@ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MEMORY_DEVICE,
+                                       CXL_DEVICE_CAP_HDR1_OFFSET +
+                                           CXL_DEVICE_CAP_REG_SIZE * 2)
+ 
+-int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate);
++void cxl_initialize_mailbox(CXLDeviceState *cxl_dstate);
+ void cxl_process_mailbox(CXLDeviceState *cxl_dstate);
+ 
+ #define cxl_device_cap_init(dstate, reg, cap_id)                           \
 -- 
 2.37.2
 
