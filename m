@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95DAD667836
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 15:54:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1369C667868
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 15:59:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFyr4-0003WB-Ow; Thu, 12 Jan 2023 09:46:58 -0500
+	id 1pFyra-0003hl-Ab; Thu, 12 Jan 2023 09:47:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFyr2-0003VT-Bq
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:46:56 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pFyrY-0003h6-U1
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:47:28 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFyr0-0004uY-J0
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:46:56 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pFyrW-0004wC-EK
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:47:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673534814;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1673534845;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2BGtI0aXdllGIufv96JzqFd2Px2/oea15P3R3Uuiukk=;
- b=i5IhuvuGTGehLFUCbhaaINdNzho5M7njaaw4PCSYXHTgwKAHKZJXdc+EQrBUU4sN7oz0qh
- oXXZHLPxszWro7NkcVW8IGplaev1pG2XGZubIluOcGkyImutaF9EHO+gkpPIte/ksp1bYZ
- Hw5v3S5dm2IERRZxikBxmZUmBHCNXg4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=W/fVAbhTSCKn36CoCFZfOgn98LrHMlA4vtdqO0hTv4M=;
+ b=f4OQWgYm7KTCRcpalFXAU5+uYUaeU09jwLyZgCFMExSy3uXjlMSBy9r5onylEefllvyQeY
+ 8gHB1e3bszRAHLpCd7tbSSFKeIXJ6ZsxYa9TAdWlUb0O6B2iZ3xJW7BiwytI+a+HjHW2G4
+ yrFI8qDAjBoWKq/raGGxs4fPjYdfsi8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-462-5oqyLQrAORyhjx_v1q8Zow-1; Thu, 12 Jan 2023 09:46:48 -0500
-X-MC-Unique: 5oqyLQrAORyhjx_v1q8Zow-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-636-hOM0BqJPP6eRye7pR-FeKg-1; Thu, 12 Jan 2023 09:47:21 -0500
+X-MC-Unique: hOM0BqJPP6eRye7pR-FeKg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 539CE1C0515D;
- Thu, 12 Jan 2023 14:46:48 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D46F2026D68;
- Thu, 12 Jan 2023 14:46:47 +0000 (UTC)
-Date: Thu, 12 Jan 2023 14:46:45 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Ilya Dryomov <idryomov@gmail.com>
-Cc: Or Ozeri <oro@il.ibm.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- dannyh@il.ibm.com
-Subject: Re: [PATCH v4 1/3] block/rbd: encryption nit fixes
-Message-ID: <Y8AdVTH+sYI0pNnF@redhat.com>
-References: <20221120102836.3174090-1-oro@il.ibm.com>
- <20221120102836.3174090-2-oro@il.ibm.com>
- <Y7/+d3Zr9ncvCZuV@redhat.com>
- <CAOi1vP8viVkV=asKs0RVq6bxc-9-sxCxF0aNjxFecEnLxuw=yg@mail.gmail.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0629018E0920;
+ Thu, 12 Jan 2023 14:47:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DAC12166B26;
+ Thu, 12 Jan 2023 14:47:20 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 40C2A21E6A36; Thu, 12 Jan 2023 15:47:19 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,  qemu-devel@nongnu.org,
+ imp@bsdimp.com,  kevans@freebsd.org,  berrange@redhat.com,
+ ben.widawsky@intel.com,  jonathan.cameron@huawei.com,
+ kbastian@mail.uni-paderborn.de,  jasowang@redhat.com,
+ michael.roth@amd.com,  kkostiuk@redhat.com,  tsimpson@quicinc.com,
+ palmer@dabbelt.com,  alistair.francis@wdc.com,  bin.meng@windriver.com,
+ qemu-riscv@nongnu.org,  philmd@linaro.org,  Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v3 1/1] include: Don't include qemu/osdep.h
+References: <20230112115005.1504812-1-armbru@redhat.com>
+ <20230112115005.1504812-2-armbru@redhat.com>
+ <20230112082537-mutt-send-email-mst@kernel.org>
+ <20230112085520-mutt-send-email-mst@kernel.org>
+Date: Thu, 12 Jan 2023 15:47:19 +0100
+In-Reply-To: <20230112085520-mutt-send-email-mst@kernel.org> (Michael
+ S. Tsirkin's message of "Thu, 12 Jan 2023 08:56:03 -0500")
+Message-ID: <87zgan4xoo.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOi1vP8viVkV=asKs0RVq6bxc-9-sxCxF0aNjxFecEnLxuw=yg@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -69,7 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,94 +86,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 12, 2023 at 03:26:56PM +0100, Ilya Dryomov wrote:
-> On Thu, Jan 12, 2023 at 1:35 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Sun, Nov 20, 2022 at 04:28:34AM -0600, Or Ozeri wrote:
-> > > Add const modifier to passphrases,
-> > > and remove redundant stack variable passphrase_len.
-> > >
-> > > Signed-off-by: Or Ozeri <oro@il.ibm.com>
-> > > ---
-> > >  block/rbd.c | 24 ++++++++++--------------
-> > >  1 file changed, 10 insertions(+), 14 deletions(-)
-> > >
-> > > diff --git a/block/rbd.c b/block/rbd.c
-> > > index f826410f40..e575105e6d 100644
-> > > --- a/block/rbd.c
-> > > +++ b/block/rbd.c
-> > > @@ -330,7 +330,7 @@ static int qemu_rbd_set_keypairs(rados_t cluster, const char *keypairs_json,
-> > >  #ifdef LIBRBD_SUPPORTS_ENCRYPTION
-> > >  static int qemu_rbd_convert_luks_options(
-> > >          RbdEncryptionOptionsLUKSBase *luks_opts,
-> > > -        char **passphrase,
-> > > +        const char **passphrase,
-> > >          size_t *passphrase_len,
-> > >          Error **errp)
-> > >  {
-> > > @@ -341,7 +341,7 @@ static int qemu_rbd_convert_luks_options(
-> > >  static int qemu_rbd_convert_luks_create_options(
-> > >          RbdEncryptionCreateOptionsLUKSBase *luks_opts,
-> > >          rbd_encryption_algorithm_t *alg,
-> > > -        char **passphrase,
-> > > +        const char **passphrase,
-> > >          size_t *passphrase_len,
-> > >          Error **errp)
-> > >  {
-> > > @@ -384,8 +384,7 @@ static int qemu_rbd_encryption_format(rbd_image_t image,
-> > >                                        Error **errp)
-> > >  {
-> > >      int r = 0;
-> > > -    g_autofree char *passphrase = NULL;
-> > > -    size_t passphrase_len;
-> > > +    g_autofree const char *passphrase = NULL;
-> >
-> > This looks wierd.  If it is as const string, why are
-> > we free'ing it ?  Either want g_autofree, or const,
-> > but not both.
-> 
-> Just curious, is it a requirement imposed by g_autofree?  Otherwise
-> pointer constness and pointee lifetime are completely orthogonal and
-> freeing (or, in this case, wanting to auto-free) an object referred to
-> by a const pointer seems perfectly fine to me.
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-Free'ing a const point is not OK
+> On Thu, Jan 12, 2023 at 08:51:32AM -0500, Michael S. Tsirkin wrote:
+>> On Thu, Jan 12, 2023 at 12:50:05PM +0100, Markus Armbruster wrote:
+>> > docs/devel/style.rst mandates:
+>> >=20
+>> >     The "qemu/osdep.h" header contains preprocessor macros that affect
+>> >     the behavior of core system headers like <stdint.h>.  It must be
+>> >     the first include so that core system headers included by external
+>> >     libraries get the preprocessor macros that QEMU depends on.
+>> >=20
+>> >     Do not include "qemu/osdep.h" from header files since the .c file
+>> >     will have already included it.
+>> >=20
+>> > A few violations have crept in.  Fix them.
+>> >=20
+>> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+>> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+>> > Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+>> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>>=20
+>> With my awesome grep skillz I found one more:
+>> $ grep -r --include=3D'*.h' qemu/osdep.h
+>> include/block/graph-lock.h:#include "qemu/osdep.h"
 
-$ cat c.c
-#include <stdlib.h>
-void bar(const char *foo) {
-    free(foo);
-}
+Crept in after I prepared my v1.  I neglected to re-check.
 
-$ gcc -Wall -c c.c
-c.c: In function ‘bar’:
-c.c:5:10: warning: passing argument 1 of ‘free’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
-    5 |     free(foo);
-      |          ^~~
-In file included from c.c:2:
-/usr/include/stdlib.h:568:25: note: expected ‘void *’ but argument is of type ‘const char *’
-  568 | extern void free (void *__ptr) __THROW;
-      |                   ~~~~~~^~~~~
+> Also:
+> $ grep -r --include=3D'*.inc' qemu/osdep.h
+> ui/vnc-enc-zrle.c.inc:#include "qemu/osdep.h"
+> crypto/akcipher-nettle.c.inc:#include "qemu/osdep.h"
+> crypto/akcipher-gcrypt.c.inc:#include "qemu/osdep.h"
+> crypto/rsakey-nettle.c.inc:#include "qemu/osdep.h"
+> crypto/cipher-gnutls.c.inc:#include "qemu/osdep.h"
+> target/xtensa/core-dc233c/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> target/xtensa/core-sample_controller/xtensa-modules.c.inc:#include "qemu/=
+osdep.h"
+> target/xtensa/core-de212/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> target/xtensa/core-dc232b/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> target/xtensa/core-fsf/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> target/cris/translate_v10.c.inc:#include "qemu/osdep.h"
 
+Good point.  Looks like I successfully supressed all memory of .inc.
 
-The g_autofree happens to end up hiding this warning, because the const
-annotation isn't propagated to the registere callback, but that doesn't
-mean we should do that.
+>> Looks like all C files must include qemu/osdep.h, no?
 
-When a programmer sees a variable annotated const, they expect that
-either someone else is responsible for free'ing it, or that the data
-is statically initialized or stack allocated and thus doesn't need
-free'ing.  So g_autofree + const is just wrong.
+I remember there are a few exceptions, but I don't remember which .c
+they are.  Hmm... see commit 4bd802b209cff612d1a99674a91895b735be8630.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>> How about
+>>=20
+>> 1- add -include qemu/osdep.h on compile command line
+>>    drop #include "qemu/osdep.h" from C files
+
+Then you need to encode the exceptions in the build system.  Which might
+not be a bad thing.
+
+>> 2- drop double include guards, replace with a warning.
+>>=20
+>> following patch implements part 2:
+>>=20
+>>=20
+>> qemu/osdep: don't include it from headers
+>>=20
+>> doing so will lead to trouble eventually - instead of
+>> working around such cases make it more likely it will fail.
+>>=20
+>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>>=20
+>> ---
+>>=20
+>> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+>> index 7d059ad526..e4a60f911c 100644
+>> --- a/include/qemu/osdep.h
+>> +++ b/include/qemu/osdep.h
+>> @@ -24,7 +24,12 @@
+>>   * This work is licensed under the terms of the GNU GPL, version 2 or l=
+ater.
+>>   * See the COPYING file in the top-level directory.
+>>   */
+>> -#ifndef QEMU_OSDEP_H
+>> +#ifdef QEMU_OSDEP_H
+>> +#warning "Never include qemu/osdep.h from a header!"
+>> +#endif
+>> +
+>> +static inline void qemu_osdep_never_include_from_header(void) {}
+>> +
+
+Why do you need the function, too?
+
+>>  #define QEMU_OSDEP_H
+>>=20=20
+>>  #include "config-host.h"
+>> @@ -714,5 +719,3 @@ static inline int platform_does_not_support_system(c=
+onst char *command)
+>>  #ifdef __cplusplus
+>>  }
+>>  #endif
+>> -
+>> -#endif
 
 
