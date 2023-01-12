@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB8D66702C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 11:49:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719A4667033
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 11:50:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFv6S-0006n0-Ek; Thu, 12 Jan 2023 05:46:36 -0500
+	id 1pFv9U-0008OE-AW; Thu, 12 Jan 2023 05:49:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFv5u-0006Xf-GU
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:46:04 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFv9F-0008Hs-Qi
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:49:32 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFv5s-0004da-3K
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:46:01 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- m26-20020a05600c3b1a00b003d9811fcaafso14661925wms.5
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 02:45:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFv9E-0005Da-2p
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:49:29 -0500
+Received: by mail-wr1-x432.google.com with SMTP id r2so17659076wrv.7
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 02:49:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hGsJHZVBqejxBi4DBZUFkbpL+bzzAzmvwsuU7or9Yg0=;
- b=fYIij4HuoYGgILXGumdgQT1O4UWpuKNcShWRJwSuBdeu+Y1JXu0lSMBleMr+DaD1vH
- qSsKqTgZjvJklx0jwIyRuMjuey7G3PFsKdw4WWl7E8Gx9uY0Fb1kPq+LpeLa94WkzkjI
- ZAxkr2zQbRuAAFtBV1f/V/c76TWp3IlaMnsAFbmy094YRxtTNWvYznM4JhWrcvY2ROWs
- yLj5AD7QlrgDF6HuOY0EzygHi/FVAVDKMlOivCOb4zhxxmOAJqOcJ30HOyy9o+O9hBYD
- lw5eaC3KdPTKe01dWsaon9kvKEu7/R1Uk1cfJk/O22bFY3yT2dwrU67N/keHj2XqzwAl
- lS6g==
+ bh=b/pz+hLq/z2vpKBvPE7NcmVyZAAiwhGmTF13ac4KeBY=;
+ b=cLeYkzZJQAxudQZMdTycuo/ReR08ueK9HYgRft5/sgnWLYv1Dwbz3dB7MQaJMyDKhD
+ aAB8SUhAQKDBba8eSNwVOzFiUMUNRQDgN6Q4mWlQ9+q1Dq6ZHCJ8CieyXstyWrlQOutP
+ 7Dejb6euIQugJ/yBuXP6ENyyV7Yc1k7wdx5LCSlohegpB/071WmIxg9sEy1i9FX8rvHq
+ tCpHuggaPcZtGIqhvuni5LTuk5C/qZN99RYfDEYtmQRqrwEzuF44LcdyI/0vPuzbFCEg
+ 04zLKM3i1AYgJra+xW0Et49XVEDEvLLEdPeTQm9y67GYHr/eynmIGtK5/lcxCqYCZb/n
+ oEfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hGsJHZVBqejxBi4DBZUFkbpL+bzzAzmvwsuU7or9Yg0=;
- b=rn5g6ZeQWyeUXOLVZpOdDRdRSTAGFc/WeL7rM+Ws21bsViwQwtuwm4lYx18aoWRNRC
- EPl2NsoWNIF0uewHY7y/Mp8UwG6AlqNkRDE9DyL4hW7NV3R4CjQk1rUC0pk/o1O04Aap
- ueC/8Sw+7DxUe9VbUU3ugVWENQzxFkpUyx7TObmOfUeCZoWrCK+6nW07mSE4mhOoNUwn
- vtFn/eU39ejIHNbGs56JxS2n7Ama5ObIblZ3Sq3ov8XhsLg94o5ajonQK4P1ndKK8DBN
- hivp4Xo8iJ7Lf4/3/iBo6F41x/jdPWei45pJK/VetBVsbpcY5bG5LDeFjHkz3T85haiH
- GUdw==
-X-Gm-Message-State: AFqh2koKKSUszxcn9KcNwDB+OeDbpPcGNP0D1wUHSCcro6hkQIBJGS+o
- STmBQOcdoDHJlOjra6Ufljq69Q==
-X-Google-Smtp-Source: AMrXdXuNN8vHC25V0JCxJRsdJ1NBcmNZGXlkMsHdwbavdgRWANBjZXvIdqfnOVpgJx+mX0ZEZVe9xw==
-X-Received: by 2002:a05:600c:22cc:b0:3d1:bd81:b1b1 with SMTP id
- 12-20020a05600c22cc00b003d1bd81b1b1mr54042406wmg.18.1673520358362; 
- Thu, 12 Jan 2023 02:45:58 -0800 (PST)
+ bh=b/pz+hLq/z2vpKBvPE7NcmVyZAAiwhGmTF13ac4KeBY=;
+ b=s3Nv3UjR/7YsVfa/NLfz8m1Bl/+BMfSAttJ5x4WEZ2XnkaXN77xs4gPBQtwkGMNfb9
+ g4PtvbrOryrAv2ea12D9Z1fjH2ADV/dm5zYqWXHKo9z6KpM5XHn5PrunMMJiIxhgeS9L
+ Pn7IIQfRLj38jMvd31n/qE/p1/62QCebs8ycbsYZIqXi5OwCTtBeyob1aBc6Pg921T3j
+ ezDTYjRuKk5PCELSzTYs9k1CCDXybgtQS2u6rRa0BhKUCLP8w5pJzJqhnpEjJ3D/jFh9
+ vQ0CFBn2Z0TnFVZolnXoBi/feSLYeleMH9No9tnGJtGup7sudBfYptQyYGg3PQUAsBCW
+ hxIA==
+X-Gm-Message-State: AFqh2koSiwDEMaHBMqLQCNnUaCCMy8wa2lTfRjAnnpbuyY1ppFMwH9/C
+ bhtkMQR5GUgffVUNg3C2Nvc8yQ==
+X-Google-Smtp-Source: AMrXdXt3aqWbsMnZHqSAnj4bM22PkJJPTuDqgG50gqy4t7Vx2YnKfJNAzRe7e+gKH/0h99zjtBX6UA==
+X-Received: by 2002:adf:fe0e:0:b0:2bd:c03f:c010 with SMTP id
+ n14-20020adffe0e000000b002bdc03fc010mr4160208wrr.40.1673520566691; 
+ Thu, 12 Jan 2023 02:49:26 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- l27-20020a05600c2cdb00b003a84375d0d1sm28508006wmc.44.2023.01.12.02.45.56
+ h10-20020a1ccc0a000000b003d237d60318sm21579166wmb.2.2023.01.12.02.49.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 02:45:57 -0800 (PST)
-Message-ID: <0f22e884-93f2-237e-e44a-6dd1b7443349@linaro.org>
-Date: Thu, 12 Jan 2023 11:45:55 +0100
+ Thu, 12 Jan 2023 02:49:26 -0800 (PST)
+Message-ID: <f586a1af-dbe6-5343-69dc-74b4baa64d92@linaro.org>
+Date: Thu, 12 Jan 2023 11:49:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 07/31] e1000: Use more constant definitions
+Subject: Re: [PATCH 14/31] e1000e: Configure ResettableClass
 Content-Language: en-US
 To: Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -75,22 +74,23 @@ Cc: Jason Wang <jasowang@redhat.com>,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org, devel@daynix.com,
  Yan Vugenfirer <yvugenfi@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
- Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Peter Maydell <peter.maydell@linaro.org>
 References: <20230112095743.20123-1-akihiko.odaki@daynix.com>
- <20230112095743.20123-8-akihiko.odaki@daynix.com>
+ <20230112095743.20123-15-akihiko.odaki@daynix.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230112095743.20123-8-akihiko.odaki@daynix.com>
+In-Reply-To: <20230112095743.20123-15-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,41 +107,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/1/23 10:57, Akihiko Odaki wrote:
-> The definitions for E1000_VFTA_ENTRY_SHIFT, E1000_VFTA_ENTRY_MASK, and
-> E1000_VFTA_ENTRY_BIT_SHIFT_MASK were copied from:
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/net/ethernet/intel/e1000/e1000_hw.h?h=v6.0.9#n306
+> This is part of recent efforts of refactoring e1000 and e1000e.
 > 
-> The definitions for E1000_NUM_UNICAST, E1000_MC_TBL_SIZE, and
-> E1000_VLAN_FILTER_TBL_SIZE were copied from:
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/net/ethernet/intel/e1000/e1000_hw.h?h=v6.0.9#n707
+> DeviceClass's reset member is deprecated so migrate to ResettableClass.
+> Thre is no behavioral difference.
+
+Typo 'There'.
+
 > 
 > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   hw/net/e1000.c         | 50 +++++++++++++++++++++++-------------------
->   hw/net/e1000_regs.h    |  9 ++++++++
->   hw/net/e1000x_common.c |  5 +++--
->   hw/net/e1000x_common.h |  2 +-
->   4 files changed, 41 insertions(+), 25 deletions(-)
-
-
-> diff --git a/hw/net/e1000x_common.h b/hw/net/e1000x_common.h
-> index 3501e4855a..b991d814b1 100644
-> --- a/hw/net/e1000x_common.h
-> +++ b/hw/net/e1000x_common.h
-> @@ -102,7 +102,7 @@ enum {
->   static inline void
->   e1000x_inc_reg_if_not_full(uint32_t *mac, int index)
->   {
-> -    if (mac[index] != 0xffffffff) {
-> +    if (mac[index] != UINT32_MAX) {
-
-I wonder if using -1 wouldn't be simpler, otherwise great
-cleanup!
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
->           mac[index]++;
->       }
->   }
+>   hw/net/e1000e.c | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
 
 
