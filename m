@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2BEC667890
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:06:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB4CF667889
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:05:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFyBW-0002Vb-Mo; Thu, 12 Jan 2023 09:04:02 -0500
+	id 1pFyBX-0002WG-4O; Thu, 12 Jan 2023 09:04:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pFyBO-0002Ko-02
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:54 -0500
+ id 1pFyBK-0002HN-3K
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:50 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pFyBM-000641-85
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:53 -0500
+ id 1pFyBF-00060v-QS
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673532231;
+ s=mimecast20190719; t=1673532225;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b8CbcFljb6Nanuw3LJQXErQPn7YQ0Wmw0F6SR59ao2A=;
- b=iQz+yNNVuTIHEBGjVvtIfDr7sl+XEjR76U82OAqL3PowDHGohO2q2n2XjJXOrA5uXsn5Ad
- sWe47oBqeXVuZqg+5Tk5yK3MDQDMbbd9Li0l9M8yoBo0cCAdgL/iVE0H1GhHseAyZQUr2F
- 5SZUGr0Pxrvw93AG6NIznIc/UQXzEbU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Z13F7ZxPepmju0UlhSUBoJZaNYceLXa2mu0PfuDyxYI=;
+ b=W2Ojg89WZr/cP540qFsrmUCu78lQyqk7C8W1/nNduMPPPHl1kO88dOT7uawlJ/0P29Iqtd
+ mTuSZK0jxV6Y29LcyOXeMJXyMs93oLgZwXiNpkKZq+5q27mnjdayqhyR/IH9u0rchP9ZpJ
+ D5wcHzNGaXxeklJdXBZ1bEuwynTjHpk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-627-E56eu7qFNXmGa_kYWj3qpA-1; Thu, 12 Jan 2023 09:03:41 -0500
-X-MC-Unique: E56eu7qFNXmGa_kYWj3qpA-1
+ us-mta-351--Yx9fLy1PyOk5Ge_T9sCNQ-1; Thu, 12 Jan 2023 09:03:43 -0500
+X-MC-Unique: -Yx9fLy1PyOk5Ge_T9sCNQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 79156100F904;
- Thu, 12 Jan 2023 14:03:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 718E02807D7B;
+ Thu, 12 Jan 2023 14:03:42 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E7DB24085720;
- Thu, 12 Jan 2023 14:03:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E06294085720;
+ Thu, 12 Jan 2023 14:03:41 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 	Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH 32/40] tests: acpi: whitelist DSDT before decoupling PCI
- hotplug code from basic slots description
-Date: Thu, 12 Jan 2023 15:03:04 +0100
-Message-Id: <20230112140312.3096331-33-imammedo@redhat.com>
+Subject: [PATCH 36/40] pcihp: acpi: ignore coldplugged bridges when composing
+ hotpluggable slots
+Date: Thu, 12 Jan 2023 15:03:08 +0100
+Message-Id: <20230112140312.3096331-37-imammedo@redhat.com>
 In-Reply-To: <20230112140312.3096331-1-imammedo@redhat.com>
 References: <20230112140312.3096331-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -81,31 +81,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+coldplugged bridges are not unpluggable, so there is no need
+to describe slots where they are plugged as hotpluggable. To
+that effect we have a condition that marks slot as non-hotpluggable
+if it's populated by coldplugged bridge and prevents generation
+_SUN/_EJ0 objects for it. That leaves dynamic _DSM method on
+such slot (which also depends on BSEL and pcihp hardware).
+This _DSM method provides only dynamic acpi-index support so far,
+which is not actually used/supported by linux kernel for bridges
+and it's doubtful there will be need for it at all.
+
+So it's rather pointless to generate acpi-index related AML
+for bridges and we can simplify hotplug slots generator a bit
+more by completely ignoring coldplugged bridges on hotplug path.
+
+Another point in favor of dropping dynamic _DSM support, is
+that we can replace it with static _DSM if necessary since
+a slot with bridge can't change during VM runtime and without
+any dependency on ACPI PCI hotplug at that.
+Later I plan to implement bridge specific static _DSM
+   PCI Firmware Specification 3.2
+   4.6.5.  _DSM for Ignoring PCI Boot Configurations
+part of spec, to fix longstanding issue with fixed IO/MEM
+resource assignment that often leads to hotplugged device
+being in-operational within the guest due limited IO/MEM
+windows programmed on bridge at boot time.
+
+Expected change when coldplugged bridge is ignored by hotplug
+code, should look like:
+-            Scope (S18)
+-            {
+-                Name (ASUN, 0x03)
+-                Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+-                {
+-                    Local0 = Package (0x02)
+-                        {
+-                            BSEL,
+-                            ASUN
+-                        }
+-                    Return (PDSM (Arg0, Arg1, Arg2, Arg3, Local0))
+-                }
+-            }
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ hw/i386/acpi-build.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..1983fa596b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,15 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpierst",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.hpbridge",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.nohpet",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/pc/DSDT.roothp",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.multi-bridge",
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index a4f882dc72..50504578b9 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -411,8 +411,11 @@ static bool is_devfn_ignored_generic(const int devfn, const PCIBus *bus)
+ 
+ static bool is_devfn_ignored_hotplug(const int devfn, const PCIBus *bus)
+ {
+-    if (bus->devices[devfn]) {
+-        return is_devfn_ignored_generic(devfn, bus);
++    PCIDevice *pdev = bus->devices[devfn];
++    if (pdev) {
++        return is_devfn_ignored_generic(devfn, bus) ||
++               /* Cold plugged bridges aren't themselves hot-pluggable */
++               (IS_PCI_BRIDGE(pdev) && !DEVICE(pdev)->hotplugged);
+     } else { /* non populated slots */
+          /*
+          * hotplug is supported only for non-multifunction device
+@@ -447,14 +450,7 @@ static void build_append_pcihp_slots(Aml *parent_scope, PCIBus *bus,
+         }
+ 
+         if (pdev) {
+-            /*
+-             * Cold plugged bridges aren't themselves hot-pluggable.
+-             * Hotplugged bridges *are* hot-pluggable.
+-             */
+-            bool cold_plugged_bridge = IS_PCI_BRIDGE(pdev) &&
+-                                  !DEVICE(pdev)->hotplugged;
+-            hotpluggbale_slot = DEVICE_GET_CLASS(pdev)->hotpluggable &&
+-                                !cold_plugged_bridge;
++            hotpluggbale_slot = DEVICE_GET_CLASS(pdev)->hotpluggable;
+             dev = aml_scope("S%.02X", devfn);
+         } else {
+             dev = aml_device("S%.02X", devfn);
 -- 
 2.31.1
 
