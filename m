@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC875667C01
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 17:53:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02066667BB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 17:45:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG0gn-0004Mg-To; Thu, 12 Jan 2023 11:44:29 -0500
+	id 1pG0gq-0004Pn-UF; Thu, 12 Jan 2023 11:44:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pG0gk-0004LT-SB
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:44:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pG0gn-0004N4-8m
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:44:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pG0gj-0000fQ-6w
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:44:26 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pG0gl-0000ff-35
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:44:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673541864;
+ s=mimecast20190719; t=1673541866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tuVG8JV+7c5if5wuQgRLkz9lzWotElbt8ZFW7yztIew=;
- b=QobkU69G+bpLjQcFYH9pYSWF2N7nfrrlWvq9FNQ2D0tebDjeerZ3dHoVWqp2oS8XdHBFgB
- /vyVcMh5+yaVVC5jqLOom9wv10ogfPDKW6SLM8QdDWloh+jLfOEwHcd7RA59Giq+KqYy+H
- JZ9xfug9FfezfNzDtBFxdrdh07sKgIc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ND5/3wzgiVdYN1GjhHLtNjDLDUgoR37f88YPkJxXf2c=;
+ b=SQa2PIQTHSoMsHXwoM1EeAtyT0DrGlLR6DUFdav5aS2dSzFTljH+AdhDlerTJpRlxPCS71
+ 63/TRRkgtbdfPt9xuKLF+zUbt4URa6YycLVYNySfYMWwYTlkOErNUxAR3It8fEUCos+rM9
+ ms7KcsRx4PVRH7Imny0Nx5GL02MQJJE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-H1A3AcO9PbWJy9mgWJhWbw-1; Thu, 12 Jan 2023 11:44:22 -0500
-X-MC-Unique: H1A3AcO9PbWJy9mgWJhWbw-1
+ us-mta-176-lkVRfhLrPr6paFe3uF6D7A-1; Thu, 12 Jan 2023 11:44:25 -0500
+X-MC-Unique: lkVRfhLrPr6paFe3uF6D7A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 643BA882822
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 16:44:22 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C2D081C0899C
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 16:44:24 +0000 (UTC)
 Received: from t480s.fritz.box (unknown [10.39.193.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85EAA4078903;
- Thu, 12 Jan 2023 16:44:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C70A74078903;
+ Thu, 12 Jan 2023 16:44:22 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-Subject: [PATCH v3 7/8] virtio-mem: Migrate immutable properties early
-Date: Thu, 12 Jan 2023 17:44:02 +0100
-Message-Id: <20230112164403.105085-8-david@redhat.com>
+ Michal Privoznik <mprivozn@redhat.com>, Jing Qi <jinqi@redhat.com>
+Subject: [PATCH v3 8/8] virtio-mem: Proper support for preallocation with
+ migration
+Date: Thu, 12 Jan 2023 17:44:03 +0100
+Message-Id: <20230112164403.105085-9-david@redhat.com>
 In-Reply-To: <20230112164403.105085-1-david@redhat.com>
 References: <20230112164403.105085-1-david@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,172 +80,209 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The bitmap and the size are immutable while migration is active: see
-virtio_mem_is_busy(). We can migrate this information early, before
-migrating any actual RAM content. Further, all information we need for
-sanity checks is immutable as well.
+Ordinary memory preallocation runs when QEMU starts up and creates the
+memory backends, before processing the incoming migration stream. With
+virtio-mem, we don't know which memory blocks to preallocate before
+migration started. Now that we migrate the virtio-mem bitmap early, before
+migrating any RAM content, we can safely preallocate memory for all plugged
+memory blocks before migrating any RAM content.
 
-Having this information in place early will, for example, allow for
-properly preallocating memory before touching these memory locations
-during RAM migration: this way, we can make sure that all memory was
-actually preallocated and that any user errors (e.g., insufficient
-hugetlb pages) can be handled gracefully.
+This is especially relevant for the following cases:
 
-In contrast, usable_region_size and requested_size can theoretically
-still be modified on the source while the VM is running. Keep migrating
-these properties the usual, late, way.
+(1) User errors
 
-Use a new device property to keep behavior of compat machines
-unmodified.
+With hugetlb/files, if we don't have sufficient backend memory available on
+the migration destination, we'll crash QEMU (SIGBUS) during RAM migration
+when running out of backend memory. Preallocating memory before actual
+RAM migration allows for failing gracefully and informing the user about
+the setup problem.
 
+(2) Excluded memory ranges during migration
+
+For example, virtio-balloon free page hinting will exclude some pages
+from getting migrated. In that case, we won't crash during RAM
+migration, but later, when running the VM on the destination, which is
+bad.
+
+To fix this for new QEMU machines that migrate the bitmap early,
+preallocate the memory early, before any RAM migration. Warn with old
+QEMU machines.
+
+Getting postcopy right is a bit tricky, but we essentially now implement
+the same (problematic) preallocation logic as ordinary preallocation:
+preallocate memory early and discard it again before precopy starts. During
+ordinary preallocation, discarding of RAM happens when postcopy is advised.
+As the state (bitmap) is loaded after postcopy was advised but before
+postcopy starts listening, we have to discard memory we preallocated
+immediately again ourselves.
+
+Note that nothing (not even hugetlb reservations) guarantees for postcopy
+that backend memory (especially, hugetlb pages) are still free after they
+were freed ones while discarding RAM. Still, allocating that memory at
+least once helps catching some basic setup problems.
+
+Before this change, trying to restore a VM when insufficient hugetlb
+pages are around results in the process crashing to to a "Bus error"
+(SIGBUS). With this change, QEMU fails gracefully:
+
+  qemu-system-x86_64: qemu_prealloc_mem: preallocating memory failed: Bad address
+  qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:03.0/virtio-mem-device-early'
+  qemu-system-x86_64: load of migration failed: Cannot allocate memory
+
+And we can even introspect the early migration data, including the
+bitmap:
+  $ ./scripts/analyze-migration.py -f STATEFILE
+  {
+  "ram (2)": {
+      "section sizes": {
+          "0000:00:03.0/mem0": "0x0000000780000000",
+          "0000:00:04.0/mem1": "0x0000000780000000",
+          "pc.ram": "0x0000000100000000",
+          "/rom@etc/acpi/tables": "0x0000000000020000",
+          "pc.bios": "0x0000000000040000",
+          "0000:00:02.0/e1000.rom": "0x0000000000040000",
+          "pc.rom": "0x0000000000020000",
+          "/rom@etc/table-loader": "0x0000000000001000",
+          "/rom@etc/acpi/rsdp": "0x0000000000001000"
+      }
+  },
+  "0000:00:03.0/virtio-mem-device-early (51)": {
+      "tmp": "00 00 00 01 40 00 00 00 00 00 00 07 80 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00",
+      "size": "0x0000000040000000",
+      "bitmap": "ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff [...]
+  },
+  "0000:00:04.0/virtio-mem-device-early (53)": {
+      "tmp": "00 00 00 08 c0 00 00 00 00 00 00 07 80 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00",
+      "size": "0x00000001fa400000",
+      "bitmap": "ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff [...]
+  },
+  [...]
+
+Reported-by: Jing Qi <jinqi@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/core/machine.c              |  4 ++-
- hw/virtio/virtio-mem.c         | 51 ++++++++++++++++++++++++++++++++--
- include/hw/virtio/virtio-mem.h |  8 ++++++
- 3 files changed, 60 insertions(+), 3 deletions(-)
+ hw/virtio/virtio-mem.c | 87 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 87 insertions(+)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 616f3a207c..29b57f6448 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -41,7 +41,9 @@
- #include "hw/virtio/virtio-pci.h"
- #include "qom/object_interfaces.h"
- 
--GlobalProperty hw_compat_7_2[] = {};
-+GlobalProperty hw_compat_7_2[] = {
-+    { "virtio-mem", "x-early-migration", "false" },
-+};
- const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
- 
- GlobalProperty hw_compat_7_1[] = {
 diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 02f7b5469a..51666baa01 100644
+index 51666baa01..4c3720249c 100644
 --- a/hw/virtio/virtio-mem.c
 +++ b/hw/virtio/virtio-mem.c
-@@ -31,6 +31,8 @@
- #include CONFIG_DEVICES
- #include "trace.h"
+@@ -204,6 +204,30 @@ static int virtio_mem_for_each_unplugged_range(const VirtIOMEM *vmem, void *arg,
+     return ret;
+ }
  
-+static const VMStateDescription vmstate_virtio_mem_device_early;
-+
- /*
-  * We only had legacy x86 guests that did not support
-  * VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE. Other targets don't have legacy guests.
-@@ -878,6 +880,10 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
- 
-     host_memory_backend_set_mapped(vmem->memdev, true);
-     vmstate_register_ram(&vmem->memdev->mr, DEVICE(vmem));
-+    if (vmem->early_migration) {
-+        vmstate_register(VMSTATE_IF(vmem), VMSTATE_INSTANCE_ID_ANY,
-+                         &vmstate_virtio_mem_device_early, vmem);
-+    }
-     qemu_register_reset(virtio_mem_system_reset, vmem);
- 
-     /*
-@@ -899,6 +905,10 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
-      */
-     memory_region_set_ram_discard_manager(&vmem->memdev->mr, NULL);
-     qemu_unregister_reset(virtio_mem_system_reset, vmem);
-+    if (vmem->early_migration) {
-+        vmstate_unregister(VMSTATE_IF(vmem), &vmstate_virtio_mem_device_early,
-+                           vmem);
-+    }
-     vmstate_unregister_ram(&vmem->memdev->mr, DEVICE(vmem));
-     host_memory_backend_set_mapped(vmem->memdev, false);
-     virtio_del_queue(vdev, 0);
-@@ -1015,18 +1025,53 @@ static const VMStateDescription vmstate_virtio_mem_sanity_checks = {
-     },
- };
- 
-+static bool virtio_mem_vmstate_field_exists(void *opaque, int version_id)
++static int virtio_mem_for_each_plugged_range(const VirtIOMEM *vmem, void *arg,
++                                             virtio_mem_range_cb cb)
 +{
-+    const VirtIOMEM *vmem = VIRTIO_MEM(opaque);
++    unsigned long first_bit, last_bit;
++    uint64_t offset, size;
++    int ret = 0;
 +
-+    /* With early migration, these fields were already migrated. */
-+    return !vmem->early_migration;
++    first_bit = find_first_bit(vmem->bitmap, vmem->bitmap_size);
++    while (first_bit < vmem->bitmap_size) {
++        offset = first_bit * vmem->block_size;
++        last_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
++                                      first_bit + 1) - 1;
++        size = (last_bit - first_bit + 1) * vmem->block_size;
++
++        ret = cb(vmem, arg, offset, size);
++        if (ret) {
++            break;
++        }
++        first_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
++                                  last_bit + 2);
++    }
++    return ret;
 +}
 +
- static const VMStateDescription vmstate_virtio_mem_device = {
-     .name = "virtio-mem-device",
+ /*
+  * Adjust the memory section to cover the intersection with the given range.
+  *
+@@ -938,6 +962,10 @@ static int virtio_mem_post_load(void *opaque, int version_id)
+     RamDiscardListener *rdl;
+     int ret;
+ 
++    if (vmem->prealloc && !vmem->early_migration) {
++        warn_report("Proper preallocation with migration requires a newer QEMU machine");
++    }
++
+     /*
+      * We started out with all memory discarded and our memory region is mapped
+      * into an address space. Replay, now that we updated the bitmap.
+@@ -957,6 +985,64 @@ static int virtio_mem_post_load(void *opaque, int version_id)
+     return virtio_mem_restore_unplugged(vmem);
+ }
+ 
++static int virtio_mem_prealloc_range_cb(const VirtIOMEM *vmem, void *arg,
++                                        uint64_t offset, uint64_t size)
++{
++    void *area = memory_region_get_ram_ptr(&vmem->memdev->mr) + offset;
++    int fd = memory_region_get_fd(&vmem->memdev->mr);
++    Error *local_err = NULL;
++
++    qemu_prealloc_mem(fd, area, size, 1, NULL, &local_err);
++    if (local_err) {
++        error_report_err(local_err);
++        return -ENOMEM;
++    }
++    return 0;
++}
++
++static int virtio_mem_post_load_early(void *opaque, int version_id)
++{
++    VirtIOMEM *vmem = VIRTIO_MEM(opaque);
++    RAMBlock *rb = vmem->memdev->mr.ram_block;
++    int ret;
++
++    if (!vmem->prealloc) {
++        return 0;
++    }
++
++    /*
++     * We restored the bitmap and verified that the basic properties
++     * match on source and destination, so we can go ahead and preallocate
++     * memory for all plugged memory blocks, before actual RAM migration starts
++     * touching this memory.
++     */
++    ret = virtio_mem_for_each_plugged_range(vmem, NULL,
++                                            virtio_mem_prealloc_range_cb);
++    if (ret) {
++        return ret;
++    }
++
++    /*
++     * This is tricky: postcopy wants to start with a clean slate. On
++     * POSTCOPY_INCOMING_ADVISE, postcopy code discards all (ordinarily
++     * preallocated) RAM such that postcopy will work as expected later.
++     *
++     * However, we run after POSTCOPY_INCOMING_ADVISE -- but before actual
++     * RAM migration. So let's discard all memory again. This looks like an
++     * expensive NOP, but actually serves a purpose: we made sure that we
++     * were able to allocate all required backend memory once. We cannot
++     * guarantee that the backend memory we will free will remain free
++     * until we need it during postcopy, but at least we can catch the
++     * obvious setup issues this way.
++     */
++    if (migration_incoming_postcopy_advised()) {
++        if (ram_block_discard_range(rb, 0, qemu_ram_get_used_length(rb))) {
++            return -EBUSY;
++        }
++    }
++    return 0;
++}
++
+ typedef struct VirtIOMEMMigSanityChecks {
+     VirtIOMEM *parent;
+     uint64_t addr;
+@@ -1068,6 +1154,7 @@ static const VMStateDescription vmstate_virtio_mem_device_early = {
      .minimum_version_id = 1,
      .version_id = 1,
-     .priority = MIG_PRI_VIRTIO_MEM,
-     .post_load = virtio_mem_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_WITH_TMP_TEST(VirtIOMEM, virtio_mem_vmstate_field_exists,
-+                              VirtIOMEMMigSanityChecks,
-+                              vmstate_virtio_mem_sanity_checks),
-+        VMSTATE_UINT64(usable_region_size, VirtIOMEM),
-+        VMSTATE_UINT64_TEST(size, VirtIOMEM, virtio_mem_vmstate_field_exists),
-+        VMSTATE_UINT64(requested_size, VirtIOMEM),
-+        VMSTATE_BITMAP_TEST(bitmap, VirtIOMEM, virtio_mem_vmstate_field_exists,
-+                            0, bitmap_size),
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-+
-+/*
-+ * Transfer properties that are immutable while migration is active early,
-+ * such that we have have this information around before migrating any RAM
-+ * content.
-+ *
-+ * Note that virtio_mem_is_busy() makes sure these properties can no longer
-+ * change on the migration source until migration completed.
-+ *
-+ * With QEMU compat machines, we transmit these properties later, via
-+ * vmstate_virtio_mem_device instead -- see virtio_mem_vmstate_field_exists().
-+ */
-+static const VMStateDescription vmstate_virtio_mem_device_early = {
-+    .name = "virtio-mem-device-early",
-+    .minimum_version_id = 1,
-+    .version_id = 1,
-+    .immutable = 1,
+     .immutable = 1,
++    .post_load = virtio_mem_post_load_early,
      .fields = (VMStateField[]) {
          VMSTATE_WITH_TMP(VirtIOMEM, VirtIOMEMMigSanityChecks,
                           vmstate_virtio_mem_sanity_checks),
--        VMSTATE_UINT64(usable_region_size, VirtIOMEM),
-         VMSTATE_UINT64(size, VirtIOMEM),
--        VMSTATE_UINT64(requested_size, VirtIOMEM),
-         VMSTATE_BITMAP(bitmap, VirtIOMEM, 0, bitmap_size),
-         VMSTATE_END_OF_LIST()
-     },
-@@ -1211,6 +1256,8 @@ static Property virtio_mem_properties[] = {
-     DEFINE_PROP_ON_OFF_AUTO(VIRTIO_MEM_UNPLUGGED_INACCESSIBLE_PROP, VirtIOMEM,
-                             unplugged_inaccessible, ON_OFF_AUTO_AUTO),
- #endif
-+    DEFINE_PROP_BOOL(VIRTIO_MEM_EARLY_MIGRATION_PROP, VirtIOMEM,
-+                     early_migration, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
-index 7745cfc1a3..f15e561785 100644
---- a/include/hw/virtio/virtio-mem.h
-+++ b/include/hw/virtio/virtio-mem.h
-@@ -31,6 +31,7 @@ OBJECT_DECLARE_TYPE(VirtIOMEM, VirtIOMEMClass,
- #define VIRTIO_MEM_BLOCK_SIZE_PROP "block-size"
- #define VIRTIO_MEM_ADDR_PROP "memaddr"
- #define VIRTIO_MEM_UNPLUGGED_INACCESSIBLE_PROP "unplugged-inaccessible"
-+#define VIRTIO_MEM_EARLY_MIGRATION_PROP "x-early-migration"
- #define VIRTIO_MEM_PREALLOC_PROP "prealloc"
- 
- struct VirtIOMEM {
-@@ -74,6 +75,13 @@ struct VirtIOMEM {
-     /* whether to prealloc memory when plugging new blocks */
-     bool prealloc;
- 
-+    /*
-+     * Whether we migrate properties that are immutable while migration is
-+     * active early, before state of other devices and especially, before
-+     * migrating any RAM content.
-+     */
-+    bool early_migration;
-+
-     /* notifiers to notify when "size" changes */
-     NotifierList size_change_notifiers;
- 
 -- 
 2.39.0
 
