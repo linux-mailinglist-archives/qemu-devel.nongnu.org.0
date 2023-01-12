@@ -2,62 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9B56672F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 14:11:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623256672F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 14:11:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFxLk-00031L-Dn; Thu, 12 Jan 2023 08:10:33 -0500
+	id 1pFxMJ-0003Xb-ER; Thu, 12 Jan 2023 08:11:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+ba915ff7525d9a5f15e2+7081+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFxLb-000316-2A
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 08:10:24 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1pFxMC-0003Wp-Ri; Thu, 12 Jan 2023 08:11:01 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+ba915ff7525d9a5f15e2+7081+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pFxLY-0002Wl-Qr
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 08:10:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=FDRBSTEJM9Cl8Matyq18vYCMXZBsH6q48BQQjR6kajM=; b=WspIRrj1X3VbaeesAWALEEJbPj
- HhrMrL1q+7Do1mFMvjmo7sM4fuZ/pdYAYfI4pweIPXtA/19lGQpPjb2xJtEXKx7691xM2Yo0KUm5V
- uBgmFoW9JFHUK5ysfq3EUZXwaGpkun/+wJf/KlmQfaVoZzB5wQGUJ7T7KC9HC/jXIEi6SvV624V0d
- 4DWyE8FDKU7vu4UwP3x8RnnXYzlqr0vr6HYIiX6gI8RcYh4KMbNjSGMRWfJiufGZ78fLwZsQx9MHI
- BVSbKK3p5ai0RgUmBn0dxoHfEe3RNyx1XHR/l0d3j9PAD2azbzIEDtOMntmFJmF6S+PD3uBg170TZ
- h6ySwJGw==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pFxLf-0054fR-7C; Thu, 12 Jan 2023 13:10:28 +0000
-Message-ID: <afc99f0cdfd9686e99a6e1b94e609dc0e73cff43.camel@infradead.org>
-Subject: Re: [PATCH] remove unnecessary extern "C" blocks
-From: David Woodhouse <dwmw2@infradead.org>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: paul <paul@xen.org>
-Date: Thu, 12 Jan 2023 13:10:13 +0000
-In-Reply-To: <20230110084946.299480-1-pbonzini@redhat.com>
-References: <20230110084946.299480-1-pbonzini@redhat.com>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-ub3ql4muPOd4ZGh8wRt1"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1pFxMA-0002hQ-U8; Thu, 12 Jan 2023 08:11:00 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id E9D525C0120;
+ Thu, 12 Jan 2023 08:10:55 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 12 Jan 2023 08:10:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm2; t=
+ 1673529055; x=1673615455; bh=ax+yEPkxUDxwwCFONw/tlENQP9fx8MuQbRF
+ 8om3xqp0=; b=XZm+umDxtP4GG9dAaTJRRxNwEGr9ygdbbzwERSOWCbHi9nkazvM
+ PH7C74ylJxGro3GuwriN4LXXNLDaWoBXBpMHJAXzB0NKmcgFVoqcY5UznQ5lc3nn
+ yHJL651frYfqRwrUWbTo5zavyG5wF76EYXA2Dm9b7pJVDojesSB5PY7jOfvSfNHT
+ ok00zXT841TMgXA5VclOCdsPJE04HYZ9xACemPrFPPI202DC1k0f1XCqaeif//fs
+ vldhqeiyHdtykrQlK3DWHpbqnQxQDV+VTPfZ926eDwgYrgu2qMHJMyr8jHVCmSZk
+ kn7T4jap//2Pd0le/wknAzrUzGHsCLxYY7Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:message-id:mime-version
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673529055; x=
+ 1673615455; bh=ax+yEPkxUDxwwCFONw/tlENQP9fx8MuQbRF8om3xqp0=; b=p
+ N4rf+NRUOk3dfUIVMcUQUFRWVWaOBLB0czm7zX/RM7CwBRRPPzUzWEqNrpf6Hj2+
+ dJqiNyNYzP128dKJsZ+3m96kO8sFjQXdE+o++8N7N2/4YfN7r2neNF2As2W9RiuV
+ LiwUYmDo/U6atQlKZPlNtZG4nw2X2j3IjVfFWcKZKdVK55f46Q+SuJB9h27Z1jpL
+ mZ4MMO1t5dN87xcO/f31jeQ0S5l0FF5/aI5z8CNP6Ci9KrVcYMy6+Rh2hRk1qUmb
+ qc4gXJfG7vljKvl2zR/b9V/liadIqZ/JTEZqHxeOLfey50YBmp08c8+FHyQRuHx+
+ JTBxUTsHOWjKj5QVYD9ew==
+X-ME-Sender: <xms:3wbAY3eLD-ax9FzQIT8FpvCxsNRncEhou0EqyqS_QoOuVw3s3MA8SQ>
+ <xme:3wbAY9NnlfcG8D4sQOHHHg_P2yoSXowOnD6uKhQH9enng-T8urlMIwLjlQMOn-W28
+ RlFqERGFeyBkClVfZw>
+X-ME-Received: <xmr:3wbAYwgfyU2c1VUQfWToB2xDW3wKlZ6df5l4ebDfXLErdtOL02lwdxAb5j0OxSYs-ElBlQ04LrwATuFj0kn-yEBa-gNzNQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleeigdeglecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfggtggusehgtderredttdejnecuhfhrohhmpefmlhgruhhsucfl
+ vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
+ hnpedtjefgteejuedvkeefjefgieekueetvdduheffkeehjeevleehhedvgfeiudehhfen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhsse
+ hirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:3wbAY4_SxqB6wMdCcuYAYLlhIbcyhCIAy2vmFhd8Yu8lsL7OhM5XMg>
+ <xmx:3wbAYzvl628P-DdQgoqjcjnkL63UnkNGGEpNc5pJfPhj6wfLOO1Hwg>
+ <xmx:3wbAY3E4rpSQyuJbzXmnkiRpTWlnbxuSquSbPYLljZS-LB5YmeEy_A>
+ <xmx:3wbAY8-MxCVZFy-_ZHonO5ZkMCnbb7zMLVmXhZhMW9NdC_mvXT_BjQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 12 Jan 2023 08:10:53 -0500 (EST)
+Date: Thu, 12 Jan 2023 14:10:51 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Guenter Roeck <linux@roeck-us.net>
+Subject: completion timeouts with pin-based interrupts in QEMU hw/nvme
+Message-ID: <Y8AG21o/9/3eUMIg@cormorant.local>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+ba915ff7525d9a5f15e2+7081+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ZSQlxVMiwxf2AkzL"
+Content-Disposition: inline
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,136 +100,140 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-ub3ql4muPOd4ZGh8wRt1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--ZSQlxVMiwxf2AkzL
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Tue, 2023-01-10 at 09:49 +0100, Paolo Bonzini wrote:
-> A handful of header files in QEMU are wrapped with extern "C" blocks.
-> These are not necessary: there are C++ source files anymore in QEMU,
-> and even where there were some, they did not include most of these
-> files anyway.
->=20
-> Remove them for consistency.
+Hi all (linux-nvme, qemu-devel, maintainers),
 
+On QEMU riscv64, which does not use MSI/MSI-X and thus relies on
+pin-based interrupts, I'm seeing occasional completion timeouts, i.e.
 
-Are we allowed C++ in qemu?
+  nvme nvme0: I/O 333 QID 1 timeout, completion polled
 
-I ask because we have a full single-tenant implementation of XenStore
-lying around, designed to be VMM-internal... that just happens to be
-written in C++.
+To rule out issues with shadow doorbells (which have been a source of
+frustration in the past), those are disabled. FWIW I'm also seeing the
+issue with shadow doorbells.
 
---=-ub3ql4muPOd4ZGh8wRt1
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+	diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+	index f25cc2c235e9..28d8e7f4b56c 100644
+	--- a/hw/nvme/ctrl.c
+	+++ b/hw/nvme/ctrl.c
+	@@ -7407,7 +7407,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+	     id->mdts = n->params.mdts;
+	     id->ver = cpu_to_le32(NVME_SPEC_VER);
+	     id->oacs =
+	-        cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT | NVME_OACS_DBBUF);
+	+        cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT);
+	     id->cntrltype = 0x1;
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMTEyMTMxMDEzWjAvBgkqhkiG9w0BCQQxIgQgasPMsJpB
-vlcqA1uiWJx89cDiQZDNY8DTnL7j6GyexIswgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgA5mP4Y9hqnKCy4kR04H6gK9f29JdFOLtE2
-pLjh8ob0rUSghjdoi0GtXnBUVw7uY+ELBEUsXzx2A4mhn4V/yaNejIpJjTbb8KH7hENARE8zuxMl
-X0kruodL1tauZHPHlOdVYa6QrAYM1/q8oIkCBZw44tiqURjYdA6zw+FlbWEXrXpbFYWWScram1Ud
-aWA/Cz04PvfwdaK1sDgr4stD1UXY43iRj/PzIVAjz3QD3n7uGNMIhnqesWQaRKRRnkgU2NpAvuLs
-SK+A1iVIUeuRDLnEp5G/bBiy+BMehMnRRQVtejZHNvMb6IPCh0N1eJ8n19ADcdo3LlCCoVo4tseE
-IVPsB7AwG7K32HcWZZvqTMqik2LvoOoiaJqXJyvI1itNlbLbK0Vua2xQ3DNauykugczNUSryjNOk
-h5+OGCWl0JiDj+00SybVy/uIETdh6EsC61xlplkWmmCGmgrPGpGNxE83f5+LgADvel+vMFOQVksa
-pl7K4l703WuMH7uV51+Ko/Rc2x1XlAsLHO+IaYKq7Ou5h6lRNz2SrdgdoqEmsaYzg+h2vJE6Jq5L
-01VPq7ozQ4zurAd7MNyovIWAgOmWie21E9vMp5D7It7bN8KqiAyOm+Xd7udoyp8T0CUY2KYezgkT
-xwwhJYaCw1rnt8Lqn7pULkuWAgNEPwuf3iTmDfRUQAAAAAAAAA==
+	     /*
 
 
---=-ub3ql4muPOd4ZGh8wRt1--
+I captured a trace from QEMU when this happens:
+
+pci_nvme_mmio_write addr 0x1008 data 0x4e size 4
+pci_nvme_mmio_doorbell_sq sqid 1 new_tail 78
+pci_nvme_io_cmd cid 4428 nsid 0x1 sqid 1 opc 0x2 opname 'NVME_NVM_CMD_READ'
+pci_nvme_read cid 4428 nsid 1 nlb 32 count 16384 lba 0x1324
+pci_nvme_map_prp trans_len 4096 len 16384 prp1 0x80aca000 prp2 0x82474100 num_prps 5
+pci_nvme_map_addr addr 0x80aca000 len 4096
+pci_nvme_map_addr addr 0x80ac9000 len 4096
+pci_nvme_map_addr addr 0x80ac8000 len 4096
+pci_nvme_map_addr addr 0x80ac7000 len 4096
+pci_nvme_io_cmd cid 4429 nsid 0x1 sqid 1 opc 0x2 opname 'NVME_NVM_CMD_READ'
+pci_nvme_read cid 4429 nsid 1 nlb 224 count 114688 lba 0x1242
+pci_nvme_map_prp trans_len 4096 len 114688 prp1 0x80ae6000 prp2 0x82474000 num_prps 29
+pci_nvme_map_addr addr 0x80ae6000 len 4096
+pci_nvme_map_addr addr 0x80ae5000 len 4096
+pci_nvme_map_addr addr 0x80ae4000 len 4096
+pci_nvme_map_addr addr 0x80ae3000 len 4096
+pci_nvme_map_addr addr 0x80ae2000 len 4096
+pci_nvme_map_addr addr 0x80ae1000 len 4096
+pci_nvme_map_addr addr 0x80ae0000 len 4096
+pci_nvme_map_addr addr 0x80adf000 len 4096
+pci_nvme_map_addr addr 0x80ade000 len 4096
+pci_nvme_map_addr addr 0x80add000 len 4096
+pci_nvme_map_addr addr 0x80adc000 len 4096
+pci_nvme_map_addr addr 0x80adb000 len 4096
+pci_nvme_map_addr addr 0x80ada000 len 4096
+pci_nvme_map_addr addr 0x80ad9000 len 4096
+pci_nvme_map_addr addr 0x80ad8000 len 4096
+pci_nvme_map_addr addr 0x80ad7000 len 4096
+pci_nvme_map_addr addr 0x80ad6000 len 4096
+pci_nvme_map_addr addr 0x80ad5000 len 4096
+pci_nvme_map_addr addr 0x80ad4000 len 4096
+pci_nvme_map_addr addr 0x80ad3000 len 4096
+pci_nvme_map_addr addr 0x80ad2000 len 4096
+pci_nvme_map_addr addr 0x80ad1000 len 4096
+pci_nvme_map_addr addr 0x80ad0000 len 4096
+pci_nvme_map_addr addr 0x80acf000 len 4096
+pci_nvme_map_addr addr 0x80ace000 len 4096
+pci_nvme_map_addr addr 0x80acd000 len 4096
+pci_nvme_map_addr addr 0x80acc000 len 4096
+pci_nvme_map_addr addr 0x80acb000 len 4096
+pci_nvme_rw_cb cid 4428 blk 'd0'
+pci_nvme_rw_complete_cb cid 4428 blk 'd0'
+pci_nvme_enqueue_req_completion cid 4428 cqid 1 dw0 0x0 dw1 0x0 status 0x0
+[1]: pci_nvme_irq_pin pulsing IRQ pin
+pci_nvme_rw_cb cid 4429 blk 'd0'
+pci_nvme_rw_complete_cb cid 4429 blk 'd0'
+pci_nvme_enqueue_req_completion cid 4429 cqid 1 dw0 0x0 dw1 0x0 status 0x0
+[2]: pci_nvme_irq_pin pulsing IRQ pin
+[3]: pci_nvme_mmio_write addr 0x100c data 0x4d size 4
+[4]: pci_nvme_mmio_doorbell_cq cqid 1 new_head 77
+---- TIMEOUT HERE (30s) ---
+[5]: pci_nvme_mmio_read addr 0x1c size 4
+[6]: pci_nvme_mmio_write addr 0x100c data 0x4e size 4
+[7]: pci_nvme_mmio_doorbell_cq cqid 1 new_head 78
+--- Interrupt deasserted (cq->tail == cq->head)
+[   31.757821] nvme nvme0: I/O 333 QID 1 timeout, completion polled
+
+Following the timeout, everything returns to "normal" and device/driver
+happily continues.
+
+The pin-based interrupt logic in hw/nvme seems sound enough to me, so I
+am wondering if there is something going on with the kernel driver (but
+I certainly do not rule out that hw/nvme is at fault here, since
+pin-based interrupts has also been a source of several issues in the
+past).
+
+What I'm thinking is that following the interrupt in [1], the driver
+picks up completion for cid 4428 but does not find cid 4429 in the queue
+since it has not been posted yet. Before getting a cq head doorbell
+write (which would cause the pin to be deasserted), the device posts the
+completion for cid 4429 which just keeps the interrupt asserted in [2].
+The trace then shows the cq head doorbell update in [3,4] for cid 4428
+and then we hit the timeout since the driver is not aware that cid 4429
+has been posted in between this (why is it not aware of this?) Timing
+out, the driver then polls the queue and notices cid 4429 and updates
+the cq head doorbell in [5-7], causing the device to deassert the
+interrupt and we are "back in shape".
+
+I'm observing this on 6.0 kernels and v6.2-rc3 (have not tested <6.0).
+Tested on QEMU v7.0.0 (to rule out all the shadow doorbell
+optimizations) as well as QEMU nvme-next (infradead). In other words,
+it's not a recent regression in either project and potentially it has
+always been like this. I've not tested other platforms for now, but I
+would assume others using pin-based interrupts would observe the same.
+
+Any ideas on how to shed any light on this issue from the kernel side of
+things?
+
+--ZSQlxVMiwxf2AkzL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPABtoACgkQTeGvMW1P
+DeliLgf9ENuEZObUMO1SQhR26bD7PJ9CmmaBc+PDf7tutqR7hPvXG6hEuI12LM+c
+MetBUth3PDm+OT+9gsI8VT1WC6wiowqVYf1BpXtj/wJw7kJ5L+JURrVcGODEDLf7
+AL0/kNJxWJ1sCQy+0pI4QOgSFlk/EcJPAqXLOX1zaUFT15t3dFuejV9fPfxS5Dm9
+Qj+3bWA6HiUe+M/DznoCl550P2s2i6Pvhs2p975UfTwd1ftcR4d/ytl7emg8q8a0
+a/rZMGoD3Mii/29aRtXcBiG10APMBHI4rHjKbNB0QwVvYyEehJOhPalbnyc6q9ul
+AhkeAeaGXDXsmyY2fZ69A2liaHnk1Q==
+=nWb1
+-----END PGP SIGNATURE-----
+
+--ZSQlxVMiwxf2AkzL--
 
