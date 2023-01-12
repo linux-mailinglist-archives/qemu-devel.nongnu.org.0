@@ -2,83 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B547666FC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 11:37:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CF3666FC6
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 11:36:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFum4-00037K-3E; Thu, 12 Jan 2023 05:25:32 -0500
+	id 1pFunM-0003tN-Gf; Thu, 12 Jan 2023 05:26:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFulq-0002wQ-L8
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:25:24 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFuln-0000Wh-Es
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:25:18 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- ay12-20020a05600c1e0c00b003d9ea12bafcso10817615wmb.3
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 02:25:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mUA0s/OLF3irpYz8q/+5iIV+g6F7cgz94WGYfbGpTw8=;
- b=Sewkk4bCLwBH/pHnaleAQkGb1+NuBVt+ZNiur7WAfGsG1gemNpSTO7lxNQlBC5tOBG
- 4gLNx9CTD7F/sGHD7yeKdGNOJzKJEyZNxri4fVNbbAfgu7ShGM07pW/096/nVMMg+Kmb
- BRPRpghh+ABTSWdNyaREaB5P7UQxr4hQeeYCarGz0FeiHzKlQPCSaua7zmlRsgCvu6u8
- zLdRLIbwYx6gfedLxMXIScVH8Ma4P/P+ZlkGqva8AnZ44zdvKk1Ua48b8UQ+3Qmabf9a
- ymWbGsEn21c6QGfgnj6b8VeCyk9UIKznn+8O3bLmHbJkhte9zAk/qi9mdfcmJukXzrsM
- PlGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mUA0s/OLF3irpYz8q/+5iIV+g6F7cgz94WGYfbGpTw8=;
- b=t98DOYIRpiEme6mQOb7B8LTAdiBl4bJ5T2ujIMdlk1klH299R2G3a46w/Lus6fN1xE
- Hk69sQxjLAClVRezlaibbBJnby/IlvvNpJOlI+EzeqB9KCZvIrXZCSqVT5w9lSyenNBO
- yAvDQvEIo0LSa3syTOKN26mQ0tSCKMmq0HZT0khUGHP321mSUtoeEykNckn/6XVcuSs1
- snv4HKR81z0jVoYQupB0N8xUCqfilVu5fLMZPFLPfX+T5q8hSdxyhL0kBk9+N+kI5db9
- 2P/+xmkdob9lIn316LdRiQscTjtA5588hjbl8EF4jgxvaSI76izEGu3fJaVkNV1gXLQ4
- qg1Q==
-X-Gm-Message-State: AFqh2kriMhQ7yFstp2VLZxYvLpr1U4EH2kXP2U1h4hvPZaRtscrFXCRc
- OlyOmaujxyNWiXZcO1pvCUYimCFptgShsSCU
-X-Google-Smtp-Source: AMrXdXtgiDGZ0K65M92CLuWZ1DFtL2LH2tGMcj0VmVv0DWUfdKRoXOGMym9eNC+lUvjlC/LXJtJUsw==
-X-Received: by 2002:a05:600c:19c7:b0:3d9:7096:262a with SMTP id
- u7-20020a05600c19c700b003d97096262amr48776350wmq.27.1673519113813; 
- Thu, 12 Jan 2023 02:25:13 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- ay13-20020a05600c1e0d00b003d34faca949sm21317183wmb.39.2023.01.12.02.25.12
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 12 Jan 2023 02:25:13 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org,
-	Richard Henderson <richard.henderson@linaro.org>
-Cc: Laurent Vivier <laurent@vivier.eu>,
- Peter Maydell <peter.maydell@linaro.org>, Fabiano Rosas <farosas@suse.de>,
- qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2 7/7] target/arm/sme: Unify set_pstate() SM/ZA helpers as
- set_svcr()
-Date: Thu, 12 Jan 2023 11:24:36 +0100
-Message-Id: <20230112102436.1913-8-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230112102436.1913-1-philmd@linaro.org>
-References: <20230112102436.1913-1-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pFunK-0003t6-3n
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:26:50 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pFunH-0000rF-P2
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:26:49 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nt0xD6gGLz67xNS;
+ Thu, 12 Jan 2023 18:22:56 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Thu, 12 Jan 2023 10:26:43 +0000
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
+CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
+ <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
+ <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>
+Subject: [PATCH v2 0/8] hw/cxl: CXL emulation cleanups and minor fixes for
+ upstream
+Date: Thu, 12 Jan 2023 10:26:36 +0000
+Message-ID: <20230112102644.27830-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,95 +62,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
+V2:
+- Various minor issues found by Philippe, see individual patches.
+  Note that the const_le64() patch matches changes in a set of Philippe's that was
+  never applied. Philippe may send an update of that series before this merges.
+  If that occurs, drop "qemu/bswap: Add const_le64()"
+- Picked up tags.
 
-Unify the two helper_set_pstate_{sm,za} in this function.
-Do not call helper_* functions from svcr_write.
+V1 Cover letter.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230112004322.161330-1-richard.henderson@linaro.org>
-[PMD: Split patch in multiple tiny steps]
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- target/arm/helper-sme.h    |  3 +--
- target/arm/helper.c        |  2 --
- target/arm/sme_helper.c    |  9 ++-------
- target/arm/translate-a64.c | 10 ++--------
- 4 files changed, 5 insertions(+), 19 deletions(-)
+A small collection of misc fixes and tidying up pulled out from various
+series. I've pulled this to the top of my queue of CXL related work
+as they stand fine on their own and it will reduce the noise in
+the larger patch sets if these go upstream first.
 
-diff --git a/target/arm/helper-sme.h b/target/arm/helper-sme.h
-index d2d544a696..27eef49a11 100644
---- a/target/arm/helper-sme.h
-+++ b/target/arm/helper-sme.h
-@@ -17,8 +17,7 @@
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
- 
--DEF_HELPER_FLAGS_2(set_pstate_sm, TCG_CALL_NO_RWG, void, env, i32)
--DEF_HELPER_FLAGS_2(set_pstate_za, TCG_CALL_NO_RWG, void, env, i32)
-+DEF_HELPER_FLAGS_3(set_svcr, TCG_CALL_NO_RWG, void, env, i32, i32)
- 
- DEF_HELPER_FLAGS_3(sme_zero, TCG_CALL_NO_RWG, void, env, i32, i32)
- 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index cf77bdd378..1d74b95971 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -6762,8 +6762,6 @@ void aarch64_set_svcr(CPUARMState *env, uint64_t new, uint64_t mask)
- static void svcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                        uint64_t value)
- {
--    helper_set_pstate_sm(env, FIELD_EX64(value, SVCR, SM));
--    helper_set_pstate_za(env, FIELD_EX64(value, SVCR, ZA));
-     aarch64_set_svcr(env, value, -1);
- }
- 
-diff --git a/target/arm/sme_helper.c b/target/arm/sme_helper.c
-index 3abe03e4cb..1e67fcac30 100644
---- a/target/arm/sme_helper.c
-+++ b/target/arm/sme_helper.c
-@@ -29,14 +29,9 @@
- #include "vec_internal.h"
- #include "sve_ldst_internal.h"
- 
--void helper_set_pstate_sm(CPUARMState *env, uint32_t i)
-+void helper_set_svcr(CPUARMState *env, uint32_t val, uint32_t mask)
- {
--    aarch64_set_svcr(env, 0, R_SVCR_SM_MASK);
--}
--
--void helper_set_pstate_za(CPUARMState *env, uint32_t i)
--{
--    aarch64_set_svcr(env, 0, R_SVCR_ZA_MASK);
-+    aarch64_set_svcr(env, val, mask);
- }
- 
- void helper_sme_zero(CPUARMState *env, uint32_t imm, uint32_t svl)
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 035e63bdc5..19cf371c4c 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1847,14 +1847,8 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
- 
-             if ((old ^ new) & msk) {
-                 /* At least one bit changes. */
--                bool i = crm & 1;
--
--                if ((crm & 2) && i != s->pstate_sm) {
--                    gen_helper_set_pstate_sm(cpu_env, tcg_constant_i32(i));
--                }
--                if ((crm & 4) && i != s->pstate_za) {
--                    gen_helper_set_pstate_za(cpu_env, tcg_constant_i32(i));
--                }
-+                gen_helper_set_svcr(cpu_env, tcg_constant_i32(new),
-+                                    tcg_constant_i32(msk));
-             } else {
-                 s->base.is_jmp = DISAS_NEXT;
-             }
+Gregory's patches were posted as part of his work on adding volatile support.
+https://lore.kernel.org/linux-cxl/20221006233702.18532-1-gregory.price@memverge.com/
+https://lore.kernel.org/linux-cxl/20221128150157.97724-2-gregory.price@memverge.com/
+I might propose this for upstream inclusion this cycle, but testing is
+currently limited by lack of suitable kernel support.
+
+Ira's patches were part of his event injection series.
+https://lore.kernel.org/linux-cxl/20221221-ira-cxl-events-2022-11-17-v2-0-2ce2ecc06219@intel.com/
+Intent is to propose for upstream the rest of that series shortly after
+some minor changes from earlier review.
+
+My three patches have not previously been posted.
+
+For the curious, the current state of QEMU CXL emulation that we are working
+through the backlog wrt to final cleanup before proposing for upstreaming can be found at.
+
+https://gitlab.com/jic23/qemu/-/commits/cxl-2023-01-11
+
+Gregory Price (2):
+  hw/cxl: set cxl-type3 device type to PCI_CLASS_MEMORY_CXL
+  hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
+
+Ira Weiny (3):
+  qemu/bswap: Add const_le64()
+  qemu/uuid: Add UUID static initializer
+  hw/cxl/mailbox: Use new UUID network order define for cel_uuid
+
+Jonathan Cameron (3):
+  hw/mem/cxl_type3: Improve error handling in realize()
+  hw/pci-bridge/cxl_downstream: Fix type naming mismatch
+  hw/i386/acpi: Drop duplicate _UID entry for CXL root bridge
+
+ hw/cxl/cxl-device-utils.c      |  2 +-
+ hw/cxl/cxl-mailbox-utils.c     | 28 +++++++++++++++-------------
+ hw/i386/acpi-build.c           |  1 -
+ hw/mem/cxl_type3.c             | 15 +++++++++++----
+ hw/pci-bridge/cxl_downstream.c |  2 +-
+ include/hw/cxl/cxl_device.h    |  2 +-
+ include/qemu/bswap.h           | 12 +++++++++++-
+ include/qemu/uuid.h            | 12 ++++++++++++
+ 8 files changed, 52 insertions(+), 22 deletions(-)
+
 -- 
-2.38.1
+2.37.2
 
 
