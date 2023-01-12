@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A256679EB
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:53:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950CE667A19
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:58:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFzj7-0002n3-Bt; Thu, 12 Jan 2023 10:42:49 -0500
+	id 1pFzws-0003ge-BX; Thu, 12 Jan 2023 10:57:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pFzj5-0002mQ-0Y
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:42:47 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFzwg-0003ZH-AG
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:56:51 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pFzj3-0007BY-4f
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:42:46 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id bj3so16304707pjb.0
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 07:42:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFzwe-0001iB-IF
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:56:50 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id h16so18521282wrz.12
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 07:56:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Z8gVHU1VU2NPtxdKFLTnkhHGb0S9sUHXyh+zwwHsUtQ=;
- b=h92WB5Sr8GLeWNb5okkttLIUMowSStgTXUbgSBNbwyn/59jeBe1WB3nVkDRC8e1yAT
- w9UcB5gdttn/N+1mZ4j0chT86xzfCRsGP6Gz+K+c2+0VLGIKr/2Ya5Vzkw6d0W1xZXQC
- kJ/o12osyrI/PG1NTHp78MGbk0gQnKkPiZRYYg+n5zTtPxaFKT83cprBRsp7fc2GH1aw
- 0DZCQC06TGngY2JpJYaJ/NWtJhzIEe84KomiA8NJ6ggyiuqyS5D1gKcZ/aHSOzny7WzC
- 2+dCiumUVXw93h8TGxqMAhz1TAGTAyg2aMTwqCZCqDRUviVnTbblCDFaofAFr7RNItUD
- gBYg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3O7m+XSuS9V9zMSD2pT9ThVFkUXdqJeo6fiun1HAiFI=;
+ b=b4ogsdW269g98pY44KoXokM4MhemWL2MA+Wziff/l8KFZh1WfU8ZkdKaRyFu7QhIpN
+ 8Qb25o2GxhPYOEoH/3gi4aaN51paxJ27Cq+gp8v2zXDh/7IhkQCPhEOP8Net8t2D0faI
+ lg0OG/aZSfQ8Xx0GKsN7G57QHe1TAgBReh+9WTvRfM6vcBL3YTH9YhhjJChsD9/0XGck
+ uGpDkiCvNSxhd9KtQ0IrVSMRITm3vVmXPvYpLsWt873xxkQWEzJhchyYbMN6XsOEYNDm
+ Sa9Jls5lq5SKS+g0Dp/JGIzdssHcuCMHr1E5B7nmP7fQb+w62oZhrfg8uJ9EqnLYcd29
+ AYjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Z8gVHU1VU2NPtxdKFLTnkhHGb0S9sUHXyh+zwwHsUtQ=;
- b=K2g6xBbkr3jJbqKwgUDPyNYmaF7Iy1HHHQaFRclrX6N9m7nSyJZ+Ph4ym5EI9irhHs
- ifWr7lbw77PxEtJAt0P+FBqyXfonXPt8nXjLzsgtnZSFWoBj8muBsAaAJQpO/K5xU1MS
- SdpewCShmeBojgMU0venYgmv0oa28uV05FKDRb4AMUTgarSZEydc17sQjlaNsaF6qBB/
- qdPR1oE6Gg1PhGGXCTAyPxzVghJ9zldRtM+NZFE3RXOCYQoFxVLubpYM6IMSBGlRkfm7
- 9tWhMjIDL97UmsvNYJE+UzzBIZn+tJWdpbT8fbVrW9M4zfQNrxLIO7zXIakz3JNXGtwO
- gEaw==
-X-Gm-Message-State: AFqh2kp3UR8fbxA+NnZC/yR3Ejk1J0nzbVmDwK6UUtnOndHGcwZlLCFE
- 5dELn2eATfg7Xg0PD7smrF9i4BFnL8l9DyPGUMG8eg==
-X-Google-Smtp-Source: AMrXdXt2T7WE51DJty1AsZlbDtCHFFGvPgrilSSPV1AYf6gC+e8PuZ0gx9IS4xchtdzIJaUGXZchWg95TVhN7QDDFrI=
-X-Received: by 2002:a17:903:28d:b0:194:6083:fd50 with SMTP id
- j13-20020a170903028d00b001946083fd50mr200261plr.19.1673538163491; Thu, 12 Jan
- 2023 07:42:43 -0800 (PST)
+ bh=3O7m+XSuS9V9zMSD2pT9ThVFkUXdqJeo6fiun1HAiFI=;
+ b=wIYOBSC/7cfPYALr6gBEHQd+lFUZtglw+hMWd8JUs4Eob/wqe8jBI7ff3b0d56OIS7
+ W/qbQIAhOfsJiO1YX6YAgC93/Hf5KSMuZFLwUGtY/lES/xCvogRwdDeTlgX6cdYl2YJm
+ 2yxkQp+SRaNQt/fpgWq1FGOMTNeyFkoElg0myw7VSboFV8pm8fGyUC+bcZfossnnJVnV
+ 60X5VvXfdBH2Pstgdl2yvtiFjh5sNRG2l1dNiXOB4DyUxm/NMerhCbV9L3RojsPts3Qu
+ M8zzoYlSyGQFHvohme93JluEK0rZS/lsxPZ3IGpOibTG4krnWC74cHlupGXNK/wxj7er
+ e95Q==
+X-Gm-Message-State: AFqh2kqqeJy9CFKV1RcxU9+pSlWnf6INQetKfxEpzPST3ODQEXaJFYUn
+ 8yLLWyij9RftAcrngR9i7YeT4dzPbTodcHuF
+X-Google-Smtp-Source: AMrXdXu6xkBPyHByYBfMjvjhRk2lWQxUZZgr1i1S5dMPVSjunbp4dNE48ytNiLHd479ygZQ9XuDGMA==
+X-Received: by 2002:a05:6000:1185:b0:2bd:d782:c2bc with SMTP id
+ g5-20020a056000118500b002bdd782c2bcmr1530514wrx.33.1673539005462; 
+ Thu, 12 Jan 2023 07:56:45 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ n1-20020a5d67c1000000b002bc7f64efa3sm9488459wrw.29.2023.01.12.07.56.44
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Thu, 12 Jan 2023 07:56:45 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Anton Johansson <anjo@rev.ng>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH] tests/docker: Install flex in debian-tricore-cross
+Date: Thu, 12 Jan 2023 16:56:43 +0100
+Message-Id: <20230112155643.7408-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20230112134350.469317-1-pbonzini@redhat.com>
-In-Reply-To: <20230112134350.469317-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 Jan 2023 15:42:32 +0000
-Message-ID: <CAFEAcA_jHwM8w19XoB2S_-j5hw49gHd1LFyDvq3qC9Bf=hk8yw@mail.gmail.com>
-Subject: Re: [PULL v2 00/29] Misc patches for 2023-01-10
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102e.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,33 +91,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 12 Jan 2023 at 13:45, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit aa96ab7c9df59c615ca82b49c9062819e0a1c287:
->
->   Merge tag 'pull-request-2023-01-09' of https://gitlab.com/thuth/qemu into staging (2023-01-09 15:54:31 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 75cc286485742feeb00f4b446f5682765792323e:
->
->   configure: remove backwards-compatibility code (2023-01-11 10:44:35 +0100)
->
-> ----------------------------------------------------------------
-> * Atomic memslot updates for KVM (Emanuele, David)
-> * libvhost-user/libvduse warnings fixes (Marcel)
-> * i386 TCG fixes (Joe, myself)
-> * Remove compilation errors when -Werror=maybe-uninitialized (Eric)
-> * fix GLIB_VERSION for cross-compilation (Paolo)
->
+When flex is not available, binutils sources default to the
+'missing' script, but the current script available is not in
+the format expected by the 'configure' script:
 
+  $ ./configure
+  ...
+  /usr/src/binutils/missing: Unknown `--run' option
+  Try `/usr/src/binutils/missing --help' for more information
+  configure: WARNING: `missing' script is too old or missing
+  ...
+  checking for bison... bison -y
+  checking for flex... no
+  checking for lex... no
+  checking for flex... /usr/src/binutils/missing flex
 
-Applied, thanks.
+  $ make
+  ...
+  updating ldgram.h
+  gcc -DHAVE_CONFIG_H -I. -I. -I. -D_GNU_SOURCE -I. -I. -I../bfd -I./../bfd -I./../include -I./../intl -I../intl  -w -DLOCALEDIR="\"/usr/local/share/locale\""   -W -Wall -Wstrict-prototypes -Wmissing-prototypes -w -c `test -f 'ldgram.c' || echo './'`ldgram.c
+  `test -f ldlex.l || echo './'`ldlex.l
+  /bin/sh: 1: ldlex.l: not found
+  make[3]: *** [Makefile:662: ldlex.c] Error 127
+  make[3]: Leaving directory '/usr/src/binutils/ld'
+  make[2]: *** [Makefile:799: all-recursive] Error 1
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+By pass the 'missing' script use by directly installing 'flex'
+in the container.
 
--- PMM
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+https://gitlab.com/philmd/qemu/-/jobs/3594948730
+Duration: 4 minutes 38 seconds
+---
+ tests/docker/dockerfiles/debian-tricore-cross.docker | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
+index b573b9ded2..203e096ea3 100644
+--- a/tests/docker/dockerfiles/debian-tricore-cross.docker
++++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
+@@ -20,6 +20,7 @@ RUN apt update && \
+        bzip2 \
+        ca-certificates \
+        ccache \
++       flex \
+        g++ \
+        gcc \
+        git \
+-- 
+2.38.1
+
 
