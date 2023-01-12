@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE02667299
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 13:51:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA586672A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 13:54:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFx39-0001LZ-3C; Thu, 12 Jan 2023 07:51:19 -0500
+	id 1pFx3w-0001nR-OX; Thu, 12 Jan 2023 07:52:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFx2w-0001IC-JT
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:51:10 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFx3m-0001kP-88
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:52:04 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFx2r-0005wD-5h
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:51:04 -0500
-Received: by mail-wr1-x432.google.com with SMTP id r2so17977188wrv.7
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 04:51:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFx3j-00067E-R6
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:51:57 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ ay12-20020a05600c1e0c00b003d9ea12bafcso11096300wmb.3
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 04:51:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=J616QJ//uvkH+sjki8Z2eWVa2X0z97if1viP1TeGMZM=;
- b=erxTFlOmFMKKwwrm7CgkXBvYxSfUHmwgsWLKnkhMfQf38Woy9Vf5vHgo1WJLbrERra
- C/OgRMjXzeNr7O5qmTzXtLMWXU3VfIMYLsDilm9VxwI9ioxU0yu1PxTiSNcY568uVvTx
- fj168FKhMA+TPnNQNUIfUhHeOEWIJrrIXwRKvHivSENP+G8F6kTTlPVRQDFnpEQxivi4
- UmhLbOod8sGBeZn44Djipyo2RcsznnUP/QvV8C33ls3lPvVhh9yz/I4XLfZqufV7yHMv
- R13AQ0TOYCAluTQkfISbg4Z9lEBe7WmAdhIDm/Pc3XfeivLwKFaJOb3823hVsUVwkeeN
- JPxw==
+ bh=s/hHhUzGA/RNf52UHfmHzkNBpR8Wdm5LS2lPjxjkQVI=;
+ b=uqNDZKnAIeLS1g74e9GRErsld2/fz1e4XV+tiIXrsqKZmNrKBGjeXaH2BVLjcOSowR
+ uYw8qtpVOh8noi1bZcFdcnIFf8AlsoMwfsRBaMHfrr88O6+fJ558VTBp10rQ2h1j/RaC
+ nowwHuUkxh2CzrqQSlv/i89JwiBKwsx81gp55CH0EHbW2TBjwSWNEZkNWZb7C2Ht0AhB
+ trkxPvEPlrWibGul2fgDJRU8lA9iFXUXdW/0pSmGYH9f95GirsFvo1bETA5OIVJzFTDs
+ nHEIUPUvCzuCv1aAjfXyZCgWEQRY3ECu5EOxgE17+QBots4J5J+k58lxYCpgPZEokpY7
+ zXmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=J616QJ//uvkH+sjki8Z2eWVa2X0z97if1viP1TeGMZM=;
- b=sIY0zy/XHBJpdQA9PYqWSOSiK6jT25UpcJlHmv6wDLazSDupGMBTY8ojDHZJqSPJlV
- oFIVtd960AvAJbQQXTCeWf1UWWAXg+2Lp5K4Ws7hAn06cB9bNXn4oALEcNl/IZvnneuL
- EJq9Su2mNgZbZ/dDgbywg/1bk8FwdjQXVtlp2PDA6hiovZELVFTd7CDjziEW5zw93MXj
- 0kWrkoN3S9Qq/BizNxO/OGtjHOVaSAaGuUj9PxygXMQUfSREDyGiw9Uvj/tIXuL2Njhr
- iJKB3t8sxwXDLM6q6b4ITdYcszSS6vYY2AhjN/Yitm8dToaELtpuYT8hw8xRdqVkCat4
- 7BAw==
-X-Gm-Message-State: AFqh2koOhLvfMBcsse7TFtNWGJ/koJX9/BV3VWv/q3bCUmHMJZ4i9kT6
- CnyQBmEsvf7Y0Nv2j712AR4BSQ==
-X-Google-Smtp-Source: AMrXdXutJbuz/a6uEryLuNbQmw8suqm6QbIksSAJg/myHscs6mSkLgvO1mkhWfr9yn7OtNDkP5LCCw==
-X-Received: by 2002:adf:e8ca:0:b0:2ba:bd95:e3b1 with SMTP id
- k10-20020adfe8ca000000b002babd95e3b1mr18837491wrn.29.1673527859507; 
- Thu, 12 Jan 2023 04:50:59 -0800 (PST)
+ bh=s/hHhUzGA/RNf52UHfmHzkNBpR8Wdm5LS2lPjxjkQVI=;
+ b=dILrjEstyGsGYzV1/+SXzdFvH/4jGvOblbjU2hso6ERMHZVqSLUtv4y5GHzzSwuMtd
+ ND9Zl12J+QfOp0CmNdbIOzzW8oPK0ePweR7BDOCLnOjSO5cjocFAVCddn3YIY9VWbWOh
+ WEOz3R8FcWS3WRtQOxb2TC5k84WWTZq3f6p5Yqw2ceesAzCFMueklPhAY+qyqqxJlv48
+ gzdZazjQAX/PrShds22W2Q49feo7HDqGVWe8dMowlZwyicd5/nm0Lp0ulTl/5mBig1B5
+ wLKjd/D+fFNcZeN60GlYkYQbYqWEx9V4BPkL2kxgNJZHGYwlkDn4l+jy/D5ni2ELK4eH
+ Mrgg==
+X-Gm-Message-State: AFqh2koVCtu5dZtwSBYQT41hFq9SBRdGBbydQWJJ0RuhXYh+Nz0Ps3Tp
+ dOgo5z2paFYEOhGcZ9UMZ0DDBw==
+X-Google-Smtp-Source: AMrXdXvjYdxc6KeB5pp7BtV5YdvfcQG/aJtGgcJewIDDeTf/03dwAsIVP0QT8/QWD9yGrfDHApXenA==
+X-Received: by 2002:a05:600c:44c9:b0:3d1:f6b3:2ce3 with SMTP id
+ f9-20020a05600c44c900b003d1f6b32ce3mr65786287wmo.35.1673527913467; 
+ Thu, 12 Jan 2023 04:51:53 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k9-20020a5d66c9000000b002bdd7ce63b2sm1051893wrw.38.2023.01.12.04.50.57
+ f28-20020a05600c491c00b003d9bd56e9c1sm20338917wmp.11.2023.01.12.04.51.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 04:50:59 -0800 (PST)
-Message-ID: <f4c3ec2b-6005-6b7c-9f66-a942e9e0a384@linaro.org>
-Date: Thu, 12 Jan 2023 13:50:56 +0100
+ Thu, 12 Jan 2023 04:51:52 -0800 (PST)
+Message-ID: <861b7552-efc2-1304-a5cb-82e0d8d3cdef@linaro.org>
+Date: Thu, 12 Jan 2023 13:51:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v6 28/33] hw/isa/piix3: Merge hw/isa/piix4.c
+Subject: Re: [PATCH v6 30/33] hw/isa/piix: Reuse PIIX3 base class' realize
+ method in PIIX4
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: John G Johnson <john.g.johnson@oracle.com>,
@@ -73,20 +75,20 @@ Cc: John G Johnson <john.g.johnson@oracle.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
  =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
 References: <20230109172347.1830-1-shentey@gmail.com>
- <20230109172347.1830-29-shentey@gmail.com>
+ <20230109172347.1830-31-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230109172347.1830-29-shentey@gmail.com>
+In-Reply-To: <20230109172347.1830-31-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,24 +105,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 9/1/23 18:23, Bernhard Beschow wrote:
-> Now that the PIIX3 and PIIX4 device models are sufficiently consolidated,
-> their implementations can be merged into one file for further
-> consolidation.
+> Resolves duplicate code.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Message-Id: <20221022150508.26830-37-shentey@gmail.com>
+> Message-Id: <20221022150508.26830-39-shentey@gmail.com>
 > ---
->   hw/isa/{piix3.c => piix.c} | 158 ++++++++++++++++++++
->   hw/isa/piix4.c             | 285 -------------------------------------
->   MAINTAINERS                |   6 +-
->   hw/i386/Kconfig            |   2 +-
->   hw/isa/Kconfig             |  12 +-
->   hw/isa/meson.build         |   3 +-
->   hw/mips/Kconfig            |   2 +-
->   7 files changed, 165 insertions(+), 303 deletions(-)
->   rename hw/isa/{piix3.c => piix.c} (75%)
->   delete mode 100644 hw/isa/piix4.c
+>   hw/isa/piix.c | 65 +++++++--------------------------------------------
+>   1 file changed, 9 insertions(+), 56 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
