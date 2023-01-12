@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387B9667174
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 12:59:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D70CF667182
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 13:01:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFwES-0004d0-5f; Thu, 12 Jan 2023 06:58:56 -0500
+	id 1pFwGZ-00063t-7r; Thu, 12 Jan 2023 07:01:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFwEQ-0004cZ-4N
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 06:58:54 -0500
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pFwGN-0005tY-2F
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:00:58 -0500
 Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFwEO-0002BU-2x
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 06:58:53 -0500
-Received: by mail-wr1-x433.google.com with SMTP id k8so3341932wrc.9
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 03:58:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pFwGK-0002hl-TK
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:00:54 -0500
+Received: by mail-wr1-x433.google.com with SMTP id e3so8629384wru.13
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 04:00:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NaSs1zavt4EoIUrcZN8lv1cL5KFrHhvM2bvJhBscbnM=;
- b=WEWCDi9AumCTrs5OcnveF8Y0jN5Etc48Vrt+59ZWXjVwHQgvxSK7yAhQqPSn7l5LJ4
- umZSBfomuG+PCEbTHu5s8OMvwsNEEBwlZwCT2aEvVqBG0MU6QBRdIbqy6ivgw42zSUiV
- Gu/qeo/ycXpyOxr+2Jz2o5LJ+oxzuEcJCmtnOPRXCjCEsj9/KWGz6y4vEFiHp2swnhTS
- 9QBcW1G0DUpazdxz8zCPoGrw8WuxbHgb1oZxGenYTCuin8RMfaveWjMJC6va5FeyKFwi
- DGzoSadk8IYQoeQ6g1f3xu5YxZSTrHgfHuRILXw8vqmJS9RF8GRIUd9rEbhVxrwPIxOq
- zmag==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vWCBoN1tig9rDoLu1qChhdC47CL3yTNGaKaRXcrtWY8=;
+ b=THGd1c9U9nbzBShK00Cai9+zdD2m9M3KKgT/G5Pq5js3SJ2yFFdNARDxCwQxngI30p
+ lvgIAlE1mJiAcJj9ffLLvZRlixmH21vYZqJLbCyYrUYAstEVvQ8YbH4XZToVMJyN8wci
+ IugOrNgnu4dXaQhrgJx9w4L0E3SOKIKSlVigoWKqra1f2Z0+GyHwcGj0HYJoc6kePaww
+ F5y7Paj18PmYVGeN6iAfS9+fDtMaId0zLJQZq+48YuzWs7jp1wlI+PgEeyTrhbscoCDx
+ smgt/X24EGXrGPK9Epyenz0vrppdyJeDDlyfAcoiVTYtxxYms9OBiw2SgyPO4QAqllpn
+ 5tcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NaSs1zavt4EoIUrcZN8lv1cL5KFrHhvM2bvJhBscbnM=;
- b=1PJUuoJpsJiLy918+agwVF/ZS4CxL6GIeUgi4eWecbXCsPAnLx9cju1XfkmL5JbwV4
- wa1BBGTYkFmU9CLJYdX23QX81VcsxphgTJQFkg1kW40p3a0pnZk6Pni8a5l743D+vbZG
- MAPjvA6arw1in9LvkulIEu5Lt60QUSbDQ7GDYUFyCu4MG3fa9dU3KPJrnNjAxbTpkiQw
- OQRTKtfmuthDo7sxIyO8mUcJju4J8YozCMwchwMJTYopLpv0UF9DEvCPezmtsIb6VyOH
- C1hyWgtQcPP/6ypYpDizNwmc9A9iKSsqSBpY7itMNDntGFw4jP4oOjqO0IeiGOtxRRSG
- EOaQ==
-X-Gm-Message-State: AFqh2koObXeedGtfvVHKK2vij/FuWXvrkpaEmEzJtS7r/dTM0mx4RlQG
- Rzt/MgwZZX3yTSU/A/v8GwYojbGU8DNMWn9R
-X-Google-Smtp-Source: AMrXdXvo05iXthYWJt05DD9nc6DcsCzb7GvkNcVjR1rkmtHrZtGPtv/487epTGmvKy3z22w4SWt6Dw==
-X-Received: by 2002:a5d:544d:0:b0:2bd:d84d:bbc2 with SMTP id
- w13-20020a5d544d000000b002bdd84dbbc2mr855656wrv.46.1673524730404; 
- Thu, 12 Jan 2023 03:58:50 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- g2-20020a5d4882000000b00286ad197346sm16309718wrq.70.2023.01.12.03.58.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 03:58:49 -0800 (PST)
-Message-ID: <9425e026-e19c-d648-d8e3-71563c686464@linaro.org>
-Date: Thu, 12 Jan 2023 12:58:48 +0100
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=vWCBoN1tig9rDoLu1qChhdC47CL3yTNGaKaRXcrtWY8=;
+ b=lBAy1mKfRWZ1u7RQEaTsOu51OLEaO2VUkdAbFD8gNpD9TUhWQUpSFNYTunG1fJF3r7
+ p0KILoqXYw5QBXqfYCEjUnvUaD1MzdS/MCk8WSCuoKicgrjsrWo4LY1jGylSboiwWEQu
+ NOL/dGVeTF+GAzhAorOunUlwzh6baJ2X+gqB/qCXRpEjgl5kAWF3UE6RzY1BVsHgGB4o
+ k6YyMr/VVYJ7tpwhSh8zQVf3uGm0mabuXvS5ZZekhrEyxBD/cG3YH0ziVti5s62p/tO9
+ CjWePsuEDTHXrucd3DtnZsR/DXyoc2VJTFAxF653izOVESNJkKHJj39Tm0vb8ZGedOKv
+ ib0w==
+X-Gm-Message-State: AFqh2kqVsfcJ1hf2q5tZYHye/rm1hpNh/A84OOTxKfCt2yRJCb16Lq4h
+ iLk7j4s7O9PgopDMmRcCR+oXqzcJvM+yy550
+X-Google-Smtp-Source: AMrXdXt0g77GekBkZUh8CELTnmTdnDR7VxO7/I2ezNdmKYAFEetecwycg7tk4AOJkj3KWQmZCTcWcg==
+X-Received: by 2002:a05:6000:694:b0:26c:e7a9:97a9 with SMTP id
+ bo20-20020a056000069400b0026ce7a997a9mr56956928wrb.60.1673524851130; 
+ Thu, 12 Jan 2023 04:00:51 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ f3-20020adfdb43000000b00236883f2f5csm16506517wrj.94.2023.01.12.04.00.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Jan 2023 04:00:50 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 243661FFB7;
+ Thu, 12 Jan 2023 12:00:50 +0000 (GMT)
+References: <20230110173922.265055-1-alex.bennee@linaro.org>
+ <20230110173922.265055-26-alex.bennee@linaro.org>
+ <8f016b06-5f09-b14c-a3a1-6d2b93f516e7@linaro.org>
+ <87o7r4m63g.fsf@linaro.org>
+User-agent: mu4e 1.9.12; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, "Emilio G. Cota" <cota@braap.org>
+Subject: Re: [PATCH 25/26] tcg: exclude lookup_tb_ptr from helper
+ instrumentation
+Date: Thu, 12 Jan 2023 11:59:59 +0000
+In-reply-to: <87o7r4m63g.fsf@linaro.org>
+Message-ID: <87fscgm07h.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2] scripts/archive-source: Use GNU tar on Darwin
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-trivial@nongnu.org, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Eric Blake <eblake@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20221209113342.61053-1-philmd@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221209113342.61053-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,53 +97,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ping?
 
-On 9/12/22 12:33, Philippe Mathieu-Daudé wrote:
-> When using the archive-source.sh script on Darwin we get:
-> 
->    tar: Option --concatenate is not supported
->    Usage:
->      List:    tar -tf <archive-filename>
->      Extract: tar -xf <archive-filename>
->      Create:  tar -cf <archive-filename> [filenames...]
->      Help:    tar --help
-> 
-> 'tar' default to the BSD implementation:
-> 
->    $ tar --version
->    bsdtar 3.5.3 - libarchive 3.5.3 zlib/1.2.11 liblzma/5.0.5 bz2lib/1.0.8
-> 
-> Try to use the GNU implementation if it is available (from homebrew).
-> 
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
-> Supersedes: <20221208162051.29509-1-philmd@linaro.org>
-> ---
->   scripts/archive-source.sh | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
-> index 23e042dacd..e3d0c23fe5 100755
-> --- a/scripts/archive-source.sh
-> +++ b/scripts/archive-source.sh
-> @@ -18,6 +18,7 @@ if test $# -lt 1; then
->       error "Usage: $0 <output tarball>"
->   fi
->   
-> +test $(uname -s) = "Darwin" && tar=gtar || tar=tar
->   tar_file=$(realpath "$1")
->   sub_tdir=$(mktemp -d "${tar_file%.tar}.sub.XXXXXXXX")
->   sub_file="${sub_tdir}/submodule.tar"
-> @@ -67,7 +68,7 @@ for sm in $submodules; do
->       esac
->       (cd $sm; git archive --format tar --prefix "$sm/" $(tree_ish)) > "$sub_file"
->       test $? -ne 0 && error "failed to archive submodule $sm ($smhash)"
-> -    tar --concatenate --file "$tar_file" "$sub_file"
-> +    $tar --concatenate --file "$tar_file" "$sub_file"
->       test $? -ne 0 && error "failed append submodule $sm to $tar_file"
->   done
->   exit 0
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
+> Richard Henderson <richard.henderson@linaro.org> writes:
+>
+>> On 1/10/23 09:39, Alex Benn=C3=A9e wrote:
+>>> From: Emilio Cota <cota@braap.org>
+>>> It is internal to TCG and therefore we know it does not
+>>> access guest memory.
+>>> Related: #1381
+>>> Signed-off-by: Emilio Cota <cota@braap.org>
+>>> Message-Id: <20230108164731.61469-4-cota@braap.org>
+>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>> ---
+>>>   tcg/tcg.c | 6 ++++--
+>>>   1 file changed, 4 insertions(+), 2 deletions(-)
+>>> diff --git a/tcg/tcg.c b/tcg/tcg.c
+>>> index da91779890..ee67eefc0c 100644
+>>> --- a/tcg/tcg.c
+>>> +++ b/tcg/tcg.c
+>>> @@ -1652,8 +1652,10 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int=
+ nargs, TCGTemp **args)
+>>>       op =3D tcg_op_alloc(INDEX_op_call, total_args);
+>>>     #ifdef CONFIG_PLUGIN
+>>> -    /* detect non-plugin helpers */
+>>> -    if (tcg_ctx->plugin_insn && unlikely(strncmp(info->name, "plugin_"=
+, 7))) {
+>>> +    /* flag helpers that are not internal to TCG */
+>>> +    if (tcg_ctx->plugin_insn &&
+>>> +        strncmp(info->name, "plugin_", 7) &&
+>>> +        strcmp(info->name, "lookup_tb_ptr")) {
+>>>           tcg_ctx->plugin_insn->calls_helpers =3D true;
+>>>       }
+>>>   #endif
+>>
+>> I think this should be detected with
+>>
+>>   !(info->flags & TCG_CALL_NO_SIDE_EFFECTS)
+>>
+>> i.e., side-effects, which in this case is the possibility of a fault.
+>
+> That implies that:
+>
+> DEF_HELPER_FLAGS_2(plugin_vcpu_udata_cb, TCG_CALL_NO_RWG, void, i32, ptr)
+> DEF_HELPER_FLAGS_4(plugin_vcpu_mem_cb, TCG_CALL_NO_RWG, void, i32, i32, i=
+64, ptr)
+>
+> should be the _SE variants as well right? They do have side-effects but
+> not in guest state and they shouldn't cause a fault.
+
+Hmm but we don't want them to go away. Maybe something like:
+
+3 files changed, 7 insertions(+), 5 deletions(-)
+accel/tcg/plugin-helpers.h | 4 ++--
+include/tcg/tcg.h          | 2 ++
+tcg/tcg.c                  | 6 +++---
+
+modified   accel/tcg/plugin-helpers.h
+@@ -1,4 +1,4 @@
+ #ifdef CONFIG_PLUGIN
+-DEF_HELPER_FLAGS_2(plugin_vcpu_udata_cb, TCG_CALL_NO_RWG, void, i32, ptr)
+-DEF_HELPER_FLAGS_4(plugin_vcpu_mem_cb, TCG_CALL_NO_RWG, void, i32, i32, i6=
+4, ptr)
++DEF_HELPER_FLAGS_2(plugin_vcpu_udata_cb, TCG_CALL_NO_RWG | TCG_CALL_PLUGIN=
+, void, i32, ptr)
++DEF_HELPER_FLAGS_4(plugin_vcpu_mem_cb, TCG_CALL_NO_RWG | TCG_CALL_PLUGIN, =
+void, i32, i32, i64, ptr)
+ #endif
+modified   include/tcg/tcg.h
+@@ -405,6 +405,8 @@ typedef TCGv_ptr TCGv_env;
+ #define TCG_CALL_NO_SIDE_EFFECTS    0x0004
+ /* Helper is G_NORETURN.  */
+ #define TCG_CALL_NO_RETURN          0x0008
++/* Helper is part of Plugins.  */
++#define TCG_CALL_PLUGIN             0x0010
+=20
+ /* convenience version of most used call flags */
+ #define TCG_CALL_NO_RWG         TCG_CALL_NO_READ_GLOBALS
+modified   tcg/tcg.c
+@@ -1652,10 +1652,10 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int na=
+rgs, TCGTemp **args)
+     op =3D tcg_op_alloc(INDEX_op_call, total_args);
+=20
+ #ifdef CONFIG_PLUGIN
+-    /* flag helpers that are not internal to TCG */
++    /* Flag helpers that may affect guest state */
+     if (tcg_ctx->plugin_insn &&
+-        strncmp(info->name, "plugin_", 7) &&
+-        strcmp(info->name, "lookup_tb_ptr")) {
++        !(info->flags & TCG_CALL_PLUGIN) &&
++        !(info->flags & TCG_CALL_NO_SIDE_EFFECTS)) {
+         tcg_ctx->plugin_insn->calls_helpers =3D true;
+     }
+ #endif
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
