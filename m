@@ -2,95 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343866667E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 01:39:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A75646667C7
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 01:36:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFlb9-000833-5e; Wed, 11 Jan 2023 19:37:39 -0500
+	id 1pFlY9-0006TV-0Y; Wed, 11 Jan 2023 19:34:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFlb7-00082f-3n
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:37:37 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pFlY6-0006T3-Js; Wed, 11 Jan 2023 19:34:30 -0500
+Received: from mail-vs1-xe36.google.com ([2607:f8b0:4864:20::e36])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pFlb5-0001vc-KB
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 19:37:36 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- o8-20020a17090a9f8800b00223de0364beso21836521pjp.4
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 16:37:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=w3dSyXN1RKi7nVnTNy7sl17nMxRk5FXSE/DSuWGove4=;
- b=bragzYjhsFgpfEbGjBOrr+EHL785poIt7eomUK+mq4dPGV8qt5qbSRn1usWK74SfKL
- fR+PSFGzOFC/MvRey3VHa1ksoIVJEa2ZFkGcrSS3P+w+IECS/Othes3yZi87j3SnPWqC
- Wlm0NnYQFq5L8fpRiIi/LZNCKBEHL9nB1qybgZQNXt0r3qv2QhYZPLOtLG2yCbnOIk7X
- lkhw0fGpM9ZZPbZ7o5RuxRNBkJRY1B+9ooh2bzBKnYP7EAPMbucvgFo4d7aejthobtSa
- nO67zW4DbmyHlIgruGchwfzQIPWFTeus0OJ5kSaUXfG1IgU8HUHBNQ3dtU3A6mEttnsX
- Jobg==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pFlY5-000159-0U; Wed, 11 Jan 2023 19:34:30 -0500
+Received: by mail-vs1-xe36.google.com with SMTP id t10so6945747vsr.3;
+ Wed, 11 Jan 2023 16:34:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=d1tk4Tru+qMNsCf/c1roFprY9b168ARgsT1glGAgJrs=;
+ b=JksjXBJop6szgYimaecIHf03yTPM9PbDTX8cI3pcNKPoift6RwQCeBm2vSzcTcpkAg
+ tFHNP+j9gZx09UtpElc5Fr1G95LD37sSc9ZFi2o1iWkRkfbvaPtEAAaB2ikq+AQeZh65
+ +k25I3c4+fO8AFW3UTJ1PeGPh9+4lDcFqOFopYH9LRdLsC9VRhIu686WYA1ShfI/1WUn
+ S5o1Nni4nDT2s8nSBacmHkaw6TnqJUdoQUUXdJE8kjMKMwR4HLAOqII9Bdsx1dCa/U2A
+ HkifuEjRh8SxrYZn1LurDBKonRtZcKz8it6CAp53n9GOUzSbeFRdsiUp2xFs1NW7OT4H
+ AAFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=w3dSyXN1RKi7nVnTNy7sl17nMxRk5FXSE/DSuWGove4=;
- b=2Eak4ggYFeV64/SeEhJhQPKQ9FWGwU786+0iSC9J41+XsQMikrTq0ED49T2M8wmdsB
- LLd2cO2nyTFlCs4jqzxQFTmJrfQIdlmAkC8SwLWCvE2Me5SDVlumWvVA0lREpXZOHdj7
- F+oWxcwcZMUIZHq9H6HXpiUlBP1sQEGV14R0/dMuU7JJOS7D3J2DF3QrdANs4FaqWapY
- CSeGj2QR1+v33LHBZpFxwUvnNzbixWOW6VKbU4c6RmavVn0uttUPZlP6MXYiBbJdKs12
- oe5y3O7ZJz/P4SPAOoiPvdJ92bE9GWFK9y8QiSRmkFyIMVZ25qWhB4RV3Sc92+pD+umB
- nEOg==
-X-Gm-Message-State: AFqh2kpIqSUlQTpNVs7mknMIir92A9NkSw5iCDNu9AEIJmNX3uiKVmP7
- 5YPehPF2HdzD7xahhwbfWK99FCQroQQM6FLG
-X-Google-Smtp-Source: AMrXdXvakTMQKGLw079z5qtRMw0NLOdBkx/f2cu0irF0GNDudSJMp/LauzAYhToQR7LitobGDeO5bg==
-X-Received: by 2002:a05:6a20:9592:b0:b6:3708:7be9 with SMTP id
- iu18-20020a056a20959200b000b637087be9mr6440246pzb.36.1673483854146; 
- Wed, 11 Jan 2023 16:37:34 -0800 (PST)
-Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- d63-20020a623642000000b0057691fb0d37sm10486699pfa.193.2023.01.11.16.37.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 16:37:33 -0800 (PST)
-Message-ID: <214f89fc-6e90-7d0b-8555-4bae1d1d0b70@linaro.org>
-Date: Wed, 11 Jan 2023 10:30:35 -1000
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=d1tk4Tru+qMNsCf/c1roFprY9b168ARgsT1glGAgJrs=;
+ b=qp7XPXg21G5Zay8G0y2lckSmDJ82mk9BvHJLKwnrdb4YY45YUppSYQqNkcypwg1Xn6
+ Kuq/uitUoZ7emLtUIOyIEJd24dbB5E6iUOTn/dl+wYoukpQcJtL58SSAnmrjqGcYzKOp
+ gDDy7D86caaCrn8zB5L3IntsdHhcI+gK6P/745NESM6dmAoKLClIR/bboA4ZlyXAlgwf
+ 8QzYs5bKZWzM8yulckFHbI0UsPUwWv6Bt3lZnYaTHdMaR8g+Wou1EzJh6Nfg0DFLRvHj
+ DehBoZV6plV27O7NbJcxIoiv8WIK/G5wG5ub5DkCSsX7GqbSEPe7GsqpX2PZMUCHcmxn
+ iG+Q==
+X-Gm-Message-State: AFqh2kotJH9XjiwnsWO/DWQx9U0wwpn0wjb4FaFDIj11We6VebeZHmwz
+ /G6H2voexe4bVATqXYYW4K+T5rAg0dAKo7W7ijA=
+X-Google-Smtp-Source: AMrXdXsuYO++2pCgVrv/MnV02FMWss2jZ2uVRTbNDFZJpwzS/sd4iAi0lNsX3VAag0pcajHPM6LZ2W7RvBhd3JmWdo4=
+X-Received: by 2002:a05:6102:510e:b0:3b1:2b83:1861 with SMTP id
+ bm14-20020a056102510e00b003b12b831861mr9865244vsb.10.1673483667615; Wed, 11
+ Jan 2023 16:34:27 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH v2 13/19] tests: do not run test-hmp on all machines
- for ARM KVM-only
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Alexander Graf <agraf@csgraf.de>, Laurent Vivier <lvivier@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20230109224232.11661-1-farosas@suse.de>
- <20230109224232.11661-14-farosas@suse.de>
- <35870ab3-1da6-c222-b708-06ac71a5883c@redhat.com> <87zgaqa6jk.fsf@suse.de>
- <CAFEAcA_x_kTdNt8+5YAjo518Wj_Ej4jZ=0OrCQmutNOjJx=3Gw@mail.gmail.com>
- <87sfgia4uj.fsf@suse.de>
- <CAFEAcA_AaWfwAbCLOC3ELf3c20Cv5jQhWc71Py4ww4kLo2nYeg@mail.gmail.com>
- <9fb63a5d-d839-016d-b0a8-4151b6d6946c@suse.de> <87fschcko4.fsf@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87fschcko4.fsf@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20230102115241.25733-1-dbarboza@ventanamicro.com>
+ <20230102115241.25733-11-dbarboza@ventanamicro.com>
+In-Reply-To: <20230102115241.25733-11-dbarboza@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 12 Jan 2023 10:34:01 +1000
+Message-ID: <CAKmqyKPri7asvqZ8wN4Bd-wjH+gwwMJJhiUd+=QZFV4RhWnyUQ@mail.gmail.com>
+Subject: Re: [PATCH v5 10/11] hw/riscv/boot.c: consolidate all kernel init in
+ riscv_load_kernel()
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e36;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe36.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,11 +84,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/11/23 04:36, Fabiano Rosas wrote:
-> Nowadays for KVM is the 'virt' machine the only one we use?
+On Mon, Jan 2, 2023 at 9:55 PM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
+>
+> The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
+> the same steps when '-kernel' is used:
+>
+> - execute load_kernel()
+> - load init_rd()
+> - write kernel_cmdline
+>
+> Let's fold everything inside riscv_load_kernel() to avoid code
+> repetition. To not change the behavior of boards that aren't calling
+> riscv_load_init(), add an 'load_initrd' flag to riscv_load_kernel() and
+> allow these boards to opt out from initrd loading.
+>
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>  hw/riscv/boot.c            | 22 +++++++++++++++++++---
+>  hw/riscv/microchip_pfsoc.c | 12 ++----------
+>  hw/riscv/opentitan.c       |  2 +-
+>  hw/riscv/sifive_e.c        |  3 ++-
+>  hw/riscv/sifive_u.c        | 12 ++----------
+>  hw/riscv/spike.c           | 11 +----------
+>  hw/riscv/virt.c            | 12 ++----------
+>  include/hw/riscv/boot.h    |  1 +
+>  8 files changed, 30 insertions(+), 45 deletions(-)
+>
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 2594276223..4888d5c1e0 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -175,10 +175,12 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
+>
+>  target_ulong riscv_load_kernel(MachineState *machine,
+>                                 target_ulong kernel_start_addr,
+> +                               bool load_initrd,
+>                                 symbol_fn_t sym_cb)
+>  {
+>      const char *kernel_filename = machine->kernel_filename;
+>      uint64_t kernel_load_base, kernel_entry;
+> +    void *fdt = machine->fdt;
+>
+>      g_assert(kernel_filename != NULL);
+>
+> @@ -192,21 +194,35 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>      if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+>                           NULL, &kernel_load_base, NULL, NULL, 0,
+>                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+> -        return kernel_load_base;
+> +        kernel_entry = kernel_load_base;
 
-Also sbsa-ref.
+This breaks 32-bit Xvisor loading. It seems that for the 32-bit guest
+we get a value of 0xffffffff80000000.
+
+Previously the top bits would be lost as we return a target_ulong from
+this function, but with this change we pass the value
+0xffffffff80000000 to riscv_load_initrd() which causes failures.
+
+This diff fixes the failure for me
+
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index 4888d5c1e0..f08ed44b97 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -194,7 +194,7 @@ target_ulong riscv_load_kernel(MachineState *machine,
+    if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+                         NULL, &kernel_load_base, NULL, NULL, 0,
+                         EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+-        kernel_entry = kernel_load_base;
++        kernel_entry = (target_ulong) kernel_load_base;
+        goto out;
+    }
 
 
-r~
+but I don't think that's the right fix. We should instead look at the
+CPU XLEN and drop the high bits if required.
+
+I'm going to drop this patch, do you mind looking into a proper fix?
+
+Alistair
 
