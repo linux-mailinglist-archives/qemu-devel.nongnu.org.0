@@ -2,55 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1389C6673A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 14:52:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B006673B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 14:54:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFxxd-0001YT-GD; Thu, 12 Jan 2023 08:49:41 -0500
+	id 1pFxxe-0001aO-R7; Thu, 12 Jan 2023 08:49:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFxxb-0001Vu-BS
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFxxZ-0001TW-LU
  for qemu-devel@nongnu.org; Thu, 12 Jan 2023 08:49:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFxxY-00036G-G4
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 08:49:38 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFxxX-000369-MI
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 08:49:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1673531375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=L5Ma7NoWMjnQIWPm9s6/4puDT9z5FHFGeiaRUEE8C0E=;
- b=Z2BD8OJs7YOFwZvjZ4B/SvmIt8Vkly+34yFMP9y+ny465nI/0ups5Gv8J6yDo6YffMDaGB
- IkDkAMdW9IavjnV52jWvW8OA8aiEJnSXJGRE+e54kBbYH729ry9ZbLt2sZMNLIyO7h9IYL
- pE3YQH9h+dB21mJPjWSDy6YT9NSmqY0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3qD4ndr8yIl/ZBVBvbiwIXGY8SdSYcDtBxXg5KJCkME=;
+ b=XmbwVEFWaXIMlSlSNjkBCPJwDGyW6lcQsZwZkyiyhZnf2hd0hCU9UMcmtXoQieYfT99t/j
+ 8lDoA5B9uQzoKY/6aIJnlNa4GExq8JXPz71m0zCBs+LX4xNL5q0JsiIJYaqXV4x34WXqS0
+ 2ZIoGqCehiptC6cygr8dO/p8pI3CqYU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-157-SZ2NblZVOpCk4JlM3vTYfg-1; Thu, 12 Jan 2023 08:49:32 -0500
-X-MC-Unique: SZ2NblZVOpCk4JlM3vTYfg-1
+ us-mta-6-At0Y7tupP_6tQYExP8BgWw-1; Thu, 12 Jan 2023 08:49:33 -0500
+X-MC-Unique: At0Y7tupP_6tQYExP8BgWw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 97BCE85D061;
- Thu, 12 Jan 2023 13:49:31 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B9E1D3811F3D;
+ Thu, 12 Jan 2023 13:49:32 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA05F40C2064;
- Thu, 12 Jan 2023 13:49:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E00BD40C2064;
+ Thu, 12 Jan 2023 13:49:31 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	qemu-trivial@nongnu.org
-Subject: [PATCH 0/7] Trivial: Mark some more files as target-independant 
-Date: Thu, 12 Jan 2023 14:49:21 +0100
-Message-Id: <20230112134928.1026006-1-thuth@redhat.com>
+Subject: [PATCH 1/7] hw/display: Move omap_lcdc.c out of target-specific
+ source set
+Date: Thu, 12 Jan 2023 14:49:22 +0100
+Message-Id: <20230112134928.1026006-2-thuth@redhat.com>
+In-Reply-To: <20230112134928.1026006-1-thuth@redhat.com>
+References: <20230112134928.1026006-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -74,33 +78,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Here's a collection of low-hanging fruits to mark some more files
-as target-independent (so that they do not have to be compiled twice,
-once for qemu-system-arm and once for qemu-system-aarch64).
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Philippe's patches have been on the list before, but I slightly
-modified some of them (like fixing typos in the subject etc.).
-My patches are new.
+While only used by the ARM targets, this device can be built
+once for all.
 
-Philippe Mathieu-Daudé (4):
-  hw/display: Move omap_lcdc.c out of target-specific source set
-  hw/intc: Move some files out of the target-specific source set
-  hw/tpm: Move tpm_ppi.c out of target-specific source set
-  hw/arm: Move various units to softmmu_ss[]
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221209170042.71169-2-philmd@linaro.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ hw/display/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thomas Huth (3):
-  hw/cpu: Mark arm11 and realview mpcore as target-independent code
-  hw/intc: Mark more interrupt-controller files as target independent
-  hw/usb: Mark the XLNX_VERSAL-related files as target-independent
-
- hw/arm/meson.build     | 11 +++++++----
- hw/cpu/meson.build     |  4 ++--
- hw/display/meson.build |  2 +-
- hw/intc/meson.build    | 12 ++++++------
- hw/tpm/meson.build     |  4 ++--
- hw/usb/meson.build     |  4 ++--
- 6 files changed, 20 insertions(+), 17 deletions(-)
-
+diff --git a/hw/display/meson.build b/hw/display/meson.build
+index 7a725ed80e..2cab7a8ff2 100644
+--- a/hw/display/meson.build
++++ b/hw/display/meson.build
+@@ -111,7 +111,7 @@ if config_all_devices.has_key('CONFIG_VIRTIO_VGA')
+   hw_display_modules += {'virtio-vga-gl': virtio_vga_gl_ss}
+ endif
+ 
+-specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_lcdc.c'))
++softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_lcdc.c'))
+ 
+ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-vga-stub.c'))
+ modules += { 'hw-display': hw_display_modules }
 -- 
 2.31.1
 
