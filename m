@@ -2,93 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C68A667D62
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 19:04:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32AA0667E0D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 19:23:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG1vJ-00061C-9q; Thu, 12 Jan 2023 13:03:33 -0500
+	id 1pG2Cf-00015g-Uk; Thu, 12 Jan 2023 13:21:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pG1v8-0005zN-HE; Thu, 12 Jan 2023 13:03:22 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pG1v6-0006DS-PY; Thu, 12 Jan 2023 13:03:22 -0500
-Received: by mail-ed1-x536.google.com with SMTP id b4so8408130edf.0;
- Thu, 12 Jan 2023 10:03:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mnzFi1Kt+mZA/K0HLKAX84GNQY7+7dKWpnWTT3vMn4g=;
- b=CsGRJr7ImT2BxWlXRjEohFR7I3Bdo0MMKtmKY7E+1esmtaU/jkmsPbMk5K1Roo/9bC
- fykKjmR2iWLmzzWyEmH94uvvuRiBHwVTQ2gEccypO4NeYoN0K4CDW+etSp2p8Yg078WA
- PC1Ng5oaAI/hH+RjkkXjgioATIouxOTLmAm6saV/wTZnUoQkok6P4q7iwixol+34qXqF
- DIdExJ5KpwGwJdo8V2NjwdMazz7MFwOjUhAfK5HEijM9xYb90CiorlplGwwI1QZl/6zZ
- xaEMeLGC2VYRBUoc0dzTYDpBfx8EPdHM4vh+jLgykRsFPURcQ/6iyzfxBze6of8typ5d
- zxiA==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pG2Ce-00015Y-14
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 13:21:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pG2Cb-0000LD-W7
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 13:21:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673547684;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9UXvTA5OXDnUffBhoC5JIaj9JE24PA3VQ5bpVo3JZf8=;
+ b=KvPAL+MOmy+hJMZqCcdDraCx3SMOWoBr5M7ZvyaXZ/PpwCQK9EfWZK5SNiP3AwBzeIjBnf
+ 7fTo4Kl8LRQIDvLMelMsLsSlkXeWl/WY2pGJeVCS1ev/7P71XafWxLYgZZcxwi8178v4dG
+ cxSg6MO7szDCkmyTglqcAsytS7/DFV4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-183-JIU8qG5_P22b2Jx2qHbgUw-1; Thu, 12 Jan 2023 13:21:22 -0500
+X-MC-Unique: JIU8qG5_P22b2Jx2qHbgUw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ q3-20020adfab03000000b002b32e25058dso3727893wrc.5
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 10:21:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mnzFi1Kt+mZA/K0HLKAX84GNQY7+7dKWpnWTT3vMn4g=;
- b=SR7uDdL1jRzq4y7/OtrM44rn+4hPgTjGraSHeDZdhW3bf3alFhs77N0jzj+GUdHanr
- aQkOtZVJcZyWLY8WgMlDvaGUoJ8Z7ekxTK6uXshE3LHYeBglVUf7cq2vX107qLnTfU3n
- qVTCFeOsvKHfNu8g6Rr+h+SJhlhSZSSddnhn0HA9js8ZXan9pRUD/RBsf93HgAxkW1js
- +szNII2TPdUss+kVEFLQr0/idxm4uDtxHEaqqNC/sZfxxlLQvZMWS6nXDlWNBEuKWAe4
- EhTcOmKz9SyavRdxeLdUAgQleTQc9hxYCIdYSe4vo2MXyYCYq4m3eVxPM17hMSF+kU5s
- ACtg==
-X-Gm-Message-State: AFqh2koETqsQ5pENKkQLNtYuvxLAtmYBtdHuLnNnSiLYElTLuWpsBVOu
- 1F78qaP3+0Ek7xh1f087/ew=
-X-Google-Smtp-Source: AMrXdXurYGkP3pR7N0gFV9ov+0R8xgD9vTDrjTU567OVA+my8U3dtWEQmxwpxveBPn2tvcvXiFgNGA==
-X-Received: by 2002:a05:6402:1c8b:b0:485:832:1e46 with SMTP id
- cy11-20020a0564021c8b00b0048508321e46mr51051964edb.23.1673546596630; 
- Thu, 12 Jan 2023 10:03:16 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-092-224-135-062.92.224.pool.telefonica.de.
- [92.224.135.62]) by smtp.gmail.com with ESMTPSA id
- b9-20020a1709063ca900b007c073be0127sm7666577ejh.202.2023.01.12.10.03.15
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9UXvTA5OXDnUffBhoC5JIaj9JE24PA3VQ5bpVo3JZf8=;
+ b=ZH6fakALB9uilDGDHhn2E2MaSnEUJ15zQJBhufbtyySuzcJl9SzKMMHsVWuP2xPeB+
+ 46Kvb7iD426qvPwEgBpVYQeJAdI6nZ4bwTU7k8fOUGGwcQiKg8yXpBzwlop9xlpgE855
+ cjR42OT/ZOyUKc2mEF9tM4Dl8U9496qorCbdocNlhkJPIG2433L5WoJSCVRg2FIvQh5e
+ PO80iloI8dQpNSy1P6tAw2m+uY/iFR2G/13Krl2WFONAegcaNSugZwh2B5pIf85MYyMR
+ wFbnuCKNy9OYuVH3/KXfUZiMM3pRJv2AIxWoXQcGfoLvpOMdSHi89Yh33KzPrUSBTe0f
+ HxdQ==
+X-Gm-Message-State: AFqh2krU2gDGm6PDymAjKnOkI2jj4elFcwlQ4OhlZC6JC29BJ9uzB9Dg
+ KbBJghU33X0+wT6F8lo9H655Y0S6nPOX/QAm50kDWSp14O7qdt7KYweiWCzNm4rlhxEhaS1CMNO
+ OL7l1QWz5hbEGTGc=
+X-Received: by 2002:a05:600c:3d90:b0:3d9:f798:dcba with SMTP id
+ bi16-20020a05600c3d9000b003d9f798dcbamr9366410wmb.38.1673547681796; 
+ Thu, 12 Jan 2023 10:21:21 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsd/bqChDAqT35siglfQo2fRSWzbnoYNCCKio8z99B1FJk/Y1FbCJwntaK9Y9nqx+rZuthYmQ==
+X-Received: by 2002:a05:600c:3d90:b0:3d9:f798:dcba with SMTP id
+ bi16-20020a05600c3d9000b003d9f798dcbamr9366393wmb.38.1673547681547; 
+ Thu, 12 Jan 2023 10:21:21 -0800 (PST)
+Received: from ?IPV6:2003:cb:c707:4b00:f595:490f:692:a6f3?
+ (p200300cbc7074b00f595490f0692a6f3.dip0.t-ipconnect.de.
+ [2003:cb:c707:4b00:f595:490f:692:a6f3])
+ by smtp.gmail.com with ESMTPSA id
+ s7-20020a1cf207000000b003d98438a43asm21216654wmc.34.2023.01.12.10.21.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 10:03:16 -0800 (PST)
-Date: Thu, 12 Jan 2023 18:03:11 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-CC: John G Johnson <john.g.johnson@oracle.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, Ani Sinha <ani@anisinha.ca>,
- Eduardo Habkost <eduardo@habkost.net>, Gerd Hoffmann <kraxel@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- qemu-ppc@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
-Subject: Re: [PATCH v6 28/33] hw/isa/piix3: Merge hw/isa/piix4.c
-In-Reply-To: <9f2f0fe3-3aef-91c5-bbe4-b94682b6a832@linaro.org>
-References: <20230109172347.1830-1-shentey@gmail.com>
- <20230109172347.1830-29-shentey@gmail.com>
- <e879c284-5021-2f63-0269-5e0b09bc31a7@linaro.org>
- <9f2f0fe3-3aef-91c5-bbe4-b94682b6a832@linaro.org>
-Message-ID: <1FC5DE03-2236-416E-8747-972DD88C0ABA@gmail.com>
+ Thu, 12 Jan 2023 10:21:20 -0800 (PST)
+Message-ID: <11b7237a-000a-5ad7-3747-246825188d83@redhat.com>
+Date: Thu, 12 Jan 2023 19:21:20 +0100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3 3/8] migration/savevm: Allow immutable device state to
+ be migrated early (i.e., before RAM)
+Content-Language: en-US
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>
+References: <20230112164403.105085-1-david@redhat.com>
+ <20230112164403.105085-4-david@redhat.com> <Y8BJ02EiHNSr6xMv@work-vm>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <Y8BJ02EiHNSr6xMv@work-vm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,145 +107,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 12.01.23 18:56, Dr. David Alan Gilbert wrote:
+> * David Hildenbrand (david@redhat.com) wrote:
+>> For virtio-mem, we want to have the plugged/unplugged state of memory
+>> blocks available before migrating any actual RAM content, and perform
+>> sanity checks before touching anything on the destination. This
+>> information is immutable on the migration source while migration is active,
+>>
+>> We want to use this information for proper preallocation support with
+>> migration: currently, we don't preallocate memory on the migration target,
+>> and especially with hugetlb, we can easily run out of hugetlb pages during
+>> RAM migration and will crash (SIGBUS) instead of catching this gracefully
+>> via preallocation.
+>>
+>> Migrating device state via a vmsd before we start iterating is currently
+>> impossible: the only approach that would be possible is avoiding a vmsd
+>> and migrating state manually during save_setup(), to be restored during
+>> load_state().
+>>
+>> Let's allow for migrating device state via a vmsd early, during the
+>> setup phase in qemu_savevm_state_setup(). To keep it simple, we
+>> indicate applicable vmds's using an "immutable" flag.
+>>
+>> Note that only very selected devices (i.e., ones seriously messing with
+>> RAM setup) are supposed to make use of such early state migration.
+>>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>   include/migration/vmstate.h |  5 +++++
+>>   migration/savevm.c          | 14 ++++++++++++++
+>>   2 files changed, 19 insertions(+)
+>>
+>> diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+>> index ad24aa1934..dd06c3abad 100644
+>> --- a/include/migration/vmstate.h
+>> +++ b/include/migration/vmstate.h
+>> @@ -179,6 +179,11 @@ struct VMStateField {
+>>   struct VMStateDescription {
+>>       const char *name;
+>>       int unmigratable;
+>> +    /*
+>> +     * The state is immutable while migration is active and is saved
+>> +     * during the setup phase, to be restored early on the destination.
+>> +     */
+>> +    int immutable;
+> 
+> A bool would be nicer (as it would for unmigratable above)
 
+Yes, I chose an int for consistency with "unmigratable". I can turn that 
+into a bool.
 
-Am 12=2E Januar 2023 16:31:23 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <p=
-hilmd@linaro=2Eorg>:
->On 12/1/23 16:04, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 9/1/23 18:23, Bernhard Beschow wrote:
->>> Now that the PIIX3 and PIIX4 device models are sufficiently consolidat=
-ed,
->>> their implementations can be merged into one file for further
->>> consolidation=2E
->>>=20
->>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->>> Reviewed-by: Michael S=2E Tsirkin <mst@redhat=2Ecom>
->>> Message-Id: <20221022150508=2E26830-37-shentey@gmail=2Ecom>
->>> ---
->>> =C2=A0 hw/isa/{piix3=2Ec =3D> piix=2Ec} | 158 ++++++++++++++++++++
->>> =C2=A0 hw/isa/piix4=2Ec=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 285 -------------------------------------
->>> =C2=A0 MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 6 +-
->>> =C2=A0 hw/i386/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
->>> =C2=A0 hw/isa/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 12 +-
->>> =C2=A0 hw/isa/meson=2Ebuild=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0=C2=A0 3 +-
->>> =C2=A0 hw/mips/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
->>> =C2=A0 7 files changed, 165 insertions(+), 303 deletions(-)
->>> =C2=A0 rename hw/isa/{piix3=2Ec =3D> piix=2Ec} (75%)
->>> =C2=A0 delete mode 100644 hw/isa/piix4=2Ec
->>=20
->>> +static void piix4_realize(PCIDevice *dev, Error **errp)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 PIIXState *s =3D PIIX_PCI_DEVICE(dev);
->>> +=C2=A0=C2=A0=C2=A0 PCIBus *pci_bus =3D pci_get_bus(dev);
->>> +=C2=A0=C2=A0=C2=A0 ISABus *isa_bus;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 isa_bus =3D isa_bus_new(DEVICE(dev), pci_address_s=
-pace(dev),
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 pci_address_space_io(dev), errp);
->>> +=C2=A0=C2=A0=C2=A0 if (!isa_bus) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +
->>> +=C2=A0=C2=A0=C2=A0 memory_region_init_io(&s->rcr_mem, OBJECT(dev), &r=
-cr_ops, s,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 "reset-control", 1);
->>> +=C2=A0=C2=A0=C2=A0 memory_region_add_subregion_overlap(pci_address_sp=
-ace_io(dev),
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 PIIX_RCR_IOPORT, &s->rcr_mem, 1);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 /* initialize i8259 pic */
->>> +=C2=A0=C2=A0=C2=A0 if (!qdev_realize(DEVICE(&s->pic), NULL, errp)) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +
->>> +=C2=A0=C2=A0=C2=A0 /* initialize ISA irqs */
->>> +=C2=A0=C2=A0=C2=A0 isa_bus_irqs(isa_bus, s->pic=2Ein_irqs);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 /* initialize pit */
->>> +=C2=A0=C2=A0=C2=A0 i8254_pit_init(isa_bus, 0x40, 0, NULL);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 /* DMA */
->>> +=C2=A0=C2=A0=C2=A0 i8257_dma_init(isa_bus, 0);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 /* RTC */
->>> +=C2=A0=C2=A0=C2=A0 qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", =
-2000);
->>> +=C2=A0=C2=A0=C2=A0 if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), e=
-rrp)) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +=C2=A0=C2=A0=C2=A0 s->rtc=2Eirq =3D qdev_get_gpio_in(DEVICE(&s->pic),=
- s->rtc=2Eisairq);
->>=20
->> Pre-existing; it seems this difference with PIIX3 can be removed
->> because already taken care by calling isa_connect_gpio_out() in mc14681=
-8_rtc_init()?
->>=20
->> ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq inter=
-cept_irq)
->> {
->>  =C2=A0=C2=A0=C2=A0 DeviceState *dev;
->>  =C2=A0=C2=A0=C2=A0 ISADevice *isadev;
->>  =C2=A0=C2=A0=C2=A0 RTCState *s;
->>=20
->>  =C2=A0=C2=A0=C2=A0 isadev =3D isa_new(TYPE_MC146818_RTC);
->>  =C2=A0=C2=A0=C2=A0 dev =3D DEVICE(isadev);
->>  =C2=A0=C2=A0=C2=A0 s =3D MC146818_RTC(isadev);
->>  =C2=A0=C2=A0=C2=A0 qdev_prop_set_int32(dev, "base_year", base_year);
->>  =C2=A0=C2=A0=C2=A0 isa_realize_and_unref(isadev, bus, &error_fatal);
->>  =C2=A0=C2=A0=C2=A0 if (intercept_irq) {
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_connect_gpio_out(dev, =
-0, intercept_irq);
->>  =C2=A0=C2=A0=C2=A0 } else {
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 isa_connect_gpio_out(isadev=
-, 0, s->isairq);
->>=20
->
->I meant to paste:
->
->static void rtc_realizefn(DeviceState *dev, Error **errp)
->{
->    =2E=2E=2E
->    qdev_init_gpio_out(dev, &s->irq, 1);
->
->
->> Having:
->>=20
->> void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isai=
-rq)
->> {
->>  =C2=A0=C2=A0=C2=A0 qemu_irq irq =3D isa_get_irq(isadev, isairq);
->>  =C2=A0=C2=A0=C2=A0 qdev_connect_gpio_out(DEVICE(isadev), gpioirq, irq)=
-;
->> }
->>=20
->> What do you think?
->
+I'd even include a cleanup patch for unmigratable if it wouldn't be ...
 
-In "[PATCH v6 11/33] hw/i386/pc: Create RTC controllers in south bridges" =
-mc146818_rtc_init() got inlined, taking into account the intercept_irq, whi=
-ch required the rtc interrupt to be wired up in board code=2E Since we don'=
-t have to deal with intercept_irq in the Malta code, wiring up of the rtc i=
-nterrupt could be moved into PIIX4=2E
+$ git grep "unmigratable \=" | wc -l
+29
 
-I would prefer to wire up the rtc interrupt in PIIX3 as well, and to re-wi=
-re it in board code in case of intercept_irq !=3D NULL=2E That's still an o=
-pen question which needs to be solved for PIIX4 to become a drop-in replace=
-ment for PIIX3=2E Any ideas?
+> 
+>>       int version_id;
+>>       int minimum_version_id;
+>>       MigrationPriority priority;
+>> diff --git a/migration/savevm.c b/migration/savevm.c
+>> index ff2b8d0064..536d6f662b 100644
+>> --- a/migration/savevm.c
+>> +++ b/migration/savevm.c
+>> @@ -1200,6 +1200,15 @@ void qemu_savevm_state_setup(QEMUFile *f)
+>>   
+>>       trace_savevm_state_setup();
+>>       QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+>> +        if (se->vmsd && se->vmsd->immutable) {
+>> +            ret = vmstate_save(f, se, ms->vmdesc);
+>> +            if (ret) {
+>> +                qemu_file_set_error(f, ret);
+>> +                break;
+>> +            }
+>> +            continue;
+>> +        }
+>> +
+> 
+> Does this give you the ordering you want? i.e. there's no guarantee here
+> that immutables come first?
 
-Best regards,
-Bernhard
+Yes, for virtio-mem at least this is fine. There are no real ordering 
+requirements in regard to save_setup().
+
+I guess one could use vmstate priorities to affect the ordering, if 
+required.
+
+So for my use case this is good enough, any suggestions? Thanks.
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
