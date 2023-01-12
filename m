@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F995666B85
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 08:19:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE83666B88
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 08:20:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFrq9-0004AX-Rl; Thu, 12 Jan 2023 02:17:33 -0500
+	id 1pFrsG-0005ux-B5; Thu, 12 Jan 2023 02:19:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFrq7-00046K-9Y
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 02:17:31 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFrs7-0005qb-18
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 02:19:36 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFrq4-0006yb-1c
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 02:17:30 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id bk16so17129590wrb.11
- for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 23:17:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFrs4-0007A4-Me
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 02:19:34 -0500
+Received: by mail-wr1-x432.google.com with SMTP id e3so7942158wru.13
+ for <qemu-devel@nongnu.org>; Wed, 11 Jan 2023 23:19:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=h5fkYGJtMm2cPCnHBO9sFn5Dmq8/tNh0hElJEz3tEOU=;
- b=yhPDI0Qxf3Wcwi2mF0WYKjr8ZD4WB5UlP54UyaZrpo3IPnFGpq1k0aSDgqlgUs8IP0
- /P5oh+8UHoac4EkshAcMQJRzCE48UtYcqjZRHs22JmObwHm4c6ZbGzS6HnrqgI0GuVlo
- ilqjMkkp155ky+pPr/TadJhLbR828VS2usBt21NBKB/luSTG3e6k9YuizEDZgVBifoLb
- 7RmjiiUpkKlTOTNqLGNXhzumtfqKt3u7+a4vOkEhef33lIbvH2+POYYJt0mQVuAeIBlt
- DGaPe/zFHpCotTpSzRyZktoll7JgECsa3+hnt9zYEnTdyxA7S2v7gicLIZ+sZJgn6WgX
- zibw==
+ bh=PqproFjX7Lt7s/rfVO8hJurJLj0uCKEebU8kafs+s1o=;
+ b=vjF2kYc3djmDoGGILl3iT/rVPINcE/zegPklEW+sCROsV7bcSnxiZ41vYh8+mQrJu/
+ KVQLCv2YDGFIsL31K756Qwp2xeIb9ClKQEtobJzKv11k4MwbasAM4d1lyr4N7iDi08lC
+ BZZXOBIZTK1sSKx1nDQE7V545VTeLQ0+CZWESJcokBPj1XZFg8bxji0S16taO97eKWAc
+ sNVJX2Vsu5SOAUmMcSLPJ7Y3KNGxjmgHxHZLbU2WW4ykxjujPfr/BchppZ/Jrqug03h/
+ JYmTE9ZDngUYIe/9nr6M0v4H6Tljg69aTV6AlTNUhqEMMTVCKfgITnC48xFAGfjQvM62
+ 9THA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=h5fkYGJtMm2cPCnHBO9sFn5Dmq8/tNh0hElJEz3tEOU=;
- b=Tlllq5qKa5Cy2JmyDY3Ky8IpEs+E6QHHuSGJcHRK+6HZ3yu0mFoolm7o9g/Iwqp+xD
- DDZ+X8OQ1MAMoNxk5yyItcDCkaZfFXZibn6f7/RCQwIcWL3znIZ9TuK+6gLzet9T6JOw
- 0Iu4jpr9DYAtmnv7HgclSygRJ23CFWLlBq+U+Kb0LUZZkluzKobq0mSoSbs+MUri+Kt/
- GC+E4bF3Ie65zxPP5QiVIiqQf2kEc2Sz4XL2QArfDxyqMYjtkatDfZPoD91Fs9vos2CI
- Mg4/EF3jfwdQckkEFzkv4Zi7J49Om/ccoKHuh2CaJ12RNuOEPksUJgLkbg124yP3B0kY
- to/A==
-X-Gm-Message-State: AFqh2kpT29GhwvVEBDtwaTVcdB2yYApKLB5ro5y03Tuof6YFt+XghiYN
- 4diIx+HuQop4DmmRVWDHP37gPOdCQQrNghAn
-X-Google-Smtp-Source: AMrXdXtQqk40qZ9AFsk5Cn8NE9pj7DAHwrOTiaPxCZHdl4muAUkwse3UxofM62lM4yi+CEgGB2TO6g==
-X-Received: by 2002:a05:6000:1c11:b0:2bd:bcc6:c450 with SMTP id
- ba17-20020a0560001c1100b002bdbcc6c450mr5976721wrb.17.1673507845721; 
- Wed, 11 Jan 2023 23:17:25 -0800 (PST)
+ bh=PqproFjX7Lt7s/rfVO8hJurJLj0uCKEebU8kafs+s1o=;
+ b=vhk1WO+w1elQjVm0wALbe6BE0YDkCcEo6bI19TBoMmtiLTenx2Ws/HZW5fyglRzDjL
+ cNm/yHRcbQVNb/3pCyQgrsQPwCDBrRlKDmeCDPuirTEwBo6yVj+dbNVmg1W2g2nGyKCj
+ bl4PCaBPBRD2SzO+KTIJacPr1D+mkDoFB5+bM8w62mnOgupufzhI6oYq0c43p8Gg+QRF
+ aQfQfAVVXSn+mqukQooCuooPC+6F9dS00ghqPF0BVP/auONPEigz4OpmCl4PWoUferfj
+ pFDxvskGg3xwjBntYMFHOju3NQGTf0LFrNJpoxurbKMFNbIUymVBCn6lakSmMIODXlqh
+ 6N9g==
+X-Gm-Message-State: AFqh2kpBXkcM/xFXbZ15XCPU6QIY2PD6bvrRX3ZXAkZOwoWP2FuZTCSQ
+ LmlRYlwVN9ru053DJpFxIWVstg==
+X-Google-Smtp-Source: AMrXdXtsSZfPk1synOAl3fskoRoxtlOQ6fkKCIhT8P5l2FUz1p53/dKLbnAsMMOgXljfrFtaWKXw7Q==
+X-Received: by 2002:adf:f746:0:b0:2b8:bcd8:1818 with SMTP id
+ z6-20020adff746000000b002b8bcd81818mr14258103wrp.1.1673507970610; 
+ Wed, 11 Jan 2023 23:19:30 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n16-20020a5d4010000000b002bbed1388a5sm10306421wrp.15.2023.01.11.23.17.24
+ i10-20020adff30a000000b0024228b0b932sm18830845wro.27.2023.01.11.23.19.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Jan 2023 23:17:25 -0800 (PST)
-Message-ID: <b91019e8-1a75-d968-c842-1d040b32a431@linaro.org>
-Date: Thu, 12 Jan 2023 08:17:24 +0100
+ Wed, 11 Jan 2023 23:19:30 -0800 (PST)
+Message-ID: <b80a3904-1a5c-dc73-433d-b67acb2e5503@linaro.org>
+Date: Thu, 12 Jan 2023 08:19:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 05/18] target/arm: Move CPU QOM type definitions to
- "hw/arm/cpu.h"
+Subject: Re: [PATCH] hw/mips/boston.c: rename MachineState 'mc' pointer to 'ms'
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230110164406.94366-1-philmd@linaro.org>
- <20230110164406.94366-6-philmd@linaro.org>
- <325310d0-aad6-fc39-748a-80762d644dd8@linaro.org>
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+Cc: Paul Burton <paulburton@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+References: <20230111172133.334735-1-dbarboza@ventanamicro.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <325310d0-aad6-fc39-748a-80762d644dd8@linaro.org>
+In-Reply-To: <20230111172133.334735-1-dbarboza@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,85 +90,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/1/23 21:02, Richard Henderson wrote:
-> On 1/10/23 08:43, Philippe Mathieu-Daudé wrote:
->> +++ b/target/arm/cpu.h
->> @@ -26,6 +26,7 @@
->>   #include "cpu-qom.h"
->>   #include "exec/cpu-defs.h"
->>   #include "qapi/qapi-types-common.h"
->> +#include "hw/arm/cpu.h"
+On 11/1/23 18:21, Daniel Henrique Barboza wrote:
+> Follow the QEMU convention of naming MachineState pointers as 'ms' by
+> renaming the instance in create_fdt() where we're calling it 'mc'.
 > 
-> I'm not a fan of this.
-> 
-> If you want a smaller version of cpu-qom.h here in target/arm/, for use 
-> by hw/, that's one thing.  But target/ should not be reaching back into 
-> hw/, IMO.
+> Cc: Paul Burton <paulburton@kernel.org>
+> Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+> Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>   hw/mips/boston.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-I concur, but currently we have:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-$ git grep '#include "hw' target | wc -l
-      220
-
-$ git grep -h '#include "hw' target | sort | uniq -c
-    1 #include "hw/acpi/acpi.h"
-    1 #include "hw/acpi/ghes.h"
-    1 #include "hw/arm/boot.h"
-    1 #include "hw/arm/virt.h"
-   19 #include "hw/boards.h"
-    2 #include "hw/clock.h"
-    3 #include "hw/core/accel-cpu.h"
-   24 #include "hw/core/cpu.h"
-   20 #include "hw/core/sysemu-cpu-ops.h"
-   24 #include "hw/core/tcg-cpu-ops.h"
-    1 #include "hw/hppa/hppa_hardware.h"
-    3 #include "hw/hw.h"
-    1 #include "hw/hyperv/hyperv-proto.h"
-    2 #include "hw/hyperv/hyperv.h"
-    2 #include "hw/i386/apic-msidef.h"
-    2 #include "hw/i386/apic.h"
-    8 #include "hw/i386/apic_internal.h"
-    1 #include "hw/i386/e820_memory_layout.h"
-    1 #include "hw/i386/intel_iommu.h"
-    1 #include "hw/i386/ioapic.h"
-    2 #include "hw/i386/pc.h"
-    1 #include "hw/i386/sgx-epc.h"
-    1 #include "hw/i386/topology.h"
-    1 #include "hw/i386/x86-iommu.h"
-    2 #include "hw/i386/x86.h"
-    1 #include "hw/intc/riscv_aclint.h"
-    8 #include "hw/irq.h"
-    1 #include "hw/isa/isa.h"
-    5 #include "hw/loader.h"
-    1 #include "hw/loongarch/virt.h"
-    2 #include "hw/mips/cpudevs.h"
-    2 #include "hw/pci/msi.h"
-    1 #include "hw/pci/msix.h"
-    3 #include "hw/pci/pci.h"
-    1 #include "hw/ppc/openpic_kvm.h"
-    5 #include "hw/ppc/ppc.h"
-    2 #include "hw/ppc/spapr.h"
-    1 #include "hw/ppc/spapr_cpu_core.h"
-    2 #include "hw/qdev-clock.h"
-   12 #include "hw/qdev-properties.h"
-   11 #include "hw/registerfields.h"
-    2 #include "hw/s390x/ebcdic.h"
-    5 #include "hw/s390x/ioinst.h"
-    2 #include "hw/s390x/ipl.h"
-    8 #include "hw/s390x/pv.h"
-    2 #include "hw/s390x/s390-pci-bus.h"
-    2 #include "hw/s390x/s390-pci-inst.h"
-    2 #include "hw/s390x/s390-virtio-ccw.h"
-    2 #include "hw/s390x/s390-virtio-hcall.h"
-    3 #include "hw/s390x/s390_flic.h"
-    1 #include "hw/s390x/sclp.h"
-    2 #include "hw/s390x/storage-keys.h"
-    1 #include "hw/s390x/tod.h"
-    1 #include "hw/sh4/sh_intc.h"
-    2 #include "hw/sysbus.h"
-    1 #include "hw/watchdog/wdt_diag288.h"
-    1 #include "hw/xtensa/xtensa-isa.h"
-
-Assuming we want to have a self-contained libtarget$arch, how can we
-deal with HW tied to the arch such CPU timers or NVIC?
 
