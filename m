@@ -2,92 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205E9667CF2
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 18:48:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282BC667D10
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 18:55:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG1ee-000392-EU; Thu, 12 Jan 2023 12:46:20 -0500
+	id 1pG1gI-00044Y-SU; Thu, 12 Jan 2023 12:48:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pG1eR-000370-Dx; Thu, 12 Jan 2023 12:46:08 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pG1gF-000432-HV
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 12:47:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pG1eL-0003ev-E1; Thu, 12 Jan 2023 12:46:07 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 539E15C0065;
- Thu, 12 Jan 2023 12:45:59 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 12 Jan 2023 12:45:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1673545559; x=1673631959; bh=YI
- YUHf4h/jjkAP78zYa0AhqxUa06r/hPvjMS+MwCYqY=; b=CNLK6ejrNhHREjaeVt
- erte2GCMeMlz+RVuhotellaU3Usw6vZ+gbwvL9TxTWr0DOc3d495zhi57+RVIwHv
- /uIEZDkfglqQAq8uO1vrkj/YkktdZl7qLe0g/z1A6mWn+oNXLVFHugaByk9OvhS6
- blQHW5guxL0MitDvS9l4vggsZM80gxGHifC6+4WI1Q67nxkaDIIAQTtGOTavH2a5
- vwuweQR6pxmPobsJ0JptkwCswJghNXB3n3VLiQE2mvxphUN6m7Ccv8ToplzE/KEl
- 9BvZ+HxvvasNmev4jJ1SC8x4dG5bPlLnYttIwyjqx2jOC6FkrFeIMweqIUwzakVN
- KxVg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1673545559; x=1673631959; bh=YIYUHf4h/jjkAP78zYa0AhqxUa06
- r/hPvjMS+MwCYqY=; b=Wi+ONRpheuRQbX0NBqPFYtKJ7X6Nb5tNTy/QNhWKsVlb
- TnCwmVSF5yQL1+1eGVOnB9PoA+RWWJ4F55HMaeu32jiZ5GBIv1TihBphTBPC4EwJ
- FEJDBvUWHz044Sg3y65BsVMdlO2+GP6jlLQcMm26tjRImDZSxXkxm0xtd23FMPBf
- hKbKhtbQI+EhBykE9uyo8TOi8BzwX7UCGBeqvXZByc/IYt6NuomP9cIjapO+Pnuv
- kHuxJjsomKOLa5eZ40vx2lQP4wbjzYC0zqD6H9WRYs13UK00crlzo9LF+5M8h7LX
- lgpgdR4l9hOIYmZiTD51h5yiNwnricSpwYHudWeOlQ==
-X-ME-Sender: <xms:VkfAY37AiCTtfpNcKpsxQrjb5nuU8nuP6UrYOnCx1soTttDGcYkEVw>
- <xme:VkfAY85FSWvlgXroQd4KjoYsJYaGEz8GVP0Ns5lN0z1tn5HVhmTV7zkm9kIzhhmkm
- 3l8aiUOJfKg7WMnGOE>
-X-ME-Received: <xmr:VkfAY-ckMnhCUVxtsPY75nWXHdWaPL1Uw_Fuxb33I5rOWXcvpU8kbNI9cqud-vsgrBjXamSOTbUVnFP-U5E0pwDeicTOMA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleeigddutdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepkeeiffejgfeukeehvdegfeeuheehvdfgheelkedugffgjeevveeiheehleeh
- jedunecuffhomhgrihhnpegtthhrlhdrtgifnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:VkfAY4KsWNZ4oZbVHy-Ygu1LHhAFtwv__inyXh9XzCs4uPIeblJBhA>
- <xmx:VkfAY7ID2u4jOJgmccr5nvSvJmPtAMW8wSmEzn_GcaroGfS84Vv9WQ>
- <xmx:VkfAYxwbJNc7wv_tifDgtgw-RXyjdfqsNtEFon0v39HsdBDaIoa7kg>
- <xmx:V0fAY4rf56NDLhLt3lcLTPJWCjm-rebfDrsCie9xDlx2ZZiAH9bmNw>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 12 Jan 2023 12:45:56 -0500 (EST)
-Date: Thu, 12 Jan 2023 18:45:55 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Guenter Roeck <linux@roeck-us.net>
-Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
-Message-ID: <Y8BHUzcbdQ/SFBY9@cormorant.local>
-References: <Y8AG21o/9/3eUMIg@cormorant.local>
- <Y8A2qdbDZPicuZfL@kbusch-mbp.dhcp.thefacebook.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pG1gD-0003wP-Pj
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 12:47:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673545677;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/q8S/JFjp2otsghtMnNM7eaxXDSxB6fyjCEWaw5dovY=;
+ b=QfaDw13pTu09UDy9QCPvN5P4jMQv9oOdoiCcUutR04fXZ8hrkMLokELkHwLt2dYOtSc1Dk
+ JSGBfXQWIa+7UzIaYK5+Y2WeH967HTzrokqU6u++h8krEhC5A2O65LfV7b3xdogVO2oaxc
+ pnBsZ2Q4PlMPtU4llfcBHlJHTtOviF0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-60-Wb_9dadWOF6hXjvmnhP3kw-1; Thu, 12 Jan 2023 12:47:55 -0500
+X-MC-Unique: Wb_9dadWOF6hXjvmnhP3kw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m8-20020a05600c3b0800b003d96bdce12fso9579970wms.9
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 09:47:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/q8S/JFjp2otsghtMnNM7eaxXDSxB6fyjCEWaw5dovY=;
+ b=Vnv6C0gY7p3q7gGRcBuwS3Tz7RoZhKWhrAFWrGi5h5vs1hYrKvdQIZUAADGLp2ttdK
+ Mv/PhGsnuQnfDF8+ivcfZCJXrTdWShbfIkVKSwfauy3rV3X8WIcTzs93XmRYYxOm8VsS
+ pkdSlGCZWX+tABOKJ8J3yfbLv/JrOiDIvQ7ZE8KmNneSFNgrJxt6s2Nk5ZV1iSyK8cFX
+ 6ye6sNtM1dzaUAXHwOzIpo3ju8cIA5v75xFQjsTzq03yzYxJTNHrg5fcA4Vm5sAeomWm
+ Xdw5SkQFKPLv9fl6d+oxPkPpu9KQEA0dogJrZ0EQeUkxJLYZFnbVmLSOnrFlfucAs5C7
+ Bsvw==
+X-Gm-Message-State: AFqh2krQ4vjJYK9pRCJ8q0XE3PzQGPOXmsTBV2vFhgXdtxfcXdzkcX+p
+ Emae58ss6s41zcvN56W33HusYyiF+uSiKIXp//ST/qYT9ykCpAUwYpQzrnSDmIO+CJ//tr8S4lj
+ eJUmHQ0K3u3A0ibM=
+X-Received: by 2002:a05:600c:601b:b0:3d3:56ce:5693 with SMTP id
+ az27-20020a05600c601b00b003d356ce5693mr55157400wmb.17.1673545674173; 
+ Thu, 12 Jan 2023 09:47:54 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuSDDDpaT5RVO83IPz9PPIzxQXSBtPASceLihuN8y4ssRDLx2e2vRMkj1s0bLtc50mYHXYY8A==
+X-Received: by 2002:a05:600c:601b:b0:3d3:56ce:5693 with SMTP id
+ az27-20020a05600c601b00b003d356ce5693mr55157383wmb.17.1673545673979; 
+ Thu, 12 Jan 2023 09:47:53 -0800 (PST)
+Received: from redhat.com ([2.52.157.155]) by smtp.gmail.com with ESMTPSA id
+ z18-20020a5d44d2000000b002368f6b56desm20327271wrr.18.2023.01.12.09.47.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Jan 2023 09:47:53 -0800 (PST)
+Date: Thu, 12 Jan 2023 12:47:48 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ imp@bsdimp.com, kevans@freebsd.org, ben.widawsky@intel.com,
+ jonathan.cameron@huawei.com, kbastian@mail.uni-paderborn.de,
+ jasowang@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
+ tsimpson@quicinc.com, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, philmd@linaro.org,
+ Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v3 1/1] include: Don't include qemu/osdep.h
+Message-ID: <20230112124707-mutt-send-email-mst@kernel.org>
+References: <20230112115005.1504812-1-armbru@redhat.com>
+ <20230112115005.1504812-2-armbru@redhat.com>
+ <20230112082537-mutt-send-email-mst@kernel.org>
+ <20230112085520-mutt-send-email-mst@kernel.org>
+ <87zgan4xoo.fsf@pond.sub.org>
+ <20230112123434-mutt-send-email-mst@kernel.org>
+ <Y8BG/ytLLePRk1ki@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="yEiXUOj3Uq/gzfSM"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <Y8A2qdbDZPicuZfL@kbusch-mbp.dhcp.thefacebook.com>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y8BG/ytLLePRk1ki@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,66 +108,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, Jan 12, 2023 at 05:44:31PM +0000, Daniel P. Berrangé wrote:
+> On Thu, Jan 12, 2023 at 12:37:46PM -0500, Michael S. Tsirkin wrote:
+> > On Thu, Jan 12, 2023 at 03:47:19PM +0100, Markus Armbruster wrote:
+> > > "Michael S. Tsirkin" <mst@redhat.com> writes:
+> > > 
+> > > > On Thu, Jan 12, 2023 at 08:51:32AM -0500, Michael S. Tsirkin wrote:
+> > > >> On Thu, Jan 12, 2023 at 12:50:05PM +0100, Markus Armbruster wrote:
+> > > >> > docs/devel/style.rst mandates:
+> > > >> > 
+> > > >> >     The "qemu/osdep.h" header contains preprocessor macros that affect
+> > > >> >     the behavior of core system headers like <stdint.h>.  It must be
+> > > >> >     the first include so that core system headers included by external
+> > > >> >     libraries get the preprocessor macros that QEMU depends on.
+> > > >> > 
+> > > >> >     Do not include "qemu/osdep.h" from header files since the .c file
+> > > >> >     will have already included it.
+> > > >> > 
+> > > >> > A few violations have crept in.  Fix them.
+> > > >> > 
+> > > >> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> > > >> > Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> > > >> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> > > >> > Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+> > > >> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > > >> 
+> > > >> With my awesome grep skillz I found one more:
+> > > >> $ grep -r --include='*.h' qemu/osdep.h
+> > > >> include/block/graph-lock.h:#include "qemu/osdep.h"
+> > > 
+> > > Crept in after I prepared my v1.  I neglected to re-check.
+> > > 
+> > > > Also:
+> > > > $ grep -r --include='*.inc' qemu/osdep.h
+> > > > ui/vnc-enc-zrle.c.inc:#include "qemu/osdep.h"
+> > > > crypto/akcipher-nettle.c.inc:#include "qemu/osdep.h"
+> > > > crypto/akcipher-gcrypt.c.inc:#include "qemu/osdep.h"
+> > > > crypto/rsakey-nettle.c.inc:#include "qemu/osdep.h"
+> > > > crypto/cipher-gnutls.c.inc:#include "qemu/osdep.h"
+> > > > target/xtensa/core-dc233c/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> > > > target/xtensa/core-sample_controller/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> > > > target/xtensa/core-de212/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> > > > target/xtensa/core-dc232b/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> > > > target/xtensa/core-fsf/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> > > > target/cris/translate_v10.c.inc:#include "qemu/osdep.h"
+> > > 
+> > > Good point.  Looks like I successfully supressed all memory of .inc.
+> > > 
+> > > >> Looks like all C files must include qemu/osdep.h, no?
+> > > 
+> > > I remember there are a few exceptions, but I don't remember which .c
+> > > they are.  Hmm... see commit 4bd802b209cff612d1a99674a91895b735be8630.
+> > > 
+> > > >> How about
+> > > >> 
+> > > >> 1- add -include qemu/osdep.h on compile command line
+> > > >>    drop #include "qemu/osdep.h" from C files
+> > > 
+> > > Then you need to encode the exceptions in the build system.  Which might
+> > > not be a bad thing.
+> > > 
+> > > >> 2- drop double include guards, replace with a warning.
+> > > >> 
+> > > >> following patch implements part 2:
+> > > >> 
+> > > >> 
+> > > >> qemu/osdep: don't include it from headers
+> > > >> 
+> > > >> doing so will lead to trouble eventually - instead of
+> > > >> working around such cases make it more likely it will fail.
+> > > >> 
+> > > >> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > >> 
+> > > >> ---
+> > > >> 
+> > > >> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> > > >> index 7d059ad526..e4a60f911c 100644
+> > > >> --- a/include/qemu/osdep.h
+> > > >> +++ b/include/qemu/osdep.h
+> > > >> @@ -24,7 +24,12 @@
+> > > >>   * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> > > >>   * See the COPYING file in the top-level directory.
+> > > >>   */
+> > > >> -#ifndef QEMU_OSDEP_H
+> > > >> +#ifdef QEMU_OSDEP_H
+> > > >> +#warning "Never include qemu/osdep.h from a header!"
+> > > >> +#endif
+> > > >> +
+> > > >> +static inline void qemu_osdep_never_include_from_header(void) {}
+> > > >> +
+> > > 
+> > > Why do you need the function, too?
+> > 
+> > This seems to give a bit more info if header does get included
+> > twice: instead of just a warning on the second include compiler says
+> > definition is duplicated and then shows where the first definition was.
+> > OTOH first one was almost for sure from the proper first include so
+> > maybe we don't care. Let me drop this.
+> 
+> FWIW, if we want to simplify our header guards, we could replace the
+> 
+>   #ifndef FOO_H
+>   #define FOO_H
+> 
+>   ....
+> 
+>   #endif /* FOO_H */
+> 
+> with merely
+> 
+>   #pragma once
+> 
+> at the top of each header.
+> 
+> With regards,
+> Daniel
 
---yEiXUOj3Uq/gzfSM
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Will break this trick, won't it?
 
-On Jan 12 09:34, Keith Busch wrote:
-> On Thu, Jan 12, 2023 at 02:10:51PM +0100, Klaus Jensen wrote:
-> >=20
-> > The pin-based interrupt logic in hw/nvme seems sound enough to me, so I
-> > am wondering if there is something going on with the kernel driver (but
-> > I certainly do not rule out that hw/nvme is at fault here, since
-> > pin-based interrupts has also been a source of several issues in the
-> > past).
->=20
-> Does it work if you change the pci_irq_assert() back to pci_irq_pulse()?
-> While probably not the "correct" thing to do, it has better results in
-> my testing.
->=20
+-- 
+MST
 
-A simple s/pci_irq_assert/pci_irq_pulse broke the device. However,
-
-	diff --git i/hw/nvme/ctrl.c w/hw/nvme/ctrl.c
-	index 03760ddeae8c..0fc46dcb9ec4 100644
-	--- i/hw/nvme/ctrl.c
-	+++ w/hw/nvme/ctrl.c
-	@@ -477,6 +477,7 @@ static void nvme_irq_check(NvmeCtrl *n)
-		 return;
-	     }
-	     if (~intms & n->irq_status) {
-	+        pci_irq_deassert(&n->parent_obj);
-		 pci_irq_assert(&n->parent_obj);
-	     } else {
-		 pci_irq_deassert(&n->parent_obj);
-
-
-seems to do the trick (pulse is the other way around, assert, then
-deassert).
-
-Probably not the "correct" thing to do, but I'll take it since it seems
-to fix it. On a simple boot loop I got the timeout about 1 out of 5. I'm
-on ~20 runs now and have not encountered it.
-
-I'll see if I can set up a mips rootfs and test that. Guenter, what MIPS
-machine/board(s) are you testing?
-
---yEiXUOj3Uq/gzfSM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPAR1IACgkQTeGvMW1P
-DemIGwf/ZFJZmI/8XrBPelfu1rr9TEbFYfvu8n7LxgCvRoHsHSo/pxvHFEfgR2/r
-NVEWa+2flmvUVb9LD/2WKQu7yePEGpgFIfQRUDzK0vozQIN9w87ovqe+hSOW4xa/
-O6Mz6aEQ/iRdlqh4J3iEBz+hV5Pt/YO2NX0a3cfnOFaXGEzL0nLMkWU3E7j1MoZy
-C8l//jvhzurybBGPsnDM2jdKUmvmv5XkrtgdkzV8/Bk2HdoOdslfu7hgD80uF/1m
-IsSoeOhMt/Tc5uOULwK21W8VzdmSib10w8XudrGlI1kMNydxZQgEyKe9w3YL5LPs
-+VnMW/L+YivaRiNLyoW/F7BA2CXKQA==
-=X6qn
------END PGP SIGNATURE-----
-
---yEiXUOj3Uq/gzfSM--
 
