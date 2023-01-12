@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 950CE667A19
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:58:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 732ED667A3B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 17:02:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFzws-0003ge-BX; Thu, 12 Jan 2023 10:57:02 -0500
+	id 1pFzz1-00056Y-DA; Thu, 12 Jan 2023 10:59:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFzwg-0003ZH-AG
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:56:51 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pFzyx-00055T-Ax
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:59:11 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFzwe-0001iB-IF
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:56:50 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id h16so18521282wrz.12
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 07:56:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pFzyv-0001zk-BV
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:59:10 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ s13-20020a17090a6e4d00b0022900843652so2494195pjm.1
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 07:59:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3O7m+XSuS9V9zMSD2pT9ThVFkUXdqJeo6fiun1HAiFI=;
- b=b4ogsdW269g98pY44KoXokM4MhemWL2MA+Wziff/l8KFZh1WfU8ZkdKaRyFu7QhIpN
- 8Qb25o2GxhPYOEoH/3gi4aaN51paxJ27Cq+gp8v2zXDh/7IhkQCPhEOP8Net8t2D0faI
- lg0OG/aZSfQ8Xx0GKsN7G57QHe1TAgBReh+9WTvRfM6vcBL3YTH9YhhjJChsD9/0XGck
- uGpDkiCvNSxhd9KtQ0IrVSMRITm3vVmXPvYpLsWt873xxkQWEzJhchyYbMN6XsOEYNDm
- Sa9Jls5lq5SKS+g0Dp/JGIzdssHcuCMHr1E5B7nmP7fQb+w62oZhrfg8uJ9EqnLYcd29
- AYjg==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9XsNXvHrKB5fBnHaG9Xw20MMzOK6GmCYiu04FFFlrXM=;
+ b=JCAt5+dEu4bOnmKtN6iZTFsXB5AWmOxrkmDHehhwBx213pZvJvhikFDJCARMTbg/qW
+ 4Xlr31rH/kyTUGqc7daISnLiT2EK7qhb4qIk3JEsHgn/rBuAk1wUGjtCSFPOWsfalwWm
+ Mla4B7Qgs0gMkllOmdLloWzARD7xy1DKV6z2jVXjtFgXB1UF6TOOeRkujI4T7uE4FkG/
+ G4iFWF8TsaFoBaZeGziCSjYUs2yC1mouyTMHHIDerQlRHaQzXLq6gNDLzIyIZ+IaLAor
+ dzhqftZZVPHgPlwis7E4Rd+9hW9RYwt6EXJ/eh/wZCRi5QXsArFqHCIU8nNwyZvafi/2
+ ImFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3O7m+XSuS9V9zMSD2pT9ThVFkUXdqJeo6fiun1HAiFI=;
- b=wIYOBSC/7cfPYALr6gBEHQd+lFUZtglw+hMWd8JUs4Eob/wqe8jBI7ff3b0d56OIS7
- W/qbQIAhOfsJiO1YX6YAgC93/Hf5KSMuZFLwUGtY/lES/xCvogRwdDeTlgX6cdYl2YJm
- 2yxkQp+SRaNQt/fpgWq1FGOMTNeyFkoElg0myw7VSboFV8pm8fGyUC+bcZfossnnJVnV
- 60X5VvXfdBH2Pstgdl2yvtiFjh5sNRG2l1dNiXOB4DyUxm/NMerhCbV9L3RojsPts3Qu
- M8zzoYlSyGQFHvohme93JluEK0rZS/lsxPZ3IGpOibTG4krnWC74cHlupGXNK/wxj7er
- e95Q==
-X-Gm-Message-State: AFqh2kqqeJy9CFKV1RcxU9+pSlWnf6INQetKfxEpzPST3ODQEXaJFYUn
- 8yLLWyij9RftAcrngR9i7YeT4dzPbTodcHuF
-X-Google-Smtp-Source: AMrXdXu6xkBPyHByYBfMjvjhRk2lWQxUZZgr1i1S5dMPVSjunbp4dNE48ytNiLHd479ygZQ9XuDGMA==
-X-Received: by 2002:a05:6000:1185:b0:2bd:d782:c2bc with SMTP id
- g5-20020a056000118500b002bdd782c2bcmr1530514wrx.33.1673539005462; 
- Thu, 12 Jan 2023 07:56:45 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- n1-20020a5d67c1000000b002bc7f64efa3sm9488459wrw.29.2023.01.12.07.56.44
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 12 Jan 2023 07:56:45 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Anton Johansson <anjo@rev.ng>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH] tests/docker: Install flex in debian-tricore-cross
-Date: Thu, 12 Jan 2023 16:56:43 +0100
-Message-Id: <20230112155643.7408-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9XsNXvHrKB5fBnHaG9Xw20MMzOK6GmCYiu04FFFlrXM=;
+ b=HLEizSv8ebTDhKv4NkAkYV35dVzDTPG4X1YidqaVZRtgc/q6wNi1b4yQ/FC1UPtJ1L
+ RiVwQf0HjBGIY/1JFCcq+2FhsCbW0VuXv+IMWYgH2l4WJOa5/j9XK4fTRfWABu4zdqYx
+ YiIGeIvX06VvpOYOwwZK3tpCsOR+YNvJXBMyYFHd++0ZzQLYdfauV5z3AwdaQRs649sw
+ +5CVzeO+U0POLxQdZgBtH1AYkESZcqQF4Bk67ogrlARhi0EV6k0jLCdSTLd0PiKX62Px
+ /KoYBZfS7DJYW5aD70yiHTs803XfKY1gV82vId3R9AuLE+OGbxW8nZ0ePXaRZKV/frvc
+ TlUA==
+X-Gm-Message-State: AFqh2koOG4bnMA03QJj2VkL5ir+9m8c7fbYmRs3rrs/pYONAs4jRcbK9
+ 4t6NUSZiKATS/p9y+L0RuOZlewg+386PmD05D1HQwA==
+X-Google-Smtp-Source: AMrXdXtv/z2TJBieQyDVhoLiAmMq4k41KKq4Gc5DT9erQY1R41afYQlcB6cPDRkUbaN+xX73PQUytqFRUY/H7x64058=
+X-Received: by 2002:a17:90a:77c7:b0:219:e2f1:81ad with SMTP id
+ e7-20020a17090a77c700b00219e2f181admr6296004pjs.19.1673539147791; Thu, 12 Jan
+ 2023 07:59:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+References: <20230112115005.1504812-1-armbru@redhat.com>
+ <20230112115005.1504812-2-armbru@redhat.com>
+ <20230112082537-mutt-send-email-mst@kernel.org> <Y8AewFAHRGf6ZI3x@redhat.com>
+In-Reply-To: <Y8AewFAHRGf6ZI3x@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 Jan 2023 15:58:56 +0000
+Message-ID: <CAFEAcA9REU2emdHRhfO2=ZZB3K9O=eKSP1k5aVh_Hwh0+cCW5w@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] include: Don't include qemu/osdep.h
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, 
+ imp@bsdimp.com, kevans@freebsd.org, ben.widawsky@intel.com, 
+ jonathan.cameron@huawei.com, kbastian@mail.uni-paderborn.de, 
+ jasowang@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com, 
+ tsimpson@quicinc.com, palmer@dabbelt.com, alistair.francis@wdc.com, 
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, philmd@linaro.org, 
+ Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,57 +94,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When flex is not available, binutils sources default to the
-'missing' script, but the current script available is not in
-the format expected by the 'configure' script:
+On Thu, 12 Jan 2023 at 15:14, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
+>
+> On Thu, Jan 12, 2023 at 08:51:26AM -0500, Michael S. Tsirkin wrote:
+> > On Thu, Jan 12, 2023 at 12:50:05PM +0100, Markus Armbruster wrote:
+> > > docs/devel/style.rst mandates:
+> > >
+> > >     The "qemu/osdep.h" header contains preprocessor macros that affec=
+t
+> > >     the behavior of core system headers like <stdint.h>.  It must be
+> > >     the first include so that core system headers included by externa=
+l
+> > >     libraries get the preprocessor macros that QEMU depends on.
+> > >
+> > >     Do not include "qemu/osdep.h" from header files since the .c file
+> > >     will have already included it.
+> > >
+> > > A few violations have crept in.  Fix them.
+> > >
+> > > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> > > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> > > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> > > Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+> > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > With my awesome grep skillz I found one more:
+> > $ grep -r --include=3D'*.h' qemu/osdep.h
+> > include/block/graph-lock.h:#include "qemu/osdep.h"
+> >
+> > Looks like all C files must include qemu/osdep.h, no?
+>
+> Yes, and IMHO that is/was a mistake, as it means our other header
+> files are not self-contained, which prevents developer tools from
+> reporting useful bugs when you're editting.
 
-  $ ./configure
-  ...
-  /usr/src/binutils/missing: Unknown `--run' option
-  Try `/usr/src/binutils/missing --help' for more information
-  configure: WARNING: `missing' script is too old or missing
-  ...
-  checking for bison... bison -y
-  checking for flex... no
-  checking for lex... no
-  checking for flex... /usr/src/binutils/missing flex
+The underlying requirement is "osdep.h must be included
+before any system header file". "Always first in every .c file"
+is an easy way to achieve that, and "never in any .h file" is
+then not mandatory but falls out from the fact that any
+such include is pointless and only serves to increase
+the compilation time (and to increase the chances that
+you don't notice that you forgot osdep.h in your .c file).
 
-  $ make
-  ...
-  updating ldgram.h
-  gcc -DHAVE_CONFIG_H -I. -I. -I. -D_GNU_SOURCE -I. -I. -I../bfd -I./../bfd -I./../include -I./../intl -I../intl  -w -DLOCALEDIR="\"/usr/local/share/locale\""   -W -Wall -Wstrict-prototypes -Wmissing-prototypes -w -c `test -f 'ldgram.c' || echo './'`ldgram.c
-  `test -f ldlex.l || echo './'`ldlex.l
-  /bin/sh: 1: ldlex.l: not found
-  make[3]: *** [Makefile:662: ldlex.c] Error 127
-  make[3]: Leaving directory '/usr/src/binutils/ld'
-  make[2]: *** [Makefile:799: all-recursive] Error 1
+If there's a better way to do this (e.g. one which meant
+that it was a compile error to put osdep includes in the
+wrong place or to omit them) then that would certainly
+save us periodically having to do this kind of fixup commit.
 
-By pass the 'missing' script use by directly installing 'flex'
-in the container.
-
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
-https://gitlab.com/philmd/qemu/-/jobs/3594948730
-Duration: 4 minutes 38 seconds
----
- tests/docker/dockerfiles/debian-tricore-cross.docker | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
-index b573b9ded2..203e096ea3 100644
---- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-+++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-@@ -20,6 +20,7 @@ RUN apt update && \
-        bzip2 \
-        ca-certificates \
-        ccache \
-+       flex \
-        g++ \
-        gcc \
-        git \
--- 
-2.38.1
-
+thanks
+-- PMM
 
