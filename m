@@ -2,129 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 267B066873C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 23:49:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF37668762
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 23:57:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG6Lx-0004Ss-1s; Thu, 12 Jan 2023 17:47:21 -0500
+	id 1pG6U0-0007JY-7g; Thu, 12 Jan 2023 17:55:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pG6LO-0004Q1-40
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 17:47:11 -0500
-Received: from mail-dm6nam10on2041.outbound.protection.outlook.com
- ([40.107.93.41] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pG6LL-0001uq-JT
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 17:46:45 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hFqfmVpIT8Mpep7uZqnYavdJ1RdQI1f3MrbLuXpRYVP5O3Iw7qDNguqv3I/v58I8P63UP8Bd3WaJ1iqIQFaTRrtAzVwh7oTtOv/KNQvg4/7E3CeRldkyv/NWZBEQXwxv7rd3yPqVesTdvbVfJJhKz/Yif/8phauEoaQk4yG2dod5iXBu/wcng+K7DVcZmGEf9aIwooe/ZAVQ3X2IZtvXJgHqIIZ3hGOprjF5/kmsu9JidRA1HAzyTZYV6fE3i3lyjMFV42aIhqe0O68u1Z1C6HqUB58ySzhMB2lhrcaYBZFtcifDP6d9hCFSQXKwS5whAUrqAVHZ1aUsmigmbju0cw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3tsOanl++S5GcbCuyrL9sMAG50Um6/jmM1C3//EBPzU=;
- b=f676PIiTkc3vr+ruFiEfHtd1JqvAYWIYnb9F7TucqZ1oXIvxrCDgHVqLeF3jbOs/eecROn66GljD1NVPg+UA9Ev2RBDRoStCIo4EkTVu3E2Z/fNVKZUtR8lpWCLPP/7JqeyFWFZ5bc106HqnDG0uu5UAs95FpCy5yAClKI+Lx60Wr4F/vSNZ3sQOKEVVZiDZ/TpWp2Tz2yiUV7tIq3p17NpmiG8oI2nCuhdrec8Xm/WqXIMNBV7wQufogXz9t1X2xtMss+HZgSV48PYs5se2TW65ruGfNUryIvv4THssQq2AWR1ikzl7C/TrYTxkg4dTGA9wfyGHR7g8qHocE1j9ww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3tsOanl++S5GcbCuyrL9sMAG50Um6/jmM1C3//EBPzU=;
- b=y9M3DgaPW4e+sIUOueCWhRESnjwf+0ttCu12dEZlhAhrCL+AhRTk02JjLspSOGbOEa4ydkrKvGG1h2MGHvDamnhCaovPd8PunZk4GITrbOwW6xDyavLVGf3Ju+WlPDoK66Je9Bur83eJqw0ufvzDWmS4yktju9nbIdGoIoZ8ul0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by PH0PR17MB4816.namprd17.prod.outlook.com (2603:10b6:510:8c::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.19; Thu, 12 Jan
- 2023 22:46:37 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660%4]) with mapi id 15.20.5986.018; Thu, 12 Jan 2023
- 22:46:36 +0000
-Date: Thu, 12 Jan 2023 17:46:27 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: qemu-devel@nongnu.org, Michael Tsirkin <mst@redhat.com>,
- Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
- linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
- Gregory Price <gourry.memverge@gmail.com>
-Subject: Re: [PATCH 0/8] hw/cxl: CXL emulation cleanups and minor fixes for
- upstream
-Message-ID: <Y8CNw/fZT5fZJZcK@memverge.com>
-References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
- <Y8AppXP+eP9cEz+i@memverge.com>
- <20230112172130.0000391b@Huawei.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230112172130.0000391b@Huawei.com>
-X-ClientProxiedBy: SJ0PR03CA0342.namprd03.prod.outlook.com
- (2603:10b6:a03:39c::17) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pG6Tw-0007JG-0F
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 17:55:38 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pG6Tt-0003Rh-FT
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 17:55:35 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id l22so18635230eja.12
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 14:55:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gcBQah7LIkYMj8F1zQ+LBzI0aneJEGKZfwDsIYdF1Lo=;
+ b=UsUA5pX1vdg/jHwhIuedEWTeDhL4HsuHBBxu2MOy/ZZHOi6httqHVC1dV6chqa6yKG
+ ehfVJkeA8NYLyVsGzaKZ6T+zHH7kHSIwxcrxhlBnt2PCBhWpmmBjZIQVtjv+T3Y1dL/q
+ C2U/PX9JJvmjQBmbydRokghip8jXsSGZ3/bGYCHJatLzLmodRBENxhbraHZwQN5+B3Jp
+ X0F3VrP4WBAToQQ5Cyt1LdMYJ03U4df9my9EXoYKHUTjwtwBvMZhKtpsv4EZmF/VCBBm
+ L8PV1CKze1Uc7U9q43f9N03S88VreZhU4PXtdv1j9p8bDtIBrB/zZx6rlobAv+RdOnmV
+ ak6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gcBQah7LIkYMj8F1zQ+LBzI0aneJEGKZfwDsIYdF1Lo=;
+ b=2HBCZobiLjND38o8pHZ2PdJYGjQOnaq61SfRsq9rfCONRVeTXsD2ynnFrayBC1afd+
+ 5N710EPIdDJTHfvLBAoCifjKLm9sdH1IMAV+di/XdV9VeGVmZQGa+MO/slxeUG48M3mJ
+ zvuuk4X8LySvAP079T5NN/v1Gb7cGtoDPA92ZPuxxnmQ1t6v/PY25lt7nARRB4GkDcVw
+ cqWSFX+b8x6bOrK64VX0qA+hvOdnPPRjfBPbtjrIb7N/x98OYY+Exm+UgrpSILd25ZVJ
+ 4v6eug76Wngey9xD7x+QBqBycxXAryuG2cfWUbfvWzg7yBdOZpocsGbKnkSePWhNhrDF
+ NfVA==
+X-Gm-Message-State: AFqh2krMUPo4ET2LlDCGixAK4K727p3us6tgecG1LJ5mboClNCCXx9qa
+ MtCzH319pd7QiLSutFLd25o=
+X-Google-Smtp-Source: AMrXdXslORGdXnAT5Qh+ZwtZAi1hOcSbTOS/be198kJia8qVDipsp9tC7Yv3brA25lVSSsq4szwbvg==
+X-Received: by 2002:a17:906:2dd9:b0:861:7cb0:ec64 with SMTP id
+ h25-20020a1709062dd900b008617cb0ec64mr5950513eji.67.1673564131426; 
+ Thu, 12 Jan 2023 14:55:31 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-092-224-135-062.92.224.pool.telefonica.de.
+ [92.224.135.62]) by smtp.gmail.com with ESMTPSA id
+ g9-20020a17090604c900b0085ca279966esm2907135eja.119.2023.01.12.14.55.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Jan 2023 14:55:30 -0800 (PST)
+Date: Thu, 12 Jan 2023 22:55:25 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Chuck Zmudzinski <brchuckz@aol.com>, "Michael S. Tsirkin" <mst@redhat.com>
+CC: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ xen-devel@lists.xenproject.org,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+Subject: Re: [PATCH v8] xen/pt: reserve PCI slot 2 for Intel igd-passthru
+In-Reply-To: <9f63e7a6-e434-64b4-f082-7f5a0ab8d5bf@aol.com>
+References: <a09d2427397621eaecee4c46b33507a99cc5f161.1673334040.git.brchuckz.ref@aol.com>
+ <a09d2427397621eaecee4c46b33507a99cc5f161.1673334040.git.brchuckz@aol.com>
+ <20230110030331-mutt-send-email-mst@kernel.org>
+ <a6994521-68d5-a05b-7be2-a8c605733467@aol.com>
+ <D785501E-F95D-4A22-AFD0-85133F8CE56D@gmail.com>
+ <9f63e7a6-e434-64b4-f082-7f5a0ab8d5bf@aol.com>
+Message-ID: <7208A064-2A25-4DBB-BF19-6797E96AB00C@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|PH0PR17MB4816:EE_
-X-MS-Office365-Filtering-Correlation-Id: f2a1a6e0-38cc-42dd-fd64-08daf4eedc74
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OYVdZuffdSSZ5cU9AeAKUejavUhtHmIiTCCxpiJ5J4MBwvLwaCeAzBKTCScojicbqfaa8kT4SVDSf5CJ/GiKm0uQGr2FmwB8ZTJ+cJ0iIk980+/3B41BYlzcnfG1YlXxj8IAsh2g2faprSRPPaVhw2DO2G6gkvxmEQxGpTUBGoeJm7zfzkdSugdH2rEnD4PX4meTT4yAXx1eBAcJdj7aDHpf8m9xToi+xI/T4qszCRgdF+81IkyPTjZT4nJe2tdmD2NQo89Z45ffXGkoDfZmkeFpvIveE8EI9tcy8QvQzEMIhhfOaM6+q7JbOIdr08jZvVY+qoggOsULcm3Rg+GPVB04RsxEzukqtXzF0IzFot9zBRx13brxDNPrr62Plp71AxEGpunxwXvxKh1ePug17RIM1LPdhHvf9v0y9mTTtUujwJCoM+xp9N8ywR6RRrl9NkpYROzn/zTe2K/SVFApGyR/WaaZvcMFxMvNW20aKCzFUT4fs3C+vyDMF1+NoqpYMC9gYnFN1mVA/K/Q4HDJxFrPLJ1GzQTYr1vcqcmEj/YlLIfSKKSpcs0AP9pI+7kI6AjLdmQ6pCv19aVDuM8NuyQNH6JZnCjMtT3FI4mNgqnqhXgINInWXhbIfjOOx4JxMgwiwPZWYguvbGHOROoKLLfCGwX0HIMr5X1ZlqOyn5w=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(136003)(366004)(39830400003)(376002)(346002)(451199015)(41300700001)(36756003)(44832011)(186003)(8936002)(5660300002)(26005)(6512007)(966005)(2616005)(6486002)(6506007)(478600001)(6666004)(83380400001)(316002)(54906003)(86362001)(4326008)(6916009)(66556008)(66476007)(8676002)(66946007)(38100700002)(66899015)(2906002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?R4uGcJOCU4l/KOGkePAA8dfs3lOXXgrTFuPqxnvX37WNYUAzqngJGWx7zb1h?=
- =?us-ascii?Q?pqU5q9U8QJE3yT88U4RlekT9/e4Uce8erfFNugZXKKpMIB/8bpCL3E2feWxc?=
- =?us-ascii?Q?ttHbEG4sseKHRIQTsi4UX2T6p35exC/G88gNZ7BclRKHpW4S+2vlZc50CinL?=
- =?us-ascii?Q?DjD0Jve5q5UgKAZlS/lg7RGcM3Clr3WhEHyVBJIKnOhbCRiP252K86ZWCkTU?=
- =?us-ascii?Q?1XykRLSgszJkoLOlpVZYPKJoILBGRcOYv14bw5+I1zqktHwDB/l9ge8nfrjX?=
- =?us-ascii?Q?K9aB/OkMTf49JDK8EvBGtvScPTsTQJEsPTupfMT4S3SAoQZQw2ZNXqcr22g1?=
- =?us-ascii?Q?k6unyszNMBTI9wGIxhFoPctI0YGgIBsln6l74/Aakti9MOENwqVl5blqD6LL?=
- =?us-ascii?Q?qOsSATQS3/9+XaNe6K7jmiPy1oqH+EQO9pQcRubHfJodLLcoQ+esqIT9yr1K?=
- =?us-ascii?Q?NeiVbuunmOYwzdlO2/d0sZY0sJXV9uLUQAPkL/GetjC5lMUrqpsV3eXUsWAv?=
- =?us-ascii?Q?dpJZBAQz6FHE/AEgn4fXprC8rRFGx1svAuBC6AtxBR2/9w1KEOlAHGsFWeox?=
- =?us-ascii?Q?2TlioHwBu2IxC19/vJL/iWQFzaPCesQBIEQvvq6+ySHMD5+7n4dL3s2ZVrWh?=
- =?us-ascii?Q?lMx7FcboIenTrZQlZErmgW8tSJktQLmw8TRaWKVMs/id93zLMDtu+22xyR9f?=
- =?us-ascii?Q?ISwQFgVdRyrgKU6L5n37CSGZlL2T4dwHvlsIbEN8tXnOKet0ZaUc74XDlrZA?=
- =?us-ascii?Q?2BjsK9XYl6C+8MvEgddQ/vhzLcZG4cT92QVOYz+5zjbTHurlOb9vo8odseaq?=
- =?us-ascii?Q?yNLQE3zDb0KcIv9FbrlfXsAGeP8PvmsTP/yPYjYOqBjPrtCsTL5zjq4Av6Xv?=
- =?us-ascii?Q?JUEM46QuhBfewVNSB/gw3vnCRQotDZijBIoVm9ZhZw2rwuCsiTUs/UqZRiaw?=
- =?us-ascii?Q?CWp9YRFirPFjBfdGqZdWotXcpbuYHDbBVOTjPg//oIK83P47z6K+Fgmca+qL?=
- =?us-ascii?Q?wv6KdsLG6gzKURquD3650CJrMFTM6o8CcHLL6daBoNHYL4dDXtD/bAyf8AiP?=
- =?us-ascii?Q?CHkHZzZMltqrUTayJtzsCt7SX//0if7SL5Vh1LEg24b0uLI2h3iDmSWluEL3?=
- =?us-ascii?Q?B0Itx7LlpKcAQFj1uXlusD5W0k5lNO7jdoKY4WvnBRvuk8CiIr0YbHlPz+Mb?=
- =?us-ascii?Q?c+9009pd3XGKNs2fuO7HF4Yuf1Qjq9TArbyOpS2CBQMEi8qwc3C9Ho2SF4YM?=
- =?us-ascii?Q?QAVmna50RJIhMmWfUFpgDZSPoWLMLrEjXGX7FC4N9qiaFJJYvXLKCHz2UQll?=
- =?us-ascii?Q?2mWFtw/F1/rQArerplkrliWaHugrY4pLdCi4xbFqZ3XYqge5piyA7m5uRk9V?=
- =?us-ascii?Q?NSSiw0copHb2nhboWKR+E+CQNoLFRT6Cf8Xng5E4pVlc1Si5r8SAZUFjel0U?=
- =?us-ascii?Q?iHNZuJuw0D7pMWK+miNoYG3Qa1kCXoFF68OoYgyaed9umOX0X1hZcNjIVq7V?=
- =?us-ascii?Q?fTa/jPOPVNpjcG8ulHjrZTu1K9AnEl7Rs0HkptifvXHnF2lvhXdN4VLvLRKm?=
- =?us-ascii?Q?sv7OrAZHccVSTjLgUd9b4C9vEWE14ysEeAMi2DPUwyeuPJ7MiOPVZmQLeA3z?=
- =?us-ascii?Q?Eg=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2a1a6e0-38cc-42dd-fd64-08daf4eedc74
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2023 22:46:36.8925 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TtIReeLO37E7e2RQRuPkvj5VdVGAOKgjIn6OR2oVioFiYME3xVqm1Mn/sBrPvctUs88b2BM86ul/X9wD3GNDPaz4SjaJI9GrEu/BViBH2LY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR17MB4816
-Received-SPF: none client-ip=40.107.93.41;
- envelope-from=gregory.price@memverge.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
 X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FREEMAIL_REPLY=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -140,193 +100,473 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 12, 2023 at 05:21:30PM +0000, Jonathan Cameron wrote:
-> On Thu, 12 Jan 2023 10:39:17 -0500
-> Gregory Price <gregory.price@memverge.com> wrote:
-> 
-> > On Wed, Jan 11, 2023 at 02:24:32PM +0000, Jonathan Cameron via wrote:
-> > > Gregory's patches were posted as part of his work on adding volatile support.
-> > > https://lore.kernel.org/linux-cxl/20221006233702.18532-1-gregory.price@memverge.com/
-> > > https://lore.kernel.org/linux-cxl/20221128150157.97724-2-gregory.price@memverge.com/
-> > > I might propose this for upstream inclusion this cycle, but testing is
-> > > currently limited by lack of suitable kernel support.  
-> > 
-> > fwiw the testing i've done suggests the problem isn't necessarily the
-> > implementation so much as either the EFI support or the ACPI tables.
-> > 
-> > For example, we see memory expanders come up no problem and turn into
-> > volatile memory on real hardware, with the same kernels with just a few
-> > commands.  My gut feeling is that either a mailbox command is missing or
-> > that the ACPI tables are missing/significantly different.
-> > 
-> > I haven't been able to investigate further at this point, but that's my
-> > current state with the voltile type-3 device testing.
-> 
-> My assumption was that all shipping hardware platforms were doing the
-> enumeration and bring up of memory expanders in the BIOS / firmware.
-> Those are then presented to the OS already set up exactly as if they were
-> normal memory.  We could do the same on QEMU but that means a lot of
-> work in EDK2. Note that it makes no sense to do the enumeration and
-> creation of ACPI tables in QEMU itself though could hack it like that.
-> This stuff is done in firmware because that enables it for legacy
-> OSes. Everything is more or less presented to the OS like you would
-> present RAM (EFI memory map, ACPI tables etc).
-> 
-> Firmware enumeration doesn't typically support hotplug, so if we add
-> support for hotplug of volatile memory type 3 devices to the kernel
-> we will also be able to do 'cold plug' and have the kernel bring them up
-> in a similar fashion to what we do for non-volatile (for non volatile there
-> is typically no real support in firmware as there is a bunch of policy to
-> deal with that doesn't belong in firmware). (simplifying heavily ;)
-> 
-> So I don't think we are missing anything in the emulation, just in the
-> software layers above it.  Could be wrong though ;)
-> 
-> Jonathan
-> 
+
+
+Am 12=2E Januar 2023 20:11:54 UTC schrieb Chuck Zmudzinski <brchuckz@aol=
+=2Ecom>:
+>On 1/12/23 2:18=E2=80=AFPM, Bernhard Beschow wrote:
+>>=20
+>>=20
+>> Am 11=2E Januar 2023 15:40:24 UTC schrieb Chuck Zmudzinski <brchuckz@ao=
+l=2Ecom>:
+>>>On 1/10/23 3:16=E2=80=AFAM, Michael S=2E Tsirkin wrote:
+>>>> On Tue, Jan 10, 2023 at 02:08:34AM -0500, Chuck Zmudzinski wrote:
+>>>>> Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus=
+,
+>>>>> as noted in docs/igd-assign=2Etxt in the Qemu source code=2E
+>>>>>=20
+>>>>> Currently, when the xl toolstack is used to configure a Xen HVM gues=
+t with
+>>>>> Intel IGD passthrough to the guest with the Qemu upstream device mod=
+el,
+>>>>> a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will=
+ occupy
+>>>>> a different slot=2E This problem often prevents the guest from booti=
+ng=2E
+>>>>>=20
+>>>>> The only available workaround is not good: Configure Xen HVM guests =
+to use
+>>>>> the old and no longer maintained Qemu traditional device model avail=
+able
+>>>>> from xenbits=2Exen=2Eorg which does reserve slot 2 for the Intel IGD=
+=2E
+>>>>>=20
+>>>>> To implement this feature in the Qemu upstream device model for Xen =
+HVM
+>>>>> guests, introduce the following new functions, types, and macros:
+>>>>>=20
+>>>>> * XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT=
+_DEVICE
+>>>>> * XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CL=
+ASS
+>>>>> * typedef XenPTQdevRealize function pointer
+>>>>> * XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve =
+slot 2
+>>>>> * xen_igd_reserve_slot and xen_igd_clear_slot functions
+>>>>>=20
+>>>>> The new xen_igd_reserve_slot function uses the existing slot_reserve=
+d_mask
+>>>>> member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured=
+ using
+>>>>> the xl toolstack with the gfx_passthru option enabled, which sets th=
+e
+>>>>> igd-passthru=3Don option to Qemu for the Xen HVM machine type=2E
+>>>>>=20
+>>>>> The new xen_igd_reserve_slot function also needs to be implemented i=
+n
+>>>>> hw/xen/xen_pt_stub=2Ec to prevent FTBFS during the link stage for th=
+e case
+>>>>> when Qemu is configured with --enable-xen and --disable-xen-pci-pass=
+through,
+>>>>> in which case it does nothing=2E
+>>>>>=20
+>>>>> The new xen_igd_clear_slot function overrides qdev->realize of the p=
+arent
+>>>>> PCI device class to enable the Intel IGD to occupy slot 2 on the PCI=
+ bus
+>>>>> since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus w=
+as
+>>>>> created in hw/i386/pc_piix=2Ec for the case when igd-passthru=3Don=
+=2E
+>>>>>=20
+>>>>> Move the call to xen_host_pci_device_get, and the associated error
+>>>>> handling, from xen_pt_realize to the new xen_igd_clear_slot function=
+ to
+>>>>> initialize the device class and vendor values which enables the chec=
+ks for
+>>>>> the Intel IGD to succeed=2E The verification that the host device is=
+ an
+>>>>> Intel IGD to be passed through is done by checking the domain, bus, =
+slot,
+>>>>> and function values as well as by checking that gfx_passthru is enab=
+led,
+>>>>> the device class is VGA, and the device vendor in Intel=2E
+>>>>>=20
+>>>>> Signed-off-by: Chuck Zmudzinski <brchuckz@aol=2Ecom>
+>>>>> ---
+>>>>> Notes that might be helpful to reviewers of patched code in hw/xen:
+>>>>>=20
+>>>>> The new functions and types are based on recommendations from Qemu d=
+ocs:
+>>>>> https://qemu=2Ereadthedocs=2Eio/en/latest/devel/qom=2Ehtml
+>>>>>=20
+>>>>> Notes that might be helpful to reviewers of patched code in hw/i386:
+>>>>>=20
+>>>>> The small patch to hw/i386/pc_piix=2Ec is protected by CONFIG_XEN so=
+ it does
+>>>>> not affect builds that do not have CONFIG_XEN defined=2E
+>>>>>=20
+>>>>> xen_igd_gfx_pt_enabled() in the patched hw/i386/pc_piix=2Ec file is =
+an
+>>>>> existing function that is only true when Qemu is built with
+>>>>> xen-pci-passthrough enabled and the administrator has configured the=
+ Xen
+>>>>> HVM guest with Qemu's igd-passthru=3Don option=2E
+>>>>>=20
+>>>>> v2: Remove From: <email address> tag at top of commit message
+>>>>>=20
+>>>>> v3: Changed the test for the Intel IGD in xen_igd_clear_slot:
+>>>>>=20
+>>>>>     if (is_igd_vga_passthrough(&s->real_device) &&
+>>>>>         (s->real_device=2Evendor_id =3D=3D PCI_VENDOR_ID_INTEL)) {
+>>>>>=20
+>>>>>     is changed to
+>>>>>=20
+>>>>>     if (xen_igd_gfx_pt_enabled() && (s->hostaddr=2Eslot =3D=3D 2)
+>>>>>         && (s->hostaddr=2Efunction =3D=3D 0)) {
+>>>>>=20
+>>>>>     I hoped that I could use the test in v2, since it matches the
+>>>>>     other tests for the Intel IGD in Qemu and Xen, but those tests
+>>>>>     do not work because the necessary data structures are not set wi=
+th
+>>>>>     their values yet=2E So instead use the test that the administrat=
+or
+>>>>>     has enabled gfx_passthru and the device address on the host is
+>>>>>     02=2E0=2E This test does detect the Intel IGD correctly=2E
+>>>>>=20
+>>>>> v4: Use brchuckz@aol=2Ecom instead of brchuckz@netscape=2Enet for th=
+e author's
+>>>>>     email address to match the address used by the same author in co=
+mmits
+>>>>>     be9c61da and c0e86b76
+>>>>>    =20
+>>>>>     Change variable for XEN_PT_DEVICE_CLASS: xptc changed to xpdc
+>>>>>=20
+>>>>> v5: The patch of xen_pt=2Ec was re-worked to allow a more consistent=
+ test
+>>>>>     for the Intel IGD that uses the same criteria as in other places=
+=2E
+>>>>>     This involved moving the call to xen_host_pci_device_get from
+>>>>>     xen_pt_realize to xen_igd_clear_slot and updating the checks for=
+ the
+>>>>>     Intel IGD in xen_igd_clear_slot:
+>>>>>    =20
+>>>>>     if (xen_igd_gfx_pt_enabled() && (s->hostaddr=2Eslot =3D=3D 2)
+>>>>>         && (s->hostaddr=2Efunction =3D=3D 0)) {
+>>>>>=20
+>>>>>     is changed to
+>>>>>=20
+>>>>>     if (is_igd_vga_passthrough(&s->real_device) &&
+>>>>>         s->real_device=2Edomain =3D=3D 0 && s->real_device=2Ebus =3D=
+=3D 0 &&
+>>>>>         s->real_device=2Edev =3D=3D 2 && s->real_device=2Efunc =3D=
+=3D 0 &&
+>>>>>         s->real_device=2Evendor_id =3D=3D PCI_VENDOR_ID_INTEL) {
+>>>>>=20
+>>>>>     Added an explanation for the move of xen_host_pci_device_get fro=
+m
+>>>>>     xen_pt_realize to xen_igd_clear_slot to the commit message=2E
+>>>>>=20
+>>>>>     Rebase=2E
+>>>>>=20
+>>>>> v6: Fix logging by removing these lines from the move from xen_pt_re=
+alize
+>>>>>     to xen_igd_clear_slot that was done in v5:
+>>>>>=20
+>>>>>     XEN_PT_LOG(d, "Assigning real physical device %02x:%02x=2E%d"
+>>>>>                " to devfn 0x%x\n",
+>>>>>                s->hostaddr=2Ebus, s->hostaddr=2Eslot, s->hostaddr=2E=
+function,
+>>>>>                s->dev=2Edevfn);
+>>>>>=20
+>>>>>     This log needs to be in xen_pt_realize because s->dev=2Edevfn is=
+ not
+>>>>>     set yet in xen_igd_clear_slot=2E
+>>>>>=20
+>>>>> v7: The v7 that was posted to the mailing list was incorrect=2E v8 i=
+s what
+>>>>>     v7 was intended to be=2E
+>>>>>=20
+>>>>> v8: Inhibit out of context log message and needless processing by
+>>>>>     adding 2 lines at the top of the new xen_igd_clear_slot function=
+:
+>>>>>=20
+>>>>>     if (!(pci_bus->slot_reserved_mask & XEN_PCI_IGD_SLOT_MASK))
+>>>>>         return;
+>>>>>=20
+>>>>>     Rebase=2E This removed an unnecessary header file from xen_pt=2E=
+h=20
+>>>>>=20
+>>>>>  hw/i386/pc_piix=2Ec    |  3 +++
+>>>>>  hw/xen/xen_pt=2Ec      | 49 ++++++++++++++++++++++++++++++++++++---=
+-----
+>>>>>  hw/xen/xen_pt=2Eh      | 16 +++++++++++++++
+>>>>>  hw/xen/xen_pt_stub=2Ec |  4 ++++
+>>>>>  4 files changed, 63 insertions(+), 9 deletions(-)
+>>>>>=20
+>>>>> diff --git a/hw/i386/pc_piix=2Ec b/hw/i386/pc_piix=2Ec
+>>>>> index b48047f50c=2E=2Ebc5efa4f59 100644
+>>>>> --- a/hw/i386/pc_piix=2Ec
+>>>>> +++ b/hw/i386/pc_piix=2Ec
+>>>>> @@ -405,6 +405,9 @@ static void pc_xen_hvm_init(MachineState *machin=
+e)
+>>>>>      }
+>>>>> =20
+>>>>>      pc_xen_hvm_init_pci(machine);
+>>>>> +    if (xen_igd_gfx_pt_enabled()) {
+>>>>> +        xen_igd_reserve_slot(pcms->bus);
+>>>>> +    }
+>>>>>      pci_create_simple(pcms->bus, -1, "xen-platform");
+>>>>>  }
+>>>>>  #endif
+>>>>=20
+>>>> I would even maybe go further and move the whole logic into
+>>>> xen_igd_reserve_slot=2E And I would even just name it
+>>>> xen_hvm_init_reserved_slots without worrying about the what
+>>>> or why at the pc level=2E  At this point it will be up to Xen maintai=
+ners=2E
+>>>
+>>>I see to do that would be to resolve the two pc_xen_hvm*
+>>>functions in pc_piix=2Ec that are guarded by CONFIG_XEN and
+>>>move them to an appropriate place such as xen-hvm=2Ec=2E
+>>>
+>>>That is along the lines of the work that Bernhard and Philippe
+>>>are doing, so I am Cc'ing them=2E My first inclination is just
+>>>to defer to them: I think eventually the little patch I propose
+>>>here to pc_piix=2Ec is eventually going to be moved out of pc_piix=2Ec
+>>>by Bernhard in a future patch=2E
+>>>
+>>>What they have been doing is very conservative, and I expect
+>>>if and when Bernhard gets here to resolve those functions, they
+>>>will do it in a way that keeps the dependency of the xenfv machine
+>>>type on the pc machine type and the pc_init1 function=2E
+>>>
+>>>What I would propose would be to break the dependency of xenfv
+>>>on the pc_init1 function=2E That is, I would propose having a
+>>>xenfv_init function in xen-hvm=2Ec, and the first version would
+>>>be the current version of pc_init1, so xenfv would still depend
+>>>on many i440fx type things, but with the change xen developers
+>>>would be free to tweak xenfv_init without affecting the users
+>>>of the pc machine type=2E
+>>>
+>>>Would that be a good idea? If I get posiive feedback for this
+>>>idea, I will put it on the table, probably initially as an RFC
+>>>patch=2E
+>>=20
+>> In various patches I've been decoupling 1/ PIIX3 from Xen and 2/ QEMU's=
+ Xen integration code from the PC machine=2E My idea is to confine all wiri=
+ng for a PIIX based PC machine using Xen in pc_piix=2Ec=2E The pc_xen_hvm* =
+functions seem to do exactly that, so I'd leave them there, at least for no=
+w=2E
+>>=20
+>> What I would like to avoid is for the Xen integration code to make assu=
+mptions that an x86 or PC machine is always based on i440fx or PIIX3=2E
 >
+>I think what you are saying is that if I try to move the logic of my patc=
+h to xen-hvm=2Ec, as Michael suggests, I should not move or copy any piix3 =
+code to the Xen integration code, but access it via an appropriate qom inte=
+rface to the code in pc_piix=2Ec and only move Xen specific things to the X=
+en integration code such as the content of my patch=2E I can try to do that=
+ for a v9 of my patch=2E It might take me a little while (I am not a profes=
+sional coder), so I will just leave v8 of my patch as is for now until I ha=
+ve a patch ready to move it out of pc_piix=2Ec the qom way=2E
 
-I'm not so sure something is missing so much as something seems
-incorrect in either the ACPI table structure definitions, the mailbox,
-or even the doe emulation.
+I think the change Michael suggests is very minimalistic: Move the if cond=
+ition around xen_igd_reserve_slot() into the function itself and always cal=
+l it there unconditionally -- basically turning three lines into one=2E Sin=
+ce xen_igd_reserve_slot() seems very problem specific, Michael further sugg=
+ests to rename it to something more general=2E All in all no big changes re=
+quired=2E
 
-I took your branch and reverted to just prior to the volatile patch
-refernce: 59a59ef725699e0efb3e9e31a7f8d246de7286ed
+Best regards,
+Bernhard
 
-
-QEMU configuration for boot (Please let me know if something is wrong)
-
-sudo /opt/qemu-cxl/bin/qemu-system-x86_64 \
--drive file=/var/lib/libvirt/images/cxl.qcow2,format=qcow2,index=0,media=disk,id=hd \
--m 2G,slots=4,maxmem=4G \
--smp 4 \
--machine type=q35,accel=kvm,cxl=on \
--enable-kvm \
--nographic \
--device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 \
--device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 \
--object memory-backend-file,pmem=true,id=cxl-mem0,mem-path=/tmp/cxl-mem0,size=1G \
--object memory-backend-file,pmem=true,id=lsa0,mem-path=/tmp/cxl-lsa0,size=1G \
--device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 \
--M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=1G
-
-After boot we find:
-
-[root@fedora ~]# ls /sys/bus/cxl/devices/
-decoder0.0  decoder2.0  mem0            pmem0  root0
-decoder1.0  endpoint2   nvdimm-bridge0  port1
-
-[root@fedora ~]# ls -al /sys/bus/dax/devices/
-total 0
-drwxr-xr-x. 2 root root 0 Jan 12 22:44 .
-drwxr-xr-x. 4 root root 0 Jan 12 22:44 ..
-
-
-During boot, I am seeing three separate call traces, all of which appear
-to be related to PCI DOE and/or getting CDAT information.
-
-[    3.916900] Call Trace:
-[    3.916906]  <TASK>
-[    3.931217]  pci_doe_submit_task+0x5d/0xd0
-[    3.936609]  pci_doe_discovery+0xb4/0x100
-[    3.936627]  ? pci_doe_xa_destroy+0x10/0x10
-[    3.942675]  pcim_doe_create_mb+0x219/0x290
-[    3.950506]  cxl_pci_probe+0x192/0x430
-[    3.960248]  local_pci_probe+0x41/0x80
-[    3.966564]  pci_device_probe+0xb3/0x220
-[    3.966579]  really_probe+0xde/0x380
-[    3.966583]  ? pm_runtime_barrier+0x50/0x90
-[    3.969158]  __driver_probe_device+0x78/0x170
-[    3.969167]  driver_probe_device+0x1f/0x90
-[    3.978264]  __driver_attach_async_helper+0x5c/0xe0
-[    3.983953]  async_run_entry_fn+0x30/0x130
-[    3.991084]  process_one_work+0x294/0x5b0
-[    4.004458]  worker_thread+0x4f/0x3a0
-[    4.012612]  ? process_one_work+0x5b0/0x5b0
-[    4.019114]  kthread+0xf5/0x120
-[    4.025133]  ? kthread_complete_and_exit+0x20/0x20
-[    4.031327]  ret_from_fork+0x22/0x30
-[    4.038969]  </TASK>
-
-[   16.047704]  pci_doe_submit_task+0x5d/0xd0
-[   16.047713]  cxl_cdat_get_length+0xb8/0x110
-[   16.047779]  ? dvsec_range_allowed+0x60/0x60
-[   16.047803]  read_cdat_data+0xaf/0x1a0
-[   16.047814]  cxl_port_probe+0x80/0x120
-[   16.047824]  cxl_bus_probe+0x17/0x50
-[   16.047830]  really_probe+0xde/0x380
-[   16.047835]  ? pm_runtime_barrier+0x50/0x90
-[   16.047843]  __driver_probe_device+0x78/0x170
-[   16.047851]  driver_probe_device+0x1f/0x90
-[   16.047858]  __device_attach_driver+0x85/0x110
-[   16.047881]  ? driver_allows_async_probing+0x70/0x70
-[   16.047884]  bus_for_each_drv+0x7a/0xb0
-[   16.047896]  __device_attach+0xb3/0x1d0
-[   16.047907]  bus_probe_device+0x9f/0xc0
-[   16.047913]  device_add+0x41e/0x9b0
-[   16.047918]  ? kobject_set_name_vargs+0x6d/0x90
-[   16.047928]  ? dev_set_name+0x4b/0x60
-[   16.047944]  devm_cxl_add_port+0x27b/0x3b0
-[   16.047970]  devm_cxl_add_endpoint+0x82/0x130
-[   16.047982]  cxl_mem_probe+0xc4/0x11d [cxl_mem]
-[   16.047997]  cxl_bus_probe+0x17/0x50
-[   16.048003]  really_probe+0xde/0x380
-[   16.048007]  ? pm_runtime_barrier+0x50/0x90
-[   16.048014]  __driver_probe_device+0x78/0x170
-[   16.048022]  driver_probe_device+0x1f/0x90
-[   16.048029]  __driver_attach+0xd5/0x1d0
-[   16.048036]  ? __device_attach_driver+0x110/0x110
-[   16.048040]  bus_for_each_dev+0x76/0xa0
-[   16.048051]  bus_add_driver+0x1b1/0x200
-[   16.048061]  driver_register+0x89/0xe0
-[   16.048066]  ? 0xffffffffc056e000
-[   16.048070]  do_one_initcall+0x6e/0x320
-[   16.048091]  do_init_module+0x4a/0x200
-[   16.048099]  __do_sys_init_module+0x16a/0x1a0
-[   16.048132]  do_syscall_64+0x5b/0x80
-[   16.048138]  ? lock_is_held_type+0xe8/0x140
-[   16.048148]  ? asm_exc_page_fault+0x22/0x30
-[   16.048156]  ? lockdep_hardirqs_on+0x7d/0x100
-[   16.048162]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-[   16.054601]  pci_doe_submit_task+0x5d/0xd0
-[   16.054610]  cxl_cdat_read_table.isra.0+0x141/0x190
-[   16.054660]  ? dvsec_range_allowed+0x60/0x60
-[   16.054685]  read_cdat_data+0xfc/0x1a0
-[   16.054695]  cxl_port_probe+0x80/0x120
-[   16.054706]  cxl_bus_probe+0x17/0x50
-[   16.054712]  really_probe+0xde/0x380
-[   16.054717]  ? pm_runtime_barrier+0x50/0x90
-[   16.054725]  __driver_probe_device+0x78/0x170
-[   16.054733]  driver_probe_device+0x1f/0x90
-[   16.054739]  __device_attach_driver+0x85/0x110
-[   16.054747]  ? driver_allows_async_probing+0x70/0x70
-[   16.054751]  bus_for_each_drv+0x7a/0xb0
-[   16.054767]  __device_attach+0xb3/0x1d0
-[   16.054782]  bus_probe_device+0x9f/0xc0
-[   16.054791]  device_add+0x41e/0x9b0
-[   16.054798]  ? kobject_set_name_vargs+0x6d/0x90
-[   16.054811]  ? dev_set_name+0x4b/0x60
-[   16.054831]  devm_cxl_add_port+0x27b/0x3b0
-[   16.054843]  devm_cxl_add_endpoint+0x82/0x130
-[   16.054854]  cxl_mem_probe+0xc4/0x11d [cxl_mem]
-[   16.054869]  cxl_bus_probe+0x17/0x50
-[   16.054875]  really_probe+0xde/0x380
-[   16.054879]  ? pm_runtime_barrier+0x50/0x90
-[   16.054887]  __driver_probe_device+0x78/0x170
-[   16.054894]  driver_probe_device+0x1f/0x90
-[   16.054901]  __driver_attach+0xd5/0x1d0
-[   16.054908]  ? __device_attach_driver+0x110/0x110
-[   16.054912]  bus_for_each_dev+0x76/0xa0
-[   16.054923]  bus_add_driver+0x1b1/0x200
-[   16.055204]  driver_register+0x89/0xe0
-[   16.055211]  ? 0xffffffffc056e000
-[   16.055215]  do_one_initcall+0x6e/0x320
-[   16.055237]  do_init_module+0x4a/0x200
-[   16.055245]  __do_sys_init_module+0x16a/0x1a0
-[   16.055277]  do_syscall_64+0x5b/0x80
-[   16.055283]  ? lock_is_held_type+0xe8/0x140
-[   16.055294]  ? asm_exc_page_fault+0x22/0x30
-[   16.055301]  ? lockdep_hardirqs_on+0x7d/0x100
-[   16.055307]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+>
+>Thanks,
+>
+>Chuck
+>
+>>=20
+>> I like Michael's idea of going one step further, both in terms of the a=
+pproach and the reasoning=2E
+>>=20
+>> Best regards,
+>> Bernhard
+>>=20
+>>>Also, thanks, Michael, for your other suggestions for this patch
+>>>about using macros for the devfn constants=2E
+>>>
+>>>Chuck
+>>>
+>>>>=20
+>>>>> diff --git a/hw/xen/xen_pt=2Ec b/hw/xen/xen_pt=2Ec
+>>>>> index 0ec7e52183=2E=2Eeff38155ef 100644
+>>>>> --- a/hw/xen/xen_pt=2Ec
+>>>>> +++ b/hw/xen/xen_pt=2Ec
+>>>>> @@ -780,15 +780,6 @@ static void xen_pt_realize(PCIDevice *d, Error =
+**errp)
+>>>>>                 s->hostaddr=2Ebus, s->hostaddr=2Eslot, s->hostaddr=
+=2Efunction,
+>>>>>                 s->dev=2Edevfn);
+>>>>> =20
+>>>>> -    xen_host_pci_device_get(&s->real_device,
+>>>>> -                            s->hostaddr=2Edomain, s->hostaddr=2Ebus=
+,
+>>>>> -                            s->hostaddr=2Eslot, s->hostaddr=2Efunct=
+ion,
+>>>>> -                            errp);
+>>>>> -    if (*errp) {
+>>>>> -        error_append_hint(errp, "Failed to \"open\" the real pci de=
+vice");
+>>>>> -        return;
+>>>>> -    }
+>>>>> -
+>>>>>      s->is_virtfn =3D s->real_device=2Eis_virtfn;
+>>>>>      if (s->is_virtfn) {
+>>>>>          XEN_PT_LOG(d, "%04x:%02x:%02x=2E%d is a SR-IOV Virtual Func=
+tion\n",
+>>>>> @@ -950,11 +941,50 @@ static void xen_pci_passthrough_instance_init(=
+Object *obj)
+>>>>>      PCI_DEVICE(obj)->cap_present |=3D QEMU_PCI_CAP_EXPRESS;
+>>>>>  }
+>>>>> =20
+>>>>> +void xen_igd_reserve_slot(PCIBus *pci_bus)
+>>>>> +{
+>>>>> +    XEN_PT_LOG(0, "Reserving PCI slot 2 for IGD\n");
+>>>>> +    pci_bus->slot_reserved_mask |=3D XEN_PCI_IGD_SLOT_MASK;
+>>>>> +}
+>>>>> +
+>>>>> +static void xen_igd_clear_slot(DeviceState *qdev, Error **errp)
+>>>>> +{
+>>>>> +    ERRP_GUARD();
+>>>>> +    PCIDevice *pci_dev =3D (PCIDevice *)qdev;
+>>>>> +    XenPCIPassthroughState *s =3D XEN_PT_DEVICE(pci_dev);
+>>>>> +    XenPTDeviceClass *xpdc =3D XEN_PT_DEVICE_GET_CLASS(s);
+>>>>> +    PCIBus *pci_bus =3D pci_get_bus(pci_dev);
+>>>>> +
+>>>>> +    if (!(pci_bus->slot_reserved_mask & XEN_PCI_IGD_SLOT_MASK))
+>>>>> +        return;
+>>>>> +
+>>>>> +    xen_host_pci_device_get(&s->real_device,
+>>>>> +                            s->hostaddr=2Edomain, s->hostaddr=2Ebus=
+,
+>>>>> +                            s->hostaddr=2Eslot, s->hostaddr=2Efunct=
+ion,
+>>>>> +                            errp);
+>>>>> +    if (*errp) {
+>>>>> +        error_append_hint(errp, "Failed to \"open\" the real pci de=
+vice");
+>>>>> +        return;
+>>>>> +    }
+>>>>> +
+>>>>> +    if (is_igd_vga_passthrough(&s->real_device) &&
+>>>>> +        s->real_device=2Edomain =3D=3D 0 && s->real_device=2Ebus =
+=3D=3D 0 &&
+>>>>> +        s->real_device=2Edev =3D=3D 2 && s->real_device=2Efunc =3D=
+=3D 0 &&
+>>>>> +        s->real_device=2Evendor_id =3D=3D PCI_VENDOR_ID_INTEL) {
+>>>>=20
+>>>> how about macros for these?
+>>>>=20
+>>>> #define XEN_PCI_IGD_DOMAIN 0
+>>>> #define XEN_PCI_IGD_BUS 0
+>>>> #define XEN_PCI_IGD_DEV 2
+>>>> #define XEN_PCI_IGD_FN 0
+>>>>=20
+>>>>> +        pci_bus->slot_reserved_mask &=3D ~XEN_PCI_IGD_SLOT_MASK;
+>>>>=20
+>>>> If you are going to do this, you should set it back
+>>>> either after pci_qdev_realize or in unrealize,
+>>>> for symmetry=2E
+>>>>=20
+>>>>> +        XEN_PT_LOG(pci_dev, "Intel IGD found, using slot 2\n");
+>>>>> +    }
+>>>>=20
+>>>>=20
+>>>>> +    xpdc->pci_qdev_realize(qdev, errp);
+>>>>> +}
+>>>>> +
+>>>>=20
+>>>>=20
+>>>>=20
+>>>>>  static void xen_pci_passthrough_class_init(ObjectClass *klass, void=
+ *data)
+>>>>>  {
+>>>>>      DeviceClass *dc =3D DEVICE_CLASS(klass);
+>>>>>      PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
+>>>>> =20
+>>>>> +    XenPTDeviceClass *xpdc =3D XEN_PT_DEVICE_CLASS(klass);
+>>>>> +    xpdc->pci_qdev_realize =3D dc->realize;
+>>>>> +    dc->realize =3D xen_igd_clear_slot;
+>>>>>      k->realize =3D xen_pt_realize;
+>>>>>      k->exit =3D xen_pt_unregister_device;
+>>>>>      k->config_read =3D xen_pt_pci_read_config;
+>>>>> @@ -977,6 +1007,7 @@ static const TypeInfo xen_pci_passthrough_info =
+=3D {
+>>>>>      =2Einstance_size =3D sizeof(XenPCIPassthroughState),
+>>>>>      =2Einstance_finalize =3D xen_pci_passthrough_finalize,
+>>>>>      =2Eclass_init =3D xen_pci_passthrough_class_init,
+>>>>> +    =2Eclass_size =3D sizeof(XenPTDeviceClass),
+>>>>>      =2Einstance_init =3D xen_pci_passthrough_instance_init,
+>>>>>      =2Einterfaces =3D (InterfaceInfo[]) {
+>>>>>          { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+>>>>> diff --git a/hw/xen/xen_pt=2Eh b/hw/xen/xen_pt=2Eh
+>>>>> index cf10fc7bbf=2E=2E8c25932b4b 100644
+>>>>> --- a/hw/xen/xen_pt=2Eh
+>>>>> +++ b/hw/xen/xen_pt=2Eh
+>>>>> @@ -2,6 +2,7 @@
+>>>>>  #define XEN_PT_H
+>>>>> =20
+>>>>>  #include "hw/xen/xen_common=2Eh"
+>>>>> +#include "hw/pci/pci_bus=2Eh"
+>>>>>  #include "xen-host-pci-device=2Eh"
+>>>>>  #include "qom/object=2Eh"
+>>>>> =20
+>>>>> @@ -40,7 +41,20 @@ typedef struct XenPTReg XenPTReg;
+>>>>>  #define TYPE_XEN_PT_DEVICE "xen-pci-passthrough"
+>>>>>  OBJECT_DECLARE_SIMPLE_TYPE(XenPCIPassthroughState, XEN_PT_DEVICE)
+>>>>> =20
+>>>>> +#define XEN_PT_DEVICE_CLASS(klass) \
+>>>>> +    OBJECT_CLASS_CHECK(XenPTDeviceClass, klass, TYPE_XEN_PT_DEVICE)
+>>>>> +#define XEN_PT_DEVICE_GET_CLASS(obj) \
+>>>>> +    OBJECT_GET_CLASS(XenPTDeviceClass, obj, TYPE_XEN_PT_DEVICE)
+>>>>> +
+>>>>> +typedef void (*XenPTQdevRealize)(DeviceState *qdev, Error **errp);
+>>>>> +
+>>>>> +typedef struct XenPTDeviceClass {
+>>>>> +    PCIDeviceClass parent_class;
+>>>>> +    XenPTQdevRealize pci_qdev_realize;
+>>>>> +} XenPTDeviceClass;
+>>>>> +
+>>>>>  uint32_t igd_read_opregion(XenPCIPassthroughState *s);
+>>>>> +void xen_igd_reserve_slot(PCIBus *pci_bus);
+>>>>>  void igd_write_opregion(XenPCIPassthroughState *s, uint32_t val);
+>>>>>  void xen_igd_passthrough_isa_bridge_create(XenPCIPassthroughState *=
+s,
+>>>>>                                             XenHostPCIDevice *dev);
+>>>>> @@ -75,6 +89,8 @@ typedef int (*xen_pt_conf_byte_read)
+>>>>> =20
+>>>>>  #define XEN_PCI_INTEL_OPREGION 0xfc
+>>>>> =20
+>>>>> +#define XEN_PCI_IGD_SLOT_MASK 0x4UL /* Intel IGD slot_reserved_mask=
+ */
+>>>>> +
+>>>>=20
+>>>> I think you want to calculate this based on dev fn:
+>>>>=20
+>>>> #define XEN_PCI_IGD_SLOT_MASK \
+>>>> 	(0x1 << PCI_SLOT(PCI_DEVFN(XEN_PCI_IGD_DEV, XEN_PCI_IGD_FN)))
+>>>>=20
+>>>>=20
+>>>>>  typedef enum {
+>>>>>      XEN_PT_GRP_TYPE_HARDWIRED =3D 0,  /* 0 Hardwired reg group */
+>>>>>      XEN_PT_GRP_TYPE_EMU,            /* emul reg group */
+>>>>> diff --git a/hw/xen/xen_pt_stub=2Ec b/hw/xen/xen_pt_stub=2Ec
+>>>>> index 2d8cac8d54=2E=2E5c108446a8 100644
+>>>>> --- a/hw/xen/xen_pt_stub=2Ec
+>>>>> +++ b/hw/xen/xen_pt_stub=2Ec
+>>>>> @@ -20,3 +20,7 @@ void xen_igd_gfx_pt_set(bool value, Error **errp)
+>>>>>          error_setg(errp, "Xen PCI passthrough support not built in"=
+);
+>>>>>      }
+>>>>>  }
+>>>>> +
+>>>>> +void xen_igd_reserve_slot(PCIBus *pci_bus)
+>>>>> +{
+>>>>> +}
+>>>>> --=20
+>>>>> 2=2E39=2E0
+>>>>=20
+>>>
+>
 
