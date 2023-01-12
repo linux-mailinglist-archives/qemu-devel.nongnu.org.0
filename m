@@ -2,69 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD915667250
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 13:36:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6616766726C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 13:41:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFwo5-0001Qb-IT; Thu, 12 Jan 2023 07:35:45 -0500
+	id 1pFwsk-0002eQ-HG; Thu, 12 Jan 2023 07:40:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFwnz-0001Q8-KL
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:35:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pFwnj-0001y0-Nq
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:35:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673526908;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=90FlYDKgAQ4M5623IshKE2E6oVr+S5sh1/GWpnJZkbw=;
- b=YsJgiPm3nJAPpf6wyGYD45bhdpmRQaul4o9RlF10VonQJZq2dbQK90wOgzdNVcE2mg+Fet
- Kb1uQqwjDuiUCZ0Bm4sE77QJyqbXwl5zD8cSOLJrQH1xks/m7ebCdWdEsyDscm92EJOC1X
- 1fi/g9cigaAwFGowREzyFvfyykDJFJ4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-235-5zELxDFgOK2J-p-CFuzN0w-1; Thu, 12 Jan 2023 07:35:06 -0500
-X-MC-Unique: 5zELxDFgOK2J-p-CFuzN0w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C92C3806703;
- Thu, 12 Jan 2023 12:35:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C312C15BA0;
- Thu, 12 Jan 2023 12:35:05 +0000 (UTC)
-Date: Thu, 12 Jan 2023 12:35:03 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Or Ozeri <oro@il.ibm.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, dannyh@il.ibm.com,
- idryomov@gmail.com
-Subject: Re: [PATCH v4 1/3] block/rbd: encryption nit fixes
-Message-ID: <Y7/+d3Zr9ncvCZuV@redhat.com>
-References: <20221120102836.3174090-1-oro@il.ibm.com>
- <20221120102836.3174090-2-oro@il.ibm.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFwsV-0002XF-AC
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:40:22 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFwsQ-00032d-Fw
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:40:19 -0500
+Received: by mail-wr1-x435.google.com with SMTP id bn26so17980740wrb.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 04:40:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YASqFIoDPo1KM5ucsNFvbsjrcrVOOaKzqBqUIt6ySV8=;
+ b=kn+l3zxbHGf+v3F4xh5G528GTz/YgApFYQ93JTVnnYKcIQDCCiH5+RWQJOIxv33S3X
+ 7n46kAjAVHfCQ74qEzy+QyauVROrvykLzrafKJhZguJS3bNMbMv4mSJY+EoEnhR6Esyn
+ 9CNAD9cfnO07mMj6oC34htOgKxF04iJre0Yqf7EtWAjk1wlvtgKszH15Y1/miPT5L8p3
+ //6JZK42jq3yfMTFXW2hZfF+UQSUmY6/hutigr4OpnYartg4rgeAV64mWfv74nfbF3W3
+ AHW4YcvKsGxHb0hrwThxAQIPkh7uTZvHMnf1qtbiUC2KAqqf7P7rIgkdMpB6wAETK4IP
+ Ws6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YASqFIoDPo1KM5ucsNFvbsjrcrVOOaKzqBqUIt6ySV8=;
+ b=4P9/PH6Wt/a0P3kM9HpI3EKnOZ/IN9NwGZtAcOlpbOMHWNogKhRMmMUQt5x66NqBYd
+ +08X8IXo86ZLQcf9c5wK1o/X/ofKCNCJZq1d49HB4Qufe9lfImNqhnrVN3BAJ2tF2L6B
+ lGSC4ooysl/HqS9ltBrwIp3qepFCSanohLO7a6XPY+/i0pUYF4dMmzYj9SFr4PymbH5e
+ lioCVX3jr6OiK68qoc9ApTFalkEalPb7sNTBz/oTPX/1asHeG0ac8HqC/Y0PiRtw7OYT
+ ML0SE5DqEmAnuoAOKD7aCJBUaIqBKizXspod+T0CilDkkgM9NvI+TLWP21djl/kC2F4B
+ t8Ig==
+X-Gm-Message-State: AFqh2kqgVRNeSRQJMQmyhz8qp+gEr4aUSyPoX0zOSWQP5oBQg+w6TPzT
+ z9S0UtivoK8D9Del/kEYXfVz5w==
+X-Google-Smtp-Source: AMrXdXv36nBZo5Xscouo7BVSNb7fzaYDIbHWXrqI455lqnYdgemLlqrc4hQjJfuOwGtOr44brUXVGQ==
+X-Received: by 2002:a5d:5082:0:b0:278:126d:60fe with SMTP id
+ a2-20020a5d5082000000b00278126d60femr39790264wrt.10.1673527210993; 
+ Thu, 12 Jan 2023 04:40:10 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ w8-20020adf8bc8000000b002bdc39849d1sm4084526wra.44.2023.01.12.04.40.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Jan 2023 04:40:10 -0800 (PST)
+Message-ID: <5c7be172-2736-4d85-8945-588611b5ae13@linaro.org>
+Date: Thu, 12 Jan 2023 13:40:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221120102836.3174090-2-oro@il.ibm.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v6 09/33] hw/intc/i8259: Make using the isa_pic singleton
+ more type-safe
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: John G Johnson <john.g.johnson@oracle.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Ani Sinha <ani@anisinha.ca>,
+ Eduardo Habkost <eduardo@habkost.net>, Gerd Hoffmann <kraxel@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ qemu-ppc@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20230109172347.1830-1-shentey@gmail.com>
+ <20230109172347.1830-10-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230109172347.1830-10-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,134 +101,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Nov 20, 2022 at 04:28:34AM -0600, Or Ozeri wrote:
-> Add const modifier to passphrases,
-> and remove redundant stack variable passphrase_len.
+On 9/1/23 18:23, Bernhard Beschow wrote:
+> This even spares some casts in hot code paths along the way.
 > 
-> Signed-off-by: Or Ozeri <oro@il.ibm.com>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  block/rbd.c | 24 ++++++++++--------------
->  1 file changed, 10 insertions(+), 14 deletions(-)
-> 
-> diff --git a/block/rbd.c b/block/rbd.c
-> index f826410f40..e575105e6d 100644
-> --- a/block/rbd.c
-> +++ b/block/rbd.c
-> @@ -330,7 +330,7 @@ static int qemu_rbd_set_keypairs(rados_t cluster, const char *keypairs_json,
->  #ifdef LIBRBD_SUPPORTS_ENCRYPTION
->  static int qemu_rbd_convert_luks_options(
->          RbdEncryptionOptionsLUKSBase *luks_opts,
-> -        char **passphrase,
-> +        const char **passphrase,
->          size_t *passphrase_len,
->          Error **errp)
->  {
-> @@ -341,7 +341,7 @@ static int qemu_rbd_convert_luks_options(
->  static int qemu_rbd_convert_luks_create_options(
->          RbdEncryptionCreateOptionsLUKSBase *luks_opts,
->          rbd_encryption_algorithm_t *alg,
-> -        char **passphrase,
-> +        const char **passphrase,
->          size_t *passphrase_len,
->          Error **errp)
->  {
-> @@ -384,8 +384,7 @@ static int qemu_rbd_encryption_format(rbd_image_t image,
->                                        Error **errp)
->  {
->      int r = 0;
-> -    g_autofree char *passphrase = NULL;
-> -    size_t passphrase_len;
-> +    g_autofree const char *passphrase = NULL;
+> Note: The next patch will introduce a class "isa-pic", which is
+> shall not be confused with the isa_pic singleton.
+> ---
+>   include/hw/intc/i8259.h |  6 +++---
+>   include/qemu/typedefs.h |  1 +
+>   hw/intc/i8259.c         | 11 ++++-------
+>   3 files changed, 8 insertions(+), 10 deletions(-)
 
-This looks wierd.  If it is as const string, why are
-we free'ing it ?  Either want g_autofree, or const,
-but not both.
-
->      rbd_encryption_format_t format;
->      rbd_encryption_options_t opts;
->      rbd_encryption_luks1_format_options_t luks_opts;
-> @@ -407,12 +406,12 @@ static int qemu_rbd_encryption_format(rbd_image_t image,
->              opts_size = sizeof(luks_opts);
->              r = qemu_rbd_convert_luks_create_options(
->                      qapi_RbdEncryptionCreateOptionsLUKS_base(&encrypt->u.luks),
-> -                    &luks_opts.alg, &passphrase, &passphrase_len, errp);
-> +                    &luks_opts.alg, &passphrase, &luks_opts.passphrase_size,
-> +                    errp);
->              if (r < 0) {
->                  return r;
->              }
->              luks_opts.passphrase = passphrase;
-> -            luks_opts.passphrase_size = passphrase_len;
->              break;
->          }
->          case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2: {
-> @@ -423,12 +422,12 @@ static int qemu_rbd_encryption_format(rbd_image_t image,
->              r = qemu_rbd_convert_luks_create_options(
->                      qapi_RbdEncryptionCreateOptionsLUKS2_base(
->                              &encrypt->u.luks2),
-> -                    &luks2_opts.alg, &passphrase, &passphrase_len, errp);
-> +                    &luks2_opts.alg, &passphrase, &luks2_opts.passphrase_size,
-> +                    errp);
->              if (r < 0) {
->                  return r;
->              }
->              luks2_opts.passphrase = passphrase;
-> -            luks2_opts.passphrase_size = passphrase_len;
->              break;
->          }
->          default: {
-> @@ -466,8 +465,7 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
->                                      Error **errp)
->  {
->      int r = 0;
-> -    g_autofree char *passphrase = NULL;
-> -    size_t passphrase_len;
-> +    g_autofree const char *passphrase = NULL;
->      rbd_encryption_luks1_format_options_t luks_opts;
->      rbd_encryption_luks2_format_options_t luks2_opts;
->      rbd_encryption_format_t format;
-> @@ -482,12 +480,11 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
->              opts_size = sizeof(luks_opts);
->              r = qemu_rbd_convert_luks_options(
->                      qapi_RbdEncryptionOptionsLUKS_base(&encrypt->u.luks),
-> -                    &passphrase, &passphrase_len, errp);
-> +                    &passphrase, &luks_opts.passphrase_size, errp);
->              if (r < 0) {
->                  return r;
->              }
->              luks_opts.passphrase = passphrase;
-> -            luks_opts.passphrase_size = passphrase_len;
->              break;
->          }
->          case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2: {
-> @@ -497,12 +494,11 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
->              opts_size = sizeof(luks2_opts);
->              r = qemu_rbd_convert_luks_options(
->                      qapi_RbdEncryptionOptionsLUKS2_base(&encrypt->u.luks2),
-> -                    &passphrase, &passphrase_len, errp);
-> +                    &passphrase, &luks2_opts.passphrase_size, errp);
->              if (r < 0) {
->                  return r;
->              }
->              luks2_opts.passphrase = passphrase;
-> -            luks2_opts.passphrase_size = passphrase_len;
->              break;
->          }
->          default: {
-> -- 
-> 2.25.1
-> 
-> 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
