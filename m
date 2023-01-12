@@ -2,55 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F176670B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 12:17:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4346670BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 12:18:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFurI-00064P-7M; Thu, 12 Jan 2023 05:30:56 -0500
+	id 1pFuyI-0001uR-1U; Thu, 12 Jan 2023 05:38:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFurF-00063j-6Y
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:30:53 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFurD-0001kH-AH
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:30:52 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nt13G4SGTz686rg;
- Thu, 12 Jan 2023 18:28:10 +0800 (CST)
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Thu, 12 Jan 2023 10:30:48 +0000
-To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
-CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
- <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
- <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>
-Subject: [PATCH v2 8/8] hw/cxl/mailbox: Use new UUID network order define for
- cel_uuid
-Date: Thu, 12 Jan 2023 10:26:44 +0000
-Message-ID: <20230112102644.27830-9-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230112102644.27830-1-Jonathan.Cameron@huawei.com>
-References: <20230112102644.27830-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFuy6-0001rf-T3
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:38:01 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFuy5-00035A-Ab
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:37:58 -0500
+Received: by mail-wm1-x331.google.com with SMTP id g10so12867110wmo.1
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 02:37:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BNjH70h3YMyqRnnpci45rG2ziPjGcBrn9RpOXef1k7s=;
+ b=bqQXyZHpvFU1niarM6Kz3HgOx7H1S8ULA6+pHUB9jxvaH6cWR+d9AuSnkEPjQ66VaB
+ QpmjjjYub8HJLv8HiT4Hgj3E/UxxMNd1meXYA91O5z0CAwnlsEMvrYdaFNBgP7GxV6mO
+ UDNz0S/89bMxZBRRhVFxKue6E02/cCGw9p/ysCvZfE6q6avLPRZJi0eoD8tKWVBgDFn6
+ sd07liUFXaHjJsq0PRwTdxtlj6I2PfrYyM107sjfKvl9LQz3YkqxpVYNM2ObiaIKoZ/J
+ m1U7KUiRc3tcQNeTMjcHpMccQLqN5GpkNWdAPPfamTYDWpdEtUvd7vzlebaT9B69Btk/
+ kVkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BNjH70h3YMyqRnnpci45rG2ziPjGcBrn9RpOXef1k7s=;
+ b=KaJzTmcLsT/tAOdHyVKGRktcJa5VaoaHiFs4yP5gYYN+oI/v2P2K3XiYGqWBRCsJvt
+ PcNN5++gfGcIrc2NfVaQy2c1ChBO2TUMtA4aZa+B8yFd/zugJPTBaAe24dGstixM5AVS
+ T0Wn6oSRYxcnJllMIUzXXQWSPPPEuOGIsYBYb8/XUKE7kvIoVBQEaxnicwkDNIH0yFN/
+ kLS7tkehKUs4xPOEfFkd5Ak86I8PtPN7icMYyURTtiSUeYFsa7wsFeQV6f276BKt0X34
+ KpSCpmOX2tGWrV0TTpVQkGScKFDyrBdjiNFZ//WXswBwOK3vwJvpc/aC98ANr33HaGkY
+ ACYw==
+X-Gm-Message-State: AFqh2koTXlU2Via0gabQXdRNgQYCJPAiSredYVxHXHLdsoJgpyeuQShm
+ 5wQOWxWqGq02k5bZNSq01ZtP1Q==
+X-Google-Smtp-Source: AMrXdXt46ViFFh113j3Tm/tOMx1XgaGCQHlPl84IqscgJtG0u7enSG9GrkkakymxVmMwzWrE+3IuOw==
+X-Received: by 2002:a05:600c:600a:b0:3d1:ed41:57c0 with SMTP id
+ az10-20020a05600c600a00b003d1ed4157c0mr58684652wmb.30.1673519873137; 
+ Thu, 12 Jan 2023 02:37:53 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ he5-20020a05600c540500b003d9ed40a512sm17938494wmb.45.2023.01.12.02.37.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Jan 2023 02:37:52 -0800 (PST)
+Message-ID: <9ef90fdb-1355-36f4-6308-9f19028f7706@linaro.org>
+Date: Thu, 12 Jan 2023 11:37:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 4/8] hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
+Content-Language: en-US
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
+ Michael Tsirkin <mst@redhat.com>
+Cc: Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
+ linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
+ Gregory Price <gourry.memverge@gmail.com>
+References: <20230112102644.27830-1-Jonathan.Cameron@huawei.com>
+ <20230112102644.27830-5-Jonathan.Cameron@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230112102644.27830-5-Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,96 +90,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ira Weiny <ira.weiny@intel.com>
+On 12/1/23 11:26, Jonathan Cameron wrote:
+> From: Gregory Price <gourry.memverge@gmail.com>
+> 
+> Remove usage of magic numbers when accessing capacity fields and replace
+> with CXL_CAPACITY_MULTIPLIER, matching the kernel definition.
+> 
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
+> Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
+> ---
+> v2:
+> Change to 256 * MiB and include qemu/units.h (Philippe Mathieu-Daudé)
+> 
+>   hw/cxl/cxl-mailbox-utils.c | 15 +++++++++------
+>   1 file changed, 9 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+> index bc1bb18844..3f67b665f5 100644
+> --- a/hw/cxl/cxl-mailbox-utils.c
+> +++ b/hw/cxl/cxl-mailbox-utils.c
+> @@ -12,8 +12,11 @@
+>   #include "hw/pci/pci.h"
+>   #include "qemu/cutils.h"
+>   #include "qemu/log.h"
+> +#include "qemu/units.h"
+>   #include "qemu/uuid.h"
+>   
+> +#define CXL_CAPACITY_MULTIPLIER   (256 * MiB)
 
-The cel_uuid was programatically generated previously because there was
-no static initializer for network order UUIDs.
-
-Use the new network order initializer for cel_uuid.  Adjust
-cxl_initialize_mailbox() because it can't fail now.
-
-Update specification reference.
+Thanks, appreciated.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
----
-v2:
-Make it const (Philippe)
-
- hw/cxl/cxl-device-utils.c   |  2 +-
- hw/cxl/cxl-mailbox-utils.c  | 13 ++++++-------
- include/hw/cxl/cxl_device.h |  2 +-
- 3 files changed, 8 insertions(+), 9 deletions(-)
-
-diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-index 83ce7a8270..4c5e88aaf5 100644
---- a/hw/cxl/cxl-device-utils.c
-+++ b/hw/cxl/cxl-device-utils.c
-@@ -267,5 +267,5 @@ void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
-     cxl_device_cap_init(cxl_dstate, MEMORY_DEVICE, 0x4000);
-     memdev_reg_init_common(cxl_dstate);
- 
--    assert(cxl_initialize_mailbox(cxl_dstate) == 0);
-+    cxl_initialize_mailbox(cxl_dstate);
- }
-diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-index 3f67b665f5..206e04a4b8 100644
---- a/hw/cxl/cxl-mailbox-utils.c
-+++ b/hw/cxl/cxl-mailbox-utils.c
-@@ -193,7 +193,11 @@ static ret_code cmd_timestamp_set(struct cxl_cmd *cmd,
-     return CXL_MBOX_SUCCESS;
- }
- 
--static QemuUUID cel_uuid;
-+/* CXL 3.0 8.2.9.5.2.1 Command Effects Log (CEL) */
-+static const QemuUUID cel_uuid = {
-+    .data = UUID(0x0da9c0b5, 0xbf41, 0x4b78, 0x8f, 0x79,
-+                 0x96, 0xb1, 0x62, 0x3b, 0x3f, 0x17)
-+};
- 
- /* 8.2.9.4.1 */
- static ret_code cmd_logs_get_supported(struct cxl_cmd *cmd,
-@@ -458,11 +462,8 @@ void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
-                      DOORBELL, 0);
- }
- 
--int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
-+void cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
- {
--    /* CXL 2.0: Table 169 Get Supported Logs Log Entry */
--    const char *cel_uuidstr = "0da9c0b5-bf41-4b78-8f79-96b1623b3f17";
--
-     for (int set = 0; set < 256; set++) {
-         for (int cmd = 0; cmd < 256; cmd++) {
-             if (cxl_cmd_set[set][cmd].handler) {
-@@ -476,6 +477,4 @@ int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
-             }
-         }
-     }
--
--    return qemu_uuid_parse(cel_uuidstr, &cel_uuid);
- }
-diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index 250adf18b2..7e5ad65c1d 100644
---- a/include/hw/cxl/cxl_device.h
-+++ b/include/hw/cxl/cxl_device.h
-@@ -170,7 +170,7 @@ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MEMORY_DEVICE,
-                                       CXL_DEVICE_CAP_HDR1_OFFSET +
-                                           CXL_DEVICE_CAP_REG_SIZE * 2)
- 
--int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate);
-+void cxl_initialize_mailbox(CXLDeviceState *cxl_dstate);
- void cxl_process_mailbox(CXLDeviceState *cxl_dstate);
- 
- #define cxl_device_cap_init(dstate, reg, cap_id)                           \
--- 
-2.37.2
 
 
