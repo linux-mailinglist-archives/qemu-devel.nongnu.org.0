@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC356670CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 12:24:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1ECE667073
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 12:05:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFv91-0008Ba-7E; Thu, 12 Jan 2023 05:49:15 -0500
+	id 1pFvB7-0000re-K7; Thu, 12 Jan 2023 05:51:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFv8v-0008AN-By
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:49:10 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFvB4-0000nn-I4
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:51:22 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFv8t-0005AA-GR
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:49:08 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id ay40so12893669wmb.2
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 02:49:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFvAz-0005jL-2p
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:51:18 -0500
+Received: by mail-wm1-x330.google.com with SMTP id o15so12875443wmr.4
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 02:51:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=MXcNrOpiPeFujEYlhrBYpiCab6kKVXGUUy3gl0GT55E=;
- b=tLYAOCT14v7SECGqEVeLDP2H3rPinZr3MXRplGKs0MuoOlqfSvwCwW9MLovJx3r2XI
- 7MDNk8L1DYt64S2f47b8meztRNbDF/rdJ9xew1OMZvoSaLlYFuIj3u0/27E+QDRGkwaQ
- MMNIol9sHjcE9zpEMBoq9nB6GWwQ5RzSKwen3pthEw3mHL5rVZU/kAGiGEcFwlatjiqm
- L/CL479zv8lh7tiu3V026RL56mRn6bTBsbYKeFFrjh17Vue3uYQ0m7oittmIP3b0qEir
- 8dy/kbbaX+no4wrC4Y4XWwrAczvWjOiZDOF9rlP1r/QQ7CvoUGSeBZYk6yMHkVDcACmC
- NhYw==
+ bh=n6zZehrI7n8RuYH0SOlen325h2YyZmfkLZSf/9FCbDw=;
+ b=WQ0oVBlsRWqJNuXmK/DuTmgDn0psv/uNy2gUgoV/iQnNpMYvP0NBVE/rG6fozUKM5G
+ wnCCi4Stf1V7ssjVetMztUK142qf5C2VV/YzxkDv5Z+u9H6YHL4NuIh4sWKCW1YluPg3
+ tbzl4q+2bLkV3RiZJwlaYd118PNFNBQyXsz5aXqyuKhC+lIhqx9/MQvNmm8gBXWkX9Gp
+ q7lfVXdXPzxx12/rU0vbNmJa+h66+qvr3rqPBNm1k+TsN1EVUzO00yBIamBwc8kIconm
+ iHEPn7Cwt/YxKbjFr2aINXBd5BWHNHPI6Yt46c+VJvNQ7hL9JJeYZpWLQNRBaLFhEOd6
+ cIvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MXcNrOpiPeFujEYlhrBYpiCab6kKVXGUUy3gl0GT55E=;
- b=chOHKl9M5AiLEqe81F/qOdYA0+mW46WfzCkefJrUc8ZzrO5BzrM02XctUmplwp1X39
- JlLAsHCd+8W4d+PyIMfT2yeoFXgyqn45+33bAoRWl4LrknHhVInwA4pWJnH3EPLqYBee
- XS7XL1HJQs55aTpKP+c7qu+WY+cIcjANhp4mi8+9dGx57RB+a5z92Yxamy3jHcKWhhzm
- pWgRJmHDUHh2zqz7Aj/17ADBkQWr+VebUP84preF+p9cV1roLlzW4BNAvUpFMVSxxaH+
- Cf6DcVpp+8bNR3eaS96r5VQxTFlqGxq7of+nvUdrVHgDOWDv4Po4OhcSX7A381YX9R1I
- 01dg==
-X-Gm-Message-State: AFqh2kpNnCWBfMczQlJ7P1i3un4Tsy91ujOhoI4AVOwX+aujvgs+L/rF
- z5PyXadjp0tGE9OuVaEOnp4sbw==
-X-Google-Smtp-Source: AMrXdXvaJyOJQ+d0T6yxOF3E+E+XMWU4sfDH0W9ACVufRoC4wo1cVrB/5qfKwcOVAfX9TsskzGUkyg==
-X-Received: by 2002:a05:600c:3ca2:b0:3d9:da3a:ef9b with SMTP id
- bg34-20020a05600c3ca200b003d9da3aef9bmr17503465wmb.31.1673520546109; 
- Thu, 12 Jan 2023 02:49:06 -0800 (PST)
+ bh=n6zZehrI7n8RuYH0SOlen325h2YyZmfkLZSf/9FCbDw=;
+ b=2VP9w6UvKtPLnDrIKLEjcmMOQpRtt/EtTHlbDc4AK8Y5bzqNgpjpR6QrHxRzptJ4Oi
+ jVREgHGKwztaEV+sWpqCZsy5jsfe838fCjWCO9UMgy4CWYKjmPiIIhNKnHSfm7S3lMQW
+ IQ+npaGke64TL7DNwEHxfc17wZ7D0ALAemLn6Kl+69esFYDKlH5eIHabLkT8dwdRQP3I
+ nuEZFK581+Wg8f0A3tQ6Yqdvf2McU+tzC5PzH0pk3GkpYldJ+A38AzD9pT4qWx8z743H
+ aQf8QNepfLXLK3VB6828A73iW58kO2u/6vdhw4YZM3i06vzMo9juaOfmz+7RNHJnL71n
+ 4GnA==
+X-Gm-Message-State: AFqh2kr2ZZjMQclQBt9Bm2EUoKhxDKjf7XebaWBahn+tMFYv0acu4dnf
+ q5P+LUuFceTbx3q/+DXOiea+UQ==
+X-Google-Smtp-Source: AMrXdXvwlveeNiZ4TGMVbPmzfOCT8OwraN+sLRDdY5/woLx3CK2g7MJAgKG2U/RKZLsQ3vvKjskPxw==
+X-Received: by 2002:a05:600c:4f08:b0:3d9:efd1:214d with SMTP id
+ l8-20020a05600c4f0800b003d9efd1214dmr11429420wmq.25.1673520675606; 
+ Thu, 12 Jan 2023 02:51:15 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- f19-20020a1c6a13000000b003d9fb04f658sm7454648wmc.4.2023.01.12.02.49.04
+ he5-20020a05600c540500b003d9ed40a512sm17985657wmb.45.2023.01.12.02.51.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 02:49:05 -0800 (PST)
-Message-ID: <55cd1cce-d7ae-04e0-b046-1d87b5c4f193@linaro.org>
-Date: Thu, 12 Jan 2023 11:49:03 +0100
+ Thu, 12 Jan 2023 02:51:15 -0800 (PST)
+Message-ID: <db314837-8830-a212-b168-a0eca26f4d0b@linaro.org>
+Date: Thu, 12 Jan 2023 11:51:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 13/31] e1000: Configure ResettableClass
+Subject: Re: [PATCH 16/31] e1000e: Set MII_ANER_NWAY
 Content-Language: en-US
 To: Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -74,16 +74,15 @@ Cc: Jason Wang <jasowang@redhat.com>,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org, devel@daynix.com,
  Yan Vugenfirer <yvugenfi@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
- Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Peter Maydell <peter.maydell@linaro.org>
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 References: <20230112095743.20123-1-akihiko.odaki@daynix.com>
- <20230112095743.20123-14-akihiko.odaki@daynix.com>
+ <20230112095743.20123-17-akihiko.odaki@daynix.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230112095743.20123-14-akihiko.odaki@daynix.com>
+In-Reply-To: <20230112095743.20123-17-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -107,19 +106,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/1/23 10:57, Akihiko Odaki wrote:
-> This is part of recent efforts of refactoring e1000 and e1000e.
-> 
-> DeviceClass's reset member is deprecated so migrate to ResettableClass.
-> Thre is no behavioral difference.
-
-Typo 'There'.
-
+> This keeps Windows driver 12.18.9.23 from generating an event with ID
+> 30. The description of the event is as follows:
+>> Intel(R) 82574L Gigabit Network Connection
+>>   PROBLEM: The network adapter is configured for auto-negotiation but
+>> the link partner is not.  This may result in a duplex mismatch.
+>>   ACTION: Configure the link partner for auto-negotiation.
 > 
 > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   hw/net/e1000.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
+>   hw/net/e1000e_core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
