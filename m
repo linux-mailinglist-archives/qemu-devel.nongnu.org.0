@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D88666E16
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 10:27:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE33666E97
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 10:47:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFtrd-00014w-NE; Thu, 12 Jan 2023 04:27:14 -0500
+	id 1pFu9w-00072j-Nl; Thu, 12 Jan 2023 04:46:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1pFtrX-00014a-8G
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 04:27:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1pFtrU-0006Dw-Pm
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 04:27:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673515623;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6TNn/6lx2P1/hdwHntbiMhzmeDclfGJNNJPAt2KSOoE=;
- b=d9OXHl9gxTB1FmmzGLEF2S3fiMpc5sW2ALtJlPAbEZ+IsSfYzZ1X4ijHszrnxq+yW/oKVt
- 6sK+xAq3aKJjgtEbKcTm98RHz0KgFEopRrtnLxSN7rF2xiYzV2QYX8Uu5HJpW4FlUQZob0
- IsGypO6vohi9bQDDMIOYxuS/II4sbYQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-83-M9YAAoDVNymPZrUDXIlTKw-1; Thu, 12 Jan 2023 04:25:52 -0500
-X-MC-Unique: M9YAAoDVNymPZrUDXIlTKw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D1793C106A1;
- Thu, 12 Jan 2023 09:25:52 +0000 (UTC)
-Received: from [10.39.208.23] (unknown [10.39.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 24F8D1121318;
- Thu, 12 Jan 2023 09:25:50 +0000 (UTC)
-Message-ID: <31f87c1d-9cce-6507-8e90-4d7942d7dc54@redhat.com>
-Date: Thu, 12 Jan 2023 10:25:49 +0100
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pFu9Z-00071l-9t; Thu, 12 Jan 2023 04:45:45 -0500
+Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pFu9U-0001q1-AS; Thu, 12 Jan 2023 04:45:42 -0500
+Received: by mail-vs1-xe30.google.com with SMTP id q125so6745412vsb.0;
+ Thu, 12 Jan 2023 01:45:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=D493d/lf6395odeXd8Z4oL1EMywgeerAnKb+g0+vV6o=;
+ b=IXTySs+I667/BCAfEagoFk8CIQ3C58N6R7Eps/58s250J1tjBnfLLs84YkBS0VjA+R
+ JDeT0Mx01p44HyGlZ4zL+qYbc27I25D4HlNIE8F6m6qzj7ZCEIdYW5BzKyuhW1P0QwkY
+ 0rD0GyeUUXefRMOqvekBK7wvNMebYI7gz/gIQlLutJIBb9Qrgu1vpFhMRoBBsyu+Z7+g
+ 1OCmdUmiaIyFt045dMbDo+KxlXeVGpr/+u5teJxgfmo68t5h0XT/z/16PSRkwbpprwZN
+ B8kodySe8y/2dlLbpNaEPhKrRkdZ3gi77ktk9QGVK7W6Dj7oezpSEB446MX6IXoBzT7O
+ RqVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=D493d/lf6395odeXd8Z4oL1EMywgeerAnKb+g0+vV6o=;
+ b=BkzaXZhFqwM6AU/LjUFKJuygFa+EzO0Z0HL4ym1w6hoU+Q0svNgJ/HCak7D/ToBpRr
+ MNv9Rm8aZf45/esa0IVQHeUIqBFfiYaDmh1jDpV/yaVsqVhVxE0HTpdlZYrr6wt8agBO
+ 2nHKWYhhUewziRBGPGXrj6vByMmLD59R4+cUlhgFWkCSiAjNLY2H4JsdNcN2mhnt0ct9
+ k/OR8liKtVT4GlZVbrKeevHGO4iBfwYjaCBmR+qSSbMV9loI56EdR5zSz0gmxI/xebKE
+ Y2oanaSEPUXUMuTfE/9OcQdW/za9KB6EVfZxfSoawI+fdnEc9F62sOlxUCsBHnFb7MkL
+ fIqQ==
+X-Gm-Message-State: AFqh2krhO7wVp8REoDPeAvwmPBypUbLdauJOfOgza81uXyfUogYnBw7w
+ /kYT1SwocyCsfOAr6yp/gOuplZYE5IiIPnsAiuU=
+X-Google-Smtp-Source: AMrXdXtp3UeFMDQWnj5sxRdluQeDfh9v9fi5qL7RDm702fYjW+wyZ8s98mhW/cwmLh99hlQrAtiuZD1GlyGUghKKuaQ=
+X-Received: by 2002:a05:6102:510e:b0:3b1:2b83:1861 with SMTP id
+ bm14-20020a056102510e00b003b12b831861mr10025864vsb.10.1673516738156; Thu, 12
+ Jan 2023 01:45:38 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PULL v4 76/83] vhost-user: Support vhost_dev_start
-Content-Language: en-US
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Yajun Wu <yajunw@nvidia.com>, Parav Pandit <parav@nvidia.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20221107224600.934080-1-mst@redhat.com>
- <20221107224600.934080-77-mst@redhat.com>
- <43145ede-89dc-280e-b953-6a2b436de395@redhat.com>
- <20230109054633-mutt-send-email-mst@kernel.org>
- <c0acea1d-7bae-120e-9422-82b0a5c432cf@redhat.com>
-From: Maxime Coquelin <maxime.coquelin@redhat.com>
-In-Reply-To: <c0acea1d-7bae-120e-9422-82b0a5c432cf@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=maxime.coquelin@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230112083921.887828-1-thuth@redhat.com>
+In-Reply-To: <20230112083921.887828-1-thuth@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 12 Jan 2023 19:45:11 +1000
+Message-ID: <CAKmqyKNAREWgeNXEHyPqT8jthXEKK7v7H2vXYS_FSLOZy4_-7w@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/misc/sifive_u_otp: Remove the deprecated OTP config
+ with '-drive if=none'
+To: Thomas Huth <thuth@redhat.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, 
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e30;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe30.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,114 +86,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Laurent,
+On Thu, Jan 12, 2023 at 6:40 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> '-drive if=none' is meant for configuring back-end devices only, so this
+> got marked as deprecated in QEMU 6.2. Users should now only use the new
+> way with '-drive if=pflash' instead.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-On 1/11/23 10:50, Laurent Vivier wrote:
-> On 1/9/23 11:55, Michael S. Tsirkin wrote:
->> On Fri, Jan 06, 2023 at 03:21:43PM +0100, Laurent Vivier wrote:
->>> Hi,
->>>
->>> it seems this patch breaks vhost-user with DPDK.
->>>
->>> See https://bugzilla.redhat.com/show_bug.cgi?id=2155173
->>>
->>> it seems QEMU doesn't receive the expected commands sequence:
->>>
->>> Received unexpected msg type. Expected 22 received 40
->>> Fail to update device iotlb
->>> Received unexpected msg type. Expected 40 received 22
->>> Received unexpected msg type. Expected 22 received 11
->>> Fail to update device iotlb
->>> Received unexpected msg type. Expected 11 received 22
->>> vhost VQ 1 ring restore failed: -71: Protocol error (71)
->>> Received unexpected msg type. Expected 22 received 11
->>> Fail to update device iotlb
->>> Received unexpected msg type. Expected 11 received 22
->>> vhost VQ 0 ring restore failed: -71: Protocol error (71)
->>> unable to start vhost net: 71: falling back on userspace virtio
->>>
->>> It receives VHOST_USER_GET_STATUS (40) when it expects 
->>> VHOST_USER_IOTLB_MSG (22)
->>> and VHOST_USER_IOTLB_MSG when it expects VHOST_USER_GET_STATUS.
->>> and VHOST_USER_GET_VRING_BASE (11) when it expect 
->>> VHOST_USER_GET_STATUS and so on.
->>>
->>> Any idea?
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-We only have a single thread on DPDK side to handle Vhost-user requests,
-it will read a request, handle it and reply to it. Then it reads the
-next one, etc... So I don't think it is possible to mix request replies
-order on DPDK side.
+Alistair
 
-Maybe there are two threads concurrently sending requests on QEMU side?
-
-Regards,
-Maxime
-
->>> Thanks,
->>> Laurent
->>
->>
->> So I am guessing it's coming from:
->>
->>      if (msg.hdr.request != request) {
->>          error_report("Received unexpected msg type. Expected %d 
->> received %d",
->>                       request, msg.hdr.request);
->>          return -EPROTO;
->>      }
->>
->> in process_message_reply and/or in vhost_user_get_u64.
->>
->>
->>> On 11/7/22 23:53, Michael S. Tsirkin wrote:
->>>> From: Yajun Wu <yajunw@nvidia.com>
->>>>
->>>> The motivation of adding vhost-user vhost_dev_start support is to
->>>> improve backend configuration speed and reduce live migration VM
->>>> downtime.
->>>>
->>>> Today VQ configuration is issued one by one. For virtio net with
->>>> multi-queue support, backend needs to update RSS (Receive side
->>>> scaling) on every rx queue enable. Updating RSS is time-consuming
->>>> (typical time like 7ms).
->>>>
->>>> Implement already defined vhost status and message in the vhost
->>>> specification [1].
->>>> (a) VHOST_USER_PROTOCOL_F_STATUS
->>>> (b) VHOST_USER_SET_STATUS
->>>> (c) VHOST_USER_GET_STATUS
->>>>
->>>> Send message VHOST_USER_SET_STATUS with VIRTIO_CONFIG_S_DRIVER_OK for
->>>> device start and reset(0) for device stop.
->>>>
->>>> On reception of the DRIVER_OK message, backend can apply the needed 
->>>> setting
->>>> only once (instead of incremental) and also utilize parallelism on 
->>>> enabling
->>>> queues.
->>>>
->>>> This improves QEMU's live migration downtime with vhost user backend
->>>> implementation by great margin, specially for the large number of 
->>>> VQs of 64
->>>> from 800 msec to 250 msec.
->>>>
->>>> [1] https://qemu-project.gitlab.io/qemu/interop/vhost-user.html
->>>>
->>>> Signed-off-by: Yajun Wu <yajunw@nvidia.com>
->>>> Acked-by: Parav Pandit <parav@nvidia.com>
->>>> Message-Id: <20221017064452.1226514-3-yajunw@nvidia.com>
->>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->>
->> Probably easiest to debug from dpdk side.
->> Does the problem go away if you disable the feature 
->> VHOST_USER_PROTOCOL_F_STATUS in dpdk?
-> 
-> Maxime could you help to debug this?
-> 
-> Thanks,
-> Laurent
-> 
-
+> ---
+>  docs/about/deprecated.rst       | 6 ------
+>  docs/about/removed-features.rst | 7 +++++++
+>  hw/misc/sifive_u_otp.c          | 7 -------
+>  3 files changed, 7 insertions(+), 13 deletions(-)
+>
+> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> index 68d29642d7..bfe8148490 100644
+> --- a/docs/about/deprecated.rst
+> +++ b/docs/about/deprecated.rst
+> @@ -87,12 +87,6 @@ as short-form boolean values, and passed to plugins as ``arg_name=on``.
+>  However, short-form booleans are deprecated and full explicit ``arg_name=on``
+>  form is preferred.
+>
+> -``-drive if=none`` for the sifive_u OTP device (since 6.2)
+> -''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> -
+> -Using ``-drive if=none`` to configure the OTP device of the sifive_u
+> -RISC-V machine is deprecated. Use ``-drive if=pflash`` instead.
+> -
+>  ``-no-hpet`` (since 8.0)
+>  ''''''''''''''''''''''''
+>
+> diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+> index c918cabd1a..6bd0a2b4e4 100644
+> --- a/docs/about/removed-features.rst
+> +++ b/docs/about/removed-features.rst
+> @@ -422,6 +422,13 @@ the value is hexadecimal.  That is, '0x20M' should be written either as
+>  ``tty`` and ``parport`` used to be aliases for ``serial`` and ``parallel``
+>  respectively. The actual backend names should be used instead.
+>
+> +``-drive if=none`` for the sifive_u OTP device (removed in 8.0)
+> +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +Use ``-drive if=pflash`` to configure the OTP device of the sifive_u
+> +RISC-V machine instead.
+> +
+> +
+>  QEMU Machine Protocol (QMP) commands
+>  ------------------------------------
+>
+> diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
+> index 6d7fdb040a..8965f5c22a 100644
+> --- a/hw/misc/sifive_u_otp.c
+> +++ b/hw/misc/sifive_u_otp.c
+> @@ -210,13 +210,6 @@ static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
+>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
+>
+>      dinfo = drive_get(IF_PFLASH, 0, 0);
+> -    if (!dinfo) {
+> -        dinfo = drive_get(IF_NONE, 0, 0);
+> -        if (dinfo) {
+> -            warn_report("using \"-drive if=none\" for the OTP is deprecated, "
+> -                        "use \"-drive if=pflash\" instead.");
+> -        }
+> -    }
+>      if (dinfo) {
+>          int ret;
+>          uint64_t perm;
+> --
+> 2.31.1
+>
+>
 
