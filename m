@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140C4667084
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 12:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF856670B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 12:17:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFupp-00059u-EB; Thu, 12 Jan 2023 05:29:25 -0500
+	id 1pFuqH-0005Sr-Nr; Thu, 12 Jan 2023 05:29:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFupk-00057N-Ra
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:29:22 -0500
+ id 1pFuqF-0005Oh-Fq
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:29:51 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFupj-00017e-3z
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:29:20 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nt14Q6TM9z6HJWf;
- Thu, 12 Jan 2023 18:29:10 +0800 (CST)
+ id 1pFuqD-0001DR-Q7
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:29:51 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nt10n15ntz6J6JQ;
+ Thu, 12 Jan 2023 18:26:01 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Thu, 12 Jan 2023 10:29:16 +0000
+ 15.1.2375.34; Thu, 12 Jan 2023 10:29:47 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
  <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
  <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philmd@linaro.org>
-Subject: [PATCH v2 5/8] hw/i386/acpi: Drop duplicate _UID entry for CXL root
- bridge
-Date: Thu, 12 Jan 2023 10:26:41 +0000
-Message-ID: <20230112102644.27830-6-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v2 6/8] qemu/bswap: Add const_le64()
+Date: Thu, 12 Jan 2023 10:26:42 +0000
+Message-ID: <20230112102644.27830-7-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230112102644.27830-1-Jonathan.Cameron@huawei.com>
 References: <20230112102644.27830-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
 X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
@@ -69,26 +68,57 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Noticed as this prevents iASL disasembling the DSDT table.
+From: Ira Weiny <ira.weiny@intel.com>
 
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+Gcc requires constant versions of cpu_to_le* calls.
+
+Add a 64 bit version.
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- hw/i386/acpi-build.c | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 127c4e2d50..a584b62ae2 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1482,7 +1482,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-                 aml_append(pkg, aml_eisaid("PNP0A03"));
-                 aml_append(dev, aml_name_decl("_CID", pkg));
-                 aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
--                aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
-                 build_cxl_osc_method(dev);
-             } else if (pci_bus_is_express(bus)) {
-                 aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+---
+v2: Update comment (Philippe)
+
+ include/qemu/bswap.h | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
+index 346d05f2aa..c5cb9686c5 100644
+--- a/include/qemu/bswap.h
++++ b/include/qemu/bswap.h
+@@ -182,11 +182,20 @@ CPU_CONVERT(le, 32, uint32_t)
+ CPU_CONVERT(le, 64, uint64_t)
+ 
+ /*
+- * Same as cpu_to_le{16,32}, except that gcc will figure the result is
++ * Same as cpu_to_le{16,32,64}, except that gcc will figure the result is
+  * a compile-time constant if you pass in a constant.  So this can be
+  * used to initialize static variables.
+  */
+ #if HOST_BIG_ENDIAN
++# define const_le64(_x)                          \
++    ((((_x) & 0x00000000000000ffU) << 56) |      \
++     (((_x) & 0x000000000000ff00U) << 40) |      \
++     (((_x) & 0x0000000000ff0000U) << 24) |      \
++     (((_x) & 0x00000000ff000000U) <<  8) |      \
++     (((_x) & 0x000000ff00000000U) >>  8) |      \
++     (((_x) & 0x0000ff0000000000U) >> 24) |      \
++     (((_x) & 0x00ff000000000000U) >> 40) |      \
++     (((_x) & 0xff00000000000000U) >> 56))
+ # define const_le32(_x)                          \
+     ((((_x) & 0x000000ffU) << 24) |              \
+      (((_x) & 0x0000ff00U) <<  8) |              \
+@@ -196,6 +205,7 @@ CPU_CONVERT(le, 64, uint64_t)
+     ((((_x) & 0x00ff) << 8) |                    \
+      (((_x) & 0xff00) >> 8))
+ #else
++# define const_le64(_x) (_x)
+ # define const_le32(_x) (_x)
+ # define const_le16(_x) (_x)
+ #endif
 -- 
 2.37.2
 
