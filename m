@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E1166739F
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 14:52:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C606673A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 14:53:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFxxn-0001m6-3s; Thu, 12 Jan 2023 08:49:51 -0500
+	id 1pFy02-0003Ga-9X; Thu, 12 Jan 2023 08:52:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFxxh-0001fp-H1
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 08:49:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFxxf-0003A3-RV
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 08:49:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673531383;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RykjkEh7BQO6RxxlX7tvf65xg6DR3UMVDcJmXk8iCIo=;
- b=KPSKgYZ04f1/noqERffcAI5eTisC97Aj/qC62Dyd3mPDUuvFmfIYH4HwIjM0u6qEHM5sA+
- puwIMZq+GTsSxGNOLWbjKUyjt56MqlesJfQQ5nlwI0WNOoBrjmPkxoi3bgXFIfJDQC5CEm
- MAJtPTA/JEVrcJCjUUDWIHkzF+L/4d0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-459-r0mE9uT9Nb-XouMuzEupdg-1; Thu, 12 Jan 2023 08:49:39 -0500
-X-MC-Unique: r0mE9uT9Nb-XouMuzEupdg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69C68181E3EE;
- Thu, 12 Jan 2023 13:49:39 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9822C40C2004;
- Thu, 12 Jan 2023 13:49:38 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
-	qemu-trivial@nongnu.org
-Subject: [PATCH 7/7] hw/usb: Mark the XLNX_VERSAL-related files as
- target-independent
-Date: Thu, 12 Jan 2023 14:49:28 +0100
-Message-Id: <20230112134928.1026006-8-thuth@redhat.com>
-In-Reply-To: <20230112134928.1026006-1-thuth@redhat.com>
-References: <20230112134928.1026006-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pFxzK-0002pa-76
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 08:51:33 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pFxzI-0003jJ-I9
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 08:51:25 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id c6so20295080pls.4
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 05:51:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=A4Ch8zixRPZ0LoKpQ4bZiOA7EkwaQ0SpluQUngufXkw=;
+ b=P8wtoW3jHl/Ry2OUDBPTNqIV2yeVO7CTEPy+Ba2Q8i6JhCy8aG7jKmfpm1+gQmEAt4
+ XqI1AV6MOFJ9mk1A851ywBg/poIbvP6uC5cktp2CsaMe2zDhGhq4T9rD+Itu3gJBTGUE
+ Q8XJGCvTZhyJbIDOxbV8933AFgvbjNPsNgMaZr80g0xz0UrI2PKSSLJXsuXrUliWydNm
+ lgULidi/4LChaPxOMuMmokJCP71gg9fY7+tww6LHIu1CkfO628IFSd2YmR8/jiOvzd6P
+ 9+4XQ9G89Y2l6jyIPdH3+AXkzyyos0VPrgatpGxZsArpiRkeLF1yvnjljGukib+33WWX
+ s23Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=A4Ch8zixRPZ0LoKpQ4bZiOA7EkwaQ0SpluQUngufXkw=;
+ b=dORim8ure/3ZNLGlEV+auXcSL6Jn8yFFtd1UzVYZyAE020/EqemrlgU/ojLM3nP+CK
+ waGHmacS26RJdPQks2PULYUtf0NsB7/wIaESA7vJcl76GgPUPgn1w4dh7MmxJa5eQaWu
+ S9iMGZM9/R0bLwj8jQGTmFFZO0+i7xlkywKCL5WBokHKhb3059ADxgARN7CkM0hQd5X8
+ sVgaRC7kVFL4be0Rnqn4syYLWdJ+geh3FYQuk7vuQ6oU3MbzjwdK0hb83k3baW58YtgZ
+ vlK3kxD2LVy1Mm+ibeWXH63lIFPBovuJbd+DJVWoQh7iV5l4q1JEq+9Q/d0FG3A7koS8
+ aYBw==
+X-Gm-Message-State: AFqh2koNgsh/4bbE9maVkZbVQ8oK0yPOvXkJPhuV6r6B/AljzvHP2nuI
+ YrkAS/BAMIaXNtqYAAWI0Lxv7TmgOtMZC3K05fOlUA==
+X-Google-Smtp-Source: AMrXdXshgwu2McVsn/wuloIcmOSe3F5gi/ZTHX29w7pW+CXLNrQQ0EJKn5nlhfeEb6xVsw6cYTnNL/PXyVVlkFtJJ9s=
+X-Received: by 2002:a17:903:28d:b0:194:6083:fd50 with SMTP id
+ j13-20020a170903028d00b001946083fd50mr162808plr.19.1673531482917; Thu, 12 Jan
+ 2023 05:51:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230111075213.70404-1-its@irrelevant.dk>
+In-Reply-To: <20230111075213.70404-1-its@irrelevant.dk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 Jan 2023 13:51:11 +0000
+Message-ID: <CAFEAcA-vQK1hHMs-JpxNTpUOworZRTbG6Ep73hhaxrJntgNwCg@mail.gmail.com>
+Subject: Re: [PULL 0/6] hw/nvme updates
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,31 +83,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Seems like there is nothing target-specific in here, so these files
-can be moved to softmmu_ss to avoid that they get compiled twice
-(once for qemu-system-arm and once for qemu-system-aarch64).
+On Wed, 11 Jan 2023 at 07:52, Klaus Jensen <its@irrelevant.dk> wrote:
+>
+> From: Klaus Jensen <k.jensen@samsung.com>
+>
+> Hi Peter,
+>
+> The following changes since commit 528d9f33cad5245c1099d77084c78bb2244d5143:
+>
+>   Merge tag 'pull-tcg-20230106' of https://gitlab.com/rth7680/qemu into staging (2023-01-08 11:23:17 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/birkelund/qemu.git tags/nvme-next-pull-request
+>
+> for you to fetch changes up to 973f76cf7743545a5d8a0a8bfdfe2cd02aa3e238:
+>
+>   hw/nvme: cleanup error reporting in nvme_init_pci() (2023-01-11 08:41:19 +0100)
+>
+> ----------------------------------------------------------------
+> hw/nvme updates
+>
+> ----------------------------------------------------------------
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/usb/meson.build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index 793df42e21..bdf34cbd3e 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -30,8 +30,8 @@ softmmu_ss.add(when: 'CONFIG_TUSB6010', if_true: files('tusb6010.c'))
- softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('chipidea.c'))
- softmmu_ss.add(when: 'CONFIG_IMX_USBPHY', if_true: files('imx-usb-phy.c'))
- softmmu_ss.add(when: 'CONFIG_VT82C686', if_true: files('vt82c686-uhci-pci.c'))
--specific_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-usb2-ctrl-regs.c'))
--specific_ss.add(when: 'CONFIG_XLNX_USB_SUBSYS', if_true: files('xlnx-usb-subsystem.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-usb2-ctrl-regs.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_USB_SUBSYS', if_true: files('xlnx-usb-subsystem.c'))
- 
- # emulated usb devices
- softmmu_ss.add(when: 'CONFIG_USB', if_true: files('dev-hub.c'))
--- 
-2.31.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
+-- PMM
 
