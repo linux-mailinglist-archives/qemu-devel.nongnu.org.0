@@ -2,94 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C22667FA2
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 20:53:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D79D56683D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 21:13:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG3dE-0003FE-I0; Thu, 12 Jan 2023 14:53:01 -0500
+	id 1pG3vn-0006tz-Du; Thu, 12 Jan 2023 15:12:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pG3d4-0003EA-FQ
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 14:52:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pG3d2-0005Sg-Hn
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 14:52:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673553168;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MUYGROoZDQ0yofjbWmhFvkSo/UbSTtoFYCX4EUKz0IY=;
- b=eDhp1y6vOAiV4xW6JlR+dNuxM6pGmt14jT3ZytmL5ph7sxG9N/2MRN/9s/cBkkYrNSCHKk
- Y1IQXDmmOX4dQerkvl6JHgV0dR+zTyrXQjgOyw4YERGGiz3VvZJ53J/ZBNq8k2dofgXSs1
- FOsfA0co5Tc2hec1dlTNDzQU/kbvdEc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-607-LoDq-fWwPFCDEYeLZKtK_A-1; Thu, 12 Jan 2023 14:52:44 -0500
-X-MC-Unique: LoDq-fWwPFCDEYeLZKtK_A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- n13-20020adfc60d000000b0029bdfcf52eeso3760462wrg.8
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 11:52:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MUYGROoZDQ0yofjbWmhFvkSo/UbSTtoFYCX4EUKz0IY=;
- b=HoabL9IEUFX+96UmlhOgyhXEc+39lWGAPfMpETYe4IXPq8aTNHlJUJMkib4w0JW7de
- L7ESi+QOAh+CuNAWICqZaP3DJPYT8ce8ZvMLZysRcRgX46ydf4Lm2CfP/JkwScZyek0Y
- 9JRVDtg+fuNAHs2A+a1ZhEM9f1hGacaZbN3Xfmyzgd61bOicBIzV0AJGTrAGmSfzM2Uu
- ebWtlF+Z1p9Zyhz/CtBnT/bzqaarm6qJED0IrGOSwRESXBIHc3Iws81xnGoJnTf7lcao
- YgDsInKqDbS018ZGy4ecch3HSnwLJFB8pI3j2x5NuipKLoLRGq4AES/lp4CB6+ff6zgt
- SqtA==
-X-Gm-Message-State: AFqh2kplqiPeastX/5l0PJSQAu28s3EphCBB9R3u8GkGq1QmiiAmDCY5
- 6BDGdRWJBYlQkFQCM63gfUfYeP6uoKn3zb0giIir/mfvWPNeCLpj0GihXtJBcp3KFMwEVqA0TjA
- 6IsQkoA7Q+3G5SyY=
-X-Received: by 2002:a05:600c:4e08:b0:3d2:139e:f64f with SMTP id
- b8-20020a05600c4e0800b003d2139ef64fmr58811598wmq.40.1673553163791; 
- Thu, 12 Jan 2023 11:52:43 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuIPowEUzVHocDIDT2cLwNf98884v7j5e/KlZ9lrG2gwexWfz8WjlzWb0eQ+DfOwRm6wgZ0ig==
-X-Received: by 2002:a05:600c:4e08:b0:3d2:139e:f64f with SMTP id
- b8-20020a05600c4e0800b003d2139ef64fmr58811586wmq.40.1673553163576; 
- Thu, 12 Jan 2023 11:52:43 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- fc14-20020a05600c524e00b003a3442f1229sm31406203wmb.29.2023.01.12.11.52.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jan 2023 11:52:43 -0800 (PST)
-Date: Thu, 12 Jan 2023 19:52:41 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Peter Xu <peterx@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-Subject: Re: [PATCH v3 3/8] migration/savevm: Allow immutable device state to
- be migrated early (i.e., before RAM)
-Message-ID: <Y8BlCeViRSzyTQ8+@work-vm>
-References: <20230112164403.105085-1-david@redhat.com>
- <20230112164403.105085-4-david@redhat.com>
- <Y8BJ02EiHNSr6xMv@work-vm>
- <11b7237a-000a-5ad7-3747-246825188d83@redhat.com>
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pG3vk-0006tm-9a
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 15:12:08 -0500
+Received: from sonic304-25.consmr.mail.gq1.yahoo.com ([98.137.68.206])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pG3vg-0008MH-Oe
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 15:12:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1673554319; bh=T8yzQ0y1veKEWTZ3A4UhAjryizsAbXysdPhGQ1/7fBo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
+ b=XaX03yQeRqrSdAIosaWnLf1z0ibVtHfPr1DuKua474PKkL0ej9tjXE0+PoFLHpLTzqdVgYZcLPt4NUwi6jf18f5ynqjzY+ZDRI+D7UZFX8Gs2ncgHdFSee+MOh+/3N2QdmH9Vz6nRMPib5lCM2W3+Wk7Dd9j4mvcZq3z2RnX6YXLHAvHiTi/Yc4AN7s8QoykXyNM91LMGMd+OL7hRsHvRgOJuX9NE5kGi3/xgmgr+bjgR9ANesR9uae7JRojyxcm/KZ0o5fcj0/xlrmZK4654ZAUtkAaAfVOjdW1uVvuTdjlRLVoSLc06FKbx8jHHS0z4ekKXj6wfjC6pzrICHNhNA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1673554319; bh=pNair6KKPFevlfPd/dWK4VuBrJExe70/lSZOL07NlzE=;
+ h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
+ b=ZOReAxUX28BzVbN31laJFQBgRnbmxdXE5j7yXZiyugA8k6Fi3YlU6lQ2P7Z6ngNSoqlUgL0u5GVMHIx3mrwKg0AxIeYF37DffBEpv3paOY1VMwm0wvw5P0PclBC85rk128sLq4zizZWtPL9jZ75JSi0Tez50jBNFIyIoToJIWyJ817CCCT/imeX1o58u+1vjs8lFfANnmgxvkLMyMa5IawLymcJxvabYboR8GCnBwXydL/uVb65kvskC1XqU/rKjBWfKKkSXWbW7CmuweEfZASw3F01OdJYkMt+YmpOqz3YNGDwCgB4ISHnsUjOLfZ9UmHBdgTjjQcPerrTeFOjvUA==
+X-YMail-OSG: 6Opf7xgVM1nSwtAsFMugYzGfg803wrYoYYNliXjoiwKBo_ALdOl6Y7ez5G4nTHj
+ 2CsZfuGmpSbEIDh5SDD8VkTogAYqW6eax_zbIjgqH5TpOclbYgr0lweVZdG.A6Q1WN6.HBB37U2D
+ NEU4oDsiXZQxZvpm..0MflPm2WRNzA854jRok1HOk8Zswss9vDAiGL8ErrOLjDNRCgh_99OSA4Wk
+ V6MPWPe_93ngABL52XlBveJVjGKJWqOiFB5V0qhsdtIFOsGV6WGZnuxi_qhboaykBT9d.6xtMC1p
+ sw_Ekph8bMyEGEToDDlrQQZaxJJncZM5aQ1P.rFhtFS8MYl8dgbAlryxWzhsH_LIfhwuUqrLmG8f
+ i5q09bG_If.Gp9FONlhcalgO1B19uvaAzamfYld_J4FNWarUeHEySB3qHWulEYV5R57kSTzdkt9K
+ dNjPdNQ7r.BL._tND9wrvLx9wma_8L7D881h7GbgQnbCPN_ricAsO7JA.w83ot5oHyWtXcsRf8e9
+ AGvnLuFHo_o6agntTCdM9HeRb.840oAKFxqv2WCvmm44JhmIWIDa86KAUfA5lLZ1qBTN3WADIM2t
+ S8TFpkKY3rvG9Xuz9tbovg4f0JxKYvMolR1sHwIeYxH1guRmklWyHWVouCu350_gcxAfodeLxswK
+ ewrov0oDulU5bqfXN1KMhWwe1HM0gpUyAAuwQtJOdDPSdLkcE3_gKIWtNKLEaseevRTq0wBYYMNf
+ DylsqFuI2ZQjR17oDir8YBs4j.DqVWXTWJm.l.oSqkvpCJwn6DgFYwNiVtIhOj1P_LrN8f8cSEN5
+ av32KFCfTcCtrsKsIjN38KOW0Yva4r9MV0GwXErrR6tkf_Q1D4x2mk1mRhLEDH5D2WMtQ3vOdc0v
+ RHFgWJrEBWOa9CjgKSK0x8pqddrpod1iEIptYVhBTwP3z2pObEPw5.FC6SvhLaelopJwel7d0paR
+ KbdRANZu1FmSZB2N5OA1EsOZFxwgxcpgyQeHgXymdCnpHnMpseYOxAre2gfrMgsex8uwPzBXxeVt
+ X8uTpChvF25SjxWk0TfVHAgGl494EkLv4mO9DL4lp7x2JEPBZnblNifpqrl04CwpfCuJUAEMmiox
+ st1G48U6T8K8DImPGIvRUfMWsRVXsqzJ_MSfjbx7VVmEmbivJcKVvQkPDzoar21Z5g..vGuU9fww
+ YgPXY3rtKhylbPOCVRm52TvJiPNSgyuj7u42Utce5EsZbrdX3pJA5qwVMDNUzYplNuHUd_BQXQUy
+ wmpkllkmBguStRevHrc3_qztkIJDgha35uzhsDqG0eQtKn59subMgaxFRw8ITvv9jf9F4gVa9UDq
+ IjfVOU3317gKF6YSqYy70lXwsuI3CPrAKWGI0XvuwbXv9BK12Syz5SDPoF38Wgn1OexmHffQVBPu
+ UPcMMt9ka2_nHHRyOya5DpStOCbXhFKMNjgT6YtZ7jqWkiiZO3LeLys3JKF9UafpJZHqkVgwKUQ6
+ cC_qxvA7_6qdi9ieq6cTl.MhxS3QKKFslLmM6s_tVSo4l5AjamtUec9RmWZaBCs.t34Rlv11pNSp
+ VlJbyvXqa3NTOgZAba0rvumZfGrRG5Sw2Osw.9hIWLHvNfCbVrsPYba6ITOwvhHwn3Xmv3Hpdl4K
+ WtZIedUB3NSdFI04O1Ao12ebLgm5JbnqVSu5iRCD7rEg.zc.oKqQ8Vqn.P2OalAARoxCCbtgXROe
+ rpM.cskUOGB632N4_dDm6DNqWfCXSXigiyGOon6a41Zth.Cdv41hHCGPvxU8gN8eDtqXV11vcq2L
+ 4Xm9wmndhp9jtmbTNgyZ84bKYm8.w97dAHrxgqmpWxvvhdXg3aAcw6l1OKhPa6HI2GxswdlvfGO8
+ Eou_JmquymjorBbOS90hnBEYDEOUWjAY4MsYC.JQZvdRcgifZyuFETo2A.VkqcICuT44rNNDQm7_
+ B286OPeVfe4GJqqqJX3JBkfN6jQ_Nir2EOHgZKnkZdSqkcNqpH.QbRl8hmLrwIMp7zR0ow5525Rw
+ e1M9P6tRZuLa4NwmeKg2r.TkrxWSAmdF1Qk.ps1UlMhqyTcbiL.F8nRiG7WKqP5xqn6d4Zb7OoDv
+ P1pMtqQD0iqsu_4nSlMbd7CcwBdSrvB91RtYYTco.JjPt3GhyKuc9JgK9AbUonWgze7diQP4FMVT
+ WWsI9UrGnvkOj61dpNHSO6XmBTy.EqlaBWEir3JN2_.EGyOgG_u2Trhy3w.MvGSVwKSTmg3MvjuV
+ 6u6Bkiyh7byMf.vcgMFMx3lM-
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic304.consmr.mail.gq1.yahoo.com with HTTP; Thu, 12 Jan 2023 20:11:59 +0000
+Received: by hermes--production-ne1-5648bd7666-66bz5 (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 12a3adf0d72bdac2656bc55e49474b54; 
+ Thu, 12 Jan 2023 20:11:56 +0000 (UTC)
+Message-ID: <9f63e7a6-e434-64b4-f082-7f5a0ab8d5bf@aol.com>
+Date: Thu, 12 Jan 2023 15:11:54 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <11b7237a-000a-5ad7-3747-246825188d83@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v8] xen/pt: reserve PCI slot 2 for Intel igd-passthru
+To: Bernhard Beschow <shentey@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ xen-devel@lists.xenproject.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>
+References: <a09d2427397621eaecee4c46b33507a99cc5f161.1673334040.git.brchuckz.ref@aol.com>
+ <a09d2427397621eaecee4c46b33507a99cc5f161.1673334040.git.brchuckz@aol.com>
+ <20230110030331-mutt-send-email-mst@kernel.org>
+ <a6994521-68d5-a05b-7be2-a8c605733467@aol.com>
+ <D785501E-F95D-4A22-AFD0-85133F8CE56D@gmail.com>
+Content-Language: en-US
+From: Chuck Zmudzinski <brchuckz@aol.com>
+In-Reply-To: <D785501E-F95D-4A22-AFD0-85133F8CE56D@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.21062
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.68.206; envelope-from=brchuckz@aim.com;
+ helo=sonic304-25.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.067,
+ FREEMAIL_FROM=0.001, FREEMAIL_REPLY=1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,109 +113,377 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* David Hildenbrand (david@redhat.com) wrote:
-> On 12.01.23 18:56, Dr. David Alan Gilbert wrote:
-> > * David Hildenbrand (david@redhat.com) wrote:
-> > > For virtio-mem, we want to have the plugged/unplugged state of memory
-> > > blocks available before migrating any actual RAM content, and perform
-> > > sanity checks before touching anything on the destination. This
-> > > information is immutable on the migration source while migration is active,
-> > > 
-> > > We want to use this information for proper preallocation support with
-> > > migration: currently, we don't preallocate memory on the migration target,
-> > > and especially with hugetlb, we can easily run out of hugetlb pages during
-> > > RAM migration and will crash (SIGBUS) instead of catching this gracefully
-> > > via preallocation.
-> > > 
-> > > Migrating device state via a vmsd before we start iterating is currently
-> > > impossible: the only approach that would be possible is avoiding a vmsd
-> > > and migrating state manually during save_setup(), to be restored during
-> > > load_state().
-> > > 
-> > > Let's allow for migrating device state via a vmsd early, during the
-> > > setup phase in qemu_savevm_state_setup(). To keep it simple, we
-> > > indicate applicable vmds's using an "immutable" flag.
-> > > 
-> > > Note that only very selected devices (i.e., ones seriously messing with
-> > > RAM setup) are supposed to make use of such early state migration.
-> > > 
-> > > Signed-off-by: David Hildenbrand <david@redhat.com>
-> > > ---
-> > >   include/migration/vmstate.h |  5 +++++
-> > >   migration/savevm.c          | 14 ++++++++++++++
-> > >   2 files changed, 19 insertions(+)
-> > > 
-> > > diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-> > > index ad24aa1934..dd06c3abad 100644
-> > > --- a/include/migration/vmstate.h
-> > > +++ b/include/migration/vmstate.h
-> > > @@ -179,6 +179,11 @@ struct VMStateField {
-> > >   struct VMStateDescription {
-> > >       const char *name;
-> > >       int unmigratable;
-> > > +    /*
-> > > +     * The state is immutable while migration is active and is saved
-> > > +     * during the setup phase, to be restored early on the destination.
-> > > +     */
-> > > +    int immutable;
-> > 
-> > A bool would be nicer (as it would for unmigratable above)
+On 1/12/23 2:18 PM, Bernhard Beschow wrote:
 > 
-> Yes, I chose an int for consistency with "unmigratable". I can turn that
-> into a bool.
 > 
-> I'd even include a cleanup patch for unmigratable if it wouldn't be ...
+> Am 11. Januar 2023 15:40:24 UTC schrieb Chuck Zmudzinski <brchuckz@aol.com>:
+>>On 1/10/23 3:16 AM, Michael S. Tsirkin wrote:
+>>> On Tue, Jan 10, 2023 at 02:08:34AM -0500, Chuck Zmudzinski wrote:
+>>>> Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
+>>>> as noted in docs/igd-assign.txt in the Qemu source code.
+>>>> 
+>>>> Currently, when the xl toolstack is used to configure a Xen HVM guest with
+>>>> Intel IGD passthrough to the guest with the Qemu upstream device model,
+>>>> a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
+>>>> a different slot. This problem often prevents the guest from booting.
+>>>> 
+>>>> The only available workaround is not good: Configure Xen HVM guests to use
+>>>> the old and no longer maintained Qemu traditional device model available
+>>>> from xenbits.xen.org which does reserve slot 2 for the Intel IGD.
+>>>> 
+>>>> To implement this feature in the Qemu upstream device model for Xen HVM
+>>>> guests, introduce the following new functions, types, and macros:
+>>>> 
+>>>> * XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
+>>>> * XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
+>>>> * typedef XenPTQdevRealize function pointer
+>>>> * XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
+>>>> * xen_igd_reserve_slot and xen_igd_clear_slot functions
+>>>> 
+>>>> The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
+>>>> member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
+>>>> the xl toolstack with the gfx_passthru option enabled, which sets the
+>>>> igd-passthru=on option to Qemu for the Xen HVM machine type.
+>>>> 
+>>>> The new xen_igd_reserve_slot function also needs to be implemented in
+>>>> hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
+>>>> when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
+>>>> in which case it does nothing.
+>>>> 
+>>>> The new xen_igd_clear_slot function overrides qdev->realize of the parent
+>>>> PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
+>>>> since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
+>>>> created in hw/i386/pc_piix.c for the case when igd-passthru=on.
+>>>> 
+>>>> Move the call to xen_host_pci_device_get, and the associated error
+>>>> handling, from xen_pt_realize to the new xen_igd_clear_slot function to
+>>>> initialize the device class and vendor values which enables the checks for
+>>>> the Intel IGD to succeed. The verification that the host device is an
+>>>> Intel IGD to be passed through is done by checking the domain, bus, slot,
+>>>> and function values as well as by checking that gfx_passthru is enabled,
+>>>> the device class is VGA, and the device vendor in Intel.
+>>>> 
+>>>> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+>>>> ---
+>>>> Notes that might be helpful to reviewers of patched code in hw/xen:
+>>>> 
+>>>> The new functions and types are based on recommendations from Qemu docs:
+>>>> https://qemu.readthedocs.io/en/latest/devel/qom.html
+>>>> 
+>>>> Notes that might be helpful to reviewers of patched code in hw/i386:
+>>>> 
+>>>> The small patch to hw/i386/pc_piix.c is protected by CONFIG_XEN so it does
+>>>> not affect builds that do not have CONFIG_XEN defined.
+>>>> 
+>>>> xen_igd_gfx_pt_enabled() in the patched hw/i386/pc_piix.c file is an
+>>>> existing function that is only true when Qemu is built with
+>>>> xen-pci-passthrough enabled and the administrator has configured the Xen
+>>>> HVM guest with Qemu's igd-passthru=on option.
+>>>> 
+>>>> v2: Remove From: <email address> tag at top of commit message
+>>>> 
+>>>> v3: Changed the test for the Intel IGD in xen_igd_clear_slot:
+>>>> 
+>>>>     if (is_igd_vga_passthrough(&s->real_device) &&
+>>>>         (s->real_device.vendor_id == PCI_VENDOR_ID_INTEL)) {
+>>>> 
+>>>>     is changed to
+>>>> 
+>>>>     if (xen_igd_gfx_pt_enabled() && (s->hostaddr.slot == 2)
+>>>>         && (s->hostaddr.function == 0)) {
+>>>> 
+>>>>     I hoped that I could use the test in v2, since it matches the
+>>>>     other tests for the Intel IGD in Qemu and Xen, but those tests
+>>>>     do not work because the necessary data structures are not set with
+>>>>     their values yet. So instead use the test that the administrator
+>>>>     has enabled gfx_passthru and the device address on the host is
+>>>>     02.0. This test does detect the Intel IGD correctly.
+>>>> 
+>>>> v4: Use brchuckz@aol.com instead of brchuckz@netscape.net for the author's
+>>>>     email address to match the address used by the same author in commits
+>>>>     be9c61da and c0e86b76
+>>>>     
+>>>>     Change variable for XEN_PT_DEVICE_CLASS: xptc changed to xpdc
+>>>> 
+>>>> v5: The patch of xen_pt.c was re-worked to allow a more consistent test
+>>>>     for the Intel IGD that uses the same criteria as in other places.
+>>>>     This involved moving the call to xen_host_pci_device_get from
+>>>>     xen_pt_realize to xen_igd_clear_slot and updating the checks for the
+>>>>     Intel IGD in xen_igd_clear_slot:
+>>>>     
+>>>>     if (xen_igd_gfx_pt_enabled() && (s->hostaddr.slot == 2)
+>>>>         && (s->hostaddr.function == 0)) {
+>>>> 
+>>>>     is changed to
+>>>> 
+>>>>     if (is_igd_vga_passthrough(&s->real_device) &&
+>>>>         s->real_device.domain == 0 && s->real_device.bus == 0 &&
+>>>>         s->real_device.dev == 2 && s->real_device.func == 0 &&
+>>>>         s->real_device.vendor_id == PCI_VENDOR_ID_INTEL) {
+>>>> 
+>>>>     Added an explanation for the move of xen_host_pci_device_get from
+>>>>     xen_pt_realize to xen_igd_clear_slot to the commit message.
+>>>> 
+>>>>     Rebase.
+>>>> 
+>>>> v6: Fix logging by removing these lines from the move from xen_pt_realize
+>>>>     to xen_igd_clear_slot that was done in v5:
+>>>> 
+>>>>     XEN_PT_LOG(d, "Assigning real physical device %02x:%02x.%d"
+>>>>                " to devfn 0x%x\n",
+>>>>                s->hostaddr.bus, s->hostaddr.slot, s->hostaddr.function,
+>>>>                s->dev.devfn);
+>>>> 
+>>>>     This log needs to be in xen_pt_realize because s->dev.devfn is not
+>>>>     set yet in xen_igd_clear_slot.
+>>>> 
+>>>> v7: The v7 that was posted to the mailing list was incorrect. v8 is what
+>>>>     v7 was intended to be.
+>>>> 
+>>>> v8: Inhibit out of context log message and needless processing by
+>>>>     adding 2 lines at the top of the new xen_igd_clear_slot function:
+>>>> 
+>>>>     if (!(pci_bus->slot_reserved_mask & XEN_PCI_IGD_SLOT_MASK))
+>>>>         return;
+>>>> 
+>>>>     Rebase. This removed an unnecessary header file from xen_pt.h 
+>>>> 
+>>>>  hw/i386/pc_piix.c    |  3 +++
+>>>>  hw/xen/xen_pt.c      | 49 ++++++++++++++++++++++++++++++++++++--------
+>>>>  hw/xen/xen_pt.h      | 16 +++++++++++++++
+>>>>  hw/xen/xen_pt_stub.c |  4 ++++
+>>>>  4 files changed, 63 insertions(+), 9 deletions(-)
+>>>> 
+>>>> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+>>>> index b48047f50c..bc5efa4f59 100644
+>>>> --- a/hw/i386/pc_piix.c
+>>>> +++ b/hw/i386/pc_piix.c
+>>>> @@ -405,6 +405,9 @@ static void pc_xen_hvm_init(MachineState *machine)
+>>>>      }
+>>>>  
+>>>>      pc_xen_hvm_init_pci(machine);
+>>>> +    if (xen_igd_gfx_pt_enabled()) {
+>>>> +        xen_igd_reserve_slot(pcms->bus);
+>>>> +    }
+>>>>      pci_create_simple(pcms->bus, -1, "xen-platform");
+>>>>  }
+>>>>  #endif
+>>> 
+>>> I would even maybe go further and move the whole logic into
+>>> xen_igd_reserve_slot. And I would even just name it
+>>> xen_hvm_init_reserved_slots without worrying about the what
+>>> or why at the pc level.  At this point it will be up to Xen maintainers.
+>>
+>>I see to do that would be to resolve the two pc_xen_hvm*
+>>functions in pc_piix.c that are guarded by CONFIG_XEN and
+>>move them to an appropriate place such as xen-hvm.c.
+>>
+>>That is along the lines of the work that Bernhard and Philippe
+>>are doing, so I am Cc'ing them. My first inclination is just
+>>to defer to them: I think eventually the little patch I propose
+>>here to pc_piix.c is eventually going to be moved out of pc_piix.c
+>>by Bernhard in a future patch.
+>>
+>>What they have been doing is very conservative, and I expect
+>>if and when Bernhard gets here to resolve those functions, they
+>>will do it in a way that keeps the dependency of the xenfv machine
+>>type on the pc machine type and the pc_init1 function.
+>>
+>>What I would propose would be to break the dependency of xenfv
+>>on the pc_init1 function. That is, I would propose having a
+>>xenfv_init function in xen-hvm.c, and the first version would
+>>be the current version of pc_init1, so xenfv would still depend
+>>on many i440fx type things, but with the change xen developers
+>>would be free to tweak xenfv_init without affecting the users
+>>of the pc machine type.
+>>
+>>Would that be a good idea? If I get posiive feedback for this
+>>idea, I will put it on the table, probably initially as an RFC
+>>patch.
 > 
-> $ git grep "unmigratable \=" | wc -l
-> 29
+> In various patches I've been decoupling 1/ PIIX3 from Xen and 2/ QEMU's Xen integration code from the PC machine. My idea is to confine all wiring for a PIIX based PC machine using Xen in pc_piix.c. The pc_xen_hvm* functions seem to do exactly that, so I'd leave them there, at least for now.
+> 
+> What I would like to avoid is for the Xen integration code to make assumptions that an x86 or PC machine is always based on i440fx or PIIX3.
 
-It might be OK if you just change the declaration; I mean '1' is pretty
-close to true? (I think...)
-Anyway, at least make the new one a bool.
+I think what you are saying is that if I try to move the logic of my patch to xen-hvm.c, as Michael suggests, I should not move or copy any piix3 code to the Xen integration code, but access it via an appropriate qom interface to the code in pc_piix.c and only move Xen specific things to the Xen integration code such as the content of my patch. I can try to do that for a v9 of my patch. It might take me a little while (I am not a professional coder), so I will just leave v8 of my patch as is for now until I have a patch ready to move it out of pc_piix.c the qom way.
 
-> > >       int version_id;
-> > >       int minimum_version_id;
-> > >       MigrationPriority priority;
-> > > diff --git a/migration/savevm.c b/migration/savevm.c
-> > > index ff2b8d0064..536d6f662b 100644
-> > > --- a/migration/savevm.c
-> > > +++ b/migration/savevm.c
-> > > @@ -1200,6 +1200,15 @@ void qemu_savevm_state_setup(QEMUFile *f)
-> > >       trace_savevm_state_setup();
-> > >       QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-> > > +        if (se->vmsd && se->vmsd->immutable) {
-> > > +            ret = vmstate_save(f, se, ms->vmdesc);
-> > > +            if (ret) {
-> > > +                qemu_file_set_error(f, ret);
-> > > +                break;
-> > > +            }
-> > > +            continue;
-> > > +        }
-> > > +
-> > 
-> > Does this give you the ordering you want? i.e. there's no guarantee here
-> > that immutables come first?
-> 
-> Yes, for virtio-mem at least this is fine. There are no real ordering
-> requirements in regard to save_setup().
-> 
-> I guess one could use vmstate priorities to affect the ordering, if
-> required.
-> 
-> So for my use case this is good enough, any suggestions? Thanks.
+Thanks,
 
-OK, but consider whether it might be better just to have a separate
-QTAILQ_FOREACH look in savevm_state_setup that first does all the
-immutables, and then all the setups.
+Chuck
 
-Dave
-
-> -- 
-> Thanks,
 > 
-> David / dhildenb
+> I like Michael's idea of going one step further, both in terms of the approach and the reasoning.
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Best regards,
+> Bernhard
+> 
+>>Also, thanks, Michael, for your other suggestions for this patch
+>>about using macros for the devfn constants.
+>>
+>>Chuck
+>>
+>>> 
+>>>> diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
+>>>> index 0ec7e52183..eff38155ef 100644
+>>>> --- a/hw/xen/xen_pt.c
+>>>> +++ b/hw/xen/xen_pt.c
+>>>> @@ -780,15 +780,6 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
+>>>>                 s->hostaddr.bus, s->hostaddr.slot, s->hostaddr.function,
+>>>>                 s->dev.devfn);
+>>>>  
+>>>> -    xen_host_pci_device_get(&s->real_device,
+>>>> -                            s->hostaddr.domain, s->hostaddr.bus,
+>>>> -                            s->hostaddr.slot, s->hostaddr.function,
+>>>> -                            errp);
+>>>> -    if (*errp) {
+>>>> -        error_append_hint(errp, "Failed to \"open\" the real pci device");
+>>>> -        return;
+>>>> -    }
+>>>> -
+>>>>      s->is_virtfn = s->real_device.is_virtfn;
+>>>>      if (s->is_virtfn) {
+>>>>          XEN_PT_LOG(d, "%04x:%02x:%02x.%d is a SR-IOV Virtual Function\n",
+>>>> @@ -950,11 +941,50 @@ static void xen_pci_passthrough_instance_init(Object *obj)
+>>>>      PCI_DEVICE(obj)->cap_present |= QEMU_PCI_CAP_EXPRESS;
+>>>>  }
+>>>>  
+>>>> +void xen_igd_reserve_slot(PCIBus *pci_bus)
+>>>> +{
+>>>> +    XEN_PT_LOG(0, "Reserving PCI slot 2 for IGD\n");
+>>>> +    pci_bus->slot_reserved_mask |= XEN_PCI_IGD_SLOT_MASK;
+>>>> +}
+>>>> +
+>>>> +static void xen_igd_clear_slot(DeviceState *qdev, Error **errp)
+>>>> +{
+>>>> +    ERRP_GUARD();
+>>>> +    PCIDevice *pci_dev = (PCIDevice *)qdev;
+>>>> +    XenPCIPassthroughState *s = XEN_PT_DEVICE(pci_dev);
+>>>> +    XenPTDeviceClass *xpdc = XEN_PT_DEVICE_GET_CLASS(s);
+>>>> +    PCIBus *pci_bus = pci_get_bus(pci_dev);
+>>>> +
+>>>> +    if (!(pci_bus->slot_reserved_mask & XEN_PCI_IGD_SLOT_MASK))
+>>>> +        return;
+>>>> +
+>>>> +    xen_host_pci_device_get(&s->real_device,
+>>>> +                            s->hostaddr.domain, s->hostaddr.bus,
+>>>> +                            s->hostaddr.slot, s->hostaddr.function,
+>>>> +                            errp);
+>>>> +    if (*errp) {
+>>>> +        error_append_hint(errp, "Failed to \"open\" the real pci device");
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    if (is_igd_vga_passthrough(&s->real_device) &&
+>>>> +        s->real_device.domain == 0 && s->real_device.bus == 0 &&
+>>>> +        s->real_device.dev == 2 && s->real_device.func == 0 &&
+>>>> +        s->real_device.vendor_id == PCI_VENDOR_ID_INTEL) {
+>>> 
+>>> how about macros for these?
+>>> 
+>>> #define XEN_PCI_IGD_DOMAIN 0
+>>> #define XEN_PCI_IGD_BUS 0
+>>> #define XEN_PCI_IGD_DEV 2
+>>> #define XEN_PCI_IGD_FN 0
+>>> 
+>>>> +        pci_bus->slot_reserved_mask &= ~XEN_PCI_IGD_SLOT_MASK;
+>>> 
+>>> If you are going to do this, you should set it back
+>>> either after pci_qdev_realize or in unrealize,
+>>> for symmetry.
+>>> 
+>>>> +        XEN_PT_LOG(pci_dev, "Intel IGD found, using slot 2\n");
+>>>> +    }
+>>> 
+>>> 
+>>>> +    xpdc->pci_qdev_realize(qdev, errp);
+>>>> +}
+>>>> +
+>>> 
+>>> 
+>>> 
+>>>>  static void xen_pci_passthrough_class_init(ObjectClass *klass, void *data)
+>>>>  {
+>>>>      DeviceClass *dc = DEVICE_CLASS(klass);
+>>>>      PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+>>>>  
+>>>> +    XenPTDeviceClass *xpdc = XEN_PT_DEVICE_CLASS(klass);
+>>>> +    xpdc->pci_qdev_realize = dc->realize;
+>>>> +    dc->realize = xen_igd_clear_slot;
+>>>>      k->realize = xen_pt_realize;
+>>>>      k->exit = xen_pt_unregister_device;
+>>>>      k->config_read = xen_pt_pci_read_config;
+>>>> @@ -977,6 +1007,7 @@ static const TypeInfo xen_pci_passthrough_info = {
+>>>>      .instance_size = sizeof(XenPCIPassthroughState),
+>>>>      .instance_finalize = xen_pci_passthrough_finalize,
+>>>>      .class_init = xen_pci_passthrough_class_init,
+>>>> +    .class_size = sizeof(XenPTDeviceClass),
+>>>>      .instance_init = xen_pci_passthrough_instance_init,
+>>>>      .interfaces = (InterfaceInfo[]) {
+>>>>          { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+>>>> diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
+>>>> index cf10fc7bbf..8c25932b4b 100644
+>>>> --- a/hw/xen/xen_pt.h
+>>>> +++ b/hw/xen/xen_pt.h
+>>>> @@ -2,6 +2,7 @@
+>>>>  #define XEN_PT_H
+>>>>  
+>>>>  #include "hw/xen/xen_common.h"
+>>>> +#include "hw/pci/pci_bus.h"
+>>>>  #include "xen-host-pci-device.h"
+>>>>  #include "qom/object.h"
+>>>>  
+>>>> @@ -40,7 +41,20 @@ typedef struct XenPTReg XenPTReg;
+>>>>  #define TYPE_XEN_PT_DEVICE "xen-pci-passthrough"
+>>>>  OBJECT_DECLARE_SIMPLE_TYPE(XenPCIPassthroughState, XEN_PT_DEVICE)
+>>>>  
+>>>> +#define XEN_PT_DEVICE_CLASS(klass) \
+>>>> +    OBJECT_CLASS_CHECK(XenPTDeviceClass, klass, TYPE_XEN_PT_DEVICE)
+>>>> +#define XEN_PT_DEVICE_GET_CLASS(obj) \
+>>>> +    OBJECT_GET_CLASS(XenPTDeviceClass, obj, TYPE_XEN_PT_DEVICE)
+>>>> +
+>>>> +typedef void (*XenPTQdevRealize)(DeviceState *qdev, Error **errp);
+>>>> +
+>>>> +typedef struct XenPTDeviceClass {
+>>>> +    PCIDeviceClass parent_class;
+>>>> +    XenPTQdevRealize pci_qdev_realize;
+>>>> +} XenPTDeviceClass;
+>>>> +
+>>>>  uint32_t igd_read_opregion(XenPCIPassthroughState *s);
+>>>> +void xen_igd_reserve_slot(PCIBus *pci_bus);
+>>>>  void igd_write_opregion(XenPCIPassthroughState *s, uint32_t val);
+>>>>  void xen_igd_passthrough_isa_bridge_create(XenPCIPassthroughState *s,
+>>>>                                             XenHostPCIDevice *dev);
+>>>> @@ -75,6 +89,8 @@ typedef int (*xen_pt_conf_byte_read)
+>>>>  
+>>>>  #define XEN_PCI_INTEL_OPREGION 0xfc
+>>>>  
+>>>> +#define XEN_PCI_IGD_SLOT_MASK 0x4UL /* Intel IGD slot_reserved_mask */
+>>>> +
+>>> 
+>>> I think you want to calculate this based on dev fn:
+>>> 
+>>> #define XEN_PCI_IGD_SLOT_MASK \
+>>> 	(0x1 << PCI_SLOT(PCI_DEVFN(XEN_PCI_IGD_DEV, XEN_PCI_IGD_FN)))
+>>> 
+>>> 
+>>>>  typedef enum {
+>>>>      XEN_PT_GRP_TYPE_HARDWIRED = 0,  /* 0 Hardwired reg group */
+>>>>      XEN_PT_GRP_TYPE_EMU,            /* emul reg group */
+>>>> diff --git a/hw/xen/xen_pt_stub.c b/hw/xen/xen_pt_stub.c
+>>>> index 2d8cac8d54..5c108446a8 100644
+>>>> --- a/hw/xen/xen_pt_stub.c
+>>>> +++ b/hw/xen/xen_pt_stub.c
+>>>> @@ -20,3 +20,7 @@ void xen_igd_gfx_pt_set(bool value, Error **errp)
+>>>>          error_setg(errp, "Xen PCI passthrough support not built in");
+>>>>      }
+>>>>  }
+>>>> +
+>>>> +void xen_igd_reserve_slot(PCIBus *pci_bus)
+>>>> +{
+>>>> +}
+>>>> -- 
+>>>> 2.39.0
+>>> 
+>>
 
 
