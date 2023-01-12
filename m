@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3481B66697D
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 04:15:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62DF666A18
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 05:14:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFo2j-0002bE-TV; Wed, 11 Jan 2023 22:14:17 -0500
+	id 1pFox8-0002rh-DG; Wed, 11 Jan 2023 23:12:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pFo2h-0002aw-5m
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 22:14:15 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pFo2e-0003Lk-Q8
- for qemu-devel@nongnu.org; Wed, 11 Jan 2023 22:14:14 -0500
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8DxnfD1er9jTR8BAA--.3975S3;
- Thu, 12 Jan 2023 11:13:58 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxUuXyer9jTzkYAA--.9535S3; 
- Thu, 12 Jan 2023 11:13:56 +0800 (CST)
-Subject: Re: [PATCH] hw/loongarch/virt: rename PCH_PIC_IRQ_OFFSET with
- VIRT_GSI_BASE
-To: Bibo Mao <maobibo@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Cc: qemu-devel@nongnu.org
-References: <20221228030719.991878-1-maobibo@loongson.cn>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <7f9c4cd9-d828-dbb3-5171-7b4796a20f45@loongson.cn>
-Date: Thu, 12 Jan 2023 11:13:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <lkujaw@mailbox.org>)
+ id 1pFox5-0002rN-Sb; Wed, 11 Jan 2023 23:12:31 -0500
+Received: from mout-p-103.mailbox.org ([80.241.56.161])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <lkujaw@mailbox.org>)
+ id 1pFox2-0005wL-IX; Wed, 11 Jan 2023 23:12:31 -0500
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4Nsrjc6HMHz9sSH;
+ Thu, 12 Jan 2023 05:12:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1673496740;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WJOuYod46vn1fMS0dQ6o0bL4sh4UC2Vs6J9MaAbdc8k=;
+ b=je7aF0ZUdoTDSMWr7Gq8dSoMPLh0qXDTt9qUgEGH8PzNfiFtnuM+zSlQJGRCIi6xbjG0KC
+ 36Dt6HHy4v3hHL0oq0QSzvWoLrQ4zn/LfyfGg8PlYgqfO9uD6CyKEK1PNVH/meeV5nrwh3
+ 3D2UDzL/kKwovg2pye4icS6015rOhJShFr8WObh3fmOetSRWpj0byoB8RWxsTQMtSY/E0S
+ tz0t6zqBopOnX8AIDsI1ya3aHv4O/nNlj/Gjes3JWcx/tcMqCnhl6TeHkNybWr1bMraJY6
+ V9xBPAfv6lr3NmeYcZg+hAK6Isqa8cloa2YjdtAnPcPCceZSHvUKZ+Yej85uZw==
+X-Hashcash: 1:24:230112:jsnow@redhat.com::1fEwbFjbmiK76k1J:065Ca
+X-Hashcash: 1:24:230112:qemu-devel@nongnu.org::KtImOQbVXX9r26+n:00000000000000000000000000000000000000004vfO
+X-Hashcash: 1:24:230112:qemu-block@nongnu.org::hjsN9rbjS5K/KNgI:0000000000000000000000000000000000000001eyuB
+X-Hashcash: 1:24:230112:thuth@redhat.com::na2PqWNxtQ4Oiyo2:0Lcbu
+X-Hashcash: 1:24:230112:lvivier@redhat.com::MIERx4GXs2ZOeWCa:0000000000000000000000000000000000000000001KQUd
+X-Hashcash: 1:24:230112:pbonzini@redhat.com::KZ2EKkTIUtelJcDR:000000000000000000000000000000000000000000YR1r
+References: <20221010085229.2431276-1-lkujaw@mailbox.org>
+ <CAFn=p-aHLW0kmOLUw6OJFYwY8a24bmb4grFYL3XE_ircmcTbJQ@mail.gmail.com>
+From: Lev Kujawski <lkujaw@mailbox.org>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Thomas Huth
+ <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>
+Subject: Re: [PATCH 1/2] hw/ide/core.c (cmd_read_native_max): Avoid limited
+ device parameters
+In-reply-to: <CAFn=p-aHLW0kmOLUw6OJFYwY8a24bmb4grFYL3XE_ircmcTbJQ@mail.gmail.com>
+X-PGP-Key: https://meta.sr.ht/~lkujaw.pgp
+X-PGP-Fingerprint: AC2ADB1BEE410BB0B791E393441828874091B824
+Date: Thu, 12 Jan 2023 04:12:14 +0000
+Message-ID: <877cxs2xy9.fsf@bromine.uucp>
 MIME-Version: 1.0
-In-Reply-To: <20221228030719.991878-1-maobibo@loongson.cn>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8DxUuXyer9jTzkYAA--.9535S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxXrW5AFy3Kr4kWFW5Ar4Utwb_yoWruF43pa
- n8uFn0qr48Ka4xX3s2q3W5ur9rJrsIkay29r13GryIkFnxKr1jgry8Aws8tFyjqrZ5JFy2
- qryqq3s2ga1UArJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
- IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4U
- McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
- AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
- Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwI
- xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
- JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
- C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUzsqWUUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: 5
-X-Spam_score: 0.5
-X-Spam_bar: /
-X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
- NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain
+X-MBO-RS-META: ggtwiwfeaicgzerg5oc4n8m4j4n56uhf
+X-MBO-RS-ID: 9bef00ed9050cae5d94
+Received-SPF: pass client-ip=80.241.56.161; envelope-from=lkujaw@mailbox.org;
+ helo=mout-p-103.mailbox.org
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,116 +82,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-ÔÚ 2022/12/28 ÉÏÎç11:07, Bibo Mao Ð´µÀ:
-> In theory gsi base can start from 0 on loongarch virt machine,
-> however gsi base is hard-coded in linux kernel loongarch system,
-> else system fails to boot.
+John Snow writes:
+
+> On Mon, Oct 10, 2022 at 4:52 AM Lev Kujawski <lkujaw@mailbox.org> wrote:
+>>
+>> Always use the native CHS device parameters for the ATA commands READ
+>> NATIVE MAX ADDRESS and READ NATIVE MAX ADDRESS EXT, not those limited
+>> by the ATA command INITIALIZE_DEVICE_PARAMETERS (introduced in patch
+>> 176e4961, hw/ide/core.c: Implement ATA INITIALIZE_DEVICE_PARAMETERS
+>> command, 2022-07-07.)
+>>
+>> As stated by the ATA/ATAPI specification, "[t]he native maximum is the
+>> highest address accepted by the device in the factory default
+>> condition."  Therefore this patch substitutes the native values in
+>> drive_heads and drive_sectors before calling ide_set_sector().
+>>
+>> One consequence of the prior behavior was that setting zero sectors
+>> per track could lead to an FPE within ide_set_sector().  Thanks to
+>> Alexander Bulekov for reporting this issue.
+>>
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1243
+>> Signed-off-by: Lev Kujawski <lkujaw@mailbox.org>
 >
-> This patch renames macro PCH_PIC_IRQ_OFFSET with VIRT_GSI_BASE,
-> keeps value unchanged. GSI base is common concept in acpi spec
-> and easy to understand.
+> Does this need attention?
 >
-> Signed-off-by: Bibo Mao <maobibo@loongson.cn>
-> ---
->   hw/loongarch/acpi-build.c  |  2 +-
->   hw/loongarch/virt.c        |  8 ++++----
->   include/hw/pci-host/ls7a.h | 17 +++++++++--------
->   3 files changed, 14 insertions(+), 13 deletions(-)
+> --js
+>
 
-Reviewed-by: Song Gao <gaosong@loongson.cn>
+Hi John,
 
-Thanks.
-Song Gao
-> diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
-> index c2b237736d..33e04e4b76 100644
-> --- a/hw/loongarch/acpi-build.c
-> +++ b/hw/loongarch/acpi-build.c
-> @@ -272,7 +272,7 @@ static void build_pci_device_aml(Aml *scope, LoongArchMachineState *lams)
->           .pio.size    = VIRT_PCI_IO_SIZE,
->           .ecam.base   = VIRT_PCI_CFG_BASE,
->           .ecam.size   = VIRT_PCI_CFG_SIZE,
-> -        .irq         = PCH_PIC_IRQ_OFFSET + VIRT_DEVICE_IRQS,
-> +        .irq         = VIRT_GSI_BASE + VIRT_DEVICE_IRQS,
->           .bus         = lams->pci_bus,
->       };
->   
-> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-> index c8a495ea30..3754e2151f 100644
-> --- a/hw/loongarch/virt.c
-> +++ b/hw/loongarch/virt.c
-> @@ -432,7 +432,7 @@ static DeviceState *create_acpi_ged(DeviceState *pch_pic, LoongArchMachineState
->       sysbus_mmio_map(SYS_BUS_DEVICE(dev), 2, VIRT_GED_REG_ADDR);
->   
->       sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
-> -                       qdev_get_gpio_in(pch_pic, VIRT_SCI_IRQ - PCH_PIC_IRQ_OFFSET));
-> +                       qdev_get_gpio_in(pch_pic, VIRT_SCI_IRQ - VIRT_GSI_BASE));
->       sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->       return dev;
->   }
-> @@ -452,7 +452,7 @@ static DeviceState *create_platform_bus(DeviceState *pch_pic)
->   
->       sysbus = SYS_BUS_DEVICE(dev);
->       for (i = 0; i < VIRT_PLATFORM_BUS_NUM_IRQS; i++) {
-> -        irq = VIRT_PLATFORM_BUS_IRQ - PCH_PIC_IRQ_OFFSET + i;
-> +        irq = VIRT_PLATFORM_BUS_IRQ - VIRT_GSI_BASE + i;
->           sysbus_connect_irq(sysbus, i, qdev_get_gpio_in(pch_pic, irq));
->       }
->   
-> @@ -509,7 +509,7 @@ static void loongarch_devices_init(DeviceState *pch_pic, LoongArchMachineState *
->   
->       serial_mm_init(get_system_memory(), VIRT_UART_BASE, 0,
->                      qdev_get_gpio_in(pch_pic,
-> -                                    VIRT_UART_IRQ - PCH_PIC_IRQ_OFFSET),
-> +                                    VIRT_UART_IRQ - VIRT_GSI_BASE),
->                      115200, serial_hd(0), DEVICE_LITTLE_ENDIAN);
->       fdt_add_uart_node(lams);
->   
-> @@ -531,7 +531,7 @@ static void loongarch_devices_init(DeviceState *pch_pic, LoongArchMachineState *
->       create_unimplemented_device("pci-dma-cfg", 0x1001041c, 0x4);
->       sysbus_create_simple("ls7a_rtc", VIRT_RTC_REG_BASE,
->                            qdev_get_gpio_in(pch_pic,
-> -                         VIRT_RTC_IRQ - PCH_PIC_IRQ_OFFSET));
-> +                         VIRT_RTC_IRQ - VIRT_GSI_BASE));
->       fdt_add_rtc_node(lams);
->   
->       pm_mem = g_new(MemoryRegion, 1);
-> diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
-> index df7fa55a30..194aac905e 100644
-> --- a/include/hw/pci-host/ls7a.h
-> +++ b/include/hw/pci-host/ls7a.h
-> @@ -28,24 +28,25 @@
->   #define VIRT_PCH_MSI_ADDR_LOW    0x2FF00000UL
->   
->   /*
-> - * According to the kernel pch irq start from 64 offset
-> - * 0 ~ 16 irqs used for non-pci device while 16 ~ 64 irqs
-> - * used for pci device.
-> + * GSI_BASE is hard-coded with 64 in linux kernel, else kernel fails to boot
-> + * 0  - 15  GSI for ISA devices even if there is no ISA devices
-> + * 16 - 63  GSI for CPU devices such as timers/perf monitor etc
-> + * 64 -     GSI for external devices
->    */
-> -#define PCH_PIC_IRQ_OFFSET       64
-> +#define VIRT_GSI_BASE            64
->   #define VIRT_DEVICE_IRQS         16
->   #define VIRT_PCI_IRQS            48
-> -#define VIRT_UART_IRQ            (PCH_PIC_IRQ_OFFSET + 2)
-> +#define VIRT_UART_IRQ            (VIRT_GSI_BASE + 2)
->   #define VIRT_UART_BASE           0x1fe001e0
->   #define VIRT_UART_SIZE           0X100
-> -#define VIRT_RTC_IRQ             (PCH_PIC_IRQ_OFFSET + 3)
-> +#define VIRT_RTC_IRQ             (VIRT_GSI_BASE + 3)
->   #define VIRT_MISC_REG_BASE       (VIRT_PCH_REG_BASE + 0x00080000)
->   #define VIRT_RTC_REG_BASE        (VIRT_MISC_REG_BASE + 0x00050100)
->   #define VIRT_RTC_LEN             0x100
-> -#define VIRT_SCI_IRQ             (PCH_PIC_IRQ_OFFSET + 4)
-> +#define VIRT_SCI_IRQ             (VIRT_GSI_BASE + 4)
->   
->   #define VIRT_PLATFORM_BUS_BASEADDRESS   0x16000000
->   #define VIRT_PLATFORM_BUS_SIZE          0x2000000
->   #define VIRT_PLATFORM_BUS_NUM_IRQS      2
-> -#define VIRT_PLATFORM_BUS_IRQ           69
-> +#define VIRT_PLATFORM_BUS_IRQ           (VIRT_GSI_BASE + 5)
->   #endif
+This patch needs to be merged to mitigate issue 1243, which is still
+present within QEMU master as of aa96ab7c9d.
 
+Thanks, Lev
 
