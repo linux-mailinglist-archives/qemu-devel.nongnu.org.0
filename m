@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA88E667BE1
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 17:50:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254EC667BC0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 17:46:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG0gf-0004HA-OB; Thu, 12 Jan 2023 11:44:21 -0500
+	id 1pG0gg-0004HX-NI; Thu, 12 Jan 2023 11:44:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pG0gc-0004FL-KH
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:44:18 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pG0gd-0004G9-4e
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:44:20 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pG0gb-0000dl-5M
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pG0gb-0000du-LD
  for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:44:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673541856;
+ s=mimecast20190719; t=1673541857;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bcD4PRIJJ1Oifw+oaiGeW6I1UC6Xf/ksKNn0igmjI9k=;
- b=NY2pMfWEVIGBRi1TeTvin4m2UWMzMH6BsUrB8MSTpWLMdex6yUi8qH0XQDTL8gZzDEYpF3
- 6uxc75vCLALbbE8PRswQ9SxDGSpAIkQjPKDJwzs9m91ESQim6M934/48UZ+YNmmAKUzs3U
- kvaTtaqYzjwgSPVIwEOwVMzAxYGzyfs=
+ bh=NVLPn4mwhYR4iE04QX0aJFgiLkXDbx3Sr5+T2MvFIOA=;
+ b=hja0/7yrDg43mTtQe4vneApRc7eREvVDULQy5E0peqhT5WStQPhxqjTku9w2otk+IiTM1H
+ o6DO9mlNU2QwxlugB7p8cyvlyp2wSm8YNlz9OcMyC0NKJOK/iE0ECGXXLe4iqJgNIX4K0m
+ /MZKivfagr3S5z5LPzEtnr7u2K2+zbw=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-8IaZaH1iOYymduKsvPpw2w-1; Thu, 12 Jan 2023 11:44:14 -0500
-X-MC-Unique: 8IaZaH1iOYymduKsvPpw2w-1
+ us-mta-360-ayvOr5vLOTe0K5wY3eqekg-1; Thu, 12 Jan 2023 11:44:15 -0500
+X-MC-Unique: ayvOr5vLOTe0K5wY3eqekg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 24FC93C0D856
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 16:44:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 719ED3C0D84D
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 16:44:15 +0000 (UTC)
 Received: from t480s.fritz.box (unknown [10.39.193.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 51DEE4078903;
- Thu, 12 Jan 2023 16:44:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 869584078903;
+ Thu, 12 Jan 2023 16:44:13 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>,
@@ -47,10 +47,10 @@ Cc: David Hildenbrand <david@redhat.com>,
  Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>,
  Michal Privoznik <mprivozn@redhat.com>
-Subject: [PATCH v3 3/8] migration/savevm: Allow immutable device state to be
- migrated early (i.e., before RAM)
-Date: Thu, 12 Jan 2023 17:43:58 +0100
-Message-Id: <20230112164403.105085-4-david@redhat.com>
+Subject: [PATCH v3 4/8] migration/vmstate: Introduce VMSTATE_WITH_TMP_TEST()
+ and VMSTATE_BITMAP_TEST()
+Date: Thu, 12 Jan 2023 17:43:59 +0100
+Message-Id: <20230112164403.105085-5-david@redhat.com>
 In-Reply-To: <20230112164403.105085-1-david@redhat.com>
 References: <20230112164403.105085-1-david@redhat.com>
 MIME-Version: 1.0
@@ -80,83 +80,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-For virtio-mem, we want to have the plugged/unplugged state of memory
-blocks available before migrating any actual RAM content, and perform
-sanity checks before touching anything on the destination. This
-information is immutable on the migration source while migration is active,
+We'll make use of both next in the context of virtio-mem.
 
-We want to use this information for proper preallocation support with
-migration: currently, we don't preallocate memory on the migration target,
-and especially with hugetlb, we can easily run out of hugetlb pages during
-RAM migration and will crash (SIGBUS) instead of catching this gracefully
-via preallocation.
-
-Migrating device state via a vmsd before we start iterating is currently
-impossible: the only approach that would be possible is avoiding a vmsd
-and migrating state manually during save_setup(), to be restored during
-load_state().
-
-Let's allow for migrating device state via a vmsd early, during the
-setup phase in qemu_savevm_state_setup(). To keep it simple, we
-indicate applicable vmds's using an "immutable" flag.
-
-Note that only very selected devices (i.e., ones seriously messing with
-RAM setup) are supposed to make use of such early state migration.
-
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/migration/vmstate.h |  5 +++++
- migration/savevm.c          | 14 ++++++++++++++
- 2 files changed, 19 insertions(+)
+ include/migration/vmstate.h | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-index ad24aa1934..dd06c3abad 100644
+index dd06c3abad..e4cd21397d 100644
 --- a/include/migration/vmstate.h
 +++ b/include/migration/vmstate.h
-@@ -179,6 +179,11 @@ struct VMStateField {
- struct VMStateDescription {
-     const char *name;
-     int unmigratable;
-+    /*
-+     * The state is immutable while migration is active and is saved
-+     * during the setup phase, to be restored early on the destination.
-+     */
-+    int immutable;
-     int version_id;
-     int minimum_version_id;
-     MigrationPriority priority;
-diff --git a/migration/savevm.c b/migration/savevm.c
-index ff2b8d0064..536d6f662b 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1200,6 +1200,15 @@ void qemu_savevm_state_setup(QEMUFile *f)
+@@ -710,8 +710,9 @@ extern const VMStateInfo vmstate_info_qlist;
+  *        '_state' type
+  *    That the pointer is right at the start of _tmp_type.
+  */
+-#define VMSTATE_WITH_TMP(_state, _tmp_type, _vmsd) {                 \
++#define VMSTATE_WITH_TMP_TEST(_state, _test, _tmp_type, _vmsd) {     \
+     .name         = "tmp",                                           \
++    .field_exists = (_test),                                         \
+     .size         = sizeof(_tmp_type) +                              \
+                     QEMU_BUILD_BUG_ON_ZERO(offsetof(_tmp_type, parent) != 0) + \
+                     type_check_pointer(_state,                       \
+@@ -720,6 +721,9 @@ extern const VMStateInfo vmstate_info_qlist;
+     .info         = &vmstate_info_tmp,                               \
+ }
  
-     trace_savevm_state_setup();
-     QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-+        if (se->vmsd && se->vmsd->immutable) {
-+            ret = vmstate_save(f, se, ms->vmdesc);
-+            if (ret) {
-+                qemu_file_set_error(f, ret);
-+                break;
-+            }
-+            continue;
-+        }
++#define VMSTATE_WITH_TMP(_state, _tmp_type, _vmsd) \
++    VMSTATE_WITH_TMP_TEST(_state, NULL, _tmp_type, _vmsd)
 +
-         if (!se->ops || !se->ops->save_setup) {
-             continue;
-         }
-@@ -1402,6 +1411,11 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-     int ret;
+ #define VMSTATE_UNUSED_BUFFER(_test, _version, _size) {              \
+     .name         = "unused",                                        \
+     .field_exists = (_test),                                         \
+@@ -743,8 +747,9 @@ extern const VMStateInfo vmstate_info_qlist;
+ /* _field_size should be a int32_t field in the _state struct giving the
+  * size of the bitmap _field in bits.
+  */
+-#define VMSTATE_BITMAP(_field, _state, _version, _field_size) {      \
++#define VMSTATE_BITMAP_TEST(_field, _state, _test, _version, _field_size) { \
+     .name         = (stringify(_field)),                             \
++    .field_exists = (_test),                                         \
+     .version_id   = (_version),                                      \
+     .size_offset  = vmstate_offset_value(_state, _field_size, int32_t),\
+     .info         = &vmstate_info_bitmap,                            \
+@@ -752,6 +757,9 @@ extern const VMStateInfo vmstate_info_qlist;
+     .offset       = offsetof(_state, _field),                        \
+ }
  
-     QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-+        if (se->vmsd && se->vmsd->immutable) {
-+            /* Already saved during qemu_savevm_state_setup(). */
-+            continue;
-+        }
++#define VMSTATE_BITMAP(_field, _state, _version, _field_size) \
++    VMSTATE_BITMAP_TEST(_field, _state, NULL, _version, _field_size)
 +
-         ret = vmstate_save(f, se, vmdesc);
-         if (ret) {
-             qemu_file_set_error(f, ret);
+ /* For migrating a QTAILQ.
+  * Target QTAILQ needs be properly initialized.
+  * _type: type of QTAILQ element
 -- 
 2.39.0
 
