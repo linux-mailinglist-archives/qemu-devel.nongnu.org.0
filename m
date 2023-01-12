@@ -2,106 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9747667203
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 13:22:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD7E66723B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 13:30:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFwaP-0006Ih-0k; Thu, 12 Jan 2023 07:21:37 -0500
+	id 1pFwhs-0008S0-5U; Thu, 12 Jan 2023 07:29:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFwaG-0006FV-Fb
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:21:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFwaD-0007Rk-Bp
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:21:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673526084;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xf+u8UrrR5wyb6z3Bp8h+7PAV2k8WeM26RI1bM/5cyc=;
- b=D6rM6f/82TBzStzaUqwb2hrf/Ic7tbSpLsvhxM34HrR9CxR7ZH7rlUt0gRGT1OJDonaRUR
- iORFiVpPlrsONaL1C5O/QeNvTXja/EFYpI86dlLDDaZNE2lWJb8/2kmDs+hJIdSgLNKPLA
- JbElMJQDTnRqb+/1V3vQsq1MhJOeRb0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-641-FPB0PwI5NW-xuWJejkBmmw-1; Thu, 12 Jan 2023 07:21:22 -0500
-X-MC-Unique: FPB0PwI5NW-xuWJejkBmmw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d27-20020adfa35b000000b002bc813ba677so2310913wrb.6
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 04:21:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1pFwhq-0008Rh-R1; Thu, 12 Jan 2023 07:29:18 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1pFwhp-0000YU-1K; Thu, 12 Jan 2023 07:29:18 -0500
+Received: by mail-ej1-x631.google.com with SMTP id u19so44302132ejm.8;
+ Thu, 12 Jan 2023 04:29:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=RBHeBZYcLpiZdVVWr2fsGENgntvUj3Fxoe2RSXAV2Zs=;
+ b=htv+/gdxefwiCJNh1T9VMLuwWqYe5DRB23lBqlbjF2X1js5QtUHhCe3YCG4G6mwReT
+ uNUPh5MbEclGKWuCmp0CYbj4xiwMadV631ufrRMkVICkRiCHKaYriow3SoCRTD5C+o7K
+ ia2H8BH2zTmZ3e25QHLwUNEkW5JDdWpKpIij7mFnkKJlaegk1JYKTfCF6jxNQn/ALqJf
+ Ver4DE16OY/1kwY32i/m36AnO3cGAXs63zFtXiSizW/EHLWTXnju2V6t6o49JSetivMk
+ nbuh1eAXkmqfhyktXGa/7qp88m3HxwnaRTT42w4sBcCDB4CvdW52CVXKhd8+nULf7ot1
+ S37A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xf+u8UrrR5wyb6z3Bp8h+7PAV2k8WeM26RI1bM/5cyc=;
- b=kxxUz2PD1onicyp2VNi5AaYQtUAna9qnBDgGlpbwF/5C8c1D9TM7MFqy7o3o5IyHD7
- kAGWv0eEtqZCvXYQBnSaR1e9x3wz3k9zuBwhIBWqUcXqT5iO93zxhTPc6WsykprVYmIf
- Q5hQvQjy7L1AJ7On9Tzd759LogqEAw2ljIJihhauudt2lOvj1DG8i6VUJ6bLC98O5vY5
- yE1tAODK+jwtihpB8HqyDgxCO//zF3jgCRpn+H5SMuvOWC33ubnbonFmSyVrSsWuQzM/
- m9Z7k17VfZJY8AAJ9vUetpLabez1vE3YkPtK6c6WKa52CNMO8mR/+5gtNz5qN8j0keQi
- IbvQ==
-X-Gm-Message-State: AFqh2kovCVf9xgtyZopPHWOxW4PAAo5EGQlbXjdBBMkTt6pK0rdhpw00
- DG1qU/AN7nrUSRbOVKrGjDK8kBWvRi1XsH4ndgej0j5CC0qMoROSFeVNGqDocBST+IP4d/9x6AD
- JRG53LetPgJIlRXo=
-X-Received: by 2002:a05:6000:170f:b0:24a:9a21:c9e with SMTP id
- n15-20020a056000170f00b0024a9a210c9emr46640215wrc.59.1673526081821; 
- Thu, 12 Jan 2023 04:21:21 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsffQxVsqbQgrXf8id2QWSMkdM5Q1ilau2hG9k6l0FpGgCQ9zgUUnvEZ644i45QNmH5LjTmdg==
-X-Received: by 2002:a05:6000:170f:b0:24a:9a21:c9e with SMTP id
- n15-20020a056000170f00b0024a9a210c9emr46640186wrc.59.1673526081582; 
- Thu, 12 Jan 2023 04:21:21 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-128.web.vodafone.de.
- [109.43.177.128]) by smtp.gmail.com with ESMTPSA id
- z2-20020a5d6402000000b00297dcfdc90fsm16162209wru.24.2023.01.12.04.21.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 04:21:20 -0800 (PST)
-Message-ID: <a7d2c722-e66e-25ef-6294-1e23f8fe285b@redhat.com>
-Date: Thu, 12 Jan 2023 13:21:18 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RBHeBZYcLpiZdVVWr2fsGENgntvUj3Fxoe2RSXAV2Zs=;
+ b=nNuKKlGzNSP69n+WXUX42hGp6JQUmfP/gKx1IxDak3JsNvTM+A/2rO1kP8NFnFN73Y
+ Lalz2x+D9eU0iVoq38gKEq0DWlZnrtjELlTBi3uY8vxB/Hbe7hIvyd8PEU01NGRGySnY
+ PcO3X8JK4z64n6Zsk+jdl5xsBI42j5qz4p3B2W+GrPImRvjGl8npkSBpEsPgQuh11Gk+
+ HfryQudM/Dpz6Lsy4KRmKsIygSG3YPQKdlTOO4XhUnaJIS1F/g52HGy5rQh4eGhi06JK
+ c6737Y8lTt/5tsbtbus2vW67j5gC5y2YqQQgqOfGt/A1tT290XL3ltk2xlPusnfUbd48
+ H/Ug==
+X-Gm-Message-State: AFqh2kov6+MVcN8xYg9DkMUQSXoleJEMqRBJOmEqNq0Mv+bfdIEQHqYz
+ 0Zi1r3RDvRPEgUeam7mDaUhGs+BjCz6IUsQOQXs=
+X-Google-Smtp-Source: AMrXdXuEt9hE8mRYnNWqCFy3QFHNz5gvLq0923xmhtcXELrNoiH9OMDbVT44pv+OSCThq5RF+TIZaHRoFVkt1V+rUoI=
+X-Received: by 2002:a17:906:708f:b0:7c4:e857:e0b8 with SMTP id
+ b15-20020a170906708f00b007c4e857e0b8mr5510919ejk.603.1673526554626; Thu, 12
+ Jan 2023 04:29:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 04/26] tests/unit: drop hacky race avoidance in
- test-io-channel-command
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Alexandre Iooss <erdnaxe@crans.org>, Beraldo Leal <bleal@redhat.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, Ed Maste <emaste@freebsd.org>,
- Yanan Wang <wangyanan55@huawei.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
- John G Johnson <john.g.johnson@oracle.com>, Bin Meng <bmeng.cn@gmail.com>
-References: <20230110173922.265055-1-alex.bennee@linaro.org>
- <20230110173922.265055-5-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230110173922.265055-5-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221120102836.3174090-1-oro@il.ibm.com>
+ <20221120102836.3174090-4-oro@il.ibm.com>
+In-Reply-To: <20221120102836.3174090-4-oro@il.ibm.com>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Thu, 12 Jan 2023 13:29:02 +0100
+Message-ID: <CAOi1vP_SxWbx=z_+iUS=P5Oisu4v4nVA-eeCAho25U1cV9OKRg@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] block/rbd: Add support for layered encryption
+To: Or Ozeri <oro@il.ibm.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, dannyh@il.ibm.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=idryomov@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,86 +81,192 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/01/2023 18.39, Alex Bennée wrote:
-> We don't need to play timing games to ensure one socat wins over the
-> other, just create the fifo they both can use before spawning the
-> processes. However in the process we need to disable two tests for
-> Windows platforms as we don't have an abstraction for mkfifo().
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1403
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+On Sun, Nov 20, 2022 at 11:28 AM Or Ozeri <oro@il.ibm.com> wrote:
+>
+> Starting from ceph Reef, RBD has built-in support for layered encryption,
+> where each ancestor image (in a cloned image setting) can be possibly
+> encrypted using a unique passphrase.
+>
+> A new function, rbd_encryption_load2, was added to librbd API.
+> This new function supports an array of passphrases (via "spec" structs).
+>
+> This commit extends the qemu rbd driver API to use this new librbd API,
+> in order to support this new layered encryption feature.
+>
+> Signed-off-by: Or Ozeri <oro@il.ibm.com>
 > ---
->   tests/unit/test-io-channel-command.c | 14 ++++++++++----
->   1 file changed, 10 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
-> index 19f72eab96..425e2f5594 100644
-> --- a/tests/unit/test-io-channel-command.c
-> +++ b/tests/unit/test-io-channel-command.c
-> @@ -20,6 +20,8 @@
->   
->   #include "qemu/osdep.h"
->   #include <glib/gstdio.h>
-> +#include <sys/types.h>
-> +#include <sys/stat.h>
->   #include "io/channel-command.h"
->   #include "io-channel-helpers.h"
->   #include "qapi/error.h"
-> @@ -29,6 +31,7 @@
->   
->   static char *socat = NULL;
->   
-> +#ifndef _WIN32
->   static void test_io_channel_command_fifo(bool async)
->   {
->       g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
-> @@ -40,12 +43,13 @@ static void test_io_channel_command_fifo(bool async)
->       QIOChannel *src, *dst;
->       QIOChannelTest *test;
->   
-> +    if (mkfifo(fifo, 0600)) {
-> +        g_error("mkfifo: %s", strerror(errno));
+>  block/rbd.c          | 161 ++++++++++++++++++++++++++++++++++++++++++-
+>  qapi/block-core.json |  17 ++++-
+>  2 files changed, 175 insertions(+), 3 deletions(-)
+>
+> diff --git a/block/rbd.c b/block/rbd.c
+> index 7feae45e82..157922e23a 100644
+> --- a/block/rbd.c
+> +++ b/block/rbd.c
+> @@ -71,6 +71,16 @@ static const char rbd_luks2_header_verification[
+>      'L', 'U', 'K', 'S', 0xBA, 0xBE, 0, 2
+>  };
+>
+> +static const char rbd_layered_luks_header_verification[
+> +        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
+> +    'R', 'B', 'D', 'L', 0xBA, 0xBE, 0, 1
+> +};
+> +
+> +static const char rbd_layered_luks2_header_verification[
+> +        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
+> +    'R', 'B', 'D', 'L', 0xBA, 0xBE, 0, 2
+> +};
+> +
+>  typedef enum {
+>      RBD_AIO_READ,
+>      RBD_AIO_WRITE,
+> @@ -537,6 +547,136 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
+>
+>      return 0;
+>  }
+> +
+> +#ifdef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
+> +static int qemu_rbd_encryption_load2(rbd_image_t image,
+> +                                     RbdEncryptionOptions *encrypt,
+> +                                     Error **errp)
+> +{
+> +    int r = 0;
+> +    int encrypt_count = 1;
+> +    int i;
+> +    RbdEncryptionOptions *curr_encrypt;
+> +    rbd_encryption_spec_t *specs;
+> +    rbd_encryption_luks1_format_options_t* luks_opts;
+> +    rbd_encryption_luks2_format_options_t* luks2_opts;
+> +    rbd_encryption_luks_format_options_t* luks_any_opts;
+
+Hi Or,
+
+Stick to the pointer alignment style used in this file:
+
+    rbd_encryption_luks1_format_options_t *luks_opts;
+    rbd_encryption_luks2_format_options_t *luks2_opts;
+    rbd_encryption_luks_format_options_t *luks_any_opts;
+
+> +
+> +    /* count encryption options */
+> +    for (curr_encrypt = encrypt; curr_encrypt->has_parent;
+
+I think this needs to be rebased on top of 54fde4ff0621 ("qapi block:
+Elide redundant has_FOO in generated C").  has_parent is probably not
+a thing anymore.
+
+> +         curr_encrypt = curr_encrypt->parent) {
+> +        ++encrypt_count;
 > +    }
 > +
->       src = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) srcargv,
->                                                       O_WRONLY,
->                                                       &error_abort));
-> -    /* try to avoid a race to create the socket */
-> -    g_usleep(1000);
-> -
->       dst = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) dstargv,
->                                                       O_RDONLY,
->                                                       &error_abort));
-> @@ -60,7 +64,6 @@ static void test_io_channel_command_fifo(bool async)
->       g_rmdir(tmpdir);
->   }
->   
-> -
->   static void test_io_channel_command_fifo_async(void)
->   {
->       if (!socat) {
-> @@ -80,6 +83,7 @@ static void test_io_channel_command_fifo_sync(void)
->   
->       test_io_channel_command_fifo(false);
->   }
-> +#endif
->   
->   
->   static void test_io_channel_command_echo(bool async)
-> @@ -124,10 +128,12 @@ int main(int argc, char **argv)
->   
->       socat = g_find_program_in_path("socat");
->   
-> +#ifndef _WIN32
->       g_test_add_func("/io/channel/command/fifo/sync",
->                       test_io_channel_command_fifo_sync);
->       g_test_add_func("/io/channel/command/fifo/async",
->                       test_io_channel_command_fifo_async);
-> +#endif
->       g_test_add_func("/io/channel/command/echo/sync",
->                       test_io_channel_command_echo_sync);
->       g_test_add_func("/io/channel/command/echo/async",
+> +    specs = g_new0(rbd_encryption_spec_t, encrypt_count);
+> +
+> +    curr_encrypt = encrypt;
+> +    for (i = 0; i < encrypt_count; ++i) {
+> +        switch (curr_encrypt->format) {
+> +            case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS: {
+> +                specs[i].format = RBD_ENCRYPTION_FORMAT_LUKS1;
+> +                specs[i].opts_size =
+> +                        sizeof(rbd_encryption_luks1_format_options_t);
+> +
+> +                luks_opts = g_new0(rbd_encryption_luks1_format_options_t, 1);
+> +                specs[i].opts = luks_opts;
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+I would move opts_size assignment here and avoid repeating the type (and
+similar for LUKS2 and LUKS cases):
 
+    specs[i].opts_size = sizeof(*luks_opts);
+
+> +
+> +                r = qemu_rbd_convert_luks_options(
+> +                        qapi_RbdEncryptionOptionsLUKS_base(
+> +                                &curr_encrypt->u.luks),
+> +                        &luks_opts->passphrase,
+> +                        &luks_opts->passphrase_size,
+> +                        errp);
+> +                break;
+> +            }
+> +
+
+No need to leave a blank line between case statements.
+
+> +            case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2: {
+> +                specs[i].format = RBD_ENCRYPTION_FORMAT_LUKS2;
+> +                specs[i].opts_size =
+> +                        sizeof(rbd_encryption_luks2_format_options_t);
+> +
+> +                luks2_opts = g_new0(rbd_encryption_luks2_format_options_t, 1);
+> +                specs[i].opts = luks2_opts;
+> +
+> +                r = qemu_rbd_convert_luks_options(
+> +                        qapi_RbdEncryptionOptionsLUKS2_base(
+> +                                &curr_encrypt->u.luks2),
+> +                        &luks2_opts->passphrase,
+> +                        &luks2_opts->passphrase_size,
+> +                        errp);
+> +                break;
+> +            }
+> +
+> +            case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS_ANY: {
+> +                specs[i].format = RBD_ENCRYPTION_FORMAT_LUKS;
+> +                specs[i].opts_size =
+> +                        sizeof(rbd_encryption_luks_format_options_t);
+> +
+> +                luks_any_opts = g_new0(rbd_encryption_luks_format_options_t, 1);
+> +                specs[i].opts = luks_any_opts;
+> +
+> +                r = qemu_rbd_convert_luks_options(
+> +                        qapi_RbdEncryptionOptionsLUKSAny_base(
+> +                                &curr_encrypt->u.luks_any),
+> +                        &luks_any_opts->passphrase,
+> +                        &luks_any_opts->passphrase_size,
+> +                        errp);
+> +                break;
+> +            }
+> +
+> +            default: {
+> +                r = -ENOTSUP;
+> +                error_setg_errno(
+> +                        errp, -r, "unknown image encryption format: %u",
+> +                        curr_encrypt->format);
+> +            }
+> +        }
+> +
+> +        if (r < 0) {
+> +            goto exit;
+> +        }
+> +
+> +        curr_encrypt = curr_encrypt->parent;
+> +    }
+> +
+> +    r = rbd_encryption_load2(image, specs, encrypt_count);
+> +    if (r < 0) {
+> +        error_setg_errno(errp, -r, "layered encryption load fail");
+> +        goto exit;
+> +    }
+> +
+> +exit:
+> +    for (i = 0; i < encrypt_count; ++i) {
+> +        if (!specs[i].opts) {
+> +            break;
+> +        }
+> +
+> +        switch (specs[i].format) {
+> +            case RBD_ENCRYPTION_FORMAT_LUKS1: {
+> +                luks_opts = specs[i].opts;
+> +                g_free((void*)luks_opts->passphrase);
+
+Pointer alignment style:
+
+    g_free((void *)luks_opts->passphrase);
+
+> +                break;
+> +            }
+> +
+
+No need to leave a blank line between case statements.
+
+Thanks,
+
+                Ilya
 
