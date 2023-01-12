@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87482667618
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 15:28:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0086675CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 15:25:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFyRG-0003vC-CF; Thu, 12 Jan 2023 09:20:18 -0500
+	id 1pFyS0-0004Ob-Nq; Thu, 12 Jan 2023 09:21:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pFyRD-0003s3-3z
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:20:15 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pFyRi-0004D4-4P; Thu, 12 Jan 2023 09:20:53 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pFyRB-0000dw-8K
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:20:14 -0500
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pFyRe-0000ld-4p; Thu, 12 Jan 2023 09:20:45 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2E0CE3F2CC;
- Thu, 12 Jan 2023 14:20:10 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1594A3FCDC;
+ Thu, 12 Jan 2023 14:20:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673533210; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ t=1673533239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iAYh3XClaXbVjEDKYCPc8JW+SLNbr+jjZuj2EoqHTbc=;
- b=TWZ5G1t7j2l6/rWQAjzcllXeFD97E+8WO/KN3N84eguazbNQcJTCWhQA+mk+8GKEKy8rjC
- x1T7zpaWWotorT8iMfI0W97TD6bQlJ7b+Pq6X7K3UNiFIFK19p+4jJxBrv7U4WSOK+Xivq
- 0DE2Wv8B/zuUPLwmJO7ZlWPJxq1jYw8=
+ bh=SxXfMXOpCp0KR4sM5jvrXtqvji1351aoBaDwEPM+BIw=;
+ b=Kji9ngYhSIgvhQnLsoWwz/KnPZGz1ZM26IhmPtwIqTbshJO4NuWPSKx5niIPPfqgflnlLl
+ 1fcEwaJAvj3tG/K9i1+5O8SqpCK0Dl5ZXAJL8PLos5wseNecGTqtxbr+7NltYboPAUkkfP
+ Pg5Dw7Kg5fN/EQZNJA9ixu9r+4ja0a0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673533210;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ s=susede2_ed25519; t=1673533239;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iAYh3XClaXbVjEDKYCPc8JW+SLNbr+jjZuj2EoqHTbc=;
- b=DlnKvl3Z7U+o5WA7/kxMIG14wj48JJfz2v0VIRyelc0vpEwF0LbFY86zIQuUvMRz9jMfpR
- Oa1xiCjYkf2tprBw==
+ bh=SxXfMXOpCp0KR4sM5jvrXtqvji1351aoBaDwEPM+BIw=;
+ b=GUdlZudB7V84fYQmEcSp3sjP0tconCtMtWFMDoqJx7TSHUR0NdZdSXUjQLrdoNT7+P7X+Y
+ hXi4fyIIGJwABrBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AB94513585;
- Thu, 12 Jan 2023 14:20:09 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9469F13585;
+ Thu, 12 Jan 2023 14:20:38 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YfBTHBkXwGO+AQAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 12 Jan 2023 14:20:09 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id vSkOFzYXwGPxAQAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 12 Jan 2023 14:20:38 +0000
 From: Fabiano Rosas <farosas@suse.de>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] target/arm: Introduce aarch64_set_svcr
-In-Reply-To: <20230112004322.161330-1-richard.henderson@linaro.org>
-References: <20230112004322.161330-1-richard.henderson@linaro.org>
-Date: Thu, 12 Jan 2023 11:20:07 -0300
-Message-ID: <87lem7hm20.fsf@suse.de>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+Cc: Laurent Vivier <laurent@vivier.eu>, Peter Maydell
+ <peter.maydell@linaro.org>, qemu-arm@nongnu.org, Philippe =?utf-8?Q?Mathi?=
+ =?utf-8?Q?eu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH v2 0/7] target/arm: Introduce aarch64_set_svcr
+In-Reply-To: <20230112102436.1913-1-philmd@linaro.org>
+References: <20230112102436.1913-1-philmd@linaro.org>
+Date: Thu, 12 Jan 2023 11:20:36 -0300
+Message-ID: <87ilhbhm17.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
  helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -80,21 +87,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-> Unify the two helper_set_pstate_{sm,za} in this function.
-> Do not call helper_* functions from svcr_write.
-> Cleans up linux-user usage by consolodating logic.
+> This is a respin of Richard's patch
+> https://lore.kernel.org/qemu-devel/20230112004322.161330-1-richard.hender=
+son@linaro.org/
+> but split in multiple trivial changes, as I was having hard
+> time to understand all changes at once while reviewing it.
 >
-> Cc: Fabiano Rosas <farosas@suse.de>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+> Richard Henderson (7):
+>   target/arm/sme: Reorg SME access handling in handle_msr_i()
+>   target/arm/sme: Rebuild hflags in set_pstate() helpers
+>   target/arm/sme: Introduce aarch64_set_svcr()
+>   target/arm/sme: Reset SVE state in aarch64_set_svcr()
+>   target/arm/sme: Reset ZA state in aarch64_set_svcr()
+>   target/arm/sme: Rebuild hflags in aarch64_set_svcr()
+>   target/arm/sme: Unify set_pstate() SM/ZA helpers as set_svcr()
 >
-> Fabiano, I expect this to replace much of your
->
->   [RFC PATCH v2 07/19] target/arm: Move helper_set_pstate_* into cpregs.c
-
-Thanks!
+>  linux-user/aarch64/cpu_loop.c | 11 ++--------
+>  linux-user/aarch64/signal.c   | 13 ++---------
+>  target/arm/cpu.h              |  2 +-
+>  target/arm/helper-sme.h       |  3 +--
+>  target/arm/helper.c           | 41 ++++++++++++++++++++++++++++++++---
+>  target/arm/sme_helper.c       | 37 ++-----------------------------
+>  target/arm/translate-a64.c    | 19 ++++++----------
+>  7 files changed, 53 insertions(+), 73 deletions(-)
 
 Reviewed-by: Fabiano Rosas <farosas@suse.de>
 
