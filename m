@@ -2,95 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D536866714D
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 12:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC4C66716E
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 12:58:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFw8R-0002Wv-ST; Thu, 12 Jan 2023 06:52:43 -0500
+	id 1pFwDZ-0004Gr-Pt; Thu, 12 Jan 2023 06:58:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFw8Q-0002Wb-2k
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 06:52:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pFw8O-0000vT-FT
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 06:52:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673524359;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5Jnv11p8/p3gyPXhfzLFhgQ2bMLOcfy8scnrrZUdSr0=;
- b=XjFAZHhdD7aGXySm2wxEC6qg3i6AhlYaRmK6ugTJ9w+9qPB8M5G89mr+diYJh6h0/rxglw
- D6W6AIrvq5Vof+u/7Wo341Ncyjjp/4yvwKei9503eJxQjZyLC8mPx0AcaekeWDgXLUdMZ+
- x6QA7o5g9/nP2UncPzbo6PjXl4MmryU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-299-PvpPxfoIOIuOLJu5fyCfcg-1; Thu, 12 Jan 2023 06:52:38 -0500
-X-MC-Unique: PvpPxfoIOIuOLJu5fyCfcg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bi18-20020a05600c3d9200b003d991844dbcso12356987wmb.4
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 03:52:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFwDT-0004GQ-SV
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 06:57:56 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFwDR-00026j-4N
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 06:57:55 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ j16-20020a05600c1c1000b003d9ef8c274bso10476487wms.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 03:57:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=EXMjbOuRNc8PJ2hpkxE2BjUJeZ6D1zrXOs4YCWkPY1c=;
+ b=uBJNZo1X9U1O0ubjfL/NNjBG06Q6U5A3Fu0Vm4/4P158nQaLqcEDvfeyYgpMUqiihz
+ 0hNKIRX6gfFX07RLKKfdh9uAr5f9DH3/gbw4Mn791V/KjhzaAVFwYIr66gEpG6DEwdhE
+ PnXK/KzgUnj4wxxK3J/VTxTQrTpOb2be5AmCph/txKWMRpvS3dGAh0UAAUazwMpKCple
+ WjMKt5IliOY1FJZx0tB1pSjblvLeM12WnWtyo13OxFSrOgJQDztXBqUiV0BqxLI+i1ug
+ 2efRUIuFda2i7/+T+2DxOYTbEjSIHnrvpNWSSb8IdOdZT7/ooXuMBqDPShtAmm0Da4WD
+ HyeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5Jnv11p8/p3gyPXhfzLFhgQ2bMLOcfy8scnrrZUdSr0=;
- b=RUoTshE4EbABLArRhAXuMGsmkk5xMgMRBqoMfIgPEfeq6v1LGjvsiXOnxV6TZA5T0s
- PG9lLGDvM5RwfDZzhhquIr2aMpeq/Fp/kaQ8+zbCycKI7h/CdwIt1Fzx0PT4h2vB36Zs
- pG+99A0VJWfCRLMu5HZ8Ve2J1s0Dv1HG7zQ7OUECKBHDOokJWj8LkV0H1RTkMrTGZe1X
- 5NV2wN5bf6EIF3euqL2wHaaNX7YjmK0YjLCmXmZdHNrfmzshMW6lV3V6LXEL167ssQRJ
- /qefex5/i7/F3OXNCSiCBKisukBzNoOMXX+9JO8CRuLYoeYk7haUFTazw6lDjeYSpx69
- UQbA==
-X-Gm-Message-State: AFqh2krOtn5jpADIsIWyEkZb/N8AY883s5CDGwQPTvMXLAg6DMjRymW1
- 7lgx6VVGCnKrZQGK+L7nsPacIzGp6k+nOV8h0QtuXfVChKfK9DOkEUXIZllR5C9tcCBmet6nRvK
- HTCMM/QeHxU9kPHE=
-X-Received: by 2002:adf:ef0d:0:b0:2bc:8360:885 with SMTP id
- e13-20020adfef0d000000b002bc83600885mr8372913wro.21.1673524357016; 
- Thu, 12 Jan 2023 03:52:37 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuqsT3dDr5vjdtlamMwWWOda3bUZMRGnbspNnRt7MCNDFd/eKnyFqG8kQzczXAPXKAAwU64cQ==
-X-Received: by 2002:adf:ef0d:0:b0:2bc:8360:885 with SMTP id
- e13-20020adfef0d000000b002bc83600885mr8372900wro.21.1673524356793; 
- Thu, 12 Jan 2023 03:52:36 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-128.web.vodafone.de.
- [109.43.177.128]) by smtp.gmail.com with ESMTPSA id
- w6-20020adfd4c6000000b0027cb20605e3sm15955030wrk.105.2023.01.12.03.52.35
+ bh=EXMjbOuRNc8PJ2hpkxE2BjUJeZ6D1zrXOs4YCWkPY1c=;
+ b=mhU7T1GlFJjaO8QfDZTebrwQBC3kM1AJ9NArNRjVTsdQWShWDMUW2pQQk/XkJjlUsa
+ 0sdjdUrOyqrxCxl61he11YnKnrrQz02wf0i60LFc2hRzQDLavSMoyNDMRuqjp9/CQopb
+ hZ4lwVP9HGWA6mUBhBonkoI2ihKG5WM36pJuxdwE2qR85C9efFx5EV3rcBFuBB/nLFnH
+ 7ocJBgF8+b1k0WbnbVXCuripngTYkMps9DbWn4VyJjkKbISkQ48cw2sBU9dXQLilMTu6
+ Y156fKYFAJY8fsGY9UdFTihABBrnzt69K9un2evH4HyvroycA+WYkMGkbQ/R/59vdUwE
+ 7Low==
+X-Gm-Message-State: AFqh2koBe9NeifH/yRgHLdCPDl6SWSHdQCriZKAQEwFBesYxX/s3nG+n
+ B6yCzajKhYpllNeyE5BMoeaveKNz1PehNpB0
+X-Google-Smtp-Source: AMrXdXs2axdWiE6EL14hJULqWXpQ0xVcSSnCPuhkpZEi+w1nBvtL9b/MUbCaq8GeV0R4wm7leIhPeA==
+X-Received: by 2002:a05:600c:4f08:b0:3d9:efd1:214d with SMTP id
+ l8-20020a05600c4f0800b003d9efd1214dmr11601321wmq.25.1673524670493; 
+ Thu, 12 Jan 2023 03:57:50 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ r5-20020a05600c35c500b003d98f92692fsm23868802wmq.17.2023.01.12.03.57.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 03:52:36 -0800 (PST)
-Message-ID: <c338245c-82c3-ed57-9c98-f4d630fa1759@redhat.com>
-Date: Thu, 12 Jan 2023 12:52:34 +0100
+ Thu, 12 Jan 2023 03:57:50 -0800 (PST)
+Message-ID: <99651b03-10f5-5dd4-c386-08e6fd0a6e58@linaro.org>
+Date: Thu, 12 Jan 2023 12:57:48 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v14 10/11] qapi/s390/cpu topology: POLARITY_CHANGE qapi
- event
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH-for-8.0] softmmu: Extract watchpoint API from physmem.c
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-11-pmorel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230105145313.168489-11-pmorel@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20221209141254.68662-1-philmd@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221209141254.68662-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,80 +92,490 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05/01/2023 15.53, Pierre Morel wrote:
-> When the guest asks to change the polarity this change
-> is forwarded to the admin using QAPI.
-> The admin is supposed to take according decisions concerning
-> CPU provisioning.
+ping?
 
-I somehow doubt that an average admin will monitor QEMU for such events ... 
-so this rather should be handled by upper layers like libvirt one day?
-
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   qapi/machine-target.json | 21 +++++++++++++++++++++
->   hw/s390x/cpu-topology.c  |  2 ++
->   2 files changed, 23 insertions(+)
+On 9/12/22 15:12, Philippe Mathieu-Daudé wrote:
+> The watchpoint API is specific to TCG system emulation.
 > 
-> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-> index 927618a78f..10235cfb45 100644
-> --- a/qapi/machine-target.json
-> +++ b/qapi/machine-target.json
-> @@ -437,3 +437,24 @@
->     'returns': ['S390CpuTopology'],
->     'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
->   }
-> +
-> +##
-> +# @POLARITY_CHANGE:
-
-I'd maybe rather call it CPU_POLARITY_CHANGE ... in case "polarity" is one 
-day also used for some other devices.
-
-> +#
-> +# Emitted when the guest asks to change the polarity.
-> +#
-> +# @polarity: polarity specified by the guest
-
-Please elaborate: Where does the value come from (the PTF instruction)? 
-Which values are possible?
-
-  Thomas
-
-
-> +#
-> +# Since: 8.0
-> +#
-> +# Example:
-> +#
-> +# <- { "event": "POLARITY_CHANGE",
-> +#      "data": { "polarity": 0 },
-> +#      "timestamp": { "seconds": 1401385907, "microseconds": 422329 } }
-> +#
-> +##
-> +{ 'event': 'POLARITY_CHANGE',
-> +  'data': { 'polarity': 'int' },
-> +   'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM'] }
-> +}
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> index c3748654ff..45621387d5 100644
-> --- a/hw/s390x/cpu-topology.c
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -19,6 +19,7 @@
->   #include "hw/s390x/s390-virtio-ccw.h"
->   #include "hw/s390x/cpu-topology.h"
->   #include "qapi/qapi-commands-machine-target.h"
-> +#include "qapi/qapi-events-machine-target.h"
->   #include "qapi/qmp/qdict.h"
->   #include "monitor/hmp.h"
->   #include "monitor/monitor.h"
-> @@ -128,6 +129,7 @@ void s390_topology_set_polarity(int polarity)
->           }
->       }
->       s390_cpu_topology_set();
-> +    qapi_event_send_polarity_change(polarity);
+> Move it to a new compile unit. The inlined stubs are used
+> for user-mode and non-TCG accelerators.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   MAINTAINERS           |   1 +
+>   include/hw/core/cpu.h |   2 +-
+>   softmmu/meson.build   |   3 +-
+>   softmmu/physmem.c     | 191 ------------------------------------
+>   softmmu/watchpoint.c  | 220 ++++++++++++++++++++++++++++++++++++++++++
+>   5 files changed, 224 insertions(+), 193 deletions(-)
+>   create mode 100644 softmmu/watchpoint.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6966490c94..979c3e2c3f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -120,6 +120,7 @@ M: Richard Henderson <richard.henderson@linaro.org>
+>   R: Paolo Bonzini <pbonzini@redhat.com>
+>   S: Maintained
+>   F: softmmu/cpus.c
+> +F: softmmu/watchpoint.c
+>   F: cpus-common.c
+>   F: page-vary.c
+>   F: page-vary-common.c
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index 8830546121..b490cc80d8 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -943,7 +943,7 @@ static inline bool cpu_breakpoint_test(CPUState *cpu, vaddr pc, int mask)
+>       return false;
 >   }
 >   
->   /*
+> -#ifdef CONFIG_USER_ONLY
+> +#if !defined(CONFIG_TCG) || defined(CONFIG_USER_ONLY)
+>   static inline int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+>                                           int flags, CPUWatchpoint **watchpoint)
+>   {
+> diff --git a/softmmu/meson.build b/softmmu/meson.build
+> index 3272af1f31..918166cdc0 100644
+> --- a/softmmu/meson.build
+> +++ b/softmmu/meson.build
+> @@ -8,7 +8,8 @@ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
+>   )])
+>   
+>   specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: [files(
+> -  'icount.c'
+> +  'icount.c',
+> +  'watchpoint.c',
+>   )])
+>   
+>   softmmu_ss.add(files(
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 1b606a3002..1a9e4aa1cf 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -780,197 +780,6 @@ AddressSpace *cpu_get_address_space(CPUState *cpu, int asidx)
+>       return cpu->cpu_ases[asidx].as;
+>   }
+>   
+> -/* Add a watchpoint.  */
+> -int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+> -                          int flags, CPUWatchpoint **watchpoint)
+> -{
+> -    CPUWatchpoint *wp;
+> -    vaddr in_page;
+> -
+> -    /* forbid ranges which are empty or run off the end of the address space */
+> -    if (len == 0 || (addr + len - 1) < addr) {
+> -        error_report("tried to set invalid watchpoint at %"
+> -                     VADDR_PRIx ", len=%" VADDR_PRIu, addr, len);
+> -        return -EINVAL;
+> -    }
+> -    wp = g_malloc(sizeof(*wp));
+> -
+> -    wp->vaddr = addr;
+> -    wp->len = len;
+> -    wp->flags = flags;
+> -
+> -    /* keep all GDB-injected watchpoints in front */
+> -    if (flags & BP_GDB) {
+> -        QTAILQ_INSERT_HEAD(&cpu->watchpoints, wp, entry);
+> -    } else {
+> -        QTAILQ_INSERT_TAIL(&cpu->watchpoints, wp, entry);
+> -    }
+> -
+> -    in_page = -(addr | TARGET_PAGE_MASK);
+> -    if (len <= in_page) {
+> -        tlb_flush_page(cpu, addr);
+> -    } else {
+> -        tlb_flush(cpu);
+> -    }
+> -
+> -    if (watchpoint)
+> -        *watchpoint = wp;
+> -    return 0;
+> -}
+> -
+> -/* Remove a specific watchpoint.  */
+> -int cpu_watchpoint_remove(CPUState *cpu, vaddr addr, vaddr len,
+> -                          int flags)
+> -{
+> -    CPUWatchpoint *wp;
+> -
+> -    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+> -        if (addr == wp->vaddr && len == wp->len
+> -                && flags == (wp->flags & ~BP_WATCHPOINT_HIT)) {
+> -            cpu_watchpoint_remove_by_ref(cpu, wp);
+> -            return 0;
+> -        }
+> -    }
+> -    return -ENOENT;
+> -}
+> -
+> -/* Remove a specific watchpoint by reference.  */
+> -void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchpoint)
+> -{
+> -    QTAILQ_REMOVE(&cpu->watchpoints, watchpoint, entry);
+> -
+> -    tlb_flush_page(cpu, watchpoint->vaddr);
+> -
+> -    g_free(watchpoint);
+> -}
+> -
+> -/* Remove all matching watchpoints.  */
+> -void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
+> -{
+> -    CPUWatchpoint *wp, *next;
+> -
+> -    QTAILQ_FOREACH_SAFE(wp, &cpu->watchpoints, entry, next) {
+> -        if (wp->flags & mask) {
+> -            cpu_watchpoint_remove_by_ref(cpu, wp);
+> -        }
+> -    }
+> -}
+> -
+> -#ifdef CONFIG_TCG
+> -/* Return true if this watchpoint address matches the specified
+> - * access (ie the address range covered by the watchpoint overlaps
+> - * partially or completely with the address range covered by the
+> - * access).
+> - */
+> -static inline bool watchpoint_address_matches(CPUWatchpoint *wp,
+> -                                              vaddr addr, vaddr len)
+> -{
+> -    /* We know the lengths are non-zero, but a little caution is
+> -     * required to avoid errors in the case where the range ends
+> -     * exactly at the top of the address space and so addr + len
+> -     * wraps round to zero.
+> -     */
+> -    vaddr wpend = wp->vaddr + wp->len - 1;
+> -    vaddr addrend = addr + len - 1;
+> -
+> -    return !(addr > wpend || wp->vaddr > addrend);
+> -}
+> -
+> -/* Return flags for watchpoints that match addr + prot.  */
+> -int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len)
+> -{
+> -    CPUWatchpoint *wp;
+> -    int ret = 0;
+> -
+> -    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+> -        if (watchpoint_address_matches(wp, addr, len)) {
+> -            ret |= wp->flags;
+> -        }
+> -    }
+> -    return ret;
+> -}
+> -
+> -/* Generate a debug exception if a watchpoint has been hit.  */
+> -void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+> -                          MemTxAttrs attrs, int flags, uintptr_t ra)
+> -{
+> -    CPUClass *cc = CPU_GET_CLASS(cpu);
+> -    CPUWatchpoint *wp;
+> -
+> -    assert(tcg_enabled());
+> -    if (cpu->watchpoint_hit) {
+> -        /*
+> -         * We re-entered the check after replacing the TB.
+> -         * Now raise the debug interrupt so that it will
+> -         * trigger after the current instruction.
+> -         */
+> -        qemu_mutex_lock_iothread();
+> -        cpu_interrupt(cpu, CPU_INTERRUPT_DEBUG);
+> -        qemu_mutex_unlock_iothread();
+> -        return;
+> -    }
+> -
+> -    if (cc->tcg_ops->adjust_watchpoint_address) {
+> -        /* this is currently used only by ARM BE32 */
+> -        addr = cc->tcg_ops->adjust_watchpoint_address(cpu, addr, len);
+> -    }
+> -    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+> -        if (watchpoint_address_matches(wp, addr, len)
+> -            && (wp->flags & flags)) {
+> -            if (replay_running_debug()) {
+> -                /*
+> -                 * replay_breakpoint reads icount.
+> -                 * Force recompile to succeed, because icount may
+> -                 * be read only at the end of the block.
+> -                 */
+> -                if (!cpu->can_do_io) {
+> -                    /* Force execution of one insn next time.  */
+> -                    cpu->cflags_next_tb = 1 | CF_LAST_IO | CF_NOIRQ | curr_cflags(cpu);
+> -                    cpu_loop_exit_restore(cpu, ra);
+> -                }
+> -                /*
+> -                 * Don't process the watchpoints when we are
+> -                 * in a reverse debugging operation.
+> -                 */
+> -                replay_breakpoint();
+> -                return;
+> -            }
+> -            if (flags == BP_MEM_READ) {
+> -                wp->flags |= BP_WATCHPOINT_HIT_READ;
+> -            } else {
+> -                wp->flags |= BP_WATCHPOINT_HIT_WRITE;
+> -            }
+> -            wp->hitaddr = MAX(addr, wp->vaddr);
+> -            wp->hitattrs = attrs;
+> -
+> -            if (wp->flags & BP_CPU && cc->tcg_ops->debug_check_watchpoint &&
+> -                !cc->tcg_ops->debug_check_watchpoint(cpu, wp)) {
+> -                wp->flags &= ~BP_WATCHPOINT_HIT;
+> -                continue;
+> -            }
+> -            cpu->watchpoint_hit = wp;
+> -
+> -            mmap_lock();
+> -            /* This call also restores vCPU state */
+> -            tb_check_watchpoint(cpu, ra);
+> -            if (wp->flags & BP_STOP_BEFORE_ACCESS) {
+> -                cpu->exception_index = EXCP_DEBUG;
+> -                mmap_unlock();
+> -                cpu_loop_exit(cpu);
+> -            } else {
+> -                /* Force execution of one insn next time.  */
+> -                cpu->cflags_next_tb = 1 | CF_LAST_IO | CF_NOIRQ | curr_cflags(cpu);
+> -                mmap_unlock();
+> -                cpu_loop_exit_noexc(cpu);
+> -            }
+> -        } else {
+> -            wp->flags &= ~BP_WATCHPOINT_HIT;
+> -        }
+> -    }
+> -}
+> -
+> -#endif /* CONFIG_TCG */
+> -
+>   /* Called from RCU critical section */
+>   static RAMBlock *qemu_get_ram_block(ram_addr_t addr)
+>   {
+> diff --git a/softmmu/watchpoint.c b/softmmu/watchpoint.c
+> new file mode 100644
+> index 0000000000..279129dd1c
+> --- /dev/null
+> +++ b/softmmu/watchpoint.c
+> @@ -0,0 +1,220 @@
+> +/*
+> + * CPU watchpoints
+> + *
+> + *  Copyright (c) 2003 Fabrice Bellard
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/main-loop.h"
+> +#include "exec/exec-all.h"
+> +#include "exec/translate-all.h"
+> +#include "sysemu/tcg.h"
+> +#include "sysemu/replay.h"
+> +#include "hw/core/tcg-cpu-ops.h"
+> +#include "hw/core/cpu.h"
+> +
+> +/* Add a watchpoint.  */
+> +int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+> +                          int flags, CPUWatchpoint **watchpoint)
+> +{
+> +    CPUWatchpoint *wp;
+> +    vaddr in_page;
+> +
+> +    /* forbid ranges which are empty or run off the end of the address space */
+> +    if (len == 0 || (addr + len - 1) < addr) {
+> +        error_report("tried to set invalid watchpoint at %"
+> +                     VADDR_PRIx ", len=%" VADDR_PRIu, addr, len);
+> +        return -EINVAL;
+> +    }
+> +    wp = g_malloc(sizeof(*wp));
+> +
+> +    wp->vaddr = addr;
+> +    wp->len = len;
+> +    wp->flags = flags;
+> +
+> +    /* keep all GDB-injected watchpoints in front */
+> +    if (flags & BP_GDB) {
+> +        QTAILQ_INSERT_HEAD(&cpu->watchpoints, wp, entry);
+> +    } else {
+> +        QTAILQ_INSERT_TAIL(&cpu->watchpoints, wp, entry);
+> +    }
+> +
+> +    in_page = -(addr | TARGET_PAGE_MASK);
+> +    if (len <= in_page) {
+> +        tlb_flush_page(cpu, addr);
+> +    } else {
+> +        tlb_flush(cpu);
+> +    }
+> +
+> +    if (watchpoint) {
+> +        *watchpoint = wp;
+> +    }
+> +    return 0;
+> +}
+> +
+> +/* Remove a specific watchpoint.  */
+> +int cpu_watchpoint_remove(CPUState *cpu, vaddr addr, vaddr len,
+> +                          int flags)
+> +{
+> +    CPUWatchpoint *wp;
+> +
+> +    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+> +        if (addr == wp->vaddr && len == wp->len
+> +                && flags == (wp->flags & ~BP_WATCHPOINT_HIT)) {
+> +            cpu_watchpoint_remove_by_ref(cpu, wp);
+> +            return 0;
+> +        }
+> +    }
+> +    return -ENOENT;
+> +}
+> +
+> +/* Remove a specific watchpoint by reference.  */
+> +void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchpoint)
+> +{
+> +    QTAILQ_REMOVE(&cpu->watchpoints, watchpoint, entry);
+> +
+> +    tlb_flush_page(cpu, watchpoint->vaddr);
+> +
+> +    g_free(watchpoint);
+> +}
+> +
+> +/* Remove all matching watchpoints.  */
+> +void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
+> +{
+> +    CPUWatchpoint *wp, *next;
+> +
+> +    QTAILQ_FOREACH_SAFE(wp, &cpu->watchpoints, entry, next) {
+> +        if (wp->flags & mask) {
+> +            cpu_watchpoint_remove_by_ref(cpu, wp);
+> +        }
+> +    }
+> +}
+> +
+> +/*
+> + * Return true if this watchpoint address matches the specified
+> + * access (ie the address range covered by the watchpoint overlaps
+> + * partially or completely with the address range covered by the
+> + * access).
+> + */
+> +static inline bool watchpoint_address_matches(CPUWatchpoint *wp,
+> +                                              vaddr addr, vaddr len)
+> +{
+> +    /*
+> +     * We know the lengths are non-zero, but a little caution is
+> +     * required to avoid errors in the case where the range ends
+> +     * exactly at the top of the address space and so addr + len
+> +     * wraps round to zero.
+> +     */
+> +    vaddr wpend = wp->vaddr + wp->len - 1;
+> +    vaddr addrend = addr + len - 1;
+> +
+> +    return !(addr > wpend || wp->vaddr > addrend);
+> +}
+> +
+> +/* Return flags for watchpoints that match addr + prot.  */
+> +int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len)
+> +{
+> +    CPUWatchpoint *wp;
+> +    int ret = 0;
+> +
+> +    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+> +        if (watchpoint_address_matches(wp, addr, len)) {
+> +            ret |= wp->flags;
+> +        }
+> +    }
+> +    return ret;
+> +}
+> +
+> +/* Generate a debug exception if a watchpoint has been hit.  */
+> +void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+> +                          MemTxAttrs attrs, int flags, uintptr_t ra)
+> +{
+> +    CPUClass *cc = CPU_GET_CLASS(cpu);
+> +    CPUWatchpoint *wp;
+> +
+> +    assert(tcg_enabled());
+> +    if (cpu->watchpoint_hit) {
+> +        /*
+> +         * We re-entered the check after replacing the TB.
+> +         * Now raise the debug interrupt so that it will
+> +         * trigger after the current instruction.
+> +         */
+> +        qemu_mutex_lock_iothread();
+> +        cpu_interrupt(cpu, CPU_INTERRUPT_DEBUG);
+> +        qemu_mutex_unlock_iothread();
+> +        return;
+> +    }
+> +
+> +    if (cc->tcg_ops->adjust_watchpoint_address) {
+> +        /* this is currently used only by ARM BE32 */
+> +        addr = cc->tcg_ops->adjust_watchpoint_address(cpu, addr, len);
+> +    }
+> +    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+> +        if (watchpoint_address_matches(wp, addr, len)
+> +            && (wp->flags & flags)) {
+> +            if (replay_running_debug()) {
+> +                /*
+> +                 * replay_breakpoint reads icount.
+> +                 * Force recompile to succeed, because icount may
+> +                 * be read only at the end of the block.
+> +                 */
+> +                if (!cpu->can_do_io) {
+> +                    /* Force execution of one insn next time.  */
+> +                    cpu->cflags_next_tb = 1 | CF_LAST_IO | CF_NOIRQ
+> +                                          | curr_cflags(cpu);
+> +                    cpu_loop_exit_restore(cpu, ra);
+> +                }
+> +                /*
+> +                 * Don't process the watchpoints when we are
+> +                 * in a reverse debugging operation.
+> +                 */
+> +                replay_breakpoint();
+> +                return;
+> +            }
+> +            if (flags == BP_MEM_READ) {
+> +                wp->flags |= BP_WATCHPOINT_HIT_READ;
+> +            } else {
+> +                wp->flags |= BP_WATCHPOINT_HIT_WRITE;
+> +            }
+> +            wp->hitaddr = MAX(addr, wp->vaddr);
+> +            wp->hitattrs = attrs;
+> +
+> +            if (wp->flags & BP_CPU && cc->tcg_ops->debug_check_watchpoint &&
+> +                !cc->tcg_ops->debug_check_watchpoint(cpu, wp)) {
+> +                wp->flags &= ~BP_WATCHPOINT_HIT;
+> +                continue;
+> +            }
+> +            cpu->watchpoint_hit = wp;
+> +
+> +            mmap_lock();
+> +            /* This call also restores vCPU state */
+> +            tb_check_watchpoint(cpu, ra);
+> +            if (wp->flags & BP_STOP_BEFORE_ACCESS) {
+> +                cpu->exception_index = EXCP_DEBUG;
+> +                mmap_unlock();
+> +                cpu_loop_exit(cpu);
+> +            } else {
+> +                /* Force execution of one insn next time.  */
+> +                cpu->cflags_next_tb = 1 | CF_LAST_IO | CF_NOIRQ
+> +                                      | curr_cflags(cpu);
+> +                mmap_unlock();
+> +                cpu_loop_exit_noexc(cpu);
+> +            }
+> +        } else {
+> +            wp->flags &= ~BP_WATCHPOINT_HIT;
+> +        }
+> +    }
+> +}
 
 
