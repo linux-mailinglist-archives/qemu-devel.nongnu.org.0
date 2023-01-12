@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1AEF66795C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:34:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3649466791B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:24:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFyu3-00055s-NU; Thu, 12 Jan 2023 09:50:03 -0500
+	id 1pFywv-00073U-Hs; Thu, 12 Jan 2023 09:53:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pFyu1-00054f-Fi; Thu, 12 Jan 2023 09:50:01 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pFyu0-00055X-0m; Thu, 12 Jan 2023 09:50:01 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EBC003FF9E;
- Thu, 12 Jan 2023 14:49:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673534997; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pFywu-00072r-0p
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:53:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pFyws-0005jl-6P
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:52:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673535177;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=08hrdMBjSFtZWKMqM4pHo6gTKAlmsb+X47EIQYA/pqU=;
- b=q02d9zxmNDcfbo+USVqRzCqYyN0k0nk+3JjPMRGhWjlPFGpKiCun0Nc/EVQ/TBO0hmQ9Sf
- rj4KNb0a70SyqCs/PUzr9Gn/vBxbJ2LnzVUCmSLvm3O1JhYhw2Fv0vfdzG7BhKVg54Xllk
- t2C2Tg15fE4Mu3Gj+tB/OyaaDWYniFo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673534997;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=08hrdMBjSFtZWKMqM4pHo6gTKAlmsb+X47EIQYA/pqU=;
- b=0zB3BKa3g4z4GGH9vgCnlAhIOCwY/MofL20DMwErxTmVta+oWzCtu4oQkiH8ugP6Z2c29J
- u2zGSA9Yt/znLBBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=Orpw9Mzjk/P1UNMXU9A1/QjjTSyb08eqlI5WuROrZFA=;
+ b=KNNkkj8CqXj6qWs5qkbVgWUpLkhWmFBQ5r03m1iTi7fPUBgqW4z99PkxU+I5eNfxgzZEsj
+ Gxx1oSid5ta7bCtM7sN90HYqtbOh6hS/+id2sg7qaVuXkZ0DNUzl5gD4LryUc9sjnOBawJ
+ pAs14MR3xTgvWumXqw8UKz1fRRn+zjk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-189-ml0PJfCFNLS_57WecqpE6A-1; Thu, 12 Jan 2023 09:52:54 -0500
+X-MC-Unique: ml0PJfCFNLS_57WecqpE6A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 77D7A13776;
- Thu, 12 Jan 2023 14:49:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Si9AEBUewGNFEgAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 12 Jan 2023 14:49:57 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Richard Henderson <richard.henderson@linaro.org>, Claudio Fontana
- <cfontana@suse.de>, Peter Maydell <peter.maydell@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Alex
- =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Laurent Vivier <lvivier@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>
-Subject: Re: [RFC PATCH v2 13/19] tests: do not run test-hmp on all machines
- for ARM KVM-only
-In-Reply-To: <214f89fc-6e90-7d0b-8555-4bae1d1d0b70@linaro.org>
-References: <20230109224232.11661-1-farosas@suse.de>
- <20230109224232.11661-14-farosas@suse.de>
- <35870ab3-1da6-c222-b708-06ac71a5883c@redhat.com> <87zgaqa6jk.fsf@suse.de>
- <CAFEAcA_x_kTdNt8+5YAjo518Wj_Ej4jZ=0OrCQmutNOjJx=3Gw@mail.gmail.com>
- <87sfgia4uj.fsf@suse.de>
- <CAFEAcA_AaWfwAbCLOC3ELf3c20Cv5jQhWc71Py4ww4kLo2nYeg@mail.gmail.com>
- <9fb63a5d-d839-016d-b0a8-4151b6d6946c@suse.de> <87fschcko4.fsf@suse.de>
- <214f89fc-6e90-7d0b-8555-4bae1d1d0b70@linaro.org>
-Date: Thu, 12 Jan 2023 11:49:55 -0300
-Message-ID: <87fscfhkoc.fsf@suse.de>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1856C1C08980;
+ Thu, 12 Jan 2023 14:52:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1CBBC15BA0;
+ Thu, 12 Jan 2023 14:52:50 +0000 (UTC)
+Date: Thu, 12 Jan 2023 14:52:48 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ imp@bsdimp.com, kevans@freebsd.org, ben.widawsky@intel.com,
+ jonathan.cameron@huawei.com, kbastian@mail.uni-paderborn.de,
+ jasowang@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
+ tsimpson@quicinc.com, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, philmd@linaro.org,
+ Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v3 1/1] include: Don't include qemu/osdep.h
+Message-ID: <Y8AewFAHRGf6ZI3x@redhat.com>
+References: <20230112115005.1504812-1-armbru@redhat.com>
+ <20230112115005.1504812-2-armbru@redhat.com>
+ <20230112082537-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230112082537-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,21 +86,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+On Thu, Jan 12, 2023 at 08:51:26AM -0500, Michael S. Tsirkin wrote:
+> On Thu, Jan 12, 2023 at 12:50:05PM +0100, Markus Armbruster wrote:
+> > docs/devel/style.rst mandates:
+> > 
+> >     The "qemu/osdep.h" header contains preprocessor macros that affect
+> >     the behavior of core system headers like <stdint.h>.  It must be
+> >     the first include so that core system headers included by external
+> >     libraries get the preprocessor macros that QEMU depends on.
+> > 
+> >     Do not include "qemu/osdep.h" from header files since the .c file
+> >     will have already included it.
+> > 
+> > A few violations have crept in.  Fix them.
+> > 
+> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> > Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> > Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> 
+> With my awesome grep skillz I found one more:
+> $ grep -r --include='*.h' qemu/osdep.h
+> include/block/graph-lock.h:#include "qemu/osdep.h"
+> 
+> Looks like all C files must include qemu/osdep.h, no?
 
-> On 1/11/23 04:36, Fabiano Rosas wrote:
->> Nowadays for KVM is the 'virt' machine the only one we use?
->
-> Also sbsa-ref.
+Yes, and IMHO that is/was a mistake, as it means our other header
+files are not self-contained, which prevents developer tools from
+reporting useful bugs when you're editting.
 
-It seems not, sbsa_ref_init has this:
+For example, if you have clangd integrated into your editor, it will
+warn you as you're editting if you've referenced a function / type
+that doesn't exist in the file, or anything it includes. This is made
+completely useless for QEMU .h files though, as they're all incomplete,
+only the .c files have the full headers.
 
-if (kvm_enabled()) {
-    error_report("sbsa-ref: KVM is not supported for this machine");
-    exit(1);
-}
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
