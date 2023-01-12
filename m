@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68EEB667090
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 12:10:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 140C4667084
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 12:08:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFupH-0004uR-O0; Thu, 12 Jan 2023 05:28:51 -0500
+	id 1pFupp-00059u-EB; Thu, 12 Jan 2023 05:29:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFupG-0004u0-6a
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:28:50 -0500
+ id 1pFupk-00057N-Ra
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:29:22 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pFupE-00016K-CE
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:28:49 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nt0zb6Z4Jz6J75t;
- Thu, 12 Jan 2023 18:24:59 +0800 (CST)
+ id 1pFupj-00017e-3z
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 05:29:20 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nt14Q6TM9z6HJWf;
+ Thu, 12 Jan 2023 18:29:10 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Thu, 12 Jan 2023 10:28:46 +0000
+ 15.1.2375.34; Thu, 12 Jan 2023 10:29:16 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
  <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
  <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philmd@linaro.org>
-Subject: [PATCH v2 4/8] hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
-Date: Thu, 12 Jan 2023 10:26:40 +0000
-Message-ID: <20230112102644.27830-5-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v2 5/8] hw/i386/acpi: Drop duplicate _UID entry for CXL root
+ bridge
+Date: Thu, 12 Jan 2023 10:26:41 +0000
+Message-ID: <20230112102644.27830-6-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230112102644.27830-1-Jonathan.Cameron@huawei.com>
 References: <20230112102644.27830-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
 X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
@@ -68,84 +69,26 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Gregory Price <gourry.memverge@gmail.com>
+Noticed as this prevents iASL disasembling the DSDT table.
 
-Remove usage of magic numbers when accessing capacity fields and replace
-with CXL_CAPACITY_MULTIPLIER, matching the kernel definition.
-
-Signed-off-by: Gregory Price <gregory.price@memverge.com>
-Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
 ---
-v2:
-Change to 256 * MiB and include qemu/units.h (Philippe Mathieu-Daudé)
+ hw/i386/acpi-build.c | 1 -
+ 1 file changed, 1 deletion(-)
 
- hw/cxl/cxl-mailbox-utils.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
-
-diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-index bc1bb18844..3f67b665f5 100644
---- a/hw/cxl/cxl-mailbox-utils.c
-+++ b/hw/cxl/cxl-mailbox-utils.c
-@@ -12,8 +12,11 @@
- #include "hw/pci/pci.h"
- #include "qemu/cutils.h"
- #include "qemu/log.h"
-+#include "qemu/units.h"
- #include "qemu/uuid.h"
- 
-+#define CXL_CAPACITY_MULTIPLIER   (256 * MiB)
-+
- /*
-  * How to add a new command, example. The command set FOO, with cmd BAR.
-  *  1. Add the command set and cmd to the enum.
-@@ -138,7 +141,7 @@ static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
-     } QEMU_PACKED *fw_info;
-     QEMU_BUILD_BUG_ON(sizeof(*fw_info) != 0x50);
- 
--    if (cxl_dstate->pmem_size < (256 << 20)) {
-+    if (cxl_dstate->pmem_size < CXL_CAPACITY_MULTIPLIER) {
-         return CXL_MBOX_INTERNAL_ERROR;
-     }
- 
-@@ -283,7 +286,7 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
-     CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
-     uint64_t size = cxl_dstate->pmem_size;
- 
--    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
-+    if (!QEMU_IS_ALIGNED(size, CXL_CAPACITY_MULTIPLIER)) {
-         return CXL_MBOX_INTERNAL_ERROR;
-     }
- 
-@@ -293,8 +296,8 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
-     /* PMEM only */
-     snprintf(id->fw_revision, 0x10, "BWFW VERSION %02d", 0);
- 
--    id->total_capacity = size / (256 << 20);
--    id->persistent_capacity = size / (256 << 20);
-+    id->total_capacity = size / CXL_CAPACITY_MULTIPLIER;
-+    id->persistent_capacity = size / CXL_CAPACITY_MULTIPLIER;
-     id->lsa_size = cvc->get_lsa_size(ct3d);
- 
-     *len = sizeof(*id);
-@@ -314,14 +317,14 @@ static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
-     QEMU_BUILD_BUG_ON(sizeof(*part_info) != 0x20);
-     uint64_t size = cxl_dstate->pmem_size;
- 
--    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
-+    if (!QEMU_IS_ALIGNED(size, CXL_CAPACITY_MULTIPLIER)) {
-         return CXL_MBOX_INTERNAL_ERROR;
-     }
- 
-     /* PMEM only */
-     part_info->active_vmem = 0;
-     part_info->next_vmem = 0;
--    part_info->active_pmem = size / (256 << 20);
-+    part_info->active_pmem = size / CXL_CAPACITY_MULTIPLIER;
-     part_info->next_pmem = 0;
- 
-     *len = sizeof(*part_info);
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 127c4e2d50..a584b62ae2 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1482,7 +1482,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+                 aml_append(pkg, aml_eisaid("PNP0A03"));
+                 aml_append(dev, aml_name_decl("_CID", pkg));
+                 aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+-                aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
+                 build_cxl_osc_method(dev);
+             } else if (pci_bus_is_express(bus)) {
+                 aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
 -- 
 2.37.2
 
