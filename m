@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE03066727E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 13:47:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFCA667285
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 13:48:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFwz0-0006qv-Q4; Thu, 12 Jan 2023 07:47:02 -0500
+	id 1pFx0A-0007mF-GX; Thu, 12 Jan 2023 07:48:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFwyx-0006oJ-P1
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:46:59 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFx03-0007kB-Ve
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:48:08 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFwyw-00051Q-3h
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:46:59 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id az7so17970222wrb.5
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 04:46:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pFx02-0005AH-Dt
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 07:48:07 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id m3so13125390wmq.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 04:48:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=S38fk2tJJtHcgQic+iBsuH12Ik//PCr9dbdVCIaHrfw=;
- b=M0QMJ2pTlO9yoiHML5x8c8BTmkvTv+iG461EKSsmIY5nSJ1M4mTL8WnUIgnurVlhCU
- ZfSZT0IYjJuEYf/q3vM1FtSJCX3+E9OTqFpshmkqhcP88ZAitVxkWXmItYROj6xhhIn/
- QQ4nCtvqOQyXImAHkbycUXSrgPDZRZYlJhcz5WvqOcab4MYcT37nHklneVICQcDgiuBG
- 5B4CyYP9CcljOqkESHIDAgTQev1+P61APdtnG7HXo+3t848azfR7biFVdUpJVuwHizZc
- rgdGE4ermmDMDb9LVPIBXcgEMdwBNEsvTG4HTpzeeRh09zhsIzZA/f8Oi1jMNaIu8Ngj
- oaAg==
+ bh=4uDrzEhn9Ql1uGXWp3heg9u1rvBVu6E9pTu8NEZagTg=;
+ b=BxBVDuzI+7uKbojvbKuBNQmK9GI9dyOJWj20Dx/X3Qm9tT7fwK7HXA5SruWSneBiIg
+ ddHRwSH0hQNWN9FoQ13k8wGZBVqXZ2v84eKOlYnLuYjNWnOhMQQ8X6RUHfvD2WhSphZ3
+ +1u88lLhR4HWLg6Ws452aNOi0SSbt7fmkfQVlMBJt59YQWZFQLdtg0AxaStVKKZ3FeDL
+ tuaTueOoeQoFQWsqJXEUAIIwvyOFaQTWAcm/DEiZX2vLEpmZvvTWydpy3R+hl4j3w/Je
+ 1hSmolR3wO4zLij2tr4su3h/MaXCaGHMmhGvJiJ3krmYwAGcorlaE6uKuQeBTAtYhiRC
+ 3QGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=S38fk2tJJtHcgQic+iBsuH12Ik//PCr9dbdVCIaHrfw=;
- b=gc5Sjm5nrfCqZua8TsvW25zDFR8q0WJm03Yf/Dgu3ZLGz/XmYpQ15GcoQPOUS6b/86
- /KIpMP9NZa/mlP6o2UhhleOaeR7cYvwcWcPTZjaoI7+EXWnY5xqVIfX98yF+EdCBLoj8
- 86sHDxQbqIktG+z4TcM4MAUb8BGfmPEuoURgptdepeLEJ7eMvi6LMWlRrKHT9OsHemFR
- 3pXdsGonw66EabKTOdC9xLQisHsMXAh7UavahLPP/CA48laRRjPCotmADLtqPzj0pUxM
- XX6cUemLKv8cqfBXflXSVruwmrgl3V+nEKM4HZQ2FDa2wHrCFHOZQhaSvEI5ZnCoTIkT
- aMmw==
-X-Gm-Message-State: AFqh2kqIc9CLeLOV+s09B6iWAaObjIdSQnrNuE8Z2VlCAchvoe4RfIi4
- 2Kb04YJfqfgCG0PFSzU8oNZAOA==
-X-Google-Smtp-Source: AMrXdXvxh2VsAGlVVLQ26kq3AQatOLkRTOcFw6Z6+OI1tpqmHxxsdf5Qxrc+s86BdUkH2JTIXsr8lQ==
-X-Received: by 2002:a05:6000:1c11:b0:2bd:bcc6:c450 with SMTP id
- ba17-20020a0560001c1100b002bdbcc6c450mr6849428wrb.17.1673527616729; 
- Thu, 12 Jan 2023 04:46:56 -0800 (PST)
+ bh=4uDrzEhn9Ql1uGXWp3heg9u1rvBVu6E9pTu8NEZagTg=;
+ b=Pj5Qdnp8NWndmADgollsYpZiagYgg1kcgHJ1Ojy3C/3og5w5WnAtgGTUkOiXBFcVXK
+ 9rdXuIdDA2FvQjbltwz5n6MlJ72V9gdeatox4lhnfGpFhfdofkwkE0IXKGv7crcFticJ
+ 3Bw0hzHm8Bjy++vIDPAR6MquUtqmQ5KiBj3nKXvuWC/8+b10WgeMSX3b/NbIFGShuq+c
+ 53/D7fcO4nfe8+XQ9JEWTpMgFYMVHN7X7f8KkOKagDu2OLJlWzsxUcxUUy+r537KKbmk
+ Z+jUtd898e8dU917vVRvg2qQLgLIeoR2f9tjtK14F1l0FBguz4NnLdAOTc6wrajD2dLc
+ 8KOg==
+X-Gm-Message-State: AFqh2krI8HhhIfwMZ9oqqFeXPGt32KKPp0YVHb9Znem8L7nkbdmFVLcK
+ eyHm7j1Du0+WgRaR+2yUnLbt5g==
+X-Google-Smtp-Source: AMrXdXuIWskHhS877RKMbDVxM68ye1LuZbLiir35zUuKueQ8MzAR7Kbs5VJsBO58JoUKaZLQTeIkaw==
+X-Received: by 2002:a05:600c:46cd:b0:3d9:a145:4d1a with SMTP id
+ q13-20020a05600c46cd00b003d9a1454d1amr34836422wmo.34.1673527684921; 
+ Thu, 12 Jan 2023 04:48:04 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- t6-20020adfe446000000b002bb28209744sm16049244wrm.31.2023.01.12.04.46.54
+ k4-20020a05600c1c8400b003d22528decesm30517209wms.43.2023.01.12.04.48.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 04:46:56 -0800 (PST)
-Message-ID: <581c8788-80f4-1740-3772-5947647091a3@linaro.org>
-Date: Thu, 12 Jan 2023 13:46:53 +0100
+ Thu, 12 Jan 2023 04:48:04 -0800 (PST)
+Message-ID: <50473bb7-c91f-4264-45b9-525125e3c2bf@linaro.org>
+Date: Thu, 12 Jan 2023 13:48:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v6 15/33] hw/isa/piix3: Create power management controller
- in host device
+Subject: Re: [PATCH v6 22/33] hw/isa/piix3: Drop the "3" from PIIX base class
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: John G Johnson <john.g.johnson@oracle.com>,
@@ -74,13 +73,13 @@ Cc: John G Johnson <john.g.johnson@oracle.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
  =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
 References: <20230109172347.1830-1-shentey@gmail.com>
- <20230109172347.1830-16-shentey@gmail.com>
+ <20230109172347.1830-23-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230109172347.1830-16-shentey@gmail.com>
+In-Reply-To: <20230109172347.1830-23-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -104,21 +103,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 9/1/23 18:23, Bernhard Beschow wrote:
-> The power management controller is an integral part of PIIX3 (function
-> 3). So create it as part of the south bridge.
-> 
-> Note that the ACPI function is optional in QEMU. This is why it gets
-> object_initialize_child()'ed in realize rather than in instance_init.
+> This commit marks the finalization of the PIIX3 preparations
+> to be merged with PIIX4. In particular, PIIXState is prepared
+> to be reused in piix4.c.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Message-Id: <20221022150508.26830-14-shentey@gmail.com>
+> Message-Id: <20221022150508.26830-25-shentey@gmail.com>
 > ---
->   include/hw/southbridge/piix.h |  6 ++++++
->   hw/i386/pc_piix.c             | 24 ++++++++++++++----------
->   hw/isa/piix3.c                | 14 ++++++++++++++
->   hw/isa/Kconfig                |  1 +
->   4 files changed, 35 insertions(+), 10 deletions(-)
+>   include/hw/southbridge/piix.h |  6 ++--
+>   hw/isa/piix3.c                | 60 +++++++++++++++++------------------
+>   2 files changed, 32 insertions(+), 34 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
