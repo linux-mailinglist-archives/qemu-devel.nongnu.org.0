@@ -2,77 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2701667969
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:36:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10CA06679C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:47:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFzOI-00076c-LQ; Thu, 12 Jan 2023 10:21:18 -0500
+	id 1pFzOK-000789-L8; Thu, 12 Jan 2023 10:21:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pFzNZ-0006dU-VS
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:20:41 -0500
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pFzNc-0006g3-BC
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:20:42 -0500
 Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pFzNW-0002LA-Os
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:20:33 -0500
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pFzNZ-0002Mu-8M
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:20:35 -0500
 Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30CE8joL004606; Thu, 12 Jan 2023 15:20:26 GMT
+ 30CE8id3004532; Thu, 12 Jan 2023 15:20:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=sk11Q44p/0uhgqGjPoSPpXycH6TfaZOjqUVS47TklXs=;
- b=crneiVYf9KihJdU/ZYlMhZSCZa2nLbuhhbEmJjfu4tAw0PBgFXGMWVPa89Rk6s3PcU/8
- EfQMBemrGbW1ewYK4kaFTspBlwk2IARkzTBvGRqQt4HGTk97eSnfqN5WUM0gd83ExYGj
- fg/ksqKYH3qWzYiHxHPRPUhqC4IoXvprznHFAJ8WuElAnAo7T83uScz8kmVx97yiRYuD
- 5orOY6eBJMzR2yut9k4hpL8AtO6mVqQ934L8neifBYehSXuPxYAovwYArg/4RVVNaueH
- wvDnOpXIE3v/rfbqTMDO3zzY1LGayAYd3+UBG6QZWIkXP5HSCfVi9Cuo78qMuCmbF5QT RA== 
+ : date : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=I9cOwwBgDPoUVa3pJdHdyC3Hywl8GxVJc/7HXVjD49Q=;
+ b=AkRiPAKlg7v7Wo/vY5qv0fjRRsvHzSr5fBTgVU5ORQzIceOu3T3RS+Z/ojSipxnjJi96
+ yGVWZSqvAg37CeYnfg1ko/papmc1kQypxSBYyYyWXtwMA2pjTIdQk/o62etHdPp6NIP6
+ 7y19+mtERDIN6cgrbYkVXqMSpEs9ly36prfOu0PnAROvFDNf5nGMRBonvJvZSJs1JJU7
+ J8Jq0fDodETMuyUmS1Vq7gtEVm0rss1GThN+lPE6BN2cy82maY4JfwGUdC9C0dl/tSLb
+ 40XVyWa04cebuwyQtaMxQiYDkQ7KoXrOCGjKXdyK99rdhSJBfXBsAesKf9sDqgu6cYka Ag== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n2kff2nu7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Jan 2023 15:20:30 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30CEPdl2017841;
+ Thu, 12 Jan 2023 15:20:29 GMT
 Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
  [149.81.74.107])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n2kff2nry-1
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n2kff2ntj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Jan 2023 15:20:26 +0000
+ Thu, 12 Jan 2023 15:20:29 +0000
 Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30CC5BQ8030569;
- Thu, 12 Jan 2023 15:20:24 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3n1kyx9x1h-1
+ by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30CCEFp9030563;
+ Thu, 12 Jan 2023 15:20:28 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+ by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3n1kyx9x1m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Jan 2023 15:20:24 +0000
+ Thu, 12 Jan 2023 15:20:27 +0000
 Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
  [10.20.54.106])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30CFKLA852494792
+ by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30CFKOFK46989614
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Jan 2023 15:20:21 GMT
+ Thu, 12 Jan 2023 15:20:24 GMT
 Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0C61320043;
- Thu, 12 Jan 2023 15:20:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id EE74B2004B;
+ Thu, 12 Jan 2023 15:20:23 +0000 (GMT)
 Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A1E8B20040;
- Thu, 12 Jan 2023 15:20:20 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6CE2220043;
+ Thu, 12 Jan 2023 15:20:23 +0000 (GMT)
 Received: from heavy.ibmuc.com (unknown [9.171.69.153])
  by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 12 Jan 2023 15:20:20 +0000 (GMT)
+ Thu, 12 Jan 2023 15:20:23 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org, 
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v4 2/3] accel/tcg: Add debuginfo support
-Date: Thu, 12 Jan 2023 16:20:12 +0100
-Message-Id: <20230112152013.125680-3-iii@linux.ibm.com>
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ "Vanderson M . do Rosario" <vandersonmr2@gmail.com>
+Subject: [PATCH v4 3/3] tcg: add perfmap and jitdump
+Date: Thu, 12 Jan 2023 16:20:13 +0100
+Message-Id: <20230112152013.125680-4-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230112152013.125680-1-iii@linux.ibm.com>
 References: <20230112152013.125680-1-iii@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: WwpghSqseAv1as3N5zCbHaO9ewDy_Mb_
-X-Proofpoint-GUID: WwpghSqseAv1as3N5zCbHaO9ewDy_Mb_
+X-Proofpoint-ORIG-GUID: FVSP-WwZdvnyqlASaW2BEaF8TfgYN5KY
+X-Proofpoint-GUID: eli25FRRZRXlkU9P4uQ6ELKIdc8g_ofG
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2023-01-12_08,2023-01-12_01,2022-06-22_01
@@ -105,312 +115,682 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add libdw-based functions for loading and querying debuginfo. Load
-debuginfo from the system and the linux-user loaders.
+Add ability to dump /tmp/perf-<pid>.map and jit-<pid>.dump.
+The first one allows the perf tool to map samples to each individual
+translation block. The second one adds the ability to resolve symbol
+names, line numbers and inspect JITed code.
 
-This is useful for the upcoming perf support, which can then put
-human-readable guest symbols instead of raw guest PCs into perfmap and
-jitdump files.
+Example of use:
 
+    perf record qemu-x86_64 -perfmap ./a.out
+    perf report
+
+or
+
+    perf record -k 1 qemu-x86_64 -jitdump ./a.out
+    DEBUGINFOD_URLS= perf inject -j -i perf.data -o perf.data.jitted
+    perf report -i perf.data.jitted
+
+Co-developed-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+Co-developed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- accel/tcg/debuginfo.c  | 96 ++++++++++++++++++++++++++++++++++++++++++
- accel/tcg/debuginfo.h  | 77 +++++++++++++++++++++++++++++++++
- accel/tcg/meson.build  |  1 +
- hw/core/loader.c       |  5 +++
- linux-user/elfload.c   |  3 ++
- linux-user/meson.build |  1 +
- meson.build            |  8 ++++
- 7 files changed, 191 insertions(+)
- create mode 100644 accel/tcg/debuginfo.c
- create mode 100644 accel/tcg/debuginfo.h
+ accel/tcg/meson.build     |   1 +
+ accel/tcg/perf.c          | 375 ++++++++++++++++++++++++++++++++++++++
+ accel/tcg/perf.h          |  49 +++++
+ accel/tcg/translate-all.c |   7 +
+ docs/devel/tcg.rst        |  23 +++
+ linux-user/exit.c         |   2 +
+ linux-user/main.c         |  15 ++
+ qemu-options.hx           |  20 ++
+ softmmu/vl.c              |  11 ++
+ tcg/tcg.c                 |   2 +
+ 10 files changed, 505 insertions(+)
+ create mode 100644 accel/tcg/perf.c
+ create mode 100644 accel/tcg/perf.h
 
-diff --git a/accel/tcg/debuginfo.c b/accel/tcg/debuginfo.c
+diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
+index 55b3b4dd7e3..77740b1a0d7 100644
+--- a/accel/tcg/meson.build
++++ b/accel/tcg/meson.build
+@@ -13,6 +13,7 @@ tcg_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user-exec.c'))
+ tcg_ss.add(when: 'CONFIG_SOFTMMU', if_false: files('user-exec-stub.c'))
+ tcg_ss.add(when: 'CONFIG_PLUGIN', if_true: [files('plugin-gen.c')])
+ tcg_ss.add(when: libdw, if_true: files('debuginfo.c'))
++tcg_ss.add(when: 'CONFIG_LINUX', if_true: files('perf.c'))
+ specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
+ 
+ specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
+diff --git a/accel/tcg/perf.c b/accel/tcg/perf.c
 new file mode 100644
-index 00000000000..71c66d04d12
+index 00000000000..ae19f6e28fc
 --- /dev/null
-+++ b/accel/tcg/debuginfo.c
-@@ -0,0 +1,96 @@
++++ b/accel/tcg/perf.c
+@@ -0,0 +1,375 @@
 +/*
-+ * Debug information support.
++ * Linux perf perf-<pid>.map and jit-<pid>.dump integration.
++ *
++ * The jitdump spec can be found at [1].
++ *
++ * [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/tools/perf/Documentation/jitdump-specification.txt
 + *
 + * SPDX-License-Identifier: GPL-2.0-or-later
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/lockable.h"
-+
-+#include <elfutils/libdwfl.h>
++#include "elf.h"
++#include "exec/exec-all.h"
++#include "qemu/timer.h"
++#include "tcg/tcg.h"
 +
 +#include "debuginfo.h"
++#include "perf.h"
 +
-+static QemuMutex lock;
-+static Dwfl *dwfl;
-+static const Dwfl_Callbacks dwfl_callbacks = {
-+    .find_elf = NULL,
-+    .find_debuginfo = dwfl_standard_find_debuginfo,
-+    .section_address = NULL,
-+    .debuginfo_path = NULL,
++static FILE *safe_fopen_w(const char *path)
++{
++    int saved_errno;
++    FILE *f;
++    int fd;
++
++    /* Delete the old file, if any. */
++    unlink(path);
++
++    /* Avoid symlink attacks by using O_CREAT | O_EXCL. */
++    fd = open(path, O_RDWR | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
++    if (fd == -1) {
++        return NULL;
++    }
++
++    /* Convert fd to FILE*. */
++    f = fdopen(fd, "w");
++    if (f == NULL) {
++        saved_errno = errno;
++        close(fd);
++        errno = saved_errno;
++        return NULL;
++    }
++
++    return f;
++}
++
++static FILE *perfmap;
++
++void perf_enable_perfmap(void)
++{
++    char map_file[32];
++
++    snprintf(map_file, sizeof(map_file), "/tmp/perf-%d.map", getpid());
++    perfmap = safe_fopen_w(map_file);
++    if (perfmap == NULL) {
++        warn_report("Could not open %s: %s, proceeding without perfmap",
++                    map_file, strerror(errno));
++    }
++}
++
++/* Get PC and size of code JITed for guest instruction #INSN. */
++static void get_host_pc_size(uintptr_t *host_pc, uint16_t *host_size,
++                             const void *start, size_t insn)
++{
++    uint16_t start_off = insn ? tcg_ctx->gen_insn_end_off[insn - 1] : 0;
++
++    if (host_pc) {
++        *host_pc = (uintptr_t)start + start_off;
++    }
++    if (host_size) {
++        *host_size = tcg_ctx->gen_insn_end_off[insn] - start_off;
++    }
++}
++
++static const char *pretty_symbol(const struct debuginfo_query *q, size_t *len)
++{
++    static __thread char buf[64];
++    int tmp;
++
++    if (!q->symbol) {
++        tmp = snprintf(buf, sizeof(buf), "guest-0x%"PRIx64, q->address);
++        if (len) {
++            *len = MIN(tmp + 1, sizeof(buf));
++        }
++        return buf;
++    }
++
++    if (!q->offset) {
++        if (len) {
++            *len = strlen(q->symbol) + 1;
++        }
++        return q->symbol;
++    }
++
++    tmp = snprintf(buf, sizeof(buf), "%s+0x%"PRIx64, q->symbol, q->offset);
++    if (len) {
++        *len = MIN(tmp + 1, sizeof(buf));
++    }
++    return buf;
++}
++
++static void write_perfmap_entry(const void *start, size_t insn,
++                                const struct debuginfo_query *q)
++{
++    uint16_t host_size;
++    uintptr_t host_pc;
++
++    get_host_pc_size(&host_pc, &host_size, start, insn);
++    fprintf(perfmap, "%"PRIxPTR" %"PRIx16" %s\n",
++            host_pc, host_size, pretty_symbol(q, NULL));
++}
++
++static FILE *jitdump;
++
++#define JITHEADER_MAGIC 0x4A695444
++#define JITHEADER_VERSION 1
++
++struct jitheader {
++    uint32_t magic;
++    uint32_t version;
++    uint32_t total_size;
++    uint32_t elf_mach;
++    uint32_t pad1;
++    uint32_t pid;
++    uint64_t timestamp;
++    uint64_t flags;
 +};
 +
-+__attribute__((constructor))
-+static void debuginfo_init(void)
-+{
-+    qemu_mutex_init(&lock);
-+}
++enum jit_record_type {
++    JIT_CODE_LOAD = 0,
++    JIT_CODE_DEBUG_INFO = 2,
++};
 +
-+void debuginfo_report_elf(const char *name, int fd, uint64_t bias)
-+{
-+    QEMU_LOCK_GUARD(&lock);
++struct jr_prefix {
++    uint32_t id;
++    uint32_t total_size;
++    uint64_t timestamp;
++};
 +
-+    if (dwfl) {
-+        dwfl_report_begin_add(dwfl);
-+    } else {
-+        dwfl = dwfl_begin(&dwfl_callbacks);
++struct jr_code_load {
++    struct jr_prefix p;
++
++    uint32_t pid;
++    uint32_t tid;
++    uint64_t vma;
++    uint64_t code_addr;
++    uint64_t code_size;
++    uint64_t code_index;
++};
++
++struct debug_entry {
++    uint64_t addr;
++    int lineno;
++    int discrim;
++    const char name[];
++};
++
++struct jr_code_debug_info {
++    struct jr_prefix p;
++
++    uint64_t code_addr;
++    uint64_t nr_entry;
++    struct debug_entry entries[];
++};
++
++static uint32_t get_e_machine(void)
++{
++    Elf64_Ehdr elf_header;
++    FILE *exe;
++    size_t n;
++
++    QEMU_BUILD_BUG_ON(offsetof(Elf32_Ehdr, e_machine) !=
++                      offsetof(Elf64_Ehdr, e_machine));
++
++    exe = fopen("/proc/self/exe", "r");
++    if (exe == NULL) {
++        return EM_NONE;
 +    }
 +
-+    if (dwfl) {
-+        dwfl_report_elf(dwfl, name, name, fd, bias, true);
-+        dwfl_report_end(dwfl, NULL, NULL);
++    n = fread(&elf_header, sizeof(elf_header), 1, exe);
++    fclose(exe);
++    if (n != 1) {
++        return EM_NONE;
 +    }
++
++    return elf_header.e_machine;
 +}
 +
-+void debuginfo_lock(void)
++void perf_enable_jitdump(void)
 +{
-+    qemu_mutex_lock(&lock);
-+}
++    struct jitheader header;
++    char jitdump_file[32];
++    void *perf_marker;
 +
-+void debuginfo_query(struct debuginfo_query *q, size_t n)
-+{
-+    const char *symbol, *file;
-+    Dwfl_Module *dwfl_module;
-+    Dwfl_Line *dwfl_line;
-+    GElf_Off dwfl_offset;
-+    GElf_Sym dwfl_sym;
-+    size_t i;
-+    int line;
-+
-+    if (!dwfl) {
++    if (!use_rt_clock) {
++        warn_report("CLOCK_MONOTONIC is not available, proceeding without jitdump");
 +        return;
 +    }
 +
-+    for (i = 0; i < n; i++) {
-+        dwfl_module = dwfl_addrmodule(dwfl, q[i].address);
-+        if (!dwfl_module) {
-+            continue;
-+        }
++    snprintf(jitdump_file, sizeof(jitdump_file), "jit-%d.dump", getpid());
++    jitdump = safe_fopen_w(jitdump_file);
++    if (jitdump == NULL) {
++        warn_report("Could not open %s: %s, proceeding without jitdump",
++                    jitdump_file, strerror(errno));
++        return;
++    }
 +
-+        if (q[i].flags & DEBUGINFO_SYMBOL) {
-+            symbol = dwfl_module_addrinfo(dwfl_module, q[i].address,
-+                                          &dwfl_offset, &dwfl_sym,
-+                                          NULL, NULL, NULL);
-+            if (symbol) {
-+                q[i].symbol = symbol;
-+                q[i].offset = dwfl_offset;
-+            }
-+        }
++    /*
++     * `perf inject` will see that the mapped file name in the corresponding
++     * PERF_RECORD_MMAP or PERF_RECORD_MMAP2 event is of the form jit-%d.dump
++     * and will process it as a jitdump file.
++     */
++    perf_marker = mmap(NULL, qemu_real_host_page_size(), PROT_READ | PROT_EXEC,
++                       MAP_PRIVATE, fileno(jitdump), 0);
++    if (perf_marker == MAP_FAILED) {
++        warn_report("Could not map %s: %s, proceeding without jitdump",
++                    jitdump_file, strerror(errno));
++        fclose(jitdump);
++        jitdump = NULL;
++        return;
++    }
 +
-+        if (q[i].flags & DEBUGINFO_LINE) {
-+            dwfl_line = dwfl_module_getsrc(dwfl_module, q[i].address);
-+            if (dwfl_line) {
-+                file = dwfl_lineinfo(dwfl_line, NULL, &line, 0, NULL, NULL);
-+                if (file) {
-+                    q[i].file = file;
-+                    q[i].line = line;
-+                }
-+            }
-+        }
++    header.magic = JITHEADER_MAGIC;
++    header.version = JITHEADER_VERSION;
++    header.total_size = sizeof(header);
++    header.elf_mach = get_e_machine();
++    header.pad1 = 0;
++    header.pid = getpid();
++    header.timestamp = get_clock();
++    header.flags = 0;
++    fwrite(&header, sizeof(header), 1, jitdump);
++}
++
++void perf_report_prologue(const void *start, size_t size)
++{
++    if (perfmap) {
++        fprintf(perfmap, "%"PRIxPTR" %zx tcg-prologue-buffer\n",
++                (uintptr_t)start, size);
 +    }
 +}
 +
-+void debuginfo_unlock(void)
++/* Write a JIT_CODE_DEBUG_INFO jitdump entry. */
++static void write_jr_code_debug_info(const void *start,
++                                     const struct debuginfo_query *q,
++                                     size_t icount)
 +{
-+    qemu_mutex_unlock(&lock);
++    struct jr_code_debug_info rec;
++    struct debug_entry ent;
++    uintptr_t host_pc;
++    int insn;
++
++    /* Write the header. */
++    rec.p.id = JIT_CODE_DEBUG_INFO;
++    rec.p.total_size = sizeof(rec) + sizeof(ent) + 1;
++    rec.p.timestamp = get_clock();
++    rec.code_addr = (uintptr_t)start;
++    rec.nr_entry = 1;
++    for (insn = 0; insn < icount; insn++) {
++        if (q[insn].file) {
++            rec.p.total_size += sizeof(ent) + strlen(q[insn].file) + 1;
++            rec.nr_entry++;
++        }
++    }
++    fwrite(&rec, sizeof(rec), 1, jitdump);
++
++    /* Write the main debug entries. */
++    for (insn = 0; insn < icount; insn++) {
++        if (q[insn].file) {
++            get_host_pc_size(&host_pc, NULL, start, insn);
++            ent.addr = host_pc;
++            ent.lineno = q[insn].line;
++            ent.discrim = 0;
++            fwrite(&ent, sizeof(ent), 1, jitdump);
++            fwrite(q[insn].file, strlen(q[insn].file) + 1, 1, jitdump);
++        }
++    }
++
++    /* Write the trailing debug_entry. */
++    ent.addr = (uintptr_t)start + tcg_ctx->gen_insn_end_off[icount - 1];
++    ent.lineno = 0;
++    ent.discrim = 0;
++    fwrite(&ent, sizeof(ent), 1, jitdump);
++    fwrite("", 1, 1, jitdump);
 +}
-diff --git a/accel/tcg/debuginfo.h b/accel/tcg/debuginfo.h
++
++/* Write a JIT_CODE_LOAD jitdump entry. */
++static void write_jr_code_load(const void *start, uint16_t host_size,
++                               const struct debuginfo_query *q)
++{
++    static uint64_t code_index;
++    struct jr_code_load rec;
++    const char *symbol;
++    size_t symbol_size;
++
++    symbol = pretty_symbol(q, &symbol_size);
++    rec.p.id = JIT_CODE_LOAD;
++    rec.p.total_size = sizeof(rec) + symbol_size + host_size;
++    rec.p.timestamp = get_clock();
++    rec.pid = getpid();
++    rec.tid = qemu_get_thread_id();
++    rec.vma = (uintptr_t)start;
++    rec.code_addr = (uintptr_t)start;
++    rec.code_size = host_size;
++    rec.code_index = code_index++;
++    fwrite(&rec, sizeof(rec), 1, jitdump);
++    fwrite(symbol, symbol_size, 1, jitdump);
++    fwrite(start, host_size, 1, jitdump);
++}
++
++void perf_report_code(uint64_t guest_pc, TranslationBlock *tb,
++                      const void *start)
++{
++    struct debuginfo_query *q;
++    size_t insn;
++
++    if (!perfmap && !jitdump) {
++        return;
++    }
++
++    q = g_try_malloc0_n(tb->icount, sizeof(*q));
++    if (!q) {
++        return;
++    }
++
++    debuginfo_lock();
++
++    /* Query debuginfo for each guest instruction. */
++    for (insn = 0; insn < tb->icount; insn++) {
++        /* FIXME: This replicates the restore_state_to_opc() logic. */
++        q[insn].address = tcg_ctx->gen_insn_data[insn][0];
++        if (TARGET_TB_PCREL) {
++            q[insn].address |= (guest_pc & TARGET_PAGE_MASK);
++        } else {
++#if defined(TARGET_I386)
++            q[insn].address -= tb->cs_base;
++#endif
++        }
++        q[insn].flags = DEBUGINFO_SYMBOL | (jitdump ? DEBUGINFO_LINE : 0);
++    }
++    debuginfo_query(q, tb->icount);
++
++    /* Emit perfmap entries if needed. */
++    if (perfmap) {
++        flockfile(perfmap);
++        for (insn = 0; insn < tb->icount; insn++) {
++            write_perfmap_entry(start, insn, &q[insn]);
++        }
++        funlockfile(perfmap);
++    }
++
++    /* Emit jitdump entries if needed. */
++    if (jitdump) {
++        flockfile(jitdump);
++        write_jr_code_debug_info(start, q, tb->icount);
++        write_jr_code_load(start, tcg_ctx->gen_insn_end_off[tb->icount - 1],
++                           q);
++        funlockfile(jitdump);
++    }
++
++    debuginfo_unlock();
++    g_free(q);
++}
++
++void perf_exit(void)
++{
++    if (perfmap) {
++        fclose(perfmap);
++        perfmap = NULL;
++    }
++
++    if (jitdump) {
++        fclose(jitdump);
++        jitdump = NULL;
++    }
++}
+diff --git a/accel/tcg/perf.h b/accel/tcg/perf.h
 new file mode 100644
-index 00000000000..7542cfe6e07
+index 00000000000..f92dd52c699
 --- /dev/null
-+++ b/accel/tcg/debuginfo.h
-@@ -0,0 +1,77 @@
++++ b/accel/tcg/perf.h
+@@ -0,0 +1,49 @@
 +/*
-+ * Debug information support.
++ * Linux perf perf-<pid>.map and jit-<pid>.dump integration.
 + *
 + * SPDX-License-Identifier: GPL-2.0-or-later
 + */
 +
-+#ifndef ACCEL_TCG_DEBUGINFO_H
-+#define ACCEL_TCG_DEBUGINFO_H
++#ifndef ACCEL_TCG_PERF_H
++#define ACCEL_TCG_PERF_H
 +
-+/*
-+ * Debuginfo describing a certain address.
-+ */
-+struct debuginfo_query {
-+    uint64_t address;    /* Input: address. */
-+    int flags;           /* Input: debuginfo subset. */
-+    const char *symbol;  /* Symbol that the address is part of. */
-+    uint64_t offset;     /* Offset from the symbol. */
-+    const char *file;    /* Source file associated with the address. */
-+    int line;            /* Line number in the source file. */
-+};
++#if defined(CONFIG_TCG) && defined(CONFIG_LINUX)
++/* Start writing perf-<pid>.map. */
++void perf_enable_perfmap(void);
 +
-+/*
-+ * Debuginfo subsets.
-+ */
-+#define DEBUGINFO_SYMBOL BIT(1)
-+#define DEBUGINFO_LINE   BIT(2)
++/* Start writing jit-<pid>.dump. */
++void perf_enable_jitdump(void);
 +
-+#if defined(CONFIG_TCG) && defined(CONFIG_LIBDW)
-+/*
-+ * Load debuginfo for the specified guest ELF image.
-+ * Return true on success, false on failure.
-+ */
-+void debuginfo_report_elf(const char *name, int fd, uint64_t bias);
++/* Add information about TCG prologue to profiler maps. */
++void perf_report_prologue(const void *start, size_t size);
 +
-+/*
-+ * Take the debuginfo lock.
-+ */
-+void debuginfo_lock(void);
++/* Add information about JITted guest code to profiler maps. */
++void perf_report_code(uint64_t guest_pc, TranslationBlock *tb,
++                      const void *start);
 +
-+/*
-+ * Fill each on N Qs with the debuginfo about Q->ADDRESS as specified by
-+ * Q->FLAGS:
-+ *
-+ * - DEBUGINFO_SYMBOL: update Q->SYMBOL and Q->OFFSET. If symbol debuginfo is
-+ *                     missing, then leave them as is.
-+ * - DEBUINFO_LINE: update Q->FILE and Q->LINE. If line debuginfo is missing,
-+ *                  then leave them as is.
-+ *
-+ * This function must be called under the debuginfo lock. The results can be
-+ * accessed only until the debuginfo lock is released.
-+ */
-+void debuginfo_query(struct debuginfo_query *q, size_t n);
-+
-+/*
-+ * Release the debuginfo lock.
-+ */
-+void debuginfo_unlock(void);
++/* Stop writing perf-<pid>.map and/or jit-<pid>.dump. */
++void perf_exit(void);
 +#else
-+static inline void debuginfo_report_elf(const char *image_name, int image_fd,
-+                                        uint64_t load_bias)
++static inline void perf_enable_perfmap(void)
 +{
 +}
 +
-+static inline void debuginfo_lock(void)
++static inline void perf_enable_jitdump(void)
 +{
 +}
 +
-+static inline void debuginfo_query(struct debuginfo_query *q, size_t n)
++static inline void perf_report_prologue(const void *start, size_t size)
 +{
 +}
 +
-+static inline void debuginfo_unlock(void)
++static inline void perf_report_code(uint64_t guest_pc, TranslationBlock *tb,
++                                    const void *start)
++{
++}
++
++static inline void perf_exit(void)
 +{
 +}
 +#endif
 +
 +#endif
-diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
-index 75e1dffb4df..55b3b4dd7e3 100644
---- a/accel/tcg/meson.build
-+++ b/accel/tcg/meson.build
-@@ -12,6 +12,7 @@ tcg_ss.add(files(
- tcg_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user-exec.c'))
- tcg_ss.add(when: 'CONFIG_SOFTMMU', if_false: files('user-exec-stub.c'))
- tcg_ss.add(when: 'CONFIG_PLUGIN', if_true: [files('plugin-gen.c')])
-+tcg_ss.add(when: libdw, if_true: files('debuginfo.c'))
- specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 51ac1f6c84a..979f8e11073 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -62,6 +62,7 @@
+ #include "tb-hash.h"
+ #include "tb-context.h"
+ #include "internal.h"
++#include "perf.h"
  
- specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index 0548830733e..55dbe2e1993 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
+ /* Make sure all possible CPU event bits fit in tb->trace_vcpu_dstate */
+ QEMU_BUILD_BUG_ON(CPU_TRACE_DSTATE_MAX_EVENTS >
+@@ -406,6 +407,12 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     }
+     tb->tc.size = gen_code_size;
+ 
++    /*
++     * For TARGET_TB_PCREL, attribute all executions of the generated
++     * code to its first mapping.
++     */
++    perf_report_code(pc, tb, tcg_splitwx_to_rx(gen_code_buf));
++
+ #ifdef CONFIG_PROFILER
+     qatomic_set(&prof->code_time, prof->code_time + profile_getclock() - ti);
+     qatomic_set(&prof->code_in_len, prof->code_in_len + tb->size);
+diff --git a/docs/devel/tcg.rst b/docs/devel/tcg.rst
+index 136a7a0d962..b4096a17dfe 100644
+--- a/docs/devel/tcg.rst
++++ b/docs/devel/tcg.rst
+@@ -188,3 +188,26 @@ memory areas instead calls out to C code for device emulation.
+ Finally, the MMU helps tracking dirty pages and pages pointed to by
+ translation blocks.
+ 
++Profiling JITted code
++---------------------
++
++The Linux ``perf`` tool will treat all JITted code as a single block as
++unlike the main code it can't use debug information to link individual
++program counter samples with larger functions. To overcome this
++limitation you can use the ``-perfmap`` or the ``-jitdump`` option to generate
++map files. ``-perfmap`` is lightweight and produces only guest-host mappings.
++``-jitdump`` additionally saves JITed code and guest debug information (if
++available); its output needs to be integrated with the ``perf.data`` file
++before the final report can be viewed.
++
++.. code::
++
++  perf record $QEMU -perfmap $REMAINING_ARGS
++  perf report
++
++  perf record -k 1 $QEMU -jitdump $REMAINING_ARGS
++  DEBUGINFOD_URLS= perf inject -j -i perf.data -o perf.data.jitted
++  perf report -i perf.data.jitted
++
++Note that qemu-system generates mappings only for ``-kernel`` files in ELF
++format.
+diff --git a/linux-user/exit.c b/linux-user/exit.c
+index fa6ef0b9b44..607b6da9fc4 100644
+--- a/linux-user/exit.c
++++ b/linux-user/exit.c
+@@ -17,6 +17,7 @@
+  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
++#include "accel/tcg/perf.h"
+ #include "exec/gdbstub.h"
+ #include "qemu.h"
+ #include "user-internals.h"
+@@ -38,4 +39,5 @@ void preexit_cleanup(CPUArchState *env, int code)
+ #endif
+         gdb_exit(code);
+         qemu_plugin_user_exit();
++        perf_exit();
+ }
+diff --git a/linux-user/main.c b/linux-user/main.c
+index a17fed045bf..4290651c3cf 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -53,6 +53,7 @@
+ #include "signal-common.h"
+ #include "loader.h"
+ #include "user-mmap.h"
++#include "accel/tcg/perf.h"
+ 
+ #ifdef CONFIG_SEMIHOSTING
+ #include "semihosting/semihost.h"
+@@ -423,6 +424,16 @@ static void handle_arg_abi_call0(const char *arg)
+ }
+ #endif
+ 
++static void handle_arg_perfmap(const char *arg)
++{
++    perf_enable_perfmap();
++}
++
++static void handle_arg_jitdump(const char *arg)
++{
++    perf_enable_jitdump();
++}
++
+ static QemuPluginList plugins = QTAILQ_HEAD_INITIALIZER(plugins);
+ 
+ #ifdef CONFIG_PLUGIN
+@@ -493,6 +504,10 @@ static const struct qemu_argument arg_table[] = {
+     {"xtensa-abi-call0", "QEMU_XTENSA_ABI_CALL0", false, handle_arg_abi_call0,
+      "",           "assume CALL0 Xtensa ABI"},
+ #endif
++    {"perfmap",    "QEMU_PERFMAP",     false, handle_arg_perfmap,
++     "",           "Generate a /tmp/perf-${pid}.map file for perf"},
++    {"jitdump",    "QEMU_JITDUMP",     false, handle_arg_jitdump,
++     "",           "Generate a jit-${pid}.dump file for perf"},
+     {NULL, NULL, false, NULL, NULL, NULL}
+ };
+ 
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 3aa3a2f5a35..d59d19704bc 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4838,6 +4838,26 @@ SRST
+     Enable synchronization profiling.
+ ERST
+ 
++#if defined(CONFIG_TCG) && defined(CONFIG_LINUX)
++DEF("perfmap", 0, QEMU_OPTION_perfmap,
++    "-perfmap        generate a /tmp/perf-${pid}.map file for perf\n",
++    QEMU_ARCH_ALL)
++SRST
++``-perfmap``
++    Generate a map file for Linux perf tools that will allow basic profiling
++    information to be broken down into basic blocks.
++ERST
++
++DEF("jitdump", 0, QEMU_OPTION_jitdump,
++    "-jitdump        generate a jit-${pid}.dump file for perf\n",
++    QEMU_ARCH_ALL)
++SRST
++``-jitdump``
++    Generate a dump file for Linux perf tools that maps basic blocks to symbol
++    names, line numbers and JITted code.
++ERST
++#endif
++
+ DEFHEADING()
+ 
+ DEFHEADING(Generic object creation:)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 9bd0e52d016..9177d95d4ec 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -96,6 +96,9 @@
+ #include "fsdev/qemu-fsdev.h"
+ #endif
+ #include "sysemu/qtest.h"
++#ifdef CONFIG_TCG
++#include "accel/tcg/perf.h"
++#endif
+ 
+ #include "disas/disas.h"
+ 
+@@ -2926,6 +2929,14 @@ void qemu_init(int argc, char **argv)
+             case QEMU_OPTION_DFILTER:
+                 qemu_set_dfilter_ranges(optarg, &error_fatal);
+                 break;
++#if defined(CONFIG_TCG) && defined(CONFIG_LINUX)
++            case QEMU_OPTION_perfmap:
++                perf_enable_perfmap();
++                break;
++            case QEMU_OPTION_jitdump:
++                perf_enable_jitdump();
++                break;
++#endif
+             case QEMU_OPTION_seed:
+                 qemu_guest_random_seed_main(optarg, &error_fatal);
+                 break;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index da91779890c..9b7df71e7a0 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
 @@ -61,6 +61,7 @@
- #include "hw/boards.h"
- #include "qemu/cutils.h"
- #include "sysemu/runstate.h"
-+#include "accel/tcg/debuginfo.h"
+ #include "exec/log.h"
+ #include "tcg/tcg-ldst.h"
+ #include "tcg-internal.h"
++#include "accel/tcg/perf.h"
  
- #include <zlib.h>
+ /* Forward declarations for functions declared in tcg-target.c.inc and
+    used here. */
+@@ -913,6 +914,7 @@ void tcg_prologue_init(TCGContext *s)
+ #endif
  
-@@ -503,6 +504,10 @@ ssize_t load_elf_ram_sym(const char *filename,
-                          clear_lsb, data_swab, as, load_rom, sym_cb);
-     }
+     prologue_size = tcg_current_code_size(s);
++    perf_report_prologue(s->code_gen_ptr, prologue_size);
  
-+    if (ret != ELF_LOAD_FAILED) {
-+        debuginfo_report_elf(filename, fd, 0);
-+    }
-+
-  fail:
-     close(fd);
-     return ret;
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 20894b633f5..5928c14dfc9 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -19,6 +19,7 @@
- #include "qemu/selfmap.h"
- #include "qapi/error.h"
- #include "target_signal.h"
-+#include "accel/tcg/debuginfo.h"
- 
- #ifdef _ARCH_PPC64
- #undef ARCH_DLINFO
-@@ -3261,6 +3262,8 @@ static void load_elf_image(const char *image_name, int image_fd,
-         load_symbols(ehdr, image_fd, load_bias);
-     }
- 
-+    debuginfo_report_elf(image_name, image_fd, load_bias);
-+
-     mmap_unlock();
- 
-     close(image_fd);
-diff --git a/linux-user/meson.build b/linux-user/meson.build
-index de4320af053..7171dc60be2 100644
---- a/linux-user/meson.build
-+++ b/linux-user/meson.build
-@@ -22,6 +22,7 @@ linux_user_ss.add(files(
-   'uname.c',
- ))
- linux_user_ss.add(rt)
-+linux_user_ss.add(libdw)
- 
- linux_user_ss.add(when: 'TARGET_HAS_BFLT', if_true: files('flatload.c'))
- linux_user_ss.add(when: 'TARGET_I386', if_true: files('vm86.c'))
-diff --git a/meson.build b/meson.build
-index 175517eafde..cab8c67d961 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1648,6 +1648,12 @@ if libbpf.found() and not cc.links('''
-   endif
- endif
- 
-+# libdw
-+libdw = dependency('libdw',
-+                   method: 'pkg-config',
-+                   kwargs: static_kwargs,
-+                   required: false)
-+
- #################
- # config-host.h #
- #################
-@@ -1923,6 +1929,7 @@ config_host_data.set('CONFIG_DBUS_DISPLAY', dbus_display)
- config_host_data.set('CONFIG_CFI', get_option('cfi'))
- config_host_data.set('CONFIG_SELINUX', selinux.found())
- config_host_data.set('CONFIG_XEN_BACKEND', xen.found())
-+config_host_data.set('CONFIG_LIBDW', libdw.found())
- if xen.found()
-   # protect from xen.version() having less than three components
-   xen_version = xen.version().split('.') + ['0', '0']
-@@ -3981,6 +3988,7 @@ summary_info += {'libudev':           libudev}
- # Dummy dependency, keep .found()
- summary_info += {'FUSE lseek':        fuse_lseek.found()}
- summary_info += {'selinux':           selinux}
-+summary_info += {'libdw':             libdw}
- summary(summary_info, bool_yn: true, section: 'Dependencies')
- 
- if not supported_cpus.contains(cpu)
+ #ifndef CONFIG_TCG_INTERPRETER
+     flush_idcache_range((uintptr_t)tcg_splitwx_to_rx(s->code_buf),
 -- 
 2.39.0
 
