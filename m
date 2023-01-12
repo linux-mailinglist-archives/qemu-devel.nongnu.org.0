@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB96667CDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 18:45:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5CE0667CEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 18:46:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG1cF-0001n9-3s; Thu, 12 Jan 2023 12:43:51 -0500
+	id 1pG1dQ-0002Oz-Da; Thu, 12 Jan 2023 12:45:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pG1cB-0001l5-EA
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 12:43:48 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pG1dC-0002Jj-Fd
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 12:44:51 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pG1c9-00033J-Pq
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 12:43:47 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pG1dA-00037T-A5
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 12:44:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673545425;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1673545486;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RkZwghprMB2BGreji/ah+85nLdsJPz6AK3ML33k+Mdw=;
- b=a4L4Nd2BIibShLLnaKzWvMNetAH/rnI3MUw8qROTpyklq9sPaApUuoChqw6n6HQR8//se8
- CPGVggo6ywl5KBqWY5wZT1ERf0Ig840twcFlNvkp7LJXc1FfOIUV7q1ofIOoTV2mf+5D+g
- 7ShcrPfhalRzcddqtsFqZydm4vWPaYY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-613-VNsC5RDaMbSuMG0iFtImqQ-1; Thu, 12 Jan 2023 12:43:43 -0500
-X-MC-Unique: VNsC5RDaMbSuMG0iFtImqQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- n13-20020adfc60d000000b0029bdfcf52eeso3663688wrg.8
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 09:43:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RkZwghprMB2BGreji/ah+85nLdsJPz6AK3ML33k+Mdw=;
- b=wvbVYPdtF5T16ddxMciGXWALHcOAF++89cVblPCB4BLP2jlpzz1+1hYGXKxkRvXiY7
- fREMXo/qkpufzJwbEBtWk8TDdtkByrG8MS+7vKX5kRjzq5GSu6zLEijKJr3cdQh9zn/W
- CFMgdBMq5jNtQJ29G8fyT9SUEpUndWdViHddWmyIfPW1ynP9e4MHlUDlqtnC0vHvGO8r
- 34AOZ3ShA8tQLUt/IL3wPBwZsFIa23S2HN1vCaO+vJRm8uct5t6GJKK5oDhb8u42KjXp
- RdXoN0LvMlIvO3DebLGojndW+iyxryOfxtl4vpgaomLKikzipR+1x7RLPHLgeyHHneX4
- qh8A==
-X-Gm-Message-State: AFqh2kp/izQq+iDxsbrZ/fR0gTEt6QxfJmdmRR/Z/EsHqFTAM/ogCs6D
- 0NkdDeq6O3AxbFqyvPrnWU6TvEUosjhyWGpJURs5hlPtBL13EZ230weQ48fepTdtgLEvfVK2/qI
- rQBPd5QeloG4nEoA=
-X-Received: by 2002:adf:dd0d:0:b0:2bd:d6bd:57c7 with SMTP id
- a13-20020adfdd0d000000b002bdd6bd57c7mr2124216wrm.12.1673545422552; 
- Thu, 12 Jan 2023 09:43:42 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuU/HhyZU4QgB0vns0l08HWTNj4pyYZZdUgMCpMGELh5Y4itTmardrXOnn7y6edim6LzGYSKA==
-X-Received: by 2002:adf:dd0d:0:b0:2bd:d6bd:57c7 with SMTP id
- a13-20020adfdd0d000000b002bdd6bd57c7mr2124199wrm.12.1673545422297; 
- Thu, 12 Jan 2023 09:43:42 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- b1-20020adf9b01000000b0028e55b44a99sm16808140wrc.17.2023.01.12.09.43.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jan 2023 09:43:41 -0800 (PST)
-Date: Thu, 12 Jan 2023 17:43:40 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Peter Xu <peterx@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-Subject: Re: [PATCH v3 2/8] migration/savevm: Prepare vmdesc json writer in
- qemu_savevm_state_setup()
-Message-ID: <Y8BGzE/HtpXZJ8Lz@work-vm>
-References: <20230112164403.105085-1-david@redhat.com>
- <20230112164403.105085-3-david@redhat.com>
+ bh=NtwoKh/3iAKB2XE/31DuEYgAr//oVfLpFtkMDcaEqpE=;
+ b=HzXJ3B3y56sYVbuA0BiG1VKDZbtnp1Pf9urWetbgB7vo+dA+DapgVBdGBUzMbDhnRkL6Mm
+ GZNxQkuwABmttKUoNzw7rdRsJElm2CI5+3PMwKjHeqYcKV5kGYSvguU5MnPabb5uKxQ7jc
+ h452GpdgZPgWJpK2Vg6deRuPtu1Uhcc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-215-TbksA1BdNsefWnC0nIvYDQ-1; Thu, 12 Jan 2023 12:44:42 -0500
+X-MC-Unique: TbksA1BdNsefWnC0nIvYDQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 924543813F35;
+ Thu, 12 Jan 2023 17:44:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F13D4085720;
+ Thu, 12 Jan 2023 17:44:34 +0000 (UTC)
+Date: Thu, 12 Jan 2023 17:44:31 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ imp@bsdimp.com, kevans@freebsd.org, ben.widawsky@intel.com,
+ jonathan.cameron@huawei.com, kbastian@mail.uni-paderborn.de,
+ jasowang@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
+ tsimpson@quicinc.com, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, philmd@linaro.org,
+ Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v3 1/1] include: Don't include qemu/osdep.h
+Message-ID: <Y8BG/ytLLePRk1ki@redhat.com>
+References: <20230112115005.1504812-1-armbru@redhat.com>
+ <20230112115005.1504812-2-armbru@redhat.com>
+ <20230112082537-mutt-send-email-mst@kernel.org>
+ <20230112085520-mutt-send-email-mst@kernel.org>
+ <87zgan4xoo.fsf@pond.sub.org>
+ <20230112123434-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230112164403.105085-3-david@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230112123434-mutt-send-email-mst@kernel.org>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,136 +89,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* David Hildenbrand (david@redhat.com) wrote:
-> ... and store it in the migration state. This is a preparation for
-> storing selected vmds's already in qemu_savevm_state_setup().
+On Thu, Jan 12, 2023 at 12:37:46PM -0500, Michael S. Tsirkin wrote:
+> On Thu, Jan 12, 2023 at 03:47:19PM +0100, Markus Armbruster wrote:
+> > "Michael S. Tsirkin" <mst@redhat.com> writes:
+> > 
+> > > On Thu, Jan 12, 2023 at 08:51:32AM -0500, Michael S. Tsirkin wrote:
+> > >> On Thu, Jan 12, 2023 at 12:50:05PM +0100, Markus Armbruster wrote:
+> > >> > docs/devel/style.rst mandates:
+> > >> > 
+> > >> >     The "qemu/osdep.h" header contains preprocessor macros that affect
+> > >> >     the behavior of core system headers like <stdint.h>.  It must be
+> > >> >     the first include so that core system headers included by external
+> > >> >     libraries get the preprocessor macros that QEMU depends on.
+> > >> > 
+> > >> >     Do not include "qemu/osdep.h" from header files since the .c file
+> > >> >     will have already included it.
+> > >> > 
+> > >> > A few violations have crept in.  Fix them.
+> > >> > 
+> > >> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> > >> > Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> > >> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> > >> > Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+> > >> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > >> 
+> > >> With my awesome grep skillz I found one more:
+> > >> $ grep -r --include='*.h' qemu/osdep.h
+> > >> include/block/graph-lock.h:#include "qemu/osdep.h"
+> > 
+> > Crept in after I prepared my v1.  I neglected to re-check.
+> > 
+> > > Also:
+> > > $ grep -r --include='*.inc' qemu/osdep.h
+> > > ui/vnc-enc-zrle.c.inc:#include "qemu/osdep.h"
+> > > crypto/akcipher-nettle.c.inc:#include "qemu/osdep.h"
+> > > crypto/akcipher-gcrypt.c.inc:#include "qemu/osdep.h"
+> > > crypto/rsakey-nettle.c.inc:#include "qemu/osdep.h"
+> > > crypto/cipher-gnutls.c.inc:#include "qemu/osdep.h"
+> > > target/xtensa/core-dc233c/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> > > target/xtensa/core-sample_controller/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> > > target/xtensa/core-de212/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> > > target/xtensa/core-dc232b/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> > > target/xtensa/core-fsf/xtensa-modules.c.inc:#include "qemu/osdep.h"
+> > > target/cris/translate_v10.c.inc:#include "qemu/osdep.h"
+> > 
+> > Good point.  Looks like I successfully supressed all memory of .inc.
+> > 
+> > >> Looks like all C files must include qemu/osdep.h, no?
+> > 
+> > I remember there are a few exceptions, but I don't remember which .c
+> > they are.  Hmm... see commit 4bd802b209cff612d1a99674a91895b735be8630.
+> > 
+> > >> How about
+> > >> 
+> > >> 1- add -include qemu/osdep.h on compile command line
+> > >>    drop #include "qemu/osdep.h" from C files
+> > 
+> > Then you need to encode the exceptions in the build system.  Which might
+> > not be a bad thing.
+> > 
+> > >> 2- drop double include guards, replace with a warning.
+> > >> 
+> > >> following patch implements part 2:
+> > >> 
+> > >> 
+> > >> qemu/osdep: don't include it from headers
+> > >> 
+> > >> doing so will lead to trouble eventually - instead of
+> > >> working around such cases make it more likely it will fail.
+> > >> 
+> > >> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > >> 
+> > >> ---
+> > >> 
+> > >> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> > >> index 7d059ad526..e4a60f911c 100644
+> > >> --- a/include/qemu/osdep.h
+> > >> +++ b/include/qemu/osdep.h
+> > >> @@ -24,7 +24,12 @@
+> > >>   * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> > >>   * See the COPYING file in the top-level directory.
+> > >>   */
+> > >> -#ifndef QEMU_OSDEP_H
+> > >> +#ifdef QEMU_OSDEP_H
+> > >> +#warning "Never include qemu/osdep.h from a header!"
+> > >> +#endif
+> > >> +
+> > >> +static inline void qemu_osdep_never_include_from_header(void) {}
+> > >> +
+> > 
+> > Why do you need the function, too?
 > 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  migration/migration.c |  4 ++++
->  migration/migration.h |  4 ++++
->  migration/savevm.c    | 18 ++++++++++++------
->  3 files changed, 20 insertions(+), 6 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 52b5d39244..1d33a7efa0 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -2170,6 +2170,9 @@ void migrate_init(MigrationState *s)
->      s->vm_was_running = false;
->      s->iteration_initial_bytes = 0;
->      s->threshold_size = 0;
-> +
-> +    json_writer_free(s->vmdesc);
-> +    s->vmdesc = NULL;
->  }
->  
->  int migrate_add_blocker_internal(Error *reason, Error **errp)
-> @@ -4445,6 +4448,7 @@ static void migration_instance_finalize(Object *obj)
->      qemu_sem_destroy(&ms->rp_state.rp_sem);
->      qemu_sem_destroy(&ms->postcopy_qemufile_src_sem);
->      error_free(ms->error);
-> +    json_writer_free(ms->vmdesc);
+> This seems to give a bit more info if header does get included
+> twice: instead of just a warning on the second include compiler says
+> definition is duplicated and then shows where the first definition was.
+> OTOH first one was almost for sure from the proper first include so
+> maybe we don't care. Let me drop this.
 
-I'm not sure this is happening when you think it is.
-I *think* this only happens when qemu quits....
+FWIW, if we want to simplify our header guards, we could replace the
 
->  }
->  
->  static void migration_instance_init(Object *obj)
-> diff --git a/migration/migration.h b/migration/migration.h
-> index ae4ffd3454..66511ce532 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -17,6 +17,7 @@
->  #include "exec/cpu-common.h"
->  #include "hw/qdev-core.h"
->  #include "qapi/qapi-types-migration.h"
-> +#include "qapi/qmp/json-writer.h"
->  #include "qemu/thread.h"
->  #include "qemu/coroutine_int.h"
->  #include "io/channel.h"
-> @@ -366,6 +367,9 @@ struct MigrationState {
->       * This save hostname when out-going migration starts
->       */
->      char *hostname;
-> +
-> +    /* QEMU_VM_VMDESCRIPTION content filled for all non-iterable devices. */
-> +    JSONWriter *vmdesc;
->  };
->  
->  void migrate_set_state(int *state, int old_state, int new_state);
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index d8830297e4..ff2b8d0064 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -42,7 +42,6 @@
->  #include "postcopy-ram.h"
->  #include "qapi/error.h"
->  #include "qapi/qapi-commands-migration.h"
-> -#include "qapi/qmp/json-writer.h"
->  #include "qapi/clone-visitor.h"
->  #include "qapi/qapi-builtin-visit.h"
->  #include "qapi/qmp/qerror.h"
-> @@ -1189,10 +1188,16 @@ bool qemu_savevm_state_guest_unplug_pending(void)
->  
->  void qemu_savevm_state_setup(QEMUFile *f)
->  {
-> +    MigrationState *ms = migrate_get_current();
->      SaveStateEntry *se;
->      Error *local_err = NULL;
->      int ret;
->  
-> +    ms->vmdesc = json_writer_new(false);
-> +    json_writer_start_object(ms->vmdesc, NULL);
-> +    json_writer_int64(ms->vmdesc, "page_size", qemu_target_page_size());
-> +    json_writer_start_array(ms->vmdesc, "devices");
-> +
->      trace_savevm_state_setup();
->      QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->          if (!se->ops || !se->ops->save_setup) {
-> @@ -1390,15 +1395,12 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
->                                                      bool in_postcopy,
->                                                      bool inactivate_disks)
->  {
-> -    g_autoptr(JSONWriter) vmdesc = NULL;
-> +    MigrationState *ms = migrate_get_current();
-> +    JSONWriter *vmdesc = ms->vmdesc;
->      int vmdesc_len;
->      SaveStateEntry *se;
->      int ret;
->  
-> -    vmdesc = json_writer_new(false);
-> -    json_writer_start_object(vmdesc, NULL);
-> -    json_writer_int64(vmdesc, "page_size", qemu_target_page_size());
-> -    json_writer_start_array(vmdesc, "devices");
->      QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->          ret = vmstate_save(f, se, vmdesc);
->          if (ret) {
-> @@ -1433,6 +1435,10 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
->          qemu_put_buffer(f, (uint8_t *)json_writer_get(vmdesc), vmdesc_len);
->      }
->  
-> +    /* Free it now to detect any inconsistencies. */
-> +    json_writer_free(vmdesc);
-> +    ms->vmdesc = NULL;
+  #ifndef FOO_H
+  #define FOO_H
 
-and this only happens when this succesfully exits;  so if this errors
-out, and then you retry an outwards migration, I think you've leaked a
-writer.
+  ....
 
-Dave
+  #endif /* FOO_H */
 
->      return 0;
->  }
->  
-> -- 
-> 2.39.0
-> 
+with merely
+
+  #pragma once
+
+at the top of each header.
+
+With regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
