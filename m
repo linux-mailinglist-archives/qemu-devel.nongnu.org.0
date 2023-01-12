@@ -2,101 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC4D667886
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:05:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A2B66788C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:05:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFyfE-0003ns-S8; Thu, 12 Jan 2023 09:34:45 -0500
+	id 1pFynV-000168-1e; Thu, 12 Jan 2023 09:43:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pFyet-0003fC-Ut
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:34:34 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pFynQ-0000ym-Gs
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:43:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pFyeq-0002aK-Is
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:34:22 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30CEK7QR027607; Thu, 12 Jan 2023 14:34:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=pp1;
- bh=HSM/AJz2kGWPrQiiWz1+SRaycGiRwPQnbtcg+oknzpo=;
- b=R5IImGK6cyTxMIKjApT2VpiDbVJMRg2j32oOktm+i4vN1D8N5LlzhfiGxJtTdZ9d4DuA
- OBjwUfHc7kSnrf3cZI58/uFUdYOyNquX0AcqRBJIJDqqthuP2UJc9zhxpgbSMpv+5alz
- g1y4RtO4TzDN6aqP7OEabp+aGb0En8umM2/Hx+liCHtGnDnonISR/zdIUuxQdivJ7tVr
- 1KMuzU1f9d0XwXa7De3tKkWY5NrkqsiFWbNxJLhocXkGL62iePBauAxPoJ2rBFWDXDri
- pYfyCsSA11oqPMrRR/Av/xzQ9h3W2y7vhrwRUZE9lX3cKqnFSSoYYiqC1vkWaODpx6I4 7Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n2kvmrc0e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Jan 2023 14:34:18 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30CEKLIg027904;
- Thu, 12 Jan 2023 14:34:18 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n2kvmrbyu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Jan 2023 14:34:18 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30CE2fcU013176;
- Thu, 12 Jan 2023 14:34:17 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([9.208.129.116])
- by ppma03wdc.us.ibm.com (PPS) with ESMTPS id 3n1k93st74-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Jan 2023 14:34:17 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com
- [10.39.53.233])
- by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30CEYGxO918102
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Jan 2023 14:34:16 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8EC7E58056;
- Thu, 12 Jan 2023 14:34:16 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 015285804E;
- Thu, 12 Jan 2023 14:34:16 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 12 Jan 2023 14:34:15 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, peter.maydell@linaro.org, berrange@redhat.com,
- Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PATCH v2] tests/qtest: Poll on waitpid() for a while before sending
- SIGKILL
-Date: Thu, 12 Jan 2023 09:34:13 -0500
-Message-Id: <20230112143413.3979057-1-stefanb@linux.ibm.com>
-X-Mailer: git-send-email 2.39.0
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pFynO-00042t-Th
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:43:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673534589;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1oHPXrp9c6YPmRaS00yN4Po5ucj/zL+yew3yTwJicJU=;
+ b=EtfTbl7ZlPitRbBufo5LQUV1vXus1L22IUdlm7hehSmUMKrGbf3ISZ+o6CEKIpKrid+GXn
+ RLkZpYzTA8dF+yF2pzuwVoDESh7npISU1eVV/xWbgSDDc9HkK4yo/0+JTN35fW3C2WUsMh
+ otgonle4u0ZtnDNaXgnqkyR7QyxjlH8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-634-GDUtW2T9OU6yQpFfHXY9Qw-1; Thu, 12 Jan 2023 09:43:08 -0500
+X-MC-Unique: GDUtW2T9OU6yQpFfHXY9Qw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ o5-20020adfba05000000b0029064ccbe46so3505931wrg.9
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 06:43:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1oHPXrp9c6YPmRaS00yN4Po5ucj/zL+yew3yTwJicJU=;
+ b=zdssQd4m0TooXtPo668BJuDqPc1W2FxGhaeYBTE2/H96bd+A8A48U6Sj9NR24rk/RZ
+ otbvrZ1cKLIOH5dohqE3nVquXniQtgJlkbIsgJZafhGifbxdi643SIJaJFfv0eNMY2r5
+ nnYNI7lKtk+HCgQkMu1LgykmTgf1WuVvO6odgZ/TdXKoSvTlT+4nWqLZtPYzMhNyLbKU
+ AiEqcSU+O0GZknSNNSUOeIi28OJDtZKOzd3SpXChJ6yMJC5WK3MJ58N4Q4A196czTON5
+ 4MofzECmmSq9Hacjtc/S7U2VB8yvdn2ZwMvWha/L4G+hgYBdYlo/qWzxCWFvIg5qxtBg
+ jiEg==
+X-Gm-Message-State: AFqh2kowXJUgClghDtVOfGtmkPr1pCpWSznoYVvKhqyysABC2cXCZHI6
+ ZLc1yYIFVZPpWUwQcObxmxGtV2lrj5+AGWEFxFHT25sA2hXanL3Af36RIengc6O5Jot3ayLGYtY
+ obG1XsL+SyPM6QR8=
+X-Received: by 2002:a05:600c:4e04:b0:3d2:381f:2db5 with SMTP id
+ b4-20020a05600c4e0400b003d2381f2db5mr54226206wmq.22.1673534587050; 
+ Thu, 12 Jan 2023 06:43:07 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuSg1A5u0YUKu2NSCePe13MXzw5YOCb7Zva9p34Ik7+qE7ZkwrwIZ9+vEiv2VR4jfQ2e8E6Pw==
+X-Received: by 2002:a05:600c:4e04:b0:3d2:381f:2db5 with SMTP id
+ b4-20020a05600c4e0400b003d2381f2db5mr54226172wmq.22.1673534586768; 
+ Thu, 12 Jan 2023 06:43:06 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
+ ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
+ by smtp.gmail.com with ESMTPSA id
+ g14-20020a05600c310e00b003cf5ec79bf9sm24244372wmo.40.2023.01.12.06.43.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Jan 2023 06:43:06 -0800 (PST)
+Message-ID: <1e99a430-c81c-6955-0385-3eddeebd9460@redhat.com>
+Date: Thu, 12 Jan 2023 15:43:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v6 05/13] migration/qemu-file: Add qemu_file_get_to_fd()
+Content-Language: en-US
+To: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ John Snow <jsnow@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+References: <20230112085020.15866-1-avihaih@nvidia.com>
+ <20230112085020.15866-6-avihaih@nvidia.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+In-Reply-To: <20230112085020.15866-6-avihaih@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 1Oaxib3TMNbxe_2Ex3UIBa3DdZbkrhXl
-X-Proofpoint-GUID: 0oZyrfHFRtOQsUhPEM3jXTiLeZ-8VwF5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-12_08,2023-01-12_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 lowpriorityscore=0 mlxlogscore=794 malwarescore=0 spamscore=0
- bulkscore=0 impostorscore=0 clxscore=1015 mlxscore=0 suspectscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301120105
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=clg@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,56 +116,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To prevent getting stuck on waitpid() in case the target process does
-not terminate on SIGTERM, poll on waitpid() for 30s and if the target
-process has not changed state until then send a SIGKILL to it.
+On 1/12/23 09:50, Avihai Horon wrote:
+> Add new function qemu_file_get_to_fd() that allows reading data from
+> QEMUFile and writing it straight into a given fd.
+> 
+> This will be used later in VFIO migration code.
+> 
+> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
----
- tests/qtest/libqtest.c | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+Reviewed-by: Cédric Le Goater <clg@redhat.com>
 
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 2fbc3b88f3..0150946ebb 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -49,6 +49,8 @@
- # define DEV_NULL   "nul"
- #endif
- 
-+#define WAITPID_TIMEOUT 30
-+
- typedef void (*QTestSendFn)(QTestState *s, const char *buf);
- typedef void (*ExternalSendFn)(void *s, const char *buf);
- typedef GString* (*QTestRecvFn)(QTestState *);
-@@ -202,8 +204,24 @@ void qtest_wait_qemu(QTestState *s)
- {
- #ifndef _WIN32
-     pid_t pid;
-+    uint64_t end;
-+
-+    /* poll for a while until sending SIGKILL */
-+    end = g_get_monotonic_time() + WAITPID_TIMEOUT * G_TIME_SPAN_SECOND;
-+
-+    do {
-+        pid = waitpid(s->qemu_pid, &s->wstatus, WNOHANG);
-+        if (pid != 0) {
-+            break;
-+        }
-+        g_usleep(100 * 1000);
-+    } while (g_get_monotonic_time() < end);
-+
-+    if (pid == 0) {
-+        kill(s->qemu_pid, SIGKILL);
-+        TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
-+    }
- 
--    TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
-     assert(pid == s->qemu_pid);
- #else
-     DWORD ret;
--- 
-2.39.0
+Thanks,
+
+C.
+
+
+> ---
+>   migration/qemu-file.h |  1 +
+>   migration/qemu-file.c | 34 ++++++++++++++++++++++++++++++++++
+>   2 files changed, 35 insertions(+)
+> 
+> diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+> index fa13d04d78..9d0155a2a1 100644
+> --- a/migration/qemu-file.h
+> +++ b/migration/qemu-file.h
+> @@ -148,6 +148,7 @@ int qemu_file_shutdown(QEMUFile *f);
+>   QEMUFile *qemu_file_get_return_path(QEMUFile *f);
+>   void qemu_fflush(QEMUFile *f);
+>   void qemu_file_set_blocking(QEMUFile *f, bool block);
+> +int qemu_file_get_to_fd(QEMUFile *f, int fd, size_t size);
+>   
+>   void ram_control_before_iterate(QEMUFile *f, uint64_t flags);
+>   void ram_control_after_iterate(QEMUFile *f, uint64_t flags);
+> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> index 2d5f74ffc2..102ab3b439 100644
+> --- a/migration/qemu-file.c
+> +++ b/migration/qemu-file.c
+> @@ -940,3 +940,37 @@ QIOChannel *qemu_file_get_ioc(QEMUFile *file)
+>   {
+>       return file->ioc;
+>   }
+> +
+> +/*
+> + * Read size bytes from QEMUFile f and write them to fd.
+> + */
+> +int qemu_file_get_to_fd(QEMUFile *f, int fd, size_t size)
+> +{
+> +    while (size) {
+> +        size_t pending = f->buf_size - f->buf_index;
+> +        ssize_t rc;
+> +
+> +        if (!pending) {
+> +            rc = qemu_fill_buffer(f);
+> +            if (rc < 0) {
+> +                return rc;
+> +            }
+> +            if (rc == 0) {
+> +                return -EIO;
+> +            }
+> +            continue;
+> +        }
+> +
+> +        rc = write(fd, f->buf + f->buf_index, MIN(pending, size));
+> +        if (rc < 0) {
+> +            return -errno;
+> +        }
+> +        if (rc == 0) {
+> +            return -EIO;
+> +        }
+> +        f->buf_index += rc;
+> +        size -= rc;
+> +    }
+> +
+> +    return 0;
+> +}
 
 
