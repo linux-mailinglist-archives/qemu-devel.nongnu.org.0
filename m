@@ -2,83 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BE8E667AE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 17:31:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1986667AE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 17:32:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG0TO-0007jQ-39; Thu, 12 Jan 2023 11:30:38 -0500
+	id 1pG0UZ-000856-20; Thu, 12 Jan 2023 11:31:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pG0TM-0007j9-78
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:30:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pG0TK-00078u-6g
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:30:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673541033;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6ItsCWe1UDiIbTyHhNfrT6iDzjS+UiQ4kz4DGSVQ3d8=;
- b=ZCw59cesAm6FsvXpEnRP1SLdFYsfOu75i6IxmbcTP/hXpE4XOW52M+uyiTyoqL879F0KWr
- 1wr2it7x52tUSubi5Rwcupq9b5t0BX8NEUjbmTQG30dssTfiaox8BdToM2zs/UtVNedARc
- 4LlK5/A6ByDb8oYEE2ZbhBmfOLc4OuE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-650-93pzmnrXNkSZdZTIGhgU4A-1; Thu, 12 Jan 2023 11:30:31 -0500
-X-MC-Unique: 93pzmnrXNkSZdZTIGhgU4A-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 24E5C811E6E;
- Thu, 12 Jan 2023 16:30:31 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48EE6492C14;
- Thu, 12 Jan 2023 16:30:28 +0000 (UTC)
-Date: Thu, 12 Jan 2023 16:30:20 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- imp@bsdimp.com, kevans@freebsd.org, ben.widawsky@intel.com,
- jonathan.cameron@huawei.com, kbastian@mail.uni-paderborn.de,
- jasowang@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
- tsimpson@quicinc.com, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, qemu-riscv@nongnu.org, philmd@linaro.org,
- Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v3 1/1] include: Don't include qemu/osdep.h
-Message-ID: <Y8A1nNp/JieSDgIP@redhat.com>
-References: <20230112115005.1504812-1-armbru@redhat.com>
- <20230112115005.1504812-2-armbru@redhat.com>
- <20230112082537-mutt-send-email-mst@kernel.org>
- <Y8AewFAHRGf6ZI3x@redhat.com>
- <CAFEAcA9REU2emdHRhfO2=ZZB3K9O=eKSP1k5aVh_Hwh0+cCW5w@mail.gmail.com>
- <Y8AwXG/c+IRyJ2U6@redhat.com>
- <CAFEAcA_EP2_0vm8r=12DBTG4a7X7aMYAy2x+K7YctZmSZWTv2g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pG0UE-00081h-8I
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:31:33 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pG0UB-0007Gg-UO
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 11:31:30 -0500
+Received: by mail-wr1-x435.google.com with SMTP id w1so18634664wrt.8
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 08:31:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2eSjH7psLpPYRHXHtS66W6dZlt0vXm0JEk9fNlLCo2U=;
+ b=w3g0czH4CvBLgUHlApUT1mi7I5DnRGmrqMEYqeRbQz2svHdpP/n90z0HTTqNX77GEM
+ xkKOlt08mSw1L3/T9eZk3kuLdNSiJlOLOLxws5S1+vsTUjmxrT9qVuOujsxUmktFREup
+ +CB5+codWuLOQLCgGsbop7hrdmXHoEAVHhQyHzvFV0NhVcBgApuDB4CjaDXSwPv8nljQ
+ wBaHKB/TCW62iLWXg1qrxFGGZqaMYfZ/2vjvw44YSPCwaSIh6188niE7kTqeeo4/EZ1S
+ TlEJvnKR/H471nCtEp4N75CgU0DYOEhiejXeQR7v/ps/HyevmMGjCpmar+mr1geQPatO
+ ksIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2eSjH7psLpPYRHXHtS66W6dZlt0vXm0JEk9fNlLCo2U=;
+ b=pUU3lPv+IXiSN81FbAHEGgyFiEP/Q6EAr1ri6CtCALkKNo3Cbyn31iANOasKosmAzh
+ rqCxECssrz1GOa099CyjEE4+/rn7li6IuwDBOsw1Sf0hERbq52v/wzbbhJN8Ac2A0Sqa
+ ylMJNbxlYqez9AjIpQYBvt3AYQT9o0CDYhP6OdYnRO/tLSAj90kBNK/N2NE6vyK0LAeA
+ 3Ec/FLiyXMP4ITKMu3rjfVpgpHCl3049Pvrz5MnaeZ9vMw4RGzl+2uIdDtruD7J0qBJE
+ IY168lQ2MgHThZfy2ayMkxbitKBSLG0DlLc33XPJyQhgTE/yN1ncZ5vTKb0I2VxQyXVN
+ jvOQ==
+X-Gm-Message-State: AFqh2kqyLSzI3mS86nkE/0L86YBpqSSynw9PjoA5c5q3OzgIsLcYwS4L
+ fSbyhCnF88PYUY78yxFia+EaWQ==
+X-Google-Smtp-Source: AMrXdXvyD6+yYYGKf01nehbeYizY7XZV4o+k/yQHDK0tYWoN57xeOesAtzs0e1PgdTH69qfXW9MYvg==
+X-Received: by 2002:a5d:56cd:0:b0:2b4:d5a3:a70b with SMTP id
+ m13-20020a5d56cd000000b002b4d5a3a70bmr17556390wrw.12.1673541086170; 
+ Thu, 12 Jan 2023 08:31:26 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ w5-20020adfcd05000000b002bdc914a139sm4032604wrm.108.2023.01.12.08.31.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Jan 2023 08:31:25 -0800 (PST)
+Message-ID: <9f2f0fe3-3aef-91c5-bbe4-b94682b6a832@linaro.org>
+Date: Thu, 12 Jan 2023 17:31:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v6 28/33] hw/isa/piix3: Merge hw/isa/piix4.c
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: John G Johnson <john.g.johnson@oracle.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Ani Sinha <ani@anisinha.ca>,
+ Eduardo Habkost <eduardo@habkost.net>, Gerd Hoffmann <kraxel@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ qemu-ppc@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+References: <20230109172347.1830-1-shentey@gmail.com>
+ <20230109172347.1830-29-shentey@gmail.com>
+ <e879c284-5021-2f63-0269-5e0b09bc31a7@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <e879c284-5021-2f63-0269-5e0b09bc31a7@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA_EP2_0vm8r=12DBTG4a7X7aMYAy2x+K7YctZmSZWTv2g@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,56 +100,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 12, 2023 at 04:20:36PM +0000, Peter Maydell wrote:
-> On Thu, 12 Jan 2023 at 16:08, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > I think the challenge is that osdep.h is too big as it exists
-> > today. The stuff the needs to come before system headers is
-> > actually little more than config-host.h and a few #defines
-> > most of which are specific to windows. If those critical
-> > #defines went into config-host.h, then we could have a rule
-> > 'config-host.h' must be included in all .c files as the first
-> > thing.
+On 12/1/23 16:04, Philippe Mathieu-Daudé wrote:
+> On 9/1/23 18:23, Bernhard Beschow wrote:
+>> Now that the PIIX3 and PIIX4 device models are sufficiently consolidated,
+>> their implementations can be merged into one file for further
+>> consolidation.
+>>
+>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>> Message-Id: <20221022150508.26830-37-shentey@gmail.com>
+>> ---
+>>   hw/isa/{piix3.c => piix.c} | 158 ++++++++++++++++++++
+>>   hw/isa/piix4.c             | 285 -------------------------------------
+>>   MAINTAINERS                |   6 +-
+>>   hw/i386/Kconfig            |   2 +-
+>>   hw/isa/Kconfig             |  12 +-
+>>   hw/isa/meson.build         |   3 +-
+>>   hw/mips/Kconfig            |   2 +-
+>>   7 files changed, 165 insertions(+), 303 deletions(-)
+>>   rename hw/isa/{piix3.c => piix.c} (75%)
+>>   delete mode 100644 hw/isa/piix4.c
 > 
-> This doesn't seem much different to the rules we have today,
-> except you've renamed osdep.h to config-host.h...
-
-If the QEMU header files all contain #includes for the
-system headers they rely on, then when tools are validating
-code in the header, they can stand a better chance of being
-able to resolve all the types. Though it'll still fail if
-some of the system header pieces only get exposed as a result
-of config-host.h macros, but that's relatively few, compared
-to today where amost nothing resolves if yuo validate the
-headers files in isolation.
-
-
-> > All the header files could just reference the specific
-> > system headers they care about instead of making everything
-> > from osdep.h visible in their namespace.
+>> +static void piix4_realize(PCIDevice *dev, Error **errp)
+>> +{
+>> +    PIIXState *s = PIIX_PCI_DEVICE(dev);
+>> +    PCIBus *pci_bus = pci_get_bus(dev);
+>> +    ISABus *isa_bus;
+>> +
+>> +    isa_bus = isa_bus_new(DEVICE(dev), pci_address_space(dev),
+>> +                          pci_address_space_io(dev), errp);
+>> +    if (!isa_bus) {
+>> +        return;
+>> +    }
+>> +
+>> +    memory_region_init_io(&s->rcr_mem, OBJECT(dev), &rcr_ops, s,
+>> +                          "reset-control", 1);
+>> +    memory_region_add_subregion_overlap(pci_address_space_io(dev),
+>> +                                        PIIX_RCR_IOPORT, &s->rcr_mem, 
+>> 1);
+>> +
+>> +    /* initialize i8259 pic */
+>> +    if (!qdev_realize(DEVICE(&s->pic), NULL, errp)) {
+>> +        return;
+>> +    }
+>> +
+>> +    /* initialize ISA irqs */
+>> +    isa_bus_irqs(isa_bus, s->pic.in_irqs);
+>> +
+>> +    /* initialize pit */
+>> +    i8254_pit_init(isa_bus, 0x40, 0, NULL);
+>> +
+>> +    /* DMA */
+>> +    i8257_dma_init(isa_bus, 0);
+>> +
+>> +    /* RTC */
+>> +    qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
+>> +    if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
+>> +        return;
+>> +    }
+>> +    s->rtc.irq = qdev_get_gpio_in(DEVICE(&s->pic), s->rtc.isairq);
 > 
-> There are some complicated things in there, not always
-> limited to Windows. Also where there is some header
-> that needs a platform-specific workaround I prefer that
-> that header is pulled in by osdep.h. This avoids the
-> failure mode of "developer working on Linux directly
-> includes some-system-header.h; works fine on their machine,
-> but doesn't work on oddball-platform where the header
-> needs a workaround". (For instance, handling "sys/mman.h
-> on this system doesn't define MAP_ANONYMOUS", or the
-> backcompat stuff in glib-compat.h.)
+> Pre-existing; it seems this difference with PIIX3 can be removed
+> because already taken care by calling isa_connect_gpio_out() in 
+> mc146818_rtc_init()?
+> 
+> ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq 
+> intercept_irq)
+> {
+>      DeviceState *dev;
+>      ISADevice *isadev;
+>      RTCState *s;
+> 
+>      isadev = isa_new(TYPE_MC146818_RTC);
+>      dev = DEVICE(isadev);
+>      s = MC146818_RTC(isadev);
+>      qdev_prop_set_int32(dev, "base_year", base_year);
+>      isa_realize_and_unref(isadev, bus, &error_fatal);
+>      if (intercept_irq) {
+>          qdev_connect_gpio_out(dev, 0, intercept_irq);
+>      } else {
+>          isa_connect_gpio_out(isadev, 0, s->isairq);
+> 
 
-Yeah, its not entirely straightforward, though our CI will catch
-that on our most important target platforms.
+I meant to paste:
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+static void rtc_realizefn(DeviceState *dev, Error **errp)
+{
+     ...
+     qdev_init_gpio_out(dev, &s->irq, 1);
+
+
+> Having:
+> 
+> void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq)
+> {
+>      qemu_irq irq = isa_get_irq(isadev, isairq);
+>      qdev_connect_gpio_out(DEVICE(isadev), gpioirq, irq);
+> }
+> 
+> What do you think?
 
 
