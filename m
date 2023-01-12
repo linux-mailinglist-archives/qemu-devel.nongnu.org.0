@@ -2,85 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5F9667935
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:28:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 671836679A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:41:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFzPP-0007oe-BE; Thu, 12 Jan 2023 10:22:27 -0500
+	id 1pFzOH-0006wo-VX; Thu, 12 Jan 2023 10:21:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nealelliott@netscape.net>)
- id 1pFzK3-0004Wz-Kw
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:16:56 -0500
-Received: from sonic303-24.consmr.mail.gq1.yahoo.com ([98.137.64.205])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nealelliott@netscape.net>)
- id 1pFzK1-0001r7-TF
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:16:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netscape.net; s=a2048;
- t=1673536609; bh=bU3D1XQ/RxI3c/OXGyvnogBrWdfFVvRSd0fn6qHaxog=;
- h=Date:From:To:Subject:References:From:Subject:Reply-To;
- b=KvDjlCQCvTpn8nc5Q0NnqqD3I/PmIQKWxOdTB/XBSx5gjiX4Pwuhm09LLJ44NH8rp1+5H0IxTTEPmSLMTHPttenyHhfb69EB0nUzg59s7H1KZqfl8JyRKxeWhy7PwAQnhqDJffwaTyC+OBqU94KcgOqF2buotxmhYvyVSpvNgQoPtSxem5IkcsI5rX51zfBHLkIsu3/wrIcXPWqLEw9TOSvTn+t7LT8WkSALB9zPB0xjH5s5+JrbbJu6TGqyU7+AoceqFV24O6DIhhpYg7i+j/7EcgzRa9iiHpMh44J7HzP8VURsZSs2q1eejvzEQz3wn6mYCgqHjeGsNIyKt8x5Cg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1673536609; bh=3CAfcnOHkXv7uvvaGht9HwbiNhAvEYJKUZz88cla4VI=;
- h=X-Sonic-MF:Date:From:To:Subject:From:Subject;
- b=AMEu0Qfzn0mu8nHLl9VpMRZTzQp1WaxUhVi9hvvcbFuXDuYfqaE/u+48o9LkuuczB19q4nff1U5MM6bZJ2nDNtyil1p/yuZy+a3i/lab9d7f/1IrTD9zjHcyP+mgfsNWkzP4nQfLd8EOksqCS1hOWpTw/urZx+Lb2OkcUpfOeXn+NmccO8rJkvkNzvCl2DZBp8Q4xoHiH4fDdv8yVQn6CXDFYc0kli+f+6YmTd7hZqT4kqHyVD6WRy+RLVzdH24vX2YRAMuwTciOUdkTo92/Gh6fDBBr6GawNoyRgyR+wr/zDXXwCTLf2xz4+MbbpX27KL5qhwBZJwfs0rG5r+Hugg==
-X-YMail-OSG: .a1kQ.0VM1knetXJaJFB7v_zG1Jw_eViHwB3ezDAbucI8tV9oiQyQX5Gh9.N52h
- lNl1pdQoiavdU9sQnbGWMxcxSS.E1s7UZbVWS8CGCidr3HNE7p1gCIeuropJZqcEOwWWUPVclu_a
- BgpR1ht2Ag2E3GR7OqVs0XNS1wTWAvM0gjqAAYibMmpJwQCuQCqCn2p7fFZKTuaRRHLZYPC30umS
- 2pg4MC3zOAUJ4zOGrWH58wWWXaGoMAmcrPc52Ej0oiDF8ItfD061Vnp62Fsh6Whi809v4puOr7u8
- NxU710ghvbXDOLk6DsjThE6gzg3SMADG.cUgY17D7M0gVvm6i99IxQK1ABwJpRSKuSh0uJFSP6NE
- zdGqRdtnHkEiaZ9NoSsy6nO9fm7zKK1aJX3a9yqg5hHVMrN6g0JpT0oXVsAzuiO.s.GhqftrNi.P
- dkze8rx6TT01lR88rIyj4fNhrRtRRGCtSAa1NrPMK6gXk0SZC8aovRGPhbz0joK.0bWoT1l3HFVV
- bnHU_GimeozElqrzaWWOuhohA7x5rQguvxWNvjPKdLpkEuM9Dhu8OmlI.3hlrvL.ilwYP52qe1u8
- QnrrQxVtHPoSpURkL8esxgDP7VT7iLiMXmtZqRXxAoPvxM2UzHU_4Vl79F784Ws4ZIWWrZkuRbaG
- oCe8jfGTAs8V3UdYT5ee0wfm9AsY5rheS.tVGojjLKIjOwnBTfck1zjFsDXxLLYXW53H9kLCLmJH
- NOef9Tk4Jp9or6rdMJCrVHsdKh8S9CBUY063QjF1coC7d39TXfxp4vGQ57NXuBokgbWZzjx5uni5
- cgJ0TOrKmss1lWJ4Rmihl5fwMsaMQZoaYFbk6pEa31NFRer6ZA8PIQ0dNIUe_eM9CK2UID7MKnbv
- rDqk9SiKEhegGBRngSQuvSW6w5C2loeCLj2PbHiuwQfCjyAQrqMG9NvYSpTb07V3xpDVsET3wLB2
- V6Hjh202wIhDT4fBFoYlkIrB2XZiVq7Eu_ot9Ti0PzNfEWH8TJBP1TvwsmeH6at1fxaS5_s.IfEG
- PF2d.KYwN9R8h9tUfiR241f7SD0WHBJa3_r7RW8_8rUjaoDyMM6X22Ph837hMYw9StTJF6Cp8Cun
- MU5S6C7d6Wp9U69XFLgyEH3H0mEDM4hiiyolFKTdizVuzpz37VWJWn71CgjctDtXzmvWshMxbxcu
- JRn5xWV10QsisiSvsDxZG7mtDl.2YwefV7ihXk7Ekz3Kx.i9C_gIxBbFc666nwRC0hC.Fnn1tr7Y
- yd46lPZ2Tu1vWgp7rQYWGxBzgJByEXVzNPy679_M.K81Kg5Y.0bY1JVlu4cOAjjqk7njBAT2l6Yw
- 29yN53avxqNc_d6UfkkL5yPggyso9pwSkflVmMeMUXdpXHnmFqgUBoXXPECZ.IobBgjlyOXbHJpB
- JKtig8w72_U6H2pIl1K2hWpSL3Oe2IfuZnDQiPBJYBvSCqCGjvc2ntOoHcstN26KZN58RBjipgod
- xXMyyioHq.mJGc4kbcQmlGCBkCx7m3NegmWWmz4Br6hU3aPicPlcmc4iI86qrgTn5w7n7BuJTnOc
- tO9M3K9mm0Sg9K7V5JuogdEq4W4xwFZEyqODAQOZwflzSxOGvvuJCDlG3BueFiGcpF0K5_ldUPYW
- HNvjIMKxDAtBzp9rWx40TQZuLLBPrlu4c5UFSHizjwP3UdYZOn3XvyEWzB_Cxpc4vB5FlAt01eUq
- cOZEQ.D4bsFJOn37aSISOH9INJV71zOOyy3D6SgvDjC55pSRlKgrxHj3RHfcslAS7XWmCaYCQGY0
- sbEwK2XHBBjDcBVICgwv4JzcYZhBAjBdS52ilmwk_ZmohdTvISP0DL40BKnxR1su_lkZxyz4ZscD
- 3U.IJuaWbT1uYLf4vSI_IUyETdjRBYvXeIYUo3YZQHTth3IyICZIMwe6jTvJzdLtaiOyeft5J4Yd
- oGgO5K65x5mnD9Tq6dvAOLQ4mbtA0zxW1JULJtKqC8k0L5El.I0ha4hEcPsixxBKB6Z_6ZQByEVs
- h0j6Z8fFg569ZiAZuLV..twZD5ZHtH8QTsoROHhwErqnPllbAjwB9EeidI6dlvOAUaGky715dtmp
- JJUG2150xClxNIePTsxWkDHttXLhRlk3_UTmbR5dlr5fcPfAhV2Yp_70_LSwhDuGNPApDXh0aoIV
- T1XRGIxoGOXe3yqd6gvLpv59PL1nrIql5DRN83Q--
-X-Sonic-MF: <nealelliott@netscape.net>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic303.consmr.mail.gq1.yahoo.com with HTTP; Thu, 12 Jan 2023 15:16:49 +0000
-Date: Thu, 12 Jan 2023 15:16:46 +0000 (UTC)
-From: Neal Elliott <nealelliott@netscape.net>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Message-ID: <1742086835.396699.1673536606737@mail.yahoo.com>
-Subject: building qemu on windows 11
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pFzNX-0006Yq-18
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:20:37 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pFzNS-0002Kq-FP
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 10:20:28 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30CFJPbP009906; Thu, 12 Jan 2023 15:20:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=1nrvd37HjWybq5UWTppwMhz7eVfw8ZVTkA/nIlGP9qM=;
+ b=bws9jzLSP5GPBfkCVvoN+H987AR05Ph/0pB+N3IYrGtgWHmPPy/DMxfjeGraoeK8oJiF
+ RFTqODMSWPIJ4oeQfmJSYt+L684l99bMy/RVOpiecAR3NiEKypXtqSdC77UkT6LQBfwD
+ 0hSlPGISU8AdkuRB+bZjSewAc1tccTBncQ1l+P7CrY07528byL3/ICcwhzRgCJ1eONsM
+ IrpaThkiB0Yve76Ieul2Xg3JJtei0Ni28EGs3jIP4Gv9x9kSlX2m/N+RevD1VwEvUVmh
+ 5nMfpY6EUFDb06ZqfUSmnw6YsWxHpqLtvjfXV8N1pWied9z+zWtyB4q3guL3tZRKr+1N xA== 
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n2mrer0yt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Jan 2023 15:20:22 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30CBv60P018505;
+ Thu, 12 Jan 2023 15:20:20 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3n1km69xfp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Jan 2023 15:20:20 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30CFKGeH46072076
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 12 Jan 2023 15:20:16 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3EE882004D;
+ Thu, 12 Jan 2023 15:20:16 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D1F4E2004B;
+ Thu, 12 Jan 2023 15:20:15 +0000 (GMT)
+Received: from heavy.ibmuc.com (unknown [9.171.69.153])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 12 Jan 2023 15:20:15 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org, 
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v4 0/3] tcg: add perfmap and jitdump
+Date: Thu, 12 Jan 2023 16:20:10 +0100
+Message-Id: <20230112152013.125680-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.39.0
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 5s2PS0hNHUZ7PqYfydDcirwpcsjr1bR5
+X-Proofpoint-ORIG-GUID: 5s2PS0hNHUZ7PqYfydDcirwpcsjr1bR5
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: multipart/alternative; 
- boundary="----=_Part_396698_463526241.1673536606736"
-References: <1742086835.396699.1673536606737.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.21062 AolMailNorrin
-Received-SPF: pass client-ip=98.137.64.205;
- envelope-from=nealelliott@netscape.net;
- helo=sonic303-24.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-12_08,2023-01-12_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 mlxscore=0
+ suspectscore=0 phishscore=0 bulkscore=0 clxscore=1015 spamscore=0
+ lowpriorityscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301120109
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 12 Jan 2023 10:22:23 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,18 +103,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-------=_Part_396698_463526241.1673536606736
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+v3:
+https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02072.html
 
-Hello,=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0is it possible,=
- or has anyone built qemu from the master branch using visual studio? I att=
-empted to=C2=A0build the code using mingw64, but it failed to build. is the=
-re a current build document for windows?=C2=A0
-------=_Part_396698_463526241.1673536606736
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+v3 -> v4:
+* s/unsigned long long/uint64_t/g (Richard).
+* Fix address resolution with TARGET_TB_PCREL again.
+  * Open question: do we need something like get_pc_from_opc()?
+    See FIXME in patch 3.
 
-<html><head></head><body><div class="yahoo-style-wrap" style="font-family:Arial, Helvetica, sans-serif;font-size:16px;"><div dir="ltr" data-setdir="false">Hello,&nbsp;</div><div dir="ltr" data-setdir="false">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;is it possible, or has anyone built qemu from the master branch using visual studio? I attempted to&nbsp;</div><div dir="ltr" data-setdir="false">build the code using mingw64, but it failed to build. is there a current build document for windows?&nbsp;</div></div></body></html>
-------=_Part_396698_463526241.1673536606736--
+v2:
+https://lists.gnu.org/archive/html/qemu-devel/2022-11/msg02385.html
+https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg01026.html
+
+v2 -> v3:
+* Enable only for CONFIG_LINUX (Alex).
+* Use qemu_get_thread_id() instead of gettid() (Alex).
+* Fix CI (Alex).
+  https://gitlab.com/iii-i/qemu/-/pipelines/743684604
+* Drop unnecessary #includes (Alex).
+* Drop the constification change (Alex/Richard).
+* Split debuginfo support into a separate patch.
+* Fix partial perfmap/jitdump files when terminating due to a signal.
+* Fix debuginfo strings being accessed outside of debuginfo lock.
+* Fix address resolution with TARGET_TB_PCREL.
+* Add DEBUGINFOD_URLS= to the doc; without it perf inject is
+  unacceptably slow.
+* Note: it's better to test this with the latest perf
+  (6.2.rc3.g7dd4b804e080 worked fine for me). There has been at least
+  one breakage in the JIT area recently (fixed by 6d518ac7be62).
+
+v1:
+https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg01824.html
+https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg01073.html
+
+v1 -> v2:
+* Use QEMU_LOCK_GUARD (Alex).
+* Handle TARGET_TB_PCREL (Alex).
+* Support ELF -kernels, add a note about this (Alex). Tested with
+  qemu-system-x86_64 and Linux kernel - it's not fast, but it works.
+* Minor const correctness and style improvements.
+
+Ilya Leoshkevich (3):
+  linux-user: Clean up when exiting due to a signal
+  accel/tcg: Add debuginfo support
+  tcg: add perfmap and jitdump
+
+ accel/tcg/debuginfo.c     |  96 ++++++++++
+ accel/tcg/debuginfo.h     |  77 ++++++++
+ accel/tcg/meson.build     |   2 +
+ accel/tcg/perf.c          | 375 ++++++++++++++++++++++++++++++++++++++
+ accel/tcg/perf.h          |  49 +++++
+ accel/tcg/translate-all.c |   7 +
+ docs/devel/tcg.rst        |  23 +++
+ hw/core/loader.c          |   5 +
+ linux-user/elfload.c      |   3 +
+ linux-user/exit.c         |   2 +
+ linux-user/main.c         |  15 ++
+ linux-user/meson.build    |   1 +
+ linux-user/signal.c       |   8 +-
+ meson.build               |   8 +
+ qemu-options.hx           |  20 ++
+ softmmu/vl.c              |  11 ++
+ tcg/tcg.c                 |   2 +
+ 17 files changed, 701 insertions(+), 3 deletions(-)
+ create mode 100644 accel/tcg/debuginfo.c
+ create mode 100644 accel/tcg/debuginfo.h
+ create mode 100644 accel/tcg/perf.c
+ create mode 100644 accel/tcg/perf.h
+
+-- 
+2.39.0
+
 
