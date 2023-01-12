@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01AF966787F
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2BEC667890
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:06:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFyBP-0002Lm-VT; Thu, 12 Jan 2023 09:03:56 -0500
+	id 1pFyBW-0002Vb-Mo; Thu, 12 Jan 2023 09:04:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pFyBG-0002El-6p
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:46 -0500
+ id 1pFyBO-0002Ko-02
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:54 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pFyBB-0005uu-Mc
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:45 -0500
+ id 1pFyBM-000641-85
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673532213;
+ s=mimecast20190719; t=1673532231;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BtltWnpSd8SC3NoMRoDesq/JaByxUxGKbfhTdChR8L4=;
- b=MntU3281v3TVnk5RPRoY8itYdqifY0qPbIdS2WZs7nUwu+2Q47OdT1YDApcUV/FSIIp5CM
- V7JA71PXvF+/nwg5gni0mbUxVywN/2GAUOiR4M6HRQK/ohg9/9N+mDUuZE1PY9PIvTPwb4
- j8797zGWPjrANSH3wyCXlMyeY0b2Wzg=
+ bh=b8CbcFljb6Nanuw3LJQXErQPn7YQ0Wmw0F6SR59ao2A=;
+ b=iQz+yNNVuTIHEBGjVvtIfDr7sl+XEjR76U82OAqL3PowDHGohO2q2n2XjJXOrA5uXsn5Ad
+ sWe47oBqeXVuZqg+5Tk5yK3MDQDMbbd9Li0l9M8yoBo0cCAdgL/iVE0H1GhHseAyZQUr2F
+ 5SZUGr0Pxrvw93AG6NIznIc/UQXzEbU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-o0iRLk9uP5a6CKnQ52znbg-1; Thu, 12 Jan 2023 09:03:31 -0500
-X-MC-Unique: o0iRLk9uP5a6CKnQ52znbg-1
+ us-mta-627-E56eu7qFNXmGa_kYWj3qpA-1; Thu, 12 Jan 2023 09:03:41 -0500
+X-MC-Unique: E56eu7qFNXmGa_kYWj3qpA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34A07857A84;
- Thu, 12 Jan 2023 14:03:31 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 79156100F904;
+ Thu, 12 Jan 2023 14:03:39 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A34ED4085720;
- Thu, 12 Jan 2023 14:03:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E7DB24085720;
+ Thu, 12 Jan 2023 14:03:38 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 	Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH 21/40] pcihp: compose PCNT callchain right before its user
- _GPE._E01
-Date: Thu, 12 Jan 2023 15:02:53 +0100
-Message-Id: <20230112140312.3096331-22-imammedo@redhat.com>
+Subject: [PATCH 32/40] tests: acpi: whitelist DSDT before decoupling PCI
+ hotplug code from basic slots description
+Date: Thu, 12 Jan 2023 15:03:04 +0100
+Message-Id: <20230112140312.3096331-33-imammedo@redhat.com>
 In-Reply-To: <20230112140312.3096331-1-imammedo@redhat.com>
 References: <20230112140312.3096331-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -81,91 +81,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-it's a stepping stone to making build_append_pci_bus_devices() suitable
-for AcpiDevAmlIfClass:build_dev_aml callback and lets further simplify
-it by separating PCNT generation from slots descriptions.
-
-It also makes PCNT callchain ASL much more readable since callchain
-not longer cluttered by slots descriptors.
-
-Plus, move will let next patch easily drop empty PCNT (pc/q35)
-when there is nothing hotpluggable.
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/acpi-build.c | 32 ++++++++++++++++++++++++++++++--
- 1 file changed, 30 insertions(+), 2 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 146f48e4ac..509a4c500d 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -390,7 +390,6 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
- {
-     Aml *dev, *notify_method = NULL, *method;
-     QObject *bsel;
--    PCIBus *sec;
-     int devfn;
- 
-     bsel = object_property_get_qobject(OBJECT(bus), ACPI_PCIHP_PROP_BSEL, NULL);
-@@ -496,12 +495,35 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-         aml_append(parent_scope, notify_method);
-     }
- 
-+    qobject_unref(bsel);
-+}
-+
-+static void build_append_notfication_callback(Aml *parent_scope,
-+                                              const PCIBus *bus)
-+{
-+    Aml *method;
-+    PCIBus *sec;
-+    QObject *bsel;
-+
-+    QLIST_FOREACH(sec, &bus->child, sibling) {
-+        Aml *br_scope = aml_scope("S%.02X", sec->parent_dev->devfn);
-+        if (pci_bus_is_root(sec) ||
-+            !object_property_find(OBJECT(sec), ACPI_PCIHP_PROP_BSEL)) {
-+            continue;
-+        }
-+        build_append_notfication_callback(br_scope, sec);
-+        aml_append(parent_scope, br_scope);
-+    }
-+
-     /*
-      * Append PCNT method to notify about events on local and child buses.
-+     * ps: hostbridge might not have hotplug (bsel) enabled but might have
-+     * child bridges that do have bsel.
-      */
-     method = aml_method("PCNT", 0, AML_NOTSERIALIZED);
- 
-     /* If bus supports hotplug select it and notify about local events */
-+    bsel = object_property_get_qobject(OBJECT(bus), ACPI_PCIHP_PROP_BSEL, NULL);
-     if (bsel) {
-         uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
- 
-@@ -523,7 +545,6 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-     }
- 
-     aml_append(parent_scope, method);
--
-     qobject_unref(bsel);
- }
- 
-@@ -1723,6 +1744,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-     aml_append(dsdt, sb_scope);
- 
-     if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
-+        Object *pci_host = acpi_get_i386_pci_host();
-+        PCIBus *bus = PCI_HOST_BRIDGE(pci_host)->bus;
-+
-+        scope = aml_scope("\\_SB.PCI0");
-+        build_append_notfication_callback(scope, bus);
-+        aml_append(dsdt, scope);
-+
-         scope =  aml_scope("_GPE");
-         {
-             method = aml_method("_E01", 0, AML_NOTSERIALIZED);
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..1983fa596b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,15 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT",
++"tests/data/acpi/pc/DSDT.acpierst",
++"tests/data/acpi/pc/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.bridge",
++"tests/data/acpi/pc/DSDT.cphp",
++"tests/data/acpi/pc/DSDT.dimmpxm",
++"tests/data/acpi/pc/DSDT.hpbridge",
++"tests/data/acpi/pc/DSDT.ipmikcs",
++"tests/data/acpi/pc/DSDT.memhp",
++"tests/data/acpi/pc/DSDT.nohpet",
++"tests/data/acpi/pc/DSDT.numamem",
++"tests/data/acpi/pc/DSDT.roothp",
++"tests/data/acpi/q35/DSDT.bridge",
++"tests/data/acpi/q35/DSDT.multi-bridge",
 -- 
 2.31.1
 
