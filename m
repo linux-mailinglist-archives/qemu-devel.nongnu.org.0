@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6399C6686F2
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 23:29:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451F766870C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 23:35:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG63b-00070a-Pp; Thu, 12 Jan 2023 17:28:23 -0500
+	id 1pG69z-00008u-Su; Thu, 12 Jan 2023 17:34:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pG63a-00070N-Ce
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 17:28:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pG63Y-0007KJ-GU
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 17:28:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673562499;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IZLnvcy/mjGjQQf3Hb23VtwNCWFDaQBHKNbskTZCcKQ=;
- b=WuPP2NhiHFZ/7MwS/NULnGJjIjmU4Ykl8ewzf4zt8s4ZpleA4Owv4/NnK7pFxA4WhmaAMd
- yc138ptllEbsmyLcCXDsVzxu45kD4MBF0lPAVIhyjwXq6eI2BYiuPVFQF++9MWMaBlSrK1
- 6Xq6o6TUrQEQH5aLdqDqEjh/lz/u+Bw=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-641-1H5_y0AuPQK8vwkN_nYImA-1; Thu, 12 Jan 2023 17:28:18 -0500
-X-MC-Unique: 1H5_y0AuPQK8vwkN_nYImA-1
-Received: by mail-qv1-f69.google.com with SMTP id
- oj9-20020a056214440900b0053233473499so5882259qvb.8
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 14:28:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pG69y-00008G-3j
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 17:34:58 -0500
+Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pG69v-0008IJ-Ki
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 17:34:57 -0500
+Received: by mail-oo1-xc44.google.com with SMTP id
+ 187-20020a4a09c4000000b004d8f3cb09f5so5171899ooa.6
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 14:34:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=OE84YYKjoFuqo0u9NWqw6q7gCrIwMHdGUeaSVIGT2ls=;
+ b=CviH951q7QV7L4hrftd9zhLpv571+bGcqypr6RtQpfbeVP+dXSbzW7xFTlq5HHvMC+
+ 9EmdW9DidyO6/IkcV32Sev7WcZ6NPYn1FADmYtP9hfSPisC57mzMbAPld6mQT2k9A4SP
+ iQIc8pQIgPo5370RgCw2rJTxreALMZWtGc4V/1dXwOjfC8M6BOZTwqaia/fVHS8pAP0c
+ XNPPdLHsj4knvKu1e2SgOvEAsh+Z6XzfIdwWXL8aI6RcIZhS73O/1DWIeyMs+0rECkU5
+ MCPUCxNzr2LtzZHRpt2eqICaWIV80Chfvga3bIC1UJeinuA00Gjc8Qz8PmmeoW7q/iEg
+ YcXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IZLnvcy/mjGjQQf3Hb23VtwNCWFDaQBHKNbskTZCcKQ=;
- b=YoKB2ODW7+n1ky84r+aQt0gBlm6cKB47OI2vH7YSr8kvj0z/xoQKLDC/11u3JjXhdQ
- FBg+PhHp3mKIf+v7Z2oUoBRCl6QiJO+RhXdVR0bkCFMfGF2D5hSOWM8lcyK6BWDDCUqv
- kX6BgeZQNLY0EKMh3A74rRTI/lDl4wWQ8HIpxA/xiLOT3AyH+e4xdoavx/v9MNC+TQ32
- EFU3uFsIik4v8LjzE7O1HRGA+Uen5ibROHGlHGKJJkLDSxWDzIQrGxNyy+ivatRqqDQD
- h2Mx5VZg0PR8DK8q9bVQdNzevZbbJxPaBrFW4x3gfMF8ZeNtGyih2O7bouvyGThOxD8c
- Kung==
-X-Gm-Message-State: AFqh2kpI4TsuNZYtHPXY7aDjpWkwuFZjUyowWCs7NxqrP9aq32kWqWM8
- YGeJJn1Sj2YktoVn+en4ZWkd/FA9n77ug+Y8okRmOLQG+8uyn5OG2XwpC/OWPDTzwwnQF/LGBKK
- tDf91JM1LULzFuW0=
-X-Received: by 2002:ac8:6659:0:b0:3ae:64e0:58d3 with SMTP id
- j25-20020ac86659000000b003ae64e058d3mr15425597qtp.10.1673562497923; 
- Thu, 12 Jan 2023 14:28:17 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvaLkYuZaB0aOu5mtIOvGdh/SV/IPF0ZiSG/RHjltfrV3yX+BHh24E4DIBVGTraZPDk0SfAfw==
-X-Received: by 2002:ac8:6659:0:b0:3ae:64e0:58d3 with SMTP id
- j25-20020ac86659000000b003ae64e058d3mr15425577qtp.10.1673562497642; 
- Thu, 12 Jan 2023 14:28:17 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- do55-20020a05620a2b3700b00706193127c6sm219430qkb.85.2023.01.12.14.28.16
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OE84YYKjoFuqo0u9NWqw6q7gCrIwMHdGUeaSVIGT2ls=;
+ b=h/kHYmZCJrnWofxjvV+O093WUVGC+iYYXLtVg/uK+enx+RobV2FVSDyFS7/uxT32W0
+ HMZogouN0kWsTtfDi+7L3UHuah4b+M6hNQ5+kdIf2975D2EXw4dWpgEirLqJEZGBBABj
+ kdbYznMul64oITs6RyM24WiA7bDoG5FJD04R+3FCS5SN5hkaBZOPhOO/+mO1zfoCmsaa
+ EzpAJVUl8BOWrsW+jDaI80tv/j/8UVunNLCnAgP6QXWsgHa93RHw+kStOKAmAvtY9oOK
+ 50UB3DxIgZVjc8j3+HaFFMu9IxJYRylF8zJ39DyCnuZ/RgwT7yHIcvYJvJbktVU7sOi9
+ X8TQ==
+X-Gm-Message-State: AFqh2krsq4tWvbMROGUEAeWjhMNd+O5LNXEPFzdj3WwR/bKpmVL3NEq0
+ uHewohAiElQbghNJIGv8TOAjGFiXDu5CX19etHk=
+X-Google-Smtp-Source: AMrXdXsjqmveLeam8IXE5jHe5PlwxIQRUAG9R7bCFW7i3BvJa73ql1Uz4gY6n3md5rDhiA0AEvXOhA==
+X-Received: by 2002:a4a:97b1:0:b0:49f:dba7:5e65 with SMTP id
+ w46-20020a4a97b1000000b0049fdba75e65mr31872147ooi.3.1673562891394; 
+ Thu, 12 Jan 2023 14:34:51 -0800 (PST)
+Received: from grind.. ([191.17.222.2]) by smtp.gmail.com with ESMTPSA id
+ h4-20020a4a9404000000b004a532a32408sm8946830ooi.16.2023.01.12.14.34.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jan 2023 14:28:16 -0800 (PST)
-Date: Thu, 12 Jan 2023 17:28:15 -0500
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-Subject: Re: [PATCH v3 3/8] migration/savevm: Allow immutable device state to
- be migrated early (i.e., before RAM)
-Message-ID: <Y8CJf7hCy76AtfcF@x1n>
-References: <20230112164403.105085-1-david@redhat.com>
- <20230112164403.105085-4-david@redhat.com>
- <Y8BJ02EiHNSr6xMv@work-vm>
- <11b7237a-000a-5ad7-3747-246825188d83@redhat.com>
- <Y8BlCeViRSzyTQ8+@work-vm> <Y8CGYZ3F/h1oXV+d@x1n>
+ Thu, 12 Jan 2023 14:34:50 -0800 (PST)
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v6 0/2] hw/riscv: consolidate kernel init in
+ riscv_load_kernel()
+Date: Thu, 12 Jan 2023 19:34:42 -0300
+Message-Id: <20230112223444.484879-1-dbarboza@ventanamicro.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y8CGYZ3F/h1oXV+d@x1n>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oo1-xc44.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,150 +90,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 12, 2023 at 05:14:57PM -0500, Peter Xu wrote:
-> On Thu, Jan 12, 2023 at 07:52:41PM +0000, Dr. David Alan Gilbert wrote:
-> > * David Hildenbrand (david@redhat.com) wrote:
-> > > On 12.01.23 18:56, Dr. David Alan Gilbert wrote:
-> > > > * David Hildenbrand (david@redhat.com) wrote:
-> > > > > For virtio-mem, we want to have the plugged/unplugged state of memory
-> > > > > blocks available before migrating any actual RAM content, and perform
-> > > > > sanity checks before touching anything on the destination. This
-> > > > > information is immutable on the migration source while migration is active,
-> > > > > 
-> > > > > We want to use this information for proper preallocation support with
-> > > > > migration: currently, we don't preallocate memory on the migration target,
-> > > > > and especially with hugetlb, we can easily run out of hugetlb pages during
-> > > > > RAM migration and will crash (SIGBUS) instead of catching this gracefully
-> > > > > via preallocation.
-> > > > > 
-> > > > > Migrating device state via a vmsd before we start iterating is currently
-> > > > > impossible: the only approach that would be possible is avoiding a vmsd
-> > > > > and migrating state manually during save_setup(), to be restored during
-> > > > > load_state().
-> > > > > 
-> > > > > Let's allow for migrating device state via a vmsd early, during the
-> > > > > setup phase in qemu_savevm_state_setup(). To keep it simple, we
-> > > > > indicate applicable vmds's using an "immutable" flag.
-> > > > > 
-> > > > > Note that only very selected devices (i.e., ones seriously messing with
-> > > > > RAM setup) are supposed to make use of such early state migration.
-> > > > > 
-> > > > > Signed-off-by: David Hildenbrand <david@redhat.com>
-> > > > > ---
-> > > > >   include/migration/vmstate.h |  5 +++++
-> > > > >   migration/savevm.c          | 14 ++++++++++++++
-> > > > >   2 files changed, 19 insertions(+)
-> > > > > 
-> > > > > diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-> > > > > index ad24aa1934..dd06c3abad 100644
-> > > > > --- a/include/migration/vmstate.h
-> > > > > +++ b/include/migration/vmstate.h
-> > > > > @@ -179,6 +179,11 @@ struct VMStateField {
-> > > > >   struct VMStateDescription {
-> > > > >       const char *name;
-> > > > >       int unmigratable;
-> > > > > +    /*
-> > > > > +     * The state is immutable while migration is active and is saved
-> > > > > +     * during the setup phase, to be restored early on the destination.
-> > > > > +     */
-> > > > > +    int immutable;
-> > > > 
-> > > > A bool would be nicer (as it would for unmigratable above)
-> > > 
-> > > Yes, I chose an int for consistency with "unmigratable". I can turn that
-> > > into a bool.
-> > > 
-> > > I'd even include a cleanup patch for unmigratable if it wouldn't be ...
-> > > 
-> > > $ git grep "unmigratable \=" | wc -l
-> > > 29
-> > 
-> > It might be OK if you just change the declaration; I mean '1' is pretty
-> > close to true? (I think...)
-> > Anyway, at least make the new one a bool.
-> 
-> Agreed bool is better.  Can we rename it to something like "early_setup"?
-> "immutable" isn't clear on its most important attribute (on when it'll be
-> migrated).  Meanwhile I'd hope we can comment that explicitly.  I'd go with:
-> 
->   /*
->    * This VMSD describes something that should be sent during setup phase
->    * of migration.  It plays similar role as save_setup() for explicitly
->    * registered vmstate entries, the only difference is the vmsd will be
->    * sent right at the start of migration.
->    */
->   bool early_setup;
+Hi,
 
-Let me try some even better wording..
+These are the 2 remaining patches, patches 10 and 11, of:
 
-    /*
-     * This VMSD describes something that should be sent during setup phase
-     * of migration.  It plays similar role as save_setup() for explicitly
-     * registered vmstate entries, so it can be seen as a way to describe
-     * save_setup() in vmsd structures.
-     *
-     * One SaveStateEntry should either have the save_setup() specified or
-     * the vmsd with early_setup set to true.  It should never have both
-     * things set.
-     */
-    bool early_setup;
+"[PATCH v5 00/11] riscv: OpenSBI boot test and cleanups"
 
-There's one tricky thing that we'll send QEMU_VM_SECTION_START for
-save_setup() entries but QEMU_VM_SECTION_FULL for vmsd early_setup
-entries.
+The first 9 patches are already available in riscv-to-apply.next. 
 
-David, do you think we can slightly modify your new version of
-vmstate_save() so as to pass in the section_type?  I think it'll be even
-cleaner to send QEMU_VM_SECTION_START for the early vmsds too.  I assume
-this shouldn't affect your goal and anything else.
+The only change made was in patch 10 where we're now handling the case
+where load_elf_ram_sym is padding the resulting kernel_entry with 1s for
+32 bits. Patch 11 is unchanged.
 
-> 
-> > 
-> > > > >       int version_id;
-> > > > >       int minimum_version_id;
-> > > > >       MigrationPriority priority;
-> > > > > diff --git a/migration/savevm.c b/migration/savevm.c
-> > > > > index ff2b8d0064..536d6f662b 100644
-> > > > > --- a/migration/savevm.c
-> > > > > +++ b/migration/savevm.c
-> > > > > @@ -1200,6 +1200,15 @@ void qemu_savevm_state_setup(QEMUFile *f)
-> > > > >       trace_savevm_state_setup();
-> > > > >       QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-> > > > > +        if (se->vmsd && se->vmsd->immutable) {
-> > > > > +            ret = vmstate_save(f, se, ms->vmdesc);
-> > > > > +            if (ret) {
-> > > > > +                qemu_file_set_error(f, ret);
-> > > > > +                break;
-> > > > > +            }
-> > > > > +            continue;
-> > > > > +        }
-> > > > > +
-> > > > 
-> > > > Does this give you the ordering you want? i.e. there's no guarantee here
-> > > > that immutables come first?
-> > > 
-> > > Yes, for virtio-mem at least this is fine. There are no real ordering
-> > > requirements in regard to save_setup().
-> > > 
-> > > I guess one could use vmstate priorities to affect the ordering, if
-> > > required.
-> > > 
-> > > So for my use case this is good enough, any suggestions? Thanks.
-> > 
-> > OK, but consider whether it might be better just to have a separate
-> > QTAILQ_FOREACH look in savevm_state_setup that first does all the
-> > immutables, and then all the setups.
-> 
-> After patch 1 the order may not matter iiuc, because each call to the
-> immutable vmsds calls the new vmstate_save() which will always send
-> QEMU_VM_SECTION_FULL and footers along the vmsd.
-> 
-> Thanks,
-> 
-> -- 
-> Peter Xu
+Changes from v5:
+- former patches 1-9: already pushed to riscv-to-apply.next
+- patch 10:
+  - added an 'is_32bit' flag in riscv_load_kernel(). Use it to eliminate the
+  sign-extension from load_elf() if we're running a 32-bit guest.
+v5 link: https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg00051.html
+
+Daniel Henrique Barboza (2):
+  hw/riscv/boot.c: consolidate all kernel init in riscv_load_kernel()
+  hw/riscv/boot.c: make riscv_load_initrd() static
+
+ hw/riscv/boot.c            | 98 ++++++++++++++++++++++++--------------
+ hw/riscv/microchip_pfsoc.c | 12 +----
+ hw/riscv/opentitan.c       |  3 +-
+ hw/riscv/sifive_e.c        |  4 +-
+ hw/riscv/sifive_u.c        | 13 ++---
+ hw/riscv/spike.c           | 10 +---
+ hw/riscv/virt.c            | 13 ++---
+ include/hw/riscv/boot.h    |  3 +-
+ 8 files changed, 77 insertions(+), 79 deletions(-)
 
 -- 
-Peter Xu
+2.39.0
 
 
