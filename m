@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1369C667868
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 15:59:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0E866788B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:05:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFyra-0003hl-Ab; Thu, 12 Jan 2023 09:47:30 -0500
+	id 1pFyBO-0002Is-9Z; Thu, 12 Jan 2023 09:03:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pFyrY-0003h6-U1
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:47:28 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pFyBH-0002Fc-9p
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:48 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pFyrW-0004wC-EK
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:47:28 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pFyBB-0005uL-OH
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673534845;
+ s=mimecast20190719; t=1673532212;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W/fVAbhTSCKn36CoCFZfOgn98LrHMlA4vtdqO0hTv4M=;
- b=f4OQWgYm7KTCRcpalFXAU5+uYUaeU09jwLyZgCFMExSy3uXjlMSBy9r5onylEefllvyQeY
- 8gHB1e3bszRAHLpCd7tbSSFKeIXJ6ZsxYa9TAdWlUb0O6B2iZ3xJW7BiwytI+a+HjHW2G4
- yrFI8qDAjBoWKq/raGGxs4fPjYdfsi8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0sQGJ06775n0SRKoUOGHrjHIfY/981UT2MYr0PzzvsA=;
+ b=BvzsitkGRdJdq4v1LcEdj2t7tPR3Hx7VukYE+3IYcaztlECn9+2gzP0IG3cydpPP9Ylhe9
+ uypi8bK8gNoiTzEF3wYz8kYv5YlKPcj56yUO3WuBGuyPaaOoCN9AdezxXu654hWovF3R2N
+ B9+8cKwQfoDBDUCH1fG5Jn9uSLf2dXg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-hOM0BqJPP6eRye7pR-FeKg-1; Thu, 12 Jan 2023 09:47:21 -0500
-X-MC-Unique: hOM0BqJPP6eRye7pR-FeKg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-468-ulZ9AZe6NYmSEADe5JKvig-1; Thu, 12 Jan 2023 09:03:30 -0500
+X-MC-Unique: ulZ9AZe6NYmSEADe5JKvig-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0629018E0920;
- Thu, 12 Jan 2023 14:47:21 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DAC12166B26;
- Thu, 12 Jan 2023 14:47:20 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 40C2A21E6A36; Thu, 12 Jan 2023 15:47:19 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,  qemu-devel@nongnu.org,
- imp@bsdimp.com,  kevans@freebsd.org,  berrange@redhat.com,
- ben.widawsky@intel.com,  jonathan.cameron@huawei.com,
- kbastian@mail.uni-paderborn.de,  jasowang@redhat.com,
- michael.roth@amd.com,  kkostiuk@redhat.com,  tsimpson@quicinc.com,
- palmer@dabbelt.com,  alistair.francis@wdc.com,  bin.meng@windriver.com,
- qemu-riscv@nongnu.org,  philmd@linaro.org,  Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v3 1/1] include: Don't include qemu/osdep.h
-References: <20230112115005.1504812-1-armbru@redhat.com>
- <20230112115005.1504812-2-armbru@redhat.com>
- <20230112082537-mutt-send-email-mst@kernel.org>
- <20230112085520-mutt-send-email-mst@kernel.org>
-Date: Thu, 12 Jan 2023 15:47:19 +0100
-In-Reply-To: <20230112085520-mutt-send-email-mst@kernel.org> (Michael
- S. Tsirkin's message of "Thu, 12 Jan 2023 08:56:03 -0500")
-Message-ID: <87zgan4xoo.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 731AA1C004E7;
+ Thu, 12 Jan 2023 14:03:30 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq2.redhat.com
+ (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0C924085720;
+ Thu, 12 Jan 2023 14:03:29 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+	Ani Sinha <ani@anisinha.ca>
+Subject: [PATCH 20/40] tests: acpi: whitelist DSDT before refactoring acpi
+ based PCI hotplug machinery
+Date: Thu, 12 Jan 2023 15:02:52 +0100
+Message-Id: <20230112140312.3096331-21-imammedo@redhat.com>
+In-Reply-To: <20230112140312.3096331-1-imammedo@redhat.com>
+References: <20230112140312.3096331-1-imammedo@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,106 +81,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 36 +++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-> On Thu, Jan 12, 2023 at 08:51:32AM -0500, Michael S. Tsirkin wrote:
->> On Thu, Jan 12, 2023 at 12:50:05PM +0100, Markus Armbruster wrote:
->> > docs/devel/style.rst mandates:
->> >=20
->> >     The "qemu/osdep.h" header contains preprocessor macros that affect
->> >     the behavior of core system headers like <stdint.h>.  It must be
->> >     the first include so that core system headers included by external
->> >     libraries get the preprocessor macros that QEMU depends on.
->> >=20
->> >     Do not include "qemu/osdep.h" from header files since the .c file
->> >     will have already included it.
->> >=20
->> > A few violations have crept in.  Fix them.
->> >=20
->> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
->> > Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
->> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->>=20
->> With my awesome grep skillz I found one more:
->> $ grep -r --include=3D'*.h' qemu/osdep.h
->> include/block/graph-lock.h:#include "qemu/osdep.h"
-
-Crept in after I prepared my v1.  I neglected to re-check.
-
-> Also:
-> $ grep -r --include=3D'*.inc' qemu/osdep.h
-> ui/vnc-enc-zrle.c.inc:#include "qemu/osdep.h"
-> crypto/akcipher-nettle.c.inc:#include "qemu/osdep.h"
-> crypto/akcipher-gcrypt.c.inc:#include "qemu/osdep.h"
-> crypto/rsakey-nettle.c.inc:#include "qemu/osdep.h"
-> crypto/cipher-gnutls.c.inc:#include "qemu/osdep.h"
-> target/xtensa/core-dc233c/xtensa-modules.c.inc:#include "qemu/osdep.h"
-> target/xtensa/core-sample_controller/xtensa-modules.c.inc:#include "qemu/=
-osdep.h"
-> target/xtensa/core-de212/xtensa-modules.c.inc:#include "qemu/osdep.h"
-> target/xtensa/core-dc232b/xtensa-modules.c.inc:#include "qemu/osdep.h"
-> target/xtensa/core-fsf/xtensa-modules.c.inc:#include "qemu/osdep.h"
-> target/cris/translate_v10.c.inc:#include "qemu/osdep.h"
-
-Good point.  Looks like I successfully supressed all memory of .inc.
-
->> Looks like all C files must include qemu/osdep.h, no?
-
-I remember there are a few exceptions, but I don't remember which .c
-they are.  Hmm... see commit 4bd802b209cff612d1a99674a91895b735be8630.
-
->> How about
->>=20
->> 1- add -include qemu/osdep.h on compile command line
->>    drop #include "qemu/osdep.h" from C files
-
-Then you need to encode the exceptions in the build system.  Which might
-not be a bad thing.
-
->> 2- drop double include guards, replace with a warning.
->>=20
->> following patch implements part 2:
->>=20
->>=20
->> qemu/osdep: don't include it from headers
->>=20
->> doing so will lead to trouble eventually - instead of
->> working around such cases make it more likely it will fail.
->>=20
->> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->>=20
->> ---
->>=20
->> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
->> index 7d059ad526..e4a60f911c 100644
->> --- a/include/qemu/osdep.h
->> +++ b/include/qemu/osdep.h
->> @@ -24,7 +24,12 @@
->>   * This work is licensed under the terms of the GNU GPL, version 2 or l=
-ater.
->>   * See the COPYING file in the top-level directory.
->>   */
->> -#ifndef QEMU_OSDEP_H
->> +#ifdef QEMU_OSDEP_H
->> +#warning "Never include qemu/osdep.h from a header!"
->> +#endif
->> +
->> +static inline void qemu_osdep_never_include_from_header(void) {}
->> +
-
-Why do you need the function, too?
-
->>  #define QEMU_OSDEP_H
->>=20=20
->>  #include "config-host.h"
->> @@ -714,5 +719,3 @@ static inline int platform_does_not_support_system(c=
-onst char *command)
->>  #ifdef __cplusplus
->>  }
->>  #endif
->> -
->> -#endif
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..4be20b2cd1 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,37 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT",
++"tests/data/acpi/pc/DSDT.bridge",
++"tests/data/acpi/pc/DSDT.ipmikcs",
++"tests/data/acpi/pc/DSDT.cphp",
++"tests/data/acpi/pc/DSDT.memhp",
++"tests/data/acpi/pc/DSDT.numamem",
++"tests/data/acpi/pc/DSDT.nohpet",
++"tests/data/acpi/pc/DSDT.dimmpxm",
++"tests/data/acpi/pc/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.acpierst",
++"tests/data/acpi/pc/DSDT.roothp",
++"tests/data/acpi/pc/DSDT.hpbrroot",
++"tests/data/acpi/pc/DSDT.hpbridge",
++"tests/data/acpi/q35/DSDT",
++"tests/data/acpi/q35/DSDT.tis.tpm2",
++"tests/data/acpi/q35/DSDT.tis.tpm12",
++"tests/data/acpi/q35/DSDT.bridge",
++"tests/data/acpi/q35/DSDT.multi-bridge",
++"tests/data/acpi/q35/DSDT.mmio64",
++"tests/data/acpi/q35/DSDT.ipmibt",
++"tests/data/acpi/q35/DSDT.cphp",
++"tests/data/acpi/q35/DSDT.memhp",
++"tests/data/acpi/q35/DSDT.numamem",
++"tests/data/acpi/q35/DSDT.nohpet",
++"tests/data/acpi/q35/DSDT.dimmpxm",
++"tests/data/acpi/q35/DSDT.acpihmat",
++"tests/data/acpi/q35/DSDT.acpierst",
++"tests/data/acpi/q35/DSDT.applesmc",
++"tests/data/acpi/q35/DSDT.pvpanic-isa",
++"tests/data/acpi/q35/DSDT.ivrs",
++"tests/data/acpi/q35/DSDT.viot",
++"tests/data/acpi/q35/DSDT.cxl",
++"tests/data/acpi/q35/DSDT.ipmismbus",
++"tests/data/acpi/q35/DSDT.xapic",
++"tests/data/acpi/q35/DSDT.acpihmat-noinitiator",
++"tests/data/acpi/q35/DSDT.core-count2",
+-- 
+2.31.1
 
 
