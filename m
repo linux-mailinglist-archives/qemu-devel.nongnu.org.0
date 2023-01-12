@@ -2,72 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7BAC668415
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 21:29:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C6F668506
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 22:06:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG4Bc-0002H7-7J; Thu, 12 Jan 2023 15:28:32 -0500
+	id 1pG4k6-0007kE-OV; Thu, 12 Jan 2023 16:04:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1pG4Ba-0002Gt-11; Thu, 12 Jan 2023 15:28:30 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1pG4BY-0002Wb-DG; Thu, 12 Jan 2023 15:28:29 -0500
-Received: by mail-ed1-x531.google.com with SMTP id v30so28491095edb.9;
- Thu, 12 Jan 2023 12:28:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=YVuNnaR7GY9uJJf2iDPvKeHqJ3g7wsPNVFEUmPmMgNU=;
- b=Y7mHMplWuldd1RY9uGNM28DzyO44Ws2aX4icBe/3LDY6TVr3TYAfuvm7gzDg9q5X1p
- 6I3vwqLyxa1EHXhJ3MmNF77bguRJR4c9Ca3JcUo+Gru3JgaAsJanVPfb15AUgenVm4eO
- 3HDJ7wzve0pNlVUsrQSl4PJmKUnEH8q87hkSDzjzm/oWI/DI0QKJvWK/o1i6CAqtsv1m
- nSGSHS2fQ0HDMzF8UKnz9YtPnX7iR+lTAqdRp/FL79Bzf2Iy0f9ZmmgBY8SRZkNg3vUu
- 83iZRPlkutMrNuNEtHc31x6dswyt7ThnksKBLb50XOxZgJ+7MZm3TSDahZSqZjU1Gfe/
- Jw0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YVuNnaR7GY9uJJf2iDPvKeHqJ3g7wsPNVFEUmPmMgNU=;
- b=AVvqs8eYhZxorzdt3nIC5bxUoHbShVMHwgAM/V1eOem7P2/DBTcxDLLsDodydBBPDy
- +mewE+qoee4XBKyJ6kT1Yd5yKYrU/h6ChOOTm/Rbr5raKYawlu6z6XGq6gqctL7ziZNn
- Gv2MBHUParOK+HEYP3VaORjAojz8Pbtj6tRJC4NFAMdzCuNBCab5l/3pw4pUvKvk1BKm
- f57/HtkQuJFEZnU5WfiuhgB3b29WY3YFWUAKxZFBDQlEXMY8DGyQ88bAxj+dvIfKJVFE
- jz/bPjJAb/Qt5N7Y5CvoHKigDRQ6nBiCzBB6pTvZK0q5SCBIkiE8vgM3ERDt7CuIsX9P
- 24VA==
-X-Gm-Message-State: AFqh2krXIpIjj7hNJoVf/90Z3HGdfo9gQ7B2ieiNV7vnA0d/bpXkm3OJ
- Q6QmHhJGkR14DS+bW6NI/vn/qUwTip5QGuFt4jc=
-X-Google-Smtp-Source: AMrXdXuAljxJbP3CbzObRvKWrspxUizbDKQqNSXLD9FU7qAFfNY7MKKdxBrcObKBsSYxbmZiy8Ba/5rA5Kj4Z8jf7cw=
-X-Received: by 2002:aa7:cf87:0:b0:498:dfe5:49aa with SMTP id
- z7-20020aa7cf87000000b00498dfe549aamr1534777edx.398.1673555305814; Thu, 12
- Jan 2023 12:28:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1pG4k0-0007jr-0E
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 16:04:04 -0500
+Received: from nylar.uni-paderborn.de ([2001:638:502:c003::18])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1pG4jx-0000hN-Fc
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 16:04:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=h0iiuQ8HWDb47MZ2UpouMpJ6VpyJ3mTUyb+PoUtwKyw=; b=RLhxF4d5mGz5/VWJcrqL76BjuE
+ xA9itfEbHs0/fqdKVOrf8IEhqNHv7nKaFBlsLN1UJsRBuy5zyhOfbzQ4EDpCrqyF7QttbmPNKwkoJ
+ 2dEoJkOpp5hcVYZfYsWkryhCtwaids5QV95k330UwGXyn2/K1GymKGMdY9bsHYblp/o8=;
+Date: Thu, 12 Jan 2023 22:03:50 +0100
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: Anton Kochkov <anton.kochkov@proton.me>
+Cc: qemu-devel@nongnu.org, eitan_eliahu@hotmail.com
+Subject: Re: [PATCH] target/tricore: Fix OPC1_16_SRO_LD_H translation
+Message-ID: <20230112210350.2y67zmep37menm6d@schnipp-desktop>
+References: <20230112142258.514079-1-anton.kochkov@proton.me>
 MIME-Version: 1.0
-References: <20211209092815.778066-1-oro@il.ibm.com>
- <20211209092815.778066-2-oro@il.ibm.com>
-In-Reply-To: <20211209092815.778066-2-oro@il.ibm.com>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Thu, 12 Jan 2023 21:28:13 +0100
-Message-ID: <CAOi1vP95sznmAETC1ikqb5bxKueDZYd7HtEjM=7KerMSALYFuQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] virtio-block: switch to blk_get_max_hw_transfer
-To: Or Ozeri <oro@il.ibm.com>
-Cc: qemu-devel@nongnu.org, dupadhya@redhat.com, to.my.trociny@gmail.com, 
- qemu-block@nongnu.org, dannyh@il.ibm.com, 
- Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=idryomov@gmail.com; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230112142258.514079-1-anton.kochkov@proton.me>
+X-IMT-Source: Extern
+X-IMT-Spam-Score: 0.0 ()
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2023.1.12.205123, AntiVirus-Engine: 5.96.0,
+ AntiVirus-Data: 2022.12.20.5960002
+X-Sophos-SenderHistory: ip=84.154.186.130, fs=13959064, da=161166500, mc=63,
+ sc=0, hc=63, sp=0, fso=13959064, re=0, sd=0, hd=0
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Received-SPF: pass client-ip=2001:638:502:c003::18;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=nylar.uni-paderborn.de
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,56 +69,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 9, 2021 at 10:34 AM Or Ozeri <oro@il.ibm.com> wrote:
->
-> The blk_get_max_hw_transfer API was recently added in 6.1.0.
-> It allows querying an underlying block device its max transfer capability.
-> This commit changes virtio-blk to use this.
->
-> Signed-off-by: Or Ozeri <oro@il.ibm.com>
+On Thu, Jan 12, 2023 at 02:24:02PM +0000, Anton Kochkov wrote:
+> Signed-off-by: Eitan Eliahu <eitan_eliahu@hotmail.com>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/652
 > ---
->  hw/block/virtio-blk.c | 2 +-
+>  target/tricore/translate.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-> index f139cd7cc9..1ba9a06888 100644
-> --- a/hw/block/virtio-blk.c
-> +++ b/hw/block/virtio-blk.c
-> @@ -458,7 +458,7 @@ static void virtio_blk_submit_multireq(BlockBackend *blk, MultiReqBuffer *mrb)
->          return;
->      }
->
-> -    max_transfer = blk_get_max_transfer(mrb->reqs[0]->dev->blk);
-> +    max_transfer = blk_get_max_hw_transfer(mrb->reqs[0]->dev->blk);
->
->      qsort(mrb->reqs, mrb->num_reqs, sizeof(*mrb->reqs),
->            &multireq_compare);
+> 
+> diff --git a/target/tricore/translate.c b/target/tricore/translate.c
+> index df9e46c649..b2a5e11778 100644
+> --- a/target/tricore/translate.c
+> +++ b/target/tricore/translate.c
+> @@ -3878,7 +3878,7 @@ static void decode_sro_opc(DisasContext *ctx, int op1)
+>          gen_offset_ld(ctx, cpu_gpr_d[15], cpu_gpr_a[r2], address, MO_UB);
+>          break;
+>      case OPC1_16_SRO_LD_H:
+> -        gen_offset_ld(ctx, cpu_gpr_d[15], cpu_gpr_a[r2], address, MO_LESW);
+> +        gen_offset_ld(ctx, cpu_gpr_d[15], cpu_gpr_a[r2], address * 2, MO_LESW);
+>          break;
+>      case OPC1_16_SRO_LD_W:
+>          gen_offset_ld(ctx, cpu_gpr_d[15], cpu_gpr_a[r2], address * 4, MO_LESL);
 > --
-> 2.25.1
->
->
+> 2.39.0
 
-Hi Or,
+Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-Superficially, this makes sense to me.  A couple of things to consider:
+As Phil said, good catch. I added it to my TriCore queue. 
 
-- Move the explanation from the cover letter into the patch
-  description.  The current patch description is pretty much
-  meaningless.
-- Should the actual limit be consulted for the number of segments
-  as well?  IOW should blk_get_max_hw_iov() be called instead of
-  blk_get_max_iov() a dozen lines below?
+I saw on the bugtracker that you have testcase. Are you interested in adding it to
+tests/tcg/tricore?
 
-I'm adding Stefan and Kevin to CC to get more eyes on this patch as it
-fixes a regression.  I believe this was encountered with the following
-NBD device, Or please correct me if I'm wrong:
-
-$ cat /sys/block/nbd0/queue/max_sectors_kb
-128
-$ cat /sys/block/nbd0/queue/max_segments
-65535
-
-Thanks,
-
-                Ilya
+Cheers,
+Bastian
 
