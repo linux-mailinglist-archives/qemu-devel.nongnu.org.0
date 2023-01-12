@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A30667490
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 15:09:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0DEB66749F
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 15:10:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFyBQ-0002MM-TZ; Thu, 12 Jan 2023 09:03:56 -0500
+	id 1pFyBY-0002Yu-Gs; Thu, 12 Jan 2023 09:04:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pFyBH-0002Fw-QJ
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:48 -0500
+ id 1pFyBL-0002Hi-FH
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:51 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pFyBC-0005yK-1T
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:47 -0500
+ id 1pFyBI-000629-5r
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673532221;
+ s=mimecast20190719; t=1673532227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OxFmAYd2+zXcLOnFuQzyDe+Z10qJZBdfnZtIvf0a/JI=;
- b=gICHTZRbjJdMUz7gp3yYAAOnM3cstKD7hX8LNG2mRk1NSo81ZxIVLtje6TLXOp/5XK52wC
- lyHtnQ7/TirwIXPvdlHJmP61ZGvPUh7ACt+pyExO0HCiiI52ZMIm5KdZDXEruT/DcASIvy
- yGjH746npRn4rZ/NiGq5ONcGJcJrGBg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pMcUzqTFMtCIAqM4iCWHRMb4pCN4HlQGwY2Bu5OxbjI=;
+ b=cjCvLOa6CpuZNH7lFJ2IVGOyAVQ+Qa5/TDVqzwXHna8xymFEbEvGn1mYOZrj0AOaXZeDSU
+ 8UoqkEZAuOKt1bTKUfEduZ46v/Txu1F/wgRrqXLPO9LHktbpqFDUDtv1O8kpfsVu/SxLVW
+ 0cMczTHeTSQfdpwSzhAbieuIKGiZc7w=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-45-CsPZQr8oPp6zipOXhH-RFw-1; Thu, 12 Jan 2023 09:03:38 -0500
-X-MC-Unique: CsPZQr8oPp6zipOXhH-RFw-1
+ us-mta-163-GU7GeyP4OAyYDoQRWqe3Gg-1; Thu, 12 Jan 2023 09:03:35 -0500
+X-MC-Unique: GU7GeyP4OAyYDoQRWqe3Gg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 488C51991C4C;
- Thu, 12 Jan 2023 14:03:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0908C3811F4C;
+ Thu, 12 Jan 2023 14:03:35 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B61F34085720;
- Thu, 12 Jan 2023 14:03:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 782744085720;
+ Thu, 12 Jan 2023 14:03:34 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 	Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH 25/40] tests: acpi: add endpoint devices to bridges
-Date: Thu, 12 Jan 2023 15:02:57 +0100
-Message-Id: <20230112140312.3096331-26-imammedo@redhat.com>
+Subject: [PATCH 26/40] tests: acpi: update expected blobs
+Date: Thu, 12 Jan 2023 15:02:58 +0100
+Message-Id: <20230112140312.3096331-27-imammedo@redhat.com>
 In-Reply-To: <20230112140312.3096331-1-imammedo@redhat.com>
 References: <20230112140312.3096331-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -80,110 +80,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-to make sure that they are enumerated or ignored as expected
+previous commit added endpoint devices to bridge testcases,
+which exposes extra non-hotpluggable slot in DSDT on bus where
+hotplug is not available.
+It should look like this (numbers may vary):
+
++            Device (S28)
++            {
++                Name (_ADR, 0x00050000)  // _ADR: Address
++            }
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 37 ++++++++++++++++++++++++++--------
- 1 file changed, 29 insertions(+), 8 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
+ tests/data/acpi/pc/DSDT.hpbrroot            | Bin 3064 -> 3081 bytes
+ tests/data/acpi/pc/DSDT.roothp              | Bin 9758 -> 9775 bytes
+ tests/data/acpi/q35/DSDT.bridge             | Bin 11458 -> 11475 bytes
+ tests/data/acpi/q35/DSDT.multi-bridge       | Bin 12358 -> 12375 bytes
+ 5 files changed, 4 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index a8c17461c8..22b22c403d 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -875,7 +875,9 @@ static void test_acpi_piix4_tcg_bridge(void)
-     data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
-     test_vm_prepare("-S"
-         " -device pci-bridge,chassis_nr=1"
--        " -device pci-bridge,bus=pci.1,addr=1.0,chassis_nr=2", &data);
-+        " -device pci-bridge,bus=pci.1,addr=1.0,chassis_nr=2"
-+        " -device pci-testdev,bus=pci.0,addr=5.0"
-+        " -device pci-testdev,bus=pci.1", &data);
- 
-     /* hotplugged bridges section */
-     qtest_qmp_device_add(data.qts, "pci-bridge", "hpbr",
-@@ -884,6 +886,10 @@ static void test_acpi_piix4_tcg_bridge(void)
-         "{'bus': 'pci.1', 'addr': '0xf.1', 'chassis_nr': 4 }");
-     qtest_qmp_device_add(data.qts, "pci-bridge", "hpbrhost",
-         "{'bus': 'pci.0', 'addr': '4.0', 'chassis_nr': 5 }");
-+    qtest_qmp_device_add(data.qts, "pci-testdev", "d1", "{'bus': 'pci.0' }");
-+    qtest_qmp_device_add(data.qts, "pci-testdev", "d2", "{'bus': 'pci.1' }");
-+    qtest_qmp_device_add(data.qts, "pci-testdev", "d3", "{'bus': 'hpbr', "
-+                                   "'addr': '1.0' }");
-     qtest_qmp_send(data.qts, "{'execute':'cont' }");
-     qtest_qmp_eventwait(data.qts, "RESUME");
- 
-@@ -907,7 +913,9 @@ static void test_acpi_piix4_no_root_hotplug(void)
-     data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
-     test_acpi_one("-global PIIX4_PM.acpi-root-pci-hotplug=off "
-                   "-device pci-bridge,chassis_nr=1 "
--                  "-device pci-bridge,bus=pci.1,addr=1.0,chassis_nr=2 ", &data);
-+                  "-device pci-bridge,bus=pci.1,addr=1.0,chassis_nr=2 "
-+                  "-device pci-testdev,bus=pci.0 "
-+                  "-device pci-testdev,bus=pci.1", &data);
-     free_test_data(&data);
- }
- 
-@@ -922,7 +930,9 @@ static void test_acpi_piix4_no_bridge_hotplug(void)
-     data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
-     test_acpi_one("-global PIIX4_PM.acpi-pci-hotplug-with-bridge-support=off "
-                   "-device pci-bridge,chassis_nr=1 "
--                  "-device pci-bridge,bus=pci.1,addr=1.0,chassis_nr=2 ", &data);
-+                  "-device pci-bridge,bus=pci.1,addr=1.0,chassis_nr=2 "
-+                  "-device pci-testdev,bus=pci.0 "
-+                  "-device pci-testdev,bus=pci.1,addr=2.0", &data);
-     free_test_data(&data);
- }
- 
-@@ -937,7 +947,9 @@ static void test_acpi_piix4_no_acpi_pci_hotplug(void)
-     data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
-     test_acpi_one("-global PIIX4_PM.acpi-root-pci-hotplug=off "
-                   "-global PIIX4_PM.acpi-pci-hotplug-with-bridge-support=off "
--                  "-device pci-bridge,chassis_nr=1", &data);
-+                  "-device pci-bridge,chassis_nr=1 "
-+                  "-device pci-testdev,bus=pci.0 "
-+                  "-device pci-testdev,bus=pci.1", &data);
-     free_test_data(&data);
- }
- 
-@@ -982,7 +994,9 @@ static void test_acpi_q35_tcg_bridge(void)
-     data.variant = ".bridge";
-     data.required_struct_types = base_required_struct_types;
-     data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
--    test_acpi_one("-device pci-bridge,chassis_nr=1", &data);
-+    test_acpi_one("-device pci-bridge,chassis_nr=1,id=br1"
-+                  " -device pci-testdev,bus=pcie.0"
-+                  " -device pci-testdev,bus=br1", &data);
-     free_test_data(&data);
- }
- 
-@@ -1001,8 +1015,11 @@ static void test_acpi_q35_multif_bridge(void)
-         " -device pci-bridge,bus=rp2,chassis_nr=4,id=br1"
-         " -device pcie-root-port,id=rphptgt1,port=0x0,chassis=5,addr=2.1"
-         " -device pcie-root-port,id=rphptgt2,port=0x0,chassis=6,addr=2.2"
--        " -device pcie-root-port,id=rphptgt3,port=0x0,chassis=7,addr=2.3",
--        &data);
-+        " -device pcie-root-port,id=rphptgt3,port=0x0,chassis=7,addr=2.3"
-+        " -device pci-testdev,bus=pcie.0,addr=2.4"
-+        " -device pci-testdev,bus=pcie.0,addr=5.0"
-+        " -device pci-testdev,bus=rp0,addr=0.0"
-+        " -device pci-testdev,bus=br1", &data);
- 
-     /* hotplugged bridges section */
-     qtest_qmp_device_add(data.qts, "pci-bridge", "hpbr1",
-@@ -1010,7 +1027,11 @@ static void test_acpi_q35_multif_bridge(void)
-     qtest_qmp_device_add(data.qts, "pci-bridge", "hpbr2-multiif",
-         "{ 'bus': 'br1', 'addr': '2.2', 'chassis_nr': 129 }");
-     qtest_qmp_device_add(data.qts, "pcie-pci-bridge", "hpbr3",
--        "{'bus': 'rp0', 'addr': '0.0' }");
-+        "{'bus': 'rphptgt1', 'addr': '0.0' }");
-+    qtest_qmp_device_add(data.qts, "pcie-root-port", "hprp",
-+        "{'bus': 'rphptgt2', 'addr': '0.0' }");
-+    qtest_qmp_device_add(data.qts, "pci-testdev", "hpnic",
-+        "{'bus': 'rphptgt3', 'addr': '0.0' }");
-     qtest_qmp_send(data.qts, "{'execute':'cont' }");
-     qtest_qmp_eventwait(data.qts, "RESUME");
- 
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 571f14fd59..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,5 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/pc/DSDT.roothp",
+-"tests/data/acpi/pc/DSDT.hpbrroot",
+-"tests/data/acpi/q35/DSDT.bridge",
+-"tests/data/acpi/q35/DSDT.multi-bridge",
+diff --git a/tests/data/acpi/pc/DSDT.hpbrroot b/tests/data/acpi/pc/DSDT.hpbrroot
+index 578468f4f00a9373366c92926b512c192dd6675b..a71ed4fbaa14be655c28a5e03e50157b4476e480 100644
+GIT binary patch
+delta 53
+zcmew%-YLQ566_Mf$-}_Fcyc4xJx(r1rI`3&r+5KR#m%2M*_Z^QoA`r`4B|QB9bJNe
+Hs#q8RhyD!~
+
+delta 35
+qcmeB__#w{a66_N4gPVbYQFkNPJx(qM#hCbDr+5Jmh0UKh*_Z&l3JL`P
+
+diff --git a/tests/data/acpi/pc/DSDT.roothp b/tests/data/acpi/pc/DSDT.roothp
+index fe502ed97751950cc245d728c873065f062c76b2..d58f4d2f0adbb86f8f6403a1cf9b13e1cabed035 100644
+GIT binary patch
+delta 58
+zcmbQ|v)+fxCD<iIUyXr*apFd<a&GR<`HV5~!A|i44f8kmaNm^_jBer&HZq9kh<9`e
+O;$dK5VVIn$x)lHc9T3U@
+
+delta 40
+wcmZ4QGtY<1CD<iIPK|+q@##jca&GR9d5kgf!A|i4{c|_>aNm`jT&21d00Qm}$^ZZW
+
+diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
+index c38b121ad90ecb896a906a50340ad5bd7d5453f9..3a01bb196b047b875be07be28d07f3139716e82f 100644
+GIT binary patch
+delta 56
+zcmX>Uc{!5HCD<k8vJL|SqxMFwMma8*J2COWPVoXhw>M9f^W)*?4>q)j=ZJT73F2X3
+MU}o6-Q0pNh002i2`~Uy|
+
+delta 40
+wcmcZ{c_@<0CD<k8kPZU_<CKkDjdEPhw`1aio#F+&Z*86`=f|`8i`IQc042K)+W-In
+
+diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
+index 52c1d3102b59fe3c1d10fdcfca761722d54d2c40..e6b64345e822fa632126cbc63dcdec3bf3835580 100644
+GIT binary patch
+delta 57
+zcmX?>a6N&`CD<h-+<<|B@$E*gMmg?ACdQcfV5fM24#v&X<W}+V^9LJQ#B;<ux&-ks
+NFt9Rgw$tTc1_1Q74-NnT
+
+delta 41
+xcmcbfa4dn#CD<jz&47V{F>)hUqa1ewBV$Z_uv5H1JHzH_a;x|@2kNph0{{nL3+(^^
+
 -- 
 2.31.1
 
