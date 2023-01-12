@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D1866771D
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 15:40:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D42667771
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 15:43:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFyBM-0002H8-5V; Thu, 12 Jan 2023 09:03:52 -0500
+	id 1pFyBM-0002Hh-H8; Thu, 12 Jan 2023 09:03:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pFyB9-00026T-4G
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pFyB9-000270-JU
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pFyB2-0005sh-Ss
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:34 -0500
+ id 1pFyB2-0005tF-Ue
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673532203;
+ s=mimecast20190719; t=1673532206;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BaDOILO968VGwVlmRQxOtexsT+EBL1HoMsuja1yvdFE=;
- b=ANOzRp4iNOuIovARteH47v2q97x8DUZtA7wVvajlRkfWCRE0RD4brp1pYAGdd1Cd+anSaw
- Vvjx88ns+q7lTiAPK9OZ1UBZZ2dweoVQfYprus+USDQyEu62f1tOmQD53QPOKeWxyeNd4h
- 4ovTiWlpTBnyR/i6uJ2w/a462zlVzIg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=P/bLKepI/SoqzWOveKxQ8X6sOwM/vG4TSDpaK1z/Yjk=;
+ b=f/P2OQIgF/MxrLm9HtyA1R7YvQnKAg0OtmvmeiRpbXZO6jwWJ2GAx1EOVRSSCEdpsHoVdT
+ pExIRA7yzuGndMSi2KjYMtTmyjMm9nz8tlRHXXhVHhwoPHeDowfFiKtJUo6Gl3yhQZWZeD
+ 7vvbZSVghjXumm6QUEwGEBBfDBUTwaE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-122-rwr2EaWfMG-x5EfF1WHQXg-1; Thu, 12 Jan 2023 09:03:20 -0500
-X-MC-Unique: rwr2EaWfMG-x5EfF1WHQXg-1
+ us-mta-651-xdlekOwZNxuFwrU-A_GjIw-1; Thu, 12 Jan 2023 09:03:22 -0500
+X-MC-Unique: xdlekOwZNxuFwrU-A_GjIw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A123385F365;
- Thu, 12 Jan 2023 14:03:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0AAB619711D7;
+ Thu, 12 Jan 2023 14:03:21 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B929B4085722;
- Thu, 12 Jan 2023 14:03:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 799A84085721;
+ Thu, 12 Jan 2023 14:03:20 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 	Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH 07/40] pci_bridge: remove whitespace
-Date: Thu, 12 Jan 2023 15:02:39 +0100
-Message-Id: <20230112140312.3096331-8-imammedo@redhat.com>
+Subject: [PATCH 08/40] x86: acpi: pcihp: clean up duplicate bridge_in_acpi
+ assignment
+Date: Thu, 12 Jan 2023 15:02:40 +0100
+Message-Id: <20230112140312.3096331-9-imammedo@redhat.com>
 In-Reply-To: <20230112140312.3096331-1-imammedo@redhat.com>
 References: <20230112140312.3096331-1-imammedo@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,21 +83,21 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/pci-bridge/pci_bridge_dev.c | 1 -
+ hw/i386/acpi-build.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/hw/pci-bridge/pci_bridge_dev.c b/hw/pci-bridge/pci_bridge_dev.c
-index 3435df8d73..4b2696ea7f 100644
---- a/hw/pci-bridge/pci_bridge_dev.c
-+++ b/hw/pci-bridge/pci_bridge_dev.c
-@@ -186,7 +186,6 @@ static Property pci_bridge_dev_properties[] = {
-                      res_reserve.mem_pref_32, -1),
-     DEFINE_PROP_SIZE("pref64-reserve", PCIBridgeDev,
-                      res_reserve.mem_pref_64, -1),
--
-     DEFINE_PROP_END_OF_LIST(),
- };
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 127c4e2d50..8a35c3cad0 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -466,7 +466,6 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
  
+         call_dev_aml_func(DEVICE(pdev), dev);
+ 
+-        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
+         if (bridge_in_acpi) {
+             /*
+              * device is coldplugged bridge,
 -- 
 2.31.1
 
