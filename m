@@ -2,72 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C55566788A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:05:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC4D667886
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:05:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFybm-0001oW-SF; Thu, 12 Jan 2023 09:31:10 -0500
+	id 1pFyfE-0003ns-S8; Thu, 12 Jan 2023 09:34:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pFybb-0001mv-9T
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:30:59 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pFybZ-0002J6-Lk
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:30:59 -0500
-Received: by mail-pl1-x630.google.com with SMTP id s8so12076153plk.5
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 06:30:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UZsB3mXc9MMJUsCTeAELfgKPo2n5/g1bBJ7BlYhVl54=;
- b=XEjWFc0nQbSk3NwMTm8xY4fKDKdGn7oup/t/Lb7zuMNGkp3qnZJMnxcRQjMmI1YwAB
- rHFVlKHtpEM8xVs8yx41I6zxqjxxlBGMtcMiEhRCuEnpnOwet8HRHcxfejWWgU8VIcV7
- k9rCme0co7bFXvLO/iJP6QzC9Un8GsCG7M+wjC5wS5NFUpLNbEmbENxC1tN9aY2mAc01
- NV49nv+RSFanQRfYzz3kZ/9TWH0UG2gYOGDl3GLd437+Ijkm3STphEEggDEWa5MI1jl6
- NZbXXElJiJKOw5ZM05Rtn44mT+kUAsQJncOFmTZeu1dsmRc2trwWmVN0RQ9lmuIV677W
- q03g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UZsB3mXc9MMJUsCTeAELfgKPo2n5/g1bBJ7BlYhVl54=;
- b=tJ7lXKuNOplSCs21r/BaQMdr5yh7hMZIh/uLPKBX0a7k/b3EgKqfm9hxcU9chc+jpR
- TJMWeChNBdlFa89T/39dZsneJ7cQe6jz5vsaxTHXLi/Dj12qk6X65YerMv06fFuN9u4u
- G4f+gO8YSFqytjgX5rHxkQ0t1sy8FYH55OPn4XIhs6s5RhMcjxPhXwMHSqxsHpqRkVxb
- 1BB0E8vuNxTpLreOhttOQrv7kaVAUc/ENuXRvw18mHYvWRI6skm0iKNDpqyUEs+sKAKU
- 9iDGNhGfvwmwmDdlGzZO4wjnkjUDsluOSQMHFcoOA5znZfQWZa23Zfr3hVey6WGF9gwa
- i3qA==
-X-Gm-Message-State: AFqh2kqUaky22zwxPK6wHIAUQLdg1LKvtdY583KsbZ1i02NGxBsE8e8H
- qBzSDlyHqZ0NAvdZMyj09WJ6l5o497jISni2o2L0bUCBRRCQYQ==
-X-Google-Smtp-Source: AMrXdXsmp7Oer+PTXNQSEcMicf4UPSVQd8Z3aAkT4TY4Tv/3+/HcE5tQWyDqEqBRhcrEk+KL01SVtF+cZyfAdWmj8KY=
-X-Received: by 2002:a17:903:28d:b0:194:6083:fd50 with SMTP id
- j13-20020a170903028d00b001946083fd50mr175999plr.19.1673533856014; Thu, 12 Jan
- 2023 06:30:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pFyet-0003fC-Ut
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:34:34 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pFyeq-0002aK-Is
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:34:22 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30CEK7QR027607; Thu, 12 Jan 2023 14:34:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=HSM/AJz2kGWPrQiiWz1+SRaycGiRwPQnbtcg+oknzpo=;
+ b=R5IImGK6cyTxMIKjApT2VpiDbVJMRg2j32oOktm+i4vN1D8N5LlzhfiGxJtTdZ9d4DuA
+ OBjwUfHc7kSnrf3cZI58/uFUdYOyNquX0AcqRBJIJDqqthuP2UJc9zhxpgbSMpv+5alz
+ g1y4RtO4TzDN6aqP7OEabp+aGb0En8umM2/Hx+liCHtGnDnonISR/zdIUuxQdivJ7tVr
+ 1KMuzU1f9d0XwXa7De3tKkWY5NrkqsiFWbNxJLhocXkGL62iePBauAxPoJ2rBFWDXDri
+ pYfyCsSA11oqPMrRR/Av/xzQ9h3W2y7vhrwRUZE9lX3cKqnFSSoYYiqC1vkWaODpx6I4 7Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n2kvmrc0e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Jan 2023 14:34:18 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30CEKLIg027904;
+ Thu, 12 Jan 2023 14:34:18 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n2kvmrbyu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Jan 2023 14:34:18 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30CE2fcU013176;
+ Thu, 12 Jan 2023 14:34:17 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([9.208.129.116])
+ by ppma03wdc.us.ibm.com (PPS) with ESMTPS id 3n1k93st74-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Jan 2023 14:34:17 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com
+ [10.39.53.233])
+ by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30CEYGxO918102
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 12 Jan 2023 14:34:16 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8EC7E58056;
+ Thu, 12 Jan 2023 14:34:16 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 015285804E;
+ Thu, 12 Jan 2023 14:34:16 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 12 Jan 2023 14:34:15 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, peter.maydell@linaro.org, berrange@redhat.com,
+ Stefan Berger <stefanb@linux.ibm.com>
+Subject: [PATCH v2] tests/qtest: Poll on waitpid() for a while before sending
+ SIGKILL
+Date: Thu, 12 Jan 2023 09:34:13 -0500
+Message-Id: <20230112143413.3979057-1-stefanb@linux.ibm.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <CAFEAcA9zUTAeSbMd_TaOzWfimHOus-=SdNA1XZ+3FO9-fAG3qg@mail.gmail.com>
-In-Reply-To: <CAFEAcA9zUTAeSbMd_TaOzWfimHOus-=SdNA1XZ+3FO9-fAG3qg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 Jan 2023 14:30:45 +0000
-Message-ID: <CAFEAcA8hFu4sGgJ3CQhc26+j4s=JDbxLRcv1mVdtLTe9wsqLRA@mail.gmail.com>
-Subject: Re: tricore-debian-cross-container CI job failing
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 1Oaxib3TMNbxe_2Ex3UIBa3DdZbkrhXl
+X-Proofpoint-GUID: 0oZyrfHFRtOQsUhPEM3jXTiLeZ-8VwF5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-12_08,2023-01-12_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ adultscore=0 lowpriorityscore=0 mlxlogscore=794 malwarescore=0 spamscore=0
+ bulkscore=0 impostorscore=0 clxscore=1015 mlxscore=0 suspectscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301120105
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,32 +113,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 12 Jan 2023 at 14:13, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The tricore-debian-cross-container CI job has started failing for
-> no obvious reason:
->
-> https://gitlab.com/qemu-project/qemu/-/jobs/3593581274
->
-> gcc -DHAVE_CONFIG_H -I. -I. -I. -D_GNU_SOURCE -I. -I. -I../bfd
-> -I./../bfd -I./../include -I./../intl -I../intl -w
-> -DLOCALEDIR="\"/usr/local/share/locale\"" -W -Wall -Wstrict-prototypes
-> -Wmissing-prototypes -w -c `test -f 'ldgram.c' || echo './'`ldgram.c
-> `test -f ldlex.l || echo './'`ldlex.l
-> /bin/sh: 1: ldlex.l: not found
+To prevent getting stuck on waitpid() in case the target process does
+not terminate on SIGTERM, poll on waitpid() for 30s and if the target
+process has not changed state until then send a SIGKILL to it.
 
-For comparison, here's another run of the same job, which
-succeeded:
-https://gitlab.com/qemu-project/qemu/-/jobs/3594096306
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ tests/qtest/libqtest.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-The difference is that in the success case Make doesn't think
-it needs to rebuild ldlex.c or ldgram.c, but in the failure
-case it does (and falls over because it can't). I don't know
-why this is, maybe a random timestamp thing?
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 2fbc3b88f3..0150946ebb 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -49,6 +49,8 @@
+ # define DEV_NULL   "nul"
+ #endif
+ 
++#define WAITPID_TIMEOUT 30
++
+ typedef void (*QTestSendFn)(QTestState *s, const char *buf);
+ typedef void (*ExternalSendFn)(void *s, const char *buf);
+ typedef GString* (*QTestRecvFn)(QTestState *);
+@@ -202,8 +204,24 @@ void qtest_wait_qemu(QTestState *s)
+ {
+ #ifndef _WIN32
+     pid_t pid;
++    uint64_t end;
++
++    /* poll for a while until sending SIGKILL */
++    end = g_get_monotonic_time() + WAITPID_TIMEOUT * G_TIME_SPAN_SECOND;
++
++    do {
++        pid = waitpid(s->qemu_pid, &s->wstatus, WNOHANG);
++        if (pid != 0) {
++            break;
++        }
++        g_usleep(100 * 1000);
++    } while (g_get_monotonic_time() < end);
++
++    if (pid == 0) {
++        kill(s->qemu_pid, SIGKILL);
++        TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
++    }
+ 
+-    TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
+     assert(pid == s->qemu_pid);
+ #else
+     DWORD ret;
+-- 
+2.39.0
 
-Anyway, to make the job reliable I think we need to have
-flex and bison in the container.
-
-thanks
--- PMM
 
