@@ -2,85 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDA56667429
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 15:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 736F9667870
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 16:02:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pFy4b-0006oU-HM; Thu, 12 Jan 2023 08:56:53 -0500
+	id 1pFyBR-0002N7-7R; Thu, 12 Jan 2023 09:03:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pFy4F-0006jX-4U
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 08:56:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pFyB9-00026M-3p
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pFy3v-0004YW-DT
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 08:56:13 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pFyB0-0005qs-KJ
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 09:03:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673531770;
+ s=mimecast20190719; t=1673532198;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VJ9f+embDPz9PYDeSIaeJDx8u76O2BFiQiTfKwfIaTk=;
- b=TJqOPnHRShB18mD6a0D4Z+T/V3tGjRIHCmZUM0HRk4YCKjA6b6xEQWlTmuHdSKldu4oAmB
- X5VgOL4si9ygoMHEoEa282AI67enX2N5Hww4vbDS5l8NXkgJWHSL1lB3lPi37DhcB1TT9+
- CVI5LGLKzF7T//dUevaNfYtRI5wu6iQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-620-UJPXx5c0NfKkb5wRc48Ojw-1; Thu, 12 Jan 2023 08:56:09 -0500
-X-MC-Unique: UJPXx5c0NfKkb5wRc48Ojw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- j18-20020adfb312000000b00293def622d1so3500540wrd.17
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 05:56:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VJ9f+embDPz9PYDeSIaeJDx8u76O2BFiQiTfKwfIaTk=;
- b=Z8X+BQvbo34bqDy21Eb3CVDn+vLsezqv6tSg/BegDEK4YSdOYIfUG2QptiUxIp1rkO
- xbHNjl2RPtqp1wr2wcSFehxnbnk0GHQdHrans9v9I3A69+HxQxrwhwrlnTNIwfvD3WpC
- TzXqKwLC/f7oq+GKFUzZJm6IZtGcoLvKOW4OH6FCXZpaF+6ggKW2xCtXbPuBadQhFOJb
- YQ6BsmDyqUjUjcu7xm1iHWpx1G1pKhRRrz/tdVROtPbawX+KbvnNWiYC2bJAWv62h/vn
- N6KMJ4JJj7WybnqmxW6CY2c/r2Yxxnn1VKavPRj+Zpq4/8rb8xVtbU8OiMV7WJSzpocl
- Gzug==
-X-Gm-Message-State: AFqh2koCSmxmV9Y8cL1uDbJQ6gNINKwCMhcs8UGkIEyQ46mNIu8YN1LQ
- m2O0UZt9ZkiYQCldBZ+t51mvgDawamubfcK+DtClagY8Bzn1MOMsU3I4iyoqwcMdaIeJgwBMR39
- GToE9htvY4SFZF6k=
-X-Received: by 2002:a05:600c:358c:b0:3d9:fa37:e457 with SMTP id
- p12-20020a05600c358c00b003d9fa37e457mr7593939wmq.15.1673531768171; 
- Thu, 12 Jan 2023 05:56:08 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtocFfslYukPkoG1dmkAZXVRuJ02lZghNlYjRzexqYJR34IEREBRqOnPYjJHzDz4/JLfFKW2Q==
-X-Received: by 2002:a05:600c:358c:b0:3d9:fa37:e457 with SMTP id
- p12-20020a05600c358c00b003d9fa37e457mr7593922wmq.15.1673531767913; 
- Thu, 12 Jan 2023 05:56:07 -0800 (PST)
-Received: from redhat.com ([2.52.157.155]) by smtp.gmail.com with ESMTPSA id
- i14-20020a05600c354e00b003d1d5a83b2esm29300208wmq.35.2023.01.12.05.56.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Jan 2023 05:56:07 -0800 (PST)
-Date: Thu, 12 Jan 2023 08:56:03 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, imp@bsdimp.com, kevans@freebsd.org,
- berrange@redhat.com, ben.widawsky@intel.com,
- jonathan.cameron@huawei.com, kbastian@mail.uni-paderborn.de,
- jasowang@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
- tsimpson@quicinc.com, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, qemu-riscv@nongnu.org, philmd@linaro.org,
- Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v3 1/1] include: Don't include qemu/osdep.h
-Message-ID: <20230112085520-mutt-send-email-mst@kernel.org>
-References: <20230112115005.1504812-1-armbru@redhat.com>
- <20230112115005.1504812-2-armbru@redhat.com>
- <20230112082537-mutt-send-email-mst@kernel.org>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0XrnNl/CbP9K13wWNBo6B/IL2n2tVQBWG6TmGdQZ9t0=;
+ b=Q1D8EXF3Eusgsxsi/o+a4pw3bWY4IQgmOCohwe2HUZa7g/zld0zBmVpj7RgJEJOj0dWn03
+ QPryywDdKT2dK+ymPEo41Ti1k3dV9vuOsUz8jscoBilK9gs71eepKOYDjo84Vzrb8szTQH
+ 15hcd2gdyjj5yKIC+CuVLIxqbUr0l+s=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-649-bpnZgniEMxayHywPeQb8Tw-1; Thu, 12 Jan 2023 09:03:15 -0500
+X-MC-Unique: bpnZgniEMxayHywPeQb8Tw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A896118F026F;
+ Thu, 12 Jan 2023 14:03:14 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq2.redhat.com
+ (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 19CAF4085721;
+ Thu, 12 Jan 2023 14:03:14 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+	Ani Sinha <ani@anisinha.ca>
+Subject: [PATCH 00/40] x86: fixing and cleaning up ACPI PCI code part 3
+Date: Thu, 12 Jan 2023 15:02:32 +0100
+Message-Id: <20230112140312.3096331-1-imammedo@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230112082537-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -88,7 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,88 +77,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 12, 2023 at 08:51:32AM -0500, Michael S. Tsirkin wrote:
-> On Thu, Jan 12, 2023 at 12:50:05PM +0100, Markus Armbruster wrote:
-> > docs/devel/style.rst mandates:
-> > 
-> >     The "qemu/osdep.h" header contains preprocessor macros that affect
-> >     the behavior of core system headers like <stdint.h>.  It must be
-> >     the first include so that core system headers included by external
-> >     libraries get the preprocessor macros that QEMU depends on.
-> > 
-> >     Do not include "qemu/osdep.h" from header files since the .c file
-> >     will have already included it.
-> > 
-> > A few violations have crept in.  Fix them.
-> > 
-> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> > Reviewed-by: Philippe Mathieu-Daud� <philmd@linaro.org>
-> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> > Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> 
-> With my awesome grep skillz I found one more:
-> $ grep -r --include='*.h' qemu/osdep.h
-> include/block/graph-lock.h:#include "qemu/osdep.h"
+Series continues refactoring on top of [1].
 
-Also:
-$ grep -r --include='*.inc' qemu/osdep.h
-ui/vnc-enc-zrle.c.inc:#include "qemu/osdep.h"
-crypto/akcipher-nettle.c.inc:#include "qemu/osdep.h"
-crypto/akcipher-gcrypt.c.inc:#include "qemu/osdep.h"
-crypto/rsakey-nettle.c.inc:#include "qemu/osdep.h"
-crypto/cipher-gnutls.c.inc:#include "qemu/osdep.h"
-target/xtensa/core-dc233c/xtensa-modules.c.inc:#include "qemu/osdep.h"
-target/xtensa/core-sample_controller/xtensa-modules.c.inc:#include "qemu/osdep.h"
-target/xtensa/core-de212/xtensa-modules.c.inc:#include "qemu/osdep.h"
-target/xtensa/core-dc232b/xtensa-modules.c.inc:#include "qemu/osdep.h"
-target/xtensa/core-fsf/xtensa-modules.c.inc:#include "qemu/osdep.h"
-target/cris/translate_v10.c.inc:#include "qemu/osdep.h"
+It focuses on isolating creation of non hotplug and
+hotplug slot descriptions. In state it's posted, it's
+not complete, but pretty close to it. The series contains
+stable patches from refactoring and is already too large
+to keep it to myself, hence I'm publishing it fro review.
 
+It will be followed by separate series on top of this one,
+that will finish concrete feature[s] in following order:
+   1 introduce acpi-index support for non-hotpluggable PCI
+     devices (i.e. NICs directly attached to Q35 host-bridge)
+     making acpi-index support complete within pc/q35 machines.
+   2 let guest OS to re-arrange bridge resources when ACPI PCI
+     hotplug is enabled. (should fix insuficient resources issue
+     during PCI hotplug)
+   3 finish isolating hotplug code from non-hotplug one,
+     which should allow to re-use non-hotplug parts in other
+     machines (arm/virt and microvm) and bring acpi-index
+     support there.
 
+PS:
+Refactoring also adds testing for various corner cases
+and fixes (present/latent/imagined) bugs where they were
+spotted.
 
-> Looks like all C files must include qemu/osdep.h, no?
-> How about
-> 
-> 1- add -include qemu/osdep.h on compile command line
->    drop #include "qemu/osdep.h" from C files
-> 2- drop double include guards, replace with a warning.
-> 
-> following patch implements part 2:
-> 
-> 
-> qemu/osdep: don't include it from headers
-> 
-> doing so will lead to trouble eventually - instead of
-> working around such cases make it more likely it will fail.
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> ---
-> 
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index 7d059ad526..e4a60f911c 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -24,7 +24,12 @@
->   * This work is licensed under the terms of the GNU GPL, version 2 or later.
->   * See the COPYING file in the top-level directory.
->   */
-> -#ifndef QEMU_OSDEP_H
-> +#ifdef QEMU_OSDEP_H
-> +#warning "Never include qemu/osdep.h from a header!"
-> +#endif
-> +
-> +static inline void qemu_osdep_never_include_from_header(void) {}
-> +
->  #define QEMU_OSDEP_H
->  
->  #include "config-host.h"
-> @@ -714,5 +719,3 @@ static inline int platform_does_not_support_system(const char *command)
->  #ifdef __cplusplus
->  }
->  #endif
-> -
-> -#endif
+1) "[PATCH 00/11] x86: clean up ACPI PCI code part 2"
+   https://www.mail-archive.com/qemu-devel@nongnu.org/msg915493.html
+
+CC: "Michael S. Tsirkin" <mst@redhat.com>
+CC: Ani Sinha <ani@anisinha.ca>
+
+Igor Mammedov (40):
+  tests: qtest: print device_add error before failing test
+  tests: acpi: cleanup arguments to make them more readable
+  tests: acpi: whitelist DSDT blobs for tests that use pci-bridges
+  tests: acpi: extend pcihp with nested bridges
+  tests: acpi: update expected blobs
+  tests: acpi: cleanup use_uefi argument usage
+  pci_bridge: remove whitespace
+  x86: acpi: pcihp: clean up duplicate bridge_in_acpi assignment
+  pci: acpi hotplug: rename x-native-hotplug to
+    x-do-not-expose-native-hotplug-cap
+  pcihp: piix4: do not call acpi_pcihp_reset() when ACPI PCI hotplug is
+    disabled
+  pci: acpihp: assign BSEL only to coldplugged bridges
+  x86: pcihp: fix invalid AML PCNT calls to hotplugged bridges
+  tests: boot_sector_test: avoid crashing if status is not available yet
+  tests: acpi: extend bridge tests with hotplugged bridges
+  tests: boot_sector_test(): make it multi-shot
+  tests: acpi: add reboot cycle to bridge test
+  tests: acpi: whitelist DSDT before refactoring acpi based PCI hotplug
+    machinery
+  pcihp: drop pcihp_bridge_en dependency when composing PCNT method
+  tests: acpi: update expected blobs
+  tests: acpi: whitelist DSDT before refactoring acpi based PCI hotplug
+    machinery
+  pcihp: compose PCNT callchain right before its user _GPE._E01
+  pcihp: do not put empty PCNT in DSDT
+  tests: acpi: update expected blobs
+  whitelist DSDT before adding endpoint devices to bridge testcases
+  tests: acpi: add endpoint devices to bridges
+  tests: acpi: update expected blobs
+  x86: pcihp: acpi: prepare slot ignore rule to work with self
+    describing bridges
+  pci: acpi: wire up AcpiDevAmlIf interface to generic bridge
+  pcihp: make bridge describe itself using
+    AcpiDevAmlIfClass:build_dev_aml
+  pci: make sure pci_bus_is_express() won't error out with  "discards
+    ‘const’ qualifier"
+  pcihp: isolate rule whether slot should be described in DSDT
+  tests: acpi: whitelist DSDT before decoupling PCI hotplug code from
+    basic slots description
+  pcihp: acpi: decouple hotplug and generic slots description
+  tests: acpi: update expected blobs
+  tests: acpi: whitelist DSDT blobs before removing dynamic _DSM on
+    coldplugged bridges
+  pcihp: acpi: ignore coldplugged bridges when composing hotpluggable
+    slots
+  tests: acpi: update expected blobs
+  tests: acpi: whitelist DSDT before moving non-hotpluggble slots
+    description from hotplug path
+  pcihp: generate populated non-hotpluggble slot descriptions on
+    non-hotplug path
+  tests: acpi: update expected blobs
+
+ include/hw/acpi/pci.h                         |   4 +
+ include/hw/pci/pci.h                          |   2 +-
+ include/hw/pci/pcie_port.h                    |   3 +-
+ hw/acpi/Kconfig                               |   4 +
+ hw/acpi/meson.build                           |   4 +-
+ hw/acpi/pci-bridge-stub.c                     |  20 ++
+ hw/acpi/pci-bridge.c                          |  27 ++
+ hw/acpi/pcihp.c                               |  35 ++-
+ hw/acpi/piix4.c                               |   4 +-
+ hw/i386/Kconfig                               |   1 +
+ hw/i386/acpi-build.c                          | 279 ++++++++++--------
+ hw/i386/pc_q35.c                              |   5 +-
+ hw/pci-bridge/gen_pcie_root_port.c            |   7 +-
+ hw/pci-bridge/pci_bridge_dev.c                |   1 -
+ hw/pci/pci.c                                  |   2 +-
+ hw/pci/pci_bridge.c                           |  14 +
+ hw/pci/pcie.c                                 |   6 +-
+ hw/pci/pcie_port.c                            |   3 +-
+ tests/data/acpi/pc/DSDT                       | Bin 6458 -> 6360 bytes
+ tests/data/acpi/pc/DSDT.acpierst              | Bin 6418 -> 6283 bytes
+ tests/data/acpi/pc/DSDT.acpihmat              | Bin 7783 -> 7685 bytes
+ tests/data/acpi/pc/DSDT.bridge                | Bin 9532 -> 12487 bytes
+ tests/data/acpi/pc/DSDT.cphp                  | Bin 6922 -> 6824 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm               | Bin 8112 -> 8014 bytes
+ tests/data/acpi/pc/DSDT.hpbridge              | Bin 6418 -> 6289 bytes
+ tests/data/acpi/pc/DSDT.hpbrroot              | Bin 3064 -> 3081 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs               | Bin 6530 -> 6432 bytes
+ tests/data/acpi/pc/DSDT.memhp                 | Bin 7817 -> 7719 bytes
+ tests/data/acpi/pc/DSDT.nohpet                | Bin 6316 -> 6218 bytes
+ tests/data/acpi/pc/DSDT.numamem               | Bin 6464 -> 6366 bytes
+ tests/data/acpi/pc/DSDT.roothp                | Bin 6656 -> 9745 bytes
+ tests/data/acpi/q35/DSDT                      | Bin 8310 -> 8252 bytes
+ tests/data/acpi/q35/DSDT.acpierst             | Bin 8327 -> 8269 bytes
+ tests/data/acpi/q35/DSDT.acpihmat             | Bin 9635 -> 9577 bytes
+ tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 8589 -> 8531 bytes
+ tests/data/acpi/q35/DSDT.applesmc             | Bin 8356 -> 8298 bytes
+ tests/data/acpi/q35/DSDT.bridge               | Bin 11439 -> 11481 bytes
+ tests/data/acpi/q35/DSDT.core-count2          | Bin 32450 -> 32392 bytes
+ tests/data/acpi/q35/DSDT.cphp                 | Bin 8774 -> 8716 bytes
+ tests/data/acpi/q35/DSDT.cxl                  | Bin 9636 -> 9578 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm              | Bin 9964 -> 9906 bytes
+ tests/data/acpi/q35/DSDT.ipmibt               | Bin 8385 -> 8327 bytes
+ tests/data/acpi/q35/DSDT.ipmismbus            | Bin 8398 -> 8340 bytes
+ tests/data/acpi/q35/DSDT.ivrs                 | Bin 8327 -> 8269 bytes
+ tests/data/acpi/q35/DSDT.memhp                | Bin 9669 -> 9611 bytes
+ tests/data/acpi/q35/DSDT.mmio64               | Bin 9440 -> 9382 bytes
+ tests/data/acpi/q35/DSDT.multi-bridge         | Bin 8630 -> 12337 bytes
+ tests/data/acpi/q35/DSDT.nohpet               | Bin 8168 -> 8110 bytes
+ tests/data/acpi/q35/DSDT.numamem              | Bin 8316 -> 8258 bytes
+ tests/data/acpi/q35/DSDT.pvpanic-isa          | Bin 8411 -> 8353 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm12            | Bin 8916 -> 8858 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm2             | Bin 8942 -> 8884 bytes
+ tests/data/acpi/q35/DSDT.viot                 | Bin 9419 -> 9361 bytes
+ tests/data/acpi/q35/DSDT.xapic                | Bin 35673 -> 35615 bytes
+ tests/qtest/bios-tables-test.c                | 144 ++++++---
+ tests/qtest/boot-sector.c                     |   6 +-
+ tests/qtest/libqtest.c                        |   4 +
+ 57 files changed, 394 insertions(+), 181 deletions(-)
+ create mode 100644 hw/acpi/pci-bridge-stub.c
+ create mode 100644 hw/acpi/pci-bridge.c
+
+-- 
+2.31.1
 
 
