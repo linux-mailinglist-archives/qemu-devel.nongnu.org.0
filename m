@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C01667E0E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 19:23:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C69667E17
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 19:24:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG2DN-0001IA-V4; Thu, 12 Jan 2023 13:22:14 -0500
+	id 1pG2F3-0002i8-8l; Thu, 12 Jan 2023 13:23:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pG2DJ-0001EK-A9; Thu, 12 Jan 2023 13:22:09 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pG2DH-0000Vd-4m; Thu, 12 Jan 2023 13:22:08 -0500
-Received: by mail-ed1-x534.google.com with SMTP id i9so28053893edj.4;
- Thu, 12 Jan 2023 10:22:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UiLbkz2sCCNDdfn+F9Z3YgkH05RCpjiYiTIKfb+RAus=;
- b=TrKIhSBvYYRx/GwZiyD99s6lLeAt8lnWxAiWQOJTTP7MzrJcUKOzN0/PRX4EyBWJSK
- pAaYJSDpvWSYAH9ceIOad9G6RNTS0+2XXPifV7PkUprXN9MOgjG/CUiD1QPMWbE3Zr8v
- EwmAQDD7vetXJ7USv6UiHX7JHeG7O7RCDStyjusCe4iDcZBDQ+cjrOQk6QcLbpoa28v1
- UBLBKMcvlhklNqi9gXUrhCtabqWt4daxoNu8zeQ7hGlss3jO6huOlC6uGaHKMeUoW2W2
- mX5igOaXYymPTcK7wrZ1Rsg+EXe8LyXPcs4SJ02+1HxHAx/YxJZsp1mY93djBZu0h+OT
- I5KQ==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pG2Ez-0002cR-TJ
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 13:23:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pG2Ey-0000hz-CK
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 13:23:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673547831;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y+osxrYtWXXLKGKEKxmJIszP5jVp75hxyKd6eFYrC4I=;
+ b=YT1pYPKsKyKgpw/aIbNws1hZCmlJQR9CnzEMgY2Gl+xqlqY7v890ddLT2ILcQbaN6GR0CG
+ GNsEI0fV+1+N3MUJyHEE+6zRVZ3PZ0ykcMOTJgpyYJpAni/gqnAX3dObL92H5xjxiSq1ue
+ ot5P5MN5Oh3iVp19d6PcqTNHextvxYk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-96-9SygoOi4NaKVKn6bCE-8Dw-1; Thu, 12 Jan 2023 13:23:49 -0500
+X-MC-Unique: 9SygoOi4NaKVKn6bCE-8Dw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d27-20020adfa35b000000b002bc813ba677so2604011wrb.6
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 10:23:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UiLbkz2sCCNDdfn+F9Z3YgkH05RCpjiYiTIKfb+RAus=;
- b=kDuf9urF3GgBesf/LV4Xz+4CIYHKTkEeo20oQ1mI/ORKbKzqLOtEfrRBNnF3AVKmbf
- UIGPtSUe3wHWS3viqQiBXM6idciOuEsY2po3It6oIyshHHb+f3c3xDo8jmfH3g6k9uHz
- GKqJbbq3GMA9UdKoNmIMmMo4yJrKPc23RkG+W6ZwIPzU99OpcZRH+5+dxuFH2mPH6735
- huTRdWWBzBpWYpPF8E+uGLqu/vdyITseXPAMM1rB3KOCjg1gr5Z7VBrUk1SZyUzuBhL6
- 42YiAuZbNGTJVwcOuFDv4WJm5w7WPSLGk36jsBD8+os3mtJLZw9a1DAuxnfB4Gwg4OrX
- zkLg==
-X-Gm-Message-State: AFqh2kriwIF59HGrt7f8IVDRyew+pManMjei7ywUAdCOXKm24dj9mITm
- 6p1eSugBAlMsRES1q9kxn6k=
-X-Google-Smtp-Source: AMrXdXuFuXPI32jH1GOBAOtk6kknR2VPWiPWIHb1JNnyt41r+AnN+1rVCtu7oQehR6jo4GIRllBD0Q==
-X-Received: by 2002:a50:fa85:0:b0:496:d2f7:77a2 with SMTP id
- w5-20020a50fa85000000b00496d2f777a2mr22337617edr.18.1673547724588; 
- Thu, 12 Jan 2023 10:22:04 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-092-224-135-062.92.224.pool.telefonica.de.
- [92.224.135.62]) by smtp.gmail.com with ESMTPSA id
- g2-20020a170906538200b0085c3f08081esm2844357ejo.13.2023.01.12.10.22.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 10:22:04 -0800 (PST)
-Date: Thu, 12 Jan 2023 18:21:57 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-CC: John G Johnson <john.g.johnson@oracle.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, Ani Sinha <ani@anisinha.ca>,
- Eduardo Habkost <eduardo@habkost.net>, Gerd Hoffmann <kraxel@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- qemu-ppc@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
-Subject: Re: [PATCH v6 28/33] hw/isa/piix3: Merge hw/isa/piix4.c
-In-Reply-To: <09d67427-a75b-525d-7744-781287ea4fb3@linaro.org>
-References: <20230109172347.1830-1-shentey@gmail.com>
- <20230109172347.1830-29-shentey@gmail.com>
- <09d67427-a75b-525d-7744-781287ea4fb3@linaro.org>
-Message-ID: <88F937C9-7F76-45C1-B0E1-2FCA8D35C8C3@gmail.com>
+ bh=Y+osxrYtWXXLKGKEKxmJIszP5jVp75hxyKd6eFYrC4I=;
+ b=4MaBSRq4PhYTzLDQCs1SM85h6z2qsOuy17wbGgewJWjL6QiuKhM5KwbnLb4W8EeMKQ
+ SCNnPVk71NZ6xGf0Kme+IJjnJ1oYV7ulx0fIVGYwK9JvEaENKHErqkSDQtC5Da2X799x
+ UcCblZQShweJCnSFg6hnFmzYRcg8NpdiJiLc7jhVBSAc0KWo7DpDhzsVAwDyFifQXsYD
+ xCtgFmM3DKLBfT6+nBM5uTois3TO6e1NLE/jCjxPj3EVY9U+K2/wlZsL2s2beUPtQCO4
+ qZa2kLoqXw/FXABqgrUtagMpApC+Vk5/Bi3ksg5eLujECm2oRye3S2XVaLdooUhOd8LE
+ 8xyw==
+X-Gm-Message-State: AFqh2kqXyibyrLXhWxC7rmDeEmr8StBYFugzJbXs2m1mfclwjQtqEpOP
+ 9YTg4tPtvdXODDnKCjgbMoQVO+xQ6WnJf80VjNKA56S3cZQU7kLfnvZaSHGYUYVWXwxBxLsRfLS
+ 3r64KIUdbKHXCBNQ=
+X-Received: by 2002:a05:600c:b4d:b0:3d3:5d69:7aa5 with SMTP id
+ k13-20020a05600c0b4d00b003d35d697aa5mr54532308wmr.25.1673547828096; 
+ Thu, 12 Jan 2023 10:23:48 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuqGsfnfIViRFKHjKF+LscmWXEgbKpzzOhHjD3Wv4RTeKdWrleFdcDXP7MK5iw3KhhbFmW8rA==
+X-Received: by 2002:a05:600c:b4d:b0:3d3:5d69:7aa5 with SMTP id
+ k13-20020a05600c0b4d00b003d35d697aa5mr54532296wmr.25.1673547827897; 
+ Thu, 12 Jan 2023 10:23:47 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ u13-20020a05600c19cd00b003c6f1732f65sm29729724wmq.38.2023.01.12.10.23.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Jan 2023 10:23:47 -0800 (PST)
+Date: Thu, 12 Jan 2023 18:23:45 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>
+Subject: Re: [PATCH v3 5/8] migration/ram: Factor out check for advised
+ postcopy
+Message-ID: <Y8BQMULsYfV/31yB@work-vm>
+References: <20230112164403.105085-1-david@redhat.com>
+ <20230112164403.105085-6-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x534.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230112164403.105085-6-david@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,53 +103,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+* David Hildenbrand (david@redhat.com) wrote:
+> Let's factor out this check, to be used in virtio-mem context next.
+> 
+> While at it, fix a spelling error in a related comment.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Am 12=2E Januar 2023 16:36:30 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <p=
-hilmd@linaro=2Eorg>:
->On 9/1/23 18:23, Bernhard Beschow wrote:
->> Now that the PIIX3 and PIIX4 device models are sufficiently consolidate=
-d,
->> their implementations can be merged into one file for further
->> consolidation=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->> Reviewed-by: Michael S=2E Tsirkin <mst@redhat=2Ecom>
->> Message-Id: <20221022150508=2E26830-37-shentey@gmail=2Ecom>
->> ---
->>   hw/isa/{piix3=2Ec =3D> piix=2Ec} | 158 ++++++++++++++++++++
->>   hw/isa/piix4=2Ec             | 285 ----------------------------------=
----
->>   MAINTAINERS                |   6 +-
->>   hw/i386/Kconfig            |   2 +-
->>   hw/isa/Kconfig             |  12 +-
->>   hw/isa/meson=2Ebuild         |   3 +-
->>   hw/mips/Kconfig            |   2 +-
->>   7 files changed, 165 insertions(+), 303 deletions(-)
->>   rename hw/isa/{piix3=2Ec =3D> piix=2Ec} (75%)
->>   delete mode 100644 hw/isa/piix4=2Ec
->
->
->> @@ -489,11 +534,124 @@ static const TypeInfo piix3_xen_info =3D {
->>       =2Eclass_init    =3D piix3_xen_class_init,
->>   };
->>   +static void piix4_realize(PCIDevice *dev, Error **errp)
->> +{
->
->> +    /* initialize pit */
->> +    i8254_pit_init(isa_bus, 0x40, 0, NULL);
->Pre-existing, why there is no equivalent PIT creation in the
->PIIX3 variant? Due to in-kernel PIT in KVM?
+> ---
+>  include/migration/misc.h | 4 +++-
+>  migration/migration.c    | 7 +++++++
+>  migration/ram.c          | 8 +-------
+>  3 files changed, 11 insertions(+), 8 deletions(-)
+> 
+> diff --git a/include/migration/misc.h b/include/migration/misc.h
+> index 465906710d..8b49841016 100644
+> --- a/include/migration/misc.h
+> +++ b/include/migration/misc.h
+> @@ -67,8 +67,10 @@ bool migration_has_failed(MigrationState *);
+>  /* ...and after the device transmission */
+>  bool migration_in_postcopy_after_devices(MigrationState *);
+>  void migration_global_dump(Monitor *mon);
+> -/* True if incomming migration entered POSTCOPY_INCOMING_DISCARD */
+> +/* True if incoming migration entered POSTCOPY_INCOMING_DISCARD */
+>  bool migration_in_incoming_postcopy(void);
+> +/* True if incoming migration entered POSTCOPY_INCOMING_ADVISE */
+> +bool migration_incoming_postcopy_advised(void);
+>  /* True if background snapshot is active */
+>  bool migration_in_bg_snapshot(void);
+>  
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 1d33a7efa0..b7677c14a9 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2094,6 +2094,13 @@ bool migration_in_incoming_postcopy(void)
+>      return ps >= POSTCOPY_INCOMING_DISCARD && ps < POSTCOPY_INCOMING_END;
+>  }
+>  
+> +bool migration_incoming_postcopy_advised(void)
+> +{
+> +    PostcopyState ps = postcopy_state_get();
+> +
+> +    return ps >= POSTCOPY_INCOMING_ADVISE && ps < POSTCOPY_INCOMING_END;
+> +}
+> +
+>  bool migration_in_bg_snapshot(void)
+>  {
+>      MigrationState *s = migrate_get_current();
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 334309f1c6..e51a7ee0ce 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -4091,12 +4091,6 @@ int ram_load_postcopy(QEMUFile *f, int channel)
+>      return ret;
+>  }
+>  
+> -static bool postcopy_is_advised(void)
+> -{
+> -    PostcopyState ps = postcopy_state_get();
+> -    return ps >= POSTCOPY_INCOMING_ADVISE && ps < POSTCOPY_INCOMING_END;
+> -}
+> -
+>  static bool postcopy_is_running(void)
+>  {
+>      PostcopyState ps = postcopy_state_get();
+> @@ -4167,7 +4161,7 @@ static int ram_load_precopy(QEMUFile *f)
+>      MigrationIncomingState *mis = migration_incoming_get_current();
+>      int flags = 0, ret = 0, invalid_flags = 0, len = 0, i = 0;
+>      /* ADVISE is earlier, it shows the source has the postcopy capability on */
+> -    bool postcopy_advised = postcopy_is_advised();
+> +    bool postcopy_advised = migration_incoming_postcopy_advised();
+>      if (!migrate_use_compression()) {
+>          invalid_flags |= RAM_SAVE_FLAG_COMPRESS_PAGE;
+>      }
+> -- 
+> 2.39.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Correct, that's one reason=2E The other reason is for interrupt wiring in =
-case an HPET is present (see our discussion about the intercept_irq for the=
- rtc)=2E
-
-I would like to create and wire up the PIT in PIIX3 as well=2E Since we'd =
-have to take KVM into account here we may need a similar solution as for I8=
-259=2E This is another open question for PIIX4 to become a drop-in replacem=
-ent for PIIX3=2E Any ideas?
-
-Best regards,
-Bernhard
 
