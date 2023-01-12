@@ -2,86 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D807667ED7
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 20:16:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A114C667EDF
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 20:18:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG32G-0007VO-RG; Thu, 12 Jan 2023 14:14:48 -0500
+	id 1pG32b-0007ZC-8u; Thu, 12 Jan 2023 14:15:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1pG32B-0007TB-D1; Thu, 12 Jan 2023 14:14:44 -0500
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1pG329-000809-AY; Thu, 12 Jan 2023 14:14:43 -0500
-Received: by mail-oi1-x22b.google.com with SMTP id h185so16073876oif.5;
- Thu, 12 Jan 2023 11:14:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id:sender
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NsOBWIJteC0VRYZtDbjr5jj3gIxlOseLxW6/1XxZLe0=;
- b=eNPG6S5fUjVw+Ey08QFTQkOynPTzVj+KWmMnw69e3fHXBA7HCzsbBwjbTPJfIZ7Kb/
- gX70piwIMpzm/h3nFNeOQkp4yHwCTinh59sNUMy8hde6dVNtyK+41cd/BB0LZiT4iJiU
- cjbUwdN8VFXclu2NH/V+oGaJ4GsKnS3nJw5yQyGfmVVJ+N6C8w6B9Wr2bvqE8G9vBUG0
- gZ+E2Pa6VTBu3zca6Zp1EuIBuEsg2Owv1cQmuBG1/tNsObhFL/jeXuQE3gdcdI9IvPjT
- n4o/6CxtuTAC1up/zZXQcv297Q7bpaWQ/42sa/ftnmb3kKW5Sw9Bz/mIxg7rFuyAaqw0
- yEdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id:sender
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NsOBWIJteC0VRYZtDbjr5jj3gIxlOseLxW6/1XxZLe0=;
- b=H01C2j5b7ylr19lmWc7K/zrUKV0k0+kRPEBStX8vwDrvnYtVYt/tx/I+AtIDCHFsmH
- tIgxGMAZ+Nw7CuIqL7w36tTRlQ+6tXOL7zaGBLlbKqA5U4YcGiBwEsi2x7+cWe9E3b4X
- 1BTooZ2IyYXoFAOOPJJkvniX94qTe77An4Ux6/TPwDIcCjUUvbJtRsArNFl2AccRNolG
- NMXbUAmp2DWLKFXkMvhvMke15KRVWS9TY24jf2jqeciXYx5yoNutDmnj+7BUa3LBeAmH
- xhaF3fxFGNqwnf9DaGAMfG0XZ0kFvJWHPZC846XRfdO4UXOS0o3kcmD2SPRhfL6iYJzH
- oqtQ==
-X-Gm-Message-State: AFqh2kpljASjzlonaDWI4RzJ5zqFA3OWISfnCudUZtxnf5xfOmOhKRve
- My1dhZ5WXaGsQXKzTWINqjw=
-X-Google-Smtp-Source: AMrXdXuSM6vAPiDC3hYPl1UXoJfs7PQQsJthqXYogK1JY80jp3kRsns6XlEKhceAuNUVrXtTT2wd0Q==
-X-Received: by 2002:a05:6808:8e4:b0:363:8f75:a1bc with SMTP id
- d4-20020a05680808e400b003638f75a1bcmr23328385oic.15.1673550879738; 
- Thu, 12 Jan 2023 11:14:39 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- q2-20020a9d6542000000b0067088ff2b45sm9381708otl.37.2023.01.12.11.14.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 11:14:39 -0800 (PST)
-Message-ID: <3044a2d0-9e77-c936-b6e3-dfd9ad7d2c06@roeck-us.net>
-Date: Thu, 12 Jan 2023 11:14:36 -0800
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pG32X-0007Xj-Je
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 14:15:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pG32V-00082U-P1
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 14:15:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673550902;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=au23L2rZcrGnhuQGEWWXEaEGpyqP12PeavEbfq7Mfc0=;
+ b=Ip++q+j0bUGUimUkAOcwdLkSdqZSd1FGcr2p3xs3/v+zux4RFqD6/NwsMvnGN/xcOmGgqs
+ PlFYGB7RANzYwTIOOzZAfSjg1+rafeIsqxaixxhW8PBi92ev2gBUJgMv7PDjvkPxIaQ0IK
+ w+N9W16YTzW+51k8t2eFWIu8N9wsXwQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-556-1oN1-H4zNSyZ5oFs8oq2mg-1; Thu, 12 Jan 2023 14:14:59 -0500
+X-MC-Unique: 1oN1-H4zNSyZ5oFs8oq2mg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0DC7A1C05192;
+ Thu, 12 Jan 2023 19:14:59 +0000 (UTC)
+Received: from merkur.redhat.com (unknown [10.39.195.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D639F492C14;
+ Thu, 12 Jan 2023 19:14:57 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: kwolf@redhat.com, hreitz@redhat.com, aesteve@redhat.com,
+ nsoffer@redhat.com, qemu-devel@nongnu.org
+Subject: [PATCH 0/4] qemu-img: Fix exit code for errors closing the image
+Date: Thu, 12 Jan 2023 20:14:50 +0100
+Message-Id: <20230112191454.169353-1-kwolf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Content-Language: en-US
-To: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <Y8AG21o/9/3eUMIg@cormorant.local>
- <Y8A2qdbDZPicuZfL@kbusch-mbp.dhcp.thefacebook.com>
- <Y8BHUzcbdQ/SFBY9@cormorant.local>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
-In-Reply-To: <Y8BHUzcbdQ/SFBY9@cormorant.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
- envelope-from=groeck7@gmail.com; helo=mail-oi1-x22b.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.067, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,55 +73,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/12/23 09:45, Klaus Jensen wrote:
-> On Jan 12 09:34, Keith Busch wrote:
->> On Thu, Jan 12, 2023 at 02:10:51PM +0100, Klaus Jensen wrote:
->>>
->>> The pin-based interrupt logic in hw/nvme seems sound enough to me, so I
->>> am wondering if there is something going on with the kernel driver (but
->>> I certainly do not rule out that hw/nvme is at fault here, since
->>> pin-based interrupts has also been a source of several issues in the
->>> past).
->>
->> Does it work if you change the pci_irq_assert() back to pci_irq_pulse()?
->> While probably not the "correct" thing to do, it has better results in
->> my testing.
->>
-> 
-> A simple s/pci_irq_assert/pci_irq_pulse broke the device. However,
-> 
-> 	diff --git i/hw/nvme/ctrl.c w/hw/nvme/ctrl.c
-> 	index 03760ddeae8c..0fc46dcb9ec4 100644
-> 	--- i/hw/nvme/ctrl.c
-> 	+++ w/hw/nvme/ctrl.c
-> 	@@ -477,6 +477,7 @@ static void nvme_irq_check(NvmeCtrl *n)
-> 		 return;
-> 	     }
-> 	     if (~intms & n->irq_status) {
-> 	+        pci_irq_deassert(&n->parent_obj);
-> 		 pci_irq_assert(&n->parent_obj);
-> 	     } else {
-> 		 pci_irq_deassert(&n->parent_obj);
-> 
-> 
-> seems to do the trick (pulse is the other way around, assert, then
-> deassert).
-> 
-> Probably not the "correct" thing to do, but I'll take it since it seems
-> to fix it. On a simple boot loop I got the timeout about 1 out of 5. I'm
-> on ~20 runs now and have not encountered it.
-> 
-> I'll see if I can set up a mips rootfs and test that. Guenter, what MIPS
-> machine/board(s) are you testing?
+This series addresses the problem described in these bug reports:
+https://gitlab.com/qemu-project/qemu/-/issues/1330
+https://bugzilla.redhat.com/show_bug.cgi?id=2147617
 
-See
-https://github.com/groeck/linux-build-test/blob/master/rootfs/mips/run-qemu-mips.sh
-and
-https://github.com/groeck/linux-build-test/blob/master/rootfs/mipsel/run-qemu-mipsel.sh
+qcow2 can fail when writing back dirty bitmaps in qcow2_inactivate().
+However, when the function is called through blk_unref(), in the case of
+such errors, while an error message is written to stderr, the callers
+never see an error return. Specifically, 'qemu-img bitmap/commit' are
+reported to exit with an exit code 0 despite the errors.
 
-I'll apply the change suggested above to my version of qemu (7.2.0)
-and give it a try.
+The solution taken here is inactivating the images first, which can
+still return errors, but already performs all of the write operations.
+Only then the images are actually blk_unref()-ed.
 
-Guenter
+If we agree that this is the way to go (as a potential alternative,
+allowing blk_unref() to fail would require changes in all kinds of
+places, many of which probably wouldn't even know what to do with the
+error), then I suppose doing the same for other qemu-img subcommands
+would make sense, too.
+
+As a bonus fix, I found an endianness confusion in an error path of
+store_bitmap(). The reported error message "qcow2_free_clusters failed:
+No space left on device" looked too suspicious to ignore this. Freeing
+an actually existing cluster should never run into ENOSPC.
+
+Kevin Wolf (4):
+  qcow2: Fix theoretical corruption in store_bitmap() error path
+  qemu-img commit: Report errors while closing the image
+  qemu-img bitmap: Report errors while closing the image
+  qemu-iotests: Test qemu-img bitmap/commit exit code on error
+
+ block/qcow2-bitmap.c                          |  5 +-
+ qemu-img.c                                    | 24 +++++
+ .../qemu-iotests/tests/qemu-img-close-errors  | 95 +++++++++++++++++++
+ .../tests/qemu-img-close-errors.out           | 23 +++++
+ 4 files changed, 145 insertions(+), 2 deletions(-)
+ create mode 100755 tests/qemu-iotests/tests/qemu-img-close-errors
+ create mode 100644 tests/qemu-iotests/tests/qemu-img-close-errors.out
+
+-- 
+2.38.1
 
 
