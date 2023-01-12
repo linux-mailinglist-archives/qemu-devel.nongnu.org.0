@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BAFF667C8A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 18:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBF0667CA0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Jan 2023 18:36:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG1K4-0006cJ-A1; Thu, 12 Jan 2023 12:25:04 -0500
+	id 1pG1K7-0006d6-VI; Thu, 12 Jan 2023 12:25:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pG1K1-0006aK-SR
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 12:25:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pG1K4-0006cZ-91
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 12:25:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pG1K0-0008Fh-0p
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 12:25:01 -0500
+ id 1pG1K2-0008GL-Mv
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 12:25:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673544299;
+ s=mimecast20190719; t=1673544302;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nYcFDZQuxT8/AMv4CeTT3PJQmkzddtBExbKUq1RE9cQ=;
- b=COhb8+mAy+ULZDZYWVp3oJo79elh292tGv/MBe0bi5OcPKs5ne7m4aTneVEh7SnTrJPc3A
- Nx3DUIl8sJ0WjSdk/KXzCg4Xuv91zOp4JczSr0bU0+uoBE9kebzA2DlImD7BbNR+Q2/CnN
- 88gphvU/FtY8gvtaXtBFspqIw3oY4FQ=
+ bh=w+vbnLVHFE98xu6DQxprtLM0Tqst2JAJDVkWqUTLcr4=;
+ b=Gne680FICwLrelc3brA244sbGi6FpY7C/GrORAzIt/8GPovDmFrsDpMfL2ecRdckLF54oh
+ DVs2e1TgMe1lSDa/YOIIvt/7nxF3lLCSNldI9LgNH6aIaiiZnr04akcFqcaE0Ymtvw2HeB
+ rcq4UZMkFJw5ksO2jvwqUYJ5zef7emY=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-IxgshAdMOluuqX5IwncfsQ-1; Thu, 12 Jan 2023 12:24:54 -0500
-X-MC-Unique: IxgshAdMOluuqX5IwncfsQ-1
+ us-mta-664-9mAnowN2OSinIJx8dmY-pQ-1; Thu, 12 Jan 2023 12:24:58 -0500
+X-MC-Unique: 9mAnowN2OSinIJx8dmY-pQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E84F71C0512F;
- Thu, 12 Jan 2023 17:24:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5EB48382C96F;
+ Thu, 12 Jan 2023 17:24:57 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6A404078903;
- Thu, 12 Jan 2023 17:24:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3ADC04078903;
+ Thu, 12 Jan 2023 17:24:54 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: si-wei.liu@oracle.com, Liuxiangdong <liuxiangdong5@huawei.com>,
@@ -54,16 +54,16 @@ Cc: si-wei.liu@oracle.com, Liuxiangdong <liuxiangdong5@huawei.com>,
  Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
-Subject: [RFC v2 04/13] vdpa: rewind at get_base, not set_base
-Date: Thu, 12 Jan 2023 18:24:25 +0100
-Message-Id: <20230112172434.760850-5-eperezma@redhat.com>
+Subject: [RFC v2 05/13] vdpa net: add migration blocker if cannot migrate cvq
+Date: Thu, 12 Jan 2023 18:24:26 +0100
+Message-Id: <20230112172434.760850-6-eperezma@redhat.com>
 In-Reply-To: <20230112172434.760850-1-eperezma@redhat.com>
 References: <20230112172434.760850-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,139 +87,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At this moment it is only possible to migrate to a vdpa device running
-with x-svq=on. As a protective measure, the rewind of the inflight
-descriptors was done at the destination. That way if the source sent a
-virtqueue with inuse descriptors they are always discarded.
+A vdpa net device must initialize with SVQ in order to be migratable,
+and initialization code verifies conditions.  If the device is not
+initialized with the x-svq parameter, it will not expose _F_LOG so vhost
+sybsystem will block VM migration from its initialization.
 
-Since this series allows to migrate also to passthrough devices with no
-SVQ, the right thing to do is to rewind at the source so base of vrings
-are correct.
+Next patches change this. Net data VQs will be shadowed only at
+migration time and vdpa net devices need to expose _F_LOG as long as it
+can go to SVQ.
 
-Support for inflight descriptors may be added in the future.
+Since we don't know that at initialization time but at start, add an
+independent blocker at CVQ.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/hw/virtio/vhost-backend.h |  4 +++
- hw/virtio/vhost-vdpa.c            | 46 +++++++++++++++++++------------
- hw/virtio/vhost.c                 |  3 ++
- 3 files changed, 36 insertions(+), 17 deletions(-)
+ net/vhost-vdpa.c | 35 +++++++++++++++++++++++++++++------
+ 1 file changed, 29 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index c5ab49051e..ec3fbae58d 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -130,6 +130,9 @@ typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 631424d9c4..2ca93e850a 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -26,12 +26,14 @@
+ #include <err.h>
+ #include "standard-headers/linux/virtio_net.h"
+ #include "monitor/monitor.h"
++#include "migration/blocker.h"
+ #include "hw/virtio/vhost.h"
  
- typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
-                                        int fd);
-+
-+typedef void (*vhost_reset_status_op)(struct vhost_dev *dev);
-+
- typedef struct VhostOps {
-     VhostBackendType backend_type;
-     vhost_backend_init vhost_backend_init;
-@@ -177,6 +180,7 @@ typedef struct VhostOps {
-     vhost_get_device_id_op vhost_get_device_id;
-     vhost_force_iommu_op vhost_force_iommu;
-     vhost_set_config_call_op vhost_set_config_call;
-+    vhost_reset_status_op vhost_reset_status;
- } VhostOps;
+ /* Todo:need to add the multiqueue support here */
+ typedef struct VhostVDPAState {
+     NetClientState nc;
+     struct vhost_vdpa vhost_vdpa;
++    Error *migration_blocker;
+     VHostNetState *vhost_net;
  
- int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 542e003101..28a52ddc78 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -1132,14 +1132,23 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-     if (started) {
-         memory_listener_register(&v->listener, &address_space_memory);
-         return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
--    } else {
--        vhost_vdpa_reset_device(dev);
--        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
--                                   VIRTIO_CONFIG_S_DRIVER);
--        memory_listener_unregister(&v->listener);
-+    }
- 
--        return 0;
-+    return 0;
-+}
-+
-+static void vhost_vdpa_reset_status(struct vhost_dev *dev)
-+{
-+    struct vhost_vdpa *v = dev->opaque;
-+
-+    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
-+        return;
+     /* Control commands shadow buffers */
+@@ -433,9 +435,15 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+             g_strerror(errno), errno);
+         return -1;
      }
-+
-+    vhost_vdpa_reset_device(dev);
-+    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-+                                VIRTIO_CONFIG_S_DRIVER);
-+    memory_listener_unregister(&v->listener);
- }
+-    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) ||
+-        !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
+-        return 0;
++    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID))) {
++        error_setg(&s->migration_blocker,
++                   "vdpa device %s does not support ASID",
++                   nc->name);
++        goto out;
++    }
++    if (!vhost_vdpa_net_valid_svq_features(v->dev->features,
++                                           &s->migration_blocker)) {
++        goto out;
+     }
  
- static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
-@@ -1182,18 +1191,7 @@ static int vhost_vdpa_set_vring_base(struct vhost_dev *dev,
-                                        struct vhost_vring_state *ring)
- {
-     struct vhost_vdpa *v = dev->opaque;
--    VirtQueue *vq = virtio_get_queue(dev->vdev, ring->index);
+     /*
+@@ -455,7 +463,10 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+         }
  
--    /*
--     * vhost-vdpa devices does not support in-flight requests. Set all of them
--     * as available.
--     *
--     * TODO: This is ok for networking, but other kinds of devices might
--     * have problems with these retransmissions.
--     */
--    while (virtqueue_rewind(vq, 1)) {
--        continue;
--    }
-     if (v->shadow_vqs_enabled) {
-         /*
-          * Device vring base was set at device start. SVQ base is handled by
-@@ -1212,6 +1210,19 @@ static int vhost_vdpa_get_vring_base(struct vhost_dev *dev,
-     int ret;
+         if (group == cvq_group) {
+-            return 0;
++            error_setg(&s->migration_blocker,
++                "vdpa %s vq %d group %"PRId64" is the same as cvq group "
++                "%"PRId64, nc->name, i, group, cvq_group);
++            goto out;
+         }
+     }
  
-     if (v->shadow_vqs_enabled) {
-+        VirtQueue *vq = virtio_get_queue(dev->vdev, ring->index);
-+
-+        /*
-+         * vhost-vdpa devices does not support in-flight requests. Set all of
-+         * them as available.
-+         *
-+         * TODO: This is ok for networking, but other kinds of devices might
-+         * have problems with these retransmissions.
-+         */
-+        while (virtqueue_rewind(vq, 1)) {
-+            continue;
+@@ -468,8 +479,15 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+     s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
+ 
+ out:
+-    if (!s->vhost_vdpa.shadow_vqs_enabled) {
+-        return 0;
++    if (s->migration_blocker) {
++        Error *errp = NULL;
++        r = migrate_add_blocker(s->migration_blocker, &errp);
++        if (unlikely(r != 0)) {
++            g_clear_pointer(&s->migration_blocker, error_free);
++            error_report_err(errp);
 +        }
 +
-         ring->num = virtio_queue_get_last_avail_idx(dev->vdev, ring->index);
-         return 0;
++        return r;
      }
-@@ -1326,4 +1337,5 @@ const VhostOps vdpa_ops = {
-         .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
-         .vhost_force_iommu = vhost_vdpa_force_iommu,
-         .vhost_set_config_call = vhost_vdpa_set_config_call,
-+        .vhost_reset_status = vhost_vdpa_reset_status,
- };
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index eb8c4c378c..a266396576 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -2049,6 +2049,9 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
-                              hdev->vqs + i,
-                              hdev->vq_index + i);
-     }
-+    if (hdev->vhost_ops->vhost_reset_status) {
-+        hdev->vhost_ops->vhost_reset_status(hdev);
-+    }
  
-     if (vhost_dev_has_iommu(hdev)) {
-         if (hdev->vhost_ops->vhost_set_iotlb_callback) {
+     s0 = vhost_vdpa_net_first_nc_vdpa(s);
+@@ -513,6 +531,11 @@ static void vhost_vdpa_net_cvq_stop(NetClientState *nc)
+         vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->status);
+     }
+ 
++    if (s->migration_blocker) {
++        migrate_del_blocker(s->migration_blocker);
++        g_clear_pointer(&s->migration_blocker, error_free);
++    }
++
+     vhost_vdpa_net_client_stop(nc);
+ }
+ 
 -- 
 2.31.1
 
