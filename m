@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3FD6699BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:14:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED226699EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:17:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKhv-0006Yk-Rv; Fri, 13 Jan 2023 09:06:59 -0500
+	id 1pGKhv-0006YL-82; Fri, 13 Jan 2023 09:06:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGKhi-0006Tm-FV; Fri, 13 Jan 2023 09:06:56 -0500
+ id 1pGKhi-0006Tn-F7; Fri, 13 Jan 2023 09:06:52 -0500
 Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGKhc-0002aZ-10; Fri, 13 Jan 2023 09:06:43 -0500
+ id 1pGKhc-0002at-4j; Fri, 13 Jan 2023 09:06:43 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4550860AAE;
- Fri, 13 Jan 2023 14:06:34 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 52CC3256BA;
+ Fri, 13 Jan 2023 14:06:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673618794; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1673618797; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2laEYVqQuamS7kSJe401Aqj3wjbNUoRgW08TktVLHOI=;
- b=vnI/EWYMkmPA2TCmLcslJiBFaF918x8vz2t9h6s5/tmJcmtITEODJd678XYoGxmmkqZJhf
- BYfI8e8BmqWPSD2RalQoyfU2OOxGCzczNVvjpSRujeifztzAZ9Io4JYMoHHIqaEPW1hY5T
- Xgc/MjciqEdKfSucbjq6wtQ8ugj09UI=
+ bh=eeJh5uMajepX2o6i3IFybvlJ7FeTuN8w6d/EVXkaFcg=;
+ b=dmPHGm2twQJnWf51JeG1LLLSV3rW7Fvi7ecHezmM3GnhGvyDfHx8ko3LOWycF8iUK/WenR
+ PgvYpW8MYvizdVP8iU99GPLBsAo6xbqrioZRaLFJL31Nu7WpugnJUoAIPilZD3Ic2c7iML
+ ahg20g8DIZv/3pfZVeFXh2FfQoSxoYg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673618794;
+ s=susede2_ed25519; t=1673618797;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2laEYVqQuamS7kSJe401Aqj3wjbNUoRgW08TktVLHOI=;
- b=tqFAdQcZb1cKLvyYbIdRebk+OQ3Eft+05TUabOsdwzCDzN+qF+HBKOluh+x6GiXn4HRsTG
- m99MigoZHZjBELBw==
+ bh=eeJh5uMajepX2o6i3IFybvlJ7FeTuN8w6d/EVXkaFcg=;
+ b=ISORwn25gRR5Tx8CsWx79gBZg/6Mkp2nl1XV8hanX02wJaYqBktt/8SJi+QIaZVSIXb/6D
+ +8dylyQcFDZyJGCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A5B5C1358A;
- Fri, 13 Jan 2023 14:06:31 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B1B9B1358A;
+ Fri, 13 Jan 2023 14:06:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id oKanG2dlwWP8DQAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 13 Jan 2023 14:06:31 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id qD+fHmplwWP8DQAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 13 Jan 2023 14:06:34 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,10 +57,9 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-Subject: [RFC PATCH v3 03/28] target/arm: wrap call to aarch64_sve_change_el
- in tcg_enabled()
-Date: Fri, 13 Jan 2023 11:03:54 -0300
-Message-Id: <20230113140419.4013-4-farosas@suse.de>
+Subject: [RFC PATCH v3 04/28] target/arm: Move PC alignment check
+Date: Fri, 13 Jan 2023 11:03:55 -0300
+Message-Id: <20230113140419.4013-5-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230113140419.4013-1-farosas@suse.de>
 References: <20230113140419.4013-1-farosas@suse.de>
@@ -90,38 +89,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Claudio Fontana <cfontana@suse.de>
+Move this earlier to make the next patch diff cleaner. While here
+update the comment slightly to not give the impression that the
+misalignment affects only TCG.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- target/arm/helper.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ target/arm/machine.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 562da41e73..aa94db9917 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -10613,11 +10613,13 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
-     unsigned int cur_el = arm_current_el(env);
-     int rt;
+diff --git a/target/arm/machine.c b/target/arm/machine.c
+index 5f26152652..b4c3850570 100644
+--- a/target/arm/machine.c
++++ b/target/arm/machine.c
+@@ -839,6 +839,15 @@ static int cpu_post_load(void *opaque, int version_id)
+         }
+     }
+ 
++    /*
++     * Misaligned thumb pc is architecturally impossible. Fail the
++     * incoming migration. For TCG it would trigger the assert in
++     * thumb_tr_translate_insn().
++     */
++    if (!is_a64(env) && env->thumb && (env->regs[15] & 1)) {
++        return -1;
++    }
++
+     hw_breakpoint_update_all(cpu);
+     hw_watchpoint_update_all(cpu);
+ 
+@@ -856,15 +865,6 @@ static int cpu_post_load(void *opaque, int version_id)
+         }
+     }
  
 -    /*
--     * Note that new_el can never be 0.  If cur_el is 0, then
--     * el0_a64 is is_a64(), else el0_a64 is ignored.
+-     * Misaligned thumb pc is architecturally impossible.
+-     * We have an assert in thumb_tr_translate_insn to verify this.
+-     * Fail an incoming migrate to avoid this assert.
 -     */
--    aarch64_sve_change_el(env, cur_el, new_el, is_a64(env));
-+    if (tcg_enabled()) {
-+        /*
-+         * Note that new_el can never be 0.  If cur_el is 0, then
-+         * el0_a64 is is_a64(), else el0_a64 is ignored.
-+         */
-+        aarch64_sve_change_el(env, cur_el, new_el, is_a64(env));
-+    }
- 
-     if (cur_el < new_el) {
-         /*
+-    if (!is_a64(env) && env->thumb && (env->regs[15] & 1)) {
+-        return -1;
+-    }
+-
+     if (!kvm_enabled()) {
+         pmu_op_finish(&cpu->env);
+     }
 -- 
 2.35.3
 
