@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9AE1669C45
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 16:31:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6EF669CA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 16:43:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKlV-0000LT-MY; Fri, 13 Jan 2023 09:10:41 -0500
+	id 1pGKmX-0000rI-EM; Fri, 13 Jan 2023 09:11:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>)
- id 1pGKlT-0000Kp-2u; Fri, 13 Jan 2023 09:10:39 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pGKmM-0000pM-FK
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:34 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>)
- id 1pGKlP-0003Pg-N2; Fri, 13 Jan 2023 09:10:37 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id d2so1059787wrp.8;
- Fri, 13 Jan 2023 06:10:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+2tHuE+pAZzjo6/7R6grVcR/dQK4+/QgQSItoOy/gVw=;
- b=L4Xfn3h4ujoy2tyxjYxd9JH9yrTaue8Yd3sMYRv1JprJRIfLN8n0f/IBWM5WmcI7nT
- cq6APsqyLj27L3pI0pfCFRrvU3T1WWuA0Kx1FthTwmjRoSA4YgyL3AmcWckLk0UJ/02x
- VqgF2JRlktRdP0dYYVTTm/ZTaeQupdvrcADo7v0wJvu1HJqFgTmDnkv41g0n/hBNcsUc
- EI5pGEcK8g68+cJb/isY260Q3q68YGoQvqow3+96st1/7onDe06IJkDe96Es78ZebnrO
- f4q1oE3pM5nrhF4iHWwn92t0SNM0WBkookUjl2/eEyuhcH8Eq9WgPQqsLb+/IR5YSMyv
- 0TNg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pGKmI-0003dg-6C
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:32 -0500
+Received: by mail-wm1-x329.google.com with SMTP id g10so15354136wmo.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mWgqsSok28ce6z1en5gN9OjiS2muZQLwHlwjFb+KAq0=;
+ b=gt6bi3alpntXpUTCiSPlgKXWMBU5uLIe7Pu40lfmOXG1Z4AZeV7sAKEPLwhftjzAdZ
+ evpD8+ztI1le/m3Uegu70AoLSlVKzYY/ClSKqisz9JiA7um2I5KwG7+XrjIgtWvauJ1k
+ qwgHdOdARfFVZfrtTQ+XaIIsPT4pwLDH6shzcT+wjVnIkLxhqdYFS9QymqX5/aG/MQ3o
+ WgjGsWDBJnQo9/TltxxtnxQXHs4vYdCsbkDfgRAqrdYf8uu176R9ggGolRhnHPe9GauC
+ NQdPrTnYF5n3nwVtxC5mkWLeQZlE+AqEQ6Od28rudOM4NrhXdbDyP2w1Tj8RnkeP7juC
+ o60w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+2tHuE+pAZzjo6/7R6grVcR/dQK4+/QgQSItoOy/gVw=;
- b=0ZQzKebmduOfFE0B5xDH0hmUKEoGLKLssblch0rlZzn/RpQLUMlZgcVp85MR3ar9iG
- hTlPSqEzqiWPQ8pkqI8+jf6p30SMarHi36kNA0lR75ri2ba5iIXdsG6EXedXMRwpxiVl
- Kb0HNdgejwCnhBdIb0lsNCOoJlRqnL4IZpHanuKIll6IyJgLvQvcpq9emtbRLxh2i/SN
- vsO43rHL9RMXW5udjrjZ6/Bd9zdyWfDVrS34FB+oFRs8JmMXGn9FPqIQpqr/pPy69Bx7
- ors/dOwWQVh6T6awFWLsYhP73SRooiGmHD1DLpUQY0D/9NKFIQHzfcpM8V4ibgYwf1Sg
- NR/A==
-X-Gm-Message-State: AFqh2kp43T9JbZO+HkOoIrSfy9lkOHxNW/W3/Nz9Hsv06LzTuaANzvbw
- mMLuFhc7VuVd2EN1eHY7nZ4=
-X-Google-Smtp-Source: AMrXdXsQ7l3fiOyAF3sSHpo0nb5OcX7iHB+PJgqQPlA9ne5fODgyUZuD6u4ca+TDNNvvFuQb6gDIfg==
-X-Received: by 2002:adf:ecca:0:b0:2bd:e592:5460 with SMTP id
- s10-20020adfecca000000b002bde5925460mr957738wro.39.1673619030967; 
- Fri, 13 Jan 2023 06:10:30 -0800 (PST)
-Received: from [192.168.33.3] ([147.235.205.60])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mWgqsSok28ce6z1en5gN9OjiS2muZQLwHlwjFb+KAq0=;
+ b=k+GnbeoqQXqqAdFn0yYIex0iiyjMKmedU6JEitmPv23BRNRKylI6u8dRadngR5riEI
+ zy3uwJCaC97Erj0Nrqqntz2aZ9nhk7GfbmUrhI9naBIKepc5G2LlqdgXd9CsclUNCj4Y
+ ItI5+SuWcsqPpybnLGGgyWpHqm/3MDi6cUF5fZHsd1HE1w1fAx5GFjLqLodO88yWqkA4
+ Z8uIGlt6qYzIWz0IIv8Sh3rKh9Q2YvtAiyw2DEJ2Icg7FKhn1nq71IQ6Dawvw6V73NSU
+ gCdABKZzXHKuanBdqa+ahZu4EN7bfcW6vn+RkDXj9thdgVHjgaTIljI0yVATbGGnLqdk
+ ke3w==
+X-Gm-Message-State: AFqh2koIyQwij/b+Dl6jsygNHesh4X0IV9VNsUQOb/5Tipy2HHI+qp1E
+ rgRBr1w9qrChIgvh+bg+kExd20t6nMPPTjgr
+X-Google-Smtp-Source: AMrXdXujsqqa5C5Pyp2CVr/ssGYJ0CKRpDzP0zPaz3jNywyBDsv03smLSF9DmGv1qXzDkPkUd6TxUw==
+X-Received: by 2002:a05:600c:44d4:b0:3cf:7925:7a3 with SMTP id
+ f20-20020a05600c44d400b003cf792507a3mr57423805wmo.24.1673619088068; 
+ Fri, 13 Jan 2023 06:11:28 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e7-20020a056000120700b00241dd5de644sm19070114wrx.97.2023.01.13.06.10.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 06:10:30 -0800 (PST)
-Message-ID: <7e7bf877-0300-7a2e-e0a4-f8db6eeae88b@gmail.com>
-Date: Fri, 13 Jan 2023 16:10:28 +0200
+ n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.27
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Jan 2023 06:11:27 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/38] target-arm queue
+Date: Fri, 13 Jan 2023 14:10:48 +0000
+Message-Id: <20230113141126.535646-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 0/1] hw/ide: share bmdma read and write functions
-To: Bernhard Beschow <shentey@gmail.com>, John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20220219080818.327683-1-liavalb@gmail.com>
- <A83604D0-B156-4C34-BAF2-29D13D341386@gmail.com>
- <CAFn=p-bzzTM2cyEM_uVpnutj=7D5NgKFb3=854rNQe_Qc4GTfA@mail.gmail.com>
- <59AF7FF6-64F3-4633-B079-2C41DDF3B76C@gmail.com>
-Content-Language: en-US
-From: Liav Albani <liavalb@gmail.com>
-In-Reply-To: <59AF7FF6-64F3-4633-B079-2C41DDF3B76C@gmail.com>
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=liavalb@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,95 +86,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-<html style="direction: ltr;">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <style id="bidiui-paragraph-margins" type="text/css">body p { margin-bottom: 0cm; margin-top: 0pt; } </style>
-  </head>
-  <body bidimailui-charset-is-forced="true" style="direction: ltr;">
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 1/11/23 01:07, Bernhard Beschow
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:59AF7FF6-64F3-4633-B079-2C41DDF3B76C@gmail.com">
-      <pre class="moz-quote-pre" wrap="">
+The following changes since commit 3db29dcac23da85486704ef9e7a8e7217f7829cd:
 
-Am 9. Januar 2023 19:24:16 UTC schrieb John Snow <a class="moz-txt-link-rfc2396E" href="mailto:jsnow@redhat.com">&lt;jsnow@redhat.com&gt;</a>:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">On Tue, Sep 6, 2022 at 10:27 AM Bernhard Beschow <a class="moz-txt-link-rfc2396E" href="mailto:shentey@gmail.com">&lt;shentey@gmail.com&gt;</a> wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">
-Am 19. Februar 2022 08:08:17 UTC schrieb Liav Albani <a class="moz-txt-link-rfc2396E" href="mailto:liavalb@gmail.com">&lt;liavalb@gmail.com&gt;</a>:
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">This is a preparation before I send v3 of ich6-ide controller emulation patch.
-I figured that it's more trivial to split the changes this way, by extracting
-the bmdma functions from via.c and piix.c and sharing them together. Then,
-I could easily put these into use when I send v3 of the ich6-ide patch by just
-using the already separated functions. This was suggested by BALATON Zoltan when
-he submitted a code review on my ich6-ide controller emulation patch.
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">
-Ping. Any news?
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-*cough*.
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2023-01-12 13:51:36 +0000)
 
-Has this been folded into subsequent series, or does this still need attention?
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Both piix and via still have their own bmdma implementations. This patch might be worth having.
+are available in the Git repository at:
 
-Best regards,
-Bernhard
-</pre>
-    </blockquote>
-    <p>I see. Since you are still interested, I will try to see what was
-      the outcome of that patch as I really don't remember if it passed
-      the CI tests, etc. If applicable, I will send this as v2, or if
-      it's already approved, then I guess we could just let it be merged
-      to the tree?</p>
-    <p><br>
-    </p>
-    <p>Best regards,</p>
-    <p>Liav<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:59AF7FF6-64F3-4633-B079-2C41DDF3B76C@gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">Liav Albani (1):
- hw/ide: share bmdma read and write functions between piix.c and via.c
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230113
 
-hw/ide/pci.c         | 47 ++++++++++++++++++++++++++++++++++++++++
-hw/ide/piix.c        | 50 ++-----------------------------------------
-hw/ide/via.c         | 51 ++------------------------------------------
-include/hw/ide/pci.h |  4 ++++
-4 files changed, 55 insertions(+), 97 deletions(-)
+for you to fetch changes up to 08899b5c68a55a3780d707e2464073c8f2670d31:
 
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-</pre>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
+  target/arm: allow writes to SCR_EL3.HXEn bit when FEAT_HCX is enabled (2023-01-13 13:19:36 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ hw/arm/stm32f405: correctly describe the memory layout
+ hw/arm: Add Olimex H405 board
+ cubieboard: Support booting from an SD card image with u-boot on it
+ target/arm: Fix sve_probe_page
+ target/arm: allow writes to SCR_EL3.HXEn bit when FEAT_HCX is enabled
+ various code cleanups
+
+----------------------------------------------------------------
+Evgeny Iakovlev (1):
+      target/arm: allow writes to SCR_EL3.HXEn bit when FEAT_HCX is enabled
+
+Felipe Balbi (2):
+      hw/arm/stm32f405: correctly describe the memory layout
+      hw/arm: Add Olimex H405
+
+Philippe Mathieu-Daudé (27):
+      hw/arm/pxa2xx: Simplify pxa255_init()
+      hw/arm/pxa2xx: Simplify pxa270_init()
+      hw/arm/collie: Use the IEC binary prefix definitions
+      hw/arm/collie: Simplify flash creation using for() loop
+      hw/arm/gumstix: Improve documentation
+      hw/arm/gumstix: Use the IEC binary prefix definitions
+      hw/arm/mainstone: Use the IEC binary prefix definitions
+      hw/arm/musicpal: Use the IEC binary prefix definitions
+      hw/arm/omap_sx1: Remove unused 'total_ram' definitions
+      hw/arm/omap_sx1: Use the IEC binary prefix definitions
+      hw/arm/z2: Use the IEC binary prefix definitions
+      hw/arm/vexpress: Remove dead code in vexpress_common_init()
+      hw/arm: Remove unreachable code calling pflash_cfi01_register()
+      hw/arm/pxa: Avoid forward-declaring PXA2xxI2CState
+      hw/gpio/omap_gpio: Add local variable to avoid embedded cast
+      hw/arm/omap: Drop useless casts from void * to pointer
+      hw/gpio/omap_gpio: Use CamelCase for TYPE_OMAP1_GPIO type name
+      hw/gpio/omap_gpio: Use CamelCase for TYPE_OMAP2_GPIO type name
+      hw/intc/omap_intc: Use CamelCase for TYPE_OMAP_INTC type name
+      hw/arm/stellaris: Drop useless casts from void * to pointer
+      hw/arm/stellaris: Use CamelCase for STELLARIS_ADC type name
+      hw/arm/bcm2836: Remove definitions generated by OBJECT_DECLARE_TYPE()
+      hw/arm/npcm7xx: Declare QOM macros using OBJECT_DECLARE_SIMPLE_TYPE()
+      hw/misc/sbsa_ec: Rename TYPE_SBSA_EC -> TYPE_SBSA_SECURE_EC
+      hw/misc/sbsa_ec: Declare QOM macros using OBJECT_DECLARE_SIMPLE_TYPE()
+      hw/intc/xilinx_intc: Use 'XpsIntc' typedef instead of 'struct xlx_pic'
+      hw/timer/xilinx_timer: Use XpsTimerState instead of 'struct timerblock'
+
+Richard Henderson (1):
+      target/arm: Fix sve_probe_page
+
+Strahinja Jankovic (7):
+      hw/misc: Allwinner-A10 Clock Controller Module Emulation
+      hw/misc: Allwinner A10 DRAM Controller Emulation
+      {hw/i2c,docs/system/arm}: Allwinner TWI/I2C Emulation
+      hw/misc: AXP209 PMU Emulation
+      hw/arm: Add AXP209 to Cubieboard
+      hw/arm: Allwinner A10 enable SPL load from MMC
+      tests/avocado: Add SD boot test to Cubieboard
+
+ docs/system/arm/cubieboard.rst          |   1 +
+ docs/system/arm/orangepi.rst            |   1 +
+ docs/system/arm/stm32.rst               |   1 +
+ configs/devices/arm-softmmu/default.mak |   1 +
+ include/hw/adc/npcm7xx_adc.h            |   7 +-
+ include/hw/arm/allwinner-a10.h          |  27 ++
+ include/hw/arm/allwinner-h3.h           |   3 +
+ include/hw/arm/npcm7xx.h                |  18 +-
+ include/hw/arm/omap.h                   |  24 +-
+ include/hw/arm/pxa.h                    |  11 +-
+ include/hw/arm/stm32f405_soc.h          |   5 +-
+ include/hw/i2c/allwinner-i2c.h          |  55 ++++
+ include/hw/i2c/npcm7xx_smbus.h          |   7 +-
+ include/hw/misc/allwinner-a10-ccm.h     |  67 +++++
+ include/hw/misc/allwinner-a10-dramc.h   |  68 +++++
+ include/hw/misc/npcm7xx_clk.h           |   2 +-
+ include/hw/misc/npcm7xx_gcr.h           |   6 +-
+ include/hw/misc/npcm7xx_mft.h           |   7 +-
+ include/hw/misc/npcm7xx_pwm.h           |   3 +-
+ include/hw/misc/npcm7xx_rng.h           |   6 +-
+ include/hw/net/npcm7xx_emc.h            |   5 +-
+ include/hw/sd/npcm7xx_sdhci.h           |   4 +-
+ hw/arm/allwinner-a10.c                  |  40 +++
+ hw/arm/allwinner-h3.c                   |  11 +-
+ hw/arm/bcm2836.c                        |   9 +-
+ hw/arm/collie.c                         |  25 +-
+ hw/arm/cubieboard.c                     |  11 +
+ hw/arm/gumstix.c                        |  45 ++--
+ hw/arm/mainstone.c                      |  37 ++-
+ hw/arm/musicpal.c                       |   9 +-
+ hw/arm/olimex-stm32-h405.c              |  69 +++++
+ hw/arm/omap1.c                          | 115 ++++----
+ hw/arm/omap2.c                          |  40 ++-
+ hw/arm/omap_sx1.c                       |  53 ++--
+ hw/arm/palm.c                           |   2 +-
+ hw/arm/pxa2xx.c                         |   8 +-
+ hw/arm/spitz.c                          |   6 +-
+ hw/arm/stellaris.c                      |  73 +++--
+ hw/arm/stm32f405_soc.c                  |   8 +
+ hw/arm/tosa.c                           |   2 +-
+ hw/arm/versatilepb.c                    |   6 +-
+ hw/arm/vexpress.c                       |  10 +-
+ hw/arm/z2.c                             |  16 +-
+ hw/char/omap_uart.c                     |   7 +-
+ hw/display/omap_dss.c                   |  15 +-
+ hw/display/omap_lcdc.c                  |   9 +-
+ hw/dma/omap_dma.c                       |  15 +-
+ hw/gpio/omap_gpio.c                     |  48 ++--
+ hw/i2c/allwinner-i2c.c                  | 459 ++++++++++++++++++++++++++++++++
+ hw/intc/omap_intc.c                     |  38 +--
+ hw/intc/xilinx_intc.c                   |  28 +-
+ hw/misc/allwinner-a10-ccm.c             | 224 ++++++++++++++++
+ hw/misc/allwinner-a10-dramc.c           | 179 +++++++++++++
+ hw/misc/axp209.c                        | 238 +++++++++++++++++
+ hw/misc/omap_gpmc.c                     |  12 +-
+ hw/misc/omap_l4.c                       |   7 +-
+ hw/misc/omap_sdrc.c                     |   7 +-
+ hw/misc/omap_tap.c                      |   5 +-
+ hw/misc/sbsa_ec.c                       |  12 +-
+ hw/sd/omap_mmc.c                        |   9 +-
+ hw/ssi/omap_spi.c                       |   7 +-
+ hw/timer/omap_gptimer.c                 |  22 +-
+ hw/timer/omap_synctimer.c               |   4 +-
+ hw/timer/xilinx_timer.c                 |  27 +-
+ target/arm/helper.c                     |   3 +
+ target/arm/sve_helper.c                 |  14 +-
+ MAINTAINERS                             |   8 +
+ hw/arm/Kconfig                          |   9 +
+ hw/arm/meson.build                      |   1 +
+ hw/i2c/Kconfig                          |   4 +
+ hw/i2c/meson.build                      |   1 +
+ hw/i2c/trace-events                     |   5 +
+ hw/misc/Kconfig                         |  10 +
+ hw/misc/meson.build                     |   3 +
+ hw/misc/trace-events                    |   5 +
+ tests/avocado/boot_linux_console.py     |  47 ++++
+ 76 files changed, 1951 insertions(+), 455 deletions(-)
+ create mode 100644 include/hw/i2c/allwinner-i2c.h
+ create mode 100644 include/hw/misc/allwinner-a10-ccm.h
+ create mode 100644 include/hw/misc/allwinner-a10-dramc.h
+ create mode 100644 hw/arm/olimex-stm32-h405.c
+ create mode 100644 hw/i2c/allwinner-i2c.c
+ create mode 100644 hw/misc/allwinner-a10-ccm.c
+ create mode 100644 hw/misc/allwinner-a10-dramc.c
+ create mode 100644 hw/misc/axp209.c
 
