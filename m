@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C4B0668B41
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 06:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B7F2668E32
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 07:44:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGCXW-00077K-36; Fri, 13 Jan 2023 00:23:42 -0500
+	id 1pGDmB-0003W8-Sn; Fri, 13 Jan 2023 01:42:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pGCXT-000775-9W; Fri, 13 Jan 2023 00:23:40 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pGCXQ-0004Hi-VJ; Fri, 13 Jan 2023 00:23:38 -0500
-Received: by mail-ej1-x631.google.com with SMTP id ss4so42507627ejb.11;
- Thu, 12 Jan 2023 21:23:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=uhWCTDFB1F7Y7ToV7wc0OmvqyYK7a2PqLxk0zk6ci34=;
- b=jHAHx4+NVVXylWZoTsbNBrU836JETjMlC3Q/Rz2UmaLjhTgc7+n85d7QU6ABQhT91F
- /lUywH6D2wHgRupuEE5u7bYllKJ/MKFeN0ChuTkmCXT7YVrreGXHavwLPoLitNu3vUjj
- OoODJpb2M7wEXD+U4PUJ5xQZ62omO8fIxUZ0O5c9pLQNJpWtsaHL/UTMfTgGJcVJYPl4
- I0mLGC2rDvuIAmdcGuUNSpq+LZe+cGVHVZIHsMx+KgWDRTc1VFooIbmZVSyDymMJuoLW
- AfWx5B7ZNgRUlsPy4JCGVCY61vV4gbFpizvLwmBgNhV5ncwWOo9IP6dTLdjJTXNmYtq/
- 3s/w==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pGDm8-0003Vu-Bz
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 01:42:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pGDm5-0001j0-W5
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 01:42:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673592167;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LVU5YOr6XKAOel/IcgTLXYBpoAU0ZTnBjS8kYpc7SOA=;
+ b=CDSfHpQ4Y/k0d0oe/VkhJoO883F5AEUprBkuK0gv/rcGTpYY4306LMCphZE6M9bUxRvYXV
+ xKe0VLmLb0VJq5Ab215FwyXphOe377WSSnQJVwCDiaWsQOUrZg7Tupq426ydQVMTgH8kgs
+ 8y1KA/5kNyECHL5rUTXX6bYwB/yq2rw=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-453-ke3zbr22MyqM0iy95DmvTA-1; Fri, 13 Jan 2023 01:42:46 -0500
+X-MC-Unique: ke3zbr22MyqM0iy95DmvTA-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ r8-20020a252b08000000b007b989d5e105so18471848ybr.11
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 22:42:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uhWCTDFB1F7Y7ToV7wc0OmvqyYK7a2PqLxk0zk6ci34=;
- b=qIxlQnbl0rLwoVhdyZHSyyx1hFQsl0rNt7d7RpKhumFqKTRlvgkbCU4V0XqMq6sq97
- GJiwUXl/kKXamlNlSufdiuK4cARGTm19dkCeBF2oZppgIb+AJpg6bGNFtweRVO7c20Ft
- qCCOaqh/AvO+F1wLVSiExv9Vkfbn9wJZ5hNtyE6H2xefdR+nXGqhpfASdPpCFNCpNSON
- EG5Tc3knUZHrKtvOWlAxaP1LdZ8Q3sz0pe2Da8rBrIGVVGDfkaJf/XspENNSIKVH067m
- S8tTQpAHKaAhtt5jFOyl7Jar55F3aSgr1rDE7Eyb0A7z2WlP7aMuMLVFv5eVwy+HrhGq
- 3JTA==
-X-Gm-Message-State: AFqh2ko4MgAGQ2GZLJ/yABcPN2vrFfP/40FP0IIhxdjrveERrvyEv6mZ
- mEtkAQEaR9xR8Fd/lyBq7zvE7Hx4oa3ImnvEAns=
-X-Google-Smtp-Source: AMrXdXsuqnPBJFXfWoyopN84x39n+4QwN7MMwaxBNQlI0oJDiyJdP+WTHlvPhFl20gkFBmn++Fw5lpnFGwDaSjqa7FQ=
-X-Received: by 2002:a17:907:a08d:b0:846:8c9a:68a3 with SMTP id
- hu13-20020a170907a08d00b008468c9a68a3mr4283786ejc.217.1673587414268; Thu, 12
- Jan 2023 21:23:34 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LVU5YOr6XKAOel/IcgTLXYBpoAU0ZTnBjS8kYpc7SOA=;
+ b=sgKi/5rkQ7ldJ22F8CtLFAfBKmHdp8om6DE2Vd1dromlHcNQx3FRKP94SvCti4qFUc
+ KWwomeW0Vl5NvoYWOF7z9tphbmjDaZgndJCD3CIgTlfN1YLFlSHVOgTF1z2+gSqZsXez
+ nuenLplc1K3yxNz5qXO9/wc+ULh7JBvLZUEw46HT4aP7fdXQxNQU1A2Cz6Tqsu34s9EP
+ t2B7m/d1YrzD2xH2LPSx43vvq5fXFZX+Cj7fyKsd4Vr6UshEl2HGzGkdEj7Mo1WwDrhE
+ km9WTlLEiK+0jOskGTk4XmWJ08nxLbpEDTlgUXaIcd8nPeT1YblLTSrpKlFE/VAJ2FUn
+ eG/w==
+X-Gm-Message-State: AFqh2koZmw637NBQmFKdfm4WqHEVSO2kKf2uswFYlnSMPS28ti1BO23F
+ YEe82soWmUzcGOwQVipTUTDCBUmPPkLQ2Mt9UcLyf8qw7Zx1r2/Wcms89w2o7ZcLP8gr0Vu/Jgk
+ f6GTbfenvN92OLN6OWkDMITlnpsvvQYg=
+X-Received: by 2002:a81:6555:0:b0:499:f27a:2924 with SMTP id
+ z82-20020a816555000000b00499f27a2924mr6333539ywb.411.1673592165818; 
+ Thu, 12 Jan 2023 22:42:45 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuJDvjxciErNh6+bq5wpAYWlyC3nPJNRs783pC0PKDTouwzWHVIMEjTKMjVG7yRszrd8ILGJ1eLDNxYbfVj/iQ=
+X-Received: by 2002:a81:6555:0:b0:499:f27a:2924 with SMTP id
+ z82-20020a816555000000b00499f27a2924mr6333526ywb.411.1673592165609; Thu, 12
+ Jan 2023 22:42:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20230102115241.25733-1-dbarboza@ventanamicro.com>
- <20230102115241.25733-11-dbarboza@ventanamicro.com>
- <CAKmqyKPri7asvqZ8wN4Bd-wjH+gwwMJJhiUd+=QZFV4RhWnyUQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKPri7asvqZ8wN4Bd-wjH+gwwMJJhiUd+=QZFV4RhWnyUQ@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 13 Jan 2023 13:23:22 +0800
-Message-ID: <CAEUhbmUu-=eH6xAug19z7cFL_0HX+Jr+L0Bkn6VmHwuJggfisA@mail.gmail.com>
-Subject: Re: [PATCH v5 10/11] hw/riscv/boot.c: consolidate all kernel init in
- riscv_load_kernel()
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, 
- alistair.francis@wdc.com, Bin Meng <bin.meng@windriver.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>
+References: <20230112172434.760850-1-eperezma@redhat.com>
+ <20230112172434.760850-2-eperezma@redhat.com>
+ <CACGkMEs2UaDFSn=_bvZ+6xXJCUAd71wVhBbp9r5mJLN=e_mG2A@mail.gmail.com>
+In-Reply-To: <CACGkMEs2UaDFSn=_bvZ+6xXJCUAd71wVhBbp9r5mJLN=e_mG2A@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 13 Jan 2023 07:42:09 +0100
+Message-ID: <CAJaqyWd3Lpq1+metjajg7C3v0FbdhAnH1AM=BxZs5eFwhn3sWg@mail.gmail.com>
+Subject: Re: [RFC v2 01/13] vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, alvaro.karsz@solid-run.com, 
+ Shannon Nelson <snelson@pensando.io>, Laurent Vivier <lvivier@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Parav Pandit <parav@mellanox.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x631.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,95 +104,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Alistair,
-
-On Thu, Jan 12, 2023 at 8:36 AM Alistair Francis <alistair23@gmail.com> wrote:
+On Fri, Jan 13, 2023 at 4:12 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> On Mon, Jan 2, 2023 at 9:55 PM Daniel Henrique Barboza
-> <dbarboza@ventanamicro.com> wrote:
+> On Fri, Jan 13, 2023 at 1:24 AM Eugenio P=C3=A9rez <eperezma@redhat.com> =
+wrote:
 > >
-> > The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
-> > the same steps when '-kernel' is used:
+> > VHOST_BACKEND_F_IOTLB_ASID is the feature bit, not the bitmask. Since
+> > the device under test also provided VHOST_BACKEND_F_IOTLB_MSG_V2 and
+> > VHOST_BACKEND_F_IOTLB_BATCH, this went unnoticed.
 > >
-> > - execute load_kernel()
-> > - load init_rd()
-> > - write kernel_cmdline
-> >
-> > Let's fold everything inside riscv_load_kernel() to avoid code
-> > repetition. To not change the behavior of boards that aren't calling
-> > riscv_load_init(), add an 'load_initrd' flag to riscv_load_kernel() and
-> > allow these boards to opt out from initrd loading.
-> >
-> > Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> > Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> > Fixes: c1a1008685 ("vdpa: always start CVQ in SVQ mode if possible")
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+>
+> Acked-by: Jason Wang <jasowang@redhat.com>
+>
+> Do we need this for -stable?
+>
+
+The commit c1a1008685 was introduced in this development window so
+there is no stable version of qemu with that patch. But I'm ok to CC
+stable just in case for sure.
+
+Thanks!
+
+> Thanks
+>
 > > ---
-> >  hw/riscv/boot.c            | 22 +++++++++++++++++++---
-> >  hw/riscv/microchip_pfsoc.c | 12 ++----------
-> >  hw/riscv/opentitan.c       |  2 +-
-> >  hw/riscv/sifive_e.c        |  3 ++-
-> >  hw/riscv/sifive_u.c        | 12 ++----------
-> >  hw/riscv/spike.c           | 11 +----------
-> >  hw/riscv/virt.c            | 12 ++----------
-> >  include/hw/riscv/boot.h    |  1 +
-> >  8 files changed, 30 insertions(+), 45 deletions(-)
+> >  net/vhost-vdpa.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> > index 2594276223..4888d5c1e0 100644
-> > --- a/hw/riscv/boot.c
-> > +++ b/hw/riscv/boot.c
-> > @@ -175,10 +175,12 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index 1a13a34d35..de5ed8ff22 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -384,7 +384,7 @@ static int vhost_vdpa_net_cvq_start(NetClientState =
+*nc)
+> >              g_strerror(errno), errno);
+> >          return -1;
+> >      }
+> > -    if (!(backend_features & VHOST_BACKEND_F_IOTLB_ASID) ||
+> > +    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) ||
+> >          !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
+> >          return 0;
+> >      }
+> > --
+> > 2.31.1
 > >
-> >  target_ulong riscv_load_kernel(MachineState *machine,
-> >                                 target_ulong kernel_start_addr,
-> > +                               bool load_initrd,
-> >                                 symbol_fn_t sym_cb)
-> >  {
-> >      const char *kernel_filename = machine->kernel_filename;
-> >      uint64_t kernel_load_base, kernel_entry;
-> > +    void *fdt = machine->fdt;
-> >
-> >      g_assert(kernel_filename != NULL);
-> >
-> > @@ -192,21 +194,35 @@ target_ulong riscv_load_kernel(MachineState *machine,
-> >      if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
-> >                           NULL, &kernel_load_base, NULL, NULL, 0,
-> >                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
-> > -        return kernel_load_base;
-> > +        kernel_entry = kernel_load_base;
->
-> This breaks 32-bit Xvisor loading. It seems that for the 32-bit guest
-> we get a value of 0xffffffff80000000.
-
-Shouldn't the bug be the 32-bit Xvisor image? How can a 32-bit image
-return an address of 0xffffffff80000000?
-
->
-> Previously the top bits would be lost as we return a target_ulong from
-> this function, but with this change we pass the value
-> 0xffffffff80000000 to riscv_load_initrd() which causes failures.
->
-> This diff fixes the failure for me
->
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 4888d5c1e0..f08ed44b97 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -194,7 +194,7 @@ target_ulong riscv_load_kernel(MachineState *machine,
->     if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
->                          NULL, &kernel_load_base, NULL, NULL, 0,
->                          EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
-> -        kernel_entry = kernel_load_base;
-> +        kernel_entry = (target_ulong) kernel_load_base;
->         goto out;
->     }
->
->
-> but I don't think that's the right fix. We should instead look at the
-> CPU XLEN and drop the high bits if required.
->
-> I'm going to drop this patch, do you mind looking into a proper fix?
 >
 
-Regards,
-Bin
 
