@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F7B669B0F
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:55:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8D06699FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:25:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKil-00078Z-7H; Fri, 13 Jan 2023 09:07:51 -0500
+	id 1pGKit-0007BS-U4; Fri, 13 Jan 2023 09:07:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGKii-00077E-Oh; Fri, 13 Jan 2023 09:07:48 -0500
+ id 1pGKim-00079L-Md; Fri, 13 Jan 2023 09:07:55 -0500
 Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGKih-0002qJ-7l; Fri, 13 Jan 2023 09:07:48 -0500
+ id 1pGKil-0002sM-4T; Fri, 13 Jan 2023 09:07:52 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BF25F5C832;
- Fri, 13 Jan 2023 14:07:45 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7616A6069B;
+ Fri, 13 Jan 2023 14:07:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673618865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1673618869; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E/DK5cdoFpTVGoVOHrqT15SvL8V/5fD9lKPaGlTggnk=;
- b=XV+MxJe5En1LF/LqG0MHxo47mFVnUqnA7tyi7KkGl/BGdqatrAIjKuGsjbOGDgrZcgplsP
- 0hVi2w5m0l6gR+u21M9fT8od5sYTT0bE3iNvhtPhu0b7rsmfjHEVHIIDRC+0C6oKkWaZDg
- ZJn86ipIRK9Ft9bRQ86w2ckUxiyn+bQ=
+ bh=9ssIovT5K/V/p+0ZYlWssPZdHDeOwPRIwfvvL6OqWME=;
+ b=UiNiGvEyKbPYgtklAXXT3tZHaCDv4slV0M5pjmP0umLVCohRbfxldrGk10vk/PeTXNYJfl
+ HZ6XVacwUcug5uO8Rw8k2DHPZGSeuKpYLj9sNcdZ639RFrA1mGFdQfzpEPV0so2gSA7C87
+ 1gGC0a8iax30DBod+mpwaTd/4Cp3rnQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673618865;
+ s=susede2_ed25519; t=1673618869;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E/DK5cdoFpTVGoVOHrqT15SvL8V/5fD9lKPaGlTggnk=;
- b=lGkfCbjXKGlgX5xqnhJxyiqjQXu3Vu5DqLpNMDwfL284kAqCf10KacAsfKQFmLZV6IE3C+
- y2FkW5OERjbXaWBA==
+ bh=9ssIovT5K/V/p+0ZYlWssPZdHDeOwPRIwfvvL6OqWME=;
+ b=kOyWNch7XDPQEzSZP0/IjrmiGgfGpkpqd1pSRqQ5yBh8v1M/9Telp/mc5XXWjgfdeKiHOb
+ K899689WUsU8mABA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 48C351358A;
- Fri, 13 Jan 2023 14:07:42 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 36DC11358A;
+ Fri, 13 Jan 2023 14:07:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gIXrBK5lwWP8DQAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 13 Jan 2023 14:07:42 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id aCmWALJlwWP8DQAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 13 Jan 2023 14:07:46 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -59,10 +59,11 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
  Cleber Rosa <crosa@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-Subject: [RFC PATCH v3 25/28] tests/avocado: Tag TCG tests with accel:tcg
-Date: Fri, 13 Jan 2023 11:04:16 -0300
-Message-Id: <20230113140419.4013-26-farosas@suse.de>
+ Beraldo Leal <bleal@redhat.com>
+Subject: [RFC PATCH v3 26/28] target/avocado: Pass parameters to migration
+ test on aarch64
+Date: Fri, 13 Jan 2023 11:04:17 -0300
+Message-Id: <20230113140419.4013-27-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230113140419.4013-1-farosas@suse.de>
 References: <20230113140419.4013-1-farosas@suse.de>
@@ -92,53 +93,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This allows the test to be skipped when TCG is not present in the QEMU
-binary.
+The migration tests are currently broken for an aarch64 host because
+the tests pass no 'machine' and 'cpu' options on the QEMU command
+line. Most other architectures define a default value in QEMU for
+these options, but arm does not.
+
+Add these options to the test class in case the test is being executed
+in an aarch64 host.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/avocado/boot_linux_console.py | 1 +
- tests/avocado/reverse_debugging.py  | 8 ++++++++
- 2 files changed, 9 insertions(+)
+Don't we want to run migration tests for all the built targets? A
+cleaner approach would be to just subclass Migration for each
+archictecture like in boot_linux.py.
+---
+ tests/avocado/migration.py | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index ec07c64291..c339e4d3bb 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -943,6 +943,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
+diff --git a/tests/avocado/migration.py b/tests/avocado/migration.py
+index 4b25680c50..f1c43622c0 100644
+--- a/tests/avocado/migration.py
++++ b/tests/avocado/migration.py
+@@ -11,6 +11,8 @@
  
-     def test_aarch64_raspi3_atf(self):
-         """
-+        :avocado: tags=accel:tcg
-         :avocado: tags=arch:aarch64
-         :avocado: tags=machine:raspi3b
-         :avocado: tags=cpu:cortex-a53
-diff --git a/tests/avocado/reverse_debugging.py b/tests/avocado/reverse_debugging.py
-index d2921e70c3..680c314cfc 100644
---- a/tests/avocado/reverse_debugging.py
-+++ b/tests/avocado/reverse_debugging.py
-@@ -173,6 +173,10 @@ def reverse_debugging(self, shift=7, args=None):
-         vm.shutdown()
  
- class ReverseDebugging_X86_64(ReverseDebugging):
-+    """
-+    :avocado: tags=accel:tcg
-+    """
+ import tempfile
++import os
 +
-     REG_PC = 0x10
-     REG_CS = 0x12
-     def get_pc(self, g):
-@@ -190,6 +194,10 @@ def test_x86_64_pc(self):
-         self.reverse_debugging()
+ from avocado_qemu import QemuSystemTest
+ from avocado import skipUnless
  
- class ReverseDebugging_AArch64(ReverseDebugging):
-+    """
-+    :avocado: tags=accel:tcg
-+    """
+@@ -26,6 +28,14 @@ class Migration(QemuSystemTest):
+ 
+     timeout = 10
+ 
++    def setUp(self):
++        super().setUp()
 +
-     REG_PC = 32
++        arch = os.uname()[4]
++        if arch == 'aarch64':
++            self.machine = 'virt'
++            self.cpu = 'max'
++
+     @staticmethod
+     def migration_finished(vm):
+         return vm.command('query-migrate')['status'] in ('completed', 'failed')
+@@ -62,7 +72,6 @@ def _get_free_port(self):
+             self.cancel('Failed to find a free port')
+         return port
  
-     # unidentified gitlab timeout problem
+-
+     def test_migration_with_tcp_localhost(self):
+         dest_uri = 'tcp:localhost:%u' % self._get_free_port()
+         self.do_migrate(dest_uri)
 -- 
 2.35.3
 
