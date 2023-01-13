@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176D46699ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:19:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781E06699FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:23:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKif-00074b-UW; Fri, 13 Jan 2023 09:07:45 -0500
+	id 1pGKij-00076s-6N; Fri, 13 Jan 2023 09:07:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGKie-00074M-IF; Fri, 13 Jan 2023 09:07:44 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ id 1pGKig-00074g-5K; Fri, 13 Jan 2023 09:07:46 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGKia-0002nL-1X; Fri, 13 Jan 2023 09:07:41 -0500
+ id 1pGKie-0002ol-LU; Fri, 13 Jan 2023 09:07:45 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 237255D6FF;
- Fri, 13 Jan 2023 14:07:38 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CF86A6B4FE;
+ Fri, 13 Jan 2023 14:07:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673618858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1673618861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=43Vb2eVEM42+G2dsOM6a3AIXh1asg0rkcfl8Hv/lG+k=;
- b=TiKNpqU86v6JeZFG/xEEa73RJbE8StmpWmWC4D6JP9R9nPSV1EsxoriSHUkyQkUU0JPqJ5
- IVGapQaNA8vgUmP3oWUTUmV8OY8It2/YK8DYNfy0UjUhLSlQZySPxMEL0Rly80S+XDdIvh
- 6zR0sH/L1Pb4bpgzDbN/je5eVUItRkc=
+ bh=b9wgLuv1S8KisqJZ2hXcODVe9gh+CNpuuMmjcOOVIBo=;
+ b=m8675CmDyRyQNUZqeVQQdU6+mDipNdN5/k0gLr3/L06s16gA4h13fdGVI1KueyNAcWoRf4
+ oKl8eLzsGGf38QzPQNYm4ujjgOpOvzIx+KJ/8C2o5VkGB/x1U/eoSx6yBScruro+9799VV
+ q+Zf2oyLMXEHZCHoJosTDLcDiVAANak=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673618858;
+ s=susede2_ed25519; t=1673618861;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=43Vb2eVEM42+G2dsOM6a3AIXh1asg0rkcfl8Hv/lG+k=;
- b=zQc7/UgYldFU7M7uXoVwBpypxR8HnGeJFsJIKBvdfXdciSE3rrX/BnhfizRgYEqgI/OAcs
- nK0Z9/Y5uBAqYDBg==
+ bh=b9wgLuv1S8KisqJZ2hXcODVe9gh+CNpuuMmjcOOVIBo=;
+ b=Kg688s8Gpwt3iPgb+mJPKZuJBJG20Ry2ipEqrdc+m9ff5W8l3Q9djlY0FDE1rGGcYSfAqU
+ RRretHyEF/tD6tCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4B4D91358A;
- Fri, 13 Jan 2023 14:07:35 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8EEAB1358A;
+ Fri, 13 Jan 2023 14:07:38 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id KO1nBadlwWP8DQAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 13 Jan 2023 14:07:35 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id wFf6FaplwWP8DQAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 13 Jan 2023 14:07:38 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,18 +57,20 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Thomas Huth <thuth@redhat.com>
-Subject: [RFC PATCH v3 23/28] tests/tcg: Do not build/run TCG tests if TCG is
- disabled
-Date: Fri, 13 Jan 2023 11:04:14 -0300
-Message-Id: <20230113140419.4013-24-farosas@suse.de>
+ Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [RFC PATCH v3 24/28] tests/avocado: Skip tests that require a missing
+ accelerator
+Date: Fri, 13 Jan 2023 11:04:15 -0300
+Message-Id: <20230113140419.4013-25-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230113140419.4013-1-farosas@suse.de>
 References: <20230113140419.4013-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -91,67 +93,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The tests under tests/tcg depend on the TCG accelerator. Do not build
-them if --disable-tcg was given in the configure line.
+If a test was tagged with the "accel" tag and the specified
+accelerator it not present in the qemu binary, cancel the test.
 
-Test against CONFIG_TCG='' instead of CONFIG_TCG=y to account for
-CONFIG_TCG=m.
-
-sample output:
-
-$ make check-tcg
-  GIT     ui/keycodemapdb meson dtc
-  SKIPPED x86_64-softmmu guest-tests because TCG is disabled in this build
+We can now write tests without explicit calls to require_accelerator,
+just the tag is enough.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- configure              |  4 ++++
- tests/Makefile.include | 10 ++++++++++
- 2 files changed, 14 insertions(+)
+ tests/avocado/avocado_qemu/__init__.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/configure b/configure
-index 9e407ce2e3..a6f9892757 100755
---- a/configure
-+++ b/configure
-@@ -2352,6 +2352,10 @@ if test "$plugins" = "yes" ; then
-     echo "CONFIG_PLUGIN=y" >> $config_host_mak
- fi
+diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+index 910f3ba1ea..ed2809210b 100644
+--- a/tests/avocado/avocado_qemu/__init__.py
++++ b/tests/avocado/avocado_qemu/__init__.py
+@@ -274,6 +274,10 @@ def setUp(self):
  
-+if test "$tcg" = "enabled" ; then
-+    echo "CONFIG_TCG=y" >> $config_host_mak
-+fi
+         super().setUp('qemu-system-')
+ 
++        accel_required = self._get_unique_tag_val('accel')
++        if accel_required:
++            self.require_accelerator(accel_required)
 +
- if test -n "$gdb_bin"; then
-     gdb_version=$($gdb_bin --version | head -n 1)
-     if version_ge ${gdb_version##* } 9.1; then
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 9422ddaece..aa0e610cf2 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -45,6 +45,7 @@ RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TCG_TESTS_TARGETS))
- $(foreach TARGET,$(TCG_TESTS_TARGETS), \
-         $(eval $(BUILD_DIR)/tests/tcg/config-$(TARGET).mak: config-host.mak))
+         self.machine = self.params.get('machine',
+                                        default=self._get_unique_tag_val('machine'))
  
-+ifneq ($(CONFIG_TCG),)
- .PHONY: $(TCG_TESTS_TARGETS:%=build-tcg-tests-%)
- $(TCG_TESTS_TARGETS:%=build-tcg-tests-%): build-tcg-tests-%: $(BUILD_DIR)/tests/tcg/config-%.mak
- 	$(call quiet-command, \
-@@ -56,6 +57,15 @@ $(TCG_TESTS_TARGETS:%=run-tcg-tests-%): run-tcg-tests-%: build-tcg-tests-%
- 	$(call quiet-command, \
-            $(MAKE) -C tests/tcg/$* $(SUBDIR_MAKEFLAGS) SPEED=$(SPEED) run, \
-         "RUN", "$* guest-tests")
-+else
-+.PHONY: $(TCG_TESTS_TARGETS:%=build-tcg-tests-%)
-+$(TCG_TESTS_TARGETS:%=build-tcg-tests-%):
-+	@echo "  SKIPPED $(subst build-tcg-tests-,,$@) guest-tests because TCG is disabled in this build"
-+
-+.PHONY: $(TCG_TESTS_TARGETS:%=run-tcg-tests-%)
-+$(TCG_TESTS_TARGETS:%=run-tcg-tests-%):
-+	@echo "  SKIPPED $(subst run-tcg-tests-,,$@) guest-tests because TCG is disabled in this build"
-+endif
- 
- .PHONY: $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%)
- $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%): clean-tcg-tests-%:
 -- 
 2.35.3
 
