@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA1B669CA5
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 16:43:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F8E669BBD
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 16:17:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKmm-000103-8o; Fri, 13 Jan 2023 09:12:01 -0500
+	id 1pGKnE-0001AL-BF; Fri, 13 Jan 2023 09:12:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmW-0000sf-2f
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:44 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ id 1pGKmk-00012I-8q
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:59 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmR-0003fm-T2
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:41 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- j34-20020a05600c1c2200b003da1b054057so3149247wms.5
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:38 -0800 (PST)
+ id 1pGKmh-0003dg-8t
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:57 -0500
+Received: by mail-wm1-x329.google.com with SMTP id g10so15354652wmo.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Qqq5jSaGqD+6ajO8SNo3n4GhKgld5h1XD9p1VGEHQsg=;
- b=dhSLX1WjzHn0KrSbEK9O4msp7LXloy/aEk0tmBNcWoB55inp4PL0KtRmr/WFtC37Zk
- OesxvdtvHpZgKg1ysaeB4yFPSqo/5wlf3t8SDzDqyqikf+tVhZUKfferkAjLXh/uUkB4
- 4KWtZueZ/EF0zvLGWKo6iqTYVDryuz9A50FIoRRrFQuy6aIXTpO6iIJ8+zyScxY9EGO2
- NU4+I34nB27RT2KrNBx+3Np3GoSYlZXP+fjZzNL3/4iauyPc2+pEvMbGJa9U1YszV92B
- oOr+G3Ri0MiN/Amzo5e8bpcQG4X5FfLCld92JGxYGvXWJ1Asc70Gi6+etqC9/S4Lhu7z
- Qz+A==
+ :reply-to; bh=rDLpEGhfKq8E9A3i8kqw2MyfOYvNsDJPdKlzQIMXq8g=;
+ b=Ky1clYYG9atFMCfcK2czOPvVNRML5E/i4QPoWlmYiRW0xtSz3zdZNGOfgSvJmROFPQ
+ fRZRxmgbwqMHWmMXeWM+m+JrxuMtnUWG7PT87blgjZFUYWfDhxQfwfGCCNf0r7zaXWty
+ nZOBwOmPG504EieXPjkj01FO74J2MBKntwkv9IkA8CU8Kw2ihmkJteiPOcxdna4YRqxj
+ 9N/swmo62HDPvLUixNrWORuMpgSNtJqpjyMfJR6jQQxYolWHNS4uDEpnzI4x+cN6Ez6X
+ XUO3oj/PVUsEGtfskCQK8z828zaVKzWG9IMydcooWwZ6EWgcZc9BMAMfsvHh/XS3biqh
+ 7HeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Qqq5jSaGqD+6ajO8SNo3n4GhKgld5h1XD9p1VGEHQsg=;
- b=llag/36CAIXaPOGK4yMqGmXdZ87Ng4GCslISmcHcrlZgvw1qWN2087PFKRgiajAej4
- nYNFPcosBulSqbLp6xYByDzGne6q3CVkyi9ITxOszeER82mdNpEvPBKjj2kQO0mtCk0v
- 0eRiq4fLcJJ7C/FDNzTH73oEGQIGGF6HOLGlskHQbl3vuqyTzyBHSQRq6Q5wNJ1zF7NR
- RwtoETM5yIZrShZUAHK2XRnOnKaxyWyGlCrs9VXvQnR/B11z0BUTh/6EbAv6GdgeX1cy
- m6DmKy1wkMjjU46AXgOv5/Suv0n+Js1V6aIrqpfUkbnVVU3nqsaR+9VZx2uObqcMlnDq
- CrIg==
-X-Gm-Message-State: AFqh2kqfnv2AH2m0V9e5J9bmAsKjfOzZI9epURg4h2SggbQ9P3XbJ0w1
- lwe1CiyRELYRtohftRz6wpMphfECy65KHDX7
-X-Google-Smtp-Source: AMrXdXtvYKoj4H0xFmeWkRtrLlaJBy1mumQzJQJJfXbuHMFCNb+GI6a0T4AGz0Gy4GY4k5ujFl4FwQ==
-X-Received: by 2002:a05:600c:4e4f:b0:3cf:9d32:db67 with SMTP id
- e15-20020a05600c4e4f00b003cf9d32db67mr58189503wmq.3.1673619097613; 
- Fri, 13 Jan 2023 06:11:37 -0800 (PST)
+ bh=rDLpEGhfKq8E9A3i8kqw2MyfOYvNsDJPdKlzQIMXq8g=;
+ b=0Q65V2GtpuOKnTOKCMawq1IZyXe+kud1DVkAiFUzZ+7QzS0fF2eb7yj/ltU0K8Ejr0
+ ZUpwlDggVgJsqrb6icZULdW/57qIv2WeyQUp4DlX4+ZUR0c+2nHuJ+hgxBUyCGwbxLQM
+ bZ6pqjKwlCOM3Pa7YB05Jg+hcBdMipg2gUYRIVbRL+JGkH1BQbsTYSiq8VJs414+nnpO
+ l4E+9yoPVxkMKkhZfG+IqX2YJd5sk0iHT2a1hVsfLJvuokVEz5bZYMYMrVyq7lcq1Lni
+ /hAzub3NwdaNXS5FLZgjaglHJ+OpLA8V0w1M8+lPJg79w5NZkyix4WSlX24tsAS2ynWw
+ 1s2A==
+X-Gm-Message-State: AFqh2kpurEz99ZlWMx3BYfEfVH/DwXWRNnO1yTk0TbRM4PyCBZhjYGl9
+ Rn94zG2h8e992/J8bgNRUedkCR08EsaRL/NV
+X-Google-Smtp-Source: AMrXdXs1SSoHM+rCHzhYX17aldjEA69aKHZYFbmqA7rHD0aXwIK7mwKHx1fMrif72SyuNdHy78TxRQ==
+X-Received: by 2002:a05:600c:3495:b0:3c6:e62e:2e74 with SMTP id
+ a21-20020a05600c349500b003c6e62e2e74mr59266484wmq.15.1673619101855; 
+ Fri, 13 Jan 2023 06:11:41 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.36
+ n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.41
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 06:11:37 -0800 (PST)
+ Fri, 13 Jan 2023 06:11:41 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/38] hw/arm/pxa2xx: Simplify pxa255_init()
-Date: Fri, 13 Jan 2023 14:10:59 +0000
-Message-Id: <20230113141126.535646-12-peter.maydell@linaro.org>
+Subject: [PULL 16/38] hw/arm/gumstix: Use the IEC binary prefix definitions
+Date: Fri, 13 Jan 2023 14:11:04 +0000
+Message-Id: <20230113141126.535646-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230113141126.535646-1-peter.maydell@linaro.org>
 References: <20230113141126.535646-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,88 +89,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Since pxa255_init() must map the device in the system memory,
-there is no point in passing get_system_memory() by argument.
+IEC binary prefixes ease code review: the unit is explicit.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Add definitions for RAM / Flash / Flash blocksize.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230109115316.2235-2-philmd@linaro.org
+Message-id: 20230109115316.2235-7-philmd@linaro.org
+Message-Id: <20200223231044.8003-3-philmd@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/pxa.h | 2 +-
- hw/arm/gumstix.c     | 3 +--
- hw/arm/pxa2xx.c      | 4 +++-
- hw/arm/tosa.c        | 2 +-
- 4 files changed, 6 insertions(+), 5 deletions(-)
+ hw/arm/gumstix.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/include/hw/arm/pxa.h b/include/hw/arm/pxa.h
-index 1095504b86f..c26007e57f9 100644
---- a/include/hw/arm/pxa.h
-+++ b/include/hw/arm/pxa.h
-@@ -195,6 +195,6 @@ struct PXA2xxI2SState {
- 
- PXA2xxState *pxa270_init(MemoryRegion *address_space, unsigned int sdram_size,
-                          const char *revision);
--PXA2xxState *pxa255_init(MemoryRegion *address_space, unsigned int sdram_size);
-+PXA2xxState *pxa255_init(unsigned int sdram_size);
- 
- #endif /* PXA_H */
 diff --git a/hw/arm/gumstix.c b/hw/arm/gumstix.c
-index 3a4bc332c42..c167518a46e 100644
+index 89c15bee759..579d3635774 100644
 --- a/hw/arm/gumstix.c
 +++ b/hw/arm/gumstix.c
-@@ -51,12 +51,11 @@ static void connex_init(MachineState *machine)
+@@ -35,6 +35,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/units.h"
+ #include "qemu/error-report.h"
+ #include "hw/arm/pxa.h"
+ #include "net/net.h"
+@@ -45,17 +46,20 @@
+ #include "sysemu/qtest.h"
+ #include "cpu.h"
+ 
+-static const int sector_len = 128 * 1024;
++#define CONNEX_FLASH_SIZE   (16 * MiB)
++#define CONNEX_RAM_SIZE     (64 * MiB)
++
++#define VERDEX_FLASH_SIZE   (32 * MiB)
++#define VERDEX_RAM_SIZE     (256 * MiB)
++
++#define FLASH_SECTOR_SIZE   (128 * KiB)
+ 
+ static void connex_init(MachineState *machine)
  {
      PXA2xxState *cpu;
      DriveInfo *dinfo;
--    MemoryRegion *address_space_mem = get_system_memory();
  
-     uint32_t connex_rom = 0x01000000;
-     uint32_t connex_ram = 0x04000000;
- 
--    cpu = pxa255_init(address_space_mem, connex_ram);
-+    cpu = pxa255_init(connex_ram);
+-    uint32_t connex_rom = 0x01000000;
+-    uint32_t connex_ram = 0x04000000;
+-
+-    cpu = pxa255_init(connex_ram);
++    cpu = pxa255_init(CONNEX_RAM_SIZE);
  
      dinfo = drive_get(IF_PFLASH, 0, 0);
      if (!dinfo && !qtest_enabled()) {
-diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
-index 93dda83d7aa..8b8845fc630 100644
---- a/hw/arm/pxa2xx.c
-+++ b/hw/arm/pxa2xx.c
-@@ -11,6 +11,7 @@
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
-+#include "exec/address-spaces.h"
- #include "cpu.h"
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
-@@ -2230,8 +2231,9 @@ PXA2xxState *pxa270_init(MemoryRegion *address_space,
- }
+@@ -65,9 +69,9 @@ static void connex_init(MachineState *machine)
+     }
  
- /* Initialise a PXA255 integrated chip (ARM based core).  */
--PXA2xxState *pxa255_init(MemoryRegion *address_space, unsigned int sdram_size)
-+PXA2xxState *pxa255_init(unsigned int sdram_size)
- {
-+    MemoryRegion *address_space = get_system_memory();
-     PXA2xxState *s;
-     int i;
+     /* Numonyx RC28F128J3F75 */
+-    if (!pflash_cfi01_register(0x00000000, "connext.rom", connex_rom,
++    if (!pflash_cfi01_register(0x00000000, "connext.rom", CONNEX_FLASH_SIZE,
+                                dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
+-                               sector_len, 2, 0, 0, 0, 0, 0)) {
++                               FLASH_SECTOR_SIZE, 2, 0, 0, 0, 0, 0)) {
+         error_report("Error registering flash memory");
+         exit(1);
+     }
+@@ -82,10 +86,7 @@ static void verdex_init(MachineState *machine)
+     PXA2xxState *cpu;
      DriveInfo *dinfo;
-diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
-index d5a6763cf9a..3ca2e4459ca 100644
---- a/hw/arm/tosa.c
-+++ b/hw/arm/tosa.c
-@@ -242,7 +242,7 @@ static void tosa_init(MachineState *machine)
-     TC6393xbState *tmio;
-     DeviceState *scp0, *scp1;
  
--    mpu = pxa255_init(address_space_mem, tosa_binfo.ram_size);
-+    mpu = pxa255_init(tosa_binfo.ram_size);
+-    uint32_t verdex_rom = 0x02000000;
+-    uint32_t verdex_ram = 0x10000000;
+-
+-    cpu = pxa270_init(verdex_ram, machine->cpu_type);
++    cpu = pxa270_init(VERDEX_RAM_SIZE, machine->cpu_type);
  
-     memory_region_init_rom(rom, NULL, "tosa.rom", TOSA_ROM, &error_fatal);
-     memory_region_add_subregion(address_space_mem, 0, rom);
+     dinfo = drive_get(IF_PFLASH, 0, 0);
+     if (!dinfo && !qtest_enabled()) {
+@@ -95,9 +96,9 @@ static void verdex_init(MachineState *machine)
+     }
+ 
+     /* Micron RC28F256P30TFA */
+-    if (!pflash_cfi01_register(0x00000000, "verdex.rom", verdex_rom,
++    if (!pflash_cfi01_register(0x00000000, "verdex.rom", VERDEX_FLASH_SIZE,
+                                dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
+-                               sector_len, 2, 0, 0, 0, 0, 0)) {
++                               FLASH_SECTOR_SIZE, 2, 0, 0, 0, 0, 0)) {
+         error_report("Error registering flash memory");
+         exit(1);
+     }
 -- 
 2.34.1
 
