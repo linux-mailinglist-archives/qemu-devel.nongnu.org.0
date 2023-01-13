@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C967E669DF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:27:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C714669E48
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:37:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGMoo-0006n6-5o; Fri, 13 Jan 2023 11:22:14 -0500
+	id 1pGMoo-0006nA-54; Fri, 13 Jan 2023 11:22:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pGMol-0006g1-AD
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:22:11 -0500
+ id 1pGMom-0006gz-64
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:22:12 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pGMoj-0005mP-BE
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:22:10 -0500
+ id 1pGMok-0005n2-Jv
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:22:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673626927;
+ s=mimecast20190719; t=1673626929;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KAQDfWpLcqoo9B3hgDRi7A7BLl+HhUfF24Yv3pMnP3I=;
- b=PL1uhUBkhlXyD/L9vyAl9Es2nIkJv/3+93WSVDoVK9nDmtXdQfGLV/16coO/rgS/ES0/jU
- h8FAOHRyNSoWySM2YSRXBc5tFQS74ux7Fkm1su5M+69lBSKGE+4tanKrcBUIMdvpb5yTZA
- h6EmsIzYsObrAS2jA3bmrB34zwN+yeg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JWtr3IkFkZPanTUxj9VN9+uXxoW9kIuEKYwCuuJuEQI=;
+ b=HsSNOo5RivpyT5ZhbjddVy/BY7SVTlfLrPt6lK10b2fsd23WJLdpHiJi+OGkqmkPH+ypjS
+ SjucIb8EhlBTrQ+jevJgaUXyiJ9JjBX3oQ6kq9GCOrRKJtuleJIOQM1kyAMwFAY1Xy2XrJ
+ cjNlEFt/deWlsGGf0Z8r/zJEfAAg5A8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-357-vEquTEDoOFu0D4j0Q6cDyQ-1; Fri, 13 Jan 2023 11:22:04 -0500
-X-MC-Unique: vEquTEDoOFu0D4j0Q6cDyQ-1
+ us-mta-449-xcD7qVLjPzC4fMH2km8Zaw-1; Fri, 13 Jan 2023 11:22:05 -0500
+X-MC-Unique: xcD7qVLjPzC4fMH2km8Zaw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7E5280D0F2;
- Fri, 13 Jan 2023 16:22:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE05E3C0D872;
+ Fri, 13 Jan 2023 16:22:04 +0000 (UTC)
 Received: from virtlab420.virt.lab.eng.bos.redhat.com
  (virtlab420.virt.lab.eng.bos.redhat.com [10.19.152.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 744E240C2007;
- Fri, 13 Jan 2023 16:22:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 59E5240C200A;
+ Fri, 13 Jan 2023 16:22:04 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Bandan Das <bsd@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
@@ -53,9 +53,9 @@ Cc: Bandan Das <bsd@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Alexander Bulekov <alxndr@bu.edu>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 5/9] audio: remove empty AUD_remove_card method
-Date: Fri, 13 Jan 2023 11:21:56 -0500
-Message-Id: <20230113162200.3010804-6-berrange@redhat.com>
+Subject: [PATCH 7/9] ui/vnc: don't accept VNC_ENCODING_AUDIO without audiodev
+Date: Fri, 13 Jan 2023 11:21:58 -0500
+Message-Id: <20230113162200.3010804-8-berrange@redhat.com>
 In-Reply-To: <20230113162200.3010804-1-berrange@redhat.com>
 References: <20230113162200.3010804-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -86,133 +86,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since the linked list of QEMUSoundCard structs was removed,
-AUD_remove_card does nothing useful.
+If we have no audio state configured, then we don't want to
+advertize the VNC_ENCODING_AUDIO feature. If a client attempts
+to use it despite being disabled, we should also reject it.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- audio/audio.c        | 4 ----
- audio/audio.h        | 1 -
- hw/audio/ac97.c      | 1 -
- hw/audio/adlib.c     | 1 -
- hw/audio/es1370.c    | 1 -
- hw/audio/gus.c       | 1 -
- hw/audio/hda-codec.c | 1 -
- hw/audio/wm8750.c    | 1 -
- hw/usb/dev-audio.c   | 1 -
- 9 files changed, 12 deletions(-)
+ docs/about/deprecated.rst       |  6 ------
+ docs/about/removed-features.rst |  6 ++++++
+ ui/vnc.c                        | 10 +++++++++-
+ 3 files changed, 15 insertions(+), 7 deletions(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 217095306f..00128c2ad7 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -1833,10 +1833,6 @@ void AUD_register_card (const char *name, QEMUSoundCard *card)
-     }
- }
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index f8b4e19a4c..09269f55e6 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -37,12 +37,6 @@ Creating sound card devices without ``audiodev=`` property (since 4.2)
+ When not using the deprecated legacy audio config, each sound card
+ should specify an ``audiodev=`` property.
  
--void AUD_remove_card (QEMUSoundCard *card)
--{
--}
+-Supporting audio transfer over vnc without ``audiodev=`` property (since 4.2)
+-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 -
- static struct audio_pcm_ops capture_pcm_ops;
+-When using vnc, you should specify an ``audiodev=`` property if you
+-intend to allow clients to request audio transfer through the VNC protocol.
+-
+ Short-form boolean options (since 6.0)
+ ''''''''''''''''''''''''''''''''''''''
  
- CaptureVoiceOut *AUD_add_capture(
-diff --git a/audio/audio.h b/audio/audio.h
-index ebcc540431..8ee0e2159a 100644
---- a/audio/audio.h
-+++ b/audio/audio.h
-@@ -93,7 +93,6 @@ void AUD_vlog (const char *cap, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0)
- void AUD_log (const char *cap, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
+diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+index c918cabd1a..8a8e0faff0 100644
+--- a/docs/about/removed-features.rst
++++ b/docs/about/removed-features.rst
+@@ -422,6 +422,12 @@ the value is hexadecimal.  That is, '0x20M' should be written either as
+ ``tty`` and ``parport`` used to be aliases for ``serial`` and ``parallel``
+ respectively. The actual backend names should be used instead.
  
- void AUD_register_card (const char *name, QEMUSoundCard *card);
--void AUD_remove_card (QEMUSoundCard *card);
- CaptureVoiceOut *AUD_add_capture(
-     AudioState *s,
-     struct audsettings *as,
-diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
-index 364cdfa733..fd8d3abba4 100644
---- a/hw/audio/ac97.c
-+++ b/hw/audio/ac97.c
-@@ -1358,7 +1358,6 @@ static void ac97_exit(PCIDevice *dev)
-     AUD_close_in(&s->card, s->voice_pi);
-     AUD_close_out(&s->card, s->voice_po);
-     AUD_close_in(&s->card, s->voice_mc);
--    AUD_remove_card(&s->card);
- }
++Supporting audio transfer over vnc without ``audiodev=`` property (removed in 8.0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++When using vnc, you should specify an ``audiodev=`` property if you
++intend to allow clients to request audio transfer through the VNC protocol.
++
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
  
- static Property ac97_properties[] = {
-diff --git a/hw/audio/adlib.c b/hw/audio/adlib.c
-index 5f979b1487..79b1b8e271 100644
---- a/hw/audio/adlib.c
-+++ b/hw/audio/adlib.c
-@@ -240,7 +240,6 @@ static void Adlib_fini (AdlibState *s)
+diff --git a/ui/vnc.c b/ui/vnc.c
+index d9eacad759..6b3cbf365e 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -2199,7 +2199,9 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
+             send_ext_key_event_ack(vs);
+             break;
+         case VNC_ENCODING_AUDIO:
+-            send_ext_audio_ack(vs);
++            if (vs->vd->audio_state != NULL) {
++                send_ext_audio_ack(vs);
++            }
+             break;
+         case VNC_ENCODING_WMVi:
+             vs->features |= VNC_FEATURE_WMVI_MASK;
+@@ -2506,6 +2508,12 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
+                           read_u32(data, 4), read_u32(data, 8));
+             break;
+         case VNC_MSG_CLIENT_QEMU_AUDIO:
++            if (vs->vd->audio_state == NULL) {
++                error_report("vnc: QEMU audio client message while disabled");
++                vnc_client_error(vs);
++                break;
++            }
++
+             if (len == 2)
+                 return 4;
  
-     s->active = 0;
-     s->enabled = 0;
--    AUD_remove_card (&s->card);
- }
- 
- static MemoryRegionPortio adlib_portio_list[] = {
-diff --git a/hw/audio/es1370.c b/hw/audio/es1370.c
-index 54cc19a637..9a504db37e 100644
---- a/hw/audio/es1370.c
-+++ b/hw/audio/es1370.c
-@@ -882,7 +882,6 @@ static void es1370_exit(PCIDevice *dev)
-     }
- 
-     AUD_close_in(&s->card, s->adc_voice);
--    AUD_remove_card(&s->card);
- }
- 
- static Property es1370_properties[] = {
-diff --git a/hw/audio/gus.c b/hw/audio/gus.c
-index 42f010b671..c086502708 100644
---- a/hw/audio/gus.c
-+++ b/hw/audio/gus.c
-@@ -263,7 +263,6 @@ static void gus_realizefn (DeviceState *dev, Error **errp)
-         );
- 
-     if (!s->voice) {
--        AUD_remove_card (&s->card);
-         error_setg(errp, "No voice");
-         return;
-     }
-diff --git a/hw/audio/hda-codec.c b/hw/audio/hda-codec.c
-index feb8f9e2bb..f70a6798df 100644
---- a/hw/audio/hda-codec.c
-+++ b/hw/audio/hda-codec.c
-@@ -743,7 +743,6 @@ static void hda_audio_exit(HDACodecDevice *hda)
-             AUD_close_in(&a->card, st->voice.in);
-         }
-     }
--    AUD_remove_card(&a->card);
- }
- 
- static int hda_audio_post_load(void *opaque, int version)
-diff --git a/hw/audio/wm8750.c b/hw/audio/wm8750.c
-index b5722b37c3..b63943dd3e 100644
---- a/hw/audio/wm8750.c
-+++ b/hw/audio/wm8750.c
-@@ -634,7 +634,6 @@ static void wm8750_fini(I2CSlave *i2c)
-     WM8750State *s = WM8750(i2c);
- 
-     wm8750_reset(I2C_SLAVE(s));
--    AUD_remove_card(&s->card);
-     g_free(s);
- }
- #endif
-diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
-index 8748c1ba04..72cc89548e 100644
---- a/hw/usb/dev-audio.c
-+++ b/hw/usb/dev-audio.c
-@@ -934,7 +934,6 @@ static void usb_audio_unrealize(USBDevice *dev)
- 
-     usb_audio_set_output_altset(s, ALTSET_OFF);
-     AUD_close_out(&s->card, s->out.voice);
--    AUD_remove_card(&s->card);
- 
-     streambuf_fini(&s->out.buf);
- }
 -- 
 2.38.1
 
