@@ -2,66 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC4F669AAC
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3FD3669B28
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:59:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKv8-0006a4-LJ; Fri, 13 Jan 2023 09:20:38 -0500
+	id 1pGKwy-0007ix-NP; Fri, 13 Jan 2023 09:22:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kallisti5@unixzen.com>)
- id 1pGKv3-0006VE-N4
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:20:35 -0500
-Received: from mx.dal1.terarocket.io ([108.61.222.170])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kallisti5@unixzen.com>) id 1pGKuz-0005q5-BD
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:20:32 -0500
-Received: by mx.dal1.terarocket.io (Postfix, from userid 1001)
- id 58E495DF10; Fri, 13 Jan 2023 14:20:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx.dal1.terarocket.io 58E495DF10
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=unixzen.com;
- s=default; t=1673619624;
- bh=cLxxRz82cLo30uuPND6kf1r1ya7q2L9jHQ6i40lwx6c=;
- h=Date:From:Subject:To:Cc:In-Reply-To:References:From;
- b=RUM8bRICJxUh4sVwJPwsTc8v6M9Fhv1vqwaKxK8x7MyuIfE4OYw6F2R9/56MWLNHW
- BNrVBZEdbU+fr32w+4wq5lQX/oIe/gBdDyfksRb0Fr7eCMDsnPMexJ6DjLIIOzWNL6
- Q60xyKtHiGxNmCs47OsXLR8dSp101sjFSN5UXN6Y=
-Received: from mx.dal1.terarocket.io (localhost [IPv6:::1])
- by mx.dal1.terarocket.io (Postfix) with ESMTPSA id 20CD05DD09;
- Fri, 13 Jan 2023 14:20:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx.dal1.terarocket.io 20CD05DD09
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=unixzen.com;
- s=default; t=1673619622;
- bh=cLxxRz82cLo30uuPND6kf1r1ya7q2L9jHQ6i40lwx6c=;
- h=Date:From:Subject:To:Cc:In-Reply-To:References:From;
- b=Lc6+kXLwKGFSbK7l0vxTOu9AfnI4WQp7A0OUj5jWLwlB5LOGEOpf1V30tQmU5vuIK
- KvDTPoMVqYp9Hfbp4ZmlOwHKC1tHLPknf94EYkzVhI1BfNXpDQLaTSc8oYN/y+PgFK
- gKQpUE9qzLgPxTHNfJxiKRp6rxnjsqezL2hM4mDI=
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pGKwq-0007gM-HX
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:22:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pGKwm-0006Qt-Fx
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:22:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673619738;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lp2RZ1DNWGnPOCNuTdafHAOiadCqKFsfZ5OfEbcFHeA=;
+ b=RY5AMnqq3iw1xdJY7uMkJ4alpE70Qrmu/LKP6D4oaHTEl5p0a14lSwjBD2yf+0XEebV66m
+ FexpA4tac2EF/5CRHTtihMi+aOccsCtfVFrVuIVduk3gp/TJVXVyvNDEppPtd/LImZVGdS
+ eXIk9GSBG8kqWCuPj4yRaUGj5RcHTqA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-264-qflQDedDNMm8myVapyGrTA-1; Fri, 13 Jan 2023 09:22:16 -0500
+X-MC-Unique: qflQDedDNMm8myVapyGrTA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ g9-20020a7bc4c9000000b003d214cffa4eso4944520wmk.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:22:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lp2RZ1DNWGnPOCNuTdafHAOiadCqKFsfZ5OfEbcFHeA=;
+ b=eg0tl77QJVhIhVC03gctK104KHOfkM7ckoOdPk7K7rYJrbKJczNWDJ7q5GHFFDcQ5l
+ pvxfr/Ji3KtMPSo++li2D+cTnbA422n69+tBAWzGg1cxkPIDH80eiD7R9xMAOmNMqBGH
+ JkyYSjjXA2undKzBvcLNU3J3bHCUAq9+hr4Y4Xzn4jjJgH7/bixuwBZ7Q4h4j8SH0tWf
+ /mKIw4M9SQQznUdRzS41b1JFXKzMgr5T5q+Q0kRb+z5AXrTFxVEG+9qlalskqcJXl+QB
+ WcgSVyDEcXTLIyKhTnUMOzpYgR5eaKqhXRY4q++SDwil025+4EY6vnvmErSaw0Qvmg96
+ wb4g==
+X-Gm-Message-State: AFqh2kprc8jb+zG0O1u/770IxpBT1ubvBQkqssLtyfWrHHIvoHx2//Cy
+ 9yVjZ7X0Sx2xASdxAseWlDsZDl6XNPwJUhBPWgT86X/Nw9FU8SHf1ErcHqVqKGk2KFWfO6Q31PG
+ nKtyKyQHEcrAmcRE=
+X-Received: by 2002:a05:600c:1d28:b0:3d2:1d51:246e with SMTP id
+ l40-20020a05600c1d2800b003d21d51246emr61861525wms.9.1673619735705; 
+ Fri, 13 Jan 2023 06:22:15 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtn6sHp/nXLTcLfdndlwN5d4RPk9Nss7697G4Lu3DnPztr0BWjBInN1Z6ZWYm9ZQXJDmI5DrQ==
+X-Received: by 2002:a05:600c:1d28:b0:3d2:1d51:246e with SMTP id
+ l40-20020a05600c1d2800b003d21d51246emr61861501wms.9.1673619735500; 
+ Fri, 13 Jan 2023 06:22:15 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-39.web.vodafone.de.
+ [109.43.177.39]) by smtp.gmail.com with ESMTPSA id
+ p3-20020a05600c358300b003d1f2c3e571sm33110641wmq.33.2023.01.13.06.22.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Jan 2023 06:22:14 -0800 (PST)
+Message-ID: <81895ce0-ce46-bdff-9865-0721dd4accf1@redhat.com>
+Date: Fri, 13 Jan 2023 15:22:12 +0100
 MIME-Version: 1.0
-Date: Fri, 13 Jan 2023 14:20:22 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: RainLoop/1.13.0
-From: "Alexander von Gluck IV" <kallisti5@unixzen.com>
-Message-ID: <5cb4fd7bbcd0d539fc9430e45fe14fe2@unixzen.com>
-Subject: Re: [PATCH] tests/vm: Update haiku test vm to R1/Beta3
-To: "=?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?=" <philmd@linaro.org>,
- "Thomas Huth" <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org
-In-Reply-To: <27512349-0007-11bd-07fb-5fd8c3dae879@linaro.org>
-References: <27512349-0007-11bd-07fb-5fd8c3dae879@linaro.org>
- <20220216154208.2985103-1-kallisti5@unixzen.com>
- <2d548e30-11eb-6f64-b082-25e5ff546309@redhat.com>
- <df446205-d3bc-5c1c-eb3c-bb475590e713@linaro.org>
-Received-SPF: pass client-ip=108.61.222.170;
- envelope-from=kallisti5@unixzen.com; helo=mx.dal1.terarocket.io
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [RFC PATCH v3 21/28] tests/qtest: Skip tests that depend on TCG
+ when CONFIG_TCG=n
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20230113140419.4013-1-farosas@suse.de>
+ <20230113140419.4013-22-farosas@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230113140419.4013-22-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,48 +107,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-January 13, 2023 7:30 AM, "Philippe Mathieu-Daud=C3=A9" <philmd@linaro.or=
-g> wrote:=0A=0A> On 13/1/23 12:05, Philippe Mathieu-Daud=C3=A9 wrote:=0A>=
- =0A>> On 14/12/22 11:47, Thomas Huth wrote:=0A>>> On 16/02/2022 16.42, A=
-lexander von Gluck IV wrote:=0A>> =0A>> ---=0A>> tests/vm/haiku.x86_64 | =
-8 ++++----=0A>> 1 file changed, 4 insertions(+), 4 deletions(-)=0A>>> [..=
-.]=0A>> =0A>> @@ -48,8 +48,8 @@ class HaikuVM(basevm.BaseVM):=0A>> name =
-=3D "haiku"=0A>> arch =3D "x86_64"=0A>> -    link =3D >>>=0A>> "https://a=
-pp.vagrantup.com/haiku-os/boxes/r1beta2-x86_64/versions/20200702/provider=
-s/libvirt.box"=0A>> -    csum =3D >>> "41c38b316e0cbdbc66b5dbaf3612b86670=
-0a4f35807cb1eb266a5bf83e9e68d5"=0A>> +    link =3D >>>=0A>> "https://app.=
-vagrantup.com/haiku-os/boxes/r1beta3-x86_64/versions/20220216/providers/l=
-ibvirt.box"=0A>> +    csum =3D >>> "e67d4aacbcc687013d5cc91990ddd86cc5d70=
-a5d28432ae2691944f8ce5d5041"=0A>>> Hi Alexander!=0A>>> =0A>>> The Haiku V=
-M started again to fail, I'm getting these error messages now:=0A>>> =0A>=
->> Encountered problems:=0A>>> problem 1: nothing provides haiku>=3Dr1~be=
-ta4_hrev56578_4-1 needed by >> glib2_devel-2.75.0-1=0A>>> solution 1:=0A>=
->> - do not install "providing devel:libglib_2.0"=0A>>> problem 2: nothin=
-g provides haiku>=3Dr1~beta4_hrev56578_31-1 needed by >> gettext-0.21.1-2=
-=0A>>> solution 1:=0A>>> - do not install "providing devel:libintl"=0A>>>=
- problem 3: nothing provides haiku>=3Dr1~beta4_hrev56578_31-1 needed by >=
-> curl-7.85.0-2=0A>>> solution 1:=0A>>> - do not install "providing devel=
-:libcurl"=0A>>> problem 4: nothing provides haiku>=3Dr1~beta4_hrev56578_3=
-1-1 needed by >> gnutls-3.7.8-1=0A>>> solution 1:=0A>>> - do not install =
-"providing devel:libgnutls"=0A>>> problem 5: nothing provides haiku>=3Dr1=
-~beta4_hrev56578_4-1 needed by >> glib2-2.75.0-1=0A>>> solution 1:=0A>>> =
-- do not install "providing devel:libslirp"=0A>>> =0A>>> Does it need an =
-update to a newer version of Haiku?=0A>> =0A>> Per https://www.haiku-os.o=
-rg/guides/daily-tasks/updating-system we=0A>> can keep the box image in s=
-ync with its repo by using:=0A>> # pkgman add https://eu.hpkg.haiku-os.or=
-g/haiku/r1beta3/$(getarch)/current=0A>> I will try this:=0A>> -- >8 --=0A=
->> diff --git a/tests/vm/haiku.x86_64 b/tests/vm/haiku.x86_64=0A>> index =
-29668bc272..9cbb46cfc1 100755=0A>> --- a/tests/vm/haiku.x86_64=0A>> +++ b=
-/tests/vm/haiku.x86_64=0A>> @@ -112,2 +112,4 @@ class HaikuVM(basevm.Base=
-VM):=0A>> # Install packages=0A>> +        self.ssh_root("pkgman add > ht=
-tps://eu.hpkg.haiku-os.org/haiku/r1beta3/x86_64/current")=0A>> +        s=
-elf.ssh_root("pkgman full-sync")=0A>> self.ssh_root("pkgman install -y %s=
-" % " > ".join(self.requirements))=0A>> ---=0A> =0A> OS installed but is =
-not usable...:=0A> =0A> runtime_loader: /boot/system/lib/libncurses.so.6.=
-3.0: Could not resolve symbol '__ctype_b_loc'=0A> resolve symbol "__ctype=
-_b_loc" returned: -2147478780=0A> runtime_loader: /boot/system/lib/libncu=
-rses.so.6.3.0: Troubles relocating: Symbol not found=0A> Connection to 12=
-7.0.0.1 closed.=0A=0AGood morning!=0A=0A=0AI'll work on this one.=0Ar1/be=
-ta4 came out a few weeks ago and I need to update the Vagrant image these=
- are based on.=0A=0A=0A -- Alex
+On 13/01/2023 15.04, Fabiano Rosas wrote:
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> ---
+>   tests/qtest/arm-cpu-features.c | 24 ++++++++++++++++++++++++
+>   1 file changed, 24 insertions(+)
+> 
+> diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+> index 4be1415823..9a052e41fc 100644
+> --- a/tests/qtest/arm-cpu-features.c
+> +++ b/tests/qtest/arm-cpu-features.c
+> @@ -217,6 +217,15 @@ static void assert_bad_props(QTestState *qts, const char *cpu_type)
+>       qobject_unref(resp);
+>   }
+>   
+> +static bool tcg_disabled(void)
+> +{
+> +#ifndef CONFIG_TCG
+> +    return true;
+> +#else
+> +    return false;
+> +#endif
+> +}
+> +
+>   static uint64_t resp_get_sve_vls(QDict *resp)
+>   {
+>       QDict *props;
+> @@ -338,6 +347,11 @@ static void sve_tests_sve_max_vq_8(const void *data)
+>   {
+>       QTestState *qts;
+>   
+> +    if (tcg_disabled()) {
+> +        g_test_skip("TCG support disabled in this build");
+> +        return;
+> +    }
+
+Could you please use qtest_has_accel("tcg") instead? ... that's what we use 
+in other spots in the qtests for checking for valid accelerators already.
+
+  Thanks,
+   Thomas
+
 
