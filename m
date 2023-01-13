@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47668669A12
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:28:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 176D46699ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:19:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKiY-0006zb-PH; Fri, 13 Jan 2023 09:07:38 -0500
+	id 1pGKif-00074b-UW; Fri, 13 Jan 2023 09:07:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGKiU-0006xo-Vj; Fri, 13 Jan 2023 09:07:35 -0500
+ id 1pGKie-00074M-IF; Fri, 13 Jan 2023 09:07:44 -0500
 Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGKiT-0002mA-Ed; Fri, 13 Jan 2023 09:07:34 -0500
+ id 1pGKia-0002nL-1X; Fri, 13 Jan 2023 09:07:41 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 615E86069B;
- Fri, 13 Jan 2023 14:07:31 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 237255D6FF;
+ Fri, 13 Jan 2023 14:07:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673618851; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1673618858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tsVab1v7flwJwn2herGnIiPeja3V6sloYUiKLt3jrmY=;
- b=H76Yj/QvENq5JsalBRsPQDCGB+WVDe+NnksPch/VLXNLMcPtLK0GWdLXppGkuZjC62UQAC
- c/fyFvswOKRR11RKEFIytnIFjxAYaitATLcLUvd7p0yh9FjvyHW+lbHJ7LS6o7Pk3llqu2
- Fss1ZR6EcBSIDJphm1X4hXd72laQ2HM=
+ bh=43Vb2eVEM42+G2dsOM6a3AIXh1asg0rkcfl8Hv/lG+k=;
+ b=TiKNpqU86v6JeZFG/xEEa73RJbE8StmpWmWC4D6JP9R9nPSV1EsxoriSHUkyQkUU0JPqJ5
+ IVGapQaNA8vgUmP3oWUTUmV8OY8It2/YK8DYNfy0UjUhLSlQZySPxMEL0Rly80S+XDdIvh
+ 6zR0sH/L1Pb4bpgzDbN/je5eVUItRkc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673618851;
+ s=susede2_ed25519; t=1673618858;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tsVab1v7flwJwn2herGnIiPeja3V6sloYUiKLt3jrmY=;
- b=coboO5VhYHWQvk8jfWqOeHWt7cOnefaWcMkK0eJ9K/SDmySMEcpB8V3DXbBOx5bS7Db/XV
- CRW9L4GeUu3ANCCw==
+ bh=43Vb2eVEM42+G2dsOM6a3AIXh1asg0rkcfl8Hv/lG+k=;
+ b=zQc7/UgYldFU7M7uXoVwBpypxR8HnGeJFsJIKBvdfXdciSE3rrX/BnhfizRgYEqgI/OAcs
+ nK0Z9/Y5uBAqYDBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5FEE71358A;
- Fri, 13 Jan 2023 14:07:28 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4B4D91358A;
+ Fri, 13 Jan 2023 14:07:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4L6mCqBlwWP8DQAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 13 Jan 2023 14:07:28 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id KO1nBadlwWP8DQAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 13 Jan 2023 14:07:35 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,11 +57,11 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [RFC PATCH v3 21/28] tests/qtest: Skip tests that depend on TCG when
- CONFIG_TCG=n
-Date: Fri, 13 Jan 2023 11:04:12 -0300
-Message-Id: <20230113140419.4013-22-farosas@suse.de>
+ Thomas Huth <thuth@redhat.com>
+Subject: [RFC PATCH v3 23/28] tests/tcg: Do not build/run TCG tests if TCG is
+ disabled
+Date: Fri, 13 Jan 2023 11:04:14 -0300
+Message-Id: <20230113140419.4013-24-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230113140419.4013-1-farosas@suse.de>
 References: <20230113140419.4013-1-farosas@suse.de>
@@ -91,67 +91,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The tests under tests/tcg depend on the TCG accelerator. Do not build
+them if --disable-tcg was given in the configure line.
+
+Test against CONFIG_TCG='' instead of CONFIG_TCG=y to account for
+CONFIG_TCG=m.
+
+sample output:
+
+$ make check-tcg
+  GIT     ui/keycodemapdb meson dtc
+  SKIPPED x86_64-softmmu guest-tests because TCG is disabled in this build
+
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/qtest/arm-cpu-features.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ configure              |  4 ++++
+ tests/Makefile.include | 10 ++++++++++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index 4be1415823..9a052e41fc 100644
---- a/tests/qtest/arm-cpu-features.c
-+++ b/tests/qtest/arm-cpu-features.c
-@@ -217,6 +217,15 @@ static void assert_bad_props(QTestState *qts, const char *cpu_type)
-     qobject_unref(resp);
- }
+diff --git a/configure b/configure
+index 9e407ce2e3..a6f9892757 100755
+--- a/configure
++++ b/configure
+@@ -2352,6 +2352,10 @@ if test "$plugins" = "yes" ; then
+     echo "CONFIG_PLUGIN=y" >> $config_host_mak
+ fi
  
-+static bool tcg_disabled(void)
-+{
-+#ifndef CONFIG_TCG
-+    return true;
-+#else
-+    return false;
-+#endif
-+}
++if test "$tcg" = "enabled" ; then
++    echo "CONFIG_TCG=y" >> $config_host_mak
++fi
 +
- static uint64_t resp_get_sve_vls(QDict *resp)
- {
-     QDict *props;
-@@ -338,6 +347,11 @@ static void sve_tests_sve_max_vq_8(const void *data)
- {
-     QTestState *qts;
+ if test -n "$gdb_bin"; then
+     gdb_version=$($gdb_bin --version | head -n 1)
+     if version_ge ${gdb_version##* } 9.1; then
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 9422ddaece..aa0e610cf2 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -45,6 +45,7 @@ RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TCG_TESTS_TARGETS))
+ $(foreach TARGET,$(TCG_TESTS_TARGETS), \
+         $(eval $(BUILD_DIR)/tests/tcg/config-$(TARGET).mak: config-host.mak))
  
-+    if (tcg_disabled()) {
-+        g_test_skip("TCG support disabled in this build");
-+        return;
-+    }
++ifneq ($(CONFIG_TCG),)
+ .PHONY: $(TCG_TESTS_TARGETS:%=build-tcg-tests-%)
+ $(TCG_TESTS_TARGETS:%=build-tcg-tests-%): build-tcg-tests-%: $(BUILD_DIR)/tests/tcg/config-%.mak
+ 	$(call quiet-command, \
+@@ -56,6 +57,15 @@ $(TCG_TESTS_TARGETS:%=run-tcg-tests-%): run-tcg-tests-%: build-tcg-tests-%
+ 	$(call quiet-command, \
+            $(MAKE) -C tests/tcg/$* $(SUBDIR_MAKEFLAGS) SPEED=$(SPEED) run, \
+         "RUN", "$* guest-tests")
++else
++.PHONY: $(TCG_TESTS_TARGETS:%=build-tcg-tests-%)
++$(TCG_TESTS_TARGETS:%=build-tcg-tests-%):
++	@echo "  SKIPPED $(subst build-tcg-tests-,,$@) guest-tests because TCG is disabled in this build"
 +
-     qts = qtest_init(MACHINE "-cpu max,sve-max-vq=8");
++.PHONY: $(TCG_TESTS_TARGETS:%=run-tcg-tests-%)
++$(TCG_TESTS_TARGETS:%=run-tcg-tests-%):
++	@echo "  SKIPPED $(subst run-tcg-tests-,,$@) guest-tests because TCG is disabled in this build"
++endif
  
-     assert_sve_vls(qts, "max", BIT_ULL(8) - 1, NULL);
-@@ -373,6 +387,11 @@ static void sve_tests_sve_off(const void *data)
- {
-     QTestState *qts;
- 
-+    if (tcg_disabled()) {
-+        g_test_skip("TCG support is disabled in this build");
-+        return;
-+    }
-+
-     qts = qtest_init(MACHINE "-cpu max,sve=off");
- 
-     /* SVE is off, so the map should be empty. */
-@@ -429,6 +448,11 @@ static void test_query_cpu_model_expansion(const void *data)
- {
-     QTestState *qts;
- 
-+    if (tcg_disabled()) {
-+        g_test_skip("TCG support disabled in this build");
-+        return;
-+    }
-+
-     qts = qtest_init(MACHINE "-cpu max");
- 
-     /* Test common query-cpu-model-expansion input validation */
+ .PHONY: $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%)
+ $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%): clean-tcg-tests-%:
 -- 
 2.35.3
 
