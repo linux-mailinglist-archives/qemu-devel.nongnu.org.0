@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BA866A0FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:45:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03EBA66A0FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:46:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGO0G-000605-Jy; Fri, 13 Jan 2023 12:38:08 -0500
+	id 1pGO26-0006wU-5w; Fri, 13 Jan 2023 12:40:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pGO01-0005cx-IV; Fri, 13 Jan 2023 12:37:59 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+ id 1pGO23-0006rB-F5; Fri, 13 Jan 2023 12:39:59 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pGNzz-0006FE-PJ; Fri, 13 Jan 2023 12:37:53 -0500
-Received: by mail-ej1-x633.google.com with SMTP id u9so53984034ejo.0;
- Fri, 13 Jan 2023 09:37:49 -0800 (PST)
+ id 1pGO21-0006Wn-RY; Fri, 13 Jan 2023 12:39:59 -0500
+Received: by mail-ej1-x631.google.com with SMTP id hw16so42097925ejc.10;
+ Fri, 13 Jan 2023 09:39:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GDy8bJ/Gv2qqj+xAOHoFWy6kzv9BYh/XQshZdn4QF+s=;
- b=IU016H8Gb6vz4jht0eC/NwvtnV91l/Wi+xAOLwFOlmPXvTnxyNzWKfwG4zoOgib3k8
- QfcwAbybjyduKtZl1k03JII5cLpVIGCIr/ohj2Tp3XqW5hXixuHAz3QAtqBHt4ungRVP
- BhrbGlnZdGnp4jv+TGo/FLmJ1MtrwbZiO7TuEcal09/fLCmUcaD0vcm37zaAcW1yksu2
- WT07wvFsp9RM1x+Gerzhojb5QIWJZIxnwWf1XXkifFRkFQdFjpWVz4SYB+/GsEb4SQcB
- KT4xLXsxJv56EXVrnAX6WDqSeal++gVfl07JUfTZYEW8sgK/W+K98wUR97zO+HMXw7a8
- IyAQ==
+ bh=a4gsTQIvLj7ZT9NxoFXotiU6l+tlKKcOwFH7nkSFJwU=;
+ b=T5xWv6wNHbWxLgyWvbY0mBiyBQH8wbj+40rtDmBoQ/luKORKGweGx3/tdXIIhJYDZi
+ cXwp78t62w7waP47pLt+/tjWHvXL9HKc5kkrWpPyicMCeF0TL5f8BicmlqWNKw/vqMEE
+ M73MLL0UO/vz1rBSFKMjIZvqYknp8Lcr67oq5t2FeZvjQOJh0O8SaR8XjBuDg3GNu/2z
+ pAqmkcEchhQ+O7ohyvqq20VPJxN1rBZZIs767rnndd4iYXb/hPkds/SJUwW7WQOWsNXq
+ HBZPjOaiyxAnho4GGLQix4zcOMZHKZjvp5AreetMYt9Cjj2VCXZQslKo0ZYJF3RojKT1
+ Cf2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GDy8bJ/Gv2qqj+xAOHoFWy6kzv9BYh/XQshZdn4QF+s=;
- b=cSB/5SSXlZwEG5MjZdWUyqaUeowfeYH8IhDHaSmc4bzPuNd3wT3GWyMWdo0AbRESms
- MCzc+qHAH5kpLPD86vNsEhfkM0euvCG1HRCyUa3KDWlgiEvI5L2gqYs3G82EgvANKt2d
- fvUo+AGJFXHvuq0bNGTQYO67Vg4NnAzZUK6gqkYm/uhn2HtxuaV4ybdlinDYcDxv9yoA
- RTmvBYakIX8UEzheO0j+dGSnbm9Sw47pCV/ht7W4ryc7rr47rs08jaGf7OoZARCqPdun
- nUvFoiuH3vh/gxk8WnYfxHp1kCMUYG3xbm0YyJoSFItGMV76w1JSfxrQnRRnuok8JNms
- C0Yw==
-X-Gm-Message-State: AFqh2kpMg97N1JX03kZ/lvdvBfYc5wpVd/KifneKdT7pfwxkdvn8iLFc
- Hdd3FiIjbhpMRK41fLYcNQU=
-X-Google-Smtp-Source: AMrXdXtKHxZEuyAdWNHHUHcElOdnm24bqRKiXUJgxXX2pKtXC2XXSU5nfAd+SM6hOU7dnpMlxwSBVw==
-X-Received: by 2002:a17:907:7b88:b0:84d:465f:d2fe with SMTP id
- ne8-20020a1709077b8800b0084d465fd2femr18102339ejc.41.1673631468883; 
- Fri, 13 Jan 2023 09:37:48 -0800 (PST)
+ bh=a4gsTQIvLj7ZT9NxoFXotiU6l+tlKKcOwFH7nkSFJwU=;
+ b=6LxH5rykSh6mPkT78YrFWYEjz0d/SYv3qDpKp0UgU5U/qxhZuLMGaJMC2klE/ilm1v
+ 3vt+m8IngxyrB0S3Kx64tkExPq+1gCPz43zv+pjIp3y58JISZAFE4BMcz7OJ9cdshvei
+ 9wl+6peeeEESDfV4P13R5hCzmqJ58I7Wct5uQdzXbSPDnX2nSUAevgp/D1ghCA8qM9mU
+ yW5mMvdNIvs8TbKtLMDOmVVCYXkjOloIfKrE7W+jqoIAUkCzgDTaK+zsP5xGPL8g11Cj
+ FcJTKmbDHtFFcg+obon8hWs/ythPK+szf//yUA7hXPJ53+BQwAOuJUfCwocPwXVbPDTn
+ +exg==
+X-Gm-Message-State: AFqh2kqKejPA2w1HdpaOGaBdjwv6DzOwHlJfukLqUG6wMhcwD4qgFEkl
+ vblIH7TGTatvkZJqqwPKA98=
+X-Google-Smtp-Source: AMrXdXtEL1mQhKcBVdYIZrok5BNi7NJqiPutzZ5HnZAOPSfFXWO8pE2TXWoSWt6EFjuQyDBjZi4piw==
+X-Received: by 2002:a17:907:d044:b0:84d:328b:1b3e with SMTP id
+ vb4-20020a170907d04400b0084d328b1b3emr4366453ejc.57.1673631592087; 
+ Fri, 13 Jan 2023 09:39:52 -0800 (PST)
 Received: from [127.0.0.1] (dynamic-089-012-135-037.89.12.pool.telefonica.de.
  [89.12.135.37]) by smtp.gmail.com with ESMTPSA id
- u1-20020a1709061da100b0086b7ffb3b92sm509900ejh.205.2023.01.13.09.37.48
+ g3-20020a1709067c4300b007c0a7286ac8sm8792658ejp.69.2023.01.13.09.39.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 09:37:48 -0800 (PST)
-Date: Fri, 13 Jan 2023 17:37:39 +0000
+ Fri, 13 Jan 2023 09:39:51 -0800 (PST)
+Date: Fri, 13 Jan 2023 17:39:45 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -69,19 +69,17 @@ CC: John G Johnson <john.g.johnson@oracle.com>,
  =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
  =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v6_04/33=5D_hw/pci/pci=3A_Factor_o?=
- =?US-ASCII?Q?ut_pci=5Fbus=5Fmap=5Firqs=28=29_from_pci=5Fbus=5Firqs=28=29?=
-In-Reply-To: <0b7cf41c-6fca-f8d9-e8c2-0a1cfea2c51e@linaro.org>
+Subject: Re: [PATCH v6 00/33] Consolidate PIIX south bridges
+In-Reply-To: <211e791a-9d37-9655-ca93-9e3bda2e21c3@linaro.org>
 References: <20230109172347.1830-1-shentey@gmail.com>
- <20230109172347.1830-5-shentey@gmail.com>
- <0b7cf41c-6fca-f8d9-e8c2-0a1cfea2c51e@linaro.org>
-Message-ID: <4D077DB6-9595-4487-ACCE-84CFB1D73AC1@gmail.com>
+ <211e791a-9d37-9655-ca93-9e3bda2e21c3@linaro.org>
+Message-ID: <6D8095E7-E540-4D7E-B976-D71522F8664A@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,111 +104,72 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 13=2E Januar 2023 10:13:29 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <p=
+Am 13=2E Januar 2023 08:46:53 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <p=
 hilmd@linaro=2Eorg>:
+>Hi Bernhard,
+>
 >On 9/1/23 18:23, Bernhard Beschow wrote:
->> pci_bus_irqs() coupled together the assignment of pci_set_irq_fn and
->> pci_map_irq_fn to a PCI bus=2E This coupling gets in the way when the
->> pci_map_irq_fn is board-specific while the pci_set_irq_fn is device-
->> specific=2E
+>> This series consolidates the implementations of the PIIX3 and PIIX4 sou=
+th
+>> bridges and is an extended version of [1]=2E The motivation is to share=
+ as much
+>> code as possible and to bring both device models to feature parity such=
+ that
+>> perhaps PIIX4 can become a drop-in-replacement for PIIX3 in the pc mach=
+ine=2E This
+>> could resolve the "Frankenstein" PIIX4-PM problem in PIIX3 discussed on=
+ this
+>> list before=2E
+>
+>> Bernhard Beschow (30):
+>>    hw/pci/pci: Factor out pci_bus_map_irqs() from pci_bus_irqs()
+>>    hw/isa/piix3: Decouple INTx-to-LNKx routing which is board-specific
+>>    hw/isa/piix4: Decouple INTx-to-LNKx routing which is board-specific
+>>    hw/mips/Kconfig: Track Malta's PIIX dependencies via Kconfig
+>>    hw/usb/hcd-uhci: Introduce TYPE_ defines for device models
+>>    hw/intc/i8259: Make using the isa_pic singleton more type-safe
+>>    hw/intc/i8259: Introduce i8259 proxy TYPE_ISA_PIC
+>>    hw/i386/pc: Create RTC controllers in south bridges
+>>    hw/i386/pc: No need for rtc_state to be an out-parameter
+>>    hw/i386/pc_piix: Allow for setting properties before realizing PIIX3
+>>      south bridge
+>>    hw/isa/piix3: Create USB controller in host device
+>>    hw/isa/piix3: Create power management controller in host device
+>>    hw/isa/piix3: Create TYPE_ISA_PIC in host device
+>>    hw/isa/piix3: Create IDE controller in host device
+>>    hw/isa/piix3: Wire up ACPI interrupt internally
+>>    hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS
+>>    hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4
+>>    hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4
+>>    hw/isa/piix3: Drop the "3" from PIIX base class
+>>    hw/isa/piix4: Make PIIX4's ACPI and USB functions optional
+>>    hw/isa/piix4: Remove unused inbound ISA interrupt lines
+>>    hw/isa/piix4: Use TYPE_ISA_PIC device
+>>    hw/isa/piix4: Reuse struct PIIXState from PIIX3
+>>    hw/isa/piix4: Rename reset control operations to match PIIX3
+>>    hw/isa/piix3: Merge hw/isa/piix4=2Ec
+>>    hw/isa/piix: Harmonize names of reset control memory regions
+>>    hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4
+>>    hw/isa/piix: Rename functions to be shared for interrupt triggering
+>>    hw/isa/piix: Consolidate IRQ triggering
+>>    hw/isa/piix: Share PIIX3's base class with PIIX4
 >>=20
->> For example, both of QEMU's PIIX south bridge models have different
->> pci_map_irq_fn implementations which are board-specific rather than
->> device-specific=2E These implementations should therefore reside in boa=
-rd
->> code=2E The pci_set_irq_fn's, however, should stay in the device models
->> because they access memory internal to the model=2E
->>=20
->> Factoring out pci_bus_map_irqs() from pci_bus_irqs() allows the
->> assignments to be decoupled, resolving the problem described above=2E
->>=20
->> Note also how pci_vpb_realize() which gets touched in this commit
->> assigns different pci_map_irq_fn's depending on the board=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->> Reviewed-by: Michael S=2E Tsirkin <mst@redhat=2Ecom>
->> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
->> ---
->>   include/hw/pci/pci=2Eh    |  3 ++-
->>   hw/i386/pc_q35=2Ec        |  4 ++--
->>   hw/isa/piix3=2Ec          |  8 ++++----
->>   hw/isa/piix4=2Ec          |  3 ++-
->>   hw/pci-host/raven=2Ec     |  3 ++-
->>   hw/pci-host/versatile=2Ec |  3 ++-
->>   hw/pci/pci=2Ec            | 12 +++++++++---
->>   hw/remote/machine=2Ec     |  3 ++-
->>   8 files changed, 25 insertions(+), 14 deletions(-)
->>=20
->> diff --git a/include/hw/pci/pci=2Eh b/include/hw/pci/pci=2Eh
->> index 7048a373d1=2E=2E85ee458cd2 100644
->> --- a/include/hw/pci/pci=2Eh
->> +++ b/include/hw/pci/pci=2Eh
->> @@ -282,8 +282,9 @@ PCIBus *pci_root_bus_new(DeviceState *parent, const=
- char *name,
->>                            MemoryRegion *address_space_io,
->>                            uint8_t devfn_min, const char *typename);
->>   void pci_root_bus_cleanup(PCIBus *bus);
->> -void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq, pci_map_irq_fn =
-map_irq,
->> +void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq,
->>                     void *irq_opaque, int nirq);
->> +void pci_bus_map_irqs(PCIBus *bus, pci_map_irq_fn map_irq);
+>> Philippe Mathieu-Daud=C3=A9 (3):
+>>    hw/mips/malta: Introduce PIIX4_PCI_DEVFN definition
+>>    hw/mips/malta: Set PIIX4 IRQ routes in embedded bootloader
+>>    hw/isa/piix4: Correct IRQRC[A:D] reset values
 >
->I'm squashing:
->
->-- >8 --
->diff --git a/hw/remote/vfio-user-obj=2Ec b/hw/remote/vfio-user-obj=2Ec
->index fe1fdfb5f7=2E=2E46171f22f7 100644
->--- a/hw/remote/vfio-user-obj=2Ec
->+++ b/hw/remote/vfio-user-obj=2Ec
->@@ -667,4 +667,4 @@ void vfu_object_set_bus_irq(PCIBus *pci_bus)
->
->-    pci_bus_irqs(pci_bus, vfu_object_set_irq, vfu_object_map_irq, pci_bu=
-s,
->-                 max_bdf);
->+    pci_bus_irqs(pci_bus, vfu_object_set_irq, , pci_bus, max_bdf);
->+    pci_bus_map_irqs(pci_bus, vfu_object_map_irq);
-> }
->---
->
->to fix:
->
->=2E=2E/hw/remote/vfio-user-obj=2Ec: In function =E2=80=98vfu_object_set_b=
-us_irq=E2=80=99:
->=2E=2E/hw/remote/vfio-user-obj=2Ec:668:67: error: passing argument 4 of =
-=E2=80=98pci_bus_irqs=E2=80=99 makes integer from pointer without a cast [-=
-Werror=3Dint-conversion]
->     pci_bus_irqs(pci_bus, vfu_object_set_irq, vfu_object_map_irq, pci_bu=
-s,
->                                                                   ^~~~~~=
-~
->In file included from include/hw/pci/pci_device=2Eh:4,
->                 from include/hw/remote/iohub=2Eh:14,
->                 from include/hw/remote/machine=2Eh:18,
->                 from =2E=2E/hw/remote/vfio-user-obj=2Ec:43:
->include/hw/pci/pci=2Eh:286:41: note: expected =E2=80=98int=E2=80=99 but a=
-rgument is of type =E2=80=98PCIBus *=E2=80=99 {aka =E2=80=98struct PCIBus *=
-=E2=80=99}
->                   void *irq_opaque, int nirq);
->                                     ~~~~^~~~
->=2E=2E/hw/remote/vfio-user-obj=2Ec:668:5: error: too many arguments to fu=
-nction =E2=80=98pci_bus_irqs=E2=80=99
->     pci_bus_irqs(pci_bus, vfu_object_set_irq, vfu_object_map_irq, pci_bu=
-s,
->     ^~~~~~~~~~~~
->In file included from include/hw/pci/pci_device=2Eh:4,
->                 from include/hw/remote/iohub=2Eh:14,
->                 from include/hw/remote/machine=2Eh:18,
->                 from =2E=2E/hw/remote/vfio-user-obj=2Ec:43:
->include/hw/pci/pci=2Eh:285:6: note: declared here
-> void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq,
->      ^~~~~~~~~~~~
->
+>I'm queuing the first 10 patches for now to alleviate the size of this
+>series, and I'll respin a v7 with the rest to avoid making you suffer
+>any longer :/ Thanks for insisting in this effort and I apologize it
+>is taking me so long=2E=2E=2E
 
-Thanks!
+Okay=2E=2E=2E What's the further plan? Is there anything missing?
 
-I've missed enabling vfio-user-server for my builds=2E Fixed now=2E
-
-Best regards,
+Thanks,
 Bernhard
+>
+>Regards,
+>
+>Phil=2E
 
