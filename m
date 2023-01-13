@@ -2,88 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD8D669B81
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 16:11:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB29D669B7F
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 16:10:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGLGm-000224-RP; Fri, 13 Jan 2023 09:43:00 -0500
+	id 1pGLJB-0003Mb-LN; Fri, 13 Jan 2023 09:45:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGLGj-0001uc-Ei
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:42:57 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
+ id 1pGLJ9-0003Lx-2U
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:45:27 -0500
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGLGh-0001OY-Ne
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:42:57 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id bk16so21251395wrb.11
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:42:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PAlvBiYpAKfSZQu+t9WGZ+3cXmxbPgKUUNeBoA3fAF8=;
- b=ParyJ4xbVr1lrXZWtvwJtf7HYZkwMs+Q3d6M+g/5YDiMeR/hmP30dDnpefxCrPKBzu
- niQPVCEshmGNvcT7Q0c1j9U7JSymoOSB11kVRzrdvKQiJvUrDcCY0nymsPOLeOz7DPm1
- JsWTBXo9V2JoprFiqCcocZ08b+SVX2qP4EL7GpoXy7tToH5Aj1enuPYIcGxMOOPF6Wct
- JDZ3cr8nN4LsksFcLZvKQB8TLPUs6GJEhiQtblb2Os+97qWBH0I071MNjZw8ym/nRVtT
- 2KWB2iXlHhhFS4/6rdj1u8os5O1ZTU3XnzmhN8coi4AsgW9W2QaFt5SRtvs81XjSkT2g
- NZ2Q==
+ (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
+ id 1pGLJ7-0001w9-Ea
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:45:26 -0500
+Received: by mail-yb1-xb41.google.com with SMTP id 203so22564427yby.10
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:45:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=OmA35jJ/IhI8soaMVoVzRxTdPwL96AKIEmoHHT08quA=;
+ b=KqkaCgTIyPBARXanIaKDvVPstM62miRK6I2mZWn6jdyjxumZg+YF9pWPFAgYQpEyJi
+ a/ilzSaIZyByPPCI4oFRbZOb5gUyDSWN2mZIEc0UAC5yQmjmrfW4J6JpGZaSkxBYtQR8
+ nHyh2T2WpPT68CSIzfvKOw5YQBponYyCHSeygzBkbyaefcXeZkcsvMQ8PprjS0wQAffC
+ Uoo3D706voSBssczDzKmOtNMK2+moI3CgFbf3MdTNK3LV6YgZO/JQM08Qt+sWRSkeIp0
+ e4lSHIrZnMVlbb7NasbOEDdJFtZeWrFAGj7X7Vcvox/qK+/TeKo+iPZ8ioaTmoPevyjx
+ qlnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PAlvBiYpAKfSZQu+t9WGZ+3cXmxbPgKUUNeBoA3fAF8=;
- b=gaeanpXnbVdwrHucdkQohj4aQFFvBLaDxYttAulmbF4wm4p8sdZ5q8bBXgb+L5QK54
- jBPMP6GlrcrLOutcdHkExCq5OkOloJBK8R/97dkHndjZdcKocTjwBrh606S7W8e/hepf
- A9Q9qbB4G0doi1TFeYhf5v8xbArMkW+EHjoXKlJA2qsTJGpwwmfVlxTdkjqJT0e3nUxg
- 9cvVsVYOFDhZAuYzz6nK43eGlp+JI2idwS4hm/LF+tpLLeVYsStjCy1LbyMIQJo6t8S9
- TA+Jdz/A6NqOqCWCqwqp/DZlmCAb9sxp5WXBmPwE+0tKqgogztu0Eeuhc5PI+DvZmyCg
- cjhQ==
-X-Gm-Message-State: AFqh2kqY+vdqlnYrjnCZPSONXKI6adPKLw5KXSBFMWJ7rNbwUUjQjB6w
- 0G6OfuOcDDuss+Ml4K8jSmFNRQ==
-X-Google-Smtp-Source: AMrXdXtHmJkt3hJ/Bxo4nxxHa9LS+xvmIjHNr6/hXNujHWCH2or7lzEqiDy0j3AzPnqMEnYmsO1Gzw==
-X-Received: by 2002:a05:6000:691:b0:2bd:dbbb:e7df with SMTP id
- bo17-20020a056000069100b002bddbbbe7dfmr3541577wrb.62.1673620974111; 
- Fri, 13 Jan 2023 06:42:54 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k2-20020a5d5182000000b00236545edc91sm19375778wrv.76.2023.01.13.06.42.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 06:42:53 -0800 (PST)
-Message-ID: <d8f97300-561a-6958-05a3-2789d139f9c4@linaro.org>
-Date: Fri, 13 Jan 2023 15:42:52 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OmA35jJ/IhI8soaMVoVzRxTdPwL96AKIEmoHHT08quA=;
+ b=OEna5VWuww4Vs0WnXC2JsP149B1+HBxrFNOrmEKN0pLOV2fB2suVCrGUhKeNz8+7uU
+ ZJ8PLcsKHry/xnWuaXYYblyDXrN5njs4nXLOk83OBdFy2nM/f5lXS3yMhYSSdppGnojt
+ uJzzd3QsV9kXWZ69sTWNECv4dk4Iu7AFUM0ONwaVq9lOm4wfc1UZVdqWH4fZavPJklEa
+ EQ7Jbpl/OEsjeXOakFXurZcwtg32VAxVMuhs/W9OmdAb68dfpjYnxVwQimURJYefWMcJ
+ xHVu4NjLalOMTGnm500Uq7HXX5Nc7kLbFJ5s18kmR+/dC36DZLMhRFmDptS4z3ReTYVZ
+ +pWw==
+X-Gm-Message-State: AFqh2ko1YfQL187LfEjXqiY87+OdPhBa02lv63z6Y5JDeZy0YajSYTdM
+ Xme4HGdbEJiARRyxQm7VLxgRDZwvzsufn1kBvQ==
+X-Google-Smtp-Source: AMrXdXtvW42plJJHW08s4MrHL72OZhhsLfwVDpDwaARnO01O9OUl05Av7rFmMdDC3joyGUFjpkS+B7GBlGX3JRb3wGE=
+X-Received: by 2002:a25:cc8:0:b0:711:cae6:c734 with SMTP id
+ 191-20020a250cc8000000b00711cae6c734mr8793900ybm.433.1673621124046; Fri, 13
+ Jan 2023 06:45:24 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH RESEND v2 0/5] target: Restrict 'qapi-commands-machine.h'
- to system emulation
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Aurelien Jarno <aurelien@aurel32.net>, Huacai Chen <chenhuacai@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-arm@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Song Gao <gaosong@loongson.cn>
-References: <20221220111122.8966-1-philmd@linaro.org>
- <87y1q61qrz.fsf@pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <87y1q61qrz.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
+ <Y8AppXP+eP9cEz+i@memverge.com> <20230112172130.0000391b@Huawei.com>
+ <Y8CNw/fZT5fZJZcK@memverge.com> <20230113091213.00002146@Huawei.com>
+ <Y8Foj/12QNl0C96o@memverge.com> <20230113144026.000001fb@Huawei.com>
+In-Reply-To: <20230113144026.000001fb@Huawei.com>
+From: Gregory Price <gourry.memverge@gmail.com>
+Date: Fri, 13 Jan 2023 09:45:11 -0500
+Message-ID: <CAD3UvdTsd8d05snsP+db=Q06YsURHU_4JzCK-3resDWNCq5CpQ@mail.gmail.com>
+Subject: Re: [PATCH 0/8] hw/cxl: CXL emulation cleanups and minor fixes for
+ upstream
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Gregory Price <gregory.price@memverge.com>, qemu-devel@nongnu.org, 
+ Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ linux-cxl@vger.kernel.org, 
+ linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>
+Content-Type: multipart/alternative; boundary="00000000000096641c05f22648df"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b41;
+ envelope-from=gourry.memverge@gmail.com; helo=mail-yb1-xb41.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,57 +89,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/1/23 14:57, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
-> 
->> [resend fixing my last name typography...]
->>
->> All series reviewed, can patches be picked by corresponding
->> maintainers?
->>
->> The "qapi-commands-machine.h" header is not generated in user-only
->> emulation. This series removes its use in user-emu code by moving
->> the QMP code depending on this header into a separate sysemu unit.
->>
->> Since v1:
->> - renamed cpu-monitor.c -> monitor.c on loongarch
-> 
-> Quick drive-by remark: we usually name C files containing just QMP
-> commands SUBSYSTEM-qmp-cmds.c, and files containing just HMP commands
-> SUBSYSTEM-hmp-cmds.c.  On the other hand, the existing monitor-related
-> files seem to be named target/TARGET/monitor.c.
-> 
-> Keeping QMP and HMP two separate is desirable, but not required.
-> monitor.c is a fine name for a file containing both.
+--00000000000096641c05f22648df
+Content-Type: text/plain; charset="UTF-8"
 
-$ git ls-files | fgrep qmp-cmds.c
-block/monitor/bitmap-qmp-cmds.c
-hw/core/machine-qmp-cmds.c
-hw/pci/pci-qmp-cmds.c
-monitor/qmp-cmds.c
-qom/qom-qmp-cmds.c
-tests/unit/test-qmp-cmds.c
+Ah I see, i forgot about that one.  Give me a bit and I'll see if it is the
+same issue.
 
-$ git ls-files | fgrep monitor.c
-monitor/monitor.c
-softmmu/qdev-monitor.c
-stubs/monitor.c
-target/arm/monitor.c
-target/i386/monitor.c
-target/m68k/monitor.c
-target/mips/sysemu/monitor.c
-target/nios2/monitor.c
-target/ppc/monitor.c
-target/riscv/monitor.c
-target/sh4/monitor.c
-target/sparc/monitor.c
-target/xtensa/monitor.c
-tests/unit/test-util-filemonitor.c
+On Fri, Jan 13, 2023 at 9:41 AM Jonathan Cameron <
+Jonathan.Cameron@huawei.com> wrote:
 
-Do you rather 'cpu-qmp-cmds.c'?
+> On Fri, 13 Jan 2023 09:19:59 -0500
+> Gregory Price <gregory.price@memverge.com> wrote:
+>
+> > On Fri, Jan 13, 2023 at 09:12:13AM +0000, Jonathan Cameron wrote:
+> > >
+> > > Just to check, are these different from the on stack problem you
+> reported
+> > > previously?  Doesn't look like the fix for that has made it upstream
+> yet.
+> > >
+> > > What kernel are you running?
+> > >
+> > >
+> >
+> > The prior issue I saw was related to the CXL Fixed Memory Window having
+> > an e820 region registered during machine initialization.  That fix is
+> > upstream.
+> >
+> > On 2023-1-11 branch it is commit 2486dd045794d65598fbca9fd1224c27b9732dce
+> >
+> > This one appears when registering any kind of type-3 device, during
+> > boot.
+>
+> I meant this one
+>
+> https://lore.kernel.org/all/20221118000524.1477383-1-ira.weiny@intel.com/
+>
+> Sorry, should have dug out a link in earlier reply and save a round trip.
+>
+> Jonathan
+>
 
-Or is your SUBSYSTEM the $target here?
-Because , target/arm/arm-qmp-cmds.c sounds redundant.
+--00000000000096641c05f22648df
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Ah I see,=C2=A0i forgot about that one.=C2=A0 Give me a bi=
+t and I&#39;ll see if it is the same issue.</div><br><div class=3D"gmail_qu=
+ote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 13, 2023 at 9:41 AM =
+Jonathan Cameron &lt;<a href=3D"mailto:Jonathan.Cameron@huawei.com">Jonatha=
+n.Cameron@huawei.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">On Fri, 13 Jan 2023 09:19:59 -0500<br>
+Gregory Price &lt;<a href=3D"mailto:gregory.price@memverge.com" target=3D"_=
+blank">gregory.price@memverge.com</a>&gt; wrote:<br>
+<br>
+&gt; On Fri, Jan 13, 2023 at 09:12:13AM +0000, Jonathan Cameron wrote:<br>
+&gt; &gt; <br>
+&gt; &gt; Just to check, are these different from the on stack problem you =
+reported<br>
+&gt; &gt; previously?=C2=A0 Doesn&#39;t look like the fix for that has made=
+ it upstream yet.<br>
+&gt; &gt; <br>
+&gt; &gt; What kernel are you running?<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0<br>
+&gt; <br>
+&gt; The prior issue I saw was related to the CXL Fixed Memory Window havin=
+g<br>
+&gt; an e820 region registered during machine initialization.=C2=A0 That fi=
+x is<br>
+&gt; upstream.<br>
+&gt; <br>
+&gt; On 2023-1-11 branch it is commit 2486dd045794d65598fbca9fd1224c27b9732=
+dce<br>
+&gt; <br>
+&gt; This one appears when registering any kind of type-3 device, during<br=
+>
+&gt; boot.<br>
+<br>
+I meant this one<br>
+<br>
+<a href=3D"https://lore.kernel.org/all/20221118000524.1477383-1-ira.weiny@i=
+ntel.com/" rel=3D"noreferrer" target=3D"_blank">https://lore.kernel.org/all=
+/20221118000524.1477383-1-ira.weiny@intel.com/</a><br>
+<br>
+Sorry, should have dug out a link in earlier reply and save a round trip.<b=
+r>
+<br>
+Jonathan<br>
+</blockquote></div>
 
+--00000000000096641c05f22648df--
 
