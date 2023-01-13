@@ -2,69 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D641669192
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 09:48:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01A70669198
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 09:50:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGFit-0002hL-4b; Fri, 13 Jan 2023 03:47:39 -0500
+	id 1pGFkw-00049k-Oq; Fri, 13 Jan 2023 03:49:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pGFin-0002dQ-RE
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 03:47:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pGFku-00047X-Ai
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 03:49:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pGFik-0005mE-Cf
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 03:47:33 -0500
+ id 1pGFks-0006EC-Kr
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 03:49:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673599642;
+ s=mimecast20190719; t=1673599781;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O7V5TMHgrt1xc0OZEMfV9RpCgMOcUS5udB/zNy64tdk=;
- b=BUk2AWgX3ycWaU+QifGD6j0pgmFndeHWO4czhluOVrriocPIa+YTNdaxad4yHqv4P7O1bb
- Jk4Y5QqJ7OLqIAoU8KdTY0ap/sthnM1hFxkC3OYdhhO3pjQtjqaGrCra8PgGyH+W2fW4fX
- tbTapc+/S+REO5EzfnvL7DLzhSFrcz4=
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Ba2IJFdAUezeqofLYXJnObx5GxI6O197SyB8aBbzvdc=;
+ b=S+W5F1sqIeCFpjLFoZXTlDG3xiwnOO/HY30h0z0DpP6YhKJZkq2i9hHj4WZQyAH2UIdoUs
+ 7LeK4gpjBMoCqxjYjCw+O2tHg0WdpwleKpA3JT1UVHid6CYvlyRZ7VhbJVK4kCjuI1Qqtx
+ uzSInHzB0j/0Nd410AI3RpFxdq7G93A=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-408--bpDCEyEMK-RQa8fplPjrw-1; Fri, 13 Jan 2023 03:47:21 -0500
-X-MC-Unique: -bpDCEyEMK-RQa8fplPjrw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-103-KSZQnU1sNyOuekW43eUnMw-1; Fri, 13 Jan 2023 03:49:40 -0500
+X-MC-Unique: KSZQnU1sNyOuekW43eUnMw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C66912804135;
- Fri, 13 Jan 2023 08:47:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 41D5B2804132;
+ Fri, 13 Jan 2023 08:49:40 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 75DCC4078903;
- Fri, 13 Jan 2023 08:47:15 +0000 (UTC)
-Date: Fri, 13 Jan 2023 08:47:06 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 58E511759E;
+ Fri, 13 Jan 2023 08:49:39 +0000 (UTC)
+Date: Fri, 13 Jan 2023 08:49:34 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
- dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
- eblake@redhat.com, Manish Mishra <manish.mishra@nutanix.com>,
- Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-Subject: Re: [PATCH 1/5] migration: Updated QAPI format for 'migrate' qemu
- monitor command
-Message-ID: <Y8EaezDrIjqmiAKu@redhat.com>
-References: <20221226053329.157905-1-het.gala@nutanix.com>
- <20221226053329.157905-2-het.gala@nutanix.com>
- <Y7wfoGpM6iwzy8L1@redhat.com>
- <e8d413c9-d030-fbf1-16a3-4a4e2116df0f@nutanix.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: regression in booting with -kernel in 7.2.0
+Message-ID: <Y8EbHiZtPENQj4tm@redhat.com>
+References: <Y8EJ9iXhEzmjI67A@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e8d413c9-d030-fbf1-16a3-4a4e2116df0f@nutanix.com>
+In-Reply-To: <Y8EJ9iXhEzmjI67A@infradead.org>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,54 +79,29 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 13, 2023 at 01:37:26PM +0530, Het Gala wrote:
+On Thu, Jan 12, 2023 at 11:36:22PM -0800, Christoph Hellwig wrote:
+> Hi all,
 > 
-> On 09/01/23 7:37 pm, Daniel P. Berrangé wrote:
-> > On Mon, Dec 26, 2022 at 05:33:25AM +0000, Het Gala wrote:
-> > > From: Author Het Gala <het.gala@nutanix.com>
-> > > 
-> > > Existing 'migrate' QAPI design enforces transport mechanism, ip address
-> > > of destination interface and corresponding port number in the form
-> > > of a unified string 'uri' parameter. This scheme does seem to have an issue
-> > > in it, i.e. double-level encoding of URIs.
-> > > 
-> > > The current patch maps existing QAPI design into a well-defined data
-> > > structure - 'MigrateChannel' only from the design perspective. Please note that
-> > > the existing 'uri' parameter is kept untouched for backward compatibility.
-> > > 
-> > > +##
-> > > +# @MigrateRdmaAddr:
-> > > +#
-> > > +# Since 8.0
-> > > +##
-> > > +{ 'struct': 'MigrateRdmaAddr',
-> > > +   'data' : {'rdma-str': 'str' } }
-> > Loooking at the RDMA code it takes the str, and treats it
-> > as an IPv4 address:
-> > 
-> > 
-> >          addr = g_new(InetSocketAddress, 1);
-> >          if (!inet_parse(addr, host_port, NULL)) {
-> >              rdma->port = atoi(addr->port);
-> >              rdma->host = g_strdup(addr->host);
-> >              rdma->host_port = g_strdup(host_port);
-> >          }
-> > 
-> > so we really ought to accept an InetSocketAddress struct
-> > directly
-> > 
-> >   { 'struct': 'MigrateRdmaAddr',
-> >      'data' : {'rdma-str': 'InetSocketAddress' } }
-> > 
-> Hi Daniel. I was going through the rdma code, and I think we also need
-> 'host_port' for rdma_return_path context
-> https://github.com/qemu/qemu/commit/44bcfd45e9806c78d9d526d69b0590227d215a78.
-> I dont have much understanding but If you have any suggestion or a
-> workaround for this, please suggest :)
+> qemu 7.2.0 fails to boot my usual test setup using -kernel (see
+> the actual script below).  I've bisected this down to:
+> 
+> commit ffe2d2382e5f1aae1abc4081af407905ef380311
+> Author: Jason A. Donenfeld <Jason@zx2c4.com>
+> Date:   Wed Sep 21 11:31:34 2022 +0200
+> 
+>     x86: re-enable rng seeding via SetupData
+> 
+> with this commit I don't even get to kernel console output, with it
+> reverted it boots fine (although with 7.2 configuring the network
+> takes forever, the actua bisection point before the commit does not
+> show that issue)
 
-The return path calls back into qemu_rdma_data_init() which takes
-host_port, but you'll already be changing that to take InetSocketAddress,
-so that'll be fine.
+Workaround is -machine pc-i440fx-7.1
+
+Latest proposed fix IIRC is
+
+  https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg04862.html
+
 
 With regards,
 Daniel
