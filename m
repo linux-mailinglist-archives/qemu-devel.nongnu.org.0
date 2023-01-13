@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 812EE66999D
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:09:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E490C66999E
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:09:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKiI-0006na-2A; Fri, 13 Jan 2023 09:07:22 -0500
+	id 1pGKiM-0006oi-Rs; Fri, 13 Jan 2023 09:07:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGKiB-0006jE-6G; Fri, 13 Jan 2023 09:07:15 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ id 1pGKiJ-0006oC-BT; Fri, 13 Jan 2023 09:07:23 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGKi9-0002ib-NE; Fri, 13 Jan 2023 09:07:14 -0500
+ id 1pGKiC-0002jZ-Rg; Fri, 13 Jan 2023 09:07:18 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 349E04DE3E;
- Fri, 13 Jan 2023 14:07:12 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 41B724DE3E;
+ Fri, 13 Jan 2023 14:07:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673618832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1673618835; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bFCLtdp68XCkucr0GBNgmDryKCRj7k/2ikV3JWwMC5g=;
- b=xpHQOYeLHFrF14S2x0Yh8NCJ7VXZHscjkPQC/oimMIanM9ZobA8bWrF52H5HQxfliOJTtE
- vYdBNvuLihW9Bc05HTtbiekQ3LcjQUWI22IaLvrPbpwFnsF9bUkPiGgwzXyQlh03kWWClC
- r042hIMjBwoAQJODIdT+sx6C4zW4P1w=
+ bh=UcPvJ2TkX8BmU0xYGg1vpayMTRS1XI7tg4m7dSlXwDU=;
+ b=rvSNQCxm0xtkyyv+TFBoLpqwM9dqzluzgpxnByG1OlJVT71CYxgl7sJJ20wGWl4N+6qBHq
+ 9b2MQDu+1YwejA5njKuHFVgjkA9k6M3hzZRr618YCgZOqmKZlydmwpZJs2fxMGizGR+Xs5
+ x/e65cS+peVJ48ygvD2eGqA5+Xt5jww=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673618832;
+ s=susede2_ed25519; t=1673618835;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bFCLtdp68XCkucr0GBNgmDryKCRj7k/2ikV3JWwMC5g=;
- b=wQruSaskzwx0e2QuCXAstCp5KqoEt19RkZxNR5Vabg3wQpbuhxUYLxrtHBEfUFljzhiuaX
- U6y+JX7pBhdRHEBQ==
+ bh=UcPvJ2TkX8BmU0xYGg1vpayMTRS1XI7tg4m7dSlXwDU=;
+ b=aZQLoH9b5Ul1Ms+EjwxG8DRC5rh8Ces8aD7jmzcIfpU2TGLXMv6x0w5/xY/IwOKEvpvNVA
+ 4ZxvQJgxYHVALPBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 92CD71358A;
- Fri, 13 Jan 2023 14:07:09 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A03541358A;
+ Fri, 13 Jan 2023 14:07:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8GHxFo1lwWP8DQAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 13 Jan 2023 14:07:09 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id AGxMGpBlwWP8DQAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 13 Jan 2023 14:07:12 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,16 +57,16 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-Subject: [RFC PATCH v3 15/28] target/arm: Don't access TCG code when debugging
- with KVM
-Date: Fri, 13 Jan 2023 11:04:06 -0300
-Message-Id: <20230113140419.4013-16-farosas@suse.de>
+Subject: [RFC PATCH v3 16/28] cpu-defs.h: Expose CPUTLBEntryFull to non-TCG
+ code
+Date: Fri, 13 Jan 2023 11:04:07 -0300
+Message-Id: <20230113140419.4013-17-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230113140419.4013-1-farosas@suse.de>
 References: <20230113140419.4013-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
  helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -90,37 +90,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When TCG is disabled this part of the code should not be reachable, so
-wrap it with an ifdef for now.
+This struct has no dependencies on TCG code and it is being used in
+target/arm/ptw.c to simplify the passing around of page table walk
+results. Those routines can be reached by KVM code via the gdbstub
+breakpoint code, so take the structure out of CONFIG_TCG to make it
+visible when building with --disable-tcg.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/ptw.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/exec/cpu-defs.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 4bda0590c7..2af75d0904 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -254,6 +254,7 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
-         ptw->out_host = NULL;
-         ptw->out_rw = false;
-     } else {
-+#ifdef CONFIG_TCG
-         CPUTLBEntryFull *full;
-         int flags;
+diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
+index 21309cf567..d5a4f30717 100644
+--- a/include/exec/cpu-defs.h
++++ b/include/exec/cpu-defs.h
+@@ -135,6 +135,10 @@ typedef struct CPUTLBEntry {
  
-@@ -270,6 +271,9 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
-         ptw->out_rw = full->prot & PAGE_WRITE;
-         pte_attrs = full->pte_attrs;
-         pte_secure = full->attrs.secure;
-+#else
-+        g_assert_not_reached();
-+#endif
-     }
+ QEMU_BUILD_BUG_ON(sizeof(CPUTLBEntry) != (1 << CPU_TLB_ENTRY_BITS));
  
-     if (regime_is_stage2(s2_mmu_idx)) {
++
++#endif  /* !CONFIG_USER_ONLY && CONFIG_TCG */
++
++#if !defined(CONFIG_USER_ONLY)
+ /*
+  * The full TLB entry, which is not accessed by generated TCG code,
+  * so the layout is not as critical as that of CPUTLBEntry. This is
+@@ -176,7 +180,9 @@ typedef struct CPUTLBEntryFull {
+     TARGET_PAGE_ENTRY_EXTRA
+ #endif
+ } CPUTLBEntryFull;
++#endif  /* !CONFIG_USER_ONLY */
+ 
++#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+ /*
+  * Data elements that are per MMU mode, minus the bits accessed by
+  * the TCG fast path.
 -- 
 2.35.3
 
