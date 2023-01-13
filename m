@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6EF669CA3
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 16:43:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A002C669BD6
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 16:21:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKmX-0000rI-EM; Fri, 13 Jan 2023 09:11:45 -0500
+	id 1pGKmZ-0000sp-Oi; Fri, 13 Jan 2023 09:11:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmM-0000pM-FK
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:34 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ id 1pGKmO-0000py-GM
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:37 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmI-0003dg-6C
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:32 -0500
-Received: by mail-wm1-x329.google.com with SMTP id g10so15354136wmo.1
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:29 -0800 (PST)
+ id 1pGKmL-0003du-1X
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:35 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ p3-20020a05600c1d8300b003d9ee5f125bso12369697wms.4
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=mWgqsSok28ce6z1en5gN9OjiS2muZQLwHlwjFb+KAq0=;
- b=gt6bi3alpntXpUTCiSPlgKXWMBU5uLIe7Pu40lfmOXG1Z4AZeV7sAKEPLwhftjzAdZ
- evpD8+ztI1le/m3Uegu70AoLSlVKzYY/ClSKqisz9JiA7um2I5KwG7+XrjIgtWvauJ1k
- qwgHdOdARfFVZfrtTQ+XaIIsPT4pwLDH6shzcT+wjVnIkLxhqdYFS9QymqX5/aG/MQ3o
- WgjGsWDBJnQo9/TltxxtnxQXHs4vYdCsbkDfgRAqrdYf8uu176R9ggGolRhnHPe9GauC
- NQdPrTnYF5n3nwVtxC5mkWLeQZlE+AqEQ6Od28rudOM4NrhXdbDyP2w1Tj8RnkeP7juC
- o60w==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=oZXMhkSlmXqoV9sDK+w4eUOj9W1bzDySktwjVzGpPRM=;
+ b=cnetN40p8k2qRyMG7EjqIpucDAsw+ZPJYeElgwK6X43nL1oVOdwRUcEtR2X+bktXVc
+ tdHepFXTFzbrL/jpKPrnQQ7l21Nsadns+xb08KvdL5HNEvp6Is7RpUHYBtjA15cKnzGH
+ WNDzUT+gYXRMnWKPSkFEglIsrWUrhWgxPh4RQXuEcnSnDZUx/FgapjOy+heIJjPEzvny
+ br2+m+9teZywGuGPTN5L/Fml5ik3bI9nkWLpzKPaBaI34X0XlPj8DfhXNifliKxV7eG1
+ HVpCc0s11C9j8HMF1czFhR9rkWFp+VNoF9SN4sSmFSLkkWk8RHSb5km3JCwaGuiSr/OG
+ fH3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mWgqsSok28ce6z1en5gN9OjiS2muZQLwHlwjFb+KAq0=;
- b=k+GnbeoqQXqqAdFn0yYIex0iiyjMKmedU6JEitmPv23BRNRKylI6u8dRadngR5riEI
- zy3uwJCaC97Erj0Nrqqntz2aZ9nhk7GfbmUrhI9naBIKepc5G2LlqdgXd9CsclUNCj4Y
- ItI5+SuWcsqPpybnLGGgyWpHqm/3MDi6cUF5fZHsd1HE1w1fAx5GFjLqLodO88yWqkA4
- Z8uIGlt6qYzIWz0IIv8Sh3rKh9Q2YvtAiyw2DEJ2Icg7FKhn1nq71IQ6Dawvw6V73NSU
- gCdABKZzXHKuanBdqa+ahZu4EN7bfcW6vn+RkDXj9thdgVHjgaTIljI0yVATbGGnLqdk
- ke3w==
-X-Gm-Message-State: AFqh2koIyQwij/b+Dl6jsygNHesh4X0IV9VNsUQOb/5Tipy2HHI+qp1E
- rgRBr1w9qrChIgvh+bg+kExd20t6nMPPTjgr
-X-Google-Smtp-Source: AMrXdXujsqqa5C5Pyp2CVr/ssGYJ0CKRpDzP0zPaz3jNywyBDsv03smLSF9DmGv1qXzDkPkUd6TxUw==
-X-Received: by 2002:a05:600c:44d4:b0:3cf:7925:7a3 with SMTP id
- f20-20020a05600c44d400b003cf792507a3mr57423805wmo.24.1673619088068; 
- Fri, 13 Jan 2023 06:11:28 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oZXMhkSlmXqoV9sDK+w4eUOj9W1bzDySktwjVzGpPRM=;
+ b=ekC5RjJFc6J+1IFNMXDKLFkAIN2qDFRz9prz1wf5Uo0ZZyh++NztmNLiN3RTADLWic
+ gzv5dZvwRgXvbd2YEaXFrBoMT4V4kcxNfePUO1XF3BJGKkEd8/h5xBvG+gpfXjIOMgrh
+ 8ZGZPt9x7xh+4A5/pNuzkO0hr0A92A/OpPEuXzdUOuUqWmX5J1F3Q3XkYm0r9NzeD2yo
+ f3Qp4zXY2Yo1KMQG+xaEisIOQTo1M3ScVjmtkGMJfDLoOEgvvaZr99O7z2pVwml87+ES
+ v1wslzuKK4TcUGq0TaD5PyJmTESjpnCuC5Jl3aniul8X23kUnrMImZOSnwCOI/0Z70tK
+ FbtA==
+X-Gm-Message-State: AFqh2kp3vBcPKU5QDQ802ASbti2qw3aF7cnfTo0Ea7NSQZ6j6A4t0E7S
+ ZBCFuIKwndWsM1qISbI8EcIv3siWyEi6SBK7
+X-Google-Smtp-Source: AMrXdXuvP2JPXpbP0qB3iCfwVe4gxaXJOz499dgj9ShznpId/R9HBAaPkdwJrESInvHIEIFsu44JxA==
+X-Received: by 2002:a05:600c:4f07:b0:3da:1bb0:4d78 with SMTP id
+ l7-20020a05600c4f0700b003da1bb04d78mr4304113wmq.14.1673619089866; 
+ Fri, 13 Jan 2023 06:11:29 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.27
+ n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 06:11:27 -0800 (PST)
+ Fri, 13 Jan 2023 06:11:29 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/38] target-arm queue
-Date: Fri, 13 Jan 2023 14:10:48 +0000
-Message-Id: <20230113141126.535646-1-peter.maydell@linaro.org>
+Subject: [PULL 02/38] hw/arm: Add Olimex H405
+Date: Fri, 13 Jan 2023 14:10:50 +0000
+Message-Id: <20230113141126.535646-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230113141126.535646-1-peter.maydell@linaro.org>
+References: <20230113141126.535646-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,159 +90,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 3db29dcac23da85486704ef9e7a8e7217f7829cd:
+From: Felipe Balbi <balbi@kernel.org>
 
-  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2023-01-12 13:51:36 +0000)
+Olimex makes a series of low-cost STM32 boards. This commit introduces
+the minimum setup to support SMT32-H405. See [1] for details
 
-are available in the Git repository at:
+[1] https://www.olimex.com/Products/ARM/ST/STM32-H405/
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230113
-
-for you to fetch changes up to 08899b5c68a55a3780d707e2464073c8f2670d31:
-
-  target/arm: allow writes to SCR_EL3.HXEn bit when FEAT_HCX is enabled (2023-01-13 13:19:36 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- hw/arm/stm32f405: correctly describe the memory layout
- hw/arm: Add Olimex H405 board
- cubieboard: Support booting from an SD card image with u-boot on it
- target/arm: Fix sve_probe_page
- target/arm: allow writes to SCR_EL3.HXEn bit when FEAT_HCX is enabled
- various code cleanups
-
-----------------------------------------------------------------
-Evgeny Iakovlev (1):
-      target/arm: allow writes to SCR_EL3.HXEn bit when FEAT_HCX is enabled
-
-Felipe Balbi (2):
-      hw/arm/stm32f405: correctly describe the memory layout
-      hw/arm: Add Olimex H405
-
-Philippe Mathieu-Daudé (27):
-      hw/arm/pxa2xx: Simplify pxa255_init()
-      hw/arm/pxa2xx: Simplify pxa270_init()
-      hw/arm/collie: Use the IEC binary prefix definitions
-      hw/arm/collie: Simplify flash creation using for() loop
-      hw/arm/gumstix: Improve documentation
-      hw/arm/gumstix: Use the IEC binary prefix definitions
-      hw/arm/mainstone: Use the IEC binary prefix definitions
-      hw/arm/musicpal: Use the IEC binary prefix definitions
-      hw/arm/omap_sx1: Remove unused 'total_ram' definitions
-      hw/arm/omap_sx1: Use the IEC binary prefix definitions
-      hw/arm/z2: Use the IEC binary prefix definitions
-      hw/arm/vexpress: Remove dead code in vexpress_common_init()
-      hw/arm: Remove unreachable code calling pflash_cfi01_register()
-      hw/arm/pxa: Avoid forward-declaring PXA2xxI2CState
-      hw/gpio/omap_gpio: Add local variable to avoid embedded cast
-      hw/arm/omap: Drop useless casts from void * to pointer
-      hw/gpio/omap_gpio: Use CamelCase for TYPE_OMAP1_GPIO type name
-      hw/gpio/omap_gpio: Use CamelCase for TYPE_OMAP2_GPIO type name
-      hw/intc/omap_intc: Use CamelCase for TYPE_OMAP_INTC type name
-      hw/arm/stellaris: Drop useless casts from void * to pointer
-      hw/arm/stellaris: Use CamelCase for STELLARIS_ADC type name
-      hw/arm/bcm2836: Remove definitions generated by OBJECT_DECLARE_TYPE()
-      hw/arm/npcm7xx: Declare QOM macros using OBJECT_DECLARE_SIMPLE_TYPE()
-      hw/misc/sbsa_ec: Rename TYPE_SBSA_EC -> TYPE_SBSA_SECURE_EC
-      hw/misc/sbsa_ec: Declare QOM macros using OBJECT_DECLARE_SIMPLE_TYPE()
-      hw/intc/xilinx_intc: Use 'XpsIntc' typedef instead of 'struct xlx_pic'
-      hw/timer/xilinx_timer: Use XpsTimerState instead of 'struct timerblock'
-
-Richard Henderson (1):
-      target/arm: Fix sve_probe_page
-
-Strahinja Jankovic (7):
-      hw/misc: Allwinner-A10 Clock Controller Module Emulation
-      hw/misc: Allwinner A10 DRAM Controller Emulation
-      {hw/i2c,docs/system/arm}: Allwinner TWI/I2C Emulation
-      hw/misc: AXP209 PMU Emulation
-      hw/arm: Add AXP209 to Cubieboard
-      hw/arm: Allwinner A10 enable SPL load from MMC
-      tests/avocado: Add SD boot test to Cubieboard
-
- docs/system/arm/cubieboard.rst          |   1 +
- docs/system/arm/orangepi.rst            |   1 +
- docs/system/arm/stm32.rst               |   1 +
- configs/devices/arm-softmmu/default.mak |   1 +
- include/hw/adc/npcm7xx_adc.h            |   7 +-
- include/hw/arm/allwinner-a10.h          |  27 ++
- include/hw/arm/allwinner-h3.h           |   3 +
- include/hw/arm/npcm7xx.h                |  18 +-
- include/hw/arm/omap.h                   |  24 +-
- include/hw/arm/pxa.h                    |  11 +-
- include/hw/arm/stm32f405_soc.h          |   5 +-
- include/hw/i2c/allwinner-i2c.h          |  55 ++++
- include/hw/i2c/npcm7xx_smbus.h          |   7 +-
- include/hw/misc/allwinner-a10-ccm.h     |  67 +++++
- include/hw/misc/allwinner-a10-dramc.h   |  68 +++++
- include/hw/misc/npcm7xx_clk.h           |   2 +-
- include/hw/misc/npcm7xx_gcr.h           |   6 +-
- include/hw/misc/npcm7xx_mft.h           |   7 +-
- include/hw/misc/npcm7xx_pwm.h           |   3 +-
- include/hw/misc/npcm7xx_rng.h           |   6 +-
- include/hw/net/npcm7xx_emc.h            |   5 +-
- include/hw/sd/npcm7xx_sdhci.h           |   4 +-
- hw/arm/allwinner-a10.c                  |  40 +++
- hw/arm/allwinner-h3.c                   |  11 +-
- hw/arm/bcm2836.c                        |   9 +-
- hw/arm/collie.c                         |  25 +-
- hw/arm/cubieboard.c                     |  11 +
- hw/arm/gumstix.c                        |  45 ++--
- hw/arm/mainstone.c                      |  37 ++-
- hw/arm/musicpal.c                       |   9 +-
- hw/arm/olimex-stm32-h405.c              |  69 +++++
- hw/arm/omap1.c                          | 115 ++++----
- hw/arm/omap2.c                          |  40 ++-
- hw/arm/omap_sx1.c                       |  53 ++--
- hw/arm/palm.c                           |   2 +-
- hw/arm/pxa2xx.c                         |   8 +-
- hw/arm/spitz.c                          |   6 +-
- hw/arm/stellaris.c                      |  73 +++--
- hw/arm/stm32f405_soc.c                  |   8 +
- hw/arm/tosa.c                           |   2 +-
- hw/arm/versatilepb.c                    |   6 +-
- hw/arm/vexpress.c                       |  10 +-
- hw/arm/z2.c                             |  16 +-
- hw/char/omap_uart.c                     |   7 +-
- hw/display/omap_dss.c                   |  15 +-
- hw/display/omap_lcdc.c                  |   9 +-
- hw/dma/omap_dma.c                       |  15 +-
- hw/gpio/omap_gpio.c                     |  48 ++--
- hw/i2c/allwinner-i2c.c                  | 459 ++++++++++++++++++++++++++++++++
- hw/intc/omap_intc.c                     |  38 +--
- hw/intc/xilinx_intc.c                   |  28 +-
- hw/misc/allwinner-a10-ccm.c             | 224 ++++++++++++++++
- hw/misc/allwinner-a10-dramc.c           | 179 +++++++++++++
- hw/misc/axp209.c                        | 238 +++++++++++++++++
- hw/misc/omap_gpmc.c                     |  12 +-
- hw/misc/omap_l4.c                       |   7 +-
- hw/misc/omap_sdrc.c                     |   7 +-
- hw/misc/omap_tap.c                      |   5 +-
- hw/misc/sbsa_ec.c                       |  12 +-
- hw/sd/omap_mmc.c                        |   9 +-
- hw/ssi/omap_spi.c                       |   7 +-
- hw/timer/omap_gptimer.c                 |  22 +-
- hw/timer/omap_synctimer.c               |   4 +-
- hw/timer/xilinx_timer.c                 |  27 +-
- target/arm/helper.c                     |   3 +
- target/arm/sve_helper.c                 |  14 +-
- MAINTAINERS                             |   8 +
- hw/arm/Kconfig                          |   9 +
- hw/arm/meson.build                      |   1 +
- hw/i2c/Kconfig                          |   4 +
- hw/i2c/meson.build                      |   1 +
- hw/i2c/trace-events                     |   5 +
- hw/misc/Kconfig                         |  10 +
- hw/misc/meson.build                     |   3 +
- hw/misc/trace-events                    |   5 +
- tests/avocado/boot_linux_console.py     |  47 ++++
- 76 files changed, 1951 insertions(+), 455 deletions(-)
- create mode 100644 include/hw/i2c/allwinner-i2c.h
- create mode 100644 include/hw/misc/allwinner-a10-ccm.h
- create mode 100644 include/hw/misc/allwinner-a10-dramc.h
+Signed-off-by: Felipe Balbi <balbi@kernel.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20221230145733.200496-3-balbi@kernel.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ docs/system/arm/stm32.rst               |  1 +
+ configs/devices/arm-softmmu/default.mak |  1 +
+ hw/arm/olimex-stm32-h405.c              | 69 +++++++++++++++++++++++++
+ MAINTAINERS                             |  6 +++
+ hw/arm/Kconfig                          |  4 ++
+ hw/arm/meson.build                      |  1 +
+ 6 files changed, 82 insertions(+)
  create mode 100644 hw/arm/olimex-stm32-h405.c
- create mode 100644 hw/i2c/allwinner-i2c.c
- create mode 100644 hw/misc/allwinner-a10-ccm.c
- create mode 100644 hw/misc/allwinner-a10-dramc.c
- create mode 100644 hw/misc/axp209.c
+
+diff --git a/docs/system/arm/stm32.rst b/docs/system/arm/stm32.rst
+index 508b92cf862..d7265b763d4 100644
+--- a/docs/system/arm/stm32.rst
++++ b/docs/system/arm/stm32.rst
+@@ -20,6 +20,7 @@ The STM32F4 series is based on ARM Cortex-M4F core. This series is pin-to-pin
+ compatible with STM32F2 series. The following machines are based on this chip :
+ 
+ - ``netduinoplus2``     Netduino Plus 2 board with STM32F405RGT6 microcontroller
++- ``olimex-stm32-h405`` Olimex STM32 H405 board with STM32F405RGT6 microcontroller
+ 
+ There are many other STM32 series that are currently not supported by QEMU.
+ 
+diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
+index 6985a25377a..1b49a7830c7 100644
+--- a/configs/devices/arm-softmmu/default.mak
++++ b/configs/devices/arm-softmmu/default.mak
+@@ -30,6 +30,7 @@ CONFIG_COLLIE=y
+ CONFIG_ASPEED_SOC=y
+ CONFIG_NETDUINO2=y
+ CONFIG_NETDUINOPLUS2=y
++CONFIG_OLIMEX_STM32_H405=y
+ CONFIG_MPS2=y
+ CONFIG_RASPI=y
+ CONFIG_DIGIC=y
+diff --git a/hw/arm/olimex-stm32-h405.c b/hw/arm/olimex-stm32-h405.c
+new file mode 100644
+index 00000000000..3aa61c91b75
+--- /dev/null
++++ b/hw/arm/olimex-stm32-h405.c
+@@ -0,0 +1,69 @@
++/*
++ * ST STM32VLDISCOVERY machine
++ * Olimex STM32-H405 machine
++ *
++ * Copyright (c) 2022 Felipe Balbi <balbi@kernel.org>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "hw/boards.h"
++#include "hw/qdev-properties.h"
++#include "hw/qdev-clock.h"
++#include "qemu/error-report.h"
++#include "hw/arm/stm32f405_soc.h"
++#include "hw/arm/boot.h"
++
++/* olimex-stm32-h405 implementation is derived from netduinoplus2 */
++
++/* Main SYSCLK frequency in Hz (168MHz) */
++#define SYSCLK_FRQ 168000000ULL
++
++static void olimex_stm32_h405_init(MachineState *machine)
++{
++    DeviceState *dev;
++    Clock *sysclk;
++
++    /* This clock doesn't need migration because it is fixed-frequency */
++    sysclk = clock_new(OBJECT(machine), "SYSCLK");
++    clock_set_hz(sysclk, SYSCLK_FRQ);
++
++    dev = qdev_new(TYPE_STM32F405_SOC);
++    qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m4"));
++    qdev_connect_clock_in(dev, "sysclk", sysclk);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++
++    armv7m_load_kernel(ARM_CPU(first_cpu),
++                       machine->kernel_filename,
++                       0, FLASH_SIZE);
++}
++
++static void olimex_stm32_h405_machine_init(MachineClass *mc)
++{
++    mc->desc = "Olimex STM32-H405 (Cortex-M4)";
++    mc->init = olimex_stm32_h405_init;
++    mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
++
++    /* SRAM pre-allocated as part of the SoC instantiation */
++    mc->default_ram_size = 0;
++}
++
++DEFINE_MACHINE("olimex-stm32-h405", olimex_stm32_h405_machine_init)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5606e5dbd25..904b524896d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1036,6 +1036,12 @@ L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/netduinoplus2.c
+ 
++Olimex STM32 H405
++M: Felipe Balbi <balbi@kernel.org>
++L: qemu-arm@nongnu.org
++S: Maintained
++F: hw/arm/olimex-stm32-h405.c
++
+ SmartFusion2
+ M: Subbaraya Sundeep <sundeep.lkml@gmail.com>
+ M: Peter Maydell <peter.maydell@linaro.org>
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 17fcde8e1cc..9143533ef79 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -119,6 +119,10 @@ config NETDUINOPLUS2
+     bool
+     select STM32F405_SOC
+ 
++config OLIMEX_STM32_H405
++    bool
++    select STM32F405_SOC
++
+ config NSERIES
+     bool
+     select OMAP
+diff --git a/hw/arm/meson.build b/hw/arm/meson.build
+index 92f9f6e000e..76d4d650e42 100644
+--- a/hw/arm/meson.build
++++ b/hw/arm/meson.build
+@@ -12,6 +12,7 @@ arm_ss.add(when: 'CONFIG_MICROBIT', if_true: files('microbit.c'))
+ arm_ss.add(when: 'CONFIG_MUSICPAL', if_true: files('musicpal.c'))
+ arm_ss.add(when: 'CONFIG_NETDUINO2', if_true: files('netduino2.c'))
+ arm_ss.add(when: 'CONFIG_NETDUINOPLUS2', if_true: files('netduinoplus2.c'))
++arm_ss.add(when: 'CONFIG_OLIMEX_STM32_H405', if_true: files('olimex-stm32-h405.c'))
+ arm_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx.c', 'npcm7xx_boards.c'))
+ arm_ss.add(when: 'CONFIG_NSERIES', if_true: files('nseries.c'))
+ arm_ss.add(when: 'CONFIG_SX1', if_true: files('omap_sx1.c'))
+-- 
+2.34.1
+
 
