@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 458FD669D1F
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:03:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E140669D67
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:16:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGMHG-0002MB-H6; Fri, 13 Jan 2023 10:47:34 -0500
+	id 1pGMHR-0002S0-Kx; Fri, 13 Jan 2023 10:47:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMHE-0002Lq-Mh
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:47:32 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMHP-0002Qs-CP
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:47:43 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMHD-0006Jq-3W
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:47:32 -0500
-Received: by mail-wr1-x434.google.com with SMTP id t5so17052599wrq.1
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 07:47:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMHN-0006TF-Qq
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:47:43 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ j16-20020a05600c1c1000b003d9ef8c274bso13308678wms.0
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 07:47:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=w8hMS9BXzYnzncszcpUENaGcSPp4qf+CCZgWrkLFPz8=;
- b=sdsORpm8N0McvSOt1oyq6vQ3CVpMgAcOLpfWqLnL5gze6zuICPJdR51kE3xA1nZphn
- h2+zzfyxKuj3uwNqNSamuejQU8HZuzISODkqalUj7BxMlvu5YUbERdxPKVqpcjax5Nyt
- 5IdtohrMDGe3jat6N8VM/nCz2QXfzHhafRIefFQRgIKTzk4jvOidsGa69St6xr/u0jie
- np/emipmB6MY04IEXy19qbl7WEFDtr5LeTgy5zkVejrhBSVOuwgKXKDZQDUNVnDQfFfj
- I1W/a8z7UapHvhYg0PCU74TYYknoLp9cjuBJ9shUGHySVmWucwVCl8NKCMLFeKKY89so
- 7gxQ==
+ bh=3Z1QUovQY9GKd51k95q8FPVeLQ1Fen4KUg1KYYN83u4=;
+ b=fIE0ch0J3BH9QGEYCNjI8wX5vGODP7Gc1HzCxVMcwBN6bVPKRbmt/bmqnXQlQrDSHs
+ tuuFk7QQIbGTo0gjXA1N3zrnZq0Y2BMoG4gR2gCt7L2+AwzKw8fdYNNNOtXqkgd/PQD6
+ DSggEPA93m8x6jXcgYcaYNdC+KD+DUB5mlSy+HLkMPfl/CQREsKNusFFT7WXY7komnYU
+ +8n8nZDImIjO286o26sIqwSPkPIehCYhX0j9yQBrW9swndM5aiW5GlnZsD+D4ebMhQ2L
+ hPDdvkDwKBtSf0foOVZ8ElSAyKhAUic62A+tIbcWRNV3g/l+2y1QNBmT2zv/z/eSr+Bw
+ rV7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=w8hMS9BXzYnzncszcpUENaGcSPp4qf+CCZgWrkLFPz8=;
- b=g1xKpGeP8RVOI9hYgJykzXa7J5VDnr+YH/PhSUg4b5lXLakLG0wO7Q3qFecqQW86Gp
- ZXQvwI3jR1ZI6ViftkdJDSZvU/aSVEotIFj6VtMoZN0MkLb3zmtl181RGiVsaQbxeBro
- s368pLZfY4ZJyE42agv3QPc6yvb9kE0LgOL2yDMv3pfJXZDMyXOnaKmNXojDxEPlm+/b
- p6RlWovXgme5nQRDn8ElHt9AOGdo3zfOe0eEmW2OoRk6ZxQTJ14vjeOAuXAZ8OalQPDh
- 7pKhRydwK1AGCMeeFjPIDUQ4CTyOs+DNx0jWuSSqValSy34Xb8TWZgv9/CP/CEOJPdDH
- XTTQ==
-X-Gm-Message-State: AFqh2kqMwr4X2U8AFfHCD+D1my/sUMOZ8j8Y/5dXdsTZJX3Aj4HIjJH5
- Y7u1saz5JtW4HNY0ioTLEnOr3Mu3avNI3hij
-X-Google-Smtp-Source: AMrXdXtfAp8ClCEYicR7u66mbLvApWhNJB9lCyaTkM/PwqjRHcyYs28IjLSDbRJKVMNRzUM/snkitA==
-X-Received: by 2002:a5d:55c5:0:b0:242:3812:f948 with SMTP id
- i5-20020a5d55c5000000b002423812f948mr156443wrw.24.1673624850215; 
- Fri, 13 Jan 2023 07:47:30 -0800 (PST)
+ bh=3Z1QUovQY9GKd51k95q8FPVeLQ1Fen4KUg1KYYN83u4=;
+ b=F34ahSRDtry3e5+zvRv5WLcuxQFY5EJfCMbov//i7Lfv5HThvHWYmwIwv0tHjMKYYr
+ wXJcCumK0q/fetglRyAI3+dqF/FLHWdbmiuZDQfJMX4N34OPOHvGtpJNQYSzacumQ42X
+ +7Uy3aErBJhwqtDacVpyKwxJG0BIzSrehlrOnlHIRWnAGlcKnBeefE37mKK4mK+ehfE5
+ JX0gWRyo9+j7fRdnT2eS/xEBbRooBl2EXEoUD+hHtsR4OLx5C+n/FzkjWSV30v5PyLxM
+ MsVfCtJnDcaSrfCF0ZiXbl812pSN+6t5WO5HWsIbU2NleWsSs0PZQDrfoWcB2wm2GQO6
+ kQ7Q==
+X-Gm-Message-State: AFqh2krAP1udr+e9GaRs8aEXayPeiDJ3LqOvhGXFFbrzlzwwm7DSinoA
+ eu0Rgo6gBf6X3MbCF5b/vrY3V8POnNHGvmce
+X-Google-Smtp-Source: AMrXdXs1IRX02wByoqDiOVmRCRlrCy3KXKYjVAHSRq530bqvw1mNx07wqzet/W3Pvstt25Cy9wpvJw==
+X-Received: by 2002:a1c:c90d:0:b0:3d3:3d1b:6354 with SMTP id
+ f13-20020a1cc90d000000b003d33d1b6354mr190776wmb.3.1673624860020; 
+ Fri, 13 Jan 2023 07:47:40 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- f2-20020adfdb42000000b0024274a5db0asm19415361wrj.2.2023.01.13.07.47.29
+ k18-20020adfb352000000b00241fab5a296sm19578418wrd.40.2023.01.13.07.47.39
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 13 Jan 2023 07:47:29 -0800 (PST)
+ Fri, 13 Jan 2023 07:47:39 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
+ Bernhard Beschow <shentey@gmail.com>,
  "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PULL 24/46] hw/mips/malta: Introduce PIIX4_PCI_DEVFN definition
-Date: Fri, 13 Jan 2023 16:45:10 +0100
-Message-Id: <20230113154532.49979-25-philmd@linaro.org>
+Subject: [PULL 26/46] hw/isa/piix4: Correct IRQRC[A:D] reset values
+Date: Fri, 13 Jan 2023 16:45:12 +0100
+Message-Id: <20230113154532.49979-27-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230113154532.49979-1-philmd@linaro.org>
 References: <20230113154532.49979-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,41 +91,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The PIIX4 PCI-ISA bridge function is always located at 10:0.
-Since we want to re-use its address, add the PIIX4_PCI_DEVFN
-definition.
+IRQRC[A:D] registers reset value is 0x80. We were forcing
+the MIPS Malta machine routing to be able to boot a Linux
+kernel without any bootloader.
+We now have these registers initialized in the Malta machine
+write_bootloader(), so we can use the correct reset values.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20221027204720.33611-2-philmd@linaro.org>
+Message-Id: <20221027204720.33611-4-philmd@linaro.org>
 ---
- hw/mips/malta.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/isa/piix4.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 34c24110cd..9fc3280407 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -71,6 +71,8 @@
- 
- #define FLASH_SIZE          0x400000
- 
-+#define PIIX4_PCI_DEVFN     PCI_DEVFN(10, 0)
-+
- typedef struct {
-     MemoryRegion iomem;
-     MemoryRegion iomem_lo; /* 0 - 0x900 */
-@@ -1239,7 +1241,7 @@ void mips_malta_init(MachineState *machine)
-     pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
- 
-     /* Southbridge */
--    piix4 = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0), true,
-+    piix4 = pci_create_simple_multifunction(pci_bus, PIIX4_PCI_DEVFN, true,
-                                             TYPE_PIIX4_PCI_DEVICE);
-     isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix4), "isa.0"));
- 
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index 8fc1db6dc9..0d23e11a39 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -116,10 +116,10 @@ static void piix4_isa_reset(DeviceState *dev)
+     pci_conf[0x4c] = 0x4d;
+     pci_conf[0x4e] = 0x03;
+     pci_conf[0x4f] = 0x00;
+-    pci_conf[0x60] = 0x0a; // PCI A -> IRQ 10
+-    pci_conf[0x61] = 0x0a; // PCI B -> IRQ 10
+-    pci_conf[0x62] = 0x0b; // PCI C -> IRQ 11
+-    pci_conf[0x63] = 0x0b; // PCI D -> IRQ 11
++    pci_conf[0x60] = 0x80;
++    pci_conf[0x61] = 0x80;
++    pci_conf[0x62] = 0x80;
++    pci_conf[0x63] = 0x80;
+     pci_conf[0x69] = 0x02;
+     pci_conf[0x70] = 0x80;
+     pci_conf[0x76] = 0x0c;
 -- 
 2.38.1
 
