@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45D1669D1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:01:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ECD9669D76
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:19:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGMGY-0001rE-K2; Fri, 13 Jan 2023 10:46:50 -0500
+	id 1pGMGV-0001oo-Td; Fri, 13 Jan 2023 10:46:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMG1-0001Uw-1a
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:46:18 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMG5-0001aH-Ba
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:46:25 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMFy-000624-E9
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:46:16 -0500
-Received: by mail-wr1-x430.google.com with SMTP id k8so6956497wrc.9
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 07:46:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMG3-00064c-Mb
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:46:21 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003d9712b29d2so19074191wmb.2
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 07:46:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rC+XQm2jLSXbgQ7LC1gN01sFQ4DaZrRbxtfq7Vgq2EA=;
- b=di/CVOHcvTNSWsVMGq217JKVsnVfzSE6NWoyFpJsci7bhOsbQg4A3jkg1ETCU5j42Q
- FvxOH0rI4mDiWsclMtyFBso9LdWWkunGx92NdF7nVBq96Jd8IImJO5fS6YbohH4QKPJf
- wHw+P/O/u3fVvIW/6KZ0DCSZ4Rk9vbf7XxOvwMvP+11ARBTZL4wMJBEf99CsdZo7dxDc
- 3ASJ9FrzyyaKX0Sls1RhvKNykRNWq6Ves9hH/UEOZIS33yCuCO1e9UBRwcpb8/pcRBsf
- bqlwiu4b54NgpzgS0HjxtS/ztGIvCwNFEBlUCsEitZ7CHZO3NTByQqK9e2qytVJ3txr/
- NwlA==
+ bh=GKmMPSZpu0s5Io751sC2xrOw1/RiRYL5xp96bZDv0UU=;
+ b=GxbnCbztQtwYQgRVOWksMajIiZ7n8foHN3l8FPA+cqSteXMTf6VWdaVSjzbVepDRb1
+ fudaRFXHDMT+Qx1yqkgCG7rEnR1CGQPrwL3z02GwA5Kj11VPwJVtSqghL1nWLG9gRuLi
+ 9LHqEtt+gVeYi/b7xdasoZWIcH8syxf48bJgqOcqb1DKe34jPfX7laX9NcyEgVk4tedU
+ JFG1AZuG/otfljNxorDURmh3Sq0fSwDPFOpwQDkpQ1cqUDempaTI858rUy89yJp4ENh/
+ BenBJI3hoEg6uyz/58FY1+IveKCANOGHmu1W7zBL1zTZ53BeFq5kG7+abuHJopcTdi1j
+ 5svg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rC+XQm2jLSXbgQ7LC1gN01sFQ4DaZrRbxtfq7Vgq2EA=;
- b=EZJjkL5yS6llr1xf4tqFELssrs4cfsR7nPVyKFgf3ziKWuVXHOSxnsXvq+my4YHA+O
- hxIPwnFroEXkBnuo63y9I7iJ/crEH0ogwQup1yWQkO45zOQsycNXN5by1XBmD5V8sCSM
- TySfiWJBl++wz/DV1bBa3egS8C1EEM6yV9Usch3bzGb5PlnYmZkoITfI/KEWx7EaVAPW
- R5IDPAQqVas8/Ob6tWtP36ulJj0KVq4LBd14bXwjzd+Em0uG3PnwmxHFTD7dwUSJdgVx
- 59f00OdbOaJji3Tn0AvssgbljB0KmapJim2ngiNQJN8CuSEX/rUneBpjqCSS4zgI0mEN
- lsag==
-X-Gm-Message-State: AFqh2kpavZDnhqbjR1DFiAy9d4j+NHdX7vUJ7/X4/EkRmReQVQHp+mLh
- IZ9LTC+yTEQCn3aVwAUHu/0fpBKdmOAeOr8e
-X-Google-Smtp-Source: AMrXdXux6zF6MLrWxlaeY8x7+BAouO3WQ2wQ9/XfTYYNIY/AD3jfu9eSJqCmPUaBcatlaXL0v/44lg==
-X-Received: by 2002:a5d:4904:0:b0:2a6:caa0:f230 with SMTP id
- x4-20020a5d4904000000b002a6caa0f230mr21955179wrq.66.1673624772696; 
- Fri, 13 Jan 2023 07:46:12 -0800 (PST)
+ bh=GKmMPSZpu0s5Io751sC2xrOw1/RiRYL5xp96bZDv0UU=;
+ b=El49/5RW5PbLm35aVautEkJ8LTqRU9lvsfXCGQEsE54T8BhLb5cOjE3VR2fXLKA9Mu
+ Xc0sjaVyDZltWjqev2LqGThkVI+bUoBC04RYy/D1kGG3vMYWNP8/ikvcFDLoXcXi57Oq
+ OaNqJ1J/IcPiWaKsxTIXX1X0lWDkzhVwh+K6aUPoKYdE4bjyr7UIVcssGTGf7dzBltXk
+ z9QaJxKf6HBbqDWWTZnYFl8XKyw/i2OzVVp/LTXVbEnEBGa0ojRBrCCxM2BwRAjy8DVr
+ Zb32fxHH1pxvvHVHYE0IhcXi5ND43dHTkATfnPuyXZC47kucgwtHPbjc1zYH7Vu3LTqg
+ g2ag==
+X-Gm-Message-State: AFqh2koeo9URpXHxOWi96XPWBf5CPnaD13zVPUvELdXcIT1EKE6LrM2P
+ rVf63mzmn9My8qf2lkaZiCfQMIJDhWkhc+fk
+X-Google-Smtp-Source: AMrXdXvgkg64dbNPADQhZyGapBtoTzUxCsTSuzpRcxho7jJwSppLMBr4m9YgPY7nno/Dg4GrSKEBzA==
+X-Received: by 2002:a05:600c:3d0e:b0:3d3:4aa6:4fd0 with SMTP id
+ bh14-20020a05600c3d0e00b003d34aa64fd0mr59180465wmb.6.1673624777378; 
+ Fri, 13 Jan 2023 07:46:17 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- o17-20020a5d4091000000b0028965dc7c6bsm18970645wrp.73.2023.01.13.07.46.11
+ hg9-20020a05600c538900b003cfa622a18asm29156461wmb.3.2023.01.13.07.46.16
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 13 Jan 2023 07:46:12 -0800 (PST)
+ Fri, 13 Jan 2023 07:46:17 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 08/46] hw/mips/gt64xxx_pci: Add a 'cpu-little-endian' qdev
- property
-Date: Fri, 13 Jan 2023 16:44:54 +0100
-Message-Id: <20230113154532.49979-9-philmd@linaro.org>
+Subject: [PULL 09/46] hw/mips/malta: Explicit GT64120 endianness upon device
+ creation
+Date: Fri, 13 Jan 2023 16:44:55 +0100
+Message-Id: <20230113154532.49979-10-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230113154532.49979-1-philmd@linaro.org>
 References: <20230113154532.49979-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,96 +91,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Propagate the controller endianess from the machine, setting
+the "cpu-little-endian" property.
 
-This device does not have to be TARGET-dependent.
-Add a 'cpu_big_endian' property which sets the byte-swapping
-options if required.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20221220113436.14299-5-philmd@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221209151533.69516-6-philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/mips/gt64xxx_pci.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+ hw/mips/malta.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index 85bdf5279c..79c15a5e3a 100644
---- a/hw/mips/gt64xxx_pci.c
-+++ b/hw/mips/gt64xxx_pci.c
-@@ -26,6 +26,7 @@
- #include "qapi/error.h"
- #include "qemu/units.h"
- #include "qemu/log.h"
-+#include "hw/qdev-properties.h"
- #include "hw/registerfields.h"
- #include "hw/pci/pci_device.h"
- #include "hw/pci/pci_host.h"
-@@ -256,6 +257,9 @@ struct GT64120State {
-     PCI_MAPPING_ENTRY(ISD);
-     MemoryRegion pci0_mem;
-     AddressSpace pci0_mem_as;
-+
-+    /* properties */
-+    bool cpu_little_endian;
- };
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index c8fc420e4f..f959bce673 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -1396,7 +1396,9 @@ void mips_malta_init(MachineState *machine)
+     stl_p(memory_region_get_ram_ptr(bios_copy) + 0x10, 0x00000420);
  
- /* Adjust range to avoid touching space which isn't mappable via PCI */
-@@ -1035,16 +1039,11 @@ static const MemoryRegionOps isd_mem_ops = {
- static void gt64120_reset(DeviceState *dev)
- {
-     GT64120State *s = GT64120_PCI_HOST_BRIDGE(dev);
--#if TARGET_BIG_ENDIAN
--    bool cpu_little_endian = false;
--#else
--    bool cpu_little_endian = true;
--#endif
+     /* Northbridge */
+-    dev = sysbus_create_simple("gt64120", -1, NULL);
++    dev = qdev_new("gt64120");
++    qdev_prop_set_bit(dev, "cpu-little-endian", !be);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+     pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
  
-     /* FIXME: Malta specific hw assumptions ahead */
- 
-     /* CPU Configuration */
--    s->regs[GT_CPU] = cpu_little_endian ? R_GT_CPU_Endianness_MASK : 0;
-+    s->regs[GT_CPU] = s->cpu_little_endian ? R_GT_CPU_Endianness_MASK : 0;
-     s->regs[GT_MULTI]         = 0x00000003;
- 
-     /* CPU Address decode */
-@@ -1151,7 +1150,7 @@ static void gt64120_reset(DeviceState *dev)
-     s->regs[GT_TC_CONTROL]    = 0x00000000;
- 
-     /* PCI Internal */
--    s->regs[GT_PCI0_CMD] = cpu_little_endian ? R_GT_PCI0_CMD_ByteSwap_MASK : 0;
-+    s->regs[GT_PCI0_CMD] = s->cpu_little_endian ? R_GT_PCI0_CMD_ByteSwap_MASK : 0;
-     s->regs[GT_PCI0_TOR]      = 0x0000070f;
-     s->regs[GT_PCI0_BS_SCS10] = 0x00fff000;
-     s->regs[GT_PCI0_BS_SCS32] = 0x00fff000;
-@@ -1168,7 +1167,7 @@ static void gt64120_reset(DeviceState *dev)
-     s->regs[GT_PCI0_SSCS10_BAR] = 0x00000000;
-     s->regs[GT_PCI0_SSCS32_BAR] = 0x01000000;
-     s->regs[GT_PCI0_SCS3BT_BAR] = 0x1f000000;
--    s->regs[GT_PCI1_CMD] = cpu_little_endian ? R_GT_PCI1_CMD_ByteSwap_MASK : 0;
-+    s->regs[GT_PCI1_CMD] = s->cpu_little_endian ? R_GT_PCI1_CMD_ByteSwap_MASK : 0;
-     s->regs[GT_PCI1_TOR]      = 0x0000070f;
-     s->regs[GT_PCI1_BS_SCS10] = 0x00fff000;
-     s->regs[GT_PCI1_BS_SCS32] = 0x00fff000;
-@@ -1262,11 +1261,18 @@ static const TypeInfo gt64120_pci_info = {
-     },
- };
- 
-+static Property gt64120_properties[] = {
-+    DEFINE_PROP_BOOL("cpu-little-endian", GT64120State,
-+                     cpu_little_endian, !TARGET_BIG_ENDIAN),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void gt64120_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+    device_class_set_props(dc, gt64120_properties);
-     dc->realize = gt64120_realize;
-     dc->reset = gt64120_reset;
-     dc->vmsd = &vmstate_gt64120;
+     /* Southbridge */
 -- 
 2.38.1
 
