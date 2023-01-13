@@ -2,92 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4386D66A137
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:55:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8884766A158
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:59:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGOC0-0006rU-5h; Fri, 13 Jan 2023 12:50:16 -0500
+	id 1pGOEZ-000116-Ml; Fri, 13 Jan 2023 12:52:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pGOBx-0006po-J6
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:50:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pGOBw-00012e-4Z
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:50:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673632211;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Lpl3Ul8rzmO3UVeC+Jwwn8RR19sGfsrIc4CWuuzMTB0=;
- b=idrn4l8BRlrYdav+0cJ/2fNAEEeWAuaXKc5EH4n4nSBUojgUlw3483oT0C5A2auS7kdRAF
- 2WxOGGTkjEOJZoJOZlM6B0VFSp4ZJRWfhSKzshoYLwTo2ALXac7fYqsvaHVNnE3jOHIvVV
- kdk3BIAhM9W0a+nCOR+wLhhIyMTPGzY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-362-5to-_XuvOTeb55XjpO-gew-1; Fri, 13 Jan 2023 12:50:07 -0500
-X-MC-Unique: 5to-_XuvOTeb55XjpO-gew-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l31-20020a05600c1d1f00b003d9720d2a0eso14531114wms.7
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 09:50:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pGOEK-0000u0-6o
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:52:40 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pGOEI-0001Xv-Ld
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:52:39 -0500
+Received: by mail-oi1-x244.google.com with SMTP id d127so18231379oif.12
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 09:52:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sxp+GM5ymPv6TyvkEfOVeU9wh4EBckYHO6VlmxtLwwQ=;
+ b=W3/jNkNoP1yswlxOKBBSpZ4by/K4sh5PxE0QUkXnn8DER2vDe8s2mqypFYdxz7NIsY
+ xZaiFoIjtEgTP2Db3migiXHXH/uxnwDhdRYHeN9pp/y6HM0pHqlBsO13OUdoIxHzDo/i
+ 2kguM0+EPL+JyJGLQMSM+9g7TNpM+1Lv3TINTDwPA4Ksjz00BeEgzBpZP4rniUb9Pb9q
+ nS8t4/IUecZhOjFJlZNq833lea6jeH/Cxx6KmbE5vo8pCpbwi/wpVNtTYq1Gm2GIeBSV
+ mCi+LwzpoNipYEuiFnJKVyn5gE/1Zak9UvbJULZ34HO/wYW3hx8Jn1/fS49l+pozxr0J
+ PIlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:cc:references:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Lpl3Ul8rzmO3UVeC+Jwwn8RR19sGfsrIc4CWuuzMTB0=;
- b=oe7F1ekwhj0CjjaWsy6AhQeT5JXicRjY8PPqIeBrzibKArd4fSPOW+yg4hv33KvIWI
- mHlIIpbJKq1YgVvYYMOnOI7gqs3DZ2A0i8J2+cRGXJRrc+ugBM3dJTbBfiig/ZKXX7aT
- /SizmuuLCT9bpPlUhgDCcQTgXxcpAnn6cg/HfQ8DAhY475y/lIHp6XXE3clJRJ/IYSfi
- YWHGCCEW1myJOm5sjs/vHu+RQnmRP6h/Kk3ZHyK37rMbKocH6EbCt9BuE32qRefCbnLI
- 8L1RO8e48KIZoRQASpkyElnva6RSofSxKKSJ8Qwx/dL7NE5ulgJ8QleZEQjYDpChwwNP
- mucw==
-X-Gm-Message-State: AFqh2krzT9FM1SKZD5GR10J2XHVYWsfYP4OHPv/KaxUpeNJr2oJChfip
- l2mblhgcFN5FBxlV4KrQWZnxqG2EPSUrp6tZIja6GAPZIMvuyDAPB6bgDjQkh90OgbweriD7Ysq
- d35Ja57gRSuYlI8M=
-X-Received: by 2002:adf:fe90:0:b0:2bb:a83c:efc4 with SMTP id
- l16-20020adffe90000000b002bba83cefc4mr17373034wrr.7.1673632206608; 
- Fri, 13 Jan 2023 09:50:06 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuKV2QXPzS2dnI5Uxidv3bbVnsFXBT8MwSzKruxRVSfdXjsmuieUhuH2kZnJKQwtH1eK6Xqkw==
-X-Received: by 2002:adf:fe90:0:b0:2bb:a83c:efc4 with SMTP id
- l16-20020adffe90000000b002bba83cefc4mr17373020wrr.7.1673632206391; 
- Fri, 13 Jan 2023 09:50:06 -0800 (PST)
-Received: from [192.168.8.100] (tmo-099-226.customers.d1-online.com.
- [80.187.99.226]) by smtp.gmail.com with ESMTPSA id
- a10-20020adfdd0a000000b002bb6b45ab57sm17536871wrm.85.2023.01.13.09.50.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 09:50:05 -0800 (PST)
-Message-ID: <2b7d4672-ae00-ecdc-ada7-a27abd156b5a@redhat.com>
-Date: Fri, 13 Jan 2023 18:50:02 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sxp+GM5ymPv6TyvkEfOVeU9wh4EBckYHO6VlmxtLwwQ=;
+ b=qprThKf++XQ/vUF1zANIzLzX0MzdXs5h33WXANsgLa/uwbYxTMsoND7IXRdZXOP2eG
+ iYkq3Lx6Kiyq32ZAw5fbx+YFuIRT4MvqeKgREoI2tbnhD5VBb0YrR2m3tmmtPbEj/4S9
+ xgBLz1l1TUqzozB/rnWmcDPsemRaheJhZh85wcj59W5FTYjNSL/01ZrZJ40p6bqNVJZv
+ ASrApaMt9wT21tAgbq1kDZiBBEt4GUpK1q2IH9RW04looqTilgvanGpxVLPiXqvu8P/5
+ acGWegFalpWhh2LoUKCWoKjU1KVL6TvPesoNmZET/Xyh7lgsp6sIcCSTcajtqa10P2F4
+ BuDw==
+X-Gm-Message-State: AFqh2kpHkNek7Itpq0t+Tac5B7Tpft296+rhD6yPsht8iJsUAX/jnwWN
+ FSkFhuGudpYRcieiPBbZ+nv2NxfkZN0KFaNt5Co=
+X-Google-Smtp-Source: AMrXdXsVcgC2kJbiG9atFWHOvQnLsLwMd7OGoMOTJoImoPzQvoVU4dm2uABhwsltgbHlqM++8QD3Uw==
+X-Received: by 2002:aca:2b04:0:b0:364:5f65:952a with SMTP id
+ i4-20020aca2b04000000b003645f65952amr6600094oik.27.1673632356264; 
+ Fri, 13 Jan 2023 09:52:36 -0800 (PST)
+Received: from grind.. ([191.17.222.2]) by smtp.gmail.com with ESMTPSA id
+ 2-20020aca0702000000b00363ea5be014sm9549276oih.3.2023.01.13.09.52.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Jan 2023 09:52:35 -0800 (PST)
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng.cn@gmail.com,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v2 0/2] target/riscv/cpu: fix sifive_u 32/64bits boot in
+ riscv-to-apply.next
+Date: Fri, 13 Jan 2023 14:52:28 -0300
+Message-Id: <20230113175230.473975-1-dbarboza@ventanamicro.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: DUO Labs <dvdugo333@gmail.com>, qemu-devel@nongnu.org
-References: <bb8202b2-a4a2-8325-8ac7-92ccf7f41162@gmail.com>
-Cc: =?UTF-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?= <dirty.ice.hu@gmail.com>,
- =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: Exposing Mac Host Internal Microphone to Guests
-In-Reply-To: <bb8202b2-a4a2-8325-8ac7-92ccf7f41162@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x244.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,18 +88,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 30/11/2022 17.15, DUO Labs wrote:
-> Is there any documentation on creating a new microphone/camera that can be 
-> exposed to the guest? I'm thinking of writing one to support MacOS hosts, 
-> but I don't know where to start. I see that there's something called QOM, 
-> but I'm not sure how to use it.
+Hi,
 
-There is some documentation available in docs/devel/qom.rst ... and with 
-regards to audio devices, you could have a look into hw/audio/ if you can 
-find something similar to what you need.
+In this version I fixed the commit message typos pointed by Bin. I've
+also added some notes about the code repetition the fix is introducing
+in the cpu_init() functions.
 
-Hope that helps at least a little bit... (sorry, audio is not quite my turf),
+The patches are based on riscv-to-apply.next at c1e76da3e668
+("target/riscv/cpu.c: Fix elen check").
 
-  Thomas
+Changes from v1:
+- patch 1:
+  - fixed commit message typos
+v1 review: https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02035.html
+
+Daniel Henrique Barboza (2):
+  target/riscv/cpu: set cpu->cfg in register_cpu_props()
+  target/riscv/cpu.c: do not skip misa logic in riscv_cpu_realize()
+
+ target/riscv/cpu.c | 439 +++++++++++++++++++++++++--------------------
+ target/riscv/cpu.h |   4 +
+ 2 files changed, 249 insertions(+), 194 deletions(-)
+
+-- 
+2.39.0
 
 
