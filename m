@@ -2,83 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0944669450
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:37:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1895F669452
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:38:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGHQp-0004RX-0T; Fri, 13 Jan 2023 05:37:07 -0500
+	id 1pGHR9-0004p0-S7; Fri, 13 Jan 2023 05:37:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1pGHQm-0004Qp-5G
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:37:04 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1pGHQj-0008Jv-Ey
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:37:03 -0500
-Received: by mail-wm1-x330.google.com with SMTP id q8so3162089wmo.5
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 02:37:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bTx5bej53p4aZG7Y8vT5uMw2vQpJvrGmkuGu4VWPpck=;
- b=jLHr+o1UKMvZPmjkM9ZMLpVMUqu/JOljzFOPFq+nJZF9U6YAR+pUk41D6eMyzNl7WP
- yEN/igpmYaO0pmHvu5Lc+4aknbivW4D+kQI+GYUEyZB3oXJbtS5UijZsRz7D1qgoNk2/
- g4OIoL6RAQmM7WIDkpbX67jULdtvybsIsuKw8esB6cJaaRJxXGAEC/aC2+OapCOJBuO6
- fvShetiAgP/nQD9LUg4hBKder2H9RIiH62QSaw9jXj3QhxMcESovUGXE0hDUFGbrSCVM
- nPlOSxMtUzQs9ufv4ygxyzhLwLyKc9kVhD66mqoX4M1M9qCbNkvDEpkg6sB7N+ZKY/G3
- ZLaA==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1pGHR8-0004od-08
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:37:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1pGHR5-0008MZ-TH
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:37:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673606242;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tYCVLhTOXdJr7MT5TCkyY+jLtLRqHJN2dPiJW1syW1U=;
+ b=GXjxs5zODQqOZGj4m7uPzx7cz9deYeSaD54PwGPlE9kWQjya/QAhvD7HJvB2W2UC6h0zDh
+ W2MA53RWTz6/BK3Ib7XLfPD/5YVq0HlRMFmY41hTAeMF4sNomZV7JgxkbrGpXc0UJhK/nV
+ 1eh1UDaMB+o3dWFYwufqQzTG6somJRQ=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-455-J0PduuYLOW6gTSSlKPNhRg-1; Fri, 13 Jan 2023 05:37:21 -0500
+X-MC-Unique: J0PduuYLOW6gTSSlKPNhRg-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ bp6-20020a05620a458600b006ffd3762e78so14994438qkb.13
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 02:37:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bTx5bej53p4aZG7Y8vT5uMw2vQpJvrGmkuGu4VWPpck=;
- b=k3wjRoxM0yxxxhQX7Djy63VlwGdswfEOYbY6Jrs617NtaOtu+u+evDLCzmDC2yEti9
- lGGgoVCt8rPS1QBjx1AcB4Tbwh8d4fWr6QAhdWbdhEMCRrftRhPATnLEtGRYSmW6ET4E
- mddw1RuKfcMmXgIYrSJFlfUezTWF46ebvUOZRrIDjy3dLaIzlhoHZnLrC1lz1KUtwMZL
- x+WqTHlS999Us7ENHZ1yxO4AevGUSu0DKtYeEgINY+a+hUSrjc3Tsz7sZKfHTVEF1qQm
- nhTWKLvF1HPAnPdXV8hl6lTF/ye/WFOAeVT1nChUj3bspkhhxYWRzbOYezDtRQc+AHlM
- WknQ==
-X-Gm-Message-State: AFqh2kqYvn1EyH7XBvt0D4Y3t3I1mA3AYCEJb+y3L4Z1SbBnmm8lPOM1
- nBc6C0GSTsiAcc2am89xPP18IA==
-X-Google-Smtp-Source: AMrXdXskE3MuCNe2xeoHERH8Ho8VUeeNCyMvUlIOduGhoynOW3RRgRDxzZdwZ+xIY0quEWC/FFjCUg==
-X-Received: by 2002:a05:600c:3b93:b0:3d2:1bf6:5796 with SMTP id
- n19-20020a05600c3b9300b003d21bf65796mr58945798wms.35.1673606219900; 
- Fri, 13 Jan 2023 02:36:59 -0800 (PST)
-Received: from alex-rivos.ba.rivosinc.com
- (lfbn-lyo-1-450-160.w2-7.abo.wanadoo.fr. [2.7.42.160])
- by smtp.gmail.com with ESMTPSA id
- h10-20020a1ccc0a000000b003d237d60318sm24696480wmb.2.2023.01.13.02.36.59
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tYCVLhTOXdJr7MT5TCkyY+jLtLRqHJN2dPiJW1syW1U=;
+ b=LZV6LRdfdh7zW2R3vYxscr2RV84ugqfptrcSqHh7C2GZ7ICY8KZa63DPZPTbsVM7FL
+ qjm1gliaDdW/OlD6qL544yZmjiYr3IeifeSNRhMdIa/PyUoeodQOuXjAGgNzUNwGCJra
+ v9VLMKn5DyMG+TRO1gawXzvS2LabiqEh5NOGoQl7VhnthkzKzHjl+JdfzpEkXspRT+Pa
+ CgjFMHwvosSPaNEEN1X2PP+hHjyxjiL5APgL5XBnki+1f//5KOhnYYYqGGmtKFRRXTWz
+ JJH6wNrg8qdZdChiO98JKPVeHystNh3AqXACPuFKaVUWmmdIRfiR3zh+EkeWtcEEQr0A
+ Qu9g==
+X-Gm-Message-State: AFqh2kryv1yWm+uRqURb6zYi7g/auU1Pevz0sOBBJ2jBA0fgfgfmGWeB
+ G86d36TKFJoU96EA0mFHDhVdOBPqv+CBv5Rj+iBA3m4wBqb74TIqtJM/9AKHU5wr3vYMJlinGfv
+ rxvoILGrb2WRzwYw=
+X-Received: by 2002:a05:622a:2284:b0:3a8:55c:a893 with SMTP id
+ ay4-20020a05622a228400b003a8055ca893mr112352340qtb.0.1673606233750; 
+ Fri, 13 Jan 2023 02:37:13 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuXZ08yG/mSjid2hhp4qXf7vVNuGxHNPZ33VtoEYrmTuIhT61AeM4Uor7LcAvCAk86+c3x0iw==
+X-Received: by 2002:a05:622a:2284:b0:3a8:55c:a893 with SMTP id
+ ay4-20020a05622a228400b003a8055ca893mr112352314qtb.0.1673606233484; 
+ Fri, 13 Jan 2023 02:37:13 -0800 (PST)
+Received: from sgarzare-redhat (host-79-46-200-244.retail.telecomitalia.it.
+ [79.46.200.244]) by smtp.gmail.com with ESMTPSA id
+ t11-20020a05620a034b00b006fa31bf2f3dsm12268101qkm.47.2023.01.13.02.37.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 02:36:59 -0800 (PST)
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-To: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>,
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
- Ludovic Henry <ludovic@rivosinc.com>
-Subject: [PATCH v5 2/2] riscv: Allow user to set the satp mode
-Date: Fri, 13 Jan 2023 11:34:53 +0100
-Message-Id: <20230113103453.42776-3-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230113103453.42776-1-alexghiti@rivosinc.com>
-References: <20230113103453.42776-1-alexghiti@rivosinc.com>
+ Fri, 13 Jan 2023 02:37:13 -0800 (PST)
+Date: Fri, 13 Jan 2023 11:37:04 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ si-wei.liu@oracle.com, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ alvaro.karsz@solid-run.com, Shannon Nelson <snelson@pensando.io>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Cornelia Huck <cohuck@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Maxime Coquelin <maxime.coquelin@redhat.com>
+Subject: Re: [RFC v2 06/13] vhost: delay set_vring_ready after DRIVER_OK
+Message-ID: <20230113103704.tqa7ie2ggppqj6uo@sgarzare-redhat>
+References: <20230112172434.760850-1-eperezma@redhat.com>
+ <20230112172434.760850-7-eperezma@redhat.com>
+ <CACGkMEvvjvhFrd5DJOMM0d7OWm0=9t6-YPzsZLZ8ZeZ4RU6PQw@mail.gmail.com>
+ <CAJaqyWdePpv_htcrQ1TuEcz99x9Ri7ysFJz3+L7PuaLaPzNZjw@mail.gmail.com>
+ <20230113095143.si4qzblki3votezg@sgarzare-redhat>
+ <CAJaqyWfrb+JN8ZMfvi1eWt-uM9sQvYb=uKvygDu9bj0OmL0pUA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alexghiti@rivosinc.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAJaqyWfrb+JN8ZMfvi1eWt-uM9sQvYb=uKvygDu9bj0OmL0pUA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,445 +115,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-RISC-V specifies multiple sizes for addressable memory and Linux probes for
-the machine's support at startup via the satp CSR register (done in
-csr.c:validate_vm).
+On Fri, Jan 13, 2023 at 11:03:17AM +0100, Eugenio Perez Martin wrote:
+>On Fri, Jan 13, 2023 at 10:51 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>>
+>> On Fri, Jan 13, 2023 at 09:19:00AM +0100, Eugenio Perez Martin wrote:
+>> >On Fri, Jan 13, 2023 at 5:36 AM Jason Wang <jasowang@redhat.com> wrote:
+>> >>
+>> >> On Fri, Jan 13, 2023 at 1:25 AM Eugenio Pérez <eperezma@redhat.com> wrote:
+>> >> >
+>> >> > To restore the device at the destination of a live migration we send the
+>> >> > commands through control virtqueue. For a device to read CVQ it must
+>> >> > have received the DRIVER_OK status bit.
+>> >>
+>> >> This probably requires the support from the parent driver and requires
+>> >> some changes or fixes in the parent driver.
+>> >>
+>> >> Some drivers did:
+>> >>
+>> >> parent_set_status():
+>> >> if (DRIVER_OK)
+>> >>     if (queue_enable)
+>> >>         write queue_enable to the device
+>> >>
+>> >> Examples are IFCVF or even vp_vdpa at least. MLX5 seems to be fine.
+>> >>
+>> >
+>> >I don't get your point here. No device should start reading CVQ (or
+>> >any other VQ) without having received DRIVER_OK.
+>> >
+>> >Some parent drivers do not support sending the queue enable command
+>> >after DRIVER_OK, usually because they clean part of the state like the
+>> >set by set_vring_base. Even vdpa_net_sim needs fixes here.
+>> >
+>> >But my understanding is that it should be supported so I consider it a
+>> >bug. Especially after queue_reset patches. Is that what you mean?
+>> >
+>> >> >
+>> >> > However this opens a window where the device could start receiving
+>> >> > packets in rx queue 0 before it receives the RSS configuration. To avoid
+>> >> > that, we will not send vring_enable until all configuration is used by
+>> >> > the device.
+>> >> >
+>> >> > As a first step, run vhost_set_vring_ready for all vhost_net backend after
+>> >> > all of them are started (with DRIVER_OK). This code should not affect
+>> >> > vdpa.
+>> >> >
+>> >> > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>> >> > ---
+>> >> >  hw/net/vhost_net.c | 17 ++++++++++++-----
+>> >> >  1 file changed, 12 insertions(+), 5 deletions(-)
+>> >> >
+>> >> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>> >> > index c4eecc6f36..3900599465 100644
+>> >> > --- a/hw/net/vhost_net.c
+>> >> > +++ b/hw/net/vhost_net.c
+>> >> > @@ -399,6 +399,18 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+>> >> >          } else {
+>> >> >              peer = qemu_get_peer(ncs, n->max_queue_pairs);
+>> >> >          }
+>> >> > +        r = vhost_net_start_one(get_vhost_net(peer), dev);
+>> >> > +        if (r < 0) {
+>> >> > +            goto err_start;
+>> >> > +        }
+>> >> > +    }
+>> >> > +
+>> >> > +    for (int j = 0; j < nvhosts; j++) {
+>> >> > +        if (j < data_queue_pairs) {
+>> >> > +            peer = qemu_get_peer(ncs, j);
+>> >> > +        } else {
+>> >> > +            peer = qemu_get_peer(ncs, n->max_queue_pairs);
+>> >> > +        }
+>> >>
+>> >> I fail to understand why we need to change the vhost_net layer? This
+>> >> is vhost-vDPA specific, so I wonder if we can limit the changes to e.g
+>> >> vhost_vdpa_dev_start()?
+>> >>
+>> >
+>> >The vhost-net layer explicitly calls vhost_set_vring_enable before
+>> >vhost_dev_start, and this is exactly the behavior we want to avoid.
+>> >Even if we make changes to vhost_dev, this change is still needed.
+>>
+>> I'm working on something similar since I'd like to re-work the following
+>> commit we merged just before 7.2 release:
+>>      4daa5054c5 vhost: enable vrings in vhost_dev_start() for vhost-user
+>>      devices
+>>
+>> vhost-net wasn't the only one who enabled vrings independently, but it
+>> was easy enough for others devices to avoid it and enable them in
+>> vhost_dev_start().
+>>
+>> Do you think can we avoid in some way this special behaviour of
+>> vhost-net and enable the vrings in vhost_dev_start?
+>>
+>
+>Actually looking forward to it :). If that gets merged before this
+>series, I think we could drop this patch.
 
-As per the specification, sv64 must support sv57, which in turn must
-support sv48...etc. So we can restrict machine support by simply setting the
-"highest" supported mode and the bare mode is always supported.
+I hope to send a RFC net week :-) let's see...
 
-You can set the satp mode using the new properties "sv32", "sv39", "sv48",
-"sv57" and "sv64" as follows:
--cpu rv64,sv57=on  # Linux will boot using sv57 scheme
--cpu rv64,sv39=on  # Linux will boot using sv39 scheme
--cpu rv64,sv57=off # Linux will boot using sv48 scheme
--cpu rv64          # Linux will boot using sv57 scheme by default
+>
+>If I'm not wrong the enable/disable dance is used just by vhost-user
+>at the moment.
 
-We take the highest level set by the user:
--cpu rv64,sv48=on,sv57=on # Linux will boot using sv57 scheme
+Yep, I got the same.
 
-We make sure that invalid configurations are rejected:
--cpu rv64,sv32=on # Can't enable 32-bit satp mode in 64-bit
--cpu rv64,sv39=off,sv48=on # sv39 must be supported if higher modes are
-                           # enabled
+My doubts are that for vhost-user-net we enable only the first 
+VirtIONet->curr_queue_pairs queue IIUC. While for other devices (and 
+maybe also for vDPA devices) we enable all of them.
 
-We accept "redundant" configurations:
--cpu rv64,sv48=on,sv57=off # Linux will boot using sv48 scheme
--cpu rv64,sv32=on,sv32=off # Linux will boot using sv57 scheme (the default)
+I need to figure out if it's safe to do this for vhost-user-net as well, 
+otherwise I need to find a way to leave this behavior.
 
-In addition, we now correctly set the device-tree entry 'mmu-type' using
-those new properties.
+>
+>Maxime, could you give us some hints about the tests to use to check
+>that changes do not introduce regressions in vhost-user?
 
-Co-Developed-by: Ludovic Henry <ludovic@rivosinc.com>
-Signed-off-by: Ludovic Henry <ludovic@rivosinc.com>
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
----
- hw/riscv/virt.c    |  19 ++--
- target/riscv/cpu.c | 221 +++++++++++++++++++++++++++++++++++++++++++++
- target/riscv/cpu.h |  19 ++++
- target/riscv/csr.c |  17 +++-
- 4 files changed, 262 insertions(+), 14 deletions(-)
+Yep, any help on how to test is very appreciated.
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 94ff2a1584..48d034a5f7 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -228,7 +228,8 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
-     int cpu;
-     uint32_t cpu_phandle;
-     MachineState *mc = MACHINE(s);
--    char *name, *cpu_name, *core_name, *intc_name;
-+    uint8_t satp_mode_max;
-+    char *name, *cpu_name, *core_name, *intc_name, *sv_name;
- 
-     for (cpu = s->soc[socket].num_harts - 1; cpu >= 0; cpu--) {
-         cpu_phandle = (*phandle)++;
-@@ -236,14 +237,14 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
-         cpu_name = g_strdup_printf("/cpus/cpu@%d",
-             s->soc[socket].hartid_base + cpu);
-         qemu_fdt_add_subnode(mc->fdt, cpu_name);
--        if (riscv_feature(&s->soc[socket].harts[cpu].env,
--                          RISCV_FEATURE_MMU)) {
--            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
--                                    (is_32_bit) ? "riscv,sv32" : "riscv,sv48");
--        } else {
--            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
--                                    "riscv,none");
--        }
-+
-+        satp_mode_max = satp_mode_max_from_map(
-+                            s->soc[socket].harts[cpu].cfg.satp_mode.map);
-+        sv_name = g_strdup_printf("riscv,%s",
-+                                  satp_mode_str(satp_mode_max, is_32_bit));
-+        qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type", sv_name);
-+        g_free(sv_name);
-+
-         name = riscv_isa_string(&s->soc[socket].harts[cpu]);
-         qemu_fdt_setprop_string(mc->fdt, cpu_name, "riscv,isa", name);
-         g_free(name);
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 7181b34f86..1f0d040a80 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -27,6 +27,7 @@
- #include "time_helper.h"
- #include "exec/exec-all.h"
- #include "qapi/error.h"
-+#include "qapi/visitor.h"
- #include "qemu/error-report.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
-@@ -229,6 +230,85 @@ static void set_vext_version(CPURISCVState *env, int vext_ver)
-     env->vext_ver = vext_ver;
- }
- 
-+static uint8_t satp_mode_from_str(const char *satp_mode_str)
-+{
-+    if (!strncmp(satp_mode_str, "sv32", 4)) {
-+        return VM_1_10_SV32;
-+    }
-+
-+    if (!strncmp(satp_mode_str, "sv39", 4)) {
-+        return VM_1_10_SV39;
-+    }
-+
-+    if (!strncmp(satp_mode_str, "sv48", 4)) {
-+        return VM_1_10_SV48;
-+    }
-+
-+    if (!strncmp(satp_mode_str, "sv57", 4)) {
-+        return VM_1_10_SV57;
-+    }
-+
-+    if (!strncmp(satp_mode_str, "sv64", 4)) {
-+        return VM_1_10_SV64;
-+    }
-+
-+    g_assert_not_reached();
-+}
-+
-+uint8_t satp_mode_max_from_map(uint32_t map)
-+{
-+    /* map here has at least one bit set, so no problem with clz */
-+    return 31 - __builtin_clz(map);
-+}
-+
-+const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit)
-+{
-+    if (is_32_bit) {
-+        switch (satp_mode) {
-+        case VM_1_10_SV32:
-+            return "sv32";
-+        case VM_1_10_MBARE:
-+            return "none";
-+        }
-+    } else {
-+        switch (satp_mode) {
-+        case VM_1_10_SV64:
-+            return "sv64";
-+        case VM_1_10_SV57:
-+            return "sv57";
-+        case VM_1_10_SV48:
-+            return "sv48";
-+        case VM_1_10_SV39:
-+            return "sv39";
-+        case VM_1_10_MBARE:
-+            return "none";
-+        }
-+    }
-+
-+    g_assert_not_reached();
-+}
-+
-+static void set_satp_mode(RISCVCPU *cpu, const char *satp_mode_str)
-+{
-+    cpu->cfg.satp_mode.map |= (1 << satp_mode_from_str(satp_mode_str));
-+}
-+
-+static void set_satp_mode_default(RISCVCPU *cpu, bool is_32_bit)
-+{
-+    /*
-+     * If an mmu is present, the default satp mode is:
-+     * - sv32 for 32-bit
-+     * - sv57 for 64-bit
-+     * Otherwise, it is mbare.
-+     */
-+
-+    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
-+        set_satp_mode(cpu, is_32_bit ? "sv32" : "sv57");
-+    } else {
-+        set_satp_mode(cpu, "mbare");
-+    }
-+}
-+
- static void riscv_any_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-@@ -619,6 +699,53 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
-     }
- }
- 
-+static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
-+{
-+    bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
-+    const char *valid_vm = rv32 ? valid_vm_1_10_32 : valid_vm_1_10_64;
-+
-+    /* Get rid of 32-bit/64-bit incompatibility */
-+    for (int i = 0; i < 16; ++i) {
-+        if ((cpu->cfg.satp_mode.map & (1 << i)) && !valid_vm[i]) {
-+            error_setg(errp, "satp_mode %s is not valid",
-+                       satp_mode_str(i, !rv32));
-+            return;
-+        }
-+    }
-+
-+    /*
-+     * Make sure the user did not ask for an invalid configuration as per
-+     * the specification.
-+     */
-+    if (!rv32) {
-+        uint8_t satp_mode_max;
-+
-+        satp_mode_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
-+
-+        for (int i = satp_mode_max - 1; i >= 0; --i) {
-+            if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
-+                (cpu->cfg.satp_mode.init & (1 << i)) &&
-+                valid_vm[i]) {
-+                error_setg(errp, "cannot disable %s satp mode if %s "
-+                           "is enabled", satp_mode_str(i, false),
-+                           satp_mode_str(satp_mode_max, false));
-+                return;
-+            }
-+        }
-+    }
-+}
-+
-+static void riscv_cpu_finalize_features(RISCVCPU *cpu, Error **errp)
-+{
-+    Error *local_err = NULL;
-+
-+    riscv_cpu_satp_mode_finalize(cpu, &local_err);
-+    if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+}
-+
- static void riscv_cpu_realize(DeviceState *dev, Error **errp)
- {
-     CPUState *cs = CPU(dev);
-@@ -919,6 +1046,55 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-      }
- #endif
- 
-+    bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
-+
-+    if (cpu->cfg.satp_mode.map == 0) {
-+        /*
-+         * If unset by both the user and the cpu, we fallback to the default
-+         * satp mode.
-+         */
-+        if (cpu->cfg.satp_mode.init == 0) {
-+            set_satp_mode_default(cpu, rv32);
-+        } else {
-+            /*
-+             * Find the lowest level that was disabled and then enable the
-+             * first valid level below which can be found in
-+             * valid_vm_1_10_32/64.
-+             */
-+            const char *valid_vm = rv32 ? valid_vm_1_10_32 : valid_vm_1_10_64;
-+
-+            for (int i = 0; i < 16; ++i) {
-+                if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
-+                    (cpu->cfg.satp_mode.init & (1 << i)) &&
-+                    valid_vm[i]) {
-+                    for (int j = i - 1; j >= 0; --j) {
-+                        if (valid_vm[j]) {
-+                            cpu->cfg.satp_mode.map |= (1 << j);
-+                            break;
-+                        }
-+                    }
-+                    break;
-+                }
-+            }
-+
-+            /*
-+             * The user actually init a satp mode but appears to be invalid
-+             * (ex: "-cpu rv64,sv32=on,sv32=off"). Fallback to the default
-+             * mode.
-+             */
-+            if (cpu->cfg.satp_mode.map == 0) {
-+                set_satp_mode_default(cpu, rv32);
-+            }
-+        }
-+    }
-+
-+    riscv_cpu_finalize_features(cpu, &local_err);
-+    if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-+
-     riscv_cpu_register_gdb_regs_for_features(cs);
- 
-     qemu_init_vcpu(cs);
-@@ -927,6 +1103,49 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     mcc->parent_realize(dev, errp);
- }
- 
-+static void cpu_riscv_get_satp(Object *obj, Visitor *v, const char *name,
-+                           void *opaque, Error **errp)
-+{
-+    RISCVSATPMap *satp_map = opaque;
-+    uint8_t satp = satp_mode_from_str(name);
-+    bool value;
-+
-+    value = (satp_map->map & (1 << satp));
-+
-+    visit_type_bool(v, name, &value, errp);
-+}
-+
-+static void cpu_riscv_set_satp(Object *obj, Visitor *v, const char *name,
-+                           void *opaque, Error **errp)
-+{
-+    RISCVSATPMap *satp_map = opaque;
-+    uint8_t satp = satp_mode_from_str(name);
-+    bool value;
-+
-+    if (!visit_type_bool(v, name, &value, errp)) {
-+        return;
-+    }
-+
-+    satp_map->map = deposit32(satp_map->map, satp, 1, value);
-+    satp_map->init |= 1 << satp;
-+}
-+
-+static void riscv_add_satp_mode_properties(Object *obj)
-+{
-+    RISCVCPU *cpu = RISCV_CPU(obj);
-+
-+    object_property_add(obj, "sv32", "bool", cpu_riscv_get_satp,
-+                        cpu_riscv_set_satp, NULL, &cpu->cfg.satp_mode);
-+    object_property_add(obj, "sv39", "bool", cpu_riscv_get_satp,
-+                        cpu_riscv_set_satp, NULL, &cpu->cfg.satp_mode);
-+    object_property_add(obj, "sv48", "bool", cpu_riscv_get_satp,
-+                        cpu_riscv_set_satp, NULL, &cpu->cfg.satp_mode);
-+    object_property_add(obj, "sv57", "bool", cpu_riscv_get_satp,
-+                        cpu_riscv_set_satp, NULL, &cpu->cfg.satp_mode);
-+    object_property_add(obj, "sv64", "bool", cpu_riscv_get_satp,
-+                        cpu_riscv_set_satp, NULL, &cpu->cfg.satp_mode);
-+}
-+
- #ifndef CONFIG_USER_ONLY
- static void riscv_cpu_set_irq(void *opaque, int irq, int level)
- {
-@@ -1091,6 +1310,8 @@ static void register_cpu_props(Object *obj)
-     for (prop = riscv_cpu_extensions; prop && prop->name; prop++) {
-         qdev_property_add_static(dev, prop);
-     }
-+
-+    riscv_add_satp_mode_properties(obj);
- }
- 
- static Property riscv_cpu_properties[] = {
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index f5609b62a2..0ffa1bcfd5 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -27,6 +27,7 @@
- #include "qom/object.h"
- #include "qemu/int128.h"
- #include "cpu_bits.h"
-+#include "qapi/qapi-types-common.h"
- 
- #define TCG_GUEST_DEFAULT_MO 0
- 
-@@ -413,6 +414,17 @@ struct RISCVCPUClass {
-     ResettablePhases parent_phases;
- };
- 
-+/*
-+ * map is a 16-bit bitmap: the most significant set bit in map is the maximum
-+ * satp mode that is supported.
-+ *
-+ * init is a 16-bit bitmap used to make sure the user selected a correct
-+ * configuration as per the specification.
-+ */
-+typedef struct {
-+    uint16_t map, init;
-+} RISCVSATPMap;
-+
- struct RISCVCPUConfig {
-     bool ext_i;
-     bool ext_e;
-@@ -488,6 +500,8 @@ struct RISCVCPUConfig {
-     bool debug;
- 
-     bool short_isa_string;
-+
-+    RISCVSATPMap satp_mode;
- };
- 
- typedef struct RISCVCPUConfig RISCVCPUConfig;
-@@ -794,9 +808,14 @@ enum riscv_pmu_event_idx {
- /* CSR function table */
- extern riscv_csr_operations csr_ops[CSR_TABLE_SIZE];
- 
-+extern const char valid_vm_1_10_32[], valid_vm_1_10_64[];
-+
- void riscv_get_csr_ops(int csrno, riscv_csr_operations *ops);
- void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops);
- 
- void riscv_cpu_register_gdb_regs_for_features(CPUState *cs);
- 
-+uint8_t satp_mode_max_from_map(uint32_t map);
-+const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit);
-+
- #endif /* RISCV_CPU_H */
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 0db2c233e5..6e27299761 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1117,12 +1117,12 @@ static const target_ulong hip_writable_mask = MIP_VSSIP;
- static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
- static const target_ulong vsip_writable_mask = MIP_VSSIP;
- 
--static const char valid_vm_1_10_32[16] = {
-+const char valid_vm_1_10_32[16] = {
-     [VM_1_10_MBARE] = 1,
-     [VM_1_10_SV32] = 1
- };
- 
--static const char valid_vm_1_10_64[16] = {
-+const char valid_vm_1_10_64[16] = {
-     [VM_1_10_MBARE] = 1,
-     [VM_1_10_SV39] = 1,
-     [VM_1_10_SV48] = 1,
-@@ -1211,10 +1211,17 @@ static RISCVException read_mstatus(CPURISCVState *env, int csrno,
- 
- static int validate_vm(CPURISCVState *env, target_ulong vm)
- {
--    if (riscv_cpu_mxl(env) == MXL_RV32) {
--        return valid_vm_1_10_32[vm & 0xf];
-+    uint8_t satp_mode_max;
-+    RISCVCPU *cpu = RISCV_CPU(env_cpu(env));
-+    bool is_32_bit = riscv_cpu_mxl(env) == MXL_RV32;
-+
-+    vm &= 0xf;
-+    satp_mode_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
-+
-+    if (is_32_bit) {
-+        return valid_vm_1_10_32[vm] && (vm <= satp_mode_max);
-     } else {
--        return valid_vm_1_10_64[vm & 0xf];
-+        return valid_vm_1_10_64[vm] && (vm <= satp_mode_max);
-     }
- }
- 
--- 
-2.37.2
+Thanks,
+Stefano
 
 
