@@ -2,151 +2,151 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E80A866A545
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 22:45:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C522666A54F
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 22:48:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGRqY-0003sy-FH; Fri, 13 Jan 2023 16:44:22 -0500
+	id 1pGRty-00058u-By; Fri, 13 Jan 2023 16:47:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pGRqW-0003sj-RB
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 16:44:20 -0500
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ id 1pGRtp-000569-ES
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 16:47:46 -0500
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pGRqU-0007nI-T2
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 16:44:20 -0500
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ id 1pGRtn-00006M-Mo
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 16:47:45 -0500
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30DLiE1S009707; Fri, 13 Jan 2023 21:44:14 GMT
+ 30DKsWin024510; Fri, 13 Jan 2023 21:47:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : references : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=6qA9ksCLRYxyYM15FMkLyApJ70gWcE7bx0niT+wT49Q=;
- b=KvD+4gWP8TBQ9GPayTPDEuEhk+FRhIE8SiErubRzuH3eZ+1NJCH+NUPWUNuvJopnXjD3
- B0AB3voXiDEqyjIzkUds4x7iNdLALWdWbf2a1GBzD6wBzx4dV4a/oUzJ+qGaMW6MIjOl
- muDBhrtwb05Vgtroz2cexvejbUkyi2Do6xhOogn61/pbuhSCwcevi0js9AjUACKUD/YG
- hSqbXcmn+sJjpurovmSdqKlVQPW79RQMPpyhCXueaRYA5gohyj5TlrlYLP6P1uXTXyQH
- hidrJ4AFU7iIt/KCQ0PiDiRKIdbfM+bOETJesciDs12ax09DIPLIu+lPnRDp31mF3TIQ Mg== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n32wu9yk2-1
+ bh=Cv0VUY9jr6YCapIzooviWFuHRP+XRjERl3zayu0uncc=;
+ b=pC/OxqcFzSLO3b3+n+KCzK06thQXotnczZv/L0LI7Kddu+eaAz/q3ktq3jmuEfanJ+Bx
+ iWb9dGWKAzDEn4pHQ3EkKy03kKW6oGOi1mbhu3khD8/V2TAUauGRUTTx71wf83ms+6F8
+ 3k/v5m60fGpMQ+Eu+8Npm4SYHZU7hrCd5kdPosfN61b6K7MGGKt3wmcvPyZU/0N3Zbgl
+ cJZlsfO++8KINn/p4ZxlT4us7WMoP0pThOiyZ1DbuuGa0/GLCDR7uCNMRutb6i5LFvBY
+ vMmWAlNCmMgAxMusPydkfIry7tWc9iSIlq6nnpUgj+8zbkrJJrrCf9mAN+f87oVu8p9b 2w== 
+Received: from nam04-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04lp2045.outbound.protection.outlook.com [104.47.73.45])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n2fwpv3jg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Jan 2023 21:44:13 +0000
+ Fri, 13 Jan 2023 21:47:41 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K3j+3ICIWW/LBehKNcEa/czePI2nCEY0akT8CcUJBXLX2w+agusRIS3v91FssdCTTqQMmwoOirrrF6EOfP+8zdvPVTIfbc4XSCXOtjxAE1Bed+xkRbcUzdXjZxQml//Ni54VlQOJThn87587S+fBD+yQJa6Il5zVizSYsgAct09vscpDLMzqmrnzBuHUpMmfihl3wwYE0p9UL0B2j0cyfJBoWReQf6piT+Mf01ZMrDlrakvYRerOrrJ7h7DMQIDbRW+zaYZu0X/4jbiSX8pR91A+g96qomNobIHRON04vzOkAaqulU8oNgJiWRRYyJBnftCYfVl3IfjMbC9Jw4sF0w==
+ b=Jrr7awtnmiOtGGUAXLqJjYm6dGmQOilJ2XbjZ4rK4TrPPVBJaIoAQ+hq7saaJDlnVbumlLw7rC0/7PoYNoo7ezT/JF+P246tmZItrpRrjFfInduHxfgQM06Ey8zX49e9IBwClL+X3iIY+/3iomHjEsAB1888Xzn2OCAehiyAX0B9tBT6XqstTklauLvWlcGHkCyHBNt++V8OOrH2y2OxGLmN83nVLPUW91haMs/h8u/73XwJ2ykFNIJD79+m/OiNIOaoBhOVOhzzf6xy25aiejAJ9KSzvZga1IM1GMxnu8cOf2ZiJ4JMZ26xk43UMO4DIwtULWDrCo/dwMqQF/zH6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6qA9ksCLRYxyYM15FMkLyApJ70gWcE7bx0niT+wT49Q=;
- b=JsRd35UREzKm/RTtPnyvHGeTWJHZ4sfrZxjHmhu35wyO2Rk6JAZLwC4iJ3r4Rsob+gYrq2ZDiDSO0Q74r0o+rDecnakOMvXOcZIdh9OjU5JrPcEwwf+0xyaA/Hjp47PQQT7O/rdsLP7lhGp/vcFh59jSNWCa+j5shvpMV9QsGXojYxePquxJu/IpTm7yhJiBJ/wtrslnfssr30lEPS/RCyQQaczEQOseaSH1biVIbZc7OH1od3VjuFUtX0709vGVcw/s2e+igPEtjfXxiYz1uzq4Lx5Cy/64PQRcFgyTVJlYsFevCbm7d72I1TPuxYk0J51sGS8E8zMtiA/JaeOJfg==
+ bh=Cv0VUY9jr6YCapIzooviWFuHRP+XRjERl3zayu0uncc=;
+ b=D8vt67bkuxvez+hO0uH2qvXE90Ra4arr/ETjS0QULR8G45XxW9Jiet+eg+ExxGhuq7ti23dQEnbczEZL+0tp7ypGh+iNanu8qwVfA5wfjyepiKvb98IAg5qAJVcLuvPww9AoDamyfqQO2gDkzbf1bvp3Ruwl7J/bWTucff/9ixV2A6YgjPqDY67FIGOAMKixUB2jNHGObCrJxGC2zREUCL5TwEvhynR53BXJaNCmv6uebo/MfUBReCKyfcwQjhsOzJf3DkPHQVrnRpDFc3xzA4mh5D2XDpHtX+F4wLKiROL7jxqczAnlmUP2l8MdMsU2tx/UBAZgFqKo3JvEQC5Jvw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
  dkim=pass header.d=quicinc.com; arc=none
 Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by BY5PR02MB6819.namprd02.prod.outlook.com
- (2603:10b6:a03:202::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Fri, 13 Jan
- 2023 21:44:06 +0000
+ (2603:10b6:806:203::12) by CO6PR02MB7508.namprd02.prod.outlook.com
+ (2603:10b6:303:a8::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.19; Fri, 13 Jan
+ 2023 21:47:38 +0000
 Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
  ([fe80::ad4a:7f4:772b:2a86]) by SN4PR0201MB8808.namprd02.prod.outlook.com
  ([fe80::ad4a:7f4:772b:2a86%3]) with mapi id 15.20.5986.018; Fri, 13 Jan 2023
- 21:44:06 +0000
+ 21:47:38 +0000
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: "Matheus Bernardino (QUIC)" <quic_mathbern@quicinc.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 CC: Brian Cain <bcain@quicinc.com>, "richard.henderson@linaro.org"
  <richard.henderson@linaro.org>
-Subject: RE: [PATCH 1/2] Hexagon (iclass): update J4_hintjumpr slot constraints
-Thread-Topic: [PATCH 1/2] Hexagon (iclass): update J4_hintjumpr slot
- constraints
-Thread-Index: AQHZJ1R4PdLeHoPogkeq+2J5H96Fxq6c4WFA
-Date: Fri, 13 Jan 2023 21:44:05 +0000
-Message-ID: <SN4PR0201MB88083B709370C4345442CCAEDEC29@SN4PR0201MB8808.namprd02.prod.outlook.com>
+Subject: RE: [PATCH 2/2] Hexagon (decode): look for pkts with multiple insns
+ at the same slot
+Thread-Topic: [PATCH 2/2] Hexagon (decode): look for pkts with multiple insns
+ at the same slot
+Thread-Index: AQHZJ1R5OFERJ+65HEuz0a1DVAYVba6c4dyg
+Date: Fri, 13 Jan 2023 21:47:37 +0000
+Message-ID: <SN4PR0201MB88083AF156EDEF92AC508E51DEC29@SN4PR0201MB8808.namprd02.prod.outlook.com>
 References: <cover.1673616964.git.quic_mathbern@quicinc.com>
- <0fcd8293642c6324119fbbab44741164bcbd04fb.1673616964.git.quic_mathbern@quicinc.com>
-In-Reply-To: <0fcd8293642c6324119fbbab44741164bcbd04fb.1673616964.git.quic_mathbern@quicinc.com>
+ <b976c19578a6aae55bda9b4fe21f91d88d924eb0.1673616964.git.quic_mathbern@quicinc.com>
+In-Reply-To: <b976c19578a6aae55bda9b4fe21f91d88d924eb0.1673616964.git.quic_mathbern@quicinc.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|BY5PR02MB6819:EE_
-x-ms-office365-filtering-correlation-id: 263a4a20-4533-4cfb-ee47-08daf5af4bc7
+x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|CO6PR02MB7508:EE_
+x-ms-office365-filtering-correlation-id: e77fbd0d-461a-4ebd-10f2-08daf5afc9ee
 x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: dXGbSPD4wr0Ax1OkIsoVZnxvTcV6sYXcrUulTAXeAK/96ytEY7r0REJ437haSucAevn+RDVNWoN00MpfuKJTb955E+Ta3xsjmntUjCsslGHJQVUnUUlEQdUt73meTaMwxuLPMOZcpaECowCtZOffKkgF2TifMztk0zvP7k2UiHeYNjNn1H4kuubAg3TxoRDRl7KIf6+tsm9YdpRZ6ZZEVdrUXUIjw8Ra6uzR4qaofCsj+aBhvHMG8NuGhHsjQAq7PQakOdmBw3cKqCgPmXndnZd/2A6b/M4b7OYVFtpc3DXrCCZ7aZmk8T3u7fCAPapFyAlKJoU4lDWhpaYbcQ8bVty4rutX4U0EJK63HlxZp0C8r9Bfo6CdN6xlhdIP8wKHomNy2GxrBxeFpVRROAIC8b2kzXKYrBCGlpcWStW7Hfe4oq2ntYDqZWSR+W/GQIDSVXGDx6lp7xHQfWSzLZGcwp3odPi7rNi8VnkHSXYCRI27RQT9oBaNJ8pyPnfQNXuxw6/TYaPvGI4NKmBJo1PGE1xHC82kjjvd5cjqSV36yMRblBO6BlhaMW66nN0REv3rYWKQgnoHj0RYI1jiPT8kKRMEjPCrA0H/51TK30z8XuK5tfDInsHC+DGvAdDI+nP8foy4ACnUeG7cC1uYNd703YWkYz+sLZ1trtGAOKDQaaCgp5ujPIdo04C6b659i9cL00zno8x6RZ+dvLzkkuATSA==
+x-microsoft-antispam-message-info: r7xsdvrJ66BV0yHKAFqcyV9bJ7n+n/H2c8BGWT2gFbsXvfOEjFGk+zOMIKddGSazeecxHW7Fxvo8wsqJOJ/7aBDKiEG3TYb16UPJ7FJNzqgPgfUsaH6JnAX3HpXoo2E5HLUkVvOQuQvXPl1NCwX6P4e8VzI2/0ihLO8f4oLgXTueXy71W3visf7xuCAJ6uB78od70QVnFrGBQLigbt1R1CifbG0CD5zdyZQF2uWzN3TNmMZDASpqajwL7rUwq6MOgx6y3Nperws1k3rPCEU/0WIG+edVNdJdbwJRP6wLTCQYfDeEspgV+Nv+JOBDzkht4OccGI8SbPkyTchy9SZtZPrhaJ2RbcZFxqV9JJgIJyP78TCB6kfexS2El9HP13eroeORK0goZJ+61ql+MMZvq5VxtxhNVDr/HqNigYA26J+5/6w6iNUaB0Q6EwWiu08czti7neBjMazXuxzPcGsNN+G3kEhsZPF5TkKlDP1p/vNb67Kj/9FKMEOpnue/Qg9PB2RH6o+qa0FmhjVAUFuKV3Zd4158B+Vnx3dG3tWSMuAcWecSbPjXO8EPfNSS7KyaVR2z11lqLX+DRex+1c7jk/UJg/e6UkiMoilb712t12fAmWqd+IES3caKOY6Rc2ULIDk+aZcVVoeHW9tYfKTSnI0m+IHvS/zok63+x59XnMVZlruS7dOpcjnU7HolxxuLmGO1/QUoYg4QM82DXfJFgg==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(366004)(136003)(396003)(39860400002)(346002)(451199015)(38070700005)(478600001)(41300700001)(33656002)(38100700002)(71200400001)(86362001)(316002)(54906003)(110136005)(26005)(66556008)(186003)(66946007)(66476007)(7696005)(55016003)(76116006)(15650500001)(5660300002)(53546011)(6506007)(2906002)(8676002)(66446008)(9686003)(64756008)(4326008)(52536014)(83380400001)(8936002)(122000001);
+ SFS:(13230022)(4636009)(39860400002)(396003)(136003)(346002)(366004)(376002)(451199015)(8936002)(38070700005)(8676002)(66476007)(66556008)(41300700001)(76116006)(4326008)(52536014)(66946007)(66446008)(64756008)(54906003)(2906002)(33656002)(110136005)(5660300002)(316002)(55016003)(86362001)(26005)(71200400001)(9686003)(7696005)(478600001)(53546011)(6506007)(186003)(122000001)(38100700002)(83380400001);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?4q8xuSTVaurJ+JASoW3eBc4ZJ4nBsREgTOgsU40wPgGr9H+Wmv+rxXNVro0U?=
- =?us-ascii?Q?oggor9zeE7J+5N/KhxEJtd6/2Pr0s1hnCCWobFyYsMKXohzCumi4zV0ZQ6Rf?=
- =?us-ascii?Q?SPIQbpBLNG1rtoSzILLqZM7xSB041m1LMep8BxDDe9/W+0XrB0oAnTTho326?=
- =?us-ascii?Q?L+pXBMuAuuAnTGRwg8Lnza9DtFBIIYCpBr7QHRbSwYrjm7rkOioObN6GwwI1?=
- =?us-ascii?Q?GeZtEnaTQ5LxC1jgVfDGbyx6MusEjbKSchUtwgqE/FQx1FSdlHG1JLRJdRvy?=
- =?us-ascii?Q?tNIzFSCJgnm2KSA/mpCORNZMvmLK7prJgn4f2rnu6m9Z8gaILgfus+NUuhR+?=
- =?us-ascii?Q?jvIZZntc7ib86SDNvtRtwxA38IeWSjAGv7x73s9Q+6PHd1ZUurR5vVyhNJ5I?=
- =?us-ascii?Q?JcfWPFLCd94o1GyBnU79CVdpszGKJuadfbtCXkR0xz0RIKv/YNi/8AHeMiTx?=
- =?us-ascii?Q?KWsubqSvVnuhpb7/2IMuw4bXRXlicsrffhTZl9jPoe2aCi/e6hD7fExNg/RC?=
- =?us-ascii?Q?k2Fofg0Gff0Rlds21VfjenVpWgPGI2AjAiDhTOfSj5TeM4xcXoiLJF0z3Xgd?=
- =?us-ascii?Q?b2rRpif0N7hUJqCJjLBTUWnAHGMt4Bt/8nOlya9wHygpDU6ORZ5HV7aH5D9e?=
- =?us-ascii?Q?aaXN9h58lhAdP5/APVvmU1mqeCo/oz8LJSK7h911oHpnlYTvnIJqsoYvoJlG?=
- =?us-ascii?Q?6Qrh55DPq1d3/DLEQwVGPH3835sgFKObpu0pBCKlurIvdmi3BgbrEMxYCL4/?=
- =?us-ascii?Q?SqHZHPbsEf6f5CwoemLr1qQ78StUkmPBq3ovSxkH5fu/4w+Y6seiHjb63wYp?=
- =?us-ascii?Q?qTFCblrBHwN4KrzXFDdZJMTN10eHualNfrWbb/9zavwRIBzm3ZfQwNKF4ySv?=
- =?us-ascii?Q?JhUMuMyfJoWsCG643MSgcwR32yoe2veFCN7D7wMSgZZW4DukQtpnZIeP4JW0?=
- =?us-ascii?Q?j2eOPmgnstiX4p8W0xPEbPmCbi7phZ67Jc7rrEqEcEXgdtY4AT3vJiWhowba?=
- =?us-ascii?Q?HfREa+slXOU1dZsJMwOqxPjN+phmzXIMNwid66UdpcKKBmZTsyAhpG5fTvYB?=
- =?us-ascii?Q?KXVz5N8Bxz4CMdsHd5OzX+wiwNhO8TEJOxQeoPdBlqkIHLArijrM/2xRRG3m?=
- =?us-ascii?Q?uWZeRsdLibV3ftgEhsgzZh37C1FV6kzJFNyVC7HS/w6NPprL8A486rcCTNWf?=
- =?us-ascii?Q?797tny0DqZVtMbixSye0YCwk6cbfQEO7qq0tKU8dWE8qziA5nPg1k5gfNS7L?=
- =?us-ascii?Q?l0Hb3Xd+pp2pq3GsBfSthOIGdIAXRnQU9a11zwa9P3rFXmjF+PuDeps8odsl?=
- =?us-ascii?Q?NKsD9deLHhFCOb2M/0DV6dx8F0uMG0T/3/xkxuJzR7rp3JO934xvp40H+Deg?=
- =?us-ascii?Q?Q69tPxRnqXX2Y+QgIxwPllPUrAMEoUCMIZjK/bq8aE3nIRIA6myCcxJE6G+S?=
- =?us-ascii?Q?ESUeaEBKXihyUJZyiKvEMemos5YyNCOysYSpb4XvQjlDtUgBXeTtYc+NpCA9?=
- =?us-ascii?Q?hL4mvAkKW+zpYj7o9Qb57xZqmQIBHGkuYRse0Q8kPIoybQAFIOFHl0QgMW10?=
- =?us-ascii?Q?JgxK5VYTo4VjZP/7j1isfork4ssaHoWmA7daoClZ?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ytSY6Mi5vGkuTedf5f4mbUyXcDIqSfSu8JKguloGMHZNQDrh3jw//LgJuGoK?=
+ =?us-ascii?Q?G3u0oHjEnwHWMPQJ5FOG2WZqV9k9sa1w1lsjx4guQOhbGsZFu0VP8sd6PSmY?=
+ =?us-ascii?Q?jhmuEOkURv85zlqzfRcYJt890CeKaY8j1MtW7Ihoibn7eMjbB85e1ILMVbgj?=
+ =?us-ascii?Q?bwupgKt+wwrnpexKY95XFTVZnu0GW+cUsrxIVuUIwnCZJbolnJG3O4lqfBDW?=
+ =?us-ascii?Q?0RdcMp6xxHmR0rckeWsk5TUOjfw1DZjZjrgHCF3t+MI9xuKhakYxpalsP5d9?=
+ =?us-ascii?Q?CokHBEapclDDYLzTlnFXTeXvN8I4elp/BnLgNUjaJmUNp+1aNOzXpMPVenYz?=
+ =?us-ascii?Q?oB37Lo+MFfG9Ba3ojMeSNw3ACnbaALeOdzmXtehZlSbXtv/rcK56MajYR9tN?=
+ =?us-ascii?Q?gM8rOkng0/AAR15nfal8b9QBIGva4UAe8s8DaRzwozJ+4g+DF6Ials59Y/tZ?=
+ =?us-ascii?Q?uJ2I2FuL89TRJx32LOlL+tqKY1MaHaQ36kLOYraCIJTQ4AjdV9kGs7qz6lHF?=
+ =?us-ascii?Q?dpOO7MXdnj+5uZuBGMpN1MicHArr6VJs8tYAlJGnv/HnVC6gVBjUPqoWdc7+?=
+ =?us-ascii?Q?Nc5Z8/1GorTYDOYhE5nJJ3Tb63lJtCK2HiqyCymgforT/XImd6UFxyeW5rTx?=
+ =?us-ascii?Q?zUVw1q75GbR2+2ylCkUe1NH5DVBPhNqn5tOCW87OieSbrIxWqq/eTX1KJFoA?=
+ =?us-ascii?Q?owSxKN+nOvf8jUCpfN/RxKP4zTfWkeeiyrIS/+BfgRIVdFl8kZHRHOZZsZwd?=
+ =?us-ascii?Q?t6+dbBAucRtVGpDyTmH6wL86IGU9J5zymXxL4aSOuC0aCCOQyXXeekIfdbXT?=
+ =?us-ascii?Q?UoQZo6qvMALL2FvyeazV21C6RnhLe/g33zbuUg60wq9Rp/B1QXhMblWDOFg5?=
+ =?us-ascii?Q?4Ssnk5/6MxfnfnpPH6S48U5/TL+d27yiH55ZcwJiVp+Vz9ni8zpUHm+6voHf?=
+ =?us-ascii?Q?jLuux0H7QSyuAgO86avwBy73wYL5Lf9JKQcDGZTJoAZVWfDpauw9y4Gsk6ea?=
+ =?us-ascii?Q?a8znAppd7RdNfiCkpFAn0DSlhfmRvXMscANo3k5HPAdiF1qtJPGmv8KOURf9?=
+ =?us-ascii?Q?e90YAbHJxIy8Tq3HgNl2OS8SIiVDl7Zshzduhuv7Pwb2q2Ckj1IJEmpZCT8N?=
+ =?us-ascii?Q?rRy5tgYqRj1GksOp0g58gCjnT473Mg4zKVXheycCXNQPGiCMmOJFJsCsHdwz?=
+ =?us-ascii?Q?6OGyaKe7DmWc0g40qwYO6SISOgBDmHI8YzoCWk9wLlL12q2p1Fv8yVZihaHu?=
+ =?us-ascii?Q?C/08d+O1gHJ6bsGKyWMAweYN3ChC+vK0EViNtg7rGp3Go9rAaDcjnE+91ZIE?=
+ =?us-ascii?Q?iI69jMQx/m2oAIYDMTCk7W/YvzpWQYm7bcAj/sg2OQpJOUthFT5THgWSW+vl?=
+ =?us-ascii?Q?UEybUcPCH71NJx8Hu4NereO6WUN150p8eHj1NdU42jeg1nFuTCcEmBn3csne?=
+ =?us-ascii?Q?4U3fz1iJjrvTF9r6PHqT+RsOjFWYlRmFMgh8txx0MInnRhAAW5fjQ/iL1Yd8?=
+ =?us-ascii?Q?4ytKhsnpm8fG5mmDUtuVNhmS/gzUukDx/3X1ofT6uuxHc9PiN7rBmAV6Aj0X?=
+ =?us-ascii?Q?5sPAWA4AA71LQu/EX0pHE4XUC46nm1PfpqIWuH/4?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: AZ68E3lnMcB+p7xp6bvoxXCOeqX0w/hUCbGMstU/csvoIPHzmLMI8sMPbKu/33h1EJ5flMG8O+K8k8tBcI34ySM6qLobJmWAh5GJS0ZHIkz3tneP4FjIXtLIiiEK+gs4geJUpk0FgGqulq7mGQ3noC/i9jsxy2uH4kg6aGJ0z0A4l+qtw7h/fsv2G0uPWp9mDaU1OFAKkqGBWzZLAGesVhtM++L4Vc3IvfdyJmPDdiHGVyIHZBGjqmiU43uqySysNbn8rn1aab0NVvojGV4cjD9AcgzJVZNq6SbVmpFcRA4gafFac3TgWCbeGRBj79jsV0k16UDU7cdv+ZaFFHfFS65uSXlIbHIzJdHEWfdKYnhpdsmvmcx+ena2YJA6QTcGyrdROnmnSu/7EukqOhCZ1yE2wovlUkCwKDQekzu1ZLedqs6ScvCbyCFlOgIHP0AqEcF4HexpVqZsboYshJ9wNvupw3q9gwlpLghvCxChcLKoe2hSMMybrwBnFHOzY1DNOjqYNB1BkhAEIesUB7G/Ar1O1SZg+2gEloHOTaQS+9c54zk83UaijrIvkE3LaXUTw8VNytiwfDRCvAccIlGQ1JyAUv1bnNyp8nvXPloKql44tnx2NcCYfX0IFrAPxA3HS8JFfVdNngp+q3MWP6cNKZINN9f/85ctz8Fswiqe2IKCDicp3mWtNR/nu2RRIKJKjYVGMnMWnROZnxTAJwez7C8wfFh0gp3tP3bwqPMYC6J3HWtU1PVIqplIo4JMRqP+7PnULc3MhHrtmWRuXagYDIFekKWkf0ff5Y3JgRSCa+8=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: mBfKWFzWlqXze2Jr3ZL+dOXz+/E+wgG9lVaT3NKHUPMBVj7c1WeI9YOXC/ZMK9UHCzrD9jvQSg+a5rDP29vBQCTqupaQ5lwNFm9XYSn5X+pmkBqxoLffOYhqgyOzUjjIP2fttCRfWkgMco3dBbJVwOqk6VZVqi1TURPPQr5aSr/0Uy2tdQ+XXtFkwK6ivOHT7FhLyEobPBhozNqpRhkthEQd32+ngsAT+pdxTJkwxMaLWEm3scZmDz0mJEdGiw2j1UWKyeAGYZ+SqkVQbntz+wZgk//IrFQCwb4wrEpNM2AcSee+LvZd2P07ZcpDAPEZ37vqlz9TXEsoQWtPfVfpxNBA7I+mMgZMTfKcOfRNnDGBP5QZs2FRnk17uXo6SX3g1fmVk/PgdnsC7H8vwrZr2XLC1cxfYsI0gEMu6uq+9br9tHHAIjcA//JQBio+ep7iFeACPPNeozY6nSovhLJNsT6AWHWh0fgshzO7MIDWd5QiiqorySLBKDYME3wKzmFFTpah1yRqqwIbq8EclNph6Tw+nJATq2ZBNZLiSKQJyyEnO9SgSDTCbIYt3WLmQd44MVv+ZDyZ/gjh5nBnxLoxwmzFE4iXLtiVwhCb0DbZDGNauFRJWXDPfet1wmhngZfe3824nHWgTSxmfmtPRMvxQiV7Y6bseLObbWj2lAu7mD0GfSve90zwY7xjU+uR8ZVSxXFUzZoJ5YWCaHCM5wKX5N4nEdioCfE1kJBXsTRcT3bVMBEGviPTP1rl5xrhA9ZbzizYSwocVmU6XMN3MGKHWL5NTL4ADXhqMQqXcNrQqcQ=
 X-OriginatorOrg: quicinc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 263a4a20-4533-4cfb-ee47-08daf5af4bc7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jan 2023 21:44:06.5509 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e77fbd0d-461a-4ebd-10f2-08daf5afc9ee
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jan 2023 21:47:38.2094 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FrbLGyW9CDied/q5uJ/t0cfnHGIvYKSnEg0UqJ0SCjGb4xSODGJ4MN8Ldwxd4HwOLwDdOMkZRyGqPDLaY6FkhA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6819
-X-Proofpoint-GUID: sN9Z1Vdjyom9I-y82_gYaW-gBRDlxDcF
-X-Proofpoint-ORIG-GUID: sN9Z1Vdjyom9I-y82_gYaW-gBRDlxDcF
+X-MS-Exchange-CrossTenant-userprincipalname: FqXX0qpf4Y6ty0BQYBWdXZqhnv0ieqt/htiFDy64bDAi3m5uno3Ed/H6TTFNZRqRvsNizHtK2AOr+kRJXcZewA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR02MB7508
+X-Proofpoint-GUID: BvSTVoSP5uoBtDV8-7n9tTlCS_nc_KGA
+X-Proofpoint-ORIG-GUID: BvSTVoSP5uoBtDV8-7n9tTlCS_nc_KGA
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-01-13_10,2023-01-13_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- mlxlogscore=352 spamscore=0 clxscore=1015 lowpriorityscore=0
- suspectscore=0 impostorscore=0 priorityscore=1501 mlxscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ lowpriorityscore=0 clxscore=1015 spamscore=0 impostorscore=0
+ malwarescore=0 mlxlogscore=625 phishscore=0 bulkscore=0 suspectscore=0
+ adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2301130149
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=205.220.180.131;
+ envelope-from=tsimpson@quicinc.com; helo=mx0b-0031df01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -171,67 +171,28 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 > To: qemu-devel@nongnu.org
 > Cc: Taylor Simpson <tsimpson@quicinc.com>; Brian Cain
 > <bcain@quicinc.com>; richard.henderson@linaro.org
-> Subject: [PATCH 1/2] Hexagon (iclass): update J4_hintjumpr slot constrain=
-ts
+> Subject: [PATCH 2/2] Hexagon (decode): look for pkts with multiple insns =
+at
+> the same slot
 >=20
-> The Hexagon PRM says that "The assembler automatically encodes
-> instructions in the packet in the proper order. In the binary encoding of=
- a
-> packet, the instructions must be ordered from Slot 3 down to Slot 0."
+> Each slot in a packet can be assigned to at most one instruction.
+> Although the assembler generally ought to enforce this rule, we better be
+> safe than sorry and also do some check to properly throw an "invalid pack=
+et"
+> exception on wrong slot assignments.
 >=20
-> Prior to the architecture version v73, the slot constraints from instruct=
-ion
-> "hintjr" only allowed it to be executed at slot 2.
-> With that in mind, consider the packet:
->=20
->     {
->         hintjr(r0)
->         nop
->         nop
->         if (!p0) memd(r1+#0) =3D r1:0
->     }
->=20
-> To satisfy the ordering rule quoted from the PRM, the assembler would,
-> thus, move one of the nops to the first position, so that it can be assig=
-ned to
-> slot 3 and the subsequent hintjr to slot 2.
->=20
-> However, since v73, hintjr can be executed at either slot 2 or 3. So ther=
-e is no
-> need to reorder that packet and the assembler will encode it as is. When
-> QEMU tries to execute it, however, we end up hitting a "misaliged store"
-> exception because both the store and the hintjr will be assigned to store=
- 0,
-> and some functions like `slot_is_predicated()` expect the decode machiner=
-y
-> to assign only one instruction per slot. In particular, the mentioned fun=
-ction
-> will traverse the packet until it finds the first instruction at the desi=
-red slot
-> which, for slot 0, will be hintjr. Since hintjr is not predicated, the re=
-sult is that
-> we try to execute the store regardless of the predicate. And because the
-> predicate is false, we had not previously loaded hex_store_addr[0] or
-> hex_store_width[0]. As a result, the store will decide de width based on
-> trash memory, causing it to be misaligned.
->=20
-> Update the slot constraints for hintjr so that QEMU can properly handle s=
-uch
-> encodings.
->=20
-> Note: to avoid similar-but-not-identical issues in the future, we should =
-look
-> for multiple instructions at the same slot during decoding time and throw=
- an
-> invalid packet exception. That will be done in the subsequent commit.
+> This should also make it easier to debug possible future errors caused by
+> missing updates to `find_iclass_slots()` rules in target/hexagon/iclass.c=
+.
 >=20
 > Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
 > ---
->  target/hexagon/iclass.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  target/hexagon/decode.c           | 30 +++++++++++++++++++++++++++---
+>  tests/tcg/hexagon/Makefile.target | 10 ++++++++++
+> tests/tcg/hexagon/invalid_slots.c | 29 +++++++++++++++++++++++++++++
+>  3 files changed, 66 insertions(+), 3 deletions(-)  create mode 100644
+> tests/tcg/hexagon/invalid_slots.c
 
-Could you add a check-tcg test case?
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 
-Thanks,
-Taylor
 
