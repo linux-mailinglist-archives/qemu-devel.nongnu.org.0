@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 395976694A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:50:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5D06694FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 12:06:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGHcb-0000OY-2V; Fri, 13 Jan 2023 05:49:17 -0500
+	id 1pGHry-0004ds-La; Fri, 13 Jan 2023 06:05:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pGHcY-0000O2-Pt
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:49:15 -0500
-Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGHrw-0004dh-Az
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 06:05:08 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pGHcX-0001i9-5p
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:49:14 -0500
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-1322d768ba7so21843067fac.5
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 02:49:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGHru-0004gg-8T
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 06:05:07 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ z8-20020a05600c220800b003d33b0bda11so761396wml.0
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 03:05:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=GIR69OdksPcShxPKRwSewNUIoa5M9oLbEl3ywObkHpk=;
- b=FWVKdyBcygL18/IcM8KsDCJtGzywEoJmsvW6MMB114EUFYSrAlqGrwpVIuE9+eWks5
- vBsne6jdHcBa3oTU3rHjHZ4JhtriolAdBTBSxWtHi3Os03JsMjvQs8/xRY4ASol4Amst
- dWRJEj8KAGAvUeScU/1ph/EMxEcdPaDo1+RJ91c0LSvOVXpy+etHDke/NifGmsRIwT+7
- fv7RJ00Zj2wHZMWXAhINiJUNAyo/Tjip7yWgRRgWg81Oyy4waNkey2YeYYczl9WWr94G
- H0r1LaP0koPTABGWQhJZpYJmTWEmhj+uGLWUS6IZDTZ+2LRTb5irWJhRq/Z9T/oa4PEb
- /ZXw==
+ bh=MAK7A+fVZOFCxLDhRbInL3WE0iZvFWuDW0gU6+y6aHI=;
+ b=tDbYR0NUqRSTT3p7Yz2bq5kQFEStBz79DtZftrIqnCHNZzTkuk9CHnLeIgad3OstJ1
+ zApaXbDSdOXLmhyxNV8Fcz7k5U5bvXlziUCSR8ykyaHZCi+hHfk38oxfhofcw5KeGDGq
+ TMx22w+XTKdfrtupvdqyPdle0RdmfI0sQknvo6ScNaiRBvEFeb1fPQ9aYPb1Lt2s/2nd
+ /AO6z0m9t9lGxAzN5Gew2nOQZ2hUMAPSO+JOjb/fmINLf9aAGV9ZFJNOO7yXMYHh/Yqg
+ F1GS9EjrYBuIBmSq89Qb0ipsoVVa+SmbYyZ9+BgY3hSYI946FpIf/Y0ufNRrYmbIoaql
+ 1CRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GIR69OdksPcShxPKRwSewNUIoa5M9oLbEl3ywObkHpk=;
- b=PpG8oTalniU1qzaOPAQ5hkROmamtF+XJ2WYPKKhP4NA0IDS4ijQNwVz/16zx4081/h
- m/qyeI2zd9Tz19KlG8ED0vER9xgFrPohtU4dxK4JQl4Q2nlL9hmTJe+1KqT6f1Uf7jbS
- dsKH1tJ3YjK66W14oYV0ZmY5L85OTJ6YFMm/OgJbCx140823eMBboeT7dvorKivGDrsI
- h/qFwoOVrDWYXzWfRLFD1seQOI5RZTCLabxT8q3zfOuChrivKfWKmE9eyVs9M0G4eF9n
- UoUJUm9BxGE6ck0GgfbyLSFciKuMZZgnyMMLLjHZ2VWZMCC+F6GH3by4AxNOKhvOZVJx
- iJCw==
-X-Gm-Message-State: AFqh2koOWyULdUCkJQm8oMtY2xR9O3hiDNmhSGqDznJYEQkI/XI7RXrH
- rfmIItsBGBPSVNiR+SjSH13mBQ==
-X-Google-Smtp-Source: AMrXdXu8HC0GzW6FdgmyQ9TilLdQZ290QNWlGUxUP/7biuBpnm6qfzeIJnLzSh0zoWenZLK0zQ8RZw==
-X-Received: by 2002:a05:6870:34d:b0:14c:67de:47c0 with SMTP id
- n13-20020a056870034d00b0014c67de47c0mr5952710oaf.55.1673606951579; 
- Fri, 13 Jan 2023 02:49:11 -0800 (PST)
-Received: from [192.168.68.107] ([191.17.222.2])
- by smtp.gmail.com with ESMTPSA id
- k12-20020a056870818c00b0013b0b19100fsm10458111oae.32.2023.01.13.02.49.08
+ bh=MAK7A+fVZOFCxLDhRbInL3WE0iZvFWuDW0gU6+y6aHI=;
+ b=wgZ0wjdSR2aKkYwfypA8Hi6MyvFTj7aF9G1VfirqGEnmQ/3YQ33jDbjkN9caaGChV+
+ D0Jid/05K6Xrc4Asob4Z0inupXuiVJ2L3VEJcSidXoNry/1IDE6V2fWYD0zrf8c4zxrO
+ 3WeMnmnI464Mf2A/PgjTH5ZkNtVEJ6O5rb/DgkZwKt4VhxZTOn/xbbDmFsmqsDLqkmv7
+ Cx+ezyujIGVg651+VaxVCu0FdQsGAdpvZlP3BLtnjdLtufYWTd+muvecFqARMc5LaCZz
+ /+KPjnUxoejZePn63jGEFvgKgmoM2ZqaeZyXiv4lEpRokFOZNt1lqefzSu/7KzHUuows
+ 8oFg==
+X-Gm-Message-State: AFqh2koXnJ2unFhD7abNrPANqhU/giRwFrypZJVVIK+0lVpj2Ki4hYzI
+ aIyF1jgWoqgNzt1SEV/l3hVZOA==
+X-Google-Smtp-Source: AMrXdXu94jY+7zIoNzRCdeAeV6f18X+hMt92LFBpQ6QdTIHU1EusEsm/wHhzjw8B+LJl3VrKkdY3Kw==
+X-Received: by 2002:a05:600c:3d1b:b0:3d0:6a57:66a5 with SMTP id
+ bh27-20020a05600c3d1b00b003d06a5766a5mr56548908wmb.0.1673607904230; 
+ Fri, 13 Jan 2023 03:05:04 -0800 (PST)
+Received: from [192.168.95.175] (13.red-88-28-24.dynamicip.rima-tde.net.
+ [88.28.24.13]) by smtp.gmail.com with ESMTPSA id
+ n36-20020a05600c502400b003da0b75de94sm4837989wmr.8.2023.01.13.03.05.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 02:49:10 -0800 (PST)
-Message-ID: <e69efcbd-d4e7-9e72-cb38-ba872ab621ab@ventanamicro.com>
-Date: Fri, 13 Jan 2023 07:49:07 -0300
+ Fri, 13 Jan 2023 03:05:03 -0800 (PST)
+Message-ID: <df446205-d3bc-5c1c-eb3c-bb475590e713@linaro.org>
+Date: Fri, 13 Jan 2023 12:05:01 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v5 10/11] hw/riscv/boot.c: consolidate all kernel init in
- riscv_load_kernel()
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] tests/vm: Update haiku test vm to R1/Beta3
 Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Alistair Francis <alistair23@gmail.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
-References: <20230102115241.25733-1-dbarboza@ventanamicro.com>
- <20230102115241.25733-11-dbarboza@ventanamicro.com>
- <CAKmqyKPri7asvqZ8wN4Bd-wjH+gwwMJJhiUd+=QZFV4RhWnyUQ@mail.gmail.com>
- <b5cab84f-4bb9-694b-80e9-0b5aeac9de6c@linaro.org>
- <0ba72b27-0c3d-2d3d-adec-899717f40594@ventanamicro.com>
- <CAEUhbmV0KKKxOWDqNxiNz0ohR_EPPU_q+uMoukCA=UznZRFrvA@mail.gmail.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <CAEUhbmV0KKKxOWDqNxiNz0ohR_EPPU_q+uMoukCA=UznZRFrvA@mail.gmail.com>
+To: Thomas Huth <thuth@redhat.com>,
+ Alexander von Gluck IV <kallisti5@unixzen.com>
+Cc: qemu-devel@nongnu.org
+References: <20220216154208.2985103-1-kallisti5@unixzen.com>
+ <2d548e30-11eb-6f64-b082-25e5ff546309@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <2d548e30-11eb-6f64-b082-25e5ff546309@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::31;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x31.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,86 +93,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 14/12/22 11:47, Thomas Huth wrote:
+> On 16/02/2022 16.42, Alexander von Gluck IV wrote:
+>> ---
+>>   tests/vm/haiku.x86_64 | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+> [...]
+>> @@ -48,8 +48,8 @@ class HaikuVM(basevm.BaseVM):
+>>       name = "haiku"
+>>       arch = "x86_64"
+>> -    link = 
+>> "https://app.vagrantup.com/haiku-os/boxes/r1beta2-x86_64/versions/20200702/providers/libvirt.box"
+>> -    csum = 
+>> "41c38b316e0cbdbc66b5dbaf3612b866700a4f35807cb1eb266a5bf83e9e68d5"
+>> +    link = 
+>> "https://app.vagrantup.com/haiku-os/boxes/r1beta3-x86_64/versions/20220216/providers/libvirt.box"
+>> +    csum = 
+>> "e67d4aacbcc687013d5cc91990ddd86cc5d70a5d28432ae2691944f8ce5d5041"
+> 
+>   Hi Alexander!
+> 
+> The Haiku VM started again to fail, I'm getting these error messages now:
+> 
+> Encountered problems:
+> problem 1: nothing provides haiku>=r1~beta4_hrev56578_4-1 needed by 
+> glib2_devel-2.75.0-1
+>    solution 1:
+>      - do not install "providing devel:libglib_2.0"
+> problem 2: nothing provides haiku>=r1~beta4_hrev56578_31-1 needed by 
+> gettext-0.21.1-2
+>    solution 1:
+>      - do not install "providing devel:libintl"
+> problem 3: nothing provides haiku>=r1~beta4_hrev56578_31-1 needed by 
+> curl-7.85.0-2
+>    solution 1:
+>      - do not install "providing devel:libcurl"
+> problem 4: nothing provides haiku>=r1~beta4_hrev56578_31-1 needed by 
+> gnutls-3.7.8-1
+>    solution 1:
+>      - do not install "providing devel:libgnutls"
+> problem 5: nothing provides haiku>=r1~beta4_hrev56578_4-1 needed by 
+> glib2-2.75.0-1
+>    solution 1:
+>      - do not install "providing devel:libslirp"
+> 
+> Does it need an update to a newer version of Haiku?
 
+Per https://www.haiku-os.org/guides/daily-tasks/updating-system/ we
+can keep the box image in sync with its repo by using:
 
-On 1/13/23 07:30, Bin Meng wrote:
-> On Fri, Jan 13, 2023 at 6:23 PM Daniel Henrique Barboza
-> <dbarboza@ventanamicro.com> wrote:
->>
->>
->> On 1/13/23 04:16, Philippe Mathieu-Daudé wrote:
->>> On 12/1/23 01:34, Alistair Francis wrote:
->>>> On Mon, Jan 2, 2023 at 9:55 PM Daniel Henrique Barboza
->>>> <dbarboza@ventanamicro.com> wrote:
->>>>> The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
->>>>> the same steps when '-kernel' is used:
->>>>>
->>>>> - execute load_kernel()
->>>>> - load init_rd()
->>>>> - write kernel_cmdline
->>>>>
->>>>> Let's fold everything inside riscv_load_kernel() to avoid code
->>>>> repetition. To not change the behavior of boards that aren't calling
->>>>> riscv_load_init(), add an 'load_initrd' flag to riscv_load_kernel() and
->>>>> allow these boards to opt out from initrd loading.
->>>>>
->>>>> Cc: Palmer Dabbelt <palmer@dabbelt.com>
->>>>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->>>>> ---
->>>>>    hw/riscv/boot.c            | 22 +++++++++++++++++++---
->>>>>    hw/riscv/microchip_pfsoc.c | 12 ++----------
->>>>>    hw/riscv/opentitan.c       |  2 +-
->>>>>    hw/riscv/sifive_e.c        |  3 ++-
->>>>>    hw/riscv/sifive_u.c        | 12 ++----------
->>>>>    hw/riscv/spike.c           | 11 +----------
->>>>>    hw/riscv/virt.c            | 12 ++----------
->>>>>    include/hw/riscv/boot.h    |  1 +
->>>>>    8 files changed, 30 insertions(+), 45 deletions(-)
->>>>> @@ -192,21 +194,35 @@ target_ulong riscv_load_kernel(MachineState *machine,
->>>>>        if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
->>>>>                             NULL, &kernel_load_base, NULL, NULL, 0,
->>>>>                             EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
->>>>> -        return kernel_load_base;
->>>>> +        kernel_entry = kernel_load_base;
->>>> This breaks 32-bit Xvisor loading. It seems that for the 32-bit guest
->>>> we get a value of 0xffffffff80000000.
->>>>
->>>> Previously the top bits would be lost as we return a target_ulong from
->>>> this function, but with this change we pass the value
->>>> 0xffffffff80000000 to riscv_load_initrd() which causes failures.
->>>>
->>>> This diff fixes the failure for me
->>>>
->>>> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
->>>> index 4888d5c1e0..f08ed44b97 100644
->>>> --- a/hw/riscv/boot.c
->>>> +++ b/hw/riscv/boot.c
->>>> @@ -194,7 +194,7 @@ target_ulong riscv_load_kernel(MachineState *machine,
->>>>       if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
->>>>                            NULL, &kernel_load_base, NULL, NULL, 0,
->>>>                            EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
->>>> -        kernel_entry = kernel_load_base;
->>>> +        kernel_entry = (target_ulong) kernel_load_base;
->>>>           goto out;
->>>>       }
->>>>
->>>>
->>>> but I don't think that's the right fix. We should instead look at the
->>>> CPU XLEN and drop the high bits if required.
->>> Ah, that is what should be done in load_elf_ram_sym()'s missing
->>> translate_fn() handler.
->> Interesting. I'll try it again and re-send.
->>
-> If that fixes the problem, it should be a separate patch.
+# pkgman add https://eu.hpkg.haiku-os.org/haiku/r1beta3/$(getarch)/current
 
-Fair enough. I'll keep this patch as is and fix it in a separated patch.
+I will try this:
 
-Daniel
-
->
-> I still don't understand why 32-bit xvisor image has a 64-bit address encoded?
->
-> Regards,
-> Bin
-
+-- >8 --
+diff --git a/tests/vm/haiku.x86_64 b/tests/vm/haiku.x86_64
+index 29668bc272..9cbb46cfc1 100755
+--- a/tests/vm/haiku.x86_64
++++ b/tests/vm/haiku.x86_64
+@@ -112,2 +112,4 @@ class HaikuVM(basevm.BaseVM):
+          # Install packages
++        self.ssh_root("pkgman add 
+https://eu.hpkg.haiku-os.org/haiku/r1beta3/x86_64/current")
++        self.ssh_root("pkgman full-sync")
+          self.ssh_root("pkgman install -y %s" % " 
+".join(self.requirements))
+---
 
