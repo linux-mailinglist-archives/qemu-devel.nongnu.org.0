@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC3F766958E
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 12:32:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E197E6695D4
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 12:46:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGIHd-0003Pv-Ol; Fri, 13 Jan 2023 06:31:41 -0500
+	id 1pGIUh-0006Xq-ST; Fri, 13 Jan 2023 06:45:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pGIHZ-0003Pj-Tw
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 06:31:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGIUd-0006XW-Nh
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 06:45:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pGIHY-0001V0-01
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 06:31:37 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGIUb-0003ea-OC
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 06:45:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673609495;
+ s=mimecast20190719; t=1673610304;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=oAXhwmHNW4hQ1OA7aeyd8E25qLqKzy557pPjxPVuaI0=;
- b=ha9W/KsLG9bEcS2uJTo++IkNVbiDDvfQqfzfBk3X1DABiPdmafNuhGTS1eNJDzNfagl/Gh
- 459dS5NQBEXmMFJ4x3wsW2fhGhG39mVYVGdpeEjtYlRBzSxR0IcHVxui3uDGvw46fYt4Lt
- 3b3EbB5rqc1qKLGT4JDtw6qb8gy18Qs=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-613-fy8M92GHMU6BPVxKPW3BJQ-1; Fri, 13 Jan 2023 06:31:32 -0500
-X-MC-Unique: fy8M92GHMU6BPVxKPW3BJQ-1
-Received: by mail-vk1-f200.google.com with SMTP id
- m84-20020a1fa357000000b003bcb3e83df3so6486090vke.7
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 03:31:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oAXhwmHNW4hQ1OA7aeyd8E25qLqKzy557pPjxPVuaI0=;
- b=IgQwEBeJote5D3o+4x2onOdEySSFxWPpO9Ijl+96UGEvcW9pbVY4aOwIbxXM1srYmx
- jb46EgDrv+e1s4zrSevlixif0yomlAcBFIwUmi2VmxRq399ohoK6y+Dmjit2buhwiMZJ
- Rkpy0whQeH/2EZeUTLAbWaOunTnwwhOdraY3wLZ42wiWW2oUDNm19a1HN0+K60Ti9kYt
- MBR25o53Ka8btEoDBY44lXESFSNGyZxBgkWEjZWPv6bGOzGKFJjmLNnLp3jXiE42cZ7n
- iU2/ZYgSlwAGUbmNnVKfKvYPcU8MEOXoB28muFtj0wShDd+77Z694eJyCC1zG/zSE6co
- 5MLA==
-X-Gm-Message-State: AFqh2kp3TwQCZ7gRorSF1BsuowaDaYGFO+DyUYbVYPEIBzVRYhUWe/30
- AwtusS2b4w7Ef4mOmLVQPdEDFS3a7F2yysavmvWdJcbeCQCy2/h/efwNa5ZnwFG76ioEM5bknhz
- vkz3qhaElxe6qLxo=
-X-Received: by 2002:a05:6122:310:b0:3bd:45f6:7203 with SMTP id
- c16-20020a056122031000b003bd45f67203mr41360212vko.12.1673609491278; 
- Fri, 13 Jan 2023 03:31:31 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsEeRKc9fa2h/kcLlQzGk0CLKKoM5czv/R9w9i9NYUYMKFXamS4R6T5BawY43l8F8SvorZd/g==
-X-Received: by 2002:a05:6122:310:b0:3bd:45f6:7203 with SMTP id
- c16-20020a056122031000b003bd45f67203mr41360187vko.12.1673609490950; 
- Fri, 13 Jan 2023 03:31:30 -0800 (PST)
-Received: from redhat.com ([185.199.103.81]) by smtp.gmail.com with ESMTPSA id
- b205-20020a1f1bd6000000b003d5f160e22asm2434430vkb.35.2023.01.13.03.31.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 03:31:30 -0800 (PST)
-Date: Fri, 13 Jan 2023 06:31:24 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, yi.l.liu@intel.com,
- yi.y.sun@linux.intel.com, qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: Qemu interrupt-remap fault support
-Message-ID: <20230113062525-mutt-send-email-mst@kernel.org>
-References: <aaef9961d210ac1873153bf3cf01d984708744fc.camel@infradead.org>
+ bh=TDeC/q9e/O2TdDj+PE5/t+nBZE0Vk5iCcYjhDCuMkrY=;
+ b=iJ6hNc8+6HtXdDVMkEc1njHcJaIFYINLEdkVWxhbjw89yu7YdxnHo23driC/GATP9+NEV8
+ h68/NQuwhdJSNgGDeUdBje6qWYKrLI1JP+G7f81/w7CGe3MnVq9untQsnAkzQ+FpJgPr4N
+ FO0F9o8WYiC4eaQCgQ7DZuN83+qSbTM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-300-JCBhxcfSPXCTVksdje4wPw-1; Fri, 13 Jan 2023 06:45:01 -0500
+X-MC-Unique: JCBhxcfSPXCTVksdje4wPw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 83DC7858F0E;
+ Fri, 13 Jan 2023 11:45:00 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D5E6492B00;
+ Fri, 13 Jan 2023 11:44:58 +0000 (UTC)
+Date: Fri, 13 Jan 2023 12:44:57 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Ilya Dryomov <idryomov@gmail.com>
+Cc: Or Ozeri <oro@il.ibm.com>, qemu-devel@nongnu.org, dupadhya@redhat.com,
+ to.my.trociny@gmail.com, qemu-block@nongnu.org, dannyh@il.ibm.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, pbonzini@redhat.com
+Subject: Re: [PATCH v1 1/1] virtio-block: switch to blk_get_max_hw_transfer
+Message-ID: <Y8FEObcExtXrcoSx@redhat.com>
+References: <20211209092815.778066-1-oro@il.ibm.com>
+ <20211209092815.778066-2-oro@il.ibm.com>
+ <CAOi1vP95sznmAETC1ikqb5bxKueDZYd7HtEjM=7KerMSALYFuQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aaef9961d210ac1873153bf3cf01d984708744fc.camel@infradead.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <CAOi1vP95sznmAETC1ikqb5bxKueDZYd7HtEjM=7KerMSALYFuQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,76 +79,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 13, 2023 at 09:08:38AM +0000, David Woodhouse wrote:
-> I'm looking at interrupt remapping (because I need to hook into the
-> translation somehow to add PIRQ support for Xen which translates guest
-> MSIs directly to KVM_IRQ_ROUTING_XEN_EVTCHN).
+Am 12.01.2023 um 21:28 hat Ilya Dryomov geschrieben:
+> On Thu, Dec 9, 2021 at 10:34 AM Or Ozeri <oro@il.ibm.com> wrote:
+> >
+> > The blk_get_max_hw_transfer API was recently added in 6.1.0.
+> > It allows querying an underlying block device its max transfer capability.
+> > This commit changes virtio-blk to use this.
+> >
+> > Signed-off-by: Or Ozeri <oro@il.ibm.com>
+> > ---
+> >  hw/block/virtio-blk.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+> > index f139cd7cc9..1ba9a06888 100644
+> > --- a/hw/block/virtio-blk.c
+> > +++ b/hw/block/virtio-blk.c
+> > @@ -458,7 +458,7 @@ static void virtio_blk_submit_multireq(BlockBackend *blk, MultiReqBuffer *mrb)
+> >          return;
+> >      }
+> >
+> > -    max_transfer = blk_get_max_transfer(mrb->reqs[0]->dev->blk);
+> > +    max_transfer = blk_get_max_hw_transfer(mrb->reqs[0]->dev->blk);
+> >
+> >      qsort(mrb->reqs, mrb->num_reqs, sizeof(*mrb->reqs),
+> >            &multireq_compare);
 > 
-> Am I right in understanding that it doesn't report faults on interrupts
-> which can't be translated? It attempts to translate interrupts at the
-> time the table is modified (vtd_int_remap()) or when an APIC access
-> actually triggers an MSI (vtd_mem_ir_write()) but in neither case does
-> it actually raise a fault?
->
-> The behaviour we want here is that we only raise a fault when the IRQ
-> actually *happens*. But that's hard in our current model where it looks
-> like we pretranslate *everything* in advance and just let it run.
+> Hi Or,
 > 
-> Here's a proposal for a model which could make it work (using VFIO as
-> the example since that's the more complex part but it works for
-> emulated MSI sources too):
-> 
-> We consume the VFIO eventfd *both* in userspace and the kernel. (Since 
-> https://lore.kernel.org/kvm/20201027143944.648769-1-dwmw2@infradead.org/
-> we can just keep listening on the VFIO eventfd in userspace and the
-> kernel will eat all the events so you never notice. On older kernels we
-> have to manually stop listening in userspace.)
-> 
-> When a translation is valid and should be considered 'cached' in the
-> IOMMU, that's when we actually hook it up to the irqfd. 
-> 
-> We can ditch the iec invalidate callbacks (vtd_iec_notify_all) because
-> all an invalidation needs to do is KVM_IRQFD_FLAG_DEASSIGN for the
-> corresponding GSI.
-> 
-> (
-> You might consider abusing a spare field in the KVM routing table to
-> hold a cookie like the IRTE# so that you know *which* entries to
-> invalidate. I couldn't possibly comment.
-> 
-> 	/* 64-bit cookie for IOMMU to use for invalidation choices */
-> 	#define ire_ir_cookie(ire) ((ire)->u.adapter.ind_offset)
-> 
-> 	/* Flags, to indicate a stale entry that needs retranslating
-> */
-> 	#define ire_user_flags(ire) ((ire)->u.adapter.summary_offset)
-> 	#define IRE_USER_FLAG_STALE             1
-> )
-> 
-> So when an interrupt happens and it's *untranslated*, that's when it
-> gets raised to userspace to handle, e.g. in vfio_msi_interrupt(). That
-> does the normal thing and attempts to deliver the guest MSI directly.
-> We add a flag "bool delivering_now" to the X86IOMMUClass int_remap
-> function, to allow it to distinguish between preemptive translations
-> and actual delivery and to raise the fault in the latter case.
-> 
-> When the guest frobs a device's MSI table we can do the translation as
-> we do at the moment, of course with the 'delivering_now' argument being
-> false. And *if* the translation succeeds then we can install the IRQFD
-> right away.
-> 
-> This model allows us to generate faults as the hardware would, and also
-> improves the efficiency of invalidation by only invalidating what we
-> need to. I haven't looked hard at how it works with an emulated AMD
-> IOMMU, but I know that the Xen PIRQ support (which is where I came in)
-> slots into it fairly trivially, using the PIRQ# as the 'cookie' for
-> invalidation instead of the IRTE# that the Intel IOMMU uses.
-> 
+> Superficially, this makes sense to me.
 
-Don't see anything obviously wrong with this.
-We really need Alex's input on VFIO though.
+I'm not sure I understand. This is not a passthrough device (unlike
+scsi-generic), so why should we consider the hardware limits rather than
+the kernel/other backend limits for read/write requests?
 
--- 
-MST
+See the documentation of both fields:
+
+    /*
+     * Maximal transfer length in bytes.  Need not be power of 2, but
+     * must be multiple of opt_transfer and bl.request_alignment, or 0
+     * for no 32-bit limit.  For now, anything larger than INT_MAX is
+     * clamped down.
+     */
+    uint32_t max_transfer;
+
+    /*
+     * Maximal hardware transfer length in bytes.  Applies whenever
+     * transfers to the device bypass the kernel I/O scheduler, for
+     * example with SG_IO.  If larger than max_transfer or if zero,
+     * blk_get_max_hw_transfer will fall back to max_transfer.
+     */
+    uint64_t max_hw_transfer;
+
+Is the real problem that max_transfer isn't right?
+
+Kevin
 
 
