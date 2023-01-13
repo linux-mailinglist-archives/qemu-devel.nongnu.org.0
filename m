@@ -2,77 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC085669119
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 09:37:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31629669191
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 09:48:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGFY1-0006fN-6o; Fri, 13 Jan 2023 03:36:25 -0500
+	id 1pGFhz-0002Hv-WD; Fri, 13 Jan 2023 03:46:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGFXi-0006eP-LH
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 03:36:08 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGFXe-0003Cd-U3
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 03:36:05 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id bs20so20354111wrb.3
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 00:36:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OzmjMrzZjzDix6IfQJdeda6+2jMMm3RVpFJ3VWErJyc=;
- b=XNF3fQHUrVN/P9tLVkiIwO79mCWzIAGoM7xMPpm0HVdKQ4DUcReQy31vXq21iO6pQF
- yc18Izf49LRdm72mminZoSRfZ3wPYQzD8/U43jY+E9hZB+oLB6OTF07DEAirTZyiDgw4
- QbB786u5lAlW7GLEQ08leQvjkd/q9wyH7OoHuM0zROvOa8EaQwv6qKqTsmp+ij/zg2Fh
- xCiYipVS667uIbiztZBgx/fKIm0PpTi1GdBnrnUhvlg2aKWzu8UI+vJPCvwMzbn5YNXy
- dhGUUPltHwKZsaac9QJ5own4BPlgVkYXuPSLb7dxN7nEALZK9czT3E2BPEohpyPzTaXP
- TFYg==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pGFhw-0002Ge-R5
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 03:46:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pGFhu-0005Z0-Sq
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 03:46:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673599598;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KugbWgSChDbCvGXr35/IA9L+AFPKn43gND6cpT9OhCA=;
+ b=DcfTpR6S3bztNsE9LrdiMrQiJRVztYl8wAletTDOo8tR3SjfSzWh1nsRwC1V6lniLGd2+i
+ VR/EkKnPv7tIjFDH1oNxohRz6Ru06Rr7PIrlJnt1dfQML6YoZBLm415smKVN50bbCa6/z5
+ RQMJPE4IK608PpTpBhfPOo2tdTohtKM=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-196-3L_7pLToPJefAqcTvYL9xA-1; Fri, 13 Jan 2023 03:46:36 -0500
+X-MC-Unique: 3L_7pLToPJefAqcTvYL9xA-1
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-4597b0ff5e9so222533617b3.10
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 00:46:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OzmjMrzZjzDix6IfQJdeda6+2jMMm3RVpFJ3VWErJyc=;
- b=O2Y8ZrMdTs2OL+w4ObBeTOH9DWCo+8bGubca4SzDP+vakAg0UE60VjKRgGHvYCp7oD
- Ims8AYU676yG7dLr+YiUQhspc03rCxbW+e7PQqgI7dX8TVPoizVM+WUAvgVDsfBKcDHX
- npCaMrYJC5i3Pn8Tt3lc1TkeM1BMrrLmoUOFcuV8i7QLPlcax5TtJ/C4GuCUH5K3cFSE
- +g/O/xWsYsfHOKmS8JvvJLpuGXmAaLdfSBIiHPpTFKp3HkPnnHMAb/khRbLmzBHi3DHA
- +RKZgMWfebi5jrh/0QkybkiUBFCSs60wh3xsTioiXCqHEdoZSPW9J6C82ZIJBpdxxVuR
- bduQ==
-X-Gm-Message-State: AFqh2krj/ZZ0pSSbulqsJBgF+9g4rprUZG9NSDgEt5ImOLiNP8qS3+b+
- lIbZygXbdNmQXVIwDtEqDx93vSCpX8Y+FTUX
-X-Google-Smtp-Source: AMrXdXsei+mdQKff+hLZG/38guN61tezz4JtLCtldbMXbS2Ld8NK0dNdJaHQhL2E7r3xD35KHaRUnQ==
-X-Received: by 2002:a5d:4cc2:0:b0:2a3:3a96:709a with SMTP id
- c2-20020a5d4cc2000000b002a33a96709amr26060920wrt.57.1673598961218; 
- Fri, 13 Jan 2023 00:36:01 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- l13-20020adfe58d000000b00296730b5c3esm18501210wrm.102.2023.01.13.00.36.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 00:36:00 -0800 (PST)
-Message-ID: <3744f78c-2c99-28db-416f-0c636235ec91@linaro.org>
-Date: Fri, 13 Jan 2023 09:35:59 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KugbWgSChDbCvGXr35/IA9L+AFPKn43gND6cpT9OhCA=;
+ b=1IWcyrUzGvKyBHVvIr/e8v9VAHlrJhgx4jyAlQn12es5Jq0qvEaEmt/0rry5caAR9J
+ 1qnL51kcBqmyPyNBtb5xRLi8A3ydylfzpxsJFKdPWO4LadgqpNl+eXMsxlgRVQMG9CGy
+ mAOr+/yP3KbA11PHVFAZbGWBVr2noGG/06+iRupifyYqA3k12I4Jp+eLCmeyEk4qkiN7
+ t+7eioOEk7AY09WuXgBEg65//ZmhE4rPtMnFgjsnxEtoottanaFOzSahweGS/TBYd4dt
+ VujRRIMkEwFIlU5Vl628J46C6rvhWU+DlVPc3stwP8Wf8c+XsiOlf/0GYVZbGbIvIEUj
+ LqJw==
+X-Gm-Message-State: AFqh2kpNN1KyI5dMNed4URKo35ty6Taa9RxORwbBjAMMFSAaE+OXSPlH
+ rxRn+r0+7g9dctZT6WIJtObRXl7Co9xvsjUTFRymI5NhUeyj2pQmd4dRVWHkOk+gNRYB2/mgQ0V
+ ng020Vdl8L3h+3fbcMFuTonTh8fHARDI=
+X-Received: by 2002:a25:af0a:0:b0:6fb:5983:d192 with SMTP id
+ a10-20020a25af0a000000b006fb5983d192mr8770920ybh.163.1673599595928; 
+ Fri, 13 Jan 2023 00:46:35 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsuj72E+VPnk0livZ0vNQZxssfxSa319q4XlltYPe6lGMyzaF9VI95BE35Sl+ydmQ9/dNswuRXNdGU8cuj8VoA=
+X-Received: by 2002:a25:af0a:0:b0:6fb:5983:d192 with SMTP id
+ a10-20020a25af0a000000b006fb5983d192mr8770904ybh.163.1673599595662; Fri, 13
+ Jan 2023 00:46:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] scripts/git.orderfile: Display MAINTAINERS changes first
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <20221216225505.26052-1-philmd@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221216225505.26052-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+References: <20230112172434.760850-1-eperezma@redhat.com>
+ <20230112172434.760850-9-eperezma@redhat.com>
+ <CACGkMEuAbJq=uTgeZAPhiJVwbR5UuF9k+5pbFU9OwtiD+Om33w@mail.gmail.com>
+In-Reply-To: <CACGkMEuAbJq=uTgeZAPhiJVwbR5UuF9k+5pbFU9OwtiD+Om33w@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 13 Jan 2023 09:45:59 +0100
+Message-ID: <CAJaqyWe7+4GtXjjdvYF1BWKXXR5A1HWueH9k2unOpmTuv7xSiQ@mail.gmail.com>
+Subject: Re: [RFC v2 08/13] vdpa: Negotiate _F_SUSPEND feature
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, alvaro.karsz@solid-run.com, 
+ Shannon Nelson <snelson@pensando.io>, Laurent Vivier <lvivier@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Parav Pandit <parav@mellanox.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,15 +104,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/12/22 23:55, Philippe Mathieu-Daudé wrote:
-> If we get custom to see MAINTAINERS changes first,
-> we might catch missing MAINTAINERS updates easier.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   scripts/git.orderfile | 2 ++
->   1 file changed, 2 insertions(+)
+On Fri, Jan 13, 2023 at 5:39 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Fri, Jan 13, 2023 at 1:25 AM Eugenio P=C3=A9rez <eperezma@redhat.com> =
+wrote:
+> >
+> > This is needed for qemu to know it can suspend the device to retrieve
+> > its status and enable SVQ with it, so all the process is transparent to
+> > the guest.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+>
+> Acked-by: Jason Wang <jasowang@redhat.com>
+>
+> We probably need to add the resume in the future to have a quick
+> recovery from migration failures.
+>
 
-I'm queuing this patch via mips-next tree for my own convenience.
+The capability of a resume can be useful here but only in a small
+window. During the most time of the migration SVQ is enabled, so in
+the event of a migration failure we may need to reset the whole device
+to enable passthrough again.
+
+But maybe is it worth giving a quick review and adding some TODOs
+where it can be useful in this series?
+
+Thanks!
+
+> Thanks
+>
+> > ---
+> >  hw/virtio/vhost-vdpa.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 4296427a69..a61a6b2a74 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -659,7 +659,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_=
+dev *dev)
+> >      uint64_t features;
+> >      uint64_t f =3D 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
+> >          0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
+> > -        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID;
+> > +        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID |
+> > +        0x1ULL << VHOST_BACKEND_F_SUSPEND;
+> >      int r;
+> >
+> >      if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
+> > --
+> > 2.31.1
+> >
+>
 
 
