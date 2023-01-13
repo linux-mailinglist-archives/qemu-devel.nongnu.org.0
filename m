@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B5D66944D
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:36:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC0666944F
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:37:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGHOs-0003Rb-Vn; Fri, 13 Jan 2023 05:35:07 -0500
+	id 1pGHPo-0003qd-SF; Fri, 13 Jan 2023 05:36:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1pGHOn-0003R3-Pe
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:35:02 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1pGHPm-0003pz-Eh
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:36:02 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1pGHOl-0007kg-Kp
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:35:01 -0500
-Received: by mail-wm1-x330.google.com with SMTP id g10so14960038wmo.1
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 02:34:59 -0800 (PST)
+ id 1pGHPk-0008DO-EO
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:36:01 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ m8-20020a05600c3b0800b003d96f801c48so18452052wms.0
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 02:35:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6CwFfegXrTfXQEEH8EuwJ8DMQC0mPnEtzOe+2rUKS9w=;
- b=pKNCWZeA2b5cWLEtFt9JaXoIENlNKT0Pu1A0nvKq8GaRNTAmaqMpntKhzUNKcK3LwC
- 5TxlZcBwf6z5dpbtAyrW8D/zJbo8dhs1uJ0j+0GswvJ7gqEtmS7V9XIUQsZn2DIDmlAj
- AgyT4IKrz94ZSfuabW0oTy53w1iQuBGFnQjbVKnd+13pAChPmdWWJsGZKSUyTmFvzbRU
- m9/M3gdK95QCU07dVF2PCwZnXW68+AP2v1gcsaSFugwi3csQCfM3HPUBU2L6sx4NWO1K
- Z61f2nUyPtYFUp06uO298soBYzkPLG5PwQI+Bq9PpjiKSanjiGTDLojYXV5PwOLuzQyU
- W5SA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6w8Ag6eL5/CT/oiXQRGy6t76jiF20QyArRcsggBZ8zE=;
+ b=kODBHtk9L87c0XeqBxb8QPou7MZc8+N7jtZLhr6fFy99aq3ph0JPTNXWtOfliGMvBk
+ WA2IFHl8L4f13CWMvU4dHGjhhAWGLEL15AjbJI6fAbNRGf1dD4RzHoSyKHa/z2OGXFs4
+ xDYPBerZsJvWELLWTSWcBlCvYAgbvwhfITke22SE4aN1L4fEEJRe2Qi81bI6xDFL8t0e
+ rFtfFDpiZPivRrzqZceDXZOusdE12zJGpj/rahAM7Y64y/3qCwVHj80wV4bEdcxfBnr7
+ /mxwSu9kikQIQnbs8ffo+h5yRfP9ja5Jkt2FzRMQjQtBn48z9k7OPF/P8AtK4EWQXwQz
+ 3hNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6CwFfegXrTfXQEEH8EuwJ8DMQC0mPnEtzOe+2rUKS9w=;
- b=6fIcSwjeJhDDzq1ZNjO6SqAluA3xd2bpoDhzjSxtxbNteMwEXgc4kBCbOUz6RXt7iO
- gvgIQ18tdmqysBL+PWW00hUJ4saihmsuB3tqW3H4DLZxuG0McWTq0f7nCjfHvoI/6jB+
- 6GG+e+OFkmv0DgBQYlDeD4xykLTqylWe+v71hdP6n4aVyy4l6TqONaLEpPp1jehe0a4n
- Z7J2NONPqBpB9Q1tlJP4Mt6mxcE7u1XitYqJTIoS0Nclj1TqdraqTvNWovIS9VBXt6Bv
- vwfdqfEHxUMUcfnGM1jQv4BcKmSi8Z44o/0udXcsTawJTLeZrPKGtZBFaGYvGLss6iNx
- CsWQ==
-X-Gm-Message-State: AFqh2kp9//M6cCL3ODeB4BPeiH91PusmSYb+IlkeMHDVfJBLuBS7rR8v
- TRN9YIZM1zajCuLpsF/Q2QW1sA==
-X-Google-Smtp-Source: AMrXdXuiXEWKcDMNOv3Nf4nZZeTW6fmaKfva7hLjA3JnIc8C0lFXKiyVpcdYitd1M5DQTZI5j/YhtQ==
-X-Received: by 2002:a05:600c:3d11:b0:3cf:8b22:76b3 with SMTP id
- bh17-20020a05600c3d1100b003cf8b2276b3mr58438320wmb.0.1673606097936; 
- Fri, 13 Jan 2023 02:34:57 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6w8Ag6eL5/CT/oiXQRGy6t76jiF20QyArRcsggBZ8zE=;
+ b=SUtZn/KkGdfdeWDOpTzSIkIn5nSCtFwO5wl34yDt39u2kVqLvq6eEZmFDgzOHUoLR1
+ 11Jm7U2Pcx3sZ1O0z/1+ap9Xo9N9iUugPHFrNmgeUcj1HYYBiAmmxc1KI5FobFdglljD
+ TBKF/Txg9bW8h2Bc8a/iaDCOGA0oIdZ3YjDYYgkYZ67jODBfb5+etdHuyVQjOCag4+MD
+ QbgDhHsxb1xQpfmOpe1X2HGp1ijpn8vUO5srYflkXTQ7gdYQLuQdklCvWiuS84nGpE93
+ g1WXDVu/Tt5oPu8ngt8eQ3cQF/aBN9L0c4UV2CaQ6j6a4HtOK6dJjlwTPbYWz22jTKnA
+ cdig==
+X-Gm-Message-State: AFqh2kpupxpk+fu7T/MyPWo75QKqcWd662AjC1sOWmyTV7T3NLciYvtc
+ 8HN+H8MBzXtP4Ahe76ePGam6W6FCxCHNPk/Q
+X-Google-Smtp-Source: AMrXdXtotOFcG4tsndD2gGCIh9dQeBCfDpwGcQ8HvNZbdWGAa6CM+Nd4roH0cfwwRnOc78ToR6AcZA==
+X-Received: by 2002:a05:600c:4f55:b0:3cf:7197:e67c with SMTP id
+ m21-20020a05600c4f5500b003cf7197e67cmr56632441wmq.25.1673606158915; 
+ Fri, 13 Jan 2023 02:35:58 -0800 (PST)
 Received: from alex-rivos.ba.rivosinc.com
  (lfbn-lyo-1-450-160.w2-7.abo.wanadoo.fr. [2.7.42.160])
  by smtp.gmail.com with ESMTPSA id
- t12-20020a05600c198c00b003d9de0c39fasm30691591wmq.36.2023.01.13.02.34.57
+ k30-20020a05600c1c9e00b003d9b89a39b2sm27341414wms.10.2023.01.13.02.35.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 02:34:57 -0800 (PST)
+ Fri, 13 Jan 2023 02:35:58 -0800 (PST)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
@@ -62,14 +64,17 @@ To: Palmer Dabbelt <palmer@dabbelt.com>,
  Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
  qemu-devel@nongnu.org
 Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v5 0/2] riscv: Allow user to set the satp mode
-Date: Fri, 13 Jan 2023 11:34:51 +0100
-Message-Id: <20230113103453.42776-1-alexghiti@rivosinc.com>
+Subject: [PATCH v5 1/2] riscv: Pass Object to register_cpu_props instead of
+ DeviceState
+Date: Fri, 13 Jan 2023 11:34:52 +0100
+Message-Id: <20230113103453.42776-2-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230113103453.42776-1-alexghiti@rivosinc.com>
+References: <20230113103453.42776-1-alexghiti@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alexghiti@rivosinc.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alexghiti@rivosinc.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,42 +96,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This introduces new properties to allow the user to set the satp mode,
-see patch 1 for full syntax.
+One can extract the DeviceState pointer from the Object pointer, so pass
+the Object for future commits to access other fields of Object.
 
-v5:
-- Simplify v4 implementation by leveraging valid_vm_1_10_32/64, as
-  suggested by Andrew
-- Split the v4 patch into 2 patches as suggested by Andrew
-- Lot of other minor corrections, from Andrew
-- Set the satp mode N by disabling the satp mode N + 1
-- Add a helper to set satp mode from a string, as suggested by Frank
+No functional changes intended.
 
-v4:
-- Use custom boolean properties instead of OnOffAuto properties, based
-  on ARMVQMap, as suggested by Andrew
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+---
+ target/riscv/cpu.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-v3:
-- Free sv_name as pointed by Bin
-- Replace satp-mode with boolean properties as suggested by Andrew
-- Removed RB from Atish as the patch considerably changed
-
-v2:
-- Use error_setg + return as suggested by Alistair
-- Add RB from Atish
-- Fixed checkpatch issues missed in v1
-- Replaced Ludovic email address with the rivos one
-
-Alexandre Ghiti (2):
-  riscv: Pass Object to register_cpu_props instead of DeviceState
-  riscv: Allow user to set the satp mode
-
- hw/riscv/virt.c    |  19 ++--
- target/riscv/cpu.c | 236 +++++++++++++++++++++++++++++++++++++++++++--
- target/riscv/cpu.h |  19 ++++
- target/riscv/csr.c |  17 +++-
- 4 files changed, 270 insertions(+), 21 deletions(-)
-
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index cc75ca7667..7181b34f86 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -200,7 +200,7 @@ static const char * const riscv_intr_names[] = {
+     "reserved"
+ };
+ 
+-static void register_cpu_props(DeviceState *dev);
++static void register_cpu_props(Object *obj);
+ 
+ const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
+ {
+@@ -238,7 +238,7 @@ static void riscv_any_cpu_init(Object *obj)
+     set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+ #endif
+     set_priv_version(env, PRIV_VERSION_1_12_0);
+-    register_cpu_props(DEVICE(obj));
++    register_cpu_props(obj);
+ }
+ 
+ #if defined(TARGET_RISCV64)
+@@ -247,7 +247,7 @@ static void rv64_base_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, MXL_RV64, 0);
+-    register_cpu_props(DEVICE(obj));
++    register_cpu_props(obj);
+     /* Set latest version of privileged specification */
+     set_priv_version(env, PRIV_VERSION_1_12_0);
+ }
+@@ -280,7 +280,7 @@ static void rv128_base_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, MXL_RV128, 0);
+-    register_cpu_props(DEVICE(obj));
++    register_cpu_props(obj);
+     /* Set latest version of privileged specification */
+     set_priv_version(env, PRIV_VERSION_1_12_0);
+ }
+@@ -290,7 +290,7 @@ static void rv32_base_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, MXL_RV32, 0);
+-    register_cpu_props(DEVICE(obj));
++    register_cpu_props(obj);
+     /* Set latest version of privileged specification */
+     set_priv_version(env, PRIV_VERSION_1_12_0);
+ }
+@@ -343,7 +343,7 @@ static void riscv_host_cpu_init(Object *obj)
+ #elif defined(TARGET_RISCV64)
+     set_misa(env, MXL_RV64, 0);
+ #endif
+-    register_cpu_props(DEVICE(obj));
++    register_cpu_props(obj);
+ }
+ #endif
+ 
+@@ -1083,9 +1083,10 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+-static void register_cpu_props(DeviceState *dev)
++static void register_cpu_props(Object *obj)
+ {
+     Property *prop;
++    DeviceState *dev = DEVICE(obj);
+ 
+     for (prop = riscv_cpu_extensions; prop && prop->name; prop++) {
+         qdev_property_add_static(dev, prop);
 -- 
 2.37.2
 
