@@ -2,103 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1895F669452
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:38:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512A2669493
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:46:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGHR9-0004p0-S7; Fri, 13 Jan 2023 05:37:27 -0500
+	id 1pGHZ9-0007K2-7Y; Fri, 13 Jan 2023 05:45:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pGHR8-0004od-08
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:37:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGHZ5-0007Iw-7z
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:45:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pGHR5-0008MZ-TH
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:37:25 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGHZ2-0001Kz-Kt
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:45:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673606242;
+ s=mimecast20190719; t=1673606735;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tYCVLhTOXdJr7MT5TCkyY+jLtLRqHJN2dPiJW1syW1U=;
- b=GXjxs5zODQqOZGj4m7uPzx7cz9deYeSaD54PwGPlE9kWQjya/QAhvD7HJvB2W2UC6h0zDh
- W2MA53RWTz6/BK3Ib7XLfPD/5YVq0HlRMFmY41hTAeMF4sNomZV7JgxkbrGpXc0UJhK/nV
- 1eh1UDaMB+o3dWFYwufqQzTG6somJRQ=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-455-J0PduuYLOW6gTSSlKPNhRg-1; Fri, 13 Jan 2023 05:37:21 -0500
-X-MC-Unique: J0PduuYLOW6gTSSlKPNhRg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- bp6-20020a05620a458600b006ffd3762e78so14994438qkb.13
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 02:37:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tYCVLhTOXdJr7MT5TCkyY+jLtLRqHJN2dPiJW1syW1U=;
- b=LZV6LRdfdh7zW2R3vYxscr2RV84ugqfptrcSqHh7C2GZ7ICY8KZa63DPZPTbsVM7FL
- qjm1gliaDdW/OlD6qL544yZmjiYr3IeifeSNRhMdIa/PyUoeodQOuXjAGgNzUNwGCJra
- v9VLMKn5DyMG+TRO1gawXzvS2LabiqEh5NOGoQl7VhnthkzKzHjl+JdfzpEkXspRT+Pa
- CgjFMHwvosSPaNEEN1X2PP+hHjyxjiL5APgL5XBnki+1f//5KOhnYYYqGGmtKFRRXTWz
- JJH6wNrg8qdZdChiO98JKPVeHystNh3AqXACPuFKaVUWmmdIRfiR3zh+EkeWtcEEQr0A
- Qu9g==
-X-Gm-Message-State: AFqh2kryv1yWm+uRqURb6zYi7g/auU1Pevz0sOBBJ2jBA0fgfgfmGWeB
- G86d36TKFJoU96EA0mFHDhVdOBPqv+CBv5Rj+iBA3m4wBqb74TIqtJM/9AKHU5wr3vYMJlinGfv
- rxvoILGrb2WRzwYw=
-X-Received: by 2002:a05:622a:2284:b0:3a8:55c:a893 with SMTP id
- ay4-20020a05622a228400b003a8055ca893mr112352340qtb.0.1673606233750; 
- Fri, 13 Jan 2023 02:37:13 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuXZ08yG/mSjid2hhp4qXf7vVNuGxHNPZ33VtoEYrmTuIhT61AeM4Uor7LcAvCAk86+c3x0iw==
-X-Received: by 2002:a05:622a:2284:b0:3a8:55c:a893 with SMTP id
- ay4-20020a05622a228400b003a8055ca893mr112352314qtb.0.1673606233484; 
- Fri, 13 Jan 2023 02:37:13 -0800 (PST)
-Received: from sgarzare-redhat (host-79-46-200-244.retail.telecomitalia.it.
- [79.46.200.244]) by smtp.gmail.com with ESMTPSA id
- t11-20020a05620a034b00b006fa31bf2f3dsm12268101qkm.47.2023.01.13.02.37.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 02:37:13 -0800 (PST)
-Date: Fri, 13 Jan 2023 11:37:04 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- si-wei.liu@oracle.com, Liuxiangdong <liuxiangdong5@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- alvaro.karsz@solid-run.com, Shannon Nelson <snelson@pensando.io>,
- Laurent Vivier <lvivier@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Gautam Dawar <gdawar@xilinx.com>, Cornelia Huck <cohuck@redhat.com>,
- Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Maxime Coquelin <maxime.coquelin@redhat.com>
-Subject: Re: [RFC v2 06/13] vhost: delay set_vring_ready after DRIVER_OK
-Message-ID: <20230113103704.tqa7ie2ggppqj6uo@sgarzare-redhat>
-References: <20230112172434.760850-1-eperezma@redhat.com>
- <20230112172434.760850-7-eperezma@redhat.com>
- <CACGkMEvvjvhFrd5DJOMM0d7OWm0=9t6-YPzsZLZ8ZeZ4RU6PQw@mail.gmail.com>
- <CAJaqyWdePpv_htcrQ1TuEcz99x9Ri7ysFJz3+L7PuaLaPzNZjw@mail.gmail.com>
- <20230113095143.si4qzblki3votezg@sgarzare-redhat>
- <CAJaqyWfrb+JN8ZMfvi1eWt-uM9sQvYb=uKvygDu9bj0OmL0pUA@mail.gmail.com>
+ bh=QqnfHqBiC7xiFrG3j5JTQoch6P9nMQEhItT+ElF0Ipc=;
+ b=Qfok3b+k+LWWdwDnyUcBEdPT+NCB79fXUesggMJnUw32oqJCyL1ODad62G3aIYoT+ORb48
+ Nd1x5UP/Z5GESUhzye3+5EKl4kwBXpieQ6JL99PnIc0YQlxV9AoNLLD+/PiUTTI/1fJsc+
+ 8sgmZc0SiLcpW0hSofn48YR8KpaJDsU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-554-0mkawJ84PJOj__gVVw8qIw-1; Fri, 13 Jan 2023 05:45:34 -0500
+X-MC-Unique: 0mkawJ84PJOj__gVVw8qIw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ECF8B3815EE6;
+ Fri, 13 Jan 2023 10:45:33 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D913B2026D76;
+ Fri, 13 Jan 2023 10:45:32 +0000 (UTC)
+Date: Fri, 13 Jan 2023 11:45:31 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: qemu-block@nongnu.org, hreitz@redhat.com, aesteve@redhat.com,
+ nsoffer@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/4] qcow2: Fix theoretical corruption in store_bitmap()
+ error path
+Message-ID: <Y8E2S0sQgEPkb0j3@redhat.com>
+References: <20230112191454.169353-1-kwolf@redhat.com>
+ <20230112191454.169353-2-kwolf@redhat.com>
+ <d13c9ba1-84df-dbac-adc5-8ea8b4df2dbe@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJaqyWfrb+JN8ZMfvi1eWt-uM9sQvYb=uKvygDu9bj0OmL0pUA@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+In-Reply-To: <d13c9ba1-84df-dbac-adc5-8ea8b4df2dbe@linaro.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,124 +81,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 13, 2023 at 11:03:17AM +0100, Eugenio Perez Martin wrote:
->On Fri, Jan 13, 2023 at 10:51 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
->>
->> On Fri, Jan 13, 2023 at 09:19:00AM +0100, Eugenio Perez Martin wrote:
->> >On Fri, Jan 13, 2023 at 5:36 AM Jason Wang <jasowang@redhat.com> wrote:
->> >>
->> >> On Fri, Jan 13, 2023 at 1:25 AM Eugenio Pérez <eperezma@redhat.com> wrote:
->> >> >
->> >> > To restore the device at the destination of a live migration we send the
->> >> > commands through control virtqueue. For a device to read CVQ it must
->> >> > have received the DRIVER_OK status bit.
->> >>
->> >> This probably requires the support from the parent driver and requires
->> >> some changes or fixes in the parent driver.
->> >>
->> >> Some drivers did:
->> >>
->> >> parent_set_status():
->> >> if (DRIVER_OK)
->> >>     if (queue_enable)
->> >>         write queue_enable to the device
->> >>
->> >> Examples are IFCVF or even vp_vdpa at least. MLX5 seems to be fine.
->> >>
->> >
->> >I don't get your point here. No device should start reading CVQ (or
->> >any other VQ) without having received DRIVER_OK.
->> >
->> >Some parent drivers do not support sending the queue enable command
->> >after DRIVER_OK, usually because they clean part of the state like the
->> >set by set_vring_base. Even vdpa_net_sim needs fixes here.
->> >
->> >But my understanding is that it should be supported so I consider it a
->> >bug. Especially after queue_reset patches. Is that what you mean?
->> >
->> >> >
->> >> > However this opens a window where the device could start receiving
->> >> > packets in rx queue 0 before it receives the RSS configuration. To avoid
->> >> > that, we will not send vring_enable until all configuration is used by
->> >> > the device.
->> >> >
->> >> > As a first step, run vhost_set_vring_ready for all vhost_net backend after
->> >> > all of them are started (with DRIVER_OK). This code should not affect
->> >> > vdpa.
->> >> >
->> >> > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->> >> > ---
->> >> >  hw/net/vhost_net.c | 17 ++++++++++++-----
->> >> >  1 file changed, 12 insertions(+), 5 deletions(-)
->> >> >
->> >> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
->> >> > index c4eecc6f36..3900599465 100644
->> >> > --- a/hw/net/vhost_net.c
->> >> > +++ b/hw/net/vhost_net.c
->> >> > @@ -399,6 +399,18 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
->> >> >          } else {
->> >> >              peer = qemu_get_peer(ncs, n->max_queue_pairs);
->> >> >          }
->> >> > +        r = vhost_net_start_one(get_vhost_net(peer), dev);
->> >> > +        if (r < 0) {
->> >> > +            goto err_start;
->> >> > +        }
->> >> > +    }
->> >> > +
->> >> > +    for (int j = 0; j < nvhosts; j++) {
->> >> > +        if (j < data_queue_pairs) {
->> >> > +            peer = qemu_get_peer(ncs, j);
->> >> > +        } else {
->> >> > +            peer = qemu_get_peer(ncs, n->max_queue_pairs);
->> >> > +        }
->> >>
->> >> I fail to understand why we need to change the vhost_net layer? This
->> >> is vhost-vDPA specific, so I wonder if we can limit the changes to e.g
->> >> vhost_vdpa_dev_start()?
->> >>
->> >
->> >The vhost-net layer explicitly calls vhost_set_vring_enable before
->> >vhost_dev_start, and this is exactly the behavior we want to avoid.
->> >Even if we make changes to vhost_dev, this change is still needed.
->>
->> I'm working on something similar since I'd like to re-work the following
->> commit we merged just before 7.2 release:
->>      4daa5054c5 vhost: enable vrings in vhost_dev_start() for vhost-user
->>      devices
->>
->> vhost-net wasn't the only one who enabled vrings independently, but it
->> was easy enough for others devices to avoid it and enable them in
->> vhost_dev_start().
->>
->> Do you think can we avoid in some way this special behaviour of
->> vhost-net and enable the vrings in vhost_dev_start?
->>
->
->Actually looking forward to it :). If that gets merged before this
->series, I think we could drop this patch.
+Am 13.01.2023 um 08:30 hat Philippe Mathieu-Daudé geschrieben:
+> On 12/1/23 20:14, Kevin Wolf wrote:
+> > In order to write the bitmap table to the image file, it is converted to
+> > big endian. If the write fails, it is passed to clear_bitmap_table() to
+> > free all of the clusters it had allocated before. However, if we don't
+> > convert it back to native endianness first, we'll free things at a wrong
+> > offset.
+> > 
+> > In practical terms, the offsets will be so high that we won't actually
+> > free any allocated clusters, but just run into an error, but in theory
+> > this can cause image corruption.
+> > 
+> > Cc: qemu-stable@nongnu.org
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >   block/qcow2-bitmap.c | 5 +++--
+> >   1 file changed, 3 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+> > index bcad567c0c..3dff99ba06 100644
+> > --- a/block/qcow2-bitmap.c
+> > +++ b/block/qcow2-bitmap.c
+> > @@ -115,7 +115,7 @@ static int update_header_sync(BlockDriverState *bs)
+> >       return bdrv_flush(bs->file->bs);
+> >   }
+> 
+> Maybe add a comment here remembering to bswap back to native endianness?
+> 
+> > -static inline void bitmap_table_to_be(uint64_t *bitmap_table, size_t size)
+> > +static inline void bitmap_table_bswap_be(uint64_t *bitmap_table, size_t size)
+> >   {
+> 
+> This function uses cpu_to_be64(), semantically we convert back calling
+> be64_to_cpu(), but technically both functions end up being the same.
 
-I hope to send a RFC net week :-) let's see...
+Yes, but we don't seem to have any public "neutral" functions, it's
+always either from or to.
 
->
->If I'm not wrong the enable/disable dance is used just by vhost-user
->at the moment.
+> Alternatively:
+> 
+>      for (i = 0; i < size; ++i) {
+> -        bitmap_table[i] = cpu_to_be64(bitmap_table[i]);
+> +        bswap64s(&bitmap_table[i]);
+>      }
 
-Yep, I got the same.
+Doesn't that swap even on big endian hosts, resulting incorrectly in a
+little endian table?
 
-My doubts are that for vhost-user-net we enable only the first 
-VirtIONet->curr_queue_pairs queue IIUC. While for other devices (and 
-maybe also for vDPA devices) we enable all of them.
+The closest thing we have that I can see is the be_bswap() macro in
+bswap.h, but it's undefined again at the end of the header.
 
-I need to figure out if it's safe to do this for vhost-user-net as well, 
-otherwise I need to find a way to leave this behavior.
+> > @@ -1401,9 +1401,10 @@ static int store_bitmap(BlockDriverState *bs, Qcow2Bitmap *bm, Error **errp)
+> >           goto fail;
+> >       }
+> > -    bitmap_table_to_be(tb, tb_size);
+> > +    bitmap_table_bswap_be(tb, tb_size);
+> >       ret = bdrv_pwrite(bs->file, tb_offset, tb_size * sizeof(tb[0]), tb, 0);
+> >       if (ret < 0) {
+> > +        bitmap_table_bswap_be(tb, tb_size);
+> >           error_setg_errno(errp, -ret, "Failed to write bitmap '%s' to file",
+> >                            bm_name);
+> >           goto fail;
+> 
+> Pre-existing, but consider using g_autofree for 'tb'.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
->
->Maxime, could you give us some hints about the tests to use to check
->that changes do not introduce regressions in vhost-user?
+Thanks!
 
-Yep, any help on how to test is very appreciated.
-
-Thanks,
-Stefano
+Kevin
 
 
