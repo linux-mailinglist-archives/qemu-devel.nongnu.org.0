@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD70669B83
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 16:12:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDFE669BE4
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 16:24:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKnE-00019U-11; Fri, 13 Jan 2023 09:12:28 -0500
+	id 1pGKnN-0001cM-Uz; Fri, 13 Jan 2023 09:12:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmk-00012U-Hl
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:59 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ id 1pGKmo-00015G-SM
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:12:03 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmh-0003pI-97
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:58 -0500
-Received: by mail-wm1-x333.google.com with SMTP id q8so3554798wmo.5
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:53 -0800 (PST)
+ id 1pGKmi-0003pc-9a
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:12:02 -0500
+Received: by mail-wm1-x329.google.com with SMTP id q8so3554853wmo.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=3D9zRpW1XncySFFXDnMUdsKdKAAUfwzl78yy6shZZgY=;
- b=rhCRmtO6AACdw4Xy7MlGcRusMq8SQynpcR0Rx7JB7VrwQrp1Syb+KouBNY5mG2dUXE
- Cy8uHiQLxNqER23EjzglSKjPw3zfSDnuMOYl0AJcG+KaJ/tnuwDaXHqYCjzbzI8LN8/u
- VJ3saUkaI3qLX+tDgKiG/Ysv5rloarR3t2YJTg2OVCaT7tVhsJ8u2By2i2UDolOmHkXX
- MDF+XGzmr1+gGqIMU6O5z6phSssMFEFpBJYHr/797C7bogDcmMFcwskAjKMgdOw7Im20
- IVWrGBRTsLlBIxj0+VrPuYVvtcwPPGmfyCwalumzvaPs+Psoof3KBTpxITu8uMrm6Qk6
- gmMQ==
+ :reply-to; bh=/mW9HpUCcthbdZB5sduQCQbBVJGhP4Uz6vBQL11RdbI=;
+ b=Yw4+/brWLhLOxfgnWOzK6mRmONYVvehTRbNejznMQ2ixGfLS1wjK0OSCx4UHeum7Pc
+ z3R6pJoufLqcqfoEttNpgh4BH5/EXFr2sewoMSs6opFWbkTAF3tdqKsbhsCUGlzJP+LZ
+ nIqMKO/09XUiqFZpSe9rGDC4RhktGUbic6j++dM43701Vsu8kEu6ZSOIi3uCiGucEq9l
+ xlqwdHwoGzjuemBF4ah0q3phzEXXkV+jdmvTcV2jtO5jQWHgb4SFY0mdoRVy0V/XWdzX
+ 5YT1Ix4qQQXPa5Y0r2GFljd9Yy0jTJzVpPM3zUW5rJB7GOPDjwPrhnqWUeoRtMkzCgEr
+ 3YQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3D9zRpW1XncySFFXDnMUdsKdKAAUfwzl78yy6shZZgY=;
- b=EMQeYCNjAfYka+bU78Q5agieE54HsQBw6iyAFskzL/k9n6jL9zZh3SviTlMPKxXFpl
- GN8BdWAYnagwHFeKSBFgozAfGGmdorV6mii+M3uJTjsXvHPtNws1ps878AZL2oEo6w/R
- ZqXA545IcC6C8FyuBGAPUAbRIfGc84tnV7zUuPV0KK0OIxcfwGE/iUB9N6YMGasDDPGO
- xjiyDV/PVruTzBaar/y2yPvjhQF6jDFsPi9FfzcxwpEbxu/fPi43rInshBD+NOFnqBVO
- FJs/O/fMSzKt/0j0UKDsV8/M9ynqi4MhwqgR5qBsKZfP9NFUMxhMdJ/mXQNVx0pisIdY
- 2pEg==
-X-Gm-Message-State: AFqh2kpzV2f6LFkmmedw8ZWwm9YO6HAmgPWJuxVvwwsZT+88rxCdlcXq
- CTNNU4TnA+jnkpGJKCEtb6c24+62MURgNbAh
-X-Google-Smtp-Source: AMrXdXtkSEQgcUUjNh7TBImTrVPPuqnuQVFaQMYb3zWQNX9uwdw7Vy9gWx56bL2jyVKJ+CqGM7seOQ==
-X-Received: by 2002:a05:600c:4f41:b0:3d9:f806:2f89 with SMTP id
- m1-20020a05600c4f4100b003d9f8062f89mr11110984wmq.41.1673619112839; 
- Fri, 13 Jan 2023 06:11:52 -0800 (PST)
+ bh=/mW9HpUCcthbdZB5sduQCQbBVJGhP4Uz6vBQL11RdbI=;
+ b=BW52SSGoobL3K4b1OaaeU26W4dgYmY5260hfvRSWtRt9xaSU4QdozLs0c8t1sfsk+K
+ phzLGgXhSAxZIvyoAUI1BGMRvzB8quhiL0lH0I0FamundYASlVJyZv9B6i8E4w1sPwtg
+ Ma4FwBzXXDy8UWvrGksJwkvzGmNqdsKnYpVPCCtqRjAsDxI0UrkmVnphYFo2OMBQnG4b
+ WXFBqRUOp0bxHoNfAobJofiYOSbSXCNy4AA1zx2Dul3rtMOMdla8md+Vcv67OGwgNNWG
+ KQplbgKsZlPfn16Cyg/XoHTHmW2ko8l+AwiCxFNTwYIps09sQbEK0/IWRHHzh0rCVEgA
+ 8YfA==
+X-Gm-Message-State: AFqh2kr/RkwthemnqXey/vd5m2P3pM3tUIi3uBc5ux8ymSw6RZFJ2jxH
+ kCgvar9uUGB2eR2wyH2zOvxYWS0WidzqXSFv
+X-Google-Smtp-Source: AMrXdXv8Ckt6zzIV6MFCm31InvK4LPiUKKQ0fwftar45/zilXueZZogPchrx3PDIzIQ4MMcdtzVVcQ==
+X-Received: by 2002:a05:600c:3502:b0:3d9:e75c:756c with SMTP id
+ h2-20020a05600c350200b003d9e75c756cmr18961254wmq.12.1673619114528; 
+ Fri, 13 Jan 2023 06:11:54 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.52
+ n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.53
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 06:11:52 -0800 (PST)
+ Fri, 13 Jan 2023 06:11:53 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/38] hw/intc/omap_intc: Use CamelCase for TYPE_OMAP_INTC type
+Subject: [PULL 31/38] hw/arm/stellaris: Use CamelCase for STELLARIS_ADC type
  name
-Date: Fri, 13 Jan 2023 14:11:17 +0000
-Message-Id: <20230113141126.535646-30-peter.maydell@linaro.org>
+Date: Fri, 13 Jan 2023 14:11:19 +0000
+Message-Id: <20230113141126.535646-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230113141126.535646-1-peter.maydell@linaro.org>
 References: <20230113141126.535646-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,214 +93,171 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 Following docs/devel/style.rst guidelines, rename
-omap_intr_handler_s -> OMAPIntcState. This also remove a
+stellaris_adc_state -> StellarisADCState. This also remove a
 use of 'struct' in the DECLARE_INSTANCE_CHECKER() macro call.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230109140306.23161-7-philmd@linaro.org
+Message-id: 20230109140306.23161-9-philmd@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/omap.h |  9 ++++-----
- hw/intc/omap_intc.c   | 38 +++++++++++++++++++-------------------
- 2 files changed, 23 insertions(+), 24 deletions(-)
+ hw/arm/stellaris.c | 73 +++++++++++++++++++++++-----------------------
+ 1 file changed, 36 insertions(+), 37 deletions(-)
 
-diff --git a/include/hw/arm/omap.h b/include/hw/arm/omap.h
-index 9e30ba7ba24..c275d9b681c 100644
---- a/include/hw/arm/omap.h
-+++ b/include/hw/arm/omap.h
-@@ -70,9 +70,8 @@ void omap_clk_reparent(omap_clk clk, omap_clk parent);
+diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
+index 051c242e9d6..67a2293d35f 100644
+--- a/hw/arm/stellaris.c
++++ b/hw/arm/stellaris.c
+@@ -674,9 +674,8 @@ static void stellaris_i2c_init(Object *obj)
+ #define STELLARIS_ADC_FIFO_FULL     0x1000
  
- /* omap_intc.c */
- #define TYPE_OMAP_INTC "common-omap-intc"
--typedef struct omap_intr_handler_s omap_intr_handler;
--DECLARE_INSTANCE_CHECKER(omap_intr_handler, OMAP_INTC,
--                         TYPE_OMAP_INTC)
-+typedef struct OMAPIntcState OMAPIntcState;
-+DECLARE_INSTANCE_CHECKER(OMAPIntcState, OMAP_INTC, TYPE_OMAP_INTC)
+ #define TYPE_STELLARIS_ADC "stellaris-adc"
+-typedef struct StellarisADCState stellaris_adc_state;
+-DECLARE_INSTANCE_CHECKER(stellaris_adc_state, STELLARIS_ADC,
+-                         TYPE_STELLARIS_ADC)
++typedef struct StellarisADCState StellarisADCState;
++DECLARE_INSTANCE_CHECKER(StellarisADCState, STELLARIS_ADC, TYPE_STELLARIS_ADC)
  
- 
- /*
-@@ -89,8 +88,8 @@ DECLARE_INSTANCE_CHECKER(omap_intr_handler, OMAP_INTC,
-  * (ie the struct omap_mpu_state_s*) to do the clockname to pointer
-  * translation.)
-  */
--void omap_intc_set_iclk(omap_intr_handler *intc, omap_clk clk);
--void omap_intc_set_fclk(omap_intr_handler *intc, omap_clk clk);
-+void omap_intc_set_iclk(OMAPIntcState *intc, omap_clk clk);
-+void omap_intc_set_fclk(OMAPIntcState *intc, omap_clk clk);
- 
- /* omap_i2c.c */
- #define TYPE_OMAP_I2C "omap_i2c"
-diff --git a/hw/intc/omap_intc.c b/hw/intc/omap_intc.c
-index 9f6a71ce305..647bf324a8e 100644
---- a/hw/intc/omap_intc.c
-+++ b/hw/intc/omap_intc.c
-@@ -38,7 +38,7 @@ struct omap_intr_handler_bank_s {
-     unsigned char priority[32];
- };
- 
--struct omap_intr_handler_s {
-+struct OMAPIntcState {
+ struct StellarisADCState {
      SysBusDevice parent_obj;
- 
-     qemu_irq *pins;
-@@ -60,7 +60,7 @@ struct omap_intr_handler_s {
-     struct omap_intr_handler_bank_s bank[3];
+@@ -700,7 +699,7 @@ struct StellarisADCState {
+     qemu_irq irq[4];
  };
  
--static void omap_inth_sir_update(struct omap_intr_handler_s *s, int is_fiq)
-+static void omap_inth_sir_update(OMAPIntcState *s, int is_fiq)
+-static uint32_t stellaris_adc_fifo_read(stellaris_adc_state *s, int n)
++static uint32_t stellaris_adc_fifo_read(StellarisADCState *s, int n)
  {
-     int i, j, sir_intr, p_intr, p;
-     uint32_t level;
-@@ -88,7 +88,7 @@ static void omap_inth_sir_update(struct omap_intr_handler_s *s, int is_fiq)
-     s->sir_intr[is_fiq] = sir_intr;
+     int tail;
+ 
+@@ -716,7 +715,7 @@ static uint32_t stellaris_adc_fifo_read(stellaris_adc_state *s, int n)
+     return s->fifo[n].data[tail];
  }
  
--static inline void omap_inth_update(struct omap_intr_handler_s *s, int is_fiq)
-+static inline void omap_inth_update(OMAPIntcState *s, int is_fiq)
+-static void stellaris_adc_fifo_write(stellaris_adc_state *s, int n,
++static void stellaris_adc_fifo_write(StellarisADCState *s, int n,
+                                      uint32_t value)
  {
-     int i;
-     uint32_t has_intr = 0;
-@@ -109,7 +109,7 @@ static inline void omap_inth_update(struct omap_intr_handler_s *s, int is_fiq)
+     int head;
+@@ -736,7 +735,7 @@ static void stellaris_adc_fifo_write(stellaris_adc_state *s, int n,
+         s->fifo[n].state |= STELLARIS_ADC_FIFO_FULL;
+ }
  
- static void omap_set_intr(void *opaque, int irq, int req)
+-static void stellaris_adc_update(stellaris_adc_state *s)
++static void stellaris_adc_update(StellarisADCState *s)
  {
--    struct omap_intr_handler_s *ih = opaque;
-+    OMAPIntcState *ih = opaque;
-     uint32_t rise;
+     int level;
+     int n;
+@@ -749,7 +748,7 @@ static void stellaris_adc_update(stellaris_adc_state *s)
  
-     struct omap_intr_handler_bank_s *bank = &ih->bank[irq >> 5];
-@@ -136,7 +136,7 @@ static void omap_set_intr(void *opaque, int irq, int req)
- /* Simplified version with no edge detection */
- static void omap_set_intr_noedge(void *opaque, int irq, int req)
+ static void stellaris_adc_trigger(void *opaque, int irq, int level)
  {
--    struct omap_intr_handler_s *ih = opaque;
-+    OMAPIntcState *ih = opaque;
-     uint32_t rise;
+-    stellaris_adc_state *s = opaque;
++    StellarisADCState *s = opaque;
+     int n;
  
-     struct omap_intr_handler_bank_s *bank = &ih->bank[irq >> 5];
-@@ -156,7 +156,7 @@ static void omap_set_intr_noedge(void *opaque, int irq, int req)
- static uint64_t omap_inth_read(void *opaque, hwaddr addr,
-                                unsigned size)
- {
--    struct omap_intr_handler_s *s = opaque;
-+    OMAPIntcState *s = opaque;
-     int i, offset = addr;
-     int bank_no = offset >> 8;
-     int line_no;
-@@ -234,7 +234,7 @@ static uint64_t omap_inth_read(void *opaque, hwaddr addr,
- static void omap_inth_write(void *opaque, hwaddr addr,
-                             uint64_t value, unsigned size)
- {
--    struct omap_intr_handler_s *s = opaque;
-+    OMAPIntcState *s = opaque;
-     int i, offset = addr;
-     int bank_no = offset >> 8;
-     struct omap_intr_handler_bank_s *bank = &s->bank[bank_no];
-@@ -336,7 +336,7 @@ static const MemoryRegionOps omap_inth_mem_ops = {
- 
- static void omap_inth_reset(DeviceState *dev)
- {
--    struct omap_intr_handler_s *s = OMAP_INTC(dev);
-+    OMAPIntcState *s = OMAP_INTC(dev);
-     int i;
- 
-     for (i = 0; i < s->nbanks; ++i){
-@@ -366,7 +366,7 @@ static void omap_inth_reset(DeviceState *dev)
- static void omap_intc_init(Object *obj)
- {
-     DeviceState *dev = DEVICE(obj);
--    struct omap_intr_handler_s *s = OMAP_INTC(obj);
-+    OMAPIntcState *s = OMAP_INTC(obj);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
- 
-     s->nbanks = 1;
-@@ -380,25 +380,25 @@ static void omap_intc_init(Object *obj)
- 
- static void omap_intc_realize(DeviceState *dev, Error **errp)
- {
--    struct omap_intr_handler_s *s = OMAP_INTC(dev);
-+    OMAPIntcState *s = OMAP_INTC(dev);
- 
-     if (!s->iclk) {
-         error_setg(errp, "omap-intc: clk not connected");
+     for (n = 0; n < 4; n++) {
+@@ -771,7 +770,7 @@ static void stellaris_adc_trigger(void *opaque, int irq, int level)
      }
  }
  
--void omap_intc_set_iclk(omap_intr_handler *intc, omap_clk clk)
-+void omap_intc_set_iclk(OMAPIntcState *intc, omap_clk clk)
+-static void stellaris_adc_reset(stellaris_adc_state *s)
++static void stellaris_adc_reset(StellarisADCState *s)
  {
-     intc->iclk = clk;
- }
+     int n;
  
--void omap_intc_set_fclk(omap_intr_handler *intc, omap_clk clk)
-+void omap_intc_set_fclk(OMAPIntcState *intc, omap_clk clk)
+@@ -785,7 +784,7 @@ static void stellaris_adc_reset(stellaris_adc_state *s)
+ static uint64_t stellaris_adc_read(void *opaque, hwaddr offset,
+                                    unsigned size)
  {
-     intc->fclk = clk;
- }
+-    stellaris_adc_state *s = opaque;
++    StellarisADCState *s = opaque;
  
- static Property omap_intc_properties[] = {
--    DEFINE_PROP_UINT32("size", struct omap_intr_handler_s, size, 0x100),
-+    DEFINE_PROP_UINT32("size", OMAPIntcState, size, 0x100),
-     DEFINE_PROP_END_OF_LIST(),
+     /* TODO: Implement this.  */
+     if (offset >= 0x40 && offset < 0xc0) {
+@@ -833,7 +832,7 @@ static uint64_t stellaris_adc_read(void *opaque, hwaddr offset,
+ static void stellaris_adc_write(void *opaque, hwaddr offset,
+                                 uint64_t value, unsigned size)
+ {
+-    stellaris_adc_state *s = opaque;
++    StellarisADCState *s = opaque;
+ 
+     /* TODO: Implement this.  */
+     if (offset >= 0x40 && offset < 0xc0) {
+@@ -901,31 +900,31 @@ static const VMStateDescription vmstate_stellaris_adc = {
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+-        VMSTATE_UINT32(actss, stellaris_adc_state),
+-        VMSTATE_UINT32(ris, stellaris_adc_state),
+-        VMSTATE_UINT32(im, stellaris_adc_state),
+-        VMSTATE_UINT32(emux, stellaris_adc_state),
+-        VMSTATE_UINT32(ostat, stellaris_adc_state),
+-        VMSTATE_UINT32(ustat, stellaris_adc_state),
+-        VMSTATE_UINT32(sspri, stellaris_adc_state),
+-        VMSTATE_UINT32(sac, stellaris_adc_state),
+-        VMSTATE_UINT32(fifo[0].state, stellaris_adc_state),
+-        VMSTATE_UINT32_ARRAY(fifo[0].data, stellaris_adc_state, 16),
+-        VMSTATE_UINT32(ssmux[0], stellaris_adc_state),
+-        VMSTATE_UINT32(ssctl[0], stellaris_adc_state),
+-        VMSTATE_UINT32(fifo[1].state, stellaris_adc_state),
+-        VMSTATE_UINT32_ARRAY(fifo[1].data, stellaris_adc_state, 16),
+-        VMSTATE_UINT32(ssmux[1], stellaris_adc_state),
+-        VMSTATE_UINT32(ssctl[1], stellaris_adc_state),
+-        VMSTATE_UINT32(fifo[2].state, stellaris_adc_state),
+-        VMSTATE_UINT32_ARRAY(fifo[2].data, stellaris_adc_state, 16),
+-        VMSTATE_UINT32(ssmux[2], stellaris_adc_state),
+-        VMSTATE_UINT32(ssctl[2], stellaris_adc_state),
+-        VMSTATE_UINT32(fifo[3].state, stellaris_adc_state),
+-        VMSTATE_UINT32_ARRAY(fifo[3].data, stellaris_adc_state, 16),
+-        VMSTATE_UINT32(ssmux[3], stellaris_adc_state),
+-        VMSTATE_UINT32(ssctl[3], stellaris_adc_state),
+-        VMSTATE_UINT32(noise, stellaris_adc_state),
++        VMSTATE_UINT32(actss, StellarisADCState),
++        VMSTATE_UINT32(ris, StellarisADCState),
++        VMSTATE_UINT32(im, StellarisADCState),
++        VMSTATE_UINT32(emux, StellarisADCState),
++        VMSTATE_UINT32(ostat, StellarisADCState),
++        VMSTATE_UINT32(ustat, StellarisADCState),
++        VMSTATE_UINT32(sspri, StellarisADCState),
++        VMSTATE_UINT32(sac, StellarisADCState),
++        VMSTATE_UINT32(fifo[0].state, StellarisADCState),
++        VMSTATE_UINT32_ARRAY(fifo[0].data, StellarisADCState, 16),
++        VMSTATE_UINT32(ssmux[0], StellarisADCState),
++        VMSTATE_UINT32(ssctl[0], StellarisADCState),
++        VMSTATE_UINT32(fifo[1].state, StellarisADCState),
++        VMSTATE_UINT32_ARRAY(fifo[1].data, StellarisADCState, 16),
++        VMSTATE_UINT32(ssmux[1], StellarisADCState),
++        VMSTATE_UINT32(ssctl[1], StellarisADCState),
++        VMSTATE_UINT32(fifo[2].state, StellarisADCState),
++        VMSTATE_UINT32_ARRAY(fifo[2].data, StellarisADCState, 16),
++        VMSTATE_UINT32(ssmux[2], StellarisADCState),
++        VMSTATE_UINT32(ssctl[2], StellarisADCState),
++        VMSTATE_UINT32(fifo[3].state, StellarisADCState),
++        VMSTATE_UINT32_ARRAY(fifo[3].data, StellarisADCState, 16),
++        VMSTATE_UINT32(ssmux[3], StellarisADCState),
++        VMSTATE_UINT32(ssctl[3], StellarisADCState),
++        VMSTATE_UINT32(noise, StellarisADCState),
+         VMSTATE_END_OF_LIST()
+     }
  };
- 
-@@ -423,7 +423,7 @@ static const TypeInfo omap_intc_info = {
- static uint64_t omap2_inth_read(void *opaque, hwaddr addr,
-                                 unsigned size)
- {
--    struct omap_intr_handler_s *s = opaque;
-+    OMAPIntcState *s = opaque;
-     int offset = addr;
-     int bank_no, line_no;
-     struct omap_intr_handler_bank_s *bank = NULL;
-@@ -504,7 +504,7 @@ static uint64_t omap2_inth_read(void *opaque, hwaddr addr,
- static void omap2_inth_write(void *opaque, hwaddr addr,
-                              uint64_t value, unsigned size)
- {
--    struct omap_intr_handler_s *s = opaque;
-+    OMAPIntcState *s = opaque;
-     int offset = addr;
-     int bank_no, line_no;
-     struct omap_intr_handler_bank_s *bank = NULL;
-@@ -622,7 +622,7 @@ static const MemoryRegionOps omap2_inth_mem_ops = {
- static void omap2_intc_init(Object *obj)
+@@ -933,7 +932,7 @@ static const VMStateDescription vmstate_stellaris_adc = {
+ static void stellaris_adc_init(Object *obj)
  {
      DeviceState *dev = DEVICE(obj);
--    struct omap_intr_handler_s *s = OMAP_INTC(obj);
-+    OMAPIntcState *s = OMAP_INTC(obj);
+-    stellaris_adc_state *s = STELLARIS_ADC(obj);
++    StellarisADCState *s = STELLARIS_ADC(obj);
      SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+     int n;
  
-     s->level_only = 1;
-@@ -637,7 +637,7 @@ static void omap2_intc_init(Object *obj)
- 
- static void omap2_intc_realize(DeviceState *dev, Error **errp)
- {
--    struct omap_intr_handler_s *s = OMAP_INTC(dev);
-+    OMAPIntcState *s = OMAP_INTC(dev);
- 
-     if (!s->iclk) {
-         error_setg(errp, "omap2-intc: iclk not connected");
-@@ -650,7 +650,7 @@ static void omap2_intc_realize(DeviceState *dev, Error **errp)
- }
- 
- static Property omap2_intc_properties[] = {
--    DEFINE_PROP_UINT8("revision", struct omap_intr_handler_s,
-+    DEFINE_PROP_UINT8("revision", OMAPIntcState,
-     revision, 0x21),
-     DEFINE_PROP_END_OF_LIST(),
- };
-@@ -676,7 +676,7 @@ static const TypeInfo omap2_intc_info = {
- static const TypeInfo omap_intc_type_info = {
-     .name          = TYPE_OMAP_INTC,
+@@ -1381,7 +1380,7 @@ static void stellaris_adc_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo stellaris_adc_info = {
+     .name          = TYPE_STELLARIS_ADC,
      .parent        = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(omap_intr_handler),
-+    .instance_size = sizeof(OMAPIntcState),
-     .abstract      = true,
+-    .instance_size = sizeof(stellaris_adc_state),
++    .instance_size = sizeof(StellarisADCState),
+     .instance_init = stellaris_adc_init,
+     .class_init    = stellaris_adc_class_init,
  };
- 
 -- 
 2.34.1
 
