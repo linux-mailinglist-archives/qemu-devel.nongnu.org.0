@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7805669814
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 14:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1FA1669820
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 14:12:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGJnl-0004RM-SU; Fri, 13 Jan 2023 08:08:57 -0500
+	id 1pGJqc-0005hC-T1; Fri, 13 Jan 2023 08:11:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pGJnj-0004R0-F6
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:08:55 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pGJqa-0005gb-CP
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:11:52 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pGJnh-0005BY-2S
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:08:55 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- v13-20020a17090a6b0d00b00219c3be9830so24328598pjj.4
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 05:08:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=D92loE1N2VhhDiTz7D9NWwgy6yEPkhdyyjdk3wETMj4=;
- b=cKTV5g/ELRRnZDy0Wd5cRxC+h6kvOzugTGVZl9Fm4Fh9yg0gwqRMNvQMcJK6CPhJbi
- UCb5WpFgf252IJh70PfMPWeRiOnrtd3WQwdXuJRxuSXWLWay+GWj4UBtUjHHEVtn+gPO
- z1BrkYhrACxehxVM13AT7E4MQC/h2qMNU1fB8JZgws8OZoVmG+OmtwjarrSiqnUktXv3
- lYG/ucC5VsBkpiKXOmO5KjFz5aPwIJjPGcz6wZL807gDeBkhefZ801oYSxTIUjNX4P0k
- WofrGktEdTwIuSJMNDSh1nI5PJcO8PzZL8nI2CEl78MU815fFMkASSi2pzGxbKQvNLQk
- yk4Q==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pGJqY-0006JI-88
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:11:51 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id 141so14974103pgc.0
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 05:11:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=2+XTlWpfc4bl6Kl4kWdays/hzG+45VDkD1dV8oW6aNI=;
+ b=FPxkka0jlYztNkPAIhl0Y9MyTGHNOdt1Y8bmsw209QZdoF64+mcHQ10Ifmqp/HuTOZ
+ 4FTHiHY0HnK13b88Ef+Tidg/iCajnI2H528AzWjGEqqcxE3IP+28w0AYC4JyQqnMQYto
+ EfDdqIW2m0+8LJEqO/DL9YSz8JDRDOSkDb/x8zEslPYi/GmtffYtov1lcNgUPwmC2y9x
+ 5wqh6wTImso3hAEGfpi7yuraAejNR1LLX0Hc1R4AbzbbROe6Px/thAi04LLgJCE6N2Wx
+ JiQ/ev3mz0ofamlgfe97bq7/TVCjebtTFdwbE/tf32OEcQrw0AagQUy8bT51kEaiyu/O
+ QpKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=D92loE1N2VhhDiTz7D9NWwgy6yEPkhdyyjdk3wETMj4=;
- b=Zij8TVyBWvJYqHZrPFjpXEcSDPlcl7l6rkGicnH8cDfByG9s50IoPG7nji3bDaINiU
- CL6WSu1T0VawBvzCEC7FAujy0IV074NEgH6WqK5JoQ0JbMIvrpdYbd+Q69485rjGRTJW
- Nqx6di/wPnJgRRlEgpyWyyEYD8C9u7OSOqG1iPQ6znJ063cEAvMGzC/4RhMJ/kEbO0AE
- rQWk3w412Qwz3zIaMI25gmDk9yFrX3lG07o51wEZBsFLLIOe/tUaqy3+Jppm2eLOFUfi
- vQiOHr9JqTr5+Sbp529IyIOeN12ftspd6hk513mLLEvsbvwQClSpzUVsK7GEnOLem6Ce
- JyFA==
-X-Gm-Message-State: AFqh2kolQHXkWdOVKALgJypyV6z3X/Rx58A1Fjm9eVDSaL0dcdc8nb1i
- IuzEsLX+TItl7jHdflilFZ92ww==
-X-Google-Smtp-Source: AMrXdXtUabcAFdbA69tIsuYs6p4ITo/URToe547EeDszV/Ywp2XULDCXh4+bjHrZv15KCnzt8ZVTNQ==
-X-Received: by 2002:a17:902:9687:b0:189:ed86:178b with SMTP id
- n7-20020a170902968700b00189ed86178bmr10614422plp.64.1673615330646; 
- Fri, 13 Jan 2023 05:08:50 -0800 (PST)
-Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- f5-20020a170902ce8500b001870dc3b4c0sm14160671plg.74.2023.01.13.05.08.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 05:08:50 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: Jason Wang <jasowang@redhat.com>, Luigi Rizzo <rizzo@iet.unipi.it>,
- Giuseppe Lettieri <g.lettieri@iet.unipi.it>,
- Vincenzo Maffione <v.maffione@gmail.com>, qemu-devel@nongnu.org,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH] net: Strip virtio-net header when dumping
-Date: Fri, 13 Jan 2023 22:08:33 +0900
-Message-Id: <20230113130833.81458-1-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.39.0
+ bh=2+XTlWpfc4bl6Kl4kWdays/hzG+45VDkD1dV8oW6aNI=;
+ b=YnFF1x9g2Bd0lnZ5Vgh0kZe31alyNiuQa4S1xDkuyp4+5fEUZfzUXN6IeGo9VQffdU
+ vnwVkB3bC5f9sWa25RS4bWBrsi4n9xQ8AkECiQ6vJgbHyh8em8U5L5gC0GRKbvEpv3Gq
+ vRv3sUVSJ7NoeAAVT+ESDJlzTnJElQVTE9SWXsvhgCf51MfbYyam9wb0Zwrr9I6m68g/
+ EEkUPRECae5E2MYnE2v0+kG4d5IW3LqGpBhDnlRVtTFwDrmf/cnZciXTr0wZIKe6E18f
+ G8zS5+16ErZTrM0KjeWxDdQpYCvibgNFIGlo2otzf7E50sex+xT1v3Mjt0GYZin4APms
+ 38YQ==
+X-Gm-Message-State: AFqh2kqD171CSqBCPHhxD58RYierYCyNA9RGdyq1rvFTH8SK5AweSMyl
+ tWpEFtVXW6Ulv/j9rbqiE/LKRL48zNcvv+DyUPEMhdPN22UwkQ==
+X-Google-Smtp-Source: AMrXdXtbDIv7wcknbh1bK7dGr+j4jnOq+s7uAyTKtGwsSczWj+e5NVw/W3abFE78Gx7/5kKtZiYkP6UTzy39jGn/gYk=
+X-Received: by 2002:aa7:999c:0:b0:582:74a2:1e4e with SMTP id
+ k28-20020aa7999c000000b0058274a21e4emr3615978pfh.26.1673615508363; Fri, 13
+ Jan 2023 05:11:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102f;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20230105221251.17896-1-eiakovlev@linux.microsoft.com>
+ <20230105221251.17896-2-eiakovlev@linux.microsoft.com>
+In-Reply-To: <20230105221251.17896-2-eiakovlev@linux.microsoft.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 Jan 2023 13:11:37 +0000
+Message-ID: <CAFEAcA-N1hS2+6RL7gRYxyzu-zWzsnCujLqrQensLQFN9P8JiQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] target/arm: implement DBGCLAIM registers
+To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,192 +83,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-filter-dump specifiees Ethernet as PCAP LinkType, which does not expect
-virtio-net header. Having virtio-net header in such PCAP file breaks
-PCAP unconsumable. Unfortunately currently there is no LinkType for
-virtio-net so for now strip virtio-net header to convert the output to
-Ethernet.
+On Thu, 5 Jan 2023 at 22:12, Evgeny Iakovlev
+<eiakovlev@linux.microsoft.com> wrote:
+>
+> The architecture does not define any functionality for the CLAIM tag bits.
+> So we will just keep the raw bits, as per spec.
+>
+> Helps Hyper-V boot on aarch64-tcg because it context-switches DBGCLAIM
+> on EL2 entry/exit.
+>
+> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+> ---
+>  target/arm/cpu.h          |  1 +
+>  target/arm/debug_helper.c | 27 +++++++++++++++++++++++++++
+>  2 files changed, 28 insertions(+)
+>
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 2b4bd20f9d..eddec155b0 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -494,6 +494,7 @@ typedef struct CPUArchState {
+>          uint64_t dbgbcr[16]; /* breakpoint control registers */
+>          uint64_t dbgwvr[16]; /* watchpoint value registers */
+>          uint64_t dbgwcr[16]; /* watchpoint control registers */
+> +        uint64_t dbgclaim;   /* DBGCLAIM bits */
+>          uint64_t mdscr_el1;
+>          uint64_t oslsr_el1; /* OS Lock Status */
+>          uint64_t osdlr_el1; /* OS DoubleLock status */
+> diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
+> index c21739242c..b244e146e2 100644
+> --- a/target/arm/debug_helper.c
+> +++ b/target/arm/debug_helper.c
+> @@ -629,6 +629,18 @@ static void osdlr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>      }
+>  }
+>
+> +static void dbgclaimset_write(CPUARMState *env, const ARMCPRegInfo *ri,
+> +                              uint64_t value)
+> +{
+> +    env->cp15.dbgclaim |= (value & 0xFF);
+> +}
+> +
+> +static void dbgclaimclr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+> +                              uint64_t value)
+> +{
+> +    env->cp15.dbgclaim &= ~(value & 0xFF);
+> +}
+> +
+>  static const ARMCPRegInfo debug_cp_reginfo[] = {
+>      /*
+>       * DBGDRAR, DBGDSAR: always RAZ since we don't implement memory mapped
+> @@ -712,6 +724,21 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
+>        .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 2, .opc2 = 0,
+>        .access = PL1_RW, .accessfn = access_tda,
+>        .type = ARM_CP_NOP },
+> +    /*
+> +     * Dummy DBGCLAIM registers.
+> +     * "The architecture does not define any functionality for the CLAIM tag bits.",
+> +     * so we only keep the raw bits
+> +     */
+> +    { .name = "DBGCLAIMSET_EL1", .state = ARM_CP_STATE_BOTH,
+> +      .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 7, .crm = 8, .opc2 = 6,
+> +      .access = PL1_RW, .accessfn = access_tda,
+> +      .writefn = dbgclaimset_write,
+> +      .fieldoffset = offsetof(CPUARMState, cp15.dbgclaim) },
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- include/net/net.h |  6 ++++++
- net/dump.c        | 11 +++++++----
- net/net.c         | 18 ++++++++++++++++++
- net/netmap.c      |  1 +
- net/tap.c         | 16 ++++++++++++++++
- 5 files changed, 48 insertions(+), 4 deletions(-)
+DBGCLAIMSET_EL1 CLAIM bits are supposed to RAO. (In v7 this
+was done so software could identify how many claim bits are
+implemented by writing all-1s and then reading back.) So we
+need a readfn that just returns 0xff, and can skip the .fieldoffset.
 
-diff --git a/include/net/net.h b/include/net/net.h
-index dc20b31e9f..4b2d72b3fc 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -56,8 +56,10 @@ typedef RxFilterInfo *(QueryRxFilter)(NetClientState *);
- typedef bool (HasUfo)(NetClientState *);
- typedef bool (HasVnetHdr)(NetClientState *);
- typedef bool (HasVnetHdrLen)(NetClientState *, int);
-+typedef bool (GetUsingVnetHdr)(NetClientState *);
- typedef void (UsingVnetHdr)(NetClientState *, bool);
- typedef void (SetOffload)(NetClientState *, int, int, int, int, int);
-+typedef int (GetVnetHdrLen)(NetClientState *);
- typedef void (SetVnetHdrLen)(NetClientState *, int);
- typedef int (SetVnetLE)(NetClientState *, bool);
- typedef int (SetVnetBE)(NetClientState *, bool);
-@@ -84,8 +86,10 @@ typedef struct NetClientInfo {
-     HasUfo *has_ufo;
-     HasVnetHdr *has_vnet_hdr;
-     HasVnetHdrLen *has_vnet_hdr_len;
-+    GetUsingVnetHdr *get_using_vnet_hdr;
-     UsingVnetHdr *using_vnet_hdr;
-     SetOffload *set_offload;
-+    GetVnetHdrLen *get_vnet_hdr_len;
-     SetVnetHdrLen *set_vnet_hdr_len;
-     SetVnetLE *set_vnet_le;
-     SetVnetBE *set_vnet_be;
-@@ -183,9 +187,11 @@ void qemu_format_nic_info_str(NetClientState *nc, uint8_t macaddr[6]);
- bool qemu_has_ufo(NetClientState *nc);
- bool qemu_has_vnet_hdr(NetClientState *nc);
- bool qemu_has_vnet_hdr_len(NetClientState *nc, int len);
-+bool qemu_get_using_vnet_hdr(NetClientState *nc);
- void qemu_using_vnet_hdr(NetClientState *nc, bool enable);
- void qemu_set_offload(NetClientState *nc, int csum, int tso4, int tso6,
-                       int ecn, int ufo);
-+int qemu_get_vnet_hdr_len(NetClientState *nc);
- void qemu_set_vnet_hdr_len(NetClientState *nc, int len);
- int qemu_set_vnet_le(NetClientState *nc, bool is_le);
- int qemu_set_vnet_be(NetClientState *nc, bool is_be);
-diff --git a/net/dump.c b/net/dump.c
-index 6a63b15359..7d05f16ca7 100644
---- a/net/dump.c
-+++ b/net/dump.c
-@@ -61,12 +61,13 @@ struct pcap_sf_pkthdr {
-     uint32_t len;
- };
- 
--static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt)
-+static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt,
-+                                int offset)
- {
-     struct pcap_sf_pkthdr hdr;
-     int64_t ts;
-     int caplen;
--    size_t size = iov_size(iov, cnt);
-+    size_t size = iov_size(iov, cnt) - offset;
-     struct iovec dumpiov[cnt + 1];
- 
-     /* Early return in case of previous error. */
-@@ -84,7 +85,7 @@ static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt)
- 
-     dumpiov[0].iov_base = &hdr;
-     dumpiov[0].iov_len = sizeof(hdr);
--    cnt = iov_copy(&dumpiov[1], cnt, iov, cnt, 0, caplen);
-+    cnt = iov_copy(&dumpiov[1], cnt, iov, cnt, offset, caplen);
- 
-     if (writev(s->fd, dumpiov, cnt + 1) != sizeof(hdr) + caplen) {
-         error_report("network dump write error - stopping dump");
-@@ -153,8 +154,10 @@ static ssize_t filter_dump_receive_iov(NetFilterState *nf, NetClientState *sndr,
-                                        int iovcnt, NetPacketSent *sent_cb)
- {
-     NetFilterDumpState *nfds = FILTER_DUMP(nf);
-+    int offset = qemu_get_using_vnet_hdr(nf->netdev) ?
-+                 qemu_get_vnet_hdr_len(nf->netdev) : 0;
- 
--    dump_receive_iov(&nfds->ds, iov, iovcnt);
-+    dump_receive_iov(&nfds->ds, iov, iovcnt, offset);
-     return 0;
- }
- 
-diff --git a/net/net.c b/net/net.c
-index 2d01472998..3a95c3ba6a 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -513,6 +513,15 @@ bool qemu_has_vnet_hdr_len(NetClientState *nc, int len)
-     return nc->info->has_vnet_hdr_len(nc, len);
- }
- 
-+bool qemu_get_using_vnet_hdr(NetClientState *nc)
-+{
-+    if (!nc || !nc->info->get_using_vnet_hdr) {
-+        return false;
-+    }
-+
-+    return nc->info->get_using_vnet_hdr(nc);
-+}
-+
- void qemu_using_vnet_hdr(NetClientState *nc, bool enable)
- {
-     if (!nc || !nc->info->using_vnet_hdr) {
-@@ -532,6 +541,15 @@ void qemu_set_offload(NetClientState *nc, int csum, int tso4, int tso6,
-     nc->info->set_offload(nc, csum, tso4, tso6, ecn, ufo);
- }
- 
-+int qemu_get_vnet_hdr_len(NetClientState *nc)
-+{
-+    if (!nc || !nc->info->get_vnet_hdr_len) {
-+        return -ENOSYS;
-+    }
-+
-+    return nc->info->get_vnet_hdr_len(nc);
-+}
-+
- void qemu_set_vnet_hdr_len(NetClientState *nc, int len)
- {
-     if (!nc || !nc->info->set_vnet_hdr_len) {
-diff --git a/net/netmap.c b/net/netmap.c
-index 9e0cec58d3..ed9c7ec948 100644
---- a/net/netmap.c
-+++ b/net/netmap.c
-@@ -393,6 +393,7 @@ static NetClientInfo net_netmap_info = {
-     .has_ufo = netmap_has_vnet_hdr,
-     .has_vnet_hdr = netmap_has_vnet_hdr,
-     .has_vnet_hdr_len = netmap_has_vnet_hdr_len,
-+    .get_using_vnet_hdr = netmap_get_using_vnet_hdr,
-     .using_vnet_hdr = netmap_using_vnet_hdr,
-     .set_offload = netmap_set_offload,
-     .set_vnet_hdr_len = netmap_set_vnet_hdr_len,
-diff --git a/net/tap.c b/net/tap.c
-index e28ceb078f..daa7e0a042 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -257,6 +257,13 @@ static bool tap_has_vnet_hdr_len(NetClientState *nc, int len)
-     return !!tap_probe_vnet_hdr_len(s->fd, len);
- }
- 
-+static int tap_get_vnet_hdr_len(NetClientState *nc)
-+{
-+    TAPState *s = DO_UPCAST(TAPState, nc, nc);
-+
-+    return s->host_vnet_hdr_len;
-+}
-+
- static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
- {
-     TAPState *s = DO_UPCAST(TAPState, nc, nc);
-@@ -270,6 +277,13 @@ static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
-     s->host_vnet_hdr_len = len;
- }
- 
-+static bool tap_get_using_vnet_hdr(NetClientState *nc)
-+{
-+    TAPState *s = DO_UPCAST(TAPState, nc, nc);
-+
-+    return s->using_vnet_hdr;
-+}
-+
- static void tap_using_vnet_hdr(NetClientState *nc, bool using_vnet_hdr)
- {
-     TAPState *s = DO_UPCAST(TAPState, nc, nc);
-@@ -374,8 +388,10 @@ static NetClientInfo net_tap_info = {
-     .has_ufo = tap_has_ufo,
-     .has_vnet_hdr = tap_has_vnet_hdr,
-     .has_vnet_hdr_len = tap_has_vnet_hdr_len,
-+    .get_using_vnet_hdr = tap_get_using_vnet_hdr,
-     .using_vnet_hdr = tap_using_vnet_hdr,
-     .set_offload = tap_set_offload,
-+    .get_vnet_hdr_len = tap_get_vnet_hdr_len,
-     .set_vnet_hdr_len = tap_set_vnet_hdr_len,
-     .set_vnet_le = tap_set_vnet_le,
-     .set_vnet_be = tap_set_vnet_be,
--- 
-2.39.0
+We should mark DBGCLAIMSET_EL1 as ARM_CP_ALIAS, because the
+actual state is handled by DBGCLAIMCLR_EL1.
 
+> +    { .name = "DBGCLAIMCLR_EL1", .state = ARM_CP_STATE_BOTH,
+> +      .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 6,
+> +      .access = PL1_RW, .accessfn = access_tda,
+> +      .writefn = dbgclaimclr_write,
+> +      .fieldoffset = offsetof(CPUARMState, cp15.dbgclaim) },
+
+This also needs .raw_writefn = raw_write,
+so that on migration restore we can write the value in
+and not have it go via the "clear these bits" writefn.
+
+thanks
+-- PMM
 
