@@ -2,90 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1359166A0EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:43:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B09B266A0D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:37:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGNkC-0003oA-QJ; Fri, 13 Jan 2023 12:21:32 -0500
+	id 1pGNvN-0002rg-Gx; Fri, 13 Jan 2023 12:33:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGNk0-0003iF-V7
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:21:25 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGNjy-0002CQ-B6
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:21:20 -0500
-Received: by mail-wr1-x433.google.com with SMTP id r2so21697709wrv.7
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 09:21:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vvrQQwP/YiVngYe/yHkxoQ+tXK29VdqGSrWKX+pnEYM=;
- b=RgNIy/ff1hBbAFSyLfv38nGPGLB8YbO1ylubcPMErWtaV4E38dDcyWhOXerbOJShql
- IGy9BK+0NzI2B2twju08wdxAddQGddFeyhTHrKKmv+sxwpjsnzO2UBRBtNDR8BWDQJka
- sifsUMypzROL/ef9SIyds2jWfAAuHp9N+jZdBM/2YIS6xdQI78UA91afP6PaeOH1Q1p+
- 22HM8AGpT0vgYYci/BciXrcHUAZCkbL+aOo5ZaxOsWbnQb7HkhhlZrXRH7FUkSPdKFCf
- eHvQoeJzIxtLtOGT/PA3ZPiqjOqFa7aIgCHdxKj50AYXCYpwaK/lPpNJT4e/gZPZhfFj
- iG8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vvrQQwP/YiVngYe/yHkxoQ+tXK29VdqGSrWKX+pnEYM=;
- b=j2NbICVrGVfUp3CrClxo4NB50ylEm7rRTQe+z+e2wTYC/EGAYpzbnACmoHegMErXln
- 37Ng8LNgoEH8/u8/Lo9G/4ea3ag3h4BqfkUF5DGC/8jlXNb983Noxo4yrAN9ViQUiXLv
- Cmc/fO0A0Fxnr3mXwZqFU3GbC06ZqOsrB2V51AmzXUfq9YOxSn5YPRk3pSNBMp3pN5Ya
- 1OMoataDN34Ksl/0m9d9DdISdIYc9OL5TqzOgGk7kTlJX7LN0+BXA9L/P+CZ9BPRoHei
- 5kfiLcdUh3pGC9Jqb5PlfbF5KrSHNRQRUt/APRJT5Lt7keXE8VwkqKi2MaxQJTOGt3Rn
- qWpQ==
-X-Gm-Message-State: AFqh2krgSnMLTYuDQ+kpn/LH3+q1DuOHXNbkqXh3LcFZj3P4FDQ/bxFn
- 4g1swD/dR7VNZF6awTNKEa8q3cXAHTMZljho
-X-Google-Smtp-Source: AMrXdXtf2pOH/qvZ2NSQFUu5SV4AAGbYjZeNPYykvdmOzJJOsx8XutCyY2DdDDJOOQgYgrsBXTCn2g==
-X-Received: by 2002:a5d:6385:0:b0:2bd:e217:e1d with SMTP id
- p5-20020a5d6385000000b002bde2170e1dmr2268206wru.52.1673630476593; 
- Fri, 13 Jan 2023 09:21:16 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- q18-20020adfdfd2000000b002bdc129c8f6sm7884681wrn.43.2023.01.13.09.21.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 09:21:16 -0800 (PST)
-Message-ID: <de1ba5eb-c430-51d1-64fe-8b5c337160bd@linaro.org>
-Date: Fri, 13 Jan 2023 18:21:14 +0100
+ (Exim 4.90_1) (envelope-from <unisono@quyllur.org>)
+ id 1pGNvH-0002kY-8a; Fri, 13 Jan 2023 12:32:59 -0500
+Received: from quyllur.org ([185.247.226.42])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <unisono@quyllur.org>)
+ id 1pGNvE-0004ym-Bi; Fri, 13 Jan 2023 12:32:58 -0500
+Received: from quyllur.org (localhost [127.0.0.1])
+ by quyllur.org (OpenSMTPD) with ESMTP id 0cc3a2e8;
+ Fri, 13 Jan 2023 19:32:49 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=quyllur.org; h=message-id
+ :date:mime-version:to:cc:references:from:subject:in-reply-to
+ :content-type; s=dkimselector; bh=BSmWfKKNoutZ92Rvb/gIBfzo1nE=; b=
+ PNxaUk+aoc7KdVj4k7lnb8eofs8MkIA1b7cmarAVFixiUAz5U4FEb+5SIlvNBD3O
+ sGkUTwVNP02du+3g9VsOMPbXUoh/PAp3w8qhAeyevr6/JCqPrLU+Q4/f7xEgo01u
+ Kl5C1O4qHBI4HcJ53cDRMUQoG4/NQEpEWmkWpPwuK7U=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=quyllur.org; h=message-id
+ :date:mime-version:to:cc:references:from:subject:in-reply-to
+ :content-type; q=dns; s=dkimselector; b=aSB5do4q5g/JfOFdXyLfxFCe
+ T4BaBA+ERVYUYwWLLiuIkXJf1suDusP5g2YEDESnEY94hQ8Phz/bc1m3WJpU0zNR
+ bltMfDZPF6C3rj6z/bowY0ZOqVnih29StNhLPtVOZntz5gtgEKPdZm9e3mEiBOPC
+ SA+A8fNMHON0EH6FqIY=
+Received: from [10.137.0.52] (h-217.114.218.21.keyweb.de [217.114.218.21])
+ by quyllur.org (OpenSMTPD) with ESMTPSA id 5dbb51ff
+ (TLSv1.3:TLS_CHACHA20_POLY1305_SHA256:256:NO); 
+ Fri, 13 Jan 2023 19:32:49 +0200 (EET)
+Message-ID: <6efd38a4-8a2a-fbd1-c706-fccc380eb00d@quyllur.org>
+Date: Fri, 13 Jan 2023 12:32:38 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH RESEND v2 0/5] target: Restrict 'qapi-commands-machine.h'
- to system emulation
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-ppc@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Aurelien Jarno <aurelien@aurel32.net>, Huacai Chen <chenhuacai@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-arm@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Song Gao <gaosong@loongson.cn>
-References: <20221220111122.8966-1-philmd@linaro.org>
- <87y1q61qrz.fsf@pond.sub.org>
- <d8f97300-561a-6958-05a3-2789d139f9c4@linaro.org>
- <1f632a48-981a-95a0-6527-e0bb65034d92@linaro.org>
-In-Reply-To: <1f632a48-981a-95a0-6527-e0bb65034d92@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ capstone-users@lists.sourceforge.net
+References: <c4ec12d4-e07c-ada9-5cec-744dae7c069b@quyllur.org>
+ <f1c34dd3-7e90-ff40-a1e0-b35f031b3a15@redhat.com>
+From: Rot127 <unisono@quyllur.org>
+Subject: Re: [Capstone] Feedback request for new architecture updater
+In-Reply-To: <f1c34dd3-7e90-ff40-a1e0-b35f031b3a15@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------jjJM0K3dYGHpxkqEu0AcHlB0"
+Received-SPF: pass client-ip=185.247.226.42; envelope-from=unisono@quyllur.org;
+ helo=quyllur.org
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,61 +76,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/1/23 15:53, Philippe Mathieu-Daudé wrote:
-> On 13/1/23 15:42, Philippe Mathieu-Daudé wrote:
->> On 13/1/23 14:57, Markus Armbruster wrote:
->>> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
->>>
->>>> [resend fixing my last name typography...]
->>>>
->>>> All series reviewed, can patches be picked by corresponding
->>>> maintainers?
->>>>
->>>> The "qapi-commands-machine.h" header is not generated in user-only
->>>> emulation. This series removes its use in user-emu code by moving
->>>> the QMP code depending on this header into a separate sysemu unit.
->>>>
->>>> Since v1:
->>>> - renamed cpu-monitor.c -> monitor.c on loongarch
->>>
->>> Quick drive-by remark: we usually name C files containing just QMP
->>> commands SUBSYSTEM-qmp-cmds.c, and files containing just HMP commands
->>> SUBSYSTEM-hmp-cmds.c.  On the other hand, the existing monitor-related
->>> files seem to be named target/TARGET/monitor.c.
->>>
->>> Keeping QMP and HMP two separate is desirable, but not required.
->>> monitor.c is a fine name for a file containing both.
->>
->> $ git ls-files | fgrep qmp-cmds.c
->> block/monitor/bitmap-qmp-cmds.c
->> hw/core/machine-qmp-cmds.c
->> hw/pci/pci-qmp-cmds.c
->> monitor/qmp-cmds.c
->> qom/qom-qmp-cmds.c
->> tests/unit/test-qmp-cmds.c
->>
->> $ git ls-files | fgrep monitor.c
->> monitor/monitor.c
->> softmmu/qdev-monitor.c
->> stubs/monitor.c
->> target/arm/monitor.c
->> target/i386/monitor.c
->> target/m68k/monitor.c
->> target/mips/sysemu/monitor.c
->> target/nios2/monitor.c
->> target/ppc/monitor.c
->> target/riscv/monitor.c
->> target/sh4/monitor.c
->> target/sparc/monitor.c
->> target/xtensa/monitor.c
->> tests/unit/test-util-filemonitor.c
->>
->> Do you rather 'cpu-qmp-cmds.c'?
->>
->> Or is your SUBSYSTEM the $target here?
->> Because , target/arm/arm-qmp-cmds.c sounds redundant.
-> 
-> IIUC the SUBSYSTEM is "target" so maybe you meant target-qmp-cmds.c?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------jjJM0K3dYGHpxkqEu0AcHlB0
+Content-Type: multipart/mixed; boundary="------------wx0sqlpqWV9kaEg0GURsuiTl";
+ protected-headers="v1"
+From: Rot127 <unisono@quyllur.org>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ capstone-users@lists.sourceforge.net
+Message-ID: <6efd38a4-8a2a-fbd1-c706-fccc380eb00d@quyllur.org>
+Subject: Re: [Capstone] Feedback request for new architecture updater
+References: <c4ec12d4-e07c-ada9-5cec-744dae7c069b@quyllur.org>
+ <f1c34dd3-7e90-ff40-a1e0-b35f031b3a15@redhat.com>
+In-Reply-To: <f1c34dd3-7e90-ff40-a1e0-b35f031b3a15@redhat.com>
 
-FTR Markus suggested ${target}-qmp-cmds.c on IRC, I'll respin renamed.
+--------------wx0sqlpqWV9kaEg0GURsuiTl
+Content-Type: multipart/mixed; boundary="------------sHFoms6nzlXg0j96YWuhqxxg"
+
+--------------sHFoms6nzlXg0j96YWuhqxxg
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+SGkhDQoNCiA+IERvIHlvdSBoYXZlIGFueSBwbGFucyB0byB3b3JrIG9uIFNwYXJjIGFuZCBN
+aXBzIGFueSB0aW1lIHNvb24/DQoNClRoZSBwbGFuIGlzIHRvIHVwZGF0ZSBBUk0gYW5kIFBQ
+QyBmaXJzdCwgYmVjYXVzZSB0aGV5IHNlZW1lZCB0byBiZSB0aGUgDQptb3N0IGNvbXBsaWNh
+dGVkIG9uZXMuDQpBZnRlcndhcmRzIG90aGVyIGFyY2hpdGVjdHVyZXMgKE1pcHMgYW5kIFNw
+YXJjIGFzIHdlbGwpLg0KSSBjYW4ndCBzYXkgd2hlbiBleGFjdGx5IEFSTSB3aWxsIGJlIHJl
+YWR5IChJIGhvcGUgYXQgbGF0ZXN0IGVuZCBvZiANCkZlYnJ1YXJ5LCBidXQgSSBjYW4ndCBw
+cm9taXNlIGl0KS4NClVwZGF0aW5nIHRoZSBvdGhlciBhcmNoaXRlY3R1cmVzIGlzIHRoZW4g
+d2F5IHNpbXBsZXIsIGJlY2F1c2UgdGhlIA0KcmVmYWN0b3JlZCBMTFZNIGJhY2tlbmRzIHdv
+bid0IG5lZWQgbXVjaCB3b3JrLg0KDQogPiBJZiBub3QsIGRvIHlvdSBoYXZlIHNvbWUgc2hv
+cnQgKHNoZWxsKSBpbnN0cnVjdGlvbnMgaG93IHRoZSB1cGRhdGUgDQpwcm9jZXNzIHRoZW9y
+ZXRpY2FsbHkgd29ya3MNCg0KSW4gdGhlIFBSIGRlc2NyaXB0aW9uIEkgbWVudGlvbiBhIFJF
+QURNRSB3aGVyZSB5b3UgY2FuIHN0YXJ0LiBJdCBzaG91bGQgDQpleHBsYWluIHRoZSBvdmVy
+YWxsIHByb2Nlc3MuDQpJZiBub3QsIHBsZWFzZSBsZXQgbWUga25vdyBzbyBJIGNhbiBpbXBy
+b3ZlIHRoZSBkb2N1bWVudGF0aW9uLg0KDQpPbiAxLzEzLzIzIDA0OjI3LCBUaG9tYXMgSHV0
+aCB3cm90ZToNCj4gT24gMTIvMDEvMjAyMyAxNy4yNCwgUm90MTI3IHdyb3RlOg0KPj4gSSBj
+dXJyZW50bHkgd29yayBvbiBhIG5ldyB1cGRhdGVyIGZvciBhcmNoaXRlY3R1cmUgbW9kdWxl
+cyBpbiBDYXBzdG9uZS4NCj4+DQo+PiBUaGUgY3VycmVudCB1cGRhdGUgcHJvY2VzcyBoYXMg
+dGhlIHByb2JsZW0gdGhhdCBpdCBpcyBhIGxvdCBvZiBtYW51YWwgDQo+PiB3b3JrLg0KPj4g
+U3luY2luZyB0aGUgaW5mb3JtYXRpb24gZnJvbSBMTFZNIHRvIENhcHN0b25lIHJlcXVpcmVz
+IGEgb25lIHRvIA0KPj4gdHJhbnNsYXRlIGEgbG90IG9mIEMrKyB0byBDIGNvZGUgYW5kIGZp
+eCBhIHRvbiBvZiBidWlsZCBlcnJvcnMuDQo+PiBUaGlzIGxlYWQgdG8gYXJjaGl0ZWN0dXJl
+IG1vZHVsZXMgbm90IGdldHRpbmcgdXBkYXRlZC4gU28gdGhlcmUgYXJlIA0KPj4gbWFueSBu
+ZXcgaW5zdHJ1Y3Rpb25zIGluIENhcHN0b25lIHdoaWNoIGFyZSBub3Qgc3VwcG9ydGVkLg0K
+Pj4NCj4+IFRoZSBuZXcgdXBkYXRlciB3aWxsIHRha2UgYXdheSBhcyBtdWNoIG1hbnVhbCB3
+b3JrIGFzIHBvc3NpYmxlLg0KPj4gSXQgZG9lcyB0aGlzIGJ5IHRyYW5zbGF0aW5nIG1vc3Qg
+QysrIHRvIEMgdmlhIGEgbGl0dGxlIHRyYW5zbGF0aW9uIA0KPj4gdG9vbCBhbmQgdXNlcyBy
+ZWZhY3RvcmVkIExMVk0tVGFibGVHZW4gYmFja2VuZHMgd2hpY2ggZW1pdCBkaXJlY3RseSAN
+Cj4+IHRoZSBjb2RlIENhcHN0b25lIG5lZWRzLg0KPj4gQ3VycmVudGx5IGl0IGlzIGluIGEg
+ZWFybHkgc3RhZ2UgYnV0IGl0IGlzIHJlYWR5IHRvIHJlY2VpdmUgc29tZSANCj4+IGZlZWRi
+YWNrLg0KPj4NCj4+IElmIGFueW9uZSBmaW5kcyB0aGUgdGltZSB0byB0YWtlIGEgbG9vayBh
+dCBpdCBhbmQgd3JpdGUgZG93biB0aGVpciANCj4+IHRob3VnaHRzLCBzdWdnZXN0aW9ucyBv
+ciBpbXByb3ZlbWVudCBpZGVhcywgSSB3b3VsZCBiZSB2ZXJ5IGdyYXRlZnVsLg0KPj4NCj4+
+IENhcHN0b25lIGRyYWZ0IFBSOiBodHRwczovL2dpdGh1Yi5jb20vY2Fwc3RvbmUtZW5naW5l
+L2NhcHN0b25lL3B1bGwvMTk0OQ0KPg0KPiDCoEhpIQ0KPg0KPiBUaGFua3MgZm9yIHRoZSBo
+ZWFkcyB1cCEgSSBzZWUgeW91ciBwdWxsIHJlcXVlc3QgYWRkcmVzc2VzIHRoZSBBUk0gDQo+
+IHBhcnQgb2YgQ2Fwc3RvbmUsIHNvIEkgQ0M6LWVkIHFlbXUtYXJtQG5vbmdudS5vcmcgaW4g
+Y2FzZSBhbnlib2R5IA0KPiB0aGVyZSB3YW50cyB0byBnaXZlIGl0IGEgdHJ5Lg0KPg0KPiBG
+cm9tIG15IHBlcnNvbmFsIHBvaW50IG9mIHZpZXcsIHdoYXQgSSByZWFsbHkgd291bGQgbG92
+ZSB0byBzZWUgaXMgYW4gDQo+IHVwZGF0ZSBmb3Igc3BhcmMgYW5kIG1pcHMgaW4gdGhlIG5l
+eHQgdmVyc2lvbiBvZiBDYXBzdG9uZSwgc28gd2UgY291bGQgDQo+IGZpbmFsbHkgZ2V0IG9m
+IHRoZSBvbGQgZGlzYXMvc3BhcmMuYyBhbmQgZGlzYXMvbWlwcy5jIGZpbGVzIGluIFFFTVUg
+DQo+ICh3aGljaCB3ZXJlIHN0aWxsIGRpc2Fzc2VtYmxpbmcgbW9yZSBpbnN0cnVjdGlvbnMg
+dGhhbiBDYXBzdG9uZSA0LjAsIA0KPiBzbyB3ZSBrZXB0IHRoZW0gLi4uIGJ1dCBBRkFJSyB0
+aGUgdXBzdHJlYW0gTExWTSBjb2RlIGltcGxlbWVudGVkIG1hbnkgDQo+IG1pc3NpbmcgaW5z
+dHJ1Y3Rpb25zIGluIHRoZSBwYXN0IHllYXJzLCBzbyBpZiBDYXBzdG9uZSBnZXRzIHJlZnJl
+c2hlZCwgDQo+IGl0IHNob3VsZCBiZSBnb29kIGVub3VnaCB0byByZXBsYWNlIHRoZSBvbGQg
+Y29kZSBub3cpLg0KPg0KPiBEbyB5b3UgaGF2ZSBhbnkgcGxhbnMgdG8gd29yayBvbiBTcGFy
+YyBhbmQgTWlwcyBhbnkgdGltZSBzb29uPyBJZiBub3QsIA0KPiBkbyB5b3UgaGF2ZSBzb21l
+IHNob3J0IChzaGVsbCkgaW5zdHJ1Y3Rpb25zIGhvdyB0aGUgdXBkYXRlIHByb2Nlc3MgDQo+
+IHRoZW9yZXRpY2FsbHkgd29ya3MgLSBtYXliZSBzb21lb25lIGVsc2UgY2FuIGhlbHA/DQo+
+DQo+IMKgVGhhbmtzLA0KPiDCoCBUaG9tYXMNCj4NCg==
+--------------sHFoms6nzlXg0j96YWuhqxxg
+Content-Type: application/pgp-keys; name="OpenPGP_0xC7A9CFBEECA2EF5A.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xC7A9CFBEECA2EF5A.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+okajPmaG6RWWMtgL
+=3DJky5
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------sHFoms6nzlXg0j96YWuhqxxg--
+
+--------------wx0sqlpqWV9kaEg0GURsuiTl--
+
+--------------jjJM0K3dYGHpxkqEu0AcHlB0
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCAAdFiEEaHL1DWKPrLF6BbPeOBK4JYgQr2cFAmPBlbcACgkQOBK4JYgQ
+r2c3gQwApoufd85IDQetp3HcAsX1ORsNyCifCX/jeDSW66Z0NqIcadGcFW+f6kfl
+xUyyhU4BOT+m7TqNDGDJDRVAoJVbbq9s54ilHShl6IZN+vf4ZqGAIKWKZffLpSyN
+KDjaK1LGmNPKMni8v7xepFaPE2PDim0Gb4Z+o1GNgkZEfD8jKF2Pz6hA06Eu1SYt
+UjJxrptpt/ewFNKQIw3ZBD4RwvDFMFCi9bg1UCNSOeeulpQaCsqw14WJb1fv3YaN
+YV02cepXPNMHU6DGcm3l7IhIfTuljU1ZZV4FDpr0f419u1bV7V08AVXQI6BSYxUG
+HQPlBaYMB6Oqx8JYnp2ajShpuLxfOZ3/J+YaZav4+FnFQljyigrwRIoa3FcWTdpd
+aRtsht4IpIV6kmIa93r4UliS4aiM2U5DWLltpKn5PtLnYbLUimUvlV3oUfM0kXjc
+xJlFlTexaYQahACFbfN7JAnvqfq4DCk/Pc5y/ZCzVtKG80fx6hTL7Wr9YSYgXFzf
+bSqFx/Gz
+=6JI5
+-----END PGP SIGNATURE-----
+
+--------------jjJM0K3dYGHpxkqEu0AcHlB0--
 
