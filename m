@@ -2,105 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325A066A024
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:21:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D75CF66A0D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:34:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGNc7-00068X-7f; Fri, 13 Jan 2023 12:13:11 -0500
+	id 1pGNhC-0001W8-3f; Fri, 13 Jan 2023 12:18:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pGNc4-00067y-4x
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:13:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pGNc1-0008Am-P8
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:13:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673629984;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cJ4oIsZsFSP9tMOcvK1jsBj0z5nBGppUoEQ5ZQnO2h0=;
- b=fyDXaFmr82BwdlyoOk9j5hx4S3ocIWywicbsFrTtQQLMl03h4okE4Tsjodu1IlEZKM1rtt
- 0cTHTdR6/z5gVO0H/GClFEDebImANAmSvXrjzr/Z9dB66y+yaYy5ulpQ4spSaa1CJw1CXu
- mM/G9IC/vII4Btf8hyrZiSgWqcbdqQc=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-312-5UbKyIXhOS-ivZYsyMEZ9w-1; Fri, 13 Jan 2023 12:13:03 -0500
-X-MC-Unique: 5UbKyIXhOS-ivZYsyMEZ9w-1
-Received: by mail-yb1-f198.google.com with SMTP id
- h66-20020a252145000000b0071a7340eea9so23209975ybh.6
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 09:13:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pGNh4-0001T2-8G
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:18:18 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pGNgx-0001JK-Pc
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:18:17 -0500
+Received: by mail-ot1-x342.google.com with SMTP id
+ i26-20020a9d68da000000b00672301a1664so12579266oto.6
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 09:18:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=hJBrxLI6QmmeeITsOzUvZaX/VcVW/UkeGDy9RzOvnNw=;
+ b=bi+he8/9ip9JE8Do8cE3WvPHlrPyDBRdi5m51xCgYTEA+EHeKD3bmlDRQRdd7E4Clr
+ OofxQVk3yqV2DjPg4BIsqBMU++23/TJNvf8usEJdHcfa/5Fw0LqasV7HIVHnS/drt8LV
+ WC5gaBm3Mr0AJ6IcMaRw9cCknkSd4ol8RzsWu6RU0HalWxhbn5E20cHKjthMz96tO0fv
+ oVw/XJrOF/XgPDii1E5TIiSxAKbH5/EibId8aUQBuqvvAlKsCm1X5PZo+mw0+w4SmvoS
+ lieCDqQKREoaQ6BcdywyUb7o2VcZG+QnO6tEkKnS1gzuYemSrg1OZrrvXQtips9aPk+B
+ tvGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cJ4oIsZsFSP9tMOcvK1jsBj0z5nBGppUoEQ5ZQnO2h0=;
- b=yWqLSaQAK6mivpJfNFOAUTrqcc2o8ftA65b3/TB7zzR6SldUwWwa66ItkvZeUMx6LA
- uk7H4koWrdZJ2HmT5OA6EHgQtJmTlo9ADG7QcqDGHJUlo+MKQ+HaI0I1NL05ed5aLK7H
- EP7UFhv9r8YCnBMuFkfL8VPtDe/Rrjv7qYwenInwqJKQuWS6Lrr5IW9TVhBNq5NkQQVX
- /x6v7qe9WT2rnTrgJGfk1zbHGoJ9HHC3IHGp2u3NPs/1peBLglLWTKfpY1EduxV+TBQX
- bM6iD2j4MU873HuWphNab6PceDKFr+N8sE3eSYJnSzt1Qku7aRoo7WGVGimb8G82+XrK
- TGAw==
-X-Gm-Message-State: AFqh2kpX53O7NQf8ustTVjVMigaCS0X4DIElAy7cEW8Hst31/A7IpqYV
- D//JhVGUCVGoSL5jotHIbr1+cUriE7WhevtLTTGg3D1KoPZ8RmjymVSpWzCNM0yUcOYi+FNKh/Y
- izW7ENaOLpJoHC8c=
-X-Received: by 2002:a05:7500:3e82:b0:f0:2a85:d291 with SMTP id
- li2-20020a0575003e8200b000f02a85d291mr943449gab.45.1673629982588; 
- Fri, 13 Jan 2023 09:13:02 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsti17hvPeLI+G4kQQ9P6aPwTZY9XRfDGGXQyokydwCyl7lrX0u5s/QALqXWFZfCI/rED1n1w==
-X-Received: by 2002:a05:7500:3e82:b0:f0:2a85:d291 with SMTP id
- li2-20020a0575003e8200b000f02a85d291mr943407gab.45.1673629982166; 
- Fri, 13 Jan 2023 09:13:02 -0800 (PST)
-Received: from [192.168.124.101] (149.37.22.93.rev.sfr.net. [93.22.37.149])
- by smtp.gmail.com with ESMTPSA id
- bp37-20020a05620a45a500b006e99290e83fsm12911485qkb.107.2023.01.13.09.12.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 09:13:01 -0800 (PST)
-Message-ID: <522243a6-e312-c3b6-7d50-d3a2609e729d@redhat.com>
-Date: Fri, 13 Jan 2023 18:12:53 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hJBrxLI6QmmeeITsOzUvZaX/VcVW/UkeGDy9RzOvnNw=;
+ b=2E+AwKZcO/XktxqLrfGGXngMIj0G5w4hTlU7ZV5FSnqjNN8FibxW72lWm8AwrtJEVS
+ HLJMsmUJreMDwK5KA6rz2KwhC5tfEYTpzpq7SGlqr0wB+c+6Nr8+poRzBjxwjCCr5AXG
+ AtP6ZJBrXT7LCbm/AhIdfSE7suHrteYexcgbAJvyqKvj/ifQb+/F2OGGF+BmG5oPxgOO
+ g7yMdYixB96hZZzRPWpkyQC/j/zGZ2h5i+y9f654aYn0uiJjnXzozBZdfq8uk9EacJ/J
+ BUNW5ohDmfHjC6MuNBicc5PO7km3lvGo2p2zndd1LoCwCDG21l/6ZOLr6Eh/V2NE7ZDw
+ Db7w==
+X-Gm-Message-State: AFqh2kql3rtMLt3qknEJF6Xi4y/UQoSRevjaLapZACdHgiW/PK2I/Tia
+ 9P0Q+/diVSGV1lYfcfwFZMH2p00KWVj0btAsN5Y=
+X-Google-Smtp-Source: AMrXdXtJk8eyNnj5qxKu3U5oACPJ+Vp67zXOx7zqHqf5goEV3gqJ4UBcpG+1/yVVart/iWYjfato8Q==
+X-Received: by 2002:a9d:6451:0:b0:684:c8ff:8844 with SMTP id
+ m17-20020a9d6451000000b00684c8ff8844mr2588992otl.12.1673630290203; 
+ Fri, 13 Jan 2023 09:18:10 -0800 (PST)
+Received: from grind.. ([191.17.222.2]) by smtp.gmail.com with ESMTPSA id
+ v25-20020a05683011d900b00683e4084740sm10695872otq.10.2023.01.13.09.18.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Jan 2023 09:18:09 -0800 (PST)
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v7 0/3] hw/riscv: clear kernel_entry high bits with 32bit CPUs
+Date: Fri, 13 Jan 2023 14:18:02 -0300
+Message-Id: <20230113171805.470252-1-dbarboza@ventanamicro.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v6 13/13] docs/devel: Align VFIO migration docs to v2
- protocol
-Content-Language: en-US
-To: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- John Snow <jsnow@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-References: <20230112085020.15866-1-avihaih@nvidia.com>
- <20230112085020.15866-14-avihaih@nvidia.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <20230112085020.15866-14-avihaih@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=clg@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x342.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,151 +89,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/12/23 09:50, Avihai Horon wrote:
-> Now that VFIO migration protocol v2 has been implemented and v1 protocol
-> has been removed, update the documentation according to v2 protocol.
-> 
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+Hi,
+
+In this version I followed Bin Meng's suggestion and reverted patch 1
+back from what it was in the v5, acks included, and added a new patch
+(3) to fix the problem detected with the Xvisor use case. I believe this
+reflects that there is nothing particularly wrong with what we
+did in the v5 patch and we're going an extra mile to fix what, at first
+glance, is a bug somewhere else.
+
+In patch 3 I also followed Phil's idea and used a translate_fn()
+callback to do the bit clearing.
 
 
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
+Changes from v6:
+- patch 1:
+  - restored to the state it was in v5, acks included
+- patch 3 (new):
+  - clear the higher bits from the result of load_elf_ram_sym() using a
+    translate_fn() callback for 32 bit CPUs
+v6 link: https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02630.html
 
-Thanks,
+Daniel Henrique Barboza (3):
+  hw/riscv/boot.c: consolidate all kernel init in riscv_load_kernel()
+  hw/riscv/boot.c: make riscv_load_initrd() static
+  hw/riscv: clear kernel_entry higher bits in load_elf_ram_sym()
 
-C.
+ hw/riscv/boot.c            | 111 ++++++++++++++++++++++++-------------
+ hw/riscv/microchip_pfsoc.c |  12 +---
+ hw/riscv/opentitan.c       |   3 +-
+ hw/riscv/sifive_e.c        |   4 +-
+ hw/riscv/sifive_u.c        |  12 +---
+ hw/riscv/spike.c           |  13 +----
+ hw/riscv/virt.c            |  12 +---
+ include/hw/riscv/boot.h    |   3 +-
+ 8 files changed, 89 insertions(+), 81 deletions(-)
 
-
-
-> ---
->   docs/devel/vfio-migration.rst | 68 ++++++++++++++++-------------------
->   1 file changed, 30 insertions(+), 38 deletions(-)
-> 
-> diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
-> index 9ff6163c88..1d50c2fe5f 100644
-> --- a/docs/devel/vfio-migration.rst
-> +++ b/docs/devel/vfio-migration.rst
-> @@ -7,46 +7,39 @@ the guest is running on source host and restoring this saved state on the
->   destination host. This document details how saving and restoring of VFIO
->   devices is done in QEMU.
->   
-> -Migration of VFIO devices consists of two phases: the optional pre-copy phase,
-> -and the stop-and-copy phase. The pre-copy phase is iterative and allows to
-> -accommodate VFIO devices that have a large amount of data that needs to be
-> -transferred. The iterative pre-copy phase of migration allows for the guest to
-> -continue whilst the VFIO device state is transferred to the destination, this
-> -helps to reduce the total downtime of the VM. VFIO devices can choose to skip
-> -the pre-copy phase of migration by returning pending_bytes as zero during the
-> -pre-copy phase.
-> +Migration of VFIO devices currently consists of a single stop-and-copy phase.
-> +During the stop-and-copy phase the guest is stopped and the entire VFIO device
-> +data is transferred to the destination.
-> +
-> +The pre-copy phase of migration is currently not supported for VFIO devices.
-> +Support for VFIO pre-copy will be added later on.
->   
->   A detailed description of the UAPI for VFIO device migration can be found in
-> -the comment for the ``vfio_device_migration_info`` structure in the header
-> -file linux-headers/linux/vfio.h.
-> +the comment for the ``vfio_device_mig_state`` structure in the header file
-> +linux-headers/linux/vfio.h.
->   
->   VFIO implements the device hooks for the iterative approach as follows:
->   
-> -* A ``save_setup`` function that sets up the migration region and sets _SAVING
-> -  flag in the VFIO device state.
-> +* A ``save_setup`` function that sets up migration on the source.
->   
-> -* A ``load_setup`` function that sets up the migration region on the
-> -  destination and sets _RESUMING flag in the VFIO device state.
-> +* A ``load_setup`` function that sets the VFIO device on the destination in
-> +  _RESUMING state.
->   
->   * A ``save_live_pending`` function that reads pending_bytes from the vendor
->     driver, which indicates the amount of data that the vendor driver has yet to
->     save for the VFIO device.
->   
-> -* A ``save_live_iterate`` function that reads the VFIO device's data from the
-> -  vendor driver through the migration region during iterative phase.
-> -
->   * A ``save_state`` function to save the device config space if it is present.
->   
-> -* A ``save_live_complete_precopy`` function that resets _RUNNING flag from the
-> -  VFIO device state and iteratively copies the remaining data for the VFIO
-> -  device until the vendor driver indicates that no data remains (pending bytes
-> -  is zero).
-> +* A ``save_live_complete_precopy`` function that sets the VFIO device in
-> +  _STOP_COPY state and iteratively copies the data for the VFIO device until
-> +  the vendor driver indicates that no data remains.
->   
->   * A ``load_state`` function that loads the config section and the data
-> -  sections that are generated by the save functions above
-> +  sections that are generated by the save functions above.
->   
->   * ``cleanup`` functions for both save and load that perform any migration
-> -  related cleanup, including unmapping the migration region
-> +  related cleanup.
->   
->   
->   The VFIO migration code uses a VM state change handler to change the VFIO
-> @@ -71,13 +64,13 @@ tracking can identify dirtied pages, but any page pinned by the vendor driver
->   can also be written by the device. There is currently no device or IOMMU
->   support for dirty page tracking in hardware.
->   
-> -By default, dirty pages are tracked when the device is in pre-copy as well as
-> -stop-and-copy phase. So, a page pinned by the vendor driver will be copied to
-> -the destination in both phases. Copying dirty pages in pre-copy phase helps
-> -QEMU to predict if it can achieve its downtime tolerances. If QEMU during
-> -pre-copy phase keeps finding dirty pages continuously, then it understands
-> -that even in stop-and-copy phase, it is likely to find dirty pages and can
-> -predict the downtime accordingly.
-> +By default, dirty pages are tracked during pre-copy as well as stop-and-copy
-> +phase. So, a page pinned by the vendor driver will be copied to the destination
-> +in both phases. Copying dirty pages in pre-copy phase helps QEMU to predict if
-> +it can achieve its downtime tolerances. If QEMU during pre-copy phase keeps
-> +finding dirty pages continuously, then it understands that even in stop-and-copy
-> +phase, it is likely to find dirty pages and can predict the downtime
-> +accordingly.
->   
->   QEMU also provides a per device opt-out option ``pre-copy-dirty-page-tracking``
->   which disables querying the dirty bitmap during pre-copy phase. If it is set to
-> @@ -111,23 +104,22 @@ Live migration save path
->                                     |
->                        migrate_init spawns migration_thread
->                   Migration thread then calls each device's .save_setup()
-> -                    (RUNNING, _SETUP, _RUNNING|_SAVING)
-> +                       (RUNNING, _SETUP, _RUNNING)
->                                     |
-> -                    (RUNNING, _ACTIVE, _RUNNING|_SAVING)
-> +                      (RUNNING, _ACTIVE, _RUNNING)
->                If device is active, get pending_bytes by .save_live_pending()
->             If total pending_bytes >= threshold_size, call .save_live_iterate()
-> -                  Data of VFIO device for pre-copy phase is copied
->           Iterate till total pending bytes converge and are less than threshold
->                                     |
->     On migration completion, vCPU stops and calls .save_live_complete_precopy for
-> -   each active device. The VFIO device is then transitioned into _SAVING state
-> -                   (FINISH_MIGRATE, _DEVICE, _SAVING)
-> +  each active device. The VFIO device is then transitioned into _STOP_COPY state
-> +                  (FINISH_MIGRATE, _DEVICE, _STOP_COPY)
->                                     |
->        For the VFIO device, iterate in .save_live_complete_precopy until
->                            pending data is 0
-> -                   (FINISH_MIGRATE, _DEVICE, _STOPPED)
-> +                   (FINISH_MIGRATE, _DEVICE, _STOP)
->                                     |
-> -                 (FINISH_MIGRATE, _COMPLETED, _STOPPED)
-> +                 (FINISH_MIGRATE, _COMPLETED, _STOP)
->                Migraton thread schedules cleanup bottom half and exits
->   
->   Live migration resume path
-> @@ -136,7 +128,7 @@ Live migration resume path
->   ::
->   
->                 Incoming migration calls .load_setup for each device
-> -                       (RESTORE_VM, _ACTIVE, _STOPPED)
-> +                       (RESTORE_VM, _ACTIVE, _STOP)
->                                    |
->          For each device, .load_state is called for that device section data
->                          (RESTORE_VM, _ACTIVE, _RESUMING)
+-- 
+2.39.0
 
 
