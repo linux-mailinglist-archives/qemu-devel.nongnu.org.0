@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA29669AC7
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:43:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 492BE669ADB
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:47:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKnU-0001mz-Ag; Fri, 13 Jan 2023 09:12:44 -0500
+	id 1pGKnJ-0001WN-Vq; Fri, 13 Jan 2023 09:12:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKn2-0001G7-E3
+ id 1pGKn2-0001GG-G1
  for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:12:17 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmk-0003qZ-Fs
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:12:04 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- g19-20020a05600c4ed300b003d9eb1dbc0aso14475072wmq.3
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:57 -0800 (PST)
+ id 1pGKmn-0003eP-AL
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:12:06 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ z8-20020a05600c220800b003d33b0bda11so1023084wml.0
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:12:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=U0jVYGVtaVuDTvfYQzXO//xeUpfHpnJsdSaFt2/PTJ4=;
- b=ICOMjXzB7d6oz4aeLRktJwpkU7OC6LyMj0cY8KavUYnfooxUPC6Nsm7yq6GAySvjV0
- opgCuRdzaqkePWXm2EzNc8jy23vZw/dEIo4HFnPd/MckTjI3zesG+a/JXDukArFKJCwh
- NIc3QbrvIvDb976fdqkZPbZAK1UNDOasFKK0YCh0B9qsjk1eC6FQUPIRUqL8rwyM5Tmf
- Nzg902Rwyu3E3U8+iw1gjCoyXAL4ReQq6hMz+irRPSAdxeJ6YYREgbH7OVSf6GQ6+fgK
- oSyWpru6lqq31ABk0YwcKte0JrGd1MhlZouNbDFtmlOIJC/OCyo5TzkEiNP+fGA71uwY
- RmFw==
+ :reply-to; bh=cKsR/tB/+nUT8ufiEVALMMa8QtZgWz/J+ACz6TTlZMk=;
+ b=D7LrjU9stCNqwJRMh7gBjAMoX43x29W07JAGJjS3XgKBc4+lRUdlDXi1UuSVH2wWx+
+ zd4D5zDVhpO+tkuYgmG9e3OI3DrBOorzqzlG36uYkloWM84Y2/MEFfYLOKb9yFk3TFtr
+ GrR9S/8ts17M/fWZNd2ftn9MDH8HIWIX7/ertSg6fFHEM+CijWIKUuIyem9rymNAKxlP
+ Sd5ZeOZaowmAmi8NdIYebCziDoeIa3371QFolDktgLrRTEmiZrkhKon7oXj3EHj8GA3S
+ iyyhAHQR6m1o+8ICTPXkMko36w/CuoXKqtFDC1FEXo7nSYoW8bNwITBab2omBOcyeg0L
+ jbQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U0jVYGVtaVuDTvfYQzXO//xeUpfHpnJsdSaFt2/PTJ4=;
- b=bVNnG3CB35q6YqGIL61XczqXVeVv5ktcaAFX8uNvUW5xf6YfHoAV30roKgxp9QaZEn
- KTNJI4aTsu/gSwNbzyJgu0K/szBV0Z0xYgOWYxbtIQBsg6cEdUc31gV8quya9/Px3G74
- S8vtP6q5oEFPgKY3ddG/zXYL/DcjiiL5P6mxqm4nEVI4lQigk5IxS2rEnXo4g9khSqyq
- hE5YFq6kqdWlFEXi1l9bu1H+QBLml5EM5TvvhrQMfmbnaFbbUn8i1vHN22j8vF35ET9j
- FnmxK3rm6SCRY6LT/mESkx7GyLNJU+hLoFLYISdx5IdZ1dP7mtT39OMzWzuJli/yuPhY
- AmLQ==
-X-Gm-Message-State: AFqh2kpu2k6R8z5FOqYVx6hh16OPWhNB/TmoplOvgH4ydaVQeRzfQUdV
- 9TEAocN9DQFS5FSKgksWUIGjF/H0IZmFXjVG
-X-Google-Smtp-Source: AMrXdXsy5/oH0Awx91H7AELyLldEJxwzM2hzLyVVLtbst2UkvZGbs7E5iHImLmURo7VukAbrZTJwwA==
-X-Received: by 2002:a05:600c:1603:b0:3d1:c895:930c with SMTP id
- m3-20020a05600c160300b003d1c895930cmr58302550wmn.35.1673619117052; 
- Fri, 13 Jan 2023 06:11:57 -0800 (PST)
+ bh=cKsR/tB/+nUT8ufiEVALMMa8QtZgWz/J+ACz6TTlZMk=;
+ b=sGgaLvRB+adMNz9f7qcfo3pWxV4BydOJxsebyws++Oz55Zu7l45E5weOWZueBJahve
+ QEkeF76C9gC6zPd3Kli2M/BgqJZp5GRFJLK94uFvUMeE4va5jz07b8aj4eB1C/3Wwygy
+ 3fL38vPYDC8/feK16fAHFauss/Rze/RTp5Z7ZeVePnj+0v5F61/xkEIm7NerK0sCCHo0
+ 4Ny09AdfozMOFcvy2CtNpUFKjhP//ayBLVQdJgG9hz5VUAX01/JgkHVsxL4ueM7Ze9RX
+ ADOe7fDvkE9CN79pTDQH6XFYv+rtYmLfrnQZ/EPXIvXweDlXp5TlNigrs0frmR9ty/Xv
+ vTTA==
+X-Gm-Message-State: AFqh2koW4WNGjtBgAfvxkFfnuKdp27tqcTbOWQpAvZ2Tn4dAfxJ/b4QZ
+ EaJSr7ODRq1WbEDondUdzNlKLdLGpHCtEy//
+X-Google-Smtp-Source: AMrXdXthaLGlNp6LZUEzlEWduNKL95sPWfdDI2yfdZfZE1q2XPm9uF5+5XUmUCGenuT+JmP1gMSi9Q==
+X-Received: by 2002:a05:600c:1d18:b0:3d9:73fe:9744 with SMTP id
+ l24-20020a05600c1d1800b003d973fe9744mr49777586wms.26.1673619120481; 
+ Fri, 13 Jan 2023 06:12:00 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.56
+ n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 06:11:56 -0800 (PST)
+ Fri, 13 Jan 2023 06:11:59 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/38] hw/misc/sbsa_ec: Rename TYPE_SBSA_EC ->
- TYPE_SBSA_SECURE_EC
-Date: Fri, 13 Jan 2023 14:11:22 +0000
-Message-Id: <20230113141126.535646-35-peter.maydell@linaro.org>
+Subject: [PULL 38/38] target/arm: allow writes to SCR_EL3.HXEn bit when
+ FEAT_HCX is enabled
+Date: Fri, 13 Jan 2023 14:11:26 +0000
+Message-Id: <20230113141126.535646-39-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230113141126.535646-1-peter.maydell@linaro.org>
 References: <20230113141126.535646-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,67 +90,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
 
-The structure is named SECUREECState. Rename the type accordingly.
+ARM trusted firmware, when built with FEAT_HCX support, sets SCR_EL3.HXEn bit
+to allow EL2 to modify HCRX_EL2 register without trapping it in EL3. Qemu
+uses a valid mask to clear unsupported SCR_EL3 bits when emulating SCR_EL3
+write, and that mask doesn't include SCR_EL3.HXEn bit even if FEAT_HCX is
+enabled and exposed to the guest. As a result EL3 writes of that bit are
+ignored.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230109140306.23161-12-philmd@linaro.org
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+Message-id: 20230105221251.17896-4-eiakovlev@linux.microsoft.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/misc/sbsa_ec.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ target/arm/helper.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/misc/sbsa_ec.c b/hw/misc/sbsa_ec.c
-index 8d939fe31b1..6f19c21195a 100644
---- a/hw/misc/sbsa_ec.c
-+++ b/hw/misc/sbsa_ec.c
-@@ -15,13 +15,14 @@
- #include "hw/sysbus.h"
- #include "sysemu/runstate.h"
- 
--typedef struct {
-+typedef struct SECUREECState {
-     SysBusDevice parent_obj;
-     MemoryRegion iomem;
- } SECUREECState;
- 
--#define TYPE_SBSA_EC      "sbsa-ec"
--#define SECURE_EC(obj) OBJECT_CHECK(SECUREECState, (obj), TYPE_SBSA_EC)
-+#define TYPE_SBSA_SECURE_EC "sbsa-ec"
-+#define SBSA_SECURE_EC(obj) \
-+        OBJECT_CHECK(SECUREECState, (obj), TYPE_SBSA_SECURE_EC)
- 
- enum sbsa_ec_powerstates {
-     SBSA_EC_CMD_POWEROFF = 0x01,
-@@ -36,7 +37,7 @@ static uint64_t sbsa_ec_read(void *opaque, hwaddr offset, unsigned size)
- }
- 
- static void sbsa_ec_write(void *opaque, hwaddr offset,
--                     uint64_t value, unsigned size)
-+                          uint64_t value, unsigned size)
- {
-     if (offset == 0) { /* PSCI machine power command register */
-         switch (value) {
-@@ -65,7 +66,7 @@ static const MemoryRegionOps sbsa_ec_ops = {
- 
- static void sbsa_ec_init(Object *obj)
- {
--    SECUREECState *s = SECURE_EC(obj);
-+    SECUREECState *s = SBSA_SECURE_EC(obj);
-     SysBusDevice *dev = SYS_BUS_DEVICE(obj);
- 
-     memory_region_init_io(&s->iomem, obj, &sbsa_ec_ops, s, "sbsa-ec",
-@@ -82,7 +83,7 @@ static void sbsa_ec_class_init(ObjectClass *klass, void *data)
- }
- 
- static const TypeInfo sbsa_ec_info = {
--    .name          = TYPE_SBSA_EC,
-+    .name          = TYPE_SBSA_SECURE_EC,
-     .parent        = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(SECUREECState),
-     .instance_init = sbsa_ec_init,
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index cee38043540..22ea8fbe368 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1866,6 +1866,9 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+         if (cpu_isar_feature(aa64_sme, cpu)) {
+             valid_mask |= SCR_ENTP2;
+         }
++        if (cpu_isar_feature(aa64_hcx, cpu)) {
++            valid_mask |= SCR_HXEN;
++        }
+     } else {
+         valid_mask &= ~(SCR_RW | SCR_ST);
+         if (cpu_isar_feature(aa32_ras, cpu)) {
 -- 
 2.34.1
 
