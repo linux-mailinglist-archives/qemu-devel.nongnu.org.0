@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B6B669AB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:40:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A51669B2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:59:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKnL-0001Zh-H0; Fri, 13 Jan 2023 09:12:35 -0500
+	id 1pGKnI-0001UR-5d; Fri, 13 Jan 2023 09:12:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmo-000159-Mb
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:12:03 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ id 1pGKml-00012v-RX
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:59 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmi-0003dl-P0
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:12:02 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- c4-20020a1c3504000000b003d9e2f72093so14041838wma.1
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:51 -0800 (PST)
+ id 1pGKmh-0003p7-8s
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:59 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ c4-20020a1c3504000000b003d9e2f72093so14041865wma.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=LxSkHZn6MbhceHe34cyd3tpq2bJIskFKLNFL7qC4I0w=;
- b=VHJdCBhMJmNqrVDoAVdpneyeI/Kh2SYQicGLQrNneJTnNWF1ar6Y0LgaqGCWd46AAZ
- 95QYklDJEZNp2qto9duFCxey0mq+ubquZojP4SjyDLrwrdNsJuW4qLa5DcaRovzj1IOU
- Jy1ocNNeK14N3MGc6t6jZFoNju1clp+jRkpuk4P06inSFH3xzeG8pMbk3O3+/gkSaPAl
- Fmo4LfYENWn2Ujapit75gjbv0A/UDpBeyUlG6YBRIJSuAU/cpyfU10uUKaC/xCjQhcNW
- ygwytFVEv2Y5PqiFchGOaM5zn+sfHV3bRcIsjnYrtw3Z59B+bRvMjoZ06MI6mh0ctmbL
- 1Zqw==
+ :reply-to; bh=WJ1ThggjatfCXo15B2y0aj5bS7HJIrmU1S8g9Lpjo5s=;
+ b=o9spxJVxdnIAuLjl0Slpol8qx1XwC2mnrmDZRPjnPMBJ/kiYuGs44dJIhTJVINMwso
+ RzR++i+ueDbRJKlD1iU6yb7qynP+80PpAp9J1Q00rVqAB0VHoE8tUMIGL4FC2XYsn3qg
+ GtmG1EtgpQwrVCz807MQtcs0tNTzdazwmejEiVQHG+w1Lv/1cYIFD9WqlXG0Hgek87h4
+ HAEWhk6itD38g+ZJHH1zBgMBc045sYblW/1mPICc8iILkD1vt8su9Kq5MXHEcYRMfSMH
+ rZqDZN8pBthl9clFCYm+M7KkNnw9tJJb1TGKFL3FpR0iyfo+e7z8M38CQFMUog1GPrGo
+ +EwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LxSkHZn6MbhceHe34cyd3tpq2bJIskFKLNFL7qC4I0w=;
- b=E5o0JlphDBucQE9+KVUDeB11ZLQmt6Q8T7UHtaBCKrZQwjQrzUyfzVRcqeOAMDZBqS
- YALMNcrVwj2B29RfhyrHegIdXdWfpVhiU4wIeLEfPsgP1yXGhRe6cCjJGioUuoTsQrSs
- wKbE8gQ7HsHUeA+dn3n7tUtkic06K90bSeYqLPofTjYtscHVUWv5+cBNh2/O7EW2adQI
- WYc87U4Y79gDXfhBL0r3IScCeWgLSW7OZ8LVKogaR9+Gh2ekwkvq8GYNsS1DodvDGqlg
- SGJQgp+Jv9rX1K0Gnu1BWypC8pRLHJR6KANqjrPS9WXLxqTOxiLWnp81nn18nwJAa5v4
- zIdg==
-X-Gm-Message-State: AFqh2kpLFXZ2pMcSk+pPSjUJehBlw+hqcqnx7jkDfiXH0yUeQDpp0GFR
- v8eIxnrPX3cLVhOSgy47PDln/jw1F7r9SmRv
-X-Google-Smtp-Source: AMrXdXvs3iF1txbF8ADPnKU+SjwLjUZvD7YD6JxcHHOzpz1rHNZrYIkfTDHfrh/ZD1E2V3MVjJO0FA==
-X-Received: by 2002:a05:600c:4f84:b0:3d9:f758:e280 with SMTP id
- n4-20020a05600c4f8400b003d9f758e280mr12742961wmq.24.1673619111192; 
- Fri, 13 Jan 2023 06:11:51 -0800 (PST)
+ bh=WJ1ThggjatfCXo15B2y0aj5bS7HJIrmU1S8g9Lpjo5s=;
+ b=ZJQBL+Y2oS8lAo7BLjCqjVZlpz8DpaUF7IVrBv2xMC2CWCEy/sTFQPFgr0GiE8KpFt
+ pLKz/ewPgFJ/H+5NHWKtwZeBEmUFG5Nayqx2LADskB04PvzXv4qHwiG5VeoyYyLsKptu
+ abYVJxEh4tKQ7+rWz1HaxW+00PLFSb+VYlAheX6GDEk4BQ30XRsoK0ALZQx/9I3kJ6Sy
+ pSsvVtFAM1caSu7ZH9bo+73vj6lunIQo+EWs5mLRsS7Bkj93td7mKk3siLObRaqDs5nL
+ 25wtGHEIA0xIu+oLmxhiVvFNgUent2XqtDmC5TEtAs8N6A1cRGhd61gGEUXw/xQ+HwDL
+ 5e2g==
+X-Gm-Message-State: AFqh2kor2BGx2YKYp4lEclhtbU0ZfZEI9WUqxvKxGTFLgkYCffOTLf21
+ tG8pEVyBaxQQfLhYNmDYNUQjqq1PWPoOhKri
+X-Google-Smtp-Source: AMrXdXtOvM+SyJUzqc2KB002BeV1Ep/7oahFFhZ74xJlMNtU9BiKKGNHuHU569JX7A/0YJqNXMcSFw==
+X-Received: by 2002:a05:600c:35d6:b0:3da:17f5:57b9 with SMTP id
+ r22-20020a05600c35d600b003da17f557b9mr4622479wmq.5.1673619112087; 
+ Fri, 13 Jan 2023 06:11:52 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.50
+ n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 06:11:50 -0800 (PST)
+ Fri, 13 Jan 2023 06:11:51 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/38] hw/gpio/omap_gpio: Use CamelCase for TYPE_OMAP1_GPIO
+Subject: [PULL 28/38] hw/gpio/omap_gpio: Use CamelCase for TYPE_OMAP2_GPIO
  type name
-Date: Fri, 13 Jan 2023 14:11:15 +0000
-Message-Id: <20230113141126.535646-28-peter.maydell@linaro.org>
+Date: Fri, 13 Jan 2023 14:11:16 +0000
+Message-Id: <20230113141126.535646-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230113141126.535646-1-peter.maydell@linaro.org>
 References: <20230113141126.535646-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,119 +93,134 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Following docs/devel/style.rst guidelines, rename omap_gpif_s ->
-Omap1GpioState. This also remove a use of 'struct' in the
+Following docs/devel/style.rst guidelines, rename omap2_gpif_s ->
+Omap2GpioState. This also remove a use of 'struct' in the
 DECLARE_INSTANCE_CHECKER() macro call.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230109140306.23161-5-philmd@linaro.org
+Message-id: 20230109140306.23161-6-philmd@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/omap.h |  6 +++---
- hw/gpio/omap_gpio.c   | 16 ++++++++--------
- 2 files changed, 11 insertions(+), 11 deletions(-)
+ include/hw/arm/omap.h |  9 ++++-----
+ hw/gpio/omap_gpio.c   | 20 ++++++++++----------
+ 2 files changed, 14 insertions(+), 15 deletions(-)
 
 diff --git a/include/hw/arm/omap.h b/include/hw/arm/omap.h
-index ff6a173f8a6..29d2ed7e3be 100644
+index 29d2ed7e3be..9e30ba7ba24 100644
 --- a/include/hw/arm/omap.h
 +++ b/include/hw/arm/omap.h
-@@ -103,18 +103,18 @@ void omap_i2c_set_fclk(OMAPI2CState *i2c, omap_clk clk);
- 
- /* omap_gpio.c */
- #define TYPE_OMAP1_GPIO "omap-gpio"
--DECLARE_INSTANCE_CHECKER(struct omap_gpif_s, OMAP1_GPIO,
-+typedef struct Omap1GpioState Omap1GpioState;
-+DECLARE_INSTANCE_CHECKER(Omap1GpioState, OMAP1_GPIO,
+@@ -108,16 +108,15 @@ DECLARE_INSTANCE_CHECKER(Omap1GpioState, OMAP1_GPIO,
                           TYPE_OMAP1_GPIO)
  
  #define TYPE_OMAP2_GPIO "omap2-gpio"
- DECLARE_INSTANCE_CHECKER(struct omap2_gpif_s, OMAP2_GPIO,
+-DECLARE_INSTANCE_CHECKER(struct omap2_gpif_s, OMAP2_GPIO,
++typedef struct Omap2GpioState Omap2GpioState;
++DECLARE_INSTANCE_CHECKER(Omap2GpioState, OMAP2_GPIO,
                           TYPE_OMAP2_GPIO)
  
--typedef struct omap_gpif_s omap_gpif;
- typedef struct omap2_gpif_s omap2_gpif;
- 
+-typedef struct omap2_gpif_s omap2_gpif;
+-
  /* TODO: clock framework (see above) */
--void omap_gpio_set_clk(omap_gpif *gpio, omap_clk clk);
-+void omap_gpio_set_clk(Omap1GpioState *gpio, omap_clk clk);
+ void omap_gpio_set_clk(Omap1GpioState *gpio, omap_clk clk);
  
- void omap2_gpio_set_iclk(omap2_gpif *gpio, omap_clk clk);
- void omap2_gpio_set_fclk(omap2_gpif *gpio, uint8_t i, omap_clk clk);
+-void omap2_gpio_set_iclk(omap2_gpif *gpio, omap_clk clk);
+-void omap2_gpio_set_fclk(omap2_gpif *gpio, uint8_t i, omap_clk clk);
++void omap2_gpio_set_iclk(Omap2GpioState *gpio, omap_clk clk);
++void omap2_gpio_set_fclk(Omap2GpioState *gpio, uint8_t i, omap_clk clk);
+ 
+ /* OMAP2 l4 Interconnect */
+ struct omap_l4_s;
 diff --git a/hw/gpio/omap_gpio.c b/hw/gpio/omap_gpio.c
-index b3cb3499bd1..23502315ea5 100644
+index 23502315ea5..a3341d70f16 100644
 --- a/hw/gpio/omap_gpio.c
 +++ b/hw/gpio/omap_gpio.c
-@@ -41,7 +41,7 @@ struct omap_gpio_s {
-     uint16_t pins;
+@@ -210,7 +210,7 @@ struct omap2_gpio_s {
+     uint8_t delay;
  };
  
--struct omap_gpif_s {
-+struct Omap1GpioState {
+-struct omap2_gpif_s {
++struct Omap2GpioState {
      SysBusDevice parent_obj;
  
      MemoryRegion iomem;
-@@ -53,7 +53,7 @@ struct omap_gpif_s {
- /* General-Purpose I/O of OMAP1 */
- static void omap_gpio_set(void *opaque, int line, int level)
+@@ -274,7 +274,7 @@ static inline void omap2_gpio_module_int(struct omap2_gpio_s *s, int line)
+ 
+ static void omap2_gpio_set(void *opaque, int line, int level)
  {
--    struct omap_gpif_s *p = opaque;
-+    Omap1GpioState *p = opaque;
-     struct omap_gpio_s *s = &p->omap1;
-     uint16_t prev = s->inputs;
+-    struct omap2_gpif_s *p = opaque;
++    Omap2GpioState *p = opaque;
+     struct omap2_gpio_s *s = &p->modules[line >> 5];
  
-@@ -594,7 +594,7 @@ static const MemoryRegionOps omap2_gpio_module_ops = {
+     line &= 31;
+@@ -601,7 +601,7 @@ static void omap_gpif_reset(DeviceState *dev)
  
- static void omap_gpif_reset(DeviceState *dev)
+ static void omap2_gpif_reset(DeviceState *dev)
  {
--    struct omap_gpif_s *s = OMAP1_GPIO(dev);
-+    Omap1GpioState *s = OMAP1_GPIO(dev);
+-    struct omap2_gpif_s *s = OMAP2_GPIO(dev);
++    Omap2GpioState *s = OMAP2_GPIO(dev);
+     int i;
  
-     omap_gpio_reset(&s->omap1);
+     for (i = 0; i < s->modulecount; i++) {
+@@ -613,7 +613,7 @@ static void omap2_gpif_reset(DeviceState *dev)
+ 
+ static uint64_t omap2_gpif_top_read(void *opaque, hwaddr addr, unsigned size)
+ {
+-    struct omap2_gpif_s *s = opaque;
++    Omap2GpioState *s = opaque;
+ 
+     switch (addr) {
+     case 0x00:	/* IPGENERICOCPSPL_REVISION */
+@@ -642,7 +642,7 @@ static uint64_t omap2_gpif_top_read(void *opaque, hwaddr addr, unsigned size)
+ static void omap2_gpif_top_write(void *opaque, hwaddr addr,
+                                  uint64_t value, unsigned size)
+ {
+-    struct omap2_gpif_s *s = opaque;
++    Omap2GpioState *s = opaque;
+ 
+     switch (addr) {
+     case 0x00:	/* IPGENERICOCPSPL_REVISION */
+@@ -699,7 +699,7 @@ static void omap_gpio_realize(DeviceState *dev, Error **errp)
+ 
+ static void omap2_gpio_realize(DeviceState *dev, Error **errp)
+ {
+-    struct omap2_gpif_s *s = OMAP2_GPIO(dev);
++    Omap2GpioState *s = OMAP2_GPIO(dev);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+     int i;
+ 
+@@ -771,19 +771,19 @@ static const TypeInfo omap_gpio_info = {
+     .class_init    = omap_gpio_class_init,
+ };
+ 
+-void omap2_gpio_set_iclk(omap2_gpif *gpio, omap_clk clk)
++void omap2_gpio_set_iclk(Omap2GpioState *gpio, omap_clk clk)
+ {
+     gpio->iclk = clk;
  }
-@@ -677,7 +677,7 @@ static const MemoryRegionOps omap2_gpif_top_ops = {
- static void omap_gpio_init(Object *obj)
+ 
+-void omap2_gpio_set_fclk(omap2_gpif *gpio, uint8_t i, omap_clk clk)
++void omap2_gpio_set_fclk(Omap2GpioState *gpio, uint8_t i, omap_clk clk)
  {
-     DeviceState *dev = DEVICE(obj);
--    struct omap_gpif_s *s = OMAP1_GPIO(obj);
-+    Omap1GpioState *s = OMAP1_GPIO(obj);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
- 
-     qdev_init_gpio_in(dev, omap_gpio_set, 16);
-@@ -690,7 +690,7 @@ static void omap_gpio_init(Object *obj)
- 
- static void omap_gpio_realize(DeviceState *dev, Error **errp)
- {
--    struct omap_gpif_s *s = OMAP1_GPIO(dev);
-+    Omap1GpioState *s = OMAP1_GPIO(dev);
- 
-     if (!s->clk) {
-         error_setg(errp, "omap-gpio: clk not connected");
-@@ -742,13 +742,13 @@ static void omap2_gpio_realize(DeviceState *dev, Error **errp)
-     }
+     assert(i <= 5);
+     gpio->fclk[i] = clk;
  }
  
--void omap_gpio_set_clk(omap_gpif *gpio, omap_clk clk)
-+void omap_gpio_set_clk(Omap1GpioState *gpio, omap_clk clk)
- {
-     gpio->clk = clk;
- }
- 
- static Property omap_gpio_properties[] = {
--    DEFINE_PROP_INT32("mpu_model", struct omap_gpif_s, mpu_model, 0),
-+    DEFINE_PROP_INT32("mpu_model", Omap1GpioState, mpu_model, 0),
+ static Property omap2_gpio_properties[] = {
+-    DEFINE_PROP_INT32("mpu_model", struct omap2_gpif_s, mpu_model, 0),
++    DEFINE_PROP_INT32("mpu_model", Omap2GpioState, mpu_model, 0),
      DEFINE_PROP_END_OF_LIST(),
  };
  
-@@ -766,7 +766,7 @@ static void omap_gpio_class_init(ObjectClass *klass, void *data)
- static const TypeInfo omap_gpio_info = {
-     .name          = TYPE_OMAP1_GPIO,
+@@ -801,7 +801,7 @@ static void omap2_gpio_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo omap2_gpio_info = {
+     .name          = TYPE_OMAP2_GPIO,
      .parent        = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(struct omap_gpif_s),
-+    .instance_size = sizeof(Omap1GpioState),
-     .instance_init = omap_gpio_init,
-     .class_init    = omap_gpio_class_init,
+-    .instance_size = sizeof(struct omap2_gpif_s),
++    .instance_size = sizeof(Omap2GpioState),
+     .class_init    = omap2_gpio_class_init,
  };
+ 
 -- 
 2.34.1
 
