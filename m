@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAB5B669932
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 14:57:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F57C66993B
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 14:58:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKXL-0001PD-2x; Fri, 13 Jan 2023 08:56:03 -0500
+	id 1pGKYb-0002GP-LU; Fri, 13 Jan 2023 08:57:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKXJ-0001P5-9R
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:56:01 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKXH-00009e-Mg
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:56:01 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- m7-20020a17090a730700b00225ebb9cd01so27072738pjk.3
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 05:55:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UMKxo6pcsBGPdG4+orzoDPMtBuWrfIp+blSc44PYE6Y=;
- b=SiSEDm2c6XTPDny55hAn5FeYrROEtrZnguUFmiFTI3auv5qJwcuo6F2Av76QPe7XzU
- zdfFHZc3S9FD1uZh2adv0J0Hh0J43w1ACgJZn3VcKhSTepAa45NrUbpWSeOTB/EswW77
- aaM36pGxSDRo0aXSvoBPkkcZp12fK2eeOyGTPe8wHDkkLPaxNx84+TdaqlNcTq/NBVu8
- 0P4Y+e2YrryLuaMyZRwQ+Ttx4uQcPH2AmmZs+Qxn9so5m1SsDK1Ck/bRqtE5dU+nE4Hd
- XoinBvO4Vg6YKmkJYF6AuAXtHbQ91120DGcRoxJF7lKctQVnSAkAkPG5pAeDeHZCzWqa
- OUjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UMKxo6pcsBGPdG4+orzoDPMtBuWrfIp+blSc44PYE6Y=;
- b=A9Uao8kJg9hz3XlwyubEtRz7VoUV9GNzOJlzbFNNmwoNrpT/e7mzth0Yes6rjFeniq
- EaKwp9evt3eTicSkyT8nGT7I3xUrfY+a72n+oK5sWAadmFikOmcnyMorwBr1OQaBrffZ
- oAyuwgRQZu7LqE0GzaNhDzyPMTr3ROn3p/m+nTceyiKUXaEQraAPc3cElIVbmhaAG1bO
- 1WxfJ7cCoEr412AvrYKfU0q0qFPII78g27gg9rHPbzI0jPAT7dcPtiHgBhMoaBYPaLjJ
- ywvNQOA6Qty9FKlYvRAFVJp3BDJqGChEKp3wTgiY8smLTnSMTAIZuP5eNA8/9XJNE71x
- /G+w==
-X-Gm-Message-State: AFqh2kocJmLHBYC3VOhpp8ImD9PuP2bfAmEk+ipwC0M5fpS+6nU/CEKB
- dx6t+Dcugx+S6joxoxcVnhjEgIgUM0fR3Eqrh/dfNg==
-X-Google-Smtp-Source: AMrXdXtTgOZye371KZuh7zAFcwbLbTtEI3FVHW+yhkWpVlOGCDdwd7AuKUsjxzo+srmMfkPG42ImSSzshaLgjjbkxtc=
-X-Received: by 2002:a17:902:b287:b0:192:ff91:98b6 with SMTP id
- u7-20020a170902b28700b00192ff9198b6mr1712960plr.90.1673618157853; Fri, 13 Jan
- 2023 05:55:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pGKYX-0002ET-Un
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:57:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pGKYV-0000RK-V8
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:57:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673618235;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/NrQg7ILU0BG89aNNTPa3gdKfsMXOW9egUeImyvizTs=;
+ b=hSIK8Z76z1UWe0+3zVXUoLJXuy3sDIpDQP+lqueoopZZQfLoURBXClfSkuNbXbb4KO0rAh
+ DJLvMuLg23X9ySjTJ8CoDWOEE7e/Nxw85qH2GJeqwj37zWm27bhdLppyZEOFwogcUiWCAn
+ IL8I85j70vbb6dbusfYp/zStGI6mZ4M=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-604-gKau6a-HMiKg7Amf9oP69Q-1; Fri, 13 Jan 2023 08:57:07 -0500
+X-MC-Unique: gKau6a-HMiKg7Amf9oP69Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B6B43C0219C;
+ Fri, 13 Jan 2023 13:57:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E92114171B7;
+ Fri, 13 Jan 2023 13:57:05 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8A40721E675B; Fri, 13 Jan 2023 14:57:04 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org,  qemu-ppc@nongnu.org,  =?utf-8?Q?C=C3=A9dric?= Le
+ Goater
+ <clg@kaod.org>,  Peter Maydell <peter.maydell@linaro.org>,  Greg Kurz
+ <groug@kaod.org>,  Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>,  Aurelien Jarno
+ <aurelien@aurel32.net>,  Huacai Chen <chenhuacai@kernel.org>,  Aleksandar
+ Rikalo <aleksandar.rikalo@syrmia.com>,  qemu-arm@nongnu.org,  David Gibson
+ <david@gibson.dropbear.id.au>,  Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Markus Armbruster <armbru@redhat.com>,  Song Gao <gaosong@loongson.cn>
+Subject: Re: [PATCH RESEND v2 0/5] target: Restrict
+ 'qapi-commands-machine.h' to system emulation
+References: <20221220111122.8966-1-philmd@linaro.org>
+Date: Fri, 13 Jan 2023 14:57:04 +0100
+In-Reply-To: <20221220111122.8966-1-philmd@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 20 Dec 2022 12:11:17
+ +0100")
+Message-ID: <87y1q61qrz.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20230109120833.3330-1-philmd@linaro.org>
- <20230109120833.3330-14-philmd@linaro.org>
-In-Reply-To: <20230109120833.3330-14-philmd@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 Jan 2023 13:55:46 +0000
-Message-ID: <CAFEAcA9ytyFkSczBzUggphfToXoybU0bPHdS4qcFP_irj=YAbQ@mail.gmail.com>
-Subject: Re: [PATCH v2 13/21] hw/arm/xilinx_zynq: Open-code
- pflash_cfi02_register()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,69 +90,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 9 Jan 2023 at 12:20, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
-> wrote:
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+
+> [resend fixing my last name typography...]
 >
-> pflash_cfi02_register() hides an implicit sysbus mapping of
-> MMIO region #0. This is not practical in a heterogeneous world
-> where multiple cores use different address spaces. In order to
-> remove pflash_cfi02_register() from the pflash API, open-code it
-> as a qdev creation call followed by an explicit sysbus mapping.
+> All series reviewed, can patches be picked by corresponding
+> maintainers?
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
->  hw/arm/xilinx_zynq.c | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
+> The "qapi-commands-machine.h" header is not generated in user-only
+> emulation. This series removes its use in user-emu code by moving
+> the QMP code depending on this header into a separate sysemu unit.
 >
-> diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-> index 3190cc0b8d..201ca697ec 100644
-> --- a/hw/arm/xilinx_zynq.c
-> +++ b/hw/arm/xilinx_zynq.c
-> @@ -218,11 +218,21 @@ static void zynq_init(MachineState *machine)
->      DriveInfo *dinfo =3D drive_get(IF_PFLASH, 0, 0);
->
->      /* AMD */
-> -    pflash_cfi02_register(0xe2000000, "zynq.pflash", FLASH_SIZE,
-> -                          dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
-> -                          FLASH_SECTOR_SIZE, 1,
-> -                          1, 0x0066, 0x0022, 0x0000, 0x0000, 0x0555, 0x2=
-aa,
-> -                          0);
-> +    dev =3D qdev_new(TYPE_PFLASH_CFI02);
-> +    qdev_prop_set_string(dev, "name", "zynq.pflash");
-> +    qdev_prop_set_drive(dev, "drive",
-> +                        dinfo ? blk_by_legacy_dinfo(dinfo) : NULL);
-> +    qdev_prop_set_uint32(dev, "num-blocks", FLASH_SIZE / FLASH_SECTOR_SI=
-ZE);
-> +    qdev_prop_set_uint32(dev, "sector-length", FLASH_SECTOR_SIZE);
-> +    qdev_prop_set_uint8(dev, "device-width", 1);
-> +    qdev_prop_set_uint8(dev, "mappings", 1);
-> +    qdev_prop_set_uint8(dev, "big-endian", false);
-> +    qdev_prop_set_uint16(dev, "id0", 0x0066);
-> +    qdev_prop_set_uint16(dev, "id1", 0x0022);
-> +    qdev_prop_set_uint16(dev, "unlock-addr0", 0x555);
-> +    qdev_prop_set_uint16(dev, "unlock-addr1", 0x2aa);
-> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0xe2000000);
+> Since v1:
+> - renamed cpu-monitor.c -> monitor.c on loongarch
 
-What's the difference between setting "mappings" to 0 vs 1?
+Quick drive-by remark: we usually name C files containing just QMP
+commands SUBSYSTEM-qmp-cmds.c, and files containing just HMP commands
+SUBSYSTEM-hmp-cmds.c.  On the other hand, the existing monitor-related
+files seem to be named target/TARGET/monitor.c.
 
-I was expecting that this could leave the "mappings" property
-unset and at its default value, but the default is 0, not 1.
-I think if I'm reading the cfi02 code right that the device
-treats both 0 and 1 identically, though (meaning "don't set up
-the mappings that repeat mirrors of the device across
-the memory region"). If that's the case then we could just
-drop the setting of 'mappings' here and add a note in the
-commit message that 0 (the default) and 1 behave the same
-so we don't need to explicitly set the property.
+Keeping QMP and HMP two separate is desirable, but not required.
+monitor.c is a fine name for a file containing both.
 
-(I think this is the only use which sets mappings to 1,
-and no users set it to 0.)
+Use your judgement.
 
-Either way
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
 
