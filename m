@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDCE466A0D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:37:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18C466A0A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:25:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGMIt-0003JN-MX; Fri, 13 Jan 2023 10:49:16 -0500
+	id 1pGMJ1-0003Ut-VG; Fri, 13 Jan 2023 10:49:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMIP-0003AA-Po
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:48:53 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMIt-0003L9-07
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:49:15 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMIO-0006US-7E
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:48:45 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id q10so2141659wrs.2
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 07:48:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMIq-0006gl-Vr
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:49:14 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ m26-20020a05600c3b1a00b003d9811fcaafso17660623wms.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 07:49:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0wPcunVg7yQ5n7dMEXY8T78bqLxi/bsTCdvYF3d+Ri0=;
- b=jW+KkVePwiHrYHqSTlutt4x5FaG7P5VF+8zgPTRy2xrgbkFebeTN09+outrrpRZwCy
- 0PD/WpRH+U4v5B/XSIwDMvPSZm69pzy464Un+VrJNiwiYMXkAnatH/HlmwRqrH2SZjW4
- 01AZ81S9kx9J0LcFrbeMmc2haxImNaPmCVg95wHX89uQ+7eaCzkYbdFsGlf/r1Jfpe66
- 5p2L/ohI7MdLEMpj/H/t6LggoffjTzGWOAqZ6nHP57gzVR+Kneom/V8jY/A0DZ2BmH34
- LOYARYGFsL+BIii/hql6aR4y9RA+6FwX/qOQllHUndIURncGgi1jCF1hAHtiioZxMxzV
- oZvQ==
+ bh=WK2+v1deVNG12LxzaxOU+TFwx4PoX87lBGcOg5rv8EM=;
+ b=HebdcOnzND6/xQeCB5nGRaOpB8/1Uv5XaVNGuxKGyMnbBZOp/QhbdbgMHUbYoRKwIh
+ cMAejBNMwgVwyY1S8u29mLEO+vtpo1kSt3xk6SocL/y3X+v8wNQbMoNyFZ7UcX+AMGFz
+ Q4VbGuywG9UjXY0eFYieblhQe1ePAfQqerExXRX/5EIxOVqSwBw/KMnZpz7sQuG5OYL1
+ hTy/qpJ9gKRQuJ21qfe7Tw8v6PEPV6pdV9NVZY6LQnRkV6WPHybhjntuugPz9ULhCpuL
+ U4LcUuGKnxp1VoqYco8VUHpU/cyOa+FVqs13EfE84kTMToGI1UYsmW18nus9bC6kXIu2
+ mpRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0wPcunVg7yQ5n7dMEXY8T78bqLxi/bsTCdvYF3d+Ri0=;
- b=KxK3UvEUj5KWKAu45ppIbxufrOoFoju4niJdTPcY+CpwW1tjVkOoi/iiRk5S+rRbDO
- ZAIpfHUPh4w0EkKqht5uPJDtjis4OA1uSDFLf2MqL36ZFtPMnoGb/wri7vZfznEpwLtA
- B8fult5TajQhS8A45Q8e6aDpTNKaLOB9CSemyU0I0bkwfpMbDTIKpmuMGK9GPTWmIFdN
- jSV+2uDR43leNIJkz54XZSxyWxWQVmzFZk7XgGyTTEslkhihsqIOR7rWFbmdKreGpnYF
- ju1i4cs7iO95D1NnknNTf8qDVuiXkAV/zr8IrIVbiZYH0srOHzf+yhXtw1BSUQydUxBf
- 8pLA==
-X-Gm-Message-State: AFqh2koERY1F/iFayYUTSq3llYJtu01YNsRYNPxElrmnE1/C4GU56dRf
- +XLo9a2OvxpIzVjGM1q+canUX5Ox+yj0JLza
-X-Google-Smtp-Source: AMrXdXsmDR1QDVXrmvbEsqJM4PQsnA3lEk5xrhr6pK7TQ/4aw4LkwyFR30NeD7ixesjmA2Xe2r2nxQ==
-X-Received: by 2002:a5d:5b18:0:b0:2bd:db84:d663 with SMTP id
- bx24-20020a5d5b18000000b002bddb84d663mr256143wrb.5.1673624923179; 
- Fri, 13 Jan 2023 07:48:43 -0800 (PST)
+ bh=WK2+v1deVNG12LxzaxOU+TFwx4PoX87lBGcOg5rv8EM=;
+ b=6sTZJ1i/AOlD1D/zV6x8SKZTHBjlrcW7p+xku8205NTxrT/6k9uUMpyAIazzJV2KP/
+ 9mFDTy1RBTjC5siwlOL1yKXDegpKECpDlM8tARCgqCoZQqbyUS0neaS6oUDYCVrmEeSh
+ 9cewBToCjzdwKM2U37gihefRT/5XKRgav/bzu9GzXjo7HT5sxIZRY2QI6JPHwjFSsEBV
+ 8e7RKXnnOh2q8rgZ7D7jHe5lHk0Dpc0GQcNccgIrGgMlpA9PIFczWHz1sNMwtRvG/RBz
+ IH3I8XJ5LPLqHiz2git3s78CYDlX/fGCqeWQQOIz8snNB4pgk94EfakZyprGKuGBC2Tc
+ Mq8w==
+X-Gm-Message-State: AFqh2kq7MF3HL/BoJ96LtyfvLYBaackNTBjOm5d5t2MDbn30i5liVb+c
+ pbItpEWvROHGGzQD3otmxCFjomDB+WUdMBUK
+X-Google-Smtp-Source: AMrXdXvbhy/Syv7wgiG2JNc0mKVkcO5QED7iQRuJupomBeza381cbBBiVn7QDAXLVaX/YKsJQJnnfQ==
+X-Received: by 2002:a05:600c:1e18:b0:3d2:5e4e:701 with SMTP id
+ ay24-20020a05600c1e1800b003d25e4e0701mr59017685wmb.31.1673624951978; 
+ Fri, 13 Jan 2023 07:49:11 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- g2-20020a5d4882000000b00286ad197346sm19251049wrq.70.2023.01.13.07.48.42
+ j30-20020a05600c1c1e00b003cfa80443a0sm28775741wms.35.2023.01.13.07.49.11
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 13 Jan 2023 07:48:42 -0800 (PST)
+ Fri, 13 Jan 2023 07:49:11 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PULL 39/46] softmmu/rtc: Emit warning when using driftfix=slew on
- systems without mc146818
-Date: Fri, 13 Jan 2023 16:45:25 +0100
-Message-Id: <20230113154532.49979-40-philmd@linaro.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 45/46] target/mips: Restrict 'qapi-commands-machine.h' to
+ system emulation
+Date: Fri, 13 Jan 2023 16:45:31 +0100
+Message-Id: <20230113154532.49979-46-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230113154532.49979-1-philmd@linaro.org>
 References: <20230113154532.49979-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,49 +91,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Thomas Huth <thuth@redhat.com>
+Since commit a0e61807a3 ("qapi: Remove QMP events and commands from
+user-mode builds") we don't generate the "qapi-commands-machine.h"
+header in a user-emulation-only build.
 
-The 'slew' lost tick policy is only available on systems with a mc146818
-RTC. On other systems, "-rtc driftfix=slew" is currently silently ignored.
-Let's emit at least a warning in this case to make the users aware that
-there is something wrong in their command line settings.
+Extract the QMP functions from cpu.c (which is always compiled) to
+the new 'sysemu/mips-qmp-cmds.c' unit (which is only compiled when
+system emulation is selected).
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20230110095351.611724-5-thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20221219211034.70491-4-philmd@linaro.org>
 ---
- softmmu/rtc.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ target/mips/cpu.c                  | 29 ----------------------
+ target/mips/sysemu/meson.build     |  1 +
+ target/mips/sysemu/mips-qmp-cmds.c | 39 ++++++++++++++++++++++++++++++
+ 3 files changed, 40 insertions(+), 29 deletions(-)
+ create mode 100644 target/mips/sysemu/mips-qmp-cmds.c
 
-diff --git a/softmmu/rtc.c b/softmmu/rtc.c
-index 7e2956f81e..f7114bed7d 100644
---- a/softmmu/rtc.c
-+++ b/softmmu/rtc.c
-@@ -33,6 +33,7 @@
- #include "sysemu/replay.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/rtc.h"
-+#include "hw/rtc/mc146818rtc.h"
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index f995e88776..05caf54999 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -32,7 +32,6 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/qdev-clock.h"
+ #include "semihosting/semihost.h"
+-#include "qapi/qapi-commands-machine-target.h"
+ #include "fpu_helper.h"
  
- static enum {
-     RTC_BASE_UTC,
-@@ -177,10 +178,13 @@ void configure_rtc(QemuOpts *opts)
-     value = qemu_opt_get(opts, "driftfix");
-     if (value) {
-         if (!strcmp(value, "slew")) {
--            object_register_sugar_prop("mc146818rtc",
-+            object_register_sugar_prop(TYPE_MC146818_RTC,
-                                        "lost_tick_policy",
-                                        "slew",
-                                        false);
-+            if (!object_class_by_name(TYPE_MC146818_RTC)) {
-+                warn_report("driftfix 'slew' is not available with this machine");
-+            }
-         } else if (!strcmp(value, "none")) {
-             /* discard is default */
-         } else {
+ const char regnames[32][3] = {
+@@ -624,34 +623,6 @@ static void mips_cpu_register_types(void)
+ 
+ type_init(mips_cpu_register_types)
+ 
+-static void mips_cpu_add_definition(gpointer data, gpointer user_data)
+-{
+-    ObjectClass *oc = data;
+-    CpuDefinitionInfoList **cpu_list = user_data;
+-    CpuDefinitionInfo *info;
+-    const char *typename;
+-
+-    typename = object_class_get_name(oc);
+-    info = g_malloc0(sizeof(*info));
+-    info->name = g_strndup(typename,
+-                           strlen(typename) - strlen("-" TYPE_MIPS_CPU));
+-    info->q_typename = g_strdup(typename);
+-
+-    QAPI_LIST_PREPEND(*cpu_list, info);
+-}
+-
+-CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
+-{
+-    CpuDefinitionInfoList *cpu_list = NULL;
+-    GSList *list;
+-
+-    list = object_class_get_list(TYPE_MIPS_CPU, false);
+-    g_slist_foreach(list, mips_cpu_add_definition, &cpu_list);
+-    g_slist_free(list);
+-
+-    return cpu_list;
+-}
+-
+ /* Could be used by generic CPU object */
+ MIPSCPU *mips_cpu_create_with_clock(const char *cpu_type, Clock *cpu_refclk)
+ {
+diff --git a/target/mips/sysemu/meson.build b/target/mips/sysemu/meson.build
+index cefc227582..261492de5b 100644
+--- a/target/mips/sysemu/meson.build
++++ b/target/mips/sysemu/meson.build
+@@ -3,5 +3,6 @@ mips_softmmu_ss.add(files(
+   'cp0.c',
+   'cp0_timer.c',
+   'machine.c',
++  'mips-qmp-cmds.c',
+   'physaddr.c',
+ ))
+diff --git a/target/mips/sysemu/mips-qmp-cmds.c b/target/mips/sysemu/mips-qmp-cmds.c
+new file mode 100644
+index 0000000000..6db4626412
+--- /dev/null
++++ b/target/mips/sysemu/mips-qmp-cmds.c
+@@ -0,0 +1,39 @@
++/*
++ * QEMU MIPS CPU (monitor definitions)
++ *
++ * SPDX-FileCopyrightText: 2012 SUSE LINUX Products GmbH
++ *
++ * SPDX-License-Identifier: LGPL-2.1-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/qapi-commands-machine-target.h"
++#include "cpu.h"
++
++static void mips_cpu_add_definition(gpointer data, gpointer user_data)
++{
++    ObjectClass *oc = data;
++    CpuDefinitionInfoList **cpu_list = user_data;
++    CpuDefinitionInfo *info;
++    const char *typename;
++
++    typename = object_class_get_name(oc);
++    info = g_malloc0(sizeof(*info));
++    info->name = g_strndup(typename,
++                           strlen(typename) - strlen("-" TYPE_MIPS_CPU));
++    info->q_typename = g_strdup(typename);
++
++    QAPI_LIST_PREPEND(*cpu_list, info);
++}
++
++CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
++{
++    CpuDefinitionInfoList *cpu_list = NULL;
++    GSList *list;
++
++    list = object_class_get_list(TYPE_MIPS_CPU, false);
++    g_slist_foreach(list, mips_cpu_add_definition, &cpu_list);
++    g_slist_free(list);
++
++    return cpu_list;
++}
 -- 
 2.38.1
 
