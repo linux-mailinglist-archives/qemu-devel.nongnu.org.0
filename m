@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBA3669F39
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:13:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C47669F09
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:09:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGMkl-0004Ey-Nw; Fri, 13 Jan 2023 11:18:03 -0500
+	id 1pGMlm-0004nV-Mr; Fri, 13 Jan 2023 11:19:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pGMkS-0004AP-KD
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:17:50 -0500
+ id 1pGMlS-0004fi-L7
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:18:49 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pGMkQ-0004pZ-E4
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:17:44 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Ntmlt5RkHz6J9YX;
- Sat, 14 Jan 2023 00:17:30 +0800 (CST)
+ id 1pGMlQ-0004x6-RD
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:18:46 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Ntmn41Mq2z6J9YX;
+ Sat, 14 Jan 2023 00:18:32 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Fri, 13 Jan 2023 16:17:40 +0000
+ 15.1.2375.34; Fri, 13 Jan 2023 16:18:41 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linuxarm@huawei.com>,
  <linux-cxl@vger.kernel.org>, Dave Jiang <dave.jiang@intel.com>,
  <alison.schofield@intel.com>, <ira.weiny@intel.com>, Shameerali Kolothum
  Thodi <shameerali.kolothum.thodi@huawei.com>
-Subject: [PATCH 1/7] hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register
-Date: Fri, 13 Jan 2023 16:17:05 +0000
-Message-ID: <20230113161711.7885-2-Jonathan.Cameron@huawei.com>
+Subject: [PATCH 3/7] hw/pci-bridge/cxl_root_port: Wire up AER
+Date: Fri, 13 Jan 2023 16:17:07 +0000
+Message-ID: <20230113161711.7885-4-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230113161711.7885-1-Jonathan.Cameron@huawei.com>
 References: <20230113161711.7885-1-Jonathan.Cameron@huawei.com>
@@ -40,7 +40,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -68,46 +68,34 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This register in AER should be both writeable and should
-have a default value with a couple of the errors masked
-including the Uncorrectable Internal Error used by CXL for
-it's error reporting.
+We are missing necessary config write handling for AER emulation in
+the CXL root port. Add it based on pcie_root_port.c
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/pci/pcie_aer.c          | 4 ++++
- include/hw/pci/pcie_regs.h | 3 +++
- 2 files changed, 7 insertions(+)
+ hw/pci-bridge/cxl_root_port.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
-index 9a19be44ae..909e027d99 100644
---- a/hw/pci/pcie_aer.c
-+++ b/hw/pci/pcie_aer.c
-@@ -112,6 +112,10 @@ int pcie_aer_init(PCIDevice *dev, uint8_t cap_ver, uint16_t offset,
+diff --git a/hw/pci-bridge/cxl_root_port.c b/hw/pci-bridge/cxl_root_port.c
+index 6664783974..00195257f7 100644
+--- a/hw/pci-bridge/cxl_root_port.c
++++ b/hw/pci-bridge/cxl_root_port.c
+@@ -187,12 +187,15 @@ static void cxl_rp_write_config(PCIDevice *d, uint32_t address, uint32_t val,
+                                 int len)
+ {
+     uint16_t slt_ctl, slt_sta;
++    uint32_t root_cmd =
++        pci_get_long(d->config + d->exp.aer_cap + PCI_ERR_ROOT_COMMAND);
  
-     pci_set_long(dev->w1cmask + offset + PCI_ERR_UNCOR_STATUS,
-                  PCI_ERR_UNC_SUPPORTED);
-+    pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
-+                 PCI_ERR_UNC_MASK_DEFAULT);
-+    pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
-+                 PCI_ERR_UNC_SUPPORTED);
+     pcie_cap_slot_get(d, &slt_ctl, &slt_sta);
+     pci_bridge_write_config(d, address, val, len);
+     pcie_cap_flr_write_config(d, address, val, len);
+     pcie_cap_slot_write_config(d, slt_ctl, slt_sta, address, val, len);
+     pcie_aer_write_config(d, address, val, len);
++    pcie_aer_root_write_config(d, address, val, len, root_cmd);
  
-     pci_set_long(dev->config + offset + PCI_ERR_UNCOR_SEVER,
-                  PCI_ERR_UNC_SEVERITY_DEFAULT);
-diff --git a/include/hw/pci/pcie_regs.h b/include/hw/pci/pcie_regs.h
-index 963dc2e170..6ec4785448 100644
---- a/include/hw/pci/pcie_regs.h
-+++ b/include/hw/pci/pcie_regs.h
-@@ -155,6 +155,9 @@ typedef enum PCIExpLinkWidth {
-                                          PCI_ERR_UNC_ATOP_EBLOCKED |    \
-                                          PCI_ERR_UNC_TLP_PRF_BLOCKED)
- 
-+#define PCI_ERR_UNC_MASK_DEFAULT        (PCI_ERR_UNC_INTN | \
-+                                         PCI_ERR_UNC_TLP_PRF_BLOCKED)
-+
- #define PCI_ERR_UNC_SEVERITY_DEFAULT    (PCI_ERR_UNC_DLP |              \
-                                          PCI_ERR_UNC_SDN |              \
-                                          PCI_ERR_UNC_FCP |              \
+     cxl_rp_dvsec_write_config(d, address, val, len);
+ }
 -- 
 2.37.2
 
