@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B13668ED9
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 08:07:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22615668EED
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 08:14:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGE9K-0007kS-VS; Fri, 13 Jan 2023 02:06:51 -0500
+	id 1pGEG0-0001t8-Kx; Fri, 13 Jan 2023 02:13:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGE8v-0007hA-3k
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:06:30 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGEFz-0001sk-2C
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:13:43 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGE8s-0006m6-3Y
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:06:23 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- p1-20020a05600c1d8100b003d8c9b191e0so16712716wms.4
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 23:06:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGEFx-00008d-7l
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:13:42 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id e10so606692wri.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 23:13:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=LH3sepORDY2KgUiDZBnb6Xmc86OrGj5PwY8+nhfLbpM=;
- b=dPWBT5WO/AKE5sqm4K3+cekyBn6wTpk2cPWHOV9j2fivP5sU9M5wwhS/fMgYsR42J5
- 8C2b6IaK0yYnRCVI0j2S4BsLJPmnc3CSDcRiarebI7uVfPUb2iNTGY/z4COO6va+/ZMX
- 2ycT16vI0mGeGb3qjFZJrmwFWc+DgFpzvaMssHTZNZ14GkSPVv1S5bQpWs/usRnhahBR
- vkQhh7SCjeWyNQ+41fEypyPyPZYq5qgFrW6hnmXkwlGjNyXtTJlyVRyRv9S+brSm1n/r
- U7i0SKsTst05cn/jg1V/POgCzCzk/Tfm//uFodJqRke1tpFdFw7ikMe+XsFSCzXFlRSM
- jfGg==
+ bh=hd5wX4mhBiOqr2EsJItmpSvHE6MDIX5pIKPGQitnuL4=;
+ b=MGQ7EXL7j+DMWVtATEkizi3CLfQOxVV3S79osvy7FxtGM+UFqVuLNZPa5vRDY4Kp/c
+ GEvalByOMW+pcRTYx10c41gnS800wFmiSjGiR9hY1IVriQqqXsYuwl9TitqcvhgIQOW9
+ o15LFq3hGgK++DAVdpcJIrxF8RRB1n2imJckq6ZtYUc8k8IE0d1XymrbXRJvs20CEWW1
+ v1BqHFncxagzpHx/pElk/KgOVztRnqeMCLu516+P4KnqiNQTxkE9g8mk3e8wV6b5Mabw
+ ZJHUURuV4LS1tObpnKLsGa4sDNOw9kTYJWFbnjaiqkU2VgucDGA8wndb0s67QNjNaMhR
+ /wMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LH3sepORDY2KgUiDZBnb6Xmc86OrGj5PwY8+nhfLbpM=;
- b=31GrxZX8nt8e1bufiV62nxPi/0StCQAS8VSLxRw1cJQQg6Lt0RIcSSBYkMRC6E68x2
- qKqMtKQGpa+0Pf04hxUwOcrMcUxclyYGncHBEcgS8VavxEgCqWy6A5WhwAg/zirh66HZ
- kcJw9N4YhRzWJrKGuFgmjCA6F8Q9LKccT9uGizN7Xnx9jUuUZICQmJrPBWeP4agtHGoF
- pQ43jY9e25YErBLyiT+IL071x1S4wha00IvIEOYZCFUTYly2cVtPgvMfUpvrC6drr3+7
- JMvvO8Gu6q2Jjun3kogIsmytmfxvPGK2zErN5dgteKIvWvz7Nvm3hX9yOpYO/gcD4W9w
- Du5Q==
-X-Gm-Message-State: AFqh2koNr8rlGA7RdCOzGhjjPmW2nAr0gnVnsDZCstmkp91D0Qpyzhvy
- FVqCNWI8oPmps9FezS0P8mjhkA==
-X-Google-Smtp-Source: AMrXdXtxEkVA/2KaU7WVotgsVHPfd75ojrh0Dd4qKP9yKfnw/7kXdai72a+WpQt+iBpKINUK3KhRCw==
-X-Received: by 2002:a05:600c:47d1:b0:3d3:496b:de9d with SMTP id
- l17-20020a05600c47d100b003d3496bde9dmr57356663wmo.34.1673593579864; 
- Thu, 12 Jan 2023 23:06:19 -0800 (PST)
+ bh=hd5wX4mhBiOqr2EsJItmpSvHE6MDIX5pIKPGQitnuL4=;
+ b=HcacUWVnDmd7XTyxVwBi0dGNtOJ5r3AEbVXFNA+1OrUBgIDaE/iSdf7DWUzhhmjqhi
+ hvhxhlRyUsZzvlyNSn/GFIlkns8Wn4gUldjUTWDNCSYwrFffzUZmhoPVeshAyS4r3wVp
+ AMVelbFC/jFgqHAq7vJTsvEH09bmjvKc0LhYxHGT54lr/SUxsnyWww+23NE8QGKRbDY0
+ iYQIxTvy2oeXn6qYWYPzxY6A5zxlR2G8/8zfUaozFLbnijdUjI6XQqOBwwqFoTduNgnU
+ 8QGKh+t1YatHaA98FN8rGBILvxvVG4vVeyu5do+aeR8SP0G8+FmDC6cVqtCzsG7SVfx3
+ XA0w==
+X-Gm-Message-State: AFqh2krGRUiokMbqtFCJx/yTHM24MptDFUntA8lsDBi5HsUZ5NuoMpB6
+ kYpqOeZ070lEMM/52pa1cfC61g==
+X-Google-Smtp-Source: AMrXdXtF8eE4F8PMAgc9XyMHqvggyvSWUbD+cfVLEjMvZf9li7c02pZEC98WKoM09gfr0tRuABqpkA==
+X-Received: by 2002:a5d:5685:0:b0:2bb:4b40:2d18 with SMTP id
+ f5-20020a5d5685000000b002bb4b402d18mr15573749wrv.62.1673594019392; 
+ Thu, 12 Jan 2023 23:13:39 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- l27-20020a05600c2cdb00b003a84375d0d1sm31469383wmc.44.2023.01.12.23.06.19
+ s1-20020a5d4ec1000000b002882600e8a0sm18222921wrv.12.2023.01.12.23.13.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 23:06:19 -0800 (PST)
-Message-ID: <bd9c76f2-fe5b-8e61-8cd2-f0aeec5a44a7@linaro.org>
-Date: Fri, 13 Jan 2023 08:06:18 +0100
+ Thu, 12 Jan 2023 23:13:38 -0800 (PST)
+Message-ID: <9bc6b28f-2f12-e774-3bb2-73d835540ecb@linaro.org>
+Date: Fri, 13 Jan 2023 08:13:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] hw/mips/boston.c: rename MachineState 'mc' pointer to 'ms'
+Subject: Re: [PATCH v6 1/2] hw/riscv/boot.c: consolidate all kernel init in
+ riscv_load_kernel()
 Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-References: <20230111172133.334735-1-dbarboza@ventanamicro.com>
+To: Bin Meng <bmeng.cn@gmail.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ Palmer Dabbelt <palmer@dabbelt.com>
+References: <20230112223444.484879-1-dbarboza@ventanamicro.com>
+ <20230112223444.484879-2-dbarboza@ventanamicro.com>
+ <CAEUhbmVDcPnbMQYKnJ0BH+UNH9_htGTBEypcduR2_eiFd7ExXA@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230111172133.334735-1-dbarboza@ventanamicro.com>
+In-Reply-To: <CAEUhbmVDcPnbMQYKnJ0BH+UNH9_htGTBEypcduR2_eiFd7ExXA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,18 +94,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/1/23 18:21, Daniel Henrique Barboza wrote:
-> Follow the QEMU convention of naming MachineState pointers as 'ms' by
-> renaming the instance in create_fdt() where we're calling it 'mc'.
+On 13/1/23 03:47, Bin Meng wrote:
+> On Fri, Jan 13, 2023 at 6:37 AM Daniel Henrique Barboza
+> <dbarboza@ventanamicro.com> wrote:
+>>
+>> The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
+>> the same steps when '-kernel' is used:
+>>
+>> - execute load_kernel()
+>> - load init_rd()
+>> - write kernel_cmdline
+>>
+>> Let's fold everything inside riscv_load_kernel() to avoid code
+>> repetition. To not change the behavior of boards that aren't calling
+>> riscv_load_initrd(), add an 'load_initrd' flag to riscv_load_kernel()
+>> and allow these boards to opt out from initrd loading.
+>>
+>> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>> ---
+>>   hw/riscv/boot.c            | 30 +++++++++++++++++++++++++++---
+>>   hw/riscv/microchip_pfsoc.c | 12 ++----------
+>>   hw/riscv/opentitan.c       |  3 ++-
+>>   hw/riscv/sifive_e.c        |  4 +++-
+>>   hw/riscv/sifive_u.c        | 13 +++----------
+>>   hw/riscv/spike.c           | 10 +---------
+>>   hw/riscv/virt.c            | 13 +++----------
+>>   include/hw/riscv/boot.h    |  2 ++
+>>   8 files changed, 43 insertions(+), 44 deletions(-)
+>>
+>> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+>> index 2594276223..e8e8b8517c 100644
+>> --- a/hw/riscv/boot.c
+>> +++ b/hw/riscv/boot.c
+>> @@ -175,10 +175,12 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
+>>
+>>   target_ulong riscv_load_kernel(MachineState *machine,
+>>                                  target_ulong kernel_start_addr,
+>> +                               bool load_initrd, bool is_32bits,
+>>                                  symbol_fn_t sym_cb)
+>>   {
+>>       const char *kernel_filename = machine->kernel_filename;
+>>       uint64_t kernel_load_base, kernel_entry;
+>> +    void *fdt = machine->fdt;
+>>
+>>       g_assert(kernel_filename != NULL);
+>>
+>> @@ -192,21 +194,43 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>>       if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+>>                            NULL, &kernel_load_base, NULL, NULL, 0,
+>>                            EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+>> -        return kernel_load_base;
+>> +        kernel_entry = kernel_load_base;
+>> +        /*
+>> +         * kernel_load_base is sign-extended for 32 bits and can
+>> +         * be padded with '1's. Do an uint32_t cast to avoid the
+>> +         * padding if we're running a 32 bit CPU.
+>> +         */
 > 
-> Cc: Paul Burton <paulburton@kernel.org>
-> Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> ---
->   hw/mips/boston.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> I see both kernel_load_base and kernel_entry are declared as a
+> uint64_t, and load_elf_ram_sym() accepts a uint64_t parameter. Where
+> does the sign-extension happen?
 
-Queued on mips-next, thanks!
+Likely load_elf_ram_sym()'s translate_fn() argument is missing?
+
+  * @translate_fn: optional function to translate load addresses
+  * @translate_opaque: opaque data passed to @translate_fn
+
+Others archs provide:
+
+$ git grep -F '(void *opaque, uint64_t'
+hw/alpha/dp264.c:23:static uint64_t cpu_alpha_superpage_to_phys(void 
+*opaque, uint64_t addr)
+hw/cris/boot.c:62:static uint64_t translate_kernel_address(void *opaque, 
+uint64_t addr)
+hw/hppa/machine.c:107:static uint64_t cpu_hppa_to_phys(void *opaque, 
+uint64_t addr)
+hw/intc/openpic.c:857:static uint64_t openpic_src_read(void *opaque, 
+uint64_t addr, unsigned len)
+hw/loongarch/virt.c:390:static uint64_t cpu_loongarch_virt_to_phys(void 
+*opaque, uint64_t addr)
+hw/microblaze/boot.c:112:static uint64_t translate_kernel_address(void 
+*opaque, uint64_t addr)
+hw/nios2/boot.c:78:static uint64_t translate_kernel_address(void 
+*opaque, uint64_t addr)
+hw/ppc/mac_newworld.c:117:static uint64_t translate_kernel_address(void 
+*opaque, uint64_t addr)
+hw/ppc/mac_oldworld.c:75:static uint64_t translate_kernel_address(void 
+*opaque, uint64_t addr)
+hw/ppc/spapr.c:1263:static uint64_t translate_kernel_address(void 
+*opaque, uint64_t addr)
+hw/s390x/ipl.c:106:static uint64_t bios_translate_addr(void *opaque, 
+uint64_t srcaddr)
+hw/sparc/sun4m.c:217:static uint64_t translate_kernel_address(void 
+*opaque, uint64_t addr)
+hw/sparc/sun4m.c:673:static uint64_t translate_prom_address(void 
+*opaque, uint64_t addr)
+hw/sparc64/sun4u.c:412:static uint64_t translate_prom_address(void 
+*opaque, uint64_t addr)
+hw/ssi/xlnx-versal-ospi.c:1613:static void ospi_indac_write(void 
+*opaque, uint64_t value, unsigned int size)
+hw/timer/pxa2xx_timer.c:117:static void pxa2xx_timer_update(void 
+*opaque, uint64_t now_qemu)
+hw/timer/pxa2xx_timer.c:134:static void pxa2xx_timer_update4(void 
+*opaque, uint64_t now_qemu, int n)
+hw/xtensa/sim.c:40:static uint64_t translate_phys_addr(void *opaque, 
+uint64_t addr)
+hw/xtensa/xtfpga.c:189:static uint64_t translate_phys_addr(void *opaque, 
+uint64_t addr)
+
+>> +        if (is_32bits) {
+>> +            kernel_entry = (uint32_t)kernel_load_base;
+>> +        }
+>> +        goto out;
+>>       }
 
 
