@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD95A669551
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 12:16:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA69D66958D
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 12:31:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGI1Q-0007M4-M6; Fri, 13 Jan 2023 06:14:57 -0500
+	id 1pGIFX-0002WJ-P1; Fri, 13 Jan 2023 06:29:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+5349b4c4504b4eb6068c+7082+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pGI1K-0007Lo-Od
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 06:14:51 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGIFV-0002Vk-KN
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 06:29:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+5349b4c4504b4eb6068c+7082+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pGI1I-0006Zx-FL
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 06:14:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:To:From:Subject:Message-ID:Sender:Reply-To:Cc:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=H/qmeSK1VeRK2AOwdeyTH6MLLLgEhu2PPrqTwG3cRlI=; b=eh/KYUey3dhJEORn7ToCDOtU1j
- xQJda0ANWtTWRK7j6mSm1Sftj58+P0uL0xy/VCH8gIkx+2Sj3HAFY10wPpT1VOyAqkCr+o6oGHVsz
- ykg3Xjb1DSrDe2iNX4noprwFXXYur5NupbKuytsOR98uyT8qwaxsjhDo1Duz5SYPubQLcYhOxPoQl
- aPQIUgtXph28CDGb4xyt6Tx2hWEunNN7DUYHA+N36xC5JvcYb75NTiyOPtpPrqSc/5+8ERpWLJfAy
- Met9vvlrykOGjffEbMxfv0KTfBGlrCY6aohOHhCOTIhjmaAj+6K6yb62T+tdE53AlwSljQ9Z5SuIT
- BZkvASOQ==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pGI1B-0062T6-HG; Fri, 13 Jan 2023 11:14:43 +0000
-Message-ID: <a7058308b2e5fa10d094f11c815fa7321ec4a0e4.camel@infradead.org>
-Subject: Re: checkpoint/restore: Adding more "Getters" to the KVM API
-From: David Woodhouse <dwmw2@infradead.org>
-To: scalingtree <scalingtree@proton.me>, "kvm@vger.kernel.org"
- <kvm@vger.kernel.org>, "firecracker-maintainers@amazon.com"
- <firecracker-maintainers@amazon.com>, "criu@openvz.org" <criu@openvz.org>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Date: Fri, 13 Jan 2023 11:14:27 +0000
-In-Reply-To: <jYlRLuV_6FcjxHyjMU6duqUMCE7tU6sS5ZZqbEmLWZCxJp3phctt1oA0n9obMkVv7fMQGXCIbwC53erkFxNI33XYvnrOpS8fY7mfUC0mu5c=@proton.me>
-References: <jYlRLuV_6FcjxHyjMU6duqUMCE7tU6sS5ZZqbEmLWZCxJp3phctt1oA0n9obMkVv7fMQGXCIbwC53erkFxNI33XYvnrOpS8fY7mfUC0mu5c=@proton.me>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-lxbCdvV+0BRH2CfrDYOA"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGIFT-00014Z-Lf
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 06:29:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673609366;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KtTLjwtYGEo/2Y0bLtjHlkZmGxb6HnmCLf16PCCWTJo=;
+ b=Mh6Ps2dIEDoH4cWD420kxYyZL53P0Vh8TgNIvUN/Edd626gdEmZ0oMbLEBoHNSJBiXkQFm
+ vAEXz2ShKlAxkULkcKmqwNjhIVv8V2NHc5rcK6pu7mXCKSzDl8xCV5JaUdVfA3l1wbDlVc
+ oVayB1lBjZ9Z4MTLVHKp176m7IiY0+k=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-29-4A5S1RT_NOmrpLFhsLqd6w-1; Fri, 13 Jan 2023 06:29:23 -0500
+X-MC-Unique: 4A5S1RT_NOmrpLFhsLqd6w-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 151273811F3D;
+ Fri, 13 Jan 2023 11:29:23 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AF63492B00;
+ Fri, 13 Jan 2023 11:29:21 +0000 (UTC)
+Date: Fri, 13 Jan 2023 12:29:20 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-block@nongnu.org, hreitz@redhat.com, aesteve@redhat.com,
+ nsoffer@redhat.com, qemu-devel@nongnu.org, vsementsov@yandex-team.ru
+Subject: Re: [PATCH 0/4] qemu-img: Fix exit code for errors closing the image
+Message-ID: <Y8FAkAC3L7oF5q48@redhat.com>
+References: <20230112191454.169353-1-kwolf@redhat.com>
+ <874jsu51sj.fsf@pond.sub.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+5349b4c4504b4eb6068c+7082+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <874jsu51sj.fsf@pond.sub.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,175 +77,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Am 13.01.2023 um 08:30 hat Markus Armbruster geschrieben:
+> Drive-by comment...
+> 
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > This series addresses the problem described in these bug reports:
+> > https://gitlab.com/qemu-project/qemu/-/issues/1330
+> > https://bugzilla.redhat.com/show_bug.cgi?id=2147617
+> >
+> > qcow2 can fail when writing back dirty bitmaps in qcow2_inactivate().
+> > However, when the function is called through blk_unref(), in the case of
+> > such errors, while an error message is written to stderr, the callers
+> > never see an error return. Specifically, 'qemu-img bitmap/commit' are
+> > reported to exit with an exit code 0 despite the errors.
+> 
+> After having tead the "potential alternative" below, I figure this
+> failure happens within blk_unref().  But I can't see a call chain.  Am I
+> confused?
 
---=-lxbCdvV+0BRH2CfrDYOA
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+When I put an abort() into the error path:
 
-On Fri, 2022-12-30 at 08:25 +0000, scalingtree wrote:
-> Hi lists,
->=20
-> (Re-sending as plain text.)
->=20
-> We are in the process of using an external tool (CRIU) to
-> checkpoint/restore a KVM-enabled virtual machine. Initially we target
-> the hypervisor kvmtool but the extension, if done well, should allow
-> to checkpoint any hypervisor: like Qemu or firecracker.
->=20
-> CRIU can checkpoint and restore most of the application (or the VMM
-> in our case) state except the state of the kernel module KVM. To
-> overcome this limitation, we need more getters in the KVM API to
-> extract the state of the VM.
->=20
-> One example of a missing getter is the one for the guest memory.
-> There is a KVM_SET_MEMORY API call. But there is no equivalent
-> getter: KVM_GET_MEMORY.=C2=A0
->=20
-> Can we add such getters to the KVM API? Any idea of the difficulty? I
-> think one of the difficulties will be to get the state of the
-> architecture-specific state of KVM: for now, we are targetting Intel
-> x86_64 architecture (VT-X).
+#0  0x00007ffff6aa156c in __pthread_kill_implementation () from /lib64/libc.so.6
+#1  0x00007ffff6a54d76 in raise () from /lib64/libc.so.6
+#2  0x00007ffff6a287f3 in abort () from /lib64/libc.so.6
+#3  0x00005555556108f3 in qcow2_inactivate (bs=0x555555879a30) at ../block/qcow2.c:2705
+#4  0x0000555555610a08 in qcow2_do_close (bs=0x555555879a30, close_data_file=true) at ../block/qcow2.c:2741
+#5  0x0000555555610b38 in qcow2_close (bs=0x555555879a30) at ../block/qcow2.c:2770
+#6  0x00005555555a1b4e in bdrv_close (bs=0x555555879a30) at ../block.c:4939
+#7  0x00005555555a2ad4 in bdrv_delete (bs=0x555555879a30) at ../block.c:5330
+#8  0x00005555555a5b49 in bdrv_unref (bs=0x555555879a30) at ../block.c:6850
+#9  0x000055555559d6c5 in bdrv_root_unref_child (child=0x555555873300) at ../block.c:3207
+#10 0x00005555555c7beb in blk_remove_bs (blk=0x5555558796e0) at ../block/block-backend.c:895
+#11 0x00005555555c6c3f in blk_delete (blk=0x5555558796e0) at ../block/block-backend.c:479
+#12 0x00005555555c6fb0 in blk_unref (blk=0x5555558796e0) at ../block/block-backend.c:537
+#13 0x0000555555587dc9 in img_bitmap (argc=7, argv=0x7fffffffd760) at ../qemu-img.c:4820
+#14 0x0000555555589807 in main (argc=7, argv=0x7fffffffd760) at ../qemu-img.c:5450
 
+> > The solution taken here is inactivating the images first, which can
+> > still return errors, but already performs all of the write operations.
+> > Only then the images are actually blk_unref()-ed.
+> >
+> > If we agree that this is the way to go (as a potential alternative,
+> > allowing blk_unref() to fail would require changes in all kinds of
+> > places, many of which probably wouldn't even know what to do with the
+> > error),
+> 
+> blk_unref() could fail only when it destroys @blk (refcnt goes to zero).
+> Correct?
 
-I'm not really sure I understand the use case here. Can't the VMM be
-restarted and restore this?
+I think so, yes.
 
-Live update is a barely-special case of live migration. You kexec the
-underlying kernel and start a *new* VMM (which may have its own fixes
-too), from the preserved "migration" state.
+> We have a bunch of "unref" functions in the tree, and, as far as I can
+> tell from a quick grep, none of them can fail.  Supports your apparent
+> preference for not changing blk_unref().
+> 
+> >         then I suppose doing the same for other qemu-img subcommands
+> > would make sense, too.
+> 
+> I was about to ask whether there could be more silent failures like the
+> ones in commit and bitmap.  This suggests there are.
+> 
+> Say we do the same for all known such failures.  Would any remaining (or
+> new) such failures be programming errors?
 
-Any VMM which supports live migration surely doesn't need the kernel to
-help it with checkpoint/restore?
+Let's be honest: What I'm proposing here is not pretty and not a full
+solution, it only covers the simplest part of the problem, which happens
+to be the part that has shown up in practice.
 
-Now... if you wanted to talk about leaving some of the physical CPUs in
-guest mode *while* the kernel uses one of them to actually do the
-kexec, *that* would be interesting.
+If you have a good idea how to solve the general problem, I'm all ears.
 
-It starts with virtual address space isolation, putting that kvm_run
-loop into its own address space separate from the kernel. And then why
-*can't* we leave it running? If it ever needs to take a vmexit (and
-with interrupt posting and all the stuff that we not accelerate in
-hardware, how often is that anyway?), then it might need to wait for a
-Linux kernel to come back before it thunks back into it.
+I haven't checked other qemu-img subcommands, but I don't see why they
+wouldn't be able to run into an error in .bdrv_close. They could be
+fixed the same way.
 
-That's the na=C3=AFve starting point.... lots of fun with reconstituting
-state and reconciling "newly-created" KVMs in the new kernel with the
-vCPUs which are already actually running. But there's an amazing win to
-be had there, letting VMs continue to actually *run* while the whole
-hypervisor restarts with basically zero downtime.
+The next level in difficulty might be QMP block-delete. It's still easy
+because like in qemu-img, we know that we're freeing the last reference,
+and so we could actually do the same here. Well, more or less the same
+at least: Obviously not inactivate_all(), but just for a single node. We
+also need to do this recursively for children, except only for those
+that would actually go away together with our parent node and aren't
+referenced elsewhere. Even if we manage to implement this correctly,
+what do we do with the error? Would returning a QMP error imply that we
+didn't actually close the image and it's still valid (and not
+inactivated)?
 
+Too easy? Let's make it a bit harder. Let's say a commit job completes
+and we're now removing the intermediate nodes. One of these images could
+in theory fail in .bdrv_close. We have successfully committed the data,
+the new graph is ready and in good state. Just one of the old images
+we're throwing out runs into ENOSPC in its .bdrv_close. Where do we
+report that error? We don't even necessarily have a QMP command here, we
+could only let the whole block job fail, which is probably not a good
+way to let libvirt know what was happening. Also, we can't just
+unconditionally inactivate the image beforehand there, it might still be
+in use by other references.  Which may actually be dropped while we're
+draining the node in bdrv_close().
 
---=-lxbCdvV+0BRH2CfrDYOA
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+Not enough headaches yet? There are plenty of places in QEMU that just
+want to make sure that the node doesn't go away while they are still
+doing something with it. So they use a bdrv_ref/unref pair locally.
+These places could end up freeing the last reference if the node would
+have gone away otherwise. They are almost certainly a very confusing
+place to report the error. They might not even be places that can return
+errors at all currently.
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMTEzMTExNDI3WjAvBgkqhkiG9w0BCQQxIgQgfSdJG257
-sIhpxQs0nFyqqNVhefLsKZtpGxT0qsKtd58wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCGOyLzo7NMsXGcoaNTifGfggcyjsMFpxUo
-YbhdKzkrQygZvs4TZzI3fOCM0qS+Zk9kKgVdaMQ8rmsO1Q/D8dzkAQquFsJfifwdn5d9jzmovyWS
-VY5+j897JOma6ipxDVCe1SBph5LeYxurl5fse6xiXP4osgw0DyOKIjBaKlJqB0wncDVGVIt5cM8t
-EIPoi0WXEhW4KzXPi34AfHD5CibzcSgtF2CkNJfk0O3t+RrD8ZCGQeIMaYLPBmQZDlfosx20iKYU
-TlJYSAkZelE+NSbxFmRTJrgVPd5EvjD896PmsPD4cMsPk6rUqBCU7tzFpHXZqF25hqKRe7VIcD77
-JbStNZNinGiCKuZ/yhq6okBSHyT459dB0RUp1q9JVStomFxYo/MCXURhMwtorltdMYWSsMlo9Yur
-ZJTWQ3D4dqzxXjfmxEedqT6GyjHrLvM15J3r+s5Wnl79h4tqpDUjoQULFnez96Fg+DX2JLpCuQ7/
-4b+muOsbyeNy85j5BpzTdbFvLiZjjN/mGleVWCKFYf1OW04dN/Xa8d7+Nj5mZjqVqRBHSHqtX9Oc
-JKE6RnAQ3v5nYK8WBrWD+VSDbWNHPjbI+L2/aEW7I8elWJd7vYMbbuB7xDwy4EDU5ssWQnbFpY3c
-lRUEvqog2+0P9FdLsmdAmXIJLEaVtW6jXkJVEeWsqQAAAAAAAA==
+So the main reason why I'm not doing this properly by returning the
+errors from qcow2_close() (and .bdrv_close in all other drivers) through
+bdrv_unref() down to the callers of that is not only that it would be a
+major conversion that would touch lots of places, but also that I
+wouldn't even know what to do with the error in most callers. And that
+I'm not sure what the semantics of an error in a close function should
+be.
 
+Another thing that could be tried is making failure in .bdrv_close less
+likely by doing things earlier. At least ENOSPC could probably be
+avoided if dirty bitmaps clusters were allocated during the write
+request that first sets a bit in them (I know too little about the
+details how bitmaps are implemented in qcow2, though, maybe Vladimir can
+help here). But ultimately, you'll always get some I/O requests in
+.bdrv_close and they could fail even if we made it less likely.
 
---=-lxbCdvV+0BRH2CfrDYOA--
+Kevin
+
 
