@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC29669AF5
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:52:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BAD4669A20
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:30:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKnG-0001TW-D7; Fri, 13 Jan 2023 09:12:30 -0500
+	id 1pGKnL-0001Yw-16; Fri, 13 Jan 2023 09:12:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmk-00012R-BS
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:59 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ id 1pGKmn-00014P-CX
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:12:01 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmh-0003iJ-8x
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:57 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id ja17so15355266wmb.3
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:44 -0800 (PST)
+ id 1pGKmi-0003jU-3R
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:12:01 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ m26-20020a05600c3b1a00b003d9811fcaafso17439409wms.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=8kvFw5OaxUrQIg+Lm57FxJPCYrHar5GDxptYQDtd90o=;
- b=fLRZ51g+/LZcdByPJa1+EMN7RrBni5M3j3VCSCvBKpyClpmSFkacPNMhWYe/5yT833
- jJzsKk0lnx0t3Gf673814ZZN4KuYnY8HeL6rsv96N7Ovf6G6lPm2UX9j5N7UYLeGcbUH
- C5+nJOERhrASxgc9Mr5oSv88G9m5CqUKHq8QqugJ3vrvneDc0yJewMMp2yjKEqgzXS46
- Xn3A+501OsTWLA8QfapWZNxZk0Ne0uMaBSMP6Xj+aS+5ZSnTmqb3uiPNkKzhCQtkJPJG
- L2MCeuDUMSXrgjPiJNtBYUdn22zZLH8mloUhinxumlvkgLOLSZTSHU7QGUI96PzvBbiB
- ZmgA==
+ :reply-to; bh=rCt8gM/FZTQl9skse/4Zewww4A5PzU/1oOkoyZpsiGs=;
+ b=dG47+urY37gTtaWGWAT3Trg2HAE/1c84/I1iKg0uUM4YtB4ksXfov/4b8vzMfr7IEg
+ +4m1vzLH4VyiOIhu/GkvMTm8cBrjdeqrtL22LNVphIKgYwkIuYP7FlBt0Do5b5j+jLsV
+ zLtExJWqR6qpb5xzpyjBvUMeoNBs5xkmJKewMOiqIjgqywM0LntSSa5PcfwUq0oeDkI3
+ q/r7dSLrxYKLlzHX/zhvy1U5w/p5WLah7HB4ZCl7UhfNz+u8s38HSsiYSER9L6pUcxzC
+ eo2JW/GhUWlZZjUeNQ1AibqlzrKXlFYntorh3wzo12oJ0Ox00kIIaEuZosGFxcWEEavN
+ I7GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8kvFw5OaxUrQIg+Lm57FxJPCYrHar5GDxptYQDtd90o=;
- b=MLz7Ac7d4tL4ELC/7vyPCLxmljfWSiQWdm57qJTiXomPlkZzm2yD0oZn7w3agY0vKq
- QlL3fgkG6mki6i9QNb+/f/Iojk3liNOQu+/RaW1w+MUZcqSBVucc9sEA4yoG/2kTMdyu
- C8CNLI1/8uIQv/JCYKuQtS3PyjZoAXkhyaesFMlPpq0RCd4DpFU7D/Nldlmiz1d9GND4
- /97fEcTfi6iZaXKTPO7m5wzgLICy69d3ZNZvt2ueVpFXDS2Ng6P0HJwX9m+VzFDl/ADO
- 7F9YsWdq9AKbAlP0GgVjSguata7JQSGUNsYQuGzPvpa+ROs6tTgsZaoxDGyvIkmOTtWH
- TFSQ==
-X-Gm-Message-State: AFqh2kqBP7jYVQY1dckApQbPmGREkieEpCnocn2Oj5rU5Sx9ZeGghah/
- g2d7pfaP1+suLZSnieQcsSdxL2zSw8DjiKul
-X-Google-Smtp-Source: AMrXdXuCCdY/1NCQXQD0Pq8vUzzmcWyH2FcXwzStSa/AWjairpQVHstHoIbLg5HzpjHtmYLT+Ij34Q==
-X-Received: by 2002:a05:600c:2046:b0:3da:1357:4ca2 with SMTP id
- p6-20020a05600c204600b003da13574ca2mr5372565wmg.11.1673619103541; 
- Fri, 13 Jan 2023 06:11:43 -0800 (PST)
+ bh=rCt8gM/FZTQl9skse/4Zewww4A5PzU/1oOkoyZpsiGs=;
+ b=gv4WxamOvAG9MZ4NfRbbLaF/L2mfXA25TXmYkZCMydRD9pODLq6qBEBqrWXM49UlME
+ rRUOE/ikklQ5bFX35gRCbOErCONgePKncS+ag15yaY2JghYUkaiv3wb390ryvn63IhiQ
+ YO/opPZAyVu6pvg9oF2PDBpDEkLNoF9XSLIDYFQjAXR2rQ4KUDDFQgLmWRnfTxq7UtyG
+ +b374tA76O9inqXv+hmhp7xH3alTD/i6x8Lma6NW2ndMFgEplJu1Zq7bSaQ0OI3O3odN
+ JI/1iJUnL/1kF2iF1bmFjqyHbJwg/VEtjmTZG70qSFV5r3Qz/xUvAfaJm34n4iSwMHwS
+ uQzA==
+X-Gm-Message-State: AFqh2krerZj2GB3xxEYZs5e1JnINHOytvODezJXACiiCAwznTNrnhzYV
+ rz0uZ0sW49HrB6PTNz+ZMhCVqP3ye7ac2dP9
+X-Google-Smtp-Source: AMrXdXulu5DjVxsU4GECU9/BhraqTKGlWN3a0hUUFWR81rvzna+hJFAAjrSCCg/Pa1WLFX9FnM2+Zg==
+X-Received: by 2002:a05:600c:42d5:b0:3d6:e790:c9a0 with SMTP id
+ j21-20020a05600c42d500b003d6e790c9a0mr69157868wme.10.1673619105289; 
+ Fri, 13 Jan 2023 06:11:45 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.42
+ n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 06:11:43 -0800 (PST)
+ Fri, 13 Jan 2023 06:11:44 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/38] hw/arm/musicpal: Use the IEC binary prefix definitions
-Date: Fri, 13 Jan 2023 14:11:06 +0000
-Message-Id: <20230113141126.535646-19-peter.maydell@linaro.org>
+Subject: [PULL 20/38] hw/arm/omap_sx1: Use the IEC binary prefix definitions
+Date: Fri, 13 Jan 2023 14:11:08 +0000
+Message-Id: <20230113141126.535646-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230113141126.535646-1-peter.maydell@linaro.org>
 References: <20230113141126.535646-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,57 +94,117 @@ From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 IEC binary prefixes ease code review: the unit is explicit.
 
-Add the FLASH_SECTOR_SIZE definition.
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230109115316.2235-9-philmd@linaro.org
+Message-id: 20230109115316.2235-11-philmd@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/musicpal.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ hw/arm/omap_sx1.c | 33 +++++++++++++++++----------------
+ 1 file changed, 17 insertions(+), 16 deletions(-)
 
-diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
-index b65c020115a..73e2b7e4cef 100644
---- a/hw/arm/musicpal.c
-+++ b/hw/arm/musicpal.c
-@@ -10,6 +10,7 @@
+diff --git a/hw/arm/omap_sx1.c b/hw/arm/omap_sx1.c
+index 84b7059f7c7..d1b0ec3264e 100644
+--- a/hw/arm/omap_sx1.c
++++ b/hw/arm/omap_sx1.c
+@@ -26,6 +26,7 @@
+  * with this program; if not, see <http://www.gnu.org/licenses/>.
   */
- 
  #include "qemu/osdep.h"
 +#include "qemu/units.h"
  #include "qapi/error.h"
- #include "cpu.h"
- #include "hw/sysbus.h"
-@@ -1196,6 +1197,8 @@ static const TypeInfo musicpal_key_info = {
-     .class_init    = musicpal_key_class_init,
+ #include "ui/console.h"
+ #include "hw/arm/omap.h"
+@@ -86,15 +87,15 @@ static const MemoryRegionOps static_ops = {
+     .endianness = DEVICE_NATIVE_ENDIAN,
  };
  
-+#define FLASH_SECTOR_SIZE   (64 * KiB)
-+
- static struct arm_boot_info musicpal_binfo = {
-     .loader_start = 0x0,
-     .board_id = 0x20e,
-@@ -1264,8 +1267,8 @@ static void musicpal_init(MachineState *machine)
-         BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
+-#define sdram_size	0x02000000
+-#define sector_size	(128 * 1024)
+-#define flash0_size	(16 * 1024 * 1024)
+-#define flash1_size	( 8 * 1024 * 1024)
+-#define flash2_size	(32 * 1024 * 1024)
++#define SDRAM_SIZE      (32 * MiB)
++#define SECTOR_SIZE     (128 * KiB)
++#define FLASH0_SIZE     (16 * MiB)
++#define FLASH1_SIZE     (8 * MiB)
++#define FLASH2_SIZE     (32 * MiB)
  
-         flash_size = blk_getlength(blk);
--        if (flash_size != 8*1024*1024 && flash_size != 16*1024*1024 &&
--            flash_size != 32*1024*1024) {
-+        if (flash_size != 8 * MiB && flash_size != 16 * MiB &&
-+            flash_size != 32 * MiB) {
-             error_report("Invalid flash image size");
-             exit(1);
+ static struct arm_boot_info sx1_binfo = {
+     .loader_start = OMAP_EMIFF_BASE,
+-    .ram_size = sdram_size,
++    .ram_size = SDRAM_SIZE,
+     .board_id = 0x265,
+ };
+ 
+@@ -111,7 +112,7 @@ static void sx1_init(MachineState *machine, const int version)
+     static uint32_t cs3val = 0x00001139;
+     DriveInfo *dinfo;
+     int fl_idx;
+-    uint32_t flash_size = flash0_size;
++    uint32_t flash_size = FLASH0_SIZE;
+ 
+     if (machine->ram_size != mc->default_ram_size) {
+         char *sz = size_to_str(mc->default_ram_size);
+@@ -121,7 +122,7 @@ static void sx1_init(MachineState *machine, const int version)
+     }
+ 
+     if (version == 2) {
+-        flash_size = flash2_size;
++        flash_size = FLASH2_SIZE;
+     }
+ 
+     memory_region_add_subregion(address_space, OMAP_EMIFF_BASE, machine->ram);
+@@ -154,7 +155,7 @@ static void sx1_init(MachineState *machine, const int version)
+         if (!pflash_cfi01_register(OMAP_CS0_BASE,
+                                    "omap_sx1.flash0-1", flash_size,
+                                    blk_by_legacy_dinfo(dinfo),
+-                                   sector_size, 4, 0, 0, 0, 0, 0)) {
++                                   SECTOR_SIZE, 4, 0, 0, 0, 0, 0)) {
+             fprintf(stderr, "qemu: Error registering flash memory %d.\n",
+                            fl_idx);
          }
-@@ -1277,7 +1280,7 @@ static void musicpal_init(MachineState *machine)
-          */
-         pflash_cfi02_register(0x100000000ULL - MP_FLASH_SIZE_MAX,
-                               "musicpal.flash", flash_size,
--                              blk, 0x10000,
-+                              blk, FLASH_SECTOR_SIZE,
-                               MP_FLASH_SIZE_MAX / flash_size,
-                               2, 0x00BF, 0x236D, 0x0000, 0x0000,
-                               0x5555, 0x2AAA, 0);
+@@ -165,18 +166,18 @@ static void sx1_init(MachineState *machine, const int version)
+             (dinfo = drive_get(IF_PFLASH, 0, fl_idx)) != NULL) {
+         MemoryRegion *flash_1 = g_new(MemoryRegion, 1);
+         memory_region_init_rom(flash_1, NULL, "omap_sx1.flash1-0",
+-                               flash1_size, &error_fatal);
++                               FLASH1_SIZE, &error_fatal);
+         memory_region_add_subregion(address_space, OMAP_CS1_BASE, flash_1);
+ 
+         memory_region_init_io(&cs[1], NULL, &static_ops, &cs1val,
+-                              "sx1.cs1", OMAP_CS1_SIZE - flash1_size);
++                              "sx1.cs1", OMAP_CS1_SIZE - FLASH1_SIZE);
+         memory_region_add_subregion(address_space,
+-                                OMAP_CS1_BASE + flash1_size, &cs[1]);
++                                OMAP_CS1_BASE + FLASH1_SIZE, &cs[1]);
+ 
+         if (!pflash_cfi01_register(OMAP_CS1_BASE,
+-                                   "omap_sx1.flash1-1", flash1_size,
++                                   "omap_sx1.flash1-1", FLASH1_SIZE,
+                                    blk_by_legacy_dinfo(dinfo),
+-                                   sector_size, 4, 0, 0, 0, 0, 0)) {
++                                   SECTOR_SIZE, 4, 0, 0, 0, 0, 0)) {
+             fprintf(stderr, "qemu: Error registering flash memory %d.\n",
+                            fl_idx);
+         }
+@@ -218,7 +219,7 @@ static void sx1_machine_v2_class_init(ObjectClass *oc, void *data)
+     mc->init = sx1_init_v2;
+     mc->ignore_memory_transaction_failures = true;
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("ti925t");
+-    mc->default_ram_size = sdram_size;
++    mc->default_ram_size = SDRAM_SIZE;
+     mc->default_ram_id = "omap1.dram";
+ }
+ 
+@@ -236,7 +237,7 @@ static void sx1_machine_v1_class_init(ObjectClass *oc, void *data)
+     mc->init = sx1_init_v1;
+     mc->ignore_memory_transaction_failures = true;
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("ti925t");
+-    mc->default_ram_size = sdram_size;
++    mc->default_ram_size = SDRAM_SIZE;
+     mc->default_ram_id = "omap1.dram";
+ }
+ 
 -- 
 2.34.1
 
