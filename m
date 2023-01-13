@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A70669198
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 09:50:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D3C6691EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 09:55:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGFkw-00049k-Oq; Fri, 13 Jan 2023 03:49:46 -0500
+	id 1pGFpR-0006Pp-Fg; Fri, 13 Jan 2023 03:54:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pGFku-00047X-Ai
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 03:49:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pGFks-0006EC-Kr
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 03:49:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673599781;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Ba2IJFdAUezeqofLYXJnObx5GxI6O197SyB8aBbzvdc=;
- b=S+W5F1sqIeCFpjLFoZXTlDG3xiwnOO/HY30h0z0DpP6YhKJZkq2i9hHj4WZQyAH2UIdoUs
- 7LeK4gpjBMoCqxjYjCw+O2tHg0WdpwleKpA3JT1UVHid6CYvlyRZ7VhbJVK4kCjuI1Qqtx
- uzSInHzB0j/0Nd410AI3RpFxdq7G93A=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-103-KSZQnU1sNyOuekW43eUnMw-1; Fri, 13 Jan 2023 03:49:40 -0500
-X-MC-Unique: KSZQnU1sNyOuekW43eUnMw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 41D5B2804132;
- Fri, 13 Jan 2023 08:49:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 58E511759E;
- Fri, 13 Jan 2023 08:49:39 +0000 (UTC)
-Date: Fri, 13 Jan 2023 08:49:34 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: regression in booting with -kernel in 7.2.0
-Message-ID: <Y8EbHiZtPENQj4tm@redhat.com>
-References: <Y8EJ9iXhEzmjI67A@infradead.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGFpC-0006NP-Q3
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 03:54:12 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGFpA-00076O-Go
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 03:54:09 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id m3so14795720wmq.0
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 00:54:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=t/ETexmyd299LZBQrIE9DqWW/VoD0TXTVoKntmsT0OI=;
+ b=ZfJEpKfGQwxHZrWZnFksB9aafXLWLttBY1E1/V1cGlcDhNUYzhyLLl9ZNyFtaS/GTI
+ MIKrXcGyBZKgIe5Z/pycpNKg+OovKdkBOpEtKqa5yHz29YKaF3Djb4UJpkHTslS6CjZY
+ AR75SZfO5hIfhRc1/n1jYk/TjtdvIrFhBR3imcFJrHC4D3FGDvs9KJ9q8JUb/uefLLQi
+ ScrS5Cv8rLuD32P3slvxRkY+5IoQQC3M3NifvPDpgWDRenrk2GUXl848dEUeuLz+toLR
+ pd6rzRYPokjH1sZe2E2PJHbd2338hrxSPSSLNGmDRfs862r56fQUHg6z/3riiIYnw2zm
+ 4jcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=t/ETexmyd299LZBQrIE9DqWW/VoD0TXTVoKntmsT0OI=;
+ b=30R8Wx7HHvqCB75fYsG+splZFMTKeqh/Q/eabqq1XLokyDI5zjskiI7ObuJlvZLmMQ
+ qGElSm04bLQJgYgAzAs8oLtbEIDurHo2YSJj+d2jKx6dBRSRPBpzQXvcyZXlBlYsfh4J
+ AK0hqPd7vpEp6Vo/qLqqApYbZ3BtbLCxEuTYLra9NG0P8864B9aWifNiU06wJZoynjv8
+ o1MvzVjHewRhewuqSYHeP6hndGWM/nFRpOrPzDNjvUS7FgXu8HXAetE6jR+gmDbygoxr
+ w2mDeDYHx4JubWmINrEQ6GRsVESY2/gN1UjYCaEET0BRpVT7MniT8Gq3Jc7V54TwHuyd
+ YNcg==
+X-Gm-Message-State: AFqh2kr6wQvwavHKqwJ8WUwt9RZPJhc4wvl7C3/LxxscQhG8TMUc1k4w
+ XLdZXz34YSoyfV2t6COI3zIkJw==
+X-Google-Smtp-Source: AMrXdXtDtGFHcn6Im0f0Jyc8BPLSFo3fg0t9VgmO+PD2pt15ztuTXQvEIp53YQUC8AnaGaO6eawpHw==
+X-Received: by 2002:a05:600c:34d0:b0:3d6:b691:b80d with SMTP id
+ d16-20020a05600c34d000b003d6b691b80dmr56784469wmq.21.1673600046907; 
+ Fri, 13 Jan 2023 00:54:06 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ h14-20020a05600c314e00b003d9fa355387sm11987280wmo.27.2023.01.13.00.54.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Jan 2023 00:54:06 -0800 (PST)
+Message-ID: <3b7f8662-50de-f505-3e4f-57d8fa4a0ca7@linaro.org>
+Date: Fri, 13 Jan 2023 09:54:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y8EJ9iXhEzmjI67A@infradead.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v6 0/4] Make the mc146818 RTC device target independent
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Michael S Tsirkin <mst@redhat.com>, qemu-devel@nongnu.org,
+ Bernhard Beschow <shentey@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: BALATON Zoltan <balaton@eik.bme.hu>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+References: <20230110095351.611724-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230110095351.611724-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,39 +92,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 12, 2023 at 11:36:22PM -0800, Christoph Hellwig wrote:
-> Hi all,
-> 
-> qemu 7.2.0 fails to boot my usual test setup using -kernel (see
-> the actual script below).  I've bisected this down to:
-> 
-> commit ffe2d2382e5f1aae1abc4081af407905ef380311
-> Author: Jason A. Donenfeld <Jason@zx2c4.com>
-> Date:   Wed Sep 21 11:31:34 2022 +0200
-> 
->     x86: re-enable rng seeding via SetupData
-> 
-> with this commit I don't even get to kernel console output, with it
-> reverted it boots fine (although with 7.2 configuring the network
-> takes forever, the actua bisection point before the commit does not
-> show that issue)
+Hi Michael,
 
-Workaround is -machine pc-i440fx-7.1
+On 10/1/23 10:53, Thomas Huth wrote:
+> The basic idea of this patch set is to change hw/rtc/mc146818rtc.c into
+> target independent code so that the file only has to be compiled once
+> instead of multiple times (and that it can be used in a qemu-system-all
+> binary once we get there).
 
-Latest proposed fix IIRC is
+> Thomas Huth (4):
+>    hw/intc: Extract the IRQ counting functions into a separate file
+>    hw/core/qdev-properties-system: Allow the 'slew' policy only on x86
+>    hw/rtc/mc146818rtc: Make the mc146818 RTC device target independent
+>    softmmu/rtc: Emit warning when using driftfix=slew on systems without
+>      mc146818
 
-  https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg04862.html
+I am queuing this series via mips-next tree if you don't object
+(all patches reviewed multiple times, in case there is an issue,
+we are early enough in the release cycle to fix it).
 
+Regards,
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Phil.
 
