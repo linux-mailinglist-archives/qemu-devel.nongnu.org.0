@@ -2,87 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833E766A576
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 22:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6EC66A57D
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 22:55:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGRz9-0008SU-Q5; Fri, 13 Jan 2023 16:53:15 -0500
+	id 1pGS0i-0000nR-D2; Fri, 13 Jan 2023 16:54:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGRz7-0008Rk-Ce
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 16:53:13 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGS0g-0000n8-5u
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 16:54:50 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGRz5-00017B-SY
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 16:53:13 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id bj3so20491129pjb.0
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 13:53:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=yjPEazlwvwtxjBRpRghWMaaT7Vhs9FH+tDBK1Pp/uMY=;
- b=bxw8E+STomA8T4dNH6I56QGbe2CwYFtrCU+NdcWjTglb1sLTSKlqIhWCD5E+CqfdTk
- FLQmYAtV0F74YkikzoMA0lsikmhG4n/wAyBysEgXyIHQnMsvljWtRhmbSVQ+DycueWR/
- +GrhkXS7OP0vDhwCwXoQZ7aIJrzj4ZAA0MVN5YvatrIkaiLZaUdVFqopNhIVmYBj86ax
- O1pVib/HG84lSgn2nWz4nKefNspcm/liu2F4qrQGDm5varFZB5XeCqSQnFdesAudjzLt
- PJCr5/Ofe9Pac+N+l8dUOgiQu3wxvtNKuGKt18jFr4Y3UPYcC1cvNt01LpS55yH4Ixd0
- OrtA==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGS0d-0001Dc-Vv
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 16:54:49 -0500
+Received: by mail-pl1-x633.google.com with SMTP id d9so24740397pll.9
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 13:54:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Hhpii7kCapxhB0DJlYGUjw51omeyUMoY3UIeTjTnFe8=;
+ b=ZS8LNlcnnRbTeDNfK2GnjCI2FQe2seYywb27tQYC3rATL6nUcWgzHk9l/X49WuLcR7
+ MxufLxr4v5JyxI8Fk1Rsy+L0v3HCs2Ec8RosxfNd68idcjN8NrAd5lDB2yRN59zB7jGz
+ 6llde0y8FGi0l0gklzTrCW0fHKCLbzGY3eEZyTr4IC7nOy4rj8dmCUa/Wmt4RvJB6d00
+ xnrtlDsZLljAn2dP16/btJGNbyLLNxO0CqLkw/NAE7vznaQRmtr0IXKeX+0obFYouInv
+ MbvsZmtjBoLbl3xae92pVeR0xrb1+kiQFuFIG6fid2t+s7JP6kK3JdHZJblcxSDNzPmx
+ SOng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yjPEazlwvwtxjBRpRghWMaaT7Vhs9FH+tDBK1Pp/uMY=;
- b=ehkpOPzRKerJRzL85378uDO5GaLzaroCvrpa2bV8hXpYThsQdgfHdc5O8Q1vHWDMhG
- NLQyyHKSLowV0CxK5A9UPbhmBZOc4A+h/ShQb8R2cFJgRuiCzkVRL8trwyK6q/m40+U1
- iM4tHXaLC60p2IZn55ffqxnm0icLD+yoW3axtGcA5n5fDrmdq2sJfuP847E6Z92gLcHq
- KhEyTAYgxXnI7YW+mU4gV4YIdJuANENfmti9Xxh+JOybyFNt/N44OLwoSoQRSYnGqLwC
- X5Xnc/eTRA0YzIHZay7FBiSplX2GiDKwHl/03N+amAweUFnoDm1cRZuOvkwWeFAlGLPu
- AAhQ==
-X-Gm-Message-State: AFqh2koUH5YjHlaUKzuID08fbqYMBUEJjKvz2qv9hC32683LJa43aApK
- tv+oljOJl0RZBMsb4aXY7UMsEg==
-X-Google-Smtp-Source: AMrXdXtQuhcN05zTrUAUDPROH2w0lnHblenDRb5j0w2niSkg+0bD2lhIzKeVYn50RC440VnKV/HZ7Q==
-X-Received: by 2002:a17:90a:1b6c:b0:225:e016:e2fe with SMTP id
- q99-20020a17090a1b6c00b00225e016e2femr13133241pjq.31.1673646790410; 
- Fri, 13 Jan 2023 13:53:10 -0800 (PST)
-Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- p3-20020a17090a868300b002132f3e71c6sm28604pjn.52.2023.01.13.13.53.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 13:53:09 -0800 (PST)
-Message-ID: <d815d52d-ee1e-a7fc-7214-6d30d38cc447@linaro.org>
-Date: Fri, 13 Jan 2023 11:53:05 -1000
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Hhpii7kCapxhB0DJlYGUjw51omeyUMoY3UIeTjTnFe8=;
+ b=wCnfsSRFJejfgwzNHmQp/O1DRl5AJyVQwx3Ubnazl3xpOvYZPGg6jEAq5S8bglEeNy
+ gD1iqT2REZADyDoiFuYhmaTM4172MSY2rx4h+5VgmzubaqiR7mpc8bE3KN0ScxdOKl+m
+ Jj3ePWfgFH6weaUcYyjWKM+H3/ruXfqZ2fx4tnhiHe0AjEUoy+tf0Q1BIT2yxcKtuUVm
+ m4ClUIKrZWN7RFxUPRxtrO3LlmMbGHlDEvb3YebWngL6bm5qL45kRczykorM6mGEQpYm
+ i3Kb3bKR2I5aNvL4993HMhtP2F0/+2WFWvAtVgPkMYHrg3O9/Xnb/6duXwa4SZnegrOa
+ seRQ==
+X-Gm-Message-State: AFqh2kpuhVsJcsL758PH5trAoPgxXdyEtu/UxtYrjFwlwl3ITkBzb3pP
+ CSzeGJLj3Ttd8rZ/D5AuqCSxZw==
+X-Google-Smtp-Source: AMrXdXsrn0ksTbbdabw7JkYj7sG3I4DjLXmCZyLSNxH83QGpSuMFYShcdh0M4wmFmbDmEREMamklwA==
+X-Received: by 2002:a17:90b:274b:b0:219:f970:5119 with SMTP id
+ qi11-20020a17090b274b00b00219f9705119mr1438871pjb.1.1673646885581; 
+ Fri, 13 Jan 2023 13:54:45 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ r2-20020a17090a0ac200b002139459e121sm10013579pje.27.2023.01.13.13.54.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Jan 2023 13:54:45 -0800 (PST)
+Date: Fri, 13 Jan 2023 21:54:41 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <Y8HTITl1+Oe0H7Gd@google.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH v3 08/28] target/arm: Wrap breakpoint/watchpoint
- updates with tcg_enabled
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-References: <20230113140419.4013-1-farosas@suse.de>
- <20230113140419.4013-9-farosas@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230113140419.4013-9-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=seanjc@google.com; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,17 +114,254 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/13/23 06:03, Fabiano Rosas wrote:
-> This is in preparation for moving debug_helper.c into a TCG-specific
-> directory.
-> 
-> Signed-off-by: Fabiano Rosas<farosas@suse.de>
+On Fri, Dec 02, 2022, Chao Peng wrote:
+> The system call is currently wired up for x86 arch.
+
+Building on other architectures (except for arm64 for some reason) yields:
+
+  CALL    /.../scripts/checksyscalls.sh
+  <stdin>:1565:2: warning: #warning syscall memfd_restricted not implemented [-Wcpp]
+
+Do we care?  It's the only such warning, which makes me think we either need to
+wire this up for all architectures, or explicitly document that it's unsupported.
+
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 > ---
->   target/arm/cpu.c     | 6 ++++--
->   target/arm/machine.c | 7 +++++--
->   2 files changed, 9 insertions(+), 4 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+...
 
-r~
+> diff --git a/include/linux/restrictedmem.h b/include/linux/restrictedmem.h
+> new file mode 100644
+> index 000000000000..c2700c5daa43
+> --- /dev/null
+> +++ b/include/linux/restrictedmem.h
+> @@ -0,0 +1,71 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +#ifndef _LINUX_RESTRICTEDMEM_H
+
+Missing
+
+ #define _LINUX_RESTRICTEDMEM_H
+
+which causes fireworks if restrictedmem.h is included more than once.
+
+> +#include <linux/file.h>
+> +#include <linux/magic.h>
+> +#include <linux/pfn_t.h>
+
+...
+
+> +static inline int restrictedmem_get_page(struct file *file, pgoff_t offset,
+> +					 struct page **pagep, int *order)
+> +{
+> +	return -1;
+
+This should be a proper -errno, though in the current incarnation of things it's
+a moot point because no stub is needed.  KVM can (and should) easily provide its
+own stub for this one.
+
+> +}
+> +
+> +static inline bool file_is_restrictedmem(struct file *file)
+> +{
+> +	return false;
+> +}
+> +
+> +static inline void restrictedmem_error_page(struct page *page,
+> +					    struct address_space *mapping)
+> +{
+> +}
+> +
+> +#endif /* CONFIG_RESTRICTEDMEM */
+> +
+> +#endif /* _LINUX_RESTRICTEDMEM_H */
+
+...
+
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> new file mode 100644
+> index 000000000000..56953c204e5c
+> --- /dev/null
+> +++ b/mm/restrictedmem.c
+> @@ -0,0 +1,318 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#include "linux/sbitmap.h"
+> +#include <linux/pagemap.h>
+> +#include <linux/pseudo_fs.h>
+> +#include <linux/shmem_fs.h>
+> +#include <linux/syscalls.h>
+> +#include <uapi/linux/falloc.h>
+> +#include <uapi/linux/magic.h>
+> +#include <linux/restrictedmem.h>
+> +
+> +struct restrictedmem_data {
+
+Any objection to simply calling this "restrictedmem"?  And then using either "rm"
+or "rmem" for local variable names?  I kept reading "data" as the underyling data
+being written to the page, as opposed to the metadata describing the restrictedmem
+instance.
+
+> +	struct mutex lock;
+> +	struct file *memfd;
+> +	struct list_head notifiers;
+> +};
+> +
+> +static void restrictedmem_invalidate_start(struct restrictedmem_data *data,
+> +					   pgoff_t start, pgoff_t end)
+> +{
+> +	struct restrictedmem_notifier *notifier;
+> +
+> +	mutex_lock(&data->lock);
+
+This can be a r/w semaphore instead of a mutex, that way punching holes at multiple
+points in the file can at least run the notifiers in parallel.  The actual allocation
+by shmem will still be serialized, but I think it's worth the simple optimization
+since zapping and flushing in KVM may be somewhat slow.
+
+> +	list_for_each_entry(notifier, &data->notifiers, list) {
+> +		notifier->ops->invalidate_start(notifier, start, end);
+
+Two major design issues that we overlooked long ago:
+
+  1. Blindly invoking notifiers will not scale.  E.g. if userspace configures a
+     VM with a large number of convertible memslots that are all backed by a
+     single large restrictedmem instance, then converting a single page will
+     result in a linear walk through all memslots.  I don't expect anyone to
+     actually do something silly like that, but I also never expected there to be
+     a legitimate usecase for thousands of memslots.
+
+  2. This approach fails to provide the ability for KVM to ensure a guest has
+     exclusive access to a page.  As discussed in the past, the kernel can rely
+     on hardware (and maybe ARM's pKVM implementation?) for those guarantees, but
+     only for SNP and TDX VMs.  For VMs where userspace is trusted to some extent,
+     e.g. SEV, there is value in ensuring a 1:1 association.
+
+     And probably more importantly, relying on hardware for SNP and TDX yields a
+     poor ABI and complicates KVM's internals.  If the kernel doesn't guarantee a
+     page is exclusive to a guest, i.e. if userspace can hand out the same page
+     from a restrictedmem instance to multiple VMs, then failure will occur only
+     when KVM tries to assign the page to the second VM.  That will happen deep
+     in KVM, which means KVM needs to gracefully handle such errors, and it means
+     that KVM's ABI effectively allows plumbing garbage into its memslots.
+
+Rather than use a simple list of notifiers, this appears to be yet another
+opportunity to use an xarray.  Supporting sharing of restrictedmem will be
+non-trivial, but IMO we should punt that to the future since it's still unclear
+exactly how sharing will work.
+
+An xarray will solve #1 by notifying only the consumers (memslots) that are bound
+to the affected range.
+
+And for #2, it's relatively straightforward (knock wood) to detect existing
+entries, i.e. if the user wants exclusive access to memory, then the bind operation
+can be reject if there's an existing entry.
+
+VERY lightly tested code snippet at the bottom (will provide link to fully worked
+code in cover letter).
+
+
+> +static long restrictedmem_punch_hole(struct restrictedmem_data *data, int mode,
+> +				     loff_t offset, loff_t len)
+> +{
+> +	int ret;
+> +	pgoff_t start, end;
+> +	struct file *memfd = data->memfd;
+> +
+> +	if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> +		return -EINVAL;
+> +
+> +	start = offset >> PAGE_SHIFT;
+> +	end = (offset + len) >> PAGE_SHIFT;
+> +
+> +	restrictedmem_invalidate_start(data, start, end);
+> +	ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+> +	restrictedmem_invalidate_end(data, start, end);
+
+The lock needs to be end for the entire duration of the hole punch, i.e. needs to
+be taken before invalidate_start() and released after invalidate_end().  If a user
+(un)binds/(un)registers after invalidate_state(), it will see an unpaired notification,
+e.g. could leave KVM with incorrect notifier counts.
+
+> +
+> +	return ret;
+> +}
+
+What I ended up with for an xarray-based implementation.  I'm very flexible on
+names and whatnot, these are just what made sense to me.
+
+static long restrictedmem_punch_hole(struct restrictedmem *rm, int mode,
+				     loff_t offset, loff_t len)
+{
+	struct restrictedmem_notifier *notifier;
+	struct file *memfd = rm->memfd;
+	unsigned long index;
+	pgoff_t start, end;
+	int ret;
+
+	if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+		return -EINVAL;
+
+	start = offset >> PAGE_SHIFT;
+	end = (offset + len) >> PAGE_SHIFT;
+
+	/*
+	 * Bindings must stable across invalidation to ensure the start+end
+	 * are balanced.
+	 */
+	down_read(&rm->lock);
+
+	xa_for_each_range(&rm->bindings, index, notifier, start, end)
+		notifier->ops->invalidate_start(notifier, start, end);
+
+	ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+
+	xa_for_each_range(&rm->bindings, index, notifier, start, end)
+		notifier->ops->invalidate_end(notifier, start, end);
+
+	up_read(&rm->lock);
+
+	return ret;
+}
+
+int restrictedmem_bind(struct file *file, pgoff_t start, pgoff_t end,
+		       struct restrictedmem_notifier *notifier, bool exclusive)
+{
+	struct restrictedmem *rm = file->f_mapping->private_data;
+	int ret = -EINVAL;
+
+	down_write(&rm->lock);
+
+	/* Non-exclusive mappings are not yet implemented. */
+	if (!exclusive)
+		goto out_unlock;
+
+	if (!xa_empty(&rm->bindings)) {
+		if (exclusive != rm->exclusive)
+			goto out_unlock;
+
+		if (exclusive && xa_find(&rm->bindings, &start, end, XA_PRESENT))
+			goto out_unlock;
+	}
+
+	xa_store_range(&rm->bindings, start, end, notifier, GFP_KERNEL);
+	rm->exclusive = exclusive;
+	ret = 0;
+out_unlock:
+	up_write(&rm->lock);
+	return ret;
+}
+EXPORT_SYMBOL_GPL(restrictedmem_bind);
+
+void restrictedmem_unbind(struct file *file, pgoff_t start, pgoff_t end,
+			  struct restrictedmem_notifier *notifier)
+{
+	struct restrictedmem *rm = file->f_mapping->private_data;
+
+	down_write(&rm->lock);
+	xa_store_range(&rm->bindings, start, end, NULL, GFP_KERNEL);
+	synchronize_rcu();
+	up_write(&rm->lock);
+}
+EXPORT_SYMBOL_GPL(restrictedmem_unbind);
 
