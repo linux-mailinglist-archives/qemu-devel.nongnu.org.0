@@ -2,75 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A43668F3D
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 08:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7E3668F3E
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 08:30:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGET1-0007ts-3c; Fri, 13 Jan 2023 02:27:11 -0500
+	id 1pGEV5-0000cO-MJ; Fri, 13 Jan 2023 02:29:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
- id 1pGESr-0007gR-My; Fri, 13 Jan 2023 02:27:01 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
- id 1pGESp-0003aE-9t; Fri, 13 Jan 2023 02:27:01 -0500
-Received: by mail-ej1-x635.google.com with SMTP id tz12so50279156ejc.9;
- Thu, 12 Jan 2023 23:26:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=mBDIuG2kevWDhRKJiCueVLKoohUA1AYd/IzsflKIud0=;
- b=km7J+8826Hpq39w9bwzTToBZq/oi4qED60kZeU5FEyt4EuHhwvCHMPGpqsyBi/KY6F
- jzdAL/AsAAQI0QrZ72pyba2xjMDUsuQJxSk/mU3Dl/NWqoYHjUiLwMMWhO24hvzvaLhA
- WVffI7Q0us+P7pkerVR3/D//ZBVuWbUnh+Tvs/q+QcRir98vm0CBr1VmHMxsKcIRPoQT
- NawMmDXRctz2iyNUVBz3SVVq/usheZNFuV/VbMNv9yjrQk/UPTGkdz2tXxfT24EwouYB
- tY6XRWgDi0mwDqmE9AiNIL7ZkXKXaFCdEFwL8Q9oP6KfpOQlF/sU6yF212NkH8FpeEqR
- GIew==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pGEUx-0000c4-9H
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:29:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pGEUv-00047N-8F
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:29:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673594948;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5JYyPDLO/5bNaVjXL7sQisq445lXzTopfYraJPeiJvU=;
+ b=jJZR3cbvQ5LhkvHJ0Uf2wYk1CcffoXizAwkRTZikecX0r76tb72EqEissU21T6lZj3F4nt
+ n6Thta2VS9M13swg2PQaD5u9Ng1faQQyRYkDmm3H3BtTemntoj7gYn08f2fOQM6tJx0VRO
+ kHCex3jfeM4BRcZyhbq+3YAalm8v5Ps=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-530-uuhK2-bsOWqdYuFfM2Z48A-1; Fri, 13 Jan 2023 02:29:07 -0500
+X-MC-Unique: uuhK2-bsOWqdYuFfM2Z48A-1
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-4c2d68b6969so208327537b3.7
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 23:29:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mBDIuG2kevWDhRKJiCueVLKoohUA1AYd/IzsflKIud0=;
- b=Yk2MZoBnv5EH+0SC2PQRqZE8l1CNhAuFVeBP8Tth1UZian8VzesEKcSec8SzWsUd0h
- H7G3Nmprxwo0+25Ydb/t9jYOQawmRPVm7WSABrrc/65foBVgyPV4SyFngkyhOtGtfJkQ
- eQ7TP4jDSd9rwSBiU8fQPO77DWldcVErVFDywMw2DWH0sI6DoKoI2Sux+Y6HLwIhXMb/
- KkyzLSZVPbItPLrF/J0EODndK34EpC3WI+da6P1pwBs070AmhEFHybHMByf0motSqc6S
- cboGOGbPtmUzHkGgaCStlw8DdmkdyLSvUMtZUJAbldRGeKPa6YehaRTDDaBpYna55q4U
- GkaA==
-X-Gm-Message-State: AFqh2kqiVF+0qhQ5/lJXnrxiM+NIJlM3tHTFsejQ+95a8CzwnNRF0Xt2
- YX4RZTWXrNt0eN8DBEiZ9cHqit+nNkVlsW1kLAo=
-X-Google-Smtp-Source: AMrXdXsBOipu5YudhXBEZvAKp5rG3GacbUNF7H+e/fPsOeJnpEyXYN/jesYdw2vKRXFQTFvMfYpnZIMZ7KbRBFnS8Z4=
-X-Received: by 2002:a17:907:2d92:b0:84d:236c:842b with SMTP id
- gt18-20020a1709072d9200b0084d236c842bmr2082648ejc.424.1673594817369; Thu, 12
- Jan 2023 23:26:57 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5JYyPDLO/5bNaVjXL7sQisq445lXzTopfYraJPeiJvU=;
+ b=3g75BM9yHKlccPAooz17FTLHvyCabESic8lROs6XSiyzQcxej1nAnOPVBx7DAlDYNG
+ N1vb5CE4nYIRV2Mh9DaFGyg/MhEhJ1BhBTN9hc68Ap6yfErCdMbLuB+5tQ/zHMhHNb95
+ qQwSetGn7FgXO3zL9D6UjahQWDw+0hwVaQYy92Gqp7lI82Xmjfp2HZmS/O9UAZB2TSDN
+ vChOGHjaSDJ/zwcLd65Ynh3NUEK69jBZU4IQG1h/qXGavmYh2Cwnfjbmg0NNUKmZxp5s
+ qnGxckeNgSIaUbwIQLr1bY7ry93lopOQjFdh6S523yHoCT82BfoMsuRX+InJdc6nn1oQ
+ oIAw==
+X-Gm-Message-State: AFqh2kquLY0sC6YpzbR8BD/uc5Pv9EZLQHzVSss6b0Y89jMS3eLN0z/R
+ 6zCZVqYX0/r5MiKcZ0/+LYb0T5YdwsXXFmn75P6J17HDEgYlkIqfbW42NFVuL0lY90vd9qWVLPn
+ 8gndQaNJj776QaHLIAkXsu/MRs+PqPL4=
+X-Received: by 2002:a25:cc53:0:b0:7ce:4650:5e5a with SMTP id
+ l80-20020a25cc53000000b007ce46505e5amr99899ybf.123.1673594946520; 
+ Thu, 12 Jan 2023 23:29:06 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsHHU0SwN4RuUzbX+gsbkRfIPC0yAB2bvNP7iHT10CcaG1VDYghLEew3If5Cpk2KJvTVnh/HxRhxW7o5PEPK0U=
+X-Received: by 2002:a25:cc53:0:b0:7ce:4650:5e5a with SMTP id
+ l80-20020a25cc53000000b007ce46505e5amr99880ybf.123.1673594946259; Thu, 12 Jan
+ 2023 23:29:06 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <4162db13bd1da9c6ddd77f185cef738e44790467.1672868854.git.balaton@eik.bme.hu>
- <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
- <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
- <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
- <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
-In-Reply-To: <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
-From: Howard Spoelstra <hsp.cat7@gmail.com>
-Date: Fri, 13 Jan 2023 08:26:44 +0100
-Message-ID: <CABLmASEoLF=6qMXk_WBeeG3LpuWH9hYkQNNKT25ZMocx=vEAxg@mail.gmail.com>
-Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
- qemu-ppc@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000965b8405f2202820"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=hsp.cat7@gmail.com; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20230112172434.760850-1-eperezma@redhat.com>
+ <20230112172434.760850-3-eperezma@redhat.com>
+ <CACGkMEvoo1LkBj9m9afCu39J9ngBPVV7T2R7VaRabd8-WdN0oQ@mail.gmail.com>
+In-Reply-To: <CACGkMEvoo1LkBj9m9afCu39J9ngBPVV7T2R7VaRabd8-WdN0oQ@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 13 Jan 2023 08:28:29 +0100
+Message-ID: <CAJaqyWdioFYZPJT+xfHUxgsZzwVVGKfSbmieuKvhEodgK99c=Q@mail.gmail.com>
+Subject: Re: [RFC v2 02/13] vdpa net: move iova tree creation from init to
+ start
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, alvaro.karsz@solid-run.com, 
+ Shannon Nelson <snelson@pensando.io>, Laurent Vivier <lvivier@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Parav Pandit <parav@mellanox.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,302 +105,298 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000965b8405f2202820
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, Jan 13, 2023 at 12:53 AM BALATON Zoltan <balaton@eik.bme.hu> wrote:
-
-> On Thu, 12 Jan 2023, Howard Spoelstra wrote:
-> > On Wed, Jan 11, 2023 at 1:15 AM BALATON Zoltan <balaton@eik.bme.hu>
-> wrote:
+On Fri, Jan 13, 2023 at 4:53 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Fri, Jan 13, 2023 at 1:24 AM Eugenio P=C3=A9rez <eperezma@redhat.com> =
+wrote:
 > >
-> >> On Tue, 10 Jan 2023, Mark Cave-Ayland wrote:
-> >>> On 04/01/2023 21:59, BALATON Zoltan wrote:
-> >>>
-> >>>> Setting emulated machine type with a property called "via" is
-> >>>> confusing users so deprecate the "via" option in favour of newly added
-> >>>> explicit machine types. The default via=cuda option is not a valid
-> >>>> config (no real Mac has this combination of hardware) so no machine
-> >>>> type could be defined for that therefore it is kept for backwards
-> >>>> compatibility with older QEMU versions for now but other options
-> >>>> resembling real machines are deprecated.
-> >>>>
-> >>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> >>>
-> >>> I believe that people do use -M mac99,via=cuda to run some rare
-> versions
-> >> of
-> >>> MacOS in QEMU (I think possibly OS X DP and Workgroup Server?), so we
-> >> would
-> >>> want to keep this option somewhere.
-> >>
-> >> The idea is that after previous patches we now have machine types for
-> all
-> >> other via option values (that also match real Mac machines) other than
-> >> via=cude but that is the default for mac99 so after the reprecation
-> period
-> >> when the via option is removed mac99 (which is the same as
-> mac99,via=cuda)
-> >> can remain for this use case (and for backward compatibility) until the
-> >> other machines are fixed to not need this any more. So all via options
-> are
-> >> still available but as different machine types.
-> >>
-> > My 2 cents about naming:
-> > It seems less important how the machines are named when their name is not
-> > covering their definition. F.i. the powermac3,1 never had adb, could not
-> be
-> > equipped with a G3 cpu, did not run at 900Mhz. The closest possible
-> > qemu-options based definition of a powermac3,1 (via=pmu) will not run Mac
-> > OS 9.0.4 ;-) due to the 2 USB devices problem. To run that via=cuda is
-> > already needed.
+> > Only create iova_tree if and when it is needed.
+> >
+> > The cleanup keeps being responsability of last VQ but this change allow=
+s
+> > to merge both cleanup functions.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >  net/vhost-vdpa.c | 101 +++++++++++++++++++++++++++++++++--------------
+> >  1 file changed, 71 insertions(+), 30 deletions(-)
+> >
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index de5ed8ff22..75cca497c8 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -178,13 +178,9 @@ err_init:
+> >  static void vhost_vdpa_cleanup(NetClientState *nc)
+> >  {
+> >      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > -    struct vhost_dev *dev =3D &s->vhost_net->dev;
+> >
+> >      qemu_vfree(s->cvq_cmd_out_buffer);
+> >      qemu_vfree(s->status);
+> > -    if (dev->vq_index + dev->nvqs =3D=3D dev->vq_index_end) {
+> > -        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_dele=
+te);
+> > -    }
+> >      if (s->vhost_net) {
+> >          vhost_net_cleanup(s->vhost_net);
+> >          g_free(s->vhost_net);
+> > @@ -234,10 +230,64 @@ static ssize_t vhost_vdpa_receive(NetClientState =
+*nc, const uint8_t *buf,
+> >      return size;
+> >  }
+> >
+> > +/** From any vdpa net client, get the netclient of first queue pair */
+> > +static VhostVDPAState *vhost_vdpa_net_first_nc_vdpa(VhostVDPAState *s)
+> > +{
+> > +    NICState *nic =3D qemu_get_nic(s->nc.peer);
+> > +    NetClientState *nc0 =3D qemu_get_peer(nic->ncs, 0);
+> > +
+> > +    return DO_UPCAST(VhostVDPAState, nc, nc0);
+> > +}
+> > +
+> > +static void vhost_vdpa_net_data_start_first(VhostVDPAState *s)
+> > +{
+> > +    struct vhost_vdpa *v =3D &s->vhost_vdpa;
+> > +
+> > +    if (v->shadow_vqs_enabled) {
+> > +        v->iova_tree =3D vhost_iova_tree_new(v->iova_range.first,
+> > +                                           v->iova_range.last);
+> > +    }
+> > +}
+> > +
+> > +static int vhost_vdpa_net_data_start(NetClientState *nc)
+> > +{
+> > +    VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > +    struct vhost_vdpa *v =3D &s->vhost_vdpa;
+> > +
+> > +    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+> > +
+> > +    if (v->index =3D=3D 0) {
+> > +        vhost_vdpa_net_data_start_first(s);
+> > +        return 0;
+> > +    }
+> > +
+> > +    if (v->shadow_vqs_enabled) {
+> > +        VhostVDPAState *s0 =3D vhost_vdpa_net_first_nc_vdpa(s);
+> > +        v->iova_tree =3D s0->vhost_vdpa.iova_tree;
+> > +    }
 >
-> What does that mean? Should we aim to emulate real Macs or are we happy
-> with the Franken-Mac we have now?
->
-The names also show what we intend to
-> emulate even though the emulation may not be complete or have bugs (this
-> is also true for other machines in QEMU where a lot of them are not fully
-> emulated, only well enough to boot guest OSes).
->
-
-> Looks like everybody has forgotten the previous discussion and not read
-> the docs and deprecation patches where this is explained so I summarise
-> the proposed change here again:
->
->
-No, I haven't forgotten that discussion. FWIW (as I cannot contribute): I
-personally do not oppose a name change, the new names seem more
-descriptive. I tested your patches and they behave as they should. The
-functionality does not change. However, my simple point was what's in a
-name when the underlying machine does not reflect what the name implies.
-
-It is not my place to comment on a possible development agenda. I can only
-tell you what I'd like and point out issues.
-
-
-
-> - qemu-system-ppc -M mac99 is unchanged and works like before it just
-> warns for the via option and when using it in qemu-system-ppc64 suggesting
-> using new machines instead so these could evetually be removed next year.
-> mac99,via=cuda is just mac99 so you can continue to use that, mac99 is
-> not deprecated and don't want to remove it.
->
-> - qemu-system-ppc64 -M mac99 -> powermac7_3
->
-> - qemu-system-ppc -M mac99,via=pmu -> powermac3,1
->
-> - qemu-system-ppc64 -M mac99,via=pmu-adb -> powerbook3_2
->
-> The last one is one of the rare Macs that had adb and pmu, all others with
-> pmu usually have USB. The PowerMac1,2 (G4 PCI) had CUDA but not with mac99
-> hardware but more similar to g3beige and no ADB ports according to
-> https://en.wikipedia.org/wiki/Power_Mac_G4#1st_generation:_Graphite
-> https://en.wikipedia.org/wiki/Power_Macintosh_G3_(Blue_and_White)#Hardware
->
-> The PowerMac7,3 seems to be matching the PCI device listing in the comment
-> at the beginning of mac_newworld.c and also this article:
-> https://www.informit.com/articles/article.aspx?p=606582
->
-> What is the 2 USB devices problem? Is it the one we've debugged before and
-> found that it's noted in a comment marked with ??? in hw/usb/hcd-ohci.c?
-> That could be fixed if there was somebody interested enough to provide a
-> patch.
+> It looks to me the logic here is somehow the same as
+> vhost_vdpa_net_cvq_start(), can we unify the them?
 >
 
-It is not about passing through USB devices and active packets per
-endpoint. The powermac3,1 has two 2 USB 1.1 ports. However, when booting
-Mac OS 9.0.4 with via=pmu it will support only one (the kbd).  When started
-with via=cuda -usb -device usb-kbd -device usb-mouse it will support the
-first-mentioned usb-kbd. When kbd and mouse arguments are reversed it
-supports the other device ;-)
+It depends on what you mean by unify :). But we can explore it for sure.
 
+We can call vhost_vdpa_net_data_start, but the steps to do if
+s0->vhost_vdpa.iova_tree =3D=3D NULL are different. Data queues must do
+nothing, but CVQ must create a new iova tree.
 
->
-> But this series does not remove the mac99 and does not even deprecate it.
-> What it deprecates are the via option to select different machine types
-> and the automatic detection of ppc64 to emulate something different which
-> are hard to understand for users and caused several misunderstandings.
-> It's much more clear to have a separate machine type for each machine we
-> emulate even when they aren't yet complete but at least we know which way
-> to go and can compare to real hardware and fix the missing parts later.
-> Also introducing powermac7_3 to split the ppc64 mac99 would allow to
-> remove qemu-system-ppc if we wanted and only have one executable for all
-> machines but even without this it's clearer to have separate machnies for
-> G5 and G4 macs than mac99 silently behaving differently.
->
-> Regards,
-> BALATON Zoltan
+So one possibility is to convert this part of vhost_vdpa_net_cvq_start:
+    s0 =3D vhost_vdpa_net_first_nc_vdpa(s);
+    if (s0->vhost_vdpa.iova_tree) {
+        /* SVQ is already configured for all virtqueues */
+        v->iova_tree =3D s0->vhost_vdpa.iova_tree;
+    } else {
+        v->iova_tree =3D vhost_iova_tree_new(v->iova_range.first,
+                                           v->iova_range.last);
+    }
+
+into:
+    vhost_vdpa_net_data_start(nc);
+    if (!v->iova_tree) {
+        v->iova_tree =3D vhost_iova_tree_new(v->iova_range.first,
+                                           v->iova_range.last);
+    }
+
+I'm ok with the change but it's less clear in my opinion: it's not
+obvious that net_data_start is in charge of setting v->iova_tree to
+me.
+
+Another possibility is to abstract something like
+first_nc_iova_tree(), but we need to check more fields of s0 later
+(shadow_data) so I'm not sure about the benefit.
+
+Is that what you have in mind?
+
+Thanks!
+
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +static void vhost_vdpa_net_client_stop(NetClientState *nc)
+> > +{
+> > +    VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > +    struct vhost_dev *dev;
+> > +
+> > +    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+> > +
+> > +    dev =3D s->vhost_vdpa.dev;
+> > +    if (dev->vq_index + dev->nvqs =3D=3D dev->vq_index_end) {
+> > +        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_dele=
+te);
+> > +    }
+> > +}
+> > +
+> >  static NetClientInfo net_vhost_vdpa_info =3D {
+> >          .type =3D NET_CLIENT_DRIVER_VHOST_VDPA,
+> >          .size =3D sizeof(VhostVDPAState),
+> >          .receive =3D vhost_vdpa_receive,
+> > +        .start =3D vhost_vdpa_net_data_start,
+> > +        .stop =3D vhost_vdpa_net_client_stop,
+> >          .cleanup =3D vhost_vdpa_cleanup,
+> >          .has_vnet_hdr =3D vhost_vdpa_has_vnet_hdr,
+> >          .has_ufo =3D vhost_vdpa_has_ufo,
+> > @@ -351,7 +401,7 @@ dma_map_err:
+> >
+> >  static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+> >  {
+> > -    VhostVDPAState *s;
+> > +    VhostVDPAState *s, *s0;
+> >      struct vhost_vdpa *v;
+> >      uint64_t backend_features;
+> >      int64_t cvq_group;
+> > @@ -415,8 +465,6 @@ static int vhost_vdpa_net_cvq_start(NetClientState =
+*nc)
+> >          return r;
+> >      }
+> >
+> > -    v->iova_tree =3D vhost_iova_tree_new(v->iova_range.first,
+> > -                                       v->iova_range.last);
+> >      v->shadow_vqs_enabled =3D true;
+> >      s->vhost_vdpa.address_space_id =3D VHOST_VDPA_NET_CVQ_ASID;
+> >
+> > @@ -425,6 +473,15 @@ out:
+> >          return 0;
+> >      }
+> >
+> > +    s0 =3D vhost_vdpa_net_first_nc_vdpa(s);
+> > +    if (s0->vhost_vdpa.iova_tree) {
+> > +        /* SVQ is already configured for all virtqueues */
+> > +        v->iova_tree =3D s0->vhost_vdpa.iova_tree;
+> > +    } else {
+> > +        v->iova_tree =3D vhost_iova_tree_new(v->iova_range.first,
+> > +                                           v->iova_range.last);
+> > +    }
+> > +
+> >      r =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer=
+,
+> >                                 vhost_vdpa_net_cvq_cmd_page_len(), fals=
+e);
+> >      if (unlikely(r < 0)) {
+> > @@ -449,15 +506,9 @@ static void vhost_vdpa_net_cvq_stop(NetClientState=
+ *nc)
+> >      if (s->vhost_vdpa.shadow_vqs_enabled) {
+> >          vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer=
+);
+> >          vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->status);
+> > -        if (!s->always_svq) {
+> > -            /*
+> > -             * If only the CVQ is shadowed we can delete this safely.
+> > -             * If all the VQs are shadows this will be needed by the t=
+ime the
+> > -             * device is started again to register SVQ vrings and simi=
+lar.
+> > -             */
+> > -            g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_=
+delete);
+> > -        }
+> >      }
+> > +
+> > +    vhost_vdpa_net_client_stop(nc);
+> >  }
+> >
+> >  static ssize_t vhost_vdpa_net_cvq_add(VhostVDPAState *s, size_t out_le=
+n,
+> > @@ -667,8 +718,7 @@ static NetClientState *net_vhost_vdpa_init(NetClien=
+tState *peer,
+> >                                         int nvqs,
+> >                                         bool is_datapath,
+> >                                         bool svq,
+> > -                                       struct vhost_vdpa_iova_range io=
+va_range,
+> > -                                       VhostIOVATree *iova_tree)
+> > +                                       struct vhost_vdpa_iova_range io=
+va_range)
+> >  {
+> >      NetClientState *nc =3D NULL;
+> >      VhostVDPAState *s;
+> > @@ -690,7 +740,6 @@ static NetClientState *net_vhost_vdpa_init(NetClien=
+tState *peer,
+> >      s->vhost_vdpa.shadow_vqs_enabled =3D svq;
+> >      s->vhost_vdpa.iova_range =3D iova_range;
+> >      s->vhost_vdpa.shadow_data =3D svq;
+> > -    s->vhost_vdpa.iova_tree =3D iova_tree;
+> >      if (!is_datapath) {
+> >          s->cvq_cmd_out_buffer =3D qemu_memalign(qemu_real_host_page_si=
+ze(),
+> >                                              vhost_vdpa_net_cvq_cmd_pag=
+e_len());
+> > @@ -760,7 +809,6 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
+ char *name,
+> >      uint64_t features;
+> >      int vdpa_device_fd;
+> >      g_autofree NetClientState **ncs =3D NULL;
+> > -    g_autoptr(VhostIOVATree) iova_tree =3D NULL;
+> >      struct vhost_vdpa_iova_range iova_range;
+> >      NetClientState *nc;
+> >      int queue_pairs, r, i =3D 0, has_cvq =3D 0;
+> > @@ -812,12 +860,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, cons=
+t char *name,
+> >          goto err;
+> >      }
+> >
+> > -    if (opts->x_svq) {
+> > -        if (!vhost_vdpa_net_valid_svq_features(features, errp)) {
+> > -            goto err_svq;
+> > -        }
+> > -
+> > -        iova_tree =3D vhost_iova_tree_new(iova_range.first, iova_range=
+.last);
+> > +    if (opts->x_svq && !vhost_vdpa_net_valid_svq_features(features, er=
+rp)) {
+> > +        goto err;
+> >      }
+> >
+> >      ncs =3D g_malloc0(sizeof(*ncs) * queue_pairs);
+> > @@ -825,7 +869,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
+ char *name,
+> >      for (i =3D 0; i < queue_pairs; i++) {
+> >          ncs[i] =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+> >                                       vdpa_device_fd, i, 2, true, opts-=
+>x_svq,
+> > -                                     iova_range, iova_tree);
+> > +                                     iova_range);
+> >          if (!ncs[i])
+> >              goto err;
+> >      }
+> > @@ -833,13 +877,11 @@ int net_init_vhost_vdpa(const Netdev *netdev, con=
+st char *name,
+> >      if (has_cvq) {
+> >          nc =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+> >                                   vdpa_device_fd, i, 1, false,
+> > -                                 opts->x_svq, iova_range, iova_tree);
+> > +                                 opts->x_svq, iova_range);
+> >          if (!nc)
+> >              goto err;
+> >      }
+> >
+> > -    /* iova_tree ownership belongs to last NetClientState */
+> > -    g_steal_pointer(&iova_tree);
+> >      return 0;
+> >
+> >  err:
+> > @@ -849,7 +891,6 @@ err:
+> >          }
+> >      }
+> >
+> > -err_svq:
+> >      qemu_close(vdpa_device_fd);
+> >
+> >      return -1;
+> > --
+> > 2.31.1
+> >
 >
 
---000000000000965b8405f2202820
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 13, 2023 at 12:53 AM BALA=
-TON Zoltan &lt;<a href=3D"mailto:balaton@eik.bme.hu">balaton@eik.bme.hu</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On T=
-hu, 12 Jan 2023, Howard Spoelstra wrote:<br>
-&gt; On Wed, Jan 11, 2023 at 1:15 AM BALATON Zoltan &lt;<a href=3D"mailto:b=
-alaton@eik.bme.hu" target=3D"_blank">balaton@eik.bme.hu</a>&gt; wrote:<br>
-&gt;<br>
-&gt;&gt; On Tue, 10 Jan 2023, Mark Cave-Ayland wrote:<br>
-&gt;&gt;&gt; On 04/01/2023 21:59, BALATON Zoltan wrote:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Setting emulated machine type with a property called &quot=
-;via&quot; is<br>
-&gt;&gt;&gt;&gt; confusing users so deprecate the &quot;via&quot; option in=
- favour of newly added<br>
-&gt;&gt;&gt;&gt; explicit machine types. The default via=3Dcuda option is n=
-ot a valid<br>
-&gt;&gt;&gt;&gt; config (no real Mac has this combination of hardware) so n=
-o machine<br>
-&gt;&gt;&gt;&gt; type could be defined for that therefore it is kept for ba=
-ckwards<br>
-&gt;&gt;&gt;&gt; compatibility with older QEMU versions for now but other o=
-ptions<br>
-&gt;&gt;&gt;&gt; resembling real machines are deprecated.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Signed-off-by: BALATON Zoltan &lt;<a href=3D"mailto:balato=
-n@eik.bme.hu" target=3D"_blank">balaton@eik.bme.hu</a>&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; I believe that people do use -M mac99,via=3Dcuda to run some r=
-are versions<br>
-&gt;&gt; of<br>
-&gt;&gt;&gt; MacOS in QEMU (I think possibly OS X DP and Workgroup Server?)=
-, so we<br>
-&gt;&gt; would<br>
-&gt;&gt;&gt; want to keep this option somewhere.<br>
-&gt;&gt;<br>
-&gt;&gt; The idea is that after previous patches we now have machine types =
-for all<br>
-&gt;&gt; other via option values (that also match real Mac machines) other =
-than<br>
-&gt;&gt; via=3Dcude but that is the default for mac99 so after the reprecat=
-ion period<br>
-&gt;&gt; when the via option is removed mac99 (which is the same as mac99,v=
-ia=3Dcuda)<br>
-&gt;&gt; can remain for this use case (and for backward compatibility) unti=
-l the<br>
-&gt;&gt; other machines are fixed to not need this any more. So all via opt=
-ions are<br>
-&gt;&gt; still available but as different machine types.<br>
-&gt;&gt;<br>
-&gt; My 2 cents about naming:<br>
-&gt; It seems less important how the machines are named when their name is =
-not<br>
-&gt; covering their definition. F.i. the powermac3,1 never had adb, could n=
-ot be<br>
-&gt; equipped with a G3 cpu, did not run at 900Mhz. The closest possible<br=
->
-&gt; qemu-options based definition of a powermac3,1 (via=3Dpmu) will not ru=
-n Mac<br>
-&gt; OS 9.0.4 ;-) due to the 2 USB devices problem. To run that via=3Dcuda =
-is<br>
-&gt; already needed.<br>
-<br>
-What does that mean? Should we aim to emulate real Macs or are we happy <br=
->
-with the Franken-Mac we have now? <br></blockquote><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">The names also show what we intend to <br>
-emulate even though the emulation may not be complete or have bugs (this <b=
-r>
-is also true for other machines in QEMU where a lot of them are not fully <=
-br>
-emulated, only well enough to boot guest OSes).<br></blockquote><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
-<br>
-Looks like everybody has forgotten the previous discussion and not read <br=
->
-the docs and deprecation patches where this is explained so I summarise <br=
->
-the proposed change here again:<br>
-<br></blockquote><div>=C2=A0</div><div>No, I haven&#39;t forgotten that dis=
-cussion. FWIW (as I cannot contribute): I personally do not oppose a name c=
-hange, the new names seem more descriptive. I tested your patches and they =
-behave as they should. The functionality does not change. However, my simpl=
-e point was what&#39;s in a name when the underlying machine does not refle=
-ct what the name implies. <br></div><div><br></div><div>It is not my place =
-to comment on a possible development agenda. I can only tell you what I&#39=
-;d like and point out issues.<br></div><div><br></div><div>=C2=A0</div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">
-- qemu-system-ppc -M mac99 is unchanged and works like before it just <br>
-warns for the via option and when using it in qemu-system-ppc64 suggesting =
-<br>
-using new machines instead so these could evetually be removed next year. <=
-br>
-mac99,via=3Dcuda is just mac99 so you can continue to use that, mac99 is <b=
-r>
-not deprecated and don&#39;t want to remove it.<br>
-<br>
-- qemu-system-ppc64 -M mac99 -&gt; powermac7_3<br>
-<br>
-- qemu-system-ppc -M mac99,via=3Dpmu -&gt; powermac3,1<br>
-<br>
-- qemu-system-ppc64 -M mac99,via=3Dpmu-adb -&gt; powerbook3_2<br>
-<br>
-The last one is one of the rare Macs that had adb and pmu, all others with =
-<br>
-pmu usually have USB. The PowerMac1,2 (G4 PCI) had CUDA but not with mac99 =
-<br>
-hardware but more similar to g3beige and no ADB ports according to <br>
-<a href=3D"https://en.wikipedia.org/wiki/Power_Mac_G4#1st_generation:_Graph=
-ite" rel=3D"noreferrer" target=3D"_blank">https://en.wikipedia.org/wiki/Pow=
-er_Mac_G4#1st_generation:_Graphite</a><br>
-<a href=3D"https://en.wikipedia.org/wiki/Power_Macintosh_G3_(Blue_and_White=
-)#Hardware" rel=3D"noreferrer" target=3D"_blank">https://en.wikipedia.org/w=
-iki/Power_Macintosh_G3_(Blue_and_White)#Hardware</a><br>
-<br>
-The PowerMac7,3 seems to be matching the PCI device listing in the comment =
-<br>
-at the beginning of mac_newworld.c and also this article:<br>
-<a href=3D"https://www.informit.com/articles/article.aspx?p=3D606582" rel=
-=3D"noreferrer" target=3D"_blank">https://www.informit.com/articles/article=
-.aspx?p=3D606582</a><br>
-<br>
-What is the 2 USB devices problem? Is it the one we&#39;ve debugged before =
-and <br>
-found that it&#39;s noted in a comment marked with ??? in hw/usb/hcd-ohci.c=
-? <br>
-That could be fixed if there was somebody interested enough to provide a <b=
-r>
-patch.<br></blockquote><div><br></div>It is not about passing through USB d=
-evices and active packets per endpoint. The powermac3,1 has two 2 USB 1.1 p=
-orts. However, when booting Mac OS 9.0.4 with via=3Dpmu it will support onl=
-y one (the kbd).=C2=A0 When started with via=3Dcuda -usb -device usb-kbd -d=
-evice usb-mouse it will support the first-mentioned usb-kbd. When kbd and m=
-ouse arguments are reversed it supports the other device ;-)=C2=A0 <br><div=
->=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-But this series does not remove the mac99 and does not even deprecate it. <=
-br>
-What it deprecates are the via option to select different machine types <br=
->
-and the automatic detection of ppc64 to emulate something different which <=
-br>
-are hard to understand for users and caused several misunderstandings. <br>
-It&#39;s much more clear to have a separate machine type for each machine w=
-e <br>
-emulate even when they aren&#39;t yet complete but at least we know which w=
-ay <br>
-to go and can compare to real hardware and fix the missing parts later. <br=
->
-Also introducing powermac7_3 to split the ppc64 mac99 would allow to <br>
-remove qemu-system-ppc if we wanted and only have one executable for all <b=
-r>
-machines but even without this it&#39;s clearer to have separate machnies f=
-or <br>
-G5 and G4 macs than mac99 silently behaving differently.<br>
-<br>
-Regards,<br>
-BALATON Zoltan<br>
-</blockquote></div></div>
-
---000000000000965b8405f2202820--
 
