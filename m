@@ -2,96 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5036693A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:05:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248DF6693D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:15:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGGv9-0003e7-JZ; Fri, 13 Jan 2023 05:04:23 -0500
+	id 1pGH4B-0006Fc-1s; Fri, 13 Jan 2023 05:13:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pGGuk-0003WD-Fb
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:04:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pGGui-0002Rs-Gw
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:03:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673604235;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=INB2ZBYj2bgpgxcRjjqq8fWtlzU2FE+lTyETwE0CltY=;
- b=inGaILw36SqXsETbZKGOIH79YLDUViyIFiKoR6JjLDKp+JvO1xhw/zzdFolRnZMeOTzNV4
- iMIv4tBzu2YrTx3swfwumRUF2yS+br36ARaYkflyv4EPOoAqiSpJkd+819yN1mrfe+AA7k
- 9zNmHoEdh6mK8bvXmRWuWnVntFmD2ik=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-445-eYexFfNSPiCiY8xuz95MDw-1; Fri, 13 Jan 2023 05:03:54 -0500
-X-MC-Unique: eYexFfNSPiCiY8xuz95MDw-1
-Received: by mail-yb1-f198.google.com with SMTP id
- u186-20020a2560c3000000b007c8e2cf3668so4599001ybb.14
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 02:03:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGH48-0006Eu-9A
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:13:40 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGH46-000429-9f
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:13:39 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ m26-20020a05600c3b1a00b003d9811fcaafso17002240wms.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 02:13:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Cd6mY6sQ3JKAIiq4jReduNopszqm/a2MRDdyXZj4bvU=;
+ b=BYMeyXk4OiZgz7mRSRNGEcPcPU42cQLTaAjiXH3fVGbn9cnUlu7XDqbOHO1GOzLiAS
+ 7rm3M0P4yoUnal8tkeS89MhjoZq0SnQSiB99MNu2w3YAY0v1GpW1rloT1KlURwpLW+FK
+ DOcFdNf0lG8LchnFRTV8ZAPiC9vJzWd2OLX65ydCgtqI8vp4FFs6vqp59Kw2/4JmtLhF
+ PWTa1JGkAJk+4qkZkcVgoRK/gAV3upisBH483K9yeIN/0Hx2iGOW/vfwcTKwA2RBeK6/
+ SQ4KZ9yvmtQtqg2wamEbi0TO/73DM7Qzt4Y83HvKozT+UPLVDwUg43Sbsl5PgJeYCFcA
+ VffQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=INB2ZBYj2bgpgxcRjjqq8fWtlzU2FE+lTyETwE0CltY=;
- b=T807qJHX4U89JubBcGcJ2Ud2zvX/6rjuHw2PcrhuhEixtG9Um1ARI08G7lAssLb9Xg
- FeXjKvzOdebMnB8rkK8CJJ27n3QtDnrrUKdSAsGqvrXfbmXJk9eEQyqGECZD5nNslJ/Q
- 9QMG6DLvwbf7Ted5i2YtPW/eeaeLwxN+3RQIcl94I2h0DM+fimYXIH3uZe1pVVzJHj6m
- yyxequ0K+z96BpIj9Uunf8JPVCrjrJIghR4xop2QQLwgCfMWVMzaBDt5q1iF6hMOjXzp
- hrUpa1ihuj//HKbdCpcf+mkUSwyDOfxHAMAoor4hGEB+EFKfMlBM9GcWhDQGZ4Fmp+uf
- 29iQ==
-X-Gm-Message-State: AFqh2kquuE0Jp5VFB4q+njt7JfOVSCeKZ+leWpFIQ4jf6FXBq071HYBH
- qVO6GX1rBY3TiC1EkovaatmUj6lzt0UllgcuFUjVedKPtYpzm8NdNN+YaG82ClI7cYTdWALaGar
- j3pjMJLZB8Nq7vFoGU8ftA5fTnVvgQxY=
-X-Received: by 2002:a25:cc53:0:b0:7ce:4650:5e5a with SMTP id
- l80-20020a25cc53000000b007ce46505e5amr139818ybf.123.1673604233853; 
- Fri, 13 Jan 2023 02:03:53 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuFnJRPncV3hRrMXlyVPRQZi4Me431HPh5Dcut5SZq9FEJ0CcHKghmQbzyjHkjqSojrxVArlTDmw8D2rK7AEU8=
-X-Received: by 2002:a25:cc53:0:b0:7ce:4650:5e5a with SMTP id
- l80-20020a25cc53000000b007ce46505e5amr139808ybf.123.1673604233640; Fri, 13
- Jan 2023 02:03:53 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Cd6mY6sQ3JKAIiq4jReduNopszqm/a2MRDdyXZj4bvU=;
+ b=00E7gB6DhQNrQwwMCpGPofuIxqEwwmFUtFr/2UlNPOl41mVO+G4yFGJPFFuk+AtdQD
+ 6ozUjrcvkck2wsvMEtIjMMqyucF80sX69I1BOw2f8a/9ex7MjYpYwYSgthy47z90QfH7
+ T28VXMoERC6Z/QlBElLVl7zlpyvi7dXK9wzn0LIhKR7Dnsje2uoPxowiKi8rj8hMKRop
+ R8buXE5j1l1qVhh94+ZRiqkILM2HMfNLBDLtHIwW1Y6oVAI23Kwmj3rHVjsUaRnaw2m8
+ BddNxRDeKxYuL5NgaZmVmOjIz6NsMYKIGmW+OQI8NlGK8dEuFVMNWkYx2pWwXHQncsNB
+ PIjQ==
+X-Gm-Message-State: AFqh2krvZFpzHCoHHpjwy186A5dlGwq8EB6b1azn4TVA7Nl6b1mPNOVC
+ LVjVpFC7q5U3FLoAGab0RckOUQ==
+X-Google-Smtp-Source: AMrXdXsKXCkCciR5EkxHQei/AavoHtIfgultkIPCn76bHmPSFzfPC7kFPhVU9hEvC+B+Qe9rg5QtTg==
+X-Received: by 2002:a05:600c:1d20:b0:3d2:2aaf:316 with SMTP id
+ l32-20020a05600c1d2000b003d22aaf0316mr58102271wms.36.1673604816603; 
+ Fri, 13 Jan 2023 02:13:36 -0800 (PST)
+Received: from [192.168.95.175] (13.red-88-28-24.dynamicip.rima-tde.net.
+ [88.28.24.13]) by smtp.gmail.com with ESMTPSA id
+ ay13-20020a05600c1e0d00b003d34faca949sm24416759wmb.39.2023.01.13.02.13.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Jan 2023 02:13:36 -0800 (PST)
+Message-ID: <0b7cf41c-6fca-f8d9-e8c2-0a1cfea2c51e@linaro.org>
+Date: Fri, 13 Jan 2023 11:13:29 +0100
 MIME-Version: 1.0
-References: <20230112172434.760850-1-eperezma@redhat.com>
- <20230112172434.760850-7-eperezma@redhat.com>
- <CACGkMEvvjvhFrd5DJOMM0d7OWm0=9t6-YPzsZLZ8ZeZ4RU6PQw@mail.gmail.com>
- <CAJaqyWdePpv_htcrQ1TuEcz99x9Ri7ysFJz3+L7PuaLaPzNZjw@mail.gmail.com>
- <20230113095143.si4qzblki3votezg@sgarzare-redhat>
-In-Reply-To: <20230113095143.si4qzblki3votezg@sgarzare-redhat>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 13 Jan 2023 11:03:17 +0100
-Message-ID: <CAJaqyWfrb+JN8ZMfvi1eWt-uM9sQvYb=uKvygDu9bj0OmL0pUA@mail.gmail.com>
-Subject: Re: [RFC v2 06/13] vhost: delay set_vring_ready after DRIVER_OK
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- si-wei.liu@oracle.com, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, alvaro.karsz@solid-run.com, 
- Shannon Nelson <snelson@pensando.io>, Laurent Vivier <lvivier@redhat.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
- Cornelia Huck <cohuck@redhat.com>, 
- Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Parav Pandit <parav@mellanox.com>, 
- Maxime Coquelin <maxime.coquelin@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v6 04/33] hw/pci/pci: Factor out pci_bus_map_irqs() from
+ pci_bus_irqs()
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: John G Johnson <john.g.johnson@oracle.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Ani Sinha <ani@anisinha.ca>,
+ Eduardo Habkost <eduardo@habkost.net>, Gerd Hoffmann <kraxel@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ qemu-ppc@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+References: <20230109172347.1830-1-shentey@gmail.com>
+ <20230109172347.1830-5-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230109172347.1830-5-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,159 +105,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 13, 2023 at 10:51 AM Stefano Garzarella <sgarzare@redhat.com> w=
-rote:
->
-> On Fri, Jan 13, 2023 at 09:19:00AM +0100, Eugenio Perez Martin wrote:
-> >On Fri, Jan 13, 2023 at 5:36 AM Jason Wang <jasowang@redhat.com> wrote:
-> >>
-> >> On Fri, Jan 13, 2023 at 1:25 AM Eugenio P=C3=A9rez <eperezma@redhat.co=
-m> wrote:
-> >> >
-> >> > To restore the device at the destination of a live migration we send=
- the
-> >> > commands through control virtqueue. For a device to read CVQ it must
-> >> > have received the DRIVER_OK status bit.
-> >>
-> >> This probably requires the support from the parent driver and requires
-> >> some changes or fixes in the parent driver.
-> >>
-> >> Some drivers did:
-> >>
-> >> parent_set_status():
-> >> if (DRIVER_OK)
-> >>     if (queue_enable)
-> >>         write queue_enable to the device
-> >>
-> >> Examples are IFCVF or even vp_vdpa at least. MLX5 seems to be fine.
-> >>
-> >
-> >I don't get your point here. No device should start reading CVQ (or
-> >any other VQ) without having received DRIVER_OK.
-> >
-> >Some parent drivers do not support sending the queue enable command
-> >after DRIVER_OK, usually because they clean part of the state like the
-> >set by set_vring_base. Even vdpa_net_sim needs fixes here.
-> >
-> >But my understanding is that it should be supported so I consider it a
-> >bug. Especially after queue_reset patches. Is that what you mean?
-> >
-> >> >
-> >> > However this opens a window where the device could start receiving
-> >> > packets in rx queue 0 before it receives the RSS configuration. To a=
-void
-> >> > that, we will not send vring_enable until all configuration is used =
-by
-> >> > the device.
-> >> >
-> >> > As a first step, run vhost_set_vring_ready for all vhost_net backend=
- after
-> >> > all of them are started (with DRIVER_OK). This code should not affec=
-t
-> >> > vdpa.
-> >> >
-> >> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >> > ---
-> >> >  hw/net/vhost_net.c | 17 ++++++++++++-----
-> >> >  1 file changed, 12 insertions(+), 5 deletions(-)
-> >> >
-> >> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> >> > index c4eecc6f36..3900599465 100644
-> >> > --- a/hw/net/vhost_net.c
-> >> > +++ b/hw/net/vhost_net.c
-> >> > @@ -399,6 +399,18 @@ int vhost_net_start(VirtIODevice *dev, NetClien=
-tState *ncs,
-> >> >          } else {
-> >> >              peer =3D qemu_get_peer(ncs, n->max_queue_pairs);
-> >> >          }
-> >> > +        r =3D vhost_net_start_one(get_vhost_net(peer), dev);
-> >> > +        if (r < 0) {
-> >> > +            goto err_start;
-> >> > +        }
-> >> > +    }
-> >> > +
-> >> > +    for (int j =3D 0; j < nvhosts; j++) {
-> >> > +        if (j < data_queue_pairs) {
-> >> > +            peer =3D qemu_get_peer(ncs, j);
-> >> > +        } else {
-> >> > +            peer =3D qemu_get_peer(ncs, n->max_queue_pairs);
-> >> > +        }
-> >>
-> >> I fail to understand why we need to change the vhost_net layer? This
-> >> is vhost-vDPA specific, so I wonder if we can limit the changes to e.g
-> >> vhost_vdpa_dev_start()?
-> >>
-> >
-> >The vhost-net layer explicitly calls vhost_set_vring_enable before
-> >vhost_dev_start, and this is exactly the behavior we want to avoid.
-> >Even if we make changes to vhost_dev, this change is still needed.
->
-> I'm working on something similar since I'd like to re-work the following
-> commit we merged just before 7.2 release:
->      4daa5054c5 vhost: enable vrings in vhost_dev_start() for vhost-user
->      devices
->
-> vhost-net wasn't the only one who enabled vrings independently, but it
-> was easy enough for others devices to avoid it and enable them in
-> vhost_dev_start().
->
-> Do you think can we avoid in some way this special behaviour of
-> vhost-net and enable the vrings in vhost_dev_start?
->
+On 9/1/23 18:23, Bernhard Beschow wrote:
+> pci_bus_irqs() coupled together the assignment of pci_set_irq_fn and
+> pci_map_irq_fn to a PCI bus. This coupling gets in the way when the
+> pci_map_irq_fn is board-specific while the pci_set_irq_fn is device-
+> specific.
+> 
+> For example, both of QEMU's PIIX south bridge models have different
+> pci_map_irq_fn implementations which are board-specific rather than
+> device-specific. These implementations should therefore reside in board
+> code. The pci_set_irq_fn's, however, should stay in the device models
+> because they access memory internal to the model.
+> 
+> Factoring out pci_bus_map_irqs() from pci_bus_irqs() allows the
+> assignments to be decoupled, resolving the problem described above.
+> 
+> Note also how pci_vpb_realize() which gets touched in this commit
+> assigns different pci_map_irq_fn's depending on the board.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   include/hw/pci/pci.h    |  3 ++-
+>   hw/i386/pc_q35.c        |  4 ++--
+>   hw/isa/piix3.c          |  8 ++++----
+>   hw/isa/piix4.c          |  3 ++-
+>   hw/pci-host/raven.c     |  3 ++-
+>   hw/pci-host/versatile.c |  3 ++-
+>   hw/pci/pci.c            | 12 +++++++++---
+>   hw/remote/machine.c     |  3 ++-
+>   8 files changed, 25 insertions(+), 14 deletions(-)
+> 
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index 7048a373d1..85ee458cd2 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -282,8 +282,9 @@ PCIBus *pci_root_bus_new(DeviceState *parent, const char *name,
+>                            MemoryRegion *address_space_io,
+>                            uint8_t devfn_min, const char *typename);
+>   void pci_root_bus_cleanup(PCIBus *bus);
+> -void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq, pci_map_irq_fn map_irq,
+> +void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq,
+>                     void *irq_opaque, int nirq);
+> +void pci_bus_map_irqs(PCIBus *bus, pci_map_irq_fn map_irq);
 
-Actually looking forward to it :). If that gets merged before this
-series, I think we could drop this patch.
+I'm squashing:
 
-If I'm not wrong the enable/disable dance is used just by vhost-user
-at the moment.
+-- >8 --
+diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+index fe1fdfb5f7..46171f22f7 100644
+--- a/hw/remote/vfio-user-obj.c
++++ b/hw/remote/vfio-user-obj.c
+@@ -667,4 +667,4 @@ void vfu_object_set_bus_irq(PCIBus *pci_bus)
 
-Maxime, could you give us some hints about the tests to use to check
-that changes do not introduce regressions in vhost-user?
+-    pci_bus_irqs(pci_bus, vfu_object_set_irq, vfu_object_map_irq, pci_bus,
+-                 max_bdf);
++    pci_bus_irqs(pci_bus, vfu_object_set_irq, , pci_bus, max_bdf);
++    pci_bus_map_irqs(pci_bus, vfu_object_map_irq);
+  }
+---
 
-Thanks!
+to fix:
 
-> Thanks,
-> Stefano
->
-> >
-> >And we want to explicitly enable CVQ first, which "only" vhost_net
-> >knows which is. To perform that in vhost_vdpa_dev_start would require
-> >quirks, involving one or more of:
-> >* Ignore vq enable calls if the device is not the CVQ one. How to
-> >signal what is the CVQ? Can we trust it will be the last one for all
-> >kind of devices?
-> >* Enable queues that do not belong to the last vhost_dev from the enable=
- call.
-> >* Enable the rest of the queues from the last enable in reverse order.
-> >* Intercalate the "net load" callback between enabling the last
-> >vhost_vdpa device and enabling the rest of devices.
-> >* Add an "enable priority" order?
-> >
-> >Thanks!
-> >
-> >> Thanks
-> >>
-> >> >
-> >> >          if (peer->vring_enable) {
-> >> >              /* restore vring enable state */
-> >> > @@ -408,11 +420,6 @@ int vhost_net_start(VirtIODevice *dev, NetClien=
-tState *ncs,
-> >> >                  goto err_start;
-> >> >              }
-> >> >          }
-> >> > -
-> >> > -        r =3D vhost_net_start_one(get_vhost_net(peer), dev);
-> >> > -        if (r < 0) {
-> >> > -            goto err_start;
-> >> > -        }
-> >> >      }
-> >> >
-> >> >      return 0;
-> >> > --
-> >> > 2.31.1
-> >> >
-> >>
-> >
->
+../hw/remote/vfio-user-obj.c: In function ‘vfu_object_set_bus_irq’:
+../hw/remote/vfio-user-obj.c:668:67: error: passing argument 4 of 
+‘pci_bus_irqs’ makes integer from pointer without a cast 
+[-Werror=int-conversion]
+      pci_bus_irqs(pci_bus, vfu_object_set_irq, vfu_object_map_irq, pci_bus,
+                                                                    ^~~~~~~
+In file included from include/hw/pci/pci_device.h:4,
+                  from include/hw/remote/iohub.h:14,
+                  from include/hw/remote/machine.h:18,
+                  from ../hw/remote/vfio-user-obj.c:43:
+include/hw/pci/pci.h:286:41: note: expected ‘int’ but argument is of 
+type ‘PCIBus *’ {aka ‘struct PCIBus *’}
+                    void *irq_opaque, int nirq);
+                                      ~~~~^~~~
+../hw/remote/vfio-user-obj.c:668:5: error: too many arguments to 
+function ‘pci_bus_irqs’
+      pci_bus_irqs(pci_bus, vfu_object_set_irq, vfu_object_map_irq, pci_bus,
+      ^~~~~~~~~~~~
+In file included from include/hw/pci/pci_device.h:4,
+                  from include/hw/remote/iohub.h:14,
+                  from include/hw/remote/machine.h:18,
+                  from ../hw/remote/vfio-user-obj.c:43:
+include/hw/pci/pci.h:285:6: note: declared here
+  void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq,
+       ^~~~~~~~~~~~
 
 
