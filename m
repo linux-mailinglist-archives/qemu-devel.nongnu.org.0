@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 760AB669943
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:00:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93607669970
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:05:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKaa-0003Ia-Eg; Fri, 13 Jan 2023 08:59:24 -0500
+	id 1pGKfK-0005dX-0k; Fri, 13 Jan 2023 09:04:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pGKaX-0003Hv-VE
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:59:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pGKaV-0000v5-CW
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:59:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673618358;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=11LxIg0MG5q+LRaI0KC4YPpuBVk0O5+Any4BkouRIoM=;
- b=ReGTrdcC76Cw+EakAYB9BB43IpbkkWzE7gLBkmD36mgTs7rdBt2gqj13aAnntmfLJS7qmy
- ECw5paeXhcE/X2LhzR9j6TRqFKqpJaQxIlZbujernvA+G0ViPLevDRRi1DOHAnnO7lk/Nd
- VyFcUvtsELEeHcz++HSgn7YCgEVZdvA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-29-mGd8cKsBOViYTfrOqaKA9Q-1; Fri, 13 Jan 2023 08:59:17 -0500
-X-MC-Unique: mGd8cKsBOViYTfrOqaKA9Q-1
-Received: by mail-wr1-f72.google.com with SMTP id
- o5-20020adfba05000000b0029064ccbe46so4163281wrg.9
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 05:59:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pGKen-0005bL-AU
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:03:47 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pGKel-0001ta-MN
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:03:45 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id a30so16232993pfr.6
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:03:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=p0yqeJ9icikrfifLvEeyR+ZtcbBdX7mdhLk8p36KHko=;
+ b=AiLo+o4yV0CHFaMH2aQkZi4xobRDw/2hl/y2MrUd6rBtMoXYny5VcLSKVE7EduuBCF
+ UNSpL8+K5jgQJQFFvoxNPYWdvHXRmbLNIUyPud7HgdmuJjbQ5RVoZBSwrH8AW/olyj1H
+ UHVUbpVd//AP8A6ZRXtlELkYHFmxr4GwftfPFH7nnR3aCg7Hboi9L8pgpH/MPxoX5UWv
+ HSTQrUZdINnRo1Sw5mtARHsbz0cAzdYp41EZEmLaoP7cUDo5Et7kgbK/fw92o+In0ixF
+ tWWrDA0QYM5WEKOCVVNGGpjBTdLfJRMNGsU3izt+L/CJr95Q+kDw2LtjtuKtTnwOY8U0
+ sD0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=11LxIg0MG5q+LRaI0KC4YPpuBVk0O5+Any4BkouRIoM=;
- b=CnTfc9C9hZdF92ZcKvZin3CrUb+u5Pf/ez4yCg/rO/q8ccdtVy0Ua1wKl3YXUJ2jaj
- k5ESNARxOd+zFzfsT6oXr+P5NiZHCQCyqSnuYR+frq5sMOZP4mZ/oQwTSS44kQXGBhYP
- rxvi+/zTgq/oeH6pWgZ03i5oul/rvcdH0PvJucBBe7DFYvd08iYhbqjvbg9NUaR2xKaE
- /+cjRfryq+7N3bLhHlFNoz0qY3wedLWRzQIcAWKQRkyIYB+w88mRNECY24d0L5xE5rvd
- YTpDF1cLZ0yJfUfENGMuaJ4OrcYmcNnsss7BCh6Z14ZckgFE+nF/oB92VBeTt1Id1/Yr
- oaHQ==
-X-Gm-Message-State: AFqh2kptdMacGFXgyYKVAoi1wCFK0vFvePJjpr4/SDEGtK4HLdxcvWnc
- uACuqZwzkyfXrNm2pohPKkmHfanafrMCY0NdZVlzKPlHCME1uy2OHhPFpVovqcbshSUdJzdubVM
- YZbUH1kXhCOaiJfg=
-X-Received: by 2002:a5d:6e8f:0:b0:276:473f:7120 with SMTP id
- k15-20020a5d6e8f000000b00276473f7120mr52102215wrz.26.1673618355826; 
- Fri, 13 Jan 2023 05:59:15 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuWPTVoApPUJpqFrsAHoYxXgu0MP2nd65SlhfqsimpqrIRzlXFt1I7FVPU0ZKA2To0lfTSlzA==
-X-Received: by 2002:a5d:6e8f:0:b0:276:473f:7120 with SMTP id
- k15-20020a5d6e8f000000b00276473f7120mr52102203wrz.26.1673618355530; 
- Fri, 13 Jan 2023 05:59:15 -0800 (PST)
-Received: from ?IPV6:2003:cb:c704:ec00:869d:7200:eb03:db01?
- (p200300cbc704ec00869d7200eb03db01.dip0.t-ipconnect.de.
- [2003:cb:c704:ec00:869d:7200:eb03:db01])
- by smtp.gmail.com with ESMTPSA id
- u24-20020adfa198000000b002bc84c55758sm12919355wru.63.2023.01.13.05.59.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 05:59:15 -0800 (PST)
-Message-ID: <fd611830-5686-eafc-444e-4db519afbe46@redhat.com>
-Date: Fri, 13 Jan 2023 14:59:14 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=p0yqeJ9icikrfifLvEeyR+ZtcbBdX7mdhLk8p36KHko=;
+ b=o/q2XqYOTJmgn6XVwnLKNdgluYmQ9wo0w1nDFiILVBqtT7EPiJA/BTGlijumOyKvHK
+ iP46RsTZPI7N2eJW43eNwNGR/Rz6VenfJpQhcxCh2vs9EBIS+jCMkZS3creOMPjCrF6l
+ LTw132DBgXEjEa2NFbd0QfBZ0EVP5T7weXlPiGOYojSiBc8yP6Yj0xTUnsIDB7SS2jQG
+ TStU7Tk7bqsIeag50NQNAXo7ePt+MVAuCdZgGUGmDX0EGpa1ZgdwHN3Ub1dt/tYaI6Lz
+ M3GzNL/U+PTWGjqD1mkO8xqSARQap1QAi68YlgUfMdCrlhMN+QQj3+ZRKNS4r5OWE8q/
+ 2y2w==
+X-Gm-Message-State: AFqh2kqhr4etjxzZbpURt7+fdGJoNXe/L+VDof/2d8p+5TJj/KrBRf86
+ XipfyKwKtAsyPE+jbTZ6oQnCl90j/Lnf4tpt9pl+Rw==
+X-Google-Smtp-Source: AMrXdXvVfLf2dCxT1EgOv2tlHSdCqBUq2MGsmS11T1mdKkVam+ij4hzYUJbSujOfSqF/4oxlkF4s+Rpy6Vkrfv/XV2M=
+X-Received: by 2002:a65:694b:0:b0:477:86c1:640f with SMTP id
+ w11-20020a65694b000000b0047786c1640fmr5963199pgq.231.1673618621977; Fri, 13
+ Jan 2023 06:03:41 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Peter Xu <peterx@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-References: <20230112164403.105085-1-david@redhat.com>
- <20230112164403.105085-8-david@redhat.com> <Y8BjGPAuJPDqjFTD@work-vm>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v3 7/8] virtio-mem: Migrate immutable properties early
-In-Reply-To: <Y8BjGPAuJPDqjFTD@work-vm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20230109120833.3330-1-philmd@linaro.org>
+ <20230109120833.3330-17-philmd@linaro.org>
+In-Reply-To: <20230109120833.3330-17-philmd@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 Jan 2023 14:03:30 +0000
+Message-ID: <CAFEAcA_HvX14erj9NPKn5L=X97C==DvNUWYNd7tvieXHOj3ELQ@mail.gmail.com>
+Subject: Re: [PATCH v2 16/21] hw/arm: Open-code pflash_cfi01_register()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,92 +85,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12.01.23 20:44, Dr. David Alan Gilbert wrote:
-> * David Hildenbrand (david@redhat.com) wrote:
->> The bitmap and the size are immutable while migration is active: see
->> virtio_mem_is_busy(). We can migrate this information early, before
->> migrating any actual RAM content. Further, all information we need for
->> sanity checks is immutable as well.
->>
->> Having this information in place early will, for example, allow for
->> properly preallocating memory before touching these memory locations
->> during RAM migration: this way, we can make sure that all memory was
->> actually preallocated and that any user errors (e.g., insufficient
->> hugetlb pages) can be handled gracefully.
->>
->> In contrast, usable_region_size and requested_size can theoretically
->> still be modified on the source while the VM is running. Keep migrating
->> these properties the usual, late, way.
->>
->> Use a new device property to keep behavior of compat machines
->> unmodified.
-> 
-> Can you get me a migration file from this? I want to try and understand
-> what happens when you have the vmstate_register together with the ->vmsd -
-> I'm not quite sure what ends up in the output.  Preferably for a VM with
-> two virtio-mem's.
+On Mon, 9 Jan 2023 at 13:13, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
+> wrote:
+>
+> pflash_cfi01_register() hides an implicit sysbus mapping of
+> MMIO region #0. This is not practical in a heterogeneous world
+> where multiple cores use different address spaces. In order to
+> remove pflash_cfi01_register() from the pflash API, open-code it
+> as a qdev creation call followed by an explicit sysbus mapping.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> ---
+>  hw/arm/collie.c      | 16 ++++++++++++----
+>  hw/arm/gumstix.c     | 32 ++++++++++++++++++++++++++------
+>  hw/arm/mainstone.c   | 19 ++++++++++++++-----
+>  hw/arm/omap_sx1.c    | 31 +++++++++++++++++++++++--------
+>  hw/arm/versatilepb.c | 18 +++++++++++++-----
+>  hw/arm/z2.c          | 17 ++++++++++++++---
+>  6 files changed, 102 insertions(+), 31 deletions(-)
 
-Sure, here is the stripped output from analyze-migration.py:
+When we exand out these uses of pflash_cfi01_register() can
+we add a brief todo comment:
 
-     "ram (2)": {
-         "section sizes": {
-             "0000:00:03.0/mem0": "0x0000000780000000",
-             "0000:00:04.0/mem1": "0x0000000780000000",
-             "pc.ram": "0x0000000100000000",
-             "/rom@etc/acpi/tables": "0x0000000000020000",
-             "pc.bios": "0x0000000000040000",
-             "0000:00:02.0/e1000.rom": "0x0000000000040000",
-             "pc.rom": "0x0000000000020000",
-             "/rom@etc/table-loader": "0x0000000000001000",
-             "/rom@etc/acpi/rsdp": "0x0000000000001000"
-         }
-     },
-     "0000:00:03.0/virtio-mem-device-early (51)": {
-         "tmp": "00 00 00 01 40 00 00 00 00 00 00 07 80 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00",
-         "size": "0x0000000040000000",
-         "bitmap": "ff ff ff ff [...] "
-     },
-     "0000:00:04.0/virtio-mem-device-early (53)": {
-         "tmp": "00 00 00 08 c0 00 00 00 00 00 00 07 80 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00",
-         "size": "0x00000001fa400000",
-         "bitmap": "ff ff ff ff [...] "
-     },
-     "timer (0)": {
-         "cpu_ticks_offset": "0x00000073f5ba3d28",
-         "unused": "00 00 00 00 00 00 00 00",
-         "cpu_clock_offset": "0x00000026b744e29c"
-     },
-[...]
-     "serial (50)": {
-         "state": {
-             "divider": "0x0001",
-             "rbr": "0x00",
-             "ier": "0x05",
-             "iir": "0xc1",
-             "lcr": "0x13",
-             "mcr": "0x0b",
-             "lsr": "0x60",
-             "msr": "0xb0",
-             "scr": "0x00",
-             "fcr_vmstate": "0x81"
-         }
-     },
-     "0000:00:03.0/virtio-mem (52)": {
-         "virtio": "00 00 00 02 f4 1a 58 10 07 01 10 00 01 00 ff [...]"
-     "0000:00:04.0/virtio-mem (54)": {
-         "virtio": "00 00 00 02 f4 1a 58 10 07 01 10 00 01 00 ff [...]"
+/*
+ * TODO: we should set device-width to avoid the legacy
+ * back-compat behaviour of cfi01. What does the hardware do?
+ */
 
-The data of both "virtio" blobs is extremely large, a lot 0x00 -- no idea what virtio
-core stores in there.
+(feel free to edit if you can get it down to 1 line...)
 
-Note that vmstate_virtio_mem_device ("virtio-mem-device") will be included by virtio core in the
-"virtio" blob.
+I don't think it's worth trying to track down the right answer
+for all these old boards, I just want something so that if
+somebody cut-n-pastes this into new board code we can see it
+in code review and say "oh, you need to set device-width".
 
-I can send you a full savevm file privately, just ping me.
-
--- 
-Thanks,
-
-David / dhildenb
-
+thanks
+-- PMM
 
