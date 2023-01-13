@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D254366A6E0
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 00:17:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711D766A71A
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 00:31:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGTHx-0003ky-0n; Fri, 13 Jan 2023 18:16:45 -0500
+	id 1pGTUS-0007Sc-RA; Fri, 13 Jan 2023 18:29:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGTHo-0003kP-Ub
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 18:16:41 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGTUQ-0007S9-WE
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 18:29:39 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGTHm-00087k-TA
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 18:16:36 -0500
-Received: by mail-pl1-x629.google.com with SMTP id p24so24895091plw.11
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 15:16:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGTUP-0001hI-3J
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 18:29:38 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ u1-20020a17090a450100b0022936a63a21so1994415pjg.4
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 15:29:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=aWow72s2ZHPfyutUF3LRtthWGyQvB6TRG4mGrzQPS+Y=;
- b=E/wbWTkGCcwoXs6O8irB3PXyBwoRW4uEkWDuoU13XByhJzTvIiq4OfNzvKMYIxRBd8
- N5dRvUnnXxuGkG1NqPLQ9NcLguZ/hQembSMTLovSWxd/eNEA47F4pw2VMvBTgCh83EhX
- bKzfh13CLYQPbU31yNkCeE7nVtvWxeSrEzOQXXJn3Ra1e263z8sIZrm9ZwC48e/SEbDs
- 3aEzaEkItlDgZ56c4opqTh+L6mEGkhcrmVBFbTe1hFC/UfsbAkExmK+Dw6Q5zVDBQe5Z
- vQO9KR1KEhsZRidc5t6FXrTt3AyPbDNocZckiEhBhgfdJEwaG1EcApBlL60GoZCzvH2P
- EHwQ==
+ bh=ZQbX+PJeFGPE/epzSLyMXyeM3puvzgeaNuzCa8J0EXw=;
+ b=KI84PoD5hlyAFNUuR0aDNZVOeTIPetcODuXQFOLsthx0M9PBbd4Ii4NEbvq7AksXu7
+ toZuH3SuWrDmOxlRgY9v/sD5jNWPLQf6dKrCbnokAUAIQEtbRDiSfZWcl/1I3UQVFAEb
+ a6/l7wl7AA00DOx0ry/KDkad9zplSEVZSJFkd/VMKfI133Y6qU9QwZssXXrbCDw5Nb9m
+ dzGrv28dPEYNNVmjwYaPASFLrerbq2hEC4XqdUUCBoLLJ4B4Gtckq/k2ywJKN2rpzvVv
+ ocA532ET5RmMjB9lD97Ske8J4o2bErglLd6L5RaQkIXwXXqhqMDkO9X/qFp6RwMMIFsr
+ LLbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aWow72s2ZHPfyutUF3LRtthWGyQvB6TRG4mGrzQPS+Y=;
- b=W6NxnaLTIAQeloB7L8B//H+sLjrt5UfZhHKLOcKy7ahRJHsnXcMsh6mt1SE41vucGH
- FzEasYtEODGhB923EjDYkEOG3l2POdbjRSQN5LFJPiirwyfmD4Crbea04grUjc42rY6C
- GouXBBNjEY+I+Lr5d37Nl4Nxo0IbK8wvXWF7IYO2EFIgDzoLCYNRCI+S7vRK1Mw1JMhc
- Tj2VdzCiFqOfdAYxH3HeBCyvCqKTuHVt2IBZB4MR3DiX8MGAWcJPzv+LIv/ppJbwahiB
- fKSOzxBubHey4zGBA3J3hwJpvwaMewMjkCmVZrZF3TVswNuvWVRD8HzTtQkcYnCxB+4b
- pagA==
-X-Gm-Message-State: AFqh2koJqMEBMmz9l0vDYe/mEeEjq3XFWpFvNGjIAz39YpAH/6/S75/C
- MjE8rkh2GtwnV5zDoS9NMRD1jA==
-X-Google-Smtp-Source: AMrXdXsw5eR35BhM0SQtUTPreOToQACUohVatv5rPzW7S1K5nzUfkKmIR6WQPAlOT0G0H1aK7d4JHA==
-X-Received: by 2002:a17:902:c409:b0:194:6d3c:38a5 with SMTP id
- k9-20020a170902c40900b001946d3c38a5mr502925plk.1.1673651792454; 
- Fri, 13 Jan 2023 15:16:32 -0800 (PST)
+ bh=ZQbX+PJeFGPE/epzSLyMXyeM3puvzgeaNuzCa8J0EXw=;
+ b=Ots7BRy8AA7LVbgmbffdq7B1KF984/BEPY7B/5QS7KROOzXOroYFDn7MtIDz0q/ca/
+ E9/xZse+T0bboPBFFdH5xilgZNm/2njXhz7Nbo9vrU6yuLTTbfbLbwLlhl+TE/bOijGi
+ 66kTmk/CtUU6PZxPpsb1NGK7Qe+xFgJqqpOMtQjtu/UPx4TYPkEfCZ4RjPK4L7SzCAKt
+ pFl0T9rAkq/T/VwQ95XdPdk/kDy9k0Evihw8hOVFjGe9q7SaWXaCrVkkzJz+MgBQB8GC
+ osrqG4t0EZBkP/9aRgrWErEc7WTi3jiCnXggOa5/6OK6zP32m8kmMS8I6cmQybm8wAdE
+ QpQQ==
+X-Gm-Message-State: AFqh2kpuw9iCAW7L0O67Z7F6SZveT283hj3FGjjWIxmtIolWqzCKXCKD
+ l13XFi1/mNI2ndSqmG+MwQl2Jg==
+X-Google-Smtp-Source: AMrXdXuw7u5n3rdsoSl403MwiroTsQpSA4OUWBZMOT9napmmz7jBR90tsEYJogYGPCeapKIvBrQTcA==
+X-Received: by 2002:a17:902:d409:b0:189:6624:58c0 with SMTP id
+ b9-20020a170902d40900b00189662458c0mr1300675ple.3.1673652575167; 
+ Fri, 13 Jan 2023 15:29:35 -0800 (PST)
 Received: from google.com (7.104.168.34.bc.googleusercontent.com.
  [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- q3-20020a17090311c300b0018c990ce7fesm14720017plh.239.2023.01.13.15.16.31
+ q14-20020a17090311ce00b00189c536c72asm14777597plh.148.2023.01.13.15.29.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 15:16:31 -0800 (PST)
-Date: Fri, 13 Jan 2023 23:16:27 +0000
+ Fri, 13 Jan 2023 15:29:34 -0800 (PST)
+Date: Fri, 13 Jan 2023 23:29:31 +0000
 From: Sean Christopherson <seanjc@google.com>
 To: Chao Peng <chao.p.peng@linux.intel.com>
 Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
@@ -80,17 +81,16 @@ Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  ddutile@redhat.com, dhildenb@redhat.com,
  Quentin Perret <qperret@google.com>, tabba@google.com,
  Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 7/9] KVM: Update lpage info when private/shared
- memory are mixed
-Message-ID: <Y8HmS2iE4u0Gfkrn@google.com>
+Subject: Re: [PATCH v10 8/9] KVM: Handle page fault for private memory
+Message-ID: <Y8HpW9VNVlIdiH+P@google.com>
 References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-8-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-9-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221202061347.1070246-8-chao.p.peng@linux.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=seanjc@google.com; helo=mail-pl1-x629.google.com
+In-Reply-To: <20221202061347.1070246-9-chao.p.peng@linux.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -175
 X-Spam_score: -17.6
 X-Spam_bar: -----------------
@@ -115,29 +115,98 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On Fri, Dec 02, 2022, Chao Peng wrote:
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 9a07380f8d3c..5aefcff614d2 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -12362,6 +12362,8 @@ static int kvm_alloc_memslot_metadata(struct kvm *kvm,
->  		if ((slot->base_gfn + npages) & (KVM_PAGES_PER_HPAGE(level) - 1))
->  			linfo[lpages - 1].disallow_lpage = 1;
->  		ugfn = slot->userspace_addr >> PAGE_SHIFT;
-> +		if (kvm_slot_can_be_private(slot))
-> +			ugfn |= slot->restricted_offset >> PAGE_SHIFT;
->  		/*
->  		 * If the gfn and userspace address are not aligned wrt each
->  		 * other, disable large page support for this slot.
+> @@ -5599,6 +5652,9 @@ int noinline kvm_mmu_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, u64 err
+>  			return -EIO;
+>  	}
+>  
+> +	if (r == RET_PF_USER)
+> +		return 0;
+> +
+>  	if (r < 0)
+>  		return r;
+>  	if (r != RET_PF_EMULATE)
+> @@ -6452,7 +6508,8 @@ static bool kvm_mmu_zap_collapsible_spte(struct kvm *kvm,
+>  		 */
+>  		if (sp->role.direct &&
+>  		    sp->role.level < kvm_mmu_max_mapping_level(kvm, slot, sp->gfn,
+> -							       PG_LEVEL_NUM)) {
+> +							       PG_LEVEL_NUM,
+> +							       false)) {
 
-Forgot to talk about the bug.  This code needs to handle the scenario where a
-memslot is created with existing, non-uniform attributes.  It might be a bit ugly
-(I didn't even try to write the code), but it's definitely possible, and since
-memslot updates are already slow I think it's best to handle things here.
+Passing %false is incorrect.  It might not cause problems because KVM currently
+doesn't allowing modifying private memslots (that likely needs to change to allow
+dirty logging), but it's wrong since nothing guarantees KVM is operating on SPTEs
+for shared memory.
 
-In the meantime, I added this so we don't forget to fix it before merging.
+One option would be to take the patches from the TDX series that add a "private"
+flag to the shadow page role, but I'd rather not add the role until it's truly
+necessary.
 
-#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
-	pr_crit_once("FIXME: Walk the memory attributes of the slot and set the mixed status appropriately");
-#endif
+For now, I think we can do this without impacting performance of guests that don't
+support private memory.
 
+int kvm_mmu_max_mapping_level(struct kvm *kvm,
+			      const struct kvm_memory_slot *slot, gfn_t gfn,
+			      int max_level)
+{
+	bool is_private = kvm_slot_can_be_private(slot) &&
+			  kvm_mem_is_private(kvm, gfn);
+
+	return __kvm_mmu_max_mapping_level(kvm, slot, gfn, max_level, is_private);
+}
+
+> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> index 25099c94e770..153842bb33df 100644
+> --- a/include/linux/kvm_host.h
+> +++ b/include/linux/kvm_host.h
+> @@ -2335,4 +2335,34 @@ static inline void kvm_arch_set_memory_attributes(struct kvm *kvm,
+>  }
+>  #endif /* __KVM_HAVE_ARCH_SET_MEMORY_ATTRIBUTES */
+>  
+> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+> +static inline bool kvm_mem_is_private(struct kvm *kvm, gfn_t gfn)
+> +{
+
+This code, i.e. the generic KVM changes, belongs in a separate patch.  It'll be
+small, but I want to separate x86's page fault changes from the restrictedmem
+support adding to common KVM.
+
+This should also short-circuit based on CONFIG_HAVE_KVM_RESTRICTED_MEM, though
+I would name that CONFIG_KVM_PRIVATE_MEMORY since in KVM's world, it's all about
+private vs. shared at this time.
+
+> +	return xa_to_value(xa_load(&kvm->mem_attr_array, gfn)) &
+> +	       KVM_MEMORY_ATTRIBUTE_PRIVATE;
+> +}
+> +#else
+> +static inline bool kvm_mem_is_private(struct kvm *kvm, gfn_t gfn)
+> +{
+> +	return false;
+> +}
+> +
+> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
+> +
+> +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
+> +static inline int kvm_restricted_mem_get_pfn(struct kvm_memory_slot *slot,
+> +					gfn_t gfn, kvm_pfn_t *pfn, int *order)
+> +{
+> +	int ret;
+> +	struct page *page;
+> +	pgoff_t index = gfn - slot->base_gfn +
+> +			(slot->restricted_offset >> PAGE_SHIFT);
+> +
+> +	ret = restrictedmem_get_page(slot->restricted_file, index,
+> +				     &page, order);
+
+This needs handle errors.  If "ret" is non-zero, "page" is garbage.
+
+> +	*pfn = page_to_pfn(page);
+> +	return ret;
+> +}
+> +#endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
+> +
+>  #endif
+> -- 
+> 2.25.1
+> 
 
