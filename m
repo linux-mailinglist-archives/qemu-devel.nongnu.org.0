@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39358669847
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 14:18:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742E1669860
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 14:21:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGJvx-0007db-Ju; Fri, 13 Jan 2023 08:17:25 -0500
+	id 1pGJzG-0000PS-3s; Fri, 13 Jan 2023 08:20:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGJvt-0007bl-Kw
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:17:21 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
+ id 1pGJzB-0000Mm-Gx
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:20:45 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGJvr-0007qi-SS
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:17:21 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id s67so14961751pgs.3
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 05:17:18 -0800 (PST)
+ id 1pGJz9-00006u-P9
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:20:45 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id d10so14938749pgm.13
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 05:20:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=O+x1ewfry7Yn4tG+ORJPQF7FxEIr7PRfmPrjUm2JgHw=;
- b=ZAKvONlvGkajF2EVCCBvD0PePWt/kyhrTUfz1WmgSJlbnD7N7FWkGICvGVRiESrc+4
- nXQ4JEVseQ959m31DknilRDk2h9Ox1YHxPTzgKVy2kD5gt8/7evSdXDmdv/iwBdBAGHg
- 6eixCDtTPnvL27Sb+47hGH81FtfZ6ZVY1YCMf+uRkPbLhNrnjC3alV5nMXUPd819/wuA
- E517JzTztH6G3E1tP8c/WyAv+fgdPFpxgWAYyj1S/d+RMuRQTzbJrsVjxyR0elbmXdrm
- QGPuWOfVSbbhcN2iNIIp+vvZZJhosrBVOeJVSgz1RKBkKu7MRvkgYGJjWz6f+nSrpY+2
- PELQ==
+ bh=2HiQcavuJZg1YKdzcRCo0RHAlxM1LHlsbYqDs55xGY8=;
+ b=Pfdw/SHrpuUQQXRZW/2rwUjKZ+phvsuOqkZ73ICmSQM8IRjnfTfZ/1jOxFmCj+DKbq
+ piNNzbWGZzOJMhIEDPZjP8SB9Oj6zQLwhgS54zLHZ4DbHklebHHvXZY2uCpj295aLYpr
+ rMA7ekh7qlhgkiXy4aDXLK9DBObVrYWLrUICgMdD7qmJk2+OHpl1iJSqC5qjiO0BBjhC
+ Yz2Icuf6PY05+8wXQAG0/BhOc1ITM1YlZ07Egn6fjpkODbN8i0EVAZN4kbBwgNqfffHW
+ +iveYELxihrcgnQOrp5FwdySKOHT9M0u+jHpqFWhxlMmHaoXEGj8hSkdbxAoFibm/OEN
+ MO2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=O+x1ewfry7Yn4tG+ORJPQF7FxEIr7PRfmPrjUm2JgHw=;
- b=omnrKo9SSYD4F0dKq7AzqS7W8HRLL9OVYLwgwpyQP9k4pPnFTW4N0LzJgW94MvE16H
- dfSgZJcK9st10H50DxTCaHdHI45MKWt6KJ0IBAb4yWBAFM/qbdJwoISozID6duhG5IC0
- diEd5ZV8hmiuJlZY0VRNLxQ25IFRy5OYxuqUOnXS2ap/TAnL1bG4Xcx8okw43hJhMFK2
- 13JfE4P+ghJkUa77ylCsfpTh+66SoWU4RVmu72xWUBFo1oO713lWRSJBYSDsyV2BuoIt
- DijomqZpN93tANPbDXrdTHr7dkqGGniYQC84cDIujEoAaf665EACqz2O/jaPST9xc+OE
- cyKQ==
-X-Gm-Message-State: AFqh2kp0zDuLuuYGhCoMjvgD1K3kf0rgRE28y0fsaNOgS9hAD3j8Zk7g
- iEd1Q6XC1JYw1QAxqq2MvHyU1FYCw5NFa34A7ePChg==
-X-Google-Smtp-Source: AMrXdXvysolgg6dhSvAR6Rk3vFwn4gSg+Qxi/8wpjuk4wEPTD8FqcIx3PKvmlhUR5q846ODB0X+mJoLwavuISq3Rj80=
-X-Received: by 2002:aa7:9485:0:b0:582:bdaa:b575 with SMTP id
- z5-20020aa79485000000b00582bdaab575mr3310962pfk.51.1673615837536; Fri, 13 Jan
- 2023 05:17:17 -0800 (PST)
+ bh=2HiQcavuJZg1YKdzcRCo0RHAlxM1LHlsbYqDs55xGY8=;
+ b=hoDGcXuLb8JwBPwRa5WyxYqIbXW6IB7nI2/w+Tx3aiy3+M7Fjbq2ujVqiFxNxKjzt1
+ rxHlp5alMzCJR7VabIkul6uFHAe66cxg6mYCxkqNfHmtnOPqcHgbHGX3+bSy/2Lr8ImI
+ 4voTPbC0WhUhVmI30OER5IjJB93qtD/LzzTgQGwsj5kpX1/E9Sd1fKtqqywJLK7esRAX
+ GRpoIOWbCCdjmWidhVJJ9Y3FrEwPDhuczkZONJ8I6GgmLCSczSb+eHjFXLxmtzKOwjjU
+ An1QkcTlXdTM+yrdd6d7LJg2rSnMK5G2YZ25PPmGC0zwweqFEHFmkJHBbAfryKo/QWQB
+ P69A==
+X-Gm-Message-State: AFqh2kpGIpA8O+dFG81CSIW37f6k5pvKm0hQ70tfV6O1yNypkwg2gtts
+ KIDkD+M/K2kdEUIj/f1G/sn02LXm9+XSFUbvr3u9xg==
+X-Google-Smtp-Source: AMrXdXtkakFdQ05oY67t652mIwbr6sKUlK4LFQQCx04rUE0ODuCGa2E3oZEz+KHoMoWW9AzNUhuhyQ4CbVpUduDzxwY=
+X-Received: by 2002:aa7:999c:0:b0:582:74a2:1e4e with SMTP id
+ k28-20020aa7999c000000b0058274a21e4emr3618316pfh.26.1673616041255; Fri, 13
+ Jan 2023 05:20:41 -0800 (PST)
 MIME-Version: 1.0
 References: <20230105221251.17896-1-eiakovlev@linux.microsoft.com>
- <20230105221251.17896-3-eiakovlev@linux.microsoft.com>
-In-Reply-To: <20230105221251.17896-3-eiakovlev@linux.microsoft.com>
+ <20230105221251.17896-4-eiakovlev@linux.microsoft.com>
+In-Reply-To: <20230105221251.17896-4-eiakovlev@linux.microsoft.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 Jan 2023 13:17:06 +0000
-Message-ID: <CAFEAcA_z=rtYmaGWDWNib8tr_L==exWk5iBwkzsGMirRohFNog@mail.gmail.com>
-Subject: Re: [PATCH 2/3] target/arm: provide RAZ/WI stubs for more DCC
- registers
+Date: Fri, 13 Jan 2023 13:20:30 +0000
+Message-ID: <CAFEAcA_1K6jC1aM3DX3iNN503pqw14yyCUiORoHPSfxN7g8Xzg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] target/arm: allow writes to SCR_EL3.HXEn bit when
+ FEAT_HCX is enabled
 To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ qemu-stable <qemu-stable@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,52 +88,43 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On Thu, 5 Jan 2023 at 22:13, Evgeny Iakovlev
 <eiakovlev@linux.microsoft.com> wrote:
 >
-> Qemu doesn't implement Debug Communication Channel, however when running
-> Microsoft Hyper-V in software-emulated ARM64 as a guest, it tries to
-> access some of the DCM registers during an EL2 context switch.
-
-I've occasionally thought about implementing the DCC as something
-the QEMU user could connect to a QEMU chardev. But that would be
-a lot of faff for no very obvious benefit, so making these registers
-RAZ makes sense for now.
-
-> Provide RAZ/WI stubs for OSDTRRX_EL1, OSDTRTX_EL1 and OSECCR_EL1
-> registers in the same way the rest of DCM is currently done. Do
-> account for access traps though with access_tda.
-
-OSECCR_EL1 isn't part of DCC; it's a different bit of the external
-debug interface.
-
+> ARM trusted firmware, when built with FEAT_HCX support, sets SCR_EL3.HXEn bit
+> to allow EL2 to modify HCRX_EL2 register without trapping it in EL3. Qemu
+> uses a valid mask to clear unsupported SCR_EL3 bits when emulating SCR_EL3
+> write, and that mask doesn't include SCR_EL3.HXEn bit even if FEAT_HCX is
+> enabled and exposed to the guest. As a result EL3 writes of that bit are
+> ignored.
+>
 > Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
 > ---
->  target/arm/debug_helper.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  target/arm/helper.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-> index b244e146e2..2a7c3d7e38 100644
-> --- a/target/arm/debug_helper.c
-> +++ b/target/arm/debug_helper.c
-> @@ -673,6 +673,18 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
->        .opc0 = 2, .opc1 = 3, .crn = 0, .crm = 1, .opc2 = 0,
->        .access = PL0_R, .accessfn = access_tda,
->        .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "OSDTRRX_EL1", .state = ARM_CP_STATE_BOTH, .cp = 14,
-> +      .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 0, .opc2 = 2,
-> +      .access = PL1_RW, .accessfn = access_tda,
-> +      .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "OSDTRTX_EL1", .state = ARM_CP_STATE_BOTH, .cp = 14,
-> +      .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 2,
-> +      .access = PL1_RW, .accessfn = access_tda,
-> +      .type = ARM_CP_CONST, .resetvalue = 0 },
-> +    { .name = "OSECCR_EL1", .state = ARM_CP_STATE_BOTH, .cp = 14,
-> +      .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 6, .opc2 = 2,
-> +      .access = PL1_RW, .accessfn = access_tda,
-> +      .type = ARM_CP_CONST, .resetvalue = 0 },
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index bac2ea62c4..962affdd52 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -1844,6 +1844,9 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+>          if (cpu_isar_feature(aa64_sme, cpu)) {
+>              valid_mask |= SCR_ENTP2;
+>          }
+> +        if (cpu_isar_feature(aa64_hcx, cpu)) {
+> +            valid_mask |= SCR_HXEN;
+> +        }
+>      } else {
+>          valid_mask &= ~(SCR_RW | SCR_ST);
+>          if (cpu_isar_feature(aa32_ras, cpu)) {
+> --
 
-A brief comment or two here would be nice.
+Oops. This is worth
+Cc: qemu-stable@nongnu.org
 
-Otherwise
+I think.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+I'll take this 3rd patch into target-arm.next now; I've left
+review comments for the other 2.
 
 thanks
 -- PMM
