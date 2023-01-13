@@ -2,89 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439B76697E9
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 14:01:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D23D6697EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 14:02:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGJfW-0000Eh-Uo; Fri, 13 Jan 2023 08:00:27 -0500
+	id 1pGJh1-0001Vg-Ja; Fri, 13 Jan 2023 08:01:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pGJf9-0000DV-GX
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:00:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pGJgy-0001QB-3k
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:01:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pGJf7-0002eb-F9
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:00:03 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pGJgt-0003La-1d
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:01:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673614769;
+ s=mimecast20190719; t=1673614906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YfdQpXV+DjjbEGqEUOV9SClLE+f1M9EHcObyV8sSHlM=;
- b=CWV0fUdH48819juQK3RFh+W3KFJVv+3IXh788Gu/s6Coz5EaOe54qkqhuVvGYb6jkbt/m1
- It2AD9KA/xhqO+8ud3sVNwN8tg0pYQEehlaM44SyhobYvvWpmjN19InR/BTUWBQ2fp+qVg
- Bf3gp8xoQKjMvIzyslhIjPvLrmgjZsA=
+ bh=greftqf9/S9rIlKVrKfVNuQD0N6pxAdKgjPO8YQplA8=;
+ b=VdxTHFTVJoWSCHN/jKnJjh/qgx/PW6V5QjUNt2bT1Er9CnxDyn6PPITf/5K3+BhWj8Hjr7
+ /hzUwQPnHrRWBvrVLag0D3ahVUfePmD4+fjhj31xmraBdPVsQHE126h/phrIxQDgoJT9W/
+ 2DU3zmMCTnaX1tEvUXtxvn9vQaBU0Ck=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-583-5OoSdGvvNnqYFU9l-jHM0w-1; Fri, 13 Jan 2023 07:59:28 -0500
-X-MC-Unique: 5OoSdGvvNnqYFU9l-jHM0w-1
+ us-mta-344-AzQ0fPqePJea1gbJaOumOw-1; Fri, 13 Jan 2023 08:01:44 -0500
+X-MC-Unique: AzQ0fPqePJea1gbJaOumOw-1
 Received: by mail-wm1-f70.google.com with SMTP id
- k20-20020a05600c1c9400b003d9717c8b11so10869351wms.7
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 04:59:27 -0800 (PST)
+ fm17-20020a05600c0c1100b003d96f0a7f2eso14169727wmb.6
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 05:01:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:from:references
  :cc:to:content-language:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=YfdQpXV+DjjbEGqEUOV9SClLE+f1M9EHcObyV8sSHlM=;
- b=SAlnJgtAh50QSApsq5YOqtMWGS9ewnD9y87oUPCW2foOoERh471H0BJQe7we91tXFx
- riVKd0cdpP7nLC9mmzwclZpvxHMZRiC5DjFVFLs0ZMl/5Z9j22YrWxyTX2aEmzR6cHs3
- 15p4oheuk0b09ynlBPeXEwiGph4PW7nC9EvocRrY7My+nyjmoxd/Lg1Mcme5Mv4ls7Ho
- 7udRK0Wa1AxqGlrihgSraZRvPjtr6Doc7ojzg6uG9TQmCuJPHXouuWv8rMrYc67nusJR
- RMiDWLOrXuOE+jhbxY2SIaCrKHfsfk2WmLBS2Gym5e/6cTsIuKvbCZ/vImdazFI5/iJ7
- vLcA==
-X-Gm-Message-State: AFqh2kpneUCxZuaIc+leeCBQX9coeB7XlAigD627tqCEoSYezetxilQL
- 0+W4W7FW2d26yOm5CF2OU2SK8sybFU1w0Myt5F+d5/n+Azj3z57pbMsDwjsJAVEgGs7QGAE/9PS
- zXQNmg1RQiTvq4a8=
-X-Received: by 2002:a05:600c:4a9b:b0:3d1:dc6f:b1a4 with SMTP id
- b27-20020a05600c4a9b00b003d1dc6fb1a4mr69280273wmp.5.1673614766935; 
- Fri, 13 Jan 2023 04:59:26 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtjEG02pVouNfHQtmlTvHR+2/ax6fDroKfK0xuPRs+oU40TjkABqUV5xFgndKOS03bSyPev+A==
-X-Received: by 2002:a05:600c:4a9b:b0:3d1:dc6f:b1a4 with SMTP id
- b27-20020a05600c4a9b00b003d1dc6fb1a4mr69280246wmp.5.1673614766579; 
- Fri, 13 Jan 2023 04:59:26 -0800 (PST)
+ bh=greftqf9/S9rIlKVrKfVNuQD0N6pxAdKgjPO8YQplA8=;
+ b=5GMxvDGs3n1cLF80DeAComz9RRaPl7x0ifpdtkTb0hKaA5FeI0H9OG6dsaj7eYOQqH
+ DHQa5u4Na+0s6SPICcO1YU3oiYNYmBhUHSyHcAZvyiMeiMWEc+ayuVSymhK3mFUHSCj8
+ 93KQodeNO++n5TMjutkBvaCgLvoEEI5ZqKZFkCWu2W/n9V16Aic6bSmRXI9rK+JWxHFk
+ 8FLzV9xa+zMeySX0m+/q/tK4jR8NPwN0Idn4d8rms/nr1MQvIJl7kLG2t7quDMU84JvK
+ aAjCBPRSsZDVzGKaOehTUub9hB2oio07oJLEreT6yDzYGiVinZ7P+FMV2LDhGCpc9UUm
+ 6Njw==
+X-Gm-Message-State: AFqh2kq1jTgLRrr+jKdC6thn57qtnl/2Smz3F6TUzFs9B1uo0Mdd6YF9
+ y0WqTgkWLUA/pUx6qraSSiQ0wBXNXyezZWVJzPU/rE68p8Pka9bfzHY8XRTb4PNNFBKX1IT0+40
+ cv1tXaH1IFwq+09o=
+X-Received: by 2002:adf:ff8a:0:b0:2bd:db1c:8e15 with SMTP id
+ j10-20020adfff8a000000b002bddb1c8e15mr3167407wrr.51.1673614903218; 
+ Fri, 13 Jan 2023 05:01:43 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtdaYMfbuFCEFQDuDQRjcFhaOBU6WV1WrpVWvPbhRsnu5/JXpbdBaVIopOTxpQQPgzrpd9Igg==
+X-Received: by 2002:adf:ff8a:0:b0:2bd:db1c:8e15 with SMTP id
+ j10-20020adfff8a000000b002bddb1c8e15mr3167382wrr.51.1673614902892; 
+ Fri, 13 Jan 2023 05:01:42 -0800 (PST)
 Received: from ?IPV6:2003:cb:c704:ec00:869d:7200:eb03:db01?
  (p200300cbc704ec00869d7200eb03db01.dip0.t-ipconnect.de.
  [2003:cb:c704:ec00:869d:7200:eb03:db01])
  by smtp.gmail.com with ESMTPSA id
- h14-20020a05600c314e00b003d9fa355387sm12620932wmo.27.2023.01.13.04.59.25
+ i6-20020adfe486000000b002423dc3b1a9sm18523727wrm.52.2023.01.13.05.01.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 04:59:26 -0800 (PST)
-Message-ID: <7836f952-86d3-3e90-7140-d59728992907@redhat.com>
-Date: Fri, 13 Jan 2023 13:59:25 +0100
+ Fri, 13 Jan 2023 05:01:42 -0800 (PST)
+Message-ID: <c8bc09e7-d671-844c-4418-60a53668d355@redhat.com>
+Date: Fri, 13 Jan 2023 14:01:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v3 1/8] migration/savevm: Move more savevm handling into
- vmstate_save()
+Subject: Re: [PATCH v3 2/8] migration/savevm: Prepare vmdesc json writer in
+ qemu_savevm_state_setup()
 Content-Language: en-US
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>
 Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Peter Xu <peterx@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
  Michal Privoznik <mprivozn@redhat.com>
 References: <20230112164403.105085-1-david@redhat.com>
- <20230112164403.105085-2-david@redhat.com> <Y8A8J78zL3hW9z34@work-vm>
- <6ee9e268-efe9-87bc-d198-08784ce73f72@redhat.com> <Y8BTJVQhkpenEeKH@work-vm>
+ <20230112164403.105085-3-david@redhat.com> <Y8BGzE/HtpXZJ8Lz@work-vm>
+ <7d80a8d2-1426-2a71-6a7a-eeaac31c4df5@redhat.com> <Y8BUAIZ9nn7sXzou@work-vm>
+ <Y8CEUcXek3FPEwCe@x1n>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <Y8BTJVQhkpenEeKH@work-vm>
+In-Reply-To: <Y8CEUcXek3FPEwCe@x1n>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -108,37 +110,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12.01.23 19:36, Dr. David Alan Gilbert wrote:
-> * David Hildenbrand (david@redhat.com) wrote:
->> On 12.01.23 17:58, Dr. David Alan Gilbert wrote:
->>> * David Hildenbrand (david@redhat.com) wrote:
->>>> Let's move more code into vmstate_save(), reducing code duplication and
->>>> preparing for reuse of vmstate_save() in qemu_savevm_state_setup(). We
->>>> have to move vmstate_save() to make the compiler happy.
+On 12.01.23 23:06, Peter Xu wrote:
+> On Thu, Jan 12, 2023 at 06:40:00PM +0000, Dr. David Alan Gilbert wrote:
+>> * David Hildenbrand (david@redhat.com) wrote:
+>>> On 12.01.23 18:43, Dr. David Alan Gilbert wrote:
+>>>> * David Hildenbrand (david@redhat.com) wrote:
+>>>>> ... and store it in the migration state. This is a preparation for
+>>>>> storing selected vmds's already in qemu_savevm_state_setup().
+>>>>>
+>>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>>> ---
+>>>>>    migration/migration.c |  4 ++++
+>>>>>    migration/migration.h |  4 ++++
+>>>>>    migration/savevm.c    | 18 ++++++++++++------
+>>>>>    3 files changed, 20 insertions(+), 6 deletions(-)
+>>>>>
+>>>
+>>> [1]
+>>>
+>>>>> diff --git a/migration/migration.c b/migration/migration.c
+>>>>> index 52b5d39244..1d33a7efa0 100644
+>>>>> --- a/migration/migration.c
+>>>>> +++ b/migration/migration.c
+>>>>> @@ -2170,6 +2170,9 @@ void migrate_init(MigrationState *s)
+>>>>>        s->vm_was_running = false;
+>>>>>        s->iteration_initial_bytes = 0;
+>>>>>        s->threshold_size = 0;
+>>>>> +
+>>>>> +    json_writer_free(s->vmdesc);
+>>>>> +    s->vmdesc = NULL;
+>>>>>    }
+>>>
+>>> [...]
+>>>
+>>>>>        trace_savevm_state_setup();
+>>>>>        QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+>>>>>            if (!se->ops || !se->ops->save_setup) {
+>>>>> @@ -1390,15 +1395,12 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+>>>>>                                                        bool in_postcopy,
+>>>>>                                                        bool inactivate_disks)
+>>>>>    {
+>>>>> -    g_autoptr(JSONWriter) vmdesc = NULL;
+>>>>> +    MigrationState *ms = migrate_get_current();
+>>>>> +    JSONWriter *vmdesc = ms->vmdesc;
+>>>>>        int vmdesc_len;
+>>>>>        SaveStateEntry *se;
+>>>>>        int ret;
+>>>>> -    vmdesc = json_writer_new(false);
+>>>>> -    json_writer_start_object(vmdesc, NULL);
+>>>>> -    json_writer_int64(vmdesc, "page_size", qemu_target_page_size());
+>>>>> -    json_writer_start_array(vmdesc, "devices");
+>>>>>        QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+>>>>>            ret = vmstate_save(f, se, vmdesc);
+>>>>>            if (ret) {
+>>>>> @@ -1433,6 +1435,10 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+>>>>>            qemu_put_buffer(f, (uint8_t *)json_writer_get(vmdesc), vmdesc_len);
+>>>>>        }
+>>>>> +    /* Free it now to detect any inconsistencies. */
+>>>>> +    json_writer_free(vmdesc);
+>>>>> +    ms->vmdesc = NULL;
 >>>>
->>>> We'll now also trace from qemu_save_device_state().
+>>>> and this only happens when this succesfully exits;  so if this errors
+>>>> out, and then you retry an outwards migration, I think you've leaked a
+>>>> writer.
 >>>
->>> Mostly OK, but..
->>>
->>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>> ---
->>>>    migration/savevm.c | 79 ++++++++++++++++++++++------------------------
->>>
->>> Doesn't this also need to upate trace-events?
+>>> Shouldn't the change [1] to migrate_init() cover that?
 >>
->> The existing trace events from
->> qemu_savevm_state_complete_precopy_non_iterable() are simply moved to
->> vmstate_save(), so qemu_save_device_state() will implicitly use them.
->>
->> So no update should be needed (no new events), or am I missing something?
+>> Hmm OK, yes it does - I guess it does mean you keep the allocation
+>> around for a bit longer, but that's OK in practice since normally you'll
+>> be quitting soon.
 > 
-> Aren't you losing the trace_savevm_state_setup() trace?
+> Instead of json_writer_free() here and there, how about free it in
+> migrate_fd_cleanup() once and for all?
+> 
 
-trace_savevm_state_setup() is called from qemu_savevm_state_setup() 
-before/after this change.
-
-Calling it from qemu_save_device_state() would be wrong: they skip the 
-setup phase and don't call any save_setup() -- skipping all "se->is_ram".
+Sure, if that works. I assume I can get rid of the migrate_init() and 
+migration_instance_finalize() change then, correct?
 
 -- 
 Thanks,
