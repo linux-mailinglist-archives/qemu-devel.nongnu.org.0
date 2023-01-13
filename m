@@ -2,84 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1BF668EF1
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 08:17:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0FD668EFF
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 08:21:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGEJM-0004BX-4l; Fri, 13 Jan 2023 02:17:12 -0500
+	id 1pGEMx-0006JV-ON; Fri, 13 Jan 2023 02:20:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGEJF-00049V-9p
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:17:05 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGEJC-000194-3I
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:17:03 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- c4-20020a1c3504000000b003d9e2f72093so13303424wma.1
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 23:17:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=s/irv9ll2IKYeUtIjEEI80H3YZm/A6FxHeQ3tnhoaVI=;
- b=R4npKgp8DBYDU8u3waDpTSRvnk6lL1Uqx7oEMe4cNyvpOq2kPSmVHpOca6Z0uQtjgF
- MsC7T74BLNnKDl47V9V6/8kTr7QxJG+C3XMtGqPA5eNBBV2pIbJXP7K36lGrRxzG0cZm
- hS3IjmjcGuYkYo2AyBYeY4ccwcpF9VekdmSybveNiEcCzWSIWbpEuLi7dKBzEx67MCop
- p4eNOcj/KWBcPo96OpNjUzt6sV6eFEYMrylK5dCQL7ryijZS+p9/zbHAzFKWSGecxDCf
- jZlo0UYTipZw4lygtx4YpZyCQY+flvbuiJQpJAlO3KAGj6zBqlam1XfRB+pwYbD1Kg7D
- ylUg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pGEMo-0006Hx-VO
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:20:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pGEMn-0001wX-8s
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:20:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673594443;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aRXNLfmEVbSxoirzCczROgPsv2Rt7VQGMgFchHpmsmU=;
+ b=My7a2OPbAp2SeS0a9zf+uasTeI2h0buBAcdMpkZyKJxvGSmdcKnOBiwr3aHMRxOu+Fu9cX
+ 2eTRpCaNFFtOJ214q2tZM13RgHcXpuGXDIVNhP/G5TsrEB2SV3XpkOD7CqZw8qCmitANi+
+ Bq//owo5csLFBmGwNsUyEFeQ9tQKVIU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-64-7dCyroR6N2C2wwZDWcGtXg-1; Fri, 13 Jan 2023 02:20:42 -0500
+X-MC-Unique: 7dCyroR6N2C2wwZDWcGtXg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l31-20020a05600c1d1f00b003d9720d2a0eso13773687wms.7
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 23:20:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=s/irv9ll2IKYeUtIjEEI80H3YZm/A6FxHeQ3tnhoaVI=;
- b=YKpTWZvQSBz5k1Q4MGWHU4TN0fIj85icFhsztv+DAlNo5afs0Bszu1snVXUNiM9B5+
- 3pS3sWoeNh2oKTPEBAHmihma5n4lyTi7leYom05Q19Pi8nL8Khr92+5eg1CgmbIOc30D
- zsnTQJrFELpuR5L6vPsh7fGtJx+yqEnCUDRrrZKpFbx9f98QWNmoGY2sQ6CuFiY+iLPn
- kLR6rn36U6HF6HZ/vb87iZsj0W6fuN7vD/mfZH610zlcEoOlyuWPVCtNBopFPfLYX2Fh
- 6adqKsDRk4R4Ae7kKYrU0RILnAOyv2DgJ3g3Rdq+EEDa/t1SaQn8k+95aEDBhDcliHaE
- dqbg==
-X-Gm-Message-State: AFqh2kp/LAY2cqSj1Qcv93Pec00AW1PwA+8uri1DNi4xquYTm+coNZy+
- wCmAZ3LggQP6PF5N4MxzNzoLKA==
-X-Google-Smtp-Source: AMrXdXvBQNlaz72mFcWuR2BNZbw53FwLqTdwLT054CgCp62lcZf1ksZI8crdKZDbvtQCiU6MPVZFUw==
-X-Received: by 2002:a05:600c:1c97:b0:3d1:c8e3:2452 with SMTP id
- k23-20020a05600c1c9700b003d1c8e32452mr59750948wms.30.1673594220001; 
- Thu, 12 Jan 2023 23:17:00 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- d6-20020a05600c3ac600b003da0dc39872sm6626785wms.6.2023.01.12.23.16.59
+ bh=aRXNLfmEVbSxoirzCczROgPsv2Rt7VQGMgFchHpmsmU=;
+ b=7k4RK7kxCJDDfi19Nfdafpuhgw1jzan+uQdgZESRP2UeJ9Lme80rPQmCXXvCT7rn37
+ iyDU+v5jDEEmcpy11+a0pcQn6vKYTNDdRYdImOm6Ct3lnwZKtjRu9XwjFYIZ5ieI3ZUo
+ ingOdMCNnrN+HFIA3DuSerh8VmsRRlpwn777U2CM/aVXwmsJJHVahaJVo8FavVprti4t
+ WzMWQvx8NdUBCJNmvshKGxz9I6YRhv2Af1ACLB3ZGJ3X4FkpKhutMqUvI2QTq0yK3CBV
+ O0jYL6yg5FAa2t6IbBy/Ld2K1zadmAZ9dhBND0U3j1JgAKmlZvwmRqOmTE/ZZHysjldx
+ 5IUQ==
+X-Gm-Message-State: AFqh2kqjjmUHrxcpFrxfbGRSGWWxD4BKhp/pvhi4z+31lMQgF39u5Kx+
+ KU30PqRnvtTpPBJUQMKI13dSVbukPXBWcGM7WohgKWxgOVJKlyHKLzdD4mDTFcsPYgK2zQDbJ6Y
+ 1oZNSJg6NNUTgBfo=
+X-Received: by 2002:a05:6000:1042:b0:2bc:804e:4c78 with SMTP id
+ c2-20020a056000104200b002bc804e4c78mr10442571wrx.59.1673594441368; 
+ Thu, 12 Jan 2023 23:20:41 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsukWHKYUt6OPzhaKfT/AVGrxYOuJ4RI3vDEEiUvKVbO+0QF9k6SNLzxULoQYTXVYCNDamTFA==
+X-Received: by 2002:a05:6000:1042:b0:2bc:804e:4c78 with SMTP id
+ c2-20020a056000104200b002bc804e4c78mr10442562wrx.59.1673594441194; 
+ Thu, 12 Jan 2023 23:20:41 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-39.web.vodafone.de.
+ [109.43.177.39]) by smtp.gmail.com with ESMTPSA id
+ l6-20020a5d6686000000b002bb3229a03csm17031721wru.34.2023.01.12.23.20.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 23:16:59 -0800 (PST)
-Message-ID: <b5cab84f-4bb9-694b-80e9-0b5aeac9de6c@linaro.org>
-Date: Fri, 13 Jan 2023 08:16:58 +0100
+ Thu, 12 Jan 2023 23:20:40 -0800 (PST)
+Message-ID: <22763761-403b-6eff-c4fb-8287971468ec@redhat.com>
+Date: Fri, 13 Jan 2023 08:20:39 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v5 10/11] hw/riscv/boot.c: consolidate all kernel init in
- riscv_load_kernel()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 0/6] qemu/bswap: Use compiler __builtin_bswap()
 Content-Language: en-US
-To: Alistair Francis <alistair23@gmail.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
-References: <20230102115241.25733-1-dbarboza@ventanamicro.com>
- <20230102115241.25733-11-dbarboza@ventanamicro.com>
- <CAKmqyKPri7asvqZ8wN4Bd-wjH+gwwMJJhiUd+=QZFV4RhWnyUQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CAKmqyKPri7asvqZ8wN4Bd-wjH+gwwMJJhiUd+=QZFV4RhWnyUQ@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Ryo ONODERA <ryoon@netbsd.org>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Ira Weiny <ira.weiny@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ Reinoud Zandijk <reinoud@netbsd.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Alexander von Gluck IV <kallisti5@unixzen.com>
+References: <20230111163147.71761-1-philmd@linaro.org>
+ <988c2552-f378-f028-d11f-1261c0be1281@linaro.org>
+ <26c3c3c8-61f5-8f56-9094-1699fcd516ed@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <26c3c3c8-61f5-8f56-9094-1699fcd516ed@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,68 +108,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/1/23 01:34, Alistair Francis wrote:
-> On Mon, Jan 2, 2023 at 9:55 PM Daniel Henrique Barboza
-> <dbarboza@ventanamicro.com> wrote:
+On 13/01/2023 08.05, Philippe Mathieu-Daudé wrote:
+> On 13/1/23 02:05, Richard Henderson wrote:
+>> On 1/11/23 08:31, Philippe Mathieu-Daudé wrote:
+>>> Implement Richard's suggestion to use __builtin_bswap().
+>>>
+>>> Convert to __builtin_bswap() one patch per OS to simplify
+>>> maintainers review.
+>>>
+>>> Since v2:
+>>> - Rebased adapting ./configure changes to meson
+>>>
+>>> Since v1:
+>>> - Remove the Haiku/BSD ifdef'ry (Peter)
+>>> - Include the Haiku VM image from Alexander
+>>>
+>>> Philippe Mathieu-Daudé (6):
+>>>    qemu/bswap: Replace bswapXX() by compiler __builtin_bswap()
+>>>    qemu/bswap: Replace bswapXXs() by compiler __builtin_bswap()
+>>>    qemu/bswap: Remove <byteswap.h> dependency
+>>>    qemu/bswap: Use compiler __builtin_bswap() on Haiku
+>>>    qemu/bswap: Use compiler __builtin_bswap() on FreeBSD
+>>>    qemu/bswap: Use compiler __builtin_bswap() on NetBSD
 >>
->> The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
->> the same steps when '-kernel' is used:
->>
->> - execute load_kernel()
->> - load init_rd()
->> - write kernel_cmdline
->>
->> Let's fold everything inside riscv_load_kernel() to avoid code
->> repetition. To not change the behavior of boards that aren't calling
->> riscv_load_init(), add an 'load_initrd' flag to riscv_load_kernel() and
->> allow these boards to opt out from initrd loading.
->>
->> Cc: Palmer Dabbelt <palmer@dabbelt.com>
->> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->> ---
->>   hw/riscv/boot.c            | 22 +++++++++++++++++++---
->>   hw/riscv/microchip_pfsoc.c | 12 ++----------
->>   hw/riscv/opentitan.c       |  2 +-
->>   hw/riscv/sifive_e.c        |  3 ++-
->>   hw/riscv/sifive_u.c        | 12 ++----------
->>   hw/riscv/spike.c           | 11 +----------
->>   hw/riscv/virt.c            | 12 ++----------
->>   include/hw/riscv/boot.h    |  1 +
->>   8 files changed, 30 insertions(+), 45 deletions(-)
+>> If this passes on all the odd OS's, great.
+>> Failure on some oddball is what blocked my patch set years ago.
+> 
+> OK I'll double-check.
 
->> @@ -192,21 +194,35 @@ target_ulong riscv_load_kernel(MachineState *machine,
->>       if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
->>                            NULL, &kernel_load_base, NULL, NULL, 0,
->>                            EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
->> -        return kernel_load_base;
->> +        kernel_entry = kernel_load_base;
-> 
-> This breaks 32-bit Xvisor loading. It seems that for the 32-bit guest
-> we get a value of 0xffffffff80000000.
-> 
-> Previously the top bits would be lost as we return a target_ulong from
-> this function, but with this change we pass the value
-> 0xffffffff80000000 to riscv_load_initrd() which causes failures.
-> 
-> This diff fixes the failure for me
-> 
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 4888d5c1e0..f08ed44b97 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -194,7 +194,7 @@ target_ulong riscv_load_kernel(MachineState *machine,
->      if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
->                           NULL, &kernel_load_base, NULL, NULL, 0,
->                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
-> -        kernel_entry = kernel_load_base;
-> +        kernel_entry = (target_ulong) kernel_load_base;
->          goto out;
->      }
-> 
-> 
-> but I don't think that's the right fix. We should instead look at the
-> CPU XLEN and drop the high bits if required.
+Please note that "make vm-build-haiku.x86_64" is currently broken - we need 
+an update to Beta 4 from Alexander first.
 
-Ah, that is what should be done in load_elf_ram_sym()'s missing
-translate_fn() handler.
+  Thomas
+
 
