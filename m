@@ -2,87 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F5B6688E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 02:06:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8C6668912
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 02:23:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG8VS-00056n-3X; Thu, 12 Jan 2023 20:05:18 -0500
+	id 1pG8le-000090-II; Thu, 12 Jan 2023 20:22:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pG8VP-00056Y-61
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 20:05:15 -0500
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pG8lc-00008l-OS
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 20:22:00 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pG8VJ-0005JF-VR
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 20:05:14 -0500
-Received: by mail-pf1-x432.google.com with SMTP id s3so12562700pfd.12
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 17:05:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wOpAvXT1mmjnHt86hplsN3aF+o+Amp/mQCG5UDy4/oo=;
- b=naLcl6GhnsrFXCTh7GWrbZr6gWk56QvhB7o/jzAxcLtRWrUHAsdrQxPw5/7yDvFQBW
- eHDcL/BO+zlxnUWt5eq7cM4/pTenuRtT+PyyCv0xQghLCD32Y3kcOdn4FnVjc3ObP78Q
- WJbcQ+MSiPW06uXQKJdnK2ljNFAlGzhXawkCGsDQadn1QKum03/BPclpJ3dpEjMbPRLF
- OqFSmCVx3gzT4wQvjbeo0z9chWJyxTZRnkcb44bwTH3vHHMGquWxyG5XDvevzmQvKn4S
- 4x2qjIRDaNYh64z7acZWtJaa1lj4cj+khh+0bivpLuIMJb3dY4tfroVOtJE7GUtfGic7
- 9YlA==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pG8lb-0000kc-0t
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 20:22:00 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id x10so26374444edd.10
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 17:21:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UyyHjXsf+4xzhXArHMQnvBrvSyATQBG2vH9H2r4laqs=;
+ b=nWuCnCvlfkLhpNV/0BDxWld72X705/X/EO1B2jJa34Tiq7R6zYJTm1Z5Woq9+mbU47
+ pA2j9Imi36DqrmKxZYJrXMbKpQIqz3OMj9kgNMmlNaO5DJzBYINqYdx+r6lNd60Ivbm7
+ meVE4Q55D7MQASVOdO/O+pgEnsOBFKc4goDnjVdBj1IY4QdGX3FWEEjhUiW+7tj7mgMY
+ pcjjGw8eOzEzZddLgBKqkxBZFAWOcvEGnplNBXetAPOJ4gE5l5yT2a0z38ISgGHxGlqd
+ aD7lb3qyVSOlqOiS2CQ+f+aRCvFOR/c5F/SjiNejPEYx8WL0TOCHHAGa0tN3OoX+y3fH
+ UOzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wOpAvXT1mmjnHt86hplsN3aF+o+Amp/mQCG5UDy4/oo=;
- b=3ajEuyGyjT/eOvdD11npX8sVv+HQHc8WhyfN+wCljHrK8niOoD8NBkqJgIpN9bO2Yi
- XKYOJ+lTbLVmXPJH0OmA9fjb53YMBqa1RYIlgxxQN41qYH4O95TzysZFofSdIUCkMnp4
- Pc6z/cBVhz2DGzR6lqGr9HeqvA1vpK0NrABQ56XnAZbVAVBh6YapUz9y/RPY+RNE64Ub
- BVkAfWMABIxni0IFJ95/HL5yYn41INWDv338cSE0lDKm7GTY9H/dqR4f6hCFgT7hygzQ
- OHXt2joJzC2GqVXStCVokaXsYtJ2hcwrvmrpFF84uFKpCwMWCek3DhS154ycBoaejsY/
- ljDQ==
-X-Gm-Message-State: AFqh2kqwF+VCiuMHv97AtkFygQGRmgj2GAWNBmN5yot4nlBAOCu2KGrX
- n/dyGZPa2qjgWkAC39klFGyJ4Q==
-X-Google-Smtp-Source: AMrXdXvKHXER+Hmzjk3cM1J/VYmVZaxDg2vqQHS/gnHHGGEp5PA5bTmMAtIdzXjttaHRZBr8e7NKWQ==
-X-Received: by 2002:a62:7bd8:0:b0:580:963d:8064 with SMTP id
- w207-20020a627bd8000000b00580963d8064mr8095528pfc.20.1673571907698; 
- Thu, 12 Jan 2023 17:05:07 -0800 (PST)
-Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- x12-20020aa7940c000000b00588e0d5124asm8151575pfo.160.2023.01.12.17.05.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Jan 2023 17:05:07 -0800 (PST)
-Message-ID: <988c2552-f378-f028-d11f-1261c0be1281@linaro.org>
-Date: Thu, 12 Jan 2023 15:05:01 -1000
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UyyHjXsf+4xzhXArHMQnvBrvSyATQBG2vH9H2r4laqs=;
+ b=2hb0ylguPiNhqwD23dItEdhlTxWDmRRSLV4uD2ZqvW8Kd6/r3+N0m53fG0a9ZqeNa1
+ Ipfd9o2Mj/5S6YJlpgUAVwIFrna40Capp5IOULa51Us8oig7jOuKnqXIMTc8uxfokfjZ
+ 1KJWb+BeXoeg/ovhAuUAPZ7zTUXs+AnfUpE3NlWAPw+XF9mAedjXBiF2pRLoX723ObgM
+ KeLFSPpZKwOODy0clmBE9Q2tjvQsufpbYDtQ9XrYXL61xm1uqs3u40pITwic2LKcV64b
+ 9tE//v6coza50F5Jws3kr/UF3rItFR+RgYjS16ESlq6cnFhIWmLEM2Rtr1JqWDo118q4
+ 9woA==
+X-Gm-Message-State: AFqh2krj26NVqqE8Ne9CQORg3mwATYFmisXdB4nnVbtlqtu8n1Be3xhN
+ awTtULrPke/FV4lwtVdpmLqypD1t0tBck7Jctro=
+X-Google-Smtp-Source: AMrXdXvtzwzuCoHP2cQvJvtP3i7/lgrn5E/OxHldZJ2/sIitBK/MGXLfIJzXnqhzZpOnQ+lZ6Up3ygsZmkbjYo6+mvM=
+X-Received: by 2002:a05:6402:3c1:b0:49b:7cb3:5a5a with SMTP id
+ t1-20020a05640203c100b0049b7cb35a5amr238025edw.152.1673572917541; Thu, 12 Jan
+ 2023 17:21:57 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 0/6] qemu/bswap: Use compiler __builtin_bswap()
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Ryo ONODERA <ryoon@netbsd.org>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Ira Weiny <ira.weiny@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <20230111163147.71761-1-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230111163147.71761-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+References: <20230111172133.334735-1-dbarboza@ventanamicro.com>
+In-Reply-To: <20230111172133.334735-1-dbarboza@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 13 Jan 2023 09:21:46 +0800
+Message-ID: <CAEUhbmX6igykWoaVzhM+Ye_Wf7hWPE62Op99O+=9-P3PWNk8pg@mail.gmail.com>
+Subject: Re: [PATCH] hw/mips/boston.c: rename MachineState 'mc' pointer to 'ms'
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, Paul Burton <paulburton@kernel.org>, 
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,31 +86,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/11/23 08:31, Philippe Mathieu-Daudé wrote:
-> Implement Richard's suggestion to use __builtin_bswap().
-> 
-> Convert to __builtin_bswap() one patch per OS to simplify
-> maintainers review.
-> 
-> Since v2:
-> - Rebased adapting ./configure changes to meson
-> 
-> Since v1:
-> - Remove the Haiku/BSD ifdef'ry (Peter)
-> - Include the Haiku VM image from Alexander
-> 
-> Philippe Mathieu-Daudé (6):
->    qemu/bswap: Replace bswapXX() by compiler __builtin_bswap()
->    qemu/bswap: Replace bswapXXs() by compiler __builtin_bswap()
->    qemu/bswap: Remove <byteswap.h> dependency
->    qemu/bswap: Use compiler __builtin_bswap() on Haiku
->    qemu/bswap: Use compiler __builtin_bswap() on FreeBSD
->    qemu/bswap: Use compiler __builtin_bswap() on NetBSD
+On Thu, Jan 12, 2023 at 1:27 AM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
+>
+> Follow the QEMU convention of naming MachineState pointers as 'ms' by
+> renaming the instance in create_fdt() where we're calling it 'mc'.
+>
+> Cc: Paul Burton <paulburton@kernel.org>
+> Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>  hw/mips/boston.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
 
-If this passes on all the odd OS's, great.
-Failure on some oddball is what blocked my patch set years ago.
-
-
-r~
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
