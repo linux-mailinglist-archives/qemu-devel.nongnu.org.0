@@ -2,72 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384006697B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 13:50:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439B76697E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 14:01:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGJUr-0005a6-Al; Fri, 13 Jan 2023 07:49:25 -0500
+	id 1pGJfW-0000Eh-Uo; Fri, 13 Jan 2023 08:00:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGJUn-0005Zh-LQ
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 07:49:22 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGJUl-0000Ai-Pm
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 07:49:21 -0500
-Received: by mail-pl1-x631.google.com with SMTP id c6so23350706pls.4
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 04:49:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=jgKk+Bp4VDQHumrIw+UiMcSHawBjFRqDdJL19jey4fI=;
- b=g/k/rbusRE4JXpvlBKu5tDms/YupK1oQWRCwyXtaxs+sf3SCWAI7z9ZZz6Cg7MwDEr
- cNjk33OtKUn1DcrzM50+Xb+31DnZ8QwflmXhfgCTteNBbLwUtAYwesJefqEG/9fdBkCU
- Mc8T2kivzqIBN52KfW+7fowmi3phJ77NtF5nsVK2sbQUX93qCxkZleURoFMz0enIKMzZ
- cyVgLjASdAjrhgdG03OOvJv1i7VmU5n6CIidDnHDw7K9YGJcwnyqeDHOl5rfwpujBMJt
- PXdDDwuJu7CTw0mAW+y+amdeBeiVXIpufs9sP3OiVpneyFPKkm5IyM+KeSsDXjw1GGzc
- S/XA==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pGJf9-0000DV-GX
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:00:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pGJf7-0002eb-F9
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:00:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673614769;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YfdQpXV+DjjbEGqEUOV9SClLE+f1M9EHcObyV8sSHlM=;
+ b=CWV0fUdH48819juQK3RFh+W3KFJVv+3IXh788Gu/s6Coz5EaOe54qkqhuVvGYb6jkbt/m1
+ It2AD9KA/xhqO+8ud3sVNwN8tg0pYQEehlaM44SyhobYvvWpmjN19InR/BTUWBQ2fp+qVg
+ Bf3gp8xoQKjMvIzyslhIjPvLrmgjZsA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-583-5OoSdGvvNnqYFU9l-jHM0w-1; Fri, 13 Jan 2023 07:59:28 -0500
+X-MC-Unique: 5OoSdGvvNnqYFU9l-jHM0w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ k20-20020a05600c1c9400b003d9717c8b11so10869351wms.7
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 04:59:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=jgKk+Bp4VDQHumrIw+UiMcSHawBjFRqDdJL19jey4fI=;
- b=1GieGjU2iyhlM7otQtQtIF4502k3wjDx9RCKkdmqhiXeZ/gEjcFvdWIm5Lmyp7/ypZ
- FTxXGHCMaqAAbr7UGeLgyemgqDz4notrITMBombwMOVXVUCpwczoQk5eIjaoMhyO0GcV
- L0rPDOVzfKCXXmabMHaC+5wpUYdN0qIuE2NBz9g4hzTEM7wDAUK8S/FLudALG4oYbthS
- vwWjuEkhNQsPGAM6SDxzXwI/8FTm5xvqLen3n2QLWrWvuHPhV6j6DD2BBTGdWK7dfM7x
- ZoVwdVrlvuZJH8mwRFoV7SsXJyczHJTPhOCtaKUhGrDCH9wpVorb//hb7uF8k3qnWSL0
- C/4w==
-X-Gm-Message-State: AFqh2kqjVxdaT5DLUsvau7pIRz6vkPU7JfSDdhsRvISLV0LxZv9pO6cp
- MHEd67j3TPRGYoL8Wn8qwWy8oo2U6l7oSgHWWRngzg==
-X-Google-Smtp-Source: AMrXdXtgAJSQdrctEEF7JYlpd+QZaYmKQ4TYOcqyBiRI8dj8JouS+j7A8MOiAsC7BnI1pD7+vVJ4GzUs+m5gd7T0r/I=
-X-Received: by 2002:a17:902:e0c4:b0:194:45d0:3b2c with SMTP id
- e4-20020a170902e0c400b0019445d03b2cmr965480pla.52.1673614158055; Fri, 13 Jan
- 2023 04:49:18 -0800 (PST)
+ bh=YfdQpXV+DjjbEGqEUOV9SClLE+f1M9EHcObyV8sSHlM=;
+ b=SAlnJgtAh50QSApsq5YOqtMWGS9ewnD9y87oUPCW2foOoERh471H0BJQe7we91tXFx
+ riVKd0cdpP7nLC9mmzwclZpvxHMZRiC5DjFVFLs0ZMl/5Z9j22YrWxyTX2aEmzR6cHs3
+ 15p4oheuk0b09ynlBPeXEwiGph4PW7nC9EvocRrY7My+nyjmoxd/Lg1Mcme5Mv4ls7Ho
+ 7udRK0Wa1AxqGlrihgSraZRvPjtr6Doc7ojzg6uG9TQmCuJPHXouuWv8rMrYc67nusJR
+ RMiDWLOrXuOE+jhbxY2SIaCrKHfsfk2WmLBS2Gym5e/6cTsIuKvbCZ/vImdazFI5/iJ7
+ vLcA==
+X-Gm-Message-State: AFqh2kpneUCxZuaIc+leeCBQX9coeB7XlAigD627tqCEoSYezetxilQL
+ 0+W4W7FW2d26yOm5CF2OU2SK8sybFU1w0Myt5F+d5/n+Azj3z57pbMsDwjsJAVEgGs7QGAE/9PS
+ zXQNmg1RQiTvq4a8=
+X-Received: by 2002:a05:600c:4a9b:b0:3d1:dc6f:b1a4 with SMTP id
+ b27-20020a05600c4a9b00b003d1dc6fb1a4mr69280273wmp.5.1673614766935; 
+ Fri, 13 Jan 2023 04:59:26 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtjEG02pVouNfHQtmlTvHR+2/ax6fDroKfK0xuPRs+oU40TjkABqUV5xFgndKOS03bSyPev+A==
+X-Received: by 2002:a05:600c:4a9b:b0:3d1:dc6f:b1a4 with SMTP id
+ b27-20020a05600c4a9b00b003d1dc6fb1a4mr69280246wmp.5.1673614766579; 
+ Fri, 13 Jan 2023 04:59:26 -0800 (PST)
+Received: from ?IPV6:2003:cb:c704:ec00:869d:7200:eb03:db01?
+ (p200300cbc704ec00869d7200eb03db01.dip0.t-ipconnect.de.
+ [2003:cb:c704:ec00:869d:7200:eb03:db01])
+ by smtp.gmail.com with ESMTPSA id
+ h14-20020a05600c314e00b003d9fa355387sm12620932wmo.27.2023.01.13.04.59.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Jan 2023 04:59:26 -0800 (PST)
+Message-ID: <7836f952-86d3-3e90-7140-d59728992907@redhat.com>
+Date: Fri, 13 Jan 2023 13:59:25 +0100
 MIME-Version: 1.0
-References: <166990501232.22022.16582561244534011083-0@git.sr.ht>
- <166990501232.22022.16582561244534011083-1@git.sr.ht>
-In-Reply-To: <166990501232.22022.16582561244534011083-1@git.sr.ht>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 Jan 2023 12:49:07 +0000
-Message-ID: <CAFEAcA83MFr0qq5o_CzHhvPzu75ayDcRSxDi2BAVzzt-gZFhbQ@mail.gmail.com>
-Subject: Re: [PATCH qemu.git v2 1/1] hw/arm/virt: make second UART available
-To: "~axelheider" <axelheider@gmx.de>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3 1/8] migration/savevm: Move more savevm handling into
+ vmstate_save()
+Content-Language: en-US
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>
+References: <20230112164403.105085-1-david@redhat.com>
+ <20230112164403.105085-2-david@redhat.com> <Y8A8J78zL3hW9z34@work-vm>
+ <6ee9e268-efe9-87bc-d198-08784ce73f72@redhat.com> <Y8BTJVQhkpenEeKH@work-vm>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <Y8BTJVQhkpenEeKH@work-vm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,73 +108,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 1 Dec 2022 at 14:30, ~axelheider <axelheider@git.sr.ht> wrote:
->
-> From: Axel Heider <axel.heider@hensoldt.net>
->
-> The first UART always always exists. If the security extensions are
-> enabled, the second UART also always exists. Otherwise, it only exists
-> if a backend is configured explicitly via '-serial <backend>', where
-> 'null' creates a dummy backend. This allows enabling the second UART
-> explicitly on demand and does not interfere with any existing setup
-> that just expect one (or two if security extensions are enabled)
-> UARTs.
->
-> Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
+On 12.01.23 19:36, Dr. David Alan Gilbert wrote:
+> * David Hildenbrand (david@redhat.com) wrote:
+>> On 12.01.23 17:58, Dr. David Alan Gilbert wrote:
+>>> * David Hildenbrand (david@redhat.com) wrote:
+>>>> Let's move more code into vmstate_save(), reducing code duplication and
+>>>> preparing for reuse of vmstate_save() in qemu_savevm_state_setup(). We
+>>>> have to move vmstate_save() to make the compiler happy.
+>>>>
+>>>> We'll now also trace from qemu_save_device_state().
+>>>
+>>> Mostly OK, but..
+>>>
+>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>> ---
+>>>>    migration/savevm.c | 79 ++++++++++++++++++++++------------------------
+>>>
+>>> Doesn't this also need to upate trace-events?
+>>
+>> The existing trace events from
+>> qemu_savevm_state_complete_precopy_non_iterable() are simply moved to
+>> vmstate_save(), so qemu_save_device_state() will implicitly use them.
+>>
+>> So no update should be needed (no new events), or am I missing something?
+> 
+> Aren't you losing the trace_savevm_state_setup() trace?
 
-Hi; just wanted to say that this is still on my to-review list.
-As a preliminary note:
+trace_savevm_state_setup() is called from qemu_savevm_state_setup() 
+before/after this change.
 
-> @@ -2222,11 +2250,12 @@ static void machvirt_init(MachineState *machine)
->
->      fdt_add_pmu_nodes(vms);
->
-> -    create_uart(vms, VIRT_UART, sysmem, serial_hd(0));
-> +    create_uart(vms, VIRT_UART0, sysmem, serial_hd(0));
-> +    create_uart(vms, VIRT_UART1, vms->secure ? secure_sysmem : sysmem,
-> +                serial_hd(1));
+Calling it from qemu_save_device_state() would be wrong: they skip the 
+setup phase and don't call any save_setup() -- skipping all "se->is_ram".
 
-Creating the UARTs in this order in the code results in
-them appearing in the DTB in reverse order. (I forget why;
-I think dtb nodes put on a list in one order and then
-put into the dtb proper in the other, or something.)
-The result is that if you add an extra '-serial foo'
-argument then Linux decides that UART0 is ttyAMA1 and
-UART1 is ttyAMA0, which is a bit counter-intuitive.
+-- 
+Thanks,
 
-This can be avoided by something like:
+David / dhildenb
 
-@@ -2289,9 +2289,20 @@ static void machvirt_init(MachineState *machine)
-
-     fdt_add_pmu_nodes(vms);
-
-+    /*
-+     * These end up in the DTB in reverse order of creation, so
-+     * we must create UART0 last to ensure it appears as the
-+     * first UART, ttyAMA0, for Linux.
-+     * For back-compatibility with older QEMU versions, if UART1 is
-+     * the secure UART and thus always created, we create it second.
-+     */
-+    if (!vms->secure) {
-+        create_uart(vms, VIRT_UART1, sysmem, serial_hd(1));
-+    }
-     create_uart(vms, VIRT_UART0, sysmem, serial_hd(0));
--    create_uart(vms, VIRT_UART1, vms->secure ? secure_sysmem : sysmem,
--                serial_hd(1));
-+    if (vms->secure) {
-+        create_uart(vms, VIRT_UART1, secure_sysmem, serial_hd(1));
-+    }
-
-     if (vms->secure) {
-         create_secure_ram(vms, secure_sysmem, secure_tag_sysmem);
-
-I still need to:
- * look at what UEFI does if presented with this DTB
-   (may involve filing a bug report to see if they will
-   change the enumeration order if it's still silly)
- * check what happens when we boot Linux passing it the
-   h/w info via ACPI
-
-thanks
--- PMM
 
