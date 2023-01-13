@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512A2669493
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:46:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395976694A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:50:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGHZ9-0007K2-7Y; Fri, 13 Jan 2023 05:45:43 -0500
+	id 1pGHcb-0000OY-2V; Fri, 13 Jan 2023 05:49:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGHZ5-0007Iw-7z
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:45:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGHZ2-0001Kz-Kt
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:45:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673606735;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QqnfHqBiC7xiFrG3j5JTQoch6P9nMQEhItT+ElF0Ipc=;
- b=Qfok3b+k+LWWdwDnyUcBEdPT+NCB79fXUesggMJnUw32oqJCyL1ODad62G3aIYoT+ORb48
- Nd1x5UP/Z5GESUhzye3+5EKl4kwBXpieQ6JL99PnIc0YQlxV9AoNLLD+/PiUTTI/1fJsc+
- 8sgmZc0SiLcpW0hSofn48YR8KpaJDsU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-554-0mkawJ84PJOj__gVVw8qIw-1; Fri, 13 Jan 2023 05:45:34 -0500
-X-MC-Unique: 0mkawJ84PJOj__gVVw8qIw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ECF8B3815EE6;
- Fri, 13 Jan 2023 10:45:33 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D913B2026D76;
- Fri, 13 Jan 2023 10:45:32 +0000 (UTC)
-Date: Fri, 13 Jan 2023 11:45:31 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: qemu-block@nongnu.org, hreitz@redhat.com, aesteve@redhat.com,
- nsoffer@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/4] qcow2: Fix theoretical corruption in store_bitmap()
- error path
-Message-ID: <Y8E2S0sQgEPkb0j3@redhat.com>
-References: <20230112191454.169353-1-kwolf@redhat.com>
- <20230112191454.169353-2-kwolf@redhat.com>
- <d13c9ba1-84df-dbac-adc5-8ea8b4df2dbe@linaro.org>
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pGHcY-0000O2-Pt
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:49:15 -0500
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pGHcX-0001i9-5p
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:49:14 -0500
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-1322d768ba7so21843067fac.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 02:49:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=GIR69OdksPcShxPKRwSewNUIoa5M9oLbEl3ywObkHpk=;
+ b=FWVKdyBcygL18/IcM8KsDCJtGzywEoJmsvW6MMB114EUFYSrAlqGrwpVIuE9+eWks5
+ vBsne6jdHcBa3oTU3rHjHZ4JhtriolAdBTBSxWtHi3Os03JsMjvQs8/xRY4ASol4Amst
+ dWRJEj8KAGAvUeScU/1ph/EMxEcdPaDo1+RJ91c0LSvOVXpy+etHDke/NifGmsRIwT+7
+ fv7RJ00Zj2wHZMWXAhINiJUNAyo/Tjip7yWgRRgWg81Oyy4waNkey2YeYYczl9WWr94G
+ H0r1LaP0koPTABGWQhJZpYJmTWEmhj+uGLWUS6IZDTZ+2LRTb5irWJhRq/Z9T/oa4PEb
+ /ZXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GIR69OdksPcShxPKRwSewNUIoa5M9oLbEl3ywObkHpk=;
+ b=PpG8oTalniU1qzaOPAQ5hkROmamtF+XJ2WYPKKhP4NA0IDS4ijQNwVz/16zx4081/h
+ m/qyeI2zd9Tz19KlG8ED0vER9xgFrPohtU4dxK4JQl4Q2nlL9hmTJe+1KqT6f1Uf7jbS
+ dsKH1tJ3YjK66W14oYV0ZmY5L85OTJ6YFMm/OgJbCx140823eMBboeT7dvorKivGDrsI
+ h/qFwoOVrDWYXzWfRLFD1seQOI5RZTCLabxT8q3zfOuChrivKfWKmE9eyVs9M0G4eF9n
+ UoUJUm9BxGE6ck0GgfbyLSFciKuMZZgnyMMLLjHZ2VWZMCC+F6GH3by4AxNOKhvOZVJx
+ iJCw==
+X-Gm-Message-State: AFqh2koOWyULdUCkJQm8oMtY2xR9O3hiDNmhSGqDznJYEQkI/XI7RXrH
+ rfmIItsBGBPSVNiR+SjSH13mBQ==
+X-Google-Smtp-Source: AMrXdXu8HC0GzW6FdgmyQ9TilLdQZ290QNWlGUxUP/7biuBpnm6qfzeIJnLzSh0zoWenZLK0zQ8RZw==
+X-Received: by 2002:a05:6870:34d:b0:14c:67de:47c0 with SMTP id
+ n13-20020a056870034d00b0014c67de47c0mr5952710oaf.55.1673606951579; 
+ Fri, 13 Jan 2023 02:49:11 -0800 (PST)
+Received: from [192.168.68.107] ([191.17.222.2])
+ by smtp.gmail.com with ESMTPSA id
+ k12-20020a056870818c00b0013b0b19100fsm10458111oae.32.2023.01.13.02.49.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Jan 2023 02:49:10 -0800 (PST)
+Message-ID: <e69efcbd-d4e7-9e72-cb38-ba872ab621ab@ventanamicro.com>
+Date: Fri, 13 Jan 2023 07:49:07 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 10/11] hw/riscv/boot.c: consolidate all kernel init in
+ riscv_load_kernel()
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Alistair Francis <alistair23@gmail.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
+References: <20230102115241.25733-1-dbarboza@ventanamicro.com>
+ <20230102115241.25733-11-dbarboza@ventanamicro.com>
+ <CAKmqyKPri7asvqZ8wN4Bd-wjH+gwwMJJhiUd+=QZFV4RhWnyUQ@mail.gmail.com>
+ <b5cab84f-4bb9-694b-80e9-0b5aeac9de6c@linaro.org>
+ <0ba72b27-0c3d-2d3d-adec-899717f40594@ventanamicro.com>
+ <CAEUhbmV0KKKxOWDqNxiNz0ohR_EPPU_q+uMoukCA=UznZRFrvA@mail.gmail.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <CAEUhbmV0KKKxOWDqNxiNz0ohR_EPPU_q+uMoukCA=UznZRFrvA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d13c9ba1-84df-dbac-adc5-8ea8b4df2dbe@linaro.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,75 +103,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 13.01.2023 um 08:30 hat Philippe Mathieu-Daudé geschrieben:
-> On 12/1/23 20:14, Kevin Wolf wrote:
-> > In order to write the bitmap table to the image file, it is converted to
-> > big endian. If the write fails, it is passed to clear_bitmap_table() to
-> > free all of the clusters it had allocated before. However, if we don't
-> > convert it back to native endianness first, we'll free things at a wrong
-> > offset.
-> > 
-> > In practical terms, the offsets will be so high that we won't actually
-> > free any allocated clusters, but just run into an error, but in theory
-> > this can cause image corruption.
-> > 
-> > Cc: qemu-stable@nongnu.org
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> >   block/qcow2-bitmap.c | 5 +++--
-> >   1 file changed, 3 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-> > index bcad567c0c..3dff99ba06 100644
-> > --- a/block/qcow2-bitmap.c
-> > +++ b/block/qcow2-bitmap.c
-> > @@ -115,7 +115,7 @@ static int update_header_sync(BlockDriverState *bs)
-> >       return bdrv_flush(bs->file->bs);
-> >   }
-> 
-> Maybe add a comment here remembering to bswap back to native endianness?
-> 
-> > -static inline void bitmap_table_to_be(uint64_t *bitmap_table, size_t size)
-> > +static inline void bitmap_table_bswap_be(uint64_t *bitmap_table, size_t size)
-> >   {
-> 
-> This function uses cpu_to_be64(), semantically we convert back calling
-> be64_to_cpu(), but technically both functions end up being the same.
 
-Yes, but we don't seem to have any public "neutral" functions, it's
-always either from or to.
 
-> Alternatively:
-> 
->      for (i = 0; i < size; ++i) {
-> -        bitmap_table[i] = cpu_to_be64(bitmap_table[i]);
-> +        bswap64s(&bitmap_table[i]);
->      }
+On 1/13/23 07:30, Bin Meng wrote:
+> On Fri, Jan 13, 2023 at 6:23 PM Daniel Henrique Barboza
+> <dbarboza@ventanamicro.com> wrote:
+>>
+>>
+>> On 1/13/23 04:16, Philippe Mathieu-DaudÃ© wrote:
+>>> On 12/1/23 01:34, Alistair Francis wrote:
+>>>> On Mon, Jan 2, 2023 at 9:55 PM Daniel Henrique Barboza
+>>>> <dbarboza@ventanamicro.com> wrote:
+>>>>> The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
+>>>>> the same steps when '-kernel' is used:
+>>>>>
+>>>>> - execute load_kernel()
+>>>>> - load init_rd()
+>>>>> - write kernel_cmdline
+>>>>>
+>>>>> Let's fold everything inside riscv_load_kernel() to avoid code
+>>>>> repetition. To not change the behavior of boards that aren't calling
+>>>>> riscv_load_init(), add an 'load_initrd' flag to riscv_load_kernel() and
+>>>>> allow these boards to opt out from initrd loading.
+>>>>>
+>>>>> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+>>>>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>>>>> ---
+>>>>>    hw/riscv/boot.c            | 22 +++++++++++++++++++---
+>>>>>    hw/riscv/microchip_pfsoc.c | 12 ++----------
+>>>>>    hw/riscv/opentitan.c       |  2 +-
+>>>>>    hw/riscv/sifive_e.c        |  3 ++-
+>>>>>    hw/riscv/sifive_u.c        | 12 ++----------
+>>>>>    hw/riscv/spike.c           | 11 +----------
+>>>>>    hw/riscv/virt.c            | 12 ++----------
+>>>>>    include/hw/riscv/boot.h    |  1 +
+>>>>>    8 files changed, 30 insertions(+), 45 deletions(-)
+>>>>> @@ -192,21 +194,35 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>>>>>        if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+>>>>>                             NULL, &kernel_load_base, NULL, NULL, 0,
+>>>>>                             EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+>>>>> -        return kernel_load_base;
+>>>>> +        kernel_entry = kernel_load_base;
+>>>> This breaks 32-bit Xvisor loading. It seems that for the 32-bit guest
+>>>> we get a value of 0xffffffff80000000.
+>>>>
+>>>> Previously the top bits would be lost as we return a target_ulong from
+>>>> this function, but with this change we pass the value
+>>>> 0xffffffff80000000 to riscv_load_initrd() which causes failures.
+>>>>
+>>>> This diff fixes the failure for me
+>>>>
+>>>> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+>>>> index 4888d5c1e0..f08ed44b97 100644
+>>>> --- a/hw/riscv/boot.c
+>>>> +++ b/hw/riscv/boot.c
+>>>> @@ -194,7 +194,7 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>>>>       if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+>>>>                            NULL, &kernel_load_base, NULL, NULL, 0,
+>>>>                            EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+>>>> -        kernel_entry = kernel_load_base;
+>>>> +        kernel_entry = (target_ulong) kernel_load_base;
+>>>>           goto out;
+>>>>       }
+>>>>
+>>>>
+>>>> but I don't think that's the right fix. We should instead look at the
+>>>> CPU XLEN and drop the high bits if required.
+>>> Ah, that is what should be done in load_elf_ram_sym()'s missing
+>>> translate_fn() handler.
+>> Interesting. I'll try it again and re-send.
+>>
+> If that fixes the problem, it should be a separate patch.
 
-Doesn't that swap even on big endian hosts, resulting incorrectly in a
-little endian table?
+Fair enough. I'll keep this patch as is and fix it in a separated patch.
 
-The closest thing we have that I can see is the be_bswap() macro in
-bswap.h, but it's undefined again at the end of the header.
+Daniel
 
-> > @@ -1401,9 +1401,10 @@ static int store_bitmap(BlockDriverState *bs, Qcow2Bitmap *bm, Error **errp)
-> >           goto fail;
-> >       }
-> > -    bitmap_table_to_be(tb, tb_size);
-> > +    bitmap_table_bswap_be(tb, tb_size);
-> >       ret = bdrv_pwrite(bs->file, tb_offset, tb_size * sizeof(tb[0]), tb, 0);
-> >       if (ret < 0) {
-> > +        bitmap_table_bswap_be(tb, tb_size);
-> >           error_setg_errno(errp, -ret, "Failed to write bitmap '%s' to file",
-> >                            bm_name);
-> >           goto fail;
-> 
-> Pre-existing, but consider using g_autofree for 'tb'.
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-Thanks!
-
-Kevin
+>
+> I still don't understand why 32-bit xvisor image has a 64-bit address encoded?
+>
+> Regards,
+> Bin
 
 
