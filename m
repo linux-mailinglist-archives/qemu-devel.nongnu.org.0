@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E235669786
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 13:40:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A31669790
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 13:44:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGJLU-0001BQ-M9; Fri, 13 Jan 2023 07:39:44 -0500
+	id 1pGJOl-0003T8-9s; Fri, 13 Jan 2023 07:43:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pGJLD-00016q-J4
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 07:39:30 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pGJOa-0003S0-RA
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 07:42:56 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pGJLB-0006Bm-Qk
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 07:39:27 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id mp20so5416256ejc.7
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 04:39:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pGJOZ-000767-5G
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 07:42:56 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ q23-20020a17090a065700b002290913a521so4641027pje.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 04:42:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=J61MUqZn0+MBzAAeVOxfaZtzS1HhgzXUYJt7WOYvh7c=;
- b=aHNpZZofU80g+NmYxTTXP8GscTCWmTgTxmJ5LvbiqroTPCAobrFz0EjeBIG1VCC0Gr
- ss/EU1tEqaXOC5/pW36qr+24PU7e0qalJTRokgZFZLCWaLwm1xO4UfVdeyw7AjSnuyiq
- V6gbdBXT3GP9Me6LllFGgDnO1JH4vmr+vDTL/gvR6Rbhvslt/tCS3SxmGACC4VK0up9s
- 1L5f8vZeD7whI9w8F1Fd6P0SugwJdtb3y65tllU++3Qubo3vFHi4nmzt6S0soIQ4KE+s
- KMSqc2JXKosAgeNPlrquWP7lpdJtdEinRxVZYIXWamP64fZkVpbSfr9eeQx3KIlpAxCV
- hr3Q==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=n0W2mIawT0ydAYmN/XMBiBeNi6lSFaH2N2Ub/HPnG+o=;
+ b=xhWfcZjDj2dY/m92e6ZOVrrWzdEFJues0yxiPtnuUTYuXOg6mZT20Q74E83NuSijPq
+ w7l579nHKg54OBdOLBYTY5FrZdYZ22WF5EZ5W+taxikLrDvcaBMX7omwViPzLCjdSvqk
+ UHSNr+VA4Dj0Pda9JpQhfXEO15WPvWp1L22WRY2ECRLNcq2Wop/d/dKNRj8S0OAta9XC
+ jsKjaJp81vHIfXzMgQ6Dya6s25eM2lMKzwGK0V7xOPAyAy+lJwh+jWgj9oucziVwjLXp
+ tlSQWPekic368WNl5y5JhTGNv2UlGzhIOM7Xw38hhAgIwfkWNdmqFkRGt46o+RCoOs6j
+ bChg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=J61MUqZn0+MBzAAeVOxfaZtzS1HhgzXUYJt7WOYvh7c=;
- b=z3jblQiUsbLd/tsdYHdl71zRjzHh8zKvslwXSjONtN09kFchshCSe/nLEbnJHmL/i7
- x1DNECQrq8P8q5y3J4IJViaZ6+pW6MfCU1R7g5XyxGVHCdqnIWRVe2EkF60pGiZMMcDa
- 96plaZE/08Ehy82hFRwK9ZxtfXRACMgTaJqRX+E2SOKlNnm/fKIKP3lLmeY8vpus2Rda
- bpQVOsuAgGf40tcvDIDCSEEUra5gQucYL6nqTj/kZRuvqMp/MYuE9LA6PlUGWOvSoLIh
- zuH/2cbpk8Ot/w8TcXKbfXWI1gGMXP55/ouSlabuGRg443JqCPnGB+Gmq6SaiTvIlbtr
- Lwgw==
-X-Gm-Message-State: AFqh2kr9Rh2w5u96wt44SeNOR7JBiJdMtZUiFmk9XPGUB62tMA1g6ucC
- h2KS7SawOPvLurEiHmvEag5pdg==
-X-Google-Smtp-Source: AMrXdXtp0JY/qh6I9DFPE1TkAKrrXX7h2fJYYH6rCyN/QreFnf8QLl3KUfaEDXDCh6Hu1gfFvxILOA==
-X-Received: by 2002:a17:907:c28f:b0:83f:5f77:8ff9 with SMTP id
- tk15-20020a170907c28f00b0083f5f778ff9mr68670530ejc.12.1673613560723; 
- Fri, 13 Jan 2023 04:39:20 -0800 (PST)
-Received: from myrica (054592b0.skybroadband.com. [5.69.146.176])
- by smtp.gmail.com with ESMTPSA id
- v27-20020a17090606db00b0081d2d9a0b45sm8437848ejb.186.2023.01.13.04.39.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 04:39:20 -0800 (PST)
-Date: Fri, 13 Jan 2023 12:39:18 +0000
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Eric Auger <eauger@redhat.com>
-Cc: qemu list <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>
-Subject: Re: virtio-iommu issue with VFIO device downstream to a PCIe-to-PCI
- bridge: VFIO devices are not assigned any iommu group
-Message-ID: <Y8FQ9li7gQ+bPiRe@myrica>
-References: <0bc2f2e5-630e-e721-254d-f224d1a3bdcd@redhat.com>
- <0eb96eb5-703d-dacd-49ff-f61e02d98eb9@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=n0W2mIawT0ydAYmN/XMBiBeNi6lSFaH2N2Ub/HPnG+o=;
+ b=TGmr//YjkWvpU0KGA5f4Iq2lNCTUKvkfhLECzPMgju5lm4HfkDpeCasRkq/ZEfUhCM
+ 1h+SZoIt+ZY4WXLoWiar9BgmOYMB49q00IMLd+Sn+jl2WtYuBfA2y4VL4Sv3dt9wwqgW
+ 1R45tiXTyzR0wtmpTFInvdRW1fIZJNDrrv6Qlmzi8cHkaMcBDgLmE/MYt5w3O7w8cZvz
+ 7x/m/HyqQhQv/Q+oHOgrVY6/d24hk16GZoOGXRXeMs9OXN4v8YGX6uNlb65PZFb6B8UP
+ V81W5lLr9OpLGSoH/84v7nZr5nIYts/wg6KU2bYT1smeB3eGsqhxwNopktjLxxYVxzNg
+ e4Qw==
+X-Gm-Message-State: AFqh2kqry+y5CO0qT3ZWfzRJihuG9v7bUBqtpf6aGU9fFQT8+ynqNEn6
+ rLBezsEWTk6qHEnyY4QINr1fS7KHbxV3vVDT+nXSWg==
+X-Google-Smtp-Source: AMrXdXusTyxu0htHyfjcei6wGaxy8mCHmGABGTKCNkU0eWrsHn4RmzQ89FXhw/X96KZfnedRpIaI6cY13JI/Anjov8Q=
+X-Received: by 2002:a17:90a:77c7:b0:219:e2f1:81ad with SMTP id
+ e7-20020a17090a77c700b00219e2f181admr6597272pjs.19.1673613773684; Fri, 13 Jan
+ 2023 04:42:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0eb96eb5-703d-dacd-49ff-f61e02d98eb9@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=jean-philippe@linaro.org; helo=mail-ej1-x62b.google.com
+References: <Y8AG21o/9/3eUMIg@cormorant.local>
+ <Y8EcOFE52X5KbzO7@cormorant.local>
+ <CAFEAcA9y0E=EZwmetyvymvt64BpQxAnKMHs0E=BBH9_3OfMwFA@mail.gmail.com>
+ <Y8FQnsxSwcTUYqYm@cormorant.local>
+In-Reply-To: <Y8FQnsxSwcTUYqYm@cormorant.local>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 Jan 2023 12:42:42 +0000
+Message-ID: <CAFEAcA9H4bYfqmt2w_xSXS_uX9z-6NCRqdsn3tDz6h-v39cGKw@mail.gmail.com>
+Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ qemu-block@nongnu.org, 
+ qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,26 +92,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+On Fri, 13 Jan 2023 at 12:37, Klaus Jensen <its@irrelevant.dk> wrote:
+> There are a fair amount of uses of pci_irq_pulse() still left in the
+> tree.
 
-On Mon, Jan 09, 2023 at 10:11:19PM +0100, Eric Auger wrote:
-> > Jean, do you have any idea about how to fix that? Do you think we have a
-> > trouble in the acpi/viot setup or virtio-iommu probe sequence. It looks
-> > like virtio probe and attach commands are called too early, before the
-> > bus is actually correctly numbered.
-> 
-> So after further investigations looks this is not a problem of bus
-> number, which is good at the time of the virtio cmd calls but rather a
-> problem related to the devfn (0 was used when creating the IOMMU MR)
-> whereas the virtio-iommu cmds looks for the non aliased devfn. With that
-> fixed, the probe and attach at least succeeds. The device still does not
-> work for me but I will continue my investigations and send a tentative fix.
+Are there? I feel like I'm missing something here:
+$ git grep pci_irq_pulse
+include/hw/pci/pci.h:static inline void pci_irq_pulse(PCIDevice *pci_dev)
+$
 
-If I remember correctly VIOT can deal with bus numbers because bridges are
-assigned a range by QEMU, but I haven't tested that in detail, and I don't
-know how it holds with conventional PCI bridges. Do you have an example
-command-line I could use to experiment (and the fix you're mentioning)?
+...looks at first sight like an unused function we could delete.
 
-Thanks,
-Jean
+thanks
+-- PMM
 
