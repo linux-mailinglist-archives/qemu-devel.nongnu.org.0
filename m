@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA7566A41E
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 21:33:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787E966A441
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 21:43:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGQif-0005sf-Fw; Fri, 13 Jan 2023 15:32:09 -0500
+	id 1pGQsq-0008RH-FY; Fri, 13 Jan 2023 15:42:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGQic-0005sH-Hu
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 15:32:06 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGQiZ-0004EE-J1
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 15:32:06 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- j16-20020a05600c1c1000b003d9ef8c274bso13836350wms.0
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 12:32:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6Srpe3T5FAq6TaQfce0ZrSNLnDNGx0vvrFxE8HHamLA=;
- b=WLkMQr/YY0V6E6KDLm4vAmSj9sPNUgxjDXw+DRHwYq9l7sWekrYB5fKY5hpRLXDff2
- BKRu6z1r0QGbcgf8zgCsvj2lTYz7Y9CYUduvxbY2YJseP7fFC6sJeZLJFGi/OqzwGxC0
- zdc4aBUaihEGbubugUTPhawV0M5/bglpiW/+Umjfy24MoeZYnz72RlK9j0RN019VuYpi
- X2XOwZRZ8FfTbligOjXiomC1tG5jLfb5ZOnvpxBH/kFDYywEIApGk1XVDLz48sq8Wl78
- iOefdrvnaWVViB7ROaslQYBhTVDB3RyfOIKK9FQA3/QgR6ixkqniURd3QRTM8Te4VZtD
- 0Xpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6Srpe3T5FAq6TaQfce0ZrSNLnDNGx0vvrFxE8HHamLA=;
- b=s6cEkn3BJMYNClYV7ibPohgXOKG+2YQ/VQJ9yz8lMD8KUDQfa3lrj8Q2u6WMCr9K8K
- uOsjCeLpvReaMNiwdSlBE3Z70MG0A3J5fOayl2ztObVSvC+x5VBHi4L81bJ9AdQrPhwA
- xtGgL/EgZLCkK8iNnaX9LqlbQdrLvL12+iq7IwbPWIT6D2I31y/2vs/CGiE3K9WVpeWS
- a4XpAYT8xG2DquLNlb2Gic03iBI5zz2r6jtZ/NnMYoieSiNzFmJOsIviaf6bhOy5EhSa
- CAZ+vOVVZRc7QvpWxEcxUujZp7fy74db3nZStgevsmCnuoRB7ubax0ZV8DCwgURcKLiC
- tv9g==
-X-Gm-Message-State: AFqh2kqmK43vv/Z6/7kpThPMAszEZoUXx1Hp9Tr4twXhY5tH648j2aB7
- alNZC5IGaCSEkd3g4KPRsFwkDg==
-X-Google-Smtp-Source: AMrXdXtXt3+2gzL7kjKC4eP7fwvxwv5bOAkTAc7gMYbI9DPPqeiCptT4oj2LIz4enATTMLTZh6hU8g==
-X-Received: by 2002:a05:600c:4d21:b0:3d2:2a72:2573 with SMTP id
- u33-20020a05600c4d2100b003d22a722573mr59702333wmp.11.1673641921777; 
- Fri, 13 Jan 2023 12:32:01 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- h10-20020a05600c2caa00b003cfd58409desm31905459wmc.13.2023.01.13.12.32.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 12:32:01 -0800 (PST)
-Message-ID: <553a8707-417d-b692-1176-f2fbdd146961@linaro.org>
-Date: Fri, 13 Jan 2023 21:31:59 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGQsm-0008Qv-Kk
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 15:42:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGQsl-00068W-1x
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 15:42:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673642554;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=krzqcyLRmtd752lfh8T6mZ98nuVdFM5HNd+mnbBepRw=;
+ b=X6FKKXpZ0EGp9oHCGooT0LHIGYQvv/U6BaMqA6zAL7v4rhmtlq6ND2b1uOBX/211ovGhw0
+ npeVvLl44aE4QGmVDerSp6QNZmrSzmJ+FZTSUONUEbRimYonlddfyvAO8V8X0caVZhGxdn
+ A4fqjeqRoQmo+4bDJRmOrDom1FC7HCs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-178-WtyhBNQ_PuOSnYpZRdGrBQ-1; Fri, 13 Jan 2023 15:42:31 -0500
+X-MC-Unique: WtyhBNQ_PuOSnYpZRdGrBQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 04BBC1C02CBC;
+ Fri, 13 Jan 2023 20:42:31 +0000 (UTC)
+Received: from merkur.redhat.com (unknown [10.39.195.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9BBD72026D68;
+ Fri, 13 Jan 2023 20:42:29 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: kwolf@redhat.com, hreitz@redhat.com, eesposit@redhat.com,
+ pbonzini@redhat.com, vsementsov@yandex-team.ru, qemu-devel@nongnu.org
+Subject: [PATCH v2 00/14] block: Move more functions to coroutines
+Date: Fri, 13 Jan 2023 21:41:58 +0100
+Message-Id: <20230113204212.359076-1-kwolf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PULL 00/46] MIPS patches for 2023-01-13
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20230113154532.49979-1-philmd@linaro.org>
- <CAFEAcA9mKmOahpvVQUUwyxcbJE2aNeB+Y_a1brgnq1kPNtv_nQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CAFEAcA9mKmOahpvVQUUwyxcbJE2aNeB+Y_a1brgnq1kPNtv_nQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URI_DOTEDU=1.999 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,47 +73,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/1/23 18:57, Peter Maydell wrote:
-> On Fri, 13 Jan 2023 at 16:05, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
->>
->> The following changes since commit 3db29dcac23da85486704ef9e7a8e7217f7829cd:
->>
->>    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2023-01-12 13:51:36 +0000)
->>
->> are available in the Git repository at:
->>
->>    https://github.com/philmd/qemu.git tags/mips-20230113
->>
->> for you to fetch changes up to 4828656f65324249273ad2f2db80844ba90eeb9b:
->>
->>    scripts/git.orderfile: Display MAINTAINERS changes first (2023-01-13 16:22:57 +0100)
->>
->> ----------------------------------------------------------------
->> MIPS patches queue
->>
->> Confronting my triskaidekaphobia, here goes
->> a bunch of cleanups from various people:
->>
->> - Improved GT64120 on big-endian hosts
->> - GT64120 north bridge and MC146818 RTC devices are now target independent
->> - Bonito64 north bridge converted to 3-phase reset API
->> - PCI refactors around PIIX devices
->> - Support for nanoMIPS in bootloader generator API
->> - New YAMON Malta Avocado test
->> - Removal of 'trap and emulate' KVM support
->> - System-specific QMP commands restricted to system emulation
-> 
-> Hi; gpg says your key has expired -- which keyserver can
-> I get an updated version from?
+This series converts some IO_CODE() functions to coroutine_fn because
+they access the graph and will need to hold the graph lock in the
+future. IO_CODE() functions can be called from iothreads, so taking the
+graph lock requires the function to run in coroutine context.
 
-"the usuals"? :)
+Pretty much all of the changes in this series were posted by Emanuele
+before as part of "Protect the block layer with a rwlock: part 3". The
+major difference is that in the old version, the patches did two things
+at once: Converting functions to coroutine_fn, and adding the locking to
+them. This series does only the coroutine conversion. The locking part
+will be in another series which now comes with TSA annotations and makes
+the locking related changes big enough to have separate patches.
 
-This time I set up an alarm to upload a renewed one before the
-expiration date, and submitted it to pgp.mit.edu and keys.openpgp.org.
+v2:
+- In each patch converting a BlockDriver callback to be called in
+  coroutine, also immediately rename it and its implementation to
+  include co_ in its name, as well as mark the implementations
+  coroutine_fn [Vladimir]
+- Moved bdrv_is_inserted() earlier in the series because
+  raw_is_inserted() calls raw_getlength(), so it needs to be converted
+  first to avoid calling a coroutine_fn from a non-coroutine_fn in an
+  intermediate state.
+- The final patch only renames bdrv_load/save_vmstate() any more, which
+  was already converted to coroutine_fn earlier.
+- Since pretty much every patch was touched in this, I refrained from
+  picking up any Reviewed-by for v1
 
-This worked for me:
+Emanuele Giuseppe Esposito (14):
+  block-coroutine-wrapper: support void functions
+  block: Convert bdrv_io_plug() to co_wrapper
+  block: Convert bdrv_io_unplug() to co_wrapper
+  block: Convert bdrv_is_inserted() to co_wrapper
+  block: Rename refresh_total_sectors to bdrv_refresh_total_sectors
+  block: Convert bdrv_refresh_total_sectors() to co_wrapper_mixed
+  block-backend: use bdrv_getlength instead of blk_getlength
+  block: use bdrv_co_refresh_total_sectors when possible
+  block: Convert bdrv_get_allocated_file_size() to co_wrapper
+  block: Convert bdrv_get_info() to co_wrapper_mixed
+  block: Convert bdrv_eject() to co_wrapper
+  block: Convert bdrv_lock_medium() to co_wrapper
+  block: Convert bdrv_debug_event() to co_wrapper_mixed
+  block: Rename bdrv_load/save_vmstate() to bdrv_co_load/save_vmstate()
 
-$ \
-curl 'https://pgp.mit.edu/pks/lookup?op=get&search=0xE3E32C2CDEADC0DE' \
-| gpg --import
+ include/block/block-io.h           |  36 +++++++---
+ include/block/block_int-common.h   |  26 ++++---
+ include/block/block_int-io.h       |   5 +-
+ include/sysemu/block-backend-io.h  |  31 +++++++--
+ block.c                            |  82 +++++++++++++---------
+ block/blkdebug.c                   |  11 +--
+ block/blkio.c                      |  15 ++--
+ block/blklogwrites.c               |   6 +-
+ block/blkreplay.c                  |   6 +-
+ block/blkverify.c                  |   6 +-
+ block/block-backend.c              |  36 +++++-----
+ block/commit.c                     |   4 +-
+ block/copy-on-read.c               |  18 ++---
+ block/crypto.c                     |  14 ++--
+ block/curl.c                       |  10 +--
+ block/file-posix.c                 | 107 ++++++++++++++---------------
+ block/file-win32.c                 |  18 +++--
+ block/filter-compress.c            |  20 +++---
+ block/gluster.c                    |  23 ++++---
+ block/io.c                         |  76 ++++++++++----------
+ block/iscsi.c                      |  17 ++---
+ block/mirror.c                     |   6 +-
+ block/nbd.c                        |   8 +--
+ block/nfs.c                        |   4 +-
+ block/null.c                       |  13 ++--
+ block/nvme.c                       |  14 ++--
+ block/preallocate.c                |  16 ++---
+ block/qcow.c                       |   5 +-
+ block/qcow2-refcount.c             |   2 +-
+ block/qcow2.c                      |  17 ++---
+ block/qed.c                        |  11 +--
+ block/quorum.c                     |   8 +--
+ block/raw-format.c                 |  25 +++----
+ block/rbd.c                        |   9 +--
+ block/replication.c                |   6 +-
+ block/ssh.c                        |   4 +-
+ block/throttle.c                   |   6 +-
+ block/vdi.c                        |   7 +-
+ block/vhdx.c                       |   5 +-
+ block/vmdk.c                       |  14 ++--
+ block/vpc.c                        |   5 +-
+ blockdev.c                         |   8 ++-
+ hw/scsi/scsi-disk.c                |   5 ++
+ tests/unit/test-block-iothread.c   |   3 +
+ scripts/block-coroutine-wrapper.py |  20 ++++--
+ block/meson.build                  |   1 +
+ 46 files changed, 443 insertions(+), 346 deletions(-)
+
+-- 
+2.38.1
+
 
