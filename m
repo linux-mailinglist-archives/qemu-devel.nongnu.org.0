@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4FF66A440
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 21:43:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 404B266A43E
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 21:43:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGQst-0008Ss-GE; Fri, 13 Jan 2023 15:42:43 -0500
+	id 1pGQsu-0008Ts-4e; Fri, 13 Jan 2023 15:42:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGQso-0008R5-Kl
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 15:42:39 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGQsp-0008Rr-OP
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 15:42:40 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGQsm-00068x-Oa
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 15:42:37 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGQso-00069L-4F
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 15:42:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673642556;
+ s=mimecast20190719; t=1673642557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CVOPB379Jvnni2ccSM+vLxv3AvP2G5ZvVhvcaqpt0+k=;
- b=Nl7KCMOqgnnhAaUBPthRDtMrYz+1Kq18ySWifhFCqgy2ZvPMQzCnWR8NAyhMpxWl0Yx1YY
- AIpAkoX+Eu5ijHXivVknoWW1E1oYCV53DW7qDmoI3D9d7s6ehOV4cv+TFgFQU+ffpK/BRn
- OLQcG512IIUiDUGBeYzUeLlfFTtlNXU=
+ bh=N/23Jbsr76qOT53WkSpccuz1clMzcufR+Z2eFiHJvRM=;
+ b=EraxFWHxYo6IXWV3d/PmgxeT/W0J3qxj0CtPEThponYnqZruDgZI833Y2phXc8BjthHQ0E
+ vM83p3aHNeDryVt0cJ36uCT2XmsTLv/eHKaVsJBlHm+pzzsmQqovyJYQ22My0trn8M1y3x
+ PHzb5ZSk2w+iJnQVuskPFmiFWUvYn+Y=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-190-IcwNE-4FPXKeYmCls-j39w-1; Fri, 13 Jan 2023 15:42:32 -0500
-X-MC-Unique: IcwNE-4FPXKeYmCls-j39w-1
+ us-mta-306-2EWoaRQJO0iL9lAELt2N_g-1; Fri, 13 Jan 2023 15:42:34 -0500
+X-MC-Unique: 2EWoaRQJO0iL9lAELt2N_g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7894E1C02CBC;
- Fri, 13 Jan 2023 20:42:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EAF0E281DE7C;
+ Fri, 13 Jan 2023 20:42:33 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.195.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 440752026D76;
- Fri, 13 Jan 2023 20:42:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8CC72026D68;
+ Fri, 13 Jan 2023 20:42:32 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, hreitz@redhat.com, eesposit@redhat.com,
  pbonzini@redhat.com, vsementsov@yandex-team.ru, qemu-devel@nongnu.org
-Subject: [PATCH v2 01/14] block-coroutine-wrapper: support void functions
-Date: Fri, 13 Jan 2023 21:41:59 +0100
-Message-Id: <20230113204212.359076-2-kwolf@redhat.com>
+Subject: [PATCH v2 02/14] block: Convert bdrv_io_plug() to co_wrapper
+Date: Fri, 13 Jan 2023 21:42:00 +0100
+Message-Id: <20230113204212.359076-3-kwolf@redhat.com>
 In-Reply-To: <20230113204212.359076-1-kwolf@redhat.com>
 References: <20230113204212.359076-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +60,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,80 +78,188 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Just omit the various 'return' when the return type is void.
+BlockDriver->bdrv_io_plug is categorized as IO callback, and it
+currently doesn't run in a coroutine. We should let it take a graph
+rdlock since the callback traverses the block nodes graph, which however
+is only possible in a coroutine.
+
+The only caller of this function is blk_io_plug(), therefore make
+blk_io_plug() a co_wrapper, so that we're always running in a coroutine
+where the lock can be taken.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- scripts/block-coroutine-wrapper.py | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ include/block/block-io.h          |  3 ++-
+ include/block/block_int-common.h  |  2 +-
+ include/sysemu/block-backend-io.h |  4 +++-
+ block/block-backend.c             |  4 ++--
+ block/file-posix.c                | 10 +++++-----
+ block/io.c                        |  8 ++++----
+ block/nvme.c                      |  4 ++--
+ 7 files changed, 19 insertions(+), 16 deletions(-)
 
-diff --git a/scripts/block-coroutine-wrapper.py b/scripts/block-coroutine-wrapper.py
-index 6e087fa0b7..0c5d7782b1 100644
---- a/scripts/block-coroutine-wrapper.py
-+++ b/scripts/block-coroutine-wrapper.py
-@@ -85,6 +85,16 @@ def __init__(self, return_type: str, name: str, args: str,
-             ctx = 'qemu_get_aio_context()'
-         self.ctx = ctx
+diff --git a/include/block/block-io.h b/include/block/block-io.h
+index 2ed6214909..d96168375e 100644
+--- a/include/block/block-io.h
++++ b/include/block/block-io.h
+@@ -217,7 +217,8 @@ void bdrv_coroutine_enter(BlockDriverState *bs, Coroutine *co);
  
-+        self.get_result = 's->ret = '
-+        self.ret = 'return s.ret;'
-+        self.co_ret = 'return '
-+        self.return_field = self.return_type + " ret;"
-+        if self.return_type == 'void':
-+            self.get_result = ''
-+            self.ret = ''
-+            self.co_ret = ''
-+            self.return_field = ''
+ AioContext *child_of_bds_get_parent_aio_context(BdrvChild *c);
+ 
+-void bdrv_io_plug(BlockDriverState *bs);
++void coroutine_fn bdrv_co_io_plug(BlockDriverState *bs);
 +
-     def gen_list(self, format: str) -> str:
-         return ', '.join(format.format_map(arg.__dict__) for arg in self.args)
+ void bdrv_io_unplug(BlockDriverState *bs);
  
-@@ -131,7 +141,7 @@ def create_mixed_wrapper(func: FuncDecl) -> str:
- {{
-     if (qemu_in_coroutine()) {{
-         {graph_assume_lock}
--        return {name}({ func.gen_list('{name}') });
-+        {func.co_ret}{name}({ func.gen_list('{name}') });
-     }} else {{
-         {struct_name} s = {{
-             .poll_state.ctx = {func.ctx},
-@@ -143,7 +153,7 @@ def create_mixed_wrapper(func: FuncDecl) -> str:
-         s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
+ bool coroutine_fn bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs,
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index c34c525fa6..a76bb76290 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -729,7 +729,7 @@ struct BlockDriver {
+     void (*bdrv_debug_event)(BlockDriverState *bs, BlkdebugEvent event);
  
-         bdrv_poll_co(&s.poll_state);
--        return s.ret;
-+        {func.ret}
-     }}
- }}"""
+     /* io queue for linux-aio */
+-    void (*bdrv_io_plug)(BlockDriverState *bs);
++    void coroutine_fn (*bdrv_co_io_plug)(BlockDriverState *bs);
+     void (*bdrv_io_unplug)(BlockDriverState *bs);
  
-@@ -168,7 +178,7 @@ def create_co_wrapper(func: FuncDecl) -> str:
-     s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
+     /**
+diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
+index 7ec6d978d4..70b73f7d11 100644
+--- a/include/sysemu/block-backend-io.h
++++ b/include/sysemu/block-backend-io.h
+@@ -73,7 +73,9 @@ void blk_iostatus_set_err(BlockBackend *blk, int error);
+ int blk_get_max_iov(BlockBackend *blk);
+ int blk_get_max_hw_iov(BlockBackend *blk);
  
-     bdrv_poll_co(&s.poll_state);
--    return s.ret;
-+    {func.ret}
- }}"""
+-void blk_io_plug(BlockBackend *blk);
++void coroutine_fn blk_co_io_plug(BlockBackend *blk);
++void co_wrapper blk_io_plug(BlockBackend *blk);
++
+ void blk_io_unplug(BlockBackend *blk);
+ AioContext *blk_get_aio_context(BlockBackend *blk);
+ BlockAcctStats *blk_get_stats(BlockBackend *blk);
+diff --git a/block/block-backend.c b/block/block-backend.c
+index ba7bf1d6bc..2bca5729e1 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -2315,13 +2315,13 @@ void blk_add_insert_bs_notifier(BlockBackend *blk, Notifier *notify)
+     notifier_list_add(&blk->insert_bs_notifiers, notify);
+ }
  
+-void blk_io_plug(BlockBackend *blk)
++void coroutine_fn blk_co_io_plug(BlockBackend *blk)
+ {
+     BlockDriverState *bs = blk_bs(blk);
+     IO_CODE();
  
-@@ -195,7 +205,7 @@ def gen_wrapper(func: FuncDecl) -> str:
+     if (bs) {
+-        bdrv_io_plug(bs);
++        bdrv_co_io_plug(bs);
+     }
+ }
  
- typedef struct {struct_name} {{
-     BdrvPollCo poll_state;
--    {func.return_type} ret;
-+    {func.return_field}
- { func.gen_block('    {decl};') }
- }} {struct_name};
+diff --git a/block/file-posix.c b/block/file-posix.c
+index b9647c5ffc..c8551c8110 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2136,7 +2136,7 @@ static int coroutine_fn raw_co_pwritev(BlockDriverState *bs, int64_t offset,
+     return raw_co_prw(bs, offset, bytes, qiov, QEMU_AIO_WRITE);
+ }
  
-@@ -204,7 +214,7 @@ def gen_wrapper(func: FuncDecl) -> str:
-     {struct_name} *s = opaque;
+-static void raw_aio_plug(BlockDriverState *bs)
++static void coroutine_fn raw_co_io_plug(BlockDriverState *bs)
+ {
+     BDRVRawState __attribute__((unused)) *s = bs->opaque;
+ #ifdef CONFIG_LINUX_AIO
+@@ -3321,7 +3321,7 @@ BlockDriver bdrv_file = {
+     .bdrv_co_copy_range_from = raw_co_copy_range_from,
+     .bdrv_co_copy_range_to  = raw_co_copy_range_to,
+     .bdrv_refresh_limits = raw_refresh_limits,
+-    .bdrv_io_plug = raw_aio_plug,
++    .bdrv_co_io_plug        = raw_co_io_plug,
+     .bdrv_io_unplug = raw_aio_unplug,
+     .bdrv_attach_aio_context = raw_aio_attach_aio_context,
  
- {graph_lock}
--    s->ret = {name}({ func.gen_list('s->{name}') });
-+    {func.get_result}{name}({ func.gen_list('s->{name}') });
- {graph_unlock}
-     s->poll_state.in_progress = false;
+@@ -3693,7 +3693,7 @@ static BlockDriver bdrv_host_device = {
+     .bdrv_co_copy_range_from = raw_co_copy_range_from,
+     .bdrv_co_copy_range_to  = raw_co_copy_range_to,
+     .bdrv_refresh_limits = raw_refresh_limits,
+-    .bdrv_io_plug = raw_aio_plug,
++    .bdrv_co_io_plug        = raw_co_io_plug,
+     .bdrv_io_unplug = raw_aio_unplug,
+     .bdrv_attach_aio_context = raw_aio_attach_aio_context,
  
+@@ -3817,7 +3817,7 @@ static BlockDriver bdrv_host_cdrom = {
+     .bdrv_co_pwritev        = raw_co_pwritev,
+     .bdrv_co_flush_to_disk  = raw_co_flush_to_disk,
+     .bdrv_refresh_limits = raw_refresh_limits,
+-    .bdrv_io_plug = raw_aio_plug,
++    .bdrv_co_io_plug        = raw_co_io_plug,
+     .bdrv_io_unplug = raw_aio_unplug,
+     .bdrv_attach_aio_context = raw_aio_attach_aio_context,
+ 
+@@ -3947,7 +3947,7 @@ static BlockDriver bdrv_host_cdrom = {
+     .bdrv_co_pwritev        = raw_co_pwritev,
+     .bdrv_co_flush_to_disk  = raw_co_flush_to_disk,
+     .bdrv_refresh_limits = raw_refresh_limits,
+-    .bdrv_io_plug = raw_aio_plug,
++    .bdrv_co_io_plug        = raw_co_io_plug,
+     .bdrv_io_unplug = raw_aio_unplug,
+     .bdrv_attach_aio_context = raw_aio_attach_aio_context,
+ 
+diff --git a/block/io.c b/block/io.c
+index a09b1b34ab..c05fb89267 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -3136,19 +3136,19 @@ void *qemu_try_blockalign0(BlockDriverState *bs, size_t size)
+     return mem;
+ }
+ 
+-void bdrv_io_plug(BlockDriverState *bs)
++void coroutine_fn bdrv_co_io_plug(BlockDriverState *bs)
+ {
+     BdrvChild *child;
+     IO_CODE();
+ 
+     QLIST_FOREACH(child, &bs->children, next) {
+-        bdrv_io_plug(child->bs);
++        bdrv_co_io_plug(child->bs);
+     }
+ 
+     if (qatomic_fetch_inc(&bs->io_plugged) == 0) {
+         BlockDriver *drv = bs->drv;
+-        if (drv && drv->bdrv_io_plug) {
+-            drv->bdrv_io_plug(bs);
++        if (drv && drv->bdrv_co_io_plug) {
++            drv->bdrv_co_io_plug(bs);
+         }
+     }
+ }
+diff --git a/block/nvme.c b/block/nvme.c
+index 656624c585..1af911e396 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -1566,7 +1566,7 @@ static void nvme_attach_aio_context(BlockDriverState *bs,
+     }
+ }
+ 
+-static void nvme_aio_plug(BlockDriverState *bs)
++static void coroutine_fn nvme_co_io_plug(BlockDriverState *bs)
+ {
+     BDRVNVMeState *s = bs->opaque;
+     assert(!s->plugged);
+@@ -1663,7 +1663,7 @@ static BlockDriver bdrv_nvme = {
+     .bdrv_detach_aio_context  = nvme_detach_aio_context,
+     .bdrv_attach_aio_context  = nvme_attach_aio_context,
+ 
+-    .bdrv_io_plug             = nvme_aio_plug,
++    .bdrv_co_io_plug          = nvme_co_io_plug,
+     .bdrv_io_unplug           = nvme_aio_unplug,
+ 
+     .bdrv_register_buf        = nvme_register_buf,
 -- 
 2.38.1
 
