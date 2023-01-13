@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA492668AF5
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 05:40:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD81B668AFC
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 05:43:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGBql-0007IB-GD; Thu, 12 Jan 2023 23:39:31 -0500
+	id 1pGBtZ-0008Ui-2Z; Thu, 12 Jan 2023 23:42:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pGBqj-0007I0-9h
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 23:39:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pGBtX-0008UW-Dw
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 23:42:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pGBqh-0005TQ-CM
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 23:39:28 -0500
+ id 1pGBtW-00067I-44
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 23:42:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673584766;
+ s=mimecast20190719; t=1673584941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kKJ6itfdUvAPca7QjWi+TFvBFy2dVBDC0bnC2FqZVhE=;
- b=Na6dHjwKwe+hg10q4c8gyx2WhAjW/oIzV+nATfbFapULAgEdUkkKn/pw6za2WUoHeWLeQd
- UTumquJxoFrD7714yEvqrfaNFhCkBgt5SaXH4omLzjyo5MGjCoCsZzYhgCcscIMMwj5T+4
- 3VKiGCAqXAJ8Xug2GSL738e+MAxoM/E=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rzjMuceZUsuAqTT5Frb+BhVyeW8eQUcC32Zjffvw6wM=;
+ b=S4dt/cXk4JN7Y9Kv6Mm/PoSaHZEyOoYBphABCtXIVk9BGzb1wmaR7uWWskc2ZItSI/A0Rf
+ BMwmPULtPk/yyeaelKHaLC3aPjcQ+1YWG36pO20nMkxr3wQJcGZKDG2tDlOBrFIfUQxTMr
+ f8TxGNrlutXIb1o3xk7+9i1GrrOqTqI=
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
+ [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-381-atakQeAaOJi0VIY8m5g6lQ-1; Thu, 12 Jan 2023 23:39:24 -0500
-X-MC-Unique: atakQeAaOJi0VIY8m5g6lQ-1
-Received: by mail-oo1-f69.google.com with SMTP id
- g6-20020a4a6b06000000b004f2965e6125so706895ooc.21
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 20:39:24 -0800 (PST)
+ us-mta-8-aJ256XCJNTK02b2X8flf8A-1; Thu, 12 Jan 2023 23:42:19 -0500
+X-MC-Unique: aJ256XCJNTK02b2X8flf8A-1
+Received: by mail-oa1-f71.google.com with SMTP id
+ 586e51a60fabf-15eeaed3f9fso212801fac.19
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 20:42:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kKJ6itfdUvAPca7QjWi+TFvBFy2dVBDC0bnC2FqZVhE=;
- b=n1C+3gqg63gOHYROHBkn9M01cNRWhdt1IudOoiqM9ZWVq0a8vA5PQ11rzHo3H1zbFc
- ElNruKJfjJNLtL8oE+67tabcStZNcUwzsMQYDozZOXxpkx92q16kkwWsRPLRJ/OpoTSk
- jXe+JMi/swbw+DhJeGCyK/TXKZh9HNVWkYmckQby2d85PnBWFkKKEdE4CuW5bbghAnxz
- 0mHA3E1PD4R5dpc/d69TBaNnn5zfdfYJKSqnWy1HbQwGq8Z0oxsojC8NsRqcQd94gHlv
- zh+NU1oNDayDOavOrMPdC60+mX59A5/P5lwKWykC16e3uIVlwqtQGcmcuiekiAfn0brQ
- RTcQ==
-X-Gm-Message-State: AFqh2kp9JbsWebYNIPGGmusUFFq/yASPZe0fWhN4sLPeWouKABvNWuoA
- pp10eC/3v14bMNb09/glZZQWKoyb9O2zSmS8tgUG0IEok0BvbIVggNFfxsLPFHIASdPihtoxkmw
- gL3NnXZ9VA0X92fXfe32kpStwqEZS+/o=
-X-Received: by 2002:a05:6830:1c9:b0:684:c737:8322 with SMTP id
- r9-20020a05683001c900b00684c7378322mr212903ota.237.1673584764096; 
- Thu, 12 Jan 2023 20:39:24 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuyLusy4LcxPChk9vp6t1Gs1Hc/bs7d4U2Lxtfzxo5XBnGMb1zBctnUZ7P3z6O/9rBO0yDCE6r11yS2+xGuuUM=
-X-Received: by 2002:a05:6830:1c9:b0:684:c737:8322 with SMTP id
- r9-20020a05683001c900b00684c7378322mr212898ota.237.1673584763786; Thu, 12 Jan
- 2023 20:39:23 -0800 (PST)
+ bh=rzjMuceZUsuAqTT5Frb+BhVyeW8eQUcC32Zjffvw6wM=;
+ b=VwC0W7KQoTmSLgZWXpY9eOM1ATt7haf/0sp+TtCISQDgMc30GbWlg8lBv3iIN4EThC
+ Ng0erFhgfN45cuOcarMtODg+KN0npi+lKqOCBxKMCxP5qPSoJnTSuk7w3n75ENJGDyLs
+ M80uowox/EOMvJSHrqpYJkbEh7MwPMEgmxp6N708sD2tqys8NVSspDvKKe9QOlGik3k9
+ sMAOwoJpRf5DSLmv2n1AV8LRhJNxhT4aEOwgtgkUw7/zz4OMKZlSY0Cb0qMFqF9D+ZRU
+ 1Bz5u+KxzwkWlzLUKqr8smRE7fsnK+fq0vANi4Ae8kJORcimTtPR+ZJx9tcoDDLb4hYS
+ sMkA==
+X-Gm-Message-State: AFqh2krqyl6ynHoJCSF7RtIGWG3gaj/ZQ7uoI5SHZvAXrOB3FSg3jCTk
+ OOKy7f6MB0Zb7xxlslb7WPTafj6Vbws/esWX/+wObd+bz0/YXk/ilDdJjnaVJ0tly3+wSP6HP7u
+ 4PLABrmNPlB/Yr8sw/tPwgGnnoXfyCbs=
+X-Received: by 2002:a05:6870:9e9a:b0:15b:96b5:9916 with SMTP id
+ pu26-20020a0568709e9a00b0015b96b59916mr1332689oab.280.1673584938931; 
+ Thu, 12 Jan 2023 20:42:18 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXt9uzNnMob9EY3TEpjN4N69YWjl/NxBxcnh3R4yB2wbw/wqZ6dv8JeiqHjG9xfky21ywgVJB/7TMVml/XNJ1i8=
+X-Received: by 2002:a05:6870:9e9a:b0:15b:96b5:9916 with SMTP id
+ pu26-20020a0568709e9a00b0015b96b59916mr1332680oab.280.1673584938739; Thu, 12
+ Jan 2023 20:42:18 -0800 (PST)
 MIME-Version: 1.0
 References: <20230112172434.760850-1-eperezma@redhat.com>
- <20230112172434.760850-9-eperezma@redhat.com>
-In-Reply-To: <20230112172434.760850-9-eperezma@redhat.com>
+ <20230112172434.760850-11-eperezma@redhat.com>
+In-Reply-To: <20230112172434.760850-11-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 13 Jan 2023 12:39:12 +0800
-Message-ID: <CACGkMEuAbJq=uTgeZAPhiJVwbR5UuF9k+5pbFU9OwtiD+Om33w@mail.gmail.com>
-Subject: Re: [RFC v2 08/13] vdpa: Negotiate _F_SUSPEND feature
+Date: Fri, 13 Jan 2023 12:42:07 +0800
+Message-ID: <CACGkMEuykwXk+NyDFk63a=Y+-RMpnNLQ--y1FuXqYd6hSgwvtA@mail.gmail.com>
+Subject: Re: [RFC v2 10/13] vdpa net: allow VHOST_F_LOG_ALL
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com, 
  Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
@@ -79,7 +79,7 @@ Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com,
  Parav Pandit <parav@mellanox.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -106,38 +106,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On Fri, Jan 13, 2023 at 1:25 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
 ote:
 >
-> This is needed for qemu to know it can suspend the device to retrieve
-> its status and enable SVQ with it, so all the process is transparent to
-> the guest.
+> Since some actions move to the start function instead of init, the
+> device features may not be the parent vdpa device's, but the one
+> returned by vhost backend.  If transition to SVQ is supported, the vhost
+> backend will return _F_LOG_ALL to signal the device is migratable.
+>
+> Add VHOST_F_LOG_ALL.  HW dirty page tracking can be added on top of this
+> change if the device supports it in the future.
 >
 > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
 Acked-by: Jason Wang <jasowang@redhat.com>
 
-We probably need to add the resume in the future to have a quick
-recovery from migration failures.
-
 Thanks
 
 > ---
->  hw/virtio/vhost-vdpa.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  net/vhost-vdpa.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 4296427a69..a61a6b2a74 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -659,7 +659,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_de=
-v *dev)
->      uint64_t features;
->      uint64_t f =3D 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
->          0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
-> -        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID;
-> +        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID |
-> +        0x1ULL << VHOST_BACKEND_F_SUSPEND;
->      int r;
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index 2ca93e850a..5d7ad6e4d7 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -100,6 +100,8 @@ static const uint64_t vdpa_svq_device_features =3D
+>      BIT_ULL(VIRTIO_NET_F_MQ) |
+>      BIT_ULL(VIRTIO_F_ANY_LAYOUT) |
+>      BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR) |
+> +    /* VHOST_F_LOG_ALL is exposed by SVQ */
+> +    BIT_ULL(VHOST_F_LOG_ALL) |
+>      BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+>      BIT_ULL(VIRTIO_NET_F_STANDBY);
 >
->      if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
 > --
 > 2.31.1
 >
