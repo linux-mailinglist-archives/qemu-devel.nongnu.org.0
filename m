@@ -2,91 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7AAB668B08
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 05:56:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C4B0668B41
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 06:25:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGC5Q-0002r6-BG; Thu, 12 Jan 2023 23:54:40 -0500
+	id 1pGCXW-00077K-36; Fri, 13 Jan 2023 00:23:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pGC5O-0002qv-Du
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 23:54:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pGC5M-00084R-Ez
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 23:54:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673585675;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RhIwhse2WKnv71GVCusOMUeBUtv6+vPIKnJsvQ4DzuY=;
- b=dDRss/Pu+zPZ3Tjt91BpJkuFEW59OudGmdvMhHfRqacDwiPy1uVga/fBQLxROGMjehxaJS
- KXunS6kzguYYluUUp3rlOlhp633cojcVHnpM67EFLz/RRJa0Mz/AQ17JGm4hLlr/gaEz12
- ZHM/0oYQ4+Bi/zFYwbWCDPHs7n9slpY=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-507-BZq5Z1sfNUqcG18fldkD5g-1; Thu, 12 Jan 2023 23:54:34 -0500
-X-MC-Unique: BZq5Z1sfNUqcG18fldkD5g-1
-Received: by mail-oa1-f69.google.com with SMTP id
- 586e51a60fabf-144799384a5so7538872fac.12
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 20:54:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pGCXT-000775-9W; Fri, 13 Jan 2023 00:23:40 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pGCXQ-0004Hi-VJ; Fri, 13 Jan 2023 00:23:38 -0500
+Received: by mail-ej1-x631.google.com with SMTP id ss4so42507627ejb.11;
+ Thu, 12 Jan 2023 21:23:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=uhWCTDFB1F7Y7ToV7wc0OmvqyYK7a2PqLxk0zk6ci34=;
+ b=jHAHx4+NVVXylWZoTsbNBrU836JETjMlC3Q/Rz2UmaLjhTgc7+n85d7QU6ABQhT91F
+ /lUywH6D2wHgRupuEE5u7bYllKJ/MKFeN0ChuTkmCXT7YVrreGXHavwLPoLitNu3vUjj
+ OoODJpb2M7wEXD+U4PUJ5xQZ62omO8fIxUZ0O5c9pLQNJpWtsaHL/UTMfTgGJcVJYPl4
+ I0mLGC2rDvuIAmdcGuUNSpq+LZe+cGVHVZIHsMx+KgWDRTc1VFooIbmZVSyDymMJuoLW
+ AfWx5B7ZNgRUlsPy4JCGVCY61vV4gbFpizvLwmBgNhV5ncwWOo9IP6dTLdjJTXNmYtq/
+ 3s/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RhIwhse2WKnv71GVCusOMUeBUtv6+vPIKnJsvQ4DzuY=;
- b=Pm0749HBVGY8m4BCjJBppJIKuDvj1PPzWicVpAkKntEuJe9t2CLIMTUTGE0GpAR1xa
- N1Gvgc7yvIyGli74ANR862NmhWXs+KhkDIpdhAOgzGxjJHe/ERzkJeJiQEH8awzz+RqK
- RkbUzGTZjkBOP2Eo9LSMiSNolHr0+QnCTosWSdK2gLJjeGdsiFiK6Q5HFbt+FWjovWA3
- 834CJ4mtN2erQgD2g/yzkMwyYFF4Ue8/EwFBtR/MXvFWE6IJRtPXR0IN+2KKhe0LWiaC
- vtpasRZCb1ogUIpv3FFEiB/MMvUqB1AhKp3oGmSIf712GprGJ1lRmgRCDBAWGagFQOXo
- H6aA==
-X-Gm-Message-State: AFqh2kp89BK/2bW7mMZsVbTIZfjrQRB/rXAp0i7friUshGiUxYr5d/hK
- Wr70dbkgzB8UYOu3xWSLYV23qnaJ7YuR0wV4CnY6t/AnmJ/jVjiDPNWSDBRy32nnUYX0IdjbcCV
- Vr0z1xm/G5eZKyERsqJXGMSqo4IEkF/g=
-X-Received: by 2002:a05:6870:9e9a:b0:15b:96b5:9916 with SMTP id
- pu26-20020a0568709e9a00b0015b96b59916mr1334506oab.280.1673585673657; 
- Thu, 12 Jan 2023 20:54:33 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtCygNtV2rSAtmNmBtpj7UOBYm+ZiG/QsJSpdTUhV6a1whUYKq0U6PLN4K0Sxp3WTbPGVsBeBkO3x7tRmvJQiw=
-X-Received: by 2002:a05:6870:9e9a:b0:15b:96b5:9916 with SMTP id
- pu26-20020a0568709e9a00b0015b96b59916mr1334486oab.280.1673585673371; Thu, 12
- Jan 2023 20:54:33 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uhWCTDFB1F7Y7ToV7wc0OmvqyYK7a2PqLxk0zk6ci34=;
+ b=qIxlQnbl0rLwoVhdyZHSyyx1hFQsl0rNt7d7RpKhumFqKTRlvgkbCU4V0XqMq6sq97
+ GJiwUXl/kKXamlNlSufdiuK4cARGTm19dkCeBF2oZppgIb+AJpg6bGNFtweRVO7c20Ft
+ qCCOaqh/AvO+F1wLVSiExv9Vkfbn9wJZ5hNtyE6H2xefdR+nXGqhpfASdPpCFNCpNSON
+ EG5Tc3knUZHrKtvOWlAxaP1LdZ8Q3sz0pe2Da8rBrIGVVGDfkaJf/XspENNSIKVH067m
+ S8tTQpAHKaAhtt5jFOyl7Jar55F3aSgr1rDE7Eyb0A7z2WlP7aMuMLVFv5eVwy+HrhGq
+ 3JTA==
+X-Gm-Message-State: AFqh2ko4MgAGQ2GZLJ/yABcPN2vrFfP/40FP0IIhxdjrveERrvyEv6mZ
+ mEtkAQEaR9xR8Fd/lyBq7zvE7Hx4oa3ImnvEAns=
+X-Google-Smtp-Source: AMrXdXsuqnPBJFXfWoyopN84x39n+4QwN7MMwaxBNQlI0oJDiyJdP+WTHlvPhFl20gkFBmn++Fw5lpnFGwDaSjqa7FQ=
+X-Received: by 2002:a17:907:a08d:b0:846:8c9a:68a3 with SMTP id
+ hu13-20020a170907a08d00b008468c9a68a3mr4283786ejc.217.1673587414268; Thu, 12
+ Jan 2023 21:23:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20230112172434.760850-1-eperezma@redhat.com>
- <20230112172434.760850-12-eperezma@redhat.com>
-In-Reply-To: <20230112172434.760850-12-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 13 Jan 2023 12:54:22 +0800
-Message-ID: <CACGkMEuZjN+6sWiuZnMP7J-mBiwxnkO1VUW-AHz9izW4QkYvUw@mail.gmail.com>
-Subject: Re: [RFC v2 11/13] vdpa: add vdpa net migration state notifier
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, alvaro.karsz@solid-run.com, 
- Shannon Nelson <snelson@pensando.io>, Laurent Vivier <lvivier@redhat.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Parav Pandit <parav@mellanox.com>
+References: <20230102115241.25733-1-dbarboza@ventanamicro.com>
+ <20230102115241.25733-11-dbarboza@ventanamicro.com>
+ <CAKmqyKPri7asvqZ8wN4Bd-wjH+gwwMJJhiUd+=QZFV4RhWnyUQ@mail.gmail.com>
+In-Reply-To: <CAKmqyKPri7asvqZ8wN4Bd-wjH+gwwMJJhiUd+=QZFV4RhWnyUQ@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 13 Jan 2023 13:23:22 +0800
+Message-ID: <CAEUhbmUu-=eH6xAug19z7cFL_0HX+Jr+L0Bkn6VmHwuJggfisA@mail.gmail.com>
+Subject: Re: [PATCH v5 10/11] hw/riscv/boot.c: consolidate all kernel init in
+ riscv_load_kernel()
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, 
+ alistair.francis@wdc.com, Bin Meng <bin.meng@windriver.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,181 +86,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 13, 2023 at 1:25 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
-ote:
->
-> This allows net to restart the device backend to configure SVQ on it.
->
-> Ideally, these changes should not be net specific. However, the vdpa net
-> backend is the one with enough knowledge to configure everything because
-> of some reasons:
-> * Queues might need to be shadowed or not depending on its kind (control
->   vs data).
-> * Queues need to share the same map translations (iova tree).
->
-> Because of that it is cleaner to restart the whole net backend and
-> configure again as expected, similar to how vhost-kernel moves between
-> userspace and passthrough.
->
-> If more kinds of devices need dynamic switching to SVQ we can create a
-> callback struct like VhostOps and move most of the code there.
-> VhostOps cannot be reused since all vdpa backend share them, and to
-> personalize just for networking would be too heavy.
->
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> ---
->  net/vhost-vdpa.c | 84 ++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 84 insertions(+)
->
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 5d7ad6e4d7..f38532b1df 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -26,6 +26,8 @@
->  #include <err.h>
->  #include "standard-headers/linux/virtio_net.h"
->  #include "monitor/monitor.h"
-> +#include "migration/migration.h"
-> +#include "migration/misc.h"
->  #include "migration/blocker.h"
->  #include "hw/virtio/vhost.h"
->
-> @@ -33,6 +35,7 @@
->  typedef struct VhostVDPAState {
->      NetClientState nc;
->      struct vhost_vdpa vhost_vdpa;
-> +    Notifier migration_state;
->      Error *migration_blocker;
->      VHostNetState *vhost_net;
->
-> @@ -243,10 +246,86 @@ static VhostVDPAState *vhost_vdpa_net_first_nc_vdpa=
-(VhostVDPAState *s)
->      return DO_UPCAST(VhostVDPAState, nc, nc0);
->  }
->
-> +static void vhost_vdpa_net_log_global_enable(VhostVDPAState *s, bool ena=
-ble)
-> +{
-> +    struct vhost_vdpa *v =3D &s->vhost_vdpa;
-> +    VirtIONet *n;
-> +    VirtIODevice *vdev;
-> +    int data_queue_pairs, cvq, r;
-> +    NetClientState *peer;
-> +
-> +    /* We are only called on the first data vqs and only if x-svq is not=
- set */
-> +    if (s->vhost_vdpa.shadow_vqs_enabled =3D=3D enable) {
-> +        return;
-> +    }
-> +
-> +    vdev =3D v->dev->vdev;
-> +    n =3D VIRTIO_NET(vdev);
-> +    if (!n->vhost_started) {
-> +        return;
-> +    }
-> +
-> +    if (enable) {
-> +        ioctl(v->device_fd, VHOST_VDPA_SUSPEND);
+Hi Alistair,
 
-Do we need to check if the device is started or not here?
-
-> +    }
-
-I'm not sure I understand the reason for vhost_net_stop() after a
-VHOST_VDPA_SUSPEND. It looks to me those functions are duplicated.
-
-> +    data_queue_pairs =3D n->multiqueue ? n->max_queue_pairs : 1;
-> +    cvq =3D virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
-> +                                  n->max_ncs - n->max_queue_pairs : 0;
-> +    vhost_net_stop(vdev, n->nic->ncs, data_queue_pairs, cvq);
-> +
-> +    peer =3D s->nc.peer;
-> +    for (int i =3D 0; i < data_queue_pairs + cvq; i++) {
-> +        VhostVDPAState *vdpa_state;
-> +        NetClientState *nc;
-> +
-> +        if (i < data_queue_pairs) {
-> +            nc =3D qemu_get_peer(peer, i);
-> +        } else {
-> +            nc =3D qemu_get_peer(peer, n->max_queue_pairs);
-> +        }
-> +
-> +        vdpa_state =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> +        vdpa_state->vhost_vdpa.shadow_data =3D enable;
-> +
-> +        if (i < data_queue_pairs) {
-> +            /* Do not override CVQ shadow_vqs_enabled */
-> +            vdpa_state->vhost_vdpa.shadow_vqs_enabled =3D enable;
-> +        }
-> +    }
-> +
-> +    r =3D vhost_net_start(vdev, n->nic->ncs, data_queue_pairs, cvq);
-> +    if (unlikely(r < 0)) {
-> +        error_report("unable to start vhost net: %s(%d)", g_strerror(-r)=
-, -r);
-> +    }
-> +}
-> +
-> +static void vdpa_net_migration_state_notifier(Notifier *notifier, void *=
-data)
-> +{
-> +    MigrationState *migration =3D data;
-> +    VhostVDPAState *s =3D container_of(notifier, VhostVDPAState,
-> +                                     migration_state);
-> +
-> +    switch (migration->state) {
-> +    case MIGRATION_STATUS_SETUP:
-> +        vhost_vdpa_net_log_global_enable(s, true);
-> +        return;
-> +
-> +    case MIGRATION_STATUS_CANCELLING:
-> +    case MIGRATION_STATUS_CANCELLED:
-> +    case MIGRATION_STATUS_FAILED:
-> +        vhost_vdpa_net_log_global_enable(s, false);
-
-Do we need to recover here?
-
-Thanks
-
-> +        return;
-> +    };
-> +}
-> +
->  static void vhost_vdpa_net_data_start_first(VhostVDPAState *s)
->  {
->      struct vhost_vdpa *v =3D &s->vhost_vdpa;
+On Thu, Jan 12, 2023 at 8:36 AM Alistair Francis <alistair23@gmail.com> wrote:
 >
-> +    if (v->feature_log) {
-> +        add_migration_state_change_notifier(&s->migration_state);
-> +    }
-> +
->      if (v->shadow_vqs_enabled) {
->          v->iova_tree =3D vhost_iova_tree_new(v->iova_range.first,
->                                             v->iova_range.last);
-> @@ -280,6 +359,10 @@ static void vhost_vdpa_net_client_stop(NetClientStat=
-e *nc)
+> On Mon, Jan 2, 2023 at 9:55 PM Daniel Henrique Barboza
+> <dbarboza@ventanamicro.com> wrote:
+> >
+> > The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
+> > the same steps when '-kernel' is used:
+> >
+> > - execute load_kernel()
+> > - load init_rd()
+> > - write kernel_cmdline
+> >
+> > Let's fold everything inside riscv_load_kernel() to avoid code
+> > repetition. To not change the behavior of boards that aren't calling
+> > riscv_load_init(), add an 'load_initrd' flag to riscv_load_kernel() and
+> > allow these boards to opt out from initrd loading.
+> >
+> > Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> > Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> > ---
+> >  hw/riscv/boot.c            | 22 +++++++++++++++++++---
+> >  hw/riscv/microchip_pfsoc.c | 12 ++----------
+> >  hw/riscv/opentitan.c       |  2 +-
+> >  hw/riscv/sifive_e.c        |  3 ++-
+> >  hw/riscv/sifive_u.c        | 12 ++----------
+> >  hw/riscv/spike.c           | 11 +----------
+> >  hw/riscv/virt.c            | 12 ++----------
+> >  include/hw/riscv/boot.h    |  1 +
+> >  8 files changed, 30 insertions(+), 45 deletions(-)
+> >
+> > diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> > index 2594276223..4888d5c1e0 100644
+> > --- a/hw/riscv/boot.c
+> > +++ b/hw/riscv/boot.c
+> > @@ -175,10 +175,12 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
+> >
+> >  target_ulong riscv_load_kernel(MachineState *machine,
+> >                                 target_ulong kernel_start_addr,
+> > +                               bool load_initrd,
+> >                                 symbol_fn_t sym_cb)
+> >  {
+> >      const char *kernel_filename = machine->kernel_filename;
+> >      uint64_t kernel_load_base, kernel_entry;
+> > +    void *fdt = machine->fdt;
+> >
+> >      g_assert(kernel_filename != NULL);
+> >
+> > @@ -192,21 +194,35 @@ target_ulong riscv_load_kernel(MachineState *machine,
+> >      if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+> >                           NULL, &kernel_load_base, NULL, NULL, 0,
+> >                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+> > -        return kernel_load_base;
+> > +        kernel_entry = kernel_load_base;
 >
->      assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+> This breaks 32-bit Xvisor loading. It seems that for the 32-bit guest
+> we get a value of 0xffffffff80000000.
+
+Shouldn't the bug be the 32-bit Xvisor image? How can a 32-bit image
+return an address of 0xffffffff80000000?
+
 >
-> +    if (s->vhost_vdpa.index =3D=3D 0 && s->vhost_vdpa.feature_log) {
-> +        remove_migration_state_change_notifier(&s->migration_state);
-> +    }
-> +
->      dev =3D s->vhost_vdpa.dev;
->      if (dev->vq_index + dev->nvqs =3D=3D dev->vq_index_end) {
->          g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete=
-);
-> @@ -767,6 +850,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientS=
-tate *peer,
->      s->vhost_vdpa.device_fd =3D vdpa_device_fd;
->      s->vhost_vdpa.index =3D queue_pair_index;
->      s->always_svq =3D svq;
-> +    s->migration_state.notify =3D vdpa_net_migration_state_notifier;
->      s->vhost_vdpa.shadow_vqs_enabled =3D svq;
->      s->vhost_vdpa.iova_range =3D iova_range;
->      s->vhost_vdpa.shadow_data =3D svq;
-> --
-> 2.31.1
+> Previously the top bits would be lost as we return a target_ulong from
+> this function, but with this change we pass the value
+> 0xffffffff80000000 to riscv_load_initrd() which causes failures.
+>
+> This diff fixes the failure for me
+>
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 4888d5c1e0..f08ed44b97 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -194,7 +194,7 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>     if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+>                          NULL, &kernel_load_base, NULL, NULL, 0,
+>                          EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+> -        kernel_entry = kernel_load_base;
+> +        kernel_entry = (target_ulong) kernel_load_base;
+>         goto out;
+>     }
+>
+>
+> but I don't think that's the right fix. We should instead look at the
+> CPU XLEN and drop the high bits if required.
+>
+> I'm going to drop this patch, do you mind looking into a proper fix?
 >
 
+Regards,
+Bin
 
