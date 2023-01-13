@@ -2,90 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE98669F3B
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:13:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 090C166A035
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:22:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGNHP-00013u-7L; Fri, 13 Jan 2023 11:51:47 -0500
+	id 1pGNOh-0005KV-Du; Fri, 13 Jan 2023 11:59:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pGNH8-0000x4-CF
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:51:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pGNOf-0005K8-9v; Fri, 13 Jan 2023 11:59:17 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pGNH5-0003BP-L7
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:51:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673628683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hB8vLrqGbvJ+aL3NQT7xZLQkZGANzFJSVkgxU0r2JgI=;
- b=AMoFrvC98Ks0+KFgw8U4TmsGwpD+DaoyuyYYEST8q0memIjsQt6lTeV0r8EymEZ8d96Kny
- m27x240ascdTk/rhOKRAdDnasd2SYHBCFThbhnocOsM0D50kMobOEo2q0s3jSVPYX4oD0g
- 71Q2jKRB/XEIcfRFs9a/EpGBOZ4VJmU=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-448-RTo1nRQMPg6gsES3CZwMGQ-1; Fri, 13 Jan 2023 11:51:22 -0500
-X-MC-Unique: RTo1nRQMPg6gsES3CZwMGQ-1
-Received: by mail-io1-f69.google.com with SMTP id
- k5-20020a6bf705000000b0070483a64c60so2623491iog.18
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 08:51:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hB8vLrqGbvJ+aL3NQT7xZLQkZGANzFJSVkgxU0r2JgI=;
- b=g1ASfxx5t22r3J9pdujSjp6W3HTjzz4HyxsjC1NYh1TV46lOAOQL5MSdahBdOZIczc
- XkBGM7lsIijNS395ebVSGn5HqfIR/gF4LDrux+13I9rZbQEaJJeX5KS5jWcgaArjrSNB
- KX1rjGjwSw5eek3i/FcXhe8VnWzCinBkIgENeK/wsP9TfmPLRzTg1OprNwE0ZsFuX0i1
- MqgJANQ/1y9fRxkaev7v7ZHAx/EJryaKk8xsShX9JxLhxne43S4KZ4oiMyc4ulNDM8vt
- oKqqP3kbuqgtT0eM2hMZjLXtkmMjHnO6hnaajPHqZhKUkH4nGmH8Gkdcag0l7EXbnUZC
- Zpbg==
-X-Gm-Message-State: AFqh2kq2CWL3kGhAPeHav5Y14JTarPUQwzIhHNYLHfLXMvJbrFz4RkUo
- +UnvfFygJqZtbpG9BfUDM4LAjSTmKM9goFvT9sc/fjqLwttmMa7AccBmVL3KG8OQAqejhhLJHQU
- 0aRWbaARS52P6oIA=
-X-Received: by 2002:a5e:8401:0:b0:704:8128:3aae with SMTP id
- h1-20020a5e8401000000b0070481283aaemr3639890ioj.13.1673628681660; 
- Fri, 13 Jan 2023 08:51:21 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXupxFFXKL+e8YFF2Rq/sczJBQV11Q7P8nLdSzDWP9ejULlJuTstoIyuPW5pwSSBnW1Tv9chNQ==
-X-Received: by 2002:a5e:8401:0:b0:704:8128:3aae with SMTP id
- h1-20020a5e8401000000b0070481283aaemr3639880ioj.13.1673628681341; 
- Fri, 13 Jan 2023 08:51:21 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- n31-20020a056602341f00b006884b050a0asm7143384ioz.18.2023.01.13.08.51.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 08:51:20 -0800 (PST)
-Date: Fri, 13 Jan 2023 09:51:17 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Jason Wang <jasowang@redhat.com>, mst@redhat.com, Peter Xu
- <peterx@redhat.com>, yi.l.liu@intel.com, yi.y.sun@linux.intel.com,
- qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: Qemu interrupt-remap fault support
-Message-ID: <20230113095117.1d48c9c2.alex.williamson@redhat.com>
-In-Reply-To: <aaef9961d210ac1873153bf3cf01d984708744fc.camel@infradead.org>
-References: <aaef9961d210ac1873153bf3cf01d984708744fc.camel@infradead.org>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pGNOd-0004k3-HU; Fri, 13 Jan 2023 11:59:17 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30DGe5ir030596; Fri, 13 Jan 2023 16:59:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=VLgISn7ch33gDgOFpKQ2+aOg4gs+g/cxF2hclMC3Uws=;
+ b=tO1CSJl3MjnYW/nK3pVRLYS4uUMpmceD+yFbQvk6SLkz7ReDa5c/0WqDfcmpvmksyP9o
+ hODGhXMuZWuDrehodRtIuhKixWZvbTURYDrUt2sL3rBohTGV+xLIy0Helv9Kpn/zuECg
+ DSYwCWr8IMCCuR6McpfKs9QTvlkH6Y0NFsJMKvxHgywpjZZRhBqIe+5Dg0CTExZ0Xpk1
+ YqkGBca/hStQY0KWMPJxFIwahQQ4xTi5XBHn0ARyFsLgbEhVBPk62QMri0zwhDTKxByX
+ QSjxW0I2GaDba0aTmvP9jjb6iurgeKquYA4JgCFj4hew3+Kip6sVEZTw2QdUG6aBETHt cg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n3a1yt0px-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Jan 2023 16:59:06 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30DGescg001273;
+ Fri, 13 Jan 2023 16:59:05 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n3a1yt0p6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Jan 2023 16:59:05 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30D7jbEA004640;
+ Fri, 13 Jan 2023 16:59:03 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3n1kkyv7bn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Jan 2023 16:59:03 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30DGwxSh47776010
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 Jan 2023 16:59:00 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DAFDD2004E;
+ Fri, 13 Jan 2023 16:58:59 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 79EE420040;
+ Fri, 13 Jan 2023 16:58:59 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.201.249])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 13 Jan 2023 16:58:59 +0000 (GMT)
+Message-ID: <87039aeec020afbd28be77ad5f8d022126aba7bf.camel@linux.ibm.com>
+Subject: Re: [PATCH v14 01/11] s390x/cpu topology: adding s390 specificities
+ to CPU topology
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Fri, 13 Jan 2023 17:58:59 +0100
+In-Reply-To: <20230105145313.168489-2-pmorel@linux.ibm.com>
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-2-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: EkO-reBsw_HvuSqxYzKdjZQ38B1s0OaO
+X-Proofpoint-ORIG-GUID: fDAQPYYS4vP_lV2OAVYsAK71pibvpqSb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-13_07,2023-01-13_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015
+ mlxscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ impostorscore=0 mlxlogscore=999 suspectscore=0 spamscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301130110
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,81 +118,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 13 Jan 2023 09:08:38 +0000
-David Woodhouse <dwmw2@infradead.org> wrote:
+On Thu, 2023-01-05 at 15:53 +0100, Pierre Morel wrote:
+> S390 adds two new SMP levels, drawers and books to the CPU
+> topology.
+> The S390 CPU have specific toplogy features like dedication
+> and polarity to give to the guest indications on the host
+> vCPUs scheduling and help the guest take the best decisions
+> on the scheduling of threads on the vCPUs.
+>=20
+> Let us provide the SMP properties with books and drawers levels
+> and S390 CPU with dedication and polarity,
+>=20
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>  qapi/machine.json               | 14 ++++++++--
+>  include/hw/boards.h             | 10 ++++++-
+>  include/hw/s390x/cpu-topology.h | 23 ++++++++++++++++
+>  target/s390x/cpu.h              |  6 +++++
+>  hw/core/machine-smp.c           | 48 ++++++++++++++++++++++++++++-----
+>  hw/core/machine.c               |  4 +++
+>  hw/s390x/s390-virtio-ccw.c      |  2 ++
+>  softmmu/vl.c                    |  6 +++++
+>  target/s390x/cpu.c              | 10 +++++++
+>  qemu-options.hx                 |  6 +++--
+>  10 files changed, 117 insertions(+), 12 deletions(-)
+>  create mode 100644 include/hw/s390x/cpu-topology.h
+>=20
+[...]
 
-> I'm looking at interrupt remapping (because I need to hook into the
-> translation somehow to add PIRQ support for Xen which translates guest
-> MSIs directly to KVM_IRQ_ROUTING_XEN_EVTCHN).
-> 
-> Am I right in understanding that it doesn't report faults on interrupts
-> which can't be translated? It attempts to translate interrupts at the
-> time the table is modified (vtd_int_remap()) or when an APIC access
-> actually triggers an MSI (vtd_mem_ir_write()) but in neither case does
-> it actually raise a fault?
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index 7d6d01325b..39ea63a416 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
+> @@ -131,6 +131,12 @@ struct CPUArchState {
+> =20
+>  #if !defined(CONFIG_USER_ONLY)
+>      uint32_t core_id; /* PoP "CPU address", same as cpu_index */
+> +    int32_t socket_id;
+> +    int32_t book_id;
+> +    int32_t drawer_id;
+> +    int32_t dedicated;
+> +    int32_t polarity;
 
-AIUI, yes.
- 
-> The behaviour we want here is that we only raise a fault when the IRQ
-> actually *happens*. But that's hard in our current model where it looks
-> like we pretranslate *everything* in advance and just let it run.
-> 
-> Here's a proposal for a model which could make it work (using VFIO as
-> the example since that's the more complex part but it works for
-> emulated MSI sources too):
-> 
-> We consume the VFIO eventfd *both* in userspace and the kernel. (Since 
-> https://lore.kernel.org/kvm/20201027143944.648769-1-dwmw2@infradead.org/
-> we can just keep listening on the VFIO eventfd in userspace and the
-> kernel will eat all the events so you never notice. On older kernels we
-> have to manually stop listening in userspace.)
+If I understood the architecture correctly, the polarity is a property of t=
+he configuration,
+not the cpus. So this should be vertical_entitlement, and there should be a=
+ machine (?) property
+specifying if the polarity is horizontal or vertical.
 
-How do we determine if we're on a new/old kernel for this?
- 
-> When a translation is valid and should be considered 'cached' in the
-> IOMMU, that's when we actually hook it up to the irqfd. 
-> 
-> We can ditch the iec invalidate callbacks (vtd_iec_notify_all) because
-> all an invalidation needs to do is KVM_IRQFD_FLAG_DEASSIGN for the
-> corresponding GSI.
-> 
-> (
-> You might consider abusing a spare field in the KVM routing table to
-> hold a cookie like the IRTE# so that you know *which* entries to
-> invalidate. I couldn't possibly comment.
-> 
-> 	/* 64-bit cookie for IOMMU to use for invalidation choices */
-> 	#define ire_ir_cookie(ire) ((ire)->u.adapter.ind_offset)
-> 
-> 	/* Flags, to indicate a stale entry that needs retranslating
-> */
-> 	#define ire_user_flags(ire) ((ire)->u.adapter.summary_offset)
-> 	#define IRE_USER_FLAG_STALE             1
-> )
-> 
-> So when an interrupt happens and it's *untranslated*, that's when it
-> gets raised to userspace to handle, e.g. in vfio_msi_interrupt(). That
-> does the normal thing and attempts to deliver the guest MSI directly.
-> We add a flag "bool delivering_now" to the X86IOMMUClass int_remap
-> function, to allow it to distinguish between preemptive translations
-> and actual delivery and to raise the fault in the latter case.
-> 
-> When the guest frobs a device's MSI table we can do the translation as
-> we do at the moment, of course with the 'delivering_now' argument being
-> false. And *if* the translation succeeds then we can install the IRQFD
-> right away.
-> 
-> This model allows us to generate faults as the hardware would, and also
-> improves the efficiency of invalidation by only invalidating what we
-> need to. I haven't looked hard at how it works with an emulated AMD
-> IOMMU, but I know that the Xen PIRQ support (which is where I came in)
-> slots into it fairly trivially, using the PIRQ# as the 'cookie' for
-> invalidation instead of the IRTE# that the Intel IOMMU uses.
+> +    int32_t cpu_type;
+>      uint64_t cpuid;
+>  #endif
+> =20
 
-Seems ok, but it hinges on being able to detect whether kvm consumes
-the eventfd or not since and un-consumed eventfd would then look the
-same as an invalid translation.  Thanks,
-
-Alex
-
+[...]
 
