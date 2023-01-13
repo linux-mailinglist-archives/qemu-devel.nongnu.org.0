@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E822669D94
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:23:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38BD669B53
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 16:03:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKnK-0001Ya-Ux; Fri, 13 Jan 2023 09:12:34 -0500
+	id 1pGKmf-0000um-QV; Fri, 13 Jan 2023 09:11:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmS-0000r5-6U
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:40 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ id 1pGKmS-0000r6-7c
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:42 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmO-0003f4-Oa
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:38 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- m8-20020a05600c3b0800b003d96f801c48so18857413wms.0
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:36 -0800 (PST)
+ id 1pGKmP-0003dg-Fb
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:11:39 -0500
+Received: by mail-wm1-x329.google.com with SMTP id g10so15354457wmo.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=wzuNZCXupgu//7V2i08nAuAgXUWawm0tfvprgDr6yp0=;
- b=OlHmUjPQBFqAsgF43cARB5xBAlPIbwDSVy8iJ2J8bdorXmF16InjnNWbKw0ffe+k/5
- Eoy1MV7hKnFAdhLaC3iBdXzBaOu3PDfycwvaMss2qKekunQPs5kX7MFeQbxdoSqGv5aP
- sJgjgcmO684xNmRqBo+kOq7AqnHbhDff+yTULLWBlRlXBPU8p/mDsdwOfivsvsnB+y+y
- +2hNl6T/Q9JMBextlstckMoEZAxnBW+p28a1EaRNvy8AgZZr1F6EDZrxYBEyyuUhZsoh
- UvT4OqcRhtdMp4JP+kGX4STMlTswprJ7Tmk3DaegmRbhej41+dBHBvCBCRCcQy+zseSh
- eUyw==
+ :reply-to; bh=yQOKxbWfNbJ6ZYIkx8c2YswZ3peqlz+Y7JAPsZrSkN8=;
+ b=tKzEpYk+p9BEmTWInUrHBV/qTXtw8YrhAhpGAzcth47EPNsj0cJTSgPjLqePTtmRWr
+ ZYdL/UqVZFCMreHQiW4jnexSJHZGHOhFFE13/gswzmbFsnqIurFQ1xdF7fam5P8OfGiC
+ 0BSj/8R8SBIhK0FWrxyTK7dfV8tPJ4YD+nykfjcRp+AzhfDjbu9wDzGg4fLBXPVvuCjn
+ vlv511DlMvt9dL9UkIAxGEKvIpwKxspDGEtokbt0dRg7j73fsAeENWihwwpVN1GRAEXD
+ rf9yZrRyNemmenSPvrAjYFR9jjMJ6rfGs4PwtdRsIA81XXyqaZIseIlce4g1yfKN/jxO
+ 815A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wzuNZCXupgu//7V2i08nAuAgXUWawm0tfvprgDr6yp0=;
- b=aelF9ZLbxVY3c0PDIIrKsIzFc2FP4caGrn9PaVN7QEgifKbXYabkHuHweAPV2uVmpT
- 6DExcqfQzDD/WGHF6GIQxe82/eF1rNNx298hSv3Ajtt0bT6sKKGr2XT3BlLPhBH3qSKi
- OJSgyuXWYUSrGKZYP5+Y+AG8flsgAqpfkoJ3LMABHZ7JSm7D6P940YjpuuYv2iGcy8jw
- hMnhCLD+ww6xXA0hgsmaAsxinCie+Al/I8ZePHYiEpgIpXLisEMhB/wHrtvNcXb5Y8WQ
- ENjhUmXbDPnEWfSqdKHNcq+yaIjxbONQq1LIuAVEyIxgqsWd5FLwP6Lp7GWWRI9BNJS+
- 8v/A==
-X-Gm-Message-State: AFqh2kpCxK6jewcp32vwzv8DH5nVeOO3195oyx+z4z/tnpsOozCOTqTC
- 3zpmZmuJCnufNXkEBzrZ/Pls4DxTehiBaQ2D
-X-Google-Smtp-Source: AMrXdXt/RJN1BXd4hx8OWvHeqXztD7pR7z3RDf2/9MSuVA82LLAge9/lHR+bcr6ckNx0aPlDNL68vA==
-X-Received: by 2002:a05:600c:4fc9:b0:3da:8f9:4f62 with SMTP id
- o9-20020a05600c4fc900b003da08f94f62mr8009244wmq.7.1673619095140; 
- Fri, 13 Jan 2023 06:11:35 -0800 (PST)
+ bh=yQOKxbWfNbJ6ZYIkx8c2YswZ3peqlz+Y7JAPsZrSkN8=;
+ b=QdpI8PfKuAhaDdAEDPG2TTOAjTcxAgnJbh4qd2vGt3BXHy6plGE7PeiEq5ZbXBvtJX
+ urJQi3RIPFJ0vfSV6zxGGe8ND7S9RoB1LBBz9qKUZk+L8NYvWmS/J1U2WyZcYw5NPmLP
+ xTX49wY3hqwjm25D7wc/2dJ2TJGmmzehY263vfF1U7OOb4ydVc+GFXhh1r/Vfe7JZaty
+ GYTK2UrpTTMEHgqhfH/3FQrbpkHc2qKF4Gx3lPcXRbe3Yxaw5zU05XKYphiRsmq5rI7i
+ joMIK0+tI39HXv6q1CsycXfaom4OWonadPdCUUerjkwW70CCuPNqgH8bd33aBqKv5X/C
+ RcHw==
+X-Gm-Message-State: AFqh2krUWmsUqfvMar2hFyEPJZhhe+ioZ5IeF5q47SxR4dvCpS4W7nEq
+ mmcw+gt9qvi59BMwmR7PDLQLFKH0vkknQTIu
+X-Google-Smtp-Source: AMrXdXv7sSXUuqi7g4FQ51IzSrNbaND14WyTCD2BNvSwJ7Vr3tVkhTZLQrR1RnTHSjjYpY1O6BWmMg==
+X-Received: by 2002:a7b:ce87:0:b0:3d9:f37e:2acb with SMTP id
+ q7-20020a7bce87000000b003d9f37e2acbmr13911484wmj.20.1673619096788; 
+ Fri, 13 Jan 2023 06:11:36 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.34
+ n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 06:11:34 -0800 (PST)
+ Fri, 13 Jan 2023 06:11:36 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/38] hw/arm: Allwinner A10 enable SPL load from MMC
-Date: Fri, 13 Jan 2023 14:10:56 +0000
-Message-Id: <20230113141126.535646-9-peter.maydell@linaro.org>
+Subject: [PULL 10/38] target/arm: Fix sve_probe_page
+Date: Fri, 13 Jan 2023 14:10:58 +0000
+Message-Id: <20230113141126.535646-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230113141126.535646-1-peter.maydell@linaro.org>
 References: <20230113141126.535646-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,116 +89,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-This patch enables copying of SPL from MMC if `-kernel` parameter is not
-passed when starting QEMU. SPL is copied to SRAM_A.
+Don't dereference CPUTLBEntryFull until we verify that
+the page is valid.  Move the other user-only info field
+updates after the valid check to match.
 
-The approach is reused from Allwinner H3 implementation.
-
-Tested with Armbian and custom Yocto image.
-
-Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-
-Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Message-id: 20221226220303.14420-7-strahinja.p.jankovic@gmail.com
+Cc: qemu-stable@nongnu.org
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1412
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-id: 20230104190056.305143-1-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/allwinner-a10.h | 21 +++++++++++++++++++++
- hw/arm/allwinner-a10.c         | 18 ++++++++++++++++++
- hw/arm/cubieboard.c            |  5 +++++
- 3 files changed, 44 insertions(+)
+ target/arm/sve_helper.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a10.h
-index e569e661095..e0f2f7ab198 100644
---- a/include/hw/arm/allwinner-a10.h
-+++ b/include/hw/arm/allwinner-a10.h
-@@ -16,6 +16,7 @@
- #include "hw/misc/allwinner-a10-ccm.h"
- #include "hw/misc/allwinner-a10-dramc.h"
- #include "hw/i2c/allwinner-i2c.h"
-+#include "sysemu/block-backend.h"
- 
- #include "target/arm/cpu.h"
- #include "qom/object.h"
-@@ -48,4 +49,24 @@ struct AwA10State {
-     OHCISysBusState ohci[AW_A10_NUM_USB];
- };
- 
-+/**
-+ * Emulate Boot ROM firmware setup functionality.
-+ *
-+ * A real Allwinner A10 SoC contains a Boot ROM
-+ * which is the first code that runs right after
-+ * the SoC is powered on. The Boot ROM is responsible
-+ * for loading user code (e.g. a bootloader) from any
-+ * of the supported external devices and writing the
-+ * downloaded code to internal SRAM. After loading the SoC
-+ * begins executing the code written to SRAM.
-+ *
-+ * This function emulates the Boot ROM by copying 32 KiB
-+ * of data at offset 8 KiB from the given block device and writes it to
-+ * the start of the first internal SRAM memory.
-+ *
-+ * @s: Allwinner A10 state object pointer
-+ * @blk: Block backend device object pointer
-+ */
-+void allwinner_a10_bootrom_setup(AwA10State *s, BlockBackend *blk);
-+
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 1afeadf9c85..521fc9b9697 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -5354,15 +5354,10 @@ bool sve_probe_page(SVEHostPage *info, bool nofault, CPUARMState *env,
+ #ifdef CONFIG_USER_ONLY
+     flags = probe_access_flags(env, addr, access_type, mmu_idx, nofault,
+                                &info->host, retaddr);
+-    memset(&info->attrs, 0, sizeof(info->attrs));
+-    /* Require both ANON and MTE; see allocation_tag_mem(). */
+-    info->tagged = (flags & PAGE_ANON) && (flags & PAGE_MTE);
+ #else
+     CPUTLBEntryFull *full;
+     flags = probe_access_full(env, addr, access_type, mmu_idx, nofault,
+                               &info->host, &full, retaddr);
+-    info->attrs = full->attrs;
+-    info->tagged = full->pte_attrs == 0xf0;
  #endif
-diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
-index 17e439777e4..dc1966ff7a2 100644
---- a/hw/arm/allwinner-a10.c
-+++ b/hw/arm/allwinner-a10.c
-@@ -24,7 +24,9 @@
- #include "sysemu/sysemu.h"
- #include "hw/boards.h"
- #include "hw/usb/hcd-ohci.h"
-+#include "hw/loader.h"
+     info->flags = flags;
  
-+#define AW_A10_SRAM_A_BASE      0x00000000
- #define AW_A10_DRAMC_BASE       0x01c01000
- #define AW_A10_MMC0_BASE        0x01c0f000
- #define AW_A10_CCM_BASE         0x01c20000
-@@ -38,6 +40,22 @@
- #define AW_A10_RTC_BASE         0x01c20d00
- #define AW_A10_I2C0_BASE        0x01c2ac00
+@@ -5371,6 +5366,15 @@ bool sve_probe_page(SVEHostPage *info, bool nofault, CPUARMState *env,
+         return false;
+     }
  
-+void allwinner_a10_bootrom_setup(AwA10State *s, BlockBackend *blk)
-+{
-+    const int64_t rom_size = 32 * KiB;
-+    g_autofree uint8_t *buffer = g_new0(uint8_t, rom_size);
++#ifdef CONFIG_USER_ONLY
++    memset(&info->attrs, 0, sizeof(info->attrs));
++    /* Require both ANON and MTE; see allocation_tag_mem(). */
++    info->tagged = (flags & PAGE_ANON) && (flags & PAGE_MTE);
++#else
++    info->attrs = full->attrs;
++    info->tagged = full->pte_attrs == 0xf0;
++#endif
 +
-+    if (blk_pread(blk, 8 * KiB, rom_size, buffer, 0) < 0) {
-+        error_setg(&error_fatal, "%s: failed to read BlockBackend data",
-+                   __func__);
-+        return;
-+    }
-+
-+    rom_add_blob("allwinner-a10.bootrom", buffer, rom_size,
-+                  rom_size, AW_A10_SRAM_A_BASE,
-+                  NULL, NULL, NULL, NULL, false);
-+}
-+
- static void aw_a10_init(Object *obj)
- {
-     AwA10State *s = AW_A10(obj);
-diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
-index dca257620d0..71a7df15083 100644
---- a/hw/arm/cubieboard.c
-+++ b/hw/arm/cubieboard.c
-@@ -99,6 +99,11 @@ static void cubieboard_init(MachineState *machine)
-     memory_region_add_subregion(get_system_memory(), AW_A10_SDRAM_BASE,
-                                 machine->ram);
- 
-+    /* Load target kernel or start using BootROM */
-+    if (!machine->kernel_filename && blk && blk_is_available(blk)) {
-+        /* Use Boot ROM to copy data from SD card to SRAM */
-+        allwinner_a10_bootrom_setup(a10, blk);
-+    }
-     /* TODO create and connect IDE devices for ide_drive_get() */
- 
-     cubieboard_binfo.ram_size = machine->ram_size;
+     /* Ensure that info->host[] is relative to addr, not addr + mem_off. */
+     info->host -= mem_off;
+     return true;
 -- 
 2.34.1
 
