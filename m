@@ -2,72 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6DD668928
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 02:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D3FE66899D
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 03:33:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG8sU-0001RT-Ki; Thu, 12 Jan 2023 20:29:06 -0500
+	id 1pG9rZ-0003F3-U0; Thu, 12 Jan 2023 21:32:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pG8sR-0001Ph-0P; Thu, 12 Jan 2023 20:29:04 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pG8sP-0002YS-5Z; Thu, 12 Jan 2023 20:29:02 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id qk9so48973704ejc.3;
- Thu, 12 Jan 2023 17:28:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=9A1ZZW2o7YNRm6qWBBlZkKmOqbhIJuRs6thTCITuwEU=;
- b=FR7UVVraxh14X29L8+KryP397lnzkobLwlyfzTtphYHUcNQxh+Yf36Lb7LV8ZMQaei
- cbXIZV9u+C/IpX65oJBNarhol1adjVemp9MRuWrVJaTJpHFFqpHiwyHhcEndRTX59v9z
- NbqsXp6+mnqnXIqyGcmWB3KNCMtYuz/EcDGrTX68b0lxVmod+TqxY23DTAeor2X43TkA
- GW80RfHQ9fT+TV76lwvfg0I/y9ZXbQrPZOI6bdxkXMyfUKnRF4z7cvI0vOWG7R6jewC3
- rH1Ls0mx2dER93iBU/QVYqtljBZopETOFwIoDQyYeyqwlifAXvq64yD6AXeS3x9lnrzU
- HsoQ==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pG9rY-0003Ea-5n
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 21:32:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pG9rW-0000y7-Nb
+ for qemu-devel@nongnu.org; Thu, 12 Jan 2023 21:32:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673577129;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WRTveB47dnP5lQkFO4HXYNqIU+jlobkH8cziY1hDp14=;
+ b=cc2oKhofo9aCzS5pEOBLGwh52ROJhNAXTgS0HkIpespUruIYjmZ9Ta6MBCVh+lbPlozUsp
+ dyInr/CzB2VwGJK3++/+7qlDT/f4OvfCW+auA9S7QOgSolUK2zTpqMe1/MWeV9/yClq/ix
+ OS9XYwnFVAir/5n0ftQxGiinwHbEywI=
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-651-SnqD2W3UPIidayG-abA_QQ-1; Thu, 12 Jan 2023 21:32:08 -0500
+X-MC-Unique: SnqD2W3UPIidayG-abA_QQ-1
+Received: by mail-oo1-f72.google.com with SMTP id
+ q28-20020a056820029c00b004d2bbed17b6so7622492ood.23
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 18:32:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9A1ZZW2o7YNRm6qWBBlZkKmOqbhIJuRs6thTCITuwEU=;
- b=RF1eL4SDRsRJTgtqSOkYvB3b9LsjfxF4ZZqYSpjkALxrwCwhLj53hR7u90B2KAcvjH
- zS7yJxHfintwR4Orc0K18knkZ+ENdVD72OYL4V+TkyIIVGdgrIZ9cSqM19cTu4aN1PId
- oufHfHA+UVjYCrDLDglIi186btrxrDF61FkhIrX6ur3Bm9eyy5fb0ToohmH7gkyrQl5m
- M+3R94yO5y5YTkVc198Il3fEUqwrEB+1LuPV4O6wHg2VRMHUvtxKTw0kc2MNypl+cDAn
- iZ7RTn5iKIwMDjjbrKiWdxxNPfMLC1xDUyqXenhynZvcWRy4YcB+eqefb2HXYhu6j7eh
- H4Ig==
-X-Gm-Message-State: AFqh2koQXRyxBnITlFNnJHCzPqbPe7exPoFIZOJF8JNGZo2uh8u5oTzv
- OECnqyjLaHnhqQ31xUlMXf4oCUIlOtx3/6d4uKU=
-X-Google-Smtp-Source: AMrXdXsaTbzxk+401PKXru+axyeK5eKwYNpvB+MOw8VVvc65tF0v4WSsf5Ds+Xr2ITdMQ/3VEEIpOFhpQ0K4hCnZ93A=
-X-Received: by 2002:a17:906:1945:b0:7c0:bb4c:e792 with SMTP id
- b5-20020a170906194500b007c0bb4ce792mr6334293eje.618.1673573338504; Thu, 12
- Jan 2023 17:28:58 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WRTveB47dnP5lQkFO4HXYNqIU+jlobkH8cziY1hDp14=;
+ b=goaygw4k93xDiGsqEfs9/Xd7+85GUKb7dqIYoOF4r6uQpbgcV1yn/It5bHt8v0FQR7
+ fFbfB/1R0LmZrg483uIBmbmzZHaWU2u3bkxhD9ugxn0pdsjtNuL5Jel7d268F7Em5PZw
+ pzZddWKKil29NOuRGKY64HymKEAs7NwGIcbtgjSKomBlgYz92l7O9eSnDE37z5AfJH0F
+ ZU6ooMcci3vwRmMIHyAs3LK6bf5NNFhGPVc0UoOvP8pfKaQREwjmO8ZOOMP0GPKyYGV2
+ EnHtpq01D2HAOggkoXym9T2ZmPFtaecytgf9NmzbYgMCdDfuCgl/zaqGt6MFuDsVC27I
+ iyxg==
+X-Gm-Message-State: AFqh2koVCwFDlAUwauN4FN9F57BQeo+XXuofD0vRCdBSKJNycsoB7nZc
+ BNv/+2XMPqnLc4cfxcbufhOMHLrk5qlkbAfsB3mtqrhByc20Y9my1n2NcVjDpM/H0lS3ACHbKJl
+ XozTdiGUivzZwJTWsCwHlHKEYcfOJXBw=
+X-Received: by 2002:a05:6870:9e9a:b0:15b:96b5:9916 with SMTP id
+ pu26-20020a0568709e9a00b0015b96b59916mr1305866oab.280.1673577127477; 
+ Thu, 12 Jan 2023 18:32:07 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvFOjpc+nDZgVA/nm8OnAMpH4YbAcHkB/n5ZvjhWJJpvECmUUd621vPYW+HeEDDkLYky6zDz6cmpmJ9cZZYVLM=
+X-Received: by 2002:a05:6870:9e9a:b0:15b:96b5:9916 with SMTP id
+ pu26-20020a0568709e9a00b0015b96b59916mr1305844oab.280.1673577127204; Thu, 12
+ Jan 2023 18:32:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20230110201405.247785-1-dbarboza@ventanamicro.com>
- <CAKmqyKM=7Ld0FuZ7FfzTKznpM5Zq1xzAKd-iVxqjk6TPbred2g@mail.gmail.com>
-In-Reply-To: <CAKmqyKM=7Ld0FuZ7FfzTKznpM5Zq1xzAKd-iVxqjk6TPbred2g@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 13 Jan 2023 09:28:37 +0800
-Message-ID: <CAEUhbmWbcWNQxP8O+56qYjUPsmgyP+qhOTYRRmDUimXV6s42_Q@mail.gmail.com>
-Subject: Re: [PATCH 0/2] target/riscv/cpu: fix sifive_u 32/64bits boot in
- riscv-to-apply.next
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, 
- alistair.francis@wdc.com, richard.henderson@linaro.org
+References: <20230112172434.760850-1-eperezma@redhat.com>
+ <20230112172434.760850-13-eperezma@redhat.com>
+In-Reply-To: <20230112172434.760850-13-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 13 Jan 2023 10:31:56 +0800
+Message-ID: <CACGkMEt8cMM1UxVzxb0eHeaWSpR0ApvGzaF901vrM4m-uGMiPA@mail.gmail.com>
+Subject: Re: [RFC v2 12/13] vdpa: preemptive kick at enable
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, alvaro.karsz@solid-run.com, 
+ Shannon Nelson <snelson@pensando.io>, Laurent Vivier <lvivier@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Parav Pandit <parav@mellanox.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,77 +103,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Daniel,
-
-On Wed, Jan 11, 2023 at 1:03 PM Alistair Francis <alistair23@gmail.com> wrote:
+On Fri, Jan 13, 2023 at 1:27 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
+ote:
 >
-> On Wed, Jan 11, 2023 at 6:17 AM Daniel Henrique Barboza
-> <dbarboza@ventanamicro.com> wrote:
-> >
-> > Hi,
-> >
-> > I found this bug when testing my avocado changes in riscv-to-apply.next.
-> > The sifive_u board, both 32 and 64 bits, stopped booting OpenSBI. The
-> > guest hangs indefinitely.
-> >
-> > Git bisect points that this patch broke things:
-> >
-> > 8c3f35d25e7e98655c609b6c1e9f103b9240f8f8 is the first bad commit
-> > commit 8c3f35d25e7e98655c609b6c1e9f103b9240f8f8
-> > Author: Weiwei Li <liweiwei@iscas.ac.cn>
-> > Date:   Wed Dec 28 14:20:21 2022 +0800
-> >
-> >     target/riscv: add support for Zca extension
-> >
-> >     Modify the check for C extension to Zca (C implies Zca)
-> > (https://github.com/alistair23/qemu/commit/8c3f35d25e7e98655c609b6c1e9f103b9240f8f8)
-> >
-> >
-> > But this patch per se isn't doing anything wrong. The root of the
-> > problem is that this patch makes assumptions based on the previous
-> > patch:
-> >
-> > commit a2b409aa6cadc1ed9715e1ab916ddd3dade0ba85
-> > Author: Weiwei Li <liweiwei@iscas.ac.cn>
-> > Date:   Wed Dec 28 14:20:20 2022 +0800
-> >
-> >     target/riscv: add cfg properties for Zc* extension
-> > (https://github.com/alistair23/qemu/commit/a2b409aa6cadc1ed9715e1ab916ddd3dade0ba85)
-> >
-> > Which added a lot of logic and assumptions that are being skipped by all
-> > the SiFive boards because, during riscv_cpu_realize(), we have this
-> > code:
-> >
-> >     /* If only MISA_EXT is unset for misa, then set it from properties */
-> >     if (env->misa_ext == 0) {
-> >         uint32_t ext = 0;
-> >         (...)
-> >     }
-> >
-> > In short, we have a lot of code that are being skipped by all SiFive
-> > CPUs because these CPUs are setting a non-zero value in set_misa() in
-> > their respective cpu_init() functions.
-> >
-> > It's possible to just hack in and fix the SiFive problem in isolate, but
-> > I believe we can do better and allow all riscv_cpu_realize() to be executed
-> > for all CPUs, regardless of what they've done during their cpu_init().
-> >
-> >
-> > Daniel Henrique Barboza (2):
-> >   target/riscv/cpu: set cpu->cfg in register_cpu_props()
-> >   target/riscv/cpu.c: do not skip misa logic in riscv_cpu_realize()
+> Spuriously kick the destination device's queue so it knows in case there
+> are new descriptors.
 >
-> Thanks for the patches
+> RFC: This is somehow a gray area. The guest may have placed descriptors
+> in a virtqueue but not kicked it, so it might be surprised if the device
+> starts processing it.
+
+So I think this is kind of the work of the vDPA parent. For the parent
+that needs this trick, we should do it in the parent driver.
+
+Thanks
+
 >
-> I have rebased these onto the latest master and dropped the other
-> series. That way when the other series is applied we don't break
-> bisectability.
+> However, that information is not in the migration stream and it should
+> be an edge case anyhow, being resilient to parallel notifications from
+> the guest.
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> ---
+>  hw/virtio/vhost-vdpa.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 40b7e8706a..dff94355dd 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -732,11 +732,16 @@ static int vhost_vdpa_set_vring_ready(struct vhost_=
+dev *dev, int ready)
+>      }
+>      trace_vhost_vdpa_set_vring_ready(dev);
+>      for (i =3D 0; i < dev->nvqs; ++i) {
+> +        VirtQueue *vq;
+>          struct vhost_vring_state state =3D {
+>              .index =3D dev->vq_index + i,
+>              .num =3D 1,
+>          };
+>          vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
+> +
+> +        /* Preemptive kick */
+> +        vq =3D virtio_get_queue(dev->vdev, dev->vq_index + i);
+> +        event_notifier_set(virtio_queue_get_host_notifier(vq));
+>      }
+>      return 0;
+>  }
+> --
+> 2.31.1
+>
 
-It seems these 2 patches are already in Alistair's tree.
-
-Richard had a suggestion for patch 1 and I had some minor comments
-too. Do you plan to resend a v2 for that?
-
-Regards,
-Bin
 
