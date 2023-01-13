@@ -2,92 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E1F6691EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 09:55:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78569669219
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 10:02:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGFpm-0006Zh-EX; Fri, 13 Jan 2023 03:54:46 -0500
+	id 1pGFvk-00018h-Ru; Fri, 13 Jan 2023 04:00:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pGFpS-0006RU-Kd; Fri, 13 Jan 2023 03:54:28 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pGFve-00018R-RO
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 04:00:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pGFpO-00077i-Vn; Fri, 13 Jan 2023 03:54:25 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id E8A4A5C003F;
- Fri, 13 Jan 2023 03:54:20 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 13 Jan 2023 03:54:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1673600060; x=1673686460; bh=E6
- PuJ8chHaUubmtA83EYSBQx8C+N/N8RHiNHhgUeAB0=; b=WzrxC7BOG8rLWAlYki
- +ThPpEzb5UljGbRkhoMYuBdlWp8K1nODY7xSDNUq/zcA38y7/8gg5aShuvEU+4X0
- I9VmmeBoG6EpFFesRHa4+RLJY+uIXlrpCZbuh0Jz9CNsGWuvgWv8po7qVz/MG9Qc
- BFbyiCyUr7xt+BQUiDY7HpeEeOlyJuyNSq+Z5Sdk4G+wmScEdk+u8xwA64VHnOo6
- pi+2o40koDdhuPCwfZTnHe0bj3/hJiABqzwG+k+OQBfRxb/tuG73oJI+OFK26ROA
- wnxB4cxfWEmj1z+/pmXUGNtrfr0j0g5fPuCdzVDgDLVuReqnmCgibeKC9DURyDDR
- v6PA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1673600060; x=1673686460; bh=E6PuJ8chHaUubmtA83EYSBQx8C+N
- /N8RHiNHhgUeAB0=; b=emgOfIimPn1zQN6/rXBoAibhpGMBp0AupvMQRH8K+ccJ
- agxFHNCqIATejRH9P6UvUKFuToc7WTklrloikmAyZLwJL81h46rxgDjB+WDTdRjI
- 1cS3ncloYYEWhGQP0Xshbo/uji4cQNlO/EajmNrG8MAAVgy+AtgdYnOt8WUeCnZJ
- pPVbDdUdjH9+Gwrdjf17gXU18Ahqjd5RmqOsjV3udgrGrXWq/hY4ydHzBlkkTwky
- iYDT1nGsRr7dCtT4cADCJ7Psp4+hui8WJeuOTgbkhofUVEi+xg38Yvh9EJYDHedI
- DqRou5ZEbAZkW3hrBZQFW0mqQ2oaZ8dnsm509IqmCA==
-X-ME-Sender: <xms:PBzBY0rNKIG5NuSAPhPeZ0KpH_7wVw2vExnFq-cIwfIBKMzWbftvgg>
- <xme:PBzBY6oA_loX8HToX5eFdP3eiPW0tewyjxyHv_4mXY58pMKDHRZ-eK2Fv0FXAViAM
- UiUHU9VbRIoQeRE4n4>
-X-ME-Received: <xmr:PBzBY5Nc1_LwqodTU5N9-RtIvDRq68OnwwY9MPf84zKeJAKvVVatYXuYtQfxSInIFgQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleejgdduvdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:PBzBY77oRfnRq6cz3ccVbDlo0RCliLWGqGvNLf9Jv3_KaycjEeGnSQ>
- <xmx:PBzBYz6RSoEgazq8brBWl3WWLsYj0XBDSv5XfgEvmAY9s-vREHw4bA>
- <xmx:PBzBY7gnTDXMcha_umi19rGhcHm6eD5ESS_qGH9gf7cEpXWvJM0zlA>
- <xmx:PBzBYwG1vqnkQ966lvRr6CXBR2E3Ihu0jMXXTExcxeBcIGiwlS6SKA>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 13 Jan 2023 03:54:18 -0500 (EST)
-Date: Fri, 13 Jan 2023 09:54:16 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Guenter Roeck <linux@roeck-us.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
-Message-ID: <Y8EcOFE52X5KbzO7@cormorant.local>
-References: <Y8AG21o/9/3eUMIg@cormorant.local>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pGFvc-0000H7-K7
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 04:00:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673600446;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/NsMRz8xxQtIv7CjqgxPmGxbo+R17HVzXGVWwlpqALQ=;
+ b=Py2z6JAfsnqut8WHM5kXFDThg7+F2WzV0zcPl1OP4GYSABkFbdry1AHsfVjFp1YIApJ71N
+ s2yVh/Vza9+4jK9m6dXt+4J9UAc2ZCUz0IireW8XtNbvBudTFwUN7BSuqOpA0R1oo0KCA4
+ oKQqpHXn32CkkdabAebXZr+45Lts9Js=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-551-f4H8hlk9OUK3jySixN37CQ-1; Fri, 13 Jan 2023 04:00:45 -0500
+X-MC-Unique: f4H8hlk9OUK3jySixN37CQ-1
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-4d952e13250so51951417b3.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 01:00:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/NsMRz8xxQtIv7CjqgxPmGxbo+R17HVzXGVWwlpqALQ=;
+ b=r1PMCy6AdpxgEwwJZPZaKwGW5bpY8Fx7g+K6mTvg/xjmyfC7Og27P89zi32tQblSFp
+ ap1Y8Gt253xHhiAkEfzS7n8CVVZoJqa1SGwgPjsxhmw3+TCnTZOhxZor72lC0DtbvinE
+ iJHHetW2CcHp9JiIR+XotrOteEn2YnuO0b0jJQ8YMvObryflczymQYOebcF0ac+G9w80
+ USF1+ViQ0LXO+Le6rGWgep86rEw2rwrWGNhKRFoXbxEsTR8KQyFAuKm0oVY/FSzV79LY
+ rPEdTFrDN9MtlAAcLT6kbBkZi9AQ7npkh1QWhqK9mMGv3n+J7nFn2BJ/o+VhjoycZ6UQ
+ FXyg==
+X-Gm-Message-State: AFqh2koZTr3LFXyfA8BKl2vihNyHI3rDuS7uzb2hutSU3fY3hs9shZro
+ xoAgHY97RUlK5/zk3vy4LFaWo5zEyneiSDxTzD0ff8GBWtr2gV8x30erxf53IcF/j7LWs8rOG6f
+ nh26nJrifAeU7VNxmrnDRt362GNWymQc=
+X-Received: by 2002:a25:af0a:0:b0:6fb:5983:d192 with SMTP id
+ a10-20020a25af0a000000b006fb5983d192mr8774526ybh.163.1673600445003; 
+ Fri, 13 Jan 2023 01:00:45 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXut0vDmT2MOZcyY1fefOOLczMY0dlDDK22rgg7PFFCKvNhinko8IQd+9DIXpFC8HHfFphhvxAdxMg6y9r8Z27s=
+X-Received: by 2002:a25:af0a:0:b0:6fb:5983:d192 with SMTP id
+ a10-20020a25af0a000000b006fb5983d192mr8774509ybh.163.1673600444635; Fri, 13
+ Jan 2023 01:00:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="tnXpPrNANPllFBCL"
-Content-Disposition: inline
-In-Reply-To: <Y8AG21o/9/3eUMIg@cormorant.local>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20230112172434.760850-1-eperezma@redhat.com>
+ <20230112172434.760850-12-eperezma@redhat.com>
+ <CACGkMEuZjN+6sWiuZnMP7J-mBiwxnkO1VUW-AHz9izW4QkYvUw@mail.gmail.com>
+In-Reply-To: <CACGkMEuZjN+6sWiuZnMP7J-mBiwxnkO1VUW-AHz9izW4QkYvUw@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 13 Jan 2023 10:00:08 +0100
+Message-ID: <CAJaqyWdbWACJdJfECjLu4x2nK82MJOsS8BTBdi7QQDZM-tg-OQ@mail.gmail.com>
+Subject: Re: [RFC v2 11/13] vdpa: add vdpa net migration state notifier
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, alvaro.karsz@solid-run.com, 
+ Shannon Nelson <snelson@pensando.io>, Laurent Vivier <lvivier@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, 
+ Juan Quintela <quintela@redhat.com>, David Gilbert <dgilbert@redhat.com>, 
+ Maxime Coquelin <maxime.coquelin@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,162 +106,235 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, Jan 13, 2023 at 5:55 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Fri, Jan 13, 2023 at 1:25 AM Eugenio P=C3=A9rez <eperezma@redhat.com> =
+wrote:
+> >
+> > This allows net to restart the device backend to configure SVQ on it.
+> >
+> > Ideally, these changes should not be net specific. However, the vdpa ne=
+t
+> > backend is the one with enough knowledge to configure everything becaus=
+e
+> > of some reasons:
+> > * Queues might need to be shadowed or not depending on its kind (contro=
+l
+> >   vs data).
+> > * Queues need to share the same map translations (iova tree).
+> >
+> > Because of that it is cleaner to restart the whole net backend and
+> > configure again as expected, similar to how vhost-kernel moves between
+> > userspace and passthrough.
+> >
+> > If more kinds of devices need dynamic switching to SVQ we can create a
+> > callback struct like VhostOps and move most of the code there.
+> > VhostOps cannot be reused since all vdpa backend share them, and to
+> > personalize just for networking would be too heavy.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >  net/vhost-vdpa.c | 84 ++++++++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 84 insertions(+)
+> >
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index 5d7ad6e4d7..f38532b1df 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -26,6 +26,8 @@
+> >  #include <err.h>
+> >  #include "standard-headers/linux/virtio_net.h"
+> >  #include "monitor/monitor.h"
+> > +#include "migration/migration.h"
+> > +#include "migration/misc.h"
+> >  #include "migration/blocker.h"
+> >  #include "hw/virtio/vhost.h"
+> >
+> > @@ -33,6 +35,7 @@
+> >  typedef struct VhostVDPAState {
+> >      NetClientState nc;
+> >      struct vhost_vdpa vhost_vdpa;
+> > +    Notifier migration_state;
+> >      Error *migration_blocker;
+> >      VHostNetState *vhost_net;
+> >
+> > @@ -243,10 +246,86 @@ static VhostVDPAState *vhost_vdpa_net_first_nc_vd=
+pa(VhostVDPAState *s)
+> >      return DO_UPCAST(VhostVDPAState, nc, nc0);
+> >  }
+> >
+> > +static void vhost_vdpa_net_log_global_enable(VhostVDPAState *s, bool e=
+nable)
+> > +{
+> > +    struct vhost_vdpa *v =3D &s->vhost_vdpa;
+> > +    VirtIONet *n;
+> > +    VirtIODevice *vdev;
+> > +    int data_queue_pairs, cvq, r;
+> > +    NetClientState *peer;
+> > +
+> > +    /* We are only called on the first data vqs and only if x-svq is n=
+ot set */
+> > +    if (s->vhost_vdpa.shadow_vqs_enabled =3D=3D enable) {
+> > +        return;
+> > +    }
+> > +
+> > +    vdev =3D v->dev->vdev;
+> > +    n =3D VIRTIO_NET(vdev);
+> > +    if (!n->vhost_started) {
+> > +        return;
+> > +    }
+> > +
+> > +    if (enable) {
+> > +        ioctl(v->device_fd, VHOST_VDPA_SUSPEND);
+>
+> Do we need to check if the device is started or not here?
+>
 
---tnXpPrNANPllFBCL
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v->vhost_started is checked right above, right?
 
-+CC qemu pci maintainers
+> > +    }
+>
+> I'm not sure I understand the reason for vhost_net_stop() after a
+> VHOST_VDPA_SUSPEND. It looks to me those functions are duplicated.
+>
 
-Michael, Marcel,
+I think this is really worth exploring, and it would have been clearer
+if I didn't squash the vhost_reset_status commit by mistake :).
 
-Do you have any comments on this thread? As you can see one solution is
-to simply deassert prior to asserting, the other is to reintroduce a
-pci_irq_pulse(). Both seem to solve the issue.
+Looking at qemu master vhost.c:vhost_dev_stop:
+    if (hdev->vhost_ops->vhost_dev_start) {
+        hdev->vhost_ops->vhost_dev_start(hdev, false);
+    }
+    if (vrings) {
+        vhost_dev_set_vring_enable(hdev, false);
+    }
+    for (i =3D 0; i < hdev->nvqs; ++i) {
+        vhost_virtqueue_stop(hdev,
+                             vdev,
+                             hdev->vqs + i,
+                             hdev->vq_index + i);
+    }
 
-On Jan 12 14:10, Klaus Jensen wrote:
-> Hi all (linux-nvme, qemu-devel, maintainers),
->=20
-> On QEMU riscv64, which does not use MSI/MSI-X and thus relies on
-> pin-based interrupts, I'm seeing occasional completion timeouts, i.e.
->=20
->   nvme nvme0: I/O 333 QID 1 timeout, completion polled
->=20
-> To rule out issues with shadow doorbells (which have been a source of
-> frustration in the past), those are disabled. FWIW I'm also seeing the
-> issue with shadow doorbells.
->=20
-> 	diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> 	index f25cc2c235e9..28d8e7f4b56c 100644
-> 	--- a/hw/nvme/ctrl.c
-> 	+++ b/hw/nvme/ctrl.c
-> 	@@ -7407,7 +7407,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice =
-*pci_dev)
-> 	     id->mdts =3D n->params.mdts;
-> 	     id->ver =3D cpu_to_le32(NVME_SPEC_VER);
-> 	     id->oacs =3D
-> 	-        cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT | NVME_OACS_DB=
-BUF);
-> 	+        cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT);
-> 	     id->cntrltype =3D 0x1;
->=20
-> 	     /*
->=20
->=20
-> I captured a trace from QEMU when this happens:
->=20
-> pci_nvme_mmio_write addr 0x1008 data 0x4e size 4
-> pci_nvme_mmio_doorbell_sq sqid 1 new_tail 78
-> pci_nvme_io_cmd cid 4428 nsid 0x1 sqid 1 opc 0x2 opname 'NVME_NVM_CMD_REA=
-D'
-> pci_nvme_read cid 4428 nsid 1 nlb 32 count 16384 lba 0x1324
-> pci_nvme_map_prp trans_len 4096 len 16384 prp1 0x80aca000 prp2 0x82474100=
- num_prps 5
-> pci_nvme_map_addr addr 0x80aca000 len 4096
-> pci_nvme_map_addr addr 0x80ac9000 len 4096
-> pci_nvme_map_addr addr 0x80ac8000 len 4096
-> pci_nvme_map_addr addr 0x80ac7000 len 4096
-> pci_nvme_io_cmd cid 4429 nsid 0x1 sqid 1 opc 0x2 opname 'NVME_NVM_CMD_REA=
-D'
-> pci_nvme_read cid 4429 nsid 1 nlb 224 count 114688 lba 0x1242
-> pci_nvme_map_prp trans_len 4096 len 114688 prp1 0x80ae6000 prp2 0x8247400=
-0 num_prps 29
-> pci_nvme_map_addr addr 0x80ae6000 len 4096
-> pci_nvme_map_addr addr 0x80ae5000 len 4096
-> pci_nvme_map_addr addr 0x80ae4000 len 4096
-> pci_nvme_map_addr addr 0x80ae3000 len 4096
-> pci_nvme_map_addr addr 0x80ae2000 len 4096
-> pci_nvme_map_addr addr 0x80ae1000 len 4096
-> pci_nvme_map_addr addr 0x80ae0000 len 4096
-> pci_nvme_map_addr addr 0x80adf000 len 4096
-> pci_nvme_map_addr addr 0x80ade000 len 4096
-> pci_nvme_map_addr addr 0x80add000 len 4096
-> pci_nvme_map_addr addr 0x80adc000 len 4096
-> pci_nvme_map_addr addr 0x80adb000 len 4096
-> pci_nvme_map_addr addr 0x80ada000 len 4096
-> pci_nvme_map_addr addr 0x80ad9000 len 4096
-> pci_nvme_map_addr addr 0x80ad8000 len 4096
-> pci_nvme_map_addr addr 0x80ad7000 len 4096
-> pci_nvme_map_addr addr 0x80ad6000 len 4096
-> pci_nvme_map_addr addr 0x80ad5000 len 4096
-> pci_nvme_map_addr addr 0x80ad4000 len 4096
-> pci_nvme_map_addr addr 0x80ad3000 len 4096
-> pci_nvme_map_addr addr 0x80ad2000 len 4096
-> pci_nvme_map_addr addr 0x80ad1000 len 4096
-> pci_nvme_map_addr addr 0x80ad0000 len 4096
-> pci_nvme_map_addr addr 0x80acf000 len 4096
-> pci_nvme_map_addr addr 0x80ace000 len 4096
-> pci_nvme_map_addr addr 0x80acd000 len 4096
-> pci_nvme_map_addr addr 0x80acc000 len 4096
-> pci_nvme_map_addr addr 0x80acb000 len 4096
-> pci_nvme_rw_cb cid 4428 blk 'd0'
-> pci_nvme_rw_complete_cb cid 4428 blk 'd0'
-> pci_nvme_enqueue_req_completion cid 4428 cqid 1 dw0 0x0 dw1 0x0 status 0x0
-> [1]: pci_nvme_irq_pin pulsing IRQ pin
-> pci_nvme_rw_cb cid 4429 blk 'd0'
-> pci_nvme_rw_complete_cb cid 4429 blk 'd0'
-> pci_nvme_enqueue_req_completion cid 4429 cqid 1 dw0 0x0 dw1 0x0 status 0x0
-> [2]: pci_nvme_irq_pin pulsing IRQ pin
-> [3]: pci_nvme_mmio_write addr 0x100c data 0x4d size 4
-> [4]: pci_nvme_mmio_doorbell_cq cqid 1 new_head 77
-> ---- TIMEOUT HERE (30s) ---
-> [5]: pci_nvme_mmio_read addr 0x1c size 4
-> [6]: pci_nvme_mmio_write addr 0x100c data 0x4e size 4
-> [7]: pci_nvme_mmio_doorbell_cq cqid 1 new_head 78
-> --- Interrupt deasserted (cq->tail =3D=3D cq->head)
-> [   31.757821] nvme nvme0: I/O 333 QID 1 timeout, completion polled
->=20
-> Following the timeout, everything returns to "normal" and device/driver
-> happily continues.
->=20
-> The pin-based interrupt logic in hw/nvme seems sound enough to me, so I
-> am wondering if there is something going on with the kernel driver (but
-> I certainly do not rule out that hw/nvme is at fault here, since
-> pin-based interrupts has also been a source of several issues in the
-> past).
->=20
-> What I'm thinking is that following the interrupt in [1], the driver
-> picks up completion for cid 4428 but does not find cid 4429 in the queue
-> since it has not been posted yet. Before getting a cq head doorbell
-> write (which would cause the pin to be deasserted), the device posts the
-> completion for cid 4429 which just keeps the interrupt asserted in [2].
-> The trace then shows the cq head doorbell update in [3,4] for cid 4428
-> and then we hit the timeout since the driver is not aware that cid 4429
-> has been posted in between this (why is it not aware of this?) Timing
-> out, the driver then polls the queue and notices cid 4429 and updates
-> the cq head doorbell in [5-7], causing the device to deassert the
-> interrupt and we are "back in shape".
->=20
-> I'm observing this on 6.0 kernels and v6.2-rc3 (have not tested <6.0).
-> Tested on QEMU v7.0.0 (to rule out all the shadow doorbell
-> optimizations) as well as QEMU nvme-next (infradead). In other words,
-> it's not a recent regression in either project and potentially it has
-> always been like this. I've not tested other platforms for now, but I
-> would assume others using pin-based interrupts would observe the same.
->=20
-> Any ideas on how to shed any light on this issue from the kernel side of
-> things?
+Both vhost-used and vhost-vdpa set_status(0) at
+->vhost_dev_start(hdev, false). It cleans virtqueue state in vdpa so
+they are not recoverable at vhost_virtqueue_stop->get_vring_base, and
+I think it is too late for vdpa devices to change it. I guess
+vhost-user devices do not lose the state there, but I did not test.
+
+I call VHOST_VDPA_SUSPEND here so vhost_vdpa_dev_start looks more
+similar to vhost_user_dev_start. We can make
+vhost_vdpa_dev_start(false) to suspend the device instead. But then we
+need to reset it after getting the indexes. That's why I added
+vhost_vdpa_reset_status, but I admit it is neither the cleanest
+approach nor the best name to it.
+
+Adding Maxime, RFC here so we can make -vdpa and -user not to divert too mu=
+ch.
+
+> > +    data_queue_pairs =3D n->multiqueue ? n->max_queue_pairs : 1;
+> > +    cvq =3D virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
+> > +                                  n->max_ncs - n->max_queue_pairs : 0;
+> > +    vhost_net_stop(vdev, n->nic->ncs, data_queue_pairs, cvq);
+> > +
+> > +    peer =3D s->nc.peer;
+> > +    for (int i =3D 0; i < data_queue_pairs + cvq; i++) {
+> > +        VhostVDPAState *vdpa_state;
+> > +        NetClientState *nc;
+> > +
+> > +        if (i < data_queue_pairs) {
+> > +            nc =3D qemu_get_peer(peer, i);
+> > +        } else {
+> > +            nc =3D qemu_get_peer(peer, n->max_queue_pairs);
+> > +        }
+> > +
+> > +        vdpa_state =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > +        vdpa_state->vhost_vdpa.shadow_data =3D enable;
+> > +
+> > +        if (i < data_queue_pairs) {
+> > +            /* Do not override CVQ shadow_vqs_enabled */
+> > +            vdpa_state->vhost_vdpa.shadow_vqs_enabled =3D enable;
+> > +        }
+> > +    }
+> > +
+> > +    r =3D vhost_net_start(vdev, n->nic->ncs, data_queue_pairs, cvq);
+> > +    if (unlikely(r < 0)) {
+> > +        error_report("unable to start vhost net: %s(%d)", g_strerror(-=
+r), -r);
+> > +    }
+> > +}
+> > +
+> > +static void vdpa_net_migration_state_notifier(Notifier *notifier, void=
+ *data)
+> > +{
+> > +    MigrationState *migration =3D data;
+> > +    VhostVDPAState *s =3D container_of(notifier, VhostVDPAState,
+> > +                                     migration_state);
+> > +
+> > +    switch (migration->state) {
+> > +    case MIGRATION_STATUS_SETUP:
+> > +        vhost_vdpa_net_log_global_enable(s, true);
+> > +        return;
+> > +
+> > +    case MIGRATION_STATUS_CANCELLING:
+> > +    case MIGRATION_STATUS_CANCELLED:
+> > +    case MIGRATION_STATUS_FAILED:
+> > +        vhost_vdpa_net_log_global_enable(s, false);
+>
+> Do we need to recover here?
+>
+
+I may be missing something, but the device is fully reset and restored
+in these cases.
+
+CCing Juan and D. Gilbert, a review would be appreciated to check if
+this covers all the cases.
+
+Thanks!
 
 
+> Thanks
+>
+> > +        return;
+> > +    };
+> > +}
+> > +
+> >  static void vhost_vdpa_net_data_start_first(VhostVDPAState *s)
+> >  {
+> >      struct vhost_vdpa *v =3D &s->vhost_vdpa;
+> >
+> > +    if (v->feature_log) {
+> > +        add_migration_state_change_notifier(&s->migration_state);
+> > +    }
+> > +
+> >      if (v->shadow_vqs_enabled) {
+> >          v->iova_tree =3D vhost_iova_tree_new(v->iova_range.first,
+> >                                             v->iova_range.last);
+> > @@ -280,6 +359,10 @@ static void vhost_vdpa_net_client_stop(NetClientSt=
+ate *nc)
+> >
+> >      assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+> >
+> > +    if (s->vhost_vdpa.index =3D=3D 0 && s->vhost_vdpa.feature_log) {
+> > +        remove_migration_state_change_notifier(&s->migration_state);
+> > +    }
+> > +
+> >      dev =3D s->vhost_vdpa.dev;
+> >      if (dev->vq_index + dev->nvqs =3D=3D dev->vq_index_end) {
+> >          g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_dele=
+te);
+> > @@ -767,6 +850,7 @@ static NetClientState *net_vhost_vdpa_init(NetClien=
+tState *peer,
+> >      s->vhost_vdpa.device_fd =3D vdpa_device_fd;
+> >      s->vhost_vdpa.index =3D queue_pair_index;
+> >      s->always_svq =3D svq;
+> > +    s->migration_state.notify =3D vdpa_net_migration_state_notifier;
+> >      s->vhost_vdpa.shadow_vqs_enabled =3D svq;
+> >      s->vhost_vdpa.iova_range =3D iova_range;
+> >      s->vhost_vdpa.shadow_data =3D svq;
+> > --
+> > 2.31.1
+> >
+>
+>
 
---=20
-One of us - No more doubt, silence or taboo about mental illness.
-
---tnXpPrNANPllFBCL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPBHDgACgkQTeGvMW1P
-Dem57Qf8Dp6NtT29Ze8hsec4E2VvjCPmbU2O8z4UYnKRFrhi/ANaHBP9vkk3hMP3
-gSqEcIF9hmc04I/nG75gAdqaycTjs7/GSMBp7YtEcgFFO6rk7XSFCFUGdmWT2HXO
-LI1AluKB9IYiLmkFxYtr5HDdu3U+jL+VTzjKsDG9mciln6aK11FBDqZQYXwwUSRv
-QSMZpiQtXh92Cxh9NHyM5mx6UzFHhcthIfT9aa5/fojROR7XK5Hq4LBxSMfbMeez
-RD/f2NcGC65cFMHtkNW6D/PyEzUAMc7KjMpNqRXa+PifjB6UPgPB1/mMzycmvwha
-QZ2mKAegZVn4huRuDbczkYD5R+74ag==
-=zgP2
------END PGP SIGNATURE-----
-
---tnXpPrNANPllFBCL--
 
