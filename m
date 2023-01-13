@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171FC668F43
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 08:32:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A40668F45
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 08:33:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGEXH-00025X-18; Fri, 13 Jan 2023 02:31:35 -0500
+	id 1pGEYW-0002nV-H5; Fri, 13 Jan 2023 02:32:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pGEXB-00024x-J9
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:31:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pGEX9-0004tb-FO
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:31:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673595086;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MOIBTcu1YyH83kZ66grCiT8P2p0B5r/FaExFj5hF6eA=;
- b=AGiy2FacME7J/5BBm4p9AQaVy4qJXtH+8BrhquFNHq1bqndw7BtSF/7UEiRzgmLmwY8iiu
- om3Xa7jZgA99RVbzF49azQ3cEEoiCu2CyZPV12eraSYxaOYavIDhRmzh13EhJPvUIp4szG
- TLJ3y93E6wx6kzceZpqZHM2bv44EQlE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-76-MxfAaoAbOBKmNLmsy7N0zw-1; Fri, 13 Jan 2023 02:30:53 -0500
-X-MC-Unique: MxfAaoAbOBKmNLmsy7N0zw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A80EB803903;
- Fri, 13 Jan 2023 07:30:53 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 760A240C2064;
- Fri, 13 Jan 2023 07:30:53 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2589521E6806; Fri, 13 Jan 2023 08:30:52 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org,  hreitz@redhat.com,  aesteve@redhat.com,
- nsoffer@redhat.com,  qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/4] qemu-img: Fix exit code for errors closing the image
-References: <20230112191454.169353-1-kwolf@redhat.com>
-Date: Fri, 13 Jan 2023 08:30:52 +0100
-In-Reply-To: <20230112191454.169353-1-kwolf@redhat.com> (Kevin Wolf's message
- of "Thu, 12 Jan 2023 20:14:50 +0100")
-Message-ID: <874jsu51sj.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGEXy-0002Rf-DN
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:32:18 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGEXw-00055S-8S
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 02:32:17 -0500
+Received: by mail-wr1-x429.google.com with SMTP id co23so20226921wrb.4
+ for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 23:32:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SuIubxJ3bnLD7poja9NWW7ikeHroQJvd/gaTH5+2XoU=;
+ b=BgDRCNj0NsaPsl5fWKQV/7kpWjFL8B0w8S/u33SO6ffKb+0cMkR+2/UV4DWX83i3vo
+ C/yUveAimBEbEjqcW3jZeVyVRZo2P6/O9Swscs1BuK6VonfBl3aJeDAc+tUfoUyIUHtt
+ DhVDWsyGqJHkqM2Ud2VhydwfFTMFpmk2XEDQ8AKUQwTPI8tsbMtMkD+DwxV2K9524XvA
+ umb+FqTEhzXJ1qLmlVToPVf/C5UdMfgb2mTe1E3vp9REs0F4U9HpIjJUSVLZc3ZrcirX
+ S3ARm1c8gEx6W4xuE0DPKXp+IqE+fpLnk34zROImtEqxQOYDK/Mb4A4WvDqrSivBUV4E
+ 0leg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SuIubxJ3bnLD7poja9NWW7ikeHroQJvd/gaTH5+2XoU=;
+ b=WBMiDllBKEPYQmWUMCbEp9bJjLvU/EZM5Pwnd5H+iQqBUUJQ3tzX7YMkZH4dBtBK8w
+ 3fR5aTcpqV01BnwQClcB3ZECR1w9UtJR6FAkS8gD9+hhrMq8gp7Uo+9yQut/LVHEEIVs
+ RwEKMMe2TV/i+FCA0RQINxbpEHOafrlS3vmisL//MXsKCqOweuLIyasdQ43MvnCIyMOv
+ +pN7r3tbdNOE+OIausQlXUlYxMQrDnQJe9Rsys+V2HOszMT5mSvRoiGllWOluJ9u22Y6
+ L04bjyS+BoLeK1XD/JSBnhwQTeTDctoBPdXJgED9tWM+wsQqKBgc/Z/APlOiw/q12K98
+ Q41w==
+X-Gm-Message-State: AFqh2kq2bHVtsGEjf0BsZzCgiAYO54vnnbjlmUgTH1TSh/T8EEME1mC3
+ X73qORTeCN/ILFSQPw5ibh2VyQ==
+X-Google-Smtp-Source: AMrXdXtv/8LYwWAdyjjCYr913Nz+dGhUZr+8kd4N3I1P5+rgmNZeP48TcCdjJ+MeXZU+GWtOAhNdOA==
+X-Received: by 2002:a5d:61cc:0:b0:2bd:be3b:49f4 with SMTP id
+ q12-20020a5d61cc000000b002bdbe3b49f4mr7896237wrv.22.1673595134608; 
+ Thu, 12 Jan 2023 23:32:14 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ f16-20020a5d50d0000000b002755e301eeasm464217wrt.100.2023.01.12.23.32.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Jan 2023 23:32:14 -0800 (PST)
+Message-ID: <b35eaa23-2f58-a175-67a9-cf22fc6ef925@linaro.org>
+Date: Fri, 13 Jan 2023 08:32:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 3/4] qemu-img bitmap: Report errors while closing the image
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: hreitz@redhat.com, aesteve@redhat.com, nsoffer@redhat.com,
+ qemu-devel@nongnu.org
+References: <20230112191454.169353-1-kwolf@redhat.com>
+ <20230112191454.169353-4-kwolf@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230112191454.169353-4-kwolf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,49 +91,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Drive-by comment...
+On 12/1/23 20:14, Kevin Wolf wrote:
+> blk_unref() can't report any errors that happen while closing the image.
+> For example, if qcow2 hits an -ENOSPC error while writing out dirty
+> bitmaps when it's closed, it prints error messages to stderr, but
+> 'qemu-img bitmap' won't see any error return value and will therefore
+> look successful with exit code 0.
+> 
+> In order to fix this, manually inactivate the image first before calling
+> blk_unref(). This already performs the operations that would be most
+> likely to fail while closing the image, but it can still return errors.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1330
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>   qemu-img.c | 11 +++++++++++
+>   1 file changed, 11 insertions(+)
 
-Kevin Wolf <kwolf@redhat.com> writes:
-
-> This series addresses the problem described in these bug reports:
-> https://gitlab.com/qemu-project/qemu/-/issues/1330
-> https://bugzilla.redhat.com/show_bug.cgi?id=2147617
->
-> qcow2 can fail when writing back dirty bitmaps in qcow2_inactivate().
-> However, when the function is called through blk_unref(), in the case of
-> such errors, while an error message is written to stderr, the callers
-> never see an error return. Specifically, 'qemu-img bitmap/commit' are
-> reported to exit with an exit code 0 despite the errors.
-
-After having tead the "potential alternative" below, I figure this
-failure happens within blk_unref().  But I can't see a call chain.  Am I
-confused?
-
-> The solution taken here is inactivating the images first, which can
-> still return errors, but already performs all of the write operations.
-> Only then the images are actually blk_unref()-ed.
->
-> If we agree that this is the way to go (as a potential alternative,
-> allowing blk_unref() to fail would require changes in all kinds of
-> places, many of which probably wouldn't even know what to do with the
-> error),
-
-blk_unref() could fail only when it destroys @blk (refcnt goes to zero).
-Correct?
-
-We have a bunch of "unref" functions in the tree, and, as far as I can
-tell from a quick grep, none of them can fail.  Supports your apparent
-preference for not changing blk_unref().
-
->         then I suppose doing the same for other qemu-img subcommands
-> would make sense, too.
-
-I was about to ask whether there could be more silent failures like the
-ones in commit and bitmap.  This suggests there are.
-
-Say we do the same for all known such failures.  Would any remaining (or
-new) such failures be programming errors?
-
-[...]
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
