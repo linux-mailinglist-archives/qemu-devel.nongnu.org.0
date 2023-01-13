@@ -2,132 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57278669FBB
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:17:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 325A066A024
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:21:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGNa5-0004tn-D0; Fri, 13 Jan 2023 12:11:05 -0500
+	id 1pGNc7-00068X-7f; Fri, 13 Jan 2023 12:13:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pGNa2-0004tF-UA
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:11:02 -0500
-Received: from mailout2.w2.samsung.com ([211.189.100.12])
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pGNc4-00067y-4x
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:13:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pGNZy-0007bj-RF
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:11:02 -0500
-Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
- by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
- 20230113171052usoutp025ecf1fffc83dba7448255c8abe17af1f~57XvlDx1v1321113211usoutp02I;
- Fri, 13 Jan 2023 17:10:52 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
- 20230113171052usoutp025ecf1fffc83dba7448255c8abe17af1f~57XvlDx1v1321113211usoutp02I
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1673629852;
- bh=IsA1cTxHBvtdMtk/8+g1YA7JWrOJwYtkZ26G5b/V+5Q=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=ZeQ+4HkktiQMZfhrygeVEtrsDvXtJ3o6rXFIiNsckZeb3cx4f3u3e/qZy7IYcedJz
- wBrCeLCH9dpO3RlZYv8dXpTlZtrSvVUSFsbbY52/9Z6nRHfn0Epra8S3jdRqy/Ge/+
- n+2oJqU5Z67VBR0ARXa/6jHSpZHFjYGwB9iAFoHQ=
-Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
- [203.254.195.111]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20230113171052uscas1p1e9a4c2e60a2d608ed82c8e616836c832~57XvOJkOs2991229912uscas1p1M;
- Fri, 13 Jan 2023 17:10:52 +0000 (GMT)
-Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
- ussmges2new.samsung.com (USCPEMTA) with SMTP id AA.E6.51548.C9091C36; Fri,
- 13 Jan 2023 12:10:52 -0500 (EST)
-Received: from ussmgxs2new.samsung.com (u91.gpu85.samsung.co.kr
- [203.254.195.91]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20230113171052uscas1p19f9ede8de304612e8cb527a435704c1f~57Xu35-rS2816928169uscas1p1q;
- Fri, 13 Jan 2023 17:10:52 +0000 (GMT)
-X-AuditID: cbfec36f-813ff7000002c95c-10-63c1909ca672
-Received: from SSI-EX4.ssi.samsung.com ( [105.128.2.146]) by
- ussmgxs2new.samsung.com (USCPEXMTA) with SMTP id 82.9B.07297.B9091C36; Fri,
- 13 Jan 2023 12:10:51 -0500 (EST)
-Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
- SSI-EX4.ssi.samsung.com (105.128.2.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.2375.24; Fri, 13 Jan 2023 09:10:51 -0800
-Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
- SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Fri,
- 13 Jan 2023 09:10:51 -0800
-From: Fan Ni <fan.ni@samsung.com>
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "alison.schofield@intel.com" <alison.schofield@intel.com>,
- "dave@stgolabs.net" <dave@stgolabs.net>, Adam Manzanares
- <a.manzanares@samsung.com>, "bwidawsk@kernel.org" <bwidawsk@kernel.org>,
- "gregory.price@memverge.com" <gregory.price@memverge.com>,
- "hchkuo@avery-design.com.tw" <hchkuo@avery-design.com.tw>,
- "cbrowy@avery-design.com" <cbrowy@avery-design.com>, "ira.weiny@intel.com"
- <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [RFC] cxl-host: Fix committed check for passthrough decoder
-Thread-Topic: [RFC] cxl-host: Fix committed check for passthrough decoder
-Thread-Index: AQHZJuXhSxTSwCcfWUCp6ChLVpTS/a6coGWAgAB74IA=
-Date: Fri, 13 Jan 2023 17:10:51 +0000
-Message-ID: <20230113171044.GA24788@bgt-140510-bm03>
-In-Reply-To: <20230113094725.0000705c@Huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [105.128.2.176]
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <0992D790876E4A4BB80C29C0E04E1611@ssi.samsung.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pGNc1-0008Am-P8
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 12:13:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673629984;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cJ4oIsZsFSP9tMOcvK1jsBj0z5nBGppUoEQ5ZQnO2h0=;
+ b=fyDXaFmr82BwdlyoOk9j5hx4S3ocIWywicbsFrTtQQLMl03h4okE4Tsjodu1IlEZKM1rtt
+ 0cTHTdR6/z5gVO0H/GClFEDebImANAmSvXrjzr/Z9dB66y+yaYy5ulpQ4spSaa1CJw1CXu
+ mM/G9IC/vII4Btf8hyrZiSgWqcbdqQc=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-312-5UbKyIXhOS-ivZYsyMEZ9w-1; Fri, 13 Jan 2023 12:13:03 -0500
+X-MC-Unique: 5UbKyIXhOS-ivZYsyMEZ9w-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ h66-20020a252145000000b0071a7340eea9so23209975ybh.6
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 09:13:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cJ4oIsZsFSP9tMOcvK1jsBj0z5nBGppUoEQ5ZQnO2h0=;
+ b=yWqLSaQAK6mivpJfNFOAUTrqcc2o8ftA65b3/TB7zzR6SldUwWwa66ItkvZeUMx6LA
+ uk7H4koWrdZJ2HmT5OA6EHgQtJmTlo9ADG7QcqDGHJUlo+MKQ+HaI0I1NL05ed5aLK7H
+ EP7UFhv9r8YCnBMuFkfL8VPtDe/Rrjv7qYwenInwqJKQuWS6Lrr5IW9TVhBNq5NkQQVX
+ /x6v7qe9WT2rnTrgJGfk1zbHGoJ9HHC3IHGp2u3NPs/1peBLglLWTKfpY1EduxV+TBQX
+ bM6iD2j4MU873HuWphNab6PceDKFr+N8sE3eSYJnSzt1Qku7aRoo7WGVGimb8G82+XrK
+ TGAw==
+X-Gm-Message-State: AFqh2kpX53O7NQf8ustTVjVMigaCS0X4DIElAy7cEW8Hst31/A7IpqYV
+ D//JhVGUCVGoSL5jotHIbr1+cUriE7WhevtLTTGg3D1KoPZ8RmjymVSpWzCNM0yUcOYi+FNKh/Y
+ izW7ENaOLpJoHC8c=
+X-Received: by 2002:a05:7500:3e82:b0:f0:2a85:d291 with SMTP id
+ li2-20020a0575003e8200b000f02a85d291mr943449gab.45.1673629982588; 
+ Fri, 13 Jan 2023 09:13:02 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsti17hvPeLI+G4kQQ9P6aPwTZY9XRfDGGXQyokydwCyl7lrX0u5s/QALqXWFZfCI/rED1n1w==
+X-Received: by 2002:a05:7500:3e82:b0:f0:2a85:d291 with SMTP id
+ li2-20020a0575003e8200b000f02a85d291mr943407gab.45.1673629982166; 
+ Fri, 13 Jan 2023 09:13:02 -0800 (PST)
+Received: from [192.168.124.101] (149.37.22.93.rev.sfr.net. [93.22.37.149])
+ by smtp.gmail.com with ESMTPSA id
+ bp37-20020a05620a45a500b006e99290e83fsm12911485qkb.107.2023.01.13.09.12.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Jan 2023 09:13:01 -0800 (PST)
+Message-ID: <522243a6-e312-c3b6-7d50-d3a2609e729d@redhat.com>
+Date: Fri, 13 Jan 2023 18:12:53 +0100
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMKsWRmVeSWpSXmKPExsWy7djX87pzJhxMNvi3Qsbi7uMLbBbNkxcz
- WnSf38BoMX3qBUaL1TfXMFo0ND1isWjZ/Z7JYv/T5ywWqxZeY7M4P+sUi8Xx3h0sDtweFyZP
- YPVY3ODq0XLkLZCx5yWTx6ZVnWweGz/+Z/d4cm0zk8fU2fUenzfJBXBGcdmkpOZklqUW6dsl
- cGUsXJ1ZsEur4sKNk6wNjIcVuxg5OSQETCRuTe9h6WLk4hASWMko8Wn1Y1YIp5VJ4uzEhSww
- Vdeff2KGSKxllGidtgnK+cQoMf/WJnYIZxmjxMqnT1lBWtgEFCX2dW1nA7FFBIwkriw7CFbE
- LLCLReLinhZGkISwgIdE98tedogiT4nmE9eAmjmAbCuJ73+cQMIsAqoS0xcvZwKxeYHO+Ln9
- MNh8TgFDiVnLzoCdxyggJvH91BqwGmYBcYlbT+YzQZwtKLFo9h5mCFtM4t+uh2wQtqLE/e8v
- 2SHqdSQW7P7EBmHbSayb38wIYWtLLFv4mhlir6DEyZlPoEEhKXFwxQ1wgEkITOaUmLPzBStE
- wkWie8pTdghbWuLv3WVQRxRLnJ75khmioYFRYt2dG1AN1hIL/6xnmsCoMgvJ4bOQHDULyVGz
- kBw1C8lRCxhZVzGKlxYX56anFhvlpZbrFSfmFpfmpesl5+duYgSmu9P/DufvYLx+66PeIUYm
- DsZDjBIczEoivHuO7k8W4k1JrKxKLcqPLyrNSS0+xCjNwaIkztu9dX6ykEB6YklqdmpqQWoR
- TJaJg1OqgUns7qqTcdyPNeatfr/q0JrlSh/WmU9NrFELeTPj7HLTRcfXCdgJ8J/Tu7Nl/6V/
- +6552/3VUmK/XuL5+C3n/WaFiKzp596cOH5Iu3CD2pae6pak41cuXei63/Dn3/JZkWyf7vvb
- TBLr++0cpBM/uZ+NZ4Xzqz0pecIsCtGv9n9bdZFr2to52sUBS1iSg13OS12aXKf5R+Hy/84q
- BlE2QUXD9dkqqZWeP3bWZi468NZswX+O5uUTd3W/eyL+5FdN4w0bv74FCyfPO/Rg7tm3D04f
- 2XPqwLP9DyLYVp/vO7Rt+zyOyYd/y1/SUXW2dt+1akNWjVFmQdvrGBO5ozffJHApa1nta/43
- ff+Vso3Nu9QyXJRYijMSDbWYi4oTASsPbxnmAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrPIsWRmVeSWpSXmKPExsWS2cA0SXf2hIPJBmd7rC3uPr7AZtE8eTGj
- Rff5DYwW06deYLRYfXMNo0VD0yMWi5bd75ks9j99zmKxauE1Novzs06xWBzv3cHiwO1xYfIE
- Vo/FDa4eLUfeAhl7XjJ5bFrVyeax8eN/do8n1zYzeUydXe/xeZNcAGcUl01Kak5mWWqRvl0C
- V8bC1ZkFu7QqLtw4ydrAeFixi5GTQ0LAROL680/MXYxcHEICqxklrjUuYoNwPjFKHDz7hBWk
- SkhgGaPE5h5uEJtNQFFiX9d2NhBbRMBI4sqyg+wgDcwCu1gkLu5pYQRJCAt4SHS/7GWHKPKU
- aD5xDWgQB5BtJfH9jxNImEVAVWL64uVMIDYv0BU/tx9mhVi8iVFi3rd+sF5OAUOJWcvOsIDY
- jAJiEt9PrQFrYBYQl7j1ZD4TxAsCEkv2nGeGsEUlXj7+xwphK0rc//6SHaJeR2LB7k9sELad
- xLr5zYwQtrbEsoWvmSGOEJQ4OfMJC0SvpMTBFTdYJjBKzEKybhaSUbOQjJqFZNQsJKMWMLKu
- YhQvLS7OTa8oNspLLdcrTswtLs1L10vOz93ECEwTp/8djt7BePvWR71DjEwcjIcYJTiYlUR4
- 9xzdnyzEm5JYWZValB9fVJqTWnyIUZqDRUmc92XUxHghgfTEktTs1NSC1CKYLBMHp1QDE4e4
- p+/LjYbHxHhXP2Zk6zq2XV0rUqaR/fpyE+OWRvabzFqnrA0Pzuf0XnwsZeHdMmPHfwvf7u8o
- S+Ni+3z78JeuXvugso/f1CYL7Y0+zqzwnTXaX83VxpnpVOeaG3u+lRzJcJqmHLDdwLN7Zusf
- 6RYm6a8+qQeak1yc+lq/Cc5/IX3hamD7C8/fotdY/OYscX+rwXlzRlvlqwIvZp5UJ5+vSsqd
- Z8qEXsV4VH/Smsq0IPfgI43clqUP9Wa/5Sw/73rwc3r5jslVmhcLa0vydv4WW5D0clXb5CaN
- YD276g/P3U1dp3OJtGQYTGmuj2g2+3pNfIfEIibW9VKsMz+UOid4RDLci7gUK/R55nQlluKM
- REMt5qLiRADNvTtoggMAAA==
-X-CMS-MailID: 20230113171052uscas1p19f9ede8de304612e8cb527a435704c1f
-CMS-TYPE: 301P
-X-CMS-RootMailID: 20230113002756uscas1p2b602bff26576110407491f67eff5e065
-References: <CGME20230113002756uscas1p2b602bff26576110407491f67eff5e065@uscas1p2.samsung.com>
- <20230113002727.11411-1-fan.ni@samsung.com>
- <20230113094725.0000705c@Huawei.com>
-Received-SPF: pass client-ip=211.189.100.12; envelope-from=fan.ni@samsung.com;
- helo=mailout2.w2.samsung.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v6 13/13] docs/devel: Align VFIO migration docs to v2
+ protocol
+Content-Language: en-US
+To: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ John Snow <jsnow@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+References: <20230112085020.15866-1-avihaih@nvidia.com>
+ <20230112085020.15866-14-avihaih@nvidia.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+In-Reply-To: <20230112085020.15866-14-avihaih@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=clg@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -143,123 +116,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 13, 2023 at 09:47:25AM +0000, Jonathan Cameron wrote:
+On 1/12/23 09:50, Avihai Horon wrote:
+> Now that VFIO migration protocol v2 has been implemented and v1 protocol
+> has been removed, update the documentation according to v2 protocol.
+> 
+> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 
-> On Fri, 13 Jan 2023 00:27:55 +0000
-> Fan Ni <fan.ni@samsung.com> wrote:
->=20
-> > For passthrough decoder (a decoder hosted by a cxl component with only
-> > one downstream port), its cache_mem_registers field COMMITTED
-> > (see spec 2.0 8.2.5.12 - CXL HDM Decoder Capability Structure) will not
-> > be set by the current Linux CXL driver. Without the fix, for a cxl
-> > topology setup with a single HB and single root port, the memdev read/w=
-rite
-> > requests cannot be passed to the device successfully as the function
-> > cxl_hdm_find_target will fail the decoder COMMITTED check and return
-> > directly, which causes read/write not being directed to cxl type3 devic=
-e.
-> >=20
-> > Before the fix, a segfault is observed when trying using cxl memory for
-> > htop command through 'numactl --membind' after converting cxl memory
-> > into normal RAM.
->=20
-> We also need to fix that segfault.
-With the patch, we do not see the segfault anymore. The segfault was
-there before the patch because for a passthrough decoder, we cannot find a
-target as the committed field check cannot pass, the read request will
-return 0 (in cxl_read_cfmws) which can be used for futher addressing.
-With the patch, we skip the committed check for passthrough decoder and
-the requests can be passed to the device so the segfault is fixed. Our
-concern is that the fix may also let the requests pass for unprogrammed
-decoder, which is not allowed in current code.
->=20
->=20
-> >=20
-> > Detailed steps to reproduce the issue with the cxl setup where there is
-> > only one HB and a memdev is directly attached to the only root port of
-> > the HB are listed as below,
-> > 1. cxl create-region region0
-> > 2. ndctl create-namespace -m dax -r region0
-> > 3. daxctl reconfigure-device --mode=3Dsystem-ram --no-online dax0.0
-> > 4. daxctl online-memory dax0.0
-> > 5. numactl --membind=3D1 htop
-> >=20
-> > Signed-off-by: Fan Ni <fan.ni@samsung.com>
->=20
-> Ah. This mess is still going on. I've not been testing with this
-> particular combination because the kernel didn't support it.
-> The kernel code assumes that the implementation made the choice
-> (which is an option in the spec) to not have any HDM decoders
-> for the pass through case. As such it never programmed them
-> (if you dig back a long way in the region bring patch sets in the
-> kernel you'll find some discussion of this). Now I knew that meant
-> the configuration didn't 'work' but nothing should be crashing -
-> unless you mean that something in linux userspace is trying to
-> access the memory and crashing because that fails
-> (which is fine as far as I'm concerned ;)
->=20
-> The work around for QEMU testing so far has been to add another root
-> port and put nothing below that. The HDM decoders then have to be
-> implemented so the kernel does what we expect.
-Do you mean we already have the workaround somewhere or it is what we
-have planned? currently the kernel will create a passthrough decoder if
-the number of downstream is 1. If we have the workaround, there
-should never be a passthrough decoder being created and we should not
-see the issue.
->=20
-> I'm not against a more comprehensive fix.  Two options come to mind.
-> 1) Add an option to the host bridge device to tell it not to implement
->    hdm decoders at all. I'm not keen to just automatically drop them
->    because having decoders on a pass through HB is a valid configuration.
-> 2) Cheat and cleanly detect a pass through situation and let the accesses
->    through.  I'm not particularly keen on this option though as it
->    will fail to test the code once it's 'fixed' in Linux.  IIRC the spec
->    doesn't say that programming such an HDM decoder is optional.
->=20
-> I guess we could be a bit naughty with option 1 and flip the logic even
-> though it would break backwards compatibility. So default to no HDM decod=
-er.
-> I doubt anyone will notice given that's the configuration that would have
-> worked.  However I would want to keep the option to enable these decoders
-> around.  I can spin up a patch or do you want to do it? My suggestion is =
-option
-> 1 with default being no HDM decoder.
->=20
-> Jonathan
-Please feel free to spin up a patch.
->=20
->=20
->=20
-> > ---
-> >  hw/cxl/cxl-host.c | 7 +++++--
-> >  1 file changed, 5 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
-> > index 1adf61231a..5ca0d6fd8f 100644
-> > --- a/hw/cxl/cxl-host.c
-> > +++ b/hw/cxl/cxl-host.c
-> > @@ -107,8 +107,11 @@ static bool cxl_hdm_find_target(uint32_t *cache_me=
-m, hwaddr addr,
-> >      uint32_t target_idx;
-> > =20
-> >      ctrl =3D cache_mem[R_CXL_HDM_DECODER0_CTRL];
-> > -    if (!FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED)) {
-> > -        return false;
-> > +
-> > +    /* skip the check for passthrough decoder */
->=20
-> You have a mix of spaces and tabs for indentation. Should all be 4 spaces
-> for QEMU code.
->=20
-> > +	if (FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, COMMIT)
-> > +		&& !FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED)) {
-> > +		return false;
->=20
-> Why is this code specific to a pass through decoder?
-> All it's telling us (I think) is no one tried to commit the decoder yet.
->=20
-> >      }
-> > =20
-> >      ig_enc =3D FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, IG);
-> =
+
+Reviewed-by: Cédric Le Goater <clg@redhat.com>
+
+Thanks,
+
+C.
+
+
+
+> ---
+>   docs/devel/vfio-migration.rst | 68 ++++++++++++++++-------------------
+>   1 file changed, 30 insertions(+), 38 deletions(-)
+> 
+> diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
+> index 9ff6163c88..1d50c2fe5f 100644
+> --- a/docs/devel/vfio-migration.rst
+> +++ b/docs/devel/vfio-migration.rst
+> @@ -7,46 +7,39 @@ the guest is running on source host and restoring this saved state on the
+>   destination host. This document details how saving and restoring of VFIO
+>   devices is done in QEMU.
+>   
+> -Migration of VFIO devices consists of two phases: the optional pre-copy phase,
+> -and the stop-and-copy phase. The pre-copy phase is iterative and allows to
+> -accommodate VFIO devices that have a large amount of data that needs to be
+> -transferred. The iterative pre-copy phase of migration allows for the guest to
+> -continue whilst the VFIO device state is transferred to the destination, this
+> -helps to reduce the total downtime of the VM. VFIO devices can choose to skip
+> -the pre-copy phase of migration by returning pending_bytes as zero during the
+> -pre-copy phase.
+> +Migration of VFIO devices currently consists of a single stop-and-copy phase.
+> +During the stop-and-copy phase the guest is stopped and the entire VFIO device
+> +data is transferred to the destination.
+> +
+> +The pre-copy phase of migration is currently not supported for VFIO devices.
+> +Support for VFIO pre-copy will be added later on.
+>   
+>   A detailed description of the UAPI for VFIO device migration can be found in
+> -the comment for the ``vfio_device_migration_info`` structure in the header
+> -file linux-headers/linux/vfio.h.
+> +the comment for the ``vfio_device_mig_state`` structure in the header file
+> +linux-headers/linux/vfio.h.
+>   
+>   VFIO implements the device hooks for the iterative approach as follows:
+>   
+> -* A ``save_setup`` function that sets up the migration region and sets _SAVING
+> -  flag in the VFIO device state.
+> +* A ``save_setup`` function that sets up migration on the source.
+>   
+> -* A ``load_setup`` function that sets up the migration region on the
+> -  destination and sets _RESUMING flag in the VFIO device state.
+> +* A ``load_setup`` function that sets the VFIO device on the destination in
+> +  _RESUMING state.
+>   
+>   * A ``save_live_pending`` function that reads pending_bytes from the vendor
+>     driver, which indicates the amount of data that the vendor driver has yet to
+>     save for the VFIO device.
+>   
+> -* A ``save_live_iterate`` function that reads the VFIO device's data from the
+> -  vendor driver through the migration region during iterative phase.
+> -
+>   * A ``save_state`` function to save the device config space if it is present.
+>   
+> -* A ``save_live_complete_precopy`` function that resets _RUNNING flag from the
+> -  VFIO device state and iteratively copies the remaining data for the VFIO
+> -  device until the vendor driver indicates that no data remains (pending bytes
+> -  is zero).
+> +* A ``save_live_complete_precopy`` function that sets the VFIO device in
+> +  _STOP_COPY state and iteratively copies the data for the VFIO device until
+> +  the vendor driver indicates that no data remains.
+>   
+>   * A ``load_state`` function that loads the config section and the data
+> -  sections that are generated by the save functions above
+> +  sections that are generated by the save functions above.
+>   
+>   * ``cleanup`` functions for both save and load that perform any migration
+> -  related cleanup, including unmapping the migration region
+> +  related cleanup.
+>   
+>   
+>   The VFIO migration code uses a VM state change handler to change the VFIO
+> @@ -71,13 +64,13 @@ tracking can identify dirtied pages, but any page pinned by the vendor driver
+>   can also be written by the device. There is currently no device or IOMMU
+>   support for dirty page tracking in hardware.
+>   
+> -By default, dirty pages are tracked when the device is in pre-copy as well as
+> -stop-and-copy phase. So, a page pinned by the vendor driver will be copied to
+> -the destination in both phases. Copying dirty pages in pre-copy phase helps
+> -QEMU to predict if it can achieve its downtime tolerances. If QEMU during
+> -pre-copy phase keeps finding dirty pages continuously, then it understands
+> -that even in stop-and-copy phase, it is likely to find dirty pages and can
+> -predict the downtime accordingly.
+> +By default, dirty pages are tracked during pre-copy as well as stop-and-copy
+> +phase. So, a page pinned by the vendor driver will be copied to the destination
+> +in both phases. Copying dirty pages in pre-copy phase helps QEMU to predict if
+> +it can achieve its downtime tolerances. If QEMU during pre-copy phase keeps
+> +finding dirty pages continuously, then it understands that even in stop-and-copy
+> +phase, it is likely to find dirty pages and can predict the downtime
+> +accordingly.
+>   
+>   QEMU also provides a per device opt-out option ``pre-copy-dirty-page-tracking``
+>   which disables querying the dirty bitmap during pre-copy phase. If it is set to
+> @@ -111,23 +104,22 @@ Live migration save path
+>                                     |
+>                        migrate_init spawns migration_thread
+>                   Migration thread then calls each device's .save_setup()
+> -                    (RUNNING, _SETUP, _RUNNING|_SAVING)
+> +                       (RUNNING, _SETUP, _RUNNING)
+>                                     |
+> -                    (RUNNING, _ACTIVE, _RUNNING|_SAVING)
+> +                      (RUNNING, _ACTIVE, _RUNNING)
+>                If device is active, get pending_bytes by .save_live_pending()
+>             If total pending_bytes >= threshold_size, call .save_live_iterate()
+> -                  Data of VFIO device for pre-copy phase is copied
+>           Iterate till total pending bytes converge and are less than threshold
+>                                     |
+>     On migration completion, vCPU stops and calls .save_live_complete_precopy for
+> -   each active device. The VFIO device is then transitioned into _SAVING state
+> -                   (FINISH_MIGRATE, _DEVICE, _SAVING)
+> +  each active device. The VFIO device is then transitioned into _STOP_COPY state
+> +                  (FINISH_MIGRATE, _DEVICE, _STOP_COPY)
+>                                     |
+>        For the VFIO device, iterate in .save_live_complete_precopy until
+>                            pending data is 0
+> -                   (FINISH_MIGRATE, _DEVICE, _STOPPED)
+> +                   (FINISH_MIGRATE, _DEVICE, _STOP)
+>                                     |
+> -                 (FINISH_MIGRATE, _COMPLETED, _STOPPED)
+> +                 (FINISH_MIGRATE, _COMPLETED, _STOP)
+>                Migraton thread schedules cleanup bottom half and exits
+>   
+>   Live migration resume path
+> @@ -136,7 +128,7 @@ Live migration resume path
+>   ::
+>   
+>                 Incoming migration calls .load_setup for each device
+> -                       (RESTORE_VM, _ACTIVE, _STOPPED)
+> +                       (RESTORE_VM, _ACTIVE, _STOP)
+>                                    |
+>          For each device, .load_state is called for that device section data
+>                          (RESTORE_VM, _ACTIVE, _RESUMING)
+
 
