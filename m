@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2CA6693F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:21:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D3636693F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:22:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGHAV-0007n5-LO; Fri, 13 Jan 2023 05:20:15 -0500
+	id 1pGHBm-0008PT-3p; Fri, 13 Jan 2023 05:21:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pGHAT-0007mM-HA
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:20:13 -0500
-Received: from mail-oa1-x41.google.com ([2001:4860:4864:20::41])
+ id 1pGHBj-0008N7-7U
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:21:31 -0500
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pGHAR-0005Wx-La
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:20:13 -0500
-Received: by mail-oa1-x41.google.com with SMTP id
- 586e51a60fabf-15eeec85280so669585fac.11
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 02:20:11 -0800 (PST)
+ id 1pGHBh-0005ku-KO
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:21:30 -0500
+Received: by mail-oi1-x22c.google.com with SMTP id r9so6605985oie.13
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 02:21:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=QtQwRfF+ulK+aqGp72w++VL8SNUDal9NahqXeCW1cRk=;
- b=V12qxT57idfmBA+iwRFqkLRyevXQLy2fji9UNSgWVy/UjC83U0YHbJY+cYtzK3LFfo
- EmIEsSPTZLMpXoqHprFgHHKvACdc3NqdhvrW7dgahn4hGNQUOp6VbUIEdTwD4kjd1ooO
- rOMBSf/0jlxgxPSN8mlhprYkubM04vcEhneWiGFm4N5i94GwgSoQzig9HbbTRGqSFMNC
- rqTDM7vIbEBcs2IwyY/pxJEj4MfYgf3nzbrQ/vxXmr5QRYIGVfvsdDEXNFvZrilsUs6l
- AC9RAjKQG6FM2RwHamlnWTcLf+2PpKmVds5INTBvLjPauRwlzNBaxfpIBdGNVYAVQ2Gu
- fB5A==
+ bh=/QjALvLmossEhKT/lFtmq9q4aFTAAfWiOsIVEH6r/Ps=;
+ b=HLrRWxu6eHyvXo4CV1qc8d436Jfwj1CUuLC8rHHDOt4T5igUkSB3uEcG86xTZQ9Zuq
+ dMGV8N0rXM7w5AZXgm0aoGQb5WVja97eNTmqSbodF8A82VlLj98YsyNX/7RIU4TH7zGJ
+ izJa+oFa8jNeQnq9xAjiq2ces+51q7fIqu4yDIKt6maBBHT6ZctmQm9Y6RyhPtlsfNOG
+ h63Nwi0ALPzos7yTLiz+NY51oMn80cSXA3lE+xq93ndRpwqPwdMcuEWuIZenXvNOh2bH
+ tx+TiVeoYdY1DFhqnlPVrgvqLngSOdLufZJ3aQKmkzVTfAeOceM1Ix04yfANaoC0YYW2
+ GRog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QtQwRfF+ulK+aqGp72w++VL8SNUDal9NahqXeCW1cRk=;
- b=im0f92ho6ImiPMxH2miqKCWM2qrm3KyR/daAaS5qII2ZAPh3tB4fE7CbBH5nJdGakr
- AKw1i7+9adgEcszbhe2ibtAkN/aOY510S7ELARumUdKKS2UiBcjunN+O38SnzVFryXz+
- MY1PtPisTwBxa6QTTVfsymxgi/SUubmakYISV4kEQJeWZnJwbFug8LvQy/JSgmHzGsoL
- UoXktsNGXM1+zzT2ZCJky76ATnSlKjf/VqOEW8f7HNvcCChkarTfKXqBAzy60oRIA4r1
- L4sfBuM+ODQp7rKiFyu5aY313LMTnGJb9mQb4Ntb8Dob9uYja0G32o6C4550qwtvxuaJ
- y/0A==
-X-Gm-Message-State: AFqh2kpNolakzXu7m7Kv5JV90wYwghqrj5zqJara4Fk1UQQGSQeqD21F
- SYL6BuM981+Xe14XvucptJ5MMw==
-X-Google-Smtp-Source: AMrXdXv6i2Ck5Z4gPG/Bqs6MnvV487Yy6xIFsqz2q0C2vbFneesOpYSOXneilrLYqHqS90kSyYpgMg==
-X-Received: by 2002:a05:6871:b12:b0:152:d0dc:2bba with SMTP id
- fq18-20020a0568710b1200b00152d0dc2bbamr17402091oab.15.1673605210221; 
- Fri, 13 Jan 2023 02:20:10 -0800 (PST)
+ bh=/QjALvLmossEhKT/lFtmq9q4aFTAAfWiOsIVEH6r/Ps=;
+ b=ZrZcVb2/7Y01oZvMuAxIIjIRNeTmiA6QK3yBkufs9Uk9vSJjzs/FnP28oE6wcPJS/P
+ 9Csr3FF3fxvW150vxRtrxTWUXoLOuG2Bqh8ohM2HmXS0Ufos2KGUyO73Kt0+gzioCDjB
+ gKUBRzIzXkxzsjgKBLw5/u6Fd8yMDJYg9jfHHc1/Wd0wlJt4yq/mFeei5URmJpSxX+s0
+ XKeZMhHfQjsV1VYpW8W0HnkhR3l3N9qNAL9X/3l61uvcLRngq7SPS1Ug+MiIXo1Cyd6W
+ i4fkl1dWgZJYC8hlq7zBafmVPWH062+sNADTaiKX6jwh02gvrx8beMPZRRSw9e18DxE/
+ YIYQ==
+X-Gm-Message-State: AFqh2kpK+NEGLDqxe0B7Ir1MsJ/cIWnzYdQpoaealkvxDRhGqalY6zrv
+ RYojgKKTow7lxPXjNG9Os3KTVg==
+X-Google-Smtp-Source: AMrXdXvU6DpwS8+MJcFGs+uTsRwuWB2+2O4NRKqHPO7DBuyVXeozReQ5bVYNPbn/J47AJgmlFn3pLg==
+X-Received: by 2002:a05:6808:2391:b0:364:5a39:ec53 with SMTP id
+ bp17-20020a056808239100b003645a39ec53mr8891098oib.22.1673605288515; 
+ Fri, 13 Jan 2023 02:21:28 -0800 (PST)
 Received: from [192.168.68.107] ([191.17.222.2])
  by smtp.gmail.com with ESMTPSA id
- bd13-20020a056870d78d00b0014fe4867dc7sm10142801oab.56.2023.01.13.02.20.07
+ dp6-20020a056808424600b003458d346a60sm8996156oib.25.2023.01.13.02.21.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 02:20:09 -0800 (PST)
-Message-ID: <cbab1ba2-e29b-aa48-b64f-b95de71787dd@ventanamicro.com>
-Date: Fri, 13 Jan 2023 07:20:06 -0300
+ Fri, 13 Jan 2023 02:21:27 -0800 (PST)
+Message-ID: <0ba72b27-0c3d-2d3d-adec-899717f40594@ventanamicro.com>
+Date: Fri, 13 Jan 2023 07:21:23 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 0/2] target/riscv/cpu: fix sifive_u 32/64bits boot in
- riscv-to-apply.next
-To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair23@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- richard.henderson@linaro.org
-References: <20230110201405.247785-1-dbarboza@ventanamicro.com>
- <CAKmqyKM=7Ld0FuZ7FfzTKznpM5Zq1xzAKd-iVxqjk6TPbred2g@mail.gmail.com>
- <CAEUhbmWbcWNQxP8O+56qYjUPsmgyP+qhOTYRRmDUimXV6s42_Q@mail.gmail.com>
+Subject: Re: [PATCH v5 10/11] hw/riscv/boot.c: consolidate all kernel init in
+ riscv_load_kernel()
 Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Alistair Francis <alistair23@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
+References: <20230102115241.25733-1-dbarboza@ventanamicro.com>
+ <20230102115241.25733-11-dbarboza@ventanamicro.com>
+ <CAKmqyKPri7asvqZ8wN4Bd-wjH+gwwMJJhiUd+=QZFV4RhWnyUQ@mail.gmail.com>
+ <b5cab84f-4bb9-694b-80e9-0b5aeac9de6c@linaro.org>
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <CAEUhbmWbcWNQxP8O+56qYjUPsmgyP+qhOTYRRmDUimXV6s42_Q@mail.gmail.com>
+In-Reply-To: <b5cab84f-4bb9-694b-80e9-0b5aeac9de6c@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::41;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x41.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,92 +99,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Bin!
 
-On 1/12/23 22:28, Bin Meng wrote:
-> Hi Daniel,
->
-> On Wed, Jan 11, 2023 at 1:03 PM Alistair Francis <alistair23@gmail.com> wrote:
->> On Wed, Jan 11, 2023 at 6:17 AM Daniel Henrique Barboza
+
+On 1/13/23 04:16, Philippe Mathieu-Daudé wrote:
+> On 12/1/23 01:34, Alistair Francis wrote:
+>> On Mon, Jan 2, 2023 at 9:55 PM Daniel Henrique Barboza
 >> <dbarboza@ventanamicro.com> wrote:
->>> Hi,
 >>>
->>> I found this bug when testing my avocado changes in riscv-to-apply.next.
->>> The sifive_u board, both 32 and 64 bits, stopped booting OpenSBI. The
->>> guest hangs indefinitely.
+>>> The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
+>>> the same steps when '-kernel' is used:
 >>>
->>> Git bisect points that this patch broke things:
+>>> - execute load_kernel()
+>>> - load init_rd()
+>>> - write kernel_cmdline
 >>>
->>> 8c3f35d25e7e98655c609b6c1e9f103b9240f8f8 is the first bad commit
->>> commit 8c3f35d25e7e98655c609b6c1e9f103b9240f8f8
->>> Author: Weiwei Li <liweiwei@iscas.ac.cn>
->>> Date:   Wed Dec 28 14:20:21 2022 +0800
+>>> Let's fold everything inside riscv_load_kernel() to avoid code
+>>> repetition. To not change the behavior of boards that aren't calling
+>>> riscv_load_init(), add an 'load_initrd' flag to riscv_load_kernel() and
+>>> allow these boards to opt out from initrd loading.
 >>>
->>>      target/riscv: add support for Zca extension
->>>
->>>      Modify the check for C extension to Zca (C implies Zca)
->>> (https://github.com/alistair23/qemu/commit/8c3f35d25e7e98655c609b6c1e9f103b9240f8f8)
->>>
->>>
->>> But this patch per se isn't doing anything wrong. The root of the
->>> problem is that this patch makes assumptions based on the previous
->>> patch:
->>>
->>> commit a2b409aa6cadc1ed9715e1ab916ddd3dade0ba85
->>> Author: Weiwei Li <liweiwei@iscas.ac.cn>
->>> Date:   Wed Dec 28 14:20:20 2022 +0800
->>>
->>>      target/riscv: add cfg properties for Zc* extension
->>> (https://github.com/alistair23/qemu/commit/a2b409aa6cadc1ed9715e1ab916ddd3dade0ba85)
->>>
->>> Which added a lot of logic and assumptions that are being skipped by all
->>> the SiFive boards because, during riscv_cpu_realize(), we have this
->>> code:
->>>
->>>      /* If only MISA_EXT is unset for misa, then set it from properties */
->>>      if (env->misa_ext == 0) {
->>>          uint32_t ext = 0;
->>>          (...)
->>>      }
->>>
->>> In short, we have a lot of code that are being skipped by all SiFive
->>> CPUs because these CPUs are setting a non-zero value in set_misa() in
->>> their respective cpu_init() functions.
->>>
->>> It's possible to just hack in and fix the SiFive problem in isolate, but
->>> I believe we can do better and allow all riscv_cpu_realize() to be executed
->>> for all CPUs, regardless of what they've done during their cpu_init().
->>>
->>>
->>> Daniel Henrique Barboza (2):
->>>    target/riscv/cpu: set cpu->cfg in register_cpu_props()
->>>    target/riscv/cpu.c: do not skip misa logic in riscv_cpu_realize()
->> Thanks for the patches
->>
->> I have rebased these onto the latest master and dropped the other
->> series. That way when the other series is applied we don't break
->> bisectability.
-> It seems these 2 patches are already in Alistair's tree.
+>>> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+>>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>>> ---
+>>>   hw/riscv/boot.c            | 22 +++++++++++++++++++---
+>>>   hw/riscv/microchip_pfsoc.c | 12 ++----------
+>>>   hw/riscv/opentitan.c       |  2 +-
+>>>   hw/riscv/sifive_e.c        |  3 ++-
+>>>   hw/riscv/sifive_u.c        | 12 ++----------
+>>>   hw/riscv/spike.c           | 11 +----------
+>>>   hw/riscv/virt.c            | 12 ++----------
+>>>   include/hw/riscv/boot.h    |  1 +
+>>>   8 files changed, 30 insertions(+), 45 deletions(-)
 >
-> Richard had a suggestion for patch 1 and I had some minor comments
-> too. Do you plan to resend a v2 for that?
+>>> @@ -192,21 +194,35 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>>>       if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+>>>                            NULL, &kernel_load_base, NULL, NULL, 0,
+>>>                            EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+>>> -        return kernel_load_base;
+>>> +        kernel_entry = kernel_load_base;
+>>
+>> This breaks 32-bit Xvisor loading. It seems that for the 32-bit guest
+>> we get a value of 0xffffffff80000000.
+>>
+>> Previously the top bits would be lost as we return a target_ulong from
+>> this function, but with this change we pass the value
+>> 0xffffffff80000000 to riscv_load_initrd() which causes failures.
+>>
+>> This diff fixes the failure for me
+>>
+>> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+>> index 4888d5c1e0..f08ed44b97 100644
+>> --- a/hw/riscv/boot.c
+>> +++ b/hw/riscv/boot.c
+>> @@ -194,7 +194,7 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>>      if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+>>                           NULL, &kernel_load_base, NULL, NULL, 0,
+>>                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+>> -        kernel_entry = kernel_load_base;
+>> +        kernel_entry = (target_ulong) kernel_load_base;
+>>          goto out;
+>>      }
+>>
+>>
+>> but I don't think that's the right fix. We should instead look at the
+>> CPU XLEN and drop the high bits if required.
+>
+> Ah, that is what should be done in load_elf_ram_sym()'s missing
+> translate_fn() handler.
 
-I'll re-send the v2 with your comments addressed.
+Interesting. I'll try it again and re-send.
 
-About Richard's suggestion, I believe I replied that it would require more thought
-because, as it is now, it would break boards that are setting their properties after
-register_cpu_props(). The overall simplification of the cpu_init() code across all
-RISC-V boards is good thing to do in the future as a follow up, IMO.
-
-
-Thanks,
 
 Daniel
 
-
-
->
-> Regards,
-> Bin
 
 
