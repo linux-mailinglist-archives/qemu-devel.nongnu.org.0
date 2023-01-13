@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 742E1669860
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 14:21:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B681A669889
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 14:32:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGJzG-0000PS-3s; Fri, 13 Jan 2023 08:20:50 -0500
+	id 1pGK8w-0002tT-S2; Fri, 13 Jan 2023 08:30:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGJzB-0000Mm-Gx
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:20:45 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGK8v-0002sj-2J
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:30:49 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGJz9-00006u-P9
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:20:45 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id d10so14938749pgm.13
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 05:20:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGK8t-0002dl-43
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:30:48 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ j34-20020a05600c1c2200b003da1b054057so3065673wms.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 05:30:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=2HiQcavuJZg1YKdzcRCo0RHAlxM1LHlsbYqDs55xGY8=;
- b=Pfdw/SHrpuUQQXRZW/2rwUjKZ+phvsuOqkZ73ICmSQM8IRjnfTfZ/1jOxFmCj+DKbq
- piNNzbWGZzOJMhIEDPZjP8SB9Oj6zQLwhgS54zLHZ4DbHklebHHvXZY2uCpj295aLYpr
- rMA7ekh7qlhgkiXy4aDXLK9DBObVrYWLrUICgMdD7qmJk2+OHpl1iJSqC5qjiO0BBjhC
- Yz2Icuf6PY05+8wXQAG0/BhOc1ITM1YlZ07Egn6fjpkODbN8i0EVAZN4kbBwgNqfffHW
- +iveYELxihrcgnQOrp5FwdySKOHT9M0u+jHpqFWhxlMmHaoXEGj8hSkdbxAoFibm/OEN
- MO2g==
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=umJ9utIVAdYI/dUGASp7hAcPPoo/pWFNFdbDXStWLMo=;
+ b=GCuogTc0PY5RZfv6p7I0kowa2Pk9krAn679Ko2LCe52vthNnN/UpnoC7KNIOWmZTWH
+ yNjS+V5XdSRETZNay0OzG2Pnp9TBi2Wl5ieo60iNw3+FR6dyD/PeUW/kw8HrE4mqZ8xr
+ kNGIVIUZPWZpBLcdSRV3kR44iyBb78h2oU2Fpk/iowqLsfD5w5TzYoz8A4JBLi9992+h
+ FY9Sy5gbJc0H3HArXGr5Dr0x+ZXieQ4OQIo8tc9kV+H/Gr1MW0ImdK5BPO5pC+ExVpIa
+ qWJ4N5oOa2dhTUNKNCe6RbB9y8+kk9Smj3zh865AuQuipJIaiKdJuv9L0PKf3Y6RHkc1
+ 2pAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2HiQcavuJZg1YKdzcRCo0RHAlxM1LHlsbYqDs55xGY8=;
- b=hoDGcXuLb8JwBPwRa5WyxYqIbXW6IB7nI2/w+Tx3aiy3+M7Fjbq2ujVqiFxNxKjzt1
- rxHlp5alMzCJR7VabIkul6uFHAe66cxg6mYCxkqNfHmtnOPqcHgbHGX3+bSy/2Lr8ImI
- 4voTPbC0WhUhVmI30OER5IjJB93qtD/LzzTgQGwsj5kpX1/E9Sd1fKtqqywJLK7esRAX
- GRpoIOWbCCdjmWidhVJJ9Y3FrEwPDhuczkZONJ8I6GgmLCSczSb+eHjFXLxmtzKOwjjU
- An1QkcTlXdTM+yrdd6d7LJg2rSnMK5G2YZ25PPmGC0zwweqFEHFmkJHBbAfryKo/QWQB
- P69A==
-X-Gm-Message-State: AFqh2kpGIpA8O+dFG81CSIW37f6k5pvKm0hQ70tfV6O1yNypkwg2gtts
- KIDkD+M/K2kdEUIj/f1G/sn02LXm9+XSFUbvr3u9xg==
-X-Google-Smtp-Source: AMrXdXtkakFdQ05oY67t652mIwbr6sKUlK4LFQQCx04rUE0ODuCGa2E3oZEz+KHoMoWW9AzNUhuhyQ4CbVpUduDzxwY=
-X-Received: by 2002:aa7:999c:0:b0:582:74a2:1e4e with SMTP id
- k28-20020aa7999c000000b0058274a21e4emr3618316pfh.26.1673616041255; Fri, 13
- Jan 2023 05:20:41 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=umJ9utIVAdYI/dUGASp7hAcPPoo/pWFNFdbDXStWLMo=;
+ b=vH4Ij9YSUuV0cIZci6YSUOepHoOpRNYB5Sb/Fn1rTC+VXSLVdpMwGWroKi/nEW6YiK
+ FfjCq80TNxi9pR0oqp1xfX63YuQ6l2iJk6pGJQaY5qF0ul9giXG8C9EHuZiRiEcQbam2
+ rUKKnPlVolCPEOZqjo41J9EqwchCUfde2O2M+FhFMnITPoc8pCMDNM4mE4wVXjzdUa8N
+ UgdwhPQLhdpwS1cvQhWqoqCWAJVVvXn03LQxQl/oc8Jdh35bJIl/asP+oSpZyF8NfjGb
+ tmZrhOiDKASghePfyZVbWFV3lhvYN8H7kXWV1LOOBmLyHQ2S6ckbxAgAM2iju9IfE+2j
+ Pxig==
+X-Gm-Message-State: AFqh2kpqm1aBhf9X/F/ugFXG5XJC/m4UNZMFvDK7xmtJSFjAVaoB0rNp
+ 33qC//iaC4GZvrRmeIs3C7rlmg==
+X-Google-Smtp-Source: AMrXdXvwhykxl7LuKkJ+geOx8EZM1ou2GEYq1j5z9S5WlNiTjXf7f4SEfTZehzvwSwHomFnWLb68uA==
+X-Received: by 2002:a05:600c:17c5:b0:3d1:ebdf:d591 with SMTP id
+ y5-20020a05600c17c500b003d1ebdfd591mr56755676wmo.15.1673616642086; 
+ Fri, 13 Jan 2023 05:30:42 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ k30-20020a05600c1c9e00b003d9b89a39b2sm27857875wms.10.2023.01.13.05.30.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Jan 2023 05:30:41 -0800 (PST)
+Message-ID: <27512349-0007-11bd-07fb-5fd8c3dae879@linaro.org>
+Date: Fri, 13 Jan 2023 14:30:40 +0100
 MIME-Version: 1.0
-References: <20230105221251.17896-1-eiakovlev@linux.microsoft.com>
- <20230105221251.17896-4-eiakovlev@linux.microsoft.com>
-In-Reply-To: <20230105221251.17896-4-eiakovlev@linux.microsoft.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 Jan 2023 13:20:30 +0000
-Message-ID: <CAFEAcA_1K6jC1aM3DX3iNN503pqw14yyCUiORoHPSfxN7g8Xzg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] target/arm: allow writes to SCR_EL3.HXEn bit when
- FEAT_HCX is enabled
-To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- qemu-stable <qemu-stable@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] tests/vm: Update haiku test vm to R1/Beta3
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+To: Thomas Huth <thuth@redhat.com>,
+ Alexander von Gluck IV <kallisti5@unixzen.com>
+Cc: qemu-devel@nongnu.org
+References: <20220216154208.2985103-1-kallisti5@unixzen.com>
+ <2d548e30-11eb-6f64-b082-25e5ff546309@redhat.com>
+ <df446205-d3bc-5c1c-eb3c-bb475590e713@linaro.org>
+In-Reply-To: <df446205-d3bc-5c1c-eb3c-bb475590e713@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,47 +93,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 5 Jan 2023 at 22:13, Evgeny Iakovlev
-<eiakovlev@linux.microsoft.com> wrote:
->
-> ARM trusted firmware, when built with FEAT_HCX support, sets SCR_EL3.HXEn bit
-> to allow EL2 to modify HCRX_EL2 register without trapping it in EL3. Qemu
-> uses a valid mask to clear unsupported SCR_EL3 bits when emulating SCR_EL3
-> write, and that mask doesn't include SCR_EL3.HXEn bit even if FEAT_HCX is
-> enabled and exposed to the guest. As a result EL3 writes of that bit are
-> ignored.
->
-> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+On 13/1/23 12:05, Philippe Mathieu-Daudé wrote:
+> On 14/12/22 11:47, Thomas Huth wrote:
+>> On 16/02/2022 16.42, Alexander von Gluck IV wrote:
+>>> ---
+>>>   tests/vm/haiku.x86_64 | 8 ++++----
+>>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>> [...]
+>>> @@ -48,8 +48,8 @@ class HaikuVM(basevm.BaseVM):
+>>>       name = "haiku"
+>>>       arch = "x86_64"
+>>> -    link = 
+>>> "https://app.vagrantup.com/haiku-os/boxes/r1beta2-x86_64/versions/20200702/providers/libvirt.box"
+>>> -    csum = 
+>>> "41c38b316e0cbdbc66b5dbaf3612b866700a4f35807cb1eb266a5bf83e9e68d5"
+>>> +    link = 
+>>> "https://app.vagrantup.com/haiku-os/boxes/r1beta3-x86_64/versions/20220216/providers/libvirt.box"
+>>> +    csum = 
+>>> "e67d4aacbcc687013d5cc91990ddd86cc5d70a5d28432ae2691944f8ce5d5041"
+>>
+>>   Hi Alexander!
+>>
+>> The Haiku VM started again to fail, I'm getting these error messages now:
+>>
+>> Encountered problems:
+>> problem 1: nothing provides haiku>=r1~beta4_hrev56578_4-1 needed by 
+>> glib2_devel-2.75.0-1
+>>    solution 1:
+>>      - do not install "providing devel:libglib_2.0"
+>> problem 2: nothing provides haiku>=r1~beta4_hrev56578_31-1 needed by 
+>> gettext-0.21.1-2
+>>    solution 1:
+>>      - do not install "providing devel:libintl"
+>> problem 3: nothing provides haiku>=r1~beta4_hrev56578_31-1 needed by 
+>> curl-7.85.0-2
+>>    solution 1:
+>>      - do not install "providing devel:libcurl"
+>> problem 4: nothing provides haiku>=r1~beta4_hrev56578_31-1 needed by 
+>> gnutls-3.7.8-1
+>>    solution 1:
+>>      - do not install "providing devel:libgnutls"
+>> problem 5: nothing provides haiku>=r1~beta4_hrev56578_4-1 needed by 
+>> glib2-2.75.0-1
+>>    solution 1:
+>>      - do not install "providing devel:libslirp"
+>>
+>> Does it need an update to a newer version of Haiku?
+> 
+> Per https://www.haiku-os.org/guides/daily-tasks/updating-system/ we
+> can keep the box image in sync with its repo by using:
+> 
+> # pkgman add https://eu.hpkg.haiku-os.org/haiku/r1beta3/$(getarch)/current
+> 
+> I will try this:
+> 
+> -- >8 --
+> diff --git a/tests/vm/haiku.x86_64 b/tests/vm/haiku.x86_64
+> index 29668bc272..9cbb46cfc1 100755
+> --- a/tests/vm/haiku.x86_64
+> +++ b/tests/vm/haiku.x86_64
+> @@ -112,2 +112,4 @@ class HaikuVM(basevm.BaseVM):
+>           # Install packages
+> +        self.ssh_root("pkgman add 
+> https://eu.hpkg.haiku-os.org/haiku/r1beta3/x86_64/current")
+> +        self.ssh_root("pkgman full-sync")
+>           self.ssh_root("pkgman install -y %s" % " 
+> ".join(self.requirements))
 > ---
->  target/arm/helper.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index bac2ea62c4..962affdd52 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -1844,6 +1844,9 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
->          if (cpu_isar_feature(aa64_sme, cpu)) {
->              valid_mask |= SCR_ENTP2;
->          }
-> +        if (cpu_isar_feature(aa64_hcx, cpu)) {
-> +            valid_mask |= SCR_HXEN;
-> +        }
->      } else {
->          valid_mask &= ~(SCR_RW | SCR_ST);
->          if (cpu_isar_feature(aa32_ras, cpu)) {
-> --
 
-Oops. This is worth
-Cc: qemu-stable@nongnu.org
+OS installed but is not usable...:
 
-I think.
+runtime_loader: /boot/system/lib/libncurses.so.6.3.0: Could not resolve 
+symbol '__ctype_b_loc'
+resolve symbol "__ctype_b_loc" returned: -2147478780
+runtime_loader: /boot/system/lib/libncurses.so.6.3.0: Troubles 
+relocating: Symbol not found
+Connection to 127.0.0.1 closed.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-I'll take this 3rd patch into target-arm.next now; I've left
-review comments for the other 2.
-
-thanks
--- PMM
 
