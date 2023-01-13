@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECD9669D76
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:19:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 353DC669E36
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:35:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGMGV-0001oo-Td; Fri, 13 Jan 2023 10:46:47 -0500
+	id 1pGMGX-0001q0-Gs; Fri, 13 Jan 2023 10:46:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMG5-0001aH-Ba
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:46:25 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMGJ-0001ho-MM
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:46:37 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMG3-00064c-Mb
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:46:21 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- bg13-20020a05600c3c8d00b003d9712b29d2so19074191wmb.2
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 07:46:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMGF-000688-VE
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:46:34 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ z8-20020a05600c220800b003d33b0bda11so1157901wml.0
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 07:46:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GKmMPSZpu0s5Io751sC2xrOw1/RiRYL5xp96bZDv0UU=;
- b=GxbnCbztQtwYQgRVOWksMajIiZ7n8foHN3l8FPA+cqSteXMTf6VWdaVSjzbVepDRb1
- fudaRFXHDMT+Qx1yqkgCG7rEnR1CGQPrwL3z02GwA5Kj11VPwJVtSqghL1nWLG9gRuLi
- 9LHqEtt+gVeYi/b7xdasoZWIcH8syxf48bJgqOcqb1DKe34jPfX7laX9NcyEgVk4tedU
- JFG1AZuG/otfljNxorDURmh3Sq0fSwDPFOpwQDkpQ1cqUDempaTI858rUy89yJp4ENh/
- BenBJI3hoEg6uyz/58FY1+IveKCANOGHmu1W7zBL1zTZ53BeFq5kG7+abuHJopcTdi1j
- 5svg==
+ bh=Yelke7zGVGxtCJv6hIoquQumyPLK+LvkoIli13Jmif4=;
+ b=fiM4eVfgp4fVpa1iB05bOXu7MABPlV9GAxGX1YfylOkjN5heP6CVwX69T8A8Q3pKyl
+ tXZjVU5NrlS71U9L3hXpFkCkdu979qYEvha8XQMH2Gvg1kXJKZj6N1ow8sJKpp7qpCXf
+ 1sYUDUigwmzweLarl8w3yYmXCMTMAZQPnL7KHA9TArfaJMgSAeAPjFL8tbZavES1/LmZ
+ 9G9TvJdMenbP2VhCoalGgCIrBF9d7kQ9zxETcS4p/mu+Vh4UBBNyu1h1pNaOPiBtasEd
+ 7loXOfoeCjpfqc9qo3p0BUIbr6deuvSy8CRVF2XUdwwmaYVHKdvzBeg2kU3cbgmJ9+fB
+ 4uZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GKmMPSZpu0s5Io751sC2xrOw1/RiRYL5xp96bZDv0UU=;
- b=El49/5RW5PbLm35aVautEkJ8LTqRU9lvsfXCGQEsE54T8BhLb5cOjE3VR2fXLKA9Mu
- Xc0sjaVyDZltWjqev2LqGThkVI+bUoBC04RYy/D1kGG3vMYWNP8/ikvcFDLoXcXi57Oq
- OaNqJ1J/IcPiWaKsxTIXX1X0lWDkzhVwh+K6aUPoKYdE4bjyr7UIVcssGTGf7dzBltXk
- z9QaJxKf6HBbqDWWTZnYFl8XKyw/i2OzVVp/LTXVbEnEBGa0ojRBrCCxM2BwRAjy8DVr
- Zb32fxHH1pxvvHVHYE0IhcXi5ND43dHTkATfnPuyXZC47kucgwtHPbjc1zYH7Vu3LTqg
- g2ag==
-X-Gm-Message-State: AFqh2koeo9URpXHxOWi96XPWBf5CPnaD13zVPUvELdXcIT1EKE6LrM2P
- rVf63mzmn9My8qf2lkaZiCfQMIJDhWkhc+fk
-X-Google-Smtp-Source: AMrXdXvgkg64dbNPADQhZyGapBtoTzUxCsTSuzpRcxho7jJwSppLMBr4m9YgPY7nno/Dg4GrSKEBzA==
-X-Received: by 2002:a05:600c:3d0e:b0:3d3:4aa6:4fd0 with SMTP id
- bh14-20020a05600c3d0e00b003d34aa64fd0mr59180465wmb.6.1673624777378; 
- Fri, 13 Jan 2023 07:46:17 -0800 (PST)
+ bh=Yelke7zGVGxtCJv6hIoquQumyPLK+LvkoIli13Jmif4=;
+ b=1rpcQrvfv7pCJejWl90Hzwf7KqzNF9cbqKT9J/gOZtdkPbqyg0LVdrPSwivfe4BdW+
+ XzbLeLYtbmPQNzArqPobGiDLdW4mYL/3S/vw6HOTlCyzJPXRFzr7mbfLqcg/8sV5tK7K
+ p8sOd6DwY52ecmteVFL+FVkyQfVQu/+710NbXupJdCOFRtcbqUYn3kl+q9hW+uWh0bzQ
+ rLNEKcP/eifWNSFR4tfXM75eBf+Yh6B+wJy0nvcRRyXYMXHNet1nJpk1+YDKjByrptPM
+ 4wp0SesnTsKqEi9nTTGKf1UDf1CiXSbMDfFintSL9g3xbHwReUXwmEnwlofOpTvPF0nU
+ 6SZw==
+X-Gm-Message-State: AFqh2koRGRJpqKzz4B3ThV4DZ9Wz0T++MIwmu3hwQkJjlZk0BWSQWcZs
+ 6yLMYvY2T1ViQiARSqapuowDaKsX2N1J8zq+
+X-Google-Smtp-Source: AMrXdXugMdXf8e1PmDFP5k7Ie7GnYef9LkMGNaTn6RUutLIB9ymjcwm2dJucB4S0DtGXOyGKubpeFg==
+X-Received: by 2002:a05:600c:19cb:b0:3da:db4:6105 with SMTP id
+ u11-20020a05600c19cb00b003da0db46105mr7565385wmq.37.1673624787474; 
+ Fri, 13 Jan 2023 07:46:27 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- hg9-20020a05600c538900b003cfa622a18asm29156461wmb.3.2023.01.13.07.46.16
+ r16-20020a05600c35d000b003d2157627a8sm32286830wmq.47.2023.01.13.07.46.26
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 13 Jan 2023 07:46:17 -0800 (PST)
+ Fri, 13 Jan 2023 07:46:27 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 09/46] hw/mips/malta: Explicit GT64120 endianness upon device
- creation
-Date: Fri, 13 Jan 2023 16:44:55 +0100
-Message-Id: <20230113154532.49979-10-philmd@linaro.org>
+Subject: [PULL 11/46] hw/mips/gt64xxx_pci: Move it to hw/pci-host/
+Date: Fri, 13 Jan 2023 16:44:57 +0100
+Message-Id: <20230113154532.49979-12-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230113154532.49979-1-philmd@linaro.org>
 References: <20230113154532.49979-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,31 +91,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Propagate the controller endianess from the machine, setting
-the "cpu-little-endian" property.
+The GT-64120 is a north-bridge, and it is not MIPS specific.
+Move it with the other north-bridge devices.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221209151533.69516-6-philmd@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20221209151533.69516-8-philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/mips/malta.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ MAINTAINERS                                   | 2 +-
+ hw/mips/Kconfig                               | 6 ------
+ hw/mips/meson.build                           | 1 -
+ hw/mips/trace-events                          | 7 -------
+ hw/pci-host/Kconfig                           | 6 ++++++
+ hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} | 0
+ hw/pci-host/meson.build                       | 1 +
+ hw/pci-host/trace-events                      | 7 +++++++
+ 8 files changed, 15 insertions(+), 15 deletions(-)
+ rename hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} (100%)
 
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index c8fc420e4f..f959bce673 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -1396,7 +1396,9 @@ void mips_malta_init(MachineState *machine)
-     stl_p(memory_region_get_ram_ptr(bios_copy) + 0x10, 0x00000420);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5606e5dbd2..a670fbc926 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1241,7 +1241,7 @@ S: Odd Fixes
+ F: hw/isa/piix4.c
+ F: hw/acpi/piix4.c
+ F: hw/mips/malta.c
+-F: hw/mips/gt64xxx_pci.c
++F: hw/pci-host/gt64120.c
+ F: include/hw/southbridge/piix.h
+ F: tests/avocado/linux_ssh_mips_malta.py
+ F: tests/avocado/machine_mips_malta.py
+diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
+index 8f7bce38fb..7a55143f8a 100644
+--- a/hw/mips/Kconfig
++++ b/hw/mips/Kconfig
+@@ -60,9 +60,3 @@ config MIPS_BOSTON
  
-     /* Northbridge */
--    dev = sysbus_create_simple("gt64120", -1, NULL);
-+    dev = qdev_new("gt64120");
-+    qdev_prop_set_bit(dev, "cpu-little-endian", !be);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-     pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
+ config FW_CFG_MIPS
+     bool
+-
+-config GT64120
+-    bool
+-    select PCI
+-    select EMPTY_SLOT
+-    select I8259
+diff --git a/hw/mips/meson.build b/hw/mips/meson.build
+index 152103f15f..900613fc08 100644
+--- a/hw/mips/meson.build
++++ b/hw/mips/meson.build
+@@ -3,7 +3,6 @@ mips_ss.add(files('bootloader.c', 'mips_int.c'))
+ mips_ss.add(when: 'CONFIG_FW_CFG_MIPS', if_true: files('fw_cfg.c'))
+ mips_ss.add(when: 'CONFIG_LOONGSON3V', if_true: files('loongson3_bootp.c', 'loongson3_virt.c'))
+ mips_ss.add(when: 'CONFIG_MALTA', if_true: files('malta.c'))
+-softmmu_ss.add(when: 'CONFIG_GT64120', if_true: files('gt64xxx_pci.c'))
+ mips_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('cps.c'))
  
-     /* Southbridge */
+ if 'CONFIG_TCG' in config_all
+diff --git a/hw/mips/trace-events b/hw/mips/trace-events
+index b5b882c6c2..4a4e5fe1a1 100644
+--- a/hw/mips/trace-events
++++ b/hw/mips/trace-events
+@@ -1,10 +1,3 @@
+-# gt64xxx_pci.c
+-gt64120_read(uint64_t addr, uint64_t value) "gt64120 read 0x%03"PRIx64" value:0x%08" PRIx64
+-gt64120_write(uint64_t addr, uint64_t value) "gt64120 write 0x%03"PRIx64" value:0x%08" PRIx64
+-gt64120_read_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 read %s size:%u value:0x%08" PRIx64
+-gt64120_write_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 write %s size:%u value:0x%08" PRIx64
+-gt64120_isd_remap(uint64_t from_length, uint64_t from_addr, uint64_t to_length, uint64_t to_addr) "ISD: 0x%08" PRIx64 "@0x%08" PRIx64 " -> 0x%08" PRIx64 "@0x%08" PRIx64
+-
+ # malta.c
+ malta_fpga_leds(const char *text) "LEDs %s"
+ malta_fpga_display(const char *text) "ASCII '%s'"
+diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+index 38fd2ee8f3..a07070eddf 100644
+--- a/hw/pci-host/Kconfig
++++ b/hw/pci-host/Kconfig
+@@ -81,3 +81,9 @@ config MV64361
+ config DINO
+     bool
+     select PCI
++
++config GT64120
++    bool
++    select PCI
++    select EMPTY_SLOT
++    select I8259
+diff --git a/hw/mips/gt64xxx_pci.c b/hw/pci-host/gt64120.c
+similarity index 100%
+rename from hw/mips/gt64xxx_pci.c
+rename to hw/pci-host/gt64120.c
+diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+index e832babc9d..9a813d552e 100644
+--- a/hw/pci-host/meson.build
++++ b/hw/pci-host/meson.build
+@@ -1,6 +1,7 @@
+ pci_ss = ss.source_set()
+ pci_ss.add(when: 'CONFIG_PAM', if_true: files('pam.c'))
+ pci_ss.add(when: 'CONFIG_PCI_BONITO', if_true: files('bonito.c'))
++pci_ss.add(when: 'CONFIG_GT64120', if_true: files('gt64120.c'))
+ pci_ss.add(when: 'CONFIG_PCI_EXPRESS_DESIGNWARE', if_true: files('designware.c'))
+ pci_ss.add(when: 'CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', if_true: files('gpex.c'))
+ pci_ss.add(when: ['CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', 'CONFIG_ACPI'], if_true: files('gpex-acpi.c'))
+diff --git a/hw/pci-host/trace-events b/hw/pci-host/trace-events
+index 437e66ff50..9d216bb89f 100644
+--- a/hw/pci-host/trace-events
++++ b/hw/pci-host/trace-events
+@@ -6,6 +6,13 @@ bonito_spciconf_small_access(uint64_t addr, unsigned size) "PCI config address i
+ # grackle.c
+ grackle_set_irq(int irq_num, int level) "set_irq num %d level %d"
+ 
++# gt64120.c
++gt64120_read(uint64_t addr, uint64_t value) "gt64120 read 0x%03"PRIx64" value:0x%08" PRIx64
++gt64120_write(uint64_t addr, uint64_t value) "gt64120 write 0x%03"PRIx64" value:0x%08" PRIx64
++gt64120_read_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 read %s size:%u value:0x%08" PRIx64
++gt64120_write_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 write %s size:%u value:0x%08" PRIx64
++gt64120_isd_remap(uint64_t from_length, uint64_t from_addr, uint64_t to_length, uint64_t to_addr) "ISD: 0x%08" PRIx64 "@0x%08" PRIx64 " -> 0x%08" PRIx64 "@0x%08" PRIx64
++
+ # mv64361.c
+ mv64361_region_map(const char *name, uint64_t poffs, uint64_t size, uint64_t moffs) "Mapping %s 0x%"PRIx64"+0x%"PRIx64" @ 0x%"PRIx64
+ mv64361_region_enable(const char *op, int num) "Should %s region %d"
 -- 
 2.38.1
 
