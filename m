@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C714669E48
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:37:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E06C669EB2
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:49:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGMoo-0006nA-54; Fri, 13 Jan 2023 11:22:14 -0500
+	id 1pGMou-0006qk-Hy; Fri, 13 Jan 2023 11:22:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pGMom-0006gz-64
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:22:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pGMos-0006q4-JA
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:22:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pGMok-0005n2-Jv
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:22:11 -0500
+ id 1pGMoq-0005oR-Df
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 11:22:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673626929;
+ s=mimecast20190719; t=1673626935;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JWtr3IkFkZPanTUxj9VN9+uXxoW9kIuEKYwCuuJuEQI=;
- b=HsSNOo5RivpyT5ZhbjddVy/BY7SVTlfLrPt6lK10b2fsd23WJLdpHiJi+OGkqmkPH+ypjS
- SjucIb8EhlBTrQ+jevJgaUXyiJ9JjBX3oQ6kq9GCOrRKJtuleJIOQM1kyAMwFAY1Xy2XrJ
- cjNlEFt/deWlsGGf0Z8r/zJEfAAg5A8=
+ bh=Fxf2eQfpj317yGTxZbl+GiSK/HZWUlTW19vBt7sQhNQ=;
+ b=MF2vGN+8INcKgjDe5UQD/KuRK6FbU/JjId2MDqko+TxLZi2+TfZ/sgQhPvj/4gIfSwK8EE
+ 5SQn+6IyaiNyML/FZDGRGz1Y0pzmkgnhz6q6vbVR244y++thpYC8wiBvsXt6N2nqbvbfd9
+ 5qR+kWqgogzv/k3irFGxqBK4nZYEzyM=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-449-xcD7qVLjPzC4fMH2km8Zaw-1; Fri, 13 Jan 2023 11:22:05 -0500
-X-MC-Unique: xcD7qVLjPzC4fMH2km8Zaw-1
+ us-mta-110-g-s-igF4PfuWmO4tEMYTAA-1; Fri, 13 Jan 2023 11:22:05 -0500
+X-MC-Unique: g-s-igF4PfuWmO4tEMYTAA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE05E3C0D872;
- Fri, 13 Jan 2023 16:22:04 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3793C3802B8E;
+ Fri, 13 Jan 2023 16:22:05 +0000 (UTC)
 Received: from virtlab420.virt.lab.eng.bos.redhat.com
  (virtlab420.virt.lab.eng.bos.redhat.com [10.19.152.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 59E5240C200A;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C82E940C2008;
  Fri, 13 Jan 2023 16:22:04 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
@@ -53,16 +53,16 @@ Cc: Bandan Das <bsd@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Alexander Bulekov <alxndr@bu.edu>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 7/9] ui/vnc: don't accept VNC_ENCODING_AUDIO without audiodev
-Date: Fri, 13 Jan 2023 11:21:58 -0500
-Message-Id: <20230113162200.3010804-8-berrange@redhat.com>
+Subject: [PATCH 8/9] audio: audio state is now mandatory for capture
+Date: Fri, 13 Jan 2023 11:21:59 -0500
+Message-Id: <20230113162200.3010804-9-berrange@redhat.com>
 In-Reply-To: <20230113162200.3010804-1-berrange@redhat.com>
 References: <20230113162200.3010804-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,79 +86,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If we have no audio state configured, then we don't want to
-advertize the VNC_ENCODING_AUDIO feature. If a client attempts
-to use it despite being disabled, we should also reject it.
+Both callers of AUD_add_capture will now ensure that the
+audio state is non-NULL.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/about/deprecated.rst       |  6 ------
- docs/about/removed-features.rst |  6 ++++++
- ui/vnc.c                        | 10 +++++++++-
- 3 files changed, 15 insertions(+), 7 deletions(-)
+ audio/audio.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index f8b4e19a4c..09269f55e6 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -37,12 +37,6 @@ Creating sound card devices without ``audiodev=`` property (since 4.2)
- When not using the deprecated legacy audio config, each sound card
- should specify an ``audiodev=`` property.
+diff --git a/audio/audio.c b/audio/audio.c
+index 00128c2ad7..64b75cdf94 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -1845,13 +1845,6 @@ CaptureVoiceOut *AUD_add_capture(
+     CaptureVoiceOut *cap;
+     struct capture_callback *cb;
  
--Supporting audio transfer over vnc without ``audiodev=`` property (since 4.2)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-    if (!s) {
+-        if (!legacy_config) {
+-            dolog("Capturing without setting an audiodev is deprecated\n");
+-        }
+-        s = audio_init(NULL, NULL);
+-    }
 -
--When using vnc, you should specify an ``audiodev=`` property if you
--intend to allow clients to request audio transfer through the VNC protocol.
--
- Short-form boolean options (since 6.0)
- ''''''''''''''''''''''''''''''''''''''
- 
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index c918cabd1a..8a8e0faff0 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -422,6 +422,12 @@ the value is hexadecimal.  That is, '0x20M' should be written either as
- ``tty`` and ``parport`` used to be aliases for ``serial`` and ``parallel``
- respectively. The actual backend names should be used instead.
- 
-+Supporting audio transfer over vnc without ``audiodev=`` property (removed in 8.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+When using vnc, you should specify an ``audiodev=`` property if you
-+intend to allow clients to request audio transfer through the VNC protocol.
-+
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
- 
-diff --git a/ui/vnc.c b/ui/vnc.c
-index d9eacad759..6b3cbf365e 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -2199,7 +2199,9 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
-             send_ext_key_event_ack(vs);
-             break;
-         case VNC_ENCODING_AUDIO:
--            send_ext_audio_ack(vs);
-+            if (vs->vd->audio_state != NULL) {
-+                send_ext_audio_ack(vs);
-+            }
-             break;
-         case VNC_ENCODING_WMVi:
-             vs->features |= VNC_FEATURE_WMVI_MASK;
-@@ -2506,6 +2508,12 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
-                           read_u32(data, 4), read_u32(data, 8));
-             break;
-         case VNC_MSG_CLIENT_QEMU_AUDIO:
-+            if (vs->vd->audio_state == NULL) {
-+                error_report("vnc: QEMU audio client message while disabled");
-+                vnc_client_error(vs);
-+                break;
-+            }
-+
-             if (len == 2)
-                 return 4;
- 
+     if (!audio_get_pdo_out(s->dev)->mixing_engine) {
+         dolog("Can't capture with mixeng disabled\n");
+         return NULL;
 -- 
 2.38.1
 
