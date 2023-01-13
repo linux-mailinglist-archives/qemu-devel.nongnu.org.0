@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92323669D2E
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:06:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E96669E32
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:34:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGMIw-0003RP-6y; Fri, 13 Jan 2023 10:49:18 -0500
+	id 1pGMIy-0003TD-PU; Fri, 13 Jan 2023 10:49:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMIM-00036R-T3
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:48:47 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMIY-0003Bu-8F
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:48:57 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMIK-0006bW-7w
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:48:41 -0500
-Received: by mail-wm1-x332.google.com with SMTP id ay40so15565566wmb.2
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 07:48:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMIU-0006XF-2r
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:48:52 -0500
+Received: by mail-wr1-x436.google.com with SMTP id t5so17056143wrq.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 07:48:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oNrQ3qjy9n5lhxoh2Nx8ipN2K6i00834cU19JgIQQjA=;
- b=hAqvUSltCtM0WGXRMcPU2vLhEx/ly9W8vJQWPxx/LJG4jA+vG86Iove/12C9YktyX1
- pZkoGkKOGG0vuH8OfcJMkR8YJwn0Qa5+LgGcNn7l250/vBBfkJl6w64Pw36P4ycyAvRB
- DU+j8GLchx9EQGwcZy0Wjijey8NMU87WhKhwK3F+rtPxDBM6WtjjjPGfvVb4mXfMt1Ip
- OZzxIzRszlUvc3p5CnSXDHK6oS1SXJVRHyoJdvqGgs5bunYpj4QXX5eU2X+rDwOZSuZb
- gcx+bN939XOAtL+R+5SVe/GU7BF4FDOFN9YOnCL1BwxVeQ5QOom5d+H9YKq2uxg2enwt
- Jwfw==
+ bh=9tT1oW9k+p9Iri79Qb+THu5Qi+IZcPWQrYF+smSoELo=;
+ b=y0tJcvUB4Q56e9czjVYF43mKmQf1xMNOjmmAc5cHGyfGLryb0XPNYysKDSCJ8Jh99X
+ p5cDEsecnpcGOzWbAJDvHBdSn6kjMWizcMsnf+tjcN4tUCC+SY3VegBCLOkdt9WORE/B
+ IYzuwffGKnQIFfPvA7EbfNbes67MkM9W4m1iuttCZ05oWxyd2Tw0fb2OO8VpyG9ZoqE0
+ EdsA7hy3OU/+84cAXnCxM4CuBAgRJ4v3+5qwQ9plV5sVxxgDiB5QDxJ4HF5Eoh6U0x9b
+ Cer84KvsVRPkDDVjqQE4N6H0ePNpOTjrTk8EaF8F4lHmFb8TTkY9wYbduQLbxtxqyo7G
+ UR4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oNrQ3qjy9n5lhxoh2Nx8ipN2K6i00834cU19JgIQQjA=;
- b=BstHbwXDmvo3mFe28C9+7FZRas3rnNNqbB8xurcl82Etbn5cIZtMTNVaVCet6eI1dg
- 5NZjYvt45PwWWPAIiJ/P4GXY+CWgFGp2LcfkzCe03MaJt7MnoLx3BnYZT/X8kJOAh3a6
- CIeVhuTvNBSiXlW0a2Y+hsv4rMChrbvYN5zCCT+KTpftRF64AJJBksk94FNaO5D3Lc7A
- Bke7Pz9KUKLzDNQf1P73H9dbqT6wNxYlTuKsEOfQhdFRy2mKezNa7hlcVwXWAmTfkC+S
- E1S9w/bDOhr0SjaNjJ7Bykktpb/9eNrohGBRpuBbG5Z6U1uxDzTWfjlg7rFjIyGgnhSO
- Lthw==
-X-Gm-Message-State: AFqh2kqj++RKr9MVMsXDG2Tm9ouVuLEMbLV5QBtrbvb1zzvdmMsOdVkB
- YFFyAFuA8+2stybrtiC9LPPX6M7R33/C05/0
-X-Google-Smtp-Source: AMrXdXv8sRPlBFPbKx73f67lGoxSa9/GNxbS7ZZhPLJL9ZtkwoMU1osdcSQl3D3vs7Ks1i7/NDyQ+w==
-X-Received: by 2002:a05:600c:4153:b0:3da:f0a:83d7 with SMTP id
- h19-20020a05600c415300b003da0f0a83d7mr7628666wmm.8.1673624918471; 
- Fri, 13 Jan 2023 07:48:38 -0800 (PST)
+ bh=9tT1oW9k+p9Iri79Qb+THu5Qi+IZcPWQrYF+smSoELo=;
+ b=uZDDKwIhIov/lG7gXGTUKQg2vd453pIIrUEEoiqLwrnbSzHR6L6F+z+evhXiXUeQ5p
+ USgnlkGkCAfysg1/5k6RgwRGtjC1+taP/ly/hKC83iHUo5Q9GcZ2RgcJxlPGZHAqBODj
+ nsH0WsMyGkRWUiOznlGLy026Cn9aUVLtehpYIT84S+7N6MVwfnSLEvFrdjAHb4PE6z9j
+ dX7qCzIDvVrvhBMozkd6dL62ttberlIms2kna2Phh7sIZZRrycIe4lQEqHTFdhuFIIZG
+ KclE886dJq5TUidZpL373D6TZQtqaYViIqEHjgW2LoZRFHMr9kJojy2wV9MhEFgGNJeR
+ FFbA==
+X-Gm-Message-State: AFqh2koQT5dnqUKcrzScvG0MYDPiD/ReCjCUCX/kuiIAJSyOCyA+5ozL
+ m1p+wG+nkMeQruJztl/V13SHvdb1TUn8mPTs
+X-Google-Smtp-Source: AMrXdXvETo2vyBaUmpeMHtVO5qKoF1pI5d9wT4i29uVOV35tdSLgBHMwZkBDZPlNpnNC3Bmb0SeUtw==
+X-Received: by 2002:adf:dd82:0:b0:2bd:bd54:25 with SMTP id
+ x2-20020adfdd82000000b002bdbd540025mr9186211wrl.29.1673624928406; 
+ Fri, 13 Jan 2023 07:48:48 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- r7-20020a05600c458700b003d974076f13sm27186156wmo.3.2023.01.13.07.48.37
+ f6-20020adffcc6000000b002bbdcd15e44sm15486399wrs.37.2023.01.13.07.48.47
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 13 Jan 2023 07:48:38 -0800 (PST)
+ Fri, 13 Jan 2023 07:48:47 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PULL 38/46] hw/rtc/mc146818rtc: Make the mc146818 RTC device target
- independent
-Date: Fri, 13 Jan 2023 16:45:24 +0100
-Message-Id: <20230113154532.49979-39-philmd@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 40/46] hw/pci-host/bonito: Convert to 3-phase reset
+Date: Fri, 13 Jan 2023 16:45:26 +0100
+Message-Id: <20230113154532.49979-41-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230113154532.49979-1-philmd@linaro.org>
 References: <20230113154532.49979-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,98 +90,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The only reason for this code being target dependent was the IRQ-counting
-related code in rtc_policy_slew_deliver_irq(). Since these functions have
-been moved into a new, separate file (kvm_irqcount.c) which is now always
-compiled and linked if necessary, we can get rid of the #ifdef TARGET_I386
-switches in mc146818rtc.c and declare it in the softmmu_ss instead of
-specific_ss, so that the code only gets compiled once for all targets.
+Convert the TYPE_PCI_BONITO class to use 3-phase reset.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20230110095351.611724-4-thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230105130710.49264-2-philmd@linaro.org>
 ---
- hw/rtc/mc146818rtc.c         | 14 --------------
- hw/rtc/meson.build           |  3 +--
- include/hw/rtc/mc146818rtc.h |  1 +
- 3 files changed, 2 insertions(+), 16 deletions(-)
+ hw/pci-host/bonito.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index 947d68c257..bc1192b7ae 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -45,10 +45,6 @@
- #include "qapi/visitor.h"
- #include "hw/rtc/mc146818rtc_regs.h"
- 
--#ifdef TARGET_I386
--#include "qapi/qapi-commands-misc-target.h"
--#endif
--
- //#define DEBUG_CMOS
- //#define DEBUG_COALESCED
- 
-@@ -112,7 +108,6 @@ static void rtc_coalesced_timer_update(RTCState *s)
- static QLIST_HEAD(, RTCState) rtc_devices =
-     QLIST_HEAD_INITIALIZER(rtc_devices);
- 
--#ifdef TARGET_I386
- void qmp_rtc_reset_reinjection(Error **errp)
- {
-     RTCState *s;
-@@ -145,13 +140,6 @@ static void rtc_coalesced_timer(void *opaque)
- 
-     rtc_coalesced_timer_update(s);
+diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
+index f04f3ad668..450eb29ec0 100644
+--- a/hw/pci-host/bonito.c
++++ b/hw/pci-host/bonito.c
+@@ -47,7 +47,6 @@
+ #include "hw/mips/mips.h"
+ #include "hw/pci/pci_host.h"
+ #include "migration/vmstate.h"
+-#include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "hw/misc/unimp.h"
+ #include "hw/registerfields.h"
+@@ -593,9 +592,9 @@ static int pci_bonito_map_irq(PCIDevice *pci_dev, int irq_num)
+     }
  }
--#else
--static bool rtc_policy_slew_deliver_irq(RTCState *s)
--{
--    assert(0);
--    return false;
--}
--#endif
  
- static uint32_t rtc_periodic_clock_ticks(RTCState *s)
+-static void bonito_reset(void *opaque)
++static void bonito_reset_hold(Object *obj)
  {
-@@ -922,12 +910,10 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
-     rtc_set_date_from_host(isadev);
+-    PCIBonitoState *s = opaque;
++    PCIBonitoState *s = PCI_BONITO(obj);
+     uint32_t val = 0;
  
-     switch (s->lost_tick_policy) {
--#ifdef TARGET_I386
-     case LOST_TICK_POLICY_SLEW:
-         s->coalesced_timer =
-             timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
-         break;
--#endif
-     case LOST_TICK_POLICY_DISCARD:
-         break;
-     default:
-diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
-index dc33973384..34a4d316fa 100644
---- a/hw/rtc/meson.build
-+++ b/hw/rtc/meson.build
-@@ -13,5 +13,4 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_GOLDFISH_RTC', if_true: files('goldfish_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_LS7A_RTC', if_true: files('ls7a_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-rtc.c'))
+     /* set the default value of north bridge registers */
+@@ -739,8 +738,6 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
+ 
+     pci_set_byte(dev->config + PCI_MIN_GNT, 0x3c);
+     pci_set_byte(dev->config + PCI_MAX_LAT, 0x00);
 -
--specific_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
-+softmmu_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
-diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-index 1db0fcee92..45bcd6f040 100644
---- a/include/hw/rtc/mc146818rtc.h
-+++ b/include/hw/rtc/mc146818rtc.h
-@@ -55,5 +55,6 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
-                              qemu_irq intercept_irq);
- void rtc_set_memory(ISADevice *dev, int addr, int val);
- int rtc_get_memory(ISADevice *dev, int addr);
-+void qmp_rtc_reset_reinjection(Error **errp);
+-    qemu_register_reset(bonito_reset, s);
+ }
  
- #endif /* HW_RTC_MC146818RTC_H */
+ PCIBus *bonito_init(qemu_irq *pic)
+@@ -770,7 +767,9 @@ static void bonito_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
+ 
++    rc->phases.hold = bonito_reset_hold;
+     k->realize = bonito_realize;
+     k->vendor_id = 0xdf53;
+     k->device_id = 0x00d5;
 -- 
 2.38.1
 
