@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E197E6695D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 12:46:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DEB866972C
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 13:34:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGIUh-0006Xq-ST; Fri, 13 Jan 2023 06:45:11 -0500
+	id 1pGJEz-0007l6-R3; Fri, 13 Jan 2023 07:33:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGIUd-0006XW-Nh
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 06:45:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pGIUb-0003ea-OC
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 06:45:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673610304;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TDeC/q9e/O2TdDj+PE5/t+nBZE0Vk5iCcYjhDCuMkrY=;
- b=iJ6hNc8+6HtXdDVMkEc1njHcJaIFYINLEdkVWxhbjw89yu7YdxnHo23driC/GATP9+NEV8
- h68/NQuwhdJSNgGDeUdBje6qWYKrLI1JP+G7f81/w7CGe3MnVq9untQsnAkzQ+FpJgPr4N
- FO0F9o8WYiC4eaQCgQ7DZuN83+qSbTM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-300-JCBhxcfSPXCTVksdje4wPw-1; Fri, 13 Jan 2023 06:45:01 -0500
-X-MC-Unique: JCBhxcfSPXCTVksdje4wPw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 83DC7858F0E;
- Fri, 13 Jan 2023 11:45:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D5E6492B00;
- Fri, 13 Jan 2023 11:44:58 +0000 (UTC)
-Date: Fri, 13 Jan 2023 12:44:57 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Ilya Dryomov <idryomov@gmail.com>
-Cc: Or Ozeri <oro@il.ibm.com>, qemu-devel@nongnu.org, dupadhya@redhat.com,
- to.my.trociny@gmail.com, qemu-block@nongnu.org, dannyh@il.ibm.com,
- Stefan Hajnoczi <stefanha@redhat.com>, pbonzini@redhat.com
-Subject: Re: [PATCH v1 1/1] virtio-block: switch to blk_get_max_hw_transfer
-Message-ID: <Y8FEObcExtXrcoSx@redhat.com>
-References: <20211209092815.778066-1-oro@il.ibm.com>
- <20211209092815.778066-2-oro@il.ibm.com>
- <CAOi1vP95sznmAETC1ikqb5bxKueDZYd7HtEjM=7KerMSALYFuQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pGJEs-0007kS-ER
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 07:32:54 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pGJEq-0004zB-Gy
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 07:32:53 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ u1-20020a17090a450100b0022936a63a21so400292pjg.4
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 04:32:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=pXHvi2sDYotp+flcrr0cEQVYMDUeKT/Siu/DP01paMs=;
+ b=JUExiaQSJ8OeJlCnR+mKauqc4zRK1/iOJbObVfLG2jVj9tcAZ0juNF5VJesAa7VTmC
+ tY6fxPd2pbREeZU8dtRmR8YTuYjn4GNMBrC+iZ/vcJwm65y0++QMlXYCJfsFueKbWHSn
+ l9JNTsujyP3gbdpBTct8jS8G8Z/XF6Rb4AY9JkaJ7o1u/Np/CpThY2AJABDiHoLrAvbu
+ CTEKEfw3oUym0Bj/L/XbcZ02gJM3z2JgMT6LQ53xeocAvLzv31jOCjWLre/8yyfkt63Y
+ OMfHdV5fI5ioMs43LlGLJpm2hPle+SjK9g2zMJ367ap2Kz9ioKOvTH7ocUJOvPcZhRyA
+ 20qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pXHvi2sDYotp+flcrr0cEQVYMDUeKT/Siu/DP01paMs=;
+ b=mhkqSBaJi/Kis45esornmohi8QmQfbsCZc39r2cQ7BqfKRB07wH8J0OR9wMJ+oD80q
+ OutPvhD6UX/ZZ/qEPIievawrTSfVCuV5RRNi+ewhXot8KNqatx+m8WTGdeG3sqiiTm5R
+ dDAjsAenhhmgW1t523/31LwrLmCsed58QrJCQnhb77j00og4OwVvxtBEEaCZipGZ5wfq
+ dRrVca9l69GT8aNFT3c/jRy95YuJRtqEKHJEDq6JN/HUVgG2b+tODoyrXmDPcIYev5BB
+ onkmPC7Q5+0hP7BDlArASno2tlwHaC7GvdzD+O7XOYMCkX+gJestq6up+RBe2zhIUdRI
+ 11+g==
+X-Gm-Message-State: AFqh2kr13HQTIP+93T/U5hdBTuNwTptiJaBeAY89+aDzzrtIFS3tttFl
+ y0Y8XdFIFJVmrY7/rSY75E8CHa+Plt2fxyMiJstRDA==
+X-Google-Smtp-Source: AMrXdXv6VWqjBeWYalofNoO0TIFL61KvOGZjh+8aSFjzCfLWyJgfOKGEaB0gEcLnM9KXprGDuTyTwrDTDYVjNUvimiA=
+X-Received: by 2002:a17:902:b287:b0:192:ff91:98b6 with SMTP id
+ u7-20020a170902b28700b00192ff9198b6mr1693226plr.90.1673613160841; Fri, 13 Jan
+ 2023 04:32:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOi1vP95sznmAETC1ikqb5bxKueDZYd7HtEjM=7KerMSALYFuQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <Y8AG21o/9/3eUMIg@cormorant.local>
+ <Y8EcOFE52X5KbzO7@cormorant.local>
+In-Reply-To: <Y8EcOFE52X5KbzO7@cormorant.local>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 Jan 2023 12:32:29 +0000
+Message-ID: <CAFEAcA9y0E=EZwmetyvymvt64BpQxAnKMHs0E=BBH9_3OfMwFA@mail.gmail.com>
+Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ qemu-block@nongnu.org, 
+ qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,60 +90,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 12.01.2023 um 21:28 hat Ilya Dryomov geschrieben:
-> On Thu, Dec 9, 2021 at 10:34 AM Or Ozeri <oro@il.ibm.com> wrote:
-> >
-> > The blk_get_max_hw_transfer API was recently added in 6.1.0.
-> > It allows querying an underlying block device its max transfer capability.
-> > This commit changes virtio-blk to use this.
-> >
-> > Signed-off-by: Or Ozeri <oro@il.ibm.com>
-> > ---
-> >  hw/block/virtio-blk.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-> > index f139cd7cc9..1ba9a06888 100644
-> > --- a/hw/block/virtio-blk.c
-> > +++ b/hw/block/virtio-blk.c
-> > @@ -458,7 +458,7 @@ static void virtio_blk_submit_multireq(BlockBackend *blk, MultiReqBuffer *mrb)
-> >          return;
-> >      }
-> >
-> > -    max_transfer = blk_get_max_transfer(mrb->reqs[0]->dev->blk);
-> > +    max_transfer = blk_get_max_hw_transfer(mrb->reqs[0]->dev->blk);
-> >
-> >      qsort(mrb->reqs, mrb->num_reqs, sizeof(*mrb->reqs),
-> >            &multireq_compare);
-> 
-> Hi Or,
-> 
-> Superficially, this makes sense to me.
+On Fri, 13 Jan 2023 at 08:55, Klaus Jensen <its@irrelevant.dk> wrote:
+>
+> +CC qemu pci maintainers
+>
+> Michael, Marcel,
+>
+> Do you have any comments on this thread? As you can see one solution is
+> to simply deassert prior to asserting, the other is to reintroduce a
+> pci_irq_pulse(). Both seem to solve the issue.
 
-I'm not sure I understand. This is not a passthrough device (unlike
-scsi-generic), so why should we consider the hardware limits rather than
-the kernel/other backend limits for read/write requests?
+Both seem to be missing any analysis of "this is what is
+happening, this is where we differ from hardware, this
+is why this is the correct fix". We shouldn't put in
+random "this seems to happen to cause the guest to boot"
+fixes, please.
 
-See the documentation of both fields:
-
-    /*
-     * Maximal transfer length in bytes.  Need not be power of 2, but
-     * must be multiple of opt_transfer and bl.request_alignment, or 0
-     * for no 32-bit limit.  For now, anything larger than INT_MAX is
-     * clamped down.
-     */
-    uint32_t max_transfer;
-
-    /*
-     * Maximal hardware transfer length in bytes.  Applies whenever
-     * transfers to the device bypass the kernel I/O scheduler, for
-     * example with SG_IO.  If larger than max_transfer or if zero,
-     * blk_get_max_hw_transfer will fall back to max_transfer.
-     */
-    uint64_t max_hw_transfer;
-
-Is the real problem that max_transfer isn't right?
-
-Kevin
-
+thanks
+-- PMM
 
