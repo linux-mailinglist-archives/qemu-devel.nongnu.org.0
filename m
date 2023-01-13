@@ -2,78 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE62669EF1
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:00:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3CCB669EF0
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 18:00:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGMp3-0006sK-W9; Fri, 13 Jan 2023 11:22:30 -0500
+	id 1pGNIw-00020A-9e; Fri, 13 Jan 2023 11:53:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGMoz-0006rg-81; Fri, 13 Jan 2023 11:22:25 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGMox-0005pB-6n; Fri, 13 Jan 2023 11:22:24 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1pGNIa-0001nb-I1; Fri, 13 Jan 2023 11:53:07 -0500
+Received: from ams.source.kernel.org ([145.40.68.75])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1pGNIW-0003Kr-8Y; Fri, 13 Jan 2023 11:52:58 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A06A26BBA3;
- Fri, 13 Jan 2023 16:22:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673626939; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mKs/ggpulP1sYOtSS5Rw57ie3DsUzarayKgqr5ie3Tc=;
- b=UR1U90OJmocxTEYD7nrMARQ/CDib9KcPrabedlM592AEPclaAxIUNy6zOnS1b4Wa8dK1gj
- s9TjqxSG3xQuraHzYlHsbCU05aZpZt/FWWTezVSZaglvVgaUULDQBdzsmnz/1AMAwLJh19
- nEAoAXmy0r1YYiVGcOBQdC9rA/U8I3I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673626939;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mKs/ggpulP1sYOtSS5Rw57ie3DsUzarayKgqr5ie3Tc=;
- b=3hEfh+aPOrgHtB8GUxooNsQPfubODaXBJo87L9ePiQer/8V4oZnVy4P+l22tT3fNM7yTzz
- cReJ2zi59+9dArDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2D9611358A;
- Fri, 13 Jan 2023 16:22:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id XHDyOTqFwWN0UwAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 13 Jan 2023 16:22:18 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
- <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost
- <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>, Thomas Huth
- <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [RFC PATCH v3 20/28] target/arm: Set cortex-a57 as default cpu
- for KVM-only build
-In-Reply-To: <3be55a1c-64cd-28f3-9c7f-ceb67b20c36e@suse.de>
-References: <20230113140419.4013-1-farosas@suse.de>
- <20230113140419.4013-21-farosas@suse.de>
- <3be55a1c-64cd-28f3-9c7f-ceb67b20c36e@suse.de>
-Date: Fri, 13 Jan 2023 13:22:16 -0300
-Message-ID: <875ydaievb.fsf@suse.de>
+ by ams.source.kernel.org (Postfix) with ESMTPS id BF22BB82195;
+ Fri, 13 Jan 2023 16:52:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5B2BC433EF;
+ Fri, 13 Jan 2023 16:52:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1673628769;
+ bh=lkY+RTiBNroZSdLRO5ccPrGIEH7+n5ZCrjWpwDr4vwE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=o9kya8BuRUuHs77LU8jN0tJopo+1SPCfEuyc5lEK7+RVlLx4iG8PiEIFKXcU8gBDG
+ t2a+cVsKVdGV9ycaZT1S5ih1JvQ5dh6cOFJuxrvlYYpx+RIqxeEeBjrrW28qNXVisZ
+ YjzXWy4CvlnvJ9IydUiZo/igAWzMbf8neK0X6BLfFbRP7FhYxQgxBhnp0MZXdbQO+K
+ CD+w/NaeSI93tyy7mnnErpEXNFG8by/wXCwcn2LcQh5An+5JLQbCcy3y8fUSnVj9yv
+ WKIvnPP1OssnKPeR0h8qklIDp78ikyEENNEJwu8JQb/wuef7M8RuIxq2yrSCArTv/T
+ SzPGexlnF+mUg==
+Date: Fri, 13 Jan 2023 09:52:46 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Peter Maydell <peter.maydell@linaro.org>, t@kbusch-mbp.dhcp.thefacebook.com
+Cc: Klaus Jensen <its@irrelevant.dk>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
+Message-ID: <Y8GMXpVZRqoHiTOi@kbusch-mbp.dhcp.thefacebook.com>
+References: <Y8AG21o/9/3eUMIg@cormorant.local>
+ <Y8EcOFE52X5KbzO7@cormorant.local>
+ <CAFEAcA9y0E=EZwmetyvymvt64BpQxAnKMHs0E=BBH9_3OfMwFA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA9y0E=EZwmetyvymvt64BpQxAnKMHs0E=BBH9_3OfMwFA@mail.gmail.com>
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=kbusch@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,22 +75,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Claudio Fontana <cfontana@suse.de> writes:
+On Fri, Jan 13, 2023 at 12:32:29PM +0000, Peter Maydell wrote:
+> On Fri, 13 Jan 2023 at 08:55, Klaus Jensen <its@irrelevant.dk> wrote:
+> >
+> > +CC qemu pci maintainers
+> >
+> > Michael, Marcel,
+> >
+> > Do you have any comments on this thread? As you can see one solution is
+> > to simply deassert prior to asserting, the other is to reintroduce a
+> > pci_irq_pulse(). Both seem to solve the issue.
+> 
+> Both seem to be missing any analysis of "this is what is
+> happening, this is where we differ from hardware, this
+> is why this is the correct fix". We shouldn't put in
+> random "this seems to happen to cause the guest to boot"
+> fixes, please.
 
-> On 1/13/23 15:04, Fabiano Rosas wrote:
->> The cortex-a15 is not present anymore when CONFIG_TCG=n, so use the
->> cortex-a57 as default cpu for KVM.
->> 
->> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->
-> Our recommendation currently for KVM on ARM is to always use CPU="host", as named cpu models generally don't work (yet?) with KVM.
->
-> https://qemu-project.gitlab.io/qemu/system/arm/cpu-features.html
->
-> Should then "host" be the default for KVM if CONFIG_TCG=N or CONFIG_TCG=M and the TCG .so is not loaded?
+It looks like these are being treated as edge instead of level
+interrupts so the work-around is to create more edges. I would
+definitely prefer a real fix, whether that's in the kernel or CPU
+emulation or somewhere else, but I'm not sure I'll have time to see it
+to completion.
 
-Yes, "host" seems to make more sense. I was under the impression that
-there was a way to use cortex-a57 and cortex-a53 since they have
-cpu->kvm_target set.
-
+FWIW, x86 seems to handle legacy IRQs with NVMe as expected. It's
+actually easy enough for the DEASSERT to take so long that kernel
+reports the irq as "spurious" because it's spinning too often on the
+level.
 
