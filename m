@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0323D669B19
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:58:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E10F66699FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 15:23:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKiW-0006yV-Bw; Fri, 13 Jan 2023 09:07:36 -0500
+	id 1pGKiY-0006zc-Pe; Fri, 13 Jan 2023 09:07:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGKiN-0006sQ-Px; Fri, 13 Jan 2023 09:07:28 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ id 1pGKiR-0006wt-BU; Fri, 13 Jan 2023 09:07:33 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pGKiM-0002kl-3e; Fri, 13 Jan 2023 09:07:27 -0500
+ id 1pGKiP-0002ll-Qb; Fri, 13 Jan 2023 09:07:31 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 739FE4DE3E;
- Fri, 13 Jan 2023 14:07:24 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E9AA921980;
+ Fri, 13 Jan 2023 14:07:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673618844; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1673618847; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BgxTDwH6kxR/wgmh9MEH8ZoFcSs+tVa4bOrsIpU9uAM=;
- b=OldAUDvJAp8Nc0yEwoMqFSYH3N7G6aIJXl8qWACQj2djPKXNZc9uR1/mAlAomLhEg/+rBe
- UO8Jye4PWknYjQoR9iJ7dBuztW6pJylktSYueqkDjTU72WUTvO3uO+E38eWLYmhnDODEn7
- E+xYp/Y+dxJdaEIALqgTBebcCvwEGV0=
+ bh=5bF0kBNPYXnCCOfoP1XmA8Hs86RBaTeS2DR5VwhZdKs=;
+ b=DbjkwskhHWc8p/UR3aq6mFWrPZPF0o0rW9R2uXYVwEu/nZt5FFsuJg2E9gxE0Rn4JPCLQX
+ ZRDuo80YxynM8PDdSCoZf/RWg13KQQtLUL6MzwAVZBBSr2/79P3OoloMMdRG1i88KupyXi
+ EnkkRt+i2LE4KtQBDh/p3jBWSqRRG+s=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673618844;
+ s=susede2_ed25519; t=1673618847;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BgxTDwH6kxR/wgmh9MEH8ZoFcSs+tVa4bOrsIpU9uAM=;
- b=cL+e37eB+vZVgLphmi89enONeMr+o8GdTGzKxrLGLZN9hbtH6H6x7IEQHuU9mk3nPZK5Th
- u7/WLs2TqppGEzDg==
+ bh=5bF0kBNPYXnCCOfoP1XmA8Hs86RBaTeS2DR5VwhZdKs=;
+ b=+0J7x79kXFoRN3x+WFr6baEMoCqLzagsIVrxK9rLUY114zEIY0PxfdQgK4sXSilOOHA9kb
+ PKtWMhAnksIfzPBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D59211358A;
- Fri, 13 Jan 2023 14:07:21 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E088D1358A;
+ Fri, 13 Jan 2023 14:07:24 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +IFAJ5llwWP8DQAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 13 Jan 2023 14:07:21 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id EN8JKpxlwWP8DQAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 13 Jan 2023 14:07:24 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -56,16 +56,18 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-Subject: [RFC PATCH v3 19/28] target/arm: move cpu_tcg to tcg/cpu32.c
-Date: Fri, 13 Jan 2023 11:04:10 -0300
-Message-Id: <20230113140419.4013-20-farosas@suse.de>
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Subject: [RFC PATCH v3 20/28] target/arm: Set cortex-a57 as default cpu for
+ KVM-only build
+Date: Fri, 13 Jan 2023 11:04:11 -0300
+Message-Id: <20230113140419.4013-21-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230113140419.4013-1-farosas@suse.de>
 References: <20230113140419.4013-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
  helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -89,114 +91,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Claudio Fontana <cfontana@suse.de>
+The cortex-a15 is not present anymore when CONFIG_TCG=n, so use the
+cortex-a57 as default cpu for KVM.
 
-move the module containing cpu models definitions
-for 32bit TCG-only CPUs to tcg/ and rename it for clarity.
-
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/meson.build                |  1 -
- target/arm/{cpu_tcg.c => tcg/cpu32.c} | 13 +++----------
- target/arm/tcg/meson.build            |  1 +
- 3 files changed, 4 insertions(+), 11 deletions(-)
- rename target/arm/{cpu_tcg.c => tcg/cpu32.c} (99%)
+ hw/arm/virt.c                  | 6 ++++++
+ tests/qtest/arm-cpu-features.c | 3 +--
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-index 595d22a099..88f1a5c570 100644
---- a/target/arm/meson.build
-+++ b/target/arm/meson.build
-@@ -5,7 +5,6 @@ arm_ss.add(files(
-   'gdbstub.c',
-   'helper.c',
-   'vfp_helper.c',
--  'cpu_tcg.c',
- ))
- arm_ss.add(zlib)
- 
-diff --git a/target/arm/cpu_tcg.c b/target/arm/tcg/cpu32.c
-similarity index 99%
-rename from target/arm/cpu_tcg.c
-rename to target/arm/tcg/cpu32.c
-index 571e29bc16..10c4386222 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/tcg/cpu32.c
-@@ -1,5 +1,5 @@
- /*
-- * QEMU ARM TCG CPUs.
-+ * QEMU ARM TCG-only CPUs.
-  *
-  * Copyright (c) 2012 SUSE LINUX Products GmbH
-  *
-@@ -10,9 +10,7 @@
- 
- #include "qemu/osdep.h"
- #include "cpu.h"
--#ifdef CONFIG_TCG
- #include "hw/core/tcg-cpu-ops.h"
--#endif /* CONFIG_TCG */
- #include "internals.h"
- #if !defined(CONFIG_USER_ONLY)
- #include "hw/boards.h"
-@@ -23,7 +21,7 @@
- /* CPU models. These are not needed for the AArch64 linux-user build. */
- #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
- 
--#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
-+#if !defined(CONFIG_USER_ONLY)
- static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
- {
-     CPUClass *cc = CPU_GET_CLASS(cs);
-@@ -47,7 +45,7 @@ static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     }
-     return ret;
- }
--#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
-+#endif /* !CONFIG_USER_ONLY */
- 
- static void arm926_initfn(Object *obj)
- {
-@@ -943,7 +941,6 @@ static void pxa270c5_initfn(Object *obj)
-     cpu->reset_sctlr = 0x00000078;
- }
- 
--#ifdef CONFIG_TCG
- static const struct TCGCPUOps arm_v7m_tcg_ops = {
-     .initialize = arm_translate_init,
-     .synchronize_from_tb = arm_cpu_synchronize_from_tb,
-@@ -964,7 +961,6 @@ static const struct TCGCPUOps arm_v7m_tcg_ops = {
-     .debug_check_breakpoint = arm_debug_check_breakpoint,
- #endif /* !CONFIG_USER_ONLY */
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index ea2413a0ba..19854f4137 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -203,8 +203,10 @@ static const int a15irqmap[] = {
  };
--#endif /* CONFIG_TCG */
  
- static void arm_v7m_class_init(ObjectClass *oc, void *data)
- {
-@@ -972,10 +968,7 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
-     CPUClass *cc = CPU_CLASS(oc);
+ static const char *valid_cpus[] = {
++#ifdef CONFIG_TCG
+     ARM_CPU_TYPE_NAME("cortex-a7"),
+     ARM_CPU_TYPE_NAME("cortex-a15"),
++#endif
+     ARM_CPU_TYPE_NAME("cortex-a35"),
+     ARM_CPU_TYPE_NAME("cortex-a53"),
+     ARM_CPU_TYPE_NAME("cortex-a55"),
+@@ -3003,7 +3005,11 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     mc->minimum_page_bits = 12;
+     mc->possible_cpu_arch_ids = virt_possible_cpu_arch_ids;
+     mc->cpu_index_to_instance_props = virt_cpu_index_to_props;
++#ifdef CONFIG_TCG
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a15");
++#else
++    mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a57");
++#endif
+     mc->get_default_cpu_node_id = virt_get_default_cpu_node_id;
+     mc->kvm_type = virt_kvm_type;
+     assert(!mc->get_hotplug_handler);
+diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+index 8691802950..4be1415823 100644
+--- a/tests/qtest/arm-cpu-features.c
++++ b/tests/qtest/arm-cpu-features.c
+@@ -507,8 +507,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+         char *error;
  
-     acc->info = data;
--#ifdef CONFIG_TCG
-     cc->tcg_ops = &arm_v7m_tcg_ops;
--#endif /* CONFIG_TCG */
--
-     cc->gdb_core_xml_file = "arm-m-profile.xml";
- }
+         assert_error(qts, "cortex-a15",
+-            "We cannot guarantee the CPU type 'cortex-a15' works "
+-            "with KVM on this host", NULL);
++            "The CPU type 'cortex-a15' is not a recognized ARM CPU type", NULL);
  
-diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
-index 25bc98999e..3c2f1e8d84 100644
---- a/target/arm/tcg/meson.build
-+++ b/target/arm/tcg/meson.build
-@@ -18,6 +18,7 @@ gen = [
- arm_ss.add(gen)
+         assert_has_feature_enabled(qts, "host", "aarch64");
  
- arm_ss.add(files(
-+  'cpu32.c',
-   'translate.c',
-   'translate-m-nocp.c',
-   'translate-mve.c',
 -- 
 2.35.3
 
