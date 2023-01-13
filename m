@@ -2,90 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251E266A5C2
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 23:14:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3152A66A618
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 23:39:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGSJk-0003Zk-8s; Fri, 13 Jan 2023 17:14:32 -0500
+	id 1pGSgI-0000gf-3C; Fri, 13 Jan 2023 17:37:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGSJh-0003Z7-IO
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 17:14:29 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGSgG-0000gR-6F
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 17:37:48 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGSJd-0005HP-A2
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 17:14:27 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- s13-20020a17090a6e4d00b0022900843652so6793573pjm.1
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 14:14:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Us/2GYxR1CvhyTHZ7Rv1cdbUiuMJ/PsykrqC7LNnkc4=;
- b=SbA9eAQAMwScCRuQi2Nnr5+DPoiToXjAExv3iOLnevZymxF3qM3BWuN3IxLZHN96q7
- oTOgvtK3iedmykY1rjk+df6/SaMDvRhGgjzFH5czbdjYar1GNc4w5mDsr/PkQlLK/ol8
- U2OU+ODVGUM3BjiR+XIcrCgg1PDVWhrqxUcnM0Ogim+ku6tMd3sMF7ju/sEBsUzJZ7Zb
- IEwGaFoMlGCvURmDhnY02UKvEKr8V856ranFDkjXSYCY5v84f0sQbzUKTXP8rqCAVcij
- gjbc8ZTIT5dPrshxif954j45iUqm1cJuvCDQjtd1lXNZ++ia1tEpmLyjhKzviyGC41+g
- qzkA==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGSgE-0001O4-Ds
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 17:37:47 -0500
+Received: by mail-pl1-x630.google.com with SMTP id k18so809624pll.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 14:37:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=oYGGpY3c8wYSsolPP7oPQ187xmYhIxXfoDRmESiHutM=;
+ b=tgwARpR6oX7pIqiIfedVsEF9/fVdX7R++KsquyR9ziZ7UzwRxscaS5kujj2zHNYPAs
+ HesOuR7Sx5qOtSVwO3krm9uRXR5UTvzOqDPwLsoUS2mCaA5ph+KP9eBNBsRpd0A9L435
+ C78pBQlFmakDJoSXEeoufowua/fVMOTGqx3NtP2NIvaMzedd/pr1PLOYbQsS6dFkx5/5
+ kwCkXGYgxwKfF8lpKdpuKcjcpYVGyJ9gllu5qeMUhB05/Ix+APK3DiMQF2xJm40Kxo/a
+ rgTKeVYwqHKt8DoSnIFSclpMZ4e19SkFrGNJvf/OTxDBdTMTbfjsPlmc3hwEOi/a1hX7
+ bWaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Us/2GYxR1CvhyTHZ7Rv1cdbUiuMJ/PsykrqC7LNnkc4=;
- b=1YIs0XZ4u94+1K8A2xOPgw8gyVbHE0Z4SxrlWyAGgfqrQZBeZjbSZZa9XY3CFxz4Lb
- 8FnMKA2Vwqr+h5JlAbsAU1tv0HnD6w+sPuqTHispODJbXivyn2QswinZKhR8mAqN5gJJ
- F0jYUu8S3FJbXnVrKQonRo9gAiSkLwqD2Tb1MOpCvodE0wtTdWbky1juQw9VfAfJRPd4
- FBOTNyV7SO0fHuSL0VNSisJFNgmoJXgpnK+2uKpHhAoTY6K+ZcQQvs325R4sojMj7wDp
- zQGaIlDkYaS7HnAS3/eV9vpmfrvZlR7xUqlICNwuOx9uDOs5hJSGfpfJCnfnLZ7MeUme
- ia/A==
-X-Gm-Message-State: AFqh2koeIbNkShUlyZHL7L3at7KTX/RMX5vTK+MW7Q5fr2Rl66l+YAIh
- bwB/xu5wPp4TuDYrWpfxOXenfQ==
-X-Google-Smtp-Source: AMrXdXs5HUW/DUY3ml74rXhm9cnZziC/7tfieTRm2hYyMnXP51HQ3GhjGf0Yqa6kh5BX5T9bO3EJ5A==
-X-Received: by 2002:a17:902:784a:b0:193:3354:1c22 with SMTP id
- e10-20020a170902784a00b0019333541c22mr11712612pln.39.1673648063449; 
- Fri, 13 Jan 2023 14:14:23 -0800 (PST)
-Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- c5-20020a170902d90500b001946119c22esm3708918plz.146.2023.01.13.14.14.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 14:14:22 -0800 (PST)
-Message-ID: <da04028b-3f5f-6388-ba8a-734cf3901ea4@linaro.org>
-Date: Fri, 13 Jan 2023 12:14:19 -1000
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oYGGpY3c8wYSsolPP7oPQ187xmYhIxXfoDRmESiHutM=;
+ b=zOvwbQz7ktFwQpKIIg+a/d2KrC8KzmaX72GF4uPzppRhJqxS9YDWhrf9r+1NN8d/LM
+ z2kDJq5StMB8bTH4nA653nqZ3UfmirT6lpfMPPWMZ/Nv1XubzZs2irM2p6ZMSX0SiZYz
+ 1BzwmsVWIWVcLvXvKu2qtoED6m9DJK6a77mrOF/lhViY+bStRhTy6RnQnJ/Ad0TLjJMr
+ WtI8oCni9td1PYQL4oy1RrHS9hcih2Or54RIqwT9oF9Tcn4A1vdWK2Zx7xehKhsrafsk
+ BHty4e+PLZOdIAlRivAtzA/6gp8ZNz0/cxEbJ6UADGzjGqbawoDDooxCSC6SoftasHGw
+ Uoeg==
+X-Gm-Message-State: AFqh2krAxbEtgfTUfOloO3pQM2/782FBQ02mCr0Y5JYy2KQ26FdQWoAB
+ PeKBIQa93ZIc6dJy+u7jTNpKgA==
+X-Google-Smtp-Source: AMrXdXt5stBpwIEJwVXkUT6AxYk7gqWiLYnlxJx1z/r5PInmsD3i+NPQ2hSxNQ6Dxd7BftBMBypz9g==
+X-Received: by 2002:a17:90a:d148:b0:229:1e87:365f with SMTP id
+ t8-20020a17090ad14800b002291e87365fmr580615pjw.2.1673649464636; 
+ Fri, 13 Jan 2023 14:37:44 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ z7-20020a17090ad78700b002270155254csm10626708pju.24.2023.01.13.14.37.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Jan 2023 14:37:43 -0800 (PST)
+Date: Fri, 13 Jan 2023 22:37:39 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y8HdMzlNFhFwlkGS@google.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
+ <Y7azFdnnGAdGPqmv@kernel.org>
+ <20230106094000.GA2297836@chaop.bj.intel.com>
+ <Y7xrtf9FCuYRYm1q@google.com>
+ <20230110091432.GA2441264@chaop.bj.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH v3 25/28] tests/avocado: Tag TCG tests with accel:tcg
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-References: <20230113140419.4013-1-farosas@suse.de>
- <20230113140419.4013-26-farosas@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230113140419.4013-26-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230110091432.GA2441264@chaop.bj.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=seanjc@google.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,17 +119,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/13/23 06:04, Fabiano Rosas wrote:
-> This allows the test to be skipped when TCG is not present in the QEMU
-> binary.
+On Tue, Jan 10, 2023, Chao Peng wrote:
+> On Mon, Jan 09, 2023 at 07:32:05PM +0000, Sean Christopherson wrote:
+> > On Fri, Jan 06, 2023, Chao Peng wrote:
+> > > On Thu, Jan 05, 2023 at 11:23:01AM +0000, Jarkko Sakkinen wrote:
+> > > > On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
+> > > > > To make future maintenance easy, internally use a binary compatible
+> > > > > alias struct kvm_user_mem_region to handle both the normal and the
+> > > > > '_ext' variants.
+> > > > 
+> > > > Feels bit hacky IMHO, and more like a completely new feature than
+> > > > an extension.
+> > > > 
+> > > > Why not just add a new ioctl? The commit message does not address
+> > > > the most essential design here.
+> > > 
+> > > Yes, people can always choose to add a new ioctl for this kind of change
+> > > and the balance point here is we want to also avoid 'too many ioctls' if
+> > > the functionalities are similar.  The '_ext' variant reuses all the
+> > > existing fields in the 'normal' variant and most importantly KVM
+> > > internally can reuse most of the code. I certainly can add some words in
+> > > the commit message to explain this design choice.
+> > 
+> > After seeing the userspace side of this, I agree with Jarkko; overloading
+> > KVM_SET_USER_MEMORY_REGION is a hack.  E.g. the size validation ends up being
+> > bogus, and userspace ends up abusing unions or implementing kvm_user_mem_region
+> > itself.
 > 
-> Signed-off-by: Fabiano Rosas<farosas@suse.de>
-> ---
->   tests/avocado/boot_linux_console.py | 1 +
->   tests/avocado/reverse_debugging.py  | 8 ++++++++
->   2 files changed, 9 insertions(+)
+> How is the size validation being bogus? I don't quite follow.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The ioctl() magic embeds the size of the payload (struct kvm_userspace_memory_region
+in this case) in the ioctl() number, and that information is visible to userspace
+via _IOCTL_SIZE().  Attempting to take a larger size can mess up sanity checks,
+e.g. KVM selftests get tripped up on this assert if KVM_SET_USER_MEMORY_REGION is
+passed an "extended" struct.
 
-r~
+	#define kvm_do_ioctl(fd, cmd, arg)						\
+	({										\
+		kvm_static_assert(!_IOC_SIZE(cmd) || sizeof(*arg) == _IOC_SIZE(cmd));	\
+		ioctl(fd, cmd, arg);							\
+	})
+
+> Then we will use kvm_userspace_memory_region2 as the KVM internal alias,
+> right?
+
+Yep.
+
+> I see similar examples use different functions to handle different versions
+> but it does look easier if we use alias for this function.
+> 
+> > 
+> > It feels absolutely ridiculous, but I think the best option is to do:
+> > 
+> > #define KVM_SET_USER_MEMORY_REGION2 _IOW(KVMIO, 0x49, \
+> > 					 struct kvm_userspace_memory_region2)
+> 
+> Just interesting, is 0x49 a safe number we can use? 
+
+Yes?  So long as its not used by KVM, it's safe.  AFAICT, it's unused.
 
