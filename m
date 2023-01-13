@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8C6668912
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 02:23:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6DD668928
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 02:30:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pG8le-000090-II; Thu, 12 Jan 2023 20:22:02 -0500
+	id 1pG8sU-0001RT-Ki; Thu, 12 Jan 2023 20:29:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pG8lc-00008l-OS
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 20:22:00 -0500
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ id 1pG8sR-0001Ph-0P; Thu, 12 Jan 2023 20:29:04 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pG8lb-0000kc-0t
- for qemu-devel@nongnu.org; Thu, 12 Jan 2023 20:22:00 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id x10so26374444edd.10
- for <qemu-devel@nongnu.org>; Thu, 12 Jan 2023 17:21:58 -0800 (PST)
+ id 1pG8sP-0002YS-5Z; Thu, 12 Jan 2023 20:29:02 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id qk9so48973704ejc.3;
+ Thu, 12 Jan 2023 17:28:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UyyHjXsf+4xzhXArHMQnvBrvSyATQBG2vH9H2r4laqs=;
- b=nWuCnCvlfkLhpNV/0BDxWld72X705/X/EO1B2jJa34Tiq7R6zYJTm1Z5Woq9+mbU47
- pA2j9Imi36DqrmKxZYJrXMbKpQIqz3OMj9kgNMmlNaO5DJzBYINqYdx+r6lNd60Ivbm7
- meVE4Q55D7MQASVOdO/O+pgEnsOBFKc4goDnjVdBj1IY4QdGX3FWEEjhUiW+7tj7mgMY
- pcjjGw8eOzEzZddLgBKqkxBZFAWOcvEGnplNBXetAPOJ4gE5l5yT2a0z38ISgGHxGlqd
- aD7lb3qyVSOlqOiS2CQ+f+aRCvFOR/c5F/SjiNejPEYx8WL0TOCHHAGa0tN3OoX+y3fH
- UOzQ==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=9A1ZZW2o7YNRm6qWBBlZkKmOqbhIJuRs6thTCITuwEU=;
+ b=FR7UVVraxh14X29L8+KryP397lnzkobLwlyfzTtphYHUcNQxh+Yf36Lb7LV8ZMQaei
+ cbXIZV9u+C/IpX65oJBNarhol1adjVemp9MRuWrVJaTJpHFFqpHiwyHhcEndRTX59v9z
+ NbqsXp6+mnqnXIqyGcmWB3KNCMtYuz/EcDGrTX68b0lxVmod+TqxY23DTAeor2X43TkA
+ GW80RfHQ9fT+TV76lwvfg0I/y9ZXbQrPZOI6bdxkXMyfUKnRF4z7cvI0vOWG7R6jewC3
+ rH1Ls0mx2dER93iBU/QVYqtljBZopETOFwIoDQyYeyqwlifAXvq64yD6AXeS3x9lnrzU
+ HsoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UyyHjXsf+4xzhXArHMQnvBrvSyATQBG2vH9H2r4laqs=;
- b=2hb0ylguPiNhqwD23dItEdhlTxWDmRRSLV4uD2ZqvW8Kd6/r3+N0m53fG0a9ZqeNa1
- Ipfd9o2Mj/5S6YJlpgUAVwIFrna40Capp5IOULa51Us8oig7jOuKnqXIMTc8uxfokfjZ
- 1KJWb+BeXoeg/ovhAuUAPZ7zTUXs+AnfUpE3NlWAPw+XF9mAedjXBiF2pRLoX723ObgM
- KeLFSPpZKwOODy0clmBE9Q2tjvQsufpbYDtQ9XrYXL61xm1uqs3u40pITwic2LKcV64b
- 9tE//v6coza50F5Jws3kr/UF3rItFR+RgYjS16ESlq6cnFhIWmLEM2Rtr1JqWDo118q4
- 9woA==
-X-Gm-Message-State: AFqh2krj26NVqqE8Ne9CQORg3mwATYFmisXdB4nnVbtlqtu8n1Be3xhN
- awTtULrPke/FV4lwtVdpmLqypD1t0tBck7Jctro=
-X-Google-Smtp-Source: AMrXdXvtzwzuCoHP2cQvJvtP3i7/lgrn5E/OxHldZJ2/sIitBK/MGXLfIJzXnqhzZpOnQ+lZ6Up3ygsZmkbjYo6+mvM=
-X-Received: by 2002:a05:6402:3c1:b0:49b:7cb3:5a5a with SMTP id
- t1-20020a05640203c100b0049b7cb35a5amr238025edw.152.1673572917541; Thu, 12 Jan
- 2023 17:21:57 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9A1ZZW2o7YNRm6qWBBlZkKmOqbhIJuRs6thTCITuwEU=;
+ b=RF1eL4SDRsRJTgtqSOkYvB3b9LsjfxF4ZZqYSpjkALxrwCwhLj53hR7u90B2KAcvjH
+ zS7yJxHfintwR4Orc0K18knkZ+ENdVD72OYL4V+TkyIIVGdgrIZ9cSqM19cTu4aN1PId
+ oufHfHA+UVjYCrDLDglIi186btrxrDF61FkhIrX6ur3Bm9eyy5fb0ToohmH7gkyrQl5m
+ M+3R94yO5y5YTkVc198Il3fEUqwrEB+1LuPV4O6wHg2VRMHUvtxKTw0kc2MNypl+cDAn
+ iZ7RTn5iKIwMDjjbrKiWdxxNPfMLC1xDUyqXenhynZvcWRy4YcB+eqefb2HXYhu6j7eh
+ H4Ig==
+X-Gm-Message-State: AFqh2koQXRyxBnITlFNnJHCzPqbPe7exPoFIZOJF8JNGZo2uh8u5oTzv
+ OECnqyjLaHnhqQ31xUlMXf4oCUIlOtx3/6d4uKU=
+X-Google-Smtp-Source: AMrXdXsaTbzxk+401PKXru+axyeK5eKwYNpvB+MOw8VVvc65tF0v4WSsf5Ds+Xr2ITdMQ/3VEEIpOFhpQ0K4hCnZ93A=
+X-Received: by 2002:a17:906:1945:b0:7c0:bb4c:e792 with SMTP id
+ b5-20020a170906194500b007c0bb4ce792mr6334293eje.618.1673573338504; Thu, 12
+ Jan 2023 17:28:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20230111172133.334735-1-dbarboza@ventanamicro.com>
-In-Reply-To: <20230111172133.334735-1-dbarboza@ventanamicro.com>
+References: <20230110201405.247785-1-dbarboza@ventanamicro.com>
+ <CAKmqyKM=7Ld0FuZ7FfzTKznpM5Zq1xzAKd-iVxqjk6TPbred2g@mail.gmail.com>
+In-Reply-To: <CAKmqyKM=7Ld0FuZ7FfzTKznpM5Zq1xzAKd-iVxqjk6TPbred2g@mail.gmail.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 13 Jan 2023 09:21:46 +0800
-Message-ID: <CAEUhbmX6igykWoaVzhM+Ye_Wf7hWPE62Op99O+=9-P3PWNk8pg@mail.gmail.com>
-Subject: Re: [PATCH] hw/mips/boston.c: rename MachineState 'mc' pointer to 'ms'
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, Paul Burton <paulburton@kernel.org>, 
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Date: Fri, 13 Jan 2023 09:28:37 +0800
+Message-ID: <CAEUhbmWbcWNQxP8O+56qYjUPsmgyP+qhOTYRRmDUimXV6s42_Q@mail.gmail.com>
+Subject: Re: [PATCH 0/2] target/riscv/cpu: fix sifive_u 32/64bits boot in
+ riscv-to-apply.next
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, 
+ alistair.francis@wdc.com, richard.henderson@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,20 +84,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 12, 2023 at 1:27 AM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
-> Follow the QEMU convention of naming MachineState pointers as 'ms' by
-> renaming the instance in create_fdt() where we're calling it 'mc'.
->
-> Cc: Paul Burton <paulburton@kernel.org>
-> Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> ---
->  hw/mips/boston.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
+Hi Daniel,
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+On Wed, Jan 11, 2023 at 1:03 PM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Wed, Jan 11, 2023 at 6:17 AM Daniel Henrique Barboza
+> <dbarboza@ventanamicro.com> wrote:
+> >
+> > Hi,
+> >
+> > I found this bug when testing my avocado changes in riscv-to-apply.next.
+> > The sifive_u board, both 32 and 64 bits, stopped booting OpenSBI. The
+> > guest hangs indefinitely.
+> >
+> > Git bisect points that this patch broke things:
+> >
+> > 8c3f35d25e7e98655c609b6c1e9f103b9240f8f8 is the first bad commit
+> > commit 8c3f35d25e7e98655c609b6c1e9f103b9240f8f8
+> > Author: Weiwei Li <liweiwei@iscas.ac.cn>
+> > Date:   Wed Dec 28 14:20:21 2022 +0800
+> >
+> >     target/riscv: add support for Zca extension
+> >
+> >     Modify the check for C extension to Zca (C implies Zca)
+> > (https://github.com/alistair23/qemu/commit/8c3f35d25e7e98655c609b6c1e9f103b9240f8f8)
+> >
+> >
+> > But this patch per se isn't doing anything wrong. The root of the
+> > problem is that this patch makes assumptions based on the previous
+> > patch:
+> >
+> > commit a2b409aa6cadc1ed9715e1ab916ddd3dade0ba85
+> > Author: Weiwei Li <liweiwei@iscas.ac.cn>
+> > Date:   Wed Dec 28 14:20:20 2022 +0800
+> >
+> >     target/riscv: add cfg properties for Zc* extension
+> > (https://github.com/alistair23/qemu/commit/a2b409aa6cadc1ed9715e1ab916ddd3dade0ba85)
+> >
+> > Which added a lot of logic and assumptions that are being skipped by all
+> > the SiFive boards because, during riscv_cpu_realize(), we have this
+> > code:
+> >
+> >     /* If only MISA_EXT is unset for misa, then set it from properties */
+> >     if (env->misa_ext == 0) {
+> >         uint32_t ext = 0;
+> >         (...)
+> >     }
+> >
+> > In short, we have a lot of code that are being skipped by all SiFive
+> > CPUs because these CPUs are setting a non-zero value in set_misa() in
+> > their respective cpu_init() functions.
+> >
+> > It's possible to just hack in and fix the SiFive problem in isolate, but
+> > I believe we can do better and allow all riscv_cpu_realize() to be executed
+> > for all CPUs, regardless of what they've done during their cpu_init().
+> >
+> >
+> > Daniel Henrique Barboza (2):
+> >   target/riscv/cpu: set cpu->cfg in register_cpu_props()
+> >   target/riscv/cpu.c: do not skip misa logic in riscv_cpu_realize()
+>
+> Thanks for the patches
+>
+> I have rebased these onto the latest master and dropped the other
+> series. That way when the other series is applied we don't break
+> bisectability.
+
+It seems these 2 patches are already in Alistair's tree.
+
+Richard had a suggestion for patch 1 and I had some minor comments
+too. Do you plan to resend a v2 for that?
+
+Regards,
+Bin
 
