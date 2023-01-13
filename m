@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9D956698F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 14:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9766698D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 14:41:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKHM-0007q0-Ah; Fri, 13 Jan 2023 08:39:32 -0500
+	id 1pGKHM-0007q8-QJ; Fri, 13 Jan 2023 08:39:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pGKHK-0007pU-CZ
+ id 1pGKHK-0007pR-7t
  for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:39:30 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pGKHI-00053H-LH
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:39:30 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id ay40so15301380wmb.2
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 05:39:28 -0800 (PST)
+ id 1pGKHH-000530-BT
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 08:39:29 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ j34-20020a05600c1c2200b003da1b054057so3082868wms.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 05:39:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YX3naq5ZNqjOTiMOy0rg53RIUBd9djjd4qY57KHB7I4=;
- b=WjTtB4O9lF85m9xCCcQb5fvIhTZH14VKjxXb6Q3SUt9Gr2AsMTaUlITFig7dsa7nV9
- Yt2Gku65ibAgT34l+1YnuepjlSN4zLCZ2/PDwFyIUdF2lYdzZLqP6k4gfhBWooaRRuyZ
- r5/19bx7PKg0+EKAf1GFbMKHUs5jsP2bTkPZajruEnq5knoiYDlafU4UVDejfz22Q3hA
- ac/EkfRtfD9UrwowtKTzRG6APonn50JhCd5IbdQFHmw8gJ0EiDI23rcA9p65U7PLl76T
- 7xWvOiiWvm4KTiWkef43n4k7nU3HSSqtJRSxgkrOzMfyP9ukDkT442vga5+OduVf96P4
- bMdw==
+ bh=ZkjvImv3urfubQ/CIur/IuzDRXVAlRae10Z3LaYvYZ8=;
+ b=KQ98xfT4n3kDO82kAcafmt+RWC82neT/zuoienwDEIKc+hodyjnVHMesHlHXT+z4ts
+ J8fGsmP/vYXoH/tfIKlAvS1Zl83xA4SPOmhN5voZaqYzEaX4GAHOkiML02CfPk7xOfLr
+ BCHTihKYUFp2Eo8INa0P6eJd3p2CteOPOtlUO0vN2IEBdTiCZWcN3xySXW6qYmL6TUd1
+ gAYnXpWaZadpZ2HNbj60wj+5UMGvTzfCp04efohWd8ZSom/9+cHBJOZR/wwx12quaG9i
+ mBNtYSGxiJ6vEuCbMCsDpcSflaztJA9XFOdzP4g9bQe27YdJh4c68b+zVFvrQC63sTs/
+ XFxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YX3naq5ZNqjOTiMOy0rg53RIUBd9djjd4qY57KHB7I4=;
- b=H3X3J7UeclYj7Ig7HodAdbJDjBC7IQKix+tXlcKukZgBa+EbU4Who1FrVt+y85np99
- GrgYlxzz1hqZtkc6gCh50lz0Cyuxloee1sCmwc9pdlw2l6bggnspnMiJMH2HCh0MRjyC
- etmY+nNZUw1bmDXgiOi6bsjc/020t/JgUthx6vbJPrqusr1D5ycBEUgygsC2MZtJGyax
- 8IjSNJhrsS//rSluCzcVeRJfUdBv0/xzQ0AgCnAuCx87DRR936eS8TdnZ99SCuEwRQ9d
- lkej0PyJ//aQlVbBXxZO+eln1nwJfTQydtkVJQvXFV+sdSUS/wnKq7KKXEuK/no7xLZ2
- f22w==
-X-Gm-Message-State: AFqh2kpUKAsp9xLk7lO1PHI+q0h5Nb+6Bx8Px2q6hA8XBdG6J8fPvWhs
- 5fRETMO2r9CAL6yi47NNHEIbTQ==
-X-Google-Smtp-Source: AMrXdXuhSVul3bEemh9977cOh1gJC8l15WRyDBktCMDP3532N0vhe7/Bb3/gl5CBUjV0xfE3qKIYyw==
-X-Received: by 2002:a05:600c:a0f:b0:3cf:7704:50ce with SMTP id
- z15-20020a05600c0a0f00b003cf770450cemr59571404wmp.38.1673617167180; 
- Fri, 13 Jan 2023 05:39:27 -0800 (PST)
+ bh=ZkjvImv3urfubQ/CIur/IuzDRXVAlRae10Z3LaYvYZ8=;
+ b=q3ccmp5cH0g6h8VD8mXGpcBdFYqQgrq/EftFCmBx0Dzzb3cA/i1l3S69jcRVztQ7vX
+ Y6Wrh+iBfztXPcIc0AdvoLJfGnxAOYT6gIL2AmZOMud1P+20W8ABGGgjGUcnpgJq4GQ8
+ LLpxdBr4zmUu+5Hm52nH9EM3J80WkR5yV0rXHJBodrWgtJtjpTkCGY6kWzn/ZaOYR4M0
+ v265LocJBu4lGAR8MmvuAYnr+52P6exeMUbzgDGV+gxL7AP8Z7kPgem92JDDyeIBf7p1
+ FCyp/bdRqS5HoRHwu7zwDofKkAwlrxeFLyEw3+VWiHzrWlXO5fG07Vbg/9bmsXh7rSyz
+ VmCA==
+X-Gm-Message-State: AFqh2kpPTg/+ksax5ogkVAhBmQKgAoms5x7g2KFJGVHhOaFRKj5fQKWF
+ eEqIE5Xlzhsr3pxk38ZPzQPwHw==
+X-Google-Smtp-Source: AMrXdXuuhgpT9Aa6+pY/IZB9DBTFPtKdoyUB0ap/VBz4vh0hE9UqOKMYPnDVU8nZsl86bb4OjUsDoA==
+X-Received: by 2002:a05:600c:4fc6:b0:3d3:4a47:52e9 with SMTP id
+ o6-20020a05600c4fc600b003d34a4752e9mr57953781wmq.15.1673617166105; 
+ Fri, 13 Jan 2023 05:39:26 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- bi6-20020a05600c3d8600b003d9df9e59c4sm22299090wmb.37.2023.01.13.05.39.24
+ e18-20020a05600c4e5200b003d9876aa04asm29736196wmq.41.2023.01.13.05.39.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 13 Jan 2023 05:39:25 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7DB921FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id 9BF251FFBA;
  Fri, 13 Jan 2023 13:39:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -68,17 +69,17 @@ Cc: Alexandre Iooss <erdnaxe@crans.org>, peter.maydell@linaro.org,
  Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Jagannathan Raman <jag.raman@oracle.com>
-Subject: [PATCH 1/4] docs: add hotlinks to about preface text
-Date: Fri, 13 Jan 2023 13:39:20 +0000
-Message-Id: <20230113133923.1642627-2-alex.bennee@linaro.org>
+Subject: [PATCH 2/4] docs: add a new section to outline emulation support
+Date: Fri, 13 Jan 2023 13:39:21 +0000
+Message-Id: <20230113133923.1642627-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230113133923.1642627-1-alex.bennee@linaro.org>
 References: <20230113133923.1642627-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,78 +102,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Make it easier to navigate the documentation.
+This affects both system and user mode emulation so we should probably
+list it up front.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- docs/about/index.rst  | 16 ++++++++--------
- docs/system/index.rst |  2 ++
- docs/tools/index.rst  |  2 ++
- docs/user/index.rst   |  2 ++
- 4 files changed, 14 insertions(+), 8 deletions(-)
+ docs/about/emulation.rst      | 103 ++++++++++++++++++++++++++++++++++
+ docs/about/index.rst          |   1 +
+ docs/devel/tcg-plugins.rst    |   2 +
+ docs/system/arm/emulation.rst |   2 +
+ 4 files changed, 108 insertions(+)
+ create mode 100644 docs/about/emulation.rst
 
+diff --git a/docs/about/emulation.rst b/docs/about/emulation.rst
+new file mode 100644
+index 0000000000..d919175b5e
+--- /dev/null
++++ b/docs/about/emulation.rst
+@@ -0,0 +1,103 @@
++Emulation
++=========
++
++QEMU's Tiny Code Generator (TCG) gives it the ability to emulate a
++number of CPU architectures on any supported platform. Both
++:ref:`System Emulation` and :ref:`User Mode Emulation` are supported
++depending on the guest architecture.
++
++.. list-table:: Supported Guest Architectures for Emulation
++  :widths: 30 10 10 50
++  :header-rows: 1
++
++  * - Architecture (qemu name)
++    - System
++    - User-mode
++    - Notes
++  * - Alpha
++    - Yes
++    - Yes
++    - Legacy 64 bit RISC ISA developed by DEC
++  * - Arm (arm, aarch64)
++    - Yes
++    - Yes
++    - Wide range of features, see :ref:`Arm Emulation` for details
++  * - AVR
++    - Yes
++    - No
++    - 8 bit micro controller, often used in maker projects
++  * - Cris
++    - Yes
++    - Yes
++    - Embedded RISC chip developed by AXIS
++  * - Hexagon
++    - No
++    - Yes
++    - Family of DSPs by Qualcomm
++  * - PA-RISC (hppa)
++    - Yes
++    - Yes
++    - A legacy RISC system used in HPs old minicomputers
++  * - x86 (i386, x86_64)
++    - Yes
++    - Yes
++    - The ubiquitous desktop PC CPU architecture, 32 and 64 bit.
++  * - Loongarch
++    - Yes
++    - Yes
++    - A MIPs-like 64bit RISC architecture developed in China
++  * - m68k
++    - Yes
++    - Yes
++    - Motorola 68000 variants and ColdFire
++  * - Microblaze
++    - Yes
++    - Yes
++    - RISC based soft-core by Xilinx
++  * - MIPS (mips, mipsel, mips64, mips64el)
++    - Yes
++    - Yes
++    - Venerable RISC architecture originally out of Stanford University
++  * - Nios2
++    - Yes
++    - Yes
++    - 32 bit embedded soft-core by Altera
++  * - OpenRISC
++    - Yes
++    - Yes
++    - Open source RISC architecture developed by the OpenRISC community
++  * - Power (ppc, ppc64)
++    - Yes
++    - Yes
++    - A general purpose RISC architecture now managed by IBM
++  * - RISC-V
++    - Yes
++    - Yes
++    - An open standard RISC ISA maintained by RISC-V International
++  * - RX
++    - Yes
++    - No
++    - A 32 bit micro controller developed by Renesas
++  * - s390x
++    - Yes
++    - Yes
++    - A 64 bit CPU found in IBM's System Z mainframes
++  * - sh4
++    - Yes
++    - Yes
++    - A 32 bit RISC embedded CPU developed by Hitachi
++  * - SPARC (sparc, sparc64)
++    - Yes
++    - Yes
++    - A RISC ISA originally developed by Sun Microsystems
++  * - Tricore
++    - Yes
++    - No
++    - A 32 bit RISC/uController/DSP developed by Infineon
++  * - Xtensa
++    - Yes
++    - Yes
++    - A configurable 32 bit soft core now owned by Cadence
++
++A number of features are are only available when running under
++emulation including :ref:`Record/Replay<replay>` and :ref:`TCG Plugins`.
 diff --git a/docs/about/index.rst b/docs/about/index.rst
-index 5bea653c07..bae1309cc6 100644
+index bae1309cc6..b00b584b31 100644
 --- a/docs/about/index.rst
 +++ b/docs/about/index.rst
-@@ -5,19 +5,19 @@ About QEMU
- QEMU is a generic and open source machine emulator and virtualizer.
- 
- QEMU can be used in several different ways. The most common is for
--"system emulation", where it provides a virtual model of an
-+:ref:`System Emulation`, where it provides a virtual model of an
- entire machine (CPU, memory and emulated devices) to run a guest OS.
--In this mode the CPU may be fully emulated, or it may work with
--a hypervisor such as KVM, Xen, Hax or Hypervisor.Framework to
--allow the guest to run directly on the host CPU.
-+In this mode the CPU may be fully emulated, or it may work with a
-+hypervisor such as KVM, Xen, Hax or Hypervisor.Framework to allow the
-+guest to run directly on the host CPU.
- 
--The second supported way to use QEMU is "user mode emulation",
-+The second supported way to use QEMU is :ref:`User Mode Emulation`,
- where QEMU can launch processes compiled for one CPU on another CPU.
- In this mode the CPU is always emulated.
- 
--QEMU also provides a number of standalone commandline utilities,
--such as the ``qemu-img`` disk image utility that allows you to create,
--convert and modify disk images.
-+QEMU also provides a number of standalone :ref:`command line
-+utilities<Tools>`, such as the ``qemu-img`` disk image utility that
-+allows you to create, convert and modify disk images.
- 
- .. toctree::
+@@ -23,6 +23,7 @@ allows you to create, convert and modify disk images.
     :maxdepth: 2
-diff --git a/docs/system/index.rst b/docs/system/index.rst
-index e3695649c5..282b6ffb56 100644
---- a/docs/system/index.rst
-+++ b/docs/system/index.rst
-@@ -1,3 +1,5 @@
-+.. _System Emulation:
+ 
+    build-platforms
++   emulation
+    deprecated
+    removed-features
+    license
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 9740a70406..81dcd43a61 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -3,6 +3,8 @@
+    Copyright (c) 2019, Linaro Limited
+    Written by Emilio Cota and Alex Bennée
+ 
++.. _TCG Plugins:
 +
- ----------------
- System Emulation
- ----------------
-diff --git a/docs/tools/index.rst b/docs/tools/index.rst
-index 1edd5a8054..2151adcf78 100644
---- a/docs/tools/index.rst
-+++ b/docs/tools/index.rst
+ QEMU TCG Plugins
+ ================
+ 
+diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
+index b33d7c28dc..b87e064d9d 100644
+--- a/docs/system/arm/emulation.rst
++++ b/docs/system/arm/emulation.rst
 @@ -1,3 +1,5 @@
-+.. _Tools:
++.. _Arm Emulation:
 +
- -----
- Tools
- -----
-diff --git a/docs/user/index.rst b/docs/user/index.rst
-index 2c4e29f3db..782d27cda2 100644
---- a/docs/user/index.rst
-+++ b/docs/user/index.rst
-@@ -1,3 +1,5 @@
-+.. _User Mode Emulation:
-+
- -------------------
- User Mode Emulation
- -------------------
+ A-profile CPU architecture support
+ ==================================
+ 
 -- 
 2.34.1
 
