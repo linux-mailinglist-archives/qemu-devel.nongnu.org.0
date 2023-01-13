@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF1766A6D1
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 00:14:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D254366A6E0
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 00:17:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGTFB-0002OI-Ln; Fri, 13 Jan 2023 18:13:53 -0500
+	id 1pGTHx-0003ky-0n; Fri, 13 Jan 2023 18:16:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGTF9-0002JN-SB
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 18:13:51 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGTHo-0003kP-Ub
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 18:16:41 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGTF8-0007b0-23
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 18:13:51 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id q64so23852753pjq.4
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 15:13:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGTHm-00087k-TA
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 18:16:36 -0500
+Received: by mail-pl1-x629.google.com with SMTP id p24so24895091plw.11
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 15:16:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=aD430Gm5/BH6KWfU6qRjnAcPFnRFXzypIgZQD78Cq8M=;
- b=J9kbXeAr7RzKUj6xWqpWYyasnI938iccbuzYevy5Kw8J6dsLK90aA073MlhfbQX7Zx
- g+GrHw5HrAqoynqitIFYrifwNYgqPzRdTko8sXY7wDB8RJJof1k0kQ/MRRNQ1eqRjcYi
- cbhX/+Qd94yu+tAum1D9Oo9mUsR4zLbdFcHsJdqJmJRogfNxVk3ex3FGBS1rfDubEwnO
- DQIlWYFYlqkXqrPcX5Qd0OI0aVEQJGn/j/r9wH/dLXSAJHp0J55zTJcP36Dgsxja9PEp
- 0qQjV1iaoAynY5Qk8zGqkPmE5xPbzsoqo7Jv4RuAEZ5C2vIa1vBQUrmm/x2y5EB/PJFI
- jyJA==
+ bh=aWow72s2ZHPfyutUF3LRtthWGyQvB6TRG4mGrzQPS+Y=;
+ b=E/wbWTkGCcwoXs6O8irB3PXyBwoRW4uEkWDuoU13XByhJzTvIiq4OfNzvKMYIxRBd8
+ N5dRvUnnXxuGkG1NqPLQ9NcLguZ/hQembSMTLovSWxd/eNEA47F4pw2VMvBTgCh83EhX
+ bKzfh13CLYQPbU31yNkCeE7nVtvWxeSrEzOQXXJn3Ra1e263z8sIZrm9ZwC48e/SEbDs
+ 3aEzaEkItlDgZ56c4opqTh+L6mEGkhcrmVBFbTe1hFC/UfsbAkExmK+Dw6Q5zVDBQe5Z
+ vQO9KR1KEhsZRidc5t6FXrTt3AyPbDNocZckiEhBhgfdJEwaG1EcApBlL60GoZCzvH2P
+ EHwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aD430Gm5/BH6KWfU6qRjnAcPFnRFXzypIgZQD78Cq8M=;
- b=SoFx0gVFf0leI7T7PiikTD1wYUFxBRKMlmG1hZ/bswMsIvmZwlHadxxaRIQsZY1+hW
- bJWp1Xr6If4jRGxOqijHZSaAncHyiabxjB3uJaurgKhHfOr52vg5nVOrdcyYz91RdgGL
- xv7tnWPXem9UevhdGE1MXrIXXclit9Y0QYt2XACdmFkfsUQC+PJVPA/Y0VGYync3EZJE
- T5mGo6uWzjj6FMrtLuxpqH78jdfbDePn0SuU2mtOH4n9G1SoMHFNf99BKvZX3bQPHkvl
- Hyb2dBplckqb4zP95hv0zc/nrWdTYm69x4n7bh6djqhJzZ3fRx51hVkB2cCaIPdCF3Ig
- 0oHw==
-X-Gm-Message-State: AFqh2kqCGUEyVeBo8wd34xQjgnBuJdRlOBKuny+shz8njxYhfU0LjfKE
- vYv43LEzf/IfpknefnRfHG2Vew==
-X-Google-Smtp-Source: AMrXdXt6FsRHB2cphm8pjBSHUu2uqj9MrjnIMJc5jrgFlJeiijosoKXpar/7LHkVP4cLD34SofgrKQ==
-X-Received: by 2002:a05:6a20:4284:b0:9d:b8e6:d8e5 with SMTP id
- o4-20020a056a20428400b0009db8e6d8e5mr1901073pzj.2.1673651628605; 
- Fri, 13 Jan 2023 15:13:48 -0800 (PST)
+ bh=aWow72s2ZHPfyutUF3LRtthWGyQvB6TRG4mGrzQPS+Y=;
+ b=W6NxnaLTIAQeloB7L8B//H+sLjrt5UfZhHKLOcKy7ahRJHsnXcMsh6mt1SE41vucGH
+ FzEasYtEODGhB923EjDYkEOG3l2POdbjRSQN5LFJPiirwyfmD4Crbea04grUjc42rY6C
+ GouXBBNjEY+I+Lr5d37Nl4Nxo0IbK8wvXWF7IYO2EFIgDzoLCYNRCI+S7vRK1Mw1JMhc
+ Tj2VdzCiFqOfdAYxH3HeBCyvCqKTuHVt2IBZB4MR3DiX8MGAWcJPzv+LIv/ppJbwahiB
+ fKSOzxBubHey4zGBA3J3hwJpvwaMewMjkCmVZrZF3TVswNuvWVRD8HzTtQkcYnCxB+4b
+ pagA==
+X-Gm-Message-State: AFqh2koJqMEBMmz9l0vDYe/mEeEjq3XFWpFvNGjIAz39YpAH/6/S75/C
+ MjE8rkh2GtwnV5zDoS9NMRD1jA==
+X-Google-Smtp-Source: AMrXdXsw5eR35BhM0SQtUTPreOToQACUohVatv5rPzW7S1K5nzUfkKmIR6WQPAlOT0G0H1aK7d4JHA==
+X-Received: by 2002:a17:902:c409:b0:194:6d3c:38a5 with SMTP id
+ k9-20020a170902c40900b001946d3c38a5mr502925plk.1.1673651792454; 
+ Fri, 13 Jan 2023 15:16:32 -0800 (PST)
 Received: from google.com (7.104.168.34.bc.googleusercontent.com.
  [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- k16-20020a170902c41000b00178b77b7e71sm7936571plk.188.2023.01.13.15.13.48
+ q3-20020a17090311c300b0018c990ce7fesm14720017plh.239.2023.01.13.15.16.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 15:13:48 -0800 (PST)
-Date: Fri, 13 Jan 2023 23:13:44 +0000
+ Fri, 13 Jan 2023 15:16:31 -0800 (PST)
+Date: Fri, 13 Jan 2023 23:16:27 +0000
 From: Sean Christopherson <seanjc@google.com>
 To: Chao Peng <chao.p.peng@linux.intel.com>
 Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
@@ -80,16 +80,17 @@ Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  ddutile@redhat.com, dhildenb@redhat.com,
  Quentin Perret <qperret@google.com>, tabba@google.com,
  Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 4/9] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Message-ID: <Y8HlqMtgPACAN1i2@google.com>
+Subject: Re: [PATCH v10 7/9] KVM: Update lpage info when private/shared
+ memory are mixed
+Message-ID: <Y8HmS2iE4u0Gfkrn@google.com>
 References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-5-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-8-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221202061347.1070246-5-chao.p.peng@linux.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=seanjc@google.com; helo=mail-pj1-x102d.google.com
+In-Reply-To: <20221202061347.1070246-8-chao.p.peng@linux.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=seanjc@google.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -175
 X-Spam_score: -17.6
 X-Spam_bar: -----------------
@@ -114,19 +115,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On Fri, Dec 02, 2022, Chao Peng wrote:
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 99352170c130..d9edb14ce30b 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -6634,6 +6634,28 @@ array field represents return values. The userspace should update the return
->  values of SBI call before resuming the VCPU. For more details on RISC-V SBI
->  spec refer, https://github.com/riscv/riscv-sbi-doc.
->  
-> +::
-> +
-> +		/* KVM_EXIT_MEMORY_FAULT */
-> +		struct {
-> +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1ULL << 0)
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 9a07380f8d3c..5aefcff614d2 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -12362,6 +12362,8 @@ static int kvm_alloc_memslot_metadata(struct kvm *kvm,
+>  		if ((slot->base_gfn + npages) & (KVM_PAGES_PER_HPAGE(level) - 1))
+>  			linfo[lpages - 1].disallow_lpage = 1;
+>  		ugfn = slot->userspace_addr >> PAGE_SHIFT;
+> +		if (kvm_slot_can_be_private(slot))
+> +			ugfn |= slot->restricted_offset >> PAGE_SHIFT;
+>  		/*
+>  		 * If the gfn and userspace address are not aligned wrt each
+>  		 * other, disable large page support for this slot.
 
-Unless there's a reason not to, we should use bit 3 to match the attributes.
+Forgot to talk about the bug.  This code needs to handle the scenario where a
+memslot is created with existing, non-uniform attributes.  It might be a bit ugly
+(I didn't even try to write the code), but it's definitely possible, and since
+memslot updates are already slow I think it's best to handle things here.
+
+In the meantime, I added this so we don't forget to fix it before merging.
+
+#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+	pr_crit_once("FIXME: Walk the memory attributes of the slot and set the mixed status appropriately");
+#endif
+
 
