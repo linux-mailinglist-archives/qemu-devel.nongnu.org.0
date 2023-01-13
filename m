@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353DC669E36
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:35:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A171669D59
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 17:13:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGMGX-0001q0-Gs; Fri, 13 Jan 2023 10:46:49 -0500
+	id 1pGMGV-0001os-TU; Fri, 13 Jan 2023 10:46:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMGJ-0001ho-MM
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:46:37 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMGP-0001md-7i
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:46:44 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMGF-000688-VE
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:46:34 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- z8-20020a05600c220800b003d33b0bda11so1157901wml.0
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 07:46:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGMGM-0006An-Io
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 10:46:40 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ c4-20020a1c3504000000b003d9e2f72093so14238121wma.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 07:46:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Yelke7zGVGxtCJv6hIoquQumyPLK+LvkoIli13Jmif4=;
- b=fiM4eVfgp4fVpa1iB05bOXu7MABPlV9GAxGX1YfylOkjN5heP6CVwX69T8A8Q3pKyl
- tXZjVU5NrlS71U9L3hXpFkCkdu979qYEvha8XQMH2Gvg1kXJKZj6N1ow8sJKpp7qpCXf
- 1sYUDUigwmzweLarl8w3yYmXCMTMAZQPnL7KHA9TArfaJMgSAeAPjFL8tbZavES1/LmZ
- 9G9TvJdMenbP2VhCoalGgCIrBF9d7kQ9zxETcS4p/mu+Vh4UBBNyu1h1pNaOPiBtasEd
- 7loXOfoeCjpfqc9qo3p0BUIbr6deuvSy8CRVF2XUdwwmaYVHKdvzBeg2kU3cbgmJ9+fB
- 4uZQ==
+ bh=FnaB4clCbE9uvopcTUJEnBZ953UIAfNsnouP718za2w=;
+ b=xq0DinAzMYrsRXeLPQqe13D5LbC+5r9NcDMrECAwcqiqCc8bqrGwispdR+AKWfS2A7
+ AE3j8bjWvTH0quKZ3p1t83s3HGUcJTwPh1c5JkgbD+vZszbId3d0+6AK+5GuTwIC7LhX
+ xaUTKKQNk9TqPxMAk+funWD4IkMW237FyqbQ35TyS/8BjT2m+mS/XxnIU8cv0dA21u8R
+ 6YFSVcXGGAD7Py3rJS2y4PokJ4XMPFxuk0JsiYaQWntdhyhBZRTn7ozPf2SW4j5G4vKJ
+ sLZb6Mo2YtWuJxRm6RWWHDNhGDcdkh2tOfvd96NohQ9S9AhtbnPq69eCWP6cuq2FoYN8
+ YVRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Yelke7zGVGxtCJv6hIoquQumyPLK+LvkoIli13Jmif4=;
- b=1rpcQrvfv7pCJejWl90Hzwf7KqzNF9cbqKT9J/gOZtdkPbqyg0LVdrPSwivfe4BdW+
- XzbLeLYtbmPQNzArqPobGiDLdW4mYL/3S/vw6HOTlCyzJPXRFzr7mbfLqcg/8sV5tK7K
- p8sOd6DwY52ecmteVFL+FVkyQfVQu/+710NbXupJdCOFRtcbqUYn3kl+q9hW+uWh0bzQ
- rLNEKcP/eifWNSFR4tfXM75eBf+Yh6B+wJy0nvcRRyXYMXHNet1nJpk1+YDKjByrptPM
- 4wp0SesnTsKqEi9nTTGKf1UDf1CiXSbMDfFintSL9g3xbHwReUXwmEnwlofOpTvPF0nU
- 6SZw==
-X-Gm-Message-State: AFqh2koRGRJpqKzz4B3ThV4DZ9Wz0T++MIwmu3hwQkJjlZk0BWSQWcZs
- 6yLMYvY2T1ViQiARSqapuowDaKsX2N1J8zq+
-X-Google-Smtp-Source: AMrXdXugMdXf8e1PmDFP5k7Ie7GnYef9LkMGNaTn6RUutLIB9ymjcwm2dJucB4S0DtGXOyGKubpeFg==
-X-Received: by 2002:a05:600c:19cb:b0:3da:db4:6105 with SMTP id
- u11-20020a05600c19cb00b003da0db46105mr7565385wmq.37.1673624787474; 
- Fri, 13 Jan 2023 07:46:27 -0800 (PST)
+ bh=FnaB4clCbE9uvopcTUJEnBZ953UIAfNsnouP718za2w=;
+ b=7YwmbnH3bOASXuEevP1bU8xE5xfoknaDQriHro7kLjxlLmkfpwD8nd1ZiO14MGSNBp
+ n7KtH5y6NwyRqps7+GrFdNZPJ7ZVgzOBmUxlaLrWrxa+QRIG5z8Qpxvc6H4d/9Tx9mPG
+ eNwOoKyyiDTdFhVbUIpA+QdNyo4xumOOZne39ejaU+i1jjqd/we+t1qeRA0s8FFto7qN
+ 0JjLoI6gPxEZnHOneWoSKwXocTqBLCx+/LjKTjhENToqOA9s86hK9ehr6UFRxTDvzYex
+ /yb3d/r2EAeE6kuZLBuKRezcIVghtW3bDscwayeTfltpi15QosnpAqbTvMh2fqN++WFJ
+ UHQQ==
+X-Gm-Message-State: AFqh2kosbtDuu1nxeSHoCbhYx0ctCF3NdTTBGF4Igo/h0pi44Wlrzecx
+ av0QtFZ1e9FcUQRUMJpG57TnrQUmTjYooaJw
+X-Google-Smtp-Source: AMrXdXtSlI5gp9eMMmSj2PGhp6ZUctrjGnG8ZDimzpaN58w9d+mQJIoVU1GWHaie68py1H9HEfCrHA==
+X-Received: by 2002:a05:600c:2d07:b0:3cf:497c:c59e with SMTP id
+ x7-20020a05600c2d0700b003cf497cc59emr187236wmf.6.1673624797062; 
+ Fri, 13 Jan 2023 07:46:37 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- r16-20020a05600c35d000b003d2157627a8sm32286830wmq.47.2023.01.13.07.46.26
+ m18-20020a05600c4f5200b003c71358a42dsm40091998wmq.18.2023.01.13.07.46.36
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 13 Jan 2023 07:46:27 -0800 (PST)
+ Fri, 13 Jan 2023 07:46:36 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 11/46] hw/mips/gt64xxx_pci: Move it to hw/pci-host/
-Date: Fri, 13 Jan 2023 16:44:57 +0100
-Message-Id: <20230113154532.49979-12-philmd@linaro.org>
+Subject: [PULL 13/46] hw/mips/bootloader: Handle buffers as opaque arrays
+Date: Fri, 13 Jan 2023 16:44:59 +0100
+Message-Id: <20230113154532.49979-14-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230113154532.49979-1-philmd@linaro.org>
 References: <20230113154532.49979-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,126 +90,309 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The GT-64120 is a north-bridge, and it is not MIPS specific.
-Move it with the other north-bridge devices.
+It is irrelevant to the API what the buffers to fill are made of.
+In particular, some MIPS ISA have 16-bit wide instructions.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20221209151533.69516-8-philmd@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20221211204533.85359-2-philmd@linaro.org>
 ---
- MAINTAINERS                                   | 2 +-
- hw/mips/Kconfig                               | 6 ------
- hw/mips/meson.build                           | 1 -
- hw/mips/trace-events                          | 7 -------
- hw/pci-host/Kconfig                           | 6 ++++++
- hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} | 0
- hw/pci-host/meson.build                       | 1 +
- hw/pci-host/trace-events                      | 7 +++++++
- 8 files changed, 15 insertions(+), 15 deletions(-)
- rename hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} (100%)
+ hw/mips/bootloader.c         | 55 +++++++++++++++++++++---------------
+ hw/mips/boston.c             |  2 +-
+ hw/mips/fuloong2e.c          |  2 +-
+ hw/mips/malta.c              | 19 +++++++------
+ include/hw/mips/bootloader.h | 10 +++----
+ 5 files changed, 50 insertions(+), 38 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5606e5dbd2..a670fbc926 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1241,7 +1241,7 @@ S: Odd Fixes
- F: hw/isa/piix4.c
- F: hw/acpi/piix4.c
- F: hw/mips/malta.c
--F: hw/mips/gt64xxx_pci.c
-+F: hw/pci-host/gt64120.c
- F: include/hw/southbridge/piix.h
- F: tests/avocado/linux_ssh_mips_malta.py
- F: tests/avocado/machine_mips_malta.py
-diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-index 8f7bce38fb..7a55143f8a 100644
---- a/hw/mips/Kconfig
-+++ b/hw/mips/Kconfig
-@@ -60,9 +60,3 @@ config MIPS_BOSTON
+diff --git a/hw/mips/bootloader.c b/hw/mips/bootloader.c
+index f5f42f2bf2..21ffd4d772 100644
+--- a/hw/mips/bootloader.c
++++ b/hw/mips/bootloader.c
+@@ -55,16 +55,20 @@ static bool bootcpu_supports_isa(uint64_t isa_mask)
+ }
  
- config FW_CFG_MIPS
-     bool
--
--config GT64120
--    bool
--    select PCI
--    select EMPTY_SLOT
--    select I8259
-diff --git a/hw/mips/meson.build b/hw/mips/meson.build
-index 152103f15f..900613fc08 100644
---- a/hw/mips/meson.build
-+++ b/hw/mips/meson.build
-@@ -3,7 +3,6 @@ mips_ss.add(files('bootloader.c', 'mips_int.c'))
- mips_ss.add(when: 'CONFIG_FW_CFG_MIPS', if_true: files('fw_cfg.c'))
- mips_ss.add(when: 'CONFIG_LOONGSON3V', if_true: files('loongson3_bootp.c', 'loongson3_virt.c'))
- mips_ss.add(when: 'CONFIG_MALTA', if_true: files('malta.c'))
--softmmu_ss.add(when: 'CONFIG_GT64120', if_true: files('gt64xxx_pci.c'))
- mips_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('cps.c'))
- 
- if 'CONFIG_TCG' in config_all
-diff --git a/hw/mips/trace-events b/hw/mips/trace-events
-index b5b882c6c2..4a4e5fe1a1 100644
---- a/hw/mips/trace-events
-+++ b/hw/mips/trace-events
-@@ -1,10 +1,3 @@
--# gt64xxx_pci.c
--gt64120_read(uint64_t addr, uint64_t value) "gt64120 read 0x%03"PRIx64" value:0x%08" PRIx64
--gt64120_write(uint64_t addr, uint64_t value) "gt64120 write 0x%03"PRIx64" value:0x%08" PRIx64
--gt64120_read_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 read %s size:%u value:0x%08" PRIx64
--gt64120_write_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 write %s size:%u value:0x%08" PRIx64
--gt64120_isd_remap(uint64_t from_length, uint64_t from_addr, uint64_t to_length, uint64_t to_addr) "ISD: 0x%08" PRIx64 "@0x%08" PRIx64 " -> 0x%08" PRIx64 "@0x%08" PRIx64
--
- # malta.c
- malta_fpga_leds(const char *text) "LEDs %s"
- malta_fpga_display(const char *text) "ASCII '%s'"
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index 38fd2ee8f3..a07070eddf 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -81,3 +81,9 @@ config MV64361
- config DINO
-     bool
-     select PCI
+ /* Base types */
+-static void bl_gen_nop(uint32_t **p)
++static void bl_gen_nop(void **ptr)
+ {
+-    stl_p(*p, 0);
+-    *p = *p + 1;
++    uint32_t *p = *ptr;
 +
-+config GT64120
-+    bool
-+    select PCI
-+    select EMPTY_SLOT
-+    select I8259
-diff --git a/hw/mips/gt64xxx_pci.c b/hw/pci-host/gt64120.c
-similarity index 100%
-rename from hw/mips/gt64xxx_pci.c
-rename to hw/pci-host/gt64120.c
-diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
-index e832babc9d..9a813d552e 100644
---- a/hw/pci-host/meson.build
-+++ b/hw/pci-host/meson.build
-@@ -1,6 +1,7 @@
- pci_ss = ss.source_set()
- pci_ss.add(when: 'CONFIG_PAM', if_true: files('pam.c'))
- pci_ss.add(when: 'CONFIG_PCI_BONITO', if_true: files('bonito.c'))
-+pci_ss.add(when: 'CONFIG_GT64120', if_true: files('gt64120.c'))
- pci_ss.add(when: 'CONFIG_PCI_EXPRESS_DESIGNWARE', if_true: files('designware.c'))
- pci_ss.add(when: 'CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', if_true: files('gpex.c'))
- pci_ss.add(when: ['CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', 'CONFIG_ACPI'], if_true: files('gpex-acpi.c'))
-diff --git a/hw/pci-host/trace-events b/hw/pci-host/trace-events
-index 437e66ff50..9d216bb89f 100644
---- a/hw/pci-host/trace-events
-+++ b/hw/pci-host/trace-events
-@@ -6,6 +6,13 @@ bonito_spciconf_small_access(uint64_t addr, unsigned size) "PCI config address i
- # grackle.c
- grackle_set_irq(int irq_num, int level) "set_irq num %d level %d"
++    stl_p(p, 0);
++    p++;
++    *ptr = p;
+ }
  
-+# gt64120.c
-+gt64120_read(uint64_t addr, uint64_t value) "gt64120 read 0x%03"PRIx64" value:0x%08" PRIx64
-+gt64120_write(uint64_t addr, uint64_t value) "gt64120 write 0x%03"PRIx64" value:0x%08" PRIx64
-+gt64120_read_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 read %s size:%u value:0x%08" PRIx64
-+gt64120_write_intreg(const char *regname, unsigned size, uint64_t value) "gt64120 write %s size:%u value:0x%08" PRIx64
-+gt64120_isd_remap(uint64_t from_length, uint64_t from_addr, uint64_t to_length, uint64_t to_addr) "ISD: 0x%08" PRIx64 "@0x%08" PRIx64 " -> 0x%08" PRIx64 "@0x%08" PRIx64
+-static void bl_gen_r_type(uint32_t **p, uint8_t opcode,
++static void bl_gen_r_type(void **ptr, uint8_t opcode,
+                           bl_reg rs, bl_reg rt, bl_reg rd,
+                           uint8_t shift, uint8_t funct)
+ {
++    uint32_t *p = *ptr;
+     uint32_t insn = 0;
+ 
+     insn = deposit32(insn, 26, 6, opcode);
+@@ -74,13 +78,16 @@ static void bl_gen_r_type(uint32_t **p, uint8_t opcode,
+     insn = deposit32(insn, 6, 5, shift);
+     insn = deposit32(insn, 0, 6, funct);
+ 
+-    stl_p(*p, insn);
+-    *p = *p + 1;
++    stl_p(p, insn);
++    p++;
 +
- # mv64361.c
- mv64361_region_map(const char *name, uint64_t poffs, uint64_t size, uint64_t moffs) "Mapping %s 0x%"PRIx64"+0x%"PRIx64" @ 0x%"PRIx64
- mv64361_region_enable(const char *op, int num) "Should %s region %d"
++    *ptr = p;
+ }
+ 
+-static void bl_gen_i_type(uint32_t **p, uint8_t opcode,
++static void bl_gen_i_type(void **ptr, uint8_t opcode,
+                           bl_reg rs, bl_reg rt, uint16_t imm)
+ {
++    uint32_t *p = *ptr;
+     uint32_t insn = 0;
+ 
+     insn = deposit32(insn, 26, 6, opcode);
+@@ -88,12 +95,14 @@ static void bl_gen_i_type(uint32_t **p, uint8_t opcode,
+     insn = deposit32(insn, 16, 5, rt);
+     insn = deposit32(insn, 0, 16, imm);
+ 
+-    stl_p(*p, insn);
+-    *p = *p + 1;
++    stl_p(p, insn);
++    p++;
++
++    *ptr = p;
+ }
+ 
+ /* Single instructions */
+-static void bl_gen_dsll(uint32_t **p, bl_reg rd, bl_reg rt, uint8_t sa)
++static void bl_gen_dsll(void **p, bl_reg rd, bl_reg rt, uint8_t sa)
+ {
+     if (bootcpu_supports_isa(ISA_MIPS3)) {
+         bl_gen_r_type(p, 0, 0, rt, rd, sa, 0x38);
+@@ -102,28 +111,28 @@ static void bl_gen_dsll(uint32_t **p, bl_reg rd, bl_reg rt, uint8_t sa)
+     }
+ }
+ 
+-static void bl_gen_jalr(uint32_t **p, bl_reg rs)
++static void bl_gen_jalr(void **p, bl_reg rs)
+ {
+     bl_gen_r_type(p, 0, rs, 0, BL_REG_RA, 0, 0x09);
+ }
+ 
+-static void bl_gen_lui(uint32_t **p, bl_reg rt, uint16_t imm)
++static void bl_gen_lui(void **p, bl_reg rt, uint16_t imm)
+ {
+     /* R6: It's a alias of AUI with RS = 0 */
+     bl_gen_i_type(p, 0x0f, 0, rt, imm);
+ }
+ 
+-static void bl_gen_ori(uint32_t **p, bl_reg rt, bl_reg rs, uint16_t imm)
++static void bl_gen_ori(void **p, bl_reg rt, bl_reg rs, uint16_t imm)
+ {
+     bl_gen_i_type(p, 0x0d, rs, rt, imm);
+ }
+ 
+-static void bl_gen_sw(uint32_t **p, bl_reg rt, uint8_t base, uint16_t offset)
++static void bl_gen_sw(void **p, bl_reg rt, uint8_t base, uint16_t offset)
+ {
+     bl_gen_i_type(p, 0x2b, base, rt, offset);
+ }
+ 
+-static void bl_gen_sd(uint32_t **p, bl_reg rt, uint8_t base, uint16_t offset)
++static void bl_gen_sd(void **p, bl_reg rt, uint8_t base, uint16_t offset)
+ {
+     if (bootcpu_supports_isa(ISA_MIPS3)) {
+         bl_gen_i_type(p, 0x3f, base, rt, offset);
+@@ -133,13 +142,13 @@ static void bl_gen_sd(uint32_t **p, bl_reg rt, uint8_t base, uint16_t offset)
+ }
+ 
+ /* Pseudo instructions */
+-static void bl_gen_li(uint32_t **p, bl_reg rt, uint32_t imm)
++static void bl_gen_li(void **p, bl_reg rt, uint32_t imm)
+ {
+     bl_gen_lui(p, rt, extract32(imm, 16, 16));
+     bl_gen_ori(p, rt, rt, extract32(imm, 0, 16));
+ }
+ 
+-static void bl_gen_dli(uint32_t **p, bl_reg rt, uint64_t imm)
++static void bl_gen_dli(void **p, bl_reg rt, uint64_t imm)
+ {
+     bl_gen_li(p, rt, extract64(imm, 32, 32));
+     bl_gen_dsll(p, rt, rt, 16);
+@@ -148,7 +157,7 @@ static void bl_gen_dli(uint32_t **p, bl_reg rt, uint64_t imm)
+     bl_gen_ori(p, rt, rt, extract64(imm, 0, 16));
+ }
+ 
+-static void bl_gen_load_ulong(uint32_t **p, bl_reg rt, target_ulong imm)
++static void bl_gen_load_ulong(void **p, bl_reg rt, target_ulong imm)
+ {
+     if (bootcpu_supports_isa(ISA_MIPS3)) {
+         bl_gen_dli(p, rt, imm); /* 64bit */
+@@ -158,14 +167,14 @@ static void bl_gen_load_ulong(uint32_t **p, bl_reg rt, target_ulong imm)
+ }
+ 
+ /* Helpers */
+-void bl_gen_jump_to(uint32_t **p, target_ulong jump_addr)
++void bl_gen_jump_to(void **p, target_ulong jump_addr)
+ {
+     bl_gen_load_ulong(p, BL_REG_T9, jump_addr);
+     bl_gen_jalr(p, BL_REG_T9);
+     bl_gen_nop(p); /* delay slot */
+ }
+ 
+-void bl_gen_jump_kernel(uint32_t **p,
++void bl_gen_jump_kernel(void **p,
+                         bool set_sp, target_ulong sp,
+                         bool set_a0, target_ulong a0,
+                         bool set_a1, target_ulong a1,
+@@ -192,7 +201,7 @@ void bl_gen_jump_kernel(uint32_t **p,
+     bl_gen_jump_to(p, kernel_addr);
+ }
+ 
+-void bl_gen_write_ulong(uint32_t **p, target_ulong addr, target_ulong val)
++void bl_gen_write_ulong(void **p, target_ulong addr, target_ulong val)
+ {
+     bl_gen_load_ulong(p, BL_REG_K0, val);
+     bl_gen_load_ulong(p, BL_REG_K1, addr);
+@@ -203,14 +212,14 @@ void bl_gen_write_ulong(uint32_t **p, target_ulong addr, target_ulong val)
+     }
+ }
+ 
+-void bl_gen_write_u32(uint32_t **p, target_ulong addr, uint32_t val)
++void bl_gen_write_u32(void **p, target_ulong addr, uint32_t val)
+ {
+     bl_gen_li(p, BL_REG_K0, val);
+     bl_gen_load_ulong(p, BL_REG_K1, addr);
+     bl_gen_sw(p, BL_REG_K0, BL_REG_K1, 0x0);
+ }
+ 
+-void bl_gen_write_u64(uint32_t **p, target_ulong addr, uint64_t val)
++void bl_gen_write_u64(void **p, target_ulong addr, uint64_t val)
+ {
+     bl_gen_dli(p, BL_REG_K0, val);
+     bl_gen_load_ulong(p, BL_REG_K1, addr);
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index edda87e23c..b6dd9fb200 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -323,7 +323,7 @@ static void boston_register_types(void)
+ }
+ type_init(boston_register_types)
+ 
+-static void gen_firmware(uint32_t *p, hwaddr kernel_entry, hwaddr fdt_addr)
++static void gen_firmware(void *p, hwaddr kernel_entry, hwaddr fdt_addr)
+ {
+     uint64_t regaddr;
+ 
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 34befa5dd5..cfc8ca6ae4 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -179,7 +179,7 @@ static void write_bootloader(CPUMIPSState *env, uint8_t *base,
+     /* Second part of the bootloader */
+     p = (uint32_t *)(base + 0x040);
+ 
+-    bl_gen_jump_kernel(&p,
++    bl_gen_jump_kernel((void **)&p,
+                        true, ENVP_VADDR - 64,
+                        true, 2, true, ENVP_VADDR,
+                        true, ENVP_VADDR + 8,
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index f959bce673..b5b62e7245 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -844,6 +844,7 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
+                              uint64_t kernel_entry)
+ {
+     uint32_t *p;
++    void *v;
+ 
+     /* Small bootloader */
+     p = (uint32_t *)base;
+@@ -886,38 +887,39 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
+ #else
+ #define cpu_to_gt32 cpu_to_be32
+ #endif
++    v = p;
+ 
+     /* move GT64120 registers from 0x14000000 to 0x1be00000 */
+-    bl_gen_write_u32(&p, /* GT_ISD */
++    bl_gen_write_u32(&v, /* GT_ISD */
+                      cpu_mips_phys_to_kseg1(NULL, 0x14000000 + 0x68),
+                      cpu_to_gt32(0x1be00000 << 3));
+ 
+     /* setup MEM-to-PCI0 mapping */
+     /* setup PCI0 io window to 0x18000000-0x181fffff */
+-    bl_gen_write_u32(&p, /* GT_PCI0IOLD */
++    bl_gen_write_u32(&v, /* GT_PCI0IOLD */
+                      cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x48),
+                      cpu_to_gt32(0x18000000 << 3));
+-    bl_gen_write_u32(&p, /* GT_PCI0IOHD */
++    bl_gen_write_u32(&v, /* GT_PCI0IOHD */
+                      cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x50),
+                      cpu_to_gt32(0x08000000 << 3));
+     /* setup PCI0 mem windows */
+-    bl_gen_write_u32(&p, /* GT_PCI0M0LD */
++    bl_gen_write_u32(&v, /* GT_PCI0M0LD */
+                      cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x58),
+                      cpu_to_gt32(0x10000000 << 3));
+-    bl_gen_write_u32(&p, /* GT_PCI0M0HD */
++    bl_gen_write_u32(&v, /* GT_PCI0M0HD */
+                      cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x60),
+                      cpu_to_gt32(0x07e00000 << 3));
+ 
+-    bl_gen_write_u32(&p, /* GT_PCI0M1LD */
++    bl_gen_write_u32(&v, /* GT_PCI0M1LD */
+                      cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x80),
+                      cpu_to_gt32(0x18200000 << 3));
+-    bl_gen_write_u32(&p, /* GT_PCI0M1HD */
++    bl_gen_write_u32(&v, /* GT_PCI0M1HD */
+                      cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x88),
+                      cpu_to_gt32(0x0bc00000 << 3));
+ 
+ #undef cpu_to_gt32
+ 
+-    bl_gen_jump_kernel(&p,
++    bl_gen_jump_kernel(&v,
+                        true, ENVP_VADDR - 64,
+                        /*
+                         * If semihosting is used, arguments have already been
+@@ -928,6 +930,7 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
+                        true, ENVP_VADDR + 8,
+                        true, loaderparams.ram_low_size,
+                        kernel_entry);
++    p = v;
+ 
+     /* YAMON subroutines */
+     p = (uint32_t *) (base + 0x800);
+diff --git a/include/hw/mips/bootloader.h b/include/hw/mips/bootloader.h
+index fffb0b7da8..c32f6c2835 100644
+--- a/include/hw/mips/bootloader.h
++++ b/include/hw/mips/bootloader.h
+@@ -11,16 +11,16 @@
+ 
+ #include "exec/cpu-defs.h"
+ 
+-void bl_gen_jump_to(uint32_t **p, target_ulong jump_addr);
+-void bl_gen_jump_kernel(uint32_t **p,
++void bl_gen_jump_to(void **ptr, target_ulong jump_addr);
++void bl_gen_jump_kernel(void **ptr,
+                         bool set_sp, target_ulong sp,
+                         bool set_a0, target_ulong a0,
+                         bool set_a1, target_ulong a1,
+                         bool set_a2, target_ulong a2,
+                         bool set_a3, target_ulong a3,
+                         target_ulong kernel_addr);
+-void bl_gen_write_ulong(uint32_t **p, target_ulong addr, target_ulong val);
+-void bl_gen_write_u32(uint32_t **p, target_ulong addr, uint32_t val);
+-void bl_gen_write_u64(uint32_t **p, target_ulong addr, uint64_t val);
++void bl_gen_write_ulong(void **ptr, target_ulong addr, target_ulong val);
++void bl_gen_write_u32(void **ptr, target_ulong addr, uint32_t val);
++void bl_gen_write_u64(void **ptr, target_ulong addr, uint64_t val);
+ 
+ #endif
 -- 
 2.38.1
 
