@@ -2,87 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA34A66A61F
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 23:43:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D8766A63C
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 23:51:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGSlM-0003bR-BL; Fri, 13 Jan 2023 17:43:04 -0500
+	id 1pGSsf-0005en-My; Fri, 13 Jan 2023 17:50:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGSlJ-0003aT-2B
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 17:43:01 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGSsZ-0005e8-Ex
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 17:50:32 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGSlH-0002Ph-GS
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 17:43:00 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id a184so17210619pfa.9
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 14:42:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JFuUXodROaUAYB6ammvWLPyssFQl/W7rShYz6IWmVCY=;
- b=AWV9KmEr6IfZQzOXCg99xRh175WBtG/GCyd7qa2FtQOORF8l9NE1co4+V3sU+6/F8f
- p548pN/4iBthXqQsFh2RD3y8+xi6XSGRRvghvI445pwd92HV5MZ2XcJcxCt8WPwFP602
- TFInURKfv587jaq0uvEhAiU652OFie0j/vVWH3zQFfnCMxjHUzAa/nI2ZD7NsJ89QcxE
- /Z1e4BJDmHmzlH5idUniBJlu91nByR036jyq8tAdMJoNMwDS6nTQ3FsRqfqAhpw17H4R
- hgoZrqQxgM5bFEDtDjMWVE+A1yZQuAM9Mb9cgat9/oFYWJcnOuh0F3eY18f3iTntZV2I
- NyHg==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGSsX-0003ko-Bd
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 17:50:30 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id v23so23805306pju.3
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 14:50:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=yQZCEBEaghsOR+zhl/QRIXPVX+uCKPvU91VQuy/V94s=;
+ b=X76rLWdZrm8cdm781bGE/NuVpMIrvPOi9lGhvncTfFs81VVxsQB/QGGTWKxHh1GL1W
+ d/AoRzt/BgZEnefw0frAVABgAhcfb0NjbvQQ6PThCX1YXedTBAqOobICTThGoiP6om5q
+ O3KMRfb6M32Bg7CVQSQvIy3h9U9bkySatLBmzLp/OFGTsGTVJq+w1gHMbDBjfBgq7rHh
+ ADYr+PPp2TF3nGbuwOKFE5/4euBQA3ZQaQSM4gqqLZGzGNJeHa+tfxiLoUS2z+t4YmPi
+ kKxrLU/4iehY+TcpZNW1WLdBUrSh7cY4mTcXmXq7RCEGkbTb53lk/EI3QzzxovpqZqg9
+ 0htA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JFuUXodROaUAYB6ammvWLPyssFQl/W7rShYz6IWmVCY=;
- b=2/qmu9nC6XGw7Fa013db/jvynQuIXIZfAALbwqrYF4hQsJCJfHUkk2nGzd/33A/KJ9
- wvh8QCoMEVlHQaqCCto0UchKt5BcH3RPk1LXJhMRYJWxolC6AmYcI0JCkDZRzUWP15s6
- wELIYrdEaYs6rl9Q+YVcAYeNEu5asO3EJFNCe8sSuW/Hc5Znqdqrjq2XKRegYUHp+xlm
- 1yVofklIAR9vQWRQxcEHJW4RH8BVJiI4q5GQENVN6RuBc04LoSfu3yZiefuKHPzr0NKJ
- O4/QmnK+6KbMFDctOybvKQbVOGhDnl7BpnEPtvDL7XZj6qJnQ/sDIMXJALdx4vSH0fd9
- 7niQ==
-X-Gm-Message-State: AFqh2kpzoMG0KXddTrrHesQ+tyBJ04hiwC5nJgf/Sd3WnwDXB8XSCF9p
- h9phVYQMo/wJdvV7vTDmUlAIWQ==
-X-Google-Smtp-Source: AMrXdXu5SKW48TWy1e8voWo/k5XDUG/vHDMevzlxxrLSDjfgn9HuGeBMqZhxD36QCpBYJmrFpH0zjw==
-X-Received: by 2002:a05:6a00:2997:b0:582:1f25:5b8 with SMTP id
- cj23-20020a056a00299700b005821f2505b8mr51025334pfb.19.1673649777920; 
- Fri, 13 Jan 2023 14:42:57 -0800 (PST)
-Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- 4-20020a620404000000b00576ee69c130sm14094065pfe.4.2023.01.13.14.42.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 14:42:57 -0800 (PST)
-Message-ID: <b4b23d67-99e3-0b79-85c3-e44943b025c1@linaro.org>
-Date: Fri, 13 Jan 2023 12:42:53 -1000
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yQZCEBEaghsOR+zhl/QRIXPVX+uCKPvU91VQuy/V94s=;
+ b=WB1WFbsJMRViw2n+TiJ6TGLi4UCdSVno74oDLzRR4oTfMN6ds6qiOEDnh3IbmisHLf
+ j9Y38uh+AJMTLl+q+t/xwWwKg/Jof0OlMefl+5SpNwf4eIXv89SIGkU7HTO+HNfLBJDX
+ lRAWCLXEtPs9NqijbUNlpAEblhRN/HEty2VMibjALCW5OSWULS7oFyx+h9seKMb5ljFh
+ KH3htxg9s4D0urPgmGvbroNO085MQEQDkyDc64EVT+OFVf6gRZGl/f7gg0LkN5GS9ggW
+ u1aopxicv3axKO4jPEJEtXK5YhVvv4zisLNfCoFeAHMcAh3dNmaidaVAfyVJE47F81aB
+ 10uw==
+X-Gm-Message-State: AFqh2krGz9KN8TVK+tNQgKB5nllkPeSPWucUDam4cdwMx+USKmOj9uzd
+ unMfRJxC3Uw2LV0SlbTrysr5mg==
+X-Google-Smtp-Source: AMrXdXuS4zXTytfOZ5xIh4bs+rkmeZmK+QXoBwGpkC3p2EnL8ac6bXz6nz3yQ+yKSuiIei2pYWQMCA==
+X-Received: by 2002:a17:902:b10e:b0:191:4367:7fde with SMTP id
+ q14-20020a170902b10e00b0019143677fdemr1360463plr.0.1673650227268; 
+ Fri, 13 Jan 2023 14:50:27 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ 13-20020a170902c24d00b0019460ac7c6asm3819704plg.283.2023.01.13.14.50.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Jan 2023 14:50:26 -0800 (PST)
+Date: Fri, 13 Jan 2023 22:50:22 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 6/9] KVM: Unmap existing mappings when change the
+ memory attributes
+Message-ID: <Y8HgLq/CqTaEi/ME@google.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-7-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH v3 28/28] arm/Kconfig: Do not build TCG-only boards on
- a KVM-only build
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-References: <20230113140419.4013-1-farosas@suse.de>
- <20230113140419.4013-29-farosas@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230113140419.4013-29-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221202061347.1070246-7-chao.p.peng@linux.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,13 +114,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/13/23 06:04, Fabiano Rosas wrote:
->   config CHEETAH
->       bool
-> +    default y if TCG && (ARM || AARCH64)
+On Fri, Dec 02, 2022, Chao Peng wrote:
+> @@ -785,11 +786,12 @@ struct kvm {
+>  
+>  #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
+>  	struct mmu_notifier mmu_notifier;
+> +#endif
+>  	unsigned long mmu_invalidate_seq;
+>  	long mmu_invalidate_in_progress;
+>  	gfn_t mmu_invalidate_range_start;
+>  	gfn_t mmu_invalidate_range_end;
+> -#endif
 
-Shouldn't need both ARM and AARCH64?
+Blech.  The existing code is a bit ugly, and trying to extend for this use case
+makes things even worse.
+
+Rather than use the base MMU_NOTIFIER Kconfig and an arbitrary define, I think we
+should first add a proper Kconfig, e.g. KVM_GENERIC_MMU_NOTIFIER, to replace the
+combination.  E.g
+
+	config KVM_GENERIC_MMU_NOTIFIER
+	       select MMU_NOTIFIER
+	       bool
+
+and then all architectures that currently #define KVM_ARCH_WANT_MMU_NOTIFIER can
+simply select the Kconfig, which is everything except s390.  "GENERIC" again because
+s390 does select MMU_NOTIFER and actually registers its own notifier for s390's
+version of protected VMs (at least, I think that's what its "pv" stands for).
+
+And then later down the line in this series, when the attributes and private mem
+needs to tie into the notifiers, we can do:
 
 
-r`
+	config KVM_GENERIC_MEMORY_ATTRIBUTES
+	       select KVM_GENERIC_MMU_NOTIFIER
+	       bool
+
+I.e. that way this patch doesn't need to partially expose KVM's notifier stuff
+and can instead just keep the soon-to-be-existing KVM_GENERIC_MMU_NOTIFIER.
+
+Taking a depending on KVM_GENERIC_MMU_NOTIFIER for KVM_GENERIC_MEMORY_ATTRIBUTES
+makes sense, because AFAICT, changing any type of attribute, e.g. RWX bits, is
+going to necessitate unmapping the affected gfn range.
+
+>  	struct list_head devices;
+>  	u64 manual_dirty_log_protect;
+>  	struct dentry *debugfs_dentry;
+> @@ -1480,6 +1482,7 @@ bool kvm_arch_dy_has_pending_interrupt(struct kvm_vcpu *vcpu);
+>  int kvm_arch_post_init_vm(struct kvm *kvm);
+>  void kvm_arch_pre_destroy_vm(struct kvm *kvm);
+>  int kvm_arch_create_vm_debugfs(struct kvm *kvm);
+> +bool kvm_arch_has_private_mem(struct kvm *kvm);
+
+The reference to private memory belongs in a later patch.  More below.
+
+> +static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end)
+> +{
+> +	struct kvm_gfn_range gfn_range;
+> +	struct kvm_memory_slot *slot;
+> +	struct kvm_memslots *slots;
+> +	struct kvm_memslot_iter iter;
+> +	int i;
+> +	int r = 0;
+
+The return from kvm_unmap_gfn_range() is a bool, this should be:
+
+	bool flush = false;
+
+> +
+> +	gfn_range.pte = __pte(0);
+> +	gfn_range.may_block = true;
+> +
+> +	for (i = 0; i < KVM_ADDRESS_SPACE_NUM; i++) {
+> +		slots = __kvm_memslots(kvm, i);
+> +
+> +		kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
+> +			slot = iter.slot;
+> +			gfn_range.start = max(start, slot->base_gfn);
+> +			gfn_range.end = min(end, slot->base_gfn + slot->npages);
+> +			if (gfn_range.start >= gfn_range.end)
+> +				continue;
+> +			gfn_range.slot = slot;
+> +
+> +			r |= kvm_unmap_gfn_range(kvm, &gfn_range);
+> +		}
+> +	}
+> +
+> +	if (r)
+> +		kvm_flush_remote_tlbs(kvm);
+> +}
+> +
+>  static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+>  					   struct kvm_memory_attributes *attrs)
+>  {
+>  	gfn_t start, end;
+>  	unsigned long i;
+>  	void *entry;
+> +	int idx;
+>  	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
+>  
+> -	/* flags is currently not used. */
+> +	/* 'flags' is currently not used. */
+
+Kind of a spurious change.
+
+>  	if (attrs->flags)
+>  		return -EINVAL;
+>  	if (attrs->attributes & ~supported_attrs)
+> @@ -2372,6 +2409,13 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+>  
+>  	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
+>  
+> +	if (kvm_arch_has_private_mem(kvm)) {
+
+I think we should assume that any future attributes will necessitate unmapping
+and invalidation, i.e. drop the private mem check.  That allows introducing
+kvm_arch_has_private_mem() in a later patch that is more directly related to
+private memory.
+
+> +		KVM_MMU_LOCK(kvm);
+> +		kvm_mmu_invalidate_begin(kvm);
+> +		kvm_mmu_invalidate_range_add(kvm, start, end);
+> +		KVM_MMU_UNLOCK(kvm);
+> +	}
+> +
+>  	mutex_lock(&kvm->lock);
+>  	for (i = start; i < end; i++)
+>  		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+> @@ -2379,6 +2423,16 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+>  			break;
+>  	mutex_unlock(&kvm->lock);
+>  
+> +	if (kvm_arch_has_private_mem(kvm)) {
+> +		idx = srcu_read_lock(&kvm->srcu);
+
+Mostly for reference, this goes away if slots_lock is used instead of kvm->lock.
+
+> +		KVM_MMU_LOCK(kvm);
+> +		if (i > start)
+> +			kvm_unmap_mem_range(kvm, start, i);
+> +		kvm_mmu_invalidate_end(kvm);
+> +		KVM_MMU_UNLOCK(kvm);
+> +		srcu_read_unlock(&kvm->srcu, idx);
+> +	}
+> +
+>  	attrs->address = i << PAGE_SHIFT;
+>  	attrs->size = (end - i) << PAGE_SHIFT;
+>  
+> -- 
+> 2.25.1
+> 
 
