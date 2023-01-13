@@ -2,80 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBAD6669B80
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 16:11:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AAB7669C4A
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 16:31:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGKnL-0001a4-Sf; Fri, 13 Jan 2023 09:12:35 -0500
+	id 1pGKv6-0006C0-V4; Fri, 13 Jan 2023 09:20:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKn2-0001GA-D8
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:12:17 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pGKmm-0003f4-Db
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:12:05 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- m8-20020a05600c3b0800b003d96f801c48so18858298wms.0
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 06:11:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=HmdzEgyrds4NnZWZ6I/XMHkwj8I5g3It69CazaZPIlk=;
- b=nBiJhr+o4D+Oz8dCDOwggv8GYVX85phJcrw+A17d7eJHCYWj+vSZ6JgYLQiQakU8QI
- qqkZjOezBzTx00zD1/N3Nnbj1/DbWeZN1c0+wwM0h/OnzwR/GCypbkelWoRjOVDBwN2S
- bv3eJgvQwEbHxFexZi2jREdM1KYTrRGQzilhsptEMkKp+Oqu9DQ7XIpBz1WXmT6QfFF+
- R8d6+RcDOlrAjPFPUIvv39qhD970jSDXOudJWe574JstnqY9GJpGnp6Vc71vNrVSEqNg
- gN+Nu2EXEa8KzNpVjQTCupVYQAZucv05254JpJ6PfZswbk/gTb/x4jFbdbjFbSRM872i
- VmTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HmdzEgyrds4NnZWZ6I/XMHkwj8I5g3It69CazaZPIlk=;
- b=3Pbf10MIXCkSJi6BI7PEFGC8bqsdCE+H6V45wfcLqulaeFLO0Qx29+bVFtfg5PJi48
- ZASaYbkfmjU6XvB/bNdsQV07mGQUynvkFLrh/UudsUW5o1xc3VPe011XOwMI/4bXBoLX
- skGoo9pll/UfFh3hFsJ3QEwBafh2SsaygMJ1bqQC1Rr4eDBrbBw+pDGbHPOQ22SXOuKf
- GvM62FMq9QxDC4yBeeZDa3LPF7wGnC4DByyy8wsZH5B1atOKAJkgxIa8ee225x701JlP
- OBC/uDEEUohorLT9hNC1/7uK8KLQNYEtMa4Gk/dpFweWdKzld4yoC72l781YVV9SfN77
- FMkg==
-X-Gm-Message-State: AFqh2kr09V0ce7iNajZGW0EiLjYxE9GU+jbdQlao+Z7/cuMWzDKsR5Cw
- EyztZSYV/GFcbrs9CcwU6c9RUSVMRPdQF5JA
-X-Google-Smtp-Source: AMrXdXuiu1CDPsjDo7rPfV7uBsDSuM/B7KzsyLFDKofhR0K5G7s9B1/mYi1sJPdA6hbLwi/QCPZ/wg==
-X-Received: by 2002:a05:600c:54cb:b0:3cf:d0be:1231 with SMTP id
- iw11-20020a05600c54cb00b003cfd0be1231mr69556977wmb.13.1673619119679; 
- Fri, 13 Jan 2023 06:11:59 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- n36-20020a05600c502400b003da0b75de94sm5334464wmr.8.2023.01.13.06.11.58
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 06:11:59 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 37/38] hw/timer/xilinx_timer: Use XpsTimerState instead of
- 'struct timerblock'
-Date: Fri, 13 Jan 2023 14:11:25 +0000
-Message-Id: <20230113141126.535646-38-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230113141126.535646-1-peter.maydell@linaro.org>
-References: <20230113141126.535646-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1pGKue-0006AB-1q
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:20:08 -0500
+Received: from mail-dm6nam12on2052.outbound.protection.outlook.com
+ ([40.107.243.52] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1pGKuc-0005mc-Cs
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 09:20:07 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KX2/KTxnwqBW869hYGNxeWv0VnWkMxbLKKmGqYNrtFsKtvq0uspCcHFFW4XdpFlrQQDrHzvAapQnTZ+2MYe1VmfV3LSRV2JRf2s2uTCou/7tm678VStuk6NiaxdxtAOQVqTK/1kefi3R1a8V277vNZchfOURqrFpcF6CMTWdfiL6y9u2/Gpe6PyElmca3Cz/1NkiCLupoUqp5z83tWlF4xJij/LLpLnKDXb/KfaPv54IMggBQY5Dv88zmBcutRo/hltO9m0bSR2Ctz8PVZh/37KkCrh4/cbXSSZ/8cCqnU7gJncc8sUM+EECix7fDnkRy0nrcfso+gJyeT6OSkJZIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q7hEEaGRDcT82ENJbvC3vru+9dItDdKQKOGg+KG227c=;
+ b=XY6czwvFoTbyHrHEqip/DWZQwfVcC4vYm9CPxY1UN4Jb1CL4sP6NYRlPnO8TMwzE2goFWn7h8kCIKbqjUcbjBEybZapUNLUpEBBUglANMtG+1+CaUFBfC5XPncD6EGmNmeYIQNbPNIkKYuAWw5iiewsBfIxe6GDx83F85Pla6Bc57BmocI7cbEKu8K7j5Mu+VPCJorStxSqyoaD6lpA/kqV6U2wXNkaLK8EVmgq2R/41G4VBmfbFBhzphIpX7G256f9DkEArYQ904iKjCvubOkl30eVaKrUSFN+3DDH2CzRv6xVqsJZHD8J6NxIHKHPEuKhYrdpizGyNAIrjIPxq+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q7hEEaGRDcT82ENJbvC3vru+9dItDdKQKOGg+KG227c=;
+ b=BOcl6MUYHXTi/KuX8xXFpQZWFPlq+CUMCpMMNFu2vU01Ngl03FprXeQRjUnA1T1N3SKDrBidkDgqSGt3HnWrhal078ptjeG06g9jf+HgDYoXmv0lCGLwcDG5lOQP9YqBBQMGVTkfRRgCV0VyQ50tRic92cpzzSuUhHsHY6U9Trg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
+ by MW4PR17MB4874.namprd17.prod.outlook.com (2603:10b6:303:10b::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Fri, 13 Jan
+ 2023 14:20:02 +0000
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660%4]) with mapi id 15.20.5986.018; Fri, 13 Jan 2023
+ 14:20:01 +0000
+Date: Fri, 13 Jan 2023 09:19:59 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-devel@nongnu.org, Michael Tsirkin <mst@redhat.com>,
+ Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
+ linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
+ Gregory Price <gourry.memverge@gmail.com>
+Subject: Re: [PATCH 0/8] hw/cxl: CXL emulation cleanups and minor fixes for
+ upstream
+Message-ID: <Y8Foj/12QNl0C96o@memverge.com>
+References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
+ <Y8AppXP+eP9cEz+i@memverge.com>
+ <20230112172130.0000391b@Huawei.com>
+ <Y8CNw/fZT5fZJZcK@memverge.com>
+ <20230113091213.00002146@Huawei.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230113091213.00002146@Huawei.com>
+X-ClientProxiedBy: BL1PR13CA0084.namprd13.prod.outlook.com
+ (2603:10b6:208:2b8::29) To BN6PR17MB3121.namprd17.prod.outlook.com
+ (2603:10b6:405:7c::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|MW4PR17MB4874:EE_
+X-MS-Office365-Filtering-Correlation-Id: caceab53-c63f-497d-5c5e-08daf571421d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: t6QiG8rlpAS34jN7uWyBpP6IZguuRHh7LRmr1g0Rw67oTJUQz77xnvCqCk8MMIO3vUkumItaGFH/Iy8HLipxLDx+wSOG1WBQ/ravAMWLw0ydunSJnTKNLZAt0IuUCpaDUzSfbS1Pe2Zno+/yQ5fIkTHcKvF1qRAdv2UEG2vJdzqxfZVJn4AhfrMhknsKrwUKuSTM1DV5yJQvhZfYTB9zr6fyoJB/pTZPATM1aLj+9uR2tdcIwYkoZLnaQGJN/xJf677FGCnrWsOx1Fh8p0TZQGOIQmje9G1/WuwHBEJ1gTMCpzcyNtizNQBFztr5aDLvRi8ipTReIbOU6BkYtNHG+SU9Lu4pJEqzneeydd2jq+adAVpSH+VDZ/LvuPym1WOnw5CNf7VUUD7Dsc5Xf8kw0B028SW+FvJ6Ya5ZnIamPlchcXfJkMwZkcCaU3sP1UGxsmZ95jsDnc8NmGt7cVph7QMtH9EE5ahJyCAvLOqTcRCOPxCRr+tLOwxgzcIQTjvyZlmiKjfbGZCbtHnIAzarTA0BLC8EWuIZ/HzXij+ycO+T+Pgx11snKzNRokAQQYIX+3f3MzY2IBMdEnrSGqCcWa9Whv4oP+L2PD0mOa5JrBvHEY+fM4VZK2uQ2Iso+1o3BdomQE6oWL6trivJfazjaA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(396003)(136003)(346002)(39840400004)(366004)(376002)(451199015)(6506007)(36756003)(2906002)(4001150100001)(5660300002)(4744005)(44832011)(4326008)(6916009)(8936002)(8676002)(6512007)(38100700002)(478600001)(41300700001)(6486002)(26005)(66946007)(186003)(66476007)(66556008)(2616005)(86362001)(316002)(54906003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QcwGcUUi/NQzjsI6Qkt+M57PIU6QDInm7sQIzMpHALmEAPVSvEXpZqToLdk1?=
+ =?us-ascii?Q?5pU+Kbfkr/2/NYQjj22YKPKPQNq9AH3OunjGpxwuHgERXtr1Wnp0jIpLkFyy?=
+ =?us-ascii?Q?1f2d/MntGbfxponzq8kGiBdMjI2DVYDgBjWJV9AccZyWYVyPnA2M+PsqA8X0?=
+ =?us-ascii?Q?rVkIrk8HUOVXOvMg3PE1cb9xbgsADas6CpR8cbCIBU3zGB8xRo8dhhdKEdQ/?=
+ =?us-ascii?Q?jfP+eCNR56lUEYMHw6Edi8zye3gNGCluXzNgNjMMKDckRBcrumZEjbRF/P5e?=
+ =?us-ascii?Q?wgTbpyul8zPBWoWOrswQ8tjNR7LasaM4rdRyInvfyCLRcuc0xR4BHNCcI+Og?=
+ =?us-ascii?Q?AO860trAqi8PGupHTuihiHx8EzTOgLpNrMyhlyyTN0SspdWPx8Pyfpo6yCRa?=
+ =?us-ascii?Q?Gf/BQwf7KAlzdoqctImxR/zqbiuWjlC5gVz4HAnUGVg1TBwjECsyzTQLq0rx?=
+ =?us-ascii?Q?CiAS/vb7Vd62nL1fO+z/GM6wBm4hj4wATxYpq/iyEKx2GXkIZW+uc+jRCGli?=
+ =?us-ascii?Q?kOd8AfM9KmFIZHEzNQ9bjtC07qfX+nB07TrzGwx8e7hKgV1KpHp6xRwWR7qx?=
+ =?us-ascii?Q?PFoNFeaW+1kFEYkDt+EJBZnvl8Tsxyi3jQ+u4+1Zo81VGYj+AtFvGCYZ0l39?=
+ =?us-ascii?Q?YbNcXeKL6Y4jqSB+fdZA5cac1bkOVsFjc5vDlhIweqep1ytkitL2gFsMKNju?=
+ =?us-ascii?Q?xGGAzFTZwjUVxrYXXceocYUkg5qSUd+GcqtS1kxKXFCOuY5TmG6SARcPNBgi?=
+ =?us-ascii?Q?G0qv1O9cAS5dSRUm9yjbu56Hx5UMRge6t8IZEYHA0g3xShZCVZ8PHATQExI3?=
+ =?us-ascii?Q?EVZVpYLO63w0VrDk9jEryB0WW8RE+1suwVEskXgLynFzyexd0x7UWEESae7d?=
+ =?us-ascii?Q?CQYl7ButaQzAJ5TBVV1uYaCAj4wIeJkfAxplk/16VnJgB6IR147MaeQ4PlTu?=
+ =?us-ascii?Q?pB+lEdmLZJcT/p38eiOwjkz175TBFtGMjrsGG4z7jUKFyanNfl/uGNWg3qWv?=
+ =?us-ascii?Q?xJNsmEpm9Xa4E4Mn64hQcti3P9aF1Qd9l9cISJzg9kJJ76MO2XJllNLACzth?=
+ =?us-ascii?Q?Yqba0nQv9SvdURWuzII7/Glnfh6YEl+lY4E/MgvXes+jUEuy99fsER2XAVjo?=
+ =?us-ascii?Q?JngB+uAXyAzcZ2KOEnh1l+LZrl2djiWfoujqiKRIAmNLvFMnXkaXaDHijBXf?=
+ =?us-ascii?Q?I53ZL1BFGUF2sfWJn6NtNo2EF6jyJK/E2D+ZGJfM9d/w+h2ov7l1dtjs5+Xc?=
+ =?us-ascii?Q?n0qauROM3gVJMOqx0sT/jznmhA9EYHYDwQ3cj6mH6gskYd8NAED5iLCluk+d?=
+ =?us-ascii?Q?xFfZSCU8SdHEu+kvHWqmjRT5WakzhyaQwbFlpBgo1mvbvFfJ+X0iIEwJS0Ya?=
+ =?us-ascii?Q?63icO7oPOR3LpYbq0aY5jJ1Y4lU7/fRrrqNIsnAI5XBcrJ7x6tXJLZTZimSY?=
+ =?us-ascii?Q?3HDAK/DfO9+CuNXUGzdl6fuSN1I5fAIZsj3B9t3QtHs0RlESBB+Ok+UaItsC?=
+ =?us-ascii?Q?Cm5vhaVr7OE7/buGd8HjIvvLDh8khPHyqZ7SYKVVU2dO7w4plw5/3dyDk0E8?=
+ =?us-ascii?Q?o1fEY98091yvcrMNj4GWXH4EzSFiqWW4tXYO/iKtXeQAtE1s50MnIcSP8Ft3?=
+ =?us-ascii?Q?EQ=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: caceab53-c63f-497d-5c5e-08daf571421d
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 14:20:01.7551 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EoRj99LT/3vLnMyvXfpFGakfcnFAbCRlks2wU5kJkHL1smcoYiPeuQjdqZR/OJW+lDPrRp9KlveapNW6bP/0dYIA7TrVIUcCYnxssE+knB4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR17MB4874
+Received-SPF: none client-ip=40.107.243.52;
+ envelope-from=gregory.price@memverge.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,126 +142,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+On Fri, Jan 13, 2023 at 09:12:13AM +0000, Jonathan Cameron wrote:
+> 
+> Just to check, are these different from the on stack problem you reported
+> previously?  Doesn't look like the fix for that has made it upstream yet.
+> 
+> What kernel are you running?
+> 
+> 
 
-This remove a use of 'struct' in the DECLARE_INSTANCE_CHECKER()
-macro call, to avoid after a QOM refactor:
+The prior issue I saw was related to the CXL Fixed Memory Window having
+an e820 region registered during machine initialization.  That fix is
+upstream.
 
-  hw/timer/xilinx_timer.c:65:1: error: declaration of anonymous struct must be a definition
-  DECLARE_INSTANCE_CHECKER(struct timerblock, XILINX_TIMER,
-                           ^
+On 2023-1-11 branch it is commit 2486dd045794d65598fbca9fd1224c27b9732dce
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Edgar E. Iglesias <edgar@zeroasic.com>
-Message-id: 20230109140306.23161-15-philmd@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/timer/xilinx_timer.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
-
-diff --git a/hw/timer/xilinx_timer.c b/hw/timer/xilinx_timer.c
-index c7f17cd6460..32a9df69e0b 100644
---- a/hw/timer/xilinx_timer.c
-+++ b/hw/timer/xilinx_timer.c
-@@ -62,10 +62,10 @@ struct xlx_timer
- };
- 
- #define TYPE_XILINX_TIMER "xlnx.xps-timer"
--DECLARE_INSTANCE_CHECKER(struct timerblock, XILINX_TIMER,
--                         TYPE_XILINX_TIMER)
-+typedef struct XpsTimerState XpsTimerState;
-+DECLARE_INSTANCE_CHECKER(XpsTimerState, XILINX_TIMER, TYPE_XILINX_TIMER)
- 
--struct timerblock
-+struct XpsTimerState
- {
-     SysBusDevice parent_obj;
- 
-@@ -76,7 +76,7 @@ struct timerblock
-     struct xlx_timer *timers;
- };
- 
--static inline unsigned int num_timers(struct timerblock *t)
-+static inline unsigned int num_timers(XpsTimerState *t)
- {
-     return 2 - t->one_timer_only;
- }
-@@ -87,7 +87,7 @@ static inline unsigned int timer_from_addr(hwaddr addr)
-     return addr >> 2;
- }
- 
--static void timer_update_irq(struct timerblock *t)
-+static void timer_update_irq(XpsTimerState *t)
- {
-     unsigned int i, irq = 0;
-     uint32_t csr;
-@@ -104,7 +104,7 @@ static void timer_update_irq(struct timerblock *t)
- static uint64_t
- timer_read(void *opaque, hwaddr addr, unsigned int size)
- {
--    struct timerblock *t = opaque;
-+    XpsTimerState *t = opaque;
-     struct xlx_timer *xt;
-     uint32_t r = 0;
-     unsigned int timer;
-@@ -155,7 +155,7 @@ static void
- timer_write(void *opaque, hwaddr addr,
-             uint64_t val64, unsigned int size)
- {
--    struct timerblock *t = opaque;
-+    XpsTimerState *t = opaque;
-     struct xlx_timer *xt;
-     unsigned int timer;
-     uint32_t value = val64;
-@@ -202,7 +202,7 @@ static const MemoryRegionOps timer_ops = {
- static void timer_hit(void *opaque)
- {
-     struct xlx_timer *xt = opaque;
--    struct timerblock *t = xt->parent;
-+    XpsTimerState *t = xt->parent;
-     D(fprintf(stderr, "%s %d\n", __func__, xt->nr));
-     xt->regs[R_TCSR] |= TCSR_TINT;
- 
-@@ -213,7 +213,7 @@ static void timer_hit(void *opaque)
- 
- static void xilinx_timer_realize(DeviceState *dev, Error **errp)
- {
--    struct timerblock *t = XILINX_TIMER(dev);
-+    XpsTimerState *t = XILINX_TIMER(dev);
-     unsigned int i;
- 
-     /* Init all the ptimers.  */
-@@ -236,16 +236,15 @@ static void xilinx_timer_realize(DeviceState *dev, Error **errp)
- 
- static void xilinx_timer_init(Object *obj)
- {
--    struct timerblock *t = XILINX_TIMER(obj);
-+    XpsTimerState *t = XILINX_TIMER(obj);
- 
-     /* All timers share a single irq line.  */
-     sysbus_init_irq(SYS_BUS_DEVICE(obj), &t->irq);
- }
- 
- static Property xilinx_timer_properties[] = {
--    DEFINE_PROP_UINT32("clock-frequency", struct timerblock, freq_hz,
--                                                                62 * 1000000),
--    DEFINE_PROP_UINT8("one-timer-only", struct timerblock, one_timer_only, 0),
-+    DEFINE_PROP_UINT32("clock-frequency", XpsTimerState, freq_hz, 62 * 1000000),
-+    DEFINE_PROP_UINT8("one-timer-only", XpsTimerState, one_timer_only, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -260,7 +259,7 @@ static void xilinx_timer_class_init(ObjectClass *klass, void *data)
- static const TypeInfo xilinx_timer_info = {
-     .name          = TYPE_XILINX_TIMER,
-     .parent        = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(struct timerblock),
-+    .instance_size = sizeof(XpsTimerState),
-     .instance_init = xilinx_timer_init,
-     .class_init    = xilinx_timer_class_init,
- };
--- 
-2.34.1
-
+This one appears when registering any kind of type-3 device, during
+boot.
 
