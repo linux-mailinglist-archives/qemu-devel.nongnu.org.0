@@ -2,87 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248DF6693D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:15:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF2CA6693F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Jan 2023 11:21:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGH4B-0006Fc-1s; Fri, 13 Jan 2023 05:13:43 -0500
+	id 1pGHAV-0007n5-LO; Fri, 13 Jan 2023 05:20:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGH48-0006Eu-9A
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:13:40 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pGHAT-0007mM-HA
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:20:13 -0500
+Received: from mail-oa1-x41.google.com ([2001:4860:4864:20::41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pGH46-000429-9f
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:13:39 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- m26-20020a05600c3b1a00b003d9811fcaafso17002240wms.5
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 02:13:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pGHAR-0005Wx-La
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 05:20:13 -0500
+Received: by mail-oa1-x41.google.com with SMTP id
+ 586e51a60fabf-15eeec85280so669585fac.11
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 02:20:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Cd6mY6sQ3JKAIiq4jReduNopszqm/a2MRDdyXZj4bvU=;
- b=BYMeyXk4OiZgz7mRSRNGEcPcPU42cQLTaAjiXH3fVGbn9cnUlu7XDqbOHO1GOzLiAS
- 7rm3M0P4yoUnal8tkeS89MhjoZq0SnQSiB99MNu2w3YAY0v1GpW1rloT1KlURwpLW+FK
- DOcFdNf0lG8LchnFRTV8ZAPiC9vJzWd2OLX65ydCgtqI8vp4FFs6vqp59Kw2/4JmtLhF
- PWTa1JGkAJk+4qkZkcVgoRK/gAV3upisBH483K9yeIN/0Hx2iGOW/vfwcTKwA2RBeK6/
- SQ4KZ9yvmtQtqg2wamEbi0TO/73DM7Qzt4Y83HvKozT+UPLVDwUg43Sbsl5PgJeYCFcA
- VffQ==
+ bh=QtQwRfF+ulK+aqGp72w++VL8SNUDal9NahqXeCW1cRk=;
+ b=V12qxT57idfmBA+iwRFqkLRyevXQLy2fji9UNSgWVy/UjC83U0YHbJY+cYtzK3LFfo
+ EmIEsSPTZLMpXoqHprFgHHKvACdc3NqdhvrW7dgahn4hGNQUOp6VbUIEdTwD4kjd1ooO
+ rOMBSf/0jlxgxPSN8mlhprYkubM04vcEhneWiGFm4N5i94GwgSoQzig9HbbTRGqSFMNC
+ rqTDM7vIbEBcs2IwyY/pxJEj4MfYgf3nzbrQ/vxXmr5QRYIGVfvsdDEXNFvZrilsUs6l
+ AC9RAjKQG6FM2RwHamlnWTcLf+2PpKmVds5INTBvLjPauRwlzNBaxfpIBdGNVYAVQ2Gu
+ fB5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Cd6mY6sQ3JKAIiq4jReduNopszqm/a2MRDdyXZj4bvU=;
- b=00E7gB6DhQNrQwwMCpGPofuIxqEwwmFUtFr/2UlNPOl41mVO+G4yFGJPFFuk+AtdQD
- 6ozUjrcvkck2wsvMEtIjMMqyucF80sX69I1BOw2f8a/9ex7MjYpYwYSgthy47z90QfH7
- T28VXMoERC6Z/QlBElLVl7zlpyvi7dXK9wzn0LIhKR7Dnsje2uoPxowiKi8rj8hMKRop
- R8buXE5j1l1qVhh94+ZRiqkILM2HMfNLBDLtHIwW1Y6oVAI23Kwmj3rHVjsUaRnaw2m8
- BddNxRDeKxYuL5NgaZmVmOjIz6NsMYKIGmW+OQI8NlGK8dEuFVMNWkYx2pWwXHQncsNB
- PIjQ==
-X-Gm-Message-State: AFqh2krvZFpzHCoHHpjwy186A5dlGwq8EB6b1azn4TVA7Nl6b1mPNOVC
- LVjVpFC7q5U3FLoAGab0RckOUQ==
-X-Google-Smtp-Source: AMrXdXsKXCkCciR5EkxHQei/AavoHtIfgultkIPCn76bHmPSFzfPC7kFPhVU9hEvC+B+Qe9rg5QtTg==
-X-Received: by 2002:a05:600c:1d20:b0:3d2:2aaf:316 with SMTP id
- l32-20020a05600c1d2000b003d22aaf0316mr58102271wms.36.1673604816603; 
- Fri, 13 Jan 2023 02:13:36 -0800 (PST)
-Received: from [192.168.95.175] (13.red-88-28-24.dynamicip.rima-tde.net.
- [88.28.24.13]) by smtp.gmail.com with ESMTPSA id
- ay13-20020a05600c1e0d00b003d34faca949sm24416759wmb.39.2023.01.13.02.13.30
+ bh=QtQwRfF+ulK+aqGp72w++VL8SNUDal9NahqXeCW1cRk=;
+ b=im0f92ho6ImiPMxH2miqKCWM2qrm3KyR/daAaS5qII2ZAPh3tB4fE7CbBH5nJdGakr
+ AKw1i7+9adgEcszbhe2ibtAkN/aOY510S7ELARumUdKKS2UiBcjunN+O38SnzVFryXz+
+ MY1PtPisTwBxa6QTTVfsymxgi/SUubmakYISV4kEQJeWZnJwbFug8LvQy/JSgmHzGsoL
+ UoXktsNGXM1+zzT2ZCJky76ATnSlKjf/VqOEW8f7HNvcCChkarTfKXqBAzy60oRIA4r1
+ L4sfBuM+ODQp7rKiFyu5aY313LMTnGJb9mQb4Ntb8Dob9uYja0G32o6C4550qwtvxuaJ
+ y/0A==
+X-Gm-Message-State: AFqh2kpNolakzXu7m7Kv5JV90wYwghqrj5zqJara4Fk1UQQGSQeqD21F
+ SYL6BuM981+Xe14XvucptJ5MMw==
+X-Google-Smtp-Source: AMrXdXv6i2Ck5Z4gPG/Bqs6MnvV487Yy6xIFsqz2q0C2vbFneesOpYSOXneilrLYqHqS90kSyYpgMg==
+X-Received: by 2002:a05:6871:b12:b0:152:d0dc:2bba with SMTP id
+ fq18-20020a0568710b1200b00152d0dc2bbamr17402091oab.15.1673605210221; 
+ Fri, 13 Jan 2023 02:20:10 -0800 (PST)
+Received: from [192.168.68.107] ([191.17.222.2])
+ by smtp.gmail.com with ESMTPSA id
+ bd13-20020a056870d78d00b0014fe4867dc7sm10142801oab.56.2023.01.13.02.20.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 02:13:36 -0800 (PST)
-Message-ID: <0b7cf41c-6fca-f8d9-e8c2-0a1cfea2c51e@linaro.org>
-Date: Fri, 13 Jan 2023 11:13:29 +0100
+ Fri, 13 Jan 2023 02:20:09 -0800 (PST)
+Message-ID: <cbab1ba2-e29b-aa48-b64f-b95de71787dd@ventanamicro.com>
+Date: Fri, 13 Jan 2023 07:20:06 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v6 04/33] hw/pci/pci: Factor out pci_bus_map_irqs() from
- pci_bus_irqs()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 0/2] target/riscv/cpu: fix sifive_u 32/64bits boot in
+ riscv-to-apply.next
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair23@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ richard.henderson@linaro.org
+References: <20230110201405.247785-1-dbarboza@ventanamicro.com>
+ <CAKmqyKM=7Ld0FuZ7FfzTKznpM5Zq1xzAKd-iVxqjk6TPbred2g@mail.gmail.com>
+ <CAEUhbmWbcWNQxP8O+56qYjUPsmgyP+qhOTYRRmDUimXV6s42_Q@mail.gmail.com>
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: John G Johnson <john.g.johnson@oracle.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, Ani Sinha <ani@anisinha.ca>,
- Eduardo Habkost <eduardo@habkost.net>, Gerd Hoffmann <kraxel@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- qemu-ppc@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-arm@nongnu.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
-References: <20230109172347.1830-1-shentey@gmail.com>
- <20230109172347.1830-5-shentey@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230109172347.1830-5-shentey@gmail.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <CAEUhbmWbcWNQxP8O+56qYjUPsmgyP+qhOTYRRmDUimXV6s42_Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::41;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x41.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -105,93 +98,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/1/23 18:23, Bernhard Beschow wrote:
-> pci_bus_irqs() coupled together the assignment of pci_set_irq_fn and
-> pci_map_irq_fn to a PCI bus. This coupling gets in the way when the
-> pci_map_irq_fn is board-specific while the pci_set_irq_fn is device-
-> specific.
-> 
-> For example, both of QEMU's PIIX south bridge models have different
-> pci_map_irq_fn implementations which are board-specific rather than
-> device-specific. These implementations should therefore reside in board
-> code. The pci_set_irq_fn's, however, should stay in the device models
-> because they access memory internal to the model.
-> 
-> Factoring out pci_bus_map_irqs() from pci_bus_irqs() allows the
-> assignments to be decoupled, resolving the problem described above.
-> 
-> Note also how pci_vpb_realize() which gets touched in this commit
-> assigns different pci_map_irq_fn's depending on the board.
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   include/hw/pci/pci.h    |  3 ++-
->   hw/i386/pc_q35.c        |  4 ++--
->   hw/isa/piix3.c          |  8 ++++----
->   hw/isa/piix4.c          |  3 ++-
->   hw/pci-host/raven.c     |  3 ++-
->   hw/pci-host/versatile.c |  3 ++-
->   hw/pci/pci.c            | 12 +++++++++---
->   hw/remote/machine.c     |  3 ++-
->   8 files changed, 25 insertions(+), 14 deletions(-)
-> 
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 7048a373d1..85ee458cd2 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -282,8 +282,9 @@ PCIBus *pci_root_bus_new(DeviceState *parent, const char *name,
->                            MemoryRegion *address_space_io,
->                            uint8_t devfn_min, const char *typename);
->   void pci_root_bus_cleanup(PCIBus *bus);
-> -void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq, pci_map_irq_fn map_irq,
-> +void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq,
->                     void *irq_opaque, int nirq);
-> +void pci_bus_map_irqs(PCIBus *bus, pci_map_irq_fn map_irq);
+Hi Bin!
 
-I'm squashing:
+On 1/12/23 22:28, Bin Meng wrote:
+> Hi Daniel,
+>
+> On Wed, Jan 11, 2023 at 1:03 PM Alistair Francis <alistair23@gmail.com> wrote:
+>> On Wed, Jan 11, 2023 at 6:17 AM Daniel Henrique Barboza
+>> <dbarboza@ventanamicro.com> wrote:
+>>> Hi,
+>>>
+>>> I found this bug when testing my avocado changes in riscv-to-apply.next.
+>>> The sifive_u board, both 32 and 64 bits, stopped booting OpenSBI. The
+>>> guest hangs indefinitely.
+>>>
+>>> Git bisect points that this patch broke things:
+>>>
+>>> 8c3f35d25e7e98655c609b6c1e9f103b9240f8f8 is the first bad commit
+>>> commit 8c3f35d25e7e98655c609b6c1e9f103b9240f8f8
+>>> Author: Weiwei Li <liweiwei@iscas.ac.cn>
+>>> Date:   Wed Dec 28 14:20:21 2022 +0800
+>>>
+>>>      target/riscv: add support for Zca extension
+>>>
+>>>      Modify the check for C extension to Zca (C implies Zca)
+>>> (https://github.com/alistair23/qemu/commit/8c3f35d25e7e98655c609b6c1e9f103b9240f8f8)
+>>>
+>>>
+>>> But this patch per se isn't doing anything wrong. The root of the
+>>> problem is that this patch makes assumptions based on the previous
+>>> patch:
+>>>
+>>> commit a2b409aa6cadc1ed9715e1ab916ddd3dade0ba85
+>>> Author: Weiwei Li <liweiwei@iscas.ac.cn>
+>>> Date:   Wed Dec 28 14:20:20 2022 +0800
+>>>
+>>>      target/riscv: add cfg properties for Zc* extension
+>>> (https://github.com/alistair23/qemu/commit/a2b409aa6cadc1ed9715e1ab916ddd3dade0ba85)
+>>>
+>>> Which added a lot of logic and assumptions that are being skipped by all
+>>> the SiFive boards because, during riscv_cpu_realize(), we have this
+>>> code:
+>>>
+>>>      /* If only MISA_EXT is unset for misa, then set it from properties */
+>>>      if (env->misa_ext == 0) {
+>>>          uint32_t ext = 0;
+>>>          (...)
+>>>      }
+>>>
+>>> In short, we have a lot of code that are being skipped by all SiFive
+>>> CPUs because these CPUs are setting a non-zero value in set_misa() in
+>>> their respective cpu_init() functions.
+>>>
+>>> It's possible to just hack in and fix the SiFive problem in isolate, but
+>>> I believe we can do better and allow all riscv_cpu_realize() to be executed
+>>> for all CPUs, regardless of what they've done during their cpu_init().
+>>>
+>>>
+>>> Daniel Henrique Barboza (2):
+>>>    target/riscv/cpu: set cpu->cfg in register_cpu_props()
+>>>    target/riscv/cpu.c: do not skip misa logic in riscv_cpu_realize()
+>> Thanks for the patches
+>>
+>> I have rebased these onto the latest master and dropped the other
+>> series. That way when the other series is applied we don't break
+>> bisectability.
+> It seems these 2 patches are already in Alistair's tree.
+>
+> Richard had a suggestion for patch 1 and I had some minor comments
+> too. Do you plan to resend a v2 for that?
 
--- >8 --
-diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-index fe1fdfb5f7..46171f22f7 100644
---- a/hw/remote/vfio-user-obj.c
-+++ b/hw/remote/vfio-user-obj.c
-@@ -667,4 +667,4 @@ void vfu_object_set_bus_irq(PCIBus *pci_bus)
+I'll re-send the v2 with your comments addressed.
 
--    pci_bus_irqs(pci_bus, vfu_object_set_irq, vfu_object_map_irq, pci_bus,
--                 max_bdf);
-+    pci_bus_irqs(pci_bus, vfu_object_set_irq, , pci_bus, max_bdf);
-+    pci_bus_map_irqs(pci_bus, vfu_object_map_irq);
-  }
----
+About Richard's suggestion, I believe I replied that it would require more thought
+because, as it is now, it would break boards that are setting their properties after
+register_cpu_props(). The overall simplification of the cpu_init() code across all
+RISC-V boards is good thing to do in the future as a follow up, IMO.
 
-to fix:
 
-../hw/remote/vfio-user-obj.c: In function ‘vfu_object_set_bus_irq’:
-../hw/remote/vfio-user-obj.c:668:67: error: passing argument 4 of 
-‘pci_bus_irqs’ makes integer from pointer without a cast 
-[-Werror=int-conversion]
-      pci_bus_irqs(pci_bus, vfu_object_set_irq, vfu_object_map_irq, pci_bus,
-                                                                    ^~~~~~~
-In file included from include/hw/pci/pci_device.h:4,
-                  from include/hw/remote/iohub.h:14,
-                  from include/hw/remote/machine.h:18,
-                  from ../hw/remote/vfio-user-obj.c:43:
-include/hw/pci/pci.h:286:41: note: expected ‘int’ but argument is of 
-type ‘PCIBus *’ {aka ‘struct PCIBus *’}
-                    void *irq_opaque, int nirq);
-                                      ~~~~^~~~
-../hw/remote/vfio-user-obj.c:668:5: error: too many arguments to 
-function ‘pci_bus_irqs’
-      pci_bus_irqs(pci_bus, vfu_object_set_irq, vfu_object_map_irq, pci_bus,
-      ^~~~~~~~~~~~
-In file included from include/hw/pci/pci_device.h:4,
-                  from include/hw/remote/iohub.h:14,
-                  from include/hw/remote/machine.h:18,
-                  from ../hw/remote/vfio-user-obj.c:43:
-include/hw/pci/pci.h:285:6: note: declared here
-  void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq,
-       ^~~~~~~~~~~~
+Thanks,
+
+Daniel
+
+
+
+>
+> Regards,
+> Bin
 
 
