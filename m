@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3841066AD4B
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 19:41:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8CE66AE50
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 23:29:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGlRr-0007Hc-9s; Sat, 14 Jan 2023 13:40:11 -0500
+	id 1pGp0J-00011i-Dm; Sat, 14 Jan 2023 17:27:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arthur.sengileyev@gmail.com>)
- id 1pGlRp-0007HP-CG; Sat, 14 Jan 2023 13:40:09 -0500
-Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pGp0H-000115-4e
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 17:27:57 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arthur.sengileyev@gmail.com>)
- id 1pGlRn-0003n3-DK; Sat, 14 Jan 2023 13:40:08 -0500
-Received: by mail-lf1-x131.google.com with SMTP id f34so37435742lfv.10;
- Sat, 14 Jan 2023 10:40:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pGp0F-0003hR-7x
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 17:27:56 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id u9so60069403ejo.0
+ for <qemu-devel@nongnu.org>; Sat, 14 Jan 2023 14:27:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=MsHX5UEju+lzhwooYvdRwiB/qSc/iNAZ8yKoVJZ9+84=;
- b=Aw7S07lpzS9Eo3jd68XoVLqtU6xaXu519qdcSqb4A6XIn42+c0PVIkG0idSsInI9ou
- N83Ul3/Ue7CJI5fEF78Shheg4XwWiEpuva/Y6++BI8KV5OAjQaSPP8I7qk2zWUw3cjCT
- RFdtEHaz+Q3qcoKFA3rKhqx1H8ifuFScnT5dGFR1ysVoGFA1GcEG0O0779JnM6yJ0iud
- ac9gs0f95y15n2KFoBgoy0ETSRH5Y9qIFGy+6r2mV0lySDpSuYIpIRHBo+UUC+2yGQMn
- k8nFCPOrQre509B1twKKrVoWjkAWdoh5JKkK8y8cieVWuIJoe2tfTQIMsz+l2tN5TEFq
- 74iQ==
+ bh=4ivzhOBoHs6TsWJVbB02QgvJlXBejawvefx7rWYbcVw=;
+ b=iVgOP0RKjNjgZOVIsAvHMD2SZ+9hjGhKhoWYirbOeqBqr2r2gkQwd5ycpevprQjDro
+ dYvJKfb3znlLCA6M0P7Dtrh7RXCF7PlIjngNzql24EyLqSC+S60p9tOJCFgC7Et5GIoS
+ /TuHnNNauEwN8mE/Nih/Cx5KRSrq2eLtIfs6FVniCsl5tgdFZ1N7a9WZlsXTBswdsk7/
+ FfQZFOay+8/YSY2SDnV63pWSAgtYS8KoOGH9Cfi/82i9HlmAYMyERjtr30fBv/gaDZbF
+ URlcAHLb/mE/sFswXN57L+PNpLj9Y+ON3EQthZZugnsk2C8FsnriABeifpLjyloWnPaA
+ diAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=MsHX5UEju+lzhwooYvdRwiB/qSc/iNAZ8yKoVJZ9+84=;
- b=Cuuutk3mBGVyIZG2keJbaRj7JOQjocOM+g2RYa+krA9uxf9eJiRyvACTrmWQ/lFbSL
- Z+R4KCbnpLEB6DYNW9V8NjxB8M2clbF6RldkLcH9Se5/70oLrD9RYtc3EM7z7tHcpK+j
- oaqDtMCxhsR9aaX8UR8N7EBoKeC8BiB7/ajIz2ALZBOfo/os7ok2Jzi9UqzIqVjAHSdW
- woerpNLzqGhsCLZmkzC6VPeFlEuqQo/4RPDT13vcnoEb3xF8nTU10rlicLInlCAaAE+x
- 0ySfWulYuTPhaq3P0dZeHWwR8+JGRdpKX6W/g9z7bhBzGTW+GC8lU5EiwKFDD0OIFTh4
- +o3g==
-X-Gm-Message-State: AFqh2kr0Z/DU/v4SAhGZFLNEpKHOxc6ickiaJ9LR3E3jsodnDQuAGQRx
- Irc2KPC2JwAyIC98qscJ6QI=
-X-Google-Smtp-Source: AMrXdXsbYkFRp08yBI+378Db9QZ3scZw4s2+g1HOJoq3nc/4ox8diPC97j5KpIYv27TI7yxXNUcJ/A==
-X-Received: by 2002:a05:6512:3b0c:b0:4b1:4cc1:5ac6 with SMTP id
- f12-20020a0565123b0c00b004b14cc15ac6mr27388075lfv.49.1673721604895; 
- Sat, 14 Jan 2023 10:40:04 -0800 (PST)
-Received: from Arturss-MBP-2.lan ([87.246.149.32])
+ bh=4ivzhOBoHs6TsWJVbB02QgvJlXBejawvefx7rWYbcVw=;
+ b=70Z81JBVNm8TX8jDvf9ZNSs/4sX54L66OiVSl4JWdOY4BPP3GAX6fo7npF54pku4tS
+ sPBc3LAiLU7f+pC6GjGGFN+F1jJL250xMp6F749GK29T7Nk4jsR6jE147tb7klWBrDBP
+ gUibK1Xlm+xWbuJ+eJeCpIYBH7Ha2hKjBz4F6PUBENWUQSeiRqTD9YsO4h/X2D5Rh8L5
+ rQquGngcO4ERjvxgUu2TdC/uLBGU62E6m84a/5z4hEe8hntQkxEwC4Hu1xd2Py5LU/M+
+ IbxPOTDWVSsCWBzN+5qU7n5eRGStnJNO5XzRPgGs0NM6oAYronn9cugnW4U6OAohoHoP
+ C4IQ==
+X-Gm-Message-State: AFqh2kox2L/c5ONTea3Hwa6iRyd8sapW0oeyVf//TXj0kw518OdVyXlh
+ zVSclioLCuKKLErWlY2r1oDY74qO1oo=
+X-Google-Smtp-Source: AMrXdXuWAWk73n5DvlXBa2hiQFPovGsrbh1uIf/yzMYW7ScQKd14Utcl9zs4BZ8cq3qHG3sg7HCHsQ==
+X-Received: by 2002:a17:906:f6c1:b0:7cd:ffd:51f2 with SMTP id
+ jo1-20020a170906f6c100b007cd0ffd51f2mr89354419ejb.57.1673735273038; 
+ Sat, 14 Jan 2023 14:27:53 -0800 (PST)
+Received: from Provence.localdomain
+ (dynamic-077-013-123-004.77.13.pool.telefonica.de. [77.13.123.4])
  by smtp.gmail.com with ESMTPSA id
- c15-20020a056512238f00b004cb3fbc7925sm4352185lfv.77.2023.01.14.10.40.04
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 14 Jan 2023 10:40:04 -0800 (PST)
-From: Arthur Sengileyev <arthur.sengileyev@gmail.com>
-To: arthur.sengileyev@gmail.com
-Cc: sw@weilnetz.de, jsnow@redhat.com, crosa@redhat.com, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org, bmeng.cn@gmail.com
-Subject: [PATCH v2] Windows installer: keep dependency cache
-Date: Sat, 14 Jan 2023 20:40:03 +0200
-Message-Id: <20230114184003.76193-1-arthur.sengileyev@gmail.com>
+ og5-20020a1709071dc500b0084d420503a3sm8324840ejc.178.2023.01.14.14.27.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 14 Jan 2023 14:27:52 -0800 (PST)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Markus Armbruster <armbru@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH 0/7] AML Housekeeping
+Date: Sat, 14 Jan 2023 23:27:31 +0100
+Message-Id: <20230114222738.282478-1-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::131;
- envelope-from=arthur.sengileyev@gmail.com; helo=mail-lf1-x131.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,40 +93,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It should be possible to reuse cache built by previous iteration
-to process next executables. Processed dependencies are already
-skipped later based on dll name.
-
-Changes for v2:
-(1) changed variable name
-(2) changed wording in description
-
-Signed-off-by: Arthur Sengileyev <arthur.sengileyev@gmail.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
----
- scripts/nsis.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/nsis.py b/scripts/nsis.py
-index 03ed7608a2..7cffba70ff 100644
---- a/scripts/nsis.py
-+++ b/scripts/nsis.py
-@@ -91,12 +91,13 @@ def main():
-         print("Searching '%s' for the dependent dlls ..." % search_path)
-         dlldir = os.path.join(destdir + prefix, "dll")
-         os.mkdir(dlldir)
-+        deps_cache = set()
- 
-         for exe in glob.glob(os.path.join(destdir + prefix, "*.exe")):
-             signcode(exe)
- 
-             # find all dll dependencies
--            deps = set(find_deps(exe, search_path, set()))
-+            deps = set(find_deps(exe, search_path, deps_cache))
-             deps.remove(exe)
- 
-             # copy all dlls to the DLLDIR
--- 
-2.39.0
-
+This series resolves the AcpiDeviceIfClass::madt_cpu function pointer. It t=
+urns=0D
+out that it isn't needed and it even frees the ACPI controllers from assign=
+ing=0D
+it an x86 specific function. This is especially interesting for the PIIX4 P=
+M=0D
+which is also used in MIPS only contexts.=0D
+=0D
+Furthermore, the series introduces qbus_build_aml() which then gets=0D
+used to resolve isa_build_aml().=0D
+=0D
+Testing done:=0D
+* `make check`=0D
+* `make check-avocado`=0D
+* `qemu-system-x86_64 -M pc -m 2G -cdrom manjaro-kde-21.2.6-220416-linux515=
+.iso`=0D
+* `qemu-system-x86_64 -M q35 -m 2G -cdrom \=0D
+   manjaro-kde-21.2.6-220416-linux515.iso`=0D
+=0D
+Bernhard Beschow (7):=0D
+  hw/acpi: Add missing includes=0D
+  hw/acpi/acpi_dev_interface: Remove unused parameter from=0D
+    AcpiDeviceIfClass::madt_cpu=0D
+  hw/acpi/acpi_dev_interface: Resolve AcpiDeviceIfClass::madt_cpu=0D
+  hw/i386/acpi-build: Remove unused attributes=0D
+  hw/acpi/acpi_aml_interface: Extract qbus_build_aml()=0D
+  hw/i386/acpi-microvm: Reuse qbus_build_aml()=0D
+  hw/isa/isa-bus: Remove now unused isa_build_aml()=0D
+=0D
+ hw/acpi/hmat.h                       |  3 ++-=0D
+ hw/i386/acpi-common.h                |  7 +++++--=0D
+ include/hw/acpi/acpi_aml_interface.h | 11 +++++++++++=0D
+ include/hw/acpi/acpi_dev_interface.h |  4 ----=0D
+ include/hw/acpi/cpu.h                |  6 +++++-=0D
+ include/hw/i386/pc.h                 |  6 ------=0D
+ include/hw/isa/isa.h                 |  1 -=0D
+ hw/acpi/acpi-x86-stub.c              |  7 -------=0D
+ hw/acpi/cpu.c                        | 12 +++++-------=0D
+ hw/acpi/hmat.c                       |  1 +=0D
+ hw/acpi/memory_hotplug.c             |  1 +=0D
+ hw/acpi/piix4.c                      |  2 --=0D
+ hw/i2c/smbus_ich9.c                  |  5 +----=0D
+ hw/i386/acpi-build.c                 |  7 ++-----=0D
+ hw/i386/acpi-common.c                | 10 ++++------=0D
+ hw/i386/acpi-microvm.c               |  6 +++---=0D
+ hw/i386/generic_event_device_x86.c   |  9 ---------=0D
+ hw/isa/isa-bus.c                     | 10 ----------=0D
+ hw/isa/lpc_ich9.c                    |  6 +-----=0D
+ hw/isa/piix3.c                       |  5 +----=0D
+ monitor/qmp-cmds.c                   |  1 +=0D
+ 21 files changed, 43 insertions(+), 77 deletions(-)=0D
+=0D
+-- =0D
+2.39.0=0D
+=0D
 
