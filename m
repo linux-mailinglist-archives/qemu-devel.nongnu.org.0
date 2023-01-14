@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140F566AEB8
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA8066AEBA
 	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 00:07:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGpb1-0002Q1-2N; Sat, 14 Jan 2023 18:05:55 -0500
+	id 1pGpb2-0002Qm-5B; Sat, 14 Jan 2023 18:05:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGpay-0002PT-94
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 18:05:52 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1pGpay-0002Pg-Vt
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 18:05:53 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGpav-0000W8-VT
+ id 1pGpax-0000WE-2q
  for qemu-devel@nongnu.org; Sat, 14 Jan 2023 18:05:52 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- m7-20020a17090a730700b00225ebb9cd01so30487352pjk.3
- for <qemu-devel@nongnu.org>; Sat, 14 Jan 2023 15:05:49 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id p24so26849073plw.11
+ for <qemu-devel@nongnu.org>; Sat, 14 Jan 2023 15:05:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ESscYqltv38JAK66qnCh9OoBatoSk12O1tg76EWbi78=;
- b=yHGqPcr36CnNafy4uWKhfqIbE2IuL9G3bymgRNRKHwjEoKle4a/qtIukvswv3efRu4
- +0k36SfCNckbGTU95E8zWUsxEVCnv4wqs4KOOj1k9F0KP/yIPeX6NP0Ti2+nn324/cAR
- aPJZnfgCnL3FW1yizheGqvdeURmNVf2/aQO3dUbw4tTz4fjvJS69IYdEdpB5iTnaV7Rs
- xRRnOblUEg0xxySN1LrOHS+vFqGtXhlP/drUk74i1v83J0chiZprpbVRFsspY5tFWW+a
- q6qwUGBkaQiA61lAaJu0eYLRo/35DRd1xv2EkZDRU7kf14HRyJ5KICllj0EDWMYWzVOi
- JGzg==
+ bh=c/6qnLvEashDiP/jlq0RoDn2u7uOk63bf+cgKHgWoDI=;
+ b=C6F8YNtn5cLyflRIJNM9IaayysIAuef+AOAtwprzqfs40BetGIcYMNYHdYPYSjA+Fv
+ mQW1UKRX4nKDmMabjwWozyfYYJSROKc9/lf/SCp/pWNWsjSkPGNYbYx7HYmr/GFnLiFU
+ YhHtXmST3UvCEIhx6MIekopFZjwVLWZkuSPCAsWHgB285OaTbK2OnjjWINVF5qqzYIyR
+ jO6/Slv1y++2RQenhpMyYE4GtpWL8MxJFq1vufUzWfvkYXEWMIkY7eOc2KJKJVao0E4Y
+ z1iISsozkemAfIMZvXtbuvbnYs8k5rIF0WcCbw4Vvg7uCIx0w8feD/Rqd0ie6aZeCJSM
+ N/KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ESscYqltv38JAK66qnCh9OoBatoSk12O1tg76EWbi78=;
- b=TvFN8KN1t4twS0U+S3kpwk2IowPW1b72LdeO//gqcRc4cyGrJ5q6bDlW7cResPFDA/
- uSPga/56e5GhsoDfV7j4HT+UyxpsbIhnGmr62kDu1Kd1LEW8zsMnjm1GKZ4K132u9OdN
- 0coKMTQmuSjT/A8d9O8xaLfeVoI2rsyfmxB9lkR7m7iWTHEgC2Lr8pyhK7hgJNEt4pq2
- F7KxarBZ61a1k6LKXKxHfxeABE/IAT4061X1zsB0GeK6/XT0aTNls2He22MMupUx+4Av
- ziXnzqx7cQip1N2wIw54bi3N8uTzgWID6zmmDooqipR0L6ir5Hu3ZIA/lSQpI2JvggC8
- poGw==
-X-Gm-Message-State: AFqh2koH7Kvg/lNh5XdX/Fg51Jjg2i2C50DhPS9nbYDmPZAx6hEnDUfP
- QDBDU9oXzI/XFSSK2tsWvs7fbe3BtJ7wTfnG
-X-Google-Smtp-Source: AMrXdXu16P5gbNJnGasvhBkQ5JKoPJosGwDvyVPxAwqnPr21MqC1PLBFS/m8aqwl5eTUmGACx4o5yg==
-X-Received: by 2002:a17:902:e744:b0:194:45ed:2a6a with SMTP id
- p4-20020a170902e74400b0019445ed2a6amr23337392plf.67.1673737548460; 
- Sat, 14 Jan 2023 15:05:48 -0800 (PST)
+ bh=c/6qnLvEashDiP/jlq0RoDn2u7uOk63bf+cgKHgWoDI=;
+ b=xlBsQPeXxG1ks0VwZdFtrPaXeIvgja2cSWy3Y8PkwyMx9s5vJmJQQP5kJplZX+1bQD
+ +3Oc7Cfs1zcw/2nT6Jf1U2nqb7+mCzXgeAL+fgCyORcWxuRuSVGXKYYO4MXaWbG7OFCY
+ fMswe1Servgd9y9MeBlJcH3XeG+1RGWW2egHMamf2TnSyKyCn9RSXiZFHMXN3HO6h235
+ q/tFfxKlko4yGE/so1VWK/upjNl+qNn4D0OEqUPdQzPavZTCKZqoAqa3K9xVDetpaCOB
+ tM0O3tdN5Xc3VFUsTqPMUwTZ5j5fvFEkA7Yd0YmtGgGxZvqe+/Ag82uVJ4x0RpoE1gIl
+ yV3g==
+X-Gm-Message-State: AFqh2koS2KDphAW/BcgTLQTZNzWfsVP6LanWB/xyYCyHFHJieZhcS0ko
+ hZd+ObYQOE9X5fQmCwvyeZtMYmKoBG1J/CXe
+X-Google-Smtp-Source: AMrXdXsyAvTdm8YdORKQpd3NoK3CdtD+9hsaKpPlJghHPDd9ahwKLf3ywn9gsf3vxJCKvl85RE44yQ==
+X-Received: by 2002:a17:902:8686:b0:194:3fd8:f56a with SMTP id
+ g6-20020a170902868600b001943fd8f56amr17936780plo.55.1673737549796; 
+ Sat, 14 Jan 2023 15:05:49 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- l10-20020a170903244a00b0019334350ce6sm12331390pls.244.2023.01.14.15.05.47
+ l10-20020a170903244a00b0019334350ce6sm12331390pls.244.2023.01.14.15.05.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Jan 2023 15:05:47 -0800 (PST)
+ Sat, 14 Jan 2023 15:05:49 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH 1/2] tests/tcg/i386: Introduce and use reg_t consistently
-Date: Sat, 14 Jan 2023 13:05:41 -1000
-Message-Id: <20230114230542.3116013-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/2] target/i386: Fix BEXTR instruction
+Date: Sat, 14 Jan 2023 13:05:42 -1000
+Message-Id: <20230114230542.3116013-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230114230542.3116013-1-richard.henderson@linaro.org>
 References: <20230114230542.3116013-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,279 +89,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Define reg_t based on the actual register width.
-Define the inlines using that type.  This will allow
-input registers to 32-bit insns to be set to 64-bit
-values on x86-64, which allows testing various edge cases.
+There were two problems here: not limiting the input to operand bits,
+and not correctly handling large extraction length.
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1372
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/i386/test-i386-bmi2.c | 182 ++++++++++++++++----------------
- 1 file changed, 93 insertions(+), 89 deletions(-)
+ tests/tcg/i386/test-i386-bmi2.c | 12 ++++++++++++
+ target/i386/tcg/emit.c.inc      | 22 +++++++++++-----------
+ 2 files changed, 23 insertions(+), 11 deletions(-)
 
 diff --git a/tests/tcg/i386/test-i386-bmi2.c b/tests/tcg/i386/test-i386-bmi2.c
-index 5fadf47510..3c3ef85513 100644
+index 3c3ef85513..982d4abda4 100644
 --- a/tests/tcg/i386/test-i386-bmi2.c
 +++ b/tests/tcg/i386/test-i386-bmi2.c
-@@ -3,34 +3,40 @@
- #include <stdint.h>
- #include <stdio.h>
+@@ -99,6 +99,9 @@ int main(int argc, char *argv[]) {
+     result = bextrq(mask, 0x10f8);
+     assert(result == 0);
  
-+#ifdef __x86_64
-+typedef uint64_t reg_t;
-+#else
-+typedef uint32_t reg_t;
-+#endif
++    result = bextrq(0xfedcba9876543210ull, 0x7f00);
++    assert(result == 0xfedcba9876543210ull);
 +
- #define insn1q(name, arg0)                                                           \
--static inline uint64_t name##q(uint64_t arg0)                                        \
-+static inline reg_t name##q(reg_t arg0)                                              \
- {                                                                                    \
--    uint64_t result64;                                                               \
-+    reg_t result64;                                                                  \
-     asm volatile (#name "q   %1, %0" : "=r"(result64) : "rm"(arg0));                 \
-     return result64;                                                                 \
- }
+     result = blsiq(0x30);
+     assert(result == 0x10);
  
- #define insn1l(name, arg0)                                                           \
--static inline uint32_t name##l(uint32_t arg0)                                        \
-+static inline reg_t name##l(reg_t arg0)                                              \
- {                                                                                    \
--    uint32_t result32;                                                               \
-+    reg_t result32;                                                                  \
-     asm volatile (#name "l   %k1, %k0" : "=r"(result32) : "rm"(arg0));               \
-     return result32;                                                                 \
- }
+@@ -164,6 +167,15 @@ int main(int argc, char *argv[]) {
+     result = bextrl(mask, 0x1038);
+     assert(result == 0);
  
- #define insn2q(name, arg0, c0, arg1, c1)                                             \
--static inline uint64_t name##q(uint64_t arg0, uint64_t arg1)                         \
-+static inline reg_t name##q(reg_t arg0, reg_t arg1)                                  \
- {                                                                                    \
--    uint64_t result64;                                                               \
-+    reg_t result64;                                                                  \
-     asm volatile (#name "q   %2, %1, %0" : "=r"(result64) : c0(arg0), c1(arg1));     \
-     return result64;                                                                 \
- }
++    result = bextrl((reg_t)0x8f635a775ad3b9b4ull, 0x3018);
++    assert(result == 0x5a);
++
++    result = bextrl((reg_t)0xfedcba9876543210ull, 0x7f00);
++    assert(result == 0x76543210u);
++
++    result = bextrl(-1, 0);
++    assert(result == 0);
++
+     result = blsil(0xffff);
+     assert(result == 1);
  
- #define insn2l(name, arg0, c0, arg1, c1)                                             \
--static inline uint32_t name##l(uint32_t arg0, uint32_t arg1)                         \
-+static inline reg_t name##l(reg_t arg0, reg_t arg1)                                  \
- {                                                                                    \
--    uint32_t result32;                                                               \
-+    reg_t result32;                                                                  \
-     asm volatile (#name "l   %k2, %k1, %k0" : "=r"(result32) : c0(arg0), c1(arg1));  \
-     return result32;                                                                 \
- }
-@@ -65,130 +71,128 @@ insn1l(blsr, src)
- int main(int argc, char *argv[]) {
-     uint64_t ehlo = 0x202020204f4c4845ull;
-     uint64_t mask = 0xa080800302020001ull;
--    uint32_t result32;
-+    reg_t result;
+diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
+index 9d610de8c2..4d7702c106 100644
+--- a/target/i386/tcg/emit.c.inc
++++ b/target/i386/tcg/emit.c.inc
+@@ -1078,30 +1078,30 @@ static void gen_ANDN(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+ static void gen_BEXTR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+ {
+     MemOp ot = decode->op[0].ot;
+-    TCGv bound, zero;
++    TCGv bound = tcg_constant_tl(ot == MO_64 ? 63 : 31);
++    TCGv zero = tcg_constant_tl(0);
++    TCGv mone = tcg_constant_tl(-1);
  
- #ifdef __x86_64
--    uint64_t result64;
+     /*
+      * Extract START, and shift the operand.
+      * Shifts larger than operand size get zeros.
+      */
+     tcg_gen_ext8u_tl(s->A0, s->T1);
++    if (TARGET_LONG_BITS == 64 && ot == MO_32) {
++        tcg_gen_ext32u_tl(s->T0, s->T0);
++    }
+     tcg_gen_shr_tl(s->T0, s->T0, s->A0);
+ 
+-    bound = tcg_constant_tl(ot == MO_64 ? 63 : 31);
+-    zero = tcg_constant_tl(0);
+     tcg_gen_movcond_tl(TCG_COND_LEU, s->T0, s->A0, bound, s->T0, zero);
+ 
+     /*
+-     * Extract the LEN into a mask.  Lengths larger than
+-     * operand size get all ones.
++     * Extract the LEN into an inverse mask.  Lengths larger than
++     * operand size get all zeros, length 0 gets all ones.
+      */
+     tcg_gen_extract_tl(s->A0, s->T1, 8, 8);
+-    tcg_gen_movcond_tl(TCG_COND_LEU, s->A0, s->A0, bound, s->A0, bound);
 -
-     /* 64 bits */
--    result64 = andnq(mask, ehlo);
--    assert(result64 == 0x002020204d4c4844);
-+    result = andnq(mask, ehlo);
-+    assert(result == 0x002020204d4c4844);
+-    tcg_gen_movi_tl(s->T1, 1);
+-    tcg_gen_shl_tl(s->T1, s->T1, s->A0);
+-    tcg_gen_subi_tl(s->T1, s->T1, 1);
+-    tcg_gen_and_tl(s->T0, s->T0, s->T1);
++    tcg_gen_shl_tl(s->T1, mone, s->A0);
++    tcg_gen_movcond_tl(TCG_COND_LEU, s->T1, s->A0, bound, s->T1, zero);
++    tcg_gen_andc_tl(s->T0, s->T0, s->T1);
  
--    result64 = pextq(ehlo, mask);
--    assert(result64 == 133);
-+    result = pextq(ehlo, mask);
-+    assert(result == 133);
- 
--    result64 = pdepq(result64, mask);
--    assert(result64 == (ehlo & mask));
-+    result = pdepq(result, mask);
-+    assert(result == (ehlo & mask));
- 
--    result64 = pextq(-1ull, mask);
--    assert(result64 == 511); /* mask has 9 bits set */
-+    result = pextq(-1ull, mask);
-+    assert(result == 511); /* mask has 9 bits set */
- 
--    result64 = pdepq(-1ull, mask);
--    assert(result64 == mask);
-+    result = pdepq(-1ull, mask);
-+    assert(result == mask);
- 
--    result64 = bextrq(mask, 0x3f00);
--    assert(result64 == (mask & ~INT64_MIN));
-+    result = bextrq(mask, 0x3f00);
-+    assert(result == (mask & ~INT64_MIN));
- 
--    result64 = bextrq(mask, 0x1038);
--    assert(result64 == 0xa0);
-+    result = bextrq(mask, 0x1038);
-+    assert(result == 0xa0);
- 
--    result64 = bextrq(mask, 0x10f8);
--    assert(result64 == 0);
-+    result = bextrq(mask, 0x10f8);
-+    assert(result == 0);
- 
--    result64 = blsiq(0x30);
--    assert(result64 == 0x10);
-+    result = blsiq(0x30);
-+    assert(result == 0x10);
- 
--    result64 = blsiq(0x30ull << 32);
--    assert(result64 == 0x10ull << 32);
-+    result = blsiq(0x30ull << 32);
-+    assert(result == 0x10ull << 32);
- 
--    result64 = blsmskq(0x30);
--    assert(result64 == 0x1f);
-+    result = blsmskq(0x30);
-+    assert(result == 0x1f);
- 
--    result64 = blsrq(0x30);
--    assert(result64 == 0x20);
-+    result = blsrq(0x30);
-+    assert(result == 0x20);
- 
--    result64 = blsrq(0x30ull << 32);
--    assert(result64 == 0x20ull << 32);
-+    result = blsrq(0x30ull << 32);
-+    assert(result == 0x20ull << 32);
- 
--    result64 = bzhiq(mask, 0x3f);
--    assert(result64 == (mask & ~INT64_MIN));
-+    result = bzhiq(mask, 0x3f);
-+    assert(result == (mask & ~INT64_MIN));
- 
--    result64 = bzhiq(mask, 0x1f);
--    assert(result64 == (mask & ~(-1 << 30)));
-+    result = bzhiq(mask, 0x1f);
-+    assert(result == (mask & ~(-1 << 30)));
- 
--    result64 = rorxq(0x2132435465768798, 8);
--    assert(result64 == 0x9821324354657687);
-+    result = rorxq(0x2132435465768798, 8);
-+    assert(result == 0x9821324354657687);
- 
--    result64 = sarxq(0xffeeddccbbaa9988, 8);
--    assert(result64 == 0xffffeeddccbbaa99);
-+    result = sarxq(0xffeeddccbbaa9988, 8);
-+    assert(result == 0xffffeeddccbbaa99);
- 
--    result64 = sarxq(0x77eeddccbbaa9988, 8 | 64);
--    assert(result64 == 0x0077eeddccbbaa99);
-+    result = sarxq(0x77eeddccbbaa9988, 8 | 64);
-+    assert(result == 0x0077eeddccbbaa99);
- 
--    result64 = shrxq(0xffeeddccbbaa9988, 8);
--    assert(result64 == 0x00ffeeddccbbaa99);
-+    result = shrxq(0xffeeddccbbaa9988, 8);
-+    assert(result == 0x00ffeeddccbbaa99);
- 
--    result64 = shrxq(0x77eeddccbbaa9988, 8 | 192);
--    assert(result64 == 0x0077eeddccbbaa99);
-+    result = shrxq(0x77eeddccbbaa9988, 8 | 192);
-+    assert(result == 0x0077eeddccbbaa99);
- 
--    result64 = shlxq(0xffeeddccbbaa9988, 8);
--    assert(result64 == 0xeeddccbbaa998800);
-+    result = shlxq(0xffeeddccbbaa9988, 8);
-+    assert(result == 0xeeddccbbaa998800);
- #endif
- 
-     /* 32 bits */
--    result32 = andnl(mask, ehlo);
--    assert(result32 == 0x04d4c4844);
-+    result = andnl(mask, ehlo);
-+    assert(result == 0x04d4c4844);
- 
--    result32 = pextl((uint32_t) ehlo, mask);
--    assert(result32 == 5);
-+    result = pextl((uint32_t) ehlo, mask);
-+    assert(result == 5);
- 
--    result32 = pdepl(result32, mask);
--    assert(result32 == (uint32_t)(ehlo & mask));
-+    result = pdepl(result, mask);
-+    assert(result == (uint32_t)(ehlo & mask));
- 
--    result32 = pextl(-1u, mask);
--    assert(result32 == 7); /* mask has 3 bits set */
-+    result = pextl(-1u, mask);
-+    assert(result == 7); /* mask has 3 bits set */
- 
--    result32 = pdepl(-1u, mask);
--    assert(result32 == (uint32_t)mask);
-+    result = pdepl(-1u, mask);
-+    assert(result == (uint32_t)mask);
- 
--    result32 = bextrl(mask, 0x1f00);
--    assert(result32 == (mask & ~INT32_MIN));
-+    result = bextrl(mask, 0x1f00);
-+    assert(result == (mask & ~INT32_MIN));
- 
--    result32 = bextrl(ehlo, 0x1018);
--    assert(result32 == 0x4f);
-+    result = bextrl(ehlo, 0x1018);
-+    assert(result == 0x4f);
- 
--    result32 = bextrl(mask, 0x1038);
--    assert(result32 == 0);
-+    result = bextrl(mask, 0x1038);
-+    assert(result == 0);
- 
--    result32 = blsil(0xffff);
--    assert(result32 == 1);
-+    result = blsil(0xffff);
-+    assert(result == 1);
- 
--    result32 = blsmskl(0x300);
--    assert(result32 == 0x1ff);
-+    result = blsmskl(0x300);
-+    assert(result == 0x1ff);
- 
--    result32 = blsrl(0xffc);
--    assert(result32 == 0xff8);
-+    result = blsrl(0xffc);
-+    assert(result == 0xff8);
- 
--    result32 = bzhil(mask, 0xf);
--    assert(result32 == 1);
-+    result = bzhil(mask, 0xf);
-+    assert(result == 1);
- 
--    result32 = rorxl(0x65768798, 8);
--    assert(result32 == 0x98657687);
-+    result = rorxl(0x65768798, 8);
-+    assert(result == 0x98657687);
- 
--    result32 = sarxl(0xffeeddcc, 8);
--    assert(result32 == 0xffffeedd);
-+    result = sarxl(0xffeeddcc, 8);
-+    assert(result == 0xffffeedd);
- 
--    result32 = sarxl(0x77eeddcc, 8 | 32);
--    assert(result32 == 0x0077eedd);
-+    result = sarxl(0x77eeddcc, 8 | 32);
-+    assert(result == 0x0077eedd);
- 
--    result32 = shrxl(0xffeeddcc, 8);
--    assert(result32 == 0x00ffeedd);
-+    result = shrxl(0xffeeddcc, 8);
-+    assert(result == 0x00ffeedd);
- 
--    result32 = shrxl(0x77eeddcc, 8 | 128);
--    assert(result32 == 0x0077eedd);
-+    result = shrxl(0x77eeddcc, 8 | 128);
-+    assert(result == 0x0077eedd);
- 
--    result32 = shlxl(0xffeeddcc, 8);
--    assert(result32 == 0xeeddcc00);
-+    result = shlxl(0xffeeddcc, 8);
-+    assert(result == 0xeeddcc00);
- 
-     return 0;
- }
+     gen_op_update1_cc(s);
+     set_cc_op(s, CC_OP_LOGICB + ot);
 -- 
 2.34.1
 
