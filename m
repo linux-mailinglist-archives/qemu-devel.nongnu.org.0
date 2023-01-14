@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6785C66AEC5
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C4966AEC6
 	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 00:31:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGpyi-0006Tz-95; Sat, 14 Jan 2023 18:30:24 -0500
+	id 1pGpys-0006VG-UJ; Sat, 14 Jan 2023 18:30:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pGpye-0006Ta-Rj
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 18:30:22 -0500
+ id 1pGpym-0006UW-Df
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 18:30:28 -0500
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pGpyd-0003va-BG
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 18:30:20 -0500
+ id 1pGpyh-0003y6-CT
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 18:30:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gqQm2XCWaXtySI0pAar/Iq1SN/NdQR8Bis5Wnetndlk=; b=J1RCNZ995l6Dxe49m8ptFqwrhJ
- mDhXWD5cd3jAb3lstS3G2i6c9lHFCc2NrfkiDaAfwG7bY/g5PRx9mjxTgiwpTuHeX/OR6hbrdNmJZ
- zNHcPB//EoIyeKdvFAIQWuBLrgEJNvsXJl/rk16fYoHmr9DpSjrdOrPCK4MoyLsu7cRtXtmjKsDIg
- q4OKiKyCTVgPh5xUReLl40+kWrZRSJ4Gzu2gsLBrZSicDjFi9SVjnM2botzTF+mB0h/NrfyOBWEXE
- sVUAFPUQJre031Etqb1TWzR5+m/FlQEFKzPfcGmXmX2YdAF1ZBJ8z89G39asFiYIBzIS89cyWfEbx
- rz8pCiLvDRFzxArEUCQi6bqmepojj3KDHFkpGGQXM/Zo5tynaHuBHcT7BaeWVU+2yQfkoquy1ijeM
- w9t1sAYHpCJon9p++9sSb6/B6l996ubwPqg5d3hpidK4aJNJswO4S2RV63k/Ka9skoMvl6UqzIb29
- CA7kg/p24VoxM6/y2BFefaS8VEvBGQNqhK581G3pETnWm5WauClpdeeFTe9cnYs/BTHbXn8jAhFLv
- 1t9YqCBYBAnyEu50TvargKu5iTf3HBlwagAnXYimq5pkKEc67dVPl+l3Ym5o/YXuSSHW3TiGCLY60
- YJplgJheX4aTKQOtL1gSm9TkIG4e3Nnom1y4lONxs=;
+ bh=TjqbDbXwFP2XVcU1Elo5GLxVz+6l6DjlXAhv1W32K2U=; b=DwuMDcQ+ONEnko4ySVcgkHbuZR
+ T+5m8Yw23sEONdg92tzXy4w0aYJ54eRmFNYzgnuIjWEGfR0dnhb0tkqCuPXmz8sr2MY758zPeRMQv
+ xxaP/9OeX2HS7/e2EXTVnbFUK46IhJhmGrnt9+u2UVDIgRYusSDr7Wj/Q8G/n/TLIwlUQU87KBvwM
+ IjbGyMoKva1svyTfz1HbkIkVj34KZYok/biYgZay1060fJNfKOIbGpOyLfEPBpEBF/nKimw1JIkvm
+ 9f1kEGnSoKO2UXhYt0DFNrQtzk0PsAXFCDt1fD6uMBfK1y6tce8evZidnMhVxzatyJffC9Y3Sti77
+ KHdzI3Or6r+7pWHXG34U6BuzgVMWrjW+dxFltLY/I3Rb/P9YSNWgG5Ymwb07RwuKxYBxuRh8HzXN8
+ qZizrSDP4thbqU6CSeJhxn0qsr/7OhaK7UkXVDJugPyIzokkXLdATmp88HVVf7GS9oiBESBWz8+fq
+ kagdJkKoAAmROSN738l+r4qmkl6axyYn1ARiOvyWUZkhaZcCs66aNLpBvTRbXxTylSQu4rHC6RYEY
+ HZ46a0ohet4lPfjEDV2acPEOM9hDxm7oaGLh7LkrOYiOBKwdbQlluUm1j0EO02XfK44ua4dQjrLmw
+ UwW2dP+xqLShez09GpGmKZFVcGvt9hTorSxXqT5TU=;
 Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pGpyB-0002Ab-PZ; Sat, 14 Jan 2023 23:29:55 +0000
+ id 1pGpyF-0002Ab-U3; Sat, 14 Jan 2023 23:29:59 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: laurent@vivier.eu,
 	qemu-devel@nongnu.org
-Date: Sat, 14 Jan 2023 23:29:56 +0000
-Message-Id: <20230114232959.118224-2-mark.cave-ayland@ilande.co.uk>
+Date: Sat, 14 Jan 2023 23:29:57 +0000
+Message-Id: <20230114232959.118224-3-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230114232959.118224-1-mark.cave-ayland@ilande.co.uk>
 References: <20230114232959.118224-1-mark.cave-ayland@ilande.co.uk>
@@ -50,8 +50,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 1/4] target/m68k: pass quotient directly into
- make_quotient()
+Subject: [PATCH v3 2/4] target/m68k: pass sign directly into make_quotient()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -77,57 +76,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This enables the quotient parameter to be changed from int32_t to uint32_t and
+also allows the extra sign logic in make_quotient() to be removed.
+
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/m68k/fpu_helper.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ target/m68k/fpu_helper.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
 
 diff --git a/target/m68k/fpu_helper.c b/target/m68k/fpu_helper.c
-index fdc4937e29..0932c464fd 100644
+index 0932c464fd..76b34b8988 100644
 --- a/target/m68k/fpu_helper.c
 +++ b/target/m68k/fpu_helper.c
-@@ -515,16 +515,10 @@ uint32_t HELPER(fmovemd_ld_postinc)(CPUM68KState *env, uint32_t addr,
+@@ -515,39 +515,42 @@ uint32_t HELPER(fmovemd_ld_postinc)(CPUM68KState *env, uint32_t addr,
      return fmovem_postinc(env, addr, mask, cpu_ld_float64_ra);
  }
  
--static void make_quotient(CPUM68KState *env, floatx80 val)
-+static void make_quotient(CPUM68KState *env, int32_t quotient)
+-static void make_quotient(CPUM68KState *env, int32_t quotient)
++static void make_quotient(CPUM68KState *env, int sign, uint32_t quotient)
  {
--    int32_t quotient;
-     int sign;
- 
--    if (floatx80_is_any_nan(val)) {
--        return;
+-    int sign;
+-
+-    sign = quotient < 0;
+-    if (sign) {
+-        quotient = -quotient;
 -    }
 -
--    quotient = floatx80_to_int32(val, &env->fp_status);
-     sign = quotient < 0;
-     if (sign) {
-         quotient = -quotient;
-@@ -538,14 +532,22 @@ void HELPER(fmod)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
+     quotient = (sign << 7) | (quotient & 0x7f);
+     env->fpsr = (env->fpsr & ~FPSR_QT_MASK) | (quotient << FPSR_QT_SHIFT);
+ }
+ 
+ void HELPER(fmod)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
  {
++    uint32_t quotient;
++    int sign;
++
      res->d = floatx80_mod(val1->d, val0->d, &env->fp_status);
  
--    make_quotient(env, res->d);
-+    if (floatx80_is_any_nan(res->d)) {
-+        return;
-+    }
-+
-+    make_quotient(env, floatx80_to_int32(res->d, &env->fp_status));
+     if (floatx80_is_any_nan(res->d)) {
+         return;
+     }
+ 
+-    make_quotient(env, floatx80_to_int32(res->d, &env->fp_status));
++    sign = extractFloatx80Sign(res->d);
++    quotient = floatx80_to_int32(floatx80_abs(res->d), &env->fp_status);
++    make_quotient(env, sign, quotient);
  }
  
  void HELPER(frem)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
  {
++    uint32_t quotient;
++    int sign;
++
      res->d = floatx80_rem(val1->d, val0->d, &env->fp_status);
  
--    make_quotient(env, res->d);
-+    if (floatx80_is_any_nan(res->d)) {
-+        return;
-+    }
-+
-+    make_quotient(env, floatx80_to_int32(res->d, &env->fp_status));
+     if (floatx80_is_any_nan(res->d)) {
+         return;
+     }
+ 
+-    make_quotient(env, floatx80_to_int32(res->d, &env->fp_status));
++    sign = extractFloatx80Sign(res->d);
++    quotient = floatx80_to_int32(floatx80_abs(res->d), &env->fp_status);
++    make_quotient(env, sign, quotient);
  }
  
  void HELPER(fgetexp)(CPUM68KState *env, FPReg *res, FPReg *val)
