@@ -2,60 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D8766ABEC
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 15:40:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D3666AC85
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 17:15:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGhgo-0004d6-DU; Sat, 14 Jan 2023 09:39:22 -0500
+	id 1pGjAI-0008B4-GF; Sat, 14 Jan 2023 11:13:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hc94@poolhem.se>) id 1pGhgj-0004cw-JW
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 09:39:17 -0500
-Received: from mailout12.inleed.net ([2a0b:dc80:cafe:112::1]
- helo=ns12.inleed.net)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hc94@poolhem.se>) id 1pGhge-0006f2-9Y
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 09:39:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=poolhem.se; 
- s=x;
- h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:
- In-Reply-To:Message-Id:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=OZjZPK1kAlJA/YVsQSAVLrdNYlFRzYX80qVEcTcjG80=; b=dnYcFaawSqzbaNFY6Era3XirQd
- HeySsvAa9/C3CiVA+sXX71JbWtaue33K5WqF4Qr8VwOX0s6JJEU0XZ08tXeC1LpkFTUGJBCWXclJ1
- 8ufe4atuENVTakE1Q8u98MoK9kfGCyCy8qm6sezqd5ILoqNqC8uIQ04JKRc0qYNuQ6Zg7joleC0ec
- ei6Fad+WXw8H1deWWEPXsn6xzu3Bwdk2dE4+rz565QC0OxFbzvVmQgCqeW1b3Lmv0ZvJub+PK5mpc
- KHsJ7fciDxRfeRLbqMuBNMI3cuNQvDUoVehTk/ul4jztSEeINDKUEABr+VpU8kqxXJY7evfjAZLIW
- 379YtKHQ==;
-Received: from [213.115.245.47] (helo=balrog.lkp.se)
- by ns12.inleed.net with esmtpa (Exim 4.96)
- (envelope-from <hc94@poolhem.se>) id 1pGhgc-00F7Lh-37;
- Sat, 14 Jan 2023 15:39:10 +0100
-Date: Sat, 14 Jan 2023 15:38:53 +0100
-From: Henrik Carlqvist <hc94@poolhem.se>
-To: Henrik Carlqvist <hc981@poolhem.se>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, atar4qemu@gmail.com,
- marcandre.lureau@redhat.com
-Subject: [PATCH v5] Emulate dip switch language layout settings on SUN keyboard
-Message-Id: <20230114153853.76b68899.hc94@poolhem.se>
-In-Reply-To: <20230114125029.7395a547.hc981@poolhem.se>
-References: <20230114125029.7395a547.hc981@poolhem.se>
-X-Mailer: Sylpheed version 0.9.7 (GTK+ 1.2.10; i686-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Id: henrik@poolhem.se
-Received-SPF: none client-ip=2a0b:dc80:cafe:112::1;
- envelope-from=hc94@poolhem.se; helo=ns12.inleed.net
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_SOFTFAIL=0.732, SPF_NONE=0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <francesco.cagnin@gmail.com>)
+ id 1pGjAG-0008Aq-Bn; Sat, 14 Jan 2023 11:13:52 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <francesco.cagnin@gmail.com>)
+ id 1pGjAE-0005z7-Ix; Sat, 14 Jan 2023 11:13:52 -0500
+Received: by mail-wr1-x432.google.com with SMTP id bk16so23631017wrb.11;
+ Sat, 14 Jan 2023 08:13:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3541pRrn8lpJE4sW30oitbMJnzbaSEbBU6oloBO7whE=;
+ b=kCgUde19pA8R7rDD0R4+Uks6v7VasNd9LqbmpnR6FtXMt0B6ilEsB3bB7yJBu1oj2q
+ /NxRMXw65rrHBBc58tWCPf+Fyv+/qzmD2Xq0a9mKugigSxVvS+swci8LRw4pgDJxpZso
+ ryjAoVYdLDToaaeULXsZiYJbe+t+bKY4s3R/eBNEf+NAt6H5vJbSGw82AnlaTePd3GT6
+ cerTdyCRN4Bz2UTJ3VnmNqf7u2Z7sws6/N/QCCIUCtVpVzscQAo7vTp84C+0vF0QzgiC
+ X7CYCLhNpY7/R3gpmqUYOSEcipsk4BU6mfg2BCj98USD4f75DcmSZvAqZIHrRfppjhrj
+ lD/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3541pRrn8lpJE4sW30oitbMJnzbaSEbBU6oloBO7whE=;
+ b=vMdkd+3KbRaOauwE4GQsZe0FS+1eGVYk9VafLWieBkptyxAxNuxIx/EsPjo3R6w1AT
+ EVHBX4jVO79RaHPbB3w3V3CevJgJ4aesZhOFbr2YlbBXrOvacTrC0kAEwbaaL1Y2se6U
+ OhNI5XqiKzHb40bablxwLxyvetcONnmQG1j4+DUtTZC1/N4VKCof56PGsfrAL1kxqLld
+ EQnPUnSznEkqLHotlm6s511S9c5PVW6yTHotUFe/VnTIkSSvYWbbI1Jgaf63r7fLcqHR
+ FHMB78vdK0s0KMDnFqEakiyGTZlGGPbvaE3/0iGU43zCmPYPcofwXU8E9q1p2Ea9wtZi
+ 6e8g==
+X-Gm-Message-State: AFqh2ko70qDRQR1Tr/5ak5GmphCW4Wcdg8j63xZH2QCqS+RAKBGYLu80
+ Th8CtY1ZORjQQ3J3+vHKAJuqzQfsuP1rcg==
+X-Google-Smtp-Source: AMrXdXtq1PwCgIxN+MfRDjRl7cC4rUOOIdiTmqBfWJI9xFUjs7WBfwSp3LndOkUTp8Hn9WLo/5773g==
+X-Received: by 2002:a5d:688b:0:b0:2bd:db42:36cd with SMTP id
+ h11-20020a5d688b000000b002bddb4236cdmr5820999wru.0.1673712828245; 
+ Sat, 14 Jan 2023 08:13:48 -0800 (PST)
+Received: from omega.lan (194.46.205.77.rev.sfr.net. [77.205.46.194])
+ by smtp.gmail.com with ESMTPSA id
+ y18-20020a5d6152000000b002425be3c9e2sm21330040wrt.60.2023.01.14.08.13.46
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Sat, 14 Jan 2023 08:13:47 -0800 (PST)
+From: francesco.cagnin@gmail.com
+X-Google-Original-From: fcagnin@quarkslab.com
+To: qemu-devel@nongnu.org
+Cc: mads@ynddal.dk, dirty@apple.com, peter.maydell@linaro.org,
+ qemu-arm@nongnu.org, agraf@csgraf.de, pbonzini@redhat.com,
+ alex.bennee@linaro.org, Francesco Cagnin <fcagnin@quarkslab.com>
+Subject: [PATCH v3 0/3] Add gdbstub support to HVF
+Date: Sat, 14 Jan 2023 17:12:59 +0100
+Message-Id: <20230114161302.94595-1-fcagnin@quarkslab.com>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=francesco.cagnin@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,156 +87,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-https://patchew.org/QEMU/20230114125029.7395a547.hc981@poolhem.se/ 
-complains that "patch is empty", so here is my fifth attempt...
+From: Francesco Cagnin <fcagnin@quarkslab.com>
 
-regards Henrik
+This patch series aims to add gdbstub support to HVF (the 'QEMU
+accelerator on macOS that employs Hypervisor.framework') on Apple
+Silicon hosts.
 
-SUN Type 4, 5 and 5c keyboards have dip switches to choose the language
-layout of the keyboard. Solaris makes an ioctl to query the value of the
-dipswitches and uses that value to select keyboard layout. Also the SUN
-bios like the one in the file ss5.bin uses this value to support at least
-some keyboard layouts. However, the OpenBIOS provided with qemu is
-hardcoded to always use an US keyboard layout.
+The proposed implementation, structured like the KVM counterpart,
+handles single-stepping, software breakpoints, hardware breakpoints and
+hardware watchpoints.
 
-Before this patch, qemu allways gave dip switch value 0x21 (US keyboard),
-this patch uses the command line switch "-k" (keyboard layout) to select
-dip switch value. A table is used to lookup values from arguments like:
+The patch has been most recently tested working on macOS Ventura 13.1
+hosts and Linux kernel 5.19 guests with the test script
+'tests/guest-debug/test-gdbstub.py' (slightly updated to make it work
+with Linux kernels compiled on macOS).
 
--k fr
--k es
+v3:
+* Keep separate views of DBG*_EL1 registers while guest debugging is
+  enabled  
+  NOTE: Should be implemented as Peter and Alex suggested, and works as
+  intended in my (limited) tests. Any other register to handle beside
+  DBG*_EL1?
+* Handle singlestepping over instructions triggering a VM exit
+  NOTE: I'm not aware of unwanted side effects, please double-check the
+  fix is adequate.
+* Merge patches 2 and 3 from previous patch series
 
-But the patch also accepts numeric dip switch values directly to the -k
-switch:
+v2:
+* Move debug helpers to 'target/arm/hyp_gdbstub.c'
+* Add support for SSTEP_NOIRQ and multi-core (thanks Mads Ynddal)
+* Move calls to 'hv_vcpu_set_trap_debug_exceptions()' to
+  'hvf_arch_update_guest_debug()'
+* Use 'arm_num_brps()' and 'arm_num_wrps()' to compute the number of
+  breakpoints and watchpoints available (thanks Peter Maydell)
 
--k 0x2b
--k 43
+Francesco Cagnin (3):
+  arm: move KVM breakpoints helpers
+  hvf: implement guest debugging on Apple Silicon hosts
+  hvf: handle singlestepping over instructions which trigger a VM exit
 
-Both values above are the same and select swedish keyboard as explained in
-table 3-15 at
-https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.html
+ accel/hvf/hvf-accel-ops.c | 123 ++++++++
+ accel/hvf/hvf-all.c       |  24 ++
+ cpu.c                     |   3 +
+ include/sysemu/hvf.h      |  29 ++
+ include/sysemu/hvf_int.h  |   1 +
+ target/arm/hvf/hvf.c      | 635 +++++++++++++++++++++++++++++++++++++-
+ target/arm/hyp_gdbstub.c  | 242 +++++++++++++++
+ target/arm/internals.h    |  50 +++
+ target/arm/kvm64.c        | 276 -----------------
+ target/arm/meson.build    |   3 +-
+ 10 files changed, 1107 insertions(+), 279 deletions(-)
+ create mode 100644 target/arm/hyp_gdbstub.c
 
-Unless you want to do a full Solaris installation but happen to have
-access to a bios file, the easiest way to test that the patch works is to:
-
-qemu-system-sparc -k sv -bios /path/to/ss5.bin
-
-If you already happen to have a Solaris installation in a qemu disk image
-file you can easily try different keyboard layouts after this patch is
-applied.
-
-Signed-off-by: Henrik Carlqvist <hc1245@poolhem.se>
----
- hw/char/escc.c | 74 +++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 73 insertions(+), 1 deletion(-)
-
-diff --git a/hw/char/escc.c b/hw/char/escc.c
-index 17a908c59b..53022ccf39 100644
---- a/hw/char/escc.c
-+++ b/hw/char/escc.c
-@@ -31,6 +31,8 @@
- #include "qemu/module.h"
- #include "hw/char/escc.h"
- #include "ui/console.h"
-+#include "sysemu/sysemu.h"
-+#include "qemu/cutils.h"
- #include "trace.h"
- 
- /*
-@@ -190,6 +192,7 @@
- #define R_MISC1I 14
- #define R_EXTINT 15
- 
-+static unsigned char sun_keyboard_layout_dip_switch(void);
- static void handle_kbd_command(ESCCChannelState *s, int val);
- static int serial_can_receive(void *opaque);
- static void serial_receive_byte(ESCCChannelState *s, int ch);
-@@ -846,6 +849,75 @@ static QemuInputHandler sunkbd_handler = {
-     .event = sunkbd_handle_event,
- };
- 
-+static unsigned char sun_keyboard_layout_dip_switch(void)
-+{
-+    /* Return the value of the dip-switches in a SUN Type 5 keyboard */
-+    static unsigned char ret = 0xff;
-+
-+    if ((ret == 0xff) && keyboard_layout) {
-+        int i;
-+        struct layout_values {
-+            const char *lang;
-+            unsigned char dip;
-+        } languages[] =
-+    /* Dip values from table 3-16 Layouts for Type 4, 5, and 5c Keyboards */
-+            {
-+                {"en-us", 0x21}, /* U.S.A. (US5.kt) */
-+                                 /* 0x22 is some other US (US_UNIX5.kt)*/
-+                {"fr",    0x23}, /* France (France5.kt) */
-+                {"da",    0x24}, /* Denmark (Denmark5.kt) */
-+                {"de",    0x25}, /* Germany (Germany5.kt) */
-+                {"it",    0x26}, /* Italy (Italy5.kt) */
-+                {"nl",    0x27}, /* The Netherlands (Netherland5.kt) */
-+                {"no",    0x28}, /* Norway (Norway.kt) */
-+                {"pt",    0x29}, /* Portugal (Portugal5.kt) */
-+                {"es",    0x2a}, /* Spain (Spain5.kt) */
-+                {"sv",    0x2b}, /* Sweden (Sweden5.kt) */
-+                {"fr-ch", 0x2c}, /* Switzerland/French (Switzer_Fr5.kt) */
-+                {"de-ch", 0x2d}, /* Switzerland/German (Switzer_Ge5.kt) */
-+                {"en-gb", 0x2e}, /* Great Britain (UK5.kt) */
-+                {"ko",    0x2f}, /* Korea (Korea5.kt) */
-+                {"tw",    0x30}, /* Taiwan (Taiwan5.kt) */
-+                {"ja",    0x31}, /* Japan (Japan5.kt) */
-+                {"fr-ca", 0x32}, /* Canada/French (Canada_Fr5.kt) */
-+                {"hu",    0x33}, /* Hungary (Hungary5.kt) */
-+                {"pl",    0x34}, /* Poland (Poland5.kt) */
-+                {"cz",    0x35}, /* Czech (Czech5.kt) */
-+                {"ru",    0x36}, /* Russia (Russia5.kt) */
-+                {"lv",    0x37}, /* Latvia (Latvia5.kt) */
-+                {"tr",    0x38}, /* Turkey-Q5 (TurkeyQ5.kt) */
-+                {"gr",    0x39}, /* Greece (Greece5.kt) */
-+                {"ar",    0x3a}, /* Arabic (Arabic5.kt) */
-+                {"lt",    0x3b}, /* Lithuania (Lithuania5.kt) */
-+                {"nl-be", 0x3c}, /* Belgium (Belgian5.kt) */
-+                {"be",    0x3c}, /* Belgium (Belgian5.kt) */
-+            };
-+
-+        for (i = 0;
-+             i < sizeof(languages) / sizeof(struct layout_values);
-+             i++) {
-+            if (!strcmp(keyboard_layout, languages[i].lang)) {
-+                ret = languages[i].dip;
-+                return ret;
-+            }
-+        }
-+        /* Found no known language code */
-+
-+        if ((keyboard_layout[0] >= '0') && (keyboard_layout[0] <= '9')) {
-+            unsigned int tmp;
-+            /* As a fallback we also accept numeric dip switch value */
-+            if (!qemu_strtoui(keyboard_layout, NULL, 0, &tmp)) {
-+                ret = (unsigned char)tmp;
-+            }
-+        }
-+    }
-+    if (ret == 0xff) {
-+        /* Final fallback if keyboard_layout was not set or recognized */
-+        ret = 0x21; /* en-us layout */
-+    }
-+    return ret;
-+}
-+
- static void handle_kbd_command(ESCCChannelState *s, int val)
- {
-     trace_escc_kbd_command(val);
-@@ -867,7 +939,7 @@ static void handle_kbd_command(ESCCChannelState *s, int val)
-     case 0xf:
-         clear_queue(s);
-         put_queue(s, 0xfe);
--        put_queue(s, 0x21); /*  en-us layout */
-+        put_queue(s, sun_keyboard_layout_dip_switch());
-         break;
-     default:
-         break;
 -- 
-2.35.1
+2.39.0
 
 
