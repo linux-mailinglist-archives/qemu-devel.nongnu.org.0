@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5783066A914
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 05:02:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBD966A916
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 05:03:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGXii-0000JG-8Y; Fri, 13 Jan 2023 23:00:40 -0500
+	id 1pGXik-0000L7-9l; Fri, 13 Jan 2023 23:00:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pGXiQ-0000Bo-Om
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:22 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ id 1pGXiQ-0000Bt-Pl
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:23 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pGXiM-0005Io-4T
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:22 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id v23so24248955pju.3
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 20:00:13 -0800 (PST)
+ id 1pGXiM-0005Yt-48
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:20 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id v23so24249017pju.3
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 20:00:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ATFnSDPaq/tF+IEyDiXxbVKp09i00iyKysrIH40kCSg=;
- b=I4fBQayI860aIB0MAKE16RY0angteCyELL29iabT8ydVYlHF4sKXt59mYcREAIDOPO
- 88wYLzKRnFGWf1nD55WthkxJxYZQZe0cQ+LQ9CF7ysSWvXFKY4luOSNIYOlnfrwUm0nb
- eRSUeTHlCLxt6jU2QGJlZF5CC1CJqdKbh/orJZa1sUxu49ECRB3f1mWQAA/ylM1plnuJ
- V/5J+/fAD5GamePIoxygvdBjJcuTrAG66VxxKKoxbBhOHAv+fJRyo95/zsmODP2rWJPM
- bxdyUtgepb3DOTPMphMg848ZLdiYa0CPhXuzZChbWRJk2TZT9lmAmgyUffzftBolFQOC
- c/CA==
+ bh=DfHbFzEFpZAIU4LZ6NgwvgYjQ8+Nr9IG/Jg0A+8VsYk=;
+ b=IT/cPnFuNuIBG1BzdmTayhYkkVLj8OdjUlj0mOjemKVoDztf98XkP0YxFDt/OeWOR9
+ /w1eSIssBgC1FKvxrRdr8XRfpBDwqnOovHnCNrNRiUoAwIlCiwvKM8U90JGC8rpPMC+D
+ uTKo/lHHa8E1Gn/i8Iv9mQg92vetATyFcJG97pu5D/W0iGwGAwi4roFjMi9f7hjkI7Dv
+ 9IEbaACJaSq1dtjUTn92S32/PhojCnnsh9U2dGSMzoom6iS8TcM3XGsF+g4lML6hRq72
+ VmWXY4SvKl0oVUpilu0eXdWMCnbnxBQ4JF9oeB6nTucCxPAljy20LKSEphOUlnaFxgHa
+ MioQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ATFnSDPaq/tF+IEyDiXxbVKp09i00iyKysrIH40kCSg=;
- b=o1Crl8VPJ/dkxtgOuSD3cn8yFjoBHBqmJSOhV76a6R84NF8PYuiZwpq+mCzq57xMbG
- +zzhY8vKCptH+E5M3mk+JFxE/yEMe4a7CF0bupnanHMjYeLmr3CDZYRUUwIWtXyBkCTR
- lyOcUmlZqdlX+pWbaLQXv0DkGZnaF+zRl8T07V9esiW3Nlh6bnPQVbl/wwhxTLUCDCKj
- nThU2f3XGho6RlvdSYVHFMad8oIfikGNH7KDcEEqqEzSOg9VimXzEO6MfZdsY6g4dIf8
- rmf99q8S/Y3B1YbXOQ6mHioFMjVeGpwbEnRf0agOFv1wJNBSC6qyquEwyRuCSwX80MXJ
- G4tA==
-X-Gm-Message-State: AFqh2kp2sHTpuNXeXHgQuy3OZrKS+lRr8UXqkkvusA51+BRigis+Aj1J
- NsnOPJ8p7F/PBy5HmDK/qVm5Yw==
-X-Google-Smtp-Source: AMrXdXudCUHU2HoDtP68D9R4002fh3b0crj2YA4+xGxna51JhdOT5MiFPhJeUEGrBqbtUtdjsmxrow==
-X-Received: by 2002:a17:902:7106:b0:194:66db:7789 with SMTP id
- a6-20020a170902710600b0019466db7789mr6150572pll.50.1673668813143; 
- Fri, 13 Jan 2023 20:00:13 -0800 (PST)
+ bh=DfHbFzEFpZAIU4LZ6NgwvgYjQ8+Nr9IG/Jg0A+8VsYk=;
+ b=wUpCNz9O7irg9zio1BTgjWj6zYCABTkoCZ8X7uKZR9qctyuobvX5owqX69jb1lh/Er
+ /Iimpk9BkNkwI7JV3LDZJmc0BSBFAPEibkahWPWxB8txR7COAMxcXF52HFPCNLhmgtbQ
+ llDLJGGgfMUvIZnVnOisQTpMhZO26e8RZ+iBI3Fkvmq1ZqLh/YBa+bNMXlM3r+Ljuq+m
+ wTl2QruTEzFgrbnva0jQPn7E/NP5S0a19kqL1LWeHn7WaPRFtJgt/aUpN+hn5+isu1Xr
+ PQo6sfmHpsLRTX+qpNJN3KSYnKvMtJiJGZygp23bkf+ikCG8QLKSlWCa0D4pVuyxMzmv
+ qolg==
+X-Gm-Message-State: AFqh2kqLVY4atNdqG3+pS9Bi5Nyx/+jEy027WFW79au0UBjAaKGheOj2
+ FCQR9sml/XOE9qQYj0aMZNFupg==
+X-Google-Smtp-Source: AMrXdXv7wQ8jFmnuTNAevQjqKhL6Ymd+VJxuZgAo+KCgCBAT+mmeXqBmdNwhOnbcRJEEtaPg93V1VA==
+X-Received: by 2002:a17:902:ce08:b0:189:81dd:6b8b with SMTP id
+ k8-20020a170902ce0800b0018981dd6b8bmr111298968plg.63.1673668815826; 
+ Fri, 13 Jan 2023 20:00:15 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- g15-20020a170902868f00b00189fdadef9csm910894plo.107.2023.01.13.20.00.11
+ g15-20020a170902868f00b00189fdadef9csm910894plo.107.2023.01.13.20.00.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 20:00:12 -0800 (PST)
+ Fri, 13 Jan 2023 20:00:15 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -62,22 +62,22 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 09/19] e1000: Use memcpy to intialize registers
-Date: Sat, 14 Jan 2023 12:59:09 +0900
-Message-Id: <20230114035919.35251-10-akihiko.odaki@daynix.com>
+Subject: [PATCH 10/19] e1000e: Use memcpy to intialize registers
+Date: Sat, 14 Jan 2023 12:59:10 +0900
+Message-Id: <20230114035919.35251-11-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230114035919.35251-1-akihiko.odaki@daynix.com>
 References: <20230114035919.35251-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1032.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,25 +98,24 @@ register templates and register table instances will never overlap.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/net/e1000.c | 4 ++--
+ hw/net/e1000e_core.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index d9d048f665..3353a3752c 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -390,10 +390,10 @@ static void e1000_reset(void *opaque)
-     d->mit_irq_level = 0;
-     d->mit_ide = 0;
-     memset(d->phy_reg, 0, sizeof d->phy_reg);
--    memmove(d->phy_reg, phy_reg_init, sizeof phy_reg_init);
-+    memcpy(d->phy_reg, phy_reg_init, sizeof phy_reg_init);
-     d->phy_reg[MII_PHYID2] = edc->phy_id2;
-     memset(d->mac_reg, 0, sizeof d->mac_reg);
--    memmove(d->mac_reg, mac_reg_init, sizeof mac_reg_init);
-+    memcpy(d->mac_reg, mac_reg_init, sizeof mac_reg_init);
-     d->rxbuf_min_shift = 1;
-     memset(&d->tx, 0, sizeof d->tx);
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index 6a4da72bd3..87f964cdc1 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -3511,9 +3511,9 @@ e1000e_core_reset(E1000ECore *core)
+     e1000e_intrmgr_reset(core);
+ 
+     memset(core->phy, 0, sizeof core->phy);
+-    memmove(core->phy, e1000e_phy_reg_init, sizeof e1000e_phy_reg_init);
++    memcpy(core->phy, e1000e_phy_reg_init, sizeof e1000e_phy_reg_init);
+     memset(core->mac, 0, sizeof core->mac);
+-    memmove(core->mac, e1000e_mac_reg_init, sizeof e1000e_mac_reg_init);
++    memcpy(core->mac, e1000e_mac_reg_init, sizeof e1000e_mac_reg_init);
+ 
+     core->rxbuf_min_shift = 1 + E1000_RING_DESC_LEN_SHIFT;
  
 -- 
 2.39.0
