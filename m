@@ -2,102 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71CF666A7B8
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 01:40:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C9C66A7BE
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 01:40:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGUYq-000484-U9; Fri, 13 Jan 2023 19:38:16 -0500
+	id 1pGUaA-0004jA-LA; Fri, 13 Jan 2023 19:39:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGUYl-00047w-59
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 19:38:12 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pGUYh-000564-Dd
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 19:38:10 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- m7-20020a17090a730700b00225ebb9cd01so28556492pjk.3
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 16:38:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=MgBnQ26ItOkyYKiu1oV6JX0ska5GpfEn/0b8SeFBGOs=;
- b=fZz4bsSG6rplxu+/+bbAGu03TpfBRqzSERj11fI9gPC3YiJL/UeAPW98CKZYKTN7Ws
- j53XSFyQZNUTcXaOijVfFvsqXEfJGx6cLcfKMLjiLO/bW7eqi7LulykqxZENOBL1WwJN
- RayxBQjRABfgAcBUTV5MtEdBlwhGdejOfhp+6x1ylwnSaQw5/5CItg/TVLAvnSFoGFQD
- lbGhWsb6A9IEcn0SbTi5gMac6RtBt94MErdTeqH8q/FrYZ43WZq9AALzNfaHFxf2mxJm
- 5DgARQXIRLPhEsnlbzOh8dlw4D9+iPLKzKCIvdG2Ml019sB1Ej5N2/v0hQswCEcOzBeL
- 65NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MgBnQ26ItOkyYKiu1oV6JX0ska5GpfEn/0b8SeFBGOs=;
- b=J0CLfS4a4JFprulmJPynLcW1oAI7k5XPoiPCdDKF6bE/Bma96t91oF+iBJsU8cYsKN
- 3Csa2C/EtYFKsB5/m0T9+g4Mo4nIzu2jXNggTuJgvdZZSfW1EilasukvtUs+zGX8EQKC
- Qvlxz11yaR+egIcFssszN2KsqZWNXHrrMCdBHqIX9F+Y0maMZT7o2PIw4VslE8je4z5/
- 2hvVLmHpY+t+uExLeGBfHDugYl2+708/5g+FKI5d2q3oPw11iNay1oGDKCx2HgZvFL3B
- 9CXJVGKEIT67mZonqKMnuGHk35R/9PqbxPLMsGzgpWsXL+EA0TKSZ2nGc9f5gBwz8k1i
- C6ww==
-X-Gm-Message-State: AFqh2kq6aB5sGKG4imQ1suKxBAdx/3cltwhY5rrq3NbVgVkSGn6LyUzB
- L35rjErICFAhhsYCE+ZaZVF2tg==
-X-Google-Smtp-Source: AMrXdXvO5lr0leGyzGM7js7Dp/RGVdcEkNK6lyE8EJsgzKqjTO8ro2/W2YgLE7h5m81d74tyNSIgGA==
-X-Received: by 2002:a05:6a20:1394:b0:b5:a970:8d5a with SMTP id
- w20-20020a056a20139400b000b5a9708d5amr2026776pzh.0.1673656683660; 
- Fri, 13 Jan 2023 16:38:03 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- d12-20020a634f0c000000b0047829d1b8eesm9871303pgb.31.2023.01.13.16.38.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 16:38:03 -0800 (PST)
-Date: Sat, 14 Jan 2023 00:37:59 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <Y8H5Z3e4hZkFxAVS@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ (Exim 4.90_1) (envelope-from
+ <BATV+3a1a5416dcf0d1877a74+7083+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pGUa0-0004h6-Th
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 19:39:29 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+3a1a5416dcf0d1877a74+7083+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pGUZy-0005NO-FI
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 19:39:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=HIpy//34Aar8gIHgB6X5qpKeO62tXzbseNQ5L9IW1lc=; b=p+gdz+jy/GIkm6ncA9VIV0PqNO
+ kslpMLpOv3ivnK0wBvqZ+37QNmhFNyAKP2W2jBS4Gz6nPTUmeTOP9aG0Xs7PDn0dqXpkzIboyPlYy
+ iofoUwpX7FXyjsY5/+nhRVqhgTFZBhLzFOmR3IJiyLslejM52Ts7AVqgaD6AMCTv+uNyyqP9qHWnw
+ JI+AMhKLWKHd06ulE6zAApWbnBxXPkBrFDTSd1GUYtmgTplBk8GftmbypGk8xrW5jQE1XxB/qzwAi
+ WbL26WmMo5ua/8pojiN3vI02VRgczvOurpTpyr37etskgBzCObcjB/5H4LSGEblZHfoOoNXMgcMqq
+ 9etGxkLA==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pGUZf-004X3s-2C; Sat, 14 Jan 2023 00:39:10 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1pGUZk-001C29-PS; Sat, 14 Jan 2023 00:39:12 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ arcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [RFC PATCH 0/5] Xen PIRQ support
+Date: Sat, 14 Jan 2023 00:39:04 +0000
+Message-Id: <20230114003909.284331-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=seanjc@google.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+3a1a5416dcf0d1877a74+7083+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,54 +81,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 02, 2022, Chao Peng wrote:
-> This patch series implements KVM guest private memory for confidential
-> computing scenarios like Intel TDX[1]. If a TDX host accesses
-> TDX-protected guest memory, machine check can happen which can further
-> crash the running host system, this is terrible for multi-tenant
-> configurations. The host accesses include those from KVM userspace like
-> QEMU. This series addresses KVM userspace induced crash by introducing
-> new mm and KVM interfaces so KVM userspace can still manage guest memory
-> via a fd-based approach, but it can never access the guest memory
-> content.
-> 
-> The patch series touches both core mm and KVM code. I appreciate
-> Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
-> reviews are always welcome.
->   - 01: mm change, target for mm tree
->   - 02-09: KVM change, target for KVM tree
+This continues to build on the basic Xen on KVM platform support from 
+https://lore.kernel.org/qemu-devel/20230110122042.1562155-1-dwmw2@infradead.org/
 
-A version with all of my feedback, plus reworked versions of Vishal's selftest,
-is available here:
+We're working on hooking up the PV backend devices, and the biggest 
+remaining noticeably missing part was PIRQ support. This allows a Xen 
+guest to route GSI and MSI interrupts to event channels instead of being 
+delivered via the emulated I/OAPIC or local APIC respectively.
 
-  git@github.com:sean-jc/linux.git x86/upm_base_support
+It starts relatively simple, with the basic hypercalls and infrastructure
+for tracking/migrating the PIRQ table (and as I type this I've just
+remembered I forgot to write the post_load function to reconstitute the
+data structures which explicitly *state* that they need to be rebuilt).
 
-It compiles and passes the selftest, but it's otherwise barely tested.  There are
-a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
-a WIP.
+I'm particularly interested in opinions on the hook in gsi_handler() 
+which lets the Xen emulation 'eat' the event instead of passing it to 
+the I/OAPIC.
 
-As for next steps, can you (handwaving all of the TDX folks) take a look at what
-I pushed and see if there's anything horrifically broken, and that it still works
-for TDX?
+I did ponder replacing the qemu_irq in gsi_state->ioapic_irq[n] when
+GSI#n is redirected to a PIRQ, but I figured that was worse.
 
-Fuad (and pKVM folks) same ask for you with respect to pKVM.  Absolutely no rush
-(and I mean that).
+I definitely need to rethink the locking a little bit to avoid the 
+potential for deadlock when gsi_handler calls back into the evtchn code 
+to translate the event channel GSI. It's non-trivial to drop the lock 
+before sending the IRQ; maybe just a different lock with a smaller 
+scope. A previous implementation of event channels was a bit more 
+lockless, with atomic updates of the port table (the port_info fits in a 
+uint64_t). But now we have all the interesting fast paths accelerated in 
+the kernel that didn't seem worth it, so I went with simple locking... 
+too simple, it seems.
 
-On my side, the two things on my mind are (a) tests and (b) downstream dependencies
-(SEV and TDX).  For tests, I want to build a lists of tests that are required for
-merging so that the criteria for merging are clear, and so that if the list is large
-(haven't thought much yet), the work of writing and running tests can be distributed.
+There's a similar recursive locking issue when pirq_bind_port() wants to 
+call kvm_update_msi_routes_all(), but is already holding the lock that 
+we'd take again when called to redo a translation. (And I still don't 
+much like the way that kvm_update_msi_routes_all() has to have a list of 
+PCI devices and actually recalculates the routes at all, instead of just 
+detaching the IRQFD and letting them be recalculated on demand. But I 
+was trying to avoid actually fixing that this week).
 
-Regarding downstream dependencies, before this lands, I want to pull in all the
-TDX and SNP series and see how everything fits together.  Specifically, I want to
-make sure that we don't end up with a uAPI that necessitates ugly code, and that we
-don't miss an opportunity to make things simpler.  The patches in the SNP series to
-add "legacy" SEV support for UPM in particular made me slightly rethink some minor
-details.  Nothing remotely major, but something that needs attention since it'll
-be uAPI.
+David Woodhouse (5):
+      i386/xen: Implement HYPERVISOR_physdev_op
+      hw/xen: Implement emulated PIRQ hypercall support
+      hw/xen: Support GSI mapping to PIRQ
+      hw/xen: [FIXME] Avoid deadlock in xen_evtchn_set_gsi()
+      hw/xen: Support MSI mapping to PIRQ
 
-I'm off Monday, so it'll be at least Tuesday before I make any more progress on
-my side.
+ hw/i386/kvm/trace-events     |   4 ++
+ hw/i386/kvm/trace.h          |   1 +
+ hw/i386/kvm/xen-stubs.c      |  11 ++++
+ hw/i386/kvm/xen_evtchn.c     | 461 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ hw/i386/kvm/xen_evtchn.h     |  22 +++++++
+ hw/i386/x86.c                |  15 +++++
+ hw/pci/msi.c                 |  13 ++++
+ hw/pci/msix.c                |   7 ++-
+ hw/pci/pci.c                 |  14 +++++
+ meson.build                  |   1 +
+ target/i386/kvm/kvm.c        |  12 +++-
+ target/i386/kvm/kvm_i386.h   |   2 +
+ target/i386/kvm/xen-compat.h |  19 ++++++
+ target/i386/kvm/xen-emu.c    | 136 +++++++++++++++++++++++++++++++++++++++++-
+ 14 files changed, 712 insertions(+), 6 deletions(-)
 
-Thanks!
+
+
+
+
 
