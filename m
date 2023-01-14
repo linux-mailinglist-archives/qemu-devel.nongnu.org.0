@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC16866ACDF
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 18:03:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1E966ACE2
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 18:03:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGjvE-0005uV-53; Sat, 14 Jan 2023 12:02:24 -0500
+	id 1pGjvC-0005nq-Le; Sat, 14 Jan 2023 12:02:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pGjuw-0005Kp-MK; Sat, 14 Jan 2023 12:02:07 -0500
+ id 1pGjv0-0005Mn-2r; Sat, 14 Jan 2023 12:02:13 -0500
 Received: from out4-smtp.messagingengine.com ([66.111.4.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pGjuv-0005Ut-4G; Sat, 14 Jan 2023 12:02:06 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 6064F5C00DF;
- Sat, 14 Jan 2023 12:02:04 -0500 (EST)
+ id 1pGjuw-0005VO-W8; Sat, 14 Jan 2023 12:02:08 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3B9A65C0004;
+ Sat, 14 Jan 2023 12:02:06 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Sat, 14 Jan 2023 12:02:04 -0500
+ by compute3.internal (MEProxy); Sat, 14 Jan 2023 12:02:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1673715724; x=1673802124; bh=nm
- 78oN9BBO1E0nwvftxvIO+6A3EDc/cOD893O1ZxQgk=; b=wTBHU0HbJ6YQFQm/9t
- 458KezZqouEmOpNZf/X94c3R+xPQkQBbqpc7uILPHGnXBHoYQQ9gfMXPCYz7AUj4
- TdH4GKkrdmkPb9Z7iBEgyIdBIYPBjwmEmUtFECTZyKFJAjbK5urYO7iRVfl+/UdR
- PvgJoqN6JJor+0+V3PBv8vwKu4f62lUvJsBShNRkjr+UFN2dEeyYusTCaOZUdFB8
- DQb6STNIjUy4I8DFcSFUXPFqbaTumxGxSGHpyeyEhzLriwIxfh72fO2bBQ51+Xki
- mib52bJQyYbLGSvORzOWV3lOX1jlGKotTTiKy97kdFS1SRVYgoOMaw9jhtDRtnyQ
- ssfQ==
+ :subject:subject:to:to; s=fm1; t=1673715726; x=1673802126; bh=tS
+ aUWkK1BpVnxmf768PAhl6XPYazhtuB0CkFo8wladU=; b=cA+/2WE4lyCc9/2QNA
+ 3+RyIT17ZWvzJMK6JOMh3OqdhKrUWavNT1z6Ru1QsGmi3RWzdCH0S8zJFCzJI2p5
+ VCCH1lkV6MxOKqbcJWvNH/p19yfbo7QyLWZ+Rwiod8S3+up4J1hzAIalz4c2sjSh
+ gr4TC5bsQZYXIeHIjVueEpWciu7Z/7Peau16jyYT1xb4L3qw273NJS4sZgnlRpHE
+ 82VrEKM/ZwcrHlPNdMcz3NscS3OgukyTUSUgxWZtCl6zqTnPIH9d8fA+vXYAM52J
+ mjE4UHDTD9X+CvlhAFWdd4jqKm8/6V349u2QEuHUhp9uS3QfB+F/PqlHn2pbV8z9
+ aKiQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1673715724; x=1673802124; bh=nm78oN9BBO1E0
- nwvftxvIO+6A3EDc/cOD893O1ZxQgk=; b=DiquBDJ5lySS9yG3bxwXHRNdHwsPk
- 7sIgOkkGRVxjew72S2ndmWsUzK4ricIoIvQvnskACTwvDRmWZ1ZWxaL1aPrQqRdM
- vzcyY2CLpDXznlO8YFNutj7v/P31fNSEjuGoKW0xfjQUigy16wD8pCnYtGxE+CIP
- WfmXXefo9hwh6GkAeSkXkHOsLmVP4gEsqqXvspfu5K0yS9CorWz+z90m1rUU/SIN
- NLUZ072RUyztC57Jr3R2+XdW06QGmUbBhVO01VSyb6AwzztxYCQ4oJUfvkqcHdsO
- 3euyabzerzhUC8P4EeU4N96r6U2RgpSLeg2ysdsw3TUoXjwcpQNILZmTQ==
-X-ME-Sender: <xms:CuDCY1s6KcVpwsUsvgpSHoxmcJxJiew2pJKFEYoomnNIV7N26s-Ecw>
- <xme:CuDCY-e21fqUWRPXyyEyEPmd2gn1G3mQjeXzkaR2_JZvnA0Wr4hIoEM4oIjIWL9Kk
- QoMOK3Wbok4wA8iPCs>
-X-ME-Received: <xmr:CuDCY4zCprWu64h9TYbDEcAKGYhUAKK39TmqtyBxyVp2GkUQfnSw3l2Hm7SrpHrqFR7hnPojcOrk0sTdxS4SzuVagdjZEHZlz8A6RVtdbBs>
+ :x-sasl-enc; s=fm3; t=1673715726; x=1673802126; bh=tSaUWkK1BpVnx
+ mf768PAhl6XPYazhtuB0CkFo8wladU=; b=H3aNVJwvrnaR0haSJhdxuAI0DccMz
+ PZdeCY61Rjsl8fmpaSJs5TGaOc7MGGUuc/SQEIbbPMMQNvQaXQdV6YseW209S28E
+ YnxEZB4JZCL1mbNqzzaGMI971/P9HkOFqXpoorDd6EF2E30cKktEwbtk+6BaVnWu
+ kw4+yxNYRXUnPOgsAiBlMEUpwxPp375Xg12Bg6bvYDdKbGAnHh4V4pE6n0atOYdU
+ bNXmiQ5GncWFhCN6lMu/E5qlgY+zvffjk8fCKoiIslknMtQu7PB6zrZ3gnq/Y+Bx
+ 5X9l8GPl01eUaj0aOqUfJEHdzqk6VU4g1HW6wa6xlbB+2w/enMbdO/bbA==
+X-ME-Sender: <xms:DeDCY2dX1Vsr3O_9-ujXyywFVw7sGpwlypOnm3wSDV2XjQ8UEy2OOA>
+ <xme:DeDCYwPdRvMPYz0SInLsZv4J_BzwNozOE_mbWynTgP2YBDZ_kLfLFQIIFD3o0Ievq
+ 8esQR_-zFBnoTXDvzE>
+X-ME-Received: <xmr:DeDCY3gk4Y99Y-sK74cFVGgg79uazG_0Ffj7rVAySBayyoOm-9m5l-CF4EhCL1sufjfE6uZW9JH8oY7efUQGYQUpIuPpgeVrW-E0uTctXX8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddttddgleehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
@@ -56,21 +56,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddttddgleehucetufdoteggod
  grthhtvghrnhepteelgfeuleeffffffeekiefghfejuefgtdfgteeigeekvdefffevieek
  vdelteevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:CuDCY8MJvjA5FvoazovtRsyGFgM_eqtjMNmH31xINUyufy0x64uiLA>
- <xmx:CuDCY18et9MBFQ9dGpXhIuxmAmDxl1StA8C6oBfbGd-bqmWgLIn9bw>
- <xmx:CuDCY8Xku4x3qjNdOuDdnovcXej0ApBnFKqSnQosvi-XHvjk-5ziaA>
- <xmx:DODCYxRm-0tMV8eQvXXVFxp4OIxMby9hkB5hPnoufANhbP9Obfz9HA>
+X-ME-Proxy: <xmx:DeDCYz_DI3094Y_wwNO0RVzFbg5dJCU_7zatdfo33TuDqud4QyTaiw>
+ <xmx:DeDCYyuA_EWnX3zRheoKk5o4wDVeCiBJlL2ctSLtsKWVKbf6ggvXDA>
+ <xmx:DeDCY6HQM5rCPv-dIGkxW0pFnUoP3KUO9NSmjy0mdoB_6TQEc4TySQ>
+ <xmx:DuDCYwAbggiUJs2XrzeNkH6h0wcbuleoxK85Pq7sraSYxj6ohrWxeQ>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 14 Jan 2023 12:02:01 -0500 (EST)
+ 14 Jan 2023 12:02:04 -0500 (EST)
 From: Peter Delevoryas <peter@pjd.dev>
 To: 
 Cc: patrick@stwcx.xyz, peter@pjd.dev, clg@kaod.org, peter.maydell@linaro.org,
  andrew@aj.id.au, joal@jms.id.au, hskinnemoen@google.com,
  kfting@nuvoton.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 4/6] hw/arm/npcm7xx: Remove local copy of at24c_eeprom_init
-Date: Sat, 14 Jan 2023 09:01:49 -0800
-Message-Id: <20230114170151.87833-5-peter@pjd.dev>
+Subject: [PATCH 5/6] hw/nvram/eeprom_at24c: Add I2C write helper
+Date: Sat, 14 Jan 2023 09:01:50 -0800
+Message-Id: <20230114170151.87833-6-peter@pjd.dev>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230114170151.87833-1-peter@pjd.dev>
 References: <20230114170151.87833-1-peter@pjd.dev>
@@ -102,68 +102,55 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 ---
- hw/arm/npcm7xx_boards.c | 20 +++++---------------
- 1 file changed, 5 insertions(+), 15 deletions(-)
+ hw/nvram/eeprom_at24c.c         | 15 +++++++++++++++
+ include/hw/nvram/eeprom_at24c.h |  2 ++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index 6bc6f5d2fe29..9b31207a06e9 100644
---- a/hw/arm/npcm7xx_boards.c
-+++ b/hw/arm/npcm7xx_boards.c
-@@ -21,6 +21,7 @@
- #include "hw/i2c/i2c_mux_pca954x.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/loader.h"
-+#include "hw/nvram/eeprom_at24c.h"
- #include "hw/qdev-core.h"
- #include "hw/qdev-properties.h"
+diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
+index 0c27eae2b354..69565a420c28 100644
+--- a/hw/nvram/eeprom_at24c.c
++++ b/hw/nvram/eeprom_at24c.c
+@@ -10,6 +10,7 @@
+ #include "qemu/osdep.h"
+ 
  #include "qapi/error.h"
-@@ -140,17 +141,6 @@ static I2CBus *npcm7xx_i2c_get_bus(NPCM7xxState *soc, uint32_t num)
-     return I2C_BUS(qdev_get_child_bus(DEVICE(&soc->smbus[num]), "i2c-bus"));
++#include "qemu/bitops.h"
+ #include "qemu/module.h"
+ #include "hw/i2c/i2c.h"
+ #include "hw/nvram/eeprom_at24c.h"
+@@ -138,6 +139,20 @@ void at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size)
+     i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
  }
  
--static void at24c_eeprom_init(NPCM7xxState *soc, int bus, uint8_t addr,
--                              uint32_t rsize)
--{
--    I2CBus *i2c_bus = npcm7xx_i2c_get_bus(soc, bus);
--    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
--    DeviceState *dev = DEVICE(i2c_dev);
--
--    qdev_prop_set_uint32(dev, "rom-size", rsize);
--    i2c_slave_realize_and_unref(i2c_dev, i2c_bus, &error_abort);
--}
--
- static void npcm7xx_init_pwm_splitter(NPCM7xxMachine *machine,
-                                       NPCM7xxState *soc, const int *fan_counts)
++void at24c_eeprom_write(I2CBus *bus, uint8_t address, uint16_t offset,
++                        const uint8_t *buf, uint32_t len)
++{
++    int i;
++
++    i2c_start_send(bus, address);
++    i2c_send(bus, extract16(offset, 8, 8));
++    i2c_send(bus, extract16(offset, 0, 8));
++    for (i = 0; i < len; i++) {
++        i2c_send(bus, buf[i]);
++    }
++    i2c_end_transfer(bus);
++}
++
+ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
  {
-@@ -253,8 +243,8 @@ static void quanta_gsj_i2c_init(NPCM7xxState *soc)
-     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 3), "tmp105", 0x5c);
-     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 4), "tmp105", 0x5c);
+     EEPROMState *ee = AT24C_EE(dev);
+diff --git a/include/hw/nvram/eeprom_at24c.h b/include/hw/nvram/eeprom_at24c.h
+index 9d9cf212757c..bbca73a07ad1 100644
+--- a/include/hw/nvram/eeprom_at24c.h
++++ b/include/hw/nvram/eeprom_at24c.h
+@@ -6,5 +6,7 @@
+ #include "hw/i2c/i2c.h"
  
--    at24c_eeprom_init(soc, 9, 0x55, 8192);
--    at24c_eeprom_init(soc, 10, 0x55, 8192);
-+    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 9), 0x55, 8192);
-+    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 10), 0x55, 8192);
+ void at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size);
++void at24c_eeprom_write(I2CBus *bus, uint8_t address, uint16_t offset,
++                        const uint8_t *buf, uint32_t len);
  
-     /*
-      * i2c-11:
-@@ -360,7 +350,7 @@ static void kudo_bmc_i2c_init(NPCM7xxState *soc)
- 
-     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 4), TYPE_PCA9548, 0x77);
- 
--    at24c_eeprom_init(soc, 4, 0x50, 8192); /* mbfru */
-+    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 4), 0x50, 8192); /* mbfru */
- 
-     i2c_mux = i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 13),
-                                       TYPE_PCA9548, 0x77);
-@@ -371,7 +361,7 @@ static void kudo_bmc_i2c_init(NPCM7xxState *soc)
-     i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 4), "tmp105", 0x48);
-     i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 5), "tmp105", 0x49);
- 
--    at24c_eeprom_init(soc, 14, 0x55, 8192); /* bmcfru */
-+    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 14), 0x55, 8192); /* bmcfru */
- 
-     /* TODO: Add remaining i2c devices. */
- }
+ #endif
 -- 
 2.39.0
 
