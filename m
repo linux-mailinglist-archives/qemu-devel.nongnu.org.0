@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1E966ACE2
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 18:03:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F16C266ACE0
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 18:03:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGjvC-0005nq-Le; Sat, 14 Jan 2023 12:02:22 -0500
+	id 1pGjvD-0005ry-D5; Sat, 14 Jan 2023 12:02:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pGjv0-0005Mn-2r; Sat, 14 Jan 2023 12:02:13 -0500
+ id 1pGjv1-0005OU-TW; Sat, 14 Jan 2023 12:02:15 -0500
 Received: from out4-smtp.messagingengine.com ([66.111.4.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pGjuw-0005VO-W8; Sat, 14 Jan 2023 12:02:08 -0500
+ id 1pGjv0-0005Ve-6h; Sat, 14 Jan 2023 12:02:11 -0500
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 3B9A65C0004;
- Sat, 14 Jan 2023 12:02:06 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id C81365C006A;
+ Sat, 14 Jan 2023 12:02:07 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Sat, 14 Jan 2023 12:02:06 -0500
+ by compute3.internal (MEProxy); Sat, 14 Jan 2023 12:02:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1673715726; x=1673802126; bh=tS
- aUWkK1BpVnxmf768PAhl6XPYazhtuB0CkFo8wladU=; b=cA+/2WE4lyCc9/2QNA
- 3+RyIT17ZWvzJMK6JOMh3OqdhKrUWavNT1z6Ru1QsGmi3RWzdCH0S8zJFCzJI2p5
- VCCH1lkV6MxOKqbcJWvNH/p19yfbo7QyLWZ+Rwiod8S3+up4J1hzAIalz4c2sjSh
- gr4TC5bsQZYXIeHIjVueEpWciu7Z/7Peau16jyYT1xb4L3qw273NJS4sZgnlRpHE
- 82VrEKM/ZwcrHlPNdMcz3NscS3OgukyTUSUgxWZtCl6zqTnPIH9d8fA+vXYAM52J
- mjE4UHDTD9X+CvlhAFWdd4jqKm8/6V349u2QEuHUhp9uS3QfB+F/PqlHn2pbV8z9
- aKiQ==
+ :subject:subject:to:to; s=fm1; t=1673715727; x=1673802127; bh=le
+ wC+ZaGDv5b7C0ojRtWuEYCAZCuTnLQIoSlO5Ywr6Q=; b=kh7jyQiwJIdbrX/E9+
+ LQBEja4SVQMEDA0+xXJN4sFsdtTmvQDWeOFxDp+4lDxn5os6mqlx4jAxCs2HlEms
+ 9xqL9Z06YR6IJxWjnigB084ZW0u+pZmG9bJzCpMrfhrhRBoUDjtDcGcnapzIlGH8
+ BbBHoTw+GcBBfHMbeDQ16VC4i1BeDgVQMcFql3oli/mjCHUO2Ukxb2owAFdWyWgp
+ LC6jKbgSknXrJGqfIgE86gM/7shIOZqSNokcuuo21KKuPQKGwICDmRmYkDVsjEHB
+ pqG3+bFXCHaKl6DCDjB+eCSQTmxw/zLWflN0SjoKnKLnBp+UZrczWM1hiYuM3hrJ
+ Sv5g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1673715726; x=1673802126; bh=tSaUWkK1BpVnx
- mf768PAhl6XPYazhtuB0CkFo8wladU=; b=H3aNVJwvrnaR0haSJhdxuAI0DccMz
- PZdeCY61Rjsl8fmpaSJs5TGaOc7MGGUuc/SQEIbbPMMQNvQaXQdV6YseW209S28E
- YnxEZB4JZCL1mbNqzzaGMI971/P9HkOFqXpoorDd6EF2E30cKktEwbtk+6BaVnWu
- kw4+yxNYRXUnPOgsAiBlMEUpwxPp375Xg12Bg6bvYDdKbGAnHh4V4pE6n0atOYdU
- bNXmiQ5GncWFhCN6lMu/E5qlgY+zvffjk8fCKoiIslknMtQu7PB6zrZ3gnq/Y+Bx
- 5X9l8GPl01eUaj0aOqUfJEHdzqk6VU4g1HW6wa6xlbB+2w/enMbdO/bbA==
-X-ME-Sender: <xms:DeDCY2dX1Vsr3O_9-ujXyywFVw7sGpwlypOnm3wSDV2XjQ8UEy2OOA>
- <xme:DeDCYwPdRvMPYz0SInLsZv4J_BzwNozOE_mbWynTgP2YBDZ_kLfLFQIIFD3o0Ievq
- 8esQR_-zFBnoTXDvzE>
-X-ME-Received: <xmr:DeDCY3gk4Y99Y-sK74cFVGgg79uazG_0Ffj7rVAySBayyoOm-9m5l-CF4EhCL1sufjfE6uZW9JH8oY7efUQGYQUpIuPpgeVrW-E0uTctXX8>
+ :x-sasl-enc; s=fm3; t=1673715727; x=1673802127; bh=lewC+ZaGDv5b7
+ C0ojRtWuEYCAZCuTnLQIoSlO5Ywr6Q=; b=S634VwkIbVr75m7Jfq7pHqMaFp4+1
+ 98N7/gmGbiVoMbyOgcF+ca3/QlwPn7/uAavYE9XJZ+wOFnD5MJYCxmm+RKY9HHte
+ gfOv1sp0MKWYMCRl8/pQ+AKKJYZDRnRGjF3DKR10j5liWCnXq9JLKeYOZjBC1Yxo
+ jTEYSxSClMuvEYRzzfaUSwfW9TQCw4R+bK+R6k7TlkF+AXiMSPOcT0ad8n3Nn/FG
+ fYBuZ41ircNPLqVO0RLU124gKAOKw46FoGb1T7bDImDKqSVQf33dPrjW84XQUxtG
+ h0lKFARUpRcOU1VU5kx9MYfNDQuF3JNFAEtFSjffS2TCsRFly5np2KUzQ==
+X-ME-Sender: <xms:D-DCY3tcsWI8iZy60iEL1Cs1E9gCtNuehuIu9As9IbwOnVLCOVDZ_w>
+ <xme:D-DCY4f-9JGi24ZsrfyX-LNjnk8jyclu-T05nxkdEbJDqn8N0s3QDeR98QrO-HjMU
+ KejJmWNSx8WEXt-3Dg>
+X-ME-Received: <xmr:D-DCY6wB0u8gw04Eeoff-nDMU6mI9g3paMJEYbKGqotwoLn0m8DhBpHfBdXeZ5yqX4Zwid3437uNMUpp0OnMqFplMD8AE6bceA2hB6QLd6A>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddttddgleehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
  dmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheprfgv
  thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
  grthhtvghrnhepteelgfeuleeffffffeekiefghfejuefgtdfgteeigeekvdefffevieek
- vdelteevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ vdelteevnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
  epphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:DeDCYz_DI3094Y_wwNO0RVzFbg5dJCU_7zatdfo33TuDqud4QyTaiw>
- <xmx:DeDCYyuA_EWnX3zRheoKk5o4wDVeCiBJlL2ctSLtsKWVKbf6ggvXDA>
- <xmx:DeDCY6HQM5rCPv-dIGkxW0pFnUoP3KUO9NSmjy0mdoB_6TQEc4TySQ>
- <xmx:DuDCYwAbggiUJs2XrzeNkH6h0wcbuleoxK85Pq7sraSYxj6ohrWxeQ>
+X-ME-Proxy: <xmx:D-DCY2OqXsFQ30VaZtaEKbhLtTdkkGzlxuAlBU-aGyMv-WWuoqcZFg>
+ <xmx:D-DCY39C64v8v11nmU_rM1HQ4h4Y4TheNhmAh7j1jXJa8zPNKPAeXg>
+ <xmx:D-DCY2UG5OCvyg9X7wuYwau3DOMi9ZbYdD4YJFicWHzNLhR8OqEBew>
+ <xmx:D-DCYzSt9AHnVBMyV6_bl9ryq8GF-LPBy1bqhUwKnB0OL3Am1w8rtw>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 14 Jan 2023 12:02:04 -0500 (EST)
+ 14 Jan 2023 12:02:06 -0500 (EST)
 From: Peter Delevoryas <peter@pjd.dev>
 To: 
 Cc: patrick@stwcx.xyz, peter@pjd.dev, clg@kaod.org, peter.maydell@linaro.org,
  andrew@aj.id.au, joal@jms.id.au, hskinnemoen@google.com,
  kfting@nuvoton.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 5/6] hw/nvram/eeprom_at24c: Add I2C write helper
-Date: Sat, 14 Jan 2023 09:01:50 -0800
-Message-Id: <20230114170151.87833-6-peter@pjd.dev>
+Subject: [PATCH 6/6] hw/arm/aspeed: Init fby35 BMC FRUID EEPROM
+Date: Sat, 14 Jan 2023 09:01:51 -0800
+Message-Id: <20230114170151.87833-7-peter@pjd.dev>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230114170151.87833-1-peter@pjd.dev>
 References: <20230114170151.87833-1-peter@pjd.dev>
@@ -102,55 +102,76 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 ---
- hw/nvram/eeprom_at24c.c         | 15 +++++++++++++++
- include/hw/nvram/eeprom_at24c.h |  2 ++
- 2 files changed, 17 insertions(+)
+ hw/arm/aspeed.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-index 0c27eae2b354..69565a420c28 100644
---- a/hw/nvram/eeprom_at24c.c
-+++ b/hw/nvram/eeprom_at24c.c
-@@ -10,6 +10,7 @@
- #include "qemu/osdep.h"
- 
- #include "qapi/error.h"
-+#include "qemu/bitops.h"
- #include "qemu/module.h"
- #include "hw/i2c/i2c.h"
- #include "hw/nvram/eeprom_at24c.h"
-@@ -138,6 +139,20 @@ void at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size)
-     i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index c929c61d582a..4ac8ff11a835 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -922,6 +922,52 @@ static void bletchley_bmc_i2c_init(AspeedMachineState *bmc)
+     i2c_slave_create_simple(i2c[12], TYPE_PCA9552, 0x67);
  }
  
-+void at24c_eeprom_write(I2CBus *bus, uint8_t address, uint16_t offset,
-+                        const uint8_t *buf, uint32_t len)
-+{
-+    int i;
++static const uint8_t fby35_bmc_fruid[] = {
++    0x01, 0x00, 0x00, 0x01, 0x0d, 0x00, 0x00, 0xf1, 0x01, 0x0c, 0x00, 0x36,
++    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x4d,
++    0x43, 0x20, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x20, 0x4d, 0x6f,
++    0x64, 0x75, 0x6c, 0x65, 0xcd, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
++    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58,
++    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e,
++    0x30, 0xc9, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2,
++    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
++    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc1, 0x39, 0x01, 0x0c, 0x00, 0xc6,
++    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x59, 0x6f, 0x73, 0x65, 0x6d,
++    0x69, 0x74, 0x65, 0x20, 0x56, 0x33, 0x2e, 0x35, 0x20, 0x45, 0x56, 0x54,
++    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
++    0x58, 0x58, 0x58, 0x58, 0xc4, 0x45, 0x56, 0x54, 0x32, 0xcd, 0x58, 0x58,
++    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
++    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
++    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc8, 0x43, 0x6f,
++    0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++};
 +
-+    i2c_start_send(bus, address);
-+    i2c_send(bus, extract16(offset, 8, 8));
-+    i2c_send(bus, extract16(offset, 0, 8));
-+    for (i = 0; i < len; i++) {
-+        i2c_send(bus, buf[i]);
-+    }
-+    i2c_end_transfer(bus);
-+}
-+
- static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
+ static void fby35_i2c_init(AspeedMachineState *bmc)
  {
-     EEPROMState *ee = AT24C_EE(dev);
-diff --git a/include/hw/nvram/eeprom_at24c.h b/include/hw/nvram/eeprom_at24c.h
-index 9d9cf212757c..bbca73a07ad1 100644
---- a/include/hw/nvram/eeprom_at24c.h
-+++ b/include/hw/nvram/eeprom_at24c.h
-@@ -6,5 +6,7 @@
- #include "hw/i2c/i2c.h"
+     AspeedSoCState *soc = &bmc->soc;
+@@ -1363,6 +1409,9 @@ static void fby35_reset(MachineState *state, ShutdownCause reason)
+     object_property_set_bool(OBJECT(gpio), "gpioB3", false, &error_fatal);
+     object_property_set_bool(OBJECT(gpio), "gpioB4", false, &error_fatal);
+     object_property_set_bool(OBJECT(gpio), "gpioB5", false, &error_fatal);
++
++    at24c_eeprom_write(aspeed_i2c_get_bus(&bmc->soc.i2c, 11),
++                       0x54, 0, fby35_bmc_fruid, sizeof(fby35_bmc_fruid));
+ }
  
- void at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size);
-+void at24c_eeprom_write(I2CBus *bus, uint8_t address, uint16_t offset,
-+                        const uint8_t *buf, uint32_t len);
- 
- #endif
+ static void aspeed_machine_fby35_class_init(ObjectClass *oc, void *data)
 -- 
 2.39.0
 
