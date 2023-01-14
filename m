@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9752566A8BA
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 03:42:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1AD466A8C9
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 03:56:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGWU5-0003OR-G3; Fri, 13 Jan 2023 21:41:29 -0500
+	id 1pGWgN-0005iy-1q; Fri, 13 Jan 2023 21:54:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1pGWU3-0003OE-CQ
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 21:41:27 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pGWgH-0005iS-Sk
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 21:54:06 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1pGWU1-0001PB-8N
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 21:41:26 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id o18so2993950pji.1
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 18:41:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XZV1W17qhTd2VRchYeoC/OMwvAb9xQ2+P43Y/MBjsPU=;
- b=BOtQFatLMdGOeyLUT9qcUKA7SuUCvvBbz6Zf/QcYYj2I/6gCF1e9xzLMuwEbevIctC
- HAmCdfBtQ9X2p7I1ahFo7UPAf5J7EE/tP/RK4Nx7xu+yjw7gZeSYjclyRHY0ccITbdfJ
- pvlnZ44LksW09SDoxyQ1cWw9OKhO3yztOhc5WyzqxbuJzNxFqinPaPGhJwR8yO79rRCc
- wDMjdSh+65cSXOwTV20/ScXmSbo1OPGMjndzOg4OxTap+QMncNCrwyF/8l76ykFljzX/
- 0jxLbiBajUXH34vZzJROSYVBFuoCOJs4TDeg3e/EqSGFY/cyPYEGyNdex7/8pdpYJsv3
- 0OhQ==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pGWgF-0003Ja-Mb
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 21:54:05 -0500
+Received: by mail-pl1-x630.google.com with SMTP id b17so17732299pld.7
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 18:54:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rCPt717xBbgVVKdZfqm3W1n0XMjuCSA2J4DOfI9hEtY=;
+ b=VUq0MT8cp4Nltn46sNT4Hz2c/dY52TzrJpNmMjwBmD/gIjTzMUU3zgYtLV+IZZptWo
+ VfaymXs0kvH3CgKdXz9hgbjuBis1CGSU7XAPSIlRxWnEotqorc6X+9eH82KV2RFt/KzT
+ 8pA4EvJAogVYPZwwomTv42wTnvQwXtmYeAa5Ry/kyUTIsudhhJEPmJ1jxRmoPfpWTxHu
+ hDm+/Lhzf2tYigsqm8v0aA/+NiaSUOmCaX7G7hS5AwdztwteCQFGGf9YJnUa3GIWVfLo
+ hpkMZvR6EBL3BItJqjsdu0Znl131qarbsX+ewqxhupJK54TDeijecFZVXIFRWdPr1nVp
+ mjzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XZV1W17qhTd2VRchYeoC/OMwvAb9xQ2+P43Y/MBjsPU=;
- b=MFqx33lRBnw7o8zHS1sItRgMX0BUCrzBOYGsUCnFiIjmxHbDA38OfZ238xEMlKMl3k
- KGRhbFvXpNRmFEJ2Jz9x/ornmCuT3tCgOmCaogwe337nPl5IWtk8EYapzG3D11K8bXBc
- U2+RItVCrp8AY/NSoaVdVny6cw9dfSpIrHMOmziX7CyzUBeaYJDaGFMXz1T53s9Vkh5g
- 9/Y7Fx6VnbHujjQMtxsDL8pBNlYS2GWO2DuDavpfHsSO/AYRJrw6S46LrSWHa6X26J3J
- GDZm7GWfzzZmKqCGokB+ZDpRO0XvJaxjg321bHdXjLN0sFi59wS5iqjjoJvg2DPofZXt
- 2INg==
-X-Gm-Message-State: AFqh2kq/N4WVQI7b6aNmFdwMh2L17JJhMSpncGrRtOJ8dL6EAS1lFKw0
- TtdORGThBFDqrX3mFk+qj6o=
-X-Google-Smtp-Source: AMrXdXuZ56DaKeNR7MKSXggHH0OPGtjSQXA8eLx0BbBBKtErNEDLB+pL94L+OmFeLtBF4XO08Jx/QA==
-X-Received: by 2002:a17:90b:d8f:b0:228:5b99:3b45 with SMTP id
- bg15-20020a17090b0d8f00b002285b993b45mr18429923pjb.7.1673664083149; 
- Fri, 13 Jan 2023 18:41:23 -0800 (PST)
-Received: from ?IPV6:2400:4050:a840:1e00:d54:e521:8bac:7bed?
- ([2400:4050:a840:1e00:d54:e521:8bac:7bed])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rCPt717xBbgVVKdZfqm3W1n0XMjuCSA2J4DOfI9hEtY=;
+ b=kWJ4xnFerZMttGayUEhZiIKJTB2+D0mI8ziNvU94Y9tY6zQCTcyQs/caprKQp9MAGT
+ w1buqyz856FfzLoyXhkcebD53FOBbIpPzGT6JNCaUgpdtKWQHnDwEcL191J0ohXFCY7Q
+ G7bWvfxvoZhL/XIoYgO7/HLbAY/Eqi6JpcgHobsRuBijjO/xrXp5hPdrC79N6V6tLaET
+ 6atAjyZO+oRng6RBztrZqT1Zt0bThaKA5Y+hT6hk2x4yCulBsSPw5Dd5d/lF9gqfBXxS
+ F9PmzKiVu5iYACy+eDB+MhDr78kYHEVwAkod6J635jxRwPrTc5VEYJ//lnlmqMAFRaB8
+ XAgg==
+X-Gm-Message-State: AFqh2koha6yXOnrhmg12OU18T8vATJrn4hWdTiZvpePx9Esnn0JHIm4Z
+ fXQx8zl++JyreF3Sm0NrcijUiA==
+X-Google-Smtp-Source: AMrXdXuvSns3hXTJ7QyOu/rrwZXaq3fR4CNPwBMzkMG+ZKswTtCmL+RGSW84ZBekDfh0VOQY1i43PA==
+X-Received: by 2002:a17:902:c10d:b0:186:8568:be7e with SMTP id
+ 13-20020a170902c10d00b001868568be7emr89006428pli.15.1673664841776; 
+ Fri, 13 Jan 2023 18:54:01 -0800 (PST)
+Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- r2-20020a17090a0ac200b002139459e121sm10214197pje.27.2023.01.13.18.41.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Jan 2023 18:41:22 -0800 (PST)
-Message-ID: <28025639-840a-1e19-01d5-c817235ca423@gmail.com>
-Date: Sat, 14 Jan 2023 11:41:19 +0900
+ t16-20020a170902b21000b0018996404dd5sm14891618plr.109.2023.01.13.18.53.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Jan 2023 18:54:01 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: Jason Wang <jasowang@redhat.com>, Luigi Rizzo <rizzo@iet.unipi.it>,
+ Giuseppe Lettieri <g.lettieri@iet.unipi.it>,
+ Vincenzo Maffione <v.maffione@gmail.com>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH v2] net: Strip virtio-net header when dumping
+Date: Sat, 14 Jan 2023 11:53:39 +0900
+Message-Id: <20230114025339.4874-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: Display update issue on M1 Macs
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Joelle van Dyne <j@getutm.app>
-References: <5921db6f-0760-c380-7af2-5710a0cd479d@eik.bme.hu>
- <3bad40aa-7920-0484-ca23-b9d424ad56f6@eik.bme.hu>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <3bad40aa-7920-0484-ca23-b9d424ad56f6@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::630;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,79 +90,179 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/01/13 22:43, BALATON Zoltan wrote:
-> On Thu, 5 Jan 2023, BALATON Zoltan wrote:
->> Hello,
->>
->> I got reports from several users trying to run AmigaOS4 on sam460ex on 
->> Apple silicon Macs that they get missing graphics that I can't 
->> reproduce on x86_64. With help from the users who get the problem 
->> we've narrowed it down to the following:
->>
->> It looks like that data written to the sm501's ram in 
->> qemu/hw/display/sm501.c::sm501_2d_operation() is then not seen from 
->> sm501_update_display() in the same file. The sm501_2d_operation() 
->> function is called when the guest accesses the emulated card so it may 
->> run in a different thread than sm501_update_display() which is called 
->> by the ui backend but I'm not sure how QEMU calls these. Is device 
->> code running in iothread and display update in main thread? The 
->> problem is also independent of the display backend and was reproduced 
->> with both -display cocoa and -display sdl.
->>
->> We have confirmed it's not the pixman routines that 
->> sm501_2d_operation() uses as the same issue is seen also with QEMU 4.x 
->> where pixman wasn't used and with all versions up to 7.2 so it's also 
->> not some bisectable change in QEMU. It also happens with 
->> --enable-debug so it doesn't seem to be related to optimisation either 
->> and I don't get it on x86_64 but even x86_64 QEMU builds run on Apple 
->> M1 with Rosetta 2 show the problem. It also only seems to affect 
->> graphics written from sm501_2d_operation() which AmigaOS4 uses 
->> extensively but other OSes don't and just render graphics with the 
->> vcpu which work without problem also on the M1 Macs that show this 
->> problem with AmigaOS4. Theoretically this could be some missing 
->> syncronisation which is something ARM and PPC may need while x86 
->> doesn't but I don't know if this is really the reason and if so where 
->> and how to fix it). Any idea what may cause this and what could be a 
->> fix to try?
-> 
-> Any idea anyone? At least some explanation if the above is plausible or 
-> if there's an option to disable the iothread and run everyting in a 
-> single thread to verify the theory could help. I've got reports from at 
-> least 3 people getting this problem but I can't do much to fix it 
-> without some help.
-> 
->> (Info on how to run it is here:
->> http://zero.eik.bme.hu/~balaton/qemu/amiga/#amigaos
->> but AmigaOS4 is not freely distributable so it's a bit hard to 
->> reproduce. Some Linux X servers that support sm501/sm502 may also use 
->> the card's 2d engine but I don't know about any live CDs that readily 
->> run on sam460ex.)
->>
->> Thank you,
->> BALATON Zoltan
+filter-dump specifiees Ethernet as PCAP LinkType, which does not expect
+virtio-net header. Having virtio-net header in such PCAP file breaks
+PCAP unconsumable. Unfortunately currently there is no LinkType for
+virtio-net so for now strip virtio-net header to convert the output to
+Ethernet.
 
-Sorry, I missed the email.
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ include/net/net.h |  6 ++++++
+ net/dump.c        | 11 +++++++----
+ net/net.c         | 18 ++++++++++++++++++
+ net/tap.c         | 16 ++++++++++++++++
+ 4 files changed, 47 insertions(+), 4 deletions(-)
 
-Indeed the ui backend should call sm501_update_display() in the main 
-thread, which should be different from the thread calling 
-sm501_2d_operation(). However, if I understand it correctly, both of the 
-functions should be called with iothread lock held so there should be no 
-race condition in theory.
+diff --git a/include/net/net.h b/include/net/net.h
+index dc20b31e9f..4b2d72b3fc 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -56,8 +56,10 @@ typedef RxFilterInfo *(QueryRxFilter)(NetClientState *);
+ typedef bool (HasUfo)(NetClientState *);
+ typedef bool (HasVnetHdr)(NetClientState *);
+ typedef bool (HasVnetHdrLen)(NetClientState *, int);
++typedef bool (GetUsingVnetHdr)(NetClientState *);
+ typedef void (UsingVnetHdr)(NetClientState *, bool);
+ typedef void (SetOffload)(NetClientState *, int, int, int, int, int);
++typedef int (GetVnetHdrLen)(NetClientState *);
+ typedef void (SetVnetHdrLen)(NetClientState *, int);
+ typedef int (SetVnetLE)(NetClientState *, bool);
+ typedef int (SetVnetBE)(NetClientState *, bool);
+@@ -84,8 +86,10 @@ typedef struct NetClientInfo {
+     HasUfo *has_ufo;
+     HasVnetHdr *has_vnet_hdr;
+     HasVnetHdrLen *has_vnet_hdr_len;
++    GetUsingVnetHdr *get_using_vnet_hdr;
+     UsingVnetHdr *using_vnet_hdr;
+     SetOffload *set_offload;
++    GetVnetHdrLen *get_vnet_hdr_len;
+     SetVnetHdrLen *set_vnet_hdr_len;
+     SetVnetLE *set_vnet_le;
+     SetVnetBE *set_vnet_be;
+@@ -183,9 +187,11 @@ void qemu_format_nic_info_str(NetClientState *nc, uint8_t macaddr[6]);
+ bool qemu_has_ufo(NetClientState *nc);
+ bool qemu_has_vnet_hdr(NetClientState *nc);
+ bool qemu_has_vnet_hdr_len(NetClientState *nc, int len);
++bool qemu_get_using_vnet_hdr(NetClientState *nc);
+ void qemu_using_vnet_hdr(NetClientState *nc, bool enable);
+ void qemu_set_offload(NetClientState *nc, int csum, int tso4, int tso6,
+                       int ecn, int ufo);
++int qemu_get_vnet_hdr_len(NetClientState *nc);
+ void qemu_set_vnet_hdr_len(NetClientState *nc, int len);
+ int qemu_set_vnet_le(NetClientState *nc, bool is_le);
+ int qemu_set_vnet_be(NetClientState *nc, bool is_be);
+diff --git a/net/dump.c b/net/dump.c
+index 6a63b15359..7d05f16ca7 100644
+--- a/net/dump.c
++++ b/net/dump.c
+@@ -61,12 +61,13 @@ struct pcap_sf_pkthdr {
+     uint32_t len;
+ };
+ 
+-static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt)
++static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt,
++                                int offset)
+ {
+     struct pcap_sf_pkthdr hdr;
+     int64_t ts;
+     int caplen;
+-    size_t size = iov_size(iov, cnt);
++    size_t size = iov_size(iov, cnt) - offset;
+     struct iovec dumpiov[cnt + 1];
+ 
+     /* Early return in case of previous error. */
+@@ -84,7 +85,7 @@ static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt)
+ 
+     dumpiov[0].iov_base = &hdr;
+     dumpiov[0].iov_len = sizeof(hdr);
+-    cnt = iov_copy(&dumpiov[1], cnt, iov, cnt, 0, caplen);
++    cnt = iov_copy(&dumpiov[1], cnt, iov, cnt, offset, caplen);
+ 
+     if (writev(s->fd, dumpiov, cnt + 1) != sizeof(hdr) + caplen) {
+         error_report("network dump write error - stopping dump");
+@@ -153,8 +154,10 @@ static ssize_t filter_dump_receive_iov(NetFilterState *nf, NetClientState *sndr,
+                                        int iovcnt, NetPacketSent *sent_cb)
+ {
+     NetFilterDumpState *nfds = FILTER_DUMP(nf);
++    int offset = qemu_get_using_vnet_hdr(nf->netdev) ?
++                 qemu_get_vnet_hdr_len(nf->netdev) : 0;
+ 
+-    dump_receive_iov(&nfds->ds, iov, iovcnt);
++    dump_receive_iov(&nfds->ds, iov, iovcnt, offset);
+     return 0;
+ }
+ 
+diff --git a/net/net.c b/net/net.c
+index 2d01472998..03f17de5fc 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -513,6 +513,15 @@ bool qemu_has_vnet_hdr_len(NetClientState *nc, int len)
+     return nc->info->has_vnet_hdr_len(nc, len);
+ }
+ 
++bool qemu_get_using_vnet_hdr(NetClientState *nc)
++{
++    if (!nc || !nc->info->get_using_vnet_hdr) {
++        return false;
++    }
++
++    return nc->info->get_using_vnet_hdr(nc);
++}
++
+ void qemu_using_vnet_hdr(NetClientState *nc, bool enable)
+ {
+     if (!nc || !nc->info->using_vnet_hdr) {
+@@ -532,6 +541,15 @@ void qemu_set_offload(NetClientState *nc, int csum, int tso4, int tso6,
+     nc->info->set_offload(nc, csum, tso4, tso6, ecn, ufo);
+ }
+ 
++int qemu_get_vnet_hdr_len(NetClientState *nc)
++{
++    if (!nc || !nc->info->get_vnet_hdr_len) {
++        return 0;
++    }
++
++    return nc->info->get_vnet_hdr_len(nc);
++}
++
+ void qemu_set_vnet_hdr_len(NetClientState *nc, int len)
+ {
+     if (!nc || !nc->info->set_vnet_hdr_len) {
+diff --git a/net/tap.c b/net/tap.c
+index e28ceb078f..daa7e0a042 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -257,6 +257,13 @@ static bool tap_has_vnet_hdr_len(NetClientState *nc, int len)
+     return !!tap_probe_vnet_hdr_len(s->fd, len);
+ }
+ 
++static int tap_get_vnet_hdr_len(NetClientState *nc)
++{
++    TAPState *s = DO_UPCAST(TAPState, nc, nc);
++
++    return s->host_vnet_hdr_len;
++}
++
+ static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
+ {
+     TAPState *s = DO_UPCAST(TAPState, nc, nc);
+@@ -270,6 +277,13 @@ static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
+     s->host_vnet_hdr_len = len;
+ }
+ 
++static bool tap_get_using_vnet_hdr(NetClientState *nc)
++{
++    TAPState *s = DO_UPCAST(TAPState, nc, nc);
++
++    return s->using_vnet_hdr;
++}
++
+ static void tap_using_vnet_hdr(NetClientState *nc, bool using_vnet_hdr)
+ {
+     TAPState *s = DO_UPCAST(TAPState, nc, nc);
+@@ -374,8 +388,10 @@ static NetClientInfo net_tap_info = {
+     .has_ufo = tap_has_ufo,
+     .has_vnet_hdr = tap_has_vnet_hdr,
+     .has_vnet_hdr_len = tap_has_vnet_hdr_len,
++    .get_using_vnet_hdr = tap_get_using_vnet_hdr,
+     .using_vnet_hdr = tap_using_vnet_hdr,
+     .set_offload = tap_set_offload,
++    .get_vnet_hdr_len = tap_get_vnet_hdr_len,
+     .set_vnet_hdr_len = tap_set_vnet_hdr_len,
+     .set_vnet_le = tap_set_vnet_le,
+     .set_vnet_be = tap_set_vnet_be,
+-- 
+2.39.0
 
-But there is an exception: memory_region_snapshot_and_clear_dirty() 
-releases iothread lock, and that broke raspi3b display device:
-https://lore.kernel.org/qemu-devel/CAFEAcA9odnPo2LPip295Uztri7JfoVnQbkJ=Wn+k8dQneB_ynQ@mail.gmail.com/T/
-
-It is unexpected that gfx_update() callback releases iothread lock so it 
-may break things in peculiar ways.
-
-Peter, is there any change in the situation regarding the race 
-introduced by memory_region_snapshot_and_clear_dirty()?
-
-For now, to workaround the issue, I think you can create another mutex 
-and make the entire sm501_2d_engine_write() and sm501_update_display() 
-critical sections.
-
-Regards,
-Akihiko Odaki
 
