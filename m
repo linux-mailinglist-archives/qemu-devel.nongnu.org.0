@@ -2,50 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 150B866AD3E
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 19:14:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3841066AD4B
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 19:41:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGl2E-0003pi-Bg; Sat, 14 Jan 2023 13:13:42 -0500
+	id 1pGlRr-0007Hc-9s; Sat, 14 Jan 2023 13:40:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pGl2B-0003pG-L7
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 13:13:39 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pGl28-0008MN-TR
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 13:13:39 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E2838745720;
- Sat, 14 Jan 2023 19:11:10 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 94400745712; Sat, 14 Jan 2023 19:11:10 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 90B767456E3;
- Sat, 14 Jan 2023 19:11:10 +0100 (CET)
-Date: Sat, 14 Jan 2023 19:11:10 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, Joelle van Dyne <j@getutm.app>
-Subject: Re: Display update issue on M1 Macs
-In-Reply-To: <28025639-840a-1e19-01d5-c817235ca423@gmail.com>
-Message-ID: <08497582-3b11-1311-48d6-1e2db8c93559@eik.bme.hu>
-References: <5921db6f-0760-c380-7af2-5710a0cd479d@eik.bme.hu>
- <3bad40aa-7920-0484-ca23-b9d424ad56f6@eik.bme.hu>
- <28025639-840a-1e19-01d5-c817235ca423@gmail.com>
+ (Exim 4.90_1) (envelope-from <arthur.sengileyev@gmail.com>)
+ id 1pGlRp-0007HP-CG; Sat, 14 Jan 2023 13:40:09 -0500
+Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <arthur.sengileyev@gmail.com>)
+ id 1pGlRn-0003n3-DK; Sat, 14 Jan 2023 13:40:08 -0500
+Received: by mail-lf1-x131.google.com with SMTP id f34so37435742lfv.10;
+ Sat, 14 Jan 2023 10:40:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=MsHX5UEju+lzhwooYvdRwiB/qSc/iNAZ8yKoVJZ9+84=;
+ b=Aw7S07lpzS9Eo3jd68XoVLqtU6xaXu519qdcSqb4A6XIn42+c0PVIkG0idSsInI9ou
+ N83Ul3/Ue7CJI5fEF78Shheg4XwWiEpuva/Y6++BI8KV5OAjQaSPP8I7qk2zWUw3cjCT
+ RFdtEHaz+Q3qcoKFA3rKhqx1H8ifuFScnT5dGFR1ysVoGFA1GcEG0O0779JnM6yJ0iud
+ ac9gs0f95y15n2KFoBgoy0ETSRH5Y9qIFGy+6r2mV0lySDpSuYIpIRHBo+UUC+2yGQMn
+ k8nFCPOrQre509B1twKKrVoWjkAWdoh5JKkK8y8cieVWuIJoe2tfTQIMsz+l2tN5TEFq
+ 74iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MsHX5UEju+lzhwooYvdRwiB/qSc/iNAZ8yKoVJZ9+84=;
+ b=Cuuutk3mBGVyIZG2keJbaRj7JOQjocOM+g2RYa+krA9uxf9eJiRyvACTrmWQ/lFbSL
+ Z+R4KCbnpLEB6DYNW9V8NjxB8M2clbF6RldkLcH9Se5/70oLrD9RYtc3EM7z7tHcpK+j
+ oaqDtMCxhsR9aaX8UR8N7EBoKeC8BiB7/ajIz2ALZBOfo/os7ok2Jzi9UqzIqVjAHSdW
+ woerpNLzqGhsCLZmkzC6VPeFlEuqQo/4RPDT13vcnoEb3xF8nTU10rlicLInlCAaAE+x
+ 0ySfWulYuTPhaq3P0dZeHWwR8+JGRdpKX6W/g9z7bhBzGTW+GC8lU5EiwKFDD0OIFTh4
+ +o3g==
+X-Gm-Message-State: AFqh2kr0Z/DU/v4SAhGZFLNEpKHOxc6ickiaJ9LR3E3jsodnDQuAGQRx
+ Irc2KPC2JwAyIC98qscJ6QI=
+X-Google-Smtp-Source: AMrXdXsbYkFRp08yBI+378Db9QZ3scZw4s2+g1HOJoq3nc/4ox8diPC97j5KpIYv27TI7yxXNUcJ/A==
+X-Received: by 2002:a05:6512:3b0c:b0:4b1:4cc1:5ac6 with SMTP id
+ f12-20020a0565123b0c00b004b14cc15ac6mr27388075lfv.49.1673721604895; 
+ Sat, 14 Jan 2023 10:40:04 -0800 (PST)
+Received: from Arturss-MBP-2.lan ([87.246.149.32])
+ by smtp.gmail.com with ESMTPSA id
+ c15-20020a056512238f00b004cb3fbc7925sm4352185lfv.77.2023.01.14.10.40.04
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Sat, 14 Jan 2023 10:40:04 -0800 (PST)
+From: Arthur Sengileyev <arthur.sengileyev@gmail.com>
+To: arthur.sengileyev@gmail.com
+Cc: sw@weilnetz.de, jsnow@redhat.com, crosa@redhat.com, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org, bmeng.cn@gmail.com
+Subject: [PATCH v2] Windows installer: keep dependency cache
+Date: Sat, 14 Jan 2023 20:40:03 +0200
+Message-Id: <20230114184003.76193-1-arthur.sengileyev@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::131;
+ envelope-from=arthur.sengileyev@gmail.com; helo=mail-lf1-x131.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,102 +85,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 14 Jan 2023, Akihiko Odaki wrote:
-> On 2023/01/13 22:43, BALATON Zoltan wrote:
->> On Thu, 5 Jan 2023, BALATON Zoltan wrote:
->>> Hello,
->>> 
->>> I got reports from several users trying to run AmigaOS4 on sam460ex on 
->>> Apple silicon Macs that they get missing graphics that I can't reproduce 
->>> on x86_64. With help from the users who get the problem we've narrowed it 
->>> down to the following:
->>> 
->>> It looks like that data written to the sm501's ram in 
->>> qemu/hw/display/sm501.c::sm501_2d_operation() is then not seen from 
->>> sm501_update_display() in the same file. The sm501_2d_operation() function 
->>> is called when the guest accesses the emulated card so it may run in a 
->>> different thread than sm501_update_display() which is called by the ui 
->>> backend but I'm not sure how QEMU calls these. Is device code running in 
->>> iothread and display update in main thread? The problem is also 
->>> independent of the display backend and was reproduced with both -display 
->>> cocoa and -display sdl.
->>> 
->>> We have confirmed it's not the pixman routines that sm501_2d_operation() 
->>> uses as the same issue is seen also with QEMU 4.x where pixman wasn't used 
->>> and with all versions up to 7.2 so it's also not some bisectable change in 
->>> QEMU. It also happens with --enable-debug so it doesn't seem to be related 
->>> to optimisation either and I don't get it on x86_64 but even x86_64 QEMU 
->>> builds run on Apple M1 with Rosetta 2 show the problem. It also only seems 
->>> to affect graphics written from sm501_2d_operation() which AmigaOS4 uses 
->>> extensively but other OSes don't and just render graphics with the vcpu 
->>> which work without problem also on the M1 Macs that show this problem with 
->>> AmigaOS4. Theoretically this could be some missing syncronisation which is 
->>> something ARM and PPC may need while x86 doesn't but I don't know if this 
->>> is really the reason and if so where and how to fix it). Any idea what may 
->>> cause this and what could be a fix to try?
->> 
->> Any idea anyone? At least some explanation if the above is plausible or if 
->> there's an option to disable the iothread and run everyting in a single 
->> thread to verify the theory could help. I've got reports from at least 3 
->> people getting this problem but I can't do much to fix it without some 
->> help.
->> 
->>> (Info on how to run it is here:
->>> http://zero.eik.bme.hu/~balaton/qemu/amiga/#amigaos
->>> but AmigaOS4 is not freely distributable so it's a bit hard to reproduce. 
->>> Some Linux X servers that support sm501/sm502 may also use the card's 2d 
->>> engine but I don't know about any live CDs that readily run on sam460ex.)
->>> 
->>> Thank you,
->>> BALATON Zoltan
->
-> Sorry, I missed the email.
->
-> Indeed the ui backend should call sm501_update_display() in the main thread, 
-> which should be different from the thread calling sm501_2d_operation(). 
-> However, if I understand it correctly, both of the functions should be called 
-> with iothread lock held so there should be no race condition in theory.
->
-> But there is an exception: memory_region_snapshot_and_clear_dirty() releases 
-> iothread lock, and that broke raspi3b display device:
-> https://lore.kernel.org/qemu-devel/CAFEAcA9odnPo2LPip295Uztri7JfoVnQbkJ=Wn+k8dQneB_ynQ@mail.gmail.com/T/
->
-> It is unexpected that gfx_update() callback releases iothread lock so it may 
-> break things in peculiar ways.
->
-> Peter, is there any change in the situation regarding the race introduced by 
-> memory_region_snapshot_and_clear_dirty()?
->
-> For now, to workaround the issue, I think you can create another mutex and 
-> make the entire sm501_2d_engine_write() and sm501_update_display() critical 
-> sections.
+It should be possible to reuse cache built by previous iteration
+to process next executables. Processed dependencies are already
+skipped later based on dll name.
 
-Interesting thread but not sure it's the same problem so this workaround 
-may not be enough to fix my issue. Here's a video posted by one of the 
-people who reported it showing the problem on M1 Mac:
+Changes for v2:
+(1) changed variable name
+(2) changed wording in description
 
-https://www.youtube.com/watch?v=FDqoNbp6PQs
+Signed-off-by: Arthur Sengileyev <arthur.sengileyev@gmail.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+---
+ scripts/nsis.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-and here's how it looks like on other machines:
+diff --git a/scripts/nsis.py b/scripts/nsis.py
+index 03ed7608a2..7cffba70ff 100644
+--- a/scripts/nsis.py
++++ b/scripts/nsis.py
+@@ -91,12 +91,13 @@ def main():
+         print("Searching '%s' for the dependent dlls ..." % search_path)
+         dlldir = os.path.join(destdir + prefix, "dll")
+         os.mkdir(dlldir)
++        deps_cache = set()
+ 
+         for exe in glob.glob(os.path.join(destdir + prefix, "*.exe")):
+             signcode(exe)
+ 
+             # find all dll dependencies
+-            deps = set(find_deps(exe, search_path, set()))
++            deps = set(find_deps(exe, search_path, deps_cache))
+             deps.remove(exe)
+ 
+             # copy all dlls to the DLLDIR
+-- 
+2.39.0
 
-https://www.youtube.com/watch?v=ML7-F4HNFKQ
-
-There are also videos showing it running on RPi 4 and G5 Mac without this 
-issue so it seems to only happen on Apple Silicon M1 Macs. What's strange 
-is that graphics elements are not just delayed which I think should happen 
-with missing thread synchronisation where the update callback would miss 
-some pixels rendered during it's running but subsequent update callbacks 
-would eventually draw those, woudn't they? Also setting full_update to 1 
-in sm501_update_display() callback to disable dirty tracking does not fix 
-the problem. So it looks like as if sm501_2d_operation() running on one 
-CPU core only writes data to the local cache of that core which 
-sm501_update_display() running on other core can't see, so maybe some 
-cache synchronisation is needed in memory_region_set_dirty() or if that's 
-already there maybe I should call it for all changes not only those in the 
-visible display area? I'm still not sure I understand the problem and 
-don't know what could be a fix for it so anything to test to identify the 
-issue better might also bring us closer to a solution.
-
-Regards,
-BALATON Zoltan
 
