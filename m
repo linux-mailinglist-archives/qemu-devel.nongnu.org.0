@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA0966A927
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 05:14:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BDCF66A910
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 05:02:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGXie-0000DY-6y; Fri, 13 Jan 2023 23:00:36 -0500
+	id 1pGXir-0000Mv-Va; Fri, 13 Jan 2023 23:00:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pGXiM-0008T7-2t
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:18 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1pGXiS-0000Cj-Ko
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:26 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pGXi9-0005Ot-2C
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:07 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- z4-20020a17090a170400b00226d331390cso26254561pjd.5
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 20:00:04 -0800 (PST)
+ id 1pGXiM-0005Jn-5G
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:22 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id o18so3091749pji.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 20:00:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=n5oQQgVkIpxn8nbwvHbUnnlMSNPxf1WiQ2d9LLeBryk=;
- b=H4H1LAY+W34kr+EpusUcpx5/pgSrUz50tDvMe3/Flwzu34j2WtZLwioxtQNdUCODgh
- W9iZWvhiAjWn8AAQru6icbL1MIzPJUvzfuuLphxjIY4YCrlHKiFLnvMiXs1k+heMKfMF
- szYD69whM+s3NgiBaOy0NnxqczHX7CxkOtCcDsFMk7gDfMuGd9x2vykwOUihICQlUyhw
- Lp2mOJ8AvnPW6Y/pUthFY4UJEeKGpawLMLkmRYMFzmB44sybdqoHUOHYIrB4nFuJOk1/
- GfFhE2qOJnwTUcLOC4nSQhC+4wtjVwgwMN6xGA9RETCe52UlycsLRwnyCupXCVaABoO/
- cOpQ==
+ bh=qQAThEFT+OOf4M3xlMKLI4kuAC9hcUfjxpclwetq4QM=;
+ b=HZhoXe7q3UMxTgctU7VDHLJ9bkoJnwO5yh/jgRzD3dCfkFpcoYitp/nemAsdB8ccpi
+ jM60Fj3sDeInHye6nTgZc2S+GodYYuxGpVXHGJ4EHZ5HRTZx//dmBVKuV8zDSzrTDCab
+ rQqrv2NMk24YO+wKB9fhq3nb818KqdpI9feR7RRakd7gEQkEFvPhTq9enynCCvI6k+TC
+ 54SJ29mpdNTMfdF96gtpElD11W6UHdsefoUEJc62Vr2eGyZClBXSw+i/Sd1ik7mzsuWe
+ dCSru+lvdxYNgKZ5Lq0oeS9FMj1TQXP+9/zvsTrtjwC5f/dsdVPV6l15iExXP22yQmdT
+ 8pjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=n5oQQgVkIpxn8nbwvHbUnnlMSNPxf1WiQ2d9LLeBryk=;
- b=Bbp2bBhGvB7DekJ65Wl6D1hEwZgyJ3IPfF0X9mZtwNmNhxp0fyfbsQ0+4LOXaNl0kR
- pWLUDWzDEk/7tAksU8IEEWS5RRK76382fzx3oDC8hT7kK2goeIGFVQOwJchufMH72dkm
- DRzpoh+JFWdp49wQd1/q6wrYbVizdTJw66E0gxQFbjswBoAt6+RMqTkAax16P8Kv7Tmp
- 2fwqxFiSaFZMKDjOBL34L68zhczIMP0S96gF1j3NhtmWH0IjQznpjK0+eG5EaOzFvcmV
- CzwM5c90R1/NtW6acf086TBwBCvn7rvy3kD675wNBdNl0kdD8prk7S3qc/iN8y6kFp4V
- nnNA==
-X-Gm-Message-State: AFqh2kp2AItTUZk1k+bPNfa5W9TWayoofebFrltTzoMvEKDlzIccIITf
- m2K6IGkVuR2/mAyfZS70XJMokpr65qlLCS5b
-X-Google-Smtp-Source: AMrXdXu6OlbtalQp8bkSG0AOIGphoX2onQvdXmw7lwF6pxBo59kBQYmMee0dcjnUO4CK/toKy9HIOA==
-X-Received: by 2002:a17:902:6b46:b0:194:7ae9:c704 with SMTP id
- g6-20020a1709026b4600b001947ae9c704mr1506113plt.36.1673668803874; 
- Fri, 13 Jan 2023 20:00:03 -0800 (PST)
+ bh=qQAThEFT+OOf4M3xlMKLI4kuAC9hcUfjxpclwetq4QM=;
+ b=1hofFE5Jgi2mjqGyPHofNGy90QfI2lU0AgTvSecAN5HdTd0hzgHXbDGXTG8luvuIbh
+ lYtA8GR8aVYC6qjk7g+Zs4BHrTW4kuVqAEeDuohWhtNfTsK89stR9EHwsQnWZzaYAKss
+ 0mXR230mPpHhHpi9tmaHZ9Gv+zLhXeKrTZ7A3UNwAy4RjrN1DzTiPN4RRXKTNLi14YDZ
+ nTxzUguXrXosiuEv5lWB5CH/wqE/DJIEKz8m4rfTNaonMkpg2Gzjo5CRdQDiNAFySNZ8
+ 4sr6nIyT2l7HnOSRwlPzOSjfnuCA/99UJYofjpgnAZ3D+YOTmv8iQA1w3jVZyDpCtgqS
+ hM4w==
+X-Gm-Message-State: AFqh2kpW+3IwKjKEV9BP/mnnu2ySI/aCLl/ViGADRwelLp3F4mkXkInR
+ W+aWy76GGGmCYfjhjWyqT9N1RA==
+X-Google-Smtp-Source: AMrXdXvYK+qE6FmACZ6u3shiLGiBj2Vu/eT24XyLlp6paR2jDnUthTbCBPyPFhcwsisYAbwcQMJyWQ==
+X-Received: by 2002:a17:903:2111:b0:194:3fa4:3f46 with SMTP id
+ o17-20020a170903211100b001943fa43f46mr11255320ple.29.1673668806142; 
+ Fri, 13 Jan 2023 20:00:06 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- g15-20020a170902868f00b00189fdadef9csm910894plo.107.2023.01.13.20.00.01
+ g15-20020a170902868f00b00189fdadef9csm910894plo.107.2023.01.13.20.00.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 20:00:03 -0800 (PST)
+ Fri, 13 Jan 2023 20:00:05 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -63,22 +62,22 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 05/19] e1000: Mask registers when writing
-Date: Sat, 14 Jan 2023 12:59:05 +0900
-Message-Id: <20230114035919.35251-6-akihiko.odaki@daynix.com>
+Subject: [PATCH 06/19] e1000e: Mask registers when writing
+Date: Sat, 14 Jan 2023 12:59:06 +0900
+Message-Id: <20230114035919.35251-7-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230114035919.35251-1-akihiko.odaki@daynix.com>
 References: <20230114035919.35251-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1035.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,145 +99,189 @@ by always masking when writing, and remove some code duplication.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/net/e1000.c | 84 +++++++++++++++++++-------------------------------
- 1 file changed, 31 insertions(+), 53 deletions(-)
+ hw/net/e1000e_core.c | 94 +++++++++++++++++++-------------------------
+ 1 file changed, 40 insertions(+), 54 deletions(-)
 
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index 9619a2e481..0925a99511 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -1062,30 +1062,6 @@ mac_readreg(E1000State *s, int index)
-     return s->mac_reg[index];
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index 181c1e0c2a..e6fc85ea51 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -2440,17 +2440,19 @@ e1000e_set_fcrtl(E1000ECore *core, int index, uint32_t val)
+     core->mac[FCRTL] = val & 0x8000FFF8;
  }
  
--static uint32_t
--mac_low4_read(E1000State *s, int index)
+-static inline void
+-e1000e_set_16bit(E1000ECore *core, int index, uint32_t val)
 -{
--    return s->mac_reg[index] & 0xf;
+-    core->mac[index] = val & 0xffff;
 -}
--
--static uint32_t
--mac_low11_read(E1000State *s, int index)
--{
--    return s->mac_reg[index] & 0x7ff;
--}
--
--static uint32_t
--mac_low13_read(E1000State *s, int index)
--{
--    return s->mac_reg[index] & 0x1fff;
--}
--
--static uint32_t
--mac_low16_read(E1000State *s, int index)
--{
--    return s->mac_reg[index] & 0xffff;
--}
--
- static uint32_t
- mac_icr_read(E1000State *s, int index)
- {
-@@ -1138,11 +1114,17 @@ set_rdt(E1000State *s, int index, uint32_t val)
-     }
- }
++#define E1000E_LOW_BITS_SET_FUNC(num)                                \
++    static void                                                      \
++    e1000e_set_##num##bit(E1000ECore *core, int index, uint32_t val) \
++    {                                                                \
++        core->mac[index] = val & (BIT(num) - 1);                     \
++    }
  
 -static void
--set_16bit(E1000State *s, int index, uint32_t val)
+-e1000e_set_12bit(E1000ECore *core, int index, uint32_t val)
 -{
--    s->mac_reg[index] = val & 0xffff;
+-    core->mac[index] = val & 0xfff;
 -}
-+#define LOW_BITS_SET_FUNC(num)                             \
-+    static void                                            \
-+    set_##num##bit(E1000State *s, int index, uint32_t val) \
-+    {                                                      \
-+        s->mac_reg[index] = val & (BIT(num) - 1);          \
-+    }
-+
-+LOW_BITS_SET_FUNC(4)
-+LOW_BITS_SET_FUNC(11)
-+LOW_BITS_SET_FUNC(13)
-+LOW_BITS_SET_FUNC(16)
++E1000E_LOW_BITS_SET_FUNC(4)
++E1000E_LOW_BITS_SET_FUNC(6)
++E1000E_LOW_BITS_SET_FUNC(11)
++E1000E_LOW_BITS_SET_FUNC(12)
++E1000E_LOW_BITS_SET_FUNC(13)
++E1000E_LOW_BITS_SET_FUNC(16)
  
  static void
- set_dlen(E1000State *s, int index, uint32_t val)
-@@ -1196,7 +1178,9 @@ static const readops macreg_readops[] = {
-     getreg(XONRXC),   getreg(XONTXC),   getreg(XOFFRXC),  getreg(XOFFTXC),
-     getreg(RFC),      getreg(RJC),      getreg(RNBC),     getreg(TSCTFC),
-     getreg(MGTPRC),   getreg(MGTPDC),   getreg(MGTPTC),   getreg(GORCL),
--    getreg(GOTCL),
-+    getreg(GOTCL),    getreg(RDFH),     getreg(RDFT),     getreg(RDFHS),
-+    getreg(RDFTS),    getreg(RDFPC),    getreg(TDFH),     getreg(TDFT),
-+    getreg(TDFHS),    getreg(TDFTS),    getreg(TDFPC),    getreg(AIT),
+ e1000e_set_vet(E1000ECore *core, int index, uint32_t val)
+@@ -2621,22 +2623,6 @@ e1000e_mac_ims_read(E1000ECore *core, int index)
+     return core->mac[IMS];
+ }
  
-     [TOTH]    = mac_read_clr8,      [TORH]    = mac_read_clr8,
-     [GOTCH]   = mac_read_clr8,      [GORCH]   = mac_read_clr8,
-@@ -1214,22 +1198,15 @@ static const readops macreg_readops[] = {
-     [MPTC]    = mac_read_clr4,
-     [ICR]     = mac_icr_read,       [EECD]    = get_eecd,
-     [EERD]    = flash_eerd_read,
--    [RDFH]    = mac_low13_read,     [RDFT]    = mac_low13_read,
--    [RDFHS]   = mac_low13_read,     [RDFTS]   = mac_low13_read,
--    [RDFPC]   = mac_low13_read,
--    [TDFH]    = mac_low11_read,     [TDFT]    = mac_low11_read,
--    [TDFHS]   = mac_low13_read,     [TDFTS]   = mac_low13_read,
--    [TDFPC]   = mac_low13_read,
--    [AIT]     = mac_low16_read,
- 
-     [CRCERRS ... MPC]     = &mac_readreg,
-     [IP6AT ... IP6AT + 3] = &mac_readreg,    [IP4AT ... IP4AT + 6] = &mac_readreg,
--    [FFLT ... FFLT + 6]   = &mac_low11_read,
-+    [FFLT ... FFLT + 6]   = &mac_readreg,
-     [RA ... RA + 31]      = &mac_readreg,
-     [WUPM ... WUPM + 31]  = &mac_readreg,
-     [MTA ... MTA + 127]   = &mac_readreg,
-     [VFTA ... VFTA + 127] = &mac_readreg,
--    [FFMT ... FFMT + 254] = &mac_low4_read,
-+    [FFMT ... FFMT + 254] = &mac_readreg,
-     [FFVT ... FFVT + 254] = &mac_readreg,
-     [PBM ... PBM + 16383] = &mac_readreg,
- };
-@@ -1241,26 +1218,27 @@ static const writeops macreg_writeops[] = {
-     putreg(PBA),      putreg(EERD),     putreg(SWSM),     putreg(WUFC),
-     putreg(TDBAL),    putreg(TDBAH),    putreg(TXDCTL),   putreg(RDBAH),
-     putreg(RDBAL),    putreg(LEDCTL),   putreg(VET),      putreg(FCRUC),
--    putreg(TDFH),     putreg(TDFT),     putreg(TDFHS),    putreg(TDFTS),
--    putreg(TDFPC),    putreg(RDFH),     putreg(RDFT),     putreg(RDFHS),
--    putreg(RDFTS),    putreg(RDFPC),    putreg(IPAV),     putreg(WUC),
--    putreg(WUS),      putreg(AIT),
+-#define E1000E_LOW_BITS_READ_FUNC(num)                      \
+-    static uint32_t                                         \
+-    e1000e_mac_low##num##_read(E1000ECore *core, int index) \
+-    {                                                       \
+-        return core->mac[index] & (BIT(num) - 1);           \
+-    }                                                       \
 -
--    [TDLEN]  = set_dlen,   [RDLEN]  = set_dlen,       [TCTL] = set_tctl,
--    [TDT]    = set_tctl,   [MDIC]   = set_mdic,       [ICS]  = set_ics,
--    [TDH]    = set_16bit,  [RDH]    = set_16bit,      [RDT]  = set_rdt,
--    [IMC]    = set_imc,    [IMS]    = set_ims,        [ICR]  = set_icr,
--    [EECD]   = set_eecd,   [RCTL]   = set_rx_control, [CTRL] = set_ctrl,
--    [RDTR]   = set_16bit,  [RADV]   = set_16bit,      [TADV] = set_16bit,
--    [ITR]    = set_16bit,
-+    putreg(IPAV),     putreg(WUC),
-+    putreg(WUS),
-+
-+    [TDLEN]  = set_dlen,   [RDLEN]  = set_dlen,       [TCTL]  = set_tctl,
-+    [TDT]    = set_tctl,   [MDIC]   = set_mdic,       [ICS]   = set_ics,
-+    [TDH]    = set_16bit,  [RDH]    = set_16bit,      [RDT]   = set_rdt,
-+    [IMC]    = set_imc,    [IMS]    = set_ims,        [ICR]   = set_icr,
-+    [EECD]   = set_eecd,   [RCTL]   = set_rx_control, [CTRL]  = set_ctrl,
-+    [RDTR]   = set_16bit,  [RADV]   = set_16bit,      [TADV]  = set_16bit,
-+    [ITR]    = set_16bit,  [TDFH]   = set_11bit,      [TDFT]  = set_11bit,
-+    [TDFHS]  = set_13bit,  [TDFTS]  = set_13bit,      [TDFPC] = set_13bit,
-+    [RDFH]   = set_13bit,  [RDFT]   = set_13bit,      [RDFHS] = set_13bit,
-+    [RDFTS]  = set_13bit,  [RDFPC]  = set_13bit,      [AIT]   = set_16bit,
- 
-     [IP6AT ... IP6AT + 3] = &mac_writereg, [IP4AT ... IP4AT + 6] = &mac_writereg,
--    [FFLT ... FFLT + 6]   = &mac_writereg,
-+    [FFLT ... FFLT + 6]   = &set_11bit,
-     [RA ... RA + 31]      = &mac_writereg,
-     [WUPM ... WUPM + 31]  = &mac_writereg,
-     [MTA ... MTA + 127]   = &mac_writereg,
-     [VFTA ... VFTA + 127] = &mac_writereg,
--    [FFMT ... FFMT + 254] = &mac_writereg, [FFVT ... FFVT + 254] = &mac_writereg,
-+    [FFMT ... FFMT + 254] = &set_4bit,     [FFVT ... FFVT + 254] = &mac_writereg,
-     [PBM ... PBM + 16383] = &mac_writereg,
- };
- 
+-#define E1000E_LOW_BITS_READ(num)                           \
+-    e1000e_mac_low##num##_read
+-
+-E1000E_LOW_BITS_READ_FUNC(4);
+-E1000E_LOW_BITS_READ_FUNC(6);
+-E1000E_LOW_BITS_READ_FUNC(11);
+-E1000E_LOW_BITS_READ_FUNC(13);
+-E1000E_LOW_BITS_READ_FUNC(16);
+-
+ static uint32_t
+ e1000e_mac_swsm_read(E1000ECore *core, int index)
+ {
+@@ -2930,7 +2916,19 @@ static const readops e1000e_macreg_readops[] = {
+     e1000e_getreg(LATECOL),
+     e1000e_getreg(SEQEC),
+     e1000e_getreg(XONTXC),
++    e1000e_getreg(AIT),
++    e1000e_getreg(TDFH),
++    e1000e_getreg(TDFT),
++    e1000e_getreg(TDFHS),
++    e1000e_getreg(TDFTS),
++    e1000e_getreg(TDFPC),
+     e1000e_getreg(WUS),
++    e1000e_getreg(PBS),
++    e1000e_getreg(RDFH),
++    e1000e_getreg(RDFT),
++    e1000e_getreg(RDFHS),
++    e1000e_getreg(RDFTS),
++    e1000e_getreg(RDFPC),
+     e1000e_getreg(GORCL),
+     e1000e_getreg(MGTPRC),
+     e1000e_getreg(EERD),
+@@ -3066,16 +3064,9 @@ static const readops e1000e_macreg_readops[] = {
+     [MPTC]    = e1000e_mac_read_clr4,
+     [IAC]     = e1000e_mac_read_clr4,
+     [ICR]     = e1000e_mac_icr_read,
+-    [RDFH]    = E1000E_LOW_BITS_READ(13),
+-    [RDFHS]   = E1000E_LOW_BITS_READ(13),
+-    [RDFPC]   = E1000E_LOW_BITS_READ(13),
+-    [TDFH]    = E1000E_LOW_BITS_READ(13),
+-    [TDFHS]   = E1000E_LOW_BITS_READ(13),
+     [STATUS]  = e1000e_get_status,
+     [TARC0]   = e1000e_get_tarc,
+-    [PBS]     = E1000E_LOW_BITS_READ(6),
+     [ICS]     = e1000e_mac_ics_read,
+-    [AIT]     = E1000E_LOW_BITS_READ(16),
+     [TORH]    = e1000e_mac_read_clr8,
+     [GORCH]   = e1000e_mac_read_clr8,
+     [PRC127]  = e1000e_mac_read_clr4,
+@@ -3091,11 +3082,6 @@ static const readops e1000e_macreg_readops[] = {
+     [BPTC]    = e1000e_mac_read_clr4,
+     [TSCTC]   = e1000e_mac_read_clr4,
+     [ITR]     = e1000e_mac_itr_read,
+-    [RDFT]    = E1000E_LOW_BITS_READ(13),
+-    [RDFTS]   = E1000E_LOW_BITS_READ(13),
+-    [TDFPC]   = E1000E_LOW_BITS_READ(13),
+-    [TDFT]    = E1000E_LOW_BITS_READ(13),
+-    [TDFTS]   = E1000E_LOW_BITS_READ(13),
+     [CTRL]    = e1000e_get_ctrl,
+     [TARC1]   = e1000e_get_tarc,
+     [SWSM]    = e1000e_mac_swsm_read,
+@@ -3108,10 +3094,10 @@ static const readops e1000e_macreg_readops[] = {
+     [WUPM ... WUPM + 31]   = e1000e_mac_readreg,
+     [MTA ... MTA + 127]    = e1000e_mac_readreg,
+     [VFTA ... VFTA + 127]  = e1000e_mac_readreg,
+-    [FFMT ... FFMT + 254]  = E1000E_LOW_BITS_READ(4),
++    [FFMT ... FFMT + 254]  = e1000e_mac_readreg,
+     [FFVT ... FFVT + 254]  = e1000e_mac_readreg,
+     [MDEF ... MDEF + 7]    = e1000e_mac_readreg,
+-    [FFLT ... FFLT + 10]   = E1000E_LOW_BITS_READ(11),
++    [FFLT ... FFLT + 10]   = e1000e_mac_readreg,
+     [FTFT ... FTFT + 254]  = e1000e_mac_readreg,
+     [PBM ... PBM + 10239]  = e1000e_mac_readreg,
+     [RETA ... RETA + 31]   = e1000e_mac_readreg,
+@@ -3134,19 +3120,8 @@ static const writeops e1000e_macreg_writeops[] = {
+     e1000e_putreg(LEDCTL),
+     e1000e_putreg(FCAL),
+     e1000e_putreg(FCRUC),
+-    e1000e_putreg(AIT),
+-    e1000e_putreg(TDFH),
+-    e1000e_putreg(TDFT),
+-    e1000e_putreg(TDFHS),
+-    e1000e_putreg(TDFTS),
+-    e1000e_putreg(TDFPC),
+     e1000e_putreg(WUC),
+     e1000e_putreg(WUS),
+-    e1000e_putreg(RDFH),
+-    e1000e_putreg(RDFT),
+-    e1000e_putreg(RDFHS),
+-    e1000e_putreg(RDFTS),
+-    e1000e_putreg(RDFPC),
+     e1000e_putreg(IPAV),
+     e1000e_putreg(TDBAH1),
+     e1000e_putreg(TIMINCA),
+@@ -3157,7 +3132,6 @@ static const writeops e1000e_macreg_writeops[] = {
+     e1000e_putreg(TARC1),
+     e1000e_putreg(FLSWDATA),
+     e1000e_putreg(POEMB),
+-    e1000e_putreg(PBS),
+     e1000e_putreg(MFUTP01),
+     e1000e_putreg(MFUTP23),
+     e1000e_putreg(MANC),
+@@ -3222,6 +3196,18 @@ static const writeops e1000e_macreg_writeops[] = {
+     [TADV]     = e1000e_set_16bit,
+     [ITR]      = e1000e_set_itr,
+     [EERD]     = e1000e_set_eerd,
++    [AIT]      = e1000e_set_16bit,
++    [TDFH]     = e1000e_set_13bit,
++    [TDFT]     = e1000e_set_13bit,
++    [TDFHS]    = e1000e_set_13bit,
++    [TDFTS]    = e1000e_set_13bit,
++    [TDFPC]    = e1000e_set_13bit,
++    [RDFH]     = e1000e_set_13bit,
++    [RDFHS]    = e1000e_set_13bit,
++    [RDFT]     = e1000e_set_13bit,
++    [RDFTS]    = e1000e_set_13bit,
++    [RDFPC]    = e1000e_set_13bit,
++    [PBS]      = e1000e_set_6bit,
+     [GCR]      = e1000e_set_gcr,
+     [PSRCTL]   = e1000e_set_psrctl,
+     [RXCSUM]   = e1000e_set_rxcsum,
+@@ -3261,11 +3247,11 @@ static const writeops e1000e_macreg_writeops[] = {
+     [WUPM ... WUPM + 31]     = e1000e_mac_writereg,
+     [MTA ... MTA + 127]      = e1000e_mac_writereg,
+     [VFTA ... VFTA + 127]    = e1000e_mac_writereg,
+-    [FFMT ... FFMT + 254]    = e1000e_mac_writereg,
++    [FFMT ... FFMT + 254]    = e1000e_set_4bit,
+     [FFVT ... FFVT + 254]    = e1000e_mac_writereg,
+     [PBM ... PBM + 10239]    = e1000e_mac_writereg,
+     [MDEF ... MDEF + 7]      = e1000e_mac_writereg,
+-    [FFLT ... FFLT + 10]     = e1000e_mac_writereg,
++    [FFLT ... FFLT + 10]     = e1000e_set_11bit,
+     [FTFT ... FTFT + 254]    = e1000e_mac_writereg,
+     [RETA ... RETA + 31]     = e1000e_mac_writereg,
+     [RSSRK ... RSSRK + 31]   = e1000e_mac_writereg,
 -- 
 2.39.0
 
