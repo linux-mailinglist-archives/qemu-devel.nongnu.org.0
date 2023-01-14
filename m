@@ -2,74 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4401466ABAC
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 14:42:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08D8766ABEC
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 15:40:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGglz-0001G1-Vf; Sat, 14 Jan 2023 08:40:40 -0500
+	id 1pGhgo-0004d6-DU; Sat, 14 Jan 2023 09:39:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pGgly-0001Fn-D8; Sat, 14 Jan 2023 08:40:38 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pGglw-0006GC-9J; Sat, 14 Jan 2023 08:40:38 -0500
-Received: by mail-ej1-x633.google.com with SMTP id v6so15276948ejg.6;
- Sat, 14 Jan 2023 05:40:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UMvzyRM6/5uu6DpAx4FxW5Cqn1agv6Ixap7GKd+WQDk=;
- b=RPj1H9OSzwsCheDKp6dFePj4zrjS1G14sMU42HkTDHxUAVn71J8DSKydiYOKdICl2I
- 5AZLyFWY9c3Omna+fzXU7DKz+GfRVipk14bb5yNp1auYWPIugUbFkfvM52kuO6BuoPXF
- yFOF7eqCZX33NjLY0sLNIdaLTH/gTQpNq/FfsyYhAeTbmsa0rtqeeBxZfzMas4AkmQWe
- L8VQ05yzcWo4OHsoOmnWXnHapcXibqyhZswH+HcBB4V03WSfy7NLuS9oQsnYBVKdppZv
- jishHU6XhhngrCckWPcZg5CrUF0hg7Y1BOY/tjWeC25SPhuZl6BKWjRoJNJ2PCpgoknB
- v8Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UMvzyRM6/5uu6DpAx4FxW5Cqn1agv6Ixap7GKd+WQDk=;
- b=PfRiR3+EzQiFTw+5vSi6ECCYJp9J38D31hzkj4zfBNjLN4se879Z0ckK/pFWqMyGcB
- NqRXq+3l+Fn/fQOlENA5AzHe66tuFymzrPLFiI3TbfocqS3WbBixWz5gtLNyX7itxNh9
- mLYI0HFdtZ3ah7R76s1mvOPSz9lnsZhndkMlbnsUJ4vpzIVPRUmVqmtdElDv8WEbUKlG
- VFYsKnz96UEEaj/+JxU5PaPfF49Zl6cfPnBLU50z8o/zLj8AOgY7pN2e9hVHwXXwcVlN
- JwUfdL3FhSypSolxv4ieibzHGXv4Rhrp4sd8Ie2QS7obcSoEjNhG28DVkftPMYO3xwzr
- Rt1w==
-X-Gm-Message-State: AFqh2kqhbLMh06eQgGNDk73uX9fY3t4zVZ3ZLLunYqX4mH08VgYBvOk1
- Nw1oUVG2q1ZkkBaGuWvZt8LhNQDZjAqOHuK7R9A=
-X-Google-Smtp-Source: AMrXdXuCXE1Ih3+cr/RUv0m2quyHglD+ibVbpna6JWQI7F5Sfxgd0kfDGv1Wd2jO1CpclH8hKHPVeQQ97rRpRQ0lnHM=
-X-Received: by 2002:a17:907:8d0f:b0:84d:47e2:da9c with SMTP id
- tc15-20020a1709078d0f00b0084d47e2da9cmr2773419ejc.337.1673703633876; Sat, 14
- Jan 2023 05:40:33 -0800 (PST)
-MIME-Version: 1.0
-References: <20230113171805.470252-1-dbarboza@ventanamicro.com>
- <20230113171805.470252-4-dbarboza@ventanamicro.com>
-In-Reply-To: <20230113171805.470252-4-dbarboza@ventanamicro.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 14 Jan 2023 21:40:23 +0800
-Message-ID: <CAEUhbmUKEHX5bQ2=7GfgjPY1YVFs-5MqzkbwEy_SgG43WdeAfg@mail.gmail.com>
-Subject: Re: [PATCH v7 3/3] hw/riscv: clear kernel_entry higher bits in
- load_elf_ram_sym()
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <hc94@poolhem.se>) id 1pGhgj-0004cw-JW
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 09:39:17 -0500
+Received: from mailout12.inleed.net ([2a0b:dc80:cafe:112::1]
+ helo=ns12.inleed.net)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hc94@poolhem.se>) id 1pGhge-0006f2-9Y
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 09:39:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=poolhem.se; 
+ s=x;
+ h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:
+ In-Reply-To:Message-Id:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=OZjZPK1kAlJA/YVsQSAVLrdNYlFRzYX80qVEcTcjG80=; b=dnYcFaawSqzbaNFY6Era3XirQd
+ HeySsvAa9/C3CiVA+sXX71JbWtaue33K5WqF4Qr8VwOX0s6JJEU0XZ08tXeC1LpkFTUGJBCWXclJ1
+ 8ufe4atuENVTakE1Q8u98MoK9kfGCyCy8qm6sezqd5ILoqNqC8uIQ04JKRc0qYNuQ6Zg7joleC0ec
+ ei6Fad+WXw8H1deWWEPXsn6xzu3Bwdk2dE4+rz565QC0OxFbzvVmQgCqeW1b3Lmv0ZvJub+PK5mpc
+ KHsJ7fciDxRfeRLbqMuBNMI3cuNQvDUoVehTk/ul4jztSEeINDKUEABr+VpU8kqxXJY7evfjAZLIW
+ 379YtKHQ==;
+Received: from [213.115.245.47] (helo=balrog.lkp.se)
+ by ns12.inleed.net with esmtpa (Exim 4.96)
+ (envelope-from <hc94@poolhem.se>) id 1pGhgc-00F7Lh-37;
+ Sat, 14 Jan 2023 15:39:10 +0100
+Date: Sat, 14 Jan 2023 15:38:53 +0100
+From: Henrik Carlqvist <hc94@poolhem.se>
+To: Henrik Carlqvist <hc981@poolhem.se>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, atar4qemu@gmail.com,
+ marcandre.lureau@redhat.com
+Subject: [PATCH v5] Emulate dip switch language layout settings on SUN keyboard
+Message-Id: <20230114153853.76b68899.hc94@poolhem.se>
+In-Reply-To: <20230114125029.7395a547.hc981@poolhem.se>
+References: <20230114125029.7395a547.hc981@poolhem.se>
+X-Mailer: Sylpheed version 0.9.7 (GTK+ 1.2.10; i686-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Id: henrik@poolhem.se
+Received-SPF: none client-ip=2a0b:dc80:cafe:112::1;
+ envelope-from=hc94@poolhem.se; helo=ns12.inleed.net
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_SOFTFAIL=0.732, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,209 +71,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Jan 14, 2023 at 1:18 AM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
-> Recent hw/risc/boot.c changes caused a regression in an use case with
-> the Xvisor hypervisor. Running a 32 bit QEMU guest with '-kernel'
-> stopped working. The reason seems to be that Xvisor is using 64 bit to
-> encode the 32 bit addresses from the guest, and load_elf_ram_sym() is
-> sign-extending the result with '1's [1].
+https://patchew.org/QEMU/20230114125029.7395a547.hc981@poolhem.se/ 
+complains that "patch is empty", so here is my fifth attempt...
 
-I would say it's not a regression of QEMU but something weird happened
-to Alistair's 32-bit Xvisor image.
+regards Henrik
 
-I just built a 32-bit Xvisor image from the latest Xvisor head
-following the instructions provided in its source tree. With the
-mainline QEMU only BIN file boots, but ELF does not. My 32-bit Xvisor
-image has an address of 0x10000000. Apparently this address is not
-correct, and the issue I saw is different from Alistair's. Alistair,
-could you investigate why your 32-bit Xvisor ELF image has an address
-of 0xffffffff80000000 set to kernel_load_base?
+SUN Type 4, 5 and 5c keyboards have dip switches to choose the language
+layout of the keyboard. Solaris makes an ioctl to query the value of the
+dipswitches and uses that value to select keyboard layout. Also the SUN
+bios like the one in the file ss5.bin uses this value to support at least
+some keyboard layouts. However, the OpenBIOS provided with qemu is
+hardcoded to always use an US keyboard layout.
 
->
-> This can very well be an issue with Xvisor, but since it's not hard to
-> amend it in our side we're going for it. Use a translate_fn() callback
-> to be called by load_elf_ram_sym() and clear the higher bits of the
-> result if we're running a 32 bit CPU.
->
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02281.html
->
-> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Suggested-by: Bin Meng <bmeng.cn@gmail.com>
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> ---
->  hw/riscv/boot.c            | 23 ++++++++++++++++++++++-
->  hw/riscv/microchip_pfsoc.c |  4 ++--
->  hw/riscv/opentitan.c       |  3 ++-
->  hw/riscv/sifive_e.c        |  3 ++-
->  hw/riscv/sifive_u.c        |  4 ++--
->  hw/riscv/spike.c           |  2 +-
->  hw/riscv/virt.c            |  4 ++--
->  include/hw/riscv/boot.h    |  1 +
->  8 files changed, 34 insertions(+), 10 deletions(-)
->
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index e868fb6ade..7f8295bf5e 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -213,7 +213,27 @@ static void riscv_load_initrd(MachineState *machine,=
- uint64_t kernel_entry)
->      }
->  }
->
-> +static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
-> +{
-> +    RISCVHartArrayState *harts =3D opaque;
-> +
-> +    /*
-> +     * For 32 bit CPUs, kernel_load_base is sign-extended (i.e.
-> +     * it can be padded with '1's) if the hypervisor, for some
-> +     * reason, is using 64 bit addresses with 32 bit guests.
-> +     *
-> +     * Clear the higher bits to avoid the padding if we're
-> +     * running a 32 bit CPU.
-> +     */
-> +    if (riscv_is_32bit(harts)) {
-> +        return addr & 0x0fffffff;
-> +    }
-> +
-> +    return addr;
-> +}
-> +
->  target_ulong riscv_load_kernel(MachineState *machine,
-> +                               RISCVHartArrayState *harts,
->                                 target_ulong kernel_start_addr,
->                                 bool load_initrd,
->                                 symbol_fn_t sym_cb)
-> @@ -231,7 +251,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
->       * the (expected) load address load address. This allows kernels to =
-have
->       * separate SBI and ELF entry points (used by FreeBSD, for example).
->       */
-> -    if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
-> +    if (load_elf_ram_sym(kernel_filename, NULL,
-> +                         translate_kernel_address, NULL,
->                           NULL, &kernel_load_base, NULL, NULL, 0,
->                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
->          kernel_entry =3D kernel_load_base;
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index c45023a2b1..b7e171b605 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -629,8 +629,8 @@ static void microchip_icicle_kit_machine_init(Machine=
-State *machine)
->          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc.u_cpu=
-s,
->                                                           firmware_end_ad=
-dr);
->
-> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr,
-> -                                         true, NULL);
-> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc.u_cpus,
-> +                                         kernel_start_addr, true, NULL);
->
->          /* Compute the fdt load address in dram */
->          fdt_load_addr =3D riscv_load_fdt(memmap[MICROCHIP_PFSOC_DRAM_LO]=
-.base,
-> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-> index f6fd9725a5..1404a52da0 100644
-> --- a/hw/riscv/opentitan.c
-> +++ b/hw/riscv/opentitan.c
-> @@ -101,7 +101,8 @@ static void opentitan_board_init(MachineState *machin=
-e)
->      }
->
->      if (machine->kernel_filename) {
-> -        riscv_load_kernel(machine, memmap[IBEX_DEV_RAM].base, false, NUL=
-L);
-> +        riscv_load_kernel(machine, &s->soc.cpus,
-> +                          memmap[IBEX_DEV_RAM].base, false, NULL);
->      }
->  }
->
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index 6835d1c807..04939b60c3 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -114,7 +114,8 @@ static void sifive_e_machine_init(MachineState *machi=
-ne)
->                            memmap[SIFIVE_E_DEV_MROM].base, &address_space=
-_memory);
->
->      if (machine->kernel_filename) {
-> -        riscv_load_kernel(machine, memmap[SIFIVE_E_DEV_DTIM].base,
-> +        riscv_load_kernel(machine, &s->soc.cpus,
-> +                          memmap[SIFIVE_E_DEV_DTIM].base,
->                            false, NULL);
->      }
->  }
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 9a75d4aa62..214430d40c 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -598,8 +598,8 @@ static void sifive_u_machine_init(MachineState *machi=
-ne)
->          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc.u_cpu=
-s,
->                                                           firmware_end_ad=
-dr);
->
-> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr,
-> -                                         true, NULL);
-> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc.u_cpus,
-> +                                         kernel_start_addr, true, NULL);
->      } else {
->         /*
->          * If dynamic firmware is used, it doesn't know where is the next=
- mode
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index c517885e6e..b3aac2178b 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -307,7 +307,7 @@ static void spike_board_init(MachineState *machine)
->          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc[0],
->                                                           firmware_end_ad=
-dr);
->
-> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr,
-> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc[0], kernel_s=
-tart_addr,
->                                           true, htif_symbol_callback);
->      } else {
->         /*
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index a931ed05ab..60c8729b5f 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -1281,8 +1281,8 @@ static void virt_machine_done(Notifier *notifier, v=
-oid *data)
->          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc[0],
->                                                           firmware_end_ad=
-dr);
->
-> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr,
-> -                                         true, NULL);
-> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc[0],
-> +                                         kernel_start_addr, true, NULL);
->      } else {
->         /*
->          * If dynamic firmware is used, it doesn't know where is the next=
- mode
-> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-> index cbd131bad7..bc9faed397 100644
-> --- a/include/hw/riscv/boot.h
-> +++ b/include/hw/riscv/boot.h
-> @@ -44,6 +44,7 @@ target_ulong riscv_load_firmware(const char *firmware_f=
-ilename,
->                                   hwaddr firmware_load_addr,
->                                   symbol_fn_t sym_cb);
->  target_ulong riscv_load_kernel(MachineState *machine,
-> +                               RISCVHartArrayState *harts,
->                                 target_ulong firmware_end_addr,
->                                 bool load_initrd,
->                                 symbol_fn_t sym_cb);
+Before this patch, qemu allways gave dip switch value 0x21 (US keyboard),
+this patch uses the command line switch "-k" (keyboard layout) to select
+dip switch value. A table is used to lookup values from arguments like:
 
-Regards,
-Bin
+-k fr
+-k es
+
+But the patch also accepts numeric dip switch values directly to the -k
+switch:
+
+-k 0x2b
+-k 43
+
+Both values above are the same and select swedish keyboard as explained in
+table 3-15 at
+https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.html
+
+Unless you want to do a full Solaris installation but happen to have
+access to a bios file, the easiest way to test that the patch works is to:
+
+qemu-system-sparc -k sv -bios /path/to/ss5.bin
+
+If you already happen to have a Solaris installation in a qemu disk image
+file you can easily try different keyboard layouts after this patch is
+applied.
+
+Signed-off-by: Henrik Carlqvist <hc1245@poolhem.se>
+---
+ hw/char/escc.c | 74 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 73 insertions(+), 1 deletion(-)
+
+diff --git a/hw/char/escc.c b/hw/char/escc.c
+index 17a908c59b..53022ccf39 100644
+--- a/hw/char/escc.c
++++ b/hw/char/escc.c
+@@ -31,6 +31,8 @@
+ #include "qemu/module.h"
+ #include "hw/char/escc.h"
+ #include "ui/console.h"
++#include "sysemu/sysemu.h"
++#include "qemu/cutils.h"
+ #include "trace.h"
+ 
+ /*
+@@ -190,6 +192,7 @@
+ #define R_MISC1I 14
+ #define R_EXTINT 15
+ 
++static unsigned char sun_keyboard_layout_dip_switch(void);
+ static void handle_kbd_command(ESCCChannelState *s, int val);
+ static int serial_can_receive(void *opaque);
+ static void serial_receive_byte(ESCCChannelState *s, int ch);
+@@ -846,6 +849,75 @@ static QemuInputHandler sunkbd_handler = {
+     .event = sunkbd_handle_event,
+ };
+ 
++static unsigned char sun_keyboard_layout_dip_switch(void)
++{
++    /* Return the value of the dip-switches in a SUN Type 5 keyboard */
++    static unsigned char ret = 0xff;
++
++    if ((ret == 0xff) && keyboard_layout) {
++        int i;
++        struct layout_values {
++            const char *lang;
++            unsigned char dip;
++        } languages[] =
++    /* Dip values from table 3-16 Layouts for Type 4, 5, and 5c Keyboards */
++            {
++                {"en-us", 0x21}, /* U.S.A. (US5.kt) */
++                                 /* 0x22 is some other US (US_UNIX5.kt)*/
++                {"fr",    0x23}, /* France (France5.kt) */
++                {"da",    0x24}, /* Denmark (Denmark5.kt) */
++                {"de",    0x25}, /* Germany (Germany5.kt) */
++                {"it",    0x26}, /* Italy (Italy5.kt) */
++                {"nl",    0x27}, /* The Netherlands (Netherland5.kt) */
++                {"no",    0x28}, /* Norway (Norway.kt) */
++                {"pt",    0x29}, /* Portugal (Portugal5.kt) */
++                {"es",    0x2a}, /* Spain (Spain5.kt) */
++                {"sv",    0x2b}, /* Sweden (Sweden5.kt) */
++                {"fr-ch", 0x2c}, /* Switzerland/French (Switzer_Fr5.kt) */
++                {"de-ch", 0x2d}, /* Switzerland/German (Switzer_Ge5.kt) */
++                {"en-gb", 0x2e}, /* Great Britain (UK5.kt) */
++                {"ko",    0x2f}, /* Korea (Korea5.kt) */
++                {"tw",    0x30}, /* Taiwan (Taiwan5.kt) */
++                {"ja",    0x31}, /* Japan (Japan5.kt) */
++                {"fr-ca", 0x32}, /* Canada/French (Canada_Fr5.kt) */
++                {"hu",    0x33}, /* Hungary (Hungary5.kt) */
++                {"pl",    0x34}, /* Poland (Poland5.kt) */
++                {"cz",    0x35}, /* Czech (Czech5.kt) */
++                {"ru",    0x36}, /* Russia (Russia5.kt) */
++                {"lv",    0x37}, /* Latvia (Latvia5.kt) */
++                {"tr",    0x38}, /* Turkey-Q5 (TurkeyQ5.kt) */
++                {"gr",    0x39}, /* Greece (Greece5.kt) */
++                {"ar",    0x3a}, /* Arabic (Arabic5.kt) */
++                {"lt",    0x3b}, /* Lithuania (Lithuania5.kt) */
++                {"nl-be", 0x3c}, /* Belgium (Belgian5.kt) */
++                {"be",    0x3c}, /* Belgium (Belgian5.kt) */
++            };
++
++        for (i = 0;
++             i < sizeof(languages) / sizeof(struct layout_values);
++             i++) {
++            if (!strcmp(keyboard_layout, languages[i].lang)) {
++                ret = languages[i].dip;
++                return ret;
++            }
++        }
++        /* Found no known language code */
++
++        if ((keyboard_layout[0] >= '0') && (keyboard_layout[0] <= '9')) {
++            unsigned int tmp;
++            /* As a fallback we also accept numeric dip switch value */
++            if (!qemu_strtoui(keyboard_layout, NULL, 0, &tmp)) {
++                ret = (unsigned char)tmp;
++            }
++        }
++    }
++    if (ret == 0xff) {
++        /* Final fallback if keyboard_layout was not set or recognized */
++        ret = 0x21; /* en-us layout */
++    }
++    return ret;
++}
++
+ static void handle_kbd_command(ESCCChannelState *s, int val)
+ {
+     trace_escc_kbd_command(val);
+@@ -867,7 +939,7 @@ static void handle_kbd_command(ESCCChannelState *s, int val)
+     case 0xf:
+         clear_queue(s);
+         put_queue(s, 0xfe);
+-        put_queue(s, 0x21); /*  en-us layout */
++        put_queue(s, sun_keyboard_layout_dip_switch());
+         break;
+     default:
+         break;
+-- 
+2.35.1
+
 
