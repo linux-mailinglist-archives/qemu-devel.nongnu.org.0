@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AAE66A915
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 05:03:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25B1066A911
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 05:02:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGXi8-0008Ln-HB; Fri, 13 Jan 2023 23:00:04 -0500
+	id 1pGXi9-0008Oo-TZ; Fri, 13 Jan 2023 23:00:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pGXi2-0008Is-FY
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 22:59:58 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1pGXi4-0008Jc-OT
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:02 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pGXi0-0005HF-FF
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 22:59:58 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id q64so24253671pjq.4
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 19:59:53 -0800 (PST)
+ id 1pGXi0-0005HP-FG
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:00 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ u1-20020a17090a450100b0022936a63a21so2382381pjg.4
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 19:59:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=gUHUe9uYKAinK4NLL6n7/4jCeZmM+FnyeBkaoxjFHZE=;
- b=nRKKLWNbJPn29hbKuN+S+UuXn9ouyUpO2YbwL05cE0r+AdkFhIjwDbrWy42VcimQQs
- xeG46jPkkccht6IWumg6j3Qh7XGQJUUR3BLiLafTajAHyUPYbkYRqS/1zzZ6pRLapAd2
- Nlb1sIR444O0GmtCVviZBivq2PSbu2u0A9uhmsyZamjQxI84gw/ZJAN2JMt40VJsYtbl
- 2n9sJEt5N50/Ts+CAzQ6K/c9QFkpyazHPBDMmK37fLYMVlIBKyW4wF2UNhTEmgWhYRAt
- kPYL5lB1IQEcnoihIQ5/61fTvvxTWgbyIdb8CbZJnt8wCu01yNKYF6xQQ+bp2BRPEIzN
- rlWw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zDAKcWpTYbDOO3LuGJJdy8BnwvPWdlP9pR4e/xi7C2o=;
+ b=SaR2252SrqHhzuHeMcgACUwi98Ata+1MDC3rEmBvILGZlSi+8ZQHpfUjtq5ns9imNh
+ pXfhkNG8u5rTAl62lQcV8CD9BPcdc2Dh6uTg+ZBG954uiQJGQQzMHukaMPmS0nmoJcJa
+ q0Xz6OjCTWOakthnxp3aqp/KSWSYEOgVOhdiMGg9vtO28inVSjbUokbUhcVcYKvDCwYQ
+ MEmvuuivoXMNSrSRb2Tkz6du38ew6xedmDM6Ln8trfbGQ5yUtbhStiLuOjmbyAmErbqu
+ nx1aV2TjWMhsAHfP+4ZTX1mmfFeoDdTwFMir+q/WIdN+W1d1FH3G+ecCRS9ovj+h4NBM
+ nAaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gUHUe9uYKAinK4NLL6n7/4jCeZmM+FnyeBkaoxjFHZE=;
- b=Zn3/LkebCys17yycuKgFhUWqK4NIQT41H4OJPTrg8d/nqwrBCad3FVMNVmS5GZhBEW
- PTflZFgWmqUWPm9SfFY9RviTSDqFJBc8Ls5PrLKvwDO3/jmy1vQXRJvsQF7srrpdrwsk
- 4xgm1mw7MyEqPibcNsPCXRqgQ1BkewyZtMiVypSOiHFS8MZ7fzfRBDRiz+DjmaekmdYB
- 3XiAEaXlA6fY8Syv0ikBMdfxsSrTcOyRo4WrHMgt3RgfjTDiE2838eb2Fw0q4rUtnjKA
- jLEKXiAP+rOs+te0G3EaQSLfJdvGgcajcpGQUXg/eVFmc+Qi8UQnwPuc+Rvmhfi889dE
- erNg==
-X-Gm-Message-State: AFqh2kq8fULpPYAVnwoAaSxt3Sr5WWcofY8ril+V/a/u4TX4gvLCyClE
- t2ql+o5E8s/tHJ+sELjN4AK94w==
-X-Google-Smtp-Source: AMrXdXvTiKyKaNvMsplL8dyJIGAIoTAF2UPe5vVe5i1VaAIY4P2Jl1+Xv3wwYTQjC7JtB2cRQHiLbg==
-X-Received: by 2002:a05:6a20:3b22:b0:b6:8317:219b with SMTP id
- c34-20020a056a203b2200b000b68317219bmr7837463pzh.8.1673668791768; 
- Fri, 13 Jan 2023 19:59:51 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zDAKcWpTYbDOO3LuGJJdy8BnwvPWdlP9pR4e/xi7C2o=;
+ b=NUL13NPwRL5n7dvZzQVe+ZKZ9iVxCTk0qoIH274qp1cNjMPR7pqqd0+cZmdhNf3NyQ
+ EL+UKJHZwuigYELTnOfN8/uiJ+XOFKEzJ9Q13fMgRIaLfG8hwvg8GguI/C6N2S/xv3he
+ 1fK3NVg0JNinf+OA96QoJ9nU20tLzf/p96noa+x3UdpaZIBMThB9akbjd82ghAlqfggZ
+ g2e0Nxrqw7inyj3eE8fQ4efqA/GN2xUihwbrXb91TLp4kGUmuelC1WjsYB3vIfmyVfMW
+ hB2yOoYSmJFVkgEPMU1jqeDqywTiYYFcHgWYQEjeXuOjVyvyXRkGJLdwenkjNzJgAiZ5
+ jodw==
+X-Gm-Message-State: AFqh2kpWSBKrEJX8R0pM3i8gfAXOXEAJkOit4Rwfy6qUkicO/uaV+2rc
+ V7LChFD3AmBU1/Mvf2BQKC+aYQ==
+X-Google-Smtp-Source: AMrXdXvTgC+lHWFIAH5hMp4VXfESafRKHG8Znyp/AVNYJvlNRw12J32bND0alSm0CZjonlHFODdOdg==
+X-Received: by 2002:a17:902:ce10:b0:189:af28:fd8d with SMTP id
+ k16-20020a170902ce1000b00189af28fd8dmr99407758plg.1.1673668794268; 
+ Fri, 13 Jan 2023 19:59:54 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- g15-20020a170902868f00b00189fdadef9csm910894plo.107.2023.01.13.19.59.49
+ g15-20020a170902868f00b00189fdadef9csm910894plo.107.2023.01.13.19.59.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 19:59:51 -0800 (PST)
+ Fri, 13 Jan 2023 19:59:54 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
  Dmitry Fleytman <dmitry.fleytman@gmail.com>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 00/19] e1000x cleanups (preliminary for IGB)
-Date: Sat, 14 Jan 2023 12:59:00 +0900
-Message-Id: <20230114035919.35251-1-akihiko.odaki@daynix.com>
+ qemu-ppc@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 01/19] e1000e: Fix the code style
+Date: Sat, 14 Jan 2023 12:59:01 +0900
+Message-Id: <20230114035919.35251-2-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230114035919.35251-1-akihiko.odaki@daynix.com>
+References: <20230114035919.35251-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,71 +96,463 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are adding a new device named igb, yet another Intel NIC. As the new
-implementation derives from e1000e, overhaul e1000e implementation first.
-e1000 has many commonalities with e1000e so we also apply the corresponding
-changes to the device if possible.
+igb implementation first starts off by copying e1000e code. Correct the
+code style before that.
 
-This was spun off from:
-https://patchew.org/QEMU/20230112095743.20123-1-akihiko.odaki@daynix.com/
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ hw/net/e1000.c         |  41 ++++++++--------
+ hw/net/e1000e.c        |  72 ++++++++++++++--------------
+ hw/net/e1000e_core.c   | 103 ++++++++++++++++++++++-------------------
+ hw/net/e1000e_core.h   |  66 +++++++++++++-------------
+ hw/net/e1000x_common.h |  44 +++++++++---------
+ 5 files changed, 168 insertions(+), 158 deletions(-)
 
-The changes from the series are as follows:
-- Fixed code alignment in e1000.c. (Philippe Mathieu-Daudé)
-- "e1000: Configure ResettableClass" and e1000e's corresponding patch was based
-  on the old version so they are now updated. (Philippe Mathieu-Daudé)
-- Added "e1000e: Remove extra pointer indirection"
-
-The series was composed on patches submitted earlier for e1000e. The below
-are links to Patchew:
-03: https://patchew.org/QEMU/20221103060103.83363-1-akihiko.odaki@daynix.com/
-04: https://patchew.org/QEMU/20221125135254.54760-1-akihiko.odaki@daynix.com/
-05: https://patchew.org/QEMU/20221119054913.103803-1-akihiko.odaki@daynix.com/
-06: https://patchew.org/QEMU/20221119055304.105500-1-akihiko.odaki@daynix.com/
-08 includes: https://patchew.org/QEMU/20221119060156.110010-1-akihiko.odaki@daynix.com/
-10: https://patchew.org/QEMU/20221125140105.55925-1-akihiko.odaki@daynix.com/
-11: https://patchew.org/QEMU/20221125142608.58919-1-akihiko.odaki@daynix.com/
-13: https://patchew.org/QEMU/20221201095351.63392-1-akihiko.odaki@daynix.com/
-14: https://patchew.org/QEMU/20221201100113.64387-1-akihiko.odaki@daynix.com/
-15: https://patchew.org/QEMU/20230107143328.102534-1-akihiko.odaki@daynix.com/
-
-Akihiko Odaki (19):
-  e1000e: Fix the code style
-  hw/net: Add more MII definitions
-  fsl_etsec: Use hw/net/mii.h
-  e1000: Use hw/net/mii.h
-  e1000: Mask registers when writing
-  e1000e: Mask registers when writing
-  e1000: Use more constant definitions
-  e1000e: Use more constant definitions
-  e1000: Use memcpy to intialize registers
-  e1000e: Use memcpy to intialize registers
-  e1000e: Remove pending interrupt flags
-  e1000e: Improve software reset
-  e1000: Configure ResettableClass
-  e1000e: Configure ResettableClass
-  e1000e: Introduce e1000_rx_desc_union
-  e1000e: Set MII_ANER_NWAY
-  e1000e: Remove extra pointer indirection
-  tests/qtest/e1000e-test: Fix the code style
-  tests/qtest/libqos/e1000e: Remove duplicate register definitions
-
- hw/net/e1000.c              | 254 ++++++++----------
- hw/net/e1000_regs.h         |  61 ++---
- hw/net/e1000e.c             |  88 +++---
- hw/net/e1000e_core.c        | 519 ++++++++++++++++++------------------
- hw/net/e1000e_core.h        |  68 +++--
- hw/net/e1000x_common.c      |  10 +-
- hw/net/e1000x_common.h      |  54 ++--
- hw/net/fsl_etsec/etsec.c    |  11 +-
- hw/net/fsl_etsec/etsec.h    |  17 --
- hw/net/fsl_etsec/miim.c     |   5 +-
- hw/net/trace-events         |   4 +-
- include/hw/net/mii.h        |  14 +-
- tests/qtest/e1000e-test.c   |   2 +-
- tests/qtest/libqos/e1000e.c |  26 +-
- tests/qtest/libqos/e1000e.h |   5 -
- 15 files changed, 541 insertions(+), 597 deletions(-)
-
+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+index 7efb8a4c52..8ee30aa37c 100644
+--- a/hw/net/e1000.c
++++ b/hw/net/e1000.c
+@@ -808,10 +808,11 @@ receive_filter(E1000State *s, const uint8_t *buf, int size)
+     if (e1000x_is_vlan_packet(buf, le16_to_cpu(s->mac_reg[VET])) &&
+         e1000x_vlan_rx_filter_enabled(s->mac_reg)) {
+         uint16_t vid = lduw_be_p(buf + 14);
+-        uint32_t vfta = ldl_le_p((uint32_t*)(s->mac_reg + VFTA) +
++        uint32_t vfta = ldl_le_p((uint32_t *)(s->mac_reg + VFTA) +
+                                  ((vid >> 5) & 0x7f));
+-        if ((vfta & (1 << (vid & 0x1f))) == 0)
++        if ((vfta & (1 << (vid & 0x1f))) == 0) {
+             return 0;
++        }
+     }
+ 
+     if (!isbcast && !ismcast && (rctl & E1000_RCTL_UPE)) { /* promiscuous ucast */
+@@ -1220,16 +1221,16 @@ static const readops macreg_readops[] = {
+     [TDFPC]   = mac_low13_read,
+     [AIT]     = mac_low16_read,
+ 
+-    [CRCERRS ... MPC]   = &mac_readreg,
+-    [IP6AT ... IP6AT+3] = &mac_readreg,    [IP4AT ... IP4AT+6] = &mac_readreg,
+-    [FFLT ... FFLT+6]   = &mac_low11_read,
+-    [RA ... RA+31]      = &mac_readreg,
+-    [WUPM ... WUPM+31]  = &mac_readreg,
+-    [MTA ... MTA+127]   = &mac_readreg,
+-    [VFTA ... VFTA+127] = &mac_readreg,
+-    [FFMT ... FFMT+254] = &mac_low4_read,
+-    [FFVT ... FFVT+254] = &mac_readreg,
+-    [PBM ... PBM+16383] = &mac_readreg,
++    [CRCERRS ... MPC]     = &mac_readreg,
++    [IP6AT ... IP6AT + 3] = &mac_readreg,    [IP4AT ... IP4AT + 6] = &mac_readreg,
++    [FFLT ... FFLT + 6]   = &mac_low11_read,
++    [RA ... RA + 31]      = &mac_readreg,
++    [WUPM ... WUPM + 31]  = &mac_readreg,
++    [MTA ... MTA + 127]   = &mac_readreg,
++    [VFTA ... VFTA + 127] = &mac_readreg,
++    [FFMT ... FFMT + 254] = &mac_low4_read,
++    [FFVT ... FFVT + 254] = &mac_readreg,
++    [PBM ... PBM + 16383] = &mac_readreg,
+ };
+ enum { NREADOPS = ARRAY_SIZE(macreg_readops) };
+ 
+@@ -1252,14 +1253,14 @@ static const writeops macreg_writeops[] = {
+     [RDTR]   = set_16bit,  [RADV]   = set_16bit,      [TADV] = set_16bit,
+     [ITR]    = set_16bit,
+ 
+-    [IP6AT ... IP6AT+3] = &mac_writereg, [IP4AT ... IP4AT+6] = &mac_writereg,
+-    [FFLT ... FFLT+6]   = &mac_writereg,
+-    [RA ... RA+31]      = &mac_writereg,
+-    [WUPM ... WUPM+31]  = &mac_writereg,
+-    [MTA ... MTA+127]   = &mac_writereg,
+-    [VFTA ... VFTA+127] = &mac_writereg,
+-    [FFMT ... FFMT+254] = &mac_writereg, [FFVT ... FFVT+254] = &mac_writereg,
+-    [PBM ... PBM+16383] = &mac_writereg,
++    [IP6AT ... IP6AT + 3] = &mac_writereg, [IP4AT ... IP4AT + 6] = &mac_writereg,
++    [FFLT ... FFLT + 6]   = &mac_writereg,
++    [RA ... RA + 31]      = &mac_writereg,
++    [WUPM ... WUPM + 31]  = &mac_writereg,
++    [MTA ... MTA + 127]   = &mac_writereg,
++    [VFTA ... VFTA + 127] = &mac_writereg,
++    [FFMT ... FFMT + 254] = &mac_writereg, [FFVT ... FFVT + 254] = &mac_writereg,
++    [PBM ... PBM + 16383] = &mac_writereg,
+ };
+ 
+ enum { NWRITEOPS = ARRAY_SIZE(macreg_writeops) };
+diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
+index 7523e9f5d2..8635ca16c6 100644
+--- a/hw/net/e1000e.c
++++ b/hw/net/e1000e.c
+@@ -1,37 +1,37 @@
+ /*
+-* QEMU INTEL 82574 GbE NIC emulation
+-*
+-* Software developer's manuals:
+-* http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf
+-*
+-* Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
+-* Developed by Daynix Computing LTD (http://www.daynix.com)
+-*
+-* Authors:
+-* Dmitry Fleytman <dmitry@daynix.com>
+-* Leonid Bloch <leonid@daynix.com>
+-* Yan Vugenfirer <yan@daynix.com>
+-*
+-* Based on work done by:
+-* Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
+-* Copyright (c) 2008 Qumranet
+-* Based on work done by:
+-* Copyright (c) 2007 Dan Aloni
+-* Copyright (c) 2004 Antony T Curtis
+-*
+-* This library is free software; you can redistribute it and/or
+-* modify it under the terms of the GNU Lesser General Public
+-* License as published by the Free Software Foundation; either
+-* version 2.1 of the License, or (at your option) any later version.
+-*
+-* This library is distributed in the hope that it will be useful,
+-* but WITHOUT ANY WARRANTY; without even the implied warranty of
+-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-* Lesser General Public License for more details.
+-*
+-* You should have received a copy of the GNU Lesser General Public
+-* License along with this library; if not, see <http://www.gnu.org/licenses/>.
+-*/
++ * QEMU INTEL 82574 GbE NIC emulation
++ *
++ * Software developer's manuals:
++ * http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf
++ *
++ * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
++ * Developed by Daynix Computing LTD (http://www.daynix.com)
++ *
++ * Authors:
++ * Dmitry Fleytman <dmitry@daynix.com>
++ * Leonid Bloch <leonid@daynix.com>
++ * Yan Vugenfirer <yan@daynix.com>
++ *
++ * Based on work done by:
++ * Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
++ * Copyright (c) 2008 Qumranet
++ * Based on work done by:
++ * Copyright (c) 2007 Dan Aloni
++ * Copyright (c) 2004 Antony T Curtis
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+@@ -239,9 +239,9 @@ static NetClientInfo net_e1000e_info = {
+ };
+ 
+ /*
+-* EEPROM (NVM) contents documented in Table 36, section 6.1
+-* and generally 6.1.2 Software accessed words.
+-*/
++ * EEPROM (NVM) contents documented in Table 36, section 6.1
++ * and generally 6.1.2 Software accessed words.
++ */
+ static const uint16_t e1000e_eeprom_template[64] = {
+   /*        Address        |    Compat.    | ImVer |   Compat.     */
+     0x0000, 0x0000, 0x0000, 0x0420, 0xf746, 0x2010, 0xffff, 0xffff,
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index fc9cdb4528..c4be782558 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -1,37 +1,37 @@
+ /*
+-* Core code for QEMU e1000e emulation
+-*
+-* Software developer's manuals:
+-* http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf
+-*
+-* Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
+-* Developed by Daynix Computing LTD (http://www.daynix.com)
+-*
+-* Authors:
+-* Dmitry Fleytman <dmitry@daynix.com>
+-* Leonid Bloch <leonid@daynix.com>
+-* Yan Vugenfirer <yan@daynix.com>
+-*
+-* Based on work done by:
+-* Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
+-* Copyright (c) 2008 Qumranet
+-* Based on work done by:
+-* Copyright (c) 2007 Dan Aloni
+-* Copyright (c) 2004 Antony T Curtis
+-*
+-* This library is free software; you can redistribute it and/or
+-* modify it under the terms of the GNU Lesser General Public
+-* License as published by the Free Software Foundation; either
+-* version 2.1 of the License, or (at your option) any later version.
+-*
+-* This library is distributed in the hope that it will be useful,
+-* but WITHOUT ANY WARRANTY; without even the implied warranty of
+-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-* Lesser General Public License for more details.
+-*
+-* You should have received a copy of the GNU Lesser General Public
+-* License along with this library; if not, see <http://www.gnu.org/licenses/>.
+-*/
++ * Core code for QEMU e1000e emulation
++ *
++ * Software developer's manuals:
++ * http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf
++ *
++ * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
++ * Developed by Daynix Computing LTD (http://www.daynix.com)
++ *
++ * Authors:
++ * Dmitry Fleytman <dmitry@daynix.com>
++ * Leonid Bloch <leonid@daynix.com>
++ * Yan Vugenfirer <yan@daynix.com>
++ *
++ * Based on work done by:
++ * Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
++ * Copyright (c) 2008 Qumranet
++ * Based on work done by:
++ * Copyright (c) 2007 Dan Aloni
++ * Copyright (c) 2004 Antony T Curtis
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
+@@ -49,8 +49,9 @@
+ 
+ #include "trace.h"
+ 
+-#define E1000E_MIN_XITR     (500) /* No more then 7813 interrupts per
+-                                     second according to spec 10.2.4.2 */
++/* No more then 7813 interrupts per second according to spec 10.2.4.2 */
++#define E1000E_MIN_XITR     (500)
++
+ #define E1000E_MAX_TX_FRAGS (64)
+ 
+ static inline void
+@@ -282,14 +283,18 @@ e1000e_intrmgr_delay_rx_causes(E1000ECore *core, uint32_t *causes)
+     core->delayed_causes |= *causes & delayable_causes;
+     *causes &= ~delayable_causes;
+ 
+-    /* Check if delayed RX interrupts disabled by client
+-       or if there are causes that cannot be delayed */
++    /*
++     * Check if delayed RX interrupts disabled by client
++     * or if there are causes that cannot be delayed
++     */
+     if ((rdtr == 0) || (*causes != 0)) {
+         return false;
+     }
+ 
+-    /* Check if delayed RX ACK interrupts disabled by client
+-       and there is an ACK packet received */
++    /*
++     * Check if delayed RX ACK interrupts disabled by client
++     * and there is an ACK packet received
++     */
+     if ((raid == 0) && (core->delayed_causes & E1000_ICR_ACK)) {
+         return false;
+     }
+@@ -2515,7 +2520,8 @@ e1000e_set_icr(E1000ECore *core, int index, uint32_t val)
+     }
+ 
+     icr = core->mac[ICR] & ~val;
+-    /* Windows driver expects that the "receive overrun" bit and other
++    /*
++     * Windows driver expects that the "receive overrun" bit and other
+      * ones to be cleared when the "Other" bit (#24) is cleared.
+      */
+     icr = (val & E1000_ICR_OTHER) ? (icr & ~E1000_ICR_OTHER_CAUSES) : icr;
+@@ -3269,10 +3275,12 @@ enum { E1000E_NWRITEOPS = ARRAY_SIZE(e1000e_macreg_writeops) };
+ 
+ enum { MAC_ACCESS_PARTIAL = 1 };
+ 
+-/* The array below combines alias offsets of the index values for the
++/*
++ * The array below combines alias offsets of the index values for the
+  * MAC registers that have aliases, with the indication of not fully
+  * implemented registers (lowest bit). This combination is possible
+- * because all of the offsets are even. */
++ * because all of the offsets are even.
++ */
+ static const uint16_t mac_reg_access[E1000E_MAC_SIZE] = {
+     /* Alias index offsets */
+     [FCRTL_A] = 0x07fe, [FCRTH_A] = 0x0802,
+@@ -3536,10 +3544,10 @@ void e1000e_core_pre_save(E1000ECore *core)
+     NetClientState *nc = qemu_get_queue(core->owner_nic);
+ 
+     /*
+-    * If link is down and auto-negotiation is supported and ongoing,
+-    * complete auto-negotiation immediately. This allows us to look
+-    * at MII_SR_AUTONEG_COMPLETE to infer link status on load.
+-    */
++     * If link is down and auto-negotiation is supported and ongoing,
++     * complete auto-negotiation immediately. This allows us to look
++     * at MII_SR_AUTONEG_COMPLETE to infer link status on load.
++     */
+     if (nc->link_down && e1000e_have_autoneg(core)) {
+         core->phy[0][PHY_STATUS] |= MII_SR_AUTONEG_COMPLETE;
+         e1000e_update_flowctl_status(core);
+@@ -3557,7 +3565,8 @@ e1000e_core_post_load(E1000ECore *core)
+ {
+     NetClientState *nc = qemu_get_queue(core->owner_nic);
+ 
+-    /* nc.link_down can't be migrated, so infer link_down according
++    /*
++     * nc.link_down can't be migrated, so infer link_down according
+      * to link status bit in core.mac[STATUS].
+      */
+     nc->link_down = (core->mac[STATUS] & E1000_STATUS_LU) == 0;
+diff --git a/hw/net/e1000e_core.h b/hw/net/e1000e_core.h
+index 4ddb4d2c39..b8f38c47a0 100644
+--- a/hw/net/e1000e_core.h
++++ b/hw/net/e1000e_core.h
+@@ -1,37 +1,37 @@
+ /*
+-* Core code for QEMU e1000e emulation
+-*
+-* Software developer's manuals:
+-* http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf
+-*
+-* Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
+-* Developed by Daynix Computing LTD (http://www.daynix.com)
+-*
+-* Authors:
+-* Dmitry Fleytman <dmitry@daynix.com>
+-* Leonid Bloch <leonid@daynix.com>
+-* Yan Vugenfirer <yan@daynix.com>
+-*
+-* Based on work done by:
+-* Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
+-* Copyright (c) 2008 Qumranet
+-* Based on work done by:
+-* Copyright (c) 2007 Dan Aloni
+-* Copyright (c) 2004 Antony T Curtis
+-*
+-* This library is free software; you can redistribute it and/or
+-* modify it under the terms of the GNU Lesser General Public
+-* License as published by the Free Software Foundation; either
+-* version 2.1 of the License, or (at your option) any later version.
+-*
+-* This library is distributed in the hope that it will be useful,
+-* but WITHOUT ANY WARRANTY; without even the implied warranty of
+-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-* Lesser General Public License for more details.
+-*
+-* You should have received a copy of the GNU Lesser General Public
+-* License along with this library; if not, see <http://www.gnu.org/licenses/>.
+-*/
++ * Core code for QEMU e1000e emulation
++ *
++ * Software developer's manuals:
++ * http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf
++ *
++ * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
++ * Developed by Daynix Computing LTD (http://www.daynix.com)
++ *
++ * Authors:
++ * Dmitry Fleytman <dmitry@daynix.com>
++ * Leonid Bloch <leonid@daynix.com>
++ * Yan Vugenfirer <yan@daynix.com>
++ *
++ * Based on work done by:
++ * Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
++ * Copyright (c) 2008 Qumranet
++ * Based on work done by:
++ * Copyright (c) 2007 Dan Aloni
++ * Copyright (c) 2004 Antony T Curtis
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
+ 
+ #ifndef HW_NET_E1000E_CORE_H
+ #define HW_NET_E1000E_CORE_H
+diff --git a/hw/net/e1000x_common.h b/hw/net/e1000x_common.h
+index b7742775c4..bc1ee75b04 100644
+--- a/hw/net/e1000x_common.h
++++ b/hw/net/e1000x_common.h
+@@ -1,26 +1,26 @@
+ /*
+-* QEMU e1000(e) emulation - shared code
+-*
+-* Copyright (c) 2008 Qumranet
+-*
+-* Based on work done by:
+-* Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
+-* Copyright (c) 2007 Dan Aloni
+-* Copyright (c) 2004 Antony T Curtis
+-*
+-* This library is free software; you can redistribute it and/or
+-* modify it under the terms of the GNU Lesser General Public
+-* License as published by the Free Software Foundation; either
+-* version 2.1 of the License, or (at your option) any later version.
+-*
+-* This library is distributed in the hope that it will be useful,
+-* but WITHOUT ANY WARRANTY; without even the implied warranty of
+-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-* Lesser General Public License for more details.
+-*
+-* You should have received a copy of the GNU Lesser General Public
+-* License along with this library; if not, see <http://www.gnu.org/licenses/>.
+-*/
++ * QEMU e1000(e) emulation - shared code
++ *
++ * Copyright (c) 2008 Qumranet
++ *
++ * Based on work done by:
++ * Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
++ * Copyright (c) 2007 Dan Aloni
++ * Copyright (c) 2004 Antony T Curtis
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
+ 
+ #ifndef HW_NET_E1000X_COMMON_H
+ #define HW_NET_E1000X_COMMON_H
 -- 
 2.39.0
 
