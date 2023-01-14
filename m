@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062F966A8E0
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 04:14:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72AAE66A915
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 05:03:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGWxz-0001u9-Mp; Fri, 13 Jan 2023 22:12:23 -0500
+	id 1pGXi8-0008Ln-HB; Fri, 13 Jan 2023 23:00:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGWxw-0001tj-5E
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 22:12:21 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pGXi2-0008Is-FY
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 22:59:58 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGWxu-0006Yd-2L
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 22:12:19 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- b9-20020a17090a7ac900b00226ef160dcaso24462636pjl.2
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 19:12:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pGXi0-0005HF-FF
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 22:59:58 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id q64so24253671pjq.4
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 19:59:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=t7bt1moGaa/vnBd5cAzAfOuxr+X1UUfglkpPnyEpm4w=;
- b=mefwG9gnXOpTurTFADgvQxF7TEAQR9MK0zcHKuDX/vR/OcyBDa2a+xSGxhPhfuexPf
- +8lwlm2t+asTzNr0lTZlaumavhPoKcDg7UHaTxj1L4uTlkGqT6KU45iaO3OPMw/Dezjk
- bVikELuX+U9korZLyC3YT8eF3xJZhmjmoqqGrMGNH+uLNdNhcbUVGGYAoEBYysNx9wGX
- QBO3brCieIR+GfSNToqBUCZ/FeWQ6gR2ZbziKXcpDovvaPB5+8SjoDfSOtdluwv6M32E
- f9j3l2nGAbOS0iOEEzl5ZiGTi8sa9R2ZI4PAaPedXzNgWNPLkE9flJY2tlOT0VArnoZ/
- uxIA==
+ bh=gUHUe9uYKAinK4NLL6n7/4jCeZmM+FnyeBkaoxjFHZE=;
+ b=nRKKLWNbJPn29hbKuN+S+UuXn9ouyUpO2YbwL05cE0r+AdkFhIjwDbrWy42VcimQQs
+ xeG46jPkkccht6IWumg6j3Qh7XGQJUUR3BLiLafTajAHyUPYbkYRqS/1zzZ6pRLapAd2
+ Nlb1sIR444O0GmtCVviZBivq2PSbu2u0A9uhmsyZamjQxI84gw/ZJAN2JMt40VJsYtbl
+ 2n9sJEt5N50/Ts+CAzQ6K/c9QFkpyazHPBDMmK37fLYMVlIBKyW4wF2UNhTEmgWhYRAt
+ kPYL5lB1IQEcnoihIQ5/61fTvvxTWgbyIdb8CbZJnt8wCu01yNKYF6xQQ+bp2BRPEIzN
+ rlWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=t7bt1moGaa/vnBd5cAzAfOuxr+X1UUfglkpPnyEpm4w=;
- b=VcLM7bK20Z+dgA8S/xxFGnPt91G8TBVyJ6Cb6aSFIXu32+vS1JspA13cK15tn9QT2N
- lDqM0RueRVKYpyAmvLECnQD45rlFRAMWtqqcR7ZrnIlXgctdjCIGCgIjd6Ix9r1AuH58
- zbFd1KcUvc7NiiEYLoGIbAdqRIwm0HjDem2RHp2m3IQTzfACgrMbipURyK4mOnzCMIC/
- 8vYcchZC/cN9ZtX29GNi4lqAUMlu10PlsYj/4i9PlEpCQXev+6d2EuLNYdId3T06VBMp
- ZI4Dv31bvgLM9Z7FeJeRJuIdjoe5lHjHRI4P+YCz7bp3riN1uv5qRHFguskUmZvepxhx
- J/SA==
-X-Gm-Message-State: AFqh2kpaPOstpCVts4N6KCGdP6nrz0sJNNkYa5w1IeB6Meph3W4HHoPh
- mv6/zSp31P9fPzL8uKa5NDIWlTB/0j+nGYuH
-X-Google-Smtp-Source: AMrXdXvVv/l2qU8HGTgPSKsfWBHeuhLKozMLzuKJKzIRSI00sQ8fi/fQ9P8i7YHsReibjHUbWsMHOg==
-X-Received: by 2002:a17:903:189:b0:189:ba1f:b178 with SMTP id
- z9-20020a170903018900b00189ba1fb178mr130219151plg.9.1673665936244; 
- Fri, 13 Jan 2023 19:12:16 -0800 (PST)
-Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
+ bh=gUHUe9uYKAinK4NLL6n7/4jCeZmM+FnyeBkaoxjFHZE=;
+ b=Zn3/LkebCys17yycuKgFhUWqK4NIQT41H4OJPTrg8d/nqwrBCad3FVMNVmS5GZhBEW
+ PTflZFgWmqUWPm9SfFY9RviTSDqFJBc8Ls5PrLKvwDO3/jmy1vQXRJvsQF7srrpdrwsk
+ 4xgm1mw7MyEqPibcNsPCXRqgQ1BkewyZtMiVypSOiHFS8MZ7fzfRBDRiz+DjmaekmdYB
+ 3XiAEaXlA6fY8Syv0ikBMdfxsSrTcOyRo4WrHMgt3RgfjTDiE2838eb2Fw0q4rUtnjKA
+ jLEKXiAP+rOs+te0G3EaQSLfJdvGgcajcpGQUXg/eVFmc+Qi8UQnwPuc+Rvmhfi889dE
+ erNg==
+X-Gm-Message-State: AFqh2kq8fULpPYAVnwoAaSxt3Sr5WWcofY8ril+V/a/u4TX4gvLCyClE
+ t2ql+o5E8s/tHJ+sELjN4AK94w==
+X-Google-Smtp-Source: AMrXdXvTiKyKaNvMsplL8dyJIGAIoTAF2UPe5vVe5i1VaAIY4P2Jl1+Xv3wwYTQjC7JtB2cRQHiLbg==
+X-Received: by 2002:a05:6a20:3b22:b0:b6:8317:219b with SMTP id
+ c34-20020a056a203b2200b000b68317219bmr7837463pzh.8.1673668791768; 
+ Fri, 13 Jan 2023 19:59:51 -0800 (PST)
+Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- u7-20020a17090341c700b00186e34524e3sm14880061ple.136.2023.01.13.19.12.14
+ g15-20020a170902868f00b00189fdadef9csm910894plo.107.2023.01.13.19.59.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 19:12:15 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: idan.horowitz@gmail.com,
-	qemu-arm@nongnu.org
-Subject: [PATCH] target/arm: Fix physical address resolution for MTE
-Date: Fri, 13 Jan 2023 17:12:13 -1000
-Message-Id: <20230114031213.2970349-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ Fri, 13 Jan 2023 19:59:51 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH 00/19] e1000x cleanups (preliminary for IGB)
+Date: Sat, 14 Jan 2023 12:59:00 +0900
+Message-Id: <20230114035919.35251-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,29 +91,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Conversion to probe_access_full missed applying the page offset.
+We are adding a new device named igb, yet another Intel NIC. As the new
+implementation derives from e1000e, overhaul e1000e implementation first.
+e1000 has many commonalities with e1000e so we also apply the corresponding
+changes to the device if possible.
 
-Fixes: b8967ddf ("target/arm: Use probe_access_full for MTE")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1416
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/mte_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This was spun off from:
+https://patchew.org/QEMU/20230112095743.20123-1-akihiko.odaki@daynix.com/
 
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index 86b3754838..98bcf59c22 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -142,7 +142,7 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
-      * Remember these values across the second lookup below,
-      * which may invalidate this pointer via tlb resize.
-      */
--    ptr_paddr = full->phys_addr;
-+    ptr_paddr = full->phys_addr | (ptr & ~TARGET_PAGE_MASK);
-     attrs = full->attrs;
-     full = NULL;
- 
+The changes from the series are as follows:
+- Fixed code alignment in e1000.c. (Philippe Mathieu-Daudé)
+- "e1000: Configure ResettableClass" and e1000e's corresponding patch was based
+  on the old version so they are now updated. (Philippe Mathieu-Daudé)
+- Added "e1000e: Remove extra pointer indirection"
+
+The series was composed on patches submitted earlier for e1000e. The below
+are links to Patchew:
+03: https://patchew.org/QEMU/20221103060103.83363-1-akihiko.odaki@daynix.com/
+04: https://patchew.org/QEMU/20221125135254.54760-1-akihiko.odaki@daynix.com/
+05: https://patchew.org/QEMU/20221119054913.103803-1-akihiko.odaki@daynix.com/
+06: https://patchew.org/QEMU/20221119055304.105500-1-akihiko.odaki@daynix.com/
+08 includes: https://patchew.org/QEMU/20221119060156.110010-1-akihiko.odaki@daynix.com/
+10: https://patchew.org/QEMU/20221125140105.55925-1-akihiko.odaki@daynix.com/
+11: https://patchew.org/QEMU/20221125142608.58919-1-akihiko.odaki@daynix.com/
+13: https://patchew.org/QEMU/20221201095351.63392-1-akihiko.odaki@daynix.com/
+14: https://patchew.org/QEMU/20221201100113.64387-1-akihiko.odaki@daynix.com/
+15: https://patchew.org/QEMU/20230107143328.102534-1-akihiko.odaki@daynix.com/
+
+Akihiko Odaki (19):
+  e1000e: Fix the code style
+  hw/net: Add more MII definitions
+  fsl_etsec: Use hw/net/mii.h
+  e1000: Use hw/net/mii.h
+  e1000: Mask registers when writing
+  e1000e: Mask registers when writing
+  e1000: Use more constant definitions
+  e1000e: Use more constant definitions
+  e1000: Use memcpy to intialize registers
+  e1000e: Use memcpy to intialize registers
+  e1000e: Remove pending interrupt flags
+  e1000e: Improve software reset
+  e1000: Configure ResettableClass
+  e1000e: Configure ResettableClass
+  e1000e: Introduce e1000_rx_desc_union
+  e1000e: Set MII_ANER_NWAY
+  e1000e: Remove extra pointer indirection
+  tests/qtest/e1000e-test: Fix the code style
+  tests/qtest/libqos/e1000e: Remove duplicate register definitions
+
+ hw/net/e1000.c              | 254 ++++++++----------
+ hw/net/e1000_regs.h         |  61 ++---
+ hw/net/e1000e.c             |  88 +++---
+ hw/net/e1000e_core.c        | 519 ++++++++++++++++++------------------
+ hw/net/e1000e_core.h        |  68 +++--
+ hw/net/e1000x_common.c      |  10 +-
+ hw/net/e1000x_common.h      |  54 ++--
+ hw/net/fsl_etsec/etsec.c    |  11 +-
+ hw/net/fsl_etsec/etsec.h    |  17 --
+ hw/net/fsl_etsec/miim.c     |   5 +-
+ hw/net/trace-events         |   4 +-
+ include/hw/net/mii.h        |  14 +-
+ tests/qtest/e1000e-test.c   |   2 +-
+ tests/qtest/libqos/e1000e.c |  26 +-
+ tests/qtest/libqos/e1000e.h |   5 -
+ 15 files changed, 541 insertions(+), 597 deletions(-)
+
 -- 
-2.34.1
+2.39.0
 
 
