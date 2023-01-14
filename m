@@ -2,77 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA8066AEBA
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 00:07:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A05F66AEC4
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 00:31:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGpb2-0002Qm-5B; Sat, 14 Jan 2023 18:05:56 -0500
+	id 1pGpyi-0006Tu-4E; Sat, 14 Jan 2023 18:30:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGpay-0002Pg-Vt
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 18:05:53 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGpax-0000WE-2q
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 18:05:52 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id p24so26849073plw.11
- for <qemu-devel@nongnu.org>; Sat, 14 Jan 2023 15:05:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=c/6qnLvEashDiP/jlq0RoDn2u7uOk63bf+cgKHgWoDI=;
- b=C6F8YNtn5cLyflRIJNM9IaayysIAuef+AOAtwprzqfs40BetGIcYMNYHdYPYSjA+Fv
- mQW1UKRX4nKDmMabjwWozyfYYJSROKc9/lf/SCp/pWNWsjSkPGNYbYx7HYmr/GFnLiFU
- YhHtXmST3UvCEIhx6MIekopFZjwVLWZkuSPCAsWHgB285OaTbK2OnjjWINVF5qqzYIyR
- jO6/Slv1y++2RQenhpMyYE4GtpWL8MxJFq1vufUzWfvkYXEWMIkY7eOc2KJKJVao0E4Y
- z1iISsozkemAfIMZvXtbuvbnYs8k5rIF0WcCbw4Vvg7uCIx0w8feD/Rqd0ie6aZeCJSM
- N/KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=c/6qnLvEashDiP/jlq0RoDn2u7uOk63bf+cgKHgWoDI=;
- b=xlBsQPeXxG1ks0VwZdFtrPaXeIvgja2cSWy3Y8PkwyMx9s5vJmJQQP5kJplZX+1bQD
- +3Oc7Cfs1zcw/2nT6Jf1U2nqb7+mCzXgeAL+fgCyORcWxuRuSVGXKYYO4MXaWbG7OFCY
- fMswe1Servgd9y9MeBlJcH3XeG+1RGWW2egHMamf2TnSyKyCn9RSXiZFHMXN3HO6h235
- q/tFfxKlko4yGE/so1VWK/upjNl+qNn4D0OEqUPdQzPavZTCKZqoAqa3K9xVDetpaCOB
- tM0O3tdN5Xc3VFUsTqPMUwTZ5j5fvFEkA7Yd0YmtGgGxZvqe+/Ag82uVJ4x0RpoE1gIl
- yV3g==
-X-Gm-Message-State: AFqh2koS2KDphAW/BcgTLQTZNzWfsVP6LanWB/xyYCyHFHJieZhcS0ko
- hZd+ObYQOE9X5fQmCwvyeZtMYmKoBG1J/CXe
-X-Google-Smtp-Source: AMrXdXsyAvTdm8YdORKQpd3NoK3CdtD+9hsaKpPlJghHPDd9ahwKLf3ywn9gsf3vxJCKvl85RE44yQ==
-X-Received: by 2002:a17:902:8686:b0:194:3fd8:f56a with SMTP id
- g6-20020a170902868600b001943fd8f56amr17936780plo.55.1673737549796; 
- Sat, 14 Jan 2023 15:05:49 -0800 (PST)
-Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id
- l10-20020a170903244a00b0019334350ce6sm12331390pls.244.2023.01.14.15.05.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Jan 2023 15:05:49 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com
-Subject: [PATCH 2/2] target/i386: Fix BEXTR instruction
-Date: Sat, 14 Jan 2023 13:05:42 -1000
-Message-Id: <20230114230542.3116013-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230114230542.3116013-1-richard.henderson@linaro.org>
-References: <20230114230542.3116013-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pGpye-0006TZ-IG
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 18:30:22 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pGpyd-0003vH-0Y
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 18:30:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=DQmezFUw/eYIKsVBJnun/bpKJQ/etb/fuXFA5dwN1yg=; b=hjkHiBA5fM4bP9eg4Oz5JuKpKW
+ 2bmVVKnSO/ahrVIeIzm5l/nhbo/E6b0j4D/vQKaSe8ndwYLwFk1if5snOrG9Q9LKtEmb9zSM2Ku6C
+ Q6NYL5g3o0Rg2ZuZIQD+SUb6eZUKMHWLYR4MjRUF2m8v0yO4Y3HNwrE/RkW++CYXVN9HjiMyb1UXV
+ Ej2y1K6GHTvzaXF6ggcj3VaRMQOqu/ta159lACbe0HW5e6cTvMn2I3zLqVN9+UpL5zKQe5yCs7mNm
+ k2IJ/6nSWGLjPQJ5HhLfRxQ8hOZEKAoikzn7EyNheYcvy5QeOB5YFl2QUbaxUZw2BmXoiYozPApmQ
+ eR5s1Sau3spfIkqiqY/+Vz2S39dhsdXEswmEL+bdg+ibiqrcqC/cArjEkq2UsfDQauFxZa7xDTSiR
+ CHmpiMsyMa/Dt3ZQ4Z0F8Lx8lTR2dRv3f7rTtO5cUVHl4bbvM49Vk7CiaB6x6sxNwUPQ5vcMSj0+V
+ mTex1yju9hoq78JSSfn1r/6ECt6RSqbHBZNeVXToet4nNNAPjyDAiVPQpRFYVg3UIOtECJActyAe/
+ JLYBm9EulLtY3nP6yDHbgwqFQd6jM1LyMc6SQbIL6qVkwi9mR1sjs6ahhJiIt7o05SBiPkHSV2MDT
+ os7rdo/UQH/Q2xWEBtr01OJGPLkb0NXmsTZc6PZuU=;
+Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc] (helo=kentang.home)
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pGpy7-0002Ab-KB; Sat, 14 Jan 2023 23:29:51 +0000
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: laurent@vivier.eu,
+	qemu-devel@nongnu.org
+Date: Sat, 14 Jan 2023 23:29:55 +0000
+Message-Id: <20230114232959.118224-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH v3 0/4] target/m68k: fix FPSR quotient byte for fmod and frem
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,93 +74,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There were two problems here: not limiting the input to operand bits,
-and not correctly handling large extraction length.
+This series is taken from my MacOS branch and fixes setting the FPSR quotient
+byte for the fmod and frem instructions which was causing the MacOS _Pack5
+SANE trancendentals implementation to return incorrect values for sin() and
+cos().
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1372
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tests/tcg/i386/test-i386-bmi2.c | 12 ++++++++++++
- target/i386/tcg/emit.c.inc      | 22 +++++++++++-----------
- 2 files changed, 23 insertions(+), 11 deletions(-)
+The first 2 patches update make_quotient() to take separate sign and value
+parameters so that it can be used for both floatx80_modrem() and a manual
+division calculation, whilst the last 2 patches fix the value of the quotient
+byte for both the fmod and frem instructions. This series has been validated
+against the fmod and frem results using a custom test program which has been
+run on a real 68040 Mac.
 
-diff --git a/tests/tcg/i386/test-i386-bmi2.c b/tests/tcg/i386/test-i386-bmi2.c
-index 3c3ef85513..982d4abda4 100644
---- a/tests/tcg/i386/test-i386-bmi2.c
-+++ b/tests/tcg/i386/test-i386-bmi2.c
-@@ -99,6 +99,9 @@ int main(int argc, char *argv[]) {
-     result = bextrq(mask, 0x10f8);
-     assert(result == 0);
- 
-+    result = bextrq(0xfedcba9876543210ull, 0x7f00);
-+    assert(result == 0xfedcba9876543210ull);
-+
-     result = blsiq(0x30);
-     assert(result == 0x10);
- 
-@@ -164,6 +167,15 @@ int main(int argc, char *argv[]) {
-     result = bextrl(mask, 0x1038);
-     assert(result == 0);
- 
-+    result = bextrl((reg_t)0x8f635a775ad3b9b4ull, 0x3018);
-+    assert(result == 0x5a);
-+
-+    result = bextrl((reg_t)0xfedcba9876543210ull, 0x7f00);
-+    assert(result == 0x76543210u);
-+
-+    result = bextrl(-1, 0);
-+    assert(result == 0);
-+
-     result = blsil(0xffff);
-     assert(result == 1);
- 
-diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
-index 9d610de8c2..4d7702c106 100644
---- a/target/i386/tcg/emit.c.inc
-+++ b/target/i386/tcg/emit.c.inc
-@@ -1078,30 +1078,30 @@ static void gen_ANDN(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
- static void gen_BEXTR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
- {
-     MemOp ot = decode->op[0].ot;
--    TCGv bound, zero;
-+    TCGv bound = tcg_constant_tl(ot == MO_64 ? 63 : 31);
-+    TCGv zero = tcg_constant_tl(0);
-+    TCGv mone = tcg_constant_tl(-1);
- 
-     /*
-      * Extract START, and shift the operand.
-      * Shifts larger than operand size get zeros.
-      */
-     tcg_gen_ext8u_tl(s->A0, s->T1);
-+    if (TARGET_LONG_BITS == 64 && ot == MO_32) {
-+        tcg_gen_ext32u_tl(s->T0, s->T0);
-+    }
-     tcg_gen_shr_tl(s->T0, s->T0, s->A0);
- 
--    bound = tcg_constant_tl(ot == MO_64 ? 63 : 31);
--    zero = tcg_constant_tl(0);
-     tcg_gen_movcond_tl(TCG_COND_LEU, s->T0, s->A0, bound, s->T0, zero);
- 
-     /*
--     * Extract the LEN into a mask.  Lengths larger than
--     * operand size get all ones.
-+     * Extract the LEN into an inverse mask.  Lengths larger than
-+     * operand size get all zeros, length 0 gets all ones.
-      */
-     tcg_gen_extract_tl(s->A0, s->T1, 8, 8);
--    tcg_gen_movcond_tl(TCG_COND_LEU, s->A0, s->A0, bound, s->A0, bound);
--
--    tcg_gen_movi_tl(s->T1, 1);
--    tcg_gen_shl_tl(s->T1, s->T1, s->A0);
--    tcg_gen_subi_tl(s->T1, s->T1, 1);
--    tcg_gen_and_tl(s->T0, s->T0, s->T1);
-+    tcg_gen_shl_tl(s->T1, mone, s->A0);
-+    tcg_gen_movcond_tl(TCG_COND_LEU, s->T1, s->A0, bound, s->T1, zero);
-+    tcg_gen_andc_tl(s->T0, s->T0, s->T1);
- 
-     gen_op_update1_cc(s);
-     set_cc_op(s, CC_OP_LOGICB + ot);
+Many thanks to the mac68k folk for their help debugging this, in particular
+SolraBizna for narrowing down the issue to the transcendentals and writing
+the custom test program, and also treellama and Cat7 for running the test
+program on real hardware and uploading the generated results file for
+further analysis.
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+v3:
+- Drop R-B tags from patch 4
+- Rework patch 4 as suggested by Richard
+
+v2:
+- Add Laurent's R-B tags to patches 1, 3 and 4
+- Rework patch 2 as suggested by Richard
+
+
+Mark Cave-Ayland (4):
+  target/m68k: pass quotient directly into make_quotient()
+  target/m68k: pass sign directly into make_quotient()
+  target/m68k: fix FPSR quotient byte for fmod instruction
+  target/m68k: fix FPSR quotient byte for frem instruction
+
+ target/m68k/fpu_helper.c | 49 +++++++++++++++++++++++++---------------
+ 1 file changed, 31 insertions(+), 18 deletions(-)
+
 -- 
-2.34.1
+2.30.2
 
 
