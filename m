@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676DE66AE4D
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 23:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA9766AE58
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 23:49:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGp0T-00015O-K7; Sat, 14 Jan 2023 17:28:09 -0500
+	id 1pGpJU-0008KN-Bk; Sat, 14 Jan 2023 17:47:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pGp0O-00013D-7O
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 17:28:04 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pGp0M-0003hR-Gr
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 17:28:03 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id u9so60069752ejo.0
- for <qemu-devel@nongnu.org>; Sat, 14 Jan 2023 14:28:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wzORsWbTapB5OlO96gO8KniljyDWuA5amvSZ6XptoxM=;
- b=S7Q/rT7fuPJSYSjcqJ+DRN5JPyEIzaNQkLUuPRCfOpp9FnlgNvAQAzntwSu/+HdGUy
- p9hYDTuU+NlFbfrPLnNJU/hsnJMKaLUW918T36xYAEcOEr5HkWC3EKuC1DZTuayQVkkX
- hoJcuFkxH5QtAW+PKBfYBGO4EgIVfJPvJWuQd7i/Rg5zsFNLiSxBHzDDzsSkNyHvxQhW
- yffD1Xkkgc59wLagAU9U7tq4HkAHQsam9zMBbS64l2xBKUPEW2EgfidhA0OcxwuJRZeR
- 2vxHq7caHoFzKjR5OE9u2TTigd8tUVviEXpcBgr71hMI21OiTv/RVoWzlaCHeU3MhcUb
- aI+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wzORsWbTapB5OlO96gO8KniljyDWuA5amvSZ6XptoxM=;
- b=NBuCPIienpoyWmhrdRQkaolt88K7ei1dbKe5jwokUNsRkpaXlHjkAgXI8eQFALK80h
- lfAABbhZqJ0qzwHfhBM29uvF9rkYvFvYhspDSsvM8PgB7fjav/yFxT+e78ymdbqAdD5k
- LXeGC9yvQnUF6a5djYM0SftYVyhPmVl3tutj/SzQpvUejg0AE1dZpdgaWbt2sjqumPgN
- DoaGy+99CS04D5l1M1ZXZS+H0sSwGvxstPa0lTnEFLYpS+NULPJ3VSmTNVY9wjCPTE7Z
- qmxi4j0B65bDbE7yjktrBg+K3XZuELCW35/r+CBhfO8Q+5lqTy2IG1zFPCxtFyjXXTo+
- +KlA==
-X-Gm-Message-State: AFqh2krlyRMSAPym+5ppudLsPUB9/P1f3HR6+eAz02ZXskkOewA42yAl
- eFYBXPTsofzaMJNLT67cE/0Ey0VeeoE=
-X-Google-Smtp-Source: AMrXdXu/jFLdpy0FM7Mnl3qi7/gI7/Cu6CrYQBpV4hzU+uQI6eXeDdAooI/Uzp4ZRgBsUxBUbKkieg==
-X-Received: by 2002:a17:906:524b:b0:7c1:5098:907f with SMTP id
- y11-20020a170906524b00b007c15098907fmr73163244ejm.61.1673735281513; 
- Sat, 14 Jan 2023 14:28:01 -0800 (PST)
-Received: from Provence.localdomain
- (dynamic-077-013-123-004.77.13.pool.telefonica.de. [77.13.123.4])
- by smtp.gmail.com with ESMTPSA id
- og5-20020a1709071dc500b0084d420503a3sm8324840ejc.178.2023.01.14.14.28.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Jan 2023 14:28:01 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Markus Armbruster <armbru@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 7/7] hw/isa/isa-bus: Remove now unused isa_build_aml()
-Date: Sat, 14 Jan 2023 23:27:38 +0100
-Message-Id: <20230114222738.282478-8-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230114222738.282478-1-shentey@gmail.com>
-References: <20230114222738.282478-1-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <kallisti5@unixzen.com>)
+ id 1pGpJR-0008K0-Uz
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 17:47:45 -0500
+Received: from [2001:19f0:6401:8d3:5400:1ff:fe4f:75e6]
+ (helo=mx.dal1.terarocket.io) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <kallisti5@unixzen.com>) id 1pGpJP-0006Ws-52
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 17:47:45 -0500
+Received: by mx.dal1.terarocket.io (Postfix, from userid 1001)
+ id 7C65A5DD0C; Sat, 14 Jan 2023 22:47:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx.dal1.terarocket.io 7C65A5DD0C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=unixzen.com;
+ s=default; t=1673736458;
+ bh=Hi0cM3/43/DVXvXvlW3YugwIC/83McxDC+TZqmVYZ9E=;
+ h=Date:From:Subject:To:Cc:In-Reply-To:References:From;
+ b=HkbjsPYnHZKLcfcfSHhSZ0qgp+9tUy0mPFJ6k58RVlwxguVKIHk9McmTU40u2IwDT
+ aRboU1zGIXzZC1YPr+MzZ3U83KAH8Ou1nYcoQVZMTMl379pIlO021179RuBbbR+qWx
+ YfGZ/SGkdcP8EKb28vBGl3oLDDf4BUw/1Hm9s4Vo=
+Received: from mx.dal1.terarocket.io (localhost [IPv6:::1])
+ by mx.dal1.terarocket.io (Postfix) with ESMTPSA id C1AA05DCFA;
+ Sat, 14 Jan 2023 22:47:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx.dal1.terarocket.io C1AA05DCFA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=unixzen.com;
+ s=default; t=1673736455;
+ bh=Hi0cM3/43/DVXvXvlW3YugwIC/83McxDC+TZqmVYZ9E=;
+ h=Date:From:Subject:To:Cc:In-Reply-To:References:From;
+ b=IkTrSFRRrKoXtnQ/79G9mHjZS48VcDdBV5YMEGZ+HPOufQ/6MYE5MGOw7lK+w32WU
+ MCO9pOQvu1QzV8FMUhfZjXES3BBDvl230OMF/YYKuupKICfG+16cA0olsJ6Pp/LKBS
+ VIfCZ8B4ccBT1wuwJS/4PLXsBaR3lJW3Gd/Mxamw=
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Sat, 14 Jan 2023 22:47:35 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: RainLoop/1.13.0
+From: "Alexander von Gluck IV" <kallisti5@unixzen.com>
+Message-ID: <ff214f477579f8e588ba42745c08e41d@unixzen.com>
+Subject: Re: [PATCH] tests/vm: Update haiku test vm to R1/Beta3
+To: "=?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?=" <philmd@linaro.org>,
+ "Thomas Huth" <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org
+In-Reply-To: <27512349-0007-11bd-07fb-5fd8c3dae879@linaro.org>
+References: <27512349-0007-11bd-07fb-5fd8c3dae879@linaro.org>
+ <20220216154208.2985103-1-kallisti5@unixzen.com>
+ <2d548e30-11eb-6f64-b082-25e5ff546309@redhat.com>
+ <df446205-d3bc-5c1c-eb3c-bb475590e713@linaro.org>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for
+ 2001:19f0:6401:8d3:5400:1ff:fe4f:75e6 (failed)
+Received-SPF: permerror client-ip=2001:19f0:6401:8d3:5400:1ff:fe4f:75e6;
+ envelope-from=kallisti5@unixzen.com; helo=mx.dal1.terarocket.io
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,53 +79,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- include/hw/isa/isa.h |  1 -
- hw/isa/isa-bus.c     | 10 ----------
- 2 files changed, 11 deletions(-)
-
-diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
-index 6c8a8a92cb..25acd5c34c 100644
---- a/include/hw/isa/isa.h
-+++ b/include/hw/isa/isa.h
-@@ -86,7 +86,6 @@ bool isa_realize_and_unref(ISADevice *dev, ISABus *bus, Error **errp);
- ISADevice *isa_create_simple(ISABus *bus, const char *name);
- 
- ISADevice *isa_vga_init(ISABus *bus);
--void isa_build_aml(ISABus *bus, Aml *scope);
- 
- /**
-  * isa_register_ioport: Install an I/O port region on the ISA bus.
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 1bee1a47f1..f155b80010 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -24,7 +24,6 @@
- #include "hw/sysbus.h"
- #include "sysemu/sysemu.h"
- #include "hw/isa/isa.h"
--#include "hw/acpi/acpi_aml_interface.h"
- 
- static ISABus *isabus;
- 
-@@ -188,15 +187,6 @@ ISADevice *isa_vga_init(ISABus *bus)
-     }
- }
- 
--void isa_build_aml(ISABus *bus, Aml *scope)
--{
--    BusChild *kid;
--
--    QTAILQ_FOREACH(kid, &bus->parent_obj.children, sibling) {
--        call_dev_aml_func(DEVICE(kid->child), scope);
--    }
--}
--
- static void isabus_bridge_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
--- 
-2.39.0
-
+January 13, 2023 7:30 AM, "Philippe Mathieu-Daud=C3=A9" <philmd@linaro.or=
+g> wrote:=0A=0A> On 13/1/23 12:05, Philippe Mathieu-Daud=C3=A9 wrote:=0A>=
+ =0A>> Per https://www.haiku-os.org/guides/daily-tasks/updating-system we=
+=0A>> can keep the box image in sync with its repo by using:=0A>> # pkgma=
+n add https://eu.hpkg.haiku-os.org/haiku/r1beta3/$(getarch)/current=0A>> =
+I will try this:=0A>> -- >8 --=0A>> diff --git a/tests/vm/haiku.x86_64 b/=
+tests/vm/haiku.x86_64=0A>> index 29668bc272..9cbb46cfc1 100755=0A>> --- a=
+/tests/vm/haiku.x86_64=0A>> +++ b/tests/vm/haiku.x86_64=0A>> @@ -112,2 +1=
+12,4 @@ class HaikuVM(basevm.BaseVM):=0A>> # Install packages=0A>> +     =
+   self.ssh_root("pkgman add > https://eu.hpkg.haiku-os.org/haiku/r1beta3=
+/x86_64/current")=0A>> +        self.ssh_root("pkgman full-sync")=0A>> se=
+lf.ssh_root("pkgman install -y %s" % " > ".join(self.requirements))=0A>> =
+---=0A> =0A> OS installed but is not usable...:=0A> =0A> runtime_loader: =
+/boot/system/lib/libncurses.so.6.3.0: Could not resolve symbol '__ctype_b=
+_loc'=0A> resolve symbol "__ctype_b_loc" returned: -2147478780=0A> runtim=
+e_loader: /boot/system/lib/libncurses.so.6.3.0: Troubles relocating: Symb=
+ol not found=0A> Connection to 127.0.0.1 closed.=0A=0AOk. I updated the v=
+agrant image to the latest release.  r1beta2 is getting a bit too old, an=
+d=0Ar1beta3 instances should really be upgraded to r1beta4.=0A=0Ahttps://=
+app.vagrantup.com/haiku-os/boxes/r1beta4-x86_64=0A=0ALet me know if this =
+works for you.  Don't add the full-sync stuff. Isn't needed from the=0Ar1=
+beta4 base.=0A=0A -- Alex
 
