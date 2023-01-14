@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4F466A91F
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 05:10:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9604266A933
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 05:24:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGXjf-0000z9-NG; Fri, 13 Jan 2023 23:01:39 -0500
+	id 1pGXjd-0000w6-G4; Fri, 13 Jan 2023 23:01:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pGXig-0000Li-FZ
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:40 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ id 1pGXik-0000N2-Ey
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:42 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pGXid-0005cJ-Ok
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:37 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id k12so3237294plk.0
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 20:00:35 -0800 (PST)
+ id 1pGXig-0005fB-8F
+ for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:00:41 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ s13-20020a17090a6e4d00b0022900843652so7314309pjm.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 20:00:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VIzIuXnMGDhlgw30ccWTCAJ4Ut4mVGKZXpj9z5H7uiA=;
- b=IaKr9fRkrocVwCKUrybjQfz66Cs4oMWztM3YBfKeSl4D6+uMuKrRoa5RzlvTG2rWbN
- uq9pkkigaxNtJOwXbo7B7O3E4YiLzpNsDIclZnqOSAlraCkcuEauKqDA18M3JGW/uJNX
- Bcz0yk6AX1i85DlOCBQeD+MKizb3pK3JVLfUqwmbXLvwXtd4YrzMc769E8Yt8hwfWU8i
- TtNgCpF0qlIpzJWvwfQVqgKPR4pjx0l+6qFXk/DWWJ8PKWLq0ylfmjcs2Zoo+fmGQauZ
- BbEsK4xZZcr2ZyppgqKXMNUNBe1fxDiv+o6OcrYHCqyMixBtqRBMMJqiHN1HbUS4rrAZ
- +rBA==
+ bh=stqqQOmPDTeUlCDCM5EqHgRPUm+ihzUsJ5RvofEjHxU=;
+ b=ejr6w2VgsROmAAfcbdBWouM8okZfpt6zu0vaSV3ZZcixU84+knPaL6iCXnhomMsszr
+ XfEaP3Ti5UqeieSy6mAchZsjFERefybny3L7iJ2kzvhHHb5LwP5EGDreWc9xP2jPjVZu
+ PDZ1Af0J7uUMZvKU/r/5Eo78Co9vUnDuMN/8+uglJC5zb75mU7abfMl8oDDSU6a+wh8o
+ gtDYbSpflSQuW1Vbepg4mzL4437L+HJA0MgsDtg3BN1ojEShF4aOyjre30exGEV5sFm0
+ tX7HFKkvLfwkBt9oZ8v8b1OAtr95aVS7DY07K+RRNvY+aQGkEtATUmRsXaiyp8cXtUFD
+ 84MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VIzIuXnMGDhlgw30ccWTCAJ4Ut4mVGKZXpj9z5H7uiA=;
- b=e/DIxk0wd5rAu23MKoCJM1QHHbzfK7f4C9+WOCGY/97jE2TMQ44Q/gqhZxxdmCYgi+
- KigiOss5Zg9qQZ3JNr0uNSZnyYorfpm3uJufwCSXkpsEVcAuZKh3kFEmS5LWUgfenpK5
- pnFpIVOaqctZl8xLIN3elIr6aL2SXHJIrCpRh/FnpHHQlJzxFlofvGEoMdKnNNBwLbk3
- 4yCzkmzXShPgNNDwpCPS3nqMipGiwPTXp5FdnK6JsnVKI0blE6irJKQTqNV1LCfsF4nU
- Xr1iUDs8V0/ASRX2sFBnUyiDDBTriIftuVICsFwExbtuqYH+HOvDC/e33h/OQrfLlw+l
- XvcQ==
-X-Gm-Message-State: AFqh2kqNxp7Zh7lT4lIOM2W12Qlm02ZpQeNWqFtujYj21cwfwvGpZHuW
- gPpm5faId+AzNRHjOw+TM2ot8A==
-X-Google-Smtp-Source: AMrXdXuPRYHXszABEqaTndI87yyAAhDFPaT4mpokbvLe63X3QI63Qk9F9N3048AEZCwz1D9PD0DYRg==
-X-Received: by 2002:a17:902:8643:b0:194:6f0e:987 with SMTP id
- y3-20020a170902864300b001946f0e0987mr4709372plt.61.1673668835156; 
- Fri, 13 Jan 2023 20:00:35 -0800 (PST)
+ bh=stqqQOmPDTeUlCDCM5EqHgRPUm+ihzUsJ5RvofEjHxU=;
+ b=WQ0PMYbBGmjlEVHDo8Ugnd/ajyE1HZssnatsBiBedlhxu1OUN8JxURvvJ7fNX0WDHa
+ dVByRueTzIzjr9sZ3ZOtBNwgt0OglM+Q0oKoZWmaXeSm+BCDphucNbXC05TPY/GbUlPL
+ OB+YZET4nRfgZ95UUdFOyvd8MtFA/5Vbr4u/N1OSFxd1Xc/chNngkyANacjuuBsZYC81
+ xn5ZtDY6RT4VVSmT3sUtL5kTkFsLk//zjp5UGolY6e8Gtv0YdsuTifzeipsV4Q+wCm51
+ uQUeTrwzyImKQ2cYt8vGLujxIKk6w53Cmg9bLKzUPBWHQHAR4TUqNb9VSCLHt9zMT0Ek
+ P8Sg==
+X-Gm-Message-State: AFqh2kpbYdVGK+Bm+X9KNY5E2PXPYX0zn7aoPdsM+Z/RuMXoZpugHhvK
+ IP7mUdRrtfSo9kaedoXn3Sfqln3Iw7q7mfkH
+X-Google-Smtp-Source: AMrXdXufsAR5Ta4GN4hdkH5SjKMQl12HnSkXsPg/Ty+nR1rIMUVmzXhZOQZTrIn+juSxs3+49CRYhg==
+X-Received: by 2002:a17:902:784a:b0:193:3354:1c22 with SMTP id
+ e10-20020a170902784a00b0019333541c22mr12547121pln.39.1673668837581; 
+ Fri, 13 Jan 2023 20:00:37 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- g15-20020a170902868f00b00189fdadef9csm910894plo.107.2023.01.13.20.00.33
+ g15-20020a170902868f00b00189fdadef9csm910894plo.107.2023.01.13.20.00.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 20:00:34 -0800 (PST)
+ Fri, 13 Jan 2023 20:00:37 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -63,23 +64,24 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 18/19] tests/qtest/e1000e-test: Fix the code style
-Date: Sat, 14 Jan 2023 12:59:18 +0900
-Message-Id: <20230114035919.35251-19-akihiko.odaki@daynix.com>
+Subject: [PATCH 19/19] tests/qtest/libqos/e1000e: Remove duplicate register
+ definitions
+Date: Sat, 14 Jan 2023 12:59:19 +0900
+Message-Id: <20230114035919.35251-20-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230114035919.35251-1-akihiko.odaki@daynix.com>
 References: <20230114035919.35251-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62a;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,43 +97,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-igb implementation first starts off by copying e1000e code. Correct the
-code style before that.
+The register definitions in tests/qtest/libqos/e1000e.h had names
+different from hw/net/e1000_regs.h, which made it hard to understand
+what test codes corresponds to the implementation. Use
+hw/net/e1000_regs.h from tests/qtest/libqos/e1000e.c to remove
+these duplications.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- tests/qtest/e1000e-test.c   | 2 +-
- tests/qtest/libqos/e1000e.c | 6 ++++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ tests/qtest/libqos/e1000e.c | 20 ++++++++++----------
+ tests/qtest/libqos/e1000e.h |  5 -----
+ 2 files changed, 10 insertions(+), 15 deletions(-)
 
-diff --git a/tests/qtest/e1000e-test.c b/tests/qtest/e1000e-test.c
-index 3fc92046be..b63a4d3c91 100644
---- a/tests/qtest/e1000e-test.c
-+++ b/tests/qtest/e1000e-test.c
-@@ -1,4 +1,4 @@
-- /*
-+/*
-  * QTest testcase for e1000e NIC
-  *
-  * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
 diff --git a/tests/qtest/libqos/e1000e.c b/tests/qtest/libqos/e1000e.c
-index 37c794b130..b90eb2d5e0 100644
+index b90eb2d5e0..28fb3052aa 100644
 --- a/tests/qtest/libqos/e1000e.c
 +++ b/tests/qtest/libqos/e1000e.c
-@@ -222,8 +222,10 @@ static void e1000e_register_nodes(void)
-         .device_id = E1000_DEV_ID_82574L,
-     };
+@@ -51,13 +51,13 @@ static uint32_t e1000e_macreg_read(QE1000E *d, uint32_t reg)
+ void e1000e_tx_ring_push(QE1000E *d, void *descr)
+ {
+     QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
+-    uint32_t tail = e1000e_macreg_read(d, E1000E_TDT);
+-    uint32_t len = e1000e_macreg_read(d, E1000E_TDLEN) / E1000_RING_DESC_LEN;
++    uint32_t tail = e1000e_macreg_read(d, E1000_TDT);
++    uint32_t len = e1000e_macreg_read(d, E1000_TDLEN) / E1000_RING_DESC_LEN;
  
--    /* FIXME: every test using this node needs to setup a -netdev socket,id=hs0
--     * otherwise QEMU is not going to start */
-+    /*
-+     * FIXME: every test using this node needs to setup a -netdev socket,id=hs0
-+     * otherwise QEMU is not going to start
-+     */
-     QOSGraphEdgeOptions opts = {
-         .extra_device_opts = "netdev=hs0",
-     };
+     qtest_memwrite(d_pci->pci_dev.bus->qts,
+                    d->tx_ring + tail * E1000_RING_DESC_LEN,
+                    descr, E1000_RING_DESC_LEN);
+-    e1000e_macreg_write(d, E1000E_TDT, (tail + 1) % len);
++    e1000e_macreg_write(d, E1000_TDT, (tail + 1) % len);
+ 
+     /* Read WB data for the packet transmitted */
+     qtest_memread(d_pci->pci_dev.bus->qts,
+@@ -68,13 +68,13 @@ void e1000e_tx_ring_push(QE1000E *d, void *descr)
+ void e1000e_rx_ring_push(QE1000E *d, void *descr)
+ {
+     QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
+-    uint32_t tail = e1000e_macreg_read(d, E1000E_RDT);
+-    uint32_t len = e1000e_macreg_read(d, E1000E_RDLEN) / E1000_RING_DESC_LEN;
++    uint32_t tail = e1000e_macreg_read(d, E1000_RDT);
++    uint32_t len = e1000e_macreg_read(d, E1000_RDLEN) / E1000_RING_DESC_LEN;
+ 
+     qtest_memwrite(d_pci->pci_dev.bus->qts,
+                    d->rx_ring + tail * E1000_RING_DESC_LEN,
+                    descr, E1000_RING_DESC_LEN);
+-    e1000e_macreg_write(d, E1000E_RDT, (tail + 1) % len);
++    e1000e_macreg_write(d, E1000_RDT, (tail + 1) % len);
+ 
+     /* Read WB data for the packet received */
+     qtest_memread(d_pci->pci_dev.bus->qts,
+@@ -145,8 +145,8 @@ static void e1000e_pci_start_hw(QOSGraphObject *obj)
+                            (uint32_t) d->e1000e.tx_ring);
+     e1000e_macreg_write(&d->e1000e, E1000_TDBAH,
+                            (uint32_t) (d->e1000e.tx_ring >> 32));
+-    e1000e_macreg_write(&d->e1000e, E1000E_TDLEN, E1000E_RING_LEN);
+-    e1000e_macreg_write(&d->e1000e, E1000E_TDT, 0);
++    e1000e_macreg_write(&d->e1000e, E1000_TDLEN, E1000E_RING_LEN);
++    e1000e_macreg_write(&d->e1000e, E1000_TDT, 0);
+     e1000e_macreg_write(&d->e1000e, E1000_TDH, 0);
+ 
+     /* Enable transmit */
+@@ -156,8 +156,8 @@ static void e1000e_pci_start_hw(QOSGraphObject *obj)
+                            (uint32_t)d->e1000e.rx_ring);
+     e1000e_macreg_write(&d->e1000e, E1000_RDBAH,
+                            (uint32_t)(d->e1000e.rx_ring >> 32));
+-    e1000e_macreg_write(&d->e1000e, E1000E_RDLEN, E1000E_RING_LEN);
+-    e1000e_macreg_write(&d->e1000e, E1000E_RDT, 0);
++    e1000e_macreg_write(&d->e1000e, E1000_RDLEN, E1000E_RING_LEN);
++    e1000e_macreg_write(&d->e1000e, E1000_RDT, 0);
+     e1000e_macreg_write(&d->e1000e, E1000_RDH, 0);
+ 
+     /* Enable receive */
+diff --git a/tests/qtest/libqos/e1000e.h b/tests/qtest/libqos/e1000e.h
+index 3bf285af42..091ce139da 100644
+--- a/tests/qtest/libqos/e1000e.h
++++ b/tests/qtest/libqos/e1000e.h
+@@ -25,11 +25,6 @@
+ #define E1000E_RX0_MSG_ID           (0)
+ #define E1000E_TX0_MSG_ID           (1)
+ 
+-#define E1000E_TDLEN    (0x3808)
+-#define E1000E_TDT      (0x3818)
+-#define E1000E_RDLEN    (0x2808)
+-#define E1000E_RDT      (0x2818)
+-
+ typedef struct QE1000E QE1000E;
+ typedef struct QE1000E_PCI QE1000E_PCI;
+ 
 -- 
 2.39.0
 
