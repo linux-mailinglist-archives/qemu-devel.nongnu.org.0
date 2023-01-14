@@ -2,94 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F2066A93C
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 05:32:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D8666A962
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Jan 2023 06:25:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGXtE-0006cA-Gj; Fri, 13 Jan 2023 23:11:32 -0500
+	id 1pGZ0v-0002u4-Ru; Sat, 14 Jan 2023 00:23:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pGXtC-0006bd-SC
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:11:30 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pGZ0t-0002tH-6T
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 00:23:31 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pGXtB-0007Zi-1W
- for qemu-devel@nongnu.org; Fri, 13 Jan 2023 23:11:30 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- u1-20020a17090a450100b0022936a63a21so2398261pjg.4
- for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 20:11:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rli4HZEvXsso9F4dz6jCJp4UP5tc1yAU04PdvBH668o=;
- b=zO3PoP412N6wIwmqp+r3OBhLJ0aXq0NE5qjFIZKHdzSHcLMb9KJN8BZhRuDgI65ckd
- YaPEEtVRhQx+Cu+drfgJ9zmmL5N2kT7mXsdBfsU+1GDeoP76hVRt6Zlyage/Oa9JFZsb
- gpzCRw15nLwH47CmKwqyiyhEGvyvWRm/blBKb/gNl+qBWqF8IIOynnnuO5pfFIUNt2fm
- SuauIX12gVB87OCrXf5uejsQKcMBFlMhaF3YZQgtip+V5eI9jt9XFFOTLbjrsIceQiOf
- 38mZrX5EymSTohWp1nQuLtldhY3JJSKrF659kQysSnYYnv891QeJ/OT7kvg7evss9fg3
- ldTA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pGZ0r-0002vW-DC
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 00:23:30 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id o18so3196140pji.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Jan 2023 21:23:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HJS9xVv4/J7tNPXn+GQ+26s6z9YeJxqfTgmPHKGAKoc=;
+ b=HfXs/+GLH93iFYMGOaHO50H1DJTnlLpxu7kdWGMqiAYJ5YAu5pjGhBmmZT3gSGTIyH
+ X0A6jY7BecSkgJ2lSI3Ry0MRgrnHuxV5bbvVs/K482DZGXrAt/yXgLlEO5kvzBvbXCUz
+ GbEP7/FWE2VIVn0NMsKfD1jpkMk5voKpBrvv+14E5soU1L2U5XqQjI/GnWG8mhasnm9l
+ guxEKp8dbicXZ+RYWJ4EZsbjmiJfDdx+1gK4Drcw18ufxaNUlKDYEoi+e4AVkiwf1jIy
+ BHGmLA9AkgX1qMb37d/xfXZH3mirHZ4WD3oiHlM+er/EymNoZGcOejcOOpLNoIVj5Pmz
+ dTJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rli4HZEvXsso9F4dz6jCJp4UP5tc1yAU04PdvBH668o=;
- b=GIsc94ZaGuTncwe/kiMC0tIAjjr8ifKBCy0C/FwUeRrCrOZwmPVzFZx0ZRj/Niowhe
- PPnFgEfdwXh27q53dAbcksyH7cdCRAlpwglLY5b5Kc6Tas7NbAoVZvoFNOL97+Syl/a6
- N4ZhUwGDAiRf5g5Km42WK0PvFi49LIiYj7nD5brS8S6Z/JXtmmavVaVJwxuG1a5SImZu
- 3KZzfo6jh6t/znWXqhNP2E60kQIPfyuCow9k+b3P6Mz73KFoOjIWY3sxwr8znHTdaGEk
- pyBh2IA0dQHE1aWHhhCT0UH7bs6FeJVh69Edd0zgecAAc9QeZfWGRsXzXYaEknhWtXAj
- ekPQ==
-X-Gm-Message-State: AFqh2kpMRe5E+w6mMv5igWsYDBEB1a86EnvYs18WZDU/BANue/043PW3
- uqa621rbck5dFwQRZPaS2SLNlA==
-X-Google-Smtp-Source: AMrXdXvMvYdebFgqCco+blP1rfPphz1GWucj+dtPGSGbPH5sOC8pm6ubMB9Cx99qjeKuQJwLxiQlBw==
-X-Received: by 2002:a17:90b:394a:b0:219:9973:2746 with SMTP id
- oe10-20020a17090b394a00b0021999732746mr13298914pjb.0.1673669487964; 
- Fri, 13 Jan 2023 20:11:27 -0800 (PST)
-Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- c21-20020a63ef55000000b00478bd458bdfsm12244535pgk.88.2023.01.13.20.11.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Jan 2023 20:11:27 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, devel@daynix.com,
- Yan Vugenfirer <yvugenfi@redhat.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: [PATCH v2 13/13] docs/system/devices/igb: Add igb documentation
-Date: Sat, 14 Jan 2023 13:10:04 +0900
-Message-Id: <20230114041004.36459-14-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230114041004.36459-1-akihiko.odaki@daynix.com>
-References: <20230114041004.36459-1-akihiko.odaki@daynix.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HJS9xVv4/J7tNPXn+GQ+26s6z9YeJxqfTgmPHKGAKoc=;
+ b=3zTXlCAcMSdRKrMajxvGbGBJbS0nm7qCX+ingjdk0G3+qlndqlMg/nukU3BcdkDaQw
+ xBYoerzfPy/PjykWcfzWxWDHCTUxXSmhU/Mmvw5E0RJZqizWblgfYVPxc5J1pD3/TUed
+ tOasAwzXoiitLVqZVtPUJMmSWamgR+aGLnOsRzOZqih7I3a6bfgOKsnTLghWLQ4iltbQ
+ OZiEm5O7HJyBQVIJM3RbQShryGjA/2kugcZo6SD6CZP90n5O19KjLa5J0krYHzDkm+DP
+ Hz3l2wduRrQP3ulgI1REObYJQ36YSoMvdov5p5E75FR8wlDNn5wVsxfcKon2dr125utt
+ lh9Q==
+X-Gm-Message-State: AFqh2kor2hoetl/QN0p4u0tsDwaKFW81k/1tSSjQcoLXB7lZuwGe1fxm
+ Uzl+NYqIw8+bDBiUiNLuOizFWA==
+X-Google-Smtp-Source: AMrXdXtbNQgiejIBmiQYNb4nA5VMHFLepnKgBKWYth/nfELvvekv5wiKS+PnJPFNMOYFITIn/spEZw==
+X-Received: by 2002:a17:902:b493:b0:191:3a8f:809 with SMTP id
+ y19-20020a170902b49300b001913a8f0809mr78207941plr.7.1673673807810; 
+ Fri, 13 Jan 2023 21:23:27 -0800 (PST)
+Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ o9-20020a170903210900b0017fe9b038fdsm15154029ple.14.2023.01.13.21.23.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Jan 2023 21:23:27 -0800 (PST)
+Message-ID: <481867e4-b019-80de-5369-9a503fa049ac@linaro.org>
+Date: Fri, 13 Jan 2023 19:23:22 -1000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102c;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] accel/kvm: Specify default IPA size for arm64
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, kvm@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20230109062259.79074-1-akihiko.odaki@daynix.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230109062259.79074-1-akihiko.odaki@daynix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,112 +93,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- MAINTAINERS                      |  1 +
- docs/system/device-emulation.rst |  1 +
- docs/system/devices/igb.rst      | 70 ++++++++++++++++++++++++++++++++
- 3 files changed, 72 insertions(+)
- create mode 100644 docs/system/devices/igb.rst
+On 1/8/23 22:22, Akihiko Odaki wrote:
+> libvirt uses "none" machine type to test KVM availability. Before this
+> change, QEMU used to pass 0 as machine type when calling KVM_CREATE_VM.
+> 
+> The kernel documentation says:
+>> On arm64, the physical address size for a VM (IPA Size limit) is
+>> limited to 40bits by default. The limit can be configured if the host
+>> supports the extension KVM_CAP_ARM_VM_IPA_SIZE. When supported, use
+>> KVM_VM_TYPE_ARM_IPA_SIZE(IPA_Bits) to set the size in the machine type
+>> identifier, where IPA_Bits is the maximum width of any physical
+>> address used by the VM. The IPA_Bits is encoded in bits[7-0] of the
+>> machine type identifier.
+>>
+>> e.g, to configure a guest to use 48bit physical address size::
+>>
+>>      vm_fd = ioctl(dev_fd, KVM_CREATE_VM, KVM_VM_TYPE_ARM_IPA_SIZE(48));
+>>
+>> The requested size (IPA_Bits) must be:
+>>
+>>   ==   =========================================================
+>>    0   Implies default size, 40bits (for backward compatibility)
+>>    N   Implies N bits, where N is a positive integer such that,
+>>        32 <= N <= Host_IPA_Limit
+>>   ==   =========================================================
+> 
+>> Host_IPA_Limit is the maximum possible value for IPA_Bits on the host
+>> and is dependent on the CPU capability and the kernel configuration.
+>> The limit can be retrieved using KVM_CAP_ARM_VM_IPA_SIZE of the
+>> KVM_CHECK_EXTENSION ioctl() at run-time.
+>>
+>> Creation of the VM will fail if the requested IPA size (whether it is
+>> implicit or explicit) is unsupported on the host.
+> https://docs.kernel.org/virt/kvm/api.html#kvm-create-vm
+> 
+> So if Host_IPA_Limit < 40, such KVM_CREATE_VM will fail, and libvirt
+> incorrectly thinks KVM is not available. This actually happened on M2
+> MacBook Air.
+> 
+> Fix this by specifying 32 for IPA_Bits as any arm64 system should
+> support the value according to the documentation.
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>   accel/kvm/kvm-all.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index e86c33e0e6..776ac7efcc 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -2294,7 +2294,11 @@ static int kvm_init(MachineState *ms)
+>       KVMState *s;
+>       const KVMCapabilityInfo *missing_cap;
+>       int ret;
+> +#ifdef TARGET_AARCH64
+> +    int type = 32;
+> +#else
+>       int type = 0;
+> +#endif
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5409f2d625..8a72a29658 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2221,6 +2221,7 @@ F: tests/qtest/fuzz-e1000e-test.c
- igb
- M: Akihiko Odaki <akihiko.odaki@daynix.com>
- S: Maintained
-+F: docs/system/devices/igb.rst
- F: hw/net/igb*
- F: tests/avocado/igb.py
- F: tests/qtest/igb-test.c
-diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
-index 0506006056..c1b1934e3d 100644
---- a/docs/system/device-emulation.rst
-+++ b/docs/system/device-emulation.rst
-@@ -93,3 +93,4 @@ Emulated Devices
-    devices/virtio-pmem.rst
-    devices/vhost-user-rng.rst
-    devices/canokey.rst
-+   devices/igb.rst
-diff --git a/docs/system/devices/igb.rst b/docs/system/devices/igb.rst
-new file mode 100644
-index 0000000000..1a77c82ed8
---- /dev/null
-+++ b/docs/system/devices/igb.rst
-@@ -0,0 +1,70 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+.. _igb:
-+
-+igb
-+---
-+
-+igb is a family of Intel's gigabit ethernet controllers. In QEMU, 82576
-+emulation is implemented in particular. Its datasheet is available at [1]_.
-+
-+This implementation is expected to be useful to test SR-IOV networking without
-+requiring physical hardware.
-+
-+Limitations
-+===========
-+
-+This igb implementation was tested with Linux Test Project [2]_ during the
-+initial development. The command used when testing is:
-+
-+.. code-block:: shell
-+
-+  network.sh -6mta
-+
-+Be aware that this implementation lacks many functionalities available with the
-+actual hardware, and you may experience various failures if you try to use it
-+with a different operating system other than Linux or if you try functionalities
-+not covered by the tests.
-+
-+Using igb
-+=========
-+
-+Using igb should be nothing different from using another network device. See
-+:ref:`pcsys_005fnetwork` in general.
-+
-+However, you may also need to perform additional steps to activate SR-IOV
-+feature on your guest. For Linux, refer to [3]_.
-+
-+Developing igb
-+==============
-+
-+igb is the successor of e1000e, and e1000e is the successor of e1000 in turn.
-+As these devices are very similar, if you make a change for igb and the same
-+change can be applied to e1000e and e1000, please do so.
-+
-+Please do not forget to run tests before submitting a change. As tests included
-+in QEMU is very minimal, run some application which is likely to be affected by
-+the change to confirm it works in an integrated system.
-+
-+Testing igb
-+===========
-+
-+A qtest of the basic functionality is available. Run the below at the build
-+directory:
-+
-+.. code-block:: shell
-+
-+  meson test qtest-x86_64/qos-test
-+
-+ethtool can test register accesses, interrupts, etc. It is automated as an
-+Avocado test and can be ran with the following command:
-+
-+.. code:: shell
-+
-+  make check-avocado AVOCADO_TESTS=tests/avocado/igb.py
-+
-+References
-+==========
-+
-+.. [1] https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/82576eb-gigabit-ethernet-controller-datasheet.pdf
-+.. [2] https://github.com/linux-test-project/ltp
-+.. [3] https://docs.kernel.org/PCI/pci-iov-howto.html
--- 
-2.39.0
+No need for an ifdef.  Down below we have,
 
+     if (object_property_find(OBJECT(current_machine), "kvm-type")) {
+         g_autofree char *kvm_type = object_property_get_str(OBJECT(current_machine),
+                                                             "kvm-type",
+                                                             &error_abort);
+         type = mc->kvm_type(ms, kvm_type);
+     } else if (mc->kvm_type) {
+         type = mc->kvm_type(ms, NULL);
+     }
+
+and the aarch64 -M virt machine provides virt_kvm_type as mc->kvm_type.
+
+How did you hit this?  Are you trying to implement your own board model?
+
+Looking at this, I'm surprised this is a board hook and not a cpu hook.  But I suppose the 
+architecture specific 'type' can hide any number of sins.  Anyway, if you are doing your 
+own board model, I suggest arranging to share the virt board hook -- maybe moving it to 
+target/arm/kvm.c in the process?
+
+
+r~
 
