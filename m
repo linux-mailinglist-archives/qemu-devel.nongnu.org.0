@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63FA766B408
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 22:02:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A35366B462
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 23:52:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHA80-0005yt-8o; Sun, 15 Jan 2023 16:01:20 -0500
+	id 1pHBq0-0007xz-5m; Sun, 15 Jan 2023 17:50:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pHA7y-0005yg-PE
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 16:01:18 -0500
-Received: from mout.gmx.net ([212.227.15.19])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pHA7t-0006lQ-BY
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 16:01:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1673816471; bh=vDpiM8Fj0PyspxqL3DEYZIxvzXMVoxtM1udg7P4OQZc=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=cfdlH9V307rUsykEXBBZaBGDeXAPR9GZ80Xa64YNlaUNbwq5FAM9thppFt1HRA8xO
- rwIfFFYQtmSZw/MlBjTUDk2X5AoZgI5SeYC/Hw4dx7Vodp0mCAwcOZE4y0ER2uN3y2
- kWPVMAWbpmm85UrpJvbDilrGUppDmWh6zV3uadOIoPYVsXU9A/55BTF+QTCni4Ou2l
- Jyy2Q6GfmcaXEOiQkN33uFf1BMp9xQqfw2MogjsCGb/PPt0cRYW473aB9umiLuaEgt
- rxH9I9KNcLX2chnr45StkBlp6mUTGAHhmijCwdMCaJvc5byFNvKN32FwHSPlJDSMK1
- kSwy1MgzolHnQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from p100.fritz.box ([92.116.161.25]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MNKm0-1p6egW3lyk-00Ood4; Sun, 15
- Jan 2023 22:01:10 +0100
-From: Helge Deller <deller@gmx.de>
-To: Laurent Vivier <laurent@vivier.eu>,
-	qemu-devel@nongnu.org
-Cc: Helge Deller <deller@gmx.de>
-Subject: [PATCH] linux-user: Improve strace output of getgroups() and
- setgroups()
-Date: Sun, 15 Jan 2023 22:00:57 +0100
-Message-Id: <20230115210057.445132-1-deller@gmx.de>
-X-Mailer: git-send-email 2.38.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHBpw-0007xf-BA
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 17:50:49 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHBpu-00070A-2Z
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 17:50:47 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ l41-20020a05600c1d2900b003daf986faaeso1108626wms.3
+ for <qemu-devel@nongnu.org>; Sun, 15 Jan 2023 14:50:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=s74WJFS6EuF5fVqX9oalXUOnC6Ui21sboUsP1OvwxeQ=;
+ b=SyXycqOl7qkbL9X+8CLtKrBgFql+SKseWldUW5SmIJzKGpFS1anBX7dQun/zYpKW+W
+ xF2NnkKnIduWIAxkveid5sIlQLvV69AVEea8jQ9maQ8vSrwyaS7zEoqtUJFvPAaac8Dm
+ q3FgQCMVldpSOCmKmXFK17ipdOGsXFZ9PgL7zHGjJUkvIi3lTRGPHnOA1/k0xX47tztI
+ x5ZVnkvS6T3MmyaUdKjlU84Gd/Uyv+/9s+TjzWpH5zjCLcpy8W246KWea6hurNEox1ra
+ plBPN1kx0QJFZDyGqoK/gJAuGRg02HL/NbSTz7Te6YdJ/gaxQ22COToQ+8dXm1mws72u
+ pELA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=s74WJFS6EuF5fVqX9oalXUOnC6Ui21sboUsP1OvwxeQ=;
+ b=C3g2jWRsz3VoX32rG/zRVd+FbzTEIojI+zXeP1bkrNACSPbXJTSKwvi4z3F88OXj90
+ 0dCNPqLhzmnY/jSvEjHjyQ6hZsSuanQOaprA3qtzEevyQWc5lo7Ct0z77XE3tHPqhvic
+ cb1AaIFymc+RkAb2Hu2bzurRkKcn/QLv57geG/xzYvEVqEZZAWRpcxEtmcrJ97DNzpTF
+ S4KPIb9+FovyDsQzDOQb3ctOpLjtiYR1fmvxisoiFV7BoX/Qd9iAPZtwEAqLUXm1qnXA
+ +ubKPsvET5U5rrCUPOuwmSCkD/Ps4JqBmhfMRckFkVA/mYl89qz6bwSDkhksO2bJ1XaP
+ lvkA==
+X-Gm-Message-State: AFqh2kpRPXg7VQrO3BYO3jQhY+NWocYXurtI2TKwQoNYpKlG1xx2UYa5
+ 3UcJiTwueAcqe/DCjMc/BYmnkQ==
+X-Google-Smtp-Source: AMrXdXuGVi4fq5GI27i490uJ7Z3Wsd0VBhQiEB6rF14xC7E6DG7ZlMjrJsAAfaMcGHrvJvoHA2MVvA==
+X-Received: by 2002:a05:600c:4349:b0:3da:f665:5b6b with SMTP id
+ r9-20020a05600c434900b003daf6655b6bmr3396697wme.25.1673823043125; 
+ Sun, 15 Jan 2023 14:50:43 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ m25-20020a05600c3b1900b003d9ed49ee2bsm28754146wms.1.2023.01.15.14.50.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Jan 2023 14:50:42 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3BF161FFB7;
+ Sun, 15 Jan 2023 22:50:41 +0000 (GMT)
+References: <20230114161302.94595-1-fcagnin@quarkslab.com>
+ <20230114161302.94595-2-fcagnin@quarkslab.com>
+User-agent: mu4e 1.9.12; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: francesco.cagnin@gmail.com
+Cc: qemu-devel@nongnu.org, mads@ynddal.dk, dirty@apple.com,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org, agraf@csgraf.de,
+ pbonzini@redhat.com, Francesco Cagnin <fcagnin@quarkslab.com>
+Subject: Re: [PATCH v3 1/3] arm: move KVM breakpoints helpers
+Date: Sun, 15 Jan 2023 22:50:17 +0000
+In-reply-to: <20230114161302.94595-2-fcagnin@quarkslab.com>
+Message-ID: <871qnvcszj.fsf@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:g+rqDzvm+BzXvmrJ7Q+0VJSgSI43kWaLam+IIozW2Mpbrd6jx9h
- 5DBGWNPdQTh2KZ1ws4LskSKWzYLfIkYIeBowzMp+DSK3sWkW3ORSbejh7MXW8ADU9kv3JEB
- sYUbnwj02ym1iRM3lDdvf2eQHxk2STHWeyzdLzsq5xalMeyobyCpQVU1Tr6PuQFqP9sxxO0
- qbUac4Db5MPqvHIqx19rg==
-UI-OutboundReport: notjunk:1;M01:P0:pKFsgemGvkU=;eb+AT4YeQvj/ZjouYwQh3630C6B
- Sq19RqOthdVZd+8c5/QmHRpJeW+mERkdltR81rHzbaB06VkU+oSDCEb26IESc62AepFf1OB0o
- Sv/tIvsptloTJU4IJilBLB+6/6IYvseyyJkj2lnwQVIGRuibXdVfweSEyHvZgBsHooioEFUbF
- VYzyHm4zxSsOw8LM+dFsM7mb8V/Ld+nuvYN5JmZjsDMo68jP2LWTqYj3RA8ThffhEcKY5U7FK
- O3O0sAipBYeB6+9sCUmPWMlevB3o7BFoh/WXhVFbQmIbKRUfiJk2/1VbMUwpA26Kg8jnvvW8U
- WzVInVNV5BWIvhWjeOqL08QkIWQbtKSJj4N9u1+itixOGsCGSJjyBW+oIVqE+1Aa8u3RAeHvF
- c5pwb1Xl/tkR2WkG0MPAd0o71vhyhzDLrB7xpsrDRTbI/yc3bJARO/0Vco4pOmsegm0dDI0za
- 5zgZ0I814hmkY3RKTxiygLLQq2VfJCL/C8MQLlSs48gngfCk4TIXEOldPHJRfhraialf0sPD2
- WlnI3SoB5+PRSLD1EZtccfYRtw3jqNJlhqHPZwhoE9Eg6MmenIHhSt9TeMI/oqSt3Jz3J4jOi
- jxBcJVBEGaV2LpSjfnNedGJMGFwJ6bJPcXDSOuANPGhK5C2BDxVJCmcyBPOS6/sG+j99eB4Od
- 7lv0FuWFtD0BhZc2Ycgjr6lPG1E4vcLRZcRzIeG3jePoiq39YHdtrewxjYJyKWt3bDWnzBsbW
- ZkLmsIWCDsr1KgpxauvKetyKTcQ09eJ/kdfsvpDmXIk3qQkPixhj2RVscOxQN/v2RIlYCUu/V
- oCiXhMjh8KMwgz5UspXx9BtZK515o61F7jU0i5urPrKs6sWZSX9iNi2zf5i65veIdimoe6LoK
- oPCfg45ney4GymA9IGHzqkzw4MLItyyJ3BLgLlmeqjV4neSjZMwqzU+KLH/AITnzeY9PilDRD
- SM1wG0Bm4WBFV9FAnWy/3VHYlxg=
-Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,44 +97,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Make the strace look nicer for those syscalls.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- linux-user/strace.list | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+francesco.cagnin@gmail.com writes:
 
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 3924046426..7c1124a718 100644
-=2D-- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -321,10 +321,10 @@
- { TARGET_NR_getgid32, "getgid32" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_getgroups
--{ TARGET_NR_getgroups, "getgroups" , NULL, NULL, NULL },
-+{ TARGET_NR_getgroups, "getgroups" , "%s(%d,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_getgroups32
--{ TARGET_NR_getgroups32, "getgroups32" , NULL, NULL, NULL },
-+{ TARGET_NR_getgroups32, "getgroups32" , "%s(%d,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_gethostname
- { TARGET_NR_gethostname, "gethostname" , NULL, NULL, NULL },
-@@ -1308,10 +1308,10 @@
- { TARGET_NR_setgid32, "setgid32" , "%s(%u)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_setgroups
--{ TARGET_NR_setgroups, "setgroups" , NULL, NULL, NULL },
-+{ TARGET_NR_setgroups, "setgroups" , "%s(%d,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_setgroups32
--{ TARGET_NR_setgroups32, "setgroups32" , NULL, NULL, NULL },
-+{ TARGET_NR_setgroups32, "setgroups32" , "%s(%d,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_sethae
- { TARGET_NR_sethae, "sethae" , NULL, NULL, NULL },
-=2D-
-2.38.1
+> From: Francesco Cagnin <fcagnin@quarkslab.com>
+>
+> These helpers will be also used for HVF. Aside from reformatting a
+> couple of comments for 'checkpatch.pl' and updating meson to compile
+> 'hyp_gdbstub.c', this is just code motion.
+>
+> Signed-off-by: Francesco Cagnin <fcagnin@quarkslab.com>
 
+
+Haven't I reviewed this already? Anyway:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
