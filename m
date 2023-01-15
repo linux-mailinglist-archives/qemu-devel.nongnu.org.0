@@ -2,55 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5057366B14F
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 14:47:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 122F566B15E
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 15:05:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pH3KV-0002np-6T; Sun, 15 Jan 2023 08:45:47 -0500
+	id 1pH3bs-0008HZ-PP; Sun, 15 Jan 2023 09:03:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pH3KS-0002nO-Ih
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:45:44 -0500
-Received: from mailout06.t-online.de ([194.25.134.19])
+ id 1pH3bq-0008H2-8c
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 09:03:42 -0500
+Received: from mailout08.t-online.de ([194.25.134.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pH3KQ-0003Im-2W
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:45:44 -0500
-Received: from fwd84.dcpf.telekom.de (fwd84.aul.t-online.de [10.223.144.110])
- by mailout06.t-online.de (Postfix) with SMTP id 68C7951D4;
- Sun, 15 Jan 2023 14:45:37 +0100 (CET)
-Received: from [192.168.211.200] ([79.208.25.151]) by fwd84.t-online.de
+ id 1pH3bk-0006M2-Eb
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 09:03:38 -0500
+Received: from fwd82.dcpf.telekom.de (fwd82.aul.t-online.de [10.223.144.108])
+ by mailout08.t-online.de (Postfix) with SMTP id 13BCC64F6;
+ Sun, 15 Jan 2023 15:03:34 +0100 (CET)
+Received: from [192.168.211.200] ([79.208.25.151]) by fwd82.t-online.de
  with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pH3KI-0XJfOL0; Sun, 15 Jan 2023 14:45:34 +0100
-Message-ID: <a671751a-cbb7-22c2-8840-0476176d2533@t-online.de>
-Date: Sun, 15 Jan 2023 14:45:34 +0100
+ esmtp id 1pH3bd-0418JF0; Sun, 15 Jan 2023 15:03:30 +0100
+Message-ID: <26c2ac70-7c88-f486-adc8-1836efd4bc63@t-online.de>
+Date: Sun, 15 Jan 2023 15:03:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH 00/17] audio: improve callback interface for audio
- frontends
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
+Subject: Re: [PATCH 2/9] audio: remove special audio_calloc function
 Content-Language: en-US
-In-Reply-To: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Bandan Das <bsd@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, libvir-list@redhat.com,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>
+References: <20230113162200.3010804-1-berrange@redhat.com>
+ <20230113162200.3010804-3-berrange@redhat.com>
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+In-Reply-To: <20230113162200.3010804-3-berrange@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TOI-MSGID: 6faaf601-9c86-4307-b23f-ac3f17570c56
-Received-SPF: none client-ip=194.25.134.19; envelope-from=vr_qemu@t-online.de;
- helo=mailout06.t-online.de
+X-TOI-MSGID: ed799c58-bac6-4eff-bb47-32cfaca08ed2
+Received-SPF: none client-ip=194.25.134.20; envelope-from=vr_qemu@t-online.de;
+ helo=mailout08.t-online.de
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,273 +71,212 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 15.01.23 um 14:08 schrieb Volker Rümelin:
+Am 13.01.23 um 17:21 schrieb Daniel P. Berrangé:
+> The audio_calloc function does various checks on the size and
+> nmembers parameters to detect various error conditions. There
+> are only 5 callers
+>
+>   * alsa_poll_helper: the pollfd count is small and bounded,
+>   * audio_pcm_create_voice_pair_: allocating a single fixed
+>     size struct
+>   * audio_pcm_sw_alloc_resources_: samples could be negative
+>     zero, or overflow, so needs a check
+>   * audio_pcm_hw_add_new_: voice size could be zero for
+>     backends that don't support audio input
+>   * st_rate_start: allocating a single fixed size struct
+>
+> IOW, only two of the callers need special error checks and
+> it is clearer if their respective checks are inlined. Thus
+> audio_calloc can be eliminated.
 
-Ccing a few more people who might be interested in this patch series.
+Hi Daniel,
 
-@Mark:
-After this patch series, the code in your out of tree ASC audio device 
-(and a few in tree audio devices) could be simplified. write_audio() and 
-the loops calling write_audio() could be removed.
+my patch series at 
+https://lists.nongnu.org/archive/html/qemu-devel/2022-12/msg02895.html 
+also removes audio_calloc(). There will be merge conflicts.
 
 With best regards,
 Volker
 
-> Based-on: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
-> ([PATCH 00/11] audio: more improvements)
 >
-> The callback interface for emulated audio devices is strange. The 
-> callback function has an 'avail' parameter that passes the number of 
-> bytes that can be written or read. Unfortunately, this value sometimes 
-> is only an imprecise estimate and the callback functions must check 
-> the actual bytes written or read. For playback devices, this means 
-> that they either need a ring buffer or have to write the unwritten 
-> bytes again the next time. For recording devices, things are a bit 
-> easier. They only need to continue with the actual number of bytes read.
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   audio/alsaaudio.c            |  6 +-----
+>   audio/audio.c                | 20 --------------------
+>   audio/audio_int.h            |  1 -
+>   audio/audio_template.h       | 28 ++++++++++++++--------------
+>   audio/mixeng.c               |  7 +------
+>   tests/qtest/fuzz-sb16-test.c |  6 ++++--
+>   6 files changed, 20 insertions(+), 48 deletions(-)
 >
-> After this patch series, the 'avail' argument for the -audiodev 
-> out.mixing-engine=on and in.mixing-engine=on cases is exact. Audio 
-> frontends only need a linear frame buffer and there's a guarantee they 
-> can write or read 'avail' bytes.
->
-> The -audiodev out.mixing-engine=off case is also mostly accurate. Only 
-> the D-Bus audio backend is still missing a required function. The 
-> -audiodev in.mixing-engine=off case always passes a much too large 
-> 'avail' value. I haven't worked on this yet, because there was no 
-> reason for it so far.
->
-> The following logs show the improvements. Not only the audio frontends 
-> can write or read all needed or available bytes. The same is true for 
-> the audio backends. For playback, the first six lines in the logs are 
-> expected. Here you can see how quickly the guest fills the empty 
-> downstream buffers after playback starts.
->
-> QEMU was started with -device ich9-intel-hda,addr=0x1b -device 
-> hda-duplex,audiodev=audio0 -audiodev 
-> pa,out.frequency=96000,in.frequency=96000,id=audio0
->
-> playback guest 44100Hz => host 96000Hz
->
-> unpatched version:
-> hda_audio_output_cb: to write 8188, written 1704
-> audio_run_out: free 4458, played 926
-> hda_audio_output_cb: to write 6488, written 2384
-> audio_run_out: free 3532, played 1297
-> hda_audio_output_cb: to write 4104, written 2648
-> audio_run_out: free 2235, played 1441
-> audio_run_out: free 794, played 793
-> audio_run_out: free 897, played 896
-> audio_run_out: free 831, played 829
-> ...
-> hda_audio_output_cb: could not write 4 bytes
-> hda_audio_output_cb: to write 1764, written 1760
-> audio_run_out: free 960, played 958
-> ...
->
-> patched version:
-> hda_audio_output_cb: to write 8192, written 1620
-> audio_run_out: free 4458, played 880
-> hda_audio_output_cb: to write 6576, written 2508
-> audio_run_out: free 3578, played 1365
-> hda_audio_output_cb: to write 4068, written 2500
-> audio_run_out: free 2213, played 1360
->
-> record host 96000Hz => guest 44100Hz
->
-> unpatched version:
-> audio_run_in: avail 4458, acquired 4454
-> audio_run_in: avail 1574, acquired 1572
-> audio_run_in: avail 766, acquired 764
-> audio_run_in: avail 1052, acquired 1051
-> audio_run_in: avail 761, acquired 760
-> audio_run_in: avail 1123, acquired 1121
-> ...
-> hda_audio_input_cb: could not read 4 bytes
-> hda_audio_input_cb: to read 1988, read 1984
-> audio_run_in: avail 1082, acquired 1080
-> ...
->
-> patched version:
-> (no output)
->
-> QEMU was started with -device ich9-intel-hda,addr=0x1b -device 
-> hda-duplex,audiodev=audio0 -audiodev 
-> pa,out.frequency=32000,in.frequency=32000,id=audio0
->
-> playback guest 44100Hz => host 32000Hz
->
-> unpatched version:
-> hda_audio_output_cb: to write 8188, written 1620
-> audio_run_out: free 1486, played 294
-> hda_audio_output_cb: to write 6568, written 2512
-> audio_run_out: free 1192, played 455
-> hda_audio_output_cb: to write 4060, written 2504
-> audio_run_out: free 737, played 455
-> audio_run_out: free 282, played 281
-> audio_run_out: free 357, played 356
-> audio_run_out: free 314, played 313
-> ...
-> hda_audio_output_cb: could not write 4 bytes
-> hda_audio_output_cb: to write 1416, written 1412
-> audio_run_out: free 257, played 256
-> ...
->
-> patched version:
-> hda_audio_output_cb: to write 8192, written 1656
-> audio_run_out: free 1486, played 300
-> hda_audio_output_cb: to write 6536, written 2516
-> audio_run_out: free 1186, played 457
-> hda_audio_output_cb: to write 4020, written 2540
-> audio_run_out: free 729, played 460
->
-> record host 32000Hz => guest 44100Hz
->
-> unpatched version:
-> audio_run_in: avail 1486, acquired 1485
-> audio_run_in: avail 272, acquired 271
-> audio_run_in: avail 366, acquired 365
-> hda_audio_input_cb: could not read 4 bytes
-> hda_audio_input_cb: to read 1420, read 1416
-> audio_run_in: avail 258, acquired 257
-> audio_run_in: avail 375, acquired 374
-> hda_audio_input_cb: could not read 4 bytes
-> hda_audio_input_cb: to read 2056, read 2052
-> audio_run_in: avail 260, acquired 259
-> ...
->
-> patched version:
-> (no output)
->
-> This is the debug code for the logs above.
->
-> ---snip--
-> --- a/audio/audio.c    2022-12-13 19:14:31.793153558 +0100
-> +++ b/audio/audio.c    2022-12-11 16:24:48.842649711 +0100
-> @@ -1228,6 +1228,10 @@ static void audio_run_out (AudioState *s
->  #ifdef DEBUG_OUT
->          dolog("played=%zu\n", played);
->  #endif
-> +        if (hw_free - played) {
-> +            fprintf(stderr, "%s: free %zu, played %zu\n",
-> +                    __func__, hw_free, played);
-> +        }
->
->          if (played) {
->              hw->ts_helper += played;
-> @@ -1318,6 +1322,7 @@ static void audio_run_in (AudioState *s)
->              if (sw->active) {
->                  size_t sw_avail = audio_get_avail(sw);
->                  size_t avail;
-> +                size_t prev_acquired = sw->total_hw_samples_acquired;
->
->                  avail = st_rate_frames_out(sw->rate, sw_avail);
->                  if (avail > 0) {
-> @@ -1325,6 +1330,11 @@ static void audio_run_in (AudioState *s)
->                      sw->callback.fn(sw->callback.opaque,
->                                      avail * sw->info.bytes_per_frame);
->                  }
+> diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+> index 714bfb6453..5f50dfa0bf 100644
+> --- a/audio/alsaaudio.c
+> +++ b/audio/alsaaudio.c
+> @@ -222,11 +222,7 @@ static int alsa_poll_helper (snd_pcm_t *handle, struct pollhlp *hlp, int mask)
+>           return -1;
+>       }
+>   
+> -    pfds = audio_calloc ("alsa_poll_helper", count, sizeof (*pfds));
+> -    if (!pfds) {
+> -        dolog ("Could not initialize poll mode\n");
+> -        return -1;
+> -    }
+> +    pfds = g_new0(struct pollfd, count);
+>   
+>       err = snd_pcm_poll_descriptors (handle, pfds, count);
+>       if (err < 0) {
+> diff --git a/audio/audio.c b/audio/audio.c
+> index 7b4b957945..f397072a1f 100644
+> --- a/audio/audio.c
+> +++ b/audio/audio.c
+> @@ -146,26 +146,6 @@ static inline int audio_bits_to_index (int bits)
+>       }
+>   }
+>   
+> -void *audio_calloc (const char *funcname, int nmemb, size_t size)
+> -{
+> -    int cond;
+> -    size_t len;
+> -
+> -    len = nmemb * size;
+> -    cond = !nmemb || !size;
+> -    cond |= nmemb < 0;
+> -    cond |= len < size;
+> -
+> -    if (audio_bug ("audio_calloc", cond)) {
+> -        AUD_log (NULL, "%s passed invalid arguments to audio_calloc\n",
+> -                 funcname);
+> -        AUD_log (NULL, "nmemb=%d size=%zu (len=%zu)\n", nmemb, size, len);
+> -        return NULL;
+> -    }
+> -
+> -    return g_malloc0 (len);
+> -}
+> -
+>   void AUD_vlog (const char *cap, const char *fmt, va_list ap)
+>   {
+>       if (cap) {
+> diff --git a/audio/audio_int.h b/audio/audio_int.h
+> index e87ce014a0..b0cc2cd390 100644
+> --- a/audio/audio_int.h
+> +++ b/audio/audio_int.h
+> @@ -251,7 +251,6 @@ void audio_pcm_init_info (struct audio_pcm_info *info, struct audsettings *as);
+>   void audio_pcm_info_clear_buf (struct audio_pcm_info *info, void *buf, int len);
+>   
+>   int audio_bug (const char *funcname, int cond);
+> -void *audio_calloc (const char *funcname, int nmemb, size_t size);
+>   
+>   void audio_run(AudioState *s, const char *msg);
+>   
+> diff --git a/audio/audio_template.h b/audio/audio_template.h
+> index 720a32e57e..564cbb1f01 100644
+> --- a/audio/audio_template.h
+> +++ b/audio/audio_template.h
+> @@ -116,13 +116,20 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
+>       samples = (int64_t)sw->HWBUF->size * sw->ratio >> 32;
+>   #endif
+>   
+> -    sw->buf = audio_calloc(__func__, samples, sizeof(struct st_sample));
+> -    if (!sw->buf) {
+> -        dolog ("Could not allocate buffer for `%s' (%d samples)\n",
+> +    if (audio_bug(__func__, samples <= 0)) {
+> +        dolog ("Could not allocate buffer for '%s', samples %d <= 0\n",
+>                  SW_NAME (sw), samples);
+>           return -1;
+>       }
+>   
+> +    if (audio_bug(__func__, (SIZE_MAX / sizeof(struct st_sample) < samples))) {
+> +        dolog ("Could not allocate buffer for '%s', samples %d overflows\n",
+> +               SW_NAME (sw), samples);
+> +        return -1;
+> +    }
 > +
-> +                if (sw_avail + prev_acquired - 
-> sw->total_hw_samples_acquired) {
-> +                    fprintf(stderr, "%s: avail %zu, acquired %zu\n", 
-> __func__,
-> +                            sw_avail, sw->total_hw_samples_acquired - 
-> prev_acquired);
-> +                }
->              }
->          }
->      }
-> --- a/hw/audio/hda-codec.c    2023-01-04 14:07:31.954304889 +0100
-> +++ b/hw/audio/hda-codec.c    2023-01-04 13:57:47.687320406 +0100
-> @@ -265,20 +265,28 @@ static void hda_audio_input_cb(void *opa
->      int64_t rpos = st->rpos;
->
->      int64_t to_transfer = MIN(B_SIZE - (wpos - rpos), avail);
-> +    unsigned int total_read = 0;
->
->      while (to_transfer) {
->          uint32_t start = (uint32_t) (wpos & B_MASK);
->          uint32_t chunk = (uint32_t) MIN(B_SIZE - start, to_transfer);
->          uint32_t read = AUD_read(st->voice.in, st->buf + start, chunk);
->          wpos += read;
-> +        total_read += read;
->          to_transfer -= read;
->          st->wpos += read;
->          if (chunk != read) {
-> +            fprintf(stderr, "%s: could not read %u bytes\n", __func__,
-> +                    chunk - read);
->              break;
->          }
->      }
->
->      hda_timer_sync_adjust(st, -((wpos - rpos) - (B_SIZE >> 1)));
-> +    if (avail != total_read) {
-> +        fprintf(stderr, "%s: to read %d, read %u\n", __func__,
-> +                avail, total_read);
-> +    }
->  }
->
->  static void hda_audio_output_timer(void *opaque)
-> @@ -329,6 +337,7 @@ static void hda_audio_output_cb(void *op
->      int64_t rpos = st->rpos;
->
->      int64_t to_transfer = MIN(wpos - rpos, avail);
-> +    unsigned int total_written = 0;
->
->      if (wpos - rpos == B_SIZE) {
->          /* drop buffer, reset timer adjust */
-> @@ -343,15 +352,22 @@ static void hda_audio_output_cb(void *op
->          uint32_t start = (uint32_t) (rpos & B_MASK);
->          uint32_t chunk = (uint32_t) MIN(B_SIZE - start, to_transfer);
->          uint32_t written = AUD_write(st->voice.out, st->buf + start, 
-> chunk);
-> +        total_written += written;
->          rpos += written;
->          to_transfer -= written;
->          st->rpos += written;
->          if (chunk != written) {
-> +            fprintf(stderr, "%s: could not write %u bytes\n", __func__,
-> +                    chunk - written);
->              break;
->          }
->      }
->
->      hda_timer_sync_adjust(st, (wpos - rpos) - (B_SIZE >> 1));
-> +    if (avail != total_written) {
-> +        fprintf(stderr, "%s: to write %d, written %u\n", __func__,
-> +                avail, total_written);
-> +    }
->  }
->
->  static void hda_audio_compat_input_cb(void *opaque, int avail)
-> ---snip--
->
-> Volker Rümelin (17):
->   audio: change type of mix_buf and conv_buf
->   audio: change type and name of the resample buffer
->   audio: make the resampling code greedy
->   audio: replace the resampling loop in audio_pcm_sw_write()
->   audio: remove sw == NULL check
->   audio: rename variables in audio_pcm_sw_write()
->   audio: don't misuse audio_pcm_sw_write()
->   audio: remove unused noop_conv() function
->   audio/mixeng: calculate number of input frames
->   audio: wire up st_rate_frames_in()
->   audio: replace the resampling loop in audio_pcm_sw_read()
->   audio: rename variables in audio_pcm_sw_read()
->   audio/mixeng: calculate number of output frames
->   audio: wire up st_rate_frames_out()
->   audio: handle leftover audio frame from upsampling
->   audio/audio_template: substitute sw->hw with hw
->   audio: remove sw->ratio
->
->  audio/audio.c          | 366 +++++++++++++++++++++--------------------
->  audio/audio_int.h      |  12 +-
->  audio/audio_template.h |  41 +++--
->  audio/mixeng.c         |  73 ++++++++
->  audio/mixeng.h         |   2 +
->  audio/rate_template.h  |  21 ++-
->  6 files changed, 304 insertions(+), 211 deletions(-)
->
+> +    sw->buf = g_new0(struct st_sample, samples);
+> +
+>   #ifdef DAC
+>       sw->rate = st_rate_start (sw->info.freq, sw->hw->info.freq);
+>   #else
+> @@ -264,13 +271,12 @@ static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
+>           return NULL;
+>       }
+>   
+> -    hw = audio_calloc(__func__, 1, glue(drv->voice_size_, TYPE));
+> -    if (!hw) {
+> -        dolog ("Can not allocate voice `%s' size %d\n",
+> -               drv->name, glue (drv->voice_size_, TYPE));
+> +    if (audio_bug(__func__, glue(drv->voice_size_, TYPE) == 0)) {
+> +        dolog ("Voice size is zero");
+>           return NULL;
+>       }
+>   
+> +    hw = g_malloc0(glue(drv->voice_size_, TYPE));
+>       hw->s = s;
+>       hw->pcm_ops = drv->pcm_ops;
+>   
+> @@ -398,12 +404,7 @@ static SW *glue(audio_pcm_create_voice_pair_, TYPE)(
+>           hw_as = *as;
+>       }
+>   
+> -    sw = audio_calloc(__func__, 1, sizeof(*sw));
+> -    if (!sw) {
+> -        dolog ("Could not allocate soft voice `%s' (%zu bytes)\n",
+> -               sw_name ? sw_name : "unknown", sizeof (*sw));
+> -        goto err1;
+> -    }
+> +    sw = g_new0(SW, 1);
+>       sw->s = s;
+>   
+>       hw = glue(audio_pcm_hw_add_, TYPE)(s, &hw_as);
+> @@ -424,7 +425,6 @@ err3:
+>       glue (audio_pcm_hw_gc_, TYPE) (&hw);
+>   err2:
+>       g_free (sw);
+> -err1:
+>       return NULL;
+>   }
+>   
+> diff --git a/audio/mixeng.c b/audio/mixeng.c
+> index 100a306d6f..fe454e0725 100644
+> --- a/audio/mixeng.c
+> +++ b/audio/mixeng.c
+> @@ -414,12 +414,7 @@ struct rate {
+>    */
+>   void *st_rate_start (int inrate, int outrate)
+>   {
+> -    struct rate *rate = audio_calloc(__func__, 1, sizeof(*rate));
+> -
+> -    if (!rate) {
+> -        dolog ("Could not allocate resampler (%zu bytes)\n", sizeof (*rate));
+> -        return NULL;
+> -    }
+> +    struct rate *rate = g_new0(struct rate, 1);
+>   
+>       rate->opos = 0;
+>   
+> diff --git a/tests/qtest/fuzz-sb16-test.c b/tests/qtest/fuzz-sb16-test.c
+> index fc445b1871..a28b93be3a 100644
+> --- a/tests/qtest/fuzz-sb16-test.c
+> +++ b/tests/qtest/fuzz-sb16-test.c
+> @@ -10,7 +10,8 @@
+>   #include "libqtest.h"
+>   
+>   /*
+> - * This used to trigger the assert in audio_calloc
+> + * This used to trigger the audio_bug calls in
+> + * audio_pcm_sw_alloc_resources
+>    * https://bugs.launchpad.net/qemu/+bug/1910603
+>    */
+>   static void test_fuzz_sb16_0x1c(void)
+> @@ -38,7 +39,8 @@ static void test_fuzz_sb16_0x91(void)
+>   }
+>   
+>   /*
+> - * This used to trigger the assert in audio_calloc
+> + * This used to trigger the audio_bug calls in
+> + * audio_pcm_sw_alloc_resources
+>    * through command 0xd4
+>    */
+>   static void test_fuzz_sb16_0xd4(void)
 
 
