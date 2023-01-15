@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6973566AEC8
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 00:32:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE03B66AEFF
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 02:22:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGq0W-0000DJ-F8; Sat, 14 Jan 2023 18:32:16 -0500
+	id 1pGrhx-0007Dq-Pc; Sat, 14 Jan 2023 20:21:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGq0S-0008U5-VB
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 18:32:13 -0500
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
+ id 1pGrhw-0007D7-Kx
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 20:21:12 -0500
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGq0R-0004FK-7a
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 18:32:12 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id a184so18575227pfa.9
- for <qemu-devel@nongnu.org>; Sat, 14 Jan 2023 15:32:10 -0800 (PST)
+ id 1pGrht-0002Ct-5H
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 20:21:12 -0500
+Received: by mail-pg1-x534.google.com with SMTP id s67so17376385pgs.3
+ for <qemu-devel@nongnu.org>; Sat, 14 Jan 2023 17:21:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=TPJtijyYg7SioJJm8YKTqkjAc4t5Wt3KkB0wi9IGkog=;
- b=DvoqW17yKdjbtWOoIu1IuzkAPwXkVd8ppyizrTvgby+yHodfaaXFEr3qCz+ZLDbSd4
- k3ZZWZsfO4TARos1MqMFLg52Dbn47QZX5xNRBW1kDIpwm3giZJ2L9D0yKz5ARibTrrTl
- zoKgDnlNEzNWKFeOxoB7rr1QiSdWl2aiyD6+hQtV9t1YjdESwnnhOV5F8XuIGmkQGk3c
- cdoarq80/rdqb4+mO/u2JyRpyqJ1KFdfHRr4tLvqnio5SNG2GJ9mmH4lKCvzh9Yl6561
- rwLDa5dy3SZQ7P3bxn1ohRX4ZZxSS6ub37KhpFG67i5MwdmBNf2DTHkmk5gEDLnhJkvW
- 7dcA==
+ bh=+4lg7eradCYPVsrMRZCCKNQC6F+FnSFuqVVZBIJoIWA=;
+ b=mM1JOI5LcPOEfxkTxe7m/P4llx7yijlwQ+MkuUwtWgZmqYHxVR80VaEGkBsQ0N90kr
+ WL4LHpMX0Su2QlSJfNV9vZGoifJ73S0SumVhiL1M1eXWLr9fD+kuMMG6SxMuhL/SV437
+ Byc0zk3r7raqwhi63324c5/3q3qe7g6Sdl77dlCqfPtrkAViQKQntDqPWvPYxNtspYAC
+ VI/D1jlSfVs74vuFBwFPMJQYLgztTJh2PdSO9GtZD7/6q0pwXdIXptc0Bo50z+mF7aHn
+ M8cA+ulGRAY9o15gJJ27qwqAwBhGld2FUhgcoN5Oeivywi+6clYH1+iDVEsw0xdCB6B4
+ Xb8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=TPJtijyYg7SioJJm8YKTqkjAc4t5Wt3KkB0wi9IGkog=;
- b=HWUE1bzaI+vSVoLAEAq4cOJTjwBwvxQKJPVHdeg8YCOPeW2PdGaFWeGArzw6vL1xhR
- 4ncmUQ4+EnZLLH7PLPtMsifHJ48FJMZ/ZoQJdl4nnYEhE2CqpUlG+/Q0y3yP2J64d0d5
- sVVz36A8Hm1OYAxp3GtNTGlGLuzBrP6y0WjoDSNA5uQVuIKH4W1IfZ6eSEI6ywBDh9/a
- jfBeneFSCbiu+h6sOkt9pY4LlzFKoiHjLDl3rb3t6zE15z0xYQ0Tnmtg0fCdk9P/L0rD
- xfSJJ3AWlbtHXZXFF1FP2snU77gyJ0EicvGpiiBh8FjMhaILDNmdsuFFurMgHrxyMDoN
- LxSw==
-X-Gm-Message-State: AFqh2krpea/uUgbokvSYt7+4QGFy7hoQS036WYnGIrpWbDZpOs4xkvJy
- PVKWRauIsgU4tMmTZc0WtZSe++1Je6ApqKrl
-X-Google-Smtp-Source: AMrXdXvKjzL8FU8vhCeTmqFiuJmkbzuRDXNAglAQstTQx7wyJd1/9KYSl/mk11Q16E7/DYSl44JmoA==
-X-Received: by 2002:a62:1a53:0:b0:58d:8ea0:ce31 with SMTP id
- a80-20020a621a53000000b0058d8ea0ce31mr1692951pfa.27.1673739129820; 
- Sat, 14 Jan 2023 15:32:09 -0800 (PST)
+ bh=+4lg7eradCYPVsrMRZCCKNQC6F+FnSFuqVVZBIJoIWA=;
+ b=ze5+SIMb+bzCAb6waNwpG3W/UGomNVD9EdEvLpOg6Dws+54ZdCGGWCHQm5V+dXjGLg
+ aW8Pi/Gd8NWEkEoWBaGjEChubXx5bKqpBPZi5I6pv5Ve7Dze7KLT6cvWWEOlW7wQT0w6
+ jW7DE0Avl2DHo1qCAM0bl2VeOimZg/asqSzUH2vBIyZSccCG/NT4VYp9gdFkpZnnjzgi
+ NZztEr0r75u35iQBpLavCAfKYip9LL/DtSY23rHyEt18UPaEDlIQBjvyKutFqaGoRvca
+ gIcWFKRRid5Er7Zqo/vXu6rzVv4II+4jsWzhDda9h469nNjJr6sNB5vr1VUVe3EUV7Cm
+ aXyQ==
+X-Gm-Message-State: AFqh2kojxXVx0tRTuXiusamZdh1I7t1yAe7/tgB1Kx2jh6vNk84ZQtdD
+ GIUPuxt7mnd4i8B/heyW/SGrymwmnztYmX7R
+X-Google-Smtp-Source: AMrXdXvAYStqzrE8gZf+dzoxK4/GHcoVb4ZGCNJ/7kp/PSEY9QHwCrP0aVHCjGNh/cECxeVwPzH5IQ==
+X-Received: by 2002:a62:870f:0:b0:582:bb80:58d7 with SMTP id
+ i15-20020a62870f000000b00582bb8058d7mr16247883pfe.26.1673745667023; 
+ Sat, 14 Jan 2023 17:21:07 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- q4-20020aa79824000000b00581d62be96dsm3434079pfl.197.2023.01.14.15.32.08
+ 5-20020a621505000000b005772d55df03sm15704260pfv.35.2023.01.14.17.21.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Jan 2023 15:32:09 -0800 (PST)
+ Sat, 14 Jan 2023 17:21:06 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH] target/i386: Fix BZHI instruction
-Date: Sat, 14 Jan 2023 13:32:06 -1000
-Message-Id: <20230114233206.3118472-1-richard.henderson@linaro.org>
+Subject: [PATCH] target/i386: Fix 32-bit AD[CO]X insns in 64-bit mode
+Date: Sat, 14 Jan 2023 15:21:03 -1000
+Message-Id: <20230115012103.3131796-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,61 +86,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We did not correctly handle N >= operand size.
+Failure to truncate the inputs results in garbage for the carry-out.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1374
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1373
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/i386/test-i386-bmi2.c |  3 +++
- target/i386/tcg/emit.c.inc      | 14 +++++++-------
- 2 files changed, 10 insertions(+), 7 deletions(-)
+ tests/tcg/x86_64/adox.c          | 69 ++++++++++++++++++++++++++++++++
+ target/i386/tcg/emit.c.inc       |  2 +
+ tests/tcg/x86_64/Makefile.target |  3 ++
+ 3 files changed, 74 insertions(+)
+ create mode 100644 tests/tcg/x86_64/adox.c
 
-diff --git a/tests/tcg/i386/test-i386-bmi2.c b/tests/tcg/i386/test-i386-bmi2.c
-index 982d4abda4..0244df7987 100644
---- a/tests/tcg/i386/test-i386-bmi2.c
-+++ b/tests/tcg/i386/test-i386-bmi2.c
-@@ -123,6 +123,9 @@ int main(int argc, char *argv[]) {
-     result = bzhiq(mask, 0x1f);
-     assert(result == (mask & ~(-1 << 30)));
- 
-+    result = bzhiq(mask, 0x40);
-+    assert(result == mask);
+diff --git a/tests/tcg/x86_64/adox.c b/tests/tcg/x86_64/adox.c
+new file mode 100644
+index 0000000000..36be644c8b
+--- /dev/null
++++ b/tests/tcg/x86_64/adox.c
+@@ -0,0 +1,69 @@
++/* See if ADOX give expected results */
 +
-     result = rorxq(0x2132435465768798, 8);
-     assert(result == 0x9821324354657687);
- 
++#include <assert.h>
++#include <stdint.h>
++#include <stdbool.h>
++
++static uint64_t adoxq(bool *c_out, uint64_t a, uint64_t b, bool c)
++{
++    asm ("addl $0x7fffffff, %k1\n\t"
++         "adoxq %2, %0\n\t"
++         "seto %b1"
++         : "+r"(a), "=&r"(c) : "r"(b), "1"((int)c));
++    *c_out = c;
++    return a;
++}
++
++static uint64_t adoxl(bool *c_out, uint64_t a, uint64_t b, bool c)
++{
++    asm ("addl $0x7fffffff, %k1\n\t"
++         "adoxl %k2, %k0\n\t"
++         "seto %b1"
++         : "+r"(a), "=&r"(c) : "r"(b), "1"((int)c));
++    *c_out = c;
++    return a;
++}
++
++int main()
++{
++    uint64_t r;
++    bool c;
++
++    r = adoxq(&c, 0, 0, 0);
++    assert(r == 0);
++    assert(c == 0);
++
++    r = adoxl(&c, 0, 0, 0);
++    assert(r == 0);
++    assert(c == 0);
++
++    r = adoxl(&c, 0x100000000, 0, 0);
++    assert(r == 0);
++    assert(c == 0);
++
++    r = adoxq(&c, 0, 0, 1);
++    assert(r == 1);
++    assert(c == 0);
++
++    r = adoxl(&c, 0, 0, 1);
++    assert(r == 1);
++    assert(c == 0);
++
++    r = adoxq(&c, -1, -1, 0);
++    assert(r == -2);
++    assert(c == 1);
++
++    r = adoxl(&c, -1, -1, 0);
++    assert(r == 0xfffffffe);
++    assert(c == 1);
++
++    r = adoxq(&c, -1, -1, 1);
++    assert(r == -1);
++    assert(c == 1);
++
++    r = adoxl(&c, -1, -1, 1);
++    assert(r == 0xffffffff);
++    assert(c == 1);
++
++    return 0;
++}
 diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
-index 4d7702c106..1eace1231a 100644
+index 1eace1231a..d44c51209d 100644
 --- a/target/i386/tcg/emit.c.inc
 +++ b/target/i386/tcg/emit.c.inc
-@@ -1143,20 +1143,20 @@ static void gen_BLSR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
- static void gen_BZHI(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
- {
-     MemOp ot = decode->op[0].ot;
--    TCGv bound;
-+    TCGv bound = tcg_constant_tl(ot == MO_64 ? 63 : 31);
-+    TCGv zero = tcg_constant_tl(0);
-+    TCGv mone = tcg_constant_tl(-1);
+@@ -1042,6 +1042,8 @@ static void gen_ADCOX(DisasContext *s, CPUX86State *env, MemOp ot, int cc_op)
+ #ifdef TARGET_X86_64
+     case MO_32:
+         /* If TL is 64-bit just do everything in 64-bit arithmetic.  */
++        tcg_gen_ext32u_tl(s->T0, s->T0);
++        tcg_gen_ext32u_tl(s->T1, s->T1);
+         tcg_gen_add_i64(s->T0, s->T0, s->T1);
+         tcg_gen_add_i64(s->T0, s->T0, carry_in);
+         tcg_gen_shri_i64(carry_out, s->T0, 32);
+diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
+index 4eac78293f..e64aab1b81 100644
+--- a/tests/tcg/x86_64/Makefile.target
++++ b/tests/tcg/x86_64/Makefile.target
+@@ -12,11 +12,14 @@ ifeq ($(filter %-linux-user, $(TARGET)),$(TARGET))
+ X86_64_TESTS += vsyscall
+ X86_64_TESTS += noexec
+ X86_64_TESTS += cmpxchg
++X86_64_TESTS += adox
+ TESTS=$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
+ else
+ TESTS=$(MULTIARCH_TESTS)
+ endif
  
--    tcg_gen_ext8u_tl(s->T1, cpu_regs[s->vex_v]);
--    bound = tcg_constant_tl(ot == MO_64 ? 63 : 31);
-+    tcg_gen_ext8u_tl(s->T1, s->T1);
++adox: CFLAGS=-O2
++
+ run-test-i386-ssse3: QEMU_OPTS += -cpu max
+ run-plugin-test-i386-ssse3-%: QEMU_OPTS += -cpu max
  
-     /*
-      * Note that since we're using BMILG (in order to get O
-      * cleared) we need to store the inverse into C.
-      */
--    tcg_gen_setcond_tl(TCG_COND_LT, cpu_cc_src, s->T1, bound);
--    tcg_gen_movcond_tl(TCG_COND_GT, s->T1, s->T1, bound, bound, s->T1);
-+    tcg_gen_setcond_tl(TCG_COND_LEU, cpu_cc_src, s->T1, bound);
- 
--    tcg_gen_movi_tl(s->A0, -1);
--    tcg_gen_shl_tl(s->A0, s->A0, s->T1);
-+    tcg_gen_shl_tl(s->A0, mone, s->T1);
-+    tcg_gen_movcond_tl(TCG_COND_LEU, s->A0, s->T1, bound, s->A0, zero);
-     tcg_gen_andc_tl(s->T0, s->T0, s->A0);
- 
-     gen_op_update1_cc(s);
 -- 
 2.34.1
 
