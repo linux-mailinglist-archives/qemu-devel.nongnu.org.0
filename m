@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D349D66B130
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 14:14:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6221366B132
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 14:14:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pH2oh-0004DW-Mi; Sun, 15 Jan 2023 08:12:55 -0500
+	id 1pH2ot-0004Uy-Bb; Sun, 15 Jan 2023 08:13:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pH2of-00049L-I8
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:12:53 -0500
-Received: from mailout11.t-online.de ([194.25.134.85])
+ id 1pH2oo-0004Jj-KY
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:13:02 -0500
+Received: from mailout12.t-online.de ([194.25.134.22])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pH2oe-0005Bh-00
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:12:53 -0500
-Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
- by mailout11.t-online.de (Postfix) with SMTP id 96F9913D07;
- Sun, 15 Jan 2023 14:12:50 +0100 (CET)
-Received: from linpower.localnet ([79.208.25.151]) by fwd75.t-online.de
+ id 1pH2om-0005Cn-PB
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:13:02 -0500
+Received: from fwd84.dcpf.telekom.de (fwd84.aul.t-online.de [10.223.144.110])
+ by mailout12.t-online.de (Postfix) with SMTP id 5C12A7E50;
+ Sun, 15 Jan 2023 14:12:57 +0100 (CET)
+Received: from linpower.localnet ([79.208.25.151]) by fwd84.t-online.de
  with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pH2oc-1oOKMT0; Sun, 15 Jan 2023 14:12:50 +0100
+ esmtp id 1pH2oe-3l2fmz0; Sun, 15 Jan 2023 14:12:52 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 6EC132006C4; Sun, 15 Jan 2023 14:12:24 +0100 (CET)
+ id 7168A2006C5; Sun, 15 Jan 2023 14:12:24 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <volker.ruemelin@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
 Cc: qemu-devel@nongnu.org
-Subject: [PATCH 12/17] audio: rename variables in audio_pcm_sw_read()
-Date: Sun, 15 Jan 2023 14:12:19 +0100
-Message-Id: <20230115131224.30751-12-volker.ruemelin@t-online.de>
+Subject: [PATCH 13/17] audio/mixeng: calculate number of output frames
+Date: Sun, 15 Jan 2023 14:12:20 +0100
+Message-Id: <20230115131224.30751-13-volker.ruemelin@t-online.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
 References: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-MSGID: 1eef7ca8-81bd-47da-b985-a02e5cddb20b
-Received-SPF: none client-ip=194.25.134.85;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout11.t-online.de
+X-TOI-MSGID: 1c13819f-08e0-4db1-80bf-5d980f602ba3
+Received-SPF: none client-ip=194.25.134.22;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout12.t-online.de
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,64 +64,81 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-The audio_pcm_sw_read() function uses a few very unspecific
-variable names. Rename them for better readability.
+Calculate the exact number of audio output frames the resampling
+code can generate from a given number of audio input frames.
+When upsampling, this function returns the maximum number of
+output frames.
 
-ret => total_out
-total => total_in
-size => buf_len
-samples => frames_out_max
+This function will later replace the audio_frontend_frames_in()
+function, which calculates the average number of output frames
+rounded down to the nearest integer.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/audio.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ audio/mixeng.c | 37 +++++++++++++++++++++++++++++++++++++
+ audio/mixeng.h |  1 +
+ 2 files changed, 38 insertions(+)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 83bac97fa4..b660569928 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -574,10 +574,10 @@ static void audio_pcm_sw_resample_in(SWVoiceIn *sw,
-     }
+diff --git a/audio/mixeng.c b/audio/mixeng.c
+index 6bb3d54f77..92a3a1ac58 100644
+--- a/audio/mixeng.c
++++ b/audio/mixeng.c
+@@ -440,6 +440,43 @@ void st_rate_stop (void *opaque)
+     g_free (opaque);
  }
  
--static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
-+static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t buf_len)
- {
-     HWVoiceIn *hw = sw->hw;
--    size_t samples, live, ret, swlim, total;
-+    size_t live, frames_out_max, swlim, total_in, total_out;
- 
-     live = hw->total_samples_captured - sw->total_hw_samples_acquired;
-     if (!live) {
-@@ -588,20 +588,20 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
-         return 0;
-     }
- 
--    samples = size / sw->info.bytes_per_frame;
-+    frames_out_max = buf_len / sw->info.bytes_per_frame;
- 
-     swlim = (live * sw->ratio) >> 32;
--    swlim = MIN (swlim, samples);
-+    swlim = MIN(swlim, frames_out_max);
- 
--    audio_pcm_sw_resample_in(sw, live, swlim, &total, &ret);
-+    audio_pcm_sw_resample_in(sw, live, swlim, &total_in, &total_out);
- 
-     if (!hw->pcm_ops->volume_in) {
--        mixeng_volume(sw->resample_buf.buffer, ret, &sw->vol);
-+        mixeng_volume(sw->resample_buf.buffer, total_out, &sw->vol);
-     }
-+    sw->clip(buf, sw->resample_buf.buffer, total_out);
- 
--    sw->clip(buf, sw->resample_buf.buffer, ret);
--    sw->total_hw_samples_acquired += total;
--    return ret * sw->info.bytes_per_frame;
-+    sw->total_hw_samples_acquired += total_in;
-+    return total_out * sw->info.bytes_per_frame;
- }
- 
- /*
++/**
++ * st_rate_frames_out() - returns the number of frames the resampling code
++ * generates from frames_in frames
++ *
++ * @opaque: pointer to struct rate
++ * @frames_in: number of frames
++ */
++uint32_t st_rate_frames_out(void *opaque, uint32_t frames_in)
++{
++    struct rate *rate = opaque;
++    uint64_t opos_end, opos_delta;
++    uint32_t ipos_end;
++    uint32_t frames_out;
++
++    if (rate->opos_inc == 1ULL << 32) {
++        return frames_in;
++    }
++
++    /* no output frame without at least one input frame */
++    if (!frames_in) {
++        return 0;
++    }
++
++    /* last frame read was at rate->ipos - 1 */
++    ipos_end = rate->ipos - 1 + frames_in;
++    opos_end = (uint64_t)ipos_end << 32;
++
++    /* last frame written was at rate->opos - rate->opos_inc */
++    if (opos_end + rate->opos_inc <= rate->opos) {
++        return 0;
++    }
++    opos_delta = opos_end - rate->opos + rate->opos_inc;
++    frames_out = opos_delta / rate->opos_inc;
++
++    return opos_delta % rate->opos_inc ? frames_out : frames_out - 1;
++}
++
+ /**
+  * st_rate_frames_in() - returns the number of frames needed to
+  * get frames_out frames after resampling
+diff --git a/audio/mixeng.h b/audio/mixeng.h
+index 64c1e231cc..f9de7cffeb 100644
+--- a/audio/mixeng.h
++++ b/audio/mixeng.h
+@@ -52,6 +52,7 @@ void st_rate_flow(void *opaque, st_sample *ibuf, st_sample *obuf,
+ void st_rate_flow_mix(void *opaque, st_sample *ibuf, st_sample *obuf,
+                       size_t *isamp, size_t *osamp);
+ void st_rate_stop (void *opaque);
++uint32_t st_rate_frames_out(void *opaque, uint32_t frames_in);
+ uint32_t st_rate_frames_in(void *opaque, uint32_t frames_out);
+ void mixeng_clear (struct st_sample *buf, int len);
+ void mixeng_volume (struct st_sample *buf, int len, struct mixeng_volume *vol);
 -- 
 2.35.3
 
