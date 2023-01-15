@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AC466B131
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 14:14:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42F866B126
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 14:13:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pH2oX-00043j-Jl; Sun, 15 Jan 2023 08:12:45 -0500
+	id 1pH2oY-00043p-3v; Sun, 15 Jan 2023 08:12:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pH2oU-000407-IU
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:12:42 -0500
-Received: from mailout08.t-online.de ([194.25.134.20])
+ id 1pH2oW-00042t-2i
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:12:44 -0500
+Received: from mailout03.t-online.de ([194.25.134.81])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pH2oS-00059w-Uy
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:12:42 -0500
-Received: from fwd85.dcpf.telekom.de (fwd85.aul.t-online.de [10.223.144.111])
- by mailout08.t-online.de (Postfix) with SMTP id 39D1D29F8A;
- Sun, 15 Jan 2023 14:12:39 +0100 (CET)
-Received: from linpower.localnet ([79.208.25.151]) by fwd85.t-online.de
+ id 1pH2oU-0005A2-FV
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:12:43 -0500
+Received: from fwd87.dcpf.telekom.de (fwd87.aul.t-online.de [10.223.144.113])
+ by mailout03.t-online.de (Postfix) with SMTP id 4D22D1281B;
+ Sun, 15 Jan 2023 14:12:40 +0100 (CET)
+Received: from linpower.localnet ([79.208.25.151]) by fwd87.t-online.de
  with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pH2oO-239C4n0; Sun, 15 Jan 2023 14:12:36 +0100
+ esmtp id 1pH2oQ-1T1Bg10; Sun, 15 Jan 2023 14:12:38 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 5F409200635; Sun, 15 Jan 2023 14:12:24 +0100 (CET)
+ id 61E0E200638; Sun, 15 Jan 2023 14:12:24 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <volker.ruemelin@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
 Cc: qemu-devel@nongnu.org
-Subject: [PATCH 06/17] audio: rename variables in audio_pcm_sw_write()
-Date: Sun, 15 Jan 2023 14:12:13 +0100
-Message-Id: <20230115131224.30751-6-volker.ruemelin@t-online.de>
+Subject: [PATCH 07/17] audio: don't misuse audio_pcm_sw_write()
+Date: Sun, 15 Jan 2023 14:12:14 +0100
+Message-Id: <20230115131224.30751-7-volker.ruemelin@t-online.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
 References: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-MSGID: db8a8fd3-60c7-4624-80d1-3557b8a4ca4f
-Received-SPF: none client-ip=194.25.134.20;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout08.t-online.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+X-TOI-MSGID: a3a622b3-c675-4cb7-bd84-d1a17f678256
+Received-SPF: none client-ip=194.25.134.81;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout03.t-online.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,103 +64,72 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-The audio_pcm_sw_write() function uses a lot of very unspecific
-variable names. Rename them for better readability.
+The audio_pcm_sw_write() function is intended to convert a
+PCM audio stream to the internal representation, adjust the
+volume, and then mix it with the other audio streams with a
+possibly changed sample rate in mix_buf. In order for the
+audio_capture_mix_and_clear() function to use audio_pcm_sw_write(),
+it must bypass the first two tasks of audio_pcm_sw_write().
 
-ret => total_in
-total => total_out
-size => buf_len
-hwsamples => hw->mix_buf.size
-samples => frames_in_max
+Since patch "audio: split out the resampling loop in
+audio_pcm_sw_write()" this is no longer necessary, because now
+the audio_pcm_sw_resample_out() function can be used instead of
+audio_pcm_sw_write().
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/audio.c | 45 ++++++++++++++++++++++-----------------------
- 1 file changed, 22 insertions(+), 23 deletions(-)
+ audio/audio.c | 29 ++++++++++++++++++-----------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
 
 diff --git a/audio/audio.c b/audio/audio.c
-index 9d6ffa500a..a8571100ff 100644
+index a8571100ff..0cfd56850f 100644
 --- a/audio/audio.c
 +++ b/audio/audio.c
-@@ -704,56 +704,55 @@ static void audio_pcm_sw_resample_out(SWVoiceOut *sw,
-     }
- }
+@@ -1054,26 +1054,33 @@ static void audio_capture_mix_and_clear(HWVoiceOut *hw, size_t rpos,
  
--static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
-+static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t buf_len)
- {
--    size_t hwsamples, samples, live, dead;
--    size_t hw_free;
--    size_t ret, total;
--
--    hwsamples = sw->hw->mix_buf.size;
-+    HWVoiceOut *hw = sw->hw;
-+    size_t live, dead, hw_free;
-+    size_t frames_in_max, total_in, total_out;
+         for (sc = hw->cap_head.lh_first; sc; sc = sc->entries.le_next) {
+             SWVoiceOut *sw = &sc->sw;
+-            int rpos2 = rpos;
++            size_t rpos2 = rpos;
  
-     live = sw->total_hw_samples_mixed;
--    if (audio_bug(__func__, live > hwsamples)) {
--        dolog("live=%zu hw->mix_buf.size=%zu\n", live, hwsamples);
-+    if (audio_bug(__func__, live > hw->mix_buf.size)) {
-+        dolog("live=%zu hw->mix_buf.size=%zu\n", live, hw->mix_buf.size);
-         return 0;
-     }
+             n = samples;
+             while (n) {
+                 size_t till_end_of_hw = hw->mix_buf.size - rpos2;
+-                size_t to_write = MIN(till_end_of_hw, n);
+-                size_t bytes = to_write * hw->info.bytes_per_frame;
+-                size_t written;
++                size_t to_read = MIN(till_end_of_hw, n);
++                size_t live, frames_in, frames_out;
  
--    if (live == hwsamples) {
-+    if (live == hw->mix_buf.size) {
- #ifdef DEBUG_OUT
-         dolog ("%s is full %zu\n", sw->name, live);
- #endif
-         return 0;
-     }
- 
--    dead = hwsamples - live;
--    hw_free = audio_pcm_hw_get_free(sw->hw);
-+    dead = hw->mix_buf.size - live;
-+    hw_free = audio_pcm_hw_get_free(hw);
-     hw_free = hw_free > live ? hw_free - live : 0;
--    samples = ((int64_t)MIN(dead, hw_free) << 32) / sw->ratio;
--    samples = MIN(samples, size / sw->info.bytes_per_frame);
--    if (samples) {
--        sw->conv(sw->resample_buf.buffer, buf, samples);
-+    frames_in_max = ((int64_t)MIN(dead, hw_free) << 32) / sw->ratio;
-+    frames_in_max = MIN(frames_in_max, buf_len / sw->info.bytes_per_frame);
-+    if (frames_in_max) {
-+        sw->conv(sw->resample_buf.buffer, buf, frames_in_max);
- 
-         if (!sw->hw->pcm_ops->volume_out) {
--            mixeng_volume(sw->resample_buf.buffer, samples, &sw->vol);
-+            mixeng_volume(sw->resample_buf.buffer, frames_in_max, &sw->vol);
+                 sw->resample_buf.buffer = hw->mix_buf.buffer + rpos2;
+-                sw->resample_buf.size = to_write;
+-                written = audio_pcm_sw_write (sw, NULL, bytes);
+-                if (written - bytes) {
+-                    dolog("Could not mix %zu bytes into a capture "
++                sw->resample_buf.size = to_read;
++                live = sw->total_hw_samples_mixed;
++
++                audio_pcm_sw_resample_out(sw,
++                                          to_read, sw->hw->mix_buf.size - live,
++                                          &frames_in, &frames_out);
++
++                sw->total_hw_samples_mixed += frames_out;
++                sw->empty = sw->total_hw_samples_mixed == 0;
++
++                if (to_read - frames_in) {
++                    dolog("Could not mix %zu frames into a capture "
+                           "buffer, mixed %zu\n",
+-                          bytes, written);
++                          to_read, frames_in);
+                     break;
+                 }
+-                n -= to_write;
+-                rpos2 = (rpos2 + to_write) % hw->mix_buf.size;
++                n -= to_read;
++                rpos2 = (rpos2 + to_read) % hw->mix_buf.size;
+             }
          }
      }
- 
--    audio_pcm_sw_resample_out(sw, samples, MIN(dead, hw_free), &ret, &total);
-+    audio_pcm_sw_resample_out(sw, frames_in_max, MIN(dead, hw_free),
-+                              &total_in, &total_out);
- 
--    sw->total_hw_samples_mixed += total;
-+    sw->total_hw_samples_mixed += total_out;
-     sw->empty = sw->total_hw_samples_mixed == 0;
- 
- #ifdef DEBUG_OUT
-     dolog (
--        "%s: write size %zu ret %zu total sw %zu\n",
--        SW_NAME (sw),
--        size / sw->info.bytes_per_frame,
--        ret,
-+        "%s: write size %zu written %zu total mixed %zu\n",
-+        SW_NAME(sw),
-+        buf_len / sw->info.bytes_per_frame,
-+        total_in,
-         sw->total_hw_samples_mixed
-         );
- #endif
- 
--    return ret * sw->info.bytes_per_frame;
-+    return total_in * sw->info.bytes_per_frame;
- }
- 
- #ifdef DEBUG_AUDIO
 -- 
 2.35.3
 
