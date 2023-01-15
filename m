@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0289466B136
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 14:15:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5057366B14F
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 14:47:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pH2ov-0004iL-Mj; Sun, 15 Jan 2023 08:13:09 -0500
+	id 1pH3KV-0002np-6T; Sun, 15 Jan 2023 08:45:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pH2os-0004Ux-IZ
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:13:06 -0500
-Received: from mailout10.t-online.de ([194.25.134.21])
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pH3KS-0002nO-Ih
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:45:44 -0500
+Received: from mailout06.t-online.de ([194.25.134.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pH2oq-0005Dz-LG
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:13:06 -0500
-Received: from fwd77.dcpf.telekom.de (fwd77.aul.t-online.de [10.223.144.103])
- by mailout10.t-online.de (Postfix) with SMTP id 154C524B34;
- Sun, 15 Jan 2023 14:13:02 +0100 (CET)
-Received: from linpower.localnet ([79.208.25.151]) by fwd77.t-online.de
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pH3KQ-0003Im-2W
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:45:44 -0500
+Received: from fwd84.dcpf.telekom.de (fwd84.aul.t-online.de [10.223.144.110])
+ by mailout06.t-online.de (Postfix) with SMTP id 68C7951D4;
+ Sun, 15 Jan 2023 14:45:37 +0100 (CET)
+Received: from [192.168.211.200] ([79.208.25.151]) by fwd84.t-online.de
  with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pH2on-0gcIwz0; Sun, 15 Jan 2023 14:13:01 +0100
-Received: by linpower.localnet (Postfix, from userid 1000)
- id 7BEC72006C9; Sun, 15 Jan 2023 14:12:24 +0100 (CET)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <volker.ruemelin@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: [PATCH 17/17] audio: remove sw->ratio
-Date: Sun, 15 Jan 2023 14:12:24 +0100
-Message-Id: <20230115131224.30751-17-volker.ruemelin@t-online.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
-References: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
+ esmtp id 1pH3KI-0XJfOL0; Sun, 15 Jan 2023 14:45:34 +0100
+Message-ID: <a671751a-cbb7-22c2-8840-0476176d2533@t-online.de>
+Date: Sun, 15 Jan 2023 14:45:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 00/17] audio: improve callback interface for audio
+ frontends
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
+Content-Language: en-US
+In-Reply-To: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TOI-MSGID: 9eaa5b86-7b91-45d1-828e-0936903caca1
-Received-SPF: none client-ip=194.25.134.21;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout10.t-online.de
+X-TOI-MSGID: 6faaf601-9c86-4307-b23f-ac3f17570c56
+Received-SPF: none client-ip=194.25.134.19; envelope-from=vr_qemu@t-online.de;
+ helo=mailout06.t-online.de
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,98 +66,273 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Volker Rümelin <vr_qemu@t-online.de>
+Am 15.01.23 um 14:08 schrieb Volker Rümelin:
 
-Simplify the resample buffer size calculation.
+Ccing a few more people who might be interested in this patch series.
 
-For audio playback we have
-sw->ratio = ((int64_t)sw->hw->info.freq << 32) / sw->info.freq;
-samples = ((int64_t)sw->HWBUF.size << 32) / sw->ratio;
+@Mark:
+After this patch series, the code in your out of tree ASC audio device 
+(and a few in tree audio devices) could be simplified. write_audio() and 
+the loops calling write_audio() could be removed.
 
-This can be simplified to
-samples = muldiv64(sw->HWBUF.size, sw->info.freq, sw->hw->info.freq);
+With best regards,
+Volker
 
-For audio recording we have
-sw->ratio = ((int64_t)sw->info.freq << 32) / sw->hw->info.freq;
-samples = (int64_t)sw->HWBUF.size * sw->ratio >> 32;
-
-This can be simplified to
-samples = muldiv64(sw->HWBUF.size, sw->info.freq, sw->hw->info.freq);
-
-With hw = sw->hw this becomes in both cases
-samples = muldiv64(HWBUF.size, sw->info.freq, hw->info.freq);
-
-Now that sw->ratio is no longer needed, remove sw->ratio.
-
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- audio/audio.c          | 1 -
- audio/audio_int.h      | 2 --
- audio/audio_template.h | 9 +--------
- 3 files changed, 1 insertion(+), 11 deletions(-)
-
-diff --git a/audio/audio.c b/audio/audio.c
-index b846b89a27..b68ed4eb68 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -476,7 +476,6 @@ static int audio_attach_capture (HWVoiceOut *hw)
-         sw->info = hw->info;
-         sw->empty = 1;
-         sw->active = hw->enabled;
--        sw->ratio = ((int64_t) hw_cap->info.freq << 32) / sw->info.freq;
-         sw->vol = nominal_volume;
-         sw->rate = st_rate_start (sw->info.freq, hw_cap->info.freq);
-         QLIST_INSERT_HEAD (&hw_cap->sw_head, sw, entries);
-diff --git a/audio/audio_int.h b/audio/audio_int.h
-index f4ec5dcf11..3cd3539bd4 100644
---- a/audio/audio_int.h
-+++ b/audio/audio_int.h
-@@ -108,7 +108,6 @@ struct SWVoiceOut {
-     AudioState *s;
-     struct audio_pcm_info info;
-     t_sample *conv;
--    int64_t ratio;
-     STSampleBuffer resample_buf;
-     void *rate;
-     size_t total_hw_samples_mixed;
-@@ -126,7 +125,6 @@ struct SWVoiceIn {
-     AudioState *s;
-     int active;
-     struct audio_pcm_info info;
--    int64_t ratio;
-     void *rate;
-     size_t total_hw_samples_acquired;
-     STSampleBuffer resample_buf;
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index 0cdf57760e..c053792da3 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -114,11 +114,7 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
-         return 0;
-     }
- 
--#ifdef DAC
--    samples = ((int64_t)sw->HWBUF.size << 32) / sw->ratio;
--#else
--    samples = (int64_t)sw->HWBUF.size * sw->ratio >> 32;
--#endif
-+    samples = muldiv64(HWBUF.size, sw->info.freq, hw->info.freq);
-     if (samples == 0) {
-         size_t f_fe_min;
- 
-@@ -159,11 +155,8 @@ static int glue (audio_pcm_sw_init_, TYPE) (
-     sw->hw = hw;
-     sw->active = 0;
- #ifdef DAC
--    sw->ratio = ((int64_t) sw->hw->info.freq << 32) / sw->info.freq;
-     sw->total_hw_samples_mixed = 0;
-     sw->empty = 1;
--#else
--    sw->ratio = ((int64_t) sw->info.freq << 32) / sw->hw->info.freq;
- #endif
- 
-     if (sw->info.is_float) {
--- 
-2.35.3
+> Based-on: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
+> ([PATCH 00/11] audio: more improvements)
+>
+> The callback interface for emulated audio devices is strange. The 
+> callback function has an 'avail' parameter that passes the number of 
+> bytes that can be written or read. Unfortunately, this value sometimes 
+> is only an imprecise estimate and the callback functions must check 
+> the actual bytes written or read. For playback devices, this means 
+> that they either need a ring buffer or have to write the unwritten 
+> bytes again the next time. For recording devices, things are a bit 
+> easier. They only need to continue with the actual number of bytes read.
+>
+> After this patch series, the 'avail' argument for the -audiodev 
+> out.mixing-engine=on and in.mixing-engine=on cases is exact. Audio 
+> frontends only need a linear frame buffer and there's a guarantee they 
+> can write or read 'avail' bytes.
+>
+> The -audiodev out.mixing-engine=off case is also mostly accurate. Only 
+> the D-Bus audio backend is still missing a required function. The 
+> -audiodev in.mixing-engine=off case always passes a much too large 
+> 'avail' value. I haven't worked on this yet, because there was no 
+> reason for it so far.
+>
+> The following logs show the improvements. Not only the audio frontends 
+> can write or read all needed or available bytes. The same is true for 
+> the audio backends. For playback, the first six lines in the logs are 
+> expected. Here you can see how quickly the guest fills the empty 
+> downstream buffers after playback starts.
+>
+> QEMU was started with -device ich9-intel-hda,addr=0x1b -device 
+> hda-duplex,audiodev=audio0 -audiodev 
+> pa,out.frequency=96000,in.frequency=96000,id=audio0
+>
+> playback guest 44100Hz => host 96000Hz
+>
+> unpatched version:
+> hda_audio_output_cb: to write 8188, written 1704
+> audio_run_out: free 4458, played 926
+> hda_audio_output_cb: to write 6488, written 2384
+> audio_run_out: free 3532, played 1297
+> hda_audio_output_cb: to write 4104, written 2648
+> audio_run_out: free 2235, played 1441
+> audio_run_out: free 794, played 793
+> audio_run_out: free 897, played 896
+> audio_run_out: free 831, played 829
+> ...
+> hda_audio_output_cb: could not write 4 bytes
+> hda_audio_output_cb: to write 1764, written 1760
+> audio_run_out: free 960, played 958
+> ...
+>
+> patched version:
+> hda_audio_output_cb: to write 8192, written 1620
+> audio_run_out: free 4458, played 880
+> hda_audio_output_cb: to write 6576, written 2508
+> audio_run_out: free 3578, played 1365
+> hda_audio_output_cb: to write 4068, written 2500
+> audio_run_out: free 2213, played 1360
+>
+> record host 96000Hz => guest 44100Hz
+>
+> unpatched version:
+> audio_run_in: avail 4458, acquired 4454
+> audio_run_in: avail 1574, acquired 1572
+> audio_run_in: avail 766, acquired 764
+> audio_run_in: avail 1052, acquired 1051
+> audio_run_in: avail 761, acquired 760
+> audio_run_in: avail 1123, acquired 1121
+> ...
+> hda_audio_input_cb: could not read 4 bytes
+> hda_audio_input_cb: to read 1988, read 1984
+> audio_run_in: avail 1082, acquired 1080
+> ...
+>
+> patched version:
+> (no output)
+>
+> QEMU was started with -device ich9-intel-hda,addr=0x1b -device 
+> hda-duplex,audiodev=audio0 -audiodev 
+> pa,out.frequency=32000,in.frequency=32000,id=audio0
+>
+> playback guest 44100Hz => host 32000Hz
+>
+> unpatched version:
+> hda_audio_output_cb: to write 8188, written 1620
+> audio_run_out: free 1486, played 294
+> hda_audio_output_cb: to write 6568, written 2512
+> audio_run_out: free 1192, played 455
+> hda_audio_output_cb: to write 4060, written 2504
+> audio_run_out: free 737, played 455
+> audio_run_out: free 282, played 281
+> audio_run_out: free 357, played 356
+> audio_run_out: free 314, played 313
+> ...
+> hda_audio_output_cb: could not write 4 bytes
+> hda_audio_output_cb: to write 1416, written 1412
+> audio_run_out: free 257, played 256
+> ...
+>
+> patched version:
+> hda_audio_output_cb: to write 8192, written 1656
+> audio_run_out: free 1486, played 300
+> hda_audio_output_cb: to write 6536, written 2516
+> audio_run_out: free 1186, played 457
+> hda_audio_output_cb: to write 4020, written 2540
+> audio_run_out: free 729, played 460
+>
+> record host 32000Hz => guest 44100Hz
+>
+> unpatched version:
+> audio_run_in: avail 1486, acquired 1485
+> audio_run_in: avail 272, acquired 271
+> audio_run_in: avail 366, acquired 365
+> hda_audio_input_cb: could not read 4 bytes
+> hda_audio_input_cb: to read 1420, read 1416
+> audio_run_in: avail 258, acquired 257
+> audio_run_in: avail 375, acquired 374
+> hda_audio_input_cb: could not read 4 bytes
+> hda_audio_input_cb: to read 2056, read 2052
+> audio_run_in: avail 260, acquired 259
+> ...
+>
+> patched version:
+> (no output)
+>
+> This is the debug code for the logs above.
+>
+> ---snip--
+> --- a/audio/audio.c    2022-12-13 19:14:31.793153558 +0100
+> +++ b/audio/audio.c    2022-12-11 16:24:48.842649711 +0100
+> @@ -1228,6 +1228,10 @@ static void audio_run_out (AudioState *s
+>  #ifdef DEBUG_OUT
+>          dolog("played=%zu\n", played);
+>  #endif
+> +        if (hw_free - played) {
+> +            fprintf(stderr, "%s: free %zu, played %zu\n",
+> +                    __func__, hw_free, played);
+> +        }
+>
+>          if (played) {
+>              hw->ts_helper += played;
+> @@ -1318,6 +1322,7 @@ static void audio_run_in (AudioState *s)
+>              if (sw->active) {
+>                  size_t sw_avail = audio_get_avail(sw);
+>                  size_t avail;
+> +                size_t prev_acquired = sw->total_hw_samples_acquired;
+>
+>                  avail = st_rate_frames_out(sw->rate, sw_avail);
+>                  if (avail > 0) {
+> @@ -1325,6 +1330,11 @@ static void audio_run_in (AudioState *s)
+>                      sw->callback.fn(sw->callback.opaque,
+>                                      avail * sw->info.bytes_per_frame);
+>                  }
+> +
+> +                if (sw_avail + prev_acquired - 
+> sw->total_hw_samples_acquired) {
+> +                    fprintf(stderr, "%s: avail %zu, acquired %zu\n", 
+> __func__,
+> +                            sw_avail, sw->total_hw_samples_acquired - 
+> prev_acquired);
+> +                }
+>              }
+>          }
+>      }
+> --- a/hw/audio/hda-codec.c    2023-01-04 14:07:31.954304889 +0100
+> +++ b/hw/audio/hda-codec.c    2023-01-04 13:57:47.687320406 +0100
+> @@ -265,20 +265,28 @@ static void hda_audio_input_cb(void *opa
+>      int64_t rpos = st->rpos;
+>
+>      int64_t to_transfer = MIN(B_SIZE - (wpos - rpos), avail);
+> +    unsigned int total_read = 0;
+>
+>      while (to_transfer) {
+>          uint32_t start = (uint32_t) (wpos & B_MASK);
+>          uint32_t chunk = (uint32_t) MIN(B_SIZE - start, to_transfer);
+>          uint32_t read = AUD_read(st->voice.in, st->buf + start, chunk);
+>          wpos += read;
+> +        total_read += read;
+>          to_transfer -= read;
+>          st->wpos += read;
+>          if (chunk != read) {
+> +            fprintf(stderr, "%s: could not read %u bytes\n", __func__,
+> +                    chunk - read);
+>              break;
+>          }
+>      }
+>
+>      hda_timer_sync_adjust(st, -((wpos - rpos) - (B_SIZE >> 1)));
+> +    if (avail != total_read) {
+> +        fprintf(stderr, "%s: to read %d, read %u\n", __func__,
+> +                avail, total_read);
+> +    }
+>  }
+>
+>  static void hda_audio_output_timer(void *opaque)
+> @@ -329,6 +337,7 @@ static void hda_audio_output_cb(void *op
+>      int64_t rpos = st->rpos;
+>
+>      int64_t to_transfer = MIN(wpos - rpos, avail);
+> +    unsigned int total_written = 0;
+>
+>      if (wpos - rpos == B_SIZE) {
+>          /* drop buffer, reset timer adjust */
+> @@ -343,15 +352,22 @@ static void hda_audio_output_cb(void *op
+>          uint32_t start = (uint32_t) (rpos & B_MASK);
+>          uint32_t chunk = (uint32_t) MIN(B_SIZE - start, to_transfer);
+>          uint32_t written = AUD_write(st->voice.out, st->buf + start, 
+> chunk);
+> +        total_written += written;
+>          rpos += written;
+>          to_transfer -= written;
+>          st->rpos += written;
+>          if (chunk != written) {
+> +            fprintf(stderr, "%s: could not write %u bytes\n", __func__,
+> +                    chunk - written);
+>              break;
+>          }
+>      }
+>
+>      hda_timer_sync_adjust(st, (wpos - rpos) - (B_SIZE >> 1));
+> +    if (avail != total_written) {
+> +        fprintf(stderr, "%s: to write %d, written %u\n", __func__,
+> +                avail, total_written);
+> +    }
+>  }
+>
+>  static void hda_audio_compat_input_cb(void *opaque, int avail)
+> ---snip--
+>
+> Volker Rümelin (17):
+>   audio: change type of mix_buf and conv_buf
+>   audio: change type and name of the resample buffer
+>   audio: make the resampling code greedy
+>   audio: replace the resampling loop in audio_pcm_sw_write()
+>   audio: remove sw == NULL check
+>   audio: rename variables in audio_pcm_sw_write()
+>   audio: don't misuse audio_pcm_sw_write()
+>   audio: remove unused noop_conv() function
+>   audio/mixeng: calculate number of input frames
+>   audio: wire up st_rate_frames_in()
+>   audio: replace the resampling loop in audio_pcm_sw_read()
+>   audio: rename variables in audio_pcm_sw_read()
+>   audio/mixeng: calculate number of output frames
+>   audio: wire up st_rate_frames_out()
+>   audio: handle leftover audio frame from upsampling
+>   audio/audio_template: substitute sw->hw with hw
+>   audio: remove sw->ratio
+>
+>  audio/audio.c          | 366 +++++++++++++++++++++--------------------
+>  audio/audio_int.h      |  12 +-
+>  audio/audio_template.h |  41 +++--
+>  audio/mixeng.c         |  73 ++++++++
+>  audio/mixeng.h         |   2 +
+>  audio/rate_template.h  |  21 ++-
+>  6 files changed, 304 insertions(+), 211 deletions(-)
+>
 
 
