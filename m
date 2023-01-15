@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE33E66B3BE
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 21:08:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63FA766B408
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 22:02:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pH9HI-0003tB-RS; Sun, 15 Jan 2023 15:06:52 -0500
+	id 1pHA80-0005yt-8o; Sun, 15 Jan 2023 16:01:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mike.maslenkin@gmail.com>)
- id 1pH9H9-0003sU-LI
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 15:06:43 -0500
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mike.maslenkin@gmail.com>)
- id 1pH9H7-0003ZK-Ej
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 15:06:43 -0500
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-4d59d518505so187065547b3.1
- for <qemu-devel@nongnu.org>; Sun, 15 Jan 2023 12:06:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ZajnMoDvg4YTWUq8GjVBEA9NsHi2KJZfJq/DxMbXQ80=;
- b=TJQf+8XFMNHYDPGmRoeJVa7BARBWmGUi3mJCTFm3RDyV21az+Ml/zWFEoyD1/XMn/9
- RVqloAVsMFKQaNme2p06gvMTRXChOHwISgh0LSq0fFKFvAwUSFtIe7nRycmUbtYVfybg
- 03qNutXUmNmcRWQgpMOnmUs7TXBdtlBxC/Gm+jnOKyLWwQ5IXckt9TmcAyOm9b9L2Kv6
- Vm+DUD5ZDdf5FLmzVrhzTKgk+LCqsrUGGr9HfQh9ISewasrNsISlUxBI3vXG9ik35yUF
- vCf/c7pXm/sBIOJKWnRPhQao1Wqn738IL65F16M0eGLCq+CBcjFM0tTtQiOzTfDOxOfi
- uQQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZajnMoDvg4YTWUq8GjVBEA9NsHi2KJZfJq/DxMbXQ80=;
- b=eA54uT20iWzNjvaen2s5lPpYVAbZCyKM4xY7cr65q2UI1YRgg/6UvCuU7OMFVbRc/S
- vTKlgNojysEkqwSqJb5jNtzwi223i0v8Uj/xlplgdAEz48p9T3fHL/2L1eSb9dmj3eoN
- TCJWZA43BJcixP2lYKMGuoxxWo8iQkFOwdM/Wq56oOBijfYcM4xrgcmFzzMzdGzpkB5u
- Wee9C2tcs0SosMjvMSgYmIpEGmVLkQU9/AAX8+MG5lSrWhcLGp6Tn2JrvfnnuQWsPoV4
- HhB2LkWaC4yYWUyuHmwU1E9zImrFyVIcoUJe0sN13288Rr9qugNr69gJa6OHfUNDx9Q1
- J6Wg==
-X-Gm-Message-State: AFqh2kq2Hnn0iNC5qrItTWKv4lfqIQquHNiptSQOWWnUbgjdn8RgbdIX
- iXzSbwuWqNNRLyPHXDGHIHXlxrlsAZcWwGgpmC8=
-X-Google-Smtp-Source: AMrXdXt92IlZUo/U9pz32RpNIkppMDda484VvFjnX2Y8ToxhsEsiFYQAljLUyufJGj5+3szwCJhVpe4umsCFmxN0DCE=
-X-Received: by 2002:a81:8397:0:b0:4db:255a:6217 with SMTP id
- t145-20020a818397000000b004db255a6217mr1717375ywf.85.1673813199749; Sun, 15
- Jan 2023 12:06:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pHA7y-0005yg-PE
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 16:01:18 -0500
+Received: from mout.gmx.net ([212.227.15.19])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pHA7t-0006lQ-BY
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 16:01:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1673816471; bh=vDpiM8Fj0PyspxqL3DEYZIxvzXMVoxtM1udg7P4OQZc=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=cfdlH9V307rUsykEXBBZaBGDeXAPR9GZ80Xa64YNlaUNbwq5FAM9thppFt1HRA8xO
+ rwIfFFYQtmSZw/MlBjTUDk2X5AoZgI5SeYC/Hw4dx7Vodp0mCAwcOZE4y0ER2uN3y2
+ kWPVMAWbpmm85UrpJvbDilrGUppDmWh6zV3uadOIoPYVsXU9A/55BTF+QTCni4Ou2l
+ Jyy2Q6GfmcaXEOiQkN33uFf1BMp9xQqfw2MogjsCGb/PPt0cRYW473aB9umiLuaEgt
+ rxH9I9KNcLX2chnr45StkBlp6mUTGAHhmijCwdMCaJvc5byFNvKN32FwHSPlJDSMK1
+ kSwy1MgzolHnQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from p100.fritz.box ([92.116.161.25]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MNKm0-1p6egW3lyk-00Ood4; Sun, 15
+ Jan 2023 22:01:10 +0100
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>,
+	qemu-devel@nongnu.org
+Cc: Helge Deller <deller@gmx.de>
+Subject: [PATCH] linux-user: Improve strace output of getgroups() and
+ setgroups()
+Date: Sun, 15 Jan 2023 22:00:57 +0100
+Message-Id: <20230115210057.445132-1-deller@gmx.de>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20230113161711.7885-1-Jonathan.Cameron@huawei.com>
- <20230113161711.7885-8-Jonathan.Cameron@huawei.com>
-In-Reply-To: <20230113161711.7885-8-Jonathan.Cameron@huawei.com>
-From: Mike Maslenkin <mike.maslenkin@gmail.com>
-Date: Sun, 15 Jan 2023 23:06:03 +0300
-Message-ID: <CAL77WPBFT5Ty56bOQR4aQqxi=GZYbwZELiZhkWzB4F-Wn0pZGg@mail.gmail.com>
-Subject: Re: [PATCH 7/7] hw/mem/cxl_type3: Add CXL RAS Error Injection Support.
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: qemu-devel@nongnu.org, Michael Tsirkin <mst@redhat.com>, 
- Ben Widawsky <bwidawsk@kernel.org>, linuxarm@huawei.com,
- linux-cxl@vger.kernel.org, 
- Dave Jiang <dave.jiang@intel.com>, alison.schofield@intel.com,
- ira.weiny@intel.com, 
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=mike.maslenkin@gmail.com; helo=mail-yw1-x112a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:g+rqDzvm+BzXvmrJ7Q+0VJSgSI43kWaLam+IIozW2Mpbrd6jx9h
+ 5DBGWNPdQTh2KZ1ws4LskSKWzYLfIkYIeBowzMp+DSK3sWkW3ORSbejh7MXW8ADU9kv3JEB
+ sYUbnwj02ym1iRM3lDdvf2eQHxk2STHWeyzdLzsq5xalMeyobyCpQVU1Tr6PuQFqP9sxxO0
+ qbUac4Db5MPqvHIqx19rg==
+UI-OutboundReport: notjunk:1;M01:P0:pKFsgemGvkU=;eb+AT4YeQvj/ZjouYwQh3630C6B
+ Sq19RqOthdVZd+8c5/QmHRpJeW+mERkdltR81rHzbaB06VkU+oSDCEb26IESc62AepFf1OB0o
+ Sv/tIvsptloTJU4IJilBLB+6/6IYvseyyJkj2lnwQVIGRuibXdVfweSEyHvZgBsHooioEFUbF
+ VYzyHm4zxSsOw8LM+dFsM7mb8V/Ld+nuvYN5JmZjsDMo68jP2LWTqYj3RA8ThffhEcKY5U7FK
+ O3O0sAipBYeB6+9sCUmPWMlevB3o7BFoh/WXhVFbQmIbKRUfiJk2/1VbMUwpA26Kg8jnvvW8U
+ WzVInVNV5BWIvhWjeOqL08QkIWQbtKSJj4N9u1+itixOGsCGSJjyBW+oIVqE+1Aa8u3RAeHvF
+ c5pwb1Xl/tkR2WkG0MPAd0o71vhyhzDLrB7xpsrDRTbI/yc3bJARO/0Vco4pOmsegm0dDI0za
+ 5zgZ0I814hmkY3RKTxiygLLQq2VfJCL/C8MQLlSs48gngfCk4TIXEOldPHJRfhraialf0sPD2
+ WlnI3SoB5+PRSLD1EZtccfYRtw3jqNJlhqHPZwhoE9Eg6MmenIHhSt9TeMI/oqSt3Jz3J4jOi
+ jxBcJVBEGaV2LpSjfnNedGJMGFwJ6bJPcXDSOuANPGhK5C2BDxVJCmcyBPOS6/sG+j99eB4Od
+ 7lv0FuWFtD0BhZc2Ycgjr6lPG1E4vcLRZcRzIeG3jePoiq39YHdtrewxjYJyKWt3bDWnzBsbW
+ ZkLmsIWCDsr1KgpxauvKetyKTcQ09eJ/kdfsvpDmXIk3qQkPixhj2RVscOxQN/v2RIlYCUu/V
+ oCiXhMjh8KMwgz5UspXx9BtZK515o61F7jU0i5urPrKs6sWZSX9iNi2zf5i65veIdimoe6LoK
+ oPCfg45ney4GymA9IGHzqkzw4MLItyyJ3BLgLlmeqjV4neSjZMwqzU+KLH/AITnzeY9PilDRD
+ SM1wG0Bm4WBFV9FAnWy/3VHYlxg=
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,199 +83,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 13, 2023 at 7:43 PM Jonathan Cameron via
-<qemu-devel@nongnu.org> wrote:
->
-> CXL uses PCI AER Internal errors to signal to the host that an error has
-> occurred. The host can then read more detailed status from the CXL RAS
-> capability.
->
-> For uncorrectable errors: support multiple injection in one operation
-> as this is needed to reliably test multiple header logging support in an
-> OS. The equivalent feature doesn't exist for correctable errors, so only
-> one error need be injected at a time.
->
-> Note:
->  - Header content needs to be manually specified in a fashion that
->    matches the specification for what can be in the header for each
->    error type.
->
-> Injection via QMP:
-> { "execute": "qmp_capabilities" }
-> ...
-> { "execute": "cxl-inject-uncorrectable-errors",
->   "arguments": {
->     "path": "/machine/peripheral/cxl-pmem0",
->     "errors": [
->         {
->             "type": "cache-address-parity",
->             "header": [ 3, 4]
->         },
->         {
->             "type": "cache-data-parity",
->             "header": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
->         },
->         {
->             "type": "internal",
->             "header": [ 1, 2, 4]
->         }
->         ]
->   }}
-> ...
-> { "execute": "cxl-inject-correctable-error",
->     "arguments": {
->         "path": "/machine/peripheral/cxl-pmem0",
->         "type": "physical",
->         "header": [ 3, 4]
->     } }
->
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  hw/cxl/cxl-component-utils.c   |   4 +-
->  hw/mem/cxl_type3.c             | 290 +++++++++++++++++++++++++++++++++
->  hw/mem/cxl_type3_stubs.c       |  10 ++
->  hw/mem/meson.build             |   2 +
->  include/hw/cxl/cxl_component.h |  26 +++
->  include/hw/cxl/cxl_device.h    |  11 ++
->  qapi/cxl.json                  | 113 +++++++++++++
->  qapi/meson.build               |   1 +
->  qapi/qapi-schema.json          |   1 +
->  9 files changed, 457 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-> index 3edd303a33..02fb6c17b9 100644
-> --- a/hw/cxl/cxl-component-utils.c
-> +++ b/hw/cxl/cxl-component-utils.c
-> @@ -142,16 +142,18 @@ static void ras_init_common(uint32_t *reg_state, uint32_t *write_msk)
->       * be handled as RO.
->       */
->      reg_state[R_CXL_RAS_UNC_ERR_STATUS] = 0;
-> +    write_msk[R_CXL_RAS_UNC_ERR_STATUS] = 0x1cfff;
->      /* Bits 12-13 and 17-31 reserved in CXL 2.0 */
->      reg_state[R_CXL_RAS_UNC_ERR_MASK] = 0x1cfff;
->      write_msk[R_CXL_RAS_UNC_ERR_MASK] = 0x1cfff;
->      reg_state[R_CXL_RAS_UNC_ERR_SEVERITY] = 0x1cfff;
->      write_msk[R_CXL_RAS_UNC_ERR_SEVERITY] = 0x1cfff;
->      reg_state[R_CXL_RAS_COR_ERR_STATUS] = 0;
-> +    write_msk[R_CXL_RAS_COR_ERR_STATUS] = 0x7f;
->      reg_state[R_CXL_RAS_COR_ERR_MASK] = 0x7f;
->      write_msk[R_CXL_RAS_COR_ERR_MASK] = 0x7f;
->      /* CXL switches and devices must set */
-> -    reg_state[R_CXL_RAS_ERR_CAP_CTRL] = 0x00;
-> +    reg_state[R_CXL_RAS_ERR_CAP_CTRL] = 0x200;
->  }
->
->  static void hdm_init_common(uint32_t *reg_state, uint32_t *write_msk,
-> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> index 6cdd988d1d..ae8fd09e87 100644
-> --- a/hw/mem/cxl_type3.c
-> +++ b/hw/mem/cxl_type3.c
-> @@ -1,6 +1,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/units.h"
->  #include "qemu/error-report.h"
-> +#include "qapi/qapi-commands-cxl.h"
->  #include "hw/mem/memory-device.h"
->  #include "hw/mem/pc-dimm.h"
->  #include "hw/pci/pci.h"
-> @@ -323,6 +324,66 @@ static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
->      ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
->  }
->
-> +static int ct3d_qmp_uncor_err_to_cxl(CxlUncorErrorType qmp_err)
-> +{
-> +    switch (qmp_err) {
-> +    case CXL_UNCOR_ERROR_TYPE_CACHE_DATA_PARITY:
-> +        return CXL_RAS_UNC_ERR_CACHE_DATA_PARITY;
-> +    case CXL_UNCOR_ERROR_TYPE_CACHE_ADDRESS_PARITY:
-> +        return CXL_RAS_UNC_ERR_CACHE_ADDRESS_PARITY;
-> +    case CXL_UNCOR_ERROR_TYPE_CACHE_BE_PARITY:
-> +        return CXL_RAS_UNC_ERR_CACHE_BE_PARITY;
-> +    case CXL_UNCOR_ERROR_TYPE_CACHE_DATA_ECC:
-> +        return CXL_RAS_UNC_ERR_CACHE_DATA_ECC;
-> +    case CXL_UNCOR_ERROR_TYPE_MEM_DATA_PARITY:
-> +        return CXL_RAS_UNC_ERR_MEM_DATA_PARITY;
-> +    case CXL_UNCOR_ERROR_TYPE_MEM_ADDRESS_PARITY:
-> +        return CXL_RAS_UNC_ERR_MEM_ADDRESS_PARITY;
-> +    case CXL_UNCOR_ERROR_TYPE_MEM_BE_PARITY:
-> +        return CXL_RAS_UNC_ERR_MEM_BE_PARITY;
-> +    case CXL_UNCOR_ERROR_TYPE_MEM_DATA_ECC:
-> +        return CXL_RAS_UNC_ERR_MEM_DATA_ECC;
-> +    case CXL_UNCOR_ERROR_TYPE_REINIT_THRESHOLD:
-> +        return CXL_RAS_UNC_ERR_REINIT_THRESHOLD;
-> +    case CXL_UNCOR_ERROR_TYPE_RSVD_ENCODING:
-> +        return CXL_RAS_UNC_ERR_RSVD_ENCODING;
-> +    case CXL_UNCOR_ERROR_TYPE_POISON_RECEIVED:
-> +        return CXL_RAS_UNC_ERR_POISON_RECEIVED;
-> +    case CXL_UNCOR_ERROR_TYPE_RECEIVER_OVERFLOW:
-> +        return CXL_RAS_UNC_ERR_RECEIVER_OVERFLOW;
-> +    case CXL_UNCOR_ERROR_TYPE_INTERNAL:
-> +        return CXL_RAS_UNC_ERR_INTERNAL;
-> +    case CXL_UNCOR_ERROR_TYPE_CXL_IDE_TX:
-> +        return CXL_RAS_UNC_ERR_CXL_IDE_TX;
-> +    case CXL_UNCOR_ERROR_TYPE_CXL_IDE_RX:
-> +        return CXL_RAS_UNC_ERR_CXL_IDE_RX;
-> +    default:
-> +        return -EINVAL;
-> +    }
-> +}
-> +
-> +static int ct3d_qmp_cor_err_to_cxl(CxlUncorErrorType qmp_err)
+Make the strace look nicer for those syscalls.
 
-CxlCorErrorType type  is required.
+Signed-off-by: Helge Deller <deller@gmx.de>
+=2D--
+ linux-user/strace.list | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Compiler warns here:
-../hw/mem/cxl_type3.c:1263:44: error: implicit conversion from
-enumeration type 'CxlCorErrorType' (aka 'enum CxlCorErrorType') to
-different enumeration type 'CxlUncorErrorType' (aka 'enum
-CxlUncorErrorType') [-Werror,-Wenum-conversion]
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 3924046426..7c1124a718 100644
+=2D-- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -321,10 +321,10 @@
+ { TARGET_NR_getgid32, "getgid32" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getgroups
+-{ TARGET_NR_getgroups, "getgroups" , NULL, NULL, NULL },
++{ TARGET_NR_getgroups, "getgroups" , "%s(%d,%p)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getgroups32
+-{ TARGET_NR_getgroups32, "getgroups32" , NULL, NULL, NULL },
++{ TARGET_NR_getgroups32, "getgroups32" , "%s(%d,%p)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_gethostname
+ { TARGET_NR_gethostname, "gethostname" , NULL, NULL, NULL },
+@@ -1308,10 +1308,10 @@
+ { TARGET_NR_setgid32, "setgid32" , "%s(%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setgroups
+-{ TARGET_NR_setgroups, "setgroups" , NULL, NULL, NULL },
++{ TARGET_NR_setgroups, "setgroups" , "%s(%d,%p)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setgroups32
+-{ TARGET_NR_setgroups32, "setgroups32" , NULL, NULL, NULL },
++{ TARGET_NR_setgroups32, "setgroups32" , "%s(%d,%p)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_sethae
+ { TARGET_NR_sethae, "sethae" , NULL, NULL, NULL },
+=2D-
+2.38.1
 
-    cxl_err_type = ct3d_qmp_cor_err_to_cxl(type);
-
-                   ~~~~~~~~~~~~~~~~~~~~~~~ ^~~~
-1 error generated.
-
-> +{
-> +    switch (qmp_err) {
-> +    case CXL_COR_ERROR_TYPE_CACHE_DATA_ECC:
-> +        return CXL_RAS_COR_ERR_CACHE_DATA_ECC;
-> +    case CXL_COR_ERROR_TYPE_MEM_DATA_ECC:
-> +        return CXL_RAS_COR_ERR_MEM_DATA_ECC;
-> +    case CXL_COR_ERROR_TYPE_CRC_THRESHOLD:
-> +        return CXL_RAS_COR_ERR_CRC_THRESHOLD;
-> +    case CXL_COR_ERROR_TYPE_RETRY_THRESHOLD:
-> +        return CXL_RAS_COR_ERR_RETRY_THRESHOLD;
-> +    case CXL_COR_ERROR_TYPE_CACHE_POISON_RECEIVED:
-> +        return CXL_RAS_COR_ERR_CACHE_POISON_RECEIVED;
-> +    case CXL_COR_ERROR_TYPE_MEM_POISON_RECEIVED:
-> +        return CXL_RAS_COR_ERR_MEM_POISON_RECEIVED;
-> +    case CXL_COR_ERROR_TYPE_PHYSICAL:
-> +        return CXL_RAS_COR_ERR_PHYSICAL;
-> +    default:
-> +        return -EINVAL;
-> +    }
-> +}
-> +
->  static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
->                             unsigned size)
->  {
-> @@ -341,6 +402,84 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
->          should_commit = FIELD_EX32(value, CXL_HDM_DECODER0_CTRL, COMMIT);
->          which_hdm = 0;
->          break;
-> +    case A_CXL_RAS_UNC_ERR_STATUS:
-> +    {
-> +        uint32_t capctrl = ldl_le_p(cache_mem + R_CXL_RAS_ERR_CAP_CTRL);
-> +        uint32_t fe = FIELD_EX32(capctrl, CXL_RAS_ERR_CAP_CTRL, FIRST_ERROR_POINTER);
-> +        CXLError *cxl_err;
-> +        uint32_t unc_err;
-> +
-> +        /*
-> +         * If single bit written that corresponds to the first error
-> +         * pointer being cleared, update the status and header log.
-> +         */
-> +        if (!QTAILQ_EMPTY(&ct3d->error_list)) {
-> +            CXLError *cxl_err = QTAILQ_FIRST(&ct3d->error_list);
-
-Is it ok that "CXLError *cxl_err"  definition clobbers previous one above?
 
