@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F4566B12B
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 14:14:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D349D66B130
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 14:14:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pH2og-00049G-7d; Sun, 15 Jan 2023 08:12:54 -0500
+	id 1pH2oh-0004DW-Mi; Sun, 15 Jan 2023 08:12:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pH2od-00045u-Pw
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:12:51 -0500
-Received: from mailout01.t-online.de ([194.25.134.80])
+ id 1pH2of-00049L-I8
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:12:53 -0500
+Received: from mailout11.t-online.de ([194.25.134.85])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pH2oc-0005BX-4W
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:12:51 -0500
-Received: from fwd77.dcpf.telekom.de (fwd77.aul.t-online.de [10.223.144.103])
- by mailout01.t-online.de (Postfix) with SMTP id 85F8A16B21;
- Sun, 15 Jan 2023 14:12:48 +0100 (CET)
-Received: from linpower.localnet ([79.208.25.151]) by fwd77.t-online.de
+ id 1pH2oe-0005Bh-00
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:12:53 -0500
+Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
+ by mailout11.t-online.de (Postfix) with SMTP id 96F9913D07;
+ Sun, 15 Jan 2023 14:12:50 +0100 (CET)
+Received: from linpower.localnet ([79.208.25.151]) by fwd75.t-online.de
  with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pH2oZ-1TIEi10; Sun, 15 Jan 2023 14:12:47 +0100
+ esmtp id 1pH2oc-1oOKMT0; Sun, 15 Jan 2023 14:12:50 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 6C3BC2006C1; Sun, 15 Jan 2023 14:12:24 +0100 (CET)
+ id 6EC132006C4; Sun, 15 Jan 2023 14:12:24 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <volker.ruemelin@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
 Cc: qemu-devel@nongnu.org
-Subject: [PATCH 11/17] audio: replace the resampling loop in
- audio_pcm_sw_read()
-Date: Sun, 15 Jan 2023 14:12:18 +0100
-Message-Id: <20230115131224.30751-11-volker.ruemelin@t-online.de>
+Subject: [PATCH 12/17] audio: rename variables in audio_pcm_sw_read()
+Date: Sun, 15 Jan 2023 14:12:19 +0100
+Message-Id: <20230115131224.30751-12-volker.ruemelin@t-online.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
 References: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-MSGID: 6e23ab49-bdc3-4820-acf2-2d1c3cca5264
-Received-SPF: none client-ip=194.25.134.80;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout01.t-online.de
+X-TOI-MSGID: 1eef7ca8-81bd-47da-b985-a02e5cddb20b
+Received-SPF: none client-ip=194.25.134.85;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout11.t-online.de
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -65,104 +64,64 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Replace the resampling loop in audio_pcm_sw_read() with the new
-function audio_pcm_sw_resample_in(). Unlike the old resample
-loop the new function will try to consume input frames even if
-the output buffer is full. This is necessary when downsampling
-to avoid reading less audio frames than calculated in advance.
-The loop was unrolled to avoid complicated loop control conditions
-in this case.
+The audio_pcm_sw_read() function uses a few very unspecific
+variable names. Rename them for better readability.
+
+ret => total_out
+total => total_in
+size => buf_len
+samples => frames_out_max
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/audio.c | 59 ++++++++++++++++++++++++++++++---------------------
- 1 file changed, 35 insertions(+), 24 deletions(-)
+ audio/audio.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/audio/audio.c b/audio/audio.c
-index 3d3b5e5b91..83bac97fa4 100644
+index 83bac97fa4..b660569928 100644
 --- a/audio/audio.c
 +++ b/audio/audio.c
-@@ -541,11 +541,43 @@ static size_t audio_pcm_hw_conv_in(HWVoiceIn *hw, void *pcm_buf, size_t samples)
- /*
-  * Soft voice (capture)
-  */
-+static void audio_pcm_sw_resample_in(SWVoiceIn *sw,
-+    size_t frames_in_max, size_t frames_out_max,
-+    size_t *total_in, size_t *total_out)
-+{
-+    HWVoiceIn *hw = sw->hw;
-+    struct st_sample *src, *dst;
-+    size_t live, rpos, frames_in, frames_out;
-+
-+    live = hw->total_samples_captured - sw->total_hw_samples_acquired;
-+    rpos = audio_ring_posb(hw->conv_buf.pos, live, hw->conv_buf.size);
-+
-+    /* resample conv_buf from rpos to end of buffer */
-+    src = hw->conv_buf.buffer + rpos;
-+    frames_in = MIN(live, hw->conv_buf.size - rpos);
-+    dst = sw->resample_buf.buffer;
-+    frames_out = frames_out_max;
-+    st_rate_flow(sw->rate, src, dst, &frames_in, &frames_out);
-+    rpos += frames_in;
-+    *total_in = frames_in;
-+    *total_out = frames_out;
-+
-+    /* resample conv_buf from start of buffer if there are input frames left */
-+    if (live - frames_in && rpos == hw->conv_buf.size) {
-+        src = hw->conv_buf.buffer;
-+        frames_in = live - frames_in;
-+        dst += frames_out;
-+        frames_out = frames_out_max - frames_out;
-+        st_rate_flow(sw->rate, src, dst, &frames_in, &frames_out);
-+        *total_in += frames_in;
-+        *total_out += frames_out;
-+    }
-+}
-+
- static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+@@ -574,10 +574,10 @@ static void audio_pcm_sw_resample_in(SWVoiceIn *sw,
+     }
+ }
+ 
+-static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
++static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t buf_len)
  {
      HWVoiceIn *hw = sw->hw;
--    size_t samples, live, ret = 0, swlim, isamp, osamp, rpos, total = 0;
--    struct st_sample *src, *dst = sw->resample_buf.buffer;
-+    size_t samples, live, ret, swlim, total;
+-    size_t samples, live, ret, swlim, total;
++    size_t live, frames_out_max, swlim, total_in, total_out;
  
      live = hw->total_samples_captured - sw->total_hw_samples_acquired;
      if (!live) {
-@@ -556,33 +588,12 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+@@ -588,20 +588,20 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
          return 0;
      }
  
--    rpos = audio_ring_posb(hw->conv_buf.pos, live, hw->conv_buf.size);
--
-     samples = size / sw->info.bytes_per_frame;
+-    samples = size / sw->info.bytes_per_frame;
++    frames_out_max = buf_len / sw->info.bytes_per_frame;
  
      swlim = (live * sw->ratio) >> 32;
-     swlim = MIN (swlim, samples);
+-    swlim = MIN (swlim, samples);
++    swlim = MIN(swlim, frames_out_max);
  
--    while (swlim) {
--        src = hw->conv_buf.buffer + rpos;
--        if (hw->conv_buf.pos > rpos) {
--            isamp = hw->conv_buf.pos - rpos;
--        } else {
--            isamp = hw->conv_buf.size - rpos;
--        }
--
--        if (!isamp) {
--            break;
--        }
--        osamp = swlim;
--
--        st_rate_flow (sw->rate, src, dst, &isamp, &osamp);
--        swlim -= osamp;
--        rpos = (rpos + isamp) % hw->conv_buf.size;
--        dst += osamp;
--        ret += osamp;
--        total += isamp;
--    }
-+    audio_pcm_sw_resample_in(sw, live, swlim, &total, &ret);
+-    audio_pcm_sw_resample_in(sw, live, swlim, &total, &ret);
++    audio_pcm_sw_resample_in(sw, live, swlim, &total_in, &total_out);
  
      if (!hw->pcm_ops->volume_in) {
-         mixeng_volume(sw->resample_buf.buffer, ret, &sw->vol);
+-        mixeng_volume(sw->resample_buf.buffer, ret, &sw->vol);
++        mixeng_volume(sw->resample_buf.buffer, total_out, &sw->vol);
+     }
++    sw->clip(buf, sw->resample_buf.buffer, total_out);
+ 
+-    sw->clip(buf, sw->resample_buf.buffer, ret);
+-    sw->total_hw_samples_acquired += total;
+-    return ret * sw->info.bytes_per_frame;
++    sw->total_hw_samples_acquired += total_in;
++    return total_out * sw->info.bytes_per_frame;
+ }
+ 
+ /*
 -- 
 2.35.3
 
