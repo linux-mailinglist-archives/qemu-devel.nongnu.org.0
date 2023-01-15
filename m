@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D3466AF04
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 03:02:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB6066AF17
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 03:35:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pGsLM-0005hf-IP; Sat, 14 Jan 2023 21:01:56 -0500
+	id 1pGsq6-0001V8-7a; Sat, 14 Jan 2023 21:33:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGsLF-0005fe-Kv
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 21:01:53 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ id 1pGsq2-0001Uu-Cb
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 21:33:40 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pGsLD-0007jO-8G
- for qemu-devel@nongnu.org; Sat, 14 Jan 2023 21:01:48 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id bj3so22788890pjb.0
- for <qemu-devel@nongnu.org>; Sat, 14 Jan 2023 18:01:46 -0800 (PST)
+ id 1pGsq0-00046K-LD
+ for qemu-devel@nongnu.org; Sat, 14 Jan 2023 21:33:38 -0500
+Received: by mail-pg1-x532.google.com with SMTP id s67so17427479pgs.3
+ for <qemu-devel@nongnu.org>; Sat, 14 Jan 2023 18:33:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0hDiR+1aZ9XSd+OsYKEH8jyu2bQaTDFjwypq5UyTmBE=;
- b=KQx813vJXPPywfy20yMpfkA5RdNE0UzguSuKFhbKvRa+WphqRE/09z/xxprQo8CIdR
- kagEWw44VgDWHTjJ8X0vHqQKpVT1WtsuZwUK3C729ue5pJy4GDGC2bROwy6FKsupaXgW
- csFd6uOZjblzczT2gL3eNxxZXojKoRHKgJTfkPnqkAeuEH604Y2NF0eg39v/zg2xfx2n
- 3+3BshsHzGQNZBy9KbihtqbBAX8S/RiTSVNx3zkS+6Q07QuVhNd1Wwh2v6CHRXOoWcnG
- mry7tZll+vr8Sf+M0iKK5woiBzDn3Bf8x3wglpour7PgJSLhMsDYhGxSryxFwf42ehKA
- mcWw==
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :to:from:subject:user-agent:mime-version:date:message-id:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Zzdgf8wFFBavsfZ0Hx/H26kw4BQUfvq0/4N5QmhA9ko=;
+ b=fMOJ6eU8z40NJt2+b75jFqUd0mBZZRdkUOLQS8VGHWHSNUQuOmil2TijoZRq8c7Cmm
+ c1cYwrEQsHo49AF6/s4alYRgjriC8w9wgVle5a1ZU8YdBlH7DAOTJzEbi5whrC14a7l/
+ iT1EClMDP4evlm8CQu5SgT1i19tI39YdcoA1tSj9e4IF+mVsHWRUIa6IoccukCNY23xN
+ yU2NKgnWURJflvB4GAPoJy5OD/KQPLKdyqiZ8jcJfGIYa/8+DeCbETGu3EH33A383FxV
+ xTaziZ+PBjsI+4VQpEWVbm4QyvdFj2mtkW4nBDh2jBChv8cnJzkHkLyapfyD6iplfT/M
+ WE+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :to:from:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0hDiR+1aZ9XSd+OsYKEH8jyu2bQaTDFjwypq5UyTmBE=;
- b=R3HITodwyuHNYEVr79mSRpwGDH85j/+FauKd/0Ntth0h5u8ClSLQ55+Ti2vDCFbbE9
- j7IqOn5v2CwejQnev9xUihxLj+faUOURdcAGI+PNNkC+Go3e3mzmnGPgWhwFWIAhuTVX
- LVnOEeA+/CACOzX2LtOicUbcjgwteVZ83kYGZ+jMvy845YJFDyAW913EgR47B5NYh78L
- 8FGwYwXH0DsL8lSKJL0Dog0rF2/TQUMkGti5qnLNFN6taRAEKwJFujQI+OGROsxxAGAi
- H+P83bUaPDB7LN7SFTRqgNKE0hEYNUnSn3BwFAU+HNyON5wvK4+hBM3JYbINJ5G5O/i1
- 8x2Q==
-X-Gm-Message-State: AFqh2kpPS9x72IR8BunfF3e71sRAJS+mnDe1Ek7RAzAa3lSnmEvp3gm4
- jnvbqB1nglGBXf1P0P1v3zWOGg==
-X-Google-Smtp-Source: AMrXdXtUYdigCzTVhxlQqGUVx8bcbfcy4qUnfLnRHQcc51DrhDMjKe8coFVoouWSFyOWQOL4wzYeaA==
-X-Received: by 2002:a05:6a20:2d99:b0:b6:7b49:8ed with SMTP id
- bf25-20020a056a202d9900b000b67b4908edmr11373800pzb.16.1673748105657; 
- Sat, 14 Jan 2023 18:01:45 -0800 (PST)
+ bh=Zzdgf8wFFBavsfZ0Hx/H26kw4BQUfvq0/4N5QmhA9ko=;
+ b=YNo03cqp6/icgDXYomoHNYyFS9IYvAuVMxsbRu+NCTuLFplfeBq6Qrhcu7vle2ctS3
+ HQCTQMW/JUCHykZ1N+mUrZlc6FiDudDqpkPOKhx+AZEyAXp1IfPgJmr7Rbk4l4CKV813
+ RyqU4jdK076O4DOH/sqVbW7m1/YRC/wlsmyIQGrZHYqsse1chUkGEQnSeBssEfNvxqmN
+ lCvK1odUTkkzuhf3SzF29pXYqb3BCBfaA7CFnrb5uoz9b1+E64NfOAqMotwRJ8KWBSm6
+ u+cRn1PWWvrHFj8EFpYyLE8BKQvFLjpHsZpgDY5dfsWMc2djZSIbIBRwYmyBJDZT/bJT
+ mWoA==
+X-Gm-Message-State: AFqh2kpX6zx1F6sEZaBmKT8iV5UZZX3mFHzBRFH4GmcPkRzTqldJbWXf
+ 9GRRY32ObxQWZeKemGJLzJhW9mHtBAPMVYdB
+X-Google-Smtp-Source: AMrXdXvJHl9nukGHeni5SE+Z9eYrIQOMNXKD5jeaV5lQ1c7OKN/FBhkFy8Z3yoUlDvqK+jOcducf4Q==
+X-Received: by 2002:aa7:8f89:0:b0:58b:bce2:7eb7 with SMTP id
+ t9-20020aa78f89000000b0058bbce27eb7mr6968798pfs.10.1673750014629; 
+ Sat, 14 Jan 2023 18:33:34 -0800 (PST)
 Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- x6-20020a623106000000b0058bb8943c9asm3371864pfx.161.2023.01.14.18.01.44
+ g73-20020a62524c000000b0058b540b7ffesm7511373pfb.29.2023.01.14.18.33.33
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 14 Jan 2023 18:01:45 -0800 (PST)
-Message-ID: <ddf97585-7429-bc6f-2dd4-990a0b480034@linaro.org>
-Date: Sat, 14 Jan 2023 16:01:42 -1000
+ Sat, 14 Jan 2023 18:33:33 -0800 (PST)
+Message-ID: <96b02ecf-b742-6ba1-fdab-0c3366c304cb@linaro.org>
+Date: Sat, 14 Jan 2023 16:33:31 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v3 4/4] target/m68k: fix FPSR quotient byte for frem
- instruction
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, laurent@vivier.eu,
- qemu-devel@nongnu.org
-References: <20230114232959.118224-1-mark.cave-ayland@ilande.co.uk>
- <20230114232959.118224-5-mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v2 00/22] tcg: exit_tb tidy, goto_tb reorg
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230114232959.118224-5-mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org
+References: <20230109014248.2894281-1-richard.henderson@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20230109014248.2894281-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,19 +92,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/14/23 13:29, Mark Cave-Ayland wrote:
-> The FPSR quotient byte should be set to the value of the quotient and not the
-> result. Manually calculate the quotient in the frem helper in round to nearest
-> even mode (note this is different from the quotient calculated internally for
-> fmod), and use it to set the quotient byte accordingly.
-> 
-> Signed-off-by: Mark Cave-Ayland<mark.cave-ayland@ilande.co.uk>
-> Fixes:https://gitlab.com/qemu-project/qemu/-/issues/1314
-> ---
->   target/m68k/fpu_helper.c | 29 +++++++++++++++++++----------
->   1 file changed, 19 insertions(+), 10 deletions(-)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Ping.
 
 r~
+
+On 1/8/23 15:42, Richard Henderson wrote:
+> Small patch for exit_tb.  Large reorg for goto_tb, primarily aimed at
+> fixing a race condition in which a host thread gets suspended in the
+> middle of executing a two insn sequence, and the sequence is updated.
+> The updated second insn does not match the previous first insn, so
+> when the thread restarts the entire sequence will not branch to either
+> the old or the new destination.
+> 
+> The middle-end is adjusted to support both direct and indirect jumps
+> simultaneously, instead of depending on TCG_TARGET_HAS_direct_jump.
+> This allows the backend to decide whether to use direct or indirect
+> based on the branch displacement.  Which allows us to only update a
+> single instruction, which means there's no multi-insn sequence that
+> can be interrupted.
+> 
+> Changes for v2:
+>    * Rebase on master,
+>    * Remove if (0) accidentially left in tcg/sparc64/.
+> 
+> 
+> r~
+> 
+> 
+> Richard Henderson (22):
+>    tcg: Split out tcg_out_exit_tb
+>    tcg/i386: Remove unused goto_tb code for indirect jump
+>    tcg/ppc: Remove unused goto_tb code for indirect jump
+>    tcg/sparc64: Remove unused goto_tb code for indirect jump
+>    tcg: Replace asserts on tcg_jmp_insn_offset
+>    tcg: Introduce set_jmp_insn_offset
+>    tcg: Introduce get_jmp_target_addr
+>    tcg: Split out tcg_out_goto_tb
+>    tcg: Rename TB_JMP_RESET_OFFSET_INVALID to TB_JMP_OFFSET_INVALID
+>    tcg: Add gen_tb to TCGContext
+>    tcg: Add TranslationBlock.jmp_insn_offset
+>    tcg: Change tb_target_set_jmp_target arguments
+>    tcg: Move tb_target_set_jmp_target declaration to tcg.h
+>    tcg: Always define tb_target_set_jmp_target
+>    tcg: Remove TCG_TARGET_HAS_direct_jump
+>    tcg/aarch64: Reorg goto_tb implementation
+>    tcg/ppc: Reorg goto_tb implementation
+>    tcg/sparc64: Remove USE_REG_TB
+>    tcg/sparc64: Reorg goto_tb implementation
+>    tcg/arm: Implement direct branch for goto_tb
+>    tcg/riscv: Introduce OPC_NOP
+>    tcg/riscv: Implement direct branch for goto_tb
+> 
+>   include/exec/exec-all.h          |   5 +-
+>   include/tcg/tcg.h                |  14 +--
+>   tcg/aarch64/tcg-target.h         |   7 +-
+>   tcg/arm/tcg-target.h             |   5 -
+>   tcg/i386/tcg-target.h            |   9 --
+>   tcg/loongarch64/tcg-target.h     |   3 -
+>   tcg/mips/tcg-target.h            |   5 -
+>   tcg/ppc/tcg-target.h             |   7 +-
+>   tcg/riscv/tcg-target.h           |   4 -
+>   tcg/s390x/tcg-target.h           |  11 --
+>   tcg/sparc64/tcg-target.h         |   4 -
+>   tcg/tci/tcg-target.h             |   4 -
+>   accel/tcg/cpu-exec.c             |  16 ++-
+>   accel/tcg/translate-all.c        |  10 +-
+>   tcg/tcg-op.c                     |  14 +--
+>   tcg/tcg.c                        |  42 +++++--
+>   tcg/aarch64/tcg-target.c.inc     | 104 ++++++++--------
+>   tcg/arm/tcg-target.c.inc         |  89 +++++++++-----
+>   tcg/i386/tcg-target.c.inc        |  68 ++++++-----
+>   tcg/loongarch64/tcg-target.c.inc |  66 +++++-----
+>   tcg/mips/tcg-target.c.inc        |  59 +++++----
+>   tcg/ppc/tcg-target.c.inc         | 193 +++++++++--------------------
+>   tcg/riscv/tcg-target.c.inc       |  65 +++++++---
+>   tcg/s390x/tcg-target.c.inc       |  67 +++++++----
+>   tcg/sparc64/tcg-target.c.inc     | 201 ++++++++++++-------------------
+>   tcg/tci/tcg-target.c.inc         |  31 +++--
+>   26 files changed, 522 insertions(+), 581 deletions(-)
+> 
+
 
