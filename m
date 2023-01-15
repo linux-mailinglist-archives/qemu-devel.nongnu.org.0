@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D44566B124
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 14:10:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739F866B125
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Jan 2023 14:13:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pH2ky-0002TY-7H; Sun, 15 Jan 2023 08:09:04 -0500
+	id 1pH2oL-0003xq-9t; Sun, 15 Jan 2023 08:12:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pH2kY-0002RS-0U
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:08:38 -0500
-Received: from mailout11.t-online.de ([194.25.134.85])
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1pH2oI-0003xi-CV
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:12:30 -0500
+Received: from mailout04.t-online.de ([194.25.134.18])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pH2kV-0004N1-Fh
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:08:37 -0500
-Received: from fwd73.dcpf.telekom.de (fwd73.aul.t-online.de [10.223.144.99])
- by mailout11.t-online.de (Postfix) with SMTP id 3887820853;
- Sun, 15 Jan 2023 14:08:30 +0100 (CET)
-Received: from [192.168.211.200] ([79.208.25.151]) by fwd73.t-online.de
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1pH2oF-000585-Rr
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 08:12:30 -0500
+Received: from fwd76.dcpf.telekom.de (fwd76.aul.t-online.de [10.223.144.102])
+ by mailout04.t-online.de (Postfix) with SMTP id EC1A0230F2;
+ Sun, 15 Jan 2023 14:12:24 +0100 (CET)
+Received: from linpower.localnet ([79.208.25.151]) by fwd76.t-online.de
  with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pH2kP-2DOg6L0; Sun, 15 Jan 2023 14:08:29 +0100
-Message-ID: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
-Date: Sun, 15 Jan 2023 14:08:29 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: [PATCH 00/17] audio: improve callback interface for audio frontends
+ esmtp id 1pH2oC-3NPIA50; Sun, 15 Jan 2023 14:12:24 +0100
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id 536AE200623; Sun, 15 Jan 2023 14:12:24 +0100 (CET)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <volker.ruemelin@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
 Cc: qemu-devel@nongnu.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: [PATCH 01/17] audio: change type of mix_buf and conv_buf
+Date: Sun, 15 Jan 2023 14:12:08 +0100
+Message-Id: <20230115131224.30751-1-volker.ruemelin@t-online.de>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
+References: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-MSGID: a6a0d38d-34c3-4013-9537-0cacada1b854
-Received-SPF: none client-ip=194.25.134.85; envelope-from=vr_qemu@t-online.de;
- helo=mailout11.t-online.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-TOI-MSGID: 6dee40a4-d82d-4115-921c-bd42e6864451
+Received-SPF: none client-ip=194.25.134.18;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout04.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,262 +62,416 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Based-on: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
-([PATCH 00/11] audio: more improvements)
+From: Volker Rümelin <vr_qemu@t-online.de>
 
-The callback interface for emulated audio devices is strange. The 
-callback function has an 'avail' parameter that passes the number of 
-bytes that can be written or read. Unfortunately, this value sometimes 
-is only an imprecise estimate and the callback functions must check the 
-actual bytes written or read. For playback devices, this means that they 
-either need a ring buffer or have to write the unwritten bytes again the 
-next time. For recording devices, things are a bit easier. They only 
-need to continue with the actual number of bytes read.
+Change the type of mix_buf in struct HWVoiceOut and conv_buf
+in struct HWVoiceIn from STSampleBuffer * to STSampleBuffer.
+However, a buffer pointer is still needed. For this reason in
+struct STSampleBuffer samples[] is changed to *buffer.
 
-After this patch series, the 'avail' argument for the -audiodev 
-out.mixing-engine=on and in.mixing-engine=on cases is exact. Audio 
-frontends only need a linear frame buffer and there's a guarantee they 
-can write or read 'avail' bytes.
+This is a preparation for the next patch. The next patch will
+add this line, which is not possible with the current struct
+STSampleBuffer definition.
 
-The -audiodev out.mixing-engine=off case is also mostly accurate. Only 
-the D-Bus audio backend is still missing a required function. The 
--audiodev in.mixing-engine=off case always passes a much too large 
-'avail' value. I haven't worked on this yet, because there was no reason 
-for it so far.
++        sw->resample_buf.buffer = hw->mix_buf.buffer + rpos2;
 
-The following logs show the improvements. Not only the audio frontends 
-can write or read all needed or available bytes. The same is true for 
-the audio backends. For playback, the first six lines in the logs are 
-expected. Here you can see how quickly the guest fills the empty 
-downstream buffers after playback starts.
+There are no functional changes.
 
-QEMU was started with -device ich9-intel-hda,addr=0x1b -device 
-hda-duplex,audiodev=audio0 -audiodev 
-pa,out.frequency=96000,in.frequency=96000,id=audio0
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+ audio/audio.c          | 106 ++++++++++++++++++++---------------------
+ audio/audio_int.h      |   6 +--
+ audio/audio_template.h |  19 ++++----
+ 3 files changed, 67 insertions(+), 64 deletions(-)
 
-playback guest 44100Hz => host 96000Hz
-
-unpatched version:
-hda_audio_output_cb: to write 8188, written 1704
-audio_run_out: free 4458, played 926
-hda_audio_output_cb: to write 6488, written 2384
-audio_run_out: free 3532, played 1297
-hda_audio_output_cb: to write 4104, written 2648
-audio_run_out: free 2235, played 1441
-audio_run_out: free 794, played 793
-audio_run_out: free 897, played 896
-audio_run_out: free 831, played 829
-...
-hda_audio_output_cb: could not write 4 bytes
-hda_audio_output_cb: to write 1764, written 1760
-audio_run_out: free 960, played 958
-...
-
-patched version:
-hda_audio_output_cb: to write 8192, written 1620
-audio_run_out: free 4458, played 880
-hda_audio_output_cb: to write 6576, written 2508
-audio_run_out: free 3578, played 1365
-hda_audio_output_cb: to write 4068, written 2500
-audio_run_out: free 2213, played 1360
-
-record host 96000Hz => guest 44100Hz
-
-unpatched version:
-audio_run_in: avail 4458, acquired 4454
-audio_run_in: avail 1574, acquired 1572
-audio_run_in: avail 766, acquired 764
-audio_run_in: avail 1052, acquired 1051
-audio_run_in: avail 761, acquired 760
-audio_run_in: avail 1123, acquired 1121
-...
-hda_audio_input_cb: could not read 4 bytes
-hda_audio_input_cb: to read 1988, read 1984
-audio_run_in: avail 1082, acquired 1080
-...
-
-patched version:
-(no output)
-
-QEMU was started with -device ich9-intel-hda,addr=0x1b -device 
-hda-duplex,audiodev=audio0 -audiodev 
-pa,out.frequency=32000,in.frequency=32000,id=audio0
-
-playback guest 44100Hz => host 32000Hz
-
-unpatched version:
-hda_audio_output_cb: to write 8188, written 1620
-audio_run_out: free 1486, played 294
-hda_audio_output_cb: to write 6568, written 2512
-audio_run_out: free 1192, played 455
-hda_audio_output_cb: to write 4060, written 2504
-audio_run_out: free 737, played 455
-audio_run_out: free 282, played 281
-audio_run_out: free 357, played 356
-audio_run_out: free 314, played 313
-...
-hda_audio_output_cb: could not write 4 bytes
-hda_audio_output_cb: to write 1416, written 1412
-audio_run_out: free 257, played 256
-...
-
-patched version:
-hda_audio_output_cb: to write 8192, written 1656
-audio_run_out: free 1486, played 300
-hda_audio_output_cb: to write 6536, written 2516
-audio_run_out: free 1186, played 457
-hda_audio_output_cb: to write 4020, written 2540
-audio_run_out: free 729, played 460
-
-record host 32000Hz => guest 44100Hz
-
-unpatched version:
-audio_run_in: avail 1486, acquired 1485
-audio_run_in: avail 272, acquired 271
-audio_run_in: avail 366, acquired 365
-hda_audio_input_cb: could not read 4 bytes
-hda_audio_input_cb: to read 1420, read 1416
-audio_run_in: avail 258, acquired 257
-audio_run_in: avail 375, acquired 374
-hda_audio_input_cb: could not read 4 bytes
-hda_audio_input_cb: to read 2056, read 2052
-audio_run_in: avail 260, acquired 259
-...
-
-patched version:
-(no output)
-
-This is the debug code for the logs above.
-
----snip--
---- a/audio/audio.c    2022-12-13 19:14:31.793153558 +0100
-+++ b/audio/audio.c    2022-12-11 16:24:48.842649711 +0100
-@@ -1228,6 +1228,10 @@ static void audio_run_out (AudioState *s
-  #ifdef DEBUG_OUT
-          dolog("played=%zu\n", played);
-  #endif
-+        if (hw_free - played) {
-+            fprintf(stderr, "%s: free %zu, played %zu\n",
-+                    __func__, hw_free, played);
-+        }
-
-          if (played) {
-              hw->ts_helper += played;
-@@ -1318,6 +1322,7 @@ static void audio_run_in (AudioState *s)
-              if (sw->active) {
-                  size_t sw_avail = audio_get_avail(sw);
-                  size_t avail;
-+                size_t prev_acquired = sw->total_hw_samples_acquired;
-
-                  avail = st_rate_frames_out(sw->rate, sw_avail);
-                  if (avail > 0) {
-@@ -1325,6 +1330,11 @@ static void audio_run_in (AudioState *s)
-                      sw->callback.fn(sw->callback.opaque,
-                                      avail * sw->info.bytes_per_frame);
-                  }
-+
-+                if (sw_avail + prev_acquired - 
-sw->total_hw_samples_acquired) {
-+                    fprintf(stderr, "%s: avail %zu, acquired %zu\n", 
-__func__,
-+                            sw_avail, sw->total_hw_samples_acquired - 
-prev_acquired);
-+                }
-              }
-          }
-      }
---- a/hw/audio/hda-codec.c    2023-01-04 14:07:31.954304889 +0100
-+++ b/hw/audio/hda-codec.c    2023-01-04 13:57:47.687320406 +0100
-@@ -265,20 +265,28 @@ static void hda_audio_input_cb(void *opa
-      int64_t rpos = st->rpos;
-
-      int64_t to_transfer = MIN(B_SIZE - (wpos - rpos), avail);
-+    unsigned int total_read = 0;
-
-      while (to_transfer) {
-          uint32_t start = (uint32_t) (wpos & B_MASK);
-          uint32_t chunk = (uint32_t) MIN(B_SIZE - start, to_transfer);
-          uint32_t read = AUD_read(st->voice.in, st->buf + start, chunk);
-          wpos += read;
-+        total_read += read;
-          to_transfer -= read;
-          st->wpos += read;
-          if (chunk != read) {
-+            fprintf(stderr, "%s: could not read %u bytes\n", __func__,
-+                    chunk - read);
-              break;
-          }
-      }
-
-      hda_timer_sync_adjust(st, -((wpos - rpos) - (B_SIZE >> 1)));
-+    if (avail != total_read) {
-+        fprintf(stderr, "%s: to read %d, read %u\n", __func__,
-+                avail, total_read);
-+    }
-  }
-
-  static void hda_audio_output_timer(void *opaque)
-@@ -329,6 +337,7 @@ static void hda_audio_output_cb(void *op
-      int64_t rpos = st->rpos;
-
-      int64_t to_transfer = MIN(wpos - rpos, avail);
-+    unsigned int total_written = 0;
-
-      if (wpos - rpos == B_SIZE) {
-          /* drop buffer, reset timer adjust */
-@@ -343,15 +352,22 @@ static void hda_audio_output_cb(void *op
-          uint32_t start = (uint32_t) (rpos & B_MASK);
-          uint32_t chunk = (uint32_t) MIN(B_SIZE - start, to_transfer);
-          uint32_t written = AUD_write(st->voice.out, st->buf + start, 
-chunk);
-+        total_written += written;
-          rpos += written;
-          to_transfer -= written;
-          st->rpos += written;
-          if (chunk != written) {
-+            fprintf(stderr, "%s: could not write %u bytes\n", __func__,
-+                    chunk - written);
-              break;
-          }
-      }
-
-      hda_timer_sync_adjust(st, (wpos - rpos) - (B_SIZE >> 1));
-+    if (avail != total_written) {
-+        fprintf(stderr, "%s: to write %d, written %u\n", __func__,
-+                avail, total_written);
-+    }
-  }
-
-  static void hda_audio_compat_input_cb(void *opaque, int avail)
----snip--
-
-Volker Rümelin (17):
-   audio: change type of mix_buf and conv_buf
-   audio: change type and name of the resample buffer
-   audio: make the resampling code greedy
-   audio: replace the resampling loop in audio_pcm_sw_write()
-   audio: remove sw == NULL check
-   audio: rename variables in audio_pcm_sw_write()
-   audio: don't misuse audio_pcm_sw_write()
-   audio: remove unused noop_conv() function
-   audio/mixeng: calculate number of input frames
-   audio: wire up st_rate_frames_in()
-   audio: replace the resampling loop in audio_pcm_sw_read()
-   audio: rename variables in audio_pcm_sw_read()
-   audio/mixeng: calculate number of output frames
-   audio: wire up st_rate_frames_out()
-   audio: handle leftover audio frame from upsampling
-   audio/audio_template: substitute sw->hw with hw
-   audio: remove sw->ratio
-
-  audio/audio.c          | 366 +++++++++++++++++++++--------------------
-  audio/audio_int.h      |  12 +-
-  audio/audio_template.h |  41 +++--
-  audio/mixeng.c         |  73 ++++++++
-  audio/mixeng.h         |   2 +
-  audio/rate_template.h  |  21 ++-
-  6 files changed, 304 insertions(+), 211 deletions(-)
-
+diff --git a/audio/audio.c b/audio/audio.c
+index fb0d4a2cac..6a17b3bb2f 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -521,8 +521,8 @@ static size_t audio_pcm_hw_find_min_in (HWVoiceIn *hw)
+ static size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
+ {
+     size_t live = hw->total_samples_captured - audio_pcm_hw_find_min_in (hw);
+-    if (audio_bug(__func__, live > hw->conv_buf->size)) {
+-        dolog("live=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
++    if (audio_bug(__func__, live > hw->conv_buf.size)) {
++        dolog("live=%zu hw->conv_buf.size=%zu\n", live, hw->conv_buf.size);
+         return 0;
+     }
+     return live;
+@@ -531,13 +531,13 @@ static size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
+ static size_t audio_pcm_hw_conv_in(HWVoiceIn *hw, void *pcm_buf, size_t samples)
+ {
+     size_t conv = 0;
+-    STSampleBuffer *conv_buf = hw->conv_buf;
++    STSampleBuffer *conv_buf = &hw->conv_buf;
+ 
+     while (samples) {
+         uint8_t *src = advance(pcm_buf, conv * hw->info.bytes_per_frame);
+         size_t proc = MIN(samples, conv_buf->size - conv_buf->pos);
+ 
+-        hw->conv(conv_buf->samples + conv_buf->pos, src, proc);
++        hw->conv(conv_buf->buffer + conv_buf->pos, src, proc);
+         conv_buf->pos = (conv_buf->pos + proc) % conv_buf->size;
+         samples -= proc;
+         conv += proc;
+@@ -559,12 +559,12 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+     if (!live) {
+         return 0;
+     }
+-    if (audio_bug(__func__, live > hw->conv_buf->size)) {
+-        dolog("live_in=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
++    if (audio_bug(__func__, live > hw->conv_buf.size)) {
++        dolog("live_in=%zu hw->conv_buf.size=%zu\n", live, hw->conv_buf.size);
+         return 0;
+     }
+ 
+-    rpos = audio_ring_posb(hw->conv_buf->pos, live, hw->conv_buf->size);
++    rpos = audio_ring_posb(hw->conv_buf.pos, live, hw->conv_buf.size);
+ 
+     samples = size / sw->info.bytes_per_frame;
+ 
+@@ -572,11 +572,11 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+     swlim = MIN (swlim, samples);
+ 
+     while (swlim) {
+-        src = hw->conv_buf->samples + rpos;
+-        if (hw->conv_buf->pos > rpos) {
+-            isamp = hw->conv_buf->pos - rpos;
++        src = hw->conv_buf.buffer + rpos;
++        if (hw->conv_buf.pos > rpos) {
++            isamp = hw->conv_buf.pos - rpos;
+         } else {
+-            isamp = hw->conv_buf->size - rpos;
++            isamp = hw->conv_buf.size - rpos;
+         }
+ 
+         if (!isamp) {
+@@ -586,7 +586,7 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+ 
+         st_rate_flow (sw->rate, src, dst, &isamp, &osamp);
+         swlim -= osamp;
+-        rpos = (rpos + isamp) % hw->conv_buf->size;
++        rpos = (rpos + isamp) % hw->conv_buf.size;
+         dst += osamp;
+         ret += osamp;
+         total += isamp;
+@@ -634,8 +634,8 @@ static size_t audio_pcm_hw_get_live_out (HWVoiceOut *hw, int *nb_live)
+     if (nb_live1) {
+         size_t live = smin;
+ 
+-        if (audio_bug(__func__, live > hw->mix_buf->size)) {
+-            dolog("live=%zu hw->mix_buf->size=%zu\n", live, hw->mix_buf->size);
++        if (audio_bug(__func__, live > hw->mix_buf.size)) {
++            dolog("live=%zu hw->mix_buf.size=%zu\n", live, hw->mix_buf.size);
+             return 0;
+         }
+         return live;
+@@ -652,17 +652,17 @@ static size_t audio_pcm_hw_get_free(HWVoiceOut *hw)
+ static void audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf, size_t len)
+ {
+     size_t clipped = 0;
+-    size_t pos = hw->mix_buf->pos;
++    size_t pos = hw->mix_buf.pos;
+ 
+     while (len) {
+-        st_sample *src = hw->mix_buf->samples + pos;
++        st_sample *src = hw->mix_buf.buffer + pos;
+         uint8_t *dst = advance(pcm_buf, clipped * hw->info.bytes_per_frame);
+-        size_t samples_till_end_of_buf = hw->mix_buf->size - pos;
++        size_t samples_till_end_of_buf = hw->mix_buf.size - pos;
+         size_t samples_to_clip = MIN(len, samples_till_end_of_buf);
+ 
+         hw->clip(dst, src, samples_to_clip);
+ 
+-        pos = (pos + samples_to_clip) % hw->mix_buf->size;
++        pos = (pos + samples_to_clip) % hw->mix_buf.size;
+         len -= samples_to_clip;
+         clipped += samples_to_clip;
+     }
+@@ -681,11 +681,11 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
+         return size;
+     }
+ 
+-    hwsamples = sw->hw->mix_buf->size;
++    hwsamples = sw->hw->mix_buf.size;
+ 
+     live = sw->total_hw_samples_mixed;
+     if (audio_bug(__func__, live > hwsamples)) {
+-        dolog("live=%zu hw->mix_buf->size=%zu\n", live, hwsamples);
++        dolog("live=%zu hw->mix_buf.size=%zu\n", live, hwsamples);
+         return 0;
+     }
+ 
+@@ -696,7 +696,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
+         return 0;
+     }
+ 
+-    wpos = (sw->hw->mix_buf->pos + live) % hwsamples;
++    wpos = (sw->hw->mix_buf.pos + live) % hwsamples;
+ 
+     dead = hwsamples - live;
+     hw_free = audio_pcm_hw_get_free(sw->hw);
+@@ -723,7 +723,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
+         st_rate_flow_mix (
+             sw->rate,
+             sw->buf + pos,
+-            sw->hw->mix_buf->samples + wpos,
++            sw->hw->mix_buf.buffer + wpos,
+             &isamp,
+             &osamp
+             );
+@@ -987,9 +987,9 @@ static size_t audio_get_avail (SWVoiceIn *sw)
+     }
+ 
+     live = sw->hw->total_samples_captured - sw->total_hw_samples_acquired;
+-    if (audio_bug(__func__, live > sw->hw->conv_buf->size)) {
+-        dolog("live=%zu sw->hw->conv_buf->size=%zu\n", live,
+-              sw->hw->conv_buf->size);
++    if (audio_bug(__func__, live > sw->hw->conv_buf.size)) {
++        dolog("live=%zu sw->hw->conv_buf.size=%zu\n", live,
++              sw->hw->conv_buf.size);
+         return 0;
+     }
+ 
+@@ -1024,13 +1024,13 @@ static size_t audio_get_free(SWVoiceOut *sw)
+ 
+     live = sw->total_hw_samples_mixed;
+ 
+-    if (audio_bug(__func__, live > sw->hw->mix_buf->size)) {
+-        dolog("live=%zu sw->hw->mix_buf->size=%zu\n", live,
+-              sw->hw->mix_buf->size);
++    if (audio_bug(__func__, live > sw->hw->mix_buf.size)) {
++        dolog("live=%zu sw->hw->mix_buf.size=%zu\n", live,
++              sw->hw->mix_buf.size);
+         return 0;
+     }
+ 
+-    dead = sw->hw->mix_buf->size - live;
++    dead = sw->hw->mix_buf.size - live;
+ 
+ #ifdef DEBUG_OUT
+     dolog("%s: get_free live %zu dead %zu frontend frames %zu\n",
+@@ -1054,12 +1054,12 @@ static void audio_capture_mix_and_clear(HWVoiceOut *hw, size_t rpos,
+ 
+             n = samples;
+             while (n) {
+-                size_t till_end_of_hw = hw->mix_buf->size - rpos2;
++                size_t till_end_of_hw = hw->mix_buf.size - rpos2;
+                 size_t to_write = MIN(till_end_of_hw, n);
+                 size_t bytes = to_write * hw->info.bytes_per_frame;
+                 size_t written;
+ 
+-                sw->buf = hw->mix_buf->samples + rpos2;
++                sw->buf = hw->mix_buf.buffer + rpos2;
+                 written = audio_pcm_sw_write (sw, NULL, bytes);
+                 if (written - bytes) {
+                     dolog("Could not mix %zu bytes into a capture "
+@@ -1068,14 +1068,14 @@ static void audio_capture_mix_and_clear(HWVoiceOut *hw, size_t rpos,
+                     break;
+                 }
+                 n -= to_write;
+-                rpos2 = (rpos2 + to_write) % hw->mix_buf->size;
++                rpos2 = (rpos2 + to_write) % hw->mix_buf.size;
+             }
+         }
+     }
+ 
+-    n = MIN(samples, hw->mix_buf->size - rpos);
+-    mixeng_clear(hw->mix_buf->samples + rpos, n);
+-    mixeng_clear(hw->mix_buf->samples, samples - n);
++    n = MIN(samples, hw->mix_buf.size - rpos);
++    mixeng_clear(hw->mix_buf.buffer + rpos, n);
++    mixeng_clear(hw->mix_buf.buffer, samples - n);
+ }
+ 
+ static size_t audio_pcm_hw_run_out(HWVoiceOut *hw, size_t live)
+@@ -1101,7 +1101,7 @@ static size_t audio_pcm_hw_run_out(HWVoiceOut *hw, size_t live)
+ 
+         live -= proc;
+         clipped += proc;
+-        hw->mix_buf->pos = (hw->mix_buf->pos + proc) % hw->mix_buf->size;
++        hw->mix_buf.pos = (hw->mix_buf.pos + proc) % hw->mix_buf.size;
+ 
+         if (proc == 0 || proc < decr) {
+             break;
+@@ -1172,8 +1172,8 @@ static void audio_run_out (AudioState *s)
+             live = 0;
+         }
+ 
+-        if (audio_bug(__func__, live > hw->mix_buf->size)) {
+-            dolog("live=%zu hw->mix_buf->size=%zu\n", live, hw->mix_buf->size);
++        if (audio_bug(__func__, live > hw->mix_buf.size)) {
++            dolog("live=%zu hw->mix_buf.size=%zu\n", live, hw->mix_buf.size);
+             continue;
+         }
+ 
+@@ -1201,13 +1201,13 @@ static void audio_run_out (AudioState *s)
+             continue;
+         }
+ 
+-        prev_rpos = hw->mix_buf->pos;
++        prev_rpos = hw->mix_buf.pos;
+         played = audio_pcm_hw_run_out(hw, live);
+         replay_audio_out(&played);
+-        if (audio_bug(__func__, hw->mix_buf->pos >= hw->mix_buf->size)) {
+-            dolog("hw->mix_buf->pos=%zu hw->mix_buf->size=%zu played=%zu\n",
+-                  hw->mix_buf->pos, hw->mix_buf->size, played);
+-            hw->mix_buf->pos = 0;
++        if (audio_bug(__func__, hw->mix_buf.pos >= hw->mix_buf.size)) {
++            dolog("hw->mix_buf.pos=%zu hw->mix_buf.size=%zu played=%zu\n",
++                  hw->mix_buf.pos, hw->mix_buf.size, played);
++            hw->mix_buf.pos = 0;
+         }
+ 
+ #ifdef DEBUG_OUT
+@@ -1288,10 +1288,10 @@ static void audio_run_in (AudioState *s)
+ 
+         if (replay_mode != REPLAY_MODE_PLAY) {
+             captured = audio_pcm_hw_run_in(
+-                hw, hw->conv_buf->size - audio_pcm_hw_get_live_in(hw));
++                hw, hw->conv_buf.size - audio_pcm_hw_get_live_in(hw));
+         }
+-        replay_audio_in(&captured, hw->conv_buf->samples, &hw->conv_buf->pos,
+-                        hw->conv_buf->size);
++        replay_audio_in(&captured, hw->conv_buf.buffer, &hw->conv_buf.pos,
++                        hw->conv_buf.size);
+ 
+         min = audio_pcm_hw_find_min_in (hw);
+         hw->total_samples_captured += captured - min;
+@@ -1324,14 +1324,14 @@ static void audio_run_capture (AudioState *s)
+         SWVoiceOut *sw;
+ 
+         captured = live = audio_pcm_hw_get_live_out (hw, NULL);
+-        rpos = hw->mix_buf->pos;
++        rpos = hw->mix_buf.pos;
+         while (live) {
+-            size_t left = hw->mix_buf->size - rpos;
++            size_t left = hw->mix_buf.size - rpos;
+             size_t to_capture = MIN(live, left);
+             struct st_sample *src;
+             struct capture_callback *cb;
+ 
+-            src = hw->mix_buf->samples + rpos;
++            src = hw->mix_buf.buffer + rpos;
+             hw->clip (cap->buf, src, to_capture);
+             mixeng_clear (src, to_capture);
+ 
+@@ -1339,10 +1339,10 @@ static void audio_run_capture (AudioState *s)
+                 cb->ops.capture (cb->opaque, cap->buf,
+                                  to_capture * hw->info.bytes_per_frame);
+             }
+-            rpos = (rpos + to_capture) % hw->mix_buf->size;
++            rpos = (rpos + to_capture) % hw->mix_buf.size;
+             live -= to_capture;
+         }
+-        hw->mix_buf->pos = rpos;
++        hw->mix_buf.pos = rpos;
+ 
+         for (sw = hw->sw_head.lh_first; sw; sw = sw->entries.le_next) {
+             if (!sw->active && sw->empty) {
+@@ -1901,7 +1901,7 @@ CaptureVoiceOut *AUD_add_capture(
+ 
+         audio_pcm_init_info (&hw->info, as);
+ 
+-        cap->buf = g_malloc0_n(hw->mix_buf->size, hw->info.bytes_per_frame);
++        cap->buf = g_malloc0_n(hw->mix_buf.size, hw->info.bytes_per_frame);
+ 
+         if (hw->info.is_float) {
+             hw->clip = mixeng_clip_float[hw->info.nchannels == 2];
+@@ -1953,7 +1953,7 @@ void AUD_del_capture (CaptureVoiceOut *cap, void *cb_opaque)
+                     sw = sw1;
+                 }
+                 QLIST_REMOVE (cap, entries);
+-                g_free (cap->hw.mix_buf);
++                g_free(cap->hw.mix_buf.buffer);
+                 g_free (cap->buf);
+                 g_free (cap);
+             }
+diff --git a/audio/audio_int.h b/audio/audio_int.h
+index 9d04be9128..900b0a6255 100644
+--- a/audio/audio_int.h
++++ b/audio/audio_int.h
+@@ -58,7 +58,7 @@ typedef struct SWVoiceCap SWVoiceCap;
+ 
+ typedef struct STSampleBuffer {
+     size_t pos, size;
+-    st_sample samples[];
++    st_sample *buffer;
+ } STSampleBuffer;
+ 
+ typedef struct HWVoiceOut {
+@@ -71,7 +71,7 @@ typedef struct HWVoiceOut {
+     f_sample *clip;
+     uint64_t ts_helper;
+ 
+-    STSampleBuffer *mix_buf;
++    STSampleBuffer mix_buf;
+     void *buf_emul;
+     size_t pos_emul, pending_emul, size_emul;
+ 
+@@ -93,7 +93,7 @@ typedef struct HWVoiceIn {
+     size_t total_samples_captured;
+     uint64_t ts_helper;
+ 
+-    STSampleBuffer *conv_buf;
++    STSampleBuffer conv_buf;
+     void *buf_emul;
+     size_t pos_emul, pending_emul, size_emul;
+ 
+diff --git a/audio/audio_template.h b/audio/audio_template.h
+index 9c600448fb..9283f00e9e 100644
+--- a/audio/audio_template.h
++++ b/audio/audio_template.h
+@@ -71,8 +71,9 @@ static void glue(audio_init_nb_voices_, TYPE)(AudioState *s,
+ static void glue (audio_pcm_hw_free_resources_, TYPE) (HW *hw)
+ {
+     g_free(hw->buf_emul);
+-    g_free (HWBUF);
+-    HWBUF = NULL;
++    g_free(HWBUF.buffer);
++    HWBUF.buffer = NULL;
++    HWBUF.size = 0;
+ }
+ 
+ static void glue(audio_pcm_hw_alloc_resources_, TYPE)(HW *hw)
+@@ -83,10 +84,12 @@ static void glue(audio_pcm_hw_alloc_resources_, TYPE)(HW *hw)
+             dolog("Attempted to allocate empty buffer\n");
+         }
+ 
+-        HWBUF = g_malloc0(sizeof(STSampleBuffer) + sizeof(st_sample) * samples);
+-        HWBUF->size = samples;
++        HWBUF.buffer = g_new0(st_sample, samples);
++        HWBUF.size = samples;
++        HWBUF.pos = 0;
+     } else {
+-        HWBUF = NULL;
++        HWBUF.buffer = NULL;
++        HWBUF.size = 0;
+     }
+ }
+ 
+@@ -111,16 +114,16 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
+     }
+ 
+ #ifdef DAC
+-    samples = ((int64_t) sw->HWBUF->size << 32) / sw->ratio;
++    samples = ((int64_t)sw->HWBUF.size << 32) / sw->ratio;
+ #else
+-    samples = (int64_t)sw->HWBUF->size * sw->ratio >> 32;
++    samples = (int64_t)sw->HWBUF.size * sw->ratio >> 32;
+ #endif
+     if (samples == 0) {
+         HW *hw = sw->hw;
+         size_t f_fe_min;
+ 
+         /* f_fe_min = ceil(1 [frames] * f_be [Hz] / size_be [frames]) */
+-        f_fe_min = (hw->info.freq + HWBUF->size - 1) / HWBUF->size;
++        f_fe_min = (hw->info.freq + HWBUF.size - 1) / HWBUF.size;
+         qemu_log_mask(LOG_UNIMP,
+                       AUDIO_CAP ": The guest selected a " NAME " sample rate"
+                       " of %d Hz for %s. Only sample rates >= %zu Hz are"
 -- 
 2.35.3
+
 
