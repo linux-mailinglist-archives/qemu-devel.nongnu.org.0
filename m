@@ -2,94 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083E466B8A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 09:02:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C73866B8F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 09:20:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHKQl-00060P-Nb; Mon, 16 Jan 2023 03:01:23 -0500
+	id 1pHKht-0000d1-2V; Mon, 16 Jan 2023 03:19:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pHKQi-0005zu-FB
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:01:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1pHKhp-0000co-1L
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:19:01 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pHKQg-0003Xj-JG
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:01:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673856078;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PPQYZaQlLznXXI0cvvc9TYXj+snG8BULlm08gm/lICA=;
- b=N6xTDaoP5OFfms1JA6/1HZN5sqCZiN9WQC/JSVyziIsfBsZdJvd8KZThvLqLIHdX9DIgu/
- 9+BfhZ58k9d7RonVDOyIanT88bbrB9iSGxs57BBZhIaf9FXwMbbOYehEOPdej6Nnt1DL+g
- tQlNWxoXsXkejptt0f/08UmPuwpkbaI=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-556-3GBOcfZyOSqi7dXJ-Y8dAw-1; Mon, 16 Jan 2023 03:01:16 -0500
-X-MC-Unique: 3GBOcfZyOSqi7dXJ-Y8dAw-1
-Received: by mail-ot1-f69.google.com with SMTP id
- c7-20020a9d6c87000000b006834828052cso14453538otr.8
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 00:01:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PPQYZaQlLznXXI0cvvc9TYXj+snG8BULlm08gm/lICA=;
- b=qy5VIcfHAj0uYLZLAEuPAD3H88kHYKKZdJ2vA2ZH+N6bpHFXfThnDW2rUkxwnTTsMj
- CVV6uAtcXlsL67LG4nOzsLu7eW5Kg6YPDieRyt3Xa5Hk6JBqyxjvEZKv0f3+m+LS3L3q
- aLGea10sWCutJXGsletcR/MR5vMdvnIjfTqrxQhXcZ7a0A6Y9bwBu2ZKk7pozJXMc5ja
- kT3DTkGNVH/v7ZX2O0ToPuf/fHTdqdgfPEtnPCQ386B6nFtgmBsD+u95kZZ6rj0BXPPe
- AqzaI0epy//hJ1ky074mPtLo1xp0/Qj0RCKVJY4C01u4aURWSejjwMlNEvbZAOJPnbcs
- KZfQ==
-X-Gm-Message-State: AFqh2koeiKOuWQ+87secVJ8swf+Ct+PUxuqj+4H/lLQrf9C8fMul44i1
- K689utqWBPv6e8Ef/u9b3bkhmBl8Lr8N+baoxYtM4PjWkZY6A/D1mw24UdAf6+srdKrUhNKfPkp
- mpPu1rqdY7TB0sQWDmwJl3vhzMz5Attw=
-X-Received: by 2002:a54:4e89:0:b0:35c:303d:fe37 with SMTP id
- c9-20020a544e89000000b0035c303dfe37mr3908328oiy.35.1673856075939; 
- Mon, 16 Jan 2023 00:01:15 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtKtXWxZLc2hLKZq77tdEGrsaLGm4OG4tJ5h2aKEbcpNSoMqxhy0S9L8It+mU5t5D4As0qMrCO2UoNOsB4ZWeo=
-X-Received: by 2002:a54:4e89:0:b0:35c:303d:fe37 with SMTP id
- c9-20020a544e89000000b0035c303dfe37mr3908320oiy.35.1673856075514; Mon, 16 Jan
- 2023 00:01:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1pHKhl-0007KD-Ab
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:19:00 -0500
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NwPy63vBRzJrYl;
+ Mon, 16 Jan 2023 16:17:02 +0800 (CST)
+Received: from kwepemm600016.china.huawei.com (7.193.23.20) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Mon, 16 Jan 2023 16:18:23 +0800
+Received: from kwepemm600016.china.huawei.com ([7.193.23.20]) by
+ kwepemm600016.china.huawei.com ([7.193.23.20]) with mapi id 15.01.2375.034;
+ Mon, 16 Jan 2023 16:18:22 +0800
+To: "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Wubin (H)"
+ <wu.wubin@huawei.com>, "Chentao (Boby)" <boby.chen@huawei.com>, "Wanghaibin
+ (D)" <wanghaibin.wang@huawei.com>, "Zhangbo (Oscar)"
+ <oscar.zhangbo@huawei.com>, "limingwang (A)" <limingwang@huawei.com>, Wangyan
+ <wangyan122@huawei.com>, lihuachao <lihuachao1@huawei.com>
+Subject: [QUESTION] About virtio and eventloop
+Thread-Topic: [QUESTION] About virtio and eventloop
+Thread-Index: AdkpcTID0pd8MGv+T9eTVpvXILZMZQ==
+Date: Mon, 16 Jan 2023 08:18:22 +0000
+Message-ID: <63b89ae069d644b897ea97cc41b030ab@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.187.224]
+Content-Type: multipart/alternative;
+ boundary="_000_63b89ae069d644b897ea97cc41b030abhuaweicom_"
 MIME-Version: 1.0
-References: <20230114041004.36459-1-akihiko.odaki@daynix.com>
-In-Reply-To: <20230114041004.36459-1-akihiko.odaki@daynix.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 16 Jan 2023 16:01:04 +0800
-Message-ID: <CACGkMEvAwrfUwQVAj0qZFy+Wib5FSBwayyN_qGbZ8edNwB_18g@mail.gmail.com>
-Subject: Re: [PATCH v2 00/13] Introduce igb
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, 
- Cleber Rosa <crosa@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Darren Kenny <darren.kenny@oracle.com>, 
- Qiuhao Li <Qiuhao.Li@outlook.com>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- devel@daynix.com, Yan Vugenfirer <yvugenfi@redhat.com>, 
- Yuri Benditovich <yuri.benditovich@daynix.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=zhukeqian1@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,104 +69,510 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  zhukeqian <zhukeqian1@huawei.com>
+From:  zhukeqian via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Jan 14, 2023 at 12:10 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->
-> Based-on: <20230114035919.35251-1-akihiko.odaki@daynix.com>
-> ([PATCH 00/19] e1000x cleanups (preliminary for IGB))
->
-> igb is a family of Intel's gigabit ethernet controllers. This series implements
-> 82576 emulation in particular. You can see the last patch for the documentation.
->
-> Note that there is another effort to bring 82576 emulation. This series was
-> developed independently by Sriram Yagnaraman.
-> https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg04670.html
->
-> It is possible to merge the work from Sriram Yagnaraman and to cherry-pick
-> useful changes from this series later.
->
-> I think there are several different ways to get the changes into the mainline.
-> I'm open to any options.
+--_000_63b89ae069d644b897ea97cc41b030abhuaweicom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-I can only do reviews for the general networking part but not the
-82576 specific part. It would be better if either of the series can
-get some ACKs from some ones that they are familiar with 82576, then I
-can try to merge.
+Hi all maintainers and community friends,
 
-Thanks
+Recently I am reviewing and learning the virtio and eventloop implementatio=
+n of latest QEMU,
+and now I have a questions for help:
 
->
-> V1 -> V2:
-> - Spun off e1000e general improvements to a distinct series.
-> - Restored vnet_hdr offload as there seems nothing preventing from that.
->
-> Akihiko Odaki (13):
->   hw/net/net_tx_pkt: Introduce net_tx_pkt_get_eth_hdr
->   pcie: Introduce pcie_sriov_num_vfs
->   e1000: Split header files
->   igb: Copy e1000e code
->   igb: Rename identifiers
->   igb: Build igb
->   igb: Transform to 82576 implementation
->   tests/qtest/e1000e-test: Fabricate ethernet header
->   tests/qtest/libqos/e1000e: Export macreg functions
->   tests/qtest/libqos/igb: Copy e1000e code
->   tests/qtest/libqos/igb: Transform to igb tests
->   tests/avocado: Add igb test
->   docs/system/devices/igb: Add igb documentation
->
->  MAINTAINERS                                   |    9 +
->  docs/system/device-emulation.rst              |    1 +
->  docs/system/devices/igb.rst                   |   70 +
->  hw/net/Kconfig                                |    5 +
->  hw/net/e1000.c                                |    1 +
->  hw/net/e1000_common.h                         |  102 +
->  hw/net/e1000_regs.h                           |  927 +---
->  hw/net/e1000e.c                               |    3 +-
->  hw/net/e1000e_core.c                          |    1 +
->  hw/net/e1000x_common.c                        |    1 +
->  hw/net/e1000x_common.h                        |   74 -
->  hw/net/e1000x_regs.h                          |  940 ++++
->  hw/net/igb.c                                  |  615 +++
->  hw/net/igb_common.h                           |  144 +
->  hw/net/igb_core.c                             | 3946 +++++++++++++++++
->  hw/net/igb_core.h                             |  147 +
->  hw/net/igb_regs.h                             |  624 +++
->  hw/net/igbvf.c                                |  327 ++
->  hw/net/meson.build                            |    2 +
->  hw/net/net_tx_pkt.c                           |    6 +
->  hw/net/net_tx_pkt.h                           |    8 +
->  hw/net/trace-events                           |   32 +
->  hw/pci/pcie_sriov.c                           |    5 +
->  include/hw/pci/pcie_sriov.h                   |    3 +
->  .../org.centos/stream/8/x86_64/test-avocado   |    1 +
->  tests/avocado/igb.py                          |   38 +
->  tests/qtest/e1000e-test.c                     |   17 +-
->  tests/qtest/fuzz/generic_fuzz_configs.h       |    5 +
->  tests/qtest/igb-test.c                        |  243 +
->  tests/qtest/libqos/e1000e.c                   |   12 -
->  tests/qtest/libqos/e1000e.h                   |   14 +
->  tests/qtest/libqos/igb.c                      |  185 +
->  tests/qtest/libqos/meson.build                |    1 +
->  tests/qtest/meson.build                       |    1 +
->  34 files changed, 7492 insertions(+), 1018 deletions(-)
->  create mode 100644 docs/system/devices/igb.rst
->  create mode 100644 hw/net/e1000_common.h
->  create mode 100644 hw/net/e1000x_regs.h
->  create mode 100644 hw/net/igb.c
->  create mode 100644 hw/net/igb_common.h
->  create mode 100644 hw/net/igb_core.c
->  create mode 100644 hw/net/igb_core.h
->  create mode 100644 hw/net/igb_regs.h
->  create mode 100644 hw/net/igbvf.c
->  create mode 100644 tests/avocado/igb.py
->  create mode 100644 tests/qtest/igb-test.c
->  create mode 100644 tests/qtest/libqos/igb.c
->
-> --
-> 2.39.0
->
+In general, the IO requests of virtio is popped in iothread/mainloop and ma=
+y submitted to "async IO
+Engine"  (io_uring/linux aio/threadpool). Once the IO operation is done, th=
+e "async IO engine" will send notification
+to iothread/mainloop through evenfd or bottomhalf, and the completion actio=
+n for the IO request (add used ring and
+notify guest) is done in iothread/mainloop.
 
+And let's look at the "deactive" procedure of virtio-pci devices (when gues=
+t write 0 to  device status or system
+triggered reset), the basic requirement is that device should stop handling=
+ IO requests and accessing virtqueue before
+returning back to guest, as the guest may destroy virqueue  once deactivati=
+on is done.
+
+QEMU invokes stop_ioeventfd() callback to perform above actions. It unregis=
+ters ioeventfd from eventloop and KVM,
+
+  1.  but I can't find code that ensuring IO operations in "async IO engine=
+" are done.
+  2.  And if IO operation is blocked, is vCPU thread will blocked when do d=
+eactivate?
+
+It's great that if anyone can help!
+
+Thanks,
+Keqian
+
+--_000_63b89ae069d644b897ea97cc41b030abhuaweicom_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{mso-style-priority:34;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:12996870;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1717015254 67698703 67698713 67698715 67698703 6769=
+8713 67698715 67698703 67698713 67698715;}
+@list l0:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l0:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l0:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l1
+	{mso-list-id:67507302;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1085722958 67698703 67698713 67698715 67698703 67698=
+713 67698715 67698703 67698713 67698715;}
+@list l1:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l1:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l1:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l2
+	{mso-list-id:136798337;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-679561616 67698703 67698713 67698715 67698703 67698=
+713 67698715 67698703 67698713 67698715;}
+@list l2:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l2:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l2:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l3
+	{mso-list-id:441071050;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1890020102 67698703 67698713 67698715 67698703 6769=
+8713 67698715 67698703 67698713 67698715;}
+@list l3:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l3:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l3:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l3:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l3:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l3:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l3:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l3:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l3:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l4
+	{mso-list-id:525682454;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1557908192 67698703 67698713 67698715 67698703 6769=
+8713 67698715 67698703 67698713 67698715;}
+@list l4:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l4:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l4:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l5
+	{mso-list-id:590163071;
+	mso-list-type:hybrid;
+	mso-list-template-ids:523379512 67698703 67698713 67698715 67698703 676987=
+13 67698715 67698703 67698713 67698715;}
+@list l5:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l5:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l5:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l5:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l5:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l5:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l5:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l5:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l5:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l6
+	{mso-list-id:1566834836;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1956295942 67698703 67698713 67698715 67698703 67698=
+713 67698715 67698703 67698713 67698715;}
+@list l6:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l6:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l6:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l6:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l6:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l6:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l6:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l6:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l6:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hi all maintainers and community friends,<o:p></o:p>=
+</p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Recently I am reviewing and learning the virtio and =
+eventloop implementation of latest QEMU,<o:p></o:p></p>
+<p class=3D"MsoNormal">and now I have a questions for help:<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">In general, the IO requests of virtio is popped in i=
+othread/mainloop and may submitted to &#8220;async IO<o:p></o:p></p>
+<p class=3D"MsoNormal">Engine&#8221; &nbsp;(io_uring/linux aio/threadpool).=
+ Once the IO operation is done, the &#8220;async IO engine&#8221; will send=
+ notification<o:p></o:p></p>
+<p class=3D"MsoNormal">to iothread/mainloop through evenfd or bottomhalf, a=
+nd the completion action for the IO request (add used ring and<o:p></o:p></=
+p>
+<p class=3D"MsoNormal">notify guest) is done in iothread/mainloop.<o:p></o:=
+p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">And let&#8217;s look at the &#8220;deactive&#8221; p=
+rocedure of virtio-pci devices (when guest write 0 to &nbsp;device status o=
+r system<o:p></o:p></p>
+<p class=3D"MsoNormal">triggered reset), the basic requirement is that devi=
+ce should stop handling IO requests and accessing virtqueue before<o:p></o:=
+p></p>
+<p class=3D"MsoNormal">returning back to guest, as the guest may destroy vi=
+rqueue &nbsp;once deactivation is done.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">QEMU invokes stop_ioeventfd() callback to perform ab=
+ove actions. It unregisters ioeventfd from eventloop and KVM,<o:p></o:p></p=
+>
+<ol style=3D"margin-top:0cm" start=3D"1" type=3D"1">
+<li class=3D"MsoListParagraph" style=3D"margin-left:0cm;mso-list:l2 level1 =
+lfo7">but I can&#8217;t find code that ensuring
+<b>IO operations in &#8220;async IO engine&#8221;</b> are done.&nbsp;&nbsp;=
+ <o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin-left:0cm;ms=
+o-list:l2 level1 lfo7">And if IO operation is blocked, is vCPU thread will =
+blocked when do deactivate?<o:p></o:p></li></ol>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">It&#8217;s great that if anyone can help!<o:p></o:p>=
+</p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<o:p></o:p></p>
+<p class=3D"MsoNormal">Keqian<o:p></o:p></p>
+</div>
+</body>
+</html>
+
+--_000_63b89ae069d644b897ea97cc41b030abhuaweicom_--
 
