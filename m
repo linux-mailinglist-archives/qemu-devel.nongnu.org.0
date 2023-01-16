@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F8466B990
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 09:59:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D630366B991
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 09:59:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHLKT-0008JR-GV; Mon, 16 Jan 2023 03:58:57 -0500
+	id 1pHLLJ-0000W7-0h; Mon, 16 Jan 2023 03:59:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pHLKR-0008JG-9L
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:58:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pHLKP-00080m-Py
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:58:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673859532;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YeD/Hr1Vybu23piKpZ0atu994CJ7rr+FnaElH4OwUlQ=;
- b=DD6XAk2P3nmCTT60fvZPwynlvRM1mBfRdqr9JrdMYMTDU5/A0DQEthU8byzPk00hlS3X/p
- /2w+UH+RC/rK2+tm39eoL4+QfSFWIkBK256o+3LFKIfmDLMMuO0t8GSXPNmj1FUPin/erB
- OmDKxjDMbwRLz3VcIqpNj1aFZnxpC38=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-439-gTexn_TUOU6xLDUK2N7veQ-1; Mon, 16 Jan 2023 03:58:49 -0500
-X-MC-Unique: gTexn_TUOU6xLDUK2N7veQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8635C1871D9F;
- Mon, 16 Jan 2023 08:58:48 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46B0740C2064;
- Mon, 16 Jan 2023 08:58:47 +0000 (UTC)
-Date: Mon, 16 Jan 2023 08:58:45 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Thomas Huth <thuth@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 07/11] audio/audio_template: use g_malloc0() to replace
- audio_calloc()
-Message-ID: <Y8URq6bKB5tlDsHR@redhat.com>
-References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
- <20221218171539.11193-7-vr_qemu@t-online.de>
- <9b60cdc7-3bd3-6651-2e7e-29673731aabd@linaro.org>
- <e4276dbf-ba7c-0ee4-88f8-4b0cffee46f7@t-online.de>
+ (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
+ id 1pHLLF-0000R5-PS
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:59:45 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
+ id 1pHLLE-00084w-2G
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:59:45 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id v13so5670045eda.11
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 00:59:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=y1AtRax3/OGwYdloKAxzHVoAtafZdoLdwCwtFdTgAFg=;
+ b=Z9PDHhrD4S6rJITkgCy69XSgBTJ6owaepHmBA9meLeSg8KUZSt1wTzFfBJKgGjfGFH
+ rMOsXkqC0hZCpIhWQACTJu1uIHWGSkggAPhVMn8ADdpSMI7pUj+GngCa21aFCinETkr3
+ UgqBkl3iU+oDVdRrLmUj/CGikCdC1nTaP2LGt4mtXQXiv4QSLdZKJwjyXancNZq6omMK
+ PzB1a8Cc6irrGqs1M2FcHwN2ndJp8jLef/eokdx/VNeUaCaWVJ2piZ2/UBofbBhxOgA4
+ HnE1tphUXvt6jjLAuKKZuEtXwmm/xSm3q/zc2nPLopXXMlSuv3V72QPyhv4BcTlkR2V2
+ ZhYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=y1AtRax3/OGwYdloKAxzHVoAtafZdoLdwCwtFdTgAFg=;
+ b=fYS05/zH1LnSelHRpoI359QRutPUMGPAxUIHJPoD2nl+oEaPsU35Q2Tez5DP6dYG1R
+ 15FoKlYv+mVaPzjNT2uYZ5PrsA84diga+IeogtfyCkZXMIkyiMk9sZi6PC+2JHl7BScF
+ pNLS3AemDQ0xxUTZQJwD4mvjcMxxW2/JdBIdhB7KlfRvNe7vKxNp7KA7Zr6W1tH8+POP
+ j6vaoZfMF6O2LSbuBt67PvnTIdgRZBo0p4XhQZfDDSb0H8KJ5uDyLoeWkJpTNYD2lIxW
+ oCG6o4q6NIw5ZfsnRDtofN7CCNq7Xay5YEwrPwY7iIsDsJ+ZL6KoO+KLrIpj3FLiansu
+ iqzQ==
+X-Gm-Message-State: AFqh2kqTBtyxQcQXGekIwU1ZMVYS37HpaNgl2AQz5FrmPuYModdzd1DQ
+ ARZ8pm1wDfx5Kqzu3M2F6ByIdw51miGB8ipbr1ku1IuIP8jqUmz8
+X-Google-Smtp-Source: AMrXdXuWyo6txHaqaBtfysMe8HjT4uVMu2GcBfD1etiPgvpahHKyyfPXYLDKfDHan6U8+IEAa5LsPsMFM0v1QP2FMB0=
+X-Received: by 2002:a05:6402:6cb:b0:493:77c5:6851 with SMTP id
+ n11-20020a05640206cb00b0049377c56851mr3837419edy.328.1673859581281; Mon, 16
+ Jan 2023 00:59:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e4276dbf-ba7c-0ee4-88f8-4b0cffee46f7@t-online.de>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+From: Yu Zhang <yu.zhang@ionos.com>
+Date: Mon, 16 Jan 2023 09:59:30 +0100
+Message-ID: <CAHEcVy56ZTmPEiEn5yHVyrNWK8nBtRZF5gK=sRb4x6RMnOu+gQ@mail.gmail.com>
+Subject: regarding qapi and qapi-rs
+To: qemu-devel <qemu-devel@nongnu.org>, Jinpu Wang <jinpu.wang@ionos.com>, 
+ Alexei Pastuchov <alexei.pastuchov@ionos.com>,
+ Elmar Gerdes <elmar.gerdes@ionos.com>
+Content-Type: multipart/alternative; boundary="000000000000bf285005f25dcdf0"
+Received-SPF: permerror client-ip=2a00:1450:4864:20::52c;
+ envelope-from=yu.zhang@ionos.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,56 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Dec 18, 2022 at 06:39:00PM +0100, Volker Rümelin wrote:
-> Am 18.12.22 um 18:26 schrieb Philippe Mathieu-Daudé:
-> > On 18/12/22 18:15, Volker Rümelin wrote:
-> > > Use g_malloc0() as a direct replacement for audio_calloc().
-> > > 
-> > > Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-> > > ---
-> > >   audio/audio_template.h | 2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/audio/audio_template.h b/audio/audio_template.h
-> > > index d343a1dcb3..5f51ef26b2 100644
-> > > --- a/audio/audio_template.h
-> > > +++ b/audio/audio_template.h
-> > > @@ -273,7 +273,7 @@ static HW *glue(audio_pcm_hw_add_new_,
-> > > TYPE)(AudioState *s,
-> > >           return NULL;
-> > >       }
-> > >   -    hw = audio_calloc(__func__, 1, glue(drv->voice_size_, TYPE));
-> > > +    hw = g_malloc0(glue(drv->voice_size_, TYPE));
-> > >       if (!hw) {
-> > 
-> > g_malloc0() can't fail. Either you want g_try_malloc0() or
-> > remove the error path.
-> > 
-> 
-> g_malloc0() returns NULL if drv->voice_size_(out|in) is 0. I think the code
-> is correct.
+--000000000000bf285005f25dcdf0
+Content-Type: text/plain; charset="UTF-8"
 
-IMHO relying on that is rather misleading to people reviewing the code
-though. As seen by Philippe's reply, people generally don't expect that
-g_malloc0 can return NULL, and it is not at all obvious that we are
-intentionally expecting 0 to be passed as a size.
+Hi all,
 
-Please make this explicit by removing and if (!hw) check after
-g_malloc, and adding a check before g_malloc
+I noticed that with each qemu release, the qapi (C version) may introduce
+some changes, and the qapi-rs (Rust version) also changes correspondingly.
+However, recently there is no qapi-rs release yet for qemu-7.2. I'd like to
+know, is the release of the qapi-rs synchronized with the release of qemu,
+or independent from the release of qemu?
 
-   if (audio_bug(__func__, glue(drv->voice_size_, TYPE) == 0)) {
-       dolog (...)
+Thank you very much for your reply.
 
+Best regards,
+Yu Zhang @ Compute Platform, IONOS
+16.01.2023
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+--000000000000bf285005f25dcdf0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hi all,<br><br>I noticed that with each qemu release, the =
+qapi (C version) may introduce some changes, and the qapi-rs (Rust version)=
+ also changes correspondingly. However, recently there is no qapi-rs releas=
+e yet for qemu-7.2. I&#39;d like to know, is the release of the qapi-rs syn=
+chronized with the release of qemu, or independent from the release of qemu=
+?<br><br>Thank you very much for your reply.<div><br>Best regards,<br>Yu Zh=
+ang @ Compute Platform, IONOS<br>16.01.2023<br></div></div>
+
+--000000000000bf285005f25dcdf0--
 
