@@ -2,95 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB60166C853
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 17:38:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C8766C885
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 17:40:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHSUN-0000OS-Sp; Mon, 16 Jan 2023 11:37:39 -0500
+	id 1pHSWM-0001N8-PN; Mon, 16 Jan 2023 11:39:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pHSUJ-0000NV-Qm
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 11:37:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pHSUH-0003KJ-Pj
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 11:37:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673887051;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D5lv6nxqxKL4Uj2DyZf4N5d7X3X8IIDgtzlVJU8pf6Q=;
- b=aQFp3KNz2VkgaEKFoX3aXSm0xGo7bZDh1DmabXq0MRDQR3ZqT/HnuCN5PUNrdft3jLXndP
- TKlDt5g4iYGda4bbIilEBMsLGQsIj74pmHjbbVnhMnwgVOHCL7Z0P8XeYiWl3ddDeIC0Dj
- Gr2xgbp7O3I5bi9rPWfclyk9a8Ct83o=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-364-UZk4cvmkNBmFbZvkZkAuGw-1; Mon, 16 Jan 2023 11:37:31 -0500
-X-MC-Unique: UZk4cvmkNBmFbZvkZkAuGw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- du14-20020a17090772ce00b0087108bbcfa6so1796037ejc.7
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 08:37:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHSWK-0001Mu-Fh
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 11:39:40 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHSWI-0003VN-9o
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 11:39:39 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ z1-20020a17090a66c100b00226f05b9595so16471703pjl.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 08:39:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=++TqEL4wTX0Rvoy7+IpvtxClPn97Sot1SBzL5cTJWMU=;
+ b=MXnBIWjLySF05pJwVuecrEKKUFSVIUPqRdqb+VYZtFfn8T99HtLS55rdMTeL5mPE+V
+ aMSAMXrfo/E85Tel3bJl55MLZ0JxW4LtgBFlwLWrWoTfRpVnP5wMP38cmLm9diMpP45o
+ lxAYC1n3uOB0JYwlLYhlB3gFPrFBcEyBeqSxabru8mFCoKN5/+s0vzs9Sgz460Q4ZXmD
+ gW6MDtUuRwyPWk+TncdJWtw/Kd0LbdqZVlxPE4qrMQMDkyRXoiQH+OnAurkXrquLqklw
+ IIZSWvYak6a2g/4RQ08HmLZkSycvWoq6UFxBcfNMb1cZH6r0Hk4sAf5E+FNrJziGts2u
+ OB/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=D5lv6nxqxKL4Uj2DyZf4N5d7X3X8IIDgtzlVJU8pf6Q=;
- b=RAiQ1JgrBJjtRQIUg2exUcHn2qCFryNZbbdAKLWsVWpQ7OZSEZ6U7fetszJeJjXqkq
- 3HaM84J273b9RxYm3ecJmyByrW//UUAuCyz29VgdwTk8+GXvwc+X9Cz/pUXEuxyc9cUV
- MYN04gj1cMnKyQutA5Hb70NTx/fvAn4X0g3/3LkiLolW4nRj3qk2Zelvmlmhgib8rnpG
- u2+wjfGWlFhjiWzcFltUaL0+dfmq8W3LVMSophAAGQzxjJUftnNnsWCNoJx8hGx0WeWg
- JhQiOkyxPpBTmdorbZIRWjlGmq6p+xGLroLuNn6RwdLmcw3JWrcyuOQnU1JOygCdyhDJ
- kgZg==
-X-Gm-Message-State: AFqh2kpoiMWTztnRYDdgewyFrFTmd18MqgJX2OC8dc0jhr9XQQ/8HQ9g
- sZ2YiTRzpor62m/wURm7iiyBtEYdCU5L8M7hUKs+pzbSOg0jREkAmOvQ38R/M/AbM/woGy6D3fy
- 5bkFXy586OHk5iDs=
-X-Received: by 2002:a17:906:1c59:b0:86b:49c6:259a with SMTP id
- l25-20020a1709061c5900b0086b49c6259amr11794259ejg.62.1673887049959; 
- Mon, 16 Jan 2023 08:37:29 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtZavZbMsc8luZPEQ0RBVx2ME2Fj6g/ue20nSAOHYYwEPxw2UEWhyQn+i0qOikiHG376wTnNA==
-X-Received: by 2002:a17:906:1c59:b0:86b:49c6:259a with SMTP id
- l25-20020a1709061c5900b0086b49c6259amr11794223ejg.62.1673887049516; 
- Mon, 16 Jan 2023 08:37:29 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- f27-20020a17090631db00b007c11f2a3b3dsm11970443ejf.107.2023.01.16.08.37.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Jan 2023 08:37:28 -0800 (PST)
-Date: Mon, 16 Jan 2023 17:37:27 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, Richard Henderson
- <richard.henderson@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Markus
- Armbruster <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Aurelien Jarno
- <aurelien@aurel32.net>
-Subject: Re: [PATCH v3 1/7] hw/acpi/acpi_dev_interface: Remove unused
- parameter from AcpiDeviceIfClass::madt_cpu
-Message-ID: <20230116173727.231b7811@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230116152908.147275-2-shentey@gmail.com>
-References: <20230116152908.147275-1-shentey@gmail.com>
- <20230116152908.147275-2-shentey@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ bh=++TqEL4wTX0Rvoy7+IpvtxClPn97Sot1SBzL5cTJWMU=;
+ b=YfFX2m2WTiKLupSHiyOMF2Q09MpTLKrzgQvAhRH+rpArEeqmI2bRpmKG2dDq9zRXsj
+ EuIwbZ5clxGD+Dij1cZFlWoHvpmXjcUh0G4aM0P+HjTdw1KlPsTRHLkv7vHpMuibn/1Y
+ 9wpGTgNMaUIlggRdwggiS2/HFolk7swvTe5eaUe4YAI33XZiKKM4TVLQ/agDc7iBaSqO
+ 9Geih1JWzYE7SijvOR1x0XB9oz2ncOm+21zr4kf2j8xvJ65LtSNhdMS78xPYo7TmR53B
+ ZmwxBVZZDCbdVxl3ZQObR+4613tt/6HJk4VECwzZHoPgScYFzi1QbkRjpf360OOIxpmn
+ pSDw==
+X-Gm-Message-State: AFqh2koSAQC2kY9DCtGV9+/7BeMK7HkYtbho7G3gyJpTT5YiVk4ge06o
+ bvUwBVU0TH5M5kfCIhI/plpE9q2tYVVtNFHlbPoEXA==
+X-Google-Smtp-Source: AMrXdXvr6yb8MUG/nlA+9pbwrTyk8KyoS/S9eoBT8RdzQYPIZnCF0Zo0qqKburLqcenD2mQ5T7nEmcEs4WklkWGSHws=
+X-Received: by 2002:a17:90a:f50b:b0:229:2631:e8 with SMTP id
+ cs11-20020a17090af50b00b00229263100e8mr959566pjb.215.1673887176667; Mon, 16
+ Jan 2023 08:39:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20230106102018.20520-1-eiakovlev@linux.microsoft.com>
+ <CAFEAcA-z7+X9-c43EmhoRBTrOYC9RtyHc5sgPamGRd_o+-tT_Q@mail.gmail.com>
+ <871qo7pszr.fsf@linaro.org>
+ <CAFEAcA_9db5ijSTW1JBiC7kLUe+E=+OCAHg0xaoa-0p09Wbt3g@mail.gmail.com>
+ <f2182772-661a-c021-061e-642ef3aea942@linux.microsoft.com>
+ <CAFEAcA_TWOxz52q0EY0Bfvpwmg9bkVD1pSndiyQhfOtXOrtDMA@mail.gmail.com>
+ <1e5c8643-e756-9110-70f1-a83e301cca03@linux.microsoft.com>
+In-Reply-To: <1e5c8643-e756-9110-70f1-a83e301cca03@linux.microsoft.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Jan 2023 16:39:25 +0000
+Message-ID: <CAFEAcA_NjWaN3xbgkcZ1SJipu-SRN5br+d28dbT=W5xjG_ZXrQ@mail.gmail.com>
+Subject: Re: [PATCH v2] semihosting: add O_BINARY flag in host_open for NT
+ compatibility
+To: eiakovlev@linux.microsoft.com
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ qemu-devel@nongnu.org, bmeng.cn@gmail.com, philmd@linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,132 +93,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 16 Jan 2023 16:29:02 +0100
-Bernhard Beschow <shentey@gmail.com> wrote:
+On Mon, 16 Jan 2023 at 15:56, <eiakovlev@linux.microsoft.com> wrote:
+>
+>
+>
+> On 1/6/23 7:58 PM, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > On Fri, 6 Jan 2023 at 18:22, Evgeny Iakovlev
+> > <eiakovlev@linux.microsoft.com> wrote:
+> > >
+> > >
+> > > On 1/6/2023 17:28, Peter Maydell wrote:
+> > >> On Fri, 6 Jan 2023 at 15:44, Alex Benn=C3=A9e <alex.bennee@linaro.or=
+g> wrote:
+> > >>> Peter Maydell <peter.maydell@linaro.org> writes:
+> > >> I think the theory when the semihosting API was originally designed
+> > >> decades ago was basically "when the guest does fopen(...) this
+> > >> should act like it does on the host". So as a bit of portable
+> > >> guest code you would say whether you wanted a binary or a text
+> > >> file, and the effect would be that if you were running on Windows
+> > >> and you output a text file then you'd get \r\n like the user
+> > >> probably expected, and if on Linux you get \n.
+> >
+> > > If SYS_OPEN is supposed to call fopen (i didn't actually know that..)
+> > > then it does make more sense for binary/text mode to be propagated fr=
+om
+> > > guest.
+> >
+> > It's not required to literally call fopen(). It just has to
+> > give the specified semantics for when the guest passes it a
+> > mode integer, which is defined in terms of the ISO C
+> > fopen() string semantics for "r", "rb", "r+", "r+b", etc.
+> >
+> > > Qemu's implementation calls open(2) though, which is not correct
+> > > at all then. Well, as long as qemu does that, there is no
+> > > posix-compliant way to tell open(2) if it should use binary or text
+> > > mode, there is no notion of that as far as posix (and most
+> > > implementations) is concerned.
+> >
+> > QEMU doesn't have to be pure POSIX compliant: we know what our
+> > supported host platforms are and we can freely use extensions
+> > they provide. If we want to achieve the semantics that semihosting
+> > asks for then we can do that with open(), by passing O_BINARY when
+> > the mode integer from the guest corresponds to a string with "b" in it.
 
-> The only function ever assigned to AcpiDeviceIfClass::madt_cpu is
-> pc_madt_cpu_entry() which doesn't use the AcpiDeviceIf parameter.
->=20
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Thanks Peter, i think i see your point. However, if you ask me, i feel li=
+ke advertising a feature to guest code and only implementing it on 1 platfo=
+rm that supports it just because it has a non-standard POSIX implementation=
+ will only confuse the issue further.
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Huh? We can implement it, if we want, on *all* hosts that
+we support:
+ * On Windows hosts, plumb the binary indication from the
+   semihosting SYS_OPEN call through to whether we pass O_BINARY
+   to open(2)
+ * On all other hosts, do nothing: on these hosts, text and
+   binary files are identical so there is nothing to do
 
-> ---
->  include/hw/acpi/acpi_dev_interface.h | 3 +--
->  include/hw/i386/pc.h                 | 6 ++----
->  hw/acpi/acpi-x86-stub.c              | 5 ++---
->  hw/acpi/cpu.c                        | 3 +--
->  hw/i386/acpi-common.c                | 7 +++----
->  5 files changed, 9 insertions(+), 15 deletions(-)
->=20
-> diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_=
-dev_interface.h
-> index ea6056ab92..a1648220ff 100644
-> --- a/include/hw/acpi/acpi_dev_interface.h
-> +++ b/include/hw/acpi/acpi_dev_interface.h
-> @@ -52,8 +52,7 @@ struct AcpiDeviceIfClass {
->      /* <public> */
->      void (*ospm_status)(AcpiDeviceIf *adev, ACPIOSTInfoList ***list);
->      void (*send_event)(AcpiDeviceIf *adev, AcpiEventStatusBits ev);
-> -    void (*madt_cpu)(AcpiDeviceIf *adev, int uid,
-> -                     const CPUArchIdList *apic_ids, GArray *entry,
-> +    void (*madt_cpu)(int uid, const CPUArchIdList *apic_ids, GArray *ent=
-ry,
->                       bool force_enabled);
->  };
->  #endif
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 991f905f5d..a0647165d1 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -9,7 +9,6 @@
->  #include "hw/block/flash.h"
->  #include "hw/i386/x86.h"
-> =20
-> -#include "hw/acpi/acpi_dev_interface.h"
->  #include "hw/hotplug.h"
->  #include "qom/object.h"
->  #include "hw/i386/sgx-epc.h"
-> @@ -193,9 +192,8 @@ bool pc_system_ovmf_table_find(const char *entry, uin=
-t8_t **data,
->  void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size);
-> =20
->  /* hw/i386/acpi-common.c */
-> -void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-> -                       const CPUArchIdList *apic_ids, GArray *entry,
-> -                       bool force_enabled);
-> +void pc_madt_cpu_entry(int uid, const CPUArchIdList *apic_ids,
-> +                       GArray *entry, bool force_enabled);
-> =20
->  /* sgx.c */
->  void pc_machine_init_sgx_epc(PCMachineState *pcms);
-> diff --git a/hw/acpi/acpi-x86-stub.c b/hw/acpi/acpi-x86-stub.c
-> index 3df1e090f4..d0d399d26b 100644
-> --- a/hw/acpi/acpi-x86-stub.c
-> +++ b/hw/acpi/acpi-x86-stub.c
-> @@ -2,9 +2,8 @@
->  #include "hw/i386/pc.h"
->  #include "hw/i386/acpi-build.h"
-> =20
-> -void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-> -                       const CPUArchIdList *apic_ids, GArray *entry,
-> -                       bool force_enabled)
-> +void pc_madt_cpu_entry(int uid, const CPUArchIdList *apic_ids,
-> +                       GArray *entry, bool force_enabled)
->  {
->  }
-> =20
-> diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-> index 4e580959a2..19c154d78f 100644
-> --- a/hw/acpi/cpu.c
-> +++ b/hw/acpi/cpu.c
-> @@ -355,7 +355,6 @@ void build_cpus_aml(Aml *table, MachineState *machine=
-, CPUHotplugFeatures opts,
->      char *cphp_res_path =3D g_strdup_printf("%s." CPUHP_RES_DEVICE, res_=
-root);
->      Object *obj =3D object_resolve_path_type("", TYPE_ACPI_DEVICE_IF, NU=
-LL);
->      AcpiDeviceIfClass *adevc =3D ACPI_DEVICE_IF_GET_CLASS(obj);
-> -    AcpiDeviceIf *adev =3D ACPI_DEVICE_IF(obj);
-> =20
->      cpu_ctrl_dev =3D aml_device("%s", cphp_res_path);
->      {
-> @@ -666,7 +665,7 @@ void build_cpus_aml(Aml *table, MachineState *machine=
-, CPUHotplugFeatures opts,
-> =20
->              /* build _MAT object */
->              assert(adevc && adevc->madt_cpu);
-> -            adevc->madt_cpu(adev, i, arch_ids, madt_buf,
-> +            adevc->madt_cpu(i, arch_ids, madt_buf,
->                              true); /* set enabled flag */
->              aml_append(dev, aml_name_decl("_MAT",
->                  aml_buffer(madt_buf->len, (uint8_t *)madt_buf->data)));
-> diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-> index 4aaafbdd7b..52e5c1439a 100644
-> --- a/hw/i386/acpi-common.c
-> +++ b/hw/i386/acpi-common.c
-> @@ -33,9 +33,8 @@
->  #include "acpi-build.h"
->  #include "acpi-common.h"
-> =20
-> -void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-> -                       const CPUArchIdList *apic_ids, GArray *entry,
-> -                       bool force_enabled)
-> +void pc_madt_cpu_entry(int uid, const CPUArchIdList *apic_ids,
-> +                       GArray *entry, bool force_enabled)
->  {
->      uint32_t apic_id =3D apic_ids->cpus[uid].arch_id;
->      /* Flags =E2=80=93 Local APIC Flags */
-> @@ -112,7 +111,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *=
-linker,
->      build_append_int_noprefix(table_data, 1 /* PCAT_COMPAT */, 4); /* Fl=
-ags */
-> =20
->      for (i =3D 0; i < apic_ids->len; i++) {
-> -        adevc->madt_cpu(adev, i, apic_ids, table_data, false);
-> +        adevc->madt_cpu(i, apic_ids, table_data, false);
->          if (apic_ids->cpus[i].arch_id > 254) {
->              x2apic_mode =3D true;
->          }
+Note that semihosting is not an API that QEMU has specified:
+it's an external one provided by multiple platforms. We do
+not "advertise" the existence of the 'binary' flag to SYS_OPEN:
+it is part of the pre-existing decades-old specification we
+implement.
 
+> Guest code doesn't want to care whether or not an emulator is
+> running on Linux or Windows, there is no notion of that leaking
+> to guest code. What it cares about is being able to consistently
+> use a certain feature in their code.
+
+The trouble here is that we have two different choices
+about how to be consistent:
+
+(1) Consistently have guests that use semihosting to open
+a file in text mode get the text-mode file that they asked for,
+regardless of the host operating system and its definition of
+what a text file is
+(2) Consistently have guest code produce a binary-identical
+output file regardless of host operating system
+
+It is not possible to have both; we have to pick one.
+
+On balance, I agree with Alex that option (2) is probably
+better, especially with the file-I/O-via-gdbstub part of it;
+but we are genuinely giving up property (1) in the process.
+
+thanks
+-- PMM
 
