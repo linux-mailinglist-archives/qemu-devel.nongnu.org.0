@@ -2,91 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2890066D0CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 22:16:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C4566D11B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 22:52:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHWo8-0004OU-53; Mon, 16 Jan 2023 16:14:20 -0500
+	id 1pHXNu-0003co-HU; Mon, 16 Jan 2023 16:51:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pHWo5-0004Nn-Q1; Mon, 16 Jan 2023 16:14:17 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26])
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1pHXNp-0003cZ-6M
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:51:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pHWo3-0004B1-7R; Mon, 16 Jan 2023 16:14:17 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 3C4605C01E2;
- Mon, 16 Jan 2023 16:14:12 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 16 Jan 2023 16:14:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1673903652; x=1673990052; bh=zz
- 7xUNaUOA+l+ZZyJwyYTuUW1EHckj5QcLwaaQ4qAq0=; b=l6jn/FTxo0MAFxBAkw
- zRLDdp6Yy11TuSYkMP0KAfA2YmEPMgCKJisVsnejW0aS34GuTm5oZuzmuj1Vv0dk
- 7OKcm9V9W9uUcFUdHV4kh4ju8HanDrdvsnMuKYGPgx/+VhITAM9xw7Idopijxiab
- vqIQoH1R+tHp9zT5UZopK0c3dUNCIw2aYJ/TXvSHZDjokGLZc52bMv5zzshz/mLD
- /InOnNQug1boMJM62vZrb2ZZzmbcrInXsuVEEYnaZW5hvRzzlEGTQF6T+J8+n190
- TX8NHRlIesfvvByoV5hN8Bo8l8hSxO4Uc2tx7SNLcrW9/dpHg0ijYZNohScWJve3
- ErCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1673903652; x=1673990052; bh=zz7xUNaUOA+l+ZZyJwyYTuUW1EHc
- kj5QcLwaaQ4qAq0=; b=bGOCqEU3bmvo9lBygZ/UaTKt+MQuiX1JWkot9mvXJdBB
- 5CGZTlw+C/slHR+IciXvGn6BnPvuEacsYz+XN6HlumJMT1rdho0/Enyl16hKlyN0
- h57MaBHKXtVlUSBG6Jxgl38JXM6byAV2zKD1L/cssxlmOVhA26WfnCLwrdHzWgAU
- JQIqpVzjWvVo9GhC5IsfwrSevC7tCA9PCsRM3G2kzn3JYjQvezfGnJybQlldXQ42
- SE9YGogefiFYEUpiglgLByCzNE5jYBVVx4bR9j9sc8pqm8U3oxGnvqM+ClPN/++j
- SiQLPoc3Q1BC+z+dgjntA+ORXwsBRUn7SkuN02aAhw==
-X-ME-Sender: <xms:I77FYx47D863sf-x_wLVaN69fpJgRL2bOdngrr4FXmpAzy9VIweEbA>
- <xme:I77FY-47NzdDLSeRMtlVwZPDAal6bavdz5ineGc4gFvsZsf5405OhSa4K_ZOx2fUS
- xLqTCTtUrYgeTXQ2b4>
-X-ME-Received: <xmr:I77FY4ewJL0ry6d23tTZM6qQUCw6POnzdSKvA_T8tAWoDjW6tD1bxXqoq7yQrnOT_S-AEIyorp1-gqMbh0Rj9-aIk1ZJdg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedgudegjecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
- uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
- htthgvrhhnpeegheekudejuddvteeuueegledtieffveeuteejkeefiefgffefieeviedu
- leegtdenucffohhmrghinhepphgtihdrtgifnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:I77FY6Lfj5JNYe6iPltZf0HTLKoJqV5ndru5kUyxrCTH-99mFf3X2A>
- <xmx:I77FY1KIyYsj5TT0PQidnAlymxRBYxSCxs2EcaMe8meYScpQ-eiI5g>
- <xmx:I77FYzxTx92lR9IxU9XvOC0qactV-yGO3hJl1uSiHmVKK9_uJLWCNA>
- <xmx:JL7FY6qdv82udScOz8DK8HEiNxmsy-xdBUMx3QeeWkrDiLRiI9NtKQ>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 16 Jan 2023 16:14:09 -0500 (EST)
-Date: Mon, 16 Jan 2023 22:14:07 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Guenter Roeck <linux@roeck-us.net>
-Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
-Message-ID: <Y8W+H6T9DOZ08SoF@cormorant.local>
-References: <Y8AG21o/9/3eUMIg@cormorant.local>
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1pHXNn-0002eX-Ir
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:51:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673905870;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=S7onnjcC4ecaQ1Y0GinFMXvAAc1NY7pQFbBFMGg731k=;
+ b=Dtd4uJNm/XndGXZNKRhY8kcIZ7iU2bTHUbTtviFKtU+9FsAKdRMB4CXVVT0IQTVzYITiFt
+ C3vF/Npuy9oqR8bEjuBgLAnzOmbSUGtjY/hDDpjY2lH7aeuJ+qucbYQuscfMAoijB6q/Wh
+ d7Q0Khb2YxLtSVM47iSPnWMil9fPp7A=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-468-_9NnB0M5PgCmAP0G3Sdy7g-1; Mon, 16 Jan 2023 16:51:09 -0500
+X-MC-Unique: _9NnB0M5PgCmAP0G3Sdy7g-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ y10-20020ab0560a000000b003af33bfa8c4so12499969uaa.21
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 13:51:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=S7onnjcC4ecaQ1Y0GinFMXvAAc1NY7pQFbBFMGg731k=;
+ b=dexlADk4YCtb+K3XCAdItHdPRZ62tayvwLznLNiUy+X0A6rjvly7n8whz/eiJiKU0u
+ wj62OUlcl9HvbWjxvAI6/Ax81lohcQ/TjC8ExKe9uRvYho8Wo3tBrXAGLZYhyqlELr4/
+ U3eSv0Noy69cjy7QaPtGZGSnrotqo5SdBk9Q9GqwVFF62V07Cc2fM+wVwY14sV6zziO0
+ 2Ok9Y+Kobjam7yps5RlgD6IG+c6yjHB1dvt1spbq+gr5fn3TOD1LmrrWEa0etdTPoMEm
+ /KK05fM1NoFn8p9foILRwwYf285y1OAczXPQg5QSjRnvyd8xeZ768F2Ca/WhgqYZtPqj
+ jNEA==
+X-Gm-Message-State: AFqh2kqoU7TdIdB+WglRrJONw1TGMAH6pTAzwTxadcFzXrqYqyfDtFhX
+ ltP7h+LD8qJlPNHkkG2/fqzMwr9RyWBGViVR+NAoULYiqjHsuvJxnXupf2m6hN40zRP/u/TM+iy
+ 9gFJlnca4f5o/85xEZQw9MnMTDWZHkY8=
+X-Received: by 2002:a67:de98:0:b0:3d3:e071:e00d with SMTP id
+ r24-20020a67de98000000b003d3e071e00dmr69936vsk.39.1673905868587; 
+ Mon, 16 Jan 2023 13:51:08 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvsyNyVZgYkBh22M9jWbGx8rVmM/rn+r91wYx/nXg93pRlpcMOFU54U99+0R8YCTy7YcajmWWhdKBwSowjxxNQ=
+X-Received: by 2002:a67:de98:0:b0:3d3:e071:e00d with SMTP id
+ r24-20020a67de98000000b003d3e071e00dmr69929vsk.39.1673905868384; Mon, 16 Jan
+ 2023 13:51:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="cc8lRwQTP8Gv0NvM"
-Content-Disposition: inline
-In-Reply-To: <Y8AG21o/9/3eUMIg@cormorant.local>
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20230116204232.1142442-1-mcascell@redhat.com>
+In-Reply-To: <20230116204232.1142442-1-mcascell@redhat.com>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
+Date: Mon, 16 Jan 2023 22:50:57 +0100
+Message-ID: <CAA8xKjVKxP9861By-u2-OMbanEQ6b4eZBJp3naE1B5W0dB6z2w@mail.gmail.com>
+Subject: Re: [PATCH] scsi/lsi53c895a: restrict DMA engine to memory regions
+ (CVE-2023-0330)
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, fam@euphon.net, philmd@linaro.org, alxndr@bu.edu, 
+ zheyuma97@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mcascell@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,217 +93,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Jan 16, 2023 at 9:42 PM Mauro Matteo Cascella
+<mcascell@redhat.com> wrote:
+>
+> This prevents the well known DMA-MMIO reentrancy problem (upstream issue #556)
+> leading to memory corruption bugs like stack overflow or use-after-free.
+>
+> Fixes: CVE-2023-0330
+> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+> Reported-by: Zheyu Ma <zheyuma97@gmail.com>
+> ---
+>  hw/scsi/lsi53c895a.c               | 14 +++++++++----
+>  tests/qtest/fuzz-lsi53c895a-test.c | 32 ++++++++++++++++++++++++++++++
+>  2 files changed, 42 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
+> index af93557a9a..89c52594eb 100644
+> --- a/hw/scsi/lsi53c895a.c
+> +++ b/hw/scsi/lsi53c895a.c
+> @@ -446,22 +446,28 @@ static void lsi_reselect(LSIState *s, lsi_request *p);
+>  static inline void lsi_mem_read(LSIState *s, dma_addr_t addr,
+>                                 void *buf, dma_addr_t len)
+>  {
+> +    const MemTxAttrs attrs = { .memory = true };
+> +
+>      if (s->dmode & LSI_DMODE_SIOM) {
+> -        address_space_read(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED,
+> +        address_space_read(&s->pci_io_as, addr, attrs,
+>                             buf, len);
+>      } else {
+> -        pci_dma_read(PCI_DEVICE(s), addr, buf, len);
+> +        pci_dma_rw(PCI_DEVICE(s), addr, buf, len,
+> +                      DMA_DIRECTION_TO_DEVICE, attrs);
+>      }
+>  }
+>
+>  static inline void lsi_mem_write(LSIState *s, dma_addr_t addr,
+>                                  const void *buf, dma_addr_t len)
+>  {
+> +    const MemTxAttrs attrs = { .memory = true };
+> +
+>      if (s->dmode & LSI_DMODE_DIOM) {
+> -        address_space_write(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED,
+> +        address_space_write(&s->pci_io_as, addr, attrs,
+>                              buf, len);
+>      } else {
+> -        pci_dma_write(PCI_DEVICE(s), addr, buf, len);
+> +        pci_dma_rw(PCI_DEVICE(s), addr, (void *) buf, len,
+> +                      DMA_DIRECTION_FROM_DEVICE, attrs);
+>      }
+>  }
+>
+> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
+> index 392a7ae7ed..35c02e89f3 100644
+> --- a/tests/qtest/fuzz-lsi53c895a-test.c
+> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
+> @@ -8,6 +8,35 @@
+>  #include "qemu/osdep.h"
+>  #include "libqtest.h"
+>
+> +/*
+> + * This used to trigger a DMA reentrancy issue
+> + * leading to memory corruption bugs like stack
+> + * overflow or use-after-free
+> + */
+> +static void test_lsi_dma_reentrancy(void)
+> +{
+> +    QTestState *s;
+> +
+> +    s = qtest_init("-M q35 -m 512M -nodefaults "
+> +                   "-blockdev driver=null-co,node-name=null0 "
+> +                   "-device lsi53c810 -device scsi-cd,drive=null0");
+> +
+> +    qtest_outl(s, 0xcf8, 0x80000804); /* PCI Command Register */
+> +    qtest_outw(s, 0xcfc, 0x7);        /* Enables accesses */
+> +    qtest_outl(s, 0xcf8, 0x80000814); /* Memory Bar 1 */
+> +    qtest_outl(s, 0xcfc, 0xff100000); /* Set MMIO Address*/
+> +    qtest_outl(s, 0xcf8, 0x80000818); /* Memory Bar 2 */
+> +    qtest_outl(s, 0xcfc, 0xff000000); /* Set RAM Address*/
+> +    qtest_writel(s, 0xff000000, 0xc0000024);
+> +    qtest_writel(s, 0xff000114, 0x00000080);
+> +    qtest_writel(s, 0xff00012c, 0xff000000);
+> +    qtest_writel(s, 0xff000004, 0xff000114);
+> +    qtest_writel(s, 0xff000008, 0xff100014);
+> +    qtest_writel(s, 0xff10002f, 0x000000ff);
+> +
+> +    qtest_quit(s);
+> +}
+> +
+>  /*
+>   * This used to trigger a UAF in lsi_do_msgout()
+>   * https://gitlab.com/qemu-project/qemu/-/issues/972
+> @@ -120,5 +149,8 @@ int main(int argc, char **argv)
+>      qtest_add_func("fuzz/lsi53c895a/lsi_do_msgout_cancel_req",
+>                     test_lsi_do_msgout_cancel_req);
+>
+> +    qtest_add_func("fuzz/lsi53c895a/lsi_dma_reentrancy",
+> +                   test_lsi_dma_reentrancy);
+> +
+>      return g_test_run();
+>  }
+> --
+> 2.39.0
+>
 
---cc8lRwQTP8Gv0NvM
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reproducer:
 
-On Jan 12 14:10, Klaus Jensen wrote:
-> Hi all (linux-nvme, qemu-devel, maintainers),
->=20
-> On QEMU riscv64, which does not use MSI/MSI-X and thus relies on
-> pin-based interrupts, I'm seeing occasional completion timeouts, i.e.
->=20
->   nvme nvme0: I/O 333 QID 1 timeout, completion polled
->=20
-> To rule out issues with shadow doorbells (which have been a source of
-> frustration in the past), those are disabled. FWIW I'm also seeing the
-> issue with shadow doorbells.
->=20
-> 	diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> 	index f25cc2c235e9..28d8e7f4b56c 100644
-> 	--- a/hw/nvme/ctrl.c
-> 	+++ b/hw/nvme/ctrl.c
-> 	@@ -7407,7 +7407,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice =
-*pci_dev)
-> 	     id->mdts =3D n->params.mdts;
-> 	     id->ver =3D cpu_to_le32(NVME_SPEC_VER);
-> 	     id->oacs =3D
-> 	-        cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT | NVME_OACS_DB=
-BUF);
-> 	+        cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT);
-> 	     id->cntrltype =3D 0x1;
->=20
-> 	     /*
->=20
->=20
-> I captured a trace from QEMU when this happens:
->=20
-> pci_nvme_mmio_write addr 0x1008 data 0x4e size 4
-> pci_nvme_mmio_doorbell_sq sqid 1 new_tail 78
-> pci_nvme_io_cmd cid 4428 nsid 0x1 sqid 1 opc 0x2 opname 'NVME_NVM_CMD_REA=
-D'
-> pci_nvme_read cid 4428 nsid 1 nlb 32 count 16384 lba 0x1324
-> pci_nvme_map_prp trans_len 4096 len 16384 prp1 0x80aca000 prp2 0x82474100=
- num_prps 5
-> pci_nvme_map_addr addr 0x80aca000 len 4096
-> pci_nvme_map_addr addr 0x80ac9000 len 4096
-> pci_nvme_map_addr addr 0x80ac8000 len 4096
-> pci_nvme_map_addr addr 0x80ac7000 len 4096
-> pci_nvme_io_cmd cid 4429 nsid 0x1 sqid 1 opc 0x2 opname 'NVME_NVM_CMD_REA=
-D'
-> pci_nvme_read cid 4429 nsid 1 nlb 224 count 114688 lba 0x1242
-> pci_nvme_map_prp trans_len 4096 len 114688 prp1 0x80ae6000 prp2 0x8247400=
-0 num_prps 29
-> pci_nvme_map_addr addr 0x80ae6000 len 4096
-> pci_nvme_map_addr addr 0x80ae5000 len 4096
-> pci_nvme_map_addr addr 0x80ae4000 len 4096
-> pci_nvme_map_addr addr 0x80ae3000 len 4096
-> pci_nvme_map_addr addr 0x80ae2000 len 4096
-> pci_nvme_map_addr addr 0x80ae1000 len 4096
-> pci_nvme_map_addr addr 0x80ae0000 len 4096
-> pci_nvme_map_addr addr 0x80adf000 len 4096
-> pci_nvme_map_addr addr 0x80ade000 len 4096
-> pci_nvme_map_addr addr 0x80add000 len 4096
-> pci_nvme_map_addr addr 0x80adc000 len 4096
-> pci_nvme_map_addr addr 0x80adb000 len 4096
-> pci_nvme_map_addr addr 0x80ada000 len 4096
-> pci_nvme_map_addr addr 0x80ad9000 len 4096
-> pci_nvme_map_addr addr 0x80ad8000 len 4096
-> pci_nvme_map_addr addr 0x80ad7000 len 4096
-> pci_nvme_map_addr addr 0x80ad6000 len 4096
-> pci_nvme_map_addr addr 0x80ad5000 len 4096
-> pci_nvme_map_addr addr 0x80ad4000 len 4096
-> pci_nvme_map_addr addr 0x80ad3000 len 4096
-> pci_nvme_map_addr addr 0x80ad2000 len 4096
-> pci_nvme_map_addr addr 0x80ad1000 len 4096
-> pci_nvme_map_addr addr 0x80ad0000 len 4096
-> pci_nvme_map_addr addr 0x80acf000 len 4096
-> pci_nvme_map_addr addr 0x80ace000 len 4096
-> pci_nvme_map_addr addr 0x80acd000 len 4096
-> pci_nvme_map_addr addr 0x80acc000 len 4096
-> pci_nvme_map_addr addr 0x80acb000 len 4096
-> pci_nvme_rw_cb cid 4428 blk 'd0'
-> pci_nvme_rw_complete_cb cid 4428 blk 'd0'
-> pci_nvme_enqueue_req_completion cid 4428 cqid 1 dw0 0x0 dw1 0x0 status 0x0
-> [1]: pci_nvme_irq_pin pulsing IRQ pin
-> pci_nvme_rw_cb cid 4429 blk 'd0'
-> pci_nvme_rw_complete_cb cid 4429 blk 'd0'
-> pci_nvme_enqueue_req_completion cid 4429 cqid 1 dw0 0x0 dw1 0x0 status 0x0
-> [2]: pci_nvme_irq_pin pulsing IRQ pin
-> [3]: pci_nvme_mmio_write addr 0x100c data 0x4d size 4
-> [4]: pci_nvme_mmio_doorbell_cq cqid 1 new_head 77
-> ---- TIMEOUT HERE (30s) ---
-> [5]: pci_nvme_mmio_read addr 0x1c size 4
-> [6]: pci_nvme_mmio_write addr 0x100c data 0x4e size 4
-> [7]: pci_nvme_mmio_doorbell_cq cqid 1 new_head 78
-> --- Interrupt deasserted (cq->tail =3D=3D cq->head)
-> [   31.757821] nvme nvme0: I/O 333 QID 1 timeout, completion polled
->=20
-> Following the timeout, everything returns to "normal" and device/driver
-> happily continues.
->=20
-> The pin-based interrupt logic in hw/nvme seems sound enough to me, so I
-> am wondering if there is something going on with the kernel driver (but
-> I certainly do not rule out that hw/nvme is at fault here, since
-> pin-based interrupts has also been a source of several issues in the
-> past).
->=20
-> What I'm thinking is that following the interrupt in [1], the driver
-> picks up completion for cid 4428 but does not find cid 4429 in the queue
-> since it has not been posted yet. Before getting a cq head doorbell
-> write (which would cause the pin to be deasserted), the device posts the
-> completion for cid 4429 which just keeps the interrupt asserted in [2].
-> The trace then shows the cq head doorbell update in [3,4] for cid 4428
-> and then we hit the timeout since the driver is not aware that cid 4429
-> has been posted in between this (why is it not aware of this?) Timing
-> out, the driver then polls the queue and notices cid 4429 and updates
-> the cq head doorbell in [5-7], causing the device to deassert the
-> interrupt and we are "back in shape".
->=20
-> I'm observing this on 6.0 kernels and v6.2-rc3 (have not tested <6.0).
-> Tested on QEMU v7.0.0 (to rule out all the shadow doorbell
-> optimizations) as well as QEMU nvme-next (infradead). In other words,
-> it's not a recent regression in either project and potentially it has
-> always been like this. I've not tested other platforms for now, but I
-> would assume others using pin-based interrupts would observe the same.
->=20
-> Any ideas on how to shed any light on this issue from the kernel side of
-> things?
+cat << EOF | ./x86_64-softmmu/qemu-system-x86_64 -machine accel=qtest \
+-m 512M -machine q35 -nodefaults -device lsi53c810 -device scsi-cd,drive=null0 \
+-display none -blockdev driver=null-co,node-name=null0 -qtest stdio
+outl 0xcf8 0x80000804   /* PCI Command Register */
+outl 0xcfc 0x7                 /* Enable accesses */
+outl 0xcf8 0x80000814   /* Memory Bar 1 */
+outl 0xcfc 0xff100000     /* Set MMIO Address*/
+outl 0xcf8 0x80000818   /* Memory Bar 2 */
+outl 0xcfc 0xff000000     /* Set RAM Address*/
+writel 0xff000000 0xc0000024
+writel 0xff000114 0x00000080
+writel 0xff00012c 0xff000000
+writel 0xff000004 0xff000114
+writel 0xff000008 0xff100014
+writel 0xff10002f 0x000000ff
+EOF
 
-I noticed that the Linux driver does not use the INTMS/INTMC registers
-to mask interrupts on the controller while processing CQEs. While not
-required by the spec, it is *recommended* in setups not using MSI-X to
-reduce the risk of spurious and/or missed interrupts.
+-- 
+Mauro Matteo Cascella
+Red Hat Product Security
+PGP-Key ID: BB3410B0
 
-With the patch below, running 100 boot iterations, no timeouts were
-observed on QEMU emulated riscv64 or mips64.
-
-No changes are required in the QEMU hw/nvme interrupt logic.
-
-
-diff --git i/drivers/nvme/host/pci.c w/drivers/nvme/host/pci.c
-index b13baccedb4a..75f6b87c4c3f 100644
---- i/drivers/nvme/host/pci.c
-+++ w/drivers/nvme/host/pci.c
-@@ -1128,6 +1128,27 @@ static inline int nvme_poll_cq(struct nvme_queue *nv=
-meq,
- }
-
- static irqreturn_t nvme_irq(int irq, void *data)
-+{
-+       struct nvme_queue *nvmeq =3D data;
-+       struct nvme_dev *dev =3D nvmeq->dev;
-+       u32 mask =3D 1 << nvmeq->cq_vector;
-+       irqreturn_t ret =3D IRQ_NONE;
-+       DEFINE_IO_COMP_BATCH(iob);
-+
-+       writel(mask, dev->bar + NVME_REG_INTMS);
-+
-+       if (nvme_poll_cq(nvmeq, &iob)) {
-+               if (!rq_list_empty(iob.req_list))
-+                       nvme_pci_complete_batch(&iob);
-+               ret =3D IRQ_HANDLED;
-+       }
-+
-+       writel(mask, dev->bar + NVME_REG_INTMC);
-+
-+       return ret;
-+}
-+
-+static irqreturn_t nvme_irq_msix(int irq, void *data)
- {
-        struct nvme_queue *nvmeq =3D data;
-        DEFINE_IO_COMP_BATCH(iob);
-@@ -1602,12 +1623,13 @@ static int queue_request_irq(struct nvme_queue *nvm=
-eq)
- {
-        struct pci_dev *pdev =3D to_pci_dev(nvmeq->dev->dev);
-        int nr =3D nvmeq->dev->ctrl.instance;
-+       irq_handler_t handler =3D pdev->msix_enabled ? nvme_irq_msix : nvme=
-_irq;
-
-        if (use_threaded_interrupts) {
-                return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_che=
-ck,
--                               nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qi=
-d);
-+                               handler, nvmeq, "nvme%dq%d", nr, nvmeq->qid=
-);
-        } else {
--               return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq,
-+               return pci_request_irq(pdev, nvmeq->cq_vector, handler,
-                                NULL, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
-        }
- }
-
-
-
---cc8lRwQTP8Gv0NvM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPFvh4ACgkQTeGvMW1P
-DekT9wf/ei/LqtKzzs/EITjBAVKU0HG1j55VBgy5hIS8xF/DkJ+xSPBUz+2rzcjF
-XdtvTVdmsFnzJjiccCtgTdc5TiiUWxODjtlepVlI4V78EBsW4NPRcNCwZ9cHCHf2
-6axD15A6sBVkkTz6SUCzHw6TQ3+QIvghtM2wD2AyKXINlJdmI/QhKDx7hNId9drP
-XyV0Mo/TdWokjRyaoeUoLEkAYFKp+WURaXvdTgsg/U8vgLAMJU3jxfRz9nQvYa3Q
-N/hXLT+zbfCi7bmsDwl6C1Z5ty4Sa8GcXc5MzAQmKHcQtEk3QVnn8aCBF2CMQWxZ
-LHUddsiWcVfnIkwVwvT3fIYlvWSOyg==
-=yZaH
------END PGP SIGNATURE-----
-
---cc8lRwQTP8Gv0NvM--
 
