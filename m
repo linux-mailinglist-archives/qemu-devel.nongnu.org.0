@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4186866CDF1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:51:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 465B766CE0A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:53:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHTdT-0006rt-UI; Mon, 16 Jan 2023 12:51:07 -0500
+	id 1pHTfj-0007se-DO; Mon, 16 Jan 2023 12:53:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pHTdP-0006oz-Iz; Mon, 16 Jan 2023 12:51:05 -0500
-Received: from mout.kundenserver.de ([212.227.126.187])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pHTdN-0007qu-U8; Mon, 16 Jan 2023 12:51:03 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MPXpS-1p4uYX0H4M-00MgVZ; Mon, 16 Jan 2023 18:50:55 +0100
-Message-ID: <5779382f-9f8d-439e-b474-1ac1606d65a5@vivier.eu>
-Date: Mon, 16 Jan 2023 18:50:53 +0100
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pHTfg-0007sQ-V8
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:53:24 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pHTff-00089G-Fr
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:53:24 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ k22-20020a05600c1c9600b003d1ee3a6289so22755597wms.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 09:53:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FprRK2Nys71yJ+NdjBjA3Ed3LxlAfzw2tN6/qZDL/Jc=;
+ b=NLLQ1ySx87BBv1dU1bg6ABVHytVduH1ywDn+7u1bZprpSeKRJirq6UVAfiERfPgIYc
+ WPKpkakokf9hsz75HiT/cqgi0UeAuypIxGekBdGQSXc+pQQtnBLu2n8WbAZejw6slJNE
+ jUi/rwpiSTIOO8/zfSReyjEMhwP2UUTYDG5KMgcuK8TO/1x8/5hamrHm4wU+689fgZ75
+ F67QCufYqeXGFYKlVhg5YDwaj9nsYQp81wO1UQmVDAPit2/6d/Fh7zCkuxm9RVJ3wKls
+ gaQ6GhG059K8D1IP31g0oiiiqh+b5m7QG8FI3E7vXylufGI5xl0UtfG++xZAw5sdFiMo
+ P4AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FprRK2Nys71yJ+NdjBjA3Ed3LxlAfzw2tN6/qZDL/Jc=;
+ b=uLNhrsxqZD1scC0SmJ9T62mScC3ghW5AZTarh6VIiVhce2V4El9AmeTvSccW4uqa0F
+ 26sEWCAaRtL+/NDKpoEElK36/EyTp1y56gOI5kF8D1KrLTRoJVfUtgyrRkEq/au0C+fV
+ qqLZRNB1bqgIRI0ZF/aEGZhCrVrt2kTDhz1Xh9QaN5zYck5x8HD9NoQulKXQjsEVeQgc
+ rv/BKSR4s2OstJykT+f4nKjcg6H0m7qigOrNUKRzpPKkEwBbBpiBA7kZrEh5Z1/Y7SGh
+ idJy/jAR12zH0uC9hELR1paMYaKcuEfbyNfj4zjmG4A4oqcTFYAfihDhPXN1pIoHjkCz
+ dwTg==
+X-Gm-Message-State: AFqh2koaNCXP4NzZBEq51spX5zOqj7tnp41dzZXqbYsws/GEpT4A8nHY
+ TfXEFInOvx6cTWUD6sZOgkw=
+X-Google-Smtp-Source: AMrXdXvi+o29RUbnR1OhyAz67HGzkl3jxUcNuSKVXkYQB7963jpkEkM9A1sHLKX20xWkdPvGb1/ZyQ==
+X-Received: by 2002:a05:600c:5024:b0:3db:392:ecee with SMTP id
+ n36-20020a05600c502400b003db0392eceemr987069wmr.31.1673891601993; 
+ Mon, 16 Jan 2023 09:53:21 -0800 (PST)
+Received: from [192.168.6.176] (54-240-197-232.amazon.com. [54.240.197.232])
+ by smtp.gmail.com with ESMTPSA id
+ h14-20020a05600c314e00b003d9fa355387sm22946508wmo.27.2023.01.16.09.53.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 09:53:21 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <4aeca63b-95e1-2dbf-68d8-26513af9571f@xen.org>
+Date: Mon, 16 Jan 2023 17:53:18 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3] hw/pvrdma: Protect against buggy or malicious guest
- driver
-Content-Language: fr
-To: Thomas Huth <thuth@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>
-Cc: Claudio Fontana <cfontana@suse.de>,
- qemu devel list <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, wxhusst@gmail.com,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220403095234.2210-1-yuval.shaia.ml@gmail.com>
- <CAC_L=vXsKpai6Wr0Fi2r5sr4U+tshPB9VizqntDppqE=1_FbVQ@mail.gmail.com>
- <339b8c7d-1f54-a515-8854-c22d10f79d1d@suse.de>
- <CAMPkWoOFXfyx=ZOv8i6AJ8Lv2GFKt11gnXYZ2W_4roS9UP9m5w@mail.gmail.com>
- <CAC_L=vUD2vVNSaP7UcDuRUCyd8XNmb4iRY_LXK0UNEE-+Rr4TQ@mail.gmail.com>
- <6cd36e7e-dae7-6258-736a-44630cee9010@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <6cd36e7e-dae7-6258-736a-44630cee9010@redhat.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v6 21/51] i386/xen: handle VCPUOP_register_vcpu_time_info
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
+References: <20230110122042.1562155-1-dwmw2@infradead.org>
+ <20230110122042.1562155-22-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230110122042.1562155-22-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:BnCFwTYr6spPmi1x3NHeIxeGK1hSqln4kBvkyhP9r/giIwIpLer
- 6YDc3Db6xLYrwR41vGGM8+9csOR1dUvn383nsSNziXDtbcGfSoRkOS5gL8EAmGDP473DIjx
- WN9dmbZA9nRvhV704YIeqd1QR4Pk1xyTips64cSuj+XForrDAtZWiSkIOaq7ecGz9ubeSgs
- Z67jHIvWsOXeFuq/v+gcw==
-UI-OutboundReport: notjunk:1;M01:P0:5ofr3XoCD80=;WSuLp/X075elb172bdbH61+VCrL
- oMw8ptscoSEAnFdbUAGi2bgH1i+q6/fYlubejxyhXtEVCqMHt+/e5LUHG3kmmNpAT8lOeiBdS
- Tu4CBWHHg/x+wzcakg4iCGoDLlmzwRCXi/exLuybubdI+MJ3MgaLFG21gvmZJ7i0xJv8iGdh6
- PuETxsstWRYYh82XHotId3qY+7NA4aiAwSNRaz27WdOBycMFwhwPYdkg5M5Yqs2aHdVnnQuBf
- rhpV2RCY21EWLewZWRbUu+dfU7jX/QvNuUAC3QN4dpC0FuQytzasdWQ79M0p4uNcOJ0BwWOU0
- JPniCKf81c92yZCPEvIqmocsa2QInSiiXJh9TefKQ8Osn4HQ2oJpWA6f0SujU3+eYMnyKj9GI
- uBmV8ECdXp174WkuF/SWZJc7dLuWJjvZ7J13XBDT+gg5e7ZREH+Qjnb2mgfBOXQpFQBYrwMlY
- fuu63CvYNrEM5cEyHwy35ndK2QQCM+ziTXB/oXyhEXcaghYKEP/eYSKHGez+HXyLAp1QzpWIW
- 1/aZFLhwx2rq+T8gfrVpGO4xQH5TQXLyNv5E2H1g+SO3/YaFG8h3/ZPj2Q0YaiCsPFutG/hCk
- dwpZu7CDuysvdJhnyinmrWvvtStXB7vckqswsoW3tciyvGmdDqWxqAT80xj308cFSVmHUBVK2
- h3DC/j+T4aY4gh/mxKW3rk0sHX9AHucJtTmfggnQjg==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,102 +101,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 28/12/2022 à 20:32, Thomas Huth a écrit :
-> On 19/12/2022 12.21, Marcel Apfelbaum wrote:
->> On Mon, Dec 19, 2022 at 10:57 AM Yuval Shaia <yuval.shaia.ml@gmail.com> wrote:
->>>
->>> Can anyone else pick this one?
->>
->> Adding Thomas,
->>
->> I dropped the ball with this one, I am sorry about that, maybe it
->> doesn't worth a Pull Request only for it.
+On 10/01/2023 12:20, David Woodhouse wrote:
+> From: Joao Martins <joao.m.martins@oracle.com>
 > 
-> Why not? Pull request for single patches aren't that uncommon.
+> In order to support Linux vdso in Xen.
 > 
->> Maybe it can go through the Misc tree?
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   target/i386/cpu.h         |   1 +
+>   target/i386/kvm/xen-emu.c | 100 +++++++++++++++++++++++++++++++++-----
+>   target/i386/machine.c     |   1 +
+>   3 files changed, 90 insertions(+), 12 deletions(-)
 > 
-> hw/rdma/ is really not my turf, but since the patch is small, it sounds like a good candidate for 
-> qemu-trivial, I think.
 
-Applied to my trivial-patches branch.
-
-Thanks,
-Laurent
-
-> 
->   Thomas
-> 
-> 
->>> On Wed, 7 Dec 2022 at 17:05, Claudio Fontana <cfontana@suse.de> wrote:
->>>>
->>>> On 4/5/22 12:31, Marcel Apfelbaum wrote:
->>>>> Hi Yuval,
->>>>> Thank you for the changes.
->>>>>
->>>>> On Sun, Apr 3, 2022 at 11:54 AM Yuval Shaia <yuval.shaia.ml@gmail.com> wrote:
->>>>>>
->>>>>> Guest driver might execute HW commands when shared buffers are not yet
->>>>>> allocated.
->>>>>> This could happen on purpose (malicious guest) or because of some other
->>>>>> guest/host address mapping error.
->>>>>> We need to protect againts such case.
->>>>>>
->>>>>> Fixes: CVE-2022-1050
->>>>>>
->>>>>> Reported-by: Raven <wxhusst@gmail.com>
->>>>>> Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
->>>>>> ---
->>>>>> v1 -> v2:
->>>>>>          * Commit message changes
->>>>>> v2 -> v3:
->>>>>>          * Exclude cosmetic changes
->>>>>> ---
->>>>>>   hw/rdma/vmw/pvrdma_cmd.c | 6 ++++++
->>>>>>   1 file changed, 6 insertions(+)
->>>>>>
->>>>>> diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
->>>>>> index da7ddfa548..89db963c46 100644
->>>>>> --- a/hw/rdma/vmw/pvrdma_cmd.c
->>>>>> +++ b/hw/rdma/vmw/pvrdma_cmd.c
->>>>>> @@ -796,6 +796,12 @@ int pvrdma_exec_cmd(PVRDMADev *dev)
->>>>>>
->>>>>>       dsr_info = &dev->dsr_info;
->>>>>>
->>>>>> +    if (!dsr_info->dsr) {
->>>>>> +            /* Buggy or malicious guest driver */
->>>>>> +            rdma_error_report("Exec command without dsr, req or rsp buffers");
->>>>>> +            goto out;
->>>>>> +    }
->>>>>> +
->>>>>>       if (dsr_info->req->hdr.cmd >= sizeof(cmd_handlers) /
->>>>>>                         sizeof(struct cmd_handler)) {
->>>>>>           rdma_error_report("Unsupported command");
->>>>>> -- 
->>>>>> 2.20.1
->>>>>>
->>>>>
->>>>> cc-ing Peter and Philippe for a question:
->>>>> Do we have a "Security Fixes" or a "Misc" subtree? Otherwise it will
->>>>> have to wait a week or so.
->>>>>
->>>>> Reviewed by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
->>>>> Thanks,
->>>>> Marcel
->>>>>
->>>>
->>>> Hi all,
->>>>
->>>> patch is reviewed, anything holding back the inclusion of this security fix?
->>>>
->>>> Thanks,
->>>>
->>>> Claudio
->>
-> 
-> 
+Reviewed-by: Paul Durrant <paul@xen.org>
 
 
