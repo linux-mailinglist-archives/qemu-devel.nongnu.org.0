@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56DFF66C25A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 15:38:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3A566C2A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 15:47:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHQcC-0004ua-Cu; Mon, 16 Jan 2023 09:37:36 -0500
+	id 1pHQke-0007al-Qz; Mon, 16 Jan 2023 09:46:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pHQc9-0004uE-79
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 09:37:33 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1pHQkc-0007ac-NC
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 09:46:18 -0500
+Received: from forwardcorp1a.mail.yandex.net
+ ([2a02:6b8:c0e:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pHQc6-0007LU-0K
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 09:37:32 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NwZKj0b7nz6H6qJ;
- Mon, 16 Jan 2023 22:34:33 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 16 Jan
- 2023 14:37:23 +0000
-Date: Mon, 16 Jan 2023 14:37:23 +0000
-To: Fan Ni <fan.ni@samsung.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "alison.schofield@intel.com" <alison.schofield@intel.com>,
- "dave@stgolabs.net" <dave@stgolabs.net>, Adam Manzanares
- <a.manzanares@samsung.com>, "bwidawsk@kernel.org" <bwidawsk@kernel.org>,
- "gregory.price@memverge.com" <gregory.price@memverge.com>,
- "hchkuo@avery-design.com.tw" <hchkuo@avery-design.com.tw>,
- "cbrowy@avery-design.com" <cbrowy@avery-design.com>, "ira.weiny@intel.com"
- <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [RFC] cxl-host: Fix committed check for passthrough decoder
-Message-ID: <20230116143723.00002291@huawei.com>
-In-Reply-To: <20230113171044.GA24788@bgt-140510-bm03>
-References: <CGME20230113002756uscas1p2b602bff26576110407491f67eff5e065@uscas1p2.samsung.com>
- <20230113002727.11411-1-fan.ni@samsung.com>
- <20230113094725.0000705c@Huawei.com>
- <20230113171044.GA24788@bgt-140510-bm03>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1pHQkY-0000T1-D3
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 09:46:18 -0500
+Received: from vla5-b2806cb321eb.qloud-c.yandex.net
+ (vla5-b2806cb321eb.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id E5C7B5FD80;
+ Mon, 16 Jan 2023 17:46:00 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:0:419:c1d0:d54a:1035:6564] (unknown
+ [2a02:6b8:0:419:c1d0:d54a:1035:6564])
+ by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ xjkwM20WP8c1-FYQqwq9H; Mon, 16 Jan 2023 17:45:59 +0300
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1673880359; bh=WWOS22INXw4ftfydHMidI8MFjcUrqjDhLBYycWtQHMo=;
+ h=In-Reply-To:Cc:Date:References:To:Subject:Message-ID:From;
+ b=Eao/M4+3lKc+6iGV55KdH3H6vNtk9oj/52OZG5YoMEbYRcAkSFEwDohcNgTZVMdQP
+ fslbo4OgbLhh5X2TuFTZRUeVR7wVQ2uLtXiacrBFKhW3o6+owUdDaCU4htql15hUcK
+ iIJ9ngptUbkBbWQ9oMRLn+JA4ppPhzW8RIP9lvBQ=
+Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Content-Type: multipart/alternative;
+ boundary="------------Tt9Rna96Re1pIzMJM3qMh3q7"
+Message-ID: <8c2a7b77-9008-1a77-1e1b-54a72afe20de@yandex-team.ru>
+Date: Mon, 16 Jan 2023 17:45:59 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: [PING] [PATCH v4] qapi/qmp: Add timestamps to qmp command responses
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Cc: yc-core@yandex-team.ru, armbru@redhat.com, michael.roth@amd.com,
+ vsementsov@yandex-team.ru, berrange@redhat.com, marcandre.lureau@gmail.com
+References: <20221101153728.101085-1-den-plotnikov@yandex-team.ru>
+ <02b43d21-e9a4-45e4-ab80-3737993a398f@yandex-team.ru>
+Content-Language: en-US
+In-Reply-To: <02b43d21-e9a4-45e4-ab80-3737993a398f@yandex-team.ru>
+Received-SPF: pass client-ip=2a02:6b8:c0e:500:1:45:d181:df01;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,146 +74,623 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 13 Jan 2023 17:10:51 +0000
-Fan Ni <fan.ni@samsung.com> wrote:
+This is a multi-part message in MIME format.
+--------------Tt9Rna96Re1pIzMJM3qMh3q7
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> On Fri, Jan 13, 2023 at 09:47:25AM +0000, Jonathan Cameron wrote:
-> 
-> > On Fri, 13 Jan 2023 00:27:55 +0000
-> > Fan Ni <fan.ni@samsung.com> wrote:
-> >   
-> > > For passthrough decoder (a decoder hosted by a cxl component with only
-> > > one downstream port), its cache_mem_registers field COMMITTED
-> > > (see spec 2.0 8.2.5.12 - CXL HDM Decoder Capability Structure) will not
-> > > be set by the current Linux CXL driver. Without the fix, for a cxl
-> > > topology setup with a single HB and single root port, the memdev read/write
-> > > requests cannot be passed to the device successfully as the function
-> > > cxl_hdm_find_target will fail the decoder COMMITTED check and return
-> > > directly, which causes read/write not being directed to cxl type3 device.
-> > > 
-> > > Before the fix, a segfault is observed when trying using cxl memory for
-> > > htop command through 'numactl --membind' after converting cxl memory
-> > > into normal RAM.  
-> > 
-> > We also need to fix that segfault.  
-> With the patch, we do not see the segfault anymore. The segfault was
-> there before the patch because for a passthrough decoder, we cannot find a
-> target as the committed field check cannot pass, the read request will
-> return 0 (in cxl_read_cfmws) which can be used for futher addressing.
-> With the patch, we skip the committed check for passthrough decoder and
-> the requests can be passed to the device so the segfault is fixed. Our
-> concern is that the fix may also let the requests pass for unprogrammed
-> decoder, which is not allowed in current code.
 
-Agreed on the concern. That is one reason we need a more comprehensive solution.
+On 10.01.2023 13:32, Denis Plotnikov wrote:
+>
+> [ping]
+>
+> On 01.11.2022 18:37, Denis Plotnikov wrote:
+>> Add "start" & "end" time values to QMP command responses.
+>>
+>> These time values are added to let the qemu management layer get the exact
+>> command execution time without any other time variance which might be brought
+>> by other parts of management layer or qemu internals.
+>> This helps to look for problems poactively from the management layer side.
+>> The management layer would be able to detect problem cases by calculating
+>> QMP command execution time:
+>> 1. execution_time_from_mgmt_perspective -
+>>         execution_time_of_qmp_command > some_threshold
+>>     This detects problems with management layer or internal qemu QMP command
+>>     dispatching
+>> 2. current_qmp_command_execution_time > avg_qmp_command_execution_time
+>>     This detects that a certain QMP command starts to execute longer than
+>>     usual
+>> In both these cases more thorough investigation of the root cases should be
+>> done by using some qemu tracepoints depending on particular QMP command under
+>> investigation or by other means. The timestamps help to avoid excessive log
+>> output when qemu tracepoints are used to address similar cases.
+>>
+>> Example of result:
+>>
+>>      ./qemu/scripts/qmp/qmp-shell /tmp/qmp.socket
+>>
+>>      (QEMU) query-status
+>>      {"end": {"seconds": 1650367305, "microseconds": 831032},
+>>       "start": {"seconds": 1650367305, "microseconds": 831012},
+>>       "return": {"status": "running", "singlestep": false, "running": true}}
+>>
+>> The response of the QMP command contains the start & end time of
+>> the QMP command processing.
+>>
+>> Also, "start" & "end" timestaps are added to qemu guest agent responses as
+>> qemu-ga shares the same code for request dispatching.
+>>
+>> Suggested-by: Andrey Ryabinin<arbn@yandex-team.ru>
+>> Signed-off-by: Denis Plotnikov<den-plotnikov@yandex-team.ru>
+>> Reviewed-by: Daniel P. Berrangé<berrange@redhat.com>
+>> ---
+>> v3->v4
+>>   - rewrite commit message [Markus]
+>>   - use new fileds description in doc [Markus]
+>>   - change type to int64_t [Markus]
+>>   - simplify tests [Markus]
+>>
+>> v2->v3:
+>>   - fix typo "timestaps -> timestamps" [Marc-André]
+>>
+>> v1->v2:
+>>   - rephrase doc descriptions [Daniel]
+>>   - add tests for qmp timestamps to qmp test and qga test [Daniel]
+>>   - adjust asserts in test-qmp-cmds according to the new number of returning keys
+>>
+>> v0->v1:
+>>   - remove interface to control "start" and "end" time values: return timestamps unconditionally
+>>   - add description to qmp specification
+>>   - leave the same timestamp format in "seconds", "microseconds" to be consistent with events
+>>     timestamp
+>>   - fix patch description
+>>
+>>   docs/interop/qmp-spec.txt  | 28 ++++++++++++++++++++++++++--
+>>   qapi/qmp-dispatch.c        | 18 ++++++++++++++++++
+>>   tests/qtest/qmp-test.c     | 32 ++++++++++++++++++++++++++++++++
+>>   tests/unit/test-qga.c      | 29 +++++++++++++++++++++++++++++
+>>   tests/unit/test-qmp-cmds.c |  4 ++--
+>>   5 files changed, 107 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/docs/interop/qmp-spec.txt b/docs/interop/qmp-spec.txt
+>> index b0e8351d5b261..0dd8e716c02f0 100644
+>> --- a/docs/interop/qmp-spec.txt
+>> +++ b/docs/interop/qmp-spec.txt
+>> @@ -158,7 +158,9 @@ responses that have an unknown "id" field.
+>>   
+>>   The format of a success response is:
+>>   
+>> -{ "return": json-value, "id": json-value }
+>> +{ "return": json-value, "id": json-value,
+>> +  "start": {"seconds": json-value, "microseconds": json-value},
+>> +  "end": {"seconds": json-value, "microseconds": json-value} }
+>>   
+>>    Where,
+>>   
+>> @@ -169,13 +171,25 @@ The format of a success response is:
+>>     command does not return data
+>>   - The "id" member contains the transaction identification associated
+>>     with the command execution if issued by the Client
+>> +- The "start" member contains the exact time of when the server
+>> +  started executing the command. This excludes any time the
+>> +  command request spent queued, after reading it off the wire.
+>> +  It is a json-object with the number of seconds and microseconds
+>> +  since the Unix epoch
+>> +- The "end" member contains the exact time of when the server
+>> +  finished executing the command. This excludes any time the
+>> +  command response spent queued, waiting to be sent on the wire.
+>> +  It is a json-object with the number of seconds and microseconds
+>> +  since the Unix epoch
+>>   
+>>   2.4.2 error
+>>   -----------
+>>   
+>>   The format of an error response is:
+>>   
+>> -{ "error": { "class": json-string, "desc": json-string }, "id": json-value }
+>> +{ "error": { "class": json-string, "desc": json-string }, "id": json-value
+>> +  "start": {"seconds": json-value, "microseconds": json-value},
+>> +  "end": {"seconds": json-value, "microseconds": json-value} }
+>>   
+>>    Where,
+>>   
+>> @@ -184,6 +198,16 @@ The format of an error response is:
+>>     not attempt to parse this message.
+>>   - The "id" member contains the transaction identification associated with
+>>     the command execution if issued by the Client
+>> +- The "start" member contains the exact time of when the server
+>> +  started executing the command. This excludes any time the
+>> +  command request spent queued, after reading it off the wire.
+>> +  It is a json-object with the number of seconds and microseconds
+>> +  since the Unix epoch
+>> +- The "end" member contains the exact time of when the server
+>> +  finished executing the command. This excludes any time the
+>> +  command response spent queued, waiting to be sent on the wire.
+>> +  It is a json-object with the number of seconds and microseconds
+>> +  since the Unix epoch
+>>   
+>>   NOTE: Some errors can occur before the Server is able to read the "id" member,
+>>   in these cases the "id" member will not be part of the error response, even
+>> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+>> index 0990873ec8ec1..cdaf258151dc1 100644
+>> --- a/qapi/qmp-dispatch.c
+>> +++ b/qapi/qmp-dispatch.c
+>> @@ -130,6 +130,22 @@ static void do_qmp_dispatch_bh(void *opaque)
+>>       aio_co_wake(data->co);
+>>   }
+>>   
+>> +static void add_timestamps(QDict *qdict, int64_t start_ms, int64_t end_ms)
+>> +{
+>> +    QDict *start_dict, *end_dict;
+>> +
+>> +    start_dict = qdict_new();
+>> +    qdict_put_int(start_dict, "seconds", start_ms / G_USEC_PER_SEC);
+>> +    qdict_put_int(start_dict, "microseconds", start_ms % G_USEC_PER_SEC);
+>> +
+>> +    end_dict = qdict_new();
+>> +    qdict_put_int(end_dict, "seconds", end_ms / G_USEC_PER_SEC);
+>> +    qdict_put_int(end_dict, "microseconds", end_ms % G_USEC_PER_SEC);
+>> +
+>> +    qdict_put_obj(qdict, "start", QOBJECT(start_dict));
+>> +    qdict_put_obj(qdict, "end", QOBJECT(end_dict));
+>> +}
+>> +
+>>   /*
+>>    * Runs outside of coroutine context for OOB commands, but in coroutine
+>>    * context for everything else.
+>> @@ -146,6 +162,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+>>       QObject *id;
+>>       QObject *ret = NULL;
+>>       QDict *rsp = NULL;
+>> +    int64_t ts_start = g_get_real_time();
+>>   
+>>       dict = qobject_to(QDict, request);
+>>       if (!dict) {
+>> @@ -270,5 +287,6 @@ out:
+>>           qdict_put_obj(rsp, "id", qobject_ref(id));
+>>       }
+>>   
+>> +    add_timestamps(rsp, ts_start, g_get_real_time());
+>>       return rsp;
+>>   }
+>> diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
+>> index 22957fa49c228..0c17b315de873 100644
+>> --- a/tests/qtest/qmp-test.c
+>> +++ b/tests/qtest/qmp-test.c
+>> @@ -33,6 +33,28 @@ static void test_version(QObject *version)
+>>       visit_free(v);
+>>   }
+>>   
+>> +static void test_timestamps(QDict *resp)
+>> +{
+>> +    QDict *start, *end;
+>> +    int64_t start_s, start_us, end_s, end_us, start_ts, end_ts;
+>> +
+>> +    start = qdict_get_qdict(resp, "start");
+>> +    g_assert(start);
+>> +    end = qdict_get_qdict(resp, "end");
+>> +    g_assert(end);
+>> +
+>> +    start_s = qdict_get_int(start, "seconds");
+>> +    start_us = qdict_get_int(start, "microseconds");
+>> +
+>> +    end_s = qdict_get_int(end, "seconds");
+>> +    end_us = qdict_get_int(end, "microseconds");
+>> +
+>> +    start_ts = (start_s * G_USEC_PER_SEC) + start_us;
+>> +    end_ts = (end_s * G_USEC_PER_SEC) + end_us;
+>> +
+>> +    g_assert(end_ts > start_ts);
+>> +}
+>> +
+>>   static void assert_recovered(QTestState *qts)
+>>   {
+>>       QDict *resp;
+>> @@ -156,6 +178,16 @@ static void test_qmp_protocol(void)
+>>       g_assert_cmpint(qdict_get_int(resp, "id"), ==, 2);
+>>       qmp_expect_error_and_unref(resp, "GenericError");
+>>   
+>> +    /* Test timestamps on success */
+>> +    resp = qtest_qmp(qts, "{ 'execute': 'query-version' }");
+>> +    test_timestamps(resp);
+>> +    qobject_unref(resp);
+>> +
+>> +    /* Test timestamps on error */
+>> +    resp = qtest_qmp(qts, "{ 'execute': 'not-existing-cmd' }");
+>> +    test_timestamps(resp);
+>> +    qobject_unref(resp);
+>> +
+>>       qtest_quit(qts);
+>>   }
+>>   
+>> diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
+>> index b4e0a145737d1..ceb62f0ebba7b 100644
+>> --- a/tests/unit/test-qga.c
+>> +++ b/tests/unit/test-qga.c
+>> @@ -217,6 +217,34 @@ static void test_qga_ping(gconstpointer fix)
+>>       qmp_assert_no_error(ret);
+>>   }
+>>   
+>> +static void test_qga_timestamps(gconstpointer fix)
+>> +{
+>> +    QDict *start, *end;
+>> +    int64_t start_s, start_us, end_s, end_us, start_ts, end_ts;
+>> +    const TestFixture *fixture = fix;
+>> +    g_autoptr(QDict) ret = NULL;
+>> +
+>> +    ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping'}");
+>> +    g_assert_nonnull(ret);
+>> +    qmp_assert_no_error(ret);
+>> +
+>> +    start = qdict_get_qdict(ret, "start");
+>> +    g_assert(start);
+>> +    end = qdict_get_qdict(ret, "end");
+>> +    g_assert(end);
+>> +
+>> +    start_s = qdict_get_int(start, "seconds");
+>> +    start_us = qdict_get_int(start, "microseconds");
+>> +
+>> +    end_s = qdict_get_int(end, "seconds");
+>> +    end_us = qdict_get_int(end, "microseconds");
+>> +
+>> +    start_ts = (start_s * G_USEC_PER_SEC) + start_us;
+>> +    end_ts = (end_s * G_USEC_PER_SEC) + end_us;
+>> +
+>> +    g_assert(end_ts > start_ts);
+>> +}
+>> +
+>>   static void test_qga_id(gconstpointer fix)
+>>   {
+>>       const TestFixture *fixture = fix;
+>> @@ -948,6 +976,7 @@ int main(int argc, char **argv)
+>>       g_test_add_data_func("/qga/sync-delimited", &fix, test_qga_sync_delimited);
+>>       g_test_add_data_func("/qga/sync", &fix, test_qga_sync);
+>>       g_test_add_data_func("/qga/ping", &fix, test_qga_ping);
+>> +    g_test_add_data_func("/qga/timestamps", &fix, test_qga_timestamps);
+>>       g_test_add_data_func("/qga/info", &fix, test_qga_info);
+>>       g_test_add_data_func("/qga/network-get-interfaces", &fix,
+>>                            test_qga_network_get_interfaces);
+>> diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
+>> index 6085c099950b5..54d63bb8e346f 100644
+>> --- a/tests/unit/test-qmp-cmds.c
+>> +++ b/tests/unit/test-qmp-cmds.c
+>> @@ -154,7 +154,7 @@ static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ...)
+>>       g_assert(resp);
+>>       ret = qdict_get(resp, "return");
+>>       g_assert(ret);
+>> -    g_assert(qdict_size(resp) == 1);
+>> +    g_assert(qdict_size(resp) == 3);
+>>   
+>>       qobject_ref(ret);
+>>       qobject_unref(resp);
+>> @@ -181,7 +181,7 @@ static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
+>>                       ==, QapiErrorClass_str(cls));
+>>       g_assert(qdict_get_try_str(error, "desc"));
+>>       g_assert(qdict_size(error) == 2);
+>> -    g_assert(qdict_size(resp) == 1);
+>> +    g_assert(qdict_size(resp) == 3);
+>>   
+>>       qobject_unref(resp);
+>>       qobject_unref(req);
+--------------Tt9Rna96Re1pIzMJM3qMh3q7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> > 
-> >   
-> > > 
-> > > Detailed steps to reproduce the issue with the cxl setup where there is
-> > > only one HB and a memdev is directly attached to the only root port of
-> > > the HB are listed as below,
-> > > 1. cxl create-region region0
-> > > 2. ndctl create-namespace -m dax -r region0
-> > > 3. daxctl reconfigure-device --mode=system-ram --no-online dax0.0
-> > > 4. daxctl online-memory dax0.0
-> > > 5. numactl --membind=1 htop
-> > > 
-> > > Signed-off-by: Fan Ni <fan.ni@samsung.com>  
-> > 
-> > Ah. This mess is still going on. I've not been testing with this
-> > particular combination because the kernel didn't support it.
-> > The kernel code assumes that the implementation made the choice
-> > (which is an option in the spec) to not have any HDM decoders
-> > for the pass through case. As such it never programmed them
-> > (if you dig back a long way in the region bring patch sets in the
-> > kernel you'll find some discussion of this). Now I knew that meant
-> > the configuration didn't 'work' but nothing should be crashing -
-> > unless you mean that something in linux userspace is trying to
-> > access the memory and crashing because that fails
-> > (which is fine as far as I'm concerned ;)
-> > 
-> > The work around for QEMU testing so far has been to add another root
-> > port and put nothing below that. The HDM decoders then have to be
-> > implemented so the kernel does what we expect.  
-> Do you mean we already have the workaround somewhere or it is what we
-> have planned? currently the kernel will create a passthrough decoder if
-> the number of downstream is 1. If we have the workaround, there
-> should never be a passthrough decoder being created and we should not
-> see the issue.
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 10.01.2023 13:32, Denis Plotnikov
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:02b43d21-e9a4-45e4-ab80-3737993a398f@yandex-team.ru">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p><font size="4"><font face="monospace">[ping]</font></font><br>
+      </p>
+      <div class="moz-cite-prefix">On 01.11.2022 18:37, Denis Plotnikov
+        wrote:<br>
+      </div>
+      <blockquote type="cite"
+        cite="mid:20221101153728.101085-1-den-plotnikov@yandex-team.ru">
+        <pre class="moz-quote-pre" wrap="">Add "start" &amp; "end" time values to QMP command responses.
 
-I have code as describe (now, didn't until few minutes ago).
-I'll send it out later this week after a little more testing / internal review.
+These time values are added to let the qemu management layer get the exact
+command execution time without any other time variance which might be brought
+by other parts of management layer or qemu internals.
+This helps to look for problems poactively from the management layer side.
+The management layer would be able to detect problem cases by calculating
+QMP command execution time:
+1. execution_time_from_mgmt_perspective -
+       execution_time_of_qmp_command &gt; some_threshold
+   This detects problems with management layer or internal qemu QMP command
+   dispatching
+2. current_qmp_command_execution_time &gt; avg_qmp_command_execution_time
+   This detects that a certain QMP command starts to execute longer than
+   usual
+In both these cases more thorough investigation of the root cases should be
+done by using some qemu tracepoints depending on particular QMP command under
+investigation or by other means. The timestamps help to avoid excessive log
+output when qemu tracepoints are used to address similar cases.
 
-> > 
-> > I'm not against a more comprehensive fix.  Two options come to mind.
-> > 1) Add an option to the host bridge device to tell it not to implement
-> >    hdm decoders at all. I'm not keen to just automatically drop them
-> >    because having decoders on a pass through HB is a valid configuration.
-> > 2) Cheat and cleanly detect a pass through situation and let the accesses
-> >    through.  I'm not particularly keen on this option though as it
-> >    will fail to test the code once it's 'fixed' in Linux.  IIRC the spec
-> >    doesn't say that programming such an HDM decoder is optional.
-> > 
-> > I guess we could be a bit naughty with option 1 and flip the logic even
-> > though it would break backwards compatibility. So default to no HDM decoder.
-> > I doubt anyone will notice given that's the configuration that would have
-> > worked.  However I would want to keep the option to enable these decoders
-> > around.  I can spin up a patch or do you want to do it? My suggestion is option
-> > 1 with default being no HDM decoder.
+Example of result:
 
-I went with this option. Implementation uses the reset callback in QEMU
-for the pxb-cxl to edit the capability header table to 'hide' the HDM decoder
-if it finds just one downstream port (on second reset, as on first one the
-ports have not yet been created).  In cxl-host.c we direct everything to that
-downstream port.
+    ./qemu/scripts/qmp/qmp-shell /tmp/qmp.socket
 
-> > 
-> > Jonathan  
-> Please feel free to spin up a patch.
+    (QEMU) query-status
+    {"end": {"seconds": 1650367305, "microseconds": 831032},
+     "start": {"seconds": 1650367305, "microseconds": 831012},
+     "return": {"status": "running", "singlestep": false, "running": true}}
 
-Will do,
+The response of the QMP command contains the start &amp; end time of
+the QMP command processing.
 
-Jonathan
+Also, "start" &amp; "end" timestaps are added to qemu guest agent responses as
+qemu-ga shares the same code for request dispatching.
 
-> > 
-> > 
-> >   
-> > > ---
-> > >  hw/cxl/cxl-host.c | 7 +++++--
-> > >  1 file changed, 5 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
-> > > index 1adf61231a..5ca0d6fd8f 100644
-> > > --- a/hw/cxl/cxl-host.c
-> > > +++ b/hw/cxl/cxl-host.c
-> > > @@ -107,8 +107,11 @@ static bool cxl_hdm_find_target(uint32_t *cache_mem, hwaddr addr,
-> > >      uint32_t target_idx;
-> > >  
-> > >      ctrl = cache_mem[R_CXL_HDM_DECODER0_CTRL];
-> > > -    if (!FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED)) {
-> > > -        return false;
-> > > +
-> > > +    /* skip the check for passthrough decoder */  
-> > 
-> > You have a mix of spaces and tabs for indentation. Should all be 4 spaces
-> > for QEMU code.
-> >   
-> > > +	if (FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, COMMIT)
-> > > +		&& !FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED)) {
-> > > +		return false;  
-> > 
-> > Why is this code specific to a pass through decoder?
-> > All it's telling us (I think) is no one tried to commit the decoder yet.
-> >   
-> > >      }
-> > >  
-> > >      ig_enc = FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, IG);  
-> >  
+Suggested-by: Andrey Ryabinin <a class="moz-txt-link-rfc2396E" href="mailto:arbn@yandex-team.ru" moz-do-not-send="true">&lt;arbn@yandex-team.ru&gt;</a>
+Signed-off-by: Denis Plotnikov <a class="moz-txt-link-rfc2396E" href="mailto:den-plotnikov@yandex-team.ru" moz-do-not-send="true">&lt;den-plotnikov@yandex-team.ru&gt;</a>
+Reviewed-by: Daniel P. Berrangé <a class="moz-txt-link-rfc2396E" href="mailto:berrange@redhat.com" moz-do-not-send="true">&lt;berrange@redhat.com&gt;</a>
+---
+v3-&gt;v4
+ - rewrite commit message [Markus]
+ - use new fileds description in doc [Markus]
+ - change type to int64_t [Markus]
+ - simplify tests [Markus]
 
+v2-&gt;v3:
+ - fix typo "timestaps -&gt; timestamps" [Marc-André]
+
+v1-&gt;v2:
+ - rephrase doc descriptions [Daniel]
+ - add tests for qmp timestamps to qmp test and qga test [Daniel]
+ - adjust asserts in test-qmp-cmds according to the new number of returning keys
+
+v0-&gt;v1:
+ - remove interface to control "start" and "end" time values: return timestamps unconditionally
+ - add description to qmp specification
+ - leave the same timestamp format in "seconds", "microseconds" to be consistent with events
+   timestamp
+ - fix patch description
+
+ docs/interop/qmp-spec.txt  | 28 ++++++++++++++++++++++++++--
+ qapi/qmp-dispatch.c        | 18 ++++++++++++++++++
+ tests/qtest/qmp-test.c     | 32 ++++++++++++++++++++++++++++++++
+ tests/unit/test-qga.c      | 29 +++++++++++++++++++++++++++++
+ tests/unit/test-qmp-cmds.c |  4 ++--
+ 5 files changed, 107 insertions(+), 4 deletions(-)
+
+diff --git a/docs/interop/qmp-spec.txt b/docs/interop/qmp-spec.txt
+index b0e8351d5b261..0dd8e716c02f0 100644
+--- a/docs/interop/qmp-spec.txt
++++ b/docs/interop/qmp-spec.txt
+@@ -158,7 +158,9 @@ responses that have an unknown "id" field.
+ 
+ The format of a success response is:
+ 
+-{ "return": json-value, "id": json-value }
++{ "return": json-value, "id": json-value,
++  "start": {"seconds": json-value, "microseconds": json-value},
++  "end": {"seconds": json-value, "microseconds": json-value} }
+ 
+  Where,
+ 
+@@ -169,13 +171,25 @@ The format of a success response is:
+   command does not return data
+ - The "id" member contains the transaction identification associated
+   with the command execution if issued by the Client
++- The "start" member contains the exact time of when the server
++  started executing the command. This excludes any time the
++  command request spent queued, after reading it off the wire.
++  It is a json-object with the number of seconds and microseconds
++  since the Unix epoch
++- The "end" member contains the exact time of when the server
++  finished executing the command. This excludes any time the
++  command response spent queued, waiting to be sent on the wire.
++  It is a json-object with the number of seconds and microseconds
++  since the Unix epoch
+ 
+ 2.4.2 error
+ -----------
+ 
+ The format of an error response is:
+ 
+-{ "error": { "class": json-string, "desc": json-string }, "id": json-value }
++{ "error": { "class": json-string, "desc": json-string }, "id": json-value
++  "start": {"seconds": json-value, "microseconds": json-value},
++  "end": {"seconds": json-value, "microseconds": json-value} }
+ 
+  Where,
+ 
+@@ -184,6 +198,16 @@ The format of an error response is:
+   not attempt to parse this message.
+ - The "id" member contains the transaction identification associated with
+   the command execution if issued by the Client
++- The "start" member contains the exact time of when the server
++  started executing the command. This excludes any time the
++  command request spent queued, after reading it off the wire.
++  It is a json-object with the number of seconds and microseconds
++  since the Unix epoch
++- The "end" member contains the exact time of when the server
++  finished executing the command. This excludes any time the
++  command response spent queued, waiting to be sent on the wire.
++  It is a json-object with the number of seconds and microseconds
++  since the Unix epoch
+ 
+ NOTE: Some errors can occur before the Server is able to read the "id" member,
+ in these cases the "id" member will not be part of the error response, even
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index 0990873ec8ec1..cdaf258151dc1 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -130,6 +130,22 @@ static void do_qmp_dispatch_bh(void *opaque)
+     aio_co_wake(data-&gt;co);
+ }
+ 
++static void add_timestamps(QDict *qdict, int64_t start_ms, int64_t end_ms)
++{
++    QDict *start_dict, *end_dict;
++
++    start_dict = qdict_new();
++    qdict_put_int(start_dict, "seconds", start_ms / G_USEC_PER_SEC);
++    qdict_put_int(start_dict, "microseconds", start_ms % G_USEC_PER_SEC);
++
++    end_dict = qdict_new();
++    qdict_put_int(end_dict, "seconds", end_ms / G_USEC_PER_SEC);
++    qdict_put_int(end_dict, "microseconds", end_ms % G_USEC_PER_SEC);
++
++    qdict_put_obj(qdict, "start", QOBJECT(start_dict));
++    qdict_put_obj(qdict, "end", QOBJECT(end_dict));
++}
++
+ /*
+  * Runs outside of coroutine context for OOB commands, but in coroutine
+  * context for everything else.
+@@ -146,6 +162,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+     QObject *id;
+     QObject *ret = NULL;
+     QDict *rsp = NULL;
++    int64_t ts_start = g_get_real_time();
+ 
+     dict = qobject_to(QDict, request);
+     if (!dict) {
+@@ -270,5 +287,6 @@ out:
+         qdict_put_obj(rsp, "id", qobject_ref(id));
+     }
+ 
++    add_timestamps(rsp, ts_start, g_get_real_time());
+     return rsp;
+ }
+diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
+index 22957fa49c228..0c17b315de873 100644
+--- a/tests/qtest/qmp-test.c
++++ b/tests/qtest/qmp-test.c
+@@ -33,6 +33,28 @@ static void test_version(QObject *version)
+     visit_free(v);
+ }
+ 
++static void test_timestamps(QDict *resp)
++{
++    QDict *start, *end;
++    int64_t start_s, start_us, end_s, end_us, start_ts, end_ts;
++
++    start = qdict_get_qdict(resp, "start");
++    g_assert(start);
++    end = qdict_get_qdict(resp, "end");
++    g_assert(end);
++
++    start_s = qdict_get_int(start, "seconds");
++    start_us = qdict_get_int(start, "microseconds");
++
++    end_s = qdict_get_int(end, "seconds");
++    end_us = qdict_get_int(end, "microseconds");
++
++    start_ts = (start_s * G_USEC_PER_SEC) + start_us;
++    end_ts = (end_s * G_USEC_PER_SEC) + end_us;
++
++    g_assert(end_ts &gt; start_ts);
++}
++
+ static void assert_recovered(QTestState *qts)
+ {
+     QDict *resp;
+@@ -156,6 +178,16 @@ static void test_qmp_protocol(void)
+     g_assert_cmpint(qdict_get_int(resp, "id"), ==, 2);
+     qmp_expect_error_and_unref(resp, "GenericError");
+ 
++    /* Test timestamps on success */
++    resp = qtest_qmp(qts, "{ 'execute': 'query-version' }");
++    test_timestamps(resp);
++    qobject_unref(resp);
++
++    /* Test timestamps on error */
++    resp = qtest_qmp(qts, "{ 'execute': 'not-existing-cmd' }");
++    test_timestamps(resp);
++    qobject_unref(resp);
++
+     qtest_quit(qts);
+ }
+ 
+diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
+index b4e0a145737d1..ceb62f0ebba7b 100644
+--- a/tests/unit/test-qga.c
++++ b/tests/unit/test-qga.c
+@@ -217,6 +217,34 @@ static void test_qga_ping(gconstpointer fix)
+     qmp_assert_no_error(ret);
+ }
+ 
++static void test_qga_timestamps(gconstpointer fix)
++{
++    QDict *start, *end;
++    int64_t start_s, start_us, end_s, end_us, start_ts, end_ts;
++    const TestFixture *fixture = fix;
++    g_autoptr(QDict) ret = NULL;
++
++    ret = qmp_fd(fixture-&gt;fd, "{'execute': 'guest-ping'}");
++    g_assert_nonnull(ret);
++    qmp_assert_no_error(ret);
++
++    start = qdict_get_qdict(ret, "start");
++    g_assert(start);
++    end = qdict_get_qdict(ret, "end");
++    g_assert(end);
++
++    start_s = qdict_get_int(start, "seconds");
++    start_us = qdict_get_int(start, "microseconds");
++
++    end_s = qdict_get_int(end, "seconds");
++    end_us = qdict_get_int(end, "microseconds");
++
++    start_ts = (start_s * G_USEC_PER_SEC) + start_us;
++    end_ts = (end_s * G_USEC_PER_SEC) + end_us;
++
++    g_assert(end_ts &gt; start_ts);
++}
++
+ static void test_qga_id(gconstpointer fix)
+ {
+     const TestFixture *fixture = fix;
+@@ -948,6 +976,7 @@ int main(int argc, char **argv)
+     g_test_add_data_func("/qga/sync-delimited", &amp;fix, test_qga_sync_delimited);
+     g_test_add_data_func("/qga/sync", &amp;fix, test_qga_sync);
+     g_test_add_data_func("/qga/ping", &amp;fix, test_qga_ping);
++    g_test_add_data_func("/qga/timestamps", &amp;fix, test_qga_timestamps);
+     g_test_add_data_func("/qga/info", &amp;fix, test_qga_info);
+     g_test_add_data_func("/qga/network-get-interfaces", &amp;fix,
+                          test_qga_network_get_interfaces);
+diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
+index 6085c099950b5..54d63bb8e346f 100644
+--- a/tests/unit/test-qmp-cmds.c
++++ b/tests/unit/test-qmp-cmds.c
+@@ -154,7 +154,7 @@ static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ...)
+     g_assert(resp);
+     ret = qdict_get(resp, "return");
+     g_assert(ret);
+-    g_assert(qdict_size(resp) == 1);
++    g_assert(qdict_size(resp) == 3);
+ 
+     qobject_ref(ret);
+     qobject_unref(resp);
+@@ -181,7 +181,7 @@ static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
+                     ==, QapiErrorClass_str(cls));
+     g_assert(qdict_get_try_str(error, "desc"));
+     g_assert(qdict_size(error) == 2);
+-    g_assert(qdict_size(resp) == 1);
++    g_assert(qdict_size(resp) == 3);
+ 
+     qobject_unref(resp);
+     qobject_unref(req);
+</pre>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------Tt9Rna96Re1pIzMJM3qMh3q7--
 
