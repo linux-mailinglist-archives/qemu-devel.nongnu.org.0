@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3966366B62A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 04:33:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEAA266B62F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 04:35:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHGEU-0001eg-1A; Sun, 15 Jan 2023 22:32:26 -0500
+	id 1pHGGY-0002Km-RF; Sun, 15 Jan 2023 22:34:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pHGEP-0001e1-9q
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 22:32:24 -0500
+ id 1pHGGW-0002Ke-IY
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 22:34:32 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pHGEN-0006jG-Bt
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 22:32:21 -0500
+ id 1pHGGU-0006qX-S1
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 22:34:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673839937;
+ s=mimecast20190719; t=1673840070;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JQsIknu/4Ky0M0JL26f/4DBySR8DQm2OvF4VHl4DsGY=;
- b=LTw2r9EuH0PgXsezLundoO4gwoVybT/LVgDJwHfgXInxjXZEkKnEU5WKAWoST1BWrWnyfU
- 6R6GtRWfiaOnzs3ZZaCDloqjLtth3H/Kru0e6nlkShLz6jOVGVYVWFSDkgdtXT2yCMP61U
- XI5OCZn5jmPmpi8Yc60bMV+wIJ75O88=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7Vlt/e9ZAcIItvajzv9QFJUMMkV+eUux4bFcqCYdNTs=;
+ b=KrMgZhhYmlGelKIPJpyVIr45UMQZGatVfo5e39Det7Xi+8VFlqhHCABbAyb594PybA8vp6
+ IOf+gF2wm1lzwBYwXQlu4OnTer2nnkAeDO/UaX7vn+tVjq/XPzsJmVZoEyOaz9PekhsFz1
+ /wO4MAfgiscP4rFWeuMEG4x2WGJbXBI=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-361-2tXWyXcZNF2MP-sxELBGfg-1; Sun, 15 Jan 2023 22:32:16 -0500
-X-MC-Unique: 2tXWyXcZNF2MP-sxELBGfg-1
-Received: by mail-pg1-f200.google.com with SMTP id
- j21-20020a63fc15000000b00476d6932baeso12266718pgi.23
- for <qemu-devel@nongnu.org>; Sun, 15 Jan 2023 19:32:16 -0800 (PST)
+ us-mta-371-n9wCGiHlP1qzSPp3b21oaA-1; Sun, 15 Jan 2023 22:34:29 -0500
+X-MC-Unique: n9wCGiHlP1qzSPp3b21oaA-1
+Received: by mail-pg1-f197.google.com with SMTP id
+ j21-20020a63fc15000000b00476d6932baeso12268640pgi.23
+ for <qemu-devel@nongnu.org>; Sun, 15 Jan 2023 19:34:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JQsIknu/4Ky0M0JL26f/4DBySR8DQm2OvF4VHl4DsGY=;
- b=XyM54O87jQlOJWYI7qsy0vjblzLOmHhUdFo455gOMRCwkO1LRE//L7YBbcVajGGE28
- vUqPLWShrj/38HrX4P7t7G+WsMsnoDPfmmbp5tGW8Ariv8PWJRoFWxl8CBTjxrydRwCu
- kdpUQxkBDUZKFGDX5+RuRObKoP7V7JMKdqlhMkN0ZUAnBd8V5iD9nyNxoUv1VanE0RrE
- uVA1t4dWdhO82Jyotod3KQgc7/o3bzsheP7o6gnv9H7lvsUpA7w/zS5E4Fabq/89NYP6
- +OfOdbt2sgQzB9WCvk64Mh13IAywml2vDU7F+nZ9c1jJhNAB3xAdh9+r7H2E9en9cGJh
- w95Q==
-X-Gm-Message-State: AFqh2kpRoO8TulMMK9WMeHe5pjnBuj5SGOLXA//CQpHXEFgXKHJLpg9r
- 7R0fNLGdWHyvM7K60Ma+rFCrScFymZBZb0ddmoDZP9ejO7dXJM1nKBfm+E3DnBh0yiy7SO6JTkH
- MSnNNWmDQM0+fPB8=
-X-Received: by 2002:a17:902:ce82:b0:194:84ef:5f9c with SMTP id
- f2-20020a170902ce8200b0019484ef5f9cmr9663401plg.29.1673839935797; 
- Sun, 15 Jan 2023 19:32:15 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtNZfVJFCBoMsbvpKIZ3qP5mTuCBxSaIP2jTldZNCVoOGScQzYduSujvfOAURwf3wBWYse/Fg==
-X-Received: by 2002:a17:902:ce82:b0:194:84ef:5f9c with SMTP id
- f2-20020a170902ce8200b0019484ef5f9cmr9663358plg.29.1673839935409; 
- Sun, 15 Jan 2023 19:32:15 -0800 (PST)
+ bh=7Vlt/e9ZAcIItvajzv9QFJUMMkV+eUux4bFcqCYdNTs=;
+ b=GUbP6CWmcmgczJeIF9Mhqfp0SyhI6MM9KXFFQ/wjEzfjzbpH/4BSUUKIuy+BqibJdW
+ /iXEZkIpAVLpWpiOQnsF+ZYAsGw9UZmiSfpvGzMWWLimmOjnOg+W9vPQnAdHKcYjeB3X
+ IfAvdc0vpWeXpUKB8PpXnOG21vWGKOjNcMgoi3PWoEN/mEW9DPIulJmHBYYuwPYQxI3t
+ M0EgjZzNboZf+BlzoPP1LUiYGSnl7swa0qdKoMALw8QZdNUHXQS1gNFfcKMxnzjWvz5G
+ ajBjFwxvybVjvIhKud5vRspAaOvCZBER9Rol58F9gBQVWDLom72W2fao1UxVlZcivmKq
+ m13A==
+X-Gm-Message-State: AFqh2kqzRqG07NRCqtlfVh13/OADIVyqWtLBX76N/xABbQa792HEhPRa
+ SbFThnFxzEuktb/03n4+QBWvKkkY6ILe7lYu84Ul1JFdgviVKp9eVYSbPwupHpP1isY/6M64JW5
+ euXxQFzgfKEeNEoc=
+X-Received: by 2002:a17:90a:7309:b0:226:a617:44c1 with SMTP id
+ m9-20020a17090a730900b00226a61744c1mr42086826pjk.13.1673840067959; 
+ Sun, 15 Jan 2023 19:34:27 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuRyk/xvyiRwk6yFTZRXBW52N4996LuNaoeFdO/YCjWSw7zHd89eYGFIqgM+Y+iwk2V6BovFg==
+X-Received: by 2002:a17:90a:7309:b0:226:a617:44c1 with SMTP id
+ m9-20020a17090a730900b00226a61744c1mr42086810pjk.13.1673840067694; 
+ Sun, 15 Jan 2023 19:34:27 -0800 (PST)
 Received: from [10.72.13.117] ([43.228.180.230])
  by smtp.gmail.com with ESMTPSA id
- d5-20020a170903230500b001754fa42065sm4923574plh.143.2023.01.15.19.32.09
+ 12-20020a17090a000c00b00225daca646csm14227649pja.34.2023.01.15.19.34.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Jan 2023 19:32:14 -0800 (PST)
-Message-ID: <68d2c045-e260-140c-9525-2fc265ae9291@redhat.com>
-Date: Mon, 16 Jan 2023 11:32:07 +0800
+ Sun, 15 Jan 2023 19:34:27 -0800 (PST)
+Message-ID: <065243b8-c93f-17e6-72cb-c1db33da6df6@redhat.com>
+Date: Mon, 16 Jan 2023 11:34:20 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC v2 04/13] vdpa: rewind at get_base, not set_base
+Subject: Re: [RFC v2 05/13] vdpa net: add migration blocker if cannot migrate
+ cvq
 Content-Language: en-US
 To: Eugenio Perez Martin <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com,
@@ -82,11 +83,11 @@ Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
 References: <20230112172434.760850-1-eperezma@redhat.com>
- <20230112172434.760850-5-eperezma@redhat.com>
- <CACGkMEvo4fS0AZ7_i3MnpLJwic7VEX3x7BaaB=w1t7y2Fri9EQ@mail.gmail.com>
- <CAJaqyWd3N3+78r_ZNNxZZMVJFpkqceYjOXtOrx6WSK62naN+jA@mail.gmail.com>
+ <20230112172434.760850-6-eperezma@redhat.com>
+ <451c3617-61a1-a4bb-791a-6c55e363e961@redhat.com>
+ <CAJaqyWfBGyibFq7_nAj61OedpXX2T3c=Mbw39XXpxEvE0OOyig@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWd3N3+78r_ZNNxZZMVJFpkqceYjOXtOrx6WSK62naN+jA@mail.gmail.com>
+In-Reply-To: <CAJaqyWfBGyibFq7_nAj61OedpXX2T3c=Mbw39XXpxEvE0OOyig@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
@@ -114,199 +115,134 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-在 2023/1/13 15:40, Eugenio Perez Martin 写道:
-> On Fri, Jan 13, 2023 at 5:10 AM Jason Wang <jasowang@redhat.com> wrote:
->> On Fri, Jan 13, 2023 at 1:24 AM Eugenio Pérez <eperezma@redhat.com> wrote:
->>> At this moment it is only possible to migrate to a vdpa device running
->>> with x-svq=on. As a protective measure, the rewind of the inflight
->>> descriptors was done at the destination. That way if the source sent a
->>> virtqueue with inuse descriptors they are always discarded.
+在 2023/1/13 15:46, Eugenio Perez Martin 写道:
+> On Fri, Jan 13, 2023 at 5:25 AM Jason Wang <jasowang@redhat.com> wrote:
+>>
+>> 在 2023/1/13 01:24, Eugenio Pérez 写道:
+>>> A vdpa net device must initialize with SVQ in order to be migratable,
+>>> and initialization code verifies conditions.  If the device is not
+>>> initialized with the x-svq parameter, it will not expose _F_LOG so vhost
+>>> sybsystem will block VM migration from its initialization.
 >>>
->>> Since this series allows to migrate also to passthrough devices with no
->>> SVQ, the right thing to do is to rewind at the source so base of vrings
->>> are correct.
+>>> Next patches change this. Net data VQs will be shadowed only at
+>>> migration time and vdpa net devices need to expose _F_LOG as long as it
+>>> can go to SVQ.
 >>>
->>> Support for inflight descriptors may be added in the future.
+>>> Since we don't know that at initialization time but at start, add an
+>>> independent blocker at CVQ.
 >>>
 >>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 >>> ---
->>>   include/hw/virtio/vhost-backend.h |  4 +++
->>>   hw/virtio/vhost-vdpa.c            | 46 +++++++++++++++++++------------
->>>   hw/virtio/vhost.c                 |  3 ++
->>>   3 files changed, 36 insertions(+), 17 deletions(-)
+>>>    net/vhost-vdpa.c | 35 +++++++++++++++++++++++++++++------
+>>>    1 file changed, 29 insertions(+), 6 deletions(-)
 >>>
->>> diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
->>> index c5ab49051e..ec3fbae58d 100644
->>> --- a/include/hw/virtio/vhost-backend.h
->>> +++ b/include/hw/virtio/vhost-backend.h
->>> @@ -130,6 +130,9 @@ typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
+>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+>>> index 631424d9c4..2ca93e850a 100644
+>>> --- a/net/vhost-vdpa.c
+>>> +++ b/net/vhost-vdpa.c
+>>> @@ -26,12 +26,14 @@
+>>>    #include <err.h>
+>>>    #include "standard-headers/linux/virtio_net.h"
+>>>    #include "monitor/monitor.h"
+>>> +#include "migration/blocker.h"
+>>>    #include "hw/virtio/vhost.h"
 >>>
->>>   typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
->>>                                          int fd);
->>> +
->>> +typedef void (*vhost_reset_status_op)(struct vhost_dev *dev);
->>> +
->>>   typedef struct VhostOps {
->>>       VhostBackendType backend_type;
->>>       vhost_backend_init vhost_backend_init;
->>> @@ -177,6 +180,7 @@ typedef struct VhostOps {
->>>       vhost_get_device_id_op vhost_get_device_id;
->>>       vhost_force_iommu_op vhost_force_iommu;
->>>       vhost_set_config_call_op vhost_set_config_call;
->>> +    vhost_reset_status_op vhost_reset_status;
->>>   } VhostOps;
->>>
->>>   int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
->>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->>> index 542e003101..28a52ddc78 100644
->>> --- a/hw/virtio/vhost-vdpa.c
->>> +++ b/hw/virtio/vhost-vdpa.c
->>> @@ -1132,14 +1132,23 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->>>       if (started) {
->>>           memory_listener_register(&v->listener, &address_space_memory);
->>>           return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
->>> -    } else {
->>> -        vhost_vdpa_reset_device(dev);
->>> -        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->>> -                                   VIRTIO_CONFIG_S_DRIVER);
->>> -        memory_listener_unregister(&v->listener);
->>> +    }
->>>
->>> -        return 0;
->>> +    return 0;
->>> +}
->>> +
->>> +static void vhost_vdpa_reset_status(struct vhost_dev *dev)
->>> +{
->>> +    struct vhost_vdpa *v = dev->opaque;
->>> +
->>> +    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
->>> +        return;
->>>       }
->>> +
->>> +    vhost_vdpa_reset_device(dev);
->>> +    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->>> +                                VIRTIO_CONFIG_S_DRIVER);
->>> +    memory_listener_unregister(&v->listener);
->>>   }
->>>
->>>   static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
->>> @@ -1182,18 +1191,7 @@ static int vhost_vdpa_set_vring_base(struct vhost_dev *dev,
->>>                                          struct vhost_vring_state *ring)
->>>   {
->>>       struct vhost_vdpa *v = dev->opaque;
->>> -    VirtQueue *vq = virtio_get_queue(dev->vdev, ring->index);
->>>
->>> -    /*
->>> -     * vhost-vdpa devices does not support in-flight requests. Set all of them
->>> -     * as available.
->>> -     *
->>> -     * TODO: This is ok for networking, but other kinds of devices might
->>> -     * have problems with these retransmissions.
->>> -     */
->>> -    while (virtqueue_rewind(vq, 1)) {
->>> -        continue;
->>> -    }
->>>       if (v->shadow_vqs_enabled) {
->>>           /*
->>>            * Device vring base was set at device start. SVQ base is handled by
->>> @@ -1212,6 +1210,19 @@ static int vhost_vdpa_get_vring_base(struct vhost_dev *dev,
->>>       int ret;
->>>
->>>       if (v->shadow_vqs_enabled) {
->>> +        VirtQueue *vq = virtio_get_queue(dev->vdev, ring->index);
->>> +
->>> +        /*
->>> +         * vhost-vdpa devices does not support in-flight requests. Set all of
->>> +         * them as available.
->>> +         *
->>> +         * TODO: This is ok for networking, but other kinds of devices might
->>> +         * have problems with these retransmissions.
->>> +         */
->>> +        while (virtqueue_rewind(vq, 1)) {
->>> +            continue;
->>> +        }
->>> +
->>>           ring->num = virtio_queue_get_last_avail_idx(dev->vdev, ring->index);
->>>           return 0;
->>>       }
->>> @@ -1326,4 +1337,5 @@ const VhostOps vdpa_ops = {
->>>           .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
->>>           .vhost_force_iommu = vhost_vdpa_force_iommu,
->>>           .vhost_set_config_call = vhost_vdpa_set_config_call,
->>> +        .vhost_reset_status = vhost_vdpa_reset_status,
->> Can we simply use the NetClient stop method here?
+>>>    /* Todo:need to add the multiqueue support here */
+>>>    typedef struct VhostVDPAState {
+>>>        NetClientState nc;
+>>>        struct vhost_vdpa vhost_vdpa;
+>>> +    Error *migration_blocker;
 >>
-> Ouch, I squashed two patches by mistake here.
->
-> All the vhost_reset_status part should be independent of this patch,
-> and I was especially interested in its feedback. It had this message:
->
->      vdpa: move vhost reset after get vring base
->
->      The function vhost.c:vhost_dev_stop calls vhost operation
->      vhost_dev_start(false). In the case of vdpa it totally reset and wipes
->      the device, making the fetching of the vring base (virtqueue state) totally
->      useless.
->
->      The kernel backend does not use vhost_dev_start vhost op callback, but
->      vhost-user do. A patch to make vhost_user_dev_start more similar to vdpa
->      is desirable, but it can be added on top.
->
-> I can resend the series splitting it again but conversation may
-> scatter between versions. Would you prefer me to send a new version?
+>> Any reason we can't use the mivration_blocker in vhost_dev structure?
+>>
+>> I believe we don't need to wait until start to know we can't migrate.
+>>
+> Device migratability also depends on features that the guest acks.
 
 
-I think it can be done in next version (after we finalize the discussion 
-for this version).
+This sounds a little bit tricky, more below:
 
 
 >
-> Regarding the use of NetClient, it feels weird to call net specific
-> functions in VhostOps, doesn't it?
+> For example, if the device does not support ASID it can be migrated as
+> long as _F_CVQ is not acked.
 
 
-Basically, I meant, the patch call vhost_reset_status() in 
-vhost_dev_stop(). But we've already had vhost_dev_start ops where we 
-implement per backend start/stop logic.
-
-I think it's better to do things in vhost_dev_start():
-
-For device that can do suspend, we can do suspend. For other we need to 
-do reset as a workaround.
-
-And if necessary, we can call nc client ops for net specific operations 
-(if it has any).
+The management may notice a non-consistent behavior in this case. I 
+wonder if we can simply check the host features.
 
 Thanks
 
 
-> At the moment vhost ops is
-> specialized in vhost-kernel, vhost-user and vhost-vdpa. If we want to
-> make it specific to the kind of device, that makes vhost-vdpa-net too.
 >
 > Thanks!
 >
->
 >> Thanks
 >>
->>>   };
->>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->>> index eb8c4c378c..a266396576 100644
->>> --- a/hw/virtio/vhost.c
->>> +++ b/hw/virtio/vhost.c
->>> @@ -2049,6 +2049,9 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
->>>                                hdev->vqs + i,
->>>                                hdev->vq_index + i);
->>>       }
->>> +    if (hdev->vhost_ops->vhost_reset_status) {
->>> +        hdev->vhost_ops->vhost_reset_status(hdev);
->>> +    }
+>>
+>>>        VHostNetState *vhost_net;
 >>>
->>>       if (vhost_dev_has_iommu(hdev)) {
->>>           if (hdev->vhost_ops->vhost_set_iotlb_callback) {
->>> --
->>> 2.31.1
+>>>        /* Control commands shadow buffers */
+>>> @@ -433,9 +435,15 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+>>>                g_strerror(errno), errno);
+>>>            return -1;
+>>>        }
+>>> -    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) ||
+>>> -        !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
+>>> -        return 0;
+>>> +    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID))) {
+>>> +        error_setg(&s->migration_blocker,
+>>> +                   "vdpa device %s does not support ASID",
+>>> +                   nc->name);
+>>> +        goto out;
+>>> +    }
+>>> +    if (!vhost_vdpa_net_valid_svq_features(v->dev->features,
+>>> +                                           &s->migration_blocker)) {
+>>> +        goto out;
+>>>        }
+>>>
+>>>        /*
+>>> @@ -455,7 +463,10 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+>>>            }
+>>>
+>>>            if (group == cvq_group) {
+>>> -            return 0;
+>>> +            error_setg(&s->migration_blocker,
+>>> +                "vdpa %s vq %d group %"PRId64" is the same as cvq group "
+>>> +                "%"PRId64, nc->name, i, group, cvq_group);
+>>> +            goto out;
+>>>            }
+>>>        }
+>>>
+>>> @@ -468,8 +479,15 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+>>>        s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
+>>>
+>>>    out:
+>>> -    if (!s->vhost_vdpa.shadow_vqs_enabled) {
+>>> -        return 0;
+>>> +    if (s->migration_blocker) {
+>>> +        Error *errp = NULL;
+>>> +        r = migrate_add_blocker(s->migration_blocker, &errp);
+>>> +        if (unlikely(r != 0)) {
+>>> +            g_clear_pointer(&s->migration_blocker, error_free);
+>>> +            error_report_err(errp);
+>>> +        }
+>>> +
+>>> +        return r;
+>>>        }
+>>>
+>>>        s0 = vhost_vdpa_net_first_nc_vdpa(s);
+>>> @@ -513,6 +531,11 @@ static void vhost_vdpa_net_cvq_stop(NetClientState *nc)
+>>>            vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->status);
+>>>        }
+>>>
+>>> +    if (s->migration_blocker) {
+>>> +        migrate_del_blocker(s->migration_blocker);
+>>> +        g_clear_pointer(&s->migration_blocker, error_free);
+>>> +    }
+>>> +
+>>>        vhost_vdpa_net_client_stop(nc);
+>>>    }
 >>>
 
 
