@@ -2,65 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3942566BE12
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 13:44:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08FAD66BE17
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 13:46:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHOq5-00085K-N5; Mon, 16 Jan 2023 07:43:50 -0500
+	id 1pHOsS-0001HI-VU; Mon, 16 Jan 2023 07:46:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pHOpO-0007rV-2a; Mon, 16 Jan 2023 07:43:10 -0500
-Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pHOpI-0005u6-Jt; Mon, 16 Jan 2023 07:43:03 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.183])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id ED4152CE32;
- Mon, 16 Jan 2023 12:42:49 +0000 (UTC)
-Received: from kaod.org (37.59.142.106) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 16 Jan
- 2023 13:42:48 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006250d0a7a-a69f-43ff-b5ea-f5c2b815cf15,
- 9562F276D9C9043C19838F7BDA7B87DE9C964FD3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <3131a986-1db0-8ab2-12cd-11aa32ea29e0@kaod.org>
-Date: Mon, 16 Jan 2023 13:42:48 +0100
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pHOrp-0001Fk-Ck
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 07:45:40 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pHOrm-0006RM-Kh
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 07:45:36 -0500
+Received: by mail-ot1-x344.google.com with SMTP id
+ i26-20020a9d68da000000b00672301a1664so16055921oto.6
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 04:45:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KE91TYLWyiD6yHTxNJUq3DQXstHHwUD4q0xYP1meHdg=;
+ b=VEF6BYhK2oFREsQdleTy8M20XUjOjXeOcjzLVQxVhhGQJNV9bAoYivQJT/XS4aGphV
+ qDNhcx4RLODT9VMIZpeHniLg0GZ2IIMPspKUhSW6yughvzJfN/1GSJh5Mky0cxTTr2/Z
+ fsNxKYwC9O8qJRkhPXVO+W1y8rsuR9e6tgggyxx8GQCiK7QHsaa2nhmR8h0dRlz8+VVl
+ +kSyKRKDLGTLNr4Un1h7ct8KAXBTlK07xvDRmclPdBwax923wetNjoPk0obQMpPGZ6GZ
+ Vb8YGo5Cwk/U9mLA/MB7Rr510NDsUOp3d3UozjrpqTF6VwKxItK7rD3ZXSWi5IojsyBl
+ 8sLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KE91TYLWyiD6yHTxNJUq3DQXstHHwUD4q0xYP1meHdg=;
+ b=ydsH3w0MuJkNfORnUpC8x1/gqzg8S8pf3oyi7BEANzUh+enWS54CVFZEEu59Cy8wua
+ YAis4WRxzpYADIMyvew4XO6PM1jZTnDCCUuI5KXKceVvFq5FGgGIEYIAo6bQ8HTs/UYf
+ S5s2nqcPjA0txEPBcndgRPM8sFr+GqTUTqZ+NeDJXMb3LZu3W1pDGiTBnIbkyOLjQ6s+
+ iMjnMCYUa3gGcYxXmIMbGiti9qYQ7eaUVpDrhi+wsUWIE8a2nIdOrY4PtqyYG4EXQHLu
+ ISBcmfSDP1wiuagPO6o1I4yyiTsEwPCQTYzXDBqVLOgWXkRa1a6QMMSUPbVx+rfUuxVZ
+ jXNw==
+X-Gm-Message-State: AFqh2kqY006AAkzL2hyy12LybaZ7RLyct2fd+hMSYKDGlnNHQpt8+FVl
+ klojF8vQLNrs8s2A4xpAeaOebg==
+X-Google-Smtp-Source: AMrXdXsrXOt+XqOgfqVA9kishfCc3Hl3sO7FadaC4VzCfyDw2IFTSrRVkL616JfxuCaOju95Km0ozQ==
+X-Received: by 2002:a05:6830:6502:b0:66e:316b:a603 with SMTP id
+ cm2-20020a056830650200b0066e316ba603mr53941500otb.3.1673873133091; 
+ Mon, 16 Jan 2023 04:45:33 -0800 (PST)
+Received: from [192.168.68.107] ([191.17.222.2])
+ by smtp.gmail.com with ESMTPSA id
+ y18-20020a0568302a1200b0066f7e1188f0sm14573779otu.68.2023.01.16.04.45.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 04:45:32 -0800 (PST)
+Message-ID: <61fd483d-5d3a-587b-5c98-4b81afe21d7d@ventanamicro.com>
+Date: Mon, 16 Jan 2023 09:45:29 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 6/6] hw/arm/aspeed: Init fby35 BMC FRUID EEPROM
+Subject: Re: [PATCH v8 3/3] hw/riscv: clear kernel_entry higher bits in
+ load_elf_ram_sym()
 Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>
-CC: <patrick@stwcx.xyz>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
- <joel@jms.id.au>, <hskinnemoen@google.com>, <kfting@nuvoton.com>,
- <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20230114170151.87833-1-peter@pjd.dev>
- <20230114170151.87833-7-peter@pjd.dev>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230114170151.87833-7-peter@pjd.dev>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: d19c0072-7c50-4800-94e1-2b82f129b49e
-X-Ovh-Tracer-Id: 5064579257042111410
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedggeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuuddtteelgeejhfeikeegffekhfelvefgfeejveffjeeiveegfeehgfdtgfeitdenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhesphhjugdruggvvhdpphgrthhrihgtkhesshhtfigtgidrgiihiidpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdgrnhgurhgvfiesrghjrdhiugdrrghupdhjohgvlhesjhhmshdrihgurdgruhdphhhskhhinhhnvghmohgvnhesghhoohhglhgvrdgtohhmpdhkfhhtihhnghesnhhuvhhothhonhdrtghomhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpphhhihhlmhgusehlih
- hnrghrohdrohhrghdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
- helo=4.mo552.mail-out.ovh.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ Bin Meng <bmeng.cn@gmail.com>
+References: <20230116122948.757515-1-dbarboza@ventanamicro.com>
+ <20230116122948.757515-4-dbarboza@ventanamicro.com>
+ <a4b7fd13-4bd0-0e7a-4650-7164e1a76053@linaro.org>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <a4b7fd13-4bd0-0e7a-4650-7164e1a76053@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x344.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,99 +99,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/14/23 18:01, Peter Delevoryas wrote:
-> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> ---
->   hw/arm/aspeed.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 49 insertions(+)
-> 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index c929c61d582a..4ac8ff11a835 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -922,6 +922,52 @@ static void bletchley_bmc_i2c_init(AspeedMachineState *bmc)
->       i2c_slave_create_simple(i2c[12], TYPE_PCA9552, 0x67);
->   }
->   
-> +static const uint8_t fby35_bmc_fruid[] = {
-> +    0x01, 0x00, 0x00, 0x01, 0x0d, 0x00, 0x00, 0xf1, 0x01, 0x0c, 0x00, 0x36,
-> +    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x4d,
-> +    0x43, 0x20, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x20, 0x4d, 0x6f,
-> +    0x64, 0x75, 0x6c, 0x65, 0xcd, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e,
-> +    0x30, 0xc9, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc1, 0x39, 0x01, 0x0c, 0x00, 0xc6,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x59, 0x6f, 0x73, 0x65, 0x6d,
-> +    0x69, 0x74, 0x65, 0x20, 0x56, 0x33, 0x2e, 0x35, 0x20, 0x45, 0x56, 0x54,
-> +    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-> +    0x58, 0x58, 0x58, 0x58, 0xc4, 0x45, 0x56, 0x54, 0x32, 0xcd, 0x58, 0x58,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
-> +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc8, 0x43, 0x6f,
-> +    0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +};
 
 
-I would introduce a new aspeed_eeprom.c file for these definitions because
-each machine could have its own set of eeproms and aspeed.c is already big
-enough.
+On 1/16/23 09:37, Philippe Mathieu-Daudé wrote:
+> On 16/1/23 13:29, Daniel Henrique Barboza wrote:
+>> Recent hw/risc/boot.c changes caused a regression in an use case with
+>> the Xvisor hypervisor. Running a 32 bit QEMU guest with '-kernel'
+>> stopped working. The reason seems to be that Xvisor is using 64 bit to
+>> encode the 32 bit addresses from the guest, and load_elf_ram_sym() is
+>> sign-extending the result with '1's [1].
+>>
+>> Use a translate_fn() callback to be called by load_elf_ram_sym() and
+>> return only the 32 bits address if we're running a 32 bit CPU.
+>>
+>> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02281.html
+>>
+>> Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> Suggested-by: Bin Meng <bmeng.cn@gmail.com>
+>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>> ---
+>>   hw/riscv/boot.c            | 20 +++++++++++++++++++-
+>>   hw/riscv/microchip_pfsoc.c |  4 ++--
+>>   hw/riscv/opentitan.c       |  3 ++-
+>>   hw/riscv/sifive_e.c        |  3 ++-
+>>   hw/riscv/sifive_u.c        |  4 ++--
+>>   hw/riscv/spike.c           |  2 +-
+>>   hw/riscv/virt.c            |  4 ++--
+>>   include/hw/riscv/boot.h    |  1 +
+>>   target/riscv/cpu_bits.h    |  1 +
+>>   9 files changed, 32 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+>> index e868fb6ade..0fd39df7f3 100644
+>> --- a/hw/riscv/boot.c
+>> +++ b/hw/riscv/boot.c
+>> @@ -213,7 +213,24 @@ static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
+>>       }
+>>   }
+>>   +static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
+>> +{
+>> +    RISCVHartArrayState *harts = opaque;
+>> +
+>> +    /*
+>> +     * For 32 bit CPUs, kernel_load_base is sign-extended (i.e.
+>> +     * it can be padded with '1's) if the hypervisor is using
+>> +     * 64 bit addresses with 32 bit guests.
+>> +     */
+>> +    if (riscv_is_32bit(harts)) {
+>
+> Maybe move the comment within the if() and add " so remove the sign
+> extension by truncating to 32-bit".
+>
+>> +        return extract64(addr, 0, RV32_KERNEL_ADDR_LEN);
+>
+> For 32-bit maybe a definition is not necessary, I asked before
+> you used 24-bit in the previous version. As the maintainer prefer :)
 
->   static void fby35_i2c_init(AspeedMachineState *bmc)
->   {
->       AspeedSoCState *soc = &bmc->soc;
-> @@ -1363,6 +1409,9 @@ static void fby35_reset(MachineState *state, ShutdownCause reason)
->       object_property_set_bool(OBJECT(gpio), "gpioB3", false, &error_fatal);
->       object_property_set_bool(OBJECT(gpio), "gpioB4", false, &error_fatal);
->       object_property_set_bool(OBJECT(gpio), "gpioB5", false, &error_fatal);
-> +
-> +    at24c_eeprom_write(aspeed_i2c_get_bus(&bmc->soc.i2c, 11),
-> +                       0x54, 0, fby35_bmc_fruid, sizeof(fby35_bmc_fruid));
->   }
+That was unintentional. I missed a 'f' in that 0x0fffffff, which I noticed only
+now when doing this version. It's curious because Alistair mentioned that
+the patch apparently solved the bug ....
 
-That's one way to model the default reset values of the eeprom, we would
-loose any writes though.
+I don't mind creating a macro for the 32 bit value. If we decide it's unneeded
+I can remove it and just put a '32' there. I'll also make the comment change
+you mentioned above.
 
-I think we should have a reset_data buffer instead, which would be used
-at realize time to set the initial data, if there are no drive backend,
-and at reset if !writable. Something like smbus_eeprom_init_one() does
-without a proper property API.
-
-We would need some new interface to set a property for a constant buffer
-of uint<>_t values. I don't know how complex that would be. It could be
-useful to other models to define the init state of registers.
 
 Thanks,
 
-C.
 
->   static void aspeed_machine_fby35_class_init(ObjectClass *oc, void *data)
+Daniel
+
+>
+>> +    }
+>> +
+>> +    return addr;
+>> +}
+>
+>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+>> index 8b0d7e20ea..8fcaeae342 100644
+>> --- a/target/riscv/cpu_bits.h
+>> +++ b/target/riscv/cpu_bits.h
+>> @@ -751,6 +751,7 @@ typedef enum RISCVException {
+>>   #define MENVCFG_STCE                       (1ULL << 63)
+>>     /* For RV32 */
+>> +#define RV32_KERNEL_ADDR_LEN               32
+>>   #define MENVCFGH_PBMTE                     BIT(30)
+>>   #define MENVCFGH_STCE                      BIT(31)
+>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>
+>
 
 
