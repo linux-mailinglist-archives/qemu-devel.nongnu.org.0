@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B45866BC9D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 12:15:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE8166BCAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 12:18:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHNS8-00052J-P6; Mon, 16 Jan 2023 06:15:01 -0500
+	id 1pHNVN-0008W3-Ug; Mon, 16 Jan 2023 06:18:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pHNS0-0004tO-RS; Mon, 16 Jan 2023 06:14:53 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pHNRy-0005Zd-TK; Mon, 16 Jan 2023 06:14:52 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.177])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 36698154B7BA9;
- Mon, 16 Jan 2023 12:14:45 +0100 (CET)
-Received: from kaod.org (37.59.142.106) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 16 Jan
- 2023 12:14:45 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R00671f4950b-a78c-4c07-8f02-718a5419738b,
- 9562F276D9C9043C19838F7BDA7B87DE9C964FD3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <47e263df-5053-31be-38b3-51f08c0f82fa@kaod.org>
-Date: Mon, 16 Jan 2023 12:14:44 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHNVK-0008Tq-20
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 06:18:20 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHNVI-0006Ip-35
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 06:18:17 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ u1-20020a17090a450100b0022936a63a21so7120312pjg.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 03:18:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=RNN1ClPNvVO87wCLLD4YvArYNLWKloZM5T7TFIiPYjU=;
+ b=OZI93jHm7BZvPQAdVWTFAqeVfUzU5ma301K/nl6THOiZE13c9Tveyt9CKeS7RR7vMs
+ MpQJCOe11Y5mQNKWCjjHYKTJhxr/4o6/c7Eal6mQou0D+JxADIv1qiqz1176i0K0eECn
+ PVQ7lZFUtovocrLjbEPVjB6q2X5xuXDSS3FQ9Ms4JsgolbkTzd3hXW7CzP/LyzpMk+Q4
+ vQa9jT7vJG4Vkz8LvRzGFQFeagWfjFhN27fgjOba6qKqgMHaEbF3ULMvBIwmpTODKeHd
+ tFMWo7Lvuaa+h7EVIeUErFHN+CypJBkIjRqmQ2fF4F3bgbTMwhw/7tGQSb96IdWAJ3k+
+ RkJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RNN1ClPNvVO87wCLLD4YvArYNLWKloZM5T7TFIiPYjU=;
+ b=0ZDvMZhfWWyJQZVW58NBqPBfPmlymry4UnlQeoJbTt+J8a8lYiyfDDw1Ix5YwXYx65
+ +1IJpdg0Ze51e/Rsh6laVv7cu0qRZ/unsay715ZBEJvhPWyL90DoKl40O20CPfosg3ek
+ oW8lR7iONV1SEhklR3myzmS+vDcSjyFY2HdM6i6kafdgZhiPevV6K/lsgQGatBlQx4Gh
+ t+xgL4tY6zRWZmjqx69BoaPDp045MpUPu6iwetUhgCxSJScrz2fDRehvGSErwHHbYKlu
+ Ok677gQ20PV6/BdZYYciJuofR5xdfmYcLD3RrWIfrmiFGae9feS5GEXhi2dC5nMIF6Cf
+ al4Q==
+X-Gm-Message-State: AFqh2kpwckSZkB4zOBfDen7Sh0xasiX7ULN1UwhNSX1pp1ghdQ/AryWK
+ IvUpvZhOp8LnY/FUlEunnERlJiFbKTzuBLlFkuxEVg==
+X-Google-Smtp-Source: AMrXdXvZ/BIYOzWlb+J3szAkbalA5MSfs9NhtrpaNJnATQS3XKP2g9Lm1S0uURK+sSjs2Q9h0EFhyKDMyY7DZl8u/h8=
+X-Received: by 2002:a17:902:ee51:b0:194:45d0:3b2c with SMTP id
+ 17-20020a170902ee5100b0019445d03b2cmr793518plo.52.1673867893934; Mon, 16 Jan
+ 2023 03:18:13 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 4/6] hw/arm/npcm7xx: Remove local copy of at24c_eeprom_init
-Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>
-CC: <patrick@stwcx.xyz>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
- <joel@jms.id.au>, <hskinnemoen@google.com>, <kfting@nuvoton.com>,
- <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20230114170151.87833-1-peter@pjd.dev>
- <20230114170151.87833-5-peter@pjd.dev>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230114170151.87833-5-peter@pjd.dev>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 9cf531f7-0b60-4da2-b17a-aa2f44b542d5
-X-Ovh-Tracer-Id: 3577265482235611951
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedgvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhesphhjugdruggvvhdpphgrthhrihgtkhesshhtfigtgidrgiihiidpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdgrnhgurhgvfiesrghjrdhiugdrrghupdhjohgvlhesjhhmshdrihgurdgruhdphhhskhhinhhnvghmohgvnhesghhoohhglhgvrdgtohhmpdhkfhhtihhnghesnhhuvhhothhonhdrtghomhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmh
- hohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+References: <20230109062259.79074-1-akihiko.odaki@daynix.com>
+ <481867e4-b019-80de-5369-9a503fa049ac@linaro.org>
+ <fb435604-1638-c4ee-efca-bdbe2a4be98b@daynix.com>
+In-Reply-To: <fb435604-1638-c4ee-efca-bdbe2a4be98b@daynix.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Jan 2023 11:18:02 +0000
+Message-ID: <CAFEAcA8dT+uvhCspUU9P-ev57UR9r5MDxkinPzwf+TieW_mUYg@mail.gmail.com>
+Subject: Re: [PATCH] accel/kvm: Specify default IPA size for arm64
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org, 
+ qemu-arm@nongnu.org, kvm@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,79 +87,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/14/23 18:01, Peter Delevoryas wrote:
-> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+On Sat, 14 Jan 2023 at 06:49, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>
+> On 2023/01/14 14:23, Richard Henderson wrote:
+> > On 1/8/23 22:22, Akihiko Odaki wrote:
+> >> libvirt uses "none" machine type to test KVM availability. Before this
+> >> change, QEMU used to pass 0 as machine type when calling KVM_CREATE_VM.
+> >>
+> >> The kernel documentation says:
+> >>> On arm64, the physical address size for a VM (IPA Size limit) is
+> >>> limited to 40bits by default. The limit can be configured if the host
+> >>> supports the extension KVM_CAP_ARM_VM_IPA_SIZE. When supported, use
+> >>> KVM_VM_TYPE_ARM_IPA_SIZE(IPA_Bits) to set the size in the machine type
+> >>> identifier, where IPA_Bits is the maximum width of any physical
+> >>> address used by the VM. The IPA_Bits is encoded in bits[7-0] of the
+> >>> machine type identifier.
+> >>>
+> >>> e.g, to configure a guest to use 48bit physical address size::
+> >>>
+> >>>      vm_fd = ioctl(dev_fd, KVM_CREATE_VM, KVM_VM_TYPE_ARM_IPA_SIZE(48));
+> >>>
+> >>> The requested size (IPA_Bits) must be:
+> >>>
+> >>>   ==   =========================================================
+> >>>    0   Implies default size, 40bits (for backward compatibility)
+> >>>    N   Implies N bits, where N is a positive integer such that,
+> >>>        32 <= N <= Host_IPA_Limit
+> >>>   ==   =========================================================
+> >>
+> >>> Host_IPA_Limit is the maximum possible value for IPA_Bits on the host
+> >>> and is dependent on the CPU capability and the kernel configuration.
+> >>> The limit can be retrieved using KVM_CAP_ARM_VM_IPA_SIZE of the
+> >>> KVM_CHECK_EXTENSION ioctl() at run-time.
+> >>>
+> >>> Creation of the VM will fail if the requested IPA size (whether it is
+> >>> implicit or explicit) is unsupported on the host.
+> >> https://docs.kernel.org/virt/kvm/api.html#kvm-create-vm
+> >>
+> >> So if Host_IPA_Limit < 40, such KVM_CREATE_VM will fail, and libvirt
+> >> incorrectly thinks KVM is not available. This actually happened on M2
+> >> MacBook Air.
+> >>
+> >> Fix this by specifying 32 for IPA_Bits as any arm64 system should
+> >> support the value according to the documentation.
+> >>
+> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> >> ---
+> >>   accel/kvm/kvm-all.c | 4 ++++
+> >>   1 file changed, 4 insertions(+)
+> >>
+> >> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> >> index e86c33e0e6..776ac7efcc 100644
+> >> --- a/accel/kvm/kvm-all.c
+> >> +++ b/accel/kvm/kvm-all.c
+> >> @@ -2294,7 +2294,11 @@ static int kvm_init(MachineState *ms)
+> >>       KVMState *s;
+> >>       const KVMCapabilityInfo *missing_cap;
+> >>       int ret;
+> >> +#ifdef TARGET_AARCH64
+> >> +    int type = 32;
+> >> +#else
+> >>       int type = 0;
+> >> +#endif
+> >
+> > No need for an ifdef.  Down below we have,
+> >
+> >      if (object_property_find(OBJECT(current_machine), "kvm-type")) {
+> >          g_autofree char *kvm_type =
+> > object_property_get_str(OBJECT(current_machine),
+> >                                                              "kvm-type",
+> >                                                              &error_abort);
+> >          type = mc->kvm_type(ms, kvm_type);
+> >      } else if (mc->kvm_type) {
+> >          type = mc->kvm_type(ms, NULL);
+> >      }
+> >
+> > and the aarch64 -M virt machine provides virt_kvm_type as mc->kvm_type.
+> >
+> > How did you hit this?  Are you trying to implement your own board model?
+> >
+> > Looking at this, I'm surprised this is a board hook and not a cpu hook.
+> > But I suppose the architecture specific 'type' can hide any number of
+> > sins.  Anyway, if you are doing your own board model, I suggest
+> > arranging to share the virt board hook -- maybe moving it to
+> > target/arm/kvm.c in the process?
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> I hit this problem when I used libvirt; libvirt uses "none" machine type
+> to probe the availability of KVM and "none" machine type does not
+> provide kvm_type hook.
+>
+> As the implementation of "none" machine type is shared among different
+> architectures, we cannot remove ifdef by moving it to the hook.
+>
+> Although implementing the hook for "none" machine type is still
+> possible, I  think the default type should provide the lowest common
+> denominator and "none" machine type shouldn't try to work around when
+> the type is wrong. Otherwise it doesn't make sense to provide the "default".
 
-Thanks,
+Yes, the problem is that the 'none' board type is all
+architecture-independent code, and so is this kvm_init() code, so
+there's no obvious arm-specific place to say "pick the best IPA size
+that will work for this host".
 
-C.
+Perhaps we should create somewhere in here a target-arch specific
+hook: we already have ifdefs in this function for S390X and PPC
+(printing some special case error strings if the ioctl fails), so
+maybe a hook that does "take the type provided by the machine hook,
+if any, sanitize or reject it, do the ioctl call, print arch-specific
+help/error messages if relevant" ? Paolo, do you have an opinion?
 
-
-
-> ---
->   hw/arm/npcm7xx_boards.c | 20 +++++---------------
->   1 file changed, 5 insertions(+), 15 deletions(-)
-> 
-> diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-> index 6bc6f5d2fe29..9b31207a06e9 100644
-> --- a/hw/arm/npcm7xx_boards.c
-> +++ b/hw/arm/npcm7xx_boards.c
-> @@ -21,6 +21,7 @@
->   #include "hw/i2c/i2c_mux_pca954x.h"
->   #include "hw/i2c/smbus_eeprom.h"
->   #include "hw/loader.h"
-> +#include "hw/nvram/eeprom_at24c.h"
->   #include "hw/qdev-core.h"
->   #include "hw/qdev-properties.h"
->   #include "qapi/error.h"
-> @@ -140,17 +141,6 @@ static I2CBus *npcm7xx_i2c_get_bus(NPCM7xxState *soc, uint32_t num)
->       return I2C_BUS(qdev_get_child_bus(DEVICE(&soc->smbus[num]), "i2c-bus"));
->   }
->   
-> -static void at24c_eeprom_init(NPCM7xxState *soc, int bus, uint8_t addr,
-> -                              uint32_t rsize)
-> -{
-> -    I2CBus *i2c_bus = npcm7xx_i2c_get_bus(soc, bus);
-> -    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
-> -    DeviceState *dev = DEVICE(i2c_dev);
-> -
-> -    qdev_prop_set_uint32(dev, "rom-size", rsize);
-> -    i2c_slave_realize_and_unref(i2c_dev, i2c_bus, &error_abort);
-> -}
-> -
->   static void npcm7xx_init_pwm_splitter(NPCM7xxMachine *machine,
->                                         NPCM7xxState *soc, const int *fan_counts)
->   {
-> @@ -253,8 +243,8 @@ static void quanta_gsj_i2c_init(NPCM7xxState *soc)
->       i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 3), "tmp105", 0x5c);
->       i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 4), "tmp105", 0x5c);
->   
-> -    at24c_eeprom_init(soc, 9, 0x55, 8192);
-> -    at24c_eeprom_init(soc, 10, 0x55, 8192);
-> +    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 9), 0x55, 8192);
-> +    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 10), 0x55, 8192);
->   
->       /*
->        * i2c-11:
-> @@ -360,7 +350,7 @@ static void kudo_bmc_i2c_init(NPCM7xxState *soc)
->   
->       i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 4), TYPE_PCA9548, 0x77);
->   
-> -    at24c_eeprom_init(soc, 4, 0x50, 8192); /* mbfru */
-> +    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 4), 0x50, 8192); /* mbfru */
->   
->       i2c_mux = i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 13),
->                                         TYPE_PCA9548, 0x77);
-> @@ -371,7 +361,7 @@ static void kudo_bmc_i2c_init(NPCM7xxState *soc)
->       i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 4), "tmp105", 0x48);
->       i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 5), "tmp105", 0x49);
->   
-> -    at24c_eeprom_init(soc, 14, 0x55, 8192); /* bmcfru */
-> +    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 14), 0x55, 8192); /* bmcfru */
->   
->       /* TODO: Add remaining i2c devices. */
->   }
-
+thanks
+-- PMM
 
