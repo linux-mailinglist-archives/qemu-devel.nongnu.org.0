@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ED5166D1AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 23:21:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DED9466D1B0
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 23:21:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHXpU-0007Qv-Qa; Mon, 16 Jan 2023 17:19:49 -0500
+	id 1pHXpy-0007Zu-Ol; Mon, 16 Jan 2023 17:20:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+fb0b8ce1ba8490165fd5+7085+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pHXpJ-0007OK-6T
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 17:19:37 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ <BATV+491b11caf3ce55304f6a+7085+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pHXpO-0007QQ-GG
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 17:19:42 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+fb0b8ce1ba8490165fd5+7085+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pHXpE-00070c-TF
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 17:19:36 -0500
+ <BATV+491b11caf3ce55304f6a+7085+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pHXpF-00070W-2q
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 17:19:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=NsStsbU/wrYzcT7pqD6BfZJ/9CY8QxWSUO7MAruBqXQ=; b=bZLaG6XWFjapH6V6Pikb5YzUqL
- 4NQ5cl3S6d6QPbiTiM0is8boavywtxXk7nDXWjguOhafCo3klmz3KUex5N1P/sxj+2YzoyOJm7w0Y
- pVX6D6ZUVEz3ok1STikpAVKq9N80+utJjdBdwSjgl3wzPXYBIBRO2DOkAEPiqDuPkQ4unoYuYKUEK
- yN+ngzH4hk5y3K4TQuSlds7L0aL2e3lEJnnQWtnCRuz0JROGNsyM56XwQbNw7GREpMj64GqbGpSfr
- Ibtziu0kSUKci6V6UCkG+rtKqEAXd3k2W/CzcaisjjU2dmt7oV+H69YsFRfsFrLAuWO0/982+rdBq
- vhOaGHXw==;
+ bh=qF1r3tS8C0/Y3XG8d/vHgbG8LmGGZsz5Pq3sXQovwl4=; b=aN6gG5l22ijkVSvY5AdII2O3D0
+ ijrLE4CFWzLMYDpAu7OUnSbHsuvUJZq6fU7Slyr8yv/cyTIhGjahu9bkp7RI71XthgaWz98NQrjxg
+ tLq9FT35sqMwNcRKZWEvY9qnij27tqI7P6nmU45CHZwUYFKAbHJ7Zf8mtenEVx3UdxXqrnWnAMlau
+ E5MiLCrkcfJAzgz7wB+/WiATROX7veLi1NES6pcudxT7y+KTmOFLATfLEAhLV0qlsySCDNIaOuXaU
+ hX0SneMlSbJ6w7tkoiS16bY6PI6+CBw3sXDqhuxNX4Q3u8k3bNx+AfXe5Qy6Bn29d+2geFxvxwm9L
+ MhCkodCA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pHXpL-0098Uw-F8; Mon, 16 Jan 2023 22:19:40 +0000
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pHXoy-005jub-2V; Mon, 16 Jan 2023 22:19:17 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pHXp7-004iXj-2O; Mon, 16 Jan 2023 22:19:25 +0000
+ Linux)) id 1pHXp7-004iXn-2Z; Mon, 16 Jan 2023 22:19:25 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -48,10 +48,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [RFC PATCH v7bis 08/19] hw/xen: Use XEN_PAGE_SIZE in PV backend
- drivers
-Date: Mon, 16 Jan 2023 22:19:08 +0000
-Message-Id: <20230116221919.1124201-9-dwmw2@infradead.org>
+Subject: [RFC PATCH v7bis 09/19] hw/xen: Rename xen_common.h to xen_native.h
+Date: Mon, 16 Jan 2023 22:19:09 +0000
+Message-Id: <20230116221919.1124201-10-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116221919.1124201-1-dwmw2@infradead.org>
 References: <20230116215805.1123514-1-dwmw2@infradead.org>
@@ -59,10 +58,10 @@ References: <20230116215805.1123514-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+fb0b8ce1ba8490165fd5+7085+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+491b11caf3ce55304f6a+7085+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -87,171 +86,308 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-XC_PAGE_SIZE comes from the actual Xen libraries, while XEN_PAGE_SIZE is
-provided by QEMU itself in xen_backend_ops.h. For backends which may be
-built for emulation mode, use the latter.
+This header is now only for native Xen code, not PV backends that may be
+used in Xen emulation. Since the toolstack libraries may depend on the
+specific version of Xen headers that they pull in (and will set the
+__XEN_TOOLS__ macro to enable internal definitions that they depend on),
+the rule is that xen_native.h (and thus the toolstack library headers)
+must be included *before* any of the headers in standard-headers/xen.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/block/dataplane/xen-block.c |  8 ++++----
- hw/display/xenfb.c             | 12 ++++++------
- hw/net/xen_nic.c               | 12 ++++++------
- hw/usb/xen-usb.c               |  8 ++++----
- 4 files changed, 20 insertions(+), 20 deletions(-)
+ accel/xen/xen-all.c                           |  1 +
+ hw/9pfs/xen-9p-backend.c                      |  1 +
+ hw/block/dataplane/xen-block.c                |  3 ++-
+ hw/block/xen-block.c                          |  1 -
+ hw/i386/xen/xen-hvm.c                         |  6 ++---
+ hw/i386/xen/xen-mapcache.c                    |  2 +-
+ hw/i386/xen/xen_platform.c                    |  7 +++---
+ hw/xen/trace-events                           |  2 +-
+ hw/xen/xen-operations.c                       |  2 +-
+ hw/xen/xen_pt.c                               |  2 +-
+ hw/xen/xen_pt.h                               |  2 +-
+ hw/xen/xen_pt_config_init.c                   |  2 +-
+ hw/xen/xen_pt_msi.c                           |  4 ++--
+ include/hw/xen/xen.h                          | 22 ++++++++++++-------
+ include/hw/xen/{xen_common.h => xen_native.h} | 10 ++++++---
+ include/hw/xen/xen_pvdev.h                    |  3 ++-
+ 16 files changed, 42 insertions(+), 28 deletions(-)
+ rename include/hw/xen/{xen_common.h => xen_native.h} (98%)
 
+diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
+index 514bc9eea4..fcdc8364bf 100644
+--- a/accel/xen/xen-all.c
++++ b/accel/xen/xen-all.c
+@@ -12,6 +12,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ #include "qapi/error.h"
++#include "hw/xen/xen_native.h"
+ #include "hw/xen/xen-legacy-backend.h"
+ #include "hw/xen/xen_pt.h"
+ #include "chardev/char.h"
+diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
+index d8bb0e847c..74f3a05f88 100644
+--- a/hw/9pfs/xen-9p-backend.c
++++ b/hw/9pfs/xen-9p-backend.c
+@@ -22,6 +22,7 @@
+ #include "qemu/config-file.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/option.h"
++#include "qemu/iov.h"
+ #include "fsdev/qemu-fsdev.h"
+ 
+ #define VERSIONS "1"
 diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
-index e55b713002..8322a1de82 100644
+index 8322a1de82..d44e39e2a1 100644
 --- a/hw/block/dataplane/xen-block.c
 +++ b/hw/block/dataplane/xen-block.c
-@@ -101,9 +101,9 @@ static XenBlockRequest *xen_block_start_request(XenBlockDataPlane *dataplane)
-          * re-use requests, allocate the memory once here. It will be freed
-          * xen_block_dataplane_destroy() when the request list is freed.
-          */
--        request->buf = qemu_memalign(XC_PAGE_SIZE,
-+        request->buf = qemu_memalign(XEN_PAGE_SIZE,
-                                      BLKIF_MAX_SEGMENTS_PER_REQUEST *
--                                     XC_PAGE_SIZE);
-+                                     XEN_PAGE_SIZE);
-         dataplane->requests_total++;
-         qemu_iovec_init(&request->v, 1);
-     } else {
-@@ -185,7 +185,7 @@ static int xen_block_parse_request(XenBlockRequest *request)
-             goto err;
-         }
-         if (request->req.seg[i].last_sect * dataplane->sector_size >=
--            XC_PAGE_SIZE) {
-+            XEN_PAGE_SIZE) {
-             error_report("error: page crossing");
-             goto err;
-         }
-@@ -740,7 +740,7 @@ void xen_block_dataplane_start(XenBlockDataPlane *dataplane,
+@@ -23,8 +23,9 @@
+ #include "qemu/main-loop.h"
+ #include "qemu/memalign.h"
+ #include "qapi/error.h"
+-#include "hw/xen/xen_common.h"
+ #include "hw/block/xen_blkif.h"
++#include "hw/xen/xen.h"
++#include "hw/xen/interface/io/ring.h"
+ #include "sysemu/block-backend.h"
+ #include "sysemu/iothread.h"
+ #include "xen-block.h"
+diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+index 345b284d70..87299615e3 100644
+--- a/hw/block/xen-block.c
++++ b/hw/block/xen-block.c
+@@ -19,7 +19,6 @@
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qstring.h"
+ #include "qom/object_interfaces.h"
+-#include "hw/xen/xen_common.h"
+ #include "hw/block/xen_blkif.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/xen/xen-block.h"
+diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+index 38146efb5a..779d923e10 100644
+--- a/hw/i386/xen/xen-hvm.c
++++ b/hw/i386/xen/xen-hvm.c
+@@ -18,8 +18,8 @@
+ #include "hw/irq.h"
+ #include "hw/hw.h"
+ #include "hw/i386/apic-msidef.h"
++#include "hw/xen/xen_native.h"
+ #include "hw/xen/xen_backend_ops.h"
+-#include "hw/xen/xen_common.h"
+ #include "hw/xen/xen-legacy-backend.h"
+ #include "hw/xen/xen-bus.h"
+ #include "hw/xen/xen-x86.h"
+@@ -54,8 +54,8 @@ static bool xen_in_migration;
+ /* Compatibility with older version */
  
-     dataplane->protocol = protocol;
+ /* This allows QEMU to build on a system that has Xen 4.5 or earlier
+- * installed.  This here (not in hw/xen/xen_common.h) because xen/hvm/ioreq.h
+- * needs to be included before this block and hw/xen/xen_common.h needs to
++ * installed.  This here (not in hw/xen/xen_native.h) because xen/hvm/ioreq.h
++ * needs to be included before this block and hw/xen/xen_native.h needs to
+  * be included before xen/hvm/ioreq.h
+  */
+ #ifndef IOREQ_TYPE_VMWARE_PORT
+diff --git a/hw/i386/xen/xen-mapcache.c b/hw/i386/xen/xen-mapcache.c
+index a2f93096e7..30cea6ee42 100644
+--- a/hw/i386/xen/xen-mapcache.c
++++ b/hw/i386/xen/xen-mapcache.c
+@@ -14,7 +14,7 @@
  
--    ring_size = XC_PAGE_SIZE * dataplane->nr_ring_ref;
-+    ring_size = XEN_PAGE_SIZE * dataplane->nr_ring_ref;
-     switch (dataplane->protocol) {
-     case BLKIF_PROTOCOL_NATIVE:
-     {
-diff --git a/hw/display/xenfb.c b/hw/display/xenfb.c
-index 2c4016fcbd..0074a9b6f8 100644
---- a/hw/display/xenfb.c
-+++ b/hw/display/xenfb.c
-@@ -489,13 +489,13 @@ static int xenfb_map_fb(struct XenFB *xenfb)
-     }
+ #include <sys/resource.h>
  
-     if (xenfb->pixels) {
--        munmap(xenfb->pixels, xenfb->fbpages * XC_PAGE_SIZE);
-+        munmap(xenfb->pixels, xenfb->fbpages * XEN_PAGE_SIZE);
-         xenfb->pixels = NULL;
-     }
+-#include "hw/xen/xen-legacy-backend.h"
++#include "hw/xen/xen_native.h"
+ #include "qemu/bitmap.h"
  
--    xenfb->fbpages = DIV_ROUND_UP(xenfb->fb_len, XC_PAGE_SIZE);
-+    xenfb->fbpages = DIV_ROUND_UP(xenfb->fb_len, XEN_PAGE_SIZE);
-     n_fbdirs = xenfb->fbpages * mode / 8;
--    n_fbdirs = DIV_ROUND_UP(n_fbdirs, XC_PAGE_SIZE);
-+    n_fbdirs = DIV_ROUND_UP(n_fbdirs, XEN_PAGE_SIZE);
+ #include "sysemu/runstate.h"
+diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
+index 00f0527b30..a5fb1c96d0 100644
+--- a/hw/i386/xen/xen_platform.c
++++ b/hw/i386/xen/xen_platform.c
+@@ -29,7 +29,6 @@
+ #include "hw/ide/pci.h"
+ #include "hw/pci/pci.h"
+ #include "migration/vmstate.h"
+-#include "hw/xen/xen.h"
+ #include "net/net.h"
+ #include "trace.h"
+ #include "sysemu/xen.h"
+@@ -39,10 +38,12 @@
+ #include "qom/object.h"
  
-     pgmfns = g_new0(xen_pfn_t, n_fbdirs);
-     fbmfns = g_new0(xen_pfn_t, xenfb->fbpages);
-@@ -528,8 +528,8 @@ static int xenfb_configure_fb(struct XenFB *xenfb, size_t fb_len_lim,
- {
-     size_t mfn_sz = sizeof_field(struct xenfb_page, pd[0]);
-     size_t pd_len = sizeof_field(struct xenfb_page, pd) / mfn_sz;
--    size_t fb_pages = pd_len * XC_PAGE_SIZE / mfn_sz;
--    size_t fb_len_max = fb_pages * XC_PAGE_SIZE;
-+    size_t fb_pages = pd_len * XEN_PAGE_SIZE / mfn_sz;
-+    size_t fb_len_max = fb_pages * XEN_PAGE_SIZE;
-     int max_width, max_height;
+ #ifdef CONFIG_XEN
+-#include "hw/xen/xen_common.h"
+-#include "hw/xen/xen-legacy-backend.h"
++#include "hw/xen/xen_native.h"
+ #endif
  
-     if (fb_len_lim > fb_len_max) {
-@@ -930,7 +930,7 @@ static void fb_disconnect(struct XenLegacyDevice *xendev)
-      *   instead.  This releases the guest pages and keeps qemu happy.
-      */
-     qemu_xen_foreignmem_unmap(fb->pixels, fb->fbpages);
--    fb->pixels = mmap(fb->pixels, fb->fbpages * XC_PAGE_SIZE,
-+    fb->pixels = mmap(fb->pixels, fb->fbpages * XEN_PAGE_SIZE,
-                       PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANON,
-                       -1, 0);
-     if (fb->pixels == MAP_FAILED) {
-diff --git a/hw/net/xen_nic.c b/hw/net/xen_nic.c
-index 166d03787d..9bbf6599fc 100644
---- a/hw/net/xen_nic.c
-+++ b/hw/net/xen_nic.c
-@@ -145,7 +145,7 @@ static void net_tx_packets(struct XenNetDev *netdev)
-                 continue;
-             }
++/* The rule is that xen_native.h must come first */
++#include "hw/xen/xen.h"
++
+ //#define DEBUG_PLATFORM
  
--            if ((txreq.offset + txreq.size) > XC_PAGE_SIZE) {
-+            if ((txreq.offset + txreq.size) > XEN_PAGE_SIZE) {
-                 xen_pv_printf(&netdev->xendev, 0, "error: page crossing\n");
-                 net_tx_error(netdev, &txreq, rc);
-                 continue;
-@@ -171,7 +171,7 @@ static void net_tx_packets(struct XenNetDev *netdev)
-             if (txreq.flags & NETTXF_csum_blank) {
-                 /* have read-only mapping -> can't fill checksum in-place */
-                 if (!tmpbuf) {
--                    tmpbuf = g_malloc(XC_PAGE_SIZE);
-+                    tmpbuf = g_malloc(XEN_PAGE_SIZE);
-                 }
-                 memcpy(tmpbuf, page + txreq.offset, txreq.size);
-                 net_checksum_calculate(tmpbuf, txreq.size, CSUM_ALL);
-@@ -243,9 +243,9 @@ static ssize_t net_rx_packet(NetClientState *nc, const uint8_t *buf, size_t size
-     if (rc == rp || RING_REQUEST_CONS_OVERFLOW(&netdev->rx_ring, rc)) {
-         return 0;
-     }
--    if (size > XC_PAGE_SIZE - NET_IP_ALIGN) {
-+    if (size > XEN_PAGE_SIZE - NET_IP_ALIGN) {
-         xen_pv_printf(&netdev->xendev, 0, "packet too big (%lu > %ld)",
--                      (unsigned long)size, XC_PAGE_SIZE - NET_IP_ALIGN);
-+                      (unsigned long)size, XEN_PAGE_SIZE - NET_IP_ALIGN);
-         return -1;
-     }
+ #ifdef DEBUG_PLATFORM
+diff --git a/hw/xen/trace-events b/hw/xen/trace-events
+index 3da3fd8348..55c9e1df68 100644
+--- a/hw/xen/trace-events
++++ b/hw/xen/trace-events
+@@ -1,6 +1,6 @@
+ # See docs/devel/tracing.rst for syntax documentation.
  
-@@ -348,8 +348,8 @@ static int net_connect(struct XenLegacyDevice *xendev)
-         netdev->txs = NULL;
-         return -1;
-     }
--    BACK_RING_INIT(&netdev->tx_ring, netdev->txs, XC_PAGE_SIZE);
--    BACK_RING_INIT(&netdev->rx_ring, netdev->rxs, XC_PAGE_SIZE);
-+    BACK_RING_INIT(&netdev->tx_ring, netdev->txs, XEN_PAGE_SIZE);
-+    BACK_RING_INIT(&netdev->rx_ring, netdev->rxs, XEN_PAGE_SIZE);
+-# ../../include/hw/xen/xen_common.h
++# ../../include/hw/xen/xen_native.h
+ xen_default_ioreq_server(void) ""
+ xen_ioreq_server_create(uint32_t id) "id: %u"
+ xen_ioreq_server_destroy(uint32_t id) "id: %u"
+diff --git a/hw/xen/xen-operations.c b/hw/xen/xen-operations.c
+index b2b76c63af..352153c974 100644
+--- a/hw/xen/xen-operations.c
++++ b/hw/xen/xen-operations.c
+@@ -13,8 +13,8 @@
+ #include "qemu/uuid.h"
+ #include "qapi/error.h"
  
-     xen_be_bind_evtchn(&netdev->xendev);
++#include "hw/xen/xen_native.h"
+ #include "hw/xen/xen_backend_ops.h"
+-#include "hw/xen/xen_common.h"
  
-diff --git a/hw/usb/xen-usb.c b/hw/usb/xen-usb.c
-index a770a64cb4..66cb3f7c24 100644
---- a/hw/usb/xen-usb.c
-+++ b/hw/usb/xen-usb.c
-@@ -161,7 +161,7 @@ static int usbback_gnttab_map(struct usbback_req *usbback_req)
+ /*
+  * If we have new enough libxenctrl then we do not want/need these compat
+diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
+index 0ec7e52183..d0b68925b5 100644
+--- a/hw/xen/xen_pt.c
++++ b/hw/xen/xen_pt.c
+@@ -59,9 +59,9 @@
+ #include "hw/pci/pci.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/qdev-properties-system.h"
++#include "xen_pt.h"
+ #include "hw/xen/xen.h"
+ #include "hw/xen/xen-legacy-backend.h"
+-#include "xen_pt.h"
+ #include "qemu/range.h"
  
-     for (i = 0; i < nr_segs; i++) {
-         if ((unsigned)usbback_req->req.seg[i].offset +
--            (unsigned)usbback_req->req.seg[i].length > XC_PAGE_SIZE) {
-+            (unsigned)usbback_req->req.seg[i].length > XEN_PAGE_SIZE) {
-             xen_pv_printf(xendev, 0, "segment crosses page boundary\n");
-             return -EINVAL;
-         }
-@@ -185,7 +185,7 @@ static int usbback_gnttab_map(struct usbback_req *usbback_req)
+ static bool has_igd_gfx_passthru;
+diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
+index cf10fc7bbf..27fc7bb585 100644
+--- a/hw/xen/xen_pt.h
++++ b/hw/xen/xen_pt.h
+@@ -1,7 +1,7 @@
+ #ifndef XEN_PT_H
+ #define XEN_PT_H
  
-         for (i = 0; i < usbback_req->nr_buffer_segs; i++) {
-             seg = usbback_req->req.seg + i;
--            addr = usbback_req->buffer + i * XC_PAGE_SIZE + seg->offset;
-+            addr = usbback_req->buffer + i * XEN_PAGE_SIZE + seg->offset;
-             qemu_iovec_add(&usbback_req->packet.iov, addr, seg->length);
-         }
-     }
-@@ -902,8 +902,8 @@ static int usbback_connect(struct XenLegacyDevice *xendev)
-     usbif->conn_ring_ref = conn_ring_ref;
-     urb_sring = usbif->urb_sring;
-     conn_sring = usbif->conn_sring;
--    BACK_RING_INIT(&usbif->urb_ring, urb_sring, XC_PAGE_SIZE);
--    BACK_RING_INIT(&usbif->conn_ring, conn_sring, XC_PAGE_SIZE);
-+    BACK_RING_INIT(&usbif->urb_ring, urb_sring, XEN_PAGE_SIZE);
-+    BACK_RING_INIT(&usbif->conn_ring, conn_sring, XEN_PAGE_SIZE);
+-#include "hw/xen/xen_common.h"
++#include "hw/xen/xen_native.h"
+ #include "xen-host-pci-device.h"
+ #include "qom/object.h"
  
-     xen_be_bind_evtchn(xendev);
+diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xen_pt_config_init.c
+index cde898b744..0cd9fbd22c 100644
+--- a/hw/xen/xen_pt_config_init.c
++++ b/hw/xen/xen_pt_config_init.c
+@@ -15,8 +15,8 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "qemu/timer.h"
+-#include "hw/xen/xen-legacy-backend.h"
+ #include "xen_pt.h"
++#include "hw/xen/xen-legacy-backend.h"
  
+ #define XEN_PT_MERGE_VALUE(value, data, val_mask) \
+     (((value) & (val_mask)) | ((data) & ~(val_mask)))
+diff --git a/hw/xen/xen_pt_msi.c b/hw/xen/xen_pt_msi.c
+index b71563f98a..09cca4eecb 100644
+--- a/hw/xen/xen_pt_msi.c
++++ b/hw/xen/xen_pt_msi.c
+@@ -11,9 +11,9 @@
+ 
+ #include "qemu/osdep.h"
+ 
+-#include "hw/xen/xen-legacy-backend.h"
+-#include "xen_pt.h"
+ #include "hw/i386/apic-msidef.h"
++#include "xen_pt.h"
++#include "hw/xen/xen-legacy-backend.h"
+ 
+ 
+ #define XEN_PT_AUTO_ASSIGN -1
+diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
+index fcc6c5b522..416c833a29 100644
+--- a/include/hw/xen/xen.h
++++ b/include/hw/xen/xen.h
+@@ -8,15 +8,21 @@
+ #define QEMU_HW_XEN_H
+ 
+ /*
+- * As a temporary measure while the headers are being untangled, define
+- * __XEN_TOOLS__ here before any Xen headers are included. Otherwise, if
+- * the Xen toolstack library headers are later included, they will find
+- * some of the "internal" definitions missing and the build will fail. In
+- * later commits, we'll end up with a rule that the native libraries have
+- * to be included first, which will ensure that the libraries get the
+- * version of Xen libraries that they expect.
++ * C files using Xen toolstack libraries will have included those headers
++ * already via xen_native.h, and hving __XEM_TOOLS__ defined will have
++ * automatically set __XEN_INTERFACE_VERSION__ to the latest supported
++ * by the *system* Xen headers which were transitively included.
++ *
++ * C files which are part of the internal emulation, and which did not
++ * include xen_native.h may need this defined so that the Xen headers
++ * imported to standard-headers/xen will expose the appropriate API
++ * version.
++ *
++ * This is why there's a rule that xen_native.h must be included first.
+  */
+-#define __XEN_TOOLS__ 1
++#ifndef __XEN_INTERFACE_VERSION__
++#define __XEN_INTERFACE_VERSION__ 0x00040e00
++#endif
+ 
+ #include "exec/cpu-common.h"
+ 
+diff --git a/include/hw/xen/xen_common.h b/include/hw/xen/xen_native.h
+similarity index 98%
+rename from include/hw/xen/xen_common.h
+rename to include/hw/xen/xen_native.h
+index 7edcf3eb25..6bcc83baf9 100644
+--- a/include/hw/xen/xen_common.h
++++ b/include/hw/xen/xen_native.h
+@@ -1,5 +1,9 @@
+-#ifndef QEMU_HW_XEN_COMMON_H
+-#define QEMU_HW_XEN_COMMON_H
++#ifndef QEMU_HW_XEN_NATIVE_H
++#define QEMU_HW_XEN_NATIVE_H
++
++#ifdef __XEN_INTERFACE_VERSION__
++#error In Xen native files, include xen_native.h before other Xen headers
++#endif
+ 
+ /*
+  * If we have new enough libxenctrl then we do not want/need these compat
+@@ -622,4 +626,4 @@ static inline int xen_set_ioreq_server_state(domid_t dom,
+ 
+ #endif
+ 
+-#endif /* QEMU_HW_XEN_COMMON_H */
++#endif /* QEMU_HW_XEN_NATIVE_H */
+diff --git a/include/hw/xen/xen_pvdev.h b/include/hw/xen/xen_pvdev.h
+index d8eea353b8..ddad4b9f36 100644
+--- a/include/hw/xen/xen_pvdev.h
++++ b/include/hw/xen/xen_pvdev.h
+@@ -1,8 +1,9 @@
+ #ifndef QEMU_HW_XEN_PVDEV_H
+ #define QEMU_HW_XEN_PVDEV_H
+ 
++#include "hw/qdev-core.h"
+ #include "hw/xen/xen_backend_ops.h"
+-#include "hw/xen/xen_common.h"
++
+ /* ------------------------------------------------------------- */
+ 
+ #define XEN_BUFSIZE 1024
 -- 
 2.39.0
 
