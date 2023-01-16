@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B478B66D372
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 00:57:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A0F66D375
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 00:58:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHZKr-0002mT-43; Mon, 16 Jan 2023 18:56:17 -0500
+	id 1pHZKu-0002nd-EP; Mon, 16 Jan 2023 18:56:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pHZKp-0002lv-2A; Mon, 16 Jan 2023 18:56:15 -0500
+ id 1pHZKs-0002nB-De; Mon, 16 Jan 2023 18:56:18 -0500
 Received: from wout2-smtp.messagingengine.com ([64.147.123.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pHZKn-0003mu-9I; Mon, 16 Jan 2023 18:56:14 -0500
+ id 1pHZKq-0003nE-A9; Mon, 16 Jan 2023 18:56:18 -0500
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 33D7B32007D7;
- Mon, 16 Jan 2023 18:56:11 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id D305F32006F2;
+ Mon, 16 Jan 2023 18:56:13 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 16 Jan 2023 18:56:11 -0500
+ by compute5.internal (MEProxy); Mon, 16 Jan 2023 18:56:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1673913370; x=1673999770; bh=9R
- R7AqdkIyiM5lD+2y8tGjFSEwMYKEEfE+QBJh5nkFY=; b=bIi8LtEqp6P1M1EFPm
- xcf7c5hir+SPcRNW/K+YpUoygfUnySVEVj3gHs3HU9Sf9YE9az1H5/33eDVWz9ov
- QzTDb9USHYDvGrlPOZNNknfymfulBtsev0Jfo8AtKCL7oXMPsMN6sx/FX5cO/Q5j
- UfoK3/2NXhtoyxxHVrg51NYLgP2fbs8RDOFixhP4tsJ+N/Oi/atIIwGyMFrehvqy
- 40A66+4TcRG/D/1IpUuc08GbGUDj0vfqCexMzYEpbhjIh8kTUV4D05jWBImas0RB
- c3J1kEbMe9L/nLrQsIseCCNg+2rFYYdHGT7RmJIuuoEOmVw1sdhMCqH0hrpboTql
- nOPQ==
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1673913373; x=
+ 1673999773; bh=aTvYK618bdAdxFFQMkEDPzyZk3Psz4ozaHTPo4oCoUk=; b=H
+ DWcQtsTvjwVEC6N5QvSLLUSKVm6exdaqommdnhiVPk9EkPiIBDUIZ5zlIT8MLSvT
+ mZZEByBeUcT4AEl0Tm5WxwcNtYIPRUJtTQIBKR8wX+ueRJyf13MvxrUHs608DkXb
+ 6HevgCvna41fNvLXmCZlAnhuEqv2Tz3zPCdjoAz6Dcu1VkLrwvvcSj8aUAHSTmsC
+ 7h0p5WCrKNqfaItxvWZqI5tQhr7HjZqh55XM1/LLQb3TzUMDsk77RQJxi1WdWEGw
+ xi/j57dt//lGemfKmnE5/0nX0/b8zb046XE8BzYcnBGklH0PAl4amQHkdx/vWEDf
+ dxxz0ByYPKPytwm9ZXhmg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1673913370; x=1673999770; bh=9RR7AqdkIyiM5
- lD+2y8tGjFSEwMYKEEfE+QBJh5nkFY=; b=kOjk3KsxiJFpAStbNolyciwnEoov1
- yzX6ciSxZs2Onj8cQsDl5pHB1jS137mPT+TByqE+ZhAQVVNXT0E8lLG2gv5RV2QV
- JHJIfd3lxg8VzSzuJsZQ8zKIc8mEnC10Oaltv31EMkWVeltZnFE6gKg1O18n6k7i
- aY0ZUaoeg0itI6DVgCGS3YmJCynuSnFJroq3wUTQy3e2xiGxBA7RLGt6VYHyqebF
- Kt6Zb6sFOHmhLlfAEpZ4t7IfErZqvI34gufYibsUU5si1SvAZnImUoHsF+rKDeVJ
- gAtf7M3ATAooKwHCS59iyTq1qcBYumC34qdUr13qd6S3D9tWNIk1yNeJg==
-X-ME-Sender: <xms:GuTFY1v5fjmqUBEykrXqWeQppz2ZgeEZeDU_xCGqXLKPOju7ddinVw>
- <xme:GuTFY-cJ8qDFASt3d55Fx2k0-A7oxIb2ZF5Mmdi9ZiCO_8COPf6szpdBpnZRY-zzj
- fOyART5B7-Bguw-tNs>
-X-ME-Received: <xmr:GuTFY4wZSGajo61pJRN3ouqftcpCa3aU9Uio6cA3GpIqIH9qltOOcMO9GPf9pERk8NFyXYXOzH9N3rqRIYh9vKBJOmzv-OFzf5oU-K0XY0c>
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673913373; x=
+ 1673999773; bh=aTvYK618bdAdxFFQMkEDPzyZk3Psz4ozaHTPo4oCoUk=; b=b
+ cH0wBTCgRSfVhBKrihZxqB+6YI8gPA/vNwddnUwJI1ALQzQUnH1U2dx4us8/tgUr
+ tMjKKBS6s3BiIeMQj/nn2PUS8h/2t7wQN/FOhmFyjwQHfAI53kRy3mKvXD9paDok
+ 3HkYHcDaOiQeCjHg3TqP+fwBsNisi4/0LWfehm7KYD3IHmZA6VGs+ad1+adkNByw
+ k2RKfMY5yGxjL53NlROieOENEBtzR3G9KWVbryXKOU66HVYlXOBfpd2ywVdq7pho
+ adnTdoGZ19cQRLkan4Zj/RgP/elt+OqeLdJlim0JlEkUDu4+bsYL85wQLRQpW6ht
+ tjhFk/PPOohRIJXD2qPHQ==
+X-ME-Sender: <xms:HeTFY_lP3czFzVnRkE8iJ3_fnGVZRovptZScnk7hd9ETUdXVyI_GuA>
+ <xme:HeTFYy3flv-DsEqBRttivt6V5BYnsMI2FrpUNec9PcflX4WIftlQxclSw8dWAdqMX
+ 74nrcgksCbkxnGuBVY>
+X-ME-Received: <xmr:HeTFY1rMmxpWZUs_L44NiHClpurFvU4WBnb9FfTokNpJwiv1az9nqCgufiZqzCz08eVa-wA8XGSzyVav_EUJwjMn7XEiWTo_72Fq7RqKZPE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddthedgudejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
- dmnegoteeftdduqddtudculdduhedmnecujfgurhephffvvefufffkofgjfhgggfestdek
- redtredttdenucfhrhhomheprfgvthgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrh
- esphhjugdruggvvheqnecuggftrfgrthhtvghrnhepteelgfeuleeffffffeekiefghfej
- uefgtdfgteeigeekvdefffevieekvdelteevnecuvehluhhsthgvrhfuihiivgepvdenuc
- frrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:GuTFY8MUmo1Wyi3LfaNgBeoOgqvz08BmwH_R_X0FGYxYIByiGqr-VQ>
- <xmx:GuTFY1_NSTNhHB5SUv_L9at1vEGYuRSIWsNEQuKQTJa4TeUTirtAmw>
- <xmx:GuTFY8Vnalu6WLxqZDKraJBAiJbRsNWxD7XpKTPm_eW67IicKOFcyQ>
- <xmx:GuTFY-PbndA_yYutQdS6D5W50KXXemkX2eDcGVISA6fA0pXk3Oc_gQ>
+ dmnegoteeftdduqddtudculdduhedmnecujfgurhephffvvefufffkofgjfhggtgfgseht
+ keertdertdejnecuhfhrohhmpefrvghtvghrucffvghlvghvohhrhigrshcuoehpvghtvg
+ hrsehpjhgurdguvghvqeenucggtffrrghtthgvrhhnpedvhfevvefhtddvueevudelvedt
+ ieehvdejjeeuvedtudegjeeileetheekgfeggeenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:HeTFY3lKygHCJCL1Vfen7fRf87SJ8FqAB0Y1O7Om6VY3MMEaeFXvnQ>
+ <xmx:HeTFY90v2lMEIcQzQwWfilXdYU2KZSaDE0Kdb1Qq5jwSsu7Sm8fBHg>
+ <xmx:HeTFY2uLiQEHnjokYRXENykALQMBkwa9l6yoKv7NA6DeuerdKtt9Aw>
+ <xmx:HeTFY6mO2gV5wnnwjYvN9Xolae1XssYLaLh-0AsRk26I7YM2xrSwGA>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 16 Jan 2023 18:56:09 -0500 (EST)
+ 16 Jan 2023 18:56:12 -0500 (EST)
 From: Peter Delevoryas <peter@pjd.dev>
 To: 
 Cc: peter@pjd.dev, clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au,
  joel@jms.id.au, hskinnemoen@google.com, kfting@nuvoton.com,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] hw/arm: Extract at24c_eeprom_init helper from Aspeed
- and Nuvoton boards
-Date: Mon, 16 Jan 2023 15:56:00 -0800
-Message-Id: <20230116235604.55099-2-peter@pjd.dev>
+Subject: [PATCH v2 2/5] hw/arm/aspeed: Replace aspeed_eeprom_init with
+ at24c_eeprom_init
+Date: Mon, 16 Jan 2023 15:56:01 -0800
+Message-Id: <20230116235604.55099-3-peter@pjd.dev>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116235604.55099-1-peter@pjd.dev>
 References: <20230116235604.55099-1-peter@pjd.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.25; envelope-from=peter@pjd.dev;
  helo=wout2-smtp.messagingengine.com
@@ -101,35 +103,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This helper is useful in board initialization because lets users initialize and
-realize an EEPROM on an I2C bus with a single function call.
+aspeed_eeprom_init is an exact copy of at24c_eeprom_init, not needed.
 
 Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/arm/aspeed.c                 | 10 +---------
- hw/arm/npcm7xx_boards.c         | 20 +++++---------------
- hw/nvram/eeprom_at24c.c         | 12 ++++++++++++
- include/hw/nvram/eeprom_at24c.h | 10 ++++++++++
- 4 files changed, 28 insertions(+), 24 deletions(-)
- create mode 100644 include/hw/nvram/eeprom_at24c.h
+ hw/arm/aspeed.c | 95 ++++++++++++++++++++++---------------------------
+ 1 file changed, 43 insertions(+), 52 deletions(-)
 
 diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 55f114ef729f..1f9799d4321e 100644
+index 1f9799d4321e..c929c61d582a 100644
 --- a/hw/arm/aspeed.c
 +++ b/hw/arm/aspeed.c
-@@ -17,6 +17,7 @@
- #include "hw/i2c/i2c_mux_pca954x.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/misc/pca9552.h"
-+#include "hw/nvram/eeprom_at24c.h"
- #include "hw/sensor/tmp105.h"
- #include "hw/misc/led.h"
- #include "hw/qdev-properties.h"
-@@ -429,15 +430,6 @@ static void aspeed_machine_init(MachineState *machine)
-     arm_load_kernel(ARM_CPU(first_cpu), machine, &aspeed_board_binfo);
+@@ -660,15 +660,6 @@ static void g220a_bmc_i2c_init(AspeedMachineState *bmc)
+                           eeprom_buf);
  }
  
--static void at24c_eeprom_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
+-static void aspeed_eeprom_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
 -{
 -    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
 -    DeviceState *dev = DEVICE(i2c_dev);
@@ -138,114 +129,195 @@ index 55f114ef729f..1f9799d4321e 100644
 -    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
 -}
 -
- static void palmetto_bmc_i2c_init(AspeedMachineState *bmc)
+ static void fp5280g2_bmc_i2c_init(AspeedMachineState *bmc)
  {
      AspeedSoCState *soc = &bmc->soc;
-diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index 6bc6f5d2fe29..9b31207a06e9 100644
---- a/hw/arm/npcm7xx_boards.c
-+++ b/hw/arm/npcm7xx_boards.c
-@@ -21,6 +21,7 @@
- #include "hw/i2c/i2c_mux_pca954x.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/loader.h"
-+#include "hw/nvram/eeprom_at24c.h"
- #include "hw/qdev-core.h"
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
-@@ -140,17 +141,6 @@ static I2CBus *npcm7xx_i2c_get_bus(NPCM7xxState *soc, uint32_t num)
-     return I2C_BUS(qdev_get_child_bus(DEVICE(&soc->smbus[num]), "i2c-bus"));
+@@ -701,7 +692,7 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
+     AspeedSoCState *soc = &bmc->soc;
+     I2CSlave *i2c_mux;
+ 
+-    aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 0), 0x51, 32 * KiB);
++    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 0), 0x51, 32 * KiB);
+ 
+     create_pca9552(soc, 3, 0x61);
+ 
+@@ -714,9 +705,9 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
+                      0x4a);
+     i2c_mux = i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 4),
+                                       "pca9546", 0x70);
+-    aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 0), 0x50, 64 * KiB);
+-    aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 1), 0x51, 64 * KiB);
+-    aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 2), 0x52, 64 * KiB);
++    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 0), 0x50, 64 * KiB);
++    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 1), 0x51, 64 * KiB);
++    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 2), 0x52, 64 * KiB);
+     create_pca9552(soc, 4, 0x60);
+ 
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 5), TYPE_TMP105,
+@@ -727,8 +718,8 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
+     create_pca9552(soc, 5, 0x61);
+     i2c_mux = i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 5),
+                                       "pca9546", 0x70);
+-    aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 0), 0x50, 64 * KiB);
+-    aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 1), 0x51, 64 * KiB);
++    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 0), 0x50, 64 * KiB);
++    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 1), 0x51, 64 * KiB);
+ 
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 6), TYPE_TMP105,
+                      0x48);
+@@ -738,10 +729,10 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
+                      0x4b);
+     i2c_mux = i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 6),
+                                       "pca9546", 0x70);
+-    aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 0), 0x50, 64 * KiB);
+-    aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 1), 0x51, 64 * KiB);
+-    aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 2), 0x50, 64 * KiB);
+-    aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 3), 0x51, 64 * KiB);
++    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 0), 0x50, 64 * KiB);
++    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 1), 0x51, 64 * KiB);
++    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 2), 0x50, 64 * KiB);
++    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 3), 0x51, 64 * KiB);
+ 
+     create_pca9552(soc, 7, 0x30);
+     create_pca9552(soc, 7, 0x31);
+@@ -754,15 +745,15 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), TYPE_TMP105,
+                      0x48);
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "max31785", 0x52);
+-    aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 7), 0x50, 64 * KiB);
+-    aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 7), 0x51, 64 * KiB);
++    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 7), 0x50, 64 * KiB);
++    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 7), 0x51, 64 * KiB);
+ 
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), TYPE_TMP105,
+                      0x48);
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), TYPE_TMP105,
+                      0x4a);
+-    aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 8), 0x50, 64 * KiB);
+-    aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 8), 0x51, 64 * KiB);
++    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 8), 0x50, 64 * KiB);
++    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 8), 0x51, 64 * KiB);
+     create_pca9552(soc, 8, 0x60);
+     create_pca9552(soc, 8, 0x61);
+     /* Bus 8: ucd90320@11 */
+@@ -771,11 +762,11 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
+ 
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 9), "tmp423", 0x4c);
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 9), "tmp423", 0x4d);
+-    aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 9), 0x50, 128 * KiB);
++    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 9), 0x50, 128 * KiB);
+ 
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 10), "tmp423", 0x4c);
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 10), "tmp423", 0x4d);
+-    aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 10), 0x50, 128 * KiB);
++    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 10), 0x50, 128 * KiB);
+ 
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 11), TYPE_TMP105,
+                      0x48);
+@@ -783,18 +774,18 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
+                      0x49);
+     i2c_mux = i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 11),
+                                       "pca9546", 0x70);
+-    aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 0), 0x50, 64 * KiB);
+-    aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 1), 0x51, 64 * KiB);
++    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 0), 0x50, 64 * KiB);
++    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 1), 0x51, 64 * KiB);
+     create_pca9552(soc, 11, 0x60);
+ 
+ 
+-    aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 13), 0x50, 64 * KiB);
++    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 13), 0x50, 64 * KiB);
+     create_pca9552(soc, 13, 0x60);
+ 
+-    aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 14), 0x50, 64 * KiB);
++    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 14), 0x50, 64 * KiB);
+     create_pca9552(soc, 14, 0x60);
+ 
+-    aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 15), 0x50, 64 * KiB);
++    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 15), 0x50, 64 * KiB);
+     create_pca9552(soc, 15, 0x60);
  }
  
--static void at24c_eeprom_init(NPCM7xxState *soc, int bus, uint8_t addr,
--                              uint32_t rsize)
--{
--    I2CBus *i2c_bus = npcm7xx_i2c_get_bus(soc, bus);
--    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
--    DeviceState *dev = DEVICE(i2c_dev);
--
--    qdev_prop_set_uint32(dev, "rom-size", rsize);
--    i2c_slave_realize_and_unref(i2c_dev, i2c_bus, &error_abort);
--}
--
- static void npcm7xx_init_pwm_splitter(NPCM7xxMachine *machine,
-                                       NPCM7xxState *soc, const int *fan_counts)
- {
-@@ -253,8 +243,8 @@ static void quanta_gsj_i2c_init(NPCM7xxState *soc)
-     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 3), "tmp105", 0x5c);
-     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 4), "tmp105", 0x5c);
+@@ -838,45 +829,45 @@ static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
+     i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
+     i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4d);
  
--    at24c_eeprom_init(soc, 9, 0x55, 8192);
--    at24c_eeprom_init(soc, 10, 0x55, 8192);
-+    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 9), 0x55, 8192);
-+    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 10), 0x55, 8192);
+-    aspeed_eeprom_init(i2c[19], 0x52, 64 * KiB);
+-    aspeed_eeprom_init(i2c[20], 0x50, 2 * KiB);
+-    aspeed_eeprom_init(i2c[22], 0x52, 2 * KiB);
++    at24c_eeprom_init(i2c[19], 0x52, 64 * KiB);
++    at24c_eeprom_init(i2c[20], 0x50, 2 * KiB);
++    at24c_eeprom_init(i2c[22], 0x52, 2 * KiB);
+ 
+     i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x48);
+     i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x49);
+     i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x4a);
+     i2c_slave_create_simple(i2c[3], TYPE_TMP422, 0x4c);
+ 
+-    aspeed_eeprom_init(i2c[8], 0x51, 64 * KiB);
++    at24c_eeprom_init(i2c[8], 0x51, 64 * KiB);
+     i2c_slave_create_simple(i2c[8], TYPE_LM75, 0x4a);
+ 
+     i2c_slave_create_simple(i2c[50], TYPE_LM75, 0x4c);
+-    aspeed_eeprom_init(i2c[50], 0x52, 64 * KiB);
++    at24c_eeprom_init(i2c[50], 0x52, 64 * KiB);
+     i2c_slave_create_simple(i2c[51], TYPE_TMP75, 0x48);
+     i2c_slave_create_simple(i2c[52], TYPE_TMP75, 0x49);
+ 
+     i2c_slave_create_simple(i2c[59], TYPE_TMP75, 0x48);
+     i2c_slave_create_simple(i2c[60], TYPE_TMP75, 0x49);
+ 
+-    aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB);
++    at24c_eeprom_init(i2c[65], 0x53, 64 * KiB);
+     i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x49);
+     i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x48);
+-    aspeed_eeprom_init(i2c[68], 0x52, 64 * KiB);
+-    aspeed_eeprom_init(i2c[69], 0x52, 64 * KiB);
+-    aspeed_eeprom_init(i2c[70], 0x52, 64 * KiB);
+-    aspeed_eeprom_init(i2c[71], 0x52, 64 * KiB);
++    at24c_eeprom_init(i2c[68], 0x52, 64 * KiB);
++    at24c_eeprom_init(i2c[69], 0x52, 64 * KiB);
++    at24c_eeprom_init(i2c[70], 0x52, 64 * KiB);
++    at24c_eeprom_init(i2c[71], 0x52, 64 * KiB);
+ 
+-    aspeed_eeprom_init(i2c[73], 0x53, 64 * KiB);
++    at24c_eeprom_init(i2c[73], 0x53, 64 * KiB);
+     i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x49);
+     i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x48);
+-    aspeed_eeprom_init(i2c[76], 0x52, 64 * KiB);
+-    aspeed_eeprom_init(i2c[77], 0x52, 64 * KiB);
+-    aspeed_eeprom_init(i2c[78], 0x52, 64 * KiB);
+-    aspeed_eeprom_init(i2c[79], 0x52, 64 * KiB);
+-    aspeed_eeprom_init(i2c[28], 0x50, 2 * KiB);
++    at24c_eeprom_init(i2c[76], 0x52, 64 * KiB);
++    at24c_eeprom_init(i2c[77], 0x52, 64 * KiB);
++    at24c_eeprom_init(i2c[78], 0x52, 64 * KiB);
++    at24c_eeprom_init(i2c[79], 0x52, 64 * KiB);
++    at24c_eeprom_init(i2c[28], 0x50, 2 * KiB);
+ 
+     for (int i = 0; i < 8; i++) {
+-        aspeed_eeprom_init(i2c[81 + i * 8], 0x56, 64 * KiB);
++        at24c_eeprom_init(i2c[81 + i * 8], 0x56, 64 * KiB);
+         i2c_slave_create_simple(i2c[82 + i * 8], TYPE_TMP75, 0x48);
+         i2c_slave_create_simple(i2c[83 + i * 8], TYPE_TMP75, 0x4b);
+         i2c_slave_create_simple(i2c[84 + i * 8], TYPE_TMP75, 0x4a);
+@@ -947,11 +938,11 @@ static void fby35_i2c_init(AspeedMachineState *bmc)
+     i2c_slave_create_simple(i2c[12], TYPE_LM75, 0x4e);
+     i2c_slave_create_simple(i2c[12], TYPE_LM75, 0x4f);
+ 
+-    aspeed_eeprom_init(i2c[4], 0x51, 128 * KiB);
+-    aspeed_eeprom_init(i2c[6], 0x51, 128 * KiB);
+-    aspeed_eeprom_init(i2c[8], 0x50, 32 * KiB);
+-    aspeed_eeprom_init(i2c[11], 0x51, 128 * KiB);
+-    aspeed_eeprom_init(i2c[11], 0x54, 128 * KiB);
++    at24c_eeprom_init(i2c[4], 0x51, 128 * KiB);
++    at24c_eeprom_init(i2c[6], 0x51, 128 * KiB);
++    at24c_eeprom_init(i2c[8], 0x50, 32 * KiB);
++    at24c_eeprom_init(i2c[11], 0x51, 128 * KiB);
++    at24c_eeprom_init(i2c[11], 0x54, 128 * KiB);
  
      /*
-      * i2c-11:
-@@ -360,7 +350,7 @@ static void kudo_bmc_i2c_init(NPCM7xxState *soc)
- 
-     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 4), TYPE_PCA9548, 0x77);
- 
--    at24c_eeprom_init(soc, 4, 0x50, 8192); /* mbfru */
-+    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 4), 0x50, 8192); /* mbfru */
- 
-     i2c_mux = i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 13),
-                                       TYPE_PCA9548, 0x77);
-@@ -371,7 +361,7 @@ static void kudo_bmc_i2c_init(NPCM7xxState *soc)
-     i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 4), "tmp105", 0x48);
-     i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 5), "tmp105", 0x49);
- 
--    at24c_eeprom_init(soc, 14, 0x55, 8192); /* bmcfru */
-+    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 14), 0x55, 8192); /* bmcfru */
- 
-     /* TODO: Add remaining i2c devices. */
- }
-diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-index 2d4d8b952f38..98857e3626b9 100644
---- a/hw/nvram/eeprom_at24c.c
-+++ b/hw/nvram/eeprom_at24c.c
-@@ -12,6 +12,7 @@
- #include "qapi/error.h"
- #include "qemu/module.h"
- #include "hw/i2c/i2c.h"
-+#include "hw/nvram/eeprom_at24c.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
- #include "sysemu/block-backend.h"
-@@ -128,6 +129,17 @@ int at24c_eeprom_send(I2CSlave *s, uint8_t data)
-     return 0;
- }
- 
-+I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size)
-+{
-+    I2CSlave *i2c_dev = i2c_slave_new(TYPE_AT24C_EE, address);
-+    DeviceState *dev = DEVICE(i2c_dev);
-+
-+    qdev_prop_set_uint32(dev, "rom-size", rom_size);
-+    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
-+
-+    return i2c_dev;
-+}
-+
- static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
- {
-     EEPROMState *ee = AT24C_EE(dev);
-diff --git a/include/hw/nvram/eeprom_at24c.h b/include/hw/nvram/eeprom_at24c.h
-new file mode 100644
-index 000000000000..79a36b53ca87
---- /dev/null
-+++ b/include/hw/nvram/eeprom_at24c.h
-@@ -0,0 +1,10 @@
-+/* Copyright (c) Meta Platforms, Inc. and affiliates. */
-+
-+#ifndef EEPROM_AT24C_H
-+#define EEPROM_AT24C_H
-+
-+#include "hw/i2c/i2c.h"
-+
-+I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size);
-+
-+#endif
+      * TODO: There is a multi-master i2c connection to an AST1030 MiniBMC on
 -- 
 2.39.0
 
