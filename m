@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5133766B9E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 10:10:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B527966B9F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 10:14:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHLVE-00042Y-UT; Mon, 16 Jan 2023 04:10:04 -0500
+	id 1pHLYN-0005EE-9X; Mon, 16 Jan 2023 04:13:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHLVC-00042D-5l
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:10:02 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHLYI-0005E5-Np
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:13:14 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHLVA-0001M9-Kl
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:10:01 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id b5so5612579wrn.0
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 01:10:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHLYG-00027g-Mk
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:13:13 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ j34-20020a05600c1c2200b003da1b054057so7382330wms.5
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 01:13:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=/H1roGXpzfm2rjkQmL6/Zuakkqdj1Nw1KnSEEvfR5Uo=;
- b=hWqqq9DlNHQFaJLmON93w/Hx0Cl670TLHPRCTHv8UMyZR8m++jN3TndsvwMYzCslS/
- svNDIOQJ2fPWP8TMHpd0vA6RWkgYtR3ZrI27xobCAjyww7INxcU5AqcleJCjGOEfgF7M
- /NlABuhv/yaRN4XJWBhe/+NOP2MyWYtKjFCATUjI8/kfdDeXjgAvWWOD5hy9u1dtvrQC
- 87liyuDtVc42SHM0SlRTzc9cfhzXaBjZdxmDPCuVTo+/Ew3qLXQAnu1+H3jVM3iCjXDv
- jeA5126zMBPC50xb55RjfHNoB3yhnDU4x9HZW8CdzY0XZxZJU/wXQh+JRKsF9/+mWGcq
- rXqA==
+ bh=aDRVfpdEE+QjogmqhcdjGD42xJadkC4Jh6TL11ZOfxI=;
+ b=JqblL97g8t36aW4y1d4X0US4E0jsPxaGmFhpbjsYTiu6x1ZEpP+7y9pPMyAigULmp3
+ o3MaoTtka9awLZVicNzDZNd79ZTZFpMsgr7EjcN1Mc8YiUff4KUoXbw2VWzAWtvlrhDY
+ FRRX8psTfoLBiecHPEltOkxmtg6x5ZKLsL2N/ZQj0PgS2Lzxv658HOYPIhxcV8ZasBzu
+ SP/Sb9n3L8d9/Ui/9UO8OF9Q0kW5WbX61Zag9PzJrcgGRXqspfS27e5AuCaT9kIoMNVW
+ uLQkVzZLHA53csGg6tvP3vq4MQ5/ZRkDBeWm/+KM87oxqxx0C/P5fnSmQChF2gvYVqdD
+ kvZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/H1roGXpzfm2rjkQmL6/Zuakkqdj1Nw1KnSEEvfR5Uo=;
- b=11P6WlMIZokxs/zgB5CQxipMR6epFhVmZ7TeRJ3AE6s/QORtrV2yaslCSt6ECPQPwz
- +M4oKA2aa0C7whwcCq0DO937UlDFGVymvA4LjYLbjCJo36/8pgtWA6rQw7VlQ2Fc5Mqi
- LgRM1LsnQEf1qT54FQJQm9JIyZCYBSAWJtvzw5dQR9DssqaO/4/dxlP83YHFmsM6PtM7
- NJVSOJpy/DnIU95YZriypvd6twSWq39JjewV6s45y8Lirc0MhQHs7e72ouuV0hZB57O6
- SNGsdehCrN6dqS8pSIWe2xPbQJbYp6Cf1wzBJDiE8g/vRPOevEwXEpcB0YNSa15L6m8v
- 3jyQ==
-X-Gm-Message-State: AFqh2kqz03Lzvr3iBvMXGVgjcgk/c4rDwa+zF1tZmAcjFi4Bp1Ebdb96
- wqr+bbLFz40xMdX48LkbwCzx/w==
-X-Google-Smtp-Source: AMrXdXuqr2QwZxn5brffDDWjff8VGl3k2KnN8hKjV+Z1eU8P/0GKYv/ieTqKviJgYoOYa9xM45aNqw==
-X-Received: by 2002:a5d:4531:0:b0:2bc:858a:3df0 with SMTP id
- j17-20020a5d4531000000b002bc858a3df0mr17005733wra.48.1673860198754; 
- Mon, 16 Jan 2023 01:09:58 -0800 (PST)
+ bh=aDRVfpdEE+QjogmqhcdjGD42xJadkC4Jh6TL11ZOfxI=;
+ b=6MfAzE7aOCrei9qNBRlNqe/iZsyXfTsLfWCkb7TDXe/u5SqnbVmrUbwJ99h3HOR6xw
+ ka8SQXXhyoPfP+YXpf4bwEyAAKsIgMFIPhDf5nkgmrnsKAQt6jz2+UI/1J7Fw9IUZna7
+ 6W5i8VTqYtxdSEaLD7WQMlelQsrK0VL5Dxb0MLGKFcXZgOK5LXhXuTELixiKvRrPFon1
+ +OO4rLMEthmprc5bQoMe8t/8oAB3SwM7GnCgWVxJ8gD8lgrRbX2u7KQvbRMdKX8L8KHR
+ w9L5zN9SC3ZkDyCWGSe2gmnqddKEpoPpT0uk7hMydbSECfczDhOJRv1uCSD7K4S+mQ69
+ pKCQ==
+X-Gm-Message-State: AFqh2kobWAPllveQLtAsdTISAwgNZgapVt3R2ZyekmP2FpYxA6H0qSel
+ XvjGYmjOcxRfKhYY6n7+HK8Xig==
+X-Google-Smtp-Source: AMrXdXsdQ40wHxVAJEOPTzHG7+WBW2R0pjGWgYPQmzVHSMG0w5S5T4rnwj5sjChY14yfBLJFuCZkNA==
+X-Received: by 2002:a05:600c:5405:b0:3da:632:a8d with SMTP id
+ he5-20020a05600c540500b003da06320a8dmr16910190wmb.10.1673860390997; 
+ Mon, 16 Jan 2023 01:13:10 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- y15-20020adffa4f000000b002bbec19c8acsm20629482wrr.64.2023.01.16.01.09.57
+ n23-20020a05600c3b9700b003cf71b1f66csm37737724wms.0.2023.01.16.01.13.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 01:09:58 -0800 (PST)
-Message-ID: <bea68942-c5f4-be45-d179-92907d7f4306@linaro.org>
-Date: Mon, 16 Jan 2023 10:09:56 +0100
+ Mon, 16 Jan 2023 01:13:10 -0800 (PST)
+Message-ID: <c9168fc5-81e8-0182-18bd-4aed67c51221@linaro.org>
+Date: Mon, 16 Jan 2023 10:13:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 4/7] hw/i386/acpi-build: Remove unused attributes
+Subject: Re: [PATCH 5/7] hw/acpi/acpi_aml_interface: Extract qbus_build_aml()
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -67,13 +68,13 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 References: <20230114222738.282478-1-shentey@gmail.com>
- <20230114222738.282478-5-shentey@gmail.com>
+ <20230114222738.282478-6-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230114222738.282478-5-shentey@gmail.com>
+In-Reply-To: <20230114222738.282478-6-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,14 +98,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 14/1/23 23:27, Bernhard Beschow wrote:
-> Ammends commit 3db119da7915 'pc: acpi: switch to AML API composed DSDT'.
-> 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/i386/acpi-build.c | 2 --
->   1 file changed, 2 deletions(-)
+>   include/hw/acpi/acpi_aml_interface.h | 11 +++++++++++
+>   hw/i2c/smbus_ich9.c                  |  5 +----
+>   hw/isa/lpc_ich9.c                    |  5 +----
+>   hw/isa/piix3.c                       |  5 +----
+>   4 files changed, 14 insertions(+), 12 deletions(-)
+> 
+> diff --git a/include/hw/acpi/acpi_aml_interface.h b/include/hw/acpi/acpi_aml_interface.h
+> index 436da069d6..cb2f1c9910 100644
+> --- a/include/hw/acpi/acpi_aml_interface.h
+> +++ b/include/hw/acpi/acpi_aml_interface.h
 
+> +static inline void qbus_build_aml(BusState *bus, Aml *scope)
+> +{
+> +    BusChild *kid;
+> +
+> +    QTAILQ_FOREACH(kid, &bus->children, sibling) {
+> +        call_dev_aml_func(DEVICE(kid->child), scope);
+> +    }
+> +}
+
+Inline not really justified, can we move this to hw/acpi/aml-build.c?
+
+Otherwise:
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
 
 
