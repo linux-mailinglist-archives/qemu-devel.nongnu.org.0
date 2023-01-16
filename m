@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE8166BCAD
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 12:18:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3597F66BCAE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 12:19:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHNVN-0008W3-Ug; Mon, 16 Jan 2023 06:18:21 -0500
+	id 1pHNVZ-0000EX-Rd; Mon, 16 Jan 2023 06:18:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pHNVK-0008Tq-20
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 06:18:20 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pHNVI-0006Ip-35
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 06:18:17 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- u1-20020a17090a450100b0022936a63a21so7120312pjg.4
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 03:18:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RNN1ClPNvVO87wCLLD4YvArYNLWKloZM5T7TFIiPYjU=;
- b=OZI93jHm7BZvPQAdVWTFAqeVfUzU5ma301K/nl6THOiZE13c9Tveyt9CKeS7RR7vMs
- MpQJCOe11Y5mQNKWCjjHYKTJhxr/4o6/c7Eal6mQou0D+JxADIv1qiqz1176i0K0eECn
- PVQ7lZFUtovocrLjbEPVjB6q2X5xuXDSS3FQ9Ms4JsgolbkTzd3hXW7CzP/LyzpMk+Q4
- vQa9jT7vJG4Vkz8LvRzGFQFeagWfjFhN27fgjOba6qKqgMHaEbF3ULMvBIwmpTODKeHd
- tFMWo7Lvuaa+h7EVIeUErFHN+CypJBkIjRqmQ2fF4F3bgbTMwhw/7tGQSb96IdWAJ3k+
- RkJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RNN1ClPNvVO87wCLLD4YvArYNLWKloZM5T7TFIiPYjU=;
- b=0ZDvMZhfWWyJQZVW58NBqPBfPmlymry4UnlQeoJbTt+J8a8lYiyfDDw1Ix5YwXYx65
- +1IJpdg0Ze51e/Rsh6laVv7cu0qRZ/unsay715ZBEJvhPWyL90DoKl40O20CPfosg3ek
- oW8lR7iONV1SEhklR3myzmS+vDcSjyFY2HdM6i6kafdgZhiPevV6K/lsgQGatBlQx4Gh
- t+xgL4tY6zRWZmjqx69BoaPDp045MpUPu6iwetUhgCxSJScrz2fDRehvGSErwHHbYKlu
- Ok677gQ20PV6/BdZYYciJuofR5xdfmYcLD3RrWIfrmiFGae9feS5GEXhi2dC5nMIF6Cf
- al4Q==
-X-Gm-Message-State: AFqh2kpwckSZkB4zOBfDen7Sh0xasiX7ULN1UwhNSX1pp1ghdQ/AryWK
- IvUpvZhOp8LnY/FUlEunnERlJiFbKTzuBLlFkuxEVg==
-X-Google-Smtp-Source: AMrXdXvZ/BIYOzWlb+J3szAkbalA5MSfs9NhtrpaNJnATQS3XKP2g9Lm1S0uURK+sSjs2Q9h0EFhyKDMyY7DZl8u/h8=
-X-Received: by 2002:a17:902:ee51:b0:194:45d0:3b2c with SMTP id
- 17-20020a170902ee5100b0019445d03b2cmr793518plo.52.1673867893934; Mon, 16 Jan
- 2023 03:18:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pHNVV-00009d-VN
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 06:18:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pHNVT-0006KA-W3
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 06:18:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673867906;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=OQRH93CQRpyhAaMsR0tR5TLVSXEK+iJdfUV13e8OCso=;
+ b=DYyl1JK1WsUCbDLT9gM3oII8EkrI1jHB0NWGserx/uO6Oq/OUAmdBal0ot1LgnqBjn71PD
+ h3J2/FiM4I6XssBWrnd6/wCrPobzqycDlykxsvlTRzkTOWwH9QHLJY3rgOUJH50voZB/+c
+ /8NLc/D2vLCp1Cx9JXVMyxfvCHTHplk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-539-BSrsuxpyNZeoxYTb2up7Tw-1; Mon, 16 Jan 2023 06:18:23 -0500
+X-MC-Unique: BSrsuxpyNZeoxYTb2up7Tw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D8976802D36;
+ Mon, 16 Jan 2023 11:18:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F4F12026D4B;
+ Mon, 16 Jan 2023 11:18:21 +0000 (UTC)
+Date: Mon, 16 Jan 2023 11:18:19 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: arei.gonglei@huawei.com, mst@redhat.com, dgilbert@redhat.com,
+ eblake@redhat.com, armbru@redhat.com, michael.roth@amd.com,
+ pbonzini@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [for-8.0 v2 05/11] cryptodev: Introduce 'query-cryptodev' QMP
+ command
+Message-ID: <Y8UyezxcEeE+TH2p@redhat.com>
+References: <20221122140756.686982-1-pizhenwei@bytedance.com>
+ <20221122140756.686982-6-pizhenwei@bytedance.com>
 MIME-Version: 1.0
-References: <20230109062259.79074-1-akihiko.odaki@daynix.com>
- <481867e4-b019-80de-5369-9a503fa049ac@linaro.org>
- <fb435604-1638-c4ee-efca-bdbe2a4be98b@daynix.com>
-In-Reply-To: <fb435604-1638-c4ee-efca-bdbe2a4be98b@daynix.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Jan 2023 11:18:02 +0000
-Message-ID: <CAFEAcA8dT+uvhCspUU9P-ev57UR9r5MDxkinPzwf+TieW_mUYg@mail.gmail.com>
-Subject: Re: [PATCH] accel/kvm: Specify default IPA size for arm64
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org, 
- qemu-arm@nongnu.org, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1030.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221122140756.686982-6-pizhenwei@bytedance.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,118 +79,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 14 Jan 2023 at 06:49, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->
-> On 2023/01/14 14:23, Richard Henderson wrote:
-> > On 1/8/23 22:22, Akihiko Odaki wrote:
-> >> libvirt uses "none" machine type to test KVM availability. Before this
-> >> change, QEMU used to pass 0 as machine type when calling KVM_CREATE_VM.
-> >>
-> >> The kernel documentation says:
-> >>> On arm64, the physical address size for a VM (IPA Size limit) is
-> >>> limited to 40bits by default. The limit can be configured if the host
-> >>> supports the extension KVM_CAP_ARM_VM_IPA_SIZE. When supported, use
-> >>> KVM_VM_TYPE_ARM_IPA_SIZE(IPA_Bits) to set the size in the machine type
-> >>> identifier, where IPA_Bits is the maximum width of any physical
-> >>> address used by the VM. The IPA_Bits is encoded in bits[7-0] of the
-> >>> machine type identifier.
-> >>>
-> >>> e.g, to configure a guest to use 48bit physical address size::
-> >>>
-> >>>      vm_fd = ioctl(dev_fd, KVM_CREATE_VM, KVM_VM_TYPE_ARM_IPA_SIZE(48));
-> >>>
-> >>> The requested size (IPA_Bits) must be:
-> >>>
-> >>>   ==   =========================================================
-> >>>    0   Implies default size, 40bits (for backward compatibility)
-> >>>    N   Implies N bits, where N is a positive integer such that,
-> >>>        32 <= N <= Host_IPA_Limit
-> >>>   ==   =========================================================
-> >>
-> >>> Host_IPA_Limit is the maximum possible value for IPA_Bits on the host
-> >>> and is dependent on the CPU capability and the kernel configuration.
-> >>> The limit can be retrieved using KVM_CAP_ARM_VM_IPA_SIZE of the
-> >>> KVM_CHECK_EXTENSION ioctl() at run-time.
-> >>>
-> >>> Creation of the VM will fail if the requested IPA size (whether it is
-> >>> implicit or explicit) is unsupported on the host.
-> >> https://docs.kernel.org/virt/kvm/api.html#kvm-create-vm
-> >>
-> >> So if Host_IPA_Limit < 40, such KVM_CREATE_VM will fail, and libvirt
-> >> incorrectly thinks KVM is not available. This actually happened on M2
-> >> MacBook Air.
-> >>
-> >> Fix this by specifying 32 for IPA_Bits as any arm64 system should
-> >> support the value according to the documentation.
-> >>
-> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> >> ---
-> >>   accel/kvm/kvm-all.c | 4 ++++
-> >>   1 file changed, 4 insertions(+)
-> >>
-> >> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> >> index e86c33e0e6..776ac7efcc 100644
-> >> --- a/accel/kvm/kvm-all.c
-> >> +++ b/accel/kvm/kvm-all.c
-> >> @@ -2294,7 +2294,11 @@ static int kvm_init(MachineState *ms)
-> >>       KVMState *s;
-> >>       const KVMCapabilityInfo *missing_cap;
-> >>       int ret;
-> >> +#ifdef TARGET_AARCH64
-> >> +    int type = 32;
-> >> +#else
-> >>       int type = 0;
-> >> +#endif
-> >
-> > No need for an ifdef.  Down below we have,
-> >
-> >      if (object_property_find(OBJECT(current_machine), "kvm-type")) {
-> >          g_autofree char *kvm_type =
-> > object_property_get_str(OBJECT(current_machine),
-> >                                                              "kvm-type",
-> >                                                              &error_abort);
-> >          type = mc->kvm_type(ms, kvm_type);
-> >      } else if (mc->kvm_type) {
-> >          type = mc->kvm_type(ms, NULL);
-> >      }
-> >
-> > and the aarch64 -M virt machine provides virt_kvm_type as mc->kvm_type.
-> >
-> > How did you hit this?  Are you trying to implement your own board model?
-> >
-> > Looking at this, I'm surprised this is a board hook and not a cpu hook.
-> > But I suppose the architecture specific 'type' can hide any number of
-> > sins.  Anyway, if you are doing your own board model, I suggest
-> > arranging to share the virt board hook -- maybe moving it to
-> > target/arm/kvm.c in the process?
+On Tue, Nov 22, 2022 at 10:07:50PM +0800, zhenwei pi wrote:
+> Now we have a QMP command to query crypto devices:
+> virsh qemu-monitor-command vm '{"execute": "query-cryptodev"}' | jq
+> {
+>   "return": [
+>     {
+>       "service": [
+>         "akcipher",
+>         "mac",
+>         "hash",
+>         "cipher"
+>       ],
+>       "id": "cryptodev1",
+>       "client": [
+>         {
+>           "queue": 0,
+>           "type": "builtin",
+>           "info": "cryptodev-builtin0"
+>         }
+>       ]
+>     },
+>     {
+>       "service": [
+>         "akcipher"
+>       ],
+>       "id": "cryptodev0",
+>       "client": [
+>         {
+>           "queue": 0,
+>           "type": "lkcf",
+>           "info": "cryptodev-lkcf0"
+>         }
+>       ]
+>     }
+>   ],
+>   "id": "libvirt-415"
+> }
+> 
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> ---
+>  backends/cryptodev.c | 49 ++++++++++++++++++++++++++++++++++++++++++++
+>  qapi/cryptodev.json  | 43 ++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 92 insertions(+)
+> 
+> diff --git a/backends/cryptodev.c b/backends/cryptodev.c
+> index d3caded920..bf2f3234c9 100644
+> --- a/backends/cryptodev.c
+> +++ b/backends/cryptodev.c
+> @@ -24,6 +24,7 @@
+>  #include "qemu/osdep.h"
+>  #include "sysemu/cryptodev.h"
+>  #include "qapi/error.h"
+> +#include "qapi/qapi-commands-cryptodev.h"
+>  #include "qapi/visitor.h"
+>  #include "qemu/config-file.h"
+>  #include "qemu/error-report.h"
+> @@ -33,6 +34,54 @@
+>  
+>  static QTAILQ_HEAD(, CryptoDevBackendClient) crypto_clients;
+>  
+> +static int qmp_query_cryptodev_foreach(Object *obj, void *data)
+> +{
+> +    CryptoDevBackend *backend;
+> +    CryptodevInfoList **infolist = data;
+> +    uint32_t services;
+> +
+> +    if (!object_dynamic_cast(obj, TYPE_CRYPTODEV_BACKEND)) {
+> +        return 0;
+> +    }
+> +
+> +    CryptodevInfo *info = g_new0(CryptodevInfo, 1);
+> +    info->id = g_strdup(object_get_canonical_path_component(obj));
+> +
+> +    backend = CRYPTODEV_BACKEND(obj);
+> +    services = backend->conf.crypto_services;
+> +    for (uint32_t i = 0; i < QCRYPTODEV_BACKEND_SERVICE__MAX; i++) {
 
-> I hit this problem when I used libvirt; libvirt uses "none" machine type
-> to probe the availability of KVM and "none" machine type does not
-> provide kvm_type hook.
->
-> As the implementation of "none" machine type is shared among different
-> architectures, we cannot remove ifdef by moving it to the hook.
->
-> Although implementing the hook for "none" machine type is still
-> possible, I  think the default type should provide the lowest common
-> denominator and "none" machine type shouldn't try to work around when
-> the type is wrong. Otherwise it doesn't make sense to provide the "default".
+QEMU coding style doesn't declare types inside the for() control
+conditions. I'd suggest 'size_t i', and put it at top of this
+function.
 
-Yes, the problem is that the 'none' board type is all
-architecture-independent code, and so is this kvm_init() code, so
-there's no obvious arm-specific place to say "pick the best IPA size
-that will work for this host".
+> +        if (services & (1 << i)) {
+> +            QAPI_LIST_PREPEND(info->service, i);
+> +        }
+> +    }
+> +
+> +    for (uint32_t i = 0; i < backend->conf.peers.queues; i++) {
+> +        CryptoDevBackendClient *cc = backend->conf.peers.ccs[i];
+> +        CryptodevBackendClient *client = g_new0(CryptodevBackendClient, 1);
+> +
+> +        client->queue = cc->queue_index;
+> +        client->type = cc->type;
+> +        if (cc->info_str) {
+> +            client->has_info = true;
+> +            client->info = strdup(cc->info_str);
 
-Perhaps we should create somewhere in here a target-arch specific
-hook: we already have ifdefs in this function for S390X and PPC
-(printing some special case error strings if the ioctl fails), so
-maybe a hook that does "take the type provided by the machine hook,
-if any, sanitize or reject it, do the ioctl call, print arch-specific
-help/error messages if relevant" ? Paolo, do you have an opinion?
+This will need rebasing, because the 'has_XXXX' fields have gone
+away for all pointer types.
 
-thanks
--- PMM
+> +        }
+> +        QAPI_LIST_PREPEND(info->client, client);
+> +    }
+> +
+> +    QAPI_LIST_PREPEND(*infolist, info);
+> +
+> +    return 0;
+> +}
+> +
+> +CryptodevInfoList *qmp_query_cryptodev(Error **errp)
+> +{
+> +    CryptodevInfoList *list = NULL;
+> +    Object *objs = container_get(object_get_root(), "/objects");
+> +
+> +    object_child_foreach(objs, qmp_query_cryptodev_foreach, &list);
+> +
+> +    return list;
+> +}
+>  
+>  CryptoDevBackendClient *cryptodev_backend_new_client(void)
+>  {
+> diff --git a/qapi/cryptodev.json b/qapi/cryptodev.json
+> index 8732a30524..4cc4f4f0ed 100644
+> --- a/qapi/cryptodev.json
+> +++ b/qapi/cryptodev.json
+> @@ -43,3 +43,46 @@
+>  { 'enum': 'QCryptodevBackendType',
+>    'prefix': 'QCRYPTODEV_BACKEND_TYPE',
+>    'data': ['builtin', 'vhost-user', 'lkcf']}
+> +
+> +##
+> +# @CryptodevBackendClient:
+> +#
+> +# Information about a queue of crypto device.
+> +#
+> +# @type: the type of the crypto device
+> +#
+> +# @info: the additional infomation of the crypto device
+> +#
+> +# Since: 8.0
+> +##
+> +{ 'struct': 'CryptodevBackendClient',
+> +  'data': { 'queue': 'int',
+> +            'type': 'QCryptodevBackendType',
+> +            '*info': 'str' } }
+
+'queue' field is not documented
+
+I'm not too sure about the approach of exposing 'info'.
+
+It looks like this is either a plain static string whose
+value is implicitly determined by 'type', for the 'builtin'
+and 'lkcf' backend types, or it is a printf() formattted
+string for the 'vhost-user' type, which references the
+chardev.
+
+Exposing printf() formatted output is often an anti-pattern
+for QAPI design. For example, if it is important for users
+to know the chardev assocaited with the vhost-user backend,
+then 'info' should be a union that is discriminated by
+'type'. The 'vhost-user' branch of the enum should then
+identify the chardev 'id' directly.
+
+> +##
+> +# @CryptodevInfo:
+> +#
+> +# Information about a crypto device.
+> +#
+> +# @service: supported service types of a crypto device
+> +#
+> +# @client: the additional infomation of the crypto device
+> +#
+> +# Since: 8.0
+> +##
+> +{ 'struct': 'CryptodevInfo',
+> +  'data': { 'id': 'str',
+> +            'service': ['QCryptodevBackendServiceType'],
+> +            'client': ['CryptodevBackendClient'] } }
+
+'id' field is not documented.
+
+> +
+> +##
+> +# @query-cryptodev:
+> +#
+> +# Returns information about current crypto devices.
+> +#
+> +# Returns: a list of @CryptodevInfo
+> +#
+> +# Since: 8.0
+> +##
+> +{ 'command': 'query-cryptodev', 'returns': ['CryptodevInfo']}
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
