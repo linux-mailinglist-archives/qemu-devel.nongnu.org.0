@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2294166B5B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 03:48:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F29D66B5B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 03:48:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHFWk-0005hT-7Z; Sun, 15 Jan 2023 21:47:14 -0500
+	id 1pHFXT-00072x-54; Sun, 15 Jan 2023 21:47:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pHFWi-0005gt-JG; Sun, 15 Jan 2023 21:47:12 -0500
-Received: from mail-ua1-x931.google.com ([2607:f8b0:4864:20::931])
+ id 1pHFXR-00072B-Bc; Sun, 15 Jan 2023 21:47:57 -0500
+Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pHFWh-0000Ij-4N; Sun, 15 Jan 2023 21:47:12 -0500
-Received: by mail-ua1-x931.google.com with SMTP id j1so6632040uan.1;
- Sun, 15 Jan 2023 18:47:09 -0800 (PST)
+ id 1pHFXQ-0000M5-1a; Sun, 15 Jan 2023 21:47:57 -0500
+Received: by mail-vs1-xe35.google.com with SMTP id i185so27782362vsc.6;
+ Sun, 15 Jan 2023 18:47:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MJaqPh4F+te3vef378hkTo0gx0Nmo4nEyMDx8Mnoubw=;
- b=QYLasaUu0RQlzY9eTHgsWiSy7TeDmMyb97ntnkAO8ogDUxsFr1koAPbQ9molp1EL2M
- Dzy5g/5yGYVUHW2PxpMqwryYsvIlqzlv34BnlvLUE2I+6ak+yWMoLIXL51NBGl5rclj4
- VrNymWqitZMdIvghEejvOsmB9z3NHxcBP5I74hZn8XPmFSWVyXCI+1bClAh7EeRiN2+M
- JCaYWDxhXl/1efTxm6doUAAfPz9ezVTVxu2snK6CbnNBQpX8l8rAomz6pjOg4X+dlUrG
- OYs/AQKdxx1KdB5Ya7UDglba6VVg0TVNO2Js1yXBahrQ1dU9G4KjA/HLMi5FVHz5ACok
- Eftg==
+ bh=QbgOcRBfetYVNzzK389z4OfXOGqHNMw7wx8NK+lQGL8=;
+ b=Gaeer9jF9aNf5hrYMBFhUMK2+mz/in9Mtp9Q1ajkRmiCJtsVoeKiRsg37/LG9Fm2rx
+ NjuMXWiImRRmGsa0VA/G2DNzCZ+oEg9bO9W7YkYwc62zadGzzf2eGx0CN0V34lZG09k3
+ zlEbwhYI9XtG1oEMQt5XlCXEZ3pMCyEd4DZd1kyMvzwPMoeCCvcAIjxzvi3GVGlBPWAM
+ 5JA9qun0h/8thpGbfs2UzEwSpgE8LLFnWndSC0aVv0Y2P4EynNeDEfCaU34EYs0dsHnw
+ g663Sf0PsJCKEqgr7ojSzoWzTZ6qtu5j9pJ+1l3/iLiz0piYRXSKYjIrrDjkHpmMIfnx
+ +pzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MJaqPh4F+te3vef378hkTo0gx0Nmo4nEyMDx8Mnoubw=;
- b=pKTK6kSZ+kS3bPvbFv/G29pBr6AQYCGhVUmCW+AfmgM3BsJy00/ihCLypBc+DfabWB
- RSIhmaXzQbYBmtVtheQrz89NOgJWCjAeQKeQKDEzCLM78qyZxHypQlyLMyJW/c/3Bl6k
- z8wQOqKepIL8KTvLY9Q330kjv/OCifgVQr+VLh2wYURTHZDv11b53EWO3DJWgN75ulx9
- 7ZkRIQ6iY8fSh2qdyU1mcIP6xO4u6PEZ2RNoOZwkz0PKEtmphBi03KLghd57OovQkMcl
- 7gJfiVTXpw+kuwJWivYuQAoJES2v9yc+I0oKwdMCvQBFb6WF7oWN1vtyZid3o5n6z+An
- WCGg==
-X-Gm-Message-State: AFqh2koboofAs6DMwyDoVnhfhRJWQ45NbCKggY4/RZ0cls6FKeUG/S7u
- CwVI9pTd7vX266P1P5TpUbkTKZGqt5mr+OobOdM=
-X-Google-Smtp-Source: AMrXdXtiOWxY7+PL7gdv3xbnu0tJxmzdjnzJZwv8WOsyPm88UI0IpO7WPjdFXIxROp+gwbUBTWfM9WwkK3KWmFTatcQ=
-X-Received: by 2002:ab0:6182:0:b0:419:2865:3ae7 with SMTP id
- h2-20020ab06182000000b0041928653ae7mr10187954uan.70.1673837229382; Sun, 15
- Jan 2023 18:47:09 -0800 (PST)
+ bh=QbgOcRBfetYVNzzK389z4OfXOGqHNMw7wx8NK+lQGL8=;
+ b=T+j+0pJDDRbfmjan9SAhc1bW5mq6RlXGx44RrSL49NY8xhqcyQ+TjGJ+Q1U3LXWqxR
+ kJn6dAX9YC+JWlQ4DQxxVzONMIOWvXHsLVJCBqv3E5Fj/Pnuq7qQ9y96mavmH7MiX5Jy
+ uDrlasxS6UPFPoLJuwUS5+5eUwFcjDtwy2Ih847tp1/Q/7FFGQZSttesgoNCxqewcXsX
+ Tz6Yr0WyWQVbO1kTm18m+sndrbCYl4yVS1mM8cXQZLMAd3roPGc6LHY6ix+counLImm+
+ 0f+VyKj5cQRB7X7LUAZAto6HmYtxDbWD0FEoskXqGJk5xnF+clz0hw+hMfSfjFayqFaQ
+ ryTw==
+X-Gm-Message-State: AFqh2krG9Ux8J+jrB2N3Rozk3J+C6vv4IIXHNG1CsgSXCPswAp7pIO7j
+ EGcAyVQBrzsoJC6jljwgeSLdV++j2hI6R8P8qpvMg80jaUiqkw==
+X-Google-Smtp-Source: AMrXdXs2AHkBO3TgSIsVRWx4bUJQmJAAdGqgsbeKsvOPJpFCoscPmS90NS9Wh9MNBqCQ+dtYkZyHqbT660YUyN7xS+4=
+X-Received: by 2002:a05:6102:c4a:b0:3ce:f2da:96a with SMTP id
+ y10-20020a0561020c4a00b003cef2da096amr4687008vss.64.1673837273944; Sun, 15
+ Jan 2023 18:47:53 -0800 (PST)
 MIME-Version: 1.0
 References: <20230113200138.52869-1-philmd@linaro.org>
- <20230113200138.52869-3-philmd@linaro.org>
-In-Reply-To: <20230113200138.52869-3-philmd@linaro.org>
+ <20230113200138.52869-4-philmd@linaro.org>
+In-Reply-To: <20230113200138.52869-4-philmd@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 16 Jan 2023 12:46:43 +1000
-Message-ID: <CAKmqyKOA2pH0UQLmUK4X8iC5HGbhMHitoV+iibcTDWGTpQ5P-w@mail.gmail.com>
-Subject: Re: [PATCH 2/4] hw/irq: Declare QOM macros using
+Date: Mon, 16 Jan 2023 12:47:27 +1000
+Message-ID: <CAKmqyKN6kJKzW3yGSSqQnH4nPwdEJ_XwYiTp+qzvaj=+zuLHmA@mail.gmail.com>
+Subject: Re: [PATCH 3/4] hw/or-irq: Declare QOM macros using
  OBJECT_DECLARE_SIMPLE_TYPE()
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -64,8 +64,8 @@ Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
  Alistair Francis <alistair@alistair23.me>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::931;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x931.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e35;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe35.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -92,16 +92,8 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On Sat, Jan 14, 2023 at 6:03 AM Philippe Mathieu-Daud=C3=A9
 <philmd@linaro.org> wrote:
 >
-> QOM *DECLARE* macros expect a typedef as first argument,
-> not a structure. Replace 'struct IRQState' by 'IRQState'
-> to avoid when modifying the macros:
->
->   ../hw/core/irq.c:29:1: error: declaration of anonymous struct must be a=
- definition
->   DECLARE_INSTANCE_CHECKER(struct IRQState, IRQ,
->   ^
->
-> Use OBJECT_DECLARE_SIMPLE_TYPE instead of DECLARE_INSTANCE_CHECKER.
+> Missed during automatic conversion from commit 8063396bf3
+> ("Use OBJECT_DECLARE_SIMPLE_TYPE when possible").
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
@@ -110,53 +102,23 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/core/irq.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+>  include/hw/or-irq.h | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/hw/core/irq.c b/hw/core/irq.c
-> index 3623f711fe..3f14e2dda7 100644
-> --- a/hw/core/irq.c
-> +++ b/hw/core/irq.c
-> @@ -26,8 +26,7 @@
->  #include "hw/irq.h"
->  #include "qom/object.h"
+> diff --git a/include/hw/or-irq.h b/include/hw/or-irq.h
+> index f2f0a27381..131abc2e0c 100644
+> --- a/include/hw/or-irq.h
+> +++ b/include/hw/or-irq.h
+> @@ -37,8 +37,7 @@
 >
-> -DECLARE_INSTANCE_CHECKER(struct IRQState, IRQ,
-> -                         TYPE_IRQ)
-> +OBJECT_DECLARE_SIMPLE_TYPE(IRQState, IRQ)
+>  typedef struct OrIRQState qemu_or_irq;
 >
->  struct IRQState {
->      Object parent_obj;
-> @@ -68,7 +67,7 @@ qemu_irq *qemu_allocate_irqs(qemu_irq_handler handler, =
-void *opaque, int n)
+> -DECLARE_INSTANCE_CHECKER(qemu_or_irq, OR_IRQ,
+> -                         TYPE_OR_IRQ)
+> +OBJECT_DECLARE_SIMPLE_TYPE(OrIRQState, OR_IRQ)
 >
->  qemu_irq qemu_allocate_irq(qemu_irq_handler handler, void *opaque, int n=
-)
->  {
-> -    struct IRQState *irq;
-> +    IRQState *irq;
->
->      irq =3D IRQ(object_new(TYPE_IRQ));
->      irq->handler =3D handler;
-> @@ -94,7 +93,7 @@ void qemu_free_irq(qemu_irq irq)
->
->  static void qemu_notirq(void *opaque, int line, int level)
->  {
-> -    struct IRQState *irq =3D opaque;
-> +    IRQState *irq =3D opaque;
->
->      irq->handler(irq->opaque, irq->n, !level);
->  }
-> @@ -120,7 +119,7 @@ void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_ir=
-q_handler handler, int n)
->  static const TypeInfo irq_type_info =3D {
->     .name =3D TYPE_IRQ,
->     .parent =3D TYPE_OBJECT,
-> -   .instance_size =3D sizeof(struct IRQState),
-> +   .instance_size =3D sizeof(IRQState),
->  };
->
->  static void irq_register_types(void)
+>  struct OrIRQState {
+>      DeviceState parent_obj;
 > --
 > 2.38.1
 >
