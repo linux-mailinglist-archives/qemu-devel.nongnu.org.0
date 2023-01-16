@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E20566D16F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 23:08:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2026F66D150
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 23:06:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHXUn-0006f6-5Q; Mon, 16 Jan 2023 16:58:25 -0500
+	id 1pHXUj-0006aW-Te; Mon, 16 Jan 2023 16:58:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+fb0b8ce1ba8490165fd5+7085+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pHXUg-0006aX-Qq
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:58:18 -0500
+ id 1pHXUf-0006aA-HV
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:58:17 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+fb0b8ce1ba8490165fd5+7085+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pHXUd-0003Yq-6G
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:58:18 -0500
+ id 1pHXUd-0003Yk-67
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:58:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=YZ5kOPgCj6u2suEZczLwwfuV/zS/tFzoHsVSq98df5I=; b=nHushQwoeSA5T2FX6Ti02DQ3gE
- LDkFQoqhymWodRztKyu8ngwgLo7VEXbdIC8hyLiVVMRsys0+VhV4d8BTSYMN6D3UExDQA8fi8LQ1L
- Sm2Bw3QSibV6Y9tImxqvmATXAfnARLArtdpzIKYR+hOAGR9GS74+q9KPPR51euTKmuEFUnR57YB4n
- Gm49baqUTKP7AOH91FwJme9jzjTuiBxzuMRuLsGCocnKCAIBuleGDjUPZnoCWSeOwPKYUAB//0Abt
- aJwgVSv0n32aqWoWhdXaskxhfWwXNYU4Mzc0olqmISQzIHANdf7PxxyU+RnhxzhEDX0/MgEdyrx7S
- A1Yoytuw==;
+ bh=3Ted88otEUIetX8ED0apx6MYP7OC6YMpYDfZ3msOMbY=; b=W9XsxcyF+b2XcnzdNPeUF1RdYf
+ XKTfzPKiAhNPmFIFG/EZzJ8yMiyjYSVbZZyqRcOmzNiBSq4ZKtMX3WSx4fw/hXu4K0DcyvLi0vjPL
+ W9m51n23eSJcimvn8JNnImOn9kesQ4aNeufBkrayExhSbPwpW7qZpakMyt2a2ldifXNZZ6EDpoB+f
+ j53RNh19fneuPrzPAfIDnvosciP5VbrMRjRrCjBkGrW3Wp5DWG+Sbd+1mwL89z2CeLVoPEviefW5b
+ f19aqprrpXChI0HD8Fj193VhvApm6GEVOnJDrpGH25umMehNH2t0Z5swXHoVJI/9B97QuJzeA3Dbs
+ IdxC0WGg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pHXUj-0097V1-HC; Mon, 16 Jan 2023 21:58:22 +0000
+ id 1pHXUj-0097V3-Il; Mon, 16 Jan 2023 21:58:22 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pHXUV-004iO6-2X; Mon, 16 Jan 2023 21:58:07 +0000
+ Linux)) id 1pHXUV-004iOA-2i; Mon, 16 Jan 2023 21:58:07 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -48,10 +48,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [PATCH v7 07/51] xen-platform: exclude vfio-pci from the PCI platform
- unplug
-Date: Mon, 16 Jan 2023 21:57:21 +0000
-Message-Id: <20230116215805.1123514-8-dwmw2@infradead.org>
+Subject: [PATCH v7 08/51] xen-platform: allow its creation with XEN_EMULATE
+ mode
+Date: Mon, 16 Jan 2023 21:57:22 +0000
+Message-Id: <20230116215805.1123514-9-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116215805.1123514-1-dwmw2@infradead.org>
 References: <20230116215805.1123514-1-dwmw2@infradead.org>
@@ -86,57 +86,106 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-Such that PCI passthrough devices work for Xen emulated guests.
+The only thing we need to handle on KVM side is to change the
+pfn from R/W to R/O.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/xen/xen_platform.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ hw/i386/xen/meson.build    |  5 ++++-
+ hw/i386/xen/xen_platform.c | 39 +++++++++++++++++++++++++-------------
+ 2 files changed, 30 insertions(+), 14 deletions(-)
 
+diff --git a/hw/i386/xen/meson.build b/hw/i386/xen/meson.build
+index be84130300..79d75cc927 100644
+--- a/hw/i386/xen/meson.build
++++ b/hw/i386/xen/meson.build
+@@ -2,6 +2,9 @@ i386_ss.add(when: 'CONFIG_XEN', if_true: files(
+   'xen-hvm.c',
+   'xen-mapcache.c',
+   'xen_apic.c',
+-  'xen_platform.c',
+   'xen_pvdevice.c',
+ ))
++
++i386_ss.add(when: 'CONFIG_XENFV_MACHINE', if_true: files(
++  'xen_platform.c',
++))
 diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
-index 7db0d94ec2..50174c2269 100644
+index 50174c2269..00f0527b30 100644
 --- a/hw/i386/xen/xen_platform.c
 +++ b/hw/i386/xen/xen_platform.c
-@@ -109,12 +109,25 @@ static void log_writeb(PCIXenPlatformState *s, char val)
- #define _UNPLUG_NVME_DISKS 3
- #define UNPLUG_NVME_DISKS (1u << _UNPLUG_NVME_DISKS)
+@@ -28,9 +28,9 @@
+ #include "hw/ide.h"
+ #include "hw/ide/pci.h"
+ #include "hw/pci/pci.h"
+-#include "hw/xen/xen_common.h"
+ #include "migration/vmstate.h"
+-#include "hw/xen/xen-legacy-backend.h"
++#include "hw/xen/xen.h"
++#include "net/net.h"
+ #include "trace.h"
+ #include "sysemu/xen.h"
+ #include "sysemu/block-backend.h"
+@@ -38,6 +38,11 @@
+ #include "qemu/module.h"
+ #include "qom/object.h"
  
-+static bool pci_device_is_passthrough(PCIDevice *d)
-+{
-+    if (!strcmp(d->name, "xen-pci-passthrough")) {
-+        return true;
-+    }
++#ifdef CONFIG_XEN
++#include "hw/xen/xen_common.h"
++#include "hw/xen/xen-legacy-backend.h"
++#endif
 +
-+    if (xen_mode == XEN_EMULATE && !strcmp(d->name, "vfio-pci")) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
- static void unplug_nic(PCIBus *b, PCIDevice *d, void *o)
- {
-     /* We have to ignore passthrough devices */
-     if (pci_get_word(d->config + PCI_CLASS_DEVICE) ==
-             PCI_CLASS_NETWORK_ETHERNET
--            && strcmp(d->name, "xen-pci-passthrough") != 0) {
-+            && !pci_device_is_passthrough(d)) {
-         object_unparent(OBJECT(d));
-     }
- }
-@@ -187,9 +200,8 @@ static void unplug_disks(PCIBus *b, PCIDevice *d, void *opaque)
-         !(flags & UNPLUG_IDE_SCSI_DISKS);
+ //#define DEBUG_PLATFORM
  
-     /* We have to ignore passthrough devices */
--    if (!strcmp(d->name, "xen-pci-passthrough")) {
-+    if (pci_device_is_passthrough(d))
-         return;
+ #ifdef DEBUG_PLATFORM
+@@ -280,18 +285,26 @@ static void platform_fixed_ioport_writeb(void *opaque, uint32_t addr, uint32_t v
+     PCIXenPlatformState *s = opaque;
+ 
+     switch (addr) {
+-    case 0: /* Platform flags */ {
+-        hvmmem_type_t mem_type = (val & PFFLAG_ROM_LOCK) ?
+-            HVMMEM_ram_ro : HVMMEM_ram_rw;
+-        if (xen_set_mem_type(xen_domid, mem_type, 0xc0, 0x40)) {
+-            DPRINTF("unable to change ro/rw state of ROM memory area!\n");
+-        } else {
++    case 0: /* Platform flags */
++        if (xen_mode == XEN_EMULATE) {
++            /* XX: Use i440gx/q35 PAM setup to do this? */
+             s->flags = val & PFFLAG_ROM_LOCK;
+-            DPRINTF("changed ro/rw state of ROM memory area. now is %s state.\n",
+-                    (mem_type == HVMMEM_ram_ro ? "ro":"rw"));
++#ifdef CONFIG_XEN
++        } else {
++            hvmmem_type_t mem_type = (val & PFFLAG_ROM_LOCK) ?
++                HVMMEM_ram_ro : HVMMEM_ram_rw;
++
++            if (xen_set_mem_type(xen_domid, mem_type, 0xc0, 0x40)) {
++                DPRINTF("unable to change ro/rw state of ROM memory area!\n");
++            } else {
++                s->flags = val & PFFLAG_ROM_LOCK;
++                DPRINTF("changed ro/rw state of ROM memory area. now is %s state.\n",
++                        (mem_type == HVMMEM_ram_ro ? "ro" : "rw"));
++            }
++#endif
+         }
+         break;
 -    }
++
+     case 2:
+         log_writeb(s, val);
+         break;
+@@ -509,8 +522,8 @@ static void xen_platform_realize(PCIDevice *dev, Error **errp)
+     uint8_t *pci_conf;
  
-     switch (pci_get_word(d->config + PCI_CLASS_DEVICE)) {
-     case PCI_CLASS_STORAGE_IDE:
+     /* Device will crash on reset if xen is not initialized */
+-    if (!xen_enabled()) {
+-        error_setg(errp, "xen-platform device requires the Xen accelerator");
++    if (xen_mode == XEN_DISABLED) {
++        error_setg(errp, "xen-platform device requires a Xen guest");
+         return;
+     }
+ 
 -- 
 2.39.0
 
