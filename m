@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3520066CEE0
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 19:32:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EDFE66CEF5
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 19:38:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHUFo-0004MB-BW; Mon, 16 Jan 2023 13:30:44 -0500
+	id 1pHUMa-0006IF-Lb; Mon, 16 Jan 2023 13:37:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pHUFm-0004K5-0l; Mon, 16 Jan 2023 13:30:42 -0500
-Received: from mout.kundenserver.de ([212.227.126.135])
+ id 1pHUMV-0006GR-RE; Mon, 16 Jan 2023 13:37:40 -0500
+Received: from mout.kundenserver.de ([212.227.126.130])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pHUFk-00088A-C4; Mon, 16 Jan 2023 13:30:41 -0500
+ id 1pHUMU-00012x-4Z; Mon, 16 Jan 2023 13:37:39 -0500
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
  (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MGQ85-1pVX1V2XaH-00Gq0H; Mon, 16 Jan 2023 19:30:28 +0100
-Message-ID: <4ecdef61-2013-1896-d05c-b014cd9c8dc4@vivier.eu>
-Date: Mon, 16 Jan 2023 19:30:26 +0100
+ 1Mt8cD-1oSXSu0yr3-00tU9Q; Mon, 16 Jan 2023 19:37:33 +0100
+Message-ID: <fc534cbc-04a4-e652-8036-6ca3300ca048@vivier.eu>
+Date: Mon, 16 Jan 2023 19:37:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH trivial for 7.2] hw/ssi/sifive_spi.c: spelling: reigster
+Subject: Re: [PATCH trivial for 7.2 2/2] hw/virtio/virtio.c: spelling: suppoted
 Content-Language: fr
 To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Alistair Francis <alistair@alistair23.me>,
- Bin Meng <bin.meng@windriver.com>
-References: <20221105115329.306527-1-mjt@msgid.tls.msk.ru>
+Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20221105114851.306206-1-mjt@tls.msk.ru>
+ <20221105114851.306206-2-mjt@msgid.tls.msk.ru>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221105115329.306527-1-mjt@msgid.tls.msk.ru>
+In-Reply-To: <20221105114851.306206-2-mjt@msgid.tls.msk.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qYPt+aAoLlPhvBUChHthX3QKokSt6Dex/jqbG3G0oOK6u5L5Lrz
- xUI+4zaRWXwbKTKyDd2kkyK7k85gLgB/94duQWc2nDHszzeyF8F3FgB203JLyazifDMrlCA
- 2uHQuWUOZdxJHfeMUio4nQbpZfU45k5gluMkWsThmYLCrjYdTA9yxbbIqyeacw+WXkoE2qM
- PNn69mC7CIjfaANHgZuiw==
-UI-OutboundReport: notjunk:1;M01:P0:WGrr2d4wcrk=;otGs34qk3jfSuKL/T+8qRYZlJlu
- SrT5wX5bQKES2MJfWevZ+u48dEYwjPeKfP/p88gtzpgRyy2KMXmFuOD5MVoCDXDrYchb+RE3I
- dhYieYuB6ZBVHtfhwb/HSC216Jv+ks+OEgBqahzZ/3Jxu/u0UGM/YIG4UZ5i3BkQxm5UWuNot
- CLgcRs0Lid243tIA3wc8ks/18u4TnE1oXOf1XN17Ai1o27mi1LsQ+xD7ctqAnhEL9DPND1aYz
- SsGBKa1PCSWA1ew4+6U5QC8RVSF4PujRfCBVYcSFIxE7lu++/EDLTardxcpKXKAd9chKa3Lo9
- on2KSWZsWKVORNJQ7ufkviKeUPIVas1PrjkG3+NmNOWjBYi7QW9YsovrL2FVQJ+NX0BnM4e8c
- wzziQsZqTDn+BWjT7P2Xa4N0KQu/0QNxaEqOL4P0gmocZApfQYFxkUfZU+e7CbLatxsKXOQ8t
- boviLbbnsUPV7wEPxFiHVLXbfmtklJ1jYPJhpv239E5TOdzDcSy9Ysip6BGS+btPxIRwAugVZ
- 2Sbjb01F7+7Ok0haXmN4kcRw2O9CvhBTe3p+kXtigqHJZK6IHGMFPYoL5l3KQj8bncBcK3kiQ
- NcQz4aCfWhaa2l8zdIXeTRembPh8ftf+AOEG46pey1dbu6bRmHZI5rF1gkOP4/g1BOZ90LPdW
- tXWlP1yMTmliJjXLceKfZnRYL19yC1kLVj5bBdW1fA==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:t8gBIWPCk5tdCqxg+YzALscWfzp+5G+lrkXteyK7O3w/xyQmHv6
+ xfqJb6PqX32LJKvm0cpbczqvC30NN8RhVzsAVAyHE5US0/aTKj0267ip5Lxyq3fdfOdARk7
+ E8L/g7kMH2/YkYNGxermkZO595MWstvOV0QM/6vw3zVcr3VWYcI+xNaVZab0a5UNvn9V1VL
+ a7g70r0uMOgvEVP9dDbHg==
+UI-OutboundReport: notjunk:1;M01:P0:xmcd+a46o+g=;yrSxr7mKrePaPl3nK6JmtazE9uJ
+ c5gk/M46MdXd7MBRM8UCM8EjAYjQoq7H4ouddZfqamZt1YIQc4H30PT5Xz2egGITCucymhgpJ
+ 3i2BnOsom8mSJjOGxcDcOtkZ6MmXKmkfv8nssYG9yvM+qjzHmJqx+JNlR2hUWT9aO/HCZYmNE
+ F4v0WUXQyjjheOl2hYUyriisN8jDjrdGZZUmYP+SBF5HO71PzvKinT1aEq+aJ1Z1hml7fcXUb
+ rDpHS/qWusfpbwhmc+uUQV2K8ySA8BaNS65HJf6UwgBrCAegmP9v/EF364kyjy9LFAMqpiQLe
+ GWjfmCtyl6cyzJ8IM+063qwLUTNOQ9AYgZx7Ox5P3f4rX/1LutWngeu0DweFmnl1oDeIGp7GW
+ yMgq/7OWK7vaJSJskN0aQ3j/1ld7mVm7Ja3eXqChuAGtREZrMTDM0zgYMfW24n63fvAzl75mK
+ 4zyKLolT2IiquwMGrCb5122p8aBYhUfUW7Axs3o3d4kMeHRA0sgsYv9zD94pW+o9zV+2pr4zm
+ jFA0wPN1twPu0woa3xfQ+cEto46yc+IjI8urxWELOvWAYHyMvq76EUZGPj2rLqZ9IcvzpQ2V1
+ Vt0v/xMSt7/Gx4ml9U0AIeoYNOL7Od2ViKCBZBPqZ/DgxUTsWFEltP+fGDGz5T7em9wSo/Kns
+ mTj4z1HvNXWePEHVJEtbYntuOwCPe4N4G4EXPwGfPw==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -72,30 +73,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 05/11/2022 à 12:53, Michael Tokarev a écrit :
-> Fixes: 0694dabe9763847f3010b54ab3ec7d367d2f0ff0
+Le 05/11/2022 à 12:48, Michael Tokarev a écrit :
+> Fixes: f3034ad71fcd0a6a58bc37830f182b307f089159
 > Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 > ---
->   hw/ssi/sifive_spi.c | 2 +-
+>   hw/virtio/virtio.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/ssi/sifive_spi.c b/hw/ssi/sifive_spi.c
-> index 03540cf5ca..1b4a401ca1 100644
-> --- a/hw/ssi/sifive_spi.c
-> +++ b/hw/ssi/sifive_spi.c
-> @@ -267,7 +267,7 @@ static void sifive_spi_write(void *opaque, hwaddr addr,
->       case R_RXDATA:
->       case R_IP:
->           qemu_log_mask(LOG_GUEST_ERROR,
-> -                      "%s: invalid write to read-only reigster 0x%"
-> +                      "%s: invalid write to read-only register 0x%"
->                         HWADDR_PRIx " with 0x%x\n", __func__, addr << 2, value);
->           break;
->   
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index 808446b4c9..e76218bdd5 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -340,7 +340,7 @@ qmp_virtio_feature_map_t virtio_net_feature_map[] = {
+>   qmp_virtio_feature_map_t virtio_scsi_feature_map[] = {
+>       FEATURE_ENTRY(VIRTIO_SCSI_F_INOUT, \
+>               "VIRTIO_SCSI_F_INOUT: Requests including read and writable data "
+> -            "buffers suppoted"),
+> +            "buffers supported"),
+>       FEATURE_ENTRY(VIRTIO_SCSI_F_HOTPLUG, \
+>               "VIRTIO_SCSI_F_HOTPLUG: Reporting and handling hot-plug events "
+>               "supported"),
 
-Applied to my trivial-patches branch.
+This patch needs to be rebased.
+
+This typo has been moved to hw/virtio/virtio-qmp.c
 
 Thanks,
 Laurent
-
 
