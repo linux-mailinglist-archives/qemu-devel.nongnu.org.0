@@ -2,97 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D67D66BD89
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 13:13:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1F966BDC6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 13:24:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHOLe-0001JC-NN; Mon, 16 Jan 2023 07:12:22 -0500
+	id 1pHOW6-0004ZY-Uu; Mon, 16 Jan 2023 07:23:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHOLZ-0001Ii-Dh
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 07:12:17 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHOW2-0004Z6-4D
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 07:23:08 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHOLX-000892-4G
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 07:12:17 -0500
-Received: by mail-wr1-x430.google.com with SMTP id d2so7156347wrp.8
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 04:12:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHOW0-0001rH-L3
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 07:23:05 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ o17-20020a05600c511100b003db021ef437so634447wms.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 04:23:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uf6LjhDqDKx6NclMh3AJ4ZeTdyJ7OXCozbEMCRKDjpA=;
- b=ETkDa2ET0RGebXiEvSj1rPIA1cedqghhjPJjPJQEeFbbxO14Kq8a/PTaZ3FRcmrhkv
- nsK3oAPjJqWioMse493YuBSaB+DdKvif8LK5LbmsQoAYwGYjt1apUaK+dBopKEdDlOOq
- 8voqOBmWyX3uwWBZtO85v6Dk7+BroaLidSSuJfV/X64NG9nB76zGu8sr4IlDeTaEPy6M
- M4BDNzEy+kbw7q7oHRq/c05g8CC0dOAryuQl4zR6n3vs8eWQdilgXwIYsafCt0smr5ZC
- kzPQbWLSPNcAfmMXK5jlFCNSRkVjF5t5XIJj4Kb6m/VkBWA5EyXedzltMcuiDwGQ9yOI
- Ldkw==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=64P7Y6yjODvx3789VOcRGXmV1/qot5F9OF92fbX+2KI=;
+ b=qRWc8HecGeQ14bzdihy+V9zBGr/ePmRvJDI0OE+up1jBxS6lUM4wLvM60yJkjhMAOo
+ G/5YxcUOaql5j1du/IRdFScJdIWp0FOlzl1Fl6WWNoslpRFTvUUsRotm3dm9elmGQC4c
+ f5bJ0aMYnVnjbPAfAgQLZbgGsbJJsUtj6jCe1ncezHBr2QwjzmLkl8o9nc/w9pDrMUrl
+ JZPqtY1/OzUJS1bSWOAvSpfaQAD6Jcfk0rpg1pVAJj/QRyY5F8ouWrwk+23SOc0km6+2
+ CVuujbf54b1RJWI38Tsgajy6m8Lm9fUQW1760fMVaiu2sWKEpxxRAMm21gVWFN1TxP2N
+ 8DiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=uf6LjhDqDKx6NclMh3AJ4ZeTdyJ7OXCozbEMCRKDjpA=;
- b=iaQRXzTJDFQAmqGKERofxsec8UokKbp5bq7O7OLVrVnux/ofru7MQqUtSktrMg8hZG
- wvifhoYBftbzAyRWCe4LR7R+DeOaVfpWVf3GJt6fSGzcaCaf8Bo7a/xxoaMU/xlCNoB+
- MY8BZaiFHr0Osppktf4DEDp19XBWW4HXFNIkWTyR/5VurGLqj/ihVJfcAxiUDKN86cUs
- SVOyG4czHIJmYdFRFMqoCLetCBNj1w0ZXlCLIfAWcG28XiqxnTrb4U311FTnEqkrsR9P
- /pHLCaVeERk1SfXcSDFrq86cg4MOw5luJUpLqDU0mEoPw4E89A4FklorxDT5NzaIE4iB
- T/kg==
-X-Gm-Message-State: AFqh2koE4LIhVZgdOIAx2/ZCgsGcWuB7KIYx4H96uoABBfbg62fQH0hJ
- s43fX3Oy7UtKMCQkfvf4aLw+Wg==
-X-Google-Smtp-Source: AMrXdXvFmzT8EXvxmVYwVWsKzHvrSsshcQm9YJFLh8l5VxKSH1DHAiSs6kcknUQXaCzgAWLdIyNDMA==
-X-Received: by 2002:adf:ffc3:0:b0:2bb:ede4:5dd4 with SMTP id
- x3-20020adfffc3000000b002bbede45dd4mr8372832wrs.34.1673871132354; 
- Mon, 16 Jan 2023 04:12:12 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- o7-20020a5d62c7000000b002bbeda3809csm20320714wrv.11.2023.01.16.04.12.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Jan 2023 04:12:11 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6995E1FFB7;
- Mon, 16 Jan 2023 12:12:10 +0000 (GMT)
-References: <20230110132700.833690-1-marcandre.lureau@redhat.com>
- <20230110132700.833690-9-marcandre.lureau@redhat.com>
- <87bkmyvljj.fsf@linaro.org> <Y8Uq6sEL813/Suu+@redhat.com>
-User-agent: mu4e 1.9.14; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org, John Snow
- <jsnow@redhat.com>, kraxel@redhat.com, Beraldo Leal <bleal@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- pbonzini@redhat.com, Eric
- Farman <farman@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Cornelia Huck
- <cohuck@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, Markus
- Armbruster <armbru@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- thuth@redhat.com, Halil Pasic <pasic@linux.ibm.com>, Michael Roth
- <michael.roth@amd.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Ed Maste <emaste@freebsd.org>
-Subject: Re: [PATCH v4 8/8] lcitool: drop texinfo from QEMU
- project/dependencies
-Date: Mon, 16 Jan 2023 12:09:48 +0000
-In-reply-to: <Y8Uq6sEL813/Suu+@redhat.com>
-Message-ID: <87sfgael0l.fsf@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=64P7Y6yjODvx3789VOcRGXmV1/qot5F9OF92fbX+2KI=;
+ b=osEflQo4rXW0s2hl06mtaeT7/KYpJZTUWfsvpWHVMsBrwApQmEQuaZX9rrQnrC8K7u
+ 1urdzJc8dJ65crf2Ue/8f7o69KCK3nlSY6zGZRiZ7wSVRCFoA2FQefqyTQ9oChu+IJNj
+ 9cE7bngHHmg9DYr97iC7f5fLn16CBzll6tk7piexWSsEa/128nTyhhxrqabjoQpeXMoK
+ Vbum6EHUTDkrfTOjPXCRgZRJ8JBiFMENoqdBYjFLBuzUsaH5riYUIAD88zVfXZx2/8HN
+ VklQFFwEqUzZn4oiEGFXj2nIIXPrKg7zQQBUv1nABac6hivF5f11SFQHVkFayi8rsMzx
+ 9wOg==
+X-Gm-Message-State: AFqh2ko9gJPoaGd/qhe0KY3WnjyIxdj9yiLGk4VDSigNogKb217Ykx0a
+ 51ggjLFdTCYTDvkgtkUUMFlzGA==
+X-Google-Smtp-Source: AMrXdXs5BIRdBy4Rv3O46gkRyIYKJcL1T+0/5xBYNdHLQnHgV53ZjfzSAL5dpWQ087AeDn/PqEiE/g==
+X-Received: by 2002:a05:600c:34cd:b0:3d5:1175:92c3 with SMTP id
+ d13-20020a05600c34cd00b003d5117592c3mr66046641wmq.23.1673871783167; 
+ Mon, 16 Jan 2023 04:23:03 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ m18-20020a05600c4f5200b003c6b70a4d69sm38006150wmq.42.2023.01.16.04.23.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 04:23:02 -0800 (PST)
+Message-ID: <c8e17594-9eb5-ce6c-c414-622f4f68d008@linaro.org>
+Date: Mon, 16 Jan 2023 13:23:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 1/6] hw/nvram/eeprom_at24c: Add header w/ init helper
+Content-Language: en-US
+To: Peter Delevoryas <peter@pjd.dev>
+Cc: patrick@stwcx.xyz, clg@kaod.org, peter.maydell@linaro.org,
+ andrew@aj.id.au, joal@jms.id.au, hskinnemoen@google.com, kfting@nuvoton.com,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20230114170151.87833-1-peter@pjd.dev>
+ <20230114170151.87833-2-peter@pjd.dev>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230114170151.87833-2-peter@pjd.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,77 +93,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 14/1/23 18:01, Peter Delevoryas wrote:
+> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> ---
+>   hw/nvram/eeprom_at24c.c         | 10 ++++++++++
+>   include/hw/nvram/eeprom_at24c.h | 10 ++++++++++
+>   2 files changed, 20 insertions(+)
+>   create mode 100644 include/hw/nvram/eeprom_at24c.h
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+> +void at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size)
+> +{
+> +    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", address);
 
-> On Mon, Jan 16, 2023 at 10:06:07AM +0000, Alex Benn=C3=A9e wrote:
->>=20
->> marcandre.lureau@redhat.com writes:
->>=20
->> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >
->> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>=20
->> I'm not sure how but this is re-breaking the windows build you just fixe=
-d:
->>=20
->>   In file included from /usr/x86_64-w64-mingw32/sys-root/mingw/include/e=
-poxy/egl.h:46,
->>                    from /tmp/qemu-test/src/include/ui/egl-helpers.h:5,
->>                    from /tmp/qemu-test/src/include/ui/gtk.h:25,
->>                    from ../src/ui/gtk.c:42:
->>   /usr/x86_64-w64-mingw32/sys-root/mingw/include/epoxy/egl_generated.h:1=
-1:10: fatal error: EGL/eglplatform.h: No such file or directory
->>      11 | #include "EGL/eglplatform.h"
->>         |          ^~~~~~~~~~~~~~~~~~~
->>   compilation terminated.
->>=20
->> I'm going to drop this patch for now.
->
-> We don't include mingw*-epoxy in the QEMU container, and AFAIK
-> nothing else we install has it as a dependency, so I'm guessing
-> you must have done a build locally rather than with our windows
-> containers ?
+Please use the type definition: TYPE_AT24C_EE.
 
-No I was building with the container but weirdly I am seeing different
-results on different machines:
+> +    DeviceState *dev = DEVICE(i2c_dev);
+> +
+> +    qdev_prop_set_uint32(dev, "rom-size", rom_size);
+> +    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
 
- make docker-test-mingw@fedora-win64-cross J=3D9 V=3D1
+Although the allocated object is somehow reachable from the i2c bus
+object, it would be simpler to deallocate allowing the parent to keep
+a reference to it. So consider this prototype instead:
 
-works on my desktop
+   I2CSlave *at24c_eeprom_create(I2CBus *bus, uint8_t address,
+                                 uint32_t rom_size);
 
- make docker-test-mingw@fedora-win64-cross V=3D1 J=3D20
-
-fails on my build box. This must be some sort of weird caching behaviour
-but I was trying to track down the failures in CI:
-
-
->
-> Ultimately this is a RPM packaging bug, which was recently fixed
-> in Fedora
->
-> commit 1e748f66e067d9332bc02f1ea994b6dd3b5e47f3 (HEAD -> f37,
-> origin/rawhide, origin/main, origin/f37, origin/HEAD, rawhide)
-> Author: Kalev Lember <klember@redhat.com>
-> Date:   Fri Jan 13 14:36:35 2023 +0100
->
->     Add missing runtime requires on mingw-angleproject
->=20=20=20=20=20
->     This fixes gtk cross compilation in upstream CI that started to fail
->     with:
->=20=20=20=20=20
->     /usr/x86_64-w64-mingw32/sys-root/mingw/include/epoxy/egl_generated.h:=
-11:10:
-> fatal error: EGL/eglplatform.h: No such file or directory
->
->
-> So you should be able to just 'dnf update' to fix this.
->
-> With regards,
-> Daniel
-
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+> +}
 
