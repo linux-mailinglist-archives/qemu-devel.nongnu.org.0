@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7819366C45B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 16:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D36866C49F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 16:56:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHRlt-0006Qj-SH; Mon, 16 Jan 2023 10:51:42 -0500
+	id 1pHRqQ-0000w7-5k; Mon, 16 Jan 2023 10:56:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pHRlp-0006QK-TQ
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 10:51:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pHRlo-0003g3-Cz
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 10:51:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673884295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8E1bpnzaHij5AEM3xTZQ8OtujE+Rx/3MpQgwih2Swgc=;
- b=NxBBQbZiu7s+GJ3MVYL4o5FVi06WWRnKmZAJqOeBAFdPa9pRbB8nY+kFkwfpKNyBsUMi3E
- XmR5UXLe1yW79BAixyLox4XhyZZUf0urL/KJ1+CQMK40wL/UOIk0vIkYHoxRfaR3hoV7V2
- J6+P2ftSxMqisEXDz7nnZjVZMslGD0Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-TBArlcooMyaHkLez-vYjSw-1; Mon, 16 Jan 2023 10:51:33 -0500
-X-MC-Unique: TBArlcooMyaHkLez-vYjSw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B993100F903;
- Mon, 16 Jan 2023 15:51:33 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C658F40C6EC4;
- Mon, 16 Jan 2023 15:51:32 +0000 (UTC)
-Date: Mon, 16 Jan 2023 16:51:31 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, eesposit@redhat.com
-Subject: Re: [PATCH 00/12] More cleanups and fixes for drain
-Message-ID: <Y8Vyg08uUNGFMQ6l@redhat.com>
-References: <20221212125920.248567-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
+ id 1pHRqM-0000vr-JI
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 10:56:18 -0500
+Received: from linux.microsoft.com ([13.77.154.182])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <eiakovlev@linux.microsoft.com>) id 1pHRqK-0004QA-VM
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 10:56:18 -0500
+Received: from [192.168.0.20] (unknown [77.64.253.186])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 99D1E20DFE75;
+ Mon, 16 Jan 2023 07:56:14 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 99D1E20DFE75
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1673884575;
+ bh=6TVxP60352fMoWoNdwHGSijprHa7fF9F0MLhyVdeG3o=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=NVFrOLl5bvqP7XtvvP/fFqrQDZcYD+RWm+f0D4dEwu4JndcidsAXARuFlErkFKR/s
+ tHJ7bbaMKu5JeXdtLWbtF+8FuqZWdK8n/TU5+y8Jo58IxNIFDIifjjapCwLTIM+wZ4
+ rkT0zzXppmHKOQoKYCUsd2noHZGrrNXzupyVNEeA=
+Message-ID: <1e5c8643-e756-9110-70f1-a83e301cca03@linux.microsoft.com>
+Date: Mon, 16 Jan 2023 16:56:20 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221212125920.248567-1-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+From: eiakovlev@linux.microsoft.com
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, bmeng.cn@gmail.com, philmd@linaro.org
+Subject: Re: [PATCH v2] semihosting: add O_BINARY flag in host_open for NT
+ compatibility
+References: <20230106102018.20520-1-eiakovlev@linux.microsoft.com>
+ <CAFEAcA-z7+X9-c43EmhoRBTrOYC9RtyHc5sgPamGRd_o+-tT_Q@mail.gmail.com>
+ <871qo7pszr.fsf@linaro.org>
+ <CAFEAcA_9db5ijSTW1JBiC7kLUe+E=+OCAHg0xaoa-0p09Wbt3g@mail.gmail.com>
+ <f2182772-661a-c021-061e-642ef3aea942@linux.microsoft.com>
+ <CAFEAcA_TWOxz52q0EY0Bfvpwmg9bkVD1pSndiyQhfOtXOrtDMA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_TWOxz52q0EY0Bfvpwmg9bkVD1pSndiyQhfOtXOrtDMA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=13.77.154.182;
+ envelope-from=eiakovlev@linux.microsoft.com; helo=linux.microsoft.com
+X-Spam_score_int: -198
+X-Spam_score: -19.9
+X-Spam_bar: -------------------
+X-Spam_report: (-19.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,41 +73,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 12.12.2022 um 13:59 hat Paolo Bonzini geschrieben:
-> There are a few more lines of code that can be removed around draining
-> code, but especially the logic can be simplified by removing unnecessary
-> parameters.
+
+
+On 1/6/23 7:58 PM, Peter Maydell <peter.maydell@linaro.org> wrote:
+> On Fri, 6 Jan 2023 at 18:22, Evgeny Iakovlev
+> <eiakovlev@linux.microsoft.com> wrote:
+> >
+> >
+> > On 1/6/2023 17:28, Peter Maydell wrote:
+> >> On Fri, 6 Jan 2023 at 15:44, Alex Bennée <alex.bennee@linaro.org> wrote:
+> >>> Peter Maydell <peter.maydell@linaro.org> writes:
+> >> I think the theory when the semihosting API was originally designed
+> >> decades ago was basically "when the guest does fopen(...) this
+> >> should act like it does on the host". So as a bit of portable
+> >> guest code you would say whether you wanted a binary or a text
+> >> file, and the effect would be that if you were running on Windows
+> >> and you output a text file then you'd get \r\n like the user
+> >> probably expected, and if on Linux you get \n.
 > 
-> Due to the failure of the block-next branch, the first three patches
-> drop patches 14+15 of Kevin's drain cleanup series, and then redo
-> patch 15 in a slightly less satisfactory way that still enables the
-> remaining cleanups.  These reverts are not supposed to be applied;
-> either the offending patches are dropped from the branch, or if the
-> issue is fixed then my first three patches can go away.
-
-Can you remind me which problem this was? The patches are in master now,
-but I'm not sure if the latest version fixed whatever you had in mind.
-
-> The next three are taken from Emanuele's old subtree drain attempt
-> at removing the AioContext.  The main one is the second, which is needed
-> to avoid testcase failures, but I included all of them for simplicity.
+> > If SYS_OPEN is supposed to call fopen (i didn't actually know that..)
+> > then it does make more sense for binary/text mode to be propagated from
+> > guest.
 > 
-> Patch 7 fixes another latent bug exposed by the later cleanups, and while
-> looking for a fix I noticed a general lack of thread-safety in BlockBackend's
-> drain code.  There are some global properties that only need to be documented
-> and enforced to be set only at creation time (patches 8/9), but also
-> queued_requests is not protected by any mutex, which is fixed in patch 10.
+> It's not required to literally call fopen(). It just has to
+> give the specified semantics for when the guest passes it a
+> mode integer, which is defined in terms of the ISO C
+> fopen() string semantics for "r", "rb", "r+", "r+b", etc.
 > 
-> Finally, patches 11-15 are the actual simplification.
+> > Qemu's implementation calls open(2) though, which is not correct
+> > at all then. Well, as long as qemu does that, there is no
+> > posix-compliant way to tell open(2) if it should use binary or text
+> > mode, there is no notion of that as far as posix (and most
+> > implementations) is concerned.
 > 
-> Applies on top of block-next.
+> QEMU doesn't have to be pure POSIX compliant: we know what our
+> supported host platforms are and we can freely use extensions
+> they provide. If we want to achieve the semantics that semihosting
+> asks for then we can do that with open(), by passing O_BINARY when
+> the mode integer from the guest corresponds to a string with "b" in it.
+> 
+> I'm about 50:50 on whether we should do that vs documenting and
+> commenting that we deliberately produce the same behaviour on all
+> platforms by ignoring the 'b' flag, though.
+> 
+> thanks
+> -- PMM
+> 
 
-Not any more. :-)
-
-I found out that it applies on top of 6355f90eef, which may work for
-some basic review, but the conflicts when rebasing seem non-trivial, so
-we'll need a v2.
-
-Kevin
-
+Thanks Peter, i think i see your point. However, if you ask me, i feel like advertising a feature to guest code and only implementing it on 1 platform that supports it just because it has a non-standard POSIX implementation will only confuse the issue further.
+Guest code doesn't want to care whether or not an emulator is running on Linux or Windows, there is no notion of that leaking to guest code. What it cares about is being able to consistently use a certain feature in their code.
+So i think it would be rather useless to implement it on Windows-only given there is a clear alternative to switch to fopen. Just my 2 cents.
 
