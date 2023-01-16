@@ -2,87 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5B466B6FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 06:55:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E11966B6F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 06:48:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHIS7-0004ak-KC; Mon, 16 Jan 2023 00:54:39 -0500
+	id 1pHIL8-0002ks-K7; Mon, 16 Jan 2023 00:47:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1pHIS5-0004Zz-1i
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 00:54:37 -0500
-Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1pHIS3-000391-0W
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 00:54:36 -0500
-Received: by mail-vs1-xe30.google.com with SMTP id v127so23643708vsb.12
- for <qemu-devel@nongnu.org>; Sun, 15 Jan 2023 21:54:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=cTJ6y/KTGZCfnhiCk0X2KB+1uFg6s0lnqLxwL6srYqw=;
- b=IwVc5uqV+VGxQ5g9D4XqaeJBh33hF/O3EtUQm/SUo/cSSytiB4BlrMkVrUCC6tmVAV
- CYIpcWN37sBzyBqXmwKLl6qkWLc6FwxdLMA9CM0iiJLhSSNG5XcoSaCLwGSrv7CU2Lsh
- G8eq3PTRJu52SeV8gIs5UQ9fMeonUqSQOHv0rzQXRFIT/nOR2ba50Wiq6mPYp/WNBtTz
- q2FiefHP9JHJfpvsLk1brPaajSeFe2f4ijhT0jjmW9brBfwnWzsGge9GfL++vHGkp4NM
- vqDDVfHzKhmIQ5d4Jp/MQ9IQnQAcMgwOHmcltMuApXOA880Ti9a3MjQJ2dbAKRMh6nSI
- ZCJg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pHIL5-0002ka-Rm
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 00:47:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pHIKo-0006FS-UB
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 00:47:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673848020;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6MjLa9cLL8u6xDuXYDCiITPrO3fZrSI2z2Re4HrPX5w=;
+ b=UCkj2y78BTgYSV9TjO9oCwluVQ43R8qDLI3pxzcgHk+xl2lJcWums29oN/lTmTbl4f+OaB
+ B/TuEA0Yr7BYNvqDFcl9FVA96FbzwbDP8mds8RUvZbouIl6ObEQ8BLl2JzOS9uGsIWfd12
+ 4s/vn8OMZQsX1oJgF3VUVqBeLtUkIb4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-564-TtPLbMVEMimx3KHll6t88Q-1; Mon, 16 Jan 2023 00:24:05 -0500
+X-MC-Unique: TtPLbMVEMimx3KHll6t88Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ q19-20020a1cf313000000b003d96c95e2f9so5633791wmq.2
+ for <qemu-devel@nongnu.org>; Sun, 15 Jan 2023 21:24:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cTJ6y/KTGZCfnhiCk0X2KB+1uFg6s0lnqLxwL6srYqw=;
- b=k8tHo9XXamwzVSyUu3YYOrMR9rouOJesFwUw9v1p2W4kNh7yjzOogApcERca2d5lki
- RqQDyCQyzKr+B7LzJAwWllcFhd8YSLbYJ6aq6Et+WBP2UaUavafeCGhputYuykrt+Ges
- fh4sDxpkw+vSAspOtXgPfth0Xk5Q1CH56GTxtEdzFJEbWjwQ8n3/18AEnvKQS2/eTVqG
- 5z9wLcxZtSPuWfX3yQqebdOrXHpy83EYAdWKW5zQQq55lPaDwlZHm/tCrAuEltwqK35R
- nfppCZFjwimYAz6s4eEoDfT4Ho71Pui7L1wr4IF3EmXBBoerlt3k+vDyCIfCTFXSHoG7
- Heqw==
-X-Gm-Message-State: AFqh2krYe1eNQlMKD7gfoPmswb9YJ6/c7jEYyc+p5/LoDMYYvXNncr0v
- KYzrpOQagYbmm++Kygq2ElNiFIAhdGpaDdAQNWn5Qn0J/F1qaw==
-X-Google-Smtp-Source: AMrXdXulljaCQYNEjPTpiyyleiu2GujZGDJVoL79KqAdFX/vOMMOW+H5e6Sj4L32/2lRnyOACnuxDLQdw8OlHWKHt30=
-X-Received: by 2002:a67:b44d:0:b0:3d3:c41b:50f9 with SMTP id
- c13-20020a67b44d000000b003d3c41b50f9mr752518vsm.10.1673846453512; Sun, 15 Jan
- 2023 21:20:53 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6MjLa9cLL8u6xDuXYDCiITPrO3fZrSI2z2Re4HrPX5w=;
+ b=sr/nJS0BkN0myhP1WZFrcbUMr3pgkF2e4ddQ3Qx9nTWq1tr9j2fQqEANjLaNSc19Yy
+ FWqEytWwFsWFycAFcqTUofy1qXD90844PpdCdWqnU+ZIBESx1bY29XD6lSlmkWcm1NBA
+ opmorEVkAC/VVw7AcxrFdUradfzyVFex7kyi8zYPlgt5c1wFMdQGjhX01hcZK0e/sXJY
+ YISkRrtBbWnjjiMA9kAECGbauPd5BW7q9AMjLO6BodBNfzK2b18wAt9CEnWSsDJ2a2Em
+ KR/PCfAywrs5E9OBKaGq+OlH6XDXnQ59FGpaRbJPZNpKowA9blzrc4CUewgMwFm2Gq2A
+ kB9Q==
+X-Gm-Message-State: AFqh2koTVYD/FKSwXNAMs74xypAKGoEDmguVm0fCkEYBBS1C2klod2zc
+ 0BldHJXDo82SJ8kuTBu8hGLR71WHwJ0p1l5FLVhfGO9gvNFQmmeHoSqrCLGjZb8mQPu1qqYr2WB
+ h4f1eK2xGGMNK6g0=
+X-Received: by 2002:a05:600c:5113:b0:3d3:5c21:dd99 with SMTP id
+ o19-20020a05600c511300b003d35c21dd99mr65930739wms.18.1673846643866; 
+ Sun, 15 Jan 2023 21:24:03 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsC1UcV7LujHp1kAG3SSsN7mnMTIPkIRmJKLAJ60PPI4hLQSRXPAhtE3qnhbCBNr9Ru3EdQlQ==
+X-Received: by 2002:a05:600c:5113:b0:3d3:5c21:dd99 with SMTP id
+ o19-20020a05600c511300b003d35c21dd99mr65930684wms.18.1673846642748; 
+ Sun, 15 Jan 2023 21:24:02 -0800 (PST)
+Received: from redhat.com ([2.52.132.216]) by smtp.gmail.com with ESMTPSA id
+ f11-20020a05600c4e8b00b003d04e4ed873sm42457191wmq.22.2023.01.15.21.23.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Jan 2023 21:24:02 -0800 (PST)
+Date: Mon, 16 Jan 2023 00:23:57 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: Eugenio Perez Martin <eperezma@redhat.com>, qemu-devel@nongnu.org,
+ si-wei.liu@oracle.com, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ alvaro.karsz@solid-run.com, Shannon Nelson <snelson@pensando.io>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
+Subject: Re: [RFC v2 05/13] vdpa net: add migration blocker if cannot migrate
+ cvq
+Message-ID: <20230116002152-mutt-send-email-mst@kernel.org>
+References: <20230112172434.760850-1-eperezma@redhat.com>
+ <20230112172434.760850-6-eperezma@redhat.com>
+ <451c3617-61a1-a4bb-791a-6c55e363e961@redhat.com>
+ <CAJaqyWfBGyibFq7_nAj61OedpXX2T3c=Mbw39XXpxEvE0OOyig@mail.gmail.com>
+ <065243b8-c93f-17e6-72cb-c1db33da6df6@redhat.com>
 MIME-Version: 1.0
-References: <20221108125703.1463577-1-apatel@ventanamicro.com>
- <20221108125703.1463577-3-apatel@ventanamicro.com>
- <CAKmqyKP+hc4N6Z2AqkQpCmF=oyTE_rf-XfSsTHChwcUWRE5gsg@mail.gmail.com>
- <CAK9=C2Uu1bCcZht+ydiazSmgnkD_hhLetXP4WcA92DypE4m9=A@mail.gmail.com>
- <CAKmqyKPw54F0uVy+7SjoY16o7RYyW6qwLhaYaKR7aNpP4Nz27Q@mail.gmail.com>
- <CAK9=C2V21JcgyUKub1JGVT0DEaeyzJ1GXQYcyaZy4Xv26F5fyA@mail.gmail.com>
- <CAKmqyKOc+xKEy1nhp6vCOtVHspfQ5WY7oE6wx5aGURhxQOrdqQ@mail.gmail.com>
- <CAK9=C2VA-1c8J-t8Sqp-8+eW9-0xaALgbG8LORd06--Jb-gTAw@mail.gmail.com>
- <CAKmqyKMQ7VJeeh0Rm3gjv8wDNgqsP5ShgbK2FaJstFSGAZgf8Q@mail.gmail.com>
- <CAK9=C2VY_c=1CSjnUDRGLw3pLN1L_9ta1xRYjwVGiH8t4bqzSw@mail.gmail.com>
-In-Reply-To: <CAK9=C2VY_c=1CSjnUDRGLw3pLN1L_9ta1xRYjwVGiH8t4bqzSw@mail.gmail.com>
-From: Anup Patel <apatel@ventanamicro.com>
-Date: Mon, 16 Jan 2023 10:50:41 +0530
-Message-ID: <CAK9=C2VFSNAcaz3ooAYUDzbK=TNDnU2RFUVLmC=k4ywr7DtF9g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] target/riscv: Update VS timer whenever htimedelta
- changes
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, 
- Atish Patra <atishp@atishpatra.org>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Anup Patel <anup@brainfault.org>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e30;
- envelope-from=apatel@ventanamicro.com; helo=mail-vs1-xe30.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <065243b8-c93f-17e6-72cb-c1db33da6df6@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,164 +111,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Alistair,
+On Mon, Jan 16, 2023 at 11:34:20AM +0800, Jason Wang wrote:
+> 
+> 在 2023/1/13 15:46, Eugenio Perez Martin 写道:
+> > On Fri, Jan 13, 2023 at 5:25 AM Jason Wang <jasowang@redhat.com> wrote:
+> > > 
+> > > 在 2023/1/13 01:24, Eugenio Pérez 写道:
+> > > > A vdpa net device must initialize with SVQ in order to be migratable,
+> > > > and initialization code verifies conditions.  If the device is not
+> > > > initialized with the x-svq parameter, it will not expose _F_LOG so vhost
+> > > > sybsystem will block VM migration from its initialization.
+> > > > 
+> > > > Next patches change this. Net data VQs will be shadowed only at
+> > > > migration time and vdpa net devices need to expose _F_LOG as long as it
+> > > > can go to SVQ.
+> > > > 
+> > > > Since we don't know that at initialization time but at start, add an
+> > > > independent blocker at CVQ.
+> > > > 
+> > > > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> > > > ---
+> > > >    net/vhost-vdpa.c | 35 +++++++++++++++++++++++++++++------
+> > > >    1 file changed, 29 insertions(+), 6 deletions(-)
+> > > > 
+> > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > > index 631424d9c4..2ca93e850a 100644
+> > > > --- a/net/vhost-vdpa.c
+> > > > +++ b/net/vhost-vdpa.c
+> > > > @@ -26,12 +26,14 @@
+> > > >    #include <err.h>
+> > > >    #include "standard-headers/linux/virtio_net.h"
+> > > >    #include "monitor/monitor.h"
+> > > > +#include "migration/blocker.h"
+> > > >    #include "hw/virtio/vhost.h"
+> > > > 
+> > > >    /* Todo:need to add the multiqueue support here */
+> > > >    typedef struct VhostVDPAState {
+> > > >        NetClientState nc;
+> > > >        struct vhost_vdpa vhost_vdpa;
+> > > > +    Error *migration_blocker;
+> > > 
+> > > Any reason we can't use the mivration_blocker in vhost_dev structure?
+> > > 
+> > > I believe we don't need to wait until start to know we can't migrate.
+> > > 
+> > Device migratability also depends on features that the guest acks.
+> 
+> 
+> This sounds a little bit tricky, more below:
+> 
+> 
+> > 
+> > For example, if the device does not support ASID it can be migrated as
+> > long as _F_CVQ is not acked.
+> 
+> 
+> The management may notice a non-consistent behavior in this case. I wonder
+> if we can simply check the host features.
+> 
+> Thanks
 
-On Tue, Jan 3, 2023 at 9:43 PM Anup Patel <apatel@ventanamicro.com> wrote:
->
-> Hi Alistair,
->
-> On Wed, Dec 28, 2022 at 11:08 AM Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Fri, Dec 23, 2022 at 11:14 PM Anup Patel <apatel@ventanamicro.com> wrote:
-> > >
-> > > On Thu, Dec 15, 2022 at 8:55 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > > >
-> > > > On Mon, Dec 12, 2022 at 9:12 PM Anup Patel <apatel@ventanamicro.com> wrote:
-> > > > >
-> > > > > On Mon, Dec 12, 2022 at 11:23 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > > > > >
-> > > > > > On Thu, Dec 8, 2022 at 6:41 PM Anup Patel <apatel@ventanamicro.com> wrote:
-> > > > > > >
-> > > > > > > On Thu, Dec 8, 2022 at 9:00 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > > > > > > >
-> > > > > > > > On Tue, Nov 8, 2022 at 11:07 PM Anup Patel <apatel@ventanamicro.com> wrote:
-> > > > > > > > >
-> > > > > > > > > The htimedelta[h] CSR has impact on the VS timer comparison so we
-> > > > > > > > > should call riscv_timer_write_timecmp() whenever htimedelta changes.
-> > > > > > > > >
-> > > > > > > > > Fixes: 3ec0fe18a31f ("target/riscv: Add vstimecmp suppor")
-> > > > > > > > > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-> > > > > > > > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > > > > > > >
-> > > > > > > > This patch breaks my Xvisor test. When running OpenSBI and Xvisor like this:
-> > > > > > > >
-> > > > > > > > qemu-system-riscv64 -machine virt \
-> > > > > > > >     -m 1G -serial mon:stdio -serial null -nographic \
-> > > > > > > >     -append 'vmm.console=uart@10000000 vmm.bootcmd="vfs mount initrd
-> > > > > > > > /;vfs run /boot.xscript;vfs cat /system/banner.txt; guest kick guest0;
-> > > > > > > > vserial bind guest0/uart0"' \
-> > > > > > > >     -smp 4 -d guest_errors \
-> > > > > > > >     -bios none \
-> > > > > > > >     -device loader,file=./images/qemuriscv64/vmm.bin,addr=0x80200000 \
-> > > > > > > >     -kernel ./images/qemuriscv64/fw_jump.elf \
-> > > > > > > >     -initrd ./images/qemuriscv64/vmm-disk-linux.img -cpu rv64,h=true
-> > > > > > > >
-> > > > > > > > Running:
-> > > > > > > >
-> > > > > > > > Xvisor v0.3.0-129-gbc33f339 (Jan  1 1970 00:00:00)
-> > > > > > > >
-> > > > > > > > I see this failure:
-> > > > > > > >
-> > > > > > > > INIT: bootcmd:  guest kick guest0
-> > > > > > > >
-> > > > > > > > guest0: Kicked
-> > > > > > > >
-> > > > > > > > INIT: bootcmd:  vserial bind guest0/uart0
-> > > > > > > >
-> > > > > > > > [guest0/uart0] cpu_vcpu_stage2_map: guest_phys=0x000000003B9AC000
-> > > > > > > > size=0x4096 map failed
-> > > > > > > >
-> > > > > > > > do_error: CPU3: VCPU=guest0/vcpu0 page fault failed (error -1)
-> > > > > > > >
-> > > > > > > >        zero=0x0000000000000000          ra=0x0000000080001B4E
-> > > > > > > >
-> > > > > > > >          sp=0x000000008001CF80          gp=0x0000000000000000
-> > > > > > > >
-> > > > > > > >          tp=0x0000000000000000          s0=0x000000008001CFB0
-> > > > > > > >
-> > > > > > > >          s1=0x0000000000000000          a0=0x0000000010001048
-> > > > > > > >
-> > > > > > > >          a1=0x0000000000000000          a2=0x0000000000989680
-> > > > > > > >
-> > > > > > > >          a3=0x000000003B9ACA00          a4=0x0000000000000048
-> > > > > > > >
-> > > > > > > >          a5=0x0000000000000000          a6=0x0000000000019000
-> > > > > > > >
-> > > > > > > >          a7=0x0000000000000000          s2=0x0000000000000000
-> > > > > > > >
-> > > > > > > >          s3=0x0000000000000000          s4=0x0000000000000000
-> > > > > > > >
-> > > > > > > >          s5=0x0000000000000000          s6=0x0000000000000000
-> > > > > > > >
-> > > > > > > >          s7=0x0000000000000000          s8=0x0000000000000000
-> > > > > > > >
-> > > > > > > >          s9=0x0000000000000000         s10=0x0000000000000000
-> > > > > > > >
-> > > > > > > >         s11=0x0000000000000000          t0=0x0000000000004000
-> > > > > > > >
-> > > > > > > >          t1=0x0000000000000100          t2=0x0000000000000000
-> > > > > > > >
-> > > > > > > >          t3=0x0000000000000000          t4=0x0000000000000000
-> > > > > > > >
-> > > > > > > >          t5=0x0000000000000000          t6=0x0000000000000000
-> > > > > > > >
-> > > > > > > >        sepc=0x0000000080001918     sstatus=0x0000000200004120
-> > > > > > > >
-> > > > > > > >     hstatus=0x00000002002001C0     sp_exec=0x0000000010A64000
-> > > > > > > >
-> > > > > > > >      scause=0x0000000000000017       stval=0x000000003B9ACAF8
-> > > > > > > >
-> > > > > > > >       htval=0x000000000EE6B2BE      htinst=0x0000000000D03021
-> > > > > > > >
-> > > > > > > > I have tried updating to a newer Xvisor release, but with that I don't
-> > > > > > > > get any serial output.
-> > > > > > > >
-> > > > > > > > Can you help get the Xvisor tests back up and running?
-> > > > > > >
-> > > > > > > I tried the latest Xvisor-next (https://github.com/avpatel/xvisor-next)
-> > > > > > > with your QEMU riscv-to-apply.next branch and it works fine (both
-> > > > > > > with and without Sstc).
-> > > > > >
-> > > > > > Does it work with the latest release?
-> > > > >
-> > > > > Yes, the latest Xvisor-next repo works for QEMU v7.2.0-rc4 and
-> > > > > your riscv-to-apply.next branch (commit 51bb9de2d188)
-> > > >
-> > > > I can't get anything to work with this patch. I have dropped this and
-> > > > the patches after this.
-> > > >
-> > > > I'm building the latest Xvisor release with:
-> > > >
-> > > > export CROSS_COMPILE=riscv64-linux-gnu-
-> > > > ARCH=riscv make generic-64b-defconfig
-> > > > make
-> > > >
-> > > > and running it as above, yet nothing. What am I missing here?
-> > >
-> > > I tried multiple times with the latest Xvisor on different machines but
-> > > still can't reproduce the issue you are seeing.
-> >
-> > Odd
-> >
-> > >
-> > > We generally provide pre-built binaries with every Xvisor release
-> > > so I will share with you pre-built binaries of the upcoming Xvisor-0.3.2
-> > > release. Maybe that would help you ?
-> >
-> > That would work. Let me know when the release happens and I can update
-> > my images.
->
-> Please download the Xvisor v0.3.2 pre-built binary tarball from:
-> https://xhypervisor.org/tarball/xvisor-0.3.2-bins.tar.xz
->
-> After untarring the above tarball, you can try the following command:
-> $ qemu-system-riscv64 -M virt -m 512M -nographic -bios
-> opensbi/build/platform/generic/firmware/fw_jump.bin -kernel
-> xvisor-0.3.2-bins/riscv/rv64/xvisor/vmm.bin -initrd
-> xvisor-0.3.2-bins/riscv/rv64/guest/virt64/disk-linux-6.1.1-one_guest_virt64.ext2
-> -append "vmm.bootcmd=\"vfs mount initrd /;vfs run /boot.xscript;vfs
-> cat /system/banner.txt\""
-> OR
-> $ qemu-system-riscv32 -M virt -m 512M -nographic -bios
-> opensbi/build/platform/generic/firmware/fw_jump.bin -kernel
-> xvisor-0.3.2-bins/riscv/rv32/xvisor/vmm.bin -initrd
-> xvisor-0.3.2-bins/riscv/rv32/guest/virt32/disk-linux-6.1.1-one_guest_virt32.ext2
-> -append "vmm.bootcmd=\"vfs mount initrd /;vfs run /boot.xscript;vfs
-> cat /system/banner.txt\""
 
-Do you want me to rebase and resend the patches which
-are not merged ?
+Yes the issue is that ack can happen after migration started.
+I don't think this kind of blocker appearing during migration
+is currently expected/supported well. Is it?
 
-Regards,
-Anup
+> 
+> > 
+> > Thanks!
+> > 
+> > > Thanks
+> > > 
+> > > 
+> > > >        VHostNetState *vhost_net;
+> > > > 
+> > > >        /* Control commands shadow buffers */
+> > > > @@ -433,9 +435,15 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+> > > >                g_strerror(errno), errno);
+> > > >            return -1;
+> > > >        }
+> > > > -    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) ||
+> > > > -        !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
+> > > > -        return 0;
+> > > > +    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID))) {
+> > > > +        error_setg(&s->migration_blocker,
+> > > > +                   "vdpa device %s does not support ASID",
+> > > > +                   nc->name);
+> > > > +        goto out;
+> > > > +    }
+> > > > +    if (!vhost_vdpa_net_valid_svq_features(v->dev->features,
+> > > > +                                           &s->migration_blocker)) {
+> > > > +        goto out;
+> > > >        }
+> > > > 
+> > > >        /*
+> > > > @@ -455,7 +463,10 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+> > > >            }
+> > > > 
+> > > >            if (group == cvq_group) {
+> > > > -            return 0;
+> > > > +            error_setg(&s->migration_blocker,
+> > > > +                "vdpa %s vq %d group %"PRId64" is the same as cvq group "
+> > > > +                "%"PRId64, nc->name, i, group, cvq_group);
+> > > > +            goto out;
+> > > >            }
+> > > >        }
+> > > > 
+> > > > @@ -468,8 +479,15 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+> > > >        s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
+> > > > 
+> > > >    out:
+> > > > -    if (!s->vhost_vdpa.shadow_vqs_enabled) {
+> > > > -        return 0;
+> > > > +    if (s->migration_blocker) {
+> > > > +        Error *errp = NULL;
+> > > > +        r = migrate_add_blocker(s->migration_blocker, &errp);
+> > > > +        if (unlikely(r != 0)) {
+> > > > +            g_clear_pointer(&s->migration_blocker, error_free);
+> > > > +            error_report_err(errp);
+> > > > +        }
+> > > > +
+> > > > +        return r;
+> > > >        }
+> > > > 
+> > > >        s0 = vhost_vdpa_net_first_nc_vdpa(s);
+> > > > @@ -513,6 +531,11 @@ static void vhost_vdpa_net_cvq_stop(NetClientState *nc)
+> > > >            vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->status);
+> > > >        }
+> > > > 
+> > > > +    if (s->migration_blocker) {
+> > > > +        migrate_del_blocker(s->migration_blocker);
+> > > > +        g_clear_pointer(&s->migration_blocker, error_free);
+> > > > +    }
+> > > > +
+> > > >        vhost_vdpa_net_client_stop(nc);
+> > > >    }
+> > > > 
+
 
