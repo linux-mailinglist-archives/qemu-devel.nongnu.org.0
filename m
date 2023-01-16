@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE0B66BCD0
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 12:24:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0057466BCE1
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 12:28:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHNah-0003Wt-GI; Mon, 16 Jan 2023 06:23:52 -0500
+	id 1pHNeR-0005ZH-EQ; Mon, 16 Jan 2023 06:27:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pHNaS-0003Um-N3
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 06:23:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pHNeG-0005Vj-HW
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 06:27:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pHNaQ-0007OH-Cu
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 06:23:35 -0500
+ id 1pHNeE-0008Hj-9T
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 06:27:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673868213;
+ s=mimecast20190719; t=1673868448;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z/GNGWj84ifNYHSkoAvIYo69ZnodwBb8RNJYPymLqww=;
- b=MFvjAtbrwTZQS98533xhdB16GzpaDR3xcErFYBNUI83n79EvS6YH1A6iq+S7fG+tHegJZu
- wUgRM5e1xXQirA/L5bUBotnKmjHkGP7DGev3dxosq5yGK7t7vExsVF3Jq61J1sbWy4Z/zp
- rd/za2+QtgIR2UsUnB5Uh0DO9aEpl7U=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=u8Qf3xo/g3eYNRkvIojUC+bvtYMZbNXVj18sc6TukiM=;
+ b=igsvq1dpQVvZOrG/ys3mVwYocn1bBSrqIjQF03hUP7Jp5C5MsBUVtZ7QmAudjcFOw37BhY
+ H3OHYDUj97TX3G7CBLA/nQ2N5t8ggCRtsOExUWuhPyMELe1Bh5ch+DMJl5hhgnXnmrGlIi
+ smmffOAjUg0xZZB++/+KfoWC5vb3ECw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-5UmSNEGLOdChUfymqozrTg-1; Mon, 16 Jan 2023 06:23:30 -0500
-X-MC-Unique: 5UmSNEGLOdChUfymqozrTg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-454-RAV2W3UlNVyz1JKMmfQC5A-1; Mon, 16 Jan 2023 06:27:25 -0500
+X-MC-Unique: RAV2W3UlNVyz1JKMmfQC5A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB82D802BF3;
- Mon, 16 Jan 2023 11:23:29 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4AF141C06EE0;
+ Mon, 16 Jan 2023 11:27:25 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AD012166B26;
- Mon, 16 Jan 2023 11:23:28 +0000 (UTC)
-Date: Mon, 16 Jan 2023 11:23:26 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 23E9F40C6EC4;
+ Mon, 16 Jan 2023 11:27:24 +0000 (UTC)
+Date: Mon, 16 Jan 2023 11:27:22 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: zhenwei pi <pizhenwei@bytedance.com>
-Cc: arei.gonglei@huawei.com, mst@redhat.com, dgilbert@redhat.com,
- eblake@redhat.com, armbru@redhat.com, michael.roth@amd.com,
- pbonzini@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [for-8.0 v2 07/11] cryptodev-builtin: Detect akcipher capability
-Message-ID: <Y8Uzrk2VzqgpxYTh@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, arei.gonglei@huawei.com,
+ dgilbert@redhat.com, eblake@redhat.com, armbru@redhat.com,
+ michael.roth@amd.com, pbonzini@redhat.com, qemu-devel@nongnu.org
+Subject: Re: Re: [for-8.0 v2 00/11] Refactor cryptodev
+Message-ID: <Y8U0mmAUGGiabJaF@redhat.com>
 References: <20221122140756.686982-1-pizhenwei@bytedance.com>
- <20221122140756.686982-8-pizhenwei@bytedance.com>
+ <20221220103602-mutt-send-email-mst@kernel.org>
+ <e91ab7d3-1a5a-08f1-cfbe-500885abb1f2@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221122140756.686982-8-pizhenwei@bytedance.com>
+In-Reply-To: <e91ab7d3-1a5a-08f1-cfbe-500885abb1f2@bytedance.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,18 +83,42 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 22, 2022 at 10:07:52PM +0800, zhenwei pi wrote:
-> Rather than exposing akcipher service/RSA algorithm to virtio crypto
-> device unconditionally, detect akcipher capability from akcipher
-> crypto framework. This avoids unsuccessful requests.
+On Mon, Jan 16, 2023 at 05:53:07PM +0800, zhenwei pi wrote:
+> On 12/20/22 23:36, Michael S. Tsirkin wrote:
+> > On Tue, Nov 22, 2022 at 10:07:45PM +0800, zhenwei pi wrote:
+> > > v1 -> v2:
+> > > - fix coding style and use 'g_strjoin()' instead of 'char services[128]'
+> > >    (suggested by Dr. David Alan Gilbert)
+> > > - wrapper function 'cryptodev_backend_account' to record statistics, and
+> > >    allocate sym_stat/asym_stat in cryptodev base class. see patch:
+> > >    'cryptodev: Support statistics'.
+> > > - add more arguments into struct CryptoDevBackendOpInfo, then
+> > >    cryptodev_backend_crypto_operation() uses *op_info only.
+> > > - support cryptodev QoS settings(BPS&OPS), both QEMU command line and QMP
+> > >    command works fine.
+> > > - add myself as the maintainer for cryptodev.
+> > > 
+> > > v1:
+> > > - introduce cryptodev.json to describe the attributes of crypto device, then
+> > >    drop duplicated type declare, remove some virtio related dependence.
+> > > - add statistics: OPS and bandwidth.
+> > > - add QMP command: query-cryptodev
+> > > - add HMP info command: cryptodev
+> > > - misc fix: detect akcipher capability instead of exposing akcipher service
+> > >    unconditionally.
+> > 
+> > 
+> > Can we get ACK on QAPI things please?
+> > Thanks!
+> > 
 > 
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-> ---
->  backends/cryptodev-builtin.c | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
+> Hi Michael
+> 
+> I pinged QAPI maintainers, but I got no ACK.
+> Could you please have a glance at this?
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
+I am /not/ a  QAPI maintainer, but I've given some review of the patches
+that touch QAPI.
 
 With regards,
 Daniel
