@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA2966CFD3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 20:56:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADFDD66CFDC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 21:08:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHVYq-0004LN-N5; Mon, 16 Jan 2023 14:54:29 -0500
+	id 1pHVl8-0007Ze-Op; Mon, 16 Jan 2023 15:07:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+fb0b8ce1ba8490165fd5+7085+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pHVYj-0004Ju-CD
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 14:54:21 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pHVl4-0007Yq-AH
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 15:07:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+fb0b8ce1ba8490165fd5+7085+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pHVYf-0005zE-Uh
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 14:54:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=O4uEuOvqfc2vrotN+RP1DoHnK1REFwE0q99FWAihNNc=; b=uBEO04igqGz2tHHLJfB51DdZ1o
- FhXEch8yx7OOSNO84cZHGzzgEbc5InKHrbWFr3G1K06jF07YY7hdaO7bPHc71Rj0cQrTuNy8Rs9to
- eT0sjhFrx7lY1tBSlBLWsFySy2vb/aBAE+Yi+67b7qdt1bn56FLR+bk8FoGF+3QiWEWVLm4Sz7Oq7
- a3Cdu5bSSoeOYI0FvjQcmi0OHKtNgJYNTjRCYBTesKVkfnSMEh+MrdqSEK6vUODxZPouD+HuQfaqc
- koFo8PdSaXDpFujbv9YsjkWWjLCNuyA9JjMsqzmkmU0KQ2iBfFcoTIswtn8508Ir16EULF2hji560
- V+O6suXQ==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pHVYl-0091Z7-N4; Mon, 16 Jan 2023 19:54:24 +0000
-Message-ID: <2b367d4779358cbd69c8ff7d46a4a78207fc676b.camel@infradead.org>
-Subject: Re: [PATCH v6 23/51] i386/xen: implement HYPERVISOR_event_channel_op
-From: David Woodhouse <dwmw2@infradead.org>
-To: paul@xen.org, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
- <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>, 
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Thomas Huth
- <thuth@redhat.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>, "Dr . David
- Alan Gilbert" <dgilbert@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Julien Grall <julien@xen.org>
-Date: Mon, 16 Jan 2023 19:54:08 +0000
-In-Reply-To: <2be7e112-fffc-8adc-e034-d0ac8a0dd6cf@xen.org>
-References: <20230110122042.1562155-1-dwmw2@infradead.org>
- <20230110122042.1562155-24-dwmw2@infradead.org>
- <2be7e112-fffc-8adc-e034-d0ac8a0dd6cf@xen.org>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-b7aZ5CktgalYrUK6AXB5"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pHVl0-0007zB-I1
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 15:07:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673899619;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vfvvnptCEX/ETs9QfLoD+/qnb0ruDHzLkdtp/idiQvk=;
+ b=MVO7D3Qt4vMPRrTzLou6trNoh1XksSVXa8BSM3YMFrEJOtcE2KGX8y7hd3ACvUAInYCins
+ EirgbBTh77xxLeg1TVbQ4aKaLIQWjTfwGdwkMaEKgZgN9hLTIe/2sMOujARG7MYcb0G1j+
+ kNz/MkzH5VGu0zyuYtlsnd1TICV2t+g=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-47-Ehsg9sKkMqSefS2OforD-g-1; Mon, 16 Jan 2023 15:06:57 -0500
+X-MC-Unique: Ehsg9sKkMqSefS2OforD-g-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ 24-20020aa79118000000b00580476432deso12932960pfh.23
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 12:06:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vfvvnptCEX/ETs9QfLoD+/qnb0ruDHzLkdtp/idiQvk=;
+ b=M5ErJU88N1m/RV1f7HWc6HfmtBFA63UGF1kkXkVSjY/GEh+67nKf6k0yK4AqeNE53v
+ CCOJAjJ1cVIp+2cJ5bwH23DQgC4NDtRjtJawqReldpVl990+Hxhuq2n9qMt0mKlKQHh6
+ TFKaHoTv7kvoXhuL8Ua3/BnQISftdbYqoTW5kuE1sxZn2S4kx0w6TBnnBVGrDMFdqddY
+ TL1GWIfQRliKlg+XCnQD4Hdxcw6DAl8VJuWqEVWri2uvQrZSLCefbVzkCVSloRdRXMjm
+ JhWQ/EAjJHqWvVNGt+OB6Vof97Il2rF8+mxoSMy7ONBp6iBClzy4wi5Mb1dY4RKcVDNQ
+ +IqA==
+X-Gm-Message-State: AFqh2krdJztu2C9C9cpV/g17LH1yE97DP/FejpbL3u+QEfOTlaW581Bl
+ OfatA+iCWMyGEBekil4wTxaNDVJ/ItG53g+eCD6vrFNcFWKglBKIuUimltHY+P2ZISGjpsyrm6r
+ V1kTe9Uvuot0s/MiBu90uHgb+SbQv3Lw=
+X-Received: by 2002:a17:90a:e38b:b0:229:3677:5536 with SMTP id
+ b11-20020a17090ae38b00b0022936775536mr32345pjz.134.1673899616285; 
+ Mon, 16 Jan 2023 12:06:56 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsKWqFmWw8XgB/CrTtYFydeaNTvtGsFJp7Dmy83JIpCDarVAld3JyDmze/M4ovCL+g5WzIeW9kVpv5ZuZWgYSE=
+X-Received: by 2002:a17:90a:e38b:b0:229:3677:5536 with SMTP id
+ b11-20020a17090ae38b00b0022936775536mr32337pjz.134.1673899615979; Mon, 16 Jan
+ 2023 12:06:55 -0800 (PST)
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+fb0b8ce1ba8490165fd5+7085+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20221130015358.6998-1-zhangdongdong@eswincomputing.com>
+ <20221130015358.6998-2-zhangdongdong@eswincomputing.com>
+ <d6fc6751-1fe2-78de-49f5-2a34554767af@linaro.org>
+ <a117f627-a043-4801-db65-114b0b0cc0a6@vivier.eu>
+In-Reply-To: <a117f627-a043-4801-db65-114b0b0cc0a6@vivier.eu>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 16 Jan 2023 15:06:44 -0500
+Message-ID: <CAFn=p-aCJ_r=vMVsvQPbVZH6WXMJooeLtK7eUqXX9OG2NejuGA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] Fix some typos
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Dongdong Zhang <zhangdongdong@eswincomputing.com>, qemu-devel@nongnu.org,
+ crosa@redhat.com, bleal@redhat.com, QEMU Trivial <qemu-trivial@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,139 +96,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Jan 16, 2023 at 1:11 PM Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> Le 30/11/2022 =C3=A0 09:29, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit :
+> > On 30/11/22 02:53, Dongdong Zhang wrote:
+> >> Fix some typos in 'python' directory.
+> >>
+> >> Signed-off-by: Dongdong Zhang <zhangdongdong@eswincomputing.com>
+> >
+> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> >
+> >> ---
+> >>   python/qemu/machine/console_socket.py | 2 +-
+> >>   python/qemu/machine/qtest.py          | 2 +-
+> >>   python/qemu/qmp/protocol.py           | 2 +-
+> >>   python/qemu/qmp/qmp_tui.py            | 6 +++---
+> >>   4 files changed, 6 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/python/qemu/machine/console_socket.py b/python/qemu/machi=
+ne/console_socket.py
+> >> index 8c4ff598ad..4e28ba9bb2 100644
+> >> --- a/python/qemu/machine/console_socket.py
+> >> +++ b/python/qemu/machine/console_socket.py
+> >> @@ -68,7 +68,7 @@ def _thread_start(self) -> threading.Thread:
+> >>           """Kick off a thread to drain the socket."""
+> >>           # Configure socket to not block and timeout.
+> >>           # This allows our drain thread to not block
+> >> -        # on recieve and exit smoothly.
+> >> +        # on receive and exit smoothly.
+> >>           socket.socket.setblocking(self, False)
+> >>           socket.socket.settimeout(self, 1)
+> >>           drain_thread =3D threading.Thread(target=3Dself._drain_fn)
+> >> diff --git a/python/qemu/machine/qtest.py b/python/qemu/machine/qtest.=
+py
+> >> index 1a1fc6c9b0..906bd13298 100644
+> >> --- a/python/qemu/machine/qtest.py
+> >> +++ b/python/qemu/machine/qtest.py
+> >> @@ -42,7 +42,7 @@ class QEMUQtestProtocol:
+> >>       :raise socket.error: on socket connection errors
+> >>       .. note::
+> >> -       No conection is estabalished by __init__(), this is done
+> >> +       No connection is estabalished by __init__(), this is done
+> >>          by the connect() or accept() methods.
+> >>       """
+> >>       def __init__(self, address: SocketAddrT,
+> >> diff --git a/python/qemu/qmp/protocol.py b/python/qemu/qmp/protocol.py
+> >> index 6ea86650ad..15909b7dba 100644
+> >> --- a/python/qemu/qmp/protocol.py
+> >> +++ b/python/qemu/qmp/protocol.py
+> >> @@ -812,7 +812,7 @@ def _done(task: Optional['asyncio.Future[Any]']) -=
+> bool:
+> >>       @bottom_half
+> >>       async def _bh_close_stream(self, error_pathway: bool =3D False) =
+-> None:
+> >> -        # NB: Closing the writer also implcitly closes the reader.
+> >> +        # NB: Closing the writer also implicitly closes the reader.
+> >>           if not self._writer:
+> >>               return
+> >> diff --git a/python/qemu/qmp/qmp_tui.py b/python/qemu/qmp/qmp_tui.py
+> >> index ce239d8979..8369144723 100644
+> >> --- a/python/qemu/qmp/qmp_tui.py
+> >> +++ b/python/qemu/qmp/qmp_tui.py
+> >> @@ -71,7 +71,7 @@ def format_json(msg: str) -> str:
+> >>       due to an decoding error then a simple string manipulation is do=
+ne to
+> >>       achieve a single line JSON string.
+> >> -    Converting into single line is more asthetically pleasing when lo=
+oking
+> >> +    Converting into single line is more aesthetically pleasing when l=
+ooking
+> >>       along with error messages.
+> >>       Eg:
+> >> @@ -91,7 +91,7 @@ def format_json(msg: str) -> str:
+> >>           [1, true, 3]: QMP message is not a JSON object.
+> >> -    The single line mode is more asthetically pleasing.
+> >> +    The single line mode is more aesthetically pleasing.
+> >>       :param msg:
+> >>           The message to formatted into single line.
+> >> @@ -498,7 +498,7 @@ def __init__(self, parent: App) -> None:
+> >>   class HistoryBox(urwid.ListBox):
+> >>       """
+> >>       This widget is modelled using the ListBox widget, contains the l=
+ist of
+> >> -    all messages both QMP messages and log messsages to be shown in t=
+he TUI.
+> >> +    all messages both QMP messages and log messages to be shown in th=
+e TUI.
+> >>       The messages are urwid.Text widgets. On every append of a messag=
+e, the
+> >>       focus is shifted to the last appended message.
+> >
+> >
+>
+> Applied to my trivial-patches branch.
+>
+> Thanks,
+> Laurent
 
---=-b7aZ5CktgalYrUK6AXB5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Laurent, I'll grab this one, sorry!
 
-On Mon, 2023-01-16 at 17:59 +0000, Paul Durrant wrote:
-> > +
-> > +=C2=A0=C2=A0=C2=A0 switch (cmd) {
-> > +=C2=A0=C2=A0=C2=A0 case EVTCHNOP_init_control:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 err =3D -ENOSYS;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
->=20
-> The commit comment doesn't explain why the above op is singled out for=
-=20
-> this treatment. I assume it is because there is no intention to=20
-> implement FIFO event channels in subsequent patches, but it'd be nice to=
-=20
-> say so here.
-
-Indeed. I added EVTCHNOP_expand_array and EVTCHNOP_set_priority too, while =
-I'm at it.
-
---=-b7aZ5CktgalYrUK6AXB5
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMTE2MTk1NDA4WjAvBgkqhkiG9w0BCQQxIgQg1O5eO/G+
-BrISjFrIfj86tO/+C6dbYT+usXzJ1JHV/dwwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgB1oU2JxyZUCrpzTIQtVibqRDljsQbLhzIC
-QRjr9BWyEuZPOeCi62oC9jCjsipfXplFdr12/egyfPCr+Fm/96TWPz+k6h2r6Fp8oJU8BqnqP7tf
-pJ032ejuIL2wk6sJfgHu+nTWLFWRHv5SX2KM/3OihBCLfLypk41qWuBf5ryQhWkus+8qzudB8RE2
-ty9j+FqOhdtdO9+JsJvyKrRJt5ZwVoQbHIS36BXuM7zJq4AlD486H0+gqwhwjmqdAArEE+cz29R2
-Bt9Kgd0GiLp1LAakS54MUtMJUcjRDmV+qJE7HVMS5i6DNnVmJuBb8ruKoEsUEUfwes+ntnPRoExy
-mR0HmIfr0QnOr9dLFJj2QfDD0vzgyDbJ7clLcwbqe68xZFJjjx4+bW9c4zRaiJwjsWcCeSv9C7vT
-uWNMY4vin2u8YnOjxIik4+9KL6KV26UIBAgiugBnmG83itp5UZ/HevU//ge6qgJGpqE2swxdUxBT
-sMDaum9dtDgp5Ay8OIHZ6Fl/RPJB8SKr4ZCYnDrfqrs3RqZt3JwQGeRcKhxOiKnZaJI+Vc6RoZm5
-E5D6tiKxr9pLFNcsMVbOSICbMXI8/lBtSFoemLSt0cslXcc1aDzKeOTIYPCkbql2Ktnmw+ViClDQ
-q+lcMHPoHvak3at0F5na8QU4mc1mekfXXfCknPnJeQAAAAAAAA==
-
-
---=-b7aZ5CktgalYrUK6AXB5--
 
