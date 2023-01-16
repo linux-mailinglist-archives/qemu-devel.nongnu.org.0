@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C4766D1D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 23:37:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2E366D1D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 23:37:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHY5t-0000PP-Fo; Mon, 16 Jan 2023 17:36:45 -0500
+	id 1pHY5w-0000Wb-6m; Mon, 16 Jan 2023 17:36:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHY5r-0000Oh-Aj
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 17:36:43 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1pHY5t-0000PQ-87
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 17:36:45 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHY5p-0001M9-Ks
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 17:36:43 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id q5so4268492pjh.1
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 14:36:41 -0800 (PST)
+ id 1pHY5r-0001MF-L1
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 17:36:45 -0500
+Received: by mail-pl1-x629.google.com with SMTP id k12so9586595plk.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 14:36:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=5KHBahtVyqoNrHye2ukHH9Bmolxcd30ojkDPXk2RDpI=;
- b=inLvtzlkxZ8Wy/qsUSchKwJXgND84VleVbsrVsue/wtWzTCPmDdcB+d3m7FrjfSJnF
- rBLiipOgMZJXFU0E7H8lYwIsWFv+UjuNvN3gF4tVuOr00pYuZZXvanHWLfxJCxKnscYk
- kslEBnJAZC1z4l6x6dJ735SrDrY9aRuuCDdTjJE1Cacdibf3dmfT/VEwnjdv72cfkgqK
- r4RB7K+4JJpXGXAdrCm0410Kd7wfSMoRYpxzPYgl5PaqxFQ1FD+hDXixZk5g4urKTZdw
- Rh7Zy4eopRrXJIohd+7xvVNfXnoYqvtqEJCoqRUVILMnPNfQbIMqjLYdMjXq8BxiaIXe
- cdXQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sVoQ+dZBxCCrOAQkIYFBP0Uz5/oWgbT60mps7v3rv5w=;
+ b=kjQPhh7y6UmxHQT083q4jKpXzCOGnRVkRlBOiQfevp+dtKPpMRseWca1yXPQ9ZMx64
+ SuYh4/KLFO1mnSrjdjaxsKZSNDXRKrQk5qdfyqIz9kJf8jf3czzLieFL0pOmYAMtZzHq
+ mE3pdJLo9z7dOpAoNGs9k3+GsE1Ts0ZLh1hxNGL/BLn9MzqrZZuoNPV44dxOLxdNR6di
+ E4YE7Dt013/1JyU04xjOSmTvHxFn4rX04waA1K2cQ2KkzaMmg6e0HKcwCyKyTX5NDyGk
+ lyH13LW0g22dcZk332w8tD/SPRFXqEZj7u9SVOMmkGevc3f1F+MS6XbJmdaITnBTHvr5
+ N94A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5KHBahtVyqoNrHye2ukHH9Bmolxcd30ojkDPXk2RDpI=;
- b=N9oO4wczE41COXycYuOHGec+2QWgSmW5XdbZ/L8tmLlLMRFyZJIEpGZTOhfH37770v
- TcM3Gq0sjqVHri0eo5KIAJWIr4loujqY4TYYxNHDLHgLq5CDerxABtfNJlvkY8/hwL+f
- wSA+aU9FKu52ajPsnFjsRlf4ajcGXoF+LF7jzvbb6Julf8ecomSPcwcnuD49ZCJUInb8
- 7ePOWURdcdld5G36mGr2r2/uJL1OOmYVR22m3k9Mw0yxXGZ77z5pPoif9Nb6U+X7tvid
- /yuAJVc4pyDElMn9CQb5gw67Ji6f2ws9zjvk42KzSuTvB2nBt67phNCkysCagVMToJVN
- JMTQ==
-X-Gm-Message-State: AFqh2kpS7sRBpYw2yJj7tPA5F5uaxYcJhesfHdB3VsSerOkPAghBLEkX
- VVOJp8jVOWhVCmNu7b7qLEMpFSnNTPMwrxn5
-X-Google-Smtp-Source: AMrXdXvdxKMJO11apU6nb3M1s1VT/ZzHqWlGqy0hzX1pPsfsItMygwnqQ22mdewIHUU3Hnrs/TrM4w==
-X-Received: by 2002:a17:902:8216:b0:194:59c2:a155 with SMTP id
- x22-20020a170902821600b0019459c2a155mr1090376pln.16.1673908600248; 
- Mon, 16 Jan 2023 14:36:40 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sVoQ+dZBxCCrOAQkIYFBP0Uz5/oWgbT60mps7v3rv5w=;
+ b=o574qI2VOXx3Nmi1e+HExI308A5VRMqAoc/3qwWs9HN0M7gtv/M075anxePo7jfCHN
+ ob65yXePOKXGFk0js7Fs7UMjIMHV9jEbrfEO1JZYu81w7kjbfnoFkmoFMu7aiqzzvtGE
+ ulglzcoi6wr+AdbbbRKxwqzHHXrGFji+5twdBf1q8pxKDtNcwxdzUmRo+XllZcnQ4nA3
+ /0sA/IRKpwhB4tmCJzXzSSJpapl/sHD5WvzW/8Cn+S6SjYGUvsMF0r7l0SAG+8++2yIb
+ fpaUKnvuop+YvfK8b3XMGYJWgDP3QOgmLIkvg6Uy7LMJ2Alr6qsGSz16BFoONWgeO0ZV
+ OkSQ==
+X-Gm-Message-State: AFqh2krHjIaY+vqyC+bCbUhdBAj+HOv5mV1hB6FPV4rcDptZMk332byb
+ FdWc/3j5qOjanahxDwJHQ+BYyqkXNtQO/jox
+X-Google-Smtp-Source: AMrXdXutWcFq9uL5iHxqxYiGQUf3tYGyYfG6dxDiQivgkbE2jygMwjHwNsHuSvVhEJoOE5xqejQb8g==
+X-Received: by 2002:a17:902:d50e:b0:191:4378:ec06 with SMTP id
+ b14-20020a170902d50e00b001914378ec06mr30669211plg.61.1673908602048; 
+ Mon, 16 Jan 2023 14:36:42 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- n3-20020a170903110300b00189f2fdbdd0sm19742492plh.234.2023.01.16.14.36.38
+ n3-20020a170903110300b00189f2fdbdd0sm19742492plh.234.2023.01.16.14.36.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Jan 2023 14:36:39 -0800 (PST)
+ Mon, 16 Jan 2023 14:36:41 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Subject: [PULL 0/5] tcg patch queue
-Date: Mon, 16 Jan 2023 12:36:32 -1000
-Message-Id: <20230116223637.3512814-1-richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org, Ilya Leoshkevich <iii@linux.ibm.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 1/5] linux-user: Clean up when exiting due to a signal
+Date: Mon, 16 Jan 2023 12:36:33 -1000
+Message-Id: <20230116223637.3512814-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230116223637.3512814-1-richard.henderson@linaro.org>
+References: <20230116223637.3512814-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,55 +91,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit fb7e7990342e59cf67dbd895c1a1e3fb1741df7a:
+From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-  tests/qtest/qom-test: Do not print tested properties by default (2023-01-16 15:00:57 +0000)
+When exiting due to an exit() syscall, qemu-user calls
+preexit_cleanup(), but this is currently not the case when exiting due
+to a signal. This leads to various buffers not being flushed (e.g.,
+for gprof, for gcov, and for the upcoming perf support).
 
-are available in the Git repository at:
+Add the missing call.
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230116
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230112152013.125680-2-iii@linux.ibm.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/signal.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-for you to fetch changes up to 61710a7e23a63546da0071ea32adb96476fa5d07:
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 61c6fa3fcf..098f3a787d 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -695,7 +695,7 @@ void cpu_loop_exit_sigbus(CPUState *cpu, target_ulong addr,
+ 
+ /* abort execution with signal */
+ static G_NORETURN
+-void dump_core_and_abort(int target_sig)
++void dump_core_and_abort(CPUArchState *cpu_env, int target_sig)
+ {
+     CPUState *cpu = thread_cpu;
+     CPUArchState *env = cpu->env_ptr;
+@@ -724,6 +724,8 @@ void dump_core_and_abort(int target_sig)
+             target_sig, strsignal(host_sig), "core dumped" );
+     }
+ 
++    preexit_cleanup(cpu_env, 128 + target_sig);
++
+     /* The proper exit code for dying from an uncaught signal is
+      * -<signal>.  The kernel doesn't allow exit() or _exit() to pass
+      * a negative value.  To get the proper exit code we need to
+@@ -1058,12 +1060,12 @@ static void handle_pending_signal(CPUArchState *cpu_env, int sig,
+                    sig != TARGET_SIGURG &&
+                    sig != TARGET_SIGWINCH &&
+                    sig != TARGET_SIGCONT) {
+-            dump_core_and_abort(sig);
++            dump_core_and_abort(cpu_env, sig);
+         }
+     } else if (handler == TARGET_SIG_IGN) {
+         /* ignore sig */
+     } else if (handler == TARGET_SIG_ERR) {
+-        dump_core_and_abort(sig);
++        dump_core_and_abort(cpu_env, sig);
+     } else {
+         /* compute the blocked signals during the handler execution */
+         sigset_t *blocked_set;
+-- 
+2.34.1
 
-  accel/tcg: Split out cpu_exec_{setjmp,loop} (2023-01-16 10:14:12 -1000)
-
-----------------------------------------------------------------
-- Reorg cpu_tb_exec around setjmp.
-- Use __attribute__((target)) for buffer_is_zero.
-- Add perfmap and jitdump for perf support.
-
-----------------------------------------------------------------
-Ilya Leoshkevich (3):
-      linux-user: Clean up when exiting due to a signal
-      accel/tcg: Add debuginfo support
-      tcg: add perfmap and jitdump
-
-Richard Henderson (2):
-      util/bufferiszero: Use __attribute__((target)) for avx2/avx512
-      accel/tcg: Split out cpu_exec_{setjmp,loop}
-
- docs/devel/tcg.rst        |  23 +++
- meson.build               |  16 +-
- accel/tcg/debuginfo.h     |  77 ++++++++++
- accel/tcg/perf.h          |  49 ++++++
- accel/tcg/cpu-exec.c      | 111 +++++++-------
- accel/tcg/debuginfo.c     |  96 ++++++++++++
- accel/tcg/perf.c          | 375 ++++++++++++++++++++++++++++++++++++++++++++++
- accel/tcg/translate-all.c |   7 +
- hw/core/loader.c          |   5 +
- linux-user/elfload.c      |   3 +
- linux-user/exit.c         |   2 +
- linux-user/main.c         |  15 ++
- linux-user/signal.c       |   8 +-
- softmmu/vl.c              |  11 ++
- tcg/tcg.c                 |   2 +
- util/bufferiszero.c       |  41 +----
- accel/tcg/meson.build     |   2 +
- linux-user/meson.build    |   1 +
- qemu-options.hx           |  20 +++
- 19 files changed, 763 insertions(+), 101 deletions(-)
- create mode 100644 accel/tcg/debuginfo.h
- create mode 100644 accel/tcg/perf.h
- create mode 100644 accel/tcg/debuginfo.c
- create mode 100644 accel/tcg/perf.c
 
