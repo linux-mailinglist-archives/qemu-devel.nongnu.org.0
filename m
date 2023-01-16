@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4371066D170
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F5166D171
 	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 23:08:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHXV4-0006uD-E1; Mon, 16 Jan 2023 16:58:42 -0500
+	id 1pHXVD-0006yH-Jm; Mon, 16 Jan 2023 16:58:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+fb0b8ce1ba8490165fd5+7085+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pHXUr-0006iv-61
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:58:29 -0500
+ id 1pHXUs-0006k4-EG
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:58:30 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+fb0b8ce1ba8490165fd5+7085+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pHXUm-0003ZL-Sn
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:58:28 -0500
+ id 1pHXUn-0003Zq-2O
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:58:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=MoJrA4s7EWNDRTvIFJa7IjSplzNwkG6QEEjZqhZqpW8=; b=rA62bwMIin6co4d7Tne1xGn92S
- B/Hrsah3bspVHvJO5iNBzA3WnaoEQYCzhqN9dBWg6HjRr43bQHFwFnBst8XY5jQiRfMn8yp1rTReX
- 1gGg9Jd3SCb7WHy3gNnjrEH13Tkly/U76FMpV3M3Ef0nfvBK5d0pwx2jSvl1MuQ5On+nN812fhXau
- VTV6MvwPKBavxgKTr106/KwQwIYMTZKD9AgHRX6icAPGlJzoswN+U03DYhGqyv6UrMOxv+WecPJ0s
- MRz19t7aM3RxHYyaawpmDIrTdrhJ/5OIZMlyRjJxeCiujeRbJJ0MH3+bSAO79a1OzS6eXB4bWc0ER
- McjUIIlQ==;
+ bh=BU7fDLEmY+CaBd+C/yNgj539rnCKHE3nX4QbAChICB4=; b=JlRUQUoDziBMcDx9yU4tZFJm3H
+ QJx+bLipXVrKUff7YE60K2b5Bkge6RPr+967FgqEHrAxgazNHiD8LNZ1CqBNlcFRbIxRZLD+wYYLw
+ CBbbd/qjKc+0oY6pESZx5hzH0RstM2U+IVCaa8zqko12hTZVY+/NagFOhS0N4fJwlOjrgd5GujABX
+ NY8YTqjNUc0ScMnTfzkRIcSIKl1FQ2saue74gxTTlzN23+PeEHJePSliq5UDUO9/8dXuQD839sKqX
+ j0L9hq1rahK97jm298BesLP2IHtUyjeTHCoqVM5fiOn+cQsve1sveVUOekEen6VbU5kaRYZT+iNcB
+ swdju+Sg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pHXUl-0097Vp-NB; Mon, 16 Jan 2023 21:58:26 +0000
+ id 1pHXUl-0097Vt-Or; Mon, 16 Jan 2023 21:58:26 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pHXUX-004iQo-3C; Mon, 16 Jan 2023 21:58:09 +0000
+ Linux)) id 1pHXUY-004iQs-08; Mon, 16 Jan 2023 21:58:10 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -48,10 +48,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [PATCH v7 47/51] i386/xen: Reserve Xen special pages for console,
- xenstore rings
-Date: Mon, 16 Jan 2023 21:58:01 +0000
-Message-Id: <20230116215805.1123514-48-dwmw2@infradead.org>
+Subject: [PATCH v7 48/51] i386/xen: handle HVMOP_get_param
+Date: Mon, 16 Jan 2023 21:58:02 +0000
+Message-Id: <20230116215805.1123514-49-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116215805.1123514-1-dwmw2@infradead.org>
 References: <20230116215805.1123514-1-dwmw2@infradead.org>
@@ -84,63 +83,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Joao Martins <joao.m.martins@oracle.com>
 
-Xen has eight frames at 0xfeff8000 for this; we only really need two for
-now and KVM puts the identity map at 0xfeffc000, so limit ourselves to
-four.
+Which is used to fetch xenstore PFN and port to be used
+by the guest. This is preallocated by the toolstack when
+guest will just read those and use it straight away.
 
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- include/sysemu/kvm_xen.h  |  8 ++++++++
- target/i386/kvm/xen-emu.c | 10 ++++++++++
- 2 files changed, 18 insertions(+)
+ target/i386/kvm/xen-emu.c | 39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-diff --git a/include/sysemu/kvm_xen.h b/include/sysemu/kvm_xen.h
-index df92205a7d..ed12b3aaec 100644
---- a/include/sysemu/kvm_xen.h
-+++ b/include/sysemu/kvm_xen.h
-@@ -29,4 +29,12 @@ uint16_t kvm_xen_get_gnttab_max_frames(void);
- #define kvm_xen_has_cap(cap) (!!(kvm_xen_get_caps() &           \
-                                  KVM_XEN_HVM_CONFIG_ ## cap))
- 
-+#define XEN_SPECIAL_AREA_ADDR 0xfeff8000UL
-+#define XEN_SPECIAL_AREA_SIZE 0x4000UL
-+
-+#define XEN_SPECIALPAGE_CONSOLE     0
-+#define XEN_SPECIALPAGE_XENSTORE    1
-+
-+#define XEN_SPECIAL_PFN(x) ((XEN_SPECIAL_AREA_ADDR >> TARGET_PAGE_BITS) + XEN_SPECIALPAGE_##x)
-+
- #endif /* QEMU_SYSEMU_KVM_XEN_H */
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index c90ac7790a..0110ef55c7 100644
+index 0110ef55c7..c55d2e16a3 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -22,6 +22,7 @@
- 
- #include "hw/pci/msi.h"
- #include "hw/i386/apic-msidef.h"
-+#include "hw/i386/e820_memory_layout.h"
- #include "hw/i386/kvm/xen_overlay.h"
- #include "hw/i386/kvm/xen_evtchn.h"
- #include "hw/i386/kvm/xen_gnttab.h"
-@@ -168,6 +169,15 @@ int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
-     }
- 
-     s->xen_caps = xen_caps;
-+
-+    /* Tell fw_cfg to notify the BIOS to reserve the range. */
-+    ret = e820_add_entry(XEN_SPECIAL_AREA_ADDR, XEN_SPECIAL_AREA_SIZE,
-+                         E820_RESERVED);
-+    if (ret < 0) {
-+        fprintf(stderr, "e820_add_entry() table is full\n");
-+        return ret;
-+    }
-+
-     return 0;
+@@ -744,6 +744,42 @@ out:
+     return true;
  }
  
++static bool handle_get_param(struct kvm_xen_exit *exit, X86CPU *cpu,
++                             uint64_t arg)
++{
++    CPUState *cs = CPU(cpu);
++    struct xen_hvm_param hp;
++    int err = 0;
++
++    /* No need for 32/64 compat handling */
++    qemu_build_assert(sizeof(hp) == 16);
++
++    if (kvm_copy_from_gva(cs, arg, &hp, sizeof(hp))) {
++        err = -EFAULT;
++        goto out;
++    }
++
++    if (hp.domid != DOMID_SELF && hp.domid != xen_domid) {
++        err = -ESRCH;
++        goto out;
++    }
++
++    switch (hp.index) {
++    case HVM_PARAM_STORE_PFN:
++        hp.value = XEN_SPECIAL_PFN(XENSTORE);
++        break;
++    default:
++        return false;
++    }
++
++    if (kvm_copy_to_gva(cs, arg, &hp, sizeof(hp))) {
++        err = -EFAULT;
++    }
++out:
++    exit->u.hcall.result = err;
++    return true;
++}
++
+ static int kvm_xen_hcall_evtchn_upcall_vector(struct kvm_xen_exit *exit,
+                                               X86CPU *cpu, uint64_t arg)
+ {
+@@ -788,6 +824,9 @@ static bool kvm_xen_hcall_hvm_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+     case HVMOP_set_param:
+         return handle_set_param(exit, cpu, arg);
+ 
++    case HVMOP_get_param:
++        return handle_get_param(exit, cpu, arg);
++
+     default:
+         return false;
+     }
 -- 
 2.39.0
 
