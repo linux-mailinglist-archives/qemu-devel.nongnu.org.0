@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C5866CDE7
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:48:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDFF66CDE3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:47:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHTZ4-0001HA-4C; Mon, 16 Jan 2023 12:46:34 -0500
+	id 1pHTZC-0001I8-2I; Mon, 16 Jan 2023 12:46:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=IbPF=5N=kaod.org=clg@ozlabs.org>)
- id 1pHTZ1-0001GA-2f; Mon, 16 Jan 2023 12:46:32 -0500
+ id 1pHTZ1-0001GB-GM; Mon, 16 Jan 2023 12:46:32 -0500
 Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=IbPF=5N=kaod.org=clg@ozlabs.org>)
- id 1pHTYz-0006qL-3B; Mon, 16 Jan 2023 12:46:30 -0500
+ id 1pHTYz-0006qu-4i; Mon, 16 Jan 2023 12:46:31 -0500
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4Nwfb056WXz4xyB;
- Tue, 17 Jan 2023 04:46:20 +1100 (AEDT)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4Nwfb45Z3Qz4xyn;
+ Tue, 17 Jan 2023 04:46:24 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4NwfZx14trz4x1N;
- Tue, 17 Jan 2023 04:46:16 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Nwfb11brjz4x1N;
+ Tue, 17 Jan 2023 04:46:20 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-s390x@nongnu.org
 Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
@@ -37,9 +37,10 @@ Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
  Eric Farman <farman@linux.ibm.com>,
  Sebastian Mitterle <smitterl@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v3 1/3] s390x/pv: Implement a CGS check helper
-Date: Mon, 16 Jan 2023 18:46:05 +0100
-Message-Id: <20230116174607.2459498-2-clg@kaod.org>
+Subject: [PATCH v3 2/3] s390x/pv: Introduce a s390_pv_check() helper for
+ runtime
+Date: Mon, 16 Jan 2023 18:46:06 +0100
+Message-Id: <20230116174607.2459498-3-clg@kaod.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116174607.2459498-1-clg@kaod.org>
 References: <20230116174607.2459498-1-clg@kaod.org>
@@ -71,92 +72,95 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Cédric Le Goater <clg@redhat.com>
 
-When a protected VM is started with the maximum number of CPUs (248),
-the service call providing information on the CPUs requires more
-buffer space than allocated and QEMU disgracefully aborts :
+If a secure kernel is started in a non-protected VM, the OS will hang
+during boot without giving a proper error message to the user.
 
-    LOADPARM=[........]
-    Using virtio-blk.
-    Using SCSI scheme.
-    ...................................................................................
-    qemu-system-s390x: KVM_S390_MEM_OP failed: Argument list too long
+Perform the checks on Confidential Guest support at runtime with an
+helper called from the service call switching the guest to protected
+mode.
 
-When protected virtualization is initialized, compute the maximum
-number of vCPUs supported by the machine and return useful information
-to the user before the machine starts in case of error.
-
-Suggested-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Cédric Le Goater <clg@redhat.com>
 ---
- hw/s390x/pv.c | 40 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
 
+  In s390_pv_check(), drop the call to s390_pv_guest_check() since
+  init time has already checked the same conditions. However, to
+  report an error when the machine is not protected and the kernel
+  secure, we still need s390_pv_check().
+
+ include/hw/s390x/pv.h |  2 ++
+ hw/s390x/pv.c         | 13 +++++++++++++
+ target/s390x/diag.c   |  7 +++++++
+ 3 files changed, 22 insertions(+)
+
+diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
+index 9360aa1091..ca7dac2e20 100644
+--- a/include/hw/s390x/pv.h
++++ b/include/hw/s390x/pv.h
+@@ -55,6 +55,7 @@ int kvm_s390_dump_init(void);
+ int kvm_s390_dump_cpu(S390CPU *cpu, void *buff);
+ int kvm_s390_dump_mem_state(uint64_t addr, size_t len, void *dest);
+ int kvm_s390_dump_completion_data(void *buff);
++bool s390_pv_check(Error **errp);
+ #else /* CONFIG_KVM */
+ static inline bool s390_is_pv(void) { return false; }
+ static inline int s390_pv_query_info(void) { return 0; }
+@@ -75,6 +76,7 @@ static inline int kvm_s390_dump_cpu(S390CPU *cpu, void *buff) { return 0; }
+ static inline int kvm_s390_dump_mem_state(uint64_t addr, size_t len,
+                                           void *dest) { return 0; }
+ static inline int kvm_s390_dump_completion_data(void *buff) { return 0; }
++static inline bool s390_pv_check(Error **errp) { return false; }
+ #endif /* CONFIG_KVM */
+ 
+ int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
 diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index 8dfe92d8df..8a1c71436b 100644
+index 8a1c71436b..8405e73a1b 100644
 --- a/hw/s390x/pv.c
 +++ b/hw/s390x/pv.c
-@@ -20,6 +20,7 @@
- #include "exec/confidential-guest-support.h"
- #include "hw/s390x/ipl.h"
- #include "hw/s390x/pv.h"
-+#include "hw/s390x/sclp.h"
- #include "target/s390x/kvm/kvm_s390x.h"
+@@ -306,6 +306,19 @@ int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+     return 0;
+ }
  
- static bool info_valid;
-@@ -249,6 +250,41 @@ struct S390PVGuestClass {
-     ConfidentialGuestSupportClass parent_class;
- };
- 
-+/*
-+ * If protected virtualization is enabled, the amount of data that the
-+ * Read SCP Info Service Call can use is limited to one page. The
-+ * available space also depends on the Extended-Length SCCB (ELS)
-+ * feature which can take more buffer space to store feature
-+ * information. This impacts the maximum number of CPUs supported in
-+ * the machine.
-+ */
-+static uint32_t s390_pv_get_max_cpus(void)
-+{
-+    int offset_cpu = s390_has_feat(S390_FEAT_EXTENDED_LENGTH_SCCB) ?
-+        offsetof(ReadInfo, entries) : SCLP_READ_SCP_INFO_FIXED_CPU_OFFSET;
-+
-+    return (TARGET_PAGE_SIZE - offset_cpu) / sizeof(CPUEntry);
-+}
-+
-+static bool s390_pv_check_cpus(Error **errp)
++bool s390_pv_check(Error **errp)
 +{
 +    MachineState *ms = MACHINE(qdev_get_machine());
-+    uint32_t pv_max_cpus = s390_pv_get_max_cpus();
 +
-+    if (ms->smp.max_cpus > pv_max_cpus) {
-+        error_setg(errp, "Protected VMs support a maximum of %d CPUs",
-+                   pv_max_cpus);
++    if (!ms->cgs) {
++        error_setg(errp, "Protected VM is started without Confidential"
++                   " Guest support");
 +        return false;
 +    }
 +
 +    return true;
 +}
 +
-+static bool s390_pv_guest_check(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    return s390_pv_check_cpus(errp);
-+}
-+
- int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
- {
-     if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
-@@ -261,6 +297,10 @@ int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-         return -1;
-     }
+ OBJECT_DEFINE_TYPE_WITH_INTERFACES(S390PVGuest,
+                                    s390_pv_guest,
+                                    S390_PV_GUEST,
+diff --git a/target/s390x/diag.c b/target/s390x/diag.c
+index 76b01dcd68..9b16e25930 100644
+--- a/target/s390x/diag.c
++++ b/target/s390x/diag.c
+@@ -79,6 +79,7 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
+     uint64_t addr =  env->regs[r1];
+     uint64_t subcode = env->regs[r3];
+     IplParameterBlock *iplb;
++    Error *local_err = NULL;
  
-+    if (!s390_pv_guest_check(cgs, errp)) {
-+        return -1;
-+    }
-+
-     cgs->ready = true;
+     if (env->psw.mask & PSW_MASK_PSTATE) {
+         s390_program_interrupt(env, PGM_PRIVILEGED, ra);
+@@ -176,6 +177,12 @@ out:
+             return;
+         }
  
-     return 0;
++        if (!s390_pv_check(&local_err)) {
++            error_report_err(local_err);
++            env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
++            return;
++        }
++
+         s390_ipl_reset_request(cs, S390_RESET_PV);
+         break;
+     default:
 -- 
 2.39.0
 
