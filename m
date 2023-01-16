@@ -2,80 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B7366B902
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 09:23:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B9466B913
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 09:30:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHKlw-0002GS-KZ; Mon, 16 Jan 2023 03:23:16 -0500
+	id 1pHKs5-0004Op-Pb; Mon, 16 Jan 2023 03:29:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHKlv-0002GF-9t
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:23:15 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHKlt-0008K9-Co
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:23:14 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- f12-20020a7bc8cc000000b003daf6b2f9b9so2036137wml.3
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 00:23:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LyvPCxNsRykEHdvO+ZUB95i/bGN9rVnDNMH2P4vJK/U=;
- b=Ac6ktgzTCxKHX8KBFsX0be/lNqQnkpOPonrS1ak3MY7NVajgo3y/Iup16FUwQ2CHTI
- MYk5FL0u7EAomjT7V0MNjewJ89P6vsNyu08RQA5X2gwm8yKTjsyfcR17jGf+0tUwLUix
- QTbd5/80L/DxDHkxpwGiDi5WUCJhmZB9+sC006kOLfh8DFE2jQ7Npk+GnRoM/CBsj5MH
- cjGKlGbjCaUAw2Jmj37/q9hQhUEAoEn51vmkofMzTZwsnskyEPWfQ9hNIldpsz93Itv3
- ivAhBgvS6STDl99HSA35l65NsKtTwyi+WIfGxvu4fF7S8waTDahJhX95RpGPRDZ3R1L8
- 9Ebw==
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pHKri-0004OF-Gy
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:29:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pHKrf-0001Jg-CF
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:29:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673857749;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j+MqMeBXOY8VKxkI3VrQq7HI2sANh0kzExIlMIFa9l4=;
+ b=QFjdGpFttwb6LI75NwevjjkQp4NLD78GJA7doSny8k1iG2AZDVu4le6ATAihwXkRelZhgH
+ UgMbopOs7G4ygFI6ptWiibjiS3E/etEmtOrW7Jus0PfwTNPPkoOhLyBwpL6SLZcLyLrrCU
+ h7r/weaGqThFpbHzPPSY4laLfNs6NQ0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-641-eBmdMR2SMB2WteCqGNMbsA-1; Mon, 16 Jan 2023 03:29:08 -0500
+X-MC-Unique: eBmdMR2SMB2WteCqGNMbsA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d7-20020adf9b87000000b002bde8f7112bso929298wrc.17
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 00:29:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LyvPCxNsRykEHdvO+ZUB95i/bGN9rVnDNMH2P4vJK/U=;
- b=A6IYQhXMzs58hJrQR/rpLuEE3udAcGCU8w+A7kR2v2YfI1DcdX3s9XZ1XmbJ7uCnfa
- jJXWnfWahvLvqUiW1FGWd3IdZifx5a3QH0ftHfAsdJ1l1nwAQhs3LOHwiLCXKKYpbAIp
- ZVYWz2+dVeqIlHS8pLlkryo4mD8bVhU4koYZ17A8AAFgq2hMDVa/oFq5cvIFuqvmTBAO
- q/jTr1+Etdv5NTZ4tfQNaUtf0IOTP53KXV6pnhw8PRZovcmor98J2Rez4Muywv+Lq1zp
- TS3G04eqqvdVKaNNYrJuvm8CgmG4uoFRa3A69j8ubECpGpLrqvM8ny/UseAVhtrG58ZG
- JS8g==
-X-Gm-Message-State: AFqh2ko14t664HZ9z/qxYVMvnVKGJ/ahicbQJtBkFHLcfzUYGRxlgJs6
- wB1a6Z/SXTQkopXiLg0H05Bjug==
-X-Google-Smtp-Source: AMrXdXuC7uuelRZSlCT4Ym8VEIlCNRa4jfyOvpLVWBgmiWlYUVduOP8p7Ba3tXieR7FoGrTgRGajqQ==
-X-Received: by 2002:a05:600c:1d13:b0:3da:fa80:62f9 with SMTP id
- l19-20020a05600c1d1300b003dafa8062f9mr2888856wms.18.1673857390807; 
- Mon, 16 Jan 2023 00:23:10 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- j23-20020a05600c1c1700b003b4ff30e566sm10479472wms.3.2023.01.16.00.23.09
+ bh=j+MqMeBXOY8VKxkI3VrQq7HI2sANh0kzExIlMIFa9l4=;
+ b=IoeByz3Odu7lJVx/BkWDckNE7E+95h9tWviHVLMwMwR2EbBrNf5t1A+gubCrtGUCyn
+ FbZK+ItkSzGujs2B7tDdiKbfsqteuUa4IlnHNpRLwCfNCWdrJ+iDlcx2FfXz0glhCxyX
+ j8Tc/woMqjp/e+gODpsaQyszaiNRSMy6TM+uTXhrz5aV1IdKOPo6LjcV8QxUCwnTBAhT
+ eBh3KVxakcTIC7Os+9hd8z8Jo2TMgSpT8WDnjBhJ7gcXJ/LcVwew2J0dMsaGjdI7J8xM
+ e051zv+KW2x3d7tAFItf2QRfxjVEfIYoIh3ra3+78B3Ze67lRV0ekmkGkZr57sI00ZkV
+ JWsA==
+X-Gm-Message-State: AFqh2krIlxS+W9PfUr13ewzqbkqARAZtWw4NXaNlOd8FSgFhOtVn3DAK
+ +CKUhvhlZYby9DAWEoxxNe5RsdmvEcJZdi1fk6fDAUoS+7+R/PWA0L9sKwPlUc+vMZUKGc+uMD3
+ iGKZ3TQuSZF8VvpxZwqyBJXXeO9XWC1F2vTIkMgw3zNAL9WhM4DgCs7Qd7LBoXbtdmg==
+X-Received: by 2002:a05:600c:4d23:b0:3da:270b:ba6b with SMTP id
+ u35-20020a05600c4d2300b003da270bba6bmr9003925wmp.41.1673857746876; 
+ Mon, 16 Jan 2023 00:29:06 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtngdCsOTadUL9msuxKe01+aNroZWJ6egDjhngtSO/qS3mNvKHeywpmyrGegytV2pOgGeqJTA==
+X-Received: by 2002:a05:600c:4d23:b0:3da:270b:ba6b with SMTP id
+ u35-20020a05600c4d2300b003da270bba6bmr9003901wmp.41.1673857746521; 
+ Mon, 16 Jan 2023 00:29:06 -0800 (PST)
+Received: from [192.168.100.30] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ fc14-20020a05600c524e00b003a3442f1229sm42715894wmb.29.2023.01.16.00.29.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 00:23:10 -0800 (PST)
-Message-ID: <aa2862bd-7310-2f27-3a75-a3b351691235@linaro.org>
-Date: Mon, 16 Jan 2023 09:23:08 +0100
+ Mon, 16 Jan 2023 00:29:06 -0800 (PST)
+Message-ID: <c8d8fd8a-4c03-5483-ad66-eb83f3935a7a@redhat.com>
+Date: Mon, 16 Jan 2023 09:29:04 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 1/2] tests/tcg/i386: Introduce and use reg_t consistently
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com
-References: <20230114230542.3116013-1-richard.henderson@linaro.org>
- <20230114230542.3116013-2-richard.henderson@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3] net: stream: add a new option to automatically
+ reconnect
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230114230542.3116013-2-richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Jason Wang <jasowang@redhat.com>
+References: <20230105131322.469173-1-lvivier@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <20230105131322.469173-1-lvivier@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,54 +105,318 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/1/23 00:05, Richard Henderson wrote:
-> Define reg_t based on the actual register width.
-> Define the inlines using that type.  This will allow
-> input registers to 32-bit insns to be set to 64-bit
-> values on x86-64, which allows testing various edge cases.
+ping
+
+On 1/5/23 14:13, Laurent Vivier wrote:
+> In stream mode, if the server shuts down there is currently
+> no way to reconnect the client to a new server without removing
+> the NIC device and the netdev backend (or to reboot).
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> This patch introduces a reconnect option that specifies a delay
+> to try to reconnect with the same parameters.
+> 
+> Add a new test in qtest to test the reconnect option and the
+> connect/disconnect events.
+> 
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 > ---
->   tests/tcg/i386/test-i386-bmi2.c | 182 ++++++++++++++++----------------
->   1 file changed, 93 insertions(+), 89 deletions(-)
+> Based-on: <20230105093751.416666-1-lvivier@redhat.com>
+>      
+> v3:
+> - add "since 8.0" in net.json
+>      
+> v2:
+> - rebase
 > 
-> diff --git a/tests/tcg/i386/test-i386-bmi2.c b/tests/tcg/i386/test-i386-bmi2.c
-> index 5fadf47510..3c3ef85513 100644
-> --- a/tests/tcg/i386/test-i386-bmi2.c
-> +++ b/tests/tcg/i386/test-i386-bmi2.c
-> @@ -3,34 +3,40 @@
->   #include <stdint.h>
->   #include <stdio.h>
+>   net/stream.c                |  53 ++++++++++++++++++-
+>   qapi/net.json               |   7 ++-
+>   qemu-options.hx             |   6 +--
+>   tests/qtest/netdev-socket.c | 100 ++++++++++++++++++++++++++++++++++++
+>   4 files changed, 161 insertions(+), 5 deletions(-)
+> 
+> diff --git a/net/stream.c b/net/stream.c
+> index 37ff727e0c42..9204b4c96e40 100644
+> --- a/net/stream.c
+> +++ b/net/stream.c
+> @@ -39,6 +39,8 @@
+>   #include "io/channel-socket.h"
+>   #include "io/net-listener.h"
+>   #include "qapi/qapi-events-net.h"
+> +#include "qapi/qapi-visit-sockets.h"
+> +#include "qapi/clone-visitor.h"
 >   
-> +#ifdef __x86_64
-> +typedef uint64_t reg_t;
-> +#else
-> +typedef uint32_t reg_t;
-> +#endif
+>   typedef struct NetStreamState {
+>       NetClientState nc;
+> @@ -49,11 +51,15 @@ typedef struct NetStreamState {
+>       guint ioc_write_tag;
+>       SocketReadState rs;
+>       unsigned int send_index;      /* number of bytes sent*/
+> +    uint32_t reconnect;
+> +    guint timer_tag;
+> +    SocketAddress *addr;
+>   } NetStreamState;
+>   
+>   static void net_stream_listen(QIONetListener *listener,
+>                                 QIOChannelSocket *cioc,
+>                                 void *opaque);
+> +static void net_stream_arm_reconnect(NetStreamState *s);
+>   
+>   static gboolean net_stream_writable(QIOChannel *ioc,
+>                                       GIOCondition condition,
+> @@ -170,6 +176,7 @@ static gboolean net_stream_send(QIOChannel *ioc,
+>           qemu_set_info_str(&s->nc, "%s", "");
+>   
+>           qapi_event_send_netdev_stream_disconnected(s->nc.name);
+> +        net_stream_arm_reconnect(s);
+>   
+>           return G_SOURCE_REMOVE;
+>       }
+> @@ -187,6 +194,14 @@ static gboolean net_stream_send(QIOChannel *ioc,
+>   static void net_stream_cleanup(NetClientState *nc)
+>   {
+>       NetStreamState *s = DO_UPCAST(NetStreamState, nc, nc);
+> +    if (s->timer_tag) {
+> +        g_source_remove(s->timer_tag);
+> +        s->timer_tag = 0;
+> +    }
+> +    if (s->addr) {
+> +        qapi_free_SocketAddress(s->addr);
+> +        s->addr = NULL;
+> +    }
+>       if (s->ioc) {
+>           if (QIO_CHANNEL_SOCKET(s->ioc)->fd != -1) {
+>               if (s->ioc_read_tag) {
+> @@ -346,12 +361,37 @@ static void net_stream_client_connected(QIOTask *task, gpointer opaque)
+>   error:
+>       object_unref(OBJECT(s->ioc));
+>       s->ioc = NULL;
+> +    net_stream_arm_reconnect(s);
+> +}
 > +
->   #define insn1q(name, arg0)                                                           \
-> -static inline uint64_t name##q(uint64_t arg0)                                        \
-> +static inline reg_t name##q(reg_t arg0)                                              \
->   {                                                                                    \
-> -    uint64_t result64;                                                               \
-> +    reg_t result64;                                                                  \
->       asm volatile (#name "q   %1, %0" : "=r"(result64) : "rm"(arg0));                 \
->       return result64;                                                                 \
+> +static gboolean net_stream_reconnect(gpointer data)
+> +{
+> +    NetStreamState *s = data;
+> +    QIOChannelSocket *sioc;
+> +
+> +    s->timer_tag = 0;
+> +
+> +    sioc = qio_channel_socket_new();
+> +    s->ioc = QIO_CHANNEL(sioc);
+> +    qio_channel_socket_connect_async(sioc, s->addr,
+> +                                     net_stream_client_connected, s,
+> +                                     NULL, NULL);
+> +    return G_SOURCE_REMOVE;
+> +}
+> +
+> +static void net_stream_arm_reconnect(NetStreamState *s)
+> +{
+> +    if (s->reconnect && s->timer_tag == 0) {
+> +        s->timer_tag = g_timeout_add_seconds(s->reconnect,
+> +                                             net_stream_reconnect, s);
+> +    }
 >   }
 >   
->   #define insn1l(name, arg0)                                                           \
-> -static inline uint32_t name##l(uint32_t arg0)                                        \
-> +static inline reg_t name##l(reg_t arg0)                                              \
->   {                                                                                    \
-> -    uint32_t result32;                                                               \
-> +    reg_t result32;                                                                  \
->       asm volatile (#name "l   %k1, %k0" : "=r"(result32) : "rm"(arg0));               \
->       return result32;                                                                 \
+>   static int net_stream_client_init(NetClientState *peer,
+>                                     const char *model,
+>                                     const char *name,
+>                                     SocketAddress *addr,
+> +                                  uint32_t reconnect,
+>                                     Error **errp)
+>   {
+>       NetStreamState *s;
+> @@ -364,6 +404,10 @@ static int net_stream_client_init(NetClientState *peer,
+>       s->ioc = QIO_CHANNEL(sioc);
+>       s->nc.link_down = true;
+>   
+> +    s->reconnect = reconnect;
+> +    if (reconnect) {
+> +        s->addr = QAPI_CLONE(SocketAddress, addr);
+> +    }
+>       qio_channel_socket_connect_async(sioc, addr,
+>                                        net_stream_client_connected, s,
+>                                        NULL, NULL);
+> @@ -380,7 +424,14 @@ int net_init_stream(const Netdev *netdev, const char *name,
+>       sock = &netdev->u.stream;
+>   
+>       if (!sock->has_server || !sock->server) {
+> -        return net_stream_client_init(peer, "stream", name, sock->addr, errp);
+> +        return net_stream_client_init(peer, "stream", name, sock->addr,
+> +                                      sock->has_reconnect ? sock->reconnect : 0,
+> +                                      errp);
+> +    }
+> +    if (sock->has_reconnect) {
+> +        error_setg(errp, "'reconnect' option is incompatible with "
+> +                         "socket in server mode");
+> +        return -1;
+>       }
+>       return net_stream_server_init(peer, "stream", name, sock->addr, errp);
 >   }
-
-Are the names 'result64/result32' still appropriate?
-
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> diff --git a/qapi/net.json b/qapi/net.json
+> index 522ac582edeb..d6eb30008be0 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -585,6 +585,10 @@
+>   # @addr: socket address to listen on (server=true)
+>   #        or connect to (server=false)
+>   # @server: create server socket (default: false)
+> +# @reconnect: For a client socket, if a socket is disconnected,
+> +#             then attempt a reconnect after the given number of seconds.
+> +#             Setting this to zero disables this function. (default: 0)
+> +#             (since 8.0)
+>   #
+>   # Only SocketAddress types 'unix', 'inet' and 'fd' are supported.
+>   #
+> @@ -593,7 +597,8 @@
+>   { 'struct': 'NetdevStreamOptions',
+>     'data': {
+>       'addr':   'SocketAddress',
+> -    '*server': 'bool' } }
+> +    '*server': 'bool',
+> +    '*reconnect': 'uint32' } }
+>   
+>   ##
+>   # @NetdevDgramOptions:
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 7f99d15b231f..e8d3a384e165 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -2766,9 +2766,9 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
+>       "-netdev socket,id=str[,fd=h][,udp=host:port][,localaddr=host:port]\n"
+>       "                configure a network backend to connect to another network\n"
+>       "                using an UDP tunnel\n"
+> -    "-netdev stream,id=str[,server=on|off],addr.type=inet,addr.host=host,addr.port=port[,to=maxport][,numeric=on|off][,keep-alive=on|off][,mptcp=on|off][,addr.ipv4=on|off][,addr.ipv6=on|off]\n"
+> -    "-netdev stream,id=str[,server=on|off],addr.type=unix,addr.path=path[,abstract=on|off][,tight=on|off]\n"
+> -    "-netdev stream,id=str[,server=on|off],addr.type=fd,addr.str=file-descriptor\n"
+> +    "-netdev stream,id=str[,server=on|off],addr.type=inet,addr.host=host,addr.port=port[,to=maxport][,numeric=on|off][,keep-alive=on|off][,mptcp=on|off][,addr.ipv4=on|off][,addr.ipv6=on|off][,reconnect=seconds]\n"
+> +    "-netdev stream,id=str[,server=on|off],addr.type=unix,addr.path=path[,abstract=on|off][,tight=on|off][,reconnect=seconds]\n"
+> +    "-netdev stream,id=str[,server=on|off],addr.type=fd,addr.str=file-descriptor[,reconnect=seconds]\n"
+>       "                configure a network backend to connect to another network\n"
+>       "                using a socket connection in stream mode.\n"
+>       "-netdev dgram,id=str,remote.type=inet,remote.host=maddr,remote.port=port[,local.type=inet,local.host=addr]\n"
+> diff --git a/tests/qtest/netdev-socket.c b/tests/qtest/netdev-socket.c
+> index a9db9fa06e79..b6db396599ae 100644
+> --- a/tests/qtest/netdev-socket.c
+> +++ b/tests/qtest/netdev-socket.c
+> @@ -10,6 +10,10 @@
+>   #include <glib/gstdio.h>
+>   #include "../unit/socket-helpers.h"
+>   #include "libqtest.h"
+> +#include "qapi/qmp/qstring.h"
+> +#include "qemu/sockets.h"
+> +#include "qapi/qobject-input-visitor.h"
+> +#include "qapi/qapi-visit-sockets.h"
+>   
+>   #define CONNECTION_TIMEOUT    5
+>   
+> @@ -141,6 +145,101 @@ static void test_stream_inet_ipv4(void)
+>       qtest_quit(qts0);
+>   }
+>   
+> +static void wait_stream_connected(QTestState *qts, const char *id,
+> +                                  SocketAddress **addr)
+> +{
+> +    QDict *resp, *data;
+> +    QString *qstr;
+> +    QObject *obj;
+> +    Visitor *v = NULL;
+> +
+> +    resp = qtest_qmp_eventwait_ref(qts, "NETDEV_STREAM_CONNECTED");
+> +    g_assert_nonnull(resp);
+> +    data = qdict_get_qdict(resp, "data");
+> +    g_assert_nonnull(data);
+> +
+> +    qstr = qobject_to(QString, qdict_get(data, "netdev-id"));
+> +    g_assert_nonnull(data);
+> +
+> +    g_assert(!strcmp(qstring_get_str(qstr), id));
+> +
+> +    obj = qdict_get(data, "addr");
+> +
+> +    v = qobject_input_visitor_new(obj);
+> +    visit_type_SocketAddress(v, NULL, addr, NULL);
+> +    visit_free(v);
+> +    qobject_unref(resp);
+> +}
+> +
+> +static void wait_stream_disconnected(QTestState *qts, const char *id)
+> +{
+> +    QDict *resp, *data;
+> +    QString *qstr;
+> +
+> +    resp = qtest_qmp_eventwait_ref(qts, "NETDEV_STREAM_DISCONNECTED");
+> +    g_assert_nonnull(resp);
+> +    data = qdict_get_qdict(resp, "data");
+> +    g_assert_nonnull(data);
+> +
+> +    qstr = qobject_to(QString, qdict_get(data, "netdev-id"));
+> +    g_assert_nonnull(data);
+> +
+> +    g_assert(!strcmp(qstring_get_str(qstr), id));
+> +    qobject_unref(resp);
+> +}
+> +
+> +static void test_stream_inet_reconnect(void)
+> +{
+> +    QTestState *qts0, *qts1;
+> +    int port;
+> +    SocketAddress *addr;
+> +
+> +    port = inet_get_free_port(false);
+> +    qts0 = qtest_initf("-nodefaults -M none "
+> +                       "-netdev stream,id=st0,server=true,addr.type=inet,"
+> +                       "addr.ipv4=on,addr.ipv6=off,"
+> +                       "addr.host=127.0.0.1,addr.port=%d", port);
+> +
+> +    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
+> +
+> +    qts1 = qtest_initf("-nodefaults -M none "
+> +                       "-netdev stream,server=false,id=st0,addr.type=inet,"
+> +                       "addr.ipv4=on,addr.ipv6=off,reconnect=1,"
+> +                       "addr.host=127.0.0.1,addr.port=%d", port);
+> +
+> +    wait_stream_connected(qts0, "st0", &addr);
+> +    g_assert_cmpint(addr->type, ==, SOCKET_ADDRESS_TYPE_INET);
+> +    g_assert_cmpstr(addr->u.inet.host, ==, "127.0.0.1");
+> +    qapi_free_SocketAddress(addr);
+> +
+> +    /* kill server */
+> +    qtest_quit(qts0);
+> +
+> +    /* check client has been disconnected */
+> +    wait_stream_disconnected(qts1, "st0");
+> +
+> +    /* restart server */
+> +    qts0 = qtest_initf("-nodefaults -M none "
+> +                       "-netdev stream,id=st0,server=true,addr.type=inet,"
+> +                       "addr.ipv4=on,addr.ipv6=off,"
+> +                       "addr.host=127.0.0.1,addr.port=%d", port);
+> +
+> +    /* wait connection events*/
+> +    wait_stream_connected(qts0, "st0", &addr);
+> +    g_assert_cmpint(addr->type, ==, SOCKET_ADDRESS_TYPE_INET);
+> +    g_assert_cmpstr(addr->u.inet.host, ==, "127.0.0.1");
+> +    qapi_free_SocketAddress(addr);
+> +
+> +    wait_stream_connected(qts1, "st0", &addr);
+> +    g_assert_cmpint(addr->type, ==, SOCKET_ADDRESS_TYPE_INET);
+> +    g_assert_cmpstr(addr->u.inet.host, ==, "127.0.0.1");
+> +    g_assert_cmpint(atoi(addr->u.inet.port), ==, port);
+> +    qapi_free_SocketAddress(addr);
+> +
+> +    qtest_quit(qts1);
+> +    qtest_quit(qts0);
+> +}
+> +
+>   static void test_stream_inet_ipv6(void)
+>   {
+>       QTestState *qts0, *qts1;
+> @@ -415,6 +514,7 @@ int main(int argc, char **argv)
+>           qtest_add_func("/netdev/stream/inet/ipv4", test_stream_inet_ipv4);
+>           qtest_add_func("/netdev/dgram/inet", test_dgram_inet);
+>           qtest_add_func("/netdev/dgram/mcast", test_dgram_mcast);
+> +        qtest_add_func("/netdev/stream/inet/reconnect", test_stream_inet_reconnect);
+>       }
+>       if (has_ipv6) {
+>           qtest_add_func("/netdev/stream/inet/ipv6", test_stream_inet_ipv6);
 
 
