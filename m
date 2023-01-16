@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F7A66D371
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 00:57:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64FBC66D373
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 00:57:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHZL1-0002pD-Jw; Mon, 16 Jan 2023 18:56:29 -0500
+	id 1pHZL8-0002qs-15; Mon, 16 Jan 2023 18:56:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pHZKx-0002om-OY; Mon, 16 Jan 2023 18:56:24 -0500
+ id 1pHZL0-0002pO-Rw; Mon, 16 Jan 2023 18:56:27 -0500
 Received: from wout2-smtp.messagingengine.com ([64.147.123.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pHZKv-0003nl-L0; Mon, 16 Jan 2023 18:56:23 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 7E191320093F;
- Mon, 16 Jan 2023 18:56:19 -0500 (EST)
+ id 1pHZKy-0003pH-9x; Mon, 16 Jan 2023 18:56:26 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.west.internal (Postfix) with ESMTP id 2DEA732006F2;
+ Mon, 16 Jan 2023 18:56:22 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Mon, 16 Jan 2023 18:56:20 -0500
+ by compute6.internal (MEProxy); Mon, 16 Jan 2023 18:56:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1673913379; x=1673999779; bh=oS
- 85m1Od87DSND/bVoRcFePWoS1vrNT/vyuukLNymLo=; b=gpZH60O+LiD4UO6/ua
- C7SufXS4eU1WhfpDY8g1zr3syXcQvTcRJDPqmSSRo71vhjIUHiZMMSLRJ/vsh2QX
- P2lmY2EpbnswnmCKDfDyozImNPtL2wCAmoe1r4uY8nv51RUgYsPCzebnW9Ot+5KP
- zrwdkzkBLvEf5OiL+AKSOG8APmB+jTQicKoS80rGINrL9YS62zlWxfOL6HYKRIEN
- 3d5US7D01HXxXEt8WTMDqBmKBUdm1hJI9lx9G7o4jrlyejPLhcrGz5F0FQVkEPkM
- DNdHNsJkt3Fj7cM/QGFiggBNEWYQh7PwZ7OQuVUGwa6EHx35vv3wKWIztcg4vGn1
- DtwA==
+ :subject:subject:to:to; s=fm1; t=1673913381; x=1673999781; bh=Oe
+ 4bEoaKwr4xDqovRjPov9DRBuv6ITCSqDIW/zgXVbI=; b=ydsaOgmV7icWKFJS1s
+ Tik0opUD1SDNbgMSlX6nyLJgrHQVEhh51PJls5IapqsQ/8igiTAM2RL1FFKuQ/xB
+ XrI+z7T6tmQ907qPRPk63Uksx/vIsGtlOU/LmBQhZMGCBC1BSK5gaJyGzs/2VLya
+ SaOERQNvUxg0LTNMOesxy9qlhslkoNm4nraK9+QOWvv6pKKNegTuaTZhnPK6T37f
+ GRWxm+bZpY+r0Oy4kceNfWrLmUHH8feWpFPsjSgVqHwgWA1+HRLvlxOqqtH853W+
+ IiWHmez/tjwNNbX3i6TVFUYzmqyTMgg3KTgX0tCveHf9fbwVt+bJYO4LwiPUma1u
+ 0abQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1673913379; x=1673999779; bh=oS85m1Od87DSN
- D/bVoRcFePWoS1vrNT/vyuukLNymLo=; b=QIkMWJ1J6EGzbNDLz9mzLM32WJqN2
- /HQvxwycb2JFbjFtdvC6xNn0fqyb6NxAPrsfUjaTQej3jNXvJZ29/PrkcLjSU1jI
- v3DIP2r5PELaTMqZDIteO5y74wSN0/YrmX9YikaVSph/NuY/GTWK6xk9SQik1bxx
- hW0b+adlPa+9oYqsSrDW/ArUnAc26lxk+mIkwz6yeUHs5F/bFfbhNn/a6n4BUHcd
- JxnfutzxTOvU3S15Jn2xf25bCo+n20T+x1jxYBCXhhphl/7nclR1zSg3tzE/qFG/
- MYrwx3q+mJKKzslgRONNGrwOOHXlH1Ynr+nafwBkrhFPNQnJZalvjGnlA==
-X-ME-Sender: <xms:IuTFY2MesWeXKtTrmsmnhhRgEMDd8hq8-3KMiwrWuFFyG6sPuEG6Jg>
- <xme:IuTFY0_-8GyveC1Ppb50XFmsjwYU85XHuY7KkirZNMI6aCcrYGLC_adsQTAipHXc2
- 4QCgSEeSE0sxls93cY>
-X-ME-Received: <xmr:IuTFY9SZS9GD_qZM08T2Wv2IeWAp7bzPSU0t0lx5JNSW5o90I6AaiVlmJG1ji8zXZhnhzneQdKsTToSix57tQSrVT54H60DtXxZHsGyqxTY>
+ :x-sasl-enc; s=fm3; t=1673913381; x=1673999781; bh=Oe4bEoaKwr4xD
+ qovRjPov9DRBuv6ITCSqDIW/zgXVbI=; b=LIlzgmmZYtJ56dpVwGH5b+XRF1VCV
+ ZO1dLvy5PGgD/11B+Zkqy7urZmW+zgg72drlTMq9BW4iHc/zNUOoE6Y0eSmtBsHu
+ cH/AWZOfY5WctEU3Z5F+grL4I88GVhowcozMV7XujrlvdrsmtmUcriLOsR8xEjyT
+ 38HN+/Qcdb2nU6GUAaFDqiY3Po6t1K3MrqmIPObns1vjfgknHVjsJv7L2BWHTD7t
+ 6ZAL7OnPVv+YOXiQXonQHzPf4Q0PgMQTKFMIuB2ayPxIlah+DwAnxKHABHtRLq21
+ lIqGFFieEWha7A7oU50junScUPzijlRDcIQIQdY/dfzHR3D4OV6YK5C5w==
+X-ME-Sender: <xms:JeTFYwuaxJSIVbpjFk27bSpF9pPSi4aMY-S686QqnzeZX0rMAf-0dA>
+ <xme:JeTFY9eUNc5LeYuHdn0lHmqvLDgpSpBpuUW6Hdk-ODDp6DG2q3aBIfYMwqWXR_Xku
+ ADcWdH_fr7-pk5eOxQ>
+X-ME-Received: <xmr:JeTFY7zhHZAO94EhFLyon4ZBbmHj0UAHNwezGcL3yZQ3i1a_u6wj45ngGIi4cDU9Uph-VZztcT8kvpMOoKHmYRUz9q0QLa-y2JdBSViCCIQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddthedgudekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
  dmnegoteeftdduqddtudculdduhedmnecujfgurhephffvvefufffkofgjfhgggfestdek
  redtredttdenucfhrhhomheprfgvthgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrh
- esphhjugdruggvvheqnecuggftrfgrthhtvghrnhepvdfghffgkeehheeggeeuvdeftefh
- ieefleffgfeuveduueeigfffffdvjeevfeelnecuffhomhgrihhnpehgihhthhhusgdrtg
- homhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehp
- vghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:IuTFY2tjuPVRGsIuwAa6POCVAvZkwN3YFwe809uGFlGDFrMjrut_0A>
- <xmx:IuTFY-c6vPVZSwHc9cyT-EDp0JFNvKd1S_UVRwD3Gw5PY9Q9yFEEwg>
- <xmx:IuTFY606691iK0QmeXDVfbl1KKEbCXD6rxAO4EXdnEHdln_aE1EBuQ>
- <xmx:I-TFY0u6Yll0ScwBFX10RHpu8Mt6s-pa_1mDTQXzzAPT1F4hhyHaUA>
+ esphhjugdruggvvheqnecuggftrfgrthhtvghrnhepteelgfeuleeffffffeekiefghfej
+ uefgtdfgteeigeekvdefffevieekvdelteevnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:JeTFYzNxu5v1FcNIpUy--i5AQ3_Geal7FwumLvHt5Rg6jrUgigfg4A>
+ <xmx:JeTFYw_JyoegI7S8sklcUMgtQK-mFXYQB-DtNe3FfzyWK7jf973zOQ>
+ <xmx:JeTFY7Wxtd7lCBCvX8ia3OvYLlvDeUMDM-cK0GE6XnaSYr9Mq1mAjw>
+ <xmx:JeTFY9MCmspmjPX8qN9Jowu6VmlVfIyEI1MubT9ZqusWaT2ds4mxIA>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 16 Jan 2023 18:56:17 -0500 (EST)
+ 16 Jan 2023 18:56:20 -0500 (EST)
 From: Peter Delevoryas <peter@pjd.dev>
 To: 
 Cc: peter@pjd.dev, clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au,
  joel@jms.id.au, hskinnemoen@google.com, kfting@nuvoton.com,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2 4/5] hw/arm/aspeed: Add aspeed_eeprom.c
-Date: Mon, 16 Jan 2023 15:56:03 -0800
-Message-Id: <20230116235604.55099-5-peter@pjd.dev>
+Subject: [PATCH v2 5/5] hw/nvram/eeprom_at24c: Make reset behavior more like
+ hardware
+Date: Mon, 16 Jan 2023 15:56:04 -0800
+Message-Id: <20230116235604.55099-6-peter@pjd.dev>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116235604.55099-1-peter@pjd.dev>
 References: <20230116235604.55099-1-peter@pjd.dev>
@@ -101,159 +101,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-- Create aspeed_eeprom.c and aspeed_eeprom.h
-- Include aspeed_eeprom.c in CONFIG_ASPEED meson source files
-- Include aspeed_eeprom.h in aspeed.c
-- Add fby35_bmc_fruid data
-- Use new at24c_eeprom_init_rom helper to initialize BMC FRUID EEPROM with data
-  from aspeed_eeprom.c
+EEPROM's are a form of non-volatile memory. After power-cycling an EEPROM,
+I would expect the I2C state machine to be reset to default values, but I
+wouldn't really expect the memory to change at all.
 
-wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
-qemu-system-aarch64 -machine fby35-bmc -nographic -mtdblock fby35.mtd
-...
-user: root
-pass: 0penBmc
-...
-root@bmc-oob:~# fruid-util bmc
+The current implementation of the at24c EEPROM resets its internal memory on
+reset. This matches the specification in docs/devel/reset.rst:
 
-FRU Information           : BMC
----------------           : ------------------
-Board Mfg Date            : Mon Jan 10 21:42:00 2022
-Board Mfg                 : XXXXXX
-Board Product             : BMC Storage Module
-Board Serial              : XXXXXXXXXXXXX
-Board Part Number         : XXXXXXXXXXXXXX
-Board FRU ID              : 1.0
-Board Custom Data 1       : XXXXXXXXX
-Board Custom Data 2       : XXXXXXXXXXXXXXXXXX
-Product Manufacturer      : XXXXXX
-Product Name              : Yosemite V3.5 EVT2
-Product Part Number       : XXXXXXXXXXXXXX
-Product Version           : EVT2
-Product Serial            : XXXXXXXXXXXXX
-Product Asset Tag         : XXXXXXX
-Product FRU ID            : 1.0
-Product Custom Data 1     : XXXXXXXXX
-Product Custom Data 2     : Config A
+  Cold reset is supported by every resettable object. In QEMU, it means we reset
+  to the initial state corresponding to the start of QEMU; this might differ
+  from what is a real hardware cold reset. It differs from other resets (like
+  warm or bus resets) which may keep certain parts untouched.
 
+But differs from my intuition. For example, if someone writes some information
+to an EEPROM, then AC power cycles their board, they would expect the EEPROM to
+retain that information. It's very useful to be able to test things like this
+in QEMU as well, to verify software instrumentation like determining the cause
+of a reboot.
+
+Fixes: 5d8424dbd3e8 ("nvram: add AT24Cx i2c eeprom")
 Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 ---
- hw/arm/aspeed.c        |  4 +++-
- hw/arm/aspeed_eeprom.c | 51 ++++++++++++++++++++++++++++++++++++++++++
- hw/arm/aspeed_eeprom.h | 11 +++++++++
- hw/arm/meson.build     |  1 +
- 4 files changed, 66 insertions(+), 1 deletion(-)
- create mode 100644 hw/arm/aspeed_eeprom.c
- create mode 100644 hw/arm/aspeed_eeprom.h
+ hw/nvram/eeprom_at24c.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index c929c61d582a..11e423db4538 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -14,6 +14,7 @@
- #include "hw/arm/boot.h"
- #include "hw/arm/aspeed.h"
- #include "hw/arm/aspeed_soc.h"
-+#include "hw/arm/aspeed_eeprom.h"
- #include "hw/i2c/i2c_mux_pca954x.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/misc/pca9552.h"
-@@ -942,7 +943,8 @@ static void fby35_i2c_init(AspeedMachineState *bmc)
-     at24c_eeprom_init(i2c[6], 0x51, 128 * KiB);
-     at24c_eeprom_init(i2c[8], 0x50, 32 * KiB);
-     at24c_eeprom_init(i2c[11], 0x51, 128 * KiB);
--    at24c_eeprom_init(i2c[11], 0x54, 128 * KiB);
-+    at24c_eeprom_init_rom(i2c[11], 0x54, 128 * KiB, fby35_bmc_fruid,
-+                          fby35_bmc_fruid_size);
+diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
+index bb9ee75864fe..6bcded7b496c 100644
+--- a/hw/nvram/eeprom_at24c.c
++++ b/hw/nvram/eeprom_at24c.c
+@@ -185,18 +185,6 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
+     }
  
-     /*
-      * TODO: There is a multi-master i2c connection to an AST1030 MiniBMC on
-diff --git a/hw/arm/aspeed_eeprom.c b/hw/arm/aspeed_eeprom.c
-new file mode 100644
-index 000000000000..a5ffa959927b
---- /dev/null
-+++ b/hw/arm/aspeed_eeprom.c
-@@ -0,0 +1,51 @@
-+/* Copyright (c) Meta Platforms, Inc. and affiliates. */
+     ee->mem = g_malloc0(ee->rsize);
+-
+-}
+-
+-static
+-void at24c_eeprom_reset(DeviceState *state)
+-{
+-    EEPROMState *ee = AT24C_EE(state);
+-
+-    ee->changed = false;
+-    ee->cur = 0;
+-    ee->haveaddr = 0;
+-
+     memset(ee->mem, 0, ee->rsize);
+ 
+     if (ee->blk) {
+@@ -214,6 +202,16 @@ void at24c_eeprom_reset(DeviceState *state)
+     }
+ }
+ 
++static
++void at24c_eeprom_reset(DeviceState *state)
++{
++    EEPROMState *ee = AT24C_EE(state);
 +
-+#include "aspeed_eeprom.h"
++    ee->changed = false;
++    ee->cur = 0;
++    ee->haveaddr = 0;
++}
 +
-+const uint8_t fby35_bmc_fruid[] = {
-+    0x01, 0x00, 0x00, 0x01, 0x0d, 0x00, 0x00, 0xf1, 0x01, 0x0c, 0x00, 0x36,
-+    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x4d,
-+    0x43, 0x20, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x20, 0x4d, 0x6f,
-+    0x64, 0x75, 0x6c, 0x65, 0xcd, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e,
-+    0x30, 0xc9, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc1, 0x39, 0x01, 0x0c, 0x00, 0xc6,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x59, 0x6f, 0x73, 0x65, 0x6d,
-+    0x69, 0x74, 0x65, 0x20, 0x56, 0x33, 0x2e, 0x35, 0x20, 0x45, 0x56, 0x54,
-+    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0xc4, 0x45, 0x56, 0x54, 0x32, 0xcd, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc8, 0x43, 0x6f,
-+    0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+};
-+
-+const uint32_t fby35_bmc_fruid_size = sizeof(fby35_bmc_fruid);
-diff --git a/hw/arm/aspeed_eeprom.h b/hw/arm/aspeed_eeprom.h
-new file mode 100644
-index 000000000000..89860e37d007
---- /dev/null
-+++ b/hw/arm/aspeed_eeprom.h
-@@ -0,0 +1,11 @@
-+/* Copyright (c) Meta Platforms, Inc. and affiliates. */
-+
-+#ifndef ASPEED_EEPROM_H
-+#define ASPEED_EEPROM_H
-+
-+#include "qemu/osdep.h"
-+
-+extern const uint8_t fby35_bmc_fruid[];
-+extern const uint32_t fby35_bmc_fruid_size;
-+
-+#endif
-diff --git a/hw/arm/meson.build b/hw/arm/meson.build
-index 76d4d650e42e..f70e8cfd4545 100644
---- a/hw/arm/meson.build
-+++ b/hw/arm/meson.build
-@@ -53,6 +53,7 @@ arm_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
-   'aspeed.c',
-   'aspeed_ast2600.c',
-   'aspeed_ast10x0.c',
-+  'aspeed_eeprom.c',
-   'fby35.c'))
- arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2.c'))
- arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2-tz.c'))
+ static Property at24c_eeprom_props[] = {
+     DEFINE_PROP_UINT32("rom-size", EEPROMState, rsize, 0),
+     DEFINE_PROP_BOOL("writable", EEPROMState, writable, true),
 -- 
 2.39.0
 
