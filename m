@@ -2,60 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8320066CE9B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 19:16:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D99D66CEC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 19:26:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHU1s-0006Yn-Or; Mon, 16 Jan 2023 13:16:20 -0500
+	id 1pHUAH-0001Hg-4q; Mon, 16 Jan 2023 13:25:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pHU1o-0006T3-9q; Mon, 16 Jan 2023 13:16:16 -0500
-Received: from mout.kundenserver.de ([212.227.126.131])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pHUAE-0001Gr-Jq; Mon, 16 Jan 2023 13:24:58 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pHU1m-0004pI-G0; Mon, 16 Jan 2023 13:16:16 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mzz6s-1oURsl2tCY-00x7Ti; Mon, 16 Jan 2023 19:16:09 +0100
-Message-ID: <3693854c-579c-390d-7027-205cfaeddcf8@vivier.eu>
-Date: Mon, 16 Jan 2023 19:16:08 +0100
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pHUAB-00075d-OI; Mon, 16 Jan 2023 13:24:58 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30GHj6IR018732; Mon, 16 Jan 2023 18:24:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=KQNG2dLI6Mmw4UQeZKmJaXmrVP+4cIWMvHne29F1ZmA=;
+ b=FmwjhqwJsIuerWQqC0m/QOCfMs4EqrhSKtfGs0eCoP4k4M/GE+suStL4LfKRrPjSV8JM
+ 4pmQZSZ9b6f33uMnS5ItJPU3GlfzWS4cx/PidOvdwecoof1iO/u81BfNBozJ+B2CvXSU
+ 0RJjFuziRJXWmhKAbts8bHC6XWTzBUcwfIOhF9X/K1QsNWNowu00ys4GNLNdCaKf73nP
+ mswTEZS+KbglDCJtSclCksEoEKfmppGGDX5FPPmRCR8H4fwceoi71To8khtYKffFWL0V
+ AlC2oEgcOi7RGF7jT473piEjP2Xk9kXofVPehQkVVvT2/tdGviBCavR/IZBir7j8K0Pu SQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5b8erp5r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Jan 2023 18:24:51 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30GILgSg027862;
+ Mon, 16 Jan 2023 18:24:50 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5b8erp5d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Jan 2023 18:24:50 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30G8tqgF030354;
+ Mon, 16 Jan 2023 18:24:48 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3n3m16j0vv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Jan 2023 18:24:48 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30GIOiuP45547818
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 16 Jan 2023 18:24:44 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C4D7B20043;
+ Mon, 16 Jan 2023 18:24:44 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 85F6A20040;
+ Mon, 16 Jan 2023 18:24:43 +0000 (GMT)
+Received: from [9.179.28.129] (unknown [9.179.28.129])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 16 Jan 2023 18:24:43 +0000 (GMT)
+Message-ID: <d46a54e4-802b-27ba-6d90-571b1a6156dd@linux.ibm.com>
+Date: Mon, 16 Jan 2023 19:24:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] hw/cxl/cxl-host: Fix an error message typo
-Content-Language: fr
-To: Hoa Nguyen <hoanguyen@ucdavis.edu>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
-References: <20221127032220.2649-1-hoanguyen@ucdavis.edu>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221127032220.2649-1-hoanguyen@ucdavis.edu>
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v14 02/11] s390x/cpu topology: add topology entries on CPU
+ hotplug
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
+ clg@kaod.org
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-3-pmorel@linux.ibm.com>
+ <5c8a22bb-5a35-d71e-9e5a-39675fa04e66@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <5c8a22bb-5a35-d71e-9e5a-39675fa04e66@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:RRTdGtnH0sSXhSz616EgrFlBmW8QHr59dmvhj2V1xpA+jk+JJPD
- 0cokdUeVSs0FdAXfwoGrmph5rYhQag/Cy1aFO5ofTmWesHU7JVnL2WvdnH4EdW/hQ8PKvLa
- GIErcEwo+ss8bFjzU/tYILAgzBy5HIFl4ghUfkve37k9XazQMKvR4JZIufmEGcf3hnYDUsk
- WjUbNt9Wvx8jb6eKgBTSw==
-UI-OutboundReport: notjunk:1;M01:P0:nNDxwijKf6o=;zyfXSvh+NqzuYTBaxlPbdVW30X4
- TrS2Z5j3B2I26mDYFJZ/Gvcu2uqcLGVrKaJ1I7YiXh+LrK7hSYi/wXSQ9Z/VK1od+Q0ZDUzPp
- 8v4p6O+iJ54vvs+IIUIR2RZzhNEI/qGvQykk8dbey1hE+RcE49yzoSXux5u833D9WcIsIEdnq
- V1/iHAx+IYKDbnAv/6cfAvDAPEWPXFMhjaMc3FQDzLDBnY0dP/rs+IawtpMNJuun9J/3iPFjJ
- fWQjWf2IvVrNCGufkYnPpGzNY5Za7kmc4IHTrK4gFROx53YN5ODKIF5IWccWcA8IYuaSLvoQt
- lEkqjly2lPFRlpGzKDDD1YNxfZS7QCfZ9JYIas0+yo2lWWcOnDVgMoR3LREBJHZcMfzcuAcOl
- fhaEXWTt2VmPriTG9CvZxpUTMddbko4TeqhoD+i8CiRmemSb41GiShtz+79mwfm7ltu5jq4P+
- eEN7pk2aR3nR/OZgX07EGubbUS0L+jkY2eS5o8qseJ8b24znP6Tvmrc26RJpxdJosXy5hvat/
- nSfG/mmsUGGB2plXZ6NVAGZPwG2r7NYZvgFfNAl3CcY4j/BSjoqDJcPxrdRY9+hlzJCYRXytd
- In9tNgjWfR38tUg+PhY2CtCD9ouS7Vwp9t9VAzpUL9+oVVn6Ka92am7CF13mjjpAPWLn7YUuq
- cAjDZJLqO+y56sYpmoSWa+TjLTLpg0Vg6m8ad7opdw==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: I_5jyvXMtozVWiryM9Mt-xKBGbpa60EL
+X-Proofpoint-ORIG-GUID: lII5-JYkb_X8axfcr9pNtOJ1UBp-aXjT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-16_15,2023-01-13_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 adultscore=0 mlxscore=0 impostorscore=0
+ suspectscore=0 spamscore=0 malwarescore=0 mlxlogscore=999 clxscore=1015
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301160135
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,29 +123,198 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 27/11/2022 à 04:22, Hoa Nguyen a écrit :
-> Signed-off-by: Hoa Nguyen <hoanguyen@ucdavis.edu>
-> ---
->   hw/cxl/cxl-host.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+
+
+On 1/10/23 14:00, Thomas Huth wrote:
+> On 05/01/2023 15.53, Pierre Morel wrote:
+>> The topology information are attributes of the CPU and are
+>> specified during the CPU device creation.
+>>
+>> On hot plug, we gather the topology information on the core,
+>> creates a list of topology entries, each entry contains a single
+>> core mask of each core with identical topology and finaly we
+>> orders the list in topological order.
+>> The topological order is, from higher to lower priority:
+>> - physical topology
+>>      - drawer
+>>      - book
+>>      - socket
+>>      - core origin, offset in 64bit increment from core 0.
+>> - modifier attributes
+>>      - CPU type
+>>      - polarization entitlement
+>>      - dedication
+>>
+>> The possibility to insert a CPU in a mask is dependent on the
+>> number of cores allowed in a socket, a book or a drawer, the
+>> checking is done during the hot plug of the CPU to have an
+>> immediate answer.
+>>
+>> If the complete topology is not specified, the core is added
+>> in the physical topology based on its core ID and it gets
+>> defaults values for the modifier attributes.
+>>
+>> This way, starting QEMU without specifying the topology can
+>> still get some adventage of the CPU topology.
 > 
-> diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
-> index 1adf61231a..3c1ec8732a 100644
-> --- a/hw/cxl/cxl-host.c
-> +++ b/hw/cxl/cxl-host.c
-> @@ -47,7 +47,7 @@ static void cxl_fixed_memory_window_config(CXLState *cxl_state,
->   
->       if (object->size % (256 * MiB)) {
->           error_setg(errp,
-> -                   "Size of a CXL fixed memory window must my a multiple of 256MiB");
-> +                   "Size of a CXL fixed memory window must be a multiple of 256MiB");
->           return;
->       }
->       fw->size = object->size;
+> s/adventage/advantage/
+> 
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   include/hw/s390x/cpu-topology.h |  48 ++++++
+>>   hw/s390x/cpu-topology.c         | 293 ++++++++++++++++++++++++++++++++
+>>   hw/s390x/s390-virtio-ccw.c      |  10 ++
+>>   hw/s390x/meson.build            |   1 +
+>>   4 files changed, 352 insertions(+)
+>>   create mode 100644 hw/s390x/cpu-topology.c
+>>
+>> diff --git a/include/hw/s390x/cpu-topology.h 
+>> b/include/hw/s390x/cpu-topology.h
+>> index d945b57fc3..b3fd752d8d 100644
+>> --- a/include/hw/s390x/cpu-topology.h
+>> +++ b/include/hw/s390x/cpu-topology.h
+>> @@ -10,7 +10,11 @@
+>>   #ifndef HW_S390X_CPU_TOPOLOGY_H
+>>   #define HW_S390X_CPU_TOPOLOGY_H
+>> +#include "qemu/queue.h"
+>> +#include "hw/boards.h"
+>> +
+>>   #define S390_TOPOLOGY_CPU_IFL   0x03
+>> +#define S390_TOPOLOGY_MAX_ORIGIN ((63 + S390_MAX_CPUS) / 64)
+>>   #define S390_TOPOLOGY_POLARITY_HORIZONTAL      0x00
+>>   #define S390_TOPOLOGY_POLARITY_VERTICAL_LOW    0x01
+>> @@ -20,4 +24,48 @@
+>>   #define S390_TOPOLOGY_SHARED    0x00
+>>   #define S390_TOPOLOGY_DEDICATED 0x01
+>> +typedef union s390_topology_id {
+>> +    uint64_t id;
+>> +    struct {
+>> +        uint64_t level_6:8; /* byte 0 BE */
+>> +        uint64_t level_5:8; /* byte 1 BE */
+>> +        uint64_t drawer:8;  /* byte 2 BE */
+>> +        uint64_t book:8;    /* byte 3 BE */
+>> +        uint64_t socket:8;  /* byte 4 BE */
+>> +        uint64_t rsrv:5;
+>> +        uint64_t d:1;
+>> +        uint64_t p:2;       /* byte 5 BE */
+>> +        uint64_t type:8;    /* byte 6 BE */
+>> +        uint64_t origin:2;
+>> +        uint64_t core:6;    /* byte 7 BE */
+>> +    };
+>> +} s390_topology_id;
+> 
+> Bitmasks are OK for code that will definitely only ever work with KVM 
+> ... but this will certainly fail completely if we ever try to get it 
+> running with TCG later. Do we care? ... if so, you should certainly 
+> avoid a bitfield here. Especially since most of the fields are 8-bit 
+> anyway and could easily be represented by a "uint8_t" variable. 
+> Otherwise, just ignore my comment.
 
-Applied to my trivial-patches branch.
+The goal of using a bit mask here is not to use it with KVM but to have 
+an easy way to order the TLE using the natural order of the placement of 
+the fields in the uint64_t
+However, if I remove the two unused levels 5 and 6 I can use uint8_t for 
+all the entries.
 
-Thanks,
-Laurent
+I doubt we use the levels 5 and 6 in a short future.
 
+So I switch on 1 uint8_t for each entry.
+
+...
+
+>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+>> new file mode 100644
+>> index 0000000000..438055c612
+>> --- /dev/null
+>> +++ b/hw/s390x/cpu-topology.c
+>> @@ -0,0 +1,293 @@
+>> +/*
+>> + * CPU Topology
+>> + *
+>> + * Copyright IBM Corp. 2022
+> 
+> Want to update to 2023 now?
+> 
+>> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+>> +
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or 
+>> (at
+>> + * your option) any later version. See the COPYING file in the top-level
+>> + * directory.
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "qapi/error.h"
+>> +#include "qemu/error-report.h"
+>> +#include "hw/qdev-properties.h"
+>> +#include "hw/boards.h"
+>> +#include "qemu/typedefs.h"
+>> +#include "target/s390x/cpu.h"
+>> +#include "hw/s390x/s390-virtio-ccw.h"
+>> +#include "hw/s390x/cpu-topology.h"
+>> +
+>> +/*
+>> + * s390_topology is used to keep the topology information.
+>> + * .list: queue the topology entries inside which
+>> + *        we keep the information on the CPU topology.
+>> + *
+>> + * .smp: keeps track of the machine topology.
+>> + *
+>> + * .socket: tracks information on the count of cores per socket.
+>> + *
+>> + */
+>> +S390Topology s390_topology = {
+>> +    .list = QTAILQ_HEAD_INITIALIZER(s390_topology.list),
+>> +    .sockets = NULL, /* will be initialized after the cpu model is 
+>> realized */
+>> +};
+>> +
+>> +/**
+>> + * s390_socket_nb:
+>> + * @id: s390_topology_id
+>> + *
+>> + * Returns the socket number used inside the socket array.
+>> + */
+>> +static int s390_socket_nb(s390_topology_id id)
+>> +{
+>> +    return (id.socket + 1) * (id.book + 1) * (id.drawer + 1); > +}
+> I think there might be an off-by-one error in here - you likely need a 
+> "- 1" at the very end.
+> 
+> For example, assume that we have one socket, one book and one drawer, so 
+> id.socket, id.book and id.drawer would all be 0. The function then 
+> returns 1 ...
+
+hum, I fear it is even more false than that but thanks for pointing this 
+error.
+
+  /o\
+
+     return (id.drawer * s390_topology.smp.books + id.book) *
+            s390_topology.smp.sockets + id.socket;
+
+
+> 
+>> +static void s390_topology_init(MachineState *ms)
+>> +{
+>> +    CpuTopology *smp = &ms->smp;
+>> +
+>> +    s390_topology.smp = smp;
+>> +    if (!s390_topology.sockets) {
+>> +        s390_topology.sockets = g_new0(uint8_t, smp->sockets *
+>> +                                       smp->books * smp->drawers);
+> 
+> ... but here you only allocated one byte. So you later access 
+> s390_topology.sockets[s390_socket_nb(id)], i.e. s390_topology.sockets[1] 
+> which is out of bounds.
+
+Yes, thanks.
+
+Regards,
+Pierre
+
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
