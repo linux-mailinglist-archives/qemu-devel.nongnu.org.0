@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E891166C099
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 15:02:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8610966C0A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 15:03:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHQ3J-0005FM-So; Mon, 16 Jan 2023 09:01:33 -0500
+	id 1pHQ4E-0005Zq-0v; Mon, 16 Jan 2023 09:02:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHQ3H-0005EE-Fy
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 09:01:31 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHQ42-0005VC-9M
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 09:02:19 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHQ3F-0000MV-TD
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 09:01:31 -0500
-Received: by mail-wm1-x330.google.com with SMTP id j17so1533035wms.0
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 06:01:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHQ40-0000Vl-J1
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 09:02:18 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id jn22so30388084plb.13
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 06:02:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=t4SC3LDronBq7O67yFthuNI67hPNRC3wNRgZUFqO9ck=;
- b=CDhP6DgbaUpI/l1/SWV6otiklfDwhk9KRpy411M5Vz2K7hqYCZ/5+o9iKD99pk2gFX
- K46iNsu8SHoq2wj32up48+8UahiqWiuz8AE0OUkRipbg/JKxD/jGBsl7bd/Q/PBnnMuj
- sBGf/5ZTxNh9q/C3ewwGzunA9U0fnWwMJkRMKA9h3ZHfC6Z2YMu6uPVaoPmwNlkdpEW3
- ZeqpigTYoA3m/t2SulbKAjvuPsQdlzxvv7UsQ9igRA2JCJyiDHvpN5/jVYQhRabwbrqi
- MOzgbFpqLnytYtVlqbuyOvQ9LiNs17TBy5SPm16nM3r/i30+GA8DZeVFZbOlmkm3kI7l
- /Q4A==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=02UejPRtuLIpXQ0aArH2+dK6f6nXSapbtCorg1f7ZUw=;
+ b=YEIJFeQMcxbqWLWuZKJ0iM9cjdzqaXsRLfFHQ+AcoxNaxtGlHRIm/6k/YqKd04xWTX
+ SP/B/po+mQnxJhv224/a07nNVicq8N/UOv84/fNiZvj8uALrrbokb9f7voaRTfTMhT8R
+ vAzxIewZkVtQJs67DVtlyVYhB9Q8Ua2DHG3g+84t7YOguWDIT9+QGZqdBHukEAh5iw71
+ q4akUThaZrFQPx9sMp/VcG2SHxUl5ZUb5AMoz7sf3/5gASnuNjJZPifz3aJnj/J6Cn+b
+ FBmvqdANf80y1uLNlxVNMdCnmq9xDdmOSQ0AaBMgcTrC64Ta/v6crUJ1OcimZZUX38PB
+ q/jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t4SC3LDronBq7O67yFthuNI67hPNRC3wNRgZUFqO9ck=;
- b=EtU8vVAyzmmUVyr6Pdj9csLc+N8bPOX8117udknANWtECmgnqgahgbz5dEEjav656d
- xBdj3llIM+jio2lvx+8TdlbuFiMZ/prTxsPZtnWQhCygLrwIia1BjEbmbNgYD4ReKZSV
- nmR8MS9gph+hk5o5ksOrs4w3r+jRMp0qCw3haIUOqeIEvacVLMxjTjY5NBKg2ky7fpmI
- 70SNoPRyTHHXFW7NX1MXJ7DLbsZXQUSXzWbRF42O3aKjS9A87bll9ypD6LjYuIoHdIhu
- Xp3xnfNk/XXM2dGRKwIKPQb/MUIr6ftArf5saGZrtk3GXBWnicxdPqwk5RxMwl0vevA5
- p0zA==
-X-Gm-Message-State: AFqh2kpJHgmeFfpTeWxnvfvQf2NdQox9j0pWYT9HDR5/sUJbEX3Z4H/n
- GRR716w4l1WVukJ2Wr793IBLtQ==
-X-Google-Smtp-Source: AMrXdXvtu+0qc7ioecYVNQKdkSIdixJkFCP+XbkaNX2hX/eBWuY81MvpJWHDtg4SA+vc0p8h4NuAbQ==
-X-Received: by 2002:a05:600c:89a:b0:3cf:6e78:e2ca with SMTP id
- l26-20020a05600c089a00b003cf6e78e2camr8280702wmp.5.1673877687530; 
- Mon, 16 Jan 2023 06:01:27 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n7-20020a05600c4f8700b003c6bd12ac27sm37891291wmq.37.2023.01.16.06.01.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 06:01:27 -0800 (PST)
-Message-ID: <96def17d-2c66-cfb1-d7b7-91b7a9183bab@linaro.org>
-Date: Mon, 16 Jan 2023 15:01:25 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=02UejPRtuLIpXQ0aArH2+dK6f6nXSapbtCorg1f7ZUw=;
+ b=KxL1VZ8cYU/1lG4SN6mZM8TmOOsnPq/ejldkJoHs7iL3aCS7qxVbkX4jQj8fWn2Oxz
+ /xU4jKMJSSXapovguGr9Fk0pmU9tTOk8Yj85tiBhP0QjcTCazfnSdnvndFqhcByaXxza
+ ysmK7n3Wyqbgyhb1+bQfzwA11EEKmz/yu4dfiznpGGSjw/sEJvaQeRDF/m+Omh0zBRIk
+ C0AeSN6dIoMmOj0HndS+L/dXGElbG+/uzWum5PtgKZC/LFQQn75F6EOH/o050dfei80W
+ N7mq3d6UYs7YAihJYzyEAYXfBnRtwvDvsLlZKsb6/5gkmJDSk3VnzdWWjSC3mP/NHqsF
+ dI1A==
+X-Gm-Message-State: AFqh2kokdzesF63z6/QWLVN/oKL9XPXYQt7/I3JFaY0Cq2jmRJdjPoz6
+ BqPLvy6zWO1CoXc2TmrrVadTx2ZBr8jdL/7ZF0cNdg==
+X-Google-Smtp-Source: AMrXdXvsXl9Uks3hE43ojWKPKivl8Y8mXAbrs/UbA5mzoZfDAsoBgwWHbOX1YQhEfIELbwUCOnfKvskvqFaSC/FHg2o=
+X-Received: by 2002:a17:90b:2304:b0:229:189b:6fee with SMTP id
+ mt4-20020a17090b230400b00229189b6feemr1168255pjb.221.1673877734746; Mon, 16
+ Jan 2023 06:02:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 4/8] hw/acpi/piix4: No need to #include
- "hw/southbridge/piix.h"
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Ani Sinha <ani@anisinha.ca>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-trivial@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>
-References: <20230116125842.66817-1-shentey@gmail.com>
- <20230116125842.66817-5-shentey@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230116125842.66817-5-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20230115171633.3171890-1-richard.henderson@linaro.org>
+In-Reply-To: <20230115171633.3171890-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Jan 2023 14:02:03 +0000
+Message-ID: <CAFEAcA_U=XyEFW0CkTweEL7ET2wHLM442H0Kfqdb33-BzonBDg@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Widen cnthctl_el2 to uint64_t
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,17 +82,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/1/23 13:58, Bernhard Beschow wrote:
-> hw/acpi/piix4 has its own header with its structure definition etc.
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+On Sun, 15 Jan 2023 at 17:16, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This is a 64-bit register on AArch64, even if the high 44 bits
+> are RES0.  Because this is defined as ARM_CP_STATE_BOTH, we are
+> asserting that the cpreg field is 64-bits.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1400
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   hw/acpi/piix4.c | 1 -
->   1 file changed, 1 deletion(-)
+>
+> During my perigrinations of reorganizing cpregs, I've been thinking
+> of ways to detect these sorts of errors -- preferably at build time,
+> but failing that at startup.  I think all raw usage of offsetof has
+> got to be replaced with something like
+>
+> #define cpreg_fieldoffset(field) \
+>     .fieldoffset = offsetof(CPUARMState, field), \
+>     .fieldsize = sizeof(((CPUARMState *)0)->field),
 
-Indeed, since 2bfd0845f0 ("hw/acpi/piix4: move PIIX4PMState into 
-separate piix4.h header").
+The other cpreg sanity check I've vaguely wondered about in
+the past is whether we can somehow check that all the fields
+that we expose to the guest as a register are migrated. This
+definitely isn't true currently because for a 32-bit CPU with
+TrustZone we messed up migration of the Secure banked state.
+Incorrect use of alias flags could also result in that kind
+of bug. I guess we'd need to have some way to tell the check
+about fields that really are manually migrated, though.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Anyway, for this patch, applied to target-arm.next.
 
+thanks
+-- PMM
 
