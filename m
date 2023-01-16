@@ -2,94 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3339866BAFC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 10:55:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE6766BB46
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 11:10:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHMBy-0003F5-Hc; Mon, 16 Jan 2023 04:54:15 -0500
+	id 1pHMQK-0006uM-38; Mon, 16 Jan 2023 05:09:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pHMBs-0003Ep-Kk
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:54:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pHMBp-0000pg-FQ
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:54:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673862844;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4m9kViEOZEsW2qJpWX3e4guyn3S45xW2tNW4lbS0qVI=;
- b=Pdb/Djc4qpKDdsd/2Bs9nKFFEcdBa++NEdCTyk8alw97oL8u9cwUDKwDyyj5YXPuwkXVaL
- dmGbY2oCsNSVuFhyhcRxptnUZcQogqvBoKIj9Q6g7LPhaBKwLkA0c8XZdbWYrTJruYxl/m
- UtyB+QaXUytCRo7igvPTdlvvPjmjfxo=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-637-3m-Znl8tPiWzTrrPfedIgg-1; Mon, 16 Jan 2023 04:54:02 -0500
-X-MC-Unique: 3m-Znl8tPiWzTrrPfedIgg-1
-Received: by mail-yw1-f197.google.com with SMTP id
- 00721157ae682-4ce566db73eso225617777b3.11
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 01:54:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHMQB-0006u4-MG
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 05:08:55 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHMQ8-0003UW-V5
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 05:08:55 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003d9712b29d2so23225923wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 02:08:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KS4g4Jh/uvUh0OZ0kPhz0bfmCkk5WTGuiVscMSrG5Pk=;
+ b=YL8ifBV+QaX4F/Yq6rAFJ2g/LBg9m8PO3aO6gwx6H1Fvb6bkl+BL8FSp+dZRrjg1Ey
+ 1wxGvKcbMw4h57S2/IopajiePfrPlzqbYYLc8xy3Xr4IN4m+7xVGeJz/qMb/0+467Npt
+ JBofNIE4CR/aRPN4kqsbBM+IUYej4Ptz6q5Gf8ZUnyfmNZBZ2TxbHnHrgqKrdS1q1Oun
+ GokvUfJ8nFW6AwA7rpIGaiL2CbaHVV6ruM0vqitJ0Galk7/HMCkRE7dUyEzWwMB25SPc
+ xvyJTN+Xr048vAHAIcq8ripIyjJGyiYOMKiTfPtf3plvl8pdlxupjbZWHBlExAiwSbHl
+ 5ICg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4m9kViEOZEsW2qJpWX3e4guyn3S45xW2tNW4lbS0qVI=;
- b=rFmPiWjlNBgLcAZjD/WAYNCdliYFQeJ0l5dy9ADPQKOyoUULEXYxlcne2DieexkrWY
- RXlMsgfdn9qPoibhPg7tWEE9NQbF/+xLz9JON394Ecv5Vgd80CI2PlFjgWMrwAEypm81
- 4oiMqLDypu0HvVfZ/tbPAyrkU6iIVN7UdM792XHkc6LNJQR/rnoDKdlfRCSSa4sIl8kL
- ZYvf6snwt1mjEFKELwt9Hb2wT8qpDzOxiRplV3+PiHugw0gIK2c26taX6bkUXjOavbuA
- LNA/EUi8UUsuQhtY0DyNQixU2ugVXjQJ/gfCYZIfHmUZZEznx+12WgOPDT5r0zqyaN4F
- 04Lw==
-X-Gm-Message-State: AFqh2koEneP5XxEEVhhFpyxM+y6Vv0fh5r+7yBywF9vyLXqCkEVfNMOC
- xTPmJEI4i4B15zdgiLJ5kLj1RITYh7wVkYUyhOWM1zlEGmvgfum61tYgnIACvGSVJPXp0ToMFpI
- OTgUHzspOrDyJdBOhePKSQJiKC2mz+m4=
-X-Received: by 2002:a25:81d0:0:b0:7d2:891e:ee59 with SMTP id
- n16-20020a2581d0000000b007d2891eee59mr1102586ybm.152.1673862842007; 
- Mon, 16 Jan 2023 01:54:02 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvO5tllTtIKwh2ma5HjQOi4ByUnsOcQmHtIRGGsvRuxtHEi/v6FhIAxG/P2c3wHMok7UzSlqDeSKcIMEoFUslI=
-X-Received: by 2002:a25:81d0:0:b0:7d2:891e:ee59 with SMTP id
- n16-20020a2581d0000000b007d2891eee59mr1102584ybm.152.1673862841765; Mon, 16
- Jan 2023 01:54:01 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=KS4g4Jh/uvUh0OZ0kPhz0bfmCkk5WTGuiVscMSrG5Pk=;
+ b=MK141keRvZKsYQyHWAUhFW7DEliW0JDiDseTzcngT5ZM4nvrbM/ylBoKlVZS15icl2
+ elDAm9h2logVv9bAgqjsDRTu4AtimAyPJuGmj8RdcfRgNUPK082vX31y7tEBnAAXQNjX
+ F20kkEk3FQpDGzvx0S/u4BSw0x3C2uqCGdlATnyICSLh+kk75/x5RfMy0RlinSdnTn/S
+ KHFe+dfHyzZaCuz0lNvM7dc8/eOMQedwCYASGUM7qwlkVa1D/Tg3ope2CMi6G2JgLXT0
+ v+L1Fy+IkVF/2K5/ayVmj85gT3dLv/EG8ZpwJHVzTCGEvgaT1oxcnw6bZ2NNKj5vPpnY
+ gT2g==
+X-Gm-Message-State: AFqh2kot1gGyuiCsy7iLw6hAkWhJxHC4KRSgf5LNCzzEKrkp85Fc9IIN
+ 08nR1j3SK47YAfAN9TUkKMR1jQ==
+X-Google-Smtp-Source: AMrXdXvudAZWU/PUb5eKxTDGJv3hv/S5vh7fIpvZ8KVp2hQSJONlik7y0PPr2XHfsrENOasgbWrxGw==
+X-Received: by 2002:a05:600c:4e08:b0:3d2:139e:f64f with SMTP id
+ b8-20020a05600c4e0800b003d2139ef64fmr69199986wmq.40.1673863731260; 
+ Mon, 16 Jan 2023 02:08:51 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ ba29-20020a0560001c1d00b002b065272da2sm4809263wrb.13.2023.01.16.02.08.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Jan 2023 02:08:50 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3DAFC1FFB7;
+ Mon, 16 Jan 2023 10:08:49 +0000 (GMT)
+References: <20230110132700.833690-1-marcandre.lureau@redhat.com>
+ <20230110132700.833690-9-marcandre.lureau@redhat.com>
+User-agent: mu4e 1.9.14; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>, John
+ Snow <jsnow@redhat.com>, kraxel@redhat.com, Beraldo Leal
+ <bleal@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ pbonzini@redhat.com, Eric Farman <farman@linux.ibm.com>, David Hildenbrand
+ <david@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Markus Armbruster <armbru@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ thuth@redhat.com, Halil Pasic <pasic@linux.ibm.com>, Michael Roth
+ <michael.roth@amd.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Ed Maste <emaste@freebsd.org>
+Subject: Re: [PATCH v4 8/8] lcitool: drop texinfo from QEMU
+ project/dependencies
+Date: Mon, 16 Jan 2023 10:06:07 +0000
+In-reply-to: <20230110132700.833690-9-marcandre.lureau@redhat.com>
+Message-ID: <87bkmyvljj.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20230112172434.760850-1-eperezma@redhat.com>
- <20230112172434.760850-5-eperezma@redhat.com>
- <CACGkMEvo4fS0AZ7_i3MnpLJwic7VEX3x7BaaB=w1t7y2Fri9EQ@mail.gmail.com>
- <CAJaqyWd3N3+78r_ZNNxZZMVJFpkqceYjOXtOrx6WSK62naN+jA@mail.gmail.com>
- <68d2c045-e260-140c-9525-2fc265ae9291@redhat.com>
-In-Reply-To: <68d2c045-e260-140c-9525-2fc265ae9291@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 16 Jan 2023 10:53:25 +0100
-Message-ID: <CAJaqyWeY30QETgksM2_zrc8xvOABSTAhwFUXRJRHumX0FFrqpw@mail.gmail.com>
-Subject: Re: [RFC v2 04/13] vdpa: rewind at get_base, not set_base
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, alvaro.karsz@solid-run.com, 
- Shannon Nelson <snelson@pensando.io>, Laurent Vivier <lvivier@redhat.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Parav Pandit <parav@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,248 +109,382 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 16, 2023 at 4:32 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2023/1/13 15:40, Eugenio Perez Martin =E5=86=99=E9=81=93:
-> > On Fri, Jan 13, 2023 at 5:10 AM Jason Wang <jasowang@redhat.com> wrote:
-> >> On Fri, Jan 13, 2023 at 1:24 AM Eugenio P=C3=A9rez <eperezma@redhat.co=
-m> wrote:
-> >>> At this moment it is only possible to migrate to a vdpa device runnin=
-g
-> >>> with x-svq=3Don. As a protective measure, the rewind of the inflight
-> >>> descriptors was done at the destination. That way if the source sent =
-a
-> >>> virtqueue with inuse descriptors they are always discarded.
-> >>>
-> >>> Since this series allows to migrate also to passthrough devices with =
-no
-> >>> SVQ, the right thing to do is to rewind at the source so base of vrin=
-gs
-> >>> are correct.
-> >>>
-> >>> Support for inflight descriptors may be added in the future.
-> >>>
-> >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >>> ---
-> >>>   include/hw/virtio/vhost-backend.h |  4 +++
-> >>>   hw/virtio/vhost-vdpa.c            | 46 +++++++++++++++++++---------=
----
-> >>>   hw/virtio/vhost.c                 |  3 ++
-> >>>   3 files changed, 36 insertions(+), 17 deletions(-)
-> >>>
-> >>> diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vh=
-ost-backend.h
-> >>> index c5ab49051e..ec3fbae58d 100644
-> >>> --- a/include/hw/virtio/vhost-backend.h
-> >>> +++ b/include/hw/virtio/vhost-backend.h
-> >>> @@ -130,6 +130,9 @@ typedef bool (*vhost_force_iommu_op)(struct vhost=
-_dev *dev);
-> >>>
-> >>>   typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
-> >>>                                          int fd);
-> >>> +
-> >>> +typedef void (*vhost_reset_status_op)(struct vhost_dev *dev);
-> >>> +
-> >>>   typedef struct VhostOps {
-> >>>       VhostBackendType backend_type;
-> >>>       vhost_backend_init vhost_backend_init;
-> >>> @@ -177,6 +180,7 @@ typedef struct VhostOps {
-> >>>       vhost_get_device_id_op vhost_get_device_id;
-> >>>       vhost_force_iommu_op vhost_force_iommu;
-> >>>       vhost_set_config_call_op vhost_set_config_call;
-> >>> +    vhost_reset_status_op vhost_reset_status;
-> >>>   } VhostOps;
-> >>>
-> >>>   int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
-> >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> >>> index 542e003101..28a52ddc78 100644
-> >>> --- a/hw/virtio/vhost-vdpa.c
-> >>> +++ b/hw/virtio/vhost-vdpa.c
-> >>> @@ -1132,14 +1132,23 @@ static int vhost_vdpa_dev_start(struct vhost_=
-dev *dev, bool started)
-> >>>       if (started) {
-> >>>           memory_listener_register(&v->listener, &address_space_memor=
-y);
-> >>>           return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK=
-);
-> >>> -    } else {
-> >>> -        vhost_vdpa_reset_device(dev);
-> >>> -        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-> >>> -                                   VIRTIO_CONFIG_S_DRIVER);
-> >>> -        memory_listener_unregister(&v->listener);
-> >>> +    }
-> >>>
-> >>> -        return 0;
-> >>> +    return 0;
-> >>> +}
-> >>> +
-> >>> +static void vhost_vdpa_reset_status(struct vhost_dev *dev)
-> >>> +{
-> >>> +    struct vhost_vdpa *v =3D dev->opaque;
-> >>> +
-> >>> +    if (dev->vq_index + dev->nvqs !=3D dev->vq_index_end) {
-> >>> +        return;
-> >>>       }
-> >>> +
-> >>> +    vhost_vdpa_reset_device(dev);
-> >>> +    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-> >>> +                                VIRTIO_CONFIG_S_DRIVER);
-> >>> +    memory_listener_unregister(&v->listener);
-> >>>   }
-> >>>
-> >>>   static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t =
-base,
-> >>> @@ -1182,18 +1191,7 @@ static int vhost_vdpa_set_vring_base(struct vh=
-ost_dev *dev,
-> >>>                                          struct vhost_vring_state *ri=
-ng)
-> >>>   {
-> >>>       struct vhost_vdpa *v =3D dev->opaque;
-> >>> -    VirtQueue *vq =3D virtio_get_queue(dev->vdev, ring->index);
-> >>>
-> >>> -    /*
-> >>> -     * vhost-vdpa devices does not support in-flight requests. Set a=
-ll of them
-> >>> -     * as available.
-> >>> -     *
-> >>> -     * TODO: This is ok for networking, but other kinds of devices m=
-ight
-> >>> -     * have problems with these retransmissions.
-> >>> -     */
-> >>> -    while (virtqueue_rewind(vq, 1)) {
-> >>> -        continue;
-> >>> -    }
-> >>>       if (v->shadow_vqs_enabled) {
-> >>>           /*
-> >>>            * Device vring base was set at device start. SVQ base is h=
-andled by
-> >>> @@ -1212,6 +1210,19 @@ static int vhost_vdpa_get_vring_base(struct vh=
-ost_dev *dev,
-> >>>       int ret;
-> >>>
-> >>>       if (v->shadow_vqs_enabled) {
-> >>> +        VirtQueue *vq =3D virtio_get_queue(dev->vdev, ring->index);
-> >>> +
-> >>> +        /*
-> >>> +         * vhost-vdpa devices does not support in-flight requests. S=
-et all of
-> >>> +         * them as available.
-> >>> +         *
-> >>> +         * TODO: This is ok for networking, but other kinds of devic=
-es might
-> >>> +         * have problems with these retransmissions.
-> >>> +         */
-> >>> +        while (virtqueue_rewind(vq, 1)) {
-> >>> +            continue;
-> >>> +        }
-> >>> +
-> >>>           ring->num =3D virtio_queue_get_last_avail_idx(dev->vdev, ri=
-ng->index);
-> >>>           return 0;
-> >>>       }
-> >>> @@ -1326,4 +1337,5 @@ const VhostOps vdpa_ops =3D {
-> >>>           .vhost_vq_get_addr =3D vhost_vdpa_vq_get_addr,
-> >>>           .vhost_force_iommu =3D vhost_vdpa_force_iommu,
-> >>>           .vhost_set_config_call =3D vhost_vdpa_set_config_call,
-> >>> +        .vhost_reset_status =3D vhost_vdpa_reset_status,
-> >> Can we simply use the NetClient stop method here?
-> >>
-> > Ouch, I squashed two patches by mistake here.
-> >
-> > All the vhost_reset_status part should be independent of this patch,
-> > and I was especially interested in its feedback. It had this message:
-> >
-> >      vdpa: move vhost reset after get vring base
-> >
-> >      The function vhost.c:vhost_dev_stop calls vhost operation
-> >      vhost_dev_start(false). In the case of vdpa it totally reset and w=
-ipes
-> >      the device, making the fetching of the vring base (virtqueue state=
-) totally
-> >      useless.
-> >
-> >      The kernel backend does not use vhost_dev_start vhost op callback,=
- but
-> >      vhost-user do. A patch to make vhost_user_dev_start more similar t=
-o vdpa
-> >      is desirable, but it can be added on top.
-> >
-> > I can resend the series splitting it again but conversation may
-> > scatter between versions. Would you prefer me to send a new version?
->
->
-> I think it can be done in next version (after we finalize the discussion
-> for this version).
->
->
-> >
-> > Regarding the use of NetClient, it feels weird to call net specific
-> > functions in VhostOps, doesn't it?
->
->
-> Basically, I meant, the patch call vhost_reset_status() in
-> vhost_dev_stop(). But we've already had vhost_dev_start ops where we
-> implement per backend start/stop logic.
->
-> I think it's better to do things in vhost_dev_start():
->
-> For device that can do suspend, we can do suspend. For other we need to
-> do reset as a workaround.
->
 
-If the device implements _F_SUSPEND we can call suspend in
-vhost_dev_start(false) and fetch the vq base after it. But we cannot
-call vhost_dev_reset until we get the vq base. If we do it, we will
-always get zero there.
+marcandre.lureau@redhat.com writes:
 
-If we don't reset the device at vhost_vdpa_dev_start(false) we need to
-call a proper reset after getting the base, at least in vdpa. So to
-create a new vhost_op should be the right thing to do, isn't it?
-
-Hopefully with a better name than vhost_vdpa_reset_status, that's for sure =
-:).
-
-I'm not sure how vhost-user works with this or when it does reset the
-indexes. My bet is that it never does at the device reinitialization
-and it trusts VMM calls to vhost_user_set_base but I may be wrong.
-
-Thanks!
-
-> And if necessary, we can call nc client ops for net specific operations
-> (if it has any).
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> Thanks
->
->
-> > At the moment vhost ops is
-> > specialized in vhost-kernel, vhost-user and vhost-vdpa. If we want to
-> > make it specific to the kind of device, that makes vhost-vdpa-net too.
-> >
-> > Thanks!
-> >
-> >
-> >> Thanks
-> >>
-> >>>   };
-> >>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> >>> index eb8c4c378c..a266396576 100644
-> >>> --- a/hw/virtio/vhost.c
-> >>> +++ b/hw/virtio/vhost.c
-> >>> @@ -2049,6 +2049,9 @@ void vhost_dev_stop(struct vhost_dev *hdev, Vir=
-tIODevice *vdev, bool vrings)
-> >>>                                hdev->vqs + i,
-> >>>                                hdev->vq_index + i);
-> >>>       }
-> >>> +    if (hdev->vhost_ops->vhost_reset_status) {
-> >>> +        hdev->vhost_ops->vhost_reset_status(hdev);
-> >>> +    }
-> >>>
-> >>>       if (vhost_dev_has_iommu(hdev)) {
-> >>>           if (hdev->vhost_ops->vhost_set_iotlb_callback) {
-> >>> --
-> >>> 2.31.1
-> >>>
->
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
+I'm not sure how but this is re-breaking the windows build you just fixed:
+
+  In file included from /usr/x86_64-w64-mingw32/sys-root/mingw/include/epox=
+y/egl.h:46,
+                   from /tmp/qemu-test/src/include/ui/egl-helpers.h:5,
+                   from /tmp/qemu-test/src/include/ui/gtk.h:25,
+                   from ../src/ui/gtk.c:42:
+  /usr/x86_64-w64-mingw32/sys-root/mingw/include/epoxy/egl_generated.h:11:1=
+0: fatal error: EGL/eglplatform.h: No such file or directory
+     11 | #include "EGL/eglplatform.h"
+        |          ^~~~~~~~~~~~~~~~~~~
+  compilation terminated.
+
+I'm going to drop this patch for now.
+
+> ---
+>  .gitlab-ci.d/cirrus/freebsd-12.vars                   | 2 +-
+>  .gitlab-ci.d/cirrus/freebsd-13.vars                   | 2 +-
+>  .gitlab-ci.d/cirrus/macos-12.vars                     | 2 +-
+>  tests/docker/dockerfiles/alpine.docker                | 1 -
+>  tests/docker/dockerfiles/centos8.docker               | 1 -
+>  tests/docker/dockerfiles/debian-amd64-cross.docker    | 3 +--
+>  tests/docker/dockerfiles/debian-amd64.docker          | 1 -
+>  tests/docker/dockerfiles/debian-arm64-cross.docker    | 3 +--
+>  tests/docker/dockerfiles/debian-armel-cross.docker    | 3 +--
+>  tests/docker/dockerfiles/debian-armhf-cross.docker    | 3 +--
+>  tests/docker/dockerfiles/debian-mips64el-cross.docker | 3 +--
+>  tests/docker/dockerfiles/debian-mipsel-cross.docker   | 3 +--
+>  tests/docker/dockerfiles/debian-ppc64el-cross.docker  | 3 +--
+>  tests/docker/dockerfiles/debian-s390x-cross.docker    | 3 +--
+>  tests/docker/dockerfiles/debian-toolchain.docker      | 1 -
+>  tests/docker/dockerfiles/fedora-win32-cross.docker    | 1 -
+>  tests/docker/dockerfiles/fedora-win64-cross.docker    | 1 -
+>  tests/docker/dockerfiles/fedora.docker                | 1 -
+>  tests/docker/dockerfiles/opensuse-leap.docker         | 1 -
+>  tests/docker/dockerfiles/ubuntu2004.docker            | 1 -
+>  tests/lcitool/projects/qemu.yml                       | 1 -
+>  21 files changed, 11 insertions(+), 29 deletions(-)
+>
+> diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/fr=
+eebsd-12.vars
+> index f32f01a954..8934e5d57f 100644
+> --- a/.gitlab-ci.d/cirrus/freebsd-12.vars
+> +++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
+> @@ -11,6 +11,6 @@ MAKE=3D'/usr/local/bin/gmake'
+>  NINJA=3D'/usr/local/bin/ninja'
+>  PACKAGING_COMMAND=3D'pkg'
+>  PIP3=3D'/usr/local/bin/pip-3.8'
+> -PKGS=3D'alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-ge=
+nisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3=
+ gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt l=
+ibjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meso=
+n ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py3=
+9-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl=
+2_image snappy sndio spice-protocol tesseract texinfo usbredir virglrendere=
+r vte3 zstd'
+> +PKGS=3D'alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-ge=
+nisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3=
+ gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt l=
+ibjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meso=
+n ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py3=
+9-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl=
+2_image snappy sndio spice-protocol tesseract usbredir virglrenderer vte3 z=
+std'
+>  PYPI_PKGS=3D''
+>  PYTHON=3D'/usr/local/bin/python3'
+> diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/fr=
+eebsd-13.vars
+> index 813c051616..65ce456c48 100644
+> --- a/.gitlab-ci.d/cirrus/freebsd-13.vars
+> +++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
+> @@ -11,6 +11,6 @@ MAKE=3D'/usr/local/bin/gmake'
+>  NINJA=3D'/usr/local/bin/ninja'
+>  PACKAGING_COMMAND=3D'pkg'
+>  PIP3=3D'/usr/local/bin/pip-3.8'
+> -PKGS=3D'alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-ge=
+nisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3=
+ gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt l=
+ibjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meso=
+n ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py3=
+9-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl=
+2_image snappy sndio spice-protocol tesseract texinfo usbredir virglrendere=
+r vte3 zstd'
+> +PKGS=3D'alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-ge=
+nisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3=
+ gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt l=
+ibjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meso=
+n ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py3=
+9-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl=
+2_image snappy sndio spice-protocol tesseract usbredir virglrenderer vte3 z=
+std'
+>  PYPI_PKGS=3D''
+>  PYTHON=3D'/usr/local/bin/python3'
+> diff --git a/.gitlab-ci.d/cirrus/macos-12.vars b/.gitlab-ci.d/cirrus/maco=
+s-12.vars
+> index 33bb4e1040..65b78fa08f 100644
+> --- a/.gitlab-ci.d/cirrus/macos-12.vars
+> +++ b/.gitlab-ci.d/cirrus/macos-12.vars
+> @@ -11,6 +11,6 @@ MAKE=3D'/opt/homebrew/bin/gmake'
+>  NINJA=3D'/opt/homebrew/bin/ninja'
+>  PACKAGING_COMMAND=3D'brew'
+>  PIP3=3D'/opt/homebrew/bin/pip3'
+> -PKGS=3D'bash bc bison bzip2 capstone ccache cmocka ctags curl dbus diffu=
+tils dtc flex gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-tur=
+bo json-c libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh =
+libtasn1 libusb llvm lzo make meson ncurses nettle ninja pixman pkg-config =
+python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract tex=
+info usbredir vde vte3 zlib zstd'
+> +PKGS=3D'bash bc bison bzip2 capstone ccache cmocka ctags curl dbus diffu=
+tils dtc flex gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-tur=
+bo json-c libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh =
+libtasn1 libusb llvm lzo make meson ncurses nettle ninja pixman pkg-config =
+python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract usb=
+redir vde vte3 zlib zstd'
+>  PYPI_PKGS=3D'PyYAML numpy pillow sphinx sphinx-rtd-theme'
+>  PYTHON=3D'/opt/homebrew/bin/python3'
+> diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/docker=
+files/alpine.docker
+> index 3293c790c9..4a569d82f6 100644
+> --- a/tests/docker/dockerfiles/alpine.docker
+> +++ b/tests/docker/dockerfiles/alpine.docker
+> @@ -99,7 +99,6 @@ RUN apk update && \
+>          spice-protocol \
+>          tar \
+>          tesseract-ocr \
+> -        texinfo \
+>          usbredir-dev \
+>          util-linux \
+>          vde2-dev \
+> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/docke=
+rfiles/centos8.docker
+> index f13745e6cc..fbc953c6dc 100644
+> --- a/tests/docker/dockerfiles/centos8.docker
+> +++ b/tests/docker/dockerfiles/centos8.docker
+> @@ -110,7 +110,6 @@ RUN dnf distro-sync -y && \
+>          systemd-devel \
+>          systemtap-sdt-devel \
+>          tar \
+> -        texinfo \
+>          usbredir-devel \
+>          util-linux \
+>          virglrenderer-devel \
+> diff --git a/tests/docker/dockerfiles/debian-amd64-cross.docker b/tests/d=
+ocker/dockerfiles/debian-amd64-cross.docker
+> index d0ace6d0f7..5175095a85 100644
+> --- a/tests/docker/dockerfiles/debian-amd64-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-amd64-cross.docker
+> @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>                        sparse \
+>                        tar \
+>                        tesseract-ocr \
+> -                      tesseract-ocr-eng \
+> -                      texinfo && \
+> +                      tesseract-ocr-eng && \
+>      eatmydata apt-get autoremove -y && \
+>      eatmydata apt-get autoclean -y && \
+>      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+> diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/=
+dockerfiles/debian-amd64.docker
+> index 0517c4c315..b61f664ea2 100644
+> --- a/tests/docker/dockerfiles/debian-amd64.docker
+> +++ b/tests/docker/dockerfiles/debian-amd64.docker
+> @@ -125,7 +125,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>                        tar \
+>                        tesseract-ocr \
+>                        tesseract-ocr-eng \
+> -                      texinfo \
+>                        xfslibs-dev \
+>                        zlib1g-dev && \
+>      eatmydata apt-get autoremove -y && \
+> diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker b/tests/d=
+ocker/dockerfiles/debian-arm64-cross.docker
+> index 9ac1c1ba3f..b69958c69f 100644
+> --- a/tests/docker/dockerfiles/debian-arm64-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
+> @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>                        sparse \
+>                        tar \
+>                        tesseract-ocr \
+> -                      tesseract-ocr-eng \
+> -                      texinfo && \
+> +                      tesseract-ocr-eng && \
+>      eatmydata apt-get autoremove -y && \
+>      eatmydata apt-get autoclean -y && \
+>      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+> diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/d=
+ocker/dockerfiles/debian-armel-cross.docker
+> index 8be492f4ad..96b524fab6 100644
+> --- a/tests/docker/dockerfiles/debian-armel-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-armel-cross.docker
+> @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>                        sparse \
+>                        tar \
+>                        tesseract-ocr \
+> -                      tesseract-ocr-eng \
+> -                      texinfo && \
+> +                      tesseract-ocr-eng && \
+>      eatmydata apt-get autoremove -y && \
+>      eatmydata apt-get autoclean -y && \
+>      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+> diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/d=
+ocker/dockerfiles/debian-armhf-cross.docker
+> index da789e04af..08a75cebdb 100644
+> --- a/tests/docker/dockerfiles/debian-armhf-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
+> @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>                        sparse \
+>                        tar \
+>                        tesseract-ocr \
+> -                      tesseract-ocr-eng \
+> -                      texinfo && \
+> +                      tesseract-ocr-eng && \
+>      eatmydata apt-get autoremove -y && \
+>      eatmydata apt-get autoclean -y && \
+>      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+> diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/test=
+s/docker/dockerfiles/debian-mips64el-cross.docker
+> index 8b7c59c4f9..5930e6fa5d 100644
+> --- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+> @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>                        sparse \
+>                        tar \
+>                        tesseract-ocr \
+> -                      tesseract-ocr-eng \
+> -                      texinfo && \
+> +                      tesseract-ocr-eng && \
+>      eatmydata apt-get autoremove -y && \
+>      eatmydata apt-get autoclean -y && \
+>      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+> diff --git a/tests/docker/dockerfiles/debian-mipsel-cross.docker b/tests/=
+docker/dockerfiles/debian-mipsel-cross.docker
+> index f9f1ed5fd2..c65d9830e7 100644
+> --- a/tests/docker/dockerfiles/debian-mipsel-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-mipsel-cross.docker
+> @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>                        sparse \
+>                        tar \
+>                        tesseract-ocr \
+> -                      tesseract-ocr-eng \
+> -                      texinfo && \
+> +                      tesseract-ocr-eng && \
+>      eatmydata apt-get autoremove -y && \
+>      eatmydata apt-get autoclean -y && \
+>      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+> diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests=
+/docker/dockerfiles/debian-ppc64el-cross.docker
+> index e423d88c2d..2ae56c978e 100644
+> --- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+> @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>                        sparse \
+>                        tar \
+>                        tesseract-ocr \
+> -                      tesseract-ocr-eng \
+> -                      texinfo && \
+> +                      tesseract-ocr-eng && \
+>      eatmydata apt-get autoremove -y && \
+>      eatmydata apt-get autoclean -y && \
+>      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+> diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/d=
+ocker/dockerfiles/debian-s390x-cross.docker
+> index c1134f4cec..0db86a0fcd 100644
+> --- a/tests/docker/dockerfiles/debian-s390x-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
+> @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>                        sparse \
+>                        tar \
+>                        tesseract-ocr \
+> -                      tesseract-ocr-eng \
+> -                      texinfo && \
+> +                      tesseract-ocr-eng && \
+>      eatmydata apt-get autoremove -y && \
+>      eatmydata apt-get autoclean -y && \
+>      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+> diff --git a/tests/docker/dockerfiles/debian-toolchain.docker b/tests/doc=
+ker/dockerfiles/debian-toolchain.docker
+> index d3d4d3344e..6c73408b34 100644
+> --- a/tests/docker/dockerfiles/debian-toolchain.docker
+> +++ b/tests/docker/dockerfiles/debian-toolchain.docker
+> @@ -21,7 +21,6 @@ RUN apt update && \
+>          libmpc-dev \
+>          libmpfr-dev \
+>          rsync \
+> -        texinfo \
+>          wget && \
+>      DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+>      apt build-dep -yy --arch-only gcc glibc
+> diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/d=
+ocker/dockerfiles/fedora-win32-cross.docker
+> index de811b332b..b659c0b8a8 100644
+> --- a/tests/docker/dockerfiles/fedora-win32-cross.docker
+> +++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+> @@ -57,7 +57,6 @@ exec "$@"' > /usr/bin/nosync && \
+>                 tar \
+>                 tesseract \
+>                 tesseract-langpack-eng \
+> -               texinfo \
+>                 util-linux \
+>                 which && \
+>      nosync dnf autoremove -y && \
+> diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/d=
+ocker/dockerfiles/fedora-win64-cross.docker
+> index 71681d6f92..0a404c15bf 100644
+> --- a/tests/docker/dockerfiles/fedora-win64-cross.docker
+> +++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+> @@ -57,7 +57,6 @@ exec "$@"' > /usr/bin/nosync && \
+>                 tar \
+>                 tesseract \
+>                 tesseract-langpack-eng \
+> -               texinfo \
+>                 util-linux \
+>                 which && \
+>      nosync dnf autoremove -y && \
+> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/docker=
+files/fedora.docker
+> index ca3793b04b..5d60a96141 100644
+> --- a/tests/docker/dockerfiles/fedora.docker
+> +++ b/tests/docker/dockerfiles/fedora.docker
+> @@ -121,7 +121,6 @@ exec "$@"' > /usr/bin/nosync && \
+>                 tar \
+>                 tesseract \
+>                 tesseract-langpack-eng \
+> -               texinfo \
+>                 usbredir-devel \
+>                 util-linux \
+>                 virglrenderer-devel \
+> diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker=
+/dockerfiles/opensuse-leap.docker
+> index 680f49e7dc..4b2c02d6ab 100644
+> --- a/tests/docker/dockerfiles/opensuse-leap.docker
+> +++ b/tests/docker/dockerfiles/opensuse-leap.docker
+> @@ -111,7 +111,6 @@ RUN zypper update -y && \
+>             tar \
+>             tesseract-ocr \
+>             tesseract-ocr-traineddata-english \
+> -           texinfo \
+>             usbredir-devel \
+>             util-linux \
+>             virglrenderer-devel \
+> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/do=
+ckerfiles/ubuntu2004.docker
+> index 6594bba338..13ab0b6887 100644
+> --- a/tests/docker/dockerfiles/ubuntu2004.docker
+> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
+> @@ -124,7 +124,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>                        tar \
+>                        tesseract-ocr \
+>                        tesseract-ocr-eng \
+> -                      texinfo \
+>                        xfslibs-dev \
+>                        zlib1g-dev && \
+>      eatmydata apt-get autoremove -y && \
+> diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qem=
+u.yml
+> index c2af92348a..6467bcf08a 100644
+> --- a/tests/lcitool/projects/qemu.yml
+> +++ b/tests/lcitool/projects/qemu.yml
+> @@ -109,7 +109,6 @@ packages:
+>   - tar
+>   - tesseract
+>   - tesseract-eng
+> - - texinfo
+>   - usbredir
+>   - virglrenderer
+>   - vte
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
