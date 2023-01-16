@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C490366BE85
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 14:02:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A0E66BE86
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 14:02:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHP5g-0005Z3-8i; Mon, 16 Jan 2023 07:59:56 -0500
+	id 1pHP5g-0005Yo-85; Mon, 16 Jan 2023 07:59:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pHP5K-0005Qp-Sy; Mon, 16 Jan 2023 07:59:36 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ id 1pHP5N-0005RN-JY; Mon, 16 Jan 2023 07:59:39 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pHP5J-00017s-7h; Mon, 16 Jan 2023 07:59:34 -0500
-Received: by mail-ej1-x631.google.com with SMTP id qx13so9535785ejb.13;
- Mon, 16 Jan 2023 04:59:32 -0800 (PST)
+ id 1pHP5K-00018H-MJ; Mon, 16 Jan 2023 07:59:35 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id qx13so9535980ejb.13;
+ Mon, 16 Jan 2023 04:59:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=C3aXSHolNmoD+uAWx1iQQB3uBgq7VIljmtpVGikvpuU=;
- b=bIH+NF7fMl7RaZ9RSv9OeaGSoipCcZ8xc4kjCW4qxRl0tkUL/KCNkvbXqCyH7HtJZB
- U4pbFpk3Z80EpkD4iJBDOyWxwxJyucba71CPGW48sQql6P4Y9iWhb0IjfmHNoNA5N1kl
- 1/LGAHkj+1HmIBgdCEbws6bTCJYtKUfpx+YKBfHB2lUYvOdGpu58XsbHPOv4k/J7brh0
- GyLOc/G0594L1qisuWmffpRm42mGQepqgjOH6W7jPspAj+I3+3EWCu01HqE44VafukH3
- jn5nuKCe8MKMdpwn+L7JPTww2lQO9JbpC95+21ItdXHbS6mh2PIDrRJV6pjaGwo/99cg
- TZXQ==
+ bh=G7JWsWCZehcpT6ngJWodvXzLoKg3Bv3U8R2NWRwkFTA=;
+ b=WtVOsYi6Rnmw9gvbL7hWvpH4A+S6OieZnyPQpLqbEQFiTMLtrYPmWbuHlhBJIfdzsd
+ zXpJMBKUyctYLJZ9/DBIatH58snubx+CI+WLolb5ucs6TtGHpcBIKoK/sTmO3NNaCTVg
+ g6EVHDLODEbf3qkhazImmQxjSQjkSmaHN46fbw87aacDl/tRE3a58wRW624a7Y7Ed6m9
+ aYhrmUSya8lFfjdO1UPLRZjFXNcVmk3MlztP1MnwUfpunJ8cdvfMk1saqbEWiKy9ZKwG
+ y7K4GSuWkmmS0lFFpN2QZqL7qRiBcLnZp7im9B76Yf2xBirc7fZm27PzRl/ATlVQziUT
+ W35w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=C3aXSHolNmoD+uAWx1iQQB3uBgq7VIljmtpVGikvpuU=;
- b=cxlZYQ8f5KKvaS/KaNTPQxAGsxQgvA0ZGmPHq4EZtejhF9d/YUAORIDJEJ2FVy1bNb
- DfuIfQ0xO0lUk6DzL+K5fQv2K6RJ5pdrLCG2DEUFSPNC/QUzJN2DlN0syIsi9byWkIVx
- MXCMDXm8SWDVFWaLq4nCm3FfKHMDkzB7wnJ4PDMs2DK/thrw+jlFcbvh7QKYavz/b5eH
- 8NJaP41XGz3Rjxur1ZQm4mTCXRUcI8SRMI5tu4Dha9zaNpWODjLbdHTAe7Ulcgqjfcva
- TWF8Hliirhq5puDst+O5GFNlQvhXjLTMd7p/QoGU9hnlXqQr7XzGVH7Mb28tyF9Kk1Pz
- nyqQ==
-X-Gm-Message-State: AFqh2kpifLNrECA1Yax2X2lUDQJivSLq3AGemwXUTjM9oiBOefboGSKq
- FD1/MZaWpKsKoF4SCmITAKU9kOcPpBk=
-X-Google-Smtp-Source: AMrXdXsO0yVTnqImrZa8Qj61A2Nx9YUnQh5HqVliDFtjCob1aMzqZ6irD2jGdCikxGdKTEFEGFhdMg==
-X-Received: by 2002:a17:906:c795:b0:84d:45ff:d283 with SMTP id
- cw21-20020a170906c79500b0084d45ffd283mr26006880ejb.72.1673873970985; 
- Mon, 16 Jan 2023 04:59:30 -0800 (PST)
+ bh=G7JWsWCZehcpT6ngJWodvXzLoKg3Bv3U8R2NWRwkFTA=;
+ b=F2nMXoW8bQ7SNJ8chzxR1ZdUR9fr7+aJg9W61pcR9EDCIYAfHYnpNx3+p0JWKpX/mb
+ OQGV3DNx+6okA8aV/+tGkSdR5p1h8Jtl5KsBsy1mI/U/tvMRtC6JNfpCrr43/87ITPKy
+ ctCCLZbX0cDdrsDhPi4uEBY+Ry1KCGz7aNWeJsw+PB4CKjGrGgpOwZykvw496VFHzDv4
+ W6tkiG1pdW3Ahd2hlfK+210IYhnMleiv/I+0Vs0MoHWET5WSHsAexIUtjioiLMe2cT+d
+ hZREi5WmVVz2PEgAwys5cnJqmnXfTnQaaBUwWNFzngCYPneiVC+jVfAdLbw+UpJ2JIbp
+ sWmw==
+X-Gm-Message-State: AFqh2kql3ac8mbwNBs67fkLqPAbsh9MJBmaPaN0y2DcjDQR+lHunleCK
+ xVgP1JRMplD8jhYZIPWuKAH9QJFpzBI=
+X-Google-Smtp-Source: AMrXdXtCg0dDOuIXx53w62VjBrYCFvAdgGPvlzLUmDWFEpD6O5VOVHclpkCj2AGqumfOnUo96CiuUg==
+X-Received: by 2002:a17:907:9c04:b0:86a:d385:81df with SMTP id
+ ld4-20020a1709079c0400b0086ad38581dfmr14405769ejc.3.1673873972938; 
+ Mon, 16 Jan 2023 04:59:32 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-077-191-143-217.77.191.pool.telefonica.de. [77.191.143.217])
  by smtp.gmail.com with ESMTPSA id
- um41-20020a170907cb2900b0086c4fbb8507sm3201517ejc.225.2023.01.16.04.59.29
+ um41-20020a170907cb2900b0086c4fbb8507sm3201517ejc.225.2023.01.16.04.59.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Jan 2023 04:59:30 -0800 (PST)
+ Mon, 16 Jan 2023 04:59:32 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Markus Armbruster <armbru@redhat.com>,
@@ -64,17 +64,17 @@ Cc: Markus Armbruster <armbru@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Igor Mammedov <imammedo@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 7/8] hw/i386/acpi-microvm: Reuse qbus_build_aml()
-Date: Mon, 16 Jan 2023 13:58:41 +0100
-Message-Id: <20230116125842.66817-8-shentey@gmail.com>
+Subject: [PATCH v2 8/8] hw/isa/isa-bus: Remove now unused isa_build_aml()
+Date: Mon, 16 Jan 2023 13:58:42 +0100
+Message-Id: <20230116125842.66817-9-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116125842.66817-1-shentey@gmail.com>
 References: <20230116125842.66817-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,30 +100,50 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/i386/acpi-microvm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/hw/isa/isa.h |  1 -
+ hw/isa/isa-bus.c     | 10 ----------
+ 2 files changed, 11 deletions(-)
 
-diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-index d8a444d06c..fec22d85c1 100644
---- a/hw/i386/acpi-microvm.c
-+++ b/hw/i386/acpi-microvm.c
-@@ -26,6 +26,7 @@
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index 6c8a8a92cb..25acd5c34c 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -86,7 +86,6 @@ bool isa_realize_and_unref(ISADevice *dev, ISABus *bus, Error **errp);
+ ISADevice *isa_create_simple(ISABus *bus, const char *name);
  
- #include "exec/memory.h"
- #include "hw/acpi/acpi.h"
-+#include "hw/acpi/acpi_aml_interface.h"
- #include "hw/acpi/aml-build.h"
- #include "hw/acpi/bios-linker-loader.h"
- #include "hw/acpi/generic_event_device.h"
-@@ -129,7 +130,7 @@ build_dsdt_microvm(GArray *table_data, BIOSLinker *linker,
+ ISADevice *isa_vga_init(ISABus *bus);
+-void isa_build_aml(ISABus *bus, Aml *scope);
  
-     sb_scope = aml_scope("_SB");
-     fw_cfg_add_acpi_dsdt(sb_scope, x86ms->fw_cfg);
--    isa_build_aml(ISA_BUS(isabus), sb_scope);
-+    qbus_build_aml(BUS(isabus), sb_scope);
-     build_ged_aml(sb_scope, GED_DEVICE, x86ms->acpi_dev,
-                   GED_MMIO_IRQ, AML_SYSTEM_MEMORY, GED_MMIO_BASE);
-     acpi_dsdt_add_power_button(sb_scope);
+ /**
+  * isa_register_ioport: Install an I/O port region on the ISA bus.
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index 1bee1a47f1..f155b80010 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -24,7 +24,6 @@
+ #include "hw/sysbus.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/isa/isa.h"
+-#include "hw/acpi/acpi_aml_interface.h"
+ 
+ static ISABus *isabus;
+ 
+@@ -188,15 +187,6 @@ ISADevice *isa_vga_init(ISABus *bus)
+     }
+ }
+ 
+-void isa_build_aml(ISABus *bus, Aml *scope)
+-{
+-    BusChild *kid;
+-
+-    QTAILQ_FOREACH(kid, &bus->parent_obj.children, sibling) {
+-        call_dev_aml_func(DEVICE(kid->child), scope);
+-    }
+-}
+-
+ static void isabus_bridge_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
 -- 
 2.39.0
 
