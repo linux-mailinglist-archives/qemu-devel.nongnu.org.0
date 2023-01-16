@@ -2,95 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E802B66C75D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 17:30:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5BE566C79D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 17:32:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHSMi-0004Je-V4; Mon, 16 Jan 2023 11:29:44 -0500
+	id 1pHSPH-0005yg-5K; Mon, 16 Jan 2023 11:32:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pHSMg-0004J8-Cc
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 11:29:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pHSP9-0005xy-WD; Mon, 16 Jan 2023 11:32:20 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pHSMe-0001u3-6Z
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 11:29:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673886579;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Dv6NRURLVx4Ce3FIm2cF91M4jRIiyv0X61t8m4Jy5yA=;
- b=gm4TVsBaKbYW/vnq1qrsE+KouYxnQKQfWk3xaXz8cM5D+lZ2maPKDmGRzCNrasdlOxKJ6R
- I0REvfMJ168ZrKZkdtVuctCDWx6Z3CiqYko6NH0fLuluzhF0t3WlXSmZT6xMqeaTvSicaW
- wp6RnEvmpF6H5bPvGCuWR04vFbqoPQw=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-615-R6Dl2Nc2PMaT_HZ_6MgpDg-1; Mon, 16 Jan 2023 11:29:38 -0500
-X-MC-Unique: R6Dl2Nc2PMaT_HZ_6MgpDg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- sa32-20020a1709076d2000b0084d4593797eso16550509ejc.16
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 08:29:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Dv6NRURLVx4Ce3FIm2cF91M4jRIiyv0X61t8m4Jy5yA=;
- b=ZiUyCiWoa4cM5vW+PzgYqmYqpAzXeVXszKUdmSerLDA5uZAA1j3vTPTt1xId1ftAZM
- s48jacotaqH+DENpGDbO/QTRDQbZfMUBd+m4wPIXUjrTqUas8z4SFKDVKCdkOCRu30+J
- Mpzpcocc7EVNkTrdN8WCg0UXqp/4k7coRM5Lp5TlIwBvw7EDLU4rWTjMKPSAG9Up1nex
- fWKL8eZ/Vutp6ImzbbtdTiohxouFGJZI5c4R3/8xVfUl/Y8M7aEIrmkDfyOQ0pP1xvOx
- 81NQBXcfiXP8eL/N6+zmuziLOZYr7THGcgpgpAwribqiO73maeTC4vGqAsiyHvt+B0i7
- yhYA==
-X-Gm-Message-State: AFqh2kqTA+c4K8fxms+HKDSUUxp3gO7/ab0VLOjNsO9sdMAEQyBXvWeD
- Ysmso9v7/wFlF9PmOfgNk12vVjUmT3uui91Dqhq6bkxgbXyr+NhCl4jbyHWSv7DWKp/aL87P429
- YKSKKTo5cZjpshhE=
-X-Received: by 2002:a05:6402:4518:b0:45c:835c:eab7 with SMTP id
- ez24-20020a056402451800b0045c835ceab7mr75438823edb.37.1673886571922; 
- Mon, 16 Jan 2023 08:29:31 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvXqgjMeTnwp+LpC8NrG7JZiN+T1tpyvqwAOMaNdL/epVok2be2a9R+tnGk7hjtg2P/vChr1w==
-X-Received: by 2002:a05:6402:4518:b0:45c:835c:eab7 with SMTP id
- ez24-20020a056402451800b0045c835ceab7mr75438808edb.37.1673886571663; 
- Mon, 16 Jan 2023 08:29:31 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- fg11-20020a056402548b00b004873927780bsm11491994edb.20.2023.01.16.08.29.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Jan 2023 08:29:31 -0800 (PST)
-Date: Mon, 16 Jan 2023 17:29:30 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, Richard Henderson
- <richard.henderson@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Markus
- Armbruster <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Aurelien Jarno
- <aurelien@aurel32.net>
-Subject: Re: [PATCH v3 2/7] hw/acpi/acpi_dev_interface: Resolve
- AcpiDeviceIfClass::madt_cpu
-Message-ID: <20230116172930.462a792d@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230116152908.147275-3-shentey@gmail.com>
-References: <20230116152908.147275-1-shentey@gmail.com>
- <20230116152908.147275-3-shentey@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pHSP7-0002Vm-Qg; Mon, 16 Jan 2023 11:32:15 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30GFDiGs026129; Mon, 16 Jan 2023 16:32:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=tVI9EAsN9kaytG1g3mmpmWp4KiinemPMHgTulbCO3AM=;
+ b=SGGeayAidXksdFboCzlm9ppCrwM99bGxaerWgIOM6b4LAX5divNdAf3POFX+jSLycgHX
+ iVhMxU/gV7KiBl1H0VBLtADvnNqJP0pmopx10wSZClPJMHAOz9bS1TE6TtSSOPLdyC6B
+ GXvTVPwhPD0d0r+tEfNAuiCVRPv5dcNUr17g71VMFVVKmksmfapMMZ0t5fna+HvEvFm/
+ mJFy1czauQcvc4Fd7MLLJ7ON/TQ2b19FnZy8157jo/C+fKvlLJv0fBgvceMndodYdSH6
+ IqqJeS7FMatdccdundgGNowdSHyQy23c1gpYq3/k71qL4J9ke/2B4/jXpWKz+mPDbBY9 iA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n58x1sxj2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Jan 2023 16:32:10 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30GGE3ue010940;
+ Mon, 16 Jan 2023 16:32:09 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n58x1sxha-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Jan 2023 16:32:09 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30GC63g6010590;
+ Mon, 16 Jan 2023 16:32:07 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3n3knf9y7u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Jan 2023 16:32:07 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30GGW4Ai23855600
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 16 Jan 2023 16:32:04 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E357720043;
+ Mon, 16 Jan 2023 16:32:03 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 86E7820040;
+ Mon, 16 Jan 2023 16:32:02 +0000 (GMT)
+Received: from [9.179.28.129] (unknown [9.179.28.129])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 16 Jan 2023 16:32:02 +0000 (GMT)
+Message-ID: <619b3ebd-094a-cd8b-697c-de08ba788978@linux.ibm.com>
+Date: Mon, 16 Jan 2023 17:32:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v14 01/11] s390x/cpu topology: adding s390 specificities
+ to CPU topology
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
+ clg@kaod.org
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-2-pmorel@linux.ibm.com>
+ <49d343fb-f41d-455a-8630-3db2650cfcd5@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <49d343fb-f41d-455a-8630-3db2650cfcd5@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Hjp5CQi-cs_boEVNCUrg63UawaPnD7Co
+X-Proofpoint-ORIG-GUID: xgM21hBMv1IACzSagf57wMhzczTyVyJz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-16_13,2023-01-13_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 phishscore=0
+ priorityscore=1501 bulkscore=0 mlxlogscore=999 spamscore=0 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301160120
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,300 +123,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 16 Jan 2023 16:29:03 +0100
-Bernhard Beschow <shentey@gmail.com> wrote:
 
-> This class attribute was always set to pc_madt_cpu_entry().
-> pc_madt_cpu_entry() is architecture dependent and was assigned to the
-> attribute even in architecture agnostic code such as in hw/acpi/piix4.c
-> and hw/isa/lpc_ich9. Not having to set madt_cpu there resolves the
-> assumption that these device models are only ever used with ACPI on x86
-> targets.
+
+On 1/10/23 12:37, Thomas Huth wrote:
+> On 05/01/2023 15.53, Pierre Morel wrote:
+>> S390 adds two new SMP levels, drawers and books to the CPU
+>> topology.
+>> The S390 CPU have specific toplogy features like dedication
+>> and polarity to give to the guest indications on the host
+>> vCPUs scheduling and help the guest take the best decisions
+>> on the scheduling of threads on the vCPUs.
+>>
+>> Let us provide the SMP properties with books and drawers levels
+>> and S390 CPU with dedication and polarity,
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+> ...
+>> diff --git a/qapi/machine.json b/qapi/machine.json
+>> index b9228a5e46..ff8f2b0e84 100644
+>> --- a/qapi/machine.json
+>> +++ b/qapi/machine.json
+>> @@ -900,13 +900,15 @@
+>>   # a CPU is being hotplugged.
+>>   #
+>>   # @node-id: NUMA node ID the CPU belongs to
+>> -# @socket-id: socket number within node/board the CPU belongs to
+>> +# @drawer-id: drawer number within node/board the CPU belongs to
+>> +# @book-id: book number within drawer/node/board the CPU belongs to
+>> +# @socket-id: socket number within book/node/board the CPU belongs to
 > 
-> The only target independent location where madt_cpu was called was hw/
-> acpi/cpu.c. Here a function pointer can be passed via an argument
-> instead. The other locations where it was called was in x86-specific code
-> where pc_madt_cpu_entry() can be used directly.
->
-> While at it, move pc_madt_cpu_entry() from the public include/hw/i386/
-> pc.h to the private hw/i386/acpi-common where it is also implemented.
+> I think the new entries need a "(since 8.0)" comment (similar to die-id 
+> and cluster-id below).
 
-I'm not sure about this approach,
-the callback is intend to be used not only by x86 but also in
-the end by ARM (it's just that arm/virt CPU hotplug patches are
-still work in progress and haven't been merged).
+right
 
-So I'd prefer to keep AcpiDeviceIfClass::madt_cpu.
-
-What's the end goal you are trying to achieve by getting
-rid of this callback?
-
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->  hw/i386/acpi-common.h                |  7 +++++--
->  include/hw/acpi/acpi_dev_interface.h |  2 --
->  include/hw/acpi/cpu.h                |  6 +++++-
->  include/hw/i386/pc.h                 |  4 ----
->  hw/acpi/acpi-x86-stub.c              |  6 ------
->  hw/acpi/cpu.c                        | 10 ++++------
->  hw/acpi/piix4.c                      |  2 --
->  hw/i386/acpi-build.c                 |  5 ++---
->  hw/i386/acpi-common.c                |  5 ++---
->  hw/i386/acpi-microvm.c               |  3 +--
->  hw/i386/generic_event_device_x86.c   |  9 ---------
->  hw/isa/lpc_ich9.c                    |  1 -
->  12 files changed, 19 insertions(+), 41 deletions(-)
 > 
-> diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
-> index a68825acf5..968d625d88 100644
-> --- a/hw/i386/acpi-common.h
-> +++ b/hw/i386/acpi-common.h
-> @@ -1,15 +1,18 @@
->  #ifndef HW_I386_ACPI_COMMON_H
->  #define HW_I386_ACPI_COMMON_H
->  
-> -#include "hw/acpi/acpi_dev_interface.h"
->  #include "hw/acpi/bios-linker-loader.h"
->  #include "hw/i386/x86.h"
-> +#include "hw/boards.h"
->  
->  /* Default IOAPIC ID */
->  #define ACPI_BUILD_IOAPIC_ID 0x0
->  
-> +void pc_madt_cpu_entry(int uid, const CPUArchIdList *apic_ids, GArray *entry,
-> +                       bool force_enabled);
-> +
->  void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
-> -                     X86MachineState *x86ms, AcpiDeviceIf *adev,
-> +                     X86MachineState *x86ms,
->                       const char *oem_id, const char *oem_table_id);
->  
->  #endif
-> diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_dev_interface.h
-> index a1648220ff..ca92928124 100644
-> --- a/include/hw/acpi/acpi_dev_interface.h
-> +++ b/include/hw/acpi/acpi_dev_interface.h
-> @@ -52,7 +52,5 @@ struct AcpiDeviceIfClass {
->      /* <public> */
->      void (*ospm_status)(AcpiDeviceIf *adev, ACPIOSTInfoList ***list);
->      void (*send_event)(AcpiDeviceIf *adev, AcpiEventStatusBits ev);
-> -    void (*madt_cpu)(int uid, const CPUArchIdList *apic_ids, GArray *entry,
-> -                     bool force_enabled);
->  };
->  #endif
-> diff --git a/include/hw/acpi/cpu.h b/include/hw/acpi/cpu.h
-> index 999caaf510..25b25bb594 100644
-> --- a/include/hw/acpi/cpu.h
-> +++ b/include/hw/acpi/cpu.h
-> @@ -15,6 +15,7 @@
->  #include "hw/qdev-core.h"
->  #include "hw/acpi/acpi.h"
->  #include "hw/acpi/aml-build.h"
-> +#include "hw/boards.h"
->  #include "hw/hotplug.h"
->  
->  typedef struct AcpiCpuStatus {
-> @@ -55,8 +56,11 @@ typedef struct CPUHotplugFeatures {
->      const char *smi_path;
->  } CPUHotplugFeatures;
->  
-> +typedef void (*madt_cpu_fn)(int uid, const CPUArchIdList *apic_ids,
-> +                            GArray *entry, bool force_enabled);
-> +
->  void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-> -                    hwaddr io_base,
-> +                    hwaddr io_base, madt_cpu_fn madt_cpu,
->                      const char *res_root,
->                      const char *event_handler_method);
->  
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index a0647165d1..a5cce88653 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -191,10 +191,6 @@ bool pc_system_ovmf_table_find(const char *entry, uint8_t **data,
->                                 int *data_len);
->  void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size);
->  
-> -/* hw/i386/acpi-common.c */
-> -void pc_madt_cpu_entry(int uid, const CPUArchIdList *apic_ids,
-> -                       GArray *entry, bool force_enabled);
-> -
->  /* sgx.c */
->  void pc_machine_init_sgx_epc(PCMachineState *pcms);
->  
-> diff --git a/hw/acpi/acpi-x86-stub.c b/hw/acpi/acpi-x86-stub.c
-> index d0d399d26b..9662a594ad 100644
-> --- a/hw/acpi/acpi-x86-stub.c
-> +++ b/hw/acpi/acpi-x86-stub.c
-> @@ -1,12 +1,6 @@
->  #include "qemu/osdep.h"
-> -#include "hw/i386/pc.h"
->  #include "hw/i386/acpi-build.h"
->  
-> -void pc_madt_cpu_entry(int uid, const CPUArchIdList *apic_ids,
-> -                       GArray *entry, bool force_enabled)
-> -{
-> -}
-> -
->  Object *acpi_get_i386_pci_host(void)
->  {
->         return NULL;
-> diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-> index 19c154d78f..db15f9278d 100644
-> --- a/hw/acpi/cpu.c
-> +++ b/hw/acpi/cpu.c
-> @@ -338,7 +338,7 @@ const VMStateDescription vmstate_cpu_hotplug = {
->  #define CPU_FW_EJECT_EVENT "CEJF"
->  
->  void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-> -                    hwaddr io_base,
-> +                    hwaddr io_base, madt_cpu_fn madt_cpu,
->                      const char *res_root,
->                      const char *event_handler_method)
->  {
-> @@ -353,8 +353,8 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
->      MachineClass *mc = MACHINE_GET_CLASS(machine);
->      const CPUArchIdList *arch_ids = mc->possible_cpu_arch_ids(machine);
->      char *cphp_res_path = g_strdup_printf("%s." CPUHP_RES_DEVICE, res_root);
-> -    Object *obj = object_resolve_path_type("", TYPE_ACPI_DEVICE_IF, NULL);
-> -    AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_GET_CLASS(obj);
-> +
-> +    assert(madt_cpu);
->  
->      cpu_ctrl_dev = aml_device("%s", cphp_res_path);
->      {
-> @@ -664,9 +664,7 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
->              aml_append(dev, method);
->  
->              /* build _MAT object */
-> -            assert(adevc && adevc->madt_cpu);
-> -            adevc->madt_cpu(i, arch_ids, madt_buf,
-> -                            true); /* set enabled flag */
-> +            madt_cpu(i, arch_ids, madt_buf, true /* set enabled flag */);
->              aml_append(dev, aml_name_decl("_MAT",
->                  aml_buffer(madt_buf->len, (uint8_t *)madt_buf->data)));
->              g_array_free(madt_buf, true);
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index 0a81f1ad93..4d0d4fdeeb 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -20,7 +20,6 @@
->   */
->  
->  #include "qemu/osdep.h"
-> -#include "hw/i386/pc.h"
->  #include "hw/southbridge/piix.h"
->  #include "hw/irq.h"
->  #include "hw/isa/apm.h"
-> @@ -643,7 +642,6 @@ static void piix4_pm_class_init(ObjectClass *klass, void *data)
->      hc->unplug = piix4_device_unplug_cb;
->      adevc->ospm_status = piix4_ospm_status;
->      adevc->send_event = piix4_send_gpe;
-> -    adevc->madt_cpu = pc_madt_cpu_entry;
->  }
->  
->  static const TypeInfo piix4_pm_info = {
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 127c4e2d50..0be3960a37 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1440,7 +1440,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->              .fw_unplugs_cpu = pm->smi_on_cpu_unplug,
->          };
->          build_cpus_aml(dsdt, machine, opts, pm->cpu_hp_io_base,
-> -                       "\\_SB.PCI0", "\\_GPE._E02");
-> +                       pc_madt_cpu_entry, "\\_SB.PCI0", "\\_GPE._E02");
->      }
->  
->      if (pcms->memhp_io_base && nr_mem) {
-> @@ -2424,8 +2424,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
->  
->      acpi_add_table(table_offsets, tables_blob);
->      acpi_build_madt(tables_blob, tables->linker, x86ms,
-> -                    ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
-> -                    x86ms->oem_table_id);
-> +                    x86ms->oem_id, x86ms->oem_table_id);
->  
->  #ifdef CONFIG_ACPI_ERST
->      {
-> diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-> index 52e5c1439a..aabf78092e 100644
-> --- a/hw/i386/acpi-common.c
-> +++ b/hw/i386/acpi-common.c
-> @@ -94,14 +94,13 @@ build_xrupt_override(GArray *entry, uint8_t src, uint32_t gsi, uint16_t flags)
->   * 5.2.8 Multiple APIC Description Table
->   */
->  void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
-> -                     X86MachineState *x86ms, AcpiDeviceIf *adev,
-> +                     X86MachineState *x86ms,
->                       const char *oem_id, const char *oem_table_id)
->  {
->      int i;
->      bool x2apic_mode = false;
->      MachineClass *mc = MACHINE_GET_CLASS(x86ms);
->      const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(x86ms));
-> -    AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_GET_CLASS(adev);
->      AcpiTable table = { .sig = "APIC", .rev = 1, .oem_id = oem_id,
->                          .oem_table_id = oem_table_id };
->  
-> @@ -111,7 +110,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
->      build_append_int_noprefix(table_data, 1 /* PCAT_COMPAT */, 4); /* Flags */
->  
->      for (i = 0; i < apic_ids->len; i++) {
-> -        adevc->madt_cpu(i, apic_ids, table_data, false);
-> +        pc_madt_cpu_entry(i, apic_ids, table_data, false);
->          if (apic_ids->cpus[i].arch_id > 254) {
->              x2apic_mode = true;
->          }
-> diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-> index fb09185cbd..d8a444d06c 100644
-> --- a/hw/i386/acpi-microvm.c
-> +++ b/hw/i386/acpi-microvm.c
-> @@ -213,8 +213,7 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
->  
->      acpi_add_table(table_offsets, tables_blob);
->      acpi_build_madt(tables_blob, tables->linker, X86_MACHINE(machine),
-> -                    ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
-> -                    x86ms->oem_table_id);
-> +                    x86ms->oem_id, x86ms->oem_table_id);
->  
->  #ifdef CONFIG_ACPI_ERST
->      {
-> diff --git a/hw/i386/generic_event_device_x86.c b/hw/i386/generic_event_device_x86.c
-> index e26fb02a2e..8fc233e1f1 100644
-> --- a/hw/i386/generic_event_device_x86.c
-> +++ b/hw/i386/generic_event_device_x86.c
-> @@ -8,19 +8,10 @@
->  
->  #include "qemu/osdep.h"
->  #include "hw/acpi/generic_event_device.h"
-> -#include "hw/i386/pc.h"
-> -
-> -static void acpi_ged_x86_class_init(ObjectClass *class, void *data)
-> -{
-> -    AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_CLASS(class);
-> -
-> -    adevc->madt_cpu = pc_madt_cpu_entry;
-> -}
->  
->  static const TypeInfo acpi_ged_x86_info = {
->      .name          = TYPE_ACPI_GED_X86,
->      .parent        = TYPE_ACPI_GED,
-> -    .class_init    = acpi_ged_x86_class_init,
->      .interfaces = (InterfaceInfo[]) {
->          { TYPE_HOTPLUG_HANDLER },
->          { TYPE_ACPI_DEVICE_IF },
-> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-> index 8d541e2b54..0ab0a341be 100644
-> --- a/hw/isa/lpc_ich9.c
-> +++ b/hw/isa/lpc_ich9.c
-> @@ -870,7 +870,6 @@ static void ich9_lpc_class_init(ObjectClass *klass, void *data)
->      hc->unplug = ich9_pm_device_unplug_cb;
->      adevc->ospm_status = ich9_pm_ospm_status;
->      adevc->send_event = ich9_send_gpe;
-> -    adevc->madt_cpu = pc_madt_cpu_entry;
->      amldevc->build_dev_aml = build_ich9_isa_aml;
->  }
->  
+> Other question: Do we have "node-id"s on s390x? If not, is that similar 
+> to books or drawers, i.e. just another word? If so, we should maybe 
+> rather re-use "nodes" instead of introducing a new name for the same thing?
 
+We have theoretically nodes-id on s390x, it is the level 5 of the 
+topology, above drawers.
+Currently it is not used in s390x topology, the maximum level returned 
+to a LPAR host is 4.
+I suppose that it adds a possibility to link several s390x with a fast 
+network.
+
+> 
+>>   # @die-id: die number within socket the CPU belongs to (since 4.1)
+>>   # @cluster-id: cluster number within die the CPU belongs to (since 7.1)
+>>   # @core-id: core number within cluster the CPU belongs to
+>>   # @thread-id: thread number within core the CPU belongs to
+>>   #
+>> -# Note: currently there are 6 properties that could be present
+>> +# Note: currently there are 8 properties that could be present
+>>   #       but management should be prepared to pass through other
+>>   #       properties with device_add command to allow for future
+>>   #       interface extension. This also requires the filed names to 
+>> be kept in
+>> @@ -916,6 +918,8 @@
+>>   ##
+>>   { 'struct': 'CpuInstanceProperties',
+>>     'data': { '*node-id': 'int',
+>> +            '*drawer-id': 'int',
+>> +            '*book-id': 'int',
+>>               '*socket-id': 'int',
+>>               '*die-id': 'int',
+>>               '*cluster-id': 'int',
+>> @@ -1465,6 +1469,10 @@
+>>   #
+>>   # @cpus: number of virtual CPUs in the virtual machine
+>>   #
+>> +# @drawers: number of drawers in the CPU topology
+>> +#
+>> +# @books: number of books in the CPU topology
+>> +#
+> 
+> These also need a "(since 8.0)" comment at the end.
+
+right again, I will add this.
+
+> 
+>>   # @sockets: number of sockets in the CPU topology
+>>   #
+>>   # @dies: number of dies per socket in the CPU topology
+>> @@ -1481,6 +1489,8 @@
+>>   ##
+>>   { 'struct': 'SMPConfiguration', 'data': {
+>>        '*cpus': 'int',
+>> +     '*drawers': 'int',
+>> +     '*books': 'int',
+>>        '*sockets': 'int',
+>>        '*dies': 'int',
+>>        '*clusters': 'int',
+> ...
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index 7f99d15b23..8dc9a4c052 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -250,11 +250,13 @@ SRST
+>>   ERST
+>>   DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+>> -    "-smp 
+>> [[cpus=]n][,maxcpus=maxcpus][,sockets=sockets][,dies=dies][,clusters=clusters][,cores=cores][,threads=threads]\n"
+>> +    "-smp 
+>> [[cpus=]n][,maxcpus=maxcpus][,drawers=drawers][,books=books][,sockets=sockets][,dies=dies][,clusters=clusters][,cores=cores][,threads=threads]\n"
+> 
+> This line now got too long. Please add a newline inbetween.
+
+OK
+
+Thanks.
+
+Regards,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
