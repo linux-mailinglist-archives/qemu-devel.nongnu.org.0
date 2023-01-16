@@ -2,62 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6F266B914
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 09:30:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6262266B915
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 09:31:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHKst-0005EL-0C; Mon, 16 Jan 2023 03:30:27 -0500
+	id 1pHKts-0006Q7-5l; Mon, 16 Jan 2023 03:31:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHKsp-00057F-Jj
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:30:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHKsn-0001fc-MO
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:30:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673857821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=R1ybTnpM+lsVJ8WmCVQ8qwK5IlA4MLeyGMMD2iPWoUA=;
- b=SFd/2VYna8xHJZHuAR4oxT+HTYKm6uwcdJl0X3V6QNpGIgncUIudxl2rHvjS6on7coZqQm
- 6GB+W5Z/apOI7sC5u7NhdcFLZISDWt2KtafBhWZNQaKN6dqEv/z+oLPGovdn+duBdW9CSB
- HeW/l3kmMjbMMrXGW/2y04jpjGFWptc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-556-W6rZ4bLSNL6zBI2coPwlWQ-1; Mon, 16 Jan 2023 03:30:17 -0500
-X-MC-Unique: W6rZ4bLSNL6zBI2coPwlWQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14E02101AA63;
- Mon, 16 Jan 2023 08:30:17 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C92E6492B00;
- Mon, 16 Jan 2023 08:30:15 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Alexander von Gluck IV <kallisti5@unixzen.com>
-Subject: [PATCH] tests/vm/haiku.x86_64: Update the Haiku VM to Beta 4
-Date: Mon, 16 Jan 2023 09:30:14 +0100
-Message-Id: <20230116083014.55647-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHKtl-0006Nb-97
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:31:22 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHKtj-0001tZ-If
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:31:20 -0500
+Received: by mail-wm1-x336.google.com with SMTP id o15so19384715wmr.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 00:31:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yi+6umWeh/wQ8iFGMjXHQP++laoWO3hjLzBs/nVNf8Y=;
+ b=DBHlRHamZp24VRVoxxGH5b9WPf5/odGZKMD5PmYrINKybjWYM3T1ccBr/v6VkRTwZM
+ J1oSoWEq9YU6lBgI2xKCHrmluyydpC9eUBoLa07V8VqEXPXnk1Mgf/6Omlr3iAmmvueZ
+ EztESqgwkksW8p2S+gz1Ug24Tzpomk0PdxcBXv3InJEH+gRd0uAgtZ99ypFu/k4M9XRX
+ RSaBPkVKfDYB1aCXv236+wOD/8t4ef4CwN+jdrLFfaljKMVPrPguq13asl2uY8JhALq3
+ mb8NHRw/1bWoI2cB2FWcDuqnzz0whrNYyixrJ/UKvPJho3KTGP7E/zCdMhIZQl+t94ms
+ FX7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yi+6umWeh/wQ8iFGMjXHQP++laoWO3hjLzBs/nVNf8Y=;
+ b=OoYkbC0lZFcyT+CqqmG+X6VKJEBEuIwePwAkVBNLfmXskk9y0TCddtVxkW9cBvUCHL
+ 3fYsfwPLbr3DUz9UgGz4IfpLGr3cWps95P/ulrYJwfcxfGQOaYDmsasj3vqdr9RedMcz
+ 8d+sNbZ+frj//zrvQp3/LVyo+qX3S7b9Td13zClZtctdTY7Pdqo234mW+8j43ZQjMyDP
+ +Ty1UVnlA+a0LhWjVoHooF2RlVycAdGMw7oXwD3P2bHRe5DrLMQh/hQXTnSlPBfaaMAv
+ hp1Nbq7YZz3HOlN+hSbHjuOWEcZNcKJO9Tj9QP+MbmO0L2RDWlTSQBYWUTZu3MK8eqsY
+ 0QdQ==
+X-Gm-Message-State: AFqh2kqB0am7BQIym9pLeNrhu3KbhCbTpRPymUpwgKne2gHxBGWwHpg2
+ CYGTKDL94P/KqA0awN6Ti+gVthKZ2bEoI1D9
+X-Google-Smtp-Source: AMrXdXvHLpTlk4AOvh7Qlbze1cmpXo2e9VNV6fThkMsqtF3TsuwnL4i8HnAey12z5O/eaaC0FRliwA==
+X-Received: by 2002:a05:600c:4fd4:b0:3d3:4877:e556 with SMTP id
+ o20-20020a05600c4fd400b003d34877e556mr68937417wmq.29.1673857877813; 
+ Mon, 16 Jan 2023 00:31:17 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ n9-20020a05600c4f8900b003d96b8e9bcasm41184209wmq.32.2023.01.16.00.31.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 00:31:17 -0800 (PST)
+Message-ID: <30269eb2-1c3b-50c5-9a5b-d1d19ceb68e4@linaro.org>
+Date: Mon, 16 Jan 2023 09:31:16 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2] hw/net/lan9118: log [read|write]b when mode_16bit is
+ enabled rather than abort
+Content-Language: en-US
+To: Qiang Liu <cyruscyliu@gmail.com>, qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>
+References: <20230116031431.1378346-1-cyruscyliu@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230116031431.1378346-1-cyruscyliu@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,47 +90,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The old Haiku VM based on Beta 3 does not work anymore since it
-fails to install the additional packages now that Beta 4 has been
-released. Thanks to Alexander von Gluck IV for providing a new
-image based on Beta 4, we can now upgrade the test image in our
-QEMU CI, too, to get this working again.
+On 16/1/23 04:14, Qiang Liu wrote:
+> This patch replaces hw_error to guest error log for [read|write]b
+> accesses when mode_16bit is enabled. This avoids aborting qemu.
+> 
+> Fixes: 1248f8d4cbc3 ("hw/lan9118: Add basic 16-bit mode support.")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1433
+> Reported-by: Qiang Liu <cyruscyliu@gmail.com>
+> Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
+> Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+> v2 removes BADF() macro and the "hw/hw.h" inclusion
 
-Note that Haiku Beta 4 apparently finally fixed the issue with
-the enumeration of the virtio-block devices (see the ticket at
-https://dev.haiku-os.org/ticket/16512 ) - the tarball disk can
-now be found at index 1 instead of index 0.
+Thanks!
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/vm/haiku.x86_64 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-diff --git a/tests/vm/haiku.x86_64 b/tests/vm/haiku.x86_64
-index 29668bc272..8b0d1b8954 100755
---- a/tests/vm/haiku.x86_64
-+++ b/tests/vm/haiku.x86_64
-@@ -48,8 +48,8 @@ class HaikuVM(basevm.BaseVM):
-     name = "haiku"
-     arch = "x86_64"
- 
--    link = "https://app.vagrantup.com/haiku-os/boxes/r1beta3-x86_64/versions/20220216/providers/libvirt.box"
--    csum = "e67d4aacbcc687013d5cc91990ddd86cc5d70a5d28432ae2691944f8ce5d5041"
-+    link = "https://app.vagrantup.com/haiku-os/boxes/r1beta4-x86_64/versions/20230114/providers/libvirt.box"
-+    csum = "6e72a2a470e03dbc3c5e808664e057bb4022b390dca88e4c7da6188f26f6a3c9"
- 
-     poweroff = "shutdown"
- 
-@@ -86,7 +86,7 @@ class HaikuVM(basevm.BaseVM):
-         rm -rf /tmp/qemu-test.*
-         cd $(mktemp -d /tmp/qemu-test.XXXXXX);
-         mkdir src build; cd src;
--        tar -xf /dev/disk/virtual/virtio_block/0/raw;
-+        tar -xf /dev/disk/virtual/virtio_block/1/raw;
-         mkdir -p /usr/bin
-         ln -s /boot/system/bin/env /usr/bin/env
-         cd ../build
--- 
-2.31.1
-
+> ---
+>   hw/net/lan9118.c | 17 ++++++++---------
+>   1 file changed, 8 insertions(+), 9 deletions(-)
 
