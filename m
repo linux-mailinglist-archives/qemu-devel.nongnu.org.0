@@ -2,75 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5581766B9C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 10:04:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5133766B9E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 10:10:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHLPS-0002PT-SV; Mon, 16 Jan 2023 04:04:06 -0500
+	id 1pHLVE-00042Y-UT; Mon, 16 Jan 2023 04:10:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pHLP6-0002Nf-Pv
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:03:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pHLP1-0000SB-Se
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:03:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673859814;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5kiTbgPy2ypzSCZsWcvRxUdpeFJJgsBBBz9ZUxOK4+g=;
- b=hD01tpCWkgSYpMaq222ZCQJNBq6z7Q/gKfMQFEBppBCNHtvCVeQjI26rut6Mezm6hp53ZN
- 8SDCYZZO9towN1IA8vbabgowg4LVomF2YrCBFsEKMsHCz0EDmp97wEDM1B5sUN9Aa9J9dn
- CFOS/pmPYpSjZsISwCcKOJHc2PDK80g=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-116-iqk9a3hfNHO2qV6f6iY1PQ-1; Mon, 16 Jan 2023 04:03:33 -0500
-X-MC-Unique: iqk9a3hfNHO2qV6f6iY1PQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D74403814588;
- Mon, 16 Jan 2023 09:03:32 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C2312026D68;
- Mon, 16 Jan 2023 09:03:29 +0000 (UTC)
-Date: Mon, 16 Jan 2023 09:03:26 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Thomas Huth <thuth@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 08/11] audio/audio_template: use g_new0() to replace
- audio_calloc()
-Message-ID: <Y8US3so1QkIOwucD@redhat.com>
-References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
- <20221218171539.11193-8-vr_qemu@t-online.de>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHLVC-00042D-5l
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:10:02 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHLVA-0001M9-Kl
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:10:01 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id b5so5612579wrn.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 01:10:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/H1roGXpzfm2rjkQmL6/Zuakkqdj1Nw1KnSEEvfR5Uo=;
+ b=hWqqq9DlNHQFaJLmON93w/Hx0Cl670TLHPRCTHv8UMyZR8m++jN3TndsvwMYzCslS/
+ svNDIOQJ2fPWP8TMHpd0vA6RWkgYtR3ZrI27xobCAjyww7INxcU5AqcleJCjGOEfgF7M
+ /NlABuhv/yaRN4XJWBhe/+NOP2MyWYtKjFCATUjI8/kfdDeXjgAvWWOD5hy9u1dtvrQC
+ 87liyuDtVc42SHM0SlRTzc9cfhzXaBjZdxmDPCuVTo+/Ew3qLXQAnu1+H3jVM3iCjXDv
+ jeA5126zMBPC50xb55RjfHNoB3yhnDU4x9HZW8CdzY0XZxZJU/wXQh+JRKsF9/+mWGcq
+ rXqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/H1roGXpzfm2rjkQmL6/Zuakkqdj1Nw1KnSEEvfR5Uo=;
+ b=11P6WlMIZokxs/zgB5CQxipMR6epFhVmZ7TeRJ3AE6s/QORtrV2yaslCSt6ECPQPwz
+ +M4oKA2aa0C7whwcCq0DO937UlDFGVymvA4LjYLbjCJo36/8pgtWA6rQw7VlQ2Fc5Mqi
+ LgRM1LsnQEf1qT54FQJQm9JIyZCYBSAWJtvzw5dQR9DssqaO/4/dxlP83YHFmsM6PtM7
+ NJVSOJpy/DnIU95YZriypvd6twSWq39JjewV6s45y8Lirc0MhQHs7e72ouuV0hZB57O6
+ SNGsdehCrN6dqS8pSIWe2xPbQJbYp6Cf1wzBJDiE8g/vRPOevEwXEpcB0YNSa15L6m8v
+ 3jyQ==
+X-Gm-Message-State: AFqh2kqz03Lzvr3iBvMXGVgjcgk/c4rDwa+zF1tZmAcjFi4Bp1Ebdb96
+ wqr+bbLFz40xMdX48LkbwCzx/w==
+X-Google-Smtp-Source: AMrXdXuqr2QwZxn5brffDDWjff8VGl3k2KnN8hKjV+Z1eU8P/0GKYv/ieTqKviJgYoOYa9xM45aNqw==
+X-Received: by 2002:a5d:4531:0:b0:2bc:858a:3df0 with SMTP id
+ j17-20020a5d4531000000b002bc858a3df0mr17005733wra.48.1673860198754; 
+ Mon, 16 Jan 2023 01:09:58 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ y15-20020adffa4f000000b002bbec19c8acsm20629482wrr.64.2023.01.16.01.09.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 01:09:58 -0800 (PST)
+Message-ID: <bea68942-c5f4-be45-d179-92907d7f4306@linaro.org>
+Date: Mon, 16 Jan 2023 10:09:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 4/7] hw/i386/acpi-build: Remove unused attributes
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Markus Armbruster <armbru@redhat.com>, Aurelien Jarno
+ <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20230114222738.282478-1-shentey@gmail.com>
+ <20230114222738.282478-5-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230114222738.282478-5-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221218171539.11193-8-vr_qemu@t-online.de>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,49 +93,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Dec 18, 2022 at 06:15:36PM +0100, Volker Rümelin wrote:
-> Replace audio_calloc() with the equivalent g_new0().
+On 14/1/23 23:27, Bernhard Beschow wrote:
+> Ammends commit 3db119da7915 'pc: acpi: switch to AML API composed DSDT'.
 > 
-> With a n_structs argument >= 1, g_new0() never returns NULL.
-> Also remove the unnecessary NULL checks.
-> 
-> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->  audio/audio_template.h | 23 ++++++-----------------
->  1 file changed, 6 insertions(+), 17 deletions(-)
-> 
-> diff --git a/audio/audio_template.h b/audio/audio_template.h
-> index 5f51ef26b2..9c600448fb 100644
-> --- a/audio/audio_template.h
-> +++ b/audio/audio_template.h
-> @@ -129,12 +129,7 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
->          return -1;
->      }
->  
-> -    sw->buf = audio_calloc(__func__, samples, sizeof(struct st_sample));
-> -    if (!sw->buf) {
-> -        dolog ("Could not allocate buffer for `%s' (%d samples)\n",
-> -               SW_NAME (sw), samples);
-> -        return -1;
-> -    }
-> +    sw->buf = g_new0(st_sample, samples);
+>   hw/i386/acpi-build.c | 2 --
+>   1 file changed, 2 deletions(-)
 
-"samples" is a signed integer, and audio_calloc would check for
-it being negative and raise an error. It would also check for
-samples being zero. I think we still need both these checks,
-as a negative value of samples when cast to size_t would be a
-huge size.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
