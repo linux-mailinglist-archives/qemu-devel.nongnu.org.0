@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0A566D1D3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 23:37:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C4766D1D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 23:37:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHY5j-0000Ix-Sx; Mon, 16 Jan 2023 17:36:35 -0500
+	id 1pHY5t-0000PP-Fo; Mon, 16 Jan 2023 17:36:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHY5e-0000HI-Uv
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 17:36:31 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ id 1pHY5r-0000Oh-Aj
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 17:36:43 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHY5c-0001Li-TU
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 17:36:30 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- s13-20020a17090a6e4d00b0022900843652so13679778pjm.1
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 14:36:28 -0800 (PST)
+ id 1pHY5p-0001M9-Ks
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 17:36:43 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id q5so4268492pjh.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 14:36:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
  bh=5KHBahtVyqoNrHye2ukHH9Bmolxcd30ojkDPXk2RDpI=;
- b=UgsXNaYRAITKYSvFOqii7d5PJ0Wj6C3vftTV3iY7qoYM9WtMlkSGU/rOigL7tIs3tb
- IFqzW2GZdgTife540gD9JJI2sWHainpxReYAlfP27pVtvEp3Q5ncPwpwtJvGSVT8d04p
- PK7glIe9U3YP9LeBmEH3jOQCVymNcdt8S9EtWJ8d+Wjb22AisyU36kMg4fhz9OyvDOJz
- Nic5fdYtTFw/Ii635RTz+EkJ/FvXQd1T0RwbYm0BGb66KakHLvIIcjez54t5ZqtRQt9P
- dCiGscmH+TAHgh0Us42RG8+fZ13ZsNnjXx2Q2xjkxziY0qiVEy3iQ9h81q24sy0xyhgt
- +LXQ==
+ b=inLvtzlkxZ8Wy/qsUSchKwJXgND84VleVbsrVsue/wtWzTCPmDdcB+d3m7FrjfSJnF
+ rBLiipOgMZJXFU0E7H8lYwIsWFv+UjuNvN3gF4tVuOr00pYuZZXvanHWLfxJCxKnscYk
+ kslEBnJAZC1z4l6x6dJ735SrDrY9aRuuCDdTjJE1Cacdibf3dmfT/VEwnjdv72cfkgqK
+ r4RB7K+4JJpXGXAdrCm0410Kd7wfSMoRYpxzPYgl5PaqxFQ1FD+hDXixZk5g4urKTZdw
+ Rh7Zy4eopRrXJIohd+7xvVNfXnoYqvtqEJCoqRUVILMnPNfQbIMqjLYdMjXq8BxiaIXe
+ cdXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
  bh=5KHBahtVyqoNrHye2ukHH9Bmolxcd30ojkDPXk2RDpI=;
- b=0OfLmUCcKsuQUKV5//Djx0alxaEr20YaErY5fdrOSvY9ICaHLuxaF2jJfQnBzqrtq0
- o1XBxWKu0u2051auEU08I2GAckT9QvO/GbUKmvXrVrh6L4gb/3G/ShktQflSSSP1FW2M
- Ei7YBIFTEeL26kpIzJwZGXs9/ceCeXf/C6M3NiVAq4+BF6HPq2+fJ9bSRyGe6LCdlHEP
- 68X+UOzpKkv+uphSv/vdMsFpsmTdDYiCttUJSC/UdZgrsZ7/TstehlWXHXHybIk5tPlq
- CzGnxZ0LN1QD9d4U0pvelq+pnp0kVFmzGghKHSC6sg3fn7VP6oxvk/+VeKxwOQd28Ets
- b51A==
-X-Gm-Message-State: AFqh2kpU2fQ0xhmxrh1OXaGCx40ZvlBM0f1u1MKthUjGMjBkjQiRqyQ6
- MOrhjze2Hm/IG8oCCcn8NgXPPWzcvVUXuax4
-X-Google-Smtp-Source: AMrXdXvnPeXXSe2k+2Yg15+9Js9RSU7BBlGliXXPbO4Ce+expUDdtDmaptiMNyww5hntDUgXjmv2BQ==
-X-Received: by 2002:a05:6a20:b914:b0:b8:537a:5525 with SMTP id
- fe20-20020a056a20b91400b000b8537a5525mr599927pzb.51.1673908586754; 
- Mon, 16 Jan 2023 14:36:26 -0800 (PST)
+ b=N9oO4wczE41COXycYuOHGec+2QWgSmW5XdbZ/L8tmLlLMRFyZJIEpGZTOhfH37770v
+ TcM3Gq0sjqVHri0eo5KIAJWIr4loujqY4TYYxNHDLHgLq5CDerxABtfNJlvkY8/hwL+f
+ wSA+aU9FKu52ajPsnFjsRlf4ajcGXoF+LF7jzvbb6Julf8ecomSPcwcnuD49ZCJUInb8
+ 7ePOWURdcdld5G36mGr2r2/uJL1OOmYVR22m3k9Mw0yxXGZ77z5pPoif9Nb6U+X7tvid
+ /yuAJVc4pyDElMn9CQb5gw67Ji6f2ws9zjvk42KzSuTvB2nBt67phNCkysCagVMToJVN
+ JMTQ==
+X-Gm-Message-State: AFqh2kpS7sRBpYw2yJj7tPA5F5uaxYcJhesfHdB3VsSerOkPAghBLEkX
+ VVOJp8jVOWhVCmNu7b7qLEMpFSnNTPMwrxn5
+X-Google-Smtp-Source: AMrXdXvdxKMJO11apU6nb3M1s1VT/ZzHqWlGqy0hzX1pPsfsItMygwnqQ22mdewIHUU3Hnrs/TrM4w==
+X-Received: by 2002:a17:902:8216:b0:194:59c2:a155 with SMTP id
+ x22-20020a170902821600b0019459c2a155mr1090376pln.16.1673908600248; 
+ Mon, 16 Jan 2023 14:36:40 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- c4-20020a631c04000000b004774b5dc24dsm16021221pgc.12.2023.01.16.14.36.25
+ n3-20020a170903110300b00189f2fdbdd0sm19742492plh.234.2023.01.16.14.36.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Jan 2023 14:36:26 -0800 (PST)
+ Mon, 16 Jan 2023 14:36:39 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org
 Subject: [PULL 0/5] tcg patch queue
-Date: Mon, 16 Jan 2023 12:36:17 -1000
-Message-Id: <20230116223623.3512459-1-richard.henderson@linaro.org>
+Date: Mon, 16 Jan 2023 12:36:32 -1000
+Message-Id: <20230116223637.3512814-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
