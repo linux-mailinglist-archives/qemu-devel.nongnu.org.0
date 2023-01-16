@@ -2,80 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD9966C152
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 15:10:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B7466C19B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 15:14:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHQA0-0000b6-9M; Mon, 16 Jan 2023 09:08:28 -0500
+	id 1pHQDi-0002Rw-FC; Mon, 16 Jan 2023 09:12:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pHQ9x-0000aW-7R; Mon, 16 Jan 2023 09:08:25 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pHQ9v-0001be-Jr; Mon, 16 Jan 2023 09:08:24 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EDB2B678BE;
- Mon, 16 Jan 2023 14:08:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1673878101; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jYpvfBUUQx5AgLWD7HpZ/ikak7btnZaNIlIB9bjuo/4=;
- b=jN7idM75FOXoIf7po8BgPta5c7v69eV9jQFxbHXN3b7ceASf2mmvC+8/gXhKcmBcvUXLtS
- 3CkXsTOatimbAIM9mog+nrV7jBNy3mXa8pQWtnstHOWIXLm3UPHIq1C5gVVGLwsRxiHIXg
- 11jViQsYkBIwA15kcX1Xh2wqT9PYY6M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1673878101;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jYpvfBUUQx5AgLWD7HpZ/ikak7btnZaNIlIB9bjuo/4=;
- b=67OQSLJckyjz3TKZi6h/0da2Fu/SPHP5dmYoupUy0h8bM8cTi2oYBSB5bvISvgl0lFqdiX
- ItsLd/T9LCuzGbCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7BEE5138FE;
- Mon, 16 Jan 2023 14:08:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id KK11EVVaxWO+VwAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 16 Jan 2023 14:08:21 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Alex
- =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
- Alexander Graf <agraf@csgraf.de>, Thomas Huth <thuth@redhat.com>, Laurent
- Vivier <lvivier@redhat.com>
-Subject: Re: [RFC PATCH v3 20/28] target/arm: Set cortex-a57 as default cpu
- for KVM-only build
-In-Reply-To: <CAFEAcA8cUc28JBT7QikUirthUn7yP-BVV3+cibHryAGx5FWE+w@mail.gmail.com>
-References: <20230113140419.4013-1-farosas@suse.de>
- <20230113140419.4013-21-farosas@suse.de>
- <bb5f5cd7-6d53-eb69-3e79-db95c9734f07@linaro.org> <874jsqzj7m.fsf@suse.de>
- <CAFEAcA8cUc28JBT7QikUirthUn7yP-BVV3+cibHryAGx5FWE+w@mail.gmail.com>
-Date: Mon, 16 Jan 2023 11:08:19 -0300
-Message-ID: <87wn5my3l8.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1pHQDX-0002PQ-5E; Mon, 16 Jan 2023 09:12:07 -0500
+Received: from mail-co1nam11on2086.outbound.protection.outlook.com
+ ([40.107.220.86] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1pHQDU-0002K4-E6; Mon, 16 Jan 2023 09:12:06 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=itfon/k0Mc2q3U1+vhKGbtHFYHtKPcKS1IdoxtNUMMc0V/ZezFX3xZFT6u41Hz8poEEBPu2xRxARATT5T/0PPpdZ4ZQQg+t8R/8u+wQoEGiuw4e2md4Fqt1bCG0IbV7lEY2ZRQlAYI2arGczPdl/e9LnnOmlczu5g13nAscr/fyuq0H0oqNxY0ged5CJwxAt9JYu/SWGin1AfvnjWzPPLKyNRn1Er6yQl3efzK9xlJcuiiJqhGZWngLXJsPCgNCl2wE6SeUHRIVaOT/jaqjOqnQqxINYGpTrDxX9QQkFvOYccmRG8LC0RK+hURqdVBwKWE5JkVuRxrgpao1bs0Ja5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Mb0PMoWDjb1sJ2Eoal8UZLGPVZ6WBRAZ5NfDJb6vehQ=;
+ b=MmrY3gKSmkzS+jBcB3zH979N8kIcnVpNrsvqeLpINhIvaKazeyYLu7W7mqsa96lRQQp54hrzMFxibD1Rbwlf3nKobFGiIMFFp/ef2c79kDpvgbYvvdkrfv15/J7NS9c8bN/rYcYHphtuqXskak5Xsmka0O7cRmIZHO/GW53CT6MIWdWd+Wp2Y+pAkMZQg23Co0NrJYAcYGvC0n4pKCT8HEd5kkx7JUPaGc83KSWYMGi5oGYX5rd1WVCbaQqpc+uSEqSwmumr8HTbvoxNAZN79FSZQjeSSi7uP2Wdw9SVjmBcAgQxB1PFNMntH0dP6itgZMZJ+KFSmlBFw/kS77OFdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Mb0PMoWDjb1sJ2Eoal8UZLGPVZ6WBRAZ5NfDJb6vehQ=;
+ b=TgfXZ/TGHLpCwp3oXdRCKVCU0v0XMoW+V1BN6BikBzBEFV25wUQXy0wnTo0g0yOFyDcAkeMmdCHu3quw66/ZLQfqRyl3Mu79XL52C4ozYiARKbiiJHRXMzjObLKUDfn4TzNPphyOrLNBCOvIwVuzkGqSwwIJtYUs9Np/UFzNVvFgFutwZz0JyJTrm2qp0lXWRA4oLh7VuagftEFreadWZ/ibVZ88lJAON4de5K0AiaGvPkaxErTr0ZdkpTHM5/bTvbSKr2Gc1wTgqXrIV55mV/vrJPNw9QM8k8d/+1LPYqLWSG5oVBhDMYJjExX3bNYFv9Vm9/Mm08Rok2g767G4Rg==
+Received: from DM6PR06CA0057.namprd06.prod.outlook.com (2603:10b6:5:54::34) by
+ IA1PR12MB6603.namprd12.prod.outlook.com (2603:10b6:208:3a1::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Mon, 16 Jan
+ 2023 14:11:56 +0000
+Received: from DS1PEPF0000E631.namprd02.prod.outlook.com
+ (2603:10b6:5:54:cafe::92) by DM6PR06CA0057.outlook.office365.com
+ (2603:10b6:5:54::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.19 via Frontend
+ Transport; Mon, 16 Jan 2023 14:11:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ DS1PEPF0000E631.mail.protection.outlook.com (10.167.17.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6002.11 via Frontend Transport; Mon, 16 Jan 2023 14:11:55 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 16 Jan
+ 2023 06:11:43 -0800
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 16 Jan
+ 2023 06:11:42 -0800
+Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.129.68.8)
+ with Microsoft SMTP Server id 15.2.986.36 via Frontend Transport; Mon, 16 Jan
+ 2023 06:11:35 -0800
+From: Avihai Horon <avihaih@nvidia.com>
+To: <qemu-devel@nongnu.org>
+CC: Alex Williamson <alex.williamson@redhat.com>, Halil Pasic
+ <pasic@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, Richard Henderson
+ <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>, "Ilya
+ Leoshkevich" <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, "Juan
+ Quintela" <quintela@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck
+ <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, Eric Blake
+ <eblake@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>,
+ <qemu-s390x@nongnu.org>, <qemu-block@nongnu.org>, Yishai Hadas
+ <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
+ <maorg@nvidia.com>, Avihai Horon <avihaih@nvidia.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Joao Martins
+ <joao.m.martins@oracle.com>
+Subject: [PATCH v8 00/13] vfio/migration: Implement VFIO migration protocol v2
+Date: Mon, 16 Jan 2023 16:11:22 +0200
+Message-ID: <20230116141135.12021-1-avihaih@nvidia.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E631:EE_|IA1PR12MB6603:EE_
+X-MS-Office365-Filtering-Correlation-Id: e9bc7b57-2c24-48db-bb16-08daf7cb9fcc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ODgqOBOj53bSqNNYb3vu9oo6Tj9ljkvCR1mz6PaU9+n6yaHvIBv0Rx1IBR1xWsgANIOE3BetbY7I5ocbCjgcXcHP88/wvMA7xsKPq2m5mHCRpmWTx1SvL6PPQ+arVamGPm8DKIUVFGVJ57kP+ZM931Au8v7uk5a1AAi0hAqLwaduFYfPjm6ZMn/uMAUBA/ArTX22AG1NUq/ubF5jtfRAiYeIXuI6q5FQF/96Eho+xOD6bznnJuKZ7xLagPSyhU2vnIUpeYJK3uWPOqKsy6bvTabPixpDR8/UaKg0PSxJXslGRO/K/e7pU1J7f05yEYI2JWbSGRUo/PuwqzBzOBN64T7YsWHXXGLhDchFd73AhmVtVxlBMyDeRjTf8qOuXifTAGFYQNTu8+yDnRyZrVno+I7n3Ohe8Eay8bgnHW/D9n7gLKJLpLbQikihip/AED0WRqlABPB9oOxA3bg46rbxw408MHovjIdBsW6TaJ8ZDaskoDL3LcPLuW5jf4xdgeNbmnlxs+0wnn9/gLO5tNlXw/3yCuaLMhxecQZQd8b4qFKDlXJzDOUzUyjCiwuFd5qTLctXHfa02aCkvI9w4cxb8mvdgOWw0n/ofovwIwWyliChIe49ieE+O2O+fy28uATe8UyDpzpiGIBukyc7V6oWDEAvQyh93hZbDmyhBUQqVE3G9PtsLy9S/V4BwNWlxiq9uzCaVm4cydWbA6OGmvTL12A/0d0rOnOZMGSYyhdV/XTvCGn4intbL070tb7Deg5ngTAYQNtDV5GWSoNIaFADky0DrG9Ca/tdzJPvKwOcaD4euNPzAw71XH7aCjqt4sMEz+cjOtiNifP2qgAq0Erqgg==
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(376002)(39860400002)(396003)(136003)(451199015)(36840700001)(40470700004)(46966006)(36756003)(8676002)(356005)(86362001)(6916009)(8936002)(4326008)(70206006)(70586007)(2906002)(5660300002)(7416002)(36860700001)(83380400001)(7636003)(82740400003)(478600001)(40460700003)(966005)(7696005)(6666004)(54906003)(316002)(40480700001)(82310400005)(41300700001)(336012)(426003)(47076005)(1076003)(2616005)(186003)(26005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2023 14:11:55.6200 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9bc7b57-2c24-48db-bb16-08daf7cb9fcc
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E631.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6603
+Received-SPF: softfail client-ip=40.107.220.86;
+ envelope-from=avihaih@nvidia.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,43 +138,275 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Hello,
 
-> On Mon, 16 Jan 2023 at 13:45, Fabiano Rosas <farosas@suse.de> wrote:
->>
->> Richard Henderson <richard.henderson@linaro.org> writes:
->>
->> > On 1/13/23 06:04, Fabiano Rosas wrote:
->> >> The cortex-a15 is not present anymore when CONFIG_TCG=n, so use the
->> >> cortex-a57 as default cpu for KVM.
->> >>
->> >> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->> >
->> > Ideally there would not be a default at all, requiring the command-line option to be used.
->>
->> We could probably do that now without impact to users, since KVM would
->> always require a -cpu option due to the current default being
->> cortex-a15.
->>
->> >
->> > Second choice would be "host", since that's the only value that's actually usable (except
->> > for the off-chance that you're actually running on an a57, which is less and less likely
->> > as time moves on).
->> >
->>
->> I'll have to go around fixing qtest first, either to add -cpu or to add
->> -accel kvm, otherwise we get:
->>
->> The 'host' CPU type can only be used with KVM or HVF
->
-> For a CPU type that will work with either KVM or TCG, that would
-> be "max".
+Following VFIO migration protocol v2 acceptance in kernel, this series
+implements VFIO migration according to the new v2 protocol and replaces
+the now deprecated v1 implementation.
 
-Yes, although the issue here is more that there are tests running with
-!kvm_enabled (no -accel kvm given) and !tcg_enabled (--disable-tcg).
+The main differences between v1 and v2 migration protocols are:
+1. VFIO device state is represented as a finite state machine instead of
+   a bitmap.
 
-The "max" cpu does in fact work with qtest because even when
-CONFIG_TCG=n, it ends up configuring a "cortex-a57 + extra things" in
-aarch64_max_initfn. But that seems a bit too implicit to me, it would be
-better for the tests to explicitly set the accel and cpu options.
+2. The migration interface with kernel is done using VFIO_DEVICE_FEATURE
+   ioctl and normal read() and write() instead of the migration region
+   used in v1.
+
+3. Pre-copy is made optional in v2 protocol. Support for pre-copy will
+   be added later on.
+
+Full description of the v2 protocol and the differences from v1 can be
+found here [1].
+
+
+
+Patch list:
+
+Patch 1 updates linux headers so we will have the MIG_DATA_SIZE ioctl.
+
+Patches 2-8 are prep patches fixing bugs, adding QEMUFile function
+that will be used later and refactoring v1 protocol code to make it
+easier to add v2 protocol.
+
+Patches 9-13 implement v2 protocol and remove v1 protocol.
+
+Thanks.
+
+
+
+Changes from v7 [2]:
+- Fixed compilation error on windows in patch #9 reported by Cedric.
+
+
+
+Changes from v6 [3]:
+- Fixed another compilation error in patch #9 reported by Cedric.
+- Added Reviewed-by tags.
+
+
+
+Changes from v5 [4]:
+- Dropped patch #3.
+- Simplified patch #5 as per Alex's suggestion.
+- Changed qemu_file_get_to_fd() to return -EIO instead of -1, as
+  suggested by Cedric.
+  Also changed it so now write returns -errno instead of -1 on error.
+- Fixed compilation error reported by Cedric.
+- Changed vfio_migration_query_flags() to print error message and return
+  -errno in error case as suggested by Cedric.
+- Added Reviewed-by tags.
+
+
+
+Changes from v4 [5]:
+- Rebased on latest master branch.
+- Added linux header update to kernel v6.2-rc1.
+- Merged preview patches (#13-14) into this series.
+
+
+
+Changes from v3 [6]:
+- Rebased on latest master branch.
+
+- Dropped patch #1 "migration: Remove res_compatible parameter" as
+  it's not mandatory to this series and needs some further discussion.
+
+- Dropped patch #3 "migration: Block migration comment or code is
+  wrong" as it has been merged already.
+
+- Addressed overlooked corner case reported by Vladimir in patch #4
+  "migration: Simplify migration_iteration_run()".
+
+- Dropped patch #5 "vfio/migration: Fix wrong enum usage" as it has
+  been merged already.
+
+- In patch #12 "vfio/migration: Implement VFIO migration protocol v2":
+  1. Changed vfio_save_pending() to update res_precopy_only instead of
+     res_postcopy_only (as VFIO migration doesn’t support postcopy).
+  2. Moved VFIOMigration->data_buffer allocation to vfio_save_setup()
+     and its de-allocation to vfio_save_cleanup(), so now it's
+     allocated when actually used (during migration and only on source
+     side).
+
+- Addressed Alex's comments:
+  1. Eliminated code duplication in patch #7 "vfio/migration: Allow
+     migration without VFIO IOMMU dirty tracking support".
+  2. Removed redundant initialization of vfio_region_info in patch #10
+     "vfio/migration: Move migration v1 logic to vfio_migration_init()".
+  3. Added comment about VFIO_MIG_DATA_BUFFER_SIZE heuristic (and
+     renamed to VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE).
+  4. Cast migration structs to their actual types instead of void *.
+  5. Return -errno and -EBADF instead of -1 in vfio_migration_set_state().
+  6. Set migration->device_state to new_state even in case of data_fd
+     out of sync. Although migration will be aborted, setting device
+     state succeeded so we should reflect that.
+  7. Renamed VFIO_MIG_PENDING_SIZE to VFIO_MIG_STOP_COPY_SIZE, set it
+     to 100G and added a comment about the size choice.
+  8. Changed vfio_save_block() to return -errno on error.
+  9. Squashed Patch #14 to patch #12.
+  10. Adjusted migration data buffer size according to MIG_DATA_SIZE
+      ioctl.
+
+- In preview patch #17 "vfio/migration: Query device data size in
+  vfio_save_pending()" - changed vfio_save_pending() to report
+  VFIO_MIG_STOP_COPY_SIZE on any error.
+   
+- Added another preview patch "vfio/migration: Optimize
+  vfio_save_pending()".
+
+- Added ret value on some traces as suggested by David.
+
+- Added Reviewed-By tags.
+
+
+
+Changes from v2 [7]:
+- Rebased on top of latest master branch.
+
+- Added relevant patches from Juan's RFC [8] with minor changes:
+  1. Added Reviewed-by tag to patch #3 in the RFC.
+  2. Adjusted patch #6 to work without patch #4 in the RFC.
+
+- Added a new patch "vfio/migration: Fix wrong enum usage" that fixes a
+  small bug in v1 code. This patch has been sent a few weeks ago [9] but
+  wasn't taken yet.
+
+- Patch #2 (vfio/migration: Skip pre-copy if dirty page tracking is not
+  supported):
+  1. Dropped this patch and replaced it with
+     "vfio/migration: Allow migration without VFIO IOMMU dirty tracking
+     support".
+     The new patch uses a different approach – instead of skipping
+     pre-copy phase completely, QEMU VFIO code will mark RAM dirty
+     (instead of kernel). This ensures that current migration behavior
+     is not changed and SLA is taken into account.
+
+- Patch #4 (vfio/common: Change vfio_devices_all_running_and_saving()
+  logic to equivalent one):
+  1. Improved commit message to better explain the change.
+
+- Patch #7 (vfio/migration: Implement VFIO migration protocol v2):
+  1. Enhanced vfio_migration_set_state() error reporting.
+  2. In vfio_save_complete_precopy() of v2 protocol - when changing
+     device state to STOP, set recover state to ERROR instead of STOP as
+     suggested by Joao.
+  3. Constify SaveVMHandlers of v2 protocol.
+  4. Modified trace_vfio_vmstate_change and
+     trace_vfio_migration_set_state
+     to print device state string instead of enum.
+  5. Replaced qemu_put_buffer_async() with qemu_put_buffer() in
+     vfio_save_block(), as requested by Juan.
+  6. Implemented v2 protocol version of vfio_save_pending() as requested
+     by Juan. Until ioctl to get device state size is added, we just
+     report some big hard coded value, as agreed in KVM call.
+
+- Patch #9 (vfio/migration: Reset device if setting recover state
+  fails):
+  1. Enhanced error reporting.
+  2. Set VFIOMigration->device_state to RUNNING after device reset.
+
+- Patch #11 (docs/devel: Align vfio-migration docs to VFIO migration
+  v2):
+  1. Adjusted vfio migration documentation to the added
+     vfio_save_pending()
+
+- Added the last patch (which is not for merging yet) that demonstrates
+  how the new ioctl to get device state size will work once added.
+
+
+
+Changes from v1 [10]:
+- Split the big patch that replaced v1 with v2 into several patches as
+  suggested by Joao, to make review easier.
+- Change warn_report to warn_report_once when container doesn't support
+  dirty tracking.
+- Add Reviewed-by tag.
+
+[1]
+https://lore.kernel.org/all/20220224142024.147653-10-yishaih@nvidia.com/
+
+[2]
+https://lore.kernel.org/qemu-devel/20230115183556.7691-1-avihaih@nvidia.com/
+
+[3]
+https://lore.kernel.org/qemu-devel/20230112085020.15866-1-avihaih@nvidia.com/
+
+[4]
+https://lore.kernel.org/qemu-devel/20221229110345.12480-1-avihaih@nvidia.com/
+
+[5]
+https://lore.kernel.org/qemu-devel/20221130094414.27247-1-avihaih@nvidia.com/
+
+[6]
+https://lore.kernel.org/qemu-devel/20221103161620.13120-1-avihaih@nvidia.com/
+
+[7]
+https://lore.kernel.org/all/20220530170739.19072-1-avihaih@nvidia.com/
+
+[8]
+https://lore.kernel.org/qemu-devel/20221003031600.20084-1-quintela@redhat.com/T/
+
+[9]
+https://lore.kernel.org/all/20221016085752.32740-1-avihaih@nvidia.com/
+
+[10]
+https://lore.kernel.org/all/20220512154320.19697-1-avihaih@nvidia.com/
+
+Avihai Horon (12):
+  linux-headers: Update to v6.2-rc1
+  vfio/migration: Fix NULL pointer dereference bug
+  vfio/migration: Allow migration without VFIO IOMMU dirty tracking
+    support
+  migration/qemu-file: Add qemu_file_get_to_fd()
+  vfio/common: Change vfio_devices_all_running_and_saving() logic to
+    equivalent one
+  vfio/migration: Move migration v1 logic to vfio_migration_init()
+  vfio/migration: Rename functions/structs related to v1 protocol
+  vfio/migration: Implement VFIO migration protocol v2
+  vfio/migration: Optimize vfio_save_pending()
+  vfio/migration: Remove VFIO migration protocol v1
+  vfio: Alphabetize migration section of VFIO trace-events file
+  docs/devel: Align VFIO migration docs to v2 protocol
+
+Juan Quintela (1):
+  migration: No save_live_pending() method uses the QEMUFile parameter
+
+ docs/devel/vfio-migration.rst                 |  68 +-
+ include/hw/vfio/vfio-common.h                 |  10 +-
+ include/migration/register.h                  |   3 +-
+ include/standard-headers/drm/drm_fourcc.h     |  63 +-
+ include/standard-headers/linux/ethtool.h      |  81 +-
+ include/standard-headers/linux/fuse.h         |  20 +-
+ .../linux/input-event-codes.h                 |   4 +
+ include/standard-headers/linux/pci_regs.h     |   2 +
+ include/standard-headers/linux/virtio_blk.h   |  19 +
+ include/standard-headers/linux/virtio_bt.h    |   8 +
+ include/standard-headers/linux/virtio_net.h   |   4 +
+ linux-headers/asm-arm64/kvm.h                 |   1 +
+ linux-headers/asm-generic/hugetlb_encode.h    |  26 +-
+ linux-headers/asm-generic/mman-common.h       |   2 +
+ linux-headers/asm-mips/mman.h                 |   2 +
+ linux-headers/asm-riscv/kvm.h                 |   7 +
+ linux-headers/asm-x86/kvm.h                   |  11 +-
+ linux-headers/linux/kvm.h                     |  32 +-
+ linux-headers/linux/psci.h                    |  14 +
+ linux-headers/linux/userfaultfd.h             |   4 +
+ linux-headers/linux/vfio.h                    | 278 ++++++-
+ migration/qemu-file.h                         |   1 +
+ migration/savevm.h                            |   3 +-
+ hw/s390x/s390-stattrib.c                      |   2 +-
+ hw/vfio/common.c                              |  41 +-
+ hw/vfio/migration.c                           | 748 ++++++------------
+ migration/block-dirty-bitmap.c                |   3 +-
+ migration/block.c                             |   2 +-
+ migration/migration.c                         |   4 +-
+ migration/qemu-file.c                         |  34 +
+ migration/ram.c                               |   2 +-
+ migration/savevm.c                            |   7 +-
+ hw/vfio/trace-events                          |  29 +-
+ 33 files changed, 898 insertions(+), 637 deletions(-)
+
+-- 
+2.26.3
+
 
