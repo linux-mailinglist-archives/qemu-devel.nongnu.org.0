@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B527966B9F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 10:14:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C11E366B9F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 10:14:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHLYN-0005EE-9X; Mon, 16 Jan 2023 04:13:19 -0500
+	id 1pHLZ3-0005kz-PT; Mon, 16 Jan 2023 04:14:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHLYI-0005E5-Np
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:13:14 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHLYG-00027g-Mk
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:13:13 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- j34-20020a05600c1c2200b003da1b054057so7382330wms.5
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 01:13:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aDRVfpdEE+QjogmqhcdjGD42xJadkC4Jh6TL11ZOfxI=;
- b=JqblL97g8t36aW4y1d4X0US4E0jsPxaGmFhpbjsYTiu6x1ZEpP+7y9pPMyAigULmp3
- o3MaoTtka9awLZVicNzDZNd79ZTZFpMsgr7EjcN1Mc8YiUff4KUoXbw2VWzAWtvlrhDY
- FRRX8psTfoLBiecHPEltOkxmtg6x5ZKLsL2N/ZQj0PgS2Lzxv658HOYPIhxcV8ZasBzu
- SP/Sb9n3L8d9/Ui/9UO8OF9Q0kW5WbX61Zag9PzJrcgGRXqspfS27e5AuCaT9kIoMNVW
- uLQkVzZLHA53csGg6tvP3vq4MQ5/ZRkDBeWm/+KM87oxqxx0C/P5fnSmQChF2gvYVqdD
- kvZg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHLZ1-0005kn-CP
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:13:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHLYz-0002BO-S4
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:13:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673860436;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UcI8GgnMQJ8080p6zcRl74e3BhRJvEP8FRq4eAEC1sY=;
+ b=KOMoal1tHMgz5OhsAPU+m0ZnmcxkvqVBAQgaP3K7bWHb5XAiLYr0cOVmE7rixVs5fi10ZE
+ TgYTRC28euaao394hx/TrRoEszCCdR3Fi/VJ2dBnLU4sSBPHuF/9a6WF5DfqH2HP0/2wfe
+ /f67iERLJtAzGor8NGwVtLkJhuW2hyQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-324-gjGSOuwHMhOeARO6l9OEFQ-1; Mon, 16 Jan 2023 04:13:54 -0500
+X-MC-Unique: gjGSOuwHMhOeARO6l9OEFQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ v20-20020adfc5d4000000b002bdfcdb4c51so469188wrg.9
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 01:13:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aDRVfpdEE+QjogmqhcdjGD42xJadkC4Jh6TL11ZOfxI=;
- b=6MfAzE7aOCrei9qNBRlNqe/iZsyXfTsLfWCkb7TDXe/u5SqnbVmrUbwJ99h3HOR6xw
- ka8SQXXhyoPfP+YXpf4bwEyAAKsIgMFIPhDf5nkgmrnsKAQt6jz2+UI/1J7Fw9IUZna7
- 6W5i8VTqYtxdSEaLD7WQMlelQsrK0VL5Dxb0MLGKFcXZgOK5LXhXuTELixiKvRrPFon1
- +OO4rLMEthmprc5bQoMe8t/8oAB3SwM7GnCgWVxJ8gD8lgrRbX2u7KQvbRMdKX8L8KHR
- w9L5zN9SC3ZkDyCWGSe2gmnqddKEpoPpT0uk7hMydbSECfczDhOJRv1uCSD7K4S+mQ69
- pKCQ==
-X-Gm-Message-State: AFqh2kobWAPllveQLtAsdTISAwgNZgapVt3R2ZyekmP2FpYxA6H0qSel
- XvjGYmjOcxRfKhYY6n7+HK8Xig==
-X-Google-Smtp-Source: AMrXdXsdQ40wHxVAJEOPTzHG7+WBW2R0pjGWgYPQmzVHSMG0w5S5T4rnwj5sjChY14yfBLJFuCZkNA==
-X-Received: by 2002:a05:600c:5405:b0:3da:632:a8d with SMTP id
- he5-20020a05600c540500b003da06320a8dmr16910190wmb.10.1673860390997; 
- Mon, 16 Jan 2023 01:13:10 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n23-20020a05600c3b9700b003cf71b1f66csm37737724wms.0.2023.01.16.01.13.09
+ bh=UcI8GgnMQJ8080p6zcRl74e3BhRJvEP8FRq4eAEC1sY=;
+ b=7xShZPcSGA1gIZpEWp9rtxsXjXz8AbheK9dIpxgIAUttpyOKiLerFy1g+dukoY8xhF
+ buG51sdQI6jb2RRtylITa9LfouFX09OjifKyTr0spRR+rSVY59otm4xl4lF4MdwYOVNu
+ LXX6AQYof9qe0+yNUP8CeavgGBE+2K13Kvn7lM5PM+CkmUTA4MUXHdAoeqjFIieGzXY4
+ rBOApfJ4N6mevElIaaC2WKcgm2LiYmW5IC9wP6Xe8lHzgYi6YTXSEDC31hbf8k1g6cYq
+ jghIMvvaSEXFOb99heXqEDgLSaC95HaJOWMqYSFTKjoWThfi2gHaMBOetHCSJTBfTZbR
+ YlxQ==
+X-Gm-Message-State: AFqh2krCuxJs8qev46oucDThivhRrmr6nky2f0vqa2K8m9VpyTob7iPI
+ be9KBAVE42mYDeqAlQVqXbuYfW3q//tmARLz4846ArdDjuF70BonbTiPVgr4MumIAY915EsxOqE
+ a2Vz+RVFFnXynTzHVZVfpxKhlT7ZXx47ebdy941iM1A441rGWix+kWYVx0YLXau8=
+X-Received: by 2002:a5d:58d4:0:b0:2bd:fdce:f206 with SMTP id
+ o20-20020a5d58d4000000b002bdfdcef206mr3599815wrf.2.1673860433860; 
+ Mon, 16 Jan 2023 01:13:53 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsaODXS/Y+4jearp0xndSg8bMRVjq5bReOJ1Xj3r56Uaa7llAjKGRKE1YjDK+cngIZoZYAgTw==
+X-Received: by 2002:a5d:58d4:0:b0:2bd:fdce:f206 with SMTP id
+ o20-20020a5d58d4000000b002bdfdcef206mr3599800wrf.2.1673860433613; 
+ Mon, 16 Jan 2023 01:13:53 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-109.web.vodafone.de.
+ [109.43.177.109]) by smtp.gmail.com with ESMTPSA id
+ by12-20020a056000098c00b002bdd8f12effsm10378221wrb.30.2023.01.16.01.13.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 01:13:10 -0800 (PST)
-Message-ID: <c9168fc5-81e8-0182-18bd-4aed67c51221@linaro.org>
-Date: Mon, 16 Jan 2023 10:13:08 +0100
+ Mon, 16 Jan 2023 01:13:53 -0800 (PST)
+Message-ID: <3343fe22-9126-8f22-8a9f-91b9bf169d02@redhat.com>
+Date: Mon, 16 Jan 2023 10:13:51 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 5/7] hw/acpi/acpi_aml_interface: Extract qbus_build_aml()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] tests/vm/haiku.x86_64: Update the Haiku VM to Beta 4
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Markus Armbruster <armbru@redhat.com>, Aurelien Jarno
- <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20230114222738.282478-1-shentey@gmail.com>
- <20230114222738.282478-6-shentey@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230114222738.282478-6-shentey@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Alexander von Gluck IV <kallisti5@unixzen.com>
+References: <20230116083014.55647-1-thuth@redhat.com>
+In-Reply-To: <20230116083014.55647-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,32 +101,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14/1/23 23:27, Bernhard Beschow wrote:
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   include/hw/acpi/acpi_aml_interface.h | 11 +++++++++++
->   hw/i2c/smbus_ich9.c                  |  5 +----
->   hw/isa/lpc_ich9.c                    |  5 +----
->   hw/isa/piix3.c                       |  5 +----
->   4 files changed, 14 insertions(+), 12 deletions(-)
+On 16/01/2023 09.30, Thomas Huth wrote:
+> The old Haiku VM based on Beta 3 does not work anymore since it
+> fails to install the additional packages now that Beta 4 has been
+> released. Thanks to Alexander von Gluck IV for providing a new
+> image based on Beta 4, we can now upgrade the test image in our
+> QEMU CI, too, to get this working again.
 > 
-> diff --git a/include/hw/acpi/acpi_aml_interface.h b/include/hw/acpi/acpi_aml_interface.h
-> index 436da069d6..cb2f1c9910 100644
-> --- a/include/hw/acpi/acpi_aml_interface.h
-> +++ b/include/hw/acpi/acpi_aml_interface.h
+> Note that Haiku Beta 4 apparently finally fixed the issue with
+> the enumeration of the virtio-block devices (see the ticket at
+> https://dev.haiku-os.org/ticket/16512 ) - the tarball disk can
+> now be found at index 1 instead of index 0.
 
-> +static inline void qbus_build_aml(BusState *bus, Aml *scope)
-> +{
-> +    BusChild *kid;
-> +
-> +    QTAILQ_FOREACH(kid, &bus->children, sibling) {
-> +        call_dev_aml_func(DEVICE(kid->child), scope);
-> +    }
-> +}
+I just noticed that we should now remove the related comment, too:
 
-Inline not really justified, can we move this to hw/acpi/aml-build.c?
-
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+diff a/tests/vm/haiku.x86_64 b/tests/vm/haiku.x86_64
+--- a/tests/vm/haiku.x86_64
++++ b/tests/vm/haiku.x86_64
+@@ -80,7 +80,6 @@ class HaikuVM(basevm.BaseVM):
+          "ninja",
+      ]
+  
+-    # https://dev.haiku-os.org/ticket/16512 virtio disk1 shows up as 0 (reversed order)
+      BUILD_SCRIPT = """
+          set -e;
+          rm -rf /tmp/qemu-test.*
 
 
