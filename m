@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301D466CBFE
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:21:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C564266CC13
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:21:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHTAD-0006Ec-1Y; Mon, 16 Jan 2023 12:20:53 -0500
+	id 1pHTAo-0006qn-Qw; Mon, 16 Jan 2023 12:21:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pHTAB-0006EU-Nk
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:20:51 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pHTAA-0002iu-0h
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:20:51 -0500
-Received: by mail-wr1-x432.google.com with SMTP id h16so28140921wrz.12
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 09:20:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=X2CriQPW3zj9RV25XOAnLqTriHyg08BtY5dVR/sNLZc=;
- b=nAgWHhmlq4IaVallCoX0dcvc0WAwxqyRtNXuXdWTJVHmxK0a2PA463y4VLtB54SZGI
- qUKGITiWlQ8D4BDi34j3SBHY39eHi2EzFPP+KgLsSNd2TaR22ruwnyIOKxtD58yf4QP2
- oVg7+zDh23rz9wIc760bG6OQxCzjDbzOBo7GGrO2rrqm9Cybe0LXCezNHkQtZcGYkvi2
- yvOxz1ZiBK174WCq+gmD+sK2dOnBC096gn+f3Q2jo8bIoHyTunhrNP6eiQFUHe9YEeVo
- xdFNYD4C92nu7fdg53INj3bxQw7EkSKO1hL6DMvk61YNtt7hl2zO3CtcpwpEtyuDIqEE
- cNXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X2CriQPW3zj9RV25XOAnLqTriHyg08BtY5dVR/sNLZc=;
- b=VXiJg22UrbHyBh0CqA8ysGPD/NLIQE05DXCvHcCYEj8a8D28sisQK7gFxcZi5KGpzE
- Up0+6bDB+IH4S0X1Qb0iKjkCSbtdJ/TNKjHlnc2F1jbUyogjTarn5AMD1Yc83LOBM95Q
- u5NwT65JshSLmRulAeSKGaZSiVyWRoyb9d/CwRWxrCg9y/knENjWXpWR0HWm6UVfO3eC
- MiiC4dOw1X5t1LPOCnPBwfJvKCKtIGJ1bd7GNjhiVLFU02L3jvsfj0MMEqVRlw1xdhfx
- XIxANkkqxRa3XL67+VfbefZxpweoP+EiHwlfdD+rNWOBhBhiEfSskL7arkJPnpFhJkw3
- 53kg==
-X-Gm-Message-State: AFqh2krb5mFpk3K8XmPo6Yhp5TI9mSR6vvAovRfxAmKFX0O8UbIuvILi
- gfbnlAJsFmmYbt0nc1HW4vM=
-X-Google-Smtp-Source: AMrXdXuQQ1l3pq3617pvMDMQz9I5Z/ahSh2VAdkPvmNKxLvg9aTvKkZeRb94JBy5HHifLYPpKPaRsA==
-X-Received: by 2002:a05:6000:1708:b0:2bd:db1c:8dfe with SMTP id
- n8-20020a056000170800b002bddb1c8dfemr280979wrc.48.1673889648009; 
- Mon, 16 Jan 2023 09:20:48 -0800 (PST)
-Received: from [192.168.6.176] (54-240-197-232.amazon.com. [54.240.197.232])
- by smtp.gmail.com with ESMTPSA id
- z12-20020adfd0cc000000b002bdff778d87sm4015164wrh.34.2023.01.16.09.20.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 09:20:47 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <9384a737-02b7-a32f-2805-4319542373bc@xen.org>
-Date: Mon, 16 Jan 2023 17:20:45 +0000
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pHTAm-0006qX-O5; Mon, 16 Jan 2023 12:21:28 -0500
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pHTAl-0002nC-C6; Mon, 16 Jan 2023 12:21:28 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 23E3F320090F;
+ Mon, 16 Jan 2023 12:21:25 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Mon, 16 Jan 2023 12:21:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1673889684; x=
+ 1673976084; bh=ecJc+iVBb7iX0G6Zw8YcUv+SEVFBIVOm65XrOMmeBQw=; b=N
+ fLHioa2ijG7DWZxSYIPHtWoTwass0bkpjysF4/TIxR73eyWYmlTn6r7bFjqS92C1
+ 6cpbO2yEpft/jk7jcEocqQqHAQLdc6qO67dPuQ5xxR5maP6JD5TsbLIXxLSaRumw
+ 6BbcDgAAHTOnErcFN4WlSUHnPmWYQwtRmH4jJBsEkM9wkWduBtbTdZ4L4o6CeGTn
+ Zq/dOZOhEjoSX3yeITiK4jy3FBQAw4iW1nrPKW9G3QrrPzaa744AAFO5iMxh3Ncl
+ 8cJDb9STu2qpJgwFlagEAGl5sLyKYfprqFplm8P/uofleuAC1rkzIrKCmbLLh85L
+ qaDufPjGqIh64KqPjI3KQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673889684; x=
+ 1673976084; bh=ecJc+iVBb7iX0G6Zw8YcUv+SEVFBIVOm65XrOMmeBQw=; b=X
+ lUXZxKVqsa+mNk1z9R5BZCmileSo/X+TZGuxXbwaL0K4L70iSleHfMAru/VOre6k
+ 5ZY4k1FAURfWy1CST2i/o8N5O3eGuvZIYhe1gwwNrxkqOakY0mk1VBKt7LHnW5QT
+ B2lFqUg8hFQprwMrSGZ3tfns/P/2dt7Vn7cPs2q/bY0ZvhalV5YiUt58QJXYMwJk
+ Ntq2nPOocAlV+uBHhx/ey9O3jG3hrEhimU0kARxgSnDPdJoM/Mqv4haj2RoEFtpr
+ DoHj9U/vwmK0VvolouM3m6H3KZe1cXd086EqgsI8wETKaujXK2Zzf0VLvpLnTfx1
+ 773IsJZWpk86XoHnhbjGA==
+X-ME-Sender: <xms:lIfFYyHyYCrU2Jb5c79R_BruzSLR5CD78ayFOomO76IDW1MYljQ5lA>
+ <xme:lIfFYzXaMkFBXanvNDHMLGVptFobMX-u0OTzfxNS3ufnhQs_QDToKTVDSJZdCNQKL
+ rLCmUPWf6i-Kz2JN-c>
+X-ME-Received: <xmr:lIfFY8Le7og_VFE6lqTxaNdYA0XXA9KufO4N5Wn6MIGJQuvw7B7KYllxzXY5VchpCRCFXCfz8MCNLSPNwIoC3QuDyw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedguddttdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgv
+ thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
+ grthhtvghrnhephfegffevudefveetgeekteeijefhhfduueejvdegvdehffehjeevtefh
+ hffffeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:lIfFY8GQksWbQBdT-_Q8Y1CYLBPVg11j43T6pJraRn0_y-ZmQd5uJQ>
+ <xmx:lIfFY4XMpNl0H9owCpFJ484B4aA0H56o2k-uHOenpyUL8sOS39zgMQ>
+ <xmx:lIfFY_MubRzXIwmBa2huga5qzMlZx5y4dniPe32DHsiqZBkZ-YFM8g>
+ <xmx:lIfFY8r7-olcNPaoY57m5YHhRMx6MQF2sGSDV794Q_s2te111Utf0g>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 16 Jan 2023 12:21:23 -0500 (EST)
+Date: Mon, 16 Jan 2023 09:21:21 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: patrick@stwcx.xyz, clg@kaod.org, peter.maydell@linaro.org,
+ andrew@aj.id.au, joal@jms.id.au, hskinnemoen@google.com,
+ kfting@nuvoton.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/6] hw/nvram/eeprom_at24c: Add header w/ init helper
+Message-ID: <Y8WHkdAukdM/YK3F@pdel-mbp>
+References: <20230114170151.87833-1-peter@pjd.dev>
+ <20230114170151.87833-2-peter@pjd.dev>
+ <c8e17594-9eb5-ce6c-c414-622f4f68d008@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v6 15/51] i386/xen: manage and save/restore Xen guest
- long_mode setting
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-References: <20230110122042.1562155-1-dwmw2@infradead.org>
- <20230110122042.1562155-16-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20230110122042.1562155-16-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c8e17594-9eb5-ce6c-c414-622f4f68d008@linaro.org>
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=peter@pjd.dev;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,190 +101,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/01/2023 12:20, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
+On Mon, Jan 16, 2023 at 01:23:01PM +0100, Philippe Mathieu-Daudé wrote:
+> On 14/1/23 18:01, Peter Delevoryas wrote:
+> > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> > ---
+> >   hw/nvram/eeprom_at24c.c         | 10 ++++++++++
+> >   include/hw/nvram/eeprom_at24c.h | 10 ++++++++++
+> >   2 files changed, 20 insertions(+)
+> >   create mode 100644 include/hw/nvram/eeprom_at24c.h
 > 
-> Xen will "latch" the guest's 32-bit or 64-bit ("long mode") setting when
-> the guest writes the MSR to fill in the hypercall page, or when the guest
-> sets the event channel callback in HVM_PARAM_CALLBACK_IRQ.
+> > +void at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size)
+> > +{
+> > +    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", address);
 > 
-> KVM handles the former and sets the kernel's long_mode flag accordingly.
-> The latter will be handled in userspace. Keep them in sync by noticing
-> when a hypercall is made in a mode that doesn't match qemu's idea of
-> the guest mode, and resyncing from the kernel. Do that same sync right
-> before serialization too, in case the guest has set the hypercall page
-> but hasn't yet made a system call.
+> Please use the type definition: TYPE_AT24C_EE.
 > 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-
-Reviewed-by: Paul Durrant <paul@xen.org>
-
-... with one suggestion...
-
-> ---
->   hw/i386/kvm/xen_overlay.c | 65 +++++++++++++++++++++++++++++++++++++++
->   hw/i386/kvm/xen_overlay.h |  4 +++
->   target/i386/kvm/xen-emu.c | 12 ++++++++
->   3 files changed, 81 insertions(+)
+> > +    DeviceState *dev = DEVICE(i2c_dev);
+> > +
+> > +    qdev_prop_set_uint32(dev, "rom-size", rom_size);
+> > +    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
 > 
-> diff --git a/hw/i386/kvm/xen_overlay.c b/hw/i386/kvm/xen_overlay.c
-> index 3e85bf912f..6fd63ff906 100644
-> --- a/hw/i386/kvm/xen_overlay.c
-> +++ b/hw/i386/kvm/xen_overlay.c
-> @@ -44,6 +44,7 @@ struct XenOverlayState {
->       MemoryRegion shinfo_mem;
->       void *shinfo_ptr;
->       uint64_t shinfo_gpa;
-> +    bool long_mode;
->   };
->   
->   struct XenOverlayState *xen_overlay_singleton;
-> @@ -96,9 +97,21 @@ static void xen_overlay_realize(DeviceState *dev, Error **errp)
->   
->       s->shinfo_ptr = memory_region_get_ram_ptr(&s->shinfo_mem);
->       s->shinfo_gpa = INVALID_GPA;
-> +    s->long_mode = false;
->       memset(s->shinfo_ptr, 0, XEN_PAGE_SIZE);
->   }
->   
-> +static int xen_overlay_pre_save(void *opaque)
-> +{
-> +    /*
-> +     * Fetch the kernel's idea of long_mode to avoid the race condition
-> +     * where the guest has set the hypercall page up in 64-bit mode but
-> +     * not yet made a hypercall by the time migration happens, so qemu
-> +     * hasn't yet noticed.
-> +     */
-> +    return xen_sync_long_mode();
-> +}
-> +
->   static int xen_overlay_post_load(void *opaque, int version_id)
->   {
->       XenOverlayState *s = opaque;
-> @@ -107,6 +120,9 @@ static int xen_overlay_post_load(void *opaque, int version_id)
->           xen_overlay_map_page_locked(&s->shinfo_mem, s->shinfo_gpa);
->           xen_overlay_set_be_shinfo(s->shinfo_gpa >> XEN_PAGE_SHIFT);
->       }
-> +    if (s->long_mode) {
-> +        xen_set_long_mode(true);
-> +    }
->   
->       return 0;
->   }
-> @@ -121,9 +137,11 @@ static const VMStateDescription xen_overlay_vmstate = {
->       .version_id = 1,
->       .minimum_version_id = 1,
->       .needed = xen_overlay_is_needed,
-> +    .pre_save = xen_overlay_pre_save,
->       .post_load = xen_overlay_post_load,
->       .fields = (VMStateField[]) {
->           VMSTATE_UINT64(shinfo_gpa, XenOverlayState),
-> +        VMSTATE_BOOL(long_mode, XenOverlayState),
->           VMSTATE_END_OF_LIST()
->       }
->   };
-> @@ -198,3 +216,50 @@ void *xen_overlay_get_shinfo_ptr(void)
->   
->       return s->shinfo_ptr;
->   }
-> +
-> +int xen_sync_long_mode(void)
-> +{
-> +    int ret;
-> +    struct kvm_xen_hvm_attr xa = {
-> +        .type = KVM_XEN_ATTR_TYPE_LONG_MODE,
-> +    };
-> +
-> +    if (!xen_overlay_singleton) {
-> +        return -ENOENT;
-> +    }
-> +
-> +    ret = kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_GET_ATTR, &xa);
-> +    if (!ret) {
-> +        xen_overlay_singleton->long_mode = xa.u.long_mode;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +int xen_set_long_mode(bool long_mode)
-> +{
-> +    int ret;
-> +    struct kvm_xen_hvm_attr xa = {
-> +        .type = KVM_XEN_ATTR_TYPE_LONG_MODE,
-> +        .u.long_mode = long_mode,
-> +    };
-> +
-> +    if (!xen_overlay_singleton) {
-> +        return -ENOENT;
-> +    }
-> +
-> +    ret = kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &xa);
-> +    if (!ret) {
-> +        xen_overlay_singleton->long_mode = xa.u.long_mode;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +bool xen_is_long_mode(void)
-> +{
-> +    if (xen_overlay_singleton) {
-> +        return xen_overlay_singleton->long_mode;
-> +    }
-> +    return false;
+> Although the allocated object is somehow reachable from the i2c bus
+> object, it would be simpler to deallocate allowing the parent to keep
+> a reference to it. So consider this prototype instead:
+> 
+>   I2CSlave *at24c_eeprom_create(I2CBus *bus, uint8_t address,
+>                                 uint32_t rom_size);
+> 
 
-return xen_overlay_singleton && xen_overlay_singleton->long_mode;
+Oh ok, yeah that sounds good. In this case, if I let the parent keep a
+reference, maybe I shouldn't use i2c_slave_realize_and_unref, and just use
+qdev_realize/etc (to avoid the unref?). I'll try just returning the pointer
+from the function to start with though.
 
-perhaps?
-
-> +}
-> diff --git a/hw/i386/kvm/xen_overlay.h b/hw/i386/kvm/xen_overlay.h
-> index 00cff05bb0..5c46a0b036 100644
-> --- a/hw/i386/kvm/xen_overlay.h
-> +++ b/hw/i386/kvm/xen_overlay.h
-> @@ -17,4 +17,8 @@ void xen_overlay_create(void);
->   int xen_overlay_map_shinfo_page(uint64_t gpa);
->   void *xen_overlay_get_shinfo_ptr(void);
->   
-> +int xen_sync_long_mode(void);
-> +int xen_set_long_mode(bool long_mode);
-> +bool xen_is_long_mode(void);
-> +
->   #endif /* QEMU_XEN_OVERLAY_H */
-> diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-> index 80005ea527..80f09f33df 100644
-> --- a/target/i386/kvm/xen-emu.c
-> +++ b/target/i386/kvm/xen-emu.c
-> @@ -19,6 +19,8 @@
->   #include "trace.h"
->   #include "sysemu/runstate.h"
->   
-> +#include "hw/i386/kvm/xen_overlay.h"
-> +
->   #include "standard-headers/xen/version.h"
->   #include "standard-headers/xen/sched.h"
->   
-> @@ -274,6 +276,16 @@ int kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
->           return -1;
->       }
->   
-> +    /*
-> +     * The kernel latches the guest 32/64 mode when the MSR is used to fill
-> +     * the hypercall page. So if we see a hypercall in a mode that doesn't
-> +     * match our own idea of the guest mode, fetch the kernel's idea of the
-> +     * "long mode" to remain in sync.
-> +     */
-> +    if (exit->u.hcall.longmode != xen_is_long_mode()) {
-> +        xen_sync_long_mode();
-> +    }
-> +
->       if (!do_kvm_xen_handle_exit(cpu, exit)) {
->           /*
->            * Some hypercalls will be deliberately "implemented" by returning
-
+> > +}
 
