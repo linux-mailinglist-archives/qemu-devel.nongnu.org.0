@@ -2,100 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A6266BBD4
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 11:37:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B517C66BC04
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 11:43:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHMq7-0006WT-0q; Mon, 16 Jan 2023 05:35:43 -0500
+	id 1pHMwG-00087r-MN; Mon, 16 Jan 2023 05:42:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pHMpu-0006SG-R9
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 05:35:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pHMpt-0007k8-4I
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 05:35:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673865327;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WOlRSGaXozPw/1A/yCBmJGa4kCtLNa0gDmapxOZDNuc=;
- b=LOw9LVny6j5AovLSrud8uH8zGdV+kCBf06pbrK646OblT4JYt01OwrNcVwS4ij9ceMmp3z
- QyGvxw3IHqlkjQuagW6YM/yqVCXAGuOCHXRdoGP4yO8b1GvkTJNvIfk/y35OwtZjFD2oy/
- /KAPf+oyfupyOj9fgsbMUdT6AEcTaeg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-553-RHOXxGUaOU2NrWfWmmc3Wg-1; Mon, 16 Jan 2023 05:35:25 -0500
-X-MC-Unique: RHOXxGUaOU2NrWfWmmc3Wg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- g24-20020adfa498000000b002bbeb5fc4b7so4617698wrb.10
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 02:35:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHMwE-00086z-Km
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 05:42:02 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHMwC-0000LU-U7
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 05:42:02 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ l41-20020a05600c1d2900b003daf986faaeso1902502wms.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 02:42:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y2sawABAHZIcknnBBnQ1pGoElKNqhwH4D2GJK6UqlMs=;
+ b=tzdYLAgCOD6R7PI3ITQnxYmFl7REl3tgub7nhIiZQuGyzstAswTIKOJV9x7SO6bfmv
+ 9tZiL1wdAHRdPzPRosBYC87kFP6h0nugJbEVdDPr42JmTExRgAEvUZyusa9mtKWLPyL4
+ AOD7GGeHD6sW3lKMYKj10M5OYn5LVz6lFSwQEyiHKJYkulGK3t5LAD0jRI67jv2jCJwx
+ ME7fywrYz5QiKsz4toUQE4l9V8X5sEIW4tCyG+ONoNWLxNxoQIF7aoSqYLzYjK6nf5UT
+ yriNBPTBawZ0BNSSenizB873K2zeznq7tpgy1Wyi0StyvVcqX6uMXDMbXRiInj7GWXkj
+ x94Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WOlRSGaXozPw/1A/yCBmJGa4kCtLNa0gDmapxOZDNuc=;
- b=unsndw+TXV0hB3AlPjID5DS3LfwadC0XpkXkYIRu34OEDGpVRRAVnxftkk9E78xATw
- NqcEr+ZSZxZZ+5ngZ42ckARLept/9qvTFxtI2U7xyTeWeFzIoY+3X+sam4bRL3CTZIrZ
- J53bVSSYngtOjCszMPrjPa0zLoVoZbakz8H8ABZ/yaumu1akpWYE/K6EzYyYBZp1RmdV
- ksP8ig/V+OYmQZB9iJlP0yG6INET4/vkD4euTengQIJmpO+rPiE3qi7QwEje4H967gve
- UDmSMlUNc5DS4QVqP7G6LzvzLaE6uOHiEcPnNKbDZhyMRfh6oUcgT+PceF+H4lMeTo3r
- Ja4w==
-X-Gm-Message-State: AFqh2krEr9XLz78+pbPZrQiGSawNtmZIVxV0MYrujNnEJ6xtfS/pk4Ev
- d3/mix5NSySYT5XqiIrN0XqlGn8jTKYVMoQegw9OiunmeTBflDxD/TnVz8/0oXtl5VUTDAvznCP
- AY6eE/i7eKfrcDFA=
-X-Received: by 2002:adf:fcc8:0:b0:2bb:edcc:9218 with SMTP id
- f8-20020adffcc8000000b002bbedcc9218mr22145083wrs.28.1673865324443; 
- Mon, 16 Jan 2023 02:35:24 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsXWuLmAhJb6p1J4CuykW28c8i2ws2MXCqT4GhJK3OS9wBJ0JS+kuOMY+L+LlgV4jkb30tbnQ==
-X-Received: by 2002:adf:fcc8:0:b0:2bb:edcc:9218 with SMTP id
- f8-20020adffcc8000000b002bbedcc9218mr22145060wrs.28.1673865324088; 
- Mon, 16 Jan 2023 02:35:24 -0800 (PST)
-Received: from ?IPV6:2003:cb:c704:1000:21d5:831d:e107:fbd6?
- (p200300cbc704100021d5831de107fbd6.dip0.t-ipconnect.de.
- [2003:cb:c704:1000:21d5:831d:e107:fbd6])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=y2sawABAHZIcknnBBnQ1pGoElKNqhwH4D2GJK6UqlMs=;
+ b=qOKUO6iDg3js37tIEkL3r8qaQ+oK1av8vxeLbKbD/FroIPJ0YVQ2rfFrxHM7LP+lsN
+ T/50y84OkF7SX/ZWMHYCmXxKCrS4I3JU5dSsIiOgTbZ2pPiARR3vcZ9JdYzw37w58pl7
+ MWVExnlpe6qXRqpO8S8qvMXWccFWy92qXzcidfwH54tW89gXgkqjHD6freMxZBqG1P8H
+ HEMU0FFMwTSAFFtGZjsa4QZIZEEjJsXbr7ROC+cGEUecJ9UIj8efAdnmvPA5wDOmb7u2
+ ZIpoqS4m+iBZiR5iYq2bjz0vfnuVLxFadKw42IFSnENDxvtH/WwktLCmN2AwOsHpfrZ0
+ 9Jrw==
+X-Gm-Message-State: AFqh2kqFtOW2NJrE9MnzNGQHOKlnL7TU1NE+nu8jrJP0pAoIX1mQW/GA
+ GIrtNkc1yiegSzDZtkmc+5t/Vw==
+X-Google-Smtp-Source: AMrXdXuf10f/PrBwKJj0MIZc1D5be9qRDqFsArcJMocS5h3/73kjcOmkf59++5vp/m8/SlXD4eD0eQ==
+X-Received: by 2002:a05:600c:5569:b0:3d9:779e:9788 with SMTP id
+ ja9-20020a05600c556900b003d9779e9788mr7674236wmb.37.1673865719294; 
+ Mon, 16 Jan 2023 02:41:59 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- k6-20020a5d5186000000b002bbddb89c71sm22171968wrv.67.2023.01.16.02.35.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 02:35:23 -0800 (PST)
-Message-ID: <9d7547c1-c670-2222-c4da-4c816f42a087@redhat.com>
-Date: Mon, 16 Jan 2023 11:35:22 +0100
+ v8-20020a05600c444800b003c21ba7d7d6sm36474599wmn.44.2023.01.16.02.41.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Jan 2023 02:41:58 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5E3E71FFB7;
+ Mon, 16 Jan 2023 10:41:57 +0000 (GMT)
+References: <CAHEcVy56ZTmPEiEn5yHVyrNWK8nBtRZF5gK=sRb4x6RMnOu+gQ@mail.gmail.com>
+User-agent: mu4e 1.9.14; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Yu Zhang <yu.zhang@ionos.com>
+Cc: Jinpu Wang <jinpu.wang@ionos.com>, Alexei Pastuchov
+ <alexei.pastuchov@ionos.com>, Elmar Gerdes <elmar.gerdes@ionos.com>,
+ qemu-devel@nongnu.org
+Subject: Re: regarding qapi and qapi-rs
+Date: Mon, 16 Jan 2023 10:40:10 +0000
+In-reply-to: <CAHEcVy56ZTmPEiEn5yHVyrNWK8nBtRZF5gK=sRb4x6RMnOu+gQ@mail.gmail.com>
+Message-ID: <87wn5mep6z.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 3/8] migration/savevm: Allow immutable device state to
- be migrated early (i.e., before RAM)
-Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-References: <20230112164403.105085-1-david@redhat.com>
- <20230112164403.105085-4-david@redhat.com> <Y8BJ02EiHNSr6xMv@work-vm>
- <11b7237a-000a-5ad7-3747-246825188d83@redhat.com> <Y8BlCeViRSzyTQ8+@work-vm>
- <Y8CGYZ3F/h1oXV+d@x1n> <Y8CJf7hCy76AtfcF@x1n>
- <fa21267a-c1aa-2d43-799d-eb955318aec3@redhat.com> <Y8F2v+ikvEJa5+qc@x1n>
- <Y8F4eXdyBRKYeY4I@x1n>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <Y8F4eXdyBRKYeY4I@x1n>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,50 +96,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13.01.23 16:27, Peter Xu wrote:
-> On Fri, Jan 13, 2023 at 10:20:31AM -0500, Peter Xu wrote:
->> On Fri, Jan 13, 2023 at 02:47:24PM +0100, David Hildenbrand wrote:
->>> I'd prefer to not go down that path for now. QEMU_VM_SECTION_START without
->>> QEMU_VM_SECTION_PART and QEMU_VM_SECTION_END feels pretty incomplete and
->>> wrong to me.
->>
->> That's fine.
->>
->>>
->>> If we want to do that in the future, we should conditionally send
->>> QEMU_VM_SECTION_START only if we have se->ops I assume?
->>
->> Yes.  START/FULL frames are mostly replaceable afaiu in the stream ABI, so
->> we always have space to change no matter what.  Let's leave that as-is.
-> 
-> If so, please consider adding one more paragraph describing the difference
-> in vmsd early_setup comments (on using FULL for early vmsd and START for
-> save_setup), hopefully it'll make things clearer.
 
-What about the following:
+Yu Zhang <yu.zhang@ionos.com> writes:
 
-diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-index 7bc0cd9de9..cc910cab0f 100644
---- a/include/migration/vmstate.h
-+++ b/include/migration/vmstate.h
-@@ -188,6 +188,11 @@ struct VMStateDescription {
-       * One SaveStateEntry should either have the save_setup() specified or
-       * the vmsd with early_setup set to true. It should never have both
-       * things set.
-+     *
-+     * Note that for now, a SaveStateEntry cannot have a VMSD and
-+     * operations (e.g., save_setup()) set at the same time. For this reason,
-+     * also early_setup VMSDs are migrated in a QEMU_VM_SECTION_FULL section,
-+     * while save_setup() data is migrated in a QEMU_VM_SECTION_START section.
-       */
-      bool early_setup;
-      int version_id;
+> Hi all,
+>
+> I noticed that with each qemu release, the qapi (C version) may introduce=
+ some changes, and the qapi-rs
+> (Rust version) also changes correspondingly. However, recently there is n=
+o qapi-rs release yet for qemu-7.2.
+> I'd like to know, is the release of the qapi-rs synchronized with the rel=
+ease of qemu, or independent from the
+> release of qemu?
 
-Thanks!
+As far as I'm aware we don't ship any rust in the QEMU project. If you
+mean the following:
 
--- 
-Thanks,
+  https://crates.io/crates/qapi
 
-David / dhildenb
+I think that is maintained by someone downstream of the QEMU project.
 
+>
+> Thank you very much for your reply.
+>
+> Best regards,
+> Yu Zhang @ Compute Platform, IONOS
+> 16.01.2023
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
