@@ -2,57 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D752B66CDE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 864E666CDE4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:47:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHTZ6-0001Hj-Tu; Mon, 16 Jan 2023 12:46:39 -0500
+	id 1pHTYt-00018R-RB; Mon, 16 Jan 2023 12:46:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=IbPF=5N=kaod.org=clg@ozlabs.org>)
- id 1pHTZ2-0001Gq-Oz; Mon, 16 Jan 2023 12:46:33 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=IbPF=5N=kaod.org=clg@ozlabs.org>)
- id 1pHTZ1-0006rj-5R; Mon, 16 Jan 2023 12:46:32 -0500
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4Nwfb865D1z4xys;
- Tue, 17 Jan 2023 04:46:28 +1100 (AEDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Nwfb524Hdz4x1N;
- Tue, 17 Jan 2023 04:46:25 +1100 (AEDT)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, frankja@linux.ibm.com,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>,
- Sebastian Mitterle <smitterl@redhat.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v3 3/3] s390x/pv: Move check on hugepage under
- s390_pv_guest_check()
-Date: Mon, 16 Jan 2023 18:46:07 +0100
-Message-Id: <20230116174607.2459498-4-clg@kaod.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230116174607.2459498-1-clg@kaod.org>
-References: <20230116174607.2459498-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pHTYr-00018A-Sx
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:46:21 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pHTYq-0006og-2j
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:46:21 -0500
+Received: by mail-wm1-x333.google.com with SMTP id l8so3422584wms.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 09:46:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=dOBXev8yriWTN2uSFh6JiGHMNKOYiyiNGLpojJY0dI4=;
+ b=JKUI3zCq7Kxj28wZXnfJ3R7a9ZTuZ3wNQsDESWVLesWlw28chcOtCZOva5K0mmpWqN
+ GD8MdxYqkbSvCWnXhnnCscux70WMSqfgCC2yUGzmn3xqdQwEnjaujm6G7H/opmCpPclO
+ AkBXGph7jmvJrYR2Zv+nzzgyiPPlM+h9xtNXUlz2TS307IzYP9vrhJGXWwGhAJVceRVq
+ /RaNffjrenr8fJKnrSPHe7bgwrNxdTdVqFAS3h1Rmn0QCms/FIgGxrqEqzkjUfRJMZwb
+ zbnB/CvtMqcBCSpOmUXCx21IiJKh5lL5vyjzlG/0ZerpXEOWCFNZcF2m2vnYNOvSzVHV
+ M9cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dOBXev8yriWTN2uSFh6JiGHMNKOYiyiNGLpojJY0dI4=;
+ b=iKviWiWvDUB/A99mgV0e2745onvL/WZI9y5AoXB/YCvPU2gyQjFhwWjd0PnUevix0N
+ EM4uCTaGlRwEKti33o2ly/L7ytzPR4mpuX5nE8O7rt1EdPGTnx692D8GIXj7Mk6ysaPy
+ ltyrtUWwXnZGB6FikDavpSJKBqSeGdK6Vo5O1yBn/CGWqeNTk8CviPZ25VFT/5A8Zzuy
+ 08T3uMOLD751QkkDRPOorLqQ9lyZQvcFT1s+HiXyaUn01Lu6vsN0uDgWWaXLfs8rojIt
+ lRQF2ukiXrUdshOgPFM1LL+hhJ9HbHpBBArmSMg1+uuXgAzqat1gsxiylxTRK6ddipf4
+ sqtA==
+X-Gm-Message-State: AFqh2kq3mdwWlB/QnYJZS1RXomqM/kLKUTeQNWvLdiXb0TTSPzEhm3d7
+ YM2X6OdqonY1GgLPXHvINQs=
+X-Google-Smtp-Source: AMrXdXtYSiU4n0TYmgVO9g8MAC7ifxaIJggxXu91rWA45yhJI3HXXEp89jGZvhwHH0RALCAtcVwHlQ==
+X-Received: by 2002:a05:600c:4fc2:b0:3d9:f8a1:710d with SMTP id
+ o2-20020a05600c4fc200b003d9f8a1710dmr334800wmq.6.1673891178370; 
+ Mon, 16 Jan 2023 09:46:18 -0800 (PST)
+Received: from [192.168.6.176] (54-240-197-224.amazon.com. [54.240.197.224])
+ by smtp.gmail.com with ESMTPSA id
+ l14-20020a05600c1d0e00b003da105437besm18116801wms.29.2023.01.16.09.46.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 09:46:18 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <2f50be65-e24e-d612-9fa0-53b7f20125de@xen.org>
+Date: Mon, 16 Jan 2023 17:46:15 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=SRS0=IbPF=5N=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v6 20/51] i386/xen: handle VCPUOP_register_vcpu_info
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
+References: <20230110122042.1562155-1-dwmw2@infradead.org>
+ <20230110122042.1562155-21-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230110122042.1562155-21-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,67 +100,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Cédric Le Goater <clg@redhat.com>
+On 10/01/2023 12:20, David Woodhouse wrote:
+> From: Joao Martins <joao.m.martins@oracle.com>
+> 
+> Handle the hypercall to set a per vcpu info, and also wire up the default
+> vcpu_info in the shared_info page for the first 32 vCPUs.
+> 
+> To avoid deadlock within KVM a vCPU thread must set its *own* vcpu_info
+> rather than it being set from the context in which the hypercall is
+> invoked.
+> 
+> Add the vcpu_info (and default) GPA to the vmstate_x86_cpu for migration,
+> and restore it in kvm_arch_put_registers() appropriately.
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   target/i386/cpu.h            |   2 +
+>   target/i386/kvm/kvm.c        |  17 ++++
+>   target/i386/kvm/trace-events |   1 +
+>   target/i386/kvm/xen-emu.c    | 152 ++++++++++++++++++++++++++++++++++-
+>   target/i386/kvm/xen-emu.h    |   2 +
+>   target/i386/machine.c        |  19 +++++
+>   6 files changed, 190 insertions(+), 3 deletions(-)
+> 
 
-Such conditions on Protected Virtualization can now be checked at init
-time. This is possible because Protected Virtualization is initialized
-after memory where the page size is set.
-
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Cédric Le Goater <clg@redhat.com>
----
- hw/s390x/pv.c       | 13 ++++++++++++-
- target/s390x/diag.c |  7 -------
- 2 files changed, 12 insertions(+), 8 deletions(-)
-
-diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index 8405e73a1b..679d860f54 100644
---- a/hw/s390x/pv.c
-+++ b/hw/s390x/pv.c
-@@ -280,9 +280,20 @@ static bool s390_pv_check_cpus(Error **errp)
-     return true;
- }
- 
-+static bool s390_pv_check_hpage(Error **errp)
-+{
-+    if (kvm_s390_get_hpage_1m()) {
-+        error_setg(errp, "Protected VMs can currently not be backed with "
-+                   "huge pages");
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
- static bool s390_pv_guest_check(ConfidentialGuestSupport *cgs, Error **errp)
- {
--    return s390_pv_check_cpus(errp);
-+    return s390_pv_check_cpus(errp) && s390_pv_check_hpage(errp);
- }
- 
- int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-diff --git a/target/s390x/diag.c b/target/s390x/diag.c
-index 9b16e25930..28f4350aed 100644
---- a/target/s390x/diag.c
-+++ b/target/s390x/diag.c
-@@ -170,13 +170,6 @@ out:
-             return;
-         }
- 
--        if (kvm_enabled() && kvm_s390_get_hpage_1m()) {
--            error_report("Protected VMs can currently not be backed with "
--                         "huge pages");
--            env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
--            return;
--        }
--
-         if (!s390_pv_check(&local_err)) {
-             error_report_err(local_err);
-             env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
--- 
-2.39.0
+Reviewed-by: Paul Durrant <paul@xen.org>
 
 
