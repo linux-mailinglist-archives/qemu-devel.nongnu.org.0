@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD42F66B4C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 00:32:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AB4166B505
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 01:51:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHCSd-0008RM-8i; Sun, 15 Jan 2023 18:30:47 -0500
+	id 1pHDhg-0005xt-OE; Sun, 15 Jan 2023 19:50:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pHCSb-0008RE-7I
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 18:30:45 -0500
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e])
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pHDhd-0005xk-Pt
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 19:50:21 -0500
+Received: from sonic317-21.consmr.mail.gq1.yahoo.com ([98.137.66.147])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pHCSZ-0004UC-3b
- for qemu-devel@nongnu.org; Sun, 15 Jan 2023 18:30:44 -0500
-Received: by mail-lj1-x22e.google.com with SMTP id a37so2515172ljq.0
- for <qemu-devel@nongnu.org>; Sun, 15 Jan 2023 15:30:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=9l9v/LuJGzr5NKR+uZ0aJdE/4kM0WgAPzKH1HojAVt8=;
- b=7KOJcVws1wsr4lfe5e/2CrLkGPmCbBXeFZw8OLCh7qIXmEaxBISOPiG9ULCpAkWKV7
- y8sH2QPQDlPDPLilKYB6x57s1yc+yn8b+K8tEZOPWvMutsPEo0/rWw+xcK2pkdKdbrm/
- sm+YXZCZ51dSkqAoEgEWICADphfbqmqxvY7UupGAwZ6Pscsy8oV5Fq9I65sBWh/ecvnV
- arO6iy/omeYcZfhkGOFHp/UxCjCjbTMgQXXY2yOB/ENyBJY331ZrNmjaMFbkHrzZRND0
- QZJShn097r2orMSPB5sWK4HlhDDgvc+qt+B55y49Nikqb9as57k4Bt7okHydSL6C0qsK
- a0ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9l9v/LuJGzr5NKR+uZ0aJdE/4kM0WgAPzKH1HojAVt8=;
- b=L3Z2U/GX73z+JektYKEFv5H9hFH+yR922/JSDi+2SusqFbl8dYlMHAmPmNGtKnJ0tI
- tEAwyP7K4ki/TbtGjATXvrOyoARNlpUZwpt0neQ87P/Rpm/qhDKW0y+6upSrDaOsD8xt
- fFDPCkrcpqQYNvQ3rPuRPY6MZ9KG+JL3YILVxG8P1tNFgIwuFUzm1bFb+I8dBava20YS
- v0z5lnbNlpp5TVx3nW+9Tx5IuBXpwY+4YPPBb7w1zBCFuFApjp/1d/ddApAiAFUOdtSr
- q7mL/sLRyq6om8+BF+QUYi5DNhb8x7bXNK5pJueEVEP5wQ+E9WUiDl6bp+xS468Jd8Mh
- K4uQ==
-X-Gm-Message-State: AFqh2krf1IWWe3HU4lDBjHTvPuNH0CdvAYn+io0v+7VC3nCSzYyT0gZb
- N8sC/giTD+CGwopisNpsg/yJhZEFWXCFPDvMqgDnlA==
-X-Google-Smtp-Source: AMrXdXuNVzF6Xl1CnHLaUmtfe27zI/OJWDBGJRJbz3SziPaSNYPBB3CIDh2zmqPscnFg6tK0e4tFc6xm9FcgxZHoFRI=
-X-Received: by 2002:a05:651c:b1e:b0:280:78f1:8b85 with SMTP id
- b30-20020a05651c0b1e00b0028078f18b85mr1849482ljr.449.1673825440804; Sun, 15
- Jan 2023 15:30:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pHDhb-00071Z-EN
+ for qemu-devel@nongnu.org; Sun, 15 Jan 2023 19:50:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1673830213; bh=ibFGNOOwdw6M80MH6beHNeLDqruvFm3uNMeR3WIAMZU=;
+ h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
+ b=eu6cmlheaBSg1eYrkDKNunia/GFi8SX3nHJbM/2MiHeZj3J4QxZbv9l8hDkRNSFaT+TbiHFsq8opXZjmaELHvoz/hWFIuNHce9mEuaGH1OjTza1Plw2VtowPZqcRnENjNjVfZWQ6zAOAuJE849AXXdjQhauEcJVaweO4Oa7gDqxQlogRWC500BlvxgvMfweZeZg2JXOG0dklNG7AnXNhXtGgGR6p/o26a2WrOEvaJxKBu13OQthLtBpZSo/jOU0MMcH8ASwrB2wtPJiBbYiui9il5A+wTcP/4niPn6esQRvtKXpI9VICQTeVYju2NhnLykNhm6hxqSOe6jVzqwBX3w==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1673830213; bh=ELz/NkAxpMLuwMNt+6DujvwNFFkBqK8dfC4yNNUZCmy=;
+ h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
+ b=dhgCZJ1k9hY82bpS2FpcwJBb99LFcn2iA+mLn6SAvs2b/u1d4bt1gI/F0vcQi8I4urQP95MYWVplICfryO6Fw36NBZTe09Mv2nUt8EhvZQSOWMiRIIXA3HaWixyC0xO3meY55qoYT4FtMefwXDetvL6QmRk3RyWmb7PR3QY215KwxgxzQXnhW22YISRFzyyzbDufzk7qcwI/JbzaFEFp1guA8iOZ3F8Doik8YJjzi36m364TTen+HmqG3iGCkQ0+HV85MiSSEvHWoOomNC1isKBmJzmQakP5l9nXU93BZZf8ebCp2kA5+o+dIFhrbIgZ7bYwDjw7ZfkuR/GVqPHw/A==
+X-YMail-OSG: 9VsewMQVM1k7NdkV7ZuU3RISr6.LkXveOZJ49FbtrqqmuDZeB4e_1gAiqS44FAY
+ KSBqKHbNAiPPT0YG1UNWmdx.ihRFmOPeWxJJsQujHjEN5hK28DHsuv1.L6FkfeCS5RAyemBljkee
+ GUq2nz7GDCLzz7Zds3bSO24V_jsZnHI2RkAYy9TmMLuDndkMUxnGswfk3PTNUpXePSL86keG.13P
+ .2f3GrYumSDNMsTe7fe0XLmvGfiRsjNh14T.qc7UORS8_HmYAvnZbL1zxizki2_Dam.F3jv1XYrM
+ edFKCiCDeIlaFid7As.RN4mhuLBJj34IhTe389QfYdGAWiLjMG25eVOV6qGlDnlfjTwjNR4UJVDI
+ MLCNohOYa2hyzuZBqIFazqcbLH9FBrLFAiufPyNm2OkCvdUDWv05OrcKeMMW1m1IZz6D.vTO926x
+ 1oIRohT3cVqQP0hFBi_6Hfrj6DgXRXVK6v0LE.f5cTpkYfCNtyAuuGbF7IrflgD9JfhF.QEn4vyT
+ a8wSFYlXrgv5yDbWt60WD0O_8H2a0AcYIeMqEcq1bBbwPX.iLdbP62iUeh28bq6sUJlTriC8ICnY
+ mBMFgNaH7NDdbix7xTrAKRN3MjTG3silyAdB8D81bSB0Z4puq09xUpPN41UnvhfTHb76UNfSsfwn
+ eUFQwak9msvSFUHYD8LSDESj_h21qdaKqre8jyZ0Xefnifw_XCaeXgjYBt_lp9z9kyalmH3PZk2k
+ vUos3CDYbFavE4xInH616UBBYVqa58xAI3UFIySCTYIj0l6ru.t8L5Fqd0UBPNqNsJQiDznv5f_x
+ npiCGhQN4ycuFe5Now9jdjyfK0ES65i5l9.TrjR2J5pyrsW3OI6.HrFC5996koQuABd8988P3E9F
+ tasm3w.S7Ucl1UlUBEHfLVC.z5WtC9RsQaDyzJ23vv.zIm_GJ68OrrfOXRLXBIqCfynaUvY8VzB_
+ Bi4l25wuUOx2IFF9DuQwyyWSlnfW3JJx6F1ceG2TqTUB6nJouNMIzmHqgkvUo.xx2w1eib1sxo8_
+ ptYKNfAxDIB.DGlBUeVP1HuvT.gY0yFv7X17l34H7BQEn0pqIUCeRApV3pW1u2jANvJN.pMQ_qdK
+ eDh3IOkVA4laADrLpPxeCg7L7QcMCYS.dKWp_krwlabVvBtrrBT95NNcy9YJOBuFdhLHGgLqU.OT
+ 4d77Spugu4kfF5BmDZ.eXobMbiiDNWN7v1zmCNvDjMgeW0crDcMvpzPFtLO52Z5Qg6e6Y6b90M21
+ Gxw2O2H_ahM60KjGq.JGOZhLuvlO72FSwpc8jnFaIf5TqS2V0BYAWnFXtSYPUwP36mrsfSSkuj_c
+ htiTyMKZ3HOxQcpia5I1CoiOFXHpKhNdNnG.A85VWx3mg5LQcCUh.jhfXhQcSdXjWcojSgV_hbPQ
+ dG44UoVVyJhqfGv07D69TX0QC5KplH44Zha6d0eFTvYa.ZO2A9YXh5Rhs1.EBxm1d5yATYhXf1TX
+ qKRbwKlqtjYpwo9gcO6XmM.Ya2dabea9D87V0JY.VgElNKjRzpRY95TuJB0knltwWLXBKkl4DAJR
+ uT63q2StP9alcJkLPx7a93q6TgOe1zLZhLW._Fgc7KQ_hKicj2Lv2itFJ.w79YF5kQ4fpP0Hlvae
+ ip2f2VTbA9.UOC_zzwynWcc_.fIqVn2bTHp2LliP.OvFaUXZgq2_aii07JcALHJ0dmXei4rVIO0R
+ diUClLrFZrsIvPULKvCQuXRdCSnMLLAsjidr.iV.ERzQzjr6iunPMCjElp3_9lob1MxhbEUD4UAS
+ IALsKVXsD.o41CVFYj2aPW5Om08.427ycZG3DG3jprhQqGBavkZjGQMHjz0xVavu0ZCX2C.Ywoga
+ KYm477B4vWTAlNHcIEgjg9brucQupvbiQ.bFkXDK2XUuZojLQDOMGhLU2v4inc4FdeyJbxvfTsw3
+ FWOhitmXQc1pqF.RkvAf5p3ToZgnCL0DUs2giGVu1pXHUTp10lMWV8VgpwKS3iduq_nx4vGdQ.zD
+ EubUri2y1M9mj0UTEf73F1zRCFLbHqA0m.JKAIhW9TWo2EfQGBA4qAtIV2LPiRC2o64kmkw6fcmq
+ 81OMs5VxZum0vhtEIN5JUcqt52hcoRVmKj.20qub7kVYwvzUgmPE7gzILxt57MHJ3XB2HEbNkosn
+ 8gZq0y8ph0xMLFgJliJxEH8dpMsXyrxfhF4KJHpojTpwad0MByNUa5_GzZqMer6IXi0IovpLA.3U
+ -
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic317.consmr.mail.gq1.yahoo.com with HTTP; Mon, 16 Jan 2023 00:50:13 +0000
+Received: by hermes--production-ne1-5648bd7666-vj7sg (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 7857e29737ffe173032d857030ea308b; 
+ Mon, 16 Jan 2023 00:50:10 +0000 (UTC)
+From: Chuck Zmudzinski <brchuckz@aol.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH] pci: add enforce_slot_reserved_mask_manual property
+Date: Sun, 15 Jan 2023 19:49:51 -0500
+Message-Id: <ad5f5cf8bc4bd4a720724ed41e47565a7f27adf5.1673829387.git.brchuckz@aol.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20221129081037.12099-1-jasowang@redhat.com>
-In-Reply-To: <20221129081037.12099-1-jasowang@redhat.com>
-From: Viktor Prutyanov <viktor@daynix.com>
-Date: Mon, 16 Jan 2023 02:30:29 +0300
-Message-ID: <CAPv0NP74wPer5uqrWYh8EeFO_YSATNuo5UpADD2QrE34=FwkrQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Fix UNMAP notifier for intel-iommu
-To: Jason Wang <jasowang@redhat.com>
-Cc: mst@redhat.com, peterx@redhat.com, qemu-devel@nongnu.org, 
- eric.auger@redhat.com, Yan Vugenfirer <yvugenfi@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::22e;
- envelope-from=viktor@daynix.com; helo=mail-lj1-x22e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+References: <ad5f5cf8bc4bd4a720724ed41e47565a7f27adf5.1673829387.git.brchuckz.ref@aol.com>
+Received-SPF: pass client-ip=98.137.66.147; envelope-from=brchuckz@aim.com;
+ helo=sonic317-21.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,47 +97,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 29, 2022 at 11:10 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> Hi All:
->
-> According to ATS, device should work if ATS is disabled. This is not
-> correctly implemented in the current intel-iommu since it doesn't
-> handle the UNMAP notifier correctly. This breaks the vhost-net +
-> vIOMMU without dt.
->
-> The root casue is that the when there's a device IOTLB miss (note that
-> it's not specific to PCI so it can work without ATS), Qemu doesn't
-> build the IOVA tree, so when guest start an IOTLB invalidation, Qemu
-> won't trigger the UNMAP notifier.
->
-> Fixing by build IOVA tree during IOMMU translsation.
->
-> Thanks
->
-> Jason Wang (3):
->   intel-iommu: fail MAP notifier without caching mode
->   intel-iommu: fail DEVIOTLB_UNMAP without dt mode
->   intel-iommu: build iova tree during IOMMU translation
->
->  hw/i386/intel_iommu.c | 58 ++++++++++++++++++++++++-------------------
->  1 file changed, 33 insertions(+), 25 deletions(-)
->
-> --
-> 2.25.1
->
+The current reserved slot check in do_pci_register_device(), added with
+commit 8b8849844fd6, is done even if the pci device being added is
+configured manually for a particular slot. The new property, when set
+to false, disables the check when the device is configured to request a
+particular slot. This allows an administrator or management tool to
+override slot_reserved_mask for a pci device by requesting a particular
+slot for the device. The new property is initialized to true which
+preserves the existing behavior of slot_reserved_mask by default.
 
-Hi Jason,
+Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+---
+ hw/pci/pci.c             | 9 ++++++++-
+ include/hw/pci/pci_bus.h | 1 +
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-I've tried the series with Windows Server 2022 guest with vhost and
-intel-iommu (device-iotlb=off) and now networking on this system has
-become working.
-So, as we discussed, I'm waiting for the series to be accepted in some
-form to continue my work about supporting guests who refuse Device-TLB
-on systems with device-iotlb=on.
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index c2fb88f9a3..5e15f08036 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -467,6 +467,7 @@ static void pci_root_bus_internal_init(PCIBus *bus, DeviceState *parent,
+     assert(PCI_FUNC(devfn_min) == 0);
+     bus->devfn_min = devfn_min;
+     bus->slot_reserved_mask = 0x0;
++    bus->enforce_slot_reserved_mask_manual = true;
+     bus->address_space_mem = address_space_mem;
+     bus->address_space_io = address_space_io;
+     bus->flags |= PCI_BUS_IS_ROOT;
+@@ -1074,6 +1075,12 @@ static bool pci_bus_devfn_reserved(PCIBus *bus, int devfn)
+     return bus->slot_reserved_mask & (1UL << PCI_SLOT(devfn));
+ }
+ 
++static bool pci_bus_devfn_reserved_manual(PCIBus *bus, int devfn)
++{
++    return bus->enforce_slot_reserved_mask_manual &&
++            (bus->slot_reserved_mask & (1UL << PCI_SLOT(devfn)));
++}
++
+ /* -1 for devfn means auto assign */
+ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
+                                          const char *name, int devfn,
+@@ -1107,7 +1114,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
+                    "or reserved", name);
+         return NULL;
+     found: ;
+-    } else if (pci_bus_devfn_reserved(bus, devfn)) {
++    } else if (pci_bus_devfn_reserved_manual(bus, devfn)) {
+         error_setg(errp, "PCI: slot %d function %d not available for %s,"
+                    " reserved",
+                    PCI_SLOT(devfn), PCI_FUNC(devfn), name);
+diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
+index 5653175957..e0f15ee9be 100644
+--- a/include/hw/pci/pci_bus.h
++++ b/include/hw/pci/pci_bus.h
+@@ -37,6 +37,7 @@ struct PCIBus {
+     void *iommu_opaque;
+     uint8_t devfn_min;
+     uint32_t slot_reserved_mask;
++    bool enforce_slot_reserved_mask_manual;
+     pci_set_irq_fn set_irq;
+     pci_map_irq_fn map_irq;
+     pci_route_irq_fn route_intx_to_irq;
+-- 
+2.39.0
 
-Tested-by: Viktor Prutyanov <viktor@daynix.com>
-
-Best regards,
-Viktor Prutyanov
 
