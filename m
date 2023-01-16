@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0679166B9FE
+	by mail.lfdr.de (Postfix) with ESMTPS id D36DC66B9FF
 	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 10:15:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHLZc-0006Bh-1o; Mon, 16 Jan 2023 04:14:36 -0500
+	id 1pHLZw-0006hm-9J; Mon, 16 Jan 2023 04:14:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHLZZ-00066A-64
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:14:33 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHLZt-0006hJ-Dl
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:14:53 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHLZX-0002CC-Cu
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:14:32 -0500
-Received: by mail-wr1-x432.google.com with SMTP id b7so798592wrt.3
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 01:14:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHLZs-0002EW-0W
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:14:53 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id e3so17576803wru.13
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 01:14:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Ts0+v2g6a9WlIYhl0xyu4Mnd9HfKJPQBTFknNaZ+Z7U=;
- b=PuQQqIOK3Bya/UJRpu/uVWgrosj/j8XpATXrRnG4CmsbBYfzUSQfn1t3kAi06q97Wv
- cv9hOIcVBJXqNOVc9fih/yedUH32Q0VqEU4VXfZTHlrn6Y868Hf9dI10vdneUhmCWrDj
- voxcvvdYg13bPx1EMSMKF0LwOLJiXJAmNpa3+2w7NJdnDfeneTuXyajYhB+E1h/YEsho
- y1aZvee7RXliitrEzoskpE1/6L/emGhkLFGnX2jUQliGopdAUMmNCMzvnVNd7JT341HA
- NS4Tk0Zip2rPlNW+x1S0H8Rx9xGbsPIUHw2JFLuPy5MgyaindqMkA0H/+7R8YSYNql17
- c4Jw==
+ bh=Is/NQskLh7di5gawlQWD9gHhbFmqF1TTwh6ZV+ZZdQo=;
+ b=yyRefnh/Dm/vKfNi8z67G7WyZDQjcQBSkPd78aBK8OhOVAgLKPHQTy8nvJlfRsq9Cq
+ aA+PWyDHLwwuwzt8rJqMi0JCV4NFLdpSvzZtS3TX/gHuOBnnBrSlYmyUzTbhFBG7H1xP
+ 1A1JbRMm31J/AK7ZB2xFBwd2oy+uU6L4Y0e50EwlhJ449eKw5+y+EJrrDQDmIkvjEJz3
+ OEsKEjo+nFgCnY8ERdWJKQpR9c3/wWRZwo7VNsmrvvqMZNvBkCy3YfVcNIj6967zSYle
+ T7+G1jsnjY1iFv9dBPsge0d1LDUaxu2AaFfZ8xmqPzOur0LID/xoBLiuQPmMLIZApCjj
+ cu1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ts0+v2g6a9WlIYhl0xyu4Mnd9HfKJPQBTFknNaZ+Z7U=;
- b=V+BxS8UpBl5X/kD4EGM9DMR4XjP7knTxcfzAUOMh8Wmhw9X1yytAfsRAwUsj7kH6dH
- WykPvZvvYIQMz8WuKjobpE9gdrtS9bE1ce9pO9cZYy+lyaXJyMnyhdbu1EvGUeKQn7Lb
- WLsUF+l9GueUzWU4kB/6sgqV71uphpCtOYaKBhMl/V71cCOrKq7FPgpdtq+UEDpIEOpz
- qpw0oYFsRXU6o0vjkhTsDMj8Ng+PizkwK56K+1s/QZ99b8GKnc4dl/kkzqxKvwypUaMD
- +hs3tRRgjcp8ZTJerznu6EnlljGAfOMfLb9Fjv73vFTfnCWXBF80i1CpPKo7OJkcn2Wo
- Iirg==
-X-Gm-Message-State: AFqh2krfpwVYmAqCsR3k0kgsKOcaGE6YtGnc2jJXKsfOK+qHhFhwmq4n
- 0FRadQY9Aua4rRvwdpXnH+eoNA==
-X-Google-Smtp-Source: AMrXdXsNN4UzrmeJckr/jSERqrsx/RZg9DZzFGY1Wv1ZnckM+gZseoSe7UwRLGWyeSu3fRL1ZrQ6Bw==
-X-Received: by 2002:adf:da50:0:b0:242:6777:bfa0 with SMTP id
- r16-20020adfda50000000b002426777bfa0mr60781049wrl.53.1673860469896; 
- Mon, 16 Jan 2023 01:14:29 -0800 (PST)
+ bh=Is/NQskLh7di5gawlQWD9gHhbFmqF1TTwh6ZV+ZZdQo=;
+ b=ElBDk4jru3MJrUOaEH9r/26D7TpXB8OPINlFnd4GQYjxDIbyK9fPbSCy53457Jufwg
+ HEV6+CWSFWRXBnlPsAVQrhXKVe4sQzsUqrpYdsf9tpBAR3ptX2Zqqv5V+wVwIgkZondV
+ /xinVeb/1WKb2i1UPOhmCi84yZCzpVhXy30gNZ3OBa47eIhpFsWA3CC+v090yOlZYXyB
+ WWCEUbHw7ekFdkIui1sSg6GPx1PAO8ywfXiC4utLkFoxFNrI4xuRqMyGXrgMSfD2b2Ua
+ OyC4KSuZQh1NsdU7nJbB3nyBw8OyTXh30gkF67X5gWCoG3HjQBv6DukIJqEBvsWgY4gw
+ 7Tlw==
+X-Gm-Message-State: AFqh2koaDe8moaGQFyIEFOqtB48wlamaTZXlARqzuqVhLYtkNSDe9Wun
+ JF+3kdsoZ1YpHUw6WS2PVJBCBw==
+X-Google-Smtp-Source: AMrXdXur6pptwQmgx8IfZD9zU4S2gJKSNHEsskCCHAFeHifAzKW7QgFTQwYQXIp2GZfz2SDvfrVSKA==
+X-Received: by 2002:a05:6000:18ca:b0:244:48b3:d138 with SMTP id
+ w10-20020a05600018ca00b0024448b3d138mr54158141wrq.54.1673860490525; 
+ Mon, 16 Jan 2023 01:14:50 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m15-20020adffe4f000000b002bdd155ca4dsm11357294wrs.48.2023.01.16.01.14.28
+ i10-20020adff30a000000b0024228b0b932sm31075221wro.27.2023.01.16.01.14.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 01:14:29 -0800 (PST)
-Message-ID: <7ba3aa3e-9cb4-e092-9768-7b14da49f2b1@linaro.org>
-Date: Mon, 16 Jan 2023 10:14:28 +0100
+ Mon, 16 Jan 2023 01:14:50 -0800 (PST)
+Message-ID: <5d15457d-e8f6-841b-7274-6ff74e1a425e@linaro.org>
+Date: Mon, 16 Jan 2023 10:14:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 6/7] hw/i386/acpi-microvm: Reuse qbus_build_aml()
+Subject: Re: [PATCH 7/7] hw/isa/isa-bus: Remove now unused isa_build_aml()
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -67,13 +67,13 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 References: <20230114222738.282478-1-shentey@gmail.com>
- <20230114222738.282478-7-shentey@gmail.com>
+ <20230114222738.282478-8-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230114222738.282478-7-shentey@gmail.com>
+In-Reply-To: <20230114222738.282478-8-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,10 +99,11 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 14/1/23 23:27, Bernhard Beschow wrote:
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/i386/acpi-microvm.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   include/hw/isa/isa.h |  1 -
+>   hw/isa/isa-bus.c     | 10 ----------
+>   2 files changed, 11 deletions(-)
 
-Possibly squash with next patch, regardless:
+Possibly squash with previous patch, regardless:
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
