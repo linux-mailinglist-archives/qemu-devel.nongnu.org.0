@@ -2,111 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5BE566C79D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 17:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F6066C846
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 17:37:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHSPH-0005yg-5K; Mon, 16 Jan 2023 11:32:23 -0500
+	id 1pHSTO-0008CD-TZ; Mon, 16 Jan 2023 11:36:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pHSP9-0005xy-WD; Mon, 16 Jan 2023 11:32:20 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pHSP7-0002Vm-Qg; Mon, 16 Jan 2023 11:32:15 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30GFDiGs026129; Mon, 16 Jan 2023 16:32:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=tVI9EAsN9kaytG1g3mmpmWp4KiinemPMHgTulbCO3AM=;
- b=SGGeayAidXksdFboCzlm9ppCrwM99bGxaerWgIOM6b4LAX5divNdAf3POFX+jSLycgHX
- iVhMxU/gV7KiBl1H0VBLtADvnNqJP0pmopx10wSZClPJMHAOz9bS1TE6TtSSOPLdyC6B
- GXvTVPwhPD0d0r+tEfNAuiCVRPv5dcNUr17g71VMFVVKmksmfapMMZ0t5fna+HvEvFm/
- mJFy1czauQcvc4Fd7MLLJ7ON/TQ2b19FnZy8157jo/C+fKvlLJv0fBgvceMndodYdSH6
- IqqJeS7FMatdccdundgGNowdSHyQy23c1gpYq3/k71qL4J9ke/2B4/jXpWKz+mPDbBY9 iA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n58x1sxj2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Jan 2023 16:32:10 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30GGE3ue010940;
- Mon, 16 Jan 2023 16:32:09 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n58x1sxha-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Jan 2023 16:32:09 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30GC63g6010590;
- Mon, 16 Jan 2023 16:32:07 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3n3knf9y7u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Jan 2023 16:32:07 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30GGW4Ai23855600
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 16 Jan 2023 16:32:04 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E357720043;
- Mon, 16 Jan 2023 16:32:03 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 86E7820040;
- Mon, 16 Jan 2023 16:32:02 +0000 (GMT)
-Received: from [9.179.28.129] (unknown [9.179.28.129])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 16 Jan 2023 16:32:02 +0000 (GMT)
-Message-ID: <619b3ebd-094a-cd8b-697c-de08ba788978@linux.ibm.com>
-Date: Mon, 16 Jan 2023 17:32:02 +0100
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pHSTM-0008Bx-Vy
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 11:36:37 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pHSTL-00036y-3Q
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 11:36:36 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ h12-20020a05600c314c00b003da50afcb33so4064019wmo.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 08:36:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=EF298z8dTNKQred1oJjmsY04jhdPKq20HE7AcwqH33A=;
+ b=ocsY3WWVnFOYL6BnhpABoM7yw4AcB7X6GBil1PyahtE16LHBEylvNnURwXn67iD4P3
+ ULHMObNjd113F8h1pqH7G6zkAvFPp4trF0IYPbEJehj4AL7NcBo3dDdua77x6y41bUDx
+ gLiVso+7aimCic1B3+AbgeGS73z9JQAYJy+l7rHM+sDEh1k9Jt0hr+QvrZlAWrcQ34x9
+ iw0vhjwVP+EHWBKCsGyZDun7AvZxtt1S51e1nBQfEeRlZj5G/ftKxNHgqcPpAMiVYiLg
+ jP8CqMO3RmaZxcLZDfrMv1ldkSuPUMRT6BwevCp/kOShl3J4WdnSYnmfhYUxGEBJ4isZ
+ E8Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EF298z8dTNKQred1oJjmsY04jhdPKq20HE7AcwqH33A=;
+ b=jEKPIQQPP9e5r87+VG5+8xcGgsF6bQcWYRIwwNgcJ2HzUfLVWg1LcMnYPkPV33cYuS
+ 3mv8deLIY2ItS5D2dQDPwCiCn1qhJkkDPbGML4QIaRDPLDF5OlLo6CFslj6yUI2pU3Ho
+ zgEZ9ZwdbvpZtG0Nyw+9RMEDF4dsURXW9rgvs/HBYCK7VBea43ySRsoXpYEg/KFDOWsA
+ QPjy8XVz6mKcjVsf6/BvbecsE9pxTuS8jE5bsxZc4Kzq5aou89UVjsDI0XuL6QjXXny8
+ EgB8VQvL7i1KYlKVgPQuomaZwqAZFAnegMJMqy6NiFndcwIoba+5wBmRgTVZF6pl1yoB
+ FqeA==
+X-Gm-Message-State: AFqh2kpKVzZi6HlImgslZy7uOB4mLfsc0l7my1LiTDO3nspumtozaSOJ
+ 2/be22st2PtBpm6isbG2e0hqPgqE5UPF1A==
+X-Google-Smtp-Source: AMrXdXuFs8HE6x4L6gVTCgmfXL+sM7dpRgjdNJkWYCqM4yimh2VN6iQL9CuQvX6+c31krVMq5KP/zw==
+X-Received: by 2002:a05:600c:33a8:b0:3d9:ed3b:5b3e with SMTP id
+ o40-20020a05600c33a800b003d9ed3b5b3emr112548wmp.19.1673886993472; 
+ Mon, 16 Jan 2023 08:36:33 -0800 (PST)
+Received: from [192.168.6.176] (54-240-197-232.amazon.com. [54.240.197.232])
+ by smtp.gmail.com with ESMTPSA id
+ s18-20020adfecd2000000b002bdfcd8c77csm4507833wro.101.2023.01.16.08.36.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 08:36:33 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <e50250ab-feee-1c11-df8f-478d1314600a@xen.org>
+Date: Mon, 16 Jan 2023 16:36:30 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v14 01/11] s390x/cpu topology: adding s390 specificities
- to CPU topology
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v6 12/51] i386/xen: Implement SCHEDOP_poll and
+ SCHEDOP_yield
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
- clg@kaod.org
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-2-pmorel@linux.ibm.com>
- <49d343fb-f41d-455a-8630-3db2650cfcd5@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <49d343fb-f41d-455a-8630-3db2650cfcd5@redhat.com>
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
+References: <20230110122042.1562155-1-dwmw2@infradead.org>
+ <20230110122042.1562155-13-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20230110122042.1562155-13-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Hjp5CQi-cs_boEVNCUrg63UawaPnD7Co
-X-Proofpoint-ORIG-GUID: xgM21hBMv1IACzSagf57wMhzczTyVyJz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-16_13,2023-01-13_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- lowpriorityscore=0 malwarescore=0 adultscore=0 phishscore=0
- priorityscore=1501 bulkscore=0 mlxlogscore=999 spamscore=0 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301160120
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,126 +102,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 1/10/23 12:37, Thomas Huth wrote:
-> On 05/01/2023 15.53, Pierre Morel wrote:
->> S390 adds two new SMP levels, drawers and books to the CPU
->> topology.
->> The S390 CPU have specific toplogy features like dedication
->> and polarity to give to the guest indications on the host
->> vCPUs scheduling and help the guest take the best decisions
->> on the scheduling of threads on the vCPUs.
->>
->> Let us provide the SMP properties with books and drawers levels
->> and S390 CPU with dedication and polarity,
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
-> ...
->> diff --git a/qapi/machine.json b/qapi/machine.json
->> index b9228a5e46..ff8f2b0e84 100644
->> --- a/qapi/machine.json
->> +++ b/qapi/machine.json
->> @@ -900,13 +900,15 @@
->>   # a CPU is being hotplugged.
->>   #
->>   # @node-id: NUMA node ID the CPU belongs to
->> -# @socket-id: socket number within node/board the CPU belongs to
->> +# @drawer-id: drawer number within node/board the CPU belongs to
->> +# @book-id: book number within drawer/node/board the CPU belongs to
->> +# @socket-id: socket number within book/node/board the CPU belongs to
+On 10/01/2023 12:20, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> I think the new entries need a "(since 8.0)" comment (similar to die-id 
-> and cluster-id below).
-
-right
-
+> They both do the same thing and just call sched_yield. This is enough to
+> stop the Linux guest panicking when running on a host kernel which doesn't
+> intercept SCHEDOP_poll and lets it reach userspace.
 > 
-> Other question: Do we have "node-id"s on s390x? If not, is that similar 
-> to books or drawers, i.e. just another word? If so, we should maybe 
-> rather re-use "nodes" instead of introducing a new name for the same thing?
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 
-We have theoretically nodes-id on s390x, it is the level 5 of the 
-topology, above drawers.
-Currently it is not used in s390x topology, the maximum level returned 
-to a LPAR host is 4.
-I suppose that it adds a possibility to link several s390x with a fast 
-network.
+Reviewed-by: Paul Durrant <paul@xen.org>
 
+... with some observations...
+
+> ---
+>   target/i386/kvm/xen-emu.c | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
 > 
->>   # @die-id: die number within socket the CPU belongs to (since 4.1)
->>   # @cluster-id: cluster number within die the CPU belongs to (since 7.1)
->>   # @core-id: core number within cluster the CPU belongs to
->>   # @thread-id: thread number within core the CPU belongs to
->>   #
->> -# Note: currently there are 6 properties that could be present
->> +# Note: currently there are 8 properties that could be present
->>   #       but management should be prepared to pass through other
->>   #       properties with device_add command to allow for future
->>   #       interface extension. This also requires the filed names to 
->> be kept in
->> @@ -916,6 +918,8 @@
->>   ##
->>   { 'struct': 'CpuInstanceProperties',
->>     'data': { '*node-id': 'int',
->> +            '*drawer-id': 'int',
->> +            '*book-id': 'int',
->>               '*socket-id': 'int',
->>               '*die-id': 'int',
->>               '*cluster-id': 'int',
->> @@ -1465,6 +1469,10 @@
->>   #
->>   # @cpus: number of virtual CPUs in the virtual machine
->>   #
->> +# @drawers: number of drawers in the CPU topology
->> +#
->> +# @books: number of books in the CPU topology
->> +#
-> 
-> These also need a "(since 8.0)" comment at the end.
+> diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
+> index 5f2b55ef10..80005ea527 100644
+> --- a/target/i386/kvm/xen-emu.c
+> +++ b/target/i386/kvm/xen-emu.c
+> @@ -227,6 +227,18 @@ static bool kvm_xen_hcall_sched_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+>           err = schedop_shutdown(cs, arg);
+>           break;
+>   
+> +    case SCHEDOP_poll:
+> +        /*
+> +         * Linux will panic if this doesn't work. Just yield; it's not
+> +         * worth overthinking it because wWith event channel handling
 
-right again, I will add this.
+Typo 'wWith'. Also possibly worth mentioning that the reason a yield is 
+ok is because the semantics of the hypercall allow for spurious wake-up.
 
-> 
->>   # @sockets: number of sockets in the CPU topology
->>   #
->>   # @dies: number of dies per socket in the CPU topology
->> @@ -1481,6 +1489,8 @@
->>   ##
->>   { 'struct': 'SMPConfiguration', 'data': {
->>        '*cpus': 'int',
->> +     '*drawers': 'int',
->> +     '*books': 'int',
->>        '*sockets': 'int',
->>        '*dies': 'int',
->>        '*clusters': 'int',
-> ...
->> diff --git a/qemu-options.hx b/qemu-options.hx
->> index 7f99d15b23..8dc9a4c052 100644
->> --- a/qemu-options.hx
->> +++ b/qemu-options.hx
->> @@ -250,11 +250,13 @@ SRST
->>   ERST
->>   DEF("smp", HAS_ARG, QEMU_OPTION_smp,
->> -    "-smp 
->> [[cpus=]n][,maxcpus=maxcpus][,sockets=sockets][,dies=dies][,clusters=clusters][,cores=cores][,threads=threads]\n"
->> +    "-smp 
->> [[cpus=]n][,maxcpus=maxcpus][,drawers=drawers][,books=books][,sockets=sockets][,dies=dies][,clusters=clusters][,cores=cores][,threads=threads]\n"
-> 
-> This line now got too long. Please add a newline inbetween.
+> +         * in KVM, the kernel will intercept this and it will never
+> +         * reach QEMU anyway.
+> +         */
+> +    case SCHEDOP_yield:
+> +        sched_yield();
+> +        err = 0;
+> +        break;
+> +
+>       default:
+>           return false;
+>       }
 
-OK
-
-Thanks.
-
-Regards,
-Pierre
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
