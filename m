@@ -2,70 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A3A566C2A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 15:47:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C08E966C2DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 15:55:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHQke-0007al-Qz; Mon, 16 Jan 2023 09:46:20 -0500
+	id 1pHQre-0003tr-V8; Mon, 16 Jan 2023 09:53:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1pHQkc-0007ac-NC
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 09:46:18 -0500
-Received: from forwardcorp1a.mail.yandex.net
- ([2a02:6b8:c0e:500:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1pHQkY-0000T1-D3
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 09:46:18 -0500
-Received: from vla5-b2806cb321eb.qloud-c.yandex.net
- (vla5-b2806cb321eb.qloud-c.yandex.net
- [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id E5C7B5FD80;
- Mon, 16 Jan 2023 17:46:00 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:0:419:c1d0:d54a:1035:6564] (unknown
- [2a02:6b8:0:419:c1d0:d54a:1035:6564])
- by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- xjkwM20WP8c1-FYQqwq9H; Mon, 16 Jan 2023 17:45:59 +0300
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1673880359; bh=WWOS22INXw4ftfydHMidI8MFjcUrqjDhLBYycWtQHMo=;
- h=In-Reply-To:Cc:Date:References:To:Subject:Message-ID:From;
- b=Eao/M4+3lKc+6iGV55KdH3H6vNtk9oj/52OZG5YoMEbYRcAkSFEwDohcNgTZVMdQP
- fslbo4OgbLhh5X2TuFTZRUeVR7wVQ2uLtXiacrBFKhW3o6+owUdDaCU4htql15hUcK
- iIJ9ngptUbkBbWQ9oMRLn+JA4ppPhzW8RIP9lvBQ=
-Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Content-Type: multipart/alternative;
- boundary="------------Tt9Rna96Re1pIzMJM3qMh3q7"
-Message-ID: <8c2a7b77-9008-1a77-1e1b-54a72afe20de@yandex-team.ru>
-Date: Mon, 16 Jan 2023 17:45:59 +0300
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHQrc-0003tJ-Nm
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 09:53:32 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHQra-0001p8-11
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 09:53:32 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ k22-20020a05600c1c9600b003d1ee3a6289so22326833wms.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 06:53:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Hem6wnvQ3CEm68NySn+4t0ECXW7yQAyXLFCo1Lh2W8g=;
+ b=g/yDMSNn/dmercp4Cwm9+FeUHp+sLtF6ZP2T+6Ld4mtOj2ZgM0ig1gKZGBwKIC81vf
+ nBWfbgaUmr727xeJ+Kc8azC3PcJnkTNzI7ytJHCh9jVMVu5GYm1JCwI6aaqLv5UTQHu4
+ KrzDg/87XavjBiUX1i3FJJVbt4EBj4WRRG3xNXVYKFvD9OXM4rAIXfNbjFr09xbi2BrB
+ 7KmLL2niYrl3a9Y86a5Xkm/PweOSowcdtQZuJy2joujum39nkOyB1pfU4qZ7mRxhnneB
+ LCXFOSlP9O1a3/q6jkYbDyrDcuWVqzkYpInSvCU3H3RmVOsc8rmSEM2rV7GDZR1kFaUK
+ it4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Hem6wnvQ3CEm68NySn+4t0ECXW7yQAyXLFCo1Lh2W8g=;
+ b=We6LJdllRd5/GP0CdRnfQnr5Fg/cZhpsVsGpmm+yOFzFYb0bkQE530pMn5HgDf2ocX
+ Fwr0ZiDYNBmGT1/cPEF5Cvc00EhpgG8ozd0QV/bkKMDdkPoKeKWjXM3X7PPQ3syodliM
+ l3R8E/dAfhvMUJcZ3xiKfCDL++khXfMyS4Eio5FLgTassywWqyvW2UYjyA9vBU/HDnSp
+ IYxsoA7KYCb6H19HjDl0tZJXjQtITRsMV4Jh8iURvuSQnKl4IuxpQZI5T92NfrVM3lMG
+ 21wQeWLtMb38QBLiit1GyqiKNDOBpR3s4uN5DiJmZmFAN9omL0kf8T39X4v9S8zyp43S
+ Wouw==
+X-Gm-Message-State: AFqh2kolXf54CylMHfVpurF1Uh6gx9uDNkqgIIG7lOwljbzCA42heNaI
+ Dzz1fCMsAqm9X090glhBObwcWQ==
+X-Google-Smtp-Source: AMrXdXsFipP98xBIbFzk+MVLIWI+4uw4thQnDRn8EZ8BH+HlsHt2Xp+y9hPoKsDSziJha4TEBLDI2Q==
+X-Received: by 2002:a05:600c:1c01:b0:3da:fc07:5e80 with SMTP id
+ j1-20020a05600c1c0100b003dafc075e80mr3174437wms.12.1673880808286; 
+ Mon, 16 Jan 2023 06:53:28 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ d6-20020a05600c3ac600b003da0dc39872sm16422158wms.6.2023.01.16.06.53.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Jan 2023 06:53:27 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 488F51FFB7;
+ Mon, 16 Jan 2023 14:53:26 +0000 (GMT)
+References: <20230110132700.833690-1-marcandre.lureau@redhat.com>
+ <20230110132700.833690-9-marcandre.lureau@redhat.com>
+ <87bkmyvljj.fsf@linaro.org>
+ <CAMxuvawwnEo_KwbEWUTMWdnwFS83h_wv1vMpZeyrUt_nCt4aOA@mail.gmail.com>
+User-agent: mu4e 1.9.14; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: qemu-devel@nongnu.org, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>, John
+ Snow <jsnow@redhat.com>, kraxel@redhat.com, Beraldo Leal
+ <bleal@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ pbonzini@redhat.com, Eric Farman <farman@linux.ibm.com>, David Hildenbrand
+ <david@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Markus Armbruster <armbru@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ thuth@redhat.com, Halil Pasic <pasic@linux.ibm.com>, Michael Roth
+ <michael.roth@amd.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Ed Maste <emaste@freebsd.org>
+Subject: Re: [PATCH v4 8/8] lcitool: drop texinfo from QEMU
+ project/dependencies
+Date: Mon, 16 Jan 2023 14:52:38 +0000
+In-reply-to: <CAMxuvawwnEo_KwbEWUTMWdnwFS83h_wv1vMpZeyrUt_nCt4aOA@mail.gmail.com>
+Message-ID: <87k01medjt.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: [PING] [PATCH v4] qapi/qmp: Add timestamps to qmp command responses
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: yc-core@yandex-team.ru, armbru@redhat.com, michael.roth@amd.com,
- vsementsov@yandex-team.ru, berrange@redhat.com, marcandre.lureau@gmail.com
-References: <20221101153728.101085-1-den-plotnikov@yandex-team.ru>
- <02b43d21-e9a4-45e4-ab80-3737993a398f@yandex-team.ru>
-Content-Language: en-US
-In-Reply-To: <02b43d21-e9a4-45e4-ab80-3737993a398f@yandex-team.ru>
-Received-SPF: pass client-ip=2a02:6b8:c0e:500:1:45:d181:df01;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,620 +111,426 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------Tt9Rna96Re1pIzMJM3qMh3q7
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
 
-On 10.01.2023 13:32, Denis Plotnikov wrote:
+> Hi
 >
-> [ping]
+> On Mon, Jan 16, 2023 at 2:08 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
 >
-> On 01.11.2022 18:37, Denis Plotnikov wrote:
->> Add "start" & "end" time values to QMP command responses.
->>
->> These time values are added to let the qemu management layer get the exact
->> command execution time without any other time variance which might be brought
->> by other parts of management layer or qemu internals.
->> This helps to look for problems poactively from the management layer side.
->> The management layer would be able to detect problem cases by calculating
->> QMP command execution time:
->> 1. execution_time_from_mgmt_perspective -
->>         execution_time_of_qmp_command > some_threshold
->>     This detects problems with management layer or internal qemu QMP command
->>     dispatching
->> 2. current_qmp_command_execution_time > avg_qmp_command_execution_time
->>     This detects that a certain QMP command starts to execute longer than
->>     usual
->> In both these cases more thorough investigation of the root cases should be
->> done by using some qemu tracepoints depending on particular QMP command under
->> investigation or by other means. The timestamps help to avoid excessive log
->> output when qemu tracepoints are used to address similar cases.
->>
->> Example of result:
->>
->>      ./qemu/scripts/qmp/qmp-shell /tmp/qmp.socket
->>
->>      (QEMU) query-status
->>      {"end": {"seconds": 1650367305, "microseconds": 831032},
->>       "start": {"seconds": 1650367305, "microseconds": 831012},
->>       "return": {"status": "running", "singlestep": false, "running": true}}
->>
->> The response of the QMP command contains the start & end time of
->> the QMP command processing.
->>
->> Also, "start" & "end" timestaps are added to qemu guest agent responses as
->> qemu-ga shares the same code for request dispatching.
->>
->> Suggested-by: Andrey Ryabinin<arbn@yandex-team.ru>
->> Signed-off-by: Denis Plotnikov<den-plotnikov@yandex-team.ru>
->> Reviewed-by: Daniel P. Berrangé<berrange@redhat.com>
->> ---
->> v3->v4
->>   - rewrite commit message [Markus]
->>   - use new fileds description in doc [Markus]
->>   - change type to int64_t [Markus]
->>   - simplify tests [Markus]
->>
->> v2->v3:
->>   - fix typo "timestaps -> timestamps" [Marc-André]
->>
->> v1->v2:
->>   - rephrase doc descriptions [Daniel]
->>   - add tests for qmp timestamps to qmp test and qga test [Daniel]
->>   - adjust asserts in test-qmp-cmds according to the new number of returning keys
->>
->> v0->v1:
->>   - remove interface to control "start" and "end" time values: return timestamps unconditionally
->>   - add description to qmp specification
->>   - leave the same timestamp format in "seconds", "microseconds" to be consistent with events
->>     timestamp
->>   - fix patch description
->>
->>   docs/interop/qmp-spec.txt  | 28 ++++++++++++++++++++++++++--
->>   qapi/qmp-dispatch.c        | 18 ++++++++++++++++++
->>   tests/qtest/qmp-test.c     | 32 ++++++++++++++++++++++++++++++++
->>   tests/unit/test-qga.c      | 29 +++++++++++++++++++++++++++++
->>   tests/unit/test-qmp-cmds.c |  4 ++--
->>   5 files changed, 107 insertions(+), 4 deletions(-)
->>
->> diff --git a/docs/interop/qmp-spec.txt b/docs/interop/qmp-spec.txt
->> index b0e8351d5b261..0dd8e716c02f0 100644
->> --- a/docs/interop/qmp-spec.txt
->> +++ b/docs/interop/qmp-spec.txt
->> @@ -158,7 +158,9 @@ responses that have an unknown "id" field.
->>   
->>   The format of a success response is:
->>   
->> -{ "return": json-value, "id": json-value }
->> +{ "return": json-value, "id": json-value,
->> +  "start": {"seconds": json-value, "microseconds": json-value},
->> +  "end": {"seconds": json-value, "microseconds": json-value} }
->>   
->>    Where,
->>   
->> @@ -169,13 +171,25 @@ The format of a success response is:
->>     command does not return data
->>   - The "id" member contains the transaction identification associated
->>     with the command execution if issued by the Client
->> +- The "start" member contains the exact time of when the server
->> +  started executing the command. This excludes any time the
->> +  command request spent queued, after reading it off the wire.
->> +  It is a json-object with the number of seconds and microseconds
->> +  since the Unix epoch
->> +- The "end" member contains the exact time of when the server
->> +  finished executing the command. This excludes any time the
->> +  command response spent queued, waiting to be sent on the wire.
->> +  It is a json-object with the number of seconds and microseconds
->> +  since the Unix epoch
->>   
->>   2.4.2 error
->>   -----------
->>   
->>   The format of an error response is:
->>   
->> -{ "error": { "class": json-string, "desc": json-string }, "id": json-value }
->> +{ "error": { "class": json-string, "desc": json-string }, "id": json-value
->> +  "start": {"seconds": json-value, "microseconds": json-value},
->> +  "end": {"seconds": json-value, "microseconds": json-value} }
->>   
->>    Where,
->>   
->> @@ -184,6 +198,16 @@ The format of an error response is:
->>     not attempt to parse this message.
->>   - The "id" member contains the transaction identification associated with
->>     the command execution if issued by the Client
->> +- The "start" member contains the exact time of when the server
->> +  started executing the command. This excludes any time the
->> +  command request spent queued, after reading it off the wire.
->> +  It is a json-object with the number of seconds and microseconds
->> +  since the Unix epoch
->> +- The "end" member contains the exact time of when the server
->> +  finished executing the command. This excludes any time the
->> +  command response spent queued, waiting to be sent on the wire.
->> +  It is a json-object with the number of seconds and microseconds
->> +  since the Unix epoch
->>   
->>   NOTE: Some errors can occur before the Server is able to read the "id" member,
->>   in these cases the "id" member will not be part of the error response, even
->> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
->> index 0990873ec8ec1..cdaf258151dc1 100644
->> --- a/qapi/qmp-dispatch.c
->> +++ b/qapi/qmp-dispatch.c
->> @@ -130,6 +130,22 @@ static void do_qmp_dispatch_bh(void *opaque)
->>       aio_co_wake(data->co);
->>   }
->>   
->> +static void add_timestamps(QDict *qdict, int64_t start_ms, int64_t end_ms)
->> +{
->> +    QDict *start_dict, *end_dict;
->> +
->> +    start_dict = qdict_new();
->> +    qdict_put_int(start_dict, "seconds", start_ms / G_USEC_PER_SEC);
->> +    qdict_put_int(start_dict, "microseconds", start_ms % G_USEC_PER_SEC);
->> +
->> +    end_dict = qdict_new();
->> +    qdict_put_int(end_dict, "seconds", end_ms / G_USEC_PER_SEC);
->> +    qdict_put_int(end_dict, "microseconds", end_ms % G_USEC_PER_SEC);
->> +
->> +    qdict_put_obj(qdict, "start", QOBJECT(start_dict));
->> +    qdict_put_obj(qdict, "end", QOBJECT(end_dict));
->> +}
->> +
->>   /*
->>    * Runs outside of coroutine context for OOB commands, but in coroutine
->>    * context for everything else.
->> @@ -146,6 +162,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
->>       QObject *id;
->>       QObject *ret = NULL;
->>       QDict *rsp = NULL;
->> +    int64_t ts_start = g_get_real_time();
->>   
->>       dict = qobject_to(QDict, request);
->>       if (!dict) {
->> @@ -270,5 +287,6 @@ out:
->>           qdict_put_obj(rsp, "id", qobject_ref(id));
->>       }
->>   
->> +    add_timestamps(rsp, ts_start, g_get_real_time());
->>       return rsp;
->>   }
->> diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
->> index 22957fa49c228..0c17b315de873 100644
->> --- a/tests/qtest/qmp-test.c
->> +++ b/tests/qtest/qmp-test.c
->> @@ -33,6 +33,28 @@ static void test_version(QObject *version)
->>       visit_free(v);
->>   }
->>   
->> +static void test_timestamps(QDict *resp)
->> +{
->> +    QDict *start, *end;
->> +    int64_t start_s, start_us, end_s, end_us, start_ts, end_ts;
->> +
->> +    start = qdict_get_qdict(resp, "start");
->> +    g_assert(start);
->> +    end = qdict_get_qdict(resp, "end");
->> +    g_assert(end);
->> +
->> +    start_s = qdict_get_int(start, "seconds");
->> +    start_us = qdict_get_int(start, "microseconds");
->> +
->> +    end_s = qdict_get_int(end, "seconds");
->> +    end_us = qdict_get_int(end, "microseconds");
->> +
->> +    start_ts = (start_s * G_USEC_PER_SEC) + start_us;
->> +    end_ts = (end_s * G_USEC_PER_SEC) + end_us;
->> +
->> +    g_assert(end_ts > start_ts);
->> +}
->> +
->>   static void assert_recovered(QTestState *qts)
->>   {
->>       QDict *resp;
->> @@ -156,6 +178,16 @@ static void test_qmp_protocol(void)
->>       g_assert_cmpint(qdict_get_int(resp, "id"), ==, 2);
->>       qmp_expect_error_and_unref(resp, "GenericError");
->>   
->> +    /* Test timestamps on success */
->> +    resp = qtest_qmp(qts, "{ 'execute': 'query-version' }");
->> +    test_timestamps(resp);
->> +    qobject_unref(resp);
->> +
->> +    /* Test timestamps on error */
->> +    resp = qtest_qmp(qts, "{ 'execute': 'not-existing-cmd' }");
->> +    test_timestamps(resp);
->> +    qobject_unref(resp);
->> +
->>       qtest_quit(qts);
->>   }
->>   
->> diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
->> index b4e0a145737d1..ceb62f0ebba7b 100644
->> --- a/tests/unit/test-qga.c
->> +++ b/tests/unit/test-qga.c
->> @@ -217,6 +217,34 @@ static void test_qga_ping(gconstpointer fix)
->>       qmp_assert_no_error(ret);
->>   }
->>   
->> +static void test_qga_timestamps(gconstpointer fix)
->> +{
->> +    QDict *start, *end;
->> +    int64_t start_s, start_us, end_s, end_us, start_ts, end_ts;
->> +    const TestFixture *fixture = fix;
->> +    g_autoptr(QDict) ret = NULL;
->> +
->> +    ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping'}");
->> +    g_assert_nonnull(ret);
->> +    qmp_assert_no_error(ret);
->> +
->> +    start = qdict_get_qdict(ret, "start");
->> +    g_assert(start);
->> +    end = qdict_get_qdict(ret, "end");
->> +    g_assert(end);
->> +
->> +    start_s = qdict_get_int(start, "seconds");
->> +    start_us = qdict_get_int(start, "microseconds");
->> +
->> +    end_s = qdict_get_int(end, "seconds");
->> +    end_us = qdict_get_int(end, "microseconds");
->> +
->> +    start_ts = (start_s * G_USEC_PER_SEC) + start_us;
->> +    end_ts = (end_s * G_USEC_PER_SEC) + end_us;
->> +
->> +    g_assert(end_ts > start_ts);
->> +}
->> +
->>   static void test_qga_id(gconstpointer fix)
->>   {
->>       const TestFixture *fixture = fix;
->> @@ -948,6 +976,7 @@ int main(int argc, char **argv)
->>       g_test_add_data_func("/qga/sync-delimited", &fix, test_qga_sync_delimited);
->>       g_test_add_data_func("/qga/sync", &fix, test_qga_sync);
->>       g_test_add_data_func("/qga/ping", &fix, test_qga_ping);
->> +    g_test_add_data_func("/qga/timestamps", &fix, test_qga_timestamps);
->>       g_test_add_data_func("/qga/info", &fix, test_qga_info);
->>       g_test_add_data_func("/qga/network-get-interfaces", &fix,
->>                            test_qga_network_get_interfaces);
->> diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
->> index 6085c099950b5..54d63bb8e346f 100644
->> --- a/tests/unit/test-qmp-cmds.c
->> +++ b/tests/unit/test-qmp-cmds.c
->> @@ -154,7 +154,7 @@ static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ...)
->>       g_assert(resp);
->>       ret = qdict_get(resp, "return");
->>       g_assert(ret);
->> -    g_assert(qdict_size(resp) == 1);
->> +    g_assert(qdict_size(resp) == 3);
->>   
->>       qobject_ref(ret);
->>       qobject_unref(resp);
->> @@ -181,7 +181,7 @@ static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
->>                       ==, QapiErrorClass_str(cls));
->>       g_assert(qdict_get_try_str(error, "desc"));
->>       g_assert(qdict_size(error) == 2);
->> -    g_assert(qdict_size(resp) == 1);
->> +    g_assert(qdict_size(resp) == 3);
->>   
->>       qobject_unref(resp);
->>       qobject_unref(req);
---------------Tt9Rna96Re1pIzMJM3qMh3q7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+>  marcandre.lureau@redhat.com writes:
+>
+>  > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>  >
+>  > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+>  I'm not sure how but this is re-breaking the windows build you just fixe=
+d:
+>
+>    In file included from /usr/x86_64-w64-mingw32/sys-root/mingw/include/e=
+poxy/egl.h:46,
+>                     from /tmp/qemu-test/src/include/ui/egl-helpers.h:5,
+>                     from /tmp/qemu-test/src/include/ui/gtk.h:25,
+>                     from ../src/ui/gtk.c:42:
+>    /usr/x86_64-w64-mingw32/sys-root/mingw/include/epoxy/egl_generated.h:1=
+1:10: fatal error:
+>  EGL/eglplatform.h: No such file or directory
+>       11 | #include "EGL/eglplatform.h"
+>          |          ^~~~~~~~~~~~~~~~~~~
+>    compilation terminated.
+>
+>  I'm going to drop this patch for now.
+>
+> Why is this patch related?
+>
+> How did you get that error? It looks like your system mingw-epoxy is bad =
+(on Fedora, I have
+> /usr/x86_64-w64-mingw32/sys-root/mingw/include/EGL/eglplatform.h installe=
+d by
+> mingw64-angleproject-3280-6.git57ea533.fc37.noarch)
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 10.01.2023 13:32, Denis Plotnikov
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:02b43d21-e9a4-45e4-ab80-3737993a398f@yandex-team.ru">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <p><font size="4"><font face="monospace">[ping]</font></font><br>
-      </p>
-      <div class="moz-cite-prefix">On 01.11.2022 18:37, Denis Plotnikov
-        wrote:<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:20221101153728.101085-1-den-plotnikov@yandex-team.ru">
-        <pre class="moz-quote-pre" wrap="">Add "start" &amp; "end" time values to QMP command responses.
+Something else is obviously throwing git bisect off its game. Clean
+builds with NOCACHE=3D1 all work so I'll leave it in.
+it in.
 
-These time values are added to let the qemu management layer get the exact
-command execution time without any other time variance which might be brought
-by other parts of management layer or qemu internals.
-This helps to look for problems poactively from the management layer side.
-The management layer would be able to detect problem cases by calculating
-QMP command execution time:
-1. execution_time_from_mgmt_perspective -
-       execution_time_of_qmp_command &gt; some_threshold
-   This detects problems with management layer or internal qemu QMP command
-   dispatching
-2. current_qmp_command_execution_time &gt; avg_qmp_command_execution_time
-   This detects that a certain QMP command starts to execute longer than
-   usual
-In both these cases more thorough investigation of the root cases should be
-done by using some qemu tracepoints depending on particular QMP command under
-investigation or by other means. The timestamps help to avoid excessive log
-output when qemu tracepoints are used to address similar cases.
+>
+>=20=20
+>=20=20
+>  > ---
+>  >  .gitlab-ci.d/cirrus/freebsd-12.vars                   | 2 +-
+>  >  .gitlab-ci.d/cirrus/freebsd-13.vars                   | 2 +-
+>  >  .gitlab-ci.d/cirrus/macos-12.vars                     | 2 +-
+>  >  tests/docker/dockerfiles/alpine.docker                | 1 -
+>  >  tests/docker/dockerfiles/centos8.docker               | 1 -
+>  >  tests/docker/dockerfiles/debian-amd64-cross.docker    | 3 +--
+>  >  tests/docker/dockerfiles/debian-amd64.docker          | 1 -
+>  >  tests/docker/dockerfiles/debian-arm64-cross.docker    | 3 +--
+>  >  tests/docker/dockerfiles/debian-armel-cross.docker    | 3 +--
+>  >  tests/docker/dockerfiles/debian-armhf-cross.docker    | 3 +--
+>  >  tests/docker/dockerfiles/debian-mips64el-cross.docker | 3 +--
+>  >  tests/docker/dockerfiles/debian-mipsel-cross.docker   | 3 +--
+>  >  tests/docker/dockerfiles/debian-ppc64el-cross.docker  | 3 +--
+>  >  tests/docker/dockerfiles/debian-s390x-cross.docker    | 3 +--
+>  >  tests/docker/dockerfiles/debian-toolchain.docker      | 1 -
+>  >  tests/docker/dockerfiles/fedora-win32-cross.docker    | 1 -
+>  >  tests/docker/dockerfiles/fedora-win64-cross.docker    | 1 -
+>  >  tests/docker/dockerfiles/fedora.docker                | 1 -
+>  >  tests/docker/dockerfiles/opensuse-leap.docker         | 1 -
+>  >  tests/docker/dockerfiles/ubuntu2004.docker            | 1 -
+>  >  tests/lcitool/projects/qemu.yml                       | 1 -
+>  >  21 files changed, 11 insertions(+), 29 deletions(-)
+>  >
+>  > diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus=
+/freebsd-12.vars
+>  > index f32f01a954..8934e5d57f 100644
+>  > --- a/.gitlab-ci.d/cirrus/freebsd-12.vars
+>  > +++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
+>  > @@ -11,6 +11,6 @@ MAKE=3D'/usr/local/bin/gmake'
+>  >  NINJA=3D'/usr/local/bin/ninja'
+>  >  PACKAGING_COMMAND=3D'pkg'
+>  >  PIP3=3D'/usr/local/bin/pip-3.8'
+>  > -PKGS=3D'alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit=
+-genisoimage cmocka ctags curl
+>  cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake g=
+nutls gsed gtk3 json-c libepoxy libffi
+>  libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 =
+llvm lzo2 meson ncurses nettle ninja
+>  opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py=
+39-sphinx_rtd_theme
+>  py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol t=
+esseract texinfo usbredir
+>  virglrenderer vte3 zstd'
+>  > +PKGS=3D'alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit=
+-genisoimage cmocka ctags
+>  curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gm=
+ake gnutls gsed gtk3 json-c libepoxy
+>  libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh li=
+btasn1 llvm lzo2 meson ncurses nettle
+>  ninja opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sph=
+inx py39-sphinx_rtd_theme
+>  py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol t=
+esseract usbredir
+>  virglrenderer vte3 zstd'
+>  >  PYPI_PKGS=3D''
+>  >  PYTHON=3D'/usr/local/bin/python3'
+>  > diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus=
+/freebsd-13.vars
+>  > index 813c051616..65ce456c48 100644
+>  > --- a/.gitlab-ci.d/cirrus/freebsd-13.vars
+>  > +++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
+>  > @@ -11,6 +11,6 @@ MAKE=3D'/usr/local/bin/gmake'
+>  >  NINJA=3D'/usr/local/bin/ninja'
+>  >  PACKAGING_COMMAND=3D'pkg'
+>  >  PIP3=3D'/usr/local/bin/pip-3.8'
+>  > -PKGS=3D'alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit=
+-genisoimage cmocka ctags curl
+>  cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake g=
+nutls gsed gtk3 json-c libepoxy libffi
+>  libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 =
+llvm lzo2 meson ncurses nettle ninja
+>  opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py=
+39-sphinx_rtd_theme
+>  py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol t=
+esseract texinfo usbredir
+>  virglrenderer vte3 zstd'
+>  > +PKGS=3D'alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit=
+-genisoimage cmocka ctags
+>  curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gm=
+ake gnutls gsed gtk3 json-c libepoxy
+>  libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh li=
+btasn1 llvm lzo2 meson ncurses nettle
+>  ninja opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sph=
+inx py39-sphinx_rtd_theme
+>  py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol t=
+esseract usbredir
+>  virglrenderer vte3 zstd'
+>  >  PYPI_PKGS=3D''
+>  >  PYTHON=3D'/usr/local/bin/python3'
+>  > diff --git a/.gitlab-ci.d/cirrus/macos-12.vars b/.gitlab-ci.d/cirrus/m=
+acos-12.vars
+>  > index 33bb4e1040..65b78fa08f 100644
+>  > --- a/.gitlab-ci.d/cirrus/macos-12.vars
+>  > +++ b/.gitlab-ci.d/cirrus/macos-12.vars
+>  > @@ -11,6 +11,6 @@ MAKE=3D'/opt/homebrew/bin/gmake'
+>  >  NINJA=3D'/opt/homebrew/bin/ninja'
+>  >  PACKAGING_COMMAND=3D'brew'
+>  >  PIP3=3D'/opt/homebrew/bin/pip3'
+>  > -PKGS=3D'bash bc bison bzip2 capstone ccache cmocka ctags curl dbus di=
+ffutils dtc flex gcovr gettext git
+>  glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo json-c libepoxy libffi lib=
+gcrypt libiscsi libnfs libpng libslirp
+>  libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja pixman p=
+kg-config python3 rpm2cpio sdl2
+>  sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde v=
+te3 zlib zstd'
+>  > +PKGS=3D'bash bc bison bzip2 capstone ccache cmocka ctags curl dbus di=
+ffutils dtc flex gcovr gettext
+>  git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo json-c libepoxy libffi=
+ libgcrypt libiscsi libnfs libpng libslirp
+>  libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja pixman p=
+kg-config python3 rpm2cpio sdl2
+>  sdl2_image snappy sparse spice-protocol tesseract usbredir vde vte3 zlib=
+ zstd'
+>  >  PYPI_PKGS=3D'PyYAML numpy pillow sphinx sphinx-rtd-theme'
+>  >  PYTHON=3D'/opt/homebrew/bin/python3'
+>  > diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/doc=
+kerfiles/alpine.docker
+>  > index 3293c790c9..4a569d82f6 100644
+>  > --- a/tests/docker/dockerfiles/alpine.docker
+>  > +++ b/tests/docker/dockerfiles/alpine.docker
+>  > @@ -99,7 +99,6 @@ RUN apk update && \
+>  >          spice-protocol \
+>  >          tar \
+>  >          tesseract-ocr \
+>  > -        texinfo \
+>  >          usbredir-dev \
+>  >          util-linux \
+>  >          vde2-dev \
+>  > diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/do=
+ckerfiles/centos8.docker
+>  > index f13745e6cc..fbc953c6dc 100644
+>  > --- a/tests/docker/dockerfiles/centos8.docker
+>  > +++ b/tests/docker/dockerfiles/centos8.docker
+>  > @@ -110,7 +110,6 @@ RUN dnf distro-sync -y && \
+>  >          systemd-devel \
+>  >          systemtap-sdt-devel \
+>  >          tar \
+>  > -        texinfo \
+>  >          usbredir-devel \
+>  >          util-linux \
+>  >          virglrenderer-devel \
+>  > diff --git a/tests/docker/dockerfiles/debian-amd64-cross.docker
+>  b/tests/docker/dockerfiles/debian-amd64-cross.docker
+>  > index d0ace6d0f7..5175095a85 100644
+>  > --- a/tests/docker/dockerfiles/debian-amd64-cross.docker
+>  > +++ b/tests/docker/dockerfiles/debian-amd64-cross.docker
+>  > @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>  >                        sparse \
+>  >                        tar \
+>  >                        tesseract-ocr \
+>  > -                      tesseract-ocr-eng \
+>  > -                      texinfo && \
+>  > +                      tesseract-ocr-eng && \
+>  >      eatmydata apt-get autoremove -y && \
+>  >      eatmydata apt-get autoclean -y && \
+>  >      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+>  > diff --git a/tests/docker/dockerfiles/debian-amd64.docker
+>  b/tests/docker/dockerfiles/debian-amd64.docker
+>  > index 0517c4c315..b61f664ea2 100644
+>  > --- a/tests/docker/dockerfiles/debian-amd64.docker
+>  > +++ b/tests/docker/dockerfiles/debian-amd64.docker
+>  > @@ -125,7 +125,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>  >                        tar \
+>  >                        tesseract-ocr \
+>  >                        tesseract-ocr-eng \
+>  > -                      texinfo \
+>  >                        xfslibs-dev \
+>  >                        zlib1g-dev && \
+>  >      eatmydata apt-get autoremove -y && \
+>  > diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker
+>  b/tests/docker/dockerfiles/debian-arm64-cross.docker
+>  > index 9ac1c1ba3f..b69958c69f 100644
+>  > --- a/tests/docker/dockerfiles/debian-arm64-cross.docker
+>  > +++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
+>  > @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>  >                        sparse \
+>  >                        tar \
+>  >                        tesseract-ocr \
+>  > -                      tesseract-ocr-eng \
+>  > -                      texinfo && \
+>  > +                      tesseract-ocr-eng && \
+>  >      eatmydata apt-get autoremove -y && \
+>  >      eatmydata apt-get autoclean -y && \
+>  >      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+>  > diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker
+>  b/tests/docker/dockerfiles/debian-armel-cross.docker
+>  > index 8be492f4ad..96b524fab6 100644
+>  > --- a/tests/docker/dockerfiles/debian-armel-cross.docker
+>  > +++ b/tests/docker/dockerfiles/debian-armel-cross.docker
+>  > @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>  >                        sparse \
+>  >                        tar \
+>  >                        tesseract-ocr \
+>  > -                      tesseract-ocr-eng \
+>  > -                      texinfo && \
+>  > +                      tesseract-ocr-eng && \
+>  >      eatmydata apt-get autoremove -y && \
+>  >      eatmydata apt-get autoclean -y && \
+>  >      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+>  > diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker
+>  b/tests/docker/dockerfiles/debian-armhf-cross.docker
+>  > index da789e04af..08a75cebdb 100644
+>  > --- a/tests/docker/dockerfiles/debian-armhf-cross.docker
+>  > +++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
+>  > @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>  >                        sparse \
+>  >                        tar \
+>  >                        tesseract-ocr \
+>  > -                      tesseract-ocr-eng \
+>  > -                      texinfo && \
+>  > +                      tesseract-ocr-eng && \
+>  >      eatmydata apt-get autoremove -y && \
+>  >      eatmydata apt-get autoclean -y && \
+>  >      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+>  > diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker
+>  b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+>  > index 8b7c59c4f9..5930e6fa5d 100644
+>  > --- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
+>  > +++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+>  > @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>  >                        sparse \
+>  >                        tar \
+>  >                        tesseract-ocr \
+>  > -                      tesseract-ocr-eng \
+>  > -                      texinfo && \
+>  > +                      tesseract-ocr-eng && \
+>  >      eatmydata apt-get autoremove -y && \
+>  >      eatmydata apt-get autoclean -y && \
+>  >      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+>  > diff --git a/tests/docker/dockerfiles/debian-mipsel-cross.docker
+>  b/tests/docker/dockerfiles/debian-mipsel-cross.docker
+>  > index f9f1ed5fd2..c65d9830e7 100644
+>  > --- a/tests/docker/dockerfiles/debian-mipsel-cross.docker
+>  > +++ b/tests/docker/dockerfiles/debian-mipsel-cross.docker
+>  > @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>  >                        sparse \
+>  >                        tar \
+>  >                        tesseract-ocr \
+>  > -                      tesseract-ocr-eng \
+>  > -                      texinfo && \
+>  > +                      tesseract-ocr-eng && \
+>  >      eatmydata apt-get autoremove -y && \
+>  >      eatmydata apt-get autoclean -y && \
+>  >      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+>  > diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+>  b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+>  > index e423d88c2d..2ae56c978e 100644
+>  > --- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+>  > +++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+>  > @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>  >                        sparse \
+>  >                        tar \
+>  >                        tesseract-ocr \
+>  > -                      tesseract-ocr-eng \
+>  > -                      texinfo && \
+>  > +                      tesseract-ocr-eng && \
+>  >      eatmydata apt-get autoremove -y && \
+>  >      eatmydata apt-get autoclean -y && \
+>  >      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+>  > diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker
+>  b/tests/docker/dockerfiles/debian-s390x-cross.docker
+>  > index c1134f4cec..0db86a0fcd 100644
+>  > --- a/tests/docker/dockerfiles/debian-s390x-cross.docker
+>  > +++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
+>  > @@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>  >                        sparse \
+>  >                        tar \
+>  >                        tesseract-ocr \
+>  > -                      tesseract-ocr-eng \
+>  > -                      texinfo && \
+>  > +                      tesseract-ocr-eng && \
+>  >      eatmydata apt-get autoremove -y && \
+>  >      eatmydata apt-get autoclean -y && \
+>  >      sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+>  > diff --git a/tests/docker/dockerfiles/debian-toolchain.docker
+>  b/tests/docker/dockerfiles/debian-toolchain.docker
+>  > index d3d4d3344e..6c73408b34 100644
+>  > --- a/tests/docker/dockerfiles/debian-toolchain.docker
+>  > +++ b/tests/docker/dockerfiles/debian-toolchain.docker
+>  > @@ -21,7 +21,6 @@ RUN apt update && \
+>  >          libmpc-dev \
+>  >          libmpfr-dev \
+>  >          rsync \
+>  > -        texinfo \
+>  >          wget && \
+>  >      DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+>  >      apt build-dep -yy --arch-only gcc glibc
+>  > diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker
+>  b/tests/docker/dockerfiles/fedora-win32-cross.docker
+>  > index de811b332b..b659c0b8a8 100644
+>  > --- a/tests/docker/dockerfiles/fedora-win32-cross.docker
+>  > +++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+>  > @@ -57,7 +57,6 @@ exec "$@"' > /usr/bin/nosync && \
+>  >                 tar \
+>  >                 tesseract \
+>  >                 tesseract-langpack-eng \
+>  > -               texinfo \
+>  >                 util-linux \
+>  >                 which && \
+>  >      nosync dnf autoremove -y && \
+>  > diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker
+>  b/tests/docker/dockerfiles/fedora-win64-cross.docker
+>  > index 71681d6f92..0a404c15bf 100644
+>  > --- a/tests/docker/dockerfiles/fedora-win64-cross.docker
+>  > +++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+>  > @@ -57,7 +57,6 @@ exec "$@"' > /usr/bin/nosync && \
+>  >                 tar \
+>  >                 tesseract \
+>  >                 tesseract-langpack-eng \
+>  > -               texinfo \
+>  >                 util-linux \
+>  >                 which && \
+>  >      nosync dnf autoremove -y && \
+>  > diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/doc=
+kerfiles/fedora.docker
+>  > index ca3793b04b..5d60a96141 100644
+>  > --- a/tests/docker/dockerfiles/fedora.docker
+>  > +++ b/tests/docker/dockerfiles/fedora.docker
+>  > @@ -121,7 +121,6 @@ exec "$@"' > /usr/bin/nosync && \
+>  >                 tar \
+>  >                 tesseract \
+>  >                 tesseract-langpack-eng \
+>  > -               texinfo \
+>  >                 usbredir-devel \
+>  >                 util-linux \
+>  >                 virglrenderer-devel \
+>  > diff --git a/tests/docker/dockerfiles/opensuse-leap.docker
+>  b/tests/docker/dockerfiles/opensuse-leap.docker
+>  > index 680f49e7dc..4b2c02d6ab 100644
+>  > --- a/tests/docker/dockerfiles/opensuse-leap.docker
+>  > +++ b/tests/docker/dockerfiles/opensuse-leap.docker
+>  > @@ -111,7 +111,6 @@ RUN zypper update -y && \
+>  >             tar \
+>  >             tesseract-ocr \
+>  >             tesseract-ocr-traineddata-english \
+>  > -           texinfo \
+>  >             usbredir-devel \
+>  >             util-linux \
+>  >             virglrenderer-devel \
+>  > diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker=
+/dockerfiles/ubuntu2004.docker
+>  > index 6594bba338..13ab0b6887 100644
+>  > --- a/tests/docker/dockerfiles/ubuntu2004.docker
+>  > +++ b/tests/docker/dockerfiles/ubuntu2004.docker
+>  > @@ -124,7 +124,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>  >                        tar \
+>  >                        tesseract-ocr \
+>  >                        tesseract-ocr-eng \
+>  > -                      texinfo \
+>  >                        xfslibs-dev \
+>  >                        zlib1g-dev && \
+>  >      eatmydata apt-get autoremove -y && \
+>  > diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/=
+qemu.yml
+>  > index c2af92348a..6467bcf08a 100644
+>  > --- a/tests/lcitool/projects/qemu.yml
+>  > +++ b/tests/lcitool/projects/qemu.yml
+>  > @@ -109,7 +109,6 @@ packages:
+>  >   - tar
+>  >   - tesseract
+>  >   - tesseract-eng
+>  > - - texinfo
+>  >   - usbredir
+>  >   - virglrenderer
+>  >   - vte
+>
+>  --=20
+>  Alex Benn=C3=A9e
+>  Virtualisation Tech Lead @ Linaro
 
-Example of result:
 
-    ./qemu/scripts/qmp/qmp-shell /tmp/qmp.socket
-
-    (QEMU) query-status
-    {"end": {"seconds": 1650367305, "microseconds": 831032},
-     "start": {"seconds": 1650367305, "microseconds": 831012},
-     "return": {"status": "running", "singlestep": false, "running": true}}
-
-The response of the QMP command contains the start &amp; end time of
-the QMP command processing.
-
-Also, "start" &amp; "end" timestaps are added to qemu guest agent responses as
-qemu-ga shares the same code for request dispatching.
-
-Suggested-by: Andrey Ryabinin <a class="moz-txt-link-rfc2396E" href="mailto:arbn@yandex-team.ru" moz-do-not-send="true">&lt;arbn@yandex-team.ru&gt;</a>
-Signed-off-by: Denis Plotnikov <a class="moz-txt-link-rfc2396E" href="mailto:den-plotnikov@yandex-team.ru" moz-do-not-send="true">&lt;den-plotnikov@yandex-team.ru&gt;</a>
-Reviewed-by: Daniel P. Berrangé <a class="moz-txt-link-rfc2396E" href="mailto:berrange@redhat.com" moz-do-not-send="true">&lt;berrange@redhat.com&gt;</a>
----
-v3-&gt;v4
- - rewrite commit message [Markus]
- - use new fileds description in doc [Markus]
- - change type to int64_t [Markus]
- - simplify tests [Markus]
-
-v2-&gt;v3:
- - fix typo "timestaps -&gt; timestamps" [Marc-André]
-
-v1-&gt;v2:
- - rephrase doc descriptions [Daniel]
- - add tests for qmp timestamps to qmp test and qga test [Daniel]
- - adjust asserts in test-qmp-cmds according to the new number of returning keys
-
-v0-&gt;v1:
- - remove interface to control "start" and "end" time values: return timestamps unconditionally
- - add description to qmp specification
- - leave the same timestamp format in "seconds", "microseconds" to be consistent with events
-   timestamp
- - fix patch description
-
- docs/interop/qmp-spec.txt  | 28 ++++++++++++++++++++++++++--
- qapi/qmp-dispatch.c        | 18 ++++++++++++++++++
- tests/qtest/qmp-test.c     | 32 ++++++++++++++++++++++++++++++++
- tests/unit/test-qga.c      | 29 +++++++++++++++++++++++++++++
- tests/unit/test-qmp-cmds.c |  4 ++--
- 5 files changed, 107 insertions(+), 4 deletions(-)
-
-diff --git a/docs/interop/qmp-spec.txt b/docs/interop/qmp-spec.txt
-index b0e8351d5b261..0dd8e716c02f0 100644
---- a/docs/interop/qmp-spec.txt
-+++ b/docs/interop/qmp-spec.txt
-@@ -158,7 +158,9 @@ responses that have an unknown "id" field.
- 
- The format of a success response is:
- 
--{ "return": json-value, "id": json-value }
-+{ "return": json-value, "id": json-value,
-+  "start": {"seconds": json-value, "microseconds": json-value},
-+  "end": {"seconds": json-value, "microseconds": json-value} }
- 
-  Where,
- 
-@@ -169,13 +171,25 @@ The format of a success response is:
-   command does not return data
- - The "id" member contains the transaction identification associated
-   with the command execution if issued by the Client
-+- The "start" member contains the exact time of when the server
-+  started executing the command. This excludes any time the
-+  command request spent queued, after reading it off the wire.
-+  It is a json-object with the number of seconds and microseconds
-+  since the Unix epoch
-+- The "end" member contains the exact time of when the server
-+  finished executing the command. This excludes any time the
-+  command response spent queued, waiting to be sent on the wire.
-+  It is a json-object with the number of seconds and microseconds
-+  since the Unix epoch
- 
- 2.4.2 error
- -----------
- 
- The format of an error response is:
- 
--{ "error": { "class": json-string, "desc": json-string }, "id": json-value }
-+{ "error": { "class": json-string, "desc": json-string }, "id": json-value
-+  "start": {"seconds": json-value, "microseconds": json-value},
-+  "end": {"seconds": json-value, "microseconds": json-value} }
- 
-  Where,
- 
-@@ -184,6 +198,16 @@ The format of an error response is:
-   not attempt to parse this message.
- - The "id" member contains the transaction identification associated with
-   the command execution if issued by the Client
-+- The "start" member contains the exact time of when the server
-+  started executing the command. This excludes any time the
-+  command request spent queued, after reading it off the wire.
-+  It is a json-object with the number of seconds and microseconds
-+  since the Unix epoch
-+- The "end" member contains the exact time of when the server
-+  finished executing the command. This excludes any time the
-+  command response spent queued, waiting to be sent on the wire.
-+  It is a json-object with the number of seconds and microseconds
-+  since the Unix epoch
- 
- NOTE: Some errors can occur before the Server is able to read the "id" member,
- in these cases the "id" member will not be part of the error response, even
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index 0990873ec8ec1..cdaf258151dc1 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -130,6 +130,22 @@ static void do_qmp_dispatch_bh(void *opaque)
-     aio_co_wake(data-&gt;co);
- }
- 
-+static void add_timestamps(QDict *qdict, int64_t start_ms, int64_t end_ms)
-+{
-+    QDict *start_dict, *end_dict;
-+
-+    start_dict = qdict_new();
-+    qdict_put_int(start_dict, "seconds", start_ms / G_USEC_PER_SEC);
-+    qdict_put_int(start_dict, "microseconds", start_ms % G_USEC_PER_SEC);
-+
-+    end_dict = qdict_new();
-+    qdict_put_int(end_dict, "seconds", end_ms / G_USEC_PER_SEC);
-+    qdict_put_int(end_dict, "microseconds", end_ms % G_USEC_PER_SEC);
-+
-+    qdict_put_obj(qdict, "start", QOBJECT(start_dict));
-+    qdict_put_obj(qdict, "end", QOBJECT(end_dict));
-+}
-+
- /*
-  * Runs outside of coroutine context for OOB commands, but in coroutine
-  * context for everything else.
-@@ -146,6 +162,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-     QObject *id;
-     QObject *ret = NULL;
-     QDict *rsp = NULL;
-+    int64_t ts_start = g_get_real_time();
- 
-     dict = qobject_to(QDict, request);
-     if (!dict) {
-@@ -270,5 +287,6 @@ out:
-         qdict_put_obj(rsp, "id", qobject_ref(id));
-     }
- 
-+    add_timestamps(rsp, ts_start, g_get_real_time());
-     return rsp;
- }
-diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
-index 22957fa49c228..0c17b315de873 100644
---- a/tests/qtest/qmp-test.c
-+++ b/tests/qtest/qmp-test.c
-@@ -33,6 +33,28 @@ static void test_version(QObject *version)
-     visit_free(v);
- }
- 
-+static void test_timestamps(QDict *resp)
-+{
-+    QDict *start, *end;
-+    int64_t start_s, start_us, end_s, end_us, start_ts, end_ts;
-+
-+    start = qdict_get_qdict(resp, "start");
-+    g_assert(start);
-+    end = qdict_get_qdict(resp, "end");
-+    g_assert(end);
-+
-+    start_s = qdict_get_int(start, "seconds");
-+    start_us = qdict_get_int(start, "microseconds");
-+
-+    end_s = qdict_get_int(end, "seconds");
-+    end_us = qdict_get_int(end, "microseconds");
-+
-+    start_ts = (start_s * G_USEC_PER_SEC) + start_us;
-+    end_ts = (end_s * G_USEC_PER_SEC) + end_us;
-+
-+    g_assert(end_ts &gt; start_ts);
-+}
-+
- static void assert_recovered(QTestState *qts)
- {
-     QDict *resp;
-@@ -156,6 +178,16 @@ static void test_qmp_protocol(void)
-     g_assert_cmpint(qdict_get_int(resp, "id"), ==, 2);
-     qmp_expect_error_and_unref(resp, "GenericError");
- 
-+    /* Test timestamps on success */
-+    resp = qtest_qmp(qts, "{ 'execute': 'query-version' }");
-+    test_timestamps(resp);
-+    qobject_unref(resp);
-+
-+    /* Test timestamps on error */
-+    resp = qtest_qmp(qts, "{ 'execute': 'not-existing-cmd' }");
-+    test_timestamps(resp);
-+    qobject_unref(resp);
-+
-     qtest_quit(qts);
- }
- 
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index b4e0a145737d1..ceb62f0ebba7b 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -217,6 +217,34 @@ static void test_qga_ping(gconstpointer fix)
-     qmp_assert_no_error(ret);
- }
- 
-+static void test_qga_timestamps(gconstpointer fix)
-+{
-+    QDict *start, *end;
-+    int64_t start_s, start_us, end_s, end_us, start_ts, end_ts;
-+    const TestFixture *fixture = fix;
-+    g_autoptr(QDict) ret = NULL;
-+
-+    ret = qmp_fd(fixture-&gt;fd, "{'execute': 'guest-ping'}");
-+    g_assert_nonnull(ret);
-+    qmp_assert_no_error(ret);
-+
-+    start = qdict_get_qdict(ret, "start");
-+    g_assert(start);
-+    end = qdict_get_qdict(ret, "end");
-+    g_assert(end);
-+
-+    start_s = qdict_get_int(start, "seconds");
-+    start_us = qdict_get_int(start, "microseconds");
-+
-+    end_s = qdict_get_int(end, "seconds");
-+    end_us = qdict_get_int(end, "microseconds");
-+
-+    start_ts = (start_s * G_USEC_PER_SEC) + start_us;
-+    end_ts = (end_s * G_USEC_PER_SEC) + end_us;
-+
-+    g_assert(end_ts &gt; start_ts);
-+}
-+
- static void test_qga_id(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-@@ -948,6 +976,7 @@ int main(int argc, char **argv)
-     g_test_add_data_func("/qga/sync-delimited", &amp;fix, test_qga_sync_delimited);
-     g_test_add_data_func("/qga/sync", &amp;fix, test_qga_sync);
-     g_test_add_data_func("/qga/ping", &amp;fix, test_qga_ping);
-+    g_test_add_data_func("/qga/timestamps", &amp;fix, test_qga_timestamps);
-     g_test_add_data_func("/qga/info", &amp;fix, test_qga_info);
-     g_test_add_data_func("/qga/network-get-interfaces", &amp;fix,
-                          test_qga_network_get_interfaces);
-diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
-index 6085c099950b5..54d63bb8e346f 100644
---- a/tests/unit/test-qmp-cmds.c
-+++ b/tests/unit/test-qmp-cmds.c
-@@ -154,7 +154,7 @@ static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ...)
-     g_assert(resp);
-     ret = qdict_get(resp, "return");
-     g_assert(ret);
--    g_assert(qdict_size(resp) == 1);
-+    g_assert(qdict_size(resp) == 3);
- 
-     qobject_ref(ret);
-     qobject_unref(resp);
-@@ -181,7 +181,7 @@ static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
-                     ==, QapiErrorClass_str(cls));
-     g_assert(qdict_get_try_str(error, "desc"));
-     g_assert(qdict_size(error) == 2);
--    g_assert(qdict_size(resp) == 1);
-+    g_assert(qdict_size(resp) == 3);
- 
-     qobject_unref(resp);
-     qobject_unref(req);
-</pre>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
-
---------------Tt9Rna96Re1pIzMJM3qMh3q7--
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
