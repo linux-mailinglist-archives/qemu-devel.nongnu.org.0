@@ -2,71 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FCC266D039
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 21:32:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A096F66D047
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 21:36:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHW8c-0005Ce-OZ; Mon, 16 Jan 2023 15:31:26 -0500
+	id 1pHWCS-0006aH-Jo; Mon, 16 Jan 2023 15:35:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHW8a-0005C5-Vt
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 15:31:25 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHW8Z-0003Ce-Av
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 15:31:24 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id b4so22735654edf.0
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 12:31:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=VHgOQA3BNk24gr3V2X60PUpMgNLC21aEXTYuWMCUDrI=;
- b=ouNYoCZpxxiMdjAnYM+B55dLCuRJ4UJmcC0GRfiTY7Ugwegon9F4Xm6IO66s4CY4LO
- sDJlwneF7n1qmlWVYatbpByC11U53j1rTZWdN1hyry47n4rOEuAipMRktT14xE1taF27
- I08gX7GxW8JZasDwtCpjtcNfgEGNd3xv85W8XzleT10Ea3wmwgMxaJkL6JEVTt6XjjRZ
- rnhXYID69HHWmZpPv1OmwTnGgxxukgaIJvcI+IRd+0CAen4C9XwH5DiIN7iN4LCaDKOG
- SfT0kokw+UVuzw2Qa+b8Op+4/j2B6wWoeK6f89YzTkm2Yk8mqGgaNPP61ckGxcwfxQKI
- zT7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VHgOQA3BNk24gr3V2X60PUpMgNLC21aEXTYuWMCUDrI=;
- b=4XXH6OzkEnglKdqYKOe2uU6VFG0+ngjrrCOiNDaKc9Ds6/y439z3TRcePhbAnc402X
- 7NKSyrFGaAQdCyt3zi7zDv1HlYKa7o/o0qwwsz0VsG4a4x2+EnQvt1jdCVNR1FuWaq5Z
- /Q+DrBtJMXBGHdgAnjRuo0aabGGF6kcBE2gp0wdbbP8MLu3BBz0hAiFc+4SB4+ZMR7XH
- qjOfoLEen5DsufNc+XGydP6ImnsRhZPeRpEaMG8nwQpbjKo3sE+4PIh5FQMRK/4JCiMg
- oGXKRY9gy5O+kHgg6RGv5DaAUcU0BsGCLMuJSwOf5VaiKEp90sRUC0JQ6leLzvsidcYS
- XMOA==
-X-Gm-Message-State: AFqh2krvRMY7ovHuvWeS0xPkEWcHBlbncs9SvamteKpFR0M90Prp5OjP
- v0agvIfyEEYXk7qI3geowsv5Qkw3GXAkggcoluqQEQ==
-X-Google-Smtp-Source: AMrXdXtfo3RybHMe60CTzfQSzmyqFXFC+olfS/8y5E4sA9buxNrn0/F9uhTBHHmp1vNiKdP2GAEBS8hZei1UVKP/rww=
-X-Received: by 2002:aa7:da13:0:b0:485:59b5:d8c9 with SMTP id
- r19-20020aa7da13000000b0048559b5d8c9mr75494eds.285.1673901081273; Mon, 16 Jan
- 2023 12:31:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pHWCQ-0006ZA-5N; Mon, 16 Jan 2023 15:35:22 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pHWCN-0003q2-EF; Mon, 16 Jan 2023 15:35:21 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30GJKrkF019473; Mon, 16 Jan 2023 20:35:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=gF6Sh1dAlsOhnwHnVae9g8OIy+BjLb3Cx8UD6Jem0yA=;
+ b=hDOUdxLZusXZfiT9bxMMRApl/cke6VP1/W7sse+zg7VQDesTU2EVKabtLZN5XawcjbQX
+ 4VTncCzhDHTROB3AQvBJMHrWf3oQOlv88EcaM4Ec2SPX8GG5fCMSdIH0wDKdD6wnaBGM
+ mYfza55Jk/3dkR100lo98A7z/7DXbZRYDBxY9Gil/Rn3XftgnsjZa0w1bUnHi9yJ+kFm
+ S00DkKHaA8HuYyBDwCP339wKZYDYlC3VQn1bh2z8nSz/w5yGf2rW5TNi21dYfaZakU3S
+ KgN18kzNtrcyJXFhu4J1JFk1w9YZ07w5ooxxnWDQ2iZYfPOhGdI5CO6qE5J733XVfSce NA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5chfhcug-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Jan 2023 20:35:06 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30GKA7Im010741;
+ Mon, 16 Jan 2023 20:35:05 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5chfhcsq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Jan 2023 20:35:05 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30GG0QYb023688;
+ Mon, 16 Jan 2023 20:35:03 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3n3m16jvqh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Jan 2023 20:35:03 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30GKYxVP43647300
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 16 Jan 2023 20:34:59 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A130520043;
+ Mon, 16 Jan 2023 20:34:59 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3BC3920049;
+ Mon, 16 Jan 2023 20:34:59 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.176.184])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 16 Jan 2023 20:34:59 +0000 (GMT)
+Message-ID: <10ddaef9e2e8cdd19b86c42096a7296ece137dc0.camel@linux.ibm.com>
+Subject: Re: [PATCH v14 01/11] s390x/cpu topology: adding s390 specificities
+ to CPU topology
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Mon, 16 Jan 2023 21:34:59 +0100
+In-Reply-To: <31bc88bc-d0c2-f172-939a-c7a42adb466d@linux.ibm.com>
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-2-pmorel@linux.ibm.com>
+ <87039aeec020afbd28be77ad5f8d022126aba7bf.camel@linux.ibm.com>
+ <31bc88bc-d0c2-f172-939a-c7a42adb466d@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-References: <20230116173233.2948746-1-alex.bennee@linaro.org>
- <ad966746-62c3-0e96-ae43-b6ddd7dd8ce1@linaro.org>
-In-Reply-To: <ad966746-62c3-0e96-ae43-b6ddd7dd8ce1@linaro.org>
-From: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Date: Mon, 16 Jan 2023 20:31:09 +0000
-Message-ID: <CAHDbmO2L1G=q8=p3FPjpjVd2Ss+CkoyfCPoBV5Eg_v+AuNatfg@mail.gmail.com>
-Subject: Re: [RFC PATCH] tests/tcg: skip the vma-pthread test on CI
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000056c40e05f26777f2"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 32OEWqAH4YcD6tEAfBIx7rx9DwntVxxU
+X-Proofpoint-GUID: bWheofuu0HHXmcwjPizJfaxBhXQxOHZ0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-16_16,2023-01-13_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
+ impostorscore=0 mlxscore=0 bulkscore=0 phishscore=0 spamscore=0
+ clxscore=1015 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2301160151
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,97 +120,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000056c40e05f26777f2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2023-01-16 at 18:28 +0100, Pierre Morel wrote:
+>=20
+> On 1/13/23 17:58, Nina Schoetterl-Glausch wrote:
+> > On Thu, 2023-01-05 at 15:53 +0100, Pierre Morel wrote:
+> > > S390 adds two new SMP levels, drawers and books to the CPU
+> > > topology.
+> > > The S390 CPU have specific toplogy features like dedication
+> > > and polarity to give to the guest indications on the host
+> > > vCPUs scheduling and help the guest take the best decisions
+> > > on the scheduling of threads on the vCPUs.
+> > >=20
+> > > Let us provide the SMP properties with books and drawers levels
+> > > and S390 CPU with dedication and polarity,
+> > >=20
+> > > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> > > ---
+> > >   qapi/machine.json               | 14 ++++++++--
+> > >   include/hw/boards.h             | 10 ++++++-
+> > >   include/hw/s390x/cpu-topology.h | 23 ++++++++++++++++
+> > >   target/s390x/cpu.h              |  6 +++++
+> > >   hw/core/machine-smp.c           | 48 ++++++++++++++++++++++++++++--=
+---
+> > >   hw/core/machine.c               |  4 +++
+> > >   hw/s390x/s390-virtio-ccw.c      |  2 ++
+> > >   softmmu/vl.c                    |  6 +++++
+> > >   target/s390x/cpu.c              | 10 +++++++
+> > >   qemu-options.hx                 |  6 +++--
+> > >   10 files changed, 117 insertions(+), 12 deletions(-)
+> > >   create mode 100644 include/hw/s390x/cpu-topology.h
+> > >=20
+> > [...]
+> >=20
+> > > diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> > > index 7d6d01325b..39ea63a416 100644
+> > > --- a/target/s390x/cpu.h
+> > > +++ b/target/s390x/cpu.h
+> > > @@ -131,6 +131,12 @@ struct CPUArchState {
+> > >  =20
+> > >   #if !defined(CONFIG_USER_ONLY)
+> > >       uint32_t core_id; /* PoP "CPU address", same as cpu_index */
+> > > +    int32_t socket_id;
+> > > +    int32_t book_id;
+> > > +    int32_t drawer_id;
+> > > +    int32_t dedicated;
+> > > +    int32_t polarity;
+> >=20
+> > If I understood the architecture correctly, the polarity is a property =
+of the configuration,
+> > not the cpus. So this should be vertical_entitlement, and there should =
+be a machine (?) property
+> > specifying if the polarity is horizontal or vertical.
+>=20
+> You are right, considering PTF only, the documentation says PTF([01])=20
+> does the following:
+>=20
+> "... a process is initiated to place all CPUs in the configuration into=
+=20
+> the polarization specified by the function code, ..."
+>=20
+> So on one side the polarization property is explicitly set on the CPU,=
+=20
+> and on the other side all CPU are supposed to be in the same=20
+> polarization state.
 
-I did consider it but it would involve messing about with filter to remove
-the test from the wildcards. This way we don't forget about it when looking
-through the logs.
+I'm worried about STSI showing both horizontal and vertical CPUs at the sam=
+e time.
+I don't know if this is allowed.
+If it is not, you need a way to switch between those atomically, which is h=
+arder
+if every CPU has this property.
+>=20
+> So yes we can make the horizontal/vertical a machine property.
+> However, we do not need to set this tunable as the documentation says=20
+> that the machine always start with horizontal polarization.
+>=20
+> On the other hand the documentation mixes a lot vertical with different=
+=20
+> entitlement and horizontal polarization, for TLE order and slacks so I=
+=20
+> prefer to keep the complete description of the polarization as CPU=20
+> properties in case we miss something.
+>=20
+> PTF([01]) are no performance bottle neck and the number of CPU is likely=
+=20
+> to be small, even a maximum of 248 is possible KVM warns above 16 CPU so=
+=20
+> the loop for setting all CPU inside PTF interception is not very=20
+> problematic I think.
 
-I've not been able to get this to fail on any other machine though. It's
-been rock solid over several thousand runs.
+Yeah, I'm not worried about that.
+>=20
+> Doing like you say should simplify PTF interception (no loop) but=20
+> complicates (some more if/else) TLE handling and QMP information display=
+=20
+> on CPU.
+> So I will have a look at the implications and answer again on this.
+>=20
+> Thanks,
+>=20
+> Regards,
+> Pierre
+>=20
 
-On Mon, 16 Jan 2023, 19:25 Richard Henderson, <richard.henderson@linaro.org=
->
-wrote:
-
-> On 1/16/23 07:32, Alex Benn=C3=A9e wrote:
-> > diff --git a/tests/tcg/multiarch/Makefile.target
-> b/tests/tcg/multiarch/Makefile.target
-> > index e7213af492..ae8b3d7268 100644
-> > --- a/tests/tcg/multiarch/Makefile.target
-> > +++ b/tests/tcg/multiarch/Makefile.target
-> > @@ -42,6 +42,15 @@ munmap-pthread: LDFLAGS+=3D-pthread
-> >   vma-pthread: CFLAGS+=3D-pthread
-> >   vma-pthread: LDFLAGS+=3D-pthread
-> >
-> > +# The vma-pthread seems very sensitive on gitlab and we currently
-> > +# don't know if its exposing a real bug or the test is flaky.
-> > +ifneq ($(GITLAB_CI),)
-> > +run-vma-pthread: vma-pthread
-> > +     $(call skip-test, $<, "flaky on CI?")
-> > +run-plugin-vma-pthread-with-%: vma-pthread
-> > +     $(call skip-test, $<, "flaky on CI?")
-> > +endif
-> > +
->
-> Ok I guess.  I'd have thought the ifdef around the entire mention of the
-> test would be
-> better -- no point in even building it.  But,
->
-> Acked-by: Richard Henderson <richard.henderson@linaro.org>
->
->
-> r~
->
-
---00000000000056c40e05f26777f2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">I did consider it but it would involve messing about with=
- filter to remove the test from the wildcards. This way we don&#39;t forget=
- about it when looking through the logs.<div dir=3D"auto"><br></div><div di=
-r=3D"auto">I&#39;ve not been able to get this to fail on any other machine =
-though. It&#39;s been rock solid over several thousand runs.</div></div><br=
-><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 1=
-6 Jan 2023, 19:25 Richard Henderson, &lt;<a href=3D"mailto:richard.henderso=
-n@linaro.org">richard.henderson@linaro.org</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">On 1/16/23 07:32, Alex Benn=C3=A9e wrote:<br>
-&gt; diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch=
-/Makefile.target<br>
-&gt; index e7213af492..ae8b3d7268 100644<br>
-&gt; --- a/tests/tcg/multiarch/Makefile.target<br>
-&gt; +++ b/tests/tcg/multiarch/Makefile.target<br>
-&gt; @@ -42,6 +42,15 @@ munmap-pthread: LDFLAGS+=3D-pthread<br>
-&gt;=C2=A0 =C2=A0vma-pthread: CFLAGS+=3D-pthread<br>
-&gt;=C2=A0 =C2=A0vma-pthread: LDFLAGS+=3D-pthread<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +# The vma-pthread seems very sensitive on gitlab and we currently<br>
-&gt; +# don&#39;t know if its exposing a real bug or the test is flaky.<br>
-&gt; +ifneq ($(GITLAB_CI),)<br>
-&gt; +run-vma-pthread: vma-pthread<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0$(call skip-test, $&lt;, &quot;flaky on CI?&quot;=
-)<br>
-&gt; +run-plugin-vma-pthread-with-%: vma-pthread<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0$(call skip-test, $&lt;, &quot;flaky on CI?&quot;=
-)<br>
-&gt; +endif<br>
-&gt; +<br>
-<br>
-Ok I guess.=C2=A0 I&#39;d have thought the ifdef around the entire mention =
-of the test would be <br>
-better -- no point in even building it.=C2=A0 But,<br>
-<br>
-Acked-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.=
-org" target=3D"_blank" rel=3D"noreferrer">richard.henderson@linaro.org</a>&=
-gt;<br>
-<br>
-<br>
-r~<br>
-</blockquote></div>
-
---00000000000056c40e05f26777f2--
 
