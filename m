@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A18466CDC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:40:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909AC66CDCB
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:40:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHTSF-0005IK-2z; Mon, 16 Jan 2023 12:39:31 -0500
+	id 1pHTTE-0006Eu-LU; Mon, 16 Jan 2023 12:40:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pHTSD-0005Hx-Al
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:39:29 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ id 1pHTTD-0006El-Hp
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:40:31 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pHTSA-0005cK-Ob
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:39:28 -0500
-Received: by mail-wr1-x435.google.com with SMTP id n7so2133898wrx.5
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 09:39:26 -0800 (PST)
+ id 1pHTTA-0005w1-JN
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:40:31 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ m5-20020a05600c4f4500b003db03b2559eso674894wmq.5
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 09:40:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=QoF0rORcJXnB2b9L1PSgAQWKNXSzhUXhK2rE7wubdgI=;
- b=jEvZV06XKWqwLIcsimtsaZGE1eM57WCpI9Ub9Xeq5AzyGIoi1vUolMmhv1FX+1F3ow
- 2g28+iZuWEoanD4f+DpZ43V/7eT6VLFclqbACDi9UT3ueNCh6RlMLvirHA3VjL3U1ZFc
- +uznaLFT0VPbmHgQmg7HmRAE1RPbKEpsQlfUrjK7Lw6JI/jxKuQRDmINdvxVllaijGEY
- G4K1eQ4hIITJCL5oLXKO/e+QwCKmsyDYmOgGVx+Cgr4/7MA4+0QqQzCS4YQjy8oymLCl
- Pu9WiPr9Zt0sLTqAWXRogrwC0mSMCIRFcSLCp0Yt2CVdKH7ECX8V/QPl1lmZWix2ekiz
- VK/w==
+ bh=6oKN8OwnuH0a5SA5Z/X8QHh1oNoVksuVqgQrlTvJKlI=;
+ b=ZFIGK2/woZ1+zB/F/HJt+gYwrpwefAppXSWvUKyFA7QIiHYmiZqGCvR7fRd0lQ93lC
+ 6W5/8cKdAaFWJxmk3mqGmzU5HMt3ewzf8wZdFs8Wmi4l5dUMCPBbaUOJNjfzICZdoJPK
+ oQUcskNu9JfGV4UIh/RJTPFjCOMBaWutArcVslPUndtbe+2Kcv4p2d4kKAoiem6w5Yza
+ iY4duVaogNJPxXbI9qF44EO1nbxxrVO0YKqiBFYgtl+f0Y+fMKLCRnyy/WOv8HNWDXUx
+ FzJabtYyEHYqBXHuMFq7NH7GhQyWEsA+7q7jp1Oa6Al2TrRBFDAMMC6M0xzs4tj1X2ov
+ X7JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QoF0rORcJXnB2b9L1PSgAQWKNXSzhUXhK2rE7wubdgI=;
- b=7fATSVkyC0BXMpxKPx70Vyoc0WmMsu6UPZioUq3aQPVD1Xz67BwLvOdsNLmTLYBY55
- gYzpohjr9Wy6mqCjwMsztc3/WnCwNhOJRtycD02sGTHq48d6sgSRxicX27SBiKb/hFxS
- 1WZQFJlZ2XqkQfg9vg+z183viRklxriRNpXT4PeMgfiMcwbFu0R9P27DDxHWUD5Gl0wd
- TcRx1+NHq0rNtr5fLbULlXIM0DAKlkST6gf3tltJq6uNPGd8dJuX/G+icRyfcu4MeKpe
- BR0PVhPJIc0YsntmIb3yvAGjR19kO2hNQSBy126+gTMFKhR5/b/WDOakm8DqPTqAMz33
- hdNA==
-X-Gm-Message-State: AFqh2kr1E7XkZCGr8+AeO4uSKC/a6KxKrXzRtOKy442O6RercsPfCzkT
- lLwXPYsxMvWq/Fs+IZZRNWw=
-X-Google-Smtp-Source: AMrXdXsDyDqbVOD8DWL8StF79cgIb8SAQJAlQwlpce/cqSBHF8t7+EiE00OqkIBfH3t0sSkaouBp2Q==
-X-Received: by 2002:adf:cf03:0:b0:2bb:62bf:f5ce with SMTP id
- o3-20020adfcf03000000b002bb62bff5cemr261501wrj.35.1673890765291; 
- Mon, 16 Jan 2023 09:39:25 -0800 (PST)
-Received: from [192.168.6.176] (54-240-197-224.amazon.com. [54.240.197.224])
+ bh=6oKN8OwnuH0a5SA5Z/X8QHh1oNoVksuVqgQrlTvJKlI=;
+ b=ltTqjH1lm5+odA0140BWsDnkKhP0T2tdIs6D6tH+wt0gYGp4mS9viHfXi23zjueQn0
+ bHUkwXVX7mjcfzDUdMmqZleWaaWb06UVhGXP2LzvhJIfUAmZdfqBXx1J5ZgNdBMHrKfx
+ l0FJqipo6Q4f7wGeFoMeA4P1SShHI6cRkFuu/hWkMXZRB0S/+u8kJtJtxlmSWJ7szVcT
+ /QOcmfhiE9NkOzHDjuVFYGTOLR4coI3Dj6U6TgAGp7w3nrz4NX9CxFhjnZKw+J3zvgRO
+ xAha+BqtEdvzxkrTt9YOUByPGztGH0VWyxnXY9YCf6HO+aP2WA848B7C4XyxEiu/SnAl
+ 6tuA==
+X-Gm-Message-State: AFqh2kob1q61j23Sr0PTLT1M2JDbuYacr4BfpKl95iPLTAk/enpFUPb7
+ nI9oJvfdtT0++EJQtSzwCtE=
+X-Google-Smtp-Source: AMrXdXuvU9S4leD20vs21gJ3DVfC8qKhRq4oyx0C4eXGK+fsg/9Mo55O1MbsPKwSj4xDJNsEgiNnLw==
+X-Received: by 2002:a05:600c:ad0:b0:3d9:ebab:ccff with SMTP id
+ c16-20020a05600c0ad000b003d9ebabccffmr8906316wmr.33.1673890827106; 
+ Mon, 16 Jan 2023 09:40:27 -0800 (PST)
+Received: from [192.168.6.176] (54-240-197-232.amazon.com. [54.240.197.232])
  by smtp.gmail.com with ESMTPSA id
- n13-20020a5d67cd000000b002bdcce37d31sm15092365wrw.99.2023.01.16.09.39.24
+ h15-20020a05600c314f00b003d99469ece1sm41734547wmo.24.2023.01.16.09.40.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 09:39:24 -0800 (PST)
+ Mon, 16 Jan 2023 09:40:26 -0800 (PST)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <095a681e-a7ac-b186-d951-21328f613bcb@xen.org>
-Date: Mon, 16 Jan 2023 17:39:22 +0000
+Message-ID: <4eae6bd2-cba6-192f-6f36-2bb3fb1c29d6@xen.org>
+Date: Mon, 16 Jan 2023 17:40:24 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v6 18/51] i386/xen: implement HYPERVISOR_hvm_op
+Subject: Re: [PATCH v6 19/51] i386/xen: implement HYPERVISOR_vcpu_op
 Content-Language: en-US
 To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -74,13 +75,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
 References: <20230110122042.1562155-1-dwmw2@infradead.org>
- <20230110122042.1562155-19-dwmw2@infradead.org>
+ <20230110122042.1562155-20-dwmw2@infradead.org>
 Organization: Xen Project
-In-Reply-To: <20230110122042.1562155-19-dwmw2@infradead.org>
+In-Reply-To: <20230110122042.1562155-20-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -107,13 +108,15 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 10/01/2023 12:20, David Woodhouse wrote:
 > From: Joao Martins <joao.m.martins@oracle.com>
 > 
-> This is when guest queries for support for HVMOP_pagetable_dying.
+> This is simply when guest tries to register a vcpu_info
+> and since vcpu_info placement is optional in the minimum ABI
+> therefore we can just fail with -ENOSYS
 > 
 > Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->   target/i386/kvm/xen-emu.c | 17 +++++++++++++++++
->   1 file changed, 17 insertions(+)
+>   target/i386/kvm/xen-emu.c | 25 +++++++++++++++++++++++++
+>   1 file changed, 25 insertions(+)
 > 
 
 Reviewed-by: Paul Durrant <paul@xen.org>
