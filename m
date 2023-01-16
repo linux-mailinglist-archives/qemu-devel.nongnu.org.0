@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4601466CF7E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 20:23:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E393466CF84
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 20:26:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHV3X-00032p-U2; Mon, 16 Jan 2023 14:22:07 -0500
+	id 1pHV6y-0003sC-Hv; Mon, 16 Jan 2023 14:25:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHV3V-00032Q-E5
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 14:22:05 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ id 1pHV6s-0003r0-C8
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 14:25:36 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHV3T-0008K6-Rx
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 14:22:05 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id v23so30046054pju.3
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 11:22:02 -0800 (PST)
+ id 1pHV6q-0000J2-Ps
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 14:25:34 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ w4-20020a17090ac98400b002186f5d7a4cso34882083pjt.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 11:25:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=UHgUmU2tyJTjx8CLVJS+SuvK330lHkpn1dZvIU/qrLQ=;
- b=TltHjFrT4JQ28uZvU8Z7kusRnEArmZH3b0BgpZK0nNRYyBMg0/7s1c/2tGiAsDKaQx
- VTtkEpIdFWjn8fOTMsFWCfDIrBJYrK5mp3tL+9H8iLZLfnYVUIbzO9+XpFl8XXVGvRHy
- sEyhV4FQU6cTX/ddqOoFlEtvRY6i26sAv9BWh8Qo2sr4xF9FwHym6wOxK4DxOU9ryeKL
- b+BwuJC93mwnG5KwKqsUPPqt4GoXD+3s0xlmgxmjOsfce7UhaE482lfeO1XfHln2jT04
- aLdrf3nGN7haGQCzbIJ15Ko730QCb1aZw4Eax9NzXuARJHHDw0pnRRGaRat9I7ERqvdo
- DwWw==
+ bh=eyYkCjv1JhpI0P/XGbq0il4pxA2JZBl0fYf6DerZDr4=;
+ b=VCg3IVuDoDmeX2FE2U0Taghfp0lTK0mgPqSquyYUmQGCq3TL7q1PENRu6aC8xIy1rq
+ rNOfaVEP4nf8SswK/0ZUc7Ao85qG52R5FOA5qQWhEXAKXToGQhX6JoBVk9LcFv90a1JB
+ OgpU86pTsmE8lvy5jFEeTPpfGA3CJAn/tA0qUAXIh3iRMuFKdH0WrL/bR0JRWyGkaJD2
+ D0zu00CturcNUMhjTQmIo0C6bh+2S+WusmVqMSEAQrebDkFiSW8WJEf3OhiNL68VRbEC
+ LI4DusyPARG+3igoiOndMJbrUfbWb0kIKAVtO2oG0T1BE/EBgifTnxRoHtxyarklsrxl
+ 4MBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UHgUmU2tyJTjx8CLVJS+SuvK330lHkpn1dZvIU/qrLQ=;
- b=aMZgPQ2nC5T7Zp/y4SN6QcW1VYaCFMxEvfN/SqrlPl6RccAbI2zKlVsQ6sBWt3LhTd
- v5xo2nx9+VxrBvoIJPzRkaSaRD39+JhnW+lHLmea5zh/onUfit3jnZ73Q5tCy8+m0zah
- hmrlvk3t5KZXLgw0nrb3iUEJk1cg/Rdl52BGkItQbfGNKhNwq+Tch1VLO+/+VQSeMj9s
- YQ3f8fSPsIt+WizTb4Ej1ANhNj82pAowkpFIO9jTUquLrayPoBYMVriaGv+iKi1LJ0l2
- yQ1HfC6UBCFzLH7G8ZUi+yZgFkqyqDEJyXA+38XXIEnGfjmVrhjMKAQRJk5kikEptDuX
- 5XtA==
-X-Gm-Message-State: AFqh2kqPUyXIqTZtILICdEelvZ0A4WNhg2fPZSsBpNAdOcAe9gUHnGct
- m7zPybdq30/hEqI8tlbANQZFyA==
-X-Google-Smtp-Source: AMrXdXsVgySYF6mEmbQyHyKoX7I76uDB43xkIvmFRPHtNNkwY6r6U1IR0HW7f8grCk6RcINC1LOWHA==
-X-Received: by 2002:a17:903:3245:b0:186:95c9:ddc9 with SMTP id
- ji5-20020a170903324500b0018695c9ddc9mr21464381plb.55.1673896921701; 
- Mon, 16 Jan 2023 11:22:01 -0800 (PST)
+ bh=eyYkCjv1JhpI0P/XGbq0il4pxA2JZBl0fYf6DerZDr4=;
+ b=6Ep3wLNEk5Xb5jSA9eHWj49gVblJyyuGhFnm4iWtXyztEPmFMrmZxK4hEXzqXR4O/o
+ rPEcfG6w03HNJR5vg7nEL1e/OEKIE9ro9TfLJW0q5UN0470JOwDksqSrIVo4/zVGnnNS
+ NRrAJ4tVasA6LaO2dWiElDhxSVd+5k/AhyjdpExd8Cr0/6u+9JdjM4NvAJIg3TQeQZaQ
+ ehXEnczBUiEJrk/dymzCiGfabYUKo8NBej/XaCBmitSgAWsU/kuomFZ1ogg5PAOyJEhL
+ i4tNv6rzlP/Fu3BKXf8j4W7YL5955iiFMqVfV5nlHQjsEhTsF+TStoVanwXkmuKRJHM3
+ FbFg==
+X-Gm-Message-State: AFqh2kqBgH/VTbu4CgU5J7OhiAhJHAvCUsUMeFtCGDInERIRh53EaOqX
+ qiECModFGHi7L65jvBzIi2HGhpyhbekvE28u
+X-Google-Smtp-Source: AMrXdXtXbDC+ntB7uAkdbXVoCIOXeH+6VtR3BQXHzxiAHddJ2jmZzKWHpCZBhjIt+KPacx3lWKNxEA==
+X-Received: by 2002:a17:90a:5b0c:b0:229:2458:4b2d with SMTP id
+ o12-20020a17090a5b0c00b0022924584b2dmr414508pji.12.1673897130928; 
+ Mon, 16 Jan 2023 11:25:30 -0800 (PST)
 Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- u7-20020a170902e5c700b0017f72a430adsm54958plf.71.2023.01.16.11.21.59
+ u3-20020a17090a890300b00218cd71781csm17142097pjn.51.2023.01.16.11.25.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 11:22:01 -0800 (PST)
-Message-ID: <3d4667fe-a593-ae3d-76fd-68f181f88918@linaro.org>
-Date: Mon, 16 Jan 2023 09:21:56 -1000
+ Mon, 16 Jan 2023 11:25:30 -0800 (PST)
+Message-ID: <ad966746-62c3-0e96-ae43-b6ddd7dd8ce1@linaro.org>
+Date: Mon, 16 Jan 2023 09:25:27 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 4/4] tests/tcg/multiarch: add vma-pthread.c
+Subject: Re: [RFC PATCH] tests/tcg: skip the vma-pthread test on CI
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- iii@linux.ibm.com, qemu-devel@nongnu.org
-References: <20221224151821.464455-1-richard.henderson@linaro.org>
- <20221224151821.464455-5-richard.henderson@linaro.org>
- <CAFEAcA_viCsMxSjcpFtxL+hj-n5TTff0npg1RjOnLUpwGu47DA@mail.gmail.com>
- <87pmbil5rn.fsf@linaro.org> <a2ebe5dd-29a2-4c94-f3da-9c7f5dc7979f@linaro.org>
- <CAFEAcA_sZ7QbkhOHYJt-DPxh-NS6XnBg8MNJh=oe8X6KmuAYjg@mail.gmail.com>
- <87bkmye8xx.fsf@linaro.org>
+ qemu-devel@nongnu.org
+References: <20230116173233.2948746-1-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87bkmye8xx.fsf@linaro.org>
+In-Reply-To: <20230116173233.2948746-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -99,19 +93,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/16/23 06:27, Alex Bennée wrote:
-> Although looking at the test I'm beginning to wonder what the sync point
-> is between the mutator and the read/write threads?
+On 1/16/23 07:32, Alex Bennée wrote:
+> diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+> index e7213af492..ae8b3d7268 100644
+> --- a/tests/tcg/multiarch/Makefile.target
+> +++ b/tests/tcg/multiarch/Makefile.target
+> @@ -42,6 +42,15 @@ munmap-pthread: LDFLAGS+=-pthread
+>   vma-pthread: CFLAGS+=-pthread
+>   vma-pthread: LDFLAGS+=-pthread
+>   
+> +# The vma-pthread seems very sensitive on gitlab and we currently
+> +# don't know if its exposing a real bug or the test is flaky.
+> +ifneq ($(GITLAB_CI),)
+> +run-vma-pthread: vma-pthread
+> +	$(call skip-test, $<, "flaky on CI?")
+> +run-plugin-vma-pthread-with-%: vma-pthread
+> +	$(call skip-test, $<, "flaky on CI?")
+> +endif
+> +
 
-What do you mean?
+Ok I guess.  I'd have thought the ifdef around the entire mention of the test would be 
+better -- no point in even building it.  But,
 
-There is no explicit sync, because the mutator always leaves each page with the (one) 
-permission that the read/write/execute thread requires.
-
-Within qemu... the sync point is primarily the syscall for read/write, and the tb 
-invalidate (during the mprotect) or the mmap lock for new translation for execute.
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
-
 
