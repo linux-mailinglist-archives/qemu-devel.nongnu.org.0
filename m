@@ -2,96 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5968066D0A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 22:03:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6317D66D0C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 22:11:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHWcb-0007DL-W2; Mon, 16 Jan 2023 16:02:26 -0500
+	id 1pHWjw-0001dz-GS; Mon, 16 Jan 2023 16:10:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pHWcF-00078X-2w
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:02:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pHWjt-0001dB-Vu; Mon, 16 Jan 2023 16:09:58 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pHWcD-0000jz-5l
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:02:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673902919;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YzE/bfshJvqsYkig9WmdM2lJKbsr+GfBud2xFv3W7j0=;
- b=KQLsKAMX13EiBoHe/sEKHfxRRcO/ygJYP0+5PYOVP83D+Qo6Ezy/0sXUOFZbRYPwvu7I21
- EIl8V/dnB9O7saXQmgW2UlJeFkSFw2aImlmqJ2ZlxueO1IlbO51Yr3Xk+uBjsP/XtJvsJo
- d7lJT9l9sO1SPpu/tn55hu+6GHjkmco=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-64-TGDFP7fkNYij2dGhqhFYoQ-1; Mon, 16 Jan 2023 16:01:58 -0500
-X-MC-Unique: TGDFP7fkNYij2dGhqhFYoQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c7-20020a1c3507000000b003d355c13ba8so15524589wma.6
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 13:01:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YzE/bfshJvqsYkig9WmdM2lJKbsr+GfBud2xFv3W7j0=;
- b=SJPonXUP3wSMnthzcByTvO0bS3+km5vPZHJDl/3UiOkgN+pu9ktKtp3XgOX6D9o+bP
- 4nzQzgABA5bQImb3HqUvN6jWRRlAAzL5R+ZHZ8h9igry7Yww9dtrDx9iVTErFsKuz73a
- hmo0PdYHpmEMfFp5q+EgwEO82FUqWkpxz5ZTyMaQ6IfgR5XLWCPnNHZD8aPJR8yuGiB4
- XWa93CM6CcUX3gPK1WOUvY4dh8ksVA3aEpyZcDOtLfm+aUsGRVQUPqXhB7ie2kQ+gGkn
- xqFl6ICFG9kq098jbk/2nc2ubt3MCn1vROtuJzRD0pupcKX7O5+55J3yhZdrUf3dFgWG
- GzZg==
-X-Gm-Message-State: AFqh2kpKLhnveliwXL2z6aEw6wQQI1cbV2pNUHh+qrHLTyQjuFBlXERY
- x/BdRpGmNw4Vx+HPtgJxAVjKYRaXqApYBiqQE5W4sI1lfnWjmuiXTvuCY+sG/8uqVJbaXLjVLvn
- 2R2JFm3PD5RtZK08=
-X-Received: by 2002:a05:600c:1695:b0:3da:f651:8ccc with SMTP id
- k21-20020a05600c169500b003daf6518cccmr793177wmn.4.1673902917372; 
- Mon, 16 Jan 2023 13:01:57 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvVu8wnOgGzW48KfDt4Q+qHniWaGzGGzDweh8bhpxmrEcOO++9TpoyBSx+EfuqVCk0BMCwyFw==
-X-Received: by 2002:a05:600c:1695:b0:3da:f651:8ccc with SMTP id
- k21-20020a05600c169500b003daf6518cccmr793167wmn.4.1673902917194; 
- Mon, 16 Jan 2023 13:01:57 -0800 (PST)
-Received: from redhat.com ([2.52.132.216]) by smtp.gmail.com with ESMTPSA id
- iv14-20020a05600c548e00b003b47b80cec3sm45296837wmb.42.2023.01.16.13.01.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Jan 2023 13:01:56 -0800 (PST)
-Date: Mon, 16 Jan 2023 16:01:52 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
- Si-Wei Liu <si-wei.liu@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Parav Pandit <parav@mellanox.com>
-Subject: Re: [RFC PATCH for 8.0 10/13] virtio-net: Migrate vhost inflight
- descriptors
-Message-ID: <20230116155949-mutt-send-email-mst@kernel.org>
-References: <20221205170436.2977336-1-eperezma@redhat.com>
- <20221205170436.2977336-11-eperezma@redhat.com>
- <CACGkMEtcQztTdRbX3xyFvNYSRsu58tRppoyTUh94vXwSGLPH=A@mail.gmail.com>
- <CAJaqyWf34J7g+3eQ498JS+VC07j+3rF+m-yeWhE5RcP1MDu2pw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pHWjr-0002Jl-FA; Mon, 16 Jan 2023 16:09:57 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30GKpM6E025518; Mon, 16 Jan 2023 21:09:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=JhHluoxsphf/vJwKyXfY5HaurblVcADBx4r/ut2H2G8=;
+ b=cIjc3mgisRvk2N4ppa4V0MCD/IWEIDVs0tvmsZH0pUN8pFqg+esQ5JR1VecFVCBpX4Ws
+ bBgodDxrHI+PhgcjCwxw3qa2USRuqxZ2nMGUCrjdjEMSYTbGmyWc54bfJ8TmUY1Ml+BK
+ oetCJHOVWpNZa2FOuzLXjgAEB/kBJcwkYhkGcDzwXOaq80j/zuYz/P2C+75Zjks94ND9
+ vUgbdfNuR+u4ME2kcEMAO69xU71COqD7Ut2v8dOfQnt0JVif/Us1kJsEfNXg3ENn9bzU
+ 45svdgQHh41jBdylYW829+t4fvrwDfYPS6raLSab/ISejI6ATExCg5sIPzzuw5Mz6S7f 9A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5dym89jn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Jan 2023 21:09:45 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30GKwts3018357;
+ Mon, 16 Jan 2023 21:09:45 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5dym89j9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Jan 2023 21:09:45 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30GCOQFN017351;
+ Mon, 16 Jan 2023 21:09:43 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3n3m16jwp5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Jan 2023 21:09:43 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30GL9dDu43450736
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 16 Jan 2023 21:09:39 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4E93620043;
+ Mon, 16 Jan 2023 21:09:39 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D1C2820040;
+ Mon, 16 Jan 2023 21:09:38 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.176.184])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 16 Jan 2023 21:09:38 +0000 (GMT)
+Message-ID: <72baa5b42abe557cdf123889b33b845b405cc86c.camel@linux.ibm.com>
+Subject: Re: [PATCH v14 08/11] qapi/s390/cpu topology:  change-topology
+ monitor command
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Mon, 16 Jan 2023 22:09:38 +0100
+In-Reply-To: <20230105145313.168489-9-pmorel@linux.ibm.com>
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-9-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJaqyWf34J7g+3eQ498JS+VC07j+3rF+m-yeWhE5RcP1MDu2pw@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: uzE-Sa1BKixOCnjVQhOTWRHUQD9lT4Bd
+X-Proofpoint-GUID: 5VDqwYc09Lih5xphpL1Ru60AXxVCgUIm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-16_16,2023-01-13_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ spamscore=0 mlxscore=0 bulkscore=0 phishscore=0 adultscore=0 clxscore=1015
+ mlxlogscore=999 malwarescore=0 suspectscore=0 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301160155
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,27 +118,293 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Dec 07, 2022 at 09:56:20AM +0100, Eugenio Perez Martin wrote:
-> > A dumb question, any reason we need bother with virtio-net? It looks
-> > to me it's not a must and would complicate migration compatibility.
-> >
-> > I guess virtio-blk is the better place.
-> >
-> 
-> I'm fine to start with -blk, but if -net devices are processing
-> buffers out of order we have chances of losing descriptors too.
-> 
-> We can wait for more feedback to prioritize correctly this though.
-> 
-> Thanks!
+On Thu, 2023-01-05 at 15:53 +0100, Pierre Morel wrote:
+> The modification of the CPU attributes are done through a monitor
+> commands.
+>=20
+> It allows to move the core inside the topology tree to optimise
+> the cache usage in the case the host's hypervizor previously
+> moved the CPU.
+>=20
+> The same command allows to modifiy the CPU attributes modifiers
+> like polarization entitlement and the dedicated attribute to notify
+> the guest if the host admin modified scheduling or dedication of a vCPU.
+>=20
+> With this knowledge the guest has the possibility to optimize the
+> usage of the vCPUs.
+>=20
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>  qapi/machine-target.json |  29 ++++++++
+>  include/monitor/hmp.h    |   1 +
+>  hw/s390x/cpu-topology.c  | 141 +++++++++++++++++++++++++++++++++++++++
+>  hmp-commands.hx          |  16 +++++
+>  4 files changed, 187 insertions(+)
+>=20
+> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> index 2e267fa458..75b0aa254d 100644
+> --- a/qapi/machine-target.json
+> +++ b/qapi/machine-target.json
+> @@ -342,3 +342,32 @@
+>                     'TARGET_S390X',
+>                     'TARGET_MIPS',
+>                     'TARGET_LOONGARCH64' ] } }
+> +
+> +##
+> +# @change-topology:
+> +#
+> +# @core: the vCPU ID to be moved
+> +# @socket: the destination socket where to move the vCPU
+> +# @book: the destination book where to move the vCPU
+> +# @drawer: the destination drawer where to move the vCPU
+> +# @polarity: optional polarity, default is last polarity set by the gues=
+t
+> +# @dedicated: optional, if the vCPU is dedicated to a real CPU
+> +#
+> +# Modifies the topology by moving the CPU inside the topology
+> +# tree or by changing a modifier attribute of a CPU.
+> +#
+> +# Returns: Nothing on success, the reason on failure.
+> +#
+> +# Since: <next qemu stable release, eg. 1.0>
+> +##
+> +{ 'command': 'change-topology',
+> +  'data': {
+> +      'core': 'int',
+> +      'socket': 'int',
+> +      'book': 'int',
+> +      'drawer': 'int',
+> +      '*polarity': 'int',
+> +      '*dedicated': 'bool'
+> +  },
+> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+> +}
+> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+> index 27f86399f7..15c36bf549 100644
+> --- a/include/monitor/hmp.h
+> +++ b/include/monitor/hmp.h
+> @@ -144,5 +144,6 @@ void hmp_human_readable_text_helper(Monitor *mon,
+>                                      HumanReadableText *(*qmp_handler)(Er=
+ror **));
+>  void hmp_info_stats(Monitor *mon, const QDict *qdict);
+>  void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
+> +void hmp_change_topology(Monitor *mon, const QDict *qdict);
+> =20
+>  #endif
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index b69955a1cd..0faffe657e 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -18,6 +18,10 @@
+>  #include "target/s390x/cpu.h"
+>  #include "hw/s390x/s390-virtio-ccw.h"
+>  #include "hw/s390x/cpu-topology.h"
+> +#include "qapi/qapi-commands-machine-target.h"
+> +#include "qapi/qmp/qdict.h"
+> +#include "monitor/hmp.h"
+> +#include "monitor/monitor.h"
+> =20
+>  /*
+>   * s390_topology is used to keep the topology information.
+> @@ -203,6 +207,21 @@ static void s390_topology_set_entry(S390TopologyEntr=
+y *entry,
+>      s390_topology.sockets[s390_socket_nb(id)]++;
+>  }
+> =20
+> +/**
+> + * s390_topology_clear_entry:
+> + * @entry: Topology entry to setup
+> + * @id: topology id to use for the setup
+> + *
+> + * Clear the core bit inside the topology mask and
+> + * decrements the number of cores for the socket.
+> + */
+> +static void s390_topology_clear_entry(S390TopologyEntry *entry,
+> +                                      s390_topology_id id)
+> +{
+> +    clear_bit(63 - id.core, &entry->mask);
 
-Traditionally vhost serialized everything when dropping the VQ.
-Would be interesting to hear from hardware vendors on whether
-it's hard or easy to do in hardware.
-But I suspect all devices will want the capability eventually
-because why not, if we have the code let's just do it everywhere.
+This doesn't take the origin into account.
 
--- 
-MST
+> +    s390_topology.sockets[s390_socket_nb(id)]--;
+
+I suppose this function cannot run concurrently, so the same CPU doesn't ge=
+t removed twice.
+
+> +}
+> +
+>  /**
+>   * s390_topology_new_entry:
+>   * @id: s390_topology_id to add
+> @@ -383,3 +402,125 @@ void s390_topology_set_cpu(MachineState *ms, S390CP=
+U *cpu, Error **errp)
+> =20
+>      s390_topology_insert(id);
+>  }
+> +
+> +/*
+> + * qmp and hmp implementations
+> + */
+> +
+> +static S390TopologyEntry *s390_topology_core_to_entry(int core)
+> +{
+> +    S390TopologyEntry *entry;
+> +
+> +    QTAILQ_FOREACH(entry, &s390_topology.list, next) {
+> +        if (entry->mask & (1UL << (63 - core))) {
+
+origin here also.
+
+> +            return entry;
+> +        }
+> +    }
+> +    return NULL;
+
+This should not return NULL unless the core id is invalid.
+Might be better to validate that somewhere else.
+
+> +}
+> +
+> +static void s390_change_topology(Error **errp, int64_t core, int64_t soc=
+ket,
+> +                                 int64_t book, int64_t drawer,
+> +                                 int64_t polarity, bool dedicated)
+> +{
+> +    S390TopologyEntry *entry;
+> +    s390_topology_id new_id;
+> +    s390_topology_id old_id;
+> +    Error *local_error =3D NULL;
+
+I think you could use ERRP_GUARD here also.
+> +
+> +    /* Get the old entry */
+> +    entry =3D s390_topology_core_to_entry(core);
+> +    if (!entry) {
+> +        error_setg(errp, "No core %ld", core);
+> +        return;
+> +    }
+> +
+> +    /* Compute old topology id */
+> +    old_id =3D entry->id;
+> +    old_id.core =3D core;
+> +
+> +    /* Compute new topology id */
+> +    new_id =3D entry->id;
+> +    new_id.core =3D core;
+> +    new_id.socket =3D socket;
+> +    new_id.book =3D book;
+> +    new_id.drawer =3D drawer;
+> +    new_id.p =3D polarity;
+> +    new_id.d =3D dedicated;
+> +    new_id.type =3D S390_TOPOLOGY_CPU_IFL;
+> +
+> +    /* Same topology entry, nothing to do */
+> +    if (entry->id.id =3D=3D new_id.id) {
+> +        return;
+> +    }
+> +
+> +    /* Check for space on the socket if ids are different */
+> +    if ((s390_socket_nb(old_id) !=3D s390_socket_nb(new_id)) &&
+> +        (s390_topology.sockets[s390_socket_nb(new_id)] >=3D
+> +         s390_topology.smp->sockets)) {
+> +        error_setg(errp, "No more space on this socket");
+> +        return;
+> +    }
+> +
+> +    /* Verify the new topology */
+> +    s390_topology_check(&local_error, new_id);
+> +    if (local_error) {
+> +        error_propagate(errp, local_error);
+> +        return;
+> +    }
+> +
+> +    /* Clear the old topology */
+> +    s390_topology_clear_entry(entry, old_id);
+> +
+> +    /* Insert the new topology */
+> +    s390_topology_insert(new_id);
+> +
+> +    /* Remove unused entry */
+> +    if (!entry->mask) {
+> +        QTAILQ_REMOVE(&s390_topology.list, entry, next);
+> +        g_free(entry);
+> +    }
+> +
+> +    /* Advertise the topology change */
+> +    s390_cpu_topology_set();
+> +}
+> +
+> +void qmp_change_topology(int64_t core, int64_t socket,
+> +                         int64_t book, int64_t drawer,
+> +                         bool has_polarity, int64_t polarity,
+> +                         bool has_dedicated, bool dedicated,
+> +                         Error **errp)
+> +{
+> +    Error *local_err =3D NULL;
+> +
+> +    if (!s390_has_topology()) {
+> +        error_setg(&local_err, "This machine doesn't support topology");
+> +        return;
+> +    }
+
+Do you really want to ignore has_polarity and has_dedicated here?
+What happens in this case?
+
+> +    s390_change_topology(&local_err, core, socket, book, drawer,
+> +                         polarity, dedicated);
+> +    if (local_err) {
+> +        error_propagate(errp, local_err);
+> +    }
+> +}
+> +
+> +void hmp_change_topology(Monitor *mon, const QDict *qdict)
+> +{
+> +    const int64_t core =3D qdict_get_int(qdict, "core");
+> +    const int64_t socket =3D qdict_get_int(qdict, "socket");
+> +    const int64_t book =3D qdict_get_int(qdict, "book");
+> +    const int64_t drawer =3D qdict_get_int(qdict, "drawer");
+> +    bool has_polarity    =3D qdict_haskey(qdict, "polarity");
+> +    const int64_t polarity =3D qdict_get_try_int(qdict, "polarity", 0);
+> +    bool has_dedicated    =3D qdict_haskey(qdict, "dedicated");
+> +    const bool dedicated =3D qdict_get_try_bool(qdict, "dedicated", fals=
+e);
+> +    Error *local_err =3D NULL;
+> +
+> +    qmp_change_topology(core, socket, book, drawer,
+> +                        has_polarity, polarity,
+> +                        has_dedicated, dedicated,
+> +                        &local_err);
+> +    if (hmp_handle_error(mon, local_err)) {
+> +        return;
+> +    }
+> +}
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index 673e39a697..a617cfed0d 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -1815,3 +1815,19 @@ SRST
+>    Dump the FDT in dtb format to *filename*.
+>  ERST
+>  #endif
+> +
+> +#if defined(TARGET_S390X) && defined(CONFIG_KVM)
+> +    {
+> +        .name       =3D "change-topology",
+> +        .args_type  =3D "core:l,socket:l,book:l,drawer:l,polarity:l?,ded=
+icated:b?",
+> +        .params     =3D "core socket book drawer [polarity] [dedicated]"=
+,
+> +        .help       =3D "Move CPU 'core' to 'socket/book/drawer' "
+> +                      "optionaly modifies polarity and dedication",
+> +        .cmd        =3D hmp_change_topology,
+> +    },
+> +
+> +SRST
+> +``change-topology`` *core* *socket* *book* *drawer* *polarity* *dedicate=
+d*
+> +  Moves the CPU  *core* to *socket* *book* *drawer* with *polarity* *ded=
+icated*.
+> +ERST
+> +#endif
 
 
