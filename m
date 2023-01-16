@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D321066BC95
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 12:15:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD13C66BC9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 12:15:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHNRU-0004hp-Dw; Mon, 16 Jan 2023 06:14:20 -0500
+	id 1pHNRT-0004hK-Ok; Mon, 16 Jan 2023 06:14:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pHNRR-0004gJ-39; Mon, 16 Jan 2023 06:14:17 -0500
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pHNRR-0004gM-5I
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 06:14:17 -0500
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pHNRO-0005R7-Bj; Mon, 16 Jan 2023 06:14:16 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.148])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 83277217A7;
- Mon, 16 Jan 2023 11:13:36 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX2.mxp5.local (172.16.2.32)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pHNRP-0005Tk-FO
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 06:14:16 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.233])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 63FA121E88;
+ Mon, 16 Jan 2023 11:14:02 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 16 Jan
- 2023 12:13:35 +0100
+ 2023 12:14:01 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001c9009280-f149-47d5-a70c-ddaa69851e32,
+ (GARM-98R002253ca706-ccc4-42e1-a0eb-c3f4fd7c1d23,
  9562F276D9C9043C19838F7BDA7B87DE9C964FD3) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <3413fbee-f200-2b4b-4132-1bac82d1fdbd@kaod.org>
-Date: Mon, 16 Jan 2023 12:13:34 +0100
+Message-ID: <8ff7fec7-125e-11f1-5479-7489ecc03330@kaod.org>
+Date: Mon, 16 Jan 2023 12:13:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 1/6] hw/nvram/eeprom_at24c: Add header w/ init helper
+Subject: Re: [PATCH 2/6] hw/arm/aspeed: Remove local copy of at24c_eeprom_init
 Content-Language: en-US
 To: Peter Delevoryas <peter@pjd.dev>
 CC: <patrick@stwcx.xyz>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
  <joel@jms.id.au>, <hskinnemoen@google.com>, <kfting@nuvoton.com>,
  <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
 References: <20230114170151.87833-1-peter@pjd.dev>
- <20230114170151.87833-2-peter@pjd.dev>
+ <20230114170151.87833-3-peter@pjd.dev>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230114170151.87833-2-peter@pjd.dev>
+In-Reply-To: <20230114170151.87833-3-peter@pjd.dev>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
  (172.16.2.32)
-X-Ovh-Tracer-GUID: f584dca1-1c10-41bb-9a1c-26291dd66cd6
-X-Ovh-Tracer-Id: 3557843709873654575
+X-Ovh-Tracer-GUID: 9a3f3ae1-8a3f-4555-9fc3-4669399f2ffe
+X-Ovh-Tracer-Id: 3565162059284777775
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedgvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrsehpjhgurdguvghvpdhprghtrhhitghksehsthiftgigrdighiiipdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdprghnughrvgifsegrjhdrihgurdgruhdpjhhovghlsehjmhhsrdhiugdrrghupdhhshhkihhnnhgvmhhovghnsehgohhoghhlvgdrtghomhdpkhhfthhinhhgsehnuhhvohhtohhnrdgtohhmpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmoh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedgvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrsehpjhgurdguvghvpdhprghtrhhitghksehsthiftgigrdighiiipdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdprghnughrvgifsegrjhdrihgurdgruhdpjhhovghlsehjmhhsrdhiugdrrghupdhhshhkihhnnhgvmhhovghnsehgohhoghhlvgdrtghomhdpkhhfthhinhhgsehnuhhvohhtohhnrdgtohhmpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmoh
  ehgeekpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,7 +79,6 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 1/14/23 18:01, Peter Delevoryas wrote:
 > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 
-Please add some short commit log explaining how the helper could be useful.
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
@@ -88,54 +87,36 @@ Thanks,
 C.
 
 > ---
->   hw/nvram/eeprom_at24c.c         | 10 ++++++++++
->   include/hw/nvram/eeprom_at24c.h | 10 ++++++++++
->   2 files changed, 20 insertions(+)
->   create mode 100644 include/hw/nvram/eeprom_at24c.h
+>   hw/arm/aspeed.c | 10 +---------
+>   1 file changed, 1 insertion(+), 9 deletions(-)
 > 
-> diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-> index 2d4d8b952f38..0c27eae2b354 100644
-> --- a/hw/nvram/eeprom_at24c.c
-> +++ b/hw/nvram/eeprom_at24c.c
-> @@ -12,6 +12,7 @@
->   #include "qapi/error.h"
->   #include "qemu/module.h"
->   #include "hw/i2c/i2c.h"
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 55f114ef729f..1f9799d4321e 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -17,6 +17,7 @@
+>   #include "hw/i2c/i2c_mux_pca954x.h"
+>   #include "hw/i2c/smbus_eeprom.h"
+>   #include "hw/misc/pca9552.h"
 > +#include "hw/nvram/eeprom_at24c.h"
+>   #include "hw/sensor/tmp105.h"
+>   #include "hw/misc/led.h"
 >   #include "hw/qdev-properties.h"
->   #include "hw/qdev-properties-system.h"
->   #include "sysemu/block-backend.h"
-> @@ -128,6 +129,15 @@ int at24c_eeprom_send(I2CSlave *s, uint8_t data)
->       return 0;
+> @@ -429,15 +430,6 @@ static void aspeed_machine_init(MachineState *machine)
+>       arm_load_kernel(ARM_CPU(first_cpu), machine, &aspeed_board_binfo);
 >   }
 >   
-> +void at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size)
-> +{
-> +    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", address);
-> +    DeviceState *dev = DEVICE(i2c_dev);
-> +
-> +    qdev_prop_set_uint32(dev, "rom-size", rom_size);
-> +    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
-> +}
-> +
->   static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
+> -static void at24c_eeprom_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
+> -{
+> -    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
+> -    DeviceState *dev = DEVICE(i2c_dev);
+> -
+> -    qdev_prop_set_uint32(dev, "rom-size", rsize);
+> -    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
+> -}
+> -
+>   static void palmetto_bmc_i2c_init(AspeedMachineState *bmc)
 >   {
->       EEPROMState *ee = AT24C_EE(dev);
-> diff --git a/include/hw/nvram/eeprom_at24c.h b/include/hw/nvram/eeprom_at24c.h
-> new file mode 100644
-> index 000000000000..9d9cf212757c
-> --- /dev/null
-> +++ b/include/hw/nvram/eeprom_at24c.h
-> @@ -0,0 +1,10 @@
-> +/* Copyright (c) Meta Platforms, Inc. and affiliates. */
-> +
-> +#ifndef EEPROM_AT24C_H
-> +#define EEPROM_AT24C_H
-> +
-> +#include "hw/i2c/i2c.h"
-> +
-> +void at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size);
-> +
-> +#endif
+>       AspeedSoCState *soc = &bmc->soc;
 
 
