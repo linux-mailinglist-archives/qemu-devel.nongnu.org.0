@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE77F66CC1C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B6366CC36
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:23:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHTBO-0007Wl-Ae; Mon, 16 Jan 2023 12:22:06 -0500
+	id 1pHTCc-0008PO-Gq; Mon, 16 Jan 2023 12:23:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pHTBH-0007Vk-OB; Mon, 16 Jan 2023 12:21:59 -0500
+ id 1pHTCZ-0008Ox-SQ; Mon, 16 Jan 2023 12:23:19 -0500
 Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pHTBG-0002qw-C2; Mon, 16 Jan 2023 12:21:59 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 28CFC3200922;
- Mon, 16 Jan 2023 12:21:56 -0500 (EST)
+ id 1pHTCT-00035H-2Y; Mon, 16 Jan 2023 12:23:16 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 4CF3C320090F;
+ Mon, 16 Jan 2023 12:23:09 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 16 Jan 2023 12:21:56 -0500
+ by compute3.internal (MEProxy); Mon, 16 Jan 2023 12:23:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1673889715; x=
- 1673976115; bh=kTa26oSJu85ii62fKpjIHRdBUYyGpGvnlndRcUnHM2Q=; b=o
- izbbvM5Fu6biIQBlfwjkJFTy5yg/ASbXgFLKZ0Hj7rsN7XGOMTUeU39+Rt17/Dw1
- XeXYlom4AwOKGKEKd2Qp6Gl75GcrmNeZga5/I7Nzd5tOhXqiEuTIbgat3O64YXrb
- jJi9b6zJq76CtAgVnIMXI2EZD7FXA0S6tAdxhlJ5K673iY6j29BlF2DnPlHi3Ff7
- 8/VLTW5KJ1x/AY9Dj2dYaRX9fYdybZTWdw3ZNtO/jEMYFdRb20m4jpWG34twjED1
- SDxeP9HJCgyZ5Vll5h8oxDxQxLRVnRl74uqw5ZeNbCh2zMThwI/yXyY6FQX5YxBs
- vm64sFPN+2mwrO6KsGQ3g==
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1673889788; x=
+ 1673976188; bh=ennun2qqqXCfU/CBtnAyBjRAVIOvL8V5uwS5AIXTy78=; b=N
+ XzmPAZIac9xoU3zAKNYRWuQmigXa26ftrxvQDYvmwiL9uXYOz7hoetuvwxjaHjpZ
+ PiEvG1uOkRl03R2JXxbHQ1IrhItsEhFUpZ7vyE3hqE18YzBk/kw6FIPO2hBPc8VI
+ lkWdDdHnD6WUiKWx65UuqNkSu0PqSoetHSFDMuiHNjDg3fLnK8PK/3014awhET5i
+ Y9etL/peGr2NHb+g0XZTX4dBxOmBNNeS9+GAWO4V1s8d2LggxhEtNaE/DuPGMt7f
+ t1Ox/gVMgMyt1bbqSooFd4yjDeFsgFOXR/m+xpcL18yJB4OdL7JlAaIXPABgVyTg
+ khp/Rl/lp5davRi+wKZ2g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673889715; x=
- 1673976115; bh=kTa26oSJu85ii62fKpjIHRdBUYyGpGvnlndRcUnHM2Q=; b=g
- q4USP2jrC0s79+EgnWHvKF+E6EsVNISYJ9m40cNzpx484WFQ14Yw3aMfJIsvgvL4
- +DhGW2kFiVa2WMUF2rchZG5AFP2VqlXgv4b2+ZIEKWK+sOmHLyeD8NJRMYNeHYkU
- EAESMn3KAYc5QVyjwiHyUL4kz+HmtlwoO5sfUIVt63ulhxd1P5pbM8Y11gP3WiMo
- bI/8Ojpgv6JuJyUSYMrVlaUGLxUTZAeHDIei3mg9JD4SaqNbTsT7L8A4gT1yrQer
- JTvudocta9t0huQP2Ot/AHURNWanl1UdPwX/j0iNfNgKMIDtJxXw8HLl21l8ffPQ
- v7YUrE5GcyPCbEdMLyCDQ==
-X-ME-Sender: <xms:s4fFYyWs4pQh-zJ6zTWFGMeWQ86fUPjE4rKtOmHRcNOMNHLsN2bwUQ>
- <xme:s4fFY-mlPhu_aG5Tgs2_0YQFbQo2ZIyK2RAyndUaD4tQjPCNxNobytQKTNfjdBetA
- Jwz97ruYHpL9wvzUp4>
-X-ME-Received: <xmr:s4fFY2ZS6NoU9mLrWDQymeQ9Z0hv3Q9UKUEm1tZfKJja4OuZbZD9_x8JPy0a2c9n3JRP6M9dRajWMyOEs3FK8n0jjg>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673889788; x=
+ 1673976188; bh=ennun2qqqXCfU/CBtnAyBjRAVIOvL8V5uwS5AIXTy78=; b=E
+ 4EaeSwT6vZaZxSNWPjGyirl0QPphpfOhVXeMOmeaPvfGy0XfvTJN6MD4BvVfZJaB
+ mJ/9FFs2v+Flwqut9HEVXkjpV5mY9BE7uIRlShET8/lIEPpwOA21NEaJRe9C5YRt
+ bc5pXZFzjvYjyAl5EJtra6rnDvx7krvzSCf+cH/8p4SX5G/2Il+A2zPjf3IugbIL
+ WH0Odbt5eG4voBnlT9vZCuWNCgcB9LckDZQAlZVJX9FUxzv7CjMuizSXnG38gapo
+ AZ/sypvtHw0cWsVhz9QgQR1PReoBOKT7+pftyqUPNgqLTk7RzKKIazrGtAsffrTU
+ jCAURkyarvn36ihCY57AQ==
+X-ME-Sender: <xms:_IfFY_MzoYBmMgMHGiQFYFqVnhnv6NEbuxpltL2ruSwzuCgDHhyy6Q>
+ <xme:_IfFY5-MSX8_71DHDUDbCuPrtqIpAtH1iVimP3k6sRgtCoozI6fvl6IKbFExeZTpy
+ i1WfzjFFnpEJMHq3dI>
+X-ME-Received: <xmr:_IfFY-QRnMJD8XpYaXoGOvrJ0jLLT6TwN97RFg3id8eYxNegzjo8tAWtWtVfZUkE8SbHWcOkcV4S7iHVFYg5Su0LFw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedguddttdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgv
  thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
  grthhtvghrnhephfegffevudefveetgeekteeijefhhfduueejvdegvdehffehjeevtefh
- hffffeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ hffffeeunecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
  epphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:s4fFY5Ul3p3PsB9RQ81iWIbhGkaiYoFu_zLMSAoYcSTcjKqOWCm7ew>
- <xmx:s4fFY8mi-eTxyisl694bn6xOEIhFMEAo2goF4dn9b0nyavAWdnmCzQ>
- <xmx:s4fFY-eBvab2fiNxQZR4xEMD6Ju9fBGCP5XLYU9JLh56sYxVCQIsyw>
- <xmx:s4fFY26giDNtDE7NkM2BmUS52XS__AQLP4qkwn2AY6VCQyToNbpeCA>
+X-ME-Proxy: <xmx:_IfFYzvimY8s8K-h1vc_zKsuGYGWW9B-JzEaQperKWzn-t7DYSrXyw>
+ <xmx:_IfFY3cZblqOz9vCCZy8uSD34C3dJiIebI56TmHDTtcFmq8WRW9BBA>
+ <xmx:_IfFY_1dXJgmvIiVko5oQSIU6GCEU0nf_bTg4Snr3lJ9GMNtmpyX_Q>
+ <xmx:_IfFY2w7w3Tb1GPUmR5AF6O75pvnkDw47NA-kxFHfOk_NoOTkRAIkQ>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 16 Jan 2023 12:21:54 -0500 (EST)
-Date: Mon, 16 Jan 2023 09:21:52 -0800
+ 16 Jan 2023 12:23:07 -0500 (EST)
+Date: Mon, 16 Jan 2023 09:23:05 -0800
 From: Peter Delevoryas <peter@pjd.dev>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
 Cc: patrick@stwcx.xyz, clg@kaod.org, peter.maydell@linaro.org,
  andrew@aj.id.au, joal@jms.id.au, hskinnemoen@google.com,
  kfting@nuvoton.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH 2/6] hw/arm/aspeed: Remove local copy of at24c_eeprom_init
-Message-ID: <Y8WHsOIACiCojs7V@pdel-mbp>
+Subject: Re: [PATCH 6/6] hw/arm/aspeed: Init fby35 BMC FRUID EEPROM
+Message-ID: <Y8WH+aneXr/JkEXp@pdel-mbp>
 References: <20230114170151.87833-1-peter@pjd.dev>
- <20230114170151.87833-3-peter@pjd.dev>
- <a11752e3-b777-649d-9dae-bb4816029d99@linaro.org>
+ <20230114170151.87833-7-peter@pjd.dev>
+ <0ef1b0e3-7df0-e611-0335-bf0a24690a90@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a11752e3-b777-649d-9dae-bb4816029d99@linaro.org>
+In-Reply-To: <0ef1b0e3-7df0-e611-0335-bf0a24690a90@linaro.org>
 Received-SPF: pass client-ip=64.147.123.24; envelope-from=peter@pjd.dev;
  helo=wout1-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -104,29 +104,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 16, 2023 at 01:24:36PM +0100, Philippe Mathieu-Daudé wrote:
+On Mon, Jan 16, 2023 at 01:30:19PM +0100, Philippe Mathieu-Daudé wrote:
 > On 14/1/23 18:01, Peter Delevoryas wrote:
 > > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 > > ---
-> >   hw/arm/aspeed.c | 10 +---------
-> >   1 file changed, 1 insertion(+), 9 deletions(-)
+> >   hw/arm/aspeed.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+> >   1 file changed, 49 insertions(+)
+> > 
+> > diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> > index c929c61d582a..4ac8ff11a835 100644
+> > --- a/hw/arm/aspeed.c
+> > +++ b/hw/arm/aspeed.c
+> > @@ -922,6 +922,52 @@ static void bletchley_bmc_i2c_init(AspeedMachineState *bmc)
+> >       i2c_slave_create_simple(i2c[12], TYPE_PCA9552, 0x67);
+> >   }
+> > +static const uint8_t fby35_bmc_fruid[] = {
+> [...]
 > 
-> > -static void at24c_eeprom_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
-> > -{
-> > -    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
-> > -    DeviceState *dev = DEVICE(i2c_dev);
-> > -
-> > -    qdev_prop_set_uint32(dev, "rom-size", rsize);
-> > -    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
-> > -}
+> > +};
+> > +
+> >   static void fby35_i2c_init(AspeedMachineState *bmc)
+> >   {
+> >       AspeedSoCState *soc = &bmc->soc;
+> > @@ -1363,6 +1409,9 @@ static void fby35_reset(MachineState *state, ShutdownCause reason)
+> >       object_property_set_bool(OBJECT(gpio), "gpioB3", false, &error_fatal);
+> >       object_property_set_bool(OBJECT(gpio), "gpioB4", false, &error_fatal);
+> >       object_property_set_bool(OBJECT(gpio), "gpioB5", false, &error_fatal);
+> > +
+> > +    at24c_eeprom_write(aspeed_i2c_get_bus(&bmc->soc.i2c, 11),
+> > +                       0x54, 0, fby35_bmc_fruid, sizeof(fby35_bmc_fruid));
 > 
-> Why not squash in previous commit as 'extract helper' change?
+> Why transfer the prom content on the i2c bus at each reset?
+> 
+> In particular this looks wrong if the prom is initialized with a 'drive'
+> block backend (using -global).
 
-+1, I'll squash this.
+Yeah, it looks like this might not be the right way to model it. I'm going
+to try Cedric's suggestions.
 
 > 
-> Anyhow,
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> >   }
 > 
 > 
 
