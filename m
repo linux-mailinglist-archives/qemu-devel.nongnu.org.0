@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C764266B78B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 07:41:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20AF866B79F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 07:47:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHJAm-0001uU-Rh; Mon, 16 Jan 2023 01:40:48 -0500
+	id 1pHJH2-00039N-Dk; Mon, 16 Jan 2023 01:47:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pHJAi-0001sq-AR
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 01:40:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pHJGq-00038e-7k
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 01:47:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pHJAd-0006RU-L1
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 01:40:40 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pHJGm-0007gd-Rq
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 01:47:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673851238;
+ s=mimecast20190719; t=1673851619;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9G5EYjytyI/zZio3oHoqFxDIPqMosTbU5EuiK1tDZNk=;
- b=jEOt5uJzqfWhNUjvJCg8kcDBptd7vjzHzjd36d+4gwhN/C4yF19Lj2iTUWv6WkajWw7SSg
- LR1pmb6cpxpSuNUv7ATimV14Y9CyaVBTvpfvueI/m9A9ENfMtpoEYkhxnmCL+ifyQDDkL0
- xl/B6VTyn5bgFDe3XGjg/uSZoVsrk5I=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yowWn22eqaMl98pRMRjZxNTjG8oxVlz+I0PGO0ehjck=;
+ b=OjaDDy96tHomMY8Bkr5B2vbKvVl+nRhhofbTsTOW36pV3pCkzx2lZOQJ81KAf3OyJg+T+A
+ +o2tzDObncva6G2xXNZA/hR+3I0wCLsx2Xw7Oaip18/1dfN+zY7ZGGqDmeIPijY1t/hXsL
+ mZNG18OjYscLZQEHZ4ZYiHTNAi6PpD8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-587-RfstTey5O1iS7T9WtDmpGQ-1; Mon, 16 Jan 2023 01:40:34 -0500
-X-MC-Unique: RfstTey5O1iS7T9WtDmpGQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-636-w_qdH2t4ORKpGeyiJBaI5w-1; Mon, 16 Jan 2023 01:46:38 -0500
+X-MC-Unique: w_qdH2t4ORKpGeyiJBaI5w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4544029ABA00;
- Mon, 16 Jan 2023 06:40:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 240BA811E6E;
+ Mon, 16 Jan 2023 06:46:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6CC6A492B10;
- Mon, 16 Jan 2023 06:40:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BDF151121314;
+ Mon, 16 Jan 2023 06:46:37 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D62DF21E6A28; Mon, 16 Jan 2023 07:40:31 +0100 (CET)
+ id 9AF5A21E6A28; Mon, 16 Jan 2023 07:46:36 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  BALATON
- Zoltan <balaton@eik.bme.hu>,  Thomas Huth <thuth@redhat.com>,  Daniel P.
- =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 01/21] hw/block: Rename TYPE_PFLASH_CFI02 'width'
- property as 'device-width'
-References: <20230109120833.3330-1-philmd@linaro.org>
- <20230109120833.3330-2-philmd@linaro.org>
- <791cd783-4f27-dd18-c6bd-b9a316bb42cd@eik.bme.hu>
- <8507ed0d-fc90-8ce3-2d7d-82c106b20231@linaro.org>
- <CAFEAcA-h49eXgS63LARX0aMgBknNcaURGxqammQh5U9OZQ7v4A@mail.gmail.com>
-Date: Mon, 16 Jan 2023 07:40:31 +0100
-In-Reply-To: <CAFEAcA-h49eXgS63LARX0aMgBknNcaURGxqammQh5U9OZQ7v4A@mail.gmail.com>
- (Peter Maydell's message of "Fri, 13 Jan 2023 13:37:34 +0000")
-Message-ID: <875yd7vv6o.fsf@pond.sub.org>
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org,  Richard Henderson
+ <richard.henderson@linaro.org>,  Eduardo Habkost <eduardo@habkost.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Marcel
+ Apfelbaum
+ <marcel.apfelbaum@gmail.com>,  "Michael S. Tsirkin" <mst@redhat.com>,  Ani
+ Sinha <ani@anisinha.ca>,  Aurelien Jarno <aurelien@aurel32.net>,  Igor
+ Mammedov <imammedo@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 1/7] hw/acpi: Add missing includes
+References: <20230114222738.282478-1-shentey@gmail.com>
+ <20230114222738.282478-2-shentey@gmail.com>
+Date: Mon, 16 Jan 2023 07:46:36 +0100
+In-Reply-To: <20230114222738.282478-2-shentey@gmail.com> (Bernhard Beschow's
+ message of "Sat, 14 Jan 2023 23:27:32 +0100")
+Message-ID: <87v8l7ugc3.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,39 +85,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Bernhard Beschow <shentey@gmail.com> writes:
 
-> On Mon, 9 Jan 2023 at 14:19, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
-rg> wrote:
->>
->> On 9/1/23 14:33, BALATON Zoltan wrote:
->> > On Mon, 9 Jan 2023, Philippe Mathieu-Daud=C3=A9 wrote:
->> >> Use the same property name than the TYPE_PFLASH_CFI01 model.
->> >
->> > Nothing uses it? Can this break command lines and if so do we need
->> > deprecation or some compatibility function until everybody changed the=
-ir
->> > usage?
->>
->> Good point... I missed that :/
+> When removing the "hw/boards.h" include from
+> hw/acpi/acpi_dev_interface.h, these include directives must be added to make
+> the code compile again.
 >
-> That should not be possible, because the cfi02 device
-> is a sysbus device that must be mapped into memory. There's
-> no useful way to use it on the QEMU commandline; the only
-> users are those creating it from C code within QEMU.
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 
-I'd say beware of -global, but "fortunately" cfi.pflash01 cannot work
-with it, since its '.' sabotages the -global's syntax.
-
-Related prior discussion in the cover letter of "[PATCH RFC 0/1] QOM
-type names and QAPI" and the replies to it:
-
-    Message-Id: <20210129081519.3848145-1-armbru@redhat.com>
-    https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg07541.html
-
-The patch there became commit e178113ff6 "hw: Replace anti-social QOM
-type names".
-
-[...]
+You don't actually remove #include "hw/boards.h" from
+hw/acpi/acpi_dev_interface.h in this series.  Accident?
 
 
