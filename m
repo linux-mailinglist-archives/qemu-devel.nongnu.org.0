@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAF6366BA20
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 10:20:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E239666BA25
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 10:20:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHLeG-0000nr-61; Mon, 16 Jan 2023 04:19:24 -0500
+	id 1pHLeG-0000pP-ST; Mon, 16 Jan 2023 04:19:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pHLeD-0000nA-UH
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:19:21 -0500
-Received: from mout.kundenserver.de ([217.72.192.73])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pHLeE-0000nC-2J
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:19:22 -0500
+Received: from mout.kundenserver.de ([212.227.17.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pHLeA-0003CM-Kc
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pHLeA-0003CP-PA
  for qemu-devel@nongnu.org; Mon, 16 Jan 2023 04:19:21 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MVMJ7-1p7p1J3Zax-00SLzt; Mon, 16
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MK3mS-1p1TDx1XWI-00LVIe; Mon, 16
  Jan 2023 10:19:15 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <laurent@vivier.eu>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 2/4] target/m68k: pass sign directly into make_quotient()
-Date: Mon, 16 Jan 2023 10:19:10 +0100
-Message-Id: <20230116091912.1882152-3-laurent@vivier.eu>
+Subject: [PULL 3/4] target/m68k: fix FPSR quotient byte for fmod instruction
+Date: Mon, 16 Jan 2023 10:19:11 +0100
+Message-Id: <20230116091912.1882152-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230116091912.1882152-1-laurent@vivier.eu>
 References: <20230116091912.1882152-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:OZadBC+rcuKn/kNj+/VVUkXnBS/k4iqiQluihP4L2B5VEx00fKi
- H98WeMmtDkwc/wyNMKMk8rHOdvOTCQUiDDEez7zTpuVdUq5x3ywU59Wu2Vg1QuFQHS0MNLP
- GuiJiG7l1YLtLiuaMUCVG2stq8wLIftTaDyu3bvx3c4uDUSThbn7prSC8gQv2jVFKth2iA/
- CPnIECwOaS7Pbuc/BYynQ==
-UI-OutboundReport: notjunk:1;M01:P0:dAQZHaaW/Is=;JKoWJUDmGpqVXN9ZbcGXgHzd7Ti
- PcY+5oKjJx9lMRAC00bTPupsyPqDnbH46JJDln/X9IYV28LsnU7DOfIuEBNoCOiy1gmWHF55u
- 6vFza8Dpi/BsDCjdy9XTPJ/+rwQ0jYwzwYSt1n1L4+vu7bkjlPy103xLXnv8m8JE5aDb6dE7b
- bmBAUduy6oOzmtIos8vL3ECjmzo+A76SlA14Y5hT45F0T9vktGkENgwSU+G0/VDqxwWJd3tr2
- E0eO2lNO4GyMyqhaxaEY6kC1zyfrTHEltIPcy/q4HjW6K/OvDrhixhRxMuRc2SCbVUibyKANs
- T8chpn4YPcfNmjsmv0FVCdZbAu7OaJxnusLzHjOtnRsdyh1ymV0hXG4azOKPFMRNIwCIBbjDN
- FB2QtNf7uWB80FZG2bFE7HrJXXgFOdQUmX6mSihoT/tS6J8h1qlZnsuQ4fELi40HUfks/LHJx
- k7842aSwblBy4QIkdrLa0Kl2IXRkID9kLVIYub8WFVdmuj9knDWA49Y47FkkLHFqrpPqvAi/G
- wQKH2AswkDLJsrfl5y6VBe1dT8Yly0isSyn14b66fLbJjT3laKX0PUwW8WkMdAi4DpQLUpcfV
- P912Jlvax+rSAHtgOT6PYcgIvumJE1m5UbqsjY+XbHPRXaYTGRqXW33uQQEfvSUU79Lg5lq3W
- 4DV/WW8uAIhAOWVitWFIv1kxbyd6LQRBMXvKsNWktg==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:6xYoaJXji7stxpwQHpL7U2GRZiwZnRh73P6CWgz21qjDfyMheeX
+ RG+JhlwK/GJpWy/ZZsgoP8L98teTl3cIGb1pQgVEGQHEsKElkgnzaDzkPYMaQZHRakgagtV
+ UbfPfizicgNOkRUo+2RGELYpY6oCTuQxi6qAC7k4sd6BOZ1tZ/h0ZkmukymxfIFoLqp5pls
+ 1Eua47rlRmFiDeZLm/2hQ==
+UI-OutboundReport: notjunk:1;M01:P0:1k+z/l6IYM0=;dxmTnpAda8324cAEffjnJHGcpn/
+ LZtuR6TX3ULQDpMeS9pzBcWpxNnKG1iyoSRC096/ottju2ixeuPVnbB+ctBheCRumhsr5tulh
+ FoiQDSG+QBaJ0S8ULn/HlHDSDMoAxdSOPlN+5IiVOhccHuTqZHuPJBFuEq1kW9IXPlLKYU8Ir
+ n3BJZDWj00WmCGTazAirkM27Y1W1nImw86YSEpcvGea6AaJo8kx3PXqnrzg9IF0S0MzWlV+6o
+ R28ERzxDG5Pnbv+QjCFUuLMibcps0UxcqbkTZbXY2Tki+O35AazTO0oDXsbq9rExmqauMbewl
+ ZozyB2+HH1+BZnv/MJ5bPQoX1V1+Qkdbi0ZKnrWIN4iMNOlteDeZSY2zJJtVVkqHs8tsedyU3
+ bhp1t8tRiA0S7DHuBUC+Cfo02IkqXe+mX/0ZjWyywtVELNuoTJu/4daf8WdT0iw9VWw1GNM33
+ yveGU7sPJijwpVcA6JKjJCsrOxXCSVALBfhLgfp8ZMcy/5Eb1S4oZkIfrvWXHz9wFfK8nO9ok
+ i2ystGwxI5e9uBZPRbJ+XVsX6Mw48Dgma5C0Smr+NBE5bdq55CrdiY5VqMKz+Mif0vC4tQZ4N
+ AdRvAmhfE9dTlWmowrPBPy9s6UI+RGW4qI2r4KT2N/lCwtT55kVquE8ABca6//OTis6vaiNm+
+ +tEa6LY/wD/JVhdAzVegf+fvRMmBEMz++xRazDkVbw==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,75 +72,45 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-This enables the quotient parameter to be changed from int32_t to uint32_t and
-also allows the extra sign logic in make_quotient() to be removed.
+The FPSR quotient byte should be set to the value of the quotient and not the
+result. Switch from using floatx80_mod() to floatx80_modrem() which returns
+the quotient as a uint64_t which can be used for the quotient byte.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20230114232959.118224-3-mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230114232959.118224-4-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/m68k/fpu_helper.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ target/m68k/fpu_helper.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/target/m68k/fpu_helper.c b/target/m68k/fpu_helper.c
-index 0932c464fdae..76b34b898879 100644
+index 76b34b898879..5fd094a33cff 100644
 --- a/target/m68k/fpu_helper.c
 +++ b/target/m68k/fpu_helper.c
-@@ -515,39 +515,42 @@ uint32_t HELPER(fmovemd_ld_postinc)(CPUM68KState *env, uint32_t addr,
-     return fmovem_postinc(env, addr, mask, cpu_ld_float64_ra);
- }
- 
--static void make_quotient(CPUM68KState *env, int32_t quotient)
-+static void make_quotient(CPUM68KState *env, int sign, uint32_t quotient)
- {
--    int sign;
--
--    sign = quotient < 0;
--    if (sign) {
--        quotient = -quotient;
--    }
--
-     quotient = (sign << 7) | (quotient & 0x7f);
-     env->fpsr = (env->fpsr & ~FPSR_QT_MASK) | (quotient << FPSR_QT_SHIFT);
- }
+@@ -523,17 +523,16 @@ static void make_quotient(CPUM68KState *env, int sign, uint32_t quotient)
  
  void HELPER(fmod)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
  {
-+    uint32_t quotient;
-+    int sign;
-+
-     res->d = floatx80_mod(val1->d, val0->d, &env->fp_status);
+-    uint32_t quotient;
+-    int sign;
++    uint64_t quotient;
++    int sign = extractFloatx80Sign(val1->d) ^ extractFloatx80Sign(val0->d);
+ 
+-    res->d = floatx80_mod(val1->d, val0->d, &env->fp_status);
++    res->d = floatx80_modrem(val1->d, val0->d, true, &quotient,
++                             &env->fp_status);
  
      if (floatx80_is_any_nan(res->d)) {
          return;
      }
  
--    make_quotient(env, floatx80_to_int32(res->d, &env->fp_status));
-+    sign = extractFloatx80Sign(res->d);
-+    quotient = floatx80_to_int32(floatx80_abs(res->d), &env->fp_status);
-+    make_quotient(env, sign, quotient);
+-    sign = extractFloatx80Sign(res->d);
+-    quotient = floatx80_to_int32(floatx80_abs(res->d), &env->fp_status);
+     make_quotient(env, sign, quotient);
  }
  
- void HELPER(frem)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
- {
-+    uint32_t quotient;
-+    int sign;
-+
-     res->d = floatx80_rem(val1->d, val0->d, &env->fp_status);
- 
-     if (floatx80_is_any_nan(res->d)) {
-         return;
-     }
- 
--    make_quotient(env, floatx80_to_int32(res->d, &env->fp_status));
-+    sign = extractFloatx80Sign(res->d);
-+    quotient = floatx80_to_int32(floatx80_abs(res->d), &env->fp_status);
-+    make_quotient(env, sign, quotient);
- }
- 
- void HELPER(fgetexp)(CPUM68KState *env, FPReg *res, FPReg *val)
 -- 
 2.38.1
 
