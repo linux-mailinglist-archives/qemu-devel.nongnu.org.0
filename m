@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252D766CCF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:31:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB7E366CD16
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:33:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHTKC-0003yE-Ao; Mon, 16 Jan 2023 12:31:12 -0500
+	id 1pHTLh-0005Pm-8b; Mon, 16 Jan 2023 12:32:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pHTK8-0003vI-BK; Mon, 16 Jan 2023 12:31:08 -0500
-Received: from mout.kundenserver.de ([212.227.126.135])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pHTK3-0004MC-HP; Mon, 16 Jan 2023 12:31:08 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N8n8I-1odJTA0Z9y-015uBF; Mon, 16 Jan 2023 18:30:58 +0100
-Message-ID: <86fc15b7-6880-b628-c9c6-c4cc1d602eeb@vivier.eu>
-Date: Mon, 16 Jan 2023 18:30:57 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHTLf-0005Pd-Oi
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:32:43 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHTLd-0004bn-Rn
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:32:43 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id k8so13690420wrc.9
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 09:32:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=I0FrZ6m+/DDXlf1KBSDr4ILm73xZLFUqafMmPw3ilEY=;
+ b=dpFglBZ/cYvIB5IQLvEhl9ck0+qj5eAQZYgLKYVgOZn3mV2KC6fr5KfS3gQQtqovUb
+ pVQ5XKghTUJwLXLFpBDbW7xTNF698RzwhGNqf3xNppKCtKdTXjfb+J1sWecpEqFVxVVy
+ JaHFrsq/ZWA0Zrek5kC6cis2JKJjgXuV+sBf9GGhRdurlxGFKIQSuQVxE6kkLcQWcEAT
+ 0iRvS5/N0btbEvLULyZlfrVuV0Vzb+A9vu0oEYKxMepONkNXhwlM+4fEPg/O0sQDBByJ
+ Dlw8+fHyF/ZSVjftvZbdCI+2FamidFrVT1nW6MDxtkO04Ig/M7a68vq21Vqi59giuH+9
+ CP8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=I0FrZ6m+/DDXlf1KBSDr4ILm73xZLFUqafMmPw3ilEY=;
+ b=N2q5B+P9OvXPQp97z6NYtttomk7wQEV4Ayl362+MjNImXtmHY8zZqluLIp40disr43
+ 1kK8QRyUT0TuPXtHajS/qA0JVbVeg5MwYD6sVy9RVAXA7z/bQstRrshtMVu5/huU7565
+ L0bgIW6lX0g+dXjnvmovhikr8CbDInokFRg/pAtK6CxDxLY3S5M5vrtDs/Io1MBHpcbc
+ jnV7cpvGN1kbwqxhDYuwNRpmJCELRb/kGBOhV/JVQlNk5KQFCNaLge59G8+yQZ82l1rN
+ wCnJGSKF8lcZGhkbBSWp/BMjWNEqR96p0Mb7ONZlZM6qmBCD83P1SBtiqeHlplwJWWgJ
+ l3BA==
+X-Gm-Message-State: AFqh2kpmmoDyapGniauLY86CceHkkiXDSwBnJBYGMr8vn/ZEb8K2f/lK
+ +eVh3DriY8Dla17Ko7sgsuNk93Q21iM72n7D
+X-Google-Smtp-Source: AMrXdXv0KV2Nw4eh3QYK2K+H40HvgrHZY6YO4XaS3VZqNcdhk4yCMpm6EWuECIiK8YwNDZcjd0m/IQ==
+X-Received: by 2002:a5d:5451:0:b0:2ba:4ee8:d708 with SMTP id
+ w17-20020a5d5451000000b002ba4ee8d708mr264624wrv.32.1673890359934; 
+ Mon, 16 Jan 2023 09:32:39 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ bx11-20020a5d5b0b000000b002366f9bd717sm33197607wrb.45.2023.01.16.09.32.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Jan 2023 09:32:39 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1F37D1FFB7;
+ Mon, 16 Jan 2023 17:32:38 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [RFC PATCH] tests/tcg: skip the vma-pthread test on CI
+Date: Mon, 16 Jan 2023 17:32:33 +0000
+Message-Id: <20230116173233.2948746-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 0/5] hw/i2c/bitbang_i2c: Housekeeping
-Content-Language: fr
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Jan Kiszka <jan.kiszka@web.de>,
- qemu-trivial@nongnu.org
-References: <20230111085016.44551-1-philmd@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20230111085016.44551-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:b9ptuYCHik5xG1OgcoUTvkqqqkyAxdf1o6ga4eJI3WcDOJBOQ1s
- IJop18Xc1WQuYOslxrIxE7fnhUKT8chDVMrDBJpl8RhY0Is869/lPu6l9XVhkYNhyusFNTP
- qGqyvFEjmrtkqg7+JgKEyyuVXH76DtAjvRqxNoJc9aA8igWp2Ac8GGhJMaTFjRKdcPPEWjn
- HUZ24VmNuVOqL1/FYSQyg==
-UI-OutboundReport: notjunk:1;M01:P0:rY6nDk+mIxw=;bRCHoBhDAr5elq5hGg5UoXq2IBQ
- golH4bjRB4apnR4toGVjKKXyIy20uukdN6xS5vP898TLXzJINW5iGAy9bof/IuvlTcwo9E0jF
- sqpeBVdc3C4sCFGDXv/b7Et5jn4dsD8xAGfSg98IMf4tMvC3we39kBuUhTyp4Zua5eJCExVNs
- WSiHaqmhn9JEEhS/xaDfn3lBdZES/7kATSyTfNCOl1SmzDGYeVhG2SOXjCZUfHBPrcxp2VnFN
- oawiFp0J+iMggrpUTRMSsEyVsfIogEid6rPAoRLuy+A7Ku7UYzCrPmTWa72u0E4S5OlfzbKv4
- 7QvkBixdj5BzpDU9kgLLNBfeDfGwUDHneOWdZH/Ef2PY6FsasvmIwUNWj9ORYwdndnfcuJgj+
- UPKEhz4SaW+WhYIPf4JQO73SC5ia/ZxGrnyHkd5Ea9qXo45EE7KfNw8OotoWYbw5Ot8cWeQxt
- WUizynKJuHnOh6bL6B2ZjiHnsuIh0OcKVIdo7rkgzfUo9UIfN5xpa9BdlW4Q0NK4h/WlR7qiy
- JF+FG9NuR5JWj4+Sq2RLd2Vh90GhibUNikAEHxKY2GFpTM3VtopS4JdtBJGGKS5DZDwTJf70m
- RZtwPfbTcMzI3fCbQD2855mJt5VQY7wQafBlH8BmC7pzIyXcVgSXNwxnP5ggUKqVZmdUuFHJP
- hPLscQUHNFAC3Aikzy59GpR6ZopT5E60Szz8xS8nUg==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,39 +91,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 11/01/2023 à 09:50, Philippe Mathieu-Daudé a écrit :
-> Series fully reviewed.
-> 
-> Since v2:
-> - Use array of const pointers to const (Richard)
-> 
-> Since v1:
-> - Fixed overwritten RECEIVING_BIT7 entry (Richard)
-> - Picked R-b tags
-> 
-> - Remove unused dummy MemoryRegion
-> - Convert DPRINTF() to using trace events
-> 
-> (series used as base for follow-up, better if merged via ARM tree)
+We are getting a lot of failures that are not related to changes so
+this could be a flaky test.
 
-I can take this via trivial, what do you prefer?
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+---
+ tests/tcg/multiarch/Makefile.target | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Laurent
-
-> 
-> Philippe Mathieu-Daudé (5):
->    hw/i2c/bitbang_i2c: Define TYPE_GPIO_I2C in public header
->    hw/i2c/bitbang_i2c: Remove unused dummy MemoryRegion
->    hw/i2c/bitbang_i2c: Change state calling bitbang_i2c_set_state()
->      helper
->    hw/i2c/bitbang_i2c: Trace state changes
->    hw/i2c/bitbang_i2c: Convert DPRINTF() to trace events
-> 
->   hw/arm/musicpal.c            |  3 +-
->   hw/i2c/bitbang_i2c.c         | 80 ++++++++++++++++++++++--------------
->   hw/i2c/trace-events          |  7 ++++
->   include/hw/i2c/bitbang_i2c.h |  2 +
->   4 files changed, 61 insertions(+), 31 deletions(-)
-> 
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index e7213af492..ae8b3d7268 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -42,6 +42,15 @@ munmap-pthread: LDFLAGS+=-pthread
+ vma-pthread: CFLAGS+=-pthread
+ vma-pthread: LDFLAGS+=-pthread
+ 
++# The vma-pthread seems very sensitive on gitlab and we currently
++# don't know if its exposing a real bug or the test is flaky.
++ifneq ($(GITLAB_CI),)
++run-vma-pthread: vma-pthread
++	$(call skip-test, $<, "flaky on CI?")
++run-plugin-vma-pthread-with-%: vma-pthread
++	$(call skip-test, $<, "flaky on CI?")
++endif
++
+ # We define the runner for test-mmap after the individual
+ # architectures have defined their supported pages sizes. If no
+ # additional page sizes are defined we only run the default test.
+-- 
+2.34.1
 
 
