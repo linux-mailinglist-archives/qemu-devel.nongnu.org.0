@@ -2,61 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C73866B8F2
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA7966B8F3
 	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 09:20:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHKht-0000d1-2V; Mon, 16 Jan 2023 03:19:05 -0500
+	id 1pHKiH-0000fV-8Q; Mon, 16 Jan 2023 03:19:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1pHKhp-0000co-1L
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:19:01 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHKiF-0000f9-2s
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:19:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1pHKhl-0007KD-Ab
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:19:00 -0500
-Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NwPy63vBRzJrYl;
- Mon, 16 Jan 2023 16:17:02 +0800 (CST)
-Received: from kwepemm600016.china.huawei.com (7.193.23.20) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Mon, 16 Jan 2023 16:18:23 +0800
-Received: from kwepemm600016.china.huawei.com ([7.193.23.20]) by
- kwepemm600016.china.huawei.com ([7.193.23.20]) with mapi id 15.01.2375.034;
- Mon, 16 Jan 2023 16:18:22 +0800
-To: "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Wubin (H)"
- <wu.wubin@huawei.com>, "Chentao (Boby)" <boby.chen@huawei.com>, "Wanghaibin
- (D)" <wanghaibin.wang@huawei.com>, "Zhangbo (Oscar)"
- <oscar.zhangbo@huawei.com>, "limingwang (A)" <limingwang@huawei.com>, Wangyan
- <wangyan122@huawei.com>, lihuachao <lihuachao1@huawei.com>
-Subject: [QUESTION] About virtio and eventloop
-Thread-Topic: [QUESTION] About virtio and eventloop
-Thread-Index: AdkpcTID0pd8MGv+T9eTVpvXILZMZQ==
-Date: Mon, 16 Jan 2023 08:18:22 +0000
-Message-ID: <63b89ae069d644b897ea97cc41b030ab@huawei.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.187.224]
-Content-Type: multipart/alternative;
- boundary="_000_63b89ae069d644b897ea97cc41b030abhuaweicom_"
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHKiD-0007Qk-C7
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:19:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673857164;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pNWYRBmtFD0BRsictS2mrmn843Agfa1+R1t45gw/cHc=;
+ b=PCCmi6xdl1XjbuZQCYi3AO20uKuPmORlHbMlcKCxHOxilJs3MSBnIq4H8k7RQ5ZKHcTSMF
+ BxDsspzQcMqaMvsc2j2/kTyO5zSS+Oi00KlLedy5rmtR2UdXu64jLHKOfnG7847dL/iHNN
+ 7vE73rsI/08PJz84TYCUqIQv1b5rIw4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-588-8ehD18QSNv-z8gnWfrJf2Q-1; Mon, 16 Jan 2023 03:19:23 -0500
+X-MC-Unique: 8ehD18QSNv-z8gnWfrJf2Q-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ i28-20020adfa51c000000b002ba26dfcd08so5095790wrb.18
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 00:19:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pNWYRBmtFD0BRsictS2mrmn843Agfa1+R1t45gw/cHc=;
+ b=Yae6YXV276oFeto+TYPXYBUSnmD0sMqNycywP5RpcAsVY4xateDhuwFB2D7e5LljGQ
+ MYXioFCBeEzloj4IAu8dHy1DhdbYY9kCqWPrudGVkcwiv5t8ne8ncja+nw4hsFI2wuU/
+ /6sLgIHjLJ3q1OShqcTKxOBI+/2bI1X15ctXRWjUzOwzaSE6/6HaO7Reo3LeSzTxHknX
+ 18XAlDB3YF9Nc4/b7eR1ozXJ/e70pQfwbLFG8EWkS1L9gxd3cc1nBNa2r4Ap5Zlo87QR
+ KUKLPyVFhJ9pB3DMoxyU36stdq9L4B1GJE6hIO0eKft0ufHEj+qu/0a42HNTbhm4IKAW
+ 0A3w==
+X-Gm-Message-State: AFqh2koivqfg+uD50ETBrMAg/efITYIZIOh7TugRFlAH+cEA56o8KLmC
+ bCJOre7mlaEkZMX6ARsalc23ds+vcXt7ShUWC2XkgY80AgkZ3z9PXunJNrlL87Q8mfhF4VYvBBR
+ apAHmX/ddJ4csw9k=
+X-Received: by 2002:adf:fb88:0:b0:269:65c0:79fd with SMTP id
+ a8-20020adffb88000000b0026965c079fdmr54311935wrr.53.1673857162286; 
+ Mon, 16 Jan 2023 00:19:22 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvhxXxDC5BX2NoLL393DI0fXYd6UMDLJxCKbITb9QFZVRg7gCxRa63ydYkKHaCoPKHZU7ZRXA==
+X-Received: by 2002:adf:fb88:0:b0:269:65c0:79fd with SMTP id
+ a8-20020adffb88000000b0026965c079fdmr54311921wrr.53.1673857162056; 
+ Mon, 16 Jan 2023 00:19:22 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-109.web.vodafone.de.
+ [109.43.177.109]) by smtp.gmail.com with ESMTPSA id
+ e10-20020adfe38a000000b002bc7fcf08ddsm18284628wrm.103.2023.01.16.00.19.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 00:19:21 -0800 (PST)
+Message-ID: <0e4ad913-4ea3-c9a9-b58a-dc2174a2ef31@redhat.com>
+Date: Mon, 16 Jan 2023 09:19:20 +0100
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=zhukeqian1@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] tests/vm: Update haiku test vm to R1/Beta3
+Content-Language: en-US
+To: Alexander von Gluck IV <kallisti5@unixzen.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <27512349-0007-11bd-07fb-5fd8c3dae879@linaro.org>
+ <20220216154208.2985103-1-kallisti5@unixzen.com>
+ <2d548e30-11eb-6f64-b082-25e5ff546309@redhat.com>
+ <df446205-d3bc-5c1c-eb3c-bb475590e713@linaro.org>
+ <ff214f477579f8e588ba42745c08e41d@unixzen.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <ff214f477579f8e588ba42745c08e41d@unixzen.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,510 +101,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  zhukeqian <zhukeqian1@huawei.com>
-From:  zhukeqian via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---_000_63b89ae069d644b897ea97cc41b030abhuaweicom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+On 14/01/2023 23.47, Alexander von Gluck IV wrote:
+> January 13, 2023 7:30 AM, "Philippe Mathieu-Daudé" <philmd@linaro.org> wrote:
+> 
+>> On 13/1/23 12:05, Philippe Mathieu-Daudé wrote:
+>>
+>>> Per https://www.haiku-os.org/guides/daily-tasks/updating-system we
+>>> can keep the box image in sync with its repo by using:
+>>> # pkgman add https://eu.hpkg.haiku-os.org/haiku/r1beta3/$(getarch)/current
+>>> I will try this:
+>>> -- >8 --
+>>> diff --git a/tests/vm/haiku.x86_64 b/tests/vm/haiku.x86_64
+>>> index 29668bc272..9cbb46cfc1 100755
+>>> --- a/tests/vm/haiku.x86_64
+>>> +++ b/tests/vm/haiku.x86_64
+>>> @@ -112,2 +112,4 @@ class HaikuVM(basevm.BaseVM):
+>>> # Install packages
+>>> +        self.ssh_root("pkgman add > https://eu.hpkg.haiku-os.org/haiku/r1beta3/x86_64/current")
+>>> +        self.ssh_root("pkgman full-sync")
+>>> self.ssh_root("pkgman install -y %s" % " > ".join(self.requirements))
+>>> ---
+>>
+>> OS installed but is not usable...:
+>>
+>> runtime_loader: /boot/system/lib/libncurses.so.6.3.0: Could not resolve symbol '__ctype_b_loc'
+>> resolve symbol "__ctype_b_loc" returned: -2147478780
+>> runtime_loader: /boot/system/lib/libncurses.so.6.3.0: Troubles relocating: Symbol not found
+>> Connection to 127.0.0.1 closed.
+> 
+> Ok. I updated the vagrant image to the latest release.  r1beta2 is getting a bit too old, and
+> r1beta3 instances should really be upgraded to r1beta4.
+> 
+> https://app.vagrantup.com/haiku-os/boxes/r1beta4-x86_64
+> 
+> Let me know if this works for you.
+Thank you very much, I gave it a try and it seems to work! I'll send a patch 
+for QEMU's VM file to switch to the new image.
 
-Hi all maintainers and community friends,
+  Thomas
 
-Recently I am reviewing and learning the virtio and eventloop implementatio=
-n of latest QEMU,
-and now I have a questions for help:
-
-In general, the IO requests of virtio is popped in iothread/mainloop and ma=
-y submitted to "async IO
-Engine"  (io_uring/linux aio/threadpool). Once the IO operation is done, th=
-e "async IO engine" will send notification
-to iothread/mainloop through evenfd or bottomhalf, and the completion actio=
-n for the IO request (add used ring and
-notify guest) is done in iothread/mainloop.
-
-And let's look at the "deactive" procedure of virtio-pci devices (when gues=
-t write 0 to  device status or system
-triggered reset), the basic requirement is that device should stop handling=
- IO requests and accessing virtqueue before
-returning back to guest, as the guest may destroy virqueue  once deactivati=
-on is done.
-
-QEMU invokes stop_ioeventfd() callback to perform above actions. It unregis=
-ters ioeventfd from eventloop and KVM,
-
-  1.  but I can't find code that ensuring IO operations in "async IO engine=
-" are done.
-  2.  And if IO operation is blocked, is vCPU thread will blocked when do d=
-eactivate?
-
-It's great that if anyone can help!
-
-Thanks,
-Keqian
-
---_000_63b89ae069d644b897ea97cc41b030abhuaweicom_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	text-align:justify;
-	text-justify:inter-ideograph;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
-	{mso-style-priority:34;
-	margin-top:0cm;
-	margin-right:0cm;
-	margin-bottom:0cm;
-	margin-left:36.0pt;
-	margin-bottom:.0001pt;
-	text-align:justify;
-	text-justify:inter-ideograph;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:12996870;
-	mso-list-type:hybrid;
-	mso-list-template-ids:-1717015254 67698703 67698713 67698715 67698703 6769=
-8713 67698715 67698703 67698713 67698715;}
-@list l0:level1
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l0:level2
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l0:level3
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l0:level4
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l0:level5
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l0:level6
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l0:level7
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l0:level8
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l0:level9
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l1
-	{mso-list-id:67507302;
-	mso-list-type:hybrid;
-	mso-list-template-ids:1085722958 67698703 67698713 67698715 67698703 67698=
-713 67698715 67698703 67698713 67698715;}
-@list l1:level1
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l1:level2
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l1:level3
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l1:level4
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l1:level5
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l1:level6
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l1:level7
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l1:level8
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l1:level9
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l2
-	{mso-list-id:136798337;
-	mso-list-type:hybrid;
-	mso-list-template-ids:-679561616 67698703 67698713 67698715 67698703 67698=
-713 67698715 67698703 67698713 67698715;}
-@list l2:level1
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l2:level2
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l2:level3
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l2:level4
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l2:level5
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l2:level6
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l2:level7
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l2:level8
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l2:level9
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l3
-	{mso-list-id:441071050;
-	mso-list-type:hybrid;
-	mso-list-template-ids:-1890020102 67698703 67698713 67698715 67698703 6769=
-8713 67698715 67698703 67698713 67698715;}
-@list l3:level1
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l3:level2
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l3:level3
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l3:level4
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l3:level5
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l3:level6
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l3:level7
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l3:level8
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l3:level9
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l4
-	{mso-list-id:525682454;
-	mso-list-type:hybrid;
-	mso-list-template-ids:-1557908192 67698703 67698713 67698715 67698703 6769=
-8713 67698715 67698703 67698713 67698715;}
-@list l4:level1
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l4:level2
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l4:level3
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l4:level4
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l4:level5
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l4:level6
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l4:level7
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l4:level8
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l4:level9
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l5
-	{mso-list-id:590163071;
-	mso-list-type:hybrid;
-	mso-list-template-ids:523379512 67698703 67698713 67698715 67698703 676987=
-13 67698715 67698703 67698713 67698715;}
-@list l5:level1
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l5:level2
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l5:level3
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l5:level4
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l5:level5
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l5:level6
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l5:level7
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l5:level8
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l5:level9
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l6
-	{mso-list-id:1566834836;
-	mso-list-type:hybrid;
-	mso-list-template-ids:1956295942 67698703 67698713 67698715 67698703 67698=
-713 67698715 67698703 67698713 67698715;}
-@list l6:level1
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l6:level2
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l6:level3
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l6:level4
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l6:level5
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l6:level6
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l6:level7
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l6:level8
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;}
-@list l6:level9
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-ol
-	{margin-bottom:0cm;}
-ul
-	{margin-bottom:0cm;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi all maintainers and community friends,<o:p></o:p>=
-</p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Recently I am reviewing and learning the virtio and =
-eventloop implementation of latest QEMU,<o:p></o:p></p>
-<p class=3D"MsoNormal">and now I have a questions for help:<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">In general, the IO requests of virtio is popped in i=
-othread/mainloop and may submitted to &#8220;async IO<o:p></o:p></p>
-<p class=3D"MsoNormal">Engine&#8221; &nbsp;(io_uring/linux aio/threadpool).=
- Once the IO operation is done, the &#8220;async IO engine&#8221; will send=
- notification<o:p></o:p></p>
-<p class=3D"MsoNormal">to iothread/mainloop through evenfd or bottomhalf, a=
-nd the completion action for the IO request (add used ring and<o:p></o:p></=
-p>
-<p class=3D"MsoNormal">notify guest) is done in iothread/mainloop.<o:p></o:=
-p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">And let&#8217;s look at the &#8220;deactive&#8221; p=
-rocedure of virtio-pci devices (when guest write 0 to &nbsp;device status o=
-r system<o:p></o:p></p>
-<p class=3D"MsoNormal">triggered reset), the basic requirement is that devi=
-ce should stop handling IO requests and accessing virtqueue before<o:p></o:=
-p></p>
-<p class=3D"MsoNormal">returning back to guest, as the guest may destroy vi=
-rqueue &nbsp;once deactivation is done.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">QEMU invokes stop_ioeventfd() callback to perform ab=
-ove actions. It unregisters ioeventfd from eventloop and KVM,<o:p></o:p></p=
->
-<ol style=3D"margin-top:0cm" start=3D"1" type=3D"1">
-<li class=3D"MsoListParagraph" style=3D"margin-left:0cm;mso-list:l2 level1 =
-lfo7">but I can&#8217;t find code that ensuring
-<b>IO operations in &#8220;async IO engine&#8221;</b> are done.&nbsp;&nbsp;=
- <o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin-left:0cm;ms=
-o-list:l2 level1 lfo7">And if IO operation is blocked, is vCPU thread will =
-blocked when do deactivate?<o:p></o:p></li></ol>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">It&#8217;s great that if anyone can help!<o:p></o:p>=
-</p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<o:p></o:p></p>
-<p class=3D"MsoNormal">Keqian<o:p></o:p></p>
-</div>
-</body>
-</html>
-
---_000_63b89ae069d644b897ea97cc41b030abhuaweicom_--
 
