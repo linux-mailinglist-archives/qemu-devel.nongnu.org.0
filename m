@@ -2,92 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5873066CBE6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:20:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E73666CBEF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 18:20:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHT7j-0003nx-MZ; Mon, 16 Jan 2023 12:18:19 -0500
+	id 1pHT99-0004sX-A0; Mon, 16 Jan 2023 12:19:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pHT7M-0003mD-RL
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:17:58 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pHT7L-0002Bq-5O
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 12:17:56 -0500
-Received: by mail-wr1-x433.google.com with SMTP id r9so5354493wrw.4
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 09:17:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=DSWs+BBEnO1AWEL4eh+8vWNWzNALrrJvFuB29WGjs6M=;
- b=q6grtuJxlKiqohOv1HBRHzrb/9lm9QWn8Xock5ewbrXbACMECKZzDmtIIAYu7AHFcI
- AD99mZszbBvL376NvZuB/YsDanbscgqu0UOSxbjLz391AqccGsYGoCHAyFe49/uLcq00
- pT/u/fGZu1g2OYj1d+oqgwe7EfOVVNDa7B/803XQXZgO/bVABgc8eQ+fIUjSwW6nW/ij
- sHUo8XH4OMq0dpSlIGPxWj8dWt9IGxl8R+v49grm31TwsRjLv85ooGQhQETHZ9MG0tD1
- FjAH7khft2rO27hP3dpQdutXnUQX5No1LNkeuVTO/p6ypmhQxFvJMm7mLUhPTQ6Tg04T
- QMKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DSWs+BBEnO1AWEL4eh+8vWNWzNALrrJvFuB29WGjs6M=;
- b=utHnChLqwv0iRAJH5WDfYfxRfrEYRAL+hpvfz6yA8qYzcKNSrQBKZAdGduHX5HlEVP
- ueJaVIJPx0K6LNZ+8Xs9PUij8GC4HvMWukD+JMJd3zOXExVdICYzMbk3xL74feVL00W2
- HFoFZRH41cWnmfbtHUKAs3lNAcu384Qi2JO++zvCPL1jXPPcT3SahVpTWUeGlR1kfzqg
- yjRpFwjRt8wFT+b6oLClDVtqikjhdOkdyHbOeO2XkNTGMeBg06yBGtKckb/7eeKPBxsV
- Xg2pzTyCS45A9RAKszlkWL2P3p7XURcaJGYc9ZZsaIzJbkBUHInt2h6xa6WpJMY9lbbi
- MQsg==
-X-Gm-Message-State: AFqh2koLIRKntN+Apo8O0AR1yudyRX2NF6Ds5bpM+BR7HRU1HJXT09IN
- poIAxQX4dwpyZtuJJDKpoKI=
-X-Google-Smtp-Source: AMrXdXs2VVHouT70mhF+DnljbQh+4JQ3edZmv9wy4ezqakQziq47qZhbXMbVm7hdRWxc3YNFsJaXig==
-X-Received: by 2002:adf:fad2:0:b0:2bd:c83a:6e3 with SMTP id
- a18-20020adffad2000000b002bdc83a06e3mr8124571wrs.7.1673889473300; 
- Mon, 16 Jan 2023 09:17:53 -0800 (PST)
-Received: from [192.168.6.176] (54-240-197-232.amazon.com. [54.240.197.232])
- by smtp.gmail.com with ESMTPSA id
- o15-20020a5d684f000000b002bddac15b3dsm11024331wrw.33.2023.01.16.09.17.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 09:17:52 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <0fb0fe9d-977e-a148-408b-455e6e6a123c@xen.org>
-Date: Mon, 16 Jan 2023 17:17:50 +0000
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pHT91-0004XJ-DI; Mon, 16 Jan 2023 12:19:41 -0500
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pHT8y-0002Iw-SX; Mon, 16 Jan 2023 12:19:39 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id F36BF320094A;
+ Mon, 16 Jan 2023 12:19:30 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Mon, 16 Jan 2023 12:19:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1673889570; x=
+ 1673975970; bh=vtUHUbgm1Z/AOh5OqfLWhe3wl1ozKsc/IBfogveBl34=; b=Q
+ qBzsXv7IXoQV9bLR6UyIrQRIwa/mhHoEixZ2F2fbXQmQYpp5uu5kyQRAqwJMWdcH
+ p5c0xrANhcMrw4WzYAYStFbbXXdUkbdipl5ssBiA/p+IAby+9lZRyVtbjjQ19FCw
+ XsmsUi0+u8ybKbXQi5Uu7fzniKatvgPzbmYV+izVw2pAAVaflgDL0FWKnaQ5N962
+ yf4Wf8RCp6gMlneT8VlF5oOeco+cqCIyWGK0QoQhjZbaBK/rvVeaqgE4QbUS1ell
+ IcZgMD11gS+sBtqa4P0Ovp5KJI4o1+JbuKLxtdQ1hVOKvw6PuSMYcLyzQkTUZGJB
+ wn/UPY13K4B78fwoRHRYA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673889570; x=
+ 1673975970; bh=vtUHUbgm1Z/AOh5OqfLWhe3wl1ozKsc/IBfogveBl34=; b=r
+ we5D86D31cF7YwOKc0UXQKCSJCNQuJ88Ww+q4L5sTBDswHzyM/rROCX3b5K7KPiH
+ pBQ9Pzv4sVJcVCMxBzm58pAhZZ/+Mv5jSHDQxnraSf8t2xKKLIU16YRYY68ujou8
+ UuuwS4ChjdoDYWcOVBayBv19vfYHjMANwyv0FhV7UOCP4ju8SFMXUkf5egUdHWh6
+ iHtPT4cxNebN5a5v2oBXgBI82/gDRioW6PjmQcL+agMSD7LMoij8QGAeXlvYShuu
+ bA+wBKY1FG+1WtaO2yI2XsoYgxxaFf1rUAQd/dhG6DJylZLke1Y3p3/nojgeexs4
+ 8E/E2ZQN3DAy1QdivqG7A==
+X-ME-Sender: <xms:IYfFY-28VV-uOnKlS6kUer8kGS_f7jeED3RVqH3Ouxqd0auPC3NHzw>
+ <xme:IYfFYxF7sJcvZty-HRFoTmASUZxF15BEVMwvF1iqJ0AknYD3Sc6H6RrFz7R9f-QN-
+ JCj4O1cYjNCIaQXvw0>
+X-ME-Received: <xmr:IYfFY24Ewk2sIwhXqBRG9tn8aTqxn2POsdwCtlDAmsh0612PnWeplxG_F6ooXueNS7jkRcDe9JwxURJ-lryRShq6QA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedgleelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpefgueekffdtueetgfehteffledtueehgfehgeelfedujeefhfffteekvddt
+ feetteenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:IYfFY_0i4imR6iHDaILz2IpUOB9mZMLo2ITzevb9_gDnTvRc91kfbw>
+ <xmx:IYfFYxH4N-TrsOzN4m8-hKrk8wowETDJs8d_HogpG9ocv8-VkqXVog>
+ <xmx:IYfFY4-BRmMrHDbCkLvujc4-S4KMqgUtGmkEAvF5Gyh6Qpds6MDRMA>
+ <xmx:IofFY3bk0rvdTQZplAWcd1a2t0lnpEtawtp5qWceivS6J-on4wEFBw>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 16 Jan 2023 12:19:28 -0500 (EST)
+Date: Mon, 16 Jan 2023 09:19:26 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: patrick@stwcx.xyz, peter.maydell@linaro.org, andrew@aj.id.au,
+ joel@jms.id.au, hskinnemoen@google.com, kfting@nuvoton.com,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Subject: Re: [PATCH 6/6] hw/arm/aspeed: Init fby35 BMC FRUID EEPROM
+Message-ID: <Y8WHHrGicyqr9hzP@pdel-mbp>
+References: <20230114170151.87833-1-peter@pjd.dev>
+ <20230114170151.87833-7-peter@pjd.dev>
+ <3131a986-1db0-8ab2-12cd-11aa32ea29e0@kaod.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v6 14/51] i386/xen: add pc_machine_kvm_type to initialize
- XEN_EMULATE mode
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-References: <20230110122042.1562155-1-dwmw2@infradead.org>
- <20230110122042.1562155-15-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20230110122042.1562155-15-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3131a986-1db0-8ab2-12cd-11aa32ea29e0@kaod.org>
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=peter@pjd.dev;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,79 +102,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/01/2023 12:20, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
+On Mon, Jan 16, 2023 at 01:42:48PM +0100, Cédric Le Goater wrote:
+> On 1/14/23 18:01, Peter Delevoryas wrote:
+> > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> > ---
+> >   hw/arm/aspeed.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+> >   1 file changed, 49 insertions(+)
+> > 
+> > diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> > index c929c61d582a..4ac8ff11a835 100644
+> > --- a/hw/arm/aspeed.c
+> > +++ b/hw/arm/aspeed.c
+> > @@ -922,6 +922,52 @@ static void bletchley_bmc_i2c_init(AspeedMachineState *bmc)
+> >       i2c_slave_create_simple(i2c[12], TYPE_PCA9552, 0x67);
+> >   }
+> > +static const uint8_t fby35_bmc_fruid[] = {
+> > +    0x01, 0x00, 0x00, 0x01, 0x0d, 0x00, 0x00, 0xf1, 0x01, 0x0c, 0x00, 0x36,
+> > +    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x4d,
+> > +    0x43, 0x20, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x20, 0x4d, 0x6f,
+> > +    0x64, 0x75, 0x6c, 0x65, 0xcd, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e,
+> > +    0x30, 0xc9, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc1, 0x39, 0x01, 0x0c, 0x00, 0xc6,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x59, 0x6f, 0x73, 0x65, 0x6d,
+> > +    0x69, 0x74, 0x65, 0x20, 0x56, 0x33, 0x2e, 0x35, 0x20, 0x45, 0x56, 0x54,
+> > +    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0xc4, 0x45, 0x56, 0x54, 0x32, 0xcd, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc8, 0x43, 0x6f,
+> > +    0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +};
 > 
-> The xen_overlay device (and later similar devices for event channels and
-> grant tables) need to be instantiated. Do this from a kvm_type method on
-> the PC machine derivatives, since KVM is only way to support Xen emulation
-> for now.
 > 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   hw/i386/pc.c         | 11 +++++++++++
->   include/hw/i386/pc.h |  3 +++
->   2 files changed, 14 insertions(+)
+> I would introduce a new aspeed_eeprom.c file for these definitions because
+> each machine could have its own set of eeproms and aspeed.c is already big
+> enough.
+
++1
+
 > 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index d489ecc0d1..0ddae2f6ad 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -89,6 +89,7 @@
->   #include "hw/virtio/virtio-iommu.h"
->   #include "hw/virtio/virtio-pmem-pci.h"
->   #include "hw/virtio/virtio-mem-pci.h"
-> +#include "hw/i386/kvm/xen_overlay.h"
->   #include "hw/mem/memory-device.h"
->   #include "sysemu/replay.h"
->   #include "target/i386/cpu.h"
-> @@ -1844,6 +1845,16 @@ static void pc_machine_initfn(Object *obj)
->       cxl_machine_init(obj, &pcms->cxl_devices_state);
->   }
->   
-> +int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
-> +{
-> +#ifdef CONFIG_XEN_EMU
-> +    if (xen_mode == XEN_EMULATE) {
-> +        xen_overlay_create();
-> +    }
-> +#endif
-> +    return 0;
-> +}
-> +
->   static void pc_machine_reset(MachineState *machine, ShutdownCause reason)
->   {
->       CPUState *cs;
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 991f905f5d..b866567b7b 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -293,12 +293,15 @@ extern const size_t pc_compat_1_5_len;
->   extern GlobalProperty pc_compat_1_4[];
->   extern const size_t pc_compat_1_4_len;
->   
-> +extern int pc_machine_kvm_type(MachineState *machine, const char *vm_type);
-> +
->   #define DEFINE_PC_MACHINE(suffix, namestr, initfn, optsfn) \
->       static void pc_machine_##suffix##_class_init(ObjectClass *oc, void *data) \
->       { \
->           MachineClass *mc = MACHINE_CLASS(oc); \
->           optsfn(mc); \
->           mc->init = initfn; \
-> +        mc->kvm_type = pc_machine_kvm_type; \
+> >   static void fby35_i2c_init(AspeedMachineState *bmc)
+> >   {
+> >       AspeedSoCState *soc = &bmc->soc;
+> > @@ -1363,6 +1409,9 @@ static void fby35_reset(MachineState *state, ShutdownCause reason)
+> >       object_property_set_bool(OBJECT(gpio), "gpioB3", false, &error_fatal);
+> >       object_property_set_bool(OBJECT(gpio), "gpioB4", false, &error_fatal);
+> >       object_property_set_bool(OBJECT(gpio), "gpioB5", false, &error_fatal);
+> > +
+> > +    at24c_eeprom_write(aspeed_i2c_get_bus(&bmc->soc.i2c, 11),
+> > +                       0x54, 0, fby35_bmc_fruid, sizeof(fby35_bmc_fruid));
+> >   }
+> 
+> That's one way to model the default reset values of the eeprom, we would
+> loose any writes though.
+> 
+> I think we should have a reset_data buffer instead, which would be used
+> at realize time to set the initial data, if there are no drive backend,
+> and at reset if !writable. Something like smbus_eeprom_init_one() does
+> without a proper property API.
 
-Given that it does nothing in the non-Xen-emulate case, would it not be 
-neater to simply wrap the above line, and the definition of the 
-function, in #ifdef CONFIG_XEN_EMU?
+I actually did it this way downstream[1], but I thought it would be controversial
+without using properties, and I wasn't sure how to model it with properties.
 
-   Paul
+[1] https://github.com/facebook/openbmc/blob/b98f10b7967ebce1f97e14a9a5d4c14f9f7d4c55/common/recipes-devtools/qemu/qemu/0014-hw-nvram-at24c-Add-static-memory-init-option.patch
 
->       } \
->       static const TypeInfo pc_machine_type_##suffix = { \
->           .name       = namestr TYPE_MACHINE_SUFFIX, \
+> 
+> We would need some new interface to set a property for a constant buffer
+> of uint<>_t values. I don't know how complex that would be. It could be
+> useful to other models to define the init state of registers.
 
+Would DEFINE_PROP_ARRAY not work? Won't the properties be constant after
+qdev_realize()?
+
+Or if that's not preferable, DEFINE_PROP_LINK (uint8_t *reset_data) +
+DEFINE_PROP_UINT32 (reset_data_size)?
+
+Otherwise, if the property stuff is too uncertain, I'd be happy just adding an
+adhoc API through the helper like smbus_eeprom_init_one does.
+
+> 
+> Thanks,
+> 
+> C.
+> 
+> >   static void aspeed_machine_fby35_class_init(ObjectClass *oc, void *data)
+> 
 
