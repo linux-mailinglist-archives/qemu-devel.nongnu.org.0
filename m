@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6DE66BFD8
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 14:33:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C07BD66C00C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 14:47:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHPao-0000IP-Bm; Mon, 16 Jan 2023 08:32:08 -0500
+	id 1pHPo8-000549-6e; Mon, 16 Jan 2023 08:45:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pHPZg-00005x-FO
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 08:30:58 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pHPny-00051b-1n; Mon, 16 Jan 2023 08:45:45 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pHPZe-0000me-94
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 08:30:55 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id m21so40719243edc.3
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 05:30:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=54HheQ5S4o1N65n4T5lfykN0zt7MMBVHKnFWTI39SJA=;
- b=dERDFOYYdz/JT2E4gwEJkxHqsSOav0zoFyvCB1C454YUTkmlA+8A28aqVxlL7j6xzj
- Z5s89MtEqJ/moc+SiGevIF8cK4UTX4v18UxarA+SCsp3ixQ8e24DpKpiKUBGqvGgSYFT
- pCMoSGB1HUEYeS99RMG57CQB0r7jPyyU1v4iLe6HV/b3l+DCJcIBn29EjK5xil9MVF/6
- L1+XgZePWYzBc+qN+Bh6Uv43uPIU1z9vyA+F7oU4ZCiNAkS3IHX8p6Ay9UZEHtTY+zwj
- p7tZfP9Xf2Rtugy6xWe/GkDmgKbhpMIhXg2brQCMdvZMCTvY+0gZaQjy7roMurDcVSTK
- D19A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=54HheQ5S4o1N65n4T5lfykN0zt7MMBVHKnFWTI39SJA=;
- b=nPaCUYsJ47Uy+ZzKTZYjS/54Zl4T7NksoSikvDXv5GUa8dPSD18k4KJDxdmXuB1tKK
- 5LTHKq2Ns1w9P7TBjr8nBy143FR7+YNuaKMSG6zSSZL4l10rlTwIeeEq4YgQ6OmbQkPN
- Y6y45w9K9rbD75OKKDK54WWl9V2gz7BJjC1prp1w1mRW+jN1LbCjtvSZcxum9vCvpkph
- HpveSuFSr0v4z6mwR5THiR82fJH6bESMNnHFwaNBUGpHdtJ8/FCiYM9OTdeM41JUqaQM
- j/q0lpI8iFmDevLE0dhJJic2bhyJ9Z7/wtvvBqRH6yYrKaRL9Lx89MBe+Y2kEBVeZ7Rq
- payA==
-X-Gm-Message-State: AFqh2krFAKZ2olYNkz+hN1JcjXVLbbV88xWBGg0f92l3qJM4p5VsDMTl
- a0k+w+jR6m5NJzd0jn/t+RM=
-X-Google-Smtp-Source: AMrXdXst48Q1xdvX9F35o3N33AMRj/bEyHMuqNqr9dGpYYeX5reKaW+5E/rPRn1cwftvN/65Ssxx1w==
-X-Received: by 2002:a05:6402:538c:b0:483:21d8:87af with SMTP id
- ew12-20020a056402538c00b0048321d887afmr70668990edb.24.1673875852640; 
- Mon, 16 Jan 2023 05:30:52 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-077-191-143-217.77.191.pool.telefonica.de.
- [77.191.143.217]) by smtp.gmail.com with ESMTPSA id
- l9-20020a1709060cc900b007b839689adesm11670322ejh.166.2023.01.16.05.30.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 05:30:52 -0800 (PST)
-Date: Mon, 16 Jan 2023 13:30:41 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Markus Armbruster <armbru@redhat.com>
-CC: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Aurelien Jarno <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 1/7] hw/acpi: Add missing includes
-In-Reply-To: <87bkmyaazk.fsf@pond.sub.org>
-References: <20230114222738.282478-1-shentey@gmail.com>
- <20230114222738.282478-2-shentey@gmail.com> <87v8l7ugc3.fsf@pond.sub.org>
- <ED034842-BBE4-4C6A-8E39-105BCBB58F6D@gmail.com>
- <87bkmyaazk.fsf@pond.sub.org>
-Message-ID: <B8E4E808-9479-40F6-B286-39CE51E99A52@gmail.com>
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pHPnw-0004o7-EO; Mon, 16 Jan 2023 08:45:41 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9235367893;
+ Mon, 16 Jan 2023 13:45:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1673876736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9P9rok1+3VTsTeZXa2TO/Cf9rR6N2BtD12VhnVoV9Q4=;
+ b=j8LVhcagNbaXTBbG+6rhippSfkO4zbVYn70WgRyt/d2OZt4/ASajwCYml+8WVo3weota8D
+ Qrt5XNz67+mOhOV7FDfKwqm/3k2N4KO4sRvfJAN2E25Ou50iCs2ojlTHn4aFSqpnXTNjMm
+ PIMoG/1n0fiYDc/VZ9xrkzMmv5+/8Z8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1673876736;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9P9rok1+3VTsTeZXa2TO/Cf9rR6N2BtD12VhnVoV9Q4=;
+ b=UZNsg76eDGDcnJvsTJDJOZKuV6AcqOO9gObIqiFr9dlSf2smAfbDG55oUYwwlniKq64et8
+ 26211GfZS29D8yDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 13FB0138FA;
+ Mon, 16 Jan 2023 13:45:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id GMHcM/9UxWP7SAAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 16 Jan 2023 13:45:35 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Alex =?utf-8?Q?Benn?=
+ =?utf-8?Q?=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [RFC PATCH v3 20/28] target/arm: Set cortex-a57 as default cpu
+ for KVM-only build
+In-Reply-To: <bb5f5cd7-6d53-eb69-3e79-db95c9734f07@linaro.org>
+References: <20230113140419.4013-1-farosas@suse.de>
+ <20230113140419.4013-21-farosas@suse.de>
+ <bb5f5cd7-6d53-eb69-3e79-db95c9734f07@linaro.org>
+Date: Mon, 16 Jan 2023 10:45:33 -0300
+Message-ID: <874jsqzj7m.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,44 +89,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-
-Am 16=2E Januar 2023 13:02:23 UTC schrieb Markus Armbruster <armbru@redhat=
-=2Ecom>:
->Bernhard Beschow <shentey@gmail=2Ecom> writes:
+> On 1/13/23 06:04, Fabiano Rosas wrote:
+>> The cortex-a15 is not present anymore when CONFIG_TCG=n, so use the
+>> cortex-a57 as default cpu for KVM.
+>> 
+>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
 >
->> Am 16=2E Januar 2023 06:46:36 UTC schrieb Markus Armbruster <armbru@red=
-hat=2Ecom>:
->>>Bernhard Beschow <shentey@gmail=2Ecom> writes:
->>>
->>>> When removing the "hw/boards=2Eh" include from
->>>> hw/acpi/acpi_dev_interface=2Eh, these include directives must be adde=
-d to make
->>>> the code compile again=2E
->>>>
->>>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->>>
->>>You don't actually remove #include "hw/boards=2Eh" from
->>>hw/acpi/acpi_dev_interface=2Eh in this series=2E  Accident?
->>
->> It gets removed in "[PATCH 3/7] hw/acpi/acpi_dev_interface: Resolve Acp=
-iDeviceIfClass::madt_cpu", no?
+> Ideally there would not be a default at all, requiring the command-line option to be used.
+
+We could probably do that now without impact to users, since KVM would
+always require a -cpu option due to the current default being
+cortex-a15.
+
 >
->Got eaten on the way to me, and I didn't notice, because git-am is still
->happy=2E  Sorry for the noise!
+> Second choice would be "host", since that's the only value that's actually usable (except 
+> for the off-chance that you're actually running on an a57, which is less and less likely 
+> as time moves on).
 >
->The commit message could point to PATCH 3=2E  However, I'd reshuffle a bi=
-t
->instead=2E  Split PATCH 3 into everything but the removal of #include
->"hw/boards=2Eh", and the removal=2E  Squash PATCH 1 into the latter,
->resulting in a straighforward cleanup patch=2E
 
-Race condition: https://lore=2Ekernel=2Eorg/qemu-devel/20230116125842=2E66=
-817-1-shentey@gmail=2Ecom/
+I'll have to go around fixing qtest first, either to add -cpu or to add
+-accel kvm, otherwise we get:
 
-Yeah, doing the include cleanup after the aml changes makes the series mor=
-e straighforward indeed=2E I'll send a v3=2E
-
-Thanks,
-Bernhard
+The 'host' CPU type can only be used with KVM or HVF
 
