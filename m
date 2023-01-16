@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C4566D11B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 22:52:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9624366D131
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 22:59:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHXNu-0003co-HU; Mon, 16 Jan 2023 16:51:18 -0500
+	id 1pHXUo-0006gD-En; Mon, 16 Jan 2023 16:58:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1pHXNp-0003cZ-6M
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:51:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from
+ <BATV+fb0b8ce1ba8490165fd5+7085+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pHXUh-0006bY-I4
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:58:19 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1pHXNn-0002eX-Ir
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:51:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673905870;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S7onnjcC4ecaQ1Y0GinFMXvAAc1NY7pQFbBFMGg731k=;
- b=Dtd4uJNm/XndGXZNKRhY8kcIZ7iU2bTHUbTtviFKtU+9FsAKdRMB4CXVVT0IQTVzYITiFt
- C3vF/Npuy9oqR8bEjuBgLAnzOmbSUGtjY/hDDpjY2lH7aeuJ+qucbYQuscfMAoijB6q/Wh
- d7Q0Khb2YxLtSVM47iSPnWMil9fPp7A=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-468-_9NnB0M5PgCmAP0G3Sdy7g-1; Mon, 16 Jan 2023 16:51:09 -0500
-X-MC-Unique: _9NnB0M5PgCmAP0G3Sdy7g-1
-Received: by mail-ua1-f69.google.com with SMTP id
- y10-20020ab0560a000000b003af33bfa8c4so12499969uaa.21
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 13:51:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=S7onnjcC4ecaQ1Y0GinFMXvAAc1NY7pQFbBFMGg731k=;
- b=dexlADk4YCtb+K3XCAdItHdPRZ62tayvwLznLNiUy+X0A6rjvly7n8whz/eiJiKU0u
- wj62OUlcl9HvbWjxvAI6/Ax81lohcQ/TjC8ExKe9uRvYho8Wo3tBrXAGLZYhyqlELr4/
- U3eSv0Noy69cjy7QaPtGZGSnrotqo5SdBk9Q9GqwVFF62V07Cc2fM+wVwY14sV6zziO0
- 2Ok9Y+Kobjam7yps5RlgD6IG+c6yjHB1dvt1spbq+gr5fn3TOD1LmrrWEa0etdTPoMEm
- /KK05fM1NoFn8p9foILRwwYf285y1OAczXPQg5QSjRnvyd8xeZ768F2Ca/WhgqYZtPqj
- jNEA==
-X-Gm-Message-State: AFqh2kqoU7TdIdB+WglRrJONw1TGMAH6pTAzwTxadcFzXrqYqyfDtFhX
- ltP7h+LD8qJlPNHkkG2/fqzMwr9RyWBGViVR+NAoULYiqjHsuvJxnXupf2m6hN40zRP/u/TM+iy
- 9gFJlnca4f5o/85xEZQw9MnMTDWZHkY8=
-X-Received: by 2002:a67:de98:0:b0:3d3:e071:e00d with SMTP id
- r24-20020a67de98000000b003d3e071e00dmr69936vsk.39.1673905868587; 
- Mon, 16 Jan 2023 13:51:08 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvsyNyVZgYkBh22M9jWbGx8rVmM/rn+r91wYx/nXg93pRlpcMOFU54U99+0R8YCTy7YcajmWWhdKBwSowjxxNQ=
-X-Received: by 2002:a67:de98:0:b0:3d3:e071:e00d with SMTP id
- r24-20020a67de98000000b003d3e071e00dmr69929vsk.39.1673905868384; Mon, 16 Jan
- 2023 13:51:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20230116204232.1142442-1-mcascell@redhat.com>
-In-Reply-To: <20230116204232.1142442-1-mcascell@redhat.com>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Mon, 16 Jan 2023 22:50:57 +0100
-Message-ID: <CAA8xKjVKxP9861By-u2-OMbanEQ6b4eZBJp3naE1B5W0dB6z2w@mail.gmail.com>
-Subject: Re: [PATCH] scsi/lsi53c895a: restrict DMA engine to memory regions
- (CVE-2023-0330)
+ (Exim 4.90_1) (envelope-from
+ <BATV+fb0b8ce1ba8490165fd5+7085+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pHXUd-0003Yr-6X
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 16:58:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=DG3HlQRU8uf5GiGYF8MNAbIto9qAJUr2/BnMp7HFE3g=; b=fJ7FXehBjb6pGFw3YmeLN1Iuzv
+ P+D32U1xUxlGQ6trYLN7LgZ9EkaD+TrYjWlTvTvz6K+d1Z0pT6mMtjZbHwuwX9yK1Jk8zqMGpNx+f
+ CrwWU7UeY8wzfEB6sAQ6iAZDvvoH/BLP40P8YiDTDjRWaqPaMjBw2i1ROqL38ieIGUv+zDOC1iYDX
+ 7OUF30dxDMFMsoecIvBKeeDD60ax0P6LfdXzReEayj/7AwTDzfKX30UH6v7e8IwO0w1dVs0Oln9iP
+ tWGY7f79TeLO1O7sDe29Gagir5NR9a2JysGCbh/zdiJFHvXSS7nULvHCa3oZVpTSqM4DsLEKpLJLU
+ BdHmHixg==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pHXUj-0097Ux-2d; Mon, 16 Jan 2023 21:58:21 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
+ Linux)) id 1pHXUV-004iNf-0w; Mon, 16 Jan 2023 21:58:07 +0000
+From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, fam@euphon.net, philmd@linaro.org, alxndr@bu.edu, 
- zheyuma97@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+Subject: [PATCH v7 00/51] Xen support under KVM
+Date: Mon, 16 Jan 2023 21:57:14 +0000
+Message-Id: <20230116215805.1123514-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+fb0b8ce1ba8490165fd5+7085+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,132 +82,267 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 16, 2023 at 9:42 PM Mauro Matteo Cascella
-<mcascell@redhat.com> wrote:
->
-> This prevents the well known DMA-MMIO reentrancy problem (upstream issue #556)
-> leading to memory corruption bugs like stack overflow or use-after-free.
->
-> Fixes: CVE-2023-0330
-> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-> Reported-by: Zheyu Ma <zheyuma97@gmail.com>
-> ---
->  hw/scsi/lsi53c895a.c               | 14 +++++++++----
->  tests/qtest/fuzz-lsi53c895a-test.c | 32 ++++++++++++++++++++++++++++++
->  2 files changed, 42 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-> index af93557a9a..89c52594eb 100644
-> --- a/hw/scsi/lsi53c895a.c
-> +++ b/hw/scsi/lsi53c895a.c
-> @@ -446,22 +446,28 @@ static void lsi_reselect(LSIState *s, lsi_request *p);
->  static inline void lsi_mem_read(LSIState *s, dma_addr_t addr,
->                                 void *buf, dma_addr_t len)
->  {
-> +    const MemTxAttrs attrs = { .memory = true };
-> +
->      if (s->dmode & LSI_DMODE_SIOM) {
-> -        address_space_read(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED,
-> +        address_space_read(&s->pci_io_as, addr, attrs,
->                             buf, len);
->      } else {
-> -        pci_dma_read(PCI_DEVICE(s), addr, buf, len);
-> +        pci_dma_rw(PCI_DEVICE(s), addr, buf, len,
-> +                      DMA_DIRECTION_TO_DEVICE, attrs);
->      }
->  }
->
->  static inline void lsi_mem_write(LSIState *s, dma_addr_t addr,
->                                  const void *buf, dma_addr_t len)
->  {
-> +    const MemTxAttrs attrs = { .memory = true };
-> +
->      if (s->dmode & LSI_DMODE_DIOM) {
-> -        address_space_write(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED,
-> +        address_space_write(&s->pci_io_as, addr, attrs,
->                              buf, len);
->      } else {
-> -        pci_dma_write(PCI_DEVICE(s), addr, buf, len);
-> +        pci_dma_rw(PCI_DEVICE(s), addr, (void *) buf, len,
-> +                      DMA_DIRECTION_FROM_DEVICE, attrs);
->      }
->  }
->
-> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
-> index 392a7ae7ed..35c02e89f3 100644
-> --- a/tests/qtest/fuzz-lsi53c895a-test.c
-> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
-> @@ -8,6 +8,35 @@
->  #include "qemu/osdep.h"
->  #include "libqtest.h"
->
-> +/*
-> + * This used to trigger a DMA reentrancy issue
-> + * leading to memory corruption bugs like stack
-> + * overflow or use-after-free
-> + */
-> +static void test_lsi_dma_reentrancy(void)
-> +{
-> +    QTestState *s;
-> +
-> +    s = qtest_init("-M q35 -m 512M -nodefaults "
-> +                   "-blockdev driver=null-co,node-name=null0 "
-> +                   "-device lsi53c810 -device scsi-cd,drive=null0");
-> +
-> +    qtest_outl(s, 0xcf8, 0x80000804); /* PCI Command Register */
-> +    qtest_outw(s, 0xcfc, 0x7);        /* Enables accesses */
-> +    qtest_outl(s, 0xcf8, 0x80000814); /* Memory Bar 1 */
-> +    qtest_outl(s, 0xcfc, 0xff100000); /* Set MMIO Address*/
-> +    qtest_outl(s, 0xcf8, 0x80000818); /* Memory Bar 2 */
-> +    qtest_outl(s, 0xcfc, 0xff000000); /* Set RAM Address*/
-> +    qtest_writel(s, 0xff000000, 0xc0000024);
-> +    qtest_writel(s, 0xff000114, 0x00000080);
-> +    qtest_writel(s, 0xff00012c, 0xff000000);
-> +    qtest_writel(s, 0xff000004, 0xff000114);
-> +    qtest_writel(s, 0xff000008, 0xff100014);
-> +    qtest_writel(s, 0xff10002f, 0x000000ff);
-> +
-> +    qtest_quit(s);
-> +}
-> +
->  /*
->   * This used to trigger a UAF in lsi_do_msgout()
->   * https://gitlab.com/qemu-project/qemu/-/issues/972
-> @@ -120,5 +149,8 @@ int main(int argc, char **argv)
->      qtest_add_func("fuzz/lsi53c895a/lsi_do_msgout_cancel_req",
->                     test_lsi_do_msgout_cancel_req);
->
-> +    qtest_add_func("fuzz/lsi53c895a/lsi_dma_reentrancy",
-> +                   test_lsi_dma_reentrancy);
-> +
->      return g_test_run();
->  }
-> --
-> 2.39.0
->
+Even before this is merged, we've been able to use it to find bugs in
+the Linux Xen guest support, and test the fixes.
+https://lore.kernel.org/all/4bffa69a949bfdc92c4a18e5a1c3cbb3b94a0d32.camel@infradead.org/
+https://lore.kernel.org/all/871qnunycr.ffs@tglx/
 
-Reproducer:
+Version 7 is some trivial cosmetics, and a locking fix which mostly
+paves the way for the PIRQ support which will be reposted as RFC on
+top, shortly.
 
-cat << EOF | ./x86_64-softmmu/qemu-system-x86_64 -machine accel=qtest \
--m 512M -machine q35 -nodefaults -device lsi53c810 -device scsi-cd,drive=null0 \
--display none -blockdev driver=null-co,node-name=null0 -qtest stdio
-outl 0xcf8 0x80000804   /* PCI Command Register */
-outl 0xcfc 0x7                 /* Enable accesses */
-outl 0xcf8 0x80000814   /* Memory Bar 1 */
-outl 0xcfc 0xff100000     /* Set MMIO Address*/
-outl 0xcf8 0x80000818   /* Memory Bar 2 */
-outl 0xcfc 0xff000000     /* Set RAM Address*/
-writel 0xff000000 0xc0000024
-writel 0xff000114 0x00000080
-writel 0xff00012c 0xff000000
-writel 0xff000004 0xff000114
-writel 0xff000008 0xff100014
-writel 0xff10002f 0x000000ff
-EOF
+   qemu-system-x86_64 -serial mon:stdio -M pc -cpu host \
+    -accel kvm,xen-version=0x4000a,kernel-irqchip=split -display none \
+    -kernel vmlinuz-5.17.8-200.fc35.x86_64 \
+    -append "console=ttyS0 root=/dev/sda1 xen_emul_unplug=never" \
+    -d unimp -m 1G -smp 2 -device xen-platform \
+    -drive file=/var/lib/libvirt/images/fedora28.qcow2,if=none,id=disk \
+    -device ahci,id=ahci -device ide-hd,drive=disk,bus=ahci.0
 
--- 
-Mauro Matteo Cascella
-Red Hat Product Security
-PGP-Key ID: BB3410B0
+v7: https://git.infradead.org/users/dwmw2/qemu.git/shortlog/refs/heads/xenfv-kvm-7
+
+ • Trivial review feedback and collected ack/review tags.
+
+ • Only call qemu_set_irq() under the BQL, which means doing so from a BH
+   in some circumstances.
+
+v6: https://lore.kernel.org/qemu-devel/20230110122042.1562155-1-dwmw2@infradead.org/
+    https://git.infradead.org/users/dwmw2/qemu.git/shortlog/refs/heads/xenfv-kvm-6
+
+ • Require split irqchip to ensure the GSI handling works correctly.
+
+ • Rework monitor commands to be QMP-based.
+
+ • Cache vcpu_info hva to avoid MemoryRegion refcount leaks.
+
+ • Pull in more Xen headers to allow for later PV backend work.
+
+ • Define __XEN_TOOLS__ in hw/xen/xen.h instead of littering C files with
+   separate definitions of __XEN_INTERFACE_VERSION__.
+
+ • Drop debugging hexdump from xenstore processing.
+
+ • Minor fixes in event channel backend handling.
+
+ • Drop "Refactor xen_be_init()" patch. It turns out we're going to do that
+   all quite differently, so it's neither necessary nor sufficient.
+
+v5: https://lore.kernel.org/qemu-devel/20221230121235.1282915-1-dwmw2@infradead.org/
+    https://git.infradead.org/users/dwmw2/qemu.git/shortlog/refs/heads/xenfv-kvm-5
+
+ • Add backend implementation of event channel support, to parallel the
+   libxenevtchn API used by existing backend drivers.
+
+ • Add basic XenStore ring implementation, test migration and kexec.
+
+ • Some kexec/soft reset fixes (clear port pending bits, kernel timer virq).
+ 
+ • Fix race with setting the xen_callback_asserted flag before actually
+   doing so, which could lead to it being *cleared* again before we even
+   assert it... and leave it asserted for ever.
+
+v4: https://lore.kernel.org/qemu-devel/20221221010623.1000191-1-dwmw2@infradead.org/
+    https://git.infradead.org/users/dwmw2/qemu.git/shortlog/refs/heads/xenfv-kvm-4
+
+ • Add soft reset support near the beginning and thread it through the
+   rest of the feature enablement.
+
+ • Add PV timer	support	and advertise XENFEAT_safe_hvm_pvclock.
+
+ • Add basic grant table mapping and [gs]et_version / query_size support.
+
+ • Make	xen_platform device build (and work) without CONFIG_XEN.
+
+ • Fix Xen HVM mode not to require --xen-attach.
+
+v3: https://lore.kernel.org/qemu-devel/20221216004117.862106-1-dwmw2@infradead.org/
+    https://git.infradead.org/users/dwmw2/qemu.git/shortlog/refs/heads/xenfv-kvm-3
+
+ • Switch back to xen-version as KVM accelerator property, other review
+   feedback and bug fixes.
+
+ • Fix Hyper-V coexistence (ick, calling kvm_xen_init() again because
+   hyperv_enabled() doesn't return the right answer the first time).
+
+ • Implement event channel support, including GSI/PCI_INTX callback.
+
+ • Implement 32-bit guest support.
+
+v2: https://lore.kernel.org/qemu-devel/20221209095612.689243-1-dwmw2@infradead.org/
+    https://git.infradead.org/users/dwmw2/qemu.git/shortlog/refs/heads/xenfv-kvm-2
+
+ • Attempt to implement migration support; every Xen enlightenment is
+   now recorded either from vmstate_x86_cpu or from a new sysdev device
+   created for that purpose. And — I believe — correctly restored, in
+   the right order, on vmload.
+
+ • The shared_info page is created as a proper overlay instead of abusing
+   the underlying guest page. This is important because Windows doesn't
+   even select a GPA which had RAM behind it beforehand. This will be
+   extended to handle the grant frames too, in the fullness of time.
+
+ • Set vCPU attributes from the correct vCPU thread to avoid deadlocks.
+
+ • Carefully copy the entire hypercall argument structure from userspace
+   instead of assuming that it's contiguous in HVA space.
+
+ • Distinguish between "handled but intentionally returns -ENOSYS" and
+   "no idea what that was" in hypercalls, allowing us to emit a
+   GUEST_ERROR (actually, shouldn't that change to UNIMP?) on the
+   latter. Experience shows that to we'll end up having to intentionally
+   return -ENOSYS to a bunch of weird crap that ancient guests still
+   attempt to use, including XenServer local hacks that nobody even
+   remembers what they were (hvmop 0x101, anyone? Some old Windows
+   PV driver appears to be trying to use it...).
+
+ * Drop the '+xen' CPU property and present Xen CPUID instead of KVM
+   unconditionally when running in Xen mode. Make the Xen CPUID coexist
+   with Hyper-V CPUID as it should, though.
+
+ • Add XEN_EMU and XENFV_MACHINE (the latter to be XEN_EMU||XEN) config
+   options. Some more work on this, and the incestuous relationships
+   between the KVM target code and the 'platform' code, is going to be
+   required but it's probably better to get on with implementing the
+   real code so we can see those interactions in all their glory,
+   before losing too much sleep over the details here.
+
+ • Drop the GSI-2 hack, and also the patch which made the PCI platform
+   device have real RAM (which isn't needed now we have overlays, qv).
+
+ • Drop the XenState and XenVcpuState from KVMState and CPUArchState
+   respectively. The Xen-specific fields are natively included in
+   CPUArchState now though, for migration purposes. And we don't
+   keep a host pointer to the shared_info or vcpu_info at all any
+   more. With the kernel doing everything for us, we don't actually
+   need them.
+
+v1: https://lore.kernel.org/qemu-devel/20221205173137.607044-1-dwmw2@infradead.org/
+    https://git.infradead.org/users/dwmw2/qemu.git/shortlog/refs/heads/xenfv-kvm-1
+
+v0: https://github.com/jpemartins/qemu/commits/xen-shim-rfc (Joao et al.)
+
+Ankur Arora (2):
+      i386/xen: implement HVMOP_set_evtchn_upcall_vector
+      i386/xen: implement HVMOP_set_param
+
+David Woodhouse (32):
+      xen: add CONFIG_XENFV_MACHINE and CONFIG_XEN_EMU options for Xen emulation
+      xen: Add XEN_DISABLED mode and make it default
+      i386/kvm: Add xen-version KVM accelerator property and init KVM Xen support
+      i386/hvm: Set Xen vCPU ID in KVM
+      i386/xen: Implement SCHEDOP_poll and SCHEDOP_yield
+      hw/xen: Add xen_overlay device for emulating shared xenheap pages
+      i386/xen: add pc_machine_kvm_type to initialize XEN_EMULATE mode
+      i386/xen: manage and save/restore Xen guest long_mode setting
+      i386/xen: implement XENMEM_add_to_physmap_batch
+      hw/xen: Add xen_evtchn device for event channel emulation
+      i386/xen: Add support for Xen event channel delivery to vCPU
+      hw/xen: Implement EVTCHNOP_status
+      hw/xen: Implement EVTCHNOP_close
+      hw/xen: Implement EVTCHNOP_unmask
+      hw/xen: Implement EVTCHNOP_bind_virq
+      hw/xen: Implement EVTCHNOP_bind_ipi
+      hw/xen: Implement EVTCHNOP_send
+      hw/xen: Implement EVTCHNOP_alloc_unbound
+      hw/xen: Implement EVTCHNOP_bind_interdomain
+      hw/xen: Implement EVTCHNOP_bind_vcpu
+      hw/xen: Implement EVTCHNOP_reset
+      hw/xen: Support HVM_PARAM_CALLBACK_TYPE_GSI callback
+      hw/xen: Support HVM_PARAM_CALLBACK_TYPE_PCI_INTX callback
+      kvm/i386: Add xen-gnttab-max-frames property
+      hw/xen: Add xen_gnttab device for grant table emulation
+      hw/xen: Support mapping grant frames
+      i386/xen: Implement HYPERVISOR_grant_table_op and GNTTABOP_[gs]et_verson
+      hw/xen: Implement GNTTABOP_query_size
+      i386/xen: Reserve Xen special pages for console, xenstore rings
+      hw/xen: Add backend implementation of interdomain event channel support
+      hw/xen: Add xen_xenstore device for xenstore emulation
+      hw/xen: Add basic ring handling to xenstore
+
+Joao Martins (17):
+      include: import Xen public headers to include/standard-headers/
+      i386/kvm: handle Xen HVM cpuid leaves
+      xen-platform: exclude vfio-pci from the PCI platform unplug
+      xen-platform: allow its creation with XEN_EMULATE mode
+      i386/xen: handle guest hypercalls
+      i386/xen: implement HYPERVISOR_xen_version
+      i386/xen: implement HYPERVISOR_sched_op, SCHEDOP_shutdown
+      i386/xen: implement HYPERVISOR_memory_op
+      i386/xen: implement HYPERVISOR_hvm_op
+      i386/xen: implement HYPERVISOR_vcpu_op
+      i386/xen: handle VCPUOP_register_vcpu_info
+      i386/xen: handle VCPUOP_register_vcpu_time_info
+      i386/xen: handle VCPUOP_register_runstate_memory_area
+      i386/xen: implement HYPERVISOR_event_channel_op
+      i386/xen: add monitor commands to test event injection
+      i386/xen: handle PV timer hypercalls
+      i386/xen: handle HVMOP_get_param
+
+ accel/kvm/kvm-all.c                                |    2 +
+ accel/xen/xen-all.c                                |    2 +
+ hmp-commands.hx                                    |   29 +
+ hw/Kconfig                                         |    1 +
+ hw/i386/Kconfig                                    |    5 +
+ hw/i386/kvm/meson.build                            |   10 +
+ hw/i386/kvm/xen-stubs.c                            |   25 +
+ hw/i386/kvm/xen_evtchn.c                           | 1707 ++++++++++++++++++++
+ hw/i386/kvm/xen_evtchn.h                           |   68 +
+ hw/i386/kvm/xen_gnttab.c                           |  238 +++
+ hw/i386/kvm/xen_gnttab.h                           |   25 +
+ hw/i386/kvm/xen_overlay.c                          |  262 +++
+ hw/i386/kvm/xen_overlay.h                          |   26 +
+ hw/i386/kvm/xen_xenstore.c                         |  465 ++++++
+ hw/i386/kvm/xen_xenstore.h                         |   20 +
+ hw/i386/pc.c                                       |   23 +
+ hw/i386/xen/meson.build                            |    5 +-
+ hw/i386/xen/xen_platform.c                         |   57 +-
+ hw/xen/Kconfig                                     |    3 +
+ include/hw/i386/pc.h                               |    3 +
+ include/hw/xen/xen.h                               |   21 +-
+ include/standard-headers/xen/arch-x86/cpuid.h      |  118 ++
+ include/standard-headers/xen/arch-x86/xen-x86_32.h |  194 +++
+ include/standard-headers/xen/arch-x86/xen-x86_64.h |  241 +++
+ include/standard-headers/xen/arch-x86/xen.h        |  398 +++++
+ include/standard-headers/xen/event_channel.h       |  388 +++++
+ include/standard-headers/xen/features.h            |  143 ++
+ include/standard-headers/xen/grant_table.h         |  686 ++++++++
+ include/standard-headers/xen/hvm/hvm_op.h          |  395 +++++
+ include/standard-headers/xen/hvm/params.h          |  318 ++++
+ include/standard-headers/xen/io/blkif.h            |  722 +++++++++
+ include/standard-headers/xen/io/console.h          |   56 +
+ include/standard-headers/xen/io/fbif.h             |  176 ++
+ include/standard-headers/xen/io/kbdif.h            |  576 +++++++
+ include/standard-headers/xen/io/netif.h            | 1102 +++++++++++++
+ include/standard-headers/xen/io/protocols.h        |   42 +
+ include/standard-headers/xen/io/ring.h             |  495 ++++++
+ include/standard-headers/xen/io/usbif.h            |  425 +++++
+ include/standard-headers/xen/io/xenbus.h           |   80 +
+ include/standard-headers/xen/io/xs_wire.h          |  153 ++
+ include/standard-headers/xen/memory.h              |  754 +++++++++
+ include/standard-headers/xen/physdev.h             |  383 +++++
+ include/standard-headers/xen/sched.h               |  202 +++
+ include/standard-headers/xen/trace.h               |  341 ++++
+ include/standard-headers/xen/vcpu.h                |  248 +++
+ include/standard-headers/xen/version.h             |  113 ++
+ include/standard-headers/xen/xen-compat.h          |   46 +
+ include/standard-headers/xen/xen.h                 | 1049 ++++++++++++
+ include/sysemu/kvm_int.h                           |    3 +
+ include/sysemu/kvm_xen.h                           |   40 +
+ meson.build                                        |    1 +
+ monitor/misc.c                                     |    4 +
+ qapi/misc.json                                     |   91 ++
+ softmmu/globals.c                                  |    2 +-
+ target/i386/cpu.c                                  |    1 +
+ target/i386/cpu.h                                  |   19 +
+ target/i386/kvm/kvm.c                              |  208 ++-
+ target/i386/kvm/meson.build                        |    2 +
+ target/i386/kvm/trace-events                       |    6 +
+ target/i386/kvm/xen-compat.h                       |   51 +
+ target/i386/kvm/xen-emu.c                          | 1698 +++++++++++++++++++
+ target/i386/kvm/xen-emu.h                          |   33 +
+ target/i386/machine.c                              |   25 +
+ 63 files changed, 15001 insertions(+), 24 deletions(-)
+
+
 
 
