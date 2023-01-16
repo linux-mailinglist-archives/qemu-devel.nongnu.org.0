@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADFDD66CFDC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 21:08:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4998D66D003
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 21:17:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHVl8-0007Ze-Op; Mon, 16 Jan 2023 15:07:10 -0500
+	id 1pHVu4-000181-Vp; Mon, 16 Jan 2023 15:16:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pHVl4-0007Yq-AH
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 15:07:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pHVl0-0007zB-I1
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 15:07:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673899619;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vfvvnptCEX/ETs9QfLoD+/qnb0ruDHzLkdtp/idiQvk=;
- b=MVO7D3Qt4vMPRrTzLou6trNoh1XksSVXa8BSM3YMFrEJOtcE2KGX8y7hd3ACvUAInYCins
- EirgbBTh77xxLeg1TVbQ4aKaLIQWjTfwGdwkMaEKgZgN9hLTIe/2sMOujARG7MYcb0G1j+
- kNz/MkzH5VGu0zyuYtlsnd1TICV2t+g=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-47-Ehsg9sKkMqSefS2OforD-g-1; Mon, 16 Jan 2023 15:06:57 -0500
-X-MC-Unique: Ehsg9sKkMqSefS2OforD-g-1
-Received: by mail-pf1-f200.google.com with SMTP id
- 24-20020aa79118000000b00580476432deso12932960pfh.23
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 12:06:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pHVtu-00012u-3t
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 15:16:14 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pHVtq-0000qc-Tm
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 15:16:12 -0500
+Received: by mail-pl1-x631.google.com with SMTP id c6so31396946pls.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 12:16:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/a+mPmC9TPOjkNF3qNNdOtO5M7BdDFvcpHOMGaqfT3c=;
+ b=CbGnaim5UOqJzoPIaTEu2edCSt64wSqjW2LHPDtbvods4a0bAs2SvE1Kl7mK8dd1kk
+ v4nRk8zVD+fJaQy5JpR2IrGmiL3ECU3/lIMFH+p7sNPqev8BT1NPLwHOUSF7A0ZjIj9A
+ XCrbewEYW623ViFPkBQ9F1FnKBlZlvEASFgyHM7lPlzsJgMCz37w3ysta54Ads3nRrSr
+ Epxnd4NARs1KzZ8bHEJbFHf7LrB+YzLW1oEBtC2TajkKdnpKZMfoi7cHV+h+DUhcm+Ch
+ p81tRBNfkJpCbnA5trkhMYM7z3u3UBQ39uY7J0O8ATaxz/XjRtUU5YBK6Ltkdn0HLurx
+ Pb8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vfvvnptCEX/ETs9QfLoD+/qnb0ruDHzLkdtp/idiQvk=;
- b=M5ErJU88N1m/RV1f7HWc6HfmtBFA63UGF1kkXkVSjY/GEh+67nKf6k0yK4AqeNE53v
- CCOJAjJ1cVIp+2cJ5bwH23DQgC4NDtRjtJawqReldpVl990+Hxhuq2n9qMt0mKlKQHh6
- TFKaHoTv7kvoXhuL8Ua3/BnQISftdbYqoTW5kuE1sxZn2S4kx0w6TBnnBVGrDMFdqddY
- TL1GWIfQRliKlg+XCnQD4Hdxcw6DAl8VJuWqEVWri2uvQrZSLCefbVzkCVSloRdRXMjm
- JhWQ/EAjJHqWvVNGt+OB6Vof97Il2rF8+mxoSMy7ONBp6iBClzy4wi5Mb1dY4RKcVDNQ
- +IqA==
-X-Gm-Message-State: AFqh2krdJztu2C9C9cpV/g17LH1yE97DP/FejpbL3u+QEfOTlaW581Bl
- OfatA+iCWMyGEBekil4wTxaNDVJ/ItG53g+eCD6vrFNcFWKglBKIuUimltHY+P2ZISGjpsyrm6r
- V1kTe9Uvuot0s/MiBu90uHgb+SbQv3Lw=
-X-Received: by 2002:a17:90a:e38b:b0:229:3677:5536 with SMTP id
- b11-20020a17090ae38b00b0022936775536mr32345pjz.134.1673899616285; 
- Mon, 16 Jan 2023 12:06:56 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsKWqFmWw8XgB/CrTtYFydeaNTvtGsFJp7Dmy83JIpCDarVAld3JyDmze/M4ovCL+g5WzIeW9kVpv5ZuZWgYSE=
-X-Received: by 2002:a17:90a:e38b:b0:229:3677:5536 with SMTP id
- b11-20020a17090ae38b00b0022936775536mr32337pjz.134.1673899615979; Mon, 16 Jan
- 2023 12:06:55 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/a+mPmC9TPOjkNF3qNNdOtO5M7BdDFvcpHOMGaqfT3c=;
+ b=dDktK4V0oC1O1IGd5Tx0Q/R3w73wAuucQHyOgI5rbdpJf9TtsB6+NYVuvnmU97zxIE
+ 0oyIImpmskhH062IfYw5jn5aOHvB1tJ4ckBEqJP/TgxVLk3eWXsgHgoPPiyWV5mhtqT+
+ 4FEGKLWLET01/6rxeiMGRbSnn1EmPz593y9xprqOpr9WV+ZViLFtVrCt2OcAjpws8PbU
+ Z8+oDkEtxRkcyNwEmwNO4enNch1hUPlTDI/BdoozygzLFJg1pPI2XpZe0T4aHeGJI7kw
+ vTiYSn9aZCdkwfDF5Ue2JuMYdBI5RsUJL3vw/2Ae/uJD7P243J+NdBr5i4prY/hXWT8F
+ pbxQ==
+X-Gm-Message-State: AFqh2kpBC9813gFYErd0is9ge7qdaA2Hbrg0iSp3lwur2444PIi4L4Ah
+ JSuJJXZHfwEz4j9ZTkSo1bHy/B0cPbFK+FqG
+X-Google-Smtp-Source: AMrXdXsps2pu/YLWT5OGSSq2lGCExNZp2GHMKhuAhHPsg+v3jWlfO9OE1PRsO08+QOunTAf9lO8LUQ==
+X-Received: by 2002:a17:90b:60c:b0:226:e59a:f869 with SMTP id
+ gb12-20020a17090b060c00b00226e59af869mr381394pjb.43.1673900169099; 
+ Mon, 16 Jan 2023 12:16:09 -0800 (PST)
+Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ l8-20020a17090a3f0800b0022984422236sm1518435pjc.11.2023.01.16.12.16.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 12:16:08 -0800 (PST)
+Message-ID: <4db4ccba-1985-f1b2-6c5a-615b865ba749@linaro.org>
+Date: Mon, 16 Jan 2023 10:16:05 -1000
 MIME-Version: 1.0
-References: <20221130015358.6998-1-zhangdongdong@eswincomputing.com>
- <20221130015358.6998-2-zhangdongdong@eswincomputing.com>
- <d6fc6751-1fe2-78de-49f5-2a34554767af@linaro.org>
- <a117f627-a043-4801-db65-114b0b0cc0a6@vivier.eu>
-In-Reply-To: <a117f627-a043-4801-db65-114b0b0cc0a6@vivier.eu>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 16 Jan 2023 15:06:44 -0500
-Message-ID: <CAFn=p-aCJ_r=vMVsvQPbVZH6WXMJooeLtK7eUqXX9OG2NejuGA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] Fix some typos
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Dongdong Zhang <zhangdongdong@eswincomputing.com>, qemu-devel@nongnu.org,
- crosa@redhat.com, bleal@redhat.com, QEMU Trivial <qemu-trivial@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 0/2] target/arm: Look up ARMCPRegInfo at runtime
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+References: <20230106194451.1213153-1-richard.henderson@linaro.org>
+In-Reply-To: <20230106194451.1213153-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,103 +92,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 16, 2023 at 1:11 PM Laurent Vivier <laurent@vivier.eu> wrote:
->
-> Le 30/11/2022 =C3=A0 09:29, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit :
-> > On 30/11/22 02:53, Dongdong Zhang wrote:
-> >> Fix some typos in 'python' directory.
-> >>
-> >> Signed-off-by: Dongdong Zhang <zhangdongdong@eswincomputing.com>
-> >
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> >
-> >> ---
-> >>   python/qemu/machine/console_socket.py | 2 +-
-> >>   python/qemu/machine/qtest.py          | 2 +-
-> >>   python/qemu/qmp/protocol.py           | 2 +-
-> >>   python/qemu/qmp/qmp_tui.py            | 6 +++---
-> >>   4 files changed, 6 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/python/qemu/machine/console_socket.py b/python/qemu/machi=
-ne/console_socket.py
-> >> index 8c4ff598ad..4e28ba9bb2 100644
-> >> --- a/python/qemu/machine/console_socket.py
-> >> +++ b/python/qemu/machine/console_socket.py
-> >> @@ -68,7 +68,7 @@ def _thread_start(self) -> threading.Thread:
-> >>           """Kick off a thread to drain the socket."""
-> >>           # Configure socket to not block and timeout.
-> >>           # This allows our drain thread to not block
-> >> -        # on recieve and exit smoothly.
-> >> +        # on receive and exit smoothly.
-> >>           socket.socket.setblocking(self, False)
-> >>           socket.socket.settimeout(self, 1)
-> >>           drain_thread =3D threading.Thread(target=3Dself._drain_fn)
-> >> diff --git a/python/qemu/machine/qtest.py b/python/qemu/machine/qtest.=
-py
-> >> index 1a1fc6c9b0..906bd13298 100644
-> >> --- a/python/qemu/machine/qtest.py
-> >> +++ b/python/qemu/machine/qtest.py
-> >> @@ -42,7 +42,7 @@ class QEMUQtestProtocol:
-> >>       :raise socket.error: on socket connection errors
-> >>       .. note::
-> >> -       No conection is estabalished by __init__(), this is done
-> >> +       No connection is estabalished by __init__(), this is done
-> >>          by the connect() or accept() methods.
-> >>       """
-> >>       def __init__(self, address: SocketAddrT,
-> >> diff --git a/python/qemu/qmp/protocol.py b/python/qemu/qmp/protocol.py
-> >> index 6ea86650ad..15909b7dba 100644
-> >> --- a/python/qemu/qmp/protocol.py
-> >> +++ b/python/qemu/qmp/protocol.py
-> >> @@ -812,7 +812,7 @@ def _done(task: Optional['asyncio.Future[Any]']) -=
-> bool:
-> >>       @bottom_half
-> >>       async def _bh_close_stream(self, error_pathway: bool =3D False) =
--> None:
-> >> -        # NB: Closing the writer also implcitly closes the reader.
-> >> +        # NB: Closing the writer also implicitly closes the reader.
-> >>           if not self._writer:
-> >>               return
-> >> diff --git a/python/qemu/qmp/qmp_tui.py b/python/qemu/qmp/qmp_tui.py
-> >> index ce239d8979..8369144723 100644
-> >> --- a/python/qemu/qmp/qmp_tui.py
-> >> +++ b/python/qemu/qmp/qmp_tui.py
-> >> @@ -71,7 +71,7 @@ def format_json(msg: str) -> str:
-> >>       due to an decoding error then a simple string manipulation is do=
-ne to
-> >>       achieve a single line JSON string.
-> >> -    Converting into single line is more asthetically pleasing when lo=
-oking
-> >> +    Converting into single line is more aesthetically pleasing when l=
-ooking
-> >>       along with error messages.
-> >>       Eg:
-> >> @@ -91,7 +91,7 @@ def format_json(msg: str) -> str:
-> >>           [1, true, 3]: QMP message is not a JSON object.
-> >> -    The single line mode is more asthetically pleasing.
-> >> +    The single line mode is more aesthetically pleasing.
-> >>       :param msg:
-> >>           The message to formatted into single line.
-> >> @@ -498,7 +498,7 @@ def __init__(self, parent: App) -> None:
-> >>   class HistoryBox(urwid.ListBox):
-> >>       """
-> >>       This widget is modelled using the ListBox widget, contains the l=
-ist of
-> >> -    all messages both QMP messages and log messsages to be shown in t=
-he TUI.
-> >> +    all messages both QMP messages and log messages to be shown in th=
-e TUI.
-> >>       The messages are urwid.Text widgets. On every append of a messag=
-e, the
-> >>       focus is shifted to the last appended message.
-> >
-> >
->
-> Applied to my trivial-patches branch.
->
-> Thanks,
-> Laurent
+Ping.
 
-Laurent, I'll grab this one, sorry!
+r~
+
+On 1/6/23 09:44, Richard Henderson wrote:
+> Here's a short-to-medium term alternative to moving all of the ARMCPU
+> cp_regs hash table to the ARMCPUClass, so that we're no longer leaving
+> dangling pointers to freed objects encoded in the compiled
+> TranslationBlocks.  (I still think we ought to do less work at
+> object_{init,realize}, but that may be a much longer term project.)
+> 
+> Instead of giving the helper a direct pointer, pass the cpreg hash key,
+> which will be constant across cpus.  Perform this lookup in the existing
+> helper_access_check_cp_reg (which had a return value going spare), or a
+> new helper_lookup_cp_reg.  The other cp_regs functions are unchanged,
+> because they still get a pointer.
+> 
+> This ought to be enough to re-instate Alex's linux-user patch
+> to free the cpu object after thread termination.
+> 
+> 
+> r~
+> 
+> 
+> Richard Henderson (2):
+>    target/arm: Reorg do_coproc_insn
+>    target/arm: Look up ARMCPRegInfo at runtime
+> 
+>   target/arm/helper.h        |  11 +-
+>   target/arm/translate.h     |   7 +
+>   target/arm/op_helper.c     |  27 ++-
+>   target/arm/translate-a64.c |  49 +++--
+>   target/arm/translate.c     | 430 +++++++++++++++++++------------------
+>   5 files changed, 285 insertions(+), 239 deletions(-)
+> 
 
 
