@@ -2,107 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6317D66D0C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 22:11:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2890066D0CB
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 22:16:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHWjw-0001dz-GS; Mon, 16 Jan 2023 16:10:00 -0500
+	id 1pHWo8-0004OU-53; Mon, 16 Jan 2023 16:14:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pHWjt-0001dB-Vu; Mon, 16 Jan 2023 16:09:58 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1pHWo5-0004Nn-Q1; Mon, 16 Jan 2023 16:14:17 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pHWjr-0002Jl-FA; Mon, 16 Jan 2023 16:09:57 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30GKpM6E025518; Mon, 16 Jan 2023 21:09:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=JhHluoxsphf/vJwKyXfY5HaurblVcADBx4r/ut2H2G8=;
- b=cIjc3mgisRvk2N4ppa4V0MCD/IWEIDVs0tvmsZH0pUN8pFqg+esQ5JR1VecFVCBpX4Ws
- bBgodDxrHI+PhgcjCwxw3qa2USRuqxZ2nMGUCrjdjEMSYTbGmyWc54bfJ8TmUY1Ml+BK
- oetCJHOVWpNZa2FOuzLXjgAEB/kBJcwkYhkGcDzwXOaq80j/zuYz/P2C+75Zjks94ND9
- vUgbdfNuR+u4ME2kcEMAO69xU71COqD7Ut2v8dOfQnt0JVif/Us1kJsEfNXg3ENn9bzU
- 45svdgQHh41jBdylYW829+t4fvrwDfYPS6raLSab/ISejI6ATExCg5sIPzzuw5Mz6S7f 9A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5dym89jn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Jan 2023 21:09:45 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30GKwts3018357;
- Mon, 16 Jan 2023 21:09:45 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5dym89j9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Jan 2023 21:09:45 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30GCOQFN017351;
- Mon, 16 Jan 2023 21:09:43 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3n3m16jwp5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Jan 2023 21:09:43 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30GL9dDu43450736
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 16 Jan 2023 21:09:39 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4E93620043;
- Mon, 16 Jan 2023 21:09:39 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D1C2820040;
- Mon, 16 Jan 2023 21:09:38 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.176.184])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 16 Jan 2023 21:09:38 +0000 (GMT)
-Message-ID: <72baa5b42abe557cdf123889b33b845b405cc86c.camel@linux.ibm.com>
-Subject: Re: [PATCH v14 08/11] qapi/s390/cpu topology:  change-topology
- monitor command
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Mon, 16 Jan 2023 22:09:38 +0100
-In-Reply-To: <20230105145313.168489-9-pmorel@linux.ibm.com>
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-9-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1pHWo3-0004B1-7R; Mon, 16 Jan 2023 16:14:17 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3C4605C01E2;
+ Mon, 16 Jan 2023 16:14:12 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 16 Jan 2023 16:14:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1673903652; x=1673990052; bh=zz
+ 7xUNaUOA+l+ZZyJwyYTuUW1EHckj5QcLwaaQ4qAq0=; b=l6jn/FTxo0MAFxBAkw
+ zRLDdp6Yy11TuSYkMP0KAfA2YmEPMgCKJisVsnejW0aS34GuTm5oZuzmuj1Vv0dk
+ 7OKcm9V9W9uUcFUdHV4kh4ju8HanDrdvsnMuKYGPgx/+VhITAM9xw7Idopijxiab
+ vqIQoH1R+tHp9zT5UZopK0c3dUNCIw2aYJ/TXvSHZDjokGLZc52bMv5zzshz/mLD
+ /InOnNQug1boMJM62vZrb2ZZzmbcrInXsuVEEYnaZW5hvRzzlEGTQF6T+J8+n190
+ TX8NHRlIesfvvByoV5hN8Bo8l8hSxO4Uc2tx7SNLcrW9/dpHg0ijYZNohScWJve3
+ ErCg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1673903652; x=1673990052; bh=zz7xUNaUOA+l+ZZyJwyYTuUW1EHc
+ kj5QcLwaaQ4qAq0=; b=bGOCqEU3bmvo9lBygZ/UaTKt+MQuiX1JWkot9mvXJdBB
+ 5CGZTlw+C/slHR+IciXvGn6BnPvuEacsYz+XN6HlumJMT1rdho0/Enyl16hKlyN0
+ h57MaBHKXtVlUSBG6Jxgl38JXM6byAV2zKD1L/cssxlmOVhA26WfnCLwrdHzWgAU
+ JQIqpVzjWvVo9GhC5IsfwrSevC7tCA9PCsRM3G2kzn3JYjQvezfGnJybQlldXQ42
+ SE9YGogefiFYEUpiglgLByCzNE5jYBVVx4bR9j9sc8pqm8U3oxGnvqM+ClPN/++j
+ SiQLPoc3Q1BC+z+dgjntA+ORXwsBRUn7SkuN02aAhw==
+X-ME-Sender: <xms:I77FYx47D863sf-x_wLVaN69fpJgRL2bOdngrr4FXmpAzy9VIweEbA>
+ <xme:I77FY-47NzdDLSeRMtlVwZPDAal6bavdz5ineGc4gFvsZsf5405OhSa4K_ZOx2fUS
+ xLqTCTtUrYgeTXQ2b4>
+X-ME-Received: <xmr:I77FY4ewJL0ry6d23tTZM6qQUCw6POnzdSKvA_T8tAWoDjW6tD1bxXqoq7yQrnOT_S-AEIyorp1-gqMbh0Rj9-aIk1ZJdg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedgudegjecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
+ uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
+ htthgvrhhnpeegheekudejuddvteeuueegledtieffveeuteejkeefiefgffefieeviedu
+ leegtdenucffohhmrghinhepphgtihdrtgifnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:I77FY6Lfj5JNYe6iPltZf0HTLKoJqV5ndru5kUyxrCTH-99mFf3X2A>
+ <xmx:I77FY1KIyYsj5TT0PQidnAlymxRBYxSCxs2EcaMe8meYScpQ-eiI5g>
+ <xmx:I77FYzxTx92lR9IxU9XvOC0qactV-yGO3hJl1uSiHmVKK9_uJLWCNA>
+ <xmx:JL7FY6qdv82udScOz8DK8HEiNxmsy-xdBUMx3QeeWkrDiLRiI9NtKQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 16 Jan 2023 16:14:09 -0500 (EST)
+Date: Mon, 16 Jan 2023 22:14:07 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Guenter Roeck <linux@roeck-us.net>
+Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
+Message-ID: <Y8W+H6T9DOZ08SoF@cormorant.local>
+References: <Y8AG21o/9/3eUMIg@cormorant.local>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: uzE-Sa1BKixOCnjVQhOTWRHUQD9lT4Bd
-X-Proofpoint-GUID: 5VDqwYc09Lih5xphpL1Ru60AXxVCgUIm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-16_16,2023-01-13_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- spamscore=0 mlxscore=0 bulkscore=0 phishscore=0 adultscore=0 clxscore=1015
- mlxlogscore=999 malwarescore=0 suspectscore=0 impostorscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301160155
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="cc8lRwQTP8Gv0NvM"
+Content-Disposition: inline
+In-Reply-To: <Y8AG21o/9/3eUMIg@cormorant.local>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,293 +102,217 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2023-01-05 at 15:53 +0100, Pierre Morel wrote:
-> The modification of the CPU attributes are done through a monitor
-> commands.
+
+--cc8lRwQTP8Gv0NvM
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Jan 12 14:10, Klaus Jensen wrote:
+> Hi all (linux-nvme, qemu-devel, maintainers),
 >=20
-> It allows to move the core inside the topology tree to optimise
-> the cache usage in the case the host's hypervizor previously
-> moved the CPU.
+> On QEMU riscv64, which does not use MSI/MSI-X and thus relies on
+> pin-based interrupts, I'm seeing occasional completion timeouts, i.e.
 >=20
-> The same command allows to modifiy the CPU attributes modifiers
-> like polarization entitlement and the dedicated attribute to notify
-> the guest if the host admin modified scheduling or dedication of a vCPU.
+>   nvme nvme0: I/O 333 QID 1 timeout, completion polled
 >=20
-> With this knowledge the guest has the possibility to optimize the
-> usage of the vCPUs.
+> To rule out issues with shadow doorbells (which have been a source of
+> frustration in the past), those are disabled. FWIW I'm also seeing the
+> issue with shadow doorbells.
 >=20
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  qapi/machine-target.json |  29 ++++++++
->  include/monitor/hmp.h    |   1 +
->  hw/s390x/cpu-topology.c  | 141 +++++++++++++++++++++++++++++++++++++++
->  hmp-commands.hx          |  16 +++++
->  4 files changed, 187 insertions(+)
+> 	diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> 	index f25cc2c235e9..28d8e7f4b56c 100644
+> 	--- a/hw/nvme/ctrl.c
+> 	+++ b/hw/nvme/ctrl.c
+> 	@@ -7407,7 +7407,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice =
+*pci_dev)
+> 	     id->mdts =3D n->params.mdts;
+> 	     id->ver =3D cpu_to_le32(NVME_SPEC_VER);
+> 	     id->oacs =3D
+> 	-        cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT | NVME_OACS_DB=
+BUF);
+> 	+        cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT);
+> 	     id->cntrltype =3D 0x1;
 >=20
-> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-> index 2e267fa458..75b0aa254d 100644
-> --- a/qapi/machine-target.json
-> +++ b/qapi/machine-target.json
-> @@ -342,3 +342,32 @@
->                     'TARGET_S390X',
->                     'TARGET_MIPS',
->                     'TARGET_LOONGARCH64' ] } }
-> +
-> +##
-> +# @change-topology:
-> +#
-> +# @core: the vCPU ID to be moved
-> +# @socket: the destination socket where to move the vCPU
-> +# @book: the destination book where to move the vCPU
-> +# @drawer: the destination drawer where to move the vCPU
-> +# @polarity: optional polarity, default is last polarity set by the gues=
-t
-> +# @dedicated: optional, if the vCPU is dedicated to a real CPU
-> +#
-> +# Modifies the topology by moving the CPU inside the topology
-> +# tree or by changing a modifier attribute of a CPU.
-> +#
-> +# Returns: Nothing on success, the reason on failure.
-> +#
-> +# Since: <next qemu stable release, eg. 1.0>
-> +##
-> +{ 'command': 'change-topology',
-> +  'data': {
-> +      'core': 'int',
-> +      'socket': 'int',
-> +      'book': 'int',
-> +      'drawer': 'int',
-> +      '*polarity': 'int',
-> +      '*dedicated': 'bool'
-> +  },
-> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
-> +}
-> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> index 27f86399f7..15c36bf549 100644
-> --- a/include/monitor/hmp.h
-> +++ b/include/monitor/hmp.h
-> @@ -144,5 +144,6 @@ void hmp_human_readable_text_helper(Monitor *mon,
->                                      HumanReadableText *(*qmp_handler)(Er=
-ror **));
->  void hmp_info_stats(Monitor *mon, const QDict *qdict);
->  void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
-> +void hmp_change_topology(Monitor *mon, const QDict *qdict);
-> =20
->  #endif
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> index b69955a1cd..0faffe657e 100644
-> --- a/hw/s390x/cpu-topology.c
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -18,6 +18,10 @@
->  #include "target/s390x/cpu.h"
->  #include "hw/s390x/s390-virtio-ccw.h"
->  #include "hw/s390x/cpu-topology.h"
-> +#include "qapi/qapi-commands-machine-target.h"
-> +#include "qapi/qmp/qdict.h"
-> +#include "monitor/hmp.h"
-> +#include "monitor/monitor.h"
-> =20
->  /*
->   * s390_topology is used to keep the topology information.
-> @@ -203,6 +207,21 @@ static void s390_topology_set_entry(S390TopologyEntr=
-y *entry,
->      s390_topology.sockets[s390_socket_nb(id)]++;
->  }
-> =20
-> +/**
-> + * s390_topology_clear_entry:
-> + * @entry: Topology entry to setup
-> + * @id: topology id to use for the setup
-> + *
-> + * Clear the core bit inside the topology mask and
-> + * decrements the number of cores for the socket.
-> + */
-> +static void s390_topology_clear_entry(S390TopologyEntry *entry,
-> +                                      s390_topology_id id)
-> +{
-> +    clear_bit(63 - id.core, &entry->mask);
+> 	     /*
+>=20
+>=20
+> I captured a trace from QEMU when this happens:
+>=20
+> pci_nvme_mmio_write addr 0x1008 data 0x4e size 4
+> pci_nvme_mmio_doorbell_sq sqid 1 new_tail 78
+> pci_nvme_io_cmd cid 4428 nsid 0x1 sqid 1 opc 0x2 opname 'NVME_NVM_CMD_REA=
+D'
+> pci_nvme_read cid 4428 nsid 1 nlb 32 count 16384 lba 0x1324
+> pci_nvme_map_prp trans_len 4096 len 16384 prp1 0x80aca000 prp2 0x82474100=
+ num_prps 5
+> pci_nvme_map_addr addr 0x80aca000 len 4096
+> pci_nvme_map_addr addr 0x80ac9000 len 4096
+> pci_nvme_map_addr addr 0x80ac8000 len 4096
+> pci_nvme_map_addr addr 0x80ac7000 len 4096
+> pci_nvme_io_cmd cid 4429 nsid 0x1 sqid 1 opc 0x2 opname 'NVME_NVM_CMD_REA=
+D'
+> pci_nvme_read cid 4429 nsid 1 nlb 224 count 114688 lba 0x1242
+> pci_nvme_map_prp trans_len 4096 len 114688 prp1 0x80ae6000 prp2 0x8247400=
+0 num_prps 29
+> pci_nvme_map_addr addr 0x80ae6000 len 4096
+> pci_nvme_map_addr addr 0x80ae5000 len 4096
+> pci_nvme_map_addr addr 0x80ae4000 len 4096
+> pci_nvme_map_addr addr 0x80ae3000 len 4096
+> pci_nvme_map_addr addr 0x80ae2000 len 4096
+> pci_nvme_map_addr addr 0x80ae1000 len 4096
+> pci_nvme_map_addr addr 0x80ae0000 len 4096
+> pci_nvme_map_addr addr 0x80adf000 len 4096
+> pci_nvme_map_addr addr 0x80ade000 len 4096
+> pci_nvme_map_addr addr 0x80add000 len 4096
+> pci_nvme_map_addr addr 0x80adc000 len 4096
+> pci_nvme_map_addr addr 0x80adb000 len 4096
+> pci_nvme_map_addr addr 0x80ada000 len 4096
+> pci_nvme_map_addr addr 0x80ad9000 len 4096
+> pci_nvme_map_addr addr 0x80ad8000 len 4096
+> pci_nvme_map_addr addr 0x80ad7000 len 4096
+> pci_nvme_map_addr addr 0x80ad6000 len 4096
+> pci_nvme_map_addr addr 0x80ad5000 len 4096
+> pci_nvme_map_addr addr 0x80ad4000 len 4096
+> pci_nvme_map_addr addr 0x80ad3000 len 4096
+> pci_nvme_map_addr addr 0x80ad2000 len 4096
+> pci_nvme_map_addr addr 0x80ad1000 len 4096
+> pci_nvme_map_addr addr 0x80ad0000 len 4096
+> pci_nvme_map_addr addr 0x80acf000 len 4096
+> pci_nvme_map_addr addr 0x80ace000 len 4096
+> pci_nvme_map_addr addr 0x80acd000 len 4096
+> pci_nvme_map_addr addr 0x80acc000 len 4096
+> pci_nvme_map_addr addr 0x80acb000 len 4096
+> pci_nvme_rw_cb cid 4428 blk 'd0'
+> pci_nvme_rw_complete_cb cid 4428 blk 'd0'
+> pci_nvme_enqueue_req_completion cid 4428 cqid 1 dw0 0x0 dw1 0x0 status 0x0
+> [1]: pci_nvme_irq_pin pulsing IRQ pin
+> pci_nvme_rw_cb cid 4429 blk 'd0'
+> pci_nvme_rw_complete_cb cid 4429 blk 'd0'
+> pci_nvme_enqueue_req_completion cid 4429 cqid 1 dw0 0x0 dw1 0x0 status 0x0
+> [2]: pci_nvme_irq_pin pulsing IRQ pin
+> [3]: pci_nvme_mmio_write addr 0x100c data 0x4d size 4
+> [4]: pci_nvme_mmio_doorbell_cq cqid 1 new_head 77
+> ---- TIMEOUT HERE (30s) ---
+> [5]: pci_nvme_mmio_read addr 0x1c size 4
+> [6]: pci_nvme_mmio_write addr 0x100c data 0x4e size 4
+> [7]: pci_nvme_mmio_doorbell_cq cqid 1 new_head 78
+> --- Interrupt deasserted (cq->tail =3D=3D cq->head)
+> [   31.757821] nvme nvme0: I/O 333 QID 1 timeout, completion polled
+>=20
+> Following the timeout, everything returns to "normal" and device/driver
+> happily continues.
+>=20
+> The pin-based interrupt logic in hw/nvme seems sound enough to me, so I
+> am wondering if there is something going on with the kernel driver (but
+> I certainly do not rule out that hw/nvme is at fault here, since
+> pin-based interrupts has also been a source of several issues in the
+> past).
+>=20
+> What I'm thinking is that following the interrupt in [1], the driver
+> picks up completion for cid 4428 but does not find cid 4429 in the queue
+> since it has not been posted yet. Before getting a cq head doorbell
+> write (which would cause the pin to be deasserted), the device posts the
+> completion for cid 4429 which just keeps the interrupt asserted in [2].
+> The trace then shows the cq head doorbell update in [3,4] for cid 4428
+> and then we hit the timeout since the driver is not aware that cid 4429
+> has been posted in between this (why is it not aware of this?) Timing
+> out, the driver then polls the queue and notices cid 4429 and updates
+> the cq head doorbell in [5-7], causing the device to deassert the
+> interrupt and we are "back in shape".
+>=20
+> I'm observing this on 6.0 kernels and v6.2-rc3 (have not tested <6.0).
+> Tested on QEMU v7.0.0 (to rule out all the shadow doorbell
+> optimizations) as well as QEMU nvme-next (infradead). In other words,
+> it's not a recent regression in either project and potentially it has
+> always been like this. I've not tested other platforms for now, but I
+> would assume others using pin-based interrupts would observe the same.
+>=20
+> Any ideas on how to shed any light on this issue from the kernel side of
+> things?
 
-This doesn't take the origin into account.
+I noticed that the Linux driver does not use the INTMS/INTMC registers
+to mask interrupts on the controller while processing CQEs. While not
+required by the spec, it is *recommended* in setups not using MSI-X to
+reduce the risk of spurious and/or missed interrupts.
 
-> +    s390_topology.sockets[s390_socket_nb(id)]--;
+With the patch below, running 100 boot iterations, no timeouts were
+observed on QEMU emulated riscv64 or mips64.
 
-I suppose this function cannot run concurrently, so the same CPU doesn't ge=
-t removed twice.
+No changes are required in the QEMU hw/nvme interrupt logic.
 
-> +}
-> +
->  /**
->   * s390_topology_new_entry:
->   * @id: s390_topology_id to add
-> @@ -383,3 +402,125 @@ void s390_topology_set_cpu(MachineState *ms, S390CP=
-U *cpu, Error **errp)
-> =20
->      s390_topology_insert(id);
->  }
-> +
-> +/*
-> + * qmp and hmp implementations
-> + */
-> +
-> +static S390TopologyEntry *s390_topology_core_to_entry(int core)
-> +{
-> +    S390TopologyEntry *entry;
-> +
-> +    QTAILQ_FOREACH(entry, &s390_topology.list, next) {
-> +        if (entry->mask & (1UL << (63 - core))) {
 
-origin here also.
+diff --git i/drivers/nvme/host/pci.c w/drivers/nvme/host/pci.c
+index b13baccedb4a..75f6b87c4c3f 100644
+--- i/drivers/nvme/host/pci.c
++++ w/drivers/nvme/host/pci.c
+@@ -1128,6 +1128,27 @@ static inline int nvme_poll_cq(struct nvme_queue *nv=
+meq,
+ }
 
-> +            return entry;
-> +        }
-> +    }
-> +    return NULL;
+ static irqreturn_t nvme_irq(int irq, void *data)
++{
++       struct nvme_queue *nvmeq =3D data;
++       struct nvme_dev *dev =3D nvmeq->dev;
++       u32 mask =3D 1 << nvmeq->cq_vector;
++       irqreturn_t ret =3D IRQ_NONE;
++       DEFINE_IO_COMP_BATCH(iob);
++
++       writel(mask, dev->bar + NVME_REG_INTMS);
++
++       if (nvme_poll_cq(nvmeq, &iob)) {
++               if (!rq_list_empty(iob.req_list))
++                       nvme_pci_complete_batch(&iob);
++               ret =3D IRQ_HANDLED;
++       }
++
++       writel(mask, dev->bar + NVME_REG_INTMC);
++
++       return ret;
++}
++
++static irqreturn_t nvme_irq_msix(int irq, void *data)
+ {
+        struct nvme_queue *nvmeq =3D data;
+        DEFINE_IO_COMP_BATCH(iob);
+@@ -1602,12 +1623,13 @@ static int queue_request_irq(struct nvme_queue *nvm=
+eq)
+ {
+        struct pci_dev *pdev =3D to_pci_dev(nvmeq->dev->dev);
+        int nr =3D nvmeq->dev->ctrl.instance;
++       irq_handler_t handler =3D pdev->msix_enabled ? nvme_irq_msix : nvme=
+_irq;
 
-This should not return NULL unless the core id is invalid.
-Might be better to validate that somewhere else.
+        if (use_threaded_interrupts) {
+                return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_che=
+ck,
+-                               nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qi=
+d);
++                               handler, nvmeq, "nvme%dq%d", nr, nvmeq->qid=
+);
+        } else {
+-               return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq,
++               return pci_request_irq(pdev, nvmeq->cq_vector, handler,
+                                NULL, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
+        }
+ }
 
-> +}
-> +
-> +static void s390_change_topology(Error **errp, int64_t core, int64_t soc=
-ket,
-> +                                 int64_t book, int64_t drawer,
-> +                                 int64_t polarity, bool dedicated)
-> +{
-> +    S390TopologyEntry *entry;
-> +    s390_topology_id new_id;
-> +    s390_topology_id old_id;
-> +    Error *local_error =3D NULL;
 
-I think you could use ERRP_GUARD here also.
-> +
-> +    /* Get the old entry */
-> +    entry =3D s390_topology_core_to_entry(core);
-> +    if (!entry) {
-> +        error_setg(errp, "No core %ld", core);
-> +        return;
-> +    }
-> +
-> +    /* Compute old topology id */
-> +    old_id =3D entry->id;
-> +    old_id.core =3D core;
-> +
-> +    /* Compute new topology id */
-> +    new_id =3D entry->id;
-> +    new_id.core =3D core;
-> +    new_id.socket =3D socket;
-> +    new_id.book =3D book;
-> +    new_id.drawer =3D drawer;
-> +    new_id.p =3D polarity;
-> +    new_id.d =3D dedicated;
-> +    new_id.type =3D S390_TOPOLOGY_CPU_IFL;
-> +
-> +    /* Same topology entry, nothing to do */
-> +    if (entry->id.id =3D=3D new_id.id) {
-> +        return;
-> +    }
-> +
-> +    /* Check for space on the socket if ids are different */
-> +    if ((s390_socket_nb(old_id) !=3D s390_socket_nb(new_id)) &&
-> +        (s390_topology.sockets[s390_socket_nb(new_id)] >=3D
-> +         s390_topology.smp->sockets)) {
-> +        error_setg(errp, "No more space on this socket");
-> +        return;
-> +    }
-> +
-> +    /* Verify the new topology */
-> +    s390_topology_check(&local_error, new_id);
-> +    if (local_error) {
-> +        error_propagate(errp, local_error);
-> +        return;
-> +    }
-> +
-> +    /* Clear the old topology */
-> +    s390_topology_clear_entry(entry, old_id);
-> +
-> +    /* Insert the new topology */
-> +    s390_topology_insert(new_id);
-> +
-> +    /* Remove unused entry */
-> +    if (!entry->mask) {
-> +        QTAILQ_REMOVE(&s390_topology.list, entry, next);
-> +        g_free(entry);
-> +    }
-> +
-> +    /* Advertise the topology change */
-> +    s390_cpu_topology_set();
-> +}
-> +
-> +void qmp_change_topology(int64_t core, int64_t socket,
-> +                         int64_t book, int64_t drawer,
-> +                         bool has_polarity, int64_t polarity,
-> +                         bool has_dedicated, bool dedicated,
-> +                         Error **errp)
-> +{
-> +    Error *local_err =3D NULL;
-> +
-> +    if (!s390_has_topology()) {
-> +        error_setg(&local_err, "This machine doesn't support topology");
-> +        return;
-> +    }
 
-Do you really want to ignore has_polarity and has_dedicated here?
-What happens in this case?
+--cc8lRwQTP8Gv0NvM
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +    s390_change_topology(&local_err, core, socket, book, drawer,
-> +                         polarity, dedicated);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +    }
-> +}
-> +
-> +void hmp_change_topology(Monitor *mon, const QDict *qdict)
-> +{
-> +    const int64_t core =3D qdict_get_int(qdict, "core");
-> +    const int64_t socket =3D qdict_get_int(qdict, "socket");
-> +    const int64_t book =3D qdict_get_int(qdict, "book");
-> +    const int64_t drawer =3D qdict_get_int(qdict, "drawer");
-> +    bool has_polarity    =3D qdict_haskey(qdict, "polarity");
-> +    const int64_t polarity =3D qdict_get_try_int(qdict, "polarity", 0);
-> +    bool has_dedicated    =3D qdict_haskey(qdict, "dedicated");
-> +    const bool dedicated =3D qdict_get_try_bool(qdict, "dedicated", fals=
-e);
-> +    Error *local_err =3D NULL;
-> +
-> +    qmp_change_topology(core, socket, book, drawer,
-> +                        has_polarity, polarity,
-> +                        has_dedicated, dedicated,
-> +                        &local_err);
-> +    if (hmp_handle_error(mon, local_err)) {
-> +        return;
-> +    }
-> +}
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index 673e39a697..a617cfed0d 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1815,3 +1815,19 @@ SRST
->    Dump the FDT in dtb format to *filename*.
->  ERST
->  #endif
-> +
-> +#if defined(TARGET_S390X) && defined(CONFIG_KVM)
-> +    {
-> +        .name       =3D "change-topology",
-> +        .args_type  =3D "core:l,socket:l,book:l,drawer:l,polarity:l?,ded=
-icated:b?",
-> +        .params     =3D "core socket book drawer [polarity] [dedicated]"=
-,
-> +        .help       =3D "Move CPU 'core' to 'socket/book/drawer' "
-> +                      "optionaly modifies polarity and dedication",
-> +        .cmd        =3D hmp_change_topology,
-> +    },
-> +
-> +SRST
-> +``change-topology`` *core* *socket* *book* *drawer* *polarity* *dedicate=
-d*
-> +  Moves the CPU  *core* to *socket* *book* *drawer* with *polarity* *ded=
-icated*.
-> +ERST
-> +#endif
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPFvh4ACgkQTeGvMW1P
+DekT9wf/ei/LqtKzzs/EITjBAVKU0HG1j55VBgy5hIS8xF/DkJ+xSPBUz+2rzcjF
+XdtvTVdmsFnzJjiccCtgTdc5TiiUWxODjtlepVlI4V78EBsW4NPRcNCwZ9cHCHf2
+6axD15A6sBVkkTz6SUCzHw6TQ3+QIvghtM2wD2AyKXINlJdmI/QhKDx7hNId9drP
+XyV0Mo/TdWokjRyaoeUoLEkAYFKp+WURaXvdTgsg/U8vgLAMJU3jxfRz9nQvYa3Q
+N/hXLT+zbfCi7bmsDwl6C1Z5ty4Sa8GcXc5MzAQmKHcQtEk3QVnn8aCBF2CMQWxZ
+LHUddsiWcVfnIkwVwvT3fIYlvWSOyg==
+=yZaH
+-----END PGP SIGNATURE-----
+
+--cc8lRwQTP8Gv0NvM--
 
