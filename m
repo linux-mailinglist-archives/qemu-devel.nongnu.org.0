@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6262266B915
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 09:31:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A4666B917
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 09:32:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHKts-0006Q7-5l; Mon, 16 Jan 2023 03:31:28 -0500
+	id 1pHKuS-00077b-Cd; Mon, 16 Jan 2023 03:32:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHKtl-0006Nb-97
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:31:22 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHKuP-00073q-LB
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:32:01 -0500
 Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHKtj-0001tZ-If
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:31:20 -0500
-Received: by mail-wm1-x336.google.com with SMTP id o15so19384715wmr.4
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 00:31:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHKuO-00021c-7p
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 03:32:01 -0500
+Received: by mail-wm1-x336.google.com with SMTP id l8so2270249wms.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 00:31:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=yi+6umWeh/wQ8iFGMjXHQP++laoWO3hjLzBs/nVNf8Y=;
- b=DBHlRHamZp24VRVoxxGH5b9WPf5/odGZKMD5PmYrINKybjWYM3T1ccBr/v6VkRTwZM
- J1oSoWEq9YU6lBgI2xKCHrmluyydpC9eUBoLa07V8VqEXPXnk1Mgf/6Omlr3iAmmvueZ
- EztESqgwkksW8p2S+gz1Ug24Tzpomk0PdxcBXv3InJEH+gRd0uAgtZ99ypFu/k4M9XRX
- RSaBPkVKfDYB1aCXv236+wOD/8t4ef4CwN+jdrLFfaljKMVPrPguq13asl2uY8JhALq3
- mb8NHRw/1bWoI2cB2FWcDuqnzz0whrNYyixrJ/UKvPJho3KTGP7E/zCdMhIZQl+t94ms
- FX7Q==
+ bh=YvhgfjWJ9JY7kY8qVfhX+43YjXSG+rG6Zyi6y1j58Rs=;
+ b=GpcdJjDSaMPX35Dclcv9THYgJAtZ+ArWwuJ6q9cMy/0WTSoDnwE+FYP4uvJnRflAui
+ t5qaMJXTvYy2HHTeDOtQ8yQv+5XQcse1ylVs4UUiuZGNM9bbamPPlyTX6X0GsdVsKuAE
+ tTNtFmjkd9/QjTUnJhoTQJK+4OkVh1Cf5pl6rIfi+I1yQUWCVot23dbvwwjPicS9HGI9
+ JbawLPaXdVJ9wgr1ao635jO8nB8uX/l8oaJ97EHFwDf70xStAKx6KehmIm7vzxyvGY4R
+ 9BED4GgOTPJxYt7iuwmASVr/TRPBGnDAmN4Ls9lE/bBw6bum2ogOduib/JHOa3AFefaA
+ Tbdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yi+6umWeh/wQ8iFGMjXHQP++laoWO3hjLzBs/nVNf8Y=;
- b=OoYkbC0lZFcyT+CqqmG+X6VKJEBEuIwePwAkVBNLfmXskk9y0TCddtVxkW9cBvUCHL
- 3fYsfwPLbr3DUz9UgGz4IfpLGr3cWps95P/ulrYJwfcxfGQOaYDmsasj3vqdr9RedMcz
- 8d+sNbZ+frj//zrvQp3/LVyo+qX3S7b9Td13zClZtctdTY7Pdqo234mW+8j43ZQjMyDP
- +Ty1UVnlA+a0LhWjVoHooF2RlVycAdGMw7oXwD3P2bHRe5DrLMQh/hQXTnSlPBfaaMAv
- hp1Nbq7YZz3HOlN+hSbHjuOWEcZNcKJO9Tj9QP+MbmO0L2RDWlTSQBYWUTZu3MK8eqsY
- 0QdQ==
-X-Gm-Message-State: AFqh2kqB0am7BQIym9pLeNrhu3KbhCbTpRPymUpwgKne2gHxBGWwHpg2
- CYGTKDL94P/KqA0awN6Ti+gVthKZ2bEoI1D9
-X-Google-Smtp-Source: AMrXdXvHLpTlk4AOvh7Qlbze1cmpXo2e9VNV6fThkMsqtF3TsuwnL4i8HnAey12z5O/eaaC0FRliwA==
-X-Received: by 2002:a05:600c:4fd4:b0:3d3:4877:e556 with SMTP id
- o20-20020a05600c4fd400b003d34877e556mr68937417wmq.29.1673857877813; 
- Mon, 16 Jan 2023 00:31:17 -0800 (PST)
+ bh=YvhgfjWJ9JY7kY8qVfhX+43YjXSG+rG6Zyi6y1j58Rs=;
+ b=KlQ8Srj8q6BV73LhvvLwAgqpr+caY+lN5QOxWY/mUJ2e9qC+agVOeX5yjkNJGdLA5I
+ y3XTR2a6eXbbD69W1gxK2rdvixyvGGOwhg/6WsM1VnUz0EVeRDcJqTG+k76eFdHtfX+B
+ kL1syUlZaNM9Flk4RG7sDYrnHbfytcllC+D8doK+wxk1sT8bi0Tk5TGbuMtrOhwsm/um
+ exO9IglHavreD1QcH50Kf3dUut9cQo88+JB1NqPwOZRPq8GiM18PDOI5YX1t47yicRs2
+ QRwbwEjSNKPpNfjyTnsZJPhopqmADRbyfRYOqGxn4pkLD8DbA/he4O8zo+fBLjJvCFRG
+ EJnQ==
+X-Gm-Message-State: AFqh2kq4ICFymxaAxb9eD+FIrYog3xDj2Fjswd/Ga5maBE1SMvT95a2q
+ /sr/fDNwJNPlqn61Cj3TYEJhGxU/y200lGtB
+X-Google-Smtp-Source: AMrXdXtWePewG51WLlCFYBxuVdtc9oy2MaT6OP6CcyfmZZ3agUkszchdAHPjuF5a7vfV4g/xW0A+pA==
+X-Received: by 2002:a05:600c:4f55:b0:3d3:5166:2da4 with SMTP id
+ m21-20020a05600c4f5500b003d351662da4mr66437082wmq.8.1673857918943; 
+ Mon, 16 Jan 2023 00:31:58 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n9-20020a05600c4f8900b003d96b8e9bcasm41184209wmq.32.2023.01.16.00.31.17
+ i2-20020adfdec2000000b002b9b9445149sm30699243wrn.54.2023.01.16.00.31.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 00:31:17 -0800 (PST)
-Message-ID: <30269eb2-1c3b-50c5-9a5b-d1d19ceb68e4@linaro.org>
-Date: Mon, 16 Jan 2023 09:31:16 +0100
+ Mon, 16 Jan 2023 00:31:58 -0800 (PST)
+Message-ID: <b9170dab-0e48-55c0-2314-013e5f65b9e3@linaro.org>
+Date: Mon, 16 Jan 2023 09:31:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2] hw/net/lan9118: log [read|write]b when mode_16bit is
- enabled rather than abort
+Subject: Re: Call qemu_socketpair() instead of socketpair() when possible
 Content-Language: en-US
-To: Qiang Liu <cyruscyliu@gmail.com>, qemu-devel@nongnu.org
-Cc: Jason Wang <jasowang@redhat.com>
-References: <20230116031431.1378346-1-cyruscyliu@gmail.com>
+To: Guoyi Tu <tugy@chinatelecom.cn>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ marcandre.lureau@gmail.com
+Cc: qemu-devel@nongnu.org
+References: <cd28916a-f1f3-b54e-6ade-8a3647c3a9a5@chinatelecom.cn>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230116031431.1378346-1-cyruscyliu@gmail.com>
+In-Reply-To: <cd28916a-f1f3-b54e-6ade-8a3647c3a9a5@chinatelecom.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::336;
@@ -90,23 +96,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/1/23 04:14, Qiang Liu wrote:
-> This patch replaces hw_error to guest error log for [read|write]b
-> accesses when mode_16bit is enabled. This avoids aborting qemu.
+On 16/1/23 05:56, Guoyi Tu wrote:
+> As qemu_socketpair() was introduced in commit 3c63b4e9
+> ("oslib-posix: Introduce qemu_socketpair()"), it's time
+> to replace the other existing socketpair() calls with
+> qemu_socketpair() if possible
 > 
-> Fixes: 1248f8d4cbc3 ("hw/lan9118: Add basic 16-bit mode support.")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1433
-> Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-> Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
-> Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
 > ---
-> v2 removes BADF() macro and the "hw/hw.h" inclusion
-
-Thanks!
+>   backends/tpm/tpm_emulator.c         | 2 +-
+>   tests/qtest/dbus-display-test.c     | 5 +++--
+>   tests/qtest/migration-test.c        | 2 +-
+>   tests/unit/test-crypto-tlssession.c | 4 ++--
+>   tests/unit/test-io-channel-tls.c    | 2 +-
+>   5 files changed, 8 insertions(+), 7 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-> ---
->   hw/net/lan9118.c | 17 ++++++++---------
->   1 file changed, 8 insertions(+), 9 deletions(-)
 
