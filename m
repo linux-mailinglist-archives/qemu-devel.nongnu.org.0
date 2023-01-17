@@ -2,59 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6B366E2DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 16:55:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36FA266E346
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:19:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHoHu-00083H-6a; Tue, 17 Jan 2023 10:54:14 -0500
+	id 1pHogR-0006MP-W0; Tue, 17 Jan 2023 11:19:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pHoHs-00082u-6R; Tue, 17 Jan 2023 10:54:12 -0500
-Received: from linux.microsoft.com ([13.77.154.182])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pHoHq-0000cz-JE; Tue, 17 Jan 2023 10:54:11 -0500
-Received: from [192.168.0.20] (unknown [77.64.253.186])
- by linux.microsoft.com (Postfix) with ESMTPSA id 69BED20DFE9A;
- Tue, 17 Jan 2023 07:54:06 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 69BED20DFE9A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1673970847;
- bh=iaogCjz4EChNGQHxe3+dtvz+b1SP29C1BnnwBTehryg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=CVz2oFzkaL5NaVPOSuF2ktsTucl0PjDSQNcfibOXf1haE2SNd1wIc5JygtaS0V5hK
- dI67YciXx0h13hPPzKPQTpe1+tWVAdMPIAk1z/e2lqDN1kZL2GtvC4hZgujP4jM4Qk
- I8c2YRg9joSptXWa6QoKo04NswKqVREunhm7Pktc=
-Message-ID: <f5af2eee-e04e-fadd-8bad-b9ec4a2a1998@linux.microsoft.com>
-Date: Tue, 17 Jan 2023 16:54:06 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pHogC-0006HL-Fe
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:19:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pHogA-0004gt-RA
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:19:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673972350;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JtItVWKzild6jH493vlo4opTZuI50sw68RPYlf6mPL4=;
+ b=bdhsXgRm/rycBWQLnih9ol0mmRaPyfzwoa9wEwFlw7P3VNwyyOvwaE6+8PywesHyp8MyQC
+ sgvf/poA1QVvNMEH2lN3nIa0CajRbHMWna/b8SQJHyhbWQtxghMurmKxlLDF7AlXdPOmvi
+ VSzdu4w1Ne5eirLz4mHt8J81pWnAWBQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-617-kiMQ25CdPsy0V3FG50JIaw-1; Tue, 17 Jan 2023 11:08:16 -0500
+X-MC-Unique: kiMQ25CdPsy0V3FG50JIaw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AFC993C11C63;
+ Tue, 17 Jan 2023 15:59:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.190])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FF39C15BA0;
+ Tue, 17 Jan 2023 15:59:49 +0000 (UTC)
+Date: Tue, 17 Jan 2023 16:59:47 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
+ Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 3/3] configure: Enable -Wthread-safety if present
+Message-ID: <Y8bF8yBAKFcd3jui@redhat.com>
+References: <20230117135203.3049709-1-eesposit@redhat.com>
+ <20230117135203.3049709-4-eesposit@redhat.com>
+ <Y8aqii6iBsdd5rl6@redhat.com>
+ <b24cbd41-6190-8642-4673-01a6c4b50659@redhat.com>
+ <Y8a4MFiwtxmE8JI4@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 1/2] hw/char/pl011: better handling of FIFO flags on LCR
- reset
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, marcandre.lureau@redhat.com,
- pbonzini@redhat.com
-References: <20230106172851.2430-1-eiakovlev@linux.microsoft.com>
- <20230106172851.2430-2-eiakovlev@linux.microsoft.com>
- <CAFEAcA-VkWjSO84dCmoeKaO0PEFydi7Bj2gXhBYDatGpuCuc_w@mail.gmail.com>
-From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-In-Reply-To: <CAFEAcA-VkWjSO84dCmoeKaO0PEFydi7Bj2gXhBYDatGpuCuc_w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=13.77.154.182;
- envelope-from=eiakovlev@linux.microsoft.com; helo=linux.microsoft.com
-X-Spam_score_int: -198
-X-Spam_score: -19.9
-X-Spam_bar: -------------------
-X-Spam_report: (-19.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <Y8a4MFiwtxmE8JI4@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,53 +86,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Am 17.01.2023 um 16:01 hat Daniel P. Berrang=E9 geschrieben:
+> On Tue, Jan 17, 2023 at 03:41:29PM +0100, Emanuele Giuseppe Esposito wrot=
+e:
+> >=20
+> >=20
+> > Am 17/01/2023 um 15:02 schrieb Daniel P. Berrang=E9:
+> > > On Tue, Jan 17, 2023 at 08:52:03AM -0500, Emanuele Giuseppe Esposito =
+wrote:
+> > >> From: Kevin Wolf <kwolf@redhat.com>
+> > >>
+> > >> This enables clang's thread safety analysis (TSA), which we'll use to
+> > >> statically check the block graph locking.
+> > >>
+> > >> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > >> Message-Id: <20221207131838.239125-9-kwolf@redhat.com>
+> > >> Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> > >> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > >> ---
+> > >>  configure | 1 +
+> > >>  1 file changed, 1 insertion(+)
+> > >>
+> > >> diff --git a/configure b/configure
+> > >> index 2281892657..14668e6269 100755
+> > >> --- a/configure
+> > >> +++ b/configure
+> > >> @@ -1183,6 +1183,7 @@ add_to warn_flags -Wnested-externs
+> > >>  add_to warn_flags -Wendif-labels
+> > >>  add_to warn_flags -Wexpansion-to-defined
+> > >>  add_to warn_flags -Wimplicit-fallthrough=3D2
+> > >> +add_to warn_flags -Wthread-safety
+> > >=20
+> > > Does this thread safety analysis have any kind of measurable
+> > > impact on compilation speed ?
+> > >=20
+> > > Our CI jobs are quite sensitive to any increase in build
+> > > time.
+> >=20
+> > From a quick run in my machine (Dell PowerEdge R440 with Intel(R)
+> > Xeon(R) Gold 5120 CPU @ 2.20GHz, 28 cpus):
+> >=20
+> > without clang:
+> > real    2m46.729s=0F
+> > =03user    19m24.122s=0F
+> > =03sys     2m58.643s=0F
+> >=20
+> > with clang:
+> > real    2m45.204s
+> > user    19m52.096s
+> > sys     2m9.036s
+> >=20
+> > So there should be no significative impact.
+> >=20
+> > I also forgot to mention that this serie fixes the CI failure seen in:
+> >=20
+> > https://gitlab.com/qemu-project/qemu/-/jobs/3479763741
+> > https://gitlab.com/qemu-project/qemu/-/jobs/3479763746
+>=20
+> Odd, that job already has  -Wthread-safety included in CFLAGS, which
+> would seem to make this patch redundant, but I don't see where
+> -Wthread-safety came from in that pipeline=20
 
-On 1/17/2023 16:24, Peter Maydell wrote:
-> On Fri, 6 Jan 2023 at 17:28, Evgeny Iakovlev
-> <eiakovlev@linux.microsoft.com> wrote:
->> Current FIFO handling code does not reset RXFE/RXFF flags when guest
->> resets FIFO by writing to UARTLCR register, although internal FIFO state
->> is reset to 0 read count. Actual flag update will happen only on next
->> read or write to UART. As a result of that any guest that expects RXFE
->> flag to be set (and RXFF to be cleared) after resetting FIFO will just
->> hang.
->>
->> Correctly reset FIFO flags on FIFO reset. Also, clean up some FIFO
->> depth handling code based on current FIFO mode.
-> This patch is doing multiple things at once ("also" in a
-> commit message is often a sign of that) and I think it
-> would be helpful to split it. There are three things here:
->   * refactorings which aren't making any real code change
->     (eg calling pl011_get_fifo_depth() instead of doing the
->     "if LCR bit set then 16 else 1" inline)
+This patch is what was already in the branch in which the above CI tests
+ran. I dropped it from the pull request because of these build failures
+on FreeBSD. (Their libc includes TSA annotations, which means that QEMU
+functions have to be annotated as well when they call pthread locking
+functions, before we can enable -Wthread-safety.)
 
+So patches 1 and 2 fix the failure that you would otherwise see with
+this patch.
 
-Yeah, tbh i also though i should do it..
+Kevin
 
-
->   * the fix to the actual bug
->   * changes to the handling of the FIFO which should in theory
->     not be visible to the guest (I think it now when the FIFO
->     is disabled always puts the incoming character in read_fifo[0],
->     whereas previously it would allow read_pos to increment all
->     the way around the FIFO even though we only keep one character
->     at a time).
-
-
-That last part i don't understand. If by changes to the FIFO you are 
-referring to the flags handling, then it will be visible to the guest by 
-design, since that's what I'm fixing. Could you maybe explain that one 
-again? :)
-
-
->
-> Type 3 in particular is tricky and could use a commit message
-> explaining what it's doing.
->
-> I think the actual code changes are OK, but the FIFO handling
-> change is a bit complicated and at first I thought it had
-> introduced a bug.
->
-> thanks
-> -- PMM
 
