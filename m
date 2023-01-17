@@ -2,92 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A7966D518
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 04:40:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB70466D533
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 04:58:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHcot-0006JJ-Bb; Mon, 16 Jan 2023 22:39:31 -0500
+	id 1pHd6A-0000W3-C6; Mon, 16 Jan 2023 22:57:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pHcor-0006JB-PC
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 22:39:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pHcop-0003Mx-Bj
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 22:39:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673926755;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ha6bgTY6EffxBd/xv83SKmMYSsnuWyTQ5eCvpnP+Xx0=;
- b=KyMSC2/AzkN8U2T4lyKj1UXBPmox+5todiC44/gsxtPyW3myjtmIDc5V0Zzzmf+SZEXhus
- CoL2SLiJasMTxI1Ex0Sfzo68SWNSzRP7Z3k9XNT1qI6Y7cFBV9RL8mxgpapbOKAwBa+Xp0
- 2JwB+zRyYtNekmrmxqdPbZWE68XwI7M=
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-612-TSUrhTbMNUKvkceIf_r0Nw-1; Mon, 16 Jan 2023 22:39:06 -0500
-X-MC-Unique: TSUrhTbMNUKvkceIf_r0Nw-1
-Received: by mail-oo1-f71.google.com with SMTP id
- c19-20020a4a9c53000000b004f53208440fso409493ook.18
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 19:39:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pHd62-0000Rr-Oz
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 22:57:14 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pHd5w-0005du-Pv
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 22:57:12 -0500
+Received: by mail-pl1-x631.google.com with SMTP id r21so170159plg.13
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 19:57:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gM1CjMI/N7DQfnTG/1bMsvDAvMz5iBpOsUOR++NYBmk=;
+ b=NhZEAHCDV53wNbdx5MLTV3/+Kpj6jOP581HuLPFOsc9JsAng0BC/7UnUs6tlCxJ2IE
+ 4AwxkK5QyvgBMtcSFK7ZnoM7GK7vKJbnOH95LS45BRdiIGTPybxYftBs+viWkYdRL2cp
+ VeLmvRoSfy4jifDkQtTzoaco6PeD+Dmcn00RGr/96/FvdQTRpQS5xHS7iBCCY1HKY+Yx
+ 2USBuPmFWhdXtMOi/1buUhNUoEqxkKZaCQh1+vlpovRf51O4YEw/ZZyx60yuPT+y4aCe
+ x7LgP5ki1SKzET7nMXzXlMGVG/6APerFHsqJi9NVtiZS/yeMNX1UMwU3J130CHbb9Htl
+ 7AiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Ha6bgTY6EffxBd/xv83SKmMYSsnuWyTQ5eCvpnP+Xx0=;
- b=jCSPuKl8eHJvt2nLbOwkaLxY7OZ4W/BQ0PQHVsClPa3n57GU6KBmDx6PsqAWRRJGoB
- 2OzJfbCpi3f3VxHZVhZCF+kVY9a0tjwhnyyz22UmA/7nytaE17fJ+Jv5xwwYk63C4nwi
- /6fG/XlUSZqq1czK6ZSgCG04zB11A8sUTEaQK2xjjBeQchMTN2QlAUgFde9AN8QK58cc
- FcqtEnhOfsDan2bgNp91toBn0JPitu9Ux1N+CHDOTFnhUKBqfGe+WevoMGpH3pqX0fzX
- Y356Gs47pQKFKzhO27m3fP9TDUifVbrdo44Y2M6xfZZGvt5ftDchf4bIN9/eQ0WGGtq3
- R3Mw==
-X-Gm-Message-State: AFqh2ko0M9zh0DUjdORORQcNbKccFmfThQOVXg3/yOgNlKJO0D39dTQK
- E4lS2iTCFXHMYJqLDfykepN7FVQ4Um9kss+JJ0huRrZODb/RANitwh7MPNIeFIwLvDAnXwbCN2f
- EschZCSSWtOMAJ+rgq071Z8UJJaV0byc=
-X-Received: by 2002:a05:6871:10e:b0:15b:96b5:9916 with SMTP id
- y14-20020a056871010e00b0015b96b59916mr149976oab.280.1673926745989; 
- Mon, 16 Jan 2023 19:39:05 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvqPYqkQVFnOxCRhF7kyawoT25AFENVX8d3XVJbThy7IZYctj2ehPN44I9vrTO1QVc8T4nwOQRkPxxry2YWrqM=
-X-Received: by 2002:a05:6871:10e:b0:15b:96b5:9916 with SMTP id
- y14-20020a056871010e00b0015b96b59916mr149961oab.280.1673926745799; Mon, 16
- Jan 2023 19:39:05 -0800 (PST)
+ bh=gM1CjMI/N7DQfnTG/1bMsvDAvMz5iBpOsUOR++NYBmk=;
+ b=hIsGJi1ZPgQ/+9lZOsxbLkWocwi6/Nsyn7urlGYyojcXbwLjoE2TIHG1u1tWwmQCkS
+ Nxk5KXjVj9a8ER+L5YIfiIJrXPN0+Ey//wUT8mJSH4tnENjmUVhzhkL7Y7ZPqZm3GNci
+ XB4vndn/KV4w2C6yZjDsgQcAkYmUtXvyr2Q5tcUQkvl8t0hPB30WlY0iT4d7yLmNIbxV
+ FHG63O2A7ksp2saC5pcnDbZWvX8hMXRZ/b2aaTvM1S3ljmuka97a6sHOOxsKhakoPhhy
+ HAk3UudjXanKOipWR2cq7Xrtzusjk4yuqOQXi3BxjGB0ZrEiCTi6WHrBQ1ZwATD+Nhb5
+ 7wIA==
+X-Gm-Message-State: AFqh2kq0I0KN51XaC19pDt9bE7pbZ6gWsZX5CsH5LbAH0FAxJaRQn/26
+ 5CtyENWHuirSfCI72p8uQ7Q8ovTEzOCUHZl5
+X-Google-Smtp-Source: AMrXdXtcq/eSC5C7OIbwN9sCAM20Xo0Kqt7DvRrgRgpYkokNqNBy492YSvTYhGe6pxhdjW3/Gjt4JA==
+X-Received: by 2002:a17:902:d88d:b0:194:7c28:3fa4 with SMTP id
+ b13-20020a170902d88d00b001947c283fa4mr938900plz.19.1673927824597; 
+ Mon, 16 Jan 2023 19:57:04 -0800 (PST)
+Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id
+ z15-20020a1709027e8f00b001869079d083sm19991531pla.90.2023.01.16.19.57.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Jan 2023 19:57:04 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org
+Subject: [PATCH 0/3] tests: Fix some deadlocks
+Date: Mon, 16 Jan 2023 17:56:58 -1000
+Message-Id: <20230117035701.168514-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221205170436.2977336-1-eperezma@redhat.com>
- <20221205170436.2977336-11-eperezma@redhat.com>
- <CACGkMEtcQztTdRbX3xyFvNYSRsu58tRppoyTUh94vXwSGLPH=A@mail.gmail.com>
- <CAJaqyWf34J7g+3eQ498JS+VC07j+3rF+m-yeWhE5RcP1MDu2pw@mail.gmail.com>
- <20230116155949-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20230116155949-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 17 Jan 2023 11:38:54 +0800
-Message-ID: <CACGkMEuMGD9_RQEHMFgHFGxcrjLnOv7FbNxEzJVy+iWvEk_6Og@mail.gmail.com>
-Subject: Re: [RFC PATCH for 8.0 10/13] virtio-net: Migrate vhost inflight
- descriptors
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Eugenio Perez Martin <eperezma@redhat.com>, qemu-devel@nongnu.org, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Juan Quintela <quintela@redhat.com>, 
- Parav Pandit <parav@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,40 +86,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 17, 2023 at 5:02 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Wed, Dec 07, 2022 at 09:56:20AM +0100, Eugenio Perez Martin wrote:
-> > > A dumb question, any reason we need bother with virtio-net? It looks
-> > > to me it's not a must and would complicate migration compatibility.
-> > >
-> > > I guess virtio-blk is the better place.
-> > >
-> >
-> > I'm fine to start with -blk, but if -net devices are processing
-> > buffers out of order we have chances of losing descriptors too.
-> >
-> > We can wait for more feedback to prioritize correctly this though.
-> >
-> > Thanks!
->
-> Traditionally vhost serialized everything when dropping the VQ.
-> Would be interesting to hear from hardware vendors on whether
-> it's hard or easy to do in hardware.
+The first patch addresses the fact that linux-user blocks all signals
+while attempting to handle guest signals (e.g. ABRT), which means that
+the default TERM sent by timeout has no effect -- KILL instead.
 
-The feedback is some vendors will do the serialization while others are not.
+When a guest aborts (possible nios2 guest bug), sending SIGABRT to
+itself, I have caught one thread waiting in start_exclusive, and all
+of the others blocked in exclusive_idle.  I look at that and think
+there's a bug in our start_exclusive locking, but I can't prove it.
 
-> But I suspect all devices will want the capability eventually
-> because why not, if we have the code let's just do it everywhere.
+I also wonder whether qemu_plugin_user_exit really needs it, and since
+that's the only place that seems to have issues at present, whether
+it is in fact using it incorrectly.
 
-Yes, but it's more about priority/compatibility other than whether it
-is needed. We want to let the migration work as earlier as possible
-for vendor to test and try.
+Finally, I think we're missing at least a few early tests for
+"no plugins registered", like this one, which ought to be fast path,
+where the function need do no work whatsoever -- possibly including
+taking the plugin lock, but I can't prove that either.
 
-Thanks
+Anyway, this has improved make check-tcg -jX, for large X, which
+appears to aggravate things.
 
->
-> --
-> MST
->
+
+r~
+
+
+Richard Henderson (3):
+  tests/tcg: Use SIGKILL for timeout
+  plugins: Avoid deadlock in qemu_plugin_user_exit
+  plugins: Iterate on cb_lists in qemu_plugin_user_exit
+
+ plugins/core.c            | 13 +++++++------
+ tests/tcg/Makefile.target |  4 ++--
+ 2 files changed, 9 insertions(+), 8 deletions(-)
+
+-- 
+2.34.1
 
 
