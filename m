@@ -2,80 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22E7E66D69E
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 08:05:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCEFD66D6A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 08:06:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHg1N-0008HX-RJ; Tue, 17 Jan 2023 02:04:37 -0500
+	id 1pHg2X-0000Wq-TA; Tue, 17 Jan 2023 02:05:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHg1M-0008HO-0O
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:04:36 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHg1J-0007rx-Rd
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:04:35 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id r30so5137802wrr.10
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 23:04:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PsQ4FbPhrTnQDJFgsT6jiFQUr90OcnwOv4eFUpeBZG0=;
- b=IkJ8LlFhZC/I5rVBGE+Jcvq2hoYtLNp4PADla1amKVit4GIwM/NA1BUTeaf9pNm8vg
- 0Ve6+vJx8TwzndPSK0KaCkkg/Zl9aUF+c9grljrOop+Ho/9q18KrZWAKoCCLQVKF5oq1
- A9smRpTtveN8V7HIc6ByRffzTxBh8TgFgVkrp4TtbIzZkk+v1t6IkxS2QRlXVuSvS3Lx
- lmM5njnsZthN590vN/tQR+pJHJIyov2ioDrVNB3GUieAK0P5QQu7HjNtXedxCMm7PflC
- keNZMxi0iEAAbm8wYw8MOc9oPhSbq8GEyPw7OsFHLOLnHoYddmHdMmnGuyGuG0si1EI7
- KsLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PsQ4FbPhrTnQDJFgsT6jiFQUr90OcnwOv4eFUpeBZG0=;
- b=1mZMf3Tu3IBm8o/JMLlEEARY6DfQKg3DPXMfuW7EtyenvnmDn7f12YXpqw2t67jCMo
- MXXEl3DFZTIQyzzd16uu0EtzUT6rleMYSX5TknpbgzQpz8RhIiPDCI6EqX/Fe6BnSYDi
- tDmujRQCRHcwdE/zss/1/SBGXKu26OOUeucesBclmjS2sRIfImETc4DwVq3RN4kDjdch
- EeeGOh19eO9MFrwZln86C9tMrYTkRubvNSfVEdNNzwyJFBZe7hfPXuCpwpilBf2xOMs7
- emzF5uuSyhhbrb9d2SltJekUoCVludaF6dFYA+/vYuOWr7WrEZnkRugb0vPp46VPNxGu
- 6dxg==
-X-Gm-Message-State: AFqh2kpKi9D+FP0o6IUtpUkte2Lc2LAV08hg/U9PNmTy6TbLHkC0P0r9
- +kyrKZE7yzdFJYIEfoVyHizjvQ==
-X-Google-Smtp-Source: AMrXdXtRMbgr4zeQfTswgWk0WaOJvZkOc7RuNgo1V3Q0IjdUvmkjziv33VdzAm7/Z0VNPABy8tQ4fA==
-X-Received: by 2002:a5d:6b8b:0:b0:2be:1d46:e500 with SMTP id
- n11-20020a5d6b8b000000b002be1d46e500mr1384264wrx.28.1673939071549; 
- Mon, 16 Jan 2023 23:04:31 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- v11-20020a5d678b000000b0029e1aa67fd2sm10242587wru.115.2023.01.16.23.04.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 23:04:31 -0800 (PST)
-Message-ID: <cff14816-39eb-db1c-9bda-51cad7fcb7c1@linaro.org>
-Date: Tue, 17 Jan 2023 08:04:29 +0100
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pHg2V-0000WE-2I
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:05:47 -0500
+Received: from mailout06.t-online.de ([194.25.134.19])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pHg2R-0008CX-J1
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:05:45 -0500
+Received: from fwd70.dcpf.telekom.de (fwd70.aul.t-online.de [10.223.144.96])
+ by mailout06.t-online.de (Postfix) with SMTP id 9FCBE1E809;
+ Tue, 17 Jan 2023 08:05:40 +0100 (CET)
+Received: from [192.168.211.200] ([79.208.25.151]) by fwd70.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1pHg2O-1Qx2sz0; Tue, 17 Jan 2023 08:05:40 +0100
+Message-ID: <0d94b8a0-82e3-c261-1e8a-d43b785c989d@t-online.de>
+Date: Tue, 17 Jan 2023 08:05:39 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] usb-ccid: make ids and descriptor configurable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 07/11] audio/audio_template: use g_malloc0() to replace
+ audio_calloc()
 Content-Language: en-US
-To: "Ripke, Klaus" <klaus.ripke@secunet.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "kraxel@redhat.com" <kraxel@redhat.com>,
- "marcandre.lureau@gmail.com" <marcandre.lureau@gmail.com>
-References: <c07957e3813d9d2f84e981bb1b8d99862a2998b9.camel@secunet.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <c07957e3813d9d2f84e981bb1b8d99862a2998b9.camel@secunet.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ qemu-devel@nongnu.org
+References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
+ <20221218171539.11193-7-vr_qemu@t-online.de>
+ <9b60cdc7-3bd3-6651-2e7e-29673731aabd@linaro.org>
+ <e4276dbf-ba7c-0ee4-88f8-4b0cffee46f7@t-online.de>
+ <Y8URq6bKB5tlDsHR@redhat.com>
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+In-Reply-To: <Y8URq6bKB5tlDsHR@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-TOI-EXPURGATEID: 150726::1673939140-15FFE778-CD158F54/0/0 CLEAN NORMAL
+X-TOI-MSGID: b38c7d07-bdc0-40e6-8c91-7055d3357b09
+Received-SPF: none client-ip=194.25.134.19; envelope-from=vr_qemu@t-online.de;
+ helo=mailout06.t-online.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,121 +73,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Klaus,
+Am 16.01.23 um 09:58 schrieb Daniel P. Berrangé:
+> On Sun, Dec 18, 2022 at 06:39:00PM +0100, Volker Rümelin wrote:
+>> Am 18.12.22 um 18:26 schrieb Philippe Mathieu-Daudé:
+>>> On 18/12/22 18:15, Volker Rümelin wrote:
+>>>> Use g_malloc0() as a direct replacement for audio_calloc().
+>>>>
+>>>> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+>>>> ---
+>>>>    audio/audio_template.h | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/audio/audio_template.h b/audio/audio_template.h
+>>>> index d343a1dcb3..5f51ef26b2 100644
+>>>> --- a/audio/audio_template.h
+>>>> +++ b/audio/audio_template.h
+>>>> @@ -273,7 +273,7 @@ static HW *glue(audio_pcm_hw_add_new_,
+>>>> TYPE)(AudioState *s,
+>>>>            return NULL;
+>>>>        }
+>>>>    -    hw = audio_calloc(__func__, 1, glue(drv->voice_size_, TYPE));
+>>>> +    hw = g_malloc0(glue(drv->voice_size_, TYPE));
+>>>>        if (!hw) {
+>>> g_malloc0() can't fail. Either you want g_try_malloc0() or
+>>> remove the error path.
+>>>
+>> g_malloc0() returns NULL if drv->voice_size_(out|in) is 0. I think the code
+>> is correct.
+> IMHO relying on that is rather misleading to people reviewing the code
+> though. As seen by Philippe's reply, people generally don't expect that
+> g_malloc0 can return NULL, and it is not at all obvious that we are
+> intentionally expecting 0 to be passed as a size.
+>
+> Please make this explicit by removing and if (!hw) check after
+> g_malloc, and adding a check before g_malloc
+>
+>     if (audio_bug(__func__, glue(drv->voice_size_, TYPE) == 0)) {
+>         dolog (...)
 
-On 16/1/23 16:46, Ripke, Klaus wrote:
-> Signed-off-by: Klaus Ripke <klaus.ripke@secunet.com>
-> 
-> hw/usb/dev-smartcard-reader.c:
-> Set some static values from ccid_properties.
-> 
-> ---
->   hw/usb/dev-smartcard-reader.c | 35 ++++++++++++++++++++++++++++++-----
->   1 file changed, 30 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-
-> reader.c
-> index 28164d89be..4002157773 100644
-> --- a/hw/usb/dev-smartcard-reader.c
-> +++ b/hw/usb/dev-smartcard-reader.c
-> @@ -311,6 +311,11 @@ struct USBCCIDState {
->       uint8_t  powered;
->       uint8_t  notify_slot_change;
->       uint8_t  debug;
-> +    /* the following are copied to static on initial realize */
-> +    uint16_t vendor;
-> +    uint16_t product;
-> +    uint8_t  maxslot;
-> +    uint8_t  feat2;
->   };
->   
->   /*
-> @@ -323,7 +328,11 @@ struct USBCCIDState {
->    *   0dc3:1004 Athena Smartcard Solutions, Inc.
->    */
->   
-> -static const uint8_t qemu_ccid_descriptor[] = {
-> +enum {
-> +    DESC_MAXSLOT = 4,
-> +    DESC_FEAT2 = 42 /* dwFeatures byte 2 */
-> +};
-> +static uint8_t qemu_ccid_descriptor[] = {
+I'll change it.
 
-If you create 2 devices with different properties, the
-first gets its properties overwritten with the second's
-ones.
+With best regards,
+Volker
 
->           /* Smart Card Device Class Descriptor */
->           0x36,       /* u8  bLength; */
->           0x21,       /* u8  bDescriptorType; Functional */
-> @@ -472,7 +481,7 @@ static const USBDescDevice desc_device = {
->       },
->   };
->   
-> -static const USBDesc desc_ccid = {
-> +static USBDesc desc_ccid = {
->       .id = {
->           .idVendor          = CCID_VENDOR_ID,
->           .idProduct         = CCID_PRODUCT_ID,
-> @@ -1295,9 +1304,10 @@ static void ccid_card_realize(DeviceState *qdev,
-> Error **errp)
->       USBCCIDState *s = USB_CCID_DEV(dev);
->       Error *local_err = NULL;
->   
-> -    if (card->slot != 0) {
-> -        error_setg(errp, "usb-ccid supports one slot, can't add %d",
-> -                   card->slot);
-> +    DPRINTF(s, D_VERBOSE, "%s: slot %d\n", __func__, card->slot);
-> +    if (card->slot > qemu_ccid_descriptor[DESC_MAXSLOT]) {
-> +        error_setg(errp, "usb-ccid supports %d slot, can't add %d",
-> +                   qemu_ccid_descriptor[DESC_MAXSLOT] + 1, card-
->> slot);
->           return;
->       }
->       if (s->card != NULL) {
-> @@ -1317,6 +1327,14 @@ static void ccid_card_realize(DeviceState *qdev,
-> Error **errp)
->   static void ccid_realize(USBDevice *dev, Error **errp)
->   {
->       USBCCIDState *s = USB_CCID_DEV(dev);
-> +    static int initialized;
-> +    if (!initialized) {
-> +        desc_ccid.id.idVendor = s->vendor;
-> +        desc_ccid.id.idProduct = s->product;
-> +        qemu_ccid_descriptor[DESC_MAXSLOT] = s->maxslot;
-> +        qemu_ccid_descriptor[DESC_FEAT2] = s->feat2;
-> +        initialized = !0;
-> +    }
->   
->       usb_desc_create_serial(dev);
->       usb_desc_init(dev);
-> @@ -1339,6 +1357,8 @@ static void ccid_realize(USBDevice *dev, Error
-> **errp)
->       ccid_reset_parameters(s);
->       ccid_reset(s);
->       s->debug = parse_debug_env("QEMU_CCID_DEBUG", D_VERBOSE, s-
->> debug);
-> +    DPRINTF(s, D_VERBOSE, "ccid_realize %d %x %x %x %x\n",
-> +        initialized, s->vendor, s->product, s->maxslot, s->feat2);
->   }
->   
->   static int ccid_post_load(void *opaque, int version_id)
-> @@ -1434,9 +1454,14 @@ static const VMStateDescription ccid_vmstate = {
->   
->   static Property ccid_properties[] = {
->       DEFINE_PROP_UINT8("debug", USBCCIDState, debug, 0),
-> +    DEFINE_PROP_UINT16("vendor", USBCCIDState, vendor,
-> CCID_VENDOR_ID),
-> +    DEFINE_PROP_UINT16("product", USBCCIDState, product,
-> CCID_PRODUCT_ID),
-> +    DEFINE_PROP_UINT8("maxslot", USBCCIDState, maxslot, 0),
-> +    DEFINE_PROP_UINT8("feat2", USBCCIDState, feat2, 0),
->       DEFINE_PROP_END_OF_LIST(),
->   };
->   
-> +
->   static void ccid_class_initfn(ObjectClass *klass, void *data)
->   {
->       DeviceClass *dc = DEVICE_CLASS(klass);
+>
+> With regards,
+> Daniel
 
 
