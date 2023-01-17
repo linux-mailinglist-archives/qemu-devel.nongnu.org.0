@@ -2,92 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C8166DB77
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 11:48:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 761F366DB8E
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 11:53:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHjVI-0004Os-No; Tue, 17 Jan 2023 05:47:44 -0500
+	id 1pHjaF-0005Vn-R4; Tue, 17 Jan 2023 05:52:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pHjVB-0004ON-N3
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:47:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pHjV9-0000b8-An
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:47:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673952454;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pHjaE-0005Vd-Gd
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:52:50 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pHjaC-0003IT-TH
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:52:50 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4C1A568508;
+ Tue, 17 Jan 2023 10:52:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1673952765; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QYJJ8vXNePcj/40NrI36sg+XA1ambbgD8sMbwdn1b78=;
- b=QZwlSGFSK0tehe/1R/6Ev/iCqSBYn/+pGvdZA3+ZbxqJx6H4pIWv3+ZqG+ddd8yzyTIQqq
- IzTK51pcmnKT/ZjR728SAP86VEsl8qPzCCBTFBchuIZhABYvj8IgWb7mbuMFIRybDFIB4Z
- MScipQfloqhAA/YZeRJVLSLll6oV0AI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-154-CWav8f_ePAajIMlviYs_XA-1; Tue, 17 Jan 2023 05:47:32 -0500
-X-MC-Unique: CWav8f_ePAajIMlviYs_XA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- g9-20020a7bc4c9000000b003d214cffa4eso6635276wmk.5
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 02:47:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QYJJ8vXNePcj/40NrI36sg+XA1ambbgD8sMbwdn1b78=;
- b=MNty3Aj4sMfV6COkFfR8UQF45drfMshIypbdFHN1C9KzHKMa5GCymF43fUKpTmSG2P
- ncqlIw0fEgLnXQdBCuMQh6me32cLuYRNh4fEu1YNvr0+e0SGRWlQJRqQrfA3cV2/5mrj
- 9dNuNdty0yag+3JiVdZatfgoRLxomP6FG/OryQPMDOZ7EO3gxrBR9SxDY190Swfqx5ql
- IG/A5FTvwOxiBEgAam1uZW6cNtfbrpwmIiqe1YO3TrMjUgrkymA2H6grz7I5TJxm+5UP
- PDBDdBMri/xhUzeQJQqD8Yqe7UIYIRn6M2q2m6tk5Xgi3G4Hwaxac8p1zlcu+pHJbuw3
- Tddg==
-X-Gm-Message-State: AFqh2kpajalLjhEByw2JGgSds6vFGrvSiRhpy6lpELY4DwElMCmNb6bm
- GPPXYswZIXNdRdYfD3uHoxixVr6MtiQfY7wsFrBjn1KeRcQQyGc9tEbXwX6u7SE4wygMP40mkz2
- OeWRd9tjkzQCjMR4=
-X-Received: by 2002:a5d:48c7:0:b0:2bc:8130:ccb8 with SMTP id
- p7-20020a5d48c7000000b002bc8130ccb8mr2304532wrs.40.1673952451518; 
- Tue, 17 Jan 2023 02:47:31 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXs2wRHgTufi3hXxz6U1nyZQooop1fJYGusQ9U2bSNLj8zqQowVDaZC3Cn36kKm/rK5GiWA2zA==
-X-Received: by 2002:a5d:48c7:0:b0:2bc:8130:ccb8 with SMTP id
- p7-20020a5d48c7000000b002bc8130ccb8mr2304522wrs.40.1673952451296; 
- Tue, 17 Jan 2023 02:47:31 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- b10-20020adfe64a000000b00287da7ee033sm28797962wrn.46.2023.01.17.02.47.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 02:47:30 -0800 (PST)
-Date: Tue, 17 Jan 2023 10:47:28 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
- pbonzini@redhat.com, berrange@redhat.com, armbru@redhat.com,
- eblake@redhat.com, Manish Mishra <manish.mishra@nutanix.com>,
- Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-Subject: Re: [PATCH 1/5] migration: Updated QAPI format for 'migrate' qemu
- monitor command
-Message-ID: <Y8Z8wNPLzk5J0EFj@work-vm>
-References: <20221226053329.157905-1-het.gala@nutanix.com>
- <20221226053329.157905-2-het.gala@nutanix.com>
+ bh=aOPZztS70itdocNSEx8BOAI8QdoLDpeP6qvrJuQjaIw=;
+ b=BBIXl5nIBOm7wf3G+zmM5i79LUqkd1EaUx6vv29ZBPPcKo2K9bBLUaMZX4OUcWz2CInogg
+ EBMzfyA95baj5U6sEK9Q2E6P+o5M6KMmAXrDnCV0+1JHTf/A3XpR4pRgBQadgMMnoFe7OZ
+ eLhdZc18sVGANM0ejaW7N8S6/WU+gmM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1673952765;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aOPZztS70itdocNSEx8BOAI8QdoLDpeP6qvrJuQjaIw=;
+ b=ykJx7yIliG+suV+nWEo2yzxKRnmldZKWRhV7kw0c5hRqi5SAwJDWVU9Dlh4szoaNzxChDK
+ FcB0/Xp5hd0P1LCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 00F8B1390C;
+ Tue, 17 Jan 2023 10:52:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id OkE5Ovx9xmO3KQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Tue, 17 Jan 2023 10:52:44 +0000
+Message-ID: <114351ed-2676-d2d1-d6a6-2eb3732d1c06@suse.de>
+Date: Tue, 17 Jan 2023 11:52:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221226053329.157905-2-het.gala@nutanix.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 0/5] migration: Modified 'migrate' QAPI command for
+ migration
+Content-Language: en-US
+To: Het Gala <het.gala@nutanix.com>, qemu-devel@nongnu.org
+Cc: prerna.saxena@nutanix.com, quintela@redhat.com, dgilbert@redhat.com,
+ pbonzini@redhat.com, berrange@redhat.com, armbru@redhat.com,
+ eblake@redhat.com
+References: <20221226053329.157905-1-het.gala@nutanix.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <20221226053329.157905-1-het.gala@nutanix.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,189 +90,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Het Gala (het.gala@nutanix.com) wrote:
-> From: Author Het Gala <het.gala@nutanix.com>
-> 
-> Existing 'migrate' QAPI design enforces transport mechanism, ip address
-> of destination interface and corresponding port number in the form
-> of a unified string 'uri' parameter. This scheme does seem to have an issue
-> in it, i.e. double-level encoding of URIs.
-> 
-> The current patch maps existing QAPI design into a well-defined data
-> structure - 'MigrateChannel' only from the design perspective. Please note that
-> the existing 'uri' parameter is kept untouched for backward compatibility.
-> 
-> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
-> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
-> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-> Signed-off-by: Het Gala <het.gala@nutanix.com>
-> ---
->  qapi/migration.json | 121 +++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 119 insertions(+), 2 deletions(-)
-> 
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 88ecf86ac8..753e187ce2 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -1449,12 +1449,108 @@
->  ##
->  { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
->  
-> +##
-> +# @MigrateTransport:
-> +#
-> +# The supported communication transport mechanisms for migration
-> +#
-> +# @socket: Supported communication type between two devices for migration.
-> +#          Socket is able to cover all of 'tcp', 'unix', 'vsock' and
-> +#          'fd' already
-> +#
-> +# @exec: Supported communication type to redirect migration stream into file.
-> +#
-> +# @rdma: Supported communication type to redirect rdma type migration stream.
-> +#
-> +# Since 8.0
-> +##
-> +{ 'enum': 'MigrateTransport',
-> +  'data': ['socket', 'exec', 'rdma'] }
-> +
-> +##
-> +# @MigrateSocketAddr:
-> +#
-> +# To support different type of socket.
-> +#
-> +# @socket-type: Different type of socket connections.
-> +#
-> +# Since 8.0
-> +##
-> +{ 'struct': 'MigrateSocketAddr',
-> +  'data': {'socket-type': 'SocketAddress' } }
-> +
-> +##
-> +# @MigrateExecAddr:
-> + #
-> + # Since 8.0
-> + ##
-> +{ 'struct': 'MigrateExecAddr',
-> +   'data' : {'exec-str': 'str' } }
-> +
-> +##
-> +# @MigrateRdmaAddr:
-> +#
-> +# Since 8.0
-> +##
-> +{ 'struct': 'MigrateRdmaAddr',
-> +   'data' : {'rdma-str': 'str' } }
-> +
-> +##
-> +# @MigrateAddress:
-> +#
-> +# The options available for communication transport mechanisms for migration
-> +#
-> +# Since 8.0
-> +##
-> +{ 'union' : 'MigrateAddress',
-> +  'base' : { 'transport' : 'MigrateTransport'},
-> +  'discriminator' : 'transport',
-> +  'data' : {
-> +    'socket' : 'MigrateSocketAddr',
-> +    'exec' : 'MigrateExecAddr',
-> +    'rdma': 'MigrateRdmaAddr' } }
-> +
-> +##
-> +# @MigrateChannelType:
-> +#
-> +# The supported options for migration channel type requests
-> +#
-> +# @main: Support request for main outbound migration control channel
-> +#
-> +# Since 8.0
-> +##
-> +{ 'enum': 'MigrateChannelType',
-> +  'data': [ 'main'] }
-> +
-> +##
-> +# @MigrateChannel:
-> +#
-> +# Information regarding migration Channel-type for transferring packets,
-> +# source and corresponding destination interface for socket connection
-> +# and number of multifd channels over the interface.
-> +#
-> +# @channeltype: Name of Channel type for transfering packet information
-> +#
-> +# @addr: SocketAddress of destination interface
-> +#
-> +# Since 8.0
-> +##
-> +{ 'struct': 'MigrateChannel',
-> +  'data' : {
-> +	'channeltype' : 'MigrateChannelType',
-> +	'addr' : 'MigrateAddress' } }
-> +
+Hi,
 
-The presence of the channeltype field suggests you're going to try to
-support multiple addresses; that's OK, but can you show an example of
-how that might look in the migrate command below?
-
-Dave
-
->  ##
->  # @migrate:
->  #
->  # Migrates the current running guest to another Virtual Machine.
->  #
->  # @uri: the Uniform Resource Identifier of the destination VM
-> +#       for migration thread
-> +#
-> +# @channel: Struct containing migration channel type, along with all
-> +#           the details of destination interface required for initiating
-> +#           a migration stream.
->  #
->  # @blk: do block migration (full disk copy)
->  #
-> @@ -1479,15 +1575,36 @@
->  # 3. The user Monitor's "detach" argument is invalid in QMP and should not
->  #    be used
->  #
-> +# 4. The uri argument should have the Uniform Resource Identifier of default
-> +#    destination VM. This connection will be bound to default network
-> +#
-> +# 5. Both 'uri' and 'channel' arguments, are mututally exclusive but, atleast
-> +#    one of the two arguments should be present.
-> +#
->  # Example:
->  #
->  # -> { "execute": "migrate", "arguments": { "uri": "tcp:0:4446" } }
->  # <- { "return": {} }
->  #
-> +# -> { "execute": "migrate",
-> +#      "arguments": {
-> +#          "channel": { "channeltype": "main",
-> +#                        "addr": { "transport": "socket",
-> +#                                  "socket-type": { "type': "inet',
-> +#                                                   "host": "10.12.34.9",
-> +#                                                   "port": "1050" } } } } }
-> +# <- { "return": {} }
-> +#
-> +# -> { "execute": "migrate",
-> +#      "arguments": { "channel": { "channeltype": "main",
-> +#                                  "addr": { "transport": "exec",
-> +#                                            "exec-str": "/tmp/exec" } } } }
-> +# <- { "return": {} }
-> +#
->  ##
->  { 'command': 'migrate',
-> -  'data': {'uri': 'str', '*blk': 'bool', '*inc': 'bool',
-> -           '*detach': 'bool', '*resume': 'bool' } }
-> +  'data': {'*uri': 'str', '*channel': 'MigrateChannel', '*blk': 'bool',
-> +           '*inc': 'bool', '*detach': 'bool', '*resume': 'bool' } }
->  
->  ##
->  # @migrate-incoming:
-> -- 
-> 2.22.3
+On 12/26/22 06:33, Het Gala wrote:
+> Current QAPI 'migrate' command design (for initiating a migration
+> stream) contains information regarding different migrate transport mechanism
+> (tcp / unix / exec), dest-host IP address, and binding port number in form of
+> a string. Thus the design does seem to have some design issues. Some of the
+> issues, stated below are:
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 1. Use of string URIs is a data encoding scheme within a data encoding scheme.
+>    QEMU code should directly be able to work with the results from QAPI,
+>    without resorting to do a second level of parsing (eg. socket_parse()).
+> 2. For features / parameters related to migration, the migration tunables needs
+>    to be defined and updated upfront. For example, 'migrate-set-capability'
+>    and 'migrate-set-parameter' is required to enable multifd capability and
+>    multifd-number of channels respectively. Instead, 'Multifd-channels' can
+>    directly be represented as a single additional parameter to 'migrate'
+>    QAPI. 'migrate-set-capability' and 'migrate-set-parameter' commands could
+>    be used for runtime tunables that need setting after migration has already
+>    started.
+
+Is efficient and parallel migration to file of large VMs in scope for this design?
+
+Thanks,
+
+Claudio
+
+> 
+> The current patchset focuses on solving the first problem of multi-level
+> encoding of URIs. The patch defines 'migrate' command as a QAPI discriminated
+> union for the various transport backends (like socket, exec and rdma), and on
+> basis of transport backends, different migration parameters are defined.
+> 
+> (uri) string -->  (channel) Channel-type
+>                             Transport-type
+>                             Migration parameters based on transport type
+> 
+> -----------------------------------------------------------------------------
+> 
+> Author Het Gala (5):
+>   migration: Updated QAPI format for 'migrate' qemu monitor command
+>   migration: HMP side changes for modified 'migrate' QAPI design
+>   migration: Avoid multiple parsing of uri in migration code flow
+>   migration: Modified 'migrate-incoming' QAPI and HMP side changes on
+>     the destination interface.
+>   migration: Established connection for listener sockets on the dest
+>     interface
+> 
+>  migration/migration.c | 133 +++++++++++++++++++++++++++++----------
+>  migration/socket.c    |  31 +--------
+>  migration/socket.h    |   5 +-
+>  monitor/hmp-cmds.c    | 101 ++++++++++++++++++++++++++++-
+>  qapi/migration.json   | 143 ++++++++++++++++++++++++++++++++++++++++--
+>  softmmu/vl.c          |   2 +-
+>  6 files changed, 344 insertions(+), 71 deletions(-)
+> 
 
 
