@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD677670CE6
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 00:13:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F3C670CF3
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 00:14:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHv6u-0003VM-OT; Tue, 17 Jan 2023 18:11:20 -0500
+	id 1pHv6s-0003VB-KC; Tue, 17 Jan 2023 18:11:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHv6m-0003TC-Q6
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 18:11:12 -0500
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+ id 1pHv6o-0003Tm-QS
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 18:11:14 -0500
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHv6l-0001Kp-7q
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 18:11:12 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id 7so23209682pga.1
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 15:11:10 -0800 (PST)
+ id 1pHv6m-0001Ku-TO
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 18:11:14 -0500
+Received: by mail-pf1-x436.google.com with SMTP id 127so7530904pfe.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 15:11:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7ziMP/fEP9bVzsZekB/BH6o4sM8gyTo9c+rdlYUkKqo=;
- b=oQfOFQH77vO5tdjp3YlF+9TO1rGEOk+m4ti3MilPBvqBk3PWA5sQU3XDKDg1IRV08K
- 0RhFxd8GgJ8dpeR6ELjDB+YaGDvTol9aLqyzsTSwk7RchIX/J7BIzCPCTCWmt5u4soHT
- Pv81UyJeFasRj767YxHgzQhNQ/Tk9f/ASA5RD3fSleLXZFVBITQgOYzm0oXv/KHEFnLH
- WIQyacEzsa0YULj91UoxgXJX9ZneAmx/lItmEaHuXP4RJV2XJYkkHvZqgOU4F/dhCJBL
- VXrSj1UjOPzPiXjL4OKt4tbjnFn/Ab3tBS87HSQhrzrN8rgL+AI8o0eNmb1yRAnpJyFO
- YgbA==
+ bh=nUH+ewHziBKrtmW4VyUC93341OIUixsRJcLJjLl2vwk=;
+ b=Knvq8R4fMbYia8ogBJtlZe/ZndjcrHEdhHX+QDDGvcnXcgels47996Jgfoq0agRisI
+ A93Iuz+SpQYN1O/HiPJUcg836yafr3q/+dCRATTnOY0sRThfEPi1RtU+Awpw84uYW6Jn
+ wIRVh7AP2iyMu5+ai2E/UGBimOEA2w+5ZShd9vonT4m8IEinTYUl+1B7woJvSzI2BSMz
+ ap+ZdspOxRIVEKzMJ7Zr+DAnii7K+rfsTb2vRwyJqf3N+lZnGbmq+8FPPybWe4aCM9I4
+ kqbTAtGLeSDDwOkEsngCuTVCL85qk1Gqxyn55ybx8Gml/PStINt++oxojBy9BtW2NnSs
+ Lpeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7ziMP/fEP9bVzsZekB/BH6o4sM8gyTo9c+rdlYUkKqo=;
- b=r0zII5Vmkkb8M0cy1v3b0O2hhxiU2xpw6qBwgbo0Xilei+0G/xFXAfXm8dbhpMMExT
- OexSNEo2okuXJ1TAM1eD35XKmwWIv+fAAMfehbbB5OaA0/AQ4dVN5OsoMBTVBUe5XFQG
- l7JC5GIHBPpbbmBmopotoxgjpCn0eLF5qqL2v8Kjxfsv6YMPTlEDwtAn69VDev0i3B7J
- wdk374oHVp9iiHGOWMtLEaoASRsORkc2QcRQ7j+ol57q2GU5YK7cBXCDIGLbuLyatCqO
- 2rSUXswrsvkwl3+K+P7iUC5oXvPwHDD0/D7PyzbtjFrwkUz/BOSSYP3F2JAgivDRE+Qu
- GdBw==
-X-Gm-Message-State: AFqh2kpspILo8VxiBZ8e2Se+gEd1guaVmYi0vDclSt6ZydLinrKhPSqv
- /EYns/yv17qoHtnHbbVIvhRg1WgOQneWGoWC
-X-Google-Smtp-Source: AMrXdXv8SPRJCQBoMp8ZBi9wLzVdbSnnTtXirl+/M2I0OvTluZbQ/DSt9zP/6uFAjiViKJBDSW9F6A==
-X-Received: by 2002:aa7:9569:0:b0:58b:97f2:2e3b with SMTP id
- x9-20020aa79569000000b0058b97f22e3bmr5597785pfq.1.1673997069994; 
- Tue, 17 Jan 2023 15:11:09 -0800 (PST)
+ bh=nUH+ewHziBKrtmW4VyUC93341OIUixsRJcLJjLl2vwk=;
+ b=fG2t0Nxthw4ueJKApIngyjtMKDq89LrOOicTmINLT6UYBDbzt6F7c4zEmy8/vT6Auj
+ 2YK0Zcv6MfRih8uqkowRSNRte1FVXBAOK1O4IQVDL7aYhj1l6ED/7NHxqQwLhPAU3m0W
+ gRTGSrnFtH8gdryKMwiFzQA7k928ZeSMQdoggN0rxTewdNryFAQ7ilJ8pCnqgzihnR4E
+ oMKyXugMJ7CDKc44iZs6tHyaYOeqMmZTKQu7+DGhJL/V87vPae4fCOnkPxuwV3whhX7r
+ vSiohQS9+ok7hQnIln2SrhFxlRCdIF3ZqZSkuVbo6K1ifqOOSW0lyBm1CrU2+MsBBf/D
+ /3dg==
+X-Gm-Message-State: AFqh2kpvJgtwx5P3pkROusrm1PE/AOHXR+FHLcNYstDyGYis2oslODA8
+ X0Ar46rxWlKoW1FVuh4txuZY3yO6sxrwqWPz
+X-Google-Smtp-Source: AMrXdXufs/3LEh/m82VUZoNKTP/xPSM5rffpE6NJvQ7BhBsL8uYs9/tzXNyojTFIb/esownQsBa7CQ==
+X-Received: by 2002:a05:6a00:d55:b0:589:69ec:c6bc with SMTP id
+ n21-20020a056a000d5500b0058969ecc6bcmr4127615pfv.21.1673997071535; 
+ Tue, 17 Jan 2023 15:11:11 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- b193-20020a621bca000000b005810c4286d6sm20747070pfb.0.2023.01.17.15.11.08
+ b193-20020a621bca000000b005810c4286d6sm20747070pfb.0.2023.01.17.15.11.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 15:11:09 -0800 (PST)
+ Tue, 17 Jan 2023 15:11:11 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 09/22] tcg: Rename TB_JMP_RESET_OFFSET_INVALID to
- TB_JMP_OFFSET_INVALID
-Date: Tue, 17 Jan 2023 13:10:38 -1000
-Message-Id: <20230117231051.354444-10-richard.henderson@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 10/22] tcg: Add gen_tb to TCGContext
+Date: Tue, 17 Jan 2023 13:10:39 -1000
+Message-Id: <20230117231051.354444-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230117231051.354444-1-richard.henderson@linaro.org>
 References: <20230117231051.354444-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,75 +91,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This will shortly be used for more than reset.
+This can replace four other variables that are references
+into the TranslationBlock structure.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/exec-all.h   | 2 +-
- accel/tcg/translate-all.c | 8 ++++----
- tcg/tcg.c                 | 4 ++--
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ include/tcg/tcg.h         | 11 +++--------
+ accel/tcg/translate-all.c |  2 +-
+ tcg/tcg-op.c              | 14 +++++++-------
+ tcg/tcg.c                 | 14 +++-----------
+ 4 files changed, 14 insertions(+), 27 deletions(-)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 25e11b0a8d..b4d09c89ab 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -585,8 +585,8 @@ struct TranslationBlock {
-      * setting one of the jump targets (or patching the jump instruction). Only
-      * two of such jumps are supported.
-      */
-+#define TB_JMP_OFFSET_INVALID 0xffff /* indicates no jump generated */
-     uint16_t jmp_reset_offset[2]; /* offset of original jump target */
--#define TB_JMP_RESET_OFFSET_INVALID 0xffff /* indicates no jump generated */
-     uintptr_t jmp_target_arg[2];  /* target address or offset */
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index b949d75fdd..c2d5430b5a 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -552,20 +552,15 @@ struct TCGContext {
+     int nb_indirects;
+     int nb_ops;
  
-     /*
+-    /* goto_tb support */
+-    tcg_insn_unit *code_buf;
+-    uint16_t *tb_jmp_reset_offset; /* tb->jmp_reset_offset */
+-    uintptr_t *tb_jmp_insn_offset; /* tb->jmp_target_arg if direct_jump */
+-    uintptr_t *tb_jmp_target_addr; /* tb->jmp_target_arg if !direct_jump */
+-
+     TCGRegSet reserved_regs;
+-    uint32_t tb_cflags; /* cflags of the current TB */
+     intptr_t current_frame_offset;
+     intptr_t frame_start;
+     intptr_t frame_end;
+     TCGTemp *frame_temp;
+ 
+-    tcg_insn_unit *code_ptr;
++    TranslationBlock *gen_tb;     /* tb for which code is being generated */
++    tcg_insn_unit *code_buf;      /* pointer for start of tb */
++    tcg_insn_unit *code_ptr;      /* pointer for running end of tb */
+ 
+ #ifdef CONFIG_PROFILER
+     TCGProfile prof;
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 979f8e1107..a4fdce5b72 100644
+index a4fdce5b72..9e925c10f3 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -508,10 +508,10 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     tb->jmp_dest[1] = (uintptr_t)NULL;
+@@ -350,7 +350,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     tb->trace_vcpu_dstate = *cpu->trace_dstate;
+     tb_set_page_addr0(tb, phys_pc);
+     tb_set_page_addr1(tb, -1);
+-    tcg_ctx->tb_cflags = cflags;
++    tcg_ctx->gen_tb = tb;
+  tb_overflow:
  
-     /* init original jump addresses which have been set during tcg_gen_code() */
--    if (tb->jmp_reset_offset[0] != TB_JMP_RESET_OFFSET_INVALID) {
-+    if (tb->jmp_reset_offset[0] != TB_JMP_OFFSET_INVALID) {
-         tb_reset_jump(tb, 0);
-     }
--    if (tb->jmp_reset_offset[1] != TB_JMP_RESET_OFFSET_INVALID) {
-+    if (tb->jmp_reset_offset[1] != TB_JMP_OFFSET_INVALID) {
-         tb_reset_jump(tb, 1);
-     }
+ #ifdef CONFIG_PROFILER
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index cd1cd4e736..9fa9f1b0fd 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -86,7 +86,7 @@ void tcg_gen_op6(TCGOpcode opc, TCGArg a1, TCGArg a2, TCGArg a3,
  
-@@ -693,9 +693,9 @@ static gboolean tb_tree_stats_iter(gpointer key, gpointer value, gpointer data)
-     if (tb_page_addr1(tb) != -1) {
-         tst->cross_page++;
+ void tcg_gen_mb(TCGBar mb_type)
+ {
+-    if (tcg_ctx->tb_cflags & CF_PARALLEL) {
++    if (tcg_ctx->gen_tb->cflags & CF_PARALLEL) {
+         tcg_gen_op1(INDEX_op_mb, mb_type);
      }
--    if (tb->jmp_reset_offset[0] != TB_JMP_RESET_OFFSET_INVALID) {
-+    if (tb->jmp_reset_offset[0] != TB_JMP_OFFSET_INVALID) {
-         tst->direct_jmp_count++;
--        if (tb->jmp_reset_offset[1] != TB_JMP_RESET_OFFSET_INVALID) {
-+        if (tb->jmp_reset_offset[1] != TB_JMP_OFFSET_INVALID) {
-             tst->direct_jmp2_count++;
-         }
+ }
+@@ -2782,7 +2782,7 @@ void tcg_gen_exit_tb(const TranslationBlock *tb, unsigned idx)
+ void tcg_gen_goto_tb(unsigned idx)
+ {
+     /* We tested CF_NO_GOTO_TB in translator_use_goto_tb. */
+-    tcg_debug_assert(!(tcg_ctx->tb_cflags & CF_NO_GOTO_TB));
++    tcg_debug_assert(!(tcg_ctx->gen_tb->cflags & CF_NO_GOTO_TB));
+     /* We only support two chained exits.  */
+     tcg_debug_assert(idx <= TB_EXIT_IDXMAX);
+ #ifdef CONFIG_DEBUG_TCG
+@@ -2798,7 +2798,7 @@ void tcg_gen_lookup_and_goto_ptr(void)
+ {
+     TCGv_ptr ptr;
+ 
+-    if (tcg_ctx->tb_cflags & CF_NO_GOTO_PTR) {
++    if (tcg_ctx->gen_tb->cflags & CF_NO_GOTO_PTR) {
+         tcg_gen_exit_tb(NULL, 0);
+         return;
      }
+@@ -3165,7 +3165,7 @@ void tcg_gen_atomic_cmpxchg_i32(TCGv_i32 retv, TCGv addr, TCGv_i32 cmpv,
+ {
+     memop = tcg_canonicalize_memop(memop, 0, 0);
+ 
+-    if (!(tcg_ctx->tb_cflags & CF_PARALLEL)) {
++    if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
+         TCGv_i32 t1 = tcg_temp_new_i32();
+         TCGv_i32 t2 = tcg_temp_new_i32();
+ 
+@@ -3203,7 +3203,7 @@ void tcg_gen_atomic_cmpxchg_i64(TCGv_i64 retv, TCGv addr, TCGv_i64 cmpv,
+ {
+     memop = tcg_canonicalize_memop(memop, 1, 0);
+ 
+-    if (!(tcg_ctx->tb_cflags & CF_PARALLEL)) {
++    if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
+         TCGv_i64 t1 = tcg_temp_new_i64();
+         TCGv_i64 t2 = tcg_temp_new_i64();
+ 
+@@ -3364,7 +3364,7 @@ static void * const table_##NAME[(MO_SIZE | MO_BSWAP) + 1] = {          \
+ void tcg_gen_atomic_##NAME##_i32                                        \
+     (TCGv_i32 ret, TCGv addr, TCGv_i32 val, TCGArg idx, MemOp memop)    \
+ {                                                                       \
+-    if (tcg_ctx->tb_cflags & CF_PARALLEL) {                             \
++    if (tcg_ctx->gen_tb->cflags & CF_PARALLEL) {                        \
+         do_atomic_op_i32(ret, addr, val, idx, memop, table_##NAME);     \
+     } else {                                                            \
+         do_nonatomic_op_i32(ret, addr, val, idx, memop, NEW,            \
+@@ -3374,7 +3374,7 @@ void tcg_gen_atomic_##NAME##_i32                                        \
+ void tcg_gen_atomic_##NAME##_i64                                        \
+     (TCGv_i64 ret, TCGv addr, TCGv_i64 val, TCGArg idx, MemOp memop)    \
+ {                                                                       \
+-    if (tcg_ctx->tb_cflags & CF_PARALLEL) {                             \
++    if (tcg_ctx->gen_tb->cflags & CF_PARALLEL) {                        \
+         do_atomic_op_i64(ret, addr, val, idx, memop, table_##NAME);     \
+     } else {                                                            \
+         do_nonatomic_op_i64(ret, addr, val, idx, memop, NEW,            \
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index ffa4506e57..ff674c5122 100644
+index ff674c5122..4ac7086afe 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -4666,8 +4666,8 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start)
- #endif
+@@ -311,7 +311,7 @@ static void set_jmp_reset_offset(TCGContext *s, int which)
+      * We will check for overflow at the end of the opcode loop in
+      * tcg_gen_code, where we bound tcg_current_code_size to UINT16_MAX.
+      */
+-    s->tb_jmp_reset_offset[which] = tcg_current_code_size(s);
++    s->gen_tb->jmp_reset_offset[which] = tcg_current_code_size(s);
+ }
  
+ static void G_GNUC_UNUSED set_jmp_insn_offset(TCGContext *s, int which)
+@@ -321,7 +321,7 @@ static void G_GNUC_UNUSED set_jmp_insn_offset(TCGContext *s, int which)
+      * tcg_gen_code, where we bound tcg_current_code_size to UINT16_MAX.
+      */
+     tcg_debug_assert(TCG_TARGET_HAS_direct_jump);
+-    s->tb_jmp_insn_offset[which] = tcg_current_code_size(s);
++    s->gen_tb->jmp_target_arg[which] = tcg_current_code_size(s);
+ }
+ 
+ static uintptr_t G_GNUC_UNUSED get_jmp_target_addr(TCGContext *s, int which)
+@@ -330,7 +330,7 @@ static uintptr_t G_GNUC_UNUSED get_jmp_target_addr(TCGContext *s, int which)
+      * Return the read-execute version of the pointer, for the benefit
+      * of any pc-relative addressing mode.
+      */
+-    return (uintptr_t)tcg_splitwx_to_rx(&s->tb_jmp_target_addr[which]);
++    return (uintptr_t)tcg_splitwx_to_rx(s->gen_tb->jmp_target_arg + which);
+ }
+ 
+ /* Signal overflow, starting over with fewer guest insns. */
+@@ -4668,14 +4668,6 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start)
      /* Initialize goto_tb jump offsets. */
--    tb->jmp_reset_offset[0] = TB_JMP_RESET_OFFSET_INVALID;
--    tb->jmp_reset_offset[1] = TB_JMP_RESET_OFFSET_INVALID;
-+    tb->jmp_reset_offset[0] = TB_JMP_OFFSET_INVALID;
-+    tb->jmp_reset_offset[1] = TB_JMP_OFFSET_INVALID;
-     tcg_ctx->tb_jmp_reset_offset = tb->jmp_reset_offset;
-     if (TCG_TARGET_HAS_direct_jump) {
-         tcg_ctx->tb_jmp_insn_offset = tb->jmp_target_arg;
+     tb->jmp_reset_offset[0] = TB_JMP_OFFSET_INVALID;
+     tb->jmp_reset_offset[1] = TB_JMP_OFFSET_INVALID;
+-    tcg_ctx->tb_jmp_reset_offset = tb->jmp_reset_offset;
+-    if (TCG_TARGET_HAS_direct_jump) {
+-        tcg_ctx->tb_jmp_insn_offset = tb->jmp_target_arg;
+-        tcg_ctx->tb_jmp_target_addr = NULL;
+-    } else {
+-        tcg_ctx->tb_jmp_insn_offset = NULL;
+-        tcg_ctx->tb_jmp_target_addr = tb->jmp_target_arg;
+-    }
+ 
+     tcg_reg_alloc_start(s);
+ 
 -- 
 2.34.1
 
