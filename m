@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62D3966DF69
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 14:52:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5889A66DF74
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 14:53:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHmNq-0000vj-85; Tue, 17 Jan 2023 08:52:14 -0500
+	id 1pHmNr-0000vl-52; Tue, 17 Jan 2023 08:52:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1pHmNn-0000rf-Bp
+ id 1pHmNn-0000rd-DK
  for qemu-devel@nongnu.org; Tue, 17 Jan 2023 08:52:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1pHmNl-0005vU-Hu
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 08:52:11 -0500
+ id 1pHmNl-0005vV-Gr
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 08:52:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1673963528;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=pWlyQjbQbScrarUs8O1IvcNkbBaZsODHsNHzbBi/YR8=;
- b=M0r1qX9JMC6UaOiLiojLoR1DlI3OuUpMCvJN6ytXIJp2hybxX2rpT4xdPel6np9JqNIUtp
- 1xOrihlr8X68yORX+E7+NnhrzS6fGyRGN0pyyGxwIooJk+pO4JS5OFje4y1sOsNDURhLRF
- c1+40LP+MNMWKzEHjWYCgloVKSVrW/c=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z1JWCQ/XZDP0YzmeBm+TMTnUrDS7/1OM63fu48KSkq8=;
+ b=Au993I4woZfsUPawz2nvru/43hWDPMRHhTypkY7gD5fGgEy9K84CvmErIMNiMdizQiR65d
+ WIR1zpyaJ8KzzqPowtYaX1SwVOkkEc/roqy6CZzH0iRRG7nymdHZDWkGdqtAj4KsYjxwQh
+ msJFbjOHcoLWJ4COXauv/nQ8xhYpsHE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-39-Zcx-rPpbOTakJHsr81GXvw-1; Tue, 17 Jan 2023 08:52:06 -0500
-X-MC-Unique: Zcx-rPpbOTakJHsr81GXvw-1
+ us-mta-302-Jk1u2vdfPeiKTSREOh5IQw-1; Tue, 17 Jan 2023 08:52:06 -0500
+X-MC-Unique: Jk1u2vdfPeiKTSREOh5IQw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0670F8027FE;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54F771818E56;
  Tue, 17 Jan 2023 13:52:06 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FD291121315;
- Tue, 17 Jan 2023 13:52:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0FFEB112131B;
+ Tue, 17 Jan 2023 13:52:06 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
@@ -51,20 +52,23 @@ Cc: Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
  Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH 0/3]  TSA: make sure QEMU compiles when using clang TSA
-Date: Tue, 17 Jan 2023 08:52:00 -0500
-Message-Id: <20230117135203.3049709-1-eesposit@redhat.com>
+Subject: [PATCH 1/3] util/qemu-thread-posix: use TSA_NO_TSA to suppress clang
+ TSA warnings
+Date: Tue, 17 Jan 2023 08:52:01 -0500
+Message-Id: <20230117135203.3049709-2-eesposit@redhat.com>
+In-Reply-To: <20230117135203.3049709-1-eesposit@redhat.com>
+References: <20230117135203.3049709-1-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,33 +85,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This serie aims to enable clang Thread Safety Analysis (TSA) in QEMU.
-The goal is to use it for our multiqueue project aiming to replace the
-block layer AioContext lock with a rwlock and make sure the lock is taken
-correctly everywhere [1].
+QEMU does not compile when enabling clang's thread safety analysis
+(TSA),
+because some functions create wrappers for pthread mutexes but do
+not use any TSA macro. Therefore the compiler fails.
 
-By default, TSA covers pthread mutexes, therefore when added in QEMU it
-immediately detects some wrappers using pthread_mutex_lock/unlock without
-using the proper TSA macros. Since adding such macro requires scanning all
-possible callers of the affected wrapper, simply use TSA_NO_TSA to suppress
-the warnings.
+In order to make the compiler happy and avoid adding all the
+necessary macros to all callers (lock functions should use
+TSA_ACQUIRE, while unlock TSA_RELEASE, and this applies to all
+users of pthread_mutex_lock/pthread_mutex_unlock),
+simply use TSA_NO_TSA to supppress such warnings.
 
-[1] = https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg00903.html
-
-Emanuele Giuseppe Esposito (2):
-  util/qemu-thread-posix: use TSA_NO_TSA to suppress clang TSA warnings
-  bsd-user/mmap: use TSA_NO_TSA to suppress clang TSA warnings
-
-Kevin Wolf (1):
-  configure: Enable -Wthread-safety if present
-
- configure                |  1 +
- bsd-user/qemu.h          |  5 +++--
- include/exec/exec-all.h  |  5 +++--
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
  include/qemu/thread.h    | 14 +++++++++-----
  util/qemu-thread-posix.c |  2 +-
- 5 files changed, 17 insertions(+), 10 deletions(-)
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
+diff --git a/include/qemu/thread.h b/include/qemu/thread.h
+index 7c6703bce3..81ec9fc144 100644
+--- a/include/qemu/thread.h
++++ b/include/qemu/thread.h
+@@ -3,6 +3,7 @@
+ 
+ #include "qemu/processor.h"
+ #include "qemu/atomic.h"
++#include "qemu/clang-tsa.h"
+ 
+ typedef struct QemuCond QemuCond;
+ typedef struct QemuSemaphore QemuSemaphore;
+@@ -24,9 +25,12 @@ typedef struct QemuThread QemuThread;
+ 
+ void qemu_mutex_init(QemuMutex *mutex);
+ void qemu_mutex_destroy(QemuMutex *mutex);
+-int qemu_mutex_trylock_impl(QemuMutex *mutex, const char *file, const int line);
+-void qemu_mutex_lock_impl(QemuMutex *mutex, const char *file, const int line);
+-void qemu_mutex_unlock_impl(QemuMutex *mutex, const char *file, const int line);
++int TSA_NO_TSA qemu_mutex_trylock_impl(QemuMutex *mutex, const char *file,
++                                       const int line);
++void TSA_NO_TSA qemu_mutex_lock_impl(QemuMutex *mutex, const char *file,
++                                     const int line);
++void TSA_NO_TSA qemu_mutex_unlock_impl(QemuMutex *mutex, const char *file,
++                                       const int line);
+ 
+ void qemu_rec_mutex_init(QemuRecMutex *mutex);
+ void qemu_rec_mutex_destroy(QemuRecMutex *mutex);
+@@ -153,8 +157,8 @@ void qemu_cond_destroy(QemuCond *cond);
+  */
+ void qemu_cond_signal(QemuCond *cond);
+ void qemu_cond_broadcast(QemuCond *cond);
+-void qemu_cond_wait_impl(QemuCond *cond, QemuMutex *mutex,
+-                         const char *file, const int line);
++void TSA_NO_TSA qemu_cond_wait_impl(QemuCond *cond, QemuMutex *mutex,
++                                    const char *file, const int line);
+ bool qemu_cond_timedwait_impl(QemuCond *cond, QemuMutex *mutex, int ms,
+                               const char *file, const int line);
+ 
+diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
+index bae938c670..2dd1069cd3 100644
+--- a/util/qemu-thread-posix.c
++++ b/util/qemu-thread-posix.c
+@@ -223,7 +223,7 @@ void qemu_cond_wait_impl(QemuCond *cond, QemuMutex *mutex, const char *file, con
+         error_exit(err, __func__);
+ }
+ 
+-static bool
++static bool TSA_NO_TSA
+ qemu_cond_timedwait_ts(QemuCond *cond, QemuMutex *mutex, struct timespec *ts,
+                        const char *file, const int line)
+ {
 -- 
 2.39.0
 
