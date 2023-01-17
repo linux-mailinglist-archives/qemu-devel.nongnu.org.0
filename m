@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F278366DD8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 13:27:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A2166DD9C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 13:30:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHl3G-0006AM-IJ; Tue, 17 Jan 2023 07:26:54 -0500
+	id 1pHl6a-0007ln-Ro; Tue, 17 Jan 2023 07:30:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pHl3E-00065p-5p
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 07:26:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1pHl6X-0007lf-Se
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 07:30:18 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pHl3C-00074j-3g
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 07:26:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673958408;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SlvwmrOo6twyfbujCD7UZpDXqEa35PgU5dX3lgDaJpo=;
- b=Z0EE4AeNLgVTJ1pA88QNB2ePu0Drt+UtODi9p/mNzxRo8x0NgbM+KySoK61MwYbkcnIt/Z
- LMmUhdw2bkeeeSzxKL+xGnHBCyTbY0hb390oi6Xo3x+OFahErHkLjhDtrRkNt5fV/HZrnm
- Dx6twvLw4l2/mPkeOUIgw+LAn2BqkFw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-275-B-VTwuPhNkSXVcRYPl8y5A-1; Tue, 17 Jan 2023 07:26:45 -0500
-X-MC-Unique: B-VTwuPhNkSXVcRYPl8y5A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4DE3C857A81;
- Tue, 17 Jan 2023 12:26:45 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 566E22166B29;
- Tue, 17 Jan 2023 12:26:44 +0000 (UTC)
-Date: Tue, 17 Jan 2023 12:26:42 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v2] tests/qtest/qom-test: Do not print tested properties
- by default
-Message-ID: <Y8aUAhZOgP1oMI+G@redhat.com>
-References: <20221215153036.422362-1-thuth@redhat.com>
- <CAFEAcA_EUNGFzLh8d9631WZR+-bR8oVynBs6=FV_kmLWNx2bSg@mail.gmail.com>
- <CAFEAcA80=+dXd5uDfSd8-sAPwbrYMqaPKhLGt7w8vh3MiQwLCQ@mail.gmail.com>
- <43415e4f-c6bf-31c6-3a2e-cea86c511223@redhat.com>
- <Y8Z8CJoFyxB9uHqU@redhat.com>
- <CAFEAcA_hMpFL=Pn8hSc1BDJO3n4e5kq2dSmyWTNBfs2gRa8mjA@mail.gmail.com>
- <Y8aOVxklkrvriPQc@redhat.com>
- <CAFEAcA9n8XSSJRAjGdnNRaZdOjAUCDFQy5NstdEYH642mNCEjA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1pHl6V-0007UB-Mr
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 07:30:17 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id C149D32009E9;
+ Tue, 17 Jan 2023 07:30:12 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Tue, 17 Jan 2023 07:30:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm2; t=
+ 1673958612; x=1674045012; bh=ZP0J/87GjW150D/d1Ww6tgi5cxgL1lflSrH
+ S/LZtzgE=; b=Xl8Vd3ANVKEVsygnjwz9HcdsjFKL4trmTYRBY7eSNbz5QgNc/Fn
+ NWbPOuqMsaxT5935UGiXyWKOAuE80/PzVRyyb63uH9Q0On1HfaVJB1uPlLCSw/GF
+ Ei4R5ZWtc0bR6vJInWOhgJ9zbUK57YziWhJXGS1OhywHiEpb15V5IqiV9y8S7VDd
+ aQzJE9RT+odAmC+wQX0JHnqBHdGLc0mdIlGXdnNypt4ZKCV5sYd01F3enGfFnRsK
+ /ec35GGRfoYAvJwxOVM6Oqz126B4fZ7KpIO95neSajYCP1ccCHGfVmtjHdNmzctx
+ 26w+lQHNLqbOKGoo1GkwPQONR63yQxBmNUw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:message-id:mime-version
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673958612; x=
+ 1674045012; bh=ZP0J/87GjW150D/d1Ww6tgi5cxgL1lflSrHS/LZtzgE=; b=N
+ Yb2xVAQK0Dykf+md+6fSzajDl4wWaRKns8B8aHLeCgelAKZ4R8d8vLKXHWAqkAXx
+ AZ+b6/FTqkADQurU1nSuDpHldCnNE2TrVi90Cm23XXs5BaUo6JmfYn8hMbBK33dc
+ GMfl+4gLEgeNuV9d1Ll2+NJt0v0Tbxrp+uYB1tyFnzL29ZwlP1tefTCXsYht3tVb
+ jV7hxpeuGjUjBZARFwLHN+OfgusobZId/Ev7vpwyeu63ZNXkeC0Qz1MVKvUOwZVT
+ bvaPUJEGXvC03YcjC7oYYWTsNp5bYK912swXstrTWnQ9jbMCYwXb0eV5gQ6A4eru
+ PWtCJgg7qvQkDqZzCoE+g==
+X-ME-Sender: <xms:05TGY5AsS0yh9vlXYfukvT27fzZu6AVIO1JgS3b1e3VlWr7rQbH8sw>
+ <xme:05TGY3h1wUKD9nCZfnsE8GERaLFgqldQPU4ioGhoYZvsHJinVh--nmMeIwdPFL_my
+ OzfKxoTXpkm5z5gPI8>
+X-ME-Received: <xmr:05TGY0ks6Y2OEGNqP2pVHDtIP2heKtoO-jaNB-LZ509aCSJcdz45LLL1Oe1dOWXdYb5E2WrVl_wS2z1wR3P15VXtjLlLSQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtiedgfeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkgggtugesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnheptdejgfetjeeuvdekfeejgfeikeeutedvudehffekheejveelheehvdfgieduhefh
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:05TGYzzdQFB1z93f0raDPvPiMwfrH1Fg4b4sMH_v1cKTAMccjcpZRQ>
+ <xmx:05TGY-Te9anotcpnCmFYaPegBswVSEX4_nT-xf397X1EpDvPOgD9mw>
+ <xmx:05TGY2ZbB_dFcOYUfj0n5mXJZ9hZiPpxHdfTrO3IIV_WY9UM6voYjA>
+ <xmx:1JTGYxLUx_rghImrrA8Em-TK8zX74nIg2nwtNEi3tZYDNEd0ZBgYUg>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Jan 2023 07:30:10 -0500 (EST)
+Date: Tue, 17 Jan 2023 13:30:09 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: mips, nvme/pci boot regression (commit 145e2198d749)
+Message-ID: <Y8aU0fQRDm2hm+c9@cormorant.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="06fhMepuaEiy8/PI"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA9n8XSSJRAjGdnNRaZdOjAUCDFQy5NstdEYH642mNCEjA@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,63 +93,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 17, 2023 at 12:22:35PM +0000, Peter Maydell wrote:
-> On Tue, 17 Jan 2023 at 12:02, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Tue, Jan 17, 2023 at 11:16:32AM +0000, Peter Maydell wrote:
-> > > On Tue, 17 Jan 2023 at 10:44, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > > > Something random that looks like bad text data
-> > > >
-> > > > ▶ 166/619 /ptimer/oneshot policy=no_immediate_����������������������������������������������������������������...snip....�������������
-> > >
-> > > I don't understand this one. The string comes from
-> > > tests/unit/ptimer-test.c:add_ptimer_tests() but that
-> > > code creates the test string using g_strlcat() and
-> > > g_strdup_printf(), so I don't see how it could end
-> > > up being junk, especially not at that point in
-> > > the string. I guess it's possible something else in
-> > > the test is managing to corrupt the g_test test name
-> > > strings?
-> >
-> > Actually it looks like something else spewing ����������
-> > a to stderr, and this getting intermixed with stdout from the
-> > test suite.  The test case name isn't corrupt, as I see the
-> > remaining "reload,..." bit that jouins with 'policy=no_immediate_"
-> >
-> > Wonder what's responsible for this garbage on stderr...
-> 
-> Mmm.
-> 
-> Also I notice that we could save some output if we can
-> fix whatever it is that's producing out-of-spec TAP
-> format and causing this to be printed for every test:
-> 
-> Unknown TAP version. The first line MUST be `TAP version <int>`.
-> Assuming version 12.
 
-That's a meson bug caused by this misguided change
+--06fhMepuaEiy8/PI
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-  https://github.com/mesonbuild/meson/pull/11186
+Hi Philippe,
 
-and suggested to revert
+Commit 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using
+PCI_HOST_BRIDGE MemoryRegionOps") broke my mips64 nvme boot test
+(little-endian host, mips64 and nvme boot device).
 
-  https://github.com/mesonbuild/meson/pull/11242
+The pci device doesn't show up and the kernel panics.
 
-Though it seems the meson maintainer prefers their only patch:
+  qemu-system-mips64 \
+    -nodefaults -nographic -snapshot -no-reboot \
+    -M "malta" -cpu "I6400" -m 512M \
+    -nic user,model=pcnet \
+    -drive file=images/rootfs.ext2,format=raw,if=none,id=d0 \
+    -device nvme,serial=default,drive=d0 \
+    -kernel images/vmlinux \
+    -append "root=/dev/nvme0n1 console=ttyS0,115200" \
+    -serial stdio
 
-  https://github.com/eli-schwartz/meson/commit/f0928378d2246bcf8a81be35c44b1350a549d647
+--06fhMepuaEiy8/PI
+Content-Type: application/pgp-signature; name="signature.asc"
 
-but that's not submitted for merge that I've found.
+-----BEGIN PGP SIGNATURE-----
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPGlNAACgkQTeGvMW1P
+DelD1Qf9HSIIT+V7nxzJZWPJBWGe+b4Cc50YvRkPJWRY+D/UtAvg04ii3gvTczmx
+DSILuxo9LfHBgeqTvBibu8X1NsQXVby7gdUCqLQRHT/npMBwX6V0Vja7R6ftL0q9
+b9SkHqARpiX9SUZ/oJp+/vdukPJqdWOaokicVvnDJxGQqNyQNwiFD+qPHsJ2Mqds
+IkPned48wJQnVrndeLJkuep7GYTzxEiwNy826akHWtfSlraJRFVyp8te73QKcOMk
+YDrJ9Y58jyO4u1l2SugD2GVJ/J1WUc6GwDm//IA64y0sGvigdxN+x+YMU53+PTBP
+H/UjE6ti3JlvJGTGrxg3MnUuaUtXDg==
+=a9OT
+-----END PGP SIGNATURE-----
 
+--06fhMepuaEiy8/PI--
 
