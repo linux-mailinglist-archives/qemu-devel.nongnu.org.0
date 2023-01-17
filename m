@@ -2,64 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78E366E2BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 16:50:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E6B366E2DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 16:55:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHoEV-0006Bt-Ea; Tue, 17 Jan 2023 10:50:43 -0500
+	id 1pHoHu-00083H-6a; Tue, 17 Jan 2023 10:54:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pHoDp-00067y-9Y
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 10:50:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pHoDn-0008Gt-QT
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 10:50:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673970599;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bIp2eepe7m/1kKiXbDaP9yVF3B4FjmMTBRPfKCFhZ3M=;
- b=AnAm5ZjyBNCZ/iyGLP6KLjaxeQYu2l8BR/laf2r3/v5Ud7RNTksM4hMS1bieDphDlz1TH2
- sVXUsDI8NhZxrjjBQey4kuPRbQ0RP3a957AJu++thCzsOYI7iP4ynReIilTOT/QW4RosGq
- 7tF7JdQ1R020PZSOHyRTyZdgzmbSK84=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-231-mh9o3hmNOTSyGi88_TPvlw-1; Tue, 17 Jan 2023 10:49:57 -0500
-X-MC-Unique: mh9o3hmNOTSyGi88_TPvlw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4501C3815EFF;
- Tue, 17 Jan 2023 15:49:57 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.190])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A6B42166B26;
- Tue, 17 Jan 2023 15:49:56 +0000 (UTC)
-Date: Tue, 17 Jan 2023 16:49:55 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
-Subject: Re: [PATCH] block: remove bdrv_coroutine_enter
-Message-ID: <Y8bDo/xVgSsWEgiy@redhat.com>
-References: <20221215130225.476477-2-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
+ id 1pHoHs-00082u-6R; Tue, 17 Jan 2023 10:54:12 -0500
+Received: from linux.microsoft.com ([13.77.154.182])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <eiakovlev@linux.microsoft.com>)
+ id 1pHoHq-0000cz-JE; Tue, 17 Jan 2023 10:54:11 -0500
+Received: from [192.168.0.20] (unknown [77.64.253.186])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 69BED20DFE9A;
+ Tue, 17 Jan 2023 07:54:06 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 69BED20DFE9A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1673970847;
+ bh=iaogCjz4EChNGQHxe3+dtvz+b1SP29C1BnnwBTehryg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=CVz2oFzkaL5NaVPOSuF2ktsTucl0PjDSQNcfibOXf1haE2SNd1wIc5JygtaS0V5hK
+ dI67YciXx0h13hPPzKPQTpe1+tWVAdMPIAk1z/e2lqDN1kZL2GtvC4hZgujP4jM4Qk
+ I8c2YRg9joSptXWa6QoKo04NswKqVREunhm7Pktc=
+Message-ID: <f5af2eee-e04e-fadd-8bad-b9ec4a2a1998@linux.microsoft.com>
+Date: Tue, 17 Jan 2023 16:54:06 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221215130225.476477-2-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 1/2] hw/char/pl011: better handling of FIFO flags on LCR
+ reset
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com
+References: <20230106172851.2430-1-eiakovlev@linux.microsoft.com>
+ <20230106172851.2430-2-eiakovlev@linux.microsoft.com>
+ <CAFEAcA-VkWjSO84dCmoeKaO0PEFydi7Bj2gXhBYDatGpuCuc_w@mail.gmail.com>
+From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+In-Reply-To: <CAFEAcA-VkWjSO84dCmoeKaO0PEFydi7Bj2gXhBYDatGpuCuc_w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=13.77.154.182;
+ envelope-from=eiakovlev@linux.microsoft.com; helo=linux.microsoft.com
+X-Spam_score_int: -198
+X-Spam_score: -19.9
+X-Spam_bar: -------------------
+X-Spam_report: (-19.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,13 +70,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 15.12.2022 um 14:02 hat Paolo Bonzini geschrieben:
-> It has only one caller---inline it and remove the function.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Thanks, applied to the block branch.
+On 1/17/2023 16:24, Peter Maydell wrote:
+> On Fri, 6 Jan 2023 at 17:28, Evgeny Iakovlev
+> <eiakovlev@linux.microsoft.com> wrote:
+>> Current FIFO handling code does not reset RXFE/RXFF flags when guest
+>> resets FIFO by writing to UARTLCR register, although internal FIFO state
+>> is reset to 0 read count. Actual flag update will happen only on next
+>> read or write to UART. As a result of that any guest that expects RXFE
+>> flag to be set (and RXFF to be cleared) after resetting FIFO will just
+>> hang.
+>>
+>> Correctly reset FIFO flags on FIFO reset. Also, clean up some FIFO
+>> depth handling code based on current FIFO mode.
+> This patch is doing multiple things at once ("also" in a
+> commit message is often a sign of that) and I think it
+> would be helpful to split it. There are three things here:
+>   * refactorings which aren't making any real code change
+>     (eg calling pl011_get_fifo_depth() instead of doing the
+>     "if LCR bit set then 16 else 1" inline)
 
-Kevin
 
+Yeah, tbh i also though i should do it..
+
+
+>   * the fix to the actual bug
+>   * changes to the handling of the FIFO which should in theory
+>     not be visible to the guest (I think it now when the FIFO
+>     is disabled always puts the incoming character in read_fifo[0],
+>     whereas previously it would allow read_pos to increment all
+>     the way around the FIFO even though we only keep one character
+>     at a time).
+
+
+That last part i don't understand. If by changes to the FIFO you are 
+referring to the flags handling, then it will be visible to the guest by 
+design, since that's what I'm fixing. Could you maybe explain that one 
+again? :)
+
+
+>
+> Type 3 in particular is tricky and could use a commit message
+> explaining what it's doing.
+>
+> I think the actual code changes are OK, but the FIFO handling
+> change is a bit complicated and at first I thought it had
+> introduced a bug.
+>
+> thanks
+> -- PMM
 
