@@ -2,105 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0F366E71B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 20:37:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C6A66E71D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 20:38:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHrkh-0005F8-VU; Tue, 17 Jan 2023 14:36:11 -0500
+	id 1pHrmL-0006Vc-0C; Tue, 17 Jan 2023 14:37:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pHrkf-0005Eu-Ik
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 14:36:09 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pHrmJ-0006VE-58
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 14:37:51 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pHrka-0000Np-88
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 14:36:09 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- z9-20020a17090a468900b00226b6e7aeeaso35081140pjf.1
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 11:36:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/Y/+6b+/J99MLnqP/RvN51sj3DHWazl0lw52Vf0WKHU=;
- b=mO/P06835gXK/fd1eBgp4cGBD2kC3K+6imr5T+2jtDjdUBhDC2ZA6VrIPZfU/f9xjC
- IEFaPiulMS/0ZqDbxbtw2cJsM7Tc3tGTV1WEaKwKEM7/onV7W8gwNEZgbjFg1D9VPFPt
- zOrBnI+uh6uL/yAkjlKRTpwIo5mbtRcjK3EEpUEcbJ7VVRL/gSQAf4SQnwHxKqHb/sTQ
- MXdsYhc4zLlGvKOCRi98eQbAPaNpu9G8SHim8g88Gvn8/JWvst4ReoqQ54dQnmQu9Cx8
- q4mO4VJKRFbwHLXOegE1kYwL9GcvTKshaR6/+a9qCY329OuOlMsj+GHmm1PrfY3+znUl
- l0+g==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pHrmH-0000Tx-GB
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 14:37:50 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id 20so18960139pfu.13
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 11:37:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eh5fgoocbdbY9QY3UdCKSmuuIr/thlgxwnXp5dQZBHA=;
+ b=dPyGE1COVGOI2KxD4ZLRpUmZW5v859qkiMT9GvN9GjTLLr2HXvcvIzdCz+65WF/+hc
+ GwKOx2pfkRRPRPFbo1NhDhnPtvwv8c57ySRFvlbSLtCmAcGyV8cK2uIv1akauf2ioUQb
+ B5dC6Gwlk8iBjl3QS7sP3NdrFnJTR/ZvyBuXEf0vQN4TGZME4HMFDh5W05eFPRL5gya7
+ JNZUzS2z8spJybYAQhNsqiqcSfhEl/3LGQ7XGkHbGxBFS5LY46e9W5IyZifzJ+Ipx5Dc
+ 7Kke/y2GOvvihori32lT7k7XBMlVabnhfOz42NjRhB7YB0LGgLN+KN4La6AHIDYgrF91
+ OA1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/Y/+6b+/J99MLnqP/RvN51sj3DHWazl0lw52Vf0WKHU=;
- b=M2HfItSgsSQVHqZlEIQgac0W52vWhJ6CsqHEyabkc6//OFqGZvcFlhMVOCc1PV/lPi
- Xz/Mq7jF50WlYGRVAmAd8J3ku00KGbrSMvcnMEOMGY3MNDsFQPZxWCEhhucyYSzJd506
- 9mt13c5O66OTgM5Sbu8MLphst4BcyyJvNjqaJ3sCmDviwr9VeuZr3HsWnlnBEYRZT1dj
- nyWQIWoyzoHACqUrusSKCS8mI0YPGeHVPMS9hzx5O1VS2/u4MzFZSHdAPJRWR3NMQuYL
- xsMMBeNsFURJzRNx+GPLv7Gzaq3hFB7LhRqrO3RkoxYz0DBxy460RM3LnYZiNad7Ph3T
- 0czg==
-X-Gm-Message-State: AFqh2kqXPPSz8kRkUm3La5I+wGov6sjXKdsxnKKjkS+xzqVBpPC24AJt
- 5GAp8qYm8Cde0gFBVTruz+OuIQ==
-X-Google-Smtp-Source: AMrXdXu1hk8ysrAGJplB4OjNB7xeVQaqK5fZ7KwLIxI5L/arUaD+5uicI01yTWHuGz/H+vtFbMLBdw==
-X-Received: by 2002:a05:6a20:93a4:b0:b8:e33c:f160 with SMTP id
- x36-20020a056a2093a400b000b8e33cf160mr178599pzh.0.1673984162308; 
- Tue, 17 Jan 2023 11:36:02 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- t1-20020a63d241000000b004c974bb9a4esm5296842pgi.83.2023.01.17.11.36.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 11:36:01 -0800 (PST)
-Date: Tue, 17 Jan 2023 19:35:58 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-Message-ID: <Y8b4nsMJm+4Hr/e0@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
- <Y8HwvTik/2avrCOU@google.com>
- <20230117131251.GC273037@chaop.bj.intel.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eh5fgoocbdbY9QY3UdCKSmuuIr/thlgxwnXp5dQZBHA=;
+ b=ItEBMM810qw6m8cRKgz950jMefqDpbhhmD4nvcSsknI3baVnx5iK/uMM1JCx8IHbwT
+ vEDiSFJZa9RKzBs19jW26nI11j97CCygJX+CBgKCrmVo5PivGlGcYe9K2oqj8nEoepiG
+ LMxkcQqr11NmtngG8eN0vjUCcrVjhfzRWktHVzgPNMlAfx76yXC585sfWnMSmcmzCG7W
+ QjA7GOSBdU5am/jYYnQC7mUR2LEvo/hdAcam8MPZj4oCMKcoPzL2oGhIllPzN9MNKoKn
+ 7er+cNk7bkNoQM6ycsgxEljgnx/CYCcKA+vfBpKfRaL6dtJLnjRGoEXbBtGtK74t7VHY
+ bC3w==
+X-Gm-Message-State: AFqh2kr4CrSsWkEZI65/D3hLbHqe0NKRyq0CuQuYrjjvcqerhPyaHPTJ
+ ITwNercMxSOHlN+HpGbw9lFSxQ==
+X-Google-Smtp-Source: AMrXdXurGCNa2kIZ/S8QBvJlh8tXJdzBhwqU28rWYvwv+xXz++U+mQeB6H6I0y/IAho5jjXl+xswoA==
+X-Received: by 2002:a05:6a00:705:b0:58b:ca40:cd03 with SMTP id
+ 5-20020a056a00070500b0058bca40cd03mr4808468pfl.15.1673984267715; 
+ Tue, 17 Jan 2023 11:37:47 -0800 (PST)
+Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ o189-20020a62cdc6000000b0058baa6586f3sm9512207pfg.135.2023.01.17.11.37.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Jan 2023 11:37:47 -0800 (PST)
+Message-ID: <b92e6786-acc6-50ef-8804-e4e3ef4eb2d6@linaro.org>
+Date: Tue, 17 Jan 2023 09:37:42 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230117131251.GC273037@chaop.bj.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=seanjc@google.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4 1/2] arm/kvm: add support for MTE
+Content-Language: en-US
+To: Cornelia Huck <cohuck@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org,
+ Eric Auger <eauger@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Gavin Shan <gshan@redhat.com>
+References: <20230111161317.52250-1-cohuck@redhat.com>
+ <20230111161317.52250-2-cohuck@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230111161317.52250-2-cohuck@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,187 +98,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 17, 2023, Chao Peng wrote:
-> On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
-> > On Fri, Dec 02, 2022, Chao Peng wrote:
-> > > @@ -10357,6 +10364,12 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
-> > >  
-> > >  		if (kvm_check_request(KVM_REQ_UPDATE_CPU_DIRTY_LOGGING, vcpu))
-> > >  			static_call(kvm_x86_update_cpu_dirty_logging)(vcpu);
-> > > +
-> > > +		if (kvm_check_request(KVM_REQ_MEMORY_MCE, vcpu)) {
-> > > +			vcpu->run->exit_reason = KVM_EXIT_SHUTDOWN;
-> > 
-> > Synthesizing triple fault shutdown is not the right approach.  Even with TDX's
-> > MCE "architecture" (heavy sarcasm), it's possible that host userspace and the
-> > guest have a paravirt interface for handling memory errors without killing the
-> > host.
-> 
-> Agree shutdown is not the correct choice. I see you made below change:
-> 
-> send_sig_mceerr(BUS_MCEERR_AR, (void __user *)hva, PAGE_SHIFT, current)
-> 
-> The MCE may happen in any thread than KVM thread, sending siginal to
-> 'current' thread may not be the expected behavior.
+On 1/11/23 06:13, Cornelia Huck wrote:
+> @@ -2136,7 +2136,7 @@ static void machvirt_init(MachineState *machine)
+>   
+>       if (vms->mte && (kvm_enabled() || hvf_enabled())) {
+>           error_report("mach-virt: %s does not support providing "
+> -                     "MTE to the guest CPU",
+> +                     "emulated MTE to the guest CPU",
+>                        kvm_enabled() ? "KVM" : "HVF");
 
-This is already true today, e.g. a #MC in memory that is mapped into the guest can
-be triggered by a host access.  Hrm, but in this case we actually have a KVM
-instance, and we know that the #MC is relevant to the KVM instance, so I agree
-that signaling 'current' is kludgy.
+Not your bug, but noticing this should use current_accel_name().
 
->  Also how userspace can tell is the MCE on the shared page or private page?
->  Do we care?
+> +static inline bool arm_machine_has_tag_memory(void)
+> +{
+> +#ifndef CONFIG_USER_ONLY
+> +    Object *obj = object_dynamic_cast(qdev_get_machine(), TYPE_VIRT_MACHINE);
+> +
+> +    /* so far, only the virt machine has support for tag memory */
+> +    if (obj) {
+> +        VirtMachineState *vms = VIRT_MACHINE(obj);
+> +
+> +        return vms->mte;
+> +    }
+> +#endif
+> +    return false;
+> +}
 
-We care.  I was originally thinking we could require userspace to keep track of
-things, but that's quite prescriptive and flawed, e.g. could race with conversions.
+True for CONFIG_USER_ONLY, via page_get_target_data().
+You should have seen check-tcg test failures...
 
-One option would be to KVM_EXIT_MEMORY_FAULT, and then wire up a generic (not x86
-specific) KVM request to exit to userspace, e.g.
+> +void arm_cpu_mte_finalize(ARMCPU *cpu, Error **errp)
+> +{
+> +    bool enable_mte;
+> +
+> +    switch (cpu->prop_mte) {
+> +    case ON_OFF_AUTO_OFF:
+> +        enable_mte = false;
+> +        break;
+> +    case ON_OFF_AUTO_ON:
+> +        if (!kvm_enabled()) {
 
-		/* KVM_EXIT_MEMORY_FAULT */
-		struct {
-#define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1ULL << 3)
-#define KVM_MEMORY_EXIT_FLAG_HW_ERROR	(1ULL << 4)
-			__u64 flags;
-			__u64 gpa;
-			__u64 size;
-		} memory;
+tcg_enabled(), here and everywhere else you test for !kvm.
 
-But I'm not sure that's the correct approach.  It kinda feels like we're reinventing
-the wheel.  It seems like restrictedmem_get_page() _must_ be able to reject attempts
-to get a poisoned page, i.e. restrictedmem_get_page() should yield KVM_PFN_ERR_HWPOISON.
-Assuming that's the case, then I believe KVM simply needs to zap SPTEs in response
-to an error notification in order to force vCPUs to fault on the poisoned page.
+> +#ifdef CONFIG_KVM
+> +        if (kvm_enabled() && !kvm_arm_mte_supported()) {
 
-> > > +		return -EINVAL;
-> > >  	if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
-> > >  		return -EINVAL;
-> > >  	if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
-> > > @@ -2020,6 +2154,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> > >  		if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
-> > >  			return -EINVAL;
-> > >  	} else { /* Modify an existing slot. */
-> > > +		/* Private memslots are immutable, they can only be deleted. */
-> > 
-> > I'm 99% certain I suggested this, but if we're going to make these memslots
-> > immutable, then we should straight up disallow dirty logging, otherwise we'll
-> > end up with a bizarre uAPI.
-> 
-> But in my mind dirty logging will be needed in the very short time, when
-> live migration gets supported?
+kvm_arm.h should get a stub inline returning false, so that the ifdef is removed.
+See e.g. kvm_arm_sve_supported().
 
-Ya, but if/when live migration support is added, private memslots will no longer
-be immutable as userspace will want to enable dirty logging only when a VM is
-being migrated, i.e. something will need to change.
+> +    default: /* AUTO */
+> +        if (!kvm_enabled()) {
 
-Given that it looks like we have clear line of sight to SEV+UPM guests, my
-preference would be to allow toggling dirty logging from the get-go.  It doesn't
-necessarily have to be in the first patch, e.g. KVM could initially reject
-KVM_MEM_LOG_DIRTY_PAGES + KVM_MEM_PRIVATE and then add support separately to make
-the series easier to review, test, and bisect.
+tcg_enabled.
 
-static int check_memory_region_flags(struct kvm *kvm,
-				     const struct kvm_userspace_memory_region2 *mem)
+> +    /* accelerator-specific enablement */
+> +    if (kvm_enabled()) {
+> +#ifdef CONFIG_KVM
+> +        if (kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_MTE, 0)) {
+> +            error_setg(errp, "Failed to enable KVM_CAP_ARM_MTE");
+
+Ideally this ifdef could go away as well.
+
+> +        } else {
+> +            /* TODO: add proper migration support with MTE enabled */
+> +            if (!mte_migration_blocker) {
+
+Move the global variable here, as a local static?
+
+I guess this check is to avoid adding one blocker per cpu?
+I would guess the cap doesn't need enabling more than once either?
+
+
+> +                error_setg(&mte_migration_blocker,
+> +                           "Live migration disabled due to MTE enabled");
+> +                if (migrate_add_blocker(mte_migration_blocker, NULL)) {
+
+You pass NULL to the migrate_add_blocker errp argument...
+
+> +                    error_setg(errp, "Failed to add MTE migration blocker");
+
+... then make up your own generic reason for why it failed.
+In this case it seems only related to another command-line option: --only-migratable.
+
+
+Anyway, I wonder about hiding all of this in target/arm/kvm.c:
+
+bool kvm_arm_enable_mte(Error *errp)
 {
-	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
+     static bool once = false;
+     Error *blocker;
 
-	if (kvm_arch_has_private_mem(kvm) &&
-	    ~(mem->flags & KVM_MEM_LOG_DIRTY_PAGES))
-		valid_flags |= KVM_MEM_PRIVATE;
+     if (once) {
+         return;
+     }
+     once = true;
 
+     if (kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_MTE, 0)) {
+         error_setg_errno(errp, "Failed to enable KVM_CAP_ARM_MTE");
+         return false;
+     }
 
-	...
+     blocker = g_new0(Error);
+     error_setg(blocker, "Live migration disabled....");
+     return !migrate_add_blocker(blocker, errp);
 }
 
-> > > +		if (mem->flags & KVM_MEM_PRIVATE)
-> > > +			return -EINVAL;
-> > >  		if ((mem->userspace_addr != old->userspace_addr) ||
-> > >  		    (npages != old->npages) ||
-> > >  		    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-> > > @@ -2048,10 +2185,28 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> > >  	new->npages = npages;
-> > >  	new->flags = mem->flags;
-> > >  	new->userspace_addr = mem->userspace_addr;
-> > > +	if (mem->flags & KVM_MEM_PRIVATE) {
-> > > +		new->restricted_file = fget(mem->restricted_fd);
-> > > +		if (!new->restricted_file ||
-> > > +		    !file_is_restrictedmem(new->restricted_file)) {
-> > > +			r = -EINVAL;
-> > > +			goto out;
-> > > +		}
-> > > +		new->restricted_offset = mem->restricted_offset;
-> 
-> I see you changed slot->restricted_offset type from loff_t to gfn_t and
-> used pgoff_t when doing the restrictedmem_bind/unbind(). Using page
-> index is reasonable KVM internally and sounds simpler than loff_t. But
-> we also need initialize it to page index here as well as changes in
-> another two cases. This is needed when restricted_offset != 0.
+with
 
-Oof.  I'm pretty sure I completely missed that loff_t is used for byte offsets,
-whereas pgoff_t is a frame index. 
+static inline bool kvm_arm_enable_mte(Error *errp)
+{
+     g_assert_not_reached();
+}
 
-Given that the restrictmem APIs take pgoff_t, I definitely think it makes sense
-to the index, but I'm very tempted to store pgoff_t instead of gfn_t, and name
-the field "index" to help connect the dots to the rest of kernel, where "pgoff_t index"
-is quite common.
+in the !CONFIG_KVM block in kvm_arm.h.
 
-And looking at those bits again, we should wrap all of the restrictedmem fields
-with CONFIG_KVM_PRIVATE_MEM.  It'll require minor tweaks to __kvm_set_memory_region(),
-but I think will yield cleaner code (and internal APIs) overall.
 
-And wrap the three fields in an anonymous struct?  E.g. this is a little more
-versbose (restrictedmem instead restricted), but at first glance it doesn't seem
-to cause widespared line length issues.
-
-#ifdef CONFIG_KVM_PRIVATE_MEM
-	struct {
-		struct file *file;
-		pgoff_t index;
-		struct restrictedmem_notifier notifier;
-	} restrictedmem;
-#endif
-
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 547b92215002..49e375e78f30 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -2364,8 +2364,7 @@ static inline int kvm_restricted_mem_get_pfn(struct kvm_memory_slot *slot,
->                                              gfn_t gfn, kvm_pfn_t *pfn,
->                                              int *order)
->  {
-> -       pgoff_t index = gfn - slot->base_gfn +
-> -                       (slot->restricted_offset >> PAGE_SHIFT);
-> +       pgoff_t index = gfn - slot->base_gfn + slot->restricted_offset;
->         struct page *page;
->         int ret;
->  
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 01db35ddd5b3..7439bdcb0d04 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -935,7 +935,7 @@ static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
->                                          pgoff_t start, pgoff_t end,
->                                          gfn_t *gfn_start, gfn_t *gfn_end)
->  {
-> -       unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
-> +       unsigned long base_pgoff = slot->restricted_offset;
->  
->         if (start > base_pgoff)
->                 *gfn_start = slot->base_gfn + start - base_pgoff;
-> @@ -2275,7 +2275,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
->                         r = -EINVAL;
->                         goto out;
->                 }
-> -               new->restricted_offset = mem->restricted_offset;
-> +               new->restricted_offset = mem->restricted_offset >> PAGE_SHIFT;
->         }
->  
->         r = kvm_set_memslot(kvm, old, new, change);
-> 
-> Chao
-> > > +	}
-> > > +
-> > > +	new->kvm = kvm;
-> > 
-> > Set this above, just so that the code flows better.
 
