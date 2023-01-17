@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB9166E5D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 19:18:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8B266E5E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 19:22:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHqXE-0006NY-SO; Tue, 17 Jan 2023 13:18:12 -0500
+	id 1pHqaa-0008CB-BP; Tue, 17 Jan 2023 13:21:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1pHqXC-0006Ka-59
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:18:10 -0500
-Received: from mailgw.felk.cvut.cz ([147.32.82.15])
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1pHqaY-00088u-US
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:21:38 -0500
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1pHqX5-0004lC-80
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:18:09 -0500
-Received: from mailgw.felk.cvut.cz (localhost.localdomain [127.0.0.1])
- by mailgw.felk.cvut.cz (Proxmox) with ESMTP id 0EBC130B294A;
- Tue, 17 Jan 2023 19:16:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- cmp.felk.cvut.cz; h=cc:cc:content-transfer-encoding:content-type
- :content-type:date:from:from:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=felkmail; bh=uMVsz
- h5AYXnqM9o7/FsUn0z3ok2gP3xmiLpZqZ+g42g=; b=KjRBqlHxdSOFeO6FeQHjc
- T8TBRu09Xvd9sg7H2hMX16vFtDuwgN3Q4KTHO33iRAE/S8jMd96ZjLeTE6+jLTJz
- P1tiBAY2LWKpRyumnDht9hF0kt0InEC4QbjlQNOa5YLm3BAMybf8IpPEyQ1hMOXK
- 4aJj9rptzgMRm+LE30ZK20Z/VTywW5049ad8T308DyWT88x5ChsELAeILVrX9R14
- KmH4yHLTBOdOHGJ/r2tktgWq7cNVfe/w/kqjHkmyjPbqmwSPZacUbbaLACAwGl35
- RSEmBNR04WCobX4J/hkWgdxPfyX1fY9zgMABf8JoupKArv44SxBT45EX6qk78GOC
- Q==
-Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
- by mailgw.felk.cvut.cz (Proxmox) with ESMTPS id D9EA330B2948;
- Tue, 17 Jan 2023 19:16:53 +0100 (CET)
-Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
- by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
- 30HIGrZv012322; Tue, 17 Jan 2023 19:16:53 +0100
-Received: (from pisa@localhost)
- by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 30HIGrDt012321;
- Tue, 17 Jan 2023 19:16:53 +0100
-X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
- pisa@cmp.felk.cvut.cz using -f
-From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-To: Ben Dooks <ben.dooks@codethink.co.uk>
-Subject: Re: [PATCH] hw/net/can: Add mcp25625 model
-Date: Tue, 17 Jan 2023 19:16:35 +0100
-User-Agent: KMail/1.9.10
-Cc: jasowang@redhat.com, fnu.vikram@xilinx.com, qemu-devel@nongnu.org,
- Nazar Kazakov <nazar.kazakov@codethink.co.uk>,
- Lawrence Hunter <lawrence.hunter@codethink.co.uk>,
- Frank Chang <frank.chang@sifive.com>
-References: <20230104122220.110412-1-ben.dooks@codethink.co.uk>
- <c29fe486-d510-2c0e-ed38-9f05c0f4679f@codethink.co.uk>
-In-Reply-To: <c29fe486-d510-2c0e-ed38-9f05c0f4679f@codethink.co.uk>
-X-KMail-QuotePrefix: > 
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1pHqaV-0005cz-3o
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:21:38 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.93])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 73BB515548E59;
+ Tue, 17 Jan 2023 19:21:30 +0100 (CET)
+Received: from kaod.org (37.59.142.108) by DAG8EX2.mxp5.local (172.16.2.72)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 17 Jan
+ 2023 19:21:29 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-108S00227be0921-ef58-407c-9c0d-fefda94cdce0,
+ 4D498C20080C041E8B88553C14708E9A482B44DB) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Tue, 17 Jan 2023 19:21:28 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Maxime Coquelin <maxime.coquelin@redhat.com>
+CC: Yajun Wu <yajunw@nvidia.com>, Laurent Vivier <lvivier@redhat.com>, Stefan
+ Hajnoczi <stefanha@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>, "Parav
+ Pandit" <parav@nvidia.com>, "Michael S. Tsirkin" <mst@redhat.com>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PULL v4 76/83] vhost-user: Support vhost_dev_start
+Message-ID: <20230117192128.74c54280@bahia>
+In-Reply-To: <20230117185524.61d5af43@bahia>
+References: <20221107224600.934080-1-mst@redhat.com>
+ <20221107224600.934080-77-mst@redhat.com>
+ <43145ede-89dc-280e-b953-6a2b436de395@redhat.com>
+ <20230109054633-mutt-send-email-mst@kernel.org>
+ <c0acea1d-7bae-120e-9422-82b0a5c432cf@redhat.com>
+ <31f87c1d-9cce-6507-8e90-4d7942d7dc54@redhat.com>
+ <DM4PR12MB51687AF2EAEC37929A7D3C4AB6C19@DM4PR12MB5168.namprd12.prod.outlook.com>
+ <1cb334f0-d495-45f8-564e-4093746850d6@redhat.com>
+ <20230117131257.231473d4@bahia> <20230117133645.78c5d8a8@bahia>
+ <df4a0bb0-a43b-8729-8eae-b651112b36f2@redhat.com>
+ <20230117185524.61d5af43@bahia>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: Text/Plain;
-  charset="utf-8"
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-Message-Id: <202301171916.35965.pisa@cmp.felk.cvut.cz>
-Received-SPF: none client-ip=147.32.82.15; envelope-from=pisa@cmp.felk.cvut.cz;
- helo=mailgw.felk.cvut.cz
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, NICE_REPLY_A=-0.097, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.108]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX2.mxp5.local
+ (172.16.2.72)
+X-Ovh-Tracer-GUID: e77a8823-ff62-4991-868a-d360eaa3932a
+X-Ovh-Tracer-Id: 16657126172554860847
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddtiedgudduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefjefhjedtvdeuledtieeljefgffdufffhtdefgeehhfeuveeigfetfedtieffgfenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoghhrohhugheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehmrgigihhmvgdrtghoqhhuvghlihhnsehrvgguhhgrthdrtghomhdphigrjhhunhifsehnvhhiughirgdrtghomhdplhhvihhvihgvrhesrhgvughhrghtrdgtohhmpdhsthgvfhgrnhhhrgesrhgvughhrghtrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpphgrrhgrvhesnhhvihguihgrrdgtohhmpdhmshhtsehrvgguhhgrthdrtghomhdpug
+ hgihhlsggvrhhtsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,140 +84,321 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Dear Ben,
+On Tue, 17 Jan 2023 18:55:24 +0100
+Greg Kurz <groug@kaod.org> wrote:
 
-sorry for longer response times...
+> On Tue, 17 Jan 2023 16:07:00 +0100
+> Maxime Coquelin <maxime.coquelin@redhat.com> wrote:
+> 
+> > 
+> > 
+> > On 1/17/23 13:36, Greg Kurz wrote:
+> > > On Tue, 17 Jan 2023 13:12:57 +0100
+> > > Greg Kurz <groug@kaod.org> wrote:
+> > > 
+> > >> Hi Maxime,
+> > >>
+> > >> On Tue, 17 Jan 2023 10:49:37 +0100
+> > >> Maxime Coquelin <maxime.coquelin@redhat.com> wrote:
+> > >>
+> > >>> Hi Yajun,
+> > >>>
+> > >>> On 1/16/23 08:14, Yajun Wu wrote:
+> > >>>> Not quite sure about the whole picture.
+> > >>>>
+> > >>>> Seems while qemu waiting response of vhost_user_get_status, dpdk send out VHOST_USER_SLAVE_IOTLB_MSG and trigger qemu function vhost_backend_update_device_iotlb.
+> > >>>> Qemu wait on reply of VHOST_USER_IOTLB_MSG but get VHOST_USER_GET_STATUS reply.
+> > >>>
+> > >>> Thanks for the backtrace, that helps a lot.
+> > >>>
+> > >>> The issue happens because:
+> > >>>    1. Introduction of nested event loop in vhost_user_read() [0] features
+> > >>> that enables handling slave channel request while waiting for reply on
+> > >>> the masyer channel.
+> > >>>    2. Slave VHOST_USER_SLAVE_IOTLB_MSG slave request handling ends-up
+> > >>> sending a VHOST_USER_IOTLB_MSG on the master channel.
+> > >>>
+> > >>> So while waiting for VHOST_USER_IOTLB_MSG reply, it receives the reply
+> > >>> for the first request sent on the master channel, here the
+> > >>> VHOST_USER_GET_STATUS reply.
+> > >>>
+> > >>> I don't see an easy way to fix it.
+> > >>>
+> > >>> One option would be to have the slave channel being handled by another
+> > >>> thread, and protect master channel with a lock to enforce the
+> > >>> synchronization. But this may induce other issues, so that's not a light
+> > >>> change.
+> > >>>
+> > >>
+> > >> This is going to be tough because the back-end might have set the
+> > >> VHOST_USER_NEED_REPLY_MASK flag on the VHOST_USER_SLAVE_IOTLB_MSG
+> > >> request and thus might be waiting for a response on the slave
+> > >> channel. In order to emit such a response, the front-end must
+> > >> send VHOST_USER_SLAVE_IOTLB_MSG updates on the master channel *first*
+> > >> according to the protocol specification. This means that we really
+> > >> cannot handle VHOST_USER_SLAVE_IOTLB_MSG requests while there's
+> > >> an on-going transaction on the master channel.
+> > 
+> > Since the slave channel would be handled on another thread, it means the
+> > on-going transaction on the master channel can continue. Once done, it
+> > will release the mutex, and the thread handling the slave channel can
+> > take it send the IOTLB update on the master channel.
+> > 
+> > That would work with DPDK, which does not request reply-ack on IOTLB
+> > misses.
+> > 
+> 
+> Not sure to catch what would happen if DPDK requested a reply-ack with
+> this scenario.
+> 
+> > For the DAX enablement case, my understanding is that the handling of
+> > the slave requests by QEMU does not induce sending requests on the
+> > master channel, so if I'm not mistaken, it should work too. The thread
+> > handling the slave requests can send the reply on the slave channel,
+> > while the thread handling the master channel is blocked waiting for the
+> > GET_VRING_BASE reply. Is that correct?
+> > 
+> 
+> Yes this is correct AFAICT. Dropping the nested loop (commit db8a3772e3
+> reverts like a charm) and having the slave channel serviced by its own
+> thread seems to be the way to go then.
+> 
 
-On Tuesday 17 of January 2023 14:32:29 Ben Dooks wrote:
-> On 04/01/2023 12:22, Ben Dooks wrote:
-> > From: Ben Dooks <ben.dooks@sifive.com>
-> >
-> > Add support for Microchip MCP25625 SPI based CAN controller which is
-> > very similar to the MCP2515 (and covered by the same Linux driver).
-...
-> Has anyone had chance to review this, it would be great to get
-> this moving along.
+Commit a7f523c7d114d needs to be reverted as well. There are some conflicts
+because of commit 025faa872bcf9 but they seem trivial to fix.
 
-Generally, I am happy that you consider use and extend our work.
-
-I have looked at the code. But even that implementation of CAN
-subsystem in QEMU was my idea and I led studnets working on
-it and sometimes heavily rewritten code to be acceptable,
-I am not QEMU expert and I have not studied its SSI subsystem
-so for comment from QEMU code requiremts I would be happy
-for some other to step in. 
-
-I would like to test the peripheral. Please, can you try to elaborate
-and prepare description how to config QEMU for RPi emulation with
-mcp2515 overlay?
-
-  https://github.com/raspberrypi/linux/blob/rpi-6.1.y/arch/arm/boot/dts/overlays/mcp2515-can0-overlay.dts
-
-I have RPi images and I have experience with this hardware.
-Even that I consider mcp2515 as really unfortunate solution
-and we have spent lot of time to help colleagues to enhance a little
-latencies of this solution when they chose that HW for serious
-wok instead of some NXP, TI, Xilinx or other sane SoC with CAN.
-
-  https://dspace.cvut.cz/bitstream/handle/10467/68605/F3-DP-2017-Prudek-Martin-Dp_2017_prudek_martin.pdf
-
-But yes, people are using this chip a lot so it would worth to have
-emulation in QEMU. If the SPI connection is required then mcp251xfd
-seems to have chance for lower SPI transfer count overhead nd performance.
-But real SoC bus connected controllers are much better for serious
-project, if you design chip there are more cores available M-CAN,
-GRCAN and even our own CTU CAN FD which has already emulation in QEMU.
-
-Back to MCP25x1x. I have gone through code and try to understand
-the function. There is lot of connected to the locations in the
-registers maps in the chip
-
->   s->ssi_addr = 0x31;
-
-I have took manual but I think that it would help to add there comments
-with registers names or even use defines for these. But may it be,
-that for the easy ampping in the table and increment logic numbers
-are reasonable option... But comments with register symbolic names
-would help.
-
-The code does define only single property ("canbus") to select CAN
-bus to connect controller to. Mapping to the SPI peripheral is
-provided by device tree on QEMU side or by some other machine specific
-glue code? Please, can you provide more information for intended
-target use and RPi option to use for testing?
-
-As for the code, I have read it the first time and for full check
-I would need to spent more time with it. But I expect that
-functionality check with the respect to mcp25x1x datasheet has been
-done mainly by you so the full check bit by bit is not necessary.
-If there is some omitted case it would be (hopefully) found during
-code use. As for generic code style and redability, I see no problem.
-I expect that you have checked for QEMU style and if there has been
-some problem you have propably received QEMU CI and static analysis
-feedback.
-
-> +static void mcp25625_rx_into_buf(MCP25625State *s,
-> +                                 const qemu_can_frame *frame,
-> +                                 unsigned buffnr, int filthit)
-> +{
-> +    struct rxbuff *rxbuff = &s->rxbuffs[buffnr];
-> +    qemu_canid_t e_id, sidl, id, q_id = frame->can_id;
-> +    unsigned len = frame->can_dlc;
-> +
-
-I would suggest to check for can_dlc > 8 in this function or in
-its caller (mcp25625_can_receive), to ensure that QEMU cannot be
-attacked by some malformed CAN message from the host kernel
-or other VM...
-
-> +static ssize_t mcp25625_can_receive(CanBusClientState *client,
-> +                                    const qemu_can_frame *buf,
-> +                                    size_t frames_cnt)
-> +{
-> +    MCP25625State *s = client_to_mcp(client);
-> +    int ret;
-> +
-> +    /* support receiving only one frame at a time */
-> +    if (frames_cnt != 1) {
-> +        return -1;
-> +    }
-> +
-> +    /* we don't support error frames or buf->flags */
-> +    if (buf->can_id & QEMU_CAN_ERR_FLAG || buf->flags != 0) {
-> +        return -1;
-> +    }
-
-I see as next step that you provide description/patch etc
-for some target that I can test the code with CAN tools on my
-side. I would prefer connection to some ARM Cortex-A target
-where I have some images t run ready. RISC-V is really interesting
-for me too, so if there is some option to run something
-small, I can try that too. I prefer minimal setup with
-self compilled bysybox in initramfs and the mapping of some
-development directories through virtfs into system.
-
-If you plan to visit FOSDEM 2023, we can meet there in person
-at RISC-V devroom and I want to take tour for automotive and other
-areas. Another chance is Embedded World where we plan to show
-CAN latency tester demo with CTU CAN FD and some MCUs... 
-
-Best wishes,
-
-                Pavel
--- 
-                Pavel Pisa
-    phone:      +420 603531357
-    e-mail:     pisa@cmp.felk.cvut.cz
-    Department of Control Engineering FEE CVUT
-    Karlovo namesti 13, 121 35, Prague 2
-    university: http://control.fel.cvut.cz/
-    personal:   http://cmp.felk.cvut.cz/~pisa
-    projects:   https://www.openhub.net/accounts/ppisa
-    CAN related:http://canbus.pages.fel.cvut.cz/
-    RISC-V education: https://comparch.edu.cvut.cz/
-    Open Technologies Research Education and Exchange Services
-    https://gitlab.fel.cvut.cz/otrees/org/-/wikis/home
-
-
+> > >>
+> > >>> (Adding Greg and Stefan, who worked on the nested event loop series.)
+> > >>>
+> > >>> Simply reverting nested event loop support may not be an option, since
+> > >>> it would break virtiofsd, as if my understanding is correct, waits for
+> > >>> some slave channel request to complete in order to complete a request
+> > >>> made by QEMU on the master channel.
+> > >>>
+> > >>> Any thougths?
+> > >>>
+> > >>
+> > >> Well... the nested even loop was added as preparatory work for "the
+> > >> upcoming enablement of DAX with virtio-fs". This requires changes on
+> > >> the QEMU side that haven't been merged yet. Technically, it seems that
+> > >> reverting the nested event loop won't break anything in upstream QEMU
+> > >> at this point (but this will bite again as soon as DAX enablement gets
+> > >> merged).
+> > >>
+> > > 
+> > > Cc'ing Dave to know about the DAX enablement status.
+> > > 
+> > >> AFAIK the event loop is only needed for the VHOST_USER_GET_VRING_BASE
+> > >> message. Another possibility might be to create the nested event loop
+> > >> in this case only : this would allow VHOST_USER_GET_STATUS to complete
+> > >> before QEMU starts processing the VHOST_USER_SLAVE_IOTLB_MSG requests.
+> > >>
+> > >> Cheers,
+> > >>
+> > >> --
+> > >> Greg
+> > >>
+> > >>> Maxime
+> > >>>
+> > >>> [0]:
+> > >>> https://patchwork.ozlabs.org/project/qemu-devel/patch/20210312092212.782255-6-groug@kaod.org/
+> > >>>
+> > >>>
+> > >>>> Break on first error message("Received unexpected msg type. Expected 22 received 40")
+> > >>>>
+> > >>>> #0  0x0000555555b72ed4 in process_message_reply (dev=0x5555584dd600, msg=0x7fffffffa330) at ../hw/virtio/vhost-user.c:445
+> > >>>> #1  0x0000555555b77c26 in vhost_user_send_device_iotlb_msg (dev=0x5555584dd600, imsg=0x7fffffffa600) at ../hw/virtio/vhost-user.c:2341
+> > >>>> #2  0x0000555555b7179e in vhost_backend_update_device_iotlb (dev=0x5555584dd600, iova=10442706944, uaddr=140736119902208, len=4096, perm=IOMMU_RW) at ../hw/virtio/vhost-backend.c:361
+> > >>>> #3  0x0000555555b6e34c in vhost_device_iotlb_miss (dev=0x5555584dd600, iova=10442706944, write=1) at ../hw/virtio/vhost.c:1113
+> > >>>> #4  0x0000555555b718d9 in vhost_backend_handle_iotlb_msg (dev=0x5555584dd600, imsg=0x7fffffffa7b0) at ../hw/virtio/vhost-backend.c:393
+> > >>>> #5  0x0000555555b76144 in slave_read (ioc=0x555557a38680, condition=G_IO_IN, opaque=0x5555584dd600) at ../hw/virtio/vhost-user.c:1726
+> > >>>> #6  0x0000555555c797a5 in qio_channel_fd_source_dispatch (source=0x555556a06fb0, callback=0x555555b75f86 <slave_read>, user_data=0x5555584dd600) at ../io/channel-watch.c:84
+> > >>>> #7  0x00007ffff554895d in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+> > >>>> #8  0x00007ffff5548d18 in g_main_context_iterate.isra () at /lib64/libglib-2.0.so.0
+> > >>>> #9  0x00007ffff5549042 in g_main_loop_run () at /lib64/libglib-2.0.so.0
+> > >>>> #10 0x0000555555b72de7 in vhost_user_read (dev=0x5555584dd600, msg=0x7fffffffac50) at ../hw/virtio/vhost-user.c:413
+> > >>>> #11 0x0000555555b72e9b in process_message_reply (dev=0x5555584dd600, msg=0x7fffffffaf10) at ../hw/virtio/vhost-user.c:439
+> > >>>> #12 0x0000555555b77c26 in vhost_user_send_device_iotlb_msg (dev=0x5555584dd600, imsg=0x7fffffffb1e0) at ../hw/virtio/vhost-user.c:2341
+> > >>>> #13 0x0000555555b7179e in vhost_backend_update_device_iotlb (dev=0x5555584dd600, iova=10468392960, uaddr=140736145588224, len=4096, perm=IOMMU_RW) at ../hw/virtio/vhost-backend.c:361
+> > >>>> #14 0x0000555555b6e34c in vhost_device_iotlb_miss (dev=0x5555584dd600, iova=10468392960, write=1) at ../hw/virtio/vhost.c:1113
+> > >>>> #15 0x0000555555b718d9 in vhost_backend_handle_iotlb_msg (dev=0x5555584dd600, imsg=0x7fffffffb390) at ../hw/virtio/vhost-backend.c:393
+> > >>>> #16 0x0000555555b76144 in slave_read (ioc=0x555557a38680, condition=G_IO_IN, opaque=0x5555584dd600) at ../hw/virtio/vhost-user.c:1726
+> > >>>> #17 0x0000555555c797a5 in qio_channel_fd_source_dispatch (source=0x555556c70250, callback=0x555555b75f86 <slave_read>, user_data=0x5555584dd600) at ../io/channel-watch.c:84
+> > >>>> #18 0x00007ffff554895d in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+> > >>>> #19 0x00007ffff5548d18 in g_main_context_iterate.isra () at /lib64/libglib-2.0.so.0
+> > >>>> #20 0x00007ffff5549042 in g_main_loop_run () at /lib64/libglib-2.0.so.0
+> > >>>> #21 0x0000555555b72de7 in vhost_user_read (dev=0x5555584dd600, msg=0x7fffffffb830) at ../hw/virtio/vhost-user.c:413
+> > >>>> #22 0x0000555555b72e9b in process_message_reply (dev=0x5555584dd600, msg=0x7fffffffbaf0) at ../hw/virtio/vhost-user.c:439
+> > >>>> #23 0x0000555555b77c26 in vhost_user_send_device_iotlb_msg (dev=0x5555584dd600, imsg=0x7fffffffbdc0) at ../hw/virtio/vhost-user.c:2341
+> > >>>> #24 0x0000555555b7179e in vhost_backend_update_device_iotlb (dev=0x5555584dd600, iova=10442702848, uaddr=140736119898112, len=4096, perm=IOMMU_RW) at ../hw/virtio/vhost-backend.c:361
+> > >>>> #25 0x0000555555b6e34c in vhost_device_iotlb_miss (dev=0x5555584dd600, iova=10442702848, write=1) at ../hw/virtio/vhost.c:1113
+> > >>>> #26 0x0000555555b718d9 in vhost_backend_handle_iotlb_msg (dev=0x5555584dd600, imsg=0x7fffffffbf70) at ../hw/virtio/vhost-backend.c:393
+> > >>>> #27 0x0000555555b76144 in slave_read (ioc=0x555557a38680, condition=G_IO_IN, opaque=0x5555584dd600) at ../hw/virtio/vhost-user.c:1726
+> > >>>> #28 0x0000555555c797a5 in qio_channel_fd_source_dispatch (source=0x555556f1a530, callback=0x555555b75f86 <slave_read>, user_data=0x5555584dd600) at ../io/channel-watch.c:84
+> > >>>> #29 0x00007ffff554895d in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+> > >>>> #30 0x00007ffff5548d18 in g_main_context_iterate.isra () at /lib64/libglib-2.0.so.0
+> > >>>> #31 0x00007ffff5549042 in g_main_loop_run () at /lib64/libglib-2.0.so.0
+> > >>>> #32 0x0000555555b72de7 in vhost_user_read (dev=0x5555584dd600, msg=0x7fffffffc420) at ../hw/virtio/vhost-user.c:413
+> > >>>> #33 0x0000555555b754b1 in vhost_user_get_u64 (dev=0x5555584dd600, request=40, u64=0x7fffffffc6e0) at ../hw/virtio/vhost-user.c:1349
+> > >>>> #34 0x0000555555b758ff in vhost_user_get_status (dev=0x5555584dd600, status=0x7fffffffc713 "W\020") at ../hw/virtio/vhost-user.c:1474
+> > >>>> #35 0x0000555555b75967 in vhost_user_add_status (dev=0x5555584dd600, status=7 '\a') at ../hw/virtio/vhost-user.c:1488
+> > >>>> #36 0x0000555555b78bf6 in vhost_user_dev_start (dev=0x5555584dd600, started=true) at ../hw/virtio/vhost-user.c:2758
+> > >>>> #37 0x0000555555b709ad in vhost_dev_start (hdev=0x5555584dd600, vdev=0x555557b965d0, vrings=false) at ../hw/virtio/vhost.c:1988
+> > >>>> #38 0x000055555584291c in vhost_net_start_one (net=0x5555584dd600, dev=0x555557b965d0) at ../hw/net/vhost_net.c:271
+> > >>>> #39 0x0000555555842f1e in vhost_net_start (dev=0x555557b965d0, ncs=0x555557bc09e0, data_queue_pairs=1, cvq=0) at ../hw/net/vhost_net.c:412
+> > >>>> #40 0x0000555555b1bf61 in virtio_net_vhost_status (n=0x555557b965d0, status=15 '\017') at ../hw/net/virtio-net.c:311
+> > >>>> #41 0x0000555555b1c20c in virtio_net_set_status (vdev=0x555557b965d0, status=15 '\017') at ../hw/net/virtio-net.c:392
+> > >>>> #42 0x0000555555b1ed04 in virtio_net_handle_mq (n=0x555557b965d0, cmd=0 '\000', iov=0x555556c7ef50, iov_cnt=1) at ../hw/net/virtio-net.c:1497
+> > >>>> #43 0x0000555555b1eef0 in virtio_net_handle_ctrl_iov (vdev=0x555557b965d0, in_sg=0x555556a09880, in_num=1, out_sg=0x555556a09890, out_num=1) at ../hw/net/virtio-net.c:1534
+> > >>>> #44 0x0000555555b1efe9 in virtio_net_handle_ctrl (vdev=0x555557b965d0, vq=0x7fffc04ac140) at ../hw/net/virtio-net.c:1557
+> > >>>> #45 0x0000555555b63776 in virtio_queue_notify_vq (vq=0x7fffc04ac140) at ../hw/virtio/virtio.c:2249
+> > >>>> #46 0x0000555555b669dc in virtio_queue_host_notifier_read (n=0x7fffc04ac1b4) at ../hw/virtio/virtio.c:3529
+> > >>>> #47 0x0000555555e3f458 in aio_dispatch_handler (ctx=0x555556a016c0, node=0x7ffd8800e430) at ../util/aio-posix.c:369
+> > >>>> #48 0x0000555555e3f613 in aio_dispatch_handlers (ctx=0x555556a016c0) at ../util/aio-posix.c:412
+> > >>>> #49 0x0000555555e3f669 in aio_dispatch (ctx=0x555556a016c0) at ../util/aio-posix.c:422
+> > >>>> #50 0x0000555555e585de in aio_ctx_dispatch (source=0x555556a016c0, callback=0x0, user_data=0x0) at ../util/async.c:321
+> > >>>> #51 0x00007ffff554895d in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+> > >>>> #52 0x0000555555e5abea in glib_pollfds_poll () at ../util/main-loop.c:295
+> > >>>> #53 0x0000555555e5ac64 in os_host_main_loop_wait (timeout=0) at ../util/main-loop.c:318
+> > >>>> #54 0x0000555555e5ad69 in main_loop_wait (nonblocking=0) at ../util/main-loop.c:604
+> > >>>> #55 0x00005555559693de in qemu_main_loop () at ../softmmu/runstate.c:731
+> > >>>> #56 0x00005555556e7c06 in qemu_default_main () at ../softmmu/main.c:37
+> > >>>> #57 0x00005555556e7c3c in main (argc=71, argv=0x7fffffffcda8) at ../softmmu/main.c:48
+> > >>>>
+> > >>>>
+> > >>>>
+> > >>>> -----Original Message-----
+> > >>>> From: Maxime Coquelin <maxime.coquelin@redhat.com>
+> > >>>> Sent: Thursday, January 12, 2023 5:26 PM
+> > >>>> To: Laurent Vivier <lvivier@redhat.com>
+> > >>>> Cc: qemu-devel@nongnu.org; Peter Maydell <peter.maydell@linaro.org>; Yajun Wu <yajunw@nvidia.com>; Parav Pandit <parav@nvidia.com>; Michael S. Tsirkin <mst@redhat.com>
+> > >>>> Subject: Re: [PULL v4 76/83] vhost-user: Support vhost_dev_start
+> > >>>>
+> > >>>> External email: Use caution opening links or attachments
+> > >>>>
+> > >>>>
+> > >>>> Hi Laurent,
+> > >>>>
+> > >>>> On 1/11/23 10:50, Laurent Vivier wrote:
+> > >>>>> On 1/9/23 11:55, Michael S. Tsirkin wrote:
+> > >>>>>> On Fri, Jan 06, 2023 at 03:21:43PM +0100, Laurent Vivier wrote:
+> > >>>>>>> Hi,
+> > >>>>>>>
+> > >>>>>>> it seems this patch breaks vhost-user with DPDK.
+> > >>>>>>>
+> > >>>>>>> See
+> > >>>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbu
+> > >>>>>>> gzilla.redhat.com%2Fshow_bug.cgi%3Fid%3D2155173&data=05%7C01%7Cyajun
+> > >>>>>>> w%40nvidia.com%7C47e6e0fabd044383fd3308daf47f0253%7C43083d15727340c1
+> > >>>>>>> b7db39efd9ccc17a%7C0%7C0%7C638091123577559319%7CUnknown%7CTWFpbGZsb3
+> > >>>>>>> d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
+> > >>>>>>> %7C3000%7C%7C%7C&sdata=1pjChYTKHVmBoempNitiZHBdrlPIMFjKoD6FeOVSay0%3
+> > >>>>>>> D&reserved=0
+> > >>>>>>>
+> > >>>>>>> it seems QEMU doesn't receive the expected commands sequence:
+> > >>>>>>>
+> > >>>>>>> Received unexpected msg type. Expected 22 received 40 Fail to update
+> > >>>>>>> device iotlb Received unexpected msg type. Expected 40 received 22
+> > >>>>>>> Received unexpected msg type. Expected 22 received 11 Fail to update
+> > >>>>>>> device iotlb Received unexpected msg type. Expected 11 received 22
+> > >>>>>>> vhost VQ 1 ring restore failed: -71: Protocol error (71) Received
+> > >>>>>>> unexpected msg type. Expected 22 received 11 Fail to update device
+> > >>>>>>> iotlb Received unexpected msg type. Expected 11 received 22 vhost VQ
+> > >>>>>>> 0 ring restore failed: -71: Protocol error (71) unable to start
+> > >>>>>>> vhost net: 71: falling back on userspace virtio
+> > >>>>>>>
+> > >>>>>>> It receives VHOST_USER_GET_STATUS (40) when it expects
+> > >>>>>>> VHOST_USER_IOTLB_MSG (22) and VHOST_USER_IOTLB_MSG when it expects
+> > >>>>>>> VHOST_USER_GET_STATUS.
+> > >>>>>>> and VHOST_USER_GET_VRING_BASE (11) when it expect
+> > >>>>>>> VHOST_USER_GET_STATUS and so on.
+> > >>>>>>>
+> > >>>>>>> Any idea?
+> > >>>>
+> > >>>> We only have a single thread on DPDK side to handle Vhost-user requests, it will read a request, handle it and reply to it. Then it reads the next one, etc... So I don't think it is possible to mix request replies order on DPDK side.
+> > >>>>
+> > >>>> Maybe there are two threads concurrently sending requests on QEMU side?
+> > >>>>
+> > >>>> Regards,
+> > >>>> Maxime
+> > >>>>
+> > >>>>>>> Thanks,
+> > >>>>>>> Laurent
+> > >>>>>>
+> > >>>>>>
+> > >>>>>> So I am guessing it's coming from:
+> > >>>>>>
+> > >>>>>>        if (msg.hdr.request != request) {
+> > >>>>>>            error_report("Received unexpected msg type. Expected %d
+> > >>>>>> received %d",
+> > >>>>>>                         request, msg.hdr.request);
+> > >>>>>>            return -EPROTO;
+> > >>>>>>        }
+> > >>>>>>
+> > >>>>>> in process_message_reply and/or in vhost_user_get_u64.
+> > >>>>>>
+> > >>>>>>
+> > >>>>>>> On 11/7/22 23:53, Michael S. Tsirkin wrote:
+> > >>>>>>>> From: Yajun Wu <yajunw@nvidia.com>
+> > >>>>>>>>
+> > >>>>>>>> The motivation of adding vhost-user vhost_dev_start support is to
+> > >>>>>>>> improve backend configuration speed and reduce live migration VM
+> > >>>>>>>> downtime.
+> > >>>>>>>>
+> > >>>>>>>> Today VQ configuration is issued one by one. For virtio net with
+> > >>>>>>>> multi-queue support, backend needs to update RSS (Receive side
+> > >>>>>>>> scaling) on every rx queue enable. Updating RSS is time-consuming
+> > >>>>>>>> (typical time like 7ms).
+> > >>>>>>>>
+> > >>>>>>>> Implement already defined vhost status and message in the vhost
+> > >>>>>>>> specification [1].
+> > >>>>>>>> (a) VHOST_USER_PROTOCOL_F_STATUS
+> > >>>>>>>> (b) VHOST_USER_SET_STATUS
+> > >>>>>>>> (c) VHOST_USER_GET_STATUS
+> > >>>>>>>>
+> > >>>>>>>> Send message VHOST_USER_SET_STATUS with VIRTIO_CONFIG_S_DRIVER_OK
+> > >>>>>>>> for device start and reset(0) for device stop.
+> > >>>>>>>>
+> > >>>>>>>> On reception of the DRIVER_OK message, backend can apply the needed
+> > >>>>>>>> setting only once (instead of incremental) and also utilize
+> > >>>>>>>> parallelism on enabling queues.
+> > >>>>>>>>
+> > >>>>>>>> This improves QEMU's live migration downtime with vhost user
+> > >>>>>>>> backend implementation by great margin, specially for the large
+> > >>>>>>>> number of VQs of 64 from 800 msec to 250 msec.
+> > >>>>>>>>
+> > >>>>>>>> [1]
+> > >>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fq
+> > >>>>>>>> emu-project.gitlab.io%2Fqemu%2Finterop%2Fvhost-user.html&data=05%7C
+> > >>>>>>>> 01%7Cyajunw%40nvidia.com%7C47e6e0fabd044383fd3308daf47f0253%7C43083
+> > >>>>>>>> d15727340c1b7db39efd9ccc17a%7C0%7C0%7C638091123577559319%7CUnknown%
+> > >>>>>>>> 7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiL
+> > >>>>>>>> CJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=YPbrFRJA92KLLwADMUDvwBt%2Fme2Ef
+> > >>>>>>>> GZuVANOmXH5pic%3D&reserved=0
+> > >>>>>>>>
+> > >>>>>>>> Signed-off-by: Yajun Wu <yajunw@nvidia.com>
+> > >>>>>>>> Acked-by: Parav Pandit <parav@nvidia.com>
+> > >>>>>>>> Message-Id: <20221017064452.1226514-3-yajunw@nvidia.com>
+> > >>>>>>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > >>>>>>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > >>>>>>
+> > >>>>>> Probably easiest to debug from dpdk side.
+> > >>>>>> Does the problem go away if you disable the feature
+> > >>>>>> VHOST_USER_PROTOCOL_F_STATUS in dpdk?
+> > >>>>>
+> > >>>>> Maxime could you help to debug this?
+> > >>>>>
+> > >>>>> Thanks,
+> > >>>>> Laurent
+> > >>>>>
+> > >>>>
+> > >>>
+> > >>
+> > >>
+> > > 
+> > > 
+> > 
+> 
+> 
 
 
