@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C99066DC42
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 12:23:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A03A66DC55
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 12:26:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHk3Q-0001Yd-Ji; Tue, 17 Jan 2023 06:23:00 -0500
+	id 1pHk3V-0001ZZ-B9; Tue, 17 Jan 2023 06:23:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pHk3O-0001Xt-Nx
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:22:58 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pHk3S-0001Z3-E7
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:23:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pHk3M-0002N5-Ny
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:22:58 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pHk3Q-0002Na-QO
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:23:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673954576;
+ s=mimecast20190719; t=1673954580;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5rjaYfAd2gVCxzsyH9T1Lxghyi9T8TlLaGOGYIVr7RU=;
- b=ciMk3L7173zZWIyUGauj84Dj75I5NvnTWnTzzHakcwVQhcNOcywgYNG4XCzmmyYeleKHd4
- OsYIsTDmrFfHW7qgkzAA1GEuwb0g92/Lo2S8+UIMDiX6QbYMgYCk3EXYv/YUHxPwMtUKST
- xstAhGVEsi7G42r46bgXVtDNINcPFq4=
+ bh=oCJ3slvp7bnhXuRk98l8zSlwMA1qOZwOI/aRz6TNDeE=;
+ b=iFiL1bAOUj86YA2zn1Y9iyoS91wYKlpDzC3Y2/hdQhnrAbmcSxEzpU8jXzS0djSmbVJwek
+ GUTaqXYp/Hs7SZkiHiCGF4vhp6hJf/DhU7xlGS8XVSyBZrbp4Q/P8mIJOMdEsE07K5VXzU
+ qhKVth4rGLExMe9gMgJE71/tzMJYtvw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-323-ymZDO6o5PJW12mqHvofYYQ-1; Tue, 17 Jan 2023 06:22:54 -0500
-X-MC-Unique: ymZDO6o5PJW12mqHvofYYQ-1
+ us-mta-383-vQFRm4WtPWOtD56tb5Ah2A-1; Tue, 17 Jan 2023 06:22:56 -0500
+X-MC-Unique: vQFRm4WtPWOtD56tb5Ah2A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4FA93101A55E
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 11:22:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A0FE85C6E0
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 11:22:56 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F3C37AE5;
- Tue, 17 Jan 2023 11:22:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 957337AE5;
+ Tue, 17 Jan 2023 11:22:54 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>,
@@ -47,10 +47,10 @@ Cc: David Hildenbrand <david@redhat.com>,
  Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>,
  Michal Privoznik <mprivozn@redhat.com>
-Subject: [PATCH v5 1/8] migration/savevm: Move more savevm handling into
- vmstate_save()
-Date: Tue, 17 Jan 2023 12:22:42 +0100
-Message-Id: <20230117112249.244096-2-david@redhat.com>
+Subject: [PATCH v5 2/8] migration/savevm: Prepare vmdesc json writer in
+ qemu_savevm_state_setup()
+Date: Tue, 17 Jan 2023 12:22:43 +0100
+Message-Id: <20230117112249.244096-3-david@redhat.com>
 In-Reply-To: <20230117112249.244096-1-david@redhat.com>
 References: <20230117112249.244096-1-david@redhat.com>
 MIME-Version: 1.0
@@ -80,142 +80,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Let's move more code into vmstate_save(), reducing code duplication and
-preparing for reuse of vmstate_save() in qemu_savevm_state_setup(). We
-have to move vmstate_save() to make the compiler happy.
+... and store it in the migration state. This is a preparation for
+storing selected vmds's already in qemu_savevm_state_setup().
 
-We'll now also trace from qemu_save_device_state(), triggering the same
-tracepoints as previously called from
-qemu_savevm_state_complete_precopy_non_iterable() only. Note that
-qemu_save_device_state() ignores iterable device state, such as RAM,
-and consequently doesn't trigger some other trace points (e.g.,
-trace_savevm_state_setup()).
-
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- migration/savevm.c | 79 ++++++++++++++++++++++------------------------
- 1 file changed, 37 insertions(+), 42 deletions(-)
+ migration/migration.c |  2 ++
+ migration/migration.h |  4 ++++
+ migration/savevm.c    | 18 ++++++++++++------
+ 3 files changed, 18 insertions(+), 6 deletions(-)
 
+diff --git a/migration/migration.c b/migration/migration.c
+index 52b5d39244..fcd2f20d7c 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1903,6 +1903,8 @@ static void migrate_fd_cleanup(MigrationState *s)
+ 
+     g_free(s->hostname);
+     s->hostname = NULL;
++    json_writer_free(s->vmdesc);
++    s->vmdesc = NULL;
+ 
+     qemu_savevm_state_cleanup();
+ 
+diff --git a/migration/migration.h b/migration/migration.h
+index ae4ffd3454..66511ce532 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -17,6 +17,7 @@
+ #include "exec/cpu-common.h"
+ #include "hw/qdev-core.h"
+ #include "qapi/qapi-types-migration.h"
++#include "qapi/qmp/json-writer.h"
+ #include "qemu/thread.h"
+ #include "qemu/coroutine_int.h"
+ #include "io/channel.h"
+@@ -366,6 +367,9 @@ struct MigrationState {
+      * This save hostname when out-going migration starts
+      */
+     char *hostname;
++
++    /* QEMU_VM_VMDESCRIPTION content filled for all non-iterable devices. */
++    JSONWriter *vmdesc;
+ };
+ 
+ void migrate_set_state(int *state, int old_state, int new_state);
 diff --git a/migration/savevm.c b/migration/savevm.c
-index a0cdb714f7..d8830297e4 100644
+index d8830297e4..ff2b8d0064 100644
 --- a/migration/savevm.c
 +++ b/migration/savevm.c
-@@ -897,17 +897,6 @@ static void vmstate_save_old_style(QEMUFile *f, SaveStateEntry *se,
-     }
- }
+@@ -42,7 +42,6 @@
+ #include "postcopy-ram.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-commands-migration.h"
+-#include "qapi/qmp/json-writer.h"
+ #include "qapi/clone-visitor.h"
+ #include "qapi/qapi-builtin-visit.h"
+ #include "qapi/qmp/qerror.h"
+@@ -1189,10 +1188,16 @@ bool qemu_savevm_state_guest_unplug_pending(void)
  
--static int vmstate_save(QEMUFile *f, SaveStateEntry *se,
--                        JSONWriter *vmdesc)
--{
--    trace_vmstate_save(se->idstr, se->vmsd ? se->vmsd->name : "(old)");
--    if (!se->vmsd) {
--        vmstate_save_old_style(f, se, vmdesc);
--        return 0;
--    }
--    return vmstate_save_state(f, se->vmsd, se->opaque, vmdesc);
--}
--
- /*
-  * Write the header for device section (QEMU_VM_SECTION START/END/PART/FULL)
-  */
-@@ -941,6 +930,43 @@ static void save_section_footer(QEMUFile *f, SaveStateEntry *se)
-     }
- }
+ void qemu_savevm_state_setup(QEMUFile *f)
+ {
++    MigrationState *ms = migrate_get_current();
+     SaveStateEntry *se;
+     Error *local_err = NULL;
+     int ret;
  
-+static int vmstate_save(QEMUFile *f, SaveStateEntry *se, JSONWriter *vmdesc)
-+{
-+    int ret;
++    ms->vmdesc = json_writer_new(false);
++    json_writer_start_object(ms->vmdesc, NULL);
++    json_writer_int64(ms->vmdesc, "page_size", qemu_target_page_size());
++    json_writer_start_array(ms->vmdesc, "devices");
 +
-+    if ((!se->ops || !se->ops->save_state) && !se->vmsd) {
-+        return 0;
-+    }
-+    if (se->vmsd && !vmstate_save_needed(se->vmsd, se->opaque)) {
-+        trace_savevm_section_skip(se->idstr, se->section_id);
-+        return 0;
-+    }
-+
-+    trace_savevm_section_start(se->idstr, se->section_id);
-+    save_section_header(f, se, QEMU_VM_SECTION_FULL);
-+    if (vmdesc) {
-+        json_writer_start_object(vmdesc, NULL);
-+        json_writer_str(vmdesc, "name", se->idstr);
-+        json_writer_int64(vmdesc, "instance_id", se->instance_id);
-+    }
-+
-+    trace_vmstate_save(se->idstr, se->vmsd ? se->vmsd->name : "(old)");
-+    if (!se->vmsd) {
-+        vmstate_save_old_style(f, se, vmdesc);
-+    } else {
-+        ret = vmstate_save_state(f, se->vmsd, se->opaque, vmdesc);
-+        if (ret) {
-+            return ret;
-+        }
-+    }
-+
-+    trace_savevm_section_end(se->idstr, se->section_id, 0);
-+    save_section_footer(f, se);
-+    if (vmdesc) {
-+        json_writer_end_object(vmdesc);
-+    }
-+    return 0;
-+}
- /**
-  * qemu_savevm_command_send: Send a 'QEMU_VM_COMMAND' type element with the
-  *                           command and associated data.
-@@ -1374,31 +1400,11 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-     json_writer_int64(vmdesc, "page_size", qemu_target_page_size());
-     json_writer_start_array(vmdesc, "devices");
+     trace_savevm_state_setup();
      QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
--
--        if ((!se->ops || !se->ops->save_state) && !se->vmsd) {
--            continue;
--        }
--        if (se->vmsd && !vmstate_save_needed(se->vmsd, se->opaque)) {
--            trace_savevm_section_skip(se->idstr, se->section_id);
--            continue;
--        }
--
--        trace_savevm_section_start(se->idstr, se->section_id);
--
--        json_writer_start_object(vmdesc, NULL);
--        json_writer_str(vmdesc, "name", se->idstr);
--        json_writer_int64(vmdesc, "instance_id", se->instance_id);
--
--        save_section_header(f, se, QEMU_VM_SECTION_FULL);
+         if (!se->ops || !se->ops->save_setup) {
+@@ -1390,15 +1395,12 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+                                                     bool in_postcopy,
+                                                     bool inactivate_disks)
+ {
+-    g_autoptr(JSONWriter) vmdesc = NULL;
++    MigrationState *ms = migrate_get_current();
++    JSONWriter *vmdesc = ms->vmdesc;
+     int vmdesc_len;
+     SaveStateEntry *se;
+     int ret;
+ 
+-    vmdesc = json_writer_new(false);
+-    json_writer_start_object(vmdesc, NULL);
+-    json_writer_int64(vmdesc, "page_size", qemu_target_page_size());
+-    json_writer_start_array(vmdesc, "devices");
+     QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
          ret = vmstate_save(f, se, vmdesc);
          if (ret) {
-             qemu_file_set_error(f, ret);
-             return ret;
-         }
--        trace_savevm_section_end(se->idstr, se->section_id, 0);
--        save_section_footer(f, se);
--
--        json_writer_end_object(vmdesc);
+@@ -1433,6 +1435,10 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+         qemu_put_buffer(f, (uint8_t *)json_writer_get(vmdesc), vmdesc_len);
      }
  
-     if (inactivate_disks) {
-@@ -1594,21 +1600,10 @@ int qemu_save_device_state(QEMUFile *f)
-         if (se->is_ram) {
-             continue;
-         }
--        if ((!se->ops || !se->ops->save_state) && !se->vmsd) {
--            continue;
--        }
--        if (se->vmsd && !vmstate_save_needed(se->vmsd, se->opaque)) {
--            continue;
--        }
--
--        save_section_header(f, se, QEMU_VM_SECTION_FULL);
--
-         ret = vmstate_save(f, se, NULL);
-         if (ret) {
-             return ret;
-         }
--
--        save_section_footer(f, se);
-     }
++    /* Free it now to detect any inconsistencies. */
++    json_writer_free(vmdesc);
++    ms->vmdesc = NULL;
++
+     return 0;
+ }
  
-     qemu_put_byte(f, QEMU_VM_EOF);
 -- 
 2.39.0
 
