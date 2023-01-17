@@ -2,98 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CB866DCCB
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 12:45:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5252A66DCE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 12:54:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHkOP-0005D3-Tu; Tue, 17 Jan 2023 06:44:41 -0500
+	id 1pHkWi-0007fi-Kp; Tue, 17 Jan 2023 06:53:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pHkOM-0005Ca-Vf
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:44:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pHkOK-0004FF-QS
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:44:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673955875;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hV95RP1TUQ09ah0Uyi+8oq+od2XQ0lHgYfYgQP19ukg=;
- b=Jw+Bh2qwDfFG1+mKm9Lf7/+qA5Y4A5D/O3+xEmHnFvJy7V3TWnXhlpYXcTOP+KJv3RpyOU
- 57z6nh/bCGfsOWvuVhj7HLxKbL9m/z5wOvp4BqoSKGPMAFgRV/HW6c3HfnoyMyQa6JI921
- KMGHdaZZegSj8Uv7b1Q/8sej9W/XbCU=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-54-wtbbGhrnM-aPAl31WJgrKQ-1; Tue, 17 Jan 2023 06:44:34 -0500
-X-MC-Unique: wtbbGhrnM-aPAl31WJgrKQ-1
-Received: by mail-qk1-f197.google.com with SMTP id
- h13-20020a05620a244d00b006fb713618b8so22620405qkn.0
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 03:44:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pHkWg-0007fZ-T8
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:53:15 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pHkWf-0007bg-2x
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:53:14 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ iv8-20020a05600c548800b003db04a0a46bso1183234wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 03:53:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/MXNumRR13p9Qo0Dcad1PDxV6zGwPYljY9j1EoaeUdE=;
+ b=dXDCHi1MEUr+4jD+BAne3q3jIjJdZvDa4hPNANj/qusYB5qrVYorhXMZMlr5rc5LEN
+ MgmEdIUQoFU0zoK/mTS293KTeUbhwTTM6wV1tnxvypMtPovdHiWjpzTxqceImXbVsq1q
+ guq0P8vKCABh5DLbzP/RpAkJ00ZUCIKQHQqy0kNgpFKB9nT5XQrxE5AAcE0vSdIsQaXp
+ iAdfOMPIYvuESGVn0gwLwlAwBEs/BRM+E9JDkJfWu+tU4bDr/eNqjzjC1AzrQ7hE0DK4
+ 0fGN0g4ufUjB/989NAkb4YT6liRoABvpKLLUbxieRQ3LzF3bVPb28+3ji6g36NnZ4TGy
+ a76A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hV95RP1TUQ09ah0Uyi+8oq+od2XQ0lHgYfYgQP19ukg=;
- b=7jhM4ubSUMXUzkeZf7d3/izl1XkLKnTPpjkEHmxCcqIl2XpuodOpQqinVQl4LFNCCw
- +vauzEzhv15dQgb1lmuzLggjYleoFrGO8BHlQNLvs2JvwCm+Xe2ecGClpm/06pD3av+F
- ld6/gDns3gtktjd2AqzkhQOUK7k46MTJjnOXxjFvyDv/Crt4De5Ii5VxP3pk9IOr/ZCy
- iXi9Sp5LKYs7gjtTnfKwVYF60pxLClw3kEnSj+7y695Fh1oJI4hGUyyxl11AcHnf1tTU
- nFTuLUPRb1p24lHb7kCUluXe1MbmPVsD5BZh2ceOl0W3f3jduUGFNupvLBMV/mWD4S9M
- /TcQ==
-X-Gm-Message-State: AFqh2kreTtMR14aWGeNkUXSQtJg6o/gmANJuFC8ReAYqDMKi+rpkzyqI
- iuScdz9/mfpCuSlYXh7pMnv+eSIFMdcta3F2pp90k2oCm8jSaNXQ43Br3efGaz7DP40NKDhCzx4
- 07vkYllytOxDCx1g=
-X-Received: by 2002:ac8:7a86:0:b0:3b2:d1fe:90c4 with SMTP id
- x6-20020ac87a86000000b003b2d1fe90c4mr3492881qtr.19.1673955874138; 
- Tue, 17 Jan 2023 03:44:34 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsJgL9y/fUY1cuikMgkaNnY3n2GAr2b03yiBfHQw4798TYTAGMyjYr5gP8ehdcbJIeRnwvPZw==
-X-Received: by 2002:ac8:7a86:0:b0:3b2:d1fe:90c4 with SMTP id
- x6-20020ac87a86000000b003b2d1fe90c4mr3492861qtr.19.1673955873868; 
- Tue, 17 Jan 2023 03:44:33 -0800 (PST)
-Received: from [192.168.100.30] ([82.142.8.70])
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/MXNumRR13p9Qo0Dcad1PDxV6zGwPYljY9j1EoaeUdE=;
+ b=g4VMJNEwydZkYX4KiMhK6t3FriVw907650EDXnubCFXmzmqedcsnH7lzqygs5eQIpM
+ Nwkmd4rnbDo+DOQApwDFJaYF94TcgAUEFWgLE9YyWz2t8Jgq3ZZbXNRnsKWJP2sMa27R
+ cJvbdk981UrQI9XHyBb9kjRrYZnLkq+yUMbglGMOvFZet0vRGfbXHtSAQfXVelVKgovL
+ y/kb8sIwxna7z5nrYuAFcPXJ6xOMO7EcmM7XY9Dtik97h4HA3igHZHcHkcVGE20zLPTq
+ QVxbfk55HdsR6ODN2IG2CeHtvQn3LTcw5M+isILcpnCuN8Ew4zY9Blv4MM++k3xwPSa5
+ ftsQ==
+X-Gm-Message-State: AFqh2kr8ph3e5fPPACcbdFkbpt/lsmK33pMNddRgzozKvovF4l5i5ubx
+ O9wpycKTUqon2Gl+TkR2j/g=
+X-Google-Smtp-Source: AMrXdXu2ht30Pxrev2AZT/GwahisDe+jEFfc6/j44U8S9CWGQCQFGvgGQRXLzVjupvut+EyUkWL54A==
+X-Received: by 2002:a05:600c:4928:b0:3d2:2043:9cb7 with SMTP id
+ f40-20020a05600c492800b003d220439cb7mr2816873wmp.5.1673956390366; 
+ Tue, 17 Jan 2023 03:53:10 -0800 (PST)
+Received: from [192.168.8.108] (54-240-197-239.amazon.com. [54.240.197.239])
  by smtp.gmail.com with ESMTPSA id
- q30-20020a05620a025e00b006fc40dafaa2sm19891545qkn.8.2023.01.17.03.44.32
+ o9-20020a05600c510900b003c6f8d30e40sm46532196wms.31.2023.01.17.03.53.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 03:44:33 -0800 (PST)
-Message-ID: <819db04a-0b00-96e2-65f2-57db1e244fe3@redhat.com>
-Date: Tue, 17 Jan 2023 12:44:31 +0100
+ Tue, 17 Jan 2023 03:53:10 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <59f4e3c3-0939-134b-596b-ebfc5d06a11d@xen.org>
+Date: Tue, 17 Jan 2023 11:53:07 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v5] tests/qtest: netdev: test stream and dgram backends
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v7 26/51] hw/xen: Add xen_evtchn device for event channel
+ emulation
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
-References: <20230105093751.416666-1-lvivier@redhat.com>
- <3d55b710-4601-4f8b-5289-72997ea09e5a@redhat.com>
- <0b29c231-da85-5302-31bc-b2e420c2b394@redhat.com>
- <5a13b5c9-f8d4-6b4f-b55b-4b8a0ac54867@redhat.com>
- <a364fceb-66a9-2055-ca61-ac49cf9a8a12@redhat.com>
- <4b12b445-f8e3-8003-60a2-a5aec0a12026@linaro.org>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <4b12b445-f8e3-8003-60a2-a5aec0a12026@linaro.org>
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+References: <20230116215805.1123514-1-dwmw2@infradead.org>
+ <20230116215805.1123514-27-dwmw2@infradead.org>
+ <ea0a98e2-14e4-620a-60ee-86cfbe76403e@xen.org>
+ <8ab2cfafa5636d7f084e8a75d273d7bf7b6b7579.camel@infradead.org>
+ <726f2f63-dc74-619e-4cb0-205f9a542b99@xen.org>
+ <f5fe9f4e6bc301e4fa0065e17cc0bbdcb3e06668.camel@infradead.org>
+ <6234afac-b260-37ab-6f3b-17ed5e3ba6a2@xen.org>
+ <555a94eb3b65d45bae7d2da6571d072e773c2d50.camel@infradead.org>
+Organization: Xen Project
+In-Reply-To: <555a94eb3b65d45bae7d2da6571d072e773c2d50.camel@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,63 +110,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/17/23 12:32, Philippe Mathieu-Daudé wrote:
-> On 17/1/23 12:03, Laurent Vivier wrote:
->> On 1/17/23 11:00, Thomas Huth wrote:
->>> On 16/01/2023 09.40, Thomas Huth wrote:
->>>> On 16/01/2023 09.29, Laurent Vivier wrote:
->>>>> ping
->>>>>
->>>>> On 1/5/23 10:37, Laurent Vivier wrote:
->>>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>>>>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> 
->>>> Acked-by: Thomas Huth <thuth@redhat.com>
+On 17/01/2023 11:24, David Woodhouse wrote:
+> On Tue, 2023-01-17 at 11:06 +0000, Paul Durrant wrote:
+>> On 17/01/2023 11:02, David Woodhouse wrote:
+>>> On Tue, 2023-01-17 at 10:56 +0000, Paul Durrant wrote:
 >>>>
->>>> I'll queue it for my next pull request (unless someone else wants to take this first)
+>>>> I'm just having a hard time seeing why passing 0 to
+>>>> xen_evtchn_set_callback_param() does anything useful...
+>>>>
+>>>> +    switch (param >> CALLBACK_VIA_TYPE_SHIFT) {
+>>>> +    case HVM_PARAM_CALLBACK_TYPE_VECTOR: {
+>>>> +        struct kvm_xen_hvm_attr xa = {
+>>>> +            .type = KVM_XEN_ATTR_TYPE_UPCALL_VECTOR,
+>>>> +            .u.vector = (uint8_t)param,
+>>>> +        };
+>>>>
+>>>> HVM_PARAM_CALLBACK_TYPE_VECTOR is 2 AFAICT, so it won't hit that
+>>>> case.
+>>>> Also, you appear to be passing the unshifted param to kernel
+>>>> anyway.
+>>>>
+>>>> What is the call trying to achieve?
 >>>
->>> Sorry, but I have to unqueue it again. I'm still seeing failures
->>> in the Windows Cirrus-CI:
+>>> Zero is HVM_PARAM_CALLBACK_TYPE_GSI, with GSI==0. It's basically
+>>> disabling event channel delivery for the new kernel.
 >>>
->>>   https://cirrus-ci.com/task/5867407370092544
->>>
->>> For example:
->>>
->>> 218/556 qemu:qtest+qtest-aarch64 / qtest-aarch64/netdev-socket ERROR           0.02s   
->>> exit status 3
->>> ------------------------------------- 8< -------------------------------------
->>> stderr:
->>> socket_check_protocol_support() failed
->>>
->>> (C:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-ci-build/build/tests/qtest/netdev-socket.exe:3300): GLib-CRITICAL **: 09:08:00.984: g_utf8_to_utf16: assertion 'str != NULL' failed
->>>
->>> (test program exited with status code 3)
->>>
->>> No clue where this comes from, though, I don't see a call
->>> to g_utf8_to_utf16() in your code?
 >>
->> OK, there is an error in the log:
+>> AFAICT it is doing nothing at this point. Unless I am going insane it
+>> results in this codepath:
 >>
->> socket_check_protocol_support() failed
+>> +    default:
+>> +        ret = -ENOSYS;
+>> +        break;
+>> +    }
+>> +
+>> +    if (!ret) {
+>> +        s->callback_param = param;
+>> +        s->evtchn_in_kernel = in_kernel;
+>> +    }
 >>
->> So tmpdir is NULL and we try an g_rmdir(tmpdir)
+>> So it doesn't result in any cleanup. What am I missing?
 > 
-> "In case of errors, NULL is returned and error will be set."
+> Indeed, it doesn't result in any cleanup at *this* point in the series
+> because HVM_PARAM_CALLBACK_TYPE_GSI hasn't been implemented yet; it's
+> in a later patch.
 > 
-> I don't see the ""Can't create temporary directory" string in
-> Thomas' failing job.
-> 
-> In such case, are the g_strconcat(tmpdir) calls returning "\0"?
-> 
+> The series is broken up into sensible individual patches for review,
+> not so people can actually *run* with some partial subset of them.
 > 
 
-I'm going to use g_error() on socket_check_protocol_support() failure to exit. Without the 
-problem with g_utf8_to_utf16() I would not know the socket_init() function was needed.
+That's fine. It's just confusing for a reviewer to know whether you are 
+intentionally introducing code that has no effect, or whether that is a bug.
 
-Thanks,
-Laurent
+> Otherwise I'd have to implement vmstate migration versioning for every
+> change in the series, and that way lies madness :)
+> 
+> I *will* add a comment in the code explaining what zero means though,
+> and note in the commit message that it doesn't actually have any effect
+> will, but will do in a few patches' time.
+
+That would certainly help, thanks.
 
 
