@@ -2,96 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC9966DB95
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 11:54:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7B766DBA9
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 11:57:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHjbe-0006jz-M5; Tue, 17 Jan 2023 05:54:18 -0500
+	id 1pHje6-0007on-Ge; Tue, 17 Jan 2023 05:56:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pHjbY-0006jk-9Q
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:54:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pHjbW-0003c2-LX
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:54:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673952849;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rzregTqRJIORfQfsR4ftut/aHPgfoQZpQpXLO+BwYnw=;
- b=bvph1tdJKJaWGJOT9VzKefEKbP+CjqCsFjYThcvlwE8ybOwO7bD6PHnPHtP7fFOUPyDXtf
- Hx7MFfUmqTvOinfwUyzNENniKHTMRqeoDAkvGy+JvO8AmDsxi1M475Qaxk4DwC0oLiyukt
- Z729r+avEDzJo97IhruVYNiWgmoV+Jw=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-3-se1IPkuZOu6Wh1qdPDB1xA-1; Tue, 17 Jan 2023 05:54:08 -0500
-X-MC-Unique: se1IPkuZOu6Wh1qdPDB1xA-1
-Received: by mail-qv1-f71.google.com with SMTP id
- lv8-20020a056214578800b0053477624294so5941745qvb.22
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 02:54:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pHje1-0007kQ-H5
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:56:46 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pHjdz-0005a2-U7
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:56:45 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id h16so30137781wrz.12
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 02:56:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4S8k9vz6bwa9Ue4Mxf8rpnGT9zOzK7P1xr/qaZxCpj4=;
+ b=jLdapiCf+crLfIvCHFXN1ek/9cZE0FlG0en/oFEtCMKOvHGQJMCdgll/fKCGZF98JK
+ a5oczgyv6gJutYKDKzkBzRqN6KKBUfm0hhRV+ZIyOEdmHQGRumK3JN19U2He+G0EH4JL
+ PtC/US/ArzUc9eTrM5lo0EwQeaQcRGFe/6TU9ptBRqR8tQ+OX/uolF/Z75dmCtmsTvfr
+ 0baH7hyhc4eG2FrF16uU6YAnmlSbg+kR2zmhpLCMTG3qMRelGkKZxRrHRiOclwUn136U
+ vlLJLfRAzXJaw5ZuBBEtFGLhJ/r8IUE6RR0WXgajvQBAprzrLJL+sLpsryOEES5NqH4w
+ 021A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rzregTqRJIORfQfsR4ftut/aHPgfoQZpQpXLO+BwYnw=;
- b=Cp1TSCC+9WQNvmzAdZNaAB/vIdJgAwh9I4ydaDnhcuoSieXbPxFNRMclCkvrNUwwpB
- got4SKldU5eRcbXQBrWJuD2x2dD6SDSM5eRYHs9+YrAglh5z7QJjsdootXDPsbBU4mG3
- CaSicPNXz75hrLzzIw2fQOpYp/6Wf4aoEDGoF87J9I/M7PWNMgFrEnjiohoPCkzOJkF2
- SwoeX3gZ9Ur3GgGr1qpusMKZtbXNL8+KTSfoxHitSKx9pVweMjLasFfFRLRMdAoS7smx
- ISQ6E9+qXP893JJII/oz5iT6Zk8lAenDYzs5i8FlXHdXhVTnOHHIXUWfwfTExSVsj7h9
- 42mg==
-X-Gm-Message-State: AFqh2krSBIlVtpI4/9YgUNoJrHad9LtH2SN8qkLqW94bBgCbq/JP3WCy
- x4tw3Ac15m6pptMxAyt7R+P22sC3c8n+Q20CdvSgfuOm/8KhCIu3esuYJ44IKtjq8KYeRn7kdAG
- G/6MLPpK6CYQGaUU=
-X-Received: by 2002:ac8:488e:0:b0:3ab:b00b:8a17 with SMTP id
- i14-20020ac8488e000000b003abb00b8a17mr2792922qtq.58.1673952847716; 
- Tue, 17 Jan 2023 02:54:07 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXul6LufUReZ7eW1njEm5yCxRK/zbrZiQsiScl4GhAyZHbqKalUA56LT2fgzUYY1F4v83Rzonw==
-X-Received: by 2002:ac8:488e:0:b0:3ab:b00b:8a17 with SMTP id
- i14-20020ac8488e000000b003abb00b8a17mr2792911qtq.58.1673952847464; 
- Tue, 17 Jan 2023 02:54:07 -0800 (PST)
-Received: from [192.168.100.30] ([82.142.8.70])
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4S8k9vz6bwa9Ue4Mxf8rpnGT9zOzK7P1xr/qaZxCpj4=;
+ b=lVc7fL53YuYYMP+JEFFMi2o5baAALuYnqT31f81qpJm88LTbT2XQjEFPvu0rM/80kq
+ Iur7bZMqIB0+RH8nZ308qOrEJd1rHSJxVtRZXSNMML4SRb+RWMNi1fL20MsgXHf6jUda
+ aBH+nMuusNjubmEGgGi5MziE1CzK5di58WEil+VAXog/DbzzGmabCjLkES1ct+3faYY9
+ mHn6Qm/sj7ynHFWJQXVybUycMFBQDvUAs43Wp2OBMNZ8zSJHE5OvKogt1JZNc44F2uaO
+ mMgHaGDiXv3ncehOO6QknqXOKXbz+CBhwNvQoRF0KjuUcZnmU3YGOCZSqVo4yPEv2Rgt
+ kC6A==
+X-Gm-Message-State: AFqh2kpYrKQjG5PKMYd0DerEP3f/C36bkRL8VtU6i0q6wJkAxEfCthBF
+ YFzLGVuLt1/uvv1/jN9HX2U=
+X-Google-Smtp-Source: AMrXdXvSTWFf2NIsddWxEEWTqWf2CgJ3YR/bUEiE86O9HH/nHaHFkEW4javuxfN9Mx6eXusxlFX4ug==
+X-Received: by 2002:a5d:4d8d:0:b0:2bd:da99:bb8e with SMTP id
+ b13-20020a5d4d8d000000b002bdda99bb8emr2625413wru.52.1673953002313; 
+ Tue, 17 Jan 2023 02:56:42 -0800 (PST)
+Received: from [192.168.8.108] (54-240-197-239.amazon.com. [54.240.197.239])
  by smtp.gmail.com with ESMTPSA id
- i4-20020a05620a404400b00704a2a40cf2sm20160787qko.38.2023.01.17.02.54.05
+ t13-20020adfe10d000000b002b6bcc0b64dsm16139233wrz.4.2023.01.17.02.56.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 02:54:06 -0800 (PST)
-Message-ID: <2bfffb52-a462-869c-af58-6a808a56f10f@redhat.com>
-Date: Tue, 17 Jan 2023 11:53:58 +0100
+ Tue, 17 Jan 2023 02:56:41 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <726f2f63-dc74-619e-4cb0-205f9a542b99@xen.org>
+Date: Tue, 17 Jan 2023 10:56:38 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v5] tests/qtest: netdev: test stream and dgram backends
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v7 26/51] hw/xen: Add xen_evtchn device for event channel
+ emulation
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>
-References: <20230105093751.416666-1-lvivier@redhat.com>
- <3d55b710-4601-4f8b-5289-72997ea09e5a@redhat.com>
- <0b29c231-da85-5302-31bc-b2e420c2b394@redhat.com>
- <5a13b5c9-f8d4-6b4f-b55b-4b8a0ac54867@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <5a13b5c9-f8d4-6b4f-b55b-4b8a0ac54867@redhat.com>
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+References: <20230116215805.1123514-1-dwmw2@infradead.org>
+ <20230116215805.1123514-27-dwmw2@infradead.org>
+ <ea0a98e2-14e4-620a-60ee-86cfbe76403e@xen.org>
+ <8ab2cfafa5636d7f084e8a75d273d7bf7b6b7579.camel@infradead.org>
+Organization: Xen Project
+In-Reply-To: <8ab2cfafa5636d7f084e8a75d273d7bf7b6b7579.camel@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,77 +105,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/17/23 11:00, Thomas Huth wrote:
-> On 16/01/2023 09.40, Thomas Huth wrote:
->> On 16/01/2023 09.29, Laurent Vivier wrote:
->>> ping
->>>
->>> On 1/5/23 10:37, Laurent Vivier wrote:
->>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->>>> ---
->>>>
->>>> Notes:
->>>>      v5:
->>>>        - disable test_stream_fd and  test_dgram_fd on windows as socketpair()
->>>>          is not defined.
->>>>        - enable test_stream_unix_abstract only on linux as "abstract"
->>>>          unix socket parameter is only defined on linux.
->>>>      v4:
->>>>        - rework EXPECT_STATE()
->>>>        - use g_dir_make_tmp()
->>>>      v3:
->>>>      - Add "-M none" to avoid error:
->>>>        "No machine specified, and there is no default"
->>>>      v2:
->>>>      - Fix ipv6 free port allocation
->>>>      - Check for IPv4, IPv6, AF_UNIX
->>>>      - Use g_mkdtemp() rather than g_file_open_tmp()
->>>>      - Use socketpair() in test_stream_fd()
->>>>      v1: compared to v14 of "qapi: net: add unix socket type support to netdev backend":
->>>>      - use IP addresses 127.0.0.1 and ::1 rather than localhost
->>>>
->>>>   tests/qtest/meson.build     |   2 +
->>>>   tests/qtest/netdev-socket.c | 444 ++++++++++++++++++++++++++++++++++++
->>>>   2 files changed, 446 insertions(+)
->>>>   create mode 100644 tests/qtest/netdev-socket.c
+On 17/01/2023 10:23, David Woodhouse wrote:
+> On Tue, 2023-01-17 at 10:00 +0000, Paul Durrant wrote:
 >>
->> Acked-by: Thomas Huth <thuth@redhat.com>
+>>> @@ -712,6 +717,11 @@ static int kvm_xen_soft_reset(void)
+>>>         CPUState *cpu;
+>>>         int err;
+>>>     
+>>> +    err = xen_evtchn_set_callback_param(0);
 >>
->> I'll queue it for my next pull request (unless someone else wants to take this first)
+>> Doesn't this always result in -ENOSYS?
 > 
-> Sorry, but I have to unqueue it again. I'm still seeing failures
-> in the Windows Cirrus-CI:
+> Hm?
+> 
+> Even at this point in the series, HVM_PARAM_CALLBACK_TYPE_VECTOR works
+> and doesn't result in -ENOSYS.
+> 
+> But even if xen_evtchn_set_callback_param() *was* a stub that just
+> returned -ENOSYS at this point, that would be OK, surely? We add the
+> (other) HVM_PARAM_CALLBACK_TYPE_* support later, which warrants
+> separate review because of the GSI and iothread lock fun.
 
-I'm sorry too :(
+I'm just having a hard time seeing why passing 0 to 
+xen_evtchn_set_callback_param() does anything useful...
 
-> 
->   https://cirrus-ci.com/task/5867407370092544
-> 
-> For example:
-> 
-> 218/556 qemu:qtest+qtest-aarch64 / qtest-aarch64/netdev-socket                    
-> ERROR           0.02s   exit status 3
-> ------------------------------------- 8< -------------------------------------
-> stderr:
-> socket_check_protocol_support() failed
-> 
-> (C:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-ci-build/build/tests/qtest/netdev-socket.exe:3300): GLib-CRITICAL **: 09:08:00.984: g_utf8_to_utf16: assertion 'str != NULL' failed
-> 
-> (test program exited with status code 3)
-> 
-> No clue where this comes from, though, I don't see a call
-> to g_utf8_to_utf16() in your code?
++    switch (param >> CALLBACK_VIA_TYPE_SHIFT) {
++    case HVM_PARAM_CALLBACK_TYPE_VECTOR: {
++        struct kvm_xen_hvm_attr xa = {
++            .type = KVM_XEN_ATTR_TYPE_UPCALL_VECTOR,
++            .u.vector = (uint8_t)param,
++        };
 
-Could you give the command line to reproduce the problem?
+HVM_PARAM_CALLBACK_TYPE_VECTOR is 2 AFAICT, so it won't hit that case. 
+Also, you appear to be passing the unshifted param to kernel anyway.
 
-Thanks,
-Laurent
+What is the call trying to achieve?
 
->   Thomas
-> 
+   Paul
 
 
