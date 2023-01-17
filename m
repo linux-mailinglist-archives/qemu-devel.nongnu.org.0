@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CC066D55F
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 05:32:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC14266D565
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 05:39:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHdcb-0006V0-Nj; Mon, 16 Jan 2023 23:30:55 -0500
+	id 1pHdkU-00088I-2d; Mon, 16 Jan 2023 23:39:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pHdcJ-0006Ug-NK
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 23:30:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pHdkR-000887-Uo
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 23:38:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pHdcH-0002MK-Au
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 23:30:35 -0500
+ id 1pHdkQ-0003Ru-0s
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 23:38:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673929832;
+ s=mimecast20190719; t=1673930336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2rb5XiD0pO7Yyp6kh/iIo//wIDhGUnuK/A8vvsWTLDo=;
- b=T1rAQcXAlcAdutLozjxCWJ6xWkybShS2r5KqyxqfJ/Lcym2uRMCO0zfS/YhEQablEO/F2B
- DZHaV3+aruVwXAlwhWAWiLG4iLVK1NG+rFbSciBiuEOQ+61LKJw47t6SJnfev7ijTE032K
- UJyX3Wa4UTVkAZLNe039DTM4lMei+wg=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SaM+flDxo6/gFamgMBgWc1osZ7hvwujzB1jXy0xbmlk=;
+ b=Pfyd33E/t4yMzChJkOiMaukb1FjcBTtZpcwVF6DjDRT6RxmQh0dXDCtJCA1T8uUTjtZN4a
+ bKDMvRK2SaB1lqkLyTbN4y7PXvaIIM/pR4NTBHxRaefN0ofx02SdovNLDO+QHedH3723is
+ /V0b4+dHSRgfXGBG98yocVxkn06656c=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-404-vl6hPQTpP2yzYGkxLyudiA-1; Mon, 16 Jan 2023 23:30:29 -0500
-X-MC-Unique: vl6hPQTpP2yzYGkxLyudiA-1
-Received: by mail-pl1-f198.google.com with SMTP id
- i1-20020a170902c94100b0019486e621d8so4556772pla.22
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 20:30:29 -0800 (PST)
+ us-mta-325-CJ2OgtYjN8SAaFm-FIvivw-1; Mon, 16 Jan 2023 23:38:53 -0500
+X-MC-Unique: CJ2OgtYjN8SAaFm-FIvivw-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ s22-20020a17090aad9600b002271d094c82so14932172pjq.7
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 20:38:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2rb5XiD0pO7Yyp6kh/iIo//wIDhGUnuK/A8vvsWTLDo=;
- b=Qc9cxgWWixD9maDy5wiInU7QlvQpEnzQtWFyyhZXhs5IzgaLYHTU1ZwT5ENccnlloK
- 0X0LygyXzVLQU8am8biSNSD7acPEjBWNVaEDzg7ihn6hCAdx2Ah9obO/BvBeJfHDiuvp
- UbOK70U+/alhqgiv3EQUL2uHrcUzE0wX1Tr10In4++vK7L8FAhQ2FV9S/xmsDpGjdIO7
- RWMoUrHYRK/4GWC+wjcqWbUY61u+/lCgzY9/AsRbvFvT4x9X3yC6oq5cApEfPJvYSKhK
- 31DAYNLx3aG11m6IR+uhygOh0GqW12Y7A7NrOXM4yyLj/DVjTLb3sozThHjO0W5ExU+T
- hyOw==
-X-Gm-Message-State: AFqh2kpxhNo0TVleJhw0Rjh1jSwPDTH4ISh6iGK0Jtt7Scq1ATd6inSb
- z9aBmhStwmUtCjP5zC0ol7+iwN8B7Kp3Cqa7/RpVp0VbVb5FCboCJVWHGszGj3l98fLt3tUdxoi
- kcoptPNrcKzoyNX0=
-X-Received: by 2002:a17:903:25c3:b0:18f:a5b6:54f9 with SMTP id
- jc3-20020a17090325c300b0018fa5b654f9mr2286265plb.11.1673929828692; 
- Mon, 16 Jan 2023 20:30:28 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvzAaWQqBtOlrr61wtTohH1YDbBWTJqDNq0ajmNS1NRmW0OrH9/KKlplrbQvhWPF2fb8ZRXVw==
-X-Received: by 2002:a17:903:25c3:b0:18f:a5b6:54f9 with SMTP id
- jc3-20020a17090325c300b0018fa5b654f9mr2286232plb.11.1673929828266; 
- Mon, 16 Jan 2023 20:30:28 -0800 (PST)
+ bh=SaM+flDxo6/gFamgMBgWc1osZ7hvwujzB1jXy0xbmlk=;
+ b=c/4TJz0wLJuL4oWMYO7Cxs4gC+2f0YdOyhC/fj1KMGIQu6yQy8EcFLnFQwIogs6O3E
+ 6NQY8f4mHl7NgP3wdDGxPXD1fCHTj8/q/JVpeHZe4BDspfFTpD1FllmnrbUZHfxHdcUC
+ KYNKmxmBwUK54ojI6c485NNsxPjTssu923dAp+grLuzML8+IMsij+6dNIAwDqd7N9e3o
+ 3aUv/Js+6LGLSP7cKavkE9PUtPu86ALV751+krS7mQabGqTw7Y1jNSYkzAKNa56xuF62
+ 85laKHtBTyutEnHHVh2eAbvAp59Ro86zKRyeosGc0EiSBsi1RoLwO/uvGjfSWQaTE3pp
+ EQag==
+X-Gm-Message-State: AFqh2koskUby0j/tYHj9qlAVafmgLVDVOVgd3gSOdAaTFUzrnq4+anpT
+ Mnwc1/VS6FcXjzGA85E4z+o3IT27UuQwBdkfZBjBbUEg+GIay1rzfOHbeQgl11AuITAF2OFb206
+ yllwuTaJIngmYgd8=
+X-Received: by 2002:a05:6a00:27a8:b0:58b:a4bd:e82d with SMTP id
+ bd40-20020a056a0027a800b0058ba4bde82dmr2098457pfb.26.1673930331952; 
+ Mon, 16 Jan 2023 20:38:51 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvGNjC2gEPVt7SuZJRCTDk2YKiUAoVIH6Rd7MiTE859GM2XA1AdwLOz0j6JoHg1EXrrDYI6+Q==
+X-Received: by 2002:a05:6a00:27a8:b0:58b:a4bd:e82d with SMTP id
+ bd40-20020a056a0027a800b0058ba4bde82dmr2098416pfb.26.1673930331551; 
+ Mon, 16 Jan 2023 20:38:51 -0800 (PST)
 Received: from [10.72.13.215] ([43.228.180.230])
  by smtp.gmail.com with ESMTPSA id
- 13-20020a170902c24d00b001926ccaa4bcsm20157310plg.161.2023.01.16.20.30.22
+ w4-20020aa79544000000b0058db5d4b391sm1927271pfq.19.2023.01.16.20.38.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 20:30:27 -0800 (PST)
-Message-ID: <c4fa9963-af4a-e712-162c-926a79016bfe@redhat.com>
-Date: Tue, 17 Jan 2023 12:30:19 +0800
+ Mon, 16 Jan 2023 20:38:51 -0800 (PST)
+Message-ID: <0ce077ab-068f-e715-d4de-21a00f579860@redhat.com>
+Date: Tue, 17 Jan 2023 12:38:43 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC v2 02/13] vdpa net: move iova tree creation from init to
- start
+Subject: Re: [RFC v2 04/13] vdpa: rewind at get_base, not set_base
 Content-Language: en-US
 To: Eugenio Perez Martin <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com,
@@ -83,16 +82,16 @@ Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
 References: <20230112172434.760850-1-eperezma@redhat.com>
- <20230112172434.760850-3-eperezma@redhat.com>
- <CACGkMEvoo1LkBj9m9afCu39J9ngBPVV7T2R7VaRabd8-WdN0oQ@mail.gmail.com>
- <CAJaqyWdioFYZPJT+xfHUxgsZzwVVGKfSbmieuKvhEodgK99c=Q@mail.gmail.com>
- <147cd500-abf3-8d2c-ae7a-02a9672ba61d@redhat.com>
- <CAJaqyWfcV2stgY7mNrw2rEpBN+RC72L39it6Ag=3jW1Pxx_7eA@mail.gmail.com>
+ <20230112172434.760850-5-eperezma@redhat.com>
+ <CACGkMEvo4fS0AZ7_i3MnpLJwic7VEX3x7BaaB=w1t7y2Fri9EQ@mail.gmail.com>
+ <CAJaqyWd3N3+78r_ZNNxZZMVJFpkqceYjOXtOrx6WSK62naN+jA@mail.gmail.com>
+ <68d2c045-e260-140c-9525-2fc265ae9291@redhat.com>
+ <CAJaqyWeY30QETgksM2_zrc8xvOABSTAhwFUXRJRHumX0FFrqpw@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWfcV2stgY7mNrw2rEpBN+RC72L39it6Ag=3jW1Pxx_7eA@mail.gmail.com>
+In-Reply-To: <CAJaqyWeY30QETgksM2_zrc8xvOABSTAhwFUXRJRHumX0FFrqpw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -117,133 +116,217 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-在 2023/1/16 17:14, Eugenio Perez Martin 写道:
-> On Mon, Jan 16, 2023 at 4:05 AM Jason Wang <jasowang@redhat.com> wrote:
+在 2023/1/16 17:53, Eugenio Perez Martin 写道:
+> On Mon, Jan 16, 2023 at 4:32 AM Jason Wang <jasowang@redhat.com> wrote:
 >>
->> 在 2023/1/13 15:28, Eugenio Perez Martin 写道:
->>> On Fri, Jan 13, 2023 at 4:53 AM Jason Wang <jasowang@redhat.com> wrote:
+>> 在 2023/1/13 15:40, Eugenio Perez Martin 写道:
+>>> On Fri, Jan 13, 2023 at 5:10 AM Jason Wang <jasowang@redhat.com> wrote:
 >>>> On Fri, Jan 13, 2023 at 1:24 AM Eugenio Pérez <eperezma@redhat.com> wrote:
->>>>> Only create iova_tree if and when it is needed.
+>>>>> At this moment it is only possible to migrate to a vdpa device running
+>>>>> with x-svq=on. As a protective measure, the rewind of the inflight
+>>>>> descriptors was done at the destination. That way if the source sent a
+>>>>> virtqueue with inuse descriptors they are always discarded.
 >>>>>
->>>>> The cleanup keeps being responsability of last VQ but this change allows
->>>>> to merge both cleanup functions.
+>>>>> Since this series allows to migrate also to passthrough devices with no
+>>>>> SVQ, the right thing to do is to rewind at the source so base of vrings
+>>>>> are correct.
+>>>>>
+>>>>> Support for inflight descriptors may be added in the future.
 >>>>>
 >>>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 >>>>> ---
->>>>>    net/vhost-vdpa.c | 101 +++++++++++++++++++++++++++++++++--------------
->>>>>    1 file changed, 71 insertions(+), 30 deletions(-)
+>>>>>    include/hw/virtio/vhost-backend.h |  4 +++
+>>>>>    hw/virtio/vhost-vdpa.c            | 46 +++++++++++++++++++------------
+>>>>>    hw/virtio/vhost.c                 |  3 ++
+>>>>>    3 files changed, 36 insertions(+), 17 deletions(-)
 >>>>>
->>>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
->>>>> index de5ed8ff22..75cca497c8 100644
->>>>> --- a/net/vhost-vdpa.c
->>>>> +++ b/net/vhost-vdpa.c
->>>>> @@ -178,13 +178,9 @@ err_init:
->>>>>    static void vhost_vdpa_cleanup(NetClientState *nc)
->>>>>    {
->>>>>        VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
->>>>> -    struct vhost_dev *dev = &s->vhost_net->dev;
+>>>>> diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+>>>>> index c5ab49051e..ec3fbae58d 100644
+>>>>> --- a/include/hw/virtio/vhost-backend.h
+>>>>> +++ b/include/hw/virtio/vhost-backend.h
+>>>>> @@ -130,6 +130,9 @@ typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
 >>>>>
->>>>>        qemu_vfree(s->cvq_cmd_out_buffer);
->>>>>        qemu_vfree(s->status);
->>>>> -    if (dev->vq_index + dev->nvqs == dev->vq_index_end) {
->>>>> -        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
->>>>> -    }
->>>>>        if (s->vhost_net) {
->>>>>            vhost_net_cleanup(s->vhost_net);
->>>>>            g_free(s->vhost_net);
->>>>> @@ -234,10 +230,64 @@ static ssize_t vhost_vdpa_receive(NetClientState *nc, const uint8_t *buf,
->>>>>        return size;
+>>>>>    typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
+>>>>>                                           int fd);
+>>>>> +
+>>>>> +typedef void (*vhost_reset_status_op)(struct vhost_dev *dev);
+>>>>> +
+>>>>>    typedef struct VhostOps {
+>>>>>        VhostBackendType backend_type;
+>>>>>        vhost_backend_init vhost_backend_init;
+>>>>> @@ -177,6 +180,7 @@ typedef struct VhostOps {
+>>>>>        vhost_get_device_id_op vhost_get_device_id;
+>>>>>        vhost_force_iommu_op vhost_force_iommu;
+>>>>>        vhost_set_config_call_op vhost_set_config_call;
+>>>>> +    vhost_reset_status_op vhost_reset_status;
+>>>>>    } VhostOps;
+>>>>>
+>>>>>    int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
+>>>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>>>>> index 542e003101..28a52ddc78 100644
+>>>>> --- a/hw/virtio/vhost-vdpa.c
+>>>>> +++ b/hw/virtio/vhost-vdpa.c
+>>>>> @@ -1132,14 +1132,23 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+>>>>>        if (started) {
+>>>>>            memory_listener_register(&v->listener, &address_space_memory);
+>>>>>            return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+>>>>> -    } else {
+>>>>> -        vhost_vdpa_reset_device(dev);
+>>>>> -        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+>>>>> -                                   VIRTIO_CONFIG_S_DRIVER);
+>>>>> -        memory_listener_unregister(&v->listener);
+>>>>> +    }
+>>>>>
+>>>>> -        return 0;
+>>>>> +    return 0;
+>>>>> +}
+>>>>> +
+>>>>> +static void vhost_vdpa_reset_status(struct vhost_dev *dev)
+>>>>> +{
+>>>>> +    struct vhost_vdpa *v = dev->opaque;
+>>>>> +
+>>>>> +    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
+>>>>> +        return;
+>>>>>        }
+>>>>> +
+>>>>> +    vhost_vdpa_reset_device(dev);
+>>>>> +    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+>>>>> +                                VIRTIO_CONFIG_S_DRIVER);
+>>>>> +    memory_listener_unregister(&v->listener);
 >>>>>    }
 >>>>>
->>>>> +/** From any vdpa net client, get the netclient of first queue pair */
->>>>> +static VhostVDPAState *vhost_vdpa_net_first_nc_vdpa(VhostVDPAState *s)
->>>>> +{
->>>>> +    NICState *nic = qemu_get_nic(s->nc.peer);
->>>>> +    NetClientState *nc0 = qemu_get_peer(nic->ncs, 0);
+>>>>>    static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
+>>>>> @@ -1182,18 +1191,7 @@ static int vhost_vdpa_set_vring_base(struct vhost_dev *dev,
+>>>>>                                           struct vhost_vring_state *ring)
+>>>>>    {
+>>>>>        struct vhost_vdpa *v = dev->opaque;
+>>>>> -    VirtQueue *vq = virtio_get_queue(dev->vdev, ring->index);
+>>>>>
+>>>>> -    /*
+>>>>> -     * vhost-vdpa devices does not support in-flight requests. Set all of them
+>>>>> -     * as available.
+>>>>> -     *
+>>>>> -     * TODO: This is ok for networking, but other kinds of devices might
+>>>>> -     * have problems with these retransmissions.
+>>>>> -     */
+>>>>> -    while (virtqueue_rewind(vq, 1)) {
+>>>>> -        continue;
+>>>>> -    }
+>>>>>        if (v->shadow_vqs_enabled) {
+>>>>>            /*
+>>>>>             * Device vring base was set at device start. SVQ base is handled by
+>>>>> @@ -1212,6 +1210,19 @@ static int vhost_vdpa_get_vring_base(struct vhost_dev *dev,
+>>>>>        int ret;
+>>>>>
+>>>>>        if (v->shadow_vqs_enabled) {
+>>>>> +        VirtQueue *vq = virtio_get_queue(dev->vdev, ring->index);
 >>>>> +
->>>>> +    return DO_UPCAST(VhostVDPAState, nc, nc0);
->>>>> +}
+>>>>> +        /*
+>>>>> +         * vhost-vdpa devices does not support in-flight requests. Set all of
+>>>>> +         * them as available.
+>>>>> +         *
+>>>>> +         * TODO: This is ok for networking, but other kinds of devices might
+>>>>> +         * have problems with these retransmissions.
+>>>>> +         */
+>>>>> +        while (virtqueue_rewind(vq, 1)) {
+>>>>> +            continue;
+>>>>> +        }
 >>>>> +
->>>>> +static void vhost_vdpa_net_data_start_first(VhostVDPAState *s)
->>>>> +{
->>>>> +    struct vhost_vdpa *v = &s->vhost_vdpa;
->>>>> +
->>>>> +    if (v->shadow_vqs_enabled) {
->>>>> +        v->iova_tree = vhost_iova_tree_new(v->iova_range.first,
->>>>> +                                           v->iova_range.last);
->>>>> +    }
->>>>> +}
->>>>> +
->>>>> +static int vhost_vdpa_net_data_start(NetClientState *nc)
->>>>> +{
->>>>> +    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
->>>>> +    struct vhost_vdpa *v = &s->vhost_vdpa;
->>>>> +
->>>>> +    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
->>>>> +
->>>>> +    if (v->index == 0) {
->>>>> +        vhost_vdpa_net_data_start_first(s);
->>>>> +        return 0;
->>>>> +    }
->>>>> +
->>>>> +    if (v->shadow_vqs_enabled) {
->>>>> +        VhostVDPAState *s0 = vhost_vdpa_net_first_nc_vdpa(s);
->>>>> +        v->iova_tree = s0->vhost_vdpa.iova_tree;
->>>>> +    }
->>>> It looks to me the logic here is somehow the same as
->>>> vhost_vdpa_net_cvq_start(), can we unify the them?
+>>>>>            ring->num = virtio_queue_get_last_avail_idx(dev->vdev, ring->index);
+>>>>>            return 0;
+>>>>>        }
+>>>>> @@ -1326,4 +1337,5 @@ const VhostOps vdpa_ops = {
+>>>>>            .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
+>>>>>            .vhost_force_iommu = vhost_vdpa_force_iommu,
+>>>>>            .vhost_set_config_call = vhost_vdpa_set_config_call,
+>>>>> +        .vhost_reset_status = vhost_vdpa_reset_status,
+>>>> Can we simply use the NetClient stop method here?
 >>>>
->>> It depends on what you mean by unify :). But we can explore it for sure.
+>>> Ouch, I squashed two patches by mistake here.
 >>>
->>> We can call vhost_vdpa_net_data_start, but the steps to do if
->>> s0->vhost_vdpa.iova_tree == NULL are different. Data queues must do
->>> nothing, but CVQ must create a new iova tree.
+>>> All the vhost_reset_status part should be independent of this patch,
+>>> and I was especially interested in its feedback. It had this message:
 >>>
->>> So one possibility is to convert this part of vhost_vdpa_net_cvq_start:
->>>       s0 = vhost_vdpa_net_first_nc_vdpa(s);
->>>       if (s0->vhost_vdpa.iova_tree) {
->>>           /* SVQ is already configured for all virtqueues */
->>>           v->iova_tree = s0->vhost_vdpa.iova_tree;
->>>       } else {
->>>           v->iova_tree = vhost_iova_tree_new(v->iova_range.first,
->>>                                              v->iova_range.last);
->>>       }
+>>>       vdpa: move vhost reset after get vring base
 >>>
->>> into:
->>>       vhost_vdpa_net_data_start(nc);
->>>       if (!v->iova_tree) {
->>>           v->iova_tree = vhost_iova_tree_new(v->iova_range.first,
->>>                                              v->iova_range.last);
->>>       }
+>>>       The function vhost.c:vhost_dev_stop calls vhost operation
+>>>       vhost_dev_start(false). In the case of vdpa it totally reset and wipes
+>>>       the device, making the fetching of the vring base (virtqueue state) totally
+>>>       useless.
 >>>
->>> I'm ok with the change but it's less clear in my opinion: it's not
->>> obvious that net_data_start is in charge of setting v->iova_tree to
->>> me.
->>
->> Ok.
->>
->>
->>> Another possibility is to abstract something like
->>> first_nc_iova_tree(), but we need to check more fields of s0 later
->>> (shadow_data) so I'm not sure about the benefit.
+>>>       The kernel backend does not use vhost_dev_start vhost op callback, but
+>>>       vhost-user do. A patch to make vhost_user_dev_start more similar to vdpa
+>>>       is desirable, but it can be added on top.
 >>>
->>> Is that what you have in mind?
+>>> I can resend the series splitting it again but conversation may
+>>> scatter between versions. Would you prefer me to send a new version?
 >>
->> Kind of, but I think we can leave the code as is.
+>> I think it can be done in next version (after we finalize the discussion
+>> for this version).
 >>
->> In the future, as discussed, we need to introduce something like a
->> parent or opaque structure for NetClientState structure, it can simply a
->> lot of things: we can have one same common parent for all queues, then
->> there's no need for the trick like first_nc_iova_tree() and other
->> similar tricks.
 >>
-> So we can ack this patch or you prefer to explore the change for the
-> next series?
+>>> Regarding the use of NetClient, it feels weird to call net specific
+>>> functions in VhostOps, doesn't it?
+>>
+>> Basically, I meant, the patch call vhost_reset_status() in
+>> vhost_dev_stop(). But we've already had vhost_dev_start ops where we
+>> implement per backend start/stop logic.
+>>
+>> I think it's better to do things in vhost_dev_start():
+>>
+>> For device that can do suspend, we can do suspend. For other we need to
+>> do reset as a workaround.
+>>
+> If the device implements _F_SUSPEND we can call suspend in
+> vhost_dev_start(false) and fetch the vq base after it. But we cannot
+> call vhost_dev_reset until we get the vq base. If we do it, we will
+> always get zero there.
 
 
-Let's let it for future.
+I'm not sure I understand here, that is kind of expected. For the device 
+that doesn't support suspend, we can't get base anyhow since we need to 
+emulate the stop with reset then we lose all the states.
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+
+>
+> If we don't reset the device at vhost_vdpa_dev_start(false) we need to
+> call a proper reset after getting the base, at least in vdpa.
+
+
+This looks racy if we do get base before reset? Device can move the 
+last_avail_idx.
+
+
+> So to
+> create a new vhost_op should be the right thing to do, isn't it?
+
+
+So we did:
+
+vhost_dev_stop()
+     hdev->vhost_ops->vhost_dev_start(hdev, false);
+     vhost_virtqueue_stop()
+         vhost_get_vring_base()
+
+I don't see any issue if we do suspend in vhost_dev_stop() in this case?
+
+For the device that doesn't support suspend, we do reset in the stop and 
+fail the get_vring_base() then we can use software fallback 
+virtio_queue_restore_last_avail_idx()
+
+?
+
+
+>
+> Hopefully with a better name than vhost_vdpa_reset_status, that's for sure :).
+>
+> I'm not sure how vhost-user works with this or when it does reset the
+> indexes. My bet is that it never does at the device reinitialization
+> and it trusts VMM calls to vhost_user_set_base but I may be wrong.
+
+
+I think it's more safe to not touch the code path for vhost-user, it may 
+connect to various kind of backends some of which might be fragile.
 
 Thanks
 
@@ -251,161 +334,36 @@ Thanks
 >
 > Thanks!
 >
+>> And if necessary, we can call nc client ops for net specific operations
+>> (if it has any).
+>>
 >> Thanks
 >>
+>>
+>>> At the moment vhost ops is
+>>> specialized in vhost-kernel, vhost-user and vhost-vdpa. If we want to
+>>> make it specific to the kind of device, that makes vhost-vdpa-net too.
+>>>
 >>> Thanks!
 >>>
->>>>> +
->>>>> +    return 0;
->>>>> +}
->>>>> +
->>>>> +static void vhost_vdpa_net_client_stop(NetClientState *nc)
->>>>> +{
->>>>> +    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
->>>>> +    struct vhost_dev *dev;
->>>>> +
->>>>> +    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
->>>>> +
->>>>> +    dev = s->vhost_vdpa.dev;
->>>>> +    if (dev->vq_index + dev->nvqs == dev->vq_index_end) {
->>>>> +        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
+>>>
+>>>> Thanks
+>>>>
+>>>>>    };
+>>>>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>>>>> index eb8c4c378c..a266396576 100644
+>>>>> --- a/hw/virtio/vhost.c
+>>>>> +++ b/hw/virtio/vhost.c
+>>>>> @@ -2049,6 +2049,9 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev, bool vrings)
+>>>>>                                 hdev->vqs + i,
+>>>>>                                 hdev->vq_index + i);
+>>>>>        }
+>>>>> +    if (hdev->vhost_ops->vhost_reset_status) {
+>>>>> +        hdev->vhost_ops->vhost_reset_status(hdev);
 >>>>> +    }
->>>>> +}
->>>>> +
->>>>>    static NetClientInfo net_vhost_vdpa_info = {
->>>>>            .type = NET_CLIENT_DRIVER_VHOST_VDPA,
->>>>>            .size = sizeof(VhostVDPAState),
->>>>>            .receive = vhost_vdpa_receive,
->>>>> +        .start = vhost_vdpa_net_data_start,
->>>>> +        .stop = vhost_vdpa_net_client_stop,
->>>>>            .cleanup = vhost_vdpa_cleanup,
->>>>>            .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
->>>>>            .has_ufo = vhost_vdpa_has_ufo,
->>>>> @@ -351,7 +401,7 @@ dma_map_err:
 >>>>>
->>>>>    static int vhost_vdpa_net_cvq_start(NetClientState *nc)
->>>>>    {
->>>>> -    VhostVDPAState *s;
->>>>> +    VhostVDPAState *s, *s0;
->>>>>        struct vhost_vdpa *v;
->>>>>        uint64_t backend_features;
->>>>>        int64_t cvq_group;
->>>>> @@ -415,8 +465,6 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
->>>>>            return r;
->>>>>        }
->>>>>
->>>>> -    v->iova_tree = vhost_iova_tree_new(v->iova_range.first,
->>>>> -                                       v->iova_range.last);
->>>>>        v->shadow_vqs_enabled = true;
->>>>>        s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
->>>>>
->>>>> @@ -425,6 +473,15 @@ out:
->>>>>            return 0;
->>>>>        }
->>>>>
->>>>> +    s0 = vhost_vdpa_net_first_nc_vdpa(s);
->>>>> +    if (s0->vhost_vdpa.iova_tree) {
->>>>> +        /* SVQ is already configured for all virtqueues */
->>>>> +        v->iova_tree = s0->vhost_vdpa.iova_tree;
->>>>> +    } else {
->>>>> +        v->iova_tree = vhost_iova_tree_new(v->iova_range.first,
->>>>> +                                           v->iova_range.last);
->>>>> +    }
->>>>> +
->>>>>        r = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer,
->>>>>                                   vhost_vdpa_net_cvq_cmd_page_len(), false);
->>>>>        if (unlikely(r < 0)) {
->>>>> @@ -449,15 +506,9 @@ static void vhost_vdpa_net_cvq_stop(NetClientState *nc)
->>>>>        if (s->vhost_vdpa.shadow_vqs_enabled) {
->>>>>            vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer);
->>>>>            vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->status);
->>>>> -        if (!s->always_svq) {
->>>>> -            /*
->>>>> -             * If only the CVQ is shadowed we can delete this safely.
->>>>> -             * If all the VQs are shadows this will be needed by the time the
->>>>> -             * device is started again to register SVQ vrings and similar.
->>>>> -             */
->>>>> -            g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
->>>>> -        }
->>>>>        }
->>>>> +
->>>>> +    vhost_vdpa_net_client_stop(nc);
->>>>>    }
->>>>>
->>>>>    static ssize_t vhost_vdpa_net_cvq_add(VhostVDPAState *s, size_t out_len,
->>>>> @@ -667,8 +718,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
->>>>>                                           int nvqs,
->>>>>                                           bool is_datapath,
->>>>>                                           bool svq,
->>>>> -                                       struct vhost_vdpa_iova_range iova_range,
->>>>> -                                       VhostIOVATree *iova_tree)
->>>>> +                                       struct vhost_vdpa_iova_range iova_range)
->>>>>    {
->>>>>        NetClientState *nc = NULL;
->>>>>        VhostVDPAState *s;
->>>>> @@ -690,7 +740,6 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
->>>>>        s->vhost_vdpa.shadow_vqs_enabled = svq;
->>>>>        s->vhost_vdpa.iova_range = iova_range;
->>>>>        s->vhost_vdpa.shadow_data = svq;
->>>>> -    s->vhost_vdpa.iova_tree = iova_tree;
->>>>>        if (!is_datapath) {
->>>>>            s->cvq_cmd_out_buffer = qemu_memalign(qemu_real_host_page_size(),
->>>>>                                                vhost_vdpa_net_cvq_cmd_page_len());
->>>>> @@ -760,7 +809,6 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->>>>>        uint64_t features;
->>>>>        int vdpa_device_fd;
->>>>>        g_autofree NetClientState **ncs = NULL;
->>>>> -    g_autoptr(VhostIOVATree) iova_tree = NULL;
->>>>>        struct vhost_vdpa_iova_range iova_range;
->>>>>        NetClientState *nc;
->>>>>        int queue_pairs, r, i = 0, has_cvq = 0;
->>>>> @@ -812,12 +860,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->>>>>            goto err;
->>>>>        }
->>>>>
->>>>> -    if (opts->x_svq) {
->>>>> -        if (!vhost_vdpa_net_valid_svq_features(features, errp)) {
->>>>> -            goto err_svq;
->>>>> -        }
->>>>> -
->>>>> -        iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
->>>>> +    if (opts->x_svq && !vhost_vdpa_net_valid_svq_features(features, errp)) {
->>>>> +        goto err;
->>>>>        }
->>>>>
->>>>>        ncs = g_malloc0(sizeof(*ncs) * queue_pairs);
->>>>> @@ -825,7 +869,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->>>>>        for (i = 0; i < queue_pairs; i++) {
->>>>>            ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
->>>>>                                         vdpa_device_fd, i, 2, true, opts->x_svq,
->>>>> -                                     iova_range, iova_tree);
->>>>> +                                     iova_range);
->>>>>            if (!ncs[i])
->>>>>                goto err;
->>>>>        }
->>>>> @@ -833,13 +877,11 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->>>>>        if (has_cvq) {
->>>>>            nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
->>>>>                                     vdpa_device_fd, i, 1, false,
->>>>> -                                 opts->x_svq, iova_range, iova_tree);
->>>>> +                                 opts->x_svq, iova_range);
->>>>>            if (!nc)
->>>>>                goto err;
->>>>>        }
->>>>>
->>>>> -    /* iova_tree ownership belongs to last NetClientState */
->>>>> -    g_steal_pointer(&iova_tree);
->>>>>        return 0;
->>>>>
->>>>>    err:
->>>>> @@ -849,7 +891,6 @@ err:
->>>>>            }
->>>>>        }
->>>>>
->>>>> -err_svq:
->>>>>        qemu_close(vdpa_device_fd);
->>>>>
->>>>>        return -1;
+>>>>>        if (vhost_dev_has_iommu(hdev)) {
+>>>>>            if (hdev->vhost_ops->vhost_set_iotlb_callback) {
 >>>>> --
 >>>>> 2.31.1
 >>>>>
