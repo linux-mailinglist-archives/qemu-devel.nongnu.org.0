@@ -2,74 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091F866DA68
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 11:00:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3237666DA75
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 11:00:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHikq-0008Hf-1p; Tue, 17 Jan 2023 04:59:44 -0500
+	id 1pHilc-0000Tw-4q; Tue, 17 Jan 2023 05:00:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+d80603fb936c028ea1fe+7086+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pHiki-0008HQ-KE
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 04:59:38 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHilZ-0000Tg-1f
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:00:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+d80603fb936c028ea1fe+7086+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pHike-0001K2-VX
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 04:59:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=lcRPZT6dR+qy8i8SrZn6IWD0BpHE0cemNzMiBrgthRA=; b=j80CPTbUhF50V/3Hv5kvi12F/8
- ez605EolSYOiccTdRk7+cAOroBYC+bCnqTVY4ATN73MF45P01s1qtwsReXgYU352+duTb7oxvn9x7
- P9apedR4rzK97G2cR4W6O9ZkQD5W11UUEB5CAaLfsAToBOyjmUFe5VOtxjQldBVo4iB0MvnKInn1k
- pdlqutYFgBzqAEKrHaUrTuL9d0p0jAazNYM3WiXqTEbZ3CLs3GKLrotDcBt95TQkNriNZhHqE+Vzu
- P5QNJjjIPYG26D5uBXOm2FDhG3zRls7Vo2GrxC0rYXWLXSiaVtQ7js7Z+iDu8wqJrxP0Ytd8KqnCx
- C6WVKDgw==;
-Received: from [172.31.31.189] (helo=[127.0.0.1])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pHikW-009ZWv-CR; Tue, 17 Jan 2023 09:59:24 +0000
-Date: Tue, 17 Jan 2023 09:59:10 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: paul@xen.org, Paul Durrant <xadimgnik@gmail.com>, qemu-devel@nongnu.org
-CC: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>, 
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?ISO-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: Re: [PATCH v7 23/51] i386/xen: implement HYPERVISOR_event_channel_op
-User-Agent: K-9 Mail for Android
-In-Reply-To: <768b351e-8e24-b0f1-9bc7-7467a671feae@xen.org>
-References: <20230116215805.1123514-1-dwmw2@infradead.org>
- <20230116215805.1123514-24-dwmw2@infradead.org>
- <768b351e-8e24-b0f1-9bc7-7467a671feae@xen.org>
-Message-ID: <04ED6A31-B9D8-4EBD-A9A8-BDD1A9B9FD57@infradead.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHilX-0001oT-C0
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:00:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673949626;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BuTTAvc6CwyE80vW5CFYr9Zm723BG8oMYzJ2KiseC0U=;
+ b=aAqMYyJsx+c6vP5E4kEBPI4NFrwnJb6EWG4/vSwx5227jRoWh06uHI+hLwSt2BXaU1g35B
+ X5yCp/WIXKqPmt/PfxrCAimiVNt4oBRZBZWjNzrNA1KYh+Xw3PrLxxGviv2lYNVxZFRheb
+ 7MyYonMdf2CgdGVV21yjpD9+eT6dI9Y=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-629-YkL7KbWjNjupoxKBW2gh4Q-1; Tue, 17 Jan 2023 05:00:25 -0500
+X-MC-Unique: YkL7KbWjNjupoxKBW2gh4Q-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ jy13-20020a0562142b4d00b00535302dd1b8so285839qvb.18
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 02:00:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BuTTAvc6CwyE80vW5CFYr9Zm723BG8oMYzJ2KiseC0U=;
+ b=seu8jwMpewB5/a9A7z/CuhbXmHbnLIa9cpM7FBHFB1GDY26/JF4kHh0WpEUUCL0qfY
+ 3q9GRX0mUoxMvK7t6d3VmgFjiANY+rp2hR3jIWKoZp8NbyZ06eUvzurCD9m4IGLnoStX
+ ZtpOStsLYYIyiCmTR6s7OMUkQVJh2XRBZ+TW3PqqSZzVjC0mrM+KemksbPLZ4fijxTh5
+ QFIj8tYQwINvHltGbrCMudqMVw0SYEYJJXxgYu+cWkStJnxYbzP9YTFzbj2781KtpT8Z
+ BBY2Va8soRo3B7YXS6RWFmA9Pivkn2sZ7wnAbX9sqOHjoQ+Q2c/gA7PJwNIOpozFfLtf
+ 4uaQ==
+X-Gm-Message-State: AFqh2kq8e89W9yZ16ZpmYs5gurTKDBSWjasbqAQ+p8Gsc4XnSTy0XZIV
+ b9Wn189rqQI+sABwmyCsyA5XB2d0kgxfTUT3k2ipYDd7qnjGbcUeiQm3F5++C5A6w7sj3I/HY08
+ ocrNm6vI0hRWXoak=
+X-Received: by 2002:a05:622a:2483:b0:3a8:20e5:49bc with SMTP id
+ cn3-20020a05622a248300b003a820e549bcmr3000575qtb.41.1673949625026; 
+ Tue, 17 Jan 2023 02:00:25 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXutzsRpJ8Erwt5X/nVj5mEJ+9Nf4T3bkHa2O6nFf4rGBVPNl6KyEi7QrxigSvEShUsJwZi0WQ==
+X-Received: by 2002:a05:622a:2483:b0:3a8:20e5:49bc with SMTP id
+ cn3-20020a05622a248300b003a820e549bcmr3000552qtb.41.1673949624799; 
+ Tue, 17 Jan 2023 02:00:24 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-26.web.vodafone.de.
+ [109.43.177.26]) by smtp.gmail.com with ESMTPSA id
+ m5-20020ac86885000000b0039cba52974fsm15787640qtq.94.2023.01.17.02.00.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Jan 2023 02:00:24 -0800 (PST)
+Message-ID: <5a13b5c9-f8d4-6b4f-b55b-4b8a0ac54867@redhat.com>
+Date: Tue, 17 Jan 2023 11:00:16 +0100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+d80603fb936c028ea1fe+7086+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v5] tests/qtest: netdev: test stream and dgram backends
+Content-Language: en-US
+From: Thomas Huth <thuth@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>
+References: <20230105093751.416666-1-lvivier@redhat.com>
+ <3d55b710-4601-4f8b-5289-72997ea09e5a@redhat.com>
+ <0b29c231-da85-5302-31bc-b2e420c2b394@redhat.com>
+In-Reply-To: <0b29c231-da85-5302-31bc-b2e420c2b394@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,61 +104,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 16/01/2023 09.40, Thomas Huth wrote:
+> On 16/01/2023 09.29, Laurent Vivier wrote:
+>> ping
+>>
+>> On 1/5/23 10:37, Laurent Vivier wrote:
+>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>>> ---
+>>>
+>>> Notes:
+>>>      v5:
+>>>        - disable test_stream_fd and  test_dgram_fd on windows as 
+>>> socketpair()
+>>>          is not defined.
+>>>        - enable test_stream_unix_abstract only on linux as "abstract"
+>>>          unix socket parameter is only defined on linux.
+>>>      v4:
+>>>        - rework EXPECT_STATE()
+>>>        - use g_dir_make_tmp()
+>>>      v3:
+>>>      - Add "-M none" to avoid error:
+>>>        "No machine specified, and there is no default"
+>>>      v2:
+>>>      - Fix ipv6 free port allocation
+>>>      - Check for IPv4, IPv6, AF_UNIX
+>>>      - Use g_mkdtemp() rather than g_file_open_tmp()
+>>>      - Use socketpair() in test_stream_fd()
+>>>      v1: compared to v14 of "qapi: net: add unix socket type support to 
+>>> netdev backend":
+>>>      - use IP addresses 127.0.0.1 and ::1 rather than localhost
+>>>
+>>>   tests/qtest/meson.build     |   2 +
+>>>   tests/qtest/netdev-socket.c | 444 ++++++++++++++++++++++++++++++++++++
+>>>   2 files changed, 446 insertions(+)
+>>>   create mode 100644 tests/qtest/netdev-socket.c
+> 
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> 
+> I'll queue it for my next pull request (unless someone else wants to take 
+> this first)
 
+Sorry, but I have to unqueue it again. I'm still seeing failures
+in the Windows Cirrus-CI:
 
-On 17 January 2023 09:53:00 GMT, Paul Durrant <xadimgnik@gmail=2Ecom> wrot=
-e:
->On 16/01/2023 21:57, David Woodhouse wrote:
->> From: Joao Martins <joao=2Em=2Emartins@oracle=2Ecom>
->>=20
->> Additionally set XEN_INTERFACE_VERSION to most recent in order to
->> exercise the "new" event_channel_op=2E
->>=20
->> Signed-off-by: Joao Martins <joao=2Em=2Emartins@oracle=2Ecom>
->> [dwmw2: Ditch event_channel_op_compat which was never available to HVM =
-guests]
->> Signed-off-by: David Woodhouse <dwmw@amazon=2Eco=2Euk>
->> ---
->>   target/i386/kvm/xen-emu=2Ec | 25 +++++++++++++++++++++++++
->>   1 file changed, 25 insertions(+)
->
->Reviewed-by: Paul Durrant <paul@xen=2Eorg>
->
->=2E=2E=2E with one observation=2E=2E=2E
->
->>=20
->> diff --git a/target/i386/kvm/xen-emu=2Ec b/target/i386/kvm/xen-emu=2Ec
->> index b0ff03dbeb=2E=2E686e5dfd38 100644
->> --- a/target/i386/kvm/xen-emu=2Ec
->> +++ b/target/i386/kvm/xen-emu=2Ec
->> @@ -27,6 +27,7 @@
->>   #include "standard-headers/xen/memory=2Eh"
->>   #include "standard-headers/xen/hvm/hvm_op=2Eh"
->>   #include "standard-headers/xen/vcpu=2Eh"
->> +#include "standard-headers/xen/event_channel=2Eh"
->>     #include "xen-compat=2Eh"
->>   @@ -585,6 +586,27 @@ static bool kvm_xen_hcall_vcpu_op(struct kvm_xen=
-_exit *exit, X86CPU *cpu,
->>       return true;
->>   }
->>   +static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit,
->> +                                    int cmd, uint64_t arg)
->> +{
->> +    int err =3D -ENOSYS;
->> +
->> +    switch (cmd) {
->> +    case EVTCHNOP_init_control:
->> +	case EVTCHNOP_expand_array:
->> +	case EVTCHNOP_set_priority:
->
->Indentation looks wrong here=2E
+  https://cirrus-ci.com/task/5867407370092544
 
-Oops=2E=2E Cut and paste from code which uses tabs=2E :)
+For example:
 
-I think that comment about XEN_INTERFACE_VERSION may want to change too; d=
-idn't I shift that elsewhere so it didn't have to move around in the header=
- cleanups that come later?
+218/556 qemu:qtest+qtest-aarch64 / qtest-aarch64/netdev-socket                    ERROR           0.02s   exit status 3
+------------------------------------- 8< -------------------------------------
+stderr:
+socket_check_protocol_support() failed
 
-Will fix, ta=2E
+(C:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-ci-build/build/tests/qtest/netdev-socket.exe:3300): GLib-CRITICAL **: 09:08:00.984: g_utf8_to_utf16: assertion 'str != NULL' failed
+
+(test program exited with status code 3)
+
+No clue where this comes from, though, I don't see a call
+to g_utf8_to_utf16() in your code?
+
+  Thomas
 
 
