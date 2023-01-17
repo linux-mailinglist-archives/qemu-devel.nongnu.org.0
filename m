@@ -2,70 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72BBF66E41C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:53:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C9266E439
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:58:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHpCZ-0005VH-Qz; Tue, 17 Jan 2023 11:52:47 -0500
+	id 1pHpGp-000724-Tv; Tue, 17 Jan 2023 11:57:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pHpCX-0005V6-RB
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:52:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pHpGf-00071H-4u; Tue, 17 Jan 2023 11:57:04 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pHpCW-0001p8-9q
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:52:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673974363;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FDgixqMdZgJKYF6e0PBWXRXvTbMCho7EW2mMMQM3c70=;
- b=ZIDZqnqXxJtst9ypPmxZLTYe/0pDJYK1EMPloHpp2eK7MB7Bjzy5biH4i4m9sTBm45zT17
- Tofomq9zIB9BWm5mg09WWlY4KtKkU41xE72c5B3cjDE6NGVwPM2OOv4lwEhpjF+wI4WUIs
- niZGxpNLi/2U4pys23/f494xkbM6iss=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-175-KRcR06ouMPCBRAQ0kDPHRw-1; Tue, 17 Jan 2023 11:52:39 -0500
-X-MC-Unique: KRcR06ouMPCBRAQ0kDPHRw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E4C938173E8;
- Tue, 17 Jan 2023 16:52:09 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A843A492B01;
- Tue, 17 Jan 2023 16:52:08 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org, Eric
- Auger <eauger@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH v4 1/2] arm/kvm: add support for MTE
-In-Reply-To: <CAFEAcA9BKX+fSEZZbziwTNq5wsshDajuxGZ_oByVZ=gDSYOn9g@mail.gmail.com>
-Organization: Red Hat GmbH
-References: <20230111161317.52250-1-cohuck@redhat.com>
- <20230111161317.52250-2-cohuck@redhat.com>
- <CAFEAcA9BKX+fSEZZbziwTNq5wsshDajuxGZ_oByVZ=gDSYOn9g@mail.gmail.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Tue, 17 Jan 2023 17:52:06 +0100
-Message-ID: <87a62h85op.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pHpGc-0002RJ-Ok; Tue, 17 Jan 2023 11:57:00 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30HGOEYg022078; Tue, 17 Jan 2023 16:56:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=cLYrJ1QEFjs4vXi2mg9tcnsI+okETg5c6qYXCnh5vaA=;
+ b=UMi6t+CIeii5L7FussZDBBXyerAu5tE23OgI4gYLPhXXFTYB3tEk0lYEdMGhN7rgL3sq
+ kxJ+/QRI9NTGAQy0lt3Z06KVuCWoBYiNYHygPYtn3/iDXTAjCStNDfjft7E4AypDGPUQ
+ frHJ6FdflSeaPaNzNGRnmYq0+g8HQCcEEgV3FiupaXb3Lpi62wWej/+dxZ1kZozm6rmC
+ ArqT6G9ye8pjCjSx7FUvz2vR2t8UT3/qgOLkFm+UxTZpc98/GbDf5XdoMxgUUyJlalkQ
+ iPNly8TpdadAk5jLSledvVHS2lArLgCyCfBB1hwek0NSCzb1zof80LSzI5A5u8QNaWjv PA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5y5trrfw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 16:56:53 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30HGs8tE009405;
+ Tue, 17 Jan 2023 16:56:53 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5y5trrf6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 16:56:53 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30H931eC004689;
+ Tue, 17 Jan 2023 16:56:51 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3n3m16m609-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 16:56:51 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30HGulRu47055212
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 17 Jan 2023 16:56:47 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 95B8120043;
+ Tue, 17 Jan 2023 16:56:47 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3CE9F20040;
+ Tue, 17 Jan 2023 16:56:46 +0000 (GMT)
+Received: from [9.171.42.216] (unknown [9.171.42.216])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 17 Jan 2023 16:56:46 +0000 (GMT)
+Message-ID: <01782d4e-4c84-f958-b427-ff294f6c3c3f@linux.ibm.com>
+Date: Tue, 17 Jan 2023 17:56:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v14 03/11] target/s390x/cpu topology: handle STSI(15) and
+ build the SYSIB
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ frankja@linux.ibm.com
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-4-pmorel@linux.ibm.com>
+ <5cf19913-b2d7-d72d-4332-27aa484f72e4@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <5cf19913-b2d7-d72d-4332-27aa484f72e4@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 4WOpgVh8CJ5dMeNZ-ogBuGV41xrkzDAX
+X-Proofpoint-ORIG-GUID: dJYrOY-1J-nnWscvP53QhM2GJpMRGdum
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-17_08,2023-01-17_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ mlxlogscore=999 mlxscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0
+ impostorscore=0 bulkscore=0 adultscore=0 phishscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301170133
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,73 +123,256 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 17 2023, Peter Maydell <peter.maydell@linaro.org> wrote:
 
-> On Wed, 11 Jan 2023 at 16:13, Cornelia Huck <cohuck@redhat.com> wrote:
+
+On 1/10/23 15:29, Thomas Huth wrote:
+> On 05/01/2023 15.53, Pierre Morel wrote:
+>> On interception of STSI(15.1.x) the System Information Block
+>> (SYSIB) is built from the list of pre-ordered topology entries.
 >>
->> Introduce a new cpu feature flag to control MTE support. To preserve
->> backwards compatibility for tcg, MTE will continue to be enabled as
->> long as tag memory has been provided.
->>
->> If MTE has been enabled, we need to disable migration, as we do not
->> yet have a way to migrate the tags as well. Therefore, MTE will stay
->> off with KVM unless requested explicitly.
->>
->> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 >> ---
->>  docs/system/arm/cpu-features.rst |  21 +++++
->>  hw/arm/virt.c                    |   2 +-
->>  target/arm/cpu.c                 |  18 ++---
->>  target/arm/cpu.h                 |   1 +
->>  target/arm/cpu64.c               | 133 +++++++++++++++++++++++++++++++
->>  target/arm/internals.h           |   1 +
->>  target/arm/kvm64.c               |   5 ++
->>  target/arm/kvm_arm.h             |  12 +++
->>  target/arm/monitor.c             |   1 +
->>  9 files changed, 181 insertions(+), 13 deletions(-)
->>
->> diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
->> index 00c444042ff5..e278650c837e 100644
->> --- a/docs/system/arm/cpu-features.rst
->> +++ b/docs/system/arm/cpu-features.rst
->> @@ -443,3 +443,24 @@ As with ``sve-default-vector-length``, if the default length is larger
->>  than the maximum vector length enabled, the actual vector length will
->>  be reduced.  If this property is set to ``-1`` then the default vector
->>  length is set to the maximum possible length.
+> ...
+>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>> index 39ea63a416..78988048dd 100644
+>> --- a/target/s390x/cpu.h
+>> +++ b/target/s390x/cpu.h
+>> @@ -561,6 +561,25 @@ typedef struct SysIB_322 {
+>>   } SysIB_322;
+>>   QEMU_BUILD_BUG_ON(sizeof(SysIB_322) != 4096);
+>> +#define S390_TOPOLOGY_MAG  6
+>> +#define S390_TOPOLOGY_MAG6 0
+>> +#define S390_TOPOLOGY_MAG5 1
+>> +#define S390_TOPOLOGY_MAG4 2
+>> +#define S390_TOPOLOGY_MAG3 3
+>> +#define S390_TOPOLOGY_MAG2 4
+>> +#define S390_TOPOLOGY_MAG1 5
+>> +/* Configuration topology */
+>> +typedef struct SysIB_151x {
+>> +    uint8_t  reserved0[2];
+>> +    uint16_t length;
+>> +    uint8_t  mag[S390_TOPOLOGY_MAG];
+>> +    uint8_t  reserved1;
+>> +    uint8_t  mnest;
+>> +    uint32_t reserved2;
+>> +    char tle[];
+>> +} QEMU_PACKED QEMU_ALIGNED(8) SysIB_151x;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
 >> +
->> +MTE CPU Property
->> +================
->> +
->> +The ``mte`` property controls the Memory Tagging Extension. For TCG, it requires
->> +presence of tag memory (which can be turned on for the ``virt`` machine via
->> +``mte=on``). For KVM, it requires the ``KVM_CAP_ARM_MTE`` capability; until
->> +proper migration support is implemented, enabling MTE will install a migration
->> +blocker.
->> +
->> +If not specified explicitly via ``on`` or ``off``, MTE will be available
->> +according to the following rules:
->> +
->> +* When TCG is used, MTE will be available iff tag memory is available; i.e. it
->> +  preserves the behaviour prior to introduction of the feature.
->> +
->> +* When KVM is used, MTE will default to off, so that migration will not
->> +  unintentionally be blocked.
->> +
->> +* Other accelerators currently don't support MTE.
->
-> Minor nits for the documentation:
-> we should expand out "if and only if" -- not everybody recognizes
-> "iff", especially if they're not native English speakers or not
-> mathematicians.
+>>   typedef union SysIB {
+>>       SysIB_111 sysib_111;
+>>       SysIB_121 sysib_121;
+>> @@ -568,9 +587,68 @@ typedef union SysIB {
+>>       SysIB_221 sysib_221;
+>>       SysIB_222 sysib_222;
+>>       SysIB_322 sysib_322;
+>> +    SysIB_151x sysib_151x;
+>>   } SysIB;
+>>   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
+>> +/*
+>> + * CPU Topology List provided by STSI with fc=15 provides a list
+>> + * of two different Topology List Entries (TLE) types to specify
+>> + * the topology hierarchy.
+>> + *
+>> + * - Container Topology List Entry
+>> + *   Defines a container to contain other Topology List Entries
+>> + *   of any type, nested containers or CPU.
+>> + * - CPU Topology List Entry
+>> + *   Specifies the CPUs position, type, entitlement and polarization
+>> + *   of the CPUs contained in the last Container TLE.
+>> + *
+>> + * There can be theoretically up to five levels of containers, QEMU
+>> + * uses only one level, the socket level.
+> 
+> I guess that sentence needs an update again, now that you've re-added 
+> the books and drawers?
 
-Ok, will change that.
+yes
 
->
-> Should we write specifically that in a future QEMU version KVM
-> might change to defaulting to "on if available" when migration
-> support is implemented?
+> 
+>> + * A container of with a nesting level (NL) greater than 1 can only
+>> + * contain another container of nesting level NL-1.
+>> + *
+>> + * A container of nesting level 1 (socket), contains as many CPU TLE
+>> + * as needed to describe the position and qualities of all CPUs inside
+>> + * the container.
+>> + * The qualities of a CPU are polarization, entitlement and type.
+>> + *
+>> + * The CPU TLE defines the position of the CPUs of identical qualities
+>> + * using a 64bits mask which first bit has its offset defined by
+>> + * the CPU address orgin field of the CPU TLE like in:
+>> + * CPU address = origin * 64 + bit position within the mask
+>> + *
+>> + */
+>> +/* Container type Topology List Entry */
+>> +/* Container type Topology List Entry */
+> 
+> Duplicated comment.
 
-I can certainly add "Future QEMU versions might change that behaviour."
-We should be able to add compat handling for that.
+OK
 
+> 
+>> +typedef struct SysIBTl_container {
+>> +        uint8_t nl;
+>> +        uint8_t reserved[6];
+>> +        uint8_t id;
+>> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_container;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
+>> +
+>> +/* CPU type Topology List Entry */
+>> +typedef struct SysIBTl_cpu {
+>> +        uint8_t nl;
+>> +        uint8_t reserved0[3];
+>> +        uint8_t reserved1:5;
+>> +        uint8_t dedicated:1;
+>> +        uint8_t polarity:2;
+> 
+> Hmmm, yet another bitfield...
+
+Yes, this is the firmware interface.
+If it makes problem I can use masks and logic arithmetic
+
+> 
+>> +        uint8_t type;
+>> +        uint16_t origin;
+>> +        uint64_t mask;
+>> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_cpu;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
+>> +
+>> +/* Max size of a SYSIB structure is when all CPU are alone in a 
+>> container */
+>> +#define S390_TOPOLOGY_SYSIB_SIZE (sizeof(SysIB_151x) 
+>> +                         \
+>> +                                  S390_MAX_CPUS * 
+>> (sizeof(SysIBTl_container) + \
+>> +                                                   sizeof(SysIBTl_cpu)))
+>> +
+>> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
+>> +
+>>   /* MMU defines */
+>>   #define ASCE_ORIGIN           (~0xfffULL) /* segment table 
+>> origin             */
+>>   #define ASCE_SUBSPACE         0x200       /* subspace group 
+>> control           */
+>> diff --git a/target/s390x/kvm/cpu_topology.c 
+>> b/target/s390x/kvm/cpu_topology.c
+>> new file mode 100644
+>> index 0000000000..3831a3264c
+>> --- /dev/null
+>> +++ b/target/s390x/kvm/cpu_topology.c
+>> @@ -0,0 +1,136 @@
+>> +/*
+>> + * QEMU S390x CPU Topology
+>> + *
+>> + * Copyright IBM Corp. 2022
+> 
+> Happy new year?
+
+So after Nina's comment what do I do?
+let it be 22 because I started last year or update because what is 
+important is when it comes into mainline?
+
+> 
+>> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+>> + *
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or 
+>> (at
+>> + * your option) any later version. See the COPYING file in the top-level
+>> + * directory.
+>> + */
+>> +#include "qemu/osdep.h"
+>> +#include "cpu.h"
+>> +#include "hw/s390x/pv.h"
+>> +#include "hw/sysbus.h"
+>> +#include "hw/s390x/sclp.h"
+>> +#include "hw/s390x/cpu-topology.h"
+>> +
+>> +static char *fill_container(char *p, int level, int id)
+>> +{
+>> +    SysIBTl_container *tle = (SysIBTl_container *)p;
+>> +
+>> +    tle->nl = level;
+>> +    tle->id = id;
+>> +    return p + sizeof(*tle);
+>> +}
+>> +
+>> +static char *fill_tle_cpu(char *p, S390TopologyEntry *entry)
+>> +{
+>> +    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
+>> +    s390_topology_id topology_id = entry->id;
+> 
+> What about the reserved fields? Should they get set to 0 ?
+
+Good question.
+I forgot this after changing the allocation.
+It must be 0.
+I will do that during the allocation.
+
+> 
+>> +    tle->nl = 0;
+>> +    tle->dedicated = topology_id.d;
+>> +    tle->polarity = topology_id.p;
+>> +    tle->type = topology_id.type;
+>> +    tle->origin = topology_id.origin;
+>> +    tle->mask = cpu_to_be64(entry->mask);
+> 
+> So here you're already taking care of swapping the endianess in case we 
+> ever run this code with TCG, too ... so I think it would be great to 
+> also eliminate the bitfield in SysIBTl_cpu to be really on the safe side.
+
+OK.
+
+> 
+>> +    return p + sizeof(*tle);
+>> +}
+> ...
+>> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
+>> +{
+>> +    union {
+>> +        char place_holder[S390_TOPOLOGY_SYSIB_SIZE];
+>> +        SysIB_151x sysib;
+>> +    } buffer QEMU_ALIGNED(8) = {};
+>> +    int len;
+>> +
+>> +    if (!s390_has_topology() || sel2 < 2 || sel2 > 
+>> SCLP_READ_SCP_INFO_MNEST) {
+>> +        setcc(cpu, 3);
+>> +        return;
+>> +    }
+>> +
+>> +    len = setup_stsi(cpu, &buffer.sysib, sel2);
+>> +
+>> +    if (len > 4096) {
+> 
+> Maybe use TARGET_PAGE_SIZE instead of 4096 ?
+
+I am not sure about this, even TARGET_PAGE_SIZE will probably never 
+change, this is the maximal SYSIB size, probably related to page size but...
+What about defining it in the cpu.h as
+
+#define SYSIB_MAX_SIZE TARGET_PAGE_SIZE
+
+?
+
+> 
+>> +        setcc(cpu, 3);
+>> +        return;
+>> +    }
+>> +
+>> +    buffer.sysib.length = cpu_to_be16(len);
+>> +    s390_cpu_virt_mem_write(cpu, addr, ar, &buffer.sysib, len);
+> 
+> Is this supposed to work with protected guests, too? If so, I think you 
+> likely need to use s390_cpu_pv_mem_write() for protected guests?
+
+it is not supposed to work with protected guests.
+
+Thanks.
+
+Regards,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
