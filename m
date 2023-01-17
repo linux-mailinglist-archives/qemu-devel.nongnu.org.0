@@ -2,111 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C9B66DEE7
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 14:32:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F51A66DF90
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 14:55:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHm46-0008SD-Ln; Tue, 17 Jan 2023 08:31:52 -0500
+	id 1pHmQ7-0004lL-Sq; Tue, 17 Jan 2023 08:54:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pHm3u-0008Oi-Lx; Tue, 17 Jan 2023 08:31:41 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
+ id 1pHmQ5-0004ks-Qz
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 08:54:33 -0500
+Received: from imap4.hz.codethink.co.uk ([188.40.203.114])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pHm3s-0002Hh-5U; Tue, 17 Jan 2023 08:31:38 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30HCBISh009667; Tue, 17 Jan 2023 13:31:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=pX3hRGUsw+c2U75s3EOhL0Pu5zEJkmkPQ1R35LiXsrU=;
- b=XTf9dZ/YTIq4+RjDTgJX4UCHXpBxXiEGlMTy8Vb0hnGxFshTC8D0jtrU8LSL3q8sEOmI
- rqxk/8r0SinkwtWj5aCGJCS9VWeNqGNkiMmYdmOszjWVGfDwqim2t84D60YImgp5bhtl
- duWon1eX0KgIDZ/sVMSXwIoA2os2hBcSyd2JzZs7Ar0RQ3AGTWgdl285VY+08snfYt79
- K92IFKSp2qt0jU/ANWSSEj+1JEzA4bKAs1K0tM9Vr3RtkhYGqKfZBXm63DILj23nm2Nv
- 1d763Haboklj3/BGzWOhOzZjYRt4PRtZ7v7yiCiPXCsDBrpDU6tI1JMnOVWfVGQH9pJR 1g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5m19brc8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Jan 2023 13:31:31 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30HD6Wbl008779;
- Tue, 17 Jan 2023 13:31:30 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5m19brbh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Jan 2023 13:31:30 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30H2ifjs005026;
- Tue, 17 Jan 2023 13:31:28 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3n3knfauk7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Jan 2023 13:31:28 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30HDVPxQ24052388
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 17 Jan 2023 13:31:25 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0938320043;
- Tue, 17 Jan 2023 13:31:25 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 95E8120040;
- Tue, 17 Jan 2023 13:31:24 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.186.145])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 17 Jan 2023 13:31:24 +0000 (GMT)
-Message-ID: <5654d88fb7d000369c6cfdbe0213ca9d2bfe013b.camel@linux.ibm.com>
-Subject: Re: [PATCH v14 08/11] qapi/s390/cpu topology: change-topology
- monitor command
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Tue, 17 Jan 2023 14:31:24 +0100
-In-Reply-To: <cd9e0c88-c2a8-1eca-d146-3fd6639af3e7@redhat.com>
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-9-pmorel@linux.ibm.com>
- <72baa5b42abe557cdf123889b33b845b405cc86c.camel@linux.ibm.com>
- <cd9e0c88-c2a8-1eca-d146-3fd6639af3e7@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+ (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
+ id 1pHmQ3-0006Br-VQ
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 08:54:33 -0500
+Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net
+ ([86.15.83.122] helo=[192.168.0.16])
+ by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+ id 1pHm4j-006WN6-8u; Tue, 17 Jan 2023 13:32:30 +0000
+Message-ID: <c29fe486-d510-2c0e-ed38-9f05c0f4679f@codethink.co.uk>
+Date: Tue, 17 Jan 2023 13:32:29 +0000
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: rIVjG-mLXBNxRuYP0__qDBhyV5TZ_2Yn
-X-Proofpoint-GUID: St1fF0Q8fk7OqH3jl6-sIg7I2qS5V30t
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-17_05,2023-01-17_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 spamscore=0 phishscore=0 bulkscore=0 malwarescore=0
- impostorscore=0 mlxscore=0 clxscore=1015 adultscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301170108
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] hw/net/can: Add mcp25625 model
+Content-Language: en-GB
+To: Ben Dooks <ben.dooks@codethink.co.uk>, jasowang@redhat.com,
+ pisa@cmp.felk.cvut.cz, fnu.vikram@xilinx.com, qemu-devel@nongnu.org
+Cc: Nazar Kazakov <nazar.kazakov@codethink.co.uk>,
+ Lawrence Hunter <lawrence.hunter@codethink.co.uk>,
+ Frank Chang <frank.chang@sifive.com>
+References: <20230104122220.110412-1-ben.dooks@codethink.co.uk>
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+In-Reply-To: <20230104122220.110412-1-ben.dooks@codethink.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=188.40.203.114;
+ envelope-from=ben.dooks@codethink.co.uk; helo=imap4.hz.codethink.co.uk
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,82 +62,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2023-01-17 at 08:30 +0100, Thomas Huth wrote:
-> On 16/01/2023 22.09, Nina Schoetterl-Glausch wrote:
-> > On Thu, 2023-01-05 at 15:53 +0100, Pierre Morel wrote:
-> > > The modification of the CPU attributes are done through a monitor
-> > > commands.
-> > >=20
-> > > It allows to move the core inside the topology tree to optimise
-> > > the cache usage in the case the host's hypervizor previously
-> > > moved the CPU.
-> > >=20
-> > > The same command allows to modifiy the CPU attributes modifiers
-> > > like polarization entitlement and the dedicated attribute to notify
-> > > the guest if the host admin modified scheduling or dedication of a vC=
-PU.
-> > >=20
-> > > With this knowledge the guest has the possibility to optimize the
-> > > usage of the vCPUs.
-> > >=20
-> > > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> > > ---
-> ...
-> > > diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> > > index b69955a1cd..0faffe657e 100644
-> > > --- a/hw/s390x/cpu-topology.c
-> > > +++ b/hw/s390x/cpu-topology.c
-> > > @@ -18,6 +18,10 @@
-> > >   #include "target/s390x/cpu.h"
-> > >   #include "hw/s390x/s390-virtio-ccw.h"
-> > >   #include "hw/s390x/cpu-topology.h"
-> > > +#include "qapi/qapi-commands-machine-target.h"
-> > > +#include "qapi/qmp/qdict.h"
-> > > +#include "monitor/hmp.h"
-> > > +#include "monitor/monitor.h"
-> > >  =20
-> > >   /*
-> > >    * s390_topology is used to keep the topology information.
-> > > @@ -203,6 +207,21 @@ static void s390_topology_set_entry(S390Topology=
-Entry *entry,
-> > >       s390_topology.sockets[s390_socket_nb(id)]++;
-> > >   }
-> > >  =20
-> > > +/**
-> > > + * s390_topology_clear_entry:
-> > > + * @entry: Topology entry to setup
-> > > + * @id: topology id to use for the setup
-> > > + *
-> > > + * Clear the core bit inside the topology mask and
-> > > + * decrements the number of cores for the socket.
-> > > + */
-> > > +static void s390_topology_clear_entry(S390TopologyEntry *entry,
-> > > +                                      s390_topology_id id)
-> > > +{
-> > > +    clear_bit(63 - id.core, &entry->mask);
-> >=20
-> > This doesn't take the origin into account.
-> >=20
-> > > +    s390_topology.sockets[s390_socket_nb(id)]--;
-> >=20
-> > I suppose this function cannot run concurrently, so the same CPU doesn'=
-t get removed twice.
->=20
-> QEMU has the so-called BQL - the Big Qemu Lock. Instructions handlers are=
-=20
-> normally called with the lock taken, see qemu_mutex_lock_iothread() in=
-=20
-> target/s390x/kvm/kvm.c.
+On 04/01/2023 12:22, Ben Dooks wrote:
+> From: Ben Dooks <ben.dooks@sifive.com>
+> 
+> Add support for Microchip MCP25625 SPI based CAN controller which is
+> very similar to the MCP2515 (and covered by the same Linux driver).
+> 
+> This can be added to any machine with SPI support in the machine
+> model file.
+> 
+> Example for using this when configured into a machine:
+> 
+> 	-object can-bus,id=canbus0 \
+> 	-object can-host-socketcan,id=canhost0,if=vcan0,canbus=canbus0 \
+> 	-global driver=mcp25625,property=canbus,value=canbus0
+> 
+> There is tracing support with --trace "*mcp25*"
+> 
+> Signed-off-by: Ben Dooks <ben.dooks@sifive.com>
+> Co-developed-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
+> Signed-off-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
+> Co-developed-by: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+> Signed-off-by: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
 
-That is good to know, but is that the relevant lock here?
-We don't want to concurrent qmp commands. I looked at the code and it's pre=
-tty complicated.
->=20
-> (if you feel unsure, you can add a "assert(qemu_mutex_iothread_locked())"=
-=20
-> statement, but I think it is not necessary here)
->=20
->   Thomas
->=20
+Has anyone had chance to review this, it would be great to get
+this moving along.
+
+-- 
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
+
+https://www.codethink.co.uk/privacy.html
 
 
