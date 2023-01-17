@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C35EB670BB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:38:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480C8670BCC
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:43:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHuZ2-0001vC-DT; Tue, 17 Jan 2023 17:36:20 -0500
+	id 1pHufA-0003Rr-N0; Tue, 17 Jan 2023 17:42:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pHuZ0-0001uz-3x
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:36:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pHuf8-0003RU-H0
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:42:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pHuYy-0003pY-Iw
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:36:17 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pHuf4-00053n-Sw
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:42:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673994975;
+ s=mimecast20190719; t=1673995352;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D9dCsH+ViLsCH991itRq5FQxRL7lMtqK71HR5vc1sWg=;
- b=UHDXq0YFuBMS8362zVHA7xRPF5PyOI6rxEn1GWKabW0k0e1QRDQV7OHa+C0ulFA1xMhEyq
- izzB88e4QbSVCt5cCzM9CAKkKhndeCTXoXIZ1fN7jsJ/YD/sSF9xccG8UwYP6yFVp9aU8P
- n3b3Q6D29MZ8Ay35+4krRSXZ5sVO7vQ=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TMTWnYJpdm3Pog4m9hV4L4YvzifRvi7kKlAvAwMEhKs=;
+ b=den8EoOXkT7R1NOphp6awq7ZjcxGoJHp6culqdtjE+4UgrT8tF2yQYDFQr6p+iwbgb6xOX
+ KdtQ7fCHD5/yc0Ik55UyNdHnZbx1udXY8k1X+I9J3ihyCrsrZty2bCo7k9Xi9ma5IiHlSU
+ YrRdroHXULsSccJHnoUdH2ivUY/dutA=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-28-Lv_pVECDOGW77Hi0MpbhSg-1; Tue, 17 Jan 2023 17:36:14 -0500
-X-MC-Unique: Lv_pVECDOGW77Hi0MpbhSg-1
-Received: by mail-pj1-f72.google.com with SMTP id
- lk5-20020a17090b33c500b00228cb369d7aso178604pjb.5
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 14:36:14 -0800 (PST)
+ us-mta-449-_CncAyAzOXOt54YcV0wm0Q-1; Tue, 17 Jan 2023 17:42:30 -0500
+X-MC-Unique: _CncAyAzOXOt54YcV0wm0Q-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ 74-20020a62184d000000b0058b9f769609so7369328pfy.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 14:42:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=D9dCsH+ViLsCH991itRq5FQxRL7lMtqK71HR5vc1sWg=;
- b=claGJGAw0tTCoCGztojwndMaA1m5QoA5O++8MVvRUUwzHUn8xq7F2BceGXV4jqpW9W
- OFEAAyOONiOuq4wYQg8XRMqt6Q++suoogX9hCmzzI8qSuO+c5G72fNIfpFt2TmoAF9TW
- fnCDnkDne52KqzNC2JCGkQ0eKkSjvVD6dJ2BM8LAB3vUf+78txzeOyte7t37Bb+3MVYl
- LOyAhbERlvUkP7qpVJTJMyfCjuURWm9X2DuuFwwlrYEIuQI7omRO+emHzujmMrxrx1de
- t5tO6QEisWu6TErOkw/GHHEao27+npCLAk8mI6U9ruip0xg8yHoq0EUmGrQKwJcehVSl
- skqg==
-X-Gm-Message-State: AFqh2kqW0uAaaAikO0NUHd34Yn7WmZv+fefzERR1o97rjNrNIhB1UuWY
- KKMh4vCxB+d+ylbVyvUZ0lXVsdNtK8fFd07tkkgnSKNAUFxR3wux0XzMl2CJko6INlHAdtqkV+Y
- 7SMGF3r7J1A3vXBGdiqsi9Ucx78fil0s=
-X-Received: by 2002:a63:6547:0:b0:4cf:ea8f:f151 with SMTP id
- z68-20020a636547000000b004cfea8ff151mr180630pgb.284.1673994973428; 
- Tue, 17 Jan 2023 14:36:13 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsVHZFwShEiaEvxt3NfHYdUlY6kRT/BZPrPuUH8Vw2/OwiMTp0kEzmqIKNLPATE/90/zcFa8veGwij/3sybrYo=
-X-Received: by 2002:a63:6547:0:b0:4cf:ea8f:f151 with SMTP id
- z68-20020a636547000000b004cfea8ff151mr180623pgb.284.1673994973094; Tue, 17
- Jan 2023 14:36:13 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TMTWnYJpdm3Pog4m9hV4L4YvzifRvi7kKlAvAwMEhKs=;
+ b=ndLmmcB9hq/ccgsPhLCyUjwIsnh8+7Flf1G+3DGb9yxC/sVMURMh5BMDWwoMgPTdtr
+ 7L+5ab63uY0bmPEEoB+6MhWgjRTD31a6MyNOpWCCLOuq89QB8Ts+u5hzycFxl6GKxcBy
+ LsfTLMRsNGdq0/aJsOfI9I+woaBpX8UGPwHRBYMX+C2+ChXUkD0qFnKH4mbPvMB/FP2p
+ pmXXtWvKW81mI61sPxYrKIlq/XmOUFpaWI1YJsQgZ9hG39k1qasUZSuMrwW7VKoSE0IO
+ oRX3ar27TzW4HsGwvWB520zDCLyJFi9Uw7HTFCj3SKNEL7lHp/nWYsLErWxTKRvmkUZ2
+ f77g==
+X-Gm-Message-State: AFqh2krH+7o1yLowEKGFN6d5chd/JCRkJuwYBWVlpZqTRCgh6+zHyz/D
+ zVrrK9Qpri/4uGyaV82vJjSYhIjEDHeXPGBaRHdzRYjslNJyoMMi5PsXy1aRz0of2jtLjwos01O
+ k79idwrpFa30z90pgNU/RO6IG4t25Ty8=
+X-Received: by 2002:a63:7c5:0:b0:477:b603:f754 with SMTP id
+ 188-20020a6307c5000000b00477b603f754mr418295pgh.232.1673995349694; 
+ Tue, 17 Jan 2023 14:42:29 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXt1Ofsu0dQNKA7kEFwrM5kcAO4b6kuqjqswcDuSKAzcvqBIlRvYLedZ5n6QOckpBl62BUSu3DFKLDb7FrXHolA=
+X-Received: by 2002:a63:7c5:0:b0:477:b603:f754 with SMTP id
+ 188-20020a6307c5000000b00477b603f754mr418277pgh.232.1673995349399; Tue, 17
+ Jan 2023 14:42:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20230111080101.969151-1-marcandre.lureau@redhat.com>
- <20230111080101.969151-4-marcandre.lureau@redhat.com>
-In-Reply-To: <20230111080101.969151-4-marcandre.lureau@redhat.com>
+References: <20230112152805.33109-1-davydov-max@yandex-team.ru>
+ <20230112152805.33109-3-davydov-max@yandex-team.ru>
+In-Reply-To: <20230112152805.33109-3-davydov-max@yandex-team.ru>
 From: John Snow <jsnow@redhat.com>
-Date: Tue, 17 Jan 2023 17:36:02 -0500
-Message-ID: <CAFn=p-bbU23Hr67ONF6Vo0fNpiCC9+77CSmdF5-145QbtWc7Cg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] python/qemu/machine: use socketpair() for QMP by
- default
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, berrange@redhat.com, 
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Date: Tue, 17 Jan 2023 17:42:18 -0500
+Message-ID: <CAFn=p-Z95VZH=699nxKanrgUWycsHW+EX07q5Brs7uV+Ye8bHQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/4] python/qmp: increase read buffer size
+To: Maksim Davydov <davydov-max@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, vsementsov@yandex-team.ru, eduardo@habkost.net, 
+ marcel.apfelbaum@gmail.com, philmd@linaro.org, wangyanan55@huawei.com, 
+ crosa@redhat.com, bleal@redhat.com, eblake@redhat.com, armbru@redhat.com, 
+ pbonzini@redhat.com, berrange@redhat.com, alxndr@bu.edu, bsd@redhat.com, 
+ stefanha@redhat.com, thuth@redhat.com, darren.kenny@oracle.com, 
+ Qiuhao.Li@outlook.com, lvivier@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -94,94 +95,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 11, 2023 at 3:01 AM <marcandre.lureau@redhat.com> wrote:
+On Thu, Jan 12, 2023 at 10:28 AM Maksim Davydov
+<davydov-max@yandex-team.ru> wrote:
 >
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Current 256KB is not enough for some real cases. As a possible solution
+> limit can be chosen to be the same as libvirt (10MB)
 >
-> When no monitor address is given, establish the QMP communication through
-> a socketpair() (API is also supported on Windows since Python 3.5)
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
+> Reviewed-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/machine/machine.py | 24 ++++++++++++++++--------
->  1 file changed, 16 insertions(+), 8 deletions(-)
+>  python/qemu/qmp/qmp_client.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine=
-.py
-> index 748a0d807c..5b2e499e68 100644
-> --- a/python/qemu/machine/machine.py
-> +++ b/python/qemu/machine/machine.py
-> @@ -158,17 +158,13 @@ def __init__(self,
->          self._qmp_timer =3D qmp_timer
+> diff --git a/python/qemu/qmp/qmp_client.py b/python/qemu/qmp/qmp_client.py
+> index 5dcda04a75..b5772e7f32 100644
+> --- a/python/qemu/qmp/qmp_client.py
+> +++ b/python/qemu/qmp/qmp_client.py
+> @@ -197,8 +197,8 @@ async def run(self, address='/tmp/qemu.socket'):
+>      #: Logger object used for debugging messages.
+>      logger = logging.getLogger(__name__)
 >
->          self._name =3D name or f"qemu-{os.getpid()}-{id(self):02x}"
-> +        self._sock_pair: Optional[Tuple[socket.socket, socket.socket]] =
-=3D None
->          self._temp_dir: Optional[str] =3D None
->          self._base_temp_dir =3D base_temp_dir
->          self._sock_dir =3D sock_dir
->          self._log_dir =3D log_dir
+> -    # Read buffer limit; large enough to accept query-qmp-schema
+> -    _limit = (256 * 1024)
+> +    # Read buffer limit; 10MB like libvirt default
+> +    _limit = (10 * 1024 * 1024)
 >
-> -        if monitor_address is not None:
-> -            self._monitor_address =3D monitor_address
-> -        else:
-> -            self._monitor_address =3D os.path.join(
-> -                self.sock_dir, f"{self._name}-monitor.sock"
-> -            )
-> +        self._monitor_address =3D monitor_address
->
->          self._console_log_path =3D console_log
->          if self._console_log_path:
-> @@ -303,7 +299,11 @@ def _base_args(self) -> List[str]:
->          args =3D ['-display', 'none', '-vga', 'none']
->
->          if self._qmp_set:
-> -            if isinstance(self._monitor_address, tuple):
-> +            if self._sock_pair:
-> +                fd =3D self._sock_pair[0].fileno()
-> +                os.set_inheritable(fd, True)
-> +                moncdev =3D f"socket,id=3Dmon,fd=3D{fd}"
-> +            elif isinstance(self._monitor_address, tuple):
->                  moncdev =3D "socket,id=3Dmon,host=3D{},port=3D{}".format=
-(
->                      *self._monitor_address
->                  )
-> @@ -337,10 +337,17 @@ def _pre_launch(self) -> None:
->              self._remove_files.append(self._console_address)
->
->          if self._qmp_set:
-> +            monitor_address =3D None
-> +            sock =3D None
-> +            if self._monitor_address is None:
-> +                self._sock_pair =3D socket.socketpair()
-> +                sock =3D self._sock_pair[1]
->              if isinstance(self._monitor_address, str):
->                  self._remove_files.append(self._monitor_address)
-> +                monitor_address =3D self._monitor_address
->              self._qmp_connection =3D QEMUMonitorProtocol(
-> -                self._monitor_address,
-> +                address=3Dmonitor_address,
-> +                sock=3Dsock,
->                  server=3DTrue,
->                  nickname=3Dself._name
->              )
-> @@ -360,6 +367,7 @@ def _pre_launch(self) -> None:
->          ))
->
->      def _post_launch(self) -> None:
-> +        self._sock_pair[0].close()
-
-Needs an assert or an error-check here for _sock_pair to be non-None,
-otherwise mypy will shout. Try running "make check-dev" from
-qemu.git/python directory as a smoke test.
-
-
->          if self._qmp_connection:
->              self._qmp.accept(self._qmp_timer)
->
+>      # Type alias for pending execute() result items
+>      _PendingT = Union[Message, ExecInterruptedError]
 > --
-> 2.39.0
+> 2.25.1
 >
+
+I've staged this one patch to send with my next Python update.
+
+If by chance this series should be picked up in entirety by another
+maintainer before I get this one patch in: Go for it, you've got my
+blessing.
+
+Acked-by: John Snow <jsnow@redhat.com>
 
 
