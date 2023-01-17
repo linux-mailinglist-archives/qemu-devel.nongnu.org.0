@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFDB966D798
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 09:09:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EFBD66D79F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 09:10:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHh1y-0003nP-RZ; Tue, 17 Jan 2023 03:09:18 -0500
+	id 1pHh37-0006LG-SB; Tue, 17 Jan 2023 03:10:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHh1j-0003LT-EB
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:09:07 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHh1g-0000Vb-HX
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:09:03 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id r2so29692153wrv.7
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 00:09:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=iQN4Xw9lU5M8JPxqVII6WbfWbqs8c4NOLi0YZsWhH0o=;
- b=O//LeEGS25gZbr+f7KjkHYro2JIHzmOc7rBH8kSr5yhKlZ/t7b5l0eEp2ZjVXXMckJ
- iZNtL8BYt5qGvGmedY0VAl5irndbaKrwxNLSTTh9Odkc2VJpNBYqvppwYV4m7HEYVC7i
- a0zKA/tPNO9DJZKN9A9yyXHIgqrR4N4RgAYwJIMxvq9Di62a1/G/dFUF/LDwKlk/gU6Z
- ScGT/x3Zg5CeR7PaQqcuoiyGfaGoMT6WrgTLqbS5fFqft6aB5sUOcZ57DXZhPqlB/X7i
- kBPmAymHYaHPW0ydNFip3VFHSqM7NBnk0Y+JJRqrrxHXmegvCImmSa2lbdSN0VXflQGt
- 0yFw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pHh2e-0006G0-Gc
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:10:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pHh2c-0000af-QU
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:09:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673942997;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=hXPVXcBnGRAjp+XcsmQRSOEdSZucdXstsyfN/EQ6DmRmiG1v3wJUAevBxTU09lGexpMYvk
+ 4css/h5Tmvp7rwmKiLklfRe/bmpssB+Lbu/ZIuM/I2KKtjoJ0wLVk5xryI1Ei+l3cZCDAK
+ +ebJa08rdzLjrO47NXw45e/Nxj6JgmA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-503-qVxqUtj7NGiXIWHo2KGI0Q-1; Tue, 17 Jan 2023 03:09:55 -0500
+X-MC-Unique: qVxqUtj7NGiXIWHo2KGI0Q-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ z20-20020a05640240d400b0049e1b5f6175so2964822edb.8
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 00:09:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iQN4Xw9lU5M8JPxqVII6WbfWbqs8c4NOLi0YZsWhH0o=;
- b=zr/2hk2mvJX5R5qb/kx2YIjaLZv7kceJEyYIN4DpV+uklJV7EmPXkpWkmc/EcjmvK6
- px9ruznI8OE+fMY6KrXpdV7mmUMPjpbHeq+x9P4H+xyJLGnz1GjCzTpB3xKFDXci+oBs
- k3+t/yYAer5J0XDLtQIRrM9NRZGC560ICQzmPv3PwuFyd0L6T5I2VskFeoawNyic583S
- FxSmHhEl/5SxCH7zJkHiEZ/fXmK9KmGqPbkYInIh5/14gopLXpo+XLVP4icRQp1fxOBa
- CvWpw6gbmcQ/Mh3ZA2mKoAIDZ6qdkDfcX+JnLljrouHS2BK+iasmhE40Y/FQ7/MOKCQM
- g+ww==
-X-Gm-Message-State: AFqh2kqASKLkKv7jBebLKvKTeT/jsg3WFRJ4v8YinLgEA+Ub2qxLYbRR
- f6PmEu363az/mbe/47+RXFOqMw==
-X-Google-Smtp-Source: AMrXdXszwPl5f9tV8twjcURbXVYZ5AEz52L/VgtRMQ93Cd7e+K12+Uz7w9uvn/jSWf75huIEp7oj9w==
-X-Received: by 2002:adf:dc91:0:b0:2bc:83d5:6ea4 with SMTP id
- r17-20020adfdc91000000b002bc83d56ea4mr10163097wrj.65.1673942938934; 
- Tue, 17 Jan 2023 00:08:58 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- j3-20020adfff83000000b002bddc1ac273sm11215943wrr.87.2023.01.17.00.08.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 00:08:58 -0800 (PST)
-Message-ID: <ca4d0954-4d45-ea42-e1c1-efae62e30b1c@linaro.org>
-Date: Tue, 17 Jan 2023 09:08:57 +0100
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=vrSExlrPjU/G9wYPIM+NvvveDqfIPP7xrZP6e1FahjxFNQrxQTHUG3fBWKEKEr4YH4
+ RD2OVfqvfKhcivPhu6fLo9/O2saf8nJqWYAwQY8UN+2A0keArJnmWVuSe4eT6BCgpdIj
+ O6GPg0WlhYUPZVq9YBmMYE1sWUpZnX8e4HAaK1pgclgyqEo2drtp9k2YkmfQDCLWloIx
+ Q1Rzi15NCFItQbgo5UfQ3tcSYVrarMWhAKDR9E/xwOJtlRX2AZ+lZw4S8yJiNFqnXH/5
+ h63l4FfBPO5vD+RLm08sYSidCyAeJsCudNaksSc3FZ7IYGanxH0cboqLjksyWFDF5y6y
+ v1JA==
+X-Gm-Message-State: AFqh2kqwSBjZhlR0172wUc+SkLL0mRWdFmuw1NNOyE5p1IjJGGgwkqC4
+ 6d8Kyd6OrvinN2+6rwXTcIP7sWpjrf5+MtameYSjiCFLM7C4h0DtsS/14Z2RI+GRaaDCDRHpZwv
+ faIoj3Rh3da6gkfg=
+X-Received: by 2002:a17:907:8b95:b0:84c:eca0:5f67 with SMTP id
+ tb21-20020a1709078b9500b0084ceca05f67mr16840908ejc.54.1673942994107; 
+ Tue, 17 Jan 2023 00:09:54 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuqQmpcA3a/7lvZzmSjE7gelhbx/FEeMEagPRJSEtYbtQyksl6ecUQEEYzOFhtTI61MXDQawA==
+X-Received: by 2002:a17:907:8b95:b0:84c:eca0:5f67 with SMTP id
+ tb21-20020a1709078b9500b0084ceca05f67mr16840896ejc.54.1673942993911; 
+ Tue, 17 Jan 2023 00:09:53 -0800 (PST)
+Received: from avogadro.local ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id
+ gj19-20020a170907741300b0085e05b4f815sm7611026ejc.95.2023.01.17.00.09.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Jan 2023 00:09:53 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org,
+	pbonzini@redhat.com
+Subject: Re: [PATCH 0/2] target/i386: Fix BEXTR instruction [#1372]
+Date: Tue, 17 Jan 2023 09:09:28 +0100
+Message-Id: <20230117080928.43419-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230114230542.3116013-1-richard.henderson@linaro.org>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 4/5] hw/arm/aspeed: Add aspeed_eeprom.c
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Peter Delevoryas <peter@pjd.dev>
-Cc: peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
- hskinnemoen@google.com, kfting@nuvoton.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20230116235604.55099-1-peter@pjd.dev>
- <20230116235604.55099-5-peter@pjd.dev>
- <d494fe87-d083-cc64-867b-186852a120d7@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <d494fe87-d083-cc64-867b-186852a120d7@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,40 +99,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/1/23 08:39, Cédric Le Goater wrote:
-> On 1/17/23 00:56, Peter Delevoryas wrote:
->> - Create aspeed_eeprom.c and aspeed_eeprom.h
->> - Include aspeed_eeprom.c in CONFIG_ASPEED meson source files
->> - Include aspeed_eeprom.h in aspeed.c
->> - Add fby35_bmc_fruid data
->> - Use new at24c_eeprom_init_rom helper to initialize BMC FRUID EEPROM 
->> with data
->>    from aspeed_eeprom.c
-[...]
+Queued, thanks.
 
->> diff --git a/hw/arm/aspeed_eeprom.h b/hw/arm/aspeed_eeprom.h
->> new file mode 100644
->> index 000000000000..89860e37d007
->> --- /dev/null
->> +++ b/hw/arm/aspeed_eeprom.h
->> @@ -0,0 +1,11 @@
->> +/* Copyright (c) Meta Platforms, Inc. and affiliates. */
+Paolo
 
-Missing license.
-
->> +#ifndef ASPEED_EEPROM_H
->> +#define ASPEED_EEPROM_H
->> +
->> +#include "qemu/osdep.h"
->> +
->> +extern const uint8_t fby35_bmc_fruid[];
-> 
-> 
-> may be define the array with an explicit size to avoid the size variable ?
-> I don't see any good solution.
-  /* Return rom_size and set rombufptr, or return 0 */
-  size_t aspeed_get_default_rom_content(const char *machine_typename,
-                                        const void **rombufptr);
-
-?
 
