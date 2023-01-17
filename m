@@ -2,71 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C295266DE5B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 14:05:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5C866DE6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 14:13:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHle6-0006ID-7g; Tue, 17 Jan 2023 08:04:58 -0500
+	id 1pHlkr-0000Jg-O7; Tue, 17 Jan 2023 08:11:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pyr@spootnik.org>) id 1pHle2-0006I4-1y
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 08:04:54 -0500
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136])
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pHlkp-0000JN-7G
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 08:11:55 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pyr@spootnik.org>) id 1pHldx-0004rv-R9
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 08:04:51 -0500
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-4d59d518505so251849337b3.1
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 05:04:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=spootnik-org.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=l3jNQz0lsJUU3TuGg/4gxkTQnOA0XJXmcUbBAkZgP48=;
- b=vToykI1eH9thppGcHG6Ami2eTryI7GYs8GuSDdClADJZrfM2JBdZ79w/VIDxudAy+W
- AaL35WeHns8crkVRXkZjWLhUmg57R+95LAVetiFnGPuQr7k2njZRJOsOtfiTdBe7gHYo
- q1FPNYrxqhx2JsULRPuQHY6L9ZkovrElU+dU/s+pMh1+dfw31bCOyyFeKwweGDbtq12+
- 6uZLVWqnnx1IRpbAIIS5i4CV+LK5dkgokz1K6VDivC1EByhqBdsNdJBqbHV0bx9dQS8K
- PADfuq/BI6+dWme6s9RyCbg/1aEjeQvZOBq6Nh16xlfKXGs+lP8shZuNRj0H71NuhecT
- TIDg==
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pHlkn-0006tO-M2
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 08:11:54 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id g10so22197017wmo.1
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 05:11:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+NWlPEpsogKNyJA9DIzI0yQQVVQnj8fWD1gAx12zKh8=;
+ b=jopAmPfPq7+lzZagBSyVbJLWDA6Mbqu909XVFoJTk9QVf0A92ldAZpCQV0lgAOdnbt
+ sR0PSxx0EvLL85A9cFm3UQdghi1AB+DOSwc6FzxdFvOE3tu2eBkcbqJIoKlWEzKO5qqL
+ bQPLa2WqlQNkUWfx8NcZvO4wMvcsLi2pTHjY84uPvWJdGSOXAg+DGxqcrTIRd4nnO5ao
+ MWlK4JU6bwC3K6U5xOFROq7gmEzxNpMeq7m/nhNt0crZJivo250uwu3x7Yob74GkZbHa
+ D7EbAhgIheUPwXR4bp+6QzXxbtLcbhj2tTr2gCnA61bOQBumpAJuJdKIquq8o6ImLOQa
+ 8WfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=l3jNQz0lsJUU3TuGg/4gxkTQnOA0XJXmcUbBAkZgP48=;
- b=1/WjRfLXyOXcjDC+MPgLmlZHCzxlbOgIohZm245YoNDsgcS7FqDk60K3D4KwG1JaRm
- CF66MWxa4JNsvFNrjWm9xs0px4o/jiUjE5ZEzKIZDbNq+ViHppU8To1EltNaFj8kBOTT
- qQ5zdV/fSkqfx0KXIYTSOFebq+UCL0DUEJeDZzjvqCU2zQrl9AHo+z9IanUD7E2+rTNn
- Z6lNv2H0GiGljebeBBnU85bM+BUF+iqtnMEigCTSuTR3VEgfHZSP0z4amOHc8FY9zFcJ
- YGtIuKqLT6dzO+EoCteI02vt3h+0hi64RnpoLIDWJ/lPcL+eoKLa7lFUGwk1Hq/GLgtS
- q/Rg==
-X-Gm-Message-State: AFqh2koYo1EUGKOJbNb0nakuzuABki9dLghYhRq4ELQT4iPKXfDv6Qwy
- ce2r0ZPuo2jMUZYXClMRHo4xBqqQQ6DiXLTT3MHFIQ==
-X-Google-Smtp-Source: AMrXdXvtMy28S2G0o04ASJwDMYjWHlFRJm5DjPVEqun3Ob6Di3ym6300LwdaXiB1rohlpjXm7JZ2nvIaZsPlypOG6Y0=
-X-Received: by 2002:a81:7dd7:0:b0:4bb:c96d:f685 with SMTP id
- y206-20020a817dd7000000b004bbc96df685mr391847ywc.208.1673960688471; Tue, 17
- Jan 2023 05:04:48 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+NWlPEpsogKNyJA9DIzI0yQQVVQnj8fWD1gAx12zKh8=;
+ b=zxl1UsNJ7lLfOjCZFTcMNUe4c/4wpk5Z3+UOz3wT8X4/e++gPbOWGD/Ca+TZZxvAzO
+ xxtbHcis/vvAEKF2FJhF6dIvP0BQQeLRHmGiQWL2Ku2IrAf7PoueiNVwCLPbKDBAkzYI
+ LOb63otLKqh8On0562W/ESWDAzBP1l53MSs4HL4Do9t0G+X3zvobuxg2/mIqVdOmaNPE
+ 2Od+PXSjctIirS9PzURGiB0BstlgTHE+PFTWGZVtcCZ7PpSvxOteZswE83hM0JOX6HCX
+ DBsBrzI9RCMzS1C2YSm141WnKR1f26bF69judLvqysGLmN/jmNdsG4yUcIkGpqpcMfN+
+ M7rQ==
+X-Gm-Message-State: AFqh2kqVT8nN8v3TDqR893qpQAds9NgJhjppfebAvy8gr5stmQ+RY9bo
+ FdznlwOEgGYKRdczfOec8+k=
+X-Google-Smtp-Source: AMrXdXso/Mr7F4XAzKTG39lT3xGy1eMN7u90q/oFTVxUJ6IZFXO27UnbEEFF6Qt9mkAkeypRt6XVvQ==
+X-Received: by 2002:a05:600c:4f83:b0:3db:eab:a600 with SMTP id
+ n3-20020a05600c4f8300b003db0eaba600mr45651wmq.7.1673961112133; 
+ Tue, 17 Jan 2023 05:11:52 -0800 (PST)
+Received: from [192.168.8.108] (54-240-197-239.amazon.com. [54.240.197.239])
+ by smtp.gmail.com with ESMTPSA id
+ hg9-20020a05600c538900b003cfa622a18asm40542302wmb.3.2023.01.17.05.11.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Jan 2023 05:11:51 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <c906ec10-5958-db2a-56af-67a39206dac0@xen.org>
+Date: Tue, 17 Jan 2023 13:11:49 +0000
 MIME-Version: 1.0
-References: <20221202151202.24851-1-pyr@spootnik.org>
- <Y8acMi/eZAYfILg3@redhat.com>
-In-Reply-To: <Y8acMi/eZAYfILg3@redhat.com>
-From: Pierre-Yves Ritschard <pyr@spootnik.org>
-Date: Tue, 17 Jan 2023 14:04:53 +0100
-Message-ID: <CAJwCgu8aP9fF6u2dv9dMZypftAupyMx71BxvoDeqj7nxxFZj5w@mail.gmail.com>
-Subject: Re: [PATCH] ui/vnc.c: Allow websocket connections over AF_UNIX sockets
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000003467ff05f275589f"
-Received-SPF: none client-ip=2607:f8b0:4864:20::1136;
- envelope-from=pyr@spootnik.org; helo=mail-yw1-x1136.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v7 27/51] i386/xen: Add support for Xen event channel
+ delivery to vCPU
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+References: <20230116215805.1123514-1-dwmw2@infradead.org>
+ <20230116215805.1123514-28-dwmw2@infradead.org>
+ <823d166c-a00e-6c46-a8e9-eb8734200401@xen.org>
+ <12e20660f2c7bbe6f667650618254b06175b451a.camel@infradead.org>
+Organization: Xen Project
+In-Reply-To: <12e20660f2c7bbe6f667650618254b06175b451a.camel@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,103 +105,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000003467ff05f275589f
-Content-Type: text/plain; charset="UTF-8"
+On 17/01/2023 12:31, David Woodhouse wrote:
+> On Tue, 2023-01-17 at 11:11 +0000, Paul Durrant wrote:
+>>
+>> Ick. Do we really want cross-block gotos? For me it would look a lot
+>> nicer if you did a forward jump here and later and put the label+code
+>> after the `return 0`.
+> 
+> How's this?
 
-Allowing websockets is fine, but just removing this check is not
-> sufficient
->
-> The 'websocket=XXXX' parameter for -vnc takes two formats
->
->    websocket=on|off
->
-> or
->
->    websocket=portnum
->
-> In the case of on|off, the code takes the original VNC display
-> num and listens on   5700 + display for websockets, 590 + display
-> for non-websockets.
->
-> In the case of a explicit port, the code listens on that port.
->
-> Also we fail to actually handle 'off' correctly, just treating
-> it as a named port
->
-> $ qemu-system-x86_64  -vnc :1,websocket=off
-> qemu-system-x86_64: -vnc :1,websocket=off: address resolution failed for
-> :off: Servname not supported for ai_socktype
->
->
-> Anyway given an argument
->
->    -vnc  unix:/some/path,websocket=on
->
-> this cause causes QEMU to listen on a relative path 'on'. We need
-> to define what the semantics for websockets=on are going to be
-> for UNIX sockets. Should it append '.ws' to the main path ? Should
-> we just not allow websockets=on and document it must be an explicit
-> path at all times ?
->
-> We also need to document this in qemu-options.hx.
->
->
->
-Thank you, these semantics weren't obvious to me, I will adapt accordingly
-and post a new patch
+ From my PoV, much better. Thanks.
 
---0000000000003467ff05f275589f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> 
+> static int set_vcpu_info(CPUState *cs, uint64_t gpa)
+> {
+>      X86CPU *cpu = X86_CPU(cs);
+>      CPUX86State *env = &cpu->env;
+>      MemoryRegionSection mrs = { .mr = NULL };
+>      void *vcpu_info_hva = NULL;
+>      int ret;
+> 
+>      ret = kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO, gpa);
+>      if (ret || gpa == INVALID_GPA) {
+>          goto out;
+>      }
+> 
+>      mrs = memory_region_find(get_system_memory(), gpa, sizeof(struct vcpu_info));
+>      if (!mrs.mr) {
+>          ret = -EINVAL;
+>      } else if (!mrs.mr->ram_block || mrs.size < sizeof(struct vcpu_info) ||
+>                 !(vcpu_info_hva = qemu_map_ram_ptr(mrs.mr->ram_block,
+>                                                    mrs.offset_within_region))) {
+>          ret = -EINVAL;
+>          memory_region_unref(mrs.mr);
+>          mrs.mr = NULL;
+>      }
+> 
+>   out:
+>      if (env->xen_vcpu_info_mr) {
+>          memory_region_unref(env->xen_vcpu_info_mr);
+>      }
+>      env->xen_vcpu_info_hva = vcpu_info_hva;
+>      env->xen_vcpu_info_mr = mrs.mr;
+>      return ret;
+> }
+> 
+> 
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">
-Allowing websockets is fine, but just removing this check is not<br>
-sufficient<br>
-<br>
-The &#39;websocket=3DXXXX&#39; parameter for -vnc takes two formats<br>
-<br>
-=C2=A0 =C2=A0websocket=3Don|off<br>
-<br>
-or<br>
-<br>
-=C2=A0 =C2=A0websocket=3Dportnum<br>
-<br>
-In the case of on|off, the code takes the original VNC display<br>
-num and listens on=C2=A0 =C2=A05700 + display for websockets, 590 + display=
-<br>
-for non-websockets.<br>
-<br>
-In the case of a explicit port, the code listens on that port.<br>
-<br>
-Also we fail to actually handle &#39;off&#39; correctly, just treating<br>
-it as a named port<br>
-<br>
-$ qemu-system-x86_64=C2=A0 -vnc :1,websocket=3Doff<br>
-qemu-system-x86_64: -vnc :1,websocket=3Doff: address resolution failed for =
-:off: Servname not supported for ai_socktype<br>
-<br>
-<br>
-Anyway given an argument<br>
-<br>
-=C2=A0 =C2=A0-vnc=C2=A0 unix:/some/path,websocket=3Don<br>
-<br>
-this cause causes QEMU to listen on a relative path &#39;on&#39;. We need<b=
-r>
-to define what the semantics for websockets=3Don are going to be<br>
-for UNIX sockets. Should it append &#39;.ws&#39; to the main path ? Should<=
-br>
-we just not allow websockets=3Don and document it must be an explicit<br>
-path at all times ?<br>
-<br>
-We also need to document this in qemu-options.hx.<br>
-<br><br></blockquote><div><br></div><div>Thank you, these semantics weren&#=
-39;t obvious to me, I will adapt accordingly and post a new patch <br></div=
-></div></div>
-
---0000000000003467ff05f275589f--
 
