@@ -2,81 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDB466D683
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 07:49:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFCE66D68B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 07:55:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHfkf-0003Kj-FA; Tue, 17 Jan 2023 01:47:21 -0500
+	id 1pHfs7-0004oZ-VK; Tue, 17 Jan 2023 01:55:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHfkZ-0003KO-Ve
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 01:47:16 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHfkV-0005dw-9a
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 01:47:15 -0500
-Received: by mail-wr1-x432.google.com with SMTP id b5so8354335wrn.0
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 22:47:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FQd7INcG/xxlIZsMMLARuLEBz5TWChZoMsVbajCKuTw=;
- b=IMcAtctIhaPTmyCckr8kiEko33Dr6Pwk3KcJEyUb7HGQ5JfVo6D3MRT6W7mHMBgYYz
- pUwjrYksQOCjh3hBFfYk+yyVqnqGq4veCSn2zj0NyM0rMjfW+pHYqP8bCj2Iqb0y1eWY
- 9H2vOjpohaKeTacDOmRbQY4QBRuxEqRFR+QxCLLlXwf1Y/Yuap7318KMMUHgduWBlyO/
- D2WyXmyiscZaKwK6XDr38XYenq69YcMcgGiK/RwZ/kSshd0XgjV6taOeIF37ErGqylwB
- CzU9nmPg4OdHnfFA9VNRDljbuQg+116un3RQibkWYFCyUB12cGtpk4WSjoj2grDH7Wg4
- P9rw==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pHfrz-0004o7-U6
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 01:54:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pHfrx-0006Yi-LO
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 01:54:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673938492;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N6HzNVx09qP16biLU3IkOtQtJZ+nEOGB/yeU1weJttA=;
+ b=dpes4XXrDJ8abbAIzW8Y+QEtNr3Q2EZeUE0gITowZYP+L/2vqL4ZgtrJHq4t87iANbIuyG
+ q9r35XvEMjgODiZrN4sT8GYkrpLlPqEs1qm2UaJDU5xmpOmEQ8dbGtl+J2PZkfhekAKuzz
+ 0zfVRl6LWgyoGoh1RaXY0ZI9hIHBOwY=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-20-nEc9Un8kMzK6UIDdqvr2OQ-1; Tue, 17 Jan 2023 01:54:51 -0500
+X-MC-Unique: nEc9Un8kMzK6UIDdqvr2OQ-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ cg18-20020a056830631200b0068646c482f8so661838otb.18
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 22:54:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FQd7INcG/xxlIZsMMLARuLEBz5TWChZoMsVbajCKuTw=;
- b=nRFZcxBaBGhBaQBKdFWSG200203kWJjrpjvi1Et/79S48J0OKN3vO2o0rozBaLNWYy
- K/MLCSBkKAe0oqYvDuYZX4XfTDgNBSg2IHWYzLlmkU3ON5Az2U9dLMzRektXGVDoYa8n
- x69j+2FTfCXeGv8dyRCEd5EZgMZqgYR78RDUvTedYeO3+BJh1DffcxJDs7rXxHphrqm8
- qPdN0v08urV7k0kkgMm/JEHz8cuS1Zkgii3qPgaZQ9/7g9JSeAkd5h2TEDRoeyeFz6XD
- Nj8uvfzp/AarSs+0uskKR8qN6t6dKujoBmIXgazJ59RkiBGRvnb75IQN7ezGwt4o2Lxc
- nzxw==
-X-Gm-Message-State: AFqh2kp2QJF50fcbcpXVkr1REA/37SXQ+HrA2ggHdomiwkjfqvX/uyOZ
- 6ztWHTceIOi3DHRX8IUavRU/ew==
-X-Google-Smtp-Source: AMrXdXvs7h1U/brjzH89d/BffFLJojvxVgvSPi6qM2fZf4vJueqXHX5/5INBfnhAv/fFtA3Bb9eW4g==
-X-Received: by 2002:a5d:6e42:0:b0:2bd:fcd3:44c7 with SMTP id
- j2-20020a5d6e42000000b002bdfcd344c7mr1599505wrz.29.1673938028346; 
- Mon, 16 Jan 2023 22:47:08 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- u14-20020adfdd4e000000b002366e3f1497sm28334766wrm.6.2023.01.16.22.47.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 22:47:07 -0800 (PST)
-Message-ID: <f098f433-24e1-5f38-b479-d41ab1c51663@linaro.org>
-Date: Tue, 17 Jan 2023 07:47:06 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=N6HzNVx09qP16biLU3IkOtQtJZ+nEOGB/yeU1weJttA=;
+ b=gh1RUAVyAknAH/XfYMlDhLlGRU7UaAAGhWBBPG9FMjNWskGpr/lhwsSbWBs51Opwh7
+ B6z8KwqPczUUBqrNidqpdVbSA75I1445hj42ns80GfT9+HFOkEDbw8lDoWmk/yYkQvGM
+ o2bACXjPJ2YNtH02W5X41Xpwg/cjebVrHFzrKBI0/GoglJqgJRaa2o39XfxQ26h9R9kE
+ /18Pv9F+rN3UB2MNE4S2vQAAoujGlrGuhvFZkqyKAad8jhwakuS5VYTY/J/Bt9mA85fg
+ bIx3dC9xzEy0Cxxk3Q2KOviMPQNzn2wFgGIdQKw5T9a4waV/dWU3N1reyl86SjFeQb79
+ kDuQ==
+X-Gm-Message-State: AFqh2koRSHeWAXTwFw38tudI50P2HAiSQM0hQ4Ta8Iq6PlgzefMs8SFk
+ /vM3UAGdUYOQW1lO7ebit0fiTwh95t/x9eodECQlaHcovm69NN9nBnru09XbrnDJPPOF6ekFP5n
+ Pl/McI9mIDnirNwSO0fuqVvlz4giFDmw=
+X-Received: by 2002:a4a:e8ca:0:b0:4f9:7708:a9dd with SMTP id
+ h10-20020a4ae8ca000000b004f97708a9ddmr16764ooe.93.1673938490417; 
+ Mon, 16 Jan 2023 22:54:50 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuy53dLz41cPimmllfXe1YmsSTDROQRSNWw6D8Ii1g3REuwlN844exj8ItVf8VJYiBikVMYJ15++UokzP/eNNc=
+X-Received: by 2002:a4a:e8ca:0:b0:4f9:7708:a9dd with SMTP id
+ h10-20020a4ae8ca000000b004f97708a9ddmr16760ooe.93.1673938490118; Mon, 16 Jan
+ 2023 22:54:50 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 6/6] hw/arm/aspeed: Init fby35 BMC FRUID EEPROM
-Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>
-Cc: patrick@stwcx.xyz, clg@kaod.org, peter.maydell@linaro.org,
- andrew@aj.id.au, joal@jms.id.au, hskinnemoen@google.com, kfting@nuvoton.com,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-References: <20230114170151.87833-1-peter@pjd.dev>
- <20230114170151.87833-7-peter@pjd.dev>
- <0ef1b0e3-7df0-e611-0335-bf0a24690a90@linaro.org> <Y8WH+aneXr/JkEXp@pdel-mbp>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <Y8WH+aneXr/JkEXp@pdel-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20221205170436.2977336-1-eperezma@redhat.com>
+ <20221205170436.2977336-11-eperezma@redhat.com>
+ <CACGkMEtcQztTdRbX3xyFvNYSRsu58tRppoyTUh94vXwSGLPH=A@mail.gmail.com>
+ <PH0PR12MB5481EB05212DD70C97AC5729DCFF9@PH0PR12MB5481.namprd12.prod.outlook.com>
+ <CACGkMEthSYTw9JEHT_CM2FdV88eDqan+Ckj7McwTBRK92ziyUg@mail.gmail.com>
+ <PH0PR12MB548141C98FA3C7593E4B3C40DCFC9@PH0PR12MB5481.namprd12.prod.outlook.com>
+ <CACGkMEvriASFy1JTXHPrnP2O99B+mjYY+NMB9x9dHbiG0J7Y3w@mail.gmail.com>
+ <20230116153557-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20230116153557-mutt-send-email-mst@kernel.org>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 17 Jan 2023 14:54:39 +0800
+Message-ID: <CACGkMEvhmZHKUC=P+=BMjt=jNHxDAdOLQA9juMsGDA+EUjUksA@mail.gmail.com>
+Subject: Re: [RFC PATCH for 8.0 10/13] virtio-net: Migrate vhost inflight
+ descriptors
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Parav Pandit <parav@nvidia.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Cindy Lu <lulu@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Eli Cohen <elic@nvidia.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Juan Quintela <quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,50 +110,182 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/1/23 18:23, Peter Delevoryas wrote:
-> On Mon, Jan 16, 2023 at 01:30:19PM +0100, Philippe Mathieu-Daudé wrote:
->> On 14/1/23 18:01, Peter Delevoryas wrote:
->>> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
->>> ---
->>>    hw/arm/aspeed.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
->>>    1 file changed, 49 insertions(+)
->>>
->>> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
->>> index c929c61d582a..4ac8ff11a835 100644
->>> --- a/hw/arm/aspeed.c
->>> +++ b/hw/arm/aspeed.c
->>> @@ -922,6 +922,52 @@ static void bletchley_bmc_i2c_init(AspeedMachineState *bmc)
->>>        i2c_slave_create_simple(i2c[12], TYPE_PCA9552, 0x67);
->>>    }
->>> +static const uint8_t fby35_bmc_fruid[] = {
->> [...]
->>
->>> +};
->>> +
->>>    static void fby35_i2c_init(AspeedMachineState *bmc)
->>>    {
->>>        AspeedSoCState *soc = &bmc->soc;
->>> @@ -1363,6 +1409,9 @@ static void fby35_reset(MachineState *state, ShutdownCause reason)
->>>        object_property_set_bool(OBJECT(gpio), "gpioB3", false, &error_fatal);
->>>        object_property_set_bool(OBJECT(gpio), "gpioB4", false, &error_fatal);
->>>        object_property_set_bool(OBJECT(gpio), "gpioB5", false, &error_fatal);
->>> +
->>> +    at24c_eeprom_write(aspeed_i2c_get_bus(&bmc->soc.i2c, 11),
->>> +                       0x54, 0, fby35_bmc_fruid, sizeof(fby35_bmc_fruid));
->>
->> Why transfer the prom content on the i2c bus at each reset?
->>
->> In particular this looks wrong if the prom is initialized with a 'drive'
->> block backend (using -global).
-> 
-> Yeah, it looks like this might not be the right way to model it. I'm going
-> to try Cedric's suggestions.
+On Tue, Jan 17, 2023 at 4:58 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Wed, Jan 11, 2023 at 01:51:06PM +0800, Jason Wang wrote:
+> > On Wed, Jan 11, 2023 at 12:40 PM Parav Pandit <parav@nvidia.com> wrote:
+> > >
+> > >
+> > > > From: Jason Wang <jasowang@redhat.com>
+> > > > Sent: Tuesday, January 10, 2023 11:35 PM
+> > > >
+> > > > On Tue, Jan 10, 2023 at 11:02 AM Parav Pandit <parav@nvidia.com> wr=
+ote:
+> > > > >
+> > > > > Hi Jason,
+> > > > >
+> > > > > > From: Jason Wang <jasowang@redhat.com>
+> > > > > > Sent: Monday, December 5, 2022 10:25 PM
+> > > > >
+> > > > > >
+> > > > > > A dumb question, any reason we need bother with virtio-net? It =
+looks
+> > > > > > to me it's not a must and would complicate migration compatibil=
+ity.
+> > > > >
+> > > > > Virtio net vdpa device is processing the descriptors out of order=
+.
+> > > > > This vdpa device doesn=E2=80=99t offer IN_ORDER flag.
+> > > > >
+> > > > > And when a VQ is suspended it cannot complete these descriptors a=
+s some
+> > > > dummy zero length completions.
+> > > > > The guest VM is flooded with [1].
+> > > >
+> > > > Yes, but any reason for the device to do out-of-order for RX?
+> > > >
+> > > For some devices it is more optimal to process them out of order.
+> > > And its not limited to RX.
+> >
+> > TX should be fine, since the device can anyhow pretend to send all
+> > packets, so we won't have any in-flight descriptors.
+>
+> And drop them all?
 
-OK, but watch out this is a PROM, not a ROM, meaning it is legitimate
-for a guest to reprogram it, and expect the reprogrammed content after
-reset.
+Depends on how many inflight descriptors. This is the worst case and
+actually this is how software vhost backends did since it can't
+validate whether or not the packet is sent to the wire. And it's not
+worse than RX in which a lot of packets will be dropped for sure
+during live migration.
 
-Shouldn't we put the 'fill default content if no -drive provided' option
-in the device's realize() handler, to avoid overwriting content possibly
-updated by guest before reset?
+> You end up with multisecond delays for things like
+> DHCP.
+
+Well, if DHCP is done during the live migration this is somehow
+unavoidable, a lot of things needs to be recovered not only from the
+migration downtime. E.g it may suffer from delay of gARP packet and
+others.
+
+> Yes theoretically packets can be dropped at any time, but
+> practically people expect this to happen on busy systems, not randomly
+> out of the blue.
+
+The problem is that we never validate whether or not the packet is
+sent for a software device. Various layers could be placed under the
+vhost, so there's no guarantee that the packet won't be lost.
+
+>
+> > >
+> > > > >
+> > > > > So it is needed for the devices that doesn=E2=80=99t offer IN_ORD=
+ER feature.
+> > > > >
+> > > > > [1]
+> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/tre
+> > > > > e/drivers/net/virtio_net.c?h=3Dv6.2-rc3#n1252
+> > > >
+> > > > It is only enabled in a debug kernel which should be harmless?
+> > > it is KERN_DEBUG log level. Its is not debug kernel, just the debug l=
+og level.
+> >
+> > Ok, but the production environment should not use that level anyhow.
+>
+> It's just one example.  And it's enough in my eyes to prove we really
+> can't start sending zero length RX buffers to drivers and expect all to b=
+e
+> well. If we want to we need to negotiate a new feature bit.
+
+Ok.
+
+>
+>
+> > > And regardless, generating zero length packets for debug kernel is ev=
+en more confusing.
+> >
+> > Note that it is allowed in the virtio-spec[1] (we probably can fix
+> > that in the driver) and we have pr_debug() all over this drivers and
+> > other places. It doesn't cause any side effects except for the
+> > debugging purpose.
+> >
+> > So I think having inflight tracking is useful, but I'm not sure it's
+> > worth bothering with virtio-net (or worth to bothering now):
+> >
+> > - zero length is allowed
+> > - it only helps for debugging
+> > - may cause issues for migration compatibility
+> > - requires new infrastructure to be invented
+> >
+> > Thanks
+> >
+> > [1] spec said
+> >
+> > "
+> > Note: len is particularly useful for drivers using untrusted buffers:
+> > if a driver does not know exactly how much has been written by the
+> > device, the driver would have to zero the buffer in advance to ensure
+> > no data leakage occurs.
+> > "
+>
+> I don't think this talks about zero length at all.
+> Let me try to explain what this talk about in my opinion.
+>
+>
+> There are cases where device does not know exactly how much
+> data it wrote into buffer.
+
+Actually, I think the inflight could be one case. Or do you have any
+other case when the device doesn't know how much data it wrote?
+
+> Should it over-estimate
+> such that driver can be sure that buffer after the reported
+> length is unchanged?
+
+I can't think of a case when such over-estimation can help for any
+logic. (Filling magic value into the buffer and deduce the actual
+length that is written by the device?)
+
+> Or should it instead under-estimate
+> such that driver can be sure that the reported length has
+> been initialized by device?
+>
+> What this text in the spec says is that it must always
+> under-estimate and not over-estimate. And it attempts to
+> explain why this is useful: imagine driver that trusts the
+> device and wants to make sure buffer is initialized.
+> With the definition in the spec, it only needs to initialize
+> data after the reported length.
+
+Just to make sure I understand, such initialization can happen only
+after the buffer is completed by the device. But after that the buffer
+doesn't belong to the device anymore so drivers are free to do any
+initialization they want. Or anything makes this special?
+
+Thanks
+
+> Initialize how? It's up to the
+> driver but for example it can zero this buffer.
+>
+>
+> In short, all the text says is "do not over-report length,
+> only set it to part of buffer you wrote".
+>
+> Besides that, the text itself is from the original spec and it did not
+> age well:
+>
+> 1)- no one actually relies on this
+>
+> 2)- rather than untrusted "buffers" what we commonly have is untrusted
+>   devices so length can't be trusted either
+>
+> 3)- writes on PCI are posted and if your security model
+>   depends on buffer being initialized and you want to
+>   recover from errors you really can't expect device to
+>   give you this info. Luckily no one cares see 1) above.
+>
+>
+> --
+> MST
+>
+
 
