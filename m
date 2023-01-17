@@ -2,106 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39FD866E4DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 18:26:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F8E66E4F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 18:32:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHpiA-0000wZ-OI; Tue, 17 Jan 2023 12:25:26 -0500
+	id 1pHpnn-0003yd-80; Tue, 17 Jan 2023 12:31:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pHpi8-0000w2-Il
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:25:24 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHpnl-0003xE-Lr
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:31:13 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pHpi6-00071v-Pe
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:25:24 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- z9-20020a17090a468900b00226b6e7aeeaso34760586pjf.1
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 09:25:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=oPCKpcym2RW5d35rmFIPP7PcNPID9DHF3zaB9zUqfc0=;
- b=fcIljTThBG4xJap5TcGlXLzzw36TVvznNFdH4K5cV1wgP0TBEN+a0DD1GCYhRROsCO
- QvjnEf/w+v2arlNJbI9HWsv3aQkGE66ZYpTq2jVV7H8jTKB+jcivNkBG1DLGh2COfKTX
- pweZYAuWKUG+YbRSPiUyMiUsIhMoDelNa4TCm0Xonr0YcRslVr+wkYXPREIFWc5njYN5
- hleDjpP/fD2PR+Pk217/hDlyN417xQoAuBfDpMCd7cMkK5+rXFZvrG6QdKzfXmWAaGuZ
- MtZaFsL+TjIMHfkIcKjhxx6/QR2rCC95vb8NVwOqOTD6jTRuiCKfm4a07+k8PrsQ0gnu
- +dNA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHpnj-0007qi-3d
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:31:13 -0500
+Received: by mail-wr1-x433.google.com with SMTP id r9so8595990wrw.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 09:31:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dvgzWXuv9D+9/Ks28khbanI5bN6UJWzmkv5U+v/8rCk=;
+ b=QShYAMjKIw/GUHwxWixgbAbS8/mUf2QtEcM8dW3zrLZZWAQB2EQAGtRieS07P7qRRA
+ uZfU3x63gT+jknJ9bZLHQy/ej5TO70O92RXRH+u4WALOFvC1muV6veGy/atezBdXxnaR
+ /6MmZ8LrGMVIKSEiJXR0ABp2BeA9YqoJQ1AoZaw2Hg5e9QpxEojzFD44u/KY2b+V2KSe
+ J/WAN7jJhkYLfgaHnCBu36e2pTml9qiKVGLClYKLhb0m2V8eF+CfgMuJBBP/bJLuEqHv
+ Q3qteuc0c5rXhnw5exqpKc+1xIplot5C21B/OUoO9Ngh3C3XIliGlH4eiz+89FZbI0FU
+ 9WAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oPCKpcym2RW5d35rmFIPP7PcNPID9DHF3zaB9zUqfc0=;
- b=ttYEQJUG5E4OxoNe5I0xKKPasHC76Ri/R8XE8mcaKeLCoPTrZ/YE1vRYKmxWjshR35
- R0j9ujUQGFukGs/lIlrcmXGvKdXSWqbg0d4AGDXAHZAMax0x9pX1HGznHl6Q0VhNmwIy
- Ao1XKqVxvFY+5beffHwH4TSu1HKgksVhxOvKi8YbJC15GOIuqmDI8xqytQL+RJnJWMBG
- aD8Is93iWqQI4lexanX3PWfevRxDvSYc8ngWdemZwfut60zQ03gQRuEB6eBmT11tQUqW
- 4KgTov9m++CadNVA+pyquZyWSER6sSftASPNKscFb5WpBD+6eeOX9nR2J1IvMgg3n1ra
- lXXg==
-X-Gm-Message-State: AFqh2krUT7hzrhmQOm1Q9ue9X3R6ch7EmxIO+EVTlvRNi9Z0EnXVATRH
- rvRCcqBU5LBkTRYPEvglGW6ghg==
-X-Google-Smtp-Source: AMrXdXvUnfK+nwEzio3X173A3OOI+axnR8EWU2P/trlYbT/Eyg2+Qv0Pg0jRmQ5K8mkAb8pmdGJXpw==
-X-Received: by 2002:a05:6a20:8f02:b0:b8:c646:b0e2 with SMTP id
- b2-20020a056a208f0200b000b8c646b0e2mr385151pzk.3.1673976320986; 
- Tue, 17 Jan 2023 09:25:20 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- y3-20020a17090a390300b0022960d00017sm4505994pjb.22.2023.01.17.09.25.20
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=dvgzWXuv9D+9/Ks28khbanI5bN6UJWzmkv5U+v/8rCk=;
+ b=zOK5TsJK78tn3bVl0aOrVJinkXs7xVDAPT0lZvss78HJrCXtM2cDVNDy4338ptpmmP
+ 5Bd3YQ4LlFRV+2zdCXWyoqQt0d4kITqxqMDnLXLPlq/kEY5WZXTrghfmTUiSkIwZGbSr
+ nWsCdpxparKeEySlM9YPbu0L/4CHZKVeIN4mt1RCPV2HbRvVb++yOs6dQwV45l1AMQ99
+ VCPlW2n8H9tqyaV10MeM/TYieFUilE/KopurmHEvm+YS8VOABnxuLR4o7ggURIXKIJsH
+ /RaRXf5orzzKmc1SwoSs+Py09U28R1d0R6VeOSD8MoEK8cuXwGnrqpkiocY4+UPGRSv4
+ LTOQ==
+X-Gm-Message-State: AFqh2kqBatjzQr/wCUmu2yyL3xquBbfP4NFi9LyDF13aYnsv+xQzaq6d
+ 8wKOZTBneK0VbZAb4qUe1nOY3w==
+X-Google-Smtp-Source: AMrXdXsBgNZ1A0C+qwq1yoiosDlGJ00y6Q/V9hogAtn1RZBtDlUnWbB03BXe9SHmgUba6PHdZPNmtw==
+X-Received: by 2002:adf:edd1:0:b0:2bd:c6ce:7bfc with SMTP id
+ v17-20020adfedd1000000b002bdc6ce7bfcmr3470761wro.42.1673976669572; 
+ Tue, 17 Jan 2023 09:31:09 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ u14-20020adfdd4e000000b002366e3f1497sm29614240wrm.6.2023.01.17.09.31.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 09:25:20 -0800 (PST)
-Date: Tue, 17 Jan 2023 17:25:16 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Binbin Wu <binbin.wu@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-Message-ID: <Y8bZ/J98V5i3wG/v@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
- <c25f1f8c-f7c0-6a96-cd67-260df47f79a9@linux.intel.com>
- <20230117133015.GE273037@chaop.bj.intel.com>
+ Tue, 17 Jan 2023 09:31:09 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 95A871FFB7;
+ Tue, 17 Jan 2023 17:31:08 +0000 (GMT)
+References: <20230109014248.2894281-1-richard.henderson@linaro.org>
+ <20230109014248.2894281-2-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.14; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 01/22] tcg: Split out tcg_out_exit_tb
+Date: Tue, 17 Jan 2023 17:31:03 +0000
+In-reply-to: <20230109014248.2894281-2-richard.henderson@linaro.org>
+Message-ID: <87h6wpcbkz.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230117133015.GE273037@chaop.bj.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=seanjc@google.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,49 +95,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 17, 2023, Chao Peng wrote:
-> On Tue, Jan 17, 2023 at 11:21:10AM +0800, Binbin Wu wrote:
-> > 
-> > On 12/2/2022 2:13 PM, Chao Peng wrote:
-> > > In confidential computing usages, whether a page is private or shared is
-> > > necessary information for KVM to perform operations like page fault
-> > > handling, page zapping etc. There are other potential use cases for
-> > > per-page memory attributes, e.g. to make memory read-only (or no-exec,
-> > > or exec-only, etc.) without having to modify memslots.
-> > > 
-> > > Introduce two ioctls (advertised by KVM_CAP_MEMORY_ATTRIBUTES) to allow
-> > > userspace to operate on the per-page memory attributes.
-> > >    - KVM_SET_MEMORY_ATTRIBUTES to set the per-page memory attributes to
-> > >      a guest memory range.
-> > >    - KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to return the KVM supported
-> > >      memory attributes.
-> > > 
-> > > KVM internally uses xarray to store the per-page memory attributes.
-> > > 
-> > > Suggested-by: Sean Christopherson <seanjc@google.com>
-> > > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > > Link: https://lore.kernel.org/all/Y2WB48kD0J4VGynX@google.com/
-> > > ---
-> > >   Documentation/virt/kvm/api.rst | 63 ++++++++++++++++++++++++++++
-> > >   arch/x86/kvm/Kconfig           |  1 +
-> > >   include/linux/kvm_host.h       |  3 ++
-> > >   include/uapi/linux/kvm.h       | 17 ++++++++
-> > 
-> > Should the changes introduced in this file also need to be added in
-> > tools/include/uapi/linux/kvm.h ?
-> 
-> Yes I think.
 
-I'm not sure how Paolo or others feel, but my preference is to never update KVM's
-uapi headers in tools/ in KVM's tree.  Nothing KVM-related in tools/ actually
-relies on the headers being copied into tools/, e.g. KVM selftests pulls KVM's
-headers from the .../usr/include/ directory that's populated by `make headers_install`.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Perf's tooling is what actually "needs" the headers to be copied into tools/, so
-my preference is to let the tools/perf maintainers deal with the headache of keeping
-everything up-to-date.
+> The INDEX_op_exit_tb opcode needs no register allocation.
+> Split out a dedicated helper function for it.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-> But I'm hesitate to include in this patch or not. I see many commits sync
-> kernel kvm.h to tools's copy. Looks that is done periodically and with a
-> 'pull' model.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
