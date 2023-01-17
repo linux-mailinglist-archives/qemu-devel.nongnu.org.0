@@ -2,95 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC98F670B9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C35EB670BB9
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:38:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHuPE-0007BB-59; Tue, 17 Jan 2023 17:26:12 -0500
+	id 1pHuZ2-0001vC-DT; Tue, 17 Jan 2023 17:36:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pHuPB-0007AM-7E; Tue, 17 Jan 2023 17:26:09 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pHuZ0-0001uz-3x
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:36:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pHuP6-0002RR-EM; Tue, 17 Jan 2023 17:26:08 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id 083625C00EC;
- Tue, 17 Jan 2023 17:26:03 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Tue, 17 Jan 2023 17:26:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1673994363; x=
- 1674080763; bh=o73WOcQWWADvNjkMxraihqIIuTE6assTpPlTpC/nFck=; b=q
- gX2WB+xzyHPaH3nkZnGQWCIET1pmmddAanqXCvV/S8X/cKL50mkR/bEY/uEgqFRL
- ZyUUjDJPJ7XpS46Xhm4RafH90WPoORFgXRVkJtlySTkjny2aLadjoAPYDrsBsYQw
- 2t+I3bZLXYjx4UtxbHdIfFxsniFIOUO3gW8VvEn5xJvfg23SRUKGnyPtMQUkI43F
- whOYJGVcZjgP1kDfbDcmwkgd+ygw9NIJt/hnwoaNOUKeYkBJsSk7Gybh6AAaVhz9
- 9DmhXFve47a5H0OYMktVZAPagB2A4YhjgDFXX8LkFM+ZmO3kUSDr25kds6Df9YsI
- glDB4O/UI8QU3YaVbjNEA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673994363; x=
- 1674080763; bh=o73WOcQWWADvNjkMxraihqIIuTE6assTpPlTpC/nFck=; b=N
- 69Y1rlefX8csVxZp9IhBVl2h6zLX7t+lG/mA6lc4MGS/22HKZ1+RmsjBqKwxsOJ/
- UPTIFa0LlMCgSYhUWCPESTZ/NMvz9ElFe2eGiP5LWohYN/K4E51+cru9bGfarGrZ
- +TrwA0jsQhhDlJsKiDVjzck/9n7V1q+gTzF1UL4PuUeBLE7TkSkZ/Q2Wj/kb618I
- zxPH5O7YiHKyoCjf0WINwp8mOBat0MsWzhm/hO1Zt3iWSoLS4d7UYeHfSba4gYnv
- tNjCm2ddvKEFaigiC2K2UD1cfNa+oT0uhgVWTMi1V6IA6613oVUp2jJYkpgecYg4
- JdCaXjijt2g3Wd0L6iODw==
-X-ME-Sender: <xms:eiDHYzsn9FGnVl7Ni-IA19HreMRTORlDcVik57Yae76CCKJef8qfyg>
- <xme:eiDHY0fSjdzFD-TuuBguFYkCYo2ah7GnyY2R_DXbQQUsRf9_tDODCxNjfHNKrPcG8
- Pajo0aIPxez4y8JpRE>
-X-ME-Received: <xmr:eiDHY2yqIrZ9mqluhslDCHimN8i6aQw9DDgsP2iiIz2JtAtCc8eTj2WPoaarLbnIJmxlpr5r8zWxkQCDHVhXRg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtiedgudeitdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgv
- thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
- grthhtvghrnhephfegffevudefveetgeekteeijefhhfduueejvdegvdehffehjeevtefh
- hffffeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:eiDHYyMEU7qyaTvlRnP88kvWb0B5o5ICxkn0D1J8hblthJX7PWexQQ>
- <xmx:eiDHYz_5l1E5dr9XmuIBwAEWBHafAS1qPjk_CER58NtsWt1IoF38HA>
- <xmx:eiDHYyVWnjAlzoAUu4tLNsE_TQSTde0EjfjKiwxpTgaBwQFvcD9ViQ>
- <xmx:eyDHY0N8PPZExlX8wJ5mZ2h41qQe6OGD1HFVufLTInJrhfBnPNPWmQ>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 17 Jan 2023 17:26:01 -0500 (EST)
-Date: Tue, 17 Jan 2023 14:25:58 -0800
-From: Peter Delevoryas <peter@pjd.dev>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
- hskinnemoen@google.com, kfting@nuvoton.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 1/5] hw/arm: Extract at24c_eeprom_init helper from
- Aspeed and Nuvoton boards
-Message-ID: <Y8cgdqG5TGJHaDRv@pdel-mbp.dhcp.thefacebook.com>
-References: <20230116235604.55099-1-peter@pjd.dev>
- <20230116235604.55099-2-peter@pjd.dev>
- <961515e6-65ad-ec7f-f51e-a862424f574d@linaro.org>
- <Y8bprzjwzIRXej60@pdel-mbp>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pHuYy-0003pY-Iw
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:36:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673994975;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D9dCsH+ViLsCH991itRq5FQxRL7lMtqK71HR5vc1sWg=;
+ b=UHDXq0YFuBMS8362zVHA7xRPF5PyOI6rxEn1GWKabW0k0e1QRDQV7OHa+C0ulFA1xMhEyq
+ izzB88e4QbSVCt5cCzM9CAKkKhndeCTXoXIZ1fN7jsJ/YD/sSF9xccG8UwYP6yFVp9aU8P
+ n3b3Q6D29MZ8Ay35+4krRSXZ5sVO7vQ=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-28-Lv_pVECDOGW77Hi0MpbhSg-1; Tue, 17 Jan 2023 17:36:14 -0500
+X-MC-Unique: Lv_pVECDOGW77Hi0MpbhSg-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ lk5-20020a17090b33c500b00228cb369d7aso178604pjb.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 14:36:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=D9dCsH+ViLsCH991itRq5FQxRL7lMtqK71HR5vc1sWg=;
+ b=claGJGAw0tTCoCGztojwndMaA1m5QoA5O++8MVvRUUwzHUn8xq7F2BceGXV4jqpW9W
+ OFEAAyOONiOuq4wYQg8XRMqt6Q++suoogX9hCmzzI8qSuO+c5G72fNIfpFt2TmoAF9TW
+ fnCDnkDne52KqzNC2JCGkQ0eKkSjvVD6dJ2BM8LAB3vUf+78txzeOyte7t37Bb+3MVYl
+ LOyAhbERlvUkP7qpVJTJMyfCjuURWm9X2DuuFwwlrYEIuQI7omRO+emHzujmMrxrx1de
+ t5tO6QEisWu6TErOkw/GHHEao27+npCLAk8mI6U9ruip0xg8yHoq0EUmGrQKwJcehVSl
+ skqg==
+X-Gm-Message-State: AFqh2kqW0uAaaAikO0NUHd34Yn7WmZv+fefzERR1o97rjNrNIhB1UuWY
+ KKMh4vCxB+d+ylbVyvUZ0lXVsdNtK8fFd07tkkgnSKNAUFxR3wux0XzMl2CJko6INlHAdtqkV+Y
+ 7SMGF3r7J1A3vXBGdiqsi9Ucx78fil0s=
+X-Received: by 2002:a63:6547:0:b0:4cf:ea8f:f151 with SMTP id
+ z68-20020a636547000000b004cfea8ff151mr180630pgb.284.1673994973428; 
+ Tue, 17 Jan 2023 14:36:13 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsVHZFwShEiaEvxt3NfHYdUlY6kRT/BZPrPuUH8Vw2/OwiMTp0kEzmqIKNLPATE/90/zcFa8veGwij/3sybrYo=
+X-Received: by 2002:a63:6547:0:b0:4cf:ea8f:f151 with SMTP id
+ z68-20020a636547000000b004cfea8ff151mr180623pgb.284.1673994973094; Tue, 17
+ Jan 2023 14:36:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y8bprzjwzIRXej60@pdel-mbp>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=peter@pjd.dev;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20230111080101.969151-1-marcandre.lureau@redhat.com>
+ <20230111080101.969151-4-marcandre.lureau@redhat.com>
+In-Reply-To: <20230111080101.969151-4-marcandre.lureau@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 17 Jan 2023 17:36:02 -0500
+Message-ID: <CAFn=p-bbU23Hr67ONF6Vo0fNpiCC9+77CSmdF5-145QbtWc7Cg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] python/qemu/machine: use socketpair() for QMP by
+ default
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, berrange@redhat.com, 
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,70 +94,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 17, 2023 at 10:32:15AM -0800, Peter Delevoryas wrote:
-> On Tue, Jan 17, 2023 at 09:00:34AM +0100, Philippe Mathieu-Daudé wrote:
-> > On 17/1/23 00:56, Peter Delevoryas wrote:
-> > > This helper is useful in board initialization because lets users initialize and
-> > > realize an EEPROM on an I2C bus with a single function call.
-> > > 
-> > > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> > > ---
-> > >   hw/arm/aspeed.c                 | 10 +---------
-> > >   hw/arm/npcm7xx_boards.c         | 20 +++++---------------
-> > >   hw/nvram/eeprom_at24c.c         | 12 ++++++++++++
-> > >   include/hw/nvram/eeprom_at24c.h | 10 ++++++++++
-> > >   4 files changed, 28 insertions(+), 24 deletions(-)
-> > >   create mode 100644 include/hw/nvram/eeprom_at24c.h
-> > 
-> > > diff --git a/include/hw/nvram/eeprom_at24c.h b/include/hw/nvram/eeprom_at24c.h
-> > > new file mode 100644
-> > > index 000000000000..79a36b53ca87
-> > > --- /dev/null
-> > > +++ b/include/hw/nvram/eeprom_at24c.h
-> > > @@ -0,0 +1,10 @@
-> > > +/* Copyright (c) Meta Platforms, Inc. and affiliates. */
-> > 
-> > What license for this copyright?
-> 
-> Erg, yeah, thanks for calling this out, I did this wrong. Meta has some new
-> licensing guidelines and I misinterpreted them. Contributors are just supposed
-> to use whatever license the open-source project has, so I'll just change this
-> to say it's under GPL2, like the one I used in hw/arm/fby35.c
-> 
-> > 
-> > > +#ifndef EEPROM_AT24C_H
-> > > +#define EEPROM_AT24C_H
-> > > +
-> > > +#include "hw/i2c/i2c.h"
-> > 
-> >  /**
-> >   * Create and realize an AT24C EEPROM device on the heap.
-> >   * @bus: I2C bus to put it on
-> >   * @addr: I2C address of the EEPROM slave when put on a bus
-> >   * @rom_size: size of the EEPROM
-> >   *
-> >   * Create the device state structure, initialize it, put it on
-> >   * the specified @bus, and drop the reference to it (the device
-> >   * is realized).
-> >   */
-> >  I2CSlave *at24c_eeprom_create_simple(I2CBus *bus, uint8_t addr,
-> >                                       size_t rom_size);
-> 
-> +1, I'll include this comment
+On Wed, Jan 11, 2023 at 3:01 AM <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> When no monitor address is given, establish the QMP communication through
+> a socketpair() (API is also supported on Windows since Python 3.5)
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  python/qemu/machine/machine.py | 24 ++++++++++++++++--------
+>  1 file changed, 16 insertions(+), 8 deletions(-)
+>
+> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine=
+.py
+> index 748a0d807c..5b2e499e68 100644
+> --- a/python/qemu/machine/machine.py
+> +++ b/python/qemu/machine/machine.py
+> @@ -158,17 +158,13 @@ def __init__(self,
+>          self._qmp_timer =3D qmp_timer
+>
+>          self._name =3D name or f"qemu-{os.getpid()}-{id(self):02x}"
+> +        self._sock_pair: Optional[Tuple[socket.socket, socket.socket]] =
+=3D None
+>          self._temp_dir: Optional[str] =3D None
+>          self._base_temp_dir =3D base_temp_dir
+>          self._sock_dir =3D sock_dir
+>          self._log_dir =3D log_dir
+>
+> -        if monitor_address is not None:
+> -            self._monitor_address =3D monitor_address
+> -        else:
+> -            self._monitor_address =3D os.path.join(
+> -                self.sock_dir, f"{self._name}-monitor.sock"
+> -            )
+> +        self._monitor_address =3D monitor_address
+>
+>          self._console_log_path =3D console_log
+>          if self._console_log_path:
+> @@ -303,7 +299,11 @@ def _base_args(self) -> List[str]:
+>          args =3D ['-display', 'none', '-vga', 'none']
+>
+>          if self._qmp_set:
+> -            if isinstance(self._monitor_address, tuple):
+> +            if self._sock_pair:
+> +                fd =3D self._sock_pair[0].fileno()
+> +                os.set_inheritable(fd, True)
+> +                moncdev =3D f"socket,id=3Dmon,fd=3D{fd}"
+> +            elif isinstance(self._monitor_address, tuple):
+>                  moncdev =3D "socket,id=3Dmon,host=3D{},port=3D{}".format=
+(
+>                      *self._monitor_address
+>                  )
+> @@ -337,10 +337,17 @@ def _pre_launch(self) -> None:
+>              self._remove_files.append(self._console_address)
+>
+>          if self._qmp_set:
+> +            monitor_address =3D None
+> +            sock =3D None
+> +            if self._monitor_address is None:
+> +                self._sock_pair =3D socket.socketpair()
+> +                sock =3D self._sock_pair[1]
+>              if isinstance(self._monitor_address, str):
+>                  self._remove_files.append(self._monitor_address)
+> +                monitor_address =3D self._monitor_address
+>              self._qmp_connection =3D QEMUMonitorProtocol(
+> -                self._monitor_address,
+> +                address=3Dmonitor_address,
+> +                sock=3Dsock,
+>                  server=3DTrue,
+>                  nickname=3Dself._name
+>              )
+> @@ -360,6 +367,7 @@ def _pre_launch(self) -> None:
+>          ))
+>
+>      def _post_launch(self) -> None:
+> +        self._sock_pair[0].close()
 
-Oh, to clarify though: I'm not going to include the rename to the function,
-maybe we could do that separately? I kinda want to avoid touching all the
-at24c_eeprom_init calls unless I really need to. I know it's just a simple sed,
-but also, smbus_eeprom_init is using the "init" suffix, so I'm not sure it's
-consistent, although "create_simple" probably _is_ more consistent with devices
-in general in QEMU. But anyways, main point, I just want to avoid making any
-unnecessary refactoring here, and renaming it completely seems unnecessary.
+Needs an assert or an error-check here for _sock_pair to be non-None,
+otherwise mypy will shout. Try running "make check-dev" from
+qemu.git/python directory as a smoke test.
 
-> 
-> > 
-> > > +I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size);
-> > > +
-> > > +#endif
-> > 
-> 
+
+>          if self._qmp_connection:
+>              self._qmp.accept(self._qmp_timer)
+>
+> --
+> 2.39.0
+>
+
 
