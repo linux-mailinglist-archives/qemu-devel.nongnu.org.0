@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E634466E53A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 18:49:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C1966E542
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 18:49:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHq4Z-0006rT-Du; Tue, 17 Jan 2023 12:48:35 -0500
+	id 1pHq5G-0007Tx-DV; Tue, 17 Jan 2023 12:49:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHq4W-0006kL-8s
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:48:32 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ id 1pHq5E-0007Te-0o
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:49:16 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHq4U-0003Ls-KY
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:48:31 -0500
-Received: by mail-wm1-x331.google.com with SMTP id m15so1709468wms.4
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 09:48:30 -0800 (PST)
+ id 1pHq5C-0003VZ-Dw
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:49:15 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ f12-20020a7bc8cc000000b003daf6b2f9b9so5443067wml.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 09:49:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=th+H+pNsyJyJ/rRhchoyda96ZOj2mzBfJD20cpEViRQ=;
- b=paD9ZqncC/sK/w3xkWaQnjjqeX4KUtVlGDhT6PbWvZfnQYGIb1cWo9Dq9+eH4z39J9
- l1VHAbLCliod/OpyK0K4C744QvJWePPjIDzbCIJWgosvl7ys3rLHhomGwB3D4Bu9epIM
- slZ2pAGjSJTim9M0uTV2NNp32bt/F6Juin5iIOKBg5GJr/4p6HdgKB0hHTZs4WrLZiMu
- oNYP6So8BJMoMgQj6J3be464RDFr+xibIkI4OG5l6F7wNhjZLSUjK0nkzZmS95iiZzIt
- mQRItrTZVHZQcy2nUcbE4N3T2lVSrfFq29rRxlnSPrQo/RYXSxeKvP2QW69gWzUvUaUg
- 0JYg==
+ bh=WmSUYEjs+LDedL2Bz0o9zbBox5JGCYlqLsYmT5Lu48g=;
+ b=pjWtDtrsjDZI/0KynjbWSqlByLZAP0Nvq/3yevi8+R+7ibPa+ElRbhYGENxPjnd34r
+ 7wRrbFayc3vmdMQ5iD3d76IgNCBAiUhNjOXNnstg5HmL9eg4Ijex2o/Ooe+vsTfKXCrm
+ ZI5H2xX1Kb1MyPYDVNwtv/qMy2KcNWGiVbHAtsrdQVeWvZKAzJbVrDafuIB2LgF3fX6b
+ 0OAjmTp8VG3silVtXIsu82bc+VVdsuiFGGU6D3v29U07fBfbzZwQtzZaZ4i+WVZ6zyy6
+ cVHkG/8/S+ZduHG5xX4pmua9ayhGsMidJreEqGSf3sdRNTuuyhBamMFOhU2HIljXktFl
+ o6MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=th+H+pNsyJyJ/rRhchoyda96ZOj2mzBfJD20cpEViRQ=;
- b=jX6R1Chgsua4xQLOXJMiKgrQSiauFJpvefx/B6vwzU+EveReD/pBZ/vVRHrKZ7cyC9
- p0ur+oKyi1L4Ibh/ymwmsj9vZutEAXRw0U2AaxaUCWUwFNi2+ovlMFDeKXTFA/0DsVsu
- 0UgnE5HXkMTDU8sWKeVp9rQ7EtOMSPKF0Ca7tVcXaIUmaFEJwmBbFul8ddmPpTbgce5Z
- EtSlWury6+Cy7dVH5OPdPlrmAqo5CNPJ0xPFKis+cVZQ+Id7fGJ/AqSsGiW5H+S+LXt3
- nsfbFXbfzT1We4Vmxh5x20Btlrs9Z8tS9iJ0L7L/cc5dbW9q15Qxv2JxP/Yuz1RjIHcp
- nbMg==
-X-Gm-Message-State: AFqh2koqt33Rogo2WyA7kf4cjTLoMVc5gtDuBhEd17gfz38TFsNuPrzh
- UiXSuvT0FuraefAHBnlOcLOP1g==
-X-Google-Smtp-Source: AMrXdXsNIEGEOLXql6v7qE0fEegQfckkLtTDpkiQVpDUTs5Qv1iF6Sq9e2HWnw7VMBaqdMUCpQhjxg==
-X-Received: by 2002:a7b:c5d6:0:b0:3d9:fb89:4e3d with SMTP id
- n22-20020a7bc5d6000000b003d9fb894e3dmr3921630wmk.28.1673977709215; 
- Tue, 17 Jan 2023 09:48:29 -0800 (PST)
+ bh=WmSUYEjs+LDedL2Bz0o9zbBox5JGCYlqLsYmT5Lu48g=;
+ b=qj3G2f4CQvRc73iUd8tnsyFUoaqpqqdU0OiYqyNIOu70Zo4tEiKBZ23jD5EaR98Xnd
+ kLxyCf1f2pqliBdU0nhjCpf7MhzQOEK0twg38vfyW0qtgwHPlmISzEPA7W7YoeXJRq+l
+ bdPlvqbRQkibaqao4sgdZY04l/DU8m8bSync5fUCCVd1DPraA2MtlFxyy4l6AZq3V++e
+ 7rhKFW/dTatTf2BbjuRV750l66yF5w7mVTcTXdgD5Lw0OAHW/CJrihNm0yO6jlO5nKXQ
+ oyy15hAcyJGH6AmzfIFhR+RbtXnVtl4Uixhom6661VxslfKIAQBF2AaXfXw4h6V2PaCU
+ Aalw==
+X-Gm-Message-State: AFqh2kpaqPk1H9lkXyeL9ZbNppVU+3xmBOTU6MPB89Z9TrKedHkXrJvQ
+ HHORA/DOKO72X3CFfC5ytos++x/TYAYp66bT
+X-Google-Smtp-Source: AMrXdXtLGETKNSQ0fGYPusnxErILwKkfO+F3DIMs57YP3aHpwGMPe8yKI21KyGf7Ial5b0aMd1aNjw==
+X-Received: by 2002:a05:600c:4f86:b0:3db:66e:cfdd with SMTP id
+ n6-20020a05600c4f8600b003db066ecfddmr3123668wmq.9.1673977751766; 
+ Tue, 17 Jan 2023 09:49:11 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- fl12-20020a05600c0b8c00b003dab40f9eafsm10678844wmb.35.2023.01.17.09.48.28
+ d6-20020a05600c3ac600b003da0dc39872sm19781637wms.6.2023.01.17.09.49.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 09:48:28 -0800 (PST)
+ Tue, 17 Jan 2023 09:49:11 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1CF851FFB7;
- Tue, 17 Jan 2023 17:48:28 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id EC4401FFB7;
+ Tue, 17 Jan 2023 17:49:10 +0000 (GMT)
 References: <20230109014248.2894281-1-richard.henderson@linaro.org>
- <20230109014248.2894281-6-richard.henderson@linaro.org>
+ <20230109014248.2894281-7-richard.henderson@linaro.org>
 User-agent: mu4e 1.9.15; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 05/22] tcg: Replace asserts on tcg_jmp_insn_offset
-Date: Tue, 17 Jan 2023 17:48:23 +0000
-In-reply-to: <20230109014248.2894281-6-richard.henderson@linaro.org>
-Message-ID: <875yd53vdf.fsf@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 06/22] tcg: Introduce set_jmp_insn_offset
+Date: Tue, 17 Jan 2023 17:49:05 +0000
+In-reply-to: <20230109014248.2894281-7-richard.henderson@linaro.org>
+Message-ID: <871qnt3vc9.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,10 +98,12 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Test TCG_TARGET_HAS_direct_jump instead of testing an
-> implementation pointer.
+> Similar to the existing set_jmp_reset_offset.  Move any assert for
+> TCG_TARGET_HAS_direct_jump into the new function (which now cannot
+> be build-time).  Will be unused if TCG_TARGET_HAS_direct_jump is
+> constant 0, but we can't test for constant in the preprocessor,
+> so just mark it G_GNUC_UNUSED.
 >
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
