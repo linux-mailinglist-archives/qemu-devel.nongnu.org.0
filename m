@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FDFB66D7A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 09:12:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3C166D7D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 09:15:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHh4j-0000Wv-3J; Tue, 17 Jan 2023 03:12:09 -0500
+	id 1pHh72-0001gP-Ak; Tue, 17 Jan 2023 03:14:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pHh4e-0000WV-3h
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:12:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pHh4c-00018B-7W
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:12:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673943121;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zsvZNx/gTiD57FqJ5NVzLmRDU8R8IDnzNRFy0dBO7Wc=;
- b=ZbcaKdxeyEgk/oTYIu6YQRlZ2/XHvR4EkFfmlxhyeYmNiyXHnru2BsTWcyyHVeur7qA6W5
- D5izvkg0YUUSxlaAKdJQVslTwJOY9f9R7Wd3KJAQX8JRZz3E/sMsPnU4cUVDsMaELAT4X6
- Vf1nT6dVaiY2hIIRnjRGoz+Q3PCK2Bk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-141-r2o3o5Y6PB6oih4_Rildjw-1; Tue, 17 Jan 2023 03:11:59 -0500
-X-MC-Unique: r2o3o5Y6PB6oih4_Rildjw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 543FD811E6E;
- Tue, 17 Jan 2023 08:11:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EE6F40C2064;
- Tue, 17 Jan 2023 08:11:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 984BA21E6A28; Tue, 17 Jan 2023 09:11:57 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,  BALATON Zoltan
- <balaton@eik.bme.hu>,  Thomas Huth <thuth@redhat.com>,  Daniel P.
- =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 01/21] hw/block: Rename TYPE_PFLASH_CFI02 'width'
- property as 'device-width'
-References: <20230109120833.3330-1-philmd@linaro.org>
- <20230109120833.3330-2-philmd@linaro.org>
- <791cd783-4f27-dd18-c6bd-b9a316bb42cd@eik.bme.hu>
- <8507ed0d-fc90-8ce3-2d7d-82c106b20231@linaro.org>
- <CAFEAcA-h49eXgS63LARX0aMgBknNcaURGxqammQh5U9OZQ7v4A@mail.gmail.com>
- <875yd7vv6o.fsf@pond.sub.org>
- <20148a60-bc97-5c66-06f8-81cace4027a7@linaro.org>
-Date: Tue, 17 Jan 2023 09:11:57 +0100
-In-Reply-To: <20148a60-bc97-5c66-06f8-81cace4027a7@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 16 Jan 2023 09:41:46
- +0100")
-Message-ID: <87h6wp60mq.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHh70-0001g2-MM
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:14:30 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHh6z-0001UX-66
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:14:30 -0500
+Received: by mail-wm1-x333.google.com with SMTP id j17so3057086wms.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 00:14:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=XtGojbKzXUM7juf0AcEH3srb2ih/2RDW+7GS4A/8VtY=;
+ b=JlxY+A+QQb0GVzd2YszP/0ZfIcqyhubsuibhhPfx0TQnai8ssfdgYJDvIu4UPSVSuz
+ nFnuKP1y2vE7yZHBefJNsfvUYKrH3SRwhrUW+K/4wQ0BZgBWPpD7D405BTnz/uTKUbiX
+ cvZ4Hge4033PlKNEwr92chLBjoq2e/cgDzgTjgA1ZaBILb8vOyZEWXVRyb3e3w2oInYg
+ r8VPS1QhHN6NphesEkYboxGahVO6Z4YX83WNCyAPMlnnlGOI4GvYca43z8KmgTnij01I
+ FH5z42GwHOBTD9EgGqaSrkhK5EMhcN73jELXpX6nE/yOQ66TQzeptTqJxxv/mINsIxld
+ lGQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XtGojbKzXUM7juf0AcEH3srb2ih/2RDW+7GS4A/8VtY=;
+ b=T9jjxZ/zcqoz1NKARSchy0xo1hT0kYIPEryRIU1rFek2OB9mPtB7iw8ec9X0/jtMcG
+ oT6kPkpg7HGTqBLeW5nFg8kvUqCH1hIrZe+yvIkx/1DSNPbj7hBoCOVZJy/9/jx9c5o3
+ 28AYE1JLusNBvvW/elCn1F49YCI0oV8FpnrGAblcRqVrjUYf10cKtD294vJD3snvq72Z
+ nSVoKnspXM3R+mCWkOKFo4tzCxRNRznIOJ12dS6VnjTrzAloeMaUvK4NvHA9xFEp+HH6
+ fOje2DzVsWMukVsBbVgq4psYJFKjJ1mfGhjd0yppBaukCC5i4SKH3vcd7ezzG6+raizl
+ KLrw==
+X-Gm-Message-State: AFqh2krui01PARkN0fJ944St3AYo0hgE+ECAcZHewJxYsyy8Sr1v3bx3
+ EXqxwr2CGxKpGQaWkHEnaAtEvw==
+X-Google-Smtp-Source: AMrXdXvnGZuWea607ui5AOiRp5b02SrVuSv1xciuVrCYd67Bdmz6V87kWDfdzx9CqRWDS5TmozZH4Q==
+X-Received: by 2002:a05:600c:1d87:b0:3da:fa8a:852a with SMTP id
+ p7-20020a05600c1d8700b003dafa8a852amr6241201wms.4.1673943267601; 
+ Tue, 17 Jan 2023 00:14:27 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ he12-20020a05600c540c00b003d9ddc82450sm35245696wmb.45.2023.01.17.00.14.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Jan 2023 00:14:27 -0800 (PST)
+Message-ID: <9cc08c17-b16e-0cbd-2a00-71db9be979bf@linaro.org>
+Date: Tue, 17 Jan 2023 09:14:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 2/4] libqtest: split qtest_spawn_qemu function
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: thuth@redhat.com
+References: <20230117080745.43247-1-pbonzini@redhat.com>
+ <20230117080745.43247-3-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230117080745.43247-3-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,71 +90,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+On 17/1/23 09:07, Paolo Bonzini wrote:
+> In order to create a function that allows testing of invalid command
+> lines, extract the parts of qtest_init_without_qmp_handshake that do
+> not require any successful set up of sockets.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   tests/qtest/libqtest.c | 103 ++++++++++++++++++++++-------------------
+>   1 file changed, 55 insertions(+), 48 deletions(-)
 
-> On 16/1/23 07:40, Markus Armbruster wrote:
->> Peter Maydell <peter.maydell@linaro.org> writes:
->>=20
->>> On Mon, 9 Jan 2023 at 14:19, Philippe Mathieu-Daud=C3=A9 <philmd@linaro=
-.org> wrote:
->>>>
->>>> On 9/1/23 14:33, BALATON Zoltan wrote:
->>>>> On Mon, 9 Jan 2023, Philippe Mathieu-Daud=C3=A9 wrote:
->>>>>> Use the same property name than the TYPE_PFLASH_CFI01 model.
->>>>>
->>>>> Nothing uses it? Can this break command lines and if so do we need
->>>>> deprecation or some compatibility function until everybody changed th=
-eir
->>>>> usage?
->>>>
->>>> Good point... I missed that :/
->>>
->>> That should not be possible, because the cfi02 device
->>> is a sysbus device that must be mapped into memory. There's
->>> no useful way to use it on the QEMU commandline; the only
->>> users are those creating it from C code within QEMU.
->>
->> I'd say beware of -global, but "fortunately" cfi.pflash01 cannot work
->> with it, since its '.' sabotages the -global's syntax.
->
-> But we use it in tests...:
->
-> $ git grep global.*cfi.pflash
-> tests/qtest/pflash-cfi02-test.c:266:    " -global driver=3Dcfi.pflash02,"
-> tests/qtest/pflash-cfi02-test.c:268:    " -global driver=3Dcfi.pflash02,"
-> ...
-
-Ah, I forgot the alternate syntax!
-
-commit 3751d7c43f795b45ffdb9429cfb09c6beea55c68
-Author: Paolo Bonzini <pbonzini@redhat.com>
-Date:   Thu Apr 9 14:16:19 2015 +0200
-
-    vl: allow full-blown QemuOpts syntax for -global
-=20=20=20=20
-    -global does not work for drivers that have a dot in their name, such as
-    cfi.pflash01.  This is just a parsing limitation, because such globals
-    can be declared easily inside a -readconfig file.
-=20=20=20=20
-    To allow this usage, support the full QemuOpts key/value syntax for -gl=
-obal
-    too, for example "-global driver=3Dcfi.pflash01,property=3Dsecure,value=
-=3Don".
-    The two formats do not conflict, because the key/value syntax does not =
-have
-    a period before the first equal sign.
-=20=20=20=20
-    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-So we aren't "fortunate" after all.
-
->> Related prior discussion in the cover letter of "[PATCH RFC 0/1] QOM
->> type names and QAPI" and the replies to it:
->>      Message-Id: <20210129081519.3848145-1-armbru@redhat.com>
->>      https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg07541.html
->> The patch there became commit e178113ff6 "hw: Replace anti-social QOM
->> type names".
->> [...]
->>=20
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
