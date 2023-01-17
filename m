@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D331866DF73
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 14:53:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F7466DF83
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 14:54:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHmNr-0000wJ-Pk; Tue, 17 Jan 2023 08:52:15 -0500
+	id 1pHmPN-0003Z0-2B; Tue, 17 Jan 2023 08:53:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1pHmNo-0000tz-Kk
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 08:52:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1pHmNm-0005ve-1k
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 08:52:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673963529;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9b/HZg6T/t0VaQsEaCQvjm94fUbvfIv/bnKtuTyl96U=;
- b=GcvuYcZOBFZgLdJKRHCb6wkB1+c38aB/Af5W0nMh34kWN9kI6lmSfNylw0v7PsgJN7u0MR
- /xXVOJmHgeImtdh1b1ye0DUtl1ULTpFAErGaMZ+kct+b+Czp5B6vqJXJFavNrtTxs7X+rW
- B0QQdky9EuPsxqvEAdWDoKfwXBUm40Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-cgaCN0pAO1yobr8_QLBqWg-1; Tue, 17 Jan 2023 08:52:07 -0500
-X-MC-Unique: cgaCN0pAO1yobr8_QLBqWg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F34D888434F;
- Tue, 17 Jan 2023 13:52:06 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE01B1121318;
- Tue, 17 Jan 2023 13:52:06 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH 3/3] configure: Enable -Wthread-safety if present
-Date: Tue, 17 Jan 2023 08:52:03 -0500
-Message-Id: <20230117135203.3049709-4-eesposit@redhat.com>
-In-Reply-To: <20230117135203.3049709-1-eesposit@redhat.com>
-References: <20230117135203.3049709-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHmP9-0003Qz-MT
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 08:53:35 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHmP8-00064b-0V
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 08:53:35 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id 78so21993403pgb.8
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 05:53:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DYozhatT+WcpZOG8EnzAsfPGZqcMiXKBoQwfIL333SM=;
+ b=EUjLXwsWL7gqpd3WvGZkdmNx8LglLR/Rws9nJJTR+cBnm0bieS+YBSms5ud+oVC70+
+ Xx5K5Iq1aj/5GvpV180BDMaLsd2/raDeqoOqroEzzatvgXusojXMSq87tEGfYLxcGmal
+ Sct62Ll4ivqR7A5cy8qr4Y7LyHH5e5aUcYGJC+gqtO1/psPm4k6L5DZFmPE3yi5LtUsp
+ 2Qim5DmRM3C4SrNtGMysvmvskte4lVU0yHh/g9Qc7hbL8DyJvYvzUfsTXYkj29HJscmC
+ CdzBOZfS8WrXWVXFBHM2Ma7KXQhBN3RpvDBgxI4SY06Y8R4EUSnE8TfUu8IB8EW0ImZ7
+ r+1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DYozhatT+WcpZOG8EnzAsfPGZqcMiXKBoQwfIL333SM=;
+ b=UKJ/+Amc/2XHBaAsSJDOHHVHSZ7uM9jazpXt5h83Tqb6ZBMtgGG0urgyJcviKe978n
+ wiPffoXiEBx7S3G7S0hn8LeHzaosppy46OWQJfMZcNDnGu4rvd5FT/M4TpB48ANnkU7j
+ m4V0tmOwiCLRKxT0ISJax1pPo1GCnDMb8RooK5J8EfLzNI2ytwI8xPzdd6fl3hlJXZOG
+ rNatKQuAyRwaxKkNnIUxbpdJew3ZGZVt4C3nQNxNmJZpha80VH+kkxvMFCsUFehA+a77
+ ZtZALNdWxZqtJuHgy5fh7R9MJxgkxqAqahJUUjY5sQJMPQKeyKMvRUnY/3QBJwYRpRDd
+ SDKw==
+X-Gm-Message-State: AFqh2kqN/fOB4gC+zYRTOjr5ftLojWV1fpuuCXLLUTC+W3kr7sch6ncZ
+ XcIvOF/zGRlQcbDy+DAGdUEOLCwxp4AyMesBJjUabQ==
+X-Google-Smtp-Source: AMrXdXut6XjzeNqUJEy/m22YPEcYt0z71FrHzOxoOGPT4wypVrwvfKcpeQFFOjRl9Vt0SrPrj3Jd2iz/2gFRThBGO40=
+X-Received: by 2002:a63:234d:0:b0:4ce:ca5c:c472 with SMTP id
+ u13-20020a63234d000000b004ceca5cc472mr217428pgm.105.1673963612484; Tue, 17
+ Jan 2023 05:53:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20230113133923.1642627-1-alex.bennee@linaro.org>
+ <20230113133923.1642627-2-alex.bennee@linaro.org>
+In-Reply-To: <20230113133923.1642627-2-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Jan 2023 13:53:21 +0000
+Message-ID: <CAFEAcA8F9CH57-qJ9J6VFViawSiocp_R=d_a61Mp3QCmmK5ZYA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] docs: add hotlinks to about preface text
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Alexandre Iooss <erdnaxe@crans.org>, 
+ Markus Armbruster <armbru@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ John G Johnson <john.g.johnson@oracle.com>, 
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Jagannathan Raman <jag.raman@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,32 +91,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Kevin Wolf <kwolf@redhat.com>
+On Fri, 13 Jan 2023 at 13:39, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> Make it easier to navigate the documentation.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  docs/about/index.rst  | 16 ++++++++--------
+>  docs/system/index.rst |  2 ++
+>  docs/tools/index.rst  |  2 ++
+>  docs/user/index.rst   |  2 ++
+>  4 files changed, 14 insertions(+), 8 deletions(-)
+>
+> diff --git a/docs/about/index.rst b/docs/about/index.rst
+> index 5bea653c07..bae1309cc6 100644
+> --- a/docs/about/index.rst
+> +++ b/docs/about/index.rst
+> @@ -5,19 +5,19 @@ About QEMU
+>  QEMU is a generic and open source machine emulator and virtualizer.
+>
+>  QEMU can be used in several different ways. The most common is for
+> -"system emulation", where it provides a virtual model of an
+> +:ref:`System Emulation`, where it provides a virtual model of an
+>  entire machine (CPU, memory and emulated devices) to run a guest OS.
 
-This enables clang's thread safety analysis (TSA), which we'll use to
-statically check the block graph locking.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20221207131838.239125-9-kwolf@redhat.com>
-Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- configure | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/configure b/configure
-index 2281892657..14668e6269 100755
---- a/configure
-+++ b/configure
-@@ -1183,6 +1183,7 @@ add_to warn_flags -Wnested-externs
- add_to warn_flags -Wendif-labels
- add_to warn_flags -Wexpansion-to-defined
- add_to warn_flags -Wimplicit-fallthrough=2
-+add_to warn_flags -Wthread-safety
- 
- nowarn_flags=
- add_to nowarn_flags -Wno-initializer-overrides
--- 
-2.39.0
+> -In this mode the CPU may be fully emulated, or it may work with
+> -a hypervisor such as KVM, Xen, Hax or Hypervisor.Framework to
+> -allow the guest to run directly on the host CPU.
+> +In this mode the CPU may be fully emulated, or it may work with a
+> +hypervisor such as KVM, Xen, Hax or Hypervisor.Framework to allow the
+> +guest to run directly on the host CPU.
 
+Any particular reason for this change? As far as I can tell it's just
+rewrapping these there lines?
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
