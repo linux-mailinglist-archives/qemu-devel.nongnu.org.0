@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F28A466DDA6
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 13:32:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA14666DDC1
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 13:38:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHl8D-0000S0-Td; Tue, 17 Jan 2023 07:32:02 -0500
+	id 1pHlDL-0002IY-9t; Tue, 17 Jan 2023 07:37:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+d80603fb936c028ea1fe+7086+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pHl87-0000Ri-En
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 07:31:55 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1pHlDH-0002Hd-3D
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 07:37:17 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+d80603fb936c028ea1fe+7086+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pHl84-0007kh-IM
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 07:31:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=LU84P4JIYsg9LoMd7kr3UyFMqwp2NMsEAXFcJK8qMTo=; b=QR2MfKgQrPO9SpQ52+JqOpkMvk
- rEwIpjtXMiwsVwUdT026rkpgiHGqhv40UHdjnuUJ6TRC2TnsCfUHLYMvVN6EYxaRwhPUkJBNjy6Pn
- U3Ap3ttlLzD/+PBPRage44lpaV2tlQx4PDY2PTZ8vrAEBdOaLULc5dHGBa5vcMfR5L7IFtPpR/Y8S
- +Oc3KoEaq7L62oJDs1tTfxtSuqqp6aiBLoMNA2KA1OFIC003jhWlzgtt41+kIeBSzMZzp4dT2wzNA
- kEUufAgwwwvqRqs747xoGkqsFEhIm0F9Wu/jS3ZNn35obsvIpw0ovQn88lFC9RR8L72xUij35Gib/
- +wW+O9BA==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pHl8A-009fwh-21; Tue, 17 Jan 2023 12:31:58 +0000
-Message-ID: <12e20660f2c7bbe6f667650618254b06175b451a.camel@infradead.org>
-Subject: Re: [PATCH v7 27/51] i386/xen: Add support for Xen event channel
- delivery to vCPU
-From: David Woodhouse <dwmw2@infradead.org>
-To: paul@xen.org, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
- <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>, 
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Thomas Huth
- <thuth@redhat.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>, "Dr . David
- Alan Gilbert" <dgilbert@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Julien Grall <julien@xen.org>,  "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  armbru@redhat.com
-Date: Tue, 17 Jan 2023 12:31:43 +0000
-In-Reply-To: <823d166c-a00e-6c46-a8e9-eb8734200401@xen.org>
-References: <20230116215805.1123514-1-dwmw2@infradead.org>
- <20230116215805.1123514-28-dwmw2@infradead.org>
- <823d166c-a00e-6c46-a8e9-eb8734200401@xen.org>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-Leq6rZhSn7IvXRhpFoEZ"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1pHlD5-0008VT-UC
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 07:37:14 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.17])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 1141015528314;
+ Tue, 17 Jan 2023 13:36:48 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG8EX2.mxp5.local (172.16.2.72)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 17 Jan
+ 2023 13:36:47 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G0041e3bd79f-53df-495c-8678-1461a9f24775,
+ 4D498C20080C041E8B88553C14708E9A482B44DB) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Tue, 17 Jan 2023 13:36:45 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Maxime Coquelin <maxime.coquelin@redhat.com>
+CC: Yajun Wu <yajunw@nvidia.com>, Laurent Vivier <lvivier@redhat.com>, Stefan
+ Hajnoczi <stefanha@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>, "Parav
+ Pandit" <parav@nvidia.com>, "Michael S. Tsirkin" <mst@redhat.com>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PULL v4 76/83] vhost-user: Support vhost_dev_start
+Message-ID: <20230117133645.78c5d8a8@bahia>
+In-Reply-To: <20230117131257.231473d4@bahia>
+References: <20221107224600.934080-1-mst@redhat.com>
+ <20221107224600.934080-77-mst@redhat.com>
+ <43145ede-89dc-280e-b953-6a2b436de395@redhat.com>
+ <20230109054633-mutt-send-email-mst@kernel.org>
+ <c0acea1d-7bae-120e-9422-82b0a5c432cf@redhat.com>
+ <31f87c1d-9cce-6507-8e90-4d7942d7dc54@redhat.com>
+ <DM4PR12MB51687AF2EAEC37929A7D3C4AB6C19@DM4PR12MB5168.namprd12.prod.outlook.com>
+ <1cb334f0-d495-45f8-564e-4093746850d6@redhat.com>
+ <20230117131257.231473d4@bahia>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+d80603fb936c028ea1fe+7086+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG8EX2.mxp5.local
+ (172.16.2.72)
+X-Ovh-Tracer-GUID: b6952d35-6b1a-4789-963c-5068f16ff8f0
+X-Ovh-Tracer-Id: 10835379231258351919
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddtiedggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfeejhfejtddvueeltdeileejgfffudffhfdtfeeghefhueeviefgteeftdeifffgnecuffhomhgrihhnpehoiihlrggsshdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehgrhhouhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepmhgrgihimhgvrdgtohhquhgvlhhinhesrhgvughhrghtrdgtohhmpdihrghjuhhnfiesnhhvihguihgrrdgtohhmpdhlvhhivhhivghrsehrvgguhhgrthdrtghomhdpshhtvghfrghnhhgrsehrvgguhhgrthdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhprghrrghvsehnvhhiughirgdrtghomhdpmhhsthesrhgvughhrghtrdgtohhmpdgugh
+ hilhgsvghrthesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=groug@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,168 +82,278 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, 17 Jan 2023 13:12:57 +0100
+Greg Kurz <groug@kaod.org> wrote:
 
---=-Leq6rZhSn7IvXRhpFoEZ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> Hi Maxime,
+> 
+> On Tue, 17 Jan 2023 10:49:37 +0100
+> Maxime Coquelin <maxime.coquelin@redhat.com> wrote:
+> 
+> > Hi Yajun,
+> > 
+> > On 1/16/23 08:14, Yajun Wu wrote:
+> > > Not quite sure about the whole picture.
+> > > 
+> > > Seems while qemu waiting response of vhost_user_get_status, dpdk send out VHOST_USER_SLAVE_IOTLB_MSG and trigger qemu function vhost_backend_update_device_iotlb.
+> > > Qemu wait on reply of VHOST_USER_IOTLB_MSG but get VHOST_USER_GET_STATUS reply.
+> > 
+> > Thanks for the backtrace, that helps a lot.
+> > 
+> > The issue happens because:
+> >   1. Introduction of nested event loop in vhost_user_read() [0] features
+> > that enables handling slave channel request while waiting for reply on
+> > the masyer channel.
+> >   2. Slave VHOST_USER_SLAVE_IOTLB_MSG slave request handling ends-up 
+> > sending a VHOST_USER_IOTLB_MSG on the master channel.
+> > 
+> > So while waiting for VHOST_USER_IOTLB_MSG reply, it receives the reply
+> > for the first request sent on the master channel, here the
+> > VHOST_USER_GET_STATUS reply.
+> > 
+> > I don't see an easy way to fix it.
+> > 
+> > One option would be to have the slave channel being handled by another
+> > thread, and protect master channel with a lock to enforce the
+> > synchronization. But this may induce other issues, so that's not a light
+> > change.
+> > 
+> 
+> This is going to be tough because the back-end might have set the
+> VHOST_USER_NEED_REPLY_MASK flag on the VHOST_USER_SLAVE_IOTLB_MSG
+> request and thus might be waiting for a response on the slave
+> channel. In order to emit such a response, the front-end must
+> send VHOST_USER_SLAVE_IOTLB_MSG updates on the master channel *first*
+> according to the protocol specification. This means that we really
+> cannot handle VHOST_USER_SLAVE_IOTLB_MSG requests while there's
+> an on-going transaction on the master channel.
+> 
+> > (Adding Greg and Stefan, who worked on the nested event loop series.)
+> > 
+> > Simply reverting nested event loop support may not be an option, since
+> > it would break virtiofsd, as if my understanding is correct, waits for
+> > some slave channel request to complete in order to complete a request
+> > made by QEMU on the master channel.
+> > 
+> > Any thougths?
+> > 
+> 
+> Well... the nested even loop was added as preparatory work for "the
+> upcoming enablement of DAX with virtio-fs". This requires changes on
+> the QEMU side that haven't been merged yet. Technically, it seems that
+> reverting the nested event loop won't break anything in upstream QEMU
+> at this point (but this will bite again as soon as DAX enablement gets
+> merged).
+> 
 
-On Tue, 2023-01-17 at 11:11 +0000, Paul Durrant wrote:
->=20
-> Ick. Do we really want cross-block gotos? For me it would look a lot=20
-> nicer if you did a forward jump here and later and put the label+code
-> after the `return 0`.
+Cc'ing Dave to know about the DAX enablement status.
 
-How's this?
+> AFAIK the event loop is only needed for the VHOST_USER_GET_VRING_BASE
+> message. Another possibility might be to create the nested event loop
+> in this case only : this would allow VHOST_USER_GET_STATUS to complete
+> before QEMU starts processing the VHOST_USER_SLAVE_IOTLB_MSG requests.
+> 
+> Cheers,
+> 
+> --
+> Greg
+> 
+> > Maxime
+> > 
+> > [0]: 
+> > https://patchwork.ozlabs.org/project/qemu-devel/patch/20210312092212.782255-6-groug@kaod.org/
+> > 
+> > 
+> > > Break on first error message("Received unexpected msg type. Expected 22 received 40")
+> > > 
+> > > #0  0x0000555555b72ed4 in process_message_reply (dev=0x5555584dd600, msg=0x7fffffffa330) at ../hw/virtio/vhost-user.c:445
+> > > #1  0x0000555555b77c26 in vhost_user_send_device_iotlb_msg (dev=0x5555584dd600, imsg=0x7fffffffa600) at ../hw/virtio/vhost-user.c:2341
+> > > #2  0x0000555555b7179e in vhost_backend_update_device_iotlb (dev=0x5555584dd600, iova=10442706944, uaddr=140736119902208, len=4096, perm=IOMMU_RW) at ../hw/virtio/vhost-backend.c:361
+> > > #3  0x0000555555b6e34c in vhost_device_iotlb_miss (dev=0x5555584dd600, iova=10442706944, write=1) at ../hw/virtio/vhost.c:1113
+> > > #4  0x0000555555b718d9 in vhost_backend_handle_iotlb_msg (dev=0x5555584dd600, imsg=0x7fffffffa7b0) at ../hw/virtio/vhost-backend.c:393
+> > > #5  0x0000555555b76144 in slave_read (ioc=0x555557a38680, condition=G_IO_IN, opaque=0x5555584dd600) at ../hw/virtio/vhost-user.c:1726
+> > > #6  0x0000555555c797a5 in qio_channel_fd_source_dispatch (source=0x555556a06fb0, callback=0x555555b75f86 <slave_read>, user_data=0x5555584dd600) at ../io/channel-watch.c:84
+> > > #7  0x00007ffff554895d in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+> > > #8  0x00007ffff5548d18 in g_main_context_iterate.isra () at /lib64/libglib-2.0.so.0
+> > > #9  0x00007ffff5549042 in g_main_loop_run () at /lib64/libglib-2.0.so.0
+> > > #10 0x0000555555b72de7 in vhost_user_read (dev=0x5555584dd600, msg=0x7fffffffac50) at ../hw/virtio/vhost-user.c:413
+> > > #11 0x0000555555b72e9b in process_message_reply (dev=0x5555584dd600, msg=0x7fffffffaf10) at ../hw/virtio/vhost-user.c:439
+> > > #12 0x0000555555b77c26 in vhost_user_send_device_iotlb_msg (dev=0x5555584dd600, imsg=0x7fffffffb1e0) at ../hw/virtio/vhost-user.c:2341
+> > > #13 0x0000555555b7179e in vhost_backend_update_device_iotlb (dev=0x5555584dd600, iova=10468392960, uaddr=140736145588224, len=4096, perm=IOMMU_RW) at ../hw/virtio/vhost-backend.c:361
+> > > #14 0x0000555555b6e34c in vhost_device_iotlb_miss (dev=0x5555584dd600, iova=10468392960, write=1) at ../hw/virtio/vhost.c:1113
+> > > #15 0x0000555555b718d9 in vhost_backend_handle_iotlb_msg (dev=0x5555584dd600, imsg=0x7fffffffb390) at ../hw/virtio/vhost-backend.c:393
+> > > #16 0x0000555555b76144 in slave_read (ioc=0x555557a38680, condition=G_IO_IN, opaque=0x5555584dd600) at ../hw/virtio/vhost-user.c:1726
+> > > #17 0x0000555555c797a5 in qio_channel_fd_source_dispatch (source=0x555556c70250, callback=0x555555b75f86 <slave_read>, user_data=0x5555584dd600) at ../io/channel-watch.c:84
+> > > #18 0x00007ffff554895d in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+> > > #19 0x00007ffff5548d18 in g_main_context_iterate.isra () at /lib64/libglib-2.0.so.0
+> > > #20 0x00007ffff5549042 in g_main_loop_run () at /lib64/libglib-2.0.so.0
+> > > #21 0x0000555555b72de7 in vhost_user_read (dev=0x5555584dd600, msg=0x7fffffffb830) at ../hw/virtio/vhost-user.c:413
+> > > #22 0x0000555555b72e9b in process_message_reply (dev=0x5555584dd600, msg=0x7fffffffbaf0) at ../hw/virtio/vhost-user.c:439
+> > > #23 0x0000555555b77c26 in vhost_user_send_device_iotlb_msg (dev=0x5555584dd600, imsg=0x7fffffffbdc0) at ../hw/virtio/vhost-user.c:2341
+> > > #24 0x0000555555b7179e in vhost_backend_update_device_iotlb (dev=0x5555584dd600, iova=10442702848, uaddr=140736119898112, len=4096, perm=IOMMU_RW) at ../hw/virtio/vhost-backend.c:361
+> > > #25 0x0000555555b6e34c in vhost_device_iotlb_miss (dev=0x5555584dd600, iova=10442702848, write=1) at ../hw/virtio/vhost.c:1113
+> > > #26 0x0000555555b718d9 in vhost_backend_handle_iotlb_msg (dev=0x5555584dd600, imsg=0x7fffffffbf70) at ../hw/virtio/vhost-backend.c:393
+> > > #27 0x0000555555b76144 in slave_read (ioc=0x555557a38680, condition=G_IO_IN, opaque=0x5555584dd600) at ../hw/virtio/vhost-user.c:1726
+> > > #28 0x0000555555c797a5 in qio_channel_fd_source_dispatch (source=0x555556f1a530, callback=0x555555b75f86 <slave_read>, user_data=0x5555584dd600) at ../io/channel-watch.c:84
+> > > #29 0x00007ffff554895d in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+> > > #30 0x00007ffff5548d18 in g_main_context_iterate.isra () at /lib64/libglib-2.0.so.0
+> > > #31 0x00007ffff5549042 in g_main_loop_run () at /lib64/libglib-2.0.so.0
+> > > #32 0x0000555555b72de7 in vhost_user_read (dev=0x5555584dd600, msg=0x7fffffffc420) at ../hw/virtio/vhost-user.c:413
+> > > #33 0x0000555555b754b1 in vhost_user_get_u64 (dev=0x5555584dd600, request=40, u64=0x7fffffffc6e0) at ../hw/virtio/vhost-user.c:1349
+> > > #34 0x0000555555b758ff in vhost_user_get_status (dev=0x5555584dd600, status=0x7fffffffc713 "W\020") at ../hw/virtio/vhost-user.c:1474
+> > > #35 0x0000555555b75967 in vhost_user_add_status (dev=0x5555584dd600, status=7 '\a') at ../hw/virtio/vhost-user.c:1488
+> > > #36 0x0000555555b78bf6 in vhost_user_dev_start (dev=0x5555584dd600, started=true) at ../hw/virtio/vhost-user.c:2758
+> > > #37 0x0000555555b709ad in vhost_dev_start (hdev=0x5555584dd600, vdev=0x555557b965d0, vrings=false) at ../hw/virtio/vhost.c:1988
+> > > #38 0x000055555584291c in vhost_net_start_one (net=0x5555584dd600, dev=0x555557b965d0) at ../hw/net/vhost_net.c:271
+> > > #39 0x0000555555842f1e in vhost_net_start (dev=0x555557b965d0, ncs=0x555557bc09e0, data_queue_pairs=1, cvq=0) at ../hw/net/vhost_net.c:412
+> > > #40 0x0000555555b1bf61 in virtio_net_vhost_status (n=0x555557b965d0, status=15 '\017') at ../hw/net/virtio-net.c:311
+> > > #41 0x0000555555b1c20c in virtio_net_set_status (vdev=0x555557b965d0, status=15 '\017') at ../hw/net/virtio-net.c:392
+> > > #42 0x0000555555b1ed04 in virtio_net_handle_mq (n=0x555557b965d0, cmd=0 '\000', iov=0x555556c7ef50, iov_cnt=1) at ../hw/net/virtio-net.c:1497
+> > > #43 0x0000555555b1eef0 in virtio_net_handle_ctrl_iov (vdev=0x555557b965d0, in_sg=0x555556a09880, in_num=1, out_sg=0x555556a09890, out_num=1) at ../hw/net/virtio-net.c:1534
+> > > #44 0x0000555555b1efe9 in virtio_net_handle_ctrl (vdev=0x555557b965d0, vq=0x7fffc04ac140) at ../hw/net/virtio-net.c:1557
+> > > #45 0x0000555555b63776 in virtio_queue_notify_vq (vq=0x7fffc04ac140) at ../hw/virtio/virtio.c:2249
+> > > #46 0x0000555555b669dc in virtio_queue_host_notifier_read (n=0x7fffc04ac1b4) at ../hw/virtio/virtio.c:3529
+> > > #47 0x0000555555e3f458 in aio_dispatch_handler (ctx=0x555556a016c0, node=0x7ffd8800e430) at ../util/aio-posix.c:369
+> > > #48 0x0000555555e3f613 in aio_dispatch_handlers (ctx=0x555556a016c0) at ../util/aio-posix.c:412
+> > > #49 0x0000555555e3f669 in aio_dispatch (ctx=0x555556a016c0) at ../util/aio-posix.c:422
+> > > #50 0x0000555555e585de in aio_ctx_dispatch (source=0x555556a016c0, callback=0x0, user_data=0x0) at ../util/async.c:321
+> > > #51 0x00007ffff554895d in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+> > > #52 0x0000555555e5abea in glib_pollfds_poll () at ../util/main-loop.c:295
+> > > #53 0x0000555555e5ac64 in os_host_main_loop_wait (timeout=0) at ../util/main-loop.c:318
+> > > #54 0x0000555555e5ad69 in main_loop_wait (nonblocking=0) at ../util/main-loop.c:604
+> > > #55 0x00005555559693de in qemu_main_loop () at ../softmmu/runstate.c:731
+> > > #56 0x00005555556e7c06 in qemu_default_main () at ../softmmu/main.c:37
+> > > #57 0x00005555556e7c3c in main (argc=71, argv=0x7fffffffcda8) at ../softmmu/main.c:48
+> > > 
+> > > 
+> > > 
+> > > -----Original Message-----
+> > > From: Maxime Coquelin <maxime.coquelin@redhat.com>
+> > > Sent: Thursday, January 12, 2023 5:26 PM
+> > > To: Laurent Vivier <lvivier@redhat.com>
+> > > Cc: qemu-devel@nongnu.org; Peter Maydell <peter.maydell@linaro.org>; Yajun Wu <yajunw@nvidia.com>; Parav Pandit <parav@nvidia.com>; Michael S. Tsirkin <mst@redhat.com>
+> > > Subject: Re: [PULL v4 76/83] vhost-user: Support vhost_dev_start
+> > > 
+> > > External email: Use caution opening links or attachments
+> > > 
+> > > 
+> > > Hi Laurent,
+> > > 
+> > > On 1/11/23 10:50, Laurent Vivier wrote:
+> > >> On 1/9/23 11:55, Michael S. Tsirkin wrote:
+> > >>> On Fri, Jan 06, 2023 at 03:21:43PM +0100, Laurent Vivier wrote:
+> > >>>> Hi,
+> > >>>>
+> > >>>> it seems this patch breaks vhost-user with DPDK.
+> > >>>>
+> > >>>> See
+> > >>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbu
+> > >>>> gzilla.redhat.com%2Fshow_bug.cgi%3Fid%3D2155173&data=05%7C01%7Cyajun
+> > >>>> w%40nvidia.com%7C47e6e0fabd044383fd3308daf47f0253%7C43083d15727340c1
+> > >>>> b7db39efd9ccc17a%7C0%7C0%7C638091123577559319%7CUnknown%7CTWFpbGZsb3
+> > >>>> d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
+> > >>>> %7C3000%7C%7C%7C&sdata=1pjChYTKHVmBoempNitiZHBdrlPIMFjKoD6FeOVSay0%3
+> > >>>> D&reserved=0
+> > >>>>
+> > >>>> it seems QEMU doesn't receive the expected commands sequence:
+> > >>>>
+> > >>>> Received unexpected msg type. Expected 22 received 40 Fail to update
+> > >>>> device iotlb Received unexpected msg type. Expected 40 received 22
+> > >>>> Received unexpected msg type. Expected 22 received 11 Fail to update
+> > >>>> device iotlb Received unexpected msg type. Expected 11 received 22
+> > >>>> vhost VQ 1 ring restore failed: -71: Protocol error (71) Received
+> > >>>> unexpected msg type. Expected 22 received 11 Fail to update device
+> > >>>> iotlb Received unexpected msg type. Expected 11 received 22 vhost VQ
+> > >>>> 0 ring restore failed: -71: Protocol error (71) unable to start
+> > >>>> vhost net: 71: falling back on userspace virtio
+> > >>>>
+> > >>>> It receives VHOST_USER_GET_STATUS (40) when it expects
+> > >>>> VHOST_USER_IOTLB_MSG (22) and VHOST_USER_IOTLB_MSG when it expects
+> > >>>> VHOST_USER_GET_STATUS.
+> > >>>> and VHOST_USER_GET_VRING_BASE (11) when it expect
+> > >>>> VHOST_USER_GET_STATUS and so on.
+> > >>>>
+> > >>>> Any idea?
+> > > 
+> > > We only have a single thread on DPDK side to handle Vhost-user requests, it will read a request, handle it and reply to it. Then it reads the next one, etc... So I don't think it is possible to mix request replies order on DPDK side.
+> > > 
+> > > Maybe there are two threads concurrently sending requests on QEMU side?
+> > > 
+> > > Regards,
+> > > Maxime
+> > > 
+> > >>>> Thanks,
+> > >>>> Laurent
+> > >>>
+> > >>>
+> > >>> So I am guessing it's coming from:
+> > >>>
+> > >>>       if (msg.hdr.request != request) {
+> > >>>           error_report("Received unexpected msg type. Expected %d
+> > >>> received %d",
+> > >>>                        request, msg.hdr.request);
+> > >>>           return -EPROTO;
+> > >>>       }
+> > >>>
+> > >>> in process_message_reply and/or in vhost_user_get_u64.
+> > >>>
+> > >>>
+> > >>>> On 11/7/22 23:53, Michael S. Tsirkin wrote:
+> > >>>>> From: Yajun Wu <yajunw@nvidia.com>
+> > >>>>>
+> > >>>>> The motivation of adding vhost-user vhost_dev_start support is to
+> > >>>>> improve backend configuration speed and reduce live migration VM
+> > >>>>> downtime.
+> > >>>>>
+> > >>>>> Today VQ configuration is issued one by one. For virtio net with
+> > >>>>> multi-queue support, backend needs to update RSS (Receive side
+> > >>>>> scaling) on every rx queue enable. Updating RSS is time-consuming
+> > >>>>> (typical time like 7ms).
+> > >>>>>
+> > >>>>> Implement already defined vhost status and message in the vhost
+> > >>>>> specification [1].
+> > >>>>> (a) VHOST_USER_PROTOCOL_F_STATUS
+> > >>>>> (b) VHOST_USER_SET_STATUS
+> > >>>>> (c) VHOST_USER_GET_STATUS
+> > >>>>>
+> > >>>>> Send message VHOST_USER_SET_STATUS with VIRTIO_CONFIG_S_DRIVER_OK
+> > >>>>> for device start and reset(0) for device stop.
+> > >>>>>
+> > >>>>> On reception of the DRIVER_OK message, backend can apply the needed
+> > >>>>> setting only once (instead of incremental) and also utilize
+> > >>>>> parallelism on enabling queues.
+> > >>>>>
+> > >>>>> This improves QEMU's live migration downtime with vhost user
+> > >>>>> backend implementation by great margin, specially for the large
+> > >>>>> number of VQs of 64 from 800 msec to 250 msec.
+> > >>>>>
+> > >>>>> [1]
+> > >>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fq
+> > >>>>> emu-project.gitlab.io%2Fqemu%2Finterop%2Fvhost-user.html&data=05%7C
+> > >>>>> 01%7Cyajunw%40nvidia.com%7C47e6e0fabd044383fd3308daf47f0253%7C43083
+> > >>>>> d15727340c1b7db39efd9ccc17a%7C0%7C0%7C638091123577559319%7CUnknown%
+> > >>>>> 7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiL
+> > >>>>> CJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=YPbrFRJA92KLLwADMUDvwBt%2Fme2Ef
+> > >>>>> GZuVANOmXH5pic%3D&reserved=0
+> > >>>>>
+> > >>>>> Signed-off-by: Yajun Wu <yajunw@nvidia.com>
+> > >>>>> Acked-by: Parav Pandit <parav@nvidia.com>
+> > >>>>> Message-Id: <20221017064452.1226514-3-yajunw@nvidia.com>
+> > >>>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > >>>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > >>>
+> > >>> Probably easiest to debug from dpdk side.
+> > >>> Does the problem go away if you disable the feature
+> > >>> VHOST_USER_PROTOCOL_F_STATUS in dpdk?
+> > >>
+> > >> Maxime could you help to debug this?
+> > >>
+> > >> Thanks,
+> > >> Laurent
+> > >>
+> > > 
+> > 
+> 
+> 
 
-static int set_vcpu_info(CPUState *cs, uint64_t gpa)
-{
-    X86CPU *cpu =3D X86_CPU(cs);
-    CPUX86State *env =3D &cpu->env;
-    MemoryRegionSection mrs =3D { .mr =3D NULL };
-    void *vcpu_info_hva =3D NULL;
-    int ret;
-
-    ret =3D kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO, gpa=
-);
-    if (ret || gpa =3D=3D INVALID_GPA) {
-        goto out;
-    }
-
-    mrs =3D memory_region_find(get_system_memory(), gpa, sizeof(struct vcpu=
-_info));
-    if (!mrs.mr) {
-        ret =3D -EINVAL;
-    } else if (!mrs.mr->ram_block || mrs.size < sizeof(struct vcpu_info) ||
-               !(vcpu_info_hva =3D qemu_map_ram_ptr(mrs.mr->ram_block,
-                                                  mrs.offset_within_region)=
-)) {
-        ret =3D -EINVAL;
-        memory_region_unref(mrs.mr);
-        mrs.mr =3D NULL;
-    }
-
- out:
-    if (env->xen_vcpu_info_mr) {
-        memory_region_unref(env->xen_vcpu_info_mr);
-    }
-    env->xen_vcpu_info_hva =3D vcpu_info_hva;
-    env->xen_vcpu_info_mr =3D mrs.mr;
-    return ret;
-}
-
-
-
---=-Leq6rZhSn7IvXRhpFoEZ
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMTE3MTIzMTQzWjAvBgkqhkiG9w0BCQQxIgQg+XMXzsz6
-Yr/lzhOI41zZ0esjQnmKcxOuc+iMVFWTv1kwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBR/DnIPyc3hmOEKrUHO5LvLHhNuVb4svOP
-0bYScqOnQpOTJJl1T0IBxAUKLKFx1gIPd66sIz3jADEnrDZBoHYeQel4mLKZNA8xJlTa8m7xGc46
-uMFSYs2XHTWQHwm5rBi2Q0bhP2th6NeWMKYgUAdmwTED0Qb4+RT7xQe+Ixk/h+ZJFVrGC7U8RHd8
-kciimwzxtXQL1/JJIJX+LRV7amrCgafjiUOcJERyIJNlsC6NmBzLChABjZh25mKbfBQfnA0VQQe5
-yi58/0E+7tLdeHO4OzdkbxDShHa8k3Ip15Gq+XUWLabV6TzrvUaBd4u5xDKhC0ZQtvKBcWT6qlhd
-E84ynImi0HsXT0PSJCRkfg3bLbhbZ4YZk+zFipdZGpmgGIApr/wZSFYun6NjTWGKWZtDkjFL40Im
-+fGrA1kobxEvHkYy9DpQW+dJ8Vvko9RtUOenBb3DkDS9jz8DJKs0gNqCMKHsfGpocwjd5mBP/NeG
-rIyya9lWNSioIssdBgSFOWSpB3CwymMn7TQB1IZVGvBg0SVrDhtPJ+CBKkMSsJGJBBzYW0/lKldC
-pWE2KI+ja20VGqcvGSBzWy+z9I9DODCnTqjL+7ap3eU+IbJNV/EKRexzKIaDBwqHqDYD3RAEhy/i
-WzRcPcdW1vYqqzkppe69bbjWTOm38ToTKj62yClmngAAAAAAAA==
-
-
---=-Leq6rZhSn7IvXRhpFoEZ--
 
