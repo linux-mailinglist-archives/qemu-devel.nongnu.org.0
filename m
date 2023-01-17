@@ -2,92 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09BE66E408
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:48:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05D8C66E407
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:48:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHp8G-0001vc-P0; Tue, 17 Jan 2023 11:48:20 -0500
+	id 1pHp8G-0001wP-JR; Tue, 17 Jan 2023 11:48:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <binbin.wu@linux.intel.com>)
- id 1pHcXV-0004AY-20
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 22:21:33 -0500
-Received: from mga04.intel.com ([192.55.52.120])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <binbin.wu@linux.intel.com>)
- id 1pHcXR-00010b-O8
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 22:21:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1673925689; x=1705461689;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=dHN1vav1t5EnRUr6UdHotg6czTkkjwNiQkXgUEZ1z7k=;
- b=fIlN0b8KymoGH5TzuIYXca/cm/B5kM80NIzxKA5/fDmJGEsp2aExQ/ti
- CqEyZGvSdyDO6m1Y+J4+oF/Y46LtiK1CdoctbwzcHLczTKox5ET2exxfw
- tsnDLujfwXiKiS8VV/cjrvv7auzLb40ra9cqGtkKjb/Oj8sk9jAFg53Jk
- ZFWrkZa6lUpPQdqj2EqSSL4EiQaejjwr82NMReV5L+5USDU8HQ2U9G/ej
- /qunEb42EILW5AbOoEk0mmKixr+c1WQuSkxxso6YcS++EZ5HXP0Xn0oMv
- ShjYFfl5T3uBUg5k4+m1nUEZ6WBCLP3fzysB2SKoSraO0DDtyxfEHcP/n Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="323298317"
-X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; d="scan'208";a="323298317"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2023 19:21:24 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="783096609"
-X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; d="scan'208";a="783096609"
-Received: from binbinwu-mobl.ccr.corp.intel.com (HELO [10.249.170.151])
- ([10.249.170.151])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2023 19:21:13 -0800
-Message-ID: <c25f1f8c-f7c0-6a96-cd67-260df47f79a9@linux.intel.com>
-Date: Tue, 17 Jan 2023 11:21:10 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-To: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
- Naoya Horiguchi <naoya.horiguchi@nec.com>, Miaohe Lin
- <linmiaohe@huawei.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
-From: Binbin Wu <binbin.wu@linux.intel.com>
-In-Reply-To: <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=192.55.52.120;
- envelope-from=binbin.wu@linux.intel.com; helo=mga04.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <loyou85@gmail.com>) id 1pHjx6-0006oV-QW
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:16:28 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <loyou85@gmail.com>) id 1pHjx4-0007gl-Vr
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:16:28 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id d8so857092pjc.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 03:16:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5rpXVZmPEgwqfHM761IYO84SOSpvtSS2KcilaCufpno=;
+ b=W6qNnQiIGlzCUk8XTsKCvVZpwFQI91sMSDo37oX4+XJzpCzFikrieNLLe+O4cS43nf
+ e7EU/UZfOuD2Qg0A1e/xD9hX6QRZLZD+ctR8JWAgHv8RU/CqQBYMCGNneDFGl70YMN/P
+ 876Q3jwQLxFr4y7z9yKo79D+7ATsgD8FsG+GDzy3VEJ/kDCszx/NW8CfgPrkISoZ6feM
+ lSrXKEj++OAPWvKs27kjUNux1+kqWI2uHZJEHsJkE8/JlNyAGQjROOE4Y9P/MRAnLbe0
+ 8mYoWHnkpBCkj9sBKSkE9hIhJrDoDEgVBRl4aRGPi9iriaD+xdDHk3K0s2cz4aeP8i2G
+ MV9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5rpXVZmPEgwqfHM761IYO84SOSpvtSS2KcilaCufpno=;
+ b=5ac6qHj3jT3S5NI1vYGqrKqtQPM4Zy7Yi2PZFGeL3kpV9AqWWRQAHL3MvoU3zDd8qY
+ jCMcSz+rYGapXp+FuhCqrhf36jbAmH0W5+ojZGQofeP3W57WS4cTcG9tEHkoR+2jLQzm
+ GFYSYaLgn9JQQpgk7v/srwMuK/VwiB2uo7wQu481Upi8PBkhbq6pBI2IpqRI08KQAJVj
+ 3kbHlcxW0zUks8O0kdlqI2K7SZ1/dNn2KW0janK+zTzmBYSVZfDXUAvn5JBolL8W3/Hx
+ t+GqGgYAzA+C//akPHRF+gcTUXyoPuQbfK9x0LjKylzi0tM+vxQRLqkhGGfnRs1VcuUX
+ l3dw==
+X-Gm-Message-State: AFqh2kpEpPMJXyPTvuzkMjAQ4lrc7cc8O9cVagsAMFzpDDNJV7w0fe0u
+ 66Obel9ivsWYofcjY6CgcDyBuYvnh6SLqg==
+X-Google-Smtp-Source: AMrXdXtFUdrEf9LgBSQnsX3p2UAEsjZ2KqpsEph7t5AeKC6FlTbITcFZ5RS/F1qASFk6s7ApJjrBDw==
+X-Received: by 2002:a17:902:9688:b0:192:55ab:88fe with SMTP id
+ n8-20020a170902968800b0019255ab88femr2867933plp.56.1673954183556; 
+ Tue, 17 Jan 2023 03:16:23 -0800 (PST)
+Received: from i-p7lx0k9i.ap2a.qingcloud.com ([139.198.120.26])
+ by smtp.gmail.com with ESMTPSA id
+ x11-20020a170902b40b00b001931c37da2dsm19534408plr.20.2023.01.17.03.16.21
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 17 Jan 2023 03:16:22 -0800 (PST)
+From: Sun Feng <loyou85@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
+ Sun Feng <loyou85@gmail.com>
+Subject: [PATCH] acpi: Set maximum size to 64k for "etc/acpi/rsdp" blob
+Date: Tue, 17 Jan 2023 19:15:21 +0800
+Message-Id: <1673954121-23942-1-git-send-email-loyou85@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=loyou85@gmail.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 17 Jan 2023 11:48:11 -0500
+X-Mailman-Approved-At: Tue, 17 Jan 2023 11:48:12 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,308 +84,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Migrate from aarch64 host with PAGE_SIZE 64k to 4k failed with following errors:
 
-On 12/2/2022 2:13 PM, Chao Peng wrote:
-> In confidential computing usages, whether a page is private or shared is
-> necessary information for KVM to perform operations like page fault
-> handling, page zapping etc. There are other potential use cases for
-> per-page memory attributes, e.g. to make memory read-only (or no-exec,
-> or exec-only, etc.) without having to modify memslots.
->
-> Introduce two ioctls (advertised by KVM_CAP_MEMORY_ATTRIBUTES) to allow
-> userspace to operate on the per-page memory attributes.
->    - KVM_SET_MEMORY_ATTRIBUTES to set the per-page memory attributes to
->      a guest memory range.
->    - KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to return the KVM supported
->      memory attributes.
->
-> KVM internally uses xarray to store the per-page memory attributes.
->
-> Suggested-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> Link: https://lore.kernel.org/all/Y2WB48kD0J4VGynX@google.com/
-> ---
->   Documentation/virt/kvm/api.rst | 63 ++++++++++++++++++++++++++++
->   arch/x86/kvm/Kconfig           |  1 +
->   include/linux/kvm_host.h       |  3 ++
->   include/uapi/linux/kvm.h       | 17 ++++++++
+qmp_cmd_name: migrate-incoming, arguments: {"uri": "tcp:[::]:49152"}
+{"timestamp": {"seconds": 1673922775, "microseconds": 534702}, "event": "MIGRATION", "data": {"status": "setup"}}
+{"timestamp": {"seconds": 1673922776, "microseconds": 53003}, "event": "MIGRATION", "data": {"status": "active"}}
+2023-01-17T02:32:56.058827Z qemu-system-aarch64: Length too large: /rom@etc/acpi/rsdp: 0x10000 > 0x1000: Invalid argument
+2023-01-17T02:32:56.058832Z qemu-system-aarch64: error while loading state for instance 0x0 of device 'ram'
+2023-01-17T02:32:56.059236Z qemu-system-aarch64: load of migration failed: Invalid argument
+{"timestamp": {"seconds": 1673922776, "microseconds": 59248}, "event": "MIGRATION", "data": {"status": "failed"}}
+2023-01-17 02:32:56.306+0000: shutting down, reason=failed
 
-Should the changes introduced in this file also need to be added in 
-tools/include/uapi/linux/kvm.h ?
+refer to the following commit, set blob "etc/acpi/rsdp" maximum size to 64k works.
 
+5033728 acpi: Set proper maximum size for "etc/acpi/rsdp" blob
+6c2b24d acpi: Set proper maximum size for "etc/table-loader" blob
 
+Signed-off-by: Sun Feng <loyou85@gmail.com>
+---
+ hw/acpi/utils.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->   virt/kvm/Kconfig               |  3 ++
->   virt/kvm/kvm_main.c            | 76 ++++++++++++++++++++++++++++++++++
->   6 files changed, 163 insertions(+)
->
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 5617bc4f899f..bb2f709c0900 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -5952,6 +5952,59 @@ delivery must be provided via the "reg_aen" struct.
->   The "pad" and "reserved" fields may be used for future extensions and should be
->   set to 0s by userspace.
->   
-> +4.138 KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES
-> +-----------------------------------------
-> +
-> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
-> +:Architectures: x86
-> +:Type: vm ioctl
-> +:Parameters: u64 memory attributes bitmask(out)
-> +:Returns: 0 on success, <0 on error
-> +
-> +Returns supported memory attributes bitmask. Supported memory attributes will
-> +have the corresponding bits set in u64 memory attributes bitmask.
-> +
-> +The following memory attributes are defined::
-> +
-> +  #define KVM_MEMORY_ATTRIBUTE_READ              (1ULL << 0)
-> +  #define KVM_MEMORY_ATTRIBUTE_WRITE             (1ULL << 1)
-> +  #define KVM_MEMORY_ATTRIBUTE_EXECUTE           (1ULL << 2)
-> +  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
-> +
-> +4.139 KVM_SET_MEMORY_ATTRIBUTES
-> +-----------------------------------------
-> +
-> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
-> +:Architectures: x86
-> +:Type: vm ioctl
-> +:Parameters: struct kvm_memory_attributes(in/out)
-> +:Returns: 0 on success, <0 on error
-> +
-> +Sets memory attributes for pages in a guest memory range. Parameters are
-> +specified via the following structure::
-> +
-> +  struct kvm_memory_attributes {
-> +	__u64 address;
-> +	__u64 size;
-> +	__u64 attributes;
-> +	__u64 flags;
-> +  };
-> +
-> +The user sets the per-page memory attributes to a guest memory range indicated
-> +by address/size, and in return KVM adjusts address and size to reflect the
-> +actual pages of the memory range have been successfully set to the attributes.
-> +If the call returns 0, "address" is updated to the last successful address + 1
-> +and "size" is updated to the remaining address size that has not been set
-> +successfully. The user should check the return value as well as the size to
-> +decide if the operation succeeded for the whole range or not. The user may want
-> +to retry the operation with the returned address/size if the previous range was
-> +partially successful.
-> +
-> +Both address and size should be page aligned and the supported attributes can be
-> +retrieved with KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES.
-> +
-> +The "flags" field may be used for future extensions and should be set to 0s.
-> +
->   5. The kvm_run structure
->   ========================
->   
-> @@ -8270,6 +8323,16 @@ structure.
->   When getting the Modified Change Topology Report value, the attr->addr
->   must point to a byte where the value will be stored or retrieved from.
->   
-> +8.40 KVM_CAP_MEMORY_ATTRIBUTES
-> +------------------------------
-> +
-> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
-> +:Architectures: x86
-> +:Type: vm
-> +
-> +This capability indicates KVM supports per-page memory attributes and ioctls
-> +KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES/KVM_SET_MEMORY_ATTRIBUTES are available.
-> +
->   9. Known KVM API problems
->   =========================
->   
-> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-> index fbeaa9ddef59..a8e379a3afee 100644
-> --- a/arch/x86/kvm/Kconfig
-> +++ b/arch/x86/kvm/Kconfig
-> @@ -49,6 +49,7 @@ config KVM
->   	select SRCU
->   	select INTERVAL_TREE
->   	select HAVE_KVM_PM_NOTIFIER if PM
-> +	select HAVE_KVM_MEMORY_ATTRIBUTES
->   	help
->   	  Support hosting fully virtualized guest machines using hardware
->   	  virtualization extensions.  You will need a fairly recent
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 8f874a964313..a784e2b06625 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -800,6 +800,9 @@ struct kvm {
->   
->   #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
->   	struct notifier_block pm_notifier;
-> +#endif
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +	struct xarray mem_attr_array;
->   #endif
->   	char stats_id[KVM_STATS_NAME_SIZE];
->   };
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 64dfe9c07c87..5d0941acb5bb 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -1182,6 +1182,7 @@ struct kvm_ppc_resize_hpt {
->   #define KVM_CAP_S390_CPU_TOPOLOGY 222
->   #define KVM_CAP_DIRTY_LOG_RING_ACQ_REL 223
->   #define KVM_CAP_S390_PROTECTED_ASYNC_DISABLE 224
-> +#define KVM_CAP_MEMORY_ATTRIBUTES 225
->   
->   #ifdef KVM_CAP_IRQ_ROUTING
->   
-> @@ -2238,4 +2239,20 @@ struct kvm_s390_zpci_op {
->   /* flags for kvm_s390_zpci_op->u.reg_aen.flags */
->   #define KVM_S390_ZPCIOP_REGAEN_HOST    (1 << 0)
->   
-> +/* Available with KVM_CAP_MEMORY_ATTRIBUTES */
-> +#define KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES    _IOR(KVMIO,  0xd2, __u64)
-> +#define KVM_SET_MEMORY_ATTRIBUTES              _IOWR(KVMIO,  0xd3, struct kvm_memory_attributes)
-> +
-> +struct kvm_memory_attributes {
-> +	__u64 address;
-> +	__u64 size;
-> +	__u64 attributes;
-> +	__u64 flags;
-> +};
-> +
-> +#define KVM_MEMORY_ATTRIBUTE_READ              (1ULL << 0)
-> +#define KVM_MEMORY_ATTRIBUTE_WRITE             (1ULL << 1)
-> +#define KVM_MEMORY_ATTRIBUTE_EXECUTE           (1ULL << 2)
-> +#define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
-> +
->   #endif /* __LINUX_KVM_H */
-> diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
-> index 800f9470e36b..effdea5dd4f0 100644
-> --- a/virt/kvm/Kconfig
-> +++ b/virt/kvm/Kconfig
-> @@ -19,6 +19,9 @@ config HAVE_KVM_IRQ_ROUTING
->   config HAVE_KVM_DIRTY_RING
->          bool
->   
-> +config HAVE_KVM_MEMORY_ATTRIBUTES
-> +       bool
-> +
->   # Only strongly ordered architectures can select this, as it doesn't
->   # put any explicit constraint on userspace ordering. They can also
->   # select the _ACQ_REL version.
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 1782c4555d94..7f0f5e9f2406 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -1150,6 +1150,9 @@ static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
->   	spin_lock_init(&kvm->mn_invalidate_lock);
->   	rcuwait_init(&kvm->mn_memslots_update_rcuwait);
->   	xa_init(&kvm->vcpu_array);
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +	xa_init(&kvm->mem_attr_array);
-> +#endif
->   
->   	INIT_LIST_HEAD(&kvm->gpc_list);
->   	spin_lock_init(&kvm->gpc_lock);
-> @@ -1323,6 +1326,9 @@ static void kvm_destroy_vm(struct kvm *kvm)
->   		kvm_free_memslots(kvm, &kvm->__memslots[i][0]);
->   		kvm_free_memslots(kvm, &kvm->__memslots[i][1]);
->   	}
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +	xa_destroy(&kvm->mem_attr_array);
-> +#endif
->   	cleanup_srcu_struct(&kvm->irq_srcu);
->   	cleanup_srcu_struct(&kvm->srcu);
->   	kvm_arch_free_vm(kvm);
-> @@ -2323,6 +2329,49 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
->   }
->   #endif /* CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT */
->   
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +static u64 kvm_supported_mem_attributes(struct kvm *kvm)
-> +{
-> +	return 0;
-> +}
-> +
-> +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
-> +					   struct kvm_memory_attributes *attrs)
-> +{
-> +	gfn_t start, end;
-> +	unsigned long i;
-> +	void *entry;
-> +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
-> +
-> +	/* flags is currently not used. */
-> +	if (attrs->flags)
-> +		return -EINVAL;
-> +	if (attrs->attributes & ~supported_attrs)
-> +		return -EINVAL;
-> +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
-> +		return -EINVAL;
-> +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
-> +		return -EINVAL;
-> +
-> +	start = attrs->address >> PAGE_SHIFT;
-> +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
-> +
-> +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
-> +
-> +	mutex_lock(&kvm->lock);
-> +	for (i = start; i < end; i++)
-> +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
-> +				    GFP_KERNEL_ACCOUNT)))
-> +			break;
-> +	mutex_unlock(&kvm->lock);
-> +
-> +	attrs->address = i << PAGE_SHIFT;
-> +	attrs->size = (end - i) << PAGE_SHIFT;
-> +
-> +	return 0;
-> +}
-> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
-> +
->   struct kvm_memory_slot *gfn_to_memslot(struct kvm *kvm, gfn_t gfn)
->   {
->   	return __gfn_to_memslot(kvm_memslots(kvm), gfn);
-> @@ -4459,6 +4508,9 @@ static long kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
->   #ifdef CONFIG_HAVE_KVM_MSI
->   	case KVM_CAP_SIGNAL_MSI:
->   #endif
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +	case KVM_CAP_MEMORY_ATTRIBUTES:
-> +#endif
->   #ifdef CONFIG_HAVE_KVM_IRQFD
->   	case KVM_CAP_IRQFD:
->   	case KVM_CAP_IRQFD_RESAMPLE:
-> @@ -4804,6 +4856,30 @@ static long kvm_vm_ioctl(struct file *filp,
->   		break;
->   	}
->   #endif /* CONFIG_HAVE_KVM_IRQ_ROUTING */
-> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
-> +	case KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES: {
-> +		u64 attrs = kvm_supported_mem_attributes(kvm);
-> +
-> +		r = -EFAULT;
-> +		if (copy_to_user(argp, &attrs, sizeof(attrs)))
-> +			goto out;
-> +		r = 0;
-> +		break;
-> +	}
-> +	case KVM_SET_MEMORY_ATTRIBUTES: {
-> +		struct kvm_memory_attributes attrs;
-> +
-> +		r = -EFAULT;
-> +		if (copy_from_user(&attrs, argp, sizeof(attrs)))
-> +			goto out;
-> +
-> +		r = kvm_vm_ioctl_set_mem_attributes(kvm, &attrs);
-> +
-> +		if (!r && copy_to_user(argp, &attrs, sizeof(attrs)))
-> +			r = -EFAULT;
-> +		break;
-> +	}
-> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
->   	case KVM_CREATE_DEVICE: {
->   		struct kvm_create_device cd;
->   
+diff --git a/hw/acpi/utils.c b/hw/acpi/utils.c
+index 0c486ea..85f6ff3 100644
+--- a/hw/acpi/utils.c
++++ b/hw/acpi/utils.c
+@@ -37,7 +37,7 @@ MemoryRegion *acpi_add_rom_blob(FWCfgCallback update, void *opaque,
+     } else if (!strcmp(name, ACPI_BUILD_LOADER_FILE)) {
+         max_size = 0x10000;
+     } else if (!strcmp(name, ACPI_BUILD_RSDP_FILE)) {
+-        max_size = 0x1000;
++        max_size = 0x10000;
+     } else {
+         g_assert_not_reached();
+     }
+-- 
+2.7.4
+
 
