@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4F1A66E342
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:17:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE4A66E345
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:19:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHoe7-0002z3-Vs; Tue, 17 Jan 2023 11:17:12 -0500
+	id 1pHofm-0005MV-KL; Tue, 17 Jan 2023 11:18:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHody-0002xT-SQ
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:17:08 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHofN-00057c-Ge
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:18:29 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHodw-0004UF-95
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:17:02 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- l41-20020a05600c1d2900b003daf986faaeso4969667wms.3
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 08:16:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHofL-0004cp-TK
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:18:29 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ cx21-20020a17090afd9500b00228f2ecc6dbso80852pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 08:18:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FQyfz7GFXFp/yRvoE9XY5c+G01h5EjYf0zpXppNFrVA=;
- b=VGiB7E/ZO1oxzYMfbf5cmQV4AxekiWJlP01Lv0DuiXDVHvC58QbYZ7iE0fOJAsOMpM
- WHgYMiVKSo4vuqynBfpSKcvOdh6hRQiT14+5MKVVetTD7LqriC/VorW0pGNsgPdRrScc
- 7743mGLO+auZtTEO+KXzNTGwXHNRSMn2U3tBMMqDGpaTuHJ0frTdkP+QyJF0tIgusYxf
- fx8XfHphjQJKgm1d2/QXABpbIXzzWJCxIYwUKO5s4fG0/AIJX4emu18ICKHvfqmqf6m/
- xTb9VAM5Xmej/umeJ8QiURsAHwOGO5ntfttz1b69fj13UF8qtaW+mjvaPK4piSQcDT4g
- mv1Q==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=A4/5fYgXR1pyHfT5U1fw1lkncpm6Gmpw8YQoQ2kh474=;
+ b=g6kqHK46iC0TL4hFdx4Ejv/5Jc9hvF+LpfPvYELv7OYWvz4EY7SoJjKFOkDtckAFHv
+ WRORMaSYSz8jHfKdXPtZlc2kFKd3PTQBHcpJmCIzvpPVUuGtyB3eLDebJSIo1LLYgVOI
+ ZusFKbMxtipRVcuxX6NTRt3+YRliDKaGQEP0OS0xXQoElWZtA80La+AUPv13qrOGSlJ6
+ kSeYBqWykh1lseEM0+JVNPdTIZf82Dkw7SPW90PYA0vB6Zf9O6lb12YSmuqEUArPVdVQ
+ x+wAk/Zwk97gfjapn4AZfYRvhfq7awhb3n1fH+/HyXtOb04G8bWvWvorX87m39T7mSaj
+ un/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FQyfz7GFXFp/yRvoE9XY5c+G01h5EjYf0zpXppNFrVA=;
- b=pEGaW+pkHDQFYo21xIVgp/DrpUKtFl3Ibnuxql0TEfy2wkei2aFQX/3Tt3oA39Z4Xu
- Bcw1JazbELhKLmyEwBEcNO9bdxyFdCmge6SR8TzPinwiAWK3nTax+QHN8ZoHEufIkqfJ
- ByHd8KRA2YjlYoji+Dr/Urdf9zThAQiwmZq8tLtJarBMdPyDfI1ErRUW5aRebR3M5M3K
- 12jH7egrLeI/IQweSgbIk7q+CMAlX6Bi7exLqd6u2K4HaWvt3YAgbCXYLx25Uvk2d2jX
- eyPQTVuEWV55syPEKGV7ZFLMqb1PSoxGgPItrWtM4DFqjqzx2zS2Mu0dx14Vp33dR5Br
- ln8A==
-X-Gm-Message-State: AFqh2ko5OmK0SI2gU4pBZcuGyhJGmBUWiWgWIGAWtQvMkG8EJESokRTH
- OfGNAK2+CFYNesUOFYV7U8g0Pg==
-X-Google-Smtp-Source: AMrXdXv4cU/eqbSxCGkK4YaozkQNRAEYyqDcwuqNKagGw81rYGRE5AI5rj6Z57QDBbOyZ4Ag3fXIRg==
-X-Received: by 2002:a05:600c:181a:b0:3d2:2043:9cbf with SMTP id
- n26-20020a05600c181a00b003d220439cbfmr3662010wmp.10.1673972218799; 
- Tue, 17 Jan 2023 08:16:58 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- 24-20020a05600c231800b003db07420d14sm2359370wmo.39.2023.01.17.08.16.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 08:16:58 -0800 (PST)
-Message-ID: <ebe782e3-c73c-5311-451f-8d36ea391e7e@linaro.org>
-Date: Tue, 17 Jan 2023 17:16:56 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=A4/5fYgXR1pyHfT5U1fw1lkncpm6Gmpw8YQoQ2kh474=;
+ b=zY51nZMNDpclCP+CWgtdQ9J9HTnMGIdvNEhNwdCwvcqymNrdg0Sr9hcxP4kS7RrIk4
+ aurbLeCrP+NC30N3y+hLzOuC72srpldp29fncgoMZsNXm5P72Wm1prwBVxCOw75q9CcT
+ Hj2b+f/jH8SoASnAzXQhOkptc3p9x0nWo2YuePvxQnKLDqeGLfy7eSCIq9GsfZzJ+RJL
+ 1zOo1qevsD6nTI3+mcSUyoUx7Y54MTVoeVhFkfzWJ7FHgRPz/u3lDF92ehjAGGzly/b2
+ KEP/4yDir8fJOvJquhXXK6ebUa9MMbFRe5Ry+A/xz3/rIcMZ2Fehznn46m4N0IfDAMjX
+ DWIQ==
+X-Gm-Message-State: AFqh2kr2jyv8zkypLxsJO019j7vNSoRXAc9wRIGSK7BCnT6C99dFOyqa
+ 0qiKRKBiVgMShOXiv6ivDDfqIEnxcy/yS8z3Tr21PQ==
+X-Google-Smtp-Source: AMrXdXtmWyVfgJzmesu3dQ5gV8JtyaZEVyUkSSwHvXyWTabM8rQvvLSthYn27JPMpSrQzyPc6LZsxPem3F33nNJprIM=
+X-Received: by 2002:a17:90b:46c9:b0:219:e2f1:81ad with SMTP id
+ jx9-20020a17090b46c900b00219e2f181admr317716pjb.19.1673972305782; Tue, 17 Jan
+ 2023 08:18:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC PATCH v3 06/28] target/arm: Move cpregs code into cpregs.c
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-References: <20230113140419.4013-1-farosas@suse.de>
- <20230113140419.4013-7-farosas@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230113140419.4013-7-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <Y8AG21o/9/3eUMIg@cormorant.local>
+ <Y8W+H6T9DOZ08SoF@cormorant.local>
+ <Y8Yq5faCjAKzMa9O@kbusch-mbp> <20230117160933.GB3091262@roeck-us.net>
+In-Reply-To: <20230117160933.GB3091262@roeck-us.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Jan 2023 16:18:14 +0000
+Message-ID: <CAFEAcA9pS7P=SvKsOtRHPtkrNAD8LF2ZpFJ870G3B-rhWYap4g@mail.gmail.com>
+Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Jens Axboe <axboe@fb.com>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, 
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,52 +89,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/1/23 15:03, Fabiano Rosas wrote:
-> Code moved verbatim.
-> 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/arm/cpregs.c     | 9087 +++++++++++++++++++++++++++++++++++++++
->   target/arm/helper.c     | 9063 --------------------------------------
+On Tue, 17 Jan 2023 at 16:10, Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> On Mon, Jan 16, 2023 at 09:58:13PM -0700, Keith Busch wrote:
+> > On Mon, Jan 16, 2023 at 10:14:07PM +0100, Klaus Jensen wrote:
+> > > I noticed that the Linux driver does not use the INTMS/INTMC registers
+> > > to mask interrupts on the controller while processing CQEs. While not
+> > > required by the spec, it is *recommended* in setups not using MSI-X to
+> > > reduce the risk of spurious and/or missed interrupts.
+> >
+> > That's assuming completions are deferred to a bottom half. We don't do
+> > that by default in Linux nvme, though you can ask the driver to do that
+> > if you want.
+> >
+> > > With the patch below, running 100 boot iterations, no timeouts were
+> > > observed on QEMU emulated riscv64 or mips64.
+> > >
+> > > No changes are required in the QEMU hw/nvme interrupt logic.
+> >
+> > Yeah, I can see why: it forces the irq line to deassert then assert,
+> > just like we had forced to happen within the device side patches. Still,
+> > none of that is supposed to be necessary, but this idea of using these
+> > registers is probably fine.
+>
+> There is still no answer why this would be necessary in the first place,
+> on either side. In my opinion, unless someone can confirm that the problem
+> is seen with real hardware, we should assume that it happens on the qemu
+> side and address it there.
 
-Nice diffstat...
+Sure, but that means identifying what the divergence
+between QEMU's implementation and the hardware is first. I don't
+want a fudged fix in QEMU's code any more than you want one in
+the kernel's driver code :-)
 
->   target/arm/meson.build  |    1 +
->   target/arm/trace-events |    2 +-
->   4 files changed, 9089 insertions(+), 9064 deletions(-)
->   create mode 100644 target/arm/cpregs.c
-
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index aa94db9917..0c3e72a266 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -31,5614 +31,9 @@
-
-Can we remove the '#include "trace.h"' from helper.c?
-
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
->   #endif
->   #include "cpregs.h"
->   
-> -#define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
->   
->   static void switch_mode(CPUARMState *env, int mode);
-
-
-> diff --git a/target/arm/trace-events b/target/arm/trace-events
-> index 2a0ba7bffc..04a480443e 100644
-> --- a/target/arm/trace-events
-> +++ b/target/arm/trace-events
-> @@ -1,6 +1,6 @@
->   # See docs/devel/tracing.rst for syntax documentation.
->   
-> -# helper.c
-> +# cpregs.c
->   arm_gt_recalc(int timer, int irqstate, uint64_t nexttick) "gt recalc: timer %d irqstate %d next tick 0x%" PRIx64
->   arm_gt_recalc_disabled(int timer) "gt recalc: timer %d irqstate 0 timer disabled"
->   arm_gt_cval_write(int timer, uint64_t value) "gt_cval_write: timer %d value 0x%" PRIx64
-
+thanks
+-- PMM
 
