@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C754C66D795
+	by mail.lfdr.de (Postfix) with ESMTPS id CC36466D796
 	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 09:09:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHh1I-0002tw-Mo; Tue, 17 Jan 2023 03:08:36 -0500
+	id 1pHh1H-0002pS-Ul; Tue, 17 Jan 2023 03:08:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pHh0g-0002nx-SQ
+ id 1pHh0g-0002nw-Ir
  for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:07:58 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pHh0c-0000Rg-5u
+ id 1pHh0e-0000Rt-Dq
  for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:07:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673942873;
+ s=mimecast20190719; t=1673942875;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s2CxFTHityeNV5UFpIKrh+T9Z/RsPZNuWUHcYXPHaQg=;
- b=LJHMUwb51Gc4U4Im/zk31kheheRhJMqyVQJ7P0inyByAYBAVT9xCXoQQCXF5hegE/C2k6Q
- e+2MnRUDyrqem1BsE6VsSY3+YMghLJY4K/7CqGxplnqGJG8FcDJWfqLKgIDnXcJC3G7IMY
- 4aXbRB5PEWm8fYU08SIcKKZGduiwoEg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4Nf/qoa+K7HjuYdhLWL8wXyrH53Imqw+8MLAETNKXus=;
+ b=IVxZAatXCiy9b19fH5pwgfVyLHpJQeY4vjuggmZsXGlBoJdhshS4K61Dru/GBHLNCp27Yq
+ gXv1uI5TJgRuqJSBhdnMZ0eNEHuf7ytncwvu0Bxcxj4hwi9d6BDPZ7zTw2dRBAbf4sV64d
+ oT7MCLuZW0RuruVvD8sl5FdIgArnnI4=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-267-QRgN9NKwMKCPDz_lja8Gwg-1; Tue, 17 Jan 2023 03:07:52 -0500
-X-MC-Unique: QRgN9NKwMKCPDz_lja8Gwg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- m7-20020a056402510700b00488d1fcdaebso20458786edd.9
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 00:07:51 -0800 (PST)
+ us-mta-489-UylCSCe7NxSnwAOpNjEp8g-1; Tue, 17 Jan 2023 03:07:54 -0500
+X-MC-Unique: UylCSCe7NxSnwAOpNjEp8g-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ w18-20020a05640234d200b0048cc3aa4993so20557824edc.7
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 00:07:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=s2CxFTHityeNV5UFpIKrh+T9Z/RsPZNuWUHcYXPHaQg=;
- b=0cWRgVmN3zPxSsuyS96rcBdvRJOnGQAUO4w4foz4/Z7PtH/bsOvqnSd5Vpqlk+5bsp
- WQ3ciB4PY70utwAsxfnRLRRLjYTiJtL2dLy6Rf5RQxOyXYmSueAxzHfFXpYylZLF4N9z
- lZA+1grYnBuv1wgFiyHBtg4pdAr2XYjSCWuCgyGEMqABgAlsWAejyVbvKlcjqtfXf0QB
- birZ1HFgdPrjuzJR62zP/UVcYDk+yOGYb2dOcyWkBbNCgF5mmqhQXMdaKmCuGixAkVy+
- PS8NNMQyKoyn2FyjpHHfHWXMaN/lOm2a8SbVkQ1GXZvLuaL5o+CkFMk4AJDgMTwCpKxd
- ntmg==
-X-Gm-Message-State: AFqh2kohMiHbaHb0IIATxcQkmb2X8gPVKhhI+6icSlGSsdZH1hNh8Z/B
- 3cpCUV3Ky98kkje7Cn3OP2Ag37RMS85Ay9+vF9X9ywVgxJllw5vUjCiINL3ofFCWofG22IY/tKf
- j0W4zDlSE6hBdtvURAV31DWPbA0sE198sH4aIstiDLx8FJvuDndmwljxfnbg7cI371Gw=
-X-Received: by 2002:a17:907:1747:b0:86e:7300:1fa8 with SMTP id
- lf7-20020a170907174700b0086e73001fa8mr2056968ejc.35.1673942870426; 
- Tue, 17 Jan 2023 00:07:50 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsYmlYMPt5PiigqaBkFJIRJY8WwSSKmYNoSq8q7fMmJJT4spbbMoZ9SvFr9t08eQVWHTpZQPw==
-X-Received: by 2002:a17:907:1747:b0:86e:7300:1fa8 with SMTP id
- lf7-20020a170907174700b0086e73001fa8mr2056953ejc.35.1673942870224; 
- Tue, 17 Jan 2023 00:07:50 -0800 (PST)
+ bh=4Nf/qoa+K7HjuYdhLWL8wXyrH53Imqw+8MLAETNKXus=;
+ b=5Kfja4N44xe2scRuDEH24VA4bjP+Hrly2BHV5f0aP6Dmwu2iiOpK2U9nfaMXeRYWW7
+ S3vsfS9sWDhKhLj7QlK7QHwcTk/uSxJZMx1dYJDnqcN3+ZrCdxH9XYoz+TIHySNjHWEz
+ jtL9pELNihjV7BhjJ7FlDqgfGy1ApThbwB2CORdJ2wDj1ynTn7DMh6Wljd0gNCOQMyU+
+ XpZ50HIN0+mrwJf8gF/auFIjlvfA3Qi8Nb0J8gziTlI82Q6InKuhlqbyzbJVA/1UJ5aE
+ Y21OyBEj0p9zFbi4u270uh/Kw1QqpYCh4u05jQXaP6ti3csQ+0IDeI79OFuvDe+l3mFY
+ +9dQ==
+X-Gm-Message-State: AFqh2ko2DIypg0Rxa7J02qCzPAFCc+hoy0aTRZpHTbNL23ZAE2QvIFk6
+ unYbgbMQVn7HzeBgKmOZJ3ptuR19UaZUZ4pB4RK7CBGucMAJhr6WgEesxJTpaPe/Jes2EMEx08B
+ pWC+pT6AWBMorGyUZwubT2GnoJtatqBj6OqMESF+CvG+aooembK5BK7yFVnjHNR26bUU=
+X-Received: by 2002:a17:906:57da:b0:872:5222:9024 with SMTP id
+ u26-20020a17090657da00b0087252229024mr1758248ejr.67.1673942873073; 
+ Tue, 17 Jan 2023 00:07:53 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsiViovqGnWGXtQdPJq3BZ5P3rhpuU0XXf53cjHSRMh0qG+Vt/PiBMxV+NAnYx4QgyqX1Vv7w==
+X-Received: by 2002:a17:906:57da:b0:872:5222:9024 with SMTP id
+ u26-20020a17090657da00b0087252229024mr1758229ejr.67.1673942872734; 
+ Tue, 17 Jan 2023 00:07:52 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.gmail.com with ESMTPSA id
- x25-20020a170906b09900b0080345493023sm12606424ejy.167.2023.01.17.00.07.49
+ p5-20020a17090653c500b007ae32daf4b9sm12834223ejo.106.2023.01.17.00.07.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 00:07:49 -0800 (PST)
+ Tue, 17 Jan 2023 00:07:52 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: thuth@redhat.com
-Subject: [PATCH 1/4] vl: catch [accel] entry without accelerator
-Date: Tue, 17 Jan 2023 09:07:42 +0100
-Message-Id: <20230117080745.43247-2-pbonzini@redhat.com>
+Subject: [PATCH 2/4] libqtest: split qtest_spawn_qemu function
+Date: Tue, 17 Jan 2023 09:07:43 +0100
+Message-Id: <20230117080745.43247-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230117080745.43247-1-pbonzini@redhat.com>
 References: <20230117080745.43247-1-pbonzini@redhat.com>
@@ -99,69 +99,150 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-While QEMU catches invalid -accel command line options:
+In order to create a function that allows testing of invalid command
+lines, extract the parts of qtest_init_without_qmp_handshake that do
+not require any successful set up of sockets.
 
-    $ qemu-system-x86_64 -accel foo=bar
-    Accelerators supported in QEMU binary:
-    tcg
-    xen
-    kvm
-
-the same is not true of configuration files, which instead crash.
-Avoid a SIGSEGV and return an error instead.
-
-Reported-by: Thomas Huth <thuth@redhat.com>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1439
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ tests/qtest/libqtest.c | 103 ++++++++++++++++++++++-------------------
+ 1 file changed, 55 insertions(+), 48 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 9bd0e52d016a..b6deaee52da4 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2204,14 +2204,18 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
-     int ret;
-     bool qtest_with_kvm;
- 
-+    if (!acc) {
-+        error_setg(&error_fatal, QERR_MISSING_PARAMETER, "accel");
-+        goto bad;
-+    }
-+
-     qtest_with_kvm = g_str_equal(acc, "kvm") && qtest_chrdev != NULL;
- 
-     if (!ac) {
--        *p_init_failed = true;
-         if (!qtest_with_kvm) {
-             error_report("invalid accelerator %s", acc);
-         }
--        return 0;
-+        goto bad;
-     }
-     accel = ACCEL(object_new_with_class(OBJECT_CLASS(ac)));
-     object_apply_compat_props(OBJECT(accel));
-@@ -2221,14 +2225,17 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
- 
-     ret = accel_init_machine(accel, current_machine);
-     if (ret < 0) {
--        *p_init_failed = true;
-         if (!qtest_with_kvm || ret != -ENOENT) {
-             error_report("failed to initialize %s: %s", acc, strerror(-ret));
-         }
--        return 0;
-+        goto bad;
-     }
- 
-     return 1;
-+
-+bad:
-+    *p_init_failed = true;
-+    return 0;
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 5cb38f90da19..4d9cf919b2f7 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -342,60 +342,25 @@ static pid_t qtest_create_process(char *cmd)
  }
+ #endif /* _WIN32 */
  
- static void configure_accelerators(const char *progname)
+-QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
++static QTestState *G_GNUC_PRINTF(1, 0) qtest_spawn_qemu(const char *fmt, ...)
+ {
+-    QTestState *s;
+-    int sock, qmpsock, i;
+-    gchar *socket_path;
+-    gchar *qmp_socket_path;
+-    gchar *command;
+-    const char *qemu_binary = qtest_qemu_binary();
++    va_list ap;
++    QTestState *s = g_new0(QTestState, 1);
+     const char *trace = g_getenv("QTEST_TRACE");
+     g_autofree char *tracearg = trace ?
+         g_strdup_printf("-trace %s ", trace) : g_strdup("");
++    g_autoptr(GString) command = g_string_new("");
+ 
+-    s = g_new(QTestState, 1);
+-
+-    socket_path = g_strdup_printf("%s/qtest-%d.sock",
+-                                  g_get_tmp_dir(), getpid());
+-    qmp_socket_path = g_strdup_printf("%s/qtest-%d.qmp",
+-                                      g_get_tmp_dir(), getpid());
+-
+-    /* It's possible that if an earlier test run crashed it might
+-     * have left a stale unix socket lying around. Delete any
+-     * stale old socket to avoid spurious test failures with
+-     * tests/libqtest.c:70:init_socket: assertion failed (ret != -1): (-1 != -1)
+-     */
+-    unlink(socket_path);
+-    unlink(qmp_socket_path);
+-
+-    socket_init();
+-    sock = init_socket(socket_path);
+-    qmpsock = init_socket(qmp_socket_path);
+-
+-    qtest_client_set_rx_handler(s, qtest_client_socket_recv_line);
+-    qtest_client_set_tx_handler(s, qtest_client_socket_send);
++    va_start(ap, fmt);
++    g_string_append_printf(command, CMD_EXEC "%s %s",
++                           qtest_qemu_binary(), tracearg);
++    g_string_append_vprintf(command, fmt, ap);
++    va_end(ap);
+ 
+     qtest_add_abrt_handler(kill_qemu_hook_func, s);
+ 
+-    command = g_strdup_printf(CMD_EXEC "%s %s"
+-                              "-qtest unix:%s "
+-                              "-qtest-log %s "
+-                              "-chardev socket,path=%s,id=char0 "
+-                              "-mon chardev=char0,mode=control "
+-                              "-display none "
+-                              "%s"
+-                              " -accel qtest",
+-                              qemu_binary, tracearg, socket_path,
+-                              getenv("QTEST_LOG") ? DEV_STDERR : DEV_NULL,
+-                              qmp_socket_path,
+-                              extra_args ?: "");
++    g_test_message("starting QEMU: %s", command->str);
+ 
+-    g_test_message("starting QEMU: %s", command);
+-
+-    s->pending_events = NULL;
+-    s->wstatus = 0;
+-    s->expected_status = 0;
+ #ifndef _WIN32
+     s->qemu_pid = fork();
+     if (s->qemu_pid == 0) {
+@@ -416,14 +381,56 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+         if (!g_setenv("QEMU_AUDIO_DRV", "none", true)) {
+             exit(1);
+         }
+-        execlp("/bin/sh", "sh", "-c", command, NULL);
++        execlp("/bin/sh", "sh", "-c", command->str, NULL);
+         exit(1);
+     }
+ #else
+-    s->qemu_pid = qtest_create_process(command);
++    s->qemu_pid = qtest_create_process(command->str);
+ #endif /* _WIN32 */
+ 
+-    g_free(command);
++    return s;
++}
++
++QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
++{
++    QTestState *s;
++    int sock, qmpsock, i;
++    gchar *socket_path;
++    gchar *qmp_socket_path;
++
++    socket_path = g_strdup_printf("%s/qtest-%d.sock",
++                                  g_get_tmp_dir(), getpid());
++    qmp_socket_path = g_strdup_printf("%s/qtest-%d.qmp",
++                                      g_get_tmp_dir(), getpid());
++
++    /*
++     * It's possible that if an earlier test run crashed it might
++     * have left a stale unix socket lying around. Delete any
++     * stale old socket to avoid spurious test failures with
++     * tests/libqtest.c:70:init_socket: assertion failed (ret != -1): (-1 != -1)
++     */
++    unlink(socket_path);
++    unlink(qmp_socket_path);
++
++    socket_init();
++    sock = init_socket(socket_path);
++    qmpsock = init_socket(qmp_socket_path);
++
++    s = qtest_spawn_qemu("-qtest unix:%s "
++                         "-qtest-log %s "
++                         "-chardev socket,path=%s,id=char0 "
++                         "-mon chardev=char0,mode=control "
++                         "-display none "
++                         "%s"
++                         " -accel qtest",
++                         socket_path,
++                         getenv("QTEST_LOG") ? DEV_STDERR : DEV_NULL,
++                         qmp_socket_path,
++                         extra_args ?: "");
++
++    qtest_client_set_rx_handler(s, qtest_client_socket_recv_line);
++    qtest_client_set_tx_handler(s, qtest_client_socket_send);
++
+     s->fd = socket_accept(sock);
+     if (s->fd >= 0) {
+         s->qmp_fd = socket_accept(qmpsock);
 -- 
 2.38.1
 
