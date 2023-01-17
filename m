@@ -2,97 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351AD66D6FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 08:32:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED9C66D700
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 08:35:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHgRI-0000I3-Cj; Tue, 17 Jan 2023 02:31:24 -0500
+	id 1pHgUd-0001Y6-Ka; Tue, 17 Jan 2023 02:34:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHgRA-0000Gj-CJ
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:31:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHgR7-0003Nl-TG
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:31:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673940673;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=97RK27ckw8/r+KYWQgIrxRst7KulfFflGfzx+fO9zRs=;
- b=buRWQwtNCY6FIDRSEA18PTrRvOl3DTOaUOa9P89kJ/HIMvdkcaQESfhb1TWO56lq1R69jx
- XATHIp6V2MhtlBEAe84N2vEpju10D0qdxE3RGbkNh8rxCrhHp0MJVauMzqvTexbvPpVlmg
- ixPQfpjvUAQncP2mOOaM8cy/UTxbaVY=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-457-BtLHPlf3OnOGHQNN7bhAVA-1; Tue, 17 Jan 2023 02:31:04 -0500
-X-MC-Unique: BtLHPlf3OnOGHQNN7bhAVA-1
-Received: by mail-qv1-f69.google.com with SMTP id
- lv8-20020a056214578800b0053477624294so5755972qvb.22
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 23:31:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHgU7-0001VL-GU
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:34:30 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHgU5-0003da-F1
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:34:18 -0500
+Received: by mail-wr1-x429.google.com with SMTP id r30so5194332wrr.10
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 23:34:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YYgYZBj3Ft9SEGcVTq83+VwIbHreEzwzIZfHmyz9o9o=;
+ b=wG+3YPVkliW4p1a+pboo/SPsbgaGLX9tYrSTna59L/amT9E65TGqjmIgMWNs4+YCdr
+ hImHrS+DRcdUhz7F/o5QAj7vS607ppa3TbqHui+nGZZkOU9+swQWkw/XnW3fmuAlxS2o
+ 7ziNf10Oim48x+5niYymU8z+1RuiKEnVTWfzFITkWVeAztsEXl88qJCLSY0HlMvqqIO9
+ AARMaPCnvKYdfEzvYY5iBBTbgFKLhhc51LTjSlGxW/A3XGLE0S4cDAygBObXYUZtQGKm
+ iHPlGN2eBa1WExZ03kU8d+2eN9Im9moDcSi/eBryqNq19AUmEgKxGuplBB2kB/5sexBE
+ WOCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=97RK27ckw8/r+KYWQgIrxRst7KulfFflGfzx+fO9zRs=;
- b=phihLndduaio9aICcbgudGtwNFB4+kQ5GcwejuDqaAPak9uRzK/EGeobfPJbDMa1l4
- ujuz8TUctavFyCSw+ATBRL1+gTWJ96VE8/WkLZIBewY7IaA8O+81Dv8Qum++cMQLzrkN
- 0FXJPO1GFTTGrWZM0woXgkokiWjn5oickEHb4tDyO54PZ1MG3SMg7BBJe3gY5X4kFsf0
- jtTptlqCVLZ6IGCdiRZ7NjNQP6JCvD/fniCdPgSL+WgMZPHoa7kBCKVbutQD+y2Vlieu
- x7GZzqRzJXTx7LCSKMBaJAzcx/D7jq3UapKvHUgZ5GtXsJjl7ipVwm3DuJhhR5/sgA7y
- RI8w==
-X-Gm-Message-State: AFqh2krfHbLVVFE3MfJjgeR6M1dl/Lubr54/8Gswjyr8TDvvVHiM6JRx
- yy+DzGSn8aMIXUTc2u15tJmiUsT7wAXKdpy83xjzxxPSAgWZaJ4rq/PCd2FGbmV5jcdHUNT3Qao
- RRITiz7KPFdTmhfE=
-X-Received: by 2002:ac8:776f:0:b0:3a7:e426:2892 with SMTP id
- h15-20020ac8776f000000b003a7e4262892mr33783127qtu.28.1673940664018; 
- Mon, 16 Jan 2023 23:31:04 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtzZ7EW5Lb8eu56Fos1h5kpdcYpwG9mTkEqgzzm8sbzMR6n0vImc79K4Th2JSuaaB/pXAbRpg==
-X-Received: by 2002:ac8:776f:0:b0:3a7:e426:2892 with SMTP id
- h15-20020ac8776f000000b003a7e4262892mr33783104qtu.28.1673940663770; 
- Mon, 16 Jan 2023 23:31:03 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-26.web.vodafone.de.
- [109.43.177.26]) by smtp.gmail.com with ESMTPSA id
- p16-20020a05620a057000b006fa12a74c53sm19391429qkp.61.2023.01.16.23.30.59
+ bh=YYgYZBj3Ft9SEGcVTq83+VwIbHreEzwzIZfHmyz9o9o=;
+ b=tnrLZ2k02KBz87babojAbeFnheLbfutGPc81tPQXSjlgrpUEElNyq1VZgroFHsE7gd
+ NUy4qQZIEsabgXGaymKN/QBtqvPTQxyr24d0odQ5q+ISVDkMl6z7vp+Hq6syEOZb5AK3
+ TMtojIcpRy+SQ/Qr8EMX6+DBQEbHEEu5n7GaDYbybgUP7kQXpWcccHQ3NfpSsgDRY8I5
+ 2TCq6N2skVocGUHcaQxxQ69RqQh0Nrrwin1fizUcQ3Xj/0+OWD8ZTCJBXqKbf55c3i07
+ 8lDeFqnpFUSPoOH8V5WliqkAoLEAS6RMNoSB8DAgwDfvUG1ge9ZvELmB2jZDd5yBEE1Z
+ BTWg==
+X-Gm-Message-State: AFqh2kqIy6sZ8FkNyuaR4G3KGasnLT/99GjBUo5dpE5eZCAimYRrnj5s
+ zmANV42T0CfzmmTFwimV96sU1w==
+X-Google-Smtp-Source: AMrXdXszSe3AKcet3x91TzWjltTiJ81TgscTdhIiRReNezTeOEyPfjyFrttN1eH7gIKSCwkH7DVIvQ==
+X-Received: by 2002:a5d:4591:0:b0:2bc:7fdd:923e with SMTP id
+ p17-20020a5d4591000000b002bc7fdd923emr2036746wrq.22.1673940853896; 
+ Mon, 16 Jan 2023 23:34:13 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ u14-20020adfdd4e000000b002366e3f1497sm28430262wrm.6.2023.01.16.23.34.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 23:31:03 -0800 (PST)
-Message-ID: <cd9e0c88-c2a8-1eca-d146-3fd6639af3e7@redhat.com>
-Date: Tue, 17 Jan 2023 08:30:58 +0100
+ Mon, 16 Jan 2023 23:34:13 -0800 (PST)
+Message-ID: <3278ab81-ccdc-9ccc-e504-dca757db5658@linaro.org>
+Date: Tue, 17 Jan 2023 08:34:12 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v14 08/11] qapi/s390/cpu topology: change-topology monitor
- command
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v3 2/2] hw/arm/virt: Make accels in GIC finalize logic
+ explicit
 Content-Language: en-US
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
- Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-9-pmorel@linux.ibm.com>
- <72baa5b42abe557cdf123889b33b845b405cc86c.camel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <72baa5b42abe557cdf123889b33b845b405cc86c.camel@linux.ibm.com>
+To: Zenghui Yu <yuzenghui@huawei.com>, Alexander Graf <agraf@csgraf.de>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>
+References: <20221223090107.98888-1-agraf@csgraf.de>
+ <20221223090107.98888-3-agraf@csgraf.de>
+ <615a0ee5-1a0d-1cd8-cd16-ac076d6db7fc@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <615a0ee5-1a0d-1cd8-cd16-ac076d6db7fc@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,70 +94,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/01/2023 22.09, Nina Schoetterl-Glausch wrote:
-> On Thu, 2023-01-05 at 15:53 +0100, Pierre Morel wrote:
->> The modification of the CPU attributes are done through a monitor
->> commands.
->>
->> It allows to move the core inside the topology tree to optimise
->> the cache usage in the case the host's hypervizor previously
->> moved the CPU.
->>
->> The same command allows to modifiy the CPU attributes modifiers
->> like polarization entitlement and the dedicated attribute to notify
->> the guest if the host admin modified scheduling or dedication of a vCPU.
->>
->> With this knowledge the guest has the possibility to optimize the
->> usage of the vCPUs.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
-...
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> index b69955a1cd..0faffe657e 100644
->> --- a/hw/s390x/cpu-topology.c
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -18,6 +18,10 @@
->>   #include "target/s390x/cpu.h"
->>   #include "hw/s390x/s390-virtio-ccw.h"
->>   #include "hw/s390x/cpu-topology.h"
->> +#include "qapi/qapi-commands-machine-target.h"
->> +#include "qapi/qmp/qdict.h"
->> +#include "monitor/hmp.h"
->> +#include "monitor/monitor.h"
->>   
->>   /*
->>    * s390_topology is used to keep the topology information.
->> @@ -203,6 +207,21 @@ static void s390_topology_set_entry(S390TopologyEntry *entry,
->>       s390_topology.sockets[s390_socket_nb(id)]++;
->>   }
->>   
->> +/**
->> + * s390_topology_clear_entry:
->> + * @entry: Topology entry to setup
->> + * @id: topology id to use for the setup
->> + *
->> + * Clear the core bit inside the topology mask and
->> + * decrements the number of cores for the socket.
->> + */
->> +static void s390_topology_clear_entry(S390TopologyEntry *entry,
->> +                                      s390_topology_id id)
->> +{
->> +    clear_bit(63 - id.core, &entry->mask);
+On 11/1/23 14:35, Zenghui Yu wrote:
+> Hi Alexander,
 > 
-> This doesn't take the origin into account.
+> On 2022/12/23 17:01, Alexander Graf wrote:
+>> Let's explicitly list out all accelerators that we support when trying to
+>> determine the supported set of GIC versions. KVM was already separate, so
+>> the only missing one is HVF which simply reuses all of TCG's emulation
+>> code and thus has the same compatibility matrix.
+>>
+>> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 > 
->> +    s390_topology.sockets[s390_socket_nb(id)]--;
 > 
-> I suppose this function cannot run concurrently, so the same CPU doesn't get removed twice.
+>> @@ -1938,6 +1939,9 @@ static void 
+>> finalize_gic_version(VirtMachineState *vms)
+>>                  gics_supported |= VIRT_GIC_VERSION_4_MASK;
+>>              }
+>>          }
+>> +    } else {
+>> +        error_report("Unsupported accelerator, can not determine GIC 
+>> support");
+>> +        exit(1);
+> 
+> Looks like qtest will use arguments like '-accel qtest' and a 'make
+> check-qtest' triggers this error_report() on my box. It'd be good if you
+> can have a look (as I really don't have much knowledge about qtest..).
 
-QEMU has the so-called BQL - the Big Qemu Lock. Instructions handlers are 
-normally called with the lock taken, see qemu_mutex_lock_iothread() in 
-target/s390x/kvm/kvm.c.
+Indeed, I had to squash:
 
-(if you feel unsure, you can add a "assert(qemu_mutex_iothread_locked())" 
-statement, but I think it is not necessary here)
+-- >8 --
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 611f40c1da..b17e3dafa8 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -50,6 +50,7 @@
+  #include "sysemu/tcg.h"
+  #include "sysemu/kvm.h"
+  #include "sysemu/hvf.h"
++#include "sysemu/qtest.h"
+  #include "hw/loader.h"
+  #include "qapi/error.h"
+  #include "qemu/bitops.h"
+@@ -1930,7 +1931,7 @@ static void finalize_gic_version(VirtMachineState 
+*vms)
+          /* KVM w/o kernel irqchip can only deal with GICv2 */
+          gics_supported |= VIRT_GIC_VERSION_2_MASK;
+          accel_name = "KVM with kernel-irqchip=off";
+-    } else if (tcg_enabled() || hvf_enabled())  {
++    } else if (tcg_enabled() || hvf_enabled() || qtest_enabled())  {
+          gics_supported |= VIRT_GIC_VERSION_2_MASK;
+          if (module_object_class_by_name("arm-gicv3")) {
+              gics_supported |= VIRT_GIC_VERSION_3_MASK;
+---
 
-  Thomas
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
 
