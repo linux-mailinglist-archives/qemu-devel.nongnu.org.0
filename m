@@ -2,61 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7622E66D580
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 06:00:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7245A66D5AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 06:38:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHe3Q-0002te-6a; Mon, 16 Jan 2023 23:58:36 -0500
+	id 1pHee0-0001Ic-6f; Tue, 17 Jan 2023 00:36:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1pHe3O-0002tS-3g; Mon, 16 Jan 2023 23:58:34 -0500
-Received: from sin.source.kernel.org ([145.40.73.55])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pHedw-0001I0-4k
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 00:36:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1pHe3L-0006e8-T6; Mon, 16 Jan 2023 23:58:33 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 7A3EACE0E64;
- Tue, 17 Jan 2023 04:58:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2DC7C433F2;
- Tue, 17 Jan 2023 04:58:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1673931496;
- bh=dYVdx+Ww2CfXncIVy08wDRj2+oyhj7B25DQdw626ylc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=q/g8he4R219NhQ0PQlHB7xvg4aVNqjy2WT2X9VG71QkP4JgQtZa6p49aJ88btaUTa
- ZBZm3IW43eIMGHncX6ZDOJ4V0MHFovZiUymL0n8gg5nKdTmthUZEjoq0fxxL/rnk/h
- Kio2jMeOT9jNO5UJ0F99Lf5VSxdLBBkh5FRh7IC5FYBIBGDBmDCyM4avqsYbkgz4uL
- YR2EJTM/m7t+1IeSiKk6aV87xQASkxMLxBcsBRRWk4U+dCJlXWjHLhuhWWvuzrR3C2
- GoATeQLKsMz6WL5c547zdWEIcpYab6ODoF4Kf4pG6oNTVfpytdkagl7oo8RX83Yqzb
- kNya7CY+qhhSA==
-Date: Mon, 16 Jan 2023 21:58:13 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Guenter Roeck <linux@roeck-us.net>
-Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
-Message-ID: <Y8Yq5faCjAKzMa9O@kbusch-mbp>
-References: <Y8AG21o/9/3eUMIg@cormorant.local>
- <Y8W+H6T9DOZ08SoF@cormorant.local>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pHedu-0004Jo-C7
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 00:36:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673933777;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JVvA/WKSnpfhIclvE9LSiIzwO2L0wCdOvqFffsXcJG4=;
+ b=Ov9nHVf0CHBMlPFaXjYPj1TMae1GXKRejUd0ihLoXyeyu2PuUaGFOdMoQ0qlrUJr5FdWea
+ BFnpBRKngHmxrmNXBIKZCyn+ZHT9ue58mjkngwL611mwoRRCCYQPxbI+fw28uBmsOIw96k
+ icNIzIEFp1482rlZ2sudNQBX7qRjBs8=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-271-QmDhefddOsKOaVYxv4C4dQ-1; Tue, 17 Jan 2023 00:36:15 -0500
+X-MC-Unique: QmDhefddOsKOaVYxv4C4dQ-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ f8-20020a170902ce8800b00190c6518e21so21071407plg.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 21:36:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JVvA/WKSnpfhIclvE9LSiIzwO2L0wCdOvqFffsXcJG4=;
+ b=K9aPUCKcjj3iZdOzkh8yxirjfeNhLhrDN19FP/dFLdjIN4HeV2lsoQp2T0sg9l1TAo
+ ETlvTGt2pD47C0SniIMyI2YzBAod3wAchZHHoN9k0XpUUJ3meHT3QO46dfQdPSQ4PJEH
+ 7sJy1CH4cJdLQK0FaisEO5NpmeoAKaXWq+leFH/Th62CZNmWqL5uBHHL+48gpqvcNoEz
+ v36bwQF60tYXz9Zo4tXzlcGVf0f2t0cJpC1Ahm/TEmWFkTAzVuGUwzs4+ixYEeE4RkR8
+ /NNbc8bfnN1WLbEhsICz3H1b/izFDUpcp7DmlT/TxIAbgU/vu2Aas2G4UDJDQU40WrYk
+ /77A==
+X-Gm-Message-State: AFqh2kpMMzJnzeAaMTUSfT8xKVaR0KWkQwE9VAJoMlf2PbBRgIpIQcnh
+ mdDoK0Fy/cBx/ocC2Ej2pVlDfmQ9njBk7PQ9kkFhZf+CYM8B/nO+aWFFyvv44uWrIyMDVCzSHK3
+ FY8rCqQxTCP1Dsb4=
+X-Received: by 2002:a05:6a00:3254:b0:589:9b8a:9c71 with SMTP id
+ bn20-20020a056a00325400b005899b8a9c71mr2154749pfb.6.1673933774804; 
+ Mon, 16 Jan 2023 21:36:14 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs8Ho8HlyRLeu7nGSsqobNOdVgTla40tJbDoyKulpHmqqHRWCYzWOvjhHbVPWP3f7o0OvYluA==
+X-Received: by 2002:a05:6a00:3254:b0:589:9b8a:9c71 with SMTP id
+ bn20-20020a056a00325400b005899b8a9c71mr2154711pfb.6.1673933774381; 
+ Mon, 16 Jan 2023 21:36:14 -0800 (PST)
+Received: from [10.72.13.93] ([43.228.180.230])
+ by smtp.gmail.com with ESMTPSA id
+ x15-20020aa78f0f000000b00587fda4a260sm2837002pfr.9.2023.01.16.21.36.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 21:36:13 -0800 (PST)
+Message-ID: <255c90a9-0df2-fa65-cebd-cc6326999a1a@redhat.com>
+Date: Tue, 17 Jan 2023 13:36:06 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8W+H6T9DOZ08SoF@cormorant.local>
-Received-SPF: pass client-ip=145.40.73.55; envelope-from=kbusch@kernel.org;
- helo=sin.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [RFC v2 06/13] vhost: delay set_vring_ready after DRIVER_OK
+Content-Language: en-US
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, alvaro.karsz@solid-run.com,
+ Shannon Nelson <snelson@pensando.io>, Laurent Vivier <lvivier@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
+References: <20230112172434.760850-1-eperezma@redhat.com>
+ <20230112172434.760850-7-eperezma@redhat.com>
+ <CACGkMEvvjvhFrd5DJOMM0d7OWm0=9t6-YPzsZLZ8ZeZ4RU6PQw@mail.gmail.com>
+ <CAJaqyWdePpv_htcrQ1TuEcz99x9Ri7ysFJz3+L7PuaLaPzNZjw@mail.gmail.com>
+ <0aae4d77-2c03-7ba2-8496-024b5a683449@redhat.com>
+ <CAJaqyWdhs+jyXF1Cqf2rd_+gfFNecEJ526a2OFMOZ6+T8rKccQ@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <CAJaqyWdhs+jyXF1Cqf2rd_+gfFNecEJ526a2OFMOZ6+T8rKccQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,73 +115,198 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 16, 2023 at 10:14:07PM +0100, Klaus Jensen wrote:
-> I noticed that the Linux driver does not use the INTMS/INTMC registers
-> to mask interrupts on the controller while processing CQEs. While not
-> required by the spec, it is *recommended* in setups not using MSI-X to
-> reduce the risk of spurious and/or missed interrupts.
 
-That's assuming completions are deferred to a bottom half. We don't do
-that by default in Linux nvme, though you can ask the driver to do that
-if you want.
- 
-> With the patch below, running 100 boot iterations, no timeouts were
-> observed on QEMU emulated riscv64 or mips64.
+在 2023/1/17 00:16, Eugenio Perez Martin 写道:
+> On Mon, Jan 16, 2023 at 7:37 AM Jason Wang <jasowang@redhat.com> wrote:
+>>
+>> 在 2023/1/13 16:19, Eugenio Perez Martin 写道:
+>>> On Fri, Jan 13, 2023 at 5:36 AM Jason Wang <jasowang@redhat.com> wrote:
+>>>> On Fri, Jan 13, 2023 at 1:25 AM Eugenio Pérez <eperezma@redhat.com> wrote:
+>>>>> To restore the device at the destination of a live migration we send the
+>>>>> commands through control virtqueue. For a device to read CVQ it must
+>>>>> have received the DRIVER_OK status bit.
+>>>> This probably requires the support from the parent driver and requires
+>>>> some changes or fixes in the parent driver.
+>>>>
+>>>> Some drivers did:
+>>>>
+>>>> parent_set_status():
+>>>> if (DRIVER_OK)
+>>>>       if (queue_enable)
+>>>>           write queue_enable to the device
+>>>>
+>>>> Examples are IFCVF or even vp_vdpa at least. MLX5 seems to be fine.
+>>>>
+>>> I don't get your point here. No device should start reading CVQ (or
+>>> any other VQ) without having received DRIVER_OK.
+>>
+>> If I understand the code correctly:
+>>
+>> For CVQ, we do SET_VRING_ENABLE before DRIVER_OK, that's fine.
+>>
+>> For datapath_vq, we do SET_VRING_ENABLE after DRIVER_OK, this requires
+>> parent driver support (explained above)
+>>
+>>
+>>> Some parent drivers do not support sending the queue enable command
+>>> after DRIVER_OK, usually because they clean part of the state like the
+>>> set by set_vring_base. Even vdpa_net_sim needs fixes here.
+>>
+>> Yes, so the question is:
+>>
+>> Do we need another backend feature for this? (otherwise thing may break
+>> silently)
+>>
+>>
+>>> But my understanding is that it should be supported so I consider it a
+>>> bug.
+>>
+>> Probably, we need fine some proof in the spec, e.g in 3.1.1:
+>>
+>> """
+>>
+>> 7.Perform device-specific setup, including discovery of virtqueues for
+>> the device, optional per-bus setup, reading and possibly writing the
+>> device’s virtio configuration space, and population of virtqueues.
+>> 8.Set the DRIVER_OK status bit. At this point the device is “live”.
+>>
+>> """
+>>
+>> So if my understanding is correct, "discovery of virtqueues for the
+>> device" implies queue_enable here which is expected to be done before
+>> DRIVER_OK. But it doesn't say anything regrading to the behaviour of
+>> setting queue ready after DRIVER_OK.
+>>
+>> I'm not sure it's a real bug or not, may Michael and comment on this.
+>>
+> Right, input on this topic would be really appreciated.
 >
-> No changes are required in the QEMU hw/nvme interrupt logic.
+>>>    Especially after queue_reset patches. Is that what you mean?
+>>
+>> We haven't supported queue_reset yet in Qemu. But it allows to write 1
+>> to queue_enable after DRIVER_OK for sure.
+>>
+> I was not clear, I meant in the emulated device. I'm testing this
+> series with the proposal of _F_STATE.
+>
+>>>>> However this opens a window where the device could start receiving
+>>>>> packets in rx queue 0 before it receives the RSS configuration. To avoid
+>>>>> that, we will not send vring_enable until all configuration is used by
+>>>>> the device.
+>>>>>
+>>>>> As a first step, run vhost_set_vring_ready for all vhost_net backend after
+>>>>> all of them are started (with DRIVER_OK). This code should not affect
+>>>>> vdpa.
+>>>>>
+>>>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>>>> ---
+>>>>>    hw/net/vhost_net.c | 17 ++++++++++++-----
+>>>>>    1 file changed, 12 insertions(+), 5 deletions(-)
+>>>>>
+>>>>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>>>>> index c4eecc6f36..3900599465 100644
+>>>>> --- a/hw/net/vhost_net.c
+>>>>> +++ b/hw/net/vhost_net.c
+>>>>> @@ -399,6 +399,18 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+>>>>>            } else {
+>>>>>                peer = qemu_get_peer(ncs, n->max_queue_pairs);
+>>>>>            }
+>>>>> +        r = vhost_net_start_one(get_vhost_net(peer), dev);
+>>>>> +        if (r < 0) {
+>>>>> +            goto err_start;
+>>>>> +        }
+>>>>> +    }
+>>>>> +
+>>>>> +    for (int j = 0; j < nvhosts; j++) {
+>>>>> +        if (j < data_queue_pairs) {
+>>>>> +            peer = qemu_get_peer(ncs, j);
+>>>>> +        } else {
+>>>>> +            peer = qemu_get_peer(ncs, n->max_queue_pairs);
+>>>>> +        }
+>>>> I fail to understand why we need to change the vhost_net layer? This
+>>>> is vhost-vDPA specific, so I wonder if we can limit the changes to e.g
+>>>> vhost_vdpa_dev_start()?
+>>>>
+>>> The vhost-net layer explicitly calls vhost_set_vring_enable before
+>>> vhost_dev_start, and this is exactly the behavior we want to avoid.
+>>> Even if we make changes to vhost_dev, this change is still needed.
+>>
+>> Note that the only user of vhost_set_vring_enable() is vhost-user where
+>> the semantic is different:
+>>
+>> It uses that to changes the number of active queues:
+>>
+>> static int peer_attach(VirtIONet *n, int index)
+>>
+>>           if (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
+>> =>      vhost_set_vring_enable(nc->peer, 1);
+>>       }
+>>
+>> This is not the semantic of vhost-vDPA that tries to be complaint with
+>> virtio-spec. So I'm not sure how it can help here.
+>>
+> Right, but previous changes use enable callback to delay the enable of
+> the datapath virtqueues. I'll try to fit the changes in
+> virtio/vhost-vdpa though.
 
-Yeah, I can see why: it forces the irq line to deassert then assert,
-just like we had forced to happen within the device side patches. Still,
-none of that is supposed to be necessary, but this idea of using these
-registers is probably fine.
 
->  static irqreturn_t nvme_irq(int irq, void *data)
-> +{
-> +       struct nvme_queue *nvmeq = data;
-> +       struct nvme_dev *dev = nvmeq->dev;
-> +       u32 mask = 1 << nvmeq->cq_vector;
-> +       irqreturn_t ret = IRQ_NONE;
-> +       DEFINE_IO_COMP_BATCH(iob);
-> +
-> +       writel(mask, dev->bar + NVME_REG_INTMS);
-> +
-> +       if (nvme_poll_cq(nvmeq, &iob)) {
-> +               if (!rq_list_empty(iob.req_list))
-> +                       nvme_pci_complete_batch(&iob);
-> +               ret = IRQ_HANDLED;
-> +       }
-> +
-> +       writel(mask, dev->bar + NVME_REG_INTMC);
-> +
-> +       return ret;
-> +}
+This would make things more complicated. As mentioned above, 
+vhost-user's usage of vhost_set_vring_enable() is not spec compliant 
+while the vhost-vDPA VHOST_VDPA_SET_VRING_ENALBE tries to be compliant 
+with the spec.
 
-If threaded interrupts are used, you'll want to do the masking in
-nvme_irq_check(), then clear it in the threaded handler instead of doing
-both in the same callback.
+If we tries to mix use that it may result confusion for the readers.
 
-> +static irqreturn_t nvme_irq_msix(int irq, void *data)
->  {
->         struct nvme_queue *nvmeq = data;
->         DEFINE_IO_COMP_BATCH(iob);
-> @@ -1602,12 +1623,13 @@ static int queue_request_irq(struct nvme_queue *nvmeq)
->  {
->         struct pci_dev *pdev = to_pci_dev(nvmeq->dev->dev);
->         int nr = nvmeq->dev->ctrl.instance;
-> +       irq_handler_t handler = pdev->msix_enabled ? nvme_irq_msix : nvme_irq;
-> 
->         if (use_threaded_interrupts) {
->                 return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_check,
-> -                               nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
-> +                               handler, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
->         } else {
-> -               return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq,
-> +               return pci_request_irq(pdev, nvmeq->cq_vector, handler,
->                                 NULL, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
->         }
->  }
-> 
-> 
+Thanks
 
+
+>
+> Thanks!
+>
+>>> And we want to explicitly enable CVQ first, which "only" vhost_net
+>>> knows which is.
+>>
+>> This should be known by net/vhost-vdpa.c.
+>>
+>>
+>>> To perform that in vhost_vdpa_dev_start would require
+>>> quirks, involving one or more of:
+>>> * Ignore vq enable calls if the device is not the CVQ one. How to
+>>> signal what is the CVQ? Can we trust it will be the last one for all
+>>> kind of devices?
+>>> * Enable queues that do not belong to the last vhost_dev from the enable call.
+>>> * Enable the rest of the queues from the last enable in reverse order.
+>>> * Intercalate the "net load" callback between enabling the last
+>>> vhost_vdpa device and enabling the rest of devices.
+>>> * Add an "enable priority" order?
+>>
+>> Haven't had time in thinking through, but it would be better if we can
+>> limit the changes in vhost-vdpa layer. E.g currently the
+>> VHOST_VDPA_SET_VRING_ENABLE is done at vhost_dev_start().
+>>
+>> Thanks
+>>
+>>
+>>> Thanks!
+>>>
+>>>> Thanks
+>>>>
+>>>>>            if (peer->vring_enable) {
+>>>>>                /* restore vring enable state */
+>>>>> @@ -408,11 +420,6 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+>>>>>                    goto err_start;
+>>>>>                }
+>>>>>            }
+>>>>> -
+>>>>> -        r = vhost_net_start_one(get_vhost_net(peer), dev);
+>>>>> -        if (r < 0) {
+>>>>> -            goto err_start;
+>>>>> -        }
+>>>>>        }
+>>>>>
+>>>>>        return 0;
+>>>>> --
+>>>>> 2.31.1
+>>>>>
 
 
