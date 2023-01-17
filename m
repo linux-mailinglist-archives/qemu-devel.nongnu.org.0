@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E5B66E329
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:12:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B23CF66E32D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:13:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHoZE-0000d4-Tk; Tue, 17 Jan 2023 11:12:08 -0500
+	id 1pHoZw-0000zL-7c; Tue, 17 Jan 2023 11:12:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHoZC-0000cc-12
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:12:06 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHoZs-0000vi-Pk
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:12:48 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHoZ6-0003oQ-OK
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:12:05 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- f12-20020a7bc8cc000000b003daf6b2f9b9so5219150wml.3
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 08:12:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHoZr-0003sw-8D
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:12:48 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id b7so5126921wrt.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 08:12:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YSR0iQEwD9EgWKmRmAZGWn3JdFWBjFQQSIwNBvSDN5I=;
- b=a7XVmi09yzkfdXNR3IOmo1aG52mWS6j5hu+/JBLQWnWluza29G+BMPowNzq23v9e5q
- D53512AMWR4m7xFVQTD+wSW6TbIFv+FBMlWzLROOlXeUMvURvW9LJIilD3qX0dwT8AI7
- /HmyubwbBvkCPXOGH3Sq15PlXXfBXXrb7HctegwkGwsJ2jegq71TcewBmEWIJaipQzLB
- BCkGsSRDV1mrQlJTXm8nUVU/LM8DOxapR+XmuEHFC4+eyQn2ETpgAVPh7PBGv//yy8Qh
- cKPztKQubX6Xe5j1D6iVIvoZ8g37Ua11hevNKN6tbGx+UMnpT1GNXujTfJNg3bQEfjd/
- 1EEg==
+ bh=x0WpP5FRTLl5e1gnkjl+ZBTHfCSRjtJNZqOplEFmejA=;
+ b=upG3CPDN3MTSQnCesYLQlvgjH74u99HJSKHJnqwV06hCd9JGCEpLne63gPkhEVld7a
+ pWtDtwVIwSauv68ADOZynl8Wm6HZTPmZwtFVHyLskYC3UtBaMrWE95YOPmgBoHFw18tt
+ 0laglJUU7FfBr38P0pWnOCr/FZ2gyoBCwBape47qfMaNacg1XUU6cf5S9Djc8C0v4L/O
+ K2TY5TcqJ+Vyf1iuXRcND3gpoAOThpkIsFkh1vhNedKa7BPZ4GpFooKKMH6TZ1fMDf85
+ vopo5aGvXwCnbFhTjHUKNKtOIIp9CW10tx0Erb93JQgKbeg8MWaLOC1X5bIFtwjx+TZ+
+ ORjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YSR0iQEwD9EgWKmRmAZGWn3JdFWBjFQQSIwNBvSDN5I=;
- b=soEDB5x15lgBpTVSJQuN+TOOpkokQop2w07NrdrOo8FD44gxkZ76Beog0WJz++vP1y
- ka7s+rfiLmw6oS3Zy+s7LSDGsYPLDYVPaIwsWxHcxJqRP0NEjgLtugZfTgGtp1EXxsBN
- XVQQFUfJg4Cxe2R//R73LP9xGlEJVt/90aV2Cdj+i5tGgAzCtVc30d1d3SrvWZFJwXoZ
- cG2OPBP7prOWHjBM0Ezk5/3lkIJNYQ/7YseEC+aB7Xvi2nM8lL6v+sgPebzg477TCuvo
- iQdCKQhh8tq9anVZ/I+J6c2kBa1JyQxIVKiuhoicHTBU6K6GuzjYQIvmmya+qKHZHR5N
- 66Ag==
-X-Gm-Message-State: AFqh2kohUlfGkmlLiqMVi8040hng9xQ1mZm+N/EE94hB6Qn9j82w2wQJ
- nR/6vSBqbSrRuiXCVXJBPCr/+Q==
-X-Google-Smtp-Source: AMrXdXsgo9yFEU6A0YYroAAGV5vfgZow8m+xgYNMW7Lg2mzRtETwLcKjFRPHK/SwNmNgKNfdWUYELw==
-X-Received: by 2002:a05:600c:4910:b0:3d3:4406:8a3a with SMTP id
- f16-20020a05600c491000b003d344068a3amr3613016wmp.30.1673971918918; 
- Tue, 17 Jan 2023 08:11:58 -0800 (PST)
+ bh=x0WpP5FRTLl5e1gnkjl+ZBTHfCSRjtJNZqOplEFmejA=;
+ b=W9Lp9EyTehSebf+BngQeGkwVhZMlGQwfI4gcohqq+rvM6rx8N9efwg7AMUG46R8z8t
+ ZkDEWC6c+YZQPzrYdCAUn+kmxCkFzAgeRY2ZKixoLuLFLYVuN3fEFZtzhoS57uk4a3Yr
+ 2fUMd4g84vp3oLHrqXUwukgR4wW+03tMFMSxMjPsjs7Bq4zVeml3/FDCHkve/AYb5DPF
+ xqt2KZL+H+XpbU3eTeT28wsUaJThrOx2HOM5ZhrBLWWlGSxcDqlbf2yrYQiM7rkOpvBv
+ cCsyO/ED3sCJQV+WXjJnIfRWPEu6p6qL60J3wZnLj1dAvRALLJIy8qvIGpSHIUCKzv65
+ rnBQ==
+X-Gm-Message-State: AFqh2kq/zBUrKeYkWNPllWLtApA6bNNUdKVjFcaqCzdwwoYoDS49KNHu
+ w8BH7jEujAoNS4xs3mwGJyeUWQ==
+X-Google-Smtp-Source: AMrXdXvdQlBjuURLYUiUE3/5D7xq/v+Px9wItKPmqvGQkb3/rrSvql/7cOJsrn6pZY9wvOO+VDhjYA==
+X-Received: by 2002:a5d:620a:0:b0:2bb:6b92:d4cc with SMTP id
+ y10-20020a5d620a000000b002bb6b92d4ccmr3150112wru.53.1673971965713; 
+ Tue, 17 Jan 2023 08:12:45 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- bi6-20020a05600c3d8600b003d9df9e59c4sm34213553wmb.37.2023.01.17.08.11.57
+ q18-20020adfdfd2000000b002bdc129c8f6sm17706990wrn.43.2023.01.17.08.12.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 08:11:58 -0800 (PST)
-Message-ID: <7115ab30-9093-7cbd-e2a3-c57d3a1e7d46@linaro.org>
-Date: Tue, 17 Jan 2023 17:11:56 +0100
+ Tue, 17 Jan 2023 08:12:45 -0800 (PST)
+Message-ID: <b1322ca3-096d-505a-ca64-0767cbb9d519@linaro.org>
+Date: Tue, 17 Jan 2023 17:12:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC PATCH v3 04/28] target/arm: Move PC alignment check
+Subject: Re: [RFC PATCH v3 05/28] target/arm: Move cpregs code out of cpu.h
 Content-Language: en-US
 To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -66,20 +65,20 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
 References: <20230113140419.4013-1-farosas@suse.de>
- <20230113140419.4013-5-farosas@suse.de>
+ <20230113140419.4013-6-farosas@suse.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230113140419.4013-5-farosas@suse.de>
+In-Reply-To: <20230113140419.4013-6-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,15 +95,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 13/1/23 15:03, Fabiano Rosas wrote:
-> Move this earlier to make the next patch diff cleaner. While here
-> update the comment slightly to not give the impression that the
-> misalignment affects only TCG.
+> Since commit cf7c6d1004 ("target/arm: Split out cpregs.h") we now have
+> a cpregs.h header which is more suitable for this code.
 > 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Code moved verbatim.
+> 
 > Signed-off-by: Fabiano Rosas <farosas@suse.de>
 > ---
->   target/arm/machine.c | 18 +++++++++---------
->   1 file changed, 9 insertions(+), 9 deletions(-)
+>   target/arm/cpregs.h | 98 +++++++++++++++++++++++++++++++++++++++++++++
+>   target/arm/cpu.h    | 91 -----------------------------------------
+>   2 files changed, 98 insertions(+), 91 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
