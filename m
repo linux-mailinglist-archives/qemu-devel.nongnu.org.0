@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC6866E2B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 16:49:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C8B66E2BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 16:49:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHoCx-0004xx-CX; Tue, 17 Jan 2023 10:49:07 -0500
+	id 1pHoD8-00058b-B5; Tue, 17 Jan 2023 10:49:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHoCp-0004uq-4r
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 10:48:59 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHoD6-000584-Fy
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 10:49:16 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHoCn-0008B9-Dv
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 10:48:58 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id 7so22281403pga.1
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 07:48:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHoD4-0008E3-VQ
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 10:49:16 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id k8so16543794wrc.9
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 07:49:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Hj4Q2euY+utrkP+JXzaQUcU+iG3h00AI27hYYVS7I70=;
- b=MyKwY+UonIdAFQPbKvcE7UBjAU8YkrQoLz9xbEyAtgyK36ZsSqVZCAdT4BJ+vCgB4a
- x/fzq9gHGvhAStcY9E7AXU6IHvGWdgPNuBQfO94skP7+BL5h/1+qkSq5+8HyI755oYdO
- UH9LVtlQrpI1ekEDV04gsPj0LuSny+5kOOHgKep8Ifj/1jJCQdOr5jvG+4eYiqQQTFX4
- nO2p4zXVfqE+fx/XydnnsWr0UvOkMR2eHyyTwv8O1iKFR++YdKJ6kVoOgagBKKUGt+WN
- aPqo60wzo84r/EyIUjv/ILsxWTdxsUOg3xfN5xSDLYzr7EOGXVdHC90r9CqqmBO62SOL
- QJKQ==
+ bh=wtgtiMGdL8MCokKDSduZAucXj56m+cRypOPRh8YRrnw=;
+ b=FXQzahNALV9CAYXDThWaL1LOunNYDpNt748KDZXQr4hle/dgRF4r0NImaH5XEaef1v
+ yF/JZrdBLji4Z2Abej1iyJzyNbkMqrHl9zaNR5YePAH6ROZFS8QNtw0VAk//Q1uP5/7z
+ zUpKfO6F+mnfKCQzAwlqVPIp/A+XnzJETDpZx9Ids4vH9hfuzLrOdStD3Zi3XxrxHkQt
+ jQewM0bK6fGURoP7RbBZQCqeopxrxZB23ytyUZMn3bovJ+dT60vWmD8QRl9jyv1h3uuf
+ WjMXe4JAMwr0fDGI2+iPSuvQprjImzFVSxh3PIXMyAO+U6kyxTreYiainXn3PKMU1gAF
+ hNjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Hj4Q2euY+utrkP+JXzaQUcU+iG3h00AI27hYYVS7I70=;
- b=GZWAraPFNHmr6jXFWyaxUrb9Ai1SyZ3UuFcaj0vjETXOthvbaDZdV8eadxZGakz4qz
- 20dWXycT+W4Av0OkpTMGynTcyMrPWvOpuigoUg+PuLzawlROSyj0ISttw73stk6kkK6z
- kFTFaKuIz+/b/TxpscRNxs4ZeqG5Sagm2+DxdvrSzBjmNhdP1GvJgH4XOqzpwOxN2w+E
- pnRzLQZRccBw1+e5UppbE/sUDCM0KxPK2kBe3PbCAo1UdE23dexsJrgZW+g/h+8ZejMK
- OY60DbCwOLIf5RfTY3gFe/8388NDviY8rl5NfeGG7lPz9hzJyggbMadCWrjf9RYQ0Uoo
- 7wTA==
-X-Gm-Message-State: AFqh2krGZG72mSAs3bDMHue5xZgoQp/00pDeNLar4SJPP22dwfSEWChf
- lg7XHFqL5RZuBHshscxsUlrhJA==
-X-Google-Smtp-Source: AMrXdXsBreHqUPJvsOzVtRePOkN/d4yp1ADrklYj9jVNEQCjUuM0DrSTMaCKJJJu8ILi6xJPdN0G4Q==
-X-Received: by 2002:aa7:8515:0:b0:58d:aae3:bcc1 with SMTP id
- v21-20020aa78515000000b0058daae3bcc1mr2778058pfn.5.1673970535997; 
- Tue, 17 Jan 2023 07:48:55 -0800 (PST)
-Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- u83-20020a627956000000b0058cda506a4fsm5867459pfc.145.2023.01.17.07.48.54
+ bh=wtgtiMGdL8MCokKDSduZAucXj56m+cRypOPRh8YRrnw=;
+ b=34yhoR/JyBgW7rxaZ4yhid2YULMUvNx/7c9o7I9vKqZuscoDcGl1YsdYUNJvHyK0D6
+ Y8QUBNFAXrXNnQJ8sQZ0JeSLZ8+di5ztYXRnkQGskZjnXHMch7prWNDnO0QU0japCJ1z
+ mi/IaLE67S5bniMXSVTaTiSlo0i0iddoz/Bv1OJ+PkqoWFoKSVuO2pCgYbVRkFyzGFn6
+ vYCE3pzqKdYid+15iJdd0oFVQ8+1n0/g20muVXxqbbwMfnihgpgDpQUVxcbeAe0g3I4d
+ H3PMwyMeCaG4kTlhTrVQ7w4UIkQJNGuspRzabrJ6d6t5VKob+rs79d2rMS/FTbSrROCg
+ dMgw==
+X-Gm-Message-State: AFqh2kqEkKpnjr1L7ttEZ/z6QjkCdexh7QGQh28THzy31TuB1DU8jFoM
+ +TBRAvR6LAKGYwxya/6v+WzVMg==
+X-Google-Smtp-Source: AMrXdXvM/EuKAfnp1FEC1W/Q+O8ussHRao8FbsjR6RSC2rOkjOnKlJiPtvVCG/7X56UozN+u0msJDw==
+X-Received: by 2002:adf:ed52:0:b0:242:8af9:b987 with SMTP id
+ u18-20020adfed52000000b002428af9b987mr12963652wro.13.1673970553457; 
+ Tue, 17 Jan 2023 07:49:13 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ c13-20020adffb0d000000b00241fde8fe04sm28689822wrr.7.2023.01.17.07.49.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 07:48:55 -0800 (PST)
-Message-ID: <16c2871a-9e2a-5113-a121-5373d6e4bb71@linaro.org>
-Date: Tue, 17 Jan 2023 05:48:52 -1000
+ Tue, 17 Jan 2023 07:49:13 -0800 (PST)
+Message-ID: <c154d7b5-4fed-5576-afdf-6ec3fa53e2b9@linaro.org>
+Date: Tue, 17 Jan 2023 16:49:11 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 1/2] target/arm: implement DBGCLAIM registers
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 1/3] util/qemu-thread-posix: use TSA_NO_TSA to suppress
+ clang TSA warnings
 Content-Language: en-US
-To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
-References: <20230117150405.2940-1-eiakovlev@linux.microsoft.com>
- <20230117150405.2940-2-eiakovlev@linux.microsoft.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230117150405.2940-2-eiakovlev@linux.microsoft.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org
+Cc: Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
+ Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230117135203.3049709-1-eesposit@redhat.com>
+ <20230117135203.3049709-2-eesposit@redhat.com>
+ <48125c54-b421-6ed6-5af9-b05b8b249fd1@linaro.org>
+ <e4337549-713c-77e9-dc35-f9f4a1737609@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <e4337549-713c-77e9-dc35-f9f4a1737609@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -93,19 +97,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/17/23 05:04, Evgeny Iakovlev wrote:
-> +    { .name = "DBGCLAIMCLR_EL1", .state = ARM_CP_STATE_BOTH,
-> +      .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 6,
-> +      .access = PL1_RW, .accessfn = access_tda,
-> +      .writefn = dbgclaimclr_write, .raw_writefn = dbgclaimclr_raw_write,
-> +      .fieldoffset = offsetof(CPUARMState, cp15.dbgclaim) },
+On 17/1/23 15:43, Emanuele Giuseppe Esposito wrote:
+> 
+> 
+> Am 17/01/2023 um 15:33 schrieb Philippe Mathieu-Daudé:
+>> On 17/1/23 14:52, Emanuele Giuseppe Esposito wrote:
+>>> QEMU does not compile when enabling clang's thread safety analysis
+>>> (TSA),
+>>> because some functions create wrappers for pthread mutexes but do
+>>> not use any TSA macro. Therefore the compiler fails.
+>>>
+>>> In order to make the compiler happy and avoid adding all the
+>>> necessary macros to all callers (lock functions should use
+>>> TSA_ACQUIRE, while unlock TSA_RELEASE, and this applies to all
+>>> users of pthread_mutex_lock/pthread_mutex_unlock),
+>>> simply use TSA_NO_TSA to supppress such warnings.
+>>>
+>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>>> ---
+>>>    include/qemu/thread.h    | 14 +++++++++-----
+>>>    util/qemu-thread-posix.c |  2 +-
+>>>    2 files changed, 10 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/include/qemu/thread.h b/include/qemu/thread.h
+>>> index 7c6703bce3..81ec9fc144 100644
+>>> --- a/include/qemu/thread.h
+>>> +++ b/include/qemu/thread.h
+>>> @@ -3,6 +3,7 @@
+>>>      #include "qemu/processor.h"
+>>>    #include "qemu/atomic.h"
+>>> +#include "qemu/clang-tsa.h"
+>>
+>> Missing file?     ^^^^^^^^^^
+>>
+> ? Forgot to pull latest changes? I see clang-tsa.h in master
 
-You didn't need a new function, just .raw_writefn = raw_write
-(which then uses .fieldoffset to dtrt).
+Oops sorry I forgot to reset a git-bisection, and indeed was
+based on a older base :\
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
 
