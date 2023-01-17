@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5717C66E287
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 16:43:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CAF66E283
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 16:42:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHo7W-000094-Ga; Tue, 17 Jan 2023 10:43:30 -0500
+	id 1pHo6Y-0006kV-Es; Tue, 17 Jan 2023 10:42:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pHo7G-0008NM-MX
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 10:43:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pHo7E-0007A0-VU
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 10:43:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673970191;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jkyBZAuthZO9WJ3zDFG11dE7dIr1qAw8S7QBSLqc/nc=;
- b=c3G6TdBkd4SFOEuIVHwYVwN2G3ujQwjdvHn2WNT3/Z+uFeIVI45zvdd4HKM16P0FNvZW9m
- ZtLNZmm5Zvt11u8NWAv9t4C00GD/XwfGjE3AD16BnLgGSWE/iS3mo9eLXICk2BqqWcuYxR
- ZykaGvbrQVGEwh2Y3mq1gFph2bRus3s=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-582-b2FzGGIlNwGS5y0vdNUkCg-1; Tue, 17 Jan 2023 10:43:09 -0500
-X-MC-Unique: b2FzGGIlNwGS5y0vdNUkCg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C2AF3C11A1B;
- Tue, 17 Jan 2023 15:42:02 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.190])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 90F50492B00;
- Tue, 17 Jan 2023 15:42:00 +0000 (UTC)
-Date: Tue, 17 Jan 2023 16:41:59 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, afaria@redhat.com, qemu-block@nongnu.org
-Subject: Re: [PATCH 0/2] Make coroutine annotations ready for static analysis
-Message-ID: <Y8bBx6PAr/o4knPc@redhat.com>
-References: <20221216110758.559947-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHo6V-0006bi-Tq
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 10:42:27 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pHo6T-00076S-RX
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 10:42:27 -0500
+Received: by mail-wm1-x331.google.com with SMTP id m15so1386474wms.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 07:42:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=flThYOQP8xt7P8MpaAVvUTWUODtNg8Hsnk7hiiwQwBk=;
+ b=icgik6CRVy4STaF4CMLCRjq5oGWQmq1Pc/I4IOKtKIQS1v4/lins+xy+XIcue4c1eL
+ K4MAjiNL8x41qpPJ84+jj25FayoKegDnqmupA45IJQBnWv3tPFeSyxkn7hmnlV+KBZWT
+ HUY2xMBtQ4izU4Xi68L+fdZ7iYCexC1GBda5iUiKarFMBTm3/kggd62MFDd1coFTQVdP
+ iNJHU+p13Dm9X3cCBZ7mcS5ZDh9aNh/nCGrWN+RyRY9dH8q4zePw8wXlBnmv8bgwqlWm
+ 1MWtmKTd2dVG87Xc7uQ+GZ5dIqWS9Q2yf62oHyy8IbMZS30MGUua+baJfV1V77sdPcQs
+ Zjlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=flThYOQP8xt7P8MpaAVvUTWUODtNg8Hsnk7hiiwQwBk=;
+ b=x0G/x296BPcRv45oelYCBb9fE5frjGyVzr7ACILN3HHo/UkbaOB8YH5RlWUmTY/aiz
+ 19uqLmbunlh4f8m5qLi+sO5jXOW5/xEf3ssrGXfEsqr3nTBXK5OThvtXP2VQyhWtt8Gp
+ qKu/7A3M0Xv4TjrGHnBCyIbkhOalPKIw9W8Z5+OTkDamDb3gfDdyiSin2Wp6/sIOEC+Q
+ uOdv7g9yaxipGirrzLwGI8hYBlCfOMbdkUT2MpBdPhDvF/oytP0i8+TTeKQZEghtaRaX
+ LJcIMQuJ0TthNZduaNoCsSj79QTkSCnqCtvi9w9WOTjsOFx0zNMEYhvnLfa5E7jhV5mf
+ pUoA==
+X-Gm-Message-State: AFqh2kosyI4C7kXsi+uCeBYObbiMYneYjI81w3ypBoHo12rpnXXJWtNN
+ AwXkk5XYSiEkWu9CcJ1j7f167g==
+X-Google-Smtp-Source: AMrXdXstFvHSG0ZBv+GiuCFi5vZ1zTPzpeLvdX3dvRugjorwlmWZDUpXWIMwf90euuSjhogYZL6dLQ==
+X-Received: by 2002:a05:600c:5545:b0:3d9:f806:2d26 with SMTP id
+ iz5-20020a05600c554500b003d9f8062d26mr3720882wmb.7.1673970144048; 
+ Tue, 17 Jan 2023 07:42:24 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ iv14-20020a05600c548e00b003b47b80cec3sm47993125wmb.42.2023.01.17.07.42.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Jan 2023 07:42:23 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2C47B1FFB7;
+ Tue, 17 Jan 2023 15:42:23 +0000 (GMT)
+References: <20230106194451.1213153-1-richard.henderson@linaro.org>
+ <20230106194451.1213153-2-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.14; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Subject: Re: [PATCH 1/2] target/arm: Reorg do_coproc_insn
+Date: Tue, 17 Jan 2023 15:42:18 +0000
+In-reply-to: <20230106194451.1213153-2-richard.henderson@linaro.org>
+Message-ID: <87lem1cgm8.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221216110758.559947-1-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,21 +94,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 16.12.2022 um 12:07 hat Paolo Bonzini geschrieben:
-> Clang has a generic __annotate__ attribute that can be used by
-> static analyzers to understand properties of functions and
-> analyze the control flow.
-> 
-> Unlike TSA annotations, the __annotate__ attribute applies to function
-> pointers as well, which is very fortunate because many BlockDriver
-> function driver run in coroutines.
-> 
-> Paolo
-> 
-> v1->v2: improved comments for patch 2
 
-Thanks, applied to the block branch.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Kevin
+> Move the ri =3D=3D NULL case to the top of the function and return.
+> This allows the else to be removed and the code unindented.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
