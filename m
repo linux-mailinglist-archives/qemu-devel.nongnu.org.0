@@ -2,65 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C85566E4C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 18:22:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B0B66E4DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 18:26:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHpeg-0007rf-16; Tue, 17 Jan 2023 12:21:50 -0500
+	id 1pHphh-0000r6-K1; Tue, 17 Jan 2023 12:24:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pHped-0007r7-TN
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:21:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pHphf-0000qc-1q
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:24:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pHpec-0006XR-9R
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:21:47 -0500
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pHphd-0006ol-BV
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:24:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673976104;
+ s=mimecast20190719; t=1673976291;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4uC6y09rjV/F06b5aQhMM5vCxcgXBRuyADFAcT9jUjU=;
- b=I1/4x1ExdYLNpn7bkTluSqY/uKWKCNahnyWYcDdtY3sIxPVSEZVwfZ85/4H5PxvmnAmR98
- S9h+usWHt6Zwy2OyHtPJlJ2eFlMd5YAVS0RZmwgrJac1//zSYtWt85vzEPAw0APJb4T+uZ
- riSScGy+WerXwLB4c8E4b+1QQBJCqAI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-126-4DKTG2QDNs2DTFK1XCSXcg-1; Tue, 17 Jan 2023 12:21:18 -0500
-X-MC-Unique: 4DKTG2QDNs2DTFK1XCSXcg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3ABD33C106A2;
- Tue, 17 Jan 2023 17:21:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.190])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F4F4492B10;
- Tue, 17 Jan 2023 17:21:17 +0000 (UTC)
-Date: Tue, 17 Jan 2023 18:21:16 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
-Subject: Re: [PATCH] blkdebug: ignore invalid rules in non-coroutine context
-Message-ID: <Y8bZDDGwBB33TtDg@redhat.com>
-References: <20221215130225.476477-3-pbonzini@redhat.com>
- <Y8bCbcWefiHfE9BT@redhat.com>
+ bh=vDTu7CQxkfaF7irvw6M54eOdZn/V/UaMbotselrQ1io=;
+ b=ZjrfIARGAx7a2asAXA8tV7XWkuoREj2k4FV+lJB2/dP0uFw2ohkEs0xVNr6iJZn+9QjO7/
+ 5EEjB7IkPbgbFF1HYo98UU0DVkRA9JGyZfwN2G+Xdr93zXEjDT/TPB9I2qxIC1KuFRboqs
+ 4TgUckIycUC/IpTl3v4/NzFnAXUUB5k=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-205-RRqshONBNbW1PMEdHP8Y4A-1; Tue, 17 Jan 2023 12:24:49 -0500
+X-MC-Unique: RRqshONBNbW1PMEdHP8Y4A-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ ay34-20020a05620a17a200b00704bd9922c4so23133922qkb.12
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 09:24:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vDTu7CQxkfaF7irvw6M54eOdZn/V/UaMbotselrQ1io=;
+ b=0QpGL3oxEtVEdQqk9upqQec50/LroC/PzqB0UOv7dex7kPYFvYXkZgB9uJ0dfOCiE2
+ Foq0uzRFd4RG466422lhAgkpmVD6P8pmleNJ3BhDBbSk5Srt74WweCWNMwuvHaBSQLVv
+ X+nvYL7lnaIP+8BAaeNrk4r3kStYIwztEkqRG3XpNhy4drtuPuid1B4CTU96IOEbiJrB
+ EDLoEal8ojzZ8EBR091w2RVuIE+IaNYEJHnf1zHprpr1LNTDMYdoSZx3NgvcIY2ZhpLh
+ N73Thbh3rKRur/rFYos5RuekEU04CeYULzBDAwDFrTvYYzJ41BoFowJdQU0qbR0rAJgh
+ TLWg==
+X-Gm-Message-State: AFqh2kpDdNKXatIXOfsLk9Df2nGwTomCK0SeFDI+3Pei183Shgy5LMo1
+ BVuLGug78i29DEtWHVwT0pkxaKZvq05V19ovWJHoIqqDVZFsTzGfwEKZ0ZSUP0pDk+18HaFtxtG
+ GqnSyoDW3Hm74Il4=
+X-Received: by 2002:ac8:4b6d:0:b0:3b6:2b6f:fbef with SMTP id
+ g13-20020ac84b6d000000b003b62b6ffbefmr12954743qts.48.1673976289029; 
+ Tue, 17 Jan 2023 09:24:49 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsE3S8fcEkYMHGiHa2goLvtkqOb1Z/NRZP7l6a4j98qMXz6k6K3hXbW0BSdA6NyW9OODuzszA==
+X-Received: by 2002:ac8:4b6d:0:b0:3b6:2b6f:fbef with SMTP id
+ g13-20020ac84b6d000000b003b62b6ffbefmr12954726qts.48.1673976288771; 
+ Tue, 17 Jan 2023 09:24:48 -0800 (PST)
+Received: from [192.168.100.30] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ b24-20020ac86798000000b0039cc944ebdasm16277637qtp.54.2023.01.17.09.24.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Jan 2023 09:24:48 -0800 (PST)
+Message-ID: <a7b29b75-2d7d-8146-c590-6d2dd7602476@redhat.com>
+Date: Tue, 17 Jan 2023 18:24:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8bCbcWefiHfE9BT@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v6] tests/qtest: netdev: test stream and dgram backends
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+References: <20230117131506.1394552-1-lvivier@redhat.com>
+ <5b67045b-d8d7-14ef-21ff-3fcadff9e5bf@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <5b67045b-d8d7-14ef-21ff-3fcadff9e5bf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,84 +105,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 17.01.2023 um 16:44 hat Kevin Wolf geschrieben:
-> Am 15.12.2022 um 14:02 hat Paolo Bonzini geschrieben:
-> > blkdebug events can be called from either non-coroutine or coroutine
-> > contexts.  However, suspend actions only make sense from within
-> > a coroutine.  Currently, using those action would lead to an abort() in
-> > qemu_coroutine_yield() ("Co-routine is yielding to no one").  Catch them
-> > and print an error instead.
-> > 
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >  block.c                          |  2 +-
-> >  block/blkdebug.c                 | 10 ++++++++--
-> >  include/block/block-io.h         |  2 +-
-> >  include/block/block_int-common.h |  3 ++-
-> >  4 files changed, 12 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/block.c b/block.c
-> > index 3f2bd128570e..49c66475c73e 100644
-> > --- a/block.c
-> > +++ b/block.c
-> > @@ -6334,7 +6334,7 @@ BlockStatsSpecific *bdrv_get_specific_stats(BlockDriverState *bs)
-> >      return drv->bdrv_get_specific_stats(bs);
-> >  }
-> >  
-> > -void bdrv_debug_event(BlockDriverState *bs, BlkdebugEvent event)
-> > +void coroutine_mixed_fn bdrv_debug_event(BlockDriverState *bs, BlkdebugEvent event)
-> >  {
-> >      IO_CODE();
-> >      if (!bs || !bs->drv || !bs->drv->bdrv_debug_event) {
-> > diff --git a/block/blkdebug.c b/block/blkdebug.c
-> > index 4265ca125e25..ce297961b7db 100644
-> > --- a/block/blkdebug.c
-> > +++ b/block/blkdebug.c
-> > @@ -31,6 +31,7 @@
-> >  #include "block/qdict.h"
-> >  #include "qemu/module.h"
-> >  #include "qemu/option.h"
-> > +#include "qemu/error-report.h"
-> >  #include "qapi/qapi-visit-block-core.h"
-> >  #include "qapi/qmp/qdict.h"
-> >  #include "qapi/qmp/qlist.h"
-> > @@ -837,7 +838,7 @@ static void process_rule(BlockDriverState *bs, struct BlkdebugRule *rule,
-> >      }
-> >  }
-> >  
-> > -static void blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
-> > +static void coroutine_mixed_fn blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
-> >  {
-> >      BDRVBlkdebugState *s = bs->opaque;
-> >      struct BlkdebugRule *rule, *next;
-> > @@ -855,7 +856,12 @@ static void blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
-> >      }
-> >  
-> >      while (actions_count[ACTION_SUSPEND] > 0) {
-> > -        qemu_coroutine_yield();
-> > +        if (qemu_in_coroutine()) {
-> > +            qemu_coroutine_yield();
-> > +        } else {
-> > +            error_report("Non-coroutine event %s cannot suspend\n",
-> > +                         BlkdebugEvent_lookup.array[event]);
+On 1/17/23 17:45, Thomas Huth wrote:
+> On 17/01/2023 14.15, Laurent Vivier wrote:
+>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>> Acked-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>
+>> Notes:
+>>      v6:
+>>        - call socket_init() otherwise socket_check_protocol_support() fails
+>>        - if socket_check_protocol_support() fails then calls g_abort() to
+>>          report a problem.
 > 
-> error_report() already adds a newline, so we shouldn't have an "\n"
-> here.
+> Last problem fixed, next one occurring:
+
+Thank you Thomas
+
 > 
-> > +        }
-> >          actions_count[ACTION_SUSPEND]--;
-> >      }
-> >  }
+> 218/556 qemu:qtest+qtest-aarch64 / qtest-aarch64/netdev-socket                    
+> ERROR           0.77s   exit status 3
+> ------------------------------------- 8< -------------------------------------
+> stderr:
+> qemu-system-aarch64: -netdev 
+> dgram,id=st0,remote.type=inet,remote.host=230.0.0.1,remote.port=1234: can't bind 
+> ip=230.0.0.1 to socket: Unknown error
+> Broken pipe
+
+It seems to be the test_dgram_mcast() test.
+Perhaps windows doesn't support multicast datagram?
+
+> ../tests/qtest/libqtest.c:195: kill_qemu() tried to terminate QEMU process but encountered 
+> exit status 1 (expected 0)
+> TAP parsing error: Too few tests run (expected 6, got 4)
+> (test program exited with status code 3)
+> ------------------------------------------------------------------------------
 > 
-> Thanks, fixed this up and applied to the block branch.
+> See: https://cirrus-ci.com/task/6491942456918016
 
-In fact, this conflicts with a patch in my series:
+I'm sorry I've not been able to find the cirrus-ci option in github, so I didn't test.
 
-[PATCH v2 13/14] block: Convert bdrv_debug_event() to co_wrapper_mixed
+> 
+> ... maybe it would be better to simply limit the test to
+> CONFIG_POSIX in the meson.build file?
 
-Resolving the conflict essentially reverts this one because after that
-patch it actually is a coroutine_fn. So I may just drop this one agian.
+I agree but first I'd like to only disable the multicast test. If it fails, I'll limit the 
+test to POSIX.
 
-Kevin
+I'm sorry for the inconvenient.
+
+Thanks,
+Laurent
 
 
