@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4326766E398
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:33:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BC566E39C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:34:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHot4-00073P-Dh; Tue, 17 Jan 2023 11:32:38 -0500
+	id 1pHouH-00083Y-Dd; Tue, 17 Jan 2023 11:33:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pHosv-00072c-EY
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:32:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pHost-0006zZ-Lv
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:32:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673973145;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4Lk+mhXGuSupSdshS6kviwk3PyvKU3rV0vXPKJK/+Rw=;
- b=BNNOj5P1haXKJHfkqQuxjdj6XnsORISkzICPjUEHKcL8zhjt40dhCP8g5u3QSz7pU6Y4wW
- EfQXPkGFc+OJO9xoMp5fAXJF15+SXgdhENbwOkRDJPxmnWGOoLIT8b2br1wosGQxuDB9Zn
- 4k7FBq++X2c+oGX1rcsrhVmkjpVyll8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-180-g-n79XpkP52k7UYEVlMclQ-1; Tue, 17 Jan 2023 11:32:23 -0500
-X-MC-Unique: g-n79XpkP52k7UYEVlMclQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B84C1991C47;
- Tue, 17 Jan 2023 16:32:21 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C7BF9492B00;
- Tue, 17 Jan 2023 16:32:20 +0000 (UTC)
-Date: Tue, 17 Jan 2023 11:32:19 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-devel@nongnu.org, Warner Losh <imp@bsdimp.com>,
- Kyle Evans <kevans@freebsd.org>, Kevin Wolf <kwolf@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 2/3] bsd-user/mmap: use TSA_NO_TSA to suppress clang TSA
- warnings
-Message-ID: <Y8bNk0W8OKlO/hGI@fedora>
-References: <20230117135203.3049709-1-eesposit@redhat.com>
- <20230117135203.3049709-3-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHou9-0007uk-7N
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:33:51 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHou6-00074S-EH
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:33:44 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id jl4so34077725plb.8
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 08:33:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zCHQthptMD9COWK/x9A+Jezs9vlui/I8DoyxtLjm8Uo=;
+ b=BC31TN8+fpwB7t5MbLBQlHAtD1cfE/p02m+oqYpC3kLhB3ZiJBfh0KYq5XuClF3atk
+ DlG7xBaHCGZEUin+Xm5x7tE9KFU5BkS6F1EnEN6G0zGoq5kzs6WZMEvrFlSLMDIcXRFC
+ FA6F0kYsMEuXewId1S9lC+UkpyTHBK1a9Fm3zqp2E1rLvEKeDknRsaNDz29stKX9F61d
+ S7PacqgnTzONZY67/Z+iTH0z3225NPb1wKpWQIMsRRngBws46SoCPj7RkVQAtdnmo9Y4
+ Hbq2ybKHMcN7wxNY3qRI1x3wTpU/XU9AXZzyzEpbyu6nc106gA6pHulx/YTWeaNCCKN/
+ TWGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zCHQthptMD9COWK/x9A+Jezs9vlui/I8DoyxtLjm8Uo=;
+ b=c8ClEFKKU6cTah/0CnAqnWSveX27fw1uPIcT9I+W4d10HpZtpZ5twEghfTRv5AyVyj
+ rpACfcXoKd6iCvUawdfprdrc+cYGLcSDFLn728cOcEa5fAiVRWzomCQ6KBXjvJDz+ASy
+ V+WgamKiVdFOOwQpf9OT94fbvqC9L1fFwFavBY2ORtz5j6BHBq/lRj7iPrT/6YMVsFFr
+ 3IwmPe7gWVO8ouzZoNlzpulVH49mKjtYtX6i4lK9Z6MQYZFTdSIS6y6NambWPyjRyn4o
+ g24L9tH2G/lW60PcQb5aRvvZIqWpq7Ie/poB5y3H3syCyNM/NAZSLrHg4LeNw1cZqN4q
+ m9kw==
+X-Gm-Message-State: AFqh2kpEEHcpnoH9sKwFtGbQvy5T8GkbH1RHhrdZyZESQHesBjqYkVPm
+ H13WbAK9AuxRQYWgh7mhdwksANpXGJiSYiLE0FKoQA==
+X-Google-Smtp-Source: AMrXdXssbqdtmWssctVDQXdmb/TxnbCbaG6MlTlsCQJdeGy0AeKvRrIp9YerWQknrLTRli1WvIu8jLRUWwKu9CFMMC4=
+X-Received: by 2002:a17:90a:c784:b0:229:2631:e8 with SMTP id
+ gn4-20020a17090ac78400b00229263100e8mr292547pjb.215.1673973219279; Tue, 17
+ Jan 2023 08:33:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WXGemy9kRENHJo/3"
-Content-Disposition: inline
-In-Reply-To: <20230117135203.3049709-3-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230112102436.1913-1-philmd@linaro.org>
+In-Reply-To: <20230112102436.1913-1-philmd@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Jan 2023 16:33:28 +0000
+Message-ID: <CAFEAcA8PawKOUftR+kep1O9LY8490GXuy9PeWvEXe_5LjooGQg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] target/arm: Introduce aarch64_set_svcr
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
+ Laurent Vivier <laurent@vivier.eu>, Fabiano Rosas <farosas@suse.de>,
+ qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,60 +86,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, 12 Jan 2023 at 10:24, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
+g> wrote:
+>
+> This is a respin of Richard's patch
+> https://lore.kernel.org/qemu-devel/20230112004322.161330-1-richard.hender=
+son@linaro.org/
+> but split in multiple trivial changes, as I was having hard
+> time to understand all changes at once while reviewing it.
+>
 
---WXGemy9kRENHJo/3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 17, 2023 at 08:52:02AM -0500, Emanuele Giuseppe Esposito wrote:
-> QEMU does not compile when enabling clang's thread safety analysis
-> (TSA),
-> because some functions create wrappers for pthread mutexes but do
-> not use any TSA macro. Therefore the compiler fails.
->=20
-> In order to make the compiler happy and avoid adding all the
-> necessary macros to all callers (lock functions should use
-> TSA_ACQUIRE, while unlock TSA_RELEASE, and this applies to allusers of pt=
-hread_mutex_lock/pthread_mutex_unlock),
-> simply use TSA_NO_TSA to supppress such warnings.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  bsd-user/qemu.h         | 5 +++--
->  include/exec/exec-all.h | 5 +++--
->  2 files changed, 6 insertions(+), 4 deletions(-)
 
-As a TSA newbie I'm wondering how would we go about annotating this
-properly?
+Applied to target-arm.next, thanks.
 
-Maybe:
-1. mmap_lock() ACQUIRE(), mmap_unlock() RELEASE()
-2. Find all functions that call mmap_lock() but not mmap_release() and
-   add ACQUIRE().
-3. Find all functions that call mmap_unlock() but not mmap_lock() and
-   add RELEASE().
-
-Can you add an item to https://wiki.qemu.org/BiteSizedTasks so someone
-who wants to spend a few hours auditing the code can do this?
-
-Thanks!
-
---WXGemy9kRENHJo/3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPGzZMACgkQnKSrs4Gr
-c8gkqAgAkTiNBVPzz0UMqN88r+zfmZ24M4tHLT4G3642r2C5yQWDYM6ZRqxHWsjM
-Slkn6SxxpmMIRwzQs/SWZidVEQif2qHl2rcIrLMOROha6xExff/rq5etTFKGKgxZ
-uoFMaOFs0xwPg3Zh1k7liJZzul7h2fR61S+s6MHSLlndw5/bqIoHPc8KBhhMIkRF
-qJWA4krIge58ILl3tmFiWBDd0QLsofFLxujpqDU4qqK+IjYCN2kPyt7DXiD0sEgR
-nWP8/uCcLofZ/PTzjogsQcKQmps3/jR5x7E4Gus+CElP3KPWrOjge5Nf4kZsKNBO
-uCNa8v62AB79WCcBSueO3IfdPzCaOw==
-=v1xj
------END PGP SIGNATURE-----
-
---WXGemy9kRENHJo/3--
-
+-- PMM
 
