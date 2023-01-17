@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E04A6670B6D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:11:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47444670B59
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:11:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHu9H-0000C8-Sz; Tue, 17 Jan 2023 17:09:43 -0500
+	id 1pHu9I-0000D2-F5; Tue, 17 Jan 2023 17:09:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9G-00006t-5y
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9G-00007E-AR
  for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:09:42 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9D-0007YL-M6
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:09:41 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9D-0007YX-Lv
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:09:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673993374;
+ s=mimecast20190719; t=1673993377;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z4pSYzeh/hEHH8/U7keCTUAk7hSnmmUcX2s4y6e9rfI=;
- b=PARwgXKsQOSoTLrwflsPwUZih3K3FqGGCr0EKrkXXezb74TyPe3f2IxONL4ieLvSx6Hb4L
- hQYYW7KMKbLKBhPT30OU0eEJRpCYYd+FSOSuPgDXXvVSODFdAZ4rZDxd1akZPK0zMhnKtn
- /JSZ3+TEy/mvkEc6L0Ilfea762/GLpE=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vOgoyenP92MI75OuuSbWf2PpAHEguwfvpUNa2Tx4ejQ=;
+ b=Nbo7f1h9b6QL12HPaOJJTibm5p/3jzr1P6/NUoQ+N7zy9aBdxVVvF8zU/tjnilo2cPBioT
+ uCxKCFPEVpXNFfFvMpGoxSG0jj1y5JYtyMTvWxMeJeojX3PmDMluyYAX7A2p4o5tJ/C8dF
+ J4VpR/jtSHoqQ9cmDinlxiE3ZBMbM3A=
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
+ [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-611-ww1AuZqBPIm3gWD10EO25A-1; Tue, 17 Jan 2023 17:09:33 -0500
-X-MC-Unique: ww1AuZqBPIm3gWD10EO25A-1
-Received: by mail-qk1-f197.google.com with SMTP id
- de38-20020a05620a372600b0070224de1c6eso23865438qkb.17
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 14:09:33 -0800 (PST)
+ us-mta-507-4Igi9gGjPFqaBlaOpsSeOA-1; Tue, 17 Jan 2023 17:09:36 -0500
+X-MC-Unique: 4Igi9gGjPFqaBlaOpsSeOA-1
+Received: by mail-vs1-f69.google.com with SMTP id
+ b65-20020a676744000000b003cedad0ea4bso8210435vsc.9
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 14:09:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=z4pSYzeh/hEHH8/U7keCTUAk7hSnmmUcX2s4y6e9rfI=;
- b=azl3/bfO2sTgoOtXiImPZnNfzuJjfLhbCxum/YjRNZ++Gu6fAbGnISyoutLurB/S41
- eLAKTmKwjESkNjfp4QU+xxyj8L9/JUdtsaEAZ1iJ951UIo0ihV0SHMT+SMzqiM2LiPro
- WCeikeW48BdO0TsPmouW1v1s6pHSRTBJVQNkeVBtwrIVQIptYV7qfQ0+8fGvGHWmIAh8
- NxsF2H/ObBQZ369TjkZxD2jx8z0BM94olZZvJI79Ibe+Mqonv309HbJHQWpVi3LyoRCR
- g8EerwOAEJ9dywWAxb8fCjcuG6Fq3aSAA4CY98CtbQDu7jgEFsNUFnECTdQLYm29v1Lb
- PJFQ==
-X-Gm-Message-State: AFqh2kqxUujy+Rz8dZQVkXByYLSu7eHHbqZik+sMugxmKRsCPFgALeYQ
- FxEe7bvmpdGhJWWjI/DkbPbhzVKWzYw+kymK5BFjzhDLmYKQ8+oghtqTbXBjEZnUG2cXvmTgIH9
- dkJ4OqSJo/G1O4L0HDSWL36CauPpGTmaQCq+qXSR9TWsKpq31iPAOTBF/7z2V0m8A
-X-Received: by 2002:a05:6214:4381:b0:535:26a9:782 with SMTP id
- oh1-20020a056214438100b0053526a90782mr6729600qvb.37.1673993371917; 
- Tue, 17 Jan 2023 14:09:31 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsVasjuyiR4kYzwPUKstPsVbPVhVMkFUJvhSibumwUcGxKS5hp4Jgq0mnxFJ8LcBSZZvPFZEQ==
-X-Received: by 2002:a05:6214:4381:b0:535:26a9:782 with SMTP id
- oh1-20020a056214438100b0053526a90782mr6729571qvb.37.1673993371624; 
- Tue, 17 Jan 2023 14:09:31 -0800 (PST)
+ bh=vOgoyenP92MI75OuuSbWf2PpAHEguwfvpUNa2Tx4ejQ=;
+ b=F4HJRR8x/4C6N0rF0Du9D1DnmHFB5dRQz46TPJyB6tF28Jam358nxnNpBcEPA3pO+J
+ ZeJboyuscV5ZVULpxVx3Hratm/9LsVlYXTlzRL/ltEEOeDRLHzIg2zhP8POQTlMoeG3b
+ aXzFdead/5AQu4O2uS8PpuAy8J1EvPGLlrntf2psBw+vsecY4IMh6C4tj16IPxdYGaQy
+ o+uTie0oZXcXMAjYNeeGZ9ZI+9sym5Y+Lmap+iw2pv0W09/QKGv3oT5ELeyrseto+slg
+ 9ft1UBaQ0v6PkG6+FaadD9YHXfAiZqCGXX3Zpnwem6LZgcPefVCHz4xxlny973FEeXJO
+ 1bdw==
+X-Gm-Message-State: AFqh2krjtlPuO2q6KYmSED6UnKvWoTzjmhumuzQdvVAG5TU8wEjZR4wR
+ ldkk98mWFiVwlw07c9lUQ2ep3xUm+4MFFcWux3tWtkAjXErEYsQvudF767RCNIy9t3TyQwlHJpY
+ 3F2wtX8K/+rF0ThRsD5SZ3EcX7vj4ubcpuKhJRVqp1mhZKGJLiaG2Rwb28fXjftmz
+X-Received: by 2002:a05:6102:2f9:b0:3d0:e802:2f7d with SMTP id
+ j25-20020a05610202f900b003d0e8022f7dmr2403844vsj.13.1673993375037; 
+ Tue, 17 Jan 2023 14:09:35 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsGELj8RRaJlcwuKvPt2ZLOgcAn51lq/aLv5xR5o3raou2OBHrIb9nhyhQmIZ8PRiPH3t7oRg==
+X-Received: by 2002:a05:6102:2f9:b0:3d0:e802:2f7d with SMTP id
+ j25-20020a05610202f900b003d0e8022f7dmr2403814vsj.13.1673993374743; 
+ Tue, 17 Jan 2023 14:09:34 -0800 (PST)
 Received: from x1n.redhat.com
  (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca. [70.30.145.63])
  by smtp.gmail.com with ESMTPSA id
- bm16-20020a05620a199000b006e16dcf99c8sm21142978qkb.71.2023.01.17.14.09.28
+ bm16-20020a05620a199000b006e16dcf99c8sm21142978qkb.71.2023.01.17.14.09.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 14:09:30 -0800 (PST)
+ Tue, 17 Jan 2023 14:09:33 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
  James Houghton <jthoughton@google.com>,
  Juan Quintela <quintela@redhat.com>, peterx@redhat.com,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH RFC 06/21] madvise: Add QEMU_MADV_COLLAPSE
-Date: Tue, 17 Jan 2023 17:08:59 -0500
-Message-Id: <20230117220914.2062125-7-peterx@redhat.com>
+Subject: [PATCH RFC 07/21] ramblock: Cache file offset for file-backed
+ ramblocks
+Date: Tue, 17 Jan 2023 17:09:00 -0500
+Message-Id: <20230117220914.2062125-8-peterx@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20230117220914.2062125-1-peterx@redhat.com>
 References: <20230117220914.2062125-1-peterx@redhat.com>
@@ -84,7 +85,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,45 +101,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-MADV_COLLAPSE is a new madvise() on Linux.  Define it.
+This value was only used for mmap() when we want to map at a specific
+offset of the file for memory.  To be prepared that we might do another map
+upon the same range for whatever reason, cache the offset so we know how to
+map again on the same range.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- include/qemu/madvise.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ include/exec/ramblock.h | 5 +++++
+ softmmu/physmem.c       | 2 ++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/include/qemu/madvise.h b/include/qemu/madvise.h
-index 3dddd25065..794e5fb0a7 100644
---- a/include/qemu/madvise.h
-+++ b/include/qemu/madvise.h
-@@ -68,6 +68,11 @@
- #else
- #define QEMU_MADV_SPLIT QEMU_MADV_INVALID
- #endif
-+#ifdef MADV_COLLAPSE
-+#define QEMU_MADV_COLLAPSE MADV_COLLAPSE
-+#else
-+#define QEMU_MADV_COLLAPSE QEMU_MADV_INVALID
-+#endif
+diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
+index adc03df59c..76cd0812c8 100644
+--- a/include/exec/ramblock.h
++++ b/include/exec/ramblock.h
+@@ -41,6 +41,11 @@ struct RAMBlock {
+     QLIST_HEAD(, RAMBlockNotifier) ramblock_notifiers;
+     int fd;
+     size_t page_size;
++    /*
++     * Cache for file offset to map the ramblock.  Only used for
++     * file-backed ramblocks.
++     */
++    off_t file_offset;
+     /* dirty bitmap used during migration */
+     unsigned long *bmap;
+     /* bitmap of already received pages in postcopy */
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index a4fb129d8f..aa1a7466e5 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -1543,6 +1543,8 @@ static void *file_ram_alloc(RAMBlock *block,
+     uint32_t qemu_map_flags;
+     void *area;
  
- #elif defined(CONFIG_POSIX_MADVISE)
- 
-@@ -83,6 +88,7 @@
- #define QEMU_MADV_REMOVE QEMU_MADV_DONTNEED
- #define QEMU_MADV_POPULATE_WRITE QEMU_MADV_INVALID
- #define QEMU_MADV_SPLIT QEMU_MADV_INVALID
-+#define QEMU_MADV_COLLAPSE QEMU_MADV_INVALID
- 
- #else /* no-op */
- 
-@@ -98,6 +104,7 @@
- #define QEMU_MADV_REMOVE QEMU_MADV_INVALID
- #define QEMU_MADV_POPULATE_WRITE QEMU_MADV_INVALID
- #define QEMU_MADV_SPLIT QEMU_MADV_INVALID
-+#define QEMU_MADV_COLLAPSE QEMU_MADV_INVALID
- 
- #endif
- 
++    /* Remember the offset just in case we'll need to map the range again */
++    block->file_offset = offset;
+     block->page_size = qemu_fd_getpagesize(fd);
+     if (block->mr->align % block->page_size) {
+         error_setg(errp, "alignment 0x%" PRIx64
 -- 
 2.37.3
 
