@@ -2,94 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A9266E492
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 18:13:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA71366E4AB
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 18:18:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHpVY-0002KN-3I; Tue, 17 Jan 2023 12:12:24 -0500
+	id 1pHpaZ-00057V-9W; Tue, 17 Jan 2023 12:17:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pHpVR-0002CM-B6
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:12:20 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pHpaW-000578-VU
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:17:33 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pHpVN-00056y-O2
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:12:15 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pHpaV-0005ne-9c
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:17:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673975527;
+ s=mimecast20190719; t=1673975850;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/xT2F+gCG0Rjzumy1UFOyArPW6tPSIn20KE3KJxQnIc=;
- b=H79wx/ctRczRDQl6ztjtq1ePJ7PzsXol5JdeXyn7JHNimc+q9aleTM1KNoSVhKq7H2A3OV
- M9w6xR2cqf8mtK7EhwqEz+2TDpTJpIv/4wL06Nc2NvcySDedY6F7nACheNrG+7C50VODzA
- S2vBgnwK3/TITz63ekPhezBh0p+6Ajg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-631-XPeLS7NXMdOQXmmTjp9eOg-1; Tue, 17 Jan 2023 12:11:46 -0500
-X-MC-Unique: XPeLS7NXMdOQXmmTjp9eOg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- az37-20020a05600c602500b003da50af44b3so4878090wmb.1
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 09:11:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/xT2F+gCG0Rjzumy1UFOyArPW6tPSIn20KE3KJxQnIc=;
- b=lzWxftLuWAdeaEB4O2FVH4WZIHFDEu6yi9Pl+u7S/2QuXLVMasD1UTEivNDH/b6O88
- 5kgkQ7g4SXqyrz8iaGRIIyAs+WeDYeIxkFoxsnfR0ZuBx2NgVg2MlWpGWDo+1Xr6hUbP
- qd8hfBNEWRGLkdCa1Y4L690oK9cfbOFaxGr4DSbN980GG3fBV0Fj8LhN6Hzk8OBSMQpt
- gmRZEpNzp7y9PFjnL9ZZPrUc1ihx+zh2VjYow51yiH3L6NzCqOCJiH0ckFjgalv3CZ9s
- 2T3NEr/XkaPXyOXiroJGnP7ApeD+iNyhSG2ii2iF56SqEdC9NwART4iZrbbZzmQUKDiK
- eqiw==
-X-Gm-Message-State: AFqh2kqerwI55qe95JccZgIu+2bydBDjrv9C3zpvXcX9FbRvyvv4A1dF
- C8w8h4MBYYYMoaQ6Kfl+jwfF3ngV/ImP++1ZVdiVpTJAlnrw7GUqg9XTDCqaKxm5tc01T19RxPS
- CzI2+6fkplwRXYJc=
-X-Received: by 2002:a05:600c:3d86:b0:3d2:3761:b717 with SMTP id
- bi6-20020a05600c3d8600b003d23761b717mr3645136wmb.37.1673975503983; 
- Tue, 17 Jan 2023 09:11:43 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXthCy8QSeEC7iz78+ZXE8290P6Tj/9R6eydiQpw7t1RDUTcjH8HczS8uO0wFNDFTf0uUkN27Q==
-X-Received: by 2002:a05:600c:3d86:b0:3d2:3761:b717 with SMTP id
- bi6-20020a05600c3d8600b003d23761b717mr3645117wmb.37.1673975503770; 
- Tue, 17 Jan 2023 09:11:43 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- o2-20020a05600c4fc200b003da2932bde0sm15811861wmq.23.2023.01.17.09.11.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 09:11:43 -0800 (PST)
-Date: Tue, 17 Jan 2023 17:11:41 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org,
- Eric Auger <eauger@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH v4 1/2] arm/kvm: add support for MTE
-Message-ID: <Y8bWzZe4svHOmdvd@work-vm>
-References: <20230111161317.52250-1-cohuck@redhat.com>
- <20230111161317.52250-2-cohuck@redhat.com>
- <CAFEAcA9BKX+fSEZZbziwTNq5wsshDajuxGZ_oByVZ=gDSYOn9g@mail.gmail.com>
- <Y8bR7xrsCMr5z6xI@work-vm> <877cxl85cb.fsf@redhat.com>
+ bh=cWdcmceNrhYm96PdemVamq7vCEmywUeFFr8cqP13rFY=;
+ b=jVDYpeNiDWosVnL+YVxxmbfOtn5i12AOMh3Yz0WrAhC8CVo2bsdlOw+zO/IouuS8rOew6T
+ Td/lZnSasxF/TUMZ3buOS1ZfusX9LXPa+XgkvXjhFfVaTH8iNM/PyHdNM5N3KUc7rjBH95
+ TOlbZKYZ0+eET2Yryz53ELQP25izLhw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-389-5H3Dy22wMmKrLX7BAwZ3ZA-1; Tue, 17 Jan 2023 12:17:27 -0500
+X-MC-Unique: 5H3Dy22wMmKrLX7BAwZ3ZA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3966196EFA5;
+ Tue, 17 Jan 2023 17:17:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.190])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A62B40C2064;
+ Tue, 17 Jan 2023 17:17:25 +0000 (UTC)
+Date: Tue, 17 Jan 2023 18:17:23 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Warner Losh <imp@bsdimp.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
+ Kyle Evans <kevans@freebsd.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 2/3] bsd-user/mmap: use TSA_NO_TSA to suppress clang TSA
+ warnings
+Message-ID: <Y8bYI4RgV4F5b1ht@redhat.com>
+References: <20230117135203.3049709-1-eesposit@redhat.com>
+ <20230117135203.3049709-3-eesposit@redhat.com>
+ <CANCZdfq=F9HJnjX9sGq6w9tzVx2C8e9jOfk2Lfer_mm2bDRP0A@mail.gmail.com>
+ <Y8bMBZFqVP+EFzA8@redhat.com>
+ <CANCZdfrg+S-EsjzcJe78aWr3pBaESv1+MUkLa-H6i=o-S0LaqQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <877cxl85cb.fsf@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+In-Reply-To: <CANCZdfrg+S-EsjzcJe78aWr3pBaESv1+MUkLa-H6i=o-S0LaqQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,85 +85,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Cornelia Huck (cohuck@redhat.com) wrote:
-> On Tue, Jan 17 2023, "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+Am 17.01.2023 um 17:43 hat Warner Losh geschrieben:
+> On Tue, Jan 17, 2023 at 9:25 AM Kevin Wolf <kwolf@redhat.com> wrote:
 > 
-> > * Peter Maydell (peter.maydell@linaro.org) wrote:
-> >> On Wed, 11 Jan 2023 at 16:13, Cornelia Huck <cohuck@redhat.com> wrote:
-> >> >
-> >> > Introduce a new cpu feature flag to control MTE support. To preserve
-> >> > backwards compatibility for tcg, MTE will continue to be enabled as
-> >> > long as tag memory has been provided.
-> >> >
-> >> > If MTE has been enabled, we need to disable migration, as we do not
-> >> > yet have a way to migrate the tags as well. Therefore, MTE will stay
-> >> > off with KVM unless requested explicitly.
-> >> >
-> >> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> >> > ---
-> >> >  docs/system/arm/cpu-features.rst |  21 +++++
-> >> >  hw/arm/virt.c                    |   2 +-
-> >> >  target/arm/cpu.c                 |  18 ++---
-> >> >  target/arm/cpu.h                 |   1 +
-> >> >  target/arm/cpu64.c               | 133 +++++++++++++++++++++++++++++++
-> >> >  target/arm/internals.h           |   1 +
-> >> >  target/arm/kvm64.c               |   5 ++
-> >> >  target/arm/kvm_arm.h             |  12 +++
-> >> >  target/arm/monitor.c             |   1 +
-> >> >  9 files changed, 181 insertions(+), 13 deletions(-)
-> >> >
-> >> > diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
-> >> > index 00c444042ff5..e278650c837e 100644
-> >> > --- a/docs/system/arm/cpu-features.rst
-> >> > +++ b/docs/system/arm/cpu-features.rst
-> >> > @@ -443,3 +443,24 @@ As with ``sve-default-vector-length``, if the default length is larger
-> >> >  than the maximum vector length enabled, the actual vector length will
-> >> >  be reduced.  If this property is set to ``-1`` then the default vector
-> >> >  length is set to the maximum possible length.
-> >> > +
-> >> > +MTE CPU Property
-> >> > +================
-> >> > +
-> >> > +The ``mte`` property controls the Memory Tagging Extension. For TCG, it requires
-> >> > +presence of tag memory (which can be turned on for the ``virt`` machine via
-> >> > +``mte=on``). For KVM, it requires the ``KVM_CAP_ARM_MTE`` capability; until
-> >> > +proper migration support is implemented, enabling MTE will install a migration
-> >> > +blocker.
-> >> > +
-> >> > +If not specified explicitly via ``on`` or ``off``, MTE will be available
-> >> > +according to the following rules:
-> >> > +
-> >> > +* When TCG is used, MTE will be available iff tag memory is available; i.e. it
-> >> > +  preserves the behaviour prior to introduction of the feature.
-> >> > +
-> >> > +* When KVM is used, MTE will default to off, so that migration will not
-> >> > +  unintentionally be blocked.
-> >> > +
-> >> > +* Other accelerators currently don't support MTE.
-> >> 
-> >> Minor nits for the documentation:
-> >> we should expand out "if and only if" -- not everybody recognizes
-> >> "iff", especially if they're not native English speakers or not
-> >> mathematicians.
-> >> 
-> >> Should we write specifically that in a future QEMU version KVM
-> >> might change to defaulting to "on if available" when migration
-> >> support is implemented?
+> > Am 17.01.2023 um 17:16 hat Warner Losh geschrieben:
+> > > On Tue, Jan 17, 2023 at 6:52 AM Emanuele Giuseppe Esposito <
+> > > eesposit@redhat.com> wrote:
+> > >
+> > > > QEMU does not compile when enabling clang's thread safety analysis
+> > > > (TSA),
+> > > > because some functions create wrappers for pthread mutexes but do
+> > > > not use any TSA macro. Therefore the compiler fails.
+> > > >
+> > > > In order to make the compiler happy and avoid adding all the
+> > > > necessary macros to all callers (lock functions should use
+> > > > TSA_ACQUIRE, while unlock TSA_RELEASE, and this applies to allusers of
+> > > > pthread_mutex_lock/pthread_mutex_unlock),
+> > > > simply use TSA_NO_TSA to supppress such warnings.
+> > >
+> > > I'm not sure I understand this quite right. Maybe a clarifying question
+> > > will help me understand: Why is this needed for bsd-user but not
+> > > linux-user? How are they different here?
 > >
-> > Please make sure if you do something like that, that the failure
-> > is obious; 'on if available' gets messy for things like libvirt
-> > and higher level tools detecting features that are available and
-> > machines they can migrate to.
+> > FreeBSD's pthread headers include TSA annotations for some functions
+> > that force us to do something about them (for now: suppress the warnings
+> > in their callers) before we can enable -Wthread-safety for the purposes
+> > where we really want it. Without this, calling functions like
+> > pthread_mutex_lock() would cause compiler errors.
+> >
+> > glibc's headers don't contain such annotations, so the same is not
+> > necessary on Linux
+> >
 > 
-> I guess we can just keep the door open but decline walking through it if
-> we fail to come up with a good solution...
+> Thanks Kevin. With that explanation, these patches and their explanation
+> make perfect sense now. Often when there's a patch to bsd-user but not
+> linux-user, it's because bsd-user needs to do more in some way (which I try
+> to keep up on).
+> 
+> In this case, it's because FreeBSD's libc is a bit ahead of the curve. So I
+> understand why it's needed, and what I need to do next (though I think that
+> I may have to wait for the rest of qemu to be annotated)...
 
-Yeh; at least make sure that any migration failure gives an obvious
-message in the log.
+I assume that the bsd-user part is actually sufficiently independent
+that you could do proper annotations there if you want.
 
-Dave
+However, be aware that TSA has some serious limitations with C, so you
+can't express certain things, and it isn't as strict as it could be (in
+particular, function pointers bypass it). As long as you have global
+locks (as opposed to locks in structs), it kind of works, though.
+Certainly better than nothing.
 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+But it probably means that some of the rest of QEMU may never get the
+annotations. Also, our primary goal is protecting the block layer, so
+someone else would have to work on other locks. With checks disabled on
+individual functions like in this series, it should at least be possible
+to work on it incrementally.
+
+> It might be better, though, to put some of this information in the commit
+> message so it isn't just on the mailing list.
+
+Yes, I agree. We can tweak the commit messages before merging it.
+
+> Just a suggestion:
+> 
+> Reviewed-by: Warner Losh <imp@bsdimp.com>
+
+Thanks!
+
+Kevin
 
 
