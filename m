@@ -2,91 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D11C66E3F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:46:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFE966E40A
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:49:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHp5R-00006Q-Uu; Tue, 17 Jan 2023 11:45:26 -0500
+	id 1pHp98-0003KX-RJ; Tue, 17 Jan 2023 11:49:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHp5L-0008PC-34
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:45:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pHp91-0003Gw-01; Tue, 17 Jan 2023 11:49:07 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHp5J-0000YS-IH
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:45:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673973916;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MmRXGH9ib5Havpv1xb23evBeZVYSnm1M/Dbt/HIXZvY=;
- b=aGhg7MVT0knIBK7AVUD3IAk4SfKDXGZyjYLCmDvgV0XIfDt8gsCwNwfWR6/lfxbv5WevZE
- Ng/R4mZwEAlVMHbx1AWCZ0GM7wFmNr7euMkIVppamJ3gUzNjZY73P7yYD9Gr4cbVqIL/d9
- GNi4rsoGFiRGcRD1e3UKPz5sRPkzHdE=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-599-RBGRmyaWNP-abHG8-6mtrw-1; Tue, 17 Jan 2023 11:45:14 -0500
-X-MC-Unique: RBGRmyaWNP-abHG8-6mtrw-1
-Received: by mail-qk1-f197.google.com with SMTP id
- bj28-20020a05620a191c00b007068d8b5051so2831211qkb.14
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 08:45:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MmRXGH9ib5Havpv1xb23evBeZVYSnm1M/Dbt/HIXZvY=;
- b=NGklELAovAGGO4Bd897nplbUNeEGHpBlTynVpybfN1+UXYSDTIy9hISeN0g7WvKB6Y
- Tu2Np4PH6JdNkvZMQPIUxPSHkA4aKAMuhCyDAaOhCTQk+xJaSeNaLxuSlloCZTkn/hOU
- Rsuuu9qtexkHWp3d0gyR4J4Ud0XgbOW6JHgKWVVNEKFwZmvf1Jj+Z3xpIO72V86cxMRU
- 8YBRJcNb8cc1gjU/YO0KP4UUge61KnGCYx34m5SRDzQNtP2jH5lrHQXjFIiHiHHc/O/z
- xpfSP2cslKvqr1Vt5J+KGXR3iIvDFZzCtfQTVsfd1EYYD+i8NabWt+YapR+ECTjU5u7R
- NtuA==
-X-Gm-Message-State: AFqh2kolRwZBbngHfsNSS3eAcXOhX9y1XiTM9sPLliNlj6aqOdDLJ8VS
- AsaSlNrB87oMN35LuO7nJ6t7mQVvTJwp11byt3wf0du/7tcXXaBnztm1/UbPsk3mu1RkAa/Z9w9
- tbxHRxWYL1OrHg2g=
-X-Received: by 2002:ac8:48d9:0:b0:3b6:2f49:1acc with SMTP id
- l25-20020ac848d9000000b003b62f491accmr4148157qtr.16.1673973914271; 
- Tue, 17 Jan 2023 08:45:14 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsw1xt9CQmsaMyaiCDGeahsCOr0ZvDu48Gn1f0YW1N9zEmy1qj7EOUW4gD5QLksPRpncFE/Ww==
-X-Received: by 2002:ac8:48d9:0:b0:3b6:2f49:1acc with SMTP id
- l25-20020ac848d9000000b003b62f491accmr4148137qtr.16.1673973914049; 
- Tue, 17 Jan 2023 08:45:14 -0800 (PST)
-Received: from [192.168.8.105] (tmo-067-100.customers.d1-online.com.
- [80.187.67.100]) by smtp.gmail.com with ESMTPSA id
- n15-20020a05620a294f00b0070383f1b6f1sm20808190qkp.31.2023.01.17.08.45.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 08:45:13 -0800 (PST)
-Message-ID: <5b67045b-d8d7-14ef-21ff-3fcadff9e5bf@redhat.com>
-Date: Tue, 17 Jan 2023 17:45:10 +0100
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pHp8y-00017Z-Tj; Tue, 17 Jan 2023 11:49:06 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30HGUh66029161; Tue, 17 Jan 2023 16:49:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=n0YBDYKcLFNtdBHv+ttAeAwbiwIxAveDWQDeyaORJNM=;
+ b=KfsVhljijER+aXgWVsYBzbxDXcj3sktN3WFe36jYwF26qHLFow8eQrJt9WSZ0KG2EUOz
+ +x5Wu51VuF3/AVW+JhX8ZJP7p61lQv1O4+mEG5ZmJVw/Uh8lUhRn56wjuh0C602djLIO
+ IO35PpZpaNocbMNomJEJcw3SibocyQvyWHjTyj2bja+x0Z6XDbzKHFRyv4aNKYGdf7EH
+ SrhJC0CSB31yx8rcvzbYhclACs9ZWmThVRivxnnVCFJf7i7WRDEOA8FhO1751CiYpIpX
+ xbYgptUZHg6tM8kdZVKeR57idhRa5Aan1XEFz5c0E8+I3HiVWYpil+zhFCrEiDZuFtx/ 0w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5x3samet-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 16:48:59 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30HFQurS027223;
+ Tue, 17 Jan 2023 16:48:59 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n5x3samdt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 16:48:59 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30HELbIl015767;
+ Tue, 17 Jan 2023 16:48:56 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3n3m16k1dq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 16:48:56 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30HGmqhA23331546
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 17 Jan 2023 16:48:53 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DD61F20043;
+ Tue, 17 Jan 2023 16:48:52 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 81D0A20040;
+ Tue, 17 Jan 2023 16:48:52 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.186.145])
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 17 Jan 2023 16:48:52 +0000 (GMT)
+Message-ID: <13ad4df8bc83f552ae1c9aad4f1a44d18963e7a8.camel@linux.ibm.com>
+Subject: Re: [PATCH v14 02/11] s390x/cpu topology: add topology entries on
+ CPU hotplug
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Tue, 17 Jan 2023 17:48:52 +0100
+In-Reply-To: <8063592a-971a-d029-e8ac-0fb6286199d5@linux.ibm.com>
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-3-pmorel@linux.ibm.com>
+ <666b9711b23d807525be06992fffd4d782ee80c7.camel@linux.ibm.com>
+ <8063592a-971a-d029-e8ac-0fb6286199d5@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v6] tests/qtest: netdev: test stream and dgram backends
-Content-Language: en-US
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Jason Wang <jasowang@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
-References: <20230117131506.1394552-1-lvivier@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230117131506.1394552-1-lvivier@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 4Lri38RTcwwgef9jBrw6kpKM7BaC3Uz5
+X-Proofpoint-GUID: 4Nt8pDw41bbjVlpGc5k7RO0qsErGb7k_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-17_08,2023-01-17_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
+ impostorscore=0 clxscore=1015 mlxlogscore=999 malwarescore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301170133
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,35 +120,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/01/2023 14.15, Laurent Vivier wrote:
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> ---
-> 
-> Notes:
->      v6:
->        - call socket_init() otherwise socket_check_protocol_support() fails
->        - if socket_check_protocol_support() fails then calls g_abort() to
->          report a problem.
+On Tue, 2023-01-17 at 14:55 +0100, Pierre Morel wrote:
+>=20
+> On 1/13/23 19:15, Nina Schoetterl-Glausch wrote:
+> >=20
+[...]
 
-Last problem fixed, next one occurring:
+> > > +/**
+> > > + * s390_topology_set_entry:
+> > > + * @entry: Topology entry to setup
+> > > + * @id: topology id to use for the setup
+> > > + *
+> > > + * Set the core bit inside the topology mask and
+> > > + * increments the number of cores for the socket.
+> > > + */
+> > > +static void s390_topology_set_entry(S390TopologyEntry *entry,
+> >=20
+> > Not sure if I like the name, what it does is to add a cpu to the entry.
+>=20
+> s390_topology_add_cpu_to_entry() ?
 
-218/556 qemu:qtest+qtest-aarch64 / qtest-aarch64/netdev-socket                    ERROR           0.77s   exit status 3
-------------------------------------- 8< -------------------------------------
-stderr:
-qemu-system-aarch64: -netdev dgram,id=st0,remote.type=inet,remote.host=230.0.0.1,remote.port=1234: can't bind ip=230.0.0.1 to socket: Unknown error
-Broken pipe
-../tests/qtest/libqtest.c:195: kill_qemu() tried to terminate QEMU process but encountered exit status 1 (expected 0)
-TAP parsing error: Too few tests run (expected 6, got 4)
-(test program exited with status code 3)
-------------------------------------------------------------------------------
+Yeah, that's better.
 
-See: https://cirrus-ci.com/task/6491942456918016
+[...]
+>=20
+> > > +/**
+> > > + * s390_topology_set_cpu:
+> > > + * @ms: MachineState used to initialize the topology structure on
+> > > + *      first call.
+> > > + * @cpu: the new S390CPU to insert in the topology structure
+> > > + * @errp: the error pointer
+> > > + *
+> > > + * Called from CPU Hotplug to check and setup the CPU attributes
+> > > + * before to insert the CPU in the topology.
+> > > + */
+> > > +void s390_topology_set_cpu(MachineState *ms, S390CPU *cpu, Error **e=
+rrp)
+> > > +{
+> > > +    Error *local_error =3D NULL;
+> >=20
+> > Can't you just use ERRP_GUARD ?
+>=20
+> I do not think it is necessary and I find it obfuscating.
+> So, should I?
 
-... maybe it would be better to simply limit the test to
-CONFIG_POSIX in the meson.build file?
+/*
+ * Propagate error object (if any) from @local_err to @dst_errp.
+[...]
+ * Please use ERRP_GUARD() instead when possible.
+ * Please don't error_propagate(&error_fatal, ...), use
+ * error_report_err() and exit(), because that's more obvious.
+ */
+void error_propagate(Error **dst_errp, Error *local_err);
 
-  Thomas
+So I'd say yes.
+>=20
+> >=20
+> > > +    s390_topology_id id;
+> > > +
+> > > +    /*
+> > > +     * We do not want to initialize the topology if the cpu model
+> > > +     * does not support topology consequently, we have to wait for
+> >=20
+> > ", consequently," I think. Could you do the initialization some where e=
+lse,
+> > after you know what the cpu model is? Not that I object to doing it thi=
+s way.
+> >=20
+>=20
+> I did not find a better place, it must be done after the CPU model is=20
+> initialize and before the first CPU is created.
+> The cpu model is initialized during the early creation of the first cpu.
+>=20
+> Any idea?
+>=20
+> Thanks.
+>=20
+> Regards,
+> Pierre
+>=20
 
 
