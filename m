@@ -2,82 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E6E66E622
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 19:35:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9638D66E61D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 19:34:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHqnD-00034j-Vc; Tue, 17 Jan 2023 13:34:43 -0500
+	id 1pHqn5-00031K-Gz; Tue, 17 Jan 2023 13:34:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHqnC-00032X-34
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:34:42 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHqn9-0007ld-Uv
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:34:41 -0500
-Received: by mail-wr1-x429.google.com with SMTP id n7so5487912wrx.5
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 10:34:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eeXz5CxepjPyLlSgR73lzwLo8j2gRTTXupVmteqp9rk=;
- b=lHaclFeocmYMpYa3To0lDZKi5IuGtvvj3DDM9XEXIaaEMJFTuZ0qLMSVFSQqF7gU7y
- GBuvvDmcKzH7cQM8hBFXG+O+vdeZQTJCI3Wo3Yt3/dRWC7wpo6/04Mq0LNgn6CuI8mkP
- N/KZoURkpiAQW8wXeD54XdpPZGXZBPsaz+jcIwO3rIiw60KtW3RTFE0KwAEm9bkoBWQz
- jkCEVppWcWw88ogIXxRUjT9dXet2DK3A/AsBUJm/BKoFEWOZUyd215sb4vRU06SIPqkk
- zR05DYeFMXrXl7wS5/DpscxuLDwFEqT1IXzYLGu4svnKEW537ReDMZ20CqHrJbMFKPr0
- SAzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=eeXz5CxepjPyLlSgR73lzwLo8j2gRTTXupVmteqp9rk=;
- b=YhBcz+E+lQH6Q8e1C6Fl0l/6QmmNE2nYej93WAnZEuVsVh+WizhgnDHPbtYIebPnBO
- U8Qdl+oWjpJbxdxyAzoUF7CgSokBmLXnXJN+q6b6VCiHq/HPlpjgAJMu8Xr49uR+fQRn
- yyVpz6IHIIlrJq3FZUI+bTpjv0s5v/GlwMmpRy8AfFGWF/u3/i4vn/NuGKCHCY1AEHvX
- eaMtQsi14HKu2MDCvpgpc6wp5D8OhzIQdlF5kK/X4eU7cWpgr2zqDMrJrUqqkI6VYmbF
- fja7THrJWGXViFlNNZUsNe+mentQXRQ7sRz7Z6I7K3GudN3PpcOSQW9+XKNJQAMPYqBa
- E9XA==
-X-Gm-Message-State: AFqh2kpzSFv6r8PRGBnqK9veXirhZ6aTWGfxgjpXRhFmItX7EtXezfK5
- A1nTxAstFDuKG9DlZskAKDNst/f0zKYIJO75
-X-Google-Smtp-Source: AMrXdXvc0K4KPQUwGuMXU03OD3+48UcXmpKotjRqWqUaTwKq3BiLdx1BEFsX1uObeOv8CaSys2Yjqg==
-X-Received: by 2002:adf:f342:0:b0:2bb:9106:d09 with SMTP id
- e2-20020adff342000000b002bb91060d09mr3287497wrp.15.1673980478273; 
- Tue, 17 Jan 2023 10:34:38 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- o7-20020a5d62c7000000b002bbeda3809csm23502777wrv.11.2023.01.17.10.34.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 10:34:37 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 436A51FFB7;
- Tue, 17 Jan 2023 18:34:37 +0000 (GMT)
-References: <20230109014248.2894281-1-richard.henderson@linaro.org>
- <20230109014248.2894281-21-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.15; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 20/22] tcg/arm: Implement direct branch for goto_tb
-Date: Tue, 17 Jan 2023 18:33:24 +0000
-In-reply-to: <20230109014248.2894281-21-richard.henderson@linaro.org>
-Message-ID: <87cz7d103m.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pHqmo-0002wY-C2; Tue, 17 Jan 2023 13:34:30 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pHqmm-0007iR-M9; Tue, 17 Jan 2023 13:34:17 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id D0AB65C0132;
+ Tue, 17 Jan 2023 13:34:15 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 17 Jan 2023 13:34:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1673980455; x=
+ 1674066855; bh=l4Hh/ODTUo1ZSOLfpCsXpdmf8t/R1i5uvfMX7S3UTI4=; b=b
+ OgfYb4y1em8B5sE5V0hXP4cMVRrDxQjiBnGuyYzivPr4DAgZZPnkcQOc9eSreOAz
+ AYuxPJ0IAOCqVjXKL7RkKS0j6iq28252vb1RQSjvepgrq6+1ZumV+0Xb5eF8lxUH
+ DU+IIUpQebTNDUtBBL9SKA892SYhdbf2P8FLdueYIcawgrEsGZWkkcoLVepAtH80
+ /DCTtZHBtKKWQxmpXECEmjsuBfUyf76g0tOAj2v602nZWeBJkQ5hb7rLDIYVhYaN
+ /gAuTQXwPmD1IHKm4u708aIOfDrWpvS+/HWYMLMvvtg1NAnNBEda3fKDeqqKa4q6
+ du6rfLOapdSebQjnqvY3A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673980455; x=
+ 1674066855; bh=l4Hh/ODTUo1ZSOLfpCsXpdmf8t/R1i5uvfMX7S3UTI4=; b=L
+ 2fRcfBl9GCALYvXnB9WRkFnU+0WwSDQZLut9Zm1fNbB4/DqEf4BN+XZ5AZah5ZfV
+ pAa3/iIyzefyqCtWU0DPowb+NsyuZwGnZxbY+8sEbT89l9wg6Y6ceCTFq1Mjq9J3
+ O+k0KIp+nTyqjLibIEknnEn8/FCV9B5mCguRhVZHDaErcPNkrTXz4IL9xYY6OWq+
+ D72311OOQWtBYguvDiNbW6ZP0nsTTNSOrhAVbtUQf5uD9KC/7Iqjvx0kKML0w/hx
+ xcJdSzSs+zEvbhn2zjQSVL29p62AHLBS1XnJ4Kmn1jUDZ55eDHwlMcMhAr0G6smH
+ D30/n9+kltMPyvHDkgHuQ==
+X-ME-Sender: <xms:J-rGYxr6Z_L7U4mAOEX6Mmg0j30rlzGvLW_3EdPhqxwmnb6kvLx6cA>
+ <xme:J-rGYzr15gTysBHUREgIqqqvbE3y3vXnhNXXlSxj5WFGDjcoiCnpobpvSC50EZwye
+ Ii-AjXJ-_s_iZleiPs>
+X-ME-Received: <xmr:J-rGY-PdgOt4-qVenCMlnVNXt7susd2xfqyerW917LJKOTrdXYE_5T9hT83_>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtiedguddugecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgv
+ thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
+ grthhtvghrnhephfegffevudefveetgeekteeijefhhfduueejvdegvdehffehjeevtefh
+ hffffeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:J-rGY87XX7lpKla0VTyKqRKwtWnBNUQdLH8KvYtH5Ea2XiIGIOFoew>
+ <xmx:J-rGYw673dt91CvFtkxIKeLFvBRLZDvoHviJoiW1DyQOivJ8Y6K6kw>
+ <xmx:J-rGY0jVRelkbTXTDu8Cusxy5UEsGViBwCvfnVxbAodnHAIBE74Oow>
+ <xmx:J-rGY_ZBQN26YRNK0sBZqn3bYXPH_MC_y_MstkwubcoMQVbKMOeDhA>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Jan 2023 13:34:14 -0500 (EST)
+Date: Tue, 17 Jan 2023 10:34:12 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
+ hskinnemoen@google.com, kfting@nuvoton.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 4/5] hw/arm/aspeed: Add aspeed_eeprom.c
+Message-ID: <Y8bqJCJqsdkD+q71@pdel-mbp>
+References: <20230116235604.55099-1-peter@pjd.dev>
+ <20230116235604.55099-5-peter@pjd.dev>
+ <d494fe87-d083-cc64-867b-186852a120d7@kaod.org>
+ <ca4d0954-4d45-ea42-e1c1-efae62e30b1c@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ca4d0954-4d45-ea42-e1c1-efae62e30b1c@linaro.org>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=peter@pjd.dev;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,124 +106,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Jan 17, 2023 at 09:08:57AM +0100, Philippe Mathieu-Daudé wrote:
+> On 17/1/23 08:39, Cédric Le Goater wrote:
+> > On 1/17/23 00:56, Peter Delevoryas wrote:
+> > > - Create aspeed_eeprom.c and aspeed_eeprom.h
+> > > - Include aspeed_eeprom.c in CONFIG_ASPEED meson source files
+> > > - Include aspeed_eeprom.h in aspeed.c
+> > > - Add fby35_bmc_fruid data
+> > > - Use new at24c_eeprom_init_rom helper to initialize BMC FRUID
+> > > EEPROM with data
+> > >    from aspeed_eeprom.c
+> [...]
+> 
+> > > diff --git a/hw/arm/aspeed_eeprom.h b/hw/arm/aspeed_eeprom.h
+> > > new file mode 100644
+> > > index 000000000000..89860e37d007
+> > > --- /dev/null
+> > > +++ b/hw/arm/aspeed_eeprom.h
+> > > @@ -0,0 +1,11 @@
+> > > +/* Copyright (c) Meta Platforms, Inc. and affiliates. */
+> 
+> Missing license.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
++1, will fix
 
-> Now that tcg can handle direct and indirect goto_tb
-> simultaneously, we can optimistically leave space for
-> a direct branch and fall back to loading the pointer
-> from the TB for an indirect branch.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/arm/tcg-target.c.inc | 52 ++++++++++++++++++++++++++++------------
->  1 file changed, 37 insertions(+), 15 deletions(-)
->
-> diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-> index e1e1c2620d..794ed8c3a2 100644
-> --- a/tcg/arm/tcg-target.c.inc
-> +++ b/tcg/arm/tcg-target.c.inc
-> @@ -135,6 +135,8 @@ typedef enum {
->      ARITH_BIC =3D 0xe << 21,
->      ARITH_MVN =3D 0xf << 21,
->=20=20
-> +    INSN_B         =3D 0x0a000000,
-> +
->      INSN_CLZ       =3D 0x016f0f10,
->      INSN_RBIT      =3D 0x06ff0f30,
->=20=20
-> @@ -546,7 +548,7 @@ static bool tcg_target_const_match(int64_t val, TCGTy=
-pe type, int ct)
->=20=20
->  static void tcg_out_b_imm(TCGContext *s, ARMCond cond, int32_t offset)
->  {
-> -    tcg_out32(s, (cond << 28) | 0x0a000000 |
-> +    tcg_out32(s, (cond << 28) | INSN_B |
->                      (((offset - 8) >> 2) & 0x00ffffff));
+> 
+> > > +#ifndef ASPEED_EEPROM_H
+> > > +#define ASPEED_EEPROM_H
+> > > +
+> > > +#include "qemu/osdep.h"
+> > > +
+> > > +extern const uint8_t fby35_bmc_fruid[];
+> > 
+> > 
+> > may be define the array with an explicit size to avoid the size variable ?
+> > I don't see any good solution.
+>  /* Return rom_size and set rombufptr, or return 0 */
+>  size_t aspeed_get_default_rom_content(const char *machine_typename,
+>                                        const void **rombufptr);
+> 
+> ?
 
-deposit32?
 
->  }
->=20=20
-> @@ -1941,32 +1943,52 @@ static void tcg_out_exit_tb(TCGContext *s, uintpt=
-r_t arg)
->=20=20
->  static void tcg_out_goto_tb(TCGContext *s, int which)
->  {
-> -    /* Indirect jump method */
-> -    intptr_t ptr, dif, dil;
-> -    TCGReg base =3D TCG_REG_PC;
-> +    uintptr_t i_addr;
-> +    intptr_t i_disp;
->=20=20
-> -    ptr =3D get_jmp_target_addr(s, which);
-> -    dif =3D tcg_pcrel_diff(s, (void *)ptr) - 8;
-> -    dil =3D sextract32(dif, 0, 12);
-> -    if (dif !=3D dil) {
-> +    /* Direct branch will be patched by tb_target_set_jmp_target. */
-> +    set_jmp_insn_offset(s, which);
-> +    tcg_out32(s, INSN_NOP);
-> +
-> +    /* When branch is out of range, fall through to indirect. */
-> +    i_addr =3D get_jmp_target_addr(s, which);
-> +    i_disp =3D tcg_pcrel_diff(s, (void *)i_addr) - 8;
-> +    tcg_debug_assert(i_disp < 0);
-> +    if (i_disp >=3D -0xfff) {
-> +        tcg_out_ld32_12(s, COND_AL, TCG_REG_PC, TCG_REG_PC, i_disp);
-> +    } else {
->          /*
->           * The TB is close, but outside the 12 bits addressable by
->           * the load.  We can extend this to 20 bits with a sub of a
-> -         * shifted immediate from pc.  In the vastly unlikely event
-> -         * the code requires more than 1MB, we'll use 2 insns and
-> -         * be no worse off.
-> +         * shifted immediate from pc.
->           */
-> -        base =3D TCG_REG_R0;
-> -        tcg_out_movi32(s, COND_AL, base, ptr - dil);
-> +        int h =3D -i_disp;
-> +        int l =3D h & 0xfff;
-> +
-> +        h =3D encode_imm_nofail(h - l);
-> +        tcg_out_dat_imm(s, COND_AL, ARITH_SUB, TCG_REG_R0, TCG_REG_PC, h=
-);
-> +        tcg_out_ld32_12(s, COND_AL, TCG_REG_PC, TCG_REG_R0, l);
->      }
-> -    tcg_out_ld32_12(s, COND_AL, TCG_REG_PC, base, dil);
->      set_jmp_reset_offset(s, which);
->  }
->=20=20
->  void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
->                                uintptr_t jmp_rx, uintptr_t jmp_rw)
->  {
-> -    /* Always indirect, nothing to do */
-> +    uintptr_t addr =3D tb->jmp_target_addr[n];
-> +    ptrdiff_t offset =3D addr - (jmp_rx + 8);
-> +    tcg_insn_unit insn;
-> +
-> +    /* Either directly branch, or fall through to indirect branch. */
-> +    if (offset =3D=3D sextract64(offset, 0, 26)) {
-> +        /* B <addr> */
-> +        insn =3D (COND_AL << 28) | INSN_B | ((offset >> 2) &
->  0x00ffffff);
-
-deposit32
-
-> +    } else {
-> +        insn =3D INSN_NOP;
-> +    }
-> +
-> +    qatomic_set((uint32_t *)jmp_rw, insn);
-> +    flush_idcache_range(jmp_rx, jmp_rw, 4);
->  }
->=20=20
->  static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-
-Otherwise:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Hmmm I don't think this would work, cause actually there are more FRUID
+EEPROM's than just this one. I only added this one in this commit, but there's
+also FRUID EEPROM's from the network card and baseboard. I'll include those 2
+EEPROM's in the next version to illustrate.
 
