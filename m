@@ -2,83 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C1966E542
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 18:49:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB3966E543
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 18:51:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHq5G-0007Tx-DV; Tue, 17 Jan 2023 12:49:18 -0500
+	id 1pHq6S-00085p-QC; Tue, 17 Jan 2023 12:50:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHq5E-0007Te-0o
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:49:16 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHq5C-0003VZ-Dw
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:49:15 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- f12-20020a7bc8cc000000b003daf6b2f9b9so5443067wml.3
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 09:49:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WmSUYEjs+LDedL2Bz0o9zbBox5JGCYlqLsYmT5Lu48g=;
- b=pjWtDtrsjDZI/0KynjbWSqlByLZAP0Nvq/3yevi8+R+7ibPa+ElRbhYGENxPjnd34r
- 7wRrbFayc3vmdMQ5iD3d76IgNCBAiUhNjOXNnstg5HmL9eg4Ijex2o/Ooe+vsTfKXCrm
- ZI5H2xX1Kb1MyPYDVNwtv/qMy2KcNWGiVbHAtsrdQVeWvZKAzJbVrDafuIB2LgF3fX6b
- 0OAjmTp8VG3silVtXIsu82bc+VVdsuiFGGU6D3v29U07fBfbzZwQtzZaZ4i+WVZ6zyy6
- cVHkG/8/S+ZduHG5xX4pmua9ayhGsMidJreEqGSf3sdRNTuuyhBamMFOhU2HIljXktFl
- o6MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=WmSUYEjs+LDedL2Bz0o9zbBox5JGCYlqLsYmT5Lu48g=;
- b=qj3G2f4CQvRc73iUd8tnsyFUoaqpqqdU0OiYqyNIOu70Zo4tEiKBZ23jD5EaR98Xnd
- kLxyCf1f2pqliBdU0nhjCpf7MhzQOEK0twg38vfyW0qtgwHPlmISzEPA7W7YoeXJRq+l
- bdPlvqbRQkibaqao4sgdZY04l/DU8m8bSync5fUCCVd1DPraA2MtlFxyy4l6AZq3V++e
- 7rhKFW/dTatTf2BbjuRV750l66yF5w7mVTcTXdgD5Lw0OAHW/CJrihNm0yO6jlO5nKXQ
- oyy15hAcyJGH6AmzfIFhR+RbtXnVtl4Uixhom6661VxslfKIAQBF2AaXfXw4h6V2PaCU
- Aalw==
-X-Gm-Message-State: AFqh2kpaqPk1H9lkXyeL9ZbNppVU+3xmBOTU6MPB89Z9TrKedHkXrJvQ
- HHORA/DOKO72X3CFfC5ytos++x/TYAYp66bT
-X-Google-Smtp-Source: AMrXdXtLGETKNSQ0fGYPusnxErILwKkfO+F3DIMs57YP3aHpwGMPe8yKI21KyGf7Ial5b0aMd1aNjw==
-X-Received: by 2002:a05:600c:4f86:b0:3db:66e:cfdd with SMTP id
- n6-20020a05600c4f8600b003db066ecfddmr3123668wmq.9.1673977751766; 
- Tue, 17 Jan 2023 09:49:11 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- d6-20020a05600c3ac600b003da0dc39872sm19781637wms.6.2023.01.17.09.49.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 09:49:11 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EC4401FFB7;
- Tue, 17 Jan 2023 17:49:10 +0000 (GMT)
-References: <20230109014248.2894281-1-richard.henderson@linaro.org>
- <20230109014248.2894281-7-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.15; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 06/22] tcg: Introduce set_jmp_insn_offset
-Date: Tue, 17 Jan 2023 17:49:05 +0000
-In-reply-to: <20230109014248.2894281-7-richard.henderson@linaro.org>
-Message-ID: <871qnt3vc9.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pHq66-0007ta-4K; Tue, 17 Jan 2023 12:50:18 -0500
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pHq63-0003vl-Pt; Tue, 17 Jan 2023 12:50:09 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 3B2DC3200944;
+ Tue, 17 Jan 2023 12:50:03 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Tue, 17 Jan 2023 12:50:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1673977802; x=
+ 1674064202; bh=R8X2uySA5QQ1d3cYL7K64sdz6BNRWIEsN7hC/Ip3c5Y=; b=y
+ oAwmHis50NzKtzaylxoEjeodAVnMKhwjzD8XEUiCgxIKi9lERGStbpU365qy+gE5
+ HGcx5wGmi+CVKZQ7P0AqTx8V2p+R9CMWfRU9WM2VwJ7EnhiWteTYBC0ZqgUQ5Y/g
+ E+UK6oRzkvqS37pg25mHvY4kgKS6vY9/xsUY4HbIiMIUtjQ1ar9QxfA530syH1ax
+ B0qwDI8lktdR8PwmZJu/vdCNBoKfa8JPlbmvq2UNX6mmsfPI/xjsUNkRv59Dg2rm
+ 8O3pVmKW//F0y0m4mIuoIbmV7y0aIvvNak5BVaFqLnSR7tBMMuCD3MxQBDVqCyp3
+ QXSRwvqPylQVee/63VZqQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673977802; x=
+ 1674064202; bh=R8X2uySA5QQ1d3cYL7K64sdz6BNRWIEsN7hC/Ip3c5Y=; b=a
+ mSMMorwwZeYZ7FSZ6UObqA7X9WIFFh0qBsI9iDh5BzNLSP1H9/v0W5rj40kdoiSi
+ +tDD3hAFeGJrqmmf/3s5Nv5GGxbrUdYbIapvApMaRm+UbYep5KOFY8wMCE+bXMjD
+ 5G/o9/zh4GnwhhJhoJhDwVI2BzvGkrhQOH121dvwtYfqbIynvT6UJlQaLpY7LaH4
+ xvbUcFYhCuR9Nx6/caTlS8wsncFUxyqSHgaDwkL92MrJkQS4zJIjp3ep+C0ZaXRY
+ RqKkCvcCR2OqFNj7EbKD9HBcEPvTK95+bmZFEVEiydmyA0ozz1IYhpFQIKb3HOnO
+ 31unG/j8UL2w7uCXmeZ6A==
+X-ME-Sender: <xms:yt_GY8I4LGStFK2p3M4uHpGWX_tBVBPPVpghWgrbg2sPebuXzsfRMA>
+ <xme:yt_GY8KSoDhFme76PTKK1q9VyQqcBgZ4CicvGuMYxthOLzQSemRSpckWzKfcrizEb
+ X-cUNPrBtUqSSSPX4I>
+X-ME-Received: <xmr:yt_GY8sgcd7hvdrv6t5CHBP9PXnFZ2ytBYV5Ikc_GcCXWijCnlP7zi-qtrSZ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtiedguddthecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgv
+ thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
+ grthhtvghrnhephfegffevudefveetgeekteeijefhhfduueejvdegvdehffehjeevtefh
+ hffffeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:yt_GY5bEqOM1wYu-ksz3kQneYbsqRTDx1PRcvOdwbTyYvRYrJo0xJA>
+ <xmx:yt_GYzY8BhpSD3yV1w9AqNhfjh1RzHgkhF0W59lXQTWZslF72j0O-Q>
+ <xmx:yt_GY1DDboUlnk_2zfXHBAPnR9EKHCTXJxluLYC6w8nrNwuFAa8Bsg>
+ <xmx:yt_GYxPSpZBRs-sah8lxzZWa6nYKY-6Co7hL_s4swV9NjlVX4HBkgw>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Jan 2023 12:50:00 -0500 (EST)
+Date: Tue, 17 Jan 2023 09:49:55 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: patrick@stwcx.xyz, clg@kaod.org, peter.maydell@linaro.org,
+ andrew@aj.id.au, joal@jms.id.au, hskinnemoen@google.com,
+ kfting@nuvoton.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH 6/6] hw/arm/aspeed: Init fby35 BMC FRUID EEPROM
+Message-ID: <Y8bfw5lT1x2W+7QI@pdel-mbp>
+References: <20230114170151.87833-1-peter@pjd.dev>
+ <20230114170151.87833-7-peter@pjd.dev>
+ <0ef1b0e3-7df0-e611-0335-bf0a24690a90@linaro.org>
+ <Y8WH+aneXr/JkEXp@pdel-mbp>
+ <f098f433-24e1-5f38-b479-d41ab1c51663@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f098f433-24e1-5f38-b479-d41ab1c51663@linaro.org>
+Received-SPF: pass client-ip=64.147.123.20; envelope-from=peter@pjd.dev;
+ helo=wout4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,20 +106,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Jan 17, 2023 at 07:47:06AM +0100, Philippe Mathieu-Daudé wrote:
+> On 16/1/23 18:23, Peter Delevoryas wrote:
+> > On Mon, Jan 16, 2023 at 01:30:19PM +0100, Philippe Mathieu-Daudé wrote:
+> > > On 14/1/23 18:01, Peter Delevoryas wrote:
+> > > > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> > > > ---
+> > > >    hw/arm/aspeed.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+> > > >    1 file changed, 49 insertions(+)
+> > > > 
+> > > > diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> > > > index c929c61d582a..4ac8ff11a835 100644
+> > > > --- a/hw/arm/aspeed.c
+> > > > +++ b/hw/arm/aspeed.c
+> > > > @@ -922,6 +922,52 @@ static void bletchley_bmc_i2c_init(AspeedMachineState *bmc)
+> > > >        i2c_slave_create_simple(i2c[12], TYPE_PCA9552, 0x67);
+> > > >    }
+> > > > +static const uint8_t fby35_bmc_fruid[] = {
+> > > [...]
+> > > 
+> > > > +};
+> > > > +
+> > > >    static void fby35_i2c_init(AspeedMachineState *bmc)
+> > > >    {
+> > > >        AspeedSoCState *soc = &bmc->soc;
+> > > > @@ -1363,6 +1409,9 @@ static void fby35_reset(MachineState *state, ShutdownCause reason)
+> > > >        object_property_set_bool(OBJECT(gpio), "gpioB3", false, &error_fatal);
+> > > >        object_property_set_bool(OBJECT(gpio), "gpioB4", false, &error_fatal);
+> > > >        object_property_set_bool(OBJECT(gpio), "gpioB5", false, &error_fatal);
+> > > > +
+> > > > +    at24c_eeprom_write(aspeed_i2c_get_bus(&bmc->soc.i2c, 11),
+> > > > +                       0x54, 0, fby35_bmc_fruid, sizeof(fby35_bmc_fruid));
+> > > 
+> > > Why transfer the prom content on the i2c bus at each reset?
+> > > 
+> > > In particular this looks wrong if the prom is initialized with a 'drive'
+> > > block backend (using -global).
+> > 
+> > Yeah, it looks like this might not be the right way to model it. I'm going
+> > to try Cedric's suggestions.
+> 
+> OK, but watch out this is a PROM, not a ROM, meaning it is legitimate
+> for a guest to reprogram it, and expect the reprogrammed content after
+> reset.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
++1
 
-> Similar to the existing set_jmp_reset_offset.  Move any assert for
-> TCG_TARGET_HAS_direct_jump into the new function (which now cannot
-> be build-time).  Will be unused if TCG_TARGET_HAS_direct_jump is
-> constant 0, but we can't test for constant in the preprocessor,
-> so just mark it G_GNUC_UNUSED.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> Shouldn't we put the 'fill default content if no -drive provided' option
+> in the device's realize() handler, to avoid overwriting content possibly
+> updated by guest before reset?
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
++1, yeah I think you're right, if somebody is providing a -drive option, we
+should allow that to override everything else (default zero initialization,
+init ROM initialization, etc).
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Because, if they're providing a -drive, they shouldn't need to provide an
+initial value, they can just initialize the file with the data they want.
 
