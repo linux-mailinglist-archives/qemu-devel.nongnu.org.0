@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 540B0670B57
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:10:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96E29670B56
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:10:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHu9n-0002SQ-Lu; Tue, 17 Jan 2023 17:10:16 -0500
+	id 1pHu9s-0002eC-Do; Tue, 17 Jan 2023 17:10:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9i-0002N5-Rd
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:10:10 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9m-0002VL-OG
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:10:15 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9g-0007oM-Qm
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:10:10 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9k-0007q5-FD
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:10:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673993408;
+ s=mimecast20190719; t=1673993411;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IKX66sMu8sDsM/hjR01wibhbeGfEJDdJKC6LTJjtWeE=;
- b=SeHQY775v2rWS0lwK/KlNQqWZYGlxL4SuM1NJbb4jdkn5Jb9bEsoZ40EQF2Wi7ioSJOwju
- F6J5mFh8/QQ6fXxNUq1GJTn9g8pnU4X/q13/VLf+sxw8tyAR9TZS6F455uvcnedyZ2ZfXy
- vqazjA1dzVJQHON7/dBSrv3yCTFF3AA=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ZrG55HiwnGXPFSX6+W/ipSAfxUfsFmficRwkiZNYMjg=;
+ b=eVMbDNGJLJIh37/Jb7A6cD5xjcBNXgZPRvTl4sIQ7sutfH9Fmc2lRJV92eCTHa2LMfa+d8
+ wlGOlm0A2jlQdvT4sJ2WZ3awbzqOBkQWzX4VOOyu769OeEbCicLyVUFwdPLf3EWbcRSwmh
+ 7iaxvjINrmu9rM4sEaUP1m1bZD0/tcg=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-641-RIqQ8iZdOBu2qJdbWPN0yg-1; Tue, 17 Jan 2023 17:10:06 -0500
-X-MC-Unique: RIqQ8iZdOBu2qJdbWPN0yg-1
-Received: by mail-vk1-f199.google.com with SMTP id
- f123-20020a1f9c81000000b003e1a7591524so868519vke.1
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 14:10:05 -0800 (PST)
+ us-mta-307-21cWty5LMDGJzT_oxSVWjw-1; Tue, 17 Jan 2023 17:10:08 -0500
+X-MC-Unique: 21cWty5LMDGJzT_oxSVWjw-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ k8-20020a056102004800b003d0f2b18a22so4118641vsp.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 14:10:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IKX66sMu8sDsM/hjR01wibhbeGfEJDdJKC6LTJjtWeE=;
- b=EZmDryfRnl9qQoPNdMsOxt2UUNcobTgMopwR19zDvXDltsSIo9muzOh2u2LgaW+7W+
- ExC3Ak+8INy5WCojmEhJjAL0ao7Yc52Q1SjB3PXc7R+G4cf75jECO/73LU86CxHV/s26
- 3rG2EBxV2+DbzFhwbF/m19xOmdg+k/I2cxgMxTIDyG5CxdyBij/4zzph+6D6ar5XDn2v
- 8LJoAK6mxF2aYCrc4PDdlBOTNB2h5lmirl1yOD1HHncUn1wTWHcu58oY4k+LLTT6DUk/
- mZZbovcUTvG9F4c3lBDbv3bSabfRuQ/SxPHm15uMMNG3AzztLVKc2neq2DjnkkBd2BmI
- tMdw==
-X-Gm-Message-State: AFqh2kpZXhpZkoJwz6OTwrMEihfFbhI1aZIPJ4VANKVU61PuSnQ7o83B
- ctIRCvJ/s9/kX0jQCcDE1s8AIt5TRkdbQaifkKRK0pEyZH4DRE0eq2aATxJhE3beElwHwUgHfDg
- RUHIZv9VS2AovqwEHdDtbA4i38/AZhxBKGy/Jyug6Yau3cg/0YLyRH3Z/C0aj2ugW
-X-Received: by 2002:a05:6102:d0:b0:3d2:34b5:fe26 with SMTP id
- u16-20020a05610200d000b003d234b5fe26mr2533318vsp.16.1673993404432; 
- Tue, 17 Jan 2023 14:10:04 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXts4qgBQFv/LjEZO4Mz/RIzNdV6Ix7eF5wfpYxKwCxiGZIuw6oYDbxOIJfYK4RB95O7CZUGaw==
-X-Received: by 2002:a05:6102:d0:b0:3d2:34b5:fe26 with SMTP id
- u16-20020a05610200d000b003d234b5fe26mr2533286vsp.16.1673993404167; 
- Tue, 17 Jan 2023 14:10:04 -0800 (PST)
+ bh=ZrG55HiwnGXPFSX6+W/ipSAfxUfsFmficRwkiZNYMjg=;
+ b=aAQBEu42JaWxpn2tpvMgsoSDZFJMKnk4z5xuqnr27MrBtM5S4XTB+6jiKcMwxcw1iz
+ cZRBntsmfMGtgywW7tY94RV+hC+dqoigYSlXLpArS3uEw/vaAbC8H6Ykf1Mmwe3mq0c2
+ JCMhyk/3XTu5/kr1kUv7Wu2YtDNoxGREr3bNnhC/2kA6Len+4kpTi0gBZxTZPYc6CniD
+ JT7oss/+XTN0w6IajI9RXY/girvyFkZlvNA+iM4MSHcmdzJR2BnMN8Js8KDOAJelyiIA
+ KKrVceYnX2cKh+VsU6yqnGuRg5rIeC7D4ZCnPENj/tFnHYmdH53QdmWoiC7uiAQpwqk6
+ FDmQ==
+X-Gm-Message-State: AFqh2koprK3T/5VjAGPN93miermjbYAG8u+/zeZ1/KTKskt2gITboOW8
+ BnAnOoM3buFXZVcJpgh0tOHyLOrjhXa3Q/YSTys7u8Ii6/RLNNyf53SfoUWwO7Xsb1SsW1zSd1C
+ EMq2cs1nlBjHVXzb0eFm7Q3I5FAVHWudNkXok9pV7p0Q4iODTO5eRdRIRYX3P1FiM
+X-Received: by 2002:a05:6122:106a:b0:3bd:795f:27b2 with SMTP id
+ k10-20020a056122106a00b003bd795f27b2mr2418111vko.7.1673993407307; 
+ Tue, 17 Jan 2023 14:10:07 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsnJFBsunKabOjIpHKNV5cxf2l1L5FHTd0jjAHImX8iFp9CmXE9OWX9WpiJISWv/kC15wNnxw==
+X-Received: by 2002:a05:6122:106a:b0:3bd:795f:27b2 with SMTP id
+ k10-20020a056122106a00b003bd795f27b2mr2418079vko.7.1673993406949; 
+ Tue, 17 Jan 2023 14:10:06 -0800 (PST)
 Received: from x1n.redhat.com
  (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca. [70.30.145.63])
  by smtp.gmail.com with ESMTPSA id
- bm16-20020a05620a199000b006e16dcf99c8sm21142978qkb.71.2023.01.17.14.10.02
+ bm16-20020a05620a199000b006e16dcf99c8sm21142978qkb.71.2023.01.17.14.10.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 14:10:02 -0800 (PST)
+ Tue, 17 Jan 2023 14:10:06 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
  James Houghton <jthoughton@google.com>,
  Juan Quintela <quintela@redhat.com>, peterx@redhat.com,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH RFC 18/21] migration: Allow postcopy_register_shared_ufd() to
- fail
-Date: Tue, 17 Jan 2023 17:09:11 -0500
-Message-Id: <20230117220914.2062125-19-peterx@redhat.com>
+Subject: [PATCH RFC 19/21] migration: Add postcopy_mark_received()
+Date: Tue, 17 Jan 2023 17:09:12 -0500
+Message-Id: <20230117220914.2062125-20-peterx@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20230117220914.2062125-1-peterx@redhat.com>
 References: <20230117220914.2062125-1-peterx@redhat.com>
@@ -101,78 +100,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Let's fail double-map for vhost-user and any potential users that can have
-a remote userfaultfd for now.
+We have a few maintainance work to do after we UFFDIO_[ZERO]COPY a page
+before, e.g. on requested list of pages or when measuring page latencies.
+
+Move those steps into a separate function so that it can be easily reused
+when we're going to support UFFDIO_CONTINUE.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- hw/virtio/vhost-user.c   | 9 ++++++++-
- migration/postcopy-ram.c | 9 +++++++--
- migration/postcopy-ram.h | 4 ++--
- 3 files changed, 17 insertions(+), 5 deletions(-)
+ migration/postcopy-ram.c | 35 +++++++++++++++++++++--------------
+ 1 file changed, 21 insertions(+), 14 deletions(-)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index d9ce0501b2..00351bd67a 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -1952,7 +1952,14 @@ static int vhost_user_postcopy_advise(struct vhost_dev *dev, Error **errp)
-     u->postcopy_fd.handler = vhost_user_postcopy_fault_handler;
-     u->postcopy_fd.waker = vhost_user_postcopy_waker;
-     u->postcopy_fd.idstr = "vhost-user"; /* Need to find unique name */
--    postcopy_register_shared_ufd(&u->postcopy_fd);
-+
-+    ret = postcopy_register_shared_ufd(&u->postcopy_fd);
-+    if (ret) {
-+        error_setg(errp, "%s: Register of shared userfaultfd failed: %s",
-+                   __func__, strerror(ret));
-+        return ret;
-+    }
-+
-     return 0;
- #else
-     error_setg(errp, "Postcopy not supported on non-Linux systems");
 diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index dbc7e54e4a..0cfe5174a5 100644
+index 0cfe5174a5..8a2259581e 100644
 --- a/migration/postcopy-ram.c
 +++ b/migration/postcopy-ram.c
-@@ -1582,14 +1582,19 @@ PostcopyState postcopy_state_set(PostcopyState new_state)
+@@ -1288,6 +1288,25 @@ int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
+     return 0;
  }
  
- /* Register a handler for external shared memory postcopy
-- * called on the destination.
-+ * called on the destination.  Returns 0 if success, <0 for err.
-  */
--void postcopy_register_shared_ufd(struct PostCopyFD *pcfd)
-+int postcopy_register_shared_ufd(struct PostCopyFD *pcfd)
- {
-     MigrationIncomingState *mis = migration_incoming_get_current();
- 
-+    if (migrate_hugetlb_doublemap()) {
-+        return -EINVAL;
-+    }
++static void
++postcopy_mark_received(MigrationIncomingState *mis, RAMBlock *rb,
++                       void *host_addr, size_t npages)
++{
++        qemu_mutex_lock(&mis->page_request_mutex);
++        ramblock_recv_bitmap_set_range(rb, host_addr, npages);
++        /*
++         * If this page resolves a page fault for a previous recorded faulted
++         * address, take a special note to maintain the requested page list.
++         */
++        if (g_tree_lookup(mis->page_requested, host_addr)) {
++            g_tree_remove(mis->page_requested, host_addr);
++            mis->page_requested_count--;
++            trace_postcopy_page_req_del(host_addr, mis->page_requested_count);
++        }
++        qemu_mutex_unlock(&mis->page_request_mutex);
++        mark_postcopy_blocktime_end((uintptr_t)host_addr);
++}
 +
-     mis->postcopy_remote_fds = g_array_append_val(mis->postcopy_remote_fds,
-                                                   *pcfd);
-+    return 0;
+ static int qemu_ufd_copy_ioctl(MigrationIncomingState *mis, void *host_addr,
+                                void *from_addr, uint64_t pagesize, RAMBlock *rb)
+ {
+@@ -1309,20 +1328,8 @@ static int qemu_ufd_copy_ioctl(MigrationIncomingState *mis, void *host_addr,
+         ret = ioctl(userfault_fd, UFFDIO_ZEROPAGE, &zero_struct);
+     }
+     if (!ret) {
+-        qemu_mutex_lock(&mis->page_request_mutex);
+-        ramblock_recv_bitmap_set_range(rb, host_addr,
+-                                       pagesize / qemu_target_page_size());
+-        /*
+-         * If this page resolves a page fault for a previous recorded faulted
+-         * address, take a special note to maintain the requested page list.
+-         */
+-        if (g_tree_lookup(mis->page_requested, host_addr)) {
+-            g_tree_remove(mis->page_requested, host_addr);
+-            mis->page_requested_count--;
+-            trace_postcopy_page_req_del(host_addr, mis->page_requested_count);
+-        }
+-        qemu_mutex_unlock(&mis->page_request_mutex);
+-        mark_postcopy_blocktime_end((uintptr_t)host_addr);
++        postcopy_mark_received(mis, rb, host_addr,
++                               pagesize / qemu_target_page_size());
+     }
+     return ret;
  }
- 
- /* Unregister a handler for external shared memory postcopy
-diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
-index 32734d2340..94adad6fb8 100644
---- a/migration/postcopy-ram.h
-+++ b/migration/postcopy-ram.h
-@@ -161,9 +161,9 @@ struct PostCopyFD {
- };
- 
- /* Register a userfaultfd owned by an external process for
-- * shared memory.
-+ * shared memory.  Returns 0 if succeeded, <0 if error.
-  */
--void postcopy_register_shared_ufd(struct PostCopyFD *pcfd);
-+int postcopy_register_shared_ufd(struct PostCopyFD *pcfd);
- void postcopy_unregister_shared_ufd(struct PostCopyFD *pcfd);
- /* Call each of the shared 'waker's registered telling them of
-  * availability of a block.
 -- 
 2.37.3
 
