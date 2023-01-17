@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC36466D796
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 09:09:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71DDC66D79A
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 09:09:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHh1H-0002pS-Ul; Tue, 17 Jan 2023 03:08:35 -0500
+	id 1pHh1I-0002uV-Tv; Tue, 17 Jan 2023 03:08:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pHh0g-0002nw-Ir
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:07:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pHh0j-0002pb-HZ
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:08:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pHh0e-0000Rt-Dq
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:07:58 -0500
+ id 1pHh0h-0000SK-VU
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:08:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673942875;
+ s=mimecast20190719; t=1673942878;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4Nf/qoa+K7HjuYdhLWL8wXyrH53Imqw+8MLAETNKXus=;
- b=IVxZAatXCiy9b19fH5pwgfVyLHpJQeY4vjuggmZsXGlBoJdhshS4K61Dru/GBHLNCp27Yq
- gXv1uI5TJgRuqJSBhdnMZ0eNEHuf7ytncwvu0Bxcxj4hwi9d6BDPZ7zTw2dRBAbf4sV64d
- oT7MCLuZW0RuruVvD8sl5FdIgArnnI4=
+ bh=3xZlc7eqrE8EfA+fTVdxTZ+8cHR3tlPNZKDZmmLOI0U=;
+ b=VCIqY3UFnXFT7dtV+sFXE8rDw7jcdWIpAdwCXtXNw7A22I0tnwGo8JvyQHbhL7vhgOpbnO
+ k0ZqESp6hJBmcRSgp4q4qJj1vxQAXO2kbXTLE8TNFG+RCSUn7wcvEKhiLAz+uB8jv9L5xD
+ F7drPN8gwt+P9cYen1rKy8CYv5sjzrU=
 Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
  [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-489-UylCSCe7NxSnwAOpNjEp8g-1; Tue, 17 Jan 2023 03:07:54 -0500
-X-MC-Unique: UylCSCe7NxSnwAOpNjEp8g-1
+ us-mta-626-bOtHT4xlONC5q5uLW0Nkog-1; Tue, 17 Jan 2023 03:07:57 -0500
+X-MC-Unique: bOtHT4xlONC5q5uLW0Nkog-1
 Received: by mail-ed1-f72.google.com with SMTP id
- w18-20020a05640234d200b0048cc3aa4993so20557824edc.7
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 00:07:54 -0800 (PST)
+ z8-20020a056402274800b0048a31c1746aso20398416edd.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 00:07:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4Nf/qoa+K7HjuYdhLWL8wXyrH53Imqw+8MLAETNKXus=;
- b=5Kfja4N44xe2scRuDEH24VA4bjP+Hrly2BHV5f0aP6Dmwu2iiOpK2U9nfaMXeRYWW7
- S3vsfS9sWDhKhLj7QlK7QHwcTk/uSxJZMx1dYJDnqcN3+ZrCdxH9XYoz+TIHySNjHWEz
- jtL9pELNihjV7BhjJ7FlDqgfGy1ApThbwB2CORdJ2wDj1ynTn7DMh6Wljd0gNCOQMyU+
- XpZ50HIN0+mrwJf8gF/auFIjlvfA3Qi8Nb0J8gziTlI82Q6InKuhlqbyzbJVA/1UJ5aE
- Y21OyBEj0p9zFbi4u270uh/Kw1QqpYCh4u05jQXaP6ti3csQ+0IDeI79OFuvDe+l3mFY
- +9dQ==
-X-Gm-Message-State: AFqh2ko2DIypg0Rxa7J02qCzPAFCc+hoy0aTRZpHTbNL23ZAE2QvIFk6
- unYbgbMQVn7HzeBgKmOZJ3ptuR19UaZUZ4pB4RK7CBGucMAJhr6WgEesxJTpaPe/Jes2EMEx08B
- pWC+pT6AWBMorGyUZwubT2GnoJtatqBj6OqMESF+CvG+aooembK5BK7yFVnjHNR26bUU=
-X-Received: by 2002:a17:906:57da:b0:872:5222:9024 with SMTP id
- u26-20020a17090657da00b0087252229024mr1758248ejr.67.1673942873073; 
- Tue, 17 Jan 2023 00:07:53 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsiViovqGnWGXtQdPJq3BZ5P3rhpuU0XXf53cjHSRMh0qG+Vt/PiBMxV+NAnYx4QgyqX1Vv7w==
-X-Received: by 2002:a17:906:57da:b0:872:5222:9024 with SMTP id
- u26-20020a17090657da00b0087252229024mr1758229ejr.67.1673942872734; 
- Tue, 17 Jan 2023 00:07:52 -0800 (PST)
+ bh=3xZlc7eqrE8EfA+fTVdxTZ+8cHR3tlPNZKDZmmLOI0U=;
+ b=1ducI6K/6G1z9MFlUDBYsBSK9M5xaSVE1jprl1ro/Qn2Ap1rUYlFZaAgyBvmZ6QzPX
+ rLgVQtbLrK9KQus9nArtEc24Yu00Scyvwz+JLUhY83ncjGh2Yh3rdVDLE+YPv9AuNBvg
+ jZHsqHF3Fk93+26bd9IsdEz9NwtooAZYwCrfXnrOgBDvX3G3tNmOT9PCWLNC7GHrKw7q
+ 4wWkrOkFd9vOI3rscMMYN5U7BRtoGK1TwxxfO3vtFlAOLk7iXDalDuyfYJYO5SOGFEd5
+ XWH2TPcbMBUz5Nz6OonjKjRPjNsa3ElDqhKPszFmVU47KO4cj4/WVpzsfwYDa26jp96x
+ sXaw==
+X-Gm-Message-State: AFqh2kq+FvXkoGJqnFwx0PCIUkzrY2DqltyNvUiEyiDWtjB8XkF9Tega
+ oPN+b/4d7Ao9bdeSV/nJpdX6iWQoLZ87S9Y1Bg/APAg7SfHqoZLF1wsPRJP7DbyQgwlo/+2JzS6
+ dxqbxuLacgaM9miBZNx70HPvTZJCiKOMFF4zBOGxo6gV1MpyH74Vw3h+zQqjlTS51zqM=
+X-Received: by 2002:a05:6402:28ca:b0:499:c294:77af with SMTP id
+ ef10-20020a05640228ca00b00499c29477afmr2061901edb.12.1673942876084; 
+ Tue, 17 Jan 2023 00:07:56 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuHDT3STKyPLlcpE6iNKOTf5dLg/9aPbdt4FFgwuJh8U4CjABN4ueo5QGWsuX6akQ+2IyZffg==
+X-Received: by 2002:a05:6402:28ca:b0:499:c294:77af with SMTP id
+ ef10-20020a05640228ca00b00499c29477afmr2061886edb.12.1673942875734; 
+ Tue, 17 Jan 2023 00:07:55 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.gmail.com with ESMTPSA id
- p5-20020a17090653c500b007ae32daf4b9sm12834223ejo.106.2023.01.17.00.07.52
+ b26-20020aa7dc1a000000b00499c3ca6a0dsm8289196edu.10.2023.01.17.00.07.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 00:07:52 -0800 (PST)
+ Tue, 17 Jan 2023 00:07:55 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: thuth@redhat.com
-Subject: [PATCH 2/4] libqtest: split qtest_spawn_qemu function
-Date: Tue, 17 Jan 2023 09:07:43 +0100
-Message-Id: <20230117080745.43247-3-pbonzini@redhat.com>
+Subject: [PATCH 3/4] libqtest: ensure waitpid() is only called once
+Date: Tue, 17 Jan 2023 09:07:44 +0100
+Message-Id: <20230117080745.43247-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230117080745.43247-1-pbonzini@redhat.com>
 References: <20230117080745.43247-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,150 +99,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In order to create a function that allows testing of invalid command
-lines, extract the parts of qtest_init_without_qmp_handshake that do
-not require any successful set up of sockets.
+If a test aborts after qtest_wait_qemu() is called, the SIGABRT hooks are
+still in place and waitpid() is called again.  The second time it is called,
+the process does not exist anymore and the system call fails.
+
+Move the s->qemu_pid = -1 assignment to qtest_wait_qemu() to make it
+idempotent, and anyway remove the SIGABRT hook as well to avoid that
+qtest_check_status() is called twice.  Because of the extra call,
+qtest_remove_abrt_handler() now has to be made idempotent as well.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/libqtest.c | 103 ++++++++++++++++++++++-------------------
- 1 file changed, 55 insertions(+), 48 deletions(-)
+ tests/qtest/libqtest.c | 29 ++++++++++++++++++++---------
+ 1 file changed, 20 insertions(+), 9 deletions(-)
 
 diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 5cb38f90da19..4d9cf919b2f7 100644
+index 4d9cf919b2f7..64ba98bc5853 100644
 --- a/tests/qtest/libqtest.c
 +++ b/tests/qtest/libqtest.c
-@@ -342,60 +342,25 @@ static pid_t qtest_create_process(char *cmd)
- }
- #endif /* _WIN32 */
- 
--QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-+static QTestState *G_GNUC_PRINTF(1, 0) qtest_spawn_qemu(const char *fmt, ...)
- {
--    QTestState *s;
--    int sock, qmpsock, i;
--    gchar *socket_path;
--    gchar *qmp_socket_path;
--    gchar *command;
--    const char *qemu_binary = qtest_qemu_binary();
-+    va_list ap;
-+    QTestState *s = g_new0(QTestState, 1);
-     const char *trace = g_getenv("QTEST_TRACE");
-     g_autofree char *tracearg = trace ?
-         g_strdup_printf("-trace %s ", trace) : g_strdup("");
-+    g_autoptr(GString) command = g_string_new("");
- 
--    s = g_new(QTestState, 1);
--
--    socket_path = g_strdup_printf("%s/qtest-%d.sock",
--                                  g_get_tmp_dir(), getpid());
--    qmp_socket_path = g_strdup_printf("%s/qtest-%d.qmp",
--                                      g_get_tmp_dir(), getpid());
--
--    /* It's possible that if an earlier test run crashed it might
--     * have left a stale unix socket lying around. Delete any
--     * stale old socket to avoid spurious test failures with
--     * tests/libqtest.c:70:init_socket: assertion failed (ret != -1): (-1 != -1)
--     */
--    unlink(socket_path);
--    unlink(qmp_socket_path);
--
--    socket_init();
--    sock = init_socket(socket_path);
--    qmpsock = init_socket(qmp_socket_path);
--
--    qtest_client_set_rx_handler(s, qtest_client_socket_recv_line);
--    qtest_client_set_tx_handler(s, qtest_client_socket_send);
-+    va_start(ap, fmt);
-+    g_string_append_printf(command, CMD_EXEC "%s %s",
-+                           qtest_qemu_binary(), tracearg);
-+    g_string_append_vprintf(command, fmt, ap);
-+    va_end(ap);
- 
-     qtest_add_abrt_handler(kill_qemu_hook_func, s);
- 
--    command = g_strdup_printf(CMD_EXEC "%s %s"
--                              "-qtest unix:%s "
--                              "-qtest-log %s "
--                              "-chardev socket,path=%s,id=char0 "
--                              "-mon chardev=char0,mode=control "
--                              "-display none "
--                              "%s"
--                              " -accel qtest",
--                              qemu_binary, tracearg, socket_path,
--                              getenv("QTEST_LOG") ? DEV_STDERR : DEV_NULL,
--                              qmp_socket_path,
--                              extra_args ?: "");
-+    g_test_message("starting QEMU: %s", command->str);
- 
--    g_test_message("starting QEMU: %s", command);
--
--    s->pending_events = NULL;
--    s->wstatus = 0;
--    s->expected_status = 0;
- #ifndef _WIN32
-     s->qemu_pid = fork();
-     if (s->qemu_pid == 0) {
-@@ -416,14 +381,56 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-         if (!g_setenv("QEMU_AUDIO_DRV", "none", true)) {
-             exit(1);
-         }
--        execlp("/bin/sh", "sh", "-c", command, NULL);
-+        execlp("/bin/sh", "sh", "-c", command->str, NULL);
-         exit(1);
+@@ -156,6 +156,7 @@ bool qtest_probe_child(QTestState *s)
+         CloseHandle((HANDLE)pid);
+ #endif
+         s->qemu_pid = -1;
++        qtest_remove_abrt_handler(s);
      }
- #else
--    s->qemu_pid = qtest_create_process(command);
-+    s->qemu_pid = qtest_create_process(command->str);
- #endif /* _WIN32 */
+     return false;
+ }
+@@ -167,6 +168,8 @@ void qtest_set_expected_status(QTestState *s, int status)
  
--    g_free(command);
-+    return s;
-+}
+ static void qtest_check_status(QTestState *s)
+ {
++    assert (s->qemu_pid == -1);
 +
-+QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-+{
-+    QTestState *s;
-+    int sock, qmpsock, i;
-+    gchar *socket_path;
-+    gchar *qmp_socket_path;
+     /*
+      * Check whether qemu exited with expected exit status; anything else is
+      * fishy and should be logged with as much detail as possible.
+@@ -200,20 +203,24 @@ static void qtest_check_status(QTestState *s)
+ 
+ void qtest_wait_qemu(QTestState *s)
+ {
++    if (s->qemu_pid != -1) {
+ #ifndef _WIN32
+-    pid_t pid;
++        pid_t pid;
+ 
+-    pid = RETRY_ON_EINTR(waitpid(s->qemu_pid, &s->wstatus, 0));
+-    assert(pid == s->qemu_pid);
++        pid = RETRY_ON_EINTR(waitpid(s->qemu_pid, &s->wstatus, 0));
++        g_assert_cmpint(pid, ==, s->qemu_pid);
+ #else
+-    DWORD ret;
++        DWORD ret;
+ 
+-    ret = WaitForSingleObject((HANDLE)s->qemu_pid, INFINITE);
+-    assert(ret == WAIT_OBJECT_0);
+-    GetExitCodeProcess((HANDLE)s->qemu_pid, &s->exit_code);
+-    CloseHandle((HANDLE)s->qemu_pid);
++        ret = WaitForSingleObject((HANDLE)s->qemu_pid, INFINITE);
++        assert(ret == WAIT_OBJECT_0);
++        GetExitCodeProcess((HANDLE)s->qemu_pid, &s->exit_code);
++        CloseHandle((HANDLE)s->qemu_pid);
+ #endif
+ 
++        s->qemu_pid = -1;
++        qtest_remove_abrt_handler(s);
++    }
+     qtest_check_status(s);
+ }
+ 
+@@ -227,7 +234,6 @@ void qtest_kill_qemu(QTestState *s)
+         TerminateProcess((HANDLE)s->qemu_pid, s->expected_status);
+ #endif
+         qtest_wait_qemu(s);
+-        s->qemu_pid = -1;
+         return;
+     }
+ 
+@@ -289,6 +295,11 @@ void qtest_add_abrt_handler(GHookFunc fn, const void *data)
+ void qtest_remove_abrt_handler(void *data)
+ {
+     GHook *hook = g_hook_find_data(&abrt_hooks, TRUE, data);
 +
-+    socket_path = g_strdup_printf("%s/qtest-%d.sock",
-+                                  g_get_tmp_dir(), getpid());
-+    qmp_socket_path = g_strdup_printf("%s/qtest-%d.qmp",
-+                                      g_get_tmp_dir(), getpid());
++    if (!hook) {
++        return;
++    }
 +
-+    /*
-+     * It's possible that if an earlier test run crashed it might
-+     * have left a stale unix socket lying around. Delete any
-+     * stale old socket to avoid spurious test failures with
-+     * tests/libqtest.c:70:init_socket: assertion failed (ret != -1): (-1 != -1)
-+     */
-+    unlink(socket_path);
-+    unlink(qmp_socket_path);
-+
-+    socket_init();
-+    sock = init_socket(socket_path);
-+    qmpsock = init_socket(qmp_socket_path);
-+
-+    s = qtest_spawn_qemu("-qtest unix:%s "
-+                         "-qtest-log %s "
-+                         "-chardev socket,path=%s,id=char0 "
-+                         "-mon chardev=char0,mode=control "
-+                         "-display none "
-+                         "%s"
-+                         " -accel qtest",
-+                         socket_path,
-+                         getenv("QTEST_LOG") ? DEV_STDERR : DEV_NULL,
-+                         qmp_socket_path,
-+                         extra_args ?: "");
-+
-+    qtest_client_set_rx_handler(s, qtest_client_socket_recv_line);
-+    qtest_client_set_tx_handler(s, qtest_client_socket_send);
-+
-     s->fd = socket_accept(sock);
-     if (s->fd >= 0) {
-         s->qmp_fd = socket_accept(qmpsock);
+     g_hook_destroy_link(&abrt_hooks, hook);
+ 
+     /* Uninstall SIGABRT handler on last instance */
 -- 
 2.38.1
 
