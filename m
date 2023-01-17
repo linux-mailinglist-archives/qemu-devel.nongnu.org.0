@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A0E666DC48
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 12:24:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC9566DC54
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 12:26:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHk3e-0001dC-0m; Tue, 17 Jan 2023 06:23:14 -0500
+	id 1pHk55-0003j8-PR; Tue, 17 Jan 2023 06:24:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pHk3c-0001cU-Bz
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:23:12 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pHk4Y-0003UO-FA
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:24:12 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pHk3a-0002QN-7t
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:23:12 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pHk4V-0002eM-Ti
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 06:24:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673954589;
+ s=mimecast20190719; t=1673954646;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NVRuLRSMT7U5pooPPlLSJjVG2yVrd+zaoAra33ynVdY=;
- b=G0WAqRBJG46efJ+xynUAToW7lMj5vgxrGA3T1WdOjwXrCQirl26du/dNiuNmtvp/2T02Tr
- Cde6L7Sz5Fu7Lx5y1ztfKbV23SaX7tPpA84WFOtMCyUXFjpiKnAEbM4BTiKkA1osGTGUT9
- 7ZyUS+9Yr1WSTSEDhj+qao+4AAqafE8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-35-hhveZF6TMpixZd6x4dDoUw-1; Tue, 17 Jan 2023 06:23:08 -0500
-X-MC-Unique: hhveZF6TMpixZd6x4dDoUw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E6C4A85C6E8
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 11:23:07 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.193.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F38E7AE5;
- Tue, 17 Jan 2023 11:23:06 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>, Jing Qi <jinqi@redhat.com>
-Subject: [PATCH v5 8/8] virtio-mem: Proper support for preallocation with
- migration
-Date: Tue, 17 Jan 2023 12:22:49 +0100
-Message-Id: <20230117112249.244096-9-david@redhat.com>
-In-Reply-To: <20230117112249.244096-1-david@redhat.com>
-References: <20230117112249.244096-1-david@redhat.com>
+ bh=ML0kkYKqgv+53d7sHNc/zCqr0lzlk7iT4mfPhz6Nh4g=;
+ b=Mjdl06CsfYuath+ozArTj1g/RFpV9kIqnl6jmbMUVICUPkY4P96H6eBMlQ0KH90BNGeAc0
+ ZQG7GMBD3oQLmsdjvLA3Pd58HyY8zqW4CdUtSu0vx8ikA5C9uyWdBzOcBRS5CD9oF8yexh
+ P2NX3OriGxHNdfMuc3IVqLNFJ9pdJ/g=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-617-9GQa5tBjO9y41POqDGH1NQ-1; Tue, 17 Jan 2023 06:24:05 -0500
+X-MC-Unique: 9GQa5tBjO9y41POqDGH1NQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ m9-20020a056402430900b0049ca14dc2aaso7459046edc.16
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 03:24:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ML0kkYKqgv+53d7sHNc/zCqr0lzlk7iT4mfPhz6Nh4g=;
+ b=0dTn/b5bazWvoEBQ7pTR2giwMsdTtw7GeUOJ/mYewXn6tTnowPvsH+ViBHhUbqwNof
+ trOZ3JaIj+UyTVELPiSEQjHRIW3KkHd7OGgZuwjsv7QFmmQTmEZ8LVrYrPyXq+d6f+YS
+ Q+qUVtbZqgreeHXbyuzybuXf/vukW+rpbBcVbEnMsFqRLcYdfY3ZwfG3Ddp76Xe+j81K
+ oaKbCB27CzRr3XGDOawM7ptIMrALjldZTMG5ownuhl5090y4bI651iLlU0ltr7y//P/4
+ C6ebuz15VSNLfYYu2EKS+R/YPPZ8LqX4BbRABJ+Qf6wdSkGy0eRxT3QZUYtnxGCcFtZ7
+ CF0Q==
+X-Gm-Message-State: AFqh2koYU+BaF7K1QdqhlXjkpAyMDsAeUQRAw2rUrPQIy0jPEVwuNmfa
+ i5yIS1K19bXowu3jWVdYeAPWQhfrY/qN3cg5UXYU9zW8azFROiddNZczbeFfOHeDbfZ36G/9XGL
+ b2at+A3Ckp0UwYH8=
+X-Received: by 2002:a05:6402:120a:b0:472:d867:4c3d with SMTP id
+ c10-20020a056402120a00b00472d8674c3dmr13385171edw.40.1673954644296; 
+ Tue, 17 Jan 2023 03:24:04 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXv7zQOExMlo1bt2TiHqM1lu5889siz/W1FGmHEpMaS3o9XN/+as72BAOvomlTscMfKUmfWQsw==
+X-Received: by 2002:a05:6402:120a:b0:472:d867:4c3d with SMTP id
+ c10-20020a056402120a00b00472d8674c3dmr13385153edw.40.1673954644016; 
+ Tue, 17 Jan 2023 03:24:04 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
+ ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
+ by smtp.gmail.com with ESMTPSA id
+ c6-20020a056402100600b0046b471596e6sm12619016edu.57.2023.01.17.03.24.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Jan 2023 03:24:03 -0800 (PST)
+Message-ID: <7c6fa2b1-b0e3-2b98-1a4d-a0d49143f73a@redhat.com>
+Date: Tue, 17 Jan 2023 12:24:02 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 0/4] qemu-img: Fix exit code for errors closing the image
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: aesteve@redhat.com, nsoffer@redhat.com, qemu-devel@nongnu.org
+References: <20230112191454.169353-1-kwolf@redhat.com>
+From: Hanna Czenczek <hreitz@redhat.com>
+In-Reply-To: <20230112191454.169353-1-kwolf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,211 +100,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ordinary memory preallocation runs when QEMU starts up and creates the
-memory backends, before processing the incoming migration stream. With
-virtio-mem, we don't know which memory blocks to preallocate before
-migration started. Now that we migrate the virtio-mem bitmap early, before
-migrating any RAM content, we can safely preallocate memory for all plugged
-memory blocks before migrating any RAM content.
+On 12.01.23 20:14, Kevin Wolf wrote:
+> This series addresses the problem described in these bug reports:
+> https://gitlab.com/qemu-project/qemu/-/issues/1330
+> https://bugzilla.redhat.com/show_bug.cgi?id=2147617
+>
+> qcow2 can fail when writing back dirty bitmaps in qcow2_inactivate().
+> However, when the function is called through blk_unref(), in the case of
+> such errors, while an error message is written to stderr, the callers
+> never see an error return. Specifically, 'qemu-img bitmap/commit' are
+> reported to exit with an exit code 0 despite the errors.
+>
+> The solution taken here is inactivating the images first, which can
+> still return errors, but already performs all of the write operations.
+> Only then the images are actually blk_unref()-ed.
 
-This is especially relevant for the following cases:
-
-(1) User errors
-
-With hugetlb/files, if we don't have sufficient backend memory available on
-the migration destination, we'll crash QEMU (SIGBUS) during RAM migration
-when running out of backend memory. Preallocating memory before actual
-RAM migration allows for failing gracefully and informing the user about
-the setup problem.
-
-(2) Excluded memory ranges during migration
-
-For example, virtio-balloon free page hinting will exclude some pages
-from getting migrated. In that case, we won't crash during RAM
-migration, but later, when running the VM on the destination, which is
-bad.
-
-To fix this for new QEMU machines that migrate the bitmap early,
-preallocate the memory early, before any RAM migration. Warn with old
-QEMU machines.
-
-Getting postcopy right is a bit tricky, but we essentially now implement
-the same (problematic) preallocation logic as ordinary preallocation:
-preallocate memory early and discard it again before precopy starts. During
-ordinary preallocation, discarding of RAM happens when postcopy is advised.
-As the state (bitmap) is loaded after postcopy was advised but before
-postcopy starts listening, we have to discard memory we preallocated
-immediately again ourselves.
-
-Note that nothing (not even hugetlb reservations) guarantees for postcopy
-that backend memory (especially, hugetlb pages) are still free after they
-were freed ones while discarding RAM. Still, allocating that memory at
-least once helps catching some basic setup problems.
-
-Before this change, trying to restore a VM when insufficient hugetlb
-pages are around results in the process crashing to to a "Bus error"
-(SIGBUS). With this change, QEMU fails gracefully:
-
-  qemu-system-x86_64: qemu_prealloc_mem: preallocating memory failed: Bad address
-  qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:03.0/virtio-mem-device-early'
-  qemu-system-x86_64: load of migration failed: Cannot allocate memory
-
-And we can even introspect the early migration data, including the
-bitmap:
-  $ ./scripts/analyze-migration.py -f STATEFILE
-  {
-  "ram (2)": {
-      "section sizes": {
-          "0000:00:03.0/mem0": "0x0000000780000000",
-          "0000:00:04.0/mem1": "0x0000000780000000",
-          "pc.ram": "0x0000000100000000",
-          "/rom@etc/acpi/tables": "0x0000000000020000",
-          "pc.bios": "0x0000000000040000",
-          "0000:00:02.0/e1000.rom": "0x0000000000040000",
-          "pc.rom": "0x0000000000020000",
-          "/rom@etc/table-loader": "0x0000000000001000",
-          "/rom@etc/acpi/rsdp": "0x0000000000001000"
-      }
-  },
-  "0000:00:03.0/virtio-mem-device-early (51)": {
-      "tmp": "00 00 00 01 40 00 00 00 00 00 00 07 80 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00",
-      "size": "0x0000000040000000",
-      "bitmap": "ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff [...]
-  },
-  "0000:00:04.0/virtio-mem-device-early (53)": {
-      "tmp": "00 00 00 08 c0 00 00 00 00 00 00 07 80 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00",
-      "size": "0x00000001fa400000",
-      "bitmap": "ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff [...]
-  },
-  [...]
-
-Reported-by: Jing Qi <jinqi@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- hw/virtio/virtio-mem.c | 87 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 87 insertions(+)
-
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index ca37949df8..957fe77dc0 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -204,6 +204,30 @@ static int virtio_mem_for_each_unplugged_range(const VirtIOMEM *vmem, void *arg,
-     return ret;
- }
- 
-+static int virtio_mem_for_each_plugged_range(const VirtIOMEM *vmem, void *arg,
-+                                             virtio_mem_range_cb cb)
-+{
-+    unsigned long first_bit, last_bit;
-+    uint64_t offset, size;
-+    int ret = 0;
-+
-+    first_bit = find_first_bit(vmem->bitmap, vmem->bitmap_size);
-+    while (first_bit < vmem->bitmap_size) {
-+        offset = first_bit * vmem->block_size;
-+        last_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
-+                                      first_bit + 1) - 1;
-+        size = (last_bit - first_bit + 1) * vmem->block_size;
-+
-+        ret = cb(vmem, arg, offset, size);
-+        if (ret) {
-+            break;
-+        }
-+        first_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
-+                                  last_bit + 2);
-+    }
-+    return ret;
-+}
-+
- /*
-  * Adjust the memory section to cover the intersection with the given range.
-  *
-@@ -938,6 +962,10 @@ static int virtio_mem_post_load(void *opaque, int version_id)
-     RamDiscardListener *rdl;
-     int ret;
- 
-+    if (vmem->prealloc && !vmem->early_migration) {
-+        warn_report("Proper preallocation with migration requires a newer QEMU machine");
-+    }
-+
-     /*
-      * We started out with all memory discarded and our memory region is mapped
-      * into an address space. Replay, now that we updated the bitmap.
-@@ -957,6 +985,64 @@ static int virtio_mem_post_load(void *opaque, int version_id)
-     return virtio_mem_restore_unplugged(vmem);
- }
- 
-+static int virtio_mem_prealloc_range_cb(const VirtIOMEM *vmem, void *arg,
-+                                        uint64_t offset, uint64_t size)
-+{
-+    void *area = memory_region_get_ram_ptr(&vmem->memdev->mr) + offset;
-+    int fd = memory_region_get_fd(&vmem->memdev->mr);
-+    Error *local_err = NULL;
-+
-+    qemu_prealloc_mem(fd, area, size, 1, NULL, &local_err);
-+    if (local_err) {
-+        error_report_err(local_err);
-+        return -ENOMEM;
-+    }
-+    return 0;
-+}
-+
-+static int virtio_mem_post_load_early(void *opaque, int version_id)
-+{
-+    VirtIOMEM *vmem = VIRTIO_MEM(opaque);
-+    RAMBlock *rb = vmem->memdev->mr.ram_block;
-+    int ret;
-+
-+    if (!vmem->prealloc) {
-+        return 0;
-+    }
-+
-+    /*
-+     * We restored the bitmap and verified that the basic properties
-+     * match on source and destination, so we can go ahead and preallocate
-+     * memory for all plugged memory blocks, before actual RAM migration starts
-+     * touching this memory.
-+     */
-+    ret = virtio_mem_for_each_plugged_range(vmem, NULL,
-+                                            virtio_mem_prealloc_range_cb);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    /*
-+     * This is tricky: postcopy wants to start with a clean slate. On
-+     * POSTCOPY_INCOMING_ADVISE, postcopy code discards all (ordinarily
-+     * preallocated) RAM such that postcopy will work as expected later.
-+     *
-+     * However, we run after POSTCOPY_INCOMING_ADVISE -- but before actual
-+     * RAM migration. So let's discard all memory again. This looks like an
-+     * expensive NOP, but actually serves a purpose: we made sure that we
-+     * were able to allocate all required backend memory once. We cannot
-+     * guarantee that the backend memory we will free will remain free
-+     * until we need it during postcopy, but at least we can catch the
-+     * obvious setup issues this way.
-+     */
-+    if (migration_incoming_postcopy_advised()) {
-+        if (ram_block_discard_range(rb, 0, qemu_ram_get_used_length(rb))) {
-+            return -EBUSY;
-+        }
-+    }
-+    return 0;
-+}
-+
- typedef struct VirtIOMEMMigSanityChecks {
-     VirtIOMEM *parent;
-     uint64_t addr;
-@@ -1068,6 +1154,7 @@ static const VMStateDescription vmstate_virtio_mem_device_early = {
-     .minimum_version_id = 1,
-     .version_id = 1,
-     .early_setup = true,
-+    .post_load = virtio_mem_post_load_early,
-     .fields = (VMStateField[]) {
-         VMSTATE_WITH_TMP(VirtIOMEM, VirtIOMEMMigSanityChecks,
-                          vmstate_virtio_mem_sanity_checks),
--- 
-2.39.0
+Reviewed-by: Hanna Czenczek <hreitz@redhat.com>
 
 
