@@ -2,93 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A70D66E458
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 18:03:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD9366E459
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 18:03:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHpL5-0000WD-4C; Tue, 17 Jan 2023 12:01:35 -0500
+	id 1pHpLC-0000bl-V0; Tue, 17 Jan 2023 12:01:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pHpL1-0000QC-3t
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:01:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pHpKz-0003Bf-6Y
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:01:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673974854;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K/9tMHDqLNn9i6Z4LYDE7RAQ8nBgObnUQsdbmyuualY=;
- b=hFzRh5pRxtR2XO/OX9lUucS1omhItELuzQdtr72lQfKPFj2yL8C8OY4QeCQJADxkoqlwQu
- x3skPwB8s1orMe+cveKUoK5YKyMnm/RPOokYnwd8yqwa9zSzyGzITNwQm+cJVONWZJvBN8
- lAqmVLKsCTxWPZXGuh91/iyOtzwTDVw=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-556-2Y1vXSlkOYmQSsGegIHXLw-1; Tue, 17 Jan 2023 12:00:32 -0500
-X-MC-Unique: 2Y1vXSlkOYmQSsGegIHXLw-1
-Received: by mail-qk1-f200.google.com with SMTP id
- az6-20020a05620a170600b0070689de396dso2943750qkb.18
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 09:00:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHpLB-0000b3-9k
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:01:41 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pHpL9-0003Eh-IL
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 12:01:41 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ y3-20020a17090a390300b00229add7bb36so1677796pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 09:01:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=rZYOg2f+szhhX3cBVgOIK9JGWCbhOCSqTfu1Pg+gH+Y=;
+ b=u7YGpSfziXUPkvB/gafuQpp2n2O9dmMUBX3rWS3KKN6ZokdDcMtvDAYv3XOMw+2h/T
+ iD6qSMgkCtx10QxQcDOGuejP4c78ZAdJxc+9+H3z/UfiysUm7BlHsWQHhEOmEGhxpeOy
+ 7ESUswWmKjB+l8k0BuOHdYNXOTLlVcz+CTtX2hPpLX/r7KZwQBCmP5cEQ2nGx8ON0Lwv
+ RqDhVFB3bPkQ+5ryUeOd/zJN+dPcaPhOKlochWNUuWmIlnsk8D6NCtAut3efDsUuE1hS
+ 5UDDbQJtOdCDuHjRhQFXBYg6orXmCb1JceLkLPScsHA9CiIMQsc8szFu83ccrCdL4t5Q
+ s7rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=K/9tMHDqLNn9i6Z4LYDE7RAQ8nBgObnUQsdbmyuualY=;
- b=M/5T1HoWf86Y9Pk8giZNanUFCF5wGkKjWlXtHHmYbbnzYUDj+Pi5UnUE2Xe3Ppa1B7
- 1kTw39s7iHB6wJNA2b/vfMl9xWPvW6K/9wZgu1trsLt9aBE6zY1pFKCV79NVOcB5Y4nW
- Zlfwefx0amhhs+REs4UU6UUL311koEYTFtRlKp1LLzSEesCYdO/bhNgxilarn9Wft/KA
- R/HcOkNmlPicdGaOBMyjTGaFQuplTKIJ7NYMarbzL5lottSfGEe3x1Fd4z3ufbtvpBQ+
- UDxRyjFC4W1MOs7iggk3FGhBmNuE6eSTHye5rN+ZKfVLDWkkvtrtCEvQIls5Pe3Os7+l
- d2AA==
-X-Gm-Message-State: AFqh2kpeBd2E9ZcD/XD8z93u1J//t37BIk7Dmm2JCUH5AtQz63g0i79v
- ey0aoitEyBgIJosLPw/9z3nrgDIE+q4H3stb/6+5Qhw4IObSyXK/P8y0uze81jbUXJ6BxgrjvCI
- ggVgF8EmAHgJVmxg=
-X-Received: by 2002:a0c:e8d0:0:b0:534:8a2d:a654 with SMTP id
- m16-20020a0ce8d0000000b005348a2da654mr5503365qvo.39.1673974809373; 
- Tue, 17 Jan 2023 09:00:09 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuYJxuHBPlsXKQAQPrWPGaEWWrw5+yVh+5KPMrqqPmUvEtW2Vga0Ku7R+oie7S7UtnQoghA7g==
-X-Received: by 2002:a0c:e8d0:0:b0:534:8a2d:a654 with SMTP id
- m16-20020a0ce8d0000000b005348a2da654mr5503345qvo.39.1673974809171; 
- Tue, 17 Jan 2023 09:00:09 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- r7-20020ae9d607000000b0070650f5ee2fsm5656855qkk.65.2023.01.17.09.00.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 09:00:08 -0800 (PST)
-Message-ID: <1fe1dc81-f6bc-3da8-81c1-16dd248cc23d@redhat.com>
-Date: Tue, 17 Jan 2023 18:00:00 +0100
+ bh=rZYOg2f+szhhX3cBVgOIK9JGWCbhOCSqTfu1Pg+gH+Y=;
+ b=5+HQdttGySfkrrtyloSwJlFBbaWoXaJH1fziPPBY9BhdACWBMmWh5+NmfINCQ1MAcf
+ g6PJHhrKy91cSjJ5mEpiOM+HG4xOh7xus50T5gVHPvabNq65piwlmZZEuFnpqusuGHcE
+ 00uL6p2nxsuD0h6x+l7r04PXW/adBxssMDJZ8ninuI7LF3IqP8x4vU4h6YrxmaOfi6/x
+ m66GD+fY+QdSC4H+JyMtowY2jsMbLXi0Yfb8J9uypwnjrDrLrCDlVm/AqEaBp4zFN/4G
+ VWKnrsJuCSqVaksbhBCWyxdIz+CjUr99fjWzIZkgLs1h6UBdZ+4XZRoa8YA6bkJpSd+t
+ RZig==
+X-Gm-Message-State: AFqh2koY3BmgNpMyjRikIcR0+/qJgyQVBtlvoxxSNXEB3U1PzdLGLqX7
+ Cg6vM7zbaH8SSXvlqyHEX4+kDc5h3KQMo/NTbzwPiw==
+X-Google-Smtp-Source: AMrXdXuvLav+bgABDopdSuhT0cEIBf3n6Dnbex6flB0fvffB62+ptSfmetDMVHtjKcskfnqLm2gAMuqvU9E8UNfc92o=
+X-Received: by 2002:a17:90a:ea92:b0:229:189b:6fee with SMTP id
+ h18-20020a17090aea9200b00229189b6feemr340092pjz.221.1673974897929; Tue, 17
+ Jan 2023 09:01:37 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [RFC] 2-stage translation emulation support for SMMUv3 on TCG
-Content-Language: en-US
-To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <b6a1427d-51b6-0daa-c4f1-b1e8ea145844@linux.microsoft.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <b6a1427d-51b6-0daa-c4f1-b1e8ea145844@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20230111161317.52250-1-cohuck@redhat.com>
+ <20230111161317.52250-2-cohuck@redhat.com>
+ <CAFEAcA9BKX+fSEZZbziwTNq5wsshDajuxGZ_oByVZ=gDSYOn9g@mail.gmail.com>
+ <Y8bR7xrsCMr5z6xI@work-vm>
+In-Reply-To: <Y8bR7xrsCMr5z6xI@work-vm>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Jan 2023 17:01:26 +0000
+Message-ID: <CAFEAcA-rnb=fSW+ZiZkX7EAgTnmksr4Grow3P=UdQR1yhay4TQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] arm/kvm: add support for MTE
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org, Eric Auger <eauger@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,57 +86,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Evgeny,
-On 1/16/23 16:37, Evgeny Iakovlev wrote:
-> Hi!
+On Tue, 17 Jan 2023 at 16:51, Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
 >
+> * Peter Maydell (peter.maydell@linaro.org) wrote:
+> > On Wed, 11 Jan 2023 at 16:13, Cornelia Huck <cohuck@redhat.com> wrote:
+> > > +MTE CPU Property
+> > > +================
+> > > +
+> > > +The ``mte`` property controls the Memory Tagging Extension. For TCG, it requires
+> > > +presence of tag memory (which can be turned on for the ``virt`` machine via
+> > > +``mte=on``). For KVM, it requires the ``KVM_CAP_ARM_MTE`` capability; until
+> > > +proper migration support is implemented, enabling MTE will install a migration
+> > > +blocker.
+> > > +
+> > > +If not specified explicitly via ``on`` or ``off``, MTE will be available
+> > > +according to the following rules:
+> > > +
+> > > +* When TCG is used, MTE will be available iff tag memory is available; i.e. it
+> > > +  preserves the behaviour prior to introduction of the feature.
+> > > +
+> > > +* When KVM is used, MTE will default to off, so that migration will not
+> > > +  unintentionally be blocked.
+> > > +
+> > > +* Other accelerators currently don't support MTE.
+> >
+> > Minor nits for the documentation:
+> > we should expand out "if and only if" -- not everybody recognizes
+> > "iff", especially if they're not native English speakers or not
+> > mathematicians.
+> >
+> > Should we write specifically that in a future QEMU version KVM
+> > might change to defaulting to "on if available" when migration
+> > support is implemented?
 >
-> We are using qemu-tcg-aarch64 to run Hyper-V test and debug builds for
-> arm. Besides some minor fixes that i have submitted over the last
-> couple of weeks, one big compatibility item for us is SMMUv3 2-stage
-> translations support. We can do fine without it right now, but having
-> it would also allow us to test nested arm guests with SMMUv3, which is
-> great.
->
->
-> One idea we have floating around is implementing 2-stage translations
-> in SMMUv3 in Qemu. We can't make a commitment yet, but before we
-> consider it i think it would be wise to ask the community about it,
-> specifically:
->
-> * Do 2-stage translations sound like something qemu-arm would be keen
-> on accepting? Are there any other use-cases for it besides an arguably
-> wild corner case of nesting an EL2 hypervisor on software-emulated arm64?
-Personally I don't have anything against. I guess we cannot prevent you
-from adding a feature that is supported by the spec ;-) One concern I
-have is the extra complexity it will bring to the device. At least I
-would recommend you to try to isolate stage2 support at most from the
-rest and make your utmost to keep the stage1 perf as close as possible
-to what it is currently. Indeed the main "production" use case is S1
-vSMMU with KVM acceleration. Currently in linux arm-smmuv3 driver, only
-S1 is used. Out of curiosity how are the S2 and S1+S2 used with HyperV?
+> Please make sure if you do something like that, that the failure
+> is obious; 'on if available' gets messy for things like libvirt
+> and higher level tools detecting features that are available and
+> machines they can migrate to.
 
-I am mostly involved in KVM accelerated use cases so I will let others
-comment on potential use cases using S2.
->
-> * Is there anyone already working on it as we speak maybe?
-afaik I am not aware of anybody working on that at the moment
->
-> * Were there any previous attempts to do this and if yes why they
-> evidently didn't get through?
-afaik there were no series sent publicly
+If we have a plan for how this ought to work when we eventually
+implement migration support that's great and we should document
+it. My point is really "we should make sure we don't box ourselves
+into a set of defaults that we regret in the future, eg where
+TCG and KVM always have different defaults forever". If we don't
+have a plan for what the future is, then I'd rather we delayed
+adding MTE-without-migration-support until we've determined that
+plan.
 
-Thanks
+Though the default for the CPU property is a bit moot, because
+at the machine level we only implement tag memory on the virt
+board, and there we disable it at the machine level (ie the
+machine property 'mte' defaults to 'false').
 
-Eric
->
->
-> Thanks!
->
->
-
+thanks
+-- PMM
 
