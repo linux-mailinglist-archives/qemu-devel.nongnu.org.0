@@ -2,94 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057D666DA76
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 11:01:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A008F66DAAA
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 11:12:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHim4-0000dg-Qq; Tue, 17 Jan 2023 05:01:00 -0500
+	id 1pHiwi-00072K-C2; Tue, 17 Jan 2023 05:12:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pHill-0000Wl-6U
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:00:41 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pHile-0001u8-KR
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:00:37 -0500
-Received: by mail-wr1-x429.google.com with SMTP id bk16so29968206wrb.11
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 02:00:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ev0fSEsSaOAmnE4vXdWe+XJmNLe5yIx2mje7ttdagXo=;
- b=OlKbZE/SQZPJ3TS4ptcr6NRA4WSvSVinY4lM1rH77LMzWv8Z4nstUjMZ7x1lhOouhD
- zRrjSyqebvU4XTci9spDZ8YeNNLxh/e6TwBhtpfBeLJcGYDRw3yA7rC5zr0qsnbteeQ0
- eKRXeRP9Z64s8GZ+4jOAmZF2AebAWdvsnC70FttcXmGmRbuliJURuNX9r73E/a6B3yy2
- PHViaZ9DPuw9c/GobrY7/CelzHi14R4Q2B3pLk5t6ofwPYvaRrdFoQaB88T2WjrzAch8
- iouw1nv00BKENr3wspGvAG73varQZLVIA5Wos0/bhn6DdWzkLXX1BKwY8f+GAmwJIkxi
- u1xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ev0fSEsSaOAmnE4vXdWe+XJmNLe5yIx2mje7ttdagXo=;
- b=pw/ihiQiQn3Hgt5FnI7rt2Uv6RxDJSR/tsiS14bgTiFysiGZrIdE5iVWPz1fEYIsxr
- 9acTXzKjmmo1nRFyLy/CFvJBenVKWQkjOQ4TV83poSCkO3jgFvjZaVTy5831I3lShgrb
- +xDj45r/nA2Rv5TAddOI9HDVnQogu8tjgqh/jH8HBZoDe6W1ksr6d8uyI3SsI8qCKpXn
- F7Cd2weLTIKh8uTwVOKEfdMr0n4h5kCTKUfgeiyquSAnqC5C8VyFQiGUj0WggZy+jdXC
- wyXNmnJyIkAtd2TgQyQ2JWcKc3OYHS8VY84xTHzskTsO1G1jouxH2IutG3dLsV3j7hHM
- Ylug==
-X-Gm-Message-State: AFqh2krGM8vXse4nGnv3K8liBAt5wF3W8HXJ+GL0b+4ONDkQEplTp7UT
- QpJogE9PVFz3ETJOk1uy6PQ=
-X-Google-Smtp-Source: AMrXdXtiI9w81sozKXxzblPjlEYZRAN/QBy95Rvh7b11sHTVKROT1JHtbX7I10X63DwC4JIDzrExUw==
-X-Received: by 2002:a5d:6b50:0:b0:2bd:f17b:bfd3 with SMTP id
- x16-20020a5d6b50000000b002bdf17bbfd3mr2548060wrw.4.1673949632874; 
- Tue, 17 Jan 2023 02:00:32 -0800 (PST)
-Received: from [192.168.8.108] (54-240-197-239.amazon.com. [54.240.197.239])
- by smtp.gmail.com with ESMTPSA id
- m15-20020adffe4f000000b002bdd155ca4dsm14053313wrs.48.2023.01.17.02.00.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 02:00:32 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <ea0a98e2-14e4-620a-60ee-86cfbe76403e@xen.org>
-Date: Tue, 17 Jan 2023 10:00:30 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v7 26/51] hw/xen: Add xen_evtchn device for event channel
- emulation
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pHiwU-00071v-KM
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:11:50 -0500
+Received: from mail-dbaeur03on20721.outbound.protection.outlook.com
+ ([2a01:111:f400:fe1a::721]
+ helo=EUR03-DBA-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pHiwS-0006TX-7t
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 05:11:46 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q9tYPmjdR98qT2AqDvV9QNLm560RQPenjBDv/erjycOW5c77cLQfqJQMzwUTAQY/Qe2qzA4yyPwY92vL8a6NMk0p0RYqy/7ceZaGGz94S1d++jPuH6KWPgJcV1FX5bHyp//JYxWOcueT7GxhwsQNCKVtSz/f71o//XuNPlyI943HJ4OWi7K1EVqwKqHTnfLw+ARcZhDegdjjcry4kcq9y9j2tZrgKCaJFzeOMpxnqFm9ifvw7sR64CAeJDBBORMaVGIcfVyXLiOeAiX9902y6X3pIEaOJdR81STVDmcWXKYrDU8T/v/tJL9C6Id7oRTD4jwFU2SW2tJwuWOErCeA2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yo8r+nu910GhNCCPS4sU1agNTFvhodpLDG8w1YQCCyE=;
+ b=SH/+VYBuOAvfrqfFjV4jHYJIYrYuitD9zm21Kh1WWePWV8klTYHM5CIMo/zcbHkeUoYYlVS1tu5dqbvWPav3O20x4JrWnZVhzWncUU3gDPiyPQ1Z55MHqUR4Vshw+9G24jdeCqSM1mZldGLQc6+UX9GcVPIBnd9cgQXiByyXFtkSJZ3XSQbPchSEdI3y9lMlr6B2IcGwfa8sWJ9zG9zDnpBWTY1wvNVEDmGuajxJpOw5EShHUHSmZ5asHsS8lqsRCggot/weK0pPYT/0wUa/mxMkbH1bnY19Lv2oATJG5EHkmMl7qK3ViCQwZ67OrmzP6iqZmTusXaBRfoXROCGfUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
+ s=selector2-estab-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yo8r+nu910GhNCCPS4sU1agNTFvhodpLDG8w1YQCCyE=;
+ b=QF4E+2LIwGxjJyYt8cYjv2JggOwbRxmy54gWkbSFxrWtS3xrIwCCw/yegZV8Ub+VWZQ0457poJqlmSFm1tvybFGuEV7X+ce5teNM3jCc5oC5FqlBWGkfuGvuKrQupiYYPYs/hBllq7lT43aQorPfEbrTgw48tP2p/nessoEe+48=
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
+ by AM0P189MB0643.EURP189.PROD.OUTLOOK.COM (2603:10a6:208:19f::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Tue, 17 Jan
+ 2023 10:06:38 +0000
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::8f70:435b:ab64:9420]) by DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::8f70:435b:ab64:9420%8]) with mapi id 15.20.5986.023; Tue, 17 Jan 2023
+ 10:06:38 +0000
+From: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+To: Jason Wang <jasowang@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v2 00/13] Introduce igb
+Thread-Topic: [PATCH v2 00/13] Introduce igb
+Thread-Index: AQFRvzF/OFdPy4WzbN77JlOABjU2LK+xOEtg
+Date: Tue, 17 Jan 2023 10:06:38 +0000
+Message-ID: <DBBP189MB143387278B7D9D256B3BF5AF95C69@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
+References: <CACGkMEvAwrfUwQVAj0qZFy+Wib5FSBwayyN_qGbZ8edNwB_18g () mail !
+ gmail ! com>
+In-Reply-To: <CACGkMEvAwrfUwQVAj0qZFy+Wib5FSBwayyN_qGbZ8edNwB_18g () mail !
+ gmail ! com>
+Accept-Language: en-US
 Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-References: <20230116215805.1123514-1-dwmw2@infradead.org>
- <20230116215805.1123514-27-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20230116215805.1123514-27-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DBBP189MB1433:EE_|AM0P189MB0643:EE_
+x-ms-office365-filtering-correlation-id: 6aeb8ecc-3fc0-44cd-a4d1-08daf8728632
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: tJABkXSHyrRqXN7hZY2EYbS9HVxrGW4sw3i2igVxEV+unM2iGfQrlBBEF2do6U/dgFlrj6wcVMGY+bx+msBLsvpxBmlwNbuXKs2kLQ+6IhRedJKemUZEKjWMe5xFhMQ55PPNavz73uQDfkirgz+vVgz0m7Nvshtoq1QHATibDtM7K3QS8NSdmNsTG+zug1uJAn+QSdtCn16vMI9C+CDZsidS1ZFD1VC/EHzzAAwFs5KhEGQ7i4NL4E6qJFJZxOxe6pmh1relr9GUM0IztQ9YPx77G+db0QsQUvXbG/9Gs4uMzhf8YqIpZSkOxluw0odPDSgAS5B2+WWixPyEflrkRQT0cZnSSQOU5iGCkf6zHGbvR5qebLiQWinfXB2SDZAwMQDNGCWRpPUYyVUH1nKfvz4JIkfK2Rp95MRZkh1Q17/iB9FPQaw21y60K5DDns3qUJNc928BwCKwFcHwg8EBmys/wUNf1SOO3oHyYerhaIvHbYs/cV58Ef/Es2u4GIDnPQydMzNztiixqRMrg3+App2dAjsCamLprtCFRpPQD0cxFHbHxSzEho046xa8rGvbJ5VLSdzJRIa50RoZb2neHd1Gq2GdpgHMUkPmchjNifHEoTkoYbgWKYtLqroBP+8Mo8fkc+p7WwhD9e2A70C8xM7i5KrLo2856q2yDtN64nMg5NMjEDkOIspnZ3IwjSPi/cJMcACQB+dC3DRXpZsCqEbUfGdytanvUhc8bVg4z2o=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230022)(39840400004)(366004)(136003)(396003)(376002)(346002)(451199015)(38070700005)(478600001)(66446008)(186003)(76116006)(26005)(66946007)(66556008)(66476007)(9686003)(86362001)(41300700001)(83380400001)(64756008)(44832011)(966005)(8676002)(71200400001)(8936002)(52536014)(5660300002)(7696005)(33656002)(38100700002)(316002)(6506007)(53546011)(2906002)(122000001)(55016003)(110136005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?b21CVnQvdkV3MmYyR1IzNFM3UGtTZHBodXE2L2J5cEY1MkhLRGFTak9lK2pj?=
+ =?utf-8?B?TTg4aVk2V0lZU044TUVqaWdJMkkxNEtBbG9rSVBBUnhlaVlvQlY1S0UrcmVi?=
+ =?utf-8?B?aW96VkRCeXBHbUxHbXkreFVxeGtXc21oYmdpbDZnN2pyTmMzbUgvMHh5dWwr?=
+ =?utf-8?B?VE8vNkJDbWVGWnN4ejRQdEtHOVNIa1FDQ2szODhBMW94c1VyR0RzNGdYYWZS?=
+ =?utf-8?B?QTdvNk9pWnNiNExVRjJSOEY2N2ZXRmlPUjBmTTYzZ25wR3p3QXVFdGlOeW40?=
+ =?utf-8?B?Vzkydnd6QkhyNks3WSt5dkhaVVo5L3NVR2ZnSXNUcUVSMFJnVWxTeUhrYm1j?=
+ =?utf-8?B?RVBvNlRieVNPZzZjZlFwVWZ3SnZMV1lsei9SNEFvNmFFRURRUXA5cEFhUGYz?=
+ =?utf-8?B?RGFUZ04zN1RYNmFKdkFRRG1xd2ZLRW1MZXdtQkV2WWJta2MrU2ZxTVdWYzk3?=
+ =?utf-8?B?ZXF4ZWtWRXo3Z25kYVQ2T3MrZmFpUnFHV3ZNOGZ1NHdPaFVWd1dIZXFDcXRK?=
+ =?utf-8?B?SGhUTHVvb1JZK3UvY3JFV1dJWW0xek0vbm01OTVwNEZORVNoT0lZNWI1dkZu?=
+ =?utf-8?B?TlNUV1Z5ZUE3TlEvU2w4R1Y5dGhNR2JSbjlvNHVISXlpdHZSMkk3T0JxMjhZ?=
+ =?utf-8?B?NVRmY205SnZRWGV0ZHlvMjZVR3Z3UDBhK0c4QkxZTnUzTFF4ZTlBdU56SmdH?=
+ =?utf-8?B?cTl2QzIxWU5LSTgxdjVER2IrZGUrTm03eE93MzM1NTlUeWd0OE40ZmlzNjZV?=
+ =?utf-8?B?NzM3ZmlXRXJQY1cwL3JhbkhQM1NYVTVWYXcwSWwwazNCTndZM0ZQRzE0eHhl?=
+ =?utf-8?B?WVBYMWR1aTNZSWFhWGJHSy9ob0lmWGd5RW1MQU50UHFHWk1pOU9TUjNuMnF1?=
+ =?utf-8?B?MzNwanFIbUZpa1lxWXBEZkRVamVmV1VFNUNGMWozMVVSd3pXZXFkUkxHUXZE?=
+ =?utf-8?B?aU94ampJMHIrZElqOU5nUSt2eW44Nk1hcThPS1J4b1hpck9xbm1Cdml0a09k?=
+ =?utf-8?B?WE1FYWJjSGJJcitYOGVIZWk0S2hHSWNzZWpBMzBkVzhCUnQzZTRiemFZeFdp?=
+ =?utf-8?B?bysrY2IyUXpUMDQ5VW15L1BkYlRNWmVLMWVsVDN5THVEQXhYTTE0WDJTQkJ2?=
+ =?utf-8?B?cjlqZm1BWFVoY0tuWkt3ejdQTXhJY1NtUEg5Ky81YkROVDJoaWMraVBNSys1?=
+ =?utf-8?B?OEF1c3ZJYmM3c1p1WDBqblVsZmtmK3h0NVJtQmJ4MTMyY2Y4V1pDeE9YOFdU?=
+ =?utf-8?B?WFNKUnQ5dHVsUmNQb29SRnVTdGwycU5tVHlYYkF5M0k1VE10bmJNeUNMOWxZ?=
+ =?utf-8?B?WTZVRHo2RmY0b25iZ2pqQjRtdVNKeFFSNFM4QThQdmFJLzZWSmxubURJOXFa?=
+ =?utf-8?B?YjNCaDc3UW9GeThSSzlYVjlqTTBaMDYydmhIMGxaWnNNNEgvY2F1eVV6djdn?=
+ =?utf-8?B?WFE1UEdXZ0hKRThuaDd0eW5HZ2lob1FBQ0REaUJneDl1LzZsTXFzS0UwOG41?=
+ =?utf-8?B?Ync4dXVMRzQvNDJMQjlZNkUxNDRPMkg3UXU1OXhKbHJvWng2OEtrNExtNndk?=
+ =?utf-8?B?QWU5SG4yZXNvNFVNbmNzYzVpekl6RE9MWGFnUjF3ZlVnUlM2eDBhZFVUUTRC?=
+ =?utf-8?B?WEcwd3BGTGtYVTNZckhidjQvbUp6S29iaW9tcUJldVhOYVNnN3FNdzlzdS9H?=
+ =?utf-8?B?U3lNWFhaNmtON3lIZDF5TnhhOVpxeFV4d1hmOVNRYk9Qdm9jN0hhSjJaV0Nz?=
+ =?utf-8?B?bUhTT0pUU0sxeEp2WVRyd2V2TnM0cTZZRmxGVDZqNS9FeHZZeUY2VW1uY2No?=
+ =?utf-8?B?TjM3TEQ4KzZuTFJEa2svWTk3OElHdGdCbzBzem1tMW16bkI2U1FMajZXNGN3?=
+ =?utf-8?B?di9vdmk4VDJjNDJsYjgrcjNzR0l0bFRtbktwY3BjTGJ4QjBVWUhHL3YzdUlr?=
+ =?utf-8?B?eis2WEliclJCSmNySWxOdzR6cWcxWS9HbktVa3pjK1VkTVVhUER2RlJTbW56?=
+ =?utf-8?B?SHNxT0swM3BGcUo0eEttQ3BBMUFBdWF0a0E3WUNaa0JrcHNpNXp3OURpS09h?=
+ =?utf-8?B?OTQ1V3dxQVkvdHNlQ3JxMlV0RlhMZkU3TUg0LzlRQnZRQTU4clNpd1A2ZGJ4?=
+ =?utf-8?Q?lvRpq8G60YhsnjxseFg0yZR1K?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6aeb8ecc-3fc0-44cd-a4d1-08daf8728632
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jan 2023 10:06:38.7616 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +M5ozU0pfhVxTamHQ0MKExODeGitQOOmHUdhhEQUe9xiehdVzX5t5Mr23gpiT19dXxDNG4T2F73lBORY6bM3WlpdH+IZqQ26uklkK05rMlU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0P189MB0643
+Received-SPF: pass client-ip=2a01:111:f400:fe1a::721;
+ envelope-from=sriram.yagnaraman@est.tech;
+ helo=EUR03-DBA-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,279 +144,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/01/2023 21:57, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> 
-> Include basic support for setting HVM_PARAM_CALLBACK_IRQ to the global
-> vector method HVM_PARAM_CALLBACK_TYPE_VECTOR, which is handled in-kernel
-> by raising the vector whenever the vCPU's vcpu_info->evtchn_upcall_pending
-> flag is set.
-> 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   hw/i386/kvm/meson.build   |   5 +-
->   hw/i386/kvm/xen_evtchn.c  | 148 ++++++++++++++++++++++++++++++++++++++
->   hw/i386/kvm/xen_evtchn.h  |  18 +++++
->   hw/i386/pc.c              |   2 +
->   target/i386/kvm/xen-emu.c |  10 +++
->   5 files changed, 182 insertions(+), 1 deletion(-)
->   create mode 100644 hw/i386/kvm/xen_evtchn.c
->   create mode 100644 hw/i386/kvm/xen_evtchn.h
-> 
-> diff --git a/hw/i386/kvm/meson.build b/hw/i386/kvm/meson.build
-> index 6165cbf019..cab64df339 100644
-> --- a/hw/i386/kvm/meson.build
-> +++ b/hw/i386/kvm/meson.build
-> @@ -4,6 +4,9 @@ i386_kvm_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c'))
->   i386_kvm_ss.add(when: 'CONFIG_I8254', if_true: files('i8254.c'))
->   i386_kvm_ss.add(when: 'CONFIG_I8259', if_true: files('i8259.c'))
->   i386_kvm_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
-> -i386_kvm_ss.add(when: 'CONFIG_XEN_EMU', if_true: files('xen_overlay.c'))
-> +i386_kvm_ss.add(when: 'CONFIG_XEN_EMU', if_true: files(
-> +  'xen_overlay.c',
-> +  'xen_evtchn.c',
-> +  ))
->   
->   i386_ss.add_all(when: 'CONFIG_KVM', if_true: i386_kvm_ss)
-> diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-> new file mode 100644
-> index 0000000000..018f4ef4da
-> --- /dev/null
-> +++ b/hw/i386/kvm/xen_evtchn.c
-> @@ -0,0 +1,148 @@
-> +/*
-> + * QEMU Xen emulation: Event channel support
-> + *
-> + * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-> + *
-> + * Authors: David Woodhouse <dwmw2@infradead.org>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/host-utils.h"
-> +#include "qemu/module.h"
-> +#include "qemu/main-loop.h"
-> +#include "qapi/error.h"
-> +#include "qom/object.h"
-> +#include "exec/target_page.h"
-> +#include "exec/address-spaces.h"
-> +#include "migration/vmstate.h"
-> +
-> +#include "hw/sysbus.h"
-> +#include "hw/xen/xen.h"
-> +#include "xen_evtchn.h"
-> +
-> +#include "sysemu/kvm.h"
-> +#include "sysemu/kvm_xen.h"
-> +#include <linux/kvm.h>
-> +
-> +#include "standard-headers/xen/memory.h"
-> +#include "standard-headers/xen/hvm/params.h"
-> +
-> +#define TYPE_XEN_EVTCHN "xen-evtchn"
-> +OBJECT_DECLARE_SIMPLE_TYPE(XenEvtchnState, XEN_EVTCHN)
-> +
-> +struct XenEvtchnState {
-> +    /*< private >*/
-> +    SysBusDevice busdev;
-> +    /*< public >*/
-> +
-> +    uint64_t callback_param;
-> +    bool evtchn_in_kernel;
-> +
-> +    QemuMutex port_lock;
-> +};
-> +
-> +struct XenEvtchnState *xen_evtchn_singleton;
-> +
-> +/* Top bits of callback_param are the type (HVM_PARAM_CALLBACK_TYPE_xxx) */
-> +#define CALLBACK_VIA_TYPE_SHIFT 56
-> +
-> +static int xen_evtchn_post_load(void *opaque, int version_id)
-> +{
-> +    XenEvtchnState *s = opaque;
-> +
-> +    if (s->callback_param) {
-> +        xen_evtchn_set_callback_param(s->callback_param);
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static bool xen_evtchn_is_needed(void *opaque)
-> +{
-> +    return xen_mode == XEN_EMULATE;
-> +}
-> +
-> +static const VMStateDescription xen_evtchn_vmstate = {
-> +    .name = "xen_evtchn",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = xen_evtchn_is_needed,
-> +    .post_load = xen_evtchn_post_load,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT64(callback_param, XenEvtchnState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static void xen_evtchn_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    dc->vmsd = &xen_evtchn_vmstate;
-> +}
-> +
-> +static const TypeInfo xen_evtchn_info = {
-> +    .name          = TYPE_XEN_EVTCHN,
-> +    .parent        = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(XenEvtchnState),
-> +    .class_init    = xen_evtchn_class_init,
-> +};
-> +
-> +void xen_evtchn_create(void)
-> +{
-> +    XenEvtchnState *s = XEN_EVTCHN(sysbus_create_simple(TYPE_XEN_EVTCHN,
-> +                                                        -1, NULL));
-> +    xen_evtchn_singleton = s;
-> +
-> +    qemu_mutex_init(&s->port_lock);
-> +}
-> +
-> +static void xen_evtchn_register_types(void)
-> +{
-> +    type_register_static(&xen_evtchn_info);
-> +}
-> +
-> +type_init(xen_evtchn_register_types)
-> +
-> +int xen_evtchn_set_callback_param(uint64_t param)
-> +{
-> +    XenEvtchnState *s = xen_evtchn_singleton;
-> +    bool in_kernel = false;
-> +    int ret;
-> +
-> +    if (!s) {
-> +        return -ENOTSUP;
-> +    }
-> +
-> +    qemu_mutex_lock(&s->port_lock);
-> +
-> +    switch (param >> CALLBACK_VIA_TYPE_SHIFT) {
-> +    case HVM_PARAM_CALLBACK_TYPE_VECTOR: {
-> +        struct kvm_xen_hvm_attr xa = {
-> +            .type = KVM_XEN_ATTR_TYPE_UPCALL_VECTOR,
-> +            .u.vector = (uint8_t)param,
-> +        };
-> +
-> +        ret = kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &xa);
-> +        if (!ret && kvm_xen_has_cap(EVTCHN_SEND)) {
-> +            in_kernel = true;
-> +        }
-> +        break;
-> +    }
-> +    default:
-> +        ret = -ENOSYS;
-> +        break;
-> +    }
-> +
-> +    if (!ret) {
-> +        s->callback_param = param;
-> +        s->evtchn_in_kernel = in_kernel;
-> +    }
-> +
-> +    qemu_mutex_unlock(&s->port_lock);
-> +
-> +    return ret;
-> +}
-> diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-> new file mode 100644
-> index 0000000000..c9b7f9d11f
-> --- /dev/null
-> +++ b/hw/i386/kvm/xen_evtchn.h
-> @@ -0,0 +1,18 @@
-> +/*
-> + * QEMU Xen emulation: Event channel support
-> + *
-> + * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-> + *
-> + * Authors: David Woodhouse <dwmw2@infradead.org>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef QEMU_XEN_EVTCHN_H
-> +#define QEMU_XEN_EVTCHN_H
-> +
-> +void xen_evtchn_create(void);
-> +int xen_evtchn_set_callback_param(uint64_t param);
-> +
-> +#endif /* QEMU_XEN_EVTCHN_H */
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 0ddae2f6ad..8f668a5138 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -90,6 +90,7 @@
->   #include "hw/virtio/virtio-pmem-pci.h"
->   #include "hw/virtio/virtio-mem-pci.h"
->   #include "hw/i386/kvm/xen_overlay.h"
-> +#include "hw/i386/kvm/xen_evtchn.h"
->   #include "hw/mem/memory-device.h"
->   #include "sysemu/replay.h"
->   #include "target/i386/cpu.h"
-> @@ -1850,6 +1851,7 @@ int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
->   #ifdef CONFIG_XEN_EMU
->       if (xen_mode == XEN_EMULATE) {
->           xen_overlay_create();
-> +        xen_evtchn_create();
->       }
->   #endif
->       return 0;
-> diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-> index 3e05ef836d..b0e7620b16 100644
-> --- a/target/i386/kvm/xen-emu.c
-> +++ b/target/i386/kvm/xen-emu.c
-> @@ -21,6 +21,7 @@
->   #include "sysemu/runstate.h"
->   
->   #include "hw/i386/kvm/xen_overlay.h"
-> +#include "hw/i386/kvm/xen_evtchn.h"
->   
->   #include "standard-headers/xen/version.h"
->   #include "standard-headers/xen/sched.h"
-> @@ -507,6 +508,10 @@ static bool handle_set_param(struct kvm_xen_exit *exit, X86CPU *cpu,
->       }
->   
->       switch (hp.index) {
-> +    case HVM_PARAM_CALLBACK_IRQ:
-> +        err = xen_evtchn_set_callback_param(hp.value);
-> +        xen_set_long_mode(exit->u.hcall.longmode);
-> +        break;
->       default:
->           return false;
->       }
-> @@ -712,6 +717,11 @@ static int kvm_xen_soft_reset(void)
->       CPUState *cpu;
->       int err;
->   
-> +    err = xen_evtchn_set_callback_param(0);
-
-Doesn't this always result in -ENOSYS?
-
-> +    if (err) {
-> +        return err;
-> +    }
-> +
->       CPU_FOREACH(cpu) {
->           async_run_on_cpu(cpu, do_vcpu_soft_reset, RUN_ON_CPU_NULL);
->       }
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBKYXNvbiBXYW5nIDxqYXNvd2Fu
+ZyAoKSByZWRoYXQgISBjb20+DQo+IFNlbnQ6IE1vbmRheSwgMTYgSmFudWFyeSAyMDIzIDA5OjAx
+DQo+IFRvOiBxZW11LWRldmVsDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjIgMDAvMTNdIEludHJv
+ZHVjZSBpZ2INCj4gDQo+IE9uIFNhdCwgSmFuIDE0LCAyMDIzIGF0IDEyOjEwIFBNIEFraWhpa28g
+T2Rha2kgPGFraWhpa28ub2Rha2lAZGF5bml4LmNvbT4NCj4gd3JvdGU6DQo+ID4NCj4gPiBCYXNl
+ZC1vbjogPDIwMjMwMTE0MDM1OTE5LjM1MjUxLTEtYWtpaGlrby5vZGFraUBkYXluaXguY29tPg0K
+PiA+IChbUEFUQ0ggMDAvMTldIGUxMDAweCBjbGVhbnVwcyAocHJlbGltaW5hcnkgZm9yIElHQikp
+DQo+ID4NCj4gPiBpZ2IgaXMgYSBmYW1pbHkgb2YgSW50ZWwncyBnaWdhYml0IGV0aGVybmV0IGNv
+bnRyb2xsZXJzLiBUaGlzIHNlcmllcw0KPiA+IGltcGxlbWVudHMNCj4gPiA4MjU3NiBlbXVsYXRp
+b24gaW4gcGFydGljdWxhci4gWW91IGNhbiBzZWUgdGhlIGxhc3QgcGF0Y2ggZm9yIHRoZQ0KPiBk
+b2N1bWVudGF0aW9uLg0KPiA+DQo+ID4gTm90ZSB0aGF0IHRoZXJlIGlzIGFub3RoZXIgZWZmb3J0
+IHRvIGJyaW5nIDgyNTc2IGVtdWxhdGlvbi4gVGhpcw0KPiA+IHNlcmllcyB3YXMgZGV2ZWxvcGVk
+IGluZGVwZW5kZW50bHkgYnkgU3JpcmFtIFlhZ25hcmFtYW4uDQo+ID4gaHR0cHM6Ly9saXN0cy5n
+bnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVsLzIwMjItMTIvbXNnMDQ2NzAuaHRtbA0KPiA+
+DQo+ID4gSXQgaXMgcG9zc2libGUgdG8gbWVyZ2UgdGhlIHdvcmsgZnJvbSBTcmlyYW0gWWFnbmFy
+YW1hbiBhbmQgdG8NCj4gPiBjaGVycnktcGljayB1c2VmdWwgY2hhbmdlcyBmcm9tIHRoaXMgc2Vy
+aWVzIGxhdGVyLg0KPiA+DQo+ID4gSSB0aGluayB0aGVyZSBhcmUgc2V2ZXJhbCBkaWZmZXJlbnQg
+d2F5cyB0byBnZXQgdGhlIGNoYW5nZXMgaW50byB0aGUNCj4gbWFpbmxpbmUuDQo+ID4gSSdtIG9w
+ZW4gdG8gYW55IG9wdGlvbnMuDQo+IA0KPiBJIGNhbiBvbmx5IGRvIHJldmlld3MgZm9yIHRoZSBn
+ZW5lcmFsIG5ldHdvcmtpbmcgcGFydCBidXQgbm90IHRoZQ0KPiA4MjU3NiBzcGVjaWZpYyBwYXJ0
+LiBJdCB3b3VsZCBiZSBiZXR0ZXIgaWYgZWl0aGVyIG9mIHRoZSBzZXJpZXMgY2FuIGdldCBzb21l
+DQo+IEFDS3MgZnJvbSBzb21lIG9uZXMgdGhhdCB0aGV5IGFyZSBmYW1pbGlhciB3aXRoIDgyNTc2
+LCB0aGVuIEkgY2FuIHRyeSB0bw0KPiBtZXJnZS4NCj4gDQpJIGNhbiByZWJhc2UgbXkgY2hhbmdl
+cyBvbiB0b3Agb2YgdGhpcyBhbmQgcHVzaCBhbnkgZXh0cmEgY2hhbmdlcyB0aGF0IEkgaGF2ZSBp
+biBteSBpbXBsZW1lbnRhdGlvbiBhcyBhIHBhdGNoc2V0IHdpdGggIkJhc2VkLW9uOiIgdGFnIHBv
+aW50aW5nIHRvIHRoaXMgc2VyaWVzLiBIb3BlZnVsbHksIHRoYXQgd2lsbCBtYWtlIGl0IHJldmll
+dyBlYXNpZXIuDQpJIHRoaW5rIEkgY2FuIGJlIHJlYWR5IGluIGEgd2VlaydzIHRpbWUuDQoNCj4g
+VGhhbmtzDQo+IA0KPiA+DQo+ID4gVjEgLT4gVjI6DQo+ID4gLSBTcHVuIG9mZiBlMTAwMGUgZ2Vu
+ZXJhbCBpbXByb3ZlbWVudHMgdG8gYSBkaXN0aW5jdCBzZXJpZXMuDQo+ID4gLSBSZXN0b3JlZCB2
+bmV0X2hkciBvZmZsb2FkIGFzIHRoZXJlIHNlZW1zIG5vdGhpbmcgcHJldmVudGluZyBmcm9tIHRo
+YXQuDQo+ID4NCj4gPiBBa2loaWtvIE9kYWtpICgxMyk6DQo+ID4gICBody9uZXQvbmV0X3R4X3Br
+dDogSW50cm9kdWNlIG5ldF90eF9wa3RfZ2V0X2V0aF9oZHINCj4gPiAgIHBjaWU6IEludHJvZHVj
+ZSBwY2llX3NyaW92X251bV92ZnMNCj4gPiAgIGUxMDAwOiBTcGxpdCBoZWFkZXIgZmlsZXMNCj4g
+PiAgIGlnYjogQ29weSBlMTAwMGUgY29kZQ0KPiA+ICAgaWdiOiBSZW5hbWUgaWRlbnRpZmllcnMN
+Cj4gPiAgIGlnYjogQnVpbGQgaWdiDQo+ID4gICBpZ2I6IFRyYW5zZm9ybSB0byA4MjU3NiBpbXBs
+ZW1lbnRhdGlvbg0KPiA+ICAgdGVzdHMvcXRlc3QvZTEwMDBlLXRlc3Q6IEZhYnJpY2F0ZSBldGhl
+cm5ldCBoZWFkZXINCj4gPiAgIHRlc3RzL3F0ZXN0L2xpYnFvcy9lMTAwMGU6IEV4cG9ydCBtYWNy
+ZWcgZnVuY3Rpb25zDQo+ID4gICB0ZXN0cy9xdGVzdC9saWJxb3MvaWdiOiBDb3B5IGUxMDAwZSBj
+b2RlDQo+ID4gICB0ZXN0cy9xdGVzdC9saWJxb3MvaWdiOiBUcmFuc2Zvcm0gdG8gaWdiIHRlc3Rz
+DQo+ID4gICB0ZXN0cy9hdm9jYWRvOiBBZGQgaWdiIHRlc3QNCj4gPiAgIGRvY3Mvc3lzdGVtL2Rl
+dmljZXMvaWdiOiBBZGQgaWdiIGRvY3VtZW50YXRpb24NCj4gPg0KPiA+ICBNQUlOVEFJTkVSUyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICA5ICsNCj4gPiAgZG9jcy9zeXN0
+ZW0vZGV2aWNlLWVtdWxhdGlvbi5yc3QgICAgICAgICAgICAgIHwgICAgMSArDQo+ID4gIGRvY3Mv
+c3lzdGVtL2RldmljZXMvaWdiLnJzdCAgICAgICAgICAgICAgICAgICB8ICAgNzAgKw0KPiA+ICBo
+dy9uZXQvS2NvbmZpZyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICA1ICsNCj4g
+PiAgaHcvbmV0L2UxMDAwLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgMSAr
+DQo+ID4gIGh3L25ldC9lMTAwMF9jb21tb24uaCAgICAgICAgICAgICAgICAgICAgICAgICB8ICAx
+MDIgKw0KPiA+ICBody9uZXQvZTEwMDBfcmVncy5oICAgICAgICAgICAgICAgICAgICAgICAgICAg
+fCAgOTI3ICstLS0NCj4gPiAgaHcvbmV0L2UxMDAwZS5jICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHwgICAgMyArLQ0KPiA+ICBody9uZXQvZTEwMDBlX2NvcmUuYyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgfCAgICAxICsNCj4gPiAgaHcvbmV0L2UxMDAweF9jb21tb24uYyAgICAgICAg
+ICAgICAgICAgICAgICAgIHwgICAgMSArDQo+ID4gIGh3L25ldC9lMTAwMHhfY29tbW9uLmggICAg
+ICAgICAgICAgICAgICAgICAgICB8ICAgNzQgLQ0KPiA+ICBody9uZXQvZTEwMDB4X3JlZ3MuaCAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAgOTQwICsrKysNCj4gPiAgaHcvbmV0L2lnYi5jICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDYxNSArKysNCj4gPiAgaHcvbmV0L2ln
+Yl9jb21tb24uaCAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDE0NCArDQo+ID4gIGh3L25l
+dC9pZ2JfY29yZS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDM5NDYgKysrKysrKysr
+KysrKysrKysNCj4gPiAgaHcvbmV0L2lnYl9jb3JlLmggICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgIDE0NyArDQo+ID4gIGh3L25ldC9pZ2JfcmVncy5oICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICB8ICA2MjQgKysrDQo+ID4gIGh3L25ldC9pZ2J2Zi5jICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICB8ICAzMjcgKysNCj4gPiAgaHcvbmV0L21lc29uLmJ1aWxkICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHwgICAgMiArDQo+ID4gIGh3L25ldC9uZXRfdHhfcGt0LmMgICAg
+ICAgICAgICAgICAgICAgICAgICAgICB8ICAgIDYgKw0KPiA+ICBody9uZXQvbmV0X3R4X3BrdC5o
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICA4ICsNCj4gPiAgaHcvbmV0L3RyYWNlLWV2
+ZW50cyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAzMiArDQo+ID4gIGh3L3BjaS9wY2ll
+X3NyaW92LmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgIDUgKw0KPiA+ICBpbmNsdWRl
+L2h3L3BjaS9wY2llX3NyaW92LmggICAgICAgICAgICAgICAgICAgfCAgICAzICsNCj4gPiAgLi4u
+L29yZy5jZW50b3Mvc3RyZWFtLzgveDg2XzY0L3Rlc3QtYXZvY2FkbyAgIHwgICAgMSArDQo+ID4g
+IHRlc3RzL2F2b2NhZG8vaWdiLnB5ICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMzggKw0K
+PiA+ICB0ZXN0cy9xdGVzdC9lMTAwMGUtdGVzdC5jICAgICAgICAgICAgICAgICAgICAgfCAgIDE3
+ICstDQo+ID4gIHRlc3RzL3F0ZXN0L2Z1enovZ2VuZXJpY19mdXp6X2NvbmZpZ3MuaCAgICAgICB8
+ICAgIDUgKw0KPiA+ICB0ZXN0cy9xdGVzdC9pZ2ItdGVzdC5jICAgICAgICAgICAgICAgICAgICAg
+ICAgfCAgMjQzICsNCj4gPiAgdGVzdHMvcXRlc3QvbGlicW9zL2UxMDAwZS5jICAgICAgICAgICAg
+ICAgICAgIHwgICAxMiAtDQo+ID4gIHRlc3RzL3F0ZXN0L2xpYnFvcy9lMTAwMGUuaCAgICAgICAg
+ICAgICAgICAgICB8ICAgMTQgKw0KPiA+ICB0ZXN0cy9xdGVzdC9saWJxb3MvaWdiLmMgICAgICAg
+ICAgICAgICAgICAgICAgfCAgMTg1ICsNCj4gPiAgdGVzdHMvcXRlc3QvbGlicW9zL21lc29uLmJ1
+aWxkICAgICAgICAgICAgICAgIHwgICAgMSArDQo+ID4gIHRlc3RzL3F0ZXN0L21lc29uLmJ1aWxk
+ICAgICAgICAgICAgICAgICAgICAgICB8ICAgIDEgKw0KPiA+ICAzNCBmaWxlcyBjaGFuZ2VkLCA3
+NDkyIGluc2VydGlvbnMoKyksIDEwMTggZGVsZXRpb25zKC0pICBjcmVhdGUgbW9kZQ0KPiA+IDEw
+MDY0NCBkb2NzL3N5c3RlbS9kZXZpY2VzL2lnYi5yc3QgIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+
+IGh3L25ldC9lMTAwMF9jb21tb24uaCAgY3JlYXRlIG1vZGUgMTAwNjQ0IGh3L25ldC9lMTAwMHhf
+cmVncy5oDQo+IGNyZWF0ZQ0KPiA+IG1vZGUgMTAwNjQ0IGh3L25ldC9pZ2IuYyAgY3JlYXRlIG1v
+ZGUgMTAwNjQ0IGh3L25ldC9pZ2JfY29tbW9uLmgNCj4gPiBjcmVhdGUgbW9kZSAxMDA2NDQgaHcv
+bmV0L2lnYl9jb3JlLmMgIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+IGh3L25ldC9pZ2JfY29yZS5o
+ICBjcmVhdGUgbW9kZSAxMDA2NDQgaHcvbmV0L2lnYl9yZWdzLmggIGNyZWF0ZSBtb2RlDQo+ID4g
+MTAwNjQ0IGh3L25ldC9pZ2J2Zi5jICBjcmVhdGUgbW9kZSAxMDA2NDQgdGVzdHMvYXZvY2Fkby9p
+Z2IucHkgIGNyZWF0ZQ0KPiA+IG1vZGUgMTAwNjQ0IHRlc3RzL3F0ZXN0L2lnYi10ZXN0LmMgIGNy
+ZWF0ZSBtb2RlIDEwMDY0NA0KPiA+IHRlc3RzL3F0ZXN0L2xpYnFvcy9pZ2IuYw0KPiA+DQo+ID4g
+LS0NCj4gPiAyLjM5LjANCj4gPg0K
 
