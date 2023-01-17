@@ -2,95 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1109D66D762
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 09:00:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A311966D765
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 09:01:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHgsH-0008Dv-NK; Tue, 17 Jan 2023 02:59:17 -0500
+	id 1pHgtn-0000Jb-Vk; Tue, 17 Jan 2023 03:00:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHgsF-0008Df-Sm
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:59:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHgsE-0007YW-9a
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:59:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673942353;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UvbMlHIKaDk7YTnG10u16GlXXt4ZSfZAi3fdeuX/FOk=;
- b=ADXQwE6WFVrMKefCAgoTlcu8qBNwHqB28H3K3/Jt/VTnmKBUAJ2Rpn+8KCp4lsdr2I4Y3d
- odc3aZkfT/QRoPBM6xVR/C6UShuYqYt1AlFGB5GF+jc2d8kQB/rrnIAjS8Roqem0QZMCJo
- pjWLtwlVvGkk0bAz+KTshYPC2AkiH20=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-593-xp5eYiopN7OufcgnknORhw-1; Tue, 17 Jan 2023 02:59:11 -0500
-X-MC-Unique: xp5eYiopN7OufcgnknORhw-1
-Received: by mail-qt1-f198.google.com with SMTP id
- k7-20020ac84747000000b003a87ca26200so13498314qtp.6
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 23:59:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHgtd-0000Ay-8y
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:00:42 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHgta-0007zB-TA
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:00:40 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ f12-20020a7bc8cc000000b003daf6b2f9b9so4191897wml.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 00:00:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FbaD7T1wl5LUv3rQOnBXlbzGgPRsgbyZv+c1yBKtxYQ=;
+ b=q6vxxe1PT/Ggu+GTw4QJQXCvQWUlAnusSnziYFKZlHW7NdUUkjXAKW+tbRjMvX2pd6
+ e0ZnK8cZeHNY0fQjdSHXtK7Q6jzM7LRlYYXTGIdZmcn4EwIydWm3kgjNpq5WURP/V2ut
+ ld+n9b/EcXunhYXIjGf5BC5QESwgDdKISX6Z6ZSzvuJ0WL0c89yx0W1+N10f0fQmZN9u
+ aeWPqryljHTTExCn33MLnR91K5uR72NTPnFEFhRG3JrFKe74ChvgG+5zpUGZ/Xd8rX3/
+ bpjR8vkaJvSZF1/aSmEO0FCuW7qg2+Cmnj3SQMy4Bs1S4MUEV0idS7aiRXtwRnsDU+Be
+ Zfsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UvbMlHIKaDk7YTnG10u16GlXXt4ZSfZAi3fdeuX/FOk=;
- b=eXv7FDxCSAqmmgoen5ONX9UKOILOoU3ydxH4rjhMbeME1jIz18Kne3Ze9ij9WGza6e
- 2rRTkXdE2ZX+U/VCTx9M8tW70uVRo1ePyJ3YQAZtBat6kUHDbVtbB8P+rB+NQIZ/8e8m
- Ga18MwyqjD73WWUByXAGpR23x8zKB8q65qViR+Huvh2e4tQuIWgcEY3z1YVp5CtPfmsS
- mkutuNQW6UlK6qubOUQ/s05tDerMVmadSPNZc9T9dhy1Zivx3W+y3M/JZ1yJOciVL0Ue
- LLZ6FoBB1kH9oBE6139OujaBkWCEhQ9O/dM5AiA6uQLgp6s15YE3kKJc324ZIHNYloxJ
- 94oA==
-X-Gm-Message-State: AFqh2kpx7oW3hwuQvnfKuSZwtPIwyy14Y5rxw2gIqPJyALDFhdplR7+a
- R3zaFa7OWEuVNIXZ5X4YeSyI1Fyo8hDRYJnzS2gWOhRkJyZk0bjWLw7+OMOvEbF3WCk+3Ua1YJK
- MTl3+zxOLJkqo9o0=
-X-Received: by 2002:a05:622a:1e1b:b0:3b4:a6af:a2f2 with SMTP id
- br27-20020a05622a1e1b00b003b4a6afa2f2mr2683611qtb.34.1673942351353; 
- Mon, 16 Jan 2023 23:59:11 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsFFDyMcrRqXJeu+FEeghBbyVbzR+aQolrhIUOPcAmUjJbcaMP5TnkRMpnscY2hIaHV+SplNQ==
-X-Received: by 2002:a05:622a:1e1b:b0:3b4:a6af:a2f2 with SMTP id
- br27-20020a05622a1e1b00b003b4a6afa2f2mr2683585qtb.34.1673942351072; 
- Mon, 16 Jan 2023 23:59:11 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-26.web.vodafone.de.
- [109.43.177.26]) by smtp.gmail.com with ESMTPSA id
- z26-20020ac8101a000000b003a70a675066sm15603075qti.79.2023.01.16.23.59.08
+ bh=FbaD7T1wl5LUv3rQOnBXlbzGgPRsgbyZv+c1yBKtxYQ=;
+ b=d7ZIKqSJ2/3bNpjdtvp4zjsSL9Ks8qc8oMzs1Cgzsdivvbrg70meO44g3AoJdHUUht
+ nr2cL1u6pF1Ix0nAGLYOUFuFdtOdHK5nnNYTwHsOyLKnP390l1W9KXdaLt/d73niLl5r
+ wLeefJRZIN+KN/JWv9XCaIzCmaVzo5kHwUa5xEIQmSURdw0JIZhBtxi0kdNxs7MSETEv
+ yw2APSPJ8OwKTymabWyVCCTSM1bqX7g+OevicbokYIH641N/NIrRl0j7Bk5a9ffjQhCL
+ tscShfpZZnNjkk113h6PbSLTwKfoLrFHrUR4fBp8gdCAXM6Jyo4IybUBWK96YXZYOpNb
+ qBCg==
+X-Gm-Message-State: AFqh2kpjDT2AIBfV4dVoTbxaHy5Ocmv+ofd0V8CeHKoP2qrT3x/oAYeT
+ zO8pvfpnkIFSRGJSzDixBUBGqQ==
+X-Google-Smtp-Source: AMrXdXv4iIKJ7dhZWC4SwBz5O0tDe1iCZJkW2+t7wlcVrFH8vNqEofKXL+qTMDSOWL5+ENTq2mn2Mg==
+X-Received: by 2002:a05:600c:3ca6:b0:3d1:caf1:3f56 with SMTP id
+ bg38-20020a05600c3ca600b003d1caf13f56mr10963956wmb.9.1673942436018; 
+ Tue, 17 Jan 2023 00:00:36 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ k9-20020a05600c1c8900b003dafbd859a6sm6035993wms.43.2023.01.17.00.00.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 23:59:10 -0800 (PST)
-Message-ID: <dcfedca8-bec8-34d2-07c0-d53212e60456@redhat.com>
-Date: Tue, 17 Jan 2023 08:59:07 +0100
+ Tue, 17 Jan 2023 00:00:35 -0800 (PST)
+Message-ID: <961515e6-65ad-ec7f-f51e-a862424f574d@linaro.org>
+Date: Tue, 17 Jan 2023 09:00:34 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3 2/3] s390x/pv: Introduce a s390_pv_check() helper for
- runtime
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 1/5] hw/arm: Extract at24c_eeprom_init helper from
+ Aspeed and Nuvoton boards
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, frankja@linux.ibm.com,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, Sebastian Mitterle
- <smitterl@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-References: <20230116174607.2459498-1-clg@kaod.org>
- <20230116174607.2459498-3-clg@kaod.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230116174607.2459498-3-clg@kaod.org>
+To: Peter Delevoryas <peter@pjd.dev>
+Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
+ hskinnemoen@google.com, kfting@nuvoton.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20230116235604.55099-1-peter@pjd.dev>
+ <20230116235604.55099-2-peter@pjd.dev>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230116235604.55099-2-peter@pjd.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,30 +94,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/01/2023 18.46, Cédric Le Goater wrote:
-> From: Cédric Le Goater <clg@redhat.com>
+On 17/1/23 00:56, Peter Delevoryas wrote:
+> This helper is useful in board initialization because lets users initialize and
+> realize an EEPROM on an I2C bus with a single function call.
 > 
-> If a secure kernel is started in a non-protected VM, the OS will hang
-> during boot without giving a proper error message to the user.
-> 
-> Perform the checks on Confidential Guest support at runtime with an
-> helper called from the service call switching the guest to protected
-> mode.
-> 
-> Signed-off-by: Cédric Le Goater <clg@redhat.com>
+> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 > ---
-> 
->    In s390_pv_check(), drop the call to s390_pv_guest_check() since
->    init time has already checked the same conditions. However, to
->    report an error when the machine is not protected and the kernel
->    secure, we still need s390_pv_check().
+>   hw/arm/aspeed.c                 | 10 +---------
+>   hw/arm/npcm7xx_boards.c         | 20 +++++---------------
+>   hw/nvram/eeprom_at24c.c         | 12 ++++++++++++
+>   include/hw/nvram/eeprom_at24c.h | 10 ++++++++++
+>   4 files changed, 28 insertions(+), 24 deletions(-)
+>   create mode 100644 include/hw/nvram/eeprom_at24c.h
 
-Basically Ack for this patch ... I'm just wondering whether we should maybe 
-use a different name for the function. We now have s390_pv_guest_check() and 
-390_pv_check() ... hard to distinguish. Maybe we should call them 
-s390_pv_initial_check() and s390_pv_runtime_check() (or 
-s390_pv_diag308_check()) or something similar instead?
+> diff --git a/include/hw/nvram/eeprom_at24c.h b/include/hw/nvram/eeprom_at24c.h
+> new file mode 100644
+> index 000000000000..79a36b53ca87
+> --- /dev/null
+> +++ b/include/hw/nvram/eeprom_at24c.h
+> @@ -0,0 +1,10 @@
+> +/* Copyright (c) Meta Platforms, Inc. and affiliates. */
 
-  Thomas
+What license for this copyright?
+
+> +#ifndef EEPROM_AT24C_H
+> +#define EEPROM_AT24C_H
+> +
+> +#include "hw/i2c/i2c.h"
+
+  /**
+   * Create and realize an AT24C EEPROM device on the heap.
+   * @bus: I2C bus to put it on
+   * @addr: I2C address of the EEPROM slave when put on a bus
+   * @rom_size: size of the EEPROM
+   *
+   * Create the device state structure, initialize it, put it on
+   * the specified @bus, and drop the reference to it (the device
+   * is realized).
+   */
+  I2CSlave *at24c_eeprom_create_simple(I2CBus *bus, uint8_t addr,
+                                       size_t rom_size);
+
+> +I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size);
+> +
+> +#endif
 
 
