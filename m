@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7245A66D5AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 06:38:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A503E66D5B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 06:43:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHee0-0001Ic-6f; Tue, 17 Jan 2023 00:36:24 -0500
+	id 1pHejl-0002uw-Hg; Tue, 17 Jan 2023 00:42:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pHedw-0001I0-4k
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 00:36:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pHejj-0002uj-Pp
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 00:42:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pHedu-0004Jo-C7
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 00:36:19 -0500
+ id 1pHejh-000516-UU
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 00:42:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673933777;
+ s=mimecast20190719; t=1673934135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JVvA/WKSnpfhIclvE9LSiIzwO2L0wCdOvqFffsXcJG4=;
- b=Ov9nHVf0CHBMlPFaXjYPj1TMae1GXKRejUd0ihLoXyeyu2PuUaGFOdMoQ0qlrUJr5FdWea
- BFnpBRKngHmxrmNXBIKZCyn+ZHT9ue58mjkngwL611mwoRRCCYQPxbI+fw28uBmsOIw96k
- icNIzIEFp1482rlZ2sudNQBX7qRjBs8=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VoxLQR8qtdzkr81hfRn/VOoZ7uZ/IeMJ+CvmKEA5jbY=;
+ b=cBWua9cfLJqo38Cj9YRxgpp1o3PCXxMUgnbxAMN6fkXQf9nzMg2+isj5zweTBcFe+LE7f4
+ yr2l0eAGAv7NTQkboaKOf1fsvZc7x2oPsX5FqYGOb6mkXWlI0gOPzpvXQYtR02Q/3BdWAc
+ 80QcScq0QTb1H9zXPncqr0k2ybaZAkM=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-271-QmDhefddOsKOaVYxv4C4dQ-1; Tue, 17 Jan 2023 00:36:15 -0500
-X-MC-Unique: QmDhefddOsKOaVYxv4C4dQ-1
-Received: by mail-pl1-f200.google.com with SMTP id
- f8-20020a170902ce8800b00190c6518e21so21071407plg.1
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 21:36:15 -0800 (PST)
+ us-mta-336-z4OtbLtONmeIoYDEFMyCbA-1; Tue, 17 Jan 2023 00:42:14 -0500
+X-MC-Unique: z4OtbLtONmeIoYDEFMyCbA-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ f15-20020a62380f000000b0058db55a8d7aso1643860pfa.21
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 21:42:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JVvA/WKSnpfhIclvE9LSiIzwO2L0wCdOvqFffsXcJG4=;
- b=K9aPUCKcjj3iZdOzkh8yxirjfeNhLhrDN19FP/dFLdjIN4HeV2lsoQp2T0sg9l1TAo
- ETlvTGt2pD47C0SniIMyI2YzBAod3wAchZHHoN9k0XpUUJ3meHT3QO46dfQdPSQ4PJEH
- 7sJy1CH4cJdLQK0FaisEO5NpmeoAKaXWq+leFH/Th62CZNmWqL5uBHHL+48gpqvcNoEz
- v36bwQF60tYXz9Zo4tXzlcGVf0f2t0cJpC1Ahm/TEmWFkTAzVuGUwzs4+ixYEeE4RkR8
- /NNbc8bfnN1WLbEhsICz3H1b/izFDUpcp7DmlT/TxIAbgU/vu2Aas2G4UDJDQU40WrYk
- /77A==
-X-Gm-Message-State: AFqh2kpMMzJnzeAaMTUSfT8xKVaR0KWkQwE9VAJoMlf2PbBRgIpIQcnh
- mdDoK0Fy/cBx/ocC2Ej2pVlDfmQ9njBk7PQ9kkFhZf+CYM8B/nO+aWFFyvv44uWrIyMDVCzSHK3
- FY8rCqQxTCP1Dsb4=
-X-Received: by 2002:a05:6a00:3254:b0:589:9b8a:9c71 with SMTP id
- bn20-20020a056a00325400b005899b8a9c71mr2154749pfb.6.1673933774804; 
- Mon, 16 Jan 2023 21:36:14 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXs8Ho8HlyRLeu7nGSsqobNOdVgTla40tJbDoyKulpHmqqHRWCYzWOvjhHbVPWP3f7o0OvYluA==
-X-Received: by 2002:a05:6a00:3254:b0:589:9b8a:9c71 with SMTP id
- bn20-20020a056a00325400b005899b8a9c71mr2154711pfb.6.1673933774381; 
- Mon, 16 Jan 2023 21:36:14 -0800 (PST)
+ bh=VoxLQR8qtdzkr81hfRn/VOoZ7uZ/IeMJ+CvmKEA5jbY=;
+ b=HNp+ytQtDonZthZiySuTVcOnvnVMZHarZPBBkYCmlHYE8SCeyILl27DmJuZRVznMqg
+ F2W0CozXvtyRAwY5uac37ROfAqm10fFV1a6+ee8ltC8PbTTQNk297frznQsPv9O/g7Ua
+ u0OvF4AVgo2Mqr06UcdJg8JUajprWG7n1taV7u9Qar8liXsGAaf16do+flvNg1IDXioS
+ +YyZDPTMwH98TZF/UjL/Uk4VCu9XXdkTo4DTfBtNjT6pyLpbnCECBeMDJZJYgOgghExA
+ q4ctsaeTJM9wg5GQ2VuPrp2Plq92ciUXO+a7dUHxG2EbaBRLBkiDHZXGid4lm1Kv4GsO
+ 02Iw==
+X-Gm-Message-State: AFqh2kr0XAQJ7zmzBUEDN9m+1s0VnmNKLD2+aFL8b4ioOIMfpBFG7P5c
+ xBNWZZyj+8LBWowiWTCV0oN6kR5ZkqZbXW6eldtY0ZbjmVn07pgRgUyG7f3F3j3qWc7KCHa8jvf
+ eW65nhRL+Xl7lHRk=
+X-Received: by 2002:aa7:8283:0:b0:588:9c15:65c4 with SMTP id
+ s3-20020aa78283000000b005889c1565c4mr1291470pfm.3.1673934133268; 
+ Mon, 16 Jan 2023 21:42:13 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsK92lAYpbsPKmX47rCAjVTPO4YVIN6x77Y4uA/jrwDrdiYwY1M6ASNNlnwZhoccw7R4ApGrQ==
+X-Received: by 2002:aa7:8283:0:b0:588:9c15:65c4 with SMTP id
+ s3-20020aa78283000000b005889c1565c4mr1291437pfm.3.1673934132952; 
+ Mon, 16 Jan 2023 21:42:12 -0800 (PST)
 Received: from [10.72.13.93] ([43.228.180.230])
  by smtp.gmail.com with ESMTPSA id
- x15-20020aa78f0f000000b00587fda4a260sm2837002pfr.9.2023.01.16.21.36.08
+ d12-20020aa797ac000000b0058da3f2eba8sm3044407pfq.40.2023.01.16.21.42.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 21:36:13 -0800 (PST)
-Message-ID: <255c90a9-0df2-fa65-cebd-cc6326999a1a@redhat.com>
-Date: Tue, 17 Jan 2023 13:36:06 +0800
+ Mon, 16 Jan 2023 21:42:12 -0800 (PST)
+Message-ID: <2616f0cd-f9e8-d183-ea78-db1be4825d9c@redhat.com>
+Date: Tue, 17 Jan 2023 13:42:05 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC v2 06/13] vhost: delay set_vring_ready after DRIVER_OK
+Subject: Re: [RFC v2 05/13] vdpa net: add migration blocker if cannot migrate
+ cvq
 Content-Language: en-US
-To: Eugenio Perez Martin <eperezma@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com,
  Liuxiangdong <liuxiangdong5@huawei.com>,
  Zhu Lingshan <lingshan.zhu@intel.com>,
@@ -79,19 +81,20 @@ Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com,
  Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
  Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Parav Pandit <parav@mellanox.com>
 References: <20230112172434.760850-1-eperezma@redhat.com>
- <20230112172434.760850-7-eperezma@redhat.com>
- <CACGkMEvvjvhFrd5DJOMM0d7OWm0=9t6-YPzsZLZ8ZeZ4RU6PQw@mail.gmail.com>
- <CAJaqyWdePpv_htcrQ1TuEcz99x9Ri7ysFJz3+L7PuaLaPzNZjw@mail.gmail.com>
- <0aae4d77-2c03-7ba2-8496-024b5a683449@redhat.com>
- <CAJaqyWdhs+jyXF1Cqf2rd_+gfFNecEJ526a2OFMOZ6+T8rKccQ@mail.gmail.com>
+ <20230112172434.760850-6-eperezma@redhat.com>
+ <451c3617-61a1-a4bb-791a-6c55e363e961@redhat.com>
+ <CAJaqyWfBGyibFq7_nAj61OedpXX2T3c=Mbw39XXpxEvE0OOyig@mail.gmail.com>
+ <065243b8-c93f-17e6-72cb-c1db33da6df6@redhat.com>
+ <20230116002152-mutt-send-email-mst@kernel.org>
+ <CAJaqyWd=Lt+41Zrn70v7rN_0ociiRcvRSXuS4ZpevCUFrajEJQ@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWdhs+jyXF1Cqf2rd_+gfFNecEJ526a2OFMOZ6+T8rKccQ@mail.gmail.com>
+In-Reply-To: <CAJaqyWd=Lt+41Zrn70v7rN_0ociiRcvRSXuS4ZpevCUFrajEJQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -116,197 +119,163 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-在 2023/1/17 00:16, Eugenio Perez Martin 写道:
-> On Mon, Jan 16, 2023 at 7:37 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> 在 2023/1/13 16:19, Eugenio Perez Martin 写道:
->>> On Fri, Jan 13, 2023 at 5:36 AM Jason Wang <jasowang@redhat.com> wrote:
->>>> On Fri, Jan 13, 2023 at 1:25 AM Eugenio Pérez <eperezma@redhat.com> wrote:
->>>>> To restore the device at the destination of a live migration we send the
->>>>> commands through control virtqueue. For a device to read CVQ it must
->>>>> have received the DRIVER_OK status bit.
->>>> This probably requires the support from the parent driver and requires
->>>> some changes or fixes in the parent driver.
->>>>
->>>> Some drivers did:
->>>>
->>>> parent_set_status():
->>>> if (DRIVER_OK)
->>>>       if (queue_enable)
->>>>           write queue_enable to the device
->>>>
->>>> Examples are IFCVF or even vp_vdpa at least. MLX5 seems to be fine.
->>>>
->>> I don't get your point here. No device should start reading CVQ (or
->>> any other VQ) without having received DRIVER_OK.
->>
->> If I understand the code correctly:
->>
->> For CVQ, we do SET_VRING_ENABLE before DRIVER_OK, that's fine.
->>
->> For datapath_vq, we do SET_VRING_ENABLE after DRIVER_OK, this requires
->> parent driver support (explained above)
->>
->>
->>> Some parent drivers do not support sending the queue enable command
->>> after DRIVER_OK, usually because they clean part of the state like the
->>> set by set_vring_base. Even vdpa_net_sim needs fixes here.
->>
->> Yes, so the question is:
->>
->> Do we need another backend feature for this? (otherwise thing may break
->> silently)
->>
->>
->>> But my understanding is that it should be supported so I consider it a
->>> bug.
->>
->> Probably, we need fine some proof in the spec, e.g in 3.1.1:
->>
->> """
->>
->> 7.Perform device-specific setup, including discovery of virtqueues for
->> the device, optional per-bus setup, reading and possibly writing the
->> device’s virtio configuration space, and population of virtqueues.
->> 8.Set the DRIVER_OK status bit. At this point the device is “live”.
->>
->> """
->>
->> So if my understanding is correct, "discovery of virtqueues for the
->> device" implies queue_enable here which is expected to be done before
->> DRIVER_OK. But it doesn't say anything regrading to the behaviour of
->> setting queue ready after DRIVER_OK.
->>
->> I'm not sure it's a real bug or not, may Michael and comment on this.
->>
-> Right, input on this topic would be really appreciated.
+在 2023/1/16 17:33, Eugenio Perez Martin 写道:
+> On Mon, Jan 16, 2023 at 6:24 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+>> On Mon, Jan 16, 2023 at 11:34:20AM +0800, Jason Wang wrote:
+>>> 在 2023/1/13 15:46, Eugenio Perez Martin 写道:
+>>>> On Fri, Jan 13, 2023 at 5:25 AM Jason Wang <jasowang@redhat.com> wrote:
+>>>>> 在 2023/1/13 01:24, Eugenio Pérez 写道:
+>>>>>> A vdpa net device must initialize with SVQ in order to be migratable,
+>>>>>> and initialization code verifies conditions.  If the device is not
+>>>>>> initialized with the x-svq parameter, it will not expose _F_LOG so vhost
+>>>>>> sybsystem will block VM migration from its initialization.
+>>>>>>
+>>>>>> Next patches change this. Net data VQs will be shadowed only at
+>>>>>> migration time and vdpa net devices need to expose _F_LOG as long as it
+>>>>>> can go to SVQ.
+>>>>>>
+>>>>>> Since we don't know that at initialization time but at start, add an
+>>>>>> independent blocker at CVQ.
+>>>>>>
+>>>>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>>>>> ---
+>>>>>>     net/vhost-vdpa.c | 35 +++++++++++++++++++++++++++++------
+>>>>>>     1 file changed, 29 insertions(+), 6 deletions(-)
+>>>>>>
+>>>>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+>>>>>> index 631424d9c4..2ca93e850a 100644
+>>>>>> --- a/net/vhost-vdpa.c
+>>>>>> +++ b/net/vhost-vdpa.c
+>>>>>> @@ -26,12 +26,14 @@
+>>>>>>     #include <err.h>
+>>>>>>     #include "standard-headers/linux/virtio_net.h"
+>>>>>>     #include "monitor/monitor.h"
+>>>>>> +#include "migration/blocker.h"
+>>>>>>     #include "hw/virtio/vhost.h"
+>>>>>>
+>>>>>>     /* Todo:need to add the multiqueue support here */
+>>>>>>     typedef struct VhostVDPAState {
+>>>>>>         NetClientState nc;
+>>>>>>         struct vhost_vdpa vhost_vdpa;
+>>>>>> +    Error *migration_blocker;
+>>>>> Any reason we can't use the mivration_blocker in vhost_dev structure?
+>>>>>
+>>>>> I believe we don't need to wait until start to know we can't migrate.
+>>>>>
+>>>> Device migratability also depends on features that the guest acks.
+>>>
+>>> This sounds a little bit tricky, more below:
+>>>
+>>>
+>>>> For example, if the device does not support ASID it can be migrated as
+>>>> long as _F_CVQ is not acked.
+>>>
+>>> The management may notice a non-consistent behavior in this case. I wonder
+>>> if we can simply check the host features.
+>>>
+> That's right, and I can see how that can be an issue.
 >
->>>    Especially after queue_reset patches. Is that what you mean?
->>
->> We haven't supported queue_reset yet in Qemu. But it allows to write 1
->> to queue_enable after DRIVER_OK for sure.
->>
-> I was not clear, I meant in the emulated device. I'm testing this
-> series with the proposal of _F_STATE.
->
->>>>> However this opens a window where the device could start receiving
->>>>> packets in rx queue 0 before it receives the RSS configuration. To avoid
->>>>> that, we will not send vring_enable until all configuration is used by
->>>>> the device.
->>>>>
->>>>> As a first step, run vhost_set_vring_ready for all vhost_net backend after
->>>>> all of them are started (with DRIVER_OK). This code should not affect
->>>>> vdpa.
->>>>>
->>>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>>>> ---
->>>>>    hw/net/vhost_net.c | 17 ++++++++++++-----
->>>>>    1 file changed, 12 insertions(+), 5 deletions(-)
->>>>>
->>>>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
->>>>> index c4eecc6f36..3900599465 100644
->>>>> --- a/hw/net/vhost_net.c
->>>>> +++ b/hw/net/vhost_net.c
->>>>> @@ -399,6 +399,18 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
->>>>>            } else {
->>>>>                peer = qemu_get_peer(ncs, n->max_queue_pairs);
->>>>>            }
->>>>> +        r = vhost_net_start_one(get_vhost_net(peer), dev);
->>>>> +        if (r < 0) {
->>>>> +            goto err_start;
->>>>> +        }
->>>>> +    }
->>>>> +
->>>>> +    for (int j = 0; j < nvhosts; j++) {
->>>>> +        if (j < data_queue_pairs) {
->>>>> +            peer = qemu_get_peer(ncs, j);
->>>>> +        } else {
->>>>> +            peer = qemu_get_peer(ncs, n->max_queue_pairs);
->>>>> +        }
->>>> I fail to understand why we need to change the vhost_net layer? This
->>>> is vhost-vDPA specific, so I wonder if we can limit the changes to e.g
->>>> vhost_vdpa_dev_start()?
->>>>
->>> The vhost-net layer explicitly calls vhost_set_vring_enable before
->>> vhost_dev_start, and this is exactly the behavior we want to avoid.
->>> Even if we make changes to vhost_dev, this change is still needed.
->>
->> Note that the only user of vhost_set_vring_enable() is vhost-user where
->> the semantic is different:
->>
->> It uses that to changes the number of active queues:
->>
->> static int peer_attach(VirtIONet *n, int index)
->>
->>           if (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
->> =>      vhost_set_vring_enable(nc->peer, 1);
->>       }
->>
->> This is not the semantic of vhost-vDPA that tries to be complaint with
->> virtio-spec. So I'm not sure how it can help here.
->>
-> Right, but previous changes use enable callback to delay the enable of
-> the datapath virtqueues. I'll try to fit the changes in
-> virtio/vhost-vdpa though.
+> However, the check for the ASID is based on queue indexes at the
+> moment. If we want to register the blocker at the initialization
+> moment the only option I see is to do two features ack & reset cycle:
+> one with MQ and another one without MQ.
 
 
-This would make things more complicated. As mentioned above, 
-vhost-user's usage of vhost_set_vring_enable() is not spec compliant 
-while the vhost-vDPA VHOST_VDPA_SET_VRING_ENALBE tries to be compliant 
-with the spec.
-
-If we tries to mix use that it may result confusion for the readers.
+That's should be fine, or any issue you saw?
 
 Thanks
 
 
 >
+> Would it be more correct to assume the device will assign the right
+> ASID only probing one configuration? I don't think so but I'm ok to
+> leave the code that way if we agree it is more viable.
+>
+>>> Thanks
+>>
+>> Yes the issue is that ack can happen after migration started.
+>> I don't think this kind of blocker appearing during migration
+>> is currently expected/supported well. Is it?
+>>
+> In that case the guest cannot DRIVER_OK the device, because the call
+> to migrate_add_blocker fails and the error propagates from
+> vhost_net_start up to the virtio device.
+>
+> But I can also see how this is inconvenient and to add a migration
+> blocker at initialization can simplify things here. As long as we
+> agree on the right way to probe I can send a new version that way for
+> sure.
+>
 > Thanks!
 >
->>> And we want to explicitly enable CVQ first, which "only" vhost_net
->>> knows which is.
->>
->> This should be known by net/vhost-vdpa.c.
->>
->>
->>> To perform that in vhost_vdpa_dev_start would require
->>> quirks, involving one or more of:
->>> * Ignore vq enable calls if the device is not the CVQ one. How to
->>> signal what is the CVQ? Can we trust it will be the last one for all
->>> kind of devices?
->>> * Enable queues that do not belong to the last vhost_dev from the enable call.
->>> * Enable the rest of the queues from the last enable in reverse order.
->>> * Intercalate the "net load" callback between enabling the last
->>> vhost_vdpa device and enabling the rest of devices.
->>> * Add an "enable priority" order?
->>
->> Haven't had time in thinking through, but it would be better if we can
->> limit the changes in vhost-vdpa layer. E.g currently the
->> VHOST_VDPA_SET_VRING_ENABLE is done at vhost_dev_start().
->>
->> Thanks
->>
->>
->>> Thanks!
->>>
->>>> Thanks
+>>>> Thanks!
 >>>>
->>>>>            if (peer->vring_enable) {
->>>>>                /* restore vring enable state */
->>>>> @@ -408,11 +420,6 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
->>>>>                    goto err_start;
->>>>>                }
->>>>>            }
->>>>> -
->>>>> -        r = vhost_net_start_one(get_vhost_net(peer), dev);
->>>>> -        if (r < 0) {
->>>>> -            goto err_start;
->>>>> -        }
->>>>>        }
+>>>>> Thanks
 >>>>>
->>>>>        return 0;
->>>>> --
->>>>> 2.31.1
 >>>>>
+>>>>>>         VHostNetState *vhost_net;
+>>>>>>
+>>>>>>         /* Control commands shadow buffers */
+>>>>>> @@ -433,9 +435,15 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+>>>>>>                 g_strerror(errno), errno);
+>>>>>>             return -1;
+>>>>>>         }
+>>>>>> -    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) ||
+>>>>>> -        !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
+>>>>>> -        return 0;
+>>>>>> +    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID))) {
+>>>>>> +        error_setg(&s->migration_blocker,
+>>>>>> +                   "vdpa device %s does not support ASID",
+>>>>>> +                   nc->name);
+>>>>>> +        goto out;
+>>>>>> +    }
+>>>>>> +    if (!vhost_vdpa_net_valid_svq_features(v->dev->features,
+>>>>>> +                                           &s->migration_blocker)) {
+>>>>>> +        goto out;
+>>>>>>         }
+>>>>>>
+>>>>>>         /*
+>>>>>> @@ -455,7 +463,10 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+>>>>>>             }
+>>>>>>
+>>>>>>             if (group == cvq_group) {
+>>>>>> -            return 0;
+>>>>>> +            error_setg(&s->migration_blocker,
+>>>>>> +                "vdpa %s vq %d group %"PRId64" is the same as cvq group "
+>>>>>> +                "%"PRId64, nc->name, i, group, cvq_group);
+>>>>>> +            goto out;
+>>>>>>             }
+>>>>>>         }
+>>>>>>
+>>>>>> @@ -468,8 +479,15 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+>>>>>>         s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
+>>>>>>
+>>>>>>     out:
+>>>>>> -    if (!s->vhost_vdpa.shadow_vqs_enabled) {
+>>>>>> -        return 0;
+>>>>>> +    if (s->migration_blocker) {
+>>>>>> +        Error *errp = NULL;
+>>>>>> +        r = migrate_add_blocker(s->migration_blocker, &errp);
+>>>>>> +        if (unlikely(r != 0)) {
+>>>>>> +            g_clear_pointer(&s->migration_blocker, error_free);
+>>>>>> +            error_report_err(errp);
+>>>>>> +        }
+>>>>>> +
+>>>>>> +        return r;
+>>>>>>         }
+>>>>>>
+>>>>>>         s0 = vhost_vdpa_net_first_nc_vdpa(s);
+>>>>>> @@ -513,6 +531,11 @@ static void vhost_vdpa_net_cvq_stop(NetClientState *nc)
+>>>>>>             vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->status);
+>>>>>>         }
+>>>>>>
+>>>>>> +    if (s->migration_blocker) {
+>>>>>> +        migrate_del_blocker(s->migration_blocker);
+>>>>>> +        g_clear_pointer(&s->migration_blocker, error_free);
+>>>>>> +    }
+>>>>>> +
+>>>>>>         vhost_vdpa_net_client_stop(nc);
+>>>>>>     }
+>>>>>>
 
 
