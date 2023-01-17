@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8EE8670B62
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:11:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7365A670B54
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:10:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHu9a-0001mb-Rv; Tue, 17 Jan 2023 17:10:02 -0500
+	id 1pHuA3-0002pa-N3; Tue, 17 Jan 2023 17:10:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9Y-0001bk-AD
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:10:00 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9m-0002VO-Ok
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:10:15 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9W-0007b2-Jc
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:10:00 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9i-0007pg-RA
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:10:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673993398;
+ s=mimecast20190719; t=1673993409;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gDIycr7V4ehicHYTbW8zApWYTAG6A+ojiqCcDH8vsjY=;
- b=MszW9KwdZbPUwrgjs6AG9GJ3pJ3vSIZcH42PwzzjFk2fydiimwudyjmAa4bpOHcjieRT+0
- mIQxNv2Or1Zz5Qe62uXp4rR2XyaDpGQHi+Gs6DpB8LVnyrpJssJa+NpqwyfeyYi+/sYHfQ
- xl8NmmOKYGaAH4UyINEs2MpN1b1eduI=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Tet6KDshR52hByMThCbEyNb3otDtocztY2T3g7R+w9w=;
+ b=RegdF2j1amoFWZ5oGSdQiWPrJZIRSzRMIHU+6/7ASTCG/wkRIJhgow7zZ6Bwsil9uYZpWa
+ AnRVrAOqw3JLFdRlf+5uXqeq9kdRFTySkcfmJ3Ih4YfXmHBTdNSTTvdMkvqhTKYulT3OXq
+ l2SLptSSc9KDJZvyNk2F3HdOMJ71lo8=
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-611-hgNqkl4vMga2BTwV3zFDRQ-1; Tue, 17 Jan 2023 17:09:57 -0500
-X-MC-Unique: hgNqkl4vMga2BTwV3zFDRQ-1
-Received: by mail-yb1-f198.google.com with SMTP id
- x188-20020a2531c5000000b00716de19d76bso35371158ybx.19
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 14:09:56 -0800 (PST)
+ us-mta-633-l3ZVXT-ePB6u6c_1YkRVGA-1; Tue, 17 Jan 2023 17:10:00 -0500
+X-MC-Unique: l3ZVXT-ePB6u6c_1YkRVGA-1
+Received: by mail-vs1-f71.google.com with SMTP id
+ 68-20020a670347000000b003bf750cb86eso8138825vsd.8
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 14:10:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gDIycr7V4ehicHYTbW8zApWYTAG6A+ojiqCcDH8vsjY=;
- b=iknJOyK075ujsCOGwrIjg64i6rj9rSKWTiWtV0i3x3+y6FPS9RUNhhV8ouZXBerGQt
- 3uVyZ/Um14LOUbP7CVB80326lk/OwqIpNCPBzq6JVo5EoJ9HP4kgmyqec6YgECmeiFA6
- ozhjTEZxJWFhbG/WWelmAUJ4kyIPbJF0BbSEjRcCCCL+1aOEpnyFGIYxnp9ksgaWIllS
- xOmLrVf5ggOZAPrJ0HvVzR8EVcEeRaa7jvEhA4ftoqP3q/pNxi0jsvAG0p2ZqJSl6fd6
- Ac/8EdmPA41Uum4GklbnUUIy2z9VzfspWOfs9CdxZm2JDnXRRXDZl4nHp+S9lCobSnuX
- 1fZQ==
-X-Gm-Message-State: AFqh2krExAZembA9aR8baZKTJjsNmsIgL0ubos/+PSVx+sZ4SeUcgYGT
- lWuzk+PIh7xogZoAzg6qwyQiGW5Z+XGV6XecaoGpnxPlfMGxVKj2zdr8VbRyPV2AesTYwHmByQi
- tLfXDgXJ5riCxjgp7asV5LYsFoV88f2YSv+/QvPDKasXOHkxFox7YhaQTuO2h+AXU
-X-Received: by 2002:a81:7587:0:b0:4e0:59b8:da3 with SMTP id
- q129-20020a817587000000b004e059b80da3mr4291700ywc.45.1673993395285; 
- Tue, 17 Jan 2023 14:09:55 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvGNBXSYLOXaJPiMuvaBQl0LQxfkWLemrtYS1E24L/AtAcqgdELtLBZJDPDX8qaNmv3w67nQg==
-X-Received: by 2002:a81:7587:0:b0:4e0:59b8:da3 with SMTP id
- q129-20020a817587000000b004e059b80da3mr4291680ywc.45.1673993394940; 
- Tue, 17 Jan 2023 14:09:54 -0800 (PST)
+ bh=Tet6KDshR52hByMThCbEyNb3otDtocztY2T3g7R+w9w=;
+ b=MaKdqVHEG9TA+G5kC3UHyXq69G0QoK2AbHNp1PVMF2qTfno2dWPwG61c91gax9U5NP
+ O84x7lIsnrrP6Cih61/abofdQgJnqwYzqPSrWpQK5kQ63NsH375AIZbACRWKsARGnHW9
+ DKo8XrABfFYCaH6P5Pisp5ogY+bEQkiysmiJr8+meDle+OY9KAV4oFaUPGsp7igCTiMR
+ FiLDPkrIfViyGCpV60+ZsYLr18R6O4v8gdlkB0alZWgT9FulP0T1ekFGA3URjDQsJrYr
+ /G2DAs6+ZWSosuRZRUVYk3CLncDIMtDUabPt3pdVHdBy1STUdUhIuJsCuZFSLEvja+IG
+ gkpg==
+X-Gm-Message-State: AFqh2kq4le6vOD47xn7lXXgi1qcfl7b5hTlTsaXvLnp/dtmqKGQayS41
+ 9ocWV46i1PhaE6sOp1noK3c8vaLKj7b9+clfUqXLD1KjjO9H1yL+qZ8PZTRicvovApaPZTYEovj
+ ZkKAvHjPJbtuHjfUdyhlAjiR/clA3UXbZhP/vxCFQIt1hSQ5qfrTJiYiu47x/Dwc3
+X-Received: by 2002:a05:6102:941:b0:3ce:b848:d673 with SMTP id
+ a1-20020a056102094100b003ceb848d673mr2916594vsi.32.1673993397684; 
+ Tue, 17 Jan 2023 14:09:57 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuqkJLrYhxHRdX8hihOW/AWMfuSuL07PVB97bsNcj6Q7A6XkiyZ/gF9R+x449HElhoAFuM/gQ==
+X-Received: by 2002:a05:6102:941:b0:3ce:b848:d673 with SMTP id
+ a1-20020a056102094100b003ceb848d673mr2916560vsi.32.1673993397290; 
+ Tue, 17 Jan 2023 14:09:57 -0800 (PST)
 Received: from x1n.redhat.com
  (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca. [70.30.145.63])
  by smtp.gmail.com with ESMTPSA id
- bm16-20020a05620a199000b006e16dcf99c8sm21142978qkb.71.2023.01.17.14.09.53
+ bm16-20020a05620a199000b006e16dcf99c8sm21142978qkb.71.2023.01.17.14.09.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 14:09:53 -0800 (PST)
+ Tue, 17 Jan 2023 14:09:55 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
  James Houghton <jthoughton@google.com>,
  Juan Quintela <quintela@redhat.com>, peterx@redhat.com,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH RFC 14/21] migration: Map hugetlbfs ramblocks twice,
- and pre-allocate
-Date: Tue, 17 Jan 2023 17:09:07 -0500
-Message-Id: <20230117220914.2062125-15-peterx@redhat.com>
+Subject: [PATCH RFC 15/21] migration: Teach qemu about minor faults and
+ doublemap
+Date: Tue, 17 Jan 2023 17:09:08 -0500
+Message-Id: <20230117220914.2062125-16-peterx@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20230117220914.2062125-1-peterx@redhat.com>
 References: <20230117220914.2062125-1-peterx@redhat.com>
@@ -101,122 +101,192 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add a RAMBlock.host_mirror for all the hugetlbfs backed guest memories.
-It'll be used to remap the same region twice and it'll be used to service
-page faults using UFFDIO_CONTINUE.
+When a ramblock is backed by hugetlbfs and the user specified using
+double-map feature, we trap the faults on these regions using minor mode.
+Teach QEMU about that.
 
-To make sure all accesses to these ranges will generate minor page faults
-not missing page faults, we need to pre-allocate the files to make sure
-page cache exist start from the beginning.
+Add some sanity check on the fault flags when receiving a uffd message.
+For minor fault trapped ranges, we should always see the MINOR flag set,
+while when using generic missing faults we should never see it.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- include/exec/ramblock.h |  7 +++++
- migration/ram.c         | 59 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 66 insertions(+)
+ migration/postcopy-ram.c | 99 ++++++++++++++++++++++++++++++++--------
+ migration/postcopy-ram.h |  1 +
+ 2 files changed, 81 insertions(+), 19 deletions(-)
 
-diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
-index 3f31ce1591..c76683c3c8 100644
---- a/include/exec/ramblock.h
-+++ b/include/exec/ramblock.h
-@@ -28,6 +28,13 @@ struct RAMBlock {
-     struct rcu_head rcu;
-     struct MemoryRegion *mr;
-     uint8_t *host;
-+    /*
-+     * This is only used for hugetlbfs ramblocks where doublemap is
-+     * enabled.  The pointer is managed by dest host migration code, and
-+     * should be NULL when migration is finished.  On src host, it should
-+     * always be NULL.
-+     */
-+    uint8_t *host_mirror;
-     uint8_t *colo_cache; /* For colo, VM's ram cache */
-     ram_addr_t offset;
-     ram_addr_t used_length;
-diff --git a/migration/ram.c b/migration/ram.c
-index 2ebf414f5f..37d7b3553a 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3879,6 +3879,57 @@ void colo_release_ram_cache(void)
-     ram_state_cleanup(&ram_state);
- }
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index acae1dc6ae..86ff73c2c0 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -325,12 +325,25 @@ static bool ufd_check_and_apply(int ufd, MigrationIncomingState *mis)
  
-+static int migrate_hugetlb_doublemap_init(void)
-+{
-+    RAMBlock *rb;
-+    void *addr;
-+    int ret;
+     if (qemu_real_host_page_size() != ram_pagesize_summary()) {
+         bool have_hp = false;
+-        /* We've got a huge page */
 +
-+    if (!migrate_hugetlb_doublemap()) {
-+        return 0;
-+    }
-+
-+    RAMBLOCK_FOREACH_NOT_IGNORED(rb) {
-+        if (qemu_ram_is_hugetlb(rb)) {
-+            /*
-+             * Firstly, we remap the same ramblock into another range of
-+             * virtual address, so that we can write to the pages without
-+             * touching the page tables that directly mapped for the guest.
-+             */
-+            addr = ramblock_file_map(rb);
-+            if (addr == MAP_FAILED) {
-+                ret = -errno;
-+                error_report("%s: Duplicate mapping for hugetlb ramblock '%s'"
-+                             "failed: %s", __func__, qemu_ram_get_idstr(rb),
-+                             strerror(errno));
-+                return ret;
-+            }
-+            rb->host_mirror = addr;
-+
-+            /*
-+             * We need to make sure we pre-allocate the range with
-+             * hugetlbfs pages before hand, so that all the page fault will
-+             * be trapped as MINOR faults always, rather than MISSING
-+             * faults in userfaultfd.
-+             */
-+            ret = qemu_madvise(addr, rb->mmap_length, QEMU_MADV_POPULATE_WRITE);
-+            if (ret) {
-+                error_report("Failed to populate hugetlb ramblock '%s': "
-+                             "%s", qemu_ram_get_idstr(rb), strerror(-ret));
-+                return ret;
-+            }
++        /*
++         * If we're using doublemap, we need MINOR fault, otherwise we need
++         * MISSING fault (which is the default).
++         */
++        if (migrate_hugetlb_doublemap()) {
++#ifdef UFFD_FEATURE_MINOR_HUGETLBFS
++            have_hp = supported_features & UFFD_FEATURE_MINOR_HUGETLBFS;
++#endif
++        } else {
+ #ifdef UFFD_FEATURE_MISSING_HUGETLBFS
+-        have_hp = supported_features & UFFD_FEATURE_MISSING_HUGETLBFS;
++            have_hp = supported_features & UFFD_FEATURE_MISSING_HUGETLBFS;
+ #endif
 +        }
-+    }
++
+         if (!have_hp) {
+-            error_report("Userfault on this host does not support huge pages");
++            error_report("Userfault on this host does not support huge pages "
++                         "with %s fault traps", migrate_hugetlb_doublemap() ?
++                         "MINOR" : "MISSING");
+             return false;
+         }
+     }
+@@ -669,22 +682,43 @@ static int ram_block_enable_notify(RAMBlock *rb, void *opaque)
+ {
+     MigrationIncomingState *mis = opaque;
+     struct uffdio_register reg_struct;
++    bool minor_fault = postcopy_use_minor_fault(rb);
+ 
+     reg_struct.range.start = (uintptr_t)qemu_ram_get_host_addr(rb);
+     reg_struct.range.len = rb->postcopy_length;
 +
 +    /*
-+     * When reach here, it means we've setup the mirror mapping for all the
-+     * hugetlbfs pages.  Hence when page fault happens, we'll be able to
-+     * resolve page faults using UFFDIO_CONTINUE for hugetlbfs pages, but
-+     * we'll keep using UFFDIO_COPY for anonymous pages.
++     * For hugetlbfs with double-map enabled, we trap pages using minor
++     * mode, otherwise we use missing mode.  Note: we also register missing
++     * mode for doublemap, but we should never hit it.
 +     */
-+    return 0;
-+}
-+
- /**
-  * ram_load_setup: Setup RAM for migration incoming side
-  *
-@@ -3893,6 +3944,10 @@ static int ram_load_setup(QEMUFile *f, void *opaque)
+     reg_struct.mode = UFFDIO_REGISTER_MODE_MISSING;
++    if (minor_fault) {
++        reg_struct.mode |= UFFDIO_REGISTER_MODE_MINOR;
++    }
+ 
+     /* Now tell our userfault_fd that it's responsible for this area */
+     if (ioctl(mis->userfault_fd, UFFDIO_REGISTER, &reg_struct)) {
+         error_report("%s userfault register: %s", __func__, strerror(errno));
          return -1;
      }
- 
-+    if (migrate_hugetlb_doublemap_init()) {
-+        return -1;
-+    }
+-    if (!(reg_struct.ioctls & ((__u64)1 << _UFFDIO_COPY))) {
+-        error_report("%s userfault: Region doesn't support COPY", __func__);
+-        return -1;
+-    }
+-    if (reg_struct.ioctls & ((__u64)1 << _UFFDIO_ZEROPAGE)) {
+-        qemu_ram_set_uf_zeroable(rb);
 +
-     xbzrle_load_setup();
-     ramblock_recv_map_init();
- 
-@@ -3913,6 +3968,10 @@ static int ram_load_cleanup(void *opaque)
-     RAMBLOCK_FOREACH_NOT_IGNORED(rb) {
-         g_free(rb->receivedmap);
-         rb->receivedmap = NULL;
-+        if (rb->host_mirror) {
-+            munmap(rb->host_mirror, rb->mmap_length);
-+            rb->host_mirror = NULL;
++    if (minor_fault) {
++        /* Using minor faults for this ramblock */
++        if (!(reg_struct.ioctls & ((__u64)1 << _UFFDIO_CONTINUE))) {
++            error_report("%s userfault: Region doesn't support CONTINUE",
++                         __func__);
++            return -1;
++        }
++    } else {
++        /* Using missing faults for this ramblock */
++        if (!(reg_struct.ioctls & ((__u64)1 << _UFFDIO_COPY))) {
++            error_report("%s userfault: Region doesn't support COPY", __func__);
++            return -1;
++        }
++        if (reg_struct.ioctls & ((__u64)1 << _UFFDIO_ZEROPAGE)) {
++            qemu_ram_set_uf_zeroable(rb);
 +        }
      }
  
      return 0;
+@@ -916,6 +950,7 @@ static void *postcopy_ram_fault_thread(void *opaque)
+ {
+     MigrationIncomingState *mis = opaque;
+     struct uffd_msg msg;
++    uint64_t address;
+     int ret;
+     size_t index;
+     RAMBlock *rb = NULL;
+@@ -945,6 +980,7 @@ static void *postcopy_ram_fault_thread(void *opaque)
+     }
+ 
+     while (true) {
++        bool use_minor_fault, minor_flag;
+         ram_addr_t rb_offset;
+         int poll_result;
+ 
+@@ -1022,22 +1058,37 @@ static void *postcopy_ram_fault_thread(void *opaque)
+                 break;
+             }
+ 
+-            rb_offset = ROUND_DOWN(rb_offset, migration_ram_pagesize(rb));
+-            trace_postcopy_ram_fault_thread_request(msg.arg.pagefault.address,
+-                                                qemu_ram_get_idstr(rb),
+-                                                rb_offset,
+-                                                msg.arg.pagefault.feat.ptid);
+-            mark_postcopy_blocktime_begin(
+-                    (uintptr_t)(msg.arg.pagefault.address),
+-                                msg.arg.pagefault.feat.ptid, rb);
++            address = ROUND_DOWN(msg.arg.pagefault.address,
++                                 migration_ram_pagesize(rb));
++            use_minor_fault = postcopy_use_minor_fault(rb);
++            minor_flag = !!(msg.arg.pagefault.flags &
++                            UFFD_PAGEFAULT_FLAG_MINOR);
+ 
++            /*
++             * Do sanity check on the message flags to make sure this is
++             * the one we expect to receive.  When using minor fault on
++             * this ramblock, it should _always_ be set; when not using
++             * minor fault, it should _never_ be set.
++             */
++            if (use_minor_fault ^ minor_flag) {
++                error_report("%s: Unexpected page fault flags (0x%"PRIx64") "
++                             "for address 0x%"PRIx64" (mode=%s)", __func__,
++                             (uint64_t)msg.arg.pagefault.flags,
++                             (uint64_t)msg.arg.pagefault.address,
++                             use_minor_fault ? "MINOR" : "MISSING");
++            }
++
++            trace_postcopy_ram_fault_thread_request(
++                address, qemu_ram_get_idstr(rb), rb_offset,
++                msg.arg.pagefault.feat.ptid);
++            mark_postcopy_blocktime_begin(
++                    (uintptr_t)(address), msg.arg.pagefault.feat.ptid, rb);
+ retry:
+             /*
+              * Send the request to the source - we want to request one
+              * of our host page sizes (which is >= TPS)
+              */
+-            ret = postcopy_request_page(mis, rb, rb_offset,
+-                                        msg.arg.pagefault.address);
++            ret = postcopy_request_page(mis, rb, rb_offset, address);
+             if (ret) {
+                 /* May be network failure, try to wait for recovery */
+                 postcopy_pause_fault_thread(mis);
+@@ -1694,3 +1745,13 @@ void *postcopy_preempt_thread(void *opaque)
+ 
+     return NULL;
+ }
++
++/*
++ * Whether we should use MINOR fault to trap page faults?  It will be used
++ * when doublemap is enabled on hugetlbfs.  The default value will be
++ * false, which means we'll keep using the legacy MISSING faults.
++ */
++bool postcopy_use_minor_fault(RAMBlock *rb)
++{
++    return migrate_hugetlb_doublemap() && qemu_ram_is_hugetlb(rb);
++}
+diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
+index b4867a32d5..32734d2340 100644
+--- a/migration/postcopy-ram.h
++++ b/migration/postcopy-ram.h
+@@ -193,5 +193,6 @@ enum PostcopyChannels {
+ void postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file);
+ void postcopy_preempt_setup(MigrationState *s);
+ int postcopy_preempt_establish_channel(MigrationState *s);
++bool postcopy_use_minor_fault(RAMBlock *rb);
+ 
+ #endif
 -- 
 2.37.3
 
