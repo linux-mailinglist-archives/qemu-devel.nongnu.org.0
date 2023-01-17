@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C09B66E627
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 19:35:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A73A66E62F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 19:38:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHqny-0004bG-VA; Tue, 17 Jan 2023 13:35:31 -0500
+	id 1pHqqS-0006N7-08; Tue, 17 Jan 2023 13:38:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHqnm-0004KB-IH
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:35:27 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ id 1pHqqO-0006Mp-SR
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:38:00 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHqnk-00085K-Ul
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:35:18 -0500
-Received: by mail-wr1-x434.google.com with SMTP id e3so22338196wru.13
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 10:35:16 -0800 (PST)
+ id 1pHqqN-0008PX-AE
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:38:00 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id g10so22999470wmo.1
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 10:37:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Beu7YnXQZqa6GdICBNlvRKBxMYle/r3EQ32yoKk4yoI=;
- b=ssd95jTRDAP7HqzU6zSB3niL/Sgg9c7IBfT4HhGdheCyT4yFSQzhrLRCGl20IA0+6V
- I91eowiSZtzgM+dERuEtoPJgtM8nxLYy76i2S6+f0eziROGCqShlXwrqXQwx76ag6gwC
- k0PXVrtfrZN6c7ef6QGTPF4mU2N6PNqdGl51S1bTaX43JmLhHL7HnQhg/0VYn/oKVCXX
- l09/HqnUJCPqAD8YGqwi6Nhm8vBNNoPFXI7W9mLu0Dw9ivZsAQNSGU8rcp8zzHerYR84
- atZ8XoYwgfQptM8FAYlSfBVaj2BVbNIjphVAd/hKVxZp94wDy57sNmP3stdj8HxynuNU
- y7rQ==
+ bh=9H4y0Bt2sXI9mL8arvA/aO2CDynRZefdfnh2/L4eq6g=;
+ b=ZOTU1dxbqoO0yX9XCCxoZ1DqCbKuXH9HPnbicWFmeXsfn6nEA1zpGPOWSCvvpf6PvC
+ 3opzXF/M17hWMpdlUWR5CRSWyE8SypvB2s33eKt+sMCW4kudOqmnmq7f0LWCqr2yBJah
+ qDrv1kkxHQP9Ch9Dj74gfraz5e3Z3y2M/6OnxRYwypU/4M8G46YvAx6c9ZYQD+07wKMl
+ ACcYl9LMKAxhVHeINfIBFpZ+qQW4ibIymFrpec/O5Clz1ijelIENFqGkUbjr/SqBEq6s
+ GOIGVmx8vgfM2dDAe5PVsVp76a/SaYvavkUey//RNIIfI5OqGHS+H+mxUQlgcXk18Xc/
+ 62VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=Beu7YnXQZqa6GdICBNlvRKBxMYle/r3EQ32yoKk4yoI=;
- b=wGcoe/a1m/aJRyXvAUVlDxDGbNg7nwtpQuSp9epTb7TZsu8w2o7Vq6xF5uqgDgA9sH
- fkkMGG+uyzZux+1tsTmJbqClBMlpFaCwYwBSk+VyBd7f3zdgwEs2QsxQ4deQgchNUy3d
- vwahHL9nUCxai5cwBwKmD7GifF+Sg84vf/yJF50VFC4L6SGrU5rRhVbulHPNMOEl1S3I
- Ms5IdjwMCdlgT5cwmlKr8g0PP7DzWynjicXY4GyDtJhZ6WN5iMC3FzIjaE103g2WhREv
- fayGFvs2ey1IXq7DKneMyubjAm/Ap7fGd5EouiZSKSET/jUmpVJs8u4nzFud2Ass6BSU
- cA7g==
-X-Gm-Message-State: AFqh2kqF0VemMVzv4LLu3Ckhyuc518AYy2RjJlGi3T8xWiEf+3cQ0evq
- O8LcuL84j3h+I9zMW3YPK4cWhFxr+t+8/5Sp
-X-Google-Smtp-Source: AMrXdXvUXt2ezgXGzm6lKZa71cK5W0bQuUdsgqlKzUjX9DrqeLHbA8A5BL5rFn+0N9SaY/oFHlIIfw==
-X-Received: by 2002:a5d:66c6:0:b0:2bd:d966:7fff with SMTP id
- k6-20020a5d66c6000000b002bdd9667fffmr4182565wrw.20.1673980515272; 
- Tue, 17 Jan 2023 10:35:15 -0800 (PST)
+ bh=9H4y0Bt2sXI9mL8arvA/aO2CDynRZefdfnh2/L4eq6g=;
+ b=UbYhwpULoybFv1ktpHKaHim7OfKOJdHzBLaLk3i133/d2YMOqRarvHV79Ud8PkgIe9
+ ugW8QcSH2b+CFut8t1X5XloI/b+5BLfqmBfXMGLaXdWaqdKLbA1EWbr1lV0Wr6Zc6LKl
+ Rgc0voLLgnhDhXCFslptT4fC333px6R+EatK6qrzUOWkUPXWGIxGskzOFAohDC5AMtq7
+ ggM+aODAG/ulYSoKYmd44zxW9K4E689FAQ4ycBWTt+PE5SskkMvXJo8Q0sET6ltwhFSp
+ lZ6v5q9kcbNlga5Edd/b2Ep/9dDD0d4kun80aHNHao7ZU0xWo+cBbHJH/q1wmWj7CfAD
+ znWw==
+X-Gm-Message-State: AFqh2kpbKZkteINCKqzx+UQSYdEZnE9Px9HmfwqnF95I3TdTapAvj/dy
+ sn3Xc7ohfiY6wUZqCTsg6H9Z8w==
+X-Google-Smtp-Source: AMrXdXtyH7hhN9t9OvGRD+K/YTFRfwW3v10PcbGMvBoXiNkPUO3x7ea7xZ22TqFfYTypo848NQvKdw==
+X-Received: by 2002:a05:600c:3ba5:b0:3da:ff66:e3cc with SMTP id
+ n37-20020a05600c3ba500b003daff66e3ccmr3944581wms.21.1673980677270; 
+ Tue, 17 Jan 2023 10:37:57 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- b11-20020a05600018ab00b002be2279f100sm2475985wri.96.2023.01.17.10.35.14
+ q6-20020a05600c46c600b003cfd4e6400csm40479799wmo.19.2023.01.17.10.37.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 10:35:14 -0800 (PST)
+ Tue, 17 Jan 2023 10:37:56 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 89C431FFB7;
- Tue, 17 Jan 2023 18:35:14 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 4BAAD1FFB7;
+ Tue, 17 Jan 2023 18:37:56 +0000 (GMT)
 References: <20230109014248.2894281-1-richard.henderson@linaro.org>
- <20230109014248.2894281-22-richard.henderson@linaro.org>
+ <20230109014248.2894281-23-richard.henderson@linaro.org>
 User-agent: mu4e 1.9.15; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 21/22] tcg/riscv: Introduce OPC_NOP
-Date: Tue, 17 Jan 2023 18:35:08 +0000
-In-reply-to: <20230109014248.2894281-22-richard.henderson@linaro.org>
-Message-ID: <878ri1102l.fsf@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 22/22] tcg/riscv: Implement direct branch for goto_tb
+Date: Tue, 17 Jan 2023 18:37:51 +0000
+In-reply-to: <20230109014248.2894281-23-richard.henderson@linaro.org>
+Message-ID: <874jsp0zy3.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,31 +97,11 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/riscv/tcg-target.c.inc | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> Now that tcg can handle direct and indirect goto_tb simultaneously,
+> we can optimistically leave space for a direct branch and fall back
+> to loading the pointer from the TB for an indirect branch.
 >
-> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-> index 136fe54d4b..82ca86431e 100644
-> --- a/tcg/riscv/tcg-target.c.inc
-> +++ b/tcg/riscv/tcg-target.c.inc
-> @@ -267,6 +267,7 @@ typedef enum {
->  #endif
->=20=20
->      OPC_FENCE =3D 0x0000000f,
-> +    OPC_NOP   =3D OPC_ADDI,   /* nop =3D addi r0,r0,0 */
->  } RISCVInsn;
->=20=20
->  /*
-> @@ -403,7 +404,7 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int co=
-unt)
->  {
->      int i;
->      for (i =3D 0; i < count; ++i) {
-> -        p[i] =3D encode_i(OPC_ADDI, TCG_REG_ZERO, TCG_REG_ZERO, 0);
-> +        p[i] =3D OPC_NOP;
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
