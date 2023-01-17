@@ -2,65 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0D466D71B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 08:44:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1109D66D762
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 09:00:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHgcW-0005ML-2j; Tue, 17 Jan 2023 02:43:00 -0500
+	id 1pHgsH-0008Dv-NK; Tue, 17 Jan 2023 02:59:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pHgcU-0005M4-He
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:42:58 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHgsF-0008Df-Sm
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:59:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pHgcS-00054X-Dx
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:42:58 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.98])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 1FA3C1550A7AA;
- Tue, 17 Jan 2023 08:42:52 +0100 (CET)
-Received: from kaod.org (37.59.142.96) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 17 Jan
- 2023 08:42:51 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R00177359bff-15a9-43e9-ae11-1eb77a248ec2,
- 80E99EE0A2DD913C679298F6DB2E78D5E583611C) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <356419e3-339d-b45e-c8d2-2e3679e701f4@kaod.org>
-Date: Tue, 17 Jan 2023 08:42:46 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHgsE-0007YW-9a
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 02:59:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673942353;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UvbMlHIKaDk7YTnG10u16GlXXt4ZSfZAi3fdeuX/FOk=;
+ b=ADXQwE6WFVrMKefCAgoTlcu8qBNwHqB28H3K3/Jt/VTnmKBUAJ2Rpn+8KCp4lsdr2I4Y3d
+ odc3aZkfT/QRoPBM6xVR/C6UShuYqYt1AlFGB5GF+jc2d8kQB/rrnIAjS8Roqem0QZMCJo
+ pjWLtwlVvGkk0bAz+KTshYPC2AkiH20=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-593-xp5eYiopN7OufcgnknORhw-1; Tue, 17 Jan 2023 02:59:11 -0500
+X-MC-Unique: xp5eYiopN7OufcgnknORhw-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ k7-20020ac84747000000b003a87ca26200so13498314qtp.6
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 23:59:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UvbMlHIKaDk7YTnG10u16GlXXt4ZSfZAi3fdeuX/FOk=;
+ b=eXv7FDxCSAqmmgoen5ONX9UKOILOoU3ydxH4rjhMbeME1jIz18Kne3Ze9ij9WGza6e
+ 2rRTkXdE2ZX+U/VCTx9M8tW70uVRo1ePyJ3YQAZtBat6kUHDbVtbB8P+rB+NQIZ/8e8m
+ Ga18MwyqjD73WWUByXAGpR23x8zKB8q65qViR+Huvh2e4tQuIWgcEY3z1YVp5CtPfmsS
+ mkutuNQW6UlK6qubOUQ/s05tDerMVmadSPNZc9T9dhy1Zivx3W+y3M/JZ1yJOciVL0Ue
+ LLZ6FoBB1kH9oBE6139OujaBkWCEhQ9O/dM5AiA6uQLgp6s15YE3kKJc324ZIHNYloxJ
+ 94oA==
+X-Gm-Message-State: AFqh2kpx7oW3hwuQvnfKuSZwtPIwyy14Y5rxw2gIqPJyALDFhdplR7+a
+ R3zaFa7OWEuVNIXZ5X4YeSyI1Fyo8hDRYJnzS2gWOhRkJyZk0bjWLw7+OMOvEbF3WCk+3Ua1YJK
+ MTl3+zxOLJkqo9o0=
+X-Received: by 2002:a05:622a:1e1b:b0:3b4:a6af:a2f2 with SMTP id
+ br27-20020a05622a1e1b00b003b4a6afa2f2mr2683611qtb.34.1673942351353; 
+ Mon, 16 Jan 2023 23:59:11 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsFFDyMcrRqXJeu+FEeghBbyVbzR+aQolrhIUOPcAmUjJbcaMP5TnkRMpnscY2hIaHV+SplNQ==
+X-Received: by 2002:a05:622a:1e1b:b0:3b4:a6af:a2f2 with SMTP id
+ br27-20020a05622a1e1b00b003b4a6afa2f2mr2683585qtb.34.1673942351072; 
+ Mon, 16 Jan 2023 23:59:11 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-26.web.vodafone.de.
+ [109.43.177.26]) by smtp.gmail.com with ESMTPSA id
+ z26-20020ac8101a000000b003a70a675066sm15603075qti.79.2023.01.16.23.59.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jan 2023 23:59:10 -0800 (PST)
+Message-ID: <dcfedca8-bec8-34d2-07c0-d53212e60456@redhat.com>
+Date: Tue, 17 Jan 2023 08:59:07 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 5/5] hw/nvram/eeprom_at24c: Make reset behavior more
- like hardware
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 2/3] s390x/pv: Introduce a s390_pv_check() helper for
+ runtime
 Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>
-CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
- <hskinnemoen@google.com>, <kfting@nuvoton.com>, <qemu-arm@nongnu.org>,
- <qemu-devel@nongnu.org>
-References: <20230116235604.55099-1-peter@pjd.dev>
- <20230116235604.55099-6-peter@pjd.dev>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230116235604.55099-6-peter@pjd.dev>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 782a0eef-f78e-4458-9159-b580f2d8ea21
-X-Ovh-Tracer-Id: 5871568017067510636
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddthedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedutdetleegjefhieekgeffkefhleevgfefjeevffejieevgeefhefgtdfgiedtnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhesphhjugdruggvvhdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdgrnhgurhgvfiesrghjrdhiugdrrghupdhjohgvlhesjhhmshdrihgurdgruhdphhhskhhinhhnvghmohgvnhesghhoohhglhgvrdgtohhmpdhkfhhtihhnghesnhhuvhhothhonhdrtghomhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, frankja@linux.ibm.com,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, Sebastian Mitterle
+ <smitterl@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+References: <20230116174607.2459498-1-clg@kaod.org>
+ <20230116174607.2459498-3-clg@kaod.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230116174607.2459498-3-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,79 +106,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/17/23 00:56, Peter Delevoryas wrote:
-> EEPROM's are a form of non-volatile memory. After power-cycling an EEPROM,
-> I would expect the I2C state machine to be reset to default values, but I
-> wouldn't really expect the memory to change at all.
-
-
+On 16/01/2023 18.46, Cédric Le Goater wrote:
+> From: Cédric Le Goater <clg@redhat.com>
 > 
-> The current implementation of the at24c EEPROM resets its internal memory on
-> reset. This matches the specification in docs/devel/reset.rst:
+> If a secure kernel is started in a non-protected VM, the OS will hang
+> during boot without giving a proper error message to the user.
 > 
->    Cold reset is supported by every resettable object. In QEMU, it means we reset
->    to the initial state corresponding to the start of QEMU; this might differ
->    from what is a real hardware cold reset. It differs from other resets (like
->    warm or bus resets) which may keep certain parts untouched.
+> Perform the checks on Confidential Guest support at runtime with an
+> helper called from the service call switching the guest to protected
+> mode.
 > 
-> But differs from my intuition. For example, if someone writes some information
-> to an EEPROM, then AC power cycles their board, they would expect the EEPROM to
-> retain that information. It's very useful to be able to test things like this
-> in QEMU as well, to verify software instrumentation like determining the cause
-> of a reboot.
-
-Yes. should we take into account the "writable" property  ? It is not set to
-false in any model but it could.
-
-Thanks,
-
-C.
-
-> Fixes: 5d8424dbd3e8 ("nvram: add AT24Cx i2c eeprom")
-> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> Signed-off-by: Cédric Le Goater <clg@redhat.com>
 > ---
->   hw/nvram/eeprom_at24c.c | 22 ++++++++++------------
->   1 file changed, 10 insertions(+), 12 deletions(-)
 > 
-> diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-> index bb9ee75864fe..6bcded7b496c 100644
-> --- a/hw/nvram/eeprom_at24c.c
-> +++ b/hw/nvram/eeprom_at24c.c
-> @@ -185,18 +185,6 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
->       }
->   
->       ee->mem = g_malloc0(ee->rsize);
-> -
-> -}
-> -
-> -static
-> -void at24c_eeprom_reset(DeviceState *state)
-> -{
-> -    EEPROMState *ee = AT24C_EE(state);
-> -
-> -    ee->changed = false;
-> -    ee->cur = 0;
-> -    ee->haveaddr = 0;
-> -
->       memset(ee->mem, 0, ee->rsize);
->   
->       if (ee->blk) {
-> @@ -214,6 +202,16 @@ void at24c_eeprom_reset(DeviceState *state)
->       }
->   }
->   
-> +static
-> +void at24c_eeprom_reset(DeviceState *state)
-> +{
-> +    EEPROMState *ee = AT24C_EE(state);
-> +
-> +    ee->changed = false;
-> +    ee->cur = 0;
-> +    ee->haveaddr = 0;
-> +}
-> +
->   static Property at24c_eeprom_props[] = {
->       DEFINE_PROP_UINT32("rom-size", EEPROMState, rsize, 0),
->       DEFINE_PROP_BOOL("writable", EEPROMState, writable, true),
+>    In s390_pv_check(), drop the call to s390_pv_guest_check() since
+>    init time has already checked the same conditions. However, to
+>    report an error when the machine is not protected and the kernel
+>    secure, we still need s390_pv_check().
+
+Basically Ack for this patch ... I'm just wondering whether we should maybe 
+use a different name for the function. We now have s390_pv_guest_check() and 
+390_pv_check() ... hard to distinguish. Maybe we should call them 
+s390_pv_initial_check() and s390_pv_runtime_check() (or 
+s390_pv_diag308_check()) or something similar instead?
+
+  Thomas
 
 
