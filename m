@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6031F66D8D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 09:55:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5826D66D8E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 09:56:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHhjK-000564-0C; Tue, 17 Jan 2023 03:54:06 -0500
+	id 1pHhlY-0005xs-8T; Tue, 17 Jan 2023 03:56:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHhj9-000558-VA
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:53:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pHhlT-0005xb-Ke
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:56:20 -0500
+Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pHhj6-0000Ln-Js
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:53:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673945631;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CW/l7F9ARKMJa7ObBRY2n+JZ0Emlv6BAfYOk2jYebyw=;
- b=gkOG7HJXv8YP2XQihNxADPPsu+Lvw7kRJYgzCvWxqPQgoTNqyWG9e+Bg/ZNpcMeu/biksW
- 9lJjZtFnueJtX7FqlRgT4f7X4XZp1UMGwjKrYEpcw98sQVSztC+BJvJjV8NJXuWdxKMsLl
- rijDjrS+SA9B0JUHIjr6tMQOMlO6k7I=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-179-p83bO1PCO4Oxc2ucE-fXfg-1; Tue, 17 Jan 2023 03:53:50 -0500
-X-MC-Unique: p83bO1PCO4Oxc2ucE-fXfg-1
-Received: by mail-qk1-f199.google.com with SMTP id
- q21-20020a05620a0d9500b0070572ccdbf9so22407096qkl.10
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 00:53:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CW/l7F9ARKMJa7ObBRY2n+JZ0Emlv6BAfYOk2jYebyw=;
- b=ZJ2gddu4YPtxFuGTXf9MoR6n0lTf1j3mYUxqCY014vp2z0dIWS4TvGbv/4lemiOEcz
- FIpBbG4PObFt4FGc1HjOuA+ENMGH7dZpirP2ZOhkhyaxEfTxWWxuQBGU7G027ev3goCQ
- l9KfJE7fdoR2FIdYc+LF17UgRyARmFUHGHaElImkbDVH8ycdvXrTpA/KXjSNZMhwpMDZ
- MZEkSuiKOhH2H9P/0POJzfakj1kLpxfewvX0tYqBaoC4biW2D8ktaRXHidZtwiEU4qbp
- SPkCabTJct5P/2bcPj6eea3/h1lltDsbfSGRYHhLHUu48XnKQzyJp4LjnoBQEAONwCFi
- plwQ==
-X-Gm-Message-State: AFqh2kq7mJl31mdpUpNMYbBK6uAsYsB0gSDNXrTGiyYMy8riXhQ0r3/2
- OoAMVrfXKhrQaZ03FAw8w5uDTkfZBtfqwoZwt4WEIsjA7RlItsY2Ot30B0RbIeDFr7vqMJgS0F2
- 3TqcPSaWXmJqT510=
-X-Received: by 2002:a05:622a:1e1b:b0:3b4:a6af:a2f2 with SMTP id
- br27-20020a05622a1e1b00b003b4a6afa2f2mr2829183qtb.34.1673945629945; 
- Tue, 17 Jan 2023 00:53:49 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvnAIMsQi+OvbNhjpc2J6lcMXyd/fnATReN4qPmwX673KKxpGwOV1WpR6ad8ZQ2x4ix22xN4A==
-X-Received: by 2002:a05:622a:1e1b:b0:3b4:a6af:a2f2 with SMTP id
- br27-20020a05622a1e1b00b003b4a6afa2f2mr2829167qtb.34.1673945629691; 
- Tue, 17 Jan 2023 00:53:49 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-26.web.vodafone.de.
- [109.43.177.26]) by smtp.gmail.com with ESMTPSA id
- cr26-20020a05622a429a00b003a68fe872a5sm15599280qtb.96.2023.01.17.00.53.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 00:53:49 -0800 (PST)
-Message-ID: <1ef3d781-e823-feb9-ce7d-f2f0c1456d9d@redhat.com>
-Date: Tue, 17 Jan 2023 09:53:46 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pHhlQ-0000xN-Vp
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 03:56:19 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.123])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 356DB22E4F;
+ Tue, 17 Jan 2023 08:56:11 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 17 Jan
+ 2023 09:56:10 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R0024c9caa45-7113-4612-a8c3-85f23c1dd52c,
+ 80E99EE0A2DD913C679298F6DB2E78D5E583611C) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <55422c35-79da-4695-f2bb-715ad5f4d936@kaod.org>
+Date: Tue, 17 Jan 2023 09:56:07 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 2/2] s390x/pv: Add support for asynchronous teardown
- for reboot
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3 2/3] s390x/pv: Introduce a s390_pv_check() helper for
+ runtime
 Content-Language: en-US
-To: Claudio Imbrenda <imbrenda@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: david@redhat.com, borntraeger@de.ibm.com, frankja@linux.ibm.com,
- pasic@linux.ibm.com, nrb@linux.ibm.com, nsg@linux.ibm.com,
- seiden@linux.ibm.com
-References: <20230105155019.72200-1-imbrenda@linux.ibm.com>
- <20230105155019.72200-3-imbrenda@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230105155019.72200-3-imbrenda@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+To: Janosch Frank <frankja@linux.ibm.com>, <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, Halil Pasic
+ <pasic@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, David Hildenbrand
+ <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>, Eric Farman
+ <farman@linux.ibm.com>, Sebastian Mitterle <smitterl@redhat.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+References: <20230116174607.2459498-1-clg@kaod.org>
+ <20230116174607.2459498-3-clg@kaod.org>
+ <a386bb49-72de-6edc-9873-70ec59e475ab@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <a386bb49-72de-6edc-9873-70ec59e475ab@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 9d02cecd-6306-4e11-abd2-ce3068fd553b
+X-Ovh-Tracer-Id: 7109776438570028024
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddthedguddvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrsehlihhnuhigrdhisghmrdgtohhmpdhimhgsrhgvnhgurgeslhhinhhugidrihgsmhdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhiihhisehlihhnuhigrdhisg
+ hmrdgtohhmpdhfrghrmhgrnheslhhinhhugidrihgsmhdrtghomhdpshhmihhtthgvrhhlsehrvgguhhgrthdrtghomhdptghlghesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
+ helo=4.mo548.mail-out.ovh.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,92 +81,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05/01/2023 16.50, Claudio Imbrenda wrote:
-> This patch adds support for the asynchronous teardown for reboot for
-> protected VMs.
+On 1/17/23 09:40, Janosch Frank wrote:
+> On 1/16/23 18:46, Cédric Le Goater wrote:
+>> From: Cédric Le Goater <clg@redhat.com>
+>>
+>> If a secure kernel is started in a non-protected VM, the OS will hang
+>> during boot without giving a proper error message to the user.
 > 
-> When attempting to tear down a protected VM, try to use the new
-> asynchronous interface first. If that fails, fall back to the classic
-> synchronous one.
-> 
-> The asynchronous interface involves invoking the new
-> KVM_PV_ASYNC_DISABLE_PREPARE command for the KVM_S390_PV_COMMAND ioctl.
-> 
-> This will prepare the current protected VM for asynchronous teardown.
-> Once the protected VM is prepared for teardown, execution can continue
-> immediately.
-> 
-> Once the protected VM has been prepared, a new thread is started to
-> actually perform the teardown. The new thread uses the new
-> KVM_PV_ASYNC_DISABLE command for the KVM_S390_PV_COMMAND ioctl. The
-> previously prepared protected VM is torn down in the new thread.
-> 
-> Once KVM_PV_ASYNC_DISABLE is invoked, it is possible to use
-> KVM_PV_ASYNC_DISABLE_PREPARE again. If a protected VM has already been
-> prepared and its cleanup has not started, it will not be possible to
-> prepare a new VM. In that case the classic synchronous teardown has to
-> be performed.
-> 
-> The synchronous teardown will now also clean up any prepared VMs whose
-> asynchronous teardown has not been initiated yet.
-> 
-> This considerably speeds up the reboot of a protected VM; for large VMs
-> especially, it could take a long time to perform a reboot with the
-> traditional synchronous teardown, while with this patch it is almost
-> immediate.
-> 
-> Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-> ---
->   hw/s390x/pv.c              | 25 +++++++++++++++++++++++++
->   hw/s390x/s390-virtio-ccw.c |  5 ++++-
->   include/hw/s390x/pv.h      |  2 ++
->   3 files changed, 31 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-> index 8dfe92d8df..3d1c529eb5 100644
-> --- a/hw/s390x/pv.c
-> +++ b/hw/s390x/pv.c
-> @@ -16,6 +16,7 @@
->   #include "qapi/error.h"
->   #include "qemu/error-report.h"
->   #include "sysemu/kvm.h"
-> +#include "sysemu/cpus.h"
->   #include "qom/object_interfaces.h"
->   #include "exec/confidential-guest-support.h"
->   #include "hw/s390x/ipl.h"
-> @@ -107,6 +108,30 @@ void s390_pv_vm_disable(void)
->        s390_pv_cmd_exit(KVM_PV_DISABLE, NULL);
->   }
->   
-> +static void *s390_pv_do_unprot_async_fn(void *p)
-> +{
-> +     s390_pv_cmd_exit(KVM_PV_ASYNC_CLEANUP_PERFORM, NULL);
-> +     return NULL;
-> +}
-> +
-> +bool s390_pv_vm_try_disable_async(void)
-> +{
-> +    QemuThread *t;
-> +
-> +    if (!kvm_check_extension(kvm_state, KVM_CAP_S390_PROTECTED_ASYNC_DISABLE)) {
-> +        return false;
-> +    }
-> +    if (s390_pv_cmd(KVM_PV_ASYNC_CLEANUP_PREPARE, NULL) != 0) {
-> +        return false;
-> +    }
-> +
-> +    t = g_malloc0(sizeof(QemuThread));
+> Didn't we establish that you were missing the IOMMU flag so this statement isn't correct anymore?
 
-Sorry for not noticing it in v1 already ... but isn't this leaking memory? 
-Who's supposed to free "t" again?
+yes. Which means it is pointless to run the machine because it will fail
+to boot with no means to understand why.
+  
+> I haven't yet fully ingested my coffee, but from what I understand you would block a switch into PV mode if cgs is not set. Which would mean that PV KVM unit tests wouldn't start anymore as well as any VMs that have the unpack feature but not cgs.
+>
+> 
+> And that's not something that we want.
+> 
+> You can start a PV VM without cgs if unpack is in the CPU model. The ONLY requirement that we should fail on is unpack.
 
-  Thomas
+ok.
 
+> Have a look at what David Gibson put in the commit message when he introduced that in 651615d9:
+> 
+> """
+> To integrate this with the option used by other platforms, we
+> implement the following compromise:
+> 
+>   - When the confidential-guest-support option is set, s390 will
+>     recognize it, verify that the CPU can support PV (failing if not)
+>     and set virtio default options necessary for encrypted or protected
+>     guests, as on other platforms.  i.e. if confidential-guest-support
+>     is set, we will either create a guest capable of entering PV mode,
+>     or fail outright.
+> 
+>   - If confidential-guest-support is not set, guests might still be
+>     able to enter PV mode, if the CPU has the right model.  This may be
+>     a little surprising, but shouldn't actually be harmful.
+> """
 
-> +    qemu_thread_create(t, "async_cleanup", s390_pv_do_unprot_async_fn, NULL,
-> +                       QEMU_THREAD_DETACHED);
-> +
-> +    return true;
-> +}
+yes and it is not that clear how a s390 PV machine should be started, even
+for a developer.
+
+Thanks for looking,
+
+C.
+  
 
 
