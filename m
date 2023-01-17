@@ -2,107 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A503E66D5B6
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 06:43:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDB466D683
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 07:49:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHejl-0002uw-Hg; Tue, 17 Jan 2023 00:42:21 -0500
+	id 1pHfkf-0003Kj-FA; Tue, 17 Jan 2023 01:47:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pHejj-0002uj-Pp
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 00:42:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pHejh-000516-UU
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 00:42:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673934135;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VoxLQR8qtdzkr81hfRn/VOoZ7uZ/IeMJ+CvmKEA5jbY=;
- b=cBWua9cfLJqo38Cj9YRxgpp1o3PCXxMUgnbxAMN6fkXQf9nzMg2+isj5zweTBcFe+LE7f4
- yr2l0eAGAv7NTQkboaKOf1fsvZc7x2oPsX5FqYGOb6mkXWlI0gOPzpvXQYtR02Q/3BdWAc
- 80QcScq0QTb1H9zXPncqr0k2ybaZAkM=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-336-z4OtbLtONmeIoYDEFMyCbA-1; Tue, 17 Jan 2023 00:42:14 -0500
-X-MC-Unique: z4OtbLtONmeIoYDEFMyCbA-1
-Received: by mail-pf1-f197.google.com with SMTP id
- f15-20020a62380f000000b0058db55a8d7aso1643860pfa.21
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 21:42:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHfkZ-0003KO-Ve
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 01:47:16 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHfkV-0005dw-9a
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 01:47:15 -0500
+Received: by mail-wr1-x432.google.com with SMTP id b5so8354335wrn.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 22:47:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FQd7INcG/xxlIZsMMLARuLEBz5TWChZoMsVbajCKuTw=;
+ b=IMcAtctIhaPTmyCckr8kiEko33Dr6Pwk3KcJEyUb7HGQ5JfVo6D3MRT6W7mHMBgYYz
+ pUwjrYksQOCjh3hBFfYk+yyVqnqGq4veCSn2zj0NyM0rMjfW+pHYqP8bCj2Iqb0y1eWY
+ 9H2vOjpohaKeTacDOmRbQY4QBRuxEqRFR+QxCLLlXwf1Y/Yuap7318KMMUHgduWBlyO/
+ D2WyXmyiscZaKwK6XDr38XYenq69YcMcgGiK/RwZ/kSshd0XgjV6taOeIF37ErGqylwB
+ CzU9nmPg4OdHnfFA9VNRDljbuQg+116un3RQibkWYFCyUB12cGtpk4WSjoj2grDH7Wg4
+ P9rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VoxLQR8qtdzkr81hfRn/VOoZ7uZ/IeMJ+CvmKEA5jbY=;
- b=HNp+ytQtDonZthZiySuTVcOnvnVMZHarZPBBkYCmlHYE8SCeyILl27DmJuZRVznMqg
- F2W0CozXvtyRAwY5uac37ROfAqm10fFV1a6+ee8ltC8PbTTQNk297frznQsPv9O/g7Ua
- u0OvF4AVgo2Mqr06UcdJg8JUajprWG7n1taV7u9Qar8liXsGAaf16do+flvNg1IDXioS
- +YyZDPTMwH98TZF/UjL/Uk4VCu9XXdkTo4DTfBtNjT6pyLpbnCECBeMDJZJYgOgghExA
- q4ctsaeTJM9wg5GQ2VuPrp2Plq92ciUXO+a7dUHxG2EbaBRLBkiDHZXGid4lm1Kv4GsO
- 02Iw==
-X-Gm-Message-State: AFqh2kr0XAQJ7zmzBUEDN9m+1s0VnmNKLD2+aFL8b4ioOIMfpBFG7P5c
- xBNWZZyj+8LBWowiWTCV0oN6kR5ZkqZbXW6eldtY0ZbjmVn07pgRgUyG7f3F3j3qWc7KCHa8jvf
- eW65nhRL+Xl7lHRk=
-X-Received: by 2002:aa7:8283:0:b0:588:9c15:65c4 with SMTP id
- s3-20020aa78283000000b005889c1565c4mr1291470pfm.3.1673934133268; 
- Mon, 16 Jan 2023 21:42:13 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsK92lAYpbsPKmX47rCAjVTPO4YVIN6x77Y4uA/jrwDrdiYwY1M6ASNNlnwZhoccw7R4ApGrQ==
-X-Received: by 2002:aa7:8283:0:b0:588:9c15:65c4 with SMTP id
- s3-20020aa78283000000b005889c1565c4mr1291437pfm.3.1673934132952; 
- Mon, 16 Jan 2023 21:42:12 -0800 (PST)
-Received: from [10.72.13.93] ([43.228.180.230])
- by smtp.gmail.com with ESMTPSA id
- d12-20020aa797ac000000b0058da3f2eba8sm3044407pfq.40.2023.01.16.21.42.07
+ bh=FQd7INcG/xxlIZsMMLARuLEBz5TWChZoMsVbajCKuTw=;
+ b=nRFZcxBaBGhBaQBKdFWSG200203kWJjrpjvi1Et/79S48J0OKN3vO2o0rozBaLNWYy
+ K/MLCSBkKAe0oqYvDuYZX4XfTDgNBSg2IHWYzLlmkU3ON5Az2U9dLMzRektXGVDoYa8n
+ x69j+2FTfCXeGv8dyRCEd5EZgMZqgYR78RDUvTedYeO3+BJh1DffcxJDs7rXxHphrqm8
+ qPdN0v08urV7k0kkgMm/JEHz8cuS1Zkgii3qPgaZQ9/7g9JSeAkd5h2TEDRoeyeFz6XD
+ Nj8uvfzp/AarSs+0uskKR8qN6t6dKujoBmIXgazJ59RkiBGRvnb75IQN7ezGwt4o2Lxc
+ nzxw==
+X-Gm-Message-State: AFqh2kp2QJF50fcbcpXVkr1REA/37SXQ+HrA2ggHdomiwkjfqvX/uyOZ
+ 6ztWHTceIOi3DHRX8IUavRU/ew==
+X-Google-Smtp-Source: AMrXdXvs7h1U/brjzH89d/BffFLJojvxVgvSPi6qM2fZf4vJueqXHX5/5INBfnhAv/fFtA3Bb9eW4g==
+X-Received: by 2002:a5d:6e42:0:b0:2bd:fcd3:44c7 with SMTP id
+ j2-20020a5d6e42000000b002bdfcd344c7mr1599505wrz.29.1673938028346; 
+ Mon, 16 Jan 2023 22:47:08 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ u14-20020adfdd4e000000b002366e3f1497sm28334766wrm.6.2023.01.16.22.47.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jan 2023 21:42:12 -0800 (PST)
-Message-ID: <2616f0cd-f9e8-d183-ea78-db1be4825d9c@redhat.com>
-Date: Tue, 17 Jan 2023 13:42:05 +0800
+ Mon, 16 Jan 2023 22:47:07 -0800 (PST)
+Message-ID: <f098f433-24e1-5f38-b479-d41ab1c51663@linaro.org>
+Date: Tue, 17 Jan 2023 07:47:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC v2 05/13] vdpa net: add migration blocker if cannot migrate
- cvq
+Subject: Re: [PATCH 6/6] hw/arm/aspeed: Init fby35 BMC FRUID EEPROM
 Content-Language: en-US
-To: Eugenio Perez Martin <eperezma@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, si-wei.liu@oracle.com,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, alvaro.karsz@solid-run.com,
- Shannon Nelson <snelson@pensando.io>, Laurent Vivier <lvivier@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Parav Pandit <parav@mellanox.com>
-References: <20230112172434.760850-1-eperezma@redhat.com>
- <20230112172434.760850-6-eperezma@redhat.com>
- <451c3617-61a1-a4bb-791a-6c55e363e961@redhat.com>
- <CAJaqyWfBGyibFq7_nAj61OedpXX2T3c=Mbw39XXpxEvE0OOyig@mail.gmail.com>
- <065243b8-c93f-17e6-72cb-c1db33da6df6@redhat.com>
- <20230116002152-mutt-send-email-mst@kernel.org>
- <CAJaqyWd=Lt+41Zrn70v7rN_0ociiRcvRSXuS4ZpevCUFrajEJQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWd=Lt+41Zrn70v7rN_0ociiRcvRSXuS4ZpevCUFrajEJQ@mail.gmail.com>
+To: Peter Delevoryas <peter@pjd.dev>
+Cc: patrick@stwcx.xyz, clg@kaod.org, peter.maydell@linaro.org,
+ andrew@aj.id.au, joal@jms.id.au, hskinnemoen@google.com, kfting@nuvoton.com,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20230114170151.87833-1-peter@pjd.dev>
+ <20230114170151.87833-7-peter@pjd.dev>
+ <0ef1b0e3-7df0-e611-0335-bf0a24690a90@linaro.org> <Y8WH+aneXr/JkEXp@pdel-mbp>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <Y8WH+aneXr/JkEXp@pdel-mbp>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,164 +93,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-在 2023/1/16 17:33, Eugenio Perez Martin 写道:
-> On Mon, Jan 16, 2023 at 6:24 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->> On Mon, Jan 16, 2023 at 11:34:20AM +0800, Jason Wang wrote:
->>> 在 2023/1/13 15:46, Eugenio Perez Martin 写道:
->>>> On Fri, Jan 13, 2023 at 5:25 AM Jason Wang <jasowang@redhat.com> wrote:
->>>>> 在 2023/1/13 01:24, Eugenio Pérez 写道:
->>>>>> A vdpa net device must initialize with SVQ in order to be migratable,
->>>>>> and initialization code verifies conditions.  If the device is not
->>>>>> initialized with the x-svq parameter, it will not expose _F_LOG so vhost
->>>>>> sybsystem will block VM migration from its initialization.
->>>>>>
->>>>>> Next patches change this. Net data VQs will be shadowed only at
->>>>>> migration time and vdpa net devices need to expose _F_LOG as long as it
->>>>>> can go to SVQ.
->>>>>>
->>>>>> Since we don't know that at initialization time but at start, add an
->>>>>> independent blocker at CVQ.
->>>>>>
->>>>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>>>>> ---
->>>>>>     net/vhost-vdpa.c | 35 +++++++++++++++++++++++++++++------
->>>>>>     1 file changed, 29 insertions(+), 6 deletions(-)
->>>>>>
->>>>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
->>>>>> index 631424d9c4..2ca93e850a 100644
->>>>>> --- a/net/vhost-vdpa.c
->>>>>> +++ b/net/vhost-vdpa.c
->>>>>> @@ -26,12 +26,14 @@
->>>>>>     #include <err.h>
->>>>>>     #include "standard-headers/linux/virtio_net.h"
->>>>>>     #include "monitor/monitor.h"
->>>>>> +#include "migration/blocker.h"
->>>>>>     #include "hw/virtio/vhost.h"
->>>>>>
->>>>>>     /* Todo:need to add the multiqueue support here */
->>>>>>     typedef struct VhostVDPAState {
->>>>>>         NetClientState nc;
->>>>>>         struct vhost_vdpa vhost_vdpa;
->>>>>> +    Error *migration_blocker;
->>>>> Any reason we can't use the mivration_blocker in vhost_dev structure?
->>>>>
->>>>> I believe we don't need to wait until start to know we can't migrate.
->>>>>
->>>> Device migratability also depends on features that the guest acks.
+On 16/1/23 18:23, Peter Delevoryas wrote:
+> On Mon, Jan 16, 2023 at 01:30:19PM +0100, Philippe Mathieu-Daudé wrote:
+>> On 14/1/23 18:01, Peter Delevoryas wrote:
+>>> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+>>> ---
+>>>    hw/arm/aspeed.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+>>>    1 file changed, 49 insertions(+)
 >>>
->>> This sounds a little bit tricky, more below:
->>>
->>>
->>>> For example, if the device does not support ASID it can be migrated as
->>>> long as _F_CVQ is not acked.
->>>
->>> The management may notice a non-consistent behavior in this case. I wonder
->>> if we can simply check the host features.
->>>
-> That's right, and I can see how that can be an issue.
->
-> However, the check for the ASID is based on queue indexes at the
-> moment. If we want to register the blocker at the initialization
-> moment the only option I see is to do two features ack & reset cycle:
-> one with MQ and another one without MQ.
-
-
-That's should be fine, or any issue you saw?
-
-Thanks
-
-
->
-> Would it be more correct to assume the device will assign the right
-> ASID only probing one configuration? I don't think so but I'm ok to
-> leave the code that way if we agree it is more viable.
->
->>> Thanks
+>>> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+>>> index c929c61d582a..4ac8ff11a835 100644
+>>> --- a/hw/arm/aspeed.c
+>>> +++ b/hw/arm/aspeed.c
+>>> @@ -922,6 +922,52 @@ static void bletchley_bmc_i2c_init(AspeedMachineState *bmc)
+>>>        i2c_slave_create_simple(i2c[12], TYPE_PCA9552, 0x67);
+>>>    }
+>>> +static const uint8_t fby35_bmc_fruid[] = {
+>> [...]
 >>
->> Yes the issue is that ack can happen after migration started.
->> I don't think this kind of blocker appearing during migration
->> is currently expected/supported well. Is it?
+>>> +};
+>>> +
+>>>    static void fby35_i2c_init(AspeedMachineState *bmc)
+>>>    {
+>>>        AspeedSoCState *soc = &bmc->soc;
+>>> @@ -1363,6 +1409,9 @@ static void fby35_reset(MachineState *state, ShutdownCause reason)
+>>>        object_property_set_bool(OBJECT(gpio), "gpioB3", false, &error_fatal);
+>>>        object_property_set_bool(OBJECT(gpio), "gpioB4", false, &error_fatal);
+>>>        object_property_set_bool(OBJECT(gpio), "gpioB5", false, &error_fatal);
+>>> +
+>>> +    at24c_eeprom_write(aspeed_i2c_get_bus(&bmc->soc.i2c, 11),
+>>> +                       0x54, 0, fby35_bmc_fruid, sizeof(fby35_bmc_fruid));
 >>
-> In that case the guest cannot DRIVER_OK the device, because the call
-> to migrate_add_blocker fails and the error propagates from
-> vhost_net_start up to the virtio device.
->
-> But I can also see how this is inconvenient and to add a migration
-> blocker at initialization can simplify things here. As long as we
-> agree on the right way to probe I can send a new version that way for
-> sure.
->
-> Thanks!
->
->>>> Thanks!
->>>>
->>>>> Thanks
->>>>>
->>>>>
->>>>>>         VHostNetState *vhost_net;
->>>>>>
->>>>>>         /* Control commands shadow buffers */
->>>>>> @@ -433,9 +435,15 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
->>>>>>                 g_strerror(errno), errno);
->>>>>>             return -1;
->>>>>>         }
->>>>>> -    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) ||
->>>>>> -        !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
->>>>>> -        return 0;
->>>>>> +    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID))) {
->>>>>> +        error_setg(&s->migration_blocker,
->>>>>> +                   "vdpa device %s does not support ASID",
->>>>>> +                   nc->name);
->>>>>> +        goto out;
->>>>>> +    }
->>>>>> +    if (!vhost_vdpa_net_valid_svq_features(v->dev->features,
->>>>>> +                                           &s->migration_blocker)) {
->>>>>> +        goto out;
->>>>>>         }
->>>>>>
->>>>>>         /*
->>>>>> @@ -455,7 +463,10 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
->>>>>>             }
->>>>>>
->>>>>>             if (group == cvq_group) {
->>>>>> -            return 0;
->>>>>> +            error_setg(&s->migration_blocker,
->>>>>> +                "vdpa %s vq %d group %"PRId64" is the same as cvq group "
->>>>>> +                "%"PRId64, nc->name, i, group, cvq_group);
->>>>>> +            goto out;
->>>>>>             }
->>>>>>         }
->>>>>>
->>>>>> @@ -468,8 +479,15 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
->>>>>>         s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
->>>>>>
->>>>>>     out:
->>>>>> -    if (!s->vhost_vdpa.shadow_vqs_enabled) {
->>>>>> -        return 0;
->>>>>> +    if (s->migration_blocker) {
->>>>>> +        Error *errp = NULL;
->>>>>> +        r = migrate_add_blocker(s->migration_blocker, &errp);
->>>>>> +        if (unlikely(r != 0)) {
->>>>>> +            g_clear_pointer(&s->migration_blocker, error_free);
->>>>>> +            error_report_err(errp);
->>>>>> +        }
->>>>>> +
->>>>>> +        return r;
->>>>>>         }
->>>>>>
->>>>>>         s0 = vhost_vdpa_net_first_nc_vdpa(s);
->>>>>> @@ -513,6 +531,11 @@ static void vhost_vdpa_net_cvq_stop(NetClientState *nc)
->>>>>>             vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->status);
->>>>>>         }
->>>>>>
->>>>>> +    if (s->migration_blocker) {
->>>>>> +        migrate_del_blocker(s->migration_blocker);
->>>>>> +        g_clear_pointer(&s->migration_blocker, error_free);
->>>>>> +    }
->>>>>> +
->>>>>>         vhost_vdpa_net_client_stop(nc);
->>>>>>     }
->>>>>>
+>> Why transfer the prom content on the i2c bus at each reset?
+>>
+>> In particular this looks wrong if the prom is initialized with a 'drive'
+>> block backend (using -global).
+> 
+> Yeah, it looks like this might not be the right way to model it. I'm going
+> to try Cedric's suggestions.
 
+OK, but watch out this is a PROM, not a ROM, meaning it is legitimate
+for a guest to reprogram it, and expect the reprogrammed content after
+reset.
+
+Shouldn't we put the 'fill default content if no -drive provided' option
+in the device's realize() handler, to avoid overwriting content possibly
+updated by guest before reset?
 
