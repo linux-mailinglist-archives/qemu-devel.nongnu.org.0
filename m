@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6EFF66D535
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 04:58:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B887866D532
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 04:58:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHd6A-0000WK-JW; Mon, 16 Jan 2023 22:57:22 -0500
+	id 1pHd69-0000Vf-1g; Mon, 16 Jan 2023 22:57:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHd62-0000Ru-QZ
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 22:57:14 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ id 1pHd64-0000Se-9U
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 22:57:18 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHd5w-0005e3-Qk
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 22:57:12 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- x2-20020a17090a46c200b002295ca9855aso4872174pjg.2
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 19:57:08 -0800 (PST)
+ id 1pHd62-0005eC-Gz
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 22:57:16 -0500
+Received: by mail-pl1-x634.google.com with SMTP id r21so170288plg.13
+ for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 19:57:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=d5N30iQwf9eez9/YSvtx8wfqPKT+MxH+YK1LIg/g+IY=;
- b=kWOqMUaDsgR9c/SLozPJCr5wvkgGK6kvjMh0RXRsjStNWt20EkcCHJaovDLvigr47P
- 3Qe168wiUzwwi2OWINA2JWtbheTVgoKCdEZjfHeOWe1Z9H7GTkLwgYiprQsfK4MBm2hl
- yGtWtli9e5yBhI78sRo9Sr0JRk61mKWl5O4XC77sNZoVlcl9/uJ9CErkqWjiGwL6gRKJ
- w+Vzw0BR10D90fnY9Bdgp/c0ZDbB5UgM+bcRFNbiqrZw5BQdlvu/JFFuH3hOHsIdQbKH
- mJHFLHiGb2w2I62NqPh+WNdXtUoupU440bSppMy9fjniZnK5wXDrnCo31IwNyvJs3sQG
- 4+2A==
+ bh=aGVt08F4UpzpEZ1GVThy9tOfv3POzTFbKCIbVhJ6UWA=;
+ b=ygUbIQ0w0isWjuC5WTNZlJhQD8+WzLJjdUxQCeBOFUaR8PPb2IYWaua/g5cBtIBceu
+ cqpmbq5rCW/24Ha0El+wuRvL8991P5FyOSWZ0AhHPZDJ1+RVT/BOc3pGlihrFXRXqKV3
+ iNd43rGa2o/hxfWB3XAjnr+1yArYALTomVOmo9nxzmbxqpvoYWbzFnJL/PTmllWLzaZw
+ +q4Oi9SqwaJTpArAV7EBj+xdnT00uxIpzv0itSiB3CXa+sVrmDx7RWa7uhIJI4DgGwps
+ rIKR1ofwG144nqmLspMS/jbMXbLx/sKWgN8ypAawhPmh6J60WJ/YqfCXIikJSA30WZzO
+ VrJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=d5N30iQwf9eez9/YSvtx8wfqPKT+MxH+YK1LIg/g+IY=;
- b=wXVs86fGLUwrOSE7XTY13SlzDDxRM1h/zBxMwpLWbBbLjM/Ea9xtomgDkbkXOrMabc
- RX9gpSHOqLTaZGTOxvSAS3lOllDs30a0c0WHd3d9JItbmjpqQYBmZm4Ax+ERDT21OlGc
- Pp1EYH0soUCx1APx5K8VnVMY4jcn83igy/zBlZ4Lmkr8eqmpuynBQiZs3BvgdFbsRRsU
- Y1twNStMOnbcwuhWSqQxlwBioO8QW17nlW3pu4RE2StRPElOFPiCDJoucCnyTPiNg5d/
- Bo1U6nv97eEV67skdtUXEsBGI9T+UGfjLxTfWODwVevYEQon6SQcRpadkQMmMYnhM89Z
- hJwA==
-X-Gm-Message-State: AFqh2kqfygvyMCdmaHClyjN6M+r7QbIrOoEH6DKA1lhWK+HKoXefmOHj
- U6YqLibjXXiZdKqdZ2ILClYhTAjsycIbg8e1
-X-Google-Smtp-Source: AMrXdXt32bF9kAFzNO1uxoEaMHs8cjbuEKffWGSLLtorNWshaBNirf6+RPqPUGjR63YQppjKYbDR2Q==
-X-Received: by 2002:a05:6a20:6d22:b0:b8:2e75:c97a with SMTP id
- fv34-20020a056a206d2200b000b82e75c97amr1258235pzb.34.1673927827359; 
- Mon, 16 Jan 2023 19:57:07 -0800 (PST)
+ bh=aGVt08F4UpzpEZ1GVThy9tOfv3POzTFbKCIbVhJ6UWA=;
+ b=LsMkdZbAjeoAZhcIe26S0qVzxxyM4e+lIQBpbj7bXOPm1QQn+FlJS42N2PTpbVZ6aX
+ w4IxmsUsG+8YVdGf8QTNMQY6dtYFh/48n8sIqRJeA/6vUkqFoB5/bIIaukHQ1UWeCSNI
+ DFWUcOOzedh3Wzl4xbpe5CmYBdCz8LEmk+cYmJ7MYYNdWzpbTBbIhZUdzEmqAZkjhxxg
+ jG64ng5gl8jfQFQo463Xs8grx6Y5Mv2JCbH0hk0sbep7FNcQP4KFqsFR2hvhEKRxYlks
+ wM9JT2Pd57mzNC6oOyzIujvkhQrsAlYpBZ2gmK3ciDQqnCuFYUZS30B2TAZZ0jw+wfO5
+ afMA==
+X-Gm-Message-State: AFqh2kpDQwms2cQVlsnZt5mzA5LQTvazeAhR8xDiYuboJMyWpSykvkmJ
+ 37W0wVy+lbPnFQQdbRYCh3lInfEugJio+5Nt
+X-Google-Smtp-Source: AMrXdXuV1Bg511MTWlv+DFfsh1jreqDfBXzQIYlu8DmmGOzMFJRo3V6f/8rubbYTKvin/wXMOmgTHA==
+X-Received: by 2002:a17:902:c10d:b0:185:441e:4cfc with SMTP id
+ 13-20020a170902c10d00b00185441e4cfcmr2202333pli.44.1673927828727; 
+ Mon, 16 Jan 2023 19:57:08 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- z15-20020a1709027e8f00b001869079d083sm19991531pla.90.2023.01.16.19.57.06
+ z15-20020a1709027e8f00b001869079d083sm19991531pla.90.2023.01.16.19.57.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Jan 2023 19:57:06 -0800 (PST)
+ Mon, 16 Jan 2023 19:57:08 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org
-Subject: [PATCH 2/3] plugins: Avoid deadlock in qemu_plugin_user_exit
-Date: Mon, 16 Jan 2023 17:57:00 -1000
-Message-Id: <20230117035701.168514-3-richard.henderson@linaro.org>
+Subject: [PATCH 3/3] plugins: Iterate on cb_lists in qemu_plugin_user_exit
+Date: Mon, 16 Jan 2023 17:57:01 -1000
+Message-Id: <20230117035701.168514-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230117035701.168514-1-richard.henderson@linaro.org>
 References: <20230117035701.168514-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,41 +89,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use of start_exclusive on this exit path leads to deadlock,
-in particular when called from dump_core_and_abort.  There
-does not appear to be a need for it.
-
-While we're at it, skip the entire function if no plugins.
+Rather than iterate over all plugins for all events,
+iterate over plugins that have registered a given event.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- plugins/core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ plugins/core.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/plugins/core.c b/plugins/core.c
-index ccb770a485..35aca0266d 100644
+index 35aca0266d..f22f8edc74 100644
 --- a/plugins/core.c
 +++ b/plugins/core.c
-@@ -502,7 +502,9 @@ void qemu_plugin_user_exit(void)
- 
-     QEMU_LOCK_GUARD(&plugin.lock);
- 
--    start_exclusive();
-+    if (QTAILQ_EMPTY(&plugin.ctxs)) {
-+        return;
-+    }
- 
+@@ -509,9 +509,10 @@ void qemu_plugin_user_exit(void)
      /* un-register all callbacks except the final AT_EXIT one */
      for (ev = 0; ev < QEMU_PLUGIN_EV_MAX; ev++) {
-@@ -520,8 +522,6 @@ void qemu_plugin_user_exit(void)
-         qemu_plugin_disable_mem_helpers(cpu);
+         if (ev != QEMU_PLUGIN_EV_ATEXIT) {
+-            struct qemu_plugin_ctx *ctx;
+-            QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
+-                plugin_unregister_cb__locked(ctx, ev);
++            struct qemu_plugin_cb *cb, *next;
++
++            QLIST_FOREACH_SAFE_RCU(cb, &plugin.cb_lists[ev], entry, next) {
++                plugin_unregister_cb__locked(cb->ctx, ev);
+             }
+         }
      }
- 
--    end_exclusive();
--
-     /* now it's safe to handle the exit case */
-     qemu_plugin_atexit_cb();
- }
 -- 
 2.34.1
 
