@@ -2,42 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D96666E8BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 22:48:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1567F66E8A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 22:42:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHtod-0007pl-5i; Tue, 17 Jan 2023 16:48:23 -0500
+	id 1pHtgy-0005e2-5k; Tue, 17 Jan 2023 16:40:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pHtoU-0007pI-4S; Tue, 17 Jan 2023 16:48:19 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pHtoR-0004Mq-OH; Tue, 17 Jan 2023 16:48:13 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 950F374638A;
- Tue, 17 Jan 2023 22:45:45 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 5E191746369; Tue, 17 Jan 2023 22:45:45 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Date: Tue, 17 Jan 2023 22:36:42 +0100
-Subject: [PATCH] ppc/pegasos2: Improve readability of VIA south bridge creation
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pHtgv-0005cE-QH
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 16:40:25 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pHtgu-0003GG-5Q
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 16:40:25 -0500
+Received: by mail-pg1-x535.google.com with SMTP id 7so23054347pga.1
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 13:40:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=AcVEPWClRI94g9v5KSp3wSvgePAX02EC69sY1cg8Ei4=;
+ b=y3NrN4Quhl38XnkVyfYFikfMGXuzUdOe86QeHc3ich9WveIqGYWPk5HPehBRmwxf6H
+ CjxERbsV7hXXf1u1KTQZDoqZtTX1IoZodSrd1kTyXIb6dyMKoVMeeAUo+mwEcC9mp/2m
+ BNexm0zJUZPNlbdhtEHh15Erpz0b26SnGDHA6SP7lAYFkfQ5NzWWjYurSwB1NnREKM04
+ DarVSe0lglQ+qAtFuBPk/lt2ySdXvHIjAYyE8GCSkMrX/6ow6LPxLBPL9hNkgEdyBLne
+ ippIwjfBdN8uYC0nIRqXsJLU3St9AcBZfjR6ppm0D+snmwdQ3hBhrFoH7DjBqMgfsNlJ
+ ic3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AcVEPWClRI94g9v5KSp3wSvgePAX02EC69sY1cg8Ei4=;
+ b=a2KscnC7dGpvTTkbzMdRqJDAFJTkVemiLBhvmM30GP5C+7fhR2Dpa6t8oqZI4IhBbN
+ 36MzdygpPe6/qagH8DZlI8Wn/eQh/r25CGsb8F95tNxn6NypJ2Tb666zqnhHRZ02JcW0
+ osf0CysNS3TJF/cDsxfVzC1+nUMaTLIir21lr8HjWUHaWLfaq+SxypXwk9TKB6EonDof
+ ik2rlR8FNe9yFmKEKxYRBtydqyMQtzwhAuMQIJ+Rz/WklOwGGbWFOEG5+eBo95uPZtQh
+ +YO07RuJCb4oR2QabCFoPdlp1+yRVSgc2AYaqVMcCLsm6w8PMkbCK74iQ0cZ+OsBsq7O
+ dPqA==
+X-Gm-Message-State: AFqh2kpodOiXRSPz8TisgyZ0mfGG41XaPss+rVmY8PMmDbIAjImQ5N07
+ 8cG10iKv/ZCG7AmJwKHIkfzNsQ==
+X-Google-Smtp-Source: AMrXdXupIDdN8ZJmd88BdgAI0PdfPFNZi4DnoPsB0hEfWs5UMouzHWeY2a5QMfRIj9ZxDgaAKaxuuQ==
+X-Received: by 2002:a62:1851:0:b0:581:95a7:d2f4 with SMTP id
+ 78-20020a621851000000b0058195a7d2f4mr24761696pfy.9.1673991622365; 
+ Tue, 17 Jan 2023 13:40:22 -0800 (PST)
+Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ f129-20020a623887000000b0058bf2ae9694sm6177716pfa.156.2023.01.17.13.40.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Jan 2023 13:40:21 -0800 (PST)
+Message-ID: <cb9cdb62-5c5a-c7de-9fa7-99f5438af332@linaro.org>
+Date: Tue, 17 Jan 2023 11:40:18 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-Cc: philmd@linaro.org
-Message-Id: <20230117214545.5E191746369@zero.eik.bme.hu>
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH qemu v2 2/3] target/arm/gdbstub: Support reading M system
+ registers from GDB
+Content-Language: en-US
+To: ~dreiss-meta <dreiss@meta.com>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+References: <167398464577.10345.18365355650640365165-2@git.sr.ht>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <167398464577.10345.18365355650640365165-2@git.sr.ht>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,56 +93,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Slightly improve readability of creating the south btidge by cnamging
-type of a local variable to avoid some casts within function arguments
-which makes some lines shorter and easier to read.
-Also remove an unneded line break.
+On 1/9/23 13:05, ~dreiss-meta wrote:
+> From: David Reiss <dreiss@meta.com>
+> 
+> Follows a fairly similar pattern to the existing special register debug
+> support.  Only reading is implemented, but it should be possible to
+> implement writes.
+> 
+> `v7m_mrs_control` was renamed `arm_v7m_mrs_control` and made
+> non-static so this logic could be shared between the MRS instruction and
+> the GDB stub.
+> 
+> Signed-off-by: David Reiss <dreiss@meta.com>
+> ---
+>   target/arm/cpu.h      |  12 +++-
+>   target/arm/gdbstub.c  | 125 ++++++++++++++++++++++++++++++++++++++++++
+>   target/arm/m_helper.c |   6 +-
+>   3 files changed, 138 insertions(+), 5 deletions(-)
+> 
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index bf2bce046d..fdbb0d9107 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -856,6 +856,7 @@ struct ArchCPU {
+>   
+>       DynamicGDBXMLInfo dyn_sysreg_xml;
+>       DynamicGDBXMLInfo dyn_svereg_xml;
+> +    DynamicGDBXMLInfo dyn_m_systemreg_xml;
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ppc/pegasos2.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+You don't need a new variable here, because a given cpu cannot be both a-profile and 
+m-profile -- dyn_sysreg_xml can hold the xml for the current set of system registers.
 
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index f46d4bf51d..1a13632ba6 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -102,7 +102,8 @@ static void pegasos2_init(MachineState *machine)
-     CPUPPCState *env;
-     MemoryRegion *rom = g_new(MemoryRegion, 1);
-     PCIBus *pci_bus;
--    PCIDevice *dev, *via;
-+    Object *via;
-+    PCIDevice *dev;
-     I2CBus *i2c_bus;
-     const char *fwname = machine->firmware ?: PROM_FILENAME;
-     char *filename;
-@@ -159,19 +160,18 @@ static void pegasos2_init(MachineState *machine)
-     pci_bus = mv64361_get_pci_bus(pm->mv, 1);
- 
-     /* VIA VT8231 South Bridge (multifunction PCI device) */
--    via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
--                                          TYPE_VT8231_ISA);
-+    via = OBJECT(pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0),
-+                                                 true, TYPE_VT8231_ISA));
-     object_property_add_alias(OBJECT(machine), "rtc-time",
--                              object_resolve_path_component(OBJECT(via),
--                                                            "rtc"),
-+                              object_resolve_path_component(via, "rtc"),
-                               "date");
-     qdev_connect_gpio_out(DEVICE(via), 0,
-                           qdev_get_gpio_in_named(pm->mv, "gpp", 31));
- 
--    dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
-+    dev = PCI_DEVICE(object_resolve_path_component(via, "ide"));
-     pci_ide_create_devs(dev);
- 
--    dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "pm"));
-+    dev = PCI_DEVICE(object_resolve_path_component(via, "pm"));
-     i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
-     spd_data = spd_data_generate(DDR, machine->ram_size);
-     smbus_eeprom_init_one(i2c_bus, 0x57, spd_data);
--- 
-2.30.6
 
+> +    g_autoptr(GArray) regs = g_array_new(false, true, sizeof(const char *));
+> +    /* 0 */ g_array_append_str_literal(regs, "msp");
+> +    /* 1 */ g_array_append_str_literal(regs, "psp");
+> +    /* 2 */ g_array_append_str_literal(regs, "primask");
+> +    /* 3 */ g_array_append_str_literal(regs, is_main ? "basepri" : "");
+> +    /* 4 */ g_array_append_str_literal(regs, is_main ? "faultmask" : "");
+> +    /* 5 */ g_array_append_str_literal(regs, "control");
+> +    /* 6 */ g_array_append_str_literal(regs, is_v8 ? "msplim" : "");
+> +    /* 7 */ g_array_append_str_literal(regs, is_v8 ? "psplim" : "");
+
+Can use NULL instead of ""?
+
+Otherwise it looks plausible.
+
+
+r~
 
