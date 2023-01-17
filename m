@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D368666DFCF
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 15:03:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 552BF66DFE2
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 15:04:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHmXF-0007ln-4c; Tue, 17 Jan 2023 09:01:57 -0500
+	id 1pHmZQ-0000N5-BN; Tue, 17 Jan 2023 09:04:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pHmXC-0007lY-J8
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 09:01:54 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pHmXA-0007TP-Bt
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 09:01:54 -0500
-Received: by mail-pl1-x635.google.com with SMTP id jl4so33610770plb.8
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 06:01:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Rt2FWvc+qWz60EOlJZ3tlgcztDYsaZqfrR+reFiA4kk=;
- b=WbpXZQfrBZwbm+dcsjNPtC0wx7wJbM+QvDn/1scT6mZF/zUYmO8v+I9jaVb+raYhlE
- JDzINjOJj7NpHsXCSL9tbSgNGiHBupqQo+ctghgaa5Neft2qlG3vSCMGB+7DswWJ8M8r
- 7VvWxoUgphacpGVRlRSigHtVJscG+m/rC/5BIkV8IWqe/61o6wnoD8h7iE0za6+c/3hJ
- O7wkYHbmO8wtxPF3/cs9lHcEy1pWcrR/10pLFN3jCmOV/k2DyIYmI6iqfRe/xSJmFhQ2
- CxdwpYfzBAS1s3RNLWQWOCX526BaQJ2qhXFaJBf5bsAfXaxEdCPAvT38samr2cWEpPkz
- lm4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Rt2FWvc+qWz60EOlJZ3tlgcztDYsaZqfrR+reFiA4kk=;
- b=F3n5uvhyl3YtSM89xfPVJoQf+gMVq4kOv30GJnKJea5kuMXPc+7oJtt+bSq08yj9NG
- t9A+DRBVwDsMG1ndBWDUjvUkz1W4RTPmtrH5VyWUzzRRJJvqQ3ujmy0zQ6lojkrWA6jZ
- e3tWUdnc1evrGAf77BA8OSyC1/Vc8OLNcVbzzrZlQTeb1DLkBA0Myt360ztl8T1v+2Gl
- o622IaKOVJjp47s6eeD4C7hVy6mqt0GSccBJMUd1sTGmb2TLKftyUXEanaTw3UsGoQKE
- /z+chkW36ep69UfL3aICM1ISF4v9O9kZlVdeSyRUw7G2pxiF6SowsVQurdHvjW8qPdgB
- 96eg==
-X-Gm-Message-State: AFqh2kr0PTIHS1ZuDjqiPcQh4PmxTIgzBeY//TX2ZgDz2dDXjeZgko7p
- BbROoB2E1d+OSc37qoo7lsSQW8VOVJA/sGqGq4fDTw==
-X-Google-Smtp-Source: AMrXdXuUYm/MoQO3JzMgjFFG1pcSAdi8HU7/ysayDHuKfNNPIHELs2opYZbsZTMZpD+Gl4VK+qxyiClcViUMFNzrBSY=
-X-Received: by 2002:a17:902:7045:b0:194:957b:e80a with SMTP id
- h5-20020a170902704500b00194957be80amr240249plt.90.1673964110628; Tue, 17 Jan
- 2023 06:01:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pHmZH-0000Lk-98
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 09:04:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pHmZF-0007eB-4c
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 09:04:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673964240;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=m+DyYDBKzK4XX2k/G8ksyzHEfV0I7PXyMSCjLhYoy1Q=;
+ b=JcCDYxQ+qHHRGjplCUNFY6epozUlsXVamSgxZE/SUU2yXellZ0uQdLkUQBqXbZQxa8WhQt
+ aZOtbt+knHIknjsVYuVxK5UPDS6zjbzg1Q6KDy+3TaOPpn5iPSSTtvSnf23kvd7JnwzsoN
+ gdZJvJAPiSmqMjX+lFKTN9x69P2MMFM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-427-MIeSioA4NLmF52tKynDp8A-1; Tue, 17 Jan 2023 09:03:31 -0500
+X-MC-Unique: MIeSioA4NLmF52tKynDp8A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A3A668030CC;
+ Tue, 17 Jan 2023 14:02:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C6CB2026D4B;
+ Tue, 17 Jan 2023 14:02:52 +0000 (UTC)
+Date: Tue, 17 Jan 2023 14:02:50 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-devel@nongnu.org, Warner Losh <imp@bsdimp.com>,
+ Kyle Evans <kevans@freebsd.org>, Kevin Wolf <kwolf@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 3/3] configure: Enable -Wthread-safety if present
+Message-ID: <Y8aqii6iBsdd5rl6@redhat.com>
+References: <20230117135203.3049709-1-eesposit@redhat.com>
+ <20230117135203.3049709-4-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20230113133923.1642627-1-alex.bennee@linaro.org>
- <20230113133923.1642627-5-alex.bennee@linaro.org>
-In-Reply-To: <20230113133923.1642627-5-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Jan 2023 14:01:39 +0000
-Message-ID: <CAFEAcA8-ocjrvqSpcuR4g1m1ERFSTArETGxYtHit_HeMvERKOA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] docs: add an introduction to the system docs
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Alexandre Iooss <erdnaxe@crans.org>, 
- Markus Armbruster <armbru@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- John G Johnson <john.g.johnson@oracle.com>, 
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Jagannathan Raman <jag.raman@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x635.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230117135203.3049709-4-eesposit@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,264 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 13 Jan 2023 at 13:39, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> Drop the frankly misleading quickstart section for a more rounded
-> introduction section. This new section gives an overview of the
-> accelerators and high level introduction to some of the key features
-> of the emulator. We also expand on a general form for a QEMU command
-> line with a hopefully not too scary worked example of what this looks
-> like.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-Yes, the quickstart section is definitely something worth dumping.
-
+On Tue, Jan 17, 2023 at 08:52:03AM -0500, Emanuele Giuseppe Esposito wrote:
+> From: Kevin Wolf <kwolf@redhat.com>
+> 
+> This enables clang's thread safety analysis (TSA), which we'll use to
+> statically check the block graph locking.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Message-Id: <20221207131838.239125-9-kwolf@redhat.com>
+> Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  docs/interop/qemu-qmp-ref.rst |   2 +
->  docs/system/index.rst         |   2 +-
->  docs/system/introduction.rst  | 216 ++++++++++++++++++++++++++++++++++
->  docs/system/multi-process.rst |   2 +
->  docs/system/quickstart.rst    |  21 ----
->  qemu-options.hx               |   3 +
->  6 files changed, 224 insertions(+), 22 deletions(-)
->  create mode 100644 docs/system/introduction.rst
->  delete mode 100644 docs/system/quickstart.rst
->
-> diff --git a/docs/interop/qemu-qmp-ref.rst b/docs/interop/qemu-qmp-ref.rs=
-t
-> index 357effd64f..f94614a0b2 100644
-> --- a/docs/interop/qemu-qmp-ref.rst
-> +++ b/docs/interop/qemu-qmp-ref.rst
-> @@ -1,3 +1,5 @@
-> +.. _QMP Ref:
-> +
->  QEMU QMP Reference Manual
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
->
-> diff --git a/docs/system/index.rst b/docs/system/index.rst
-> index 282b6ffb56..3605bbe1ce 100644
-> --- a/docs/system/index.rst
-> +++ b/docs/system/index.rst
-> @@ -12,7 +12,7 @@ or Hypervisor.Framework.
->  .. toctree::
->     :maxdepth: 3
->
-> -   quickstart
-> +   introduction
->     invocation
->     device-emulation
->     keys
-> diff --git a/docs/system/introduction.rst b/docs/system/introduction.rst
-> new file mode 100644
-> index 0000000000..15e4cf773d
-> --- /dev/null
-> +++ b/docs/system/introduction.rst
-> @@ -0,0 +1,216 @@
-> +Introduction
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Virtualisation Accelerators
-> +---------------------------
-> +
-> +QEMU's system emulation provides a virtual model of a machine (CPU,
-> +memory and emulated devices) to run a guest OS. It supports a number
-> +of hypervisors (known as accelerators) as well as a dynamic JIT known
-> +as the Tiny Code Generator (TCG) capable of emulating many CPUs.
-> +
-> +.. list-table:: Supported Accelerators
-> +  :header-rows: 1
-> +
-> +  * - Accelerator
-> +    - Host OS
-> +    - Host Architectures
-> +  * - KVM
-> +    - Linux
-> +    - Arm (64 bit only), MIPS, PPC, RISC-V, s390x, x86
-> +  * - Xen
-> +    - Linux (as dom0)
-> +    - Arm, x86
-> +  * - Intel HAXM (hax)
-> +    - Linux, Windows
-> +    - x86
-> +  * - Hypervisor Framework (hvf)
-> +    - MacOS
-> +    - x86 (64 bit only), Arm (64 bit only)
-> +  * - Windows Hypervisor Platform (wphx)
-> +    - Windows
-> +    - x86
-> +  * - NetBSD Virtual Machine Monitor (nvmm)
-> +    - NetBSD
-> +    - x86
-> +  * - Tiny Code Generator (tcg)
-> +    - Linux, other POSIX, Windows, MacOS
-> +    - Arm, x86, Loongarch64, MIPS, PPC, s390x, Sparc64
-> +
-> +Feature Overview
-> +----------------
-> +
-> +System emulation provides a wide range of device models to emulate
-> +various hardware components you may want to add to your machine. This
-> +includes a wide number of VirtIO devices which are specifically tuned
-> +for efficient operation under virtualisation. Some of the device
-> +emulation can be offloaded from the main QEMU process using either
-> +vhost-user (for VirtIO) or :ref:`Multi-process QEMU`. If the platform
-> +supports it QEMU also supports directly passing devices through to
-> +guest VMs to eliminate the device emulation overhead. See
-> +:ref:`device-emulation` for more details.
-> +
-> +There is a full featured block layer allows for construction of
+>  configure | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/configure b/configure
+> index 2281892657..14668e6269 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1183,6 +1183,7 @@ add_to warn_flags -Wnested-externs
+>  add_to warn_flags -Wendif-labels
+>  add_to warn_flags -Wexpansion-to-defined
+>  add_to warn_flags -Wimplicit-fallthrough=2
+> +add_to warn_flags -Wthread-safety
 
-"which allows"
+Does this thread safety analysis have any kind of measurable
+impact on compilation speed ?
 
-> +complex storage topology which can be stacked across multiple layers
-> +supporting redirection, networking, snapshots and migration support.
-> +
-> +The flexible ``chardev`` system allows for handling IO from character
-> +like devices using stdio, files, unix sockets and TCP networking.
-> +
-> +QEMU provides a number of management interfaces including a line based
-> +:ref:`Human Monitor Protocol (HMP)<QEMU monitor>` that allows you to
-> +dynamically add and remove devices as well as introspect the system
-> +state. The :ref:`QEMU Monitor Protocol<QMP Ref>` (QMP) is a well
-> +defined, versioned, machine usable API that presents a rich interface
-> +to other tools to create, control and manage Virtual Machines. This is
-> +the interface used by higher level tools interfaces such as `Virt
-> +Manager <https://virt-manager.org/>`_ using the `libvirt framework
-> +<https://libvirt.org>`_.
-> +
-> +For the common accelerators QEMU supported debugging with its
-> +:ref:`gdbstub<GDB usage>` which allows users to connect GDB and debug
-> +system software images.
-> +
-> +Running
-> +-------
-> +
-> +QEMU provides a rich and complex API which can be overwhelming to
-> +understand. While some architectures can boot something with just a
-> +disk image those examples elide a lot of details with defaults that
-
-"disk image, "
-
-> +may not be optimal for modern systems.
-> +
-> +For a non-x86 system where we emulate a broad range of machine types,
-> +the command lines are generally more explicit in defining the machine
-> +and boot behaviour. You will find often find example command lines in
-> +the :ref:`system-targets-ref` section of the manual.
-> +
-> +While the project doesn't want to discourage users from using the
-> +command line to launch VMs we do want to highlight there are a number
-
-"VMs, "
-
-"highlight that"
-
-> +of projects dedicated to providing a more user friendly experience.
-> +Those built around the ``libvirt`` framework can make use of feature
-> +probing to build modern VM images tailored to run on the hardware you
-> +have.
-> +
-> +That said the general form of a QEMU command line could be expressed
-
-"That said, ". "can be expressed"
-
-> +as:
-> +
-> +.. parsed-literal::
-> +
-> +  $ |qemu_system| [machine opts] \\
-> +                  [cpu opts] \\
-> +                  [accelerator opts] \\
-> +                  [device opts] \\
-> +                  [backend opts] \\
-> +                  [interface opts] \\
-> +                  [boot opts]
-> +
-> +Most options will generate some help information. So for example:
-> +
-> +.. parsed-literal::
-> +
-> +   $ |qemu_system| -M help
-> +
-> +will list the supported machine types by that QEMU binary. Help can
-
-"the machine types supported by that QEMU binary"
-
-"``help`` can"
-
-> +also be passed as an argument to another option. For example:
-> +
-> +.. parsed-literal::
-> +
-> +  $ |qemu_system| -device scsi-hd,help
-> +
-> +will list the arguments and their default values of additional options
-> +that can control the behaviour of the ``scsi-hd`` device.
-> +
-> +.. list-table:: Options Overview
-> +  :header-rows: 1
-> +  :widths: 10, 90
-> +
-> +  * - Options
-> +    -
-> +  * - Machine
-> +    - Define the :ref:`machine type<Machine Options>`, amount of memory =
-etc
-> +  * - CPU
-> +    - Type and number/topology of vCPUs. Most accelerators offer
-> +      a ``host`` cpu option which simply passes through your host CPU
-> +      configurtaion without filtering out any features.
-
-"configuration"
-
-> +  * - Accelerator
-> +    - This will depend on the hypervisor you run, will fallback to
-> +      slow TCG emulation by default
-
-"Note that the default is TCG, which is purely emulated, so
-you must specify an accelerator type to take advantage of
-hardware virtualization."
+Our CI jobs are quite sensitive to any increase in build
+time.
 
 
-> +  * - Devices
-> +    - Additional devices that are not defined as default with the
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-"by default"
-
-> +      machine type
-> +  * - Backends
-> +    - Backends are how QEMU deals with the guests data, for example
-
-"guest's"
-
-> +      how a block device is stored, how network devices see the
-> +      network or a serial device is directed to the outside world.
-
-"or how"
-
-> +  * - Interfaces
-> +    - How the system is displayed, how it is managed and controlled or
-> +      debugged
-
-We should be consistent about whether we end these bullet points
-with a full stop or not.
-
-> +  * - Boot
-> +    - How the system boots, via firmware or direct kernel boot
-> +
-> +In the following example we first define a ``virt`` machine which is a
-> +general purpose platform for running Aarch64 guests. We enable
-> +virtualisation so we can use KVM inside the emulated guest
-
-Missing full stop.
-
-
-thanks
--- PMM
 
