@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A73A66E62F
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 19:38:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A674B66E64B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 19:44:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHqqS-0006N7-08; Tue, 17 Jan 2023 13:38:04 -0500
+	id 1pHqv8-0001x2-Bg; Tue, 17 Jan 2023 13:42:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHqqO-0006Mp-SR
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:38:00 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHqud-0001tc-Mw
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:42:28 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pHqqN-0008PX-AE
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:38:00 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id g10so22999470wmo.1
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 10:37:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHquc-0000iw-1N
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 13:42:23 -0500
+Received: by mail-ej1-x634.google.com with SMTP id kt14so18612643ejc.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 10:42:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9H4y0Bt2sXI9mL8arvA/aO2CDynRZefdfnh2/L4eq6g=;
- b=ZOTU1dxbqoO0yX9XCCxoZ1DqCbKuXH9HPnbicWFmeXsfn6nEA1zpGPOWSCvvpf6PvC
- 3opzXF/M17hWMpdlUWR5CRSWyE8SypvB2s33eKt+sMCW4kudOqmnmq7f0LWCqr2yBJah
- qDrv1kkxHQP9Ch9Dj74gfraz5e3Z3y2M/6OnxRYwypU/4M8G46YvAx6c9ZYQD+07wKMl
- ACcYl9LMKAxhVHeINfIBFpZ+qQW4ibIymFrpec/O5Clz1ijelIENFqGkUbjr/SqBEq6s
- GOIGVmx8vgfM2dDAe5PVsVp76a/SaYvavkUey//RNIIfI5OqGHS+H+mxUQlgcXk18Xc/
- 62VQ==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0tE4B310nUB0gFBo/wzLg+119jqLd4O6fykhWT0X0zM=;
+ b=GRwQuj3FSMLOS9E9vz4DqUakntCuQ/r9l/lcm7Latb0IUlN7qgRlyr3a7HA99Z12cf
+ IAgIz+eL8JtqMNZ/rWFHbjUtant2ZeAvuJD63BO6RtZqpl9n3n1mMNQasyEpW1IS/D2E
+ Ufp8XXGRctpKIbKpTBf1ppKqBbSi4D/zha0Q8NR8F9ZuyYmheRaklPrSbc8mbqZY/jW4
+ eA/BeQffsqa9E4EtGRd+O9ULFiyZ21TLfMplphWun37cV9D/k3AX8hxFyBgzTSJXYsRD
+ lweYZkhJ1qSFMPAJuPC6/sU63Tawao5VHdgABYjVA0uaXffVL/cTeAc60C/+C66LBSlG
+ MGCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9H4y0Bt2sXI9mL8arvA/aO2CDynRZefdfnh2/L4eq6g=;
- b=UbYhwpULoybFv1ktpHKaHim7OfKOJdHzBLaLk3i133/d2YMOqRarvHV79Ud8PkgIe9
- ugW8QcSH2b+CFut8t1X5XloI/b+5BLfqmBfXMGLaXdWaqdKLbA1EWbr1lV0Wr6Zc6LKl
- Rgc0voLLgnhDhXCFslptT4fC333px6R+EatK6qrzUOWkUPXWGIxGskzOFAohDC5AMtq7
- ggM+aODAG/ulYSoKYmd44zxW9K4E689FAQ4ycBWTt+PE5SskkMvXJo8Q0sET6ltwhFSp
- lZ6v5q9kcbNlga5Edd/b2Ep/9dDD0d4kun80aHNHao7ZU0xWo+cBbHJH/q1wmWj7CfAD
- znWw==
-X-Gm-Message-State: AFqh2kpbKZkteINCKqzx+UQSYdEZnE9Px9HmfwqnF95I3TdTapAvj/dy
- sn3Xc7ohfiY6wUZqCTsg6H9Z8w==
-X-Google-Smtp-Source: AMrXdXtyH7hhN9t9OvGRD+K/YTFRfwW3v10PcbGMvBoXiNkPUO3x7ea7xZ22TqFfYTypo848NQvKdw==
-X-Received: by 2002:a05:600c:3ba5:b0:3da:ff66:e3cc with SMTP id
- n37-20020a05600c3ba500b003daff66e3ccmr3944581wms.21.1673980677270; 
- Tue, 17 Jan 2023 10:37:57 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0tE4B310nUB0gFBo/wzLg+119jqLd4O6fykhWT0X0zM=;
+ b=IC3oZeUeCVhgCfpyty5qsxoyCey+9Ox2ulMKjF43u6TPqp4yJA5eobCfpk+IYG/pri
+ qfww8ZhiPCjUIoIIwos9N9GQKJoWS3izbp3j0rQ/Gdaham86vuJIatBTlk7eyJXI3e71
+ 4nA/wYU8spGtBVoK5PAIkVru0J6ndpB1Us9hHd0LBoV8snKlLy2idd1rD6sioXj0Cecp
+ KSWNidhIx0+XUQ0Bn2S2ukNfgWCbpFcRAYWsRrRCsbv9605kpRuN6k58mhdvVXkcM/OA
+ iRrebwh99xW8ZtbOpLxJulQh+kxGrVdm3w/+tylqqA/X0OzoKk/EggocSZxppKO4KDyR
+ clAQ==
+X-Gm-Message-State: AFqh2kqi+8NOlCeeQFLrz4ZS2ebfbAeHGSfjEGU70LilqTPCWNQm9On2
+ BZrPBhvhl+3tSvfXSyPo1r4civMnF2NuE10q
+X-Google-Smtp-Source: AMrXdXsjujbr8EWCfNKDN4D/DZiZa4lQs0U4OiaLv6QqK8kWZ3KRGRuGOqjY5D+UhttpidCwpzIfLg==
+X-Received: by 2002:a17:906:474a:b0:7c0:d60b:2883 with SMTP id
+ j10-20020a170906474a00b007c0d60b2883mr3822514ejs.50.1673980940101; 
+ Tue, 17 Jan 2023 10:42:20 -0800 (PST)
+Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- q6-20020a05600c46c600b003cfd4e6400csm40479799wmo.19.2023.01.17.10.37.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 10:37:56 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4BAAD1FFB7;
- Tue, 17 Jan 2023 18:37:56 +0000 (GMT)
-References: <20230109014248.2894281-1-richard.henderson@linaro.org>
- <20230109014248.2894281-23-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.15; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 22/22] tcg/riscv: Implement direct branch for goto_tb
-Date: Tue, 17 Jan 2023 18:37:51 +0000
-In-reply-to: <20230109014248.2894281-23-richard.henderson@linaro.org>
-Message-ID: <874jsp0zy3.fsf@linaro.org>
+ 21-20020a170906319500b0086faa5b06d4sm3524214ejy.181.2023.01.17.10.42.18
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 17 Jan 2023 10:42:19 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH] target/tricore: Remove unused fields from CPUTriCoreState
+Date: Tue, 17 Jan 2023 19:42:17 +0100
+Message-Id: <20230117184217.83305-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,18 +87,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Remove dead code:
+- unused fields in CPUTriCoreState
+- (unexisting) tricore_def_t structure
+- forward declaration of tricore_boot_info structure
+  (declared in "hw/tricore/tricore.h", used once in
+   hw/tricore/tricore_testboard.c).
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ target/tricore/cpu.h | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-> Now that tcg can handle direct and indirect goto_tb simultaneously,
-> we can optimistically leave space for a direct branch and fall back
-> to loading the pointer from the TB for an indirect branch.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+diff --git a/target/tricore/cpu.h b/target/tricore/cpu.h
+index 3b9c533a7c..47d0ffb745 100644
+--- a/target/tricore/cpu.h
++++ b/target/tricore/cpu.h
+@@ -25,10 +25,6 @@
+ #include "qemu/cpu-float.h"
+ #include "tricore-defs.h"
+ 
+-struct tricore_boot_info;
+-
+-typedef struct tricore_def_t tricore_def_t;
+-
+ typedef struct CPUArchState {
+     /* GPR Register */
+     uint32_t gpr_a[16];
+@@ -179,16 +175,9 @@ typedef struct CPUArchState {
+     uint32_t M3CNT;
+     /* Floating Point Registers */
+     float_status fp_status;
+-    /* QEMU */
+-    int error_code;
+-    uint32_t hflags;    /* CPU State */
+ 
+     /* Internal CPU feature flags.  */
+     uint64_t features;
+-
+-    const tricore_def_t *cpu_model;
+-    void *irq[8];
+-    struct QEMUTimer *timer; /* Internal timer */
+ } CPUTriCoreState;
+ 
+ /**
+-- 
+2.38.1
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
