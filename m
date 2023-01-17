@@ -2,82 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFB766E8AF
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 22:43:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70187670A82
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:01:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHtiy-0006ZE-0l; Tue, 17 Jan 2023 16:42:32 -0500
+	id 1pHtzV-0001iu-Et; Tue, 17 Jan 2023 16:59:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHtit-0006YL-AF
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 16:42:29 -0500
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHtir-0003Y2-Gq
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 16:42:26 -0500
-Received: by mail-pg1-x529.google.com with SMTP id h192so23047787pgc.7
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 13:42:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=o5DxAltWo1aKEgrqrZE3ecb33VrHVfohQgjyfzaFsiQ=;
- b=QiDQHx6G+8AcwFu0hBxmy3kljQ4BCbsJnHGKcj0kn0KxktNX1bZLst9pNFBG3ONIzA
- FLnYuqFvz2QqmOlpLyt1f5FDooT933g1Or08udfcye2QsfVmGl1hvJnPKCou4Sc9L5wh
- BRG3wkhAY928VmO04ao4RzzKaDezIayUoQMOuN7TdIoiMLUtqIzrR5Mu7kVruBXbdOsm
- foM3iqGZ+oOw9GlrzgGPlGWFzgcW6TkxT/lPAG9OVK9BaIjQRRiIkVP/R/HzSrHU9huh
- FTkbIYTbVIA9YPj2gHHVvWqVU545FmNfNv3G6wbcmExHrwqYG7nK/S670ABAWSMfTcID
- 8wNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=o5DxAltWo1aKEgrqrZE3ecb33VrHVfohQgjyfzaFsiQ=;
- b=CvL3yXztL6PI3Q/Rpvm6KAgOLZogBqf9J/CqWZbcnxyqsQCtZU8Kn6gRwh/Fv1Dou5
- wFaYPq+gxQvg4qQ47Ihvx7ufugs7MQVvqkTYYE1rkbS+6qRGMOECcKbeFKd7Lanf3/t0
- o5Witi9XvsJgFUn1NZCYcgNU9h0/u+oP+P/dhR8xtDLcGtVDeBLdI5torQUwbSGX1siN
- VeYo0uVfwTR6Bd3ZVzYbjb10D/GOHq9xrZk9CHaoVv4pmtAH6LK497m7NgOQF4ocKMbC
- ZdYJAkOZX4+/w+TXOxayh9t1Nw90+skQmmDPcWVIFOjaV+rwA6dopyPZ6yNyKeLqPx3c
- N4Xw==
-X-Gm-Message-State: AFqh2kqXnCHTS3T4Ea64YJu4A2sIH0KCK+KfjRMZ7XxLK6O/7bWc6HKF
- uCJ+0EEXMZtjpBeOfJ4KavyT8g==
-X-Google-Smtp-Source: AMrXdXtAVfmzko/2mOtfeOD3mxkFbm3jGEg3z+z71JiNEP7ogiszCoppDib95ZFbB1GPHNJp3287FA==
-X-Received: by 2002:aa7:85d5:0:b0:582:6732:ee0b with SMTP id
- z21-20020aa785d5000000b005826732ee0bmr26495235pfn.28.1673991744103; 
- Tue, 17 Jan 2023 13:42:24 -0800 (PST)
-Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- y206-20020a6264d7000000b0058659177fb8sm19115756pfb.86.2023.01.17.13.42.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 13:42:23 -0800 (PST)
-Message-ID: <be662a38-c0fd-daf4-88e6-4adcde57fd57@linaro.org>
-Date: Tue, 17 Jan 2023 11:42:20 -1000
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pHtzS-0001i5-KS; Tue, 17 Jan 2023 16:59:34 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pHtzQ-0005q8-B3; Tue, 17 Jan 2023 16:59:34 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id F29C87457E7;
+ Tue, 17 Jan 2023 22:57:05 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B2BD0745706; Tue, 17 Jan 2023 22:57:05 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id AE3597456E3;
+ Tue, 17 Jan 2023 22:57:05 +0100 (CET)
+Date: Tue, 17 Jan 2023 22:57:05 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+cc: philmd@linaro.org
+Subject: Re: [PATCH] ppc/pegasos2: Improve readability of VIA south bridge
+ creation
+In-Reply-To: <20230117214545.5E191746369@zero.eik.bme.hu>
+Message-ID: <a168c8d4-4c0c-f933-7293-4fb3bd08f21e@eik.bme.hu>
+References: <20230117214545.5E191746369@zero.eik.bme.hu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH qemu v2 3/3] target/arm/gdbstub: Support reading M
- security extension registers from GDB
-Content-Language: en-US
-To: ~dreiss-meta <dreiss@meta.com>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <167398464577.10345.18365355650640365165-3@git.sr.ht>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <167398464577.10345.18365355650640365165-3@git.sr.ht>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,22 +58,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/9/23 13:05, ~dreiss-meta wrote:
-> From: David Reiss <dreiss@meta.com>
-> 
-> Follows a fairly similar pattern to the existing special register debug
-> support.  Only reading is implemented, but it should be possible to
-> implement writes.
-> 
-> Signed-off-by: David Reiss <dreiss@meta.com>
+On Tue, 17 Jan 2023, BALATON Zoltan wrote:
+> Slightly improve readability of creating the south btidge by cnamging
+
+Still left a typo in "bridge" above...
+This is alternative, inspired by Phil's patches, maybe I'd also need to 
+add Inspired-by: tag.
+
+> type of a local variable to avoid some casts within function arguments
+> which makes some lines shorter and easier to read.
+> Also remove an unneded line break.
+
+and "unneeded" here. I wait what Phil says then correct these if needed.
+
+Regards,
+BALATON Zoltan
+
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   target/arm/cpu.h      |  15 +++++-
->   target/arm/gdbstub.c  | 116 ++++++++++++++++++++++++++++++++++++++++++
->   target/arm/m_helper.c |  23 ++++-----
->   3 files changed, 139 insertions(+), 15 deletions(-)
-
-Is there a reason why these are separate from m_systemreg?
-
-
-r~
+> hw/ppc/pegasos2.c | 14 +++++++-------
+> 1 file changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+> index f46d4bf51d..1a13632ba6 100644
+> --- a/hw/ppc/pegasos2.c
+> +++ b/hw/ppc/pegasos2.c
+> @@ -102,7 +102,8 @@ static void pegasos2_init(MachineState *machine)
+>     CPUPPCState *env;
+>     MemoryRegion *rom = g_new(MemoryRegion, 1);
+>     PCIBus *pci_bus;
+> -    PCIDevice *dev, *via;
+> +    Object *via;
+> +    PCIDevice *dev;
+>     I2CBus *i2c_bus;
+>     const char *fwname = machine->firmware ?: PROM_FILENAME;
+>     char *filename;
+> @@ -159,19 +160,18 @@ static void pegasos2_init(MachineState *machine)
+>     pci_bus = mv64361_get_pci_bus(pm->mv, 1);
+>
+>     /* VIA VT8231 South Bridge (multifunction PCI device) */
+> -    via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
+> -                                          TYPE_VT8231_ISA);
+> +    via = OBJECT(pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0),
+> +                                                 true, TYPE_VT8231_ISA));
+>     object_property_add_alias(OBJECT(machine), "rtc-time",
+> -                              object_resolve_path_component(OBJECT(via),
+> -                                                            "rtc"),
+> +                              object_resolve_path_component(via, "rtc"),
+>                               "date");
+>     qdev_connect_gpio_out(DEVICE(via), 0,
+>                           qdev_get_gpio_in_named(pm->mv, "gpp", 31));
+>
+> -    dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
+> +    dev = PCI_DEVICE(object_resolve_path_component(via, "ide"));
+>     pci_ide_create_devs(dev);
+>
+> -    dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "pm"));
+> +    dev = PCI_DEVICE(object_resolve_path_component(via, "pm"));
+>     i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+>     spd_data = spd_data_generate(DDR, machine->ram_size);
+>     smbus_eeprom_init_one(i2c_bus, 0x57, spd_data);
+>
 
