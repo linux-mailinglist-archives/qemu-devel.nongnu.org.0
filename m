@@ -2,44 +2,154 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0D166E737
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 20:45:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B07366E80D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 21:57:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHrsS-0000Dj-Tg; Tue, 17 Jan 2023 14:44:12 -0500
+	id 1pHt0A-0002vf-Q2; Tue, 17 Jan 2023 15:56:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1pHrsQ-0000Ch-Qp; Tue, 17 Jan 2023 14:44:10 -0500
-Received: from mail-b.sr.ht ([173.195.146.151])
+ (Exim 4.90_1) (envelope-from <prvs=438116b86b=dreiss@meta.com>)
+ id 1pHqe0-0003r8-Nu; Tue, 17 Jan 2023 13:25:14 -0500
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]
+ helo=mx0a-00082601.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1pHrsN-0001HN-Rc; Tue, 17 Jan 2023 14:44:10 -0500
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id C2A7E11EFCD;
- Tue, 17 Jan 2023 19:44:06 +0000 (UTC)
-From: ~dreiss-meta <dreiss-meta@git.sr.ht>
-Date: Mon, 09 Jan 2023 15:05:24 -0800
-Subject: [PATCH qemu v2 3/3] target/arm/gdbstub: Support reading M security
+ (Exim 4.90_1) (envelope-from <prvs=438116b86b=dreiss@meta.com>)
+ id 1pHqdw-0006Ls-9z; Tue, 17 Jan 2023 13:25:12 -0500
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+ by m0089730.ppops.net (8.17.1.19/8.17.1.19) with ESMTP id 30HG5ZUl006594;
+ Tue, 17 Jan 2023 10:25:04 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=s2048-2021-q4;
+ bh=9fn36VzoRdi85K7NxAS6PcoUgslMUtsEpPwQ9y+0uzs=;
+ b=iCHHTp26jYqt7O6zpDd3oUST+bLcNo+4Kn0iT33I32MDECVfm9BSSp4Rdh4hSYwDzVDS
+ yi9Kei5xOH97o0CZt8uborDranubLFkaUy8LUxcWmiUhrVkDfeGHgKGmF52WEkLSbEjN
+ BZ8+ZTOOUm4wEI6Xl9sVsckOlRocC0wuFkQuRBVe2WwE70A+aqfgJdkd4IIFlj2njAzE
+ C1eOEm37QLnUJNERDc5fSwfMLskZI9Lna5Pina9wisEkgRaeoS7rRPFbSA50VdWaXWtA
+ LXhz631719bJHs0mFDbaKzK2a3S/sxeiV8ue0oV//AIrXGk5fbizT2CFAG0Js8wP9lkz LA== 
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2108.outbound.protection.outlook.com [104.47.70.108])
+ by m0089730.ppops.net (PPS) with ESMTPS id 3n3rsdx7wr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Jan 2023 10:25:04 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jG0TZKoXoprzMvkt+Z+SNjjhb4cHVal56SYXoMjrHhGpae4jEQncAmSSI0p9pXwLZ6eIErHx4MxeRriID5ztRZcbCw1roSYVlRlAx+EoxATO1WOwLddIDL1fw2uEa0KwCWZAnfyz+ax2sUztS7rXWAtEiCN/NiUZ0IhCafcRdYMZGjhRxiUT5ni5IUE/pDIOI1OqKyuSogpy32XtPBWavzz96UsLhuUIOmiG9pbYVpMMmj6JrGlqkYueMJ8cy2KWOAfGdKZy+FJFrzO9jkCYwmFJ+362TGPX8ayJVSpke9xWGl8nQm1vFUpsT/wmLOC8BO++P3DrEQOtmqDBZZTfNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9fn36VzoRdi85K7NxAS6PcoUgslMUtsEpPwQ9y+0uzs=;
+ b=VHonHdewjg3ggvSv4/EMY4wlARN5JFnNrfH8ZFO04Azl1WmcLcSEMs1j+J83dGnXmNXIRu7dCU32toqu1Rw5ONboU5V/Q7e1xjhOMqATeYYgWs/TGvzTDFhDwLwFYPsvHYhaVzM1lmNCVbGreSo3+OTBAFg8squjl9cNLEdn3rUSWnap29MsRegFJxdjOk+ecyIdkQbN3rSRJC3qqcfnqpIZevZfMTMCvOKBwpa6B6iDPcJV/LMbeVv7Fs22ZA/pAzF23On3c/dTVxU11Hx8hn9dACDnL60w/Fur1ybtSt8nBJFpEbBgqHB7NtJpL6BNBHnAxAR0UwSLhRTcxPMI2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=meta.com; dmarc=pass action=none header.from=meta.com;
+ dkim=pass header.d=meta.com; arc=none
+Received: from SJ0PR15MB4680.namprd15.prod.outlook.com (2603:10b6:a03:37d::9)
+ by CH3PR15MB6262.namprd15.prod.outlook.com (2603:10b6:610:15f::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Tue, 17 Jan
+ 2023 18:25:02 +0000
+Received: from SJ0PR15MB4680.namprd15.prod.outlook.com
+ ([fe80::818f:54b8:f837:9f9c]) by SJ0PR15MB4680.namprd15.prod.outlook.com
+ ([fe80::818f:54b8:f837:9f9c%5]) with mapi id 15.20.5986.023; Tue, 17 Jan 2023
+ 18:25:02 +0000
+Message-ID: <d01dc3b9-e112-d701-8129-f7d0fe5141db@meta.com>
+Date: Tue, 17 Jan 2023 10:25:00 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH qemu 3/3] target/arm/gdbstub: Support reading M security
  extension registers from GDB
-Message-ID: <167398464577.10345.18365355650640365165-3@git.sr.ht>
-X-Mailer: git.sr.ht
-In-Reply-To: <167398464577.10345.18365355650640365165-0@git.sr.ht>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <167330628518.10497.13100425787268927786-0@git.sr.ht>
+ <167330628518.10497.13100425787268927786-2@git.sr.ht>
+ <CAFEAcA8sHX0g6nYJ0F34=JvRJkRNhSMmjMKpHqFbCfP5LankEQ@mail.gmail.com>
+From: David Reiss <dreiss@meta.com>
+In-Reply-To: <CAFEAcA8sHX0g6nYJ0F34=JvRJkRNhSMmjMKpHqFbCfP5LankEQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR11CA0052.namprd11.prod.outlook.com
+ (2603:10b6:a03:80::29) To SJ0PR15MB4680.namprd15.prod.outlook.com
+ (2603:10b6:a03:37d::9)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 15
-X-Spam_score: 1.5
-X-Spam_bar: +
-X-Spam_report: (1.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR15MB4680:EE_|CH3PR15MB6262:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b134ebb-1e24-4a3c-d760-08daf8b82605
+X-FB-Source: Internal
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rBFPr4WLThi41msB6INIGz1dw3sR7JQEQum3aO5jzzH2S6pIDxbOZDbffhI1cubFRY8W2fR9lMr86tby9+7DewCneSY5BULyLu2URV/BvMNPpA0zur+KxsShxzP6xTcuIi1BXfNA1qACNeYFsT/hs0TcABKgawmBl9ncMGSTDOnzVbdAbriLqE4x1mjJMwLYUPOkrNrDzKzTJWDP2b5A2N3h7NdfE/u4Mtfe8ZYZNgSwUAFvhuGX4OKhLLMqsR7n+NbVJF1lWeuh28XCUXYgfxEx0LmhJEHLm5r/dQyy48P4BNZpzW6Qgk4ckAxiRUZHiRwFFEw1bFtguTwhifITs0WWbkRHT0AI2QCRB+RMuAT9Sn+2p+VBd5FQhWx838Xbzs73oGCcFviMceC5q/f/V8YqxHiEx0JFBCDjYcIMTkcLm9AHS64k3YNYy8cUEI5XzvC5kwxSXp+c3kHUvRZWaHhUMWBNgBNWUfcu1fnVve/QbWSDsZwG4Lr219GIiCIJetEquSR5r2Ez2VlOkSUuBLXal2VJPffLKTm/aka9/vqmAU2qqBQUEIe5a6XFkSBzmMkNvLnJQzIgIRjmsSHKhDeO6kTaIZK/+BfAKxatCMaRlRDgJRBvs10yhldOhpveY1QVDurOD7aIaP5+STVNt4AIfb1gGQrS/1CkP1Jyztjqp2HvaHHHTjmDG9D5n35e1gGuHmPXGzSORTRK4o6qaOSYn/L0j5H2Ul9CVSbNpqk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR15MB4680.namprd15.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(39860400002)(396003)(346002)(136003)(366004)(451199015)(83380400001)(2616005)(36756003)(8936002)(41300700001)(6916009)(316002)(66946007)(8676002)(4326008)(66556008)(66476007)(38100700002)(31696002)(86362001)(15650500001)(2906002)(5660300002)(4744005)(31686004)(6486002)(478600001)(6512007)(186003)(53546011)(6506007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QW1xQVhYMWZvTmQ5ZURFOFcwaXRPWituQjl1ZGk5TURSK092YkxxVHlQdllO?=
+ =?utf-8?B?UUZkZjk2cmdGeFplK1cycjR3dUQ3b1BVaFI2dkd4cW5LeVB2aHR4SUFLajNF?=
+ =?utf-8?B?RWpOTkxyUG1VZExqa0UrZ2RZQk4rWWNucFhScjFkdjRnSzllU1JwSzdjbGph?=
+ =?utf-8?B?WjNtV09hKzZtcFlacFZlNzRieFZBeFhCN1pNS2FiMVVTUWc2cFBtL1U4dVZr?=
+ =?utf-8?B?R3ZhYXg4SDJoYUVsQXp5bHpEQXR6QlQwV2JaRFNZQUJneTJhNzNubmVxNTM5?=
+ =?utf-8?B?aFNyVHJYTzcxUFJvOERrdUdNRzV5SXZDZ3JJeHEvc0gweHlqQUhXd0VRK2Fv?=
+ =?utf-8?B?bFMxVHk2UEZhaHdac09CRFZEaVg0TElGclhjNFVob3RramV3WHNHMTYzNWcz?=
+ =?utf-8?B?S28xQVFiWWNQUklSQnNVUXRJVUdGZHArUHkvSm9sZVgyYk1xY2FTWFFUQlF2?=
+ =?utf-8?B?SHJET3hCZzkzTlp3ZHNSMjhtWHRQZC85MEYrZG5jN2ZkMG16aEFxWGhJK1hB?=
+ =?utf-8?B?YWk0Z1JyTWZtMlhoNFBUZzF4cUdSaUNSc0dqMVRhV2dkUlFCU0YvSDZIY0NH?=
+ =?utf-8?B?d0xlSSt0VmZNemNOTnl3elcrR0x5VS9aR2JjN1JTd3NPYzAwL3lScnJleHpJ?=
+ =?utf-8?B?bVBsbCtWZ3NESGZVcXhTWFhUaHlEeEpqb1VZU3lpQ2dTUi83MFE4VHorMnlI?=
+ =?utf-8?B?MGw5N1lXZnBtcEJxSWloMGZITkRVdHFrN09zdU1xQW83M2lpbTRDb3pXQU1t?=
+ =?utf-8?B?WmlKbXFjWGhSci9iWjFEeGFFbU8xQWRoRldqT2ZNVHRtKzY3MnlwTHpuc0ZU?=
+ =?utf-8?B?R3pHKzVwVlY3RDQ5OUh5VUt0ek5GWW43NEQzeXpHSkxnMFdSdW1uWjlTSWdv?=
+ =?utf-8?B?QUFycDRWZTUyNEFuaFp3bkF1OXYrR3lJL1hUMkZmdEJ6amt3NlpDSWZkYXha?=
+ =?utf-8?B?UHZBaUdTSlVpdytSTGJhT3VBVm9yWFh6NHhNbnllS2c4U0FrMjJGdHNzWkNC?=
+ =?utf-8?B?ZTRTMHFyRDVZOFFHQzQyeWRVZSs2R0tBWmwrTXJJYXZHYmdoY202Z3pmaVIz?=
+ =?utf-8?B?VjNhY3VXYlVNWlVoUHhsamdaaE45amtUdnJjR241NGlqS2RFWi9McnpnZy9q?=
+ =?utf-8?B?dk5mMDBHRDVTNWx3MUlEajJnaVdJMXlxVmJtSmlIZ1M2OGhSSHNCTlVTTnZM?=
+ =?utf-8?B?RURSL25DNWhhNW45UVdSS1UvcEJaRDNvazIwZS9VejhWZWxEUnJtaldxWHFU?=
+ =?utf-8?B?M3gzZW5HRmpRVTMxZnQvb2lnV09jKzV5R2NwYktYTFhSSS9KYzVaM2xTUWFX?=
+ =?utf-8?B?T2dqS2hLd0oxNkRvRzVJVy8rTUtDdlVMUnlhZ3JKdFY0UUxha2t1M0RHVDFa?=
+ =?utf-8?B?Y1cxd29jaGZZVno3blpFWHRYdm40UkxtL3FPUWQyQU43US9Od1NiWnMrTDJ0?=
+ =?utf-8?B?ZDVSZ0haUEw0ZUJtbHFTUnBwWmZUU1kwYWpVOGVuaHlWZlVUYWpwQ0ZMMWVS?=
+ =?utf-8?B?NXlOQURUYVVQeitrT0Vyem9xbWpsaXBNT2crd2FKcFRtZVdUTWZNK3U2dStQ?=
+ =?utf-8?B?VWJIWVBoM1lOcUk5ZEk3b21Da0dTRU1NNU5Jbks4UTBZU1FhV2xUTW9DSStl?=
+ =?utf-8?B?eVdZRFNiOEgrV0c3Qzd1NTE0enVXTzloVENpNWd1QlhQSGtHR25LbElHRmVu?=
+ =?utf-8?B?SlBGc2dHMXh5SVkydkdSUExqanBOKzVvbUdRZkVrbUtkT3Y4cTFjMjZ3UzdH?=
+ =?utf-8?B?Z1h1TWppT1EwOXVHcHR6aUxlWWh3VXFWNVFTRjV3UkplcGtpV3lNdEEzaHZF?=
+ =?utf-8?B?YWEyQnltci8xalNSK0M5TmJvZGh5Y1E4WWg0Y1BUSkFHNWMyZi8xSU0rSDlB?=
+ =?utf-8?B?ZXVpWUFaWHhmUDBZU1k0YVhtNVNtZ2tlVy9lZmEvQVNvV2U2dDMwQWZkY2xm?=
+ =?utf-8?B?d0dRbi95Qm1Rb0dMOFV1ZHR1Sko4Um14K24zcklIbGpqUVF0T2ppVUNpeWhj?=
+ =?utf-8?B?eXlQK1Q3eXZYdG1FQzNUbnUxeStHN1ZORUk3T1FUVTNrc3BNMXc0R2xkUGNi?=
+ =?utf-8?B?ZkgrQ1g1RCs2U3pCSVgxc0xEd0hacUtjYmdRcEdjRzlFSWM2MnJnRWR0VHY3?=
+ =?utf-8?B?Mk1UOTg4UUI3VFNKN3VpMWJUL0drSXJqS1lubFg3V2FGU052bDdXd2hYZzVC?=
+ =?utf-8?B?YWc9PQ==?=
+X-OriginatorOrg: meta.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b134ebb-1e24-4a3c-d760-08daf8b82605
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR15MB4680.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2023 18:25:02.5215 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: v69aODKodxryH+N7a/I4MDnUTFR12xgG0uXMdxGH02uPMmNl2mmwH7ido2+0hRV1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR15MB6262
+X-Proofpoint-GUID: eNOj5mx8T3WwtHoXL654qnjF6n7FB76M
+X-Proofpoint-ORIG-GUID: eNOj5mx8T3WwtHoXL654qnjF6n7FB76M
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-17_09,2023-01-17_01,2022-06-22_01
+Received-SPF: pass client-ip=67.231.153.30;
+ envelope-from=prvs=438116b86b=dreiss@meta.com; helo=mx0a-00082601.pphosted.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 17 Jan 2023 15:56:13 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,282 +161,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~dreiss-meta <dreiss@meta.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Reiss <dreiss@meta.com>
+On 1/17/23 5:37 AM, Peter Maydell wrote:
 
-Follows a fairly similar pattern to the existing special register debug
-support.  Only reading is implemented, but it should be possible to
-implement writes.
-
-Signed-off-by: David Reiss <dreiss@meta.com>
----
- target/arm/cpu.h      |  15 +++++-
- target/arm/gdbstub.c  | 116 ++++++++++++++++++++++++++++++++++++++++++
- target/arm/m_helper.c |  23 ++++-----
- 3 files changed, 139 insertions(+), 15 deletions(-)
-
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index fdbb0d9107..661ca832bf 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -857,6 +857,7 @@ struct ArchCPU {
-     DynamicGDBXMLInfo dyn_sysreg_xml;
-     DynamicGDBXMLInfo dyn_svereg_xml;
-     DynamicGDBXMLInfo dyn_m_systemreg_xml;
-+    DynamicGDBXMLInfo dyn_m_securereg_xml;
-=20
-     /* Timers used by the generic (architected) timer */
-     QEMUTimer *gt_timer[NUM_GTIMERS];
-@@ -1102,12 +1103,13 @@ int arm_cpu_gdb_write_register(CPUState *cpu, uint8_t=
- *buf, int reg);
-=20
- /*
-  * Helpers to dynamically generate XML descriptions of the sysregs,
-- * SVE registers, and M-profile system registers.
-+ * SVE registers, M-profile system, and M-profile secure extension registers.
-  * Returns the number of registers in each set.
-  */
- int arm_gen_dynamic_sysreg_xml(CPUState *cpu, int base_reg);
- int arm_gen_dynamic_svereg_xml(CPUState *cpu, int base_reg);
- int arm_gen_dynamic_m_systemreg_xml(CPUState *cpu, int base_reg);
-+int arm_gen_dynamic_m_securereg_xml(CPUState *cpu, int base_reg);
-=20
- /* Returns the dynamically generated XML for the gdb stub.
-  * Returns a pointer to the XML contents for the specified XML file or NULL
-@@ -1607,6 +1609,17 @@ static inline void xpsr_write(CPUARMState *env, uint32=
-_t val, uint32_t mask)
- #endif
- }
-=20
-+/*
-+ * Return a pointer to the location where we currently store the
-+ * stack pointer for the requested security state and thread mode.
-+ * This pointer will become invalid if the CPU state is updated
-+ * such that the stack pointers are switched around (eg changing
-+ * the SPSEL control bit).
-+ */
-+uint32_t *arm_v7m_get_sp_ptr(CPUARMState *env, bool secure, bool threadmode,
-+                             bool spsel);
-+
-+
- #define HCR_VM        (1ULL << 0)
- #define HCR_SWIO      (1ULL << 1)
- #define HCR_PTW       (1ULL << 2)
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index ae7fe2c800..cbccd4aa2c 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -437,6 +437,110 @@ int arm_gen_dynamic_m_systemreg_xml(CPUState *cs, int b=
-ase_reg)
-     return info->num;
- }
-=20
-+static int arm_gdb_get_m_secextreg(CPUARMState *env, GByteArray *buf, int re=
-g)
-+{
-+    switch (reg) {
-+    case  0:  /* MSP_S */
-+        return gdb_get_reg32(buf, *arm_v7m_get_sp_ptr(env, true, false, true=
-));
-+    case  1:  /* PSP_S */
-+        return gdb_get_reg32(buf, *arm_v7m_get_sp_ptr(env, true, true, true)=
-);
-+    case  2:  /* MSPLIM_S */
-+        return gdb_get_reg32(buf, env->v7m.msplim[M_REG_S]);
-+    case  3:  /* PSPLIM_S */
-+        return gdb_get_reg32(buf, env->v7m.psplim[M_REG_S]);
-+    case  4:  /* PRIMASK_S */
-+        return gdb_get_reg32(buf, env->v7m.primask[M_REG_S]);
-+    case  5:  /* BASEPRI_S */
-+        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+            return 0;
-+        }
-+        return gdb_get_reg32(buf, env->v7m.basepri[M_REG_S]);
-+    case  6:  /* FAULTMASK_S */
-+        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+            return 0;
-+        }
-+        return gdb_get_reg32(buf, env->v7m.faultmask[M_REG_S]);
-+    case  7:  /* CONTROL_S */
-+        return gdb_get_reg32(buf, env->v7m.control[M_REG_S]);
-+    case  8:  /* MSP_NS */
-+        return gdb_get_reg32(buf, *arm_v7m_get_sp_ptr(env, false, false, tru=
-e));
-+    case  9:  /* PSP_NS */
-+        return gdb_get_reg32(buf, *arm_v7m_get_sp_ptr(env, false, true, true=
-));
-+    case 10:  /* MSPLIM_NS */
-+        return gdb_get_reg32(buf, env->v7m.msplim[M_REG_NS]);
-+    case 11:  /* PSPLIM_NS */
-+        return gdb_get_reg32(buf, env->v7m.psplim[M_REG_NS]);
-+    case 12:  /* PRIMASK_NS */
-+        return gdb_get_reg32(buf, env->v7m.primask[M_REG_NS]);
-+    case 13:  /* BASEPRI_NS */
-+        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+            return 0;
-+        }
-+        return gdb_get_reg32(buf, env->v7m.basepri[M_REG_NS]);
-+    case 14:  /* FAULTMASK_NS */
-+        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+            return 0;
-+        }
-+        return gdb_get_reg32(buf, env->v7m.faultmask[M_REG_NS]);
-+    case 15:  /* CONTROL_NS */
-+        return gdb_get_reg32(buf, env->v7m.control[M_REG_NS]);
-+    }
-+
-+    return 0;
-+}
-+
-+static int arm_gdb_set_m_secextreg(CPUARMState *env, uint8_t *buf, int reg)
-+{
-+    /* TODO: Implement. */
-+    return 0;
-+}
-+
-+int arm_gen_dynamic_m_securereg_xml(CPUState *cs, int base_reg)
-+{
-+    ARMCPU *cpu =3D ARM_CPU(cs);
-+    CPUARMState *env =3D &cpu->env;
-+    GString *s =3D g_string_new(NULL);
-+    DynamicGDBXMLInfo *info =3D &cpu->dyn_m_securereg_xml;
-+    bool is_main =3D arm_feature(env, ARM_FEATURE_M_MAIN);
-+
-+    g_string_printf(s, "<?xml version=3D\"1.0\"?>");
-+    g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
-+    g_string_append_printf(s, "<feature name=3D\"org.gnu.gdb.arm.secext\">\n=
-");
-+
-+    g_autoptr(GArray) regs =3D g_array_new(false, true, sizeof(const char *)=
-);
-+    /*  0 */ g_array_append_str_literal(regs, "msp_s");
-+    /*  1 */ g_array_append_str_literal(regs, "psp_s");
-+    /*  2 */ g_array_append_str_literal(regs, "msplim_s");
-+    /*  3 */ g_array_append_str_literal(regs, "psplim_s");
-+    /*  4 */ g_array_append_str_literal(regs, "primask_s");
-+    /*  5 */ g_array_append_str_literal(regs, is_main ? "basepri_s" : "");
-+    /*  6 */ g_array_append_str_literal(regs, is_main ? "faultmask_s" : "");
-+    /*  7 */ g_array_append_str_literal(regs, "control_s");
-+    /*  8 */ g_array_append_str_literal(regs, "msp_ns");
-+    /*  9 */ g_array_append_str_literal(regs, "psp_ns");
-+    /* 10 */ g_array_append_str_literal(regs, "msplim_ns");
-+    /* 11 */ g_array_append_str_literal(regs, "psplim_ns");
-+    /* 12 */ g_array_append_str_literal(regs, "primask_ns");
-+    /* 13 */ g_array_append_str_literal(regs, is_main ? "basepri_ns" : "");
-+    /* 14 */ g_array_append_str_literal(regs, is_main ? "faultmask_ns" : "");
-+    /* 15 */ g_array_append_str_literal(regs, "control_ns");
-+
-+    for (int idx =3D 0; idx < regs->len; idx++) {
-+        const char *name =3D g_array_index(regs, const char *, idx);
-+        if (*name !=3D '\0') {
-+            g_string_append_printf(s,
-+                        "<reg name=3D\"%s\" bitsize=3D\"32\" regnum=3D\"%d\"=
-/>\n",
-+                        name, base_reg);
-+        }
-+        base_reg++;
-+    }
-+    info->num =3D regs->len;
-+
-+    g_string_append_printf(s, "</feature>");
-+    info->desc =3D g_string_free(s, false);
-+    return info->num;
-+}
-+
- struct TypeSize {
-     const char *gdb_type;
-     int  size;
-@@ -567,6 +671,8 @@ const char *arm_gdb_get_dynamic_xml(CPUState *cs, const c=
-har *xmlname)
-         return cpu->dyn_svereg_xml.desc;
-     } else if (strcmp(xmlname, "arm-m-system.xml") =3D=3D 0) {
-         return cpu->dyn_m_systemreg_xml.desc;
-+    } else if (strcmp(xmlname, "arm-m-secext.xml") =3D=3D 0) {
-+        return cpu->dyn_m_securereg_xml.desc;
-     }
-     return NULL;
- }
-@@ -618,6 +724,16 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-                                      arm_gen_dynamic_m_systemreg_xml(
-                                          cs, cs->gdb_num_regs),
-                                      "arm-m-system.xml", 0);
-+            if (arm_feature(env, ARM_FEATURE_V8) &&
-+                    arm_feature(env, ARM_FEATURE_M_SECURITY)) {
-+                gdb_register_coprocessor(cs,
-+                                         arm_gdb_get_m_secextreg,
-+                                         arm_gdb_set_m_secextreg,
-+                                         arm_gen_dynamic_m_securereg_xml(
-+                                             cs, cs->gdb_num_regs),
-+                                         "arm-m-secext.xml", 0);
-+
-+            }
-         }
-     }
-     if (cpu_isar_feature(aa32_mve, cpu)) {
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index e8fbe1599a..a9b27ad060 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -605,15 +605,10 @@ void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
-     arm_rebuild_hflags(env);
- }
-=20
--static uint32_t *get_v7m_sp_ptr(CPUARMState *env, bool secure, bool threadmo=
-de,
--                                bool spsel)
-+uint32_t *arm_v7m_get_sp_ptr(CPUARMState *env, bool secure, bool threadmode,
-+                             bool spsel)
- {
-     /*
--     * Return a pointer to the location where we currently store the
--     * stack pointer for the requested security state and thread mode.
--     * This pointer will become invalid if the CPU state is updated
--     * such that the stack pointers are switched around (eg changing
--     * the SPSEL control bit).
-      * Compare the v8M ARM ARM pseudocode LookUpSP_with_security_mode().
-      * Unlike that pseudocode, we require the caller to pass us in the
-      * SPSEL control bit value; this is because we also use this
-@@ -765,8 +760,8 @@ static bool v7m_push_callee_stack(ARMCPU *cpu, uint32_t l=
-r, bool dotailchain,
-             !mode;
-=20
-         mmu_idx =3D arm_v7m_mmu_idx_for_secstate_and_priv(env, M_REG_S, priv=
-);
--        frame_sp_p =3D get_v7m_sp_ptr(env, M_REG_S, mode,
--                                    lr & R_V7M_EXCRET_SPSEL_MASK);
-+        frame_sp_p =3D arm_v7m_get_sp_ptr(env, M_REG_S, mode,
-+                                        lr & R_V7M_EXCRET_SPSEL_MASK);
-         want_psp =3D mode && (lr & R_V7M_EXCRET_SPSEL_MASK);
-         if (want_psp) {
-             limit =3D env->v7m.psplim[M_REG_S];
-@@ -1611,10 +1606,10 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-          * use 'frame_sp_p' after we do something that makes it invalid.
-          */
-         bool spsel =3D env->v7m.control[return_to_secure] & R_V7M_CONTROL_SP=
-SEL_MASK;
--        uint32_t *frame_sp_p =3D get_v7m_sp_ptr(env,
--                                              return_to_secure,
--                                              !return_to_handler,
--                                              spsel);
-+        uint32_t *frame_sp_p =3D arm_v7m_get_sp_ptr(env,
-+                                                  return_to_secure,
-+                                                  !return_to_handler,
-+                                                  spsel);
-         uint32_t frameptr =3D *frame_sp_p;
-         bool pop_ok =3D true;
-         ARMMMUIdx mmu_idx;
-@@ -1920,7 +1915,7 @@ static bool do_v7m_function_return(ARMCPU *cpu)
-         threadmode =3D !arm_v7m_is_handler_mode(env);
-         spsel =3D env->v7m.control[M_REG_S] & R_V7M_CONTROL_SPSEL_MASK;
-=20
--        frame_sp_p =3D get_v7m_sp_ptr(env, true, threadmode, spsel);
-+        frame_sp_p =3D arm_v7m_get_sp_ptr(env, true, threadmode, spsel);
-         frameptr =3D *frame_sp_p;
-=20
-         /*
---=20
-2.34.5
+> In patch 1 you skip the registers that don't exist without
+> the main extension, but here you throw them all in regardless.
+> Why the difference ?
+Ah, yes.  This was an oversight.  I'm not sure if there are any
+chips that support the security extension but not the main extension,
+but it is technically possible.
 
