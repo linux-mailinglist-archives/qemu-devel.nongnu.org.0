@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D375466E320
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:11:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E5B66E329
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 17:12:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHoWy-0006ho-AQ; Tue, 17 Jan 2023 11:09:48 -0500
+	id 1pHoZE-0000d4-Tk; Tue, 17 Jan 2023 11:12:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1pHoWo-0006T4-DF; Tue, 17 Jan 2023 11:09:38 -0500
-Received: from mail-oo1-xc34.google.com ([2607:f8b0:4864:20::c34])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHoZC-0000cc-12
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:12:06 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1pHoWm-00038D-Lg; Tue, 17 Jan 2023 11:09:38 -0500
-Received: by mail-oo1-xc34.google.com with SMTP id
- b10-20020a4a9fca000000b004e6f734c6b4so8090788oom.9; 
- Tue, 17 Jan 2023 08:09:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=eyJpE3KWQYn/ymHW3x9YOT3A5+fVcqbK/X3WriJMynY=;
- b=TKzxUzP9aWkBrGHz2stDEPf8q/102GWOXg1DuFkL8F3B1BePjzooAzvsS8ZM+L0xIm
- vM6On96C98KnABu6573OknqcsDs14rGl17HCkHjbYkuZ6nehItNSDscztxMgafbHJdWq
- wyEMD2MUjutpKC8bXzvDrOmbC24skj2LJ+bQji9B4XQP3lDjPtW9Qov3QlSl024Z1W9L
- s8EvKNPiy5wiM8VhNSPOF0ZSWDmG6p2r8qTCtPBA9DdYd6y3GtDKBiPURCXVojsn8Jmi
- 33FI46a1U4JPwmBbIL3ciryFpbSLrU32v9POCSHQ657fKvPal36KudX1aItdOTfShGS2
- sclA==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pHoZ6-0003oQ-OK
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 11:12:05 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ f12-20020a7bc8cc000000b003daf6b2f9b9so5219150wml.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 08:12:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YSR0iQEwD9EgWKmRmAZGWn3JdFWBjFQQSIwNBvSDN5I=;
+ b=a7XVmi09yzkfdXNR3IOmo1aG52mWS6j5hu+/JBLQWnWluza29G+BMPowNzq23v9e5q
+ D53512AMWR4m7xFVQTD+wSW6TbIFv+FBMlWzLROOlXeUMvURvW9LJIilD3qX0dwT8AI7
+ /HmyubwbBvkCPXOGH3Sq15PlXXfBXXrb7HctegwkGwsJ2jegq71TcewBmEWIJaipQzLB
+ BCkGsSRDV1mrQlJTXm8nUVU/LM8DOxapR+XmuEHFC4+eyQn2ETpgAVPh7PBGv//yy8Qh
+ cKPztKQubX6Xe5j1D6iVIvoZ8g37Ua11hevNKN6tbGx+UMnpT1GNXujTfJNg3bQEfjd/
+ 1EEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eyJpE3KWQYn/ymHW3x9YOT3A5+fVcqbK/X3WriJMynY=;
- b=uRNmf375ZlmZ65JqWamNTZIxlN7+wev7DOGKcL2zyQBw3+HqMRVcmAsCH6ZY2BaWOm
- +u/hGDHpx7hZwcbvUBz2+Oyv1s6vPsVkynb0nKIiz8BCW4YQr0mfz3gIpgtPsDlIJrwt
- u2CTlnNlv1RmGnsFM7rnCL9mQCCdyjZDxdO6077jiPwsxgn0MeVZgLgzCHfwrlVXaeeH
- g2RxtlEOK8z8NQNH8qwm9S2mJ/McCL3XA9+FspAcliE0I/3IU4rmAZgaUt0iJYLBgID0
- l99Ym1+H+rkKMDUx2p6lIs2hPpcv0xbAxiNjD8BpaOkomIF4J5SLQgVAv+VqhbTOLTtd
- XjQA==
-X-Gm-Message-State: AFqh2ko8ce2cCHqBDZzy4LWs2mGqlK8vNNrmqDycdZEl4VRxtU/VtAwn
- TzRoqfnz4c/deRV+2rUP9JY=
-X-Google-Smtp-Source: AMrXdXviCxf8DNsXD+PpjJZ4mm8n4XqJ9ruIkFLOBN+9gmjZRPym9NR4Nyw462Lpp227wxTlWbWKhg==
-X-Received: by 2002:a4a:d302:0:b0:4f2:b68d:31aa with SMTP id
- g2-20020a4ad302000000b004f2b68d31aamr1705139oos.1.1673971775030; 
- Tue, 17 Jan 2023 08:09:35 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- w15-20020a4ae08f000000b004f1f6b25091sm12989560oos.41.2023.01.17.08.09.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 08:09:34 -0800 (PST)
-Date: Tue, 17 Jan 2023 08:09:33 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Klaus Jensen <its@irrelevant.dk>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
-Message-ID: <20230117160933.GB3091262@roeck-us.net>
-References: <Y8AG21o/9/3eUMIg@cormorant.local>
- <Y8W+H6T9DOZ08SoF@cormorant.local> <Y8Yq5faCjAKzMa9O@kbusch-mbp>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YSR0iQEwD9EgWKmRmAZGWn3JdFWBjFQQSIwNBvSDN5I=;
+ b=soEDB5x15lgBpTVSJQuN+TOOpkokQop2w07NrdrOo8FD44gxkZ76Beog0WJz++vP1y
+ ka7s+rfiLmw6oS3Zy+s7LSDGsYPLDYVPaIwsWxHcxJqRP0NEjgLtugZfTgGtp1EXxsBN
+ XVQQFUfJg4Cxe2R//R73LP9xGlEJVt/90aV2Cdj+i5tGgAzCtVc30d1d3SrvWZFJwXoZ
+ cG2OPBP7prOWHjBM0Ezk5/3lkIJNYQ/7YseEC+aB7Xvi2nM8lL6v+sgPebzg477TCuvo
+ iQdCKQhh8tq9anVZ/I+J6c2kBa1JyQxIVKiuhoicHTBU6K6GuzjYQIvmmya+qKHZHR5N
+ 66Ag==
+X-Gm-Message-State: AFqh2kohUlfGkmlLiqMVi8040hng9xQ1mZm+N/EE94hB6Qn9j82w2wQJ
+ nR/6vSBqbSrRuiXCVXJBPCr/+Q==
+X-Google-Smtp-Source: AMrXdXsgo9yFEU6A0YYroAAGV5vfgZow8m+xgYNMW7Lg2mzRtETwLcKjFRPHK/SwNmNgKNfdWUYELw==
+X-Received: by 2002:a05:600c:4910:b0:3d3:4406:8a3a with SMTP id
+ f16-20020a05600c491000b003d344068a3amr3613016wmp.30.1673971918918; 
+ Tue, 17 Jan 2023 08:11:58 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ bi6-20020a05600c3d8600b003d9df9e59c4sm34213553wmb.37.2023.01.17.08.11.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Jan 2023 08:11:58 -0800 (PST)
+Message-ID: <7115ab30-9093-7cbd-e2a3-c57d3a1e7d46@linaro.org>
+Date: Tue, 17 Jan 2023 17:11:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8Yq5faCjAKzMa9O@kbusch-mbp>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c34;
- envelope-from=groeck7@gmail.com; helo=mail-oo1-xc34.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [RFC PATCH v3 04/28] target/arm: Move PC alignment check
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
+References: <20230113140419.4013-1-farosas@suse.de>
+ <20230113140419.4013-5-farosas@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230113140419.4013-5-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,82 +95,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 16, 2023 at 09:58:13PM -0700, Keith Busch wrote:
-> On Mon, Jan 16, 2023 at 10:14:07PM +0100, Klaus Jensen wrote:
-> > I noticed that the Linux driver does not use the INTMS/INTMC registers
-> > to mask interrupts on the controller while processing CQEs. While not
-> > required by the spec, it is *recommended* in setups not using MSI-X to
-> > reduce the risk of spurious and/or missed interrupts.
+On 13/1/23 15:03, Fabiano Rosas wrote:
+> Move this earlier to make the next patch diff cleaner. While here
+> update the comment slightly to not give the impression that the
+> misalignment affects only TCG.
 > 
-> That's assuming completions are deferred to a bottom half. We don't do
-> that by default in Linux nvme, though you can ask the driver to do that
-> if you want.
->  
-> > With the patch below, running 100 boot iterations, no timeouts were
-> > observed on QEMU emulated riscv64 or mips64.
-> >
-> > No changes are required in the QEMU hw/nvme interrupt logic.
-> 
-> Yeah, I can see why: it forces the irq line to deassert then assert,
-> just like we had forced to happen within the device side patches. Still,
-> none of that is supposed to be necessary, but this idea of using these
-> registers is probably fine.
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> ---
+>   target/arm/machine.c | 18 +++++++++---------
+>   1 file changed, 9 insertions(+), 9 deletions(-)
 
-There is still no answer why this would be necessary in the first place,
-on either side. In my opinion, unless someone can confirm that the problem
-is seen with real hardware, we should assume that it happens on the qemu
-side and address it there.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Guenter
-
-> 
-> >  static irqreturn_t nvme_irq(int irq, void *data)
-> > +{
-> > +       struct nvme_queue *nvmeq = data;
-> > +       struct nvme_dev *dev = nvmeq->dev;
-> > +       u32 mask = 1 << nvmeq->cq_vector;
-> > +       irqreturn_t ret = IRQ_NONE;
-> > +       DEFINE_IO_COMP_BATCH(iob);
-> > +
-> > +       writel(mask, dev->bar + NVME_REG_INTMS);
-> > +
-> > +       if (nvme_poll_cq(nvmeq, &iob)) {
-> > +               if (!rq_list_empty(iob.req_list))
-> > +                       nvme_pci_complete_batch(&iob);
-> > +               ret = IRQ_HANDLED;
-> > +       }
-> > +
-> > +       writel(mask, dev->bar + NVME_REG_INTMC);
-> > +
-> > +       return ret;
-> > +}
-> 
-> If threaded interrupts are used, you'll want to do the masking in
-> nvme_irq_check(), then clear it in the threaded handler instead of doing
-> both in the same callback.
-> 
-> > +static irqreturn_t nvme_irq_msix(int irq, void *data)
-> >  {
-> >         struct nvme_queue *nvmeq = data;
-> >         DEFINE_IO_COMP_BATCH(iob);
-> > @@ -1602,12 +1623,13 @@ static int queue_request_irq(struct nvme_queue *nvmeq)
-> >  {
-> >         struct pci_dev *pdev = to_pci_dev(nvmeq->dev->dev);
-> >         int nr = nvmeq->dev->ctrl.instance;
-> > +       irq_handler_t handler = pdev->msix_enabled ? nvme_irq_msix : nvme_irq;
-> > 
-> >         if (use_threaded_interrupts) {
-> >                 return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_check,
-> > -                               nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
-> > +                               handler, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
-> >         } else {
-> > -               return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq,
-> > +               return pci_request_irq(pdev, nvmeq->cq_vector, handler,
-> >                                 NULL, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
-> >         }
-> >  }
-> > 
-> > 
-> 
-> 
 
