@@ -2,59 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8765670B3B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:07:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80633670B4F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:10:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHu6c-0004kM-6T; Tue, 17 Jan 2023 17:06:58 -0500
+	id 1pHu94-0008SC-M5; Tue, 17 Jan 2023 17:09:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pHu6V-0004ca-As; Tue, 17 Jan 2023 17:06:51 -0500
-Received: from linux.microsoft.com ([13.77.154.182])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pHu6T-000757-Cp; Tue, 17 Jan 2023 17:06:51 -0500
-Received: from [192.168.0.20] (unknown [77.64.253.186])
- by linux.microsoft.com (Postfix) with ESMTPSA id 1CB0020E09E0;
- Tue, 17 Jan 2023 14:06:46 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1CB0020E09E0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1673993208;
- bh=em4MsoHXlRnwzHzecn9clyK5jiawdFbw0SnpG8aeTBo=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=CXDdKRFshS6ZxHMr96yNCg8dMsrIZQBpKZbQPkFc8ukBwdKDmwOAQHrP3dVD0AvZ2
- dCtiaM0ZRO7Ko3gLyRMgCnp5xmykXZZdpNtHUPjkQQapONrFJFJVoh9JS/1Y5l0dVE
- ic9U2EJ1Fetyfp1MUih8ZOwLVoDmwu5e+ZHop3/g=
-Message-ID: <c8eb0fb6-2c37-dae9-da9d-8c6107e07a18@linux.microsoft.com>
-Date: Tue, 17 Jan 2023 23:06:45 +0100
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu91-0008Rc-4e
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:09:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu8u-0007Vq-CV
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:09:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1673993359;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UUZ7IEP5pSFh5nYIza/rLynfjhFPN7xM5Betoe1MaDQ=;
+ b=Z8gaQCpfoT/d2oeOBiN8HIAqakIGwuSgdT4exQF2h2PmZvGKwfz/N7h3fY4+GavcI9kKUB
+ 8Emam9NkTfnGHW/SGilrb94i5KDAwogazfymacyBp/cdsb/anxqBT/pMpvNEgNUP7h3x20
+ hmkiWE+5Y85Jb1L0VJ0cknAdPcPcDM8=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-20-59T7dgVlPFWpv2aeXS48Lw-1; Tue, 17 Jan 2023 17:09:18 -0500
+X-MC-Unique: 59T7dgVlPFWpv2aeXS48Lw-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ r23-20020a1f2b17000000b003b89463c349so9730319vkr.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 14:09:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UUZ7IEP5pSFh5nYIza/rLynfjhFPN7xM5Betoe1MaDQ=;
+ b=jLR1VIhXP5t9c8RDq0TIcMX4khhklA/Wxvtqj8yTYQsvoofmM1w0JEmELR4rsKMvhT
+ ru4yAu3ZYE5QT65kmgMrS+daNA7Ejd1CTQGp1EFiG2wegethEYkYFTp24dbcYGxMmwzV
+ jlPnBFo3Mc+lRVc7nI/QOvV8b19RbMH9rY37XO7HHRpYYV1h+0IxX60aFRXhjPnvQMRl
+ n9DlKiE0fwIrfX2rabCRp1tKFckRZz6Ymh+9mYbFydh4cuprxa4tVKarluDJnp60AriS
+ iudyOpAEvEMuB/fBBKG+bYEo9RXanPsPms/GiC2HwcayOCqXO/0w+/k9FYpRNdyh98tb
+ O5Lg==
+X-Gm-Message-State: AFqh2krAhlajjSZzN+53hQb2ExNc6mkx/isnbcbBr2quFdonEr76dqSe
+ fPgOz5PZVR2I62Vek0Si5rLm5mycx7V47liv7T7dal+1gZunScSD18iSZ81JkcLLmImZMmP4ZGN
+ Yt1Ob4g9tQitqn9DkVJt1a4Hj4+2YLeC/F8cFWsUMLJOaKCgIYI1ioECtUWz9ouxf
+X-Received: by 2002:a05:6102:d8c:b0:3b5:3eaa:bb0c with SMTP id
+ d12-20020a0561020d8c00b003b53eaabb0cmr3334234vst.0.1673993357001; 
+ Tue, 17 Jan 2023 14:09:17 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXt61d7edwu1Cd7yyWJItNGb1Ww3Sgejc3OY5g9PZLEJH/LTjsVsRG1nGcJI7Z97H9jtmdUwwQ==
+X-Received: by 2002:a05:6102:d8c:b0:3b5:3eaa:bb0c with SMTP id
+ d12-20020a0561020d8c00b003b53eaabb0cmr3334195vst.0.1673993356687; 
+ Tue, 17 Jan 2023 14:09:16 -0800 (PST)
+Received: from x1n.redhat.com
+ (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca. [70.30.145.63])
+ by smtp.gmail.com with ESMTPSA id
+ bm16-20020a05620a199000b006e16dcf99c8sm21142978qkb.71.2023.01.17.14.09.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Jan 2023 14:09:16 -0800 (PST)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ James Houghton <jthoughton@google.com>,
+ Juan Quintela <quintela@redhat.com>, peterx@redhat.com,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PATCH RFC 00/21] migration: Support hugetlb doublemaps
+Date: Tue, 17 Jan 2023 17:08:53 -0500
+Message-Id: <20230117220914.2062125-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.37.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-From: eiakovlev@linux.microsoft.com
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, marcandre.lureau@redhat.com, pbonzini@redhat.com
-Subject: Re: [PATCH 1/2] hw/char/pl011: better handling of FIFO flags on LCR
- reset
-References: <20230106172851.2430-1-eiakovlev@linux.microsoft.com>
- <20230106172851.2430-2-eiakovlev@linux.microsoft.com>
- <CAFEAcA-VkWjSO84dCmoeKaO0PEFydi7Bj2gXhBYDatGpuCuc_w@mail.gmail.com>
- <f5af2eee-e04e-fadd-8bad-b9ec4a2a1998@linux.microsoft.com>
- <CAFEAcA-UuXdF5-akaiu0Nsg1c4T6pnQbpBh2pDK0gpc19+RrGw@mail.gmail.com>
-In-Reply-To: <CAFEAcA-UuXdF5-akaiu0Nsg1c4T6pnQbpBh2pDK0gpc19+RrGw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=13.77.154.182;
- envelope-from=eiakovlev@linux.microsoft.com; helo=linux.microsoft.com
-X-Spam_score_int: -198
-X-Spam_score: -19.9
-X-Spam_bar: -------------------
-X-Spam_report: (-19.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,62 +98,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Based-on: <20221213213850.1481858-1-peterx@redhat.com>
+  [PATCH 0/5] migration: Fix disorder of channel creations
 
+Trees for reference:
+  https://github.com/xzpeter/linux/releases/tag/doublemap-v0.1
+  https://github.com/xzpeter/qemu/releases/tag/doublemap-v0.1
 
-On 1/17/23 5:02 PM, Peter Maydell <peter.maydell@linaro.org> wrote:
-> On Tue, 17 Jan 2023 at 15:54, Evgeny Iakovlev
-> <eiakovlev@linux.microsoft.com> wrote:
-> >
-> >
-> > On 1/17/2023 16:24, Peter Maydell wrote:
-> >> On Fri, 6 Jan 2023 at 17:28, Evgeny Iakovlev
-> >> <eiakovlev@linux.microsoft.com> wrote:
-> >>> Current FIFO handling code does not reset RXFE/RXFF flags when guest
-> >>> resets FIFO by writing to UARTLCR register, although internal FIFO state
-> >>> is reset to 0 read count. Actual flag update will happen only on next
-> >>> read or write to UART. As a result of that any guest that expects RXFE
-> >>> flag to be set (and RXFF to be cleared) after resetting FIFO will just
-> >>> hang.
-> >>>
-> >>> Correctly reset FIFO flags on FIFO reset. Also, clean up some FIFO
-> >>> depth handling code based on current FIFO mode.
-> >> This patch is doing multiple things at once ("also" in a
-> >> commit message is often a sign of that) and I think it
-> >> would be helpful to split it. There are three things here:
-> >>    * refactorings which aren't making any real code change
-> >>      (eg calling pl011_get_fifo_depth() instead of doing the
-> >>      "if LCR bit set then 16 else 1" inline)
-> >
-> >
-> > Yeah, tbh i also though i should do it..
-> >
-> >
-> >>    * the fix to the actual bug
-> >>    * changes to the handling of the FIFO which should in theory
-> >>      not be visible to the guest (I think it now when the FIFO
-> >>      is disabled always puts the incoming character in read_fifo[0],
-> >>      whereas previously it would allow read_pos to increment all
-> >>      the way around the FIFO even though we only keep one character
-> >>      at a time).
-> >
-> >
-> > That last part i don't understand. If by changes to the FIFO you are
-> > referring to the flags handling, then it will be visible to the guest by
-> > design, since that's what I'm fixing. Could you maybe explain that one
-> > again? :)
-> 
-> I meant the bit where the existing code for the FIFO-disabled
-> case puts incoming characters in s->read_fifo[s->read_pos] and
-> reads from UARTDR always increment s->read_pos; whereas the
-> changed code always puts characters in s->read_fifo[0] and
-> avoids incrementing read_pos. I think your version is more
-> sensible (and also matches what the TRM claims the hardware
-> is doing), although the guest-visible behaviour doesn't change.
+This is an RFC series that only for early discussion purpose but not for
+merging.
 
-I see, thanks. I tried separating this particular piece into its own commit, but i just feel like it makes the part that's left pointless, because pl011_get_fifo_depth replaces mostly just those 2 occurences anyway.. I've added a paragraph to a commit message to document a functional change. Let me know if that's not good enough. I've sent out a v2 with the rest of comments addressed + a reset method for PL011.
+This patchset allows postcopy to work with huge pages better by migrating
+huge pages in small page sizes.  It relies on a kernel feature called
+"hugetlb HGM" which is currently proposed on the Linux kernel mailing list
+by James Houghton, latest version v1:
 
-> 
-> thanks
-> -- PMM
-> 
+https://lore.kernel.org/r/20230105101844.1893104-1-jthoughton@google.com
+
+[PS: The kernel v1 patchset may need a few fixups to make QEMU work, which
+ are all contained in the tree link provided tagged doublemap-v0.1 above]
+
+The kernel series is still during review upstream, so the API is still not
+stable.
+
+I kept the old name of "doublemap" in this QEMU patchset to represent HGM.
+With that, huge pages can be mapped with even smaller sizes than the huge
+page itself.  It can drastically reduce page fault latencies during
+postcopy if the guest has hugepage backed memories and make postcopy start
+working with huge pages.  The average page request latency can drop from
+~1sec to ~250us for 1G backed in the initial test results.
+
+UFFDIO_COPY doesn't support mapping huge pages in small sizes, so one major
+part of this series introduced UFFDIO_CONTINUE to resolve page faults for
+hugetlb mappings.
+
+Sampled page latency histogram for 18G guest with/without doublemap
+(preempt=on, single thread busy spin workload over 18G map):
+
+Before:
+
+@delay_us:
+[64, 128)              3 |@                                                   |
+[128, 256)            84 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+[256, 512)            10 |@@@@@@                                              |
+[512, 1K)              1 |                                                    |
+[1K, 2K)               0 |                                                    |
+[2K, 4K)               0 |                                                    |
+[4K, 8K)               0 |                                                    |
+[8K, 16K)              0 |                                                    |
+[16K, 32K)             0 |                                                    |
+[32K, 64K)             0 |                                                    |
+[64K, 128K)            0 |                                                    |
+[128K, 256K)           0 |                                                    |
+[256K, 512K)           0 |                                                    |
+[512K, 1M)             0 |                                                    |
+[1M, 2M)              17 |@@@@@@@@@@                                          |
+[2M, 4M)              21 |@@@@@@@@@@@@@                                       |
+[4M, 8M)               8 |@@@@                                                |
+[8M, 16M)              4 |@@                                                  |
+
+After:
+
+@delay_us:
+[16, 32)               6 |                                                    |
+[32, 64)               6 |                                                    |
+[64, 128)           3117 |@@                                                  |
+[128, 256)         70815 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+[256, 512)         30460 |@@@@@@@@@@@@@@@@@@@@@@                              |
+[512, 1K)           1135 |                                                    |
+[1K, 2K)              34 |                                                    |
+[2K, 4K)              42 |                                                    |
+[4K, 8K)             126 |                                                    |
+[8K, 16K)             91 |                                                    |
+[16K, 32K)             0 |                                                    |
+[32K, 64K)             1 |                                                    |
+
+Any early comment welcomed.  Thanks.
+
+Peter Xu (21):
+  update linux headers
+  util: Include osdep.h first in util/mmap-alloc.c
+  physmem: Add qemu_ram_is_hugetlb()
+  madvise: Include linux/mman.h under linux-headers/
+  madvise: Add QEMU_MADV_SPLIT
+  madvise: Add QEMU_MADV_COLLAPSE
+  ramblock: Cache file offset for file-backed ramblocks
+  ramblock: Cache the length to do file mmap() on ramblocks
+  ramblock: Add RAM_READONLY
+  ramblock: Add ramblock_file_map()
+  migration: Add hugetlb-doublemap cap
+  migration: Introduce page size for-migration-only
+  migration: Add migration_ram_pagesize_largest()
+  migration: Map hugetlbfs ramblocks twice, and pre-allocate
+  migration: Teach qemu about minor faults and doublemap
+  migration: Enable doublemap with MADV_SPLIT
+  migration: Rework ram discard logic for hugetlb double-map
+  migration: Allow postcopy_register_shared_ufd() to fail
+  migration: Add postcopy_mark_received()
+  migration: Handle page faults using UFFDIO_CONTINUE
+  migration: Collapse huge pages again after postcopy finished
+
+ backends/hostmem-file.c                       |   3 +-
+ hw/virtio/vhost-user.c                        |   9 +-
+ include/exec/cpu-common.h                     |   3 +-
+ include/exec/memory.h                         |   4 +-
+ include/exec/ram_addr.h                       |   6 +-
+ include/exec/ramblock.h                       |  14 +
+ include/qemu/madvise.h                        |  18 ++
+ include/standard-headers/drm/drm_fourcc.h     |  63 +++-
+ include/standard-headers/linux/ethtool.h      |  81 ++++-
+ include/standard-headers/linux/fuse.h         |  20 +-
+ .../linux/input-event-codes.h                 |   4 +
+ include/standard-headers/linux/pci_regs.h     |   2 +
+ include/standard-headers/linux/virtio_blk.h   |  19 ++
+ include/standard-headers/linux/virtio_bt.h    |   8 +
+ include/standard-headers/linux/virtio_net.h   |   4 +
+ linux-headers/asm-arm64/kvm.h                 |   1 +
+ linux-headers/asm-generic/hugetlb_encode.h    |  26 +-
+ linux-headers/asm-generic/mman-common.h       |   4 +
+ linux-headers/asm-mips/mman.h                 |   4 +
+ linux-headers/asm-riscv/kvm.h                 |   7 +
+ linux-headers/asm-x86/kvm.h                   |  11 +-
+ linux-headers/linux/kvm.h                     |  32 +-
+ linux-headers/linux/psci.h                    |  14 +
+ linux-headers/linux/userfaultfd.h             |   4 +
+ linux-headers/linux/vfio.h                    | 278 +++++++++++++++++-
+ migration/migration.c                         |  56 +++-
+ migration/migration.h                         |   1 +
+ migration/postcopy-ram.c                      | 228 +++++++++++---
+ migration/postcopy-ram.h                      |   5 +-
+ migration/ram.c                               | 165 ++++++++++-
+ migration/ram.h                               |   2 +
+ migration/trace-events                        |   6 +-
+ qapi/migration.json                           |   7 +-
+ softmmu/memory.c                              |   8 +-
+ softmmu/physmem.c                             |  92 ++++--
+ util/mmap-alloc.c                             |   2 +-
+ 36 files changed, 1051 insertions(+), 160 deletions(-)
+
+-- 
+2.37.3
+
 
