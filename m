@@ -2,90 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE2FC670B67
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:11:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC98F670B9C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Jan 2023 23:27:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHuA8-00036m-84; Tue, 17 Jan 2023 17:10:36 -0500
+	id 1pHuPE-0007BB-59; Tue, 17 Jan 2023 17:26:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9q-0002ez-F3
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:10:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pHuPB-0007AM-7E; Tue, 17 Jan 2023 17:26:09 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pHu9o-0007r0-9k
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 17:10:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1673993414;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ia6RdXcdii0hyfKSWhplcLO26KVeNp4Sk3B79jomOc4=;
- b=LhDH3EvAAqaeA2W9yOf/dyPCihMs3VHwx8wyAE/9aQchGuq9gx3gUrUMXoapotoeOWHsm1
- wxE9jRiBNcuxLJGqkg9sOAFJRSHQd88ltyycdXTmTx0fZao9FRPDx7PfS+Lmk+0lTY1k1l
- omQfKS1fgxlgeE43wVDSLDgbY8Q8mPk=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-479-0r7A6VeEO4-Ol9x1quo3Gw-1; Tue, 17 Jan 2023 17:10:13 -0500
-X-MC-Unique: 0r7A6VeEO4-Ol9x1quo3Gw-1
-Received: by mail-qt1-f200.google.com with SMTP id
- f23-20020ac84717000000b003b645f1491aso655072qtp.6
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 14:10:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ia6RdXcdii0hyfKSWhplcLO26KVeNp4Sk3B79jomOc4=;
- b=7ODNS/8JQvh246b4zVSBEn5SDaili9/P8chXiFi19aBKsnO0tovKMbpLuDZAmDi9eg
- y8hXgehbRtwsLMfV5eNIPeEsb6T24BwYTaVsjnyod4MgSlc+TP0j9dQTX35e63tUPdDe
- WTeVIc6V+hge7uWg9q0xewWpal2J86xnFM604gxDoJMkm6CLcYp9T4YmnIc1V6QZ7bKr
- fS8VMtR8gqDmkl2AflPkld3W97G0GeFRKDC2W89kWDYV/uDPjy1NNbQomw2+w9ARibnP
- TfJpYI7iCNh0XNQVbboQy0uYQrVRAbZoJ5ulUigp8jOzLo4Sb7fpMRjexWlxD5MYI7ps
- KPhw==
-X-Gm-Message-State: AFqh2koif+iBJkSf/rtJ37G+/t5SXK7zLhNck3bQE2ve9Djg0XkMm/yI
- 1/dkjUal4sWpq+Vp7BnaLBbWU4sYTw4Iq6ZcaAMFJp6cHB1rqiuZHbDPwqRSFvfhf9li+t6YW5c
- ww5Lu8u909BU+XOuPstvDaiYhfK45aX/brUigXFxVyjjbtDheXMue3eVUoOZsU6ao
-X-Received: by 2002:a05:6214:328c:b0:533:6733:2bd5 with SMTP id
- mu12-20020a056214328c00b0053367332bd5mr6696089qvb.52.1673993411962; 
- Tue, 17 Jan 2023 14:10:11 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsgfEsm17g5nCU8Knu9+te1+qx0IYuLERmZwMz2tXKsPimPTx/Y7HNrottduPHI9P3QYA6DsQ==
-X-Received: by 2002:a05:6214:328c:b0:533:6733:2bd5 with SMTP id
- mu12-20020a056214328c00b0053367332bd5mr6696064qvb.52.1673993411684; 
- Tue, 17 Jan 2023 14:10:11 -0800 (PST)
-Received: from x1n.redhat.com
- (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca. [70.30.145.63])
- by smtp.gmail.com with ESMTPSA id
- bm16-20020a05620a199000b006e16dcf99c8sm21142978qkb.71.2023.01.17.14.10.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 14:10:11 -0800 (PST)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- James Houghton <jthoughton@google.com>,
- Juan Quintela <quintela@redhat.com>, peterx@redhat.com,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH RFC 21/21] migration: Collapse huge pages again after postcopy
- finished
-Date: Tue, 17 Jan 2023 17:09:14 -0500
-Message-Id: <20230117220914.2062125-22-peterx@redhat.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20230117220914.2062125-1-peterx@redhat.com>
-References: <20230117220914.2062125-1-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pHuP6-0002RR-EM; Tue, 17 Jan 2023 17:26:08 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id 083625C00EC;
+ Tue, 17 Jan 2023 17:26:03 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Tue, 17 Jan 2023 17:26:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1673994363; x=
+ 1674080763; bh=o73WOcQWWADvNjkMxraihqIIuTE6assTpPlTpC/nFck=; b=q
+ gX2WB+xzyHPaH3nkZnGQWCIET1pmmddAanqXCvV/S8X/cKL50mkR/bEY/uEgqFRL
+ ZyUUjDJPJ7XpS46Xhm4RafH90WPoORFgXRVkJtlySTkjny2aLadjoAPYDrsBsYQw
+ 2t+I3bZLXYjx4UtxbHdIfFxsniFIOUO3gW8VvEn5xJvfg23SRUKGnyPtMQUkI43F
+ whOYJGVcZjgP1kDfbDcmwkgd+ygw9NIJt/hnwoaNOUKeYkBJsSk7Gybh6AAaVhz9
+ 9DmhXFve47a5H0OYMktVZAPagB2A4YhjgDFXX8LkFM+ZmO3kUSDr25kds6Df9YsI
+ glDB4O/UI8QU3YaVbjNEA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1673994363; x=
+ 1674080763; bh=o73WOcQWWADvNjkMxraihqIIuTE6assTpPlTpC/nFck=; b=N
+ 69Y1rlefX8csVxZp9IhBVl2h6zLX7t+lG/mA6lc4MGS/22HKZ1+RmsjBqKwxsOJ/
+ UPTIFa0LlMCgSYhUWCPESTZ/NMvz9ElFe2eGiP5LWohYN/K4E51+cru9bGfarGrZ
+ +TrwA0jsQhhDlJsKiDVjzck/9n7V1q+gTzF1UL4PuUeBLE7TkSkZ/Q2Wj/kb618I
+ zxPH5O7YiHKyoCjf0WINwp8mOBat0MsWzhm/hO1Zt3iWSoLS4d7UYeHfSba4gYnv
+ tNjCm2ddvKEFaigiC2K2UD1cfNa+oT0uhgVWTMi1V6IA6613oVUp2jJYkpgecYg4
+ JdCaXjijt2g3Wd0L6iODw==
+X-ME-Sender: <xms:eiDHYzsn9FGnVl7Ni-IA19HreMRTORlDcVik57Yae76CCKJef8qfyg>
+ <xme:eiDHY0fSjdzFD-TuuBguFYkCYo2ah7GnyY2R_DXbQQUsRf9_tDODCxNjfHNKrPcG8
+ Pajo0aIPxez4y8JpRE>
+X-ME-Received: <xmr:eiDHY2yqIrZ9mqluhslDCHimN8i6aQw9DDgsP2iiIz2JtAtCc8eTj2WPoaarLbnIJmxlpr5r8zWxkQCDHVhXRg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtiedgudeitdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgv
+ thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
+ grthhtvghrnhephfegffevudefveetgeekteeijefhhfduueejvdegvdehffehjeevtefh
+ hffffeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:eiDHYyMEU7qyaTvlRnP88kvWb0B5o5ICxkn0D1J8hblthJX7PWexQQ>
+ <xmx:eiDHYz_5l1E5dr9XmuIBwAEWBHafAS1qPjk_CER58NtsWt1IoF38HA>
+ <xmx:eiDHYyVWnjAlzoAUu4tLNsE_TQSTde0EjfjKiwxpTgaBwQFvcD9ViQ>
+ <xmx:eyDHY0N8PPZExlX8wJ5mZ2h41qQe6OGD1HFVufLTInJrhfBnPNPWmQ>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Jan 2023 17:26:01 -0500 (EST)
+Date: Tue, 17 Jan 2023 14:25:58 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
+ hskinnemoen@google.com, kfting@nuvoton.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 1/5] hw/arm: Extract at24c_eeprom_init helper from
+ Aspeed and Nuvoton boards
+Message-ID: <Y8cgdqG5TGJHaDRv@pdel-mbp.dhcp.thefacebook.com>
+References: <20230116235604.55099-1-peter@pjd.dev>
+ <20230116235604.55099-2-peter@pjd.dev>
+ <961515e6-65ad-ec7f-f51e-a862424f574d@linaro.org>
+ <Y8bprzjwzIRXej60@pdel-mbp>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+In-Reply-To: <Y8bprzjwzIRXej60@pdel-mbp>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=peter@pjd.dev;
+ helo=out1-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,78 +106,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When hugetlb-doublemap enabled, the pages will be migrated in small page
-sizes during postcopy.  When the migration finishes, the pgtable needs to
-be rebuilt explicitly for these ranges to have huge page being mapped again.
+On Tue, Jan 17, 2023 at 10:32:15AM -0800, Peter Delevoryas wrote:
+> On Tue, Jan 17, 2023 at 09:00:34AM +0100, Philippe Mathieu-Daudé wrote:
+> > On 17/1/23 00:56, Peter Delevoryas wrote:
+> > > This helper is useful in board initialization because lets users initialize and
+> > > realize an EEPROM on an I2C bus with a single function call.
+> > > 
+> > > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> > > ---
+> > >   hw/arm/aspeed.c                 | 10 +---------
+> > >   hw/arm/npcm7xx_boards.c         | 20 +++++---------------
+> > >   hw/nvram/eeprom_at24c.c         | 12 ++++++++++++
+> > >   include/hw/nvram/eeprom_at24c.h | 10 ++++++++++
+> > >   4 files changed, 28 insertions(+), 24 deletions(-)
+> > >   create mode 100644 include/hw/nvram/eeprom_at24c.h
+> > 
+> > > diff --git a/include/hw/nvram/eeprom_at24c.h b/include/hw/nvram/eeprom_at24c.h
+> > > new file mode 100644
+> > > index 000000000000..79a36b53ca87
+> > > --- /dev/null
+> > > +++ b/include/hw/nvram/eeprom_at24c.h
+> > > @@ -0,0 +1,10 @@
+> > > +/* Copyright (c) Meta Platforms, Inc. and affiliates. */
+> > 
+> > What license for this copyright?
+> 
+> Erg, yeah, thanks for calling this out, I did this wrong. Meta has some new
+> licensing guidelines and I misinterpreted them. Contributors are just supposed
+> to use whatever license the open-source project has, so I'll just change this
+> to say it's under GPL2, like the one I used in hw/arm/fby35.c
+> 
+> > 
+> > > +#ifndef EEPROM_AT24C_H
+> > > +#define EEPROM_AT24C_H
+> > > +
+> > > +#include "hw/i2c/i2c.h"
+> > 
+> >  /**
+> >   * Create and realize an AT24C EEPROM device on the heap.
+> >   * @bus: I2C bus to put it on
+> >   * @addr: I2C address of the EEPROM slave when put on a bus
+> >   * @rom_size: size of the EEPROM
+> >   *
+> >   * Create the device state structure, initialize it, put it on
+> >   * the specified @bus, and drop the reference to it (the device
+> >   * is realized).
+> >   */
+> >  I2CSlave *at24c_eeprom_create_simple(I2CBus *bus, uint8_t addr,
+> >                                       size_t rom_size);
+> 
+> +1, I'll include this comment
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- migration/ram.c        | 31 +++++++++++++++++++++++++++++++
- migration/trace-events |  1 +
- 2 files changed, 32 insertions(+)
+Oh, to clarify though: I'm not going to include the rename to the function,
+maybe we could do that separately? I kinda want to avoid touching all the
+at24c_eeprom_init calls unless I really need to. I know it's just a simple sed,
+but also, smbus_eeprom_init is using the "init" suffix, so I'm not sure it's
+consistent, although "create_simple" probably _is_ more consistent with devices
+in general in QEMU. But anyways, main point, I just want to avoid making any
+unnecessary refactoring here, and renaming it completely seems unnecessary.
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 4da56d925c..178739f8c3 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3986,6 +3986,31 @@ static int ram_load_setup(QEMUFile *f, void *opaque)
-     return 0;
- }
- 
-+#define  MADV_COLLAPSE_CHUNK_SIZE  (1UL << 30) /* 1G */
-+
-+static void ramblock_rebuild_huge_mappings(RAMBlock *rb)
-+{
-+    unsigned long addr, size;
-+
-+    assert(qemu_ram_is_hugetlb(rb));
-+
-+    addr = (unsigned long)qemu_ram_get_host_addr(rb);
-+    size = rb->mmap_length;
-+
-+    while (size) {
-+        unsigned long chunk = MIN(size, MADV_COLLAPSE_CHUNK_SIZE);
-+
-+        if (qemu_madvise((void *)addr, chunk, QEMU_MADV_COLLAPSE)) {
-+            error_report("%s: madvise(MADV_COLLAPSE) failed "
-+                         "for ramblock '%s'", __func__, rb->idstr);
-+        } else {
-+            trace_ramblock_rebuild_huge_mappings(rb->idstr, addr, chunk);
-+        }
-+        addr += chunk;
-+        size -= chunk;
-+    }
-+}
-+
- static int ram_load_cleanup(void *opaque)
- {
-     RAMBlock *rb;
-@@ -4001,6 +4026,12 @@ static int ram_load_cleanup(void *opaque)
-         g_free(rb->receivedmap);
-         rb->receivedmap = NULL;
-         if (rb->host_mirror) {
-+            /*
-+             * If host_mirror set, it means this is an hugetlb ramblock,
-+             * and we've enabled double mappings for it.  Rebuild the huge
-+             * page tables here.
-+             */
-+            ramblock_rebuild_huge_mappings(rb);
-             munmap(rb->host_mirror, rb->mmap_length);
-             rb->host_mirror = NULL;
-         }
-diff --git a/migration/trace-events b/migration/trace-events
-index 7baf235d22..6b52bb691c 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -119,6 +119,7 @@ postcopy_preempt_hit(char *str, uint64_t offset) "ramblock %s offset 0x%"PRIx64
- postcopy_preempt_send_host_page(char *str, uint64_t offset) "ramblock %s offset 0x%"PRIx64
- postcopy_preempt_switch_channel(int channel) "%d"
- postcopy_preempt_reset_channel(void) ""
-+ramblock_rebuild_huge_mappings(char *str, unsigned long start, unsigned long size) "ramblock %s start 0x%lx size 0x%lx"
- 
- # multifd.c
- multifd_new_send_channel_async(uint8_t id) "channel %u"
--- 
-2.37.3
-
+> 
+> > 
+> > > +I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size);
+> > > +
+> > > +#endif
+> > 
+> 
 
