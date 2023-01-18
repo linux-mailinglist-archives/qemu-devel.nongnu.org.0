@@ -2,65 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684C6672C49
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 00:08:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4A8672CAE
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 00:36:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIHVm-0005xW-Ab; Wed, 18 Jan 2023 18:06:30 -0500
+	id 1pIHxF-00040P-Ol; Wed, 18 Jan 2023 18:34:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1pIHVj-0005wp-SI; Wed, 18 Jan 2023 18:06:27 -0500
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1pIHVh-0006Dw-N4; Wed, 18 Jan 2023 18:06:27 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 6BC3FCE1BDD;
- Wed, 18 Jan 2023 23:06:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDC18C433D2;
- Wed, 18 Jan 2023 23:06:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1674083179;
- bh=lcb6GuRijycbENkRa5NSzL13WIRCluuTeRxRDSMoH70=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GUs/RS0YfEksCw/lMycxmQD8QBJcOIEewwLUJn18ThIi5l6sbs2/PLfDzq5Jux59B
- kupEKhhbateTuZVedVk/dlRNgTZmkgLuPmA8UDaPholhxb/CkGdhhTgsEpxesrnK12
- 0ZoMWsMz/SViA+CQfj1b7oEfQxaKw4eV/cjh1jBvlKXU54bbc2Pcnxp4ZsmDXZbxNf
- kdD2mr+njM1zyEBC34ZkL+ErzAW/lwajXdWTexKYNaOc+np8D9eSlhnuLSGGWPUxZR
- uj1VVkqsB6ddtWtBhKpS9XuclnzPMTvWYJpmN6930tcqt+MmGiO6SGm6N9Z4S8ysr/
- x4wQOK0iqpxag==
-Date: Wed, 18 Jan 2023 16:06:16 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, Klaus Jensen <its@irrelevant.dk>,
- Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
-Message-ID: <Y8h7aOuVfCb+RsAP@kbusch-mbp>
-References: <Y8AG21o/9/3eUMIg@cormorant.local>
- <Y8W+H6T9DOZ08SoF@cormorant.local> <Y8Yq5faCjAKzMa9O@kbusch-mbp>
- <20230117160933.GB3091262@roeck-us.net>
- <CAFEAcA9pS7P=SvKsOtRHPtkrNAD8LF2ZpFJ870G3B-rhWYap4g@mail.gmail.com>
- <20230117192115.GA2958104@roeck-us.net>
- <CAFEAcA_T8QqSg4SzszP+wR3pR1P1WTZg4f7mHHBGRw4UrTw+DQ@mail.gmail.com>
- <Y8gfQXPYdHKd1v4I@kbusch-mbp>
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pIHxB-0003zj-6Y
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 18:34:49 -0500
+Received: from mail-oa1-x44.google.com ([2001:4860:4864:20::44])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pIHx9-0001tR-9m
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 18:34:48 -0500
+Received: by mail-oa1-x44.google.com with SMTP id
+ 586e51a60fabf-15f83e0fc63so701729fac.11
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 15:34:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wgNU1Xh+K8IsXuabeBLqgeZkgdUbC7XlpmEoFtDGWn4=;
+ b=RI7hqWwZDegu/nz0LPNfCXKJ9tOvil5rOHKAAgSpGl35OKNIbdzUgHw7EFlRR/qGlc
+ 8yoO1MT0e7SqWoiokCA1tr3I6BvMtz9IJS4xK6k9GcYsvTbbW5y4ed1d/5CbTMK7zdt8
+ KvYB+2EA2h+7wOtXqh8/E8IYx1EtdcIaRQqvZwCh/I3cNjbxn4evtLCSLuUMNYQo87kM
+ 045pqmH6w4rI0nFCzZKiMAGyyMnp/V41Ajow/pXAGIxBH1jQc0QLTPkp/rORYM3tQKeC
+ y81W8hgWi67Kmw/8qMaemsXZ46RfiFLruxY3UcVKFaXQevwqL4hIFmkrY1lXlvrOtLms
+ ADhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wgNU1Xh+K8IsXuabeBLqgeZkgdUbC7XlpmEoFtDGWn4=;
+ b=VbELyZ1/CbLkGW7hjur16gfdyqcpuuJR/Co008y55iMS8KphlVHumIl51J3pxuQnA1
+ 79Rx737Uh1NTSfRKh7wO6g0Hkec/l24gXCnhy7MueQC9prZTwewzI/vcuBa8nQEDcuUH
+ P7h0lmfWu57xQVxlnwM0pJlgNQLyENeG6OiFG1ynyxiyKiV+ndSwJr2VJZTzgcQUMoY3
+ QZPgEBlcwXDWos9Q/ox+jJzQUomekNU9nKFtAmncm0BxJx5LXbX9h6/rXMFxpymgZv51
+ +bn7bMjtVLeH2VCSoi0Jx/J3Dv6n320ZIGT6otvkF37df7FN5wuDFwM1owu6GS/a0avo
+ /0Nw==
+X-Gm-Message-State: AFqh2kolZDXW6WNrScna8OnV+qgVzWPwV3ajxMflLpackDDZW/GE4nNQ
+ zKOO2s+9SyNIrJzucCWSUbPTeg==
+X-Google-Smtp-Source: AMrXdXunysWxJFJD6+40UImxvaXnGtVNYgV3mPUvYU6+sqLsvncgY2idzqLO+oSeUmlsgSuC420Ujg==
+X-Received: by 2002:a05:6870:289a:b0:15e:9b5b:e2c9 with SMTP id
+ gy26-20020a056870289a00b0015e9b5be2c9mr5229234oab.3.1674084885661; 
+ Wed, 18 Jan 2023 15:34:45 -0800 (PST)
+Received: from [192.168.68.107] ([191.17.222.2])
+ by smtp.gmail.com with ESMTPSA id
+ em33-20020a0568705ba100b0014fd7e7c3fesm18998356oab.27.2023.01.18.15.34.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 15:34:45 -0800 (PST)
+Message-ID: <99e76807-83db-e7f8-4c44-cd9c1f15441a@ventanamicro.com>
+Date: Wed, 18 Jan 2023 20:34:41 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8gfQXPYdHKd1v4I@kbusch-mbp>
-Received-SPF: pass client-ip=2604:1380:40e1:4800::1;
- envelope-from=kbusch@kernel.org; helo=sin.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v8 3/3] hw/riscv: clear kernel_entry higher bits in
+ load_elf_ram_sym()
+To: Alistair Francis <alistair23@gmail.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ Bin Meng <bmeng.cn@gmail.com>
+References: <20230116122948.757515-1-dbarboza@ventanamicro.com>
+ <20230116122948.757515-4-dbarboza@ventanamicro.com>
+ <a4b7fd13-4bd0-0e7a-4650-7164e1a76053@linaro.org>
+ <61fd483d-5d3a-587b-5c98-4b81afe21d7d@ventanamicro.com>
+ <CAKmqyKMaG0x1qtKc_HBjfZyLmR==Tg3-DdzPgzDhm0utmrRMOA@mail.gmail.com>
+Content-Language: en-US
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <CAKmqyKMaG0x1qtKc_HBjfZyLmR==Tg3-DdzPgzDhm0utmrRMOA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::44;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x44.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,55 +101,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 18, 2023 at 09:33:05AM -0700, Keith Busch wrote:
-> On Wed, Jan 18, 2023 at 03:04:06PM +0000, Peter Maydell wrote:
-> > On Tue, 17 Jan 2023 at 19:21, Guenter Roeck <linux@roeck-us.net> wrote:
-> > > Anyway - any idea what to do to help figuring out what is happening ?
-> > > Add tracing support to pci interrupt handling, maybe ?
-> > 
-> > For intermittent bugs, I like recording the QEMU session under
-> > rr (using its chaos mode to provoke the failure if necessary) to
-> > get a recording that I can debug and re-debug at leisure. Usually
-> > you want to turn on/add tracing to help with this, and if the
-> > failure doesn't hit early in bootup then you might need to
-> > do a QEMU snapshot just before point-of-failure so you can
-> > run rr only on the short snapshot-to-failure segment.
-> > 
-> > https://translatedcode.wordpress.com/2015/05/30/tricks-for-debugging-qemu-rr/
-> > https://translatedcode.wordpress.com/2015/07/06/tricks-for-debugging-qemu-savevm-snapshots/
-> > 
-> > This gives you a debugging session from the QEMU side's perspective,
-> > of course -- assuming you know what the hardware is supposed to do
-> > you hopefully wind up with either "the guest software did X,Y,Z
-> > and we incorrectly did A" or else "the guest software did X,Y,Z,
-> > the spec says A is the right/a permitted thing but the guest got confused".
-> > If it's the latter then you have to look at the guest as a separate
-> > code analysis/debug problem.
-> 
-> Here's what I got, though I'm way out of my depth here.
-> 
-> It looks like Linux kernel's fasteoi for RISC-V's PLIC claims the
-> interrupt after its first handling, which I think is expected. After
-> claiming, QEMU masks the pending interrupt, lowering the level, though
-> the device that raised it never deasserted.
 
-I'm not sure if this is correct, but this is what I'm coming up with and
-appears to fix the problem on my setup. The hardware that sets the
-pending interrupt is going clear it, so I don't see why the interrupt
-controller is automatically clearing it when the host claims it.
 
----
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index c2dfacf028..f8f7af08dc 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -157,7 +157,6 @@ static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned size)
-             uint32_t max_irq = sifive_plic_claimed(plic, addrid);
- 
-             if (max_irq) {
--                sifive_plic_set_pending(plic, max_irq, false);
-                 sifive_plic_set_claimed(plic, max_irq, true);
-             }
- 
---
+On 1/18/23 19:45, Alistair Francis wrote:
+> On Mon, Jan 16, 2023 at 10:46 PM Daniel Henrique Barboza
+> <dbarboza@ventanamicro.com> wrote:
+>>
+>>
+>> On 1/16/23 09:37, Philippe Mathieu-Daudé wrote:
+>>> On 16/1/23 13:29, Daniel Henrique Barboza wrote:
+>>>> Recent hw/risc/boot.c changes caused a regression in an use case with
+>>>> the Xvisor hypervisor. Running a 32 bit QEMU guest with '-kernel'
+>>>> stopped working. The reason seems to be that Xvisor is using 64 bit to
+>>>> encode the 32 bit addresses from the guest, and load_elf_ram_sym() is
+>>>> sign-extending the result with '1's [1].
+>>>>
+>>>> Use a translate_fn() callback to be called by load_elf_ram_sym() and
+>>>> return only the 32 bits address if we're running a 32 bit CPU.
+>>>>
+>>>> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02281.html
+>>>>
+>>>> Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>>> Suggested-by: Bin Meng <bmeng.cn@gmail.com>
+>>>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>>>> ---
+>>>>    hw/riscv/boot.c            | 20 +++++++++++++++++++-
+>>>>    hw/riscv/microchip_pfsoc.c |  4 ++--
+>>>>    hw/riscv/opentitan.c       |  3 ++-
+>>>>    hw/riscv/sifive_e.c        |  3 ++-
+>>>>    hw/riscv/sifive_u.c        |  4 ++--
+>>>>    hw/riscv/spike.c           |  2 +-
+>>>>    hw/riscv/virt.c            |  4 ++--
+>>>>    include/hw/riscv/boot.h    |  1 +
+>>>>    target/riscv/cpu_bits.h    |  1 +
+>>>>    9 files changed, 32 insertions(+), 10 deletions(-)
+>>>>
+>>>> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+>>>> index e868fb6ade..0fd39df7f3 100644
+>>>> --- a/hw/riscv/boot.c
+>>>> +++ b/hw/riscv/boot.c
+>>>> @@ -213,7 +213,24 @@ static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
+>>>>        }
+>>>>    }
+>>>>    +static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
+>>>> +{
+>>>> +    RISCVHartArrayState *harts = opaque;
+>>>> +
+>>>> +    /*
+>>>> +     * For 32 bit CPUs, kernel_load_base is sign-extended (i.e.
+>>>> +     * it can be padded with '1's) if the hypervisor is using
+>>>> +     * 64 bit addresses with 32 bit guests.
+>>>> +     */
+>>>> +    if (riscv_is_32bit(harts)) {
+>>> Maybe move the comment within the if() and add " so remove the sign
+>>> extension by truncating to 32-bit".
+>>>
+>>>> +        return extract64(addr, 0, RV32_KERNEL_ADDR_LEN);
+>>> For 32-bit maybe a definition is not necessary, I asked before
+>>> you used 24-bit in the previous version. As the maintainer prefer :)
+>> That was unintentional. I missed a 'f' in that 0x0fffffff, which I noticed only
+>> now when doing this version. It's curious because Alistair mentioned that
+>> the patch apparently solved the bug ....
+> I never tested it, I'm not sure if this solves the problem or not.
+>
+> This patch needs to be merged *before* the initrd patch (patch 1 of
+> this series) to avoid breaking users.
+
+Makes sense. I'll change it in v9.
+
+Daniel
+
+>> I don't mind creating a macro for the 32 bit value. If we decide it's unneeded
+>> I can remove it and just put a '32' there. I'll also make the comment change
+>> you mentioned above.
+> I think 32 if fine, I don't think we need a macro
+>
+> Alistair
+>
+>>
+>> Thanks,
+>>
+>>
+>> Daniel
+>>
+>>>> +    }
+>>>> +
+>>>> +    return addr;
+>>>> +}
+>>>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+>>>> index 8b0d7e20ea..8fcaeae342 100644
+>>>> --- a/target/riscv/cpu_bits.h
+>>>> +++ b/target/riscv/cpu_bits.h
+>>>> @@ -751,6 +751,7 @@ typedef enum RISCVException {
+>>>>    #define MENVCFG_STCE                       (1ULL << 63)
+>>>>      /* For RV32 */
+>>>> +#define RV32_KERNEL_ADDR_LEN               32
+>>>>    #define MENVCFGH_PBMTE                     BIT(30)
+>>>>    #define MENVCFGH_STCE                      BIT(31)
+>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>>
+>>>
+>>
+
 
