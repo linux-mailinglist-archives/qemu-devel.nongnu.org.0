@@ -2,111 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1845867186B
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 11:02:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD4967186A
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 11:02:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI5Ge-0005M9-IL; Wed, 18 Jan 2023 05:02:04 -0500
+	id 1pI5GZ-0004za-Rd; Wed, 18 Jan 2023 05:02:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pI5Fz-00050r-OG; Wed, 18 Jan 2023 05:01:33 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pI5Fx-0006hU-1l; Wed, 18 Jan 2023 05:01:23 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30I9bIgt008962; Wed, 18 Jan 2023 10:01:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=E2wWvjJ2ShsUE4OipIfkPjOLCWAgOeAWZc/emk8Dud8=;
- b=VhTUWCpYJCUjAZG3H772BMobO6ve2mpc9qxSoD7qMHiIPh1yctqCKIzAmanDckIuAJKq
- z0vYvfPtSlJfY2gw/ycrL66SwKL6HSGWyM6AYHo2eMjQgIY6M7uYa7LUcgLwGUN7OgJ9
- y2be8WrA/VpOcO7e18sXaLPHpmmvvW94qjROPAxQCCrUP7F8eVUzBbARpaDRnLZHuARF
- LrUuVwEVyd6Los3KX83uMheB3lxbuJXtjIhWn+raTqHIAoq33DY55KTohZG5NvIlz3+N
- lVIpaTfZ3xQzGDvmaSI5YYnOyZk4xwuO18yz+LLSI+UGjVp6MeF6SgKbZcsdcHWuXQ0C JQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6bu0c4c1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 10:01:11 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30I9pmcB017241;
- Wed, 18 Jan 2023 10:01:11 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6bu0c4b1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 10:01:10 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30I90XMf008380;
- Wed, 18 Jan 2023 10:01:09 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3n3knfbqa2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 10:01:08 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30IA15Xh25363126
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 18 Jan 2023 10:01:05 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2ACA620049;
- Wed, 18 Jan 2023 10:01:05 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 37CE320043;
- Wed, 18 Jan 2023 10:01:04 +0000 (GMT)
-Received: from [9.171.39.117] (unknown [9.171.39.117])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 18 Jan 2023 10:01:04 +0000 (GMT)
-Message-ID: <28187537-6d30-b4f0-7cea-ffe1cb3f7017@linux.ibm.com>
-Date: Wed, 18 Jan 2023 11:01:03 +0100
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pI5Fs-0004zB-Rx
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:01:16 -0500
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pI5Fr-0006h7-B4
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:01:16 -0500
+Received: by mail-oi1-x22c.google.com with SMTP id s124so11369676oif.1
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 02:01:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=T67x9w6UdHuzL2QCZjre2Ie8TXu2wkmLvuX/LMNjXi8=;
+ b=jU3Gnqgs/keoPPt+Vjc74cw2ldqIvG3f5dHoOhuBm1OXmgO8Tlny4JZMfggxNkG40c
+ QtF+2QCurEG0E2TjSCG0YbNxIAtyJNTly4ef519NMte39Yh/446Mpdt+2xw4GmHh9znG
+ l5+HPEbcnN3F7/pFN+EUH+gdhtqygOlqw+17PO/CcxNwRg60/p+29GOq+YKbYIrSSwPf
+ bwJJsCCIxIwLH1lRU3zBP9mFdxNI27PWXkH+vARFj1dz8J6xAWj7RROBJonQ9niY+IVL
+ hQm5b3QGBDX46G83IRuRCsuyvUcI3A+fOCQ3ksoEvLwt4Lsvr6bK83lOYAVewDeVr9LQ
+ HxkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=T67x9w6UdHuzL2QCZjre2Ie8TXu2wkmLvuX/LMNjXi8=;
+ b=glgx1o5OolGng/OcH+7udPm8T9nee6exL/CAsQapbrS6MzpwW2Gj4yZNqLEucsvYdS
+ paKpwAFJ4QUfPbkIl6pm7Z/fxMQPZTz8baLQz/hAQjSts9j9I+AN2Bc8JXMlzn0AgV3f
+ 3x5z4bW+TsmfHijG7HA+aAcMIYNkZiFEq6AxEoch1ClKM1ptv8dujWXMFucPM4LnkVcQ
+ xb9BIlLnXEXhmo3fT3DMfupqE2ExuQqCEC2YluNFgSQGGTmdChTd15gxflgmuwF5MaSh
+ m73sbXQPDkfKwi/l0/kX8n9nBzU/m1hSyPYZNphPGDQDxJhFTr//q/rOSyCxzPUgdqzD
+ o5cA==
+X-Gm-Message-State: AFqh2kruA4SOuFypsTFvTf3+hUdq/2FtuIq6AIEitMz1th7W5hSFSFBU
+ 5DMPp8DtQQC8NQw8s8wQM80+1C8t0u7xCNVwaZ0=
+X-Google-Smtp-Source: AMrXdXubiUFhZxYURkqjvRzOMKzeYBG70flkm2Qw7+vJ/u9N85EnL9HGB5zcwpnRZI7xzYlfcvTa5Q==
+X-Received: by 2002:a05:6808:6044:b0:364:e7cc:eb7 with SMTP id
+ dd4-20020a056808604400b00364e7cc0eb7mr2674180oib.59.1674036074098; 
+ Wed, 18 Jan 2023 02:01:14 -0800 (PST)
+Received: from [192.168.68.107] ([191.17.222.2])
+ by smtp.gmail.com with ESMTPSA id
+ v63-20020acaac42000000b003670342726fsm3871949oie.12.2023.01.18.02.01.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 02:01:13 -0800 (PST)
+Message-ID: <f7645fdb-2d8c-487c-8c9a-2fa8efc9f515@ventanamicro.com>
+Date: Wed, 18 Jan 2023 07:01:10 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v14 07/11] target/s390x/cpu topology: activating CPU
- topology
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 2/2] target/riscv: Remove helper_set_rod_rounding_mode
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
- clg@kaod.org
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-8-pmorel@linux.ibm.com>
- <69555196-ffde-8176-24d9-b8935fe6f365@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <69555196-ffde-8176-24d9-b8935fe6f365@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bin.meng@windriver.com,
+ abdulras@google.com
+References: <20230115160657.3169274-1-richard.henderson@linaro.org>
+ <20230115160657.3169274-3-richard.henderson@linaro.org>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230115160657.3169274-3-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: vc1KO1sLRAIMiGHi3NL9m7xyYdhqcCzp
-X-Proofpoint-ORIG-GUID: VoTb2j_PQcPQt_hst6XoEDLAg0kgQ7Zn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-18_04,2023-01-17_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- priorityscore=1501 bulkscore=0 phishscore=0 mlxlogscore=999
- lowpriorityscore=0 impostorscore=0 malwarescore=0 spamscore=0 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301180082
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22c.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -124,107 +97,63 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 1/11/23 11:04, Thomas Huth wrote:
-> On 05/01/2023 15.53, Pierre Morel wrote:
->> The KVM capability, KVM_CAP_S390_CPU_TOPOLOGY is used to
-> 
-> Remove the "," in above line?
+On 1/15/23 13:06, Richard Henderson wrote:
+> The only setting of RISCV_FRM_ROD is from the vector unit,
+> and now handled by helper_set_rounding_mode_chkfrm.
+> This helper is now unused.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-OK
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-> 
->> activate the S390_FEAT_CONFIGURATION_TOPOLOGY feature and
->> the topology facility for the guest in the case the topology
-> 
-> I'd like to suggest to add "in the host CPU model" after "facility".
+>   target/riscv/helper.h     | 1 -
+>   target/riscv/fpu_helper.c | 5 -----
+>   target/riscv/translate.c  | 4 ----
+>   3 files changed, 10 deletions(-)
+>
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 9792ab5086..58a30f03d6 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -4,7 +4,6 @@ DEF_HELPER_2(raise_exception, noreturn, env, i32)
+>   /* Floating Point - rounding mode */
+>   DEF_HELPER_FLAGS_2(set_rounding_mode, TCG_CALL_NO_WG, void, env, i32)
+>   DEF_HELPER_FLAGS_2(set_rounding_mode_chkfrm, TCG_CALL_NO_WG, void, env, i32)
+> -DEF_HELPER_FLAGS_1(set_rod_rounding_mode, TCG_CALL_NO_WG, void, env)
+>   
+>   /* Floating Point - fused */
+>   DEF_HELPER_FLAGS_4(fmadd_s, TCG_CALL_NO_RWG, i64, env, i64, i64, i64)
+> diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
+> index 96817df8ef..449d236df6 100644
+> --- a/target/riscv/fpu_helper.c
+> +++ b/target/riscv/fpu_helper.c
+> @@ -118,11 +118,6 @@ void helper_set_rounding_mode_chkfrm(CPURISCVState *env, uint32_t rm)
+>       set_float_rounding_mode(softrm, &env->fp_status);
+>   }
+>   
+> -void helper_set_rod_rounding_mode(CPURISCVState *env)
+> -{
+> -    set_float_rounding_mode(float_round_to_odd, &env->fp_status);
+> -}
+> -
+>   static uint64_t do_fmadd_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2,
+>                              uint64_t rs3, int flags)
+>   {
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 493c3815e1..01cc30a365 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -672,10 +672,6 @@ static void gen_set_rm(DisasContext *ctx, int rm)
+>       }
+>       ctx->frm = rm;
+>   
+> -    if (rm == RISCV_FRM_ROD) {
+> -        gen_helper_set_rod_rounding_mode(cpu_env);
+> -        return;
+> -    }
+>       if (rm == RISCV_FRM_DYN) {
+>           /* The helper will return only if frm valid. */
+>           ctx->frm_valid = true;
 
-Yes, thanks.
-
-> 
->> is available in QEMU and in KVM.
->>
->> The feature is disabled by default and fenced for SE
->> (secure execution).
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   hw/s390x/cpu-topology.c   |  2 +-
->>   target/s390x/cpu_models.c |  1 +
->>   target/s390x/kvm/kvm.c    | 13 +++++++++++++
->>   3 files changed, 15 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> index e6b4692581..b69955a1cd 100644
->> --- a/hw/s390x/cpu-topology.c
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -52,7 +52,7 @@ static int s390_socket_nb(s390_topology_id id)
->>    */
->>   bool s390_has_topology(void)
->>   {
->> -    return false;
->> +    return s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY);
->>   }
->>   /**
->> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
->> index c3a4f80633..3f05e05fd3 100644
->> --- a/target/s390x/cpu_models.c
->> +++ b/target/s390x/cpu_models.c
->> @@ -253,6 +253,7 @@ bool s390_has_feat(S390Feat feat)
->>           case S390_FEAT_SIE_CMMA:
->>           case S390_FEAT_SIE_PFMFI:
->>           case S390_FEAT_SIE_IBS:
->> +        case S390_FEAT_CONFIGURATION_TOPOLOGY:
->>               return false;
->>               break;
->>           default:
->> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
->> index fb63be41b7..4e2a2ff516 100644
->> --- a/target/s390x/kvm/kvm.c
->> +++ b/target/s390x/kvm/kvm.c
->> @@ -2470,6 +2470,19 @@ void kvm_s390_get_host_cpu_model(S390CPUModel 
->> *model, Error **errp)
->>           set_bit(S390_FEAT_UNPACK, model->features);
->>       }
->> +    /*
->> +     * If we have support for CPU Topology prevent overrule
->> +     * S390_FEAT_CONFIGURATION_TOPOLOGY with 
->> S390_FEAT_DISABLE_CPU_TOPOLOGY
-> 
-> That S390_FEAT_DISABLE_CPU_TOPOLOGY looks like a leftover from v12 ?
-
-Right, sorry, I remove it and change the comment for:
-
-     /*
-      * If we have kernel support for CPU Topology indicate the
-      * configuration-topology facility.
-      */
-
-
-> 
-> Apart from that, patch looks fine to me now.
-> 
->   Thomas
-> 
-> 
->> +     * implemented in KVM, activate the CPU TOPOLOGY feature.
->> +     */
->> +    if (kvm_check_extension(kvm_state, KVM_CAP_S390_CPU_TOPOLOGY)) {
->> +        if (kvm_vm_enable_cap(kvm_state, KVM_CAP_S390_CPU_TOPOLOGY, 
->> 0) < 0) {
->> +            error_setg(errp, "KVM: Error enabling 
->> KVM_CAP_S390_CPU_TOPOLOGY");
->> +            return;
->> +        }
->> +        set_bit(S390_FEAT_CONFIGURATION_TOPOLOGY, model->features);
->> +    }
->> +
->>       /* We emulate a zPCI bus and AEN, therefore we don't need HW 
->> support */
->>       set_bit(S390_FEAT_ZPCI, model->features);
->>       set_bit(S390_FEAT_ADAPTER_EVENT_NOTIFICATION, model->features);
-> 
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
