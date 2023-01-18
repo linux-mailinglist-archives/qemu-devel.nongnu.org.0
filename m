@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D11F671A70
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 12:21:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCB7671ABD
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 12:35:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI6UP-0006Xc-7Q; Wed, 18 Jan 2023 06:20:21 -0500
+	id 1pI6hg-00047E-7A; Wed, 18 Jan 2023 06:34:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pI6U6-0006RF-64
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:20:03 -0500
-Received: from qs51p00im-qukt01080501.me.com ([17.57.155.22])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pI6U0-0001dN-1r
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:19:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1674040789; bh=fRkC/0Cj2kfhuZiOHcEapM3RPYUjSRfx6mOYXSWVLx8=;
- h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
- b=fc5RTGPEpVehvGP5VX0xaXI04bSQZW3nENj9/Dpk+ND+fPPJCRcww2rnDpa6jN2w+
- dZUilszmuxyPA8YSL+BR9FSDuH3L7GGtgB1GE0T3wz7vbVK2RdeZmx1tGu1mJK0EUm
- 2WI5kgNOINmr6Xdv18fdZ/dT0SzRl0uAcheRJAVhzn44+XLFkZ1UcjBQ5U6EjG4vkj
- fMJH5a6c81SZt7YklYCWNsA2c0Aofd9UtUQN8tPzm8T6HcR4mPLhgcl7HKhlb0e+bn
- HIqithR8GUdtWIJ9O5cBZqNBX+Lx8BYIXvaS43O2M1Pg7jp+lX9Gq52VdYRysjvksX
- 01VzGPZrkjr9g==
-Received: from smtpclient.apple (qs51p00im-dlb-asmtp-mailmevip.me.com
- [17.57.155.28])
- by qs51p00im-qukt01080501.me.com (Postfix) with ESMTPSA id 049E819809BD;
- Wed, 18 Jan 2023 11:19:47 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
-Subject: Re: [PATCH v3 2/3] hvf: implement guest debugging on Apple Silicon
- hosts
-From: Mads Ynddal <mads@ynddal.dk>
-In-Reply-To: <20230114161302.94595-3-fcagnin@quarkslab.com>
-Date: Wed, 18 Jan 2023 12:19:36 +0100
-Cc: qemu-devel@nongnu.org, dirty@apple.com, peter.maydell@linaro.org,
- qemu-arm@nongnu.org, agraf@csgraf.de, pbonzini@redhat.com,
- alex.bennee@linaro.org, Francesco Cagnin <fcagnin@quarkslab.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <5B722E51-E635-4196-8978-E0393F9EEFA1@ynddal.dk>
-References: <20230114161302.94595-1-fcagnin@quarkslab.com>
- <20230114161302.94595-3-fcagnin@quarkslab.com>
-To: francesco.cagnin@gmail.com
-X-Mailer: Apple Mail (2.3731.300.101.1.3)
-X-Proofpoint-ORIG-GUID: iexFohMw8sDjWxjBW_74pYdQEFpqc44e
-X-Proofpoint-GUID: iexFohMw8sDjWxjBW_74pYdQEFpqc44e
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.790,17.11.62.513.0000000_definitions?=
- =?UTF-8?Q?=3D2022-01-12=5F02:2020-02-14=5F02,2022-01-12=5F02,2021-12-02?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- malwarescore=0 bulkscore=0
- mlxscore=0 clxscore=1030 suspectscore=0 adultscore=0 mlxlogscore=430
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2301180098
-Received-SPF: pass client-ip=17.57.155.22; envelope-from=mads@ynddal.dk;
- helo=qs51p00im-qukt01080501.me.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1pI6hZ-00042K-BB; Wed, 18 Jan 2023 06:34:00 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1pI6hX-0007Mw-Qd; Wed, 18 Jan 2023 06:33:57 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E024320ED4;
+ Wed, 18 Jan 2023 11:33:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1674041632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tiKmrXvaLUOKOhl28VHbquXQKFRjoZ1o/inJ9lYSie0=;
+ b=Lf76XRt6U25BDCXTVYl2QqRfTldSmdV2i/KM/FgckjjauQLK1QJvP0lB0tEw1WKORnyNFx
+ 5RNRZI0Ln6Z4j6M0ID3P803uXYRlZ/GdMqCOGVIUFW4GTnkcp/N5ViWrGf8xBgo0jf9mEy
+ eHUFV4rzVnehyaqPevBLOwSQDfFtP9g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1674041632;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tiKmrXvaLUOKOhl28VHbquXQKFRjoZ1o/inJ9lYSie0=;
+ b=oxDH4ajLBfT+GkqEkjKZwCRF4+jzD8JlN4iGvxq5UcYLnVuByBejYG13fcZe03YDEP4zuJ
+ jF25HC2sZ+5NHGAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 80258139D2;
+ Wed, 18 Jan 2023 11:33:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id RpowHSDZx2NTfQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Wed, 18 Jan 2023 11:33:52 +0000
+Message-ID: <c803c8a5-5788-2935-c1d8-3b62cc9a64d9@suse.de>
+Date: Wed, 18 Jan 2023 12:33:52 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [RFC PATCH v3 18/28] target/arm: Move common cpu code into cpu.c
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>
+References: <20230113140419.4013-1-farosas@suse.de>
+ <20230113140419.4013-19-farosas@suse.de>
+ <bafc45b7-f42a-a500-053f-65f057a14cc1@linaro.org> <87bkmx0yux.fsf@suse.de>
+ <1ff29148-eae9-84b7-3521-4b9d543f12e3@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <1ff29148-eae9-84b7-3521-4b9d543f12e3@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,47 +95,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 1/18/23 11:45, Philippe Mathieu-Daudé wrote:
+> On 17/1/23 20:01, Fabiano Rosas wrote:
+>> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
+>>
+>>> On 13/1/23 15:04, Fabiano Rosas wrote:
+>>>> The cpu_tcg.c file about to be moved into the tcg directory. Move the
+>>>> code that is needed for cpus that also work with KVM into cpu.c.
+>>>>
+>>>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>>>> ---
+>>>>    target/arm/cpu.c     | 76 +++++++++++++++++++++++++++++++++++++++++++
+>>>>    target/arm/cpu_tcg.c | 77 --------------------------------------------
+>>>>    2 files changed, 76 insertions(+), 77 deletions(-)
+>>>>
+>>>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>>> [...]
+>>>
+>>> TYPE_IDAU_INTERFACE is ARMv8-M specific, so TCG AFAIU.
+>>
+>> Hm.. QEMU doesn't start without it. There might be some implicit
+>> dependency. I'll check.
+> 
+> Likely some M-profile code (note this type is a QOM *interface*).
+> 
+> I checked the uses (git-grep -W IDAU_INTERFACE) and none should be
+> reachable in a non-TCG build.
 
-> On 14 Jan 2023, at 17.13, francesco.cagnin@gmail.com wrote:
->=20
-> From: Francesco Cagnin <fcagnin@quarkslab.com>
->=20
-> Support is added for single-stepping, software breakpoints, hardware
-> breakpoints and watchpoints. The code has been structured like the KVM
-> counterpart (and many parts are basically identical).
->=20
-> Guests can be debugged through the gdbstub.
->=20
-> While guest debugging is enabled, the guest can still read and write =
-the
-> DBG*_EL1 registers but they don't have any effect.
->=20
-> Signed-off-by: Francesco Cagnin <fcagnin@quarkslab.com>
-> ---
-> accel/hvf/hvf-accel-ops.c | 123 ++++++++
-> accel/hvf/hvf-all.c       |  24 ++
-> cpu.c                     |   3 +
-> include/sysemu/hvf.h      |  29 ++
-> include/sysemu/hvf_int.h  |   1 +
-> target/arm/hvf/hvf.c      | 631 +++++++++++++++++++++++++++++++++++++-
-> 6 files changed, 809 insertions(+), 2 deletions(-)
->=20
+crossing fingers, I remember getting in trouble there, but maybe that is now solved by the KConfig thing..
 
-It seems v3 has a regression in regards to BRK instructions that I =
-cannot
-reproduce with v2. If I start QEMU and GDB with the Linux kernel =
-(v6.0-rc5),
-and set a software breakpoint at `bio_split` (probably not specific to =
-this
-function), I see messages in stdout like this:
+https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02958.html
 
-[    4.663981] Unexpected kernel BRK exception at EL1
-[    4.664650] Internal error: BRK handler: f2000000 [#1] PREEMPT SMP
-...
+My understanding is probably obsolete now, if so sorry for the noise.
 
-Maybe the software breakpoints aren't removed/reapplied correctly in v3?
-
-=E2=80=94
-Mads Ynddal
+Claudio
 
 
