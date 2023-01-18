@@ -2,43 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436C4671C12
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:31:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A08671A0F
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 12:09:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI7ZX-0007G7-Mi; Wed, 18 Jan 2023 07:29:43 -0500
+	id 1pI6Iz-0002uE-KB; Wed, 18 Jan 2023 06:08:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1pI7ZV-0007FZ-Bj
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:29:41 -0500
-Received: from mail-b.sr.ht ([173.195.146.151])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1pI7ZS-0004Ef-Sp
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:29:41 -0500
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 5CE6011EF83
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 12:29:37 +0000 (UTC)
-From: ~luhux <luhux@git.sr.ht>
-Date: Wed, 18 Jan 2023 17:06:02 +0800
-Subject: [PATCH qemu 3/3] hw/mips/mt7628.c: add mt7628 soc support, add a
- mt7628 board VoCore2.
-Message-ID: <167404497644.25699.12403586061485468184-2@git.sr.ht>
-X-Mailer: git.sr.ht
-In-Reply-To: <167404497644.25699.12403586061485468184-0@git.sr.ht>
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI6Iw-0002th-S3
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:08:30 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI6Iu-0006PN-Vh
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:08:30 -0500
+Received: by mail-wm1-x331.google.com with SMTP id k16so3749224wms.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 03:08:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fQkDRqMiw9TekcpGLXiJArCesexAW6P4a+xxdsDWT+I=;
+ b=LpQcPL9q86kuM7drdhaZXJqVJANt4t8mvGH70icUxjoYkOgrYuYp6u5HOrfflHENZS
+ ZFiRShxd1YKDwQBlty2AMYs3hzCjJiLdq6tKWUTaaOXhcQM2Yruoi74ad+p+9qZmTBTV
+ e9k7vsss0891XhrV9FkON4/hxrESmKMxjTfPo80cj7Oa/WUBey8hz7K8GT6fBrWF7h4N
+ 3ne+Wwz4vaLqNrHH/LA947VoUXJJam1eSBlelphpEE/4Vhe6AAtxoscbOhtR9IB9tBmb
+ f2cS6a7w5zQlvGqnE4jxMFumzKfE95JGQ+M6yxVYuDOqqD/vhbXplC9DkKUqzy71+ZBI
+ nCHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fQkDRqMiw9TekcpGLXiJArCesexAW6P4a+xxdsDWT+I=;
+ b=pmLJCo9k8M0fJhRtSQoeJBgXfMfRgy0LWPaE55B9DECmTpVsm7ltl9QmB+TReesg6t
+ 5AKuNsWCW1k1tNEp1zuYyS4wakXv8k7zWtkXLsZbvn0GfQIOji+emrkEYBc/12mJ1FqE
+ W2P46Byd3LoBH5JUfSBAaZ2lerCkcmDpo6j1XSOLFXSQfUlFC/PufR8ncLFGVufA5ax5
+ qHUep5jR+W7XT5qayL+8ccDfOCNJpcyBHEcFf/RYmas2oKVD1EMPH5IpzoTgVzIfyDUm
+ nVrsliarZ3efC/Du8N5H7uqe+PN8hKAGadEDkHbmT7MXgBbZ1AaV+cmzw0bke+hB9wda
+ EAJA==
+X-Gm-Message-State: AFqh2krjqTJFp6r11479e4GgJdM0ECu3hw1EOW2RSsjgIvrf8bO0a5/O
+ AtfmL/MbTPdAwtS/8PKkp1cq3ZAA/9Wb0JMS
+X-Google-Smtp-Source: AMrXdXvxOxj9heZ3R6tSXrrAml+0R4nYI41zBG6JzLTc1YLugoAeOwyHDq9jPe7MisH+jwFg4jw8BQ==
+X-Received: by 2002:a1c:4b19:0:b0:3da:fb5c:8754 with SMTP id
+ y25-20020a1c4b19000000b003dafb5c8754mr2258857wma.2.1674040106795; 
+ Wed, 18 Jan 2023 03:08:26 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ f16-20020a5d50d0000000b002755e301eeasm13223319wrt.100.2023.01.18.03.08.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 03:08:26 -0800 (PST)
+Message-ID: <d54ecdc8-3076-355f-9b2b-7a2f12a2673c@linaro.org>
+Date: Wed, 18 Jan 2023 12:08:24 +0100
 MIME-Version: 1.0
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 20
-X-Spam_score: 2.0
-X-Spam_bar: ++
-X-Spam_report: (2.0 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- FREEMAIL_FORGED_REPLYTO=2.095, FREEMAIL_REPLYTO_END_DIGIT=0.25,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 1/2] hw/pci-host/gt64120: Fix PCI I/O config register
+ endianness
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Aurelien Jarno <aurelien@aurel32.net>, Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Klaus Jensen <k.jensen@samsung.com>
+References: <20230118095751.49728-1-philmd@linaro.org>
+ <20230118095751.49728-2-philmd@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230118095751.49728-2-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -51,553 +91,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~luhux <luhux76@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: LuHui <luhux76@gmail.com>
+On 18/1/23 10:57, Philippe Mathieu-Daudé wrote:
+> The MByteSwap bit only affects the data register endianness,
+> not the config register. Map the config register once in the
+> gt64120_realize() handler, and only remap the data register
+> when the mapping is updated.
+> 
+> Fixes: 145e2198d7 ("gt64xxx: Endian-swap using PCI_HOST_BRIDGE MemoryRegionOps")
+> Reported-by: Klaus Jensen <its@irrelevant.dk>
+> Tested-by: Klaus Jensen <k.jensen@samsung.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   hw/pci-host/gt64120.c | 25 +++++++------------------
+>   1 file changed, 7 insertions(+), 18 deletions(-)
+> 
+> diff --git a/hw/pci-host/gt64120.c b/hw/pci-host/gt64120.c
+> index f226d03420..36ed01c615 100644
+> --- a/hw/pci-host/gt64120.c
+> +++ b/hw/pci-host/gt64120.c
+> @@ -320,13 +320,6 @@ static void gt64120_isd_mapping(GT64120State *s)
+>   
+>   static void gt64120_update_pci_cfgdata_mapping(GT64120State *s)
+>   {
+> -    /* Indexed on MByteSwap bit, see Table 158: PCI_0 Command, Offset: 0xc00 */
+> -    static const MemoryRegionOps *pci_host_conf_ops[] = {
+> -        &pci_host_conf_be_ops, &pci_host_conf_le_ops
+> -    };
+> -    static const MemoryRegionOps *pci_host_data_ops[] = {
+> -        &pci_host_data_be_ops, &pci_host_data_le_ops
+> -    };
+>       PCIHostState *phb = PCI_HOST_BRIDGE(s);
+>   
+>       memory_region_transaction_begin();
+> @@ -339,22 +332,13 @@ static void gt64120_update_pci_cfgdata_mapping(GT64120State *s)
+>        * - Table 16: 32-bit PCI Transaction Endianess
+>        * - Table 158: PCI_0 Command, Offset: 0xc00
+>        */
+> -    if (memory_region_is_mapped(&phb->conf_mem)) {
+> -        memory_region_del_subregion(&s->ISD_mem, &phb->conf_mem);
+> -        object_unparent(OBJECT(&phb->conf_mem));
+> -    }
+> -    memory_region_init_io(&phb->conf_mem, OBJECT(phb),
+> -                          pci_host_conf_ops[s->regs[GT_PCI0_CMD] & 1],
+> -                          s, "pci-conf-idx", 4);
+> -    memory_region_add_subregion_overlap(&s->ISD_mem, GT_PCI0_CFGADDR << 2,
+> -                                        &phb->conf_mem, 1);
+> -
+>       if (memory_region_is_mapped(&phb->data_mem)) {
+>           memory_region_del_subregion(&s->ISD_mem, &phb->data_mem);
+>           object_unparent(OBJECT(&phb->data_mem));
+>       }
 
-Signed-off-by: LuHui <luhux76@gmail.com>
----
- MAINTAINERS                             |   1 +
- configs/devices/mips-softmmu/common.mak |   2 +
- hw/mips/Kconfig                         |  11 ++
- hw/mips/meson.build                     |   2 +
- hw/mips/mt7628.c                        | 189 ++++++++++++++++++++++++
- hw/mips/vocore2.c                       | 180 ++++++++++++++++++++++
- include/hw/mips/mt7628.h                |  77 ++++++++++
- 7 files changed, 462 insertions(+)
- create mode 100644 hw/mips/mt7628.c
- create mode 100644 hw/mips/vocore2.c
- create mode 100644 include/hw/mips/mt7628.h
+Self-NACK since the config space reads are swapped:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 41854e939c..1b2f92e078 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1238,6 +1238,7 @@ VoCore2
- M: Lu Hui <luhux76@gmail.com>
- S: Maintained
- F: hw/*/*mt7628*
-+F: hw/mips/vocore2.c
-=20
- Jazz
- M: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
-diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-s=
-oftmmu/common.mak
-index 7da99327a7..e4a5c54635 100644
---- a/configs/devices/mips-softmmu/common.mak
-+++ b/configs/devices/mips-softmmu/common.mak
-@@ -29,3 +29,5 @@ CONFIG_PCNET_PCI=3Dy
- CONFIG_MIPSSIM=3Dy
- CONFIG_SMBUS_EEPROM=3Dy
- CONFIG_TEST_DEVICES=3Dy
-+CONFIG_MT7628=3Dy
-+CONFIG_VOCORE2=3Dy
-diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-index da3a37e215..f7faec010c 100644
---- a/hw/mips/Kconfig
-+++ b/hw/mips/Kconfig
-@@ -10,6 +10,17 @@ config MIPSSIM
-     select SERIAL_ISA
-     select MIPSNET
-=20
-+config MT7628
-+    bool
-+    select SERIAL
-+    select USB_EHCI
-+    select USB_EHCI_SYSBUS
-+    select UNIMP
-+
-+config VOCORE2
-+    bool
-+    select MT7628
-+
- config JAZZ
-     bool
-     select ISA_BUS
-diff --git a/hw/mips/meson.build b/hw/mips/meson.build
-index 900613fc08..9ad125a996 100644
---- a/hw/mips/meson.build
-+++ b/hw/mips/meson.build
-@@ -10,6 +10,8 @@ mips_ss.add(when: 'CONFIG_JAZZ', if_true: files('jazz.c'))
- mips_ss.add(when: 'CONFIG_MIPSSIM', if_true: files('mipssim.c'))
- mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
- mips_ss.add(when: 'CONFIG_MIPS_BOSTON', if_true: [files('boston.c'), fdt])
-+mips_ss.add(when: 'CONFIG_MT7628', if_true: files('mt7628.c'))
-+mips_ss.add(when: 'CONFIG_VOCORE2', if_true: files('vocore2.c'))
- endif
-=20
- hw_arch +=3D {'mips': mips_ss}
-diff --git a/hw/mips/mt7628.c b/hw/mips/mt7628.c
-new file mode 100644
-index 0000000000..d982b1c704
---- /dev/null
-+++ b/hw/mips/mt7628.c
-@@ -0,0 +1,189 @@
-+/*
-+ * QEMU/mt7628 emulation
-+ *
-+ * Copyright (c) 2023 Lu Hui <luhux76@gmail.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but WITHO=
-UT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ * for more details.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/datadir.h"
-+#include "hw/clock.h"
-+#include "hw/block/flash.h"
-+#include "hw/mips/mips.h"
-+#include "hw/mips/cpudevs.h"
-+#include "hw/mips/bios.h"
-+#include "hw/usb/hcd-ehci.h"
-+#include "hw/char/serial.h"
-+#include "hw/misc/unimp.h"
-+#include "hw/mips/mt7628.h"
-+#include "sysemu/sysemu.h"
-+#include "hw/boards.h"
-+#include "hw/loader.h"
-+#include "elf.h"
-+#include "hw/sysbus.h"
-+#include "hw/qdev-properties.h"
-+#include "qemu/error-report.h"
-+#include "sysemu/qtest.h"
-+#include "sysemu/reset.h"
-+
-+/* data src: linux kernel, openwrt, uboot */
-+
-+/* irq table */
-+enum {
-+    IRQ_UART0 =3D 20,
-+    IRQ_UART1 =3D 21,
-+    IRQ_UART2 =3D 22,
-+    IRQ_EHCI =3D 18
-+};
-+
-+/* Memory map */
-+const hwaddr mt7628_memmap[] =3D {
-+    [MT7628_DEV_DDR]          =3D 0x00000000,
-+    [MT7628_DEV_SYSCTRL]      =3D 0x10000000,
-+    [MT7628_DEV_INTC]         =3D 0x10000200,
-+    [MT7628_DEV_UART0]        =3D 0x10000C00,
-+    [MT7628_DEV_UART1]        =3D 0x10000D00,
-+    [MT7628_DEV_UART2]        =3D 0x10000E00,
-+    [MT7628_DEV_EHCI]         =3D 0x101C0000,
-+    [MT7628_DEV_FLASH_DIRECT] =3D 0x1C000000,
-+};
-+
-+struct mt7628Unimplemented {
-+    const char *device_name;
-+    hwaddr base;
-+    hwaddr size;
-+} unimplemented[] =3D {
-+    { "timer",        0x10000100, 0xFF },
-+    { "memc",         0x10000300, 0xFF },
-+    { "rbus",         0x10000400, 0xFF },
-+    { "mips-cnt",     0x10000500, 0xFF },
-+    { "gpio",         0x10000600, 0xFF },
-+    { "spi-slave",    0x10000700, 0xFF },
-+    { "i2c",          0x10000900, 0xFF },
-+    { "i2s",          0x10000A00, 0xFF },
-+    { "spi-master",   0x10000B00, 0xFF },
-+    { "rgctl",        0x10001000, 2 * KiB },
-+    { "pcm",          0x10002000, 2 * KiB },
-+    { "dma",          0x10002800, 2 * KiB },
-+    { "aes",          0x10004000, 4 * KiB },
-+    { "pwm",          0x10005000, 4 * KiB },
-+    { "ethernet-phy", 0x10100000, 64 * KiB },
-+    { "ethernet",     0x10110000, 32 * KiB },
-+    { "usb-phy",      0x10120000, 32 * KiB },
-+    { "sdxc",         0x10130000, 32 * KiB },
-+    { "pcie",         0x10140000, 256 * KiB },
-+    { "wlan",         0x10300000, 1 * MiB },
-+    { "pcie-direct",  0x20000000, 256 * MiB },
-+};
-+
-+static void mt7628_init(Object *obj)
-+{
-+    mt7628State *s =3D MT7628(obj);
-+    s->memmap =3D mt7628_memmap;
-+
-+    object_initialize_child(obj, "sysctrl", &s->sysctrl, TYPE_MT7628_SYSCTRL=
-);
-+    object_initialize_child(obj, "intc", &s->intc, TYPE_MT7628_INTC);
-+    if (machine_usb(current_machine)) {
-+        object_initialize_child(obj, "ehci", &s->ehci, TYPE_PLATFORM_EHCI);
-+    }
-+}
-+
-+static void mt7628_realize(DeviceState *dev, Error **errp)
-+{
-+    mt7628State *s =3D MT7628(dev);
-+    SysBusDevice *sysbusdev;
-+    int i;
-+
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->intc), errp)) {
-+        return;
-+    }
-+    CPUMIPSState *env =3D &s->cpu->env;
-+
-+    /* interrupt control */
-+    sysbusdev =3D SYS_BUS_DEVICE(&s->intc);
-+    sysbus_mmio_map(sysbusdev, 0, s->memmap[MT7628_DEV_INTC]);
-+    sysbus_connect_irq(sysbusdev, 0, env->irq[MT7628_CPU_IRQ_INTC]);
-+    qdev_pass_gpios(DEVICE(&s->intc), dev, NULL);
-+
-+    /* system control */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->sysctrl), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->sysctrl), 0,
-+                    s->memmap[MT7628_DEV_SYSCTRL]);
-+
-+    /* serial port */
-+    for (i =3D 0; i < 3; i++) {
-+        if (serial_hd(i)) {
-+            serial_mm_init(get_system_memory(),
-+                           s->memmap[MT7628_DEV_UART0 + i], 2,
-+                           qdev_get_gpio_in(dev, IRQ_UART0 + i), 115200,
-+                           serial_hd(i), DEVICE_NATIVE_ENDIAN);
-+        } else {
-+            create_unimplemented_device("uart",
-+                                        s->memmap[MT7628_DEV_UART0 + i], 256=
-);
-+        }
-+    }
-+
-+    /* usb 2.0 host */
-+    if (machine_usb(current_machine)) {
-+        sysbus_realize(SYS_BUS_DEVICE(&s->ehci), &error_fatal);
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->ehci), 0,
-+                        s->memmap[MT7628_DEV_EHCI]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->ehci), 0,
-+                           qdev_get_gpio_in(dev, IRQ_EHCI));
-+    } else {
-+        create_unimplemented_device("ehci", s->memmap[MT7628_DEV_EHCI],
-+                                    256 * KiB);
-+    }
-+
-+    /* flash direct access */
-+    DriveInfo *dinfo =3D drive_get(IF_PFLASH, 0, 0);
-+    if (dinfo) {
-+        pflash_cfi01_register(s->memmap[MT7628_DEV_FLASH_DIRECT],
-+                              "mt7628.flash0", 4 * MiB,
-+                              dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
-+                              4096, 4, 0, 0, 0, 0, 0);
-+    } else {
-+        create_unimplemented_device("flash-direct",
-+                                    s->memmap[MT7628_DEV_FLASH_DIRECT],
-+                                    4 * MiB);
-+    }
-+
-+    /* Unimplemented devices */
-+    for (i =3D 0; i < ARRAY_SIZE(unimplemented); i++) {
-+        create_unimplemented_device(unimplemented[i].device_name,
-+                                    unimplemented[i].base,
-+                                    unimplemented[i].size);
-+    }
-+}
-+
-+static void mt7628_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(oc);
-+    dc->realize =3D mt7628_realize;
-+    dc->user_creatable =3D false;
-+}
-+
-+static const TypeInfo mt7628_type_info =3D {
-+    .name =3D TYPE_MT7628,
-+    .parent =3D TYPE_DEVICE,
-+    .instance_size =3D sizeof(mt7628State),
-+    .instance_init =3D mt7628_init,
-+    .class_init =3D mt7628_class_init,
-+};
-+
-+static void mt7628_register_types(void)
-+{
-+    type_register_static(&mt7628_type_info);
-+}
-+
-+type_init(mt7628_register_types);
-diff --git a/hw/mips/vocore2.c b/hw/mips/vocore2.c
-new file mode 100644
-index 0000000000..e9662224fd
---- /dev/null
-+++ b/hw/mips/vocore2.c
-@@ -0,0 +1,180 @@
-+/*
-+ * QEMU/mt7628 emulation
-+ *
-+ * Copyright (c) 2023 Lu Hui <luhux76@gmail.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but WITHO=
-UT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ * for more details.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/datadir.h"
-+#include "hw/clock.h"
-+#include "hw/mips/mips.h"
-+#include "hw/mips/cpudevs.h"
-+#include "hw/mips/mt7628.h"
-+#include "sysemu/sysemu.h"
-+#include "hw/boards.h"
-+#include "hw/mips/bios.h"
-+#include "hw/loader.h"
-+#include "elf.h"
-+#include "hw/sysbus.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/qdev-clock.h"
-+#include "qemu/error-report.h"
-+#include "sysemu/qtest.h"
-+#include "sysemu/reset.h"
-+
-+static struct _loaderparams {
-+    int ram_size;
-+    const char *kernel_filename;
-+    const char *kernel_cmdline;
-+    const char *initrd_filename;
-+} loaderparams;
-+
-+typedef struct ResetData {
-+    MIPSCPU *cpu;
-+    uint64_t vector;
-+} ResetData;
-+
-+static uint64_t load_kernel(void)
-+{
-+    uint64_t entry, kernel_high, initrd_size;
-+    long kernel_size;
-+    ram_addr_t initrd_offset;
-+
-+    kernel_size =3D load_elf(loaderparams.kernel_filename, NULL,
-+                           cpu_mips_kseg0_to_phys, NULL,
-+                           &entry, NULL,
-+                           &kernel_high, NULL, 0, EM_MIPS, 1, 0);
-+    if (kernel_size < 0) {
-+        error_report("could not load kernel '%s': %s",
-+                     loaderparams.kernel_filename,
-+                     load_elf_strerror(kernel_size));
-+        exit(1);
-+    }
-+
-+    /* load initrd */
-+    initrd_size =3D 0;
-+    initrd_offset =3D 0;
-+    if (loaderparams.initrd_filename) {
-+        initrd_size =3D get_image_size(loaderparams.initrd_filename);
-+        if (initrd_size > 0) {
-+            initrd_offset =3D ROUND_UP(kernel_high, INITRD_PAGE_SIZE);
-+            if (initrd_offset + initrd_size > loaderparams.ram_size) {
-+                error_report("memory too small for initial ram disk '%s'",
-+                             loaderparams.initrd_filename);
-+                exit(1);
-+            }
-+            initrd_size =3D load_image_targphys(loaderparams.initrd_filename,
-+                                       initrd_offset,
-+                                       loaderparams.ram_size - initrd_offset=
-);
-+        }
-+        if (initrd_size =3D=3D (target_ulong)-1) {
-+            error_report("could not load initial ram disk '%s'",
-+                         loaderparams.initrd_filename);
-+            exit(1);
-+        }
-+    }
-+    return entry;
-+}
-+
-+static void main_cpu_reset(void *opaque)
-+{
-+    ResetData *s =3D (ResetData *) opaque;
-+    CPUMIPSState *env =3D &s->cpu->env;
-+
-+    cpu_reset(CPU(s->cpu));
-+    env->active_tc.PC =3D s->vector & ~(target_ulong) 1;
-+    if (s->vector & 1) {
-+        env->hflags |=3D MIPS_HFLAG_M16;
-+    }
-+}
-+
-+static void vocore2_init(MachineState *machine)
-+{
-+    const char *kernel_filename =3D machine->kernel_filename;
-+    const char *kernel_cmdline =3D machine->kernel_cmdline;
-+    const char *initrd_filename =3D machine->initrd_filename;
-+    mt7628State *mt7628;
-+    Clock *cpuclk;
-+    MIPSCPU *cpu;
-+    ResetData *reset_info;
-+
-+    /* BIOS is not supported by this board */
-+    if (machine->firmware) {
-+        error_report("BIOS not supported for this machine");
-+        exit(1);
-+    }
-+
-+    /* CPU limit */
-+    if (strcmp(machine->cpu_type, MIPS_CPU_TYPE_NAME("24KEc")) !=3D 0) {
-+        error_report("This board can only be used with 24KEc CPU");
-+        exit(1);
-+    }
-+
-+    /* RAM limit */
-+    if (machine->ram_size > 256 * MiB) {
-+        error_report("mt7628: memory size must not exceed 256MiB");
-+    }
-+
-+    mt7628 =3D MT7628(object_new(TYPE_MT7628));
-+    object_property_add_child(OBJECT(machine), "soc", OBJECT(mt7628));
-+    object_unref(OBJECT(mt7628));
-+
-+    /* CPU Clock */
-+    cpuclk =3D clock_new(OBJECT(machine), "cpu-refclk");
-+    /* xtal 40Mhz -> cpu 580Mhz (VoCore2 use this) */
-+    /* xtal 25Mhz -> cpu 575Mhz */
-+    clock_set_hz(cpuclk, 580000000);
-+
-+    /* CPU */
-+    cpu =3D mips_cpu_create_with_clock(machine->cpu_type, cpuclk);
-+    cpu_mips_irq_init_cpu(cpu);
-+    cpu_mips_clock_init(cpu);
-+    mt7628->cpu =3D cpu;
-+
-+    /* Mark mt7628 object realized */
-+    qdev_realize(DEVICE(mt7628), NULL, &error_abort);
-+
-+    /* DDR */
-+    memory_region_add_subregion(get_system_memory(),
-+                                mt7628->memmap[MT7628_DEV_DDR],
-+                                machine->ram);
-+
-+    /* Load kernel to RAM & goto kernel */
-+    reset_info =3D g_new0(ResetData, 1);
-+    reset_info->cpu =3D cpu;
-+    reset_info->vector =3D reset_info->cpu->env.active_tc.PC;
-+    qemu_register_reset(main_cpu_reset, reset_info);
-+    if (kernel_filename) {
-+        loaderparams.ram_size =3D machine->ram_size;
-+        loaderparams.kernel_filename =3D kernel_filename;
-+        loaderparams.kernel_cmdline =3D kernel_cmdline;
-+        loaderparams.initrd_filename =3D initrd_filename;
-+        reset_info->vector =3D load_kernel();
-+    }
-+    /* TODO: boot from flash */
-+}
-+
-+static void vocore2_machine_init(MachineClass *mc)
-+{
-+    mc->desc =3D "VoCore2 (24KEc)";
-+    mc->init =3D vocore2_init;
-+    mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("24KEc");
-+    mc->default_ram_id =3D "vocore2.ram";
-+    mc->default_ram_size =3D 128 * MiB;
-+    mc->min_cpus =3D 1;
-+    mc->max_cpus =3D 1;
-+    mc->default_cpus =3D 1;
-+}
-+
-+DEFINE_MACHINE("vocore2", vocore2_machine_init)
-diff --git a/include/hw/mips/mt7628.h b/include/hw/mips/mt7628.h
-new file mode 100644
-index 0000000000..2570f87846
---- /dev/null
-+++ b/include/hw/mips/mt7628.h
-@@ -0,0 +1,77 @@
-+/*
-+ * MT7628 System on Chip emulation
-+ *
-+ * Copyright (C) 2023 Lu Hui <luhux76@gmail.com>
-+ *
-+ * This program is free software: you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation, either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef HW_MIPS_MT7628_H
-+#define HW_MIPS_MT7628_H
-+
-+#include "qom/object.h"
-+#include "hw/mips/mips.h"
-+#include "hw/mips/cpudevs.h"
-+#include "hw/mips/bios.h"
-+#include "hw/usb/hcd-ehci.h"
-+#include "hw/misc/mt7628-sysctrl.h"
-+#include "hw/intc/mt7628-intc.h"
-+
-+/**
-+ * MT7628 device list
-+ *
-+ * This enumeration is can be used refer to a particular device in the
-+ * MT7628 SoC. For example, the physical memory base address for
-+ * each device can be found in the mt7628State object in the memmap member
-+ * using the device enum value as index.
-+ *
-+ * @see mt7628State
-+ */
-+enum {
-+    MT7628_DEV_DDR,
-+    MT7628_DEV_SYSCTRL,
-+    MT7628_DEV_INTC,
-+    MT7628_DEV_UART0,
-+    MT7628_DEV_UART1,
-+    MT7628_DEV_UART2,
-+    MT7628_DEV_EHCI,
-+    MT7628_DEV_FLASH_DIRECT,
-+};
-+
-+
-+/* mt7628 cpu interrupt table */
-+
-+
-+enum {
-+    MT7628_CPU_IRQ_INTC =3D 2,
-+    MT7628_CPU_IRQ_PCIE =3D 4,
-+};
-+
-+#define TYPE_MT7628 "mt7628"
-+OBJECT_DECLARE_SIMPLE_TYPE(mt7628State, MT7628)
-+
-+struct mt7628State {
-+    /*< private >*/
-+    DeviceState parent_obj;
-+    /*< public >*/
-+
-+    MIPSCPU *cpu;
-+    const hwaddr *memmap;
-+    mt7628SysCtrlState sysctrl;
-+    mt7628intcState intc;
-+    EHCISysBusState ehci;
-+    MemoryRegion flash_direct;
-+};
-+
-+#endif /* HW_MIPS_MT7628_H */
---=20
-2.34.5
+   $ lspci -v
+- 00:00.0 Host bridge: Marvell Technology Group Ltd. 
+GT-64120/64120A/64121A System Controller (rev 10)
+-     Subsystem: Red Hat, Inc Device 1100
+-     Flags: medium devsel
+-     Memory at <unassigned> (32-bit, prefetchable) [disabled]
+-     Memory at 01000000 (32-bit, prefetchable) [disabled] [size=16M]
+-     Memory at <ignored> (32-bit, non-prefetchable) [disabled]
+-     Memory at <ignored> (32-bit, non-prefetchable) [disabled]
+-     Memory at <ignored> (32-bit, non-prefetchable) [disabled]
+-     I/O ports at <ignored> [disabled]
++ 00:00.0 Network and computing encryption device: Device 2046:ab11 (rev 06)
++     Subsystem: Device 0011:f41a
++     Flags: fast devsel
++     Memory at <ignored> (32-bit, non-prefetchable)
++     I/O ports at <ignored> [disabled]
++     Memory at 10040020 (64-bit, prefetchable) [size=16]
++     Memory at 10040030 (64-bit, non-prefetchable) [size=16]
+
 
