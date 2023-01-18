@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 491B4671ABE
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 12:35:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85246671ACD
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 12:36:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI6is-0004pa-6y; Wed, 18 Jan 2023 06:35:18 -0500
+	id 1pI6io-0004c0-7r; Wed, 18 Jan 2023 06:35:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6iE-0004WE-Du
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6iB-0007Ww-7x
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6iE-0004WC-8N
  for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6iB-0007Wo-8N
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1674041673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rUI1av7f0g2uExD1Lyu4RFY+EhVO3FgxXyfRbXgNyd8=;
- b=i/UnBfiJQg95rW3ie//cUBrVcRNheBKn2cPdBI19jfsp6mVOgmcI2f4Jn0o2XdHlMFx9/p
- 6qx6e+s49fbb6s5af8Cy/mvDZ9ggqKAA0SrPa7fM8brzguRAc9lJaW5xE3VPNzG9iPnqnr
- MDACAppGgMlgH0L1LQEoIFR9+l3M5zM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dYNMcfAX0BLL+XCo/BYEEwgqgUcrj4uRnGWW+k846rA=;
+ b=IKYVV5/TG0q5WcMv482gFKiU0xdEfkHMmfzoQmE7/bxua3nHuYwXQhY+h4R7y1brCtA4n+
+ gNVsQoetxjhk6soNvY/Ou8Wt0y58+fF87EG+JZUbWJIXV9BB9zT6MtLchDJTV02dixGkmu
+ eK8aK5jXE2mV379UD92qmU0/05bV2uY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-356-GGsCyTCJPMu3Am_Lx8QVyQ-1; Wed, 18 Jan 2023 06:34:28 -0500
-X-MC-Unique: GGsCyTCJPMu3Am_Lx8QVyQ-1
+ us-mta-619-iTLMDCYsOXmhXaDXp3jQ_g-1; Wed, 18 Jan 2023 06:34:30 -0500
+X-MC-Unique: iTLMDCYsOXmhXaDXp3jQ_g-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B587857D0D;
- Wed, 18 Jan 2023 11:34:28 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2F461C08974;
+ Wed, 18 Jan 2023 11:34:29 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.194.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7109A492B00;
- Wed, 18 Jan 2023 11:34:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B52EF492B00;
+ Wed, 18 Jan 2023 11:34:28 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Akihiko Odaki <akihiko.odaki@daynix.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 6/9] tests/qtest/e1000e-test: Fix the code style
-Date: Wed, 18 Jan 2023 12:34:15 +0100
-Message-Id: <20230118113418.1650416-7-thuth@redhat.com>
+Subject: [PULL 7/9] tests/qtest/libqos/e1000e: Remove duplicate register
+ definitions
+Date: Wed, 18 Jan 2023 12:34:16 +0100
+Message-Id: <20230118113418.1650416-8-thuth@redhat.com>
 In-Reply-To: <20230118113418.1650416-1-thuth@redhat.com>
 References: <20230118113418.1650416-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,45 +81,97 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-igb implementation first starts off by copying e1000e code. Correct the
-code style before that.
+The register definitions in tests/qtest/libqos/e1000e.h had names
+different from hw/net/e1000_regs.h, which made it hard to understand
+what test codes corresponds to the implementation. Use
+hw/net/e1000_regs.h from tests/qtest/libqos/e1000e.c to remove
+these duplications.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230114035919.35251-19-akihiko.odaki@daynix.com>
+Message-Id: <20230114035919.35251-20-akihiko.odaki@daynix.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/e1000e-test.c   | 2 +-
- tests/qtest/libqos/e1000e.c | 6 ++++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ tests/qtest/libqos/e1000e.h |  5 -----
+ tests/qtest/libqos/e1000e.c | 20 ++++++++++----------
+ 2 files changed, 10 insertions(+), 15 deletions(-)
 
-diff --git a/tests/qtest/e1000e-test.c b/tests/qtest/e1000e-test.c
-index 3fc92046be..b63a4d3c91 100644
---- a/tests/qtest/e1000e-test.c
-+++ b/tests/qtest/e1000e-test.c
-@@ -1,4 +1,4 @@
-- /*
-+/*
-  * QTest testcase for e1000e NIC
-  *
-  * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
+diff --git a/tests/qtest/libqos/e1000e.h b/tests/qtest/libqos/e1000e.h
+index 3bf285af42..091ce139da 100644
+--- a/tests/qtest/libqos/e1000e.h
++++ b/tests/qtest/libqos/e1000e.h
+@@ -25,11 +25,6 @@
+ #define E1000E_RX0_MSG_ID           (0)
+ #define E1000E_TX0_MSG_ID           (1)
+ 
+-#define E1000E_TDLEN    (0x3808)
+-#define E1000E_TDT      (0x3818)
+-#define E1000E_RDLEN    (0x2808)
+-#define E1000E_RDT      (0x2818)
+-
+ typedef struct QE1000E QE1000E;
+ typedef struct QE1000E_PCI QE1000E_PCI;
+ 
 diff --git a/tests/qtest/libqos/e1000e.c b/tests/qtest/libqos/e1000e.c
-index 37c794b130..b90eb2d5e0 100644
+index b90eb2d5e0..28fb3052aa 100644
 --- a/tests/qtest/libqos/e1000e.c
 +++ b/tests/qtest/libqos/e1000e.c
-@@ -222,8 +222,10 @@ static void e1000e_register_nodes(void)
-         .device_id = E1000_DEV_ID_82574L,
-     };
+@@ -51,13 +51,13 @@ static uint32_t e1000e_macreg_read(QE1000E *d, uint32_t reg)
+ void e1000e_tx_ring_push(QE1000E *d, void *descr)
+ {
+     QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
+-    uint32_t tail = e1000e_macreg_read(d, E1000E_TDT);
+-    uint32_t len = e1000e_macreg_read(d, E1000E_TDLEN) / E1000_RING_DESC_LEN;
++    uint32_t tail = e1000e_macreg_read(d, E1000_TDT);
++    uint32_t len = e1000e_macreg_read(d, E1000_TDLEN) / E1000_RING_DESC_LEN;
  
--    /* FIXME: every test using this node needs to setup a -netdev socket,id=hs0
--     * otherwise QEMU is not going to start */
-+    /*
-+     * FIXME: every test using this node needs to setup a -netdev socket,id=hs0
-+     * otherwise QEMU is not going to start
-+     */
-     QOSGraphEdgeOptions opts = {
-         .extra_device_opts = "netdev=hs0",
-     };
+     qtest_memwrite(d_pci->pci_dev.bus->qts,
+                    d->tx_ring + tail * E1000_RING_DESC_LEN,
+                    descr, E1000_RING_DESC_LEN);
+-    e1000e_macreg_write(d, E1000E_TDT, (tail + 1) % len);
++    e1000e_macreg_write(d, E1000_TDT, (tail + 1) % len);
+ 
+     /* Read WB data for the packet transmitted */
+     qtest_memread(d_pci->pci_dev.bus->qts,
+@@ -68,13 +68,13 @@ void e1000e_tx_ring_push(QE1000E *d, void *descr)
+ void e1000e_rx_ring_push(QE1000E *d, void *descr)
+ {
+     QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
+-    uint32_t tail = e1000e_macreg_read(d, E1000E_RDT);
+-    uint32_t len = e1000e_macreg_read(d, E1000E_RDLEN) / E1000_RING_DESC_LEN;
++    uint32_t tail = e1000e_macreg_read(d, E1000_RDT);
++    uint32_t len = e1000e_macreg_read(d, E1000_RDLEN) / E1000_RING_DESC_LEN;
+ 
+     qtest_memwrite(d_pci->pci_dev.bus->qts,
+                    d->rx_ring + tail * E1000_RING_DESC_LEN,
+                    descr, E1000_RING_DESC_LEN);
+-    e1000e_macreg_write(d, E1000E_RDT, (tail + 1) % len);
++    e1000e_macreg_write(d, E1000_RDT, (tail + 1) % len);
+ 
+     /* Read WB data for the packet received */
+     qtest_memread(d_pci->pci_dev.bus->qts,
+@@ -145,8 +145,8 @@ static void e1000e_pci_start_hw(QOSGraphObject *obj)
+                            (uint32_t) d->e1000e.tx_ring);
+     e1000e_macreg_write(&d->e1000e, E1000_TDBAH,
+                            (uint32_t) (d->e1000e.tx_ring >> 32));
+-    e1000e_macreg_write(&d->e1000e, E1000E_TDLEN, E1000E_RING_LEN);
+-    e1000e_macreg_write(&d->e1000e, E1000E_TDT, 0);
++    e1000e_macreg_write(&d->e1000e, E1000_TDLEN, E1000E_RING_LEN);
++    e1000e_macreg_write(&d->e1000e, E1000_TDT, 0);
+     e1000e_macreg_write(&d->e1000e, E1000_TDH, 0);
+ 
+     /* Enable transmit */
+@@ -156,8 +156,8 @@ static void e1000e_pci_start_hw(QOSGraphObject *obj)
+                            (uint32_t)d->e1000e.rx_ring);
+     e1000e_macreg_write(&d->e1000e, E1000_RDBAH,
+                            (uint32_t)(d->e1000e.rx_ring >> 32));
+-    e1000e_macreg_write(&d->e1000e, E1000E_RDLEN, E1000E_RING_LEN);
+-    e1000e_macreg_write(&d->e1000e, E1000E_RDT, 0);
++    e1000e_macreg_write(&d->e1000e, E1000_RDLEN, E1000E_RING_LEN);
++    e1000e_macreg_write(&d->e1000e, E1000_RDT, 0);
+     e1000e_macreg_write(&d->e1000e, E1000_RDH, 0);
+ 
+     /* Enable receive */
 -- 
 2.31.1
 
