@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFDF6671C70
+	by mail.lfdr.de (Postfix) with ESMTPS id 4566C671C6D
 	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:45:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI7nM-0006F9-IH; Wed, 18 Jan 2023 07:44:00 -0500
+	id 1pI7nO-0006FK-4v; Wed, 18 Jan 2023 07:44:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pI7nK-0006Eg-5I
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:43:58 -0500
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332])
+ id 1pI7nM-0006FC-V8
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:44:00 -0500
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pI7nI-0006uo-MG
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:43:57 -0500
-Received: by mail-ot1-x332.google.com with SMTP id
- r2-20020a9d7cc2000000b006718a7f7fbaso19591837otn.2
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 04:43:56 -0800 (PST)
+ id 1pI7nL-0006vA-BB
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:44:00 -0500
+Received: by mail-ot1-x330.google.com with SMTP id
+ j16-20020a056830271000b0067202045ee9so19567400otu.7
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 04:43:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=V2qpvJuqPpPpTm1pzPJHiglM9YmAM6u2gDlEDU9G5yg=;
- b=naq6PdHkrq3iFeQd9pOm/NTmm5q6UITQPTDXH+geWq29pVltspGyWuG7XNucreNVqz
- /ps7XkYC0UzJLByuZ66n0zEuhrirQ2sWxnouY6vAcjAKCb/z98CKFp7h2G06xtTDEN+0
- Lxy0zeufuhjtsxTrjIh0YLFXGN2c/fZyEskYmqAA64xc+Cl3E3J8LAD/iagZq+pR3BjF
- iEJTeutXgWJfRpDpbJsx1MBSgQp66GLxPMzh3MU/uS3O+tnts5EaAMw9vmPslcEz0gOp
- oZpp65Y839E2eSsvP7Gbzb8HP4y2B/sYWutNk/lp1zAOFtafXhiMfmyJkslWTz3ddahS
- LMQA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=72g+RpKzaheKXfUuYSTQXNOokn2Y08u64N6tCSAziKc=;
+ b=oYjX1QkHDT8dQIsqfOqpRBHf3FJufNw2spQ8e3iOsRO7M/XeV6+X7m3FVdYdMU+zFK
+ Wtga6h3LK+GlizF7rCJNwDSrkqjsAcQJT2As6jbt1Hd6Wi7o8kP45aCGSyt3kJ2n6s/T
+ Xnz/S3Ci67LzG2zmH+cPF6JWmk8s4keyvym9O8+23YAmSCzVuv6onywIwNl7JPf+FY0E
+ 0RShUWlsmJEWAeGZGATkJoDA9zXIh+a7cQBnwdbdjkHo4IA818YIkHCxUxpIADJEO/FH
+ IidgTI5fhcse1bDhvUsrqpYqZb3Gb/tGeV8YGOmzpEVlNVvetu/78LjgoaVmHlfst0hw
+ G+4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=V2qpvJuqPpPpTm1pzPJHiglM9YmAM6u2gDlEDU9G5yg=;
- b=eJ7F9ZgcFUkhVEjQOrF3BAED6llS4NqaGMj5Vrvdtuha2+NCpZ6DnPtkLyBsMrTmUM
- c9GW/pA9hKQZ1hk88BPZX6MRE3jUpT6n2kqh+HYy/OTmi4uHeTC9xjJ+3roKn9MLVkxC
- L8TdMz6HqPSbILyKwLWsumZ++OumsJpr6/t+1FSsU/lELXeuZb1YacjgGewJNrBaJztG
- 2tJCgzZD55UrbaeLOtOjnHFzKl/IW0yXuW8E58ZWQMeBYePCUQ46K2KuQ3L5OADc9Ay9
- lYOR7yg0dbPvmlp3pDBXiEoy46976+doD1Pjk1hE/8rBbXzdo9PIoKUpPXwwUPlPnTnE
- 1+eQ==
-X-Gm-Message-State: AFqh2krR9c+wnh7erk1BQiHCARVhg7pyVhH8jPGtZfLLazdv55mfdq/W
- Z6AlW4wrdI5VBnrKWRNSYgJU7nF97M6a53yHsfM=
-X-Google-Smtp-Source: AMrXdXsni4s3TSCijdX8rQZI7nB0cRmPpTKsEu52QcgggJxDbO3ykvu03JLfzrCFn7sI4HkKQysddQ==
-X-Received: by 2002:a9d:62d0:0:b0:670:83e9:5b90 with SMTP id
- z16-20020a9d62d0000000b0067083e95b90mr3332985otk.37.1674045835056; 
- Wed, 18 Jan 2023 04:43:55 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=72g+RpKzaheKXfUuYSTQXNOokn2Y08u64N6tCSAziKc=;
+ b=6h/ajGqTisPBoTyg6xpJsr9B85C8eu5jcQ5cQOUZKwu0fbKp/DCTPB0gQgh/ql+Y/N
+ XwXQAuDFSJBXAK6DDDL1IlkGhoyGCFtcFUTP2CI7VkDQ7KRhWM7ayqSt5IxbHsnbNrwp
+ Y/6LCqzTB1EGMD54SiSb5kne95MYWYRPUpNz853G2ATsVFKkeVjIodBDku96x7Q9KD1r
+ F2O7B3otWeeMmVJpv/J1WyY4G2M2RnrDfH4uo9rQspgONCv/sfudLf/SsJ+AAk7CTsWX
+ UxqMn9WA0lY4fI+rGdq4pJutuRzmXItoSslCGDGzppddDBjuKQUlTIfSDd2HNnwpomwb
+ ITpA==
+X-Gm-Message-State: AFqh2kpCJ/JZnsMvqCC7+yNz42GKaDLBWoN0ZcGQoWPE+S+IStcda2Pi
+ hCXbWTIxpVjDCrW4DIMjuf/2ooDnAoEDQJUu/1M=
+X-Google-Smtp-Source: AMrXdXtF3WPhxzsjRvhCYXeIWPOwxOBDTfzFgevFxXi0iWOCdrkOCbKgvAkv8SWy7Gne6xeCEEhPKA==
+X-Received: by 2002:a9d:4805:0:b0:671:b52f:5c3a with SMTP id
+ c5-20020a9d4805000000b00671b52f5c3amr3300341otf.34.1674045837600; 
+ Wed, 18 Jan 2023 04:43:57 -0800 (PST)
 Received: from grind.. ([191.17.222.2]) by smtp.gmail.com with ESMTPSA id
- cb2-20020a056830618200b0068460566f4bsm18158432otb.30.2023.01.18.04.43.52
+ cb2-20020a056830618200b0068460566f4bsm18158432otb.30.2023.01.18.04.43.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 04:43:54 -0800 (PST)
+ Wed, 18 Jan 2023 04:43:57 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
  Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH 0/3] avocado_qemu: allow cross-arch tests 
-Date: Wed, 18 Jan 2023 09:43:45 -0300
-Message-Id: <20230118124348.364771-1-dbarboza@ventanamicro.com>
+Subject: [PATCH 1/3] avocado_qemu: enhance CANCEL message in
+ QemuBaseTest:setUp()
+Date: Wed, 18 Jan 2023 09:43:46 -0300
+Message-Id: <20230118124348.364771-2-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230118124348.364771-1-dbarboza@ventanamicro.com>
+References: <20230118124348.364771-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x332.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,46 +94,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+Trying to run 'make check-avocado' while having only non-x86_64 QEMU
+binaries built, in a x86_64 host machine, will give us the following
+cancel message:
 
-In these changes I've introduced two new avocado env variables to allow
-users to run 'check-avocado' with different archs and machines in tests
-that doesn't set any arch/machine to run with.
+"CANCEL: No QEMU binary defined or found in the build tree"
 
-This is useful for archs that doesn't have abundance of real hardware
-available (e.g. RISC-V), meaning that we end up running 'check-avocado'
-in non-RISCV hosts every time, and most tests ends up being cancelled
-because the test always defaults to the host arch. For example, building
-QEMU for riscv64 in a x86_64 host will cancel all tests:
+Which is not quite what's happening here. Avocado defaults to the host
+arch for every arch-agnostic test, and in the case mentioned above it
+cancelled the test because there were no qemu-system-x86_64 binary to be
+found.
 
-$ make check-avocado
-(...)
-RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 1 | WARN 0 | INTERRUPT 0 | CANCEL 11
+Change pick_default_qemu_bin() to return a (qemu_bin, arch) tuple, then
+use 'arch' in the CANCEL message. This will make the error more
+informative:
 
-After the changes implemented here, one can use env variables to force
-the tests to a default arch and machine. In the scenario mentioned
-above:
+"CANCEL: No QEMU binary defined or found in the build tree for arch x86_64"
 
-$ AVOCADO_DEFAULT_ARCH=riscv64 AVOCADO_DEFAULT_MACHINE=virt make check-avocado
-(...)
-RESULTS    : PASS 11 | ERROR 0 | FAIL 0 | SKIP 1 | WARN 0 | INTERRUPT 0 | CANCEL 0
+Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+---
+ tests/avocado/avocado_qemu/__init__.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Note that test behavior changes only when the env vars are set. There is
-no change made in the regular work of 'check-avocado'.
-
-Cc: Cleber Rosa <crosa@redhat.com>
-Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
-Cc: Beraldo Leal <bleal@redhat.com>
-
-Daniel Henrique Barboza (3):
-  avocado_qemu: enhance CANCEL message in QemuBaseTest:setUp()
-  avocado_qemu: add AVOCADO_DEFAULT_ARCH for cross-arch tests
-  avocado_qemu: add AVOCADO_DEFAULT_MACHINE
-
- docs/devel/testing.rst                 | 15 ++++++++++++---
- tests/avocado/avocado_qemu/__init__.py | 22 +++++++++++++++-------
- 2 files changed, 27 insertions(+), 10 deletions(-)
-
+diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+index 910f3ba1ea..8614ac3978 100644
+--- a/tests/avocado/avocado_qemu/__init__.py
++++ b/tests/avocado/avocado_qemu/__init__.py
+@@ -128,8 +128,8 @@ def pick_default_qemu_bin(bin_prefix='qemu-system-', arch=None):
+     ]
+     for path in qemu_bin_paths:
+         if is_readable_executable_file(path):
+-            return path
+-    return None
++            return path, arch
++    return None, arch
+ 
+ 
+ def _console_interaction(test, success_message, failure_message,
+@@ -247,11 +247,13 @@ def setUp(self, bin_prefix):
+         self.cpu = self.params.get('cpu',
+                                    default=self._get_unique_tag_val('cpu'))
+ 
+-        default_qemu_bin = pick_default_qemu_bin(bin_prefix, arch=self.arch)
++        default_qemu_bin, arch = pick_default_qemu_bin(bin_prefix,
++                                                       arch=self.arch)
+         self.qemu_bin = self.params.get('qemu_bin',
+                                         default=default_qemu_bin)
+         if self.qemu_bin is None:
+-            self.cancel("No QEMU binary defined or found in the build tree")
++            self.cancel("No QEMU binary defined or found in the "
++                        "build tree for arch %s" % arch)
+ 
+     def fetch_asset(self, name,
+                     asset_hash=None, algorithm=None,
 -- 
 2.39.0
 
