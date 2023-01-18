@@ -2,65 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788CC6718F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 11:30:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A826718F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 11:30:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI5hD-0008DP-Bt; Wed, 18 Jan 2023 05:29:31 -0500
+	id 1pI5hL-0008ES-LJ; Wed, 18 Jan 2023 05:29:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pI5hB-0008DD-BT; Wed, 18 Jan 2023 05:29:29 -0500
-Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pI5hJ-0008ED-NX
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:29:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pI5h8-0002FH-NY; Wed, 18 Jan 2023 05:29:28 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.90])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 330C120E1C;
- Wed, 18 Jan 2023 10:29:19 +0000 (UTC)
-Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Wed, 18 Jan
- 2023 11:29:19 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G00153186219-7ab6-4826-a077-83ae56fc3367,
- B02C0E203F6A6AD140F658F33EDEBE178EEACDD3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <7db6e0dc-92bd-c7a4-0097-582bf5a0c6db@kaod.org>
-Date: Wed, 18 Jan 2023 11:29:18 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pI5hI-0002FW-4J
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:29:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674037772;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yHTWEZRknVK1i9RZycZHETPbNAoS9dhpu966zCuq6Rc=;
+ b=N2gkVnNapotk02QC0nTfVmw1z6XX1VMgTvv69Idi4NC+tOfnFzkvr+KIF3ekA/oQYvTf4z
+ CVxQu+DKXpjihtsmMEGTzBfEsTieE/2e7eoMqHumcS1HkmhOxVjtoAXEx0afP4kt2lbLgw
+ PeQyvhzw1qES63BbtQHnLS1AA6ioAzY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-588-lBhsMiTDNHuRdu2yucF02Q-1; Wed, 18 Jan 2023 05:29:28 -0500
+X-MC-Unique: lBhsMiTDNHuRdu2yucF02Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54294282380F;
+ Wed, 18 Jan 2023 10:29:28 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C3D3640C2064;
+ Wed, 18 Jan 2023 10:29:26 +0000 (UTC)
+Date: Wed, 18 Jan 2023 10:29:24 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: zhenwei pi <pizhenwei@bytedance.com>, arei.gonglei@huawei.com,
+ dgilbert@redhat.com, eblake@redhat.com, armbru@redhat.com,
+ michael.roth@amd.com, pbonzini@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [for-8.0 v2 05/11] cryptodev: Introduce 'query-cryptodev' QMP
+ command
+Message-ID: <Y8fKBEmXD862n3EW@redhat.com>
+References: <20221122140756.686982-1-pizhenwei@bytedance.com>
+ <20221122140756.686982-6-pizhenwei@bytedance.com>
+ <Y8UyezxcEeE+TH2p@redhat.com>
+ <20230118052127-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v4 5/5] hw/nvram/eeprom_at24c: Make reset behavior more
- like hardware
-Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>
-CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
- <hskinnemoen@google.com>, <kfting@nuvoton.com>, <qemu-arm@nongnu.org>,
- <qemu-devel@nongnu.org>, <philmd@linaro.org>
-References: <20230118024214.14413-1-peter@pjd.dev>
- <20230118024214.14413-6-peter@pjd.dev>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230118024214.14413-6-peter@pjd.dev>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 22bf9156-0f6d-4521-a65d-60ff5401b3f0
-X-Ovh-Tracer-Id: 14555352521613085487
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddtkedgudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrsehpjhgurdguvghvpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdprghnughrvgifsegrjhdrihgurdgruhdpjhhovghlsehjmhhsrdhiugdrrghupdhhshhkihhnnhgvmhhovghnsehgohhoghhlvgdrtghomhdpkhhfthhinhhgsehnuhhvohhtohhnrdgtohhmpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmoh
- ehhedvpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
- helo=9.mo552.mail-out.ovh.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <20230118052127-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,81 +84,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/18/23 03:42, Peter Delevoryas wrote:
-> EEPROM's are a form of non-volatile memory. After power-cycling an EEPROM,
-> I would expect the I2C state machine to be reset to default values, but I
-> wouldn't really expect the memory to change at all.
+On Wed, Jan 18, 2023 at 05:25:37AM -0500, Michael S. Tsirkin wrote:
+> On Mon, Jan 16, 2023 at 11:18:19AM +0000, Daniel P. Berrangé wrote:
+> > > +    for (uint32_t i = 0; i < QCRYPTODEV_BACKEND_SERVICE__MAX; i++) {
+> > 
+> > QEMU coding style doesn't declare types inside the for() control
+> > conditions. I'd suggest 'size_t i', and put it at top of this
+> > function.
 > 
-> The current implementation of the at24c EEPROM resets its internal memory on
-> reset. This matches the specification in docs/devel/reset.rst:
+> It's actually kind of vague:
 > 
->    Cold reset is supported by every resettable object. In QEMU, it means we reset
->    to the initial state corresponding to the start of QEMU; this might differ
->    from what is a real hardware cold reset. It differs from other resets (like
->    warm or bus resets) which may keep certain parts untouched.
+> 	Mixed declarations (interleaving statements and declarations within
+> 	blocks) are generally not allowed; declarations should be at the beginning
+> 	of blocks.
 > 
-> But differs from my intuition. For example, if someone writes some information
-> to an EEPROM, then AC power cycles their board, they would expect the EEPROM to
-> retain that information. It's very useful to be able to test things like this
-> in QEMU as well, to verify software instrumentation like determining the cause
-> of a reboot.
-> 
-> Fixes: 5d8424dbd3e8 ("nvram: add AT24Cx i2c eeprom")
-> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
+> for loop starts a block, does it not?
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+I wasn't refering to the specific docs per-se, but rather that no
+code does this at all in QEMU. It is effectively our style, even
+if not documented as such
 
-Thanks,
-
-C.
-
-> ---
->   hw/nvram/eeprom_at24c.c | 22 ++++++++++------------
->   1 file changed, 10 insertions(+), 12 deletions(-)
-> 
-> diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-> index f8d751fa278d..5074776bff04 100644
-> --- a/hw/nvram/eeprom_at24c.c
-> +++ b/hw/nvram/eeprom_at24c.c
-> @@ -185,18 +185,6 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
->       }
->   
->       ee->mem = g_malloc0(ee->rsize);
-> -
-> -}
-> -
-> -static
-> -void at24c_eeprom_reset(DeviceState *state)
-> -{
-> -    EEPROMState *ee = AT24C_EE(state);
-> -
-> -    ee->changed = false;
-> -    ee->cur = 0;
-> -    ee->haveaddr = 0;
-> -
->       memset(ee->mem, 0, ee->rsize);
->   
->       if (ee->init_rom) {
-> @@ -214,6 +202,16 @@ void at24c_eeprom_reset(DeviceState *state)
->       }
->   }
->   
-> +static
-> +void at24c_eeprom_reset(DeviceState *state)
-> +{
-> +    EEPROMState *ee = AT24C_EE(state);
-> +
-> +    ee->changed = false;
-> +    ee->cur = 0;
-> +    ee->haveaddr = 0;
-> +}
-> +
->   static Property at24c_eeprom_props[] = {
->       DEFINE_PROP_UINT32("rom-size", EEPROMState, rsize, 0),
->       DEFINE_PROP_BOOL("writable", EEPROMState, writable, true),
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
