@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05418671599
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 08:56:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C6567158F
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 08:55:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI3Fa-0001vu-Rl; Wed, 18 Jan 2023 02:52:50 -0500
+	id 1pI3Fd-0001wx-FW; Wed, 18 Jan 2023 02:52:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pI3FX-0001rZ-5V; Wed, 18 Jan 2023 02:52:47 -0500
-Received: from mout.kundenserver.de ([212.227.17.10])
+ id 1pI3FY-0001tc-I3; Wed, 18 Jan 2023 02:52:48 -0500
+Received: from mout.kundenserver.de ([217.72.192.74])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pI3FV-00022y-In; Wed, 18 Jan 2023 02:52:46 -0500
+ id 1pI3FW-00023S-R9; Wed, 18 Jan 2023 02:52:48 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MfHMj-1ooWBu29hT-00glSG; Wed, 18
- Jan 2023 08:52:41 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1N8GEY-1oeMuI0HNQ-014FbD; Wed, 18
+ Jan 2023 08:52:42 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 08/15] hw/usb: Mark the XLNX_VERSAL-related files as
- target-independent
-Date: Wed, 18 Jan 2023 08:52:27 +0100
-Message-Id: <20230118075234.2322131-9-laurent@vivier.eu>
+Subject: [PULL 09/15] tests/qtest/test-hmp: Improve the check for verbose mode
+Date: Wed, 18 Jan 2023 08:52:28 +0100
+Message-Id: <20230118075234.2322131-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230118075234.2322131-1-laurent@vivier.eu>
 References: <20230118075234.2322131-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:hvs3qR2uYkI3sVXjP6KBaYwM5OfkinMVZldKEPaMTDRAkLmzOjy
- nBEN99LqTs0Jh24nIGkZWzOrpOyv7ZOG6cWHYygFCFyQ2GBRiwvoElqKZ/D6wO0Ke0cV2UE
- NWN7N6z4ujNmoNJqjHaPk3BI22HRnoEwQq5y8H+NxrgunfTotqs7SGaZKVglA/hysvZRmWw
- agpc1A8HM6hVb9ZlNJCBw==
-UI-OutboundReport: notjunk:1;M01:P0:ENuNSenOShQ=;qWt7dnVd84Y515OQDkw7sdtLAqS
- n7cuJwjfZNmATKlAPGLA8Fit0eyQkWksMwyex9ntlmXJGmMVEwOkOWHAy/3lusKCahrSqfGnO
- iqigdwM/3FWqoHx5r0Ac6tcx3tXZ0pBMPiELEz1lT8ulBZbRQO5joXDm8njrYACDxxG9wdfbH
- DRAzBFw2K2UAC3yzhOJeke8uRE2sktwU7tZKrIr657R1LXvS75ri4n80ubXbzhqaDfV5lFpV+
- sfTniYIXBYl/C8TdRPz72M3TEYj13SGPAktjmyBgW4+UuboE+YUYEDfTQSOiw6ixVE7ViY/7i
- ccsdwI2Q3Lt+wfawHkhcqxo6aLwBD23QdtFpOecno0IElEMW2sSaagrD1opCfiJBcNmuI0EPd
- 3MVzMfJ6VGa/GOBcdahtFvM0PtmcyWWrlqGVgdHqZo9a5bVIUBHBCQ3GXK36/OpNYSjB6iZ8L
- mmcsX+2CuIG5sgvGJ3pAwi7kkztHv5axvmd/3uuQ+1N6v7dsgyJ+mTKceZ4+csROEqozAptfc
- BeYHJxQ6DopB7y4oeGgBilKCMBifgjiKnmo1TBqE8lxgkF+VbhPI79PVbLzlc3EfFPijWPomY
- 1Qq7BaoTrD+6bQ34LIxfXU42uyKzpho46U16GR9FGSTC2HXlzz+kqv5o6XIBhucZak49ew/fi
- foBbE6hdYIyDaV4wEs4lrfB3GgEuyylNHk4NrOb7kA==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Dx61oh7UgoUb6ccRlsFjo+8qD+sQBRWEano7rEUjZ0hzarsoSyY
+ r4lr/osnrA57TnLqfCrSQJTgZqp2+TAzTLcyO4b2zHrjMSaEuUDTPXG2fjAnOVrKUfOSA90
+ vPg/1FMsWxihwY7u21DwM/iYSKBSaG2Jk/5LbHHlfzZRirgDOWYuS8HPe7o5gETlcD4TDxH
+ HVK11ET4i4xp7NTqa0zjw==
+UI-OutboundReport: notjunk:1;M01:P0:yYHCjb62Gfk=;Dcg3ZD8YJjugpy5HPkiFbpeDGk9
+ 5lxPns9v/Eg6y19at1XCxJkn57uK85Q/2HQOPymHEBX3h1rSUwyAZN/pd6CwZMhpiHQB1yjl3
+ 1HjUC7qKtDCnlWaFaTb/S20snuVnd1OcVp8p9TwPsa6nvB574cRl32CTzZEPiYxRyP7oav9dW
+ ScT9Hl7DK1/jilQw+3KAn8DauBuHAItBlRkcd/efA4Oi3RKzHk0qsR15tWEGu8QRsALN6tnEN
+ uv8xmk9Bw+B+J320SgQ/AuR03+3OEDDv42xU08TWV2OtOP3dQ+WLeR+FZvztYm3cla/9gCZwa
+ GvIbW31O/ksUmcuFGHInwvzLQvZCU68FynJliWtF6J5tGGzTpJMMs+hDQsKCH0hQHVu7TqT+f
+ Sqa2D0qb/zM7ANc2UsY2cFuYgKniBv+1n/D0vOFknrEnJm70rNc8WY0EVPhzlrS73CbQwKZtF
+ Hp22KkgLJpCp/Wu85nhaUbT4865v8vlRegkMfNCgDCXHoLr0cKu7OpPGYuNE4oWzuQtnlhSuZ
+ NzI/9jzPHQ/e+yYVXtbQtdBe48WaG2LQPDCUPFgzZ47Ksaj5RZlQHMKh9m9P1lJcR7ykaP6wM
+ F6Hvv7ClUmDyKixn3uyBHN0j/7/erJ6Wbci4wTAqIpXLEBxyZPuHFFsceFfrqeH6/tF+kuhtG
+ UUEdy5xFUSL1YLRugropEEi149KvKSdHRFNe1GOb2A==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -73,33 +73,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Thomas Huth <thuth@redhat.com>
 
-Seems like there is nothing target-specific in here, so these files
-can be moved to softmmu_ss to avoid that they get compiled twice
-(once for qemu-system-arm and once for qemu-system-aarch64).
+Running the test-hmp with V=2 up to V=9 runs the test in verbose mode,
+but running for example with V=10 falls back to non-verbose mode ...
+Improve this oddity by properly treating the argument as a number.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230112134928.1026006-8-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230109101306.271444-1-thuth@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/usb/meson.build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/test-hmp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index 793df42e2127..bdf34cbd3e30 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -30,8 +30,8 @@ softmmu_ss.add(when: 'CONFIG_TUSB6010', if_true: files('tusb6010.c'))
- softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('chipidea.c'))
- softmmu_ss.add(when: 'CONFIG_IMX_USBPHY', if_true: files('imx-usb-phy.c'))
- softmmu_ss.add(when: 'CONFIG_VT82C686', if_true: files('vt82c686-uhci-pci.c'))
--specific_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-usb2-ctrl-regs.c'))
--specific_ss.add(when: 'CONFIG_XLNX_USB_SUBSYS', if_true: files('xlnx-usb-subsystem.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-usb2-ctrl-regs.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_USB_SUBSYS', if_true: files('xlnx-usb-subsystem.c'))
+diff --git a/tests/qtest/test-hmp.c b/tests/qtest/test-hmp.c
+index f8b22abe4cac..b4a920df8983 100644
+--- a/tests/qtest/test-hmp.c
++++ b/tests/qtest/test-hmp.c
+@@ -151,7 +151,7 @@ int main(int argc, char **argv)
+ {
+     char *v_env = getenv("V");
  
- # emulated usb devices
- softmmu_ss.add(when: 'CONFIG_USB', if_true: files('dev-hub.c'))
+-    if (v_env && *v_env >= '2') {
++    if (v_env && atoi(v_env) >= 2) {
+         verbose = true;
+     }
+ 
 -- 
 2.38.1
 
