@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17C6D671801
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 10:42:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E01F671809
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 10:43:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI4xb-0003IQ-50; Wed, 18 Jan 2023 04:42:23 -0500
+	id 1pI4yc-0003ud-R0; Wed, 18 Jan 2023 04:43:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI4xZ-0003I9-A5
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:42:21 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI4ya-0003uV-FF
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:43:24 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI4xX-0003gU-HD
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:42:21 -0500
-Received: by mail-wr1-x434.google.com with SMTP id r2so33295094wrv.7
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 01:42:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI4yY-0003jz-S9
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:43:24 -0500
+Received: by mail-wr1-x430.google.com with SMTP id z5so32248192wrt.6
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 01:43:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=JImrhxsrzR3dK1jEGLedPHwm6rOn7FKJIb4ih98pxY4=;
- b=xWSNOt8pjoYSn2ZUq9fYbEvZcIDgbGx8KOx/Op5q62iYaLfRKSQIYA65ggMsj5T+jG
- Yab71k5UnKx43ts4Dkm6DlPhfZ5+BNYyzwVBTKoUfK9MEblxqMjuaCuCc9TXEGrr2NkX
- kGZb+xkRhHfTPJ2ACG/e3FVcNKguvD34v4ogxObN7v4wxixyc5ozIpyqogKZQpwHdEK/
- vzMmGxfYe03i5IodBNAjATsggtq/rwDXKzKJa3m4SX+Lqyqa+O7C24c23cUHrGJmuN9U
- i1bk7RdCnmJezV+d1C5u2VUT8wkM5/D3MX7tlb2WDx69gkjHbn2YIUHfm4pby5KLQMHA
- 564g==
+ bh=1OTMOT7scZcVmVpa5eKgTHlKY2+htaQ7TItlwF+VO8E=;
+ b=pZ0Hm3ge2eMqiB6vClqvZzmiZ332P8Q1R7L+P2LieuoEuW258ognHX8Zq/3matnd/8
+ e/i776segbeXz0URc2Hrcio5KoRqVwF4sBvmtFeS/XQyawJK1hFYsVlNLwgtSJBOysPS
+ hpl0QBVJPkqBVCVM0HiiMShj+dvMGhKOq3WBDsYbOEC2dCY01qCY21WcJGCZnE4Xaoza
+ Vog+tiCxBnOUDT+gK8zoR/rQv8uLhAal9msVLBrptSTrK/2O4eKJAS57hPpJEVaRToYL
+ ErulpNwxJEP3mqom/H8cBzxRypJG+dCbwhtZPK5Egt3+TYDoyd5bkff2Z4epa+ugiBBK
+ OJvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JImrhxsrzR3dK1jEGLedPHwm6rOn7FKJIb4ih98pxY4=;
- b=YJmS1yU+K/TdKdfQzpEJ61V5R7BWu0xFio60IA94E5eHJoIw3lSR/9J9bG+MKxIfkf
- NhxgkiR8ntxTlyv+IZcGBB8DGI8TYXb2qxb0a8E5EIA1e4oKTiDEM7qf6ofdGspF+8t1
- H62/nZ3d+QyWYyWHKChWbXy1LTkZp09SP8TxY9rMqQg8VxyisDaJabty1wBRfJF4UN9t
- EQgqVlLxX8woAp3britIkfW4NxtcZP3Fsq27Rakme51sAwCWsJfmZlyeDB4Bb7MmqD+d
- XNfl+7D0P1ZcLclwqofolC26siE/XsyP6zw/92GeFFC3Dn9kPAuStUBSkG03zfrHOOzO
- /ckA==
-X-Gm-Message-State: AFqh2komUIhZg6CuLNGqu3j6VSsSLUMjANtXOfPJEsQdhx9yNbRywcFl
- 8Gx7Dz+IiBDjG4HfvcXR6wGhdQMbSxhUJvrQ
-X-Google-Smtp-Source: AMrXdXsCT+m+iZ26V/gfPPt2O9Lx74uDqEso1LbiS4JjRmnvO1UDhN1VC0TU8cIgiN2epNovCFy8Qg==
-X-Received: by 2002:adf:f992:0:b0:2be:1f34:5078 with SMTP id
- f18-20020adff992000000b002be1f345078mr4746761wrr.56.1674034938005; 
- Wed, 18 Jan 2023 01:42:18 -0800 (PST)
+ bh=1OTMOT7scZcVmVpa5eKgTHlKY2+htaQ7TItlwF+VO8E=;
+ b=aE0Q798TIlH/nepy3965EkGzZJ7RZbzCTUa+uNPFdO4IVZ29X6LfHf+LRh+rjtEZZv
+ k1rPNXfbhRlHItnUz9/OfsqNnlEO+j7AWN+fn8ozN6BON/eq1TDhEv7PYWz3FHLrkNiF
+ asv3VihldI6bfvTYsEjdlKC+Eq0eAFlvi1YMGdfTSlQSwMVppXvhqAfO42w6h2ho0A81
+ MXWv/lJ6X1gpCkheH0S4+HA+uLtgQXNCrVtPqEufSaj5VRUDw+iSPAStHYNQUSEG9or9
+ 4GJgOXHWRVyOUeFAyeTrnajqHLKjLV62FJbrFIki5p+KCZ4fBy1q+jGWQZq/02mN7D2F
+ tp9g==
+X-Gm-Message-State: AFqh2koKbeSwRoRQlhWTHADLN0EcaRFPsBATrS09gBTd1r3+bR8qQihG
+ JPlBdlfGkIBVuFje6+OxrARhDp9IrzPY3Wyg
+X-Google-Smtp-Source: AMrXdXthEFPVi7JWjMljqJUgxNnlD51GpdxN/HJJDjcmFPLUgCGZt+6svihTIqonL/UFytC6iWfaSw==
+X-Received: by 2002:adf:ce90:0:b0:2bb:edc7:504 with SMTP id
+ r16-20020adfce90000000b002bbedc70504mr6194382wrn.26.1674035001309; 
+ Wed, 18 Jan 2023 01:43:21 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- r18-20020a5d4952000000b002bdda9856b5sm15304910wrs.50.2023.01.18.01.42.17
+ k9-20020a5d6d49000000b002bc8130cca7sm22890089wri.23.2023.01.18.01.43.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 01:42:17 -0800 (PST)
-Message-ID: <ef445ddc-c8a4-f949-ebc5-ce2f24457585@linaro.org>
-Date: Wed, 18 Jan 2023 10:42:16 +0100
+ Wed, 18 Jan 2023 01:43:20 -0800 (PST)
+Message-ID: <509084a0-b7a5-d167-26e7-492fca101863@linaro.org>
+Date: Wed, 18 Jan 2023 10:43:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: mips, nvme/pci boot regression (commit 145e2198d749)
+Subject: Re: [PATCH 0/2] hw/pci-host/gt64120: Fix regression on big-endian
+ targets
 Content-Language: en-US
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: qemu-devel@nongnu.org
-References: <Y8aU0fQRDm2hm+c9@cormorant.local>
- <aad40d69-c570-de15-8258-cde109842af9@linaro.org>
- <Y8eepLAgZg8H+sq2@cormorant.local>
+To: qemu-devel@nongnu.org
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Beraldo Leal <bleal@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Cleber Rosa <crosa@redhat.com>
+References: <20230118094023.49517-1-philmd@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <Y8eepLAgZg8H+sq2@cormorant.local>
+In-Reply-To: <20230118094023.49517-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -91,44 +93,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/1/23 08:24, Klaus Jensen wrote:
-> On Jan 17 15:25, Philippe Mathieu-Daudé wrote:
->> On 17/1/23 13:30, Klaus Jensen wrote:
->>>
->>> Commit 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using
->>> PCI_HOST_BRIDGE MemoryRegionOps") broke my mips64 nvme boot test
->>> (little-endian host, mips64 and nvme boot device).
->>>
->>> The pci device doesn't show up and the kernel panics.
->>>
->>>     qemu-system-mips64 \
->>>       -nodefaults -nographic -snapshot -no-reboot \
->>>       -M "malta" -cpu "I6400" -m 512M \
->>>       -nic user,model=pcnet \
->>>       -drive file=images/rootfs.ext2,format=raw,if=none,id=d0 \
->>>       -device nvme,serial=default,drive=d0 \
->>>       -kernel images/vmlinux \
->>>       -append "root=/dev/nvme0n1 console=ttyS0,115200" \
->>>       -serial stdio
->>
->> How do I get this images/ folder, or how do you generate
->> the kernel / rootfs images?
-> 
-> It's a buildroot with the qemu_mips64r6_malta_defconfig. However, the
-> kernel must be at least v6.2-rc3 and a potential fix for pin-based
-> interrupts[1] (other fixes are being discussed) must be applied. On
-> older kernels the device should show up, but it will be broken (issue on
-> big-endian with shadow doorbells and occasional timeouts due to the
-> kernel missing interrupts).
-> 
-> If you don't want to mess with that, I put the images on github[2] (the
-> kernel is v6.2-rc4 + my potential nvme driver fix). Just gunzip
-> rootfs.ext2.gz.
-> 
->    [1]: https://lore.kernel.org/linux-nvme/Y8W+H6T9DOZ08SoF@cormorant.local/
->    [2]: https://github.com/birkelund/qemu-nvme-boot
+On 18/1/23 10:40, Philippe Mathieu-Daudé wrote:
+> Klauss reported a regression on big-endian targets, introduced
+> by commit 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using
+> PCI_HOST_BRIDGE MemoryRegionOps"). Fix it and add the Klauss'
+> reproducer as Avocado test.
 
-Thanks Klauss, proposed fix posted:
-https://lore.kernel.org/qemu-devel/20230118094023.49517-1-philmd@linaro.org/
-
+Sorry Klaus for adding an extra 's' in your name :\
 
