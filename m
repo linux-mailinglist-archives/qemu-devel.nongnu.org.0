@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C978E670FA6
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 02:12:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46044671103
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 03:17:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHwzS-0002BP-GJ; Tue, 17 Jan 2023 20:11:46 -0500
+	id 1pHy06-0003fK-TN; Tue, 17 Jan 2023 21:16:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHwzQ-0002Au-H2
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 20:11:44 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1pHy00-0003eT-C5; Tue, 17 Jan 2023 21:16:27 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pHwzO-0002Fv-OK
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 20:11:44 -0500
-Received: by mail-pl1-x631.google.com with SMTP id d9so35315880pll.9
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 17:11:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1pHxzy-0003Ij-2n; Tue, 17 Jan 2023 21:16:24 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id az20so60770411ejc.1;
+ Tue, 17 Jan 2023 18:16:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ytAJL1IPjLRLHB3vJNA4P2zaPkmMQ8wgfVfWBQ9Mma4=;
- b=KOb1kpEm2GplxDBXYq6B8uP0gY1w0nXw/C6X3A9FUahCjK0YPyRuq7C997NyJJGOxi
- xMKOmWfsOCdSWAW8uxCD16zHsCG1AlGEPHW1nV3H5EBAE8f0ZQlGLfEiVcBJTvknPzPp
- wT4oOXlHY+H8JiJtGbio9nAZA45/IGJizrSCQz5cSHMmy+os+WYptacIii7IdQ2PEbpR
- VkaitHwz6pJhj1IahiHjyKBQAL45ZPCpKk0/xAcD3TbZU1smDFBbXsNxQaIAtTp7sIm1
- JivnqvvkN9+dU7/tpygJIIowZUXiy7dWX7N/87k/w+D/n9BrBMk8kpt4BYE1B0MKS90O
- A34w==
+ bh=8d2u9AO6X81EI8QrDKkPhhCyyMvf9q7KkYf0e7xSJQE=;
+ b=bTUnmf2sr7MQsyTKyokrxe8TjZI3fKDoLx1eztyIdZ+P+lg+TzNWeWTi4BkO0WKhI2
+ rFDzB2jNuN5miBXQCcf1q0s1aPcHPwnnJcATyeGdC9VSO5lOh96ILcYgfiy6BH5CW0u1
+ PLO0DPqwUzBKFSc58NjDxO4V2RAbk+njaSEIU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ytAJL1IPjLRLHB3vJNA4P2zaPkmMQ8wgfVfWBQ9Mma4=;
- b=WKErP0sH/p7pZzWtzlx1I98XUny0rbKbFwtqowWpGbqQ90dXySBEgBLqAzrw01ichb
- PlyKcmo/a6vaAij7tgjomBXhg63n6GFtIwEJC1rUSxBYaIkP57T/zVy8jQZcmC+StZlz
- UWCUeQJ8TZmUPaQ5HNvXFtOM3kd56eK0WzaTn6/Y/bMgZ25TpaQ3/gRRbUty3VLXkL/N
- Zk4fRH+w3Ran+cgqSq/z/xLA4OWZ33FIO13eCdqnWmj05qmfMYu15891pde5itPSFnTl
- Fbl36og+wree40Yio2Gwd1BxsSamCs4/5Gx4PxnxgQdB49NL6whbxAYPcxozpQzEAb92
- CDXQ==
-X-Gm-Message-State: AFqh2krCO+vZ+lrWFvfLbhHflhJ9+fKjN+7wTcJpud7aPpFjd37syAax
- fUCIAhhdi3AXox1s+lhNmNbvvAkWHW39aVhq
-X-Google-Smtp-Source: AMrXdXvTrxyU+8UT+7Pl2km3nD4CKRW1BXXrAXDSYjhiZMtRqkrg+toYqYWlP6yfJGPi4fz3sdYsHw==
-X-Received: by 2002:a17:902:c409:b0:194:a854:6274 with SMTP id
- k9-20020a170902c40900b00194a8546274mr5761898plk.60.1674004301194; 
- Tue, 17 Jan 2023 17:11:41 -0800 (PST)
-Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id
- s7-20020a170902988700b0017ec1b1bf9fsm21660259plp.217.2023.01.17.17.11.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 17:11:40 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: git@xen0n.name
-Subject: [PATCH v2 10/10] tcg/loongarch64: Reorg goto_tb implementation
-Date: Tue, 17 Jan 2023 15:11:23 -1000
-Message-Id: <20230118011123.392823-11-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230118011123.392823-1-richard.henderson@linaro.org>
-References: <20230118011123.392823-1-richard.henderson@linaro.org>
+ bh=8d2u9AO6X81EI8QrDKkPhhCyyMvf9q7KkYf0e7xSJQE=;
+ b=i5HW/N3FHwYHAqZh/D/HpcWzLHGg0aZwBbba3CByGAHBz7Rt/0CKMnxeVINQSt3q9D
+ 0N0AfFMxRnQ7XXXDy9ZBMmYc64pX9gNSKj5nJ9lrrt6DkXLf5c9MuhaOOcK2I/ZKkJ6+
+ nLkP3ENikIZAwvOrG3gkaqIZw4rNnMGvUOl0lZArZZX9S3phmWcF4K7yHfKnpqW6myLk
+ 2fRKV8ndADlK6OqoSBDeUsc8RG3GzFKA4mjz6jzBDFcFMOqXPV2tfU4moGC7Gd8gS2aR
+ CKmGt/uFa+pS9mH14Vxm4zNP5yNQn0KV0JHflBQmUim8aIIqzFezKMb6gT8iINBpy8kx
+ 5Z6g==
+X-Gm-Message-State: AFqh2kr+ImE4LS4Wm+bLLyA8ttUI7MlrXAkDBJHPDMWTWcwpFQpNMGVU
+ GE0e8VCzo1ha28KzrTkY7SCk/wpOxXCZbdyFERA=
+X-Google-Smtp-Source: AMrXdXvUN+Km4pCN1AfvSeWsKXfJZx2EvuAjcspMBK7SepGINGuWmugjUNWzRWzq5ttDVCUAW3LML1kqxlcfMoMhDu8=
+X-Received: by 2002:a17:906:8d06:b0:877:5dbc:da83 with SMTP id
+ rv6-20020a1709068d0600b008775dbcda83mr2936ejc.245.1674008178658; Tue, 17 Jan
+ 2023 18:16:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+References: <20230117232427.74496-1-peter@pjd.dev>
+ <20230117232427.74496-2-peter@pjd.dev>
+In-Reply-To: <20230117232427.74496-2-peter@pjd.dev>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 18 Jan 2023 02:16:05 +0000
+Message-ID: <CACPK8XfxuGw9TE5aig0oji3+bt9Cahq7hXxqKpGyUYOuoUFhww@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] hw/arm: Extract at24c_eeprom_init helper from
+ Aspeed and Nuvoton boards
+To: Peter Delevoryas <peter@pjd.dev>
+Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, 
+ hskinnemoen@google.com, kfting@nuvoton.com, qemu-arm@nongnu.org, 
+ qemu-devel@nongnu.org, philmd@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=joel.stan@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,152 +84,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The old implementation replaces two insns, swapping between
+On Tue, 17 Jan 2023 at 23:24, Peter Delevoryas <peter@pjd.dev> wrote:
+>
+> This helper is useful in board initialization because lets users initiali=
+ze and
+> realize an EEPROM on an I2C bus with a single function call.
+>
+> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-        b       <dest>
-        nop
-and
-        pcaddu18i tmp, <dest>
-        jirl      zero, tmp, <dest> & 0xffff
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-There is a race condition in which a thread could be stopped at
-the jirl, i.e. with the top of the address loaded, and when
-restarted we have re-linked to a different TB, so that the top
-half no longer matches the bottom half.
-
-Note that while we never directly re-link to a different TB, we
-can link, unlink, and link again all while the stopped thread
-remains stopped.
-
-The new implementation replaces only one insn, swapping between
-
-        b       <dest>
-and
-        pcadd   tmp, <jmp_addr>
-
-falling through to load the address from tmp, and branch.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/loongarch64/tcg-target.h     |  7 +---
- tcg/loongarch64/tcg-target.c.inc | 72 ++++++++++++++------------------
- 2 files changed, 33 insertions(+), 46 deletions(-)
-
-diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-index 533a539ce9..8b151e7f6f 100644
---- a/tcg/loongarch64/tcg-target.h
-+++ b/tcg/loongarch64/tcg-target.h
-@@ -42,11 +42,8 @@
- 
- #define TCG_TARGET_INSN_UNIT_SIZE 4
- #define TCG_TARGET_NB_REGS 32
--/*
-- * PCADDU18I + JIRL sequence can give 20 + 16 + 2 = 38 bits
-- * signed offset, which is +/- 128 GiB.
-- */
--#define MAX_CODE_GEN_BUFFER_SIZE  (128 * GiB)
-+
-+#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
- 
- typedef enum {
-     TCG_REG_ZERO,
-diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index d6926bdb83..ce4a153887 100644
---- a/tcg/loongarch64/tcg-target.c.inc
-+++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -1151,37 +1151,6 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args)
- #endif
- }
- 
--/* LoongArch uses `andi zero, zero, 0` as NOP.  */
--#define NOP OPC_ANDI
--static void tcg_out_nop(TCGContext *s)
--{
--    tcg_out32(s, NOP);
--}
--
--void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
--                              uintptr_t jmp_rx, uintptr_t jmp_rw)
--{
--    tcg_insn_unit i1, i2;
--    ptrdiff_t upper, lower;
--    uintptr_t addr = tb->jmp_target_addr[n];
--    ptrdiff_t offset = (ptrdiff_t)(addr - jmp_rx) >> 2;
--
--    if (offset == sextreg(offset, 0, 26)) {
--        i1 = encode_sd10k16_insn(OPC_B, offset);
--        i2 = NOP;
--    } else {
--        tcg_debug_assert(offset == sextreg(offset, 0, 36));
--        lower = (int16_t)offset;
--        upper = (offset - lower) >> 16;
--
--        i1 = encode_dsj20_insn(OPC_PCADDU18I, TCG_REG_TMP0, upper);
--        i2 = encode_djsk16_insn(OPC_JIRL, TCG_REG_ZERO, TCG_REG_TMP0, lower);
--    }
--    uint64_t pair = ((uint64_t)i2 << 32) | i1;
--    qatomic_set((uint64_t *)jmp_rw, pair);
--    flush_idcache_range(jmp_rx, jmp_rw, 8);
--}
--
- /*
-  * Entry-points
-  */
-@@ -1202,22 +1171,43 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t a0)
- static void tcg_out_goto_tb(TCGContext *s, int which)
- {
-     /*
--     * Ensure that patch area is 8-byte aligned so that an
--     * atomic write can be used to patch the target address.
-+     * Direct branch, or load indirect address, to be patched
-+     * by tb_target_set_jmp_target.  Check indirect load offset
-+     * in range early, regardless of direct branch distance,
-+     * via assert within tcg_out_opc_pcaddu2i.
-      */
--    if ((uintptr_t)s->code_ptr & 7) {
--        tcg_out_nop(s);
--    }
-+    uintptr_t i_addr = get_jmp_target_addr(s, which);
-+    intptr_t i_disp = tcg_pcrel_diff(s, (void *)i_addr);
-+
-     set_jmp_insn_offset(s, which);
--    /*
--     * actual branch destination will be patched by
--     * tb_target_set_jmp_target later
--     */
--    tcg_out_opc_pcaddu18i(s, TCG_REG_TMP0, 0);
-+    tcg_out_opc_pcaddu2i(s, TCG_REG_TMP0, i_disp >> 2);
-+
-+    /* Finish the load and indirect branch. */
-+    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_TMP0, 0);
-     tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
-     set_jmp_reset_offset(s, which);
- }
- 
-+void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
-+                              uintptr_t jmp_rx, uintptr_t jmp_rw)
-+{
-+    uintptr_t d_addr = tb->jmp_target_addr[n];
-+    ptrdiff_t d_disp = (ptrdiff_t)(d_addr - jmp_rx) >> 2;
-+    tcg_insn_unit insn;
-+
-+    /* Either directly branch, or load slot address for indirect branch. */
-+    if (d_disp == sextreg(d_disp, 0, 26)) {
-+        insn = encode_sd10k16_insn(OPC_B, d_disp);
-+    } else {
-+        uintptr_t i_addr = (uintptr_t)&tb->jmp_target_addr[n];
-+        intptr_t i_disp = i_addr - jmp_rx;
-+        insn = encode_dsj20_insn(OPC_PCADDU2I, TCG_REG_TMP0, i_disp >> 2);
-+    }
-+
-+    qatomic_set((tcg_insn_unit *)jmp_rw, insn);
-+    flush_idcache_range(jmp_rx, jmp_rw, 4);
-+}
-+
- static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-                        const TCGArg args[TCG_MAX_OP_ARGS],
-                        const int const_args[TCG_MAX_OP_ARGS])
--- 
-2.34.1
-
+> ---
+>  hw/arm/aspeed.c                 | 10 +---------
+>  hw/arm/npcm7xx_boards.c         | 20 +++++---------------
+>  hw/nvram/eeprom_at24c.c         | 12 ++++++++++++
+>  include/hw/nvram/eeprom_at24c.h | 23 +++++++++++++++++++++++
+>  4 files changed, 41 insertions(+), 24 deletions(-)
+>  create mode 100644 include/hw/nvram/eeprom_at24c.h
+>
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 55f114ef729f..1f9799d4321e 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -17,6 +17,7 @@
+>  #include "hw/i2c/i2c_mux_pca954x.h"
+>  #include "hw/i2c/smbus_eeprom.h"
+>  #include "hw/misc/pca9552.h"
+> +#include "hw/nvram/eeprom_at24c.h"
+>  #include "hw/sensor/tmp105.h"
+>  #include "hw/misc/led.h"
+>  #include "hw/qdev-properties.h"
+> @@ -429,15 +430,6 @@ static void aspeed_machine_init(MachineState *machin=
+e)
+>      arm_load_kernel(ARM_CPU(first_cpu), machine, &aspeed_board_binfo);
+>  }
+>
+> -static void at24c_eeprom_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
+> -{
+> -    I2CSlave *i2c_dev =3D i2c_slave_new("at24c-eeprom", addr);
+> -    DeviceState *dev =3D DEVICE(i2c_dev);
+> -
+> -    qdev_prop_set_uint32(dev, "rom-size", rsize);
+> -    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
+> -}
+> -
+>  static void palmetto_bmc_i2c_init(AspeedMachineState *bmc)
+>  {
+>      AspeedSoCState *soc =3D &bmc->soc;
+> diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+> index 6bc6f5d2fe29..9b31207a06e9 100644
+> --- a/hw/arm/npcm7xx_boards.c
+> +++ b/hw/arm/npcm7xx_boards.c
+> @@ -21,6 +21,7 @@
+>  #include "hw/i2c/i2c_mux_pca954x.h"
+>  #include "hw/i2c/smbus_eeprom.h"
+>  #include "hw/loader.h"
+> +#include "hw/nvram/eeprom_at24c.h"
+>  #include "hw/qdev-core.h"
+>  #include "hw/qdev-properties.h"
+>  #include "qapi/error.h"
+> @@ -140,17 +141,6 @@ static I2CBus *npcm7xx_i2c_get_bus(NPCM7xxState *soc=
+, uint32_t num)
+>      return I2C_BUS(qdev_get_child_bus(DEVICE(&soc->smbus[num]), "i2c-bus=
+"));
+>  }
+>
+> -static void at24c_eeprom_init(NPCM7xxState *soc, int bus, uint8_t addr,
+> -                              uint32_t rsize)
+> -{
+> -    I2CBus *i2c_bus =3D npcm7xx_i2c_get_bus(soc, bus);
+> -    I2CSlave *i2c_dev =3D i2c_slave_new("at24c-eeprom", addr);
+> -    DeviceState *dev =3D DEVICE(i2c_dev);
+> -
+> -    qdev_prop_set_uint32(dev, "rom-size", rsize);
+> -    i2c_slave_realize_and_unref(i2c_dev, i2c_bus, &error_abort);
+> -}
+> -
+>  static void npcm7xx_init_pwm_splitter(NPCM7xxMachine *machine,
+>                                        NPCM7xxState *soc, const int *fan_=
+counts)
+>  {
+> @@ -253,8 +243,8 @@ static void quanta_gsj_i2c_init(NPCM7xxState *soc)
+>      i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 3), "tmp105", 0x5c)=
+;
+>      i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 4), "tmp105", 0x5c)=
+;
+>
+> -    at24c_eeprom_init(soc, 9, 0x55, 8192);
+> -    at24c_eeprom_init(soc, 10, 0x55, 8192);
+> +    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 9), 0x55, 8192);
+> +    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 10), 0x55, 8192);
+>
+>      /*
+>       * i2c-11:
+> @@ -360,7 +350,7 @@ static void kudo_bmc_i2c_init(NPCM7xxState *soc)
+>
+>      i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 4), TYPE_PCA9548, 0=
+x77);
+>
+> -    at24c_eeprom_init(soc, 4, 0x50, 8192); /* mbfru */
+> +    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 4), 0x50, 8192); /* mbfru=
+ */
+>
+>      i2c_mux =3D i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 13),
+>                                        TYPE_PCA9548, 0x77);
+> @@ -371,7 +361,7 @@ static void kudo_bmc_i2c_init(NPCM7xxState *soc)
+>      i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 4), "tmp105", 0=
+x48);
+>      i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 5), "tmp105", 0=
+x49);
+>
+> -    at24c_eeprom_init(soc, 14, 0x55, 8192); /* bmcfru */
+> +    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 14), 0x55, 8192); /* bmcf=
+ru */
+>
+>      /* TODO: Add remaining i2c devices. */
+>  }
+> diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
+> index 2d4d8b952f38..98857e3626b9 100644
+> --- a/hw/nvram/eeprom_at24c.c
+> +++ b/hw/nvram/eeprom_at24c.c
+> @@ -12,6 +12,7 @@
+>  #include "qapi/error.h"
+>  #include "qemu/module.h"
+>  #include "hw/i2c/i2c.h"
+> +#include "hw/nvram/eeprom_at24c.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/qdev-properties-system.h"
+>  #include "sysemu/block-backend.h"
+> @@ -128,6 +129,17 @@ int at24c_eeprom_send(I2CSlave *s, uint8_t data)
+>      return 0;
+>  }
+>
+> +I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_s=
+ize)
+> +{
+> +    I2CSlave *i2c_dev =3D i2c_slave_new(TYPE_AT24C_EE, address);
+> +    DeviceState *dev =3D DEVICE(i2c_dev);
+> +
+> +    qdev_prop_set_uint32(dev, "rom-size", rom_size);
+> +    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
+> +
+> +    return i2c_dev;
+> +}
+> +
+>  static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
+>  {
+>      EEPROMState *ee =3D AT24C_EE(dev);
+> diff --git a/include/hw/nvram/eeprom_at24c.h b/include/hw/nvram/eeprom_at=
+24c.h
+> new file mode 100644
+> index 000000000000..196db309d451
+> --- /dev/null
+> +++ b/include/hw/nvram/eeprom_at24c.h
+> @@ -0,0 +1,23 @@
+> +/*
+> + * Copyright (c) Meta Platforms, Inc. and affiliates.
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-only
+> + */
+> +
+> +#ifndef EEPROM_AT24C_H
+> +#define EEPROM_AT24C_H
+> +
+> +#include "hw/i2c/i2c.h"
+> +
+> +/*
+> + * Create and realize an AT24C EEPROM device on the heap.
+> + * @bus: I2C bus to put it on
+> + * @address: I2C address of the EEPROM slave when put on a bus
+> + * @rom_size: size of the EEPROM
+> + *
+> + * Create the device state structure, initialize it, put it on the speci=
+fied
+> + * @bus, and drop the reference to it (the device is realized).
+> + */
+> +I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_s=
+ize);
+> +
+> +#endif
+> --
+> 2.39.0
+>
 
