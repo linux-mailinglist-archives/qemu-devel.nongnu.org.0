@@ -2,85 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B59672469
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 18:05:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27FB6672485
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 18:10:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIBro-0001SY-FU; Wed, 18 Jan 2023 12:04:52 -0500
+	id 1pIBwf-0002wX-S8; Wed, 18 Jan 2023 12:09:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIBrU-0001Pl-Vt
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 12:04:33 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIBrT-0004uN-D4
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 12:04:32 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- m5-20020a05600c4f4500b003db03b2559eso2047679wmq.5
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 09:04:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GhIDJla6/nA+BKdGW5qzvhtWK2xWORu3BQcD1wwO0es=;
- b=d+09P83IkLs9WjOxmj91WCRYPvd2D6SiN3Ubk5ptU2wWit26TxWwILBUm+U+jD2o82
- DbHUz9MGUOtUE5hHHiO6BlWjzaPTRqpi1pClmF9pk5xaGuU5kpyciQPPpBjhaKgPKDks
- 3H5dbX6shxF0K0P9MVA+1EYpYWKtd5+OCYriMXJFlhjPZoTLNJtV9OPmg8kUWih73LJk
- 1RZTnHFoK77u6Ge8Lwhvdtaij7I3+1jo4hw+lmANurHWUa0NVmW8by+r0KAGmFWI8b3x
- LWkCr0YQQyMVYq9LBm9NSDPXhYryhXu3JFHzECVGzgFRXKW3khMuEMsiiEH/wTwlp0bR
- EGzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GhIDJla6/nA+BKdGW5qzvhtWK2xWORu3BQcD1wwO0es=;
- b=XVXI1SxLOEHvsYiXBAsLV0FcgLhphYXRgWt2oRZIcpWqbzXyHqX7itUM7KOhXsrvpN
- Ha4fEqDQ4OGfOidA6XlOnDA9ud9Mqz9pUQIGL1aXRLH3U6SFEdAj2BjBL6jGfdnmPV4K
- TMHcOC0UyW8nmmmFFn7g6K2a1hjG8mXmM+LdW/okmwB/owHr03xiYKGUOxRJxmUe4XL2
- eAIf/VJyPVNd92a5PozQ7Dv0jtj99GOAWc8k7EM2T1vOQHlJ3W99jPq7d+0zpJYfGJn9
- OyyfMo4NLtzup+aCOk6D7Frj1KDP1V8yDpB0gpqQNqd0TNrrUe7V75T6V6/zuqW6f+LT
- DniA==
-X-Gm-Message-State: AFqh2kpu1IPq9l4iL1xyYZVEgx2kfHLihbk+Eu4OJL4GAYrEwrjU59yS
- ZoCXKtL3NzPGnEsmOjljzSf5Iw==
-X-Google-Smtp-Source: AMrXdXtdGVU8envdYG2TAXpMYp+bfMGnNfXVZvhx8/UfRWX7bOMNcpAgCTXPTrJ+LPy/vD7nRsYhYg==
-X-Received: by 2002:a05:600c:714:b0:3d9:ed30:79d with SMTP id
- i20-20020a05600c071400b003d9ed30079dmr7455171wmn.18.1674061469522; 
- Wed, 18 Jan 2023 09:04:29 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- j10-20020a05600c074a00b003db0ee277b2sm2324070wmn.5.2023.01.18.09.04.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 09:04:29 -0800 (PST)
-Message-ID: <5f6c99eb-fca8-2270-fa4d-758e548b05b1@linaro.org>
-Date: Wed, 18 Jan 2023 18:04:12 +0100
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pIBwW-0002w5-0q; Wed, 18 Jan 2023 12:09:45 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pIBwQ-0005iv-Ok; Wed, 18 Jan 2023 12:09:41 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30IFUYf5026589; Wed, 18 Jan 2023 17:09:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=CVHD7uN5kegd1v4Zh1Lrrv2xOsjFVDLOQA3MRMm00TY=;
+ b=b07L5ZoqJZcGb09SQrpvcscl+/yniQ8en7S8D9pd/Y0S8hDRmI+bxwkImYjd0N2HyOwm
+ 7nrE6GOQkaArOXldppjjLoKfyiiwEnSYyqwOWEMpCqTzavVBuwFpLBkLveUmgM1/SIZp
+ TnMKKmIDgEyDUnEEDQ7WN0IyPaYV/PGGjoGC1l1XQu9mJGwYnBZsvTmkQC26Y7uE6DbR
+ u3msznHvo5f4RQjge9vEpLTML/QU/NtzXZWe7Ct7JuiI76VMqxXhKKHmExf0IYVWrIqw
+ EqLEy/n5sOECztcDsUguWTyBy3QFsETIstEC3Q2owRrj9pplkfMDPkzhjyLvMS7XW0R3 IQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6f921ebd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 17:09:28 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30IGXLKv008988;
+ Wed, 18 Jan 2023 17:09:27 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6f921ea7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 17:09:27 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30IDr6fi004723;
+ Wed, 18 Jan 2023 17:09:25 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3n3m16nk6t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 17:09:25 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30IH9LxC43712802
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 18 Jan 2023 17:09:22 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D601920040;
+ Wed, 18 Jan 2023 17:09:21 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 976AA20043;
+ Wed, 18 Jan 2023 17:09:20 +0000 (GMT)
+Received: from [9.179.13.15] (unknown [9.179.13.15])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 18 Jan 2023 17:09:20 +0000 (GMT)
+Message-ID: <5f177a1b-90d6-7e30-5b58-cdcae7919363@linux.ibm.com>
+Date: Wed, 18 Jan 2023 18:09:20 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 2/4] bulk: Coding style fixes
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v14 10/11] qapi/s390/cpu topology: POLARITY_CHANGE qapi
+ event
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Lucas Mateus Castro <lucas.araujo@eldorado.org.br>,
- Gan Qixin <ganqixin@huawei.com>
-Cc: qemu-riscv@nongnu.org, qemu-ppc@nongnu.org, qemu-arm@nongnu.org,
- qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20230111083909.42624-1-philmd@linaro.org>
- <20230111083909.42624-3-philmd@linaro.org>
- <fd06e139-c6e8-e978-c0ed-3e9aca258f19@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <fd06e139-c6e8-e978-c0ed-3e9aca258f19@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
+ clg@kaod.org
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-11-pmorel@linux.ibm.com>
+ <c338245c-82c3-ed57-9c98-f4d630fa1759@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <c338245c-82c3-ed57-9c98-f4d630fa1759@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: YRriPyEL2JGDXCQRcohWX2TqfoQA4L-U
+X-Proofpoint-ORIG-GUID: CJjn9xIY4hvcO_S-4vVKpWpi46C5CSbQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-18_05,2023-01-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0
+ adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0 mlxlogscore=999
+ bulkscore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301180143
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,35 +123,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/1/23 17:09, Thomas Huth wrote:
-> On 11/01/2023 09.39, Philippe Mathieu-Daudé wrote:
->> Fix the following checkpatch.pl violation on lines using the
->> TARGET_FMT_plx definition to avoid:
+
+
+On 1/12/23 12:52, Thomas Huth wrote:
+> On 05/01/2023 15.53, Pierre Morel wrote:
+>> When the guest asks to change the polarity this change
+>> is forwarded to the admin using QAPI.
+>> The admin is supposed to take according decisions concerning
+>> CPU provisioning.
+> 
+> I somehow doubt that an average admin will monitor QEMU for such events 
+> ... so this rather should be handled by upper layers like libvirt one day?
+
+Yes.
+
+> 
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   qapi/machine-target.json | 21 +++++++++++++++++++++
+>>   hw/s390x/cpu-topology.c  |  2 ++
+>>   2 files changed, 23 insertions(+)
 >>
->>    WARNING: line over 80 characters
+>> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+>> index 927618a78f..10235cfb45 100644
+>> --- a/qapi/machine-target.json
+>> +++ b/qapi/machine-target.json
+>> @@ -437,3 +437,24 @@
+>>     'returns': ['S390CpuTopology'],
+>>     'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+>>   }
+>> +
+>> +##
+>> +# @POLARITY_CHANGE:
 > 
-> It's just a warning...
-> 
->> @@ -420,8 +421,9 @@ static int get_segment_6xx_tlb(CPUPPCState *env, 
->> mmu_ctx_t *ctx,
->>                   hwaddr curaddr;
->>                   uint32_t a0, a1, a2, a3;
->> -                qemu_log("Page table: " TARGET_FMT_plx " len " 
->> TARGET_FMT_plx
->> -                         "\n", ppc_hash32_hpt_base(cpu),
->> +                qemu_log("Page table: " TARGET_FMT_plx
->> +                         " len " TARGET_FMT_plx "\n",
->> +                         ppc_hash32_hpt_base(cpu),
->>                            ppc_hash32_hpt_mask(cpu) + 0x80);
->>                   for (curaddr = ppc_hash32_hpt_base(cpu);
->>                        curaddr < (ppc_hash32_hpt_base(cpu)
-> 
-> ... and in cases like this, I'd really prefer the original line.
-> 
-> I think it would be better to just fix it if checkpatch.pl really throws 
-> an ERROR instead of a WARNING.
+> I'd maybe rather call it CPU_POLARITY_CHANGE ... in case "polarity" is 
+> one day also used for some other devices.
 
-See this thread and its references ¯\_(ツ)_/¯
-https://lore.kernel.org/qemu-devel/CAFEAcA-yMZjJW=AJm=XLbrub1D-8iX0OKE78V_TzQmfC2RdXyw@mail.gmail.com/
+OK, right.
 
+> 
+>> +#
+>> +# Emitted when the guest asks to change the polarity.
+>> +#
+>> +# @polarity: polarity specified by the guest
+> 
+> Please elaborate: Where does the value come from (the PTF instruction)? 
+> Which values are possible?
+
+Yes what about:
+
+# @polarity: the guest can specify with the PTF instruction a horizontal
+#            or a vertical polarity.
+#	     On horizontal polarity the host is expected to provision
+#            the vCPU equally.
+#            On vertical polarity the host can provision each vCPU
+#            differently
+#            The guest can get information on the provisioning with
+#            the STSI(15) instruction.
+
+
+Regards,
+Pierre
+
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
