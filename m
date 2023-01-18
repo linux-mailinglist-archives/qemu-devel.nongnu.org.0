@@ -2,75 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5CFD67222C
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 16:54:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4DB672246
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 16:59:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIAkT-0003e1-0G; Wed, 18 Jan 2023 10:53:13 -0500
+	id 1pIApT-0005na-J0; Wed, 18 Jan 2023 10:58:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pIAkQ-0003bo-Ks
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 10:53:11 -0500
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pIAkO-00082D-V9
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 10:53:10 -0500
-Received: by mail-yb1-xb2c.google.com with SMTP id o75so38630526yba.2
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 07:53:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=HZm6THKvvUbPSAwaouE6TcPFNJEd+7FBTRyEA/iHg/g=;
- b=gwIpEwD8ffCPq6XjxijbxiYk1D8EQboD2q+XAvhxIa7b4V3WsLCowm3VVpWCEusyl5
- g9iE1Sh0oIB2DlalEntn1Lyh6IS1d3tx0RpdK3XuW2Ul+3L8mgGdp+ek+6H/8UTS3ri1
- pWJ6FE6b/xHPmhNF+U3F7LYdDW7cIhDM4SJ+BNR5Rmr6zGaLNttFg611bMTibwfv/YBW
- uD0YFwhSJuJmeVy3IRX1SQb1KYg3AXB8KRVYfmOGkd2tikJ33jVgD7O5KP4+YUhN7hUK
- bakYlCLgpfoUaqUbR7KDUjnb+0R+ffv0xjtB0RVYxJUE+ezM5WIjGYR5o5HVciMPOn16
- rU+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HZm6THKvvUbPSAwaouE6TcPFNJEd+7FBTRyEA/iHg/g=;
- b=FJuISp+bSE0pPSsUpzjlXvyVLN7S4cqAF1EfWZm5k+Bdc9aO0VlPeQJUdqSwgFwbjj
- 4S9jZQ+UuYfJSpga8zj8NfGHoC676HfDuz2ycqRbEwWr6hcQgWmaEM6jfBRTg5T5SqxA
- EEX0edMxNkBZaCJmSzTJXe/u4+9fsbC/Qpf9AkLsWjE9o4jQmULTQkqK7cLMBcROBgCL
- eHVuc0C1JtaV2IRRenkAKiMV0j5lhLj78+ojUej1iCPVqUW3p0zb9TwFDaWVPsqCsfuA
- 08rcDYLasVLQrc+oQFa3hXFMjxucaCTNc7z9zMCKnms8qV0L+zBmdco/d/FysHEbuTHD
- d62w==
-X-Gm-Message-State: AFqh2koH3uNHNJaFtvMwJPIL5wNhg9YMt5vZQ9k77tMnfc0O446VUW2Q
- k9U/Oz7hifeVflUcKdLhAkC3JDx8napryr6siwk=
-X-Google-Smtp-Source: AMrXdXs3GLhPK8rZL2aPbHdKzxue/XRvuVg1CIY8tG0C9uzvldPFfmOgnZXuY/nAGt4UpVX+uHD3tXKz0nFZ4qD98Ho=
-X-Received: by 2002:a25:8251:0:b0:6ee:f3dc:b8d0 with SMTP id
- d17-20020a258251000000b006eef3dcb8d0mr953876ybn.642.1674057187774; Wed, 18
- Jan 2023 07:53:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pIApR-0005nN-Ax; Wed, 18 Jan 2023 10:58:21 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pIApP-0000Sf-9B; Wed, 18 Jan 2023 10:58:21 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30IFhOtj014001; Wed, 18 Jan 2023 15:58:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Msm+dv/+e1/SAlRLDe00Cl/x8sVHm+qI2s9ev0bAzAU=;
+ b=ii28U3Ok7kq6Id1o7H5X/tsLIbuslSgE74fZbAeEHYh+Ox+Mvl0YLBpJx028gRqWP5Pd
+ bisrAXBTgPMjOCSMpt24XXa/lKfUoQ6zbYCwsEOH/oEnPSdjGBnYgZrcdYQta2zjbM2B
+ oOfXU7SEzp2yJuAfYG5LI336uEByR62LL51bC237bGjyWfJfDC+O5WKrZARGiarhBHlG
+ TBQRBGO0I+na7o/wnD8hVTQy4HKaJzZcfPO5UyWlOkECCeKLy++hDVDTDHHsD8clR2wE
+ ggJBKRmbngm5F7jYtQqm1OIrgz7NbSmZIH125ixVvNJcXR+6xk4lSe2i0o+70Z5AqVwr zA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6fp6q2jx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 15:58:13 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30IDoWgr011352;
+ Wed, 18 Jan 2023 15:58:13 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6fp6q2hx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 15:58:13 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30IDRCPB009485;
+ Wed, 18 Jan 2023 15:58:10 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3n3knfngss-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 15:58:10 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30IFw6Cj23134782
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 18 Jan 2023 15:58:07 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DEDBB20040;
+ Wed, 18 Jan 2023 15:58:06 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9C40C20043;
+ Wed, 18 Jan 2023 15:58:05 +0000 (GMT)
+Received: from [9.179.13.15] (unknown [9.179.13.15])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 18 Jan 2023 15:58:05 +0000 (GMT)
+Message-ID: <d97d0a6a-a87e-e0d2-5d95-0645c09d9730@linux.ibm.com>
+Date: Wed, 18 Jan 2023 16:58:05 +0100
 MIME-Version: 1.0
-References: <20230115170903.3416105-1-antonkuchin@yandex-team.ru>
-In-Reply-To: <20230115170903.3416105-1-antonkuchin@yandex-team.ru>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 18 Jan 2023 10:52:55 -0500
-Message-ID: <CAJSP0QVKUKgkBMw1PiN8-L8Ykhq=gfvNTTs4sf1tuzoqHu+GXw@mail.gmail.com>
-Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
-To: Anton Kuchin <antonkuchin@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, virtio-fs@redhat.com, 
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, 
- Juan Quintela <quintela@redhat.com>, yc-core@yandex-team.ru, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2c.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v14 09/11] qapi/s390/cpu topology: monitor query topology
+ information
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, borntraeger@de.ibm.com,
+ pasic@linux.ibm.com, richard.henderson@linaro.org, david@redhat.com,
+ thuth@redhat.com, cohuck@redhat.com, mst@redhat.com,
+ pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
+ marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
+ seiden@linux.ibm.com, nrb@linux.ibm.com, scgl@linux.ibm.com,
+ frankja@linux.ibm.com, clg@kaod.org
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-10-pmorel@linux.ibm.com> <Y7/4rm9JYihUpLS1@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <Y7/4rm9JYihUpLS1@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: HYJ6Mq9762stCJlK-TZ39d0DAnwyDjZ0
+X-Proofpoint-ORIG-GUID: liceC4Jt1nbv6FqZaXV-4gUSf2sEPx_Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-18_05,2023-01-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ impostorscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
+ phishscore=0 priorityscore=1501 clxscore=1015 mlxscore=0 malwarescore=0
+ bulkscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301180130
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,127 +120,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 15 Jan 2023 at 12:21, Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
->
-> Now any vhost-user-fs device makes VM unmigratable, that also prevents
-> qemu update without stopping the VM. In most cases that makes sense
-> because qemu has no way to transfer FUSE session state.
->
-> But we can give an option to orchestrator to override this if it can
-> guarantee that state will be preserved (e.g. it uses migration to
-> update qemu and dst will run on the same host as src and use the same
-> socket endpoints).
->
-> This patch keeps default behavior that prevents migration with such devices
-> but adds migration capability 'vhost-user-fs' to explicitly allow migration.
->
-> Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
-> ---
->  hw/virtio/vhost-user-fs.c | 25 ++++++++++++++++++++++++-
->  qapi/migration.json       |  7 ++++++-
->  2 files changed, 30 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> index f5049735ac..13d920423e 100644
-> --- a/hw/virtio/vhost-user-fs.c
-> +++ b/hw/virtio/vhost-user-fs.c
-> @@ -24,6 +24,7 @@
->  #include "hw/virtio/vhost-user-fs.h"
->  #include "monitor/monitor.h"
->  #include "sysemu/sysemu.h"
-> +#include "migration/migration.h"
->
->  static const int user_feature_bits[] = {
->      VIRTIO_F_VERSION_1,
-> @@ -298,9 +299,31 @@ static struct vhost_dev *vuf_get_vhost(VirtIODevice *vdev)
->      return &fs->vhost_dev;
->  }
->
-> +static int vhost_user_fs_pre_save(void *opaque)
-> +{
-> +    MigrationState *s = migrate_get_current();
-> +
-> +    if (!s->enabled_capabilities[MIGRATION_CAPABILITY_VHOST_USER_FS]) {
-> +        error_report("Migration of vhost-user-fs devices requires internal FUSE "
-> +                     "state of backend to be preserved. If orchestrator can "
-> +                     "guarantee this (e.g. dst connects to the same backend "
-> +                     "instance or backend state is migrated) set 'vhost-user-fs' "
-> +                     "migration capability to true to enable migration.");
-> +        return -1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->  static const VMStateDescription vuf_vmstate = {
->      .name = "vhost-user-fs",
-> -    .unmigratable = 1,
-> +    .minimum_version_id = 0,
-> +    .version_id = 0,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_VIRTIO_DEVICE,
-> +        VMSTATE_END_OF_LIST()
-> +    },
-> +   .pre_save = vhost_user_fs_pre_save,
->  };
 
-Will it be possible to extend this vmstate when virtiofsd adds support
-for stateful migration without breaking migration compatibility?
 
-If not, then I think a marker field should be added to the vmstate:
-0 - stateless/reconnect migration (the approach you're adding in this patch)
-1 - stateful migration (future virtiofsd feature)
+On 1/12/23 13:10, Daniel P. Berrangé wrote:
+> On Thu, Jan 05, 2023 at 03:53:11PM +0100, Pierre Morel wrote:
+>> Reporting the current topology informations to the admin through
+>> the QEMU monitor.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   qapi/machine-target.json | 66 ++++++++++++++++++++++++++++++++++
+>>   include/monitor/hmp.h    |  1 +
+>>   hw/s390x/cpu-topology.c  | 76 ++++++++++++++++++++++++++++++++++++++++
+>>   hmp-commands-info.hx     | 16 +++++++++
+>>   4 files changed, 159 insertions(+)
+>>
+>> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+>> index 75b0aa254d..927618a78f 100644
+>> --- a/qapi/machine-target.json
+>> +++ b/qapi/machine-target.json
+>> @@ -371,3 +371,69 @@
+>>     },
+>>     'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+>>   }
+>> +
+>> +##
+>> +# @S390CpuTopology:
+>> +#
+>> +# CPU Topology information
+>> +#
+>> +# @drawer: the destination drawer where to move the vCPU
+>> +#
+>> +# @book: the destination book where to move the vCPU
+>> +#
+>> +# @socket: the destination socket where to move the vCPU
+>> +#
+>> +# @polarity: optional polarity, default is last polarity set by the guest
+>> +#
+>> +# @dedicated: optional, if the vCPU is dedicated to a real CPU
+>> +#
+>> +# @origin: offset of the first bit of the core mask
+>> +#
+>> +# @mask: mask of the cores sharing the same topology
+>> +#
+>> +# Since: 8.0
+>> +##
+>> +{ 'struct': 'S390CpuTopology',
+>> +  'data': {
+>> +      'drawer': 'int',
+>> +      'book': 'int',
+>> +      'socket': 'int',
+>> +      'polarity': 'int',
+>> +      'dedicated': 'bool',
+>> +      'origin': 'int',
+>> +      'mask': 'str'
+>> +  },
+>> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+>> +}
+>> +
+>> +##
+>> +# @query-topology:
+>> +#
+>> +# Return information about CPU Topology
+>> +#
+>> +# Returns a @CpuTopology instance describing the CPU Toplogy
+>> +# being currently used by QEMU.
+>> +#
+>> +# Since: 8.0
+>> +#
+>> +# Example:
+>> +#
+>> +# -> { "execute": "cpu-topology" }
+>> +# <- {"return": [
+>> +#     {
+>> +#         "drawer": 0,
+>> +#         "book": 0,
+>> +#         "socket": 0,
+>> +#         "polarity": 0,
+>> +#         "dedicated": true,
+>> +#         "origin": 0,
+>> +#         "mask": 0xc000000000000000,
+>> +#     },
+>> +#    ]
+>> +#   }
+>> +#
+>> +##
+>> +{ 'command': 'query-topology',
+>> +  'returns': ['S390CpuTopology'],
+>> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+>> +}
+> 
+> IIUC, you're using @mask as a way to compress the array returned
+> from query-topology, so that it doesn't have any repeated elements
+> with the same data. I guess I can understand that desire when the
+> core count can get very large, this can have a large saving.
+> 
+> The downside of using @mask, is that now you require the caller
+> to parse the string to turn it into a bitmask and expand the
+> data. Generally this is considered a bit of an anti-pattern in
+> QAPI design - we don't want callers to have to further parse
+> the data to extract information, we want to directly consumable
+> from the parsed JSON doc.
 
-When the field is 0 there are no further vmstate fields and we trust
-that the destination vhost-user-fs server already has the necessary
-state.
+Not exactly, the mask is computed by the firmware to provide it to the 
+guest and is already available when querying the topology.
+But I understand that for the QAPI user the mask is not the right 
+solution, standard coma separated values like (1,3,5,7-11) would be much 
+easier to read.
 
-When the field is 1 there are additional vmstate fields that contain
-the virtiofsd state.
+> 
+> We already have 'query-cpus-fast' wich returns one entry for
+> each CPU. In fact why do we need to add query-topology at all.
+> Can't we just add book-id / drawer-id / polarity / dedicated
+> to the query-cpus-fast result ?
 
-The goal is for QEMU to support 3 migration modes, depending on the
-vhost-user-fs server:
-1. No migration support.
-2. Stateless migration.
-3. Stateful migration.
+Yes we can, I think we should, however when there are a lot of CPU it 
+will be complicated to find the CPU sharing the same socket and the same 
+attributes.
+I think having both would be interesting.
 
->
->  static Property vuf_properties[] = {
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 88ecf86ac8..9a229ea884 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -477,6 +477,11 @@
->  #                    will be handled faster.  This is a performance feature and
->  #                    should not affect the correctness of postcopy migration.
->  #                    (since 7.1)
-> +# @vhost-user-fs: If enabled, the migration process will allow migration of
-> +#                 vhost-user-fs devices, this should be enabled only when
-> +#                 backend can preserve local FUSE state e.g. for qemu update
-> +#                 when dst reconects to the same endpoints after migration.
-> +#                 (since 8.0)
+What do you think?
 
-This is global but a guest can have multiple vhost-user-fs devices
-connected to different servers.
+regards,
+Pierre
 
-I would add a qdev property to the device instead of introducing a
-migration capability. The property would enable "stateless migration".
-When the property is not set, migration would be prohibited.
+> 
+> With regards,
+> Daniel
 
->  #
->  # Features:
->  # @unstable: Members @x-colo and @x-ignore-shared are experimental.
-> @@ -492,7 +497,7 @@
->             'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
->             { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
->             'validate-uuid', 'background-snapshot',
-> -           'zero-copy-send', 'postcopy-preempt'] }
-> +           'zero-copy-send', 'postcopy-preempt', 'vhost-user-fs'] }
->
->  ##
->  # @MigrationCapabilityStatus:
-> --
-> 2.34.1
->
->
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
