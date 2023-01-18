@@ -2,72 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC06671512
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 08:33:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BAB6715A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 08:57:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI2vy-00061Z-C7; Wed, 18 Jan 2023 02:32:35 -0500
+	id 1pI3FX-0001rD-5h; Wed, 18 Jan 2023 02:52:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pI2vo-000614-0p
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 02:32:24 -0500
-Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pI3FU-0001qD-GW; Wed, 18 Jan 2023 02:52:44 -0500
+Received: from mout.kundenserver.de ([212.227.17.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pI2vl-0007R9-9u
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 02:32:23 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.193])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id C80C02DC19;
- Wed, 18 Jan 2023 07:32:09 +0000 (UTC)
-Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Wed, 18 Jan
- 2023 08:32:08 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-109S003def26aa8-e925-4896-860c-4fe341cf2018,
- B02C0E203F6A6AD140F658F33EDEBE178EEACDD3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <8646a560-dd95-6cdb-1f7b-3d344ee744f7@kaod.org>
-Date: Wed, 18 Jan 2023 08:32:07 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pI3FS-00021r-E8; Wed, 18 Jan 2023 02:52:43 -0500
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MI5cP-1pTJ002ltv-00FATo; Wed, 18
+ Jan 2023 08:52:35 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 00/15] Trivial branch for 8.0 patches
+Date: Wed, 18 Jan 2023 08:52:19 +0100
+Message-Id: <20230118075234.2322131-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 04/11] hw/arm/aspeed: Use the IEC binary prefix
- definitions
-To: Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>
-CC: <qemu-devel@nongnu.org>, Troy Lee <troy_lee@aspeedtech.com>, Beraldo Leal
- <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, Wainer dos
- Santos Moschetta <wainersm@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, Peter Delevoryas
- <peter@pjd.dev>, Steven Lee <steven_lee@aspeedtech.com>, Jamin Lin
- <jamin_lin@aspeedtech.com>, Peter Delevoryas <pdel@fb.com>, Peter Delevoryas
- <pdel@meta.com>, <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>
-References: <20221230113504.37032-1-philmd@linaro.org>
- <20221230113504.37032-5-philmd@linaro.org>
- <CACPK8XcdKGvQGOeBKQXRhYVZKO5k8jCv_1syNbZr8YPufaSjLg@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CACPK8XcdKGvQGOeBKQXRhYVZKO5k8jCv_1syNbZr8YPufaSjLg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.109]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 9581ea07-3d5d-46d6-964c-6e5f2039a020
-X-Ovh-Tracer-Id: 11563273520002730884
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddtjedgudduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruhdpphhhihhlmhgusehlihhnrghrohdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpthhrohihpghlvggvsegrshhpvggvughtvggthhdrtghomhdpsghlvggrlhesrhgvughhrghtrdgtohhmpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpfigrihhnvghrshhmsehrvgguhhgrthdrtghomhdprghnughrvgifsegrjhdrihgurdgruhdptghhihhnqdhtihhnghgpkhhuohesrghsphgvvgguthgvtg
- hhrdgtohhmpdhpvghtvghrsehpjhgurdguvghvpdhsthgvvhgvnhgplhgvvgesrghsphgvvgguthgvtghhrdgtohhmpdhjrghmihhnpghlihhnsegrshhpvggvughtvggthhdrtghomhdpphguvghlsehfsgdrtghomhdpphguvghlsehmvghtrgdrtghomhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdptghrohhsrgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
- helo=8.mo552.mail-out.ovh.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Provags-ID: V03:K1:l8oTSfpH2JV+D8pBIAImd5OORcbGOJiS/TvY1IsaK7TPEXNfNFH
+ JuhxMY37K2SPx684uh1/CrsQtjz8DKNTATlpIgebj7eT6xXNp2B2NhF43EUkLJT5SMaAY//
+ lCOXxPVxldy3xpkjFhoHVneVDGH9Y64xBTNBXABg3E/bclJs3dErWRlibO/NGdyM9PjprcO
+ Q7InW0emLYLcVvvi79zRQ==
+UI-OutboundReport: notjunk:1;M01:P0:wSygYuEdees=;qWU+GZ/gYoyyfuIIA6Xqh+QbkJQ
+ ZTDMHnPwx4MlnTdbI/rxhFgWHyKDyRUBZGlb/1qs5xhki1fAXx2pCKXJEn23N6BOD/JLSmMx/
+ fLjUQlJzLuizso5OMRAFz67jKEyG8Ny8g+iWaS07cYz3pcbsbihD1EELmDp4DmTCpCqMnPKpZ
+ Xo3oUfHfa+QNL/xJv+IuRXm17j7ZZwKhp37HgJ2X5e8z1HRH5jXWgGtAbU4w/+ymoeJwfqLDm
+ 5e07ADT5kNHO3RZ2mD7kK/SrM/6WENvNf77FrzlcAZ9fPBiYOq8IsRUaA0ydw1bmyxzfOrK9Y
+ qSmdXezVhQuzLOMcm6axa1ZPzbtDN5l3u/INcIKoLDSSXtPm+yk1QnL0DmWC81WPqZRrmJmRk
+ hqAM8D82CuiCkLwjbxXI2Mo6ZDfeMpJTwApdxaMM9xsLhSjLw2dES7BsfJmqw+e/2VenK0MC2
+ YuvlObi3G1uUYHyUhvK7uBxo/F8vdoI++JWt4DDwALFOy46bo11RbCwbzJKffsZlD33xQQtyE
+ Clk+7dr0O4Teg4ro6ykBd8s9e/vBX5kk0v+eL/FHEr6lVgy6T5yjVoZih3sFBHgbV9TddXFmm
+ h9jcxa/Nw4rJ72RFedNuKomNEToFYMe94rCjt82Q4adAvYtduyQcwdWKexIYeYDc4xkTmE0gv
+ 5qLHwQxjOSA+TzplGTWILdqq1tkHOqdes0ej11SzDA==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,101 +67,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/18/23 07:53, Joel Stanley wrote:
-> On Fri, 30 Dec 2022 at 11:35, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
->>
->> IEC binary prefixes ease code review: the unit is explicit.
-> 
-> I strongly prefer the existing code; it tells you the size without
-> having to do maths.
+The following changes since commit a8d6abe1292e1db1ad9be5b2b124b9c01bcda094:
 
-you mean that it matches better with the address space representation
-in the code and the 'info mtree' output ? If so, I agree. We can keep
-this patch out, it is not fundamental.
+  Merge tag 'mips-20230113' of https://github.com/philmd/qemu into staging (2023-01-16 11:24:11 +0000)
 
-The hex representation of values has its advantages compared to the
-macros because hex is generally what you get in debug outputs and
-it is easier to compare and manipulate.  Some Linux dev feel the
-same.
+are available in the Git repository at:
 
-C.
+  https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-8.0-pull-request
 
-> 
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> Reviewed-by: Peter Delevoryas <peter@pjd.dev>
->> ---
->>   hw/arm/aspeed_ast10x0.c | 3 ++-
->>   hw/arm/aspeed_ast2600.c | 3 ++-
->>   hw/arm/aspeed_soc.c     | 4 ++--
->>   3 files changed, 6 insertions(+), 4 deletions(-)
->>
->> diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
->> index 122b3fd3f3..3500294df7 100644
->> --- a/hw/arm/aspeed_ast10x0.c
->> +++ b/hw/arm/aspeed_ast10x0.c
->> @@ -10,6 +10,7 @@
->>    */
->>
->>   #include "qemu/osdep.h"
->> +#include "qemu/units.h"
->>   #include "qapi/error.h"
->>   #include "exec/address-spaces.h"
->>   #include "sysemu/sysemu.h"
->> @@ -348,7 +349,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
->>       sc->name = "ast1030-a1";
->>       sc->cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
->>       sc->silicon_rev = AST1030_A1_SILICON_REV;
->> -    sc->sram_size = 0xc0000;
->> +    sc->sram_size = 768 * KiB;
->>       sc->spis_num = 2;
->>       sc->ehcis_num = 0;
->>       sc->wdts_num = 4;
->> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
->> index a79e05ddbd..72df72a540 100644
->> --- a/hw/arm/aspeed_ast2600.c
->> +++ b/hw/arm/aspeed_ast2600.c
->> @@ -8,6 +8,7 @@
->>    */
->>
->>   #include "qemu/osdep.h"
->> +#include "qemu/units.h"
->>   #include "qapi/error.h"
->>   #include "hw/misc/unimp.h"
->>   #include "hw/arm/aspeed_soc.h"
->> @@ -619,7 +620,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
->>       sc->name         = "ast2600-a3";
->>       sc->cpu_type     = ARM_CPU_TYPE_NAME("cortex-a7");
->>       sc->silicon_rev  = AST2600_A3_SILICON_REV;
->> -    sc->sram_size    = 0x16400;
->> +    sc->sram_size    = 89 * KiB;
->>       sc->spis_num     = 2;
->>       sc->ehcis_num    = 2;
->>       sc->wdts_num     = 4;
->> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
->> index 2c0924d311..677342c9ed 100644
->> --- a/hw/arm/aspeed_soc.c
->> +++ b/hw/arm/aspeed_soc.c
->> @@ -517,7 +517,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass *oc, void *data)
->>       sc->name         = "ast2400-a1";
->>       sc->cpu_type     = ARM_CPU_TYPE_NAME("arm926");
->>       sc->silicon_rev  = AST2400_A1_SILICON_REV;
->> -    sc->sram_size    = 0x8000;
->> +    sc->sram_size    = 32 * KiB;
->>       sc->spis_num     = 1;
->>       sc->ehcis_num    = 1;
->>       sc->wdts_num     = 2;
->> @@ -544,7 +544,7 @@ static void aspeed_soc_ast2500_class_init(ObjectClass *oc, void *data)
->>       sc->name         = "ast2500-a1";
->>       sc->cpu_type     = ARM_CPU_TYPE_NAME("arm1176");
->>       sc->silicon_rev  = AST2500_A1_SILICON_REV;
->> -    sc->sram_size    = 0x9000;
->> +    sc->sram_size    = 36 * KiB;
->>       sc->spis_num     = 2;
->>       sc->ehcis_num    = 2;
->>       sc->wdts_num     = 3;
->> --
->> 2.38.1
->>
+for you to fetch changes up to b93b3cb1bb72f313d8c33791e0a82a25da780cf0:
+
+  hw/ssi/sifive_spi.c: spelling: reigster (2023-01-17 10:02:37 +0100)
+
+----------------------------------------------------------------
+trivial branch pull request 20230118
+
+----------------------------------------------------------------
+
+Guoyi Tu (1):
+  Call qemu_socketpair() instead of socketpair() when possible
+
+Hoa Nguyen (1):
+  hw/cxl/cxl-host: Fix an error message typo
+
+Marc-André Lureau (1):
+  ccid-card-emulated: fix cast warning/error
+
+Michael Tokarev (2):
+  hw/cxl/cxl-cdat.c: spelling: missmatch
+  hw/ssi/sifive_spi.c: spelling: reigster
+
+Philippe Mathieu-Daudé (5):
+  hw/display: Move omap_lcdc.c out of target-specific source set
+  hw/intc: Move some files out of the target-specific source set
+  hw/tpm: Move tpm_ppi.c out of target-specific source set
+  hw/arm: Move various units to softmmu_ss[]
+  hw/i386/pc: Remove unused 'owner' argument from pc_pci_as_mapping_init
+
+Thomas Huth (4):
+  hw/cpu: Mark arm11 and realview mpcore as target-independent code
+  hw/intc: Mark more interrupt-controller files as target independent
+  hw/usb: Mark the XLNX_VERSAL-related files as target-independent
+  tests/qtest/test-hmp: Improve the check for verbose mode
+
+Yuval Shaia (1):
+  hw/pvrdma: Protect against buggy or malicious guest driver
+
+ backends/tpm/tpm_emulator.c         |  2 +-
+ hw/arm/meson.build                  | 11 +++++++----
+ hw/cpu/meson.build                  |  4 ++--
+ hw/cxl/cxl-cdat.c                   |  2 +-
+ hw/cxl/cxl-host.c                   |  2 +-
+ hw/display/meson.build              |  2 +-
+ hw/i386/pc.c                        |  2 +-
+ hw/intc/meson.build                 | 12 ++++++------
+ hw/pci-host/i440fx.c                |  3 +--
+ hw/pci-host/q35.c                   |  3 +--
+ hw/rdma/vmw/pvrdma_cmd.c            |  6 ++++++
+ hw/ssi/sifive_spi.c                 |  2 +-
+ hw/tpm/meson.build                  |  4 ++--
+ hw/usb/ccid-card-emulated.c         |  2 +-
+ hw/usb/meson.build                  |  4 ++--
+ include/hw/i386/pc.h                |  2 +-
+ tests/qtest/dbus-display-test.c     |  5 +++--
+ tests/qtest/migration-test.c        |  2 +-
+ tests/qtest/test-hmp.c              |  2 +-
+ tests/unit/test-crypto-tlssession.c |  4 ++--
+ tests/unit/test-io-channel-tls.c    |  2 +-
+ 21 files changed, 43 insertions(+), 35 deletions(-)
+
+-- 
+2.38.1
 
 
