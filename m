@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D994672010
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 15:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE12A67201C
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 15:49:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI9iX-0004kD-5X; Wed, 18 Jan 2023 09:47:09 -0500
+	id 1pI9kA-0005XI-6l; Wed, 18 Jan 2023 09:48:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pI9iU-0004hi-SK
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 09:47:07 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pI9k3-0005Ub-Ta
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 09:48:45 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pI9iT-0004h1-7U
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 09:47:06 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pI9k2-0004oK-Ct
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 09:48:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674053224;
+ s=mimecast20190719; t=1674053321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wsZIPCB2o2VdoB/N6gZW/7xpCToYgXucMg27FF2lsRg=;
- b=dPt1CcvsgSOjT4dBUFMlZECtoE9RqyGZcHBhDSoeLLQn3KhdWJqwKr4g8YH/UweV3y99Lq
- Dwzv9P9uQEdQnWF4fymLdOJA9YEIrLcF+oB10cmSnhfWqhYsBk61M1ZzxPaIlj6pzA0/5Y
- 3X1jiG3D8oeRyNxG0dAKkhCYkPQ1WAo=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SzKquxXyegFiXLBueaqYPwnw9R4Us/3AslWLiY+hkZo=;
+ b=XGRyA3Uc899N34gKt4X+qxa82A7RddSCG+4nCj/Q1wypwsRIlBKOdrWl7ZbVkqGjELrTcy
+ btZOos/6zRkphmLsI5I4EHsfB44M3jd9cal0eKBlfPCQ81JlaksM+QhlS162qOCZjAy0fD
+ jeDdq86EVbAwdbrSIt7sMqoT4XvzAQc=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-217-NmhTcpoNPt2fca-k8E4EPA-1; Wed, 18 Jan 2023 09:46:55 -0500
-X-MC-Unique: NmhTcpoNPt2fca-k8E4EPA-1
-Received: by mail-ej1-f70.google.com with SMTP id
- qa18-20020a170907869200b007df87611618so23809056ejc.1
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 06:46:55 -0800 (PST)
+ us-mta-203-dBAhp529NCa0P5O3QHiA-w-1; Wed, 18 Jan 2023 09:48:38 -0500
+X-MC-Unique: dBAhp529NCa0P5O3QHiA-w-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ sc9-20020a1709078a0900b0086910fdf624so11674511ejc.13
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 06:48:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wsZIPCB2o2VdoB/N6gZW/7xpCToYgXucMg27FF2lsRg=;
- b=QR2CffdY0vU9tjEvF2EZtndhJAkadOXRgkkO5XYHUQ7k8zXBdRHukImbfhwbP2/oka
- BhL8pFrS8t3bWapfhIlEDuyPuUCe3eWP3KbfrqUTylkl1uS0f1ce6W+KNtynKfrnC+m8
- 5BQujnVr/eQ15flqjxK0oIn65rW3glld+J6d1y0WYvGfLR7Z+sB8+nbw5HzPNX+J8GnA
- HiM6QGk/QXXKZ++0cyPgVY5FHRRM/tCcP4R14zS9xqImPxMiCKAYzkTuuTmunCyzhN7Y
- vRvk6Xc/Zk1r6ikEr0DdummKrF9vu01j6Lg/hwlO9hff1xuVk5+dYFLs3P6J2gs40V2R
- wozQ==
-X-Gm-Message-State: AFqh2krLVPvZS9LZ6G7jTTuCOUsCpYEeoaTdRKMQlnH2tGBHSu+e7D0L
- UE7U4DV6edoPcmAffB8K9KlxqMytXAJULUnEfK+uvBMrDKhgOjc6r1hx1vj5x48N2DT+AqfsBwC
- osZjW9CMl3xWFsEw=
-X-Received: by 2002:a17:906:1851:b0:86e:4067:b699 with SMTP id
- w17-20020a170906185100b0086e4067b699mr9637619eje.4.1674053214478; 
- Wed, 18 Jan 2023 06:46:54 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsgyTCMdhRBNsq/HgiHf9G6A/C4THFqL2OPcOhJVSlFOxkWsLiWwCNmfQ8SwR4BRrMiZKVaxQ==
-X-Received: by 2002:a17:906:1851:b0:86e:4067:b699 with SMTP id
- w17-20020a170906185100b0086e4067b699mr9637596eje.4.1674053214298; 
- Wed, 18 Jan 2023 06:46:54 -0800 (PST)
+ bh=SzKquxXyegFiXLBueaqYPwnw9R4Us/3AslWLiY+hkZo=;
+ b=kLHwqJXUfAlYxoyUWYTe5/69nFLxlyfWVzYygJ/HbuAIyEtJTZv5x7dUO7DbXtHXiR
+ j54oNoNoiJUKD4tn0ATq8JwKm6OPbHfFt+qKTu6HLt4iEF72WTkQ+26d0EwxXQjnJ8JW
+ LSLZ/6EvwCAsm7yv1t8yH//PrODIwYCOcvnqBcHv0c5rezPZhBuMSzXZpLwHJNfFjuOm
+ /Z+HFh6kr5DGQI/1inZcFbRxoQjFKipzGVYpLkCWqtUSTxKV0Ocaba6QRWEm6QonpJ2n
+ /OfdCP9OS398JXpidQHSwYaIU3o5u641HQ5JILMrxByYbAbmmm9D6iXIrAjEn6Qg9bjA
+ mZDg==
+X-Gm-Message-State: AFqh2koFCytf22Fl5ZjfaItzAh5TGzAo727c9OvN1jFsJMD2QwktKieI
+ jVi/OeWlWqN0aVWTHjf8fQvWFqSQQ7zSTim3sfu5tzTZHNwdux70q+tzbWVinJvoPWntq9qR2Vv
+ ETGf2R0nVNjvV+GA=
+X-Received: by 2002:a05:6402:c84:b0:475:c640:ddd2 with SMTP id
+ cm4-20020a0564020c8400b00475c640ddd2mr6965555edb.26.1674053315854; 
+ Wed, 18 Jan 2023 06:48:35 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtBHZTnLbov2RZAvWMI3o+IVXvc9aXN7uEWcpWfxFWcb3YDEWxvYzZg+QBtS8OuO0UI5YpErg==
+X-Received: by 2002:a05:6402:c84:b0:475:c640:ddd2 with SMTP id
+ cm4-20020a0564020c8400b00475c640ddd2mr6965535edb.26.1674053315559; 
+ Wed, 18 Jan 2023 06:48:35 -0800 (PST)
 Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
  ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
  by smtp.gmail.com with ESMTPSA id
- 17-20020a170906059100b007c16f120aacsm14641561ejn.121.2023.01.18.06.46.52
+ r8-20020aa7c148000000b0046951b43e84sm14263494edp.55.2023.01.18.06.48.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 06:46:53 -0800 (PST)
-Message-ID: <130ba67b-e954-0785-72c7-594ef12d2862@redhat.com>
-Date: Wed, 18 Jan 2023 15:46:51 +0100
+ Wed, 18 Jan 2023 06:48:34 -0800 (PST)
+Message-ID: <dd8b8623-7749-39ff-e63a-2dd3c30622b0@redhat.com>
+Date: Wed, 18 Jan 2023 15:48:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v8 11/11] parallels: Incorrect condition in out-of-image
- check
+Subject: Re: [PATCH v8 08/11] parallels: Move check of leaks to a separate
+ function
 Content-Language: en-US
 To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, den@virtuozzo.com, stefanha@redhat.com,
  vsementsov@yandex-team.ru, kwolf@redhat.com
 References: <20230115155821.1534598-1-alexander.ivanov@virtuozzo.com>
- <20230115155821.1534598-12-alexander.ivanov@virtuozzo.com>
+ <20230115155821.1534598-9-alexander.ivanov@virtuozzo.com>
 From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <20230115155821.1534598-12-alexander.ivanov@virtuozzo.com>
+In-Reply-To: <20230115155821.1534598-9-alexander.ivanov@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -104,33 +104,84 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 15.01.23 16:58, Alexander Ivanov wrote:
-> All the offsets in the BAT must be lower than the file size.
-> Fix the check condition for correct check.
+> We will add more and more checks so we need a better code structure
+> in parallels_co_check. Let each check performs in a separate loop
+> in a separate helper.
 >
 > Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 > Reviewed-by: Denis V. Lunev <den@openvz.org>
 > ---
->   block/parallels.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   block/parallels.c | 84 +++++++++++++++++++++++++++++------------------
+>   1 file changed, 52 insertions(+), 32 deletions(-)
 >
 > diff --git a/block/parallels.c b/block/parallels.c
-> index 621dbf623a..eda3fb558d 100644
+> index 3d06623355..5db099b1dd 100644
 > --- a/block/parallels.c
 > +++ b/block/parallels.c
-> @@ -455,7 +455,7 @@ static int parallels_check_outside_image(BlockDriverState *bs,
+> @@ -475,14 +475,14 @@ static int parallels_check_outside_image(BlockDriverState *bs,
+>       return 0;
+>   }
+>   
+> -static int coroutine_fn parallels_co_check(BlockDriverState *bs,
+> -                                           BdrvCheckResult *res,
+> -                                           BdrvCheckMode fix)
+> +static int parallels_check_leak(BlockDriverState *bs,
+> +                                BdrvCheckResult *res,
+> +                                BdrvCheckMode fix)
+>   {
+>       BDRVParallelsState *s = bs->opaque;
+> -    int64_t size, prev_off, high_off;
+> -    int ret;
+> +    int64_t size, off, high_off, count;
+>       uint32_t i;
+> +    int ret;
+>   
+>       size = bdrv_getlength(bs->file->bs);
+>       if (size < 0) {
+> @@ -490,41 +490,16 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
+>           return size;
+>       }
+>   
+> -    qemu_co_mutex_lock(&s->lock);
+> -
+> -    parallels_check_unclean(bs, res, fix);
+> -
+> -    ret = parallels_check_outside_image(bs, res, fix);
+> -    if (ret < 0) {
+> -        goto out;
+> -    }
+> -
+> -    res->bfi.total_clusters = s->bat_size;
+> -    res->bfi.compressed_clusters = 0; /* compression is not supported */
+> -
 >       high_off = 0;
+> -    prev_off = 0;
 >       for (i = 0; i < s->bat_size; i++) {
->           off = bat2sect(s, i) << BDRV_SECTOR_BITS;
-> -        if (off > size) {
-> +        if (off >= size) {
+> -        int64_t off = bat2sect(s, i) << BDRV_SECTOR_BITS;
+> -        if (off == 0) {
+> -            prev_off = 0;
+> -            continue;
+> -        }
+> -
+> -        res->bfi.allocated_clusters++;
+> +        off = bat2sect(s, i) << BDRV_SECTOR_BITS;
+>           if (off > high_off) {
+>               high_off = off;
+>           }
+> -
+> -        if (prev_off != 0 && (prev_off + s->cluster_size) != off) {
+> -            res->bfi.fragmented_clusters++;
+> -        }
+> -        prev_off = off;
+>       }
+>   
+>       res->image_end_offset = high_off + s->cluster_size;
 
-Should this not be the even stricter `off + s->cluster_size > size` 
-instead, or is it possible to have partial clusters at the image end?
+Continuing the question from patch 7, why do we have separate ways to 
+calculate s->data_end and res->image_end_offset now?  Would it be 
+possible to just set `res->image_end = s->data_end` and thus drop the 
+`for` loop from this function?
 
 Hanna
-
->               fprintf(stderr, "%s cluster %u is outside image\n",
->                       fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR", i);
->               res->corruptions++;
 
 
