@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA9067289F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 20:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6630F672890
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 20:39:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIEGm-0004G0-3j; Wed, 18 Jan 2023 14:38:48 -0500
+	id 1pIEGo-0004hr-TY; Wed, 18 Jan 2023 14:38:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIEGR-0003ux-Qm; Wed, 18 Jan 2023 14:38:28 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ id 1pIEGV-0004Ff-T5; Wed, 18 Jan 2023 14:38:36 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIEGQ-0007dm-7I; Wed, 18 Jan 2023 14:38:27 -0500
+ id 1pIEGU-0007e5-79; Wed, 18 Jan 2023 14:38:31 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C1A355BED3;
- Wed, 18 Jan 2023 19:38:24 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B50F138D49;
+ Wed, 18 Jan 2023 19:38:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674070704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1674070708; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h83+ckeZU8d/nlLFTyp/l4xVD91xEWYC1+aMA1rItec=;
- b=ubbH+cBgZO+c7+vZWC+ovR9A1aLCrg/iEaySAzLSWwzR2jOeJGGh/8UNziVrSK340IE2sh
- XOdG54SyY+GSkpIfdlIqvjbDwucIOcLzU6HQPvSYLgqAw+nBZHQT/mSA8tCNOPfgPsuXn2
- z9dZrBjRJL9rUthBP4OIlYJa77fCXQI=
+ bh=BtHJBVBQ6X4CRCaUHJwzKOFSedyFeFXp3iolnOpnd60=;
+ b=Hec4l3awmcYTgZgi1NK1ERC2WhOIEhgKcK6ffUY5Ni02b4qR/nUdmzrNcfRzlp6l+9Rcun
+ P4iFveqCQOkZ4zm8RN0ZQdxpNF21TizYwAQn1VXsHLHnxzYKdS6968/8G/Y4Opp4nXr/Ot
+ pbet+0vhFqfo0WKEVck7cWxkmN4HNK8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674070704;
+ s=susede2_ed25519; t=1674070708;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h83+ckeZU8d/nlLFTyp/l4xVD91xEWYC1+aMA1rItec=;
- b=OJusFQCDnh2mSD0XNxQVV9ILJiUUYZvfCwGpHjGDSLfi6YJM7DHqWIiYhh9sqtebYl6Edd
- dzbFZjjgM0+0RzAw==
+ bh=BtHJBVBQ6X4CRCaUHJwzKOFSedyFeFXp3iolnOpnd60=;
+ b=+xyZgMPaLEM2+08HnSuWb5yvkzhkx5n46gyAS96XfMge5hRaA5n8vXslW7XWzoiOjO2Auw
+ aR2FNjBK1MrHzkDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7BBBF139D2;
- Wed, 18 Jan 2023 19:38:21 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 396A3139D2;
+ Wed, 18 Jan 2023 19:38:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YA0nEa1KyGOWBwAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 18 Jan 2023 19:38:21 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id iLEzAbFKyGOWBwAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 18 Jan 2023 19:38:25 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -59,18 +59,17 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
  Cleber Rosa <crosa@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH 19/20] tests/avocado: Skip tests that require a missing
- accelerator
-Date: Wed, 18 Jan 2023 16:35:17 -0300
-Message-Id: <20230118193518.26433-20-farosas@suse.de>
+ Beraldo Leal <bleal@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Subject: [PATCH 20/20] tests/avocado: Tag TCG tests with accel:tcg
+Date: Wed, 18 Jan 2023 16:35:18 -0300
+Message-Id: <20230118193518.26433-21-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230118193518.26433-1-farosas@suse.de>
 References: <20230118193518.26433-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -93,33 +92,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If a test was tagged with the "accel" tag and the specified
-accelerator it not present in the qemu binary, cancel the test.
-
-We can now write tests without explicit calls to require_accelerator,
-just the tag is enough.
+This allows the test to be skipped when TCG is not present in the QEMU
+binary.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/avocado/avocado_qemu/__init__.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/avocado/boot_linux_console.py | 1 +
+ tests/avocado/reverse_debugging.py  | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-index 910f3ba1ea..ed2809210b 100644
---- a/tests/avocado/avocado_qemu/__init__.py
-+++ b/tests/avocado/avocado_qemu/__init__.py
-@@ -274,6 +274,10 @@ def setUp(self):
+diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+index 8c1d981586..980a14991a 100644
+--- a/tests/avocado/boot_linux_console.py
++++ b/tests/avocado/boot_linux_console.py
+@@ -990,6 +990,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
  
-         super().setUp('qemu-system-')
+     def test_aarch64_raspi3_atf(self):
+         """
++        :avocado: tags=accel:tcg
+         :avocado: tags=arch:aarch64
+         :avocado: tags=machine:raspi3b
+         :avocado: tags=cpu:cortex-a53
+diff --git a/tests/avocado/reverse_debugging.py b/tests/avocado/reverse_debugging.py
+index d2921e70c3..680c314cfc 100644
+--- a/tests/avocado/reverse_debugging.py
++++ b/tests/avocado/reverse_debugging.py
+@@ -173,6 +173,10 @@ def reverse_debugging(self, shift=7, args=None):
+         vm.shutdown()
  
-+        accel_required = self._get_unique_tag_val('accel')
-+        if accel_required:
-+            self.require_accelerator(accel_required)
+ class ReverseDebugging_X86_64(ReverseDebugging):
++    """
++    :avocado: tags=accel:tcg
++    """
 +
-         self.machine = self.params.get('machine',
-                                        default=self._get_unique_tag_val('machine'))
+     REG_PC = 0x10
+     REG_CS = 0x12
+     def get_pc(self, g):
+@@ -190,6 +194,10 @@ def test_x86_64_pc(self):
+         self.reverse_debugging()
  
+ class ReverseDebugging_AArch64(ReverseDebugging):
++    """
++    :avocado: tags=accel:tcg
++    """
++
+     REG_PC = 32
+ 
+     # unidentified gitlab timeout problem
 -- 
 2.35.3
 
