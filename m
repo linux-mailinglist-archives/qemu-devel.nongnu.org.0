@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78E86713B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 07:16:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E78671491
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 07:55:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI1ik-0004J4-Aw; Wed, 18 Jan 2023 01:14:51 -0500
+	id 1pI2Kl-0001TC-U4; Wed, 18 Jan 2023 01:54:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <42.hyeyoo@gmail.com>)
- id 1pI1ih-0004Ir-EL
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 01:14:48 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1pI2Ki-0001Sn-7U; Wed, 18 Jan 2023 01:54:04 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <42.hyeyoo@gmail.com>)
- id 1pI1ie-0004Qg-OJ
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 01:14:46 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- cx21-20020a17090afd9500b00228f2ecc6dbso1376548pjb.0
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 22:14:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2+TZM6gnKSL+usszgItsx0GXiO6zhY9IMjx4r1b89B0=;
- b=cU2Hs9e0pys58UYWj1Fu2ePePkv4Fqq7fK4ajPYQc3oo2FpfC2GDf22mm06qQevPdk
- xw8z3LmjQ5R4hyANDuyPJ87X1P/sjTi2NzBGkPUGXHKltOUri+4+H+XB7SMPV1qR+TBr
- KAWu4BBI8TNFVFtOcH29TXkZtsaJeyKvgRiP+7Dia1ib4AYFvA5dxePYXuVV+fHgJ6XB
- sQYvWNoIAm3JPlTY2jNUuQifF+AzrKn8bfRf+v9sgVxYDHdCWWruwoOFwxmUesA5gW3B
- 02tJPv6xTeoh2iwldAhyXkgshDPO2GxE0yfH3aODyJW/nKLwKzD64BSwVMn+motbJgv1
- dFBg==
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1pI2Kf-0001do-03; Wed, 18 Jan 2023 01:54:03 -0500
+Received: by mail-ej1-x636.google.com with SMTP id az20so61770222ejc.1;
+ Tue, 17 Jan 2023 22:54:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=J4tIJwMVf1KPdNevhXqAd5NlgY0tz5HV8fZGUnAW25g=;
+ b=Y6DnVJlS+/xoKvFq+97oJEnL29ZlY3xgiHcvTFACz6db1BS3+PAoO7UrGyQxovffHd
+ qxGMF1+okAEwxNeHjEXsvr+RryUAKncygMhACDM98ROLspz28cbE8iHH8/vEf6ZwrFFN
+ dG50gYbjwXeNsEacEoZTBtx7dJ2piH59K9Mvg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2+TZM6gnKSL+usszgItsx0GXiO6zhY9IMjx4r1b89B0=;
- b=bF3SU0GxJj3ED7/KnVyYYyB2tNpeBpOfGLJXXKwW964/H3zEQ77y3C/h1Z+l18N+io
- BrtmtTSy1q2N4/X6+ykuam751V42U2S3wpt7jHsvylhkUTqTocw6rtg+IaKNATXllYQC
- UE3LB09CL7DcBzwn/6lyDlSaQELK3Jwshdf1iQOTaDNy9YBERplLBMOlJjrZoU39OxGg
- pzc/DHHipF4hH1MZuxu9hkYc95xODq6MlYV/XdeOIwizk7S5XVjYwjMGyi65cQNEaiTe
- FitHgCVzIlrv2pn3tGu1YfWpt0pxEYck1dED2ynT/EuvzbXeWJtJ0vE/JnfTi7UrBlHo
- rDtQ==
-X-Gm-Message-State: AFqh2kqTYp0Z2gE9/wEE+Q1tmbhSVnjub9/r5p3+Bs/HKQvIXbDTS8o+
- jIEVwYkJg7vs/bzzc1+5e7r1sxf0e29qpA==
-X-Google-Smtp-Source: AMrXdXvff9zlolRQw5RF8pIMzqoUcfQ1AGmb6UqChgTtS81WAu1ZUW1v26tZcdxtAT8DPrSEPmYAzg==
-X-Received: by 2002:a05:6a20:9e0e:b0:a4:6eeb:91ae with SMTP id
- ms14-20020a056a209e0e00b000a46eeb91aemr4850720pzb.49.1674022481254; 
- Tue, 17 Jan 2023 22:14:41 -0800 (PST)
-Received: from localhost ([2400:8902::f03c:93ff:fe27:642a])
- by smtp.gmail.com with ESMTPSA id
- s1-20020a63f041000000b004784cdc196dsm18200760pgj.24.2023.01.17.22.14.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jan 2023 22:14:40 -0800 (PST)
-Date: Wed, 18 Jan 2023 06:14:33 +0000
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: reverse-{debugging,continue} not working on v7.2.0, i386 guest
-Message-ID: <Y8eOSedPWlOjriho@localhost>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=J4tIJwMVf1KPdNevhXqAd5NlgY0tz5HV8fZGUnAW25g=;
+ b=CR5YcnoFr3MMPmXF6OVGMq03XcukPfMLmjl0USwoY+qHc0/pzapcY1sS/jfcHJz7eP
+ vGOvwgJzpw5hFNe1V9tgAielnLL+dQVDRFMZJVKl0eqR7tpYVEePfe8hz4vOOxPH/F9V
+ fDP6XuSKGT7WAyLtwkg+4wua8ybVvneNRQIIyTnwtwq8K1OilwSY18BQB9toOmfD82LI
+ VXS7f6FngOM0CFxwfhCofAhi6s9DgH+eqj6uhim5wwwuif5/jUQ8TOYsXkWD7iKwML/T
+ KUzVjmAX4pt9hjPGeNk6YQoQbZnAAEngg9LNiz+WakumnLdfts1u6dm3b7VKoPeNL7QI
+ L9Nw==
+X-Gm-Message-State: AFqh2kpfwXplmO6pyXna2iT1fHTm5+NlUFigUGdWCJGDp6TrFJ3d2MLU
+ A8WINsRepvGZE2d+ORR/VFDY7k7QB5+K9Ysmsd8=
+X-Google-Smtp-Source: AMrXdXsg/wiW9ZNbradm9rwwSW4XHAKVs7cwv+9KTmzk3zmvT0poJ0pM2YvtbtUChX0BtjjBk9H5koxzRFFmbKNpgac=
+X-Received: by 2002:a17:906:3b85:b0:7c1:4665:9684 with SMTP id
+ u5-20020a1709063b8500b007c146659684mr769954ejf.23.1674024838773; Tue, 17 Jan
+ 2023 22:53:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=42.hyeyoo@gmail.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: 22
-X-Spam_score: 2.2
-X-Spam_bar: ++
-X-Spam_report: (2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+References: <20221230113504.37032-1-philmd@linaro.org>
+ <20221230113504.37032-5-philmd@linaro.org>
+In-Reply-To: <20221230113504.37032-5-philmd@linaro.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 18 Jan 2023 06:53:46 +0000
+Message-ID: <CACPK8XcdKGvQGOeBKQXRhYVZKO5k8jCv_1syNbZr8YPufaSjLg@mail.gmail.com>
+Subject: Re: [PATCH v2 04/11] hw/arm/aspeed: Use the IEC binary prefix
+ definitions
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Troy Lee <troy_lee@aspeedtech.com>, 
+ Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, 
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, Peter Delevoryas <peter@pjd.dev>,
+ Steven Lee <steven_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>, 
+ Peter Delevoryas <pdel@fb.com>, Peter Delevoryas <pdel@meta.com>,
+ qemu-arm@nongnu.org, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=joel.stan@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,54 +90,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello QEMU folks.
-I was struggling to fix a recent heisenbug in the Linux kernel,
-and fortunately the bug was reproducible with TCG and -smp 1.
+On Fri, 30 Dec 2022 at 11:35, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
+g> wrote:
+>
+> IEC binary prefixes ease code review: the unit is explicit.
 
-I'm using qemu version 7.2.0, and guest architecture is i386.
-I tried to inspect the bug using record/replay and reverse-debugging
-feature in the QEMU.
+I strongly prefer the existing code; it tells you the size without
+having to do maths.
 
-
-recorded with:
-
-qemu-system-i386 \
-        -icount shift=auto,rr=record,rrfile=$REPLAY_FILE \
-        -kernel arch/x86/boot/bzImage \
-        -cpu SandyBridge \
-        -initrd debian-i386.cgz \
-        -smp 1 \
-        -m 1024 \
-        -nographic \
-        -net none \
-        -append "page_owner=on console=ttyS0"
-
-and replayed with:
-
-qemu-system-i386 \
-        -icount shift=auto,rr=replay,rrfile=$REPLAY_FILE \
-        -kernel arch/x86/boot/bzImage \
-        -cpu SandyBridge \
-        -initrd debian-i386.cgz \
-        -smp 1 \
-        -m 1024 \
-        -nographic \
-        -net none \
-        -s \
-        -append "page_owner=on console=ttyS0"
-
-(I'm using a initrd image instead of a disk file.)
-
-The record and replay works well. The bug is reliably reproduced
-when relaying. but when I try to reverse-continue or reverse-stepi after
-kernel panic, the gdb only says:
-
-	"remote failure reply 'E14'"
-
-Is there something I'm missing, or record/replay do not work with
-QEMU v7.2.0 or i386?
-
---
-Best regards,
-Hyeonggon
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+> ---
+>  hw/arm/aspeed_ast10x0.c | 3 ++-
+>  hw/arm/aspeed_ast2600.c | 3 ++-
+>  hw/arm/aspeed_soc.c     | 4 ++--
+>  3 files changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+> index 122b3fd3f3..3500294df7 100644
+> --- a/hw/arm/aspeed_ast10x0.c
+> +++ b/hw/arm/aspeed_ast10x0.c
+> @@ -10,6 +10,7 @@
+>   */
+>
+>  #include "qemu/osdep.h"
+> +#include "qemu/units.h"
+>  #include "qapi/error.h"
+>  #include "exec/address-spaces.h"
+>  #include "sysemu/sysemu.h"
+> @@ -348,7 +349,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass=
+ *klass, void *data)
+>      sc->name =3D "ast1030-a1";
+>      sc->cpu_type =3D ARM_CPU_TYPE_NAME("cortex-m4");
+>      sc->silicon_rev =3D AST1030_A1_SILICON_REV;
+> -    sc->sram_size =3D 0xc0000;
+> +    sc->sram_size =3D 768 * KiB;
+>      sc->spis_num =3D 2;
+>      sc->ehcis_num =3D 0;
+>      sc->wdts_num =3D 4;
+> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> index a79e05ddbd..72df72a540 100644
+> --- a/hw/arm/aspeed_ast2600.c
+> +++ b/hw/arm/aspeed_ast2600.c
+> @@ -8,6 +8,7 @@
+>   */
+>
+>  #include "qemu/osdep.h"
+> +#include "qemu/units.h"
+>  #include "qapi/error.h"
+>  #include "hw/misc/unimp.h"
+>  #include "hw/arm/aspeed_soc.h"
+> @@ -619,7 +620,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass=
+ *oc, void *data)
+>      sc->name         =3D "ast2600-a3";
+>      sc->cpu_type     =3D ARM_CPU_TYPE_NAME("cortex-a7");
+>      sc->silicon_rev  =3D AST2600_A3_SILICON_REV;
+> -    sc->sram_size    =3D 0x16400;
+> +    sc->sram_size    =3D 89 * KiB;
+>      sc->spis_num     =3D 2;
+>      sc->ehcis_num    =3D 2;
+>      sc->wdts_num     =3D 4;
+> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+> index 2c0924d311..677342c9ed 100644
+> --- a/hw/arm/aspeed_soc.c
+> +++ b/hw/arm/aspeed_soc.c
+> @@ -517,7 +517,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass=
+ *oc, void *data)
+>      sc->name         =3D "ast2400-a1";
+>      sc->cpu_type     =3D ARM_CPU_TYPE_NAME("arm926");
+>      sc->silicon_rev  =3D AST2400_A1_SILICON_REV;
+> -    sc->sram_size    =3D 0x8000;
+> +    sc->sram_size    =3D 32 * KiB;
+>      sc->spis_num     =3D 1;
+>      sc->ehcis_num    =3D 1;
+>      sc->wdts_num     =3D 2;
+> @@ -544,7 +544,7 @@ static void aspeed_soc_ast2500_class_init(ObjectClass=
+ *oc, void *data)
+>      sc->name         =3D "ast2500-a1";
+>      sc->cpu_type     =3D ARM_CPU_TYPE_NAME("arm1176");
+>      sc->silicon_rev  =3D AST2500_A1_SILICON_REV;
+> -    sc->sram_size    =3D 0x9000;
+> +    sc->sram_size    =3D 36 * KiB;
+>      sc->spis_num     =3D 2;
+>      sc->ehcis_num    =3D 2;
+>      sc->wdts_num     =3D 3;
+> --
+> 2.38.1
+>
 
