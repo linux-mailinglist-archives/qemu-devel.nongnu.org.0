@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0BB267195C
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 11:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82CD467198B
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 11:46:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI5sZ-0006rD-M6; Wed, 18 Jan 2023 05:41:15 -0500
+	id 1pI5x3-0000WN-Hl; Wed, 18 Jan 2023 05:45:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pI5sW-0006qv-BB
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:41:12 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI5wi-0000Vu-8H
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:45:32 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pI5sU-0008Mg-KE
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:41:12 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 97F971FF02;
- Wed, 18 Jan 2023 10:41:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674038468; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nXc+TczWCaTKd/I6m0h8IfUacEq6XiIlvO+ii6st4B8=;
- b=aupxdRaSYxE1cUdlK84zLUT/5e40OpIiiFoCf01dr9ZaXzbSNLSMQCFUOJFZLf0+EJ4EiP
- jwRJB4zSFnNLyJD8/lWk/z5AtZNbB3wwNeJ8axdl+VT0uU6Zk7dyQ5GpaWxt1mOqCsp85e
- JB4FH8AIMJdgT174cVPEssmQYmMMkWo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674038468;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nXc+TczWCaTKd/I6m0h8IfUacEq6XiIlvO+ii6st4B8=;
- b=iNbeaXb/XNg6BwpSKItFEDIRdVJxn3SRbe/kJTdX/x1UkaRt2iwKdDfXA9dG/cD3V9X+/q
- 9KSiRNWphI58ZCAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 28059138FE;
- Wed, 18 Jan 2023 10:41:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id LIN0BsTMx2PnXgAAMHmgww
- (envelope-from <cfontana@suse.de>); Wed, 18 Jan 2023 10:41:08 +0000
-Message-ID: <f52167d2-953d-4413-e570-8922998f3924@suse.de>
-Date: Wed, 18 Jan 2023 11:41:07 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI5wg-0001b9-Hv
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:45:32 -0500
+Received: by mail-wr1-x432.google.com with SMTP id b5so12312739wrn.0
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 02:45:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=POBLeK6wEBeyqlHV8bgMgnWeDtKCT80g2KWdwHFt+N4=;
+ b=eBHh1gU9890a0Cjs1jBmE58zoc/8pgoRzETRQ2kwcC/e+CQkN8jNP3Eo45hsHPXfQu
+ fkaoh+LR2Bb07pDtH3lMsdI3tualo557O+NyIijMGwVmIikmxjra0NkxfM8bFFSMMB64
+ yldNagt4h2dEw2AjFYo9eWlS3hQ1iOSFBx04oMVZN0px1BzuTQSy/LXnYKMZ/e/9WPEj
+ K5Rm47VJEgPNxzB9Lq6bO0ArRcrnaDAP08rcY3PWqqRwKv0x1DR/+mDWYbeE1EJXWD9R
+ h8JjCPdg1u1tgz9mjnVGNOn3V+HKh93W4tNkPsrZ5BOz/S32eRQAWrF/GWJQsbIZnNdF
+ xF9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=POBLeK6wEBeyqlHV8bgMgnWeDtKCT80g2KWdwHFt+N4=;
+ b=vIy0V6St9dudbNUZGzA9J0MXjO8sZeZ7xSXOAFbmKXRqiZIIjBADTCT9w3lXeY9LkW
+ EX+PzYaddVHJhZtIlw6feRh1eq31UQYxPs2ZeADqwYwuc6Iiy4+bj+jsM+Yt4PBy1SR3
+ 979f8SI8AdLClrCwcaLvspkM+hS1rHauxew3+OzAbNPcsQAKY7a7XI3F7akXTajaA4X9
+ y19sdF7laM8jncMBQS1xkTgKomCfVenRspStXVkGJ140eyOCOJDKqWJiPSJrxjsgYIkD
+ /7v4ZyLf1rWor0K++aZvAqHeAakUnZJINNLGa5uSy7XH/P58ruyGjxZ9Njm/dgDKpkYD
+ 9UlA==
+X-Gm-Message-State: AFqh2kqrvZQtcV+XJQADZ89nSPAnPMOKQ20oYJadDez3k1Xya5ZSai5u
+ HtW5ew70+Z1VMHxkqlvMgvcspg==
+X-Google-Smtp-Source: AMrXdXvb7kGmsBhwQYlBpEUi/YaiU0sZP3RlGi7e9bGC9mrhnmUQMDdPSHWj9CGvHNgjl/HQidjpeQ==
+X-Received: by 2002:adf:a318:0:b0:2bd:dc0c:ffd1 with SMTP id
+ c24-20020adfa318000000b002bddc0cffd1mr5978546wrb.13.1674038728583; 
+ Wed, 18 Jan 2023 02:45:28 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ h3-20020adfe983000000b002bdf5832843sm10162239wrm.66.2023.01.18.02.45.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 02:45:28 -0800 (PST)
+Message-ID: <1ff29148-eae9-84b7-3521-4b9d543f12e3@linaro.org>
+Date: Wed, 18 Jan 2023 11:45:25 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 0/5] migration: Modified 'migrate' QAPI command for
- migration
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [RFC PATCH v3 18/28] target/arm: Move common cpu code into cpu.c
 Content-Language: en-US
-To: Het Gala <het.gala@nutanix.com>, qemu-devel@nongnu.org
-Cc: prerna.saxena@nutanix.com, quintela@redhat.com, dgilbert@redhat.com,
- pbonzini@redhat.com, berrange@redhat.com, armbru@redhat.com,
- eblake@redhat.com, Aravind Retnakaran <aravind.retnakaran@nutanix.com>,
- Manish Mishra <manish.mishra@nutanix.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20221226053329.157905-1-het.gala@nutanix.com>
- <114351ed-2676-d2d1-d6a6-2eb3732d1c06@suse.de>
- <787a413f-605a-6ca8-ee92-d1ab93a7531d@nutanix.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <787a413f-605a-6ca8-ee92-d1ab93a7531d@nutanix.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
+References: <20230113140419.4013-1-farosas@suse.de>
+ <20230113140419.4013-19-farosas@suse.de>
+ <bafc45b7-f42a-a500-053f-65f057a14cc1@linaro.org> <87bkmx0yux.fsf@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <87bkmx0yux.fsf@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,58 +95,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/18/23 06:52, Het Gala wrote:
+On 17/1/23 20:01, Fabiano Rosas wrote:
+> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
 > 
-> On 17/01/23 4:22 pm, Claudio Fontana wrote:
->> Hi,
->>
->> On 12/26/22 06:33, Het Gala wrote:
->>> Current QAPI 'migrate' command design (for initiating a migration
->>> stream) contains information regarding different migrate transport mechanism
->>> (tcp / unix / exec), dest-host IP address, and binding port number in form of
->>> a string. Thus the design does seem to have some design issues. Some of the
->>> issues, stated below are:
+>> On 13/1/23 15:04, Fabiano Rosas wrote:
+>>> The cpu_tcg.c file about to be moved into the tcg directory. Move the
+>>> code that is needed for cpus that also work with KVM into cpu.c.
 >>>
->>> 1. Use of string URIs is a data encoding scheme within a data encoding scheme.
->>>     QEMU code should directly be able to work with the results from QAPI,
->>>     without resorting to do a second level of parsing (eg. socket_parse()).
->>> 2. For features / parameters related to migration, the migration tunables needs
->>>     to be defined and updated upfront. For example, 'migrate-set-capability'
->>>     and 'migrate-set-parameter' is required to enable multifd capability and
->>>     multifd-number of channels respectively. Instead, 'Multifd-channels' can
->>>     directly be represented as a single additional parameter to 'migrate'
->>>     QAPI. 'migrate-set-capability' and 'migrate-set-parameter' commands could
->>>     be used for runtime tunables that need setting after migration has already
->>>     started.
->> Is efficient and parallel migration to file of large VMs in scope for this design?
+>>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>>> ---
+>>>    target/arm/cpu.c     | 76 +++++++++++++++++++++++++++++++++++++++++++
+>>>    target/arm/cpu_tcg.c | 77 --------------------------------------------
+>>>    2 files changed, 76 insertions(+), 77 deletions(-)
+>>>
+>>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>> [...]
 >>
->> Thanks,
->>
->> Claudio
+>> TYPE_IDAU_INTERFACE is ARMv8-M specific, so TCG AFAIU.
 > 
-> This patch's design right now mainly focuses on revamping the design for 
-> 'migrate' command.
-> 
-> In the upcomig patchset series in future, it will try to accomodate 
-> multifd as a feature in the same QAPI command and try to build multiple 
-> interface support on top of multifd feature. Main aim is to increase 
-> network bandwidth for migration with help of multiple interface and multifd.
-> 
-> Regards,
-> Het Gala.
+> Hm.. QEMU doesn't start without it. There might be some implicit
+> dependency. I'll check.
 
+Likely some M-profile code (note this type is a QOM *interface*).
 
-Understand, hopefully we can make sure that we can have a design that allows also increasing disk bandwidth for direct migration to disk.
-
-Currently upstream migration to fast disks of medium to large size VMs is badly bottlenecked by qemu/libvirt interfaces.
-
-Just FYI for existing work if interested see:
-
-https://www.mail-archive.com/libvir-list@redhat.com/msg230248.html (not upstreamable, but dramatically improves VM save/restore performance)
-
-https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg02870.html (attempt to address the issue in QEMU project itself via migrating to file:///).
-
-Ciao,
-
-C
+I checked the uses (git-grep -W IDAU_INTERFACE) and none should be
+reachable in a non-TCG build.
 
