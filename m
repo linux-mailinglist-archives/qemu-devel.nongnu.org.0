@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5ED671C15
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:32:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D18671C1C
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:33:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI7ba-0001Gi-Fq; Wed, 18 Jan 2023 07:31:50 -0500
+	id 1pI7co-0002sl-58; Wed, 18 Jan 2023 07:33:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pI7bY-0001GI-5B
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:31:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pI7cm-0002sK-4U
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:33:04 -0500
+Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pI7bW-0004nz-3V
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:31:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674045105;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W6Cj3VQk25jMTas2+YRizIoE8g+L56PmeDJSVJVABIs=;
- b=Jsx0STSBjVK/b/3JWt9gr6Z1srFzdut9zniroUhwLXyuSBWdjsz/mBq6AdcquVdBj3NA+r
- fK1CSbSpOCa6JV00+zjjDJtv4NfIJn95tCTlnUYzoJnspMs//aCVKqD6XEhDfSKXJLAtoa
- w53i6ZPjmOUj6abyaWPwlrb8rh5JQ14=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-281-if-0kH8SP8umwhN27b8Jhw-1; Wed, 18 Jan 2023 07:31:41 -0500
-X-MC-Unique: if-0kH8SP8umwhN27b8Jhw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E61A1C270A6;
- Wed, 18 Jan 2023 12:31:41 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 90446C15BAE;
- Wed, 18 Jan 2023 12:31:40 +0000 (UTC)
-Date: Wed, 18 Jan 2023 12:31:38 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH] tests/qtest/qom-test: Stop spamming the test log
-Message-ID: <Y8fmqiOzJaVbufbY@redhat.com>
-References: <20230118122557.1668860-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pI7ck-00050d-C9
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:33:03 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.141])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id B737C1FF96;
+ Wed, 18 Jan 2023 12:32:56 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Wed, 18 Jan
+ 2023 13:32:55 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003b38c8658-8d60-4391-8ea4-6e57eaf5177a,
+ B02C0E203F6A6AD140F658F33EDEBE178EEACDD3) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <bab1aa07-a8d5-29bb-ac0c-a949f243260f@kaod.org>
+Date: Wed, 18 Jan 2023 13:32:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v4 3/5] hw/nvram/eeprom_at24c: Add init_rom field and
+ at24c_eeprom_init_rom helper
+Content-Language: en-US
+To: Peter Delevoryas <peter@pjd.dev>
+CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
+ <hskinnemoen@google.com>, <kfting@nuvoton.com>, <qemu-arm@nongnu.org>,
+ <qemu-devel@nongnu.org>, <philmd@linaro.org>
+References: <20230118024214.14413-1-peter@pjd.dev>
+ <20230118024214.14413-4-peter@pjd.dev>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230118024214.14413-4-peter@pjd.dev>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230118122557.1668860-1-thuth@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: e04ea7f2-459d-4b0c-9c32-1ae27c209153
+X-Ovh-Tracer-Id: 16643052426165390127
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddtkedggeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrsehpjhgurdguvghvpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdprghnughrvgifsegrjhdrihgurdgruhdpjhhovghlsehjmhhsrdhiugdrrghupdhhshhkihhnnhgvmhhovghnsehgohhoghhlvgdrtghomhdpkhhfthhinhhgsehnuhhvohhtohhnrdgtohhmpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmoh
+ ehgeekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
+ helo=8.mo548.mail-out.ovh.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,31 +74,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 18, 2023 at 01:25:57PM +0100, Thomas Huth wrote:
-> We are still facing the issues that our test logs in the gitlab CI
-> are too big (and thus cut off). A huge part is still caused by the
-> qom-test that prints the path and name of each object it looks at
-> by default. That's too much. Let's be silent by default, and only
-> print the object path+name when running with V=2 (and the properties
-> only with V=3 and higher).
+On 1/18/23 03:42, Peter Delevoryas wrote:
+> Allows users to specify binary data to initialize an EEPROM, allowing users to
+> emulate data programmed at manufacturing time.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> - Added init_rom and init_rom_size attributes to TYPE_AT24C_EE
+> - Added at24c_eeprom_init_rom helper function to initialize attributes
+> - If -drive property is provided, it overrides init_rom data
+> 
+> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks,
+
+C.
+
 > ---
->  tests/qtest/qom-test.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>   hw/nvram/eeprom_at24c.c         | 37 ++++++++++++++++++++++++++++-----
+>   include/hw/nvram/eeprom_at24c.h | 16 ++++++++++++++
+>   2 files changed, 48 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
+> index 98857e3626b9..f8d751fa278d 100644
+> --- a/hw/nvram/eeprom_at24c.c
+> +++ b/hw/nvram/eeprom_at24c.c
+> @@ -50,6 +50,9 @@ struct EEPROMState {
+>       uint8_t *mem;
+>   
+>       BlockBackend *blk;
+> +
+> +    const uint8_t *init_rom;
+> +    uint32_t init_rom_size;
+>   };
+>   
+>   static
+> @@ -131,19 +134,38 @@ int at24c_eeprom_send(I2CSlave *s, uint8_t data)
+>   
+>   I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size)
+>   {
+> -    I2CSlave *i2c_dev = i2c_slave_new(TYPE_AT24C_EE, address);
+> -    DeviceState *dev = DEVICE(i2c_dev);
+> +    return at24c_eeprom_init_rom(bus, address, rom_size, NULL, 0);
+> +}
+> +
+> +I2CSlave *at24c_eeprom_init_rom(I2CBus *bus, uint8_t address, uint32_t rom_size,
+> +                                const uint8_t *init_rom, uint32_t init_rom_size)
+> +{
+> +    EEPROMState *s;
+> +
+> +    s = AT24C_EE(qdev_new(TYPE_AT24C_EE));
+> +
+> +    qdev_prop_set_uint8(DEVICE(s), "address", address);
+> +    qdev_prop_set_uint32(DEVICE(s), "rom-size", rom_size);
+>   
+> -    qdev_prop_set_uint32(dev, "rom-size", rom_size);
+> -    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
+> +    /* TODO: Model init_rom with QOM properties. */
+> +    s->init_rom = init_rom;
+> +    s->init_rom_size = init_rom_size;
+>   
+> -    return i2c_dev;
+> +    i2c_slave_realize_and_unref(I2C_SLAVE(s), bus, &error_abort);
+> +
+> +    return I2C_SLAVE(s);
+>   }
+>   
+>   static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
+>   {
+>       EEPROMState *ee = AT24C_EE(dev);
+>   
+> +    if (ee->init_rom_size > ee->rsize) {
+> +        error_setg(errp, "%s: init rom is larger than rom: %u > %u",
+> +                   TYPE_AT24C_EE, ee->init_rom_size, ee->rsize);
+> +        return;
+> +    }
+> +
+>       if (ee->blk) {
+>           int64_t len = blk_getlength(ee->blk);
+>   
+> @@ -163,6 +185,7 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
+>       }
+>   
+>       ee->mem = g_malloc0(ee->rsize);
+> +
+>   }
+>   
+>   static
+> @@ -176,6 +199,10 @@ void at24c_eeprom_reset(DeviceState *state)
+>   
+>       memset(ee->mem, 0, ee->rsize);
+>   
+> +    if (ee->init_rom) {
+> +        memcpy(ee->mem, ee->init_rom, MIN(ee->init_rom_size, ee->rsize));
+> +    }
+> +
+>       if (ee->blk) {
+>           int ret = blk_pread(ee->blk, 0, ee->rsize, ee->mem, 0);
+>   
+> diff --git a/include/hw/nvram/eeprom_at24c.h b/include/hw/nvram/eeprom_at24c.h
+> index 196db309d451..acb9857b2add 100644
+> --- a/include/hw/nvram/eeprom_at24c.h
+> +++ b/include/hw/nvram/eeprom_at24c.h
+> @@ -20,4 +20,20 @@
+>    */
+>   I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size);
+>   
+> +
+> +/*
+> + * Create and realize an AT24C EEPROM device on the heap with initial data.
+> + * @bus: I2C bus to put it on
+> + * @address: I2C address of the EEPROM slave when put on a bus
+> + * @rom_size: size of the EEPROM
+> + * @init_rom: Array of bytes to initialize EEPROM memory with
+> + * @init_rom_size: Size of @init_rom, must be less than or equal to @rom_size
+> + *
+> + * Create the device state structure, initialize it, put it on the specified
+> + * @bus, and drop the reference to it (the device is realized). Copies the data
+> + * from @init_rom to the beginning of the EEPROM memory buffer.
+> + */
+> +I2CSlave *at24c_eeprom_init_rom(I2CBus *bus, uint8_t address, uint32_t rom_size,
+> +                                const uint8_t *init_rom, uint32_t init_rom_size);
+> +
+>   #endif
 
 
