@@ -2,110 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D51A672452
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 17:59:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D298A672451
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 17:59:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIBlT-0002Sl-Vy; Wed, 18 Jan 2023 11:58:20 -0500
+	id 1pIBlW-0002TP-4f; Wed, 18 Jan 2023 11:58:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pIBlN-0002Ql-NG; Wed, 18 Jan 2023 11:58:13 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pIBkn-0003kq-4v; Wed, 18 Jan 2023 11:58:11 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30IGbAWN014066; Wed, 18 Jan 2023 16:57:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=dzlSEeAfY8NNSGB/eV3aJBRFsate//OGlkMsXlmrM9I=;
- b=PhTAS/6wh/R+L4/1czy077Y0HxqRg571//xI/XQCRkWFvL0k+3vgPYvBOP5UtHYuaIg/
- ebvmLDH32+86AvTmh2kZPRGfvtXXZdERMR51syiBzNEyYtB6ckYMQmvKpmXuZmLH7/M3
- 4Rq5EoVEqcCtJjcyVnagd/XMOtfVM8FNVD1jdRqLce173zJDpLX/59990HO10A/k+fsg
- f3W2scypH3lm0qyVSPC8+moZRGJAi8YIQ3jO9QddHGm85s57mpeAQPxGY05WFQONTEeb
- ErzJ4SwsI8SzbSXxs1MSCLhGor2c519ax2+D1Wqa7EXCWtqtxHPS0CLECHAF4KVKk54y oQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6hvn4u7y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 16:57:30 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30IGu76p003433;
- Wed, 18 Jan 2023 16:57:29 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6hvn4u6s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 16:57:29 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30IA9wbe028466;
- Wed, 18 Jan 2023 16:57:26 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3n3m16m2gq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 16:57:26 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30IGvMY323724426
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 18 Jan 2023 16:57:23 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CB13B20079;
- Wed, 18 Jan 2023 16:57:22 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 710C82007A;
- Wed, 18 Jan 2023 16:57:21 +0000 (GMT)
-Received: from [9.179.13.15] (unknown [9.179.13.15])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 18 Jan 2023 16:57:21 +0000 (GMT)
-Message-ID: <a220ead7-c3ff-3cf2-bbde-8b5be30b9ac7@linux.ibm.com>
-Date: Wed, 18 Jan 2023 17:57:21 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIBlU-0002TE-Ju
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 11:58:20 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIBlS-0003pc-Ll
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 11:58:20 -0500
+Received: by mail-wr1-x436.google.com with SMTP id b5so13437138wrn.0
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 08:58:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=pGcy7m167YyxLO7vlX12Q/W9krVoDL14tS+QgowG2zA=;
+ b=u731LwTXCpbW/kCEc0u/yis0SW5BwunTT7+rge8Fk1nIqtr1ioDDIkINbjNk8fbYFH
+ JgP/sOJmd7ulUqsHi+cPP+ya1t56qoi3sAGCOLGvLefK4my1tb2b86OUCvoCivTAm8g9
+ tQVdpWTYraziT50ebNKhKQzs1zG925yqASIE653Y8ZAZjxHRGbrF1RbxD8rX4cc31Di7
+ y+I3eF0ff5bbUf9npF/yhvvssog5GVOwUI9fZW7p7C8f0obuNz6k9bqt0qyUWTv9hg6Y
+ eajVfbd2lggK8O2u8GPxp97OEyTuo5DygLhIE7iQFTJDE5mKZICYkOQkPMKro/CZy7Y4
+ +pVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pGcy7m167YyxLO7vlX12Q/W9krVoDL14tS+QgowG2zA=;
+ b=Xg6lMRkkVOexnY4mZk22f6c7Fq1uMc9Wlo2gz9kzohOR2Nm8bT/49vjdl5dFv/PcaK
+ sIERS/3otj6Pd/E2aqFpQHC8aT/CkTt/4Ors/Yx3E8dfGJFXQOkApjo0H/TtwO2oXqqH
+ UHnDyygwpF7lxg3BgtWS5g4kAXKN+HVl4xcy5DZSluIJrfmg8VBAoEIcGxHmA4rZ5mgx
+ 7m44KEu0juP5+97STDhOt9xoPaEJcLntxW6dwhffzivZjKJO5CMuJUy5bQLGhr3bWQXH
+ hw5OTzohyEi8sPZg/wkpI3xkOWjoLWeyE86HIZ0cWXm++0EVOcNPtIGv+/BjqM6Oq7Pb
+ b7qA==
+X-Gm-Message-State: AFqh2kprDnDi791sxcuFDFYFkNwPg/rkjqVtbZ9jF/RPH3DtgMdTfKK0
+ aVxNcls7gcHzPho5mt+BUFcBjQ==
+X-Google-Smtp-Source: AMrXdXtq4bcHf9YjXZAywS4x6jFW1a8JQnGXoPi3ps/nH3Qjm5nK8kBr75BHcXSB80ZPZDAyByLDIg==
+X-Received: by 2002:a05:6000:1e0f:b0:2bd:fe42:2b34 with SMTP id
+ bj15-20020a0560001e0f00b002bdfe422b34mr7202885wrb.71.1674061096848; 
+ Wed, 18 Jan 2023 08:58:16 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ n16-20020a5d4010000000b002bbed1388a5sm26541851wrp.15.2023.01.18.08.58.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jan 2023 08:58:16 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0DA3E1FFB7;
+ Wed, 18 Jan 2023 16:58:16 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [RFC PATCH] gitlab: wrap up test results for custom runners
+Date: Wed, 18 Jan 2023 16:58:08 +0000
+Message-Id: <20230118165808.3698641-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v14 09/11] qapi/s390/cpu topology: monitor query topology
- information
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, borntraeger@de.ibm.com,
- pasic@linux.ibm.com, richard.henderson@linaro.org, david@redhat.com,
- thuth@redhat.com, cohuck@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
- marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
- seiden@linux.ibm.com, nrb@linux.ibm.com, scgl@linux.ibm.com,
- frankja@linux.ibm.com, clg@kaod.org
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-10-pmorel@linux.ibm.com> <Y7/4rm9JYihUpLS1@redhat.com>
- <d97d0a6a-a87e-e0d2-5d95-0645c09d9730@linux.ibm.com>
- <Y8gZg/+k04+LPEd4@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <Y8gZg/+k04+LPEd4@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: YeDcEPAkzEWX6iLokrQ89QYO4u192-6p
-X-Proofpoint-ORIG-GUID: 2wYUVzHQPOIM64-ma2ToNQaZQYSB3o3l
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-18_05,2023-01-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- impostorscore=0 malwarescore=0 adultscore=0 clxscore=1015
- lowpriorityscore=0 priorityscore=1501 spamscore=0 mlxlogscore=999
- mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301180138
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,160 +94,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Instead of spewing the whole log to stdout lets just define them as
+build artefacts so we can examine them later. Where we are running
+check-tcg run it first as those tests are yet to be integrated into
+meson.
 
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ .gitlab-ci.d/custom-runners.yml                     | 11 +++++++++++
+ .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml  | 13 ++++++-------
+ .../custom-runners/ubuntu-22.04-aarch32.yml         |  2 +-
+ .../custom-runners/ubuntu-22.04-aarch64.yml         | 13 ++++++-------
+ 4 files changed, 24 insertions(+), 15 deletions(-)
 
-On 1/18/23 17:08, Daniel P. Berrangé wrote:
-> On Wed, Jan 18, 2023 at 04:58:05PM +0100, Pierre Morel wrote:
->>
->>
->> On 1/12/23 13:10, Daniel P. Berrangé wrote:
->>> On Thu, Jan 05, 2023 at 03:53:11PM +0100, Pierre Morel wrote:
->>>> Reporting the current topology informations to the admin through
->>>> the QEMU monitor.
->>>>
->>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>> ---
->>>>    qapi/machine-target.json | 66 ++++++++++++++++++++++++++++++++++
->>>>    include/monitor/hmp.h    |  1 +
->>>>    hw/s390x/cpu-topology.c  | 76 ++++++++++++++++++++++++++++++++++++++++
->>>>    hmp-commands-info.hx     | 16 +++++++++
->>>>    4 files changed, 159 insertions(+)
->>>>
->>>> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
->>>> index 75b0aa254d..927618a78f 100644
->>>> --- a/qapi/machine-target.json
->>>> +++ b/qapi/machine-target.json
->>>> @@ -371,3 +371,69 @@
->>>>      },
->>>>      'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
->>>>    }
->>>> +
->>>> +##
->>>> +# @S390CpuTopology:
->>>> +#
->>>> +# CPU Topology information
->>>> +#
->>>> +# @drawer: the destination drawer where to move the vCPU
->>>> +#
->>>> +# @book: the destination book where to move the vCPU
->>>> +#
->>>> +# @socket: the destination socket where to move the vCPU
->>>> +#
->>>> +# @polarity: optional polarity, default is last polarity set by the guest
->>>> +#
->>>> +# @dedicated: optional, if the vCPU is dedicated to a real CPU
->>>> +#
->>>> +# @origin: offset of the first bit of the core mask
->>>> +#
->>>> +# @mask: mask of the cores sharing the same topology
->>>> +#
->>>> +# Since: 8.0
->>>> +##
->>>> +{ 'struct': 'S390CpuTopology',
->>>> +  'data': {
->>>> +      'drawer': 'int',
->>>> +      'book': 'int',
->>>> +      'socket': 'int',
->>>> +      'polarity': 'int',
->>>> +      'dedicated': 'bool',
->>>> +      'origin': 'int',
->>>> +      'mask': 'str'
->>>> +  },
->>>> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
->>>> +}
->>>> +
->>>> +##
->>>> +# @query-topology:
->>>> +#
->>>> +# Return information about CPU Topology
->>>> +#
->>>> +# Returns a @CpuTopology instance describing the CPU Toplogy
->>>> +# being currently used by QEMU.
->>>> +#
->>>> +# Since: 8.0
->>>> +#
->>>> +# Example:
->>>> +#
->>>> +# -> { "execute": "cpu-topology" }
->>>> +# <- {"return": [
->>>> +#     {
->>>> +#         "drawer": 0,
->>>> +#         "book": 0,
->>>> +#         "socket": 0,
->>>> +#         "polarity": 0,
->>>> +#         "dedicated": true,
->>>> +#         "origin": 0,
->>>> +#         "mask": 0xc000000000000000,
->>>> +#     },
->>>> +#    ]
->>>> +#   }
->>>> +#
->>>> +##
->>>> +{ 'command': 'query-topology',
->>>> +  'returns': ['S390CpuTopology'],
->>>> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
->>>> +}
->>>
->>> IIUC, you're using @mask as a way to compress the array returned
->>> from query-topology, so that it doesn't have any repeated elements
->>> with the same data. I guess I can understand that desire when the
->>> core count can get very large, this can have a large saving.
->>>
->>> The downside of using @mask, is that now you require the caller
->>> to parse the string to turn it into a bitmask and expand the
->>> data. Generally this is considered a bit of an anti-pattern in
->>> QAPI design - we don't want callers to have to further parse
->>> the data to extract information, we want to directly consumable
->>> from the parsed JSON doc.
->>
->> Not exactly, the mask is computed by the firmware to provide it to the guest
->> and is already available when querying the topology.
->> But I understand that for the QAPI user the mask is not the right solution,
->> standard coma separated values like (1,3,5,7-11) would be much easier to
->> read.
-> 
-> That is still inventing a second level data format for an attribute
-> that needs to be parsed, and its arguably more complex.
-
-OK, I think I am too focused on my vision of the topology.
-I add the new attributes to the query-cpus-fast
-
-> 
->>> We already have 'query-cpus-fast' wich returns one entry for
->>> each CPU. In fact why do we need to add query-topology at all.
->>> Can't we just add book-id / drawer-id / polarity / dedicated
->>> to the query-cpus-fast result ?
->>
->> Yes we can, I think we should, however when there are a lot of CPU it will
->> be complicated to find the CPU sharing the same socket and the same
->> attributes.
-> 
-> It shouldn't be that hard to populate a hash table, using the set of
-> socket + attributes you want as the hash key.
-
-It is not a problem.
-
-> 
->> I think having both would be interesting.
-> 
-> IMHO this is undesirable if we can make query-cpus-fast report
-> sufficient information, as it gives a maint burden to QEMU and
-> is confusing to consumers to QEMU to have multiple commands with
-> largely overlapping functionality.
-
-right.
-
-Thanks Daniel.
-
-Regards,
-Pierre
-
-> 
-> 
-> With regards,
-> Daniel
-
+diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
+index 97f99e29c2..9fdc476c48 100644
+--- a/.gitlab-ci.d/custom-runners.yml
++++ b/.gitlab-ci.d/custom-runners.yml
+@@ -13,6 +13,17 @@
+ variables:
+   GIT_STRATEGY: clone
+ 
++# All custom runners can extend this template to upload the testlog
++# data as an artifact and also feed the junit report
++.custom_artifacts_template:
++  artifacts:
++    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
++    expire_in: 7 days
++    paths:
++      - build/meson-logs/testlog.txt
++    reports:
++      junit: build/meson-logs/testlog.junit.xml
++
+ include:
+   - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml'
+   - local: '/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml'
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+index fcaef9e5ef..f512eaeaa3 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+@@ -3,6 +3,7 @@
+ # "Install basic packages to build QEMU on Ubuntu 20.04/20.04"
+ 
+ ubuntu-20.04-s390x-all-linux-static:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -19,12 +20,11 @@ ubuntu-20.04-s390x-all-linux-static:
+  - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc`
++ - make --output-sync check-tcg
+  - make --output-sync -j`nproc` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+- - make --output-sync -j`nproc` check-tcg
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-20.04-s390x-all:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -41,9 +41,9 @@ ubuntu-20.04-s390x-all:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc`
+  - make --output-sync -j`nproc` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-20.04-s390x-alldbg:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -64,9 +64,9 @@ ubuntu-20.04-s390x-alldbg:
+  - make clean
+  - make --output-sync -j`nproc`
+  - make --output-sync -j`nproc` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-20.04-s390x-clang:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -86,7 +86,6 @@ ubuntu-20.04-s390x-clang:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc`
+  - make --output-sync -j`nproc` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-20.04-s390x-tci:
+  needs: []
+@@ -109,6 +108,7 @@ ubuntu-20.04-s390x-tci:
+  - make --output-sync -j`nproc`
+ 
+ ubuntu-20.04-s390x-notcg:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -128,4 +128,3 @@ ubuntu-20.04-s390x-notcg:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc`
+  - make --output-sync -j`nproc` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
+index 2c386fa3e9..42137aaf2a 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
+@@ -3,6 +3,7 @@
+ # "Install basic packages to build QEMU on Ubuntu 20.04"
+ 
+ ubuntu-22.04-aarch32-all:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -22,4 +23,3 @@ ubuntu-22.04-aarch32-all:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc --ignore=40`
+  - make --output-sync -j`nproc --ignore=40` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
+index 725ca8ffea..8ba85be440 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
+@@ -3,6 +3,7 @@
+ # "Install basic packages to build QEMU on Ubuntu 20.04"
+ 
+ ubuntu-22.04-aarch64-all-linux-static:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -19,12 +20,11 @@ ubuntu-22.04-aarch64-all-linux-static:
+  - ../configure --enable-debug --static --disable-system --disable-pie
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc --ignore=40`
++ - make check-tcg
+  - make --output-sync -j`nproc --ignore=40` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+- - make --output-sync -j`nproc --ignore=40` check-tcg
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-22.04-aarch64-all:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -44,9 +44,9 @@ ubuntu-22.04-aarch64-all:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc --ignore=40`
+  - make --output-sync -j`nproc --ignore=40` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-22.04-aarch64-alldbg:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -63,9 +63,9 @@ ubuntu-22.04-aarch64-alldbg:
+  - make clean
+  - make --output-sync -j`nproc --ignore=40`
+  - make --output-sync -j`nproc --ignore=40` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-22.04-aarch64-clang:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -85,7 +85,6 @@ ubuntu-22.04-aarch64-clang:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc --ignore=40`
+  - make --output-sync -j`nproc --ignore=40` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-22.04-aarch64-tci:
+  needs: []
+@@ -108,6 +107,7 @@ ubuntu-22.04-aarch64-tci:
+  - make --output-sync -j`nproc --ignore=40`
+ 
+ ubuntu-22.04-aarch64-notcg:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -127,4 +127,3 @@ ubuntu-22.04-aarch64-notcg:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc --ignore=40`
+  - make --output-sync -j`nproc --ignore=40` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+2.34.1
+
 
