@@ -2,86 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8ED671BDF
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:20:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD07671C05
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:26:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI7Pp-0004vL-D0; Wed, 18 Jan 2023 07:19:41 -0500
+	id 1pI7WN-0006WB-Uu; Wed, 18 Jan 2023 07:26:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pI7PU-0004uZ-Sv
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:19:23 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pI7PS-0002Ar-U8
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:19:20 -0500
-Received: by mail-wr1-x429.google.com with SMTP id k8so19245586wrc.9
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 04:19:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=j96DoX7O2E++c0J3qK2c/KLyWWVc3fSBAF9xCz+4ilc=;
- b=AJjBEYXKDb+cmfyaQBqKhzZ9Npx8f2d9FmjrQFbY5e6H+whU77J5g1jF1OJXbAlPg+
- foshO0ZvI5+gVabho3z2lqrjvZfQYyyW8dhI2KMns1E1a/Js9CAY9777owveL791gAYZ
- usLgHxAQqbHgqT5sVcGQBODu9mXkGuD+JgZSFn9cCwxlFEYQyTxY1y5NY0FFMJs3vbmc
- xIkEite/to1Jke/AXgj28qEiwC0HLIU0Ij3urjFUjBCbGJXgwXV4xdG1/e3lch+3a9kT
- 5k2hFRNkIw4kc/VygBGikSkm2iATpfu7PY/yLXPQlXa9lfKqWpMkUcqut+u59uIU8DMU
- 5+Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=j96DoX7O2E++c0J3qK2c/KLyWWVc3fSBAF9xCz+4ilc=;
- b=BudZmgnHhwCypi7ql3C1tCALYYnORQoV4IiqVN8P8x7L8eGeYyJg8P9deP/UAjqq49
- QHT72mIH3IbXLe3QaQhmbngaR4Ul6kpU//WmaWX8Lg+xsGjV/MeY9G5f6F5E7H/GCGjD
- FFtacNSaByh20BgnYIlaYod8rz3YokY2ruOLNfd+R6qP3MZfHFt8O0+4yfjjPFpmTWS3
- uBmBd0BUZz1/yo2GCapt9dIzLbh5WdCW3GnWoOcgxvc5Bi1Nnqg3IhlaJWnC6G5ERJW9
- pmfsduq2i2E5VqYOJmd0cw2X3ia+sVMr0nLbPhLnlzuNJHJ8tYVsZA7awH+57fNwcWOg
- dl9A==
-X-Gm-Message-State: AFqh2ko6qUj4sx3V9f4ENGRsugHJqn8RRMeH6wlmAvCd3ja3O0Ktk4+F
- uEv6g8LCEvYUcfvXxtnA/xMO7Q==
-X-Google-Smtp-Source: AMrXdXs3WfHgqFsDxckIK1+hzsv7abYbQZaDLzqvR7M2u4gG/q3pMvpwiWBnbhG+22BypxFjbwE/pw==
-X-Received: by 2002:a5d:4591:0:b0:2bc:7fdd:923e with SMTP id
- p17-20020a5d4591000000b002bc7fdd923emr6180797wrq.22.1674044357175; 
- Wed, 18 Jan 2023 04:19:17 -0800 (PST)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz.
- [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
- by smtp.gmail.com with ESMTPSA id
- z12-20020adfd0cc000000b002bdff778d87sm8344053wrh.34.2023.01.18.04.19.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 04:19:16 -0800 (PST)
-Date: Wed, 18 Jan 2023 13:19:16 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Ludovic Henry <ludovic@rivosinc.com>
-Subject: Re: [PATCH v5 2/2] riscv: Allow user to set the satp mode
-Message-ID: <20230118121916.6aqj57leen72z5tz@orel>
-References: <20230113103453.42776-1-alexghiti@rivosinc.com>
- <20230113103453.42776-3-alexghiti@rivosinc.com>
- <20230117163138.jze47hjeeuwu2k4j@orel>
- <CAKmqyKNFX_ovg4Bp_30o0g4Jd5XJ98i9LdFgejsDmGW4iL2+OA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI7WM-0006W0-96
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:26:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI7WK-0003vP-Dq
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:26:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674044783;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vjC3T3QzWuDub0pO6I8vcwu3gfNwAIr89gziDx0qk0M=;
+ b=KWyJPGduWWE7BdZ9N3iyu5sRb4F3oHb2xwYsEJA4IYDdUX2nVZZUX6hZESiyQbwUX2EAFt
+ Mm/C+bYQBIDKAtnTKi2b9J/ee1NqAzqWF24QaLbwWocZ7RHslIswQjm/6hDjnp+hJVTwF5
+ S5UE7fwPRxAGv9bA9E+Jt2qds6VV4/8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-50-SqsrLn8HP_GX3fLJvAmwwA-1; Wed, 18 Jan 2023 07:26:20 -0500
+X-MC-Unique: SqsrLn8HP_GX3fLJvAmwwA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A7D9285A588;
+ Wed, 18 Jan 2023 12:26:19 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.194.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F59D40C6EC4;
+ Wed, 18 Jan 2023 12:26:18 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Thomas Huth <thuth@redhat.com>
+Subject: [PATCH] tests/qtest/qom-test: Stop spamming the test log
+Date: Wed, 18 Jan 2023 13:25:57 +0100
+Message-Id: <20230118122557.1668860-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKmqyKNFX_ovg4Bp_30o0g4Jd5XJ98i9LdFgejsDmGW4iL2+OA@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=ajones@ventanamicro.com; helo=mail-wr1-x429.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,45 +75,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 18, 2023 at 10:28:46AM +1000, Alistair Francis wrote:
-> On Wed, Jan 18, 2023 at 2:32 AM Andrew Jones <ajones@ventanamicro.com> wrote:
-> >
-> > On Fri, Jan 13, 2023 at 11:34:53AM +0100, Alexandre Ghiti wrote:
-...
-> > > +
-> > > +    /* Get rid of 32-bit/64-bit incompatibility */
-> > > +    for (int i = 0; i < 16; ++i) {
-> > > +        if ((cpu->cfg.satp_mode.map & (1 << i)) && !valid_vm[i]) {
-> >
-> > If we ever define mode=1 for rv64, then 'sv32=on' will be incorrectly
-> > accepted as an alias. I think we should simply not define the sv32
-> > property for rv64 nor the rv64-only modes for rv32. So, down in
-> > riscv_add_satp_mode_properties() we can add some
-> >
-> >   #if defined(TARGET_RISCV32)
-> >   ...
-> >   #elif defined(TARGET_RISCV64)
-> >   ...
-> >   #endif
-> 
-> Do not add any #if defined(TARGET_RISCV32) to QEMU.
-> 
-> We are aiming for the riscv64-softmmu to be able to emulate 32-bit
-> CPUs and compile time macros are the wrong solution here. Instead you
-> can get the xlen of the hart and use that.
->
+We are still facing the issues that our test logs in the gitlab CI
+are too big (and thus cut off). A huge part is still caused by the
+qom-test that prints the path and name of each object it looks at
+by default. That's too much. Let's be silent by default, and only
+print the object path+name when running with V=2 (and the properties
+only with V=3 and higher).
 
-Does this mean we want to be able to do the following?
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/qtest/qom-test.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-  qemu-system-riscv64 -cpu rv32,sv32=on ...
+diff --git a/tests/qtest/qom-test.c b/tests/qtest/qom-test.c
+index d380261f8f..d677f87c8e 100644
+--- a/tests/qtest/qom-test.c
++++ b/tests/qtest/qom-test.c
+@@ -14,7 +14,7 @@
+ #include "qemu/cutils.h"
+ #include "libqtest.h"
+ 
+-static bool verbose;
++static int verbosity_level;
+ 
+ static void test_properties(QTestState *qts, const char *path, bool recurse)
+ {
+@@ -24,7 +24,9 @@ static void test_properties(QTestState *qts, const char *path, bool recurse)
+     QListEntry *entry;
+     GSList *children = NULL, *links = NULL;
+ 
+-    g_test_message("Obtaining properties of %s", path);
++    if (verbosity_level >= 2) {
++        g_test_message("Obtaining properties of %s", path);
++    }
+     response = qtest_qmp(qts, "{ 'execute': 'qom-list',"
+                               "  'arguments': { 'path': %s } }", path);
+     g_assert(response);
+@@ -51,7 +53,7 @@ static void test_properties(QTestState *qts, const char *path, bool recurse)
+             }
+         } else {
+             const char *prop = qdict_get_str(tuple, "name");
+-            if (verbose) {
++            if (verbosity_level >= 3) {
+                 g_test_message("-> %s", prop);
+             }
+             tmp = qtest_qmp(qts,
+@@ -109,8 +111,8 @@ int main(int argc, char **argv)
+ {
+     char *v_env = getenv("V");
+ 
+-    if (v_env && atoi(v_env) >= 2) {
+-        verbose = true;
++    if (v_env) {
++        verbosity_level = atoi(v_env);
+     }
+ 
+     g_test_init(&argc, &argv, NULL);
+-- 
+2.31.1
 
-If so, then can we move the object_property_add() for sv32 to
-rv32_base_cpu_init() and the rest to rv64_base_cpu_init()?
-Currently, that would be doing the same thing as proposed above,
-since those functions are under TARGET_RISCV* defines, but I guess
-the object_property_add()'s would then be in more or less the right
-places for when the 32-bit emulation support work is started.
-
-Thanks,
-drew
 
