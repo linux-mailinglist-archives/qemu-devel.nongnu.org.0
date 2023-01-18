@@ -2,90 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D90D671B7E
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:08:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE05671B99
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:11:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI7F6-0000BE-29; Wed, 18 Jan 2023 07:08:36 -0500
+	id 1pI7Gn-0001HH-Pc; Wed, 18 Jan 2023 07:10:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pI7Eu-000093-Ro
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:08:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pI7Et-0007kz-23
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:08:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674043701;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pI7Gl-0001Gf-Dx; Wed, 18 Jan 2023 07:10:19 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pI7Gj-0008RQ-Q3; Wed, 18 Jan 2023 07:10:19 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D26E55BD1F;
+ Wed, 18 Jan 2023 12:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1674043815; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xrXlv2gDBZEKHfT6uHP8hH3VW49lnG9zYh5E25rAEbk=;
- b=c3ff1YFYDPZSVcrkeyXKVLn7U2sQN1YT7EsOMJbrcMHD3V7GuG1FQkAIznDkXSk77Yf6hK
- J7dBoW+8SsGAttwxp4yJAJDMd9cRXMDJX+NHMJGKPL1jlTe/l4PEZeXxxIXHJXNh+ht2IW
- wtbX8h3SevVysiJN2J/DklNex7Ia87c=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-45-w8uCbMNxPxiAVQYjGY-2XA-1; Wed, 18 Jan 2023 07:08:20 -0500
-X-MC-Unique: w8uCbMNxPxiAVQYjGY-2XA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- g24-20020adfa498000000b002bbeb5fc4b7so6306863wrb.10
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 04:08:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xrXlv2gDBZEKHfT6uHP8hH3VW49lnG9zYh5E25rAEbk=;
- b=YaECZ3E6YPa6ozbL51dXzcykEKOawKoAStei5dvg8Z7UDPEBDWj2pMfJ7xSIGGpNK4
- 1DDXCioNd7Ncliqi2KILIMr6xAqrRyZcTDBly8xogWju9CMQWpEyR9S1ENc/JNcxHTbU
- wkMRlX32nacuXFwCZXvxz3AENypA05r8kdDrHyyOc73KclvJ8Xe82pbNohgC4zL3U9jf
- /msi5LkeaqPlU9cx2Sda7pV94hU/Hl1meC/8bga5uLZ0HU3bbj33pYyYqSRd2cR8xErC
- 2Pifqs0TduCZ/pKa/kTb6bScz42JAB1l9oVZ87c9cLlTgDTUVF84jdmv+4U/iEM7Qn3l
- syMg==
-X-Gm-Message-State: AFqh2kqd6r6fyqSxWcDCsV+e7PLzSZLNse60t5+tDflrgkD1KbAZqvhl
- SLVpdkSQoYqTAbP08rU897ehl2cZLjKD4wuv3dnRb6G3VcuFOjKpmw/8SMu0kovTr/VlweHm6Le
- ePWmrqxgyJc0T3Io=
-X-Received: by 2002:a05:600c:3d16:b0:3d0:6a57:66a5 with SMTP id
- bh22-20020a05600c3d1600b003d06a5766a5mr6479898wmb.0.1674043699476; 
- Wed, 18 Jan 2023 04:08:19 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXv1pyLcTEgVRMupRuZALBVl0z9my6qxx9l+xOEa4j/V1GIOzhoYlwQBBU+EZkFPO3/x2RPugQ==
-X-Received: by 2002:a05:600c:3d16:b0:3d0:6a57:66a5 with SMTP id
- bh22-20020a05600c3d1600b003d06a5766a5mr6479880wmb.0.1674043699281; 
- Wed, 18 Jan 2023 04:08:19 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- y26-20020a1c4b1a000000b003db07420d14sm1688482wma.39.2023.01.18.04.08.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 04:08:18 -0800 (PST)
-Date: Wed, 18 Jan 2023 12:08:16 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- James Houghton <jthoughton@google.com>, Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH RFC 04/21] madvise: Include linux/mman.h under
- linux-headers/
-Message-ID: <Y8fhMMqHPudMx7rF@work-vm>
-References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-5-peterx@redhat.com>
+ bh=iezqUoQZ0T8WdkdK3O1eID2PN+qDN3tTwL6s1/Uwj00=;
+ b=WFuq2a8ckItURTp1RJ+8V9QuTW9c3MQlgwBe9pRkdrh3k8IY6CDAmtHSfpteJaO+teX5k2
+ 0rLl57rhr1loZp+UAUngMFHG/mM+hS6/c2D2qULwEsnhnWWEaCryTMk+3DanDSFAMEzMgP
+ 5e5eUotAGi8SmDw3xt9MsxU96vPNP14=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1674043815;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iezqUoQZ0T8WdkdK3O1eID2PN+qDN3tTwL6s1/Uwj00=;
+ b=zIrWOUvroalQ+Y0JmOZN8ieRLEBGdsJ5wUuhyCq2jTlIVjMnDU3ASoM8M7chk2UTIl5oxU
+ 6BTvWydaerEbOnBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5CC9A138FE;
+ Wed, 18 Jan 2023 12:10:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id u0RJCafhx2OWEwAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 18 Jan 2023 12:10:15 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Claudio Fontana <cfontana@suse.de>, Philippe =?utf-8?Q?Mathieu-Daud?=
+ =?utf-8?Q?=C3=A9?= <philmd@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Richard
+ Henderson <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, Eduardo
+ Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
+Subject: Re: [RFC PATCH v3 18/28] target/arm: Move common cpu code into cpu.c
+In-Reply-To: <c803c8a5-5788-2935-c1d8-3b62cc9a64d9@suse.de>
+References: <20230113140419.4013-1-farosas@suse.de>
+ <20230113140419.4013-19-farosas@suse.de>
+ <bafc45b7-f42a-a500-053f-65f057a14cc1@linaro.org> <87bkmx0yux.fsf@suse.de>
+ <1ff29148-eae9-84b7-3521-4b9d543f12e3@linaro.org>
+ <c803c8a5-5788-2935-c1d8-3b62cc9a64d9@suse.de>
+Date: Wed, 18 Jan 2023 09:10:12 -0300
+Message-ID: <87edrs6o2j.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230117220914.2062125-5-peterx@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,37 +92,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Peter Xu (peterx@redhat.com) wrote:
-> This will allow qemu/madvise.h to always include linux/mman.h under the
-> linux-headers/.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+Claudio Fontana <cfontana@suse.de> writes:
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> On 1/18/23 11:45, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 17/1/23 20:01, Fabiano Rosas wrote:
+>>> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+>>>
+>>>> On 13/1/23 15:04, Fabiano Rosas wrote:
+>>>>> The cpu_tcg.c file about to be moved into the tcg directory. Move the
+>>>>> code that is needed for cpus that also work with KVM into cpu.c.
+>>>>>
+>>>>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>>>>> ---
+>>>>>    target/arm/cpu.c     | 76 ++++++++++++++++++++++++++++++++++++++++=
++++
+>>>>>    target/arm/cpu_tcg.c | 77 ----------------------------------------=
+----
+>>>>>    2 files changed, 76 insertions(+), 77 deletions(-)
+>>>>>
+>>>>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>>>> [...]
+>>>>
+>>>> TYPE_IDAU_INTERFACE is ARMv8-M specific, so TCG AFAIU.
+>>>
+>>> Hm.. QEMU doesn't start without it. There might be some implicit
+>>> dependency. I'll check.
+>>=20
+>> Likely some M-profile code (note this type is a QOM *interface*).
+>>=20
+>> I checked the uses (git-grep -W IDAU_INTERFACE) and none should be
+>> reachable in a non-TCG build.
+>
+> crossing fingers, I remember getting in trouble there, but maybe that is =
+now solved by the KConfig thing..
+>
+> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02958.html
+>
+> My understanding is probably obsolete now, if so sorry for the noise.
 
-> ---
->  include/qemu/madvise.h | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/include/qemu/madvise.h b/include/qemu/madvise.h
-> index e155f59a0d..b6fa49553f 100644
-> --- a/include/qemu/madvise.h
-> +++ b/include/qemu/madvise.h
-> @@ -8,6 +8,10 @@
->  #ifndef QEMU_MADVISE_H
->  #define QEMU_MADVISE_H
->  
-> +#ifdef CONFIG_LINUX
-> +#include "linux/mman.h"
-> +#endif
-> +
->  #define QEMU_MADV_INVALID -1
->  
->  #if defined(CONFIG_MADVISE)
-> -- 
-> 2.37.3
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+I guess this is what I was remembering. But after the Kconfig and qtest
+changes everything looks good.
 
