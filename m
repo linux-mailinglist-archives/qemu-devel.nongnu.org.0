@@ -2,83 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142B7671991
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 11:48:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 355A46719B3
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 11:55:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI5z1-0001Vv-9L; Wed, 18 Jan 2023 05:47:55 -0500
+	id 1pI64b-0005Cu-0L; Wed, 18 Jan 2023 05:53:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI5yv-0001Ut-3O
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:47:49 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI5yr-000248-0i
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:47:48 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- bg13-20020a05600c3c8d00b003d9712b29d2so1107125wmb.2
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 02:47:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=iog5WF2G/vImaly9nWHyzB47r7oe5u859s8q/Iq03KI=;
- b=baioGDKsZeIOuXCxkxK0Ra7D23iWhGKshy/++/xIuPq2sQQ/+XxHH7eL05ZfU7dVb2
- 7AqoIIoXkQ3xVsE3kvUoE5zXZ8Ks4Kmwvok/yBqZfkLipazMyBAzMpgCexZvYM0gtTyI
- aWlyRFi/c4jjCuFmyHmH4caIUKVQ0jBkmC3q7iozSvhE8X/bewUwpxGzkaiSAtznviX3
- af/RwQnW5GgyCe/1llnhJ+NJceFoTqSlA6e7vSrh9WphusQWeElXBH5C0jsGLTP/wrJD
- Kzae6rrRg9c2GCXElW1sSy2uqnMOalRNnHLCo7hnxR/u2rkqlh0ss/ooi/05HtSIPelW
- zreg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI64U-0005BG-Td
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:53:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI64T-0003k7-10
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:53:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674039211;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qGXmpUwAeTH/kxtJIZHfySccA2It9oZAfAEMfDSJlm4=;
+ b=Q28uy6yp5ZUf19s9uhQcZkireQEy+8XExi5sLjuIlR0S/M5w3B2wf5troFSl3OMXlCVSeR
+ auLFStmXN2zX2pk26D4laK5atGW1SoTzLL9qCgwMVPLFLc56yK+5Ntx3brYCWrBWr5c8rc
+ pvQYdslZqXHQig+VRYhVytDb345boHs=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-270-cTVceyQKNsqiPbSZ1qrdlw-1; Wed, 18 Jan 2023 05:53:30 -0500
+X-MC-Unique: cTVceyQKNsqiPbSZ1qrdlw-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ df6-20020a056214080600b00534fe2ad5a3so4007666qvb.11
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 02:53:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iog5WF2G/vImaly9nWHyzB47r7oe5u859s8q/Iq03KI=;
- b=jBeMO7m6+ctmCM3r2W4hpTZxcDWanMWctBWlbnNKvuou2RMgvZqXWHMUSFLo/GkFEW
- dlWw+aPVMhkPeazc3pdPcEnIBe0EOqcKegBWKHGWgSSZs275T984mMmG+GJcat9F5OGD
- n9dtg71D95SiibyAPiCaeQFHCOIZCabo7gSq7ucaGfrPN2VCsCQM3MtZjrHyXpxoeqEB
- QHVt1oCBraJhAOVH+IV0w81bJCIv6y+0dBX3w9QMqZ23lD7ge2piXb4Is6qcCRS7gXxk
- TPWj9wWr54TJFokXEK9rxNzEB3vwYxi5ttAdUgzheUF8BqbEnUXtzAtA1Cd4V+iAbT2N
- m5vg==
-X-Gm-Message-State: AFqh2kpsx7DmxkyfNcP4VUK76WV3u2BWzwFQBKjMge8o1rEYKveRgL5a
- oFvNXRJSEYUM8Fk252llmh5UsQ==
-X-Google-Smtp-Source: AMrXdXvFTNuzmkgTU4C300XWj40ncWfv5L7TaSZMhcJPVM9Yn3eurxfVrkPwO6s8SjgTq+Xk0eEQsQ==
-X-Received: by 2002:a05:600c:4e08:b0:3db:1a41:663a with SMTP id
- b8-20020a05600c4e0800b003db1a41663amr197239wmq.20.1674038861899; 
- Wed, 18 Jan 2023 02:47:41 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- ay13-20020a05600c1e0d00b003cf71b1f66csm1725100wmb.0.2023.01.18.02.47.40
+ bh=qGXmpUwAeTH/kxtJIZHfySccA2It9oZAfAEMfDSJlm4=;
+ b=b5HXN3haghVQ5WqcjXXO0RJK3Zwb1atcRjiUGR7InPuDtACCvHuqJA4uqpdATMTKPC
+ pKstYedkg9F0THChNxZzvWgkvn0GKVtPpG8wfMV/h0qi2Yy5zhYpLwZ69iKJ6tYiKkwc
+ qOmBHhjqvctTxc51wXBNdZzGGy9fnihcVGR4z50sqInKEPkGhcnIAt7S0oKxYrWkrwTr
+ dpt3CYVN7HTQ56n/CuiL+ZX268RsRuDtr28Bo+m7Z40AEc6QIfsbg2TrRo695/U6TRx5
+ HUjiePDm8lSa6MiAPm2fe0kldcv/i//VnNt++gU0k9fWmTFVrdhr+hX+gAqOCLrvT2To
+ 7IOQ==
+X-Gm-Message-State: AFqh2krJGX7c4S1Z/vAtdaz7Yd4eH3jumPA13w9vvXNKck1gxDXflwmB
+ zs1sUjq2yLsy7k+IUrTdG5JJts9xmJf7I9amIBk2NJlqTSP8wb7e7WocMVZ+ea4Dj1lBPQitJ+c
+ AKjS5SpkvZVrr6bI=
+X-Received: by 2002:a05:6214:3993:b0:532:2cb5:33e4 with SMTP id
+ ny19-20020a056214399300b005322cb533e4mr10833150qvb.14.1674039210227; 
+ Wed, 18 Jan 2023 02:53:30 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXucfllY5mmpVeqsTi+ztYzxHjtf/bPaSXptzqeiXdz3lUyMxozOucyeHKbgmIQrNCd3houxgQ==
+X-Received: by 2002:a05:6214:3993:b0:532:2cb5:33e4 with SMTP id
+ ny19-20020a056214399300b005322cb533e4mr10833129qvb.14.1674039209978; 
+ Wed, 18 Jan 2023 02:53:29 -0800 (PST)
+Received: from [192.168.8.105] (tmo-099-5.customers.d1-online.com.
+ [80.187.99.5]) by smtp.gmail.com with ESMTPSA id
+ k19-20020a05620a415300b006fbaf9c1b70sm6940822qko.133.2023.01.18.02.53.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 02:47:41 -0800 (PST)
-Message-ID: <29287d50-7bff-2610-afab-b7ea96e427fb@linaro.org>
-Date: Wed, 18 Jan 2023 11:47:40 +0100
+ Wed, 18 Jan 2023 02:53:29 -0800 (PST)
+Message-ID: <91566c93-a422-7969-1f7e-80c6f3d214f1@redhat.com>
+Date: Wed, 18 Jan 2023 11:53:23 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC PATCH v3 00/28] target/arm: Allow CONFIG_TCG=n builds
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-References: <20230113140419.4013-1-farosas@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230113140419.4013-1-farosas@suse.de>
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, hreitz@redhat.com
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-9-pmorel@linux.ibm.com>
+ <72baa5b42abe557cdf123889b33b845b405cc86c.camel@linux.ibm.com>
+ <cd9e0c88-c2a8-1eca-d146-3fd6639af3e7@redhat.com>
+ <5654d88fb7d000369c6cfdbe0213ca9d2bfe013b.camel@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v14 08/11] qapi/s390/cpu topology: change-topology monitor
+ command
+In-Reply-To: <5654d88fb7d000369c6cfdbe0213ca9d2bfe013b.camel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,31 +113,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/1/23 15:03, Fabiano Rosas wrote:
-> This series makes the necessary changes to allow the use of
-> --disable-tcg for arm.
+On 17/01/2023 14.31, Nina Schoetterl-Glausch wrote:
+> On Tue, 2023-01-17 at 08:30 +0100, Thomas Huth wrote:
+>> On 16/01/2023 22.09, Nina Schoetterl-Glausch wrote:
+>>> On Thu, 2023-01-05 at 15:53 +0100, Pierre Morel wrote:
+>>>> The modification of the CPU attributes are done through a monitor
+>>>> commands.
+>>>>
+>>>> It allows to move the core inside the topology tree to optimise
+>>>> the cache usage in the case the host's hypervizor previously
+>>>> moved the CPU.
+>>>>
+>>>> The same command allows to modifiy the CPU attributes modifiers
+>>>> like polarization entitlement and the dedicated attribute to notify
+>>>> the guest if the host admin modified scheduling or dedication of a vCPU.
+>>>>
+>>>> With this knowledge the guest has the possibility to optimize the
+>>>> usage of the vCPUs.
+>>>>
+>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>>> ---
+...
+>>>> +    s390_topology.sockets[s390_socket_nb(id)]--;
+>>>
+>>> I suppose this function cannot run concurrently, so the same CPU doesn't get removed twice.
+>>
+>> QEMU has the so-called BQL - the Big Qemu Lock. Instructions handlers are
+>> normally called with the lock taken, see qemu_mutex_lock_iothread() in
+>> target/s390x/kvm/kvm.c.
 > 
-> Based on Richard's "target/arm: Introduce aarch64_set_svcr":
-> https://lore.kernel.org/r/20230112004322.161330-1-richard.henderson@linaro.org
-> 
-> branch here: https://github.com/farosas/qemu/tree/arm-disable-tcg
-> 
-> Since v2:
-> 
-> patch 5: removed extraneous include statements
-> patch 6: removed extraneous tcg_enabled
-> patch 7: dropped in favor of "target/arm: Introduce aarch64_set_svcr"
-> patch 12: removed inline
-> patch 13-15: dropped, not needed due to Kconfig changes
-> 
-> new:
-> 
-> - cpregs.h changes I had forgotten to include in v2
-> - moved CPUs initialization into tcg/
-> - skipped tests that require TCG
-> - fixed the migration tests for aarch64
-> - Kconfig changes, left only the 'virt' machine set by default with KVM
+> That is good to know, but is that the relevant lock here?
+> We don't want to concurrent qmp commands. I looked at the code and it's pretty complicated.
 
-For v4, consider splitting it in two parts, first reviewed patches that
-Peter can queue directly, and second part requiring more review.
+Not sure, but I believe that QMP commands are executed from the main 
+iothread, so I think this should be safe? ... CC:-ing some more people who 
+might know the correct answer.
+
+  Thomas
+
 
