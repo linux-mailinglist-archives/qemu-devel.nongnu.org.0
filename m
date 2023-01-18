@@ -2,92 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEEF4671837
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 10:52:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD22C67183E
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 10:54:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI57V-0006Ww-JR; Wed, 18 Jan 2023 04:52:37 -0500
+	id 1pI58W-0008B9-G1; Wed, 18 Jan 2023 04:53:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1pI57T-0006Wj-II
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:52:35 -0500
-Received: from out3-smtp.messagingengine.com ([66.111.4.27])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1pI57S-0005F7-33
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:52:35 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id A04365C016A;
- Wed, 18 Jan 2023 04:52:33 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 18 Jan 2023 04:52:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1674035553; x=1674121953; bh=cD
- EohUfNcIgGT6SOQ5atAr9aV7nMB5zrgMD7mjNZgOc=; b=WFCoqOMOtqAQlY7jEr
- wdbthecWngQdt2m3O36pwyJ3FRYjbJdZQO7/rFrng3jB4s1UlbY5RjKAJny0G9qw
- A1gsvcnO4IyOCKll55rgPbjGD+I9MimGbb6kak2kOVeG/tnz7Ta7xq05iEW4ptpJ
- zGRHZ0oPjgFS1TmFKJ/3GI5Qy5aOxz0UqFJQueaiOmJ50r/fcaMaV++1zMM4tEND
- 0FE72IBRF5g6wMoXua1klBaUv7FLSbFDj+/j655p2bW0wQFX+Qn8lWqqZg3KXZ56
- DZpUqV+bFqMhXBdoA4BbbNnUTr7izPKPzEnqq5yBijzzvHcnoGlrFptSsDAe+BRh
- WxNw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1674035553; x=1674121953; bh=cDEohUfNcIgGT6SOQ5atAr9aV7nM
- B5zrgMD7mjNZgOc=; b=RzPivnDtYhdFww54M6tXS+lUyvyjpVB35/TGEZY79U9B
- NEPWXl9fSxmHePEHb+4p470NFgHP+++3fGI8chWQiIu1N7fETCccClX2C282ySdg
- E0TLjrxhjUCWIFGjln9BVWmqRxlys++lSysXJlqJKL5lVadOg9eUwyDZn3orX0Hs
- BR1TEpdr35g7RtHrn+4bImRnOAbPtfMeDhkqufhaoO3wD18t1cM4HU9yasnelDGU
- I1frxTjBxrCq9UHNDtnyTGwIej+NBUC1S+UKz5KW5ZQryhTqv4skHF1hMXkcIeYl
- /6rMbgkgsp44MfbZlI1SRPx7FEs0+3OLy8lHK7yMiw==
-X-ME-Sender: <xms:YcHHY3XA6wjKCleA1nAb_LGmnQMIx9_zWAZq-l8cXY0Bi2P1JK_dPA>
- <xme:YcHHY_krHMWr_NOazDj4byA5st7KCajjHoB6g28s__OZ3YCx_qOz2jf4q9IMxUjzu
- orv-MSS6ArHVqZLjvY>
-X-ME-Received: <xmr:YcHHYzbHbKvjsF-6NywY7qQK4mnipU7Sr0vjuFRzi95XKMIE7eYnBKutFVSaHp8hVKc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtkedgtdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:YcHHYyXC9nZ-bIwmcu2BU3k7I_J_kPAjxi3C3uv7OLJTqWWApH8ukg>
- <xmx:YcHHYxms3aX7FibuXBANakRHypvfx8DzcoGbGoSMbgBc_OH3Rg1v-w>
- <xmx:YcHHY_dY8507lUY-hKfjbzBtwcmg2ThJ4JovvL06zYrYA42X3XYlNw>
- <xmx:YcHHY_Ysztvlgbo1ybMDWAJZ8Cn9etDfe4YE-qNrIsXkUV2BWuCh5w>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Jan 2023 04:52:31 -0500 (EST)
-Date: Wed, 18 Jan 2023 10:52:30 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Beraldo Leal <bleal@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH 0/2] hw/pci-host/gt64120: Fix regression on big-endian
- targets
-Message-ID: <Y8fBXuXhkcp8S4xb@cormorant.local>
-References: <20230118094023.49517-1-philmd@linaro.org>
- <509084a0-b7a5-d167-26e7-492fca101863@linaro.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI58U-0008AJ-Aa
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:53:38 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI58S-0005I7-BA
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:53:37 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ l41-20020a05600c1d2900b003daf986faaeso1061656wms.3
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 01:53:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=crBi9JWK/ADlyxvGC/6xunYf8sykPkdyS4Kfb3+sGxY=;
+ b=qooR/QUOF1snyQ2oCNcWxXLDegnbXgbS86Y4ps3gVSDORxhQhjGN8h9eJpdmwV+Rd8
+ 7V2fjk2l+6w7BYfqobTXK1B3CvtHnNwIm8bPueJWfUl5StU0H0uX8vp4+Er8nN9MOm47
+ gQc0aS4/GFikAT2hCoW3vvfzpBKe04FZQTzTvHK9l6rPvwe+6ILlR4LJlVKWyrW9eCxU
+ MPhdGNjJ3kLbmRqMBYAt8SwOUTd60VqCMexXOvUkEt1ddRZfpTpUZC8VtSY277zvKrsz
+ AYJzrrO2SVz8GFn6aSR+aiZ0gUpOce4o0+UhcKzaM3aqe6DvqG2xFCQWRVhuMxWOaItU
+ N0Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=crBi9JWK/ADlyxvGC/6xunYf8sykPkdyS4Kfb3+sGxY=;
+ b=FabiNmEgsqvnhUtO0+61OnutNfly2FRQpNmE8wxOpY4Dumr9g3woRIVpNyGBF9d9Ds
+ DJ4RPD3tSUsPechZT4rXWQTMA9L23i1i9S7ekFsoBYd10H6ZS94FowP+2fI29anqUZRE
+ JFOGknupw3o+JSayozlgv5YgSp0tO6N7RCMLWwyulWNQh2sZ7MUpAFvJPXk/pqCi8I61
+ lg4Yk28njoM/cnTQMdjXPrgGIBL3KQBChBj38sUnil9gRbVUHxpxlPqK0aeQP7WSNwAc
+ pojpMHlbFYtXK8iapsYupz4CXYNqLT/u468LZMryDNzmNFkNBCmuct0C1tEzkJ7c7qLu
+ 85KA==
+X-Gm-Message-State: AFqh2ko2B2HlPdVOx8z6MygzliquCAEHokZ0B0yrjbUAGPNdmIE3MvpD
+ KEuEKlBqGIzbH2ZJvieM/R+5Y3CfrPq6BH7P
+X-Google-Smtp-Source: AMrXdXtAJldXBeaJRjUtUHBgxHPduX68qzitph/cx4LTCHtYBYIpCCXGFROYGxluXTrsmZNzGUD+mQ==
+X-Received: by 2002:a05:600c:c85:b0:3db:1a41:6629 with SMTP id
+ fj5-20020a05600c0c8500b003db1a416629mr30546wmb.22.1674035614832; 
+ Wed, 18 Jan 2023 01:53:34 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ c2-20020a05600c0a4200b003daf6e3bc2fsm1799323wmq.1.2023.01.18.01.53.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 01:53:34 -0800 (PST)
+Message-ID: <23d9c095-e116-957c-15b3-9e82d8567235@linaro.org>
+Date: Wed, 18 Jan 2023 10:53:33 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="QpJeNiyPdp1Cenug"
-Content-Disposition: inline
-In-Reply-To: <509084a0-b7a5-d167-26e7-492fca101863@linaro.org>
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] ppc/pegasos2: Improve readability of VIA south bridge
+ creation
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20230117214545.5E191746369@zero.eik.bme.hu>
+ <a168c8d4-4c0c-f933-7293-4fb3bd08f21e@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <a168c8d4-4c0c-f933-7293-4fb3bd08f21e@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,37 +92,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 17/1/23 22:57, BALATON Zoltan wrote:
+> On Tue, 17 Jan 2023, BALATON Zoltan wrote:
+>> Slightly improve readability of creating the south btidge by cnamging
+> 
+> Still left a typo in "bridge" above...
 
---QpJeNiyPdp1Cenug
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Also "naming".
 
-On Jan 18 10:43, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 18/1/23 10:40, Philippe Mathieu-Daud=C3=A9 wrote:
-> > Klauss reported a regression on big-endian targets, introduced
-> > by commit 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using
-> > PCI_HOST_BRIDGE MemoryRegionOps"). Fix it and add the Klauss'
-> > reproducer as Avocado test.
->=20
-> Sorry Klaus for adding an extra 's' in your name :\
+> This is alternative, inspired by Phil's patches, maybe I'd also need to 
+> add Inspired-by: tag.
 
-Don't worry about it ;) Thanks for the quick fix!
+Not necessary.
 
---QpJeNiyPdp1Cenug
-Content-Type: application/pgp-signature; name="signature.asc"
+>> type of a local variable to avoid some casts within function arguments
+>> which makes some lines shorter and easier to read.
+>> Also remove an unneded line break.
+> 
+> and "unneeded" here. I wait what Phil says then correct these if needed.
 
------BEGIN PGP SIGNATURE-----
+Fine by me, so with the typos fixed:
 
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPHwV4ACgkQTeGvMW1P
-DekVBQf/cqQbyy4n+T5C5ykAw2s9+QIBZTGGt3H8T4cyf1Mt4zXZD8ek9pvOtQgB
-FXQWD4AGIDhjyxRUEhtIal3/OiyfQpgrJWs0lj/w+OsAXpNJPSl5mM5wYmoiMgBQ
-aGsFPmHQHu5TZ6WtvL35TQaznOvZLCxCw/0Yft738NOTPKN6w1c/KjGLU7/n1zSw
-FcehVGtJ/dPw8mfXk4yVuJ8SxyMZHwzRajQiIdGSURw3ozZi5GSyl5ab/A0q/vaQ
-tCaWngxWGqjU5o5d6H2ZZH/xdtHqk6P+YRVgnwyDpANUZ+ATnbw4GogkPLA7IsKs
-UbnjUwsNTaDjbSVa3UKRRYUaayLmDQ==
-=Gt0l
------END PGP SIGNATURE-----
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
---QpJeNiyPdp1Cenug--
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>> hw/ppc/pegasos2.c | 14 +++++++-------
+>> 1 file changed, 7 insertions(+), 7 deletions(-)
+
 
