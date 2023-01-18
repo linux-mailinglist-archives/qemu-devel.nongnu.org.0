@@ -2,96 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9FB671D2D
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 14:11:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39499671D93
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 14:21:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI8CN-0005Dw-GI; Wed, 18 Jan 2023 08:09:51 -0500
+	id 1pI8LQ-0000Cq-Ui; Wed, 18 Jan 2023 08:19:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI8C8-0005BE-Bv
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 08:09:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pI8LN-00009L-Aw; Wed, 18 Jan 2023 08:19:09 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI8C6-0004Zn-Ko
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 08:09:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674047373;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WILQ+DVk1t2ZFpD36BbQV4/QLtmlkx7mnlHic1o1Vac=;
- b=huvpIs/lmuf2MPfNmRh3tsVpeb59SQaPT4WLlGhaX864l8rq0Rh+jvzH2SJVYTjts6Pvjs
- /wI6mPrpehO4BQDG+ZzBS1/k9gnLwyijhFY75byo2u/BDl6UFB0hNbHMeQW26pw2/Lu1pr
- KqOYiGzVlMTVr40WJwNwy4cGOH1gHZA=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-412-EO73U69vPgqCujWMYtv6Ww-1; Wed, 18 Jan 2023 08:09:24 -0500
-X-MC-Unique: EO73U69vPgqCujWMYtv6Ww-1
-Received: by mail-yb1-f199.google.com with SMTP id
- p18-20020a25bd52000000b007c8919c86efso19840175ybm.13
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 05:09:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WILQ+DVk1t2ZFpD36BbQV4/QLtmlkx7mnlHic1o1Vac=;
- b=Ax0BtLbgPwQrx8aXKKjCoN55Sl/hVG2BzZJ/+irTdDMfO+zj2NZIEd5kFQTPrSGDaw
- 1frNdtzqnFsBIXn5UTGttKDUaoOxqL9hcSmr2UkLauhxZmMDhogdMrQjY9yLgAMB/Vp7
- tvzChwv8lqA8eavys9dP7LWOu2Da8YX3+GghBhD3pJR9S4pXtvJm58gq1V2tgORdAIFc
- tzEFD8GgsOdWR7SVUHgjFsuZELLo5w2A72kpzpwA65VlB2tRGA6Zph14W5IA4AUi9oEP
- I/iiS0ht/0zd8nZmtgZM9PVAxXLYmKcsyNUf6X4dV6ZF5mA7cLEO+ey7VeLElZADOLUP
- JLmQ==
-X-Gm-Message-State: AFqh2kpaCXnZTDGjfmu3OhYhn056NRWqxa7sfvaCd95VxYZMPEqi/+bC
- BXzXjh84RalQHBGgny/HQIUDDENTtqO8JiwsL/1ybxbqJXSKJm/tNqSDLuVVTWBeEbIxVteu2YB
- ASXCXJyso2fLa+XQ=
-X-Received: by 2002:a81:25d0:0:b0:4cc:4d3e:b312 with SMTP id
- l199-20020a8125d0000000b004cc4d3eb312mr21524945ywl.46.1674047363795; 
- Wed, 18 Jan 2023 05:09:23 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsrUqceJTIr+FpfN6eSd0L9lbwQRAYuu18tXWq2Ick/tTGtkj2z4UHa9MmFecZTJZPdGEoNmQ==
-X-Received: by 2002:a81:25d0:0:b0:4cc:4d3e:b312 with SMTP id
- l199-20020a8125d0000000b004cc4d3eb312mr21524925ywl.46.1674047363578; 
- Wed, 18 Jan 2023 05:09:23 -0800 (PST)
-Received: from [192.168.8.105] (tmo-099-5.customers.d1-online.com.
- [80.187.99.5]) by smtp.gmail.com with ESMTPSA id
- ay19-20020a05620a179300b006b929a56a2bsm22319605qkb.3.2023.01.18.05.09.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 05:09:22 -0800 (PST)
-Message-ID: <e4fb93c6-a28d-b45c-5a7d-48d0ae33b994@redhat.com>
-Date: Wed, 18 Jan 2023 14:09:20 +0100
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pI8LK-0006ZI-7V; Wed, 18 Jan 2023 08:19:08 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30IDA4a4026579; Wed, 18 Jan 2023 13:18:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=NYbbonmwmTKG18jwPn2PoTy0UGH6KHhJCyK8/m2jhmA=;
+ b=lX+YErun+tZP1qW5s9eE8ylKRY4TFXCwKfmN+5/0NFedE541oycH1pEA/cOeiWScGNS9
+ J3loaY/Ygcum5ccis9V4J3RfrZaVvYusnaEt9o9Lq/ff7DytFwq5+xqdDPBYgYmOKhZZ
+ EjBg8nSEoMIBaxg+P04P0Shx4u0oeK4hT7LVDP6HJtFZzVgZU+mkODyO7ukYCYC/9pQO
+ B4bqmimZ5lRvoXWXhKJZp4zX6WbQYMX/kvRxGRMl959k+kjtnXPG5w4oSGj56K8i312B
+ t2+IihLfBSM659nMrkzOcQjDwgVXrxBCBIhkx7k7+1mi3MlP/OTxq1suqqVSIKa9fFSo Ew== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6f91ucjt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 13:18:06 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30ICsRQY021892;
+ Wed, 18 Jan 2023 13:18:05 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6f91ucj3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 13:18:05 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30ICtbA3006229;
+ Wed, 18 Jan 2023 13:18:03 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3n3knfnam3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Jan 2023 13:18:03 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30IDHxC145613382
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 18 Jan 2023 13:18:00 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D09A120040;
+ Wed, 18 Jan 2023 13:17:59 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CA0A820043;
+ Wed, 18 Jan 2023 13:17:58 +0000 (GMT)
+Received: from [9.171.39.117] (unknown [9.171.39.117])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 18 Jan 2023 13:17:58 +0000 (GMT)
+Message-ID: <2242c485-1f34-bf58-30a8-4f6443dc672d@linux.ibm.com>
+Date: Wed, 18 Jan 2023 14:17:58 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: float tests are too verbose (was: [PATCH v2] tests/qtest/qom-test: Do
- not print tested properties by default)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v14 08/11] qapi/s390/cpu topology: change-topology monitor
+ command
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>
-References: <20221215153036.422362-1-thuth@redhat.com>
- <CAFEAcA_EUNGFzLh8d9631WZR+-bR8oVynBs6=FV_kmLWNx2bSg@mail.gmail.com>
- <CAFEAcA80=+dXd5uDfSd8-sAPwbrYMqaPKhLGt7w8vh3MiQwLCQ@mail.gmail.com>
- <43415e4f-c6bf-31c6-3a2e-cea86c511223@redhat.com>
- <Y8Z8CJoFyxB9uHqU@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <Y8Z8CJoFyxB9uHqU@redhat.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, borntraeger@de.ibm.com,
+ pasic@linux.ibm.com, richard.henderson@linaro.org, david@redhat.com,
+ thuth@redhat.com, cohuck@redhat.com, mst@redhat.com,
+ pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
+ marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
+ seiden@linux.ibm.com, nrb@linux.ibm.com, scgl@linux.ibm.com,
+ frankja@linux.ibm.com, clg@kaod.org
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-9-pmorel@linux.ibm.com> <Y7/29cONlVoKukIP@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <Y7/29cONlVoKukIP@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ix2_0e-Bg8kkADjNgXQhKSQUG7rE5awk
+X-Proofpoint-ORIG-GUID: sohAw0zDgTpzfYC4E6caP3uNw52okJuy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-18_05,2023-01-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0
+ adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0 mlxlogscore=999
+ bulkscore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301180113
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,30 +122,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/01/2023 11.44, Daniel P. Berrangé wrote:
-...
-> And what i think is test float being overly verbose
-> 
->    >> Testing f16_le_quiet
-> 
->    46464 tests total.
-> 
->      10000
->      20000
->      30000
->      40000
->    46464 tests performed.
-> 
-> Could be written as
-> 
->    >> Testing f16_le_quiet: 46464 tests total .... OK
-> 
-> (one '.' for each 10,000 tests run, before final 'OK' is printed)
 
-Unfortunately, the float tests are included via a git submodule, so the 
-source code is not under our direct control here ... has anybody a good idea 
-how to get this tackled best?
 
-  Thomas
+On 1/12/23 13:03, Daniel P. Berrangé wrote:
+> On Thu, Jan 05, 2023 at 03:53:10PM +0100, Pierre Morel wrote:
+>> The modification of the CPU attributes are done through a monitor
+>> commands.
+>>
+>> It allows to move the core inside the topology tree to optimise
+>> the cache usage in the case the host's hypervizor previously
+>> moved the CPU.
+>>
+>> The same command allows to modifiy the CPU attributes modifiers
+>> like polarization entitlement and the dedicated attribute to notify
+>> the guest if the host admin modified scheduling or dedication of a vCPU.
+>>
+>> With this knowledge the guest has the possibility to optimize the
+>> usage of the vCPUs.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   qapi/machine-target.json |  29 ++++++++
+>>   include/monitor/hmp.h    |   1 +
+>>   hw/s390x/cpu-topology.c  | 141 +++++++++++++++++++++++++++++++++++++++
+>>   hmp-commands.hx          |  16 +++++
+>>   4 files changed, 187 insertions(+)
+>>
+>> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+>> index 2e267fa458..75b0aa254d 100644
+>> --- a/qapi/machine-target.json
+>> +++ b/qapi/machine-target.json
+>> @@ -342,3 +342,32 @@
+>>                      'TARGET_S390X',
+>>                      'TARGET_MIPS',
+>>                      'TARGET_LOONGARCH64' ] } }
+>> +
+>> +##
+>> +# @change-topology:
+>> +#
+>> +# @core: the vCPU ID to be moved
+>> +# @socket: the destination socket where to move the vCPU
+>> +# @book: the destination book where to move the vCPU
+>> +# @drawer: the destination drawer where to move the vCPU
+> 
+> This movement can be done while the guest OS is running ?
+> What happens to guest OS apps ? Every I know will read
+> topology once and assume it never changes at runtime.
 
+Yes this can change while the guest is running.
+
+The S390 Logical PARtition, where the Linux runs is already a first 
+level of virtualization and the lpar CPU are already virtual CPU which 
+can be moved from one real CPU to another, the guest is at a second 
+level of virtualization.
+
+On the LPAR host an admin can check the topology.
+A lpar CPU can be moved to another real CPU because of multiple reasons: 
+maintenance, failure, other decision from the first level hypervisor 
+that I do not know, may be scheduling balancing.
+
+There is a mechanism for the OS in which is running in LPAR to set a 
+flag for the guest on a topology change.
+The guest use a specific instruction to get this flag.
+This instruction PTF(2) is interpreted by the firmware and does not 
+appear in this patch series but in Linux patch series.
+
+So we have, real CPU <-> lpar CPU <-> vCPU
+
+> 
+> What's the use case for wanting to re-arrange topology in
+> this manner ? It feels like its going to be a recipe for
+> hard to diagnose problems, as much code in libvirt and apps
+> above will assuming the vCPU IDs are assigned sequentially
+> starting from node=0,book=0,drawer=0,socket=0,core=0,
+> incrementing core, then incrementing socket, then
+> incrementing drawer, etc.
+
+The goal to rearrange the vCPU is to give the guest the knowledge of the 
+topology so it can takes benefit of it.
+If a lpar CPU moved to another real CPU in another drawer we must move 
+the guest vCPU to another drawer so the guest OS can take the best 
+scheduling decisions.
+
+Per default, if nothing is specified on the creation of a vCPU, the 
+creation is done exactly like you said, starting from (0,0,0,0) and 
+incrementing.
+
+There are two possibility to set a vCPU at its place:
+
+1) on creation by specifying the drawer,book,socket for a specific core-id
+
+2) with this QAPI command to move the CPU while it is running.
+Note that the core-id and the CPU address do not change when moving the 
+CPU so that there is no problem with scheduling, all we do is to provide 
+the topology up to the guest when it asks.
+
+The period of checking by the Linux kernel if there is a change and if 
+there is a need to ask the topology is one minute.
+
+The migration of CPU is not supposed to happen very often, (not every day).
+
+> 
+>> +# @polarity: optional polarity, default is last polarity set by the guest
+>> +# @dedicated: optional, if the vCPU is dedicated to a real CPU
+>> +#
+>> +# Modifies the topology by moving the CPU inside the topology
+>> +# tree or by changing a modifier attribute of a CPU.
+>> +#
+>> +# Returns: Nothing on success, the reason on failure.
+>> +#
+>> +# Since: <next qemu stable release, eg. 1.0>
+>> +##
+>> +{ 'command': 'change-topology',
+> 
+> 'set-cpu-topology'
+
+OK, yes looks better.
+
+> 
+>> +  'data': {
+>> +      'core': 'int',
+>> +      'socket': 'int',
+>> +      'book': 'int',
+>> +      'drawer': 'int',
+>> +      '*polarity': 'int',
+>> +      '*dedicated': 'bool'
+>> +  },
+>> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+>> +}
+> 
+> 
+> With regards,
+> Daniel
+
+Thanks,
+
+Regards,
+Pierre
+
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
