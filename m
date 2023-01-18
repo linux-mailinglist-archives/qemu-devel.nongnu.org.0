@@ -2,97 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B6667277A
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 19:50:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31DF67277C
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 19:52:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIDUS-0002OH-Ta; Wed, 18 Jan 2023 13:48:52 -0500
+	id 1pIDY3-0003aD-My; Wed, 18 Jan 2023 13:52:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pIDUJ-0002Nx-TO
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 13:48:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pIDWQ-0003BH-J2; Wed, 18 Jan 2023 13:50:58 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pIDUI-0007B2-2T
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 13:48:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674067721;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pjJnLZX2xiPOgv75lLDyi1Y/Th228ymKSb/CUaNreac=;
- b=JQea/FLeLfbvFLZ+HMRVyiPJmtCOFxzjIGTGcEsqqB90RkEnp00dyqSGTcmYk6IKAeNlCK
- /hlKzF8aQMB2POKqiDNklPCcMWc1CY1h+JCvCr4m5oOCLRANFUunPjHgOrXzmprIDyz9SJ
- tXplVeA2Dzj6ody78WYofDagQFcCG2c=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-654-v4b2PYSaOh-syGsOMDKbRw-1; Wed, 18 Jan 2023 13:48:40 -0500
-X-MC-Unique: v4b2PYSaOh-syGsOMDKbRw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- az6-20020a05620a170600b0070689de396dso5317615qkb.18
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 10:48:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pjJnLZX2xiPOgv75lLDyi1Y/Th228ymKSb/CUaNreac=;
- b=3M8mNLzCHS6DWyVwM7mKxi+keQUHCMePVnLUtHmqo8m+Z//kDSsYwSU6ie+aZsWI4n
- NjHxNvy4MDBLG2qp+/9ANQxUH6RGc6JLxwm3/SUHo+f7/CrSRFKd9TxsrSizY3GEGvhl
- haQdrm31pyvTEfJpJ7TkYL6U2Dt78xL9dDXqAf04H0gj7L30Sd5eTxpEkkihpooyeJOH
- JY65CjH+Ml2MzU78Q/rwxqz+eiqAbx3wltYMaUTw22uXkUIuK3QDLxSG+rUsDH2jyPji
- eIJfXhVHnkyF+FsNpcJxUkMPuRd5t7gGCHlxXXnTVgrTn3ZSt1B/lHA/EHZrl//G5D72
- izMg==
-X-Gm-Message-State: AFqh2kqrlqw+bBQx9K+eb87q6n17lcX75lsjNgodKTcylCk262UXeV2j
- nR00FvPemJduDKHxiixN9Zq3v0P65B4UdS3AO5w87Q4pmIoPOm661KAmSEsn8G2t5aeCfqkB+e/
- CZo3XBIAjK67MyFI=
-X-Received: by 2002:ac8:12ca:0:b0:3a8:2d6:521e with SMTP id
- b10-20020ac812ca000000b003a802d6521emr45762789qtj.37.1674067719350; 
- Wed, 18 Jan 2023 10:48:39 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXudXQsAmoLmeIt2mou6m55xKcHKU/lV+pef2Cg+V7Tyw+MEb4Ii4+34z7xsCRy8cFMcQ5D8aw==
-X-Received: by 2002:ac8:12ca:0:b0:3a8:2d6:521e with SMTP id
- b10-20020ac812ca000000b003a802d6521emr45762766qtj.37.1674067719048; 
- Wed, 18 Jan 2023 10:48:39 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- bp35-20020a05620a45a300b00705b4001fbasm7343450qkb.128.2023.01.18.10.48.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 10:48:37 -0800 (PST)
-Message-ID: <c10df5a4-ad66-6868-3ce6-a3921a4c5727@redhat.com>
-Date: Wed, 18 Jan 2023 19:48:34 +0100
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pIDWN-0007hu-Ac; Wed, 18 Jan 2023 13:50:53 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id BD1845C019C;
+ Wed, 18 Jan 2023 13:50:48 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Wed, 18 Jan 2023 13:50:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1674067848; x=
+ 1674154248; bh=4CSN7tUhurg9sTLq7USXbyKmJpYRtL+mK9RFGc0vQRk=; b=S
+ +QiphH0Q5wNGCVOSKXv/5jxvGj5LMJJJZzSakTTw6LHGl33orrpYlTn3Dk3KR8uP
+ blzPi3WyuDE0X0AEZ5Nij2Bf8IeMOKw/N4hcOwRYZKxzlmxzQ6+xRYUv6VR4i5yb
+ FjwZP1DJkl+ayFExjdlDszgq8IHlyWkxAx3s1zZOlFJHZ4Zkn9qWAFKZ/PlKMIjn
+ ZFaAKh9Dx3wFpF7JPW5VONvy1ZIyhwXfyBG0BWx1HWPqU/5M1QCAzz0npIzSFNB1
+ BoAjEuE56KG0QsBbdW3Lo8ksvKa8BpQTOhMAXY4AnFGFxGT1jqmM4UmyfSikzDAC
+ hCaetLBuula/GxCuBeNyw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674067848; x=
+ 1674154248; bh=4CSN7tUhurg9sTLq7USXbyKmJpYRtL+mK9RFGc0vQRk=; b=F
+ XgByDblR80okCfBAQ28NWVBnKSt9cSEbw9bhgAjtUfxt69IrlqNP22vM6k4U/2KW
+ y7nXvixjEc9q2FstPLdDrCsu1YcjKMBmtmjpMa7QBdzeBlqwQ1sUKPrhDSQ50aR+
+ SJVNjOCT4MQncR37uwA+bk+UQ4evdvD+Hp/anb2oB3rABYyEW+rEb3MNkGkTbtpj
+ xRP94KLLvkEmgLI7N5qO0XYNdGWdk48LOChbqVrZzIZ3M3h3AIt2gRLN4311maBG
+ sR6zHI3QmIFHNq5hjqScSatxhknNpX4OKXJZLJ7tonrbLHw/JyOaC2e8L3oxqoTJ
+ Ck1KQI9Y2mTSVJcomqc7w==
+X-ME-Sender: <xms:hz_IY36MLODJGvGCqvV1csEcgHWiPIrEFugUMKphxUtM7cALSchFew>
+ <xme:hz_IY84hT4l3eOCIPSCpUw_tYpBGJeX3IYjPNgoLoZ7DnYeHWtWwmarRYPYaku1Jg
+ ZhhItLDYdiBy_REx0g>
+X-ME-Received: <xmr:hz_IY-fQWFRyLbo33jTZFhDEWhvP3NO-wZ1KRn0K66QggSa3H638Vo8ygOCVNh_JRT6AtpnEwK5xGE3gt1r6cA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtkedguddujecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggugfgjse
+ htkeertddttddunecuhfhrohhmpefrvghtvghrucffvghlvghvohhrhigrshcuoehpvght
+ vghrsehpjhgurdguvghvqeenucggtffrrghtthgvrhhnpefgueekffdtueetgfehteffle
+ dtueehgfehgeelfedujeefhfffteekvddtfeetteenucffohhmrghinhepghhithhhuhgs
+ rdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:hz_IY4LoV-EsvRssjB5p9sPK2OhMJWVZnul78E0TSUl32excWlTPXg>
+ <xmx:hz_IY7KPbj1GQk5Aeb8nz_PXynOWrC-xuQt8w96WozHIhrysQ9y8WQ>
+ <xmx:hz_IYxy3K9LXUdwvbvstKn8PL6gr_9AGNwTNXeUury7VDWvdJ8h4KA>
+ <xmx:iD_IY4q7HP-IaxyAPFde5biiVw3CvRjo2g__HvRJi_IBZku8UvZ1Eg>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 18 Jan 2023 13:50:46 -0500 (EST)
+Date: Wed, 18 Jan 2023 10:50:42 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
+ hskinnemoen@google.com, kfting@nuvoton.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, philmd@linaro.org
+Subject: Re: [PATCH v4 4/5] hw/arm/aspeed: Add aspeed_eeprom.c
+Message-ID: <Y8g/gp5bteQg4xrg@pdel-mbp.dhcp.thefacebook.com>
+References: <20230118024214.14413-1-peter@pjd.dev>
+ <20230118024214.14413-5-peter@pjd.dev>
+ <ddea0c77-7a00-8796-443c-ba1707ddd8b4@kaod.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: virtio-iommu issue with VFIO device downstream to a PCIe-to-PCI
- bridge: VFIO devices are not assigned any iommu group
-Content-Language: en-US
-To: Alex Williamson <alex.williamson@redhat.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: qemu list <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>
-References: <0bc2f2e5-630e-e721-254d-f224d1a3bdcd@redhat.com>
- <0eb96eb5-703d-dacd-49ff-f61e02d98eb9@redhat.com> <Y8FQ9li7gQ+bPiRe@myrica>
- <20230113105700.2d860fbe.alex.williamson@redhat.com>
- <Y8g0YQ4NylOUzeUW@myrica>
- <20230118112832.261d6bea.alex.williamson@redhat.com>
-From: Eric Auger <eauger@redhat.com>
-In-Reply-To: <20230118112832.261d6bea.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ddea0c77-7a00-8796-443c-ba1707ddd8b4@kaod.org>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=peter@pjd.dev;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,97 +104,260 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+On Wed, Jan 18, 2023 at 11:31:57AM +0100, Cédric Le Goater wrote:
+> On 1/18/23 03:42, Peter Delevoryas wrote:
+> > - Create aspeed_eeprom.c and aspeed_eeprom.h
+> > - Include aspeed_eeprom.c in CONFIG_ASPEED meson source files
+> > - Include aspeed_eeprom.h in aspeed.c
+> > - Add fby35_bmc_fruid data
+> > - Use new at24c_eeprom_init_rom helper to initialize BMC FRUID EEPROM with data
+> >    from aspeed_eeprom.c
+> > 
+> > wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
+> > qemu-system-aarch64 -machine fby35-bmc -nographic -mtdblock fby35.mtd
+> > ...
+> > user: root
+> > pass: 0penBmc
+> > ...
+> > root@bmc-oob:~# fruid-util bb
+> > 
+> > FRU Information           : Baseboard
+> > ---------------           : ------------------
+> > Chassis Type              : Rack Mount Chassis
+> > Chassis Part Number       : N/A
+> > Chassis Serial Number     : N/A
+> > Board Mfg Date            : Fri Jan  7 10:30:00 2022
+> > Board Mfg                 : XXXXXX
+> > Board Product             : Management Board wBMC
+> > Board Serial              : XXXXXXXXXXXXX
+> > Board Part Number         : XXXXXXXXXXXXXX
+> > Board FRU ID              : 1.0
+> > Board Custom Data 1       : XXXXXXXXX
+> > Board Custom Data 2       : XXXXXXXXXXXXXXXXXX
+> > Product Manufacturer      : XXXXXX
+> > Product Name              : Yosemite V3.5 EVT2
+> > Product Part Number       : XXXXXXXXXXXXXX
+> > Product Version           : EVT2
+> > Product Serial            : XXXXXXXXXXXXX
+> > Product Asset Tag         : XXXXXXX
+> > Product FRU ID            : 1.0
+> > Product Custom Data 1     : XXXXXXXXX
+> > Product Custom Data 2     : N/A
+> > root@bmc-oob:~# fruid-util bmc
+> > 
+> > FRU Information           : BMC
+> > ---------------           : ------------------
+> > Board Mfg Date            : Mon Jan 10 21:42:00 2022
+> > Board Mfg                 : XXXXXX
+> > Board Product             : BMC Storage Module
+> > Board Serial              : XXXXXXXXXXXXX
+> > Board Part Number         : XXXXXXXXXXXXXX
+> > Board FRU ID              : 1.0
+> > Board Custom Data 1       : XXXXXXXXX
+> > Board Custom Data 2       : XXXXXXXXXXXXXXXXXX
+> > Product Manufacturer      : XXXXXX
+> > Product Name              : Yosemite V3.5 EVT2
+> > Product Part Number       : XXXXXXXXXXXXXX
+> > Product Version           : EVT2
+> > Product Serial            : XXXXXXXXXXXXX
+> > Product Asset Tag         : XXXXXXX
+> > Product FRU ID            : 1.0
+> > Product Custom Data 1     : XXXXXXXXX
+> > Product Custom Data 2     : Config A
+> > root@bmc-oob:~# fruid-util nic
+> > 
+> > FRU Information           : NIC
+> > ---------------           : ------------------
+> > Board Mfg Date            : Tue Nov  2 08:51:00 2021
+> > Board Mfg                 : XXXXXXXX
+> > Board Product             : Mellanox ConnectX-6 DX OCP3.0
+> > Board Serial              : XXXXXXXXXXXXXXXXXXXXXXXX
+> > Board Part Number         : XXXXXXXXXXXXXXXXXXXXX
+> > Board FRU ID              : FRU Ver 0.02
+> > Product Manufacturer      : XXXXXXXX
+> > Product Name              : Mellanox ConnectX-6 DX OCP3.0
+> > Product Part Number       : XXXXXXXXXXXXXXXXXXXXX
+> > Product Version           : A9
+> > Product Serial            : XXXXXXXXXXXXXXXXXXXXXXXX
+> > Product Custom Data 3     : ConnectX-6 DX
+> > 
+> > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> > Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> > Reviewed-by: Joel Stanley <joel@jms.id.au>
+> > ---
+> >   hw/arm/aspeed.c        | 10 ++++--
+> >   hw/arm/aspeed_eeprom.c | 78 ++++++++++++++++++++++++++++++++++++++++++
+> >   hw/arm/aspeed_eeprom.h | 16 +++++++++
+> >   hw/arm/meson.build     |  1 +
+> >   4 files changed, 102 insertions(+), 3 deletions(-)
+> >   create mode 100644 hw/arm/aspeed_eeprom.c
+> >   create mode 100644 hw/arm/aspeed_eeprom.h
+> > 
+> > diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> > index c929c61d582a..382965f82c38 100644
+> > --- a/hw/arm/aspeed.c
+> > +++ b/hw/arm/aspeed.c
+> > @@ -14,6 +14,7 @@
+> >   #include "hw/arm/boot.h"
+> >   #include "hw/arm/aspeed.h"
+> >   #include "hw/arm/aspeed_soc.h"
+> > +#include "hw/arm/aspeed_eeprom.h"
+> >   #include "hw/i2c/i2c_mux_pca954x.h"
+> >   #include "hw/i2c/smbus_eeprom.h"
+> >   #include "hw/misc/pca9552.h"
+> > @@ -940,9 +941,12 @@ static void fby35_i2c_init(AspeedMachineState *bmc)
+> >       at24c_eeprom_init(i2c[4], 0x51, 128 * KiB);
+> >       at24c_eeprom_init(i2c[6], 0x51, 128 * KiB);
+> > -    at24c_eeprom_init(i2c[8], 0x50, 32 * KiB);
+> > -    at24c_eeprom_init(i2c[11], 0x51, 128 * KiB);
+> > -    at24c_eeprom_init(i2c[11], 0x54, 128 * KiB);
+> > +    at24c_eeprom_init_rom(i2c[8], 0x50, 32 * KiB, fby35_nic_fruid,
+> > +                          sizeof(fby35_nic_fruid));
+> > +    at24c_eeprom_init_rom(i2c[11], 0x51, 128 * KiB, fby35_bb_fruid,
+> > +                          sizeof(fby35_bb_fruid));
+> > +    at24c_eeprom_init_rom(i2c[11], 0x54, 128 * KiB, fby35_bmc_fruid,
+> > +                          sizeof(fby35_bmc_fruid));
+> >       /*
+> >        * TODO: There is a multi-master i2c connection to an AST1030 MiniBMC on
+> > diff --git a/hw/arm/aspeed_eeprom.c b/hw/arm/aspeed_eeprom.c
+> > new file mode 100644
+> > index 000000000000..9d0700d4b709
+> > --- /dev/null
+> > +++ b/hw/arm/aspeed_eeprom.c
+> > @@ -0,0 +1,78 @@
+> > +/*
+> > + * Copyright (c) Meta Platforms, Inc. and affiliates.
+> > + *
+> > + * SPDX-License-Identifier: GPL-2.0-only
+> > + */
+> > +
+> > +#include "aspeed_eeprom.h"
+> > +
+> > +const uint8_t fby35_nic_fruid[] = {
+> > +    0x01, 0x00, 0x00, 0x01, 0x0f, 0x20, 0x00, 0xcf, 0x01, 0x0e, 0x19, 0xd7,
+> > +    0x5e, 0xcf, 0xc8, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xdd,
+> > +    0x4d, 0x65, 0x6c, 0x6c, 0x61, 0x6e, 0x6f, 0x78, 0x20, 0x43, 0x6f, 0x6e,
+> > +    0x6e, 0x65, 0x63, 0x74, 0x58, 0x2d, 0x36, 0x20, 0x44, 0x58, 0x20, 0x4f,
+> > +    0x43, 0x50, 0x33, 0x2e, 0x30, 0xd8, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd5, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0xcc, 0x46, 0x52, 0x55, 0x20, 0x56, 0x65, 0x72,
+> > +    0x20, 0x30, 0x2e, 0x30, 0x32, 0xc0, 0xc0, 0xc0, 0xc1, 0x00, 0x00, 0x2f,
+> > +    0x01, 0x11, 0x19, 0xc8, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0xdd, 0x4d, 0x65, 0x6c, 0x6c, 0x61, 0x6e, 0x6f, 0x78, 0x20, 0x43, 0x6f,
+> > +    0x6e, 0x6e, 0x65, 0x63, 0x74, 0x58, 0x2d, 0x36, 0x20, 0x44, 0x58, 0x20,
+> > +    0x4f, 0x43, 0x50, 0x33, 0x2e, 0x30, 0xd5, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0xd3, 0x41, 0x39, 0x20, 0x20, 0x20, 0x20, 0x20,
+> > +    0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+> > +    0xd8, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0xc0, 0xc0, 0xc0, 0xc0, 0xcd, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63,
+> > +    0x74, 0x58, 0x2d, 0x36, 0x20, 0x44, 0x58, 0xc1, 0x00, 0x00, 0x00, 0x00,
+> > +    0x00, 0x00, 0x00, 0xdb, 0xc0, 0x82, 0x30, 0x15, 0x79, 0x7f, 0xa6, 0x00,
+> > +    0x01, 0x18, 0x0b, 0xff, 0x08, 0x00, 0xff, 0xff, 0x64, 0x00, 0x00, 0x00,
+> > +    0x00, 0x03, 0x20, 0x01, 0xff, 0xff, 0x04, 0x46, 0x00, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0x01, 0x81, 0x09, 0x15, 0xb3, 0x10, 0x1d, 0x00,
+> > +    0x24, 0x15, 0xb3, 0x00, 0x02, 0xeb, 0x8a, 0x95, 0x5c,
+> > +};
+> > +
+> > +const uint8_t fby35_bb_fruid[] = {
+> > +    0x01, 0x00, 0x01, 0x03, 0x10, 0x00, 0x00, 0xeb, 0x01, 0x02, 0x17, 0xc3,
+> > +    0x4e, 0x2f, 0x41, 0xc3, 0x4e, 0x2f, 0x41, 0xc1, 0x00, 0x00, 0x00, 0x23,
+> > +    0x01, 0x0d, 0x00, 0xb6, 0xd2, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0xd5, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74,
+> > +    0x20, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x20, 0x77, 0x42, 0x4d, 0x43, 0xcd,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0xc1, 0x00, 0x00, 0x00, 0x00, 0x00, 0xa8, 0x01, 0x0c, 0x00, 0xc6,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x59, 0x6f, 0x73, 0x65, 0x6d,
+> > +    0x69, 0x74, 0x65, 0x20, 0x56, 0x33, 0x2e, 0x35, 0x20, 0x45, 0x56, 0x54,
+> > +    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0xc4, 0x45, 0x56, 0x54, 0x32, 0xcd, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x4e, 0x2f,
+> > +    0x41, 0xc1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x43,
+> > +};
+> > +
+> > +const uint8_t fby35_bmc_fruid[] = {
+> > +    0x01, 0x00, 0x00, 0x01, 0x0d, 0x00, 0x00, 0xf1, 0x01, 0x0c, 0x00, 0x36,
+> > +    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x4d,
+> > +    0x43, 0x20, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x20, 0x4d, 0x6f,
+> > +    0x64, 0x75, 0x6c, 0x65, 0xcd, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e,
+> > +    0x30, 0xc9, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc1, 0x39, 0x01, 0x0c, 0x00, 0xc6,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x59, 0x6f, 0x73, 0x65, 0x6d,
+> > +    0x69, 0x74, 0x65, 0x20, 0x56, 0x33, 0x2e, 0x35, 0x20, 0x45, 0x56, 0x54,
+> > +    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0xc4, 0x45, 0x56, 0x54, 0x32, 0xcd, 0x58, 0x58,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
+> > +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc8, 0x43, 0x6f,
+> > +    0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45,
+> > +};
+> > diff --git a/hw/arm/aspeed_eeprom.h b/hw/arm/aspeed_eeprom.h
+> > new file mode 100644
+> > index 000000000000..bc4475a85f24
+> > --- /dev/null
+> > +++ b/hw/arm/aspeed_eeprom.h
+> > @@ -0,0 +1,16 @@
+> > +/*
+> > + * Copyright (c) Meta Platforms, Inc. and affiliates.
+> > + *
+> > + * SPDX-License-Identifier: GPL-2.0-only
+> > + */
+> > +
+> > +#ifndef ASPEED_EEPROM_H
+> > +#define ASPEED_EEPROM_H
+> > +
+> > +#include "qemu/osdep.h"
+> > +
+> > +extern const uint8_t fby35_nic_fruid[309];
+> > +extern const uint8_t fby35_bb_fruid[224];
+> > +extern const uint8_t fby35_bmc_fruid[200];
+> 
+> 
+> I preferred your first version :/
 
-On 1/18/23 19:28, Alex Williamson wrote:
-> On Wed, 18 Jan 2023 18:03:13 +0000
-> Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+Aw dang it, well, how come you and Phil suggested doing it this way?
+
+Maybe you were just offering suggestions heh
+
 > 
->> On Fri, Jan 13, 2023 at 10:57:00AM -0700, Alex Williamson wrote:
->>> On Fri, 13 Jan 2023 12:39:18 +0000
->>> Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
->>>   
->>>> Hi,
->>>>
->>>> On Mon, Jan 09, 2023 at 10:11:19PM +0100, Eric Auger wrote:  
->>>>>> Jean, do you have any idea about how to fix that? Do you think we have a
->>>>>> trouble in the acpi/viot setup or virtio-iommu probe sequence. It looks
->>>>>> like virtio probe and attach commands are called too early, before the
->>>>>> bus is actually correctly numbered.    
->>>>>
->>>>> So after further investigations looks this is not a problem of bus
->>>>> number, which is good at the time of the virtio cmd calls but rather a
->>>>> problem related to the devfn (0 was used when creating the IOMMU MR)
->>>>> whereas the virtio-iommu cmds looks for the non aliased devfn. With that
->>>>> fixed, the probe and attach at least succeeds. The device still does not
->>>>> work for me but I will continue my investigations and send a tentative fix.    
->>>>
->>>> If I remember correctly VIOT can deal with bus numbers because bridges are
->>>> assigned a range by QEMU, but I haven't tested that in detail, and I don't
->>>> know how it holds with conventional PCI bridges.  
->>>
->>> In my reading of the virtio-iommu spec,  
->>
->> Hm, is that the virtio-iommu spec or ACPI VIOT/device tree spec?
->> The virtio-iommu spec shouldn't refer to PCI buses at the moment. The
->> intent is that for PCI, the "endpoint ID" passed in an ATTACH request
->> corresponds to PCI segment and RID of PCI devices at the time of the
->> request (so after the OS renumbered the buses). If you found something in
->> the spec that contradicts this, it should be fixed. Note that "endpoint"
->> is a misnomer, it can refer to PCI bridges as well, anything that can
->> issue DMA transactions.
+> No need to resend, I will rework the code to add :
 > 
-> Sorry, the ACPI spec defining the VIOT table[1]:
+>   extern const size_t fby35_nic_len;
+>   extern const size_t fby35_bb_len;
+>   extern const size_t fby35_bmc_len;
+
+That would be great, thanks!
+
 > 
-> 	Each node identifies one or more devices using either their PCI
-> 	Handle or their base MMIO (Memory-Mapped I/O) address. A PCI
-> 	Handle is a PCI Segment number and a BDF (Bus-Device-Function)
-> 	with the following layout:
-> 
-> 	* Bits 15:8 Bus Number
-> 
-> 	* Bits 7:3 Device Number
-> 
-> 	* Bits 2:0 Function Number
-> 
-> 	This identifier corresponds to the one observed by the
-> 	operating system when parsing the PCI configuration space for
-> 	the first time after boot.
-> 
->>> I noted that it specifies the
->>> bus numbers *at the time of OS handoff*, so it essentially washes its
->>> hands of the OS renumbering buses while leaving subtle dependencies on
->>> initial numbering in the guest and QEMU implementations.  
->>
->> Yes we needed to describe in the firmware tables (device-tree and ACPI
->> VIOT) which devices the IOMMU manages. And at the time we generate the
->> tables, if we want to refer to PCI devices behind bridges, we can either
->> use catch-all ranges for any possible bus numbers they will get, or
->> initialize bus numbers in bridges and pass those to the OS.
->>
->> But that's only to communicate the IOMMU topology to the OS, because we
->> couldn't come up with anything better. After it sets up PCI the OS should
->> be able to use its own configuration of the PCI topology in virtio-iommu
->> requests.
-> 
-> The VT-d spec[2](8.3.1) has a more elegant solution using a path
-> described in a device scope, based on a root bus number (not
-> susceptible to OS renumbering) and a sequence of devfns to uniquely
-> describe a hierarchy or endpoint, invariant of OS bus renumbering.
 > Thanks,
-
-Independently on the potential issue raised by Alex about later bus
-renumbering, I observe that the VIOT content, in my case, is correct and
-properly advertises the translation of the RIDs of all my devices. So
-the iommu group topology issue I have on guest is not due to the VIOT
-ACPI table content.
-
-Eric
 > 
-> Alex
+> C.
 > 
-> [1]https://uefi.org/specs/ACPI/6.5/05_ACPI_Software_Programming_Model.html#virtual-i-o-translation-viot-table-header
-> [2]https://cdrdv2-public.intel.com/671081/vt-directed-io-spec.pdf
+> > +
+> > +#endif
+> > diff --git a/hw/arm/meson.build b/hw/arm/meson.build
+> > index 76d4d650e42e..f70e8cfd4545 100644
+> > --- a/hw/arm/meson.build
+> > +++ b/hw/arm/meson.build
+> > @@ -53,6 +53,7 @@ arm_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
+> >     'aspeed.c',
+> >     'aspeed_ast2600.c',
+> >     'aspeed_ast10x0.c',
+> > +  'aspeed_eeprom.c',
+> >     'fby35.c'))
+> >   arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2.c'))
+> >   arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2-tz.c'))
 > 
-
 
