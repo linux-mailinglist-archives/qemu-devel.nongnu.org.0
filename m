@@ -2,63 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE8F671143
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 03:39:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034FF671149
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 03:43:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHyLj-0004Av-IM; Tue, 17 Jan 2023 21:38:51 -0500
+	id 1pHyPC-0005Sy-Mz; Tue, 17 Jan 2023 21:42:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1pHyLi-0004Ag-4u
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 21:38:50 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219] helo=chinatelecom.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1pHyLf-0006FN-A2
- for qemu-devel@nongnu.org; Tue, 17 Jan 2023 21:38:49 -0500
-HMM_SOURCE_IP: 172.18.0.48:57500.847994759
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-36.111.64.85 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 37CBD2800EA;
- Wed, 18 Jan 2023 10:38:20 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([36.111.64.85])
- by app0024 with ESMTP id 1936c79b3b1c42fbbbf84ca083535cd2 for
- armbru@redhat.com; Wed, 18 Jan 2023 10:38:45 CST
-X-Transaction-ID: 1936c79b3b1c42fbbbf84ca083535cd2
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 36.111.64.85
-X-MEDUSA-Status: 0
-Message-ID: <0d5d9a32-c92f-173a-3763-e229b32de7fe@chinatelecom.cn>
-Date: Wed, 18 Jan 2023 10:38:41 +0800
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pHyP9-0005Ms-62; Tue, 17 Jan 2023 21:42:23 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pHyP6-0006pd-Ds; Tue, 17 Jan 2023 21:42:22 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 2B0D15C00F1;
+ Tue, 17 Jan 2023 21:42:19 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Tue, 17 Jan 2023 21:42:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1674009739; x=1674096139; bh=QfoHj9tcz/
+ 1Uzbm2cTdi8Grjw+z/K2RNHW0+3w2BYdQ=; b=PGiCUgto8Y76dhirtc82A17NNC
+ m3kHiWOp0b7DMpWUaOcSlupe4Rwypov8nM6KJYQiRn9r+30PoGgg7fzMlOnNWDkB
+ tPXx/vb3sHfBP7nI710OeJ2KAJCohqf/XKAjYMQkHI0MNN6DtTn0YM9nvMYs7yGH
+ TjxSY90qte10QIfNBwNkOtmNzpQ4usP011SPlXZ0yI796M0r2QpXU26az2POJdFM
+ ikvr3mmAuXdCCl2L/XHLaPM6SKCQCl9ZyDmuSC8KPnmEYIrntCXvCKhijL3M+bay
+ 5B/WHO8F+SBpVEtrenecRh6qwUk0yfJXf1pvfP7ZzC6l5NgxQ2E/K1cv4WYQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1674009739; x=1674096139; bh=QfoHj9tcz/1Uz
+ bm2cTdi8Grjw+z/K2RNHW0+3w2BYdQ=; b=gMlvvZGa9T3ipccgS84iW4J4cRnqy
+ lvXnU3356pj5Jk4Lw169pRHr/RvxsCAYbSQ94zSo08Co8XcN+waQ+JHS0YGU++/r
+ BEArPhQUPSz8nK/BB2PZXTwh1YcDAR8MiPD7Hnrm9E+crltQBYCQ6oQZEe060uxl
+ w+iWglL6Z5rmXb51hB0Fq3g+XyGmwQ21wFIJByVsDMXYtFmFjUXErg+KzkIP0QY/
+ sqmynDa0tBC1+0f2APuMpkIqykGjJzIY0m0/lyIdGdm5nJWnroqxyeQ2CFTn4djw
+ tQljGf39+FS3GNrQAjwXpwCrcomzLv97Nxx7xsdRcKA2a39SrVic+r3kw==
+X-ME-Sender: <xms:ilzHY3BMUXZAWSu4IovYCIcEc2xZ7rwN8Va3-9MPrVJQ7mCMh33pdw>
+ <xme:ilzHY9hHgEp7O1W63mleduxcw0TxCR8vzCxeQH3jzL2G6nxOA2j-TY7xLd_awhwX9
+ bLBvihgiMErasuAG3Q>
+X-ME-Received: <xmr:ilzHYyn_qntbBhWcXxkqNHN-3Q3j-p_Pb3ZMeR6qfSskwxA7DPjZSeek9kMKket29UdcbmHRUKknECfG9IW73r-8JEWsvleyc4mLKFwRFEk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtjedgheduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
+ dmnegoteeftdduqddtudculdduhedmnecujfgurhephffvvefufffkofggtgfgsehtkeer
+ tdertdejnecuhfhrohhmpefrvghtvghrucffvghlvghvohhrhigrshcuoehpvghtvghrse
+ hpjhgurdguvghvqeenucggtffrrghtthgvrhhnpeetffejteejgefgffdvuefhgeeludfg
+ feduueeltdefgfduhfetudetueeujeeukeenucffohhmrghinhepkhgvrhhnvghlrdhorh
+ hgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgv
+ thgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:ilzHY5zmvFX3ku-NN5Z1OiB89mioAbcfmCCcVMvjebL3Oux1ks9Z8A>
+ <xmx:ilzHY8QcslTrklX8G37XpieloMv6ipjRn85NaNC4XP1ojMHZfVTmeA>
+ <xmx:ilzHY8bzRBNZ7inLT04ThuReBTiWvsXfMFQYuWn9NuAKe_7PkbTE1w>
+ <xmx:i1zHY_EDrPLKlBu73_7AI7bFpcQnOANVRpzNvXymGN52DubvLdakrw>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Jan 2023 21:42:17 -0500 (EST)
+From: Peter Delevoryas <peter@pjd.dev>
+To: 
+Cc: peter@pjd.dev, clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au,
+ joel@jms.id.au, hskinnemoen@google.com, kfting@nuvoton.com,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, philmd@linaro.org
+Subject: [PATCH v4 0/5] hw/nvram/eeprom_at24c: Cleanup + FRUID EEPROM init
+ example
+Date: Tue, 17 Jan 2023 18:42:09 -0800
+Message-Id: <20230118024214.14413-1-peter@pjd.dev>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH RESEND v3 08/10] migration: Implement dirty-limit
- convergence algo
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <cover.1670087275.git.huangy81@chinatelecom.cn>
- <cover.1670087275.git.huangy81@chinatelecom.cn>
- <60408b08bf680b30393c8aa6d1422189521ca8cc.1670087276.git.huangy81@chinatelecom.cn>
- <87v8ldduu4.fsf@pond.sub.org>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <87v8ldduu4.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.219;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=peter@pjd.dev;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,233 +100,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+v1: https://lore.kernel.org/qemu-devel/20230114170151.87833-1-peter@pjd.dev/
+v2:
+    - Squashed 3 commits from original series into extract helper commit
+    - Dropped last 2 commits from original series
+    - Changed at24c_eeprom_init to return the I2CSlave object
+    - Added commit to introduce at24c-eeprom "init_rom" attribute
+    - Added aspeed_eeprom.c and fby35-bmc BMC FRUID EEPROM initialization
+    - Added commit to change reset behavior for at24c-eeprom (optional)
+v3:
+    - Added doc comments to function headers
+	- Added fby35 NIC and baseboard EEPROM's (to illustrate 2+ EEPROM's)
+    - Replaced "extern uint32 fby35_bmc_fruid_size" by adding explicit array
+      sizes, e.g. "extern uint8_t fby35_bmc_fruid[200]".
+    - Fixed Meta Platforms licenses by adding SPDX-License-Identifier for GPL2.
+    - Moved ee->init_rom initialization code before ee->blk, so that -drive
+      property overrides init_rom initialization. This gives more flexibility
+      (people can override contents of an AT24C EEPROM using a file for
+      debugging/prototyping) while still allowing the init_rom data to be
+      specified for a board for default behavior.
+v4:
+	- Moved at24c_eeprom_init_rom doc comment to the patch introducing the
+      function (moved from patch 4/5 to patch 3/5).
+	- Added review tags from Joel
 
+Thanks,
+Peter
 
-在 2023/1/11 22:11, Markus Armbruster 写道:
-> huangy81@chinatelecom.cn writes:
-> 
->> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>
->> Implement dirty-limit convergence algo for live migration,
->> which is kind of like auto-converge algo but using dirty-limit
->> instead of cpu throttle to make migration convergent.
->>
->> Enable dirty page limit if dirty_rate_high_cnt greater than 2
->> when dirty-limit capability enabled, disable dirty-limit if
->> migration be cancled.
->>
->> Note that "set_vcpu_dirty_limit", "cancel_vcpu_dirty_limit"
->> commands are not allowed during dirty-limit live migration.
-> 
-> Only during live migration, or also during migration of a stopped guest?
-> If the latter, the easy fix is to scratch "live".
-> 
->> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->> ---
->>   migration/migration.c  |  3 +++
->>   migration/ram.c        | 63 ++++++++++++++++++++++++++++++++++++++------------
->>   migration/trace-events |  1 +
->>   softmmu/dirtylimit.c   | 22 ++++++++++++++++++
->>   4 files changed, 74 insertions(+), 15 deletions(-)
->>
->> diff --git a/migration/migration.c b/migration/migration.c
->> index 702e7f4..127d0fe 100644
->> --- a/migration/migration.c
->> +++ b/migration/migration.c
->> @@ -240,6 +240,9 @@ void migration_cancel(const Error *error)
->>       if (error) {
->>           migrate_set_error(current_migration, error);
->>       }
->> +    if (migrate_dirty_limit()) {
->> +        qmp_cancel_vcpu_dirty_limit(false, -1, NULL);
->> +    }
->>       migrate_fd_cancel(current_migration);
->>   }
->>   
->> diff --git a/migration/ram.c b/migration/ram.c
->> index 5e66652..78b9167 100644
->> --- a/migration/ram.c
->> +++ b/migration/ram.c
->> @@ -45,6 +45,7 @@
->>   #include "qapi/error.h"
->>   #include "qapi/qapi-types-migration.h"
->>   #include "qapi/qapi-events-migration.h"
->> +#include "qapi/qapi-commands-migration.h"
->>   #include "qapi/qmp/qerror.h"
->>   #include "trace.h"
->>   #include "exec/ram_addr.h"
->> @@ -57,6 +58,8 @@
->>   #include "qemu/iov.h"
->>   #include "multifd.h"
->>   #include "sysemu/runstate.h"
->> +#include "sysemu/dirtylimit.h"
->> +#include "sysemu/kvm.h"
->>   
->>   #include "hw/boards.h" /* for machine_dump_guest_core() */
->>   
->> @@ -1139,6 +1142,30 @@ static void migration_update_rates(RAMState *rs, int64_t end_time)
->>       }
->>   }
->>   
->> +/*
->> + * Enable dirty-limit to throttle down the guest
->> + */
->> +static void migration_dirty_limit_guest(void)
->> +{
->> +    static int64_t quota_dirtyrate;
->> +    MigrationState *s = migrate_get_current();
->> +
->> +    /*
->> +     * If dirty limit already enabled and migration parameter
->> +     * vcpu-dirty-limit untouched.
->> +     */
->> +    if (dirtylimit_in_service() &&
->> +        quota_dirtyrate == s->parameters.vcpu_dirty_limit) {
->> +        return;
->> +    }
->> +
->> +    quota_dirtyrate = s->parameters.vcpu_dirty_limit;
->> +
->> +    /* Set or update quota dirty limit */
->> +    qmp_set_vcpu_dirty_limit(false, -1, quota_dirtyrate, NULL);
->> +    trace_migration_dirty_limit_guest(quota_dirtyrate);
->> +}
->> +
->>   static void migration_trigger_throttle(RAMState *rs)
->>   {
->>       MigrationState *s = migrate_get_current();
->> @@ -1148,26 +1175,32 @@ static void migration_trigger_throttle(RAMState *rs)
->>       uint64_t bytes_dirty_period = rs->num_dirty_pages_period * TARGET_PAGE_SIZE;
->>       uint64_t bytes_dirty_threshold = bytes_xfer_period * threshold / 100;
->>   
->> -    /* During block migration the auto-converge logic incorrectly detects
->> -     * that ram migration makes no progress. Avoid this by disabling the
->> -     * throttling logic during the bulk phase of block migration. */
->> -    if (blk_mig_bulk_active()) {
->> -        return;
->> -    }
->> +    /*
->> +     * The following detection logic can be refined later. For now:
->> +     * Check to see if the ratio between dirtied bytes and the approx.
->> +     * amount of bytes that just got transferred since the last time
->> +     * we were in this routine reaches the threshold. If that happens
->> +     * twice, start or increase throttling.
->> +     */
->>   
->> -    if (migrate_auto_converge()) {
->> -        /* The following detection logic can be refined later. For now:
->> -           Check to see if the ratio between dirtied bytes and the approx.
->> -           amount of bytes that just got transferred since the last time
->> -           we were in this routine reaches the threshold. If that happens
->> -           twice, start or increase throttling. */
->> +    if ((bytes_dirty_period > bytes_dirty_threshold) &&
->> +        (++rs->dirty_rate_high_cnt >= 2)) {
->> +        rs->dirty_rate_high_cnt = 0;
->> +        /*
->> +         * During block migration the auto-converge logic incorrectly detects
->> +         * that ram migration makes no progress. Avoid this by disabling the
->> +         * throttling logic during the bulk phase of block migration
->> +         */
->> +        if (blk_mig_bulk_active()) {
->> +            return;
->> +        }
->>   
->> -        if ((bytes_dirty_period > bytes_dirty_threshold) &&
->> -            (++rs->dirty_rate_high_cnt >= 2)) {
->> +        if (migrate_auto_converge()) {
->>               trace_migration_throttle();
->> -            rs->dirty_rate_high_cnt = 0;
->>               mig_throttle_guest_down(bytes_dirty_period,
->>                                       bytes_dirty_threshold);
->> +        } else if (migrate_dirty_limit()) {
->> +            migration_dirty_limit_guest();
->>           }
->>       }
->>   }
->> diff --git a/migration/trace-events b/migration/trace-events
->> index 57003ed..33a2666 100644
->> --- a/migration/trace-events
->> +++ b/migration/trace-events
->> @@ -91,6 +91,7 @@ migration_bitmap_sync_start(void) ""
->>   migration_bitmap_sync_end(uint64_t dirty_pages) "dirty_pages %" PRIu64
->>   migration_bitmap_clear_dirty(char *str, uint64_t start, uint64_t size, unsigned long page) "rb %s start 0x%"PRIx64" size 0x%"PRIx64" page 0x%lx"
->>   migration_throttle(void) ""
->> +migration_dirty_limit_guest(int64_t dirtyrate) "guest dirty page rate limit %" PRIi64 " MB/s"
->>   ram_discard_range(const char *rbname, uint64_t start, size_t len) "%s: start: %" PRIx64 " %zx"
->>   ram_load_loop(const char *rbname, uint64_t addr, int flags, void *host) "%s: addr: 0x%" PRIx64 " flags: 0x%x host: %p"
->>   ram_load_postcopy_loop(int channel, uint64_t addr, int flags) "chan=%d addr=0x%" PRIx64 " flags=0x%x"
->> diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
->> index 2a07200..b63032c 100644
->> --- a/softmmu/dirtylimit.c
->> +++ b/softmmu/dirtylimit.c
->> @@ -439,6 +439,8 @@ void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
->>                                    int64_t cpu_index,
->>                                    Error **errp)
->>   {
->> +    MigrationState *ms = migrate_get_current();
->> +
->>       if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
->>           return;
->>       }
->> @@ -452,6 +454,15 @@ void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
->>           return;
->>       }
->>   
->> +    if (migration_is_running(ms->state) &&
->> +        (!qemu_thread_is_self(&ms->thread)) &&
->> +        migrate_dirty_limit() &&
->> +        dirtylimit_in_service()) {
->> +        error_setg(errp, "dirty-limit live migration is running, do"
->> +                   " not allow dirty page limit to be canceled manually");
-> 
-> "do not allow" sounds like a request.  What about "can't cancel dirty
-> page limit while migration is running"?
-Ok, i'll modify next version according to comment and previous comments 
-in other commits.
+Peter Delevoryas (5):
+  hw/arm: Extract at24c_eeprom_init helper from Aspeed and Nuvoton
+    boards
+  hw/arm/aspeed: Replace aspeed_eeprom_init with at24c_eeprom_init
+  hw/nvram/eeprom_at24c: Add init_rom field and at24c_eeprom_init_rom
+    helper
+  hw/arm/aspeed: Add aspeed_eeprom.c
+  hw/nvram/eeprom_at24c: Make reset behavior more like hardware
 
-Thanks Markus for the comments.
-
-Yong
-
-> 
->> +        return;
->> +    }
->> +
->>       dirtylimit_state_lock();
->>   
->>       if (has_cpu_index) {
->> @@ -487,6 +498,8 @@ void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
->>                                 uint64_t dirty_rate,
->>                                 Error **errp)
->>   {
->> +    MigrationState *ms = migrate_get_current();
->> +
->>       if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
->>           error_setg(errp, "dirty page limit feature requires KVM with"
->>                      " accelerator property 'dirty-ring-size' set'");
->> @@ -503,6 +516,15 @@ void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
->>           return;
->>       }
->>   
->> +    if (migration_is_running(ms->state) &&
->> +        (!qemu_thread_is_self(&ms->thread)) &&
->> +        migrate_dirty_limit() &&
->> +        dirtylimit_in_service()) {
->> +        error_setg(errp, "dirty-limit live migration is running, do"
->> +                   " not allow dirty page limit to be configured manually");
-> 
-> Likewise.
-> 
->> +        return;
->> +    }
->> +
->>       dirtylimit_state_lock();
->>   
->>       if (!dirtylimit_in_service()) {
-> 
+ hw/arm/aspeed.c                 | 109 ++++++++++++++------------------
+ hw/arm/aspeed_eeprom.c          |  78 +++++++++++++++++++++++
+ hw/arm/aspeed_eeprom.h          |  16 +++++
+ hw/arm/meson.build              |   1 +
+ hw/arm/npcm7xx_boards.c         |  20 ++----
+ hw/nvram/eeprom_at24c.c         |  59 +++++++++++++----
+ include/hw/nvram/eeprom_at24c.h |  39 ++++++++++++
+ 7 files changed, 235 insertions(+), 87 deletions(-)
+ create mode 100644 hw/arm/aspeed_eeprom.c
+ create mode 100644 hw/arm/aspeed_eeprom.h
+ create mode 100644 include/hw/nvram/eeprom_at24c.h
 
 -- 
-Best regard
+2.39.0
 
-Hyman Huang(黄勇)
 
