@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E01F671809
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 10:43:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F43671835
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 10:52:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI4yc-0003ud-R0; Wed, 18 Jan 2023 04:43:26 -0500
+	id 1pI56H-0005dK-GM; Wed, 18 Jan 2023 04:51:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI4ya-0003uV-FF
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:43:24 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI567-0005ah-Rq
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:51:12 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI4yY-0003jz-S9
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:43:24 -0500
-Received: by mail-wr1-x430.google.com with SMTP id z5so32248192wrt.6
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 01:43:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI564-0004wV-Tt
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:51:11 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ k22-20020a05600c1c9600b003d1ee3a6289so1059054wms.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 01:51:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=1OTMOT7scZcVmVpa5eKgTHlKY2+htaQ7TItlwF+VO8E=;
- b=pZ0Hm3ge2eMqiB6vClqvZzmiZ332P8Q1R7L+P2LieuoEuW258ognHX8Zq/3matnd/8
- e/i776segbeXz0URc2Hrcio5KoRqVwF4sBvmtFeS/XQyawJK1hFYsVlNLwgtSJBOysPS
- hpl0QBVJPkqBVCVM0HiiMShj+dvMGhKOq3WBDsYbOEC2dCY01qCY21WcJGCZnE4Xaoza
- Vog+tiCxBnOUDT+gK8zoR/rQv8uLhAal9msVLBrptSTrK/2O4eKJAS57hPpJEVaRToYL
- ErulpNwxJEP3mqom/H8cBzxRypJG+dCbwhtZPK5Egt3+TYDoyd5bkff2Z4epa+ugiBBK
- OJvA==
+ bh=40HJCYgdlVSKSfxvZirAmgqFE8UPa8rIp8kw01PE6S0=;
+ b=dfU93z4SYqTG5RXFCdtnm8bKD90zN73TI6kXaUgKPPEgMgELYMRGMqJM933wkJbdvG
+ 2rN/zsDziVVTH2M5RMF2W8c6pFhXBlY3IuzMQv++i6IEYIppHjk2vbwWq3s0TmC6dCad
+ cgRryhCbXZiy4Wr0l3clFXgIW/AV1mk+FEZ6GOvkSGbTJ/BbgQvMm8OtOt2/jHnGgicB
+ efYJSBvDq43gwIKvQYNZaXr5ScyFXuc64HHX7NZPRNFuQuxnIqOUv4E746wrRhR2coKu
+ yeUpg7/yd22uCV0cVv/35zmN47sFG6u+tw2qksCKaSWx7LRpVtN7vjwFePp3FxIbYPCi
+ 9ufA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1OTMOT7scZcVmVpa5eKgTHlKY2+htaQ7TItlwF+VO8E=;
- b=aE0Q798TIlH/nepy3965EkGzZJ7RZbzCTUa+uNPFdO4IVZ29X6LfHf+LRh+rjtEZZv
- k1rPNXfbhRlHItnUz9/OfsqNnlEO+j7AWN+fn8ozN6BON/eq1TDhEv7PYWz3FHLrkNiF
- asv3VihldI6bfvTYsEjdlKC+Eq0eAFlvi1YMGdfTSlQSwMVppXvhqAfO42w6h2ho0A81
- MXWv/lJ6X1gpCkheH0S4+HA+uLtgQXNCrVtPqEufSaj5VRUDw+iSPAStHYNQUSEG9or9
- 4GJgOXHWRVyOUeFAyeTrnajqHLKjLV62FJbrFIki5p+KCZ4fBy1q+jGWQZq/02mN7D2F
- tp9g==
-X-Gm-Message-State: AFqh2koKbeSwRoRQlhWTHADLN0EcaRFPsBATrS09gBTd1r3+bR8qQihG
- JPlBdlfGkIBVuFje6+OxrARhDp9IrzPY3Wyg
-X-Google-Smtp-Source: AMrXdXthEFPVi7JWjMljqJUgxNnlD51GpdxN/HJJDjcmFPLUgCGZt+6svihTIqonL/UFytC6iWfaSw==
-X-Received: by 2002:adf:ce90:0:b0:2bb:edc7:504 with SMTP id
- r16-20020adfce90000000b002bbedc70504mr6194382wrn.26.1674035001309; 
- Wed, 18 Jan 2023 01:43:21 -0800 (PST)
+ bh=40HJCYgdlVSKSfxvZirAmgqFE8UPa8rIp8kw01PE6S0=;
+ b=2mkHm+gOvoC/mb327kkwDdkXtKYAHJBbjnPJEPm7qstXp/YOx59acwTT4SwfsfYZeN
+ c+i21Zh3gGUJL35TVuMb5oNwBX6I99rNVzvFcWWHlxzkYklROmbfi6yRHoQFM4ybxxXT
+ 7lLpDrua5o+dBEUd3MzhLrJhDgk3l+Dls9Lcm/C+xVgVGQnZ7ZbBxCJyqdFb5rRXsw02
+ WwbYwPj3zToeQrO/zdwn0Oxmn4AeNGKYu+tINCtIb7Zsk1W5h8yz86gLPjPURR9KT8OK
+ ExvJPsLuWLHQhVDW0daxOqTtHN6SQ5lZBeUFVcoWZrhbMkxD/HHU6zRTJ91dUVuJ6vRu
+ SjWg==
+X-Gm-Message-State: AFqh2kox/QKjcDYA4OjxMf/AKQVBve221aXf5luavQgGq9jiMet8wYCS
+ ohYM5bdUZqbxOMmCcxcpa1V26A==
+X-Google-Smtp-Source: AMrXdXue3MJY2JblrCGnm9c/pnuSX5uIUIsBntKSKxcrRK+9IFNwqisJlGAQx2u4sFWnYeDs+vM8iw==
+X-Received: by 2002:a05:600c:4395:b0:3da:2829:2935 with SMTP id
+ e21-20020a05600c439500b003da28292935mr6096297wmn.11.1674035464459; 
+ Wed, 18 Jan 2023 01:51:04 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k9-20020a5d6d49000000b002bc8130cca7sm22890089wri.23.2023.01.18.01.43.20
+ f24-20020a05600c491800b003db0ad636d1sm1361137wmp.28.2023.01.18.01.51.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 01:43:20 -0800 (PST)
-Message-ID: <509084a0-b7a5-d167-26e7-492fca101863@linaro.org>
-Date: Wed, 18 Jan 2023 10:43:19 +0100
+ Wed, 18 Jan 2023 01:51:04 -0800 (PST)
+Message-ID: <79d72fb1-4c3b-a06e-495d-d99efc15b0f5@linaro.org>
+Date: Wed, 18 Jan 2023 10:51:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 0/2] hw/pci-host/gt64120: Fix regression on big-endian
- targets
+Subject: Re: [PATCH 2/2] hw/ppc/pegasos2: Extract via_vt8231_create() helper
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Beraldo Leal <bleal@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Cleber Rosa <crosa@redhat.com>
-References: <20230118094023.49517-1-philmd@linaro.org>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20230117201640.88365-1-philmd@linaro.org>
+ <20230117201640.88365-3-philmd@linaro.org>
+ <187a86f4-64fc-3ba1-1a20-a19c33aa82f9@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230118094023.49517-1-philmd@linaro.org>
+In-Reply-To: <187a86f4-64fc-3ba1-1a20-a19c33aa82f9@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -93,11 +92,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/1/23 10:40, Philippe Mathieu-Daudé wrote:
-> Klauss reported a regression on big-endian targets, introduced
-> by commit 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using
-> PCI_HOST_BRIDGE MemoryRegionOps"). Fix it and add the Klauss'
-> reproducer as Avocado test.
+On 17/1/23 22:17, BALATON Zoltan wrote:
+> On Tue, 17 Jan 2023, Philippe Mathieu-Daudé wrote:
+>> Simplify a bit pegasos2_init() by extracting the VIA southbridge
+>> creation code into a new via_vt8231_create() helper.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>> hw/ppc/pegasos2.c | 33 +++++++++++++++++++++------------
+>> 1 file changed, 21 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+>> index ac69aee099..445cb5ef31 100644
+>> --- a/hw/ppc/pegasos2.c
+>> +++ b/hw/ppc/pegasos2.c
+>> @@ -96,6 +96,25 @@ static void pegasos2_cpu_reset(void *opaque)
+>>     }
+>> }
+>>
+>> +static PCIDevice *via_vt8231_create(MachineState *machine, PCIBus 
+>> *pci_bus)
+>> +{
+>> +    Pegasos2MachineState *pm = PEGASOS2_MACHINE(machine);
+>> +    PCIDevice *dev, *via;
+>> +
+>> +    via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0),
+>> +                                          true, TYPE_VT8231_ISA);
+>> +    object_property_add_alias(OBJECT(machine), "rtc-time",
+>> +                              
+>> object_resolve_path_component(OBJECT(via), "rtc"),
+>> +                              "date");
+>> +    qdev_connect_gpio_out(DEVICE(via), 0,
+>> +                          qdev_get_gpio_in_named(pm->mv, "gpp", 31));
+>> +
+>> +    dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
+>> +    pci_ide_create_devs(dev);
+>> +
+>> +    return via;
+>> +}
+>> +
+>> static I2CBus *via_i2c_bus(PCIDevice *via)
+>> {
+>>     PCIDevice *dev;
+>> @@ -110,7 +129,7 @@ static void pegasos2_init(MachineState *machine)
+>>     CPUPPCState *env;
+>>     MemoryRegion *rom = g_new(MemoryRegion, 1);
+>>     PCIBus *pci_bus;
+>> -    PCIDevice *dev, *via;
+>> +    PCIDevice *via;
+>>     const char *fwname = machine->firmware ?: PROM_FILENAME;
+>>     char *filename;
+>>     int sz;
+>> @@ -166,17 +185,7 @@ static void pegasos2_init(MachineState *machine)
+>>     pci_bus = mv64361_get_pci_bus(pm->mv, 1);
+>>
+>>     /* VIA VT8231 South Bridge (multifunction PCI device) */
+>> -    via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), 
+>> true,
+>> -                                          TYPE_VT8231_ISA);
+>> -    object_property_add_alias(OBJECT(machine), "rtc-time",
+>> -                              object_resolve_path_component(OBJECT(via),
+>> -                                                            "rtc"),
+> 
+> Is this series to help any later patches or is it proposed on its own? 
+> In the latter case I don't see how this would improve it much. The only 
+> useful change in the series is removing the unnecessary line break 
+> before "rtc"); here, otherwise moving patts of this init routine to 
+> separate functions does not make it simpler just makes you jump around 
+> instead of being able to read it linearly. So if this makes it possible 
+> for later patches to move some of it elsewhere then OK otherwise I'd say 
+> I'm OK with how it is now, it's just the normal unreadable QOM stuff you 
+> see everywhere after removing legacy init functions.
 
-Sorry Klaus for adding an extra 's' in your name :\
+Difference of mindset I suppose, as you clearly type linearly :)
+
+I consider logical blocks of hardware, and the southbridge is one of
+them. So I thought moving components connected to the 'machine' via
+the southbridge in a separate function would be clearer for the
+overall community (this file is not exclusively used by you, and
+can potentially used as example to build a machine). Anyhow I don't
+mind much.
+
+Regards,
+
+Phil.
 
