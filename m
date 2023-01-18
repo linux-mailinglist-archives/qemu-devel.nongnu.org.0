@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7B4671C6E
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BCD4671C6F
 	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:45:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI7nV-0006Gv-Ck; Wed, 18 Jan 2023 07:44:09 -0500
+	id 1pI7nW-0006IW-VY; Wed, 18 Jan 2023 07:44:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pI7nP-0006Fb-8N
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:44:03 -0500
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229])
+ id 1pI7nS-0006Gw-6C
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:44:08 -0500
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pI7nN-0006vJ-L8
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:44:03 -0500
-Received: by mail-oi1-x229.google.com with SMTP id d188so17331623oia.3
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 04:44:01 -0800 (PST)
+ id 1pI7nQ-0006vb-HX
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:44:05 -0500
+Received: by mail-ot1-x334.google.com with SMTP id
+ cm26-20020a056830651a00b00684e5c0108dso5839292otb.9
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 04:44:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VQ0HV4ABPoswzzyafBmNSldjR99NF5+QCvcSo1iG33k=;
- b=VYNwuIltHyBfVGvE0hK8wptASl+yBg4e2/SMFC5mJbM7vW3IUFtOh2ZRUFrbATcu7C
- HkEOwo7XNSA6KHvwzx9E8ZuLfOxaaPVcwHtUIQN/Mud2xSRyPMfyknz1fEot9eDmLGdT
- 4ahKO+6bOHwGaxWD4SGvuD+8/Zfu59SQUYyf4yQY+bOYvsqxVEGPoZ8CiSJK0tgntQpR
- 6figEbm51Hh8JjJvZZcuRcusYrTqqe5qBg5XjozbtjQZgtlvLyIHF3qfHpXAebOotC5P
- r2X5dId3e7vfkeag80tCsqevYwWOjcrl1F5Bmitn5jCJ3lb1mbvSlxaUS0y80tOM0VyS
- UZrg==
+ bh=izrPO1t7qk2QErTGet6agoTah6eGiWvkSVHu+2Q1hXw=;
+ b=kT040hH5gk22DsJypcyf/7mc5DmGDQKPxUW6VbGXXjD7AIbnfCoK5iQzfj0CMYYg6Y
+ Y2gJsj+ULSBh3iRTonB7n6hnbwJd27f//sd29kgKLwsIZb4Uu6cKtn+HO1HWW/oDvmOD
+ i6RLQ0/Z6EMOP8fTFokDaq6ibiX6av7uG5PIGNxS9Q3u4x6enUx2u5LPHOxewMdEzCWT
+ k+37pcXyTvE6rYAUGjpdvY9MZ7IPS/rwyGBrp3nR7MI0AA59ezUQorMklQspCvMkMwLG
+ sUFHiqynWwWZcUifa+l/LZBRotBSx3pReVNHBQV8kSNwDw+oI+fhfiN20zBALeAUHZHf
+ 5A1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VQ0HV4ABPoswzzyafBmNSldjR99NF5+QCvcSo1iG33k=;
- b=Oyiu7f6xGIBUtCoHmS81rXIlqIL5OoR/U6MNsrpYZuUQ0WAlZYJv7+vWUu6p9OkwSh
- Y3ZqOmikBCzXlT41Xf32rVaLwTsV11fpZXP/Glxvl0Lbl23SvRQt5TI+MYX3Fhs8+OIJ
- BrAlg6S/9DZh4vhouQJJ3//kACshCz9xvza/ObA+Yes2Wd1lp/QrylPUmwJ/Mqk+KMGI
- uqw4DPkqKodGK43iej7T3cvFawN4ApBd3LibwkyhVqJBcQJ9Dl4K09+S4cu/z//fiBX8
- TvCeWN2PwT2lpl9FCKHZ3LaJsIlnWrlPmECel9FNpBMjxBq9F4veYA+UloWbzThLVRGi
- L40Q==
-X-Gm-Message-State: AFqh2kqYbQw3cWbNlT/Yd4tNQpzpQvmKTFFapMQjw/ncxooI9S8m/Hdy
- ioq/xZjp22fvUwkJC9JvD0uC4rnhbj3BstVRiMU=
-X-Google-Smtp-Source: AMrXdXv6Y5aJmtiADk1CFAvSotmRiJqHNggQqcobwB39NwOPZsPu6zkndKQvGxa0ebsLVhnhs1Eukw==
-X-Received: by 2002:a05:6808:20a9:b0:363:8f75:a1bc with SMTP id
- s41-20020a05680820a900b003638f75a1bcmr4303782oiw.15.1674045840205; 
- Wed, 18 Jan 2023 04:44:00 -0800 (PST)
+ bh=izrPO1t7qk2QErTGet6agoTah6eGiWvkSVHu+2Q1hXw=;
+ b=LD6FC0tyy44A2tO9fGrlgETs7d09OATx9VSPuSWGIC+0n5s6saRjq0x2RPw2recERQ
+ DLtNnhJNEN8e950bWZB3V68Roe98hzn2guINM2FMLFfSiZ74yDS3vYJ+s5o/Pt/nKKEP
+ gjZ3piVQG4NvaoDUakl/tuQNA3wsWUgO5stp3xtM/i7AcVVCkb3K2YRZafMQBp41A2Za
+ cCgU6IFwxqkYPpcYifK0eJFNz4v8pOaQ1bjn1C+nwt6wC3RuiCzKXwcO5OvTNsfMk9Yb
+ lqA7A7GdSZruUfA+31MIz9lhwUHLaWVT1+JzoSHt1KZgvxV3I+BjMtRoT3avE2LlRkSr
+ 6K3g==
+X-Gm-Message-State: AFqh2koZOpcskYvYmuyHWDOczBHnBI/G1wZnhZZwQCR/TmOlYm3Ekqeo
+ S9cY1+MsL9wJwZ3VGWCX+Uvw0EYjfM68Z7kX39U=
+X-Google-Smtp-Source: AMrXdXvB5Eq4MH7x3lcIFkcfnnoKnHrYFADRYpWQKvOGS2tHhQCUF+okoymMTtzTvJx7xwdr5dNYgg==
+X-Received: by 2002:a9d:7849:0:b0:684:98c9:36ea with SMTP id
+ c9-20020a9d7849000000b0068498c936eamr3640134otm.2.1674045842655; 
+ Wed, 18 Jan 2023 04:44:02 -0800 (PST)
 Received: from grind.. ([191.17.222.2]) by smtp.gmail.com with ESMTPSA id
- cb2-20020a056830618200b0068460566f4bsm18158432otb.30.2023.01.18.04.43.57
+ cb2-20020a056830618200b0068460566f4bsm18158432otb.30.2023.01.18.04.44.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 04:43:59 -0800 (PST)
+ Wed, 18 Jan 2023 04:44:02 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
  Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH 2/3] avocado_qemu: add AVOCADO_DEFAULT_ARCH for cross-arch
- tests
-Date: Wed, 18 Jan 2023 09:43:47 -0300
-Message-Id: <20230118124348.364771-3-dbarboza@ventanamicro.com>
+Subject: [PATCH 3/3] avocado_qemu: add AVOCADO_DEFAULT_MACHINE
+Date: Wed, 18 Jan 2023 09:43:48 -0300
+Message-Id: <20230118124348.364771-4-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230118124348.364771-1-dbarboza@ventanamicro.com>
 References: <20230118124348.364771-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x229.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,75 +93,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-All avocado tests that are arch agnostic (i.e. does not set an 'arch'
-tag) are run with arch=None in pick_default_qemu_bin(), and then 'arch'
-is set to os.uname()[4], meaning that it will take the arch of the
-running host.
+Allow users to control which machine to use in tests where no particular
+machine is specified. This is a good way to run tests in a machine
+that's not the arch default, e.g. for qemu-system-x86_64 tests can be
+run using a machine other than pc-i440fx.
 
-This means that if one compiles QEMU binaries for non-x86 targets on an
-x86 machine, and then run 'make check-avocado', all arch agnostic tests
-will be cancelled because there's no qemu-system-x86_64 to be found.
+This env var has greater effect when used together with the recently
+added AVOCADO_DEFAULT_ARCH, allowing full control of what the tests
+should use if no default arch/machine is given. In this example, a
+check-avocado run will use the RISC-V 'virt' machine if no default
+arch/machine is set:
 
-There is no particular reason to not allow these tests to be run with
-other arch binaries in a x86_64 host. Allow the developer to do it by
-adding a a new env variable called AVOCADO_DEFAULT_ARCH. Any 'arch' that
-is set by this variable will take precedence of setting it via
-os.uname()[4]. We can then run non-x86 binaries tests in a x86_64 host
-as follows:
-
-$ AVOCADO_DEFAULT_ARCH=riscv64 make check-avocado
-(...)
-RESULTS: PASS 11 | ERROR 0 | FAIL 0 | SKIP 1 | WARN 0 | INTERRUPT 0 | CANCEL 0
+AVOCADO_DEFAULT_ARCH=riscv64 AVOCADO_DEFAULT_MACHINE=virt make check-avocado
 
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 ---
- docs/devel/testing.rst                 | 7 +++++++
- tests/avocado/avocado_qemu/__init__.py | 9 ++++++---
- 2 files changed, 13 insertions(+), 3 deletions(-)
+ docs/devel/testing.rst                 | 8 +++++---
+ tests/avocado/avocado_qemu/__init__.py | 3 +++
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index e10c47b5a7..95d0a3e626 100644
+index 95d0a3e626..128b6ae964 100644
 --- a/docs/devel/testing.rst
 +++ b/docs/devel/testing.rst
-@@ -1144,6 +1144,13 @@ the framework or by the test itself.  At the framework level, it will
- currently influence the selection of a QEMU binary (when one is not
- explicitly given).
+@@ -1178,9 +1178,11 @@ The machine type that will be set to all QEMUMachine instances created
+ by the test.
  
-+When ``arch`` is not set, an env variable AVOCADO_DEFAULT_ARCH can
-+be used as default value if set.  This allows hosts of different
-+architectures to run arch-agnostic tests using binaries from other
-+archs (i.e. a x86_64 host can use aarch64/riscv64 binaries as
-+default).  If this variable isn't set, ``arch`` defaults to the
-+host system arch given by ``os.uname``.
-+
- Tests are also free to use this attribute value, for their own needs.
- A test may, for instance, use the same value when selecting the
- architecture of a kernel or disk image to boot a VM with.
+ The ``machine`` attribute will be set to the test parameter of the same
+-name.  If one is not given explicitly, it will either be set to
+-``None``, or, if the test is tagged with one (and only one)
+-``:avocado: tags=machine:VALUE`` tag, it will be set to ``VALUE``.
++name.  If one is not given explicitly, an env variable
++AVOCADO_DEFAULT_MACHINE can be used as default value if set.  Otherwise
++it will either be set to ``None``, or, if the test is tagged with one
++(and only one) ``:avocado: tags=machine:VALUE`` tag, it will be set to
++``VALUE``.
+ 
+ qemu_bin
+ ''''''''
 diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-index 8614ac3978..bc42985cbb 100644
+index bc42985cbb..75eaaa9265 100644
 --- a/tests/avocado/avocado_qemu/__init__.py
 +++ b/tests/avocado/avocado_qemu/__init__.py
-@@ -107,14 +107,17 @@ def pick_default_qemu_bin(bin_prefix='qemu-system-', arch=None):
-     directory or in the source tree root directory.
+@@ -282,6 +282,9 @@ def setUp(self):
+         self.machine = self.params.get('machine',
+                                        default=self._get_unique_tag_val('machine'))
  
-     :param arch: the arch to use when looking for a QEMU binary (the target
--                 will match the arch given).  If None (the default), arch
--                 will be the current host system arch (as given by
--                 :func:`os.uname`).
-+                 will match the arch given).  If None (the default), check
-+                 if the AVOCADO_DEFAULT_ARCH env var is set and use it as
-+                 arch.  If it's not set, arch will be the current host
-+                 system arch (as given by :func:`os.uname`).
-     :type arch: str
-     :returns: the path to the default QEMU binary or None if one could not
-               be found
-     :rtype: str or None
-     """
-+    if arch is None:
-+        arch = os.getenv('AVOCADO_DEFAULT_ARCH')
-     if arch is None:
-         arch = os.uname()[4]
-     # qemu binary path does not match arch for powerpc, handle it
++        if self.machine is None:
++            self.machine = os.getenv('AVOCADO_DEFAULT_MACHINE')
++
+     def require_accelerator(self, accelerator):
+         """
+         Requires an accelerator to be available for the test to continue
 -- 
 2.39.0
 
