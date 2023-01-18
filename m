@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D6D67251A
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 18:38:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7CA672545
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 18:43:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pICNY-0003kC-1n; Wed, 18 Jan 2023 12:37:40 -0500
+	id 1pICS0-0004zB-9f; Wed, 18 Jan 2023 12:42:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pICNP-0003ic-C3
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 12:37:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pICNN-00028e-DY
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 12:37:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674063448;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EcOGpMJZHpvpIVLPl2NxaPq3qMDI707uF0xETD21OrE=;
- b=X0C3wHuMpF46eH+trl+uMvkRsqs3OhaekG5L9lGZMNddflN8fhpyx5W6s6Mm8HPvQkaFtc
- Zq1fr2DRCxCHjeOHo7vcHkIUZGP1pQCpG2dRc3O5dglRgBS5/vvnvC8KvQ/BMk/f1wL4h+
- KFC22fVPWnSXrmH5st6WRH2lL8HbJGQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-618-ppKmffdfMj6cPFITbHfZCQ-1; Wed, 18 Jan 2023 12:37:26 -0500
-X-MC-Unique: ppKmffdfMj6cPFITbHfZCQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1772185A588;
- Wed, 18 Jan 2023 17:37:26 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B1D54492B02;
- Wed, 18 Jan 2023 17:37:25 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>, Peter Maydell
- <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, Laurent Vivier
- <lvivier@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org, Eric
- Auger <eauger@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH v4 1/2] arm/kvm: add support for MTE
-In-Reply-To: <b92e6786-acc6-50ef-8804-e4e3ef4eb2d6@linaro.org>
-Organization: Red Hat GmbH
-References: <20230111161317.52250-1-cohuck@redhat.com>
- <20230111161317.52250-2-cohuck@redhat.com>
- <b92e6786-acc6-50ef-8804-e4e3ef4eb2d6@linaro.org>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Wed, 18 Jan 2023 18:37:24 +0100
-Message-ID: <87fsc7oiaz.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pICRy-0004xz-5Q
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 12:42:14 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pICRP-00038h-10
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 12:42:10 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id ud5so85113597ejc.4
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 09:41:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z5QJE31641kROvra3WExSxS6lpGGaSkBajcAx4YcGvo=;
+ b=Lf+9bDc2F+LQAg4RA5u/0SGsBzq6YcSlEKHWYkCLAyg0v5lA+wUG1htzXAv8w2cKyS
+ 1WGPGL/2ra0yo6iOVWYPJ0XOFYU2OqRuWodLpd98X3/Mc+4ktXvt7dJzmG9V/YB0aram
+ hOft4rtXkQY8S5MiMykwjl90Xlcx04o42Ya+cblhVi5obXq/qqwFMYPuTdiNxZ+a+NEz
+ NUDVqEhx2Tk9EYsfXSLPxctVCGREfbv5TwS8UaNmxyYpoPCyzofc2+zdG7JxBvb3g33K
+ +T8sQM98W6t9hwshi4llTNc1A1fyW0kMP1E6+1pmFinhQ7pLStBc6wUBGBIylufGuiHx
+ bfRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Z5QJE31641kROvra3WExSxS6lpGGaSkBajcAx4YcGvo=;
+ b=NxLos0vT3pDjWgU1Lc7q0oaeh708TzDEPXljF8gxwLhdcmSenG+ufDt54bKnY55f86
+ CLDlkEaNysFqk3oJb+njV1y9gZ5OcG3wvWHZbmmY0qW02aIhL/hiAwaC2AwUZ/f736oC
+ RSbeFtmzynNn39vwikc+rgIk4XypNKYYCasgl2nGJy7T87nLBQjwUS4r3TJhybTkhufT
+ 0n+SmqZC90UXNvPmbX+4NETwxai7prw1gALXJfqNxl4JOo1g4QZSSjjDFMyqFp+nRWML
+ Gzy5a+6oybo1XiU8+QEGsmZBpgJ4pzsBkl8TFjIcvw/+FHX8nyrS2Lgh1H03dG6dlf+2
+ ylfg==
+X-Gm-Message-State: AFqh2kqwwjAy6KUvbyQreHtGbyVeW70WugolTjG8RZKzEoxiwrSTyDlw
+ o8laBnrbWSpy0Z5o0NaLnthpkw==
+X-Google-Smtp-Source: AMrXdXsB472RsXiXUJZ5kiB12NkmZPLo8OlPX2ACDrQrKlgz6c9Sed+OTUwinGe0cTraWhMcQBMTSw==
+X-Received: by 2002:a17:907:6745:b0:86c:f7ac:71f7 with SMTP id
+ qm5-20020a170907674500b0086cf7ac71f7mr8567457ejc.8.1674063696332; 
+ Wed, 18 Jan 2023 09:41:36 -0800 (PST)
+Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
+ by smtp.gmail.com with ESMTPSA id
+ kr12-20020a1709079a0c00b0084d44553af9sm12880091ejc.215.2023.01.18.09.41.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jan 2023 09:41:35 -0800 (PST)
+Date: Wed, 18 Jan 2023 18:41:34 +0100
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Ludovic Henry <ludovic@rivosinc.com>
+Subject: Re: [PATCH v5 2/2] riscv: Allow user to set the satp mode
+Message-ID: <20230118174134.7zgola3w7tcpxayy@orel>
+References: <20230113103453.42776-1-alexghiti@rivosinc.com>
+ <20230113103453.42776-3-alexghiti@rivosinc.com>
+ <20230117163138.jze47hjeeuwu2k4j@orel>
+ <CAHVXubjY6s=gs=J-bby5Hpeb-WXJ+dmRG7dFxr_ihs9Je2DHtw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHVXubjY6s=gs=J-bby5Hpeb-WXJ+dmRG7dFxr_ihs9Je2DHtw@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,138 +96,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 17 2023, Richard Henderson <richard.henderson@linaro.org> wrote:
+On Wed, Jan 18, 2023 at 05:29:43PM +0100, Alexandre Ghiti wrote:
+> Hey Andrew,
+> 
+> On Tue, Jan 17, 2023 at 5:31 PM Andrew Jones <ajones@ventanamicro.com> wrote:
+> >
+> > On Fri, Jan 13, 2023 at 11:34:53AM +0100, Alexandre Ghiti wrote:
+> > > RISC-V specifies multiple sizes for addressable memory and Linux probes for
+> > > the machine's support at startup via the satp CSR register (done in
+> > > csr.c:validate_vm).
+> > >
+> > > As per the specification, sv64 must support sv57, which in turn must
+> > > support sv48...etc. So we can restrict machine support by simply setting the
+> > > "highest" supported mode and the bare mode is always supported.
+> > >
+> > > You can set the satp mode using the new properties "sv32", "sv39", "sv48",
+> > > "sv57" and "sv64" as follows:
+> > > -cpu rv64,sv57=on  # Linux will boot using sv57 scheme
+> > > -cpu rv64,sv39=on  # Linux will boot using sv39 scheme
+> > > -cpu rv64,sv57=off # Linux will boot using sv48 scheme
+> > > -cpu rv64          # Linux will boot using sv57 scheme by default
+> > >
+> > > We take the highest level set by the user:
+> > > -cpu rv64,sv48=on,sv57=on # Linux will boot using sv57 scheme
+> > >
+> > > We make sure that invalid configurations are rejected:
+> > > -cpu rv64,sv32=on # Can't enable 32-bit satp mode in 64-bit
+> > > -cpu rv64,sv39=off,sv48=on # sv39 must be supported if higher modes are
+> > >                            # enabled
+> > >
+> > > We accept "redundant" configurations:
+> > > -cpu rv64,sv48=on,sv57=off # Linux will boot using sv48 scheme
+> > > -cpu rv64,sv32=on,sv32=off # Linux will boot using sv57 scheme (the default)
+> > >
+> > > In addition, we now correctly set the device-tree entry 'mmu-type' using
+> > > those new properties.
+> > >
+> > > Co-Developed-by: Ludovic Henry <ludovic@rivosinc.com>
+> > > Signed-off-by: Ludovic Henry <ludovic@rivosinc.com>
+> > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > > ---
+> > >  hw/riscv/virt.c    |  19 ++--
+> > >  target/riscv/cpu.c | 221 +++++++++++++++++++++++++++++++++++++++++++++
+> > >  target/riscv/cpu.h |  19 ++++
+> > >  target/riscv/csr.c |  17 +++-
+> > >  4 files changed, 262 insertions(+), 14 deletions(-)
+> > >
+> > > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> > > index 94ff2a1584..48d034a5f7 100644
+> > > --- a/hw/riscv/virt.c
+> > > +++ b/hw/riscv/virt.c
+> > > @@ -228,7 +228,8 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
+> > >      int cpu;
+> > >      uint32_t cpu_phandle;
+> > >      MachineState *mc = MACHINE(s);
+> > > -    char *name, *cpu_name, *core_name, *intc_name;
+> > > +    uint8_t satp_mode_max;
+> > > +    char *name, *cpu_name, *core_name, *intc_name, *sv_name;
+> > >
+> > >      for (cpu = s->soc[socket].num_harts - 1; cpu >= 0; cpu--) {
+> > >          cpu_phandle = (*phandle)++;
+> > > @@ -236,14 +237,14 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
+> > >          cpu_name = g_strdup_printf("/cpus/cpu@%d",
+> > >              s->soc[socket].hartid_base + cpu);
+> > >          qemu_fdt_add_subnode(mc->fdt, cpu_name);
+> > > -        if (riscv_feature(&s->soc[socket].harts[cpu].env,
+> > > -                          RISCV_FEATURE_MMU)) {
+> > > -            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
+> > > -                                    (is_32_bit) ? "riscv,sv32" : "riscv,sv48");
+> >
+> > I just noticed that for the virt machine type, when the user doesn't
+> > provide a satp mode cpu property on the command line, and hence gets
+> > the default mode, they'll be silently changed from sv48 to sv57. That
+> > default change should be a separate patch which comes after this one.
+> > BTW, why sv57 and not sv48 or sv64?
+> 
+> The device tree entry should match the max available satp mode even
+> though it makes little sense to have this entry in the first place:
+> the max satp mode is easily discoverable at runtime (the kernel does
+> that and does not care about the device tree entry).
+> 
+> But yes, this fix was mentioned at the very end of the commit log,
+> which was weird anyway, so I'll move that to its own patch.
 
-> On 1/11/23 06:13, Cornelia Huck wrote:
->> @@ -2136,7 +2136,7 @@ static void machvirt_init(MachineState *machine)
->>   
->>       if (vms->mte && (kvm_enabled() || hvf_enabled())) {
->>           error_report("mach-virt: %s does not support providing "
->> -                     "MTE to the guest CPU",
->> +                     "emulated MTE to the guest CPU",
->>                        kvm_enabled() ? "KVM" : "HVF");
->
-> Not your bug, but noticing this should use current_accel_name().
+Ah, I interpreted that part of the commit message as simply pointing
+out that the mmu-type is getting set per the user's input. Thanks for
+moving this change to another patch.
 
-I can fix it as I'm touching the code anyway.
+...
+> > > +
+> > > +    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
+> > > +        set_satp_mode(cpu, is_32_bit ? "sv32" : "sv57");
+> > > +    } else {
+> > > +        set_satp_mode(cpu, "mbare");
+> >
+> > nit: Could probably integrate set_satp_mode() into this function since
+> > this function is the only place it's used.
+> 
+> At the moment yes, but this was a request from Frank to have a helper
+> set the default satp mode in the cpu init functions, which I did not
+> do here because I was unsure: @Frank Chang What should I use for
+> sifive_e and sifive_u? rv64 will use the default mode.
 
-(Hm... two more of these right above. Maybe better in a separate patch.)
+The sifive stuff should probably be a separate patch. If that patch will
+be part of this series then the proactive refactoring makes sense as we
+can immediately see the users.
 
->
->> +static inline bool arm_machine_has_tag_memory(void)
->> +{
->> +#ifndef CONFIG_USER_ONLY
->> +    Object *obj = object_dynamic_cast(qdev_get_machine(), TYPE_VIRT_MACHINE);
->> +
->> +    /* so far, only the virt machine has support for tag memory */
->> +    if (obj) {
->> +        VirtMachineState *vms = VIRT_MACHINE(obj);
->> +
->> +        return vms->mte;
->> +    }
->> +#endif
->> +    return false;
->> +}
->
-> True for CONFIG_USER_ONLY, via page_get_target_data().
-> You should have seen check-tcg test failures...
+...
+> > Why isn't all this 'if (cpu->cfg.satp_mode.map == 0)' block above at the
+> > top of riscv_cpu_satp_mode_finalize() instead of here?
+> >
+> 
+> Because the realize function seemed to do the properties processing
+> and I thought the finalize one was meant to check the consistency of
+> the configuration that resulted: I can change that if you don't agree.
 
-Weird, let me check my setup...
+finalize should do all the processing and checking, basically everything
+not done in the property's set function. realize should call
+finalize_features, which then calls each feature's finalize. Take a look
+at arm's call chain, for example
 
->
->> +void arm_cpu_mte_finalize(ARMCPU *cpu, Error **errp)
->> +{
->> +    bool enable_mte;
->> +
->> +    switch (cpu->prop_mte) {
->> +    case ON_OFF_AUTO_OFF:
->> +        enable_mte = false;
->> +        break;
->> +    case ON_OFF_AUTO_ON:
->> +        if (!kvm_enabled()) {
->
-> tcg_enabled(), here and everywhere else you test for !kvm.
->
->> +#ifdef CONFIG_KVM
->> +        if (kvm_enabled() && !kvm_arm_mte_supported()) {
->
-> kvm_arm.h should get a stub inline returning false, so that the ifdef is removed.
-> See e.g. kvm_arm_sve_supported().
+ arm_cpu_realizefn
+   arm_cpu_finalize_features
+     arm_cpu_sve_finalize
 
-Oh, I actually did add it already...
-
->
->> +    default: /* AUTO */
->> +        if (!kvm_enabled()) {
->
-> tcg_enabled.
->
->> +    /* accelerator-specific enablement */
->> +    if (kvm_enabled()) {
->> +#ifdef CONFIG_KVM
->> +        if (kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_MTE, 0)) {
->> +            error_setg(errp, "Failed to enable KVM_CAP_ARM_MTE");
->
-> Ideally this ifdef could go away as well.
->
->> +        } else {
->> +            /* TODO: add proper migration support with MTE enabled */
->> +            if (!mte_migration_blocker) {
->
-> Move the global variable here, as a local static?
->
-> I guess this check is to avoid adding one blocker per cpu?
-> I would guess the cap doesn't need enabling more than once either?
-
-Indeed, it's a VM cap. (I only tested this on a single-cpu FVP setup.)
-
->
->
->> +                error_setg(&mte_migration_blocker,
->> +                           "Live migration disabled due to MTE enabled");
->> +                if (migrate_add_blocker(mte_migration_blocker, NULL)) {
->
-> You pass NULL to the migrate_add_blocker errp argument...
->
->> +                    error_setg(errp, "Failed to add MTE migration blocker");
->
-> ... then make up your own generic reason for why it failed.
-> In this case it seems only related to another command-line option: --only-migratable.
->
->
-> Anyway, I wonder about hiding all of this in target/arm/kvm.c:
->
-> bool kvm_arm_enable_mte(Error *errp)
-> {
->      static bool once = false;
->      Error *blocker;
->
->      if (once) {
->          return;
->      }
->      once = true;
->
->      if (kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_MTE, 0)) {
->          error_setg_errno(errp, "Failed to enable KVM_CAP_ARM_MTE");
->          return false;
->      }
->
->      blocker = g_new0(Error);
->      error_setg(blocker, "Live migration disabled....");
->      return !migrate_add_blocker(blocker, errp);
-> }
->
-> with
->
-> static inline bool kvm_arm_enable_mte(Error *errp)
-> {
->      g_assert_not_reached();
-> }
->
-> in the !CONFIG_KVM block in kvm_arm.h.
-
-Good suggestion, I'll give that one a try.
-
-Thanks for the feedback!
-
+Thanks,
+drew
 
