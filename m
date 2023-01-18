@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B96671ACA
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 12:36:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54045671ABF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 12:35:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI6i4-0004K4-Jo; Wed, 18 Jan 2023 06:34:28 -0500
+	id 1pI6iD-0004Nf-9a; Wed, 18 Jan 2023 06:34:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6i2-0004Jc-PE
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:26 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6i5-0004Kx-8Z
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:29 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6i1-0007V3-4c
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:26 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6i3-0007Vj-Ju
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674041663;
+ s=mimecast20190719; t=1674041667;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MDqjNc8WEVBE25Q4gUqiP15M8HReLd2GfMd3Q5LAfdY=;
- b=Y495NH2KP5t+qnoFnPmoEM70p4AC8devnuwdTUx5C7YKmNIMOyueCgNg1VckMZjXy322ed
- Cb3a3UREHdoLVSADBwORxQB5GAzHy2LTmT4Ox5GqpdO+cPuikjtS5wiJK+tJd6Nh/WOp1L
- F3SKyWkKVgOief7vXyNz9jzRGsOl2eI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PBYroXzl8rNtZ74N7ZBiFy7BprfDFqkjIs8yBh/9ijE=;
+ b=ZqHIkLRSHPQCAtem90CByRAHnau3uZ1814vYZmVFUxKJiepUXvnnEvSG96qj4IHeaQC6rF
+ nBHeEgHUrKgq5wtjog/Q7XlIK6Xq28XFTC6QOwEyYcSCjbKKtubKxEaEhIy3UizZWMrTIg
+ 51ypCgg602hU6daQ8ofilh+8NWZqb4s=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-137-VYgv9l1bO36v3A-wt8UojA-1; Wed, 18 Jan 2023 06:34:22 -0500
-X-MC-Unique: VYgv9l1bO36v3A-wt8UojA-1
+ us-mta-157-rtMs9j9zNdWmX7dOJGQmoA-1; Wed, 18 Jan 2023 06:34:23 -0500
+X-MC-Unique: rtMs9j9zNdWmX7dOJGQmoA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D4C8293248E;
- Wed, 18 Jan 2023 11:34:22 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F3AB100F905;
+ Wed, 18 Jan 2023 11:34:23 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.194.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44D31492B00;
- Wed, 18 Jan 2023 11:34:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7CA22492B01;
+ Wed, 18 Jan 2023 11:34:22 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Cc: Li-Wen Hsu <lwhsu@lwhsu.org>
-Subject: [PULL 1/9] Upgrade all packages in the FreeBSD VMs to ensure the
- freshness
-Date: Wed, 18 Jan 2023 12:34:10 +0100
-Message-Id: <20230118113418.1650416-2-thuth@redhat.com>
+Subject: [PULL 2/9] Makefile: allow 'make uninstall'
+Date: Wed, 18 Jan 2023 12:34:11 +0100
+Message-Id: <20230118113418.1650416-3-thuth@redhat.com>
 In-Reply-To: <20230118113418.1650416-1-thuth@redhat.com>
 References: <20230118113418.1650416-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -77,43 +75,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Li-Wen Hsu <lwhsu@lwhsu.org>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-This (hopefully) fixes the errors that we currently see in the
-FreeBSD jobs in the gitlab CI:
+Meson supports an "uninstall", so we can easily allow it to work by
+not suppressing the forwarding of it from Make to meson.
 
- ld-elf.so.1: /usr/local/bin/bash: Undefined symbol "rl_set_timeout"
+We originally suppressed this because Meson's 'uninstall' has a hole
+in it: it will remove everything that is installed by a mechanism
+meson knows about, but not things installed by "custom install
+scripts", and there is no "custom uninstall script" mechanism.
 
-Signed-off-by: Li-Wen Hsu <lwhsu@lwhsu.org>
-Message-Id: <CAKBkRUwxL1fkzwpK_2FXKGE31415JRAR8N09+O_ht8CNdfVAqQ@mail.gmail.com>
-[thuth: Update subject and patch description]
+For QEMU, though, the only thing that was being installed by a custom
+install script was the LC_MESSAGES files handled by Meson's i18n
+module, and that code was fixed in Meson commit 487d45c1e5bfff0fbdb4,
+which is present in Meson 0.60.0 and later.  Since we already require
+a Meson version newer than that, we're now safe to enable
+'uninstall', as it will now correctly uninstall everything that was
+installed.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/109
+Message-Id: <20230110151250.24434-1-peter.maydell@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/cirrus.yml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-index 785b163aa6..502dfd612c 100644
---- a/.gitlab-ci.d/cirrus.yml
-+++ b/.gitlab-ci.d/cirrus.yml
-@@ -53,7 +53,7 @@ x64-freebsd-12-build:
-     CIRRUS_VM_IMAGE_NAME: freebsd-12-4
-     CIRRUS_VM_CPUS: 8
-     CIRRUS_VM_RAM: 8G
--    UPDATE_COMMAND: pkg update
-+    UPDATE_COMMAND: pkg update; pkg upgrade -y
-     INSTALL_COMMAND: pkg install -y
-     TEST_TARGETS: check
+diff --git a/Makefile b/Makefile
+index a48103cc8a..ce2f83a684 100644
+--- a/Makefile
++++ b/Makefile
+@@ -150,7 +150,7 @@ NINJAFLAGS = $(if $V,-v) $(if $(MAKE.n), -n) $(if $(MAKE.k), -k0) \
+ ninja-cmd-goals = $(or $(MAKECMDGOALS), all)
+ ninja-cmd-goals += $(foreach g, $(MAKECMDGOALS), $(.ninja-goals.$g))
  
-@@ -66,7 +66,7 @@ x64-freebsd-13-build:
-     CIRRUS_VM_IMAGE_NAME: freebsd-13-1
-     CIRRUS_VM_CPUS: 8
-     CIRRUS_VM_RAM: 8G
--    UPDATE_COMMAND: pkg update
-+    UPDATE_COMMAND: pkg update; pkg upgrade -y
-     INSTALL_COMMAND: pkg install -y
-     TEST_TARGETS: check
- 
+-makefile-targets := build.ninja ctags TAGS cscope dist clean uninstall
++makefile-targets := build.ninja ctags TAGS cscope dist clean
+ # "ninja -t targets" also lists all prerequisites.  If build system
+ # files are marked as PHONY, however, Make will always try to execute
+ # "ninja build.ninja".
 -- 
 2.31.1
 
