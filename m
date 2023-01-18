@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4ED9671856
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 10:59:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DBB67185D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 11:01:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI5Cr-000295-TW; Wed, 18 Jan 2023 04:58:09 -0500
+	id 1pI5Fj-0004vq-OO; Wed, 18 Jan 2023 05:01:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI5Cp-00027O-W3
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:58:08 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pI5Fi-0004ub-CP
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:01:06 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI5Co-00061r-1G
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:58:07 -0500
-Received: by mail-wr1-x433.google.com with SMTP id b5so12175746wrn.0
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 01:58:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pI5Fd-0006bR-0h
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:01:06 -0500
+Received: by mail-oi1-x242.google.com with SMTP id j130so28185013oif.4
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 02:00:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:from:references:cc:to:content-language:subject
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oaRo0GU0CDZsZLHw/XFQ9FNLJtHubTjXB+uAlLi3+pE=;
- b=vkaqV3prQ62srRNEwW6iAbQUyoKaesap+TeKhhjSkxRNadLWVskerWWMVFncsxqj5J
- e41cyWKrHSqmrrcHO6/q4f3ZXcIN72Oq0ixFTsJewODRuB5JV2DJ18GUb9o59kzTM1qo
- 5lKNaORSJVl35GxFQf0+lk9VWE8HRO93IDk+wAYd3piAOOr+ygBS10bqiq+jhpd0MGq0
- ZCPLG2K9FXRX89rcUhLnxSOagGu79/O/ZsleffTcZ/tVKvF5A2r+PvEWKKaxQk2g8zGk
- SE55PHmGxhxGoXMI9+F98No6MA0ThXVxcQkk96j5PcC6AsuBIGvLsmaePyxFPYoSBL8B
- dU0g==
+ bh=kqHRJrgMg9086sHzFqiEbHqPC3JG19nWmrfTczaXs9s=;
+ b=eWmN/vMjxFYQVvTFQaG6yS2Womi6UnfbV19ghoVT6rq38sfsSArjcWvNKOGSIG4NdA
+ xxohDc9nWSrw+mEDhGt+cMJmr91Fh+PscLdbF26881d1tkR1NbB/xpZdIPwXGyDwruQ6
+ 3tWMNh/St+Hxbw0aDYf6vmBrCM+1Qi0DJASSiRHPzc82zIFX2xzGviA/aNkcJwyxqSsP
+ raGJy5Ze8NiCtFKq+GuQwWOaJ0t1dCLAiHlOCahR8jQePhDznI25V+NpeK71+/JwTKPC
+ pdPN/ic+h+C0meBBi2rjx8kNcQ+k3KHmhh6vB8o22Aq9fL1/6FlgxbIrSEteU+GcDRLh
+ 2DUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oaRo0GU0CDZsZLHw/XFQ9FNLJtHubTjXB+uAlLi3+pE=;
- b=YnQMxV5/87qeEIWH63Brp4IQKYAnWLsYDUAWQm5+w4uwq1RXjdMcimsAUztY9jVrrZ
- wd85GMXzQe41tlT62mIKVh3WD9j0DhuozSUp33WFIPQzgdy9W56UweA7yp6MkZuasGDy
- F1MEZ3fTLm5emfjydpJvHEb50NFxoibuOtftTKkSR6zY9DVFMH6M9JGxfOJ+xwUEhYY1
- AksOiiF6mEMtOZbgzfUNtXGa89TWFrACw3JW9jFU7rEQvn5vf4QRQb45Fa2v5gPoA1Gx
- yNUfqNSw36Cqxds3Ie5lpWXomFPuj7WJz02MlyohSQUnu95nHJBkz2XyvjvzvUWfYShj
- /Ivg==
-X-Gm-Message-State: AFqh2kpjtHzkJ+8aCClxutcEKmEk3pa8Z3QeL/tjqE6PmyA2WwfpLoma
- KBTIZ3msFl1472ULiG0Oc2a/exdl/H0ZPMhq
-X-Google-Smtp-Source: AMrXdXtJbzEYt7WqRgC1jS4CglFRUpWC7qjfaBmJH9Pz4fBW4BKtUdU3uqYt2P5MHt7OTR5EJQ2BZA==
-X-Received: by 2002:a05:6000:98d:b0:25f:8ead:96cc with SMTP id
- by13-20020a056000098d00b0025f8ead96ccmr5701460wrb.70.1674035883720; 
- Wed, 18 Jan 2023 01:58:03 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ h=in-reply-to:from:references:cc:to:content-language:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=kqHRJrgMg9086sHzFqiEbHqPC3JG19nWmrfTczaXs9s=;
+ b=FPY0GIxLeAQ36aStdfZmrLRvHJLQ57z3qQgl7662Ky/ov1SF6U7X27bFoC/S7ofqYA
+ bcYB5JJJaNP5CD91b4op15CGhkvFmCnFf246HMkphPXxEIz7HzZvAaBmBWX3tMfcY0yL
+ 3Q3txO1vXwGzGiH5FTOgWZMCnd3BM8mTW4aG7RrKiBilxsshufseFUMTQk/Ubhvyvj1i
+ 5dF6Y1lNwxQk/ccsfyEURsVBu+rKbJG1+LMdDTYAjz8CCJJAnnoQ4w2bPtL9sMKZoAea
+ C9lCWhl/el1nZ3QFqKIUpKqQPbqdMnvbAYhIkAtONLpIVALnBshH55kqmp9xbyWaJVxY
+ mt2Q==
+X-Gm-Message-State: AFqh2kqig40//DzJZiiET5pEj5QVqVaA4Khy1y5a0TQQauxp+6jsO/nd
+ vgQRD0XM1x1HOfUNdDwIkOsKpQ==
+X-Google-Smtp-Source: AMrXdXvZKtz8dxJLO1emUNKKuQbroz+QIhjcw8ChneUHPuSSw36SMsVP5VBF6QStBc0aE1lXXTbqCQ==
+X-Received: by 2002:a05:6808:2087:b0:35b:9195:a363 with SMTP id
+ s7-20020a056808208700b0035b9195a363mr3691046oiw.41.1674036042357; 
+ Wed, 18 Jan 2023 02:00:42 -0800 (PST)
+Received: from [192.168.68.107] ([191.17.222.2])
  by smtp.gmail.com with ESMTPSA id
- c6-20020adffb06000000b002423620d356sm10761161wrr.35.2023.01.18.01.58.02
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 18 Jan 2023 01:58:03 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Klaus Jensen <its@irrelevant.dk>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
-Subject: [PATCH v2 2/2] tests/avocado: Add test accessing NVMe on big-endian
- MIPS target
-Date: Wed, 18 Jan 2023 10:57:51 +0100
-Message-Id: <20230118095751.49728-3-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230118095751.49728-1-philmd@linaro.org>
-References: <20230118095751.49728-1-philmd@linaro.org>
+ bu10-20020a0568300d0a00b0066eb4e9242esm18143451otb.67.2023.01.18.02.00.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 02:00:41 -0800 (PST)
+Content-Type: multipart/alternative;
+ boundary="------------KV11qSCFGCDoxBrJM0rPUfbN"
+Message-ID: <a6908613-9750-473a-161d-a7cb8c8fd14f@ventanamicro.com>
+Date: Wed, 18 Jan 2023 07:00:38 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 1/2] target/arm: Introduce helper_set_rounding_mode_chkfrm
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bin.meng@windriver.com,
+ abdulras@google.com
+References: <20230115160657.3169274-1-richard.henderson@linaro.org>
+ <20230115160657.3169274-2-richard.henderson@linaro.org>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230115160657.3169274-2-richard.henderson@linaro.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x242.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,123 +95,449 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add a Linux-boot test accessing PCI NVMe drive on big-endian MIPS:
+This is a multi-part message in MIME format.
+--------------KV11qSCFGCDoxBrJM0rPUfbN
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-$ avocado --show=app,console run -t device:nvme tests/avocado/
-   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_mips64_malta_I6400_nvme:
-  console: Linux version 6.2.0-rc4 (kbj@butter) (mips64-buildroot-linux-gnu-gcc.br_real (Buildroot 2022.11) 11.3.0, GNU ld (GNU Binutils) 2.38) #6 Tue Jan 17 18:48:25 CET 2023
-  console: CPU0 revision is: 0001a900 (MIPS I6400)
-  console: FPU revision is: 20f30300
-  console: MIPS: machine is mti,malta
-  ...
-  console: PCI host bridge to bus 0000:00
-  console: pci_bus 0000:00: root bus resource [mem 0x10000000-0x17ffffff]
-  console: pci_bus 0000:00: root bus resource [io  0x1000-0x1fffff]
-  console: pci_bus 0000:00: No busn resource found for root bus, will use [bus 00-ff]
-  console: pci 0000:00:0a.0: [8086:7110] type 00 class 0x060100
-  console: pci 0000:00:0a.1: [8086:7111] type 00 class 0x010180
-  console: pci 0000:00:0a.1: reg 0x20: [io  0x0000-0x000f]
-  console: pci 0000:00:0a.1: legacy IDE quirk: reg 0x10: [io  0x01f0-0x01f7]
-  console: pci 0000:00:0a.1: legacy IDE quirk: reg 0x14: [io  0x03f6]
-  console: pci 0000:00:0a.1: legacy IDE quirk: reg 0x18: [io  0x0170-0x0177]
-  console: pci 0000:00:0a.1: legacy IDE quirk: reg 0x1c: [io  0x0376]
-  console: pci 0000:00:0a.2: [8086:7112] type 00 class 0x0c0300
-  console: pci 0000:00:12.0: [1b36:0010] type 00 class 0x010802
-  console: pci 0000:00:12.0: reg 0x10: [mem 0x00000000-0x00003fff 64bit]
-  console: pci_bus 0000:00: busn_res: [bus 00-ff] end is updated to 00
-  console: pci 0000:00:12.0: BAR 0: assigned [mem 0x10040000-0x10043fff 64bit]
-  console: pci 0000:00:0a.1: BAR 4: assigned [io  0x1080-0x108f]
-  ...
-  console: ata_piix 0000:00:0a.1: enabling device (0000 -> 0001)
-  console: nvme nvme0: pci function 0000:00:12.0
-  console: nvme 0000:00:12.0: enabling device (0000 -> 0002)
-  console: nvme nvme0: 1/0/0 default/read/poll queues
-  console: nvme nvme0: Ignoring bogus Namespace Identifiers
-  ...
-  console: Run /sbin/init as init process
-  console: EXT4-fs (nvme0n1): re-mounted bf659b11-5a77-4ab5-a337-3d71ced26114. Quota mode: disabled.
-  ...
-  console: Welcome to Buildroot
-  console: buildroot login: root
-  ...
-  console: # reboot
-  ...
-  console: umount: devtmpfs busy - remounted read-only
-  console: EXT4-fs (nvme0n1): re-mounted bf659b11-5a77-4ab5-a337-3d71ced26114. Quota mode: disabled.
-  console: The system is going down NOW!
-  console: Requesting system reboot
-  console: reboot: Restarting system
-  PASS (11.17 s)
-  JOB TIME   : 11.91 s
+s/arm/riscv in subject/commit title ^
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- tests/avocado/boot_linux_console.py | 44 +++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+On 1/15/23 13:06, Richard Henderson wrote:
+> The new helper always validates the contents of FRM, even
+> if the new rounding mode is not DYN.  This is required by
+> the vector unit.
+>
+> Track whether we've validated FRM separately from whether
+> we've updated fp_status with a given rounding mode, so that
+> we can elide calls correctly.
+>
+> This partially reverts d6c4d3f2a69 which attempted the to do
+> the same thing, but with two calls to gen_set_rm(), which is
+> both inefficient and tickles an assertion in decode_save_opc.
+>
+> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/1441
+> Signed-off-by: Richard Henderson<richard.henderson@linaro.org>
+> ---
 
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index 8c1d981586..176793482e 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -12,6 +12,7 @@
- import lzma
- import gzip
- import shutil
-+import time
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+
+>   target/riscv/helper.h                   |  1 +
+>   target/riscv/fpu_helper.c               | 37 +++++++++++++++++++++++++
+>   target/riscv/translate.c                | 19 +++++++++++++
+>   target/riscv/insn_trans/trans_rvv.c.inc | 24 +++-------------
+>   4 files changed, 61 insertions(+), 20 deletions(-)
+>
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 227c7122ef..9792ab5086 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -3,6 +3,7 @@ DEF_HELPER_2(raise_exception, noreturn, env, i32)
+>   
+>   /* Floating Point - rounding mode */
+>   DEF_HELPER_FLAGS_2(set_rounding_mode, TCG_CALL_NO_WG, void, env, i32)
+> +DEF_HELPER_FLAGS_2(set_rounding_mode_chkfrm, TCG_CALL_NO_WG, void, env, i32)
+>   DEF_HELPER_FLAGS_1(set_rod_rounding_mode, TCG_CALL_NO_WG, void, env)
+>   
+>   /* Floating Point - fused */
+> diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
+> index 5699c9517f..96817df8ef 100644
+> --- a/target/riscv/fpu_helper.c
+> +++ b/target/riscv/fpu_helper.c
+> @@ -81,6 +81,43 @@ void helper_set_rounding_mode(CPURISCVState *env, uint32_t rm)
+>       set_float_rounding_mode(softrm, &env->fp_status);
+>   }
+>   
+> +void helper_set_rounding_mode_chkfrm(CPURISCVState *env, uint32_t rm)
+> +{
+> +    int softrm;
+> +
+> +    /* Always validate frm, even if rm != DYN. */
+> +    if (unlikely(env->frm >= 5)) {
+> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+> +    }
+> +    if (rm == RISCV_FRM_DYN) {
+> +        rm = env->frm;
+> +    }
+> +    switch (rm) {
+> +    case RISCV_FRM_RNE:
+> +        softrm = float_round_nearest_even;
+> +        break;
+> +    case RISCV_FRM_RTZ:
+> +        softrm = float_round_to_zero;
+> +        break;
+> +    case RISCV_FRM_RDN:
+> +        softrm = float_round_down;
+> +        break;
+> +    case RISCV_FRM_RUP:
+> +        softrm = float_round_up;
+> +        break;
+> +    case RISCV_FRM_RMM:
+> +        softrm = float_round_ties_away;
+> +        break;
+> +    case RISCV_FRM_ROD:
+> +        softrm = float_round_to_odd;
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +
+> +    set_float_rounding_mode(softrm, &env->fp_status);
+> +}
+> +
+>   void helper_set_rod_rounding_mode(CPURISCVState *env)
+>   {
+>       set_float_rounding_mode(float_round_to_odd, &env->fp_status);
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index df38db7553..493c3815e1 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -114,6 +114,8 @@ typedef struct DisasContext {
+>       bool pm_base_enabled;
+>       /* Use icount trigger for native debug */
+>       bool itrigger;
+> +    /* FRM is known to contain a valid value. */
+> +    bool frm_valid;
+>       /* TCG of the current insn_start */
+>       TCGOp *insn_start;
+>   } DisasContext;
+> @@ -674,12 +676,29 @@ static void gen_set_rm(DisasContext *ctx, int rm)
+>           gen_helper_set_rod_rounding_mode(cpu_env);
+>           return;
+>       }
+> +    if (rm == RISCV_FRM_DYN) {
+> +        /* The helper will return only if frm valid. */
+> +        ctx->frm_valid = true;
+> +    }
+>   
+>       /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
+>       decode_save_opc(ctx);
+>       gen_helper_set_rounding_mode(cpu_env, tcg_constant_i32(rm));
+>   }
+>   
+> +static void gen_set_rm_chkfrm(DisasContext *ctx, int rm)
+> +{
+> +    if (ctx->frm == rm && ctx->frm_valid) {
+> +        return;
+> +    }
+> +    ctx->frm = rm;
+> +    ctx->frm_valid = true;
+> +
+> +    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
+> +    decode_save_opc(ctx);
+> +    gen_helper_set_rounding_mode_chkfrm(cpu_env, tcg_constant_i32(rm));
+> +}
+> +
+>   static int ex_plus_1(DisasContext *ctx, int nf)
+>   {
+>       return nf + 1;
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index d455acedbf..bbb5c3a7b5 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -2679,13 +2679,9 @@ static bool do_opfv(DisasContext *s, arg_rmr *a,
+>                       int rm)
+>   {
+>       if (checkfn(s, a)) {
+> -        if (rm != RISCV_FRM_DYN) {
+> -            gen_set_rm(s, RISCV_FRM_DYN);
+> -        }
+> -
+>           uint32_t data = 0;
+>           TCGLabel *over = gen_new_label();
+> -        gen_set_rm(s, rm);
+> +        gen_set_rm_chkfrm(s, rm);
+>           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+>           tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+>   
+> @@ -2882,17 +2878,13 @@ static bool opffv_widen_check(DisasContext *s, arg_rmr *a)
+>   static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+>   {                                                                  \
+>       if (CHECK(s, a)) {                                             \
+> -        if (FRM != RISCV_FRM_DYN) {                                \
+> -            gen_set_rm(s, RISCV_FRM_DYN);                          \
+> -        }                                                          \
+> -                                                                   \
+>           uint32_t data = 0;                                         \
+>           static gen_helper_gvec_3_ptr * const fns[2] = {            \
+>               gen_helper_##HELPER##_h,                               \
+>               gen_helper_##HELPER##_w,                               \
+>           };                                                         \
+>           TCGLabel *over = gen_new_label();                          \
+> -        gen_set_rm(s, FRM);                                        \
+> +        gen_set_rm_chkfrm(s, FRM);                                 \
+>           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+>           tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
+>                                                                      \
+> @@ -3005,17 +2997,13 @@ static bool opffv_narrow_check(DisasContext *s, arg_rmr *a)
+>   static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+>   {                                                                  \
+>       if (CHECK(s, a)) {                                             \
+> -        if (FRM != RISCV_FRM_DYN) {                                \
+> -            gen_set_rm(s, RISCV_FRM_DYN);                          \
+> -        }                                                          \
+> -                                                                   \
+>           uint32_t data = 0;                                         \
+>           static gen_helper_gvec_3_ptr * const fns[2] = {            \
+>               gen_helper_##HELPER##_h,                               \
+>               gen_helper_##HELPER##_w,                               \
+>           };                                                         \
+>           TCGLabel *over = gen_new_label();                          \
+> -        gen_set_rm(s, FRM);                                        \
+> +        gen_set_rm_chkfrm(s, FRM);                                 \
+>           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+>           tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
+>                                                                      \
+> @@ -3060,10 +3048,6 @@ static bool opxfv_narrow_check(DisasContext *s, arg_rmr *a)
+>   static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+>   {                                                                  \
+>       if (opxfv_narrow_check(s, a)) {                                \
+> -        if (FRM != RISCV_FRM_DYN) {                                \
+> -            gen_set_rm(s, RISCV_FRM_DYN);                          \
+> -        }                                                          \
+> -                                                                   \
+>           uint32_t data = 0;                                         \
+>           static gen_helper_gvec_3_ptr * const fns[3] = {            \
+>               gen_helper_##HELPER##_b,                               \
+> @@ -3071,7 +3055,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+>               gen_helper_##HELPER##_w,                               \
+>           };                                                         \
+>           TCGLabel *over = gen_new_label();                          \
+> -        gen_set_rm(s, FRM);                                        \
+> +        gen_set_rm_chkfrm(s, FRM);                                 \
+>           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+>           tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
+>                                                                      \
+
+--------------KV11qSCFGCDoxBrJM0rPUfbN
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <font size="4">s/arm/riscv in subject/commit title ^</font><br>
+    <br>
+    <div class="moz-cite-prefix">On 1/15/23 13:06, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20230115160657.3169274-2-richard.henderson@linaro.org">
+      <pre class="moz-quote-pre" wrap="">The new helper always validates the contents of FRM, even
+if the new rounding mode is not DYN.  This is required by
+the vector unit.
+
+Track whether we've validated FRM separately from whether
+we've updated fp_status with a given rounding mode, so that
+we can elide calls correctly.
+
+This partially reverts d6c4d3f2a69 which attempted the to do
+the same thing, but with two calls to gen_set_rm(), which is
+both inefficient and tickles an assertion in decode_save_opc.
+
+Resolves: <a class="moz-txt-link-freetext" href="https://gitlab.com/qemu-project/qemu/-/issues/1441">https://gitlab.com/qemu-project/qemu/-/issues/1441</a>
+Signed-off-by: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
+---</pre>
+    </blockquote>
+    <br>
+    Reviewed-by: Daniel Henrique Barboza
+    <a class="moz-txt-link-rfc2396E" href="mailto:dbarboza@ventanamicro.com">&lt;dbarboza@ventanamicro.com&gt;</a><br>
+    <br>
+    <blockquote type="cite"
+      cite="mid:20230115160657.3169274-2-richard.henderson@linaro.org">
+      <pre class="moz-quote-pre" wrap="">
+ target/riscv/helper.h                   |  1 +
+ target/riscv/fpu_helper.c               | 37 +++++++++++++++++++++++++
+ target/riscv/translate.c                | 19 +++++++++++++
+ target/riscv/insn_trans/trans_rvv.c.inc | 24 +++-------------
+ 4 files changed, 61 insertions(+), 20 deletions(-)
+
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 227c7122ef..9792ab5086 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -3,6 +3,7 @@ DEF_HELPER_2(raise_exception, noreturn, env, i32)
  
- from avocado import skip
- from avocado import skipUnless
-@@ -269,6 +270,49 @@ def test_mips64el_malta_5KEc_cpio(self):
-         # Wait for VM to shut down gracefully
-         self.vm.wait()
+ /* Floating Point - rounding mode */
+ DEF_HELPER_FLAGS_2(set_rounding_mode, TCG_CALL_NO_WG, void, env, i32)
++DEF_HELPER_FLAGS_2(set_rounding_mode_chkfrm, TCG_CALL_NO_WG, void, env, i32)
+ DEF_HELPER_FLAGS_1(set_rod_rounding_mode, TCG_CALL_NO_WG, void, env)
  
-+    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-+    def test_mips64_malta_I6400_nvme(self):
-+        """
-+        :avocado: tags=arch:mips64
-+        :avocado: tags=machine:malta
-+        :avocado: tags=endian:big
-+        :avocado: tags=cpu:I6400
-+        :avocado: tags=device:nvme
-+        """
-+        kernel_url = ('https://github.com/birkelund/qemu-nvme-boot/'
-+                      'raw/main/mips64/images/vmlinux')
-+        kernel_hash = '665662d7f7b17dc261ffb0e0ff4a1a7da91de948'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-+        rootfs_url = ('https://github.com/birkelund/qemu-nvme-boot/'
-+                      'raw/main/mips64/images/rootfs.ext2.gz')
-+        rootfs_hash = '66f5ca4ef20ab983ec424c3ed8462bab305bbb73'
-+        rootfs_path_gz = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
-+        rootfs_path = os.path.join(self.workdir, "rootfs.ext2")
-+        archive.gzip_uncompress(rootfs_path_gz, rootfs_path)
+ /* Floating Point - fused */
+diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
+index 5699c9517f..96817df8ef 100644
+--- a/target/riscv/fpu_helper.c
++++ b/target/riscv/fpu_helper.c
+@@ -81,6 +81,43 @@ void helper_set_rounding_mode(CPURISCVState *env, uint32_t rm)
+     set_float_rounding_mode(softrm, &amp;env-&gt;fp_status);
+ }
+ 
++void helper_set_rounding_mode_chkfrm(CPURISCVState *env, uint32_t rm)
++{
++    int softrm;
 +
-+        self.vm.set_console()
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE
-+                               + 'console=ttyS0,115200 '
-+                               + 'root=/dev/nvme0n1 '
-+                               + 'rdinit=/sbin/init noreboot')
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-append', kernel_command_line,
-+                         '-drive',
-+                                f'file={rootfs_path},format=raw,if=none,id=d0',
-+                         '-device', 'nvme,serial=default,drive=d0',
-+                         '-nic', 'user,model=pcnet',
-+                         '-no-reboot', '-snapshot', '-nodefaults')
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'Welcome to Buildroot')
-+        time.sleep(0.1)
-+        exec_command(self, 'root')
-+        time.sleep(0.1)
++    /* Always validate frm, even if rm != DYN. */
++    if (unlikely(env-&gt;frm &gt;= 5)) {
++        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++    }
++    if (rm == RISCV_FRM_DYN) {
++        rm = env-&gt;frm;
++    }
++    switch (rm) {
++    case RISCV_FRM_RNE:
++        softrm = float_round_nearest_even;
++        break;
++    case RISCV_FRM_RTZ:
++        softrm = float_round_to_zero;
++        break;
++    case RISCV_FRM_RDN:
++        softrm = float_round_down;
++        break;
++    case RISCV_FRM_RUP:
++        softrm = float_round_up;
++        break;
++    case RISCV_FRM_RMM:
++        softrm = float_round_ties_away;
++        break;
++    case RISCV_FRM_ROD:
++        softrm = float_round_to_odd;
++        break;
++    default:
++        g_assert_not_reached();
++    }
 +
-+        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-+                                                'MIPS I6400')
-+        exec_command_and_wait_for_pattern(self, 'reboot',
-+                                                'reboot: Restarting system')
++    set_float_rounding_mode(softrm, &amp;env-&gt;fp_status);
++}
 +
-     def do_test_mips_malta32el_nanomips(self, kernel_url, kernel_hash):
-         kernel_path_xz = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-         kernel_path = self.workdir + "kernel"
--- 
-2.38.1
+ void helper_set_rod_rounding_mode(CPURISCVState *env)
+ {
+     set_float_rounding_mode(float_round_to_odd, &amp;env-&gt;fp_status);
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index df38db7553..493c3815e1 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -114,6 +114,8 @@ typedef struct DisasContext {
+     bool pm_base_enabled;
+     /* Use icount trigger for native debug */
+     bool itrigger;
++    /* FRM is known to contain a valid value. */
++    bool frm_valid;
+     /* TCG of the current insn_start */
+     TCGOp *insn_start;
+ } DisasContext;
+@@ -674,12 +676,29 @@ static void gen_set_rm(DisasContext *ctx, int rm)
+         gen_helper_set_rod_rounding_mode(cpu_env);
+         return;
+     }
++    if (rm == RISCV_FRM_DYN) {
++        /* The helper will return only if frm valid. */
++        ctx-&gt;frm_valid = true;
++    }
+ 
+     /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
+     decode_save_opc(ctx);
+     gen_helper_set_rounding_mode(cpu_env, tcg_constant_i32(rm));
+ }
+ 
++static void gen_set_rm_chkfrm(DisasContext *ctx, int rm)
++{
++    if (ctx-&gt;frm == rm &amp;&amp; ctx-&gt;frm_valid) {
++        return;
++    }
++    ctx-&gt;frm = rm;
++    ctx-&gt;frm_valid = true;
++
++    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
++    decode_save_opc(ctx);
++    gen_helper_set_rounding_mode_chkfrm(cpu_env, tcg_constant_i32(rm));
++}
++
+ static int ex_plus_1(DisasContext *ctx, int nf)
+ {
+     return nf + 1;
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+index d455acedbf..bbb5c3a7b5 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -2679,13 +2679,9 @@ static bool do_opfv(DisasContext *s, arg_rmr *a,
+                     int rm)
+ {
+     if (checkfn(s, a)) {
+-        if (rm != RISCV_FRM_DYN) {
+-            gen_set_rm(s, RISCV_FRM_DYN);
+-        }
+-
+         uint32_t data = 0;
+         TCGLabel *over = gen_new_label();
+-        gen_set_rm(s, rm);
++        gen_set_rm_chkfrm(s, rm);
+         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+         tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+ 
+@@ -2882,17 +2878,13 @@ static bool opffv_widen_check(DisasContext *s, arg_rmr *a)
+ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+ {                                                                  \
+     if (CHECK(s, a)) {                                             \
+-        if (FRM != RISCV_FRM_DYN) {                                \
+-            gen_set_rm(s, RISCV_FRM_DYN);                          \
+-        }                                                          \
+-                                                                   \
+         uint32_t data = 0;                                         \
+         static gen_helper_gvec_3_ptr * const fns[2] = {            \
+             gen_helper_##HELPER##_h,                               \
+             gen_helper_##HELPER##_w,                               \
+         };                                                         \
+         TCGLabel *over = gen_new_label();                          \
+-        gen_set_rm(s, FRM);                                        \
++        gen_set_rm_chkfrm(s, FRM);                                 \
+         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+         tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
+                                                                    \
+@@ -3005,17 +2997,13 @@ static bool opffv_narrow_check(DisasContext *s, arg_rmr *a)
+ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+ {                                                                  \
+     if (CHECK(s, a)) {                                             \
+-        if (FRM != RISCV_FRM_DYN) {                                \
+-            gen_set_rm(s, RISCV_FRM_DYN);                          \
+-        }                                                          \
+-                                                                   \
+         uint32_t data = 0;                                         \
+         static gen_helper_gvec_3_ptr * const fns[2] = {            \
+             gen_helper_##HELPER##_h,                               \
+             gen_helper_##HELPER##_w,                               \
+         };                                                         \
+         TCGLabel *over = gen_new_label();                          \
+-        gen_set_rm(s, FRM);                                        \
++        gen_set_rm_chkfrm(s, FRM);                                 \
+         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+         tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
+                                                                    \
+@@ -3060,10 +3048,6 @@ static bool opxfv_narrow_check(DisasContext *s, arg_rmr *a)
+ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+ {                                                                  \
+     if (opxfv_narrow_check(s, a)) {                                \
+-        if (FRM != RISCV_FRM_DYN) {                                \
+-            gen_set_rm(s, RISCV_FRM_DYN);                          \
+-        }                                                          \
+-                                                                   \
+         uint32_t data = 0;                                         \
+         static gen_helper_gvec_3_ptr * const fns[3] = {            \
+             gen_helper_##HELPER##_b,                               \
+@@ -3071,7 +3055,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+             gen_helper_##HELPER##_w,                               \
+         };                                                         \
+         TCGLabel *over = gen_new_label();                          \
+-        gen_set_rm(s, FRM);                                        \
++        gen_set_rm_chkfrm(s, FRM);                                 \
+         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+         tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
+                                                                    \
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
+--------------KV11qSCFGCDoxBrJM0rPUfbN--
 
