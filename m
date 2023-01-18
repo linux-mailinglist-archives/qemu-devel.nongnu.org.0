@@ -2,101 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 355A46719B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 11:55:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1AF6719DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 11:59:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI64b-0005Cu-0L; Wed, 18 Jan 2023 05:53:41 -0500
+	id 1pI69F-0006o7-Cv; Wed, 18 Jan 2023 05:58:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI64U-0005BG-Td
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:53:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI69D-0006nc-IW
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:58:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI64T-0003k7-10
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:53:34 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI69C-0004j8-6O
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:58:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674039211;
+ s=mimecast20190719; t=1674039505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qGXmpUwAeTH/kxtJIZHfySccA2It9oZAfAEMfDSJlm4=;
- b=Q28uy6yp5ZUf19s9uhQcZkireQEy+8XExi5sLjuIlR0S/M5w3B2wf5troFSl3OMXlCVSeR
- auLFStmXN2zX2pk26D4laK5atGW1SoTzLL9qCgwMVPLFLc56yK+5Ntx3brYCWrBWr5c8rc
- pvQYdslZqXHQig+VRYhVytDb345boHs=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iDk8r/HFKBIuWbFyQvtHHZ9kEIhLCmhlDUhvl1m2KWg=;
+ b=hTnNRgydKwoh0jkT85LNSb0d8L8TMMiR4g+xonjiMlN1bikkBaLG4gLY9wzUg+pKGbwBnZ
+ Yn287fc9vygIRKp3fdP6KX7o30P7QhaqOnMjOhK/D47JlYMiy3y7ZvAOVqvZcL4k4MzeIk
+ Um3VyxXegH+EbAqeXwOphyL9vuEarWA=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-270-cTVceyQKNsqiPbSZ1qrdlw-1; Wed, 18 Jan 2023 05:53:30 -0500
-X-MC-Unique: cTVceyQKNsqiPbSZ1qrdlw-1
-Received: by mail-qv1-f69.google.com with SMTP id
- df6-20020a056214080600b00534fe2ad5a3so4007666qvb.11
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 02:53:30 -0800 (PST)
+ us-mta-611-Ojo5RfWHMOKefIf7k5lO3w-1; Wed, 18 Jan 2023 05:58:24 -0500
+X-MC-Unique: Ojo5RfWHMOKefIf7k5lO3w-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ x12-20020a05620a258c00b007051ae500a2so24656859qko.15
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 02:58:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qGXmpUwAeTH/kxtJIZHfySccA2It9oZAfAEMfDSJlm4=;
- b=b5HXN3haghVQ5WqcjXXO0RJK3Zwb1atcRjiUGR7InPuDtACCvHuqJA4uqpdATMTKPC
- pKstYedkg9F0THChNxZzvWgkvn0GKVtPpG8wfMV/h0qi2Yy5zhYpLwZ69iKJ6tYiKkwc
- qOmBHhjqvctTxc51wXBNdZzGGy9fnihcVGR4z50sqInKEPkGhcnIAt7S0oKxYrWkrwTr
- dpt3CYVN7HTQ56n/CuiL+ZX268RsRuDtr28Bo+m7Z40AEc6QIfsbg2TrRo695/U6TRx5
- HUjiePDm8lSa6MiAPm2fe0kldcv/i//VnNt++gU0k9fWmTFVrdhr+hX+gAqOCLrvT2To
- 7IOQ==
-X-Gm-Message-State: AFqh2krJGX7c4S1Z/vAtdaz7Yd4eH3jumPA13w9vvXNKck1gxDXflwmB
- zs1sUjq2yLsy7k+IUrTdG5JJts9xmJf7I9amIBk2NJlqTSP8wb7e7WocMVZ+ea4Dj1lBPQitJ+c
- AKjS5SpkvZVrr6bI=
-X-Received: by 2002:a05:6214:3993:b0:532:2cb5:33e4 with SMTP id
- ny19-20020a056214399300b005322cb533e4mr10833150qvb.14.1674039210227; 
- Wed, 18 Jan 2023 02:53:30 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXucfllY5mmpVeqsTi+ztYzxHjtf/bPaSXptzqeiXdz3lUyMxozOucyeHKbgmIQrNCd3houxgQ==
-X-Received: by 2002:a05:6214:3993:b0:532:2cb5:33e4 with SMTP id
- ny19-20020a056214399300b005322cb533e4mr10833129qvb.14.1674039209978; 
- Wed, 18 Jan 2023 02:53:29 -0800 (PST)
+ bh=iDk8r/HFKBIuWbFyQvtHHZ9kEIhLCmhlDUhvl1m2KWg=;
+ b=ZIwp3lhylxKZd7TAWNW/fcMXkhX0jqR9eDMxqB+hZ6EAV+tRLb7XduBDFVw0EoNPOz
+ 75xufktDji7yKXPuqfK6Q0KZQ3Uzm25qJqca6WItJvwZYHMxrbRJoiOdauCnV6QadQgO
+ bqRmlL7hcvlnY7ICOSnnrulxQ0WGmq0NjTdjp+UAJ92bV/Ba9WVTBxSKvH8CoaYBlAbI
+ 3jG6IRMbGKaLDQ2O/pAlypc0xiWHiett42H/G1ztIZh/J+rxmdkC2VNMwRolPSZlhcad
+ NLjxve/d++Vx666sK9KTeP07k8iulm5rm4uHOLeoyE+SM9IElROxk1BEUlPqNPUkGNuQ
+ PGrg==
+X-Gm-Message-State: AFqh2kpiDzFDM9BxGpHLCggOg5hbOQhXSWIv4LhWKq6Cq/m1RSDJNZ88
+ 1PbLVwKLa7EWO8XdcPbp2Xas95R4DbuCs5UXU8h6UfaNjbHKTAKr8DRhx4kMU4BblAeQPwMiZZ+
+ RBHp4e83zVXSBn1w=
+X-Received: by 2002:ad4:55cd:0:b0:534:8cbc:d666 with SMTP id
+ bt13-20020ad455cd000000b005348cbcd666mr10154618qvb.39.1674039503527; 
+ Wed, 18 Jan 2023 02:58:23 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuQ/iSp0Ui8GTUKYYBztVwXDp/dkjM9sqxMvNcRKLjbhtSX1X0WGuWPr0Wlp4E4y9isa7YeVQ==
+X-Received: by 2002:ad4:55cd:0:b0:534:8cbc:d666 with SMTP id
+ bt13-20020ad455cd000000b005348cbcd666mr10154604qvb.39.1674039503281; 
+ Wed, 18 Jan 2023 02:58:23 -0800 (PST)
 Received: from [192.168.8.105] (tmo-099-5.customers.d1-online.com.
  [80.187.99.5]) by smtp.gmail.com with ESMTPSA id
- k19-20020a05620a415300b006fbaf9c1b70sm6940822qko.133.2023.01.18.02.53.25
+ d6-20020a05620a240600b006fc2f74ad12sm22371819qkn.92.2023.01.18.02.58.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 02:53:29 -0800 (PST)
-Message-ID: <91566c93-a422-7969-1f7e-80c6f3d214f1@redhat.com>
-Date: Wed, 18 Jan 2023 11:53:23 +0100
+ Wed, 18 Jan 2023 02:58:22 -0800 (PST)
+Message-ID: <97be9e13-6aa3-32c0-dfb8-31225d5efcbc@redhat.com>
+Date: Wed, 18 Jan 2023 11:58:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Content-Language: en-US
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
- Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, hreitz@redhat.com
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-9-pmorel@linux.ibm.com>
- <72baa5b42abe557cdf123889b33b845b405cc86c.camel@linux.ibm.com>
- <cd9e0c88-c2a8-1eca-d146-3fd6639af3e7@redhat.com>
- <5654d88fb7d000369c6cfdbe0213ca9d2bfe013b.camel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v14 08/11] qapi/s390/cpu topology: change-topology monitor
+Subject: Re: [for-8.0 v2 05/11] cryptodev: Introduce 'query-cryptodev' QMP
  command
-In-Reply-To: <5654d88fb7d000369c6cfdbe0213ca9d2bfe013b.camel@linux.ibm.com>
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Cc: zhenwei pi <pizhenwei@bytedance.com>, arei.gonglei@huawei.com,
+ dgilbert@redhat.com, eblake@redhat.com, armbru@redhat.com,
+ michael.roth@amd.com, pbonzini@redhat.com, qemu-devel@nongnu.org
+References: <20221122140756.686982-1-pizhenwei@bytedance.com>
+ <20221122140756.686982-6-pizhenwei@bytedance.com>
+ <Y8UyezxcEeE+TH2p@redhat.com> <20230118052127-mutt-send-email-mst@kernel.org>
+ <Y8fKBEmXD862n3EW@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <Y8fKBEmXD862n3EW@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,41 +106,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/01/2023 14.31, Nina Schoetterl-Glausch wrote:
-> On Tue, 2023-01-17 at 08:30 +0100, Thomas Huth wrote:
->> On 16/01/2023 22.09, Nina Schoetterl-Glausch wrote:
->>> On Thu, 2023-01-05 at 15:53 +0100, Pierre Morel wrote:
->>>> The modification of the CPU attributes are done through a monitor
->>>> commands.
->>>>
->>>> It allows to move the core inside the topology tree to optimise
->>>> the cache usage in the case the host's hypervizor previously
->>>> moved the CPU.
->>>>
->>>> The same command allows to modifiy the CPU attributes modifiers
->>>> like polarization entitlement and the dedicated attribute to notify
->>>> the guest if the host admin modified scheduling or dedication of a vCPU.
->>>>
->>>> With this knowledge the guest has the possibility to optimize the
->>>> usage of the vCPUs.
->>>>
->>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>> ---
-...
->>>> +    s390_topology.sockets[s390_socket_nb(id)]--;
+On 18/01/2023 11.29, Daniel P. Berrangé wrote:
+> On Wed, Jan 18, 2023 at 05:25:37AM -0500, Michael S. Tsirkin wrote:
+>> On Mon, Jan 16, 2023 at 11:18:19AM +0000, Daniel P. Berrangé wrote:
+>>>> +    for (uint32_t i = 0; i < QCRYPTODEV_BACKEND_SERVICE__MAX; i++) {
 >>>
->>> I suppose this function cannot run concurrently, so the same CPU doesn't get removed twice.
+>>> QEMU coding style doesn't declare types inside the for() control
+>>> conditions. I'd suggest 'size_t i', and put it at top of this
+>>> function.
 >>
->> QEMU has the so-called BQL - the Big Qemu Lock. Instructions handlers are
->> normally called with the lock taken, see qemu_mutex_lock_iothread() in
->> target/s390x/kvm/kvm.c.
+>> It's actually kind of vague:
+>>
+>> 	Mixed declarations (interleaving statements and declarations within
+>> 	blocks) are generally not allowed; declarations should be at the beginning
+>> 	of blocks.
+>>
+>> for loop starts a block, does it not?
 > 
-> That is good to know, but is that the relevant lock here?
-> We don't want to concurrent qmp commands. I looked at the code and it's pretty complicated.
+> I wasn't refering to the specific docs per-se, but rather that no
+> code does this at all in QEMU. It is effectively our style, even
+> if not documented as such
 
-Not sure, but I believe that QMP commands are executed from the main 
-iothread, so I think this should be safe? ... CC:-ing some more people who 
-might know the correct answer.
+$ grep -r 'for (int ' * | wc -l
+381
+
+... we're using it in many places already, and I think it should be OK since 
+we started using gnu99 and later as a base standard. Just my 0.02 cents.
 
   Thomas
 
