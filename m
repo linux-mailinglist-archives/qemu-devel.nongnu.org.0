@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A728672634
+	by mail.lfdr.de (Postfix) with ESMTPS id 659EF672633
 	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 19:03:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pICko-0001jg-Hv; Wed, 18 Jan 2023 13:01:42 -0500
+	id 1pIClX-0001uo-4W; Wed, 18 Jan 2023 13:02:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>)
- id 1pICkl-0001hy-61; Wed, 18 Jan 2023 13:01:39 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>)
- id 1pICki-0006M3-ND; Wed, 18 Jan 2023 13:01:38 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id r2so34784819wrv.7;
- Wed, 18 Jan 2023 10:01:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tyw7ou4IJw8ncFrWRqCaWniwKpZIPmalh8abZ0UHJSU=;
- b=JiZamXMayMVvkR9EjR6QAiKPgqUWINlUPFxiELM/IKvWFfXMYwZE2uULrKipFT3FFm
- GVHIrVTecOfoqkP+VDjHEV8lywqMn68/jjQ4Kd3hT3A4JI1qwgYztXvTSHaD0pOTW/++
- qStpBRFBkP7PGwzCuh+6AezWCWb9Y/sqa6gqvQjI2QquGZz7WQV/kOJd0fYTOKE/rsxR
- dpP6q+Jt7QuH842d8GGhdwV6/YV1R2daD+za7AFGnjUe5M3/VexwtU3TWJqVRDvYLcZV
- KlUdNM+JBJBHPu0yUayHcNpBevFSAh1BFCnggsEIOqWJ5l1hY3M4sXBPZqiFVegbdR42
- Oq1A==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pIClO-0001pu-9h
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 13:02:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pIClM-0006Td-Dm
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 13:02:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674064935;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=F2NrJV6RTYwta+BxH74/v8JJyDh7ttUK4aSR9z3oV8k=;
+ b=bYhR35bKjsyW2QBE6858dMaxuUWmxA/DwcO9B64BuVrcS5qhMwCL9IKh+SbbRSEZUJZAxn
+ 2UGIPSzEp9azvrn0mxKUxikd4ag/812BCqn0Q9WkkYs0zTfZ6ph5poKgI91hRcFpIGPA2y
+ /OUsY0ezpUkQVN7kfetLlREz2CXr2Qw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-360-UKvt1HBxO--qFs2S8oQnEA-1; Wed, 18 Jan 2023 13:02:13 -0500
+X-MC-Unique: UKvt1HBxO--qFs2S8oQnEA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ g24-20020adfa498000000b002bbeb5fc4b7so6602945wrb.10
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 10:02:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tyw7ou4IJw8ncFrWRqCaWniwKpZIPmalh8abZ0UHJSU=;
- b=27FIE5QUIrJTkdlwNc5bY1I46/oZyiH7F2gKsXkEt2TEkI+bnZbFDVuEr1/Np23O7P
- ZY80YcfZxHOzVAIXWSBA/5jBx/+Mx+QHnJUwVh8uJpxSBLjn2a3Li19kZ1pmG+jrVDk4
- +iFTts9SnG5bJJ3xOCAR1UabjDpu4n2IYuieTH4U9H0dAZ5W3f8GCtKQkxzut4a69YGR
- 52EGQNxZDldXNOy7Ymy4GUXfM+QWBtvdZes3D6IZShQjumI3dZYZFnvSqbQ5LEQ/sLY8
- 8j/TTRopj88HSKduWWopiCPl+AxHPYIVEaQ43+pBRDA18sr2EZ+OKRtGYmU66MTqr4aX
- n21g==
-X-Gm-Message-State: AFqh2kp1y1reMgQqCuTAGbpHELcwROOtr66XNdfYMGH/T2JeChIsepw7
- u5U2fuZnEgrDxbSj8JCS+CY=
-X-Google-Smtp-Source: AMrXdXvqjPh+vKUA7b/x4G3sR2bH72EAt3Jhv5PJiTwpKIzs40u2WMCZsUjvVb657JrNCwzUe30Ctw==
-X-Received: by 2002:a5d:5e84:0:b0:2bd:f617:2b09 with SMTP id
- ck4-20020a5d5e84000000b002bdf6172b09mr7927091wrb.65.1674064893624; 
- Wed, 18 Jan 2023 10:01:33 -0800 (PST)
-Received: from [192.168.33.3] ([147.235.205.16])
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=F2NrJV6RTYwta+BxH74/v8JJyDh7ttUK4aSR9z3oV8k=;
+ b=kQE8X7TQMBrr3xuc/F8sU+em7vRPMBCYvWux+Kkd4EZxQ8SRd3n7Csvbp8nlQ05zMw
+ 8xSR8ZSg21G02ei3x69GUCsE/kv3luLqDjh39ppje2XrFDOTNGRbDiyP/zPoKYQZgjEN
+ zev/PbAnRS0bEVR1tyQtVGWHcH7Usu3KgYce+r9zCsM7s22FGDvbbucM6FpbvQOQvdb4
+ c1mPEhti13Jf7MLoVI12ga4zOxKCS+yS8GVcGNS76pR9HSOLINzRSxZ9pCujzQIhg5SV
+ Cx3GxZzRgrIhD3thtaMeqwdZgVBDqSSEaylkpaJuE07TDvjyferCNixL///Oxk3Dx8YW
+ WD/Q==
+X-Gm-Message-State: AFqh2kp8IB79UnR3xRuOzVg4s9nl1Jc6VA+TwqMKA+pvtyvi3xFHsjXd
+ L+1U31owycaptf5+xAVsfTvRk+wk70xO4aH/SshadVeRR1O09VNDOuHihIqyVn/sFTHggOwwrne
+ kXGHEdUElU86g+1A=
+X-Received: by 2002:a05:6000:16ce:b0:2bd:d9cc:920a with SMTP id
+ h14-20020a05600016ce00b002bdd9cc920amr8210745wrf.45.1674064932271; 
+ Wed, 18 Jan 2023 10:02:12 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvz7ofhc0l2fyIMg/IlaNFS9Ac3h44OIDQ9GCUZBdjrSIsZhFGu9vWjgIPYqpydyP4VN4EIAg==
+X-Received: by 2002:a05:6000:16ce:b0:2bd:d9cc:920a with SMTP id
+ h14-20020a05600016ce00b002bdd9cc920amr8210729wrf.45.1674064932097; 
+ Wed, 18 Jan 2023 10:02:12 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
  by smtp.gmail.com with ESMTPSA id
- t18-20020adff612000000b002be2f18938csm2032301wrp.41.2023.01.18.10.01.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 10:01:33 -0800 (PST)
-Message-ID: <3cc24e63-ad95-ae2b-077e-83e60291aeb4@gmail.com>
-Date: Wed, 18 Jan 2023 20:01:31 +0200
+ t17-20020a05600001d100b00241d21d4652sm31510326wrx.21.2023.01.18.10.02.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jan 2023 10:02:11 -0800 (PST)
+Date: Wed, 18 Jan 2023 18:02:09 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Qemu-block <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: QEMU iotest 267 failure / assertion in migration code
+Message-ID: <Y8g0IcL14twkHQBu@work-vm>
+References: <c4677b0e-87eb-beca-d9fb-050c9315d316@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 0/1] hw/ide: share bmdma read and write functions
-To: John Snow <jsnow@redhat.com>
-Cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-References: <20220219080818.327683-1-liavalb@gmail.com>
- <A83604D0-B156-4C34-BAF2-29D13D341386@gmail.com>
- <CAFn=p-bzzTM2cyEM_uVpnutj=7D5NgKFb3=854rNQe_Qc4GTfA@mail.gmail.com>
- <59AF7FF6-64F3-4633-B079-2C41DDF3B76C@gmail.com>
- <7e7bf877-0300-7a2e-e0a4-f8db6eeae88b@gmail.com>
- <CAFn=p-YwPCZOOzBpQb6FwdjKEYiNJj_HWrYVUs+Xg5i1=PkG0Q@mail.gmail.com>
-Content-Language: en-US
-From: Liav Albani <liavalb@gmail.com>
-In-Reply-To: <CAFn=p-YwPCZOOzBpQb6FwdjKEYiNJj_HWrYVUs+Xg5i1=PkG0Q@mail.gmail.com>
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=liavalb@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, NICE_REPLY_A=-0.089,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c4677b0e-87eb-beca-d9fb-050c9315d316@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,73 +101,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-<html style="direction: ltr;">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <style id="bidiui-paragraph-margins" type="text/css">body p { margin-bottom: 0cm; margin-top: 0pt; } </style>
-  </head>
-  <body bidimailui-charset-is-forced="true" style="direction: ltr;">
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 1/16/23 22:29, John Snow wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAFn=p-YwPCZOOzBpQb6FwdjKEYiNJj_HWrYVUs+Xg5i1=PkG0Q@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">On Fri, Jan 13, 2023 at 9:10 AM Liav Albani <a class="moz-txt-link-rfc2396E" href="mailto:liavalb@gmail.com">&lt;liavalb@gmail.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
+* Thomas Huth (thuth@redhat.com) wrote:
+> 
+>  Hi!
+> 
+> I just ran "make check" in a build directory where I did
+> not compile qemu-system-x86_64, and got a failure with
+> iotest 267.
+> 
+> Re-running the "check" script directly got me some more
+> information:
+> 
+> $ ./check -qcow2 267
+> QEMU          -- "/tmp/qemu/tests/qemu-iotests/../../qemu-system-alpha" -nodefaults -display none -accel qtest
+> QEMU_IMG      -- "/tmp/qemu/tests/qemu-iotests/../../qemu-img"
+> QEMU_IO       -- "/tmp/qemu/tests/qemu-iotests/../../qemu-io" --cache writeback --aio threads -f qcow2
+> QEMU_NBD      -- "/tmp/qemu/tests/qemu-iotests/../../qemu-nbd"
+> IMGFMT        -- qcow2
+> IMGPROTO      -- file
+> PLATFORM      -- Linux/x86_64 thuth 4.18.0-425.3.1.el8.x86_64
+> TEST_DIR      -- /tmp/qemu/tests/qemu-iotests/scratch
+> SOCK_DIR      -- /tmp/tmp_qbcjhsu
+> GDB_OPTIONS   --
+> VALGRIND_QEMU --
+> PRINT_QEMU_OUTPUT --
+> 
+> 267   fail       [18:39:41] [18:39:44]   3.5s                 output mismatch (see /tmp/qemu/tests/qemu-iotests/scratch/267.out.bad)
+> --- .../qemu/tests/qemu-iotests/267.out
+> +++ /tmp/qemu/tests/qemu-iotests/scratch/267.out.bad
+> @@ -31,23 +31,23 @@
+>  Testing: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=none
+>  QEMU X.Y.Z monitor - type 'help' for more information
+>  (qemu) savevm snap0
+> -(qemu) info snapshots
+> -List of snapshots present on all disks:
+> -ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
+> ---        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+> -(qemu) loadvm snap0
+> -(qemu) quit
+> +QEMU_PROG: ../../qemu/migration/ram.c:874: pss_find_next_dirty: Assertion `pss->host_page_end' failed.
 
-On 1/11/23 01:07, Bernhard Beschow wrote:
+I don't understand how that can trigger - it needs investigating as a
+bug.
 
-Am 9. Januar 2023 19:24:16 UTC schrieb John Snow <a class="moz-txt-link-rfc2396E" href="mailto:jsnow@redhat.com">&lt;jsnow@redhat.com&gt;</a>:
+> +./common.rc: line 181: 1903770 Aborted                 (core dumped) ( if [ -n "${QEMU_NEED_PID}" ]; then
+> +    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
+> +fi; GDB=""; if [ -n "${GDB_OPTIONS}" ]; then
+> +    GDB="gdbserver ${GDB_OPTIONS}";
+> +fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec "${VALGRIND_LOGFILE}" $GDB "$QEMU_PROG" $QEMU_OPTIONS "$@" )
+> 
+> 
+> Looks like this test does not work if the main machine
+> of the selected QEMU binary does not support migration?
 
-On Tue, Sep 6, 2022 at 10:27 AM Bernhard Beschow <a class="moz-txt-link-rfc2396E" href="mailto:shentey@gmail.com">&lt;shentey@gmail.com&gt;</a> wrote:
+Why doesn't it support migration?
 
-Am 19. Februar 2022 08:08:17 UTC schrieb Liav Albani <a class="moz-txt-link-rfc2396E" href="mailto:liavalb@gmail.com">&lt;liavalb@gmail.com&gt;</a>:
+> Should we remove this test from the "auto" group?
+> 
+> Anyway, QEMU should also not trigger an assertion, so this
+> sounds like another bug?
 
-This is a preparation before I send v3 of ich6-ide controller emulation patch.
-I figured that it's more trivial to split the changes this way, by extracting
-the bmdma functions from via.c and piix.c and sharing them together. Then,
-I could easily put these into use when I send v3 of the ich6-ide patch by just
-using the already separated functions. This was suggested by BALATON Zoltan when
-he submitted a code review on my ich6-ide controller emulation patch.
+Yeh; that's a weird failure.
 
-Ping. Any news?
+(Alpha page size seems to be 8k from what I can tell; which should be
+fine, if you're running on an x86 host)
 
-*cough*.
+Dave
 
-Has this been folded into subsequent series, or does this still need attention?
+>  Thomas
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Both piix and via still have their own bmdma implementations. This patch might be worth having.
-
-Best regards,
-Bernhard
-
-I see. Since you are still interested, I will try to see what was the outcome of that patch as I really don't remember if it passed the CI tests, etc. If applicable, I will send this as v2, or if it's already approved, then I guess we could just let it be merged to the tree?
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I was just going to run some smoke tests on it and as long as it
-didn't hurt anything, I'd wave it in. If you want it alongside other
-patches that I also should stage, you can bundle them if you'd like.
-Just let me know what you plan on doing.
-
---js
-</pre>
-    </blockquote>
-    <p>For now I rather let the BMDMA patches (sharing read &amp; write
-      functions) to get in, and work on the ich6-ide patches later.</p>
-    <p>Thank you for picking this (I myself forgot about that)!</p>
-    <p>Let me know about any problem being raised in the tests that you
-      mentioned you will do for this patch.<br>
-    </p>
-    <p><br>
-    </p>
-    <p>Best regards,<br>
-      Liav<br>
-    </p>
-  </body>
-</html>
 
