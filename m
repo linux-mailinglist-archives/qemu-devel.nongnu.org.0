@@ -2,109 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A6E67183F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 10:54:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B198671854
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 10:58:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI59T-00017g-1f; Wed, 18 Jan 2023 04:54:39 -0500
+	id 1pI5Co-00026l-Hc; Wed, 18 Jan 2023 04:58:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pI59L-0000tq-P4; Wed, 18 Jan 2023 04:54:32 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pI59J-0005Mc-BV; Wed, 18 Jan 2023 04:54:31 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30I8CLMU027698; Wed, 18 Jan 2023 09:54:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=G8GESOAdrRjdUmpGxaMVbsEmzn8nQvWNQ3bad9m+swE=;
- b=oWNSGHGuQaIzUIE8HvPCoH9JPq3ZHv8ZbKYNUpoegpqt59TEHShp+ywddKsI7e9wvcST
- ppmAltYQwfbHRwMxAPaPTMhlbDcB58r+Y4UCCtwdZIt9dr7yFTKgB0H1DmLkLoGjqoqo
- vfGa8T/RKsDYY15npFXlFBz+AcsbGlzNI797IxlQmlCegkYeaBEsuLC1USJXafD23ifw
- dYLvHfRHOQqClhu+ZP8lPJbvxW7uI4cg2tktmX1ObDHWdUfK1J/tkY/ITDF1IsHommf+
- YKhXFOSQ9IDuiRv70gCjksVLp0xDq8rOKjwgEfQXMogsDd601inYWotQ2y3L5cdmFwZ9 HQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6a2m63jf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 09:54:18 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30I9ruoS030796;
- Wed, 18 Jan 2023 09:54:18 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6a2m63hx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 09:54:18 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30HN0W6Z004723;
- Wed, 18 Jan 2023 09:54:16 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3n3m16n2q5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 09:54:16 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30I9sBpv39846362
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 18 Jan 2023 09:54:12 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E0ED620049;
- Wed, 18 Jan 2023 09:54:11 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E5F2B20043;
- Wed, 18 Jan 2023 09:54:10 +0000 (GMT)
-Received: from [9.171.39.117] (unknown [9.171.39.117])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 18 Jan 2023 09:54:10 +0000 (GMT)
-Message-ID: <aca908a0-e0d0-dfec-0276-b197b4fb9d3a@linux.ibm.com>
-Date: Wed, 18 Jan 2023 10:54:10 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI5Ck-00026P-Ss
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:58:02 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI5Ci-00061H-Vv
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:58:02 -0500
+Received: by mail-wr1-x432.google.com with SMTP id z5so32290012wrt.6
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 01:57:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=R8QT77dZ3pfw4hKA04pOHMh+Jd40UJVbAfmQY4bgqJo=;
+ b=YJMg8rGiwaj/K7BSuZifWIQ6qLRNaUv8cfKO7i6VgsxBSN8IwT+/HILZN+09FcTTLj
+ kyEo0das/uZvy2Lrh04YoMXcAzHLG+ahjk+oltXh5pv+78NIs57HDJN28UroXVRWwuQN
+ Lr5q5jIDA9c0zRkRAoeKFOm70Yvt7tQlSL8kvUZsifNgp2BaH0CDDn335/SgiWec2sXP
+ eehJDDOh0D0J/u0GMQw1Lipgl2Psn3+cDfWhJj4wGYpbdCRn/d1Ng6LI8KEt6TgW9JW6
+ kK1oDlhmx9iN4SYO+1nIWXfk6MkF4TElFT7HHeqM8gyPxaMUSIJ25ZtN6ybckNGwgnS6
+ SWlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=R8QT77dZ3pfw4hKA04pOHMh+Jd40UJVbAfmQY4bgqJo=;
+ b=dusWETEPQI2vrezTc+3XsSZqN43GspwDxHJAz3b2nPwhwo0RHf18RhrFtb4ODPd2Jm
+ 9tn0+LccP63HOaEodVcxaKycjMMYDsHApnLzYsI1R3R+Q82JzyqhJQOUWw9cmetKbHNb
+ tdLUrKo1O6oc6jKWp/aJnlNh6oxMajJPnfX6fx2d3enGj+pHFLcqKzyFWrB1DIpSV045
+ fr5j/Ohp7xamLoRUxYCuExXVgojvclPweeEy4Tu3lqegrRDnv+mz9iGUt2shqPD8I6Ml
+ k664tX1Pq98CztHQQmVDZ5hIuGnUS9jrLM1cbwOjiIpdjK6VaVl1AlUNwFm2S9FLYUBC
+ akUw==
+X-Gm-Message-State: AFqh2kpRx/t/+SG/tBwTRMPQ2LEkCOTLqmFw2om1AZry6l/bAwCsWdvF
+ AOEWfFIRbOvjgtXTz4xY9OSi9CksDsDbbulm
+X-Google-Smtp-Source: AMrXdXuKb996DwmjPV/72jCQKSF639awnW+n1w2ke7vX3Nk9j/ksE5yuyKWvzMjeTIoyrJ6Xog1TTA==
+X-Received: by 2002:a5d:4591:0:b0:2bc:7dec:9588 with SMTP id
+ p17-20020a5d4591000000b002bc7dec9588mr5977591wrq.54.1674035873603; 
+ Wed, 18 Jan 2023 01:57:53 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ p8-20020a5d4588000000b002bdfb97e029sm8903616wrq.19.2023.01.18.01.57.52
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 18 Jan 2023 01:57:53 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
+Subject: [PATCH v2 0/2] hw/pci-host/gt64120: Fix regression on big-endian
+ targets
+Date: Wed, 18 Jan 2023 10:57:49 +0100
+Message-Id: <20230118095751.49728-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v14 06/11] s390x/cpu topology: interception of PTF
- instruction
-Content-Language: en-US
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-7-pmorel@linux.ibm.com>
- <e27e12b2535736dcadd08a3b14caf70566487214.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <e27e12b2535736dcadd08a3b14caf70566487214.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: GuqNfQOjlRenrN9MUHqqXWH1J-v2kqQl
-X-Proofpoint-ORIG-GUID: QlWQIVpY7UvNT5ZwqK5WQOn-0Ry14j9X
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-18_04,2023-01-17_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- bulkscore=0 phishscore=0 clxscore=1015 spamscore=0 malwarescore=0
- mlxlogscore=999 lowpriorityscore=0 suspectscore=0 priorityscore=1501
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301180082
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,254 +91,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Klaus reported a regression on big-endian targets, introduced
+by commit 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using
+PCI_HOST_BRIDGE MemoryRegionOps"). Fix it and add the Klaus'
+reproducer as Avocado test.
 
+Since v1:
+- Add Klaus Tested-by tag in patch #1
+- Add parenthesis in "(v & b) ? x : y" expression
 
-On 1/16/23 19:24, Nina Schoetterl-Glausch wrote:
-> On Thu, 2023-01-05 at 15:53 +0100, Pierre Morel wrote:
->> When the host supports the CPU topology facility, the PTF
->> instruction with function code 2 is interpreted by the SIE,
->> provided that the userland hypervizor activates the interpretation
->> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
->>
->> The PTF instructions with function code 0 and 1 are intercepted
->> and must be emulated by the userland hypervizor.
->>
->> During RESET all CPU of the configuration are placed in
->> horizontal polarity.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   include/hw/s390x/cpu-topology.h    |  3 +
->>   include/hw/s390x/s390-virtio-ccw.h |  6 ++
->>   target/s390x/cpu.h                 |  1 +
->>   hw/s390x/cpu-topology.c            | 92 ++++++++++++++++++++++++++++++
->>   target/s390x/cpu-sysemu.c          | 16 ++++++
->>   target/s390x/kvm/kvm.c             | 11 ++++
->>   6 files changed, 129 insertions(+)
->>
->> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
->> index 9571aa70e5..33e23d78b9 100644
->> --- a/include/hw/s390x/cpu-topology.h
->> +++ b/include/hw/s390x/cpu-topology.h
->> @@ -55,11 +55,13 @@ typedef struct S390Topology {
->>       QTAILQ_HEAD(, S390TopologyEntry) list;
->>       uint8_t *sockets;
->>       CpuTopology *smp;
->> +    int polarity;
->>   } S390Topology;
->>   
->>   #ifdef CONFIG_KVM
->>   bool s390_has_topology(void);
->>   void s390_topology_set_cpu(MachineState *ms, S390CPU *cpu, Error **errp);
->> +void s390_topology_set_polarity(int polarity);
->>   #else
->>   static inline bool s390_has_topology(void)
->>   {
->> @@ -68,6 +70,7 @@ static inline bool s390_has_topology(void)
->>   static inline void s390_topology_set_cpu(MachineState *ms,
->>                                            S390CPU *cpu,
->>                                            Error **errp) {}
->> +static inline void s390_topology_set_polarity(int polarity) {}
->>   #endif
->>   extern S390Topology s390_topology;
->>   
->> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
->> index 9bba21a916..c1d46e78af 100644
->> --- a/include/hw/s390x/s390-virtio-ccw.h
->> +++ b/include/hw/s390x/s390-virtio-ccw.h
->> @@ -30,6 +30,12 @@ struct S390CcwMachineState {
->>       uint8_t loadparm[8];
->>   };
->>   
->> +#define S390_PTF_REASON_NONE (0x00 << 8)
->> +#define S390_PTF_REASON_DONE (0x01 << 8)
->> +#define S390_PTF_REASON_BUSY (0x02 << 8)
->> +#define S390_TOPO_FC_MASK 0xffUL
->> +void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra);
->> +
->>   struct S390CcwMachineClass {
->>       /*< private >*/
->>       MachineClass parent_class;
->> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
->> index 01ade07009..5da4041576 100644
->> --- a/target/s390x/cpu.h
->> +++ b/target/s390x/cpu.h
->> @@ -864,6 +864,7 @@ void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg);
->>   int s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t sch_id,
->>                                   int vq, bool assign);
->>   void s390_cpu_topology_reset(void);
->> +void s390_cpu_topology_set(void);
-> 
-> I don't like this name much, it's nondescript.
-> s390_cpu_topology_set_modified ?
+Philippe Mathieu-Daudé (2):
+  hw/pci-host/gt64120: Fix PCI I/O config register endianness
+  tests/avocado: Add test accessing NVMe on big-endian MIPS target
 
-yes, better.
-
-> 
->>   #ifndef CONFIG_USER_ONLY
->>   unsigned int s390_cpu_set_state(uint8_t cpu_state, S390CPU *cpu);
->>   #else
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> index 438055c612..e6b4692581 100644
->> --- a/hw/s390x/cpu-topology.c
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -97,6 +97,98 @@ static s390_topology_id s390_topology_from_cpu(S390CPU *cpu)
->>   }
->>   
->>   /**
->> + * s390_topology_set_polarity
->> + * @polarity: horizontal or vertical
->> + *
->> + * Changes the polarity of all the CPU in the configuration.
->> + *
->> + * If the dedicated CPU modifier attribute is set a vertical
->> + * polarization is always high (Architecture).
->> + * Otherwise we decide to set it as medium.
->> + *
->> + * Once done, advertise a topology change.
->> + */
->> +void s390_topology_set_polarity(int polarity)
-> 
-> I don't like that this function ignores what kind of vertical polarization is passed,
-> it's confusing.
-> That seems like a further reason to split horizontal/vertical from the entitlement.
-
-OK, you are right.
-I remove this function and put the s390_cpu_topology_set() inside the 
-handle_ptf()
-
-> 
->> +{
->> +    S390TopologyEntry *entry;
-> 
-> I also expected this function to set s390_topology.polarization, but it doesn't.
->> +
->> +    QTAILQ_FOREACH(entry, &s390_topology.list, next) {
->> +        if (polarity == S390_TOPOLOGY_POLARITY_HORIZONTAL) {
->> +            entry->id.p = polarity;
->> +        } else {
->> +            if (entry->id.d) {
->> +                entry->id.p = S390_TOPOLOGY_POLARITY_VERTICAL_HIGH;
->> +            } else {
->> +                entry->id.p = S390_TOPOLOGY_POLARITY_VERTICAL_MEDIUM;
->> +            }
->> +        }
->> +    }
->> +    s390_cpu_topology_set();
->> +}
->> +
->> +/*
->> + * s390_handle_ptf:
->> + *
->> + * @register 1: contains the function code
->> + *
->> + * Function codes 0 and 1 handle the CPU polarization.
->> + * We assume an horizontal topology, the only one supported currently
->> + * by Linux, consequently we answer to function code 0, requesting
->> + * horizontal polarization that it is already the current polarization
->> + * and reject vertical polarization request without further explanation.
-> 
-> This comment is outdated, right? Same for those in the function body.
-> 
->> + *
->> + * Function code 2 is handling topology changes and is interpreted
->> + * by the SIE.
->> + */
->> +void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
->> +{
->> +    CPUS390XState *env = &cpu->env;
->> +    uint64_t reg = env->regs[r1];
->> +    uint8_t fc = reg & S390_TOPO_FC_MASK;
->> +
->> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
->> +        s390_program_interrupt(env, PGM_OPERATION, ra);
->> +        return;
->> +    }
->> +
->> +    if (env->psw.mask & PSW_MASK_PSTATE) {
->> +        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
->> +        return;
->> +    }
->> +
->> +    if (reg & ~S390_TOPO_FC_MASK) {
->> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->> +        return;
->> +    }
->> +
->> +    switch (fc) {
->> +    case 0:    /* Horizontal polarization is already set */
->> +        if (s390_topology.polarity == S390_TOPOLOGY_POLARITY_HORIZONTAL) {
->> +            env->regs[r1] |= S390_PTF_REASON_DONE;
->> +            setcc(cpu, 2);
->> +        } else {
->> +            s390_topology_set_polarity(S390_TOPOLOGY_POLARITY_HORIZONTAL);
->> +            s390_topology.polarity = S390_TOPOLOGY_POLARITY_HORIZONTAL;
->> +            setcc(cpu, 0);
->> +        }
->> +        break;
->> +    case 1:    /* Vertical polarization is not supported */
->> +        if (s390_topology.polarity != S390_TOPOLOGY_POLARITY_HORIZONTAL) {
->> +            env->regs[r1] |= S390_PTF_REASON_DONE;
->> +            setcc(cpu, 2);
->> +        } else {
->> +            s390_topology_set_polarity(S390_TOPOLOGY_POLARITY_VERTICAL_LOW);
-> 
-> This is why I said it's confusing, nothing gets set to LOW.
-> 
->> +            s390_topology.polarity = S390_TOPOLOGY_POLARITY_VERTICAL_LOW;
-> 
-> Why LOW here?
-I wanted something not being S390_TOPOLOGY_POLARITY_HORIZONTAL and did 
-not want to define a S390_TOPOLOGY_POLARITY_VERTICAL.
-
-OK I define S390_TOPOLOGY_POLARITY_HORIZONTAL=0 and ..._VERTICAL=1
-
-
-
-> 
->> +            setcc(cpu, 0);
->> +        }
->> +        break;
->> +    default:
->> +        /* Note that fc == 2 is interpreted by the SIE */
->> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->> +    }
-> 
-> You can simplify this by doing:
-> 
-> int new_polarity;
-> switch (fc) {
-> case 0:
-> 	new_polarity = S390_TOPOLOGY_POLARITY_HORIZONTAL;
-> 	break;
-> case 1:
-> 	new_polarity = S390_TOPOLOGY_POLARITY_VERTICAL_?;
-> 	break;
-> default:
-> 	/* Note that fc == 2 is interpreted by the SIE */
-> 	s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-> 	return;
-> }
-> 
-> if same polarity:
-> 	rc done, rejected
-> else
-> 	set polarity, initiated
-> 
-> Might be a good idea to turn the polarity values into an enum.
-> 
->> +}
-> [...]
-> 
-
-Even I never really understood the added value of an enum I can do this.
-
-Thanks,
-
-regards,
-Pierre
+ hw/pci-host/gt64120.c               | 25 +++++-----------
+ tests/avocado/boot_linux_console.py | 44 +++++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+), 18 deletions(-)
 
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+2.38.1
+
 
