@@ -2,58 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D921671ACE
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 12:36:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9668671ACB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 12:36:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI6io-0004gz-Pi; Wed, 18 Jan 2023 06:35:14 -0500
+	id 1pI6iq-0004oN-Ip; Wed, 18 Jan 2023 06:35:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6iE-0004WD-BV
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:39 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pI6iO-0004Ys-2v
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:35:06 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6iB-0007Wq-Dd
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:38 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pI6iM-0007Yf-BZ
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674041673;
+ s=mimecast20190719; t=1674041684;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0WM6vwdwKTocxW97fh/iErmSQNDsEuNBSXOqq8hAftg=;
- b=CQq4lSUyIvp6gRm6IymVqe5TO9zTudfx3zZ7UPe9OBafxnrIhrIOsoOd/b+609HRj2v77d
- 3FNBdwMc3t96l6H1tBR23cHv5bkHrApyobdtst4cpKfc5R9p3NSsHFiYVJbJQACLH6GjhT
- n9neFVGYpL8phsk1VJF3zkXMAri/WUI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-468-1obymIUHPX2XQkzf_s9mKw-1; Wed, 18 Jan 2023 06:34:32 -0500
-X-MC-Unique: 1obymIUHPX2XQkzf_s9mKw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2E271C0515F;
- Wed, 18 Jan 2023 11:34:31 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.194.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 279FF492B00;
- Wed, 18 Jan 2023 11:34:31 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PULL 9/9] s390x/pv: Implement a CGS check helper
-Date: Wed, 18 Jan 2023 12:34:18 +0100
-Message-Id: <20230118113418.1650416-10-thuth@redhat.com>
-In-Reply-To: <20230118113418.1650416-1-thuth@redhat.com>
-References: <20230118113418.1650416-1-thuth@redhat.com>
+ bh=iNXhjmEs/oJtA31CqFYKIT5SGaKPkn/sjhkD4+g6BFc=;
+ b=c/w2YA1BqnmoBSZSYP+lzXvjI20lldvUbXJyuqMhy3YlS8gMRfMNT7bL5782Q7ezyDduP3
+ wTp6Unyg4h13GYx88H5evEwMtYzKvwhQPw+PXErUwtkI+vjCSqZEBUVi1VE3w/N6GTGk8r
+ vbQoKqoCfOgH9nFUQ2f6apGa275Sr+o=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-416-cpbOBJpXNKqRCAltX4i-Bg-1; Wed, 18 Jan 2023 06:34:43 -0500
+X-MC-Unique: cpbOBJpXNKqRCAltX4i-Bg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ qf20-20020a1709077f1400b0086ec9755517so6958591ejc.15
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 03:34:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iNXhjmEs/oJtA31CqFYKIT5SGaKPkn/sjhkD4+g6BFc=;
+ b=FqjP1QfbL4ayIRv02PNZBM4cgu7aeMKVQ0vp4zP1AiUQx5YPeCpQQ3+y5VYQVLpELM
+ DZ9q/YweFIDcggd5WJe3u/ZevLhbCAvn80FUocSrVbfeBTbmxtSu0Xy+RU4dg+yAp0Z1
+ kPEdnofvLnCkeLKxR4YdKy3kRo8y2TgVC4xZdsn7oh+reUxJBbgxt9/Mn9iGHCtBKSZI
+ VcufrIepiXeNONLYPHwkln+zxf5RQzhXiZk7tbq0LwITfZoAU6b39Q9KleMHlVy50zp4
+ 6a+qAxqKCBW1CCNz9dhWrAfqt0n+xMEuTO3st7ZyGzXzoJ+RhJw2I++RJ3sWu48idg0T
+ R54A==
+X-Gm-Message-State: AFqh2krzBpRHYig4ySexl7Wz0MoSNbx0w6Y/tnfpFnpDWL8DmZy097oe
+ eRFKOLV8muA6uKYWW9CEf2ZWervz4nHyjetu0QDn3EfpC5eS5wKNHedIP9JjsE+TBhoUFQa2zqu
+ 4W8J3PUnHJX906zg=
+X-Received: by 2002:a17:906:781:b0:871:8297:7576 with SMTP id
+ l1-20020a170906078100b0087182977576mr6137855ejc.26.1674041681972; 
+ Wed, 18 Jan 2023 03:34:41 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXskbg3tLY+bxFZkIBgOa/wCYUSOcrA3+w4f8EKzKci3ThYoMdrhG8NZbLzOTzTI/u8aeJCBhg==
+X-Received: by 2002:a17:906:781:b0:871:8297:7576 with SMTP id
+ l1-20020a170906078100b0087182977576mr6137823ejc.26.1674041681612; 
+ Wed, 18 Jan 2023 03:34:41 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ d9-20020a1709063ec900b007bd9e683639sm14419256ejj.130.2023.01.18.03.34.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jan 2023 03:34:40 -0800 (PST)
+Date: Wed, 18 Jan 2023 12:34:39 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, Richard Henderson
+ <richard.henderson@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Markus
+ Armbruster <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>, Marcel
+ Apfelbaum <marcel.apfelbaum@gmail.com>, Aurelien Jarno
+ <aurelien@aurel32.net>
+Subject: Re: [PATCH v3 6/7] hw/isa/isa-bus: Turn isa_build_aml() into
+ qbus_build_aml()
+Message-ID: <20230118123439.6e5c9e80@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230116152908.147275-7-shentey@gmail.com>
+References: <20230116152908.147275-1-shentey@gmail.com>
+ <20230116152908.147275-7-shentey@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,97 +107,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Cédric Le Goater <clg@redhat.com>
+On Mon, 16 Jan 2023 16:29:07 +0100
+Bernhard Beschow <shentey@gmail.com> wrote:
 
-When a protected VM is started with the maximum number of CPUs (248),
-the service call providing information on the CPUs requires more
-buffer space than allocated and QEMU disgracefully aborts :
+> Frees isa-bus.c from implicit ACPI dependency.
+>=20
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
-    LOADPARM=[........]
-    Using virtio-blk.
-    Using SCSI scheme.
-    ...................................................................................
-    qemu-system-s390x: KVM_S390_MEM_OP failed: Argument list too long
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-When protected virtualization is initialized, compute the maximum
-number of vCPUs supported by the machine and return useful information
-to the user before the machine starts in case of error.
-
-Suggested-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Cédric Le Goater <clg@redhat.com>
-Message-Id: <20230116174607.2459498-2-clg@kaod.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/s390x/pv.c | 40 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
-
-diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index 8dfe92d8df..8a1c71436b 100644
---- a/hw/s390x/pv.c
-+++ b/hw/s390x/pv.c
-@@ -20,6 +20,7 @@
- #include "exec/confidential-guest-support.h"
- #include "hw/s390x/ipl.h"
- #include "hw/s390x/pv.h"
-+#include "hw/s390x/sclp.h"
- #include "target/s390x/kvm/kvm_s390x.h"
- 
- static bool info_valid;
-@@ -249,6 +250,41 @@ struct S390PVGuestClass {
-     ConfidentialGuestSupportClass parent_class;
- };
- 
-+/*
-+ * If protected virtualization is enabled, the amount of data that the
-+ * Read SCP Info Service Call can use is limited to one page. The
-+ * available space also depends on the Extended-Length SCCB (ELS)
-+ * feature which can take more buffer space to store feature
-+ * information. This impacts the maximum number of CPUs supported in
-+ * the machine.
-+ */
-+static uint32_t s390_pv_get_max_cpus(void)
-+{
-+    int offset_cpu = s390_has_feat(S390_FEAT_EXTENDED_LENGTH_SCCB) ?
-+        offsetof(ReadInfo, entries) : SCLP_READ_SCP_INFO_FIXED_CPU_OFFSET;
-+
-+    return (TARGET_PAGE_SIZE - offset_cpu) / sizeof(CPUEntry);
-+}
-+
-+static bool s390_pv_check_cpus(Error **errp)
-+{
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+    uint32_t pv_max_cpus = s390_pv_get_max_cpus();
-+
-+    if (ms->smp.max_cpus > pv_max_cpus) {
-+        error_setg(errp, "Protected VMs support a maximum of %d CPUs",
-+                   pv_max_cpus);
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
-+static bool s390_pv_guest_check(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    return s390_pv_check_cpus(errp);
-+}
-+
- int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
- {
-     if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
-@@ -261,6 +297,10 @@ int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-         return -1;
-     }
- 
-+    if (!s390_pv_guest_check(cgs, errp)) {
-+        return -1;
-+    }
-+
-     cgs->ready = true;
- 
-     return 0;
--- 
-2.31.1
+> ---
+>  include/hw/acpi/acpi_aml_interface.h |  3 +++
+>  include/hw/isa/isa.h                 |  1 -
+>  hw/acpi/acpi_interface.c             | 10 ++++++++++
+>  hw/i386/acpi-microvm.c               |  3 ++-
+>  hw/isa/isa-bus.c                     | 10 ----------
+>  5 files changed, 15 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/include/hw/acpi/acpi_aml_interface.h b/include/hw/acpi/acpi_=
+aml_interface.h
+> index 436da069d6..11748a8866 100644
+> --- a/include/hw/acpi/acpi_aml_interface.h
+> +++ b/include/hw/acpi/acpi_aml_interface.h
+> @@ -3,6 +3,7 @@
+> =20
+>  #include "qom/object.h"
+>  #include "hw/acpi/aml-build.h"
+> +#include "hw/qdev-core.h"
+> =20
+>  #define TYPE_ACPI_DEV_AML_IF "acpi-dev-aml-interface"
+>  typedef struct AcpiDevAmlIfClass AcpiDevAmlIfClass;
+> @@ -46,4 +47,6 @@ static inline void call_dev_aml_func(DeviceState *dev, =
+Aml *scope)
+>      }
+>  }
+> =20
+> +void qbus_build_aml(BusState *bus, Aml *scope);
+> +
+>  #endif
+> diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+> index 6c8a8a92cb..25acd5c34c 100644
+> --- a/include/hw/isa/isa.h
+> +++ b/include/hw/isa/isa.h
+> @@ -86,7 +86,6 @@ bool isa_realize_and_unref(ISADevice *dev, ISABus *bus,=
+ Error **errp);
+>  ISADevice *isa_create_simple(ISABus *bus, const char *name);
+> =20
+>  ISADevice *isa_vga_init(ISABus *bus);
+> -void isa_build_aml(ISABus *bus, Aml *scope);
+> =20
+>  /**
+>   * isa_register_ioport: Install an I/O port region on the ISA bus.
+> diff --git a/hw/acpi/acpi_interface.c b/hw/acpi/acpi_interface.c
+> index c668d361f6..8637ff18fc 100644
+> --- a/hw/acpi/acpi_interface.c
+> +++ b/hw/acpi/acpi_interface.c
+> @@ -2,6 +2,7 @@
+>  #include "hw/acpi/acpi_dev_interface.h"
+>  #include "hw/acpi/acpi_aml_interface.h"
+>  #include "qemu/module.h"
+> +#include "qemu/queue.h"
+> =20
+>  void acpi_send_event(DeviceState *dev, AcpiEventStatusBits event)
+>  {
+> @@ -12,6 +13,15 @@ void acpi_send_event(DeviceState *dev, AcpiEventStatus=
+Bits event)
+>      }
+>  }
+> =20
+> +void qbus_build_aml(BusState *bus, Aml *scope)
+> +{
+> +    BusChild *kid;
+> +
+> +    QTAILQ_FOREACH(kid, &bus->children, sibling) {
+> +        call_dev_aml_func(DEVICE(kid->child), scope);
+> +    }
+> +}
+> +
+>  static void register_types(void)
+>  {
+>      static const TypeInfo acpi_dev_if_info =3D {
+> diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+> index d8a444d06c..fec22d85c1 100644
+> --- a/hw/i386/acpi-microvm.c
+> +++ b/hw/i386/acpi-microvm.c
+> @@ -26,6 +26,7 @@
+> =20
+>  #include "exec/memory.h"
+>  #include "hw/acpi/acpi.h"
+> +#include "hw/acpi/acpi_aml_interface.h"
+>  #include "hw/acpi/aml-build.h"
+>  #include "hw/acpi/bios-linker-loader.h"
+>  #include "hw/acpi/generic_event_device.h"
+> @@ -129,7 +130,7 @@ build_dsdt_microvm(GArray *table_data, BIOSLinker *li=
+nker,
+> =20
+>      sb_scope =3D aml_scope("_SB");
+>      fw_cfg_add_acpi_dsdt(sb_scope, x86ms->fw_cfg);
+> -    isa_build_aml(ISA_BUS(isabus), sb_scope);
+> +    qbus_build_aml(BUS(isabus), sb_scope);
+>      build_ged_aml(sb_scope, GED_DEVICE, x86ms->acpi_dev,
+>                    GED_MMIO_IRQ, AML_SYSTEM_MEMORY, GED_MMIO_BASE);
+>      acpi_dsdt_add_power_button(sb_scope);
+> diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+> index 1bee1a47f1..f155b80010 100644
+> --- a/hw/isa/isa-bus.c
+> +++ b/hw/isa/isa-bus.c
+> @@ -24,7 +24,6 @@
+>  #include "hw/sysbus.h"
+>  #include "sysemu/sysemu.h"
+>  #include "hw/isa/isa.h"
+> -#include "hw/acpi/acpi_aml_interface.h"
+> =20
+>  static ISABus *isabus;
+> =20
+> @@ -188,15 +187,6 @@ ISADevice *isa_vga_init(ISABus *bus)
+>      }
+>  }
+> =20
+> -void isa_build_aml(ISABus *bus, Aml *scope)
+> -{
+> -    BusChild *kid;
+> -
+> -    QTAILQ_FOREACH(kid, &bus->parent_obj.children, sibling) {
+> -        call_dev_aml_func(DEVICE(kid->child), scope);
+> -    }
+> -}
+> -
+>  static void isabus_bridge_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc =3D DEVICE_CLASS(klass);
 
 
