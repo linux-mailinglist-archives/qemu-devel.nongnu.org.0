@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D955B672004
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 15:46:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D994672010
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 15:47:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI9h7-0003oT-12; Wed, 18 Jan 2023 09:45:41 -0500
+	id 1pI9iX-0004kD-5X; Wed, 18 Jan 2023 09:47:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pI9gw-0003hs-6i
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 09:45:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pI9iU-0004hi-SK
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 09:47:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pI9gu-0004OQ-Pz
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 09:45:29 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pI9iT-0004h1-7U
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 09:47:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674053128;
+ s=mimecast20190719; t=1674053224;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EmedLJLUdlRn88yHz1n1e9WByueB3goMrDIQ7EBV3XY=;
- b=i56DK+UU+Cwhqrn5UcRI8twQLWpEfarV62aR8cUDRCY6TbwVZkPIZCz9AYqLr3uUtgosD3
- +SRp6fz6WhEZzVg2ay1jeznaS7BXHz7eKho6TV4w+mLCic7aSq8Xw7iRESLS9d3mknq2R6
- Pg8mC37eL42jcOfOkrYDMc6ebHNGC3o=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wsZIPCB2o2VdoB/N6gZW/7xpCToYgXucMg27FF2lsRg=;
+ b=dPt1CcvsgSOjT4dBUFMlZECtoE9RqyGZcHBhDSoeLLQn3KhdWJqwKr4g8YH/UweV3y99Lq
+ Dwzv9P9uQEdQnWF4fymLdOJA9YEIrLcF+oB10cmSnhfWqhYsBk61M1ZzxPaIlj6pzA0/5Y
+ 3X1jiG3D8oeRyNxG0dAKkhCYkPQ1WAo=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-14-5RyAh2vDMeS4RmO6lcFPFQ-1; Wed, 18 Jan 2023 09:45:26 -0500
-X-MC-Unique: 5RyAh2vDMeS4RmO6lcFPFQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- y21-20020a056402359500b0049e171c4ad0so6442377edc.6
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 06:45:26 -0800 (PST)
+ us-mta-217-NmhTcpoNPt2fca-k8E4EPA-1; Wed, 18 Jan 2023 09:46:55 -0500
+X-MC-Unique: NmhTcpoNPt2fca-k8E4EPA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ qa18-20020a170907869200b007df87611618so23809056ejc.1
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 06:46:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EmedLJLUdlRn88yHz1n1e9WByueB3goMrDIQ7EBV3XY=;
- b=FftHyB/7xilHGb7jTFnbxKFNrx6pBcB2XzK04THbdhextAm027WAdgNbi4+hx0mpcM
- iHp7G519y7wWwR3IRCroyWtZA8/nfMAJuHJT2YsKpi54mO/vVTfYASl1HK75RAErbBvX
- K5wFEHkHiviowyRcg7EblXnsly7S9Zd7g4lL9lDk5i7x+WtbN2wqJE0z9nijaqEFzfDd
- TpdCnh8F7w0WYN4lG1YmWyVEnVSR4XjQmpQSxN4bM4C+sV+HvB1r70tLYiP+X1ct1bkz
- t1JdIE4L3QGF/xRb89+2MNOF4Q0duDOZPlAc140ONnLaqypPYKS6Xu9JtCkCkLDALPWp
- 6Y2Q==
-X-Gm-Message-State: AFqh2kpBMQzg8xrnJtl30GobO35zwkbDjUdorm4lPZlyEmcJiZhw+/nR
- 7xLKs9Z/mncTPL5EwkdFB1iHZa7SURM7fQJ9aLeh23CAZCCRUFwyayrTzKaWOXyME7+f9UNtxmL
- 3jZFx+50n0H3tdHE=
-X-Received: by 2002:a17:906:99d1:b0:845:bb21:f638 with SMTP id
- s17-20020a17090699d100b00845bb21f638mr7693851ejn.75.1674053124719; 
- Wed, 18 Jan 2023 06:45:24 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXv461qzP5wHWnbaw6XXdefIZ2D/7T4TLLIQwRP2BfeWEp6UcILpvZC4o5/6rj016F681n5FLA==
-X-Received: by 2002:a17:906:99d1:b0:845:bb21:f638 with SMTP id
- s17-20020a17090699d100b00845bb21f638mr7693822ejn.75.1674053124330; 
- Wed, 18 Jan 2023 06:45:24 -0800 (PST)
+ bh=wsZIPCB2o2VdoB/N6gZW/7xpCToYgXucMg27FF2lsRg=;
+ b=QR2CffdY0vU9tjEvF2EZtndhJAkadOXRgkkO5XYHUQ7k8zXBdRHukImbfhwbP2/oka
+ BhL8pFrS8t3bWapfhIlEDuyPuUCe3eWP3KbfrqUTylkl1uS0f1ce6W+KNtynKfrnC+m8
+ 5BQujnVr/eQ15flqjxK0oIn65rW3glld+J6d1y0WYvGfLR7Z+sB8+nbw5HzPNX+J8GnA
+ HiM6QGk/QXXKZ++0cyPgVY5FHRRM/tCcP4R14zS9xqImPxMiCKAYzkTuuTmunCyzhN7Y
+ vRvk6Xc/Zk1r6ikEr0DdummKrF9vu01j6Lg/hwlO9hff1xuVk5+dYFLs3P6J2gs40V2R
+ wozQ==
+X-Gm-Message-State: AFqh2krLVPvZS9LZ6G7jTTuCOUsCpYEeoaTdRKMQlnH2tGBHSu+e7D0L
+ UE7U4DV6edoPcmAffB8K9KlxqMytXAJULUnEfK+uvBMrDKhgOjc6r1hx1vj5x48N2DT+AqfsBwC
+ osZjW9CMl3xWFsEw=
+X-Received: by 2002:a17:906:1851:b0:86e:4067:b699 with SMTP id
+ w17-20020a170906185100b0086e4067b699mr9637619eje.4.1674053214478; 
+ Wed, 18 Jan 2023 06:46:54 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsgyTCMdhRBNsq/HgiHf9G6A/C4THFqL2OPcOhJVSlFOxkWsLiWwCNmfQ8SwR4BRrMiZKVaxQ==
+X-Received: by 2002:a17:906:1851:b0:86e:4067:b699 with SMTP id
+ w17-20020a170906185100b0086e4067b699mr9637596eje.4.1674053214298; 
+ Wed, 18 Jan 2023 06:46:54 -0800 (PST)
 Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
  ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
  by smtp.gmail.com with ESMTPSA id
- 18-20020a170906201200b00846734faa9asm14618835ejo.164.2023.01.18.06.45.22
+ 17-20020a170906059100b007c16f120aacsm14641561ejn.121.2023.01.18.06.46.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 06:45:23 -0800 (PST)
-Message-ID: <0f329372-e2e1-50c2-46a3-64ab6db4f5f4@redhat.com>
-Date: Wed, 18 Jan 2023 15:45:21 +0100
+ Wed, 18 Jan 2023 06:46:53 -0800 (PST)
+Message-ID: <130ba67b-e954-0785-72c7-594ef12d2862@redhat.com>
+Date: Wed, 18 Jan 2023 15:46:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v8 07/11] parallels: Move check of cluster outside image
- to a separate function
+Subject: Re: [PATCH v8 11/11] parallels: Incorrect condition in out-of-image
+ check
 Content-Language: en-US
 To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, den@virtuozzo.com, stefanha@redhat.com,
  vsementsov@yandex-team.ru, kwolf@redhat.com
 References: <20230115155821.1534598-1-alexander.ivanov@virtuozzo.com>
- <20230115155821.1534598-8-alexander.ivanov@virtuozzo.com>
+ <20230115155821.1534598-12-alexander.ivanov@virtuozzo.com>
 From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <20230115155821.1534598-8-alexander.ivanov@virtuozzo.com>
+In-Reply-To: <20230115155821.1534598-12-alexander.ivanov@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -104,60 +104,33 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 15.01.23 16:58, Alexander Ivanov wrote:
-> We will add more and more checks so we need a better code structure
-> in parallels_co_check. Let each check performs in a separate loop
-> in a separate helper.
+> All the offsets in the BAT must be lower than the file size.
+> Fix the check condition for correct check.
 >
 > Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 > Reviewed-by: Denis V. Lunev <den@openvz.org>
 > ---
->   block/parallels.c | 59 ++++++++++++++++++++++++++++++++++-------------
->   1 file changed, 43 insertions(+), 16 deletions(-)
+>   block/parallels.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/block/parallels.c b/block/parallels.c
-> index d48b447cca..3d06623355 100644
+> index 621dbf623a..eda3fb558d 100644
 > --- a/block/parallels.c
 > +++ b/block/parallels.c
-
-[...]
-
-> @@ -469,19 +511,6 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
->               continue;
->           }
->   
-> -        /* cluster outside the image */
+> @@ -455,7 +455,7 @@ static int parallels_check_outside_image(BlockDriverState *bs,
+>       high_off = 0;
+>       for (i = 0; i < s->bat_size; i++) {
+>           off = bat2sect(s, i) << BDRV_SECTOR_BITS;
 > -        if (off > size) {
-> -            fprintf(stderr, "%s cluster %u is outside image\n",
-> -                    fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR", i);
-> -            res->corruptions++;
-> -            if (fix & BDRV_FIX_ERRORS) {
-> -                parallels_set_bat_entry(s, i, 0);
-> -                res->corruptions_fixed++;
-> -            }
-> -            prev_off = 0;
-> -            continue;
-> -        }
-> -
->           res->bfi.allocated_clusters++;
->           if (off > high_off) {
->               high_off = off;
+> +        if (off >= size) {
 
-parallels_co_check() keeps the `high_off` variable, and now it is also 
-bumped for clusters that are outside the image.  This seems to go 
-against patch 2’s intentions.
-
-Consider an image whose file length is larger than all of its clusters 
-need (i.e. there’s leaked space), except for one cluster, which is 
-beyond the EOF.  This one cluster is considered an error (because it’s 
-outside the image).  Before this patch, we would have truncated the 
-image’s file length to match all the other non-error clusters (and drop 
-the leaked space).  With this patch, the error cluster, if it wasn’t 
-fixed by parallels_check_outside_image(), the image’s file length is no 
-longer truncated.  Basically, this seems to restore the behavior from 
-before patch 2.
-
-Was this intentional?
+Should this not be the even stricter `off + s->cluster_size > size` 
+instead, or is it possible to have partial clusters at the image end?
 
 Hanna
+
+>               fprintf(stderr, "%s cluster %u is outside image\n",
+>                       fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR", i);
+>               res->corruptions++;
 
 
