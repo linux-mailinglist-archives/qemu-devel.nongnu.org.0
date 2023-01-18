@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BCD4671C6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:45:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73ECA671C82
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:47:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI7nW-0006IW-VY; Wed, 18 Jan 2023 07:44:11 -0500
+	id 1pI7pl-0000WX-Tc; Wed, 18 Jan 2023 07:46:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pI7nS-0006Gw-6C
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:44:08 -0500
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pI7pi-0000V9-9a; Wed, 18 Jan 2023 07:46:26 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pI7nQ-0006vb-HX
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:44:05 -0500
-Received: by mail-ot1-x334.google.com with SMTP id
- cm26-20020a056830651a00b00684e5c0108dso5839292otb.9
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 04:44:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=izrPO1t7qk2QErTGet6agoTah6eGiWvkSVHu+2Q1hXw=;
- b=kT040hH5gk22DsJypcyf/7mc5DmGDQKPxUW6VbGXXjD7AIbnfCoK5iQzfj0CMYYg6Y
- Y2gJsj+ULSBh3iRTonB7n6hnbwJd27f//sd29kgKLwsIZb4Uu6cKtn+HO1HWW/oDvmOD
- i6RLQ0/Z6EMOP8fTFokDaq6ibiX6av7uG5PIGNxS9Q3u4x6enUx2u5LPHOxewMdEzCWT
- k+37pcXyTvE6rYAUGjpdvY9MZ7IPS/rwyGBrp3nR7MI0AA59ezUQorMklQspCvMkMwLG
- sUFHiqynWwWZcUifa+l/LZBRotBSx3pReVNHBQV8kSNwDw+oI+fhfiN20zBALeAUHZHf
- 5A1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=izrPO1t7qk2QErTGet6agoTah6eGiWvkSVHu+2Q1hXw=;
- b=LD6FC0tyy44A2tO9fGrlgETs7d09OATx9VSPuSWGIC+0n5s6saRjq0x2RPw2recERQ
- DLtNnhJNEN8e950bWZB3V68Roe98hzn2guINM2FMLFfSiZ74yDS3vYJ+s5o/Pt/nKKEP
- gjZ3piVQG4NvaoDUakl/tuQNA3wsWUgO5stp3xtM/i7AcVVCkb3K2YRZafMQBp41A2Za
- cCgU6IFwxqkYPpcYifK0eJFNz4v8pOaQ1bjn1C+nwt6wC3RuiCzKXwcO5OvTNsfMk9Yb
- lqA7A7GdSZruUfA+31MIz9lhwUHLaWVT1+JzoSHt1KZgvxV3I+BjMtRoT3avE2LlRkSr
- 6K3g==
-X-Gm-Message-State: AFqh2koZOpcskYvYmuyHWDOczBHnBI/G1wZnhZZwQCR/TmOlYm3Ekqeo
- S9cY1+MsL9wJwZ3VGWCX+Uvw0EYjfM68Z7kX39U=
-X-Google-Smtp-Source: AMrXdXvB5Eq4MH7x3lcIFkcfnnoKnHrYFADRYpWQKvOGS2tHhQCUF+okoymMTtzTvJx7xwdr5dNYgg==
-X-Received: by 2002:a9d:7849:0:b0:684:98c9:36ea with SMTP id
- c9-20020a9d7849000000b0068498c936eamr3640134otm.2.1674045842655; 
- Wed, 18 Jan 2023 04:44:02 -0800 (PST)
-Received: from grind.. ([191.17.222.2]) by smtp.gmail.com with ESMTPSA id
- cb2-20020a056830618200b0068460566f4bsm18158432otb.30.2023.01.18.04.44.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 04:44:02 -0800 (PST)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH 3/3] avocado_qemu: add AVOCADO_DEFAULT_MACHINE
-Date: Wed, 18 Jan 2023 09:43:48 -0300
-Message-Id: <20230118124348.364771-4-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230118124348.364771-1-dbarboza@ventanamicro.com>
-References: <20230118124348.364771-1-dbarboza@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pI7pg-0007Yt-Mf; Wed, 18 Jan 2023 07:46:26 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C2B483F6B3;
+ Wed, 18 Jan 2023 12:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1674045982; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CzzW5KC7SS4dxc5epZcneRLL0zjUBBAQSWbpXhTvOxo=;
+ b=cR8Bf1I8+gF6myx0UIl0ShbgnVFi/zFalEBUXdf1NOBwrdKwcel0Jzam2N3rKYeBKvfkKF
+ /6+RDh+ADjHbSgLhL2iuAXgDH776B2/q32a5iBI0Z14SZuyH+3KOv2etJvusaYY10Sh7OB
+ XPUYYkKf6ZRRhwsPR9GIYFV6w8vqVTE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1674045982;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CzzW5KC7SS4dxc5epZcneRLL0zjUBBAQSWbpXhTvOxo=;
+ b=Up3iUQcFe7cy5XXLrjUrrMn5rYlLSN6iIJT6K7cJD2hJaKyrrECnARpDwdpXNxZ8bKklRt
+ CZlDOMmh6qruxPBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 509A7138FE;
+ Wed, 18 Jan 2023 12:46:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id dP7MBh7qx2OAJwAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 18 Jan 2023 12:46:22 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Alex =?utf-8?Q?Benn?=
+ =?utf-8?Q?=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
+Subject: Re: [RFC PATCH v3 18/28] target/arm: Move common cpu code into cpu.c
+In-Reply-To: <d1edb6d0-2bb9-4923-ea0f-378b6f944fed@linaro.org>
+References: <20230113140419.4013-1-farosas@suse.de>
+ <20230113140419.4013-19-farosas@suse.de>
+ <d1edb6d0-2bb9-4923-ea0f-378b6f944fed@linaro.org>
+Date: Wed, 18 Jan 2023 09:46:19 -0300
+Message-ID: <87h6woc8o4.fsf@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,59 +87,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Allow users to control which machine to use in tests where no particular
-machine is specified. This is a good way to run tests in a machine
-that's not the arch default, e.g. for qemu-system-x86_64 tests can be
-run using a machine other than pc-i440fx.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-This env var has greater effect when used together with the recently
-added AVOCADO_DEFAULT_ARCH, allowing full control of what the tests
-should use if no default arch/machine is given. In this example, a
-check-avocado run will use the RISC-V 'virt' machine if no default
-arch/machine is set:
+> On 1/13/23 06:04, Fabiano Rosas wrote:
+>> The cpu_tcg.c file about to be moved into the tcg directory. Move the
+>> code that is needed for cpus that also work with KVM into cpu.c.
+>> 
+>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>> ---
+>>   target/arm/cpu.c     | 76 +++++++++++++++++++++++++++++++++++++++++++
+>>   target/arm/cpu_tcg.c | 77 --------------------------------------------
+>>   2 files changed, 76 insertions(+), 77 deletions(-)
+>
+> Actually, not true.  This is tcg-only.  As is the bulk of aarch64_max_initfn from which 
+> this is called -- note the first 4 lines of that function:
+>
+>      if (kvm_enabled() || hvf_enabled()) {
+>          /* With KVM or HVF, '-cpu max' is identical to '-cpu host' */
+>          aarch64_host_initfn(obj);
+>          return;
+>      }
+>
+> Thus the rest of the function is only reachable for tcg.
 
-AVOCADO_DEFAULT_ARCH=riscv64 AVOCADO_DEFAULT_MACHINE=virt make check-avocado
+Sigh... It seems it's not that simple:
 
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
----
- docs/devel/testing.rst                 | 8 +++++---
- tests/avocado/avocado_qemu/__init__.py | 3 +++
- 2 files changed, 8 insertions(+), 3 deletions(-)
+We can currently have a QEMU invocation with "-accel qtest -cpu max" and
+no other accelerator. Currently, it falls into this implicit else
+branch. So this is actually "else if (tcg_enabled() || qtest_enabled())".
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 95d0a3e626..128b6ae964 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -1178,9 +1178,11 @@ The machine type that will be set to all QEMUMachine instances created
- by the test.
- 
- The ``machine`` attribute will be set to the test parameter of the same
--name.  If one is not given explicitly, it will either be set to
--``None``, or, if the test is tagged with one (and only one)
--``:avocado: tags=machine:VALUE`` tag, it will be set to ``VALUE``.
-+name.  If one is not given explicitly, an env variable
-+AVOCADO_DEFAULT_MACHINE can be used as default value if set.  Otherwise
-+it will either be set to ``None``, or, if the test is tagged with one
-+(and only one) ``:avocado: tags=machine:VALUE`` tag, it will be set to
-+``VALUE``.
- 
- qemu_bin
- ''''''''
-diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-index bc42985cbb..75eaaa9265 100644
---- a/tests/avocado/avocado_qemu/__init__.py
-+++ b/tests/avocado/avocado_qemu/__init__.py
-@@ -282,6 +282,9 @@ def setUp(self):
-         self.machine = self.params.get('machine',
-                                        default=self._get_unique_tag_val('machine'))
- 
-+        if self.machine is None:
-+            self.machine = os.getenv('AVOCADO_DEFAULT_MACHINE')
-+
-     def require_accelerator(self, accelerator):
-         """
-         Requires an accelerator to be available for the test to continue
--- 
-2.39.0
+If I move the "TCG-only" code under CONFIG_TCG, the qtests that use -cpu
+max will break.
 
+So I have chosen to move the code which depends on aa32_max_features as
+you suggest into tcg/ but kept the cortex-a57 as a baseline for
+qtest. This has the effect of causing "-cpu max" for the tests to be a
+slightly different CPU depending on whether TCG is built in (which
+perhaps is ok because if the tests depended on cpu features they should
+specify an accel?).
 
