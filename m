@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A8DA6717F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 10:41:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F9C6717F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 10:41:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI4vs-0000Wb-SN; Wed, 18 Jan 2023 04:40:36 -0500
+	id 1pI4vx-0000Z3-Fk; Wed, 18 Jan 2023 04:40:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI4vq-0000Vo-8l
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:40:34 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI4vv-0000Yc-BT
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:40:39 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI4vo-0003Rm-Ir
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:40:33 -0500
-Received: by mail-wr1-x429.google.com with SMTP id k8so18800315wrc.9
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 01:40:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI4vt-0003SH-Cp
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 04:40:39 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ m5-20020a05600c4f4500b003db03b2559eso1031960wmq.5
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 01:40:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2ZyhUeFxlkrXf9d0fxIrlwxdlHgHOET5uo6IDAqGU+I=;
- b=LXkXLXrfV/kPbAWMtkHpmDhrAzW3DlMobgZvcplTuFqQIzgmZYs/5Lhoo3zxVniiy3
- AF+gh1cRMmYEOhrOeBdNom3u02t3NqW1ilcYwa5iyXPbaxxMX6+qkl3b24MLMwgsivKn
- aySAyZUHaNBJaFzomVQBjcsdiNNSFLWQwzqFKcrFG3v/2vi/IJ8GmRh+1vMniJIK2F8O
- ZetvBeBPTLCDy9iLqBeYzC5DrS2VZCNQsQwTJAK3nJyAJSPODm6pmLWRjIv041pbjgkJ
- Xm28TxpdNpqMr5pBGF30AuGs9F/Nk3E58MmUhcy6Ha3HesXzeUXGQHN5qx+DREi3WX1C
- u3IA==
+ bh=oaRo0GU0CDZsZLHw/XFQ9FNLJtHubTjXB+uAlLi3+pE=;
+ b=onxc/iPU8LZMQbgmLMnQRjSw4Hp1QElEn1awQSLfmM78cxJnDi52RzX1oxOzDTmSfC
+ FYvd8kUHEbB58sBdwr+XcgCLGqOQ34MKrJ7rCA28lc4HuX6QEX9Ax2IQ11JGyk6A7Hif
+ J8zPuTqKOH/t6n1lWbNUAtX8+WC8k/+AHCPC2ksb5h96zNqpemY5PBGDEawNrh+BtanQ
+ olPg9gV4IYZh9YRjMCgMiryrw6RuNCEGuQdLiyD16AzXZj9TDIkFswYB6WhwJ/TLReh1
+ rI66TIpjNTCnu5MoWcwKhXFGx8v+hh9lYZioyBy8nF//qa7xt4DHtXRuJ/CPD6TFpd3n
+ yc6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2ZyhUeFxlkrXf9d0fxIrlwxdlHgHOET5uo6IDAqGU+I=;
- b=IqdR65Ga2kUh2MyrwAkQW6lTfiw+otl1SPUpQCeHIKTzpF1lC870L5PLybiYSQdPvp
- BQv874CSDDRr+doUxIpGC+LyvLCtDKDneLqPlyQ706FljC8Fd1onWK8g/eiZk54869cq
- E7K08HZl+LbqKAzldG2OK+BqDU7LQjv7DC9fRymXMxtPUqscUekiQ+XI3hHPVH8j8loh
- 8l2XQF6zSoqZPIAnz+k6Tqs2dxQ89PeSCH40+p2u6peLg/rHBwLNtGk69cchUeQ0exxu
- paSNqTY0LJgXS7jDZk2wyqPAQLbx5tXp5eLesxaKBZz+sRJHFSCgC55eea3VPYWAAwpi
- hiBg==
-X-Gm-Message-State: AFqh2koyQ7InpQomSvPNGyjwhFNceZflBwGUQE/ogyWtMxVwBQUm4FE5
- Ql8a63TZbEyPU8KOx624czd2VwkWTSv5b+M8
-X-Google-Smtp-Source: AMrXdXsFa2hix52hz/b7oIsH46ozSHlMAgq5tJDbIwcduSAxxkGZNIGyseVZ4BlOFKoXYXYIvG2w4w==
-X-Received: by 2002:adf:ef11:0:b0:2bb:dd87:3485 with SMTP id
- e17-20020adfef11000000b002bbdd873485mr5463135wro.30.1674034830713; 
- Wed, 18 Jan 2023 01:40:30 -0800 (PST)
+ bh=oaRo0GU0CDZsZLHw/XFQ9FNLJtHubTjXB+uAlLi3+pE=;
+ b=fqI1fvU8MWnK9f0xAC59Y1yFOWAtJ1aAqWZnhj4ksxo2RGNl27wNgVUupq5/QGz6fS
+ QZL+MEMVoKZ3EJIFoxN284/j2S4NxNdGeGdpsGSoy8WPpoRL9LCiyyfnDp6kYaymC1LZ
+ wN0fXeErYJ04xj0WNj3BGl+PAxJHbP81PuJIPKxEWGfkmqvXqgVkTGTPZXX+kKx9GmcR
+ +EeRUe+u5VRP5Y9VrRR2UiPph4+21AkUQ+Q0uZylQTzbs7mv/KGdYqZY2IORjdfxjcNP
+ 3Iff8i5aGGqp5eHAEO1u5CxSfntXqi3zlmaT9YEOsPuk7or1dYvirXMW4krGy/hB39yU
+ v6KQ==
+X-Gm-Message-State: AFqh2krosac++yXdlmaCTre1J8g76pmaadvM8G5E89Y2RsWtIBDHf9xW
+ KZ5FUJ1mPhhj41aMNz/k7G+2GbtYBq0GqSLy
+X-Google-Smtp-Source: AMrXdXvpMcqSmcTZLgfS+bQKuoOggUxvp/r3xblXuW+wh3slZajc49i9kZT193l2R0nrLXXywBYrSg==
+X-Received: by 2002:a05:600c:502c:b0:3db:30d:deac with SMTP id
+ n44-20020a05600c502c00b003db030ddeacmr5951843wmr.1.1674034835764; 
+ Wed, 18 Jan 2023 01:40:35 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- q4-20020adfdfc4000000b002bc6c180738sm28468752wrn.90.2023.01.18.01.40.29
+ o12-20020a05600c4fcc00b003daff80f16esm1842762wmq.27.2023.01.18.01.40.34
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 18 Jan 2023 01:40:30 -0800 (PST)
+ Wed, 18 Jan 2023 01:40:35 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Beraldo Leal <bleal@redhat.com>,
@@ -59,18 +60,18 @@ Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Beraldo Leal <bleal@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Klaus Jensen <its@irrelevant.dk>, Cleber Rosa <crosa@redhat.com>
-Subject: [PATCH 1/2] hw/pci-host/gt64120: Fix PCI I/O config register
- endianness
-Date: Wed, 18 Jan 2023 10:40:22 +0100
-Message-Id: <20230118094023.49517-2-philmd@linaro.org>
+Subject: [PATCH 2/2] tests/avocado: Add test accessing NVMe on big-endian MIPS
+ target
+Date: Wed, 18 Jan 2023 10:40:23 +0100
+Message-Id: <20230118094023.49517-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230118094023.49517-1-philmd@linaro.org>
 References: <20230118094023.49517-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,73 +94,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The MByteSwap bit only affects the data register endianness,
-not the config register. Map the config register once in the
-gt64120_realize() handler, and only remap the data register
-when the mapping is updated.
+Add a Linux-boot test accessing PCI NVMe drive on big-endian MIPS:
 
-Fixes: 145e2198d7 ("gt64xxx: Endian-swap using PCI_HOST_BRIDGE MemoryRegionOps")
-Reported-by: Klaus Jensen <its@irrelevant.dk>
+$ avocado --show=app,console run -t device:nvme tests/avocado/
+   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_mips64_malta_I6400_nvme:
+  console: Linux version 6.2.0-rc4 (kbj@butter) (mips64-buildroot-linux-gnu-gcc.br_real (Buildroot 2022.11) 11.3.0, GNU ld (GNU Binutils) 2.38) #6 Tue Jan 17 18:48:25 CET 2023
+  console: CPU0 revision is: 0001a900 (MIPS I6400)
+  console: FPU revision is: 20f30300
+  console: MIPS: machine is mti,malta
+  ...
+  console: PCI host bridge to bus 0000:00
+  console: pci_bus 0000:00: root bus resource [mem 0x10000000-0x17ffffff]
+  console: pci_bus 0000:00: root bus resource [io  0x1000-0x1fffff]
+  console: pci_bus 0000:00: No busn resource found for root bus, will use [bus 00-ff]
+  console: pci 0000:00:0a.0: [8086:7110] type 00 class 0x060100
+  console: pci 0000:00:0a.1: [8086:7111] type 00 class 0x010180
+  console: pci 0000:00:0a.1: reg 0x20: [io  0x0000-0x000f]
+  console: pci 0000:00:0a.1: legacy IDE quirk: reg 0x10: [io  0x01f0-0x01f7]
+  console: pci 0000:00:0a.1: legacy IDE quirk: reg 0x14: [io  0x03f6]
+  console: pci 0000:00:0a.1: legacy IDE quirk: reg 0x18: [io  0x0170-0x0177]
+  console: pci 0000:00:0a.1: legacy IDE quirk: reg 0x1c: [io  0x0376]
+  console: pci 0000:00:0a.2: [8086:7112] type 00 class 0x0c0300
+  console: pci 0000:00:12.0: [1b36:0010] type 00 class 0x010802
+  console: pci 0000:00:12.0: reg 0x10: [mem 0x00000000-0x00003fff 64bit]
+  console: pci_bus 0000:00: busn_res: [bus 00-ff] end is updated to 00
+  console: pci 0000:00:12.0: BAR 0: assigned [mem 0x10040000-0x10043fff 64bit]
+  console: pci 0000:00:0a.1: BAR 4: assigned [io  0x1080-0x108f]
+  ...
+  console: ata_piix 0000:00:0a.1: enabling device (0000 -> 0001)
+  console: nvme nvme0: pci function 0000:00:12.0
+  console: nvme 0000:00:12.0: enabling device (0000 -> 0002)
+  console: nvme nvme0: 1/0/0 default/read/poll queues
+  console: nvme nvme0: Ignoring bogus Namespace Identifiers
+  ...
+  console: Run /sbin/init as init process
+  console: EXT4-fs (nvme0n1): re-mounted bf659b11-5a77-4ab5-a337-3d71ced26114. Quota mode: disabled.
+  ...
+  console: Welcome to Buildroot
+  console: buildroot login: root
+  ...
+  console: # reboot
+  ...
+  console: umount: devtmpfs busy - remounted read-only
+  console: EXT4-fs (nvme0n1): re-mounted bf659b11-5a77-4ab5-a337-3d71ced26114. Quota mode: disabled.
+  console: The system is going down NOW!
+  console: Requesting system reboot
+  console: reboot: Restarting system
+  PASS (11.17 s)
+  JOB TIME   : 11.91 s
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/pci-host/gt64120.c | 25 +++++++------------------
- 1 file changed, 7 insertions(+), 18 deletions(-)
+ tests/avocado/boot_linux_console.py | 44 +++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/hw/pci-host/gt64120.c b/hw/pci-host/gt64120.c
-index f226d03420..a88b59f576 100644
---- a/hw/pci-host/gt64120.c
-+++ b/hw/pci-host/gt64120.c
-@@ -320,13 +320,6 @@ static void gt64120_isd_mapping(GT64120State *s)
+diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+index 8c1d981586..176793482e 100644
+--- a/tests/avocado/boot_linux_console.py
++++ b/tests/avocado/boot_linux_console.py
+@@ -12,6 +12,7 @@
+ import lzma
+ import gzip
+ import shutil
++import time
  
- static void gt64120_update_pci_cfgdata_mapping(GT64120State *s)
- {
--    /* Indexed on MByteSwap bit, see Table 158: PCI_0 Command, Offset: 0xc00 */
--    static const MemoryRegionOps *pci_host_conf_ops[] = {
--        &pci_host_conf_be_ops, &pci_host_conf_le_ops
--    };
--    static const MemoryRegionOps *pci_host_data_ops[] = {
--        &pci_host_data_be_ops, &pci_host_data_le_ops
--    };
-     PCIHostState *phb = PCI_HOST_BRIDGE(s);
+ from avocado import skip
+ from avocado import skipUnless
+@@ -269,6 +270,49 @@ def test_mips64el_malta_5KEc_cpio(self):
+         # Wait for VM to shut down gracefully
+         self.vm.wait()
  
-     memory_region_transaction_begin();
-@@ -339,22 +332,13 @@ static void gt64120_update_pci_cfgdata_mapping(GT64120State *s)
-      * - Table 16: 32-bit PCI Transaction Endianess
-      * - Table 158: PCI_0 Command, Offset: 0xc00
-      */
--    if (memory_region_is_mapped(&phb->conf_mem)) {
--        memory_region_del_subregion(&s->ISD_mem, &phb->conf_mem);
--        object_unparent(OBJECT(&phb->conf_mem));
--    }
--    memory_region_init_io(&phb->conf_mem, OBJECT(phb),
--                          pci_host_conf_ops[s->regs[GT_PCI0_CMD] & 1],
--                          s, "pci-conf-idx", 4);
--    memory_region_add_subregion_overlap(&s->ISD_mem, GT_PCI0_CFGADDR << 2,
--                                        &phb->conf_mem, 1);
--
-     if (memory_region_is_mapped(&phb->data_mem)) {
-         memory_region_del_subregion(&s->ISD_mem, &phb->data_mem);
-         object_unparent(OBJECT(&phb->data_mem));
-     }
-     memory_region_init_io(&phb->data_mem, OBJECT(phb),
--                          pci_host_data_ops[s->regs[GT_PCI0_CMD] & 1],
-+                          s->regs[GT_PCI0_CMD] & 1 ? &pci_host_data_le_ops
-+                                                   : &pci_host_data_be_ops,
-                           s, "pci-conf-data", 4);
-     memory_region_add_subregion_overlap(&s->ISD_mem, GT_PCI0_CFGDATA << 2,
-                                         &phb->data_mem, 1);
-@@ -1207,6 +1191,11 @@ static void gt64120_realize(DeviceState *dev, Error **errp)
-                                 get_system_io(),
-                                 PCI_DEVFN(18, 0), TYPE_PCI_BUS);
- 
-+    memory_region_init_io(&phb->conf_mem, OBJECT(phb), &pci_host_conf_le_ops,
-+                          s, "pci-conf-idx", 4);
-+    memory_region_add_subregion_overlap(&s->ISD_mem, GT_PCI0_CFGADDR << 2,
-+                                        &phb->conf_mem, 1);
++    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
++    def test_mips64_malta_I6400_nvme(self):
++        """
++        :avocado: tags=arch:mips64
++        :avocado: tags=machine:malta
++        :avocado: tags=endian:big
++        :avocado: tags=cpu:I6400
++        :avocado: tags=device:nvme
++        """
++        kernel_url = ('https://github.com/birkelund/qemu-nvme-boot/'
++                      'raw/main/mips64/images/vmlinux')
++        kernel_hash = '665662d7f7b17dc261ffb0e0ff4a1a7da91de948'
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        rootfs_url = ('https://github.com/birkelund/qemu-nvme-boot/'
++                      'raw/main/mips64/images/rootfs.ext2.gz')
++        rootfs_hash = '66f5ca4ef20ab983ec424c3ed8462bab305bbb73'
++        rootfs_path_gz = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
++        rootfs_path = os.path.join(self.workdir, "rootfs.ext2")
++        archive.gzip_uncompress(rootfs_path_gz, rootfs_path)
 +
-     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
- 
-     /*
++        self.vm.set_console()
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE
++                               + 'console=ttyS0,115200 '
++                               + 'root=/dev/nvme0n1 '
++                               + 'rdinit=/sbin/init noreboot')
++        self.vm.add_args('-kernel', kernel_path,
++                         '-append', kernel_command_line,
++                         '-drive',
++                                f'file={rootfs_path},format=raw,if=none,id=d0',
++                         '-device', 'nvme,serial=default,drive=d0',
++                         '-nic', 'user,model=pcnet',
++                         '-no-reboot', '-snapshot', '-nodefaults')
++        self.vm.launch()
++        wait_for_console_pattern(self, 'Welcome to Buildroot')
++        time.sleep(0.1)
++        exec_command(self, 'root')
++        time.sleep(0.1)
++
++        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
++                                                'MIPS I6400')
++        exec_command_and_wait_for_pattern(self, 'reboot',
++                                                'reboot: Restarting system')
++
+     def do_test_mips_malta32el_nanomips(self, kernel_url, kernel_hash):
+         kernel_path_xz = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+         kernel_path = self.workdir + "kernel"
 -- 
 2.38.1
 
