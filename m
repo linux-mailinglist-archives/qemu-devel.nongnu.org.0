@@ -2,117 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F13F672204
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 16:49:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9CD672237
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 16:56:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIAg3-00022w-5Q; Wed, 18 Jan 2023 10:48:39 -0500
+	id 1pIAnP-0004zq-S8; Wed, 18 Jan 2023 10:56:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pIAfu-000202-IH; Wed, 18 Jan 2023 10:48:30 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pIAfr-0007Bl-PL; Wed, 18 Jan 2023 10:48:30 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30IDrM1l026878; Wed, 18 Jan 2023 15:48:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=NchMlj1ckhjhtBOdPVQMHQV/zKaR+7ry2beCggPwhc4=;
- b=Ig2+KiHm3TWZM6/y/OmT1Sh1cCVAO7lT2gfBFcjysCZsla7bosi++nxHEwuoEzNe38bW
- NHaEfVHK5uuPRF4OxRGjYs+XuPoVfQn4Jd++JSi3PFLko7fsfDl1S/yb6unp4G5tPx61
- 3nO/SYvKG6gknL5yBaOlCAdYuyf95IRDTkJ41SJlvihyyvxYS6T459iqsVU5t2HS/nu7
- ypZTfzgHYZU+hYksJMLPctisQCWiMqyE83N4ryzPFIRi1bHSnIjdDgvKUKX+4090RnsX
- U6eM8TF5xXz6tDWwDyE8pFCjzDN7TZrcPTk6uNHelDFLQIVNpsnv7+ROkoAgRCGtsgjv xg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6j232ysv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 15:48:16 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30IErQNp009455;
- Wed, 18 Jan 2023 15:48:16 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6j232ysc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 15:48:16 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30I66Ldc006701;
- Wed, 18 Jan 2023 15:48:14 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3n3m16m0r1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 15:48:14 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30IFmAtR45351420
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 18 Jan 2023 15:48:10 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4DD1620040;
- Wed, 18 Jan 2023 15:48:10 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D855920043;
- Wed, 18 Jan 2023 15:48:08 +0000 (GMT)
-Received: from [9.179.13.15] (unknown [9.179.13.15])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 18 Jan 2023 15:48:08 +0000 (GMT)
-Message-ID: <32cf9903-e1e6-ca38-a8f1-1e904d975cbe@linux.ibm.com>
-Date: Wed, 18 Jan 2023 16:48:08 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIAnL-0004yQ-Gl
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 10:56:11 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIAnJ-0008VE-Pe
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 10:56:11 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ c10-20020a05600c0a4a00b003db0636ff84so1892390wmq.0
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 07:56:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=u1qdT+bD22cp0eFd4eL+hwKFtJ1bVpbcvbMR2IH7Wmc=;
+ b=Sq+o5NZfQgmGcWVMwYZziLgb5G5OYUjIA5/CXO64m7u/jShvPEofEMY9r8KwkVWdid
+ ALvZSNeB4UayODPKLuIuBgm9d9otk8zVSE4YKilBoxXXazgINM3UH6GT9Il0p88WqquF
+ UzmwItbWHmw77DE34/YvKOWXdHud97wZpYzezDQCGKhCTJBN1IxhuM+UyElkVPHdnC5t
+ 0q/MiWg9UXnL4jpEAlAlxPF6C0X1ug/brc8OHYI9Ra9FGAmF51u6Fgo3jzp1Iy4oAuFa
+ jdlB2LDHnjuZkqSw7dhmVeEMwmqEMldy8nMOAnHgP6gCxAayHy+LAA0Eyrct/QSpeZA7
+ xKVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=u1qdT+bD22cp0eFd4eL+hwKFtJ1bVpbcvbMR2IH7Wmc=;
+ b=YbWraN3TZeJEbAzhQoRjjaesu4CtvZPZ+GkCXm/HiGbM6vA184SHPph86wi2JPdo/3
+ BzcsSdv3NrP9ZaNZmcjmYVE010V8QG7dKDUlLltq52n+8YjNQ+N19Fxp/2iHUmQV0vJF
+ DHSMy+zuY6aIBiqzDf7kIIGJsO7Qp8twXylOOiKRecgiwAWvhOI2oBsErx111KdpjEX7
+ WdPxeEpjF+i5XDw673jZXkWIjl/hgRIz68EcOigeletiH0569qv4voR5hIaLYq/vO4bI
+ 60Qinyx8nTbxTOybcCPa8iQRwkjaWrzE1Fn7xutnUpLlHicXkf9ggvoPJMVWT8Hee3Uf
+ rwxQ==
+X-Gm-Message-State: AFqh2krcOS3Z3gl0B3GhJ9cOv7jQn9oJwLOv6nGA7SeH/n2zTJPichG9
+ vy7DHIrzmlxj8mBSYMFAnhMNrA==
+X-Google-Smtp-Source: AMrXdXu07w91zOY3iE8pNQRgB+E4m8qwEaxPhNPWKm4qBNFXl5PpJKygvItSZtV6fzjpO+XEBciT4Q==
+X-Received: by 2002:a05:600c:35cf:b0:3d3:49db:d95 with SMTP id
+ r15-20020a05600c35cf00b003d349db0d95mr7207504wmq.37.1674057367664; 
+ Wed, 18 Jan 2023 07:56:07 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ p10-20020a1c544a000000b003db16770bc5sm1654373wmi.6.2023.01.18.07.56.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jan 2023 07:56:07 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B9DEB1FFB7;
+ Wed, 18 Jan 2023 15:56:06 +0000 (GMT)
+References: <20221215153036.422362-1-thuth@redhat.com>
+ <CAFEAcA_EUNGFzLh8d9631WZR+-bR8oVynBs6=FV_kmLWNx2bSg@mail.gmail.com>
+ <CAFEAcA80=+dXd5uDfSd8-sAPwbrYMqaPKhLGt7w8vh3MiQwLCQ@mail.gmail.com>
+ <43415e4f-c6bf-31c6-3a2e-cea86c511223@redhat.com>
+ <Y8Z8CJoFyxB9uHqU@redhat.com>
+ <e4fb93c6-a28d-b45c-5a7d-48d0ae33b994@redhat.com>
+User-agent: mu4e 1.9.15; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Philippe =?utf-8?Q?Mathieu-Daud?=
+ =?utf-8?Q?=C3=A9?=
+ <philmd@linaro.org>, qemu-devel@nongnu.org, Laurent Vivier
+ <lvivier@redhat.com>
+Subject: Re: float tests are too verbose (was: [PATCH v2]
+ tests/qtest/qom-test: Do not print tested properties by default)
+Date: Wed, 18 Jan 2023 15:51:36 +0000
+In-reply-to: <e4fb93c6-a28d-b45c-5a7d-48d0ae33b994@redhat.com>
+Message-ID: <87r0vrzvjd.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v14 08/11] qapi/s390/cpu topology: change-topology monitor
- command
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>
-Cc: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, hreitz@redhat.com
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-9-pmorel@linux.ibm.com>
- <72baa5b42abe557cdf123889b33b845b405cc86c.camel@linux.ibm.com>
- <cd9e0c88-c2a8-1eca-d146-3fd6639af3e7@redhat.com>
- <5654d88fb7d000369c6cfdbe0213ca9d2bfe013b.camel@linux.ibm.com>
- <91566c93-a422-7969-1f7e-80c6f3d214f1@redhat.com>
- <Y8gNo74mLXwAxVqy@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <Y8gNo74mLXwAxVqy@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: vuyK-oLaDJG_pDNHBmyj1CPIpMnstyPd
-X-Proofpoint-ORIG-GUID: OUesE0Iz423i756j9XK8ohWjy-_KVig_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-18_05,2023-01-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 phishscore=0
- clxscore=1015 priorityscore=1501 malwarescore=0 bulkscore=0 mlxscore=0
- lowpriorityscore=0 spamscore=0 suspectscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301180130
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -130,63 +106,95 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
+Thomas Huth <thuth@redhat.com> writes:
 
-On 1/18/23 16:17, Kevin Wolf wrote:
-> Am 18.01.2023 um 11:53 hat Thomas Huth geschrieben:
->> On 17/01/2023 14.31, Nina Schoetterl-Glausch wrote:
->>> On Tue, 2023-01-17 at 08:30 +0100, Thomas Huth wrote:
->>>> On 16/01/2023 22.09, Nina Schoetterl-Glausch wrote:
->>>>> On Thu, 2023-01-05 at 15:53 +0100, Pierre Morel wrote:
->>>>>> The modification of the CPU attributes are done through a monitor
->>>>>> commands.
->>>>>>
->>>>>> It allows to move the core inside the topology tree to optimise
->>>>>> the cache usage in the case the host's hypervizor previously
->>>>>> moved the CPU.
->>>>>>
->>>>>> The same command allows to modifiy the CPU attributes modifiers
->>>>>> like polarization entitlement and the dedicated attribute to notify
->>>>>> the guest if the host admin modified scheduling or dedication of a vCPU.
->>>>>>
->>>>>> With this knowledge the guest has the possibility to optimize the
->>>>>> usage of the vCPUs.
->>>>>>
->>>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>>>> ---
->> ...
->>>>>> +    s390_topology.sockets[s390_socket_nb(id)]--;
->>>>>
->>>>> I suppose this function cannot run concurrently, so the same CPU doesn't get removed twice.
->>>>
->>>> QEMU has the so-called BQL - the Big Qemu Lock. Instructions handlers are
->>>> normally called with the lock taken, see qemu_mutex_lock_iothread() in
->>>> target/s390x/kvm/kvm.c.
->>>
->>> That is good to know, but is that the relevant lock here?
->>> We don't want to concurrent qmp commands. I looked at the code and it's pretty complicated.
->>
->> Not sure, but I believe that QMP commands are executed from the main
->> iothread, so I think this should be safe? ... CC:-ing some more people who
->> might know the correct answer.
-> 
-> In general yes, QMP commands are processed one after another in the main
-> thread while holding the BQL. And I think this is the relevant case for
-> you.
-> 
-> The exception is out-of-band commands, which I think run in the monitor
-> thread while some other (normal) command could be processed. OOB
-> commands are quite limited in what they are allowed to do, though, and
-> there aren't many of them. They are mainly meant to fix situations where
-> something (including other QMP commands) got stuck.
-> 
-> Kevin
-> 
+> On 17/01/2023 11.44, Daniel P. Berrang=C3=A9 wrote:
+> ...
+>> And what i think is test float being overly verbose
+>>    >> Testing f16_le_quiet
+>>    46464 tests total.
+>>      10000
+>>      20000
+>>      30000
+>>      40000
+>>    46464 tests performed.
+>> Could be written as
+>>    >> Testing f16_le_quiet: 46464 tests total .... OK
+>> (one '.' for each 10,000 tests run, before final 'OK' is printed)
+>
+> Unfortunately, the float tests are included via a git submodule, so
+> the source code is not under our direct control here ... has anybody a
+> good idea how to get this tackled best?
 
-Thanks Kevin,
+It is under our control. It is a lightly patched version of the
+downstream testfloat package so we can patch it some more.
 
-regards,
-Pierre
--- 
-Pierre Morel
-IBM Lab Boeblingen
+That said reducing 5 lines to one is hardly a massive reduction. If we
+just stopped passing V=3D1 you would get:
+
+=E2=9E=9C  make check-softfloat
+  GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 tests/fp/berk=
+eley-softfloat-3 dtc roms/SLOF
+[1/1] Generating qemu-version.h with a custom command (wrapped by meson to =
+capture output)
+/usr/bin/python3 -B /home/alex/lsrc/qemu.git/meson/meson.py test  --no-rebu=
+ild -t 0  --num-processes 1 --print-errorlogs  --suite softfloat
+ 1/17 qemu:softfloat+softfloat-conv / fp-test-float-to-float           OK  =
+            0.02s
+ 2/17 qemu:softfloat+softfloat-conv / fp-test-int-to-float             OK  =
+            0.01s
+ 3/17 qemu:softfloat+softfloat-conv / fp-test-uint-to-float            OK  =
+            0.01s
+ 4/17 qemu:softfloat+softfloat-conv / fp-test-float-to-int             OK  =
+            0.02s
+ 5/17 qemu:softfloat+softfloat-conv / fp-test-float-to-uint            OK  =
+            0.01s
+ 6/17 qemu:softfloat+softfloat-conv / fp-test-round-to-integer         OK  =
+            0.01s
+ 7/17 qemu:softfloat+softfloat-compare / fp-test-eq_signaling          OK  =
+            0.05s
+ 8/17 qemu:softfloat+softfloat-compare / fp-test-le                    OK  =
+            0.05s
+ 9/17 qemu:softfloat+softfloat-compare / fp-test-le_quiet              OK  =
+            0.05s
+10/17 qemu:softfloat+softfloat-compare / fp-test-lt_quiet              OK  =
+            0.05s
+11/17 qemu:softfloat+softfloat-ops / fp-test-add                       OK  =
+            0.58s
+12/17 qemu:softfloat+softfloat-ops / fp-test-sub                       OK  =
+            0.59s
+13/17 qemu:softfloat+softfloat-ops / fp-test-mul                       OK  =
+            2.83s
+14/17 qemu:softfloat+softfloat-ops / fp-test-div                       OK  =
+            2.11s
+15/17 qemu:softfloat+softfloat-ops / fp-test-rem                       OK  =
+            1.27s
+16/17 qemu:softfloat+softfloat-ops / fp-test-sqrt                      OK  =
+            0.03s
+17/17 qemu:softfloat+softfloat-ops / fp-test-log2                      OK  =
+            0.02s
+
+
+Ok:                 17=20=20
+Expected Fail:      0=20=20=20
+Fail:               0=20=20=20
+Unexpected Pass:    0=20=20=20
+Skipped:            0=20=20=20
+Timeout:            0=20=20=20
+
+Full log written to /home/alex/lsrc/qemu.git/builds/all/meson-logs/testlog.=
+txt
+
+with the testlog being:
+
+wc -l meson-logs/testlog.txt
+2553 meson-logs/testlog.txt
+
+>
+>  Thomas
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
