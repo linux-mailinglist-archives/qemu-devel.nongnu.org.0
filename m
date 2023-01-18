@@ -2,152 +2,153 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BE4671342
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 06:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4D0671359
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 06:54:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI19M-0006uT-SZ; Wed, 18 Jan 2023 00:38:16 -0500
+	id 1pI1NP-0000jN-Na; Wed, 18 Jan 2023 00:52:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1pI19K-0006u6-Fo
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 00:38:14 -0500
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68])
+ id 1pI1NM-0000iz-Kw
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 00:52:44 -0500
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1pI19H-0007m6-Bb
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 00:38:14 -0500
-Received: from pps.filterd (m0127838.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30I0J15B012553; Tue, 17 Jan 2023 21:38:08 -0800
+ id 1pI1NJ-0001V8-8W
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 00:52:44 -0500
+Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30I5e9eD028945; Tue, 17 Jan 2023 21:52:38 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  h=message-id : date :
  subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=u6CD1YMiz7w+oqaesCB53fHpHIOxr3wwZck37xWC3y0=;
- b=pvGuODMS9CK9fksKrmmvw+yu99173NjznTRpvmrENbPxR+0eTCaPEQBO+VF0USnUXjPB
- BW2QC3urAgj9z8S0/VOkN+9aOAWmMncbx1AeFYGp5kS7lQEsyMrkTGSyVx+oWxbepJWD
- UwG8LJuFJcm7zCkjEJEL+pl0+XXJsIFTBr0TLMAP3T8OOsm01aEPEikr8xrqLSBlE7M6
- RovodwHgcl8ETyWUs/++xfsoRQwWnkHsUTyIfD27ZyTPRDBrrYFDnojPRNg1cx1u+LNp
- F2hNwUcuHCkI8g3/UAsooGpyOXxLGgBZyJkaJRgW5pfVlukc3jk7nIqGK4NHXOpz0T1s CA== 
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
- by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3n3vu597cr-1
+ bh=FInrzzWRdZI14eFjq4cz976ziiy/OP5gKRDPdgX2ZFg=;
+ b=1Xc3+DbVb3H8XcoDj9NOhTXXiE2LznonyxWxw5BkN8Vh/6ojDdNXrZTxHRGGhutnEx8p
+ 558xoyIG3hbBSgDJx8wNnFCoIECr+DsgBitPf4cfVAb4FPnsmlETrItNP8e/EL0HFdnQ
+ hPFqYkCKKbFl90rGjplYswm6gcit1TSwVPrZSXQYryOfdMc0Phmrj6zFUbGbCZIOnwvG
+ ipyaSJjDyLwE+DOdycW6JyTHmrKokJL94PKwz28xxWUzuY8jYyvP22v0ZGaIcNSBUSLM
+ M+ZjHu4FGVw26bJL7O4JcxtRyUGmlAbJRJ0hrmhvEOji9uEmQhmCFR4JK4C93YWh8J38 eA== 
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3n3ucq6g5b-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Jan 2023 21:38:07 -0800
+ Tue, 17 Jan 2023 21:52:38 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kpn2pc7csONJSfLhJ04tt8ZX2jHmvdEdx+ABo/Q+LB1oSIn7MuAuwLqeN2bDHlbs+0eL6VFeB7WZhTRepC+pAysm5Xf7pvbgGaSKN5eTJ2F5W96ecNXaQl63ZMoKSoOeMiTat9gu0/rC/Bax/avyPtwtvUSCzLzT2JZOkJxIcXHlg6FsZoik3iB12lvaJuB1wJ0fNOY42WFBv+PZ1aGwjxP5x2i0if/+IJfFR7LLZ3Ftm/B+f0HvPbGPRmmTNZiE5pjLgTvXuNunMrDc+AifKCTgM6aiUjb+20Th0TS8pMm+vlGD1awR/xbvqmWzddGrBTd3U9VpjY+sGlrb969Nhg==
+ b=ewAEB3vvl6g54uLG/KAt2FOjC546dgYPZqb3YnkSygPN8/6NGlsBL8cy2Y+STe7fYfjUL52m6m7W92fdkgZQU6u2Xi6/nSetb3UpkAl8nyqLGZs4Yw/64pGDbiSMX7r+LKLmLYK5lT0nhRmnACPHtDMGIH4+X7mf4wZc06V9gNwcwcBEL8cnq72oUkD0G4EoIesYN9kzfLMv1Qs+mUiYpmesuL3ba4GHOv1jIXpeG9QVoDDEkaom5Di7EGOIMsv9M0/GdGqSd6kNMqrA/Nq3prFkxQnRiSwYWT/9S1v1xpSEg1kY4TmGcTmJdjDzTyH4UwolIqovJaaRFKjia4uO5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u6CD1YMiz7w+oqaesCB53fHpHIOxr3wwZck37xWC3y0=;
- b=HuHe8VnxcS3iasuFszBHF2fg7C7xLCtZFO7nFhnNWKxVzJD7ATS1wQgGg2Il8kzW+B14RCppTNrvaLHd/XN4cg659mfa5qQYpC2Zg2mUPOeH5hyj6AYtBVF6Z5pk9L09qQdAVuB9M6SqFcn4cZG52a/SCQGlYKabR3bZcjyBDn2/GfyXl2d545HB6AvxGjR8P6ZaMkSJqk2H/QNFXqvURnAQnsNFonUayYZZklsAIBZLyMgwAmY91QUfe+W9wbN7o+Uc90vzBpWYEjkIyKbP3dTfVV7RLcMp1Sbl9JnKMYOeQR4TnnQqwd9TT3y1s4m+jUq5UU1OKQXkPCBB+8rcOQ==
+ bh=FInrzzWRdZI14eFjq4cz976ziiy/OP5gKRDPdgX2ZFg=;
+ b=S6y7M4wvOF4OK43P2ifkrWRM7m6OJKxiPPDeP1L5LMYTSeghvBqYiVxfnD55vTOJP6F5krnb9Q8szw8aOO36LRa9EX0S8E+kNFPpmsD7v3Kj39GwivH0+yZxVdG36xalnL9oRdLBWz0zmrKBaVezVuBn/R9WbQuOSbJmOF8WEgI5NeRIz9UlDuHtRUQj7q1BBuyGxZwHRevEkcIW/3uQtl6XMgULJz+p7DPGG9Jf49xua54MvOTn8w1NZIOkfAbTEBZww+FU5KeA026T6e90V9i1sw+LqfboQLBrAlu4r/sRkFqj+yjJxX4XnmgJyEYzNgyuQn6maPRurPrn8V/D2Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
  dkim=pass header.d=nutanix.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u6CD1YMiz7w+oqaesCB53fHpHIOxr3wwZck37xWC3y0=;
- b=DmXIvNM20BQqbabAQAKUzBTCVyb7R86FDyYKB+oA6r5imPUgfNF7gHgSSH2oMfktjWv1LctAGTf3zkJFbPUKRppbgkUgX8yiYWYNIVRJsAHkcIW1YEQ/7aOi87VaTEMcjwAjF89ZGm6KH/s3qPms15vaHgS93C38TrW9X1YZWEEH67qFOdhzdYndstvYlg1VGkYL63b9Y0YtD0YEueFQwBk888ndCYW7GNjgwSSpLH0gSOp1lk8YyJZI2h8AqQ4edGBzW9Kz4xsv6EJ4Vf6ojtJMz8n9LMgmd0lQlg8Fgmxpr/0vj16AUl5XSl47j+PBt9P7yhNb/+qgvkHOm6oMwg==
+ bh=FInrzzWRdZI14eFjq4cz976ziiy/OP5gKRDPdgX2ZFg=;
+ b=Lm6jhDNo6ZARjorEAJChbC2qDb60ZiGJ/qMeTROjy/5me/GHO4a/S6urkm41DVZoDmeWsjwZ90kEPCGlMwshxbJUXj/TZAhkRRV6IxudqhXzoH8U15Bga4k+8BV6jdAhFaxme+tk/MVoxV/qhtEnWXJ75kJVCFUR57Ssyo8h82ury5zi70tEFKUwrnc8m3kT94qu6VVxL9z7vAiD5qi8sgYDQHQLjFu7zj0qVAZCWaEGkgUwNxEXn+96t/mJC7yYQv/Zmhg3R3+JxAAHO8PmpRNF1cHdrcTkpmO2JVoqYppEANkhK/gaPvLY3rNt2voPSOw0ekkHmz9Xm+7uRK0myA==
 Received: from BYAPR02MB4343.namprd02.prod.outlook.com (2603:10b6:a03:57::18)
- by PH7PR02MB9049.namprd02.prod.outlook.com (2603:10b6:510:1f3::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Wed, 18 Jan
- 2023 05:38:03 +0000
+ by MW4PR02MB7428.namprd02.prod.outlook.com (2603:10b6:303:71::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.24; Wed, 18 Jan
+ 2023 05:52:36 +0000
 Received: from BYAPR02MB4343.namprd02.prod.outlook.com
  ([fe80::707d:b1c1:e895:94ac]) by BYAPR02MB4343.namprd02.prod.outlook.com
  ([fe80::707d:b1c1:e895:94ac%7]) with mapi id 15.20.5986.018; Wed, 18 Jan 2023
- 05:38:03 +0000
-Message-ID: <8f4cbaf5-2be9-68e7-1eaa-2284d4db9839@nutanix.com>
-Date: Wed, 18 Jan 2023 11:07:49 +0530
+ 05:52:36 +0000
+Message-ID: <787a413f-605a-6ca8-ee92-d1ab93a7531d@nutanix.com>
+Date: Wed, 18 Jan 2023 11:22:22 +0530
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 1/5] migration: Updated QAPI format for 'migrate' qemu
- monitor command
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
+Subject: Re: [PATCH 0/5] migration: Modified 'migrate' QAPI command for
+ migration
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
+Cc: prerna.saxena@nutanix.com, quintela@redhat.com, dgilbert@redhat.com,
  pbonzini@redhat.com, berrange@redhat.com, armbru@redhat.com,
- eblake@redhat.com, Manish Mishra <manish.mishra@nutanix.com>,
- Aravind Retnakaran <aravind.retnakaran@nutanix.com>
+ eblake@redhat.com, Aravind Retnakaran <aravind.retnakaran@nutanix.com>,
+ Manish Mishra <manish.mishra@nutanix.com>
 References: <20221226053329.157905-1-het.gala@nutanix.com>
- <20221226053329.157905-2-het.gala@nutanix.com> <Y8Z8wNPLzk5J0EFj@work-vm>
+ <114351ed-2676-d2d1-d6a6-2eb3732d1c06@suse.de>
 From: Het Gala <het.gala@nutanix.com>
-In-Reply-To: <Y8Z8wNPLzk5J0EFj@work-vm>
+In-Reply-To: <114351ed-2676-d2d1-d6a6-2eb3732d1c06@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA1P287CA0002.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a00:35::22) To BYAPR02MB4343.namprd02.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MAXPR01CA0098.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:5d::16) To BYAPR02MB4343.namprd02.prod.outlook.com
  (2603:10b6:a03:57::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR02MB4343:EE_|PH7PR02MB9049:EE_
-X-MS-Office365-Filtering-Correlation-Id: 16e9f041-1f92-4b45-9013-08daf9162ad2
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4343:EE_|MW4PR02MB7428:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5ce9988d-cbbd-4fab-9160-08daf9183358
 x-proofpoint-crosstenant: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5nXEq5w4nwK4dDOlSfNPsKTGG5JZxe4VA7ZE1IiaaSYcV1OFkeB5An9uRXUr/lQxIikaW1sBtrhxnBUNh+CNjnQai8KxNprkpbRdbsanUyJ+8BY18/xq2/OX6hd/f2Jid2uk+b55LlBp+JW/0AjqthIPjx5PzWRd+WFMfD/pL5bQmB/qv4v3q5BFPBCOdKbzOzBb4hpnerA0ectFdsAeT0+hisyP2Gj99yE0LklsGjfgEpxoLIacCQMyXP4BbahcRiNU1o8DesBQA4t0yeAlSEYTtGQ+JRBtJ7HZSzCIDGrN9rRAh2IupIE24n+w2KqXmwvS7vneVT6X2ccyLafF22P+n8bwp9TUwMSL1jqQ2upltTGZ1Ooys6Lrw7Rj8cLpwzQiGWriaBHMLJD596LqVsObI6BKu0pra9qz0GApQ8Vxoaaate+zUTT9gcfSrRnfC6mvbU42siubX5R0OMty2Hk2uzmAk1dcbI+RI2LzEo01FSVNZrRhlR8yeFmcxXzSDBP3Lmx+s3bl0ztGBWaWaUmyji+GOm1w6CNEtviEU9ACyCaAZU2/cmJYFW8Us41zKYrfgXE74WOeTYngj+6kOwcGggdD1DjTUYTUCeJ4C3ZIonNEOHDntVFIzJJOHHdtR0bKdj98eSxKsIbl5/1BPGsZ9S2pd9GUGDRI/7/X88uOt9xG+YehBbOEoyJppxMF7hmVrG3o9+QLq7ishjKeydbxKe0ill4ZYXJv9vxHAlEM6grQuuXfwKNn3WIbOuLk4Bdt0VZ6dpIk0pDG+W1oSw==
+X-Microsoft-Antispam-Message-Info: KpmDVJoRLzKYsXtCIzOtYAvC1vzMXiOrJ5nWI0fWbPSIFqiAJznkHAHpdRjAErxmwpI0F/R7qhaRHe/ZwtHP5StPWNSD8Rig9ls/FnH5vJe8eyP5fxpHUoJIvxNs9ZR2XdPUsMBJhc/OSaNkdl6iosx3LNjqIOOtQf9nChPwlq8a0IM7eR442u9hpmC0Dp+WResIyEd6Yz4b6C/82lTWVdNq9jeH9LK/Hq/axkLRBjE0X9pGKGacq5brTe2mmYZ9MURVoufTGS9ULT3Hc194RcWkShUXZQzwNA4Dw5oiM2CY5n91ROcV9WBZQzCIKCG2b7cy7SQiOohiVTIpcWqfKQdAn6JwYOyxcTGVqUKZDbNQXnBVGGAwiy5U6r/9n/6oPKlCFg8kVWZFqr/LRO9t+i+Jh1nrZZH0IsK6f/Hzwcj92YIey7jVyuzQh2dGSzXZomONdUtk590fl2hLFz19/Xm2ttveUZytVI/bbSFL9R4WijbsN6OD1wcSSc5qlr8OW7NwAiyPmtrHop8jIK5+5ljN7sdereX2x4QX8RhLvoJbCIH7n8LoimAk3cAtZAnCj6GqzS3SSRmmeQanVWJO1+yw3pzvMGHqrjnDBg+/CpNfqdLlGGSYbU1ztKXe9L5gOpKuKa0dh0i5+icA3h4xTKCw4phpnpx8DhOk562hvdR+c6kyPZmy+dBKUrBYt50wxApoJeicAgLHyULUFV9CY8EjYRfxBg+Uq+pNeA0jEjv+3Lii9SuqXnAsJBffkjKXvZwZLNTgBvZxd3mNylX6HA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR02MB4343.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(376002)(346002)(396003)(39860400002)(136003)(366004)(451199015)(83380400001)(38100700002)(38350700002)(4326008)(8936002)(31696002)(5660300002)(66556008)(44832011)(6916009)(2906002)(8676002)(66946007)(66476007)(41300700001)(6506007)(186003)(6486002)(26005)(53546011)(2616005)(6512007)(107886003)(52116002)(6666004)(54906003)(86362001)(478600001)(316002)(31686004)(36756003)(45980500001)(43740500002);
+ SFS:(13230022)(376002)(136003)(39860400002)(396003)(346002)(366004)(451199015)(38350700002)(38100700002)(31696002)(86362001)(8936002)(5660300002)(2906002)(44832011)(66946007)(66556008)(66476007)(41300700001)(8676002)(4326008)(2616005)(186003)(83380400001)(6512007)(26005)(53546011)(54906003)(107886003)(6666004)(52116002)(316002)(6506007)(478600001)(36756003)(6486002)(31686004)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d09ubDR1ekJQUkxyT1ZyTzhlZ251K05qOEU5VnVucnh4dmQyaytTRVdUdExG?=
- =?utf-8?B?cUw0RTNjbFdxQitsSFZuMlFiN1dJYjZKaHBqTG9EWFpKQ2crU1VkOHN1U2p4?=
- =?utf-8?B?YitRM1RxVlZzSFBQZDVnMHB0TmNWM0twei9XRHdjMk5LRFJKRURpeG9TZjNQ?=
- =?utf-8?B?Z2pKaUJXTG9YQ1RlNlB2QXI2L1hjT1lRam9GbGxwRHA4QVdBS0RpUmZTbitI?=
- =?utf-8?B?a2hKV28rSXMzcitQK3NZTGdPWkpNSHBFQ1hxYThCYVA1eVJ6RDRYaVBLRXFK?=
- =?utf-8?B?Vy9OaXFncnNFZUNLSjVndW9CcU1TWDVsRFpFOGZBSXlFSHNOTFJXRzdWVXhN?=
- =?utf-8?B?akdNNzB3alZwT3dWY0wyTGc0TEpycjAvUk5SYk1OMCtaeGNvR1JINGJRZStY?=
- =?utf-8?B?cWNiaE1uam00THRXemxCK0JiSStyTFI1bGIxcy9Bc0JWeVNUV0Z6ZDhIMTcr?=
- =?utf-8?B?c1l3VnFHVnF1dDNRMWFJSmZaajltNWpwRkM5NFlxZTloaWdHaFFjeUlZdWtT?=
- =?utf-8?B?UitaT1IwMFEvQmR5Y2NhYTJTSFAxSWxYZUVXd1IxNTYzRXg3U21XTW9VUVYx?=
- =?utf-8?B?OWRzWnd1ckVJa013VGpIdUF1UHRWWFpVWWdWU1BWTE1TSFlhaHBKbjhjdkMx?=
- =?utf-8?B?NWhXQzVneHgzdzdheERQZ1hlclJPSFp4d0FsTG9BRk94ZFFYckNHUFpBNzV3?=
- =?utf-8?B?NWhuUzJyVTkyZ29tNXdPNHRjNGNEbFFyQkxwY1AxK2FRYU9LcWdSakdhWnBz?=
- =?utf-8?B?UzlOUzhteUtabUZkWGJiSFd0cm9reXUxQWpEamNvQnNLUmQ0QTV0RGRHZGd6?=
- =?utf-8?B?bExuTFFPSUREUFRXcElsVHRwNnpnMWNzbFdzZWVYM1kyeTg2M2JIWkNFajlm?=
- =?utf-8?B?S1laVTQ4ZGZQRlhNZ0JjK3lIYmFSdU51ZE1uQlpuMnVlWHF2N2wzbWltSlpl?=
- =?utf-8?B?QjNRUHROR2hJQUNPTVlqWlY2bzBWa0w1SWI1QmRjdFROQjdpREdjdzhxaHo1?=
- =?utf-8?B?SmNZTHhFbWtvWW5QVEg0WlVtQlZLY2gvcXZXWkFJT0RydlI0TlVnVllSYm1R?=
- =?utf-8?B?NzFtNC9UNy8wN2Z5WXg2NFJ3R01mS0FydmpxUFExWVBpVy9sbjJqcHFjUXpC?=
- =?utf-8?B?aHFHY2x1UmFyUm1jaWlzSG1PenpUUGppUjB5Q3hGb3drekFmcmFuZjd6R2tQ?=
- =?utf-8?B?aWxrcEpwcXpzd2o2UDlDdkpEenlFWmtLM0ZXOFVObEtxd2c5T3Y4MWRWYS9k?=
- =?utf-8?B?YUNmZXB5dmJoMlhFb1UvWEgyRFhqcUxmb1pMNXM5R0VTMVd3NmlJb1YxaDVp?=
- =?utf-8?B?UU5Pc05uRXQ0eUg0OGMvb29GRUd0K0FaZ1RnS2Fac1Y2amp5U3QvSGFGc1Fz?=
- =?utf-8?B?dUd6b2dnODI0SEpKbnVhaDFUeDlHZFE5VHluQVprMUZQZkZVUU84RmpkUkU1?=
- =?utf-8?B?NUhyRWRHUTlBMm43Y283MHEvZXJVNXhKdXFuV1BzVmhyS3N3OURqNFNZa2JG?=
- =?utf-8?B?RTNiZGJzZjBYU1IzRzl1d0ZhWUg0YUNBL2ltcUtmYmQvbTBWM3FHL0FoRnBk?=
- =?utf-8?B?a2NRQVNMbjE4NEl1VEJSdzJVYUpqSUpZLzArNXFnOFI1SjRkVkhpQWRSNDhF?=
- =?utf-8?B?QzNTZ2JpNUgvYkFTdENLT296OUMrLzlDcVVtK0R4VXpxSmk4d0p0MGlLekRx?=
- =?utf-8?B?VStHbU5FUVpnRnBIV2hmQVd4VE05SDFEcmpSVVJ6L1VPQlJWclRNZkYxMFJY?=
- =?utf-8?B?Zm1hR3dwMDNvSnBMbUtidVh1Nk96WkVSUTBBWWE2bGw3Rnd1TXRjaUZVanZ0?=
- =?utf-8?B?dklUMHFTdjgxaHdOa1JxOWxrTnpoUVpmelhwTTBPZDVMYmZEZVZxOUZQeTZ6?=
- =?utf-8?B?dHl0aWpraVBNV0F2K3FETmNlMDhLU1NXdHRlRXNMQktEbXdJSHljdndKa2Jt?=
- =?utf-8?B?U2hGSTlvY3licFFFT2wza1BScWYwRXhza0VVNXc4NWpsU0JuYkRRMGtIL2RR?=
- =?utf-8?B?ZDJUemhPOFZtSE1rQkhIWWowczlhVEs2SHlIb3F5OW5nb3BpOW9wVTR2OXdO?=
- =?utf-8?B?dTZhbE9xZk9HZDcxdkVicDJoemNNVWRNNnY3azNvTUttWEJVSlljbVhlWnJZ?=
- =?utf-8?Q?9a41RsAQ0maytkvCLGdmW2JjR?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dDhWR0tJRWdmcVVMdWUrQnBOVmJvUVlWTUErTVNZK2Y4SlA3bThWUVE1N1Ro?=
+ =?utf-8?B?RFZkYWVqWkhTdERETU40blIrUDIxR2VqYVdwN3pzVVBXdlhlV21hbjVRSGYw?=
+ =?utf-8?B?TUpHeUthem1UMi9MRU13UUczU0VCczU4bllNay9GYnliZENwcEcwa1ljMHJ0?=
+ =?utf-8?B?NXlHUXRlL0UvOXE0Q0IzMXlvNHYxMmU5ZWRBUEpkL1R4cnl3VmZPaWkxZDNU?=
+ =?utf-8?B?b2FYNSthemxaSFNRaEVZWmZZS2NMMHIyTTBuY0htaUFLME5zQTZPTDFtQnFF?=
+ =?utf-8?B?WndLelg1N0VrKzNrbWRTMlF0dnp5amt1T2Z5Nm5zUVE1d0h0VlErZngwb20z?=
+ =?utf-8?B?dFE2dElDcG1EaVE5M0F0NjVpSGFuK1Z5NFJVcG5CY1YyWnFicWNTdTJBQzl4?=
+ =?utf-8?B?Y1VTaFJrZ0J3TnllR2R6QUxCM0Z3QXNlVHJTQXprOUZTR1N5WHR6dzh5VXNz?=
+ =?utf-8?B?T3loZUJna2p5TFAzdklDenI1Q3labkZZeXFZdGRZdU1KN1lVQmNyREF4bUsw?=
+ =?utf-8?B?RHNLYWt2VXBEWklLTG1KRlNDUjB1N3J1OVYrT2RaNFVESkQ1SUtXM0pXZGdR?=
+ =?utf-8?B?REFKWExXT09zZVBiQmszRDNxVHE0ZVFTclRhb3p5RnJqci93bkQ0Wk1VdE0r?=
+ =?utf-8?B?aXdsRFpjaEFkVFg4N1RTQmlaWmhldVNEdzd4N015b25xTk9OOXROb2VzWExJ?=
+ =?utf-8?B?eTR1NW44ZnVMejhNMU5rbHQ3MHFhTUNXdVNiUVpDTFNzc25hKy9sQW9tYzBI?=
+ =?utf-8?B?cDR4bWF6NG9jd252SkVLdE1NWUprQktqRVZYd08vYm1RYUtzQjJnMURBRU9U?=
+ =?utf-8?B?TDIrMU9sZ09IbXQwU3Y4anJYa3p4SlMxcGE3Wk14bEFodzhxWEZZbWN4Y28w?=
+ =?utf-8?B?b2VWOS8yRVRFU0lBNHR4YjlaendzTFQ2ZU0xRWhFeDRuaUlOajFTZVZnMHQr?=
+ =?utf-8?B?MjR2VWZwaXR1VmwxTmgvU2I0dXpnS1VNN09Pek9KOWgzams2aFFQNmFOWk5U?=
+ =?utf-8?B?U1JtVFBKY2RmNFo2RVlqZkFxL0pmYi91RHN4dzcxYThNQXU5UEswWDZEa1JG?=
+ =?utf-8?B?d0F4T0pyMHhBbHhFMHlWa05nZVFJOHdzZzg0N29vRVFxd0FvWWt1Vlp5bWZR?=
+ =?utf-8?B?ZisxTkpkeTR6VWszY3ZzU3kyRGE4U0xUYTdJaEt6NjJKQlNlMnhtNUsyaUwy?=
+ =?utf-8?B?K05zRzBtaWN3UC93SXJZSUI3Z1ROWFJHejdRUllTMFc1WmZyZmRQUzJ2RVUr?=
+ =?utf-8?B?T0NzdG56SEIrMkNXTGVXUVlHRTFrOEd2eGt0V2FBaUJON1h6MUpaeGxwaDRZ?=
+ =?utf-8?B?VHFNcHJGR0lZUTQrQ3poOStCcldRSXZ4LzI4cUlmWHpJQmQ0bktqcGRaOHdy?=
+ =?utf-8?B?U2NjZWJ6REI5YkFDQ1lyRzBHQ3ZLTllJWldZU21waFU0blg1Tk8wbmJhZmxR?=
+ =?utf-8?B?WXhrSTFvMXdMZHllRjdGS3YzZ1p2UUhnZGdvVlZ3c28xZWUwQnF6bUJCOVA5?=
+ =?utf-8?B?aGRTMVJFVklKeW16RUFoT0Vmb09WYUNva1NlMGlyMUMyQWVUZ0FYRkYrTk84?=
+ =?utf-8?B?c3FtMTVTcVlsSitNb09ZVlZUMy9wcDZJekpLSWZMZ2Z2RWNvcTZ6QWMxcE5F?=
+ =?utf-8?B?RjRraWIxTlNqLytMeGh0cEpjV2piWnZkRDdOSnVxZk5ZOFlMWFVlNVQzdEJu?=
+ =?utf-8?B?T0NvODluTXlIbHRqbGhHekJCZkE5RmY0ZzZjTXE1eHNYRFczdThMQXYwNjh2?=
+ =?utf-8?B?V3VydUlOb3RzWXNZclA5a2gvb0RZZHczM0VQREZnbjBZUE1RZUo2YWtuYnVB?=
+ =?utf-8?B?NHF3OHdIcTlQY0ZLcUZsaDY0TW1jbDdzZnM4V09XL2hYV1F2ajM2TWRlblg4?=
+ =?utf-8?B?Q2FsMTBKUWw1eVNwZk1tTEhSaFFRdWdsYXJHWEhYdUlCUjNoSFdSdUd2Nldv?=
+ =?utf-8?B?cXFVSng0VXdYbVFXVnFLWFA4UEtiNVEvaWtTdUVBdTVZWm90QmVKZFVPV0hO?=
+ =?utf-8?B?K05tTDBBaUtRTVQvQ043OEJ1T2dobTA3UlNNT0UzcEdVQVdBVzdWQ3Q3bE9C?=
+ =?utf-8?B?TkNlN3N2Ums5WTRFUFRJQVI2WUVRZlBpZ0xEKzBWajFjOFUxZDJwUVBSbWIr?=
+ =?utf-8?B?S1czY2E5dUlhbVQ2Q0pScXJ4dEZXS29BU1kzR0JOVDN6b3JPdWQvbGRodGxD?=
+ =?utf-8?B?dXc9PQ==?=
 X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16e9f041-1f92-4b45-9013-08daf9162ad2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ce9988d-cbbd-4fab-9160-08daf9183358
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4343.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2023 05:38:03.1260 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2023 05:52:36.6226 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1sMp9mmOpG/mAvwj2zQ0rPKDkO5q0+nLJxarXTLCQgG+L1alMwuCUXlGc7EbTlmCDbAX8Mk3i3QH0F2l9anWXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR02MB9049
-X-Proofpoint-ORIG-GUID: voVw0MwobM0RqWP3i1MYWiQAMNJrU9wJ
-X-Proofpoint-GUID: voVw0MwobM0RqWP3i1MYWiQAMNJrU9wJ
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9kT0G4Qg+fOtRdQyyUsNf+xYox2iStsKzeHuOB6gx5fTXCNsMZEHpLrApRnRPy9T1C2bPweAS1cl+9enS9zypA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR02MB7428
+X-Proofpoint-ORIG-GUID: ulipWJzoc96DHTvvI_mdu98FgNVWy-cr
+X-Proofpoint-GUID: ulipWJzoc96DHTvvI_mdu98FgNVWy-cr
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-01-18_01,2023-01-17_01,2022-06-22_01
 X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68; envelope-from=het.gala@nutanix.com;
- helo=mx0a-002c1b01.pphosted.com
+Received-SPF: pass client-ip=148.163.155.12; envelope-from=het.gala@nutanix.com;
+ helo=mx0b-002c1b01.pphosted.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -171,191 +172,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On 17/01/23 4:17 pm, Dr. David Alan Gilbert wrote:
-> * Het Gala (het.gala@nutanix.com) wrote:
->> From: Author Het Gala <het.gala@nutanix.com>
->>
->> Existing 'migrate' QAPI design enforces transport mechanism, ip address
->> of destination interface and corresponding port number in the form
->> of a unified string 'uri' parameter. This scheme does seem to have an issue
->> in it, i.e. double-level encoding of URIs.
->>
->> The current patch maps existing QAPI design into a well-defined data
->> structure - 'MigrateChannel' only from the design perspective. Please note that
->> the existing 'uri' parameter is kept untouched for backward compatibility.
->>
->> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
->> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
->> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
->> Signed-off-by: Het Gala <het.gala@nutanix.com>
->> ---
->>   qapi/migration.json | 121 +++++++++++++++++++++++++++++++++++++++++++-
->>   1 file changed, 119 insertions(+), 2 deletions(-)
->>
->> diff --git a/qapi/migration.json b/qapi/migration.json
->> index 88ecf86ac8..753e187ce2 100644
->> --- a/qapi/migration.json
->> +++ b/qapi/migration.json
->> @@ -1449,12 +1449,108 @@
->>   ##
->>   { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
->>   
->> +##
->> +# @MigrateTransport:
->> +#
->> +# The supported communication transport mechanisms for migration
->> +#
->> +# @socket: Supported communication type between two devices for migration.
->> +#          Socket is able to cover all of 'tcp', 'unix', 'vsock' and
->> +#          'fd' already
->> +#
->> +# @exec: Supported communication type to redirect migration stream into file.
->> +#
->> +# @rdma: Supported communication type to redirect rdma type migration stream.
->> +#
->> +# Since 8.0
->> +##
->> +{ 'enum': 'MigrateTransport',
->> +  'data': ['socket', 'exec', 'rdma'] }
->> +
->> +##
->> +# @MigrateSocketAddr:
->> +#
->> +# To support different type of socket.
->> +#
->> +# @socket-type: Different type of socket connections.
->> +#
->> +# Since 8.0
->> +##
->> +{ 'struct': 'MigrateSocketAddr',
->> +  'data': {'socket-type': 'SocketAddress' } }
->> +
->> +##
->> +# @MigrateExecAddr:
->> + #
->> + # Since 8.0
->> + ##
->> +{ 'struct': 'MigrateExecAddr',
->> +   'data' : {'exec-str': 'str' } }
->> +
->> +##
->> +# @MigrateRdmaAddr:
->> +#
->> +# Since 8.0
->> +##
->> +{ 'struct': 'MigrateRdmaAddr',
->> +   'data' : {'rdma-str': 'str' } }
->> +
->> +##
->> +# @MigrateAddress:
->> +#
->> +# The options available for communication transport mechanisms for migration
->> +#
->> +# Since 8.0
->> +##
->> +{ 'union' : 'MigrateAddress',
->> +  'base' : { 'transport' : 'MigrateTransport'},
->> +  'discriminator' : 'transport',
->> +  'data' : {
->> +    'socket' : 'MigrateSocketAddr',
->> +    'exec' : 'MigrateExecAddr',
->> +    'rdma': 'MigrateRdmaAddr' } }
->> +
->> +##
->> +# @MigrateChannelType:
->> +#
->> +# The supported options for migration channel type requests
->> +#
->> +# @main: Support request for main outbound migration control channel
->> +#
->> +# Since 8.0
->> +##
->> +{ 'enum': 'MigrateChannelType',
->> +  'data': [ 'main'] }
->> +
->> +##
->> +# @MigrateChannel:
->> +#
->> +# Information regarding migration Channel-type for transferring packets,
->> +# source and corresponding destination interface for socket connection
->> +# and number of multifd channels over the interface.
->> +#
->> +# @channeltype: Name of Channel type for transfering packet information
->> +#
->> +# @addr: SocketAddress of destination interface
->> +#
->> +# Since 8.0
->> +##
->> +{ 'struct': 'MigrateChannel',
->> +  'data' : {
->> +	'channeltype' : 'MigrateChannelType',
->> +	'addr' : 'MigrateAddress' } }
->> +
-> The presence of the channeltype field suggests you're going to try to
-> support multiple addresses; that's OK, but can you show an example of
-> how that might look in the migrate command below?
+On 17/01/23 4:22 pm, Claudio Fontana wrote:
+> Hi,
 >
-> Dave
+> On 12/26/22 06:33, Het Gala wrote:
+>> Current QAPI 'migrate' command design (for initiating a migration
+>> stream) contains information regarding different migrate transport mechanism
+>> (tcp / unix / exec), dest-host IP address, and binding port number in form of
+>> a string. Thus the design does seem to have some design issues. Some of the
+>> issues, stated below are:
+>>
+>> 1. Use of string URIs is a data encoding scheme within a data encoding scheme.
+>>     QEMU code should directly be able to work with the results from QAPI,
+>>     without resorting to do a second level of parsing (eg. socket_parse()).
+>> 2. For features / parameters related to migration, the migration tunables needs
+>>     to be defined and updated upfront. For example, 'migrate-set-capability'
+>>     and 'migrate-set-parameter' is required to enable multifd capability and
+>>     multifd-number of channels respectively. Instead, 'Multifd-channels' can
+>>     directly be represented as a single additional parameter to 'migrate'
+>>     QAPI. 'migrate-set-capability' and 'migrate-set-parameter' commands could
+>>     be used for runtime tunables that need setting after migration has already
+>>     started.
+> Is efficient and parallel migration to file of large VMs in scope for this design?
+>
+> Thanks,
+>
+> Claudio
 
-Yes Dave. Other options will be "data" (for multifd) and "post-copy" 
-(for post-copy migration).
+This patch's design right now mainly focuses on revamping the design for 
+'migrate' command.
 
-I am not very sure how will we represent "post-copy" part, but I will 
-give you an example of how "main" and "data" Channels will be 
-represented by an example below:
+In the upcomig patchset series in future, it will try to accomodate 
+multifd as a feature in the same QAPI command and try to build multiple 
+interface support on top of multifd feature. Main aim is to increase 
+network bandwidth for migration with help of multiple interface and multifd.
 
--> { "execute": "migrate",
-        "arguments": {
-             "channels": [ { 'channeltype': 'main',
-                                   'addr': {'transport': 'socket',
-                                              'socket-type': { 'type': 
-'inet',
-'host': '10.12.34.9', 'port': '1050'} }
-                                 { 'channeltype': 'data',
-                                   'addr': {'transport': 'socket',
-                                              'socket-type': { 'type': 
-'inet',
-'host': '10.12.34.92', 'port': '1234'},
-                                   'multifd-count': 5 },
-                                 { 'channeltype': 'data',
-                                   'addr': { 'transport': 'socket',
-                                               'socket-type': {'type': 
-'inet',
-'host': '0.0.0.4', 'port': '3000'},
-                                   'multifd-count': 3 } ] } }
-So, 'data' channels will be used for multi-fd conection while 'main' 
-will be used for just normal migration connection.
-This 'data' channel option has been planned with a whole different 
-patchset series in future.
-Let me know if you have any more doubts regarding this :)
->>   #
->>   # -> { "execute": "migrate", "arguments": { "uri": "tcp:0:4446" } }
->>   # <- { "return": {} }
->>   #
->> +# -> { "execute": "migrate",
->> +#      "arguments": {
->> +#          "channel": { "channeltype": "main",
->> +#                        "addr": { "transport": "socket",
->> +#                                  "socket-type": { "type': "inet',
->> +#                                                   "host": "10.12.34.9",
->> +#                                                   "port": "1050" } } } } }
->> +# <- { "return": {} }
->> +#
->> +# -> { "execute": "migrate",
->> +#      "arguments": { "channel": { "channeltype": "main",
->> +#                                  "addr": { "transport": "exec",
->> +#                                            "exec-str": "/tmp/exec" } } } }
->> +# <- { "return": {} }
->> +#
->>   ##
->>   { 'command': 'migrate',
->> -  'data': {'uri': 'str', '*blk': 'bool', '*inc': 'bool',
->> -           '*detach': 'bool', '*resume': 'bool' } }
->> +  'data': {'*uri': 'str', '*channel': 'MigrateChannel', '*blk': 'bool',
->> +           '*inc': 'bool', '*detach': 'bool', '*resume': 'bool' } }
->>   
->>   ##
->>   # @migrate-incoming:
 Regards,
-Het Gala
+Het Gala.
 
