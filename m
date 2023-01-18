@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB1B67273F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 19:41:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B6667277A
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 19:50:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIDMj-0000jn-5P; Wed, 18 Jan 2023 13:40:53 -0500
+	id 1pIDUS-0002OH-Ta; Wed, 18 Jan 2023 13:48:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pIDMU-0000g4-UB
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 13:40:41 -0500
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pIDUJ-0002Nx-TO
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 13:48:44 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pIDMT-0005kV-Gq
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 13:40:38 -0500
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pIDUI-0007B2-2T
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 13:48:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674067237;
+ s=mimecast20190719; t=1674067721;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9547UR+94HJXEOKrgHliAbt+LVTk2+ezOroM2WA4w7w=;
- b=iyGoCwsDX/NPve74LfeKZqXpuxQ4gyNGZ5FihAKCUMId6ejn4D9UQMaSaa52vvrKuxSWZX
- nnJ+liz1RZRR57Ef+LiFxry92tFZavIrci4uiISivZ0Xdj8Q6QiZ8jVH+IOVpmkwxhRXPz
- lk1XpEA9cnbu+3NSZSnT0JqcnGkIXQU=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pjJnLZX2xiPOgv75lLDyi1Y/Th228ymKSb/CUaNreac=;
+ b=JQea/FLeLfbvFLZ+HMRVyiPJmtCOFxzjIGTGcEsqqB90RkEnp00dyqSGTcmYk6IKAeNlCK
+ /hlKzF8aQMB2POKqiDNklPCcMWc1CY1h+JCvCr4m5oOCLRANFUunPjHgOrXzmprIDyz9SJ
+ tXplVeA2Dzj6ody78WYofDagQFcCG2c=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-36-jDk_54LQMKOfmoStt49k7Q-1; Wed, 18 Jan 2023 13:40:35 -0500
-X-MC-Unique: jDk_54LQMKOfmoStt49k7Q-1
-Received: by mail-qv1-f71.google.com with SMTP id
- op7-20020a056214458700b0053548eb08b8so466769qvb.10
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 10:40:35 -0800 (PST)
+ us-mta-654-v4b2PYSaOh-syGsOMDKbRw-1; Wed, 18 Jan 2023 13:48:40 -0500
+X-MC-Unique: v4b2PYSaOh-syGsOMDKbRw-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ az6-20020a05620a170600b0070689de396dso5317615qkb.18
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 10:48:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9547UR+94HJXEOKrgHliAbt+LVTk2+ezOroM2WA4w7w=;
- b=mzpyg2ieo8eVzkvQuLxidV/2g3qlPyx0cCxyCuOhoHpioLFFo8O5fa/w96YubANHZY
- K3z7fP18pcnfERLfVzfm2YGbI7qiNEOVokzbxTd1P18XJ0o0pNuhM00NJ2KdsZTdMMiG
- ue7U+Ma37aSR5fH88hpvzdoIJqS9d+u1eUTdKOUeygV+nEjm92EIamZ2VUotYIylfntE
- 4LB9Y7reIEHDMDB6bMwejyBujsKJP+5BDu8fjZvZp6NiGyx51YNS0kurb37eIspxhD08
- +TswRhhi9bw8Gja2DG0Xwhnzdc1qYoFQxG0d7BCkPqbKeyPyy6FqshamdeWPxemYZvdV
- Sxxw==
-X-Gm-Message-State: AFqh2kqdOQ9bR4o8ZaleG9fqkXnv9vylvD56ekqAbzty3Hq3NPv6PSX3
- zmEdxoc+gBU+No6fgH6/zhaNAHaO4yCyBx0tPKy64+G7sTsCIHjzFc6AuBAloBLU/SNFOWU0Nvt
- WsjC3u0h3tL/XJvk=
-X-Received: by 2002:ac8:4a83:0:b0:3b6:3024:dde1 with SMTP id
- l3-20020ac84a83000000b003b63024dde1mr9500003qtq.0.1674067235210; 
- Wed, 18 Jan 2023 10:40:35 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXurM9tA8kLR916DSAikHGeZDo0xmT6qGHR21gw+VhAtxyQ4CIe4ZsvkbGdo5anfv3uRSu5RRQ==
-X-Received: by 2002:ac8:4a83:0:b0:3b6:3024:dde1 with SMTP id
- l3-20020ac84a83000000b003b63024dde1mr9499985qtq.0.1674067234971; 
- Wed, 18 Jan 2023 10:40:34 -0800 (PST)
+ bh=pjJnLZX2xiPOgv75lLDyi1Y/Th228ymKSb/CUaNreac=;
+ b=3M8mNLzCHS6DWyVwM7mKxi+keQUHCMePVnLUtHmqo8m+Z//kDSsYwSU6ie+aZsWI4n
+ NjHxNvy4MDBLG2qp+/9ANQxUH6RGc6JLxwm3/SUHo+f7/CrSRFKd9TxsrSizY3GEGvhl
+ haQdrm31pyvTEfJpJ7TkYL6U2Dt78xL9dDXqAf04H0gj7L30Sd5eTxpEkkihpooyeJOH
+ JY65CjH+Ml2MzU78Q/rwxqz+eiqAbx3wltYMaUTw22uXkUIuK3QDLxSG+rUsDH2jyPji
+ eIJfXhVHnkyF+FsNpcJxUkMPuRd5t7gGCHlxXXnTVgrTn3ZSt1B/lHA/EHZrl//G5D72
+ izMg==
+X-Gm-Message-State: AFqh2kqrlqw+bBQx9K+eb87q6n17lcX75lsjNgodKTcylCk262UXeV2j
+ nR00FvPemJduDKHxiixN9Zq3v0P65B4UdS3AO5w87Q4pmIoPOm661KAmSEsn8G2t5aeCfqkB+e/
+ CZo3XBIAjK67MyFI=
+X-Received: by 2002:ac8:12ca:0:b0:3a8:2d6:521e with SMTP id
+ b10-20020ac812ca000000b003a802d6521emr45762789qtj.37.1674067719350; 
+ Wed, 18 Jan 2023 10:48:39 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXudXQsAmoLmeIt2mou6m55xKcHKU/lV+pef2Cg+V7Tyw+MEb4Ii4+34z7xsCRy8cFMcQ5D8aw==
+X-Received: by 2002:ac8:12ca:0:b0:3a8:2d6:521e with SMTP id
+ b10-20020ac812ca000000b003a802d6521emr45762766qtj.37.1674067719048; 
+ Wed, 18 Jan 2023 10:48:39 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
  ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
  by smtp.gmail.com with ESMTPSA id
- bz25-20020a05622a1e9900b003a591194221sm2578928qtb.7.2023.01.18.10.40.32
+ bp35-20020a05620a45a300b00705b4001fbasm7343450qkb.128.2023.01.18.10.48.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 10:40:33 -0800 (PST)
-Message-ID: <217b8c77-8f2f-b92b-1727-019ba4f348b1@redhat.com>
-Date: Wed, 18 Jan 2023 19:40:30 +0100
+ Wed, 18 Jan 2023 10:48:37 -0800 (PST)
+Message-ID: <c10df5a4-ad66-6868-3ce6-a3921a4c5727@redhat.com>
+Date: Wed, 18 Jan 2023 19:48:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
 Subject: Re: virtio-iommu issue with VFIO device downstream to a PCIe-to-PCI
  bridge: VFIO devices are not assigned any iommu group
 Content-Language: en-US
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Alex Williamson <alex.williamson@redhat.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>
 Cc: qemu list <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  "jasowang@redhat.com" <jasowang@redhat.com>
 References: <0bc2f2e5-630e-e721-254d-f224d1a3bdcd@redhat.com>
  <0eb96eb5-703d-dacd-49ff-f61e02d98eb9@redhat.com> <Y8FQ9li7gQ+bPiRe@myrica>
+ <20230113105700.2d860fbe.alex.williamson@redhat.com>
+ <Y8g0YQ4NylOUzeUW@myrica>
+ <20230118112832.261d6bea.alex.williamson@redhat.com>
 From: Eric Auger <eauger@redhat.com>
-In-Reply-To: <Y8FQ9li7gQ+bPiRe@myrica>
+In-Reply-To: <20230118112832.261d6bea.alex.williamson@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
@@ -105,40 +108,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Jean,
+Hi,
 
-On 1/13/23 13:39, Jean-Philippe Brucker wrote:
-> Hi,
+On 1/18/23 19:28, Alex Williamson wrote:
+> On Wed, 18 Jan 2023 18:03:13 +0000
+> Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
 > 
-> On Mon, Jan 09, 2023 at 10:11:19PM +0100, Eric Auger wrote:
->>> Jean, do you have any idea about how to fix that? Do you think we have a
->>> trouble in the acpi/viot setup or virtio-iommu probe sequence. It looks
->>> like virtio probe and attach commands are called too early, before the
->>> bus is actually correctly numbered.
+>> On Fri, Jan 13, 2023 at 10:57:00AM -0700, Alex Williamson wrote:
+>>> On Fri, 13 Jan 2023 12:39:18 +0000
+>>> Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+>>>   
+>>>> Hi,
+>>>>
+>>>> On Mon, Jan 09, 2023 at 10:11:19PM +0100, Eric Auger wrote:  
+>>>>>> Jean, do you have any idea about how to fix that? Do you think we have a
+>>>>>> trouble in the acpi/viot setup or virtio-iommu probe sequence. It looks
+>>>>>> like virtio probe and attach commands are called too early, before the
+>>>>>> bus is actually correctly numbered.    
+>>>>>
+>>>>> So after further investigations looks this is not a problem of bus
+>>>>> number, which is good at the time of the virtio cmd calls but rather a
+>>>>> problem related to the devfn (0 was used when creating the IOMMU MR)
+>>>>> whereas the virtio-iommu cmds looks for the non aliased devfn. With that
+>>>>> fixed, the probe and attach at least succeeds. The device still does not
+>>>>> work for me but I will continue my investigations and send a tentative fix.    
+>>>>
+>>>> If I remember correctly VIOT can deal with bus numbers because bridges are
+>>>> assigned a range by QEMU, but I haven't tested that in detail, and I don't
+>>>> know how it holds with conventional PCI bridges.  
+>>>
+>>> In my reading of the virtio-iommu spec,  
 >>
->> So after further investigations looks this is not a problem of bus
->> number, which is good at the time of the virtio cmd calls but rather a
->> problem related to the devfn (0 was used when creating the IOMMU MR)
->> whereas the virtio-iommu cmds looks for the non aliased devfn. With that
->> fixed, the probe and attach at least succeeds. The device still does not
->> work for me but I will continue my investigations and send a tentative fix.
+>> Hm, is that the virtio-iommu spec or ACPI VIOT/device tree spec?
+>> The virtio-iommu spec shouldn't refer to PCI buses at the moment. The
+>> intent is that for PCI, the "endpoint ID" passed in an ATTACH request
+>> corresponds to PCI segment and RID of PCI devices at the time of the
+>> request (so after the OS renumbered the buses). If you found something in
+>> the spec that contradicts this, it should be fixed. Note that "endpoint"
+>> is a misnomer, it can refer to PCI bridges as well, anything that can
+>> issue DMA transactions.
 > 
-> If I remember correctly VIOT can deal with bus numbers because bridges are
-> assigned a range by QEMU, but I haven't tested that in detail, and I don't
-> know how it holds with conventional PCI bridges. Do you have an example
-> command-line I could use to experiment (and the fix you're mentioning)?
+> Sorry, the ACPI spec defining the VIOT table[1]:
+> 
+> 	Each node identifies one or more devices using either their PCI
+> 	Handle or their base MMIO (Memory-Mapped I/O) address. A PCI
+> 	Handle is a PCI Segment number and a BDF (Bus-Device-Function)
+> 	with the following layout:
+> 
+> 	* Bits 15:8 Bus Number
+> 
+> 	* Bits 7:3 Device Number
+> 
+> 	* Bits 2:0 Function Number
+> 
+> 	This identifier corresponds to the one observed by the
+> 	operating system when parsing the PCI configuration space for
+> 	the first time after boot.
+> 
+>>> I noted that it specifies the
+>>> bus numbers *at the time of OS handoff*, so it essentially washes its
+>>> hands of the OS renumbering buses while leaving subtle dependencies on
+>>> initial numbering in the guest and QEMU implementations.  
+>>
+>> Yes we needed to describe in the firmware tables (device-tree and ACPI
+>> VIOT) which devices the IOMMU manages. And at the time we generate the
+>> tables, if we want to refer to PCI devices behind bridges, we can either
+>> use catch-all ranges for any possible bus numbers they will get, or
+>> initialize bus numbers in bridges and pass those to the OS.
+>>
+>> But that's only to communicate the IOMMU topology to the OS, because we
+>> couldn't come up with anything better. After it sets up PCI the OS should
+>> be able to use its own configuration of the PCI topology in virtio-iommu
+>> requests.
+> 
+> The VT-d spec[2](8.3.1) has a more elegant solution using a path
+> described in a device scope, based on a root bus number (not
+> susceptible to OS renumbering) and a sequence of devfns to uniquely
+> describe a hierarchy or endpoint, invariant of OS bus renumbering.
+> Thanks,
 
-You will find command line examples in
-
-[RFC] virtio-iommu: Take into account possible aliasing in virtio_iommu_mr()
-https://lore.kernel.org/all/20230116124709.793084-1-eric.auger@redhat.com/
-
-Please let me know if you need additional details.
+Independently on the potential issue raised by Alex about later bus
+renumbering, I observe that the VIOT content, in my case, is correct and
+properly advertises the translation of the RIDs of all my devices. So
+the iommu group topology issue I have on guest is not due to the VIOT
+ACPI table content.
 
 Eric
 > 
-> Thanks,
-> Jean
+> Alex
+> 
+> [1]https://uefi.org/specs/ACPI/6.5/05_ACPI_Software_Programming_Model.html#virtual-i-o-translation-viot-table-header
+> [2]https://cdrdv2-public.intel.com/671081/vt-directed-io-spec.pdf
 > 
 
 
