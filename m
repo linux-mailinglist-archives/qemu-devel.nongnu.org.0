@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29531671AC8
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 12:36:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D921671ACE
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 12:36:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI6ip-0004iX-62; Wed, 18 Jan 2023 06:35:15 -0500
+	id 1pI6io-0004gz-Pi; Wed, 18 Jan 2023 06:35:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6iC-0004VE-VC
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:37 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6iE-0004WD-BV
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6iB-0007Wd-7L
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:36 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pI6iB-0007Wq-Dd
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674041672;
+ s=mimecast20190719; t=1674041673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mdnZEpuoMfaGyB/okDeCbKRXA7qRtMoAtAqUKfUdOxM=;
- b=JH9IKSJlNUmwkY7w9Q/HT5iLlzUqZACCYeNv5u25qKTEJP3S+rGZiNexYKYAd30+erKVFI
- wUH8sgfE6NH40YOFj9S+nX6YKuugEZnlzslZAt9d341f7j+em38yulgAsO9yCNPZdyMt4A
- 00KPmin8xT05uTLCCjUanI3hvGSqISU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0WM6vwdwKTocxW97fh/iErmSQNDsEuNBSXOqq8hAftg=;
+ b=CQq4lSUyIvp6gRm6IymVqe5TO9zTudfx3zZ7UPe9OBafxnrIhrIOsoOd/b+609HRj2v77d
+ 3FNBdwMc3t96l6H1tBR23cHv5bkHrApyobdtst4cpKfc5R9p3NSsHFiYVJbJQACLH6GjhT
+ n9neFVGYpL8phsk1VJF3zkXMAri/WUI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-500-q7B9X7fwMCynD1pQovIWhQ-1; Wed, 18 Jan 2023 06:34:31 -0500
-X-MC-Unique: q7B9X7fwMCynD1pQovIWhQ-1
+ us-mta-468-1obymIUHPX2XQkzf_s9mKw-1; Wed, 18 Jan 2023 06:34:32 -0500
+X-MC-Unique: 1obymIUHPX2XQkzf_s9mKw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2B5B85C6E2;
- Wed, 18 Jan 2023 11:34:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2E271C0515F;
+ Wed, 18 Jan 2023 11:34:31 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.194.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0EF3D492B01;
- Wed, 18 Jan 2023 11:34:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 279FF492B00;
+ Wed, 18 Jan 2023 11:34:31 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 8/9] tests/vm/haiku.x86_64: Update the Haiku VM to Beta 4
-Date: Wed, 18 Jan 2023 12:34:17 +0100
-Message-Id: <20230118113418.1650416-9-thuth@redhat.com>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
+Subject: [PULL 9/9] s390x/pv: Implement a CGS check helper
+Date: Wed, 18 Jan 2023 12:34:18 +0100
+Message-Id: <20230118113418.1650416-10-thuth@redhat.com>
 In-Reply-To: <20230118113418.1650416-1-thuth@redhat.com>
 References: <20230118113418.1650416-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -77,55 +77,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The old Haiku VM based on Beta 3 does not work anymore since it
-fails to install the additional packages now that Beta 4 has been
-released. Thanks to Alexander von Gluck IV for providing a new
-image based on Beta 4, we can now upgrade the test image in our
-QEMU CI, too, to get this working again.
+From: Cédric Le Goater <clg@redhat.com>
 
-Note that Haiku Beta 4 apparently finally fixed the issue with
-the enumeration of the virtio-block devices (see the ticket at
-https://dev.haiku-os.org/ticket/16512 ) - the tarball disk can
-now be found at index 1 instead of index 0.
+When a protected VM is started with the maximum number of CPUs (248),
+the service call providing information on the CPUs requires more
+buffer space than allocated and QEMU disgracefully aborts :
 
-Message-Id: <20230116083014.55647-1-thuth@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+    LOADPARM=[........]
+    Using virtio-blk.
+    Using SCSI scheme.
+    ...................................................................................
+    qemu-system-s390x: KVM_S390_MEM_OP failed: Argument list too long
+
+When protected virtualization is initialized, compute the maximum
+number of vCPUs supported by the machine and return useful information
+to the user before the machine starts in case of error.
+
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Cédric Le Goater <clg@redhat.com>
+Message-Id: <20230116174607.2459498-2-clg@kaod.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/vm/haiku.x86_64 | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/s390x/pv.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/tests/vm/haiku.x86_64 b/tests/vm/haiku.x86_64
-index 29668bc272..71cf75a9a3 100755
---- a/tests/vm/haiku.x86_64
-+++ b/tests/vm/haiku.x86_64
-@@ -48,8 +48,8 @@ class HaikuVM(basevm.BaseVM):
-     name = "haiku"
-     arch = "x86_64"
+diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+index 8dfe92d8df..8a1c71436b 100644
+--- a/hw/s390x/pv.c
++++ b/hw/s390x/pv.c
+@@ -20,6 +20,7 @@
+ #include "exec/confidential-guest-support.h"
+ #include "hw/s390x/ipl.h"
+ #include "hw/s390x/pv.h"
++#include "hw/s390x/sclp.h"
+ #include "target/s390x/kvm/kvm_s390x.h"
  
--    link = "https://app.vagrantup.com/haiku-os/boxes/r1beta3-x86_64/versions/20220216/providers/libvirt.box"
--    csum = "e67d4aacbcc687013d5cc91990ddd86cc5d70a5d28432ae2691944f8ce5d5041"
-+    link = "https://app.vagrantup.com/haiku-os/boxes/r1beta4-x86_64/versions/20230114/providers/libvirt.box"
-+    csum = "6e72a2a470e03dbc3c5e808664e057bb4022b390dca88e4c7da6188f26f6a3c9"
+ static bool info_valid;
+@@ -249,6 +250,41 @@ struct S390PVGuestClass {
+     ConfidentialGuestSupportClass parent_class;
+ };
  
-     poweroff = "shutdown"
++/*
++ * If protected virtualization is enabled, the amount of data that the
++ * Read SCP Info Service Call can use is limited to one page. The
++ * available space also depends on the Extended-Length SCCB (ELS)
++ * feature which can take more buffer space to store feature
++ * information. This impacts the maximum number of CPUs supported in
++ * the machine.
++ */
++static uint32_t s390_pv_get_max_cpus(void)
++{
++    int offset_cpu = s390_has_feat(S390_FEAT_EXTENDED_LENGTH_SCCB) ?
++        offsetof(ReadInfo, entries) : SCLP_READ_SCP_INFO_FIXED_CPU_OFFSET;
++
++    return (TARGET_PAGE_SIZE - offset_cpu) / sizeof(CPUEntry);
++}
++
++static bool s390_pv_check_cpus(Error **errp)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++    uint32_t pv_max_cpus = s390_pv_get_max_cpus();
++
++    if (ms->smp.max_cpus > pv_max_cpus) {
++        error_setg(errp, "Protected VMs support a maximum of %d CPUs",
++                   pv_max_cpus);
++        return false;
++    }
++
++    return true;
++}
++
++static bool s390_pv_guest_check(ConfidentialGuestSupport *cgs, Error **errp)
++{
++    return s390_pv_check_cpus(errp);
++}
++
+ int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+ {
+     if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
+@@ -261,6 +297,10 @@ int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+         return -1;
+     }
  
-@@ -80,13 +80,12 @@ class HaikuVM(basevm.BaseVM):
-         "ninja",
-     ]
++    if (!s390_pv_guest_check(cgs, errp)) {
++        return -1;
++    }
++
+     cgs->ready = true;
  
--    # https://dev.haiku-os.org/ticket/16512 virtio disk1 shows up as 0 (reversed order)
-     BUILD_SCRIPT = """
-         set -e;
-         rm -rf /tmp/qemu-test.*
-         cd $(mktemp -d /tmp/qemu-test.XXXXXX);
-         mkdir src build; cd src;
--        tar -xf /dev/disk/virtual/virtio_block/0/raw;
-+        tar -xf /dev/disk/virtual/virtio_block/1/raw;
-         mkdir -p /usr/bin
-         ln -s /boot/system/bin/env /usr/bin/env
-         cd ../build
+     return 0;
 -- 
 2.31.1
 
