@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D18671C1C
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:33:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFDF6671C70
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:45:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI7co-0002sl-58; Wed, 18 Jan 2023 07:33:06 -0500
+	id 1pI7nM-0006F9-IH; Wed, 18 Jan 2023 07:44:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pI7cm-0002sK-4U
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:33:04 -0500
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pI7ck-00050d-C9
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:33:03 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.141])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id B737C1FF96;
- Wed, 18 Jan 2023 12:32:56 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Wed, 18 Jan
- 2023 13:32:55 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003b38c8658-8d60-4391-8ea4-6e57eaf5177a,
- B02C0E203F6A6AD140F658F33EDEBE178EEACDD3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <bab1aa07-a8d5-29bb-ac0c-a949f243260f@kaod.org>
-Date: Wed, 18 Jan 2023 13:32:55 +0100
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pI7nK-0006Eg-5I
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:43:58 -0500
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pI7nI-0006uo-MG
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:43:57 -0500
+Received: by mail-ot1-x332.google.com with SMTP id
+ r2-20020a9d7cc2000000b006718a7f7fbaso19591837otn.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 04:43:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=V2qpvJuqPpPpTm1pzPJHiglM9YmAM6u2gDlEDU9G5yg=;
+ b=naq6PdHkrq3iFeQd9pOm/NTmm5q6UITQPTDXH+geWq29pVltspGyWuG7XNucreNVqz
+ /ps7XkYC0UzJLByuZ66n0zEuhrirQ2sWxnouY6vAcjAKCb/z98CKFp7h2G06xtTDEN+0
+ Lxy0zeufuhjtsxTrjIh0YLFXGN2c/fZyEskYmqAA64xc+Cl3E3J8LAD/iagZq+pR3BjF
+ iEJTeutXgWJfRpDpbJsx1MBSgQp66GLxPMzh3MU/uS3O+tnts5EaAMw9vmPslcEz0gOp
+ oZpp65Y839E2eSsvP7Gbzb8HP4y2B/sYWutNk/lp1zAOFtafXhiMfmyJkslWTz3ddahS
+ LMQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=V2qpvJuqPpPpTm1pzPJHiglM9YmAM6u2gDlEDU9G5yg=;
+ b=eJ7F9ZgcFUkhVEjQOrF3BAED6llS4NqaGMj5Vrvdtuha2+NCpZ6DnPtkLyBsMrTmUM
+ c9GW/pA9hKQZ1hk88BPZX6MRE3jUpT6n2kqh+HYy/OTmi4uHeTC9xjJ+3roKn9MLVkxC
+ L8TdMz6HqPSbILyKwLWsumZ++OumsJpr6/t+1FSsU/lELXeuZb1YacjgGewJNrBaJztG
+ 2tJCgzZD55UrbaeLOtOjnHFzKl/IW0yXuW8E58ZWQMeBYePCUQ46K2KuQ3L5OADc9Ay9
+ lYOR7yg0dbPvmlp3pDBXiEoy46976+doD1Pjk1hE/8rBbXzdo9PIoKUpPXwwUPlPnTnE
+ 1+eQ==
+X-Gm-Message-State: AFqh2krR9c+wnh7erk1BQiHCARVhg7pyVhH8jPGtZfLLazdv55mfdq/W
+ Z6AlW4wrdI5VBnrKWRNSYgJU7nF97M6a53yHsfM=
+X-Google-Smtp-Source: AMrXdXsni4s3TSCijdX8rQZI7nB0cRmPpTKsEu52QcgggJxDbO3ykvu03JLfzrCFn7sI4HkKQysddQ==
+X-Received: by 2002:a9d:62d0:0:b0:670:83e9:5b90 with SMTP id
+ z16-20020a9d62d0000000b0067083e95b90mr3332985otk.37.1674045835056; 
+ Wed, 18 Jan 2023 04:43:55 -0800 (PST)
+Received: from grind.. ([191.17.222.2]) by smtp.gmail.com with ESMTPSA id
+ cb2-20020a056830618200b0068460566f4bsm18158432otb.30.2023.01.18.04.43.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jan 2023 04:43:54 -0800 (PST)
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+To: qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH 0/3] avocado_qemu: allow cross-arch tests 
+Date: Wed, 18 Jan 2023 09:43:45 -0300
+Message-Id: <20230118124348.364771-1-dbarboza@ventanamicro.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v4 3/5] hw/nvram/eeprom_at24c: Add init_rom field and
- at24c_eeprom_init_rom helper
-Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>
-CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
- <hskinnemoen@google.com>, <kfting@nuvoton.com>, <qemu-arm@nongnu.org>,
- <qemu-devel@nongnu.org>, <philmd@linaro.org>
-References: <20230118024214.14413-1-peter@pjd.dev>
- <20230118024214.14413-4-peter@pjd.dev>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230118024214.14413-4-peter@pjd.dev>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: e04ea7f2-459d-4b0c-9c32-1ae27c209153
-X-Ovh-Tracer-Id: 16643052426165390127
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddtkedggeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrsehpjhgurdguvghvpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdprghnughrvgifsegrjhdrihgurdgruhdpjhhovghlsehjmhhsrdhiugdrrghupdhhshhkihhnnhgvmhhovghnsehgohhoghhlvgdrtghomhdpkhhfthhinhhgsehnuhhvohhtohhnrdgtohhmpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmoh
- ehgeekpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,129 +91,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/18/23 03:42, Peter Delevoryas wrote:
-> Allows users to specify binary data to initialize an EEPROM, allowing users to
-> emulate data programmed at manufacturing time.
-> 
-> - Added init_rom and init_rom_size attributes to TYPE_AT24C_EE
-> - Added at24c_eeprom_init_rom helper function to initialize attributes
-> - If -drive property is provided, it overrides init_rom data
-> 
-> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
+Hi,
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+In these changes I've introduced two new avocado env variables to allow
+users to run 'check-avocado' with different archs and machines in tests
+that doesn't set any arch/machine to run with.
 
-Thanks,
+This is useful for archs that doesn't have abundance of real hardware
+available (e.g. RISC-V), meaning that we end up running 'check-avocado'
+in non-RISCV hosts every time, and most tests ends up being cancelled
+because the test always defaults to the host arch. For example, building
+QEMU for riscv64 in a x86_64 host will cancel all tests:
 
-C.
+$ make check-avocado
+(...)
+RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 1 | WARN 0 | INTERRUPT 0 | CANCEL 11
 
-> ---
->   hw/nvram/eeprom_at24c.c         | 37 ++++++++++++++++++++++++++++-----
->   include/hw/nvram/eeprom_at24c.h | 16 ++++++++++++++
->   2 files changed, 48 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-> index 98857e3626b9..f8d751fa278d 100644
-> --- a/hw/nvram/eeprom_at24c.c
-> +++ b/hw/nvram/eeprom_at24c.c
-> @@ -50,6 +50,9 @@ struct EEPROMState {
->       uint8_t *mem;
->   
->       BlockBackend *blk;
-> +
-> +    const uint8_t *init_rom;
-> +    uint32_t init_rom_size;
->   };
->   
->   static
-> @@ -131,19 +134,38 @@ int at24c_eeprom_send(I2CSlave *s, uint8_t data)
->   
->   I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size)
->   {
-> -    I2CSlave *i2c_dev = i2c_slave_new(TYPE_AT24C_EE, address);
-> -    DeviceState *dev = DEVICE(i2c_dev);
-> +    return at24c_eeprom_init_rom(bus, address, rom_size, NULL, 0);
-> +}
-> +
-> +I2CSlave *at24c_eeprom_init_rom(I2CBus *bus, uint8_t address, uint32_t rom_size,
-> +                                const uint8_t *init_rom, uint32_t init_rom_size)
-> +{
-> +    EEPROMState *s;
-> +
-> +    s = AT24C_EE(qdev_new(TYPE_AT24C_EE));
-> +
-> +    qdev_prop_set_uint8(DEVICE(s), "address", address);
-> +    qdev_prop_set_uint32(DEVICE(s), "rom-size", rom_size);
->   
-> -    qdev_prop_set_uint32(dev, "rom-size", rom_size);
-> -    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
-> +    /* TODO: Model init_rom with QOM properties. */
-> +    s->init_rom = init_rom;
-> +    s->init_rom_size = init_rom_size;
->   
-> -    return i2c_dev;
-> +    i2c_slave_realize_and_unref(I2C_SLAVE(s), bus, &error_abort);
-> +
-> +    return I2C_SLAVE(s);
->   }
->   
->   static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
->   {
->       EEPROMState *ee = AT24C_EE(dev);
->   
-> +    if (ee->init_rom_size > ee->rsize) {
-> +        error_setg(errp, "%s: init rom is larger than rom: %u > %u",
-> +                   TYPE_AT24C_EE, ee->init_rom_size, ee->rsize);
-> +        return;
-> +    }
-> +
->       if (ee->blk) {
->           int64_t len = blk_getlength(ee->blk);
->   
-> @@ -163,6 +185,7 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
->       }
->   
->       ee->mem = g_malloc0(ee->rsize);
-> +
->   }
->   
->   static
-> @@ -176,6 +199,10 @@ void at24c_eeprom_reset(DeviceState *state)
->   
->       memset(ee->mem, 0, ee->rsize);
->   
-> +    if (ee->init_rom) {
-> +        memcpy(ee->mem, ee->init_rom, MIN(ee->init_rom_size, ee->rsize));
-> +    }
-> +
->       if (ee->blk) {
->           int ret = blk_pread(ee->blk, 0, ee->rsize, ee->mem, 0);
->   
-> diff --git a/include/hw/nvram/eeprom_at24c.h b/include/hw/nvram/eeprom_at24c.h
-> index 196db309d451..acb9857b2add 100644
-> --- a/include/hw/nvram/eeprom_at24c.h
-> +++ b/include/hw/nvram/eeprom_at24c.h
-> @@ -20,4 +20,20 @@
->    */
->   I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size);
->   
-> +
-> +/*
-> + * Create and realize an AT24C EEPROM device on the heap with initial data.
-> + * @bus: I2C bus to put it on
-> + * @address: I2C address of the EEPROM slave when put on a bus
-> + * @rom_size: size of the EEPROM
-> + * @init_rom: Array of bytes to initialize EEPROM memory with
-> + * @init_rom_size: Size of @init_rom, must be less than or equal to @rom_size
-> + *
-> + * Create the device state structure, initialize it, put it on the specified
-> + * @bus, and drop the reference to it (the device is realized). Copies the data
-> + * from @init_rom to the beginning of the EEPROM memory buffer.
-> + */
-> +I2CSlave *at24c_eeprom_init_rom(I2CBus *bus, uint8_t address, uint32_t rom_size,
-> +                                const uint8_t *init_rom, uint32_t init_rom_size);
-> +
->   #endif
+After the changes implemented here, one can use env variables to force
+the tests to a default arch and machine. In the scenario mentioned
+above:
+
+$ AVOCADO_DEFAULT_ARCH=riscv64 AVOCADO_DEFAULT_MACHINE=virt make check-avocado
+(...)
+RESULTS    : PASS 11 | ERROR 0 | FAIL 0 | SKIP 1 | WARN 0 | INTERRUPT 0 | CANCEL 0
+
+Note that test behavior changes only when the env vars are set. There is
+no change made in the regular work of 'check-avocado'.
+
+Cc: Cleber Rosa <crosa@redhat.com>
+Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
+Cc: Beraldo Leal <bleal@redhat.com>
+
+Daniel Henrique Barboza (3):
+  avocado_qemu: enhance CANCEL message in QemuBaseTest:setUp()
+  avocado_qemu: add AVOCADO_DEFAULT_ARCH for cross-arch tests
+  avocado_qemu: add AVOCADO_DEFAULT_MACHINE
+
+ docs/devel/testing.rst                 | 15 ++++++++++++---
+ tests/avocado/avocado_qemu/__init__.py | 22 +++++++++++++++-------
+ 2 files changed, 27 insertions(+), 10 deletions(-)
+
+-- 
+2.39.0
 
 
