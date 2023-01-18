@@ -2,80 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CA4672290
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 17:09:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC27672292
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 17:09:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIAzZ-0002xL-TU; Wed, 18 Jan 2023 11:08:49 -0500
+	id 1pIB0S-0003iX-MS; Wed, 18 Jan 2023 11:09:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pIAzX-0002wu-6s
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 11:08:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIB0P-0003fa-Ha
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 11:09:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pIAzV-0002EE-5p
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 11:08:46 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIB0O-0002Ki-3e
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 11:09:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674058124;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1674058179;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I/uYMi6JWgVe4uvjmjmyIXlGNgTThxELKzyBUKBYyxQ=;
- b=hIPnRQRzawYc5gINGvnkONS/bWlbGHErEbwqOdf+VjBN1qL1T3ZczsN4udEf8geQlLzP0i
- coc8X5Iyhz8iOF7CQhqOthAsD4QiKN0GGpPso4tZOPvDgPMBmlnpuhRJZJOFKST2LAf8kw
- hK+6hRkkeiAeTrfBILrSu4iPQhMonpQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-570-ygQ1T7sDPVycWbYs6PRfrQ-1; Wed, 18 Jan 2023 11:08:40 -0500
-X-MC-Unique: ygQ1T7sDPVycWbYs6PRfrQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22D398A0108;
- Wed, 18 Jan 2023 16:08:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A623240C6EC4;
- Wed, 18 Jan 2023 16:08:37 +0000 (UTC)
-Date: Wed, 18 Jan 2023 16:08:35 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Pierre Morel <pmorel@linux.ibm.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, borntraeger@de.ibm.com,
- pasic@linux.ibm.com, richard.henderson@linaro.org, david@redhat.com,
- thuth@redhat.com, cohuck@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
- marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
- seiden@linux.ibm.com, nrb@linux.ibm.com, scgl@linux.ibm.com,
- frankja@linux.ibm.com, clg@kaod.org
-Subject: Re: [PATCH v14 09/11] qapi/s390/cpu topology: monitor query topology
- information
-Message-ID: <Y8gZg/+k04+LPEd4@redhat.com>
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-10-pmorel@linux.ibm.com>
- <Y7/4rm9JYihUpLS1@redhat.com>
- <d97d0a6a-a87e-e0d2-5d95-0645c09d9730@linux.ibm.com>
+ bh=2EnczWuya39j3dK9APW5iguAlxAq+7FeVUnZHxoSSFc=;
+ b=b2l0S1dGEZCgEUwkoEi8w6Gscvga5ITTOfI/694pEoNe1nsmSu8XAAXCw0rcPzPmWO7O3N
+ mGXlb1uZYkKk87ly5539tpkMUYyDW3v6cCxv0baET8vfs7DOdqT8+G9eb8vfz5RrcV4tsK
+ JW/izPodaFf7xzGuekKOKHQ4nhT5m54=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-213-wVsGnXNTN_-x150wDdiWKg-1; Wed, 18 Jan 2023 11:09:36 -0500
+X-MC-Unique: wVsGnXNTN_-x150wDdiWKg-1
+Received: by mail-yw1-f199.google.com with SMTP id
+ 00721157ae682-4c2d68b6969so353281257b3.7
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 08:09:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2EnczWuya39j3dK9APW5iguAlxAq+7FeVUnZHxoSSFc=;
+ b=ipoMgAu4u0vd1Vmz20G9qVPwQDUGmkSEyMLexkZGV/IBvJoIkClgI9Kr5oizwH7A4L
+ 27zAeopaa3SoWrgNMWXih7E1Mw/kLVkWKHJkVwCnCxz9+F+/TDkNpuC+SZfp9Pmgrvk8
+ KrMrsSvx0vMdGlU7Uw4FzR13tSLYnBxlSV02zJtxxmTbCqafOjOAsSMNALda2cEZX6JW
+ JqXUKhcUPV1QYHAAoNsRxwnZnucs4u48y6LGpx4IME8cwx5vSvhzWom213zMJgXSMGbn
+ kCpHxjekz7gnRnuO4kHRou/U80XNm7cBTe0Ug4RkXwwmPWRShN+9URqilS2KZvv2sQJx
+ hJYw==
+X-Gm-Message-State: AFqh2ko27iyqSdt13NLqK4sqQm2xkYWyDcHBU71kd0ONgujdIaj9vkTq
+ jY/oZo7L6iUgzt0GV2IiCIWsil0BB4AbGodEg7tfYI6R0RkQx4bsB4U8ZB4sw7vA9JUmIkTI5n0
+ VNSec6cJ1EyzT0V8=
+X-Received: by 2002:a05:7500:6609:b0:f0:4854:5db7 with SMTP id
+ ix9-20020a057500660900b000f048545db7mr641457gab.68.1674058175562; 
+ Wed, 18 Jan 2023 08:09:35 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuVP5/SWeJB2lutyvhgQ2YZhLMohEzlUfcpuOUC+rFr3W9UVhIpf50cM6hJmUPfmi6tKoMvMg==
+X-Received: by 2002:a05:7500:6609:b0:f0:4854:5db7 with SMTP id
+ ix9-20020a057500660900b000f048545db7mr641419gab.68.1674058175188; 
+ Wed, 18 Jan 2023 08:09:35 -0800 (PST)
+Received: from [192.168.8.105] (tmo-099-5.customers.d1-online.com.
+ [80.187.99.5]) by smtp.gmail.com with ESMTPSA id
+ l14-20020a05620a28ce00b007062139ecb3sm10885240qkp.95.2023.01.18.08.09.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 08:09:34 -0800 (PST)
+Message-ID: <fd06e139-c6e8-e978-c0ed-3e9aca258f19@redhat.com>
+Date: Wed, 18 Jan 2023 17:09:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 2/4] bulk: Coding style fixes
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, qemu-ppc@nongnu.org, qemu-arm@nongnu.org,
+ qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+References: <20230111083909.42624-1-philmd@linaro.org>
+ <20230111083909.42624-3-philmd@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230111083909.42624-3-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d97d0a6a-a87e-e0d2-5d95-0645c09d9730@linux.ibm.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,147 +99,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 18, 2023 at 04:58:05PM +0100, Pierre Morel wrote:
+On 11/01/2023 09.39, Philippe Mathieu-Daudé wrote:
+> Fix the following checkpatch.pl violation on lines using the
+> TARGET_FMT_plx definition to avoid:
 > 
-> 
-> On 1/12/23 13:10, Daniel P. Berrangé wrote:
-> > On Thu, Jan 05, 2023 at 03:53:11PM +0100, Pierre Morel wrote:
-> > > Reporting the current topology informations to the admin through
-> > > the QEMU monitor.
-> > > 
-> > > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> > > ---
-> > >   qapi/machine-target.json | 66 ++++++++++++++++++++++++++++++++++
-> > >   include/monitor/hmp.h    |  1 +
-> > >   hw/s390x/cpu-topology.c  | 76 ++++++++++++++++++++++++++++++++++++++++
-> > >   hmp-commands-info.hx     | 16 +++++++++
-> > >   4 files changed, 159 insertions(+)
-> > > 
-> > > diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-> > > index 75b0aa254d..927618a78f 100644
-> > > --- a/qapi/machine-target.json
-> > > +++ b/qapi/machine-target.json
-> > > @@ -371,3 +371,69 @@
-> > >     },
-> > >     'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
-> > >   }
-> > > +
-> > > +##
-> > > +# @S390CpuTopology:
-> > > +#
-> > > +# CPU Topology information
-> > > +#
-> > > +# @drawer: the destination drawer where to move the vCPU
-> > > +#
-> > > +# @book: the destination book where to move the vCPU
-> > > +#
-> > > +# @socket: the destination socket where to move the vCPU
-> > > +#
-> > > +# @polarity: optional polarity, default is last polarity set by the guest
-> > > +#
-> > > +# @dedicated: optional, if the vCPU is dedicated to a real CPU
-> > > +#
-> > > +# @origin: offset of the first bit of the core mask
-> > > +#
-> > > +# @mask: mask of the cores sharing the same topology
-> > > +#
-> > > +# Since: 8.0
-> > > +##
-> > > +{ 'struct': 'S390CpuTopology',
-> > > +  'data': {
-> > > +      'drawer': 'int',
-> > > +      'book': 'int',
-> > > +      'socket': 'int',
-> > > +      'polarity': 'int',
-> > > +      'dedicated': 'bool',
-> > > +      'origin': 'int',
-> > > +      'mask': 'str'
-> > > +  },
-> > > +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
-> > > +}
-> > > +
-> > > +##
-> > > +# @query-topology:
-> > > +#
-> > > +# Return information about CPU Topology
-> > > +#
-> > > +# Returns a @CpuTopology instance describing the CPU Toplogy
-> > > +# being currently used by QEMU.
-> > > +#
-> > > +# Since: 8.0
-> > > +#
-> > > +# Example:
-> > > +#
-> > > +# -> { "execute": "cpu-topology" }
-> > > +# <- {"return": [
-> > > +#     {
-> > > +#         "drawer": 0,
-> > > +#         "book": 0,
-> > > +#         "socket": 0,
-> > > +#         "polarity": 0,
-> > > +#         "dedicated": true,
-> > > +#         "origin": 0,
-> > > +#         "mask": 0xc000000000000000,
-> > > +#     },
-> > > +#    ]
-> > > +#   }
-> > > +#
-> > > +##
-> > > +{ 'command': 'query-topology',
-> > > +  'returns': ['S390CpuTopology'],
-> > > +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
-> > > +}
-> > 
-> > IIUC, you're using @mask as a way to compress the array returned
-> > from query-topology, so that it doesn't have any repeated elements
-> > with the same data. I guess I can understand that desire when the
-> > core count can get very large, this can have a large saving.
-> > 
-> > The downside of using @mask, is that now you require the caller
-> > to parse the string to turn it into a bitmask and expand the
-> > data. Generally this is considered a bit of an anti-pattern in
-> > QAPI design - we don't want callers to have to further parse
-> > the data to extract information, we want to directly consumable
-> > from the parsed JSON doc.
-> 
-> Not exactly, the mask is computed by the firmware to provide it to the guest
-> and is already available when querying the topology.
-> But I understand that for the QAPI user the mask is not the right solution,
-> standard coma separated values like (1,3,5,7-11) would be much easier to
-> read.
+>    WARNING: line over 80 characters
 
-That is still inventing a second level data format for an attribute
-that needs to be parsed, and its arguably more complex.
+It's just a warning...
 
-> > We already have 'query-cpus-fast' wich returns one entry for
-> > each CPU. In fact why do we need to add query-topology at all.
-> > Can't we just add book-id / drawer-id / polarity / dedicated
-> > to the query-cpus-fast result ?
-> 
-> Yes we can, I think we should, however when there are a lot of CPU it will
-> be complicated to find the CPU sharing the same socket and the same
-> attributes.
+> @@ -420,8 +421,9 @@ static int get_segment_6xx_tlb(CPUPPCState *env, mmu_ctx_t *ctx,
+>                   hwaddr curaddr;
+>                   uint32_t a0, a1, a2, a3;
+>   
+> -                qemu_log("Page table: " TARGET_FMT_plx " len " TARGET_FMT_plx
+> -                         "\n", ppc_hash32_hpt_base(cpu),
+> +                qemu_log("Page table: " TARGET_FMT_plx
+> +                         " len " TARGET_FMT_plx "\n",
+> +                         ppc_hash32_hpt_base(cpu),
+>                            ppc_hash32_hpt_mask(cpu) + 0x80);
+>                   for (curaddr = ppc_hash32_hpt_base(cpu);
+>                        curaddr < (ppc_hash32_hpt_base(cpu)
 
-It shouldn't be that hard to populate a hash table, using the set of
-socket + attributes you want as the hash key.
+... and in cases like this, I'd really prefer the original line.
 
-> I think having both would be interesting.
+I think it would be better to just fix it if checkpatch.pl really throws an 
+ERROR instead of a WARNING.
 
-IMHO this is undesirable if we can make query-cpus-fast report
-sufficient information, as it gives a maint burden to QEMU and
-is confusing to consumers to QEMU to have multiple commands with
-largely overlapping functionality.
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+  Thomas
 
 
