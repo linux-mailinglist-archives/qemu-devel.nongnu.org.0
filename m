@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8171367289D
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 20:41:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EA9067289F
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 20:42:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIEGT-0003uN-F1; Wed, 18 Jan 2023 14:38:29 -0500
+	id 1pIEGm-0004G0-3j; Wed, 18 Jan 2023 14:38:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIEGO-0003Vn-9S; Wed, 18 Jan 2023 14:38:24 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ id 1pIEGR-0003ux-Qm; Wed, 18 Jan 2023 14:38:28 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIEGM-0007dQ-HJ; Wed, 18 Jan 2023 14:38:23 -0500
+ id 1pIEGQ-0007dm-7I; Wed, 18 Jan 2023 14:38:27 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0F9703F6D2;
- Wed, 18 Jan 2023 19:38:21 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C1A355BED3;
+ Wed, 18 Jan 2023 19:38:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674070701; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ t=1674070704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AHPtg+fYob44FYMVFnRZ4i2j7dOgdMT4zBY3BrbjsUg=;
- b=FmlN4GA2jsaN52mIdJROEcX3zoHP703onve4+q/GQBJaRn574qb1nKyNpNIEm7smeSdx1m
- MMBW665zj459ETpA5SStxYtfw6Hgk0uXAwCQjqeCLvhz2hNF/ONVIsb5+i77iHcfj31kHN
- pXdetfeTflRwkTL7aY7A7dryVZyQvcI=
+ bh=h83+ckeZU8d/nlLFTyp/l4xVD91xEWYC1+aMA1rItec=;
+ b=ubbH+cBgZO+c7+vZWC+ovR9A1aLCrg/iEaySAzLSWwzR2jOeJGGh/8UNziVrSK340IE2sh
+ XOdG54SyY+GSkpIfdlIqvjbDwucIOcLzU6HQPvSYLgqAw+nBZHQT/mSA8tCNOPfgPsuXn2
+ z9dZrBjRJL9rUthBP4OIlYJa77fCXQI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674070701;
+ s=susede2_ed25519; t=1674070704;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AHPtg+fYob44FYMVFnRZ4i2j7dOgdMT4zBY3BrbjsUg=;
- b=VVmMh0OtOyChEgKgo59DyaCvu/eupyzycrMaoQMm5KAv4dw5T0OIxJJizc/LHz2+eHuFRD
- pdR9QykJqgUHEIDg==
+ bh=h83+ckeZU8d/nlLFTyp/l4xVD91xEWYC1+aMA1rItec=;
+ b=OJusFQCDnh2mSD0XNxQVV9ILJiUUYZvfCwGpHjGDSLfi6YJM7DHqWIiYhh9sqtebYl6Edd
+ dzbFZjjgM0+0RzAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 01A28139D2;
- Wed, 18 Jan 2023 19:38:17 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7BBBF139D2;
+ Wed, 18 Jan 2023 19:38:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uAE1L6lKyGOWBwAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 18 Jan 2023 19:38:17 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id YA0nEa1KyGOWBwAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 18 Jan 2023 19:38:21 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,18 +57,20 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH 18/20] tests/qtest: Restrict bcm2835-dma-test to CONFIG_RASPI
-Date: Wed, 18 Jan 2023 16:35:16 -0300
-Message-Id: <20230118193518.26433-19-farosas@suse.de>
+ Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH 19/20] tests/avocado: Skip tests that require a missing
+ accelerator
+Date: Wed, 18 Jan 2023 16:35:17 -0300
+Message-Id: <20230118193518.26433-20-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230118193518.26433-1-farosas@suse.de>
 References: <20230118193518.26433-1-farosas@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -91,36 +93,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We will soon enable the build without TCG, which does not support many
-machines, so only run the bcm2835-dma-test when the corresponding
-machine is present.
+If a test was tagged with the "accel" tag and the specified
+accelerator it not present in the qemu binary, cancel the test.
+
+We can now write tests without explicit calls to require_accelerator,
+just the tag is enough.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- tests/qtest/meson.build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/avocado/avocado_qemu/__init__.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index f0ebb5fac6..1af63f8bd2 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -207,11 +207,11 @@ qtests_aarch64 = \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
-   (config_all_devices.has_key('CONFIG_XLNX_ZYNQMP_ARM') ? ['xlnx-can-test', 'fuzz-xlnx-dp-test'] : []) + \
-+  (config_all_devices.has_key('CONFIG_RASPI') ? ['bcm2835-dma-test'] : []) +  \
-   ['arm-cpu-features',
-    'numa-test',
-    'boot-serial-test',
--   'migration-test',
--   'bcm2835-dma-test']
-+   'migration-test']
+diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+index 910f3ba1ea..ed2809210b 100644
+--- a/tests/avocado/avocado_qemu/__init__.py
++++ b/tests/avocado/avocado_qemu/__init__.py
+@@ -274,6 +274,10 @@ def setUp(self):
  
- qtests_s390x = \
-   (slirp.found() ? ['pxe-test', 'test-netfilter'] : []) +                 \
+         super().setUp('qemu-system-')
+ 
++        accel_required = self._get_unique_tag_val('accel')
++        if accel_required:
++            self.require_accelerator(accel_required)
++
+         self.machine = self.params.get('machine',
+                                        default=self._get_unique_tag_val('machine'))
+ 
 -- 
 2.35.3
 
