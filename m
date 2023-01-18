@@ -2,111 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87414672249
+	by mail.lfdr.de (Postfix) with ESMTPS id 8654C672248
 	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 17:00:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIAqe-0006Tp-KI; Wed, 18 Jan 2023 10:59:36 -0500
+	id 1pIAqq-0006VN-Sy; Wed, 18 Jan 2023 10:59:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pIAqa-0006S6-DU; Wed, 18 Jan 2023 10:59:32 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pIAqY-0000gM-Sx; Wed, 18 Jan 2023 10:59:32 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30IFVRap026657; Wed, 18 Jan 2023 15:59:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Mgq/e1oJj8BQ1YPwC+oAOG+izgrUrBtQvmYoPRWcsfQ=;
- b=nheZmhYPS04ZGvb0p7oQSK+vsId2fP8sQRJeRKemYI+0IwfAjgthcL36n5UPDckD4W0h
- XWiHyQez7d7KzkFyOHwwfC2oMc+3fw2qEsAWytG0iJIaSBtyB9wKhdJ+2uu4xHxJbPap
- OpedeWB40B7Uo4D3y8ixyoBBOImAz09Kw4FhG/zzcq8mAaikksL5O3kY88PmDVG+cko+
- JMVuLWqoUKr28zCEmfNZQyrMeukb2/YQKFgOXkxRUXzkmfIPM0T8NQS+t2J+V5CML5xI
- 15qDQ0lvQ5i8dR3YjBRbrfEGmJZJHyZi7gIuhbUEF5puhYsHAJDGB+hw07Fu1Rmnw3Cm DQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6f91ygs9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 15:59:27 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30IFbhNj004033;
- Wed, 18 Jan 2023 15:59:27 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6f91ygra-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 15:59:27 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30ICC7nl006282;
- Wed, 18 Jan 2023 15:59:25 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3n3knfngtr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jan 2023 15:59:25 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30IFxLON44958152
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 18 Jan 2023 15:59:21 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6259120043;
- Wed, 18 Jan 2023 15:59:21 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 138EB2004B;
- Wed, 18 Jan 2023 15:59:20 +0000 (GMT)
-Received: from [9.179.13.15] (unknown [9.179.13.15])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 18 Jan 2023 15:59:19 +0000 (GMT)
-Message-ID: <2c1681b2-05ef-6245-38ea-d2c363eb432e@linux.ibm.com>
-Date: Wed, 18 Jan 2023 16:59:19 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pIAqn-0006VD-Ec
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 10:59:45 -0500
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pIAqk-0000h8-Pt
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 10:59:44 -0500
+Received: by mail-yb1-xb36.google.com with SMTP id e202so15254631ybh.11
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 07:59:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=HNIuzBbmfJiba+TQQy2P1Uiwnz+w92eoi9av9goU/bA=;
+ b=SRCA1b20ixAcPSUMl6vr/y9fQ30Gl9SQgj5CD5Tj0E9QQCowk/LOUAfxMJKl9evjqd
+ PmDDrEyOfDYD2+sInTjrxUfw6iY7mI04DFhbCt5ql2pAp8DIPV8LXoFUAZS8qy4miJuu
+ Au8DNOYZCgwmEIyS9c0M8bJTZA8FDqCZ8ViwX2WnklZyF/tL56UKbQ9IebSHitphocZO
+ 5tz+uWk/TdkhQAM8tQw94662DxAOcGdjLaQ40jgLUamTEq0sfEi5wj/vIers70DxmqBw
+ P24yvQQFtHXGIo+xE0oLcE26zMml1RA2iew+P1hi7VQRZtjTlv3hHJrpVTAfgGac/56g
+ WBrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HNIuzBbmfJiba+TQQy2P1Uiwnz+w92eoi9av9goU/bA=;
+ b=pXeVyaTI0w74rkDFK25IBmWOMwlMCI4oaJ767cCNNPmKiUDC0tB880DOFpaa7lOLD1
+ hN9GK41iD+3IPdbNubdOFgJY5EydwHnZPYKGLfRjSPSytT7pJiE1+RJbPwamSfSA4ETP
+ wAB4hWaLF9p2kNH0ypI3KIOx4M0D+wrrhEeMTkJXbYQ8CdumI77957R+9Ay2ZjPYPcAN
+ ZCOIfNRehctDUD09vgNFeFalizuUjC1aVDomWg802oIqbfgFu+QwrlWM+Qq/a+fBY+h7
+ rrXuVwDjhI4IRXEKrfOF7LvKUXnyDjTWF08ypux3euGUbCyhX3L55DTc3QxwUB1QAXze
+ 26rQ==
+X-Gm-Message-State: AFqh2krNgdXy7l+fuaIKFvk8pp8K2IKOSDOBnYSJ709CSxfC9ylRdl4H
+ /R/hyUM9KKUohkAoT5L4GGRg8kCG8/FdlklketM=
+X-Google-Smtp-Source: AMrXdXuvaZmr/6Kg4yB85cfC7a2PlNqEHmuCkndrsq9U+sBo/MAR56HNRrJR4EI+41yvSAnAue7EKnx9+kbWpj4Dw6c=
+X-Received: by 2002:a25:bc92:0:b0:7b4:db9a:48ae with SMTP id
+ e18-20020a25bc92000000b007b4db9a48aemr638807ybk.207.1674057581707; Wed, 18
+ Jan 2023 07:59:41 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v14 09/11] qapi/s390/cpu topology: monitor query topology
- information
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
- clg@kaod.org
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-10-pmorel@linux.ibm.com>
- <114b34b1-303b-154b-6ac1-91e1718de49b@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <114b34b1-303b-154b-6ac1-91e1718de49b@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: w2rwQ_x6G8Rb0f2y6_zdNIdcli0SYTDG
-X-Proofpoint-ORIG-GUID: 6-UShI331C0jbb3f9k1oLrDRMO5k0FTw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-18_05,2023-01-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0 mlxlogscore=999
- bulkscore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301180130
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+References: <20230118153833.102731-1-dgilbert@redhat.com>
+In-Reply-To: <20230118153833.102731-1-dgilbert@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 18 Jan 2023 10:59:30 -0500
+Message-ID: <CAJSP0QU+o-R6ZKN8R1MHoUqFwfsQmpKt6KP5hqhyFrK5HJti6w@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Remove C virtiofsd
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com, 
+ hczenczek@redhat.com, gmaglione@redhat.com, virtio-fs@redhat.com, 
+ pbonzini@redhat.com, alex.bennee@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -123,58 +85,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, 18 Jan 2023 at 10:40, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
+>
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> We deprecated the C virtiofsd in commit 34deee7b6a1418f3d62a
+> in v7.0 in favour of the Rust implementation at
+>
+>   https://gitlab.com/virtio-fs/virtiofsd
+>
+> since then, the Rust version has had more development and
+> has held up well.  It's time to say goodbye to the C version
+> that got us going.
+>
+> The only thing I've not cleaned up here is
+>   tests/avocado/virtiofs_submounts.py
+>
+> which I guess needs to figure out where the virtiofsd implementation
+> is and use it; suggestions welcome.
 
+I see something similar in tests/avocado/avocado_qemu/__init__.py:
 
-On 1/12/23 12:48, Thomas Huth wrote:
-> On 05/01/2023 15.53, Pierre Morel wrote:
->> Reporting the current topology informations to the admin through
->> the QEMU monitor.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
-> ...
->> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
->> index 754b1e8408..5730a47f71 100644
->> --- a/hmp-commands-info.hx
->> +++ b/hmp-commands-info.hx
->> @@ -993,3 +993,19 @@ SRST
->>     ``info virtio-queue-element`` *path* *queue* [*index*]
->>       Display element of a given virtio queue
->>   ERST
->> +
->> +#if defined(TARGET_S390X) && defined(CONFIG_KVM)
->> +    {
->> +        .name       = "query-topology",
->> +        .args_type  = "",
->> +        .params     = "",
->> +        .help       = "Show information about CPU topology",
->> +        .cmd        = hmp_query_topology,
->> +        .flags      = "p",
->> +    },
->> +
->> +SRST
->> +  ``info query-topology``
-> 
-> "info query-topology" sounds weird ... I'd maybe rather call it only 
-> "info topology" or "info cpu-topology" here.
+        # If qemu-img has been built, use it, otherwise the system wide one
+        # will be used.  If none is available, the test will cancel.
+        qemu_img = os.path.join(BUILD_DIR, 'qemu-img')
+        if not os.path.exists(qemu_img):
+            qemu_img = find_command('qemu-img', False)
+        if qemu_img is False:
+            self.cancel('Could not find "qemu-img", which is required to '
+                        'create the bootable image')
 
-info cpu-topology looks good for me.
+Maybe find_command('virtiofsd', False)?
 
-thanks.
-
-Regards,
-Pierre
-
-> 
->   Thomas
-> 
-> 
->> +    Show information about CPU topology
->> +ERST
->> +#endif
-> 
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+Stefan
 
